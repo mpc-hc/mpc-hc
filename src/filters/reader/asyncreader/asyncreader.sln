@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyncreader", "asyncreader.vcproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Debug Unicode
+		ConfigName.2 = Release
+		ConfigName.3 = Release Unicode
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Debug.ActiveCfg = Debug|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Debug.Build.0 = Debug|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Debug Unicode.ActiveCfg = Debug Unicode|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Debug Unicode.Build.0 = Debug Unicode|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Release.ActiveCfg = Release|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Release.Build.0 = Release|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Release Unicode.ActiveCfg = Release Unicode|Win32
+		{9F31D122-E84D-485A-A58D-09DAD01A56CE}.Release Unicode.Build.0 = Release Unicode|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

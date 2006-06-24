@@ -1,0 +1,5 @@
+The eclipse project has been successfully tested with Eclipse 3.0 M8 and the CDT plugin 2.0 M8 (http://www.eclipse.org/cdt).
+
+in order to make the eclipse project work, you must define a linked resource variable AP4_HOME pointing on the root of your local copy the AP4 module.
+
+Go to >Windows>Preferences>Workbench>Linked Resources and define the AP4_HOME variable.

@@ -1,0 +1,60 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vtsreader", "vtsreader.vcproj", "{664E726B-EEEE-403A-AC15-345D9C9E1375}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575} = {1A2DFD1A-3C6C-44D1-909D-294AF646B575}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "decss", "..\..\..\decss\decss.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug lib = Debug lib
+		Debug Unicode = Debug Unicode
+		Debug Unicode lib = Debug Unicode lib
+		Release = Release
+		Release lib = Release lib
+		Release Unicode = Release Unicode
+		Release Unicode lib = Release Unicode lib
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug.ActiveCfg = Debug|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug.Build.0 = Debug|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug lib.ActiveCfg = Debug lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug lib.Build.0 = Debug lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug Unicode.ActiveCfg = Debug Unicode|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug Unicode.Build.0 = Debug Unicode|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug Unicode lib.ActiveCfg = Debug Unicode lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Debug Unicode lib.Build.0 = Debug Unicode lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release.ActiveCfg = Release|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release.Build.0 = Release|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release lib.ActiveCfg = Release lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release lib.Build.0 = Release lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release Unicode.ActiveCfg = Release Unicode|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release Unicode.Build.0 = Release Unicode|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release Unicode lib.ActiveCfg = Release Unicode lib|Win32
+		{664E726B-EEEE-403A-AC15-345D9C9E1375}.Release Unicode lib.Build.0 = Release Unicode lib|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug.ActiveCfg = Debug|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug.Build.0 = Debug|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug lib.ActiveCfg = Debug|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug lib.Build.0 = Debug|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug Unicode.ActiveCfg = Debug Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug Unicode.Build.0 = Debug Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug Unicode lib.ActiveCfg = Debug Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Debug Unicode lib.Build.0 = Debug Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release.ActiveCfg = Release|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release.Build.0 = Release|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release lib.ActiveCfg = Release|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release lib.Build.0 = Release|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release Unicode.ActiveCfg = Release Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release Unicode.Build.0 = Release Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release Unicode lib.ActiveCfg = Release Unicode|Win32
+		{1A2DFD1A-3C6C-44D1-909D-294AF646B575}.Release Unicode lib.Build.0 = Release Unicode|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

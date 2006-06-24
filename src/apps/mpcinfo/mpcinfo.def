@@ -1,0 +1,13 @@
+; mpcinfo.def : Declares the module parameters for the DLL.
+
+LIBRARY      "mpcinfo"
+
+EXPORTS
+    ; Explicit exports can go here
+	file
+	size
+	pos
+	info
+	stopped
+	paused
+	running

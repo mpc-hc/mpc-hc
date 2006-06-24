@@ -1,0 +1,81 @@
+Dirac Bitstream Format
+by Anuradha Suraparaju (anuradha@rd.bbc.co.uk)
+v0.1: 18-Aug-2004
+
+[ This document is a temporary document. It will be replaced by full-fledged
+  bitstream syntax and decoding process document in alpha release 0.5.0 ]
+
+1. Introduction
+
+   A Dirac bitstream is made of up of a sequence of one or more frames. Each
+   frame is either intra or inter-coded. Intra frames are compressed without
+   references to any other frame. Inter frames are motion compensated with
+   respect to one or more reference frames. 
+  
+2. Sequence structure
+
+   The start of a sequence is the only random access point in this version of
+   the Dirac bitstream. A random access point is from where a decoder can 
+   start decoding the bitstream without prior information.
+
+2.1 Start codes
+
+   Start codes are unique bit patterns that do not otherwise occur in the
+   bitstream. They identify specific points in the bitstream e.g. start of
+   frame, start of sequence, etc. A start code is made up of a 4 byte
+   start code prefix and a one byte code. The start code prefix is
+
+   0x42 0x42 0x43 0x44 (BBCD)
+
+   Due to the nature of the arithmetic coded output, the first four bytes can
+   be output as part of the component data and therefore an additional code is
+   required to indicate that a header does not follow. The different start 
+   codes are
+
+   Code                  Description
+   0xD7                  Start of Sequence
+   0xD6                  Start of an I Frame
+   0xD5                  Start of an L2 Frame
+   0xD4                  Start of an L1 Frame
+   0xD0                  End of Sequence
+   0xFF                  Not a header code treat code prefix and next byte as
+                         data
+
+2.2 Sequence data
+
+   A sequence commences with a start of sequence code followed by 
+   the sequence header which is followed by one or more coded frames. 
+   The order of the coded frames in the coded bistream is in the order 
+   in which the the decoder processes them but not in the display
+   order. The sequence is terminated by a sequence end code.
+
+   TODO: list sequence header fields
+
+2.3. Frame structure
+
+   Each frame commences with a start of frame code (I or L1 or L2 depending
+   on the type of frame) and is followed by a frame header. A frame can be 
+   either an intra frame (I frame) or inter frame. There are two types of 
+   inter-coded frames: Level 1 (L1) frames which are also used as temporal 
+   references for other pictures and Level 2 (L2) pictures which are 
+   bi-directionally predicted and are not used as temporal references. The 
+   frame header is followed by motion vector data (for L1 and L2 frames only) 
+   and component data.
+
+   TODO: list frame header fields and frame data format
+
+3. Bitstream syntax
+
+   Field                 Value
+
+   stream-id             8 byte identfier set to KW-DIRAC
+   sequence start code   0x42424344D7
+   sequence header       Golomb coded sequence header 
+   frame start code      0x42424344D6 (I) or 0x42424344D5(L2) or
+                         0x42424344D5 (L1)
+   frame header          Golomb coded frame header
+   frame data            Arithmetic coder output
+   .
+   .                     
+   .
+   sequence end code    0x42424344D0

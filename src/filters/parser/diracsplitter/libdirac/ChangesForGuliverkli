@@ -1,0 +1,39 @@
+libdirac_common:
+----------------
+
+array.h:
+
+  TwoDArray::Init, private -> public
+
+band_codec.cpp:
+
+  BandCodec::ChooseContext, reduced the number of if's (very frequently called function)
+
+mot_comp.cpp:
+
+  MotionCompensator::ReConfig, fixed a memory leak
+  
+    for(int i = 0; i < 9; i++)
+       // m_block_weights[i] = *(new TwoDArray<CalcValueType>(  m_bparams.Yblen() , m_bparams.Xblen() ));
+       // m_block_weights[i] = TwoDArray<CalcValueType>(m_bparams.Yblen(), m_bparams.Xblen());
+          m_block_weights[i].Init(m_bparams.Yblen(), m_bparams.Xblen());
+
+libdirac_decoder:
+-----------------
+
+dirac_parser.cpp:
+
+  dirac_decoder_close, fixed a memory leak (delete decoder->fbuf was missing)
+
+frame_decompress.cpp:
+
+  FrameDecompressor::ReadFrameHeader, fixed a memory leak (delete m_fparams was missing)
+  
+seq_decompress.cpp:
+
+  SequenceDecompressor::SequenceDecompressor, changed the init value of m_current_code_fnum from 0 to -1
+
+  SequenceDecompressor::DecompressNextFrame, added a few lines to be able to start decoding from any I frame
+    // fixes random access
+    if (m_current_code_fnum < 0 && m_fdecoder->GetFrameParams().FSort() == I_frame) 
+       m_current_code_fnum = m_fdecoder->GetFrameParams().FrameNum();

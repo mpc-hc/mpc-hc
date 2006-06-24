@@ -1,0 +1,10 @@
+##########################################################################
+#
+#    Codecs target exports
+#
+#    (c) 2001-2002 Gilles Boccon-Gibod
+#
+##########################################################################
+TARGET_LIBRARIES += AP4_Codecs
+INCLUDES_CPP     += -I$(SOURCE_ROOT)/Codecs
+

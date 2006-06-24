@@ -1,0 +1,599 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Hungarian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_HUN)
+#ifdef _WIN32
+LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
+#pragma code_page(1250)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Hungarian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,1,3
+ PRODUCTVERSION 1,0,1,3
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Visit http://gabest.org/ for updates."
+            VALUE "CompanyName", "Gabest"
+            VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
+            VALUE "FileVersion", "1, 0, 1, 3"
+            VALUE "InternalName", "VSFilter"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2006 Gabest"
+            VALUE "OriginalFilename", "VSFilter.DLL"
+            VALUE "ProductName", "VSFilter"
+            VALUE "ProductVersion", "1, 0, 1, 3"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DVSABOUTPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,7,7,232,151
+    LTEXT           "DirectVobSub 2.37\nCopyright 2001-2006 Gabest",IDC_STATIC,13,17,183,19
+    LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,39,218,32
+    LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,70,219,26
+    PUSHBUTTON      "Homepage",IDC_HOMEPAGEBTN,63,132,50,14,BS_FLAT
+    PUSHBUTTON      "Bug Report",IDC_BUGREPORTBTN,133,132,50,14,BS_FLAT
+    LTEXT           "- Adding hotkeys, Chinese (Taiwan) && Chinese (P.R.C.) localized, Kii Ali <kiiali@cpatch.org>",IDC_STATIC,14,95,206,20
+END
+
+IDD_DVSCOLORPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Preference Order",IDC_STATIC,7,7,70,156
+    GROUPBOX        "Dynamic Change",IDC_STATIC,84,7,70,156
+    LISTBOX         IDC_PREFLIST,15,19,53,115,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_DYNCHGLIST,92,19,53,115,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dynamic format change may only work under Windows XP using the Video Mixing Render and only into color formats supported by the video card or the desktop color depth.",IDC_DYNCHGWARNING,160,19,72,75
+    LTEXT           "For the old renderer you have to adjust the preference list and re-open the video file.",IDC_DYNCHGWARNING2,160,96,71,42
+    PUSHBUTTON      "&Up",IDC_COLORUP,16,141,25,12
+    PUSHBUTTON      "&Down",IDC_COLORDOWN,41,141,25,12
+    PUSHBUTTON      "&Change!",IDC_COLORCHANGE,102,141,33,12
+    CONTROL         "&Force RGB",IDC_FORCERGBCHK,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,170,142,51,10
+END
+
+IDD_DVSGENERALPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Picture Size",IDC_STATIC,7,7,233,136
+    LTEXT           "Vertical padding (if you want to move the subtitles below the picture)",IDC_STATIC,17,21,213,17
+    COMBOBOX        IDC_VEREXTCOMBO,26,36,86,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Horizontal padding (check this if you can't run the video in the yuy2 or yv12 format)",IDC_STATIC,17,57,213,18
+    CONTROL         "&MOD32 fix",IDC_MOD32FIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,80,51,10
+    LTEXT           "Resolution (doubling the picture size needs more processing power but allows higher quality subtitles)",IDC_STATIC,17,96,213,18
+    COMBOBOX        IDC_RESX2COMBO,26,120,86,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT3,133,120,34,12,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,158,119,11,14
+    LTEXT           "x",IDC_STATIC,171,122,8,8
+    EDITTEXT        IDC_EDIT4,179,120,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,205,119,11,14
+    GROUPBOX        "Loading",IDC_STATIC,7,146,233,35
+    COMBOBOX        IDC_LOADCOMBO,17,160,78,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "E&xternal",IDC_EXTLOAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,160,39,12
+    CONTROL         "We&b",IDC_WEBLOAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,149,160,28,12
+    CONTROL         "&Embedded",IDC_EMBLOAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,183,160,47,12
+END
+
+IDD_DVSMAINPAGE DIALOGEX 0, 0, 247, 226
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_FILENAME,7,7,184,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Open...",IDC_OPEN,196,7,43,14
+    CONTROL         "Ove&rride placement",IDC_OVERRIDEPLACEMENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,132,34,100,12
+    LTEXT           "H:",IDC_STATIC,139,50,9,8
+    EDITTEXT        IDC_EDIT1,149,50,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,171,53,11,14
+    LTEXT           "V:",IDC_STATIC,184,50,8,8
+    EDITTEXT        IDC_EDIT2,195,50,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Spin1",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,210,53,11,14
+    GROUPBOX        "Text Settings",IDC_STATIC,7,74,111,35
+    PUSHBUTTON      "Arial",IDC_FONT,15,88,95,13
+    GROUPBOX        "VobSub Settings",IDC_STATIC,124,74,115,35
+    CONTROL         "Only show &forced subtitles",IDC_ONLYSHOWFORCEDSUBS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,132,88,99,12
+    GROUPBOX        "General Settings",IDC_STATIC,7,24,232,47
+    COMBOBOX        IDC_LANGCOMBO,15,50,95,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "This space was intentionally left blank... :)",IDC_STATIC,7,188,232,31,SS_CENTERIMAGE | NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "Language:",IDC_STATIC,15,37,35,8
+END
+
+IDD_DVSMISCPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Picture Output",IDC_STATIC,7,7,232,81
+    CONTROL         "Flip &picture vertically",IDC_FLIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,21,78,10
+    CONTROL         "Flip &subtitles vertically",IDC_FLIPSUB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,109,21,84,10
+    LTEXT           "(subtitles and the picture flip independently)",IDC_STATIC,26,33,142,9
+    CONTROL         "&Hide subtitles",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,46,58,10
+    CONTROL         "Show &OSD statistics",IDC_SHOWOSDSTATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,62,80,10
+    LTEXT           "(don't do benchmarks on the playback while having this on ;)",IDC_STATIC,26,73,195,8
+    CONTROL         "Pre-&buffer subpictures",IDC_PREBUFFERING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,88,10
+    CONTROL         "&Auto-reload subtitle files after detecting modification",IDC_AUTORELOAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,185,10
+    LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,123,182,8
+    CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,136,91,10
+    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,153,104,10
+END
+
+IDD_DVSPATHSPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    LTEXT           "The auto-loader will search these paths for matching subtitles:\n(a path may be absolute or relative)",IDC_STATIC,7,7,233,17
+    LISTBOX         IDC_PATHLIST,7,26,233,119,LBS_NOINTEGRALHEIGHT | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PATHEDIT,7,148,233,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BROWSE,7,167,50,14
+    PUSHBUTTON      "&Remove",IDC_REMOVE,137,167,50,14
+    PUSHBUTTON      "&Add",IDC_ADD,190,167,50,14
+END
+
+IDD_DVSTIMINGPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Subtitle Timing",IDC_STATIC,7,7,233,96
+    LTEXT           "Delay (enter a positive number if the subtitles are late, or a negative if they come early)",IDC_STATIC,14,20,219,16
+    EDITTEXT        IDC_EDIT5,20,41,48,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,60,45,11,14
+    LTEXT           "(millisecs)",IDC_STATIC,73,43,31,8
+    LTEXT           "Speed Ratio (this may be useful for using a subtitle originally synchronized to a video with a different fps)",IDC_STATIC,14,61,219,18
+    EDITTEXT        IDC_EDIT6,20,82,39,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN6,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,48,87,11,14
+    LTEXT           ":",IDC_STATIC,64,84,8,8
+    EDITTEXT        IDC_EDIT9,72,82,39,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN9,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,85,11,14
+    LTEXT           "(subtitles : video)",IDC_STATIC,120,83,56,8
+    GROUPBOX        "Playback rate (experimental)",IDC_STATIC,7,108,233,34
+    CONTROL         "Force fps:",IDC_MODFPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,121,47,12
+    EDITTEXT        IDC_FPS,72,121,36,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "- operability depends on other filters\n- may cause a/v desync",IDC_STATIC,114,118,120,18
+END
+
+IDD_DVSZOOMPAGE DIALOGEX 0, 0, 247, 188
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif", 400, 0, 0x1
+BEGIN
+    LTEXT           "x pos:",IDC_STATIC,16,14,20,8
+    EDITTEXT        IDC_EDIT1,46,11,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,77,11,11,14
+    LTEXT           "y pos:",IDC_STATIC,16,34,20,8
+    EDITTEXT        IDC_EDIT2,46,31,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,77,31,11,14
+    LTEXT           "x scale:",IDC_STATIC,11,54,25,8
+    EDITTEXT        IDC_EDIT7,46,51,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN7,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,77,51,11,14
+    LTEXT           "y scale:",IDC_STATIC,11,74,25,8
+    EDITTEXT        IDC_EDIT8,46,71,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPIN8,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,77,71,11,14
+END
+
+IDD_TEXTSUBOPENTEMPLATE DIALOGEX 0, 0, 208, 16
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO1,54,0,105,92,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Character set:",IDC_STATIC,5,2,48,8
+END
+
+IDD_STYLEDIALOG DIALOGEX 0, 0, 323, 219
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Style Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Font",IDC_STATIC,7,7,109,130
+    PUSHBUTTON      "Font",IDC_BUTTON1,15,20,93,13
+    COMBOBOX        IDC_COMBO1,15,39,93,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Spacing",IDC_STATIC,21,60,26,8
+    EDITTEXT        IDC_EDIT3,64,58,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,97,58,11,14
+    LTEXT           "Angle (z,°)",IDC_STATIC,21,79,36,8
+    EDITTEXT        IDC_EDIT11,64,77,34,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,97,77,11,14
+    LTEXT           "Scale (x,%)",IDC_STATIC,21,98,39,8
+    EDITTEXT        IDC_EDIT5,64,96,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,97,96,11,14
+    LTEXT           "Scale (y,%)",IDC_STATIC,21,117,39,8
+    EDITTEXT        IDC_EDIT6,64,115,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,97,115,11,14
+    GROUPBOX        "Border Style",IDC_STATIC,7,140,110,71
+    CONTROL         "Outline",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,156,39,10
+    CONTROL         "Opaque box",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,59,156,55,10
+    LTEXT           "Border width",IDC_STATIC,17,174,42,8
+    EDITTEXT        IDC_EDIT1,71,171,34,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,170,11,14
+    LTEXT           "Shadow depth",IDC_STATIC,17,193,47,8
+    EDITTEXT        IDC_EDIT2,71,190,34,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,191,11,14
+    GROUPBOX        "Screen Alignment && Margins",IDC_STATIC,125,7,187,52
+    CONTROL         "",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,134,42,11,8
+    CONTROL         "",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,146,42,11,8
+    CONTROL         "",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,158,42,11,8
+    CONTROL         "",IDC_RADIO6,"Button",BS_AUTORADIOBUTTON,134,31,11,8
+    CONTROL         "",IDC_RADIO7,"Button",BS_AUTORADIOBUTTON,146,31,11,8
+    CONTROL         "",IDC_RADIO8,"Button",BS_AUTORADIOBUTTON,158,31,11,8
+    CONTROL         "",IDC_RADIO9,"Button",BS_AUTORADIOBUTTON,134,20,11,8
+    CONTROL         "",IDC_RADIO10,"Button",BS_AUTORADIOBUTTON,146,20,11,8
+    CONTROL         "",IDC_RADIO11,"Button",BS_AUTORADIOBUTTON,158,20,11,8
+    LTEXT           "Left",IDC_STATIC,176,22,14,8
+    EDITTEXT        IDC_EDIT7,198,19,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN6,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,227,19,11,14
+    LTEXT           "Right",IDC_STATIC,176,39,18,8
+    EDITTEXT        IDC_EDIT8,198,37,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN7,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,227,37,11,14
+    LTEXT           "Top",IDC_STATIC,240,22,13,8
+    EDITTEXT        IDC_EDIT9,268,19,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN8,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,296,17,11,14
+    LTEXT           "Bottom",IDC_STATIC,240,39,24,8
+    EDITTEXT        IDC_EDIT10,268,37,34,14,ES_RIGHT | ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN9,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,296,37,11,14
+    GROUPBOX        "Colors && Transparency",IDC_STATIC,125,63,187,110
+    LTEXT           "Primary",IDC_STATIC,133,88,25,8
+    CONTROL         "",IDC_COLORPRI,"Static",SS_OWNERDRAW | SS_NOTIFY,175,85,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,198,86,103,13
+    LTEXT           "Secondary",IDC_STATIC,133,105,34,8
+    CONTROL         "",IDC_COLORSEC,"Static",SS_OWNERDRAW | SS_NOTIFY,175,102,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER3,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,198,103,103,13
+    LTEXT           "Outline",IDC_STATIC,133,122,24,8
+    CONTROL         "",IDC_COLOROUTL,"Static",SS_OWNERDRAW | SS_NOTIFY,175,119,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER5,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,198,120,103,13
+    LTEXT           "Shadow",IDC_STATIC,133,139,26,8
+    CONTROL         "",IDC_COLORSHAD,"Static",SS_OWNERDRAW | SS_NOTIFY,175,136,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER6,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,198,137,103,13
+    CONTROL         "Link alpha channels",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,213,154,76,10
+    PUSHBUTTON      "Cancel",IDCANCEL,211,197,50,14
+    DEFPUSHBUTTON   "OK",IDOK,265,197,50,14
+    LTEXT           "100%",IDC_STATIC,289,76,20,8
+    LTEXT           "0%",IDC_STATIC,200,76,12,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "res\\Icon_147.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DVSABOUTPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        VERTGUIDE, 14
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 139
+    END
+
+    IDD_DVSCOLORPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        VERTGUIDE, 41
+        VERTGUIDE, 118
+        VERTGUIDE, 160
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 19
+        HORZGUIDE, 134
+        HORZGUIDE, 147
+        HORZGUIDE, 153
+        HORZGUIDE, 163
+    END
+
+    IDD_DVSGENERALPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        VERTGUIDE, 17
+        VERTGUIDE, 26
+        VERTGUIDE, 112
+        VERTGUIDE, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 126
+        HORZGUIDE, 166
+    END
+
+    IDD_DVSMAINPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        VERTGUIDE, 15
+        VERTGUIDE, 27
+        VERTGUIDE, 110
+        VERTGUIDE, 124
+        VERTGUIDE, 132
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 219
+        HORZGUIDE, 24
+        HORZGUIDE, 188
+    END
+
+    IDD_DVSMISCPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        VERTGUIDE, 16
+        VERTGUIDE, 26
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 26
+    END
+
+    IDD_DVSPATHSPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+
+    IDD_DVSTIMINGPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        VERTGUIDE, 20
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 127
+    END
+
+    IDD_DVSZOOMPAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        VERTGUIDE, 36
+        VERTGUIDE, 46
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+        HORZGUIDE, 18
+        HORZGUIDE, 38
+        HORZGUIDE, 58
+        HORZGUIDE, 78
+    END
+
+    IDD_STYLEDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 316
+        VERTGUIDE, 136
+        VERTGUIDE, 186
+        VERTGUIDE, 201
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 212
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "&DirectVobSub"
+    IDD_DVSPATHSPAGE        "&Paths"
+    IDS_PROJNAME2           "&Subtitle Source"
+    IDS_DIVX_WARNING        "The found DivX DirectShow decoder (divx_c32.ax) may be\nincompatible with the current operating system. Please, try\nto install version 3.11 or 4.0+.\n\n(This message will appear only once per installation)"
+    IDD_DVSABOUTPAGE        "&About"
+    IDS_R_TEXT              "Text"
+    IDS_R_VOBSUB            "VobSub"
+    IDS_R_DEFTEXTPATHES     "DefTextPathes"
+    IDS_R_PREFLANGS         "PreferedLanguages"
+    IDS_RG_SAVEFULLPATH     "SaveFullPath"
+    IDS_RG_EXTPIC           "Extpic"
+    IDS_RG_MOD32FIX         "Mod32Fix"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_RG_LOADLEVEL        "LoadLevel"
+    IDS_RG_INSTANTUPDATE    "InstantUpdate"
+    IDS_RG_FLIPPICTURE      "FlipPicture"
+    IDS_RG_HIDE             "Hide"
+    IDS_RG_NOYUY2COLORS     "NoYUY2Colors"
+    IDS_RG_DOPREBUFFERING   "DoPreBuffering"
+    IDS_RG_SHOWOSDSTATS     "ShowOSDStats"
+    IDS_RG_SEENDIVXWARNING  "SeenDivxWarning"
+    IDS_RG_RESX2            "ResX2Mode"
+    IDS_RG_RESX2MINW        "ResX2MinWidth"
+    IDS_RG_RESX2MINH        "ResX2MinHeight"
+    IDS_RTM_MEDIAFPS        "MediaFPS"
+    IDS_RT_SHADOW           "Shadow"
+    IDS_RT_OUTLINE          "Outline"
+    IDS_RT_LOGFONT          "LOGFONT"
+    IDS_RT_COLOR            "Color"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_RT_OVERRIDEPLACEMENT "OverridePlacement"
+    IDS_RT_XPERC            "XPerc"
+    IDS_RT_YPERC            "YPerc"
+    IDS_RV_BUFFER           "Buffer"
+    IDS_RP_PATH             "Path%d"
+    IDS_RL_LANG             "Lang%d"
+    IDS_M_SHOWSUBTITLES     "Show Subtitles"
+    IDS_M_HIDESUBTITLES     "Hide Subtitles"
+    IDS_M_ORIGINALPICTURE   "Original Picture"
+    IDS_M_FLIPPEDPICTURE    "Flipped Picture"
+    IDS_RV_POLYGONIZE       "Polygonize"
+    IDS_RG_EXTERNALLOAD     "ExtLoad"
+    IDS_RG_WEBLOAD          "WebLoad"
+    IDS_RG_EMBEDDEDLOAD     "EmbLoad"
+    IDS_URL_HOMEPAGE        "http://gabest.org/"
+    IDS_URL_EMAIL           "mailto:gabest@freemail.hu"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_R_TIMING            "Timing"
+    IDS_RTM_SUBTITLEDELAY   "Subtitle Delay"
+    IDS_RTM_SUBTITLESPEEDMUL "Subtitle Speedmul"
+    IDS_RT_ADVANCEDRENDERER "AdvancedRenderer"
+    IDS_RV_ONLYSHOWFORCEDSUBS "OnlyShowForcedSubs"
+    IDS_ORGHEIGHT           "Original height"
+    IDS_RG_VMRZOOMENABLED   "VMRZoomEnabled"
+    IDS_RTM_SUBTITLESPEEDDIV "Subtitle Speeddiv"
+    IDS_RG_COLORFORMATS     "Color Formats"
+    IDS_EXTTO169            "Extend to 16:9"
+    IDS_RG_FORCERGB         "ForceRGB"
+    IDS_RG_ENABLEZPICON     "EnableZPIcon"
+    IDS_RG_FLIPSUBTITLES    "FlipSubtitles"
+    IDS_RTM_MEDIAFPSENABLED "MediaFPSEnabled"
+    IDS_RG_DISABLERELOADER  "DisableReloader"
+    IDS_EXTTO43             "Extend to 4:3"
+END
+
+STRINGTABLE 
+BEGIN
+    IDD_DVSCOLORPAGE        "&Colors"
+    IDD_DVSGENERALPAGE      "&General"
+    IDD_DVSTIMINGPAGE       "&Timing"
+    IDD_DVSMISCPAGE         "M&isc"
+    IDS_R_GENERAL           "General"
+END
+
+STRINGTABLE 
+BEGIN
+    IDD_DVSMAINPAGE         "&Main"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CROPTO169           "Crop to 16:9"
+    IDS_CROPTO43            "Crop to 4:3"
+    IDS_ORGRES              "Original resolution"
+    IDS_DBLRES              "Doubled resolution"
+    IDS_DBLRESIF            "Double if smaller than"
+    IDS_DONOTLOAD           "Do not load"
+    IDS_LOADWHENNEEDED      "Load when needed"
+    IDS_ALWAYSLOAD          "Always load"
+    IDS_EXTTO576            "Extend to 576 lines"
+    IDS_EXTTO480            "Extend to 480 lines"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_RT_STYLE            "Style"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

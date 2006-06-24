@@ -1,0 +1,7 @@
+LIBRARY		"Mpeg2DecFilter.ax"
+
+EXPORTS
+	DllCanUnloadNow			PRIVATE
+	DllGetClassObject		PRIVATE
+	DllRegisterServer		PRIVATE
+	DllUnregisterServer		PRIVATE

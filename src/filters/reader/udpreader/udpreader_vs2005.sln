@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "udpreader", "udpreader_vs2005.vcproj", "{3020FF9B-8202-488D-B137-11DECC510E6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug lib|Win32 = Debug lib|Win32
+		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Debug|Win32 = Debug|Win32
+		Release lib|Win32 = Release lib|Win32
+		Release Unicode lib|Win32 = Release Unicode lib|Win32
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug lib|Win32.ActiveCfg = Debug lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug lib|Win32.Build.0 = Debug lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug Unicode lib|Win32.ActiveCfg = Debug Unicode lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug Unicode lib|Win32.Build.0 = Debug Unicode lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Debug|Win32.Build.0 = Debug|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release lib|Win32.ActiveCfg = Release lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release lib|Win32.Build.0 = Release lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release Unicode lib|Win32.ActiveCfg = Release Unicode lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release Unicode lib|Win32.Build.0 = Release Unicode lib|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release|Win32.ActiveCfg = Release|Win32
+		{3020FF9B-8202-488D-B137-11DECC510E6E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

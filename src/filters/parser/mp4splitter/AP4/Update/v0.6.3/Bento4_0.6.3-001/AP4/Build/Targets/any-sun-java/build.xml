@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<project name="Benta4" basedir="." default="build">
+
+<!--===========================================================================
+Setup properties
+============================================================================-->
+  <!-- home -->
+  <property name="bento4.home" value="../../.."/>
+  
+  <!-- sources -->
+  <property name="src.dir" value="${bento4.home}/Source/Java"/>
+  
+  <!-- build -->
+  <property name="build.dir" value="."/>
+  <property name="lib.dir" value="${build.dir}/lib"/>
+  <property name="classes.dir" value="${build.dir}/classes"/>
+  <property name="bento4.lib" value="${lib.dir}/bento4.jar"/>
+    
+<!--===========================================================================
+Targets
+============================================================================-->
+<!--===========================================================================
+prepare Target
+============================================================================-->
+  <target name="prepare">
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${lib.dir}"/>
+  </target>
+  
+<!--===========================================================================
+clean Target
+============================================================================-->
+  <target name="clean">
+    <delete dir="${classes.dir}"/>
+    <delete>
+      <!-- spare the svn directories -->
+      <fileset dir="${lib.dir}" includes="**/*.*"/>
+    </delete>
+  </target>
+
+<!--===========================================================================
+compile Target
+============================================================================-->
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+  </target>
+
+<!--===========================================================================
+jar Target
+============================================================================-->
+  <target name="jar" depends="compile">
+    <jar jarfile="${bento4.lib}" basedir="${classes.dir}"/>
+  </target>
+
+<!--===========================================================================
+build Target
+============================================================================-->
+  <target name="build" depends="jar"/>
+
+<!--===========================================================================
+all Target
+============================================================================-->
+  <target name="all" depends="clean, build"/>
+
+</project>

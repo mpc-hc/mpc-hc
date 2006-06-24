@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse-cdt version="2.0"?>
+
+<cdtproject id="org.eclipse.cdt.make.core.make">
+<extension point="org.eclipse.cdt.core.BinaryParser" id="org.eclipse.cdt.core.ELF"/>
+<extension point="org.eclipse.cdt.core.CIndexer" id="org.eclipse.cdt.core.domsourceindexer"/>
+<data>
+
+<item id="org.eclipse.cdt.make.core.buildtargets">
+<buildTargets>
+<target name="all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+</buildTargets>
+</item>
+<item id="cdt_indexer">
+<indexEnabled indexValue="false"/>
+<indexerProblemsEnabled indexProblemsValue="0"/>
+</item>
+<item id="cdt_resolver">
+<custom value="false"/>
+</item>
+<item id="org.eclipse.cdt.core.pathentry">
+<pathentry kind="src" path="" excluding="Debug/|.cdtproject|.project|README.eclipse"/>
+<pathentry kind="out" path=""/>
+<pathentry kind="out" path="Debug"/>
+</item>
+</data>
+</cdtproject>

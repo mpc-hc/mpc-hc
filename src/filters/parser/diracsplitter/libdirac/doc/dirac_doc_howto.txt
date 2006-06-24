@@ -1,0 +1,48 @@
+Dirac Documentation HOW-TO
+
+by Scott Robert Ladd (scott.ladd@coyotyegulch.com)
+
+
+The Dirac technical documentation comes in two forms:
+
+1) Embedded API documentation that is extract via Doxygen to produce
+   external documentation in HTML and LATEX formats.
+
+2) A description of the Dirac Algorithms, maintained as a LATEX file
+   that serves as the source code for PostScript, PDF, and HTML
+   documents.
+   
+This document describes how to build the Dirac documentation, and lsist
+the tools required for its creation.
+
+Producing API Documentation with Doxygen
+----------------------------------------
+
+Doxygen (http://www.doxygen.org) is an industry-standard program for
+extracting documentation from specially-formatted source code. In
+concept, Doxygen is similar to Java's Javadoc utility. Doxygen uses
+the GraphViz (http://www.graphviz.org) package to produce professional
+class diagrams from an analysis of the source code.
+
+Use the following command to produce the documents with Doxygen:
+
+    # doxygen dirac_api.doxygen
+    
+The above command generates three directories filled with documentation
+in three formats: HTML, LATEX, and Unix man pages.
+
+The HTML can simply be copied to any appropriate directory on a web
+server for display.
+
+To generate a final PDF file from the LATEX source, simply execute a
+"make" command in the codec/doc/latex directory.
+
+
+Producing the Dirac Algorithm document
+--------------------------------------
+
+The source for Dirac Algorithm document is a LATEX
+(http://www.latex.org)
+
+[TODO]
+

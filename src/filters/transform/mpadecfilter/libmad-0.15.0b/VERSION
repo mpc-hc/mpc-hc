@@ -1,0 +1,7 @@
+0.15.0b
+configure.ac:24
+version.h:25-28
+msvc++/config.h:115
+msvc++/mad.h:38-41
+
+Makefile.am:89-91

@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+
+    <title>Dirac: Frequently asked questions</title>
+  </head>
+
+  <body>
+    <h1>Frequently asked questions</h1>
+
+    Last revised by Thomas Davies, 18 August 2004.
+
+    <p><a href="#1"> Who are you guys?</a></p>
+
+    <p><a href="#2"> How did Dirac begin?</a></p>
+
+    <p><a href="#3"> Why is it called Dirac?</a></p>
+
+    <p><a href="#4"> Why are you releasing Dirac Open Source?</a></p>
+
+    <p><a href="#5"> Where can I get Dirac?</a></p>
+
+    <p><a href="#6"> What are the license conditions?</a></p>
+
+    <p><a href="#6A"> Are you going to charge for Dirac?</p>
+
+    <p><a href="#6B"> Do the BBC have patents in Dirac?</p>
+
+    <p><a href="#7"> Do you infringe any patents?</a></p>
+
+    <p><a href="#8"> What will you do if you infringe patents?</a></p>
+
+    <p><a href="#9"> Is the BBC going to stream video using Dirac?</a></p>
+
+    <p><a href="#10"> Are you going to broadcast TV using Dirac?</a></p>
+
+    <p><a href="#11"> What about Ogg Theora?</a></p>
+
+    <p><a href="#12"> How does it work?</a></p>
+
+    <p><a href="#13"> Why did you choose the techniques that you're using?</a></p>
+
+    <p><a href="#14"> What's with your picture file format?</a></p>
+
+    <p><a href="#15"> How do I play compressed video?</a></p>
+
+    <p><a href="#16"> How do I code video?</a></p>
+
+    <p><a href="#17"> How can I help?</a></p>
+
+    <p><a href="#18"> What needs doing?</a></p>
+
+    <p><a href="#19"> When will Dirac be ready?</a></p>
+
+
+    <p><b><u><a name="1"> Who are you guys?</a></u></b></p>
+
+    The BBC Dirac team is led by Tim Borer, Principal R&D Engineer in the BBC Research and Development Department.
+    The main algorithm developer is Thomas Davies, Senior R&D Engineer, who devised the Dirac algorithm. The
+    software is managed by Anu Suraparaju, Senior R&D Engineer. 
+
+    <p><b><u><a name="2"> How did Dirac begin?</a></u></b></p>
+
+    BBC R&D has always been involved in video coding research as it's central to what the BBC does. Thomas began
+    experimenting with compression techniques in about 2001, and developed various prototypes of coding tools. In
+    January 2003 he had a rough research system in place which seemed to perform well. Since then he's been working
+    to translate the software into something that could be the basis of a working codec, and to streamline the
+    design. This involved rewriting the codec entirely in C++ to exploit the flexibility and modularity
+    of the language.
+
+    <p><b><u><a name="3"> Why is it called Dirac?</a></u></b></p>
+
+    Dirac is named after the British physicist (of Swiss extraction) Paul Dirac, who was one of the great figures
+     in modern physics. We've seen some good explanations on the 'net,
+    suggesting that we chose the name because the Dirac delta function is fundamental to signal processing
+    and that Dirac's work underpins wavelets. Sorry, but the stories aren't true. We thought of
+    hundreds of names, most of them awful, some of them good, and most of the good ones had been used already.
+    Tim suggested Dirac. It sounded good. It stuck. It was going to be called Camel, so maybe we had a lucky
+    escape.
+
+    You can find out more about Paul Dirac <a href="http://www.dirac.ch/PaulDirac.html">here</a>.
+
+    <p><b><u><a name="4"> Why are you releasing Dirac Open Source?</a></u></b></p>
+
+    The BBC has always advocated open standards, and has tried to use them where possible. So far, streaming
+    has been dominated by proprietary systems and existing licensing regimes for standards-based systems
+    have not been as attractive as they might be for large-scale broadcasting, particularly for Public
+    Service broadcasters.
+
+    <p><b><u><a name="5"> Where can I get Dirac?</a></u></b></p>
+
+    You can download the latest version from the <a href="http://www.sourceforge.net/projects/dirac">
+    Sourceforge project page</a>. You can also look at the developing code on the CVS there.
+
+    <p><u><b><a name="6"> What are the license conditions?</a></b></u></p>
+
+    Dirac is released under the Mozilla triple license (MPL). This is an Open Source license that allows both free and
+    commercial use of the software. It also allows for relicensing under the GPL or the LGPL.
+
+    <p><u><b><a name="6A"> Are you going to charge for Dirac?</a></b></u></p>
+
+    No. The terms of the MPL mean that as far as the BBC is concerned, there will be no charges or royalties 
+    for the Dirac software. 
+
+    <p><u><b><a name="6B"> Do the BBC have patents in Dirac?</a></b></u></p>
+
+    Yes. We have patent applications in train for some of the techniques involved in Dirac, and others that
+    we intend to put into Dirac in the future. There has been some FUD about this, so we'll be clear: 
+    this does not affect the Open Source status of Dirac, nor does it affect its royalty-free status.
+    The conditions of the MPL mean that we're licensing these patents for use within the Dirac
+    software for free.
+
+    <p><u><b><a name="7"> Do you infringe any patents?</a></b></u></p>
+
+    The short answer is that we don't know for certain. We haven't employed armies of lawyers to trawl through the tens of
+    thousands of video compression techniques. That's not the way to invent a successful algorithm. Instead we've
+     tried to use techniques of long standing in novel ways. Where we think we're novel, <a href="#6B">we're in the process
+     of getting patent protection ourselves</a>, which will invalidate others' claims of priority.
+
+    There are some areas that are more heavily patented than others. Arithmetic coding is one such, even though
+    the technique itself has been around for 25 years. We're keeping an eye on the situation, and we'll adopt
+    alternative techniques if we have to.
+
+    <p><u><b><a name="8"> What will you do if you infringe any patents?</a></b></u></p>
+
+    Code round them, first and foremost. There are many alternative techniques to each of the technologies used
+    within Dirac. Dirac is relatively modular (which is one reason why it's a conventional hybrid codec rather
+    than, say, 3D wavelets) so removing or adding tools should be possible until it goes Beta and the
+    bitstream and decoder functionality are fixed. But we also need to see where in the world potentially problematic patents
+    apply, and how important they are.
+
+    <p><u><b><a name="9"> Is the BBC going to stream video using Dirac?</a></b></u></p>
+
+    The software is not quite ready for that yet - we need real-time decoding, integration with
+    players, a bitstream spec and a transport stream format. So this will probably have to wait until Dirac is
+    closer to beta, although it might be possible to set up something experimental sooner.
+
+    <p><u><b><a name="10"> Are you going to broadcast TV using Dirac?</a></b></u></p>
+
+    Broadcasting or multicasting over the web is likely to develop over the next few years, and the technology we use for
+    this is likely to be the same as for standard streaming. There is no likelihood at all of replacing our
+    existing Digital TV infrastructure, based on European DVB standards and using MPEG-2, with anything new - the
+    installed base of millions of customers is too large.
+
+    <p><u><b><a name="11"> What about Ogg Theora?</a></b></u></p>
+
+    We're glad that it looks like Theora will reach beta soon. We think you can't have too many free codecs, but that
+    the Open Source community also needs to continue to develop codecs with increasingly better performance.
+    We also think there could be a good deal in Theora that we could use in Dirac, and we'd like to work with
+    developers who've been closely involved in Theora.
+
+    We intend to pack the Dirac elementary stream into MXF, which has lots of useful features. That doesn't preclude
+    it packing into Ogg as well, and it's probably a good idea to have a variety of packing formats. For this the
+    elementary stream needs to be very well defined.
+
+    <p><u><b><a name="12"> How does it work?</a></b></u></p>
+
+    See the <a href="http://www.bbc.co.uk/rd/projects/dirac/documentation.shtml">algorithm documentation</a>
+
+    <p><u><b><a name="13"> Why did you choose the techniques that you're using?</b></u></a></p>
+
+    We chose wavelets for a number of reasons. They perform very well in still image compression, and can be said to be
+     state of the art there. They also provide a degree of scalability, so a codec based on wavelets can perform
+     well across a range of video standards. By scalability we don't mean embedded bitstreams or the ability to
+     extract lower-resolution video from higher-resolution bitstreams - Dirac doesn't do this as it's very
+     complex - only the flexibility to apply the same tools to a range of resolutions, perhaps with different
+     parameters. Wavelet coding is also a well-studied and well-understood field.
+
+     Overlapped block motion compensation is used to reduce blockiness and ease the job of the wavelet transform
+     in coding motion compensated differences. The wavelet transform may not be the best tool to do this, and
+     we'd welcome other contributions, but it does have the benefit of simplicity in that the tools for all
+     frame types are the same. Dirac supports more or less any block sizes for motion compensation and this
+     again helps in scaling the algorithms as larger blocks can be used for higher resolution pictures and smaller
+     ones for low resolution pictures.
+
+    <p><u><b><a name="14"> What's with your picture file format?</a></b></u></p>
+
+    It's a temporary fix. There is a dearth of good file formats for video sequences, most of them being multi-file
+    formats, with little or no metadata. We're going to release some tools for converting formats soon. The encoder and
+     decoder applications are just example programs: what really matters are the libraries, which just need classes
+     capable of reading and writing picture data. Ultimately we'll subclass these picture IO classes to cover every
+     file format we need to, and we'll also wrap uncompressed video in MXF as well, for which there are player utilities.
+
+    <p><u><b><a name="15"> How do I play compressed video?</a></b></u></p>
+
+    You can't yet play a compressed bitstream, but hopefully it won't take too long to get a DirectShow filter, for
+    example, sorted out. Bear in mind that any code written to play compressed video is liable to change until
+    the wrapping format and demuxing operations, at least, is determined.
+
+    <p><u><b><a name="16"> How do I code video?</a></b></u></p>
+
+    You need video in the right format, which is raw planar YUV with a separate header file. There's a program to make
+    the header. Then you need to start the encoder running. The latest version of the encoder does a rudimentary form
+    of constant quality encoding, where you set a quality level.
+
+    <p><u><b><a name="17"> How can I help?</a></b></u></p>
+
+    By telling people about Dirac. By contributing to the code: <a mailto="dirac@rd.bbc.co.uk">contact us</a> to find out
+    more.
+
+    <p><u><b><a name="18"> What needs doing?</a></b></u></p>
+
+    A very great deal. The Dirac algorithm is still evolving, and new tools (for interlaced video, for example) and
+    enhancements to the current tools are needed. The code needs optimisation for speed, in order to be able to
+    code and (especially) decode in real time. The bitstream formats (elementary stream and packing) need defining.
+    The decoder libraries need to be integrated with a variety of players. For a full(er) list, see the TODO list in the
+    distribution.
+
+    <p><u><b><a name="19"> When will Dirac be ready?</a></b></u></p>
+
+    At the moment, we have no idea, but we hope to get to beta by the middle of 2005, say.
+
+  </body>
+</html>

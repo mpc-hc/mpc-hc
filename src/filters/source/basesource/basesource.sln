@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basesource", "basesource.vcproj", "{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug lib
+		ConfigName.1 = Debug Unicode lib
+		ConfigName.2 = Release lib
+		ConfigName.3 = Release Unicode lib
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Debug lib.ActiveCfg = Debug lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Debug lib.Build.0 = Debug lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Debug Unicode lib.ActiveCfg = Debug Unicode lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Debug Unicode lib.Build.0 = Debug Unicode lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Release lib.ActiveCfg = Release lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Release lib.Build.0 = Release lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Release Unicode lib.ActiveCfg = Release Unicode lib|Win32
+		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}.Release Unicode lib.Build.0 = Release Unicode lib|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

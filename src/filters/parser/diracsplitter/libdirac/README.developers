@@ -1,0 +1,406 @@
+Dirac software development practices
+====================================
+
+Contents
+--------
+
+1. Licenses and submitting work
+
+2. Sourceforge Developers forum
+
+3. Mailing lists
+
+4. Using the CVS repository
+
+5. CVS log messages
+
+6. Software practices
+
+7. Profiling & optimisation
+
+8. Line-endings
+
+9. Binary files in CVS
+
+
+
+1. Licenses and submitting work
+-------------------------------
+
+Developers submitting work to the Dirac project should print out, 
+complete, and sign the Developer's Certificate of Origin contained 
+in the DCO.developers file. It should be posted to: 
+
+Dr Tim Borer
+BBC Research and Development
+Kingswood Warren
+Tadworth
+Surrey KT20 6NP
+United Kingdom
+
+For simplicity developers must submit code using the same
+license that we distribute under, which is the Mozilla Triple
+license (http://www.mozilla.org/MPL/). Using any other license
+causes complexity and FUD.
+
+Contributions should be in the form of a patch, which may be for a
+whole directory. For changes to an existing file all that is needed
+is to add the author's name to the list of contributors, since the
+license will remain the MPL. For new files, the header in each file
+should be completed from Exhibit A, the Mozilla Triple License (from the
+COPYING file). It should NOT be copied from files already obtained
+in the Dirac project, since some details may differ.
+
+To create a context diff patch run the command
+
+diff -ruN compress-orig compress-mods > patch.txt
+
+   where compress-orig is the directory with the original code and
+   compress-mods is the directory with the modified files.
+
+The patch.txt file should then be submitted to the Sourceforge Patch
+tracker.
+
+2. Sourceforge Developers forum
+-------------------------------
+The Developers forum is where Dirac core developers plan and coordinate
+changes to Dirac.  All API changes, new features and implementation
+difficulties are announced and discussed here.
+
+Examples of changes which should be announced in the Developers forum:
+
+  - Pic API change: return bool instead of void for ReadNextFrame
+  - Pic API change: most methods can now throw ErrorState objects
+
+Changes which are small in scope and unlikely to affect developers
+should not be announced on the forum.  Changes which touch
+many files can fall into this category - for example
+
+  - Fixed inconsistent CRLF line-endings to be LF.
+  - Fixed "use of uninitialised variable" cases found by gcc.
+  - Fixed memory leak in all instantiations of Pic (found by valgrind).
+  - Add feature test for stdint.h to be portable to Solaris.
+
+Developers should 'monitor' the forums by going to the forum page and
+clicking 'Monitor this forum'.  Any new message will then be emailed
+to their username@users.sourceforge.net email address.
+  http://sourceforge.net/forum/forum.php?forum_id=353620
+
+
+3. Mailing lists
+----------------
+Developers should subscribe to the dirac-announce and dirac-commits
+mailing lists.  dirac-announce is used to announce new releases and
+dirac-commits is sent mail automatically for every commit.
+
+
+4. Using the CVS repository
+---------------------------
+
+The latest (but non-stable) version of the code can be downloaded direct
+from the Sourceforge repository using anonymous CVS. Instructions for 
+doing so can be found at the Dirac CVS page: 
+
+http://sourceforge.net/cvs/?group_id=102564 
+
+The Dirac codec module is called 'compress'.
+
+To compile the codec from the CVS sources, the configure script must be
+built using autotools. The required autotool operations have been
+collated in a bootstrap script - simply type 
+
+./bootstrap
+
+at the command prompt in the installation directory. Then follow the
+usual install instructions in the INSTALL document.
+
+5. CVS log messages
+-------------------
+Always indicate why the change is necessary in addition to a succinct summary
+of what as changed.  As the number of developers increases it becomes
+increasingly difficult for developers to understand the changes going on in
+areas they are not familiar with.  If the changes relate to an API change
+developers may not realise this if it is not mentioned in the log message
+as the reason for the change.
+
+E.g.
+  Bad
+  ---
+  - Added gamma parameter
+  - Replace stricmp with strcasecmp
+
+  Good
+  ----
+  - Added gamma parameter to record more accurate data on source material
+  - Enhanced portability: stricmp replaced by strcasecmp (the POSIX standard) 
+
+
+6. Software practices
+---------------------
+I. Portability
+  This project aims to be as portable as possible and to that end follows the
+  following standards:
+    POSIX 1003.1 - System Interfaces volume (XSH) & Threads
+    ISO C99 (1999)
+    ISO C++ (1998)
+  The only exception to this practice is for the Microsoft Visual C++ compiler
+  which continues to fall short of all the above standards.  Where MS VC++
+  is incompatible with the standards, experiment is often necessary to find
+  an alternative usage which works under MS VC++.  Use of the _MSC_VER macro
+  in conditional compilation is the accepted way to accommodate such
+  differences.
+
+II. Coding Style
+
+   The following guidelines must be adhered to while developing code.
+
+-- CVS related tags
+   
+ - Include the following RCS tags in all new files (.cpp and .h). Include them
+   on the first line of the licence block
+
+   Id
+   Name
+
+   E.g.
+   /* ***** BEGIN LICENSE BLOCK *****
+   *
+   * $Id: README.developers 280 2005-01-30 05:11:46Z gabest $ $Name$
+   *
+   *  rest of licence text
+   * ***** END LICENSE BLOCK ***** */
+
+
+ - Remove the following tags from all files. Do not include them in new files
+   Author
+   Revision
+   Log
+
+--  General Source code formatting
+
+ - Use spaces in assigment statements and compound statements to make code
+   more readable.
+
+   E.g.
+   a = b;
+   if (a < b)
+   for (i=0; i<10; i++)
+   c = (a < b) ? a : b;
+
+ - Curly braces go on a separate line
+   
+   E.g.
+
+   if (a < b)
+   {
+       statment1;
+       statement2;
+       .
+       .
+       .
+   }
+
+   Curly braces can be ommitted if there is only one statment in the block.
+
+ - Use space between the comment marker and start of text
+   E.g.
+
+   // this is a comment
+   
+   /*
+   * This is a multiple line 
+   * comment
+   */
+
+ - Use spaces instead of tabs for indentation
+
+ - Indent Constructor initialiser lists from the constructor name
+   
+   E.g.
+   MyClass::Myclass (int val) :
+       m_val(val)
+   {
+   }
+
+--  Use of Namespaces
+
+ - All core Dirac functionality must be in the namespace dirac.
+ - All other functionality must be defined in a namespace of its own. E.g.
+   conversion utilities are in the namespace dirac_vu, instrumentation utilities
+   are in the namespace dirac_instr.
+
+--  General naming standards
+
+ - Local variables are lowercase and use underscores to separate words.
+   
+   E.g.
+
+   int outer_loop_idx;
+
+ - Use constants instead of macros
+
+ - Type definitions and Enumerations start with an uppercase letter and
+   use lowercase multi-word names using an uppercase letter for each new word.
+
+   E.g
+
+   typedef int CompressionType;
+   enum CompSort {...};
+
+--  Class Definition
+
+ - Class names start with an uppercase letter and the use lowercase with
+   multi-word names using an uppercase letter for each new word.
+   E.g. ArithCodec
+
+ - Class member variables are lowercase with a leading "m_". Use underscores to
+   separate words.
+
+   E.g.
+   int m_num_contexts;
+
+ - Group declaration of member functions and member variables in the class
+   defintion based on access type.
+
+   E.g
+
+   class MyClass
+   {
+   public:
+       //constructor
+       MyClass (int val);
+       
+       //access functions
+       int Value(void);
+       void SetValue(int val);
+
+   private:
+       void Init(int val);
+
+   private:
+       int m_val;
+   };
+
+ - Avoid declaring public member variables. Make them private and define access
+   functions to set/get their values.
+
+ - Avoid defining functions in class definitions except for trivial functions
+
+ - The declaration syntax for accessor/mutator functions is as follows
+
+   void SetVariable (const VariableType& var);
+   
+   VariableType Variable() const;
+   const VariableType& Variable() const;
+
+
+ - Use builtin copy constructors and assigment operators whenever appropriate
+   e.g. when the class does not use dynamic memory allocation, but their use
+   should be commented. This is to ensure that changes to the class are properly
+   reflected in these operators.
+
+ - Encapsulate enumerated types in the class definition if the enumerated type
+   is relevant only to that class.
+
+ - Nest classes within a class if they have no meaning outside the context of
+   the class.
+
+--  Function Definitions
+
+ - Function names start with an upperccase letter and the use lowercase with
+   multi-word names using an uppercase letter for each new word.
+   E.g. ArithCodec
+
+ - Function parameters are lowercase. Use underscores to separate words.
+
+    void BandCodec::Resize(const int& context_num)
+
+ - Use the following notation for reference parameters in a function
+   void BandCodec::Resize(const int& context_num)
+                  OR
+   void BandCodec::Resize(const int &context_num)
+
+ - Dummy argument names, if used, should be the same in the function
+   declarations and definitions to avoid confusion.
+
+       
+III. Code Review
+
+   All code will be peer-reviewed before being checked in to SourceForge
+   CVS. Developers should use the guidelines specified in the Coding Style
+   sub-section while reviewing code.
+
+IV. Testing with "make check"
+  Developers should aim to have all the regression tests succeed.  If a
+  developer anticipates breaking the tests (while a significant body of work
+  is being undertaken) this must be announced on the Developer Forum, and
+  the fixing of the tests would be coordinated there.
+
+  Developers should also aim to have good test coverage especially when
+  adding functionality.  When adding a new feature, expect to be asked
+  "Where's the test?"
+
+  A new target 'valgrind-check' has been included which uses valgrind, if 
+  available, to check for memory leaks, uninitialised memory reads, invalid
+  writes etc.
+
+7. Profiling & optimisation
+---------------------------
+Dirac is alpha software so developers cannot expect optimisation improvements
+to survive algorithm improvements or code refactoring and restructuring.  That
+being said, the Dirac maintainers would like to encourage profiling analysis
+and portable and modular optimisation.  Developers are encouraged to share
+their profiling analysis techniques and results.  The following guidelines
+should be followed:
+  - Any optimisation patch must be accompanied by at least a summary of
+    profile analysis and timing results for a range of video material.  There
+	must be sufficient information for other developers to reproduce the
+	results.
+  - A good example of modular and portable optimisations for MMX/SSE (x86),
+    ALTIVEC (PowerPC), VIS (SPARC) and Alpha can be found in libmpeg2's
+	motion compensation code:
+	  mpeg2dec/libmpeg2/motion_comp.c
+	  mpeg2dec/libmpeg2/motion_comp_alpha.c
+	  mpeg2dec/libmpeg2/motion_comp_altivec.c
+	  mpeg2dec/libmpeg2/motion_comp_mmx.c
+	  mpeg2dec/libmpeg2/motion_comp_vis.c
+  - For MMX/SSE/SSE2 optimisations developers must use a compiler-portable
+    macro approach such as that adopted by libmpeg2.  The Dirac maintainers
+	plan to use identical macro names to those found in
+	  http://cvs.sourceforge.net/viewcvs.py/libmpeg2/mpeg2dec/include/mmx.h
+	  http://cvs.sourceforge.net/viewcvs.py/libmpeg2/mpeg2dec/include/sse.h
+  - x86-specific optimisations need not be limited to MMX since SSE is
+    readily available on PentiumIII and AMD Athlons.  SSE2 optimisation is
+	encouraged since it becoming more commonly available (on Pentium4,
+	Athlon64 and Opteron), but take care to use a portable 16byte memory
+	alignment technique.
+
+Profiling can be supported by adding the following parameter to ./configure
+before building:
+
+--enable-profile
+
+The code can then be profiled by, for example, gprof.
+
+
+8. Line-endings
+---------------
+All source code and documentation will have LF line-endings, include makefiles
+and scripts.  The only exception will be for .vcproj and .sln (and any other
+WIN32 specific) files which will not function under MS VC++ unless they use
+CR-LF line-endings.
+
+
+9. Binary files in CVS
+----------------------
+CVS will modify files during checkin and checkout unless they are tagged as
+binary.  The modifications include translation of CR-LF <-> LF (depending on
+the OS of the CVS client) and expansion of CVS keywords such as $Id and $Log.
+
+Files which must not be modified in this way must be tagged as binary either
+using the add command or admin command:
+  cvs add -kb fig1.jpg
+  cvs admin -kb fig1.jpg  (for files already in CVS)
+
+MS VC++ project files, such as .vcproj and .sln, fall into this category since
+they do not function if their line-endings are not CR-LF.

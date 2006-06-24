@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug Unicode = Debug Unicode
+		Release = Release
+		Release Unicode = Release Unicode
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug.ActiveCfg = Debug|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug.Build.0 = Debug|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Unicode.ActiveCfg = Debug Unicode|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug Unicode.Build.0 = Debug Unicode|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release.ActiveCfg = Release|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release.Build.0 = Release|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Unicode.ActiveCfg = Release Unicode|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release Unicode.Build.0 = Release Unicode|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

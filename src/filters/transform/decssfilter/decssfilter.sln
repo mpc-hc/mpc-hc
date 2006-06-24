@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "decssfilter", "decssfilter.vcproj", "{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug lib = Debug lib
+		Debug Unicode = Debug Unicode
+		Debug Unicode lib = Debug Unicode lib
+		Release = Release
+		Release lib = Release lib
+		Release Unicode = Release Unicode
+		Release Unicode lib = Release Unicode lib
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug.ActiveCfg = Debug|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug.Build.0 = Debug|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug lib.ActiveCfg = Debug lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug lib.Build.0 = Debug lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug Unicode.ActiveCfg = Debug Unicode|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug Unicode.Build.0 = Debug Unicode|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug Unicode lib.ActiveCfg = Debug Unicode lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Debug Unicode lib.Build.0 = Debug Unicode lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release.ActiveCfg = Release|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release.Build.0 = Release|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release lib.ActiveCfg = Release lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release lib.Build.0 = Release lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Unicode.ActiveCfg = Release Unicode|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Unicode.Build.0 = Release Unicode|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Unicode lib.ActiveCfg = Release Unicode lib|Win32
+		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Unicode lib.Build.0 = Release Unicode lib|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
