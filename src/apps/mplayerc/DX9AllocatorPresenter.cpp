@@ -711,6 +711,7 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA)
 	for(int i = 0; i < countof(pEntries); i++)
 	{
 		hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i]);
+		ASSERT (SUCCEEDED (hr));
 		if(FAILED(hr)) return hr;
 	}
 
@@ -913,7 +914,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f,  1-dx, 1,  1, 1,  1+dx, 1,  1+dx*2, 1,  w, 0},
 	};
 
-	AdjustQuad(vx, dx, 0);
+//	AdjustQuad(vx, dx, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
 
 	MYD3DVERTEX<5> vy[] =
 	{
@@ -923,7 +924,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  dw, dh-dy,  dw, dh,  dw, dh+dy,  dw, dh+dy*2,  h, 0},
 	};
 
-	AdjustQuad(vy, 0, dy);
+//	AdjustQuad(vy, 0, dy);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[2]);
 
