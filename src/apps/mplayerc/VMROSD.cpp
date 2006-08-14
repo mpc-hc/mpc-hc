@@ -33,17 +33,23 @@ CVMROSD::~CVMROSD(void)
 
 void CVMROSD::OnSize(UINT nType, int cx, int cy)
 {
-	// TODO : gérer le changement de taille de fenêtre
+	if (m_pWnd && m_pVMB)
+	{
+		if (m_bSeekBarVisible)
+		{
+			m_bCursorMoving		= false;
+			m_bSeekBarVisible	= false;
+			Invalidate();
+		}
+		UpdateVMRBitmap();
+	}
 }
 
-void CVMROSD::Start (CWnd* pWnd, CComQIPtr<IVMRMixerBitmap9> pVMB)
+
+void CVMROSD::UpdateVMRBitmap()
 {
 	CRect				rc;
-	CWindowDC			dc (pWnd);
-
-	m_pWnd				= pWnd;
-	m_bCursorMoving		= false;
-	m_bSeekBarVisible	= false;
+	CWindowDC			dc (m_pWnd);
 
 	CalcRect();
 
@@ -80,16 +86,23 @@ void CVMROSD::Start (CWnd* pWnd, CComQIPtr<IVMRMixerBitmap9> pVMB)
 			m_MemDC.SelectObject(m_MainFont);
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
-
-			m_pVMB				= pVMB;
 		}
 	}
+
+}
+
+void CVMROSD::Start (CWnd* pWnd, CComQIPtr<IVMRMixerBitmap9> pVMB)
+{
+	m_pVMB				= pVMB;
+	m_pWnd				= pWnd;
+	UpdateVMRBitmap();
 }
 
 
 void CVMROSD::Stop()
 {
 	m_pVMB.Release();
+	m_pWnd  = NULL;
 }
 
 void CVMROSD::CalcRect()

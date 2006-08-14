@@ -611,6 +611,7 @@ public:
 	afx_msg void OnShaderToggle();
 	afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
 	afx_msg void OnViewRemainingTime();
+	afx_msg void OnD3DFullscreenToggle();
 
 
 	afx_msg void OnPlayPlay();
