@@ -303,6 +303,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_SHADER_TOGGLE, OnShaderToggle)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
 	ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
+	ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
 
 	ON_COMMAND(ID_PLAY_PLAY, OnPlayPlay)
 	ON_COMMAND(ID_PLAY_PAUSE, OnPlayPause)
@@ -4376,11 +4377,25 @@ void CMainFrame::OnShaderToggle()
 	}
 	else
 	{
-		m_pCAP->SetPixelShader(NULL, NULL);
+		if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
 		m_OSD.DisplayMessage (OSD_TOPRIGHT, _T("Pixel Shader off"));
 	}
 
 	bToggleShader = !bToggleShader;
+}
+
+void CMainFrame::OnD3DFullscreenToggle()
+{
+	AppSettings&	s = AfxGetAppSettings();
+	LPCTSTR			strMsg;
+
+	s.fD3DFullscreen	= !s.fD3DFullscreen;
+	strMsg				= s.fD3DFullscreen ? _T("D3D Fullscreen on") : _T("D3D Fullscreen off");
+	
+	if (m_iMediaLoadState == MLS_CLOSED)
+		m_closingmsg = strMsg;
+	else
+		m_OSD.DisplayMessage (OSD_TOPRIGHT, strMsg);
 }
 
 void CMainFrame::OnFileClosePlaylist()
@@ -5654,7 +5669,13 @@ void CMainFrame::OnUpdatePlayLanguage(CCmdUI* pCmdUI)
 void CMainFrame::OnPlayVolume(UINT nID)
 {
 	if(m_iMediaLoadState == MLS_LOADED) 
+	{
+		CString		strVolume;
 		pBA->put_Volume(m_wndToolBar.Volume);
+
+		strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
+	}
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
