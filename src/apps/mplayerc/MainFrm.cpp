@@ -4740,7 +4740,7 @@ void CMainFrame::OnUpdateViewRotate(CCmdUI* pCmdUI)
 }
 
 // FIXME
-const static SIZE s_ar[] = {{0,0}, {4,3}, {5,4}, {16,9}};
+const static SIZE s_ar[] = {{0,0}, {4,3}, {5,4}, {16,9}, {235,100}, {185,100}};
 
 void CMainFrame::OnViewAspectRatio(UINT nID)
 {
@@ -5364,6 +5364,7 @@ void CMainFrame::OnPlayChangeAudDelay(UINT nID)
 		CString str;
 		str.Format(_T("Audio Delay: %I64dms"), rtShift/10000);
 		SendStatusMessage(str, 3000);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
 	}
 }
 
