@@ -466,8 +466,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 		pp.Windowed = false; 
 		pp.BackBufferWidth = d3ddm.Width; 
 		pp.BackBufferHeight = d3ddm.Height; 
-//		pp.BackBufferCount = 3; 
-		pp.SwapEffect = D3DSWAPEFFECT_COPY; 
+		pp.hDeviceWindow = m_hWnd;
+		pp.BackBufferCount = 3; 
+		pp.SwapEffect = D3DSWAPEFFECT_FLIP;		// Ne pas mettre D3DSWAPEFFECT_COPY car cela entraine une desynchro audio sur les MKV !
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		pp.BackBufferFormat = d3ddm.Format; 
 		pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
@@ -914,7 +915,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f,  1-dx, 1,  1, 1,  1+dx, 1,  1+dx*2, 1,  w, 0},
 	};
 
-//	AdjustQuad(vx, dx, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
+	AdjustQuad(vx, dx, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
 
 	MYD3DVERTEX<5> vy[] =
 	{
@@ -924,7 +925,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  dw, dh-dy,  dw, dh,  dw, dh+dy,  dw, dh+dy*2,  h, 0},
 	};
 
-//	AdjustQuad(vy, 0, dy);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
+	AdjustQuad(vy, 0, dy);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[2]);
 
