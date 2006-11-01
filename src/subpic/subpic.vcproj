@@ -131,7 +131,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="../../lib/$(ProjectName)DU.lib"/>
+				OutputFile="../../lib/$(ProjectName)DU.lib"
+				AdditionalLibraryDirectories=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -180,7 +181,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="../../lib/$(ProjectName)RU.lib"/>
+				OutputFile="../../lib/$(ProjectName)RU.lib"
+				AdditionalLibraryDirectories=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
