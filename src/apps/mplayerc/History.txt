@@ -1,6 +1,10 @@
 === v1.0.5.0 - //2006
+- Ajout des aspects ratio 2.35 et 1.85
+- En mode VMR9 renderless, le slider incrusté se redimentionne lorsque la taille de la fenêtre change
+- Ajout du raccourci clavier "Ctrl+F" pour passer du mode D3D fullscreen au mode fenêtré
 - Correction bug le curseur souris n'était pas caché en lisant des fichiers
 - Correction bug le fait de cliquer sur le slider de l'OSD effectuait égalemetn l'action "play/pause"
+- Ajout de l'OSD pour le volume et le delay audio
 
 === v1.0.4.0 - 09/05/2006
 - Complément de l'OSD
