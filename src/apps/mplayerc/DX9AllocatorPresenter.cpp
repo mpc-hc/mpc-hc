@@ -467,7 +467,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 		pp.BackBufferWidth = d3ddm.Width; 
 		pp.BackBufferHeight = d3ddm.Height; 
 		pp.hDeviceWindow = m_hWnd;
-		pp.BackBufferCount = 3; 
+		pp.BackBufferCount = 1; 
 		pp.SwapEffect = D3DSWAPEFFECT_FLIP;		// Ne pas mettre D3DSWAPEFFECT_COPY car cela entraine une desynchro audio sur les MKV !
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		pp.BackBufferFormat = d3ddm.Format; 
