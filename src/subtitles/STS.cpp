@@ -448,6 +448,7 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 {
 	str.Replace (L"{\\i1}", L"<i>");	// Casimir666 : tag <i> supported in SRT files!
+	str.Replace (L"{\\i}", L"</i>");
 
 	for(int i = 0, j; i < str.GetLength(); )
 	{
@@ -1719,20 +1720,20 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
 typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
 
-typedef struct {STSOpenFunct open; tmode mode;} OpenFunctStruct;
+typedef struct {STSOpenFunct open; tmode mode; exttype type; } OpenFunctStruct;
 
 static OpenFunctStruct OpenFuncts[] = 
 {
-	OpenSubRipper, TIME,
-	OpenOldSubRipper, TIME,
-	OpenSubViewer, TIME,
-	OpenMicroDVD, FRAME,
-	OpenSami, TIME,
-	OpenVPlayer, TIME,
-	OpenSubStationAlpha, TIME,
-	OpenXombieSub, TIME,
-	OpenUSF, TIME,
-	OpenMPL2, TIME,
+	OpenSubRipper, TIME, EXTSRT,
+	OpenOldSubRipper, TIME, EXTSRT,
+	OpenSubViewer, TIME, EXTSUB,
+	OpenMicroDVD, FRAME, EXTSSA,
+	OpenSami, TIME, EXTSMI,
+	OpenVPlayer, TIME, EXTSRT,
+	OpenSubStationAlpha, TIME, EXTSSA,
+	OpenXombieSub, TIME, EXTXSS,
+	OpenUSF, TIME, EXTUSF,
+	OpenMPL2, TIME, EXTSRT,
 };
 
 static int nOpenFuncts = countof(OpenFuncts);
@@ -1785,6 +1786,8 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 
 	m_name = sts.m_name;
 	m_mode = sts.m_mode;
+	m_path = sts.m_path;
+	m_exttype = sts.m_exttype;
 	m_dstScreenSize = sts.m_dstScreenSize;
 	m_defaultWrapStyle = sts.m_defaultWrapStyle;
 	m_collisions = sts.m_collisions;
@@ -2569,6 +2572,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 		}
 
 		m_name = name;
+		m_exttype = OpenFuncts[i].type;
 		m_mode = OpenFuncts[i].mode;
 		m_encoding = f->GetEncoding();
 		m_path = f->GetFilePath();
