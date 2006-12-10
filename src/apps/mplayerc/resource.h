@@ -746,13 +746,17 @@
 #define ID_Menu                         32776
 #define ID_VIEW_REMAINING_TIME          32778
 #define ID_D3DFULLSCREEN_TOGGLE			32779
+#define ID_GOTO_PREV_SUB				32780
+#define ID_GOTO_NEXT_SUB				32781
+#define ID_SHIFT_SUB_DOWN				32782
+#define ID_SHIFT_SUB_UP					32783
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         32780
+#define _APS_NEXT_COMMAND_VALUE         32784
 #define _APS_NEXT_CONTROL_VALUE         22006
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif

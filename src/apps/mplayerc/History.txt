@@ -5,6 +5,8 @@
 - Correction bug le curseur souris n'était pas caché en lisant des fichiers
 - Correction bug le fait de cliquer sur le slider de l'OSD effectuait égalemetn l'action "play/pause"
 - Ajout de l'OSD pour le volume et le delay audio
+- Ajout des raccourcis clavier "Y" et "U" pour caler la vidéo respectivement au sous-titre précédent ou suivant
+- Lorsque la vidéo est calé sur un ST par "Y" ou "U", décalage des sous titres restant à l'aide des touches "PgUp" ou "PgDown" (permet la synchronisation des sous-titres pendant la visualisation). Le fichier ST est sauvegardé automatiquement.
 
 === v1.0.4.0 - 09/05/2006
 - Complément de l'OSD

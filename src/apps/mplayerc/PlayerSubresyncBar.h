@@ -87,6 +87,11 @@ public:
 	void ResetSubtitle();
 	void SaveSubtitle();
 
+	int FindNearestSub(__int64& rtPos, bool bForward);
+	bool ShiftSubtitle(int nItem, long lValue, __int64& rtPos);
+	bool SaveToDisk();
+
+
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

@@ -197,7 +197,6 @@ void CPlayerSubresyncBar::ResetSubtitle()
 		{
 			m_subtimes[i].newstart = m_subtimes[i].orgstart;
 			m_subtimes[i].newend = m_subtimes[i].orgend;
-
 			FormatTime(i, buff, 0, false);
 			m_list.InsertItem(i, buff, COL_START);
 			FormatTime(i, buff, 0, true);
@@ -1298,4 +1297,54 @@ bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
 	}
 
 	return false;
+}
+
+
+int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
+{
+	long	lCurTime = rtPos / 10000 + (bForward ? 1 : -1);
+
+	if (lCurTime < m_subtimes[0].newstart) 
+	{
+		rtPos = m_subtimes[0].newstart * 10000;
+		return 0;
+	}
+
+	for(int i = 1, j = m_sts.GetCount(); i < j; i++)
+	{
+		if ((lCurTime >= m_subtimes[i-1].newstart) && (lCurTime < m_subtimes[i].newstart))
+		{
+			rtPos = bForward ? (__int64)m_subtimes[i].newstart * 10000 : (__int64)m_subtimes[i-1].newstart * 10000;
+			return bForward ? i : i-1;
+		}
+	}
+
+	return -1;
+}
+
+
+bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
+{
+	bool bRet = false;
+
+	if ((nItem == 0) || (m_subtimes[nItem-1].newend < m_subtimes[nItem].newstart + lValue))
+	{
+		for (int i= nItem; i<m_sts.GetCount(); i++)
+		{
+			m_subtimes[i].newstart += lValue;
+			m_subtimes[i].newend   += lValue;
+			m_subtimes[i].orgstart += lValue;
+			m_subtimes[i].orgend   += lValue;
+		}
+		UpdatePreview();
+		SaveSubtitle();
+		bRet = true;
+		rtPos = m_subtimes[nItem].newstart * 10000;
+	}
+	return bRet;
+}
+
+bool CPlayerSubresyncBar::SaveToDisk()
+{
+	return m_sts.SaveAs (m_sts.m_path, m_sts.m_exttype);
 }

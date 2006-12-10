@@ -23,7 +23,9 @@ CVMROSD::CVMROSD(void)
 	m_brushBar.CreateSolidBrush (m_Color[OSD_BAR]);
 	m_MainFont.CreatePointFont (200, _T("Arial"));
 
-	m_nMessagePos = OSD_NOMESSAGE;
+	m_nMessagePos		= OSD_NOMESSAGE;
+	m_bSeekBarVisible	= false;
+	m_bCursorMoving		= false;
 }
 
 CVMROSD::~CVMROSD(void)

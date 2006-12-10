@@ -612,6 +612,8 @@ public:
 	afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
 	afx_msg void OnViewRemainingTime();
 	afx_msg void OnD3DFullscreenToggle();
+	afx_msg void OnGotoSubtitle(UINT nID);
+	afx_msg void OnShiftSubtitle(UINT nID);
 
 
 	afx_msg void OnPlayPlay();
@@ -687,6 +689,9 @@ public:
 	CVMROSD							m_OSD;
 	bool							m_bD3DFullscreenMode;
 	bool							m_bRemainingTime;
+	int								m_nCurSubtitle;
+	long							m_lSubtitleShift;
+	__int64							m_rtCurSubPos;
 
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);

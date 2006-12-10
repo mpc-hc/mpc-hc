@@ -304,6 +304,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
 	ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
 	ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
+	ON_COMMAND_RANGE(ID_GOTO_PREV_SUB, ID_GOTO_NEXT_SUB, OnGotoSubtitle)
+	ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
 
 	ON_COMMAND(ID_PLAY_PLAY, OnPlayPlay)
 	ON_COMMAND(ID_PLAY_PAUSE, OnPlayPause)
@@ -405,7 +407,9 @@ CMainFrame::CMainFrame() :
 	m_pFullscreenWnd(NULL),
 	m_pVideoWnd(NULL),
 	m_bD3DFullscreenMode(false),
-	m_bRemainingTime(false)
+	m_bRemainingTime(false),
+	m_nCurSubtitle(-1),
+	m_lSubtitleShift(0)
 {
 }
 
@@ -1255,6 +1259,20 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		{
 			pMS->GetCurrentPosition(&rtNow);
 			pMS->GetDuration(&rtDur);
+
+			// Casimir666 : autosave subtitle sync after play
+			if ((m_nCurSubtitle != -1) && (m_rtCurSubPos != rtNow))
+			{
+				if (m_lSubtitleShift != 0)
+				{
+					if (m_wndSubresyncBar.SaveToDisk())
+						m_OSD.DisplayMessage (OSD_TOPLEFT, L"Subtitles saved", 500);
+					else
+						m_OSD.DisplayMessage (OSD_TOPLEFT, L"Cannot save subtitles");												
+				}
+				m_nCurSubtitle		= -1;
+				m_lSubtitleShift	= 0;
+			}
 
 			FILE_POSITION*	FilePosition = AfxGetAppSettings().CurrentFilePosition();
 			if (FilePosition) FilePosition->llPosition = rtNow;
@@ -2762,7 +2780,9 @@ void CMainFrame::OnFilePostOpenmedia()
 //		ShowControlBar(&m_wndCaptureBar, TRUE, TRUE);
 	}
 
-	m_iMediaLoadState = MLS_LOADED;
+	m_nCurSubtitle		= -1;
+	m_lSubtitleShift	= 0;
+	m_iMediaLoadState	= MLS_LOADED;
 
 	// IMPORTANT: must not call any windowing msgs before
 	// this point, it will deadlock when OpenMediaPrivate is
@@ -10285,3 +10305,34 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName (DVD_AudioAttributes& ATR)
 		return _T("Unknown format");
 	}
 }
+
+
+afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
+{
+	m_rtCurSubPos		= m_wndSeekBar.GetPosReal();
+	m_lSubtitleShift	= 0;
+	m_nCurSubtitle		= m_wndSubresyncBar.FindNearestSub (m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
+	if ((m_nCurSubtitle != -1) && pMS)
+		pMS->SetPositions (&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning); 
+}
+
+
+afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
+{
+	if (m_nCurSubtitle != -1)
+	{
+		long		lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
+		CString		strSubShift;
+
+		if (m_wndSubresyncBar.ShiftSubtitle (m_nCurSubtitle, lShift, m_rtCurSubPos))
+		{
+			m_lSubtitleShift += lShift;
+			if (pMS) pMS->SetPositions (&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+		}
+
+		strSubShift.Format (_T("Sub shift : %ld"), m_lSubtitleShift);
+		m_OSD.DisplayMessage (OSD_TOPLEFT, strSubShift);
+	}
+}
+
+
