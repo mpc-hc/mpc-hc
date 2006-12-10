@@ -447,6 +447,8 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 
 CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 {
+	str.Replace (L"{\\i1}", L"<i>");	// Casimir666 : tag <i> supported in SRT files!
+
 	for(int i = 0, j; i < str.GetLength(); )
 	{
 		if((i = FindChar(str, '{', i, fUnicode, CharSet)) < 0) break;
