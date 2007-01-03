@@ -1339,7 +1339,7 @@ bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
 		UpdatePreview();
 		SaveSubtitle();
 		bRet = true;
-		rtPos = m_subtimes[nItem].newstart * 10000;
+		rtPos = (__int64)m_subtimes[nItem].newstart * 10000;
 	}
 	return bRet;
 }
