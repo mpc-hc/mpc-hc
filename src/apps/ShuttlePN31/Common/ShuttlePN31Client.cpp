@@ -342,6 +342,7 @@ void CShuttlePN31Client::WaitKey()
 	  if (Msg.lSize > 0)
 		fSuccess = ReadFile(m_hPipe, &chRequest, min(Msg.lSize, sizeof(chRequest)), &cbBytesRead, NULL);
 
+
 	  switch (Msg.nCode)
 	  {
 		case PC_LOG :
@@ -352,6 +353,10 @@ void CShuttlePN31Client::WaitKey()
 			PN31_KEYCODE* pKey = FindPN31Key(chRequest);
 			if (pKey != NULL)
 			{
+#ifdef _CONSOLE
+				  printf ("%s\n", pKey->strName);
+#endif
+
 				TRACE ("%s\n", pKey->strName);
 				ExecuteCommand(pKey->nKey);
 			}
@@ -497,9 +502,15 @@ bool CShuttlePN31Client::UpdateDriver(bool bInstall)
 
 				CMultiSz sz = GetLowerFilters(hDev, &devInfo);
 				if (bInstall)
+				{
 					sz.AddString ("pn31snoop");
+					bRet = CreateService();
+				}
 				else
+				{
 					sz.RemoveString ("pn31snoop");
+					bRet = DeleteService();
+				}
 				SetLowerFilters (hDev, &devInfo, sz);
 				RestartDevice (hDev, &devInfo);
 				bRet = true;
@@ -623,3 +634,69 @@ void CShuttlePN31Client::ExecuteCommand(int nKey)
 		}
 	}*/
 }
+
+
+bool CShuttlePN31Client::CreateService() 
+{
+	bool	bRet = false;
+	
+	SC_HANDLE hManager = OpenSCManager(NULL,SERVICES_ACTIVE_DATABASE,SC_MANAGER_ALL_ACCESS);
+
+	if (hManager == NULL)
+	{
+		TRACE ("Can't open service manager");
+	}
+	else
+	{
+		SC_HANDLE hService = ::CreateService(hManager,PN31SNOOP_SERVICE,"pn31snoop (display)",
+			SERVICE_ALL_ACCESS,SERVICE_KERNEL_DRIVER,SERVICE_DEMAND_START,SERVICE_ERROR_NORMAL,
+			"System32\\DRIVERS\\PN31SNOOP.SYS",
+			NULL,NULL,NULL,NULL,NULL);
+
+		if (hService == NULL)
+		{
+			TRACE("Can't create service");
+		}
+		else
+		{
+			CloseServiceHandle(hService);
+			bRet = true;
+		}
+
+		CloseServiceHandle(hManager);
+	}
+
+	return bRet;
+}
+
+bool CShuttlePN31Client::DeleteService() 
+{
+	bool		bRet = false;
+	
+	SC_HANDLE hManager = OpenSCManager(NULL,SERVICES_ACTIVE_DATABASE,SC_MANAGER_ALL_ACCESS);
+
+	if (hManager == NULL)
+	{
+		TRACE("Can't open service manager");
+	}
+	else
+	{
+		SC_HANDLE hService = OpenService(hManager,PN31SNOOP_SERVICE,SC_MANAGER_ALL_ACCESS);
+		if (hService == NULL)
+		{
+			TRACE("Can't open service");
+		}
+		else
+		{
+			if (!::DeleteService(hService))
+				TRACE("Can't delete service");
+			else
+				bRet = true;
+			CloseServiceHandle(hService);
+		}
+
+		CloseServiceHandle(hManager);
+	}
+	return bRet;
+}
+

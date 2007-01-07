@@ -59,4 +59,6 @@ private :
 	CMultiSz		GetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInfo);
 	void			SetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInfo, const CMultiSz& sz);
 	bool			RestartDevice(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInfo);
+	bool			CreateService();
+	bool			DeleteService();
 };

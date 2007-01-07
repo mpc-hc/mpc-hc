@@ -9,7 +9,7 @@
 #include <tchar.h>
 #include <conio.h>
 
-#include "ShuttlePN31Client.h"
+#include "..\Common\ShuttlePN31Client.h"
 
 #define BUFSIZE 4096
  
@@ -22,11 +22,12 @@ int _tmain(VOID)
 {
 	CShuttlePN31Client		PN31;
 
-//	PN31.Install();
+	PN31.Install();
 	PN31.Connect();
 	printf ("PN31 is ready...\n");
 	getch();
 	PN31.Disconnect();
+	PN31.Uninstall();
 /*
    BOOL fConnected; 
    DWORD dwThreadId; 

@@ -12,14 +12,15 @@ extern "C" {
 #define BYTE		unsigned char
 #endif
 
+#define PN31SNOOP_SERVICE "pn31snoop"
+
 #define PN31SNOOP_NTNAME         L"\\Device\\PN31Snoop"
 #define PN31SNOOP_SYMNAME        L"\\DosDevices\\PN31Snoop"
 #define PN31SNOOP_W32NAME_2K     "\\\\.\\PN31Snoop"
 
 // Name pipe for driver <-> application communications
-#define APP_PIPENAME			_T("\\\\.\\pipe\\4C095AF9-A454-48b5-8F07-D241421DB2DA")
-#define DRV_PIPENAME			_T("\\Device\\NamedPipe\\4C095AF9-A454-48b5-8F07-D241421DB2DA")
-
+#define APP_PIPENAME			"\\\\.\\pipe\\4C095AF9-A454-48b5-8F07-D241421DB2DA"
+#define DRV_PIPENAME			"\\Device\\NamedPipe\\4C095AF9-A454-48b5-8F07-D241421DB2DA"
 
 typedef enum
 {
