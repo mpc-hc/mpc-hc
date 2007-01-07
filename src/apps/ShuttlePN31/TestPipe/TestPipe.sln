@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPipe", "TestPipe.vcproj", "{965467CB-B200-4FA3-B444-9772AF33C19E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{965467CB-B200-4FA3-B444-9772AF33C19E}.Debug.ActiveCfg = Debug|Win32
+		{965467CB-B200-4FA3-B444-9772AF33C19E}.Debug.Build.0 = Debug|Win32
+		{965467CB-B200-4FA3-B444-9772AF33C19E}.Release.ActiveCfg = Release|Win32
+		{965467CB-B200-4FA3-B444-9772AF33C19E}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
