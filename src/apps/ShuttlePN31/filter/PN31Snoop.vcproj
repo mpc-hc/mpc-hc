@@ -291,7 +291,8 @@
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy release2k\PN31Snoop.sys c:\windows\system32\drivers"/>
+				CommandLine="copy release2k\PN31Snoop.sys c:\windows\system32\drivers
+copy release2k\PN31Snoop.sys ..\..\mplayerc\res"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
