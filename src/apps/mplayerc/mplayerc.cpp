@@ -680,7 +680,6 @@ BOOL CMPlayerCApp::InitInstance()
 	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.WinLircAddr);
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
-m_s.fPN31Client=true; // TODO !!
 	m_s.PN31Client.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fPN31Client) m_s.PN31Client.Connect();
 
@@ -1328,6 +1327,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRC), fWinLirc);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), fPN31Client);
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRCADDR), WinLircAddr);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), fUIce);
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), UIceAddr);
@@ -1678,6 +1678,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fWinLirc = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRC), 0);
 		UIceAddr = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), _T("127.0.0.1:1234"));
 		fUIce = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), 0);
+		fPN31Client = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), 0);
 
 		fDisabeXPToolbars = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DISABLEXPTOOLBARS), 0);
 		fUseWMASFReader = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_USEWMASFREADER), TRUE);

@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include <Winsvc.h>
 #include "shuttlepn31client.h"
 #include "../Common/Interface.h"
 #include "../../mplayerc/resource.h"
@@ -285,7 +286,7 @@ void CShuttlePN31Client::SetHWND(HWND hWnd)
 void CShuttlePN31Client::Connect()
 {
 	DWORD		dwThreadId;
-    m_hPipe = CreateNamedPipe (APP_PIPENAME, PIPE_ACCESS_DUPLEX, 
+    m_hPipe = CreateNamedPipe (_T(APP_PIPENAME), PIPE_ACCESS_DUPLEX, 
 							   PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
 							   PIPE_UNLIMITED_INSTANCES, BUFSIZE, BUFSIZE,
 							   NMPWAIT_USE_DEFAULT_WAIT, NULL);
@@ -312,7 +313,7 @@ void CShuttlePN31Client::Disconnect()
 	//{
 	//	if (WaitForSingleObject (m_hThread, 4000) == WAIT_TIMEOUT)
 			TerminateThread (m_hThread, 0xDEAD);
-			// TODO !!!!!!
+			// TODO : implement completion routine to quit properly (http://msdn2.microsoft.com/en-us/library/aa365601.aspx)
 	//	m_hThread = NULL;
 	//}
 }
@@ -382,7 +383,7 @@ CMultiSz CShuttlePN31Client::GetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* pDe
 	BOOL result;
 	CMultiSz cszLowerFilters;
 
-	result = SetupDiGetDeviceRegistryProperty(hDev,pDevInfo,SPDRP_LOWERFILTERS,
+	result = SetupDiGetDeviceRegistryPropertyA(hDev,pDevInfo,SPDRP_LOWERFILTERS,
 		&DataType,Buffer,BufferSize,&BufferSize);
 
 	if (BufferSize != 0)
@@ -392,7 +393,7 @@ CMultiSz CShuttlePN31Client::GetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* pDe
 
 		// we get the content of the buffer
 
-		if (SetupDiGetDeviceRegistryProperty(hDev,pDevInfo,SPDRP_LOWERFILTERS,
+		if (SetupDiGetDeviceRegistryPropertyA(hDev,pDevInfo,SPDRP_LOWERFILTERS,
 			&DataType,Buffer,BufferSize,NULL))
 		{
 			// DataType is REG_MULTI_SZ
@@ -421,7 +422,7 @@ void CShuttlePN31Client::SetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInf
 	// check if we can remove the key in the registry
 	if (sz.GetBufferLen() > 2)
 	{
-		if (!SetupDiSetDeviceRegistryProperty(hDev,hDevInfo,SPDRP_LOWERFILTERS ,
+		if (!SetupDiSetDeviceRegistryPropertyA(hDev,hDevInfo,SPDRP_LOWERFILTERS ,
 			sz.GetBuffer(),sz.GetBufferLen()))
 		{
 			TRACE("Install failed! : SetLowerFilters\n");
@@ -429,7 +430,7 @@ void CShuttlePN31Client::SetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInf
 	}
 	else
 	{
-		if (!SetupDiSetDeviceRegistryProperty(hDev,hDevInfo,SPDRP_LOWERFILTERS ,
+		if (!SetupDiSetDeviceRegistryPropertyA(hDev,hDevInfo,SPDRP_LOWERFILTERS ,
 			NULL,0))
 		{
 			// windows xp:
@@ -648,9 +649,9 @@ bool CShuttlePN31Client::CreateService()
 	}
 	else
 	{
-		SC_HANDLE hService = ::CreateService(hManager,PN31SNOOP_SERVICE,"pn31snoop (display)",
+		SC_HANDLE hService = ::CreateService(hManager,_T(PN31SNOOP_SERVICE),_T("pn31snoop (display)"),
 			SERVICE_ALL_ACCESS,SERVICE_KERNEL_DRIVER,SERVICE_DEMAND_START,SERVICE_ERROR_NORMAL,
-			"System32\\DRIVERS\\PN31SNOOP.SYS",
+			_T("System32\\DRIVERS\\PN31SNOOP.SYS"),
 			NULL,NULL,NULL,NULL,NULL);
 
 		if (hService == NULL)
@@ -681,7 +682,7 @@ bool CShuttlePN31Client::DeleteService()
 	}
 	else
 	{
-		SC_HANDLE hService = OpenService(hManager,PN31SNOOP_SERVICE,SC_MANAGER_ALL_ACCESS);
+		SC_HANDLE hService = OpenService(hManager,_T(PN31SNOOP_SERVICE),SC_MANAGER_ALL_ACCESS);
 		if (hService == NULL)
 		{
 			TRACE("Can't open service");

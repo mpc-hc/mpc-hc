@@ -63,6 +63,7 @@ public:
 	CString m_UIceAddr;
 	CEdit m_UIceEdit;
 	CStaticLink m_UIceLink;
+	BOOL m_fPN31;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

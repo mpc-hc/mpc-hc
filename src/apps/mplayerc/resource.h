@@ -416,6 +416,7 @@
 #define IDC_STATICLINK                  12007
 #define IDC_STATICLINK2                 12008
 #define IDC_DEFAULTICON                 12009
+#define IDC_STATICLINK3                 12009
 #define IDC_PLACEHOLDER                 12010
 #define IDC_REPORT                      12011
 #define IDC_FROMTO                      12012
@@ -727,8 +728,10 @@
 #define IDS_PROPSHEET_PROPERTIES        14185
 #define IDS_GRAPHBUILDER_AUDIOSWITCHER  14186
 #define IDS_SHADER_EDIT                 14187
+#define IDS_RS_PN31                     14188
 #define IDF_SHADER_EDGE_SHARPEN         20000
 #define IDF_SHADER_SHARPEN_COMPLEX      20001
+#define IDF_PN31SNOOP                   20002
 #define IDC_FULLSCR_COMBO               22000
 #define IDC_AUTO_REFRESHRATE_CHECK      22001
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
@@ -736,6 +739,7 @@
 #define IDC_RESET                       22004
 #define IDC_DVD_POS                     22005
 #define IDC_FILE_POS                    22006
+#define IDC_CHECKPN31                   22006
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -745,11 +749,11 @@
 #define ID__SHADERS                     32775
 #define ID_Menu                         32776
 #define ID_VIEW_REMAINING_TIME          32778
-#define ID_D3DFULLSCREEN_TOGGLE			32779
-#define ID_GOTO_PREV_SUB				32780
-#define ID_GOTO_NEXT_SUB				32781
-#define ID_SHIFT_SUB_DOWN				32782
-#define ID_SHIFT_SUB_UP					32783
+#define ID_D3DFULLSCREEN_TOGGLE         32779
+#define ID_GOTO_PREV_SUB                32780
+#define ID_GOTO_NEXT_SUB                32781
+#define ID_SHIFT_SUB_DOWN               32782
+#define ID_SHIFT_SUB_UP                 32783
 
 // Next default values for new objects
 // 
@@ -757,7 +761,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         22006
+#define _APS_NEXT_CONTROL_VALUE         22007
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
 #endif

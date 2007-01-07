@@ -690,6 +690,9 @@ BEGIN
     EDITTEXT        IDC_EDIT2,53,180,77,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Select All",IDC_BUTTON1,230,162,59,14
     PUSHBUTTON      "Reset Selected",IDC_BUTTON2,230,179,59,14
+    CONTROL         "",IDC_CHECKPN31,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    149,165,10,8
+    LTEXT           "Shuttle PN3",IDC_STATICLINK3,163,165,38,8
 END
 
 IDD_MEDIATYPES_DLG DIALOGEX 0, 0, 296, 219
@@ -2327,6 +2330,7 @@ BEGIN
     IDS_RS_DVDPOS           "Remember DVD Pos"
     IDS_RS_FILEPOS          "Remember File Pos"
     IDS_RS_LASTFULLSCREEN   "LastFullScreen"
+    IDS_RS_PN31             "UsePN31"
 END
 
 STRINGTABLE 
@@ -2800,6 +2804,13 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 
 IDF_SHADER_EDGE_SHARPEN FILE                    "res\\shaders\\EdgeSharpen.psh"
 IDF_SHADER_SHARPEN_COMPLEX FILE                    "res\\shaders\\SharpenComplex.psh"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Data
+//
+
+IDF_PN31SNOOP RCDATA                                  "res\\PN31snoop.sys"
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
