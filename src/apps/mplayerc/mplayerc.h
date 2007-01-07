@@ -31,6 +31,7 @@
 #include "..\..\subtitles\STS.h"
 #include "MediaFormats.h"
 #include "fakefiltermapper2.h"
+#include "..\ShuttlePN31\Common\ShuttlePN31Client.h"
 
 #ifdef UNICODE
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
@@ -498,6 +499,9 @@ public:
 		bool fUIce;
 		CString UIceAddr;
 		CUIceClient UIceClient;
+
+		bool fPN31Client;
+		CShuttlePN31Client PN31Client;
 
 		CMediaFormats Formats;
 

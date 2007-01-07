@@ -676,11 +676,13 @@ BOOL CMPlayerCApp::InitInstance()
 	pFrame->ShowWindow((m_s.nCLSwitches&CLSW_MINIMIZED)?SW_SHOWMINIMIZED:SW_SHOW);
 	pFrame->UpdateWindow();
 	pFrame->m_hAccelTable = m_s.hAccel;
-
 	m_s.WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.WinLircAddr);
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
+m_s.fPN31Client=true; // TODO !!
+	m_s.PN31Client.SetHWND(m_pMainWnd->m_hWnd);
+	if(m_s.fPN31Client) m_s.PN31Client.Connect();
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 

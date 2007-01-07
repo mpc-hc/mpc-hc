@@ -43,10 +43,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "..\..\ui\T
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PN31Snoop", "..\ShuttlePN31\filter\PN31Snoop.vcproj", "{D679B262-3E57-4D17-BA3C-67D6012AD952}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -219,24 +215,6 @@ Global
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10}.Release win98.Build.0 = Release|Win32
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10}.ResourceDLL.ActiveCfg = Release Unicode|Win32
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10}.ResourceDLL.Build.0 = Release Unicode|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug.ActiveCfg = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug.Build.0 = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug Unicode.ActiveCfg = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug Unicode.Build.0 = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k.ActiveCfg = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k.Build.0 = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win98.ActiveCfg = Debug win98|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win98.Build.0 = Debug win98|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release.ActiveCfg = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release.Build.0 = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release Unicode.ActiveCfg = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release Unicode.Build.0 = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k.ActiveCfg = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k.Build.0 = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win98.ActiveCfg = Release win98|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win98.Build.0 = Release win98|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.ResourceDLL.ActiveCfg = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.ResourceDLL.Build.0 = Release win2k|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
