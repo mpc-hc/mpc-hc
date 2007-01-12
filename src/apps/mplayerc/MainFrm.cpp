@@ -540,6 +540,11 @@ void CMainFrame::OnDestroy()
 			TerminateThread(m_pGraphThread->m_hThread, -1);
 		}
 	}
+	if (m_pFullscreenWnd)
+	{
+		m_pFullscreenWnd->DestroyWindow();
+		delete m_pFullscreenWnd;
+	}
 
 	__super::OnDestroy();
 }
