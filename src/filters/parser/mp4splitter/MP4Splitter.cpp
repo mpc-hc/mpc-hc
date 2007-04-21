@@ -55,12 +55,16 @@ const AMOVIESETUP_FILTER sudFilter[] =
 {
 	{&__uuidof(CMP4SplitterFilter), L"MP4 Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
 	{&__uuidof(CMP4SourceFilter), L"MP4 Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPEG4 Video Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CMPEG4VideoSourceFilter), L"MPEG4 Video Source", MERIT_NORMAL, 0, NULL},	
 };
 
 CFactoryTemplate g_Templates[] =
 {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMP4SplitterFilter>, NULL, &sudFilter[0]},
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMP4SourceFilter>, NULL, &sudFilter[1]},
+	{sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CMPEG4VideoSplitterFilter>, NULL, &sudFilter[2]},
+	{sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CMPEG4VideoSourceFilter>, NULL, &sudFilter[3]},
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -72,11 +76,15 @@ STDAPI DllRegisterServer()
 
 	CAtlList<CString> chkbytes;
 
+	// mp4
 	chkbytes.AddTail(_T("4,4,,66747970")); // ftyp
 	chkbytes.AddTail(_T("4,4,,6d6f6f76")); // moov
 	chkbytes.AddTail(_T("4,4,,6d646174")); // mdat
 	chkbytes.AddTail(_T("4,4,,736b6970")); // skip
 	chkbytes.AddTail(_T("4,12,ffffffff00000000ffffffff,77696465027fe3706d646174")); // wide ? mdat
+
+	// mpeg4 video
+	chkbytes.AddTail(_T("3,3,,000001"));
 
 	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MP4, chkbytes, NULL);
 
@@ -275,7 +283,6 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mts.Add(mt);
 						break;
 					case AP4_MPEG2_PART3_AUDIO_OTI: // ???
-						break;
 					case AP4_MPEG1_AUDIO_OTI:
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
 						{
@@ -319,9 +326,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								BYTE y = (pal[i+1]-16)*255/219;
 								BYTE u = pal[i+2];
 								BYTE v = pal[i+3];
-								BYTE r = (BYTE)min(max(1.0*y + 1.4022*(u-128), 0), 255);
+								BYTE r = (BYTE)min(max(1.0*y + 1.4022*(v-128), 0), 255);
 								BYTE g = (BYTE)min(max(1.0*y - 0.3456*(u-128) - 0.7145*(v-128), 0), 255);
-								BYTE b = (BYTE)min(max(1.0*y + 1.7710*(v-128), 0) , 255);
+								BYTE b = (BYTE)min(max(1.0*y + 1.7710*(u-128), 0) , 255);
 								CStringA str;
 								str.Format("%02x%02x%02x", r, g, b);
 								sl.AddTail(str);
@@ -341,8 +348,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
 							memset(si, 0, mt.FormatLength());
 							si->dwOffset = sizeof(SUBTITLEINFO);
-							strcpy(si->IsoLang, CStringA(TrackLanguage));
-							wcscpy(si->TrackName, TrackName);
+							strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
+							wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
 							memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
 							mts.Add(mt);
 						}
@@ -380,8 +387,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
 						memset(si, 0, mt.FormatLength());
 						si->dwOffset = sizeof(SUBTITLEINFO);
-						strcpy(si->IsoLang, CStringA(TrackLanguage));
-						wcscpy(si->TrackName, TrackName);
+						strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
+						wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
 						memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
 						mts.Add(mt);
 					}
@@ -446,7 +453,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			else if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 				track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd")))
 			{
-				const AP4_DataBuffer db;// = stsd->GetDataBuffer();
+				const AP4_DataBuffer& db = NULL;/*= stsd->GetDataBuffer()*/;
 
 				for(AP4_List<AP4_Atom>::Item* item = stsd->GetChildren().FirstItem(); 
 					item; 
@@ -597,7 +604,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			for(AP4_Cardinal i = 0; i < chapters.ItemCount(); i++)
 			{
 				AP4_ChplAtom::AP4_Chapter& chapter = chapters[i];
-				ChapAppend(chapter.Time, UTF8To16(ConvertMBCS(chapter.Name.c_str(), ANSI_CHARSET, CP_UTF8)));
+				ChapAppend(chapter.Time, UTF8To16(ConvertMBCS(chapter.Name.c_str(), ANSI_CHARSET, CP_UTF8))); // this is b0rked, thx to nero :P
 			}
 
 			ChapSort();
@@ -1301,6 +1308,309 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 
 CMP4SourceFilter::CMP4SourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	: CMP4SplitterFilter(pUnk, phr)
+{
+	m_clsid = __uuidof(this);
+	m_pInput.Free();
+}
+
+//
+// CMPEG4VideoSplitterFilter
+//
+
+CMPEG4VideoSplitterFilter::CMPEG4VideoSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr)
+	: CBaseSplitterFilter(NAME("CMPEG4VideoSplitterFilter"), pUnk, phr, __uuidof(this))
+{
+}
+
+void CMPEG4VideoSplitterFilter::SkipUserData()
+{
+	m_pFile->BitByteAlign();
+	while(m_pFile->BitRead(32, true) == 0x000001b2)
+		while(m_pFile->BitRead(24, true) != 0x000001)
+			m_pFile->BitRead(8);
+}
+
+HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
+{
+	CheckPointer(pAsyncReader, E_POINTER);
+
+	HRESULT hr = E_FAIL;
+
+	m_pFile.Free();
+	m_pFile.Attach(new CBaseSplitterFileEx(pAsyncReader, hr));
+	if(!m_pFile) return E_OUTOFMEMORY;
+	if(FAILED(hr)) {m_pFile.Free(); return hr;}
+
+	m_rtNewStart = m_rtCurrent = 0;
+	m_rtNewStop = m_rtStop = m_rtDuration = 0;
+
+	// TODO
+
+	DWORD width = 0;
+	DWORD height = 0;
+	BYTE parx = 1;
+	BYTE pary = 1;
+	REFERENCE_TIME atpf = 400000;
+
+	if(m_pFile->BitRead(24, true) != 0x000001)
+		return E_FAIL;
+
+	BYTE id;
+	while(m_pFile->NextMpegStartCode(id, 1024 - m_pFile->GetPos()))
+	{
+		if(id == 0xb5)
+		{
+			BYTE is_visual_object_identifier = (BYTE)m_pFile->BitRead(1);
+
+			if(is_visual_object_identifier)
+			{
+				BYTE visual_object_verid = (BYTE)m_pFile->BitRead(4);
+				BYTE visual_object_priority = (BYTE)m_pFile->BitRead(3);
+			}
+
+			BYTE visual_object_type = (BYTE)m_pFile->BitRead(4);
+			
+			if(visual_object_type == 1 || visual_object_type == 2)
+			{
+				BYTE video_signal_type = (BYTE)m_pFile->BitRead(1);
+				
+				if(video_signal_type)
+				{
+					BYTE video_format = (BYTE)m_pFile->BitRead(3);
+					BYTE video_range = (BYTE)m_pFile->BitRead(1);
+					BYTE colour_description = (BYTE)m_pFile->BitRead(1);
+
+					if(colour_description)
+					{
+						BYTE colour_primaries = (BYTE)m_pFile->BitRead(8);
+						BYTE transfer_characteristics = (BYTE)m_pFile->BitRead(8);
+						BYTE matrix_coefficients = (BYTE)m_pFile->BitRead(8);
+					}
+				}
+			}
+
+			SkipUserData();
+
+			if(visual_object_type == 1)
+			{
+				if(m_pFile->BitRead(24) != 0x000001)
+					break;
+
+				BYTE video_object_start_code = (BYTE)m_pFile->BitRead(8);
+				if(video_object_start_code < 0x00 || video_object_start_code > 0x1f)
+					break;
+
+				if(m_pFile->BitRead(24) != 0x000001)
+					break;
+
+				BYTE video_object_layer_start_code = (DWORD)m_pFile->BitRead(8);
+				if(video_object_layer_start_code < 0x20 || video_object_layer_start_code > 0x2f)
+					break;
+
+				BYTE random_accessible_vol = (BYTE)m_pFile->BitRead(1);
+				BYTE video_object_type_indication = (BYTE)m_pFile->BitRead(8);
+
+				if(video_object_type_indication == 0x12) // Fine Granularity Scalable
+					break; // huh
+
+				BYTE is_object_layer_identifier = (BYTE)m_pFile->BitRead(1);
+
+				BYTE video_object_layer_verid = 0;
+
+				if(is_object_layer_identifier)
+				{
+					video_object_layer_verid = (BYTE)m_pFile->BitRead(4);
+					BYTE video_object_layer_priority = (BYTE)m_pFile->BitRead(3);
+				}
+
+				BYTE aspect_ratio_info = (BYTE)m_pFile->BitRead(4);
+
+				switch(aspect_ratio_info)
+				{
+				default: ASSERT(0); break;
+				case 1: parx = 1; pary = 1; break;
+				case 2: parx = 12; pary = 11; break;
+				case 3: parx = 10; pary = 11; break;
+				case 4: parx = 16; pary = 11; break;
+				case 5: parx = 40; pary = 33; break;
+				case 15: parx = (BYTE)m_pFile->BitRead(8); pary = (BYTE)m_pFile->BitRead(8); break;
+				}
+
+				BYTE vol_control_parameters = (BYTE)m_pFile->BitRead(1);
+
+				if(vol_control_parameters)
+				{
+					BYTE chroma_format = (BYTE)m_pFile->BitRead(2);
+					BYTE low_delay = (BYTE)m_pFile->BitRead(1);
+					BYTE vbv_parameters = (BYTE)m_pFile->BitRead(1);
+
+					if(vbv_parameters)
+					{
+						WORD first_half_bit_rate = (WORD)m_pFile->BitRead(15);
+						if(!m_pFile->BitRead(1)) break;
+						WORD latter_half_bit_rate = (WORD)m_pFile->BitRead(15);
+						if(!m_pFile->BitRead(1)) break;
+						WORD first_half_vbv_buffer_size = (WORD)m_pFile->BitRead(15);
+						if(!m_pFile->BitRead(1)) break;
+
+						BYTE latter_half_vbv_buffer_size = (BYTE)m_pFile->BitRead(3);
+						WORD first_half_vbv_occupancy = (WORD)m_pFile->BitRead(11);
+						if(!m_pFile->BitRead(1)) break;
+						WORD latter_half_vbv_occupancy = (WORD)m_pFile->BitRead(15);
+						if(!m_pFile->BitRead(1)) break;
+					}
+				}
+
+				BYTE video_object_layer_shape = (BYTE)m_pFile->BitRead(2);
+
+				if(video_object_layer_shape == 3 && video_object_layer_verid != 1)
+				{
+					BYTE video_object_layer_shape_extension = (BYTE)m_pFile->BitRead(4);
+				}
+
+				if(!m_pFile->BitRead(1)) break;
+				WORD vop_time_increment_resolution = (WORD)m_pFile->BitRead(16);
+				if(!m_pFile->BitRead(1)) break;
+				BYTE fixed_vop_rate = (BYTE)m_pFile->BitRead(1);
+
+				if(fixed_vop_rate)
+				{
+					int bits = 0;
+					for(WORD i = vop_time_increment_resolution; i; i /= 2)
+						bits++;
+
+					WORD fixed_vop_time_increment = m_pFile->BitRead(bits);
+
+					if(fixed_vop_time_increment)
+					{
+						atpf = 10000000i64 * fixed_vop_time_increment / vop_time_increment_resolution;
+					}
+				}
+
+				if(video_object_layer_shape != 2)
+				{
+					if(video_object_layer_shape == 0)
+					{
+						if(!m_pFile->BitRead(1)) break;
+						width = (WORD)m_pFile->BitRead(13);
+						if(!m_pFile->BitRead(1)) break;
+						height = (WORD)m_pFile->BitRead(13);
+						if(!m_pFile->BitRead(1)) break;
+					}
+
+					BYTE interlaced = (BYTE)m_pFile->BitRead(1);
+					BYTE obmc_disable = (BYTE)m_pFile->BitRead(1);
+
+					// ...
+				}
+			}
+		}
+		else if(id == 0xb6)
+		{
+			m_seqhdrsize = m_pFile->GetPos() - 4;			
+		}
+	}
+
+	if(!width || !height) 
+		return E_FAIL;
+
+	CAtlArray<CMediaType> mts;
+
+	CMediaType mt;
+	mt.SetSampleSize(1);
+
+	mt.majortype = MEDIATYPE_Video;
+	mt.subtype = FOURCCMap('v4pm');
+	mt.formattype = FORMAT_MPEG2Video;
+	MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + m_seqhdrsize);
+	memset(vih, 0, mt.FormatLength());
+	vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
+	vih->hdr.bmiHeader.biWidth = width;
+	vih->hdr.bmiHeader.biHeight = height;
+	vih->hdr.bmiHeader.biCompression = 'v4pm';
+	vih->hdr.bmiHeader.biPlanes = 1;
+	vih->hdr.bmiHeader.biBitCount = 24;
+	vih->hdr.AvgTimePerFrame = atpf;
+	vih->hdr.dwPictAspectRatioX = width*parx;
+	vih->hdr.dwPictAspectRatioY = height*pary;
+	vih->cbSequenceHeader = m_seqhdrsize;
+	m_pFile->Seek(0);
+	m_pFile->ByteRead((BYTE*)vih->dwSequenceHeader, m_seqhdrsize);
+	mts.Add(mt);
+	mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = 'V4PM');
+	mts.Add(mt);
+
+	CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
+	EXECUTE_ASSERT(SUCCEEDED(AddOutputPin(0, pPinOut)));
+
+	m_rtNewStop = m_rtStop = m_rtDuration;
+
+	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+}
+
+bool CMPEG4VideoSplitterFilter::DemuxInit()
+{
+	return true;
+}
+
+void CMPEG4VideoSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
+{
+	ASSERT(rt == 0);
+
+	m_pFile->Seek(m_seqhdrsize);
+}
+
+bool CMPEG4VideoSplitterFilter::DemuxLoop()
+{
+	HRESULT hr = S_OK;
+
+	CAutoPtr<Packet> p;
+
+	REFERENCE_TIME rt = 0;
+	REFERENCE_TIME atpf = ((MPEG2VIDEOINFO*)GetOutputPin(0)->CurrentMediaType().Format())->hdr.AvgTimePerFrame;
+
+	DWORD sync = ~0;
+
+	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining())
+	{
+		for(int i = 0; i < 65536; i++) // don't call CheckRequest so often
+		{
+			bool eof = !m_pFile->GetRemaining();
+
+			if(p && !p->IsEmpty() && (m_pFile->BitRead(32, true) == 0x000001b6 || eof))
+			{
+				hr = DeliverPacket(p);
+			}
+
+			if(eof) break;
+
+			if(!p)
+			{
+				p.Attach(new Packet());
+				p->SetCount(0, 1024);
+				p->TrackNumber = 0;
+				p->rtStart = rt; 
+				p->rtStop = rt + atpf;
+				p->bSyncPoint = FALSE;
+				rt += atpf; 
+				// rt = Packet::INVALID_TIME;
+			}
+
+			BYTE b;
+			m_pFile->ByteRead(&b, 1);
+			p->Add(b);
+		}
+	}
+
+	return true;
+}
+
+//
+// CMPEG4VideoSourceFilter
+//
+
+CMPEG4VideoSourceFilter::CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
+	: CMPEG4VideoSplitterFilter(pUnk, phr)
 {
 	m_clsid = __uuidof(this);
 	m_pInput.Free();
