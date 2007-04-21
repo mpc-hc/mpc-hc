@@ -783,7 +783,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, bool fBlur)
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
-__forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
+static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
 {
 	alpha = ((alpha * (color>>24)) >> 6) & 0xff;
 	color &= 0xffffff;

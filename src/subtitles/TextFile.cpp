@@ -101,17 +101,22 @@ bool CTextFile::Save(LPCTSTR lpszFileName, enc e)
 
 	m_encoding = e;
 
-	return(true);
+	return true;
+}
+
+void CTextFile::SetEncoding(enc e)
+{
+	m_encoding = e;
 }
 
 CTextFile::enc CTextFile::GetEncoding()
 {
-	return(m_encoding);
+	return m_encoding;
 }
 
 bool CTextFile::IsUnicode()
 {
-	return(m_encoding == UTF8 || m_encoding == LE16 || m_encoding == BE16);
+	return m_encoding == UTF8 || m_encoding == LE16 || m_encoding == BE16;
 }
 
 // CFile
@@ -192,7 +197,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 	else if(m_encoding == ANSI)
 	{
 		str.Replace(L"\n", L"\r\n");
-		CStringA stra = CStringA(CString(str));
+		CStringA stra = CStringA(CString(str)); // TODO: codepage
 		Write((LPCSTR)stra, stra.GetLength());
 	}
 	else if(m_encoding == UTF8)
@@ -341,7 +346,7 @@ BOOL CTextFile::ReadString(CStringW& str)
 			if(c == '\n') break;
 			stra += c;
 		}
-		str = CStringW(CString(stra));
+		str = CStringW(CString(stra)); // TODO: codepage
 	}
 	else if(m_encoding == UTF8)
 	{

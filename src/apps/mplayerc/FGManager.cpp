@@ -152,6 +152,211 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 	return sl.IsEmpty();
 }
 
+HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl)
+{
+	// TODO: use overrides
+
+	CheckPointer(lpcwstrFileName, E_POINTER);
+
+	fl.RemoveAll();
+
+	CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
+	CStringW protocol = fn.Left(fn.Find(':')+1).TrimRight(':').MakeLower();
+	CStringW ext = CPathW(fn).GetExtension().MakeLower();
+
+	HANDLE hFile = INVALID_HANDLE_VALUE;
+
+	if(protocol.GetLength() <= 1 || protocol == L"file")
+	{
+		hFile = CreateFile(CString(fn), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
+
+		if(hFile == INVALID_HANDLE_VALUE)
+		{
+			return VFW_E_NOT_FOUND;
+		}
+	}
+
+	TCHAR buff[256], buff2[256];
+	ULONG len, len2;
+
+	if(hFile == INVALID_HANDLE_VALUE)
+	{
+		// internal / protocol
+
+		POSITION pos = m_source.GetHeadPosition();
+		while(pos)
+		{
+			CFGFilter* pFGF = m_source.GetNext(pos);
+			if(pFGF->m_protocols.Find(CString(protocol)))
+				fl.Insert(pFGF, 0, false, false);
+		}
+	}
+	else
+	{
+		// internal / check bytes
+
+		POSITION pos = m_source.GetHeadPosition();
+		while(pos)
+		{
+			CFGFilter* pFGF = m_source.GetNext(pos);
+
+			POSITION pos2 = pFGF->m_chkbytes.GetHeadPosition();
+			while(pos2)
+			{
+				if(CheckBytes(hFile, pFGF->m_chkbytes.GetNext(pos2)))
+				{
+					fl.Insert(pFGF, 1, false, false);
+					break;
+				}
+			}
+		}
+	}
+
+	if(!ext.IsEmpty())
+	{
+		// internal / file extension
+
+		POSITION pos = m_source.GetHeadPosition();
+		while(pos)
+		{
+			CFGFilter* pFGF = m_source.GetNext(pos);
+			if(pFGF->m_extensions.Find(CString(ext)))
+				fl.Insert(pFGF, 2, false, false);
+		}
+	}
+
+	{
+		// internal / the rest
+
+		POSITION pos = m_source.GetHeadPosition();
+		while(pos)
+		{
+			CFGFilter* pFGF = m_source.GetNext(pos);
+			if(pFGF->m_protocols.IsEmpty() && pFGF->m_chkbytes.IsEmpty() && pFGF->m_extensions.IsEmpty())
+				fl.Insert(pFGF, 3, false, false);
+		}
+	}
+
+	if(hFile == INVALID_HANDLE_VALUE)
+	{
+		// protocol
+	
+		CRegKey key;
+		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(protocol), KEY_READ))
+		{
+			CRegKey exts;
+			if(ERROR_SUCCESS == exts.Open(key, _T("Extensions"), KEY_READ))
+			{
+				len = countof(buff);
+				if(ERROR_SUCCESS == exts.QueryStringValue(CString(ext), buff, &len))
+					fl.Insert(new CFGFilterRegistry(GUIDFromCString(buff)), 4);
+			}
+
+			len = countof(buff);
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len))
+				fl.Insert(new CFGFilterRegistry(GUIDFromCString(buff)), 5);
+		}
+
+		fl.Insert(new CFGFilterRegistry(CLSID_URLReader), 6);
+	}
+	else
+	{
+		// check bytes
+
+		CRegKey key;
+		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type"), KEY_READ))
+		{
+			FILETIME ft;
+			len = countof(buff);
+			for(DWORD i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len, &ft); i++, len = countof(buff))
+			{
+				GUID majortype;
+				if(FAILED(GUIDFromCString(buff, majortype)))
+					continue;
+
+				CRegKey majorkey;
+				if(ERROR_SUCCESS == majorkey.Open(key, buff, KEY_READ))
+				{
+					len = countof(buff);
+					for(DWORD j = 0; ERROR_SUCCESS == majorkey.EnumKey(j, buff, &len, &ft); j++, len = countof(buff))
+					{
+						GUID subtype;
+						if(FAILED(GUIDFromCString(buff, subtype)))
+							continue;
+
+						CRegKey subkey;
+						if(ERROR_SUCCESS == subkey.Open(majorkey, buff, KEY_READ))
+						{
+							len = countof(buff);
+							if(ERROR_SUCCESS != subkey.QueryStringValue(_T("Source Filter"), buff, &len))
+								continue;
+
+							GUID clsid = GUIDFromCString(buff);
+
+							len = countof(buff);
+							len2 = sizeof(buff2);
+							for(DWORD k = 0, type; 
+								clsid != GUID_NULL && ERROR_SUCCESS == RegEnumValue(subkey, k, buff2, &len2, 0, &type, (BYTE*)buff, &len); 
+								k++, len = countof(buff), len2 = sizeof(buff2))
+							{
+								if(CheckBytes(hFile, CString(buff)))
+								{
+									CFGFilter* pFGF = new CFGFilterRegistry(clsid);
+									pFGF->AddType(majortype, subtype);
+									fl.Insert(pFGF, 7);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if(!ext.IsEmpty())
+	{
+		// file extension
+
+		CRegKey key;
+		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type\\Extensions\\") + CString(ext), KEY_READ))
+		{
+			ULONG len = countof(buff);
+			memset(buff, 0, sizeof(buff));
+			LONG ret = key.QueryStringValue(_T("Source Filter"), buff, &len); // QueryStringValue can return ERROR_INVALID_DATA on bogus strings (radlight mpc v1003, fixed in v1004)
+			if(ERROR_SUCCESS == ret || ERROR_INVALID_DATA == ret && GUIDFromCString(buff) != GUID_NULL)
+			{
+				GUID clsid = GUIDFromCString(buff);
+				GUID majortype = GUID_NULL;
+				GUID subtype = GUID_NULL;
+
+				len = countof(buff);
+				if(ERROR_SUCCESS == key.QueryStringValue(_T("Media Type"), buff, &len))
+					majortype = GUIDFromCString(buff);
+
+				len = countof(buff);
+				if(ERROR_SUCCESS == key.QueryStringValue(_T("Subtype"), buff, &len))
+					subtype = GUIDFromCString(buff);
+
+				CFGFilter* pFGF = new CFGFilterRegistry(clsid);
+				pFGF->AddType(majortype, subtype);
+				fl.Insert(pFGF, 8);
+			}
+		}
+	}
+
+	if(hFile != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(hFile);
+	}
+
+	CFGFilter* pFGF = new CFGFilterRegistry(CLSID_AsyncReader);
+	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
+	fl.Insert(pFGF, 9);
+
+	return S_OK;
+}
+
 HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppBF)
 {
 	TRACE(_T("FGM: AddSourceFilter trying '%s'\n"), CStringFromGUID(pFGF->GetCLSID()));
@@ -164,8 +369,8 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
 	HRESULT hr;
 
 	CComPtr<IBaseFilter> pBF;
-	CComPtr<IUnknown> pUnk;
-	if(FAILED(hr = pFGF->Create(&pBF, &pUnk)))
+	CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
+	if(FAILED(hr = pFGF->Create(&pBF, pUnks)))
 		return hr;
 
 	CComQIPtr<IFileSourceFilter> pFSF = pBF;
@@ -191,9 +396,25 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
 		return hr;
 	}
 
+	// doh :P
+	BeginEnumMediaTypes(GetFirstPin(pBF, PINDIR_OUTPUT), pEMT, pmt)
+	{
+		if(pmt->subtype == GUIDFromCString(_T("{640999A0-A946-11D0-A520-000000000000}"))
+		|| pmt->subtype == GUIDFromCString(_T("{640999A1-A946-11D0-A520-000000000000}"))
+		|| pmt->subtype == GUIDFromCString(_T("{D51BD5AE-7548-11CF-A520-0080C77EF58A}")))
+		{
+			RemoveFilter(pBF);
+			pFGF = new CFGFilterRegistry(CLSID_NetShowSource);
+			hr = AddSourceFilter(pFGF, lpcwstrFileName, lpcwstrFilterName, ppBF);
+			delete pFGF;
+			return hr;
+		}
+	}
+	EndEnumMediaTypes(pmt)
+
 	*ppBF = pBF.Detach();
 
-	if(pUnk) m_pUnks.AddTail(pUnk);
+	m_pUnks.AddTailList(&pUnks);
 
 	return S_OK;
 }
@@ -202,6 +423,8 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
 
 STDMETHODIMP CFGManager::AddFilter(IBaseFilter* pFilter, LPCWSTR pName)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	HRESULT hr;
@@ -218,6 +441,8 @@ STDMETHODIMP CFGManager::AddFilter(IBaseFilter* pFilter, LPCWSTR pName)
 
 STDMETHODIMP CFGManager::RemoveFilter(IBaseFilter* pFilter)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->RemoveFilter(pFilter);
@@ -225,6 +450,8 @@ STDMETHODIMP CFGManager::RemoveFilter(IBaseFilter* pFilter)
 
 STDMETHODIMP CFGManager::EnumFilters(IEnumFilters** ppEnum)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->EnumFilters(ppEnum);
@@ -232,6 +459,8 @@ STDMETHODIMP CFGManager::EnumFilters(IEnumFilters** ppEnum)
 
 STDMETHODIMP CFGManager::FindFilterByName(LPCWSTR pName, IBaseFilter** ppFilter)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->FindFilterByName(pName, ppFilter);
@@ -239,6 +468,8 @@ STDMETHODIMP CFGManager::FindFilterByName(LPCWSTR pName, IBaseFilter** ppFilter)
 
 STDMETHODIMP CFGManager::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MEDIA_TYPE* pmt)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinIn);
@@ -256,6 +487,8 @@ STDMETHODIMP CFGManager::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MED
 
 STDMETHODIMP CFGManager::Reconnect(IPin* ppin)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->Reconnect(ppin);
@@ -263,6 +496,8 @@ STDMETHODIMP CFGManager::Reconnect(IPin* ppin)
 
 STDMETHODIMP CFGManager::Disconnect(IPin* ppin)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->Disconnect(ppin);
@@ -270,6 +505,8 @@ STDMETHODIMP CFGManager::Disconnect(IPin* ppin)
 
 STDMETHODIMP CFGManager::SetDefaultSyncSource()
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->SetDefaultSyncSource();
@@ -424,8 +661,8 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
 
 			CComPtr<IBaseFilter> pBF;
-			CComPtr<IUnknown> pUnk;
-			if(FAILED(pFGF->Create(&pBF, &pUnk)))
+			CInterfaceList<IUnknown, &IID_IUnknown> pUnks;
+			if(FAILED(pFGF->Create(&pBF, pUnks)))
 				continue;
 
 			if(FAILED(hr = AddFilter(pBF, pFGF->GetName())))
@@ -462,19 +699,22 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 
 				if(SUCCEEDED(hr))
 				{
-					if(pUnk) m_pUnks.AddTail(pUnk);
+					m_pUnks.AddTailList(&pUnks);
 
 					// maybe the application should do this...
-					if(CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pUnk)
-						pMPC->SetAspectRatioMode(AM_ARMODE_STRETCHED);
+					
+					POSITION pos = pUnks.GetHeadPosition();
+					while(pos)
+					{
+						if(CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pUnks.GetNext(pos))
+							pMPC->SetAspectRatioMode(AM_ARMODE_STRETCHED);
+					}
+
 					if(CComQIPtr<IVMRAspectRatioControl> pARC = pBF)
 						pARC->SetAspectRatioMode(VMR_ARMODE_NONE);
+					
 					if(CComQIPtr<IVMRAspectRatioControl9> pARC = pBF)
 						pARC->SetAspectRatioMode(VMR_ARMODE_NONE);
-					if(CComQIPtr<IVMRMixerControl9> pMC = pBF)
-						m_pUnks.AddTail (pMC);
-					if(CComQIPtr<IVMRMixerBitmap9> pMB = pBF)
-						m_pUnks.AddTail (pMB);
 
 					return hr;
 				}
@@ -490,10 +730,15 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 	{
 		CAutoPtr<CStreamDeadEnd> psde(new CStreamDeadEnd());
 		psde->AddTailList(&m_streampath);
+		int skip = 0;
 		BeginEnumMediaTypes(pPinOut, pEM, pmt)
+		{
+			if(pmt->majortype == MEDIATYPE_Stream && pmt->subtype == MEDIASUBTYPE_NULL) skip++;
 			psde->mts.AddTail(CMediaType(*pmt));
+		}
 		EndEnumMediaTypes(pmt)
-		m_deadends.Add(psde);
+		if(skip < psde->mts.GetCount())
+			m_deadends.Add(psde);
 	}
 
 	return pPinIn ? VFW_E_CANNOT_CONNECT : VFW_E_CANNOT_RENDER;
@@ -506,7 +751,7 @@ STDMETHODIMP CFGManager::Render(IPin* pPinOut)
 	return RenderEx(pPinOut, 0, NULL);
 }
 
-STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
+STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList)
 {
 	CAutoLock cAutoLock(this);
 
@@ -515,209 +760,56 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList
 
 	HRESULT hr;
 
+/*
 	CComPtr<IBaseFilter> pBF;
 	if(FAILED(hr = AddSourceFilter(lpcwstrFile, lpcwstrFile, &pBF)))
 		return hr;
 
 	return ConnectFilter(pBF, NULL);
+*/
+
+	CFGFilterList fl;
+	if(FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl)))
+		return hr;
+
+	CAutoPtrArray<CStreamDeadEnd> deadends;
+
+	hr = VFW_E_CANNOT_RENDER;
+
+	POSITION pos = fl.GetHeadPosition();
+	while(pos)
+	{
+		CComPtr<IBaseFilter> pBF;
+		
+		if(SUCCEEDED(hr = AddSourceFilter(fl.GetNext(pos), lpcwstrFileName, lpcwstrFileName, &pBF)))
+		{
+			m_streampath.RemoveAll();
+			m_deadends.RemoveAll();
+
+			if(SUCCEEDED(hr = ConnectFilter(pBF, NULL)))
+				return hr;
+
+			NukeDownstream(pBF);
+			RemoveFilter(pBF);
+
+			deadends.Append(m_deadends);
+		}
+	}
+
+	m_deadends.Copy(deadends);
+
+	return hr;
 }
 
 STDMETHODIMP CFGManager::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter)
 {
 	CAutoLock cAutoLock(this);
 
-	// TODO: use overrides
-
-	CheckPointer(lpcwstrFileName, E_POINTER);
-	CheckPointer(ppFilter, E_POINTER);
-
 	HRESULT hr;
 
-	CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
-	CStringW protocol = fn.Left(fn.Find(':')+1).TrimRight(':').MakeLower();
-	CStringW ext = CPathW(fn).GetExtension();
-
-	TCHAR buff[256], buff2[256];
-	ULONG len, len2;
-
 	CFGFilterList fl;
-
-	HANDLE hFile = CreateFile(CString(fn), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-
-	// internal / protocol
-
-	if(protocol.GetLength() > 1 && protocol != L"file")
-	{
-		POSITION pos = m_source.GetHeadPosition();
-		while(pos)
-		{
-			CFGFilter* pFGF = m_source.GetNext(pos);
-			if(pFGF->m_protocols.Find(CString(protocol)))
-				fl.Insert(pFGF, 0, false, false);
-		}
-	}
-
-	// internal / check bytes
-
-	if(hFile != INVALID_HANDLE_VALUE)
-	{
-		POSITION pos = m_source.GetHeadPosition();
-		while(pos)
-		{
-			CFGFilter* pFGF = m_source.GetNext(pos);
-
-			POSITION pos2 = pFGF->m_chkbytes.GetHeadPosition();
-			while(pos2)
-			{
-				if(CheckBytes(hFile, pFGF->m_chkbytes.GetNext(pos2)))
-				{
-					fl.Insert(pFGF, 1, false, false);
-					break;
-				}
-			}
-		}
-	}
-
-	// insernal / file extension
-
-	if(!ext.IsEmpty())
-	{
-		POSITION pos = m_source.GetHeadPosition();
-		while(pos)
-		{
-			CFGFilter* pFGF = m_source.GetNext(pos);
-			if(pFGF->m_extensions.Find(CString(ext)))
-				fl.Insert(pFGF, 2, false, false);
-		}
-	}
-
-	// internal / the rest
-
-	{
-		POSITION pos = m_source.GetHeadPosition();
-		while(pos)
-		{
-			CFGFilter* pFGF = m_source.GetNext(pos);
-			if(pFGF->m_protocols.IsEmpty() && pFGF->m_chkbytes.IsEmpty() && pFGF->m_extensions.IsEmpty())
-				fl.Insert(pFGF, 3, false, false);
-		}
-	}
-
-	// protocol
-
-	if(protocol.GetLength() > 1 && protocol != L"file")
-	{
-		CRegKey key;
-		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(protocol), KEY_READ))
-		{
-			CRegKey exts;
-			if(ERROR_SUCCESS == exts.Open(key, _T("Extensions"), KEY_READ))
-			{
-				len = countof(buff);
-				if(ERROR_SUCCESS == exts.QueryStringValue(CString(ext), buff, &len))
-					fl.Insert(new CFGFilterRegistry(GUIDFromCString(buff)), 4);
-			}
-
-			len = countof(buff);
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len))
-				fl.Insert(new CFGFilterRegistry(GUIDFromCString(buff)), 5);
-		}
-
-		fl.Insert(new CFGFilterRegistry(CLSID_URLReader), 6);
-	}
-
-	// check bytes
-
-	if(hFile != INVALID_HANDLE_VALUE)
-	{
-		CRegKey key;
-		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type"), KEY_READ))
-		{
-			FILETIME ft;
-			len = countof(buff);
-			for(DWORD i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len, &ft); i++, len = countof(buff))
-			{
-				GUID majortype;
-				if(FAILED(GUIDFromCString(buff, majortype)))
-					continue;
-
-				CRegKey majorkey;
-				if(ERROR_SUCCESS == majorkey.Open(key, buff, KEY_READ))
-				{
-					len = countof(buff);
-					for(DWORD j = 0; ERROR_SUCCESS == majorkey.EnumKey(j, buff, &len, &ft); j++, len = countof(buff))
-					{
-						GUID subtype;
-						if(FAILED(GUIDFromCString(buff, subtype)))
-							continue;
-
-						CRegKey subkey;
-						if(ERROR_SUCCESS == subkey.Open(majorkey, buff, KEY_READ))
-						{
-							len = countof(buff);
-							if(ERROR_SUCCESS != subkey.QueryStringValue(_T("Source Filter"), buff, &len))
-								continue;
-
-							GUID clsid = GUIDFromCString(buff);
-
-							len = countof(buff);
-							len2 = sizeof(buff2);
-							for(DWORD k = 0, type; 
-								clsid != GUID_NULL && ERROR_SUCCESS == RegEnumValue(subkey, k, buff2, &len2, 0, &type, (BYTE*)buff, &len); 
-								k++, len = countof(buff), len2 = sizeof(buff2))
-							{
-								if(CheckBytes(hFile, CString(buff)))
-								{
-									CFGFilter* pFGF = new CFGFilterRegistry(clsid);
-									pFGF->AddType(majortype, subtype);
-									fl.Insert(pFGF, 7);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// file extension
-
-	if(!ext.IsEmpty())
-	{
-		CRegKey key;
-		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Media Type\\Extensions\\") + CString(ext), KEY_READ))
-		{
-			ULONG len = countof(buff);
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len))
-			{
-				GUID clsid = GUIDFromCString(buff);
-				GUID majortype = GUID_NULL;
-				GUID subtype = GUID_NULL;
-
-				len = countof(buff);
-				if(ERROR_SUCCESS == key.QueryStringValue(_T("Media Type"), buff, &len))
-					majortype = GUIDFromCString(buff);
-
-				len = countof(buff);
-				if(ERROR_SUCCESS == key.QueryStringValue(_T("Subtype"), buff, &len))
-					subtype = GUIDFromCString(buff);
-
-				CFGFilter* pFGF = new CFGFilterRegistry(clsid);
-				pFGF->AddType(majortype, subtype);
-				fl.Insert(pFGF, 8);
-			}
-		}
-	}
-
-	if(hFile != INVALID_HANDLE_VALUE)
-	{
-		CloseHandle(hFile);
-	}
-
-	CFGFilter* pFGF = new CFGFilterRegistry(CLSID_AsyncReader);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
-	fl.Insert(pFGF, 9);
+	if(FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl)))
+		return hr;
 
 	POSITION pos = fl.GetHeadPosition();
 	while(pos)
@@ -726,11 +818,13 @@ STDMETHODIMP CFGManager::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwst
 			return hr;
 	}
 
-	return hFile == INVALID_HANDLE_VALUE ? VFW_E_NOT_FOUND : VFW_E_CANNOT_LOAD_SOURCE_FILTER;
+	return VFW_E_CANNOT_LOAD_SOURCE_FILTER;
 }
 
 STDMETHODIMP CFGManager::SetLogFile(DWORD_PTR hFile)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->SetLogFile(hFile);
@@ -738,6 +832,8 @@ STDMETHODIMP CFGManager::SetLogFile(DWORD_PTR hFile)
 
 STDMETHODIMP CFGManager::Abort()
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->Abort();
@@ -745,6 +841,8 @@ STDMETHODIMP CFGManager::Abort()
 
 STDMETHODIMP CFGManager::ShouldOperationContinue()
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->ShouldOperationContinue();
@@ -754,6 +852,8 @@ STDMETHODIMP CFGManager::ShouldOperationContinue()
 
 STDMETHODIMP CFGManager::AddSourceFilterForMoniker(IMoniker* pMoniker, IBindCtx* pCtx, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->AddSourceFilterForMoniker(pMoniker, pCtx, lpcwstrFilterName, ppFilter);
@@ -761,6 +861,8 @@ STDMETHODIMP CFGManager::AddSourceFilterForMoniker(IMoniker* pMoniker, IBindCtx*
 
 STDMETHODIMP CFGManager::ReconnectEx(IPin* ppin, const AM_MEDIA_TYPE* pmt)
 {
+	if(!m_pUnkInner) return E_UNEXPECTED;
+
 	CAutoLock cAutoLock(this);
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->ReconnectEx(ppin, pmt);
@@ -1075,8 +1177,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 
 	// Source filters
 
-//	UINT src = s.SrcFilters;
-
 	if(src & SRC_SHOUTCAST)
 	{
 		pFGF = new CFGFilterInternal<CShoutcastSource>();
@@ -1107,7 +1207,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->m_chkbytes.AddTail(_T("4,4,,6d646174")); // mdat
 		pFGF->m_chkbytes.AddTail(_T("4,4,,736b6970")); // skip
 		pFGF->m_chkbytes.AddTail(_T("4,12,ffffffff00000000ffffffff,77696465027fe3706d646174")); // wide ? mdat
+		pFGF->m_chkbytes.AddTail(_T("3,3,,000001")); // raw mpeg4 video
 		pFGF->m_extensions.AddTail(_T(".mov"));
+		m_source.AddTail(pFGF);
+	}
+
+	if(src & SRC_FLV)
+	{
+		pFGF = new CFGFilterInternal<CFLVSourceFilter>();
+		pFGF->m_chkbytes.AddTail(_T("0,4,,464C5601")); // FLV (v1)
 		m_source.AddTail(pFGF);
 	}
 
@@ -1201,18 +1309,24 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_source.AddTail(pFGF);
 	}
 
+	__if_exists(CNutSourceFilter)
+	{
 	if(src & SRC_NUT)
 	{
 		pFGF = new CFGFilterInternal<CNutSourceFilter>();
 		pFGF->m_chkbytes.AddTail(_T("0,8,,F9526A624E55544D"));
 		m_source.AddTail(pFGF);
 	}
+	}
 
+	__if_exists(CDiracSourceFilter)
+	{
 	if(src & SRC_DIRAC)
 	{
 		pFGF = new CFGFilterInternal<CDiracSourceFilter>();
 		pFGF->m_chkbytes.AddTail(_T("0,8,,4B572D4449524143"));
 		m_source.AddTail(pFGF);
+	}
 	}
 
 	if(src & SRC_MPEG)
@@ -1222,6 +1336,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->m_chkbytes.AddTail(_T("0,5,FFFFFFFFC0,000001BA40"));
 		pFGF->m_chkbytes.AddTail(_T("0,1,,47,188,1,,47,376,1,,47"));
 		pFGF->m_chkbytes.AddTail(_T("4,1,,47,196,1,,47,388,1,,47"));
+		pFGF->m_chkbytes.AddTail(_T("0,4,,54467263,1660,1,,47"));
 		pFGF->m_chkbytes.AddTail(_T("0,8,fffffc00ffe00000,4156000055000000"));
 		m_source.AddTail(pFGF);
 	}
@@ -1255,103 +1370,127 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 
 	// Transform filters
 
-//	UINT tra = s.TraFilters;
-
 	pFGF = new CFGFilterInternal<CAVI2AC3Filter>(L"AVI<->AC3/DTS", MERIT64(0x00680000)+1);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DTS);
 	m_transform.AddTail(pFGF);
 
-	pFGF = new CFGFilterInternal<CMatroskaSplitterFilter>(
-		(src & SRC_MATROSKA) ? L"Matroska Splitter" : L"Matroska Splitter (low merit)",
-		(src & SRC_MATROSKA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_MATROSKA)
+	{
+		pFGF = new CFGFilterInternal<CMatroskaSplitterFilter>(L"Matroska Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Matroska);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<CRealMediaSplitterFilter>(
-		(src & SRC_REALMEDIA) ? L"RealMedia Splitter" : L"RealMedia Splitter (low merit)", 
-		(src & SRC_REALMEDIA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
-
-	pFGF = new CFGFilterInternal<CAviSplitterFilter>(
-		(src & SRC_AVI) ? L"Avi Splitter" : L"Avi Splitter (low merit)",
-		(src & SRC_AVI) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_REALMEDIA)
+	{
+		pFGF = new CFGFilterInternal<CRealMediaSplitterFilter>(L"RealMedia Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RealMedia);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
+	
+	if(src & SRC_AVI)
+	{
+		pFGF = new CFGFilterInternal<CAviSplitterFilter>(L"Avi Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
 	__if_exists(CRadGtSplitterFilter)
 	{
-	pFGF = new CFGFilterInternal<CRadGtSplitterFilter>(
-		(src & SRC_RADGT) ? L"RadGt Splitter" : L"RadGt Splitter (low merit)",
-		(src & SRC_RADGT) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Bink);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Smacker);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_RADGT)
+	{
+		pFGF = new CFGFilterInternal<CRadGtSplitterFilter>(L"RadGt Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Bink);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Smacker);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 	}
 
-	pFGF = new CFGFilterInternal<CRoQSplitterFilter>(
-		(src & SRC_ROQ) ? L"RoQ Splitter" : L"RoQ Splitter (low merit)",
-		(src & SRC_ROQ) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RoQ);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_ROQ)
+	{
+		pFGF = new CFGFilterInternal<CRoQSplitterFilter>(L"RoQ Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RoQ);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<COggSplitterFilter>(
-		(src & SRC_OGG) ? L"Ogg Splitter" : L"Ogg Splitter (low merit)",
-		(src & SRC_OGG) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_OGG)
+	{
+		pFGF = new CFGFilterInternal<COggSplitterFilter>(L"Ogg Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<CNutSplitterFilter>(
-		(src & SRC_NUT) ? L"Nut Splitter" : L"Nut Splitter (low merit)",
-		(src & SRC_NUT) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Nut);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	__if_exists(CNutSplitterFilter)
+	{
+	if(src & SRC_NUT)
+	{
+		pFGF = new CFGFilterInternal<CNutSplitterFilter>(L"Nut Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Nut);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
+	}
 
-	pFGF = new CFGFilterInternal<CMpegSplitterFilter>(
-		(src & SRC_MPEG) ? L"Mpeg Splitter" : L"Mpeg Splitter (low merit)",
-		(src & SRC_MPEG) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_MPEG)
+	{
+		pFGF = new CFGFilterInternal<CMpegSplitterFilter>(L"Mpeg Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1System);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PROGRAM);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_TRANSPORT);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<CDiracSplitterFilter>(
-		(src & SRC_DIRAC) ? L"Dirac Splitter" : L"Dirac Splitter (low merit)",
-		(src & SRC_DIRAC) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Dirac);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	__if_exists(CDiracSplitterFilter)
+	{
+	if(src & SRC_DIRAC)
+	{
+		pFGF = new CFGFilterInternal<CDiracSplitterFilter>(L"Dirac Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Dirac);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
+	}
 
-	pFGF = new CFGFilterInternal<CMpaSplitterFilter>(
-		(src & SRC_MPA) ? L"Mpa Splitter" : L"Mpa Splitter (low merit)",
-		(src & SRC_MPA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_MPA)
+	{
+		pFGF = new CFGFilterInternal<CMpaSplitterFilter>(L"Mpa Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG1Audio);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<CDSMSplitterFilter>(
-		(src & SRC_DSM) ? L"DSM Splitter" : L"DSM Splitter (low merit)",
-		(src & SRC_DSM) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DirectShowMedia);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_DSM)
+	{
+		pFGF = new CFGFilterInternal<CDSMSplitterFilter>(L"DSM Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_DirectShowMedia);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
-	pFGF = new CFGFilterInternal<CMP4SplitterFilter>(
-		(src & SRC_MP4) ? L"MP4 Splitter" : L"MP4 Splitter (low merit)",
-		(src & SRC_MP4) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
+	if(src & SRC_MP4)
+	{
+		pFGF = new CFGFilterInternal<CMP4SplitterFilter>(L"MP4 Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
+
+	if(src & SRC_FLV)
+	{
+		pFGF = new CFGFilterInternal<CFLVSplitterFilter>(L"FLV Splitter", MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_FLV);
+		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
+		m_transform.AddTail(pFGF);
+	}
 
 	pFGF = new CFGFilterInternal<CMpeg2DecFilter>(
 		(tra & TRA_MPEG1) ? L"MPEG-1 Video Decoder" : L"MPEG-1 Video Decoder (low merit)", 
@@ -1463,6 +1602,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RAAC);
 	m_transform.AddTail(pFGF);
 
+	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+		(tra & TRA_VORBIS) ? L"Vorbis Audio Decoder" : L"Vorbis Audio Decoder (low merit)",
+		(tra & TRA_VORBIS) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_Vorbis2);
+	m_transform.AddTail(pFGF);
+
 	pFGF = new CFGFilterInternal<CRoQVideoDecoder>(
 		(tra & TRA_RV) ? L"RoQ Video Decoder" : L"RoQ Video Decoder (low merit)",
 		(tra & TRA_RV) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
@@ -1475,11 +1620,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RoQA);
 	m_transform.AddTail(pFGF);
 
+	__if_exists(CDiracVideoDecoder)
+	{
 	pFGF = new CFGFilterInternal<CDiracVideoDecoder>(
 		(tra & TRA_DIRAC) ? L"Dirac Video Decoder" : L"Dirac Video Decoder (low merit)",
 		(tra & TRA_DIRAC) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DiracVideo);
 	m_transform.AddTail(pFGF);
+	}
 
 	pFGF = new CFGFilterInternal<CNullTextRenderer>(L"NullTextRenderer", MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);
@@ -1490,6 +1638,21 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_CVD_SUBPICTURE);
 	pFGF->AddType(MEDIATYPE_NULL, MEDIASUBTYPE_SVCD_SUBPICTURE);
 	m_transform.AddTail(pFGF);
+
+	__if_exists(CFLVVideoDecoder)
+	{
+	pFGF = new CFGFilterInternal<CFLVVideoDecoder>(
+		(tra & TRA_FLV4) ? L"FLV Video Decoder" : L"FLV Video Decoder (low merit)",
+		(tra & TRA_FLV4) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
+	m_transform.AddTail(pFGF);
+	
+	pFGF = new CFGFilterInternal<CFLVVideoDecoder>(
+		(tra & TRA_VP62) ? L"VP62 Video Decoder" : L"VP62 Video Decoder (low merit)",
+		(tra & TRA_VP62) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP62);
+	m_transform.AddTail(pFGF);
+	}
 
 	// Blocked filters
 
@@ -1526,7 +1689,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 			m_transform.AddTail(new CFGFilterRegistry(GUIDFromCString(clsid), MERIT64_DO_NOT_USE));
 		}
 	}
-
+/*
+	// NVIDIA Transport Demux crashed for someone, I could not reproduce it
+	m_transform.AddTail(new CFGFilterRegistry(GUIDFromCString(_T("{735823C1-ACC4-11D3-85AC-006008376FB8}")), MERIT64_DO_NOT_USE));	
+*/
 	// Overrides
 
 	WORD merit_low = 1;
@@ -1740,6 +1906,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT tra, 
 {
 	AppSettings& s = AfxGetAppSettings();
 
+	// have to avoid the old video renderer
 	if(!s.fXpOrBetter && s.iDSVideoRendererType != VIDRNDT_DS_OVERLAYMIXER || s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit-1));
 
@@ -1762,6 +1929,19 @@ public:
 	}
 };
 
+STDMETHODIMP CFGManagerDVD::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
+{
+	CAutoLock cAutoLock(this);
+
+	HRESULT hr;
+
+	CComPtr<IBaseFilter> pBF;
+	if(FAILED(hr = AddSourceFilter(lpcwstrFile, lpcwstrFile, &pBF)))
+		return hr;
+
+	return ConnectFilter(pBF, NULL);
+}
+
 STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter)
 {
 	CAutoLock cAutoLock(this);
@@ -1773,7 +1953,7 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
 
 	CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
 	CStringW protocol = fn.Left(fn.Find(':')+1).TrimRight(':').MakeLower();
-	CStringW ext = CPathW(fn).GetExtension();
+	CStringW ext = CPathW(fn).GetExtension().MakeLower();
 
 	GUID clsid = ext == L".ratdvd" ? GUIDFromCString(_T("{482d10b6-376e-4411-8a17-833800A065DB}")) : CLSID_DVDNavigator;
 
@@ -1795,13 +1975,10 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
 	&& FAILED(hr = pDVDC->SetDVDDirectory(fn + L"VIDEO_TS"))
 	&& FAILED(hr = pDVDC->SetDVDDirectory(fn + L"\\VIDEO_TS")))
 	|| FAILED(hr = pDVDI->GetDVDDirectory(buff, countof(buff), &len)) || len == 0)
-		return VFW_E_CANNOT_LOAD_SOURCE_FILTER;
+		return E_INVALIDARG;
 
 	pDVDC->SetOption(DVD_ResetOnStop, FALSE);
 	pDVDC->SetOption(DVD_HMSF_TimeCodeEvents, TRUE);
-
-	m_pUnks.AddTail(pDVDC);
-	m_pUnks.AddTail(pDVDI);
 
 	if(clsid == CLSID_DVDNavigator)
 		CResetDVD(CString(buff));
@@ -1836,5 +2013,29 @@ CFGManagerMuxer::CFGManagerMuxer(LPCTSTR pName, LPUNKNOWN pUnk)
 	: CFGManagerCustom(pName, pUnk, ~0, ~0)
 {
 	m_source.AddTail(new CFGFilterInternal<CSubtitleSourceASS>());
+	m_source.AddTail(new CFGFilterInternal<CSSFSourceFilter>());
 }
 
+//
+// CFGAggregator
+//
+
+CFGAggregator::CFGAggregator(const CLSID& clsid, LPCTSTR pName, LPUNKNOWN pUnk, HRESULT& hr)
+	: CUnknown(pName, pUnk)
+{
+	hr = m_pUnkInner.CoCreateInstance(clsid, GetOwner());
+}
+
+CFGAggregator::~CFGAggregator()
+{
+	m_pUnkInner.Release();
+}
+
+STDMETHODIMP CFGAggregator::NonDelegatingQueryInterface(REFIID riid, void** ppv)
+{
+    CheckPointer(ppv, E_POINTER);
+
+	return
+		m_pUnkInner && (riid != IID_IUnknown && SUCCEEDED(m_pUnkInner->QueryInterface(riid, ppv))) ? S_OK :
+		__super::NonDelegatingQueryInterface(riid, ppv);
+}

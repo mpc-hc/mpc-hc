@@ -558,10 +558,8 @@ DWORD CSubPicQueue::ThreadProc()
 
 			while(GetCount() && GetTail()->GetStop() > rtInvalidate)
 			{
-				if(GetTail()->GetStart() < rtInvalidate)
-					GetTail()->SetStop(rtInvalidate);
-				else
-					RemoveTail();
+				if(GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
+				else RemoveTail();
 			}
 
 			m_fBreakBuffering = false;

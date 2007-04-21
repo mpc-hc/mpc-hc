@@ -52,7 +52,7 @@ public:
 
 	CAtlList<CString> m_protocols, m_extensions, m_chkbytes; // TODO: subtype?
 
-	virtual HRESULT Create(IBaseFilter** ppBF, IUnknown** ppUnk) = 0;
+	virtual HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) = 0;
 };
 
 class CFGFilterRegistry : public CFGFilter
@@ -71,7 +71,7 @@ public:
 	CStringW GetDisplayName() {return m_DisplayName;}
 	IMoniker* GetMoniker() {return m_pMoniker;}
 
-	HRESULT Create(IBaseFilter** ppBF, IUnknown** ppUnk);
+	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
 
 template<class T>
@@ -80,11 +80,9 @@ class CFGFilterInternal : public CFGFilter
 public:
 	CFGFilterInternal(CStringW name = L"", UINT64 merit = MERIT64_DO_USE) : CFGFilter(__uuidof(T), name, merit) {}
 
-	HRESULT Create(IBaseFilter** ppBF, IUnknown** ppUnk)
+	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 	{
 		CheckPointer(ppBF, E_POINTER);
-
-		if(ppUnk) *ppUnk = NULL;
 
 		HRESULT hr = S_OK;
 		CComPtr<IBaseFilter> pBF = new T(NULL, &hr);
@@ -105,7 +103,7 @@ protected:
 public:
 	CFGFilterFile(const CLSID& clsid, CString path, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
 
-	HRESULT Create(IBaseFilter** ppBF, IUnknown** ppUnk);
+	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
 
 class CFGFilterVideoRenderer : public CFGFilter
@@ -116,7 +114,7 @@ protected:
 public:
 	CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
 
-	HRESULT Create(IBaseFilter** ppBF, IUnknown** ppUnk);
+	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 };
 
 class CFGFilterList
@@ -130,6 +128,7 @@ public:
 	CFGFilterList();
 	virtual ~CFGFilterList();
 
+	bool IsEmpty() {return m_filters.IsEmpty();}
 	void RemoveAll();
 	void Insert(CFGFilter* pFGF, int group, bool exactmatch = false, bool autodelete = true);
 

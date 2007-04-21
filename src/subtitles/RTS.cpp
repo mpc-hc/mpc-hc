@@ -47,20 +47,19 @@ CMyFont::CMyFont(STSStyle& style)
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = ANTIALIASED_QUALITY;
 	lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
-lf.lfEscapement = lf.lfOrientation = 0;
+
 	if(!CreateFontIndirect(&lf))
 	{
 		_tcscpy(lf.lfFaceName, _T("Arial"));
 		CreateFontIndirect(&lf);
 	}
 
-	HFONT hOldFont = (HFONT)SelectObject(g_hDC, *this);
+	HFONT hOldFont = SelectFont(g_hDC, *this);
 	TEXTMETRIC tm;
-	BOOL b = GetTextMetrics(g_hDC, &tm);
-	DWORD ret = GetLastError();
+	GetTextMetrics(g_hDC, &tm);
 	m_ascent = ((tm.tmAscent + 4) >> 3);
 	m_descent = ((tm.tmDescent + 4) >> 3);
-	SelectObject(g_hDC, hOldFont);
+	SelectFont(g_hDC, hOldFont);
 }
 
 // CWord
@@ -212,14 +211,14 @@ bool CWord::CreateOpaqueBox()
 CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 	: CWord(style, str, ktype, kstart, kend)
 {
-	if(m_str.GetLength() == 1 && m_str[0] == ' ')
+	if(m_str == L" ")
 	{
 		m_fWhiteSpaceChar = true;
 	}
 
 	CMyFont font(m_style);
 
-	HFONT hOldFont = (HFONT)SelectObject(g_hDC, font);
+	HFONT hOldFont = SelectFont(g_hDC, font);
 
 	if(m_style.fontSpacing || (long)GetVersion() < 0)
 	{
@@ -228,7 +227,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 		for(LPCWSTR s = m_str; *s; s++)
 		{
 			CSize extent;
-			if(!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {SelectObject(g_hDC, hOldFont); ASSERT(0); return;}
+			if(!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {SelectFont(g_hDC, hOldFont); ASSERT(0); return;}
 			m_width += extent.cx + (int)m_style.fontSpacing;
 		}
 //			m_width -= (int)m_style.fontSpacing; // TODO: subtract only at the end of the line
@@ -236,13 +235,13 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 	else
 	{
 		CSize extent;
-		if(!GetTextExtentPoint32W(g_hDC, m_str, wcslen(str), &extent)) {SelectObject(g_hDC, hOldFont); ASSERT(0); return;}
+		if(!GetTextExtentPoint32W(g_hDC, m_str, wcslen(str), &extent)) {SelectFont(g_hDC, hOldFont); ASSERT(0); return;}
 		m_width += extent.cx;
 	}
 
 	m_width = (int)(m_style.fontScaleX/100*m_width + 4) >> 3;
 
-	SelectObject(g_hDC, hOldFont);
+	SelectFont(g_hDC, hOldFont);
 }
 
 CWord* CText::Copy()
@@ -258,7 +257,8 @@ bool CText::Append(CWord* w)
 bool CText::CreatePath()
 {
 	CMyFont font(m_style);
-	HFONT hOldFont = (HFONT)SelectObject(g_hDC, font);
+
+	HFONT hOldFont = SelectFont(g_hDC, font);
 
 	int width = 0;
 
@@ -269,7 +269,7 @@ bool CText::CreatePath()
 		for(LPCWSTR s = m_str; *s; s++)
 		{
 			CSize extent;
-			if(!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {SelectObject(g_hDC, hOldFont); ASSERT(0); return(false);}
+			if(!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {SelectFont(g_hDC, hOldFont); ASSERT(0); return(false);}
 
 			PartialBeginPath(g_hDC, bFirstPath); bFirstPath = false;
 			TextOutW(g_hDC, 0, 0, s, 1);
@@ -281,14 +281,14 @@ bool CText::CreatePath()
 	else
 	{
 		CSize extent;
-		if(!GetTextExtentPoint32W(g_hDC, m_str, m_str.GetLength(), &extent)) {SelectObject(g_hDC, hOldFont); ASSERT(0); return(false);}
+		if(!GetTextExtentPoint32W(g_hDC, m_str, m_str.GetLength(), &extent)) {SelectFont(g_hDC, hOldFont); ASSERT(0); return(false);}
 
 		BeginPath(g_hDC);
 		TextOutW(g_hDC, 0, 0, m_str, m_str.GetLength());
 		EndPath(g_hDC);
 	}
 
-	SelectObject(g_hDC, hOldFont);
+	SelectFont(g_hDC, hOldFont);
 
 	return(true);
 }

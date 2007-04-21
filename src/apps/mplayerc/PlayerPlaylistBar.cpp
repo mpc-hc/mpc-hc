@@ -322,9 +322,12 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
 	CAtlMap<int, CPlaylistItem> pli;
 	CAtlArray<int> idx;
 
-	CWebTextFile f(CTextFile::ANSI);
+	CWebTextFile f;
 	if(!f.Open(fn) || !f.ReadString(str) || str != _T("MPCPLAYLIST"))
 		return false;
+
+	if(f.GetEncoding() == CTextFile::ASCII) 
+		f.SetEncoding(CTextFile::ANSI);
 
 	CPath base(fn);
 	base.RemoveFileSpec();

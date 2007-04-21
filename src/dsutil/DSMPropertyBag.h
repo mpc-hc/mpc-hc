@@ -112,12 +112,16 @@ interface IDSMChapterBag : public IUnknown
 
 class CDSMChapter
 {
+	static int counter;
+	int order;
+
 public:
 	REFERENCE_TIME rt;
 	CStringW name;
-	CDSMChapter() {rt = 0;}
+	CDSMChapter();
 	CDSMChapter(REFERENCE_TIME rt, LPCWSTR name);
 	void operator = (const CDSMChapter& c);
+	static int Compare(const void* a, const void* b);
 };
 
 class IDSMChapterBagImpl : public IDSMChapterBag

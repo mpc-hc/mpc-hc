@@ -43,17 +43,18 @@ s_filters[] =
 	{_T("AVI"), 0, SRC_AVI, IDS_SRC_AVI, NULL},
 	{_T("CDDA (Audio CD)"), 0, SRC_CDDA, IDS_SRC_CDDA, NULL},
 	{_T("CDXA (VCD/SVCD/XCD)"), 0, SRC_CDXA, IDS_SRC_CDXA, NULL},
-	{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},
+	__if_exists(CDiracSplitterFilter) {{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},}
 	{_T("DirectShow Media"), 0, SRC_DSM, IDS_SRC_DSM, NULL},
 	{_T("DTS/AC3"), 0, SRC_DTSAC3, IDS_SRC_DTSAC3, NULL},
 	{_T("DVD Video Title Set"), 0, SRC_VTS, IDS_SRC_VTS, NULL},
 	{_T("DVD2AVI Project File"), 0, SRC_D2V, IDS_SRC_D2V, NULL},
 	{_T("FLI/FLC"), 0, SRC_FLIC, IDS_SRC_FLIC, NULL},
+	{_T("FLV"), 0, SRC_FLV, IDS_SRC_FLV, NULL},
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
 	{_T("MP4/MOV"), 0, SRC_MP4, IDS_SRC_MP4, NULL},
 	{_T("MPEG Audio"), 0, SRC_MPA, IDS_SRC_MPA, NULL},
 	{_T("MPEG PS/TS/PVA"), 0, SRC_MPEG, 0, NULL},
-	{_T("Nut"), 0, SRC_NUT, IDS_SRC_NUT, NULL},
+	__if_exists(CNutSplitterFilter) {{_T("Nut"), 0, SRC_NUT, IDS_SRC_NUT, NULL},}
 	{_T("Ogg"), 0, SRC_OGG, IDS_SRC_OGG, NULL},
 	{_T("RealMedia"), 0, SRC_REALMEDIA, IDS_SRC_REALMEDIA, NULL},
 	{_T("RoQ"), 0, SRC_ROQ, IDS_SRC_ROQ, NULL},
@@ -62,7 +63,8 @@ s_filters[] =
 	{_T("AAC"), 1, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
-	{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},
+	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
+	__if_exists(CFLVVideoDecoder) {{_T("FLV4"), 1, TRA_FLV4, 0, NULL},}
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG-1 Video"), 1, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},
@@ -71,6 +73,7 @@ s_filters[] =
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	__if_exists(CFLVVideoDecoder) {{_T("VP62"), 1, TRA_VP62, 0, NULL},}
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)

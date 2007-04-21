@@ -108,7 +108,6 @@ protected:
 
 public:
 	CString m_name;
-	exttype m_exttype;
 	tmode m_mode;
 	CTextFile::enc m_encoding;
 	CString m_path;

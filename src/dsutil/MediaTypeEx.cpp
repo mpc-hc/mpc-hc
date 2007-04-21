@@ -327,6 +327,8 @@ CString CMediaTypeEx::GetSubtitleCodecName(const GUID& subtype)
 		names[MEDIASUBTYPE_UTF8] = _T("UTF-8");
 		names[MEDIASUBTYPE_SSA] = _T("SubStation Alpha");
 		names[MEDIASUBTYPE_ASS] = _T("Advanced SubStation Alpha");
+		names[MEDIASUBTYPE_ASS2] = _T("Advanced SubStation Alpha");
+		names[MEDIASUBTYPE_SSF] = _T("Stuctured Subtitle Format");
 		names[MEDIASUBTYPE_USF] = _T("Universal Subtitle Format");
 		names[MEDIASUBTYPE_VOBSUB] = _T("VobSub");
 		// names[''] = _T("");
@@ -469,8 +471,6 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 		str.Format(_T("biSizeImage: %d"), bih->biSizeImage);
 		sl.AddTail(str);
 		str.Format(_T("biXPelsPerMeter: %d"), bih->biXPelsPerMeter);
-		sl.AddTail(str);
-		str.Format(_T("biYPelsPerMeter: %d"), bih->biYPelsPerMeter);
 		sl.AddTail(str);
 		str.Format(_T("biYPelsPerMeter: %d"), bih->biYPelsPerMeter);
 		sl.AddTail(str);

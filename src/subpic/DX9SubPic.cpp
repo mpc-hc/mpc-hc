@@ -173,6 +173,10 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 	{
 		m_rcDirty = *pDirtyRect;
 		m_rcDirty.InflateRect(1, 1);
+		m_rcDirty.left &= ~127;
+		m_rcDirty.top &= ~63;
+		m_rcDirty.right = (m_rcDirty.right + 127) & ~127;
+		m_rcDirty.bottom = (m_rcDirty.bottom + 63) & ~63;
 		m_rcDirty &= CRect(CPoint(0, 0), m_size);
 	}
 	else

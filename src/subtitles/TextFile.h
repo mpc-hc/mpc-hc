@@ -38,6 +38,7 @@ public:
 	virtual bool Open(LPCTSTR lpszFileName);
 	virtual bool Save(LPCTSTR lpszFileName, enc e /*= ASCII*/);
 
+	void SetEncoding(enc e);
 	enc GetEncoding();
 	bool IsUnicode();
 

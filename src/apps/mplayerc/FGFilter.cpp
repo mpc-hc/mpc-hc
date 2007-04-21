@@ -24,6 +24,7 @@
 #include "..\..\DSUtil\DSUtil.h"
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
+#include "..\..\..\include\moreuuids.h"
 
 //
 // CFGFilter
@@ -199,40 +200,64 @@ CFGFilterRegistry::CFGFilterRegistry(const CLSID& clsid, UINT64 merit)
 		key.Close();
 	}
 
-	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\") + guid, KEY_READ))
+	CRegKey catkey;
+
+	if(ERROR_SUCCESS == catkey.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance"), KEY_READ))
 	{
-		ULONG nChars = 0;
-		if(ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), NULL, &nChars))
+		if(ERROR_SUCCESS != key.Open(catkey, guid, KEY_READ))
 		{
-			CString name;
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), name.GetBuffer(nChars), &nChars))
+			// illiminable pack uses the name of the filter and not the clsid, have to enum all keys to find it...
+
+			FILETIME ft;
+			TCHAR buff[256];
+			DWORD len = countof(buff);
+			for(DWORD i = 0; ERROR_SUCCESS == catkey.EnumKey(i, buff, &len, &ft); i++, len = countof(buff))
 			{
-				name.ReleaseBuffer(nChars);
-				m_name = name;
+				if(ERROR_SUCCESS == key.Open(catkey, buff, KEY_READ))
+				{
+					TCHAR clsid[256];
+					len = countof(clsid);
+					if(ERROR_SUCCESS == key.QueryStringValue(_T("CLSID"), clsid, &len) && GUIDFromCString(clsid) == m_clsid)
+						break;
+
+					key.Close();
+				}
 			}
 		}
 
-		ULONG nBytes = 0;
-		if(ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), NULL, &nBytes))
+		if(key)
 		{
-			CAutoVectorPtr<BYTE> buff;
-			if(buff.Allocate(nBytes) && ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), buff, &nBytes))
+			ULONG nChars = 0;
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), NULL, &nChars))
 			{
-				ExtractFilterData(buff, nBytes);
+				CString name;
+				if(ERROR_SUCCESS == key.QueryStringValue(_T("FriendlyName"), name.GetBuffer(nChars), &nChars))
+				{
+					name.ReleaseBuffer(nChars);
+					m_name = name;
+				}
 			}
-		}
 
-		key.Close();
+			ULONG nBytes = 0;
+			if(ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), NULL, &nBytes))
+			{
+				CAutoVectorPtr<BYTE> buff;
+				if(buff.Allocate(nBytes) && ERROR_SUCCESS == key.QueryBinaryValue(_T("FilterData"), buff, &nBytes))
+				{
+					ExtractFilterData(buff, nBytes);
+				}
+			}
+
+			key.Close();
+		}
 	}
 
 	if(merit != MERIT64_DO_USE) m_merit.val = merit;
 }
 
-HRESULT CFGFilterRegistry::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
+HRESULT CFGFilterRegistry::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
 	CheckPointer(ppBF, E_POINTER);
-
-	if(ppUnk) *ppUnk = NULL;
 
 	HRESULT hr = E_FAIL;
 	
@@ -245,9 +270,13 @@ HRESULT CFGFilterRegistry::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
 	}
 	else if(m_clsid != GUID_NULL)
 	{
-		CComPtr<IBaseFilter> pBF;
-		if(FAILED(pBF.CoCreateInstance(m_clsid))) return E_FAIL;
+		CComQIPtr<IBaseFilter> pBF;
+
+		if(FAILED(pBF.CoCreateInstance(m_clsid))) 
+			return E_FAIL;
+
 		*ppBF = pBF.Detach();
+		
 		hr = S_OK;
 	}
 
@@ -389,11 +418,9 @@ CFGFilterFile::CFGFilterFile(const CLSID& clsid, CString path, CStringW name, UI
 {
 }
 
-HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
+HRESULT CFGFilterFile::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
 	CheckPointer(ppBF, E_POINTER);
-
-	if(ppUnk) *ppUnk = NULL;
 
 	return LoadExternalFilter(m_path, m_clsid, ppBF);
 }
@@ -409,7 +436,7 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
 	AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
 }
 
-HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
+HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
 	CheckPointer(ppBF, E_POINTER);
 
@@ -428,7 +455,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
 			if(SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer)))
 			{
 				*ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
-				if(ppUnk) *ppUnk = (IUnknown*)pCAP.Detach();
+				pUnks.AddTail(pCAP);
 			}
 		}
 	}
@@ -441,7 +468,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, IUnknown** ppUnk)
 			{
 				if(CComQIPtr<IMixerPinConfig, &IID_IMixerPinConfig> pMPC = pPin)
 				{
-					if(ppUnk) *ppUnk = pMPC.Detach();
+					pUnks.AddTail(pMPC);
 					break;
 				}
 			}
@@ -590,3 +617,5 @@ int CFGFilterList::filter_cmp(const void* a, const void* b)
 
 	return 0;
 }
+
+

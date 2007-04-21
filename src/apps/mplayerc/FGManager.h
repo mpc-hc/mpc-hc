@@ -60,6 +60,7 @@ protected:
 
 	static bool CheckBytes(HANDLE hFile, CString chkbytes);
 
+	HRESULT EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl);
 	HRESULT AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppBF);
 
 	// IFilterGraph
@@ -144,6 +145,7 @@ class CFGManagerDVD : public CFGManagerPlayer
 protected:
 	// IGraphBuilder
 
+	STDMETHODIMP RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList);
 	STDMETHODIMP AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter);
 
 public:
@@ -162,3 +164,17 @@ public:
 	CFGManagerMuxer(LPCTSTR pName, LPUNKNOWN pUnk);
 };
 
+//
+
+class CFGAggregator : public CUnknown
+{
+protected:
+	CComPtr<IUnknown> m_pUnkInner;
+
+public:
+	CFGAggregator(const CLSID& clsid, LPCTSTR pName, LPUNKNOWN pUnk, HRESULT& hr);
+	virtual ~CFGAggregator();
+
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+};

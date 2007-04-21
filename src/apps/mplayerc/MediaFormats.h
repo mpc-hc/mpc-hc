@@ -26,7 +26,6 @@
 
 class CMediaFormatCategory
 {
-public:
 protected:
 	CString m_label, m_specreqnote;
 	CAtlList<CString> m_exts, m_backupexts;
@@ -45,7 +44,7 @@ public:
 
 	void UpdateData(bool fSave);
 
-	CMediaFormatCategory(CMediaFormatCategory& mfc);
+	CMediaFormatCategory(const CMediaFormatCategory& mfc);
 	CMediaFormatCategory& operator = (const CMediaFormatCategory& mfc);
 
 	void RestoreDefaultExts();
@@ -65,7 +64,7 @@ public:
 	void SetEngineType(engine_t e) {m_engine = e;}
 };
 
-class CMediaFormats : public CArray<CMediaFormatCategory>
+class CMediaFormats : public CAtlArray<CMediaFormatCategory>
 {
 protected:
 	engine_t m_iRtspHandler;

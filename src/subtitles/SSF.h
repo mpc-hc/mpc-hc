@@ -21,43 +21,50 @@
 
 #pragma once
 
-//#include "Rasterizer.h"
 #include "..\SubPic\ISubPic.h"
 #include ".\libssf\SubtitleFile.h"
+#include ".\libssf\Renderer.h"
 
 #pragma once
 
-[uuid("E0593632-0AB7-47CA-8BE1-E9D2A6A4825E")]
-class CRenderedSSF : public ISubPicProviderImpl, public ISubStream
+namespace ssf
 {
-	CString m_fn, m_name;
-	CAutoPtr<ssf::SubtitleFile> m_psf;
+	[uuid("E0593632-0AB7-47CA-8BE1-E9D2A6A4825E")]
+	class CRenderer : public ISubPicProviderImpl, public ISubStream
+	{
+		CString m_fn, m_name;
+		CAutoPtr<SubtitleFile> m_file;
+		CAutoPtr<Renderer> m_renderer;
 
-public:
-	CRenderedSSF(CCritSec* pLock);
-	virtual ~CRenderedSSF();
+	public:
+		CRenderer(CCritSec* pLock);
+		virtual ~CRenderer();
 
-	bool Open(CString fn, CString name = _T(""));
-	bool Open(ssf::Stream& s, CString name);
+		bool Open(CString fn, CString name = _T(""));
+		bool Open(InputStream& s, CString name);
 
-	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+		void Append(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, LPCWSTR str);
 
-	// ISubPicProvider
-	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps);
-	STDMETHODIMP_(POSITION) GetNext(POSITION pos);
-	STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps);
-	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps);
-	STDMETHODIMP_(bool) IsAnimated(POSITION pos);
-	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
+		DECLARE_IUNKNOWN
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IPersist
-	STDMETHODIMP GetClassID(CLSID* pClassID);
+		// ISubPicProvider
+		STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps);
+		STDMETHODIMP_(POSITION) GetNext(POSITION pos);
+		STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps);
+		STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps);
+		STDMETHODIMP_(bool) IsAnimated(POSITION pos);
+		STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
 
-	// ISubStream
-	STDMETHODIMP_(int) GetStreamCount();
-	STDMETHODIMP GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID);
-	STDMETHODIMP_(int) GetStream();
-	STDMETHODIMP SetStream(int iStream);
-	STDMETHODIMP Reload();
-};
+		// IPersist
+		STDMETHODIMP GetClassID(CLSID* pClassID);
+
+		// ISubStream
+		STDMETHODIMP_(int) GetStreamCount();
+		STDMETHODIMP GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID);
+		STDMETHODIMP_(int) GetStream();
+		STDMETHODIMP SetStream(int iStream);
+		STDMETHODIMP Reload();
+	};
+
+}

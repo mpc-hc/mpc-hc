@@ -60,7 +60,7 @@ CStaticLink::CStaticLink(LPCTSTR lpText, BOOL bDeleteOnDestroy)
 // lines of code and more reliable than turning on SS_NOTIFY in OnCtlColor 
 // because Windows doesn't send WM_CTLCOLOR to bitmap static controls. 
 // 
-UINT CStaticLink::OnNcHitTest(CPoint point) 
+LRESULT CStaticLink::OnNcHitTest(CPoint point) 
 { 
     return HTCLIENT; 
 } 

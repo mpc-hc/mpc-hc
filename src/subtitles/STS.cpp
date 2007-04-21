@@ -447,9 +447,6 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 
 CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 {
-	str.Replace (L"{\\i1}", L"<i>");	// Casimir666 : tag <i> supported in SRT files!
-	str.Replace (L"{\\i}", L"</i>");
-
 	for(int i = 0, j; i < str.GetLength(); )
 	{
 		if((i = FindChar(str, '{', i, fUnicode, CharSet)) < 0) break;
@@ -1720,20 +1717,20 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
 typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
 
-typedef struct {STSOpenFunct open; tmode mode; exttype type; } OpenFunctStruct;
+typedef struct {STSOpenFunct open; tmode mode;} OpenFunctStruct;
 
 static OpenFunctStruct OpenFuncts[] = 
 {
-	OpenSubRipper, TIME, EXTSRT,
-	OpenOldSubRipper, TIME, EXTSRT,
-	OpenSubViewer, TIME, EXTSUB,
-	OpenMicroDVD, FRAME, EXTSSA,
-	OpenSami, TIME, EXTSMI,
-	OpenVPlayer, TIME, EXTSRT,
-	OpenSubStationAlpha, TIME, EXTSSA,
-	OpenXombieSub, TIME, EXTXSS,
-	OpenUSF, TIME, EXTUSF,
-	OpenMPL2, TIME, EXTSRT,
+	OpenSubRipper, TIME,
+	OpenOldSubRipper, TIME,
+	OpenSubViewer, TIME,
+	OpenMicroDVD, FRAME,
+	OpenSami, TIME,
+	OpenVPlayer, TIME,
+	OpenSubStationAlpha, TIME,
+	OpenXombieSub, TIME,
+	OpenUSF, TIME,
+	OpenMPL2, TIME,
 };
 
 static int nOpenFuncts = countof(OpenFuncts);
@@ -1786,8 +1783,6 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 
 	m_name = sts.m_name;
 	m_mode = sts.m_mode;
-	m_path = sts.m_path;
-	m_exttype = sts.m_exttype;
 	m_dstScreenSize = sts.m_dstScreenSize;
 	m_defaultWrapStyle = sts.m_defaultWrapStyle;
 	m_collisions = sts.m_collisions;
@@ -2572,7 +2567,6 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 		}
 
 		m_name = name;
-		m_exttype = OpenFuncts[i].type;
 		m_mode = OpenFuncts[i].mode;
 		m_encoding = f->GetEncoding();
 		m_path = f->GetFilePath();
@@ -2963,11 +2957,7 @@ void STSStyle::operator = (LOGFONT& lf)
 LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 {
 	lfa.lfCharSet = s.charSet;
-#ifdef UNICODE
-	wcstombs(lfa.lfFaceName, s.fontName, 32);
-#else
-	strncpy(lfa.lfFaceName, s.fontName, 32);
-#endif
+	strcpy_s(lfa.lfFaceName, CStringA(s.fontName));
 	HDC hDC = GetDC(0);
 	lfa.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
 	ReleaseDC(0, hDC);
@@ -2975,18 +2965,13 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 	lfa.lfItalic = s.fItalic?-1:0;
 	lfa.lfUnderline = s.fUnderline?-1:0;
 	lfa.lfStrikeOut = s.fStrikeOut?-1:0;
-
 	return(lfa);
 }
 
 LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 {
 	lfw.lfCharSet = s.charSet;
-#ifdef UNICODE
-	wcsncpy(lfw.lfFaceName, s.fontName, 32);
-#else
-	mbstowcs(lfw.lfFaceName, s.fontName, 32);
-#endif
+	wcscpy_s(lfw.lfFaceName, CStringW(s.fontName));
 	HDC hDC = GetDC(0);
 	lfw.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
 	ReleaseDC(0, hDC);
@@ -2994,7 +2979,6 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 	lfw.lfItalic = s.fItalic?-1:0;
 	lfw.lfUnderline = s.fUnderline?-1:0;
 	lfw.lfStrikeOut = s.fStrikeOut?-1:0;
-
 	return(lfw);
 }
 

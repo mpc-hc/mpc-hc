@@ -112,9 +112,9 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	m_tab.InsertItem(0, ResStr(IDS_R_FAVFILES));
-	m_tab.InsertItem(1, ResStr(IDS_R_FAVDVDS));
-//	m_tab.InsertItem(2, ResStr(IDS_R_FAVDEVICES));
+	m_tab.InsertItem(0, ResStr(IDS_FAVFILES));
+	m_tab.InsertItem(1, ResStr(IDS_FAVDVDS));
+//	m_tab.InsertItem(2, ResStr(IDS_FAVDEVICES));
 	m_tab.SetCurSel(0);
 
 	m_list.InsertColumn(0, _T(""));

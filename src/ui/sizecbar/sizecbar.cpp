@@ -571,7 +571,7 @@ void CSizingControlBar::OnPaint()
     CPaintDC dc(this);
 }
 
-UINT CSizingControlBar::OnNcHitTest(CPoint point)
+LRESULT CSizingControlBar::OnNcHitTest(CPoint point)
 {
     CRect rcBar, rcEdge;
     GetWindowRect(rcBar);

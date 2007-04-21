@@ -253,16 +253,37 @@ STDMETHODIMP IDSMResourceBagImpl::ResRemoveAll(DWORD_PTR tag)
 // CDSMChapter
 //
 
+CDSMChapter::CDSMChapter()
+{
+	order = counter++;
+	rt = 0;
+}
+
 CDSMChapter::CDSMChapter(REFERENCE_TIME rt, LPCWSTR name)
 {
+	order = counter++;
 	this->rt = rt;
 	this->name = name;
 }
 
 void CDSMChapter::operator = (const CDSMChapter& c)
 {
+	order = c.counter;
 	rt = c.rt;
 	name = c.name;
+}
+
+int CDSMChapter::counter = 0;
+
+int CDSMChapter::Compare(const void* a, const void* b)
+{
+	const CDSMChapter* ca = (const CDSMChapter*)a;
+	const CDSMChapter* cb = (const CDSMChapter*)b;
+
+	if(ca->rt > cb->rt) return 1;
+	else if(ca->rt < cb->rt) return -1;
+
+	return ca->order - cb->order;
 }
 
 //
@@ -348,17 +369,10 @@ STDMETHODIMP_(long) IDSMChapterBagImpl::ChapLookup(REFERENCE_TIME* prt, BSTR* pp
 	return i;
 }
 
-static int chapter_comp(const void* a, const void* b)
-{
-	if(((CDSMChapter*)a)->rt > ((CDSMChapter*)b)->rt) return 1;
-	else if(((CDSMChapter*)a)->rt < ((CDSMChapter*)b)->rt) return -1;
-	return 0;
-}
-
 STDMETHODIMP IDSMChapterBagImpl::ChapSort()
 {
 	if(m_fSorted) return S_FALSE;
-	qsort(m_chapters.GetData(), m_chapters.GetCount(), sizeof(CDSMChapter), chapter_comp);
+	qsort(m_chapters.GetData(), m_chapters.GetCount(), sizeof(CDSMChapter), CDSMChapter::Compare);
 	m_fSorted = true;
 	return S_OK;
 }
