@@ -32,7 +32,7 @@ namespace ssf
 	{
 	}
 
-	void SubtitleFile::Parse(Stream& s)
+	void SubtitleFile::Parse(InputStream& s)
 	{
 		m_segments.RemoveAll();
 
@@ -41,9 +41,9 @@ namespace ssf
 		// TODO: check file.format == "ssf" and file.version == 1
 
 		CAtlList<Definition*> defs;
-		GetRootRef()->GetChildDefs(defs, _T("subtitle"));
+		GetRootRef()->GetChildDefs(defs, L"subtitle");
 		
-		CAtlStringMap<double> offset;
+		StringMapW<float> offset;
 
 		POSITION pos = defs.GetHeadPosition();
 		while(pos)
@@ -54,7 +54,7 @@ namespace ssf
 			{
 				Definition::Time time;
 
-				if(pDef->GetAsTime(time, offset) && (*pDef)[_T("@")].IsValue())
+				if(pDef->GetAsTime(time, offset) && (*pDef)[L"@"].IsValue())
 				{
 					m_segments.Insert(time.start.value, time.stop.value, pDef);
 				}
@@ -65,7 +65,51 @@ namespace ssf
 		}
 	}
 
-	bool SubtitleFile::Lookup(double at, CAutoPtrList<Subtitle>& subs)
+	void SubtitleFile::Append(InputStream& s, float start, float stop, bool fSetTime)
+	{
+		Reference* pRootRef = GetRootRef();
+
+		ParseDefs(s, pRootRef);
+
+		CAtlList<Definition*> defs;
+		GetNewDefs(defs);
+
+		POSITION pos = defs.GetHeadPosition();
+		while(pos)
+		{
+			Definition* pDef = defs.GetNext(pos);
+
+			if(pDef->m_parent == pRootRef && pDef->m_type == L"subtitle" && (*pDef)[L"@"].IsValue())
+			{
+				m_segments.Insert(start, stop, pDef);
+
+				if(fSetTime) 
+				{
+					try
+					{
+						Definition::Time time;
+						StringMapW<float> offset;
+						pDef->GetAsTime(time, offset);
+						if(time.start.value == start && time.stop.value == stop)
+							continue;
+					}
+					catch(Exception&)
+					{
+					}
+
+					CStringW str;
+					str.Format(L"%.3f", start);
+					pDef->SetChildAsNumber(L"time.start", str, L"s");
+					str.Format(L"%.3f", stop);
+					pDef->SetChildAsNumber(L"time.stop", str, L"s");
+				}
+			}
+		}
+
+		Commit();
+	}
+
+	bool SubtitleFile::Lookup(float at, CAutoPtrList<Subtitle>& subs)
 	{
 		if(!subs.IsEmpty()) {ASSERT(0); return false;}
 
@@ -102,7 +146,7 @@ namespace ssf
 
 	//
 
-	SubtitleFile::Segment::Segment(double start, double stop, const SegmentItem* si)
+	SubtitleFile::Segment::Segment(float start, float stop, const SegmentItem* si)
 	{
 		m_start = start;
 		m_stop = stop;
@@ -130,7 +174,7 @@ namespace ssf
 		m_index.RemoveAll();
 	}
 
-	void SubtitleFile::SegmentList::Insert(double start, double stop, Definition* pDef)
+	void SubtitleFile::SegmentList::Insert(float start, float stop, Definition* pDef)
 	{
 		if(start >= stop) {ASSERT(0); return;}
 
@@ -217,7 +261,7 @@ namespace ssf
 		return m_index.GetCount();
 	}
 
-	void SubtitleFile::SegmentList::Lookup(double at, CAtlList<SegmentItem>& sis)
+	void SubtitleFile::SegmentList::Lookup(float at, CAtlList<SegmentItem>& sis)
 	{
 		sis.RemoveAll();
 
@@ -228,7 +272,7 @@ namespace ssf
 		}
 	}
 
-	bool SubtitleFile::SegmentList::Lookup(double at, size_t& k)
+	bool SubtitleFile::SegmentList::Lookup(float at, size_t& k)
 	{
 		if(!Index()) return false;
 
@@ -254,102 +298,106 @@ namespace ssf
 
 	// TODO: this should be overridable from outside
 
-	LPCTSTR SubtitleFile::s_predef = 
-		_T("color#white {a: 255; r: 255; g: 255; b: 255;}; \n")
-		_T("color#black {a: 255; r: 0; g: 0; b: 0;}; \n")
-		_T("color#gray {a: 255; r: 128; g: 128; b: 128;}; \n") 
-		_T("color#red {a: 255; r: 255; g: 0; b: 0;}; \n")
-		_T("color#green {a: 255; r: 0; g: 255; b: 0;}; \n")
-		_T("color#blue {a: 255; r: 0; g: 0; b: 255;}; \n")
-		_T("color#cyan {a: 255; r: 0; g: 255; b: 255;}; \n")
-		_T("color#yellow {a: 255; r: 255; g: 255; b: 0;}; \n")
-		_T("color#magenta {a: 255; r: 255; g: 0; b: 255;}; \n")
-		_T(" \n")
-		_T("align#topleft {v: \"top\"; h: \"left\";}; \n")
-		_T("align#topcenter {v: \"top\"; h: \"center\";}; \n")
-		_T("align#topright {v: \"top\"; h: \"right\";}; \n")
-		_T("align#middleleft {v: \"middle\"; h: \"left\";}; \n")
-		_T("align#middlecenter {v: \"middle\"; h: \"center\";}; \n")
-		_T("align#middleright {v: \"middle\"; h: \"right\";}; \n")
-		_T("align#bottomleft {v: \"bottom\"; h: \"left\";}; \n")
-		_T("align#bottomcenter {v: \"bottom\"; h: \"center\";}; \n")
-		_T("align#bottomright {v: \"bottom\"; h: \"right\";}; \n")
-		_T(" \n")
-		_T("time#time {scale: 1;}; \n")
-		_T("time#startstop {start: \"start\"; stop: \"stop\";}; \n")
-		_T(" \n")
-		_T("#b {font.weight: \"bold\"}; \n")
-		_T("#i {font.italic: \"true\"}; \n")
-		_T("#u {font.underline: \"true\"}; \n")
-		_T("#s {font.strikethrough: \"true\"}; \n")
-		_T(" \n")
-		_T("#nobr {linebreak: \"none\"}; \n")
-		_T(" \n")
-		_T("subtitle#subtitle \n")
-		_T("{ \n")
-		_T("	frame \n")
-		_T("	{ \n")
-		_T("		reference: \"video\"; \n")
-		_T("		resolution: {cx: 640; cy: 480;}; \n")
-		_T("	}; \n")
-		_T(" \n")
-		_T("	direction \n")
-		_T("	{ \n")
-		_T("		primary: \"right\"; \n")
-		_T("		secondary: \"down\"; \n")
-		_T("	}; \n")
-		_T(" \n")
-		_T("	wrap: \"normal\"; \n")
-		_T(" \n")
-		_T("	layer: 0; \n")
-		_T(" \n")
-		_T("	style \n")
-		_T("	{ \n")
-		_T("		linebreak: \"word\"; \n")
-		_T(" \n")		
-		_T("		placement \n")
-		_T("		{ \n")
-		_T("			clip: \"frame\"; \n")
-		_T("			margin: {t: 0; r: 0; b: 0; l: 0;}; \n")
-		_T("			align: bottomcenter; \n")
-		_T("			pos: \"auto\" \n")
-		_T("			offset: {x: 0; y: 0;}; \n")
-		_T("			angle: {x: 0; y: 0; z: 0;}; \n")
-		_T("		}; \n")
-		_T(" \n")
-		_T("		font \n")
-		_T("		{ \n")
-		_T("			face: \"Arial\"; \n")
-		_T("			size: 20; \n")
-		_T("			weight: \"bold\"; \n")
-		_T("			color: white; \n")
-		_T("			underline: \"false\"; \n")
-		_T("			strikethrough: \"false\"; \n")
-		_T("			italic: \"false\"; \n")
-		_T("			spacing: 0; \n")
-		_T("			scale: {cx: 1; cy: 1;}; \n")
-		_T("		}; \n")
-		_T(" \n")
-		_T("		background \n")
-		_T("		{ \n")
-		_T("			color: black; \n")
-		_T("			size: 2; \n")
-		_T("			type: \"outline\"; \n")
-		_T("		}; \n")
-		_T(" \n")
-		_T("		shadow \n")
-		_T("		{ \n")
-		_T("			color: black {a: 128;}; \n")
-		_T("			depth: 2; \n")
-		_T("			angle: -45; \n")
-		_T("			blur: 0; \n")
-		_T("		}; \n")
-		_T(" \n")
-		_T("		fill \n")
-		_T("		{ \n")
-		_T("			color: yellow; \n")
-		_T("			width: 0; \n")
-		_T("		}; \n")
-		_T("	}; \n")
-		_T("}; \n");
+	LPCWSTR SubtitleFile::s_predef = 
+		L"color#white {a: 255; r: 255; g: 255; b: 255;}; \n"
+		L"color#black {a: 255; r: 0; g: 0; b: 0;}; \n"
+		L"color#gray {a: 255; r: 128; g: 128; b: 128;}; \n" 
+		L"color#red {a: 255; r: 255; g: 0; b: 0;}; \n"
+		L"color#green {a: 255; r: 0; g: 255; b: 0;}; \n"
+		L"color#blue {a: 255; r: 0; g: 0; b: 255;}; \n"
+		L"color#cyan {a: 255; r: 0; g: 255; b: 255;}; \n"
+		L"color#yellow {a: 255; r: 255; g: 255; b: 0;}; \n"
+		L"color#magenta {a: 255; r: 255; g: 0; b: 255;}; \n"
+		L" \n"
+		L"align#topleft {v: \"top\"; h: \"left\";}; \n"
+		L"align#topcenter {v: \"top\"; h: \"center\";}; \n"
+		L"align#topright {v: \"top\"; h: \"right\";}; \n"
+		L"align#middleleft {v: \"middle\"; h: \"left\";}; \n"
+		L"align#middlecenter {v: \"middle\"; h: \"center\";}; \n"
+		L"align#middleright {v: \"middle\"; h: \"right\";}; \n"
+		L"align#bottomleft {v: \"bottom\"; h: \"left\";}; \n"
+		L"align#bottomcenter {v: \"bottom\"; h: \"center\";}; \n"
+		L"align#bottomright {v: \"bottom\"; h: \"right\";}; \n"
+		L" \n"
+		L"time#time {scale: 1;}; \n"
+		L"time#startstop {start: \"start\"; stop: \"stop\";}; \n"
+		L" \n"
+		L"#b {font.weight: \"bold\"}; \n"
+		L"#i {font.italic: \"true\"}; \n"
+		L"#u {font.underline: \"true\"}; \n"
+		L"#s {font.strikethrough: \"true\"}; \n"
+		L" \n"
+		L"#nobr {linebreak: \"none\"}; \n"
+		L" \n"
+		L"subtitle#subtitle \n"
+		L"{ \n"
+		L"	frame \n"
+		L"	{ \n"
+		L"		reference: \"video\"; \n"
+		L"		resolution: {cx: 640; cy: 480;}; \n"
+		L"	}; \n"
+		L" \n"
+		L"	direction \n"
+		L"	{ \n"
+		L"		primary: \"right\"; \n"
+		L"		secondary: \"down\"; \n"
+		L"	}; \n"
+		L" \n"
+		L"	wrap: \"normal\"; \n"
+		L" \n"
+		L"	layer: 0; \n"
+		L" \n"
+		L"	style \n"
+		L"	{ \n"
+		L"		linebreak: \"word\"; \n"
+		L" \n"		
+		L"		placement \n"
+		L"		{ \n"
+		L"			clip: \"none\"; \n"
+		L"			margin: {t: 0; r: 0; b: 0; l: 0;}; \n"
+		L"			align: bottomcenter; \n"
+		L"			pos: \"auto\" \n"
+		L"			offset: {x: 0; y: 0;}; \n"
+		L"			angle: {x: 0; y: 0; z: 0;}; \n"
+		L"			org: \"auto\" \n"
+		L"			path: \"\"; \n"
+		L"		}; \n"
+		L" \n"
+		L"		font \n"
+		L"		{ \n"
+		L"			face: \"Arial\"; \n"
+		L"			size: 20; \n"
+		L"			weight: \"bold\"; \n"
+		L"			color: white; \n"
+		L"			underline: \"false\"; \n"
+		L"			strikethrough: \"false\"; \n"
+		L"			italic: \"false\"; \n"
+		L"			spacing: 0; \n"
+		L"			scale: {cx: 1; cy: 1;}; \n"
+		L"			kerning: \"true\"; \n"
+		L"		}; \n"
+		L" \n"
+		L"		background \n"
+		L"		{ \n"
+		L"			color: black; \n"
+		L"			size: 2; \n"
+		L"			type: \"outline\"; \n"
+		L"			blur: 0; \n"
+		L"		}; \n"
+		L" \n"
+		L"		shadow \n"
+		L"		{ \n"
+		L"			color: black {a: 128;}; \n"
+		L"			depth: 2; \n"
+		L"			angle: -45; \n"
+		L"			blur: 0; \n"
+		L"		}; \n"
+		L" \n"
+		L"		fill \n"
+		L"		{ \n"
+		L"			color: yellow; \n"
+		L"			width: 0; \n"
+		L"		}; \n"
+		L"	}; \n"
+		L"}; \n";
 }

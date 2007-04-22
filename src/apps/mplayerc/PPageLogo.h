@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <atlimage.h>
+#include "libpng.h"
 
 // CPPageLogo dialog
 
@@ -32,7 +32,7 @@ class CPPageLogo : public CPPageBase
 private:
 	CList<UINT> m_logoids;
 	POSITION m_logoidpos;
-	CImage m_logobm;
+	CPngImage m_logobm;
 
 public:
 	CPPageLogo();

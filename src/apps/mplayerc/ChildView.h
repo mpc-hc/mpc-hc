@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <atlimage.h>
+#include "libpng.h"
 
 class CChildView : public CWnd
 {
@@ -31,7 +31,7 @@ class CChildView : public CWnd
 	CPoint m_lastlmdownpoint;
 
 	CCritSec m_csLogo;
-	CImage m_logo;
+	CPngImage m_logo;
 
 public:
 	CChildView();

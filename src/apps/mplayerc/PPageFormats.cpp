@@ -312,12 +312,12 @@ bool CPPageFormats::RegisterExt(CString ext, bool fRegister)
 	return(true);
 }
 
-static struct {TCHAR verb[20], cmd[20], action[100];} handlers[] =
+static struct {LPCSTR verb, cmd; UINT action;} handlers[] =
 {
-	{_T("VideoFiles"), _T(" %1"), _T("")},
-	{_T("MusicFiles"), _T(" %1"), _T("")},
-	{_T("CDAudio"), _T(" %1 /cd"), _T("")},
-	{_T("DVDMovie"), _T(" %1 /dvd"), _T("")},
+	{"VideoFiles", " %1", IDS_AUTOPLAY_PLAYVIDEO},
+	{"MusicFiles", " %1", IDS_AUTOPLAY_PLAYMUSIC},
+	{"CDAudio", " %1 /cd", IDS_AUTOPLAY_PLAYAUDIOCD},
+	{"DVDMovie", " %1 /dvd", IDS_AUTOPLAY_PLAYDVDMOVIE},
 };
 
 void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
@@ -339,29 +339,29 @@ void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 		key.Close();
 
 		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, 
-			CString(_T("MediaPlayerClassic.Autorun\\Shell\\Play")) + handlers[i].verb + _T("\\Command"))) return;
+			CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) return;
 		key.SetStringValue(NULL, exe + handlers[i].cmd);
 		key.Close();
 
-		if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, 
-			CString(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\MPCPlay")) + handlers[i].verb + _T("OnArrival"))) return;
-		key.SetStringValue(_T("Action"), handlers[i].action);
+		if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
+			CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\MPCPlay") + handlers[i].verb + "OnArrival"))) return;
+		key.SetStringValue(_T("Action"), ResStr(handlers[i].action));
 		key.SetStringValue(_T("Provider"), _T("Media Player Classic"));
 		key.SetStringValue(_T("InvokeProgID"), _T("MediaPlayerClassic.Autorun"));
-		key.SetStringValue(_T("InvokeVerb"), CString(_T("Play")) + handlers[i].verb);
+		key.SetStringValue(_T("InvokeVerb"), CString(CStringA("Play") + handlers[i].verb));
 		key.SetStringValue(_T("DefaultIcon"), exe + _T(",0"));
 		key.Close();
 
 		if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, 
-			CString(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play")) + handlers[i].verb + _T("OnArrival"))) return;
-		key.SetStringValue(CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"), _T(""));
+			CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) return;
+		key.SetStringValue(CString(CStringA("MPCPlay") + handlers[i].verb + "OnArrival"), _T(""));
 		key.Close();
 	}
 	else
 	{
 		if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, 
-			CString(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play")) + handlers[i].verb + _T("OnArrival"))) return;
-		key.DeleteValue(CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"));
+			CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) return;
+		key.DeleteValue(CString(CStringA("MPCPlay") + handlers[i].verb + "OnArrival"));
 		key.Close();
 	}
 }
@@ -379,7 +379,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	CRegKey key;
 
 	if(ERROR_SUCCESS != key.Open(HKEY_LOCAL_MACHINE, 
-		CString(_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play")) + handlers[i].verb + _T("OnArrival"),
+		CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"),
 		KEY_READ)) return(false);
 	len = countof(buff);
 	if(ERROR_SUCCESS != key.QueryStringValue(
@@ -388,7 +388,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	key.Close();
 
 	if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, 
-		CString(_T("MediaPlayerClassic.Autorun\\Shell\\Play")) + handlers[i].verb + _T("\\Command"),
+		CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
 		KEY_READ)) return(false);
 	len = countof(buff);
 	if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len))
@@ -437,11 +437,6 @@ END_MESSAGE_MAP()
 BOOL CPPageFormats::OnInitDialog()
 {
 	__super::OnInitDialog();
-
-	_tcscpy(handlers[0].action, ResStr(IDS_AUTOPLAY_PLAYVIDEO));
-	_tcscpy(handlers[1].action, ResStr(IDS_AUTOPLAY_PLAYMUSIC));
-	_tcscpy(handlers[2].action, ResStr(IDS_AUTOPLAY_PLAYAUDIOCD));
-	_tcscpy(handlers[3].action, ResStr(IDS_AUTOPLAY_PLAYDVDMOVIE));
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
 

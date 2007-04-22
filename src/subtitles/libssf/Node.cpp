@@ -29,11 +29,12 @@
 
 namespace ssf
 {
-	Node::Node(const NodeFactory* pnf, CString name)
+	Node::Node(NodeFactory* pnf, CStringW name)
 		: m_pnf(pnf)
-		, m_type(_T("?"))
+		, m_type('?')
 		, m_name(name)
 		, m_priority(PNormal)
+		, m_predefined(false)
 		, m_parent(NULL)
 	{
 		ASSERT(m_pnf);
@@ -53,20 +54,20 @@ namespace ssf
 
 	bool Node::IsNameUnknown()
 	{
-		return m_name.IsEmpty() || !!_istdigit(m_name[0]);
+		return m_name.IsEmpty() || !!iswdigit(m_name[0]);
 	}
 
 	bool Node::IsTypeUnknown()
 	{
-		return m_type.IsEmpty() || m_type == _T("?");
+		return m_type.IsEmpty() || m_type == '?';
 	}
 
-	bool Node::IsType(CString type)
+	bool Node::IsType(CStringW type)
 	{
 		return m_type == type;
 	}
 
-	void Node::GetChildDefs(CAtlList<Definition*>& l, LPCTSTR type, bool fFirst)
+	void Node::GetChildDefs(CAtlList<Definition*>& l, LPCWSTR type, bool fFirst)
 	{
 		CAtlList<Definition*> rdl[3];
 
@@ -95,7 +96,7 @@ namespace ssf
 
 	// Reference
 
-	Reference::Reference(const NodeFactory* pnf, CString name)
+	Reference::Reference(NodeFactory* pnf, CStringW name)
 		: Node(pnf, name)
 	{
 	}
@@ -104,7 +105,7 @@ namespace ssf
 	{
 	}
 
-	void Reference::GetChildDefs(CAtlList<Definition*>& l, LPCTSTR type, bool fFirst)
+	void Reference::GetChildDefs(CAtlList<Definition*>& l, LPCWSTR type, bool fFirst)
 	{
 		CAtlList<Definition*> rdl[3];
 
@@ -126,36 +127,32 @@ namespace ssf
 		}
 	}
 
-	void Reference::Dump(NodePriority priority, int level, bool fLast)
+	void Reference::Dump(OutputStream& s, int level, bool fLast)
 	{
-		if(m_priority < priority) return;
+		if(m_predefined) return;
 
-		CString tabs;
+		CStringW tabs(' ', level*4);
 
-		if(level > 0)
-		{
-			tabs.Format(_T("%%%ds"), level*4);
-			tabs.Format(CString(tabs), _T(" "));
-		}
-
-		// TRACE(tabs + _T("\n") + tabs + _T(" {\n"));
-		TRACE(_T(" {\n"));
+		// s.PutString(tabs + '\n' + tabs + L" {\n");
+		s.PutString(L" {\n");
 
 		POSITION pos = m_nodes.GetHeadPosition();
 		while(pos)
 		{
-			if(Definition* pDef = dynamic_cast<Definition*>(m_nodes.GetNext(pos)))
+			Node* pNode = m_nodes.GetNext(pos);
+
+			if(Definition* pDef = dynamic_cast<Definition*>(pNode))
 			{
-				pDef->Dump(priority, level + 1, pos == NULL);
+				pDef->Dump(s, level + 1, pos == NULL);
 			}
 		}
 
-		TRACE(tabs + _T("}"));
+		s.PutString(tabs + '}');
 	}
 
 	// Definition
 
-	Definition::Definition(const NodeFactory* pnf, CString name)
+	Definition::Definition(NodeFactory* pnf, CStringW name)
 		: Node(pnf, name)
 		, m_status(node)
 		, m_autotype(false)
@@ -204,13 +201,13 @@ namespace ssf
 		__super::AddTail(pNode);
 	}
 
-	Definition& Definition::operator[] (LPCTSTR type) 
+	Definition& Definition::operator[] (LPCWSTR type) 
 	{
 		Definition* pRetDef = NULL;
 		if(m_type2def.Lookup(type, pRetDef))
 			return *pRetDef;
 
-		pRetDef = new Definition(m_pnf, _T(""));
+		pRetDef = new Definition(m_pnf, L"");
 		pRetDef->m_priority = PLow;
 		pRetDef->m_type = type;
 		m_type2def[type] = pRetDef;
@@ -239,14 +236,14 @@ namespace ssf
 		return *pRetDef;
 	}
 
-	void Definition::RemoveFromCache(LPCTSTR type)
+	void Definition::RemoveFromCache(LPCWSTR type)
 	{
 		if(!type)
 		{
 			POSITION pos = m_type2def.GetStartPosition();
 			while(pos) delete m_type2def.GetNextValue(pos);
 		}
-		else if(CAtlStringMap<Definition*>::CPair* p = m_type2def.Lookup(type))
+		else if(StringMapW<Definition*>::CPair* p = m_type2def.Lookup(type))
 		{
 			delete p->m_value;
 			m_type2def.RemoveKey(type);
@@ -258,7 +255,7 @@ namespace ssf
 		return s ? m_status == s : m_status != node;
 	}
 
-	void Definition::SetAsValue(status_t s, CString v, CString u)
+	void Definition::SetAsValue(status_t s, CStringW v, CStringW u)
 	{
 		ASSERT(s != node);
 
@@ -271,19 +268,19 @@ namespace ssf
 		m_unit = u;
 	}
 
-	void Definition::SetAsNumber(CString v, CString u)
+	void Definition::SetAsNumber(CStringW v, CStringW u)
 	{
 		SetAsValue(number, v, u);
 
-		Number<double> n;
+		Number<float> n;
 		GetAsNumber(n); // will throw an exception if not a number
 	}
 
 	template<class T> 
-	void Definition::GetAsNumber(Number<T>& n, CAtlStringMap<T>* n2n)
+	void Definition::GetAsNumber(Number<T>& n, StringMapW<T>* n2n)
 	{
-		CString str = m_value;
-		str.Replace(_T(" "), _T(""));
+		CStringW str = m_value;
+		str.Replace(L" ", L"");
 
 		n.value = 0;
 		n.unit = m_unit;
@@ -293,7 +290,7 @@ namespace ssf
 		{
 			if(m_status == node) throw Exception(_T("expected value type"));
 
-			if(CAtlStringMap<T>::CPair* p = n2n->Lookup(str))
+			if(StringMapW<T>::CPair* p = n2n->Lookup(str))
 			{
 				n.value = p->m_value;
 				return;
@@ -303,60 +300,74 @@ namespace ssf
 		if(m_status != number) throw Exception(_T("expected number"));
 
 		n.sign = str.Find('+') == 0 ? 1 : str.Find('-') == 0 ? -1 : 0;
-		str.TrimLeft(_T("+-"));
+		str.TrimLeft(L"+-");
 
-		if(str.Find(_T("0x")) == 0)
+		if(str.Find(L"0x") == 0)
 		{
 			if(n.sign) throw Exception(_T("hex values must be unsigned"));
 
-			n.value = (T)_tcstoul(str.Mid(2), NULL, 16);
+			n.value = (T)wcstoul(str.Mid(2), NULL, 16);
 		}
 		else
 		{
-			Split sa(_T(":"), str);
-			Split sa2(_T("."), sa ? sa[sa-1] : _T(""));
+			CStringW num_string = m_value + m_unit;
 
-			if(sa == 0 || sa2 == 0 || sa2 > 2) throw Exception(_T("invalid number"));
+			if(m_num_string != num_string)
+			{
+				Split sa(':', str);
+				Split sa2('.', sa ? sa[sa-1] : L"");
 
-			double d = 0;
-			for(size_t i = 0; i < sa; i++) {d *= 60; d += _tcstoul(sa[i], NULL, 10);}
-			if(sa2 > 1) d += (double)_tcstoul(sa2[1], NULL, 10) / pow((float)10, sa2[1].GetLength());
+				if(sa == 0 || sa2 == 0 || sa2 > 2) throw Exception(_T("invalid number"));
 
-			if(n.unit == _T("ms")) {d /= 1000; n.unit = _T("s");}
-			else if(n.unit == _T("m")) {d *= 60; n.unit = _T("s");}
-			else if(n.unit == _T("h")) {d *= 3600; n.unit = _T("s");}
+				float f = 0;
+				for(size_t i = 0; i < sa; i++) {f *= 60; f += wcstoul(sa[i], NULL, 10);}
+				if(sa2 > 1) f += (float)wcstoul(sa2[1], NULL, 10) / pow((float)10, sa2[1].GetLength());
 
-			n.value = (T)d;
+				if(n.unit == L"ms") {f /= 1000; n.unit = L"s";}
+				else if(n.unit == L"m") {f *= 60; n.unit = L"s";}
+				else if(n.unit == L"h") {f *= 3600; n.unit = L"s";}
+
+				m_num.value = f;
+				m_num.unit = n.unit;
+				m_num_string = num_string;
+
+				n.value = (T)f;
+			}
+			else
+			{
+				n.value = (T)m_num.value;
+				n.unit = m_num.unit;
+			}
 
 			if(n.sign) n.value *= n.sign;
 		}
 	}
 
-	void Definition::GetAsString(CString& str)
+	void Definition::GetAsString(CStringW& str)
 	{
 		if(m_status == node) throw Exception(_T("expected value type"));
 
 		str = m_value; 
 	}
 
-	void Definition::GetAsNumber(Number<int>& n, CAtlStringMap<int>* n2n) {return GetAsNumber<int>(n, n2n);}
-	void Definition::GetAsNumber(Number<DWORD>& n, CAtlStringMap<DWORD>* n2n) {return GetAsNumber<DWORD>(n, n2n);}
-	void Definition::GetAsNumber(Number<double>& n, CAtlStringMap<double>* n2n) {return GetAsNumber<double>(n, n2n);}
+	void Definition::GetAsNumber(Number<int>& n, StringMapW<int>* n2n) {return GetAsNumber<int>(n, n2n);}
+	void Definition::GetAsNumber(Number<DWORD>& n, StringMapW<DWORD>* n2n) {return GetAsNumber<DWORD>(n, n2n);}
+	void Definition::GetAsNumber(Number<float>& n, StringMapW<float>* n2n) {return GetAsNumber<float>(n, n2n);}
 
 	void Definition::GetAsBoolean(bool& b)
 	{
-		static CAtlStringMap<bool> s2b;
+		static StringMapW<bool> s2b;
 
 		if(s2b.IsEmpty())
 		{
-			s2b[_T("true")] = true;
-			s2b[_T("on")] = true;
-			s2b[_T("yes")] = true;
-			s2b[_T("1")] = true;
-			s2b[_T("false")] = false;
-			s2b[_T("off")] = false;
-			s2b[_T("no")] = false;
-			s2b[_T("0")] = false;
+			s2b[L"true"] = true;
+			s2b[L"on"] = true;
+			s2b[L"yes"] = true;
+			s2b[L"1"] = true;
+			s2b[L"false"] = false;
+			s2b[L"off"] = false;
+			s2b[L"no"] = false;
+			s2b[L"0"] = false;
 		}
 
 		if(!s2b.Lookup(m_value, b)) // m_status != boolean && m_status != number || 
@@ -365,25 +376,25 @@ namespace ssf
 		}
 	}
 
-	bool Definition::GetAsTime(Time& t, CAtlStringMap<double>& offset, CAtlStringMap<double>* n2n, int default_id)
+	bool Definition::GetAsTime(Time& t, StringMapW<float>& offset, StringMapW<float>* n2n, int default_id)
 	{
-		Definition& time = (*this)[_T("time")];
+		Definition& time = (*this)[L"time"];
 
-		CString id;
-		if(time[_T("id")].IsValue()) id = time[_T("id")];
-		else id.Format(_T("%d"), default_id);
+		CStringW id;
+		if(time[L"id"].IsValue()) id = time[L"id"];
+		else id.Format(L"%d", default_id);
 
-		double scale = time[_T("scale")].IsValue() ? time[_T("scale")] : 1.0;
+		float scale = time[L"scale"].IsValue() ? time[L"scale"] : 1.0f;
 
-		if(time[_T("start")].IsValue() && time[_T("stop")].IsValue())
+		if(time[L"start"].IsValue() && time[L"stop"].IsValue())
 		{
-			time[_T("start")].GetAsNumber(t.start, n2n);
-			time[_T("stop")].GetAsNumber(t.stop, n2n);
+			time[L"start"].GetAsNumber(t.start, n2n);
+			time[L"stop"].GetAsNumber(t.stop, n2n);
 
 			if(t.start.unit.IsEmpty()) t.start.value *= scale;
 			if(t.stop.unit.IsEmpty()) t.stop.value *= scale;
 
-			double o = 0;
+			float o = 0;
 			offset.Lookup(id, o);
 
 			if(t.start.sign != 0) t.start.value = o + t.start.value;
@@ -397,16 +408,16 @@ namespace ssf
 		return false;
 	}
 
-	Definition::operator LPCTSTR()
+	Definition::operator LPCWSTR()
 	{
-		CString str;
+		CStringW str;
 		GetAsString(str);
 		return str;
 	}
 
-	Definition::operator double()
+	Definition::operator float()
 	{
-		double d;
+		float d;
 		GetAsNumber(d);
 		return d;
 	}
@@ -418,25 +429,77 @@ namespace ssf
 		return b;
 	}
 
-	void Definition::Dump(NodePriority priority, int level, bool fLast)
+	Definition* Definition::SetChildAsValue(CStringW path, status_t s, CStringW v, CStringW u)
 	{
-		if(m_priority < priority) return;
+		Definition* pDef = this;
 
-		CString tabs;
+		Split split('.', path);
 
-		if(level > 0)
+		for(size_t i = 0, j = split-1; i <= j; i++)
 		{
-			tabs.Format(_T("%%%ds"), level*4);
-			tabs.Format(CString(tabs), _T(" "));
+			CStringW type = split[i];
+
+			if(pDef->m_nodes.IsEmpty() || !dynamic_cast<Reference*>(pDef->m_nodes.GetTail()))
+			{
+				EXECUTE_ASSERT(m_pnf->CreateRef(pDef) != NULL);
+			}
+
+			if(Reference* pRef = dynamic_cast<Reference*>(pDef->m_nodes.GetTail()))
+			{
+				pDef = NULL;
+
+				POSITION pos = pRef->m_nodes.GetTailPosition();
+				while(pos)
+				{
+					Definition* pChildDef = dynamic_cast<Definition*>(pRef->m_nodes.GetPrev(pos));
+
+					if(pChildDef->IsType(type))
+					{
+						if(pChildDef->IsNameUnknown()) pDef = pChildDef;
+						break;
+					}
+				}
+
+				if(!pDef)
+				{
+					pDef = m_pnf->CreateDef(pRef, type);
+				}
+
+				if(i == j)
+				{
+					pDef->SetAsValue(s, v, u);
+					return pDef;
+				}
+			}
 		}
 
-		CString str = tabs;
+		return NULL;
+	}
+
+	Definition* Definition::SetChildAsNumber(CStringW path, CStringW v, CStringW u)
+	{
+		Definition* pDef = SetChildAsValue(path, number, v, u);
+
+		Number<float> n;
+		pDef->GetAsNumber(n); // will throw an exception if not a number
+
+		return pDef;
+	}
+
+	void Definition::Dump(OutputStream& s, int level, bool fLast)
+	{
+		if(m_predefined) return;
+
+		CStringW tabs(' ', level*4);
+
+		CStringW str = tabs;
+		if(m_predefined) str += '?';
 		if(m_priority == PLow) str += '*';
 		else if(m_priority == PHigh) str += '!';
 		if(!IsTypeUnknown() && !m_autotype) str += m_type;
-		if(!IsNameUnknown()) str += _T("#") + m_name;
-		str += _T(":");
-		TRACE(_T("%s"), str);
+		if(!IsNameUnknown()) str += '#' + m_name;
+		str += ':';
+		s.PutString(L"%s", str);
 
 		if(!m_nodes.IsEmpty())
 		{
@@ -447,42 +510,42 @@ namespace ssf
 
 				if(Reference* pRef = dynamic_cast<Reference*>(pNode))
 				{
-					pRef->Dump(priority, level, fLast);
+					pRef->Dump(s, level, fLast);
 				}
 				else 
 				{
 					ASSERT(!pNode->IsNameUnknown());
-					TRACE(_T(" %s"), pNode->m_name);
+					s.PutString(L" %s", pNode->m_name);
 				}
 			}
 
-			TRACE(_T(";\n"));
+			s.PutString(L";\n");
 
-			if(!fLast && (!m_nodes.IsEmpty() || level == 0)) TRACE(_T("\n"));
+			if(!fLast && (!m_nodes.IsEmpty() || level == 0)) s.PutString(L"\n");
 		}
 		else if(m_status == string)
 		{
-			CString str = m_value;
-			str.Replace(_T("\""), _T("\\\""));
-			TRACE(_T(" \"%s\";\n"), str);
+			CStringW str = m_value;
+			str.Replace(L"\"", L"\\\"");
+			s.PutString(L" \"%s\";\n", str);
 		}
 		else if(m_status == number)
 		{
-			CString str = m_value;
+			CStringW str = m_value;
 			if(!m_unit.IsEmpty()) str += m_unit;
-			TRACE(_T(" %s;\n"), str);
+			s.PutString(L" %s;\n", str);
 		}
 		else if(m_status == boolean)
 		{
-			TRACE(_T(" %s;\n"), m_value);
+			s.PutString(L" %s;\n", m_value);
 		}
 		else if(m_status == block)
 		{
-			TRACE(_T(" {%s};\n"), m_value);
+			s.PutString(L" {%s};\n", m_value);
 		}
 		else
 		{
-			TRACE(_T(" null;\n"));
+			s.PutString(L" null;\n");
 		}
 	}
 }

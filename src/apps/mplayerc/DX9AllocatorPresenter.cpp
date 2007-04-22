@@ -96,9 +96,23 @@ protected:
 	HRESULT TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4]);
 
 	// Casimir666
+	typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(
+			LPDIRECT3DSURFACE9        pDestSurface,
+			CONST PALETTEENTRY*       pDestPalette,
+			CONST RECT*               pDestRect,
+			LPCVOID                   pSrcMemory,
+			D3DFORMAT                 SrcFormat,
+			UINT                      SrcPitch,
+			CONST PALETTEENTRY*       pSrcPalette,
+			CONST RECT*               pSrcRect,
+			DWORD                     Filter,
+			D3DCOLOR                  ColorKey);
+
 	int					m_nTearingPos;
 	VMR9AlphaBitmap		m_VMR9AlphaBitmap;
 	HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
+	HINSTANCE			m_hDll;
+	D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
 
 public:
 	CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);
@@ -438,10 +452,19 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 	hr = CreateDevice();
+
+	CString d3dx9_dll;
+	d3dx9_dll.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
+
+	m_pD3DXLoadSurfaceFromMemory = NULL;
+	m_hDll = LoadLibrary(d3dx9_dll);
+	if(m_hDll)
+		m_pD3DXLoadSurfaceFromMemory = (D3DXLoadSurfaceFromMemoryPtr)GetProcAddress(m_hDll, "D3DXLoadSurfaceFromMemory");
 }
 
 CDX9AllocatorPresenter::~CDX9AllocatorPresenter() 
 {
+	if(m_hDll) FreeLibrary(m_hDll);
 }
 
 HRESULT CDX9AllocatorPresenter::CreateDevice()
@@ -1206,16 +1229,17 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					::GetObject(hBitmap, sizeof( DIBSECTION ), &info );
 					CRect		rcBitmap (0, 0, info.dsBm.bmWidth, info.dsBm.bmHeight);
 
-					hr = D3DXLoadSurfaceFromMemory (m_pOSDSurface,
-												NULL,
-												NULL,
-												info.dsBm.bmBits,
-												D3DFMT_A8R8G8B8,
-												info.dsBm.bmWidthBytes,
-												NULL,
-												&rcBitmap,
-												D3DX_FILTER_NONE,
-												m_VMR9AlphaBitmap.clrSrcKey);
+					if (m_pD3DXLoadSurfaceFromMemory)
+						hr = m_pD3DXLoadSurfaceFromMemory (m_pOSDSurface,
+													NULL,
+													NULL,
+													info.dsBm.bmBits,
+													D3DFMT_A8R8G8B8,
+													info.dsBm.bmWidthBytes,
+													NULL,
+													&rcBitmap,
+													D3DX_FILTER_NONE,
+													m_VMR9AlphaBitmap.clrSrcKey);
 				}
 				if (FAILED (hr))
 				{
@@ -1236,7 +1260,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			pBackBuffer->UnlockRect();
 	}
 
-	if (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode())
+	if ((AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode()) )
 		hr = m_pD3DDev->Present(NULL, NULL, NULL, NULL);
 	else
 		hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);

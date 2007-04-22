@@ -159,6 +159,15 @@ void CPlayerStatusBar::SetStatusMessage(CString str)
 	m_status.SetWindowText(str);
 }
 
+CString CPlayerStatusBar::GetStatusTimer()
+{
+	CString		strResult;
+
+	m_time.GetWindowText(strResult);
+
+	return strResult;
+}
+
 void CPlayerStatusBar::SetStatusTimer(CString str)
 {
 	CString tmp;

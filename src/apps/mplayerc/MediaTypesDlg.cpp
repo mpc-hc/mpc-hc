@@ -28,18 +28,6 @@
 #include "..\..\DSUtil\DSUtil.h"
 #include "..\..\..\include\moreuuids.h"
 
-#pragma pack(push, 1)
-typedef struct
-{
-	WAVEFORMATEX Format;
-	BYTE bBigEndian;
-	BYTE bsid;
-	BYTE lfeon;
-	BYTE copyrightb;
-	BYTE nAuxBitsCode;  //  Aux bits per frame
-} DOLBYAC3WAVEFORMAT;
-#pragma pack(pop)
-
 // CMediaTypesDlg dialog
 
 //IMPLEMENT_DYNAMIC(CMediaTypesDlg, CResizableDialog)
@@ -72,179 +60,15 @@ void CMediaTypesDlg::AddLine(CString str)
 
 void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
 {
-	CString major = CStringFromGUID(pmt->majortype);
-	CString sub = CStringFromGUID(pmt->subtype);
-	CString format = CStringFromGUID(pmt->formattype);
-
 	m_subtype = pmt->subtype;
 	if(pmt->majortype == MEDIATYPE_Video) m_type = VIDEO;
 	else if(pmt->majortype == MEDIATYPE_Audio) m_type = AUDIO;
 	else m_type = UNKNOWN;
 
-	CString str;
-
-	AddLine(_T("AM_MEDIA_TYPE: (") + CMediaTypeEx(*pmt).ToString() + _T(")\n"));
-	str.Format(_T("majortype: %s %s\n"), CString(GuidNames[pmt->majortype]), major);
-	AddLine(str);
-	str.Format(_T("subtype: %s %s\n"), CString(GuidNames[pmt->subtype]), sub);
-	AddLine(str);
-	str.Format(_T("formattype: %s %s\n"), CString(GuidNames[pmt->formattype]), format);
-	AddLine(str);
-	str.Format(_T("bFixedSizeSamples: %d\n"), pmt->bFixedSizeSamples);
-	AddLine(str);
-	str.Format(_T("bTemporalCompression: %d\n"), pmt->bTemporalCompression);
-	AddLine(str);
-	str.Format(_T("lSampleSize: %d\n"), pmt->lSampleSize);
-	AddLine(str);
-	str.Format(_T("cbFormat: %d\n"), pmt->cbFormat);
-	AddLine(str);
-
-	AddLine();
-
-	if(pmt->formattype == FORMAT_VideoInfo || pmt->formattype == FORMAT_VideoInfo2)
-	{
-		VIDEOINFOHEADER& vih = *((VIDEOINFOHEADER*)pmt->pbFormat);
-		BITMAPINFOHEADER* bih = &vih.bmiHeader;
-
-		AddLine(_T("VIDEOINFOHEADER:\n"));
-		str.Format(_T("rcSource: (%d,%d)-(%d,%d)\n"), vih.rcSource);
-		AddLine(str);
-		str.Format(_T("rcTarget: (%d,%d)-(%d,%d)\n"), vih.rcTarget);
-		AddLine(str);
-		str.Format(_T("dwBitRate: %d\n"), vih.dwBitRate);
-		AddLine(str);
-		str.Format(_T("dwBitErrorRate: %d\n"), vih.dwBitErrorRate);
-		AddLine(str);
-		str.Format(_T("AvgTimePerFrame: %I64d\n"), vih.AvgTimePerFrame);
-		AddLine(str);
-
-		if(pmt->formattype == FORMAT_VideoInfo2)
-		{
-			VIDEOINFOHEADER2& vih = *((VIDEOINFOHEADER2*)pmt->pbFormat);
-			bih = &vih.bmiHeader;
-
-			AddLine(_T("VIDEOINFOHEADER2:\n"));
-			str.Format(_T("dwInterlaceFlags: 0x%08x\n"), vih.dwInterlaceFlags);
-			AddLine(str);
-			str.Format(_T("dwCopyProtectFlags: 0x%08x\n"), vih.dwCopyProtectFlags);
-			AddLine(str);
-			str.Format(_T("dwPictAspectRatioX: %d\n"), vih.dwPictAspectRatioX);
-			AddLine(str);
-			str.Format(_T("dwPictAspectRatioY: %d\n"), vih.dwPictAspectRatioY);
-			AddLine(str);
-			str.Format(_T("dwControlFlags: 0x%08x\n"), vih.dwControlFlags);
-			AddLine(str);
-			str.Format(_T("dwReserved2: 0x%08x\n"), vih.dwReserved2);
-			AddLine(str);
-		}
-
-		AddLine();
-
-		AddLine(_T("BITMAPINFOHEADER:\n"));
-		str.Format(_T("biSize: %d\n"), bih->biSize);
-		AddLine(str);
-		str.Format(_T("biWidth: %d\n"), bih->biWidth);
-		AddLine(str);
-		str.Format(_T("biHeight: %d\n"), bih->biHeight);
-		AddLine(str);
-		str.Format(_T("biPlanes: %d\n"), bih->biPlanes);
-		AddLine(str);
-		str.Format(_T("biBitCount: %d\n"), bih->biBitCount);
-		AddLine(str);
-		if(bih->biCompression < 256) str.Format(_T("biCompression: %d\n"), bih->biCompression);
-		else str.Format(_T("biCompression: %4.4hs\n"), &bih->biCompression);
-		AddLine(str);
-		str.Format(_T("biSizeImage: %d\n"), bih->biSizeImage);
-		AddLine(str);
-		str.Format(_T("biXPelsPerMeter: %d\n"), bih->biXPelsPerMeter);
-		AddLine(str);
-		str.Format(_T("biYPelsPerMeter: %d\n"), bih->biYPelsPerMeter);
-		AddLine(str);
-		str.Format(_T("biYPelsPerMeter: %d\n"), bih->biYPelsPerMeter);
-		AddLine(str);
-		str.Format(_T("biClrUsed: %d\n"), bih->biClrUsed);
-		AddLine(str);
-		str.Format(_T("biClrImportant: %d\n"), bih->biClrImportant);
-		AddLine(str);
-
-		AddLine();
-    }
-	else if(pmt->formattype == FORMAT_WaveFormatEx)
-	{
-		WAVEFORMATEX& wfe = *((WAVEFORMATEX*)pmt->pbFormat);
-
-		AddLine(_T("WAVEFORMATEX:\n"));
-		str.Format(_T("wFormatTag: 0x%04x\n"), wfe.wFormatTag);
-		AddLine(str);
-		str.Format(_T("nChannels: %d\n"), wfe.nChannels);
-		AddLine(str);
-		str.Format(_T("nSamplesPerSec: %d\n"), wfe.nSamplesPerSec);
-		AddLine(str);
-		str.Format(_T("nAvgBytesPerSec: %d\n"), wfe.nAvgBytesPerSec);
-		AddLine(str);
-		str.Format(_T("nBlockAlign: %d\n"), wfe.nBlockAlign);
-		AddLine(str);
-		str.Format(_T("wBitsPerSample: %d\n"), wfe.wBitsPerSample);
-		AddLine(str);
-
-		if(wfe.wFormatTag != WAVE_FORMAT_PCM && wfe.cbSize > 0)
-		{
-			str.Format(_T("cbSize: %d (extra bytes)\n"), wfe.cbSize);
-			AddLine(str);
-
-			if(wfe.wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe.cbSize == sizeof(WAVEFORMATEXTENSIBLE)-sizeof(WAVEFORMATEX))
-			{
-				WAVEFORMATEXTENSIBLE& wfe = *((WAVEFORMATEXTENSIBLE*)pmt->pbFormat);
-
-				AddLine(_T("WAVEFORMATEXTENSIBLE:\n"));
-				if(wfe.Format.wBitsPerSample != 0) str.Format(_T("wValidBitsPerSample: %d\n"), wfe.Samples.wValidBitsPerSample);
-				else str.Format(_T("wSamplesPerBlock: %d\n"), wfe.Samples.wSamplesPerBlock);
-				AddLine(str);
-				str.Format(_T("dwChannelMask: 0x%08x\n"), wfe.dwChannelMask);
-				AddLine(str);
-				str.Format(_T("SubFormat: %s\n"), CStringFromGUID(wfe.SubFormat));
-				AddLine(str);
-			}
-			else if(wfe.wFormatTag == WAVE_FORMAT_DOLBY_AC3 && wfe.cbSize == sizeof(DOLBYAC3WAVEFORMAT)-sizeof(WAVEFORMATEX))
-			{
-				DOLBYAC3WAVEFORMAT& wfe = *((DOLBYAC3WAVEFORMAT*)pmt->pbFormat);
-
-				AddLine(_T("DOLBYAC3WAVEFORMAT:\n"));
-				str.Format(_T("bBigEndian: %d\n"), wfe.bBigEndian);
-				AddLine(str);
-				str.Format(_T("bsid: %d\n"), wfe.bsid);
-				AddLine(str);
-				str.Format(_T("lfeon: %d\n"), wfe.lfeon);
-				AddLine(str);
-				str.Format(_T("copyrightb: %d\n"), wfe.copyrightb);
-				AddLine(str);
-				str.Format(_T("nAuxBitsCode: %d\n"), wfe.nAuxBitsCode);
-				AddLine(str);
-			}
-		}
-
-		AddLine();
-	}
-
-	if(pmt->cbFormat > 0)
-	{
-		AddLine(_T("pbFormat:\n"));
-
-		for(int i = 0, j = (pmt->cbFormat + 15) & ~15; i < j; i += 16)
-		{
-			str.Format(_T("%08x:"), i);
-			for(int k = i, l = min(i+16, pmt->cbFormat); k < l; k++)
-			{
-				CString byte;
-				byte.Format(_T(" %02x"), pmt->pbFormat[k]);
-				str += byte;
-			}
-			str += '\n';
-			AddLine(str);
-		}
-
-		AddLine();
-	}
+	CAtlList<CString> sl;
+	CMediaTypeEx(*pmt).Dump(sl);
+	POSITION pos = sl.GetHeadPosition();
+	while(pos) AddLine(sl.GetNext(pos) + '\n');
 }
 
 BEGIN_MESSAGE_MAP(CMediaTypesDlg, CResizableDialog)

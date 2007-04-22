@@ -60,38 +60,30 @@ END
 //
 
 IDD_SELECTMEDIATYPE DIALOGEX 0, 0, 225, 47
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select Media Type"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    COMBOBOX        IDC_COMBO1,7,7,211,120,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,7,7,211,120,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,114,26,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,168,26,50,14
 END
 
 IDD_OPENCAPDEVICE_DLG DIALOGEX 0, 0, 226, 131
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select Capture Device"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "The following input devices were found on your system:",
-                    IDC_STATIC,12,7,200,11
+    LTEXT           "The following input devices were found on your system:",IDC_STATIC,12,7,200,11
     LTEXT           "Video",IDC_STATIC,12,23,18,8
-    COMBOBOX        IDC_COMBO1,47,20,165,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,47,20,165,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Audio",IDC_STATIC,12,41,19,8
-    COMBOBOX        IDC_COMBO2,47,38,165,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,47,38,165,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,60,110,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,115,110,50,14
-    LTEXT           "Some capture cards can output audio directly and not through the audio card. In that case you can leave the audio input selection empty.",
-                    IDC_STATIC,12,76,200,24
+    LTEXT           "Some capture cards can output audio directly and not through the audio card. In that case you can leave the audio input selection empty.",IDC_STATIC,12,76,200,24
     LTEXT           "Country",IDC_STATIC,12,58,27,8
-    COMBOBOX        IDC_COMBO9,47,56,165,102,CBS_DROPDOWNLIST | 
-                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO9,47,56,165,102,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_CAPTURE_DLG DIALOGEX 0, 0, 127, 289
@@ -99,162 +91,111 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Video",IDC_STATIC1,3,1,116,59
-    COMBOBOX        IDC_COMBO4,10,10,62,116,CBS_DROPDOWNLIST | WS_DISABLED | 
-                    WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT3,74,10,38,13,ES_RIGHT | ES_AUTOHSCROLL | 
-                    WS_DISABLED
-    COMBOBOX        IDC_COMBO1,10,26,37,89,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO5,50,26,62,89,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO4,10,10,62,116,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT3,74,10,38,13,ES_RIGHT | ES_AUTOHSCROLL | WS_DISABLED
+    COMBOBOX        IDC_COMBO1,10,26,37,89,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO5,50,26,62,89,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,10,43,37,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | WS_DISABLED,35,46,11,14
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | WS_DISABLED,35,46,11,14
     EDITTEXT        IDC_EDIT2,50,43,35,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | WS_DISABLED,74,46,11,14
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | WS_DISABLED,74,46,11,14
     PUSHBUTTON      "Set",IDC_BUTTON1,89,43,23,13
     GROUPBOX        "Audio",IDC_STATIC,3,61,116,43
-    COMBOBOX        IDC_COMBO3,10,71,62,99,CBS_DROPDOWNLIST | WS_DISABLED | 
-                    WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO2,74,71,38,98,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO6,10,87,102,118,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO3,10,71,62,99,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,74,71,38,98,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO6,10,87,102,118,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Output",IDC_STATIC,3,105,116,171
-    CONTROL         "Record Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,10,114,58,10
-    CONTROL         "Preview",IDC_CHECK2,"Button",BS_AUTO3STATE | WS_TABSTOP,
-                    72,114,41,10
-    COMBOBOX        IDC_COMBO7,10,126,102,62,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    COMBOBOX        IDC_COMBO9,10,142,37,89,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO10,50,142,62,89,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Record Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,114,58,10
+    CONTROL         "Preview",IDC_CHECK2,"Button",BS_AUTO3STATE | WS_TABSTOP,72,114,41,10
+    COMBOBOX        IDC_COMBO7,10,126,102,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO9,10,142,37,89,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO10,50,142,62,89,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,158,104,1
-    CONTROL         "Record Audio",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,10,161,59,10
-    CONTROL         "Preview",IDC_CHECK4,"Button",BS_AUTO3STATE | WS_TABSTOP,
-                    72,161,41,10
-    COMBOBOX        IDC_COMBO8,10,173,102,62,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    COMBOBOX        IDC_COMBO12,10,189,37,98,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO11,50,189,62,118,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Record Audio",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,161,59,10
+    CONTROL         "Preview",IDC_CHECK4,"Button",BS_AUTO3STATE | WS_TABSTOP,72,161,41,10
+    COMBOBOX        IDC_COMBO8,10,173,102,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO12,10,189,37,98,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO11,50,189,62,118,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,205,104,1
     LTEXT           "V/A Buffers:",IDC_STATIC,10,211,40,8
-    EDITTEXT        IDC_EDIT5,52,209,28,12,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    EDITTEXT        IDC_EDIT6,83,209,28,12,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_NUMBER
+    EDITTEXT        IDC_EDIT5,52,209,28,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT6,83,209,28,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,225,104,1
     EDITTEXT        IDC_EDIT4,10,231,86,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BUTTON3,98,231,14,13
-    CONTROL         "Audio to wav",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,10,260,55,10
+    CONTROL         "Audio to wav",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,260,55,10
     PUSHBUTTON      "Record",IDC_BUTTON2,74,259,38,13,WS_DISABLED | WS_GROUP
-    COMBOBOX        IDC_COMBO14,10,245,102,52,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO14,10,245,102,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_PPAGEAUDIOSWITCHER DIALOGEX 0, 0, 296, 198
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enable built-in audio switcher filter (needs re-opening, disables morgan switcher)",
-                    IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,5,273,
-                    10
+    CONTROL         "Enable built-in audio switcher filter (needs re-opening, disables morgan switcher)",IDC_CHECK2,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,5,273,10
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,18,282,1
-    CONTROL         "Down-sample to 44100 Hz",IDC_CHECK3,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,35,99,10
-    CONTROL         "Audio time shift (ms):",IDC_CHECK4,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,48,82,10
+    CONTROL         "Down-sample to 44100 Hz",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,35,99,10
+    CONTROL         "Audio time shift (ms):",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,82,10
     EDITTEXT        IDC_EDIT2,96,47,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,144,46,11,14
-    CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,61,117,10
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,144,46,11,14
+    CONTROL         "Enable custom channel mapping",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,117,10
     LTEXT           "Speaker configuration for ",IDC_STATIC1,7,76,84,8
     EDITTEXT        IDC_EDIT1,95,74,29,13,ES_CENTER | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | 
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,183,73,11,
-                    14
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,183,73,11,14
     LTEXT           "input channels:",IDC_STATIC2,131,76,51,8
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | 
-                    LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | 
-                    WS_BORDER | WS_TABSTOP,7,93,282,94
-    CTEXT           "Hold shift for immediate changes when clicking something ",
-                    IDC_STATIC3,7,189,282,8
-    CONTROL         "Normalize",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
-                    WS_GROUP | WS_TABSTOP,7,23,47,8
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,7,93,282,94
+    CTEXT           "Hold shift for immediate changes when clicking something ",IDC_STATIC3,7,189,282,8
+    CONTROL         "Normalize",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,23,47,8
     LTEXT           "Boost:",IDC_STATIC,129,23,19,8
-    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,152,23,137,11
-    CONTROL         "Regain volume",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,59,22,59,10
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,152,23,137,11
+    CONTROL         "Regain volume",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,59,22,59,10
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 157, 113
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Go To..."
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Enter at most four numbers separated by anything but digits. One number only means ms, two numbers mean sec and ms, etc.",
-                    IDC_STATIC,7,7,143,27
+    LTEXT           "Enter at most four numbers separated by anything but digits. One number only means ms, two numbers mean sec and ms, etc.",IDC_STATIC,7,7,143,27
     LTEXT           "Time",IDC_STATIC,7,40,16,8
     EDITTEXT        IDC_EDIT1,31,37,83,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Go!",IDC_OK1,119,37,31,14
-    LTEXT           "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame-rate.",
-                    IDC_STATIC,7,62,143,26
+    LTEXT           "Enter two numbers to jump to a specified frame, the first is the frame number, the second is the frame-rate.",IDC_STATIC,7,62,143,26
     LTEXT           "Frame",IDC_STATIC,7,95,20,8
     EDITTEXT        IDC_EDIT2,31,92,83,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Go!",IDC_OK2,119,92,31,14
 END
 
 IDD_OPEN_DLG DIALOGEX 0, 0, 241, 87
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Open"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,9,8,21,20
-    LTEXT           "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you.",
-                    IDC_STATIC1,33,9,149,28
+    LTEXT           "Type the address of a movie or audio file (on the Internet or your computer) and the player will open it for you.",IDC_STATIC1,33,9,149,28
     LTEXT           "Open:",IDC_STATIC,7,52,21,8
-    COMBOBOX        IDC_COMBO1,33,50,149,76,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,33,50,149,76,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Browse...",IDC_BUTTON1,187,49,47,14
     LTEXT           "Dub:",IDC_STATIC,7,71,16,8
-    COMBOBOX        IDC_COMBO2,33,68,149,20,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO2,33,68,149,20,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Browse...",IDC_BUTTON2,187,67,47,14
     DEFPUSHBUTTON   "OK",IDOK,187,9,47,14,WS_GROUP
     PUSHBUTTON      "Cancel",IDCANCEL,187,25,47,14
-    CONTROL         "Add to playlist without opening",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,33,37,115,10
+    CONTROL         "Add to playlist without opening",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,37,115,10
 END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 222, 89
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Shell Dlg", 400, 0, 0xB1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Media Player Classic",IDC_STATIC1,40,10,126,8,
-                    SS_NOPREFIX
+    LTEXT           "Media Player Classic",IDC_STATIC1,40,10,126,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2002-2006 Gabest",IDC_STATIC,40,21,113,8
-    LTEXT           "Version: 6.4.8.8",IDC_STATIC,40,33,92,8
+    LTEXT           "Version: 6.4.9.0",IDC_STATIC,40,33,92,8
     PUSHBUTTON      "OK",IDOK,160,8,50,14,WS_GROUP
-    LTEXT           "This program is freeware and released under the GNU General Public License.\nDistribution in Codec Packs is allowed, but the author (Gabest) is not liable for the additional content.",
-                    IDC_STATIC,11,47,199,34
+    LTEXT           "This program is freeware and released under the GNU General Public License.\nDistribution in Codec Packs is allowed, but the author (Gabest) is not liable for the additional content.",IDC_STATIC,11,47,199,34
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
@@ -281,82 +222,54 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Open options",IDC_STATIC,5,7,117,119
     CONTROL         "Use the same player for each media file",IDC_RADIO1,
-                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,15,
-                    20,93,20
-    CONTROL         "Open a new player for each media file played",
-                    IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,
-                    63,98,15
+                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,15,20,93,20
+    CONTROL         "Open a new player for each media file played",IDC_RADIO2,
+                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,63,98,15
     ICON            IDI_SINGLE,IDC_STATIC,51,40,20,20,SS_CENTERIMAGE
     ICON            IDI_MULTI,IDC_STATIC,51,84,20,20,SS_CENTERIMAGE
-    CONTROL         "Launch files in fullscreen",IDC_CHECK11,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,109,93,10
+    CONTROL         "Launch files in fullscreen",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,109,93,10
     GROUPBOX        "Title bar",IDC_STATIC,5,130,117,61
-    CONTROL         "Display full path",IDC_RADIO3,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,16,143,67,10
-    CONTROL         "File name only",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,
-                    16,154,61,10
-    CONTROL         "Don't prefix anything",IDC_RADIO5,"Button",
-                    BS_AUTORADIOBUTTON,16,165,83,10
+    CONTROL         "Display full path",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,16,143,67,10
+    CONTROL         "File name only",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,16,154,61,10
+    CONTROL         "Don't prefix anything",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,16,165,83,10
     GROUPBOX        "Other",IDC_STATIC,130,7,159,184,WS_GROUP
-    CONTROL         "Always on top",IDC_CHECK2,"Button",BS_AUTO3STATE | 
-                    WS_GROUP | WS_TABSTOP,140,19,61,10
-    CONTROL         "Tray icon",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,140,32,45,10
-    CONTROL         "Show controls in fullscreen for",IDC_CHECK4,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,45,112,10
-    EDITTEXT        IDC_EDIT1,152,60,32,13,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,175,61,11,14
+    CONTROL         "Always on top",IDC_CHECK2,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,140,19,61,10
+    CONTROL         "Tray icon",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,32,45,10
+    CONTROL         "Show controls in fullscreen for",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,45,112,10
+    EDITTEXT        IDC_EDIT1,152,60,32,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,175,61,11,14
     LTEXT           "sec(s)",IDC_STATIC1,188,62,20,8
     LTEXT           "0: auto-hide\n-1: don't hide",IDC_STATIC2,218,58,48,17
     CONTROL         "Exit fullscreen at the end of playback",IDC_CHECK5,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,79,135,10
-    CONTROL         "Remember last window position",IDC_CHECK6,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,92,127,10
-    CONTROL         "Remember last window size",IDC_CHECK7,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,105,127,10
-    CONTROL         "Snap to desktop edges",IDC_CHECK12,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,118,89,10
-    CONTROL         "Store settings to .ini file",IDC_CHECK8,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,131,92,10
+    CONTROL         "Remember last window position",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,92,127,10
+    CONTROL         "Remember last window size",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,105,127,10
+    CONTROL         "Snap to desktop edges",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,118,89,10
+    CONTROL         "Store settings to .ini file",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,131,92,10
     CONTROL         "Keep history of recently opened files",IDC_CHECK1,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,144,133,10
-    CONTROL         "Hide CD-ROMs menu",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,140,157,82,10
-    CONTROL         "Process priority above normal",IDC_CHECK9,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,140,170,111,10
-    CONTROL         "Replace file name with title",IDC_CHECK13,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,177,101,10
+    CONTROL         "Hide CD-ROMs menu",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,157,82,10
+    CONTROL         "Process priority above normal",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,111,10
+    CONTROL         "Replace file name with title",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,101,10
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 193
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Location of the DVD drive or the ""VIDEO_TS"" folder",
-                    IDC_STATIC,5,7,235,66
-    CONTROL         "Default",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,15,21,39,10
-    CONTROL         "User defined path:",IDC_RADIO2,"Button",
-                    BS_AUTORADIOBUTTON,15,35,76,10
+    GROUPBOX        "Location of the DVD drive or the ""VIDEO_TS"" folder",IDC_STATIC,5,7,235,66
+    CONTROL         "Default",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,21,39,10
+    CONTROL         "User defined path:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,35,76,10
     EDITTEXT        IDC_DVDPATH,29,50,180,14,ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "...",IDC_BUTTON1,215,50,15,14
-    GROUPBOX        "Prefered language for DVD Navigator and the external OGM Splitter",
-                    IDC_STATIC,5,77,235,73
-    CONTROL         "Menu",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
-                    15,95,33,10
-    CONTROL         "Audio",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,111,34,
-                    10
-    CONTROL         "Subtitles",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,
-                    127,43,10
-    LISTBOX         IDC_LIST1,74,90,156,53,WS_VSCROLL | WS_GROUP | 
-                    WS_TABSTOP
+    GROUPBOX        "Prefered language for DVD Navigator and the external OGM Splitter",IDC_STATIC,5,77,235,73
+    CONTROL         "Menu",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,95,33,10
+    CONTROL         "Audio",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,111,34,10
+    CONTROL         "Subtitles",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,127,43,10
+    LISTBOX         IDC_LIST1,74,90,156,53,WS_VSCROLL | WS_GROUP | WS_TABSTOP
     GROUPBOX        "Audio channels",IDC_STATIC,5,155,235,32
-    CONTROL         "Automatically set speaker count for the ivideo ac3 decoder",
-                    IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,
-                    204,10
+    CONTROL         "Automatically set speaker count for the ivideo ac3 decoder",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,204,10
 END
 
 IDD_PPAGEPLAYBACK DIALOGEX 0, 0, 296, 198
@@ -366,42 +279,29 @@ BEGIN
     GROUPBOX        "Audio",IDC_STATIC,5,7,284,58
     LTEXT           "Volume",IDC_STATIC,66,19,24,8
     LTEXT           "Min",IDC_STATIC,27,38,12,8
-    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_BOTH | WS_TABSTOP,41,31,75,24
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,41,31,75,24
     LTEXT           "Max",IDC_STATIC,123,38,14,8
     LTEXT           "Balance",IDC_STATIC,196,19,26,8
     LTEXT           "L",IDC_STATIC,160,39,8,8
-    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    WS_TABSTOP,172,36,75,19
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,172,36,75,19
     LTEXT           "R",IDC_STATIC,252,39,8,8
     GROUPBOX        "Playback",IDC_STATIC,5,67,114,71
-    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,
-                    14,86,29,10
-    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,
-                    14,102,65,10
-    CONTROL         "Rewind when done playing",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,14,119,101,10
+    CONTROL         "Play",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,86,29,10
+    CONTROL         "Repeat forever",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,14,102,65,10
+    CONTROL         "Rewind when done playing",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,14,119,101,10
     EDITTEXT        IDC_EDIT1,52,85,20,13,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "time(s)",IDC_STATIC1,81,87,23,8
     GROUPBOX        "Output",IDC_STATIC,126,67,163,71
-    CONTROL         "Auto-zoom:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,137,85,48,10
-    COMBOBOX        IDC_COMBO1,193,83,49,47,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "Change fullscreen resolution:",IDC_CHECK4,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,137,102,109,10
-    COMBOBOX        IDC_COMBO2,156,116,112,64,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    CONTROL         "Auto-zoom:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,85,48,10
+    COMBOBOX        IDC_COMBO1,193,83,49,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Change fullscreen resolution:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,102,109,10
+    COMBOBOX        IDC_COMBO2,156,116,112,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Open settings",IDC_STATIC,5,140,284,43
-    CONTROL         "Use worker thread to construct the filter graph",
-                    IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,153,
-                    166,10
-    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,13,167,116,10
-    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,193,153,81,10
-    CONTROL         "Auto-load subtitles",IDC_CHECK3,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,193,167,76,10
+    CONTROL         "Use worker thread to construct the filter graph",IDC_CHECK7,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,153,166,10
+    CONTROL         "Report pins which fail to render",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,167,116,10
+    CONTROL         "Auto-load audio files",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,153,81,10
+    CONTROL         "Auto-load subtitles",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,167,76,10
 END
 
 IDD_PPAGESUBTITLES DIALOGEX 0, 0, 296, 203
@@ -409,56 +309,36 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "",IDC_STATIC,5,3,192,38
-    CONTROL         "Override placement",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,14,3,75,10
+    CONTROL         "Override placement",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,3,75,10
     LTEXT           "Horizontal:",IDC_STATIC1,14,22,35,8
-    EDITTEXT        IDC_EDIT2,54,20,32,12,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,74,25,11,14
+    EDITTEXT        IDC_EDIT2,54,20,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,74,25,11,14
     LTEXT           "%",IDC_STATIC2,88,22,8,8
     LTEXT           "Vertical:",IDC_STATIC3,107,22,26,8
-    EDITTEXT        IDC_EDIT3,139,20,32,12,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,159,26,11,14
+    EDITTEXT        IDC_EDIT3,139,20,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,26,11,14
     LTEXT           "%",IDC_STATIC4,173,22,8,8
-    GROUPBOX        "Texture settings (open the video again to see the changes)",
-                    IDC_STATIC,5,43,284,55
-    LTEXT           "Number of subpictures to buffer ahead:",IDC_STATIC,14,
-                    60,128,8
-    EDITTEXT        IDC_EDIT1,147,58,32,12,ES_CENTER | ES_AUTOHSCROLL | 
-                    ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS | UDS_HOTTRACK,168,63,11,14
-    LTEXT           "Set 0 to disable buffering\n(not recommended)",
-                    IDC_STATIC,191,55,90,17
+    GROUPBOX        "Texture settings (open the video again to see the changes)",IDC_STATIC,5,43,284,55
+    LTEXT           "Number of subpictures to buffer ahead:",IDC_STATIC,14,60,128,8
+    EDITTEXT        IDC_EDIT1,147,58,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,168,63,11,14
+    LTEXT           "Set 0 to disable buffering\n(not recommended)",IDC_STATIC,191,55,90,17
     LTEXT           "Maximum texture resolution:",IDC_STATIC,14,79,92,8
-    LTEXT           "Subtitling for DirectShow is available when the video renderer called ""VMR7 (renderless)"" or ""VMR9 (renderless)"" is set. VMR7 requires Windows XP, VMR9 requires DirectX 9, and both require a HW accelerated D3D video card.",
-                    IDC_STATIC,14,148,267,25
+    LTEXT           "Subtitling for DirectShow is available when the video renderer called ""VMR7 (renderless)"" or ""VMR9 (renderless)"" is set. VMR7 requires Windows XP, VMR9 requires DirectX 9, and both require a HW accelerated D3D video card.",IDC_STATIC,14,148,267,25
     GROUPBOX        "Before you ask",IDC_STATIC,5,136,284,65
-    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",
-                    IDC_STATIC,14,110,267,19
-    COMBOBOX        IDC_COMBO1,111,77,68,45,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    LTEXT           "If you override and enable full-screen antialiasing somewhere at your videocard's settings, subtitles aren't going to look any better but it will surely eat your cpu.",IDC_STATIC,14,110,267,19
+    COMBOBOX        IDC_COMBO1,111,77,68,45,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Warning",IDC_STATIC,5,99,284,35
-    LTEXT           "RealMedia and QuickTime formats can be subtitled by setting their special DirectX 7 or DirectX 9 renderers.",
-                    IDC_STATIC,14,178,267,16
-    CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,184,79,97,10
+    LTEXT           "RealMedia and QuickTime formats can be subtitled by setting their special DirectX 7 or DirectX 9 renderers.",IDC_STATIC,14,178,267,16
+    CONTROL         "Round up to power of two",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,184,79,97,10
 END
 
 IDD_PPAGESUBDB DIALOGEX 0, 0, 296, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
-    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,5,
-                    8,133,8
-    COMBOBOX        IDC_COMBO1,29,22,205,30,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Base URL of the online subtitle database:",IDC_STATIC,5,8,133,8
+    COMBOBOX        IDC_COMBO1,29,22,205,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Test",IDC_BUTTON1,239,21,50,14
     LTEXT           "http://",IDC_STATIC,5,24,22,8
 END
@@ -467,31 +347,20 @@ IDD_PPAGEFORMATS DIALOGEX 0, 0, 296, 198
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | 
-                    LVS_SORTASCENDING | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | 
-                    WS_BORDER | WS_TABSTOP,13,15,268,97
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,13,15,268,97
     GROUPBOX        "File extensions",IDC_STATIC,6,4,283,135
     EDITTEXT        IDC_EDIT1,13,118,192,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Default",IDC_BUTTON2,210,118,34,14
     PUSHBUTTON      "Set",IDC_BUTTON_EXT_SET,247,118,34,14
-    GROUPBOX        "Real-Time Streaming Protocol handler (for rtsp://... URLs)",
-                    IDC_STATIC,6,141,283,27
-    CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,14,153,49,10
-    CONTROL         "QuickTime",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,66,
-                    153,48,10
-    CONTROL         "DirectShow",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,117,
-                    153,52,10
-    CONTROL         "Look file extension first",IDC_CHECK5,"Button",
-                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,191,153,90,10
-    CONTROL         "Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    13,183,31,10
-    CONTROL         "Music",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    45,183,31,10
-    CONTROL         "DVD",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    78,183,29,10
-    CONTROL         "Audio CD",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,108,183,43,10
+    GROUPBOX        "Real-Time Streaming Protocol handler (for rtsp://... URLs)",IDC_STATIC,6,141,283,27
+    CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,153,49,10
+    CONTROL         "QuickTime",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,66,153,48,10
+    CONTROL         "DirectShow",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,117,153,52,10
+    CONTROL         "Look file extension first",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,191,153,90,10
+    CONTROL         "Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,183,31,10
+    CONTROL         "Music",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,45,183,31,10
+    CONTROL         "DVD",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,78,183,29,10
+    CONTROL         "Audio CD",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,183,43,10
     PUSHBUTTON      "&Video",IDC_BUTTON4,176,180,33,14
     PUSHBUTTON      "A&udio",IDC_BUTTON3,212,180,33,14
     PUSHBUTTON      "A&ll",IDC_BUTTON1,248,180,33,14
@@ -502,56 +371,38 @@ IDD_PPAGETWEAKS DIALOGEX 0, 0, 296, 178
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Don't use XP-theming on the player controls (needs restart)",
-                    IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,9,207,
-                    10
-    CONTROL         "Use the WM ASF Reader for Windows Media files (enables faster seeking, but won't seek with incomplete files at all)",
-                    IDC_CHECK2,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | 
-                    WS_TABSTOP,7,25,260,17
-    GROUPBOX        "Jump distances (small, medium, large in ms)",IDC_STATIC,
-                    7,50,202,34
-    EDITTEXT        IDC_EDIT1,15,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    EDITTEXT        IDC_EDIT2,64,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    EDITTEXT        IDC_EDIT3,110,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
+    CONTROL         "Don't use XP-theming on the player controls (needs restart)",IDC_CHECK3,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,9,207,10
+    CONTROL         "Use the WM ASF Reader for Windows Media files (enables faster seeking, but won't seek with incomplete files at all)",IDC_CHECK2,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,25,260,17
+    GROUPBOX        "Jump distances (small, medium, large in ms)",IDC_STATIC,7,50,202,34
+    EDITTEXT        IDC_EDIT1,15,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT2,64,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT3,110,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     PUSHBUTTON      "Default",IDC_BUTTON1,158,62,44,14
-    CONTROL         "Free window resizing",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,90,83,10
-    CONTROL         "Send ""Now Playing"" information to MSN Messenger",
-                    IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,106,
-                    177,10
-    CONTROL         "Send ""Now Playing"" information to mIRC through GTSdll",
-                    IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,122,
-                    193,10
-    LTEXT           "Click here to download GTSdll",IDC_STATICLINKGTS,19,134,
-                    95,8
+    CONTROL         "Free window resizing",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,83,10
+    CONTROL         "Send ""Now Playing"" information to MSN Messenger",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,106,177,10
+    CONTROL         "Send ""Now Playing"" information to mIRC through GTSdll",IDC_CHECK5,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,122,193,10
+    LTEXT           "Click here to download GTSdll",IDC_STATICLINKGTS,19,134,95,8
 END
 
 IDD_PPAGEEXTERNALFILTERS DIALOGEX 0, 0, 296, 200
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,6,5,208,102,LBS_OWNERDRAWFIXED | 
-                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
+    LISTBOX         IDC_LIST1,6,5,208,102,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Add Filter...",IDC_BUTTON1,220,5,69,13
     PUSHBUTTON      "Remove",IDC_BUTTON2,220,20,69,13
-    CONTROL         "Prefer",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,220,39,53,10
-    CONTROL         "Block",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,220,50,53,
-                    10
-    CONTROL         "Set merit:",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,220,
-                    61,47,10
-    EDITTEXT        IDC_EDIT1,220,73,69,12,ES_RIGHT | ES_AUTOHSCROLL | 
-                    WS_GROUP
+    CONTROL         "Prefer",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,220,39,53,10
+    CONTROL         "Block",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,220,50,53,10
+    CONTROL         "Set merit:",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,220,61,47,10
+    EDITTEXT        IDC_EDIT1,220,73,69,12,ES_RIGHT | ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "Up",IDC_BUTTON3,220,95,33,13
     PUSHBUTTON      "Down",IDC_BUTTON4,256,95,33,13
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,6,112,283,1
-    CONTROL         "",IDC_TREE2,"SysTreeView32",TVS_HASBUTTONS | 
-                    TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | 
-                    WS_BORDER | WS_TABSTOP,6,117,208,81
+    CONTROL         "",IDC_TREE2,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,6,117,208,81
     PUSHBUTTON      "Add Media Type...",IDC_BUTTON5,220,117,69,13
     PUSHBUTTON      "Add Sub Type...",IDC_BUTTON6,220,132,69,13
     PUSHBUTTON      "Delete",IDC_BUTTON7,220,147,69,13
@@ -563,27 +414,20 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,8,8,20,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,35,213,1
     LTEXT           "Type:",IDC_STATIC,40,42,20,8
-    EDITTEXT        IDC_EDIT4,73,42,148,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT4,73,42,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Size:",IDC_STATIC,44,55,16,8
-    EDITTEXT        IDC_EDIT3,73,55,148,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT3,73,55,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Media length:",IDC_STATIC,16,68,44,8
-    EDITTEXT        IDC_EDIT2,73,68,148,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT2,73,68,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Video size:",IDC_STATIC,25,81,35,8
-    EDITTEXT        IDC_EDIT5,73,81,148,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT5,73,81,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Created:",IDC_STATIC,30,94,30,8
-    EDITTEXT        IDC_EDIT6,73,94,148,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT6,73,94,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,114,213,1
-    EDITTEXT        IDC_EDIT7,8,121,213,69,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_EDIT7,8,121,213,69,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
 END
 
 IDD_FILEPROPCLIP DIALOGEX 0, 0, 234, 202
@@ -591,57 +435,43 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,8,8,20,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,35,213,1
     LTEXT           "Clip:",IDC_STATIC,8,42,15,8
-    EDITTEXT        IDC_EDIT4,58,42,163,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT4,58,42,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Author:",IDC_STATIC,8,55,26,8
-    EDITTEXT        IDC_EDIT3,58,55,163,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT3,58,55,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Copyright:",IDC_STATIC,8,68,35,8
-    EDITTEXT        IDC_EDIT2,58,68,163,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT2,58,68,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Rating:",IDC_STATIC,8,81,24,8
-    EDITTEXT        IDC_EDIT5,58,81,163,13,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT5,58,81,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,101,213,1
     LTEXT           "Location:",IDC_STATIC,8,108,30,8
-    EDITTEXT        IDC_EDIT6,58,108,163,12,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT6,58,108,163,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,123,213,1
     LTEXT           "Description:",IDC_STATIC,8,132,39,8
-    EDITTEXT        IDC_EDIT7,58,132,144,47,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY
+    EDITTEXT        IDC_EDIT7,58,132,144,47,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
 END
 
 IDD_FAVADD DIALOGEX 0, 0, 252, 70
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Add Favorite"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Choose a name for your shortcut:",IDC_STATIC,7,7,238,36
-    COMBOBOX        IDC_COMBO1,15,21,222,77,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
-                    WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Remember position",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,15,51,77,10
+    COMBOBOX        IDC_COMBO1,15,21,222,77,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Remember position",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,51,77,10
     PUSHBUTTON      "Cancel",IDCANCEL,139,49,50,14
     DEFPUSHBUTTON   "OK",IDOK,195,49,50,14
 END
 
 IDD_FAVORGANIZE DIALOGEX 0, 0, 276, 174
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Organize Favorites"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,7,204,160
-    CONTROL         "",IDC_LIST2,"SysListView32",LVS_REPORT | LVS_SINGLESEL | 
-                    LVS_EDITLABELS | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | 
-                    LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,10,22,197,
-                    141,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_LIST2,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_EDITLABELS | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,10,22,197,141,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Rename",IDC_BUTTON1,219,19,50,14
     PUSHBUTTON      "Move Up",IDC_BUTTON3,219,41,50,14
     PUSHBUTTON      "Move Down",IDC_BUTTON4,219,59,50,14
@@ -650,13 +480,11 @@ BEGIN
 END
 
 IDD_PNSPRESET_DLG DIALOGEX 0, 0, 203, 121
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Pan&Scan Presets"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,7,7,123,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
+    LISTBOX         IDC_LIST1,7,7,123,50,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,7,60,189,13,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT2,135,18,29,12,ES_CENTER | ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT3,167,18,29,12,ES_CENTER | ES_AUTOHSCROLL
@@ -678,122 +506,91 @@ IDD_PPAGEACCELTBL DIALOGEX 0, 0, 296, 198
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_PLACEHOLDER,"Static",SS_BLACKFRAME | NOT 
-                    WS_VISIBLE,5,5,284,152
-    CONTROL         "",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,
-                    165,10,8
+    CONTROL         "",IDC_PLACEHOLDER,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,5,5,284,152
+    CONTROL         "",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,165,10,8
     LTEXT           "WinLIRC:",IDC_STATICLINK,19,165,30,8
     EDITTEXT        IDC_EDIT1,53,163,77,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,
-                    182,10,8
+    CONTROL         "",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,182,10,8
     LTEXT           "uICE:",IDC_STATICLINK2,19,182,19,8
     EDITTEXT        IDC_EDIT2,53,180,77,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Select All",IDC_BUTTON1,230,162,59,14
     PUSHBUTTON      "Reset Selected",IDC_BUTTON2,230,179,59,14
-    CONTROL         "",IDC_CHECKPN31,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    149,165,10,8
+    CONTROL         "",IDC_CHECKPN31,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,149,165,10,8
     LTEXT           "Shuttle PN3",IDC_STATICLINK3,163,165,38,8
 END
 
 IDD_MEDIATYPES_DLG DIALOGEX 0, 0, 296, 219
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Warning"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Media Player Classic could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system.",
-                    IDC_STATIC1,7,7,282,18
-    LTEXT           "The following pin(s) failed to find a connectable filter:",
-                    IDC_STATIC2,7,28,282,11
-    COMBOBOX        IDC_COMBO1,7,39,282,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    EDITTEXT        IDC_EDIT1,7,55,282,138,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    LTEXT           "Media Player Classic could not render some of the pins in the graph, you may not have the needed codecs or filters installed on the system.",IDC_STATIC1,7,7,282,18
+    LTEXT           "The following pin(s) failed to find a connectable filter:",IDC_STATIC2,7,28,282,11
+    COMBOBOX        IDC_COMBO1,7,39,282,87,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT1,7,55,282,138,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
     PUSHBUTTON      "Look for codecs on the net",IDC_BUTTON1,7,198,109,14
     DEFPUSHBUTTON   "Close",IDOK,239,198,50,14
 END
 
 IDD_SAVE_DLG DIALOGEX 0, 0, 250, 84
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Saving..."
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_ANIMATE1,"SysAnimate32",ACS_CENTER | 
-                    ACS_TRANSPARENT | WS_TABSTOP,7,3,187,30
-    CONTROL         "Static",IDC_FROMTO,"Static",SS_LEFTNOWORDWRAP | 
-                    WS_GROUP,7,38,235,17
-    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,7,63,190,
-                    8
+    CONTROL         "",IDC_ANIMATE1,"SysAnimate32",ACS_CENTER | ACS_TRANSPARENT | WS_TABSTOP,7,3,187,30
+    CONTROL         "Static",IDC_FROMTO,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,7,38,235,17
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,7,63,190,8
     LTEXT           "",IDC_REPORT,7,74,189,8
     PUSHBUTTON      "Cancel",IDCANCEL,203,62,39,14
 END
 
 IDD_SAVETEXTFILEDIALOGTEMPL DIALOGEX 0, 0, 304, 20
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | 
-    WS_CLIPCHILDREN
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Encoding:",IDC_STATIC,68,2,32,8
-    COMBOBOX        IDC_COMBO1,130,0,164,46,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,130,0,164,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_SAVETEXTFILEDIALOGTEMPL_400 DIALOGEX 0, 0, 222, 18
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | 
-    WS_CLIPCHILDREN
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Encoding:",IDC_STATIC,5,2,32,8
-    COMBOBOX        IDC_COMBO1,54,0,155,66,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,54,0,155,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_SAVETHUMBSDIALOGTEMPL DIALOGEX 0, 0, 304, 35
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | 
-    WS_CLIPCHILDREN
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Thumbnails:",IDC_STATIC,68,2,39,8
     EDITTEXT        IDC_EDIT1,130,0,30,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,145,0,11,14
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,145,0,11,14
     EDITTEXT        IDC_EDIT2,187,0,30,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,203,0,11,14
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,203,0,11,14
     LTEXT           "rows",IDC_STATIC,164,2,16,8
     LTEXT           "columns",IDC_STATIC,221,2,26,8
     EDITTEXT        IDC_EDIT3,130,17,36,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,146,17,11,14
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,146,17,11,14
     LTEXT           "Image width:",IDC_STATIC,68,19,43,8
     LTEXT           "pixels",IDC_STATIC,170,19,19,8
 END
 
 IDD_SAVETHUMBSDIALOGTEMPL_400 DIALOGEX 0, 0, 222, 33
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | 
-    WS_CLIPCHILDREN
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Thumbnails:",IDC_STATIC,5,2,39,8
     EDITTEXT        IDC_EDIT1,54,0,30,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,69,0,11,14
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,69,0,11,14
     EDITTEXT        IDC_EDIT2,111,0,30,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,127,0,11,14
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,127,0,11,14
     LTEXT           "rows",IDC_STATIC,88,2,16,8
     LTEXT           "columns",IDC_STATIC,145,2,26,8
     EDITTEXT        IDC_EDIT3,54,16,36,13,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,70,16,11,14
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,70,16,11,14
     LTEXT           "Image width:",IDC_STATIC,5,18,43,8
     LTEXT           "pixels",IDC_STATIC,95,17,19,8
 END
@@ -805,14 +602,11 @@ BEGIN
 END
 
 IDD_ADDREGFILTER DIALOGEX 0, 0, 285, 182
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Select Filter"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_LIST2,"SysListView32",LVS_LIST | LVS_SINGLESEL | 
-                    LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_TABSTOP,5,5,275,
-                    154,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_LIST2,"SysListView32",LVS_LIST | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_TABSTOP,5,5,275,154,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Browse...",IDC_BUTTON1,5,163,50,14
     DEFPUSHBUTTON   "OK",IDOK,177,163,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,230,163,50,14
@@ -824,49 +618,30 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Font",IDC_STATIC,4,2,106,123
     PUSHBUTTON      "Font",IDC_BUTTON1,11,13,89,13
-    COMBOBOX        IDC_COMBO1,11,30,90,52,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,11,30,90,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Spacing",IDC_STATIC,11,50,26,8
     EDITTEXT        IDC_EDIT3,66,48,35,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,93,48,11,14
+    CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,48,11,14
     LTEXT           "Angle (z,°)",IDC_STATIC,11,69,36,8
-    EDITTEXT        IDC_EDIT4,66,67,35,13,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | 
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,67,11,14
+    EDITTEXT        IDC_EDIT4,66,67,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,67,11,14
     LTEXT           "Scale (x,%)",IDC_STATIC,11,88,39,8
     EDITTEXT        IDC_EDIT5,66,86,35,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,93,86,11,14
+    CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,86,11,14
     LTEXT           "Scale (y,%)",IDC_STATIC,11,107,39,8
     EDITTEXT        IDC_EDIT6,66,105,35,13,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,93,105,11,14
+    CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,105,11,14
     GROUPBOX        "Border Style",IDC_STATIC,4,127,106,68
-    CONTROL         "Outline",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,11,140,39,10
-    CONTROL         "Opaque box",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,50,
-                    140,52,10
+    CONTROL         "Outline",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,11,140,39,10
+    CONTROL         "Opaque box",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,50,140,52,10
     LTEXT           "Border width",IDC_STATIC,13,158,42,8
-    EDITTEXT        IDC_EDIT1,66,155,35,13,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,94,154,11,14
+    EDITTEXT        IDC_EDIT1,66,155,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,94,154,11,14
     LTEXT           "Shadow depth",IDC_STATIC,13,177,47,8
-    EDITTEXT        IDC_EDIT2,66,174,35,13,ES_RIGHT | ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,93,175,11,14
+    EDITTEXT        IDC_EDIT2,66,174,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,175,11,14
     GROUPBOX        "Screen Alignment && Margins",IDC_STATIC,116,2,174,66
-    CONTROL         "",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,124,
-                    37,11,8
+    CONTROL         "",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,124,37,11,8
     CONTROL         "",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,136,37,11,8
     CONTROL         "",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,148,37,11,8
     CONTROL         "",IDC_RADIO6,"Button",BS_AUTORADIOBUTTON,124,26,11,8
@@ -877,52 +652,34 @@ BEGIN
     CONTROL         "",IDC_RADIO11,"Button",BS_AUTORADIOBUTTON,148,15,11,8
     LTEXT           "Left",IDC_STATIC,166,17,14,8
     EDITTEXT        IDC_EDIT7,188,14,30,14,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN6,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,217,14,11,14
+    CONTROL         "",IDC_SPIN6,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,217,14,11,14
     LTEXT           "Right",IDC_STATIC,166,34,18,8
     EDITTEXT        IDC_EDIT8,188,32,30,14,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN7,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,217,32,11,14
+    CONTROL         "",IDC_SPIN7,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,217,32,11,14
     LTEXT           "Top",IDC_STATIC,223,17,13,8
     EDITTEXT        IDC_EDIT9,251,14,30,14,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN8,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,280,12,11,14
+    CONTROL         "",IDC_SPIN8,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,12,11,14
     LTEXT           "Bottom",IDC_STATIC,223,34,24,8
     EDITTEXT        IDC_EDIT10,251,32,30,14,ES_RIGHT | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN9,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
-                    UDS_NOTHOUSANDS,280,32,11,14
+    CONTROL         "",IDC_SPIN9,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,32,11,14
     GROUPBOX        "Colors && Transparency",IDC_STATIC,116,70,174,108
     LTEXT           "Primary",IDC_STATIC,123,95,25,8
-    CONTROL         "",IDC_COLORPRI,"Static",SS_OWNERDRAW | SS_NOTIFY,165,92,
-                    16,14,WS_EX_DLGMODALFRAME
-    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,187,94,92,12
+    CONTROL         "",IDC_COLORPRI,"Static",SS_OWNERDRAW | SS_NOTIFY,165,92,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,94,92,12
     LTEXT           "Secondary",IDC_STATIC,123,112,34,8
-    CONTROL         "",IDC_COLORSEC,"Static",SS_OWNERDRAW | SS_NOTIFY,165,
-                    109,16,14,WS_EX_DLGMODALFRAME
-    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,187,111,92,12
+    CONTROL         "",IDC_COLORSEC,"Static",SS_OWNERDRAW | SS_NOTIFY,165,109,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,111,92,12
     LTEXT           "Outline",IDC_STATIC,123,129,24,8
-    CONTROL         "",IDC_COLOROUTL,"Static",SS_OWNERDRAW | SS_NOTIFY,165,
-                    126,16,14,WS_EX_DLGMODALFRAME
-    CONTROL         "",IDC_SLIDER3,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,187,128,92,12
+    CONTROL         "",IDC_COLOROUTL,"Static",SS_OWNERDRAW | SS_NOTIFY,165,126,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER3,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,128,92,12
     LTEXT           "Shadow",IDC_STATIC,123,146,26,8
-    CONTROL         "",IDC_COLORSHAD,"Static",SS_OWNERDRAW | SS_NOTIFY,165,
-                    143,16,14,WS_EX_DLGMODALFRAME
-    CONTROL         "",IDC_SLIDER4,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,187,145,92,12
-    CONTROL         "Link alpha channels",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,195,161,76,10
+    CONTROL         "",IDC_COLORSHAD,"Static",SS_OWNERDRAW | SS_NOTIFY,165,143,16,14,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_SLIDER4,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,145,92,12
+    CONTROL         "Link alpha channels",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,195,161,76,10
     LTEXT           "100%",IDC_STATIC,265,83,20,8
     LTEXT           "0%",IDC_STATIC,190,83,12,8
-    CONTROL         "Position subtitles relative to the video frame",
-                    IDC_CHECK_RELATIVETO,"Button",BS_AUTO3STATE | WS_TABSTOP,
-                    125,51,157,10
+    CONTROL         "Position subtitles relative to the video frame",IDC_CHECK_RELATIVETO,
+                    "Button",BS_AUTO3STATE | WS_TABSTOP,125,51,157,10
 END
 
 IDD_PPAGEINTERNALFILTERS DIALOGEX 0, 0, 296, 200
@@ -930,31 +687,21 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Source Filters",IDC_STATIC,5,33,130,159
-    LTEXT           "If you would like to use the stand-alone version from these filters or a some other replacement, disable them here. Filters written bold can be double-clicked to show their property pages.",
-                    IDC_STATIC,5,4,269,25
-    LISTBOX         IDC_LIST1,11,44,118,142,LBS_OWNERDRAWFIXED | 
-                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
+    LTEXT           "If you would like to use the stand-alone version from these filters or a some other replacement, disable them here. Filters written bold can be double-clicked to show their property pages.",IDC_STATIC,5,4,269,25
+    LISTBOX         IDC_LIST1,11,44,118,142,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Transform Filters",IDC_STATIC,144,33,130,159
-    LISTBOX         IDC_LIST2,150,44,118,142,LBS_OWNERDRAWFIXED | 
-                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
+    LISTBOX         IDC_LIST2,150,44,118,142,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_PPAGELOGO DIALOGEX 0, 0, 296, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
-    CONTROL         "",IDC_LOGOPREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,5,
-                    5,284,150
-    CONTROL         "Internal:",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,5,164,44,10
-    CONTROL         "External:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,5,181,
-                    45,10
-    EDITTEXT        IDC_LOGOFILENAME,51,179,182,14,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_ARROWKEYS | UDS_HORZ,
-                    51,163,36,12
+    CONTROL         "",IDC_LOGOPREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,5,5,284,150
+    CONTROL         "Internal:",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,5,164,44,10
+    CONTROL         "External:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,5,181,45,10
+    EDITTEXT        IDC_LOGOFILENAME,51,179,182,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_ARROWKEYS | UDS_HORZ,51,163,36,12
     PUSHBUTTON      "Browse...",IDC_BUTTON2,239,179,50,14
     RTEXT           "",IDC_AUTHOR,95,164,194,9
 END
@@ -964,74 +711,46 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,126
-    CONTROL         "System Default",IDC_DSSYSDEF,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,13,15,65,10
-    CONTROL         "Old Renderer",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,
-                    26,59,10
-    CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",
-                    BS_AUTORADIOBUTTON,13,37,67,10
-    CONTROL         "VMR7 (windowed)",IDC_DSVMR7WIN,"Button",
-                    BS_AUTORADIOBUTTON,13,48,73,10
-    CONTROL         "VMR9 (windowed)",IDC_DSVMR9WIN,"Button",
-                    BS_AUTORADIOBUTTON,13,59,73,10
-    CONTROL         "VMR7 (renderless) **",IDC_DSVMR7REN,"Button",
-                    BS_AUTORADIOBUTTON,13,70,85,10
-    CONTROL         "VMR9 (renderless) **",IDC_DSVMR9REN,"Button",
-                    BS_AUTORADIOBUTTON,13,81,85,10
-    CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",
-                    BS_AUTORADIOBUTTON,13,92,83,10
-    CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",
-                    BS_AUTORADIOBUTTON,13,103,63,10
-    CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",
-                    BS_AUTORADIOBUTTON,13,114,81,10
+    CONTROL         "System Default",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,15,65,10
+    CONTROL         "Old Renderer",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,26,59,10
+    CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,37,67,10
+    CONTROL         "VMR7 (windowed)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,48,73,10
+    CONTROL         "VMR9 (windowed)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,59,73,10
+    CONTROL         "VMR7 (renderless) **",IDC_DSVMR7REN,"Button",BS_AUTORADIOBUTTON,13,70,85,10
+    CONTROL         "VMR9 (renderless) **",IDC_DSVMR9REN,"Button",BS_AUTORADIOBUTTON,13,81,85,10
+    CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,92,83,10
+    CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,103,63,10
+    CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,114,81,10
     GROUPBOX        "RealMedia Video",IDC_STATIC,105,2,89,50
-    CONTROL         "System Default *",IDC_RMSYSDEF,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
-    CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,
-                    25,55,10
-    CONTROL         "DirectX 9 **",IDC_RMDX9,"Button",BS_AUTORADIOBUTTON,113,
-                    36,55,10
+    CONTROL         "System Default *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
+    CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,25,55,10
+    CONTROL         "DirectX 9 **",IDC_RMDX9,"Button",BS_AUTORADIOBUTTON,113,36,55,10
     GROUPBOX        "QuickTime Video",IDC_STATIC,199,2,89,50
-    CONTROL         "System Default *",IDC_QTSYSDEF,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,207,14,71,10
-    CONTROL         "DirectX 7 **",IDC_QTDX7,"Button",BS_AUTORADIOBUTTON,207,
-                    25,55,10
-    CONTROL         "DirectX 9 **",IDC_QTDX9,"Button",BS_AUTORADIOBUTTON,207,
-                    36,55,10
-    GROUPBOX        """VMR7/9 (renderless)"" && ""DirectX 7/9"" settings",
-                    IDC_STATIC,105,53,183,75
+    CONTROL         "System Default *",IDC_QTSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,207,14,71,10
+    CONTROL         "DirectX 7 **",IDC_QTDX7,"Button",BS_AUTORADIOBUTTON,207,25,55,10
+    CONTROL         "DirectX 9 **",IDC_QTDX9,"Button",BS_AUTORADIOBUTTON,207,36,55,10
+    GROUPBOX        """VMR7/9 (renderless)"" && ""DirectX 7/9"" settings",IDC_STATIC,105,53,183,75
     CONTROL         "Use regular offscreen plain surfaces",IDC_REGULARSURF,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,113,64,131,10
-    CONTROL         "Use texture surfaces and render video in 2D",
-                    IDC_TEXTURESURF2D,"Button",BS_AUTORADIOBUTTON,113,75,158,
-                    10
-    CONTROL         "Use texture surfaces and render video in 3D ***",
-                    IDC_TEXTURESURF3D,"Button",BS_AUTORADIOBUTTON,113,86,172,
-                    10
+    CONTROL         "Use texture surfaces and render video in 2D",IDC_TEXTURESURF2D,
+                    "Button",BS_AUTORADIOBUTTON,113,75,158,10
+    CONTROL         "Use texture surfaces and render video in 3D ***",IDC_TEXTURESURF3D,
+                    "Button",BS_AUTORADIOBUTTON,113,86,172,10
     LTEXT           "Resizer:",IDC_STATIC,134,99,27,8
-    COMBOBOX        IDC_DX9RESIZER_COMBO,163,98,94,49,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_DX9RESIZER_COMBO,163,98,94,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "DirectShow Audio",IDC_STATIC,5,129,283,28
-    COMBOBOX        IDC_COMBO1,14,139,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "Lock back-buffer before presenting (may fix broken vertical syncronization)",
-                    IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,160,
-                    263,10
-    LTEXT           "* Saving images won't work with these renderers",
-                    IDC_STATIC,13,171,158,8
-    LTEXT           "** Required for loading subtitles",IDC_STATIC,13,181,
-                    104,8
-    LTEXT           "*** Required for image rotation and pixelshaders (DX9-only)",
-                    IDC_STATIC,13,190,195,8
-    CONTROL         "VMR9 mixer mode",IDC_DSVMR9LOADMIXER,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,113,113,73,10
-    CONTROL         "YUV mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,191,113,51,10
+    COMBOBOX        IDC_COMBO1,14,139,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Lock back-buffer before presenting (may fix broken vertical syncronization)",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,160,263,10
+    LTEXT           "* Saving images won't work with these renderers",IDC_STATIC,13,171,158,8
+    LTEXT           "** Required for loading subtitles",IDC_STATIC,13,181,104,8
+    LTEXT           "*** Required for image rotation and pixelshaders (DX9-only)",IDC_STATIC,13,190,195,8
+    CONTROL         "VMR9 mixer mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,113,73,10
+    CONTROL         "YUV mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,113,51,10
 END
 
 IDD_AUTH_DLG DIALOGEX 0, 0, 213, 146
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Authentication needed"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -1041,35 +760,27 @@ BEGIN
     LTEXT           "Restricted area",IDC_STATIC,13,48,50,8
     LTEXT           "Username:",IDC_STATIC,13,66,36,8
     LTEXT           "Password:",IDC_STATIC,13,83,34,8
-    COMBOBOX        IDC_COMBO1,75,64,129,56,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,75,64,129,56,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT3,75,81,129,13,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Remember my password",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,75,99,94,10
+    CONTROL         "Remember my password",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,75,99,94,10
 END
 
 IDD_PPAGEWEBSERVER DIALOGEX 0, 0, 296, 178
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Listen on port:",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,4,63,10
+    CONTROL         "Listen on port:",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,4,63,10
     EDITTEXT        IDC_EDIT1,71,3,40,12,ES_AUTOHSCROLL
     LTEXT           "Launch in web browser...",IDC_STATIC1,129,5,152,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
-    CONTROL         "Enable compression",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,25,79,10
-    CONTROL         "Print debug info",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,51,67,10
-    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,72,75,10
+    CONTROL         "Enable compression",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,79,10
+    CONTROL         "Print debug info",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,67,10
+    CONTROL         "Serve pages from:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,75,10
     EDITTEXT        IDC_EDIT2,7,85,183,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BUTTON1,194,85,45,14
     PUSHBUTTON      "Deploy...",IDC_BUTTON2,243,85,46,14
-    CONTROL         "Allow access from localhost only",IDC_CHECK5,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,38,118,10
-    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,
-                    8,132,148,8
+    CONTROL         "Allow access from localhost only",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,38,118,10
+    LTEXT           "CGI handlers: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,8,132,148,8
     EDITTEXT        IDC_EDIT3,7,144,282,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,65,281,1
     LTEXT           "Default page:",IDC_STATIC,7,103,45,8
@@ -1077,16 +788,13 @@ BEGIN
 END
 
 IDD_SUBTITLEDL_DLG DIALOGEX 0, 0, 377, 158
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Subtitles available online"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Download && Open",IDOK,272,136,98,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | 
-                    WS_BORDER | WS_TABSTOP,7,7,363,124
-    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,138,124,10
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,7,363,124
+    CONTROL         "Replace currently loaded subtitles",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,124,10
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
@@ -1094,31 +802,25 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            "",IDC_DEFAULTICON,8,8,21,20,SS_REALSIZEIMAGE
-    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | 
-                    NOT WS_BORDER
+    EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",-1,"Static",SS_ETCHEDHORZ,8,35,213,1
     PUSHBUTTON      "Save As...",IDC_BUTTON1,8,182,50,14
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | 
-                    LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | 
-                    WS_BORDER | WS_TABSTOP,8,43,213,134
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,43,213,134
 END
 
 IDD_SHADERCOMBINE_DLG DIALOGEX 0, 0, 225, 153
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Shader Combiner"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,7,7,157,117,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
+    LISTBOX         IDC_LIST1,7,7,157,117,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,168,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,168,23,50,14
     PUSHBUTTON      "Move &Up",IDC_BUTTON1,168,57,50,14
     PUSHBUTTON      "Move &Down",IDC_BUTTON4,168,73,50,14
     PUSHBUTTON      "&Remove",IDC_BUTTON3,168,110,50,14
     CONTROL         "",IDC_STATIC1,"Static",SS_ETCHEDHORZ,7,128,211,1
-    COMBOBOX        IDC_COMBO1,7,133,157,120,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,7,133,157,120,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Add",IDC_BUTTON2,168,132,50,14
 END
 
@@ -1126,14 +828,10 @@ IDD_SHADEREDITOR_DLG DIALOGEX 0, 0, 198, 71
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    COMBOBOX        IDC_COMBO1,0,0,115,51,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT1,0,15,198,27,ES_MULTILINE | ES_AUTOVSCROLL | 
-                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
-    COMBOBOX        IDC_COMBO2,117,0,47,42,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT2,0,44,198,26,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY | WS_VSCROLL
+    COMBOBOX        IDC_COMBO1,0,0,115,51,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT1,0,15,198,27,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    COMBOBOX        IDC_COMBO2,117,0,47,42,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT2,0,44,198,26,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
     PUSHBUTTON      "Delete",IDC_BUTTON1,166,0,32,13
 END
 
@@ -1141,20 +839,16 @@ IDD_SHADERAUTOCOMPLETE_DLG DIALOGEX 0, 0, 99, 81
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU | WS_THICKFRAME
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,0,0,99,81,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
-                    NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST1,0,0,99,81,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_CONVERT_DLG DIALOGEX 0, 0, 322, 190
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_ACCEPTFILES
 CAPTION "DSM Converter - Right click the empty area to add media files"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | 
-                    TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | 
-                    WS_TABSTOP,5,5,312,138
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,5,5,312,138
     PUSHBUTTON      "Save &As...",IDC_BUTTON1,267,146,50,14
     EDITTEXT        IDC_EDIT1,5,146,259,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "Start",IDC_BUTTON2,83,171,50,14
@@ -1164,34 +858,27 @@ BEGIN
 END
 
 IDD_CONVERTPROPS_DLG DIALOGEX 0, 0, 266, 145
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Properties"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "OK",IDOK,81,125,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,133,125,50,14
-    COMBOBOX        IDC_COMBO1,7,7,48,82,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,7,7,48,82,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,56,7,167,13,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Set",IDC_BUTTON1,225,7,34,13
-    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | 
-                    LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | 
-                    WS_TABSTOP,7,22,252,98
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,22,252,98
 END
 
 IDD_CONVERTRES_DLG DIALOGEX 0, 0, 230, 126
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Resource"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,64,106,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,116,106,50,14
-    COMBOBOX        IDC_COMBO1,7,40,216,30,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT2,7,65,216,36,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_WANTRETURN
+    COMBOBOX        IDC_COMBO1,7,40,216,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT2,7,65,216,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN
     EDITTEXT        IDC_EDIT3,7,16,216,13,ES_AUTOHSCROLL
     LTEXT           "Name",IDC_STATIC,7,6,19,8
     LTEXT           "Mime",IDC_STATIC,7,30,17,8
@@ -1199,8 +886,7 @@ BEGIN
 END
 
 IDD_CONVERTCHAP_DLG DIALOGEX 0, 0, 213, 46
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Chapter"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -1220,23 +906,17 @@ BEGIN
     CONTROL         "Direct3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,77,10
     GROUPBOX        " VMR9 Color controls ",IDC_STATIC,5,91,283,109
-    CONTROL         "",IDC_SLI_CONTRAST,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,105,233,13
+    CONTROL         "",IDC_SLI_CONTRAST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,105,233,13
     LTEXT           "Contrast",IDC_STATIC,13,107,29,8
     LTEXT           "Brightness",IDC_STATIC,13,126,34,8
     LTEXT           "Hue",IDC_STATIC,13,145,14,8
     LTEXT           "Saturation",IDC_STATIC,13,164,34,8
-    CONTROL         "",IDC_SLI_BRIGHTNESS,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,124,233,13
-    CONTROL         "",IDC_SLI_HUE,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,143,233,13
-    CONTROL         "",IDC_SLI_SATURATION,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,162,233,13
+    CONTROL         "",IDC_SLI_BRIGHTNESS,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,124,233,13
+    CONTROL         "",IDC_SLI_HUE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,143,233,13
+    CONTROL         "",IDC_SLI_SATURATION,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,162,233,13
     PUSHBUTTON      "Reset",IDC_RESET,13,182,59,14
-    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,134,19,92,10
-    CONTROL         "Remember File position",IDC_FILE_POS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,134,34,89,10
+    CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,19,92,10
+    CONTROL         "Remember File position",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,34,89,10
 END
 
 
@@ -1600,15 +1280,7 @@ IDB_PLAYERTOOLBAR       BITMAP                  "res\\toolbar1.bmp"
 IDB_MONO                BITMAP                  "res\\mono.bmp"
 IDB_STEREO              BITMAP                  "res\\stereo.bmp"
 IDB_NOAUDIO             BITMAP                  "res\\noaudio.bmp"
-IDB_LOGO0               BITMAP                  "res\\logo.0.bmp"
-IDB_LOGO1               BITMAP                  "res\\logo.1.bmp"
-IDB_LOGO2               BITMAP                  "res\\logo.2.bmp"
-IDB_LOGO3               BITMAP                  "res\\logo.3.bmp"
-IDB_LOGO4               BITMAP                  "res\\logo.4.bmp"
-IDB_LOGO5               BITMAP                  "res\\logo.5.bmp"
-IDB_LOGO6               BITMAP                  "res\\logo.6.bmp"
 IDB_AUTHHDRPIC          BITMAP                  "res\\authhdrpic.bmp"
-IDB_LOGO7               BITMAP                  "res\\logo.7.bmp"
 IDB_STREAMTYPES         BITMAP                  "res\\streamtypes.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1647,7 +1319,6 @@ IDF_SEEKBARLEFT_PNG     FILE                    "res\\web\\seekbarleft.png"
 IDF_SEEKBARMID_PNG      FILE                    "res\\web\\seekbarmid.png"
 IDF_SEEKBARRIGHT_PNG    FILE                    "res\\web\\seekbarright.png"
 IDF_SEEKBARGRIP_PNG     FILE                    "res\\web\\seekbargrip.png"
-IDF_LOGO_PNG            FILE                    "res\\web\\logo.png"
 IDF_CONTROLBACK_PNG     FILE                    "res\\web\\controlback.png"
 IDF_CONTROLBUTTONPLAY_PNG FILE                    "res\\web\\controlbuttonplay.png"
 IDF_CONTROLBUTTONPAUSE_PNG FILE                    "res\\web\\controlbuttonpause.png"
@@ -1662,6 +1333,14 @@ IDF_CONTROLVOLUMEOFF_PNG FILE                    "res\\web\\controlvolumeoff.png
 IDF_CONTROLVOLUMEBAR_PNG FILE                    "res\\web\\controlvolumebar.png"
 IDF_CONTROLVOLUMEGRIP_PNG FILE                    "res\\web\\controlvolumegrip.png"
 IDF_SHADER_RESIZER      FILE                    "res\\shaders\\resizer.psh"
+IDF_LOGO0               FILE                  "res\\logo.0.png"
+IDF_LOGO1               FILE                  "res\\logo.1.png"
+IDF_LOGO2               FILE                  "res\\logo.2.png"
+IDF_LOGO3               FILE                  "res\\logo.3.png"
+IDF_LOGO4               FILE                  "res\\logo.4.png"
+IDF_LOGO5               FILE                  "res\\logo.5.png"
+IDF_LOGO6               FILE                  "res\\logo.6.png"
+IDF_LOGO7               FILE                  "res\\logo.7.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1748,7 +1427,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,4,1
+ FILEVERSION 6,4,9,0
  PRODUCTVERSION 6,4,9,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
@@ -1767,7 +1446,7 @@ BEGIN
             VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 1, 4, 1"
+            VALUE "FileVersion", "6, 4, 9, 0"
             VALUE "InternalName", "Media Player Classic"
             VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
             VALUE "OriginalFilename", "mplayerc.EXE"
@@ -1862,18 +1541,14 @@ BEGIN
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
             MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-
             POPUP "Override Aspect Ratio"
             BEGIN
                 MENUITEM "Default",                     ID_ASPECTRATIO_SOURCE
-
                 MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
                 MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
                 MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
             END
-            MENUITEM "Correct Monitor/Desktop AR Diff", 
-                                                    ID_VIEW_VF_COMPMONDESKARDIFF
-
+            MENUITEM "Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
         POPUP "Pan&&S&can"
         BEGIN
@@ -1929,13 +1604,10 @@ BEGIN
             MENUITEM "Close ",                      ID_AFTERPLAYBACK_CLOSE
             MENUITEM "Stand By",                    ID_AFTERPLAYBACK_STANDBY
             MENUITEM "Hibernate",                   ID_AFTERPLAYBACK_HIBERNATE
-
             MENUITEM "Shutdown",                    ID_AFTERPLAYBACK_SHUTDOWN
-
             MENUITEM "Log Off",                     ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
             MENUITEM "Do Nothing",                  ID_AFTERPLAYBACK_DONOTHING
-
         END
     END
     POPUP "&Navigate"
@@ -1961,7 +1633,6 @@ BEGIN
         MENUITEM "Home Page",                   ID_HELP_HOMEPAGE
         MENUITEM "Documentation (sf.net)",      ID_HELP_DOCUMENTATION
         MENUITEM "Command Line Switches",       ID_HELP_SHOWCOMMANDLINESWITCHES
-
         MENUITEM SEPARATOR
         MENUITEM "Donate!",                     ID_HELP_DONATE
         MENUITEM SEPARATOR
@@ -1995,18 +1666,14 @@ BEGIN
             MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
             MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-
             POPUP "Override Aspect Ratio"
             BEGIN
                 MENUITEM "Default",                     ID_ASPECTRATIO_SOURCE
-
                 MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
                 MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
                 MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
             END
-            MENUITEM "Correct Monitor/Desktop AR Diff", 
-                                                    ID_VIEW_VF_COMPMONDESKARDIFF
-
+            MENUITEM "Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
         END
         POPUP "Pan&&S&can"
         BEGIN
@@ -2039,7 +1706,6 @@ BEGIN
             MENUITEM "&Title Menu",                 ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu",                  ID_NAVIGATE_ROOTMENU
             MENUITEM "&Subtitle Menu",              ID_NAVIGATE_SUBPICTUREMENU
-
             MENUITEM "&Audio Menu",                 ID_NAVIGATE_AUDIOMENU
             MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
             MENUITEM "&Chapter Menu",               ID_NAVIGATE_CHAPTERMENU
@@ -2063,13 +1729,10 @@ BEGIN
             MENUITEM "Close ",                      ID_AFTERPLAYBACK_CLOSE
             MENUITEM "Stand By",                    ID_AFTERPLAYBACK_STANDBY
             MENUITEM "Hibernate",                   ID_AFTERPLAYBACK_HIBERNATE
-
             MENUITEM "Shutdown",                    ID_AFTERPLAYBACK_SHUTDOWN
-
             MENUITEM "Log Off",                     ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
             MENUITEM "Do Nothing",                  ID_AFTERPLAYBACK_DONOTHING
-
         END
         MENUITEM SEPARATOR
         POPUP "Vi&ew"
@@ -2079,7 +1742,6 @@ BEGIN
                 MENUITEM "Never",                       ID_ONTOP_NEVER
                 MENUITEM "Always",                      ID_ONTOP_ALWAYS
                 MENUITEM "While Playing",               ID_ONTOP_WHILEPLAYING
-
             END
             MENUITEM SEPARATOR
             MENUITEM "Caption&&Menu",               ID_VIEW_CAPTIONMENU
@@ -2095,11 +1757,8 @@ BEGIN
             POPUP "Presets..."
             BEGIN
                 MENUITEM "Minimal",                     ID_VIEW_PRESETS_MINIMAL
-
                 MENUITEM "Compact",                     ID_VIEW_PRESETS_COMPACT
-
                 MENUITEM "Normal",                      ID_VIEW_PRESETS_NORMAL
-
             END
         END
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
@@ -2132,7 +1791,6 @@ BEGIN
                 MENUITEM "Search...",                   ID_FILE_ISDB_SEARCH
                 MENUITEM "Upload...",                   ID_FILE_ISDB_UPLOAD
                 MENUITEM "Download...",                 ID_FILE_ISDB_DOWNLOAD
-
             END
             MENUITEM SEPARATOR
             MENUITEM "Prope&rties",                 ID_FILE_PROPERTIES
@@ -2157,11 +1815,8 @@ BEGIN
             POPUP "Presets..."
             BEGIN
                 MENUITEM "Minimal",                     ID_VIEW_PRESETS_MINIMAL
-
                 MENUITEM "Compact",                     ID_VIEW_PRESETS_COMPACT
-
                 MENUITEM "Normal",                      ID_VIEW_PRESETS_NORMAL
-
             END
             MENUITEM SEPARATOR
             MENUITEM "Fu&ll Screen\tAlt+Enter",     ID_VIEW_FULLSCREEN
@@ -2181,26 +1836,17 @@ BEGIN
                 MENUITEM "&Double Size",                ID_VIEW_VF_DOUBLE
                 MENUITEM "&Stretch To Window",          ID_VIEW_VF_STRETCH
                 MENUITEM "Touch Window From &Inside",   ID_VIEW_VF_FROMINSIDE
-
                 MENUITEM "Touch Window From &Outside",  ID_VIEW_VF_FROMOUTSIDE
-
                 MENUITEM SEPARATOR
                 MENUITEM "&Keep Aspect Ratio",          ID_VIEW_VF_KEEPASPECTRATIO
-
                 POPUP "Override Aspect Ratio"
                 BEGIN
                     MENUITEM "Default",                     ID_ASPECTRATIO_SOURCE
-
                     MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
-
                     MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
-
                     MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
-
                 END
-                MENUITEM "Correct Monitor/Desktop AR Diff", 
-                                                        ID_VIEW_VF_COMPMONDESKARDIFF
-
+                MENUITEM "Correct Monitor/Desktop AR Diff", ID_VIEW_VF_COMPMONDESKARDIFF
             END
             POPUP "Pan&&S&can"
             BEGIN
@@ -2225,7 +1871,6 @@ BEGIN
                 MENUITEM "Never",                       ID_ONTOP_NEVER
                 MENUITEM "Always",                      ID_ONTOP_ALWAYS
                 MENUITEM "While Playing",               ID_ONTOP_WHILEPLAYING
-
             END
             MENUITEM "&Options...",                 ID_VIEW_OPTIONS
         END
@@ -2253,7 +1898,6 @@ BEGIN
             MENUITEM "Title Menu\tAlt+T",           ID_NAVIGATE_TITLEMENU
             MENUITEM "&Root Menu\tAlt+R",           ID_NAVIGATE_ROOTMENU
             MENUITEM "&Subtitle Menu",              ID_NAVIGATE_SUBPICTUREMENU
-
             MENUITEM "&Audio Menu",                 ID_NAVIGATE_AUDIOMENU
             MENUITEM "An&gle Menu",                 ID_NAVIGATE_ANGLEMENU
             MENUITEM "&Chapter Menu",               ID_NAVIGATE_CHAPTERMENU
@@ -2263,7 +1907,6 @@ BEGIN
         BEGIN
             MENUITEM "Home Page",                   ID_HELP_HOMEPAGE
             MENUITEM "Command Line Switches",       ID_HELP_SHOWCOMMANDLINESWITCHES
-
             MENUITEM SEPARATOR
             MENUITEM "Donate!",                     ID_HELP_DONATE
             MENUITEM SEPARATOR
@@ -2287,13 +1930,10 @@ BEGIN
             MENUITEM "Close ",                      ID_AFTERPLAYBACK_CLOSE
             MENUITEM "Stand By",                    ID_AFTERPLAYBACK_STANDBY
             MENUITEM "Hibernate",                   ID_AFTERPLAYBACK_HIBERNATE
-
             MENUITEM "Shutdown",                    ID_AFTERPLAYBACK_SHUTDOWN
-
             MENUITEM "Log Off",                     ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
             MENUITEM "Do Nothing",                  ID_AFTERPLAYBACK_DONOTHING
-
         END
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
@@ -2330,7 +1970,26 @@ BEGIN
     IDS_RS_DVDPOS           "Remember DVD Pos"
     IDS_RS_FILEPOS          "Remember File Pos"
     IDS_RS_LASTFULLSCREEN   "LastFullScreen"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_INFOBAR_LOCATION    "Location"
+    IDS_INFOBAR_VIDEO       "Video"
+    IDS_INFOBAR_AUDIO       "Audio"
+    IDS_INFOBAR_SUBTITLES   "Subtitles"
+    IDS_CONTROLS_COMPLETING "Completing..."
+    IDS_AUTOPLAY_PLAYVIDEO  "Play Video"
+    IDS_AUTOPLAY_PLAYMUSIC  "Play Music"
+    IDS_AUTOPLAY_PLAYAUDIOCD "Play Audio CD"
+    IDS_AUTOPLAY_PLAYDVDMOVIE "Play DVD Movie"
+    IDS_PROPSHEET_PROPERTIES "Properties"
+    IDS_GRAPHBUILDER_AUDIOSWITCHER "Audio Switcher"
+    IDS_SHADER_EDIT         "&Edit..."
     IDS_RS_PN31             "UsePN31"
+    IDS_SRC_FLV             "6.4.0.1"
+    IDS_FAVFILES            "Files"
+    IDS_FAVDVDS             "DVDs"
 END
 
 STRINGTABLE 
@@ -2348,6 +2007,19 @@ BEGIN
     IDS_RS_MUTE             "Mute"
     IDS_RS_BALANCE          "Balance"
     IDS_RS_LOOP             "Loop"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_RS_SNAPTODESKTOPEDGES "SnapToDesktopEdges"
+    IDS_RS_ENABLESUBTITLES  "EnableSubtitles"
+    IDS_RS_MPEGINTERLACED   "MPEGInterlaced"
+    IDS_RS_THUMBWIDTH       "ThumbWidth"
+    IDS_RS_AUDIONORMALIZE   "AudioNormalize"
+    IDS_RS_AUDIOBOOST       "AudioBoost"
+    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
+    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
+    IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
 END
 
 STRINGTABLE 
@@ -2446,12 +2118,6 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_SNAPTODESKTOPEDGES "SnapToDesktopEdges"
-    IDS_RS_ENABLESUBTITLES  "EnableSubtitles"
-    IDS_RS_MPEGINTERLACED   "MPEGInterlaced"
-    IDS_RS_THUMBWIDTH       "ThumbWidth"
-    IDS_RS_AUDIONORMALIZE   "AudioNormalize"
-    IDS_RS_AUDIOBOOST       "AudioBoost"
     IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
     IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
     IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
@@ -2459,9 +2125,6 @@ BEGIN
     IDS_RS_COLOR_HUE        "Color Hue"
     IDS_RS_COLOR_SATURATION "Color Saturation"
     IDS_RS_SHADERLIST       "Shaders List"
-    IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
-    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
-    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
 END
 
 STRINGTABLE 
@@ -2478,9 +2141,9 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDB_LOGO3               "Andrew S. Gildehaus, agildehaus@runbox.com"
-    IDB_LOGO4               "Marcel Hoffs, marcelhoffs@hotmail.com"
-    IDB_LOGO7               "Steven W. Smith, smith78@sbcglobal.net"
+    IDF_LOGO3               "Andrew S. Gildehaus, agildehaus@runbox.com"
+    IDF_LOGO4               "Marcel Hoffs, marcelhoffs@hotmail.com"
+    IDF_LOGO7               "Steven W. Smith, smith78@sbcglobal.net"
 END
 
 STRINGTABLE 
@@ -2619,7 +2282,7 @@ STRINGTABLE
 BEGIN
     IDS_SRC_RADGT           "6.4.0.0\nRequires smackw32.dll and binkw32.dll"
     IDS_SRC_CDDA            "6.4.0.1\n2K/XP only"
-    IDS_SRC_AVI             "6.4.0.6\nNon-interleaved files are not welcome"
+    IDS_SRC_AVI             "6.4.0.7\nNon-interleaved files are not welcome"
     IDS_SRC_CDXA            "6.4.0.1"
     IDS_SRC_VTS             "6.4.0.0\nOpen VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_FLIC            "6.4.0.0"
@@ -2627,7 +2290,7 @@ BEGIN
     IDS_SRC_DTSAC3          "6.4.0.1"
     IDS_SRC_SHOUTCAST       "6.4.0.1"
     IDS_SRC_REALMEDIA       "6.4.1.1\nRealMedia format categories must be set to 'DirectShow' to make it load\nDoesn't support streaming"
-    IDS_SRC_MATROSKA        "6.4.2.8"
+    IDS_SRC_MATROSKA        "6.4.2.9"
     IDS_SRC_ROQ             "6.4.0.0"
     IDS_SRC_OGG             "6.4.0.2"
     IDS_SRC_NUT             "6.4.0.0\nBased on ""NUT Open Container Format DRAFT 20030906""\nStill very incomplete, if you have or can make test files, please contact me."
@@ -2638,12 +2301,12 @@ END
 STRINGTABLE 
 BEGIN
     IDS_SRC_MPA             "6.4.0.2\nSource filter for mp3 and aac"
-    IDS_SRC_MP4             "6.4.0.1"
+    IDS_SRC_MP4             "6.4.0.2"
     IDS_TRA_RV              "6.4.1.0\nRequires RealVideo decoder dlls, RV10 also works with ffdshow"
     IDS_TRA_RA              "6.4.1.0\nRequires RealAudio decoder dlls, DNET also works with ac3filter"
-    IDS_TRA_MPEG1           "6.4.0.1\nBased on libmpeg2 (mpeg1 video decoding is bogus)"
-    IDS_TRA_MPEG2           "6.4.0.1\nBased on libmpeg2"
-    IDS_TRA_MPA             "6.4.0.2\nBased on libmad, liba52, libdts, libfaad"
+    IDS_TRA_MPEG1           "6.4.0.3\nBased on libmpeg2 (mpeg1 video decoding is bogus)"
+    IDS_TRA_MPEG2           "6.4.0.3\nBased on libmpeg2"
+    IDS_TRA_MPA             "6.4.0.3\nBased on libmad, liba52, libdts, libfaad"
     IDS_TRA_LPCM            "6.4.0.1"
     IDS_TRA_AC3             "6.4.0.1\nBased on liba52 0.7.4, http://liba52.sourceforge.net/"
     IDS_TRA_DTS             "6.4.0.1\nBased on libdts 0.0.2, http://www.videolan.org/dtsdec.html"
@@ -2724,22 +2387,6 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_INFOBAR_LOCATION    "Location"
-    IDS_INFOBAR_VIDEO       "Video"
-    IDS_INFOBAR_AUDIO       "Audio"
-    IDS_INFOBAR_SUBTITLES   "Subtitles"
-    IDS_CONTROLS_COMPLETING "Completing..."
-    IDS_AUTOPLAY_PLAYVIDEO  "Play Video"
-    IDS_AUTOPLAY_PLAYMUSIC  "Play Music"
-    IDS_AUTOPLAY_PLAYAUDIOCD "Play Audio CD"
-    IDS_AUTOPLAY_PLAYDVDMOVIE "Play DVD Movie"
-    IDS_PROPSHEET_PROPERTIES "Properties"
-    IDS_GRAPHBUILDER_AUDIOSWITCHER "Audio Switcher"
-    IDS_SHADER_EDIT         "&Edit..."
-END
-
-STRINGTABLE 
-BEGIN
     IDD_FILEPROPRES         "Resources"
     IDD_PPAGECASIMIR        "Casimir666"
 END
@@ -2807,10 +2454,10 @@ IDF_SHADER_SHARPEN_COMPLEX FILE                    "res\\shaders\\SharpenComplex
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Data
+// RCDATA
 //
 
-IDF_PN31SNOOP RCDATA                                  "res\\PN31snoop.sys"
+IDF_PN31SNOOP           RCDATA                  "res\\PN31snoop.sys"
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////
 

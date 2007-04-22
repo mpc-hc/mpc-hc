@@ -23,11 +23,16 @@
 
 namespace ssf
 {
-	class Split : public CAtlArray<CString>
+	class Split : public CAtlArray<CStringW>
 	{
 	public:
 		enum SplitType {Min, Def, Max};
-		Split(LPCTSTR sep, CString str, size_t limit = 0, SplitType type = Def);
+		Split();
+		Split(LPCWSTR sep, CStringW str, size_t limit = 0, SplitType type = Def);
+		Split(WCHAR sep, CStringW str, size_t limit = 0, SplitType type = Def);
 		operator size_t() {return GetCount();}
+		void DoSplit(LPCWSTR sep, CStringW str, size_t limit, SplitType type);
+		int GetAtInt(size_t i);
+		float GetAtFloat(size_t i);
 	};
 }

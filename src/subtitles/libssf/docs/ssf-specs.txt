@@ -42,7 +42,6 @@ otherwise there would be no meaning of the expression.
 	#b {t: 234;};
 	#ab a b;
 	#c ab; // t of c still equals to 123
-- there are also low priority definitions, but only the parser is allowed to use them to predefine the defaults.
 
 "type" and "name":
 - alphanumeric or underscore characters only, without spaces
@@ -191,12 +190,14 @@ direction
 
 placement
 {
-	clip: ["frame" | <rect>]; // anything drawn outside this rectangle is clipped
+	clip: ["none" | "frame" | <rect>]; // anything drawn outside this rectangle is clipped, negative or larger than 'resolution' values are not allowed for rect
 	margin: <rect>; // "top" "right" "bottom" "left" are also valid values for the rect members, they refer to the values of the "frame" rect (0, 0, frame.resolution.cx, frame.resolution.cy)
 	align: <align>;
 	pos: ["auto" | <point>]; // absolute values, pos.x or pos.y can be animated only when both the source and destination style defined it
 	offset: <point>; // relative to pos, unlike pos this can be applied to fragments of the text as an override
-	angle: <angle>; // origin of rotation is the alignment point
+	angle: <angle>; // origin of rotation is the alignment point, unless it is overriden
+	org: ["auto" | <point>]; // override for the origin
+	path: <string>; // a series of x y coord pairs (at least two points)
 };
 
 font
@@ -210,13 +211,18 @@ font
 	italic: <bool>;
 	spacing: <num>;
 	scale: <size>;
+	kerning: <bool>;
 };
 
 background
 {
 	color: <color>;
 	size: <num>;
-	type: ["outline" | "box"];
+	type: ["outline" | "enlarge" | "box"];
+	blur: <num>; // number of passes
+
+	// "enlarge" can be computed faster, but because it follows the path of the original outline it is 
+	// not rounded and size > 1 can make it look pretty bad if it intersects with itself.
 };
 
 shadow
@@ -224,7 +230,7 @@ shadow
 	color: <color>;
 	depth: <num>;
 	angle: <degrees>;
-	blur: <percent>;
+	blur: <num>; // number of passes
 };
 
 fill
@@ -324,6 +330,8 @@ subtitle
 	
 	If there is a text block right after an override, the new style will be used only inside 
 	that block.
+	
+	Style and time offsets are restored at the end of text blocks.
 	
 	Examples:
 
@@ -445,13 +453,31 @@ subtitle
 	It is also possible to leave some of the ref list slots empty.
 
 	[s1] [a1,a2,a3]{Ka}[,a2,a3]{ra}[a1,,a3]{o}[a1,a2,]{ke!}
+	
+	Text includes
+	-------------
 
+	Text blocks can also be defined outside subtitles and included later. 
+	
+	#hw { @ {[{font.italic: "true"}]Hello World!}; };
+	subtitle { @ {[hw]}; };
+	
+	When mixing style overrides and text includes, the new style applies to the text too.
+	
+	#hw { @ {Hello World!}; };
+	subtitle { @ {[hw {font.italic: "true"}]}; };
+	
+	Multiple levels of recursion:
+	
+	#dblspace { @ {[{font.scale.cx: 2;}]             }; }; // note: there is still only one space character here because of white space compression
+	#hw { @ {Hello[dblspace]World!}; };
+	subtitle { @ {[hw]}; };
 };
 
 Defaults and predefined names
 -----------------------------
 
-These must be predefined by the application, where each definition is low priority.
+These must be predefined by the application and always assumed to be there for ssf version 1.
 
 color#white {a: 255; r: 255; g: 255; b: 255;};
 color#black {a: 255; r: 0; g: 0; b: 0;};
@@ -507,7 +533,7 @@ subtitle#subtitle
 	
 		placement
 		{
-			clip: "frame";
+			clip: "none";
 			margin: {t: 0; r: 0; b: 0; l: 0;};
 			align: bottomcenter;
 			pos: "auto";
@@ -526,6 +552,7 @@ subtitle#subtitle
 			italic: "false"; 
 			spacing: 0; 
 			scale: {cx: 1; cy: 1;};
+			kerning: "true";
 		};
 
 		background

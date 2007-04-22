@@ -30,35 +30,36 @@ namespace ssf
 
 	Subtitle::Subtitle(File* pFile) 
 		: m_pFile(pFile)
+		, m_animated(false)
 	{
 		if(m_n2n.align[0].IsEmpty())
 		{
-			m_n2n.align[0][_T("left")] = 0;
-			m_n2n.align[0][_T("center")] = 0.5;
-			m_n2n.align[0][_T("middle")] = 0.5;
-			m_n2n.align[0][_T("right")] = 1;
+			m_n2n.align[0][L"left"] = 0;
+			m_n2n.align[0][L"center"] = 0.5;
+			m_n2n.align[0][L"middle"] = 0.5;
+			m_n2n.align[0][L"right"] = 1;
 		}
 		
 		if(m_n2n.align[1].IsEmpty())
 		{
-			m_n2n.align[1][_T("top")] = 0;
-			m_n2n.align[1][_T("middle")] = 0.5;
-			m_n2n.align[1][_T("center")] = 0.5;
-			m_n2n.align[1][_T("bottom")] = 1;
+			m_n2n.align[1][L"top"] = 0;
+			m_n2n.align[1][L"middle"] = 0.5;
+			m_n2n.align[1][L"center"] = 0.5;
+			m_n2n.align[1][L"bottom"] = 1;
 		}
 		
 		if(m_n2n.weight.IsEmpty())
 		{
-			m_n2n.weight[_T("thin")] = FW_THIN;
-			m_n2n.weight[_T("normal")] = FW_NORMAL;
-			m_n2n.weight[_T("bold")] = FW_BOLD;
+			m_n2n.weight[L"thin"] = FW_THIN;
+			m_n2n.weight[L"normal"] = FW_NORMAL;
+			m_n2n.weight[L"bold"] = FW_BOLD;
 		}
 
 		if(m_n2n.transition.IsEmpty())
 		{
-			m_n2n.transition[_T("start")] = 0;
-			m_n2n.transition[_T("stop")] = 1e10;
-			m_n2n.transition[_T("linear")] = 1;
+			m_n2n.transition[L"start"] = 0;
+			m_n2n.transition[L"stop"] = 1e10;
+			m_n2n.transition[L"linear"] = 1;
 		}
 	}
 
@@ -66,9 +67,11 @@ namespace ssf
 	{
 	}
 
-	bool Subtitle::Parse(Definition* pDef, double start, double stop, double at)
+	bool Subtitle::Parse(Definition* pDef, float start, float stop, float at)
 	{
 		ASSERT(m_pFile && pDef);
+
+		m_name = pDef->m_name;
 
 		m_text.RemoveAll();
 
@@ -79,33 +82,31 @@ namespace ssf
 
 		Fill::gen_id = 0;
 
+		m_pFile->Commit();
+
 		try
 		{
-			Definition& frame = (*pDef)[_T("frame")];
+			Definition& frame = (*pDef)[L"frame"];
 
-			m_frame.reference = frame[_T("reference")];
-			m_frame.resolution.cx = frame[_T("resolution")][_T("cx")];
-			m_frame.resolution.cy = frame[_T("resolution")][_T("cy")];
+			m_frame.reference = frame[L"reference"];
+			m_frame.resolution.cx = frame[L"resolution"][L"cx"];
+			m_frame.resolution.cy = frame[L"resolution"][L"cy"];
 
-			Definition& direction = (*pDef)[_T("direction")];
+			Definition& direction = (*pDef)[L"direction"];
 
-			m_direction.primary = direction[_T("primary")];
-			m_direction.secondary = direction[_T("secondary")];
+			m_direction.primary = direction[L"primary"];
+			m_direction.secondary = direction[L"secondary"];
 
-			m_wrap = (*pDef)[_T("wrap")];
+			m_wrap = (*pDef)[L"wrap"];
 
-			m_layer = (*pDef)[_T("layer")];
-
-			m_pFile->Commit();
+			m_layer = (*pDef)[L"layer"];
 
 			Style style;
-			GetStyle(&(*pDef)[_T("style")], style);
+			GetStyle(&(*pDef)[L"style"], style);
 
-			CAtlStringMap<double> offset;
-			Definition& block = (*pDef)[_T("@")];
-			Parse(CharacterStream((LPCTSTR)block), style, at, offset, dynamic_cast<Reference*>(block.m_parent));
-
-			m_pFile->Rollback();
+			StringMapW<float> offset;
+			Definition& block = (*pDef)[L"@"];
+			Parse(WCharInputStream((LPCWSTR)block), style, at, offset, dynamic_cast<Reference*>(block.m_parent));
 
 			// TODO: trimming should be done by the renderer later, after breaking the words into lines
 
@@ -114,12 +115,40 @@ namespace ssf
 
 			while(!m_text.IsEmpty() && (m_text.GetTail().str == Text::SP || m_text.GetTail().str == Text::LSEP))
 				m_text.RemoveTail();
+
+			for(POSITION pos = m_text.GetHeadPosition(); pos; m_text.GetNext(pos))
+			{
+				if(m_text.GetAt(pos).str == Text::LSEP)
+				{
+					POSITION prev = pos;
+					m_text.GetPrev(prev);
+
+					while(prev && m_text.GetAt(prev).str == Text::SP)
+					{
+						POSITION tmp = prev;
+						m_text.GetPrev(prev);
+						m_text.RemoveAt(tmp);
+					}
+
+					POSITION next = pos;
+					m_text.GetNext(next);
+
+					while(next && m_text.GetAt(next).str == Text::SP)
+					{
+						POSITION tmp = next;
+						m_text.GetNext(next);
+						m_text.RemoveAt(tmp);
+					}
+				}
+			}
 		}
 		catch(Exception& e)
 		{
 			TRACE(_T("%s"), e.ToString());
 			return false;
 		}
+
+		m_pFile->Rollback();
 
 		return true;
 	}
@@ -131,147 +160,173 @@ namespace ssf
 		style.placement.pos.auto_x = true;
 		style.placement.pos.auto_y = true;
 
+		style.placement.org.x = 0;
+		style.placement.org.y = 0;
+		style.placement.org.auto_x = true;
+		style.placement.org.auto_y = true;
+
 		Rect frame = {0, m_frame.resolution.cx, m_frame.resolution.cy, 0};
 
-		style.placement.clip = frame;
+		style.placement.clip.t = -1;
+		style.placement.clip.r = -1;
+		style.placement.clip.b = -1;
+		style.placement.clip.l = -1;
 
 		//
 
-		style.linebreak = (*pDef)[_T("linebreak")];
+		style.linebreak = (*pDef)[L"linebreak"];
 
-		Definition& placement = (*pDef)[_T("placement")];
+		Definition& placement = (*pDef)[L"placement"];
 
-		Definition& clip = placement[_T("clip")];
+		Definition& clip = placement[L"clip"];
 
 		if(clip.IsValue(Definition::string))
 		{
-			CString str = clip;
+			CStringW str = clip;
 
-			if(str == _T("frame")) style.placement.clip = frame;
+			if(str == L"frame") style.placement.clip = frame;
 			// else ?
 		}
 		else
 		{
-			if(clip[_T("t")].IsValue()) style.placement.clip.t = clip[_T("t")];
-			if(clip[_T("r")].IsValue()) style.placement.clip.r = clip[_T("r")];
-			if(clip[_T("b")].IsValue()) style.placement.clip.b = clip[_T("b")];
-			if(clip[_T("l")].IsValue()) style.placement.clip.l = clip[_T("l")];
+			if(clip[L"t"].IsValue()) style.placement.clip.t = clip[L"t"];
+			if(clip[L"r"].IsValue()) style.placement.clip.r = clip[L"r"];
+			if(clip[L"b"].IsValue()) style.placement.clip.b = clip[L"b"];
+			if(clip[L"l"].IsValue()) style.placement.clip.l = clip[L"l"];
 		}
 
-		CAtlStringMap<double> n2n_margin;
+		StringMapW<float> n2n_margin[2];
 
-		n2n_margin[_T("top")] = frame.t;
-		n2n_margin[_T("right")] = frame.r;
-		n2n_margin[_T("bottom")] = frame.b;
-		n2n_margin[_T("left")] = frame.l;
+		n2n_margin[0][L"top"] = 0;
+		n2n_margin[0][L"right"] = 0;
+		n2n_margin[0][L"bottom"] = frame.b - frame.t;
+		n2n_margin[0][L"left"] = frame.r - frame.l;
+		n2n_margin[1][L"top"] = frame.b - frame.t;
+		n2n_margin[1][L"right"] = frame.r - frame.l;
+		n2n_margin[1][L"bottom"] = 0;
+		n2n_margin[1][L"left"] = 0;
 
-		placement[_T("margin")][_T("t")].GetAsNumber(style.placement.margin.t, &n2n_margin);
-		placement[_T("margin")][_T("r")].GetAsNumber(style.placement.margin.r, &n2n_margin);
-		placement[_T("margin")][_T("b")].GetAsNumber(style.placement.margin.b, &n2n_margin);
-		placement[_T("margin")][_T("l")].GetAsNumber(style.placement.margin.l, &n2n_margin);
+		placement[L"margin"][L"t"].GetAsNumber(style.placement.margin.t, &n2n_margin[0]);
+		placement[L"margin"][L"r"].GetAsNumber(style.placement.margin.r, &n2n_margin[0]);
+		placement[L"margin"][L"b"].GetAsNumber(style.placement.margin.b, &n2n_margin[1]);
+		placement[L"margin"][L"l"].GetAsNumber(style.placement.margin.l, &n2n_margin[1]);
 
-		placement[_T("align")][_T("h")].GetAsNumber(style.placement.align.h, &m_n2n.align[0]);
-		placement[_T("align")][_T("v")].GetAsNumber(style.placement.align.v, &m_n2n.align[1]);
+		placement[L"align"][L"h"].GetAsNumber(style.placement.align.h, &m_n2n.align[0]);
+		placement[L"align"][L"v"].GetAsNumber(style.placement.align.v, &m_n2n.align[1]);
 
-		if(placement[_T("pos")][_T("x")].IsValue()) {style.placement.pos.x = placement[_T("pos")][_T("x")]; style.placement.pos.auto_x = false;}
-		if(placement[_T("pos")][_T("y")].IsValue()) {style.placement.pos.y = placement[_T("pos")][_T("y")]; style.placement.pos.auto_y = false;}
+		if(placement[L"pos"][L"x"].IsValue()) {style.placement.pos.x = placement[L"pos"][L"x"]; style.placement.pos.auto_x = false;}
+		if(placement[L"pos"][L"y"].IsValue()) {style.placement.pos.y = placement[L"pos"][L"y"]; style.placement.pos.auto_y = false;}
 
-		placement[_T("offset")][_T("x")].GetAsNumber(style.placement.offset.x);
-		placement[_T("offset")][_T("y")].GetAsNumber(style.placement.offset.y);
+		placement[L"offset"][L"x"].GetAsNumber(style.placement.offset.x);
+		placement[L"offset"][L"y"].GetAsNumber(style.placement.offset.y);
 
-		style.placement.angle.x = placement[_T("angle")][_T("x")];
-		style.placement.angle.y = placement[_T("angle")][_T("y")];
-		style.placement.angle.z = placement[_T("angle")][_T("z")];
+		style.placement.angle.x = placement[L"angle"][L"x"];
+		style.placement.angle.y = placement[L"angle"][L"y"];
+		style.placement.angle.z = placement[L"angle"][L"z"];
 
-		Definition& font = (*pDef)[_T("font")];
+		if(placement[L"org"][L"x"].IsValue()) {style.placement.org.x = placement[L"org"][L"x"]; style.placement.org.auto_x = false;}
+		if(placement[L"org"][L"y"].IsValue()) {style.placement.org.y = placement[L"org"][L"y"]; style.placement.org.auto_y = false;}
 
-		style.font.face = font[_T("face")];
-		style.font.size = font[_T("size")];
-		font[_T("weight")].GetAsNumber(style.font.weight, &m_n2n.weight);
-		style.font.color[0] = font[_T("color")][_T("a")];
-		style.font.color[1] = font[_T("color")][_T("r")];
-		style.font.color[2] = font[_T("color")][_T("g")];
-		style.font.color[3] = font[_T("color")][_T("b")];
-		style.font.underline = font[_T("underline")];
-		style.font.strikethrough = font[_T("strikethrough")];
-		style.font.italic = font[_T("italic")];
-		style.font.spacing = font[_T("spacing")];
-		style.font.scale.cx = font[_T("scale")][_T("cx")];
-		style.font.scale.cy = font[_T("scale")][_T("cy")];
+		style.placement.path = placement[L"path"];
 
-		Definition& background = (*pDef)[_T("background")];
+		Definition& font = (*pDef)[L"font"];
 
-		style.background.color[0] = background[_T("color")][_T("a")];
-		style.background.color[1] = background[_T("color")][_T("r")];
-		style.background.color[2] = background[_T("color")][_T("g")];
-		style.background.color[3] = background[_T("color")][_T("b")];
-		style.background.size = background[_T("size")];
-		style.background.type = background[_T("type")];
+		style.font.face = font[L"face"];
+		style.font.size = font[L"size"];
+		font[L"weight"].GetAsNumber(style.font.weight, &m_n2n.weight);
+		style.font.color.a = font[L"color"][L"a"];
+		style.font.color.r = font[L"color"][L"r"];
+		style.font.color.g = font[L"color"][L"g"];
+		style.font.color.b = font[L"color"][L"b"];
+		style.font.underline = font[L"underline"];
+		style.font.strikethrough = font[L"strikethrough"];
+		style.font.italic = font[L"italic"];
+		style.font.spacing = font[L"spacing"];
+		style.font.scale.cx = font[L"scale"][L"cx"];
+		style.font.scale.cy = font[L"scale"][L"cy"];
+		style.font.kerning = font[L"kerning"];
 
-		Definition& shadow = (*pDef)[_T("shadow")];
+		Definition& background = (*pDef)[L"background"];
 
-		style.shadow.color[0] = shadow[_T("color")][_T("a")];
-		style.shadow.color[1] = shadow[_T("color")][_T("r")];
-		style.shadow.color[2] = shadow[_T("color")][_T("g")];
-		style.shadow.color[3] = shadow[_T("color")][_T("b")];
-		style.shadow.depth = shadow[_T("depth")];
-		style.shadow.angle = shadow[_T("angle")];
-		style.shadow.blur = shadow[_T("blur")];
+		style.background.color.a = background[L"color"][L"a"];
+		style.background.color.r = background[L"color"][L"r"];
+		style.background.color.g = background[L"color"][L"g"];
+		style.background.color.b = background[L"color"][L"b"];
+		style.background.size = background[L"size"];
+		style.background.type = background[L"type"];
+		style.background.blur = background[L"blur"];
 
-		Definition& fill = (*pDef)[_T("fill")];
+		Definition& shadow = (*pDef)[L"shadow"];
 
-		style.fill.color[0] = fill[_T("color")][_T("a")];
-		style.fill.color[1] = fill[_T("color")][_T("r")];
-		style.fill.color[2] = fill[_T("color")][_T("g")];
-		style.fill.color[3] = fill[_T("color")][_T("b")];
-		style.fill.width = fill[_T("width")];
+		style.shadow.color.a = shadow[L"color"][L"a"];
+		style.shadow.color.r = shadow[L"color"][L"r"];
+		style.shadow.color.g = shadow[L"color"][L"g"];
+		style.shadow.color.b = shadow[L"color"][L"b"];
+		style.shadow.depth = shadow[L"depth"];
+		style.shadow.angle = shadow[L"angle"];
+		style.shadow.blur = shadow[L"blur"];
+
+		Definition& fill = (*pDef)[L"fill"];
+
+		style.fill.color.a = fill[L"color"][L"a"];
+		style.fill.color.r = fill[L"color"][L"r"];
+		style.fill.color.g = fill[L"color"][L"g"];
+		style.fill.color.b = fill[L"color"][L"b"];
+		style.fill.width = fill[L"width"];
 	}
 
-	double Subtitle::GetMixWeight(Definition* pDef, double at, CAtlStringMap<double>& offset, int default_id)
+	float Subtitle::GetMixWeight(Definition* pDef, float at, StringMapW<float>& offset, int default_id)
 	{
-		double t = 1;
+		float t = 1;
 
 		try
 		{
-			CAtlStringMap<double> n2n;
+			StringMapW<float> n2n;
 
-			n2n[_T("start")] = 0;
-			n2n[_T("stop")] = m_time.stop - m_time.start;
+			n2n[L"start"] = 0;
+			n2n[L"stop"] = m_time.stop - m_time.start;
 
 			Definition::Time time;
 			if(pDef->GetAsTime(time, offset, &n2n, default_id) && time.start.value < time.stop.value)
 			{
 				t = (at - time.start.value) / (time.stop.value - time.start.value);
 
+				float u = t;
+
 				if(t < 0) t = 0;
-				else if(t > 1) t = 1;
+				else if(t >= 1) t = 0.99999f; // doh
 
-				if((*pDef)[_T("loop")].IsValue()) t *= (double)(*pDef)[_T("loop")];
+				if((*pDef)[L"loop"].IsValue()) t *= (float)(*pDef)[L"loop"];
 
-				CString direction = (*pDef)[_T("direction")].IsValue() ? (*pDef)[_T("direction")] : _T("fw");
-				if(direction == _T("fwbw") || direction == _T("bwfw")) t *= 2;
+				CStringW direction = (*pDef)[L"direction"].IsValue() ? (*pDef)[L"direction"] : L"fw";
+				if(direction == L"fwbw" || direction == L"bwfw") t *= 2;
 
-				double n;
+				float n;
 				t = modf(t, &n);
 
-				if(direction == _T("bw") 
-				|| direction == _T("fwbw") && ((int)n & 1)
-				|| direction == _T("bwfw") && !((int)n & 1)) 
+				if(direction == L"bw" 
+				|| direction == L"fwbw" && ((int)n & 1)
+				|| direction == L"bwfw" && !((int)n & 1)) 
 					t = 1 - t;
 
-				double accel = 1;
+				float accel = 1;
 
-				if((*pDef)[_T("transition")].IsValue())
+				if((*pDef)[L"transition"].IsValue())
 				{
-					Definition::Number<double> n;
-					(*pDef)[_T("transition")].GetAsNumber(n, &m_n2n.transition);
+					Definition::Number<float> n;
+					(*pDef)[L"transition"].GetAsNumber(n, &m_n2n.transition);
 					if(n.value >= 0) accel = n.value;
 				}
 
-				t = accel == 0 ? 1 : 
-					accel == 1 ? t : 
-					accel >= 1e10 ? 0 :
-					pow(t, accel);
+				if(t == 0.99999f) t = 1;
+
+				if(u >= 0 && u < 1)
+				{
+					t = accel == 0 ? 1 : 
+						accel == 1 ? t : 
+						accel >= 1e10 ? 0 :
+						pow(t, accel);
+				}
 			}
 		}
 		catch(Exception&)
@@ -282,21 +337,21 @@ namespace ssf
 	}
 
 	template<class T> 
-	bool Subtitle::MixValue(Definition& def, T& value, double t)
+	bool Subtitle::MixValue(Definition& def, T& value, float t)
 	{
-		CAtlStringMap<T> n2n;
+		StringMapW<T> n2n;
 		return MixValue(def, value, t, &n2n);
 	}
 
 	template<> 
-	bool Subtitle::MixValue(Definition& def, double& value, double t)
+	bool Subtitle::MixValue(Definition& def, float& value, float t)
 	{
-		CAtlStringMap<double> n2n;
+		StringMapW<float> n2n;
 		return MixValue(def, value, t, &n2n);
 	}
 
 	template<class T> 
-	bool Subtitle::MixValue(Definition& def, T& value, double t, CAtlStringMap<T>* n2n)
+	bool Subtitle::MixValue(Definition& def, T& value, float t, StringMapW<T>* n2n)
 	{
 		if(!def.IsValue()) return false;
 
@@ -304,7 +359,7 @@ namespace ssf
 		{
 			if(n2n && def.IsValue(Definition::string))
 			{
-				if(CAtlStringMap<T>::CPair* p = n2n->Lookup(def))
+				if(StringMapW<T>::CPair* p = n2n->Lookup(def))
 				{
 					value = p->m_value;
 					return true;
@@ -318,7 +373,7 @@ namespace ssf
 	}
 
 	template<> 
-	bool Subtitle::MixValue(Definition& def, double& value, double t, CAtlStringMap<double>* n2n)
+	bool Subtitle::MixValue(Definition& def, float& value, float t, StringMapW<float>* n2n)
 	{
 		if(!def.IsValue()) return false;
 
@@ -326,86 +381,119 @@ namespace ssf
 		{
 			if(n2n && def.IsValue(Definition::string))
 			{
-				if(CAtlStringMap<double>::CPair* p = n2n->Lookup(def))
+				if(StringMap<float, CStringW>::CPair* p = n2n->Lookup(def))
 				{
 					value += (p->m_value - value) * t;
 					return true;
 				}
 			}
 
-			value += ((double)def - value) * t;
+			value += ((float)def - value) * t;
 		}
 
 		return true;
 	}
 
-	void Subtitle::MixStyle(Definition* pDef, Style& dst, double t)
+	template<>
+	bool Subtitle::MixValue(Definition& def, Path& src, float t)
+	{
+		if(!def.IsValue(Definition::string)) return false;
+
+		if(t >= 1)
+		{
+			src = (LPCWSTR)def;
+		}
+		else if(t > 0)
+		{
+			Path dst = (LPCWSTR)def;
+
+			if(src.GetCount() == dst.GetCount())
+			{
+				for(size_t i = 0, j = src.GetCount(); i < j; i++)
+				{
+					Point& s = src[i];
+					const Point& d = dst[i];
+					s.x += (d.x - s.x) * t;
+					s.y += (d.y - s.y) * t;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	void Subtitle::MixStyle(Definition* pDef, Style& dst, float t)
 	{
 		const Style src = dst;
 
 		if(t <= 0) return;
 		else if(t > 1) t = 1;
 
-		MixValue((*pDef)[_T("linebreak")], dst.linebreak, t);
+		MixValue((*pDef)[L"linebreak"], dst.linebreak, t);
 
-		Definition& placement = (*pDef)[_T("placement")];
+		Definition& placement = (*pDef)[L"placement"];
 
-		MixValue(placement[_T("clip")][_T("t")], dst.placement.clip.t, t);
-		MixValue(placement[_T("clip")][_T("r")], dst.placement.clip.r, t);
-		MixValue(placement[_T("clip")][_T("b")], dst.placement.clip.b, t);
-		MixValue(placement[_T("clip")][_T("l")], dst.placement.clip.l, t);
-		MixValue(placement[_T("align")][_T("h")], dst.placement.align.h, t, &m_n2n.align[0]);
-		MixValue(placement[_T("align")][_T("v")], dst.placement.align.v, t, &m_n2n.align[1]);
-		dst.placement.pos.auto_x = !MixValue(placement[_T("pos")][_T("x")], dst.placement.pos.x, dst.placement.pos.auto_x ? 1 : t);
-		dst.placement.pos.auto_y = !MixValue(placement[_T("pos")][_T("y")], dst.placement.pos.y, dst.placement.pos.auto_y ? 1 : t);
-		MixValue(placement[_T("offset")][_T("x")], dst.placement.offset.x, t);
-		MixValue(placement[_T("offset")][_T("y")], dst.placement.offset.y, t);
-		MixValue(placement[_T("angle")][_T("x")], dst.placement.angle.x, t);
-		MixValue(placement[_T("angle")][_T("y")], dst.placement.angle.y, t);
-		MixValue(placement[_T("angle")][_T("z")], dst.placement.angle.z, t);
+		MixValue(placement[L"clip"][L"t"], dst.placement.clip.t, t);
+		MixValue(placement[L"clip"][L"r"], dst.placement.clip.r, t);
+		MixValue(placement[L"clip"][L"b"], dst.placement.clip.b, t);
+		MixValue(placement[L"clip"][L"l"], dst.placement.clip.l, t);
+		MixValue(placement[L"align"][L"h"], dst.placement.align.h, t, &m_n2n.align[0]);
+		MixValue(placement[L"align"][L"v"], dst.placement.align.v, t, &m_n2n.align[1]);
+		dst.placement.pos.auto_x = !MixValue(placement[L"pos"][L"x"], dst.placement.pos.x, dst.placement.pos.auto_x ? 1 : t);
+		dst.placement.pos.auto_y = !MixValue(placement[L"pos"][L"y"], dst.placement.pos.y, dst.placement.pos.auto_y ? 1 : t);
+		MixValue(placement[L"offset"][L"x"], dst.placement.offset.x, t);
+		MixValue(placement[L"offset"][L"y"], dst.placement.offset.y, t);
+		MixValue(placement[L"angle"][L"x"], dst.placement.angle.x, t);
+		MixValue(placement[L"angle"][L"y"], dst.placement.angle.y, t);
+		MixValue(placement[L"angle"][L"z"], dst.placement.angle.z, t);
+		dst.placement.org.auto_x = !MixValue(placement[L"org"][L"x"], dst.placement.org.x, dst.placement.org.auto_x ? 1 : t);
+		dst.placement.org.auto_y = !MixValue(placement[L"org"][L"y"], dst.placement.org.y, dst.placement.org.auto_y ? 1 : t);
+		MixValue(placement[L"path"], dst.placement.path, t);
 
-		Definition& font = (*pDef)[_T("font")];
+		Definition& font = (*pDef)[L"font"];
 
-		MixValue(font[_T("face")], dst.font.face, t);
-		MixValue(font[_T("size")], dst.font.size, t);
-		MixValue(font[_T("weight")], dst.font.weight, t, &m_n2n.weight);
-		MixValue(font[_T("color")][_T("a")], dst.font.color[0], t);
-		MixValue(font[_T("color")][_T("r")], dst.font.color[1], t);
-		MixValue(font[_T("color")][_T("g")], dst.font.color[2], t);
-		MixValue(font[_T("color")][_T("b")], dst.font.color[3], t);
-		MixValue(font[_T("underline")], dst.font.underline, t);
-		MixValue(font[_T("strikethrough")], dst.font.strikethrough, t);
-		MixValue(font[_T("italic")], dst.font.italic, t);
-		MixValue(font[_T("spacing")], dst.font.spacing, t);
-		MixValue(font[_T("scale")][_T("cx")], dst.font.scale.cx, t);
-		MixValue(font[_T("scale")][_T("cy")], dst.font.scale.cy, t);
+		MixValue(font[L"face"], dst.font.face, t);
+		MixValue(font[L"size"], dst.font.size, t);
+		MixValue(font[L"weight"], dst.font.weight, t, &m_n2n.weight);
+		MixValue(font[L"color"][L"a"], dst.font.color.a, t);
+		MixValue(font[L"color"][L"r"], dst.font.color.r, t);
+		MixValue(font[L"color"][L"g"], dst.font.color.g, t);
+		MixValue(font[L"color"][L"b"], dst.font.color.b, t);
+		MixValue(font[L"underline"], dst.font.underline, t);
+		MixValue(font[L"strikethrough"], dst.font.strikethrough, t);
+		MixValue(font[L"italic"], dst.font.italic, t);
+		MixValue(font[L"spacing"], dst.font.spacing, t);
+		MixValue(font[L"scale"][L"cx"], dst.font.scale.cx, t);
+		MixValue(font[L"scale"][L"cy"], dst.font.scale.cy, t);
+		MixValue(font[L"kerning"], dst.font.kerning, t);
 
-		Definition& background = (*pDef)[_T("background")];
+		Definition& background = (*pDef)[L"background"];
 
-		MixValue(background[_T("color")][_T("a")], dst.background.color[0], t);
-		MixValue(background[_T("color")][_T("r")], dst.background.color[1], t);
-		MixValue(background[_T("color")][_T("g")], dst.background.color[2], t);
-		MixValue(background[_T("color")][_T("b")], dst.background.color[3], t);
-		MixValue(background[_T("size")], dst.background.size, t);
-		MixValue(background[_T("type")], dst.background.type, t);
+		MixValue(background[L"color"][L"a"], dst.background.color.a, t);
+		MixValue(background[L"color"][L"r"], dst.background.color.r, t);
+		MixValue(background[L"color"][L"g"], dst.background.color.g, t);
+		MixValue(background[L"color"][L"b"], dst.background.color.b, t);
+		MixValue(background[L"size"], dst.background.size, t);
+		MixValue(background[L"type"], dst.background.type, t);
+		MixValue(background[L"blur"], dst.background.blur, t);
 
-		Definition& shadow = (*pDef)[_T("shadow")];
+		Definition& shadow = (*pDef)[L"shadow"];
 
-		MixValue(shadow[_T("color")][_T("a")], dst.shadow.color[0], t);
-		MixValue(shadow[_T("color")][_T("r")], dst.shadow.color[1], t);
-		MixValue(shadow[_T("color")][_T("g")], dst.shadow.color[2], t);
-		MixValue(shadow[_T("color")][_T("b")], dst.shadow.color[3], t);
-		MixValue(shadow[_T("depth")], dst.shadow.depth, t);
-		MixValue(shadow[_T("angle")], dst.shadow.angle, t);
-		MixValue(shadow[_T("blur")], dst.shadow.blur, t);
+		MixValue(shadow[L"color"][L"a"], dst.shadow.color.a, t);
+		MixValue(shadow[L"color"][L"r"], dst.shadow.color.r, t);
+		MixValue(shadow[L"color"][L"g"], dst.shadow.color.g, t);
+		MixValue(shadow[L"color"][L"b"], dst.shadow.color.b, t);
+		MixValue(shadow[L"depth"], dst.shadow.depth, t);
+		MixValue(shadow[L"angle"], dst.shadow.angle, t);
+		MixValue(shadow[L"blur"], dst.shadow.blur, t);
 
-		Definition& fill = (*pDef)[_T("fill")];
+		Definition& fill = (*pDef)[L"fill"];
 
-		MixValue(fill[_T("color")][_T("a")], dst.fill.color[0], t);
-		MixValue(fill[_T("color")][_T("r")], dst.fill.color[1], t);
-		MixValue(fill[_T("color")][_T("g")], dst.fill.color[2], t);
-		MixValue(fill[_T("color")][_T("b")], dst.fill.color[3], t);
-		MixValue(fill[_T("width")], dst.fill.width, t);
+		MixValue(fill[L"color"][L"a"], dst.fill.color.a, t);
+		MixValue(fill[L"color"][L"r"], dst.fill.color.r, t);
+		MixValue(fill[L"color"][L"g"], dst.fill.color.g, t);
+		MixValue(fill[L"color"][L"b"], dst.fill.color.b, t);
+		MixValue(fill[L"width"], dst.fill.width, t);
 
 		if(fill.m_priority >= PNormal) // this assumes there is no way to set low priority inline overrides
 		{
@@ -414,7 +502,7 @@ namespace ssf
 		}
 	}
 
-	void Subtitle::Parse(Stream& s, Style style, double at, CAtlStringMap<double> offset, Reference* pParentRef)
+	void Subtitle::Parse(InputStream& s, Style style, float at, StringMapW<float> offset, Reference* pParentRef)
 	{
 		Text text;
 		text.style = style;
@@ -429,7 +517,7 @@ namespace ssf
 
 				style = text.style;
 
-				CAtlStringMap<double> inneroffset = offset;
+				StringMapW<float> inneroffset = offset;
 
 				int default_id = 0;
 
@@ -437,13 +525,22 @@ namespace ssf
 				{
 					Definition* pDef = m_pFile->CreateDef(pParentRef);
 
-					m_pFile->ParseRefs(s, pDef, _T(",;]"));
+					m_pFile->ParseRefs(s, pDef, L",;]");
 
-					ASSERT(pDef->IsType(_T("style")) || pDef->IsTypeUnknown());
+					ASSERT(pDef->IsType(L"style") || pDef->IsTypeUnknown());
 
-					double t = GetMixWeight(pDef, at, offset, ++default_id);
+					if((*pDef)[L"time"][L"start"].IsValue() && (*pDef)[L"time"][L"stop"].IsValue())
+					{
+						m_animated = true;
+					}
 
+					float t = GetMixWeight(pDef, at, offset, ++default_id);
 					MixStyle(pDef, style, t);
+
+					if((*pDef)[L"@"].IsValue())
+					{
+						Parse(WCharInputStream((LPCWSTR)(*pDef)[L"@"]), style, at, offset, pParentRef);
+					}
 
 					s.SkipWhiteSpace();
 					c = s.GetChar();
@@ -462,7 +559,7 @@ namespace ssf
 				}
 				else 
 				{
-					if(fWhiteSpaceNext) text.str += (TCHAR)Text::SP;
+					if(fWhiteSpaceNext) text.str += (WCHAR)Text::SP;
 					text.style = style;
 				}
 			}
@@ -485,34 +582,34 @@ namespace ssf
 				{
 					c = s.GetChar();
 					if(c == Stream::EOS) break;
-					else if(c == 'n') {AddText(text); text.str = (TCHAR)Text::LSEP; AddText(text); continue;}
+					else if(c == 'n') {AddText(text); text.str = (WCHAR)Text::LSEP; AddText(text); continue;}
 					else if(c == 'h') c = Text::NBSP;
 				}
 
-				AddChar(text, (TCHAR)c);
+				AddChar(text, (WCHAR)c);
 			}
 		}
 
 		AddText(text);
 	}
 
-	void Subtitle::AddChar(Text& t, TCHAR c)
+	void Subtitle::AddChar(Text& t, WCHAR c)
 	{
 		bool f1 = !t.str.IsEmpty() && Stream::IsWhiteSpace(t.str[t.str.GetLength()-1]);
 		bool f2 = Stream::IsWhiteSpace(c);
 		if(f2) c = Text::SP;
-		if(!f1 || !f2) t.str += (TCHAR)c;
+		if(!f1 || !f2) t.str += (WCHAR)c;
 	}
 
 	void Subtitle::AddText(Text& t)
 	{
 		if(t.str.IsEmpty()) return;
 
-		Split sa(_T(" "), t.str, 0, Split::Max);
+		Split sa(' ', t.str, 0, Split::Max);
 
 		for(size_t i = 0, n = sa; i < n; i++)
 		{
-			CString str = sa[i];
+			CStringW str = sa[i];
 
 			if(!str.IsEmpty())
 			{
@@ -522,7 +619,7 @@ namespace ssf
 
 			if(i < n-1 && (m_text.IsEmpty() || m_text.GetTail().str != Text::SP))
 			{
-				t.str = (TCHAR)Text::SP;
+				t.str = (WCHAR)Text::SP;
 				m_text.AddTail(t);
 			}
 		}
@@ -532,20 +629,73 @@ namespace ssf
 
 	//
 
-	Point Placement::TopLeft(Rect r, Size s)
-	{
-		r.l += margin.l;
-		r.t += margin.t;
-		r.r -= margin.r;
-		r.b -= margin.b;
+	unsigned int Fill::gen_id = 0;
 
-		Point p;
-		if(pos.auto_x) p.x = r.l + ((r.r - r.l) - s.cx) * align.h;
-		else p.x = pos.x - s.cx * align.h;
-		if(pos.auto_y) p.y = r.t + ((r.b - r.t) - s.cy) * align.v;
-		else p.y = pos.y - s.cy * align.v;
-		return p;
+	Color::operator DWORD()
+	{
+		DWORD c = 
+			(min(max((DWORD)b, 0), 255) <<  0) |
+			(min(max((DWORD)g, 0), 255) <<  8) |
+			(min(max((DWORD)r, 0), 255) << 16) |
+			(min(max((DWORD)a, 0), 255) << 24);
+
+		return c;
 	}
 
-	unsigned int Fill::gen_id = 0;
+	Path& Path::operator = (LPCWSTR str)
+	{
+		Split s(' ', str);
+
+		SetCount(s/2);
+
+		for(size_t i = 0, j = GetCount(); i < j; i++)
+		{
+			Point p;
+			p.x = s.GetAtFloat(i*2+0);
+			p.y = s.GetAtFloat(i*2+1);
+			SetAt(i, p);
+		}
+
+		return *this;
+	}
+
+	CStringW Path::ToString()
+	{
+		CStringW ret;
+
+		for(size_t i = 0, j = GetCount(); i < j; i++)
+		{
+			const Point& p = GetAt(i);
+
+			CStringW str;
+			str.Format(L"%f %f ", p.x, p.y);
+			ret += str;
+		}
+
+		return ret;
+	}
+
+	bool Style::IsSimilar(const Style& s)
+	{
+		return 
+		   font.color.r == s.font.color.r
+		&& font.color.g == s.font.color.g
+		&& font.color.b == s.font.color.b
+		&& font.color.a == s.font.color.a
+		&& background.color.r == s.background.color.r
+		&& background.color.g == s.background.color.g
+		&& background.color.b == s.background.color.b
+		&& background.color.a == s.background.color.a
+		&& background.size == s.background.size
+		&& background.type == s.background.type
+		&& background.blur == s.background.blur
+		&& shadow.color.r == s.shadow.color.r
+		&& shadow.color.g == s.shadow.color.g
+		&& shadow.color.b == s.shadow.color.b
+		&& shadow.color.a == s.shadow.color.a
+		&& shadow.depth == s.shadow.depth
+		&& shadow.angle == s.shadow.angle
+		&& shadow.blur == s.shadow.blur
+		&& fill.id == s.fill.id;
+	}
 }

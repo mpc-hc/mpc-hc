@@ -55,6 +55,14 @@
 #include <afxwin.h>         // MFC core and standard components
 #include <atlcoll.h>         // MFC core and standard components
 
-
-
 // TODO: reference additional headers your program requires here
+
+#include <streams.h>
+#include "..\..\DSUtil\DSUtil.h"
+#include "..\..\dsutil\vd.h"
+
+#include <xmmintrin.h>
+#include <emmintrin.h>
+
+#define _USE_MATH_DEFINES
+#include <math.h>

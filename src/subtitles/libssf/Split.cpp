@@ -21,14 +21,25 @@
 
 #include "stdafx.h"
 #include "Split.h"
+#include "Exception.h"
 
 namespace ssf
 {
-	Split::Split(LPCTSTR sep, CString str, size_t limit, SplitType type)
+	Split::Split(LPCWSTR sep, CStringW str, size_t limit, SplitType type)
+	{
+		DoSplit(sep, str, limit, type);
+	}
+
+	Split::Split(WCHAR sep, CStringW str, size_t limit, SplitType type)
+	{
+		DoSplit(CStringW(sep), str, limit, type);
+	}
+
+	void Split::DoSplit(LPCWSTR sep, CStringW str, size_t limit, SplitType type)
 	{
 		RemoveAll();
 
-		if(size_t seplen = _tcslen(sep))
+		if(size_t seplen = wcslen(sep))
 		{
 			for(int i = 0, j = 0, len = str.GetLength(); 
 				i <= len && (limit == 0 || GetCount() < limit); 
@@ -37,7 +48,7 @@ namespace ssf
 				j = str.Find(sep, i);
 				if(j < 0) j = len;
 
-				CString s = i < j ? str.Mid(i, j - i) : _T("");
+				CStringW s = i < j ? str.Mid(i, j - i) : L"";
 
 				switch(type)
 				{
@@ -47,5 +58,17 @@ namespace ssf
 				}
 			}
 		}
+	}
+
+	int Split::GetAtInt(size_t i)
+	{
+		if(i >= GetCount()) throw Exception(_T("Index out of bounds"));
+		return _wtoi(GetAt(i));
+	}
+
+	float Split::GetAtFloat(size_t i)
+	{
+		if(i >= GetCount()) throw Exception(_T("Index out of bounds"));
+		return (float)_wtof(GetAt(i));
 	}
 }

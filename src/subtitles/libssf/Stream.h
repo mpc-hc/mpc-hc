@@ -29,11 +29,23 @@ namespace ssf
 	{
 	public:
 		enum {EOS = -1};
-		enum {none, unknown, utf8, utf16le, utf16be, tchar} m_encoding;
+		enum encoding_t {none, unknown, utf8, utf16le, utf16be, wchar};
 
-	private:
+	protected:
 		int m_line, m_col;
+		encoding_t m_encoding;
 
+	public:
+		Stream();
+		virtual ~Stream();
+
+		static bool IsWhiteSpace(int c, LPCWSTR morechars = NULL);
+
+		void ThrowError(LPCTSTR fmt, ...);
+	};
+
+	class InputStream : public Stream
+	{
 		CAtlList<int> m_queue;
 		int PushChar(), PopChar();
 
@@ -43,18 +55,15 @@ namespace ssf
 		virtual int NextByte() = 0;
 
 	public:
-		Stream();
-		virtual ~Stream();
+		InputStream();
+		~InputStream();
 
 		int PeekChar(), GetChar();
 
-		static bool IsWhiteSpace(int c, LPCTSTR morechars = NULL);
-		int SkipWhiteSpace(LPCTSTR morechars = NULL);
-
-		void ThrowError(LPCTSTR fmt, ...);
+		int SkipWhiteSpace(LPCWSTR morechars = NULL);
 	};
 
-	class FileStream : public Stream
+	class FileInputStream : public InputStream
 	{
 		FILE* m_file;
 
@@ -62,11 +71,11 @@ namespace ssf
 		int NextByte();
 
 	public:
-		FileStream(const TCHAR* fn);
-		~FileStream();
+		FileInputStream(const TCHAR* fn);
+		~FileInputStream();
 	};
 
-	class MemoryStream : public Stream
+	class MemoryInputStream : public InputStream
 	{
 		BYTE* m_pBytes;
 		int m_pos, m_len;
@@ -76,19 +85,59 @@ namespace ssf
 		int NextByte();
 
 	public:
-		MemoryStream(BYTE* pBytes, int len, bool fCopy, bool fFree);
-		~MemoryStream();
+		MemoryInputStream(BYTE* pBytes, int len, bool fCopy, bool fFree);
+		~MemoryInputStream();
 	};
 
-	class CharacterStream : public Stream
+	class WCharInputStream : public InputStream
 	{
-		CString m_str;
+		CStringW m_str;
 		int m_pos;
 
 	protected:
 		int NextByte();
 
 	public:
-		CharacterStream(CString str);
+		WCharInputStream(CStringW str);
+	};
+
+	class OutputStream : public Stream
+	{
+		bool m_bof;
+
+	protected:
+		virtual void NextByte(int b) = 0;
+
+	public:
+		OutputStream(encoding_t e);
+		virtual ~OutputStream();
+
+		void PutChar(WCHAR c);
+		void PutString(LPCWSTR fmt, ...);
+	};
+
+	class WCharOutputStream : public OutputStream
+	{
+		CStringW m_str;
+
+	protected:
+		void NextByte(int b);
+
+	public:
+		WCharOutputStream();
+
+		const CStringW& GetString() {return m_str;}
+	};
+
+	class DebugOutputStream : public OutputStream
+	{
+		CStringW m_str;
+
+	protected:
+		void NextByte(int b);
+
+	public:
+		DebugOutputStream();
+		~DebugOutputStream();
 	};
 }

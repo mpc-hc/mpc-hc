@@ -25,78 +25,107 @@
 
 namespace ssf
 {
-	struct Point {double x, y; bool auto_x, auto_y;};
-	struct Size {double cx, cy;};
-	struct Rect {double t, r, b, l;};
-	struct Align {double v, h;};
-	struct Angle {double x, y, z;};
-	struct Frame {CString reference; Size resolution;};
-	struct Direction {CString primary, secondary;};
-	struct Time {double start, stop;};
-	struct Background {double color[4], size; CString type;};
-	struct Shadow {double color[4], depth, angle, blur;};
-	struct Placement {Rect clip, margin; Align align; Point pos, offset; Angle angle; Point TopLeft(Rect r, Size s);};
+	struct Point {float x, y;};
+	struct PointAuto : public Point {bool auto_x, auto_y;};
+	struct Size {float cx, cy;};
+	struct Rect {float t, r, b, l;};
+	struct Align {float v, h;};
+	struct Angle {float x, y, z;};
+	struct Color {float a, r, g, b; operator DWORD(); void operator = (DWORD c);};
+	struct Frame {CStringW reference; Size resolution;};
+	struct Direction {CStringW primary, secondary;};
+	struct Time {float start, stop;};
+	struct Background {Color color; float size, blur; CStringW type;};
+	struct Shadow {Color color; float depth, angle, blur;};
+
+	class Path : public CAtlArray<Point>
+	{
+	public: 
+		Path() {} 
+		Path(const Path& path) {*this = path;} 
+		Path& operator = (const Path& path) {Copy(path); return *this;} 
+		Path(LPCWSTR str) {*this = str;} 
+		Path& operator = (LPCWSTR str);
+		CStringW ToString();
+	};
+
+	struct Placement 
+	{
+		Rect clip, margin; 
+		Align align; 
+		PointAuto pos; 
+		Point offset;
+		Angle angle; 
+		PointAuto org;
+		Path path;
+	};
 
 	struct Font
 	{
-		CString face;
-		double size, weight;
-		double color[4];
+		CStringW face;
+		float size, weight;
+		Color color;
 		bool underline, strikethrough, italic;
-		double spacing;
+		float spacing;
 		Size scale;
+		bool kerning;
 	};
 
 	struct Fill
 	{
 		static unsigned int gen_id;
 		int id;
-		double color[4];
-		double width;
+		Color color;
+		float width;
 		struct Fill() : id(0) {}
 	};
 
 	struct Style
 	{
-		CString linebreak;
+		CStringW linebreak;
 		Placement placement;
 		Font font;
 		Background background;
 		Shadow shadow;
 		Fill fill;
+
+		bool IsSimilar(const Style& s);
 	};
 
 	struct Text
 	{
 		enum {SP = 0x20, NBSP = 0xa0, LSEP = 0x0a};
 		Style style;
-		CString str;
+		CStringW str;
 	};
 
 	class Subtitle
 	{
-		static struct n2n_t {CAtlStringMap<double> align[2], weight, transition;} m_n2n;
+		static struct n2n_t {StringMapW<float> align[2], weight, transition;} m_n2n;
 
 		File* m_pFile;
 
 		void GetStyle(Definition* pDef, Style& style);
-		double GetMixWeight(Definition* pDef, double at, CAtlStringMap<double>& offset, int default_id);
-		template<class T> bool MixValue(Definition& def, T& value, double t);
-		template<> bool MixValue(Definition& def, double& value, double t);
-		template<class T> bool MixValue(Definition& def, T& value, double t, CAtlStringMap<T>* n2n);
-		template<> bool MixValue(Definition& def, double& value, double t, CAtlStringMap<double>* n2n);
-		void MixStyle(Definition* pDef, Style& dst, double t);
+		float GetMixWeight(Definition* pDef, float at, StringMapW<float>& offset, int default_id);
+		template<class T> bool MixValue(Definition& def, T& value, float t);
+		template<> bool MixValue(Definition& def, float& value, float t);
+		template<class T> bool MixValue(Definition& def, T& value, float t, StringMapW<T>* n2n);
+		template<> bool MixValue(Definition& def, float& value, float t, StringMapW<float>* n2n);
+		template<> bool MixValue(Definition& def, Path& value, float t);
+		void MixStyle(Definition* pDef, Style& dst, float t);
 
-		void Parse(Stream& s, Style style, double at, CAtlStringMap<double> offset, Reference* pParentRef);
+		void Parse(InputStream& s, Style style, float at, StringMapW<float> offset, Reference* pParentRef);
 
-		void AddChar(Text& t, TCHAR c);
+		void AddChar(Text& t, WCHAR c);
 		void AddText(Text& t);
 
 	public:
+		CStringW m_name;
+		bool m_animated;
 		Frame m_frame;
 		Direction m_direction;
-		CString m_wrap;
-		double m_layer;
+		CStringW m_wrap;
+		float m_layer;
 		Time m_time;
 		CAtlList<Text> m_text;
 
@@ -104,6 +133,6 @@ namespace ssf
 		Subtitle(File* pFile);
 		virtual ~Subtitle();
 
-		bool Parse(Definition* pDef, double start, double stop, double at);
+		bool Parse(Definition* pDef, float start, float stop, float at);
 	};
 };

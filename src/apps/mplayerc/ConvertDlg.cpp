@@ -437,7 +437,7 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			else if(mt.subtype == MEDIASUBTYPE_UTF8 || mt.majortype == MEDIATYPE_Text) ext = _T("srt");
 			else if(mt.subtype == MEDIASUBTYPE_SSA) ext = _T("ssa");
 			else if(mt.subtype == MEDIASUBTYPE_ASS || mt.subtype == MEDIASUBTYPE_ASS2) ext = _T("ass");
-//			else if(mt.subtype == MEDIASUBTYPE_SSF) ext = _T("ssf");
+			else if(mt.subtype == MEDIASUBTYPE_SSF) ext = _T("ssf");
 			else if(mt.subtype == MEDIASUBTYPE_VOBSUB) ext = _T("sub");
 			else if(mt.subtype == MEDIASUBTYPE_PCM || mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO || mt.subtype == FOURCCMap(WAVE_FORMAT_EXTENSIBLE) || mt.subtype == FOURCCMap(WAVE_FORMAT_IEEE_FLOAT)) ext = _T("wav");
 			// TODO: else if...

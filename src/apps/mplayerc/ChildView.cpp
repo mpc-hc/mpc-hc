@@ -26,6 +26,7 @@
 #include "mplayerc.h"
 #include "ChildView.h"
 #include "MainFrm.h"
+#include "libpng.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -146,7 +147,8 @@ void CChildView::LoadLogo()
 
 	if(m_logo.IsNull())
 	{
-		m_logo.LoadFromResource(AfxGetInstanceHandle(), s.logoid);
+		m_logo.LoadFromResource(s.logoid);
+		// m_logo.LoadFromResource(AfxGetInstanceHandle(), s.logoid);
 	}
 
 	if(m_hWnd) Invalidate();

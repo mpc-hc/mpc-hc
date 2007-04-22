@@ -28,6 +28,7 @@
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "..\..\DSUtil\DSUtil.h"
+//#include "struct.h"
 
 /////////
 
@@ -445,6 +446,33 @@ BOOL WINAPI Mine_IsDebuggerPresent()
 	return FALSE;
 }
 
+/*
+NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
+{
+	NTSTATUS		nRet;
+
+	nRet = Real_NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength);
+
+	if (ProcessInformationClass == ProcessBasicInformation)
+	{
+		PROCESS_BASIC_INFORMATION*		pbi = (PROCESS_BASIC_INFORMATION*)ProcessInformation;
+		PEB_NT*							pPEB;
+		PEB_NT							PEB;
+		
+		pPEB = (PEB_NT*)pbi->PebBaseAddress;
+		ReadProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
+		PEB.BeingDebugged = 0;
+		WriteProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
+	}
+	else if (ProcessInformationClass == 7) // ProcessDebugPort
+	{
+		BOOL*		pDebugPort = (BOOL*)ProcessInformation;
+		*pDebugPort = FALSE;
+	}
+
+	return nRet;
+}*/
+
 DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
 LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
@@ -536,8 +564,72 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	return ret;
 }
 
+#include "../../subtitles/SSF.h"
+#include "../../subtitles/RTS.h"
+#include "../../subpic/MemSubPic.h"
+
+class ssftest
+{
+public:
+	ssftest()
+	{
+		Sleep(10000);
+
+		MessageBeep(-1);
+// 8; //
+		SubPicDesc spd;
+		spd.w = 640;
+		spd.h = 480;
+		spd.bpp = 32;
+		spd.pitch = spd.w*spd.bpp>>3;
+		spd.type = MSP_RGB32;
+		spd.vidrect = CRect(0, 0, spd.w, spd.h);
+		spd.bits = new BYTE[spd.pitch*spd.h];
+
+		CCritSec csLock;
+/*
+		CRenderedTextSubtitle s(&csLock);
+		s.Open(_T("../../subtitles/libssf/demo/demo.ssa"), 1);
+
+		for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 10)
+		{
+			memsetd(spd.bits, 0xff000000, spd.pitch*spd.h);
+			CRect bbox;
+			bbox.SetRectEmpty();
+			s.Render(spd, 10000i64*i, 25, bbox);
+		}
+*/
+		try
+		{
+			ssf::CRenderer s(&csLock);
+			s.Open(_T("../../subtitles/libssf/demo/demo.ssf"));
+
+			for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 40)
+			// for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 1000)
+			//for(int i = 0; i < 5000; i += 40)
+			{
+				memsetd(spd.bits, 0xff000000, spd.pitch*spd.h);
+				CRect bbox;
+				bbox.SetRectEmpty();
+				s.Render(spd, 10000i64*i, 25, bbox);
+			}
+		}
+		catch(ssf::Exception& e)
+		{
+			TRACE(_T("%s\n"), e.ToString());
+			ASSERT(0);
+		}
+
+		delete [] spd.bits;
+
+		::ExitProcess(0);
+	}
+};
+
 BOOL CMPlayerCApp::InitInstance()
 {
+	//ssftest s;
+
 	DetourFunctionWithTrampoline((PBYTE)Real_IsDebuggerPresent, (PBYTE)Mine_IsDebuggerPresent);
 	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExA, (PBYTE)Mine_ChangeDisplaySettingsExA);
 	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExW, (PBYTE)Mine_ChangeDisplaySettingsExW);
@@ -545,6 +637,9 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourFunctionWithTrampoline((PBYTE)Real_CreateFileW, (PBYTE)Mine_CreateFileW);
 	DetourFunctionWithTrampoline((PBYTE)Real_mixerSetControlDetails, (PBYTE)Mine_mixerSetControlDetails);
 	DetourFunctionWithTrampoline((PBYTE)Real_DeviceIoControl, (PBYTE)Mine_DeviceIoControl);
+
+	//	DETOUR(NtQueryInformationProcess);
+
 	CFilterMapper2::Init();
 
 	HRESULT hr;
@@ -1695,7 +1790,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		TraFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1);
 
 		logofn = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOGOFILE), _T(""));
-		logoid = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOGOID), IDB_LOGO7);
+		logoid = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOGOID), IDF_LOGO7);
 		logoext = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOGOEXT), 0);
 
 		fHideCDROMsSubMenu = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_HIDECDROMSSUBMENU), 0);		

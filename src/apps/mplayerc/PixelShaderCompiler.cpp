@@ -29,11 +29,9 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
 	, m_pD3DXDisassembleShader(NULL)
 {
 	CString d3dx9_dll;
-
-	// CASIMIR666 TODO : voir comment detecter la bonne Dll a charger ???
 	d3dx9_dll.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
-	m_hDll = LoadLibrary(d3dx9_dll);
 
+	m_hDll = LoadLibrary(d3dx9_dll);
 
 	if(m_hDll)
 	{

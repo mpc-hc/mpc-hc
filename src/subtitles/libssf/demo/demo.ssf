@@ -68,7 +68,7 @@ subtitle : notes
 {
 	time {start: 00:00:00.000; stop: 00:00:05.000;};
 	
-	@ {
+	@ { 
 		Subtitler filter for VirtualDub\n
 		Demonstration script\n\n
 		Avery Lee <phaeron@virtualdub.org>
@@ -224,7 +224,12 @@ Dialogue: Marked=0,0:00:23.00,0:00:33.00,MainB,,0008,0008,0008,!Effect,{\a11\c&H
 #aligntest : notes
 {
 	time {start: 00:00:23.000; stop: 00:00:33.000;};
-	style {placement.margin {t: 8; r: 8; b: 8; l: 8;}; font.color {r: 0xe0; g: 0xe0; b: 0xe0;};};
+	style {placement.margin {t: 8; r: 8; b: 8; l: 8;};};
+};
+
+#aligntestside : aligntest
+{
+	style.font.color {r: 0xe0; g: 0xe0; b: 0xe0;};
 };
 
 subtitle : aligntest
@@ -237,14 +242,14 @@ subtitle : aligntest
 	};
 };
 
-subtitle : aligntest {style.placement.align: bottomleft;   @ {Bottom\nleft};};
-subtitle : aligntest {style.placement.align: bottomcenter; @ {Bottom\ncenter};};
-subtitle : aligntest {style.placement.align: bottomright;  @ {Bottom\nright};};
-subtitle : aligntest {style.placement.align: topleft;      @ {Top\nleft};};
-subtitle : aligntest {style.placement.align: topcenter;    @ {Top\ncenter};};
-subtitle : aligntest {style.placement.align: topright;     @ {Top\nright};};
-subtitle : aligntest {style.placement.align: middleleft;   @ {Middle\nleft};};
-subtitle : aligntest {style.placement.align: middleright;  @ {Middle\nright};};
+subtitle : aligntestside {style.placement.align: bottomleft;   @ {Bottom\nleft};};
+subtitle : aligntestside {style.placement.align: bottomcenter; @ {Bottom\ncenter};};
+subtitle : aligntestside {style.placement.align: bottomright;  @ {Bottom\nright};};
+subtitle : aligntestside {style.placement.align: topleft;      @ {Top\nleft};};
+subtitle : aligntestside {style.placement.align: topcenter;    @ {Top\ncenter};};
+subtitle : aligntestside {style.placement.align: topright;     @ {Top\nright};};
+subtitle : aligntestside {style.placement.align: middleleft;   @ {Middle\nleft};};
+subtitle : aligntestside {style.placement.align: middleright;  @ {Middle\nright};};
 
 /*
 Dialogue: Marked=0,0:00:35.00,0:00:45.00,MainB,,0000,0000,0000,!Effect,{\q1}Text styles\N\NText may be varied in font, size, color, and style.
@@ -293,7 +298,6 @@ Dialogue: Marked=0,0:00:47.00,0:00:57.00,MainT,,0000,0000,0090,!Effect,{\q0\a6\c
 #wraptest
 {
 	time {start: 00:00:47.000; stop: 00:00:57.000;};
-	style: MainT;
 };
 
 subtitle : wraptest notes
@@ -307,21 +311,21 @@ subtitle : wraptest notes
 
 subtitle : wraptest
 {
-	style {font.color {r: 0x80; g: 0xff; b: 0xe0;};};
+	style: MainT {font.color {r: 0x80; g: 0xff; b: 0xe0;};};
 	wrap: "manual";
 	@ {This line uses manual wrapping and won't\nbe wrapped except where explicitly broken.};
 };
 
 subtitle : wraptest
 {
-	style {font.color {r: 0xff; g: 0xe0; b: 0x80;}; placement.margin.top: 45;};
+	style: MainT {font.color {r: 0xff; g: 0xe0; b: 0x80;}; placement.margin.t: 45;};
 	wrap: "normal"; 
 	@ {This line uses automatic wrapping and is broken automatically.};
 };
 
 subtitle : wraptest
 {
-	style {font.color {r: 0x80; g: 0xe0; b: 0xff;}; placement.margin.top: 90; placement.align: topcenter; };
+	style: MainT {font.color {r: 0x80; g: 0xe0; b: 0xff;}; placement.margin.t: 90; placement.align: topcenter; };
 	wrap: "even"; 
 	@ {This line uses smart wrapping and is broken with even lines. It's good for centered text.};
 };
@@ -463,13 +467,13 @@ subtitle : notes
 };
 
 #hlcolor {r: 0x40; g: 0x40; b: 0xff;};
-#hleffect1 {time {scale: 0.01; start: +0s;}; font.color: hlcolor;};
+#hleffect1 {time {scale: 0.01; start: +0s;}; transition: "start"; font.color: hlcolor;};
 #hleffect2 {time {scale: 0.01; start: +0s;}; fill.width: 1;};
 
 subtitle : karaoketest
 {
 	@ {
-		[hleffect1 {time.stop: +200;}] {one}
+		[hleffect1 {time.stop: +100;}] {one}
 		[hleffect1 {time.stop: +100;}] {two}
 		[hleffect1 {time.stop:  +50;}] {three-}
 		[hleffect1 {time.stop:  +50;}] {and}
@@ -482,7 +486,7 @@ subtitle : karaoketest
 	style {placement.margin.t: 30; fill.color: hlcolor;};
 
 	@ {
-		[hleffect2 {time.stop: +200;}] {one}
+		[hleffect2 {time.stop: +100;}] {one}
 		[hleffect2 {time.stop: +100;}] {two}
 		[hleffect2 {time.stop:  +50;}] {three-}
 		[hleffect2 {time.stop:  +50;}] {and}
@@ -512,14 +516,14 @@ subtitle
 {
 	time {start: 00:01:50.000; stop: 00:02:00.000;};
 	style: ShiftJIS;
-	@ {\[Keitarou\] だ。。。大丈夫};
+	@ {\[Keitarou\]だ。。。大丈夫？};
 };
 
 subtitle
 {
 	time {start: 00:01:52.000; stop: 00:02:00.000;};
-	style: ShiftJIS {color: yellow; placement.align: topright;};
-	@ {\[Naru\] 何よ！};
+	style: ShiftJIS {font.color: cyan; placement.align: topright;};
+	@ {\[Naru\]何よ！};
 };
 
 /*
@@ -531,7 +535,7 @@ Dialogue: Marked=0,0:02:02.00,0:02:17.00,MainT,,0000,0000,0000,Scroll Up;40;50;1
 #effecttest
 {
 	time {start: 00:02:02.000; stop: 00:02:17.000;};
-	style: MainT;
+	style.placement.clip: "frame";
 };
 
 subtitle : effecttest notes
@@ -545,8 +549,8 @@ subtitle : effecttest notes
 subtitle : effecttest
 {
 	wrap: "manual";
-	style.placement {margin {l: "right"; r: "left";}; align.h = "left";};
-	#hscroll {time {start: "start"; stop: "stop";}; placement.align.h = "right";};
+	style: MainT {placement {margin {l: "right"; r: "left";}; align.h: "left";};};
+	#hscroll {time {start: "start"; stop: "stop";}; placement.align.h: "right";};
 
 	@ {
 		[hscroll]
@@ -556,8 +560,8 @@ subtitle : effecttest
 
 subtitle : effecttest
 {
-	style.placement {margin {t: 120; b: 40;}; clip {t: 40; b: 120;}; align.v = "top";};
-	#vscroll {time {start: "start"; stop: "stop";}; placement.align.v = "bottom";};
+	style: MainT {placement {margin {t: 120; b: 200;}; clip {t: 40; b: 120;}; align.v: "top";};};
+	#vscroll {time {start: "start"; stop: "stop";}; placement.align.v: "bottom";};
 
 	@ {
 		[vscroll]

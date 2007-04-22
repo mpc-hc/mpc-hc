@@ -22,8 +22,8 @@
 #include "stdafx.h"
 #include "File.h"
 
-#ifndef _istcsym
-#define _istcsym(c) (_istalnum(c) || (c) == '_')
+#ifndef iswcsym
+#define iswcsym(c) (iswalnum(c) || (c) == '_')
 #endif
 
 namespace ssf
@@ -36,16 +36,16 @@ namespace ssf
 	{
 	}
 
-	void File::Parse(Stream& s, LPCTSTR predef)
+	void File::Parse(InputStream& s, LPCWSTR predef)
 	{
 		Reference* pRef = CreateRootRef();
 
-		SetDefaultPriority(PLow);
+		SetPredefined(true);
 
-		try {ParseDefs(CharacterStream(predef), pRef);}
+		try {ParseDefs(WCharInputStream(predef), pRef);}
 		catch(Exception& e) {ASSERT(0); TRACE(_T("%s\n"), e.ToString());}
 
-		SetDefaultPriority(PNormal);
+		SetPredefined(false);
 
 		ParseDefs(s, pRef);
 
@@ -57,13 +57,13 @@ namespace ssf
 		}
 	}
 
-	void File::ParseDefs(Stream& s, Reference* pParentRef)
+	void File::ParseDefs(InputStream& s, Reference* pParentRef)
 	{
-		while(s.SkipWhiteSpace(_T(";")) != '}' && s.PeekChar() != Stream::EOS)
+		while(s.SkipWhiteSpace(L";") != '}' && s.PeekChar() != Stream::EOS)
 		{
 			NodePriority priority = PNormal;
-			CAtlList<CString> types;
-			CString name;
+			CAtlList<CStringW> types;
+			CStringW name;
 
 			int c = s.SkipWhiteSpace();
 
@@ -81,7 +81,7 @@ namespace ssf
 			if(types.IsEmpty())
 			{
 				if(name.IsEmpty()) s.ThrowError(_T("syntax error"));
-				types.AddTail(_T("?"));
+				types.AddTail(L"?");
 			}
 
 			Reference* pRef = pParentRef;
@@ -94,41 +94,41 @@ namespace ssf
 			if(!types.IsEmpty())
 				pDef = CreateDef(pRef, types.RemoveHead(), name, priority);
 
-			c = s.SkipWhiteSpace(_T(":="));
+			c = s.SkipWhiteSpace(L":=");
 
 			if(c == '"' || c == '\'') ParseQuotedString(s, pDef);
-			else if(_istdigit(c) || c == '+' || c == '-') ParseNumber(s, pDef);
-			else if(pDef->IsType(_T("@"))) ParseBlock(s, pDef);
+			else if(iswdigit(c) || c == '+' || c == '-') ParseNumber(s, pDef);
+			else if(pDef->IsType(L"@")) ParseBlock(s, pDef);
 			else ParseRefs(s, pDef);
 		}
 
 		s.GetChar();
 	}
 
-	void File::ParseTypes(Stream& s, CAtlList<CString>& types)
+	void File::ParseTypes(InputStream& s, CAtlList<CStringW>& types)
 	{
 		types.RemoveAll();
 
-		CString str;
+		CStringW str;
 
-		for(int c = s.SkipWhiteSpace(); _istcsym(c) || c == '.' || c == '@'; c = s.PeekChar())
+		for(int c = s.SkipWhiteSpace(); iswcsym(c) || c == '.' || c == '@'; c = s.PeekChar())
 		{
 			c = s.GetChar();
 
 			if(c == '.') 
 			{
 				if(str.IsEmpty()) s.ThrowError(_T("'type' cannot be an empty string"));
-				if(!_istcsym(s.PeekChar())) s.ThrowError(_T("unexpected dot after type '%s'"), str);
+				if(!iswcsym(s.PeekChar())) s.ThrowError(_T("unexpected dot after type '%s'"), CString(str));
 
 				types.AddTail(str);
 				str.Empty();
 			}
 			else
 			{
-				if(str.IsEmpty() && _istdigit(c)) s.ThrowError(_T("'type' cannot start with a number"));
+				if(str.IsEmpty() && iswdigit(c)) s.ThrowError(_T("'type' cannot start with a number"));
 				if((!str.IsEmpty() || !types.IsEmpty()) && c == '@') s.ThrowError(_T("unexpected @ in 'type'"));
 
-				str += (TCHAR)c;
+				str += (WCHAR)c;
 			}
 		}
 
@@ -138,20 +138,20 @@ namespace ssf
 		}
 	}
 
-	void File::ParseName(Stream& s, CString& name)
+	void File::ParseName(InputStream& s, CStringW& name)
 	{
 		name.Empty();
 
-		for(int c = s.SkipWhiteSpace(); _istcsym(c); c = s.PeekChar())
+		for(int c = s.SkipWhiteSpace(); iswcsym(c); c = s.PeekChar())
 		{
-			if(name.IsEmpty() && _istdigit(c)) s.ThrowError(_T("'name' cannot start with a number"));
-			name += (TCHAR)s.GetChar();
+			if(name.IsEmpty() && iswdigit(c)) s.ThrowError(_T("'name' cannot start with a number"));
+			name += (WCHAR)s.GetChar();
 		}
 	}
 
-	void File::ParseQuotedString(Stream& s, Definition* pDef)
+	void File::ParseQuotedString(InputStream& s, Definition* pDef)
 	{
-		CString v;
+		CStringW v;
 
 		int quote = s.SkipWhiteSpace();
 		if(quote != '"' && quote != '\'') s.ThrowError(_T("expected qouted string"));
@@ -164,45 +164,45 @@ namespace ssf
 			if(c == '\n') s.ThrowError(_T("qouted string terminated unexpectedly by a new-line character"));
 			if(c == '\\') c = s.GetChar();
 			if(c == Stream::EOS) s.ThrowError(_T("qouted string terminated unexpectedly by EOS"));
-			v += (TCHAR)c;
+			v += (WCHAR)c;
 		}
 
 		s.ThrowError(_T("unterminated quoted string"));
 	}
 
-	void File::ParseNumber(Stream& s, Definition* pDef)
+	void File::ParseNumber(InputStream& s, Definition* pDef)
 	{
-		CString v, u;
+		CStringW v, u;
 
-		for(int c = s.SkipWhiteSpace(); _istxdigit(c) || _tcschr(_T("+-.x:"), c); c = s.PeekChar())
+		for(int c = s.SkipWhiteSpace(); iswxdigit(c) || wcschr(L"+-.x:", c); c = s.PeekChar())
 		{
 			if((c == '+' || c == '-') && !v.IsEmpty()
-			|| (c == '.' && (v.IsEmpty() || v.Find('.') >= 0 || v.Find(_T("x")) >= 0))
-			|| (c == 'x' && v != _T("0"))
-			|| (c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F') && v.Find(_T("0x")) != 0
+			|| (c == '.' && (v.IsEmpty() || v.Find('.') >= 0 || v.Find('x') >= 0))
+			|| (c == 'x' && v != '0')
+			|| (c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F') && v.Find(L"0x") != 0
 			|| (c == ':' && v.IsEmpty()))
 			{
 				s.ThrowError(_T("unexpected character '%c' in number"), (TCHAR)c);
 			}
 
-			v += (TCHAR)s.GetChar();
+			v += (WCHAR)s.GetChar();
 		}
 
 		if(v.IsEmpty()) s.ThrowError(_T("invalid number"));
 
-		for(int c = s.SkipWhiteSpace(); _istcsym(c); c = s.PeekChar())
+		for(int c = s.SkipWhiteSpace(); iswcsym(c); c = s.PeekChar())
 		{
-			u += (TCHAR)s.GetChar();
+			u += (WCHAR)s.GetChar();
 		}
 
 		pDef->SetAsNumber(v, u);
 	}
 
-	void File::ParseBlock(Stream& s, Definition* pDef)
+	void File::ParseBlock(InputStream& s, Definition* pDef)
 	{
-		CString v;
+		CStringW v;
 
-		int c = s.SkipWhiteSpace(_T(":="));
+		int c = s.SkipWhiteSpace(L":=");
 		if(c != '{') s.ThrowError(_T("expected '{'"));
 		s.GetChar();
 
@@ -212,17 +212,17 @@ namespace ssf
 		{
 			c = s.GetChar();
 			if(c == '}' && depth == 0) {pDef->SetAsValue(Definition::block, v); return;}
-			if(c == '\\') {v += (TCHAR)c; c = s.GetChar();}
+			if(c == '\\') {v += (WCHAR)c; c = s.GetChar();}
 			else if(c == '{') depth++;
 			else if(c == '}') depth--;
 			if(c == Stream::EOS) s.ThrowError(_T("block terminated unexpectedly by EOS"));
-			v += (TCHAR)c;
+			v += (WCHAR)c;
 		}
 
 		s.ThrowError(_T("unterminated block"));
 	}
 
-	void File::ParseRefs(Stream& s, Definition* pParentDef, LPCTSTR term)
+	void File::ParseRefs(InputStream& s, Definition* pParentDef, LPCWSTR term)
 	{
 		int c = s.SkipWhiteSpace();
 
@@ -235,27 +235,27 @@ namespace ssf
 				s.GetChar();
 				ParseDefs(s, CreateRef(pParentDef));
 			}
-			else if(_istcsym(c))
+			else if(iswcsym(c))
 			{
-				CString str;
+				CStringW str;
 				ParseName(s, str);
 
 				// TODO: allow spec references: parent.<type>, self.<type>, child.<type>
 
 				Definition* pDef = GetDefByName(str);
-				if(!pDef) s.ThrowError(_T("cannot find definition of '%s'"), str);
+				if(!pDef) s.ThrowError(_T("cannot find definition of '%s'"), CString(str));
 
-				if(!pParentDef->IsVisible(pDef)) s.ThrowError(_T("cannot access '%s' from here"), str);
+				if(!pParentDef->IsVisible(pDef)) s.ThrowError(_T("cannot access '%s' from here"), CString(str));
 
 				pParentDef->AddTail(pDef);
 			}
-			else if(!_tcschr(term, c) && c != Stream::EOS)
+			else if(!wcschr(term, c) && c != Stream::EOS)
 			{
 				s.ThrowError(_T("unexpected character '%c'"), (TCHAR)c);
 			}
 
 			c = s.SkipWhiteSpace();
 		}
-		while(!_tcschr(term, c) && c != Stream::EOS);
+		while(!wcschr(term, c) && c != Stream::EOS);
 	}
 }
