@@ -3,6 +3,7 @@
 #include <atlbase.h>
 #include <D3d9.h>
 #include <Vmr9.h>
+#include <evr9.h>
 
 typedef enum
 {
@@ -29,7 +30,8 @@ public:
 	CVMROSD(void);
 	~CVMROSD(void);
 
-	void		Start (CWnd* pWnd, CComQIPtr<IVMRMixerBitmap9> pVMB);
+	void		Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB);
+	void		Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pVMB);
 	void		Stop();
 
 	void		DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000);
@@ -46,12 +48,14 @@ public:
 	bool		OnLButtonUp(UINT nFlags, CPoint point);
 
 private :
-	CComQIPtr<IVMRMixerBitmap9>		m_pVMB;
+	CComPtr<IVMRMixerBitmap9>		m_pVMB;
+	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
 	CWnd*							m_pWnd;
 
 	CBitmap							m_Bitmap;
 	CDC								m_MemDC;
 	VMR9AlphaBitmap					m_VMR9AlphaBitmap;
+	MFVideoAlphaBitmap				m_MFVideoAlphaBitmap;
 	BITMAP							m_BitmapInfo;
 
 	CFont							m_MainFont;
@@ -78,6 +82,7 @@ private :
 	OSD_MESSAGEPOS					m_nMessagePos;
 
 	void			UpdateVMRBitmap();
+	void			UpdateMFBitmap();
 	void			CalcRect();
 	void			UpdateSeekBarPos(CPoint point);
 	void			DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);

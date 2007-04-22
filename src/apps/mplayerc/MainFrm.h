@@ -56,6 +56,7 @@
 #include <D3d9.h>
 #include <Vmr9.h>
 #include <evr.h>
+#include <evr9.h>
 #include "VMROSD.h"
 
 class CFullscreenWnd;

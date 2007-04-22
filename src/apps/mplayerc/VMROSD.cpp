@@ -36,7 +36,7 @@ CVMROSD::~CVMROSD(void)
 
 void CVMROSD::OnSize(UINT nType, int cx, int cy)
 {
-	if (m_pWnd && m_pVMB)
+	if (m_pWnd && (m_pVMB || m_pMFVMB))
 	{
 		if (m_bSeekBarVisible)
 		{
@@ -94,11 +94,63 @@ void CVMROSD::UpdateVMRBitmap()
 
 }
 
-void CVMROSD::Start (CWnd* pWnd, CComQIPtr<IVMRMixerBitmap9> pVMB)
+
+void CVMROSD::UpdateMFBitmap()
+{
+	CRect				rc;
+	CWindowDC			dc (m_pWnd);
+
+	CalcRect();
+
+	m_MemDC.DeleteDC();
+	m_Bitmap.DeleteObject();
+
+	if (m_MemDC.CreateCompatibleDC (&dc))
+	{
+		BITMAPINFO	bmi = {0};
+		HBITMAP		hbmpRender;
+		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bmi.bmiHeader.biWidth = m_rectWnd.Width();
+		bmi.bmiHeader.biHeight = - (int) m_rectWnd.Height(); // top-down
+		bmi.bmiHeader.biPlanes = 1;
+		bmi.bmiHeader.biBitCount = 32;
+		bmi.bmiHeader.biCompression = BI_RGB;
+		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
+		m_MemDC.SelectObject (hbmpRender);
+		
+		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0)
+		{
+			// Configure the VMR's bitmap structure
+			ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap) );
+			m_MFVideoAlphaBitmap.params.dwFlags		= MFVideoAlphaBitmap_SrcColorKey;
+			m_MFVideoAlphaBitmap.params.clrSrcKey	= m_Color[OSD_TRANSPARENT];
+			m_MFVideoAlphaBitmap.params.rcSrc		= m_rectWnd;
+			m_MFVideoAlphaBitmap.params.nrcDest.right	= 1;
+			m_MFVideoAlphaBitmap.params.nrcDest.bottom  = 1;
+
+			m_MFVideoAlphaBitmap.GetBitmapFromDC	= TRUE;
+			m_MFVideoAlphaBitmap.bitmap.hdc			= m_MemDC;
+
+			m_MemDC.SelectObject(m_MainFont);
+			m_MemDC.SetTextColor(RGB(255, 255, 255));
+			m_MemDC.SetBkMode(TRANSPARENT);
+		}
+	}
+
+}
+void CVMROSD::Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB)
 {
 	m_pVMB				= pVMB;
 	m_pWnd				= pWnd;
 	UpdateVMRBitmap();
+}
+
+
+void CVMROSD::Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pMFVMB)
+{
+	m_pMFVMB			= pMFVMB;
+	m_pWnd				= pWnd;
+	UpdateMFBitmap();
 }
 
 
@@ -190,8 +242,15 @@ void CVMROSD::Invalidate()
 	if (m_bSeekBarVisible) DrawSlider(&m_rectSeekBar, m_llSeekMin, m_llSeekMax, m_llSeekPos);
 	DrawMessage();
 
-	m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
-	if (m_pVMB) m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+	if (m_pVMB)
+	{
+		m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
+		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+	}
+	else if (m_pMFVMB)
+	{
+		m_pMFVMB->SetAlphaBitmap (&m_MFVideoAlphaBitmap);
+	}
 }
 
 void CVMROSD::UpdateSeekBarPos(CPoint point)
@@ -207,7 +266,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 {
 	bool		bRet = true;
 
-	if (m_pVMB)
+	if (m_pVMB || m_pMFVMB)
 	{
 		if (m_bCursorMoving)
 		{
@@ -234,7 +293,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	bool		bRet = true;
-	if (m_pVMB)		
+	if (m_pVMB || m_pMFVMB)		
 	{
 		if (m_rectCursor.PtInRect (point))
 		{
@@ -255,7 +314,7 @@ bool CVMROSD::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	bool		bRet = true;
 
-	if (m_pVMB)
+	if (m_pVMB || m_pMFVMB)
 	{
 		m_bCursorMoving = false;
 		
@@ -297,17 +356,22 @@ void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 
 void CVMROSD::ClearMessage()
 {
-	if (m_pVMB)
+	if (m_pVMB) 
 	{
 		m_VMR9AlphaBitmap.dwFlags  |= VMRBITMAP_DISABLE;
 		m_nMessagePos				= OSD_NOMESSAGE;
-		if (m_pVMB) m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+	}
+
+	if (m_pMFVMB)
+	{
+		m_pMFVMB->ClearAlphaBitmap();
 	}
 }
 
 void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration)
 {
-	if (m_pVMB)
+	if (m_pVMB || m_pMFVMB)
 	{
 		m_nMessagePos	= nPos;
 		m_strMessage	= strMsg;

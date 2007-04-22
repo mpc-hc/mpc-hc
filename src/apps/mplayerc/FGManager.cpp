@@ -33,6 +33,7 @@
 #include <D3d9.h>
 #include <Vmr9.h>
 #include <evr.h>
+#include <evr9.h>
 
 //
 // CFGManager
@@ -725,9 +726,13 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 
 					if(CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF)
 					{
-						CComPtr<IMFGetService>		pMFVDC;
+						CComPtr<IMFVideoDisplayControl>		pMFVDC;
+						CComPtr<IMFVideoMixerBitmap>		pMFMB;
 						pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC);
 						m_pUnks.AddTail (pMFVDC);
+
+						pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB);
+						m_pUnks.AddTail (pMFMB);
 					}
 
 					return hr;
