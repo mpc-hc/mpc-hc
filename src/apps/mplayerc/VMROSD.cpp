@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include ".\vmrosd.h"
+#include "mplayerc.h"
 
 
 #define SEEKBAR_HEIGHT			60
@@ -213,7 +214,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 			UpdateSeekBarPos(point);
 			Invalidate();
 		}
-		else if (!m_bSeekBarVisible && m_rectSeekBar.PtInRect(point))
+		else if (!m_bSeekBarVisible && AfxGetAppSettings().fD3DFullscreen && m_rectSeekBar.PtInRect(point))
 		{
 			m_bSeekBarVisible = true;
 			Invalidate();
