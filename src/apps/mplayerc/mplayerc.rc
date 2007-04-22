@@ -34,7 +34,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""afxres.h""\r\0"
 END
 
 3 TEXTINCLUDE 
@@ -515,8 +515,6 @@ BEGIN
     EDITTEXT        IDC_EDIT2,53,180,77,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Select All",IDC_BUTTON1,230,162,59,14
     PUSHBUTTON      "Reset Selected",IDC_BUTTON2,230,179,59,14
-    CONTROL         "",IDC_CHECKPN31,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,149,165,10,8
-    LTEXT           "Shuttle PN3",IDC_STATICLINK3,163,165,38,8
 END
 
 IDD_MEDIATYPES_DLG DIALOGEX 0, 0, 296, 219
@@ -710,7 +708,7 @@ IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
-    GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,126
+    GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,142
     CONTROL         "System Default",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,15,65,10
     CONTROL         "Old Renderer",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,26,59,10
     CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,37,67,10
@@ -721,6 +719,7 @@ BEGIN
     CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,92,83,10
     CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,103,63,10
     CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,114,81,10
+    CONTROL         "EVR (Vista or .Net 3)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,125,82,10
     GROUPBOX        "RealMedia Video",IDC_STATIC,105,2,89,50
     CONTROL         "System Default *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
     CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,25,55,10
@@ -729,7 +728,7 @@ BEGIN
     CONTROL         "System Default *",IDC_QTSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,207,14,71,10
     CONTROL         "DirectX 7 **",IDC_QTDX7,"Button",BS_AUTORADIOBUTTON,207,25,55,10
     CONTROL         "DirectX 9 **",IDC_QTDX9,"Button",BS_AUTORADIOBUTTON,207,36,55,10
-    GROUPBOX        """VMR7/9 (renderless)"" && ""DirectX 7/9"" settings",IDC_STATIC,105,53,183,75
+    GROUPBOX        """VMR7/9 (renderless)"" && ""DirectX 7/9"" settings",IDC_STATIC,105,53,183,91
     CONTROL         "Use regular offscreen plain surfaces",IDC_REGULARSURF,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,113,64,131,10
     CONTROL         "Use texture surfaces and render video in 2D",IDC_TEXTURESURF2D,
@@ -738,12 +737,12 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,113,86,172,10
     LTEXT           "Resizer:",IDC_STATIC,134,99,27,8
     COMBOBOX        IDC_DX9RESIZER_COMBO,163,98,94,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "DirectShow Audio",IDC_STATIC,5,129,283,28
-    COMBOBOX        IDC_COMBO1,14,139,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Lock back-buffer before presenting (may fix broken vertical syncronization)",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,160,263,10
-    LTEXT           "* Saving images won't work with these renderers",IDC_STATIC,13,171,158,8
-    LTEXT           "** Required for loading subtitles",IDC_STATIC,13,181,104,8
+    GROUPBOX        "DirectShow Audio",IDC_STATIC,5,148,283,28
+    COMBOBOX        IDC_COMBO1,14,158,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Lock back-buffer (may fix broken vsync)",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,127,146,10
+    LTEXT           "* Saving images won't work with these renderers",IDC_STATIC,13,180,158,8
+    LTEXT           "** Required for loading subtitles",IDC_STATIC,184,180,104,8
     LTEXT           "*** Required for image rotation and pixelshaders (DX9-only)",IDC_STATIC,13,190,195,8
     CONTROL         "VMR9 mixer mode",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,113,73,10
     CONTROL         "YUV mixing",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,113,51,10
@@ -901,8 +900,6 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "Video",IDC_STATIC,5,2,283,48
-    CONTROL         "Automatic refresh rate",IDC_AUTO_REFRESHRATE_CHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,32,98,10
     CONTROL         "Direct3D Fullscreen",IDC_FULLSCREEN_MONITOR_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,77,10
     GROUPBOX        " VMR9 Color controls ",IDC_STATIC,5,91,283,109
@@ -917,6 +914,9 @@ BEGIN
     PUSHBUTTON      "Reset",IDC_RESET,13,182,59,14
     CONTROL         "Remember DVD position",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,19,92,10
     CONTROL         "Remember File position",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,34,89,10
+    PUSHBUTTON      "Install",IDC_INSTALLPN31,13,66,59,14
+    PUSHBUTTON      "Uninstall",IDC_UNINSTALLPN31,93,66,59,14
+    GROUPBOX        " Shuttle PN31 driver ",IDC_STATIC,5,54,283,35
 END
 
 
@@ -1333,14 +1333,14 @@ IDF_CONTROLVOLUMEOFF_PNG FILE                    "res\\web\\controlvolumeoff.png
 IDF_CONTROLVOLUMEBAR_PNG FILE                    "res\\web\\controlvolumebar.png"
 IDF_CONTROLVOLUMEGRIP_PNG FILE                    "res\\web\\controlvolumegrip.png"
 IDF_SHADER_RESIZER      FILE                    "res\\shaders\\resizer.psh"
-IDF_LOGO0               FILE                  "res\\logo.0.png"
-IDF_LOGO1               FILE                  "res\\logo.1.png"
-IDF_LOGO2               FILE                  "res\\logo.2.png"
-IDF_LOGO3               FILE                  "res\\logo.3.png"
-IDF_LOGO4               FILE                  "res\\logo.4.png"
-IDF_LOGO5               FILE                  "res\\logo.5.png"
-IDF_LOGO6               FILE                  "res\\logo.6.png"
-IDF_LOGO7               FILE                  "res\\logo.7.png"
+IDF_LOGO0               FILE                    "res\\logo.0.png"
+IDF_LOGO1               FILE                    "res\\logo.1.png"
+IDF_LOGO2               FILE                    "res\\logo.2.png"
+IDF_LOGO3               FILE                    "res\\logo.3.png"
+IDF_LOGO4               FILE                    "res\\logo.4.png"
+IDF_LOGO5               FILE                    "res\\logo.5.png"
+IDF_LOGO6               FILE                    "res\\logo.6.png"
+IDF_LOGO7               FILE                    "res\\logo.7.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2017,9 +2017,16 @@ BEGIN
     IDS_RS_THUMBWIDTH       "ThumbWidth"
     IDS_RS_AUDIONORMALIZE   "AudioNormalize"
     IDS_RS_AUDIOBOOST       "AudioBoost"
-    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
-    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
+    IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
+    IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
+    IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
+    IDS_RS_COLOR_CONTRAST   "Color Contrast"
+    IDS_RS_COLOR_HUE        "Color Hue"
+    IDS_RS_COLOR_SATURATION "Color Saturation"
+    IDS_RS_SHADERLIST       "Shaders List"
     IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
+    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
+    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
 END
 
 STRINGTABLE 
@@ -2114,17 +2121,6 @@ BEGIN
     IDS_RS_QUICKTIMERENDERER "QuickTimeRenderer"
     IDS_RS_REALMEDIAFPS     "RealMediaFPS"
     IDS_RS_AUDIOTIMESHIFT   "AudioTimeShift"
-END
-
-STRINGTABLE 
-BEGIN
-    IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
-    IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
-    IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
-    IDS_RS_COLOR_CONTRAST   "Color Contrast"
-    IDS_RS_COLOR_HUE        "Color Hue"
-    IDS_RS_COLOR_SATURATION "Color Saturation"
-    IDS_RS_SHADERLIST       "Shaders List"
 END
 
 STRINGTABLE 

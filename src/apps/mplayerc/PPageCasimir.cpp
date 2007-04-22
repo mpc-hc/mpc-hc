@@ -28,13 +28,13 @@
 #include "PPageOutput.h"
 #include "../../../include/moreuuids.h"
 #include ".\ppagecasimir.h"
+#include <psapi.h>
 
 // CPPageCasimir dialog
 
 IMPLEMENT_DYNAMIC(CPPageCasimir, CPPageBase)
 CPPageCasimir::CPPageCasimir()
 	: CPPageBase(CPPageCasimir::IDD, CPPageCasimir::IDD)
-	, m_fMonitorAutoRefreshRate(FALSE)
 	, m_fD3DFullscreen(FALSE)
 	, m_fRememberDVDPos(FALSE)
 	, m_fRememberFilePos(FALSE)
@@ -48,7 +48,6 @@ CPPageCasimir::~CPPageCasimir()
 void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Check(pDX, IDC_AUTO_REFRESHRATE_CHECK, m_fMonitorAutoRefreshRate);
 	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
 	DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
 	DDX_Control(pDX, IDC_SLI_BRIGHTNESS, m_SliBrightness);
@@ -62,6 +61,8 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageCasimir, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
+	ON_BN_CLICKED(IDC_PN31, &CPPageCasimir::OnBnClickedPn31)
+	ON_BN_CLICKED(IDC_UNINSTALLPN31, &CPPageCasimir::OnBnClickedUninstallpn31)
 END_MESSAGE_MAP()
 
 
@@ -74,7 +75,6 @@ BOOL CPPageCasimir::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_fMonitorAutoRefreshRate	= s.fMonitorAutoRefreshRate;
 	m_fD3DFullscreen			= s.fD3DFullscreen;
 	m_fRememberDVDPos			= s.fRememberDVDPos;
 	m_fRememberFilePos			= s.fRememberFilePos;
@@ -123,8 +123,10 @@ BOOL CPPageCasimir::OnInitDialog()
 		m_SliSaturation.SetPos		((int)(m_dSaturation*100));
 	}
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// EXCEPTION: OCX Property Pages should return FALSE
+	GetDlgItem(IDC_INSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
+	GetDlgItem(IDC_UNINSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
+
+	return TRUE;
 }
 
 BOOL CPPageCasimir::OnApply()
@@ -137,7 +139,6 @@ BOOL CPPageCasimir::OnApply()
 	s.dContrast					= m_dContrast;
 	s.dHue						= m_dHue;
 	s.dSaturation				= m_dSaturation;
-	s.fMonitorAutoRefreshRate	= m_fMonitorAutoRefreshRate ? true : false;
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
 	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
@@ -201,4 +202,20 @@ void CPPageCasimir::OnCancel()
 
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(s.dBrightness, s.dContrast, s.dHue, s.dSaturation);
 	__super::OnCancel();
+}
+
+void CPPageCasimir::OnBnClickedPn31()
+{
+	TCHAR			strApp [MAX_PATH];
+
+	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+	::ShellExecute(0, _T("runas"), strApp, _T("/installpn31") /*: _T("/uninstallpn31")*/, 0, SW_SHOWNORMAL);
+}
+
+void CPPageCasimir::OnBnClickedUninstallpn31()
+{
+	TCHAR			strApp [MAX_PATH];
+
+	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+	::ShellExecute(0, _T("runas"), strApp, _T("/uninstallpn31"), 0, SW_SHOWNORMAL);
 }

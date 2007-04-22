@@ -32,6 +32,7 @@
 #include <dmodshow.h>
 #include <D3d9.h>
 #include <Vmr9.h>
+#include <evr.h>
 
 //
 // CFGManager
@@ -715,6 +716,19 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 					
 					if(CComQIPtr<IVMRAspectRatioControl9> pARC = pBF)
 						pARC->SetAspectRatioMode(VMR_ARMODE_NONE);
+
+					if(CComQIPtr<IVMRMixerControl9> pMC = pBF)
+						m_pUnks.AddTail (pMC);
+
+					if(CComQIPtr<IVMRMixerBitmap9> pMB = pBF)
+						m_pUnks.AddTail (pMB);
+
+					if(CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF)
+					{
+						CComPtr<IMFGetService>		pMFVDC;
+						pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC);
+						m_pUnks.AddTail (pMFVDC);
+					}
 
 					return hr;
 				}
@@ -1848,6 +1862,8 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_VMR7AllocatorPresenter, L"Video Mixing Render 7 (Renderless)", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS)
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, L"Video Mixing Render 9 (Renderless)", m_vrmerit));
+	else if(s.iDSVideoRendererType == VIDRNDT_DS_EVR)
+		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"Enhanced Video Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_DXR)
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, L"Haali's Video Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_NULL_COMP)

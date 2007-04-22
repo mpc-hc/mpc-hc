@@ -55,6 +55,7 @@
 #include "WebServer.h"
 #include <D3d9.h>
 #include <Vmr9.h>
+#include <evr.h>
 #include "VMROSD.h"
 
 class CFullscreenWnd;
@@ -686,6 +687,7 @@ public:
 	SIZE							m_fullWndSize;
 	CFullscreenWnd*					m_pFullscreenWnd;
 	CComPtr<IVMRMixerControl9>		m_pMC;
+	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CVMROSD							m_OSD;
 	bool							m_bD3DFullscreenMode;
 	bool							m_bRemainingTime;

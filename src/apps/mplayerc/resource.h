@@ -445,6 +445,8 @@
 #define IDC_DSDXR                       12107
 #define IDC_DSNULL_COMP                 12108
 #define IDC_DSNULL_UNCOMP               12109
+#define IDC_DSNULL_UNCOMP2              12110
+#define IDC_EVR                         12110
 #define IDC_RMSYSDEF                    12120
 #define IDC_RMDX7                       12121
 #define IDC_RMDX9                       12122
@@ -742,7 +744,9 @@
 #define IDC_RESET                       22004
 #define IDC_DVD_POS                     22005
 #define IDC_FILE_POS                    22006
-#define IDC_CHECKPN31                   22006
+#define IDC_PN31                        22007
+#define IDC_INSTALLPN31                 22007
+#define IDC_UNINSTALLPN31               22008
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -764,7 +768,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
 #define _APS_NEXT_COMMAND_VALUE         32784
-#define _APS_NEXT_CONTROL_VALUE         22007
+#define _APS_NEXT_CONTROL_VALUE         22008
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
 #endif

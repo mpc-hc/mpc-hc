@@ -582,7 +582,6 @@ void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_UIceEdit);
 	DDX_Control(pDX, IDC_STATICLINK2, m_UIceLink);
 	DDX_Check(pDX, IDC_CHECK9, m_fUIce);
-	DDX_Check(pDX, IDC_CHECKPN31, m_fPN31);
 }
 
 BEGIN_MESSAGE_MAP(CPPageAccelTbl, CPPageBase)
@@ -606,7 +605,6 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_wmcmds.RemoveAll();
 	m_wmcmds.AddTail(&s.wmcmds);
 	m_fWinLirc = s.fWinLirc;
-	m_fPN31 = s.fPN31Client;
 	m_WinLircAddr = s.WinLircAddr;
 	m_fUIce = s.fUIce;
 	m_UIceAddr = s.UIceAddr;
@@ -673,17 +671,7 @@ BOOL CPPageAccelTbl::OnApply()
 
  	GetParentFrame()->m_hAccelTable = s.hAccel;
 
-	// Install PN31Snoop driver if necessary
-	if (m_fPN31 != s.fPN31Client)
-	{
-		if(m_fPN31)
-			s.PN31Client.Install();
-		else
-			s.PN31Client.Uninstall();
-	}
-
 	s.fWinLirc = !!m_fWinLirc;
-	s.fPN31Client = !!m_fPN31;
 	s.WinLircAddr = m_WinLircAddr;
 	if(s.fWinLirc) s.WinLircClient.Connect(m_WinLircAddr);
 	s.fUIce = !!m_fUIce;

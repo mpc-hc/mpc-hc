@@ -44,7 +44,6 @@ public:
 
 // Dialog Data
 	enum { IDD = IDD_PPAGECASIMIR };
-	BOOL m_fMonitorAutoRefreshRate;
 	BOOL m_fD3DFullscreen;
 
 protected:
@@ -65,4 +64,6 @@ public:
 	BOOL m_fRememberDVDPos;
 	BOOL m_fRememberFilePos;
 	virtual void OnCancel();
+	afx_msg void OnBnClickedPn31();
+	afx_msg void OnBnClickedUninstallpn31();
 };

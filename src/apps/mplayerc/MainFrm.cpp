@@ -6524,7 +6524,11 @@ CSize CMainFrame::GetVideoSize()
 
 	CSize wh(0, 0), arxy(0, 0);
 
-	if(m_pCAP)
+	if (m_pMFVDC)
+	{
+		m_pMFVDC->GetNativeVideoSize(&wh, &arxy);	// TODO : check AR !!
+	}
+	else if(m_pCAP)
 	{
 		wh = m_pCAP->GetVideoSize(false);
 		arxy = m_pCAP->GetVideoSize(fKeepAspectRatio);
@@ -6741,6 +6745,8 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 			hr = pBV->SetDefaultSourcePosition();
 			hr = pBV->SetDestinationPosition(vr.left, vr.top, vr.Width(), vr.Height());
 			hr = pVW->SetWindowPosition(wr.left, wr.top, wr.Width(), wr.Height());
+
+			if (m_pMFVDC) m_pMFVDC->SetVideoPosition (NULL, wr);
 		}
 
 		m_wndView.SetVideoRect(wr);
@@ -7688,7 +7694,11 @@ void CMainFrame::OpenSetupVideo()
 {
 	m_fAudioOnly = true;
 
-	if(m_pCAP)
+	if (m_pMFVDC)		// EVR 
+	{
+		m_fAudioOnly = false;
+	}
+	else if(m_pCAP)
 	{
 		CSize vs = m_pCAP->GetVideoSize();
 		m_fAudioOnly = (vs.cx <= 0 || vs.cy <= 0);
@@ -8098,6 +8108,16 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			SetVMR9ColorControl(s.dBrightness, s.dContrast, s.dHue, s.dSaturation);
 		}
 
+		// === EVR !
+		pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
+		if (m_pMFVDC)
+		{
+			RECT		Rect;
+			::GetClientRect (m_pVideoWnd->m_hWnd, &Rect);
+			m_pMFVDC->SetVideoWindow (m_pVideoWnd->m_hWnd);
+			m_pMFVDC->SetVideoPosition(NULL, &Rect);
+		}
+
 		if(m_fOpeningAborted) throw aborted;
 
 		OpenCustomizeGraph();
@@ -8231,8 +8251,9 @@ void CMainFrame::CloseMediaPrivate()
 //	if(pVW) pVW->put_Visible(OAFALSE);
 //	if(pVW) pVW->put_MessageDrain((OAHWND)NULL), pVW->put_Owner((OAHWND)NULL);
 
-	m_pCAP	= NULL; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
-	m_pMC	= NULL;
+	m_pCAP	 = NULL; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
+	m_pMC	 = NULL;
+	m_pMFVDC = NULL;
 	m_OSD.Stop();
 
 	pAMXBar.Release(); pAMTuner.Release(); pAMDF.Release();

@@ -28,7 +28,7 @@
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "..\..\DSUtil\DSUtil.h"
-//#include "struct.h"
+#include "struct.h"
 
 /////////
 
@@ -446,7 +446,9 @@ BOOL WINAPI Mine_IsDebuggerPresent()
 	return FALSE;
 }
 
-/*
+
+typedef NTSTATUS (WINAPI *FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
+static FUNC_NTQUERYINFORMATIONPROCESS		Real_NtQueryInformationProcess;
 NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
 {
 	NTSTATUS		nRet;
@@ -471,7 +473,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 	}
 
 	return nRet;
-}*/
+}
 
 DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
@@ -637,8 +639,7 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourFunctionWithTrampoline((PBYTE)Real_CreateFileW, (PBYTE)Mine_CreateFileW);
 	DetourFunctionWithTrampoline((PBYTE)Real_mixerSetControlDetails, (PBYTE)Mine_mixerSetControlDetails);
 	DetourFunctionWithTrampoline((PBYTE)Real_DeviceIoControl, (PBYTE)Mine_DeviceIoControl);
-
-	//	DETOUR(NtQueryInformationProcess);
+	DetourFunctionWithTrampoline((PBYTE)Real_NtQueryInformationProcess, (PBYTE)Mine_NtQueryInformationProcess);
 
 	CFilterMapper2::Init();
 
@@ -682,6 +683,20 @@ BOOL CMPlayerCApp::InitInstance()
 		CreateDirectory(AppDataPath, NULL);
 
 	m_s.ParseCommandLine(m_cmdln);
+
+	if(m_s.nCLSwitches&CLSW_INSTALLPN31)
+	{
+		m_s.PN31Client.Install();
+		MessageBox(NULL,L"PN31 driver installed",L"MPC",MB_OK);
+		return FALSE;
+	}
+
+	if(m_s.nCLSwitches&CLSW_UNINSTALLPN31)
+	{
+		m_s.PN31Client.Uninstall();
+		MessageBox(NULL,L"PN31 driver uninstalled",L"MPC",MB_OK);
+		return FALSE;
+	}
 
 	if(m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH))
 	{
@@ -776,7 +791,7 @@ BOOL CMPlayerCApp::InitInstance()
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
 	m_s.PN31Client.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fPN31Client) m_s.PN31Client.Connect();
+	m_s.PN31Client.Connect();
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 
@@ -1422,7 +1437,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRC), fWinLirc);
-		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), fPN31Client);
+//		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), fPN31Client);
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRCADDR), WinLircAddr);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), fUIce);
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), UIceAddr);
@@ -1773,7 +1788,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fWinLirc = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRC), 0);
 		UIceAddr = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), _T("127.0.0.1:1234"));
 		fUIce = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), 0);
-		fPN31Client = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), 0);
+//		fPN31Client = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), 0);
 
 		fDisabeXPToolbars = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DISABLEXPTOOLBARS), 0);
 		fUseWMASFReader = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_USEWMASFREADER), TRUE);
@@ -1993,6 +2008,8 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("hibernate")) nCLSwitches |= CLSW_HIBERNATE;
 			else if(sw == _T("shutdown")) nCLSwitches |= CLSW_SHUTDOWN;
 			else if(sw == _T("logoff")) nCLSwitches |= CLSW_LOGOFF;
+			else if(sw == _T("installpn31")) nCLSwitches |= CLSW_INSTALLPN31;
+			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
 			else if(sw == _T("fixedsize") && pos)
 			{
 				CAtlList<CString> sl;

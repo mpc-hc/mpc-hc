@@ -172,6 +172,11 @@ BOOL CPPageOutput::OnInitDialog()
 		DisableRadioButton(IDC_QTDX9, IDC_QTSYSDEF);
 	}
 
+	if(!IsCLSIDRegistered(CLSID_EnhancedVideoRenderer))
+	{
+		DisableRadioButton(IDC_EVR, IDC_DSSYSDEF);
+	}
+
 	if(!IsCLSIDRegistered(CLSID_DXR))
 	{
 		DisableRadioButton(IDC_DSDXR, IDC_DSSYSDEF);

@@ -497,7 +497,9 @@ bool CShuttlePN31Client::UpdateDriver(bool bInstall)
 				&DataType,(BYTE*)strDriver.GetBuffer(BUFFER_SIZE),BUFFER_SIZE,&BufferSize);
 			strDriver.ReleaseBuffer();
 
-			if ((strHardwareId.Find (_T("Vid_4572&Pid_4572")) != -1) && (strDriver.Find(_T("36FC9E60-C465-11CF-8056-444553540000")) != -1))
+			strHardwareId.MakeLower();
+			strDriver.MakeLower();
+			if ((strHardwareId.Find (_T("vid_4572&pid_4572")) != -1) && (strDriver.Find(_T("36fc9e60-c465-11cf-8056-444553540000")) != -1))
 			{
 				// TODO : création / destruction du service !!!
 

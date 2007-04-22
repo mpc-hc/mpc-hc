@@ -62,6 +62,9 @@
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
+
+#define BCM_SETSHIELD				0x0000160C		// Shield style for button (elevated privilege)
+
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
