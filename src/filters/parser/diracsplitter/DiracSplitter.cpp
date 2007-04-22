@@ -59,7 +59,7 @@ const AMOVIESETUP_FILTER sudFilter[] =
 {
 	{&__uuidof(CDiracSplitterFilter), L"Dirac Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
 	{&__uuidof(CDiracSourceFilter), L"Dirac Source", MERIT_NORMAL, 0, NULL},
-	{&__uuidof(CDiracVideoDecoder), L"Dirac Video Decoder", MERIT_UNLIKELY, countof(sudpPins2), sudpPins2},
+	{&__uuidof(CDiracVideoDecoder), L"Dirac Video Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
 };
 
 CFactoryTemplate g_Templates[] =

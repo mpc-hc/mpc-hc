@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: layer3.c 111 2003-08-31 19:00:18Z gabest $
+ * $Id: layer3.c 601 2006-04-22 00:58:10Z gabest $
  */
 
 # ifdef HAVE_CONFIG_H
@@ -42,7 +42,7 @@
 # include "bit.h"
 # include "stream.h"
 # include "frame.h"
-# include "huffman.h"
+# include "hufftab.h"
 # include "layer3.h"
 
 /* --- Layer III ----------------------------------------------------------- */

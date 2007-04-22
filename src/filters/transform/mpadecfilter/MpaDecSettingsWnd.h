@@ -68,23 +68,6 @@ class CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 	CButton m_dtslfe_check;
 	CButton m_aacdownmix_check;
 
-/*
-	int m_iSampleFormat;
-	BOOL m_fNormalize;
-	BOOL m_fAc3SpeakerConfig;
-	int m_iAc3SpeakerConfig;
-	BOOL m_fAc3SpeakerConfigLFE;
-	BOOL m_fAc3DynamicRangeControl;
-	CComboBox m_ac3sclist;
-	BOOL m_fDtsSpeakerConfig;
-	int m_iDtsSpeakerConfig;
-	BOOL m_fDtsSpeakerConfigLFE;
-	BOOL m_fDtsDynamicRangeControl;
-	CComboBox m_dtssclist;
-	int m_iAacSpeakerConfig;
-	int m_boost;
-	CSliderCtrl m_boostctrl;
-*/
 public:
 	CMpaDecSettingsWnd();
 	
@@ -95,6 +78,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
+	static CSize GetWindowSize() {return CSize(320, 240);}
 
 	DECLARE_MESSAGE_MAP()
 };

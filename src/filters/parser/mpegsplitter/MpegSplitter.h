@@ -64,6 +64,7 @@ class CMpegSplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 	CAutoPtr<Packet> m_p;
 	CAutoPtrList<Packet> m_pl;
 	REFERENCE_TIME m_rtPrev, m_rtOffset;
+	bool m_fHasAccessUnitDelimiters;
 
 protected:
 	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);

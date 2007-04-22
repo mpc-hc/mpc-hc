@@ -27,6 +27,7 @@
 #include "a52dec-0.7.4\include\a52.h"
 #include "dtsdec-0.0.1\include\dts.h"
 // #include "faad2\include\neaacdec.h" // conflicts with dxtrans.h
+#include "libvorbisidec\ivorbiscodec.h"
 #include "..\..\..\decss\DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
@@ -41,15 +42,31 @@ struct aac_state_t
 	~aac_state_t();
 	bool open();
 	void close();
-	bool init(CMediaType& mt);
+	bool init(const CMediaType& mt);
 };
 
 struct ps2_state_t
 {
 	bool sync;
 	double a[2], b[2];
-	struct ps2_state_t() {reset();}
+	ps2_state_t() {reset();}
 	void reset() {sync = false; a[0] = a[1] = b[0] = b[1] = 0;}
+};
+
+struct vorbis_state_t
+{
+	vorbis_info vi;
+	vorbis_comment vc;
+	vorbis_block vb;
+	vorbis_dsp_state vd;
+	ogg_packet op;
+	int packetno;
+	double postgain;
+
+	vorbis_state_t();
+	~vorbis_state_t();
+	void clear();
+	bool init(const CMediaType& mt);
 };
 
 [uuid("3D446B6F-71DE-4437-BE15-8CE47174340F")]
@@ -68,6 +85,7 @@ protected:
 	mad_frame m_frame;
 	mad_synth m_synth;
 	ps2_state_t m_ps2_state;
+	vorbis_state_t m_vorbis;
 
 	CAtlArray<BYTE> m_buff;
 	REFERENCE_TIME m_rtStart;
@@ -81,6 +99,7 @@ protected:
 	HRESULT ProcessAAC();
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
+	HRESULT ProcessVorbis();
 	HRESULT ProcessMPA();
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);

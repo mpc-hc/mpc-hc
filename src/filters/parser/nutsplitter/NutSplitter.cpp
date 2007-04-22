@@ -190,7 +190,7 @@ bool CNutSplitterFilter::DemuxLoop()
 {
 	bool fKeyFrame = false;
 
-	while(!CheckRequest(NULL) && m_pFile->GetPos() < m_pFile->GetLength())
+	while(!CheckRequest(NULL) && m_pFile->GetRemaining())
 	{
 		CNutFile::frame_header fh;
 		fh.checksum_flag = 1;

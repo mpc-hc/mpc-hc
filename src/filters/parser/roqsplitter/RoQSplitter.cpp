@@ -74,8 +74,8 @@ const AMOVIESETUP_FILTER sudFilter[] =
 {
 	{&__uuidof(CRoQSplitterFilter), L"RoQ Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
 	{&__uuidof(CRoQSourceFilter), L"RoQ Source", MERIT_NORMAL+1, 0, NULL},
-	{&__uuidof(CRoQVideoDecoder), L"RoQ Video Decoder", MERIT_UNLIKELY, countof(sudpPins2), sudpPins2},
-	{&__uuidof(CRoQAudioDecoder), L"RoQ Audio Decoder", MERIT_UNLIKELY, countof(sudpPins3), sudpPins3},
+	{&__uuidof(CRoQVideoDecoder), L"RoQ Video Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
+	{&__uuidof(CRoQAudioDecoder), L"RoQ Audio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3},
 };
 
 CFactoryTemplate g_Templates[] =

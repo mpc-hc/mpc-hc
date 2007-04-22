@@ -6,7 +6,6 @@
 	ProjectGUID="{54DDA60F-E528-4D07-A152-960A1E818680}"
 	RootNamespace="basevideofilter"
 	Keyword="Win32Proj"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -18,9 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug lib|Win32"
-			OutputDirectory="Debug lib"
-			IntermediateDirectory="Debug lib"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="2"
 			>
@@ -41,16 +39,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				ForceConformanceInForLoopScope="true"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -83,9 +72,8 @@ DisableSpecificWarnings="4995;4996"
 		</Configuration>
 		<Configuration
 			Name="Debug Unicode lib|Win32"
-			OutputDirectory="Debug Unicode lib"
-			IntermediateDirectory="Debug Unicode lib"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -106,16 +94,7 @@ DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				ForceConformanceInForLoopScope="true"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -148,9 +127,8 @@ DisableSpecificWarnings="4995;4996"
 		</Configuration>
 		<Configuration
 			Name="Release lib|Win32"
-			OutputDirectory="Release lib"
-			IntermediateDirectory="Release lib"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="2"
 			>
@@ -171,18 +149,7 @@ DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				OmitFramePointers="true"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -215,9 +182,8 @@ DisableSpecificWarnings="4995;4996"
 		</Configuration>
 		<Configuration
 			Name="Release Unicode lib|Win32"
-			OutputDirectory="Release Unicode lib"
-			IntermediateDirectory="Release Unicode lib"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -238,18 +204,7 @@ DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				OmitFramePointers="true"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

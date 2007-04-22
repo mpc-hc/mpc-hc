@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,6
- PRODUCTVERSION 1,0,0,6
+ FILEVERSION 1,0,0,7
+ PRODUCTVERSION 1,0,0,7
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,12 +46,12 @@ BEGIN
             VALUE "Comments", "http://gabest.org/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Avi Splitter"
-            VALUE "FileVersion", "1, 0, 0, 6"
+            VALUE "FileVersion", "1, 0, 0, 7"
             VALUE "InternalName", "Avi Splitter"
             VALUE "LegalCopyright", "Copyright (C) 2003-2006 Gabest"
             VALUE "OriginalFilename", "AviSplitter.ax"
             VALUE "ProductName", "Avi Splitter"
-            VALUE "ProductVersion", "1, 0, 0, 6"
+            VALUE "ProductVersion", "1, 0, 0, 7"
         END
     END
     BLOCK "VarFileInfo"

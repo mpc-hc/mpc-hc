@@ -141,8 +141,8 @@ const AMOVIESETUP_FILTER sudFilter[] =
 {
 	{&__uuidof(CRealMediaSplitterFilter), L"RealMedia Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
 	{&__uuidof(CRealMediaSourceFilter), L"RealMedia Source", MERIT_NORMAL, 0, NULL},
-	{&__uuidof(CRealVideoDecoder), L"RealVideo Decoder", MERIT_UNLIKELY, countof(sudpPins2), sudpPins2},
-	{&__uuidof(CRealAudioDecoder), L"RealAudio Decoder", MERIT_UNLIKELY, countof(sudpPins3), sudpPins3},
+	{&__uuidof(CRealVideoDecoder), L"RealVideo Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
+	{&__uuidof(CRealAudioDecoder), L"RealAudio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3},
 };
 
 CFactoryTemplate g_Templates[] =
@@ -157,11 +157,7 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-	RegisterSourceFilter(
-		CLSID_AsyncReader, 
-		MEDIASUBTYPE_RealMedia, 
-		_T("0,4,,2E524D46"), 
-		_T(".rm"), _T(".rmvb"), _T(".ram"), NULL);
+	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_RealMedia, _T("0,4,,2E524D46"), _T(".rm"), _T(".rmvb"), _T(".ram"), NULL);
 
 	return AMovieDllRegisterServer2(TRUE);
 }
@@ -1060,7 +1056,7 @@ HRESULT CRMFile::Init()
 	HRESULT hr;
 
 	ChunkHdr hdr;
-	while(GetPos() < GetLength() && S_OK == (hr = Read(hdr)))
+	while(GetRemaining() && S_OK == (hr = Read(hdr)))
 	{
 		__int64 pos = GetPos() - sizeof(hdr);
 

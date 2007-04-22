@@ -71,7 +71,7 @@ static void bswap(BYTE* s, int len)
 //
 
 CMatroskaFile::CMatroskaFile(IAsyncReader* pAsyncReader, HRESULT& hr) 
-	: CBaseSplitterFile(pAsyncReader, hr)
+	: CBaseSplitterFile(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_rtOffset(0)
 {
 	if(FAILED(hr)) return;
@@ -174,6 +174,11 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 		}
 	}
 	while(n < 3 && pMN->Next());
+
+	if(!pMN->IsRandomAccess())
+	{
+		return S_OK;
+	}
 
 	while(QWORD pos = pMN->FindPos(0x114D9B74, pMN->GetPos()))
 	{
@@ -476,6 +481,7 @@ HRESULT BlockGroup::Parse(CMatroskaNode* pMN0, bool fFull)
 	case 0xFD: ReferenceVirtual.Parse(pMN); break;
 	case 0xA4: CodecState.Parse(pMN); break;
 	case 0xE8: TimeSlices.Parse(pMN); break;
+	case 0x75A1: if(fFull) ba.Parse(pMN); break;
 	EndChunk
 }
 
@@ -556,6 +562,21 @@ HRESULT SimpleBlock::Parse(CMatroskaNode* pMN, bool fFull)
 	}
 
 	return S_OK;
+}
+
+HRESULT BlockAdditions::Parse(CMatroskaNode* pMN0)
+{
+	BeginChunk
+	case 0xA6: bm.Parse(pMN); break;
+	EndChunk
+}
+
+HRESULT BlockMore::Parse(CMatroskaNode* pMN0)
+{
+	BeginChunk
+	case 0xEE: BlockAddID.Parse(pMN); break;
+	case 0xA5: BlockAdditional.Parse(pMN); break;
+	EndChunk
 }
 
 HRESULT TimeSlice::Parse(CMatroskaNode* pMN0)

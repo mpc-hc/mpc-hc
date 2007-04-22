@@ -5,7 +5,6 @@
 	Name="libdts"
 	ProjectGUID="{54F609FD-A8CE-43CF-94AD-23E877B97C13}"
 	RootNamespace="libdts"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -17,9 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -41,20 +39,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="0"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				ForceConformanceInForLoopScope="true"
 				PrecompiledHeaderFile=".\Debug/libdts.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 				CompileAs="0"
 			/>
 			<Tool
@@ -71,7 +58,6 @@ DisableSpecificWarnings="4995;4996"
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\libdtsD.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -91,9 +77,8 @@ DisableSpecificWarnings="4995;4996"
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -115,21 +100,9 @@ DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="2"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
 				PrecompiledHeaderFile=".\Release/libdts.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				CompileAs="0"
 			/>
 			<Tool
@@ -146,7 +119,6 @@ DisableSpecificWarnings="4995;4996"
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\libdtsR.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"

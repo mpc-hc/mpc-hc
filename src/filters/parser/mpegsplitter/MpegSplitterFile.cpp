@@ -30,7 +30,7 @@
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
-	: CBaseSplitterFileEx(pAsyncReader, hr)
+	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_type(us)
 	, m_rate(0)
 {
@@ -49,6 +49,7 @@ HRESULT CMpegSplitterFile::Init()
 
 	if(m_type == us)
 	{
+		if(BitRead(32, true) == 'TFrc') Seek(0x67c);
 		int cnt = 0, limit = 4;
 		for(trhdr h; cnt < limit && Read(h); cnt++) Seek(h.next);
 		if(cnt >= limit) m_type = ts;
@@ -103,30 +104,37 @@ HRESULT CMpegSplitterFile::Init()
 
 	//
 
-	if(IsStreaming())
-	{
-		for(int i = 0; i < 50 && GetLength() < 1024*100 || i < 20; i++)
-			Sleep(100);
-	}
-
 	// min/max pts & bitrate
 
 	m_rtMin = m_posMin = _I64_MAX;
 	m_rtMax = m_posMax = 0;
 
-	CAtlList<__int64> fps;
-	for(int i = 0, j = 5; i <= j; i++)
-		fps.AddTail(i*GetLength()/j);
-
-	for(__int64 pfp = 0; fps.GetCount(); )
+	if(IsRandomAccess() || IsStreaming())
 	{
-		__int64 fp = fps.RemoveHead();
-		fp = min(GetLength() - MEGABYTE/8, fp);
-		fp = max(pfp, fp);
-		__int64 nfp = fp + (pfp == 0 ? 5*MEGABYTE : MEGABYTE/8);
-		if(FAILED(hr = SearchStreams(fp, nfp)))
+		if(IsStreaming())
+		{
+			for(int i = 0; i < 20 || i < 50 && S_OK != HasMoreData(1024*100, 100); i++);
+		}
+
+		CAtlList<__int64> fps;
+		for(int i = 0, j = 5; i <= j; i++)
+			fps.AddTail(i*GetLength()/j);
+
+		for(__int64 pfp = 0; fps.GetCount(); )
+		{
+			__int64 fp = fps.RemoveHead();
+			fp = min(GetLength() - MEGABYTE/8, fp);
+			fp = max(pfp, fp);
+			__int64 nfp = fp + (pfp == 0 ? 5*MEGABYTE : MEGABYTE/8);
+			if(FAILED(hr = SearchStreams(fp, nfp)))
+				return hr;
+			pfp = nfp;
+		}
+	}
+	else
+	{
+		if(FAILED(hr = SearchStreams(0, MEGABYTE/8)))
 			return hr;
-		pfp = nfp;
 	}
 
 	if(m_posMax - m_posMin <= 0 || m_rtMax - m_rtMin <= 0)
@@ -157,6 +165,25 @@ HRESULT CMpegSplitterFile::Init()
 	return S_OK;
 }
 
+void CMpegSplitterFile::OnComplete()
+{
+	__int64 pos = GetPos();
+
+	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength())))
+	{
+		int indicated_rate = m_rate;
+		int detected_rate = 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin);
+		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
+		// (update: also allowing +/-50k/s)
+		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
+		|| abs(detected_rate - indicated_rate) < 50*1024)
+			m_rate = detected_rate;
+		else ; // TODO: in this case disable seeking, or try doing something less drastical...
+	}
+
+	Seek(pos);
+}
+
 REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 {
 	REFERENCE_TIME rt = -1;
@@ -164,7 +191,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 
 	BYTE b;
 
-	while(GetPos() < GetLength())
+	while(GetRemaining())
 	{
 		if(m_type == ps || m_type == es)
 		{

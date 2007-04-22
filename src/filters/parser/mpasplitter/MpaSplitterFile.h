@@ -46,7 +46,7 @@ public:
 	CAtlMap<DWORD, CStringW> m_tags;
 
 	const CMediaType& GetMediaType() {return m_mt;}
-	REFERENCE_TIME GetDuration() {return m_rtDuration;}
+	REFERENCE_TIME GetDuration() {return IsRandomAccess() ? m_rtDuration : 0;}
 
 	__int64 GetStartPos() {return m_startpos;}
 	__int64 GetEndPos() {return m_endpos;}

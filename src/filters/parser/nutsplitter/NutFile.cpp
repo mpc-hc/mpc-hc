@@ -19,7 +19,7 @@ HRESULT CNutFile::Init()
 
 	Seek(0);
 
-	while(GetPos() < GetLength())
+	while(GetRemaining())
 	{
 		frame_header fh;
 		fh.checksum_flag = 1;

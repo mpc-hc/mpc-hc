@@ -191,7 +191,7 @@ bool CDSMSplitterFilter::DemuxLoop()
 {
 	HRESULT hr = S_OK;
 
-	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetPos() < m_pFile->GetLength())
+	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining())
 	{
 		dsmp_t type;
 		UINT64 len;

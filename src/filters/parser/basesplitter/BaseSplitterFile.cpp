@@ -21,14 +21,16 @@
 
 #include "StdAfx.h"
 #include "BaseSplitterFile.h"
+#include "..\..\..\dsutil\dsutil.h"
 
 //
 // CBaseSplitterFile
 //
 
-CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, int cachelen)
+CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, int cachelen, bool fNeedRandomAccess)
 	: m_pAsyncReader(pAsyncReader)
 	, m_fStreaming(false)
+	, m_fRandomAccess(false)
 	, m_pos(0), m_len(0)
 	, m_bitbuff(0), m_bitlen(0)
 	, m_cachepos(0), m_cachelen(0)
@@ -39,9 +41,10 @@ CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, in
 	hr = m_pAsyncReader->Length(&total, &available);
 
 	m_fStreaming = total == 0 && available > 0;
-	m_len = available;
+	m_fRandomAccess = total > 0 && total == available;
+	m_len = total;
 
-	if(FAILED(hr) || !m_fStreaming && total != available || total < 0)
+	if(FAILED(hr) || fNeedRandomAccess && !m_fRandomAccess || m_len < 0)
 	{
 		hr = E_FAIL;
 		return;
@@ -72,12 +75,18 @@ __int64 CBaseSplitterFile::GetPos()
 	return m_pos - (m_bitlen>>3);
 }
 
+__int64 CBaseSplitterFile::GetAvailable()
+{
+	LONGLONG total, available = 0;
+	m_pAsyncReader->Length(&total, &available);
+	return available;
+}
+
 __int64 CBaseSplitterFile::GetLength()
 {
 	if(m_fStreaming)
 	{
-		LONGLONG total, available = 0;
-		if(SUCCEEDED(m_pAsyncReader->Length(&total, &available))) m_len = available;
+		m_len = GetAvailable();
 	}
 
 	return m_len;
@@ -95,6 +104,13 @@ HRESULT CBaseSplitterFile::Read(BYTE* pData, __int64 len)
 	CheckPointer(m_pAsyncReader, E_NOINTERFACE);
 
 	HRESULT hr = S_OK;
+
+	if(!m_fRandomAccess)
+	{
+		LONGLONG total = 0, available = -1;
+		m_pAsyncReader->Length(&total, &available);
+		if(total == available) {m_fRandomAccess = true; OnComplete();}
+	}
 
 	if(m_cachetotal == 0 || !m_pCache)
 	{

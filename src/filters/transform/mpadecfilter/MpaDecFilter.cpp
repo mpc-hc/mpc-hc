@@ -76,6 +76,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_MPEG2_PACK, &MEDIASUBTYPE_PS2_ADPCM},
 	{&MEDIATYPE_MPEG2_PES, &MEDIASUBTYPE_PS2_ADPCM},
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_PS2_ADPCM},
+	{&MEDIATYPE_Audio, &MEDIASUBTYPE_Vorbis2},
 };
 
 #ifdef REGISTER_FILTER
@@ -183,6 +184,15 @@ s_scmap_dts[2*10] =
 	{5, {1, 2, 0, 4, 3,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_CENTER}, // DTS_3F1R|DTS_LFE
 	{5, {0, 1, 4, 2, 3,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_2F2R|DTS_LFE
 	{6, {1, 2, 0, 5, 3, 4}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_3F2R|DTS_LFE
+},
+s_scmap_vorbis[6] = 
+{
+	{1, {0,-1,-1,-1,-1,-1}, 0}, // 1F
+	{2, {0, 1,-1,-1,-1,-1}, 0},	// 2F
+	{3, {0, 2, 1,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER}, // 2F1R
+	{4, {0, 1, 2, 3,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 2F2R
+	{5, {0, 2, 1, 3, 4,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 3F2R
+	{6, {0, 2, 1, 5, 3, 4}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // 3F2R + LFE
 };
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
@@ -295,6 +305,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		pmt = NULL;
 		m_sample_max = 0.1f;
 		m_aac_state.init(mt);
+
+		m_vorbis.init(mt);
 	}
 
 	BYTE* pDataIn = NULL;
@@ -342,6 +354,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessPS2PCM();
 	else if(subtype == MEDIASUBTYPE_PS2_ADPCM)
 		hr = ProcessPS2ADPCM();
+	else if(subtype == MEDIASUBTYPE_Vorbis2)
+		hr = ProcessVorbis();
 	else // if(.. the rest ..)
 		hr = ProcessMPA();
 
@@ -569,7 +583,7 @@ HRESULT CMpaDecFilter::ProcessAAC()
 	float* src = (float*)NeAACDecDecode(m_aac_state.h, &info, m_buff.GetData(), m_buff.GetCount());
 	m_buff.RemoveAll();
 	//if(!src) return E_FAIL;
-	if(info.error) 	m_aac_state.init(m_pInput->CurrentMediaType());
+	if(info.error) m_aac_state.init(m_pInput->CurrentMediaType());
 	if(!src || info.samples == 0) return S_OK;
 
 	// HACK: bug in faad2 with mono sources?
@@ -788,6 +802,57 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 	m_buff.SetCount(end - p);
 
 	return S_OK;
+}
+
+HRESULT CMpaDecFilter::ProcessVorbis()
+{
+	if(m_vorbis.vi.channels < 1 || m_vorbis.vi.channels > 6)
+		return E_FAIL;
+
+	if(m_buff.IsEmpty())
+		return S_OK;
+
+	HRESULT hr = S_OK;
+
+	ogg_packet op;
+	memset(&op, 0, sizeof(op));
+	op.packet = m_buff.GetData();
+	op.bytes = m_buff.GetCount();
+	op.b_o_s = 0;
+	op.packetno = m_vorbis.packetno++;
+
+	if(vorbis_synthesis(&m_vorbis.vb, &op, 1) == 0)
+	{
+		vorbis_synthesis_blockin(&m_vorbis.vd, &m_vorbis.vb);
+
+		int samples;
+		ogg_int32_t** pcm;
+
+		while((samples = vorbis_synthesis_pcmout(&m_vorbis.vd, &pcm)) > 0)
+		{
+			const scmap_t& scmap = s_scmap_vorbis[m_vorbis.vi.channels-1];
+
+			CAtlArray<float> pBuff;
+			pBuff.SetCount(samples * scmap.nChannels);
+			float* dst = pBuff.GetData();
+
+			for(int j = 0, ch = scmap.nChannels; j < ch; j++)
+			{
+				int* src = pcm[scmap.ch[j]];
+				for(int i = 0; i < samples; i++)
+					dst[j + i*ch] = (float)max(min(src[i], 1<<24), -1<<24) / (1<<24);
+			}
+
+			if(S_OK != (hr = Deliver(pBuff, m_vorbis.vi.rate, scmap.nChannels, scmap.dwChannelMask)))
+				break;
+
+			vorbis_synthesis_read(&m_vorbis.vd, samples);
+		}
+	}
+
+	m_buff.RemoveAll();
+
+	return hr;
 }
 
 static inline float fscale(mad_fixed_t sample)
@@ -1151,6 +1216,11 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 		if(wfe->dwInterleave & 0xf) // has to be a multiple of the block size (16 bytes)
 			return VFW_E_TYPE_NOT_ACCEPTED;
 	}
+	else if(mtIn->subtype == MEDIASUBTYPE_Vorbis2)
+	{
+		if(!m_vorbis.init(*mtIn))
+			return VFW_E_TYPE_NOT_ACCEPTED;
+	}
 
 	for(int i = 0; i < countof(sudPinTypesIn); i++)
 	{
@@ -1209,6 +1279,10 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	|| GetSpeakerConfig(dts) < 0 && (subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS))
 	{
 		*pmt = CreateMediaTypeSPDIF();
+	}
+	else if(subtype == MEDIASUBTYPE_Vorbis2)
+	{
+		*pmt = CreateMediaType(GetSampleFormat(), m_vorbis.vi.rate, m_vorbis.vi.channels);
 	}
 	else
 	{
@@ -1388,7 +1462,7 @@ void aac_state_t::close()
 	h = NULL;
 }
 
-bool aac_state_t::init(CMediaType& mt)
+bool aac_state_t::init(const CMediaType& mt)
 {
 	if(mt.subtype != MEDIASUBTYPE_AAC 
 	&& mt.subtype != MEDIASUBTYPE_MP4A 
@@ -1396,6 +1470,90 @@ bool aac_state_t::init(CMediaType& mt)
 		return true; // nothing to do
 
 	open();
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
+	const WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 	return !NeAACDecInit2(h, (BYTE*)(wfe+1), wfe->cbSize, &freq, &channels);
+}
+
+//
+// vorbis_state_t
+// 
+
+vorbis_state_t::vorbis_state_t()
+{
+	memset(&vd, 0, sizeof(vd));
+	memset(&vb, 0, sizeof(vb));
+	memset(&vc, 0, sizeof(vc));
+	memset(&vi, 0, sizeof(vi));
+}
+
+vorbis_state_t::~vorbis_state_t()
+{
+	clear();
+}
+
+void vorbis_state_t::clear()
+{
+	vorbis_block_clear(&vb);
+	vorbis_dsp_clear(&vd);
+	vorbis_comment_clear(&vc);
+	vorbis_info_clear(&vi);
+}
+
+bool vorbis_state_t::init(const CMediaType& mt)
+{
+	if(mt.subtype != MEDIASUBTYPE_Vorbis2)
+		return true; // nothing to do
+
+	clear();
+
+	vorbis_info_init(&vi);
+	vorbis_comment_init(&vc);
+
+	VORBISFORMAT2* vf = (VORBISFORMAT2*)mt.Format();
+	BYTE* fmt = mt.Format();
+
+	packetno = 0;
+	
+	memset(&op, 0, sizeof(op));
+	op.packet = (fmt += sizeof(*vf));
+	op.bytes = vf->HeaderSize[0];
+	op.b_o_s = 1;
+	op.packetno = packetno++;
+
+	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0)
+		return false;
+
+	memset(&op, 0, sizeof(op));
+	op.packet = (fmt += vf->HeaderSize[0]);
+	op.bytes = vf->HeaderSize[1];
+	op.b_o_s = 0;
+	op.packetno = packetno++;
+
+	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0)
+		return false;
+    
+	memset(&op, 0, sizeof(op));
+	op.packet = (fmt += vf->HeaderSize[1]);
+	op.bytes = vf->HeaderSize[2];
+	op.b_o_s = 0;
+	op.packetno = packetno++;
+
+	if(vorbis_synthesis_headerin(&vi, &vc, &op) < 0)
+		return false;
+
+	postgain = 1.0;
+
+	if(vorbis_comment_query_count(&vc, "LWING_GAIN"))
+		postgain = atof(vorbis_comment_query(&vc, "LWING_GAIN", 0));
+
+	if(vorbis_comment_query_count(&vc, "POSTGAIN"))
+		postgain = atof(vorbis_comment_query(&vc, "POSTGAIN", 0));
+
+	if(vorbis_comment_query_count(&vc, "REPLAYGAIN_TRACK_GAIN"))
+		postgain = pow(10.0, atof(vorbis_comment_query(&vc, "REPLAYGAIN_TRACK_GAIN", 0)) / 20.0);
+
+	vorbis_synthesis_init(&vd, &vi);
+	vorbis_block_init(&vd, &vb);
+
+	return true;
 }

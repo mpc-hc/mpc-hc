@@ -4,7 +4,7 @@
 #include "..\..\..\..\include\moreuuids.h"
 
 CDSMSplitterFile::CDSMSplitterFile(IAsyncReader* pReader, HRESULT& hr, IDSMResourceBagImpl& res, IDSMChapterBagImpl& chap) 
-	: CBaseSplitterFile(pReader, hr)
+	: CBaseSplitterFile(pReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_rtFirst(0)
 	, m_rtDuration(0)
 {
@@ -68,6 +68,7 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
 
 	// ... and the end 
 
+	if(IsRandomAccess())
 	for(int i = 1, j = (int)((GetLength()+limit/2)/limit); i <= j; i++)
 	{
 		__int64 seekpos = max(0, (__int64)GetLength()-i*limit);
@@ -86,8 +87,6 @@ HRESULT CDSMSplitterFile::Init(IDSMResourceBagImpl& res, IDSMChapterBagImpl& cha
 					i = j;
 				}	
 			}
-			else if(type == DSMP_FILEINFO) {if((BYTE)BitRead(8) > DSMF_VERSION) return E_FAIL; Read(len-1, m_fim);}
-			else if(type == DSMP_STREAMINFO) {Read(len-1, m_sim[(BYTE)BitRead(8)]);}
 			else if(type == DSMP_SYNCPOINTS) {Read(len, m_sps);}
 			else if(type == DSMP_RESOURCE) {Read(len, res);}
 			else if(type == DSMP_CHAPTERS) {Read(len, chap);}
@@ -119,7 +118,7 @@ bool CDSMSplitterFile::Sync(UINT64& syncpos, dsmp_t& type, UINT64& len, __int64 
 
 	for(UINT64 id = 0; (id&((1ui64<<(DSMSW_SIZE<<3))-1)) != DSMSW; id = (id << 8) | (BYTE)BitRead(8))
 	{
-		if(limit-- <= 0 || GetPos() >= GetLength()-2)
+		if(limit-- <= 0 || GetRemaining() <= 2)
 			return(false);
 	}
 
@@ -325,7 +324,7 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
 
 	Seek(minpos);
 
-	while(GetPos() < GetLength())
+	while(GetRemaining())
 	{
 		if(!Sync(syncpos, type, len))
 			continue;
@@ -395,3 +394,4 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
 
 	return ret;
 }
+

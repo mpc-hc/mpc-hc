@@ -30,8 +30,8 @@
 // CBaseSplitterFileEx
 //
 
-CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen)
-	: CBaseSplitterFile(pReader, hr, cachelen)
+CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen, bool fNeedRandomAccess)
+	: CBaseSplitterFile(pReader, hr, cachelen, fNeedRandomAccess)
 	, m_tslen(0)
 {
 }
@@ -48,7 +48,7 @@ bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 	DWORD dw = -1;
 	do
 	{
-		if(len-- == 0 || GetPos() >= GetLength()) return(false);
+		if(len-- == 0 || !GetRemaining()) return(false);
 		dw = (dw << 8) | (BYTE)BitRead(8);
 	}
 	while((dw&0xffffff00) != 0x00000100);
@@ -1024,6 +1024,26 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 			h.level = (BYTE)BitRead(8);
 
 			UExpGolombRead(); // seq_parameter_set_id
+
+			if(h.profile >= 100) // high profile
+			{
+				if(UExpGolombRead() == 3) // chroma_format_idc
+				{
+					BitRead(1); // residue_transform_flag
+				}
+
+				UExpGolombRead(); // bit_depth_luma_minus8
+				UExpGolombRead(); // bit_depth_chroma_minus8
+
+				BitRead(1); // qpprime_y_zero_transform_bypass_flag
+
+				if(BitRead(1)) // seq_scaling_matrix_present_flag
+					for(int i = 0; i < 8; i++)
+						if(BitRead(1)) // seq_scaling_list_present_flag
+							for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j)
+								next = (next + SExpGolombRead() + 256) & 255;
+			}
+
 			UExpGolombRead(); // log2_max_frame_num_minus4
 
 			UINT64 pic_order_cnt_type = UExpGolombRead();

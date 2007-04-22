@@ -1789,6 +1789,7 @@ bool CSubpicInputPin::dvdspu::Parse()
 				case 0x04: len = 2; break;
 				case 0x05: len = 6; break;
 				case 0x06: len = 4; break;
+				case 0x07: len = 0; break; // TODO
 				default: len = 0; break;
 			}
 
@@ -1833,6 +1834,9 @@ bool CSubpicInputPin::dvdspu::Parse()
 				case 0x06:
 					m_offset[0] = GetWORD;
 					m_offset[1] = GetWORD;
+					break;
+				case 0x07:
+					// TODO
 					break;
 				case 0xff: // end of ctrlblk
 					fBreak = true;

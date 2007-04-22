@@ -5,7 +5,6 @@
 	Name="liba52"
 	ProjectGUID="{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 	RootNamespace="liba52"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -17,9 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -41,21 +39,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="2"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
 				PrecompiledHeaderFile=".\Release/liba52.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 				CompileAs="0"
 			/>
 			<Tool
@@ -72,7 +58,6 @@ DisableSpecificWarnings="4995;4996"
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\liba52R.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -92,9 +77,8 @@ DisableSpecificWarnings="4995;4996"
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -116,22 +100,11 @@ DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-DisableSpecificWarnings="4995;4996"
-				Optimization="0"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				ForceConformanceInForLoopScope="true"
 				PrecompiledHeaderFile=".\Debug/liba52.pch"
 				AssemblerOutput="0"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 				CompileAs="0"
 			/>
 			<Tool
@@ -148,7 +121,6 @@ DisableSpecificWarnings="4995;4996"
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\liba52D.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -182,7 +154,6 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -192,10 +163,8 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 			</File>
@@ -207,7 +176,6 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -217,10 +185,8 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 			</File>
@@ -232,7 +198,6 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -242,10 +207,8 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 			</File>
@@ -257,7 +220,6 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -267,10 +229,8 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 			</File>
@@ -282,7 +242,6 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -292,10 +251,8 @@ DisableSpecificWarnings="4995;4996"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 			</File>

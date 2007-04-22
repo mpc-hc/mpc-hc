@@ -1203,8 +1203,11 @@ void CMpeg2Dec::mpeg2_header_sequence_finalize()
      */
 
 	// EDIT: some dvds will work if we allow the last three fields to vary (which aren't needed anyway)
+	// EDIT2: vbv_buffer_size can be ignored as well, not used by libmpeg2
 
-    m_sequence.byte_rate = sequence->byte_rate;
+	m_sequence.byte_rate = sequence->byte_rate;
+	m_sequence.vbv_buffer_size = sequence->vbv_buffer_size;
+
     if(!memcmp(&m_sequence, sequence, FIELD_OFFSET(mpeg2_sequence_t, colour_primaries) /*sizeof(mpeg2_sequence_t)*/)) 
 	{
 		m_state = STATE_SEQUENCE_REPEATED;
@@ -1215,8 +1218,8 @@ void CMpeg2Dec::mpeg2_header_sequence_finalize()
 		m_state = STATE_INVALID;	/* XXXX STATE_INVALID_END ? */
 		return;
     }
-    m_sequence = *sequence;
 
+    m_sequence = *sequence;
     m_info.m_sequence = &m_sequence;
 }
 

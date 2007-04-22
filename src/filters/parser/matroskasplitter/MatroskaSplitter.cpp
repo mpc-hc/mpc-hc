@@ -120,7 +120,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
 	m_rtNewStart = m_rtCurrent = 0;
-	m_rtNewStop = m_rtStop = 0;
+	m_rtNewStop = m_rtStop = m_rtDuration = 0;
 
 	int iVideo = 1, iAudio = 1, iSubtitle = 1;
 
@@ -532,6 +532,7 @@ avcsuccess:
 						CodecID == "S_TEXT/UTF8" ? MEDIASUBTYPE_UTF8 :
 						CodecID == "S_TEXT/SSA" || CodecID == "S_SSA" ? MEDIASUBTYPE_SSA :
 						CodecID == "S_TEXT/ASS" || CodecID == "S_ASS" ? MEDIASUBTYPE_ASS :
+						CodecID == "S_TEXT/SSF" || CodecID == "S_SSF" ? MEDIASUBTYPE_SSF :
 						CodecID == "S_TEXT/USF" || CodecID == "S_USF" ? MEDIASUBTYPE_USF :
 						CodecID == "S_VOBSUB" ? MEDIASUBTYPE_VOBSUB :
 						MEDIASUBTYPE_NULL;
@@ -564,8 +565,13 @@ avcsuccess:
 	}
 
 	Info& info = m_pFile->m_segment.SegmentInfo;
-	m_rtNewStart = m_rtCurrent = 0;
-	m_rtNewStop = m_rtStop = (REFERENCE_TIME)(info.Duration*info.TimeCodeScale/100);
+
+	if(m_pFile->IsRandomAccess())
+	{
+		m_rtDuration = (REFERENCE_TIME)(info.Duration * info.TimeCodeScale / 100);
+	}
+
+	m_rtNewStop = m_rtStop = m_rtDuration;
 
 #ifdef DEBUG
 	/*
@@ -614,28 +620,45 @@ avcsuccess:
 		CStringA ChapLanguage = CStringA(ISO6391To6392(str));
 		if(ChapLanguage.GetLength() < 3) ChapLanguage = "eng";
 
-		POSITION pos = caroot->ChapterAtoms.GetHeadPosition();
-		while(pos)
-		{
-			// ca == caroot->ChapterAtoms.GetNext(pos) ?
-			if(ChapterAtom* ca = m_pFile->m_segment.FindChapterAtom(caroot->ChapterAtoms.GetNext(pos)->ChapterUID))
-			{
-				CStringW name, first;
-
-				POSITION pos = ca->ChapterDisplays.GetHeadPosition();
-				while(pos)
-				{
-					ChapterDisplay* cd = ca->ChapterDisplays.GetNext(pos);
-					if(first.IsEmpty()) first = cd->ChapString;
-					if(cd->ChapLanguage == ChapLanguage) name = cd->ChapString;
-				}
-
-				ChapAppend(ca->ChapterTimeStart / 100 - m_pFile->m_rtOffset, !name.IsEmpty() ? name : first);
-			}			
-		}
+		SetupChapters(ChapLanguage, caroot);
 	}
 
 	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+}
+
+void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int level)
+{
+	CStringW tabs('+', level);
+
+	if(!tabs.IsEmpty()) tabs += ' ';
+
+	POSITION pos = parent->ChapterAtoms.GetHeadPosition();
+	while(pos)
+	{
+		// ca == caroot->ChapterAtoms.GetNext(pos) ?
+		if(ChapterAtom* ca = m_pFile->m_segment.FindChapterAtom(parent->ChapterAtoms.GetNext(pos)->ChapterUID))
+		{
+			CStringW name, first;
+
+			POSITION pos = ca->ChapterDisplays.GetHeadPosition();
+			while(pos)
+			{
+				ChapterDisplay* cd = ca->ChapterDisplays.GetNext(pos);
+				if(first.IsEmpty()) first = cd->ChapString;
+				if(cd->ChapLanguage == lng) name = cd->ChapString;
+			}
+
+			name = tabs + (!name.IsEmpty() ? name : first);
+
+			ChapAppend(ca->ChapterTimeStart / 100 - m_pFile->m_rtOffset, name);
+
+			if(!ca->ChapterAtoms.IsEmpty())
+			{
+				SetupChapters(lng, ca, level+1);
+			}
+		}			
+	}
+
 }
 
 void CMatroskaSplitterFilter::InstallFonts()
@@ -734,7 +757,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
 	// reindex if needed
 
-	if(m_pFile->m_segment.Cues.GetCount() == 0)
+	if(m_pFile->IsRandomAccess() && m_pFile->m_segment.Cues.GetCount() == 0)
 	{
 		m_nOpenProgress = 0;
 		m_pFile->m_segment.SegmentInfo.Duration.Set(0);
@@ -924,7 +947,7 @@ bool CMatroskaSplitterFilter::DemuxLoop()
 				bgn.AddTail(bg);
 			}
 
-			while(bgn.GetCount())
+			while(bgn.GetCount() && SUCCEEDED(hr))
 			{
 				CAutoPtr<MatroskaPacket> p(new MatroskaPacket());
 				p->bg = bgn.RemoveHead();
@@ -969,19 +992,6 @@ bool CMatroskaSplitterFilter::DemuxLoop()
 	m_pCluster.Free();
 
 	return(true);
-}
-
-// IMediaSeeking
-
-STDMETHODIMP CMatroskaSplitterFilter::GetDuration(LONGLONG* pDuration)
-{
-	CheckPointer(pDuration, E_POINTER);
-	CheckPointer(m_pFile, VFW_E_NOT_CONNECTED);
-
-	Segment& s = m_pFile->m_segment;
-	*pDuration = s.GetRefTime((INT64)s.SegmentInfo.Duration);
-
-	return S_OK;
 }
 
 // IKeyFrameInfo
@@ -1194,6 +1204,23 @@ HRESULT CMatroskaSplitterOutputPin::DeliverBlock(MatroskaPacket* p)
 
 		p->bSyncPoint = false;
 		p->bDiscontinuity = false;
+	}
+
+	if(m_mt.subtype == FOURCCMap(WAVE_FORMAT_WAVPACK4))
+	{
+		POSITION pos = p->bg->ba.bm.GetHeadPosition();
+		while(pos)
+		{
+			const BlockMore* bm = p->bg->ba.bm.GetNext(pos);
+			CAutoPtr<Packet> tmp(new Packet());
+			tmp->TrackNumber = p->TrackNumber;
+			tmp->bDiscontinuity = false;
+			tmp->bSyncPoint = false;
+			tmp->rtStart = p->rtStart;
+			tmp->rtStop = p->rtStop;
+			tmp->Copy(bm->BlockAdditional);
+			if(S_OK != (hr = DeliverPacket(tmp))) break;
+		}
 	}
 
 	return hr;

@@ -223,13 +223,18 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	if(m_pOutputs.IsEmpty())
 		return E_FAIL;
 
-	m_pFile->Seek(max(m_pFile->GetLength()-65536, 0));
-	while(m_pFile->Read(page))
+	if(m_pFile->IsRandomAccess())
 	{
-		COggSplitterOutputPin* pOggPin = dynamic_cast<COggSplitterOutputPin*>(GetOutputPin(page.m_hdr.bitstream_serial_number));
-		if(!pOggPin || page.m_hdr.granule_position == -1) continue;
-		REFERENCE_TIME rt = pOggPin->GetRefTime(page.m_hdr.granule_position);
-		m_rtDuration = max(rt, m_rtDuration);
+		m_pFile->Seek(max(m_pFile->GetLength()-65536, 0));
+
+		OggPage page;
+		while(m_pFile->Read(page))
+		{
+			COggSplitterOutputPin* pOggPin = dynamic_cast<COggSplitterOutputPin*>(GetOutputPin(page.m_hdr.bitstream_serial_number));
+			if(!pOggPin || page.m_hdr.granule_position == -1) continue;
+			REFERENCE_TIME rt = pOggPin->GetRefTime(page.m_hdr.granule_position);
+			m_rtDuration = max(rt, m_rtDuration);
+		}
 	}
 
 	m_rtNewStart = m_rtCurrent = 0;

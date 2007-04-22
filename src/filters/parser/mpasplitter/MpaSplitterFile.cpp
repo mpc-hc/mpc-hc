@@ -72,7 +72,7 @@ static const LPCTSTR s_genre[] =
 //
 
 CMpaSplitterFile::CMpaSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
-	: CBaseSplitterFileEx(pAsyncReader, hr)
+	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
 	, m_mode(none)
 	, m_rtDuration(0)
 	, m_startpos(0)
@@ -87,7 +87,12 @@ HRESULT CMpaSplitterFile::Init()
 	m_startpos = 0;
 	m_endpos = GetLength();
 
-	if(m_endpos > 128)
+	Seek(0);
+
+	if(BitRead(24, true) == 0x000001)
+		return E_FAIL;
+
+	if(m_endpos > 128 && IsRandomAccess())
 	{
 		Seek(m_endpos - 128);
 
@@ -191,14 +196,16 @@ HRESULT CMpaSplitterFile::Init()
 
 					if(encoding > 0 && size >= 2 && bom == 0xfffe)
 					{
-						BitRead(16);
-						ByteRead((BYTE*)wstr.GetBufferSetLength((size-2+1)/2), size);
+						BitRead(16); 
+						size = (size - 2) / 2;
+						ByteRead((BYTE*)wstr.GetBufferSetLength(size), size*2);
 						m_tags[tag] = wstr.Trim();
 					}
 					else if(encoding > 0 && size >= 2 && bom == 0xfeff)
 					{
 						BitRead(16);
-						ByteRead((BYTE*)wstr.GetBufferSetLength((size-2+1)/2), size);
+						size = (size - 2) / 2;
+						ByteRead((BYTE*)wstr.GetBufferSetLength(size), size*2);
 						for(int i = 0, j = wstr.GetLength(); i < j; i++) wstr.SetAt(i, (wstr[i]<<8)|(wstr[i]>>8));
 						m_tags[tag] = wstr.Trim();
 					}
@@ -213,12 +220,9 @@ HRESULT CMpaSplitterFile::Init()
 
 		Seek(m_startpos);
 
-		while(m_startpos < m_endpos && BitRead(8, true) == 0)
+		for(int i = 0; i < (1<<20) && m_startpos < m_endpos && BitRead(8, true) == 0; i++)
 			BitRead(8), m_startpos++;
 	}
-
-	while(m_startpos < m_endpos && BitRead(8, true) == 0)
-		BitRead(8), m_startpos++;
 
 	__int64 searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
 

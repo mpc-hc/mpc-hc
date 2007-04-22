@@ -37,7 +37,7 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CFLICSource), L"FLICSource", MERIT_UNLIKELY, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CFLICSource), L"FLICSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
 };
 
 CFactoryTemplate g_Templates[] =

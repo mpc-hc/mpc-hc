@@ -16,9 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -40,23 +39,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="FPM_DEFAULT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;WIN32;_DEBUG;DEBUG"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				ForceConformanceInForLoopScope="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug/libmad.pch"
 				AssemblerOutput="0"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 				CompileAs="0"
-				DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -72,7 +60,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\libmadD.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -92,9 +79,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -116,23 +102,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="NDEBUG;FPM_INTEL;WIN32;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release/libmad.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
 				CompileAs="0"
-				DisableSpecificWarnings="4995;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -148,7 +122,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\..\lib\libmadR.lib"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -182,10 +155,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -193,7 +164,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -207,10 +177,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -218,7 +186,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -232,10 +199,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -243,7 +208,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -257,10 +221,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -268,36 +230,14 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\huffman.c"
+				RelativePath="..\hufftab.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\layer12.c"
@@ -307,10 +247,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -318,7 +256,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -332,10 +269,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -343,7 +278,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -357,10 +291,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -368,7 +300,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -382,10 +313,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -393,7 +322,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -407,10 +335,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -418,7 +344,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -432,10 +357,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -443,7 +366,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
 					/>
@@ -479,7 +401,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\huffman.h"
+				RelativePath="..\hufftab.h"
 				>
 			</File>
 			<File

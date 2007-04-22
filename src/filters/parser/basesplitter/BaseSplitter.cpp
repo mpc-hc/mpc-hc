@@ -53,14 +53,14 @@ void CPacketQueue::Add(CAutoPtr<Packet> p)
 		&& p->rtStart == Packet::INVALID_TIME
 		&& !IsEmpty() && GetTail()->rtStart != Packet::INVALID_TIME)
 		{
-			/*
 			Packet* tail = GetTail();			
 			int oldsize = tail->GetCount();
 			int newsize = tail->GetCount() + p->GetCount();
 			tail->SetCount(newsize, max(1024, newsize)); // doubles the reserved buffer size
 			memcpy(tail->GetData() + oldsize, p->GetData(), p->GetCount());
+			/*
+			GetTail()->Append(*p); // too slow
 			*/
-			GetTail()->Append(*p);
 			return;
 		}
 	}
@@ -559,14 +559,14 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		bool fTimeValid = p->rtStart != Packet::INVALID_TIME;
-
+/*
 //if(p->TrackNumber == 1)
 //if(p->rtStart != Packet::INVALID_TIME)
 TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"), 
 	  p->TrackNumber,
 	  p->bDiscontinuity, p->bSyncPoint, fTimeValid && p->rtStart < 0,
 	  nBytes, p->rtStart, p->rtStop);
-/**/
+*/
 		ASSERT(!p->bSyncPoint || fTimeValid);
 
 		BYTE* pData = NULL;

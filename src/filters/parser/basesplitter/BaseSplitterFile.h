@@ -23,13 +23,15 @@
 
 #include <atlcoll.h>
 
+#define DEFAULT_CACHE_LENGTH 2048
+
 class CBaseSplitterFile
 {
 	CComPtr<IAsyncReader> m_pAsyncReader;
 	CAutoVectorPtr<BYTE> m_pCache;
 	__int64 m_cachepos, m_cachelen, m_cachetotal;
 
-	bool m_fStreaming;
+	bool m_fStreaming, m_fRandomAccess;
 	__int64 m_pos, m_len;
 
 	virtual HRESULT Read(BYTE* pData, __int64 len); // use ByteRead
@@ -38,16 +40,18 @@ protected:
 	UINT64 m_bitbuff;
 	int m_bitlen;
 
-	enum {DEFAULT_CACHELEN = 2048};
+	virtual void OnComplete() {}
 
 public:
-	CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHELEN);
+	CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fNeedRandomAccess = true);
 	virtual ~CBaseSplitterFile() {}
 
-	bool SetCacheSize(int cachelen = DEFAULT_CACHELEN);
+	bool SetCacheSize(int cachelen = DEFAULT_CACHE_LENGTH);
 
 	__int64 GetPos();
+	__int64 GetAvailable();
 	__int64 GetLength();
+	__int64 GetRemaining() {return max(0, GetLength() - GetPos());}
 	virtual void Seek(__int64 pos);
 
 	UINT64 UExpGolombRead();
@@ -58,5 +62,7 @@ public:
 	HRESULT ByteRead(BYTE* pData, __int64 len);
 
 	bool IsStreaming() {return m_fStreaming;}
+	bool IsRandomAccess() {return m_fRandomAccess;}
+
 	HRESULT HasMoreData(__int64 len = 1, DWORD ms = 1);
 };

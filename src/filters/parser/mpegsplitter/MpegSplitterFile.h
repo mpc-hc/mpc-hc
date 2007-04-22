@@ -31,6 +31,8 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 
 	HRESULT Init();
 
+	void OnComplete();
+
 public:
 	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr);
 

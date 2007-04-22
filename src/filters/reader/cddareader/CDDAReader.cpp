@@ -41,7 +41,7 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CCDDAReader), L"CDDA Reader", MERIT_UNLIKELY, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CCDDAReader), L"CDDA Reader", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
 };
 
 CFactoryTemplate g_Templates[] =

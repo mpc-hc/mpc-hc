@@ -59,11 +59,17 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
+	DeleteRegKey(_T("Media Type\\Extensions\\"), _T(".ts"));
+
 	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG1System, _T("0,16,FFFFFFFFF100010001800001FFFFFFFF,000001BA2100010001800001000001BB"), NULL);
 	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG2_PROGRAM, _T("0,5,FFFFFFFFC0,000001BA40"), NULL);
-	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG2_TRANSPORT, _T("0,1,,47,188,1,,47,376,1,,47"), NULL);
-	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG2_TRANSPORT, _T("4,1,,47,196,1,,47,388,1,,47"), NULL);
 	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG2_PVA, _T("0,8,fffffc00ffe00000,4156000055000000"), NULL);
+
+	CAtlList<CString> chkbytes;
+	chkbytes.AddTail(_T("0,1,,47,188,1,,47,376,1,,47"));
+	chkbytes.AddTail(_T("4,1,,47,196,1,,47,388,1,,47"));
+	chkbytes.AddTail(_T("0,4,,54467263,1660,1,,47")); // TFrc
+	RegisterSourceFilter(CLSID_AsyncReader, MEDIASUBTYPE_MPEG2_TRANSPORT, chkbytes, NULL);	
 
 	return AMovieDllRegisterServer2(TRUE);
 }
@@ -258,7 +264,10 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 	}
 
-	m_rtNewStop = m_rtStop = m_rtDuration = m_pFile->IsStreaming() ? 0 : 10000000i64 * m_pFile->GetLength() / m_pFile->m_rate;
+	if(m_pFile->IsRandomAccess() && m_pFile->m_rate)
+	{
+		m_rtNewStop = m_rtStop = m_rtDuration = 10000000i64 * m_pFile->GetLength() / m_pFile->m_rate;
+	}
 
 	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
 }
@@ -513,6 +522,7 @@ CMpegSourceFilter::CMpegSourceFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& 
 
 CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
 	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
+	, m_fHasAccessUnitDelimiters(false)
 {
 }
 
@@ -704,7 +714,9 @@ TRACE(_T("%I64d, %I64d (%I64d)\n"), p->rtStart, m_rtPrev, m_rtOffset);
 			Packet* pPacket = m_pl.GetAt(pos);
 			BYTE* pData = pPacket->GetData();
 
-			if(pPacket->rtStart != Packet::INVALID_TIME || (pData[4]&0x1f) == 0x09)
+			if((pData[4]&0x1f) == 0x09) m_fHasAccessUnitDelimiters = true;
+
+			if((pData[4]&0x1f) == 0x09 || !m_fHasAccessUnitDelimiters && pPacket->rtStart != Packet::INVALID_TIME)
 			{
 				p = m_pl.RemoveHead();
 

@@ -97,7 +97,7 @@ bool CDiracSplitterFile::Next(BYTE& code, __int64 len)
 	UINT64 qw = -1;
 	do
 	{
-		if(len-- == 0 || GetPos() >= GetLength()) return(false);
+		if(len-- == 0 || !GetRemaining()) return(false);
 		qw = (qw << 8) | (BYTE)BitRead(8);
 	}
 	while((qw&0xffffffff00) != ((UINT64)START_CODE_PREFIX<<8));
@@ -113,9 +113,9 @@ const BYTE* CDiracSplitterFile::NextBlock(BYTE& code, int& size, int& fnum)
 
 	// TODO: make sure we are at a start code right now
 
-	while(GetPos() < GetLength())
+	while(GetRemaining())
 	{
-		if(GetPos() <= GetLength() - 5)
+		if(GetRemaining() >= 5)
 		{
 			UINT64 qw = BitRead(40, true);
 

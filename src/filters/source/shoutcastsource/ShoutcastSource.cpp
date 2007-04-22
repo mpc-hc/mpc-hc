@@ -91,7 +91,7 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CShoutcastSource), L"ShoutcastSource", MERIT_UNLIKELY, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CShoutcastSource), L"ShoutcastSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
 };
 
 CFactoryTemplate g_Templates[] =

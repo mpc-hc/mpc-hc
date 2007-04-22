@@ -135,6 +135,24 @@ namespace MatroskaReader
 					HRESULT Parse(CMatroskaNode* pMN, bool fFull);
 				};
 
+					class BlockMore
+					{
+					public:
+						CInt BlockAddID;
+						CBinary BlockAdditional;
+
+						BlockMore() {BlockAddID.Set(1);}
+						HRESULT Parse(CMatroskaNode* pMN);
+					};
+
+				class BlockAdditions
+				{
+				public:
+					CNode<BlockMore> bm;
+
+					HRESULT Parse(CMatroskaNode* pMN);
+				};
+
 			class BlockGroup
 			{
 			public:
@@ -146,6 +164,7 @@ namespace MatroskaReader
 				CInt ReferenceVirtual;
 				CBinary CodecState;
 				CNode<TimeSlice> TimeSlices;
+				BlockAdditions ba;
 
 				HRESULT Parse(CMatroskaNode* pMN, bool fFull);
 			};
@@ -450,5 +469,7 @@ namespace MatroskaReader
 			
 		CAutoPtr<CMatroskaNode> GetFirstBlock();
 		bool NextBlock();
+
+		bool IsRandomAccess() {return m_pMF->IsRandomAccess();}
 	};
 }
