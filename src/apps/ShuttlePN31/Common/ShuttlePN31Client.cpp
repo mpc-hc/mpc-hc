@@ -516,7 +516,6 @@ bool CShuttlePN31Client::UpdateDriver(bool bInstall)
 				}
 				SetLowerFilters (hDev, &devInfo, sz);
 				RestartDevice (hDev, &devInfo);
-				bRet = true;
 			}
 		}
 	}
@@ -662,6 +661,7 @@ bool CShuttlePN31Client::CreateService()
 		}
 		else
 		{
+			::StartService(hService,0,NULL);
 			CloseServiceHandle(hService);
 			bRet = true;
 		}
@@ -684,13 +684,18 @@ bool CShuttlePN31Client::DeleteService()
 	}
 	else
 	{
-		SC_HANDLE hService = OpenService(hManager,_T(PN31SNOOP_SERVICE),SC_MANAGER_ALL_ACCESS);
+		SC_HANDLE		hService = OpenService(hManager,_T(PN31SNOOP_SERVICE),SC_MANAGER_ALL_ACCESS);
+		SERVICE_STATUS	sStatus;
+
 		if (hService == NULL)
 		{
 			TRACE("Can't open service");
 		}
 		else
 		{
+			memset(&sStatus, 0, sizeof(sStatus));
+			ControlService(hService,SERVICE_CONTROL_STOP,&sStatus);
+
 			if (!::DeleteService(hService))
 				TRACE("Can't delete service");
 			else

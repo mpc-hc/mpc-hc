@@ -686,15 +686,19 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if(m_s.nCLSwitches&CLSW_INSTALLPN31)
 	{
-		m_s.PN31Client.Install();
-		MessageBox(NULL,L"PN31 driver installed",L"MPC",MB_OK);
+		if (m_s.PN31Client.Install())
+			MessageBox(NULL,L"PN31 driver installed",L"MPC",MB_OK);
+		else
+			MessageBox(NULL,L"Cannot install PN31 driver installed",L"MPC",MB_ICONERROR);
 		return FALSE;
 	}
 
 	if(m_s.nCLSwitches&CLSW_UNINSTALLPN31)
 	{
-		m_s.PN31Client.Uninstall();
-		MessageBox(NULL,L"PN31 driver uninstalled",L"MPC",MB_OK);
+		if (m_s.PN31Client.Uninstall())
+			MessageBox(NULL,L"PN31 driver uninstalled",L"MPC",MB_OK);
+		else
+			MessageBox(NULL,L"Cannot uninstal PN31 driver",L"MPC",MB_ICONERROR);
 		return FALSE;
 	}
 

@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -719,7 +718,7 @@ BEGIN
     CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,92,83,10
     CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,103,63,10
     CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,114,81,10
-    CONTROL         "EVR (Vista or .Net 3)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,125,82,10
+    CONTROL         "EVR (Vista)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,125,51,10
     GROUPBOX        "RealMedia Video",IDC_STATIC,105,2,89,50
     CONTROL         "System Default *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
     CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,25,55,10

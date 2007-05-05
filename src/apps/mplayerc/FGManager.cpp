@@ -733,6 +733,11 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 
 						pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB);
 						m_pUnks.AddTail (pMFMB);
+
+//						CComPtr<IMFWorkQueueServices>		pMFWQS;
+//						pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
+//						pMFWQS->BeginRegisterPlatformWorkQueueWithMMCSS(
+
 					}
 
 					return hr;
