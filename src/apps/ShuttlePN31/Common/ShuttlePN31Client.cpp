@@ -599,13 +599,43 @@ void CShuttlePN31Client::ExecuteCommand(int nKey)
 			m_pWnd->SendMessage(WM_COMMAND, ID_SHIFT_SUB_UP);
 			break;
 
+		// === Divers
 		case K_EXPLORER :
 			m_pWnd->SendMessage(WM_COMMAND, ID_VIEW_REMAINING_TIME);
 			break;
 		case K_FAVORITE :
 			m_pWnd->SendMessage(WM_COMMAND, ID_SHADER_TOGGLE);
 			break;
+		case K_EMAIL :
+			m_pWnd->SendMessage(WM_COMMAND, ID_VIEW_TEARING_TEST);
+			break;
 
+		// === Commandes DVD
+		case K_RETURN :
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_MENU_ACTIVATE);
+			break;
+		case K_2 :	// Up
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_MENU_UP);
+			break;
+		case K_8 :	// Down
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_MENU_DOWN);
+			break;
+		case K_4 :	// Left
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_MENU_LEFT);
+			break;
+		case K_6 :	// Right
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_MENU_RIGHT);
+			break;
+
+		case K_ESC :	// Title
+			m_pWnd->SendMessage(WM_COMMAND, ID_NAVIGATE_ROOTMENU);
+			break;
+		case K_TAB :	// Root
+			m_pWnd->SendMessage(WM_COMMAND, ID_STREAM_AUDIO_NEXT);
+			break;
+		case K_DEL :	// Sous-titre
+			m_pWnd->SendMessage(WM_COMMAND, ID_STREAM_SUB_NEXT);
+			break;
 			/*
 		case  :
 			m_pWnd->SendMessage(WM_COMMAND, );

@@ -2242,8 +2242,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 			m_pFullscreenWnd->ShowCursor(true);
 
 			// Casimir666 : en dehors du menu DVD, cacher le curseur
-			if (	(m_iPlaybackMode == PM_FILE) ||
-					((m_iPlaybackMode == PM_DVD) && (m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu) && (m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)) )
+			if ((m_iPlaybackMode == PM_FILE) || (m_iPlaybackMode == PM_DVD))
 			{
 				KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
@@ -10338,6 +10337,7 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName (DVD_AudioAttributes& ATR)
 
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
+	OnPlayPause();
 	m_rtCurSubPos		= m_wndSeekBar.GetPosReal();
 	m_lSubtitleShift	= 0;
 	m_nCurSubtitle		= m_wndSubresyncBar.FindNearestSub (m_rtCurSubPos, (nID == ID_GOTO_NEXT_SUB));
