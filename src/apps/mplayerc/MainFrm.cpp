@@ -8079,7 +8079,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 	try
 	{
-		CComQIPtr<IVMRMixerBitmap9>		pVMB;
+		CComPtr<IVMRMixerBitmap9>		pVMB;
+		CComPtr<IMFVideoMixerBitmap>	pMFVMB;
 		if(m_fOpeningAborted) throw aborted;
 
 		OpenCreateGraphObject(pOMD);
@@ -8098,7 +8099,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
-		if (pVMB) m_OSD.Start (m_pVideoWnd, pVMB);
+		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
+		if (pVMB)   m_OSD.Start (m_pVideoWnd, pVMB);
+		if (pMFVMB) m_OSD.Start (m_pVideoWnd, pMFVMB);
 		if (m_pMC)
 		{
 			m_pMC->GetProcAmpControlRange (0, (VMR9ProcAmpControlRange*)AfxGetMyApp()->GetColorControl (Brightness));
