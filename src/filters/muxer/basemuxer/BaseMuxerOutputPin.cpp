@@ -167,7 +167,7 @@ void CBaseMuxerRawOutputPin::MuxHeader(const CMediaType& mt)
 		if(str.Find("[Events]") < 0) 
 			pBitStream->StrWrite("\n\n[Events]\n", true);
 	}
-/*	else if(mt.subtype == MEDIASUBTYPE_SSF)
+	/*else if(mt.subtype == MEDIASUBTYPE_SSF)
 	{
 		DWORD dwOffset = ((SUBTITLEINFO*)mt.pbFormat)->dwOffset;
 		try {m_ssf.Parse(ssf::MemoryInputStream(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, false, false));}
@@ -341,7 +341,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 
 		return;
 	}
-/*	else if(mt.subtype == MEDIASUBTYPE_SSF)
+	/*else if(mt.subtype == MEDIASUBTYPE_SSF)
 	{
 		float start = (float)pPacket->rtStart / 10000000;
 		float stop = (float)pPacket->rtStop / 10000000;
@@ -445,7 +445,7 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 		pBitStream->Seek(sizeof(RIFFLIST) + sizeof(RIFFCHUNK) + mt.FormatLength() + 4);
 		pBitStream->ByteWrite(&size, 4);
 	}
-/*	else if(mt.subtype == MEDIASUBTYPE_SSF)
+	/*else if(mt.subtype == MEDIASUBTYPE_SSF)
 	{
 		ssf::WCharOutputStream s;
 		try {m_ssf.Dump(s);} catch(ssf::Exception&) {}
