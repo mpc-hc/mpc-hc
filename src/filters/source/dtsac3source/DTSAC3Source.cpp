@@ -45,7 +45,11 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CDTSAC3Source), L"DTS/AC3 Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+#ifdef DDPLUS_ONLY
+	{&__uuidof(CDTSAC3Source), L"DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+#else
+	{&__uuidof(CDTSAC3Source), L"DTS/AC3/DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+#endif
 };
 
 CFactoryTemplate g_Templates[] =
@@ -73,12 +77,21 @@ STDAPI DllRegisterServer()
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"), 
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
+#ifndef DDPLUS_ONLY
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".dts"), 
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".ac3"), 
+		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
+#endif
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".ddp"), 
+		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
+
+	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".ec3"), 
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
 	return AMovieDllRegisterServer2(TRUE);
@@ -87,8 +100,12 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
 	DeleteRegKey(_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
+#ifndef DDPLUS_ONLY
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".dts"));
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ac3"));
+#endif
+	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ddp"));
+	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ec3"));
 
 	return AMovieDllRegisterServer2(FALSE);
 }
@@ -142,6 +159,11 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 	if(id == 0x0180FE7F)
 	{
+#ifdef DDPLUS_ONLY
+//Temporary patch to disable DTS source 
+		if(phr) *phr = E_FAIL;
+		return;
+#endif
 		BYTE buff[8];
 		m_file.Read(buff, 8);
 
@@ -175,8 +197,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		m_nSamplesPerSec = freqtbl[freq];
 		m_nAvgBytesPerSec = (bitratetbl[transbitrate] + 4) / 8;
 //		m_nBytesPerFrame = m_nAvgBytesPerSec*10.656063618290258449304174950298/1000 + 0.5;
-		m_nBytesPerFrame = framebytes;
-		m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate];
+		m_nBytesPerFrame = framebytes*6;
+		m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate]*6;
 
 		m_subtype = MEDIASUBTYPE_DTS;
 		m_wFormatTag = WAVE_FORMAT_DVD_DTS;
@@ -184,37 +206,74 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	}
 	else
 	{
-		BYTE info;
+		BYTE info, info1, bsid;
 		if((BYTE)id == 0x77) m_file.Seek(1, CFile::current); // LE
 		m_file.Read(&info, 1);
+		m_file.Read(&info1, 1);
+		bsid = (info1>>3);
 
-		BYTE freq = info>>6;
-		BYTE bitrate = info&0x3f;
+		if(bsid>=0 && bsid<=8)	//AC3
+		{
+#ifdef DDPLUS_ONLY
+//Temporary patch to disable AC3 source 
+			if(phr) *phr = E_FAIL;
+			return;
+#endif
+			BYTE freq = info>>6;
+			BYTE bitrate = info&0x3f;
 
-		if(bitrate >= 38)
+			if(bitrate >= 38)
+			{
+				if(phr) *phr = E_FAIL;
+				return;
+			}
+
+			int freqtbl[] = {48000,44100,32000,48000};
+
+			int bitratetbl[] =
+			{
+				32000,32000,40000,40000,48000,48000,56000,56000,64000,64000,
+				80000,80000,96000,96000,112000,112000,128000,128000,160000,160000,
+				192000,192000,224000,224000,256000,256000,320000,320000,384000,384000,
+				448000,448000,512000,512000,576000,576000,640000,640000
+			};
+
+			m_nSamplesPerSec = freqtbl[freq];
+			m_nAvgBytesPerSec = (bitratetbl[bitrate] + 4) / 8;
+			m_nBytesPerFrame = m_nAvgBytesPerSec*32/1000*3;
+			m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[bitrate] *3;
+			
+			m_subtype = MEDIASUBTYPE_DOLBY_AC3;
+			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
+			m_streamid = 0x80;
+
+		}
+		else if(bsid>=11 && bsid <=16)	//DD+
+		{
+			BYTE fscod = info>>6;
+			BYTE numblkscod = (info&0x30)>>4;
+			if(fscod == 3)
+			{
+				fscod = numblkscod+3;
+				numblkscod = 3;
+			}
+
+			int freqtbl[] = {48000,44100,32000,22400,22050,16000,48000};
+			m_nSamplesPerSec = freqtbl[fscod];
+			m_nBytesPerFrame = (2+(id >> 23)+((id&0x00070000)>>7))*6;
+			int timetbl[] = {320000, 640000, 960000, 1920000};
+			m_AvgTimePerFrame = timetbl[numblkscod];
+
+			m_subtype = MEDIASUBTYPE_DOLBY_AC3;
+			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
+			m_streamid = 0xC0;
+		}
+		else
 		{
 			if(phr) *phr = E_FAIL;
 			return;
 		}
 
-		int freqtbl[] = {48000,44000,32000,48000};
-
-		int bitratetbl[] =
-		{
-			32000,32000,40000,40000,48000,48000,56000,56000,64000,64000,
-			80000,80000,96000,96000,112000,112000,128000,128000,160000,160000,
-			192000,192000,224000,224000,256000,256000,320000,320000,384000,384000,
-			448000,448000,512000,512000,576000,576000,640000,640000
-		};
-
-		m_nSamplesPerSec = freqtbl[freq];
-		m_nAvgBytesPerSec = (bitratetbl[bitrate] + 4) / 8;
-		m_nBytesPerFrame = m_nAvgBytesPerSec*32/1000;
-		m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[bitrate];
-
-		m_subtype = MEDIASUBTYPE_DOLBY_AC3;
-		m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
-		m_streamid = 0x80;
 	}
 
 	m_rtDuration = m_AvgTimePerFrame * m_file.GetLength() / m_nBytesPerFrame;
@@ -271,7 +330,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 		BYTE Private1Header[] = 
 		{
 			0x00,0x00,0x01,0xBD,			// private stream 1 id
-			0x07,0xEC,						// packet length (TODO: modify it later)
+			(m_nBytesPerFrame+15)>>8,(m_nBytesPerFrame+15)&255,	// packet length
 			0x81,0x80,						// marker, original, PTS - flags
 			0x08,							// packet data starting offset
 			0x21,0x00,0x01,0x00,0x01,		// PTS (0)
@@ -304,6 +363,7 @@ bool CDTSAC3Stream::CheckDTS(const CMediaType* pmt)
 			|| pmt->majortype == MEDIATYPE_MPEG2_PES 
 			|| pmt->majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
 		&& pmt->subtype == MEDIASUBTYPE_DTS;
+//	return pmt->majortype == MEDIATYPE_Audio  && pmt->subtype == MEDIASUBTYPE_DTS;
 }
 
 bool CDTSAC3Stream::CheckWAVEDTS(const CMediaType* pmt)
@@ -320,6 +380,7 @@ bool CDTSAC3Stream::CheckAC3(const CMediaType* pmt)
 			|| pmt->majortype == MEDIATYPE_MPEG2_PES 
 			|| pmt->majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
 		&& pmt->subtype == MEDIASUBTYPE_DOLBY_AC3;
+//	return pmt->majortype == MEDIATYPE_Audio  && pmt->subtype == MEDIASUBTYPE_DOLBY_AC3;
 }
 
 bool CDTSAC3Stream::CheckWAVEAC3(const CMediaType* pmt)

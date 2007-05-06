@@ -1045,7 +1045,7 @@ huff_entry_t *bitalloc_select[11][8] =
     bitalloc_e_129, bitalloc_f_129, bitalloc_g_129, 0 },
 };
 
-int InverseQ( dts_state_t * state, huff_entry_t * huff )
+static int InverseQ( dts_state_t * state, huff_entry_t * huff )
 {
     int value = 0;
     int length = 0, j;

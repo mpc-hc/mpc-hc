@@ -444,7 +444,7 @@ int dts_frame (dts_state_t * state, uint8_t * buf, int * flags,
     return 0;
 }
 
-int dts_subframe_header (dts_state_t * state)
+static int dts_subframe_header (dts_state_t * state)
 {
     /* Primary audio coding side information */
     int j, k;
@@ -758,7 +758,7 @@ int dts_subframe_header (dts_state_t * state)
     return 0;
 }
 
-int dts_subsubframe (dts_state_t * state)
+static int dts_subsubframe (dts_state_t * state)
 {
     int k, l;
     int subsubframe = state->current_subsubframe;
@@ -983,8 +983,8 @@ int dts_subsubframe (dts_state_t * state)
     /* 32 subbands QMF */
     for (k = 0; k < state->prim_channels; k++)
     {
-        static double pcm_to_float[8] =
-            {32768.0, 32768.0, 524288.0, 524288.0, 0, 8388608.0, 8388608.0};
+        /*static double pcm_to_float[8] =
+            {32768.0, 32768.0, 524288.0, 524288.0, 0, 8388608.0, 8388608.0};*/
 
         qmf_32_subbands (state, k,
                          subband_samples[k],
@@ -1021,7 +1021,7 @@ int dts_subsubframe (dts_state_t * state)
     return 0;
 }
 
-int dts_subframe_footer (dts_state_t * state)
+static int dts_subframe_footer (dts_state_t * state)
 {
     int aux_data_count = 0, i;
     int lfe_samples;

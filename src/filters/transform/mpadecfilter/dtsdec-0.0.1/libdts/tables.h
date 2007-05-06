@@ -41,7 +41,7 @@ static const uint8_t dts_channels[] =
     1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8
 };
 
-static uint8_t dts_bits_per_sample[] =
+static const uint8_t dts_bits_per_sample[] =
 {
     16, 16, 20, 20, 0, 24, 24
 };

@@ -150,7 +150,7 @@ HRESULT CMpegSplitterFile::Init()
 	else ; // TODO: in this case disable seeking, or try doing something less drastical...
 
 #ifndef DEBUG
-	if(m_streams[video].GetCount() || m_streams[subpic].GetCount())
+	if(m_streams[video].GetCount() && m_streams[subpic].GetCount())
 	{
 		stream s;
 		s.mt.majortype = MEDIATYPE_Video;

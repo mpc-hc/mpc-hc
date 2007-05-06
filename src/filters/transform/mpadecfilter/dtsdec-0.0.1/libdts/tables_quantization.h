@@ -1,5 +1,5 @@
 /*
- * quantization.h
+ * tables_quantization.h
  * Copyright (C) 2004 Gildas Bazin <gbazin@videolan.org>
  *
  * This file is part of dtsdec, a free DTS Coherent Acoustics stream decoder.
@@ -52,6 +52,7 @@ int scale_factor_quant7[] =
   5011872, 5688529, 6456542, 7328245, 8317638,       0,       0,       0
 };
 
+/* 20bits unsigned fractional binary codes */
 int lossy_quant[] =
 {
         0, 6710886, 4194304, 3355443, 2474639, 2097152, 1761608, 1426063, 
@@ -68,6 +69,7 @@ double lossy_quant_d[] =
     0.00002, 0.00001, 0.000005,       0,       0,       0,       0,       0
 };
 
+/* 20bits unsigned fractional binary codes */
 int lossless_quant[] =
 {
         0, 4194304, 2097152, 1384120, 1048576,  696254,  524288,  348127, 

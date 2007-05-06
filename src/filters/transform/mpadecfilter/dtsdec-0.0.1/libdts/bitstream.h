@@ -43,7 +43,7 @@
 #else
 
 #   define swable32(x)\
-((((uint16_t*)&x)[0] << 16) | (((uint16_t*)&x)[1]))
+((((uint32_t)x) >> 16) | (((uint32_t)x) << 16))
 
 #endif
 
