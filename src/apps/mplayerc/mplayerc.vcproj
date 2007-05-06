@@ -1,155 +1,102 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="7.10"
 	Name="mplayerc"
 	ProjectGUID="{CEAF0A23-A949-443E-BDA4-2F025DD774F6}"
-	Keyword="MFCProj"
-	>
+	SccProjectName=""
+	SccLocalPath=""
+	Keyword="MFCProj">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32"/>
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release Unicode|Win32"
 			OutputDirectory=".\$(ConfigurationName)"
 			IntermediateDirectory=".\$(OutDir)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
 			UseOfATL="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Release_unicode/mplayerc.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="1">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				StringPooling="true"
+				StringPooling="TRUE"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
+				EnableFunctionLevelLinking="TRUE"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				AssemblerListingLocation=".\$(OutDir)/"
 				ObjectFile=".\$(OutDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
-			/>
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib dxguid.lib Dsound.lib strmbaseRU.lib dsutilRU.lib subpicRU.lib subtitlesRU.lib asyncreaderRU.lib audioswitcherRU.lib avi2ac3filterRU.lib bufferfilterRU.lib cddareaderRU.lib cdxareaderRU.lib d2vsourceRU.lib decssfilterRU.lib flicsourceRU.lib dtsac3sourceRU.lib basesourceRU.lib wavdestRU.lib shoutcastsourceRU.lib streamdrivethruRU.lib vtsreaderRU.lib basesplitterRU.lib MatroskaSplitterRU.lib MatroskaMuxerRU.lib RealMediaSplitterRU.lib AviSplitterRU.lib Mpeg2DecFilterRU.lib MpaDecFilterRU.lib RoQSplitterRU.lib OggSplitterRU.lib NutSplitterRU.lib MpegSplitterRU.lib DiracSplitterRU.lib MpaSplitterRU.lib DSMSplitterRU.lib BaseMuxerRU.lib DSMMuxerRU.lib zlibR.lib subtitlesourceRU.lib strmiids.lib MP4SplitterRU.lib udpreaderRU.lib Psapi.lib setupapi.lib"
+				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib dxguid.lib Dsound.lib strmbaseRU.lib dsutilRU.lib subpicRU.lib subtitlesRU.lib asyncreaderRU.lib audioswitcherRU.lib avi2ac3filterRU.lib bufferfilterRU.lib cddareaderRU.lib cdxareaderRU.lib d2vsourceRU.lib decssfilterRU.lib flicsourceRU.lib dtsac3sourceRU.lib basesourceRU.lib wavdestRU.lib shoutcastsourceRU.lib streamdrivethruRU.lib vtsreaderRU.lib basesplitterRU.lib MatroskaSplitterRU.lib MatroskaMuxerRU.lib RealMediaSplitterRU.lib AviSplitterRU.lib Mpeg2DecFilterRU.lib MpaDecFilterRU.lib RadGtSplitterRU.lib RoQSplitterRU.lib OggSplitterRU.lib NutSplitterRU.lib MpegSplitterRU.lib DiracSplitterRU.lib MpaSplitterRU.lib DSMSplitterRU.lib BaseMuxerRU.lib DSMMuxerRU.lib zlibR.lib subtitlesourceRU.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../../lib;../../../lib/wm7;../../../lib/qt6;../../../lib/detours"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				SupportUnloadOfDelayLoadedDLL="true"
-			/>
+				SupportUnloadOfDelayLoadedDLL="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Release_unicode/mplayerc.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="..\..\..\bin\upx.exe --best &quot;$(TargetPath)&quot;"
-				ExcludedFromBuild="true"
-			/>
+				ExcludedFromBuild="TRUE"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=""/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug Unicode|Win32"
 			OutputDirectory=".\$(ConfigurationName)"
 			IntermediateDirectory=".\$(OutDir)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="2"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="1">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -157,202 +104,143 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;pascal="
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				AssemblerListingLocation=".\$(OutDir)/"
 				ObjectFile=".\$(OutDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-			/>
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_AFXDLL;_DEBUG"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib zlibD.lib strmiids.lib MP4SplitterDU.lib udpreaderDU.lib Psapi.lib setupapi.lib"
+				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RadGtSplitterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib zlibD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../../lib;../../../lib/wm7;../../../lib/qt6;../../../lib/detours"
-				IgnoreDefaultLibraryNames="MSVCRT;LIBCMT;MSVCR71D"
+				IgnoreDefaultLibraryNames="MSVCRT;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
-				SubSystem="2"
-			/>
+				SubSystem="2"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_AFXDLL;_DEBUG"
+				Culture="1033"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\$(ConfigurationName)"
 			IntermediateDirectory=".\$(OutDir)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Release/mplayerc.tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				StringPooling="true"
+				StringPooling="TRUE"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
+				EnableFunctionLevelLinking="TRUE"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				AssemblerListingLocation=".\$(OutDir)/"
 				ObjectFile=".\$(OutDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories=""
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib Dsound.lib dxguid.lib strmbaseR.lib dsutilR.lib subpicR.lib subtitlesR.lib asyncreaderR.lib audioswitcherR.lib avi2ac3filterR.lib bufferfilterR.lib cddareaderR.lib cdxareaderR.lib d2vsourceR.lib decssfilterR.lib flicsourceR.lib dtsac3sourceR.lib basesourceR.lib wavdestR.lib shoutcastsourceR.lib streamdrivethruR.lib vtsreaderR.lib basesplitterR.lib MatroskaSplitterR.lib MatroskaMuxerR.lib RealMediaSplitterR.lib AviSplitterR.lib Mpeg2DecFilterR.lib MpaDecFilterR.lib RadGtSplitterR.lib RoQSplitterR.lib OggSplitterR.lib NutSplitterR.lib MpegSplitterR.lib DiracSplitterR.lib MpaSplitterR.lib DSMSplitterR.lib BaseMuxerR.lib DSMMuxerR.lib zlibR.lib subtitlesourceR.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../../lib;../../../lib/wm7;../../../lib/qt6;../../../lib/detours"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				SupportUnloadOfDelayLoadedDLL="true"
-			/>
+				SupportUnloadOfDelayLoadedDLL="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Release/mplayerc.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="..\..\..\bin\upx.exe --best &quot;$(TargetPath)&quot;"
-				ExcludedFromBuild="true"
-			/>
+				ExcludedFromBuild="TRUE"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=""/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\$(ConfigurationName)"
 			IntermediateDirectory=".\$(OutDir)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="2"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"
-			/>
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -360,130 +248,92 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
+				ForceConformanceInForLoopScope="TRUE"
+				RuntimeTypeInfo="TRUE"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				AssemblerListingLocation=".\$(OutDir)/"
 				ObjectFile=".\$(OutDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
-			/>
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_AFXDLL;_DEBUG"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="Delayimp.lib detours.lib qtmlClient.lib wmstub.lib d3dx9.lib Dsound.lib dxguid.lib strmbaseD.lib dsutilD.lib subpicD.lib subtitlesD.lib asyncreaderD.lib audioswitcherD.lib avi2ac3filterD.lib bufferfilterD.lib cddareaderD.lib cdxareaderD.lib d2vsourceD.lib decssfilterD.lib flicsourceD.lib dtsac3sourceD.lib basesourceD.lib subtitlesourceD.lib wavdestD.lib shoutcastsourceD.lib streamdrivethruD.lib vtsreaderD.lib basesplitterD.lib MatroskaSplitterD.lib MatroskaMuxerD.lib RealMediaSplitterD.lib AviSplitterD.lib Mpeg2DecFilterD.lib MpaDecFilterD.lib RadGtSplitterD.lib RoQSplitterD.lib OggSplitterD.lib NutSplitterD.lib MpegSplitterD.lib DiracSplitterD.lib MpaSplitterD.lib DSMSplitterD.lib BaseMuxerD.lib DSMMuxerD.lib zlibD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
+				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../../lib;../../../lib/wm7;../../../lib/qt6;../../../lib/detours"
 				IgnoreDefaultLibraryNames="MSVCRT;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
-				SubSystem="2"
-			/>
+				SubSystem="2"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_AFXDLL;_DEBUG"
+				Culture="1033"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="ResourceDLL|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			>
+			ConfigurationType="2">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCCLCompilerTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				ResourceOnlyDLL="true"
-			/>
+				ResourceOnlyDLL="TRUE"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -491,2184 +341,1525 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-			>
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\AuthDlg.cpp"
-				>
+				RelativePath=".\AuthDlg.cpp">
 			</File>
 			<File
-				RelativePath="BaseGraph.cpp"
-				>
+				RelativePath="BaseGraph.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ChildView.cpp"
-				>
+				RelativePath=".\ChildView.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ComPropertyPage.cpp"
-				>
+				RelativePath="ComPropertyPage.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ComPropertySheet.cpp"
-				>
+				RelativePath="ComPropertySheet.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ConvertChapDlg.cpp"
-				>
+				RelativePath=".\ConvertChapDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\ConvertDlg.cpp"
-				>
+				RelativePath=".\ConvertDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\ConvertPropsDlg.cpp"
-				>
+				RelativePath=".\ConvertPropsDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\ConvertResDlg.cpp"
-				>
+				RelativePath=".\ConvertResDlg.cpp">
 			</File>
 			<File
-				RelativePath="CShockwaveFlash.cpp"
-				>
+				RelativePath="CShockwaveFlash.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\D3DFont.cpp"
-				>
+				RelativePath=".\DeinterlacerFilter.cpp">
 			</File>
 			<File
-				RelativePath=".\DeinterlacerFilter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="DX7AllocatorPresenter.cpp"
-				>
+				RelativePath="DX7AllocatorPresenter.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DX9AllocatorPresenter.cpp"
-				>
+				RelativePath="DX9AllocatorPresenter.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FakeFilterMapper2.cpp"
-				>
+				RelativePath=".\FakeFilterMapper2.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FavoriteAddDlg.cpp"
-				>
+				RelativePath="FavoriteAddDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FavoriteOrganizeDlg.cpp"
-				>
+				RelativePath="FavoriteOrganizeDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FGFilter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FGManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="FileDropTarget.cpp"
-				>
+				RelativePath="FileDropTarget.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FloatEdit.cpp"
-				>
+				RelativePath="FloatEdit.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FullscreenWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="GoToDlg.cpp"
-				>
+				RelativePath="GoToDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\ShuttlePN31\Common\Interface.c"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\filters\InternalPropertyPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IPinHook.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ISDb.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\jpeg.cpp"
-				>
-			</File>
-			<File
-				RelativePath="KeyProvider.cpp"
-				>
+				RelativePath="GraphBuilder.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\LineNumberEdit.cpp"
-				>
+				RelativePath=".\ISDb.cpp">
 			</File>
 			<File
-				RelativePath=".\MacrovisionKicker.cpp"
-				>
+				RelativePath=".\jpeg.cpp">
+			</File>
+			<File
+				RelativePath="KeyProvider.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MainFrm.cpp"
-				>
+				RelativePath=".\LineNumberEdit.cpp">
+			</File>
+			<File
+				RelativePath=".\MacrovisionKicker.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MediaFormats.cpp"
-				>
+				RelativePath=".\MainFrm.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MediaTypesDlg.cpp"
-				>
+				RelativePath="MediaFormats.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\mplayerc.cpp"
-				>
+				RelativePath="MediaTypesDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\mplayerc.rc"
-				>
-			</File>
-			<File
-				RelativePath="OpenCapDeviceDlg.cpp"
-				>
+				RelativePath=".\mplayerc.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="OpenDlg.cpp"
-				>
+				RelativePath=".\mplayerc.rc">
+			</File>
+			<File
+				RelativePath="OpenCapDeviceDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\OpenFileDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\filters\PinInfoWnd.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PixelShaderCompiler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PlayerCaptureBar.cpp"
-				>
+				RelativePath="OpenDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerCaptureDialog.cpp"
-				>
+				RelativePath="PlayerCaptureBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerInfoBar.cpp"
-				>
+				RelativePath="PlayerCaptureDialog.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerListCtrl.cpp"
-				>
+				RelativePath="PlayerInfoBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerPlaylistBar.cpp"
-				>
+				RelativePath="PlayerListCtrl.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerSeekBar.cpp"
-				>
+				RelativePath="PlayerPlaylistBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PlayerShaderEditorBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PlayerStatusBar.cpp"
-				>
+				RelativePath="PlayerSeekBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerSubresyncBar.cpp"
-				>
+				RelativePath="PlayerStatusBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerToolBar.cpp"
-				>
+				RelativePath="PlayerSubresyncBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Playlist.cpp"
-				>
+				RelativePath="PlayerToolBar.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PnSPresetsDlg.cpp"
-				>
+				RelativePath="Playlist.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageAccelTbl.cpp"
-				>
+				RelativePath="PnSPresetsDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageAudioSwitcher.cpp"
-				>
+				RelativePath="PPageAccelTbl.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageBase.cpp"
-				>
+				RelativePath=".\PPageAudioDecoder.cpp">
+			</File>
+			<File
+				RelativePath="PPageAudioSwitcher.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageCasimir.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PPageDVD.cpp"
-				>
+				RelativePath="PPageBase.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageExternalFilters.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PPageFileInfoClip.cpp"
-				>
+				RelativePath="PPageDVD.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageFileInfoDetails.cpp"
-				>
+				RelativePath="PPageFileInfoClip.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageFileInfoRes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PPageFileInfoSheet.cpp"
-				>
+				RelativePath="PPageFileInfoDetails.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageFormats.cpp"
-				>
+				RelativePath=".\PPageFileInfoRes.cpp">
+			</File>
+			<File
+				RelativePath="PPageFileInfoSheet.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageInternalFilters.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PPageLogo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PPageOutput.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PPagePlayback.cpp"
-				>
+				RelativePath="PPageFilters.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPagePlayer.cpp"
-				>
+				RelativePath="PPageFormats.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageSheet.cpp"
-				>
+				RelativePath=".\PPageLogo.cpp">
+			</File>
+			<File
+				RelativePath=".\PPageMpegDecoder.cpp">
+			</File>
+			<File
+				RelativePath=".\PPageOutput.cpp">
+			</File>
+			<File
+				RelativePath=".\PPageOverrides.cpp">
+			</File>
+			<File
+				RelativePath="PPagePlayback.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageSubDB.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PPageSubStyle.cpp"
-				>
+				RelativePath="PPagePlayer.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageSubtitles.cpp"
-				>
+				RelativePath="PPageRealMediaQuickTime.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageTweaks.cpp"
-				>
+				RelativePath="PPageSheet.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageWebServer.cpp"
-				>
+				RelativePath=".\PPageSubDB.cpp">
 			</File>
 			<File
-				RelativePath="QuicktimeGraph.cpp"
-				>
+				RelativePath="PPageSubStyle.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaGraph.cpp"
-				>
+				RelativePath="PPageSubtitles.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaWindowlessSite.cpp"
-				>
+				RelativePath="PPageTweaks.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RegFilterChooserDlg.cpp"
-				>
+				RelativePath=".\PPageWebServer.cpp">
+			</File>
+			<File
+				RelativePath="QuicktimeGraph.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="SaveDlg.cpp"
-				>
+				RelativePath="RealMediaGraph.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="SaveTextFileDialog.cpp"
-				>
+				RelativePath="RealMediaWindowlessSite.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\SaveThumbnailsDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="SelectMediaType.cpp"
-				>
+				RelativePath="RegFilterChooserDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ShaderAutoCompleteDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShaderCombineDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShaderEditorDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath="ShockwaveGraph.cpp"
-				>
+				RelativePath="SaveDlg.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\ShuttlePN31\Common\ShuttlePN31Client.cpp"
-				>
-			</File>
-			<File
-				RelativePath="StaticLink.cpp"
-				>
+				RelativePath="SaveTextFileDialog.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="StatusLabel.cpp"
-				>
+				RelativePath="SelectMediaType.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StdAfx.cpp"
-				>
+				RelativePath=".\ShaderAutoCompleteDlg.cpp">
+			</File>
+			<File
+				RelativePath=".\ShaderEditorDlg.cpp">
+			</File>
+			<File
+				RelativePath="ShockwaveGraph.cpp">
 				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCLCompilerTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="StaticLink.cpp">
+				<FileConfiguration
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCLCompilerTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="StatusLabel.cpp">
+				<FileConfiguration
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCLCompilerTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\StdAfx.cpp">
+				<FileConfiguration
+					Name="Release Unicode|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
+					Name="Debug Unicode|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
+						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\SubtitleDlDlg.cpp"
-				>
+				RelativePath=".\SubtitleDlDlg.cpp">
 			</File>
 			<File
-				RelativePath="TextPassThruFilter.cpp"
-				>
+				RelativePath="TextPassThruFilter.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\VMROSD.cpp"
-				>
-			</File>
-			<File
-				RelativePath="VolumeCtrl.cpp"
-				>
+				RelativePath="VolumeCtrl.cpp">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCLCompilerTool"
-					/>
+						Name="VCCLCompilerTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\WebClientSocket.cpp"
-				>
+				RelativePath=".\WebClientSocket.cpp">
 			</File>
 			<File
-				RelativePath=".\WebServer.cpp"
-				>
+				RelativePath=".\WebServer.cpp">
 			</File>
 			<File
-				RelativePath=".\WebServerSocket.cpp"
-				>
+				RelativePath=".\WebServerSocket.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl"
-			>
+			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath=".\AuthDlg.h"
-				>
+				RelativePath=".\AuthDlg.h">
 			</File>
 			<File
-				RelativePath="BaseGraph.h"
-				>
+				RelativePath="BaseGraph.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ChildView.h"
-				>
+				RelativePath=".\ChildView.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ComPropertyPage.h"
-				>
+				RelativePath="ComPropertyPage.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ComPropertySheet.h"
-				>
+				RelativePath="ComPropertySheet.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ConvertChapDlg.h"
-				>
+				RelativePath=".\ConvertChapDlg.h">
 			</File>
 			<File
-				RelativePath=".\ConvertDlg.h"
-				>
+				RelativePath=".\ConvertDlg.h">
 			</File>
 			<File
-				RelativePath=".\ConvertPropsDlg.h"
-				>
+				RelativePath=".\ConvertPropsDlg.h">
 			</File>
 			<File
-				RelativePath=".\ConvertResDlg.h"
-				>
+				RelativePath=".\ConvertResDlg.h">
 			</File>
 			<File
-				RelativePath="CShockwaveFlash.h"
-				>
+				RelativePath="CShockwaveFlash.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\D3DFont.h"
-				>
+				RelativePath=".\DeinterlacerFilter.h">
 			</File>
 			<File
-				RelativePath=".\DeinterlacerFilter.h"
-				>
-			</File>
-			<File
-				RelativePath="DX7AllocatorPresenter.h"
-				>
+				RelativePath="DX7AllocatorPresenter.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DX9AllocatorPresenter.h"
-				>
+				RelativePath="DX9AllocatorPresenter.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FakeFilterMapper2.h"
-				>
+				RelativePath=".\FakeFilterMapper2.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FavoriteAddDlg.h"
-				>
+				RelativePath="FavoriteAddDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FavoriteOrganizeDlg.h"
-				>
+				RelativePath="FavoriteOrganizeDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FGFilter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FGManager.h"
-				>
-			</File>
-			<File
-				RelativePath="FileDropTarget.h"
-				>
+				RelativePath="FileDropTarget.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FloatEdit.h"
-				>
+				RelativePath="FloatEdit.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\FullscreenWnd.h"
-				>
-			</File>
-			<File
-				RelativePath="GoToDlg.h"
-				>
+				RelativePath="GoToDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\IGraphBuilder2.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ShuttlePN31\Common\Interface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IPinHook.h"
-				>
-			</File>
-			<File
-				RelativePath="IQTVideoSurface.h"
-				>
+				RelativePath="GraphBuilder.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ISDb.h"
-				>
-			</File>
-			<File
-				RelativePath=".\jpeg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\jpeg_tables.h"
-				>
-			</File>
-			<File
-				RelativePath="KeyProvider.h"
-				>
+				RelativePath="IQTVideoSurface.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\LineNumberEdit.h"
-				>
+				RelativePath=".\ISDb.h">
 			</File>
 			<File
-				RelativePath=".\MacrovisionKicker.h"
-				>
+				RelativePath=".\jpeg.h">
+			</File>
+			<File
+				RelativePath=".\jpeg_tables.h">
+			</File>
+			<File
+				RelativePath="KeyProvider.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MainFrm.h"
-				>
+				RelativePath=".\LineNumberEdit.h">
+			</File>
+			<File
+				RelativePath=".\MacrovisionKicker.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MediaFormats.h"
-				>
+				RelativePath=".\MainFrm.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MediaTypesDlg.h"
-				>
+				RelativePath="MediaFormats.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\mplayerc.h"
-				>
+				RelativePath="MediaTypesDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="OpenCapDeviceDlg.h"
-				>
+				RelativePath=".\mplayerc.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="OpenDlg.h"
-				>
+				RelativePath="OpenCapDeviceDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\OpenFileDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PixelShaderCompiler.h"
-				>
-			</File>
-			<File
-				RelativePath="PlayerCaptureBar.h"
-				>
+				RelativePath="OpenDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerCaptureDialog.h"
-				>
+				RelativePath="PlayerCaptureBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerInfoBar.h"
-				>
+				RelativePath="PlayerCaptureDialog.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerListCtrl.h"
-				>
+				RelativePath="PlayerInfoBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerPlaylistBar.h"
-				>
+				RelativePath="PlayerListCtrl.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerSeekBar.h"
-				>
+				RelativePath="PlayerPlaylistBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PlayerShaderEditorBar.h"
-				>
-			</File>
-			<File
-				RelativePath="PlayerStatusBar.h"
-				>
+				RelativePath="PlayerSeekBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerSubresyncBar.h"
-				>
+				RelativePath="PlayerStatusBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PlayerToolBar.h"
-				>
+				RelativePath="PlayerSubresyncBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="Playlist.h"
-				>
+				RelativePath="PlayerToolBar.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PnSPresetsDlg.h"
-				>
+				RelativePath="Playlist.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageAccelTbl.h"
-				>
+				RelativePath="PnSPresetsDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageAudioSwitcher.h"
-				>
+				RelativePath="PPageAccelTbl.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageBase.h"
-				>
+				RelativePath=".\PPageAudioDecoder.h">
+			</File>
+			<File
+				RelativePath="PPageAudioSwitcher.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageCasimir.h"
-				>
-			</File>
-			<File
-				RelativePath="PPageDVD.h"
-				>
+				RelativePath="PPageBase.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageExternalFilters.h"
-				>
-			</File>
-			<File
-				RelativePath="PPageFileInfoClip.h"
-				>
+				RelativePath="PPageDVD.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageFileInfoDetails.h"
-				>
+				RelativePath="PPageFileInfoClip.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageFileInfoRes.h"
-				>
-			</File>
-			<File
-				RelativePath="PPageFileInfoSheet.h"
-				>
+				RelativePath="PPageFileInfoDetails.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageFormats.h"
-				>
+				RelativePath=".\PPageFileInfoRes.h">
+			</File>
+			<File
+				RelativePath="PPageFileInfoSheet.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageInternalFilters.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PPageLogo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PPageOutput.h"
-				>
-			</File>
-			<File
-				RelativePath="PPagePlayback.h"
-				>
+				RelativePath="PPageFilters.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPagePlayer.h"
-				>
+				RelativePath="PPageFormats.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageSheet.h"
-				>
+				RelativePath=".\PPageLogo.h">
+			</File>
+			<File
+				RelativePath=".\PPageMpegDecoder.h">
+			</File>
+			<File
+				RelativePath=".\PPageOutput.h">
+			</File>
+			<File
+				RelativePath=".\PPageOverrides.h">
+			</File>
+			<File
+				RelativePath="PPagePlayback.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageSubDB.h"
-				>
-			</File>
-			<File
-				RelativePath="PPageSubStyle.h"
-				>
+				RelativePath="PPagePlayer.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageSubtitles.h"
-				>
+				RelativePath="PPageRealMediaQuickTime.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PPageTweaks.h"
-				>
+				RelativePath="PPageSheet.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PPageWebServer.h"
-				>
+				RelativePath=".\PPageSubDB.h">
 			</File>
 			<File
-				RelativePath="QuicktimeGraph.h"
-				>
+				RelativePath="PPageSubStyle.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaGraph.h"
-				>
+				RelativePath="PPageSubtitles.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaWindowlessSite.h"
-				>
+				RelativePath="PPageTweaks.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RegFilterChooserDlg.h"
-				>
+				RelativePath=".\PPageWebServer.h">
+			</File>
+			<File
+				RelativePath="QuicktimeGraph.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Resource.h"
-				>
+				RelativePath="RealMediaGraph.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="SaveDlg.h"
-				>
+				RelativePath="RealMediaWindowlessSite.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="SaveTextFileDialog.h"
-				>
+				RelativePath="RegFilterChooserDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\SaveThumbnailsDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="SelectMediaType.h"
-				>
+				RelativePath=".\Resource.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ShaderAutoCompleteDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShaderCombineDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShaderEditorDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="ShockwaveGraph.h"
-				>
+				RelativePath="SaveDlg.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\ShuttlePN31\Common\ShuttlePN31Client.h"
-				>
-			</File>
-			<File
-				RelativePath="StaticLink.h"
-				>
+				RelativePath="SaveTextFileDialog.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="StatusLabel.h"
-				>
+				RelativePath="SelectMediaType.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StdAfx.h"
-				>
+				RelativePath=".\ShaderAutoCompleteDlg.h">
+			</File>
+			<File
+				RelativePath=".\ShaderEditorDlg.h">
+			</File>
+			<File
+				RelativePath="ShockwaveGraph.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\SubtitleDlDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="TextPassThruFilter.h"
-				>
+				RelativePath="StaticLink.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\VMROSD.h"
-				>
-			</File>
-			<File
-				RelativePath="VolumeCtrl.h"
-				>
+				RelativePath="StatusLabel.h">
 				<FileConfiguration
 					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="TRUE">
 					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\WebClientSocket.h"
-				>
+				RelativePath=".\StdAfx.h">
+				<FileConfiguration
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\WebServer.h"
-				>
+				RelativePath=".\SubtitleDlDlg.h">
 			</File>
 			<File
-				RelativePath=".\WebServerSocket.h"
-				>
+				RelativePath="TextPassThruFilter.h">
+				<FileConfiguration
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="VolumeCtrl.h">
+				<FileConfiguration
+					Name="ResourceDLL|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\WebClientSocket.h">
+			</File>
+			<File
+				RelativePath=".\WebServer.h">
+			</File>
+			<File
+				RelativePath=".\WebServerSocket.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
+			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="res\ani.avi"
-				>
+				RelativePath="res\ani.avi">
 			</File>
 			<File
-				RelativePath=".\res\authhdrpic.bmp"
-				>
+				RelativePath=".\res\authhdrpic.bmp">
 			</File>
 			<File
-				RelativePath="res\icon.ico"
-				>
+				RelativePath="res\icon.ico">
 			</File>
 			<File
-				RelativePath="res\Icon_114.ico"
-				>
+				RelativePath="res\Icon_114.ico">
 			</File>
 			<File
-				RelativePath="res\Icon_116.ico"
-				>
+				RelativePath="res\Icon_116.ico">
 			</File>
 			<File
-				RelativePath="res\Icon_41.ico"
-				>
+				RelativePath="res\Icon_41.ico">
 			</File>
 			<File
-				RelativePath=".\res\logo.0.bmp"
-				>
+				RelativePath=".\res\id_playe.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.1.bmp"
-				>
+				RelativePath=".\res\idr_main.ico">
 			</File>
 			<File
-				RelativePath=".\res\logo.2.bmp"
-				>
+				RelativePath=".\res\logo.0.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.3.bmp"
-				>
+				RelativePath=".\res\logo.1.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.4.bmp"
-				>
+				RelativePath=".\res\logo.2.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.5.bmp"
-				>
+				RelativePath=".\res\logo.3.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.6.bmp"
-				>
+				RelativePath=".\res\logo.4.bmp">
 			</File>
 			<File
-				RelativePath=".\res\logo.7.bmp"
-				>
+				RelativePath=".\res\logo.5.bmp">
 			</File>
 			<File
-				RelativePath="res\mono.bmp"
-				>
+				RelativePath=".\res\logo.6.bmp">
 			</File>
 			<File
-				RelativePath="res\mplayerc.manifest"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ResourceDLL|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
+				RelativePath=".\res\logo.7.bmp">
 			</File>
 			<File
-				RelativePath="res\multi.ico"
-				>
+				RelativePath="res\mono.bmp">
 			</File>
 			<File
-				RelativePath="res\noaudio.bmp"
-				>
+				RelativePath="res\mplayerc.manifest">
 			</File>
 			<File
-				RelativePath="res\onoff.bmp"
-				>
+				RelativePath="res\multi.ico">
 			</File>
 			<File
-				RelativePath="res\single.ico"
-				>
+				RelativePath="res\noaudio.bmp">
 			</File>
 			<File
-				RelativePath="res\stereo.bmp"
-				>
+				RelativePath="res\onoff.bmp">
 			</File>
 			<File
-				RelativePath=".\res\streamtypes.bmp"
-				>
+				RelativePath="res\single.ico">
 			</File>
 			<File
-				RelativePath="res\toolbar1.bmp"
-				>
+				RelativePath="res\stereo.bmp">
+			</File>
+			<File
+				RelativePath=".\res\streamtypes.bmp">
+			</File>
+			<File
+				RelativePath="res\toolbar1.bmp">
 			</File>
 			<Filter
 				Name="web"
-				>
+				Filter="">
 				<File
-					RelativePath=".\res\web\1pix.gif"
-					>
+					RelativePath=".\res\web\1pix.gif">
 				</File>
 				<File
-					RelativePath=".\res\web\404.html"
-					>
+					RelativePath=".\res\web\404.html">
 				</File>
 				<File
-					RelativePath=".\res\web\bottomside.PNG"
-					>
+					RelativePath=".\res\web\bottomside.PNG">
 				</File>
 				<File
-					RelativePath=".\res\web\browser.html"
-					>
+					RelativePath=".\res\web\browser.html">
 				</File>
 				<File
-					RelativePath=".\res\web\controlback.png"
-					>
+					RelativePath=".\res\web\controlback.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttondecrate.png"
-					>
+					RelativePath=".\res\web\controlbuttondecrate.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonincrate.png"
-					>
+					RelativePath=".\res\web\controlbuttonincrate.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonpause.png"
-					>
+					RelativePath=".\res\web\controlbuttonpause.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonplay.png"
-					>
+					RelativePath=".\res\web\controlbuttonplay.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonskipback.png"
-					>
+					RelativePath=".\res\web\controlbuttonskipback.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonskipforward.png"
-					>
+					RelativePath=".\res\web\controlbuttonskipforward.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonstep.png"
-					>
+					RelativePath=".\res\web\controlbuttonstep.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonstop.png"
-					>
+					RelativePath=".\res\web\controlbuttonstop.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controls.html"
-					>
+					RelativePath=".\res\web\controls.html">
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumebar.png"
-					>
+					RelativePath=".\res\web\controlvolumebar.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumegrip.png"
-					>
+					RelativePath=".\res\web\controlvolumegrip.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumeoff.png"
-					>
+					RelativePath=".\res\web\controlvolumeoff.png">
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumeon.png"
-					>
+					RelativePath=".\res\web\controlvolumeon.png">
 				</File>
 				<File
-					RelativePath=".\res\web\default.css"
-					>
+					RelativePath=".\res\web\default.css">
 				</File>
 				<File
-					RelativePath=".\res\web\headerback.png"
-					>
+					RelativePath=".\res\web\headerback.png">
 				</File>
 				<File
-					RelativePath=".\res\web\headerclose.png"
-					>
+					RelativePath=".\res\web\headerclose.png">
 				</File>
 				<File
-					RelativePath=".\res\web\headericon.png"
-					>
+					RelativePath=".\res\web\headericon.png">
 				</File>
 				<File
-					RelativePath=".\res\web\index.html"
-					>
+					RelativePath=".\res\web\index.html">
 				</File>
 				<File
-					RelativePath=".\res\web\leftbottomside.png"
-					>
+					RelativePath=".\res\web\leftbottomside.png">
 				</File>
 				<File
-					RelativePath=".\res\web\leftside.png"
-					>
+					RelativePath=".\res\web\leftside.png">
 				</File>
 				<File
-					RelativePath=".\res\web\logo.png"
-					>
+					RelativePath=".\res\web\logo.png">
 				</File>
 				<File
-					RelativePath=".\res\web\player.html"
-					>
+					RelativePath=".\res\web\player.html">
 				</File>
 				<File
-					RelativePath=".\res\web\rightbottomside.png"
-					>
+					RelativePath=".\res\web\rightbottomside.png">
 				</File>
 				<File
-					RelativePath=".\res\web\rightside.png"
-					>
+					RelativePath=".\res\web\rightside.png">
 				</File>
 				<File
-					RelativePath=".\res\web\seekbargrip.png"
-					>
+					RelativePath=".\res\web\seekbargrip.png">
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarleft.png"
-					>
+					RelativePath=".\res\web\seekbarleft.png">
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarmid.png"
-					>
+					RelativePath=".\res\web\seekbarmid.png">
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarright.png"
-					>
+					RelativePath=".\res\web\seekbarright.png">
 				</File>
 				<File
-					RelativePath=".\res\web\sliderback.gif"
-					>
+					RelativePath=".\res\web\sliderback.gif">
 				</File>
 				<File
-					RelativePath=".\res\web\sliderbar.gif"
-					>
+					RelativePath=".\res\web\sliderbar.gif">
 				</File>
 				<File
-					RelativePath=".\res\web\slidergrip.gif"
-					>
+					RelativePath=".\res\web\slidergrip.gif">
 				</File>
 				<File
-					RelativePath=".\res\web\vbg.gif"
-					>
+					RelativePath=".\res\web\vbg.gif">
 				</File>
 				<File
-					RelativePath=".\res\web\vbs.GIF"
-					>
+					RelativePath=".\res\web\vbs.GIF">
 				</File>
 			</Filter>
 			<Filter
 				Name="shaders"
-				>
+				Filter="">
 				<File
-					RelativePath=".\res\shaders\contour.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\deinterlace (blend).psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\EdgeSharpen.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\emboss.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\empty.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\grayscale.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\invert.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\letterbox.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\procamp.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\resizer.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\sharpen.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\SharpenComplex.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\sphere.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\spotlight.psh"
-					>
-				</File>
-				<File
-					RelativePath=".\res\shaders\wave.psh"
-					>
+					RelativePath=".\res\shaders\resizer.psh">
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\History.txt"
-			>
-		</File>
-		<File
-			RelativePath=".\res\PN31Snoop.sys"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global
 			Name="DevPartner_IsInstrumented"
-			Value="1"
-		/>
+			Value="1"/>
 		<Global
 			Name="RESOURCE_FILE"
-			Value="mplayerc.rc"
-		/>
+			Value="mplayerc.rc"/>
 	</Globals>
 </VisualStudioProject>
