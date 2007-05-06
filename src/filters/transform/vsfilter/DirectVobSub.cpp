@@ -231,9 +231,9 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
 	if(lf)
 	{
 		if(lflen == sizeof(LOGFONTA))
-			strcpy(((LOGFONTA*)lf)->lfFaceName, CStringA(m_defStyle.fontName));
+			strncpy_s(((LOGFONTA*)lf)->lfFaceName, LF_FACESIZE, CStringA(m_defStyle.fontName), _TRUNCATE);
 		else if(lflen == sizeof(LOGFONTW))
-			wcscpy(((LOGFONTW*)lf)->lfFaceName, CStringW(m_defStyle.fontName));
+			wcsncpy_s(((LOGFONTW*)lf)->lfFaceName, LF_FACESIZE, CStringW(m_defStyle.fontName), _TRUNCATE);
 		else
 			return E_INVALIDARG;
 

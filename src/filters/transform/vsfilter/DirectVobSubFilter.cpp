@@ -104,7 +104,7 @@ CDirectVobSubFilter::~CDirectVobSubFilter()
 	if(m_hbm) {DeleteObject(m_hbm); m_hbm = 0;}
 	if(m_hdc) {DeleteObject(m_hdc); m_hdc = 0;}
 
-	for(int i = 0; i < m_pTextInput.GetSize(); i++) 
+	for(int i = 0; i < m_pTextInput.GetCount(); i++) 
 		delete m_pTextInput[i];
 
 	m_frd.EndThreadEvent.Set();
@@ -286,17 +286,17 @@ CBasePin* CDirectVobSubFilter::GetPin(int n)
 
 	n -= __super::GetPinCount();
 
-	if(n >= 0 && n < m_pTextInput.GetSize())
+	if(n >= 0 && n < m_pTextInput.GetCount())
 		return m_pTextInput[n]; 
 
-	n -= m_pTextInput.GetSize();
+	n -= m_pTextInput.GetCount();
 
 	return NULL;
 }
 
 int CDirectVobSubFilter::GetPinCount()
 {
-	return __super::GetPinCount() + m_pTextInput.GetSize();
+	return __super::GetPinCount() + m_pTextInput.GetCount();
 }
 
 HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName)
@@ -1313,7 +1313,7 @@ void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
 			{
 				m_pGraph->Disconnect(pPinTo);
 				m_pGraph->Disconnect(pPin);
-				m_pGraph->ConnectDirect(pPinTo, GetPin(2 + m_pTextInput.GetSize()-1), NULL);
+				m_pGraph->ConnectDirect(pPinTo, GetPin(2 + m_pTextInput.GetCount()-1), NULL);
 			}
 		}
 		EndEnumPins
@@ -1335,7 +1335,7 @@ bool CDirectVobSubFilter::Open()
 
 	m_frd.files.RemoveAll();
 
-	CStringArray paths;
+	CAtlArray<CString> paths;
 
 	for(int i = 0; i < 10; i++)
 	{
@@ -1345,10 +1345,10 @@ bool CDirectVobSubFilter::Open()
 		if(!path.IsEmpty()) paths.Add(path);
 	}
 
-	SubFiles ret;
+	CAtlArray<SubFile> ret;
 	GetSubFileNames(m_FileName, paths, ret);
 
-	for(int i = 0; i < ret.GetSize(); i++)
+	for(int i = 0; i < ret.GetCount(); i++)
 	{
 		if(m_frd.files.Find(ret[i].fn))
 			continue;
@@ -1367,6 +1367,15 @@ bool CDirectVobSubFilter::Open()
 
 		if(!pSubStream)
 		{
+			CAutoPtr<ssf::CRenderer> pSSF(new ssf::CRenderer(&m_csSubLock));
+			if(pSSF && pSSF->Open(ret[i].fn) && pSSF->GetStreamCount() > 0)
+			{
+				pSubStream = pSSF.Detach();
+			}
+		}
+	    
+		if(!pSubStream)
+		{
 			CAutoPtr<CRenderedTextSubtitle> pRTS(new CRenderedTextSubtitle(&m_csSubLock));
 			if(pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0)
 			{
@@ -1382,7 +1391,7 @@ bool CDirectVobSubFilter::Open()
 		}
 	}
 
-	for(int i = 0; i < m_pTextInput.GetSize(); i++)
+	for(int i = 0; i < m_pTextInput.GetCount(); i++)
 	{
 		if(m_pTextInput[i]->IsConnected())
 			m_pSubStreams.AddTail(m_pTextInput[i]->GetSubStream());
@@ -1530,8 +1539,8 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
 	POSITION pos = m_pSubStreams.Find(pSubStream);
 	if(!pos) m_pSubStreams.AddTail(pSubStream);
 
-	int len = m_pTextInput.GetSize();
-	for(int i = 0; i < m_pTextInput.GetSize(); i++)
+	int len = m_pTextInput.GetCount();
+	for(int i = 0; i < m_pTextInput.GetCount(); i++)
 		if(m_pTextInput[i]->IsConnected()) len--;
 
 	if(len == 0)
@@ -1567,11 +1576,11 @@ void CDirectVobSubFilter::Post_EC_OLE_EVENT(CString str, DWORD_PTR nSubtitleId)
 
 ////////////////////////////////////////////////////////////////
 
-void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CArray<HANDLE>& handles)
+void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handles)
 {
     CAutoLock cAutolock(&m_csSubLock);
 
-	for(int i = 2; i < handles.GetSize(); i++)
+	for(int i = 2; i < handles.GetCount(); i++)
 	{
 		FindCloseChangeNotification(handles[i]);
 	}
@@ -1582,7 +1591,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CArray<HANDLE>& handles)
 	handles.Add(m_frd.EndThreadEvent);
 	handles.Add(m_frd.RefreshEvent);
 
-	m_frd.mtime.SetSize(m_frd.files.GetSize());
+	m_frd.mtime.SetCount(m_frd.files.GetCount());
 
 	POSITION pos = m_frd.files.GetHeadPosition();
 	for(int i = 0; pos; i++)
@@ -1598,7 +1607,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CArray<HANDLE>& handles)
 
 		bool fFound = false;
 
-		for(int j = 0; !fFound && j < paths.GetSize(); j++)
+		for(int j = 0; !fFound && j < paths.GetCount(); j++)
 		{
 			if(paths[j] == fn) fFound = true;
 		}
@@ -1618,13 +1627,13 @@ DWORD CDirectVobSubFilter::ThreadProc()
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_LOWEST/*THREAD_PRIORITY_BELOW_NORMAL*/);
 
 	CStringArray paths;
-	CArray<HANDLE> handles;
+	CAtlArray<HANDLE> handles;
 
 	SetupFRD(paths, handles);
 
 	while(1)
 	{ 
-		DWORD idx = WaitForMultipleObjects(handles.GetSize(), handles.GetData(), FALSE, INFINITE);
+		DWORD idx = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, INFINITE);
 
 		if(idx == (WAIT_OBJECT_0 + 0)) // m_frd.hEndThreadEvent
 		{
@@ -1634,7 +1643,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 		{
 			SetupFRD(paths, handles);
 		}
-		else if(idx >= (WAIT_OBJECT_0 + 2) && idx < (WAIT_OBJECT_0 + handles.GetSize()))
+		else if(idx >= (WAIT_OBJECT_0 + 2) && idx < (WAIT_OBJECT_0 + handles.GetCount()))
 		{
 			bool fLocked = true;
 			IsSubtitleReloaderLocked(&fLocked);
@@ -1698,7 +1707,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 		}
 	}
 
-	for(int i = 2; i < handles.GetSize(); i++)
+	for(int i = 2; i < handles.GetCount(); i++)
 	{
 		FindCloseChangeNotification(handles[i]);
 	}

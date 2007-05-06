@@ -418,6 +418,29 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				type = audio;
 		}
 	}
+	else if (pid == 0x1100) // AVCHD ac3 audio
+	{
+		if(!m_streams[audio].Find(s))
+		{
+			__int64 pos = GetPos();
+
+			if(type == unknown)
+			{
+				CMpegSplitterFile::ac3hdr h;
+				if(Read(h, len, &s.mt))
+					type = audio;
+			}
+
+			Seek(pos);
+
+			if(type == unknown)
+			{
+				CMpegSplitterFile::dtshdr h;
+				if(Read(h, len, &s.mt))
+					type = audio;
+			}
+		}
+	}
 	else if(pesid == 0xbd) // private stream 1
 	{
 		if(s.pid)

@@ -25,6 +25,7 @@
 #include "resource.h"
 #include "..\..\..\subtitles\VobSubFile.h"
 #include "..\..\..\subtitles\RTS.h"
+#include "..\..\..\subtitles\SSF.h"
 #include "..\..\..\SubPic\MemSubPic.h"
 
 //
@@ -97,7 +98,7 @@ public:
 	{
 		SetThreadPriority(m_hThread, THREAD_PRIORITY_LOWEST);
 
-		CArray<HANDLE> handles;
+		CAtlArray<HANDLE> handles;
 		handles.Add(GetRequestHandle());
 
 		CString fn = GetFileName();
@@ -107,15 +108,11 @@ public:
 
 		while(1)
 		{
-			DWORD i = WaitForMultipleObjects(handles.GetSize(), handles.GetData(), FALSE, 1000);
+			DWORD i = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, 1000);
 
 			if(WAIT_OBJECT_0 == i)
 			{
 				Reply(S_OK);
-				break;
-			}
-			else if(WAIT_ABANDONED_0 == i)
-			{
 				break;
 			}
 			else if(WAIT_OBJECT_0 + 1 >= i && i <= WAIT_OBJECT_0 + handles.GetCount())
@@ -150,12 +147,18 @@ public:
 					if(h != INVALID_HANDLE_VALUE)
 					{
 						fn = fn2;
-						handles.SetSize(1);
+						handles.SetCount(1);
 						handles.Add(h);
 					}
 				}
 			}
+			else // if(WAIT_ABANDONED_0 == i || WAIT_FAILED == i)
+			{
+				break;
+			}
 		}
+
+		m_hThread = 0;
 
 		for(int i = 1; i < handles.GetCount(); i++)
 			FindCloseChangeNotification(handles[i]);
@@ -207,11 +210,24 @@ public:
 		SetFileName(_T(""));
 		m_pSubPicProvider = NULL;
 
-		if(CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock))
+		if(!m_pSubPicProvider)
 		{
-			m_pSubPicProvider = (ISubPicProvider*)rts;
-			if(rts->Open(CString(fn), CharSet)) SetFileName(fn);
-			else m_pSubPicProvider = NULL;
+			if(ssf::CRenderer* ssf = new ssf::CRenderer(&m_csSubLock))
+			{
+				m_pSubPicProvider = (ISubPicProvider*)ssf;
+				if(ssf->Open(CString(fn))) SetFileName(fn);
+				else m_pSubPicProvider = NULL;
+			}
+		}
+
+		if(!m_pSubPicProvider)
+		{
+			if(CRenderedTextSubtitle* rts = new CRenderedTextSubtitle(&m_csSubLock))
+			{
+				m_pSubPicProvider = (ISubPicProvider*)rts;
+				if(rts->Open(CString(fn), CharSet)) SetFileName(fn);
+				else m_pSubPicProvider = NULL;
+			}
 		}
 
 		return !!m_pSubPicProvider;

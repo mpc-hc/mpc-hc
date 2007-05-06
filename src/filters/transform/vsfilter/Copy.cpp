@@ -397,8 +397,8 @@ row_loop3:
 
 HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, int bpp, const GUID& subtype, DWORD black)
 {
-	int wIn = in.cx, hIn = in.cy, pitchIn = ((wIn*bpp>>3)+3)&~3;
-	int wSub = sub.cx, hSub = sub.cy, pitchSub = ((wSub*bpp>>3)+3)&~3;
+	int wIn = in.cx, hIn = in.cy, pitchIn = wIn*bpp>>3;
+	int wSub = sub.cx, hSub = sub.cy, pitchSub = wSub*bpp>>3;
 	bool fScale2x = wIn*2 <= wSub;
 
 	if(fScale2x) wIn <<= 1, hIn <<= 1;
