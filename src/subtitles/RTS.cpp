@@ -156,8 +156,8 @@ void CWord::Transform(CPoint org)
 	{
 		double x, y, z, xx, yy, zz;
 
-		x = scalex * mpPathPoints[i].x - org.x;
-		y = scaley * mpPathPoints[i].y - org.y;
+		x = scalex * (mpPathPoints[i].x + m_style.fontShiftX * mpPathPoints[i].y) - org.x;
+		y = scaley * (mpPathPoints[i].y + m_style.fontShiftY * mpPathPoints[i].x) - org.y;
 		z = 0;
 
 		xx = x*caz + y*saz;
@@ -1437,6 +1437,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			params.Add(cmd.Mid(2)), cmd = cmd.Left(2);
 		else if(!cmd.Find(L"frx") || !cmd.Find(L"fry") || !cmd.Find(L"frz"))
 			params.Add(cmd.Mid(3)), cmd = cmd.Left(3);
+		else if(!cmd.Find(L"fax") || !cmd.Find(L"fay"))
+			params.Add(cmd.Mid(3)), cmd = cmd.Left(3);
 		else if(!cmd.Find(L"fr"))
 			params.Add(cmd.Mid(2)), cmd = cmd.Left(2);
 		else if(!cmd.Find(L"fscx") || !cmd.Find(L"fscy"))
@@ -1617,6 +1619,18 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					sub->m_effects[EF_FADE] = e;
 				}
 			}
+		}
+		else if(cmd == L"fax")
+		{
+			style.fontShiftX = !p.IsEmpty()
+				? CalcAnimation(wcstod(p, NULL), style.fontShiftX, fAnimate)
+				: org.fontShiftX;
+		}
+		else if(cmd == L"fay")
+		{
+			style.fontShiftY = !p.IsEmpty()
+				? CalcAnimation(wcstod(p, NULL), style.fontShiftY, fAnimate)
+				: org.fontShiftY;
 		}
 		else if(cmd == L"fe")
 		{

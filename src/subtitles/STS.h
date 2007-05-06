@@ -49,6 +49,7 @@ public:
 	bool	fStrikeOut;
 	bool	fBlur;
 	double	fontAngleZ, fontAngleX, fontAngleY;
+	double	fontShiftX, fontShiftY;
 	int		relativeTo; // 0: window, 1: video, 2: undefined (~window)
 
 	STSStyle();
@@ -187,4 +188,5 @@ extern int CharSetLen;
 
 class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {public: CHtmlColorMap();};
 extern CHtmlColorMap g_colors;
+
 

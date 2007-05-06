@@ -771,21 +771,22 @@ bool Rasterizer::Rasterize(int xsub, int ysub, bool fBlur)
 
 ///////////////////////////////////////////////////////////////////////////
 
-#define pixmix(s) {																 \
-	int a = (((s)*(color>>24))>>6)&0xff;										 \
-	int ia = 256-a;																 \
-																				 \
-	dst[wt] = ((((dst[wt]&0x00ff00ff)*ia + (color&0x00ff00ff)*a)&0xff00ff00)>>8) \
-			| ((((dst[wt]&0x0000ff00)*ia + (color&0x0000ff00)*a)&0x00ff0000)>>8) \
-			| ((((dst[wt]>>8)&0x00ff0000)*ia)&0xff000000);						 \
-	} \
+static __forceinline void pixmix(DWORD *dst, DWORD color, DWORD alpha)
+{
+	int a = (((alpha)*(color>>24))>>12)&0xff;
+	int ia = 256-a;
+
+	*dst = ((((*dst&0x00ff00ff)*ia + (color&0x00ff00ff)*a)&0xff00ff00)>>8)
+			| ((((*dst&0x0000ff00)*ia + (color&0x0000ff00)*a)&0x00ff0000)>>8)
+			| ((((*dst>>8)&0x00ff0000)*ia)&0xff000000);
+}
 
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
 static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
 {
-	alpha = ((alpha * (color>>24)) >> 6) & 0xff;
+	alpha = ((alpha * (color>>24)) >> 12) & 0xff;
 	color &= 0xffffff;
 
 	__m128i zero = _mm_setzero_si128();
@@ -850,13 +851,13 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 			{
 				if(fBody)
 				{
-					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, s[wt*2]);
-					else for(int wt=0; wt<w; ++wt) pixmix(s[wt*2]);
+					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, s[wt*2]<<6);
+					else for(int wt=0; wt<w; ++wt) pixmix(&dst[wt], color, s[wt*2]<<6);
 				}
 				else
 				{
-					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, src[wt*2+1] - src[wt*2]);
-					else for(int wt=0; wt<w; ++wt) pixmix(src[wt*2+1] - src[wt*2]);
+					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, (src[wt*2+1] - src[wt*2])<<6);
+					else for(int wt=0; wt<w; ++wt) pixmix(&dst[wt], color, (src[wt*2+1] - src[wt*2])<<6);
 				}
 			}
 			else
@@ -869,13 +870,13 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 					for(int wt=0; wt<w; ++wt)
 					{
 						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
-						pixmix_sse2(&dst[wt], color, s[wt*2]);
+						pixmix_sse2(&dst[wt], color, s[wt*2]<<6);
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
 					{
 						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
-						pixmix(s[wt*2]);
+						pixmix(&dst[wt], color, s[wt*2]<<6);
 					}
 				}
 				else
@@ -884,13 +885,13 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 					for(int wt=0; wt<w; ++wt)
 					{
 						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];} 
-						pixmix_sse2(&dst[wt], color, src[wt*2+1] - src[wt*2]);
+						pixmix_sse2(&dst[wt], color, (src[wt*2+1] - src[wt*2])<<6);
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
 					{
 						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];} 
-						pixmix(src[wt*2+1] - src[wt*2]);
+						pixmix(&dst[wt], color, (src[wt*2+1] - src[wt*2])<<6);
 					}
 				}
 			}
@@ -901,13 +902,21 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 			{
 				if(fBody)
 				{
-					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, s[wt*2] * am[wt]);
-					else for(int wt=0; wt<w; ++wt) pixmix(s[wt*2] * am[wt]);
+					if(fSSE2)
+						for(int wt=0; wt<w; ++wt)
+							pixmix_sse2(&dst[wt], color, s[wt*2] * am[wt]);
+					else
+						for(int wt=0; wt<w; ++wt)
+							pixmix(&dst[wt], color, s[wt*2] * am[wt]);
 				}
 				else
 				{
-					if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, (src[wt*2+1] - src[wt*2]) * am[wt]);
-					else for(int wt=0; wt<w; ++wt) pixmix((src[wt*2+1] - src[wt*2]) * am[wt]);
+					if(fSSE2)
+						for(int wt=0; wt<w; ++wt)
+							pixmix_sse2(&dst[wt], color, (src[wt*2+1] - src[wt*2]) * am[wt]);
+					else
+						for(int wt=0; wt<w; ++wt)
+							pixmix(&dst[wt], color, (src[wt*2+1] - src[wt*2]) * am[wt]);
 				}
 			}
 			else
@@ -919,14 +928,20 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 					if(fSSE2) 
 					for(int wt=0; wt<w; ++wt)
 					{
-						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1])
+								sw += 2; color = sw[-2];
+						}
 						pixmix_sse2(&dst[wt], color, s[wt*2] * am[wt]);
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
 					{
-						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
-						pixmix(s[wt*2] * am[wt]);
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1])
+								sw += 2; color = sw[-2];
+						}
+						pixmix(&dst[wt], color, s[wt*2] * am[wt]);
 					}
 				}
 				else
@@ -934,14 +949,20 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 					if(fSSE2) 
 					for(int wt=0; wt<w; ++wt)
 					{
-						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];} 
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1])
+								sw += 2; color = sw[-2];
+						} 
 						pixmix_sse2(&dst[wt], color, (src[wt*2+1] - src[wt*2]) * am[wt]);
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
 					{
-						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];} 
-						pixmix((src[wt*2+1] - src[wt*2]) * am[wt]);
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1])
+								sw += 2; color = sw[-2];
+						} 
+						pixmix(&dst[wt], color, (src[wt*2+1] - src[wt*2]) * am[wt]);
 					}
 				}
 			}

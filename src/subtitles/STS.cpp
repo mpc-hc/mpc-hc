@@ -2964,7 +2964,7 @@ void STSStyle::operator = (LOGFONT& lf)
 LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 {
 	lfa.lfCharSet = s.charSet;
-	strcpy_s(lfa.lfFaceName, CStringA(s.fontName));
+	strncpy_s(lfa.lfFaceName, LF_FACESIZE, CStringA(s.fontName), _TRUNCATE);
 	HDC hDC = GetDC(0);
 	lfa.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
 	ReleaseDC(0, hDC);
@@ -2978,7 +2978,7 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 {
 	lfw.lfCharSet = s.charSet;
-	wcscpy_s(lfw.lfFaceName, CStringW(s.fontName));
+	wcsncpy_s(lfw.lfFaceName, LF_FACESIZE, CStringW(s.fontName), _TRUNCATE);
 	HDC hDC = GetDC(0);
 	lfw.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
 	ReleaseDC(0, hDC);
