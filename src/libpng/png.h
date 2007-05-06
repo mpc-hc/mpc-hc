@@ -1,15 +1,15 @@
 
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.2.10 - April 23, 2006
- * Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ * libpng version 1.2.16 - January 31, 2007
+ * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * Authors and maintainers:
  *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.2.10 - April 23, 2006: Glenn
+ *  libpng versions 0.97, January 1998, through 1.2.16 - January 31, 2007: Glenn
  *  See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -103,14 +103,14 @@
  *    1.0.16                  10    10016  10.so.0.1.0.16
  *    1.2.6                   13    10206  12.so.0.1.2.6
  *    1.2.7beta1-2            13    10207  12.so.0.1.2.7beta1-2
- *    1.0.17rc1               10    10017  12.so.0.1.0.17rc1
+ *    1.0.17rc1               10    10017  10.so.0.1.0.17rc1
  *    1.2.7rc1                13    10207  12.so.0.1.2.7rc1
- *    1.0.17                  10    10017  12.so.0.1.0.17
+ *    1.0.17                  10    10017  10.so.0.1.0.17
  *    1.2.7                   13    10207  12.so.0.1.2.7
  *    1.2.8beta1-5            13    10208  12.so.0.1.2.8beta1-5
- *    1.0.18rc1-5             10    10018  12.so.0.1.0.18rc1-5
+ *    1.0.18rc1-5             10    10018  10.so.0.1.0.18rc1-5
  *    1.2.8rc1-5              13    10208  12.so.0.1.2.8rc1-5
- *    1.0.18                  10    10018  12.so.0.1.0.18
+ *    1.0.18                  10    10018  10.so.0.1.0.18
  *    1.2.8                   13    10208  12.so.0.1.2.8
  *    1.2.9beta1-3            13    10209  12.so.0.1.2.9beta1-3
  *    1.2.9beta4-11           13    10209  12.so.0.9[.0]
@@ -119,6 +119,30 @@
  *    1.2.10beta1-8           13    10210  12.so.0.10[.0]
  *    1.2.10rc1-3             13    10210  12.so.0.10[.0]
  *    1.2.10                  13    10210  12.so.0.10[.0]
+ *    1.2.11beta1-4           13    10211  12.so.0.11[.0]
+ *    1.0.19rc1-5             10    10019  10.so.0.19[.0]
+ *    1.2.11rc1-5             13    10211  12.so.0.11[.0]
+ *    1.0.19                  10    10019  10.so.0.19[.0]
+ *    1.2.11                  13    10211  12.so.0.11[.0]
+ *    1.0.20                  10    10020  10.so.0.20[.0]
+ *    1.2.12                  13    10212  12.so.0.12[.0]
+ *    1.2.13beta1             13    10213  12.so.0.13[.0]
+ *    1.0.21                  10    10021  10.so.0.21[.0]
+ *    1.2.13                  13    10213  12.so.0.13[.0]
+ *    1.2.14beta1-2           13    10214  12.so.0.14[.0]
+ *    1.0.22rc1               10    10022  10.so.0.22[.0]
+ *    1.2.14rc1               13    10214  12.so.0.14[.0]
+ *    1.0.22                  10    10022  10.so.0.22[.0]
+ *    1.2.14                  13    10214  12.so.0.14[.0]
+ *    1.2.15beta1-6           13    10215  12.so.0.15[.0]
+ *    1.0.23rc1-5             10    10023  10.so.0.23[.0]
+ *    1.2.15rc1-5             13    10215  12.so.0.15[.0]
+ *    1.0.23                  10    10023  10.so.0.23[.0]
+ *    1.2.15                  13    10215  12.so.0.15[.0]
+ *    1.2.16beta1-2           13    10216  12.so.0.16[.0]
+ *    1.2.16rc1               13    10216  12.so.0.16[.0]
+ *    1.0.24                  10    10024  10.so.0.24[.0]
+ *    1.2.16                  13    10216  12.so.0.16[.0]
  *
  *    Henceforth the source version will match the shared-library major
  *    and minor numbers; the shared-library major version number will be
@@ -148,8 +172,8 @@
  * If you modify libpng you may insert additional notices immediately following
  * this sentence.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.2.10, April 23, 2006, are
- * Copyright (c) 2004, 2006 Glenn Randers-Pehrson, and are
+ * libpng versions 1.2.6, August 15, 2004, through 1.2.16, January 31, 2007, are
+ * Copyright (c) 2004, 2007 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
  *
@@ -260,13 +284,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    April 23, 2006
+ *    January 31, 2007
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.2.10 are Y2K compliant.  It is my belief that earlier
+ *    upward through 1.2.16 are Y2K compliant.  It is my belief that earlier
  *    versions were also Y2K compliant.
  *
  *    Libpng only has three year fields.  One is a 2-byte unsigned integer
@@ -322,9 +346,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.10"
+#define PNG_LIBPNG_VER_STRING "1.2.16"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.10 - April 23, 2006 (header)\n"
+   " libpng version 1.2.16 - January 31, 2007 (header)\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -332,7 +356,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 10
+#define PNG_LIBPNG_VER_RELEASE 16
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -360,7 +384,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10210 /* 1.2.10 */
+#define PNG_LIBPNG_VER 10216 /* 1.2.16 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -1327,10 +1351,14 @@ struct png_struct_def
 #endif
 
 /* New members added in libpng-1.2.0 */
-#if !defined(PNG_1_0_X) && defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#  if !defined(PNG_1_0_X)
+#    if defined(PNG_MMX_CODE_SUPPORTED)
    png_byte     mmx_bitdepth_threshold;
    png_uint_32  mmx_rowbytes_threshold;
+#    endif
    png_uint_32  asm_flags;
+#  endif
 #endif
 
 /* New members added in libpng-1.0.2 but first enabled by default in 1.2.0 */
@@ -1366,7 +1394,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_10;
+typedef png_structp version_1_2_16;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2472,6 +2500,7 @@ extern PNG_EXPORT(png_uint_32,png_permit_mng_features) PNGARG((png_structp
 
 /* Added to version 1.2.0 */
 #if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_MMX_CODE_SUPPORTED)
 #define PNG_ASM_FLAG_MMX_SUPPORT_COMPILED  0x01  /* not user-settable */
 #define PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU    0x02  /* not user-settable */
 #define PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  0x04
@@ -2497,6 +2526,7 @@ extern PNG_EXPORT(png_uint_32,png_permit_mng_features) PNGARG((png_structp
 
 #define PNG_SELECT_READ   1
 #define PNG_SELECT_WRITE  2
+#endif /* PNG_MMX_CODE_SUPPORTED */
 
 #if !defined(PNG_1_0_X)
 /* pngget.c */
@@ -2529,11 +2559,11 @@ extern PNG_EXPORT(void,png_set_mmx_thresholds)
    png_uint_32 mmx_rowbytes_threshold));
 
 #endif /* PNG_1_0_X */
-#endif /* PNG_ASSEMBLER_CODE_SUPPORTED */
 
 #if !defined(PNG_1_0_X)
 /* png.c, pnggccrd.c, or pngvcrd.c */
 extern PNG_EXPORT(int,png_mmx_support) PNGARG((void));
+#endif /* PNG_ASSEMBLER_CODE_SUPPORTED */
 
 /* Strip the prepended error numbers ("#nnn ") from error and warning
  * messages before passing them to the error or warning handler. */
@@ -2649,7 +2679,7 @@ extern PNG_EXPORT(void,png_save_uint_16)
 #define PNG_HAVE_IHDR               0x01
 #define PNG_HAVE_PLTE               0x02
 #define PNG_HAVE_IDAT               0x04
-#define PNG_AFTER_IDAT              0x08
+#define PNG_AFTER_IDAT              0x08 /* Have complete zlib datastream */
 #define PNG_HAVE_IEND               0x10
 #define PNG_HAVE_gAMA               0x20
 #define PNG_HAVE_cHRM               0x40
@@ -2659,6 +2689,7 @@ extern PNG_EXPORT(void,png_save_uint_16)
 #define PNG_WROTE_INFO_BEFORE_PLTE 0x400
 #define PNG_BACKGROUND_IS_GRAY     0x800
 #define PNG_HAVE_PNG_SIGNATURE    0x1000
+#define PNG_HAVE_CHUNK_AFTER_IDAT 0x2000 /* Have another chunk after IDAT */
 
 /* flags for the transformations the PNG library does on the image data */
 #define PNG_BGR                0x0001
@@ -3434,9 +3465,34 @@ PNG_EXTERN void png_do_write_intrapixel PNGARG((png_row_infop row_info,
 #endif
 
 #if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_MMX_CODE_SUPPORTED)
 /* png.c */ /* PRIVATE */
 PNG_EXTERN void png_init_mmx_flags PNGARG((png_structp png_ptr));
 #endif
+#endif
+
+#if defined(PNG_INCH_CONVERSIONS) && defined(PNG_FLOATING_POINT_SUPPORTED)
+PNG_EXTERN png_uint_32 png_get_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN png_uint_32 png_get_x_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN png_uint_32 png_get_y_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN float png_get_x_offset_inches PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN float png_get_y_offset_inches PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+#if defined(PNG_pHYs_SUPPORTED)
+PNG_EXTERN png_uint_32 png_get_pHYs_dpi PNGARG((png_structp png_ptr,
+png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
+#endif /* PNG_pHYs_SUPPORTED */
+#endif  /* PNG_INCH_CONVERSIONS && PNG_FLOATING_POINT_SUPPORTED */
+
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
 
 #endif /* PNG_INTERNAL */

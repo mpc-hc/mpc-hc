@@ -1,9 +1,9 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.2.9 April 14, 2006
+ * Last changed in libpng 1.2.15 January 5, 2007
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -16,27 +16,29 @@
 
 #if defined(PNG_READ_SUPPORTED)
 
-#if defined(_WIN32_WCE)
+#ifdef PNG_FLOATING_POINT_SUPPORTED
+#  if defined(_WIN32_WCE)
 /* strtod() function is not supported on WindowsCE */
-#  ifdef PNG_FLOATING_POINT_SUPPORTED
-__inline double strtod(const char *nptr, char **endptr)
+__inline double png_strtod(png_structp png_ptr, const char *nptr, char **endptr)
 {
    double result = 0;
    int len;
    wchar_t *str, *end;
 
    len = MultiByteToWideChar(CP_ACP, 0, nptr, -1, NULL, 0);
-   str = (wchar_t *)malloc(len * sizeof(wchar_t));
+   str = (wchar_t *)png_malloc(png_ptr, len * sizeof(wchar_t));
    if ( NULL != str )
    {
       MultiByteToWideChar(CP_ACP, 0, nptr, -1, str, len);
       result = wcstod(str, &end);
       len = WideCharToMultiByte(CP_ACP, 0, end, -1, NULL, 0, NULL, NULL);
       *endptr = (char *)nptr + (png_strlen(nptr) - len + 1);
-      free(str);
+      png_free(str);
    }
    return result;
 }
+#  else
+#    define png_strtod(p,a,b) strtod(a,b)
 #  endif
 #endif
 
@@ -90,6 +92,7 @@ png_get_uint_16(png_bytep buf)
 void /* PRIVATE */
 png_crc_read(png_structp png_ptr, png_bytep buf, png_size_t length)
 {
+   if(png_ptr == NULL) return;
    png_read_data(png_ptr, buf, length);
    png_calculate_crc(png_ptr, buf, length);
 }
@@ -276,7 +279,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
       if (ret != Z_STREAM_END)
       {
 #if !defined(PNG_NO_STDIO) && !defined(_WIN32_WCE)
-         char umsg[50];
+         char umsg[52];
 
          if (ret == Z_BUF_ERROR)
             sprintf(umsg,"Buffer error in compressed datastream in %s chunk",
@@ -829,7 +832,7 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #if defined(PNG_READ_sRGB_SUPPORTED)
-   if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_sRGB))
+   if ((info_ptr != NULL) && (info_ptr->valid & PNG_INFO_sRGB))
       {
       if (PNG_OUT_OF_RANGE(int_x_white, 31270,  1000) ||
           PNG_OUT_OF_RANGE(int_y_white, 32900,  1000) ||
@@ -840,7 +843,6 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
           PNG_OUT_OF_RANGE(int_x_blue,  15000,  1000) ||
           PNG_OUT_OF_RANGE(int_y_blue,   6000,  1000))
          {
-
             png_warning(png_ptr,
               "Ignoring incorrect cHRM value when sRGB is also present");
 #ifndef PNG_NO_CONSOLE_IO
@@ -1731,7 +1733,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    ep = buffer + 1;        /* skip unit byte */
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
-   width = strtod(ep, &vp);
+   width = png_strtod(png_ptr, ep, &vp);
    if (*vp)
    {
        png_warning(png_ptr, "malformed width string in sCAL chunk");
@@ -1754,7 +1756,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    ep++;
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
-   height = strtod(ep, &vp);
+   height = png_strtod(png_ptr, ep, &vp);
    if (*vp)
    {
        png_warning(png_ptr, "malformed height string in sCAL chunk");
@@ -2247,7 +2249,7 @@ png_check_chunk_name(png_structp png_ptr, png_bytep chunk_name)
    a zero indicates the pixel is to be skipped.  This is in addition
    to any alpha or transparency value associated with the pixel.  If
    you want all pixels to be combined, pass 0xff (255) in mask.  */
-#ifndef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#ifndef PNG_HAVE_MMX_COMBINE_ROW
 void /* PRIVATE */
 png_combine_row(png_structp png_ptr, png_bytep row, int mask)
 {
@@ -2448,10 +2450,10 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
       }
    }
 }
-#endif /* !PNG_HAVE_ASSEMBLER_COMBINE_ROW */
+#endif /* !PNG_HAVE_MMX_COMBINE_ROW */
 
 #ifdef PNG_READ_INTERLACING_SUPPORTED
-#ifndef PNG_HAVE_ASSEMBLER_READ_INTERLACE   /* else in pngvcrd.c, pnggccrd.c */
+#ifndef PNG_HAVE_MMX_READ_INTERLACE   /* else in pngvcrd.c, pnggccrd.c */
 /* OLD pre-1.0.9 interface:
 void png_do_read_interlace(png_row_infop row_info, png_bytep row, int pass,
    png_uint_32 transformations)
@@ -2677,10 +2679,10 @@ png_do_read_interlace(png_structp png_ptr)
       return;
 #endif
 }
-#endif /* !PNG_HAVE_ASSEMBLER_READ_INTERLACE */
+#endif /* !PNG_HAVE_MMX_READ_INTERLACE */
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
 
-#ifndef PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
+#ifndef PNG_HAVE_MMX_READ_FILTER_ROW
 void /* PRIVATE */
 png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
    png_bytep prev_row, int filter)
@@ -2803,7 +2805,7 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
          break;
    }
 }
-#endif /* !PNG_HAVE_ASSEMBLER_READ_FILTER_ROW */
+#endif /* !PNG_HAVE_MMX_READ_FILTER_ROW */
 
 void /* PRIVATE */
 png_read_finish_row(png_structp png_ptr)
@@ -3105,7 +3107,7 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
    if ((png_uint_32)png_ptr->rowbytes + 1 > (png_uint_32)65536L)
       png_error(png_ptr, "This image requires a row greater than 64KB");
 #endif
-   if ((png_uint_32)png_ptr->rowbytes > PNG_SIZE_MAX - 1)
+   if ((png_uint_32)png_ptr->rowbytes > (png_uint_32)(PNG_SIZE_MAX - 1))
       png_error(png_ptr, "Row has too many bytes to allocate in memory.");
    png_ptr->prev_row = (png_bytep)png_malloc(png_ptr, (png_uint_32)(
       png_ptr->rowbytes + 1));

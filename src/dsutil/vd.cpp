@@ -711,8 +711,8 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 	if(srcpitch == 0) srcpitch = w;
 
 	if((g_cpuid.m_flags & CCpuID::sse2) 
-		&& ((DWORD_PTR)srcy&15) && ((DWORD_PTR)srcu&15) && ((DWORD_PTR)srcv&15) && !(srcpitch&15) 
-		&& ((DWORD_PTR)dst&15) && !(dstpitch&15))
+        && !((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&15) 
+        && !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
 		if(!fInterlaced) yv12_yuy2_sse2(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
 		else yv12_yuy2_sse2_interlaced(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
