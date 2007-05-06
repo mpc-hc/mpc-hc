@@ -1222,7 +1222,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->m_chkbytes.AddTail(_T("0,4,,52494646,8,4,,41564958"));
 		m_source.AddTail(pFGF);
 	}
-/*
+
 	if(src & SRC_MP4)
 	{
 		pFGF = new CFGFilterInternal<CMP4SourceFilter>();
@@ -1234,7 +1234,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->m_chkbytes.AddTail(_T("3,3,,000001")); // raw mpeg4 video
 		pFGF->m_extensions.AddTail(_T(".mov"));
 		m_source.AddTail(pFGF);
-	}*/
+	}
 	
 
 	if(src & SRC_FLV)
@@ -1500,14 +1500,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 		m_transform.AddTail(pFGF);
 	}
-/*
+
 	if(src & SRC_MP4)
 	{
 		pFGF = new CFGFilterInternal<CMP4SplitterFilter>(L"MP4 Splitter", MERIT64_ABOVE_DSHOW);
 		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MP4);
 		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 		m_transform.AddTail(pFGF);
-	}*/
+	}
 
 	if(src & SRC_FLV)
 	{

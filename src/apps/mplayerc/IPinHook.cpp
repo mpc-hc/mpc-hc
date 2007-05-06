@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "IPinHook.h"
+#include "DX9AllocatorPresenter.h"
 
 REFERENCE_TIME g_tSegmentStart = 0;
 REFERENCE_TIME g_tSampleStart = 0;
@@ -35,12 +36,24 @@ static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC * This, /* [in] */ REFEREN
 
 static HRESULT ( STDMETHODCALLTYPE *ReceiveOrg )( IMemInputPinC * This, IMediaSample *pSample) = NULL;
 
-static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample *pSample)
+static HRESULT STDMETHODCALLTYPE ReceiveMineI(IMemInputPinC * This, IMediaSample *pSample)
 {
 	REFERENCE_TIME rtStart, rtStop;
 	if(pSample && SUCCEEDED(pSample->GetTime(&rtStart, &rtStop)))
 		g_tSampleStart = rtStart;
 	return ReceiveOrg(This, pSample);
+}
+
+static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample *pSample)
+{
+	// Support ffdshow queueing.
+	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with CMainFrame::OnPlayPause.
+	if(queueu_ffdshow_support)
+	{
+		CAutoLock lck(&g_ffdshowReceive);
+		return ReceiveMineI(This,pSample);
+	}
+	return ReceiveMineI(This,pSample);
 }
 
 bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)

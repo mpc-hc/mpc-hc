@@ -42,3 +42,19 @@ DEFINE_GUID(CLSID_DXRAllocatorPresenter,
 extern HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP);
 
 extern bool IsVMR9InGraph(IFilterGraph* pFG);
+
+// Support ffdshow queueing.
+// This interface is used to check version of Media Player Classic.
+// {A273C7F6-25D4-46b0-B2C8-4F7FADC44E37}
+DEFINE_GUID(IID_IVMRffdshow9,
+0xa273c7f6, 0x25d4, 0x46b0, 0xb2, 0xc8, 0x4f, 0x7f, 0xad, 0xc4, 0x4e, 0x37);
+
+MIDL_INTERFACE("A273C7F6-25D4-46b0-B2C8-4F7FADC44E37")
+IVMRffdshow9 : public IUnknown
+{
+public:
+	virtual STDMETHODIMP support_ffdshow(void) = 0;
+};
+
+extern CCritSec g_ffdshowReceive;
+extern bool queueu_ffdshow_support;

@@ -3647,7 +3647,21 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			if(!(*ppData = new BYTE[size])) return false;
 
 			hr = m_pCAP->GetDIB(*ppData, (DWORD*)&size);
-			if(FAILED(hr)) {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
+//			if(FAILED(hr)) {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
+			if(FAILED(hr))
+			{
+				OnPlayPause();GetMediaState(); // Pause and retry to support ffdshow queueing.
+				int retry = 0;
+				while(FAILED(hr) && retry < 20)
+				{
+					hr = m_pCAP->GetDIB(*ppData, (DWORD*)&size);
+					if(SUCCEEDED(hr)) break;
+					Sleep(1);
+					retry++;
+				}
+				if(FAILED(hr))
+				 {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
+			}
 		}
 		else
 		{
@@ -4824,7 +4838,6 @@ void CMainFrame::OnViewOptions()
 
 // play
 
-#include "IPinHook.h"
 
 void CMainFrame::OnPlayPlay()
 {
@@ -4870,7 +4883,7 @@ void CMainFrame::OnPlayPlay()
 	MoveVideoWindow();
 }
 
-void CMainFrame::OnPlayPause()
+void CMainFrame::OnPlayPauseI()
 {
 	if(m_iMediaLoadState == MLS_LOADED)
 	{
@@ -4896,6 +4909,19 @@ void CMainFrame::OnPlayPause()
 
 	MoveVideoWindow();
 }
+
+void CMainFrame::OnPlayPause()
+{
+	// Support ffdshow queueing.
+	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with ReceiveMine.
+	if(queueu_ffdshow_support)
+	{
+		CAutoLock lck(&g_ffdshowReceive);
+		return OnPlayPauseI();
+	}
+	OnPlayPauseI();
+}
+
 
 void CMainFrame::OnPlayPlaypause()
 {
@@ -5028,7 +5054,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 	}
 	else if(pFS && nID == ID_PLAY_FRAMESTEP)
 	{
-		if(GetMediaState() != State_Paused)
+		if(GetMediaState() != State_Paused && !queueu_ffdshow_support)
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
 		m_fFrameSteppingActive = true;

@@ -620,6 +620,7 @@ public:
 
 	afx_msg void OnPlayPlay();
 	afx_msg void OnPlayPause();
+	afx_msg void OnPlayPauseI();
 	afx_msg void OnPlayPlaypause();
 	afx_msg void OnPlayStop();
 	afx_msg void OnUpdatePlayPauseStop(CCmdUI* pCmdUI);
