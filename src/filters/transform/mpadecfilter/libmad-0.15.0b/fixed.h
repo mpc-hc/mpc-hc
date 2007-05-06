@@ -1,6 +1,6 @@
 /*
  * libmad - MPEG audio decoder library
- * Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ * Copyright (C) 2000-2004 Underbit Technologies, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -208,7 +208,22 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 	    : "cc");  \
        __result;  \
     })
-#    else
+#   elif defined(OPT_INTEL)
+/*
+ * Alternate Intel scaling that may or may not perform better.
+ */
+#    define mad_f_scale64(hi, lo)  \
+    ({ mad_fixed_t __result;  \
+       asm ("shrl %3,%1\n\t"  \
+	    "shll %4,%2\n\t"  \
+	    "orl %2,%1"  \
+	    : "=rm" (__result)  \
+	    : "0" (lo), "r" (hi),  \
+	      "I" (MAD_F_SCALEBITS), "I" (32 - MAD_F_SCALEBITS)  \
+	    : "cc");  \
+       __result;  \
+    })
+#   else
 #    define mad_f_scale64(hi, lo)  \
     ({ mad_fixed_t __result;  \
        asm ("shrdl %3,%2,%1"  \

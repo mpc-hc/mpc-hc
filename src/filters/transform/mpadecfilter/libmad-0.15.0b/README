@@ -1,6 +1,6 @@
 
  libmad - MPEG audio decoder library
- Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ Copyright (C) 2000-2004 Underbit Technologies, Inc.
 
  $Id: README 111 2003-08-31 19:00:18Z gabest $
 
@@ -238,4 +238,5 @@ COPYRIGHT
       http://www.underbit.com/products/mad/
 
 ===============================================================================
+
 

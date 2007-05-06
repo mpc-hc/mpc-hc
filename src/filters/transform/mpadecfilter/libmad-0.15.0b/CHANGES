@@ -1,10 +1,27 @@
 
  libmad - MPEG audio decoder library
- Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ Copyright (C) 2000-2004 Underbit Technologies, Inc.
 
  $Id: CHANGES 111 2003-08-31 19:00:18Z gabest $
 
 ===============================================================================
+
+Version 0.15.1 (beta)
+
+  * Updated to autoconf 2.59, automake 1.8.2, libtool 1.5.2.
+
+  * Replaced Layer III IMDCT routine with one based on a faster algorithm,
+    improving both speed and accuracy.
+
+  * Improved portability of the Huffman table initialization.
+
+  * Fixed a problem that could result in an assertion failure in layer3.c
+    due to an invalid Layer III free format bitrate.
+
+  * Improved the robustness of Layer II bitrate/mode combinations, and added
+    a new MAD_ERROR_BADMODE error enum. The allowability of low-bitrate
+    stereo streams is influenced by the --enable-strict-iso option to
+    `configure'.
 
 Version 0.15.0 (beta)
 
@@ -98,7 +115,7 @@ Version 0.13.0 (beta)
   * Eliminated `+' from asm constraints under Intel for better compatibility
     with some compilers.
 
-  * Fixed a PIC-related problem in libmad/imdct_l_arm.S.
+  * Fixed a PIC-related problem in imdct_l_arm.S.
 
   * Eliminated a static variable to make libmad thread-safe.
 
@@ -196,9 +213,9 @@ Version 0.12.0 (alpha)
   * Further developed the async API; arbitrary messages can now be passed to
     the subsidiary decoding process.
 
-  * Streamlined libmad/timer.c and extended its interface. It now has
-    support for video frame/field lengths, including output support for
-    drop-frame encoding.
+  * Streamlined timer.c and extended its interface. It now has support for
+    video frame/field lengths, including output support for drop-frame
+    encoding.
 
   * Replaced many constant integer preprocessor defines with enums.
 
@@ -318,4 +335,5 @@ Version 0.10.0 (beta)
     waste it (about 6.4K) when only decoding Layer I or Layer II.
 
 ===============================================================================
+
 

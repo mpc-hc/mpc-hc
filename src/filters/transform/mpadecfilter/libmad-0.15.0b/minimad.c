@@ -1,6 +1,6 @@
 /*
  * libmad - MPEG audio decoder library
- * Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ * Copyright (C) 2000-2004 Underbit Technologies, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -163,8 +163,8 @@ enum mad_flow output(void *data,
 /*
  * This is the error callback function. It is called whenever a decoding
  * error occurs. The error is indicated by stream->error; the list of
- * possible MAD_ERROR_* errors can be found in the mad.h (or
- * libmad/stream.h) header file.
+ * possible MAD_ERROR_* errors can be found in the mad.h (or stream.h)
+ * header file.
  */
 
 static
@@ -184,9 +184,9 @@ enum mad_flow error(void *data,
 }
 
 /*
- * This is the function called by main() above to perform all the
- * decoding. It instantiates a decoder object and configures it with the
- * input, output, and error callback functions above. A single call to
+ * This is the function called by main() above to perform all the decoding.
+ * It instantiates a decoder object and configures it with the input,
+ * output, and error callback functions above. A single call to
  * mad_decoder_run() continues until a callback function returns
  * MAD_FLOW_STOP (to stop decoding) or MAD_FLOW_BREAK (to stop decoding and
  * signal an error).

@@ -1,6 +1,6 @@
 /*
  * libmad - MPEG audio decoder library
- * Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ * Copyright (C) 2000-2004 Underbit Technologies, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ enum mad_error {
   MAD_ERROR_BADCRC	   = 0x0201,	/* CRC check failed */
   MAD_ERROR_BADBITALLOC	   = 0x0211,	/* forbidden bit allocation value */
   MAD_ERROR_BADSCALEFACTOR = 0x0221,	/* bad scalefactor index */
+  MAD_ERROR_BADMODE        = 0x0222,	/* bad bitrate/mode combination */
   MAD_ERROR_BADFRAMELEN	   = 0x0231,	/* bad frame length */
   MAD_ERROR_BADBIGVALUES   = 0x0232,	/* bad big_values count */
   MAD_ERROR_BADBLOCKTYPE   = 0x0233,	/* reserved block_type */

@@ -1,6 +1,6 @@
 
  libmad - MPEG audio decoder library
- Copyright (C) 2000-2003 Underbit Technologies, Inc.
+ Copyright (C) 2000-2004 Underbit Technologies, Inc.
 
  $Id: TODO 111 2003-08-31 19:00:18Z gabest $
 
@@ -57,7 +57,6 @@ libmad Layer I:
   - check frame length sanity
 
 libmad Layer II:
-  - check legal bitrate/mode combinations
   - check frame length sanity
 
 libmad Layer III:
@@ -67,4 +66,5 @@ libmad Layer III:
   - stereo->mono conversion optimization?
   - enable frame-at-a-time decoding
   - improve portability of huffman.c
+
 

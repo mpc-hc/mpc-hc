@@ -96,13 +96,13 @@
 #define PACKAGE_NAME "MPEG Audio Decoder"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "MPEG Audio Decoder 0.15.0b"
+#define PACKAGE_STRING "MPEG Audio Decoder 0.15.1b"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libmad"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.15.0b"
+#define PACKAGE_VERSION "0.15.1b"
 
 /* The size of a `int', as computed by sizeof. */
 #define SIZEOF_INT 4
@@ -117,7 +117,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.15.0b"
+#define VERSION "0.15.1b"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
