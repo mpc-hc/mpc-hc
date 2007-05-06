@@ -1,30 +1,38 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SniffUSB", "ui\SniffUSB.vcproj", "{396875D9-9516-4831-A637-721BF750B488}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D679B262-3E57-4D17-BA3C-67D6012AD952} = {D679B262-3E57-4D17-BA3C-67D6012AD952}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PN31Snoop", "filter\PN31Snoop.vcproj", "{D679B262-3E57-4D17-BA3C-67D6012AD952}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug win2k = Debug win2k
-		Release win2k = Release win2k
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug win2k|Win32 = Debug win2k|Win32
+		Debug win98|Win32 = Debug win98|Win32
+		Release win2k|Win32 = Release win2k|Win32
+		Release win98|Win32 = Release win98|Win32
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{396875D9-9516-4831-A637-721BF750B488}.Debug win2k.ActiveCfg = Debug win2k|Win32
-		{396875D9-9516-4831-A637-721BF750B488}.Debug win2k.Build.0 = Debug win2k|Win32
-		{396875D9-9516-4831-A637-721BF750B488}.Release win2k.ActiveCfg = Release win2k|Win32
-		{396875D9-9516-4831-A637-721BF750B488}.Release win2k.Build.0 = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k.ActiveCfg = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k.Build.0 = Debug win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k.ActiveCfg = Release win2k|Win32
-		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k.Build.0 = Release win2k|Win32
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{396875D9-9516-4831-A637-721BF750B488}.Debug win2k|Win32.ActiveCfg = Debug win2k|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Debug win2k|Win32.Build.0 = Debug win2k|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Debug win98|Win32.ActiveCfg = Debug win98|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Debug win98|Win32.Build.0 = Debug win98|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Release win2k|Win32.ActiveCfg = Release win2k|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Release win2k|Win32.Build.0 = Release win2k|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Release win98|Win32.ActiveCfg = Release win98|Win32
+		{396875D9-9516-4831-A637-721BF750B488}.Release win98|Win32.Build.0 = Release win98|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k|Win32.ActiveCfg = Debug win2k|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win2k|Win32.Build.0 = Debug win2k|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win98|Win32.ActiveCfg = Debug win98|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Debug win98|Win32.Build.0 = Debug win98|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k|Win32.ActiveCfg = Release win2k|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win2k|Win32.Build.0 = Release win2k|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win98|Win32.ActiveCfg = Release win98|Win32
+		{D679B262-3E57-4D17-BA3C-67D6012AD952}.Release win98|Win32.Build.0 = Release win98|Win32
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
