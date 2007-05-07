@@ -276,11 +276,14 @@ void CChildView::OnNcPaint()
 {
 	if(!((CMainFrame*)GetParentFrame())->IsFrameLessWindow()) 
 	{
-		CRect r;
+		CRect r, c;
 		GetWindowRect(r);
+		GetClientRect(c);
 		r.OffsetRect(-r.left, -r.top);
 
-		CWindowDC(this).Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT)); 
+		CWindowDC		dc(this);
+		dc.ExcludeClipRect(c);		// Casimir666 : prevent flashing when resizing
+		dc.Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT)); 
 	}
 }
 
