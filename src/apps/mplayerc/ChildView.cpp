@@ -278,8 +278,9 @@ void CChildView::OnNcPaint()
 	{
 		CRect r, c;
 		GetWindowRect(r);
-		GetClientRect(c);
 		r.OffsetRect(-r.left, -r.top);
+		c = r;
+		c.DeflateRect (1,1);
 
 		CWindowDC		dc(this);
 		dc.ExcludeClipRect(c);		// Casimir666 : prevent flashing when resizing
