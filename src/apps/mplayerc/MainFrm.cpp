@@ -8294,8 +8294,14 @@ void CMainFrame::CloseMediaPrivate()
 	pVW.Release(); pBV.Release();
 	pBA.Release();
 
-	if(pGB) pGB->RemoveFromROT();
-	pGB.Release();
+	if(pGB)
+	{
+		// Casimir666 : in D3D mode, fullscreen Windows should have focus to close video properly (deadlock if not...)
+		if (m_pFullscreenWnd->m_hWnd) m_pFullscreenWnd->SetActiveWindow();
+
+		pGB->RemoveFromROT();
+		pGB.Release();
+	}
 
 	m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
 
