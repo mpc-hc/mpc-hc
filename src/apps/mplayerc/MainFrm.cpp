@@ -71,6 +71,7 @@
 
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
+#include "EVRAllocatorPresenter.h"
 
 #include "..\..\subtitles\SSF.h"
 #include "ComPropertySheet.h"
@@ -7057,7 +7058,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	// CASIMIR666 todo
-	if (s.fD3DFullscreen && (s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS))
+	if (s.fD3DFullscreen && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)) )
 	{
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;

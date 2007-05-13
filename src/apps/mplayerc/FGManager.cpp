@@ -26,6 +26,7 @@
 #include "..\..\Filters\Filters.h"
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
+#include "EVRAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include <initguid.h>
 #include "..\..\..\include\moreuuids.h"
@@ -728,11 +729,11 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 					{
 						CComPtr<IMFVideoDisplayControl>		pMFVDC;
 						CComPtr<IMFVideoMixerBitmap>		pMFMB;
-						pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC);
-						m_pUnks.AddTail (pMFVDC);
+						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC)))
+							m_pUnks.AddTail (pMFVDC);
 
-						pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB);
-						m_pUnks.AddTail (pMFMB);
+						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB)))
+							m_pUnks.AddTail (pMFMB);
 
 //						CComPtr<IMFWorkQueueServices>		pMFWQS;
 //						pMFGS->GetService (MF_WORKQUEUE_SERVICES, IID_IMFWorkQueueServices, (void**)&pMFWQS);
@@ -1874,6 +1875,8 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_VMR9AllocatorPresenter, L"Video Mixing Render 9 (Renderless)", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_EVR)
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_EnhancedVideoRenderer, L"Enhanced Video Renderer", m_vrmerit));
+	else if(s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)
+		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_EVRAllocatorPresenter, L"Enhanced Video Renderer (custom presenter)", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_DXR)
 		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, L"Haali's Video Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_NULL_COMP)

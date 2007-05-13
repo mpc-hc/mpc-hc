@@ -447,6 +447,8 @@
 #define IDC_DSNULL_UNCOMP               12109
 #define IDC_DSNULL_UNCOMP2              12110
 #define IDC_EVR                         12110
+#define IDC_EVR2                        12111
+#define IDC_EVR_CUSTOM                  12111
 #define IDC_RMSYSDEF                    12120
 #define IDC_RMDX7                       12121
 #define IDC_RMDX9                       12122

@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib "
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="../../../lib;../../../lib/wm7;../../../lib/qt6;../../../lib/detours"
 				IgnoreDefaultLibraryNames="MSVCRTD;"
@@ -402,6 +402,10 @@
 			</File>
 			<File
 				RelativePath="DX9AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EVRAllocatorPresenter.cpp"
 				>
 			</File>
 			<File
@@ -774,6 +778,10 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\AllocatorCommon.h"
+				>
+			</File>
+			<File
 				RelativePath=".\AuthDlg.h"
 				>
 			</File>
@@ -823,6 +831,10 @@
 			</File>
 			<File
 				RelativePath="DX9AllocatorPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EVRAllocatorPresenter.h"
 				>
 			</File>
 			<File

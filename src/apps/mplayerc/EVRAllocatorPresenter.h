@@ -21,31 +21,7 @@
 
 #pragma once
 
+DEFINE_GUID(CLSID_EVRAllocatorPresenter, 
+0x7612b889, 0xe070, 0x4bcc, 0xb8, 0x8, 0x91, 0xcb, 0x79, 0x41, 0x74, 0xab);
 
-class CMainFrame;
-
-class CFullscreenWnd : public CWnd
-{
-	DECLARE_DYNAMIC(CFullscreenWnd)
-
-public:
-	CFullscreenWnd(CMainFrame* pMainFrame);
-	virtual ~CFullscreenWnd();
-
-	void	ShowCursor(bool bVisible);
-
-protected:
-	DECLARE_MESSAGE_MAP()
-	
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-
-	CMainFrame*			m_pMainFrame;
-	HCURSOR				m_hCursor;
-	bool				m_bCursorVisible;
-public:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-};
-
-
+HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP);

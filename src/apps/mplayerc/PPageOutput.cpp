@@ -175,6 +175,7 @@ BOOL CPPageOutput::OnInitDialog()
 	if(!IsCLSIDRegistered(CLSID_EnhancedVideoRenderer))
 	{
 		DisableRadioButton(IDC_EVR, IDC_DSSYSDEF);
+		DisableRadioButton(IDC_EVR_CUSTOM, IDC_DSSYSDEF);
 	}
 
 	if(!IsCLSIDRegistered(CLSID_DXR))

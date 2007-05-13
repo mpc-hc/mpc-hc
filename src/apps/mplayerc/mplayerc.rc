@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -707,18 +708,19 @@ IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
-    GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,142
-    CONTROL         "System Default",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,15,65,10
-    CONTROL         "Old Renderer",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,26,59,10
-    CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,37,67,10
-    CONTROL         "VMR7 (windowed)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,48,73,10
-    CONTROL         "VMR9 (windowed)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,59,73,10
-    CONTROL         "VMR7 (renderless) **",IDC_DSVMR7REN,"Button",BS_AUTORADIOBUTTON,13,70,85,10
-    CONTROL         "VMR9 (renderless) **",IDC_DSVMR9REN,"Button",BS_AUTORADIOBUTTON,13,81,85,10
-    CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,92,83,10
-    CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,103,63,10
-    CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,114,81,10
-    CONTROL         "EVR (Vista)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,125,51,10
+    GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,145
+    CONTROL         "System Default",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,13,65,10
+    CONTROL         "Old Renderer",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,24,59,10
+    CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,35,67,10
+    CONTROL         "VMR7 (windowed)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,46,73,10
+    CONTROL         "VMR9 (windowed)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,57,73,10
+    CONTROL         "VMR7 (renderless) **",IDC_DSVMR7REN,"Button",BS_AUTORADIOBUTTON,13,68,85,10
+    CONTROL         "VMR9 (renderless) **",IDC_DSVMR9REN,"Button",BS_AUTORADIOBUTTON,13,79,85,10
+    CONTROL         "Haali's Video Renderer",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,90,83,10
+    CONTROL         "Null (anything)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,101,63,10
+    CONTROL         "Null (uncompressed)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,112,81,10
+    CONTROL         "EVR (Vista / .Net3)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,122,76,10
+    CONTROL         "EVR Custom Pres.",IDC_EVR_CUSTOM,"Button",BS_AUTORADIOBUTTON,13,133,73,10
     GROUPBOX        "RealMedia Video",IDC_STATIC,105,2,89,50
     CONTROL         "System Default *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
     CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,25,55,10

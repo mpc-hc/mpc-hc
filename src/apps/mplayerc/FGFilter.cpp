@@ -24,6 +24,7 @@
 #include "..\..\DSUtil\DSUtil.h"
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
+#include "EVRAllocatorPresenter.h"
 #include "..\..\..\include\moreuuids.h"
 
 //
@@ -446,10 +447,12 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
 	if(m_clsid == CLSID_VMR7AllocatorPresenter 
 	|| m_clsid == CLSID_VMR9AllocatorPresenter 
-	|| m_clsid == CLSID_DXRAllocatorPresenter)
+	|| m_clsid == CLSID_DXRAllocatorPresenter
+	|| m_clsid == CLSID_EVRAllocatorPresenter)
 	{
 		if(SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
-		|| SUCCEEDED(CreateAP9(m_clsid, m_hWnd, &pCAP)))
+		|| SUCCEEDED(CreateAP9(m_clsid, m_hWnd, &pCAP))
+		|| SUCCEEDED(CreateEVR(m_clsid, m_hWnd, &pCAP)))
 		{
 			CComPtr<IUnknown> pRenderer;
 			if(SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer)))
