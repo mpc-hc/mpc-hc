@@ -286,7 +286,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
 
 bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 {
-	bool		bRet = true;
+	bool		bRet = false;
 
 	if (m_pVMB || m_pMFVMB)
 	{
@@ -314,7 +314,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 
 bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	bool		bRet = true;
+	bool		bRet = false;
 	if (m_pVMB || m_pMFVMB)		
 	{
 		if (m_rectCursor.PtInRect (point))
@@ -334,7 +334,7 @@ bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 
 bool CVMROSD::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	bool		bRet = true;
+	bool		bRet = false;
 
 	if (m_pVMB || m_pMFVMB)
 	{
