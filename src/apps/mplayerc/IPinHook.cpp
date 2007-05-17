@@ -72,10 +72,11 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 	pPinC->lpVtbl->NewSegment = NewSegmentMine;
 	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinC), PAGE_EXECUTE, &flOldProtect);
 
-	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinC), PAGE_WRITECOPY, &flOldProtect);
+	// Casimir666 : change sizeof(IMemInputPinC) to sizeof(IMemInputPinCVtbl) to fix crash with EVR hack on Vista!
+	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
 	if(ReceiveOrg == NULL) ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
 	pMemInputPinC->lpVtbl->Receive = ReceiveMine;
-	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinC), PAGE_EXECUTE, &flOldProtect);
+	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE, &flOldProtect);
 
 	return true;
 }
