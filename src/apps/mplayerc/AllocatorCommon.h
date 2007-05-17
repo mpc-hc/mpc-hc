@@ -33,8 +33,9 @@ namespace DSObjects
 
 		CComPtr<IDirect3D9> m_pD3D;
 		CComPtr<IDirect3DDevice9> m_pD3DDev;
-		CComPtr<IDirect3DTexture9> m_pVideoTexture[3];
-		CComPtr<IDirect3DSurface9> m_pVideoSurface[3];
+		CComPtr<IDirect3DTexture9> m_pVideoTexture[4];
+		CComPtr<IDirect3DSurface9> m_pVideoSurface[4];
+		int						   m_nCurPicture;
 		CComPtr<IDirect3DTexture9> m_pOSDTexture;
 		CComPtr<IDirect3DSurface9> m_pOSDSurface;
 		CInterfaceList<IDirect3DPixelShader9> m_pPixelShaders;
