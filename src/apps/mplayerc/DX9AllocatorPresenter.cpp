@@ -348,6 +348,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 	AppSettings& s = AfxGetAppSettings();
 
+	m_nCurPicture = 0;
 	for(int i = 0; i < countof(m_pVideoTexture); i++)
 	{
 		m_pVideoTexture[i] = NULL;
@@ -387,11 +388,11 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
 			m_NativeVideoSize.cx, m_NativeVideoSize.cy, 
 			D3DFMT_X8R8G8B8/*D3DFMT_A8R8G8B8*/, 
-			D3DPOOL_DEFAULT, &m_pVideoSurface[0], NULL)))
+			D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurPicture], NULL)))
 			return hr;
 	}
 
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[0], NULL, 0);
+	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurPicture], NULL, 0);
 
 	return S_OK;
 }
@@ -874,9 +875,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 		if(!rDstVid.IsRectEmpty())
 		{
-			if(m_pVideoTexture[0])
+			if(m_pVideoTexture[m_nCurPicture])
 			{
-				CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[0];
+				CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurPicture];
 
 				if(m_pVideoTexture[1] && m_pVideoTexture[2] && !m_pPixelShaders.IsEmpty())
 				{
@@ -899,7 +900,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					CComPtr<IDirect3DSurface9> pRT;
 					hr = m_pD3DDev->GetRenderTarget(0, &pRT);
 
-					int src = 0, dst = 1;
+					int src = 0, dst = 3;
 
 					POSITION pos = m_pPixelShaders.GetHeadPosition();
 					while(pos)
@@ -956,7 +957,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
 					rSrcVid.left &= ~1; rSrcVid.right &= ~1;
 					rSrcVid.top &= ~1; rSrcVid.bottom &= ~1;
-					hr = m_pD3DDev->StretchRect(m_pVideoSurface[0], rSrcVid, pBackBuffer, rDstVid, m_filter);
+					hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurPicture], rSrcVid, pBackBuffer, rDstVid, m_filter);
 
 					// Support ffdshow queueing
 					// m_pD3DDev->StretchRect may fail if ffdshow is using queue output samples.
@@ -1059,20 +1060,20 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 
 	D3DSURFACE_DESC desc;
 	memset(&desc, 0, sizeof(desc));
-	m_pVideoSurface[0]->GetDesc(&desc);
+	m_pVideoSurface[m_nCurPicture]->GetDesc(&desc);
 
 	DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
 	if(!lpDib) {*size = required; return S_OK;}
 	if(*size < required) return E_OUTOFMEMORY;
 	*size = required;
 
-	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[0];
+	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurPicture];
 	D3DLOCKED_RECT r;
 	if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
 	{
 		pSurface = NULL;
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
-		|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[0], pSurface))
+		|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurPicture], pSurface))
 		|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
 			return hr;
 	}
@@ -1568,14 +1569,14 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	if(!(lpAllocInfo->dwFlags & VMR9AllocFlag_TextureSurface))
 	{
 		// test if the colorspace is acceptable
-		if(FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[0], NULL, D3DTEXF_NONE)))
+		if(FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE)))
 		{
 			DeleteSurfaces();
 			return E_FAIL;
 		}
 	}
 
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[0], NULL, 0);
+	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurPicture], NULL, 0);
 
 	return hr;
 }
@@ -1647,12 +1648,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(pTexture)
 	{
-		m_pVideoSurface[0] = lpPresInfo->lpSurf;
-		if(m_pVideoTexture[0]) m_pVideoTexture[0] = pTexture;
+		m_pVideoSurface[m_nCurPicture] = lpPresInfo->lpSurf;
+		if(m_pVideoTexture[m_nCurPicture]) m_pVideoTexture[m_nCurPicture] = pTexture;
 	}
 	else
 	{
-		hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[0], NULL, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE);
 	}
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
@@ -1689,11 +1690,11 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		rcTearing.top		= 0;
 		rcTearing.right		= rcTearing.left + 4;
 		rcTearing.bottom	= m_NativeVideoSize.cy;
-		m_pD3DDev->ColorFill (m_pVideoSurface[0], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurPicture], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
 
 		rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
 		rcTearing.right	= rcTearing.left + 4;
-		m_pD3DDev->ColorFill (m_pVideoSurface[0], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurPicture], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
 
 		m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 	}
@@ -1923,9 +1924,9 @@ STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 	HRESULT hr;
 	
 	if(fRGB)
-		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceOff, src2, m_pVideoSurface[0], dst, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceOff, src2, m_pVideoSurface[m_nCurPicture], dst, D3DTEXF_NONE);
 	if(fYUY2)
-		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceYUY2, src2, m_pVideoSurface[0], dst, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceYUY2, src2, m_pVideoSurface[m_nCurPicture], dst, D3DTEXF_NONE);
 
 	Paint(true);
 
@@ -2063,7 +2064,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 		}
 	}
 
-	m_pD3DDev->StretchRect(m_pVideoSurfaceOff, NULL, m_pVideoSurface[0], NULL, D3DTEXF_NONE);
+	m_pD3DDev->StretchRect(m_pVideoSurfaceOff, NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE);
 
 	Paint(true);
 
