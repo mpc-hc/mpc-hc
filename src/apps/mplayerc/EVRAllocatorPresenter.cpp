@@ -155,6 +155,7 @@ private :
 	CComPtr<IReferenceClock>				m_pClock;
 	CComPtr<IDirect3DDeviceManager9>		m_pD3DManager;
 	CComPtr<IMFTransform>					m_pMixer;
+	CComPtr<IMediaEventSink>				m_pSink;
 
 	HANDLE									m_hEvtQuit;			// Stop rendering thread event
 	HANDLE									m_hEvtPresent;		// Render next frame (timer based or cued order)
@@ -166,6 +167,7 @@ private :
 	int										m_nFreeSlot;
 	REFERENCE_TIME							m_rtStart;
 	bool									m_fUseInternalTimer;
+	bool									m_bFlushing;
 
 	HANDLE									m_hThread[2];
 	EVRCP_STATE								m_nState;
@@ -263,10 +265,12 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_hEvtQuit		= CreateEvent (NULL, TRUE, FALSE, NULL);
 	m_hEvtPresent	= CreateEvent (NULL, FALSE, FALSE, NULL);
 	m_hEvtNewFrame	= CreateEvent (NULL, FALSE, FALSE, NULL);
-	m_hEvtFlush		= CreateEvent (NULL, FALSE, FALSE, NULL);
+	m_hEvtFlush		= CreateEvent (NULL, TRUE, FALSE, NULL);
 	m_hSemPicture	= CreateSemaphore(NULL, 0, PICTURE_SLOTS, NULL);
 	m_hSemSlot		= CreateSemaphore(NULL, PICTURE_SLOTS, PICTURE_SLOTS, NULL);
 	m_nFreeSlot		= 0;
+	m_bFlushing		= false;
+	m_fUseInternalTimer	= false;
 
 	m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 	m_hThread[1]	= ::CreateThread(NULL, 0, ProduceThread, (LPVOID)this, 0, &dwThreadId);
@@ -472,7 +476,6 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 	HRESULT						hr = S_OK;
 	int							i;
 	CComPtr<IMFMediaType>		pMediaType;
-	CComPtr<IMediaEventSink>	pSink;
 
 	switch (eMessage)
 	{
@@ -491,8 +494,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_ENDOFSTREAM :				// All input streams have ended. 
 		TRACE ("MFVP_MESSAGE_ENDOFSTREAM\n");
-		pSink = m_pEVR;
-		pSink->Notify (EC_COMPLETE, 0, 0);
+		m_pSink->Notify (EC_COMPLETE, 0, 0);
 		break;
 
 	case MFVP_MESSAGE_ENDSTREAMING :			// The EVR switched from running or paused to stopped. The presenter should free resources
@@ -501,7 +503,11 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_FLUSH :					// The presenter should discard any pending samples
 		TRACE ("MFVP_MESSAGE_FLUSH\n");
+		m_bFlushing = true;
 		SetEvent(m_hEvtFlush);
+		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
+//		ResetEvent(m_hEvtFlush);
+		m_bFlushing = false;
 		break;
 
 	case MFVP_MESSAGE_INVALIDATEMEDIATYPE :		// The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
@@ -585,8 +591,9 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 	HRESULT						hr = S_FALSE;
 	DWORD						dwStatus;
 	REFERENCE_TIME				nsSampleTime;
+	HANDLE						hEvts[] = { m_hEvtFlush , m_hSemSlot };
 
-	if (WaitForSingleObject (m_hSemSlot, 300) == WAIT_OBJECT_0)
+	if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, INFINITE) == WAIT_OBJECT_0 + 1)		// TODO : 300 ????
 	{
 		memset (&Buffer, 0, sizeof(Buffer));
 		Buffer.pSample = m_pMFSample[m_nFreeSlot];
@@ -663,6 +670,9 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
 								  __uuidof (IMFTransform), (void**)&m_pMixer, &dwObjects);
 
+	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
+								  __uuidof (IMediaEventSink ), (void**)&m_pSink, &dwObjects);
+
 	return S_OK;
 }
 
@@ -670,6 +680,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 {
 	TRACE ("EVR : CEVRAllocatorPresenter::ReleaseServicePointers\n");
 	m_pMixer	= NULL;
+	m_pSink		= NULL;
 	return S_OK;
 }
 
@@ -751,7 +762,7 @@ DWORD WINAPI CEVRAllocatorPresenter::ProduceThread(LPVOID lpParam)
 
 void CEVRAllocatorPresenter::ReadMixerThread()
 {
-	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtNewFrame };
+	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtFlush , m_hEvtNewFrame };
 	bool				bQuit		= false;
 
 	// Eat as much as you can (producer thread)
@@ -763,6 +774,15 @@ void CEVRAllocatorPresenter::ReadMixerThread()
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
+			// Discard all pending frames
+			SetEvent (m_hEvtPresent);
+			Sleep(1);
+
+			TRACE ("RenderThread ==>> Flushed\n");
+			ResetEvent (m_hEvtFlush);
+//			ASSERT (m_nCurPicture == m_nFreeSlot);
+			break;
+		case WAIT_OBJECT_0 + 2 :
 			GetImageFromMixer();
 			break;
 		}
@@ -773,7 +793,7 @@ void CEVRAllocatorPresenter::RenderThread()
 {
 	HANDLE				hAvrt;
 	DWORD				dwTaskIndex	= 0;
-	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtFlush , m_hEvtPresent};
+	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtPresent};
 	bool				bQuit		= false;
 	HRESULT				hr;
     TIMECAPS			tc;
@@ -801,19 +821,6 @@ void CEVRAllocatorPresenter::RenderThread()
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
-			// Discard all pending frames
-			while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
-			{
-				m_nCurPicture = (m_nCurPicture + 1) % PICTURE_SLOTS;
-				ReleaseSemaphore (m_hSemSlot, 1, NULL);
-				TRACE ("Discard!\n");
-				Sleep(1);				// TODO : crappy flush !
-			}
-			TRACE ("RenderThread ==>> Flushed\n");
-//			ASSERT (m_nCurPicture == m_nFreeSlot);
-			break;
-
-		case WAIT_OBJECT_0 + 2 :
 			
 			TRACE ("RenderThread ==>> Waiting buffer\n");
 			
@@ -821,26 +828,36 @@ void CEVRAllocatorPresenter::RenderThread()
 			{
 				m_pClock->GetTime(&nsCurrentTime);
 				
-				m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
-				if (m_nState == Playing)
+				if (!m_bFlushing)
 				{
-					if (nsSampleTime + m_rtStart > nsCurrentTime)
+					m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
+					if (m_nState == Playing)
 					{
-						uDelay = (nsSampleTime - nsCurrentTime + m_rtStart) / 10000;
-//ASSERT (uDelay < 300);
-						TRACE ("RenderThread ==>> Set timer %d   %I64d\n", uDelay, nsSampleTime/417188);
-						dwUser = timeSetEvent (uDelay, dwResolution, (LPTIMECALLBACK)m_hEvtPresent, NULL, TIME_CALLBACK_EVENT_SET); 
+						if (nsSampleTime + m_rtStart > nsCurrentTime)
+						{
+							uDelay = (nsSampleTime - nsCurrentTime + m_rtStart) / 10000;
+	//ASSERT (uDelay < 300);
+							TRACE ("RenderThread ==>> Set timer %d   %I64d\n", uDelay, nsSampleTime/417188);
+							dwUser = timeSetEvent (uDelay, dwResolution, (LPTIMECALLBACK)m_hEvtPresent, NULL, TIME_CALLBACK_EVENT_SET); 
+						}
+						else
+						{
+							dwUser = -1;
+							m_pcFrames++;
+							TRACE ("RenderThread ==>> immediate display   %I64d\n", nsSampleTime/417188);
+							SetEvent (m_hEvtPresent);
+						}
 					}
-					else
-					{
-						m_pcFrames++;
-						TRACE ("RenderThread ==>> immediate display   %I64d\n", nsSampleTime/417188);
-						SetEvent (m_hEvtPresent);
-					}
+					TRACE ("RenderThread ==>> Presenting\n");
+					Paint(true);
+					m_pcFramesDrawn++;
 				}
-				TRACE ("RenderThread ==>> Presenting\n");
-				Paint(true);
-				m_pcFramesDrawn++;
+				else
+				{
+					if (dwUser != -1) timeKillEvent (dwUser);
+					dwUser = -1;
+					SetEvent (m_hEvtPresent);	// Flush pending sample as soon as possible
+				}
 
 				m_nCurPicture = (m_nCurPicture + 1) % PICTURE_SLOTS;
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
