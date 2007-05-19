@@ -49,7 +49,6 @@
 #include "AllocatorCommon.h"
 
 
-#define PICTURE_SLOTS				3
 
 // dxva.dll
 typedef HRESULT (__stdcall *PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
@@ -151,14 +150,15 @@ private :
 		Playing
 	} EVRCP_STATE;
 
-	CComPtr<IBaseFilter>					m_pEVR;
+	IBaseFilter*							m_pEVR;
 	CComPtr<IReferenceClock>				m_pClock;
 	CComPtr<IDirect3DDeviceManager9>		m_pD3DManager;
 	CComPtr<IMFTransform>					m_pMixer;
 	CComPtr<IMediaEventSink>				m_pSink;
 
 	HANDLE									m_hEvtQuit;			// Stop rendering thread event
-	HANDLE									m_hEvtPresent;		// Render next frame (timer based or cued order)
+	HANDLE									m_hEvtPresent;		// Render next frame (cued order)
+	HANDLE									m_hEvtFrameTimer;	// Render next frame (timer based)
 	HANDLE									m_hEvtNewFrame;		// New frame on mixer output
 	HANDLE									m_hEvtFlush;		// Discard all buffers
 
@@ -166,8 +166,8 @@ private :
 	HANDLE									m_hSemSlot;
 	int										m_nFreeSlot;
 	REFERENCE_TIME							m_rtStart;
+	REFERENCE_TIME							m_rtPause;
 	bool									m_fUseInternalTimer;
-	bool									m_bFlushing;
 
 	HANDLE									m_hThread[2];
 	EVRCP_STATE								m_nState;
@@ -264,12 +264,12 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_nState		= Stopped;
 	m_hEvtQuit		= CreateEvent (NULL, TRUE, FALSE, NULL);
 	m_hEvtPresent	= CreateEvent (NULL, FALSE, FALSE, NULL);
+	m_hEvtFrameTimer= CreateEvent (NULL, FALSE, FALSE, NULL);
 	m_hEvtNewFrame	= CreateEvent (NULL, FALSE, FALSE, NULL);
 	m_hEvtFlush		= CreateEvent (NULL, TRUE, FALSE, NULL);
 	m_hSemPicture	= CreateSemaphore(NULL, 0, PICTURE_SLOTS, NULL);
 	m_hSemSlot		= CreateSemaphore(NULL, PICTURE_SLOTS, PICTURE_SLOTS, NULL);
 	m_nFreeSlot		= 0;
-	m_bFlushing		= false;
 	m_fUseInternalTimer	= false;
 
 	m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
@@ -303,6 +303,7 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
 	CloseHandle (m_hSemPicture);
 	CloseHandle (m_hSemSlot);
 	CloseHandle (m_hEvtPresent);
+	CloseHandle (m_hEvtFrameTimer);
 	CloseHandle (m_hEvtNewFrame);
 	CloseHandle (m_hEvtFlush);
 	CloseHandle (m_hEvtQuit);
@@ -349,7 +350,10 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 			*ppRenderer = NULL;
 		}
 		else
+		{
 			*ppRenderer = pBF.Detach();
+			m_pEVR		= (IBaseFilter*)*ppRenderer;		// TODO : trouver mieux  (addref impossible sinon pas de destruction)
+		}
 	}
 
 	return hr;
@@ -397,6 +401,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(/* [in] */ MFTIME hnsSystemTim
 	m_nState		= Playing;
 	
 	m_rtStart = llClockStartOffset;
+	m_rtPause = 0;
 	SetEvent(m_hEvtPresent);
 	TRACE ("OnClockStart  new segment : %I64d\n", llClockStartOffset);
 
@@ -413,16 +418,19 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(/* [in] */ MFTIME hnsSystemTime
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(/* [in] */ MFTIME hnsSystemTime)
 {
-	TRACE ("OnClockPause\n");
+	TRACE ("OnClockPause  %I64d\n", hnsSystemTime);
 	m_nState		= Paused;
+	m_rtPause		= hnsSystemTime;
 	
 	return S_OK;
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(/* [in] */ MFTIME hnsSystemTime)
 {
-	m_nState		= Playing;
-	m_rtStart = hnsSystemTime;
+	m_nState	= Playing;
+	m_rtStart	 = hnsSystemTime + ((m_rtPause != 0) ? - m_rtPause + m_rtStart : 0);
+//	m_rtStart	 = hnsSystemTime;
+	m_rtPause	= 0;
 	SetEvent(m_hEvtPresent);
 
 	TRACE ("OnClockRestart  new segment : %I64d\n", hnsSystemTime);
@@ -503,11 +511,10 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_FLUSH :					// The presenter should discard any pending samples
 		TRACE ("MFVP_MESSAGE_FLUSH\n");
-		m_bFlushing = true;
 		SetEvent(m_hEvtFlush);
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
+		m_rtPause = 0;
 //		ResetEvent(m_hEvtFlush);
-		m_bFlushing = false;
 		break;
 
 	case MFVP_MESSAGE_INVALIDATEMEDIATYPE :		// The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
@@ -762,7 +769,7 @@ DWORD WINAPI CEVRAllocatorPresenter::ProduceThread(LPVOID lpParam)
 
 void CEVRAllocatorPresenter::ReadMixerThread()
 {
-	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtFlush , m_hEvtNewFrame };
+	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtNewFrame };
 	bool				bQuit		= false;
 
 	// Eat as much as you can (producer thread)
@@ -774,15 +781,6 @@ void CEVRAllocatorPresenter::ReadMixerThread()
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
-			// Discard all pending frames
-			SetEvent (m_hEvtPresent);
-			Sleep(1);
-
-			TRACE ("RenderThread ==>> Flushed\n");
-			ResetEvent (m_hEvtFlush);
-//			ASSERT (m_nCurPicture == m_nFreeSlot);
-			break;
-		case WAIT_OBJECT_0 + 2 :
 			GetImageFromMixer();
 			break;
 		}
@@ -793,17 +791,19 @@ void CEVRAllocatorPresenter::RenderThread()
 {
 	HANDLE				hAvrt;
 	DWORD				dwTaskIndex	= 0;
-	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtPresent};
+	HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtFlush , m_hEvtPresent, m_hEvtFrameTimer};
+	HANDLE				hEvtsBuff[]	= { m_hEvtFlush, m_hSemPicture };
 	bool				bQuit		= false;
 	HRESULT				hr;
     TIMECAPS			tc;
 	DWORD				dwResolution;
 	MFTIME				nsSampleTime;
 	MFTIME				nsCurrentTime;
-	UINT				uDelay;
+	long				lDelay;
 	DWORD				dwUser = 0;
+	DWORD				dwObject;
 
-	// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
+	// Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
 	if (pfAvSetMmThreadCharacteristicsW)	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
 	if (pfAvSetMmThreadPriority)			pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
 
@@ -812,56 +812,61 @@ void CEVRAllocatorPresenter::RenderThread()
     dwUser		= timeBeginPeriod(dwResolution);
 
 	
-	uDelay = 50;
 	while (!bQuit)
 	{
-		switch (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, INFINITE))
+		dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, INFINITE);
+		switch (dwObject)
 		{
 		case WAIT_OBJECT_0 :
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
+			// Flush pending samples!
+			if (dwUser != -1) timeKillEvent (dwUser);
+			dwUser = -1;
+			while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
+				ReleaseSemaphore (m_hSemSlot, 1, NULL);
+			m_nCurPicture = m_nFreeSlot;
+			Sleep(1);
+			ResetEvent(m_hEvtFlush);
+			TRACE ("End flush\n");
+			break;
+
+		case WAIT_OBJECT_0 + 2 :
+		case WAIT_OBJECT_0 + 3 :
 			
+			if ((dwObject == WAIT_OBJECT_0 + 3) && (m_nState != Playing)) continue;
 			TRACE ("RenderThread ==>> Waiting buffer\n");
 			
-			if (WaitForSingleObject (m_hSemPicture, INFINITE) == WAIT_OBJECT_0)
+			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+1)
 			{
 				m_pClock->GetTime(&nsCurrentTime);
 				
-				if (!m_bFlushing)
+				m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
+				if (m_nState == Playing)
 				{
-					m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
-					if (m_nState == Playing)
+					lDelay = (nsSampleTime - nsCurrentTime + m_rtStart) / 10000;
+					if (lDelay > 0)
 					{
-						if (nsSampleTime + m_rtStart > nsCurrentTime)
-						{
-							uDelay = (nsSampleTime - nsCurrentTime + m_rtStart) / 10000;
-	//ASSERT (uDelay < 300);
-							TRACE ("RenderThread ==>> Set timer %d   %I64d\n", uDelay, nsSampleTime/417188);
-							dwUser = timeSetEvent (uDelay, dwResolution, (LPTIMECALLBACK)m_hEvtPresent, NULL, TIME_CALLBACK_EVENT_SET); 
-						}
-						else
-						{
-							dwUser = -1;
-							m_pcFrames++;
-							TRACE ("RenderThread ==>> immediate display   %I64d\n", nsSampleTime/417188);
-							SetEvent (m_hEvtPresent);
-						}
+//ASSERT (uDelay < 300);
+						TRACE ("RenderThread ==>> Set timer %d   %I64d\n", lDelay, nsSampleTime/417188);
+						dwUser = timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 					}
-					TRACE ("RenderThread ==>> Presenting\n");
-					Paint(true);
-					m_pcFramesDrawn++;
+					else
+					{
+						dwUser = -1;
+						m_pcFrames++;
+						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)\n", nsSampleTime/417188, lDelay);
+						SetEvent (m_hEvtPresent);
+					}
 				}
-				else
-				{
-					if (dwUser != -1) timeKillEvent (dwUser);
-					dwUser = -1;
-					SetEvent (m_hEvtPresent);	// Flush pending sample as soon as possible
-				}
+//				TRACE ("RenderThread ==>> Presenting\n");
+				Paint(true);
+				m_pcFramesDrawn++;
 
 				m_nCurPicture = (m_nCurPicture + 1) % PICTURE_SLOTS;
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
-				TRACE ("RenderThread ==>> Sleeping\n");
+//				TRACE ("RenderThread ==>> Sleeping\n");
 			}
 			else
 			{
