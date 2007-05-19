@@ -21,6 +21,9 @@
 
 #pragma once
 
+#define PICTURE_SLOTS				3
+#define NB_DX9_SURFACES				(PICTURE_SLOTS+1)
+
 namespace DSObjects
 {
 
@@ -33,8 +36,8 @@ namespace DSObjects
 
 		CComPtr<IDirect3D9> m_pD3D;
 		CComPtr<IDirect3DDevice9> m_pD3DDev;
-		CComPtr<IDirect3DTexture9> m_pVideoTexture[4];
-		CComPtr<IDirect3DSurface9> m_pVideoSurface[4];
+		CComPtr<IDirect3DTexture9> m_pVideoTexture[NB_DX9_SURFACES];
+		CComPtr<IDirect3DSurface9> m_pVideoSurface[NB_DX9_SURFACES];
 		int						   m_nCurPicture;
 		CComPtr<IDirect3DTexture9> m_pOSDTexture;
 		CComPtr<IDirect3DSurface9> m_pOSDSurface;
