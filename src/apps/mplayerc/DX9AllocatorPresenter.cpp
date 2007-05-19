@@ -900,7 +900,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					CComPtr<IDirect3DSurface9> pRT;
 					hr = m_pD3DDev->GetRenderTarget(0, &pRT);
 
-					int src = 0, dst = 3;
+					int src = m_nCurPicture, dst = NB_DX9_SURFACES-1, nTemp;
 
 					POSITION pos = m_pPixelShaders.GetHeadPosition();
 					while(pos)
@@ -911,8 +911,11 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 						hr = m_pD3DDev->SetPixelShader(m_pPixelShaders.GetNext(pos));
 						TextureCopy(m_pVideoTexture[src]);
 
-						if(++src > 2) src = 1;
-						if(++dst > 2) dst = 1;
+						//if(++src > 2) src = 1;
+						//if(++dst > 2) dst = 1;
+						nTemp	= src;
+						src		= dst;
+						dst		= nTemp;
 					}
 
 					hr = m_pD3DDev->SetRenderTarget(0, pRT);
