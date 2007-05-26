@@ -783,7 +783,6 @@ void CEVRAllocatorPresenter::RenderThread()
     TIMECAPS			tc;
 	DWORD				dwResolution;
 	MFTIME				nsSampleTime;
-	MFTIME				nsSampleDuration;
 	MFTIME				nsCurrentTime;
 	LONGLONG			llClockTime;
 	long				lDelay;
@@ -844,8 +843,8 @@ void CEVRAllocatorPresenter::RenderThread()
 					// Calculate wake up timer
 					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
 					m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
-					m_pMFSample[m_nCurPicture]->GetSampleDuration(&nsSampleDuration);
-					lDelay = (nsSampleTime + nsSampleDuration - llClockTime) / 10000 - 10;		// Wakup 10ms before next VSync!
+					m_pMFSample[m_nCurPicture]->GetSampleDuration(&m_rtTimePerFrame);
+					lDelay = (nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000 - 10;		// Wakup 10ms before next VSync!
 
 					if (lDelay > 0)
 					{
@@ -865,7 +864,7 @@ void CEVRAllocatorPresenter::RenderThread()
 							llPerfTotalPlay	+= (llPerfCurrent - llPerfLastFrame);
 							nNbPlayingFrame++;
 							m_piAvgFrameRate = Int32x32To64(nNbPlayingFrame, 100000000) / llPerfTotalPlay;
-							m_iJitter = ((llPerfCurrent - llPerfLastFrame) - nsSampleDuration/10)/1000;
+							m_iJitter = ((llPerfCurrent - llPerfLastFrame) - m_rtTimePerFrame/10)/1000;
 
 							llPerfLastFrame	 = llPerfCurrent;
 						}
