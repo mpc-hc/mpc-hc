@@ -216,7 +216,15 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_pD3DXLoadSurfaceFromMemory = NULL;
 	m_hDll = LoadLibrary(d3dx9_dll);
 	if(m_hDll)
+	{
 		m_pD3DXLoadSurfaceFromMemory = (D3DXLoadSurfaceFromMemoryPtr)GetProcAddress(m_hDll, "D3DXLoadSurfaceFromMemory");
+		m_pD3DXCreateLine			 = (D3DXCreateLinePtr)			 GetProcAddress(m_hDll, "D3DXCreateLine");
+	}
+
+	memset (m_pllJitter, 0, sizeof(m_pllJitter));
+	m_nNextJitter		= 0;
+	m_llLastPerf		= 0;
+	m_rtTimePerFrame	= 0;
 }
 
 CDX9AllocatorPresenter::~CDX9AllocatorPresenter() 
@@ -1017,6 +1025,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		m_VMR9AlphaBitmap.dwFlags ^= VMRBITMAP_UPDATE;
 
 	}
+
+	if (AfxGetMyApp()->m_fDisplayStats) DrawStats();
+
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 
 	if(m_fVMRSyncFix)
@@ -1030,6 +1041,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		hr = m_pD3DDev->Present(NULL, NULL, NULL, NULL);
 	else
 		hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
+
+	// Calculate the jitter!
+	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
+	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < 5*m_rtTimePerFrame))
+	{
+		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame/10;
+		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
+	}
+	m_llLastPerf = llPerf;
 
 	bool fResetDevice = false;
 
@@ -1053,6 +1073,41 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	return(true);
+}
+
+
+void CDX9AllocatorPresenter::DrawStats()
+{
+	CComPtr<ID3DXLine>	pLine;
+
+	if (m_pD3DXCreateLine && SUCCEEDED (m_pD3DXCreateLine (m_pD3DDev, &pLine)))
+	{
+		D3DXVECTOR2		Points[NB_JITTER];
+		int				nIndex;
+
+		for (int i=10; i<480; i+= 20)
+		{
+			Points[0].x = 0;
+			Points[0].y = i;
+			Points[1].x = (i-10)%80 ? 50 : 625;
+			Points[1].y = i;
+			pLine->Begin();
+			pLine->Draw (Points, 2, D3DCOLOR_XRGB(0,0,255));
+			pLine->End();
+		}
+
+		for (int i=0; i<NB_JITTER; i++)
+		{
+			nIndex = (m_nNextJitter+i-1) % NB_JITTER;
+			Points[i].x = i*5+5;
+			Points[i].y = m_pllJitter[nIndex]/500 + 250;
+		}
+		
+		pLine->SetWidth(1.0);          // Width 
+		pLine->Begin();
+		pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
+		pLine->End();
+	}
 }
 
 STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
@@ -1661,8 +1716,8 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
 	{
-		REFERENCE_TIME rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
-		m_fps = 10000000.0 / rtTimePerFrame;
+		m_rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
+		m_fps = 10000000.0 / m_rtTimePerFrame;
 
 		if(m_pSubPicQueue)
 		{
