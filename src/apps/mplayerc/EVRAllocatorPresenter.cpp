@@ -150,8 +150,7 @@ private :
 		Playing
 	} EVRCP_STATE;
 
-	IBaseFilter*							m_pEVR;
-	CComPtr<IReferenceClock>				m_pClock;
+	CComPtr<IMFClock>						m_pClock;
 	CComPtr<IDirect3DDeviceManager9>		m_pD3DManager;
 	CComPtr<IMFTransform>					m_pMixer;
 	CComPtr<IMediaEventSink>				m_pSink;
@@ -165,8 +164,6 @@ private :
 	HANDLE									m_hSemPicture;
 	HANDLE									m_hSemSlot;
 	int										m_nFreeSlot;
-	REFERENCE_TIME							m_rtStart;
-	REFERENCE_TIME							m_rtPause;
 	bool									m_fUseInternalTimer;
 
 	HANDLE									m_hThread[2];
@@ -174,12 +171,13 @@ private :
 	CComPtr<IMFSample>						m_pMFSample[PICTURE_SLOTS];
 	CComPtr<IMFMediaBuffer>					m_pMFBuffer[PICTURE_SLOTS];
 
-	int										m_pcFrames;
-	int										m_pcFramesDrawn;	// Retrieves the number of frames drawn since streaming started
-	int										m_piAvgFrameRate;
-	int										m_iJitter;
-	int										m_piAvg;
-	int										m_piDev;
+	// Stats variable for IQualProp
+	UINT									m_pcFrames;
+	UINT									m_pcFramesDrawn;	// Retrieves the number of frames drawn since streaming started
+	UINT									m_piAvgFrameRate;
+	UINT									m_iJitter;
+	UINT									m_piAvg;
+	UINT									m_piDev;
 
 	HRESULT									GetImageFromMixer();
 	void									RenderThread();
@@ -280,6 +278,7 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
 {
 	int			i;
 
+	SetEvent (m_hEvtFlush);
 	SetEvent (m_hEvtQuit);
 	if (WaitForMultipleObjects (countof(m_hThread), m_hThread, TRUE, 10000) == WAIT_TIMEOUT)
 	{
@@ -295,7 +294,6 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
 	}
 
 	m_pClock		= NULL;
-	m_pEVR			= NULL;
 	m_pD3DManager	= NULL;
 
 	for (i=0; i<2; i++)
@@ -333,8 +331,6 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		CComPtr<IMFVideoRenderer>		pMFVR;
 		CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
 
-		m_pEVR = pBF;
-
 		hr = pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
 		if(SUCCEEDED(hr)) hr = QueryInterface (__uuidof(IMFVideoPresenter), (void**)&pVP);
 		if(SUCCEEDED(hr)) hr = pMFVR->InitializeRenderer (NULL, pVP);
@@ -350,10 +346,7 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 			*ppRenderer = NULL;
 		}
 		else
-		{
 			*ppRenderer = pBF.Detach();
-			m_pEVR		= (IBaseFilter*)*ppRenderer;		// TODO : trouver mieux  (addref impossible sinon pas de destruction)
-		}
 	}
 
 	return hr;
@@ -389,57 +382,49 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 	else
 		hr = __super::NonDelegatingQueryInterface(riid, ppv);
 
-//	ASSERT (SUCCEEDED(hr));
-
 	return hr;
 }
 
 
 // IMFClockStateSink
-STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLONG llClockStartOffset)
 {
 	m_nState		= Playing;
 	
-	m_rtStart = llClockStartOffset;
-	m_rtPause = 0;
 	SetEvent(m_hEvtPresent);
-	TRACE ("OnClockStart  new segment : %I64d\n", llClockStartOffset);
+	TRACE ("OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
 
 	return S_OK;
 }
 
-STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(/* [in] */ MFTIME hnsSystemTime)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 {
-	TRACE ("OnClockStop  %I64d\n", hnsSystemTime);
+	TRACE ("OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nState		= Stopped;
 
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(/* [in] */ MFTIME hnsSystemTime)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
 {
-	TRACE ("OnClockPause  %I64d\n", hnsSystemTime);
+	TRACE ("OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nState		= Paused;
-	m_rtPause		= hnsSystemTime;
 	
 	return S_OK;
 }
 
-STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(/* [in] */ MFTIME hnsSystemTime)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(MFTIME hnsSystemTime)
 {
 	m_nState	= Playing;
-	m_rtStart	 = hnsSystemTime + ((m_rtPause != 0) ? - m_rtPause + m_rtStart : 0);
-//	m_rtStart	 = hnsSystemTime;
-	m_rtPause	= 0;
 	SetEvent(m_hEvtPresent);
 
-	TRACE ("OnClockRestart  new segment : %I64d\n", hnsSystemTime);
+	TRACE ("OnClockRestart  hnsSystemTime = %I64d\n", hnsSystemTime);
 
 	return S_OK;
 }
 
 
-STDMETHODIMP CEVRAllocatorPresenter::OnClockSetRate(/* [in] */ MFTIME hnsSystemTime, /* [in] */ float flRate)
+STDMETHODIMP CEVRAllocatorPresenter::OnClockSetRate(MFTIME hnsSystemTime, float flRate)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
@@ -491,8 +476,6 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		m_nState		= Stopped;
 		ResetStats();
 		TRACE ("MFVP_MESSAGE_BEGINSTREAMING\n");
-		m_pClock = NULL;
-		hr = m_pEVR->GetSyncSource (&m_pClock);
 		SetEvent(m_hEvtPresent);
 		break;
 
@@ -510,11 +493,10 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_FLUSH :					// The presenter should discard any pending samples
-		TRACE ("MFVP_MESSAGE_FLUSH\n");
 		SetEvent(m_hEvtFlush);
+		TRACE ("MFVP_MESSAGE_FLUSH\n");
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
-		m_rtPause = 0;
-//		ResetEvent(m_hEvtFlush);
+		SetEvent(m_hEvtPresent);
 		break;
 
 	case MFVP_MESSAGE_INVALIDATEMEDIATYPE :		// The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
@@ -559,7 +541,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
 		SetEvent (m_hEvtNewFrame);
-		TRACE ("MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
+//		TRACE ("MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
 		break;
 
 	case MFVP_MESSAGE_STEP :					// Requests a frame step.
@@ -632,14 +614,13 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
 			rcTearing.right	= rcTearing.left + 4;
 			m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
-
 			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 		}
 	
 		m_nFreeSlot = (m_nFreeSlot+1) % PICTURE_SLOTS;
 		ReleaseSemaphore (m_hSemPicture, 1, NULL);
 
-		TRACE ("New image from muxer : %I64d\n", nsSampleTime/417188);
+//		TRACE ("New image from muxer : %I64d\n", nsSampleTime/417188);
 	}
 
 	return hr;
@@ -680,6 +661,9 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
 								  __uuidof (IMediaEventSink ), (void**)&m_pSink, &dwObjects);
 
+	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE,
+								  __uuidof (IMFClock ), (void**)&m_pClock, &dwObjects);
+
 	return S_OK;
 }
 
@@ -688,6 +672,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 	TRACE ("EVR : CEVRAllocatorPresenter::ReleaseServicePointers\n");
 	m_pMixer	= NULL;
 	m_pSink		= NULL;
+	m_pClock	= NULL;
 	return S_OK;
 }
 
@@ -798,10 +783,17 @@ void CEVRAllocatorPresenter::RenderThread()
     TIMECAPS			tc;
 	DWORD				dwResolution;
 	MFTIME				nsSampleTime;
+	MFTIME				nsSampleDuration;
 	MFTIME				nsCurrentTime;
+	LONGLONG			llClockTime;
 	long				lDelay;
 	DWORD				dwUser = 0;
 	DWORD				dwObject;
+	EVRCP_STATE			nRenderState  = Paused;
+
+	LONGLONG			llPerfTotalPlay	= 0;
+	LONGLONG			llPerfLastFrame	= 0;
+	UINT				nNbPlayingFrame	= 0;
 
 	// Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
 	if (pfAvSetMmThreadCharacteristicsW)	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
@@ -821,57 +813,79 @@ void CEVRAllocatorPresenter::RenderThread()
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
+			TRACE ("Begin flush\n");
 			// Flush pending samples!
 			if (dwUser != -1) timeKillEvent (dwUser);
 			dwUser = -1;
 			while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
-			m_nCurPicture = m_nFreeSlot;
 			Sleep(1);
+			m_nCurPicture = m_nFreeSlot;
+			nRenderState  = Paused;
 			ResetEvent(m_hEvtFlush);
 			TRACE ("End flush\n");
 			break;
 
 		case WAIT_OBJECT_0 + 2 :
 		case WAIT_OBJECT_0 + 3 :
-			
+			// Discard timer events if playback stop
 			if ((dwObject == WAIT_OBJECT_0 + 3) && (m_nState != Playing)) continue;
-			TRACE ("RenderThread ==>> Waiting buffer\n");
+
+//			TRACE ("RenderThread ==>> Waiting buffer\n");
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+1)
 			{
-				m_pClock->GetTime(&nsCurrentTime);
-				
-				m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
+//				TRACE ("RenderThread ==>> Presenting\n");
+				Paint(true);
+				m_pcFramesDrawn++;
+
 				if (m_nState == Playing)
 				{
-					lDelay = (nsSampleTime - nsCurrentTime + m_rtStart) / 10000;
+					// Calculate wake up timer
+					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
+					m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
+					m_pMFSample[m_nCurPicture]->GetSampleDuration(&nsSampleDuration);
+					lDelay = (nsSampleTime + nsSampleDuration - llClockTime) / 10000 - 10;		// Wakup 10ms before next VSync!
+
 					if (lDelay > 0)
 					{
-//ASSERT (uDelay < 300);
 						TRACE ("RenderThread ==>> Set timer %d   %I64d\n", lDelay, nsSampleTime/417188);
-						dwUser = timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
+						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
+
+						// If playing update statistics
+						if (nRenderState != Playing)
+						{
+							nRenderState	= Playing;
+							llPerfLastFrame = AfxGetMyApp()->GetPerfCounter();
+						}
+						else
+						{
+							LONGLONG		llPerfCurrent = AfxGetMyApp()->GetPerfCounter();
+							
+							llPerfTotalPlay	+= (llPerfCurrent - llPerfLastFrame);
+							nNbPlayingFrame++;
+							m_piAvgFrameRate = Int32x32To64(nNbPlayingFrame, 100000000) / llPerfTotalPlay;
+							m_iJitter = ((llPerfCurrent - llPerfLastFrame) - nsSampleDuration/10)/1000;
+
+							llPerfLastFrame	 = llPerfCurrent;
+						}
 					}
 					else
 					{
 						dwUser = -1;
-						m_pcFrames++;
+						if (nRenderState == Playing) m_pcFrames++;
 						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)\n", nsSampleTime/417188, lDelay);
 						SetEvent (m_hEvtPresent);
 					}
 				}
-//				TRACE ("RenderThread ==>> Presenting\n");
-				Paint(true);
-				m_pcFramesDrawn++;
 
 				m_nCurPicture = (m_nCurPicture + 1) % PICTURE_SLOTS;
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
 //				TRACE ("RenderThread ==>> Sleeping\n");
 			}
 			else
-			{
-				ASSERT (FALSE);
-				TRACE ("RenderThread ==>> ERROR cannot render picture in time!\n");
+			{				
+				TRACE ("RenderThread ==>> Flush before rendering frame!\n");
 			}
 
 			break;
