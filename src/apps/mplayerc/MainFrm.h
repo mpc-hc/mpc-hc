@@ -609,6 +609,8 @@ public:
 	afx_msg void OnViewOptions();
 	afx_msg void OnUpdateViewTearingTest(CCmdUI* pCmdUI);
 	afx_msg void OnViewTearingTest();
+	afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
+	afx_msg void OnViewDisplayStats();
 	afx_msg void OnUpdateShaderToggle(CCmdUI* pCmdUI);
 	afx_msg void OnShaderToggle();
 	afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);

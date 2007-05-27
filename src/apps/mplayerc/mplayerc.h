@@ -357,6 +357,7 @@ public:
 
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	bool		m_fTearingTest;
+	bool		m_fDisplayStats;
 	LONGLONG	m_PerfFrequency;
 
 	LONGLONG					GetPerfCounter();

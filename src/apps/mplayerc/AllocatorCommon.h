@@ -21,8 +21,10 @@
 
 #pragma once
 
-#define PICTURE_SLOTS				3
+#define PICTURE_SLOTS				4
 #define NB_DX9_SURFACES				(PICTURE_SLOTS+1)
+
+#define NB_JITTER					125
 
 namespace DSObjects
 {
@@ -77,11 +79,20 @@ namespace DSObjects
 				DWORD                     Filter,
 				D3DCOLOR                  ColorKey);
 
+		typedef HRESULT (WINAPI* D3DXCreateLinePtr) (LPDIRECT3DDEVICE9   pDevice, LPD3DXLINE* ppLine);
+
+		void				DrawStats();
 		int					m_nTearingPos;
 		VMR9AlphaBitmap		m_VMR9AlphaBitmap;
 		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
 		HINSTANCE			m_hDll;
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
+		D3DXCreateLinePtr				m_pD3DXCreateLine;
+
+		LONGLONG						m_pllJitter [NB_JITTER];		// Jitter buffer for stats
+		LONGLONG						m_llLastPerf;
+		int								m_nNextJitter;
+		REFERENCE_TIME					m_rtTimePerFrame;
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);

@@ -1098,7 +1098,7 @@ void CDX9AllocatorPresenter::DrawStats()
 
 		for (int i=0; i<NB_JITTER; i++)
 		{
-			nIndex = (m_nNextJitter+i-1) % NB_JITTER;
+			nIndex = (m_nNextJitter+i) % NB_JITTER;
 			Points[i].x = i*5+5;
 			Points[i].y = m_pllJitter[nIndex]/500 + 250;
 		}

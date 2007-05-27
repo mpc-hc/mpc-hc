@@ -252,7 +252,8 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
 //	: m_hMutexOneInstance(NULL)
 {
-	m_fTearingTest = false;
+	m_fTearingTest  = false;
+	m_fDisplayStats = false;
 	memset (&m_ColorControl, 0, sizeof(m_ColorControl));
 	m_ColorControl[0].dwSize		= sizeof (COLORPROPERTY_RANGE);
 	m_ColorControl[0].dwProperty	= Brightness;
@@ -1126,6 +1127,7 @@ CMPlayerCApp::Settings::Settings()
 	ADDCMD((ID_GOTO_NEXT_SUB, 'U', FVIRTKEY|FNOINVERT, _T("Goto Next Subtitle"),  APPCOMMAND_BROWSER_FORWARD));
 	ADDCMD((ID_SHIFT_SUB_DOWN, VK_NEXT, FVIRTKEY|FNOINVERT, _T("Shift Subtitle Left")));
 	ADDCMD((ID_SHIFT_SUB_UP, VK_PRIOR,   FVIRTKEY|FNOINVERT, _T("Shift Subtitle Right")));
+	ADDCMD((ID_VIEW_DISPLAYSTATS, 'J', FVIRTKEY|FCONTROL|FNOINVERT, _T("Display Stats")));
 
 	nCurrentDvdPosition		= -1;
 	nCurrentFilePosition	= -1;

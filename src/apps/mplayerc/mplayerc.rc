@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -1530,6 +1529,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
+        MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
         MENUITEM "Remaining Time\tCtrl+I",      ID_VIEW_REMAINING_TIME
         MENUITEM SEPARATOR
         POPUP "&Video Frame"

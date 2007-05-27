@@ -300,6 +300,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	// Casimir666
 	ON_UPDATE_COMMAND_UI(ID_VIEW_TEARING_TEST, OnUpdateViewTearingTest)
 	ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAYSTATS, OnUpdateViewDisplayStats)
+	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStats)
 	ON_UPDATE_COMMAND_UI(ID_SHADER_TOGGLE, OnUpdateShaderToggle)
 	ON_COMMAND(ID_SHADER_TOGGLE, OnShaderToggle)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
@@ -4389,6 +4391,16 @@ void CMainFrame::OnViewTearingTest()
 	AfxGetMyApp()->m_fTearingTest = ! AfxGetMyApp()->m_fTearingTest;
 }
 
+void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable (TRUE);
+}
+
+void CMainFrame::OnViewDisplayStats()
+{
+	AfxGetMyApp()->m_fDisplayStats = ! AfxGetMyApp()->m_fDisplayStats;
+}
+
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable (m_iMediaLoadState != MLS_CLOSED);
@@ -8300,6 +8312,7 @@ void CMainFrame::CloseMediaPrivate()
 		pGB->RemoveFromROT();
 		pGB.Release();
 	}
+	if (m_pFullscreenWnd->m_hWnd) m_pFullscreenWnd->DestroyWindow();	// TODO : still freezing sometimes...
 
 	m_fRealMediaGraph = m_fShockwaveGraph = m_fQuicktimeGraph = false;
 
@@ -10309,6 +10322,7 @@ bool CMainFrame::CreateFullScreenWindow()
 		m_fullWndSize.cy	= MonitorRect.Height();
 
 		m_pFullscreenWnd->CreateEx (WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), _T("MPC D3D FullScreen"), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), NULL, NULL, NULL);
+//		SetWindowLong(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);	// TODO : still freezing sometimes...
 	}
 
 	return (m_pFullscreenWnd->m_hWnd)? true : false;

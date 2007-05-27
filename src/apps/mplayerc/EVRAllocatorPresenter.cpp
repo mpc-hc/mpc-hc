@@ -268,6 +268,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_hSemPicture	= CreateSemaphore(NULL, 0, PICTURE_SLOTS, NULL);
 	m_hSemSlot		= CreateSemaphore(NULL, PICTURE_SLOTS, PICTURE_SLOTS, NULL);
 	m_nFreeSlot		= 0;
+	m_nCurPicture	= 0;
 	m_fUseInternalTimer	= false;
 
 	m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
@@ -541,7 +542,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
 		SetEvent (m_hEvtNewFrame);
-//		TRACE ("MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
+		TRACE ("MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
 		break;
 
 	case MFVP_MESSAGE_STEP :					// Requests a frame step.
@@ -834,7 +835,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+1)
 			{
-//				TRACE ("RenderThread ==>> Presenting\n");
+				TRACE ("RenderThread ==>> Presenting\n");
 				Paint(true);
 				m_pcFramesDrawn++;
 
