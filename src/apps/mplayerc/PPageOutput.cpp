@@ -42,6 +42,7 @@ CPPageOutput::CPPageOutput()
 	, m_iDX9Resizer(0)
 	, m_fVMR9MixerMode(FALSE)
 	, m_fVMR9MixerYUV(FALSE)
+	, m_iEvrBuffers(5)
 {
 }
 
@@ -64,6 +65,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
 	DDX_Check(pDX, IDC_DSVMR9YUVMIXER, m_fVMR9MixerYUV);
 	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
+	DDX_CBIndex(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
 }
 
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
@@ -100,6 +102,7 @@ BOOL CPPageOutput::OnInitDialog()
 	m_fVMR9MixerMode		= s.fVMR9MixerMode;
 	m_fVMR9MixerYUV			= s.fVMR9MixerYUV;
 	m_fD3DFullscreen		= s.fD3DFullscreen;
+	m_iEvrBuffers			= s.iEvrBuffers-1;
 
 	m_AudioRendererDisplayNames.Add(_T(""));
 	m_iAudioRendererTypeCtrl.AddString(_T("System Default"));
@@ -212,6 +215,7 @@ BOOL CPPageOutput::OnApply()
 	s.fVMR9MixerMode			= !!m_fVMR9MixerMode;
 	s.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
+	s.iEvrBuffers				= m_iEvrBuffers+1;
 
 	return __super::OnApply();
 }
@@ -233,7 +237,7 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(FALSE);
 	GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
 	GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
-
+	GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 
 	switch (nIDbutton - IDC_DSSYSDEF)
 	{

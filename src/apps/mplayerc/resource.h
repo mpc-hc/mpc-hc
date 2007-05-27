@@ -615,6 +615,7 @@
 #define IDS_RS_TITLEBARTEXTTITLE        13149
 #define IDS_RS_VMR9MIXERYUV             13150
 #define IDS_RS_AUDIONORMALIZERECOVER    13151
+#define IDS_RS_EVR_BUFFERS              13152
 #define IDS_SRC_RADGT                   14000
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002
@@ -749,6 +750,7 @@
 #define IDC_PN31                        22007
 #define IDC_INSTALLPN31                 22007
 #define IDC_UNINSTALLPN31               22008
+#define IDC_EVR_BUFFERS                 22008
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -771,7 +773,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
 #define _APS_NEXT_COMMAND_VALUE         32785
-#define _APS_NEXT_CONTROL_VALUE         22008
+#define _APS_NEXT_CONTROL_VALUE         22009
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
 #endif

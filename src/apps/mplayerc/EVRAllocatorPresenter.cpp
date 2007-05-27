@@ -168,8 +168,8 @@ private :
 
 	HANDLE									m_hThread[2];
 	EVRCP_STATE								m_nState;
-	CComPtr<IMFSample>						m_pMFSample[PICTURE_SLOTS];
-	CComPtr<IMFMediaBuffer>					m_pMFBuffer[PICTURE_SLOTS];
+	CComPtr<IMFSample>						m_pMFSample[MAX_PICTURE_SLOTS];
+	CComPtr<IMFMediaBuffer>					m_pMFBuffer[MAX_PICTURE_SLOTS];
 
 	// Stats variable for IQualProp
 	UINT									m_pcFrames;
@@ -265,11 +265,12 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_hEvtFrameTimer= CreateEvent (NULL, FALSE, FALSE, NULL);
 	m_hEvtNewFrame	= CreateEvent (NULL, FALSE, FALSE, NULL);
 	m_hEvtFlush		= CreateEvent (NULL, TRUE, FALSE, NULL);
-	m_hSemPicture	= CreateSemaphore(NULL, 0, PICTURE_SLOTS, NULL);
-	m_hSemSlot		= CreateSemaphore(NULL, PICTURE_SLOTS, PICTURE_SLOTS, NULL);
+	m_hSemPicture	= CreateSemaphore(NULL, 0, m_nPictureSlots, NULL);
+	m_hSemSlot		= CreateSemaphore(NULL, m_nPictureSlots, m_nPictureSlots, NULL);
 	m_nFreeSlot		= 0;
 	m_nCurPicture	= 0;
 	m_fUseInternalTimer	= false;
+	m_nPictureSlots	= max (min (AfxGetAppSettings().iEvrBuffers, MAX_PICTURE_SLOTS-2), 1);
 
 	m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 	m_hThread[1]	= ::CreateThread(NULL, 0, ProduceThread, (LPVOID)this, 0, &dwThreadId);
@@ -288,7 +289,7 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
 			TerminateThread (m_hThread[i], 0xDEAD);
 	}
 
-	for (i=0; i<countof(m_pMFSample); i++)
+	for (i=0; i<m_nPictureSlots; i++)
 	{
 		m_pMFSample[i] = NULL;
 		m_pMFBuffer[i] = NULL;
@@ -563,7 +564,7 @@ HRESULT CEVRAllocatorPresenter::AllocRessources()
 	int				i;
 
 	// Create Media Foundation buffers for EVR Mixer
-	for (i=0; i<countof(m_pMFSample); i++)
+	for (i=0; i<m_nPictureSlots; i++)
 	{
 		m_pMFSample[i] = NULL;
 		m_pMFBuffer[i] = NULL;
@@ -618,7 +619,7 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 		}
 	
-		m_nFreeSlot = (m_nFreeSlot+1) % PICTURE_SLOTS;
+		m_nFreeSlot = (m_nFreeSlot+1) % m_nPictureSlots;
 		ReleaseSemaphore (m_hSemPicture, 1, NULL);
 
 //		TRACE ("New image from muxer : %I64d\n", nsSampleTime/417188);
@@ -879,7 +880,7 @@ void CEVRAllocatorPresenter::RenderThread()
 					}
 				}
 
-				m_nCurPicture = (m_nCurPicture + 1) % PICTURE_SLOTS;
+				m_nCurPicture = (m_nCurPicture + 1) % m_nPictureSlots;
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
 //				TRACE ("RenderThread ==>> Sleeping\n");
 			}

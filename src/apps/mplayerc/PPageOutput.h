@@ -51,6 +51,7 @@ public:
 	BOOL m_fVMR9MixerMode;
 	BOOL m_fVMR9MixerYUV;
 	BOOL m_fD3DFullscreen;
+	int m_iEvrBuffers;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

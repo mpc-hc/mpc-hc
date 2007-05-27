@@ -21,8 +21,7 @@
 
 #pragma once
 
-#define PICTURE_SLOTS				4
-#define NB_DX9_SURFACES				(PICTURE_SLOTS+1)
+#define MAX_PICTURE_SLOTS			(20+2)				// Last 2 for pixels shader!
 
 #define NB_JITTER					125
 
@@ -38,8 +37,8 @@ namespace DSObjects
 
 		CComPtr<IDirect3D9> m_pD3D;
 		CComPtr<IDirect3DDevice9> m_pD3DDev;
-		CComPtr<IDirect3DTexture9> m_pVideoTexture[NB_DX9_SURFACES];
-		CComPtr<IDirect3DSurface9> m_pVideoSurface[NB_DX9_SURFACES];
+		CComPtr<IDirect3DTexture9> m_pVideoTexture[MAX_PICTURE_SLOTS];
+		CComPtr<IDirect3DSurface9> m_pVideoSurface[MAX_PICTURE_SLOTS];
 		int						   m_nCurPicture;
 		CComPtr<IDirect3DTexture9> m_pOSDTexture;
 		CComPtr<IDirect3DSurface9> m_pOSDSurface;
@@ -93,6 +92,7 @@ namespace DSObjects
 		LONGLONG						m_llLastPerf;
 		int								m_nNextJitter;
 		REFERENCE_TIME					m_rtTimePerFrame;
+		int								m_nPictureSlots;
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);

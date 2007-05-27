@@ -201,6 +201,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	, m_ScreenSize(0, 0)
 	, m_bicubicA(0)
 	, m_nTearingPos(0)
+	, m_nPictureSlots(1)
 {
 	if(FAILED(hr)) return;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
@@ -357,7 +358,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 	AppSettings& s = AfxGetAppSettings();
 
 	m_nCurPicture = 0;
-	for(int i = 0; i < countof(m_pVideoTexture); i++)
+	for(int i = 0; i < m_nPictureSlots+2; i++)
 	{
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
@@ -369,7 +370,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
 	{
-		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? countof(m_pVideoTexture) : 1;
+		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nPictureSlots+2 : 1;
 
 		for(int i = 0; i < nTexturesNeeded; i++)
 		{
@@ -385,7 +386,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 		if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D)
 		{
-			for(int i = 0; i < countof(m_pVideoTexture); i++)
+			for(int i = 0; i < m_nPictureSlots+2; i++)
 			{
 				m_pVideoTexture[i] = NULL;
 			}
@@ -409,7 +410,7 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-	for(int i = 0; i < countof(m_pVideoTexture); i++)
+	for(int i = 0; i < m_nPictureSlots+2; i++)
 	{
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
@@ -887,7 +888,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			{
 				CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurPicture];
 
-				if(m_pVideoTexture[1] && m_pVideoTexture[2] && !m_pPixelShaders.IsEmpty())
+				if(m_pVideoTexture[m_nPictureSlots] && m_pVideoTexture[m_nPictureSlots+1] && !m_pPixelShaders.IsEmpty())
 				{
 					static __int64 counter = 0;
 					static long start = clock();
@@ -908,7 +909,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					CComPtr<IDirect3DSurface9> pRT;
 					hr = m_pD3DDev->GetRenderTarget(0, &pRT);
 
-					int src = m_nCurPicture, dst = NB_DX9_SURFACES-1, nTemp;
+					int src = m_nCurPicture, dst = m_nPictureSlots;
 
 					POSITION pos = m_pPixelShaders.GetHeadPosition();
 					while(pos)
@@ -921,9 +922,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 						//if(++src > 2) src = 1;
 						//if(++dst > 2) dst = 1;
-						nTemp	= src;
 						src		= dst;
-						dst		= nTemp;
+						if(++dst >= m_nPictureSlots+2) dst = m_nPictureSlots;
 					}
 
 					hr = m_pD3DDev->SetRenderTarget(0, pRT);
@@ -1044,7 +1044,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	// Calculate the jitter!
 	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
-	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < 5*m_rtTimePerFrame))
+	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < m_rtTimePerFrame/2))
 	{
 		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame/10;
 		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
@@ -1085,12 +1085,15 @@ void CDX9AllocatorPresenter::DrawStats()
 		D3DXVECTOR2		Points[NB_JITTER];
 		int				nIndex;
 
-		for (int i=10; i<480; i+= 20)
+		pLine->SetWidth(1.0);          // Width 
+		for (int i=10; i<500; i+= 20)
 		{
 			Points[0].x = 0;
 			Points[0].y = i;
 			Points[1].x = (i-10)%80 ? 50 : 625;
 			Points[1].y = i;
+			if (i == 250) Points[1].x += 50;
+			pLine->SetWidth(i == 250 ? 2.0 : 1.0);          // Width 
 			pLine->Begin();
 			pLine->Draw (Points, 2, D3DCOLOR_XRGB(0,0,255));
 			pLine->End();
@@ -1103,7 +1106,6 @@ void CDX9AllocatorPresenter::DrawStats()
 			Points[i].y = m_pllJitter[nIndex]/500 + 250;
 		}
 		
-		pLine->SetWidth(1.0);          // Width 
 		pLine->Begin();
 		pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
 		pLine->End();

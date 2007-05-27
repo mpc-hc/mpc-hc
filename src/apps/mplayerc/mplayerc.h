@@ -551,6 +551,7 @@ public:
 
 		bool			fRememberDVDPos;
 		bool			fRememberFilePos;
+		int				iEvrBuffers;
 
 
 		DVD_POSITION*	CurrentDVDPosition();
