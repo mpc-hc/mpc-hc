@@ -5,6 +5,9 @@
 	Name="mplayerc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mplayerc"
+	SccProjectName="&quot;$/MPC Homecinema/Apps/mplayerc_vs2005&quot;, BSCAAAAA"
+	SccLocalPath="..\.."
+	SccProvider="MSSCCI:Microsoft Visual SourceSafe"
 	Keyword="MFCProj"
 	>
 	<Platforms>

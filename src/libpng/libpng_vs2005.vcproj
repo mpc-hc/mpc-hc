@@ -5,6 +5,10 @@
 	Name="libpng"
 	ProjectGUID="{FC8080D1-603C-45EC-BCFA-7172E2F3D989}"
 	RootNamespace="libpng_vs2005"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

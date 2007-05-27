@@ -192,7 +192,7 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Media Player Classic",IDC_STATIC1,40,10,126,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2002-2006 Gabest",IDC_STATIC,40,21,113,8
-    LTEXT           "Version: 6.4.9.0",IDC_STATIC,40,33,92,8
+    LTEXT           "Version: 6.4.9.0 - Mod Casimir666 v1.0.7.0",IDC_STATIC,40,33,170,8
     PUSHBUTTON      "OK",IDOK,160,8,50,14,WS_GROUP
     LTEXT           "This program is freeware and released under the GNU General Public License.\nDistribution in Codec Packs is allowed, but the author (Gabest) is not liable for the additional content.",IDC_STATIC,11,47,199,34
 END
@@ -1473,7 +1473,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,0
+ FILEVERSION 1,0,7,0
  PRODUCTVERSION 6,4,9,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
@@ -1492,7 +1492,7 @@ BEGIN
             VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 0, 6, 0"
+            VALUE "FileVersion", "1, 0, 7, 0"
             VALUE "InternalName", "Media Player Classic"
             VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
             VALUE "OriginalFilename", "mplayerc.EXE"

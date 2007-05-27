@@ -5,6 +5,10 @@
 	Name="libssf"
 	ProjectGUID="{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 	RootNamespace="libssf"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

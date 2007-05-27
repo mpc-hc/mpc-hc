@@ -5,6 +5,10 @@
 	Name="subtitles"
 	ProjectGUID="{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 	RootNamespace="subtitles"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -279,7 +283,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
@@ -288,7 +291,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
@@ -297,7 +299,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
@@ -306,7 +307,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
@@ -362,38 +362,6 @@
 			<File
 				RelativePath="STS.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\SubtitleInputPin.cpp"
@@ -432,7 +400,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						AssemblerOutput="0"
-						
 					/>
 				</FileConfiguration>
 				<FileConfiguration

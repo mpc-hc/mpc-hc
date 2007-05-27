@@ -5,6 +5,10 @@
 	Name="zlib"
 	ProjectGUID="{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
 	RootNamespace="zlib"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="MFCProj"
 	>
 	<Platforms>
