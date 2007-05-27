@@ -35,7 +35,6 @@
 IMPLEMENT_DYNAMIC(CPPageCasimir, CPPageBase)
 CPPageCasimir::CPPageCasimir()
 	: CPPageBase(CPPageCasimir::IDD, CPPageCasimir::IDD)
-	, m_fD3DFullscreen(FALSE)
 	, m_fRememberDVDPos(FALSE)
 	, m_fRememberFilePos(FALSE)
 {
@@ -48,7 +47,6 @@ CPPageCasimir::~CPPageCasimir()
 void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
 	DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
 	DDX_Control(pDX, IDC_SLI_BRIGHTNESS, m_SliBrightness);
 	DDX_Control(pDX, IDC_SLI_HUE, m_SliHue);
@@ -75,7 +73,6 @@ BOOL CPPageCasimir::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_fD3DFullscreen			= s.fD3DFullscreen;
 	m_fRememberDVDPos			= s.fRememberDVDPos;
 	m_fRememberFilePos			= s.fRememberFilePos;
 
@@ -139,7 +136,6 @@ BOOL CPPageCasimir::OnApply()
 	s.dContrast					= m_dContrast;
 	s.dHue						= m_dHue;
 	s.dSaturation				= m_dSaturation;
-	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
 	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
 

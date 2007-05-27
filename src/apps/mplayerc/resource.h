@@ -445,9 +445,7 @@
 #define IDC_DSDXR                       12107
 #define IDC_DSNULL_COMP                 12108
 #define IDC_DSNULL_UNCOMP               12109
-#define IDC_DSNULL_UNCOMP2              12110
 #define IDC_EVR                         12110
-#define IDC_EVR2                        12111
 #define IDC_EVR_CUSTOM                  12111
 #define IDC_RMSYSDEF                    12120
 #define IDC_RMDX7                       12121
@@ -462,7 +460,9 @@
 #define IDC_DX9RESIZER_COMBO            12130
 #define IDC_DSVMR9LOADMIXER             12131
 #define IDC_CHECK_MPEGINTERLACED        12132
+#define IDC_DX_SURFACE                  12132
 #define IDC_DSVMR9YUVMIXER              12133
+#define IDC_DSVMR9LOADMIXER2            12135
 #define IDS_R_SETTINGS                  13000
 #define IDS_RS_TITLEBARTEXTSTYLE        13001
 #define IDS_RS_USEWMASFREADER           13002

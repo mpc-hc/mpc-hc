@@ -320,13 +320,14 @@ bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 		if (m_rectCursor.PtInRect (point))
 		{
 			m_bCursorMoving = true;
+			bRet			= true;
 		}
 		else if (m_rectSeekBar.PtInRect(point))
 		{
+			bRet			= true;
 			UpdateSeekBarPos(point);
 			Invalidate();
 		}
-		else bRet = false;
 	}
 
 	return bRet;

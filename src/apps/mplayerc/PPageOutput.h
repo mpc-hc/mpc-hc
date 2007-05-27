@@ -50,6 +50,7 @@ public:
 	int m_iDX9Resizer;
 	BOOL m_fVMR9MixerMode;
 	BOOL m_fVMR9MixerYUV;
+	BOOL m_fD3DFullscreen;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -60,4 +61,6 @@ protected:
 
 public:
 	afx_msg void OnUpdateMixerYUV(CCmdUI* pCmdUI);
+	afx_msg void OnSurfaceChange();
+	afx_msg void OnDSRendererChange(UINT nIDbutton);
 };

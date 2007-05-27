@@ -55,17 +55,21 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_DSSYSDEF, m_iDSVideoRendererType);
 	DDX_Radio(pDX, IDC_RMSYSDEF, m_iRMVideoRendererType);
 	DDX_Radio(pDX, IDC_QTSYSDEF, m_iQTVideoRendererType);
-	DDX_Radio(pDX, IDC_REGULARSURF, m_iAPSurfaceUsage);
+//	DDX_Radio(pDX, IDC_REGULARSURF, m_iAPSurfaceUsage);
+	DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
 	DDX_CBIndex(pDX, IDC_COMBO1, m_iAudioRendererType);
 	DDX_Control(pDX, IDC_COMBO1, m_iAudioRendererTypeCtrl);
 	DDX_Check(pDX, IDC_CHECK1, m_fVMRSyncFix);
 	DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
 	DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
 	DDX_Check(pDX, IDC_DSVMR9YUVMIXER, m_fVMR9MixerYUV);
+	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
 }
 
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_DSVMR9YUVMIXER, OnUpdateMixerYUV)	
+	ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_EVR_CUSTOM, &CPPageOutput::OnDSRendererChange)
 END_MESSAGE_MAP()
 
 void CPPageOutput::DisableRadioButton(UINT nID, UINT nDefID)
@@ -87,14 +91,15 @@ BOOL CPPageOutput::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_iDSVideoRendererType = s.iDSVideoRendererType;
-	m_iRMVideoRendererType = s.iRMVideoRendererType;
-	m_iQTVideoRendererType = s.iQTVideoRendererType;
-	m_iAPSurfaceUsage = s.iAPSurfaceUsage;
-	m_fVMRSyncFix = s.fVMRSyncFix;
-	m_iDX9Resizer = s.iDX9Resizer;
-	m_fVMR9MixerMode = s.fVMR9MixerMode;
-	m_fVMR9MixerYUV = s.fVMR9MixerYUV;
+	m_iDSVideoRendererType	= s.iDSVideoRendererType;
+	m_iRMVideoRendererType	= s.iRMVideoRendererType;
+	m_iQTVideoRendererType	= s.iQTVideoRendererType;
+	m_iAPSurfaceUsage		= s.iAPSurfaceUsage;
+	m_fVMRSyncFix			= s.fVMRSyncFix;
+	m_iDX9Resizer			= s.iDX9Resizer;
+	m_fVMR9MixerMode		= s.fVMR9MixerMode;
+	m_fVMR9MixerYUV			= s.fVMR9MixerYUV;
+	m_fD3DFullscreen		= s.fD3DFullscreen;
 
 	m_AudioRendererDisplayNames.Add(_T(""));
 	m_iAudioRendererTypeCtrl.AddString(_T("System Default"));
@@ -183,6 +188,8 @@ BOOL CPPageOutput::OnInitDialog()
 		DisableRadioButton(IDC_DSDXR, IDC_DSSYSDEF);
 	}
 
+	OnDSRendererChange (m_iDSVideoRendererType + IDC_DSSYSDEF);
+
 	CreateToolTip();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -195,20 +202,51 @@ BOOL CPPageOutput::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.iDSVideoRendererType = m_iDSVideoRendererType;
-	s.iRMVideoRendererType = m_iRMVideoRendererType;
-	s.iQTVideoRendererType = m_iQTVideoRendererType;
-	s.iAPSurfaceUsage = m_iAPSurfaceUsage;
-	s.fVMRSyncFix = !!m_fVMRSyncFix;
-	s.AudioRendererDisplayName = m_AudioRendererDisplayNames[m_iAudioRendererType];
-	s.iDX9Resizer = m_iDX9Resizer;
-	s.fVMR9MixerMode = !!m_fVMR9MixerMode;
-	s.fVMR9MixerYUV = !!m_fVMR9MixerYUV;
+	s.iDSVideoRendererType		= m_iDSVideoRendererType;
+	s.iRMVideoRendererType		= m_iRMVideoRendererType;
+	s.iQTVideoRendererType		= m_iQTVideoRendererType;
+	s.iAPSurfaceUsage			= m_iAPSurfaceUsage;
+	s.fVMRSyncFix				= !!m_fVMRSyncFix;
+	s.AudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
+	s.iDX9Resizer				= m_iDX9Resizer;
+	s.fVMR9MixerMode			= !!m_fVMR9MixerMode;
+	s.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
+	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 
 	return __super::OnApply();
 }
 
 void CPPageOutput::OnUpdateMixerYUV(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_DSVMR9LOADMIXER));
+	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_DSVMR9LOADMIXER) && IsDlgButtonChecked(IDC_DSVMR9REN));
+}
+void CPPageOutput::OnSurfaceChange()
+{
+	// TODO: Add your control notification handler code here
+}
+
+void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
+{
+	GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
+	GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(FALSE);
+	GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(FALSE);
+	GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(FALSE);
+	GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
+	GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
+
+
+	switch (nIDbutton - IDC_DSSYSDEF)
+	{
+	case 6 :	// VMR9 renderless
+		GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
+		GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
+	case 11 :	// EVR custom presenter
+		GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
+		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
+		GetDlgItem(IDC_CHECK1)->EnableWindow(TRUE);		// Lock back buffer
+
+	case 5 :	// VMR7 renderless
+		GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
+		break;
+	}
 }

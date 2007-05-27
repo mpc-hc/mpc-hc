@@ -56,6 +56,9 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample 
 	return ReceiveMineI(This,pSample);
 }
 
+IPinCVtbl*				g_pPinCVtbl			= NULL;
+IMemInputPinCVtbl*		g_pMemInputPinCVtbl = NULL;
+
 bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 {
 	if(!pPinC || !pMemInputPinC || (GetVersion()&0x80000000))
@@ -67,16 +70,39 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 	BOOL res;
 	DWORD flOldProtect = 0;
 
-	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinC), PAGE_WRITECOPY, &flOldProtect);
+	// Casimir666 : unhook previous VTables
+	if (g_pPinCVtbl && g_pMemInputPinCVtbl)
+	{
+		res = VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+		if (g_pPinCVtbl->NewSegment == NewSegmentMine)
+			g_pPinCVtbl->NewSegment = NewSegmentOrg;
+		res = VirtualProtect(g_pPinCVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
+
+		res = VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
+		if (g_pMemInputPinCVtbl->Receive == ReceiveMine)
+			g_pMemInputPinCVtbl->Receive = ReceiveOrg;
+		res = VirtualProtect(g_pMemInputPinCVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+
+		g_pPinCVtbl			= NULL;
+		g_pMemInputPinCVtbl = NULL;
+		NewSegmentOrg		= NULL;
+		ReceiveOrg			= NULL;
+	}
+
+	// Casimir666 : change sizeof(IPinC) to sizeof(IPinCVtbl) to fix crash with EVR hack on Vista!
+	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
 	if(NewSegmentOrg == NULL) NewSegmentOrg = pPinC->lpVtbl->NewSegment;
 	pPinC->lpVtbl->NewSegment = NewSegmentMine;
-	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinC), PAGE_EXECUTE, &flOldProtect);
+	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), flOldProtect, &flOldProtect);
 
 	// Casimir666 : change sizeof(IMemInputPinC) to sizeof(IMemInputPinCVtbl) to fix crash with EVR hack on Vista!
 	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_WRITECOPY, &flOldProtect);
 	if(ReceiveOrg == NULL) ReceiveOrg = pMemInputPinC->lpVtbl->Receive;
 	pMemInputPinC->lpVtbl->Receive = ReceiveMine;
-	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), PAGE_EXECUTE, &flOldProtect);
+	res = VirtualProtect(pMemInputPinC->lpVtbl, sizeof(IMemInputPinCVtbl), flOldProtect, &flOldProtect);
+
+	g_pPinCVtbl			= pPinC->lpVtbl;
+	g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
 
 	return true;
 }
