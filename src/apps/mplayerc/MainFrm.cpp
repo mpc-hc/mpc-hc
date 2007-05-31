@@ -1158,9 +1158,10 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if((nID & 0xFFF0) == SC_SCREENSAVE)
+	if( ((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))
 	{
 		TRACE(_T("SC_SCREENSAVE, nID = %d, lParam = %d\n"), nID, lParam);
+		return;
 	}
 	else if((nID & 0xFFF0) == SC_MINIMIZE && m_fTrayIcon)
 	{
@@ -2092,7 +2093,7 @@ static bool s_fLDown = false;
 
 void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (!m_OSD.OnLButtonDown (nFlags, point))
+	if (!m_bD3DFullscreenMode || !m_OSD.OnLButtonDown (nFlags, point))
 	{
 		SetFocus();
 
@@ -2135,7 +2136,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CMainFrame::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if (!m_OSD.OnLButtonUp (nFlags, point))
+	if (!m_bD3DFullscreenMode || !m_OSD.OnLButtonUp (nFlags, point))
 	{
 		if(!OnButton(wmcmd::LUP, nFlags, point))
 			__super::OnLButtonUp(nFlags, point);
@@ -6366,7 +6367,7 @@ void CMainFrame::OnUpdateFavoritesDevice(CCmdUI* pCmdUI)
 
 void CMainFrame::OnHelpHomepage()
 {
-	ShellExecute(m_hWnd, _T("open"), _T("http://gabest.org/"), NULL, NULL, SW_SHOWDEFAULT);
+	ShellExecute(m_hWnd, _T("open"), _T("http://tibrium.neuf.fr/"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
 void CMainFrame::OnHelpDocumentation()
@@ -6376,7 +6377,7 @@ void CMainFrame::OnHelpDocumentation()
 
 void CMainFrame::OnHelpDonate()
 {
-	const TCHAR URL[] = _T("http://order.kagi.com/?N4A");
+	const TCHAR URL[] = _T("http://sourceforge.net/project/project_donations.php?group_id=170561");
 	if(CString(URL).Find(CString(_T("A4N")).MakeReverse()) >= 0)
 		ShellExecute(m_hWnd, _T("open"), URL, NULL, NULL, SW_SHOWDEFAULT);
 }

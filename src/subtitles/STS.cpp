@@ -2905,7 +2905,7 @@ void STSStyle::SetDefault()
 	fUnderline = false;
 	fStrikeOut = false;
 	fBlur = false;
-	fontAngleZ = fontAngleX = fontAngleY = 0;
+	fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
 	relativeTo = 2;
 }
 

@@ -184,17 +184,20 @@ void CVMROSD::Stop()
 
 void CVMROSD::CalcRect()
 {
-	m_pWnd->GetClientRect(&m_rectWnd);
+	if (m_pWnd)
+	{
+		m_pWnd->GetClientRect(&m_rectWnd);
 
-	m_rectSeekBar.left		= m_rectWnd.left	+ 10;
-	m_rectSeekBar.right		= m_rectWnd.right	- 10;
-	m_rectSeekBar.top		= m_rectWnd.bottom	- SEEKBAR_HEIGHT;
-	m_rectSeekBar.bottom	= m_rectSeekBar.top	+ SEEKBAR_HEIGHT;
+		m_rectSeekBar.left		= m_rectWnd.left	+ 10;
+		m_rectSeekBar.right		= m_rectWnd.right	- 10;
+		m_rectSeekBar.top		= m_rectWnd.bottom	- SEEKBAR_HEIGHT;
+		m_rectSeekBar.bottom	= m_rectSeekBar.top	+ SEEKBAR_HEIGHT;
 
-	m_rectSeekBar.left		= m_rectSeekBar.left;
-	m_rectSeekBar.right		= m_rectSeekBar.right;
-	m_rectSeekBar.top		= m_rectSeekBar.top;
-	m_rectSeekBar.bottom	= m_rectSeekBar.bottom;
+		m_rectSeekBar.left		= m_rectSeekBar.left;
+		m_rectSeekBar.right		= m_rectSeekBar.right;
+		m_rectSeekBar.top		= m_rectSeekBar.top;
+		m_rectSeekBar.bottom	= m_rectSeekBar.bottom;
+	}
 }
 
 void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
@@ -281,7 +284,8 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
 	m_llSeekPos = max (m_llSeekPos, m_llSeekMin);
 	m_llSeekPos = min (m_llSeekPos, m_llSeekMax);
 	
-	AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);
+	if (m_pWnd)
+		AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);
 }
 
 bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
@@ -398,8 +402,12 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 	{
 		m_nMessagePos	= nPos;
 		m_strMessage	= strMsg;
-		KillTimer(m_pWnd->m_hWnd, (long)this);
-		if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, TimerFunc);
+
+		if (m_pWnd)
+		{
+			KillTimer(m_pWnd->m_hWnd, (long)this);
+			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, TimerFunc);
+		}
 		Invalidate();
 	}
 }

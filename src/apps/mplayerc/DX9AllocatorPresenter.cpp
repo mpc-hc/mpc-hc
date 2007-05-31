@@ -49,6 +49,7 @@
 #include "AllocatorCommon.h"
 
 #define VMRBITMAP_UPDATE            0x80000000
+#define FRAMERATE_MAX_DELTA			3000
 
 CCritSec g_ffdshowReceive;
 bool queueu_ffdshow_support = false;
@@ -202,25 +203,30 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	, m_bicubicA(0)
 	, m_nTearingPos(0)
 	, m_nPictureSlots(1)
+	, m_nCurPicture(0)
+	, m_rtCandidate(0)
 {
 	if(FAILED(hr)) return;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 	if(!m_pD3D) m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 	if(!m_pD3D) {hr = E_FAIL; return;}
 
-	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
-	hr = CreateDevice();
-
 	CString d3dx9_dll;
 	d3dx9_dll.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
 
-	m_pD3DXLoadSurfaceFromMemory = NULL;
+	m_pD3DXLoadSurfaceFromMemory	= NULL;
+	m_pD3DXCreateLine				= NULL;
+	m_pD3DXCreateFont				= NULL;
 	m_hDll = LoadLibrary(d3dx9_dll);
 	if(m_hDll)
 	{
 		m_pD3DXLoadSurfaceFromMemory = (D3DXLoadSurfaceFromMemoryPtr)GetProcAddress(m_hDll, "D3DXLoadSurfaceFromMemory");
 		m_pD3DXCreateLine			 = (D3DXCreateLinePtr)			 GetProcAddress(m_hDll, "D3DXCreateLine");
+		m_pD3DXCreateFont			 = (D3DXCreateFontPtr)			 GetProcAddress(m_hDll, "D3DXCreateFontW");
 	}
+
+	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+	hr = CreateDevice();
 
 	memset (m_pllJitter, 0, sizeof(m_pllJitter));
 	m_nNextJitter		= 0;
@@ -230,6 +236,12 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 CDX9AllocatorPresenter::~CDX9AllocatorPresenter() 
 {
+	m_pFont		= NULL;
+	m_pLine		= NULL;
+    m_pD3DDev	= NULL;
+	m_pPSC.Free();
+	m_pD3D.Detach();
+
 	if(m_hDll) FreeLibrary(m_hDll);
 }
 
@@ -348,6 +360,25 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 
 	if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
 
+	m_pFont = NULL;
+	if (m_pD3DXCreateFont)
+		m_pD3DXCreateFont( m_pD3DDev,            // D3D device
+							 -20,               // Height
+							 0,                     // Width
+							 FW_BOLD,               // Weight
+							 1,                     // MipLevels, 0 = autogen mipmaps
+							 FALSE,                 // Italic
+							 DEFAULT_CHARSET,       // CharSet
+							 OUT_DEFAULT_PRECIS,    // OutputPrecision
+							 DEFAULT_QUALITY,       // Quality
+							 DEFAULT_PITCH | FF_DONTCARE, // PitchAndFamily
+							 L"Arial",              // pFaceName
+							 &m_pFont);              // ppFont
+
+	m_pLine = NULL;
+	if (m_pD3DXCreateLine)
+		m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+
 	return S_OK;
 } 
 
@@ -357,7 +388,6 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_nCurPicture = 0;
 	for(int i = 0; i < m_nPictureSlots+2; i++)
 	{
 		m_pVideoTexture[i] = NULL;
@@ -1070,6 +1100,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		DeleteSurfaces();
 		if(FAILED(hr = CreateDevice()) || FAILED(hr = AllocSurfaces()))
 			return false;
+		OnResetDevice();
 	}
 
 	return(true);
@@ -1078,14 +1109,14 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 void CDX9AllocatorPresenter::DrawStats()
 {
-	CComPtr<ID3DXLine>	pLine;
-
-	if (m_pD3DXCreateLine && SUCCEEDED (m_pD3DXCreateLine (m_pD3DDev, &pLine)))
+	if (m_pLine && m_pFont)
 	{
 		D3DXVECTOR2		Points[NB_JITTER];
 		int				nIndex;
+		RECT			rc = {700, 40, 0, 0 };
 
-		pLine->SetWidth(1.0);          // Width 
+		// === Jitter Graduation
+		m_pLine->SetWidth(1.0);          // Width 
 		for (int i=10; i<500; i+= 20)
 		{
 			Points[0].x = 0;
@@ -1093,22 +1124,34 @@ void CDX9AllocatorPresenter::DrawStats()
 			Points[1].x = (i-10)%80 ? 50 : 625;
 			Points[1].y = i;
 			if (i == 250) Points[1].x += 50;
-			pLine->SetWidth(i == 250 ? 2.0 : 1.0);          // Width 
-			pLine->Begin();
-			pLine->Draw (Points, 2, D3DCOLOR_XRGB(0,0,255));
-			pLine->End();
+			m_pLine->SetWidth(i == 250 ? 2.0 : 1.0);          // Width 
+			m_pLine->Begin();
+			m_pLine->Draw (Points, 2, D3DCOLOR_XRGB(0,0,255));
+			m_pLine->End();
 		}
 
-		for (int i=0; i<NB_JITTER; i++)
+		// === Jitter curve
+		if (m_rtTimePerFrame)
 		{
-			nIndex = (m_nNextJitter+i) % NB_JITTER;
-			Points[i].x = i*5+5;
-			Points[i].y = m_pllJitter[nIndex]/500 + 250;
+			for (int i=0; i<NB_JITTER; i++)
+			{
+				nIndex = (m_nNextJitter+i) % NB_JITTER;
+				Points[i].x = i*5+5;
+				Points[i].y = m_pllJitter[nIndex]/500 + 250;
+			}		
+			m_pLine->Begin();
+			m_pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
+			m_pLine->End();
 		}
-		
-		pLine->Begin();
-		pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
-		pLine->End();
+
+		// === Text
+		CString		strText;
+		strText.Format(L"Frame rate : %.03f  (%I64d µs)", m_fps, m_rtTimePerFrame / 10);
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"Candidate frame rate : %.03f  (%I64d µs)", 10000000.0 / m_rtCandidate, m_rtCandidate / 10);
+//		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 	}
 }
 
@@ -1181,6 +1224,49 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTar
 	Paint(true);
 
 	return S_OK;
+}
+
+void CDX9AllocatorPresenter::EstimateFrameRate (REFERENCE_TIME rtStart)
+{
+	static REFERENCE_TIME	rtLast = 0;
+	static int				nCount	= 0;
+
+	REFERENCE_TIME		rtCurDuration = rtStart - rtLast;
+
+	if (labs (rtCurDuration - m_rtCandidate) <= 20000)
+	{
+		if (nCount <= 6) nCount++;
+		if (nCount == 5)
+		{
+			if ( labs(rtCurDuration - 417080) < FRAMERATE_MAX_DELTA)
+			{
+				m_rtTimePerFrame	= 417080;
+				m_fps				= 23.976;
+			}
+			else if ( labs(rtCurDuration - 400000) < FRAMERATE_MAX_DELTA)
+			{
+				m_rtTimePerFrame	= 400000;
+				m_fps				= 25.000;
+			}
+			else if ( labs(rtCurDuration - 333600) < FRAMERATE_MAX_DELTA)
+			{
+				m_rtTimePerFrame	= 333600;
+				m_fps				= 29.976;
+			}
+			else
+			{
+				m_rtTimePerFrame = rtCurDuration;
+				m_fps = 10000000.0 / m_rtTimePerFrame;
+			}
+		}
+	}
+	else
+	{
+		nCount = max (nCount-1, 0);
+		if (nCount == 0) m_rtCandidate = rtCurDuration;
+	}
+
+	rtLast = rtStart;
 }
 
 //
@@ -1692,6 +1778,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 	return S_OK;
 }
 
+
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
 	CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
@@ -1718,8 +1805,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
 	{
-		m_rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
-		m_fps = 10000000.0 / m_rtTimePerFrame;
+		EstimateFrameRate (lpPresInfo->rtStart);
 
 		if(m_pSubPicQueue)
 		{

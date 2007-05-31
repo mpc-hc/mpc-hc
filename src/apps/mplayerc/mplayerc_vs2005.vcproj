@@ -1503,6 +1503,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\History.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\res\PN31Snoop.sys"
 			>
 		</File>

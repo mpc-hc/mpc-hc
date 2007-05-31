@@ -35,18 +35,20 @@ namespace DSObjects
 		CSize m_ScreenSize;
 		bool m_fVMRSyncFix;
 
-		CComPtr<IDirect3D9> m_pD3D;
-		CComPtr<IDirect3DDevice9> m_pD3DDev;
-		CComPtr<IDirect3DTexture9> m_pVideoTexture[MAX_PICTURE_SLOTS];
-		CComPtr<IDirect3DSurface9> m_pVideoSurface[MAX_PICTURE_SLOTS];
-		int						   m_nCurPicture;
-		CComPtr<IDirect3DTexture9> m_pOSDTexture;
-		CComPtr<IDirect3DSurface9> m_pOSDSurface;
-		CInterfaceList<IDirect3DPixelShader9> m_pPixelShaders;
-		CComPtr<IDirect3DPixelShader9> m_pResizerPixelShader[3]; // bl, bc1, bc2
-		CComPtr<IDirect3DTexture9> m_pResizerBicubic1stPass;
-		D3DTEXTUREFILTERTYPE m_filter;
-		D3DCAPS9 m_caps;
+		CComPtr<IDirect3D9>						m_pD3D;
+		CComPtr<IDirect3DDevice9>				m_pD3DDev;
+		CComPtr<IDirect3DTexture9>				m_pVideoTexture[MAX_PICTURE_SLOTS];
+		CComPtr<IDirect3DSurface9>				m_pVideoSurface[MAX_PICTURE_SLOTS];
+		int										m_nCurPicture;
+		CComPtr<IDirect3DTexture9>				m_pOSDTexture;
+		CComPtr<IDirect3DSurface9>				m_pOSDSurface;
+		CComPtr<ID3DXLine>						m_pLine;
+		CComPtr<ID3DXFont>						m_pFont;
+		CInterfaceList<IDirect3DPixelShader9>	m_pPixelShaders;
+		CComPtr<IDirect3DPixelShader9>			m_pResizerPixelShader[3]; // bl, bc1, bc2
+		CComPtr<IDirect3DTexture9>				m_pResizerBicubic1stPass;
+		D3DTEXTUREFILTERTYPE					m_filter;
+		D3DCAPS9								m_caps;
 
 		CAutoPtr<CPixelShaderCompiler> m_pPSC;
 
@@ -80,18 +82,38 @@ namespace DSObjects
 
 		typedef HRESULT (WINAPI* D3DXCreateLinePtr) (LPDIRECT3DDEVICE9   pDevice, LPD3DXLINE* ppLine);
 
-		void				DrawStats();
-		int					m_nTearingPos;
-		VMR9AlphaBitmap		m_VMR9AlphaBitmap;
-		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-		HINSTANCE			m_hDll;
+		typedef HRESULT (WINAPI* D3DXCreateFontPtr)(
+										LPDIRECT3DDEVICE9       pDevice,  
+										INT                     Height,
+										UINT                    Width,
+										UINT                    Weight,
+										UINT                    MipLevels,
+										BOOL                    Italic,
+										DWORD                   CharSet,
+										DWORD                   OutputPrecision,
+										DWORD                   Quality,
+										DWORD                   PitchAndFamily,
+										LPCWSTR                 pFaceName,
+										LPD3DXFONT*             ppFont);
+
+
+		void							DrawStats();
+		HRESULT							AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
+		void							EstimateFrameRate (REFERENCE_TIME rtStart);
+		virtual void					OnResetDevice() {};
+
+		int								m_nTearingPos;
+		VMR9AlphaBitmap					m_VMR9AlphaBitmap;
+		HINSTANCE						m_hDll;
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
 		D3DXCreateLinePtr				m_pD3DXCreateLine;
+		D3DXCreateFontPtr				m_pD3DXCreateFont;
 
 		LONGLONG						m_pllJitter [NB_JITTER];		// Jitter buffer for stats
 		LONGLONG						m_llLastPerf;
 		int								m_nNextJitter;
 		REFERENCE_TIME					m_rtTimePerFrame;
+		REFERENCE_TIME					m_rtCandidate;
 		int								m_nPictureSlots;
 
 	public:

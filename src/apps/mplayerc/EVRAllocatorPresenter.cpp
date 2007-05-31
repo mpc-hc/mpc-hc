@@ -141,6 +141,8 @@ public:
 	STDMETHODIMP	Invoke		 (	/* [in] */ __RPC__in_opt IMFAsyncResult *pAsyncResult);
 
 
+protected :
+	void			OnResetDevice();
 private :
 
 	typedef enum
@@ -259,6 +261,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	if (SUCCEEDED (hr)) hr = m_pD3DManager->ResetDevice(m_pD3DDev, nResetToken);
 
 	ResetStats();
+	m_nPictureSlots	= max (min (AfxGetAppSettings().iEvrBuffers, MAX_PICTURE_SLOTS-2), 1);
 	m_nState		= Stopped;
 	m_hEvtQuit		= CreateEvent (NULL, TRUE, FALSE, NULL);
 	m_hEvtPresent	= CreateEvent (NULL, FALSE, FALSE, NULL);
@@ -268,9 +271,8 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_hSemPicture	= CreateSemaphore(NULL, 0, m_nPictureSlots, NULL);
 	m_hSemSlot		= CreateSemaphore(NULL, m_nPictureSlots, m_nPictureSlots, NULL);
 	m_nFreeSlot		= 0;
-	m_nCurPicture	= 0;
+	m_nCurPicture	= m_nPictureSlots-1;
 	m_fUseInternalTimer	= false;
-	m_nPictureSlots	= max (min (AfxGetAppSettings().iEvrBuffers, MAX_PICTURE_SLOTS-2), 1);
 
 	m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 	m_hThread[1]	= ::CreateThread(NULL, 0, ProduceThread, (LPVOID)this, 0, &dwThreadId);
@@ -498,7 +500,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		SetEvent(m_hEvtFlush);
 		TRACE ("MFVP_MESSAGE_FLUSH\n");
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
-		SetEvent(m_hEvtPresent);
+//		SetEvent(m_hEvtPresent);
 		break;
 
 	case MFVP_MESSAGE_INVALIDATEMEDIATYPE :		// The mixer's output format has changed. The EVR will initiate format negotiation, as described previously
@@ -542,8 +544,9 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
+		TRACE ("=>MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
 		SetEvent (m_hEvtNewFrame);
-		TRACE ("MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
+		TRACE ("<=MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
 		break;
 
 	case MFVP_MESSAGE_STEP :					// Requests a frame step.
@@ -619,10 +622,11 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 		}
 	
+		TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
+
 		m_nFreeSlot = (m_nFreeSlot+1) % m_nPictureSlots;
 		ReleaseSemaphore (m_hSemPicture, 1, NULL);
 
-//		TRACE ("New image from muxer : %I64d\n", nsSampleTime/417188);
 	}
 
 	return hr;
@@ -817,14 +821,23 @@ void CEVRAllocatorPresenter::RenderThread()
 			TRACE ("Begin flush\n");
 			// Flush pending samples!
 			if (dwUser != -1) timeKillEvent (dwUser);
-			dwUser = -1;
+			dwUser = -1;		
+			//while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
+			//	ReleaseSemaphore (m_hSemSlot, 1, NULL);
+
 			while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
+			{
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
+				m_nCurPicture = (m_nCurPicture + 1) % m_nPictureSlots;
+				TRACE ("Free slot\n");
+			}
+
 			Sleep(1);
-			m_nCurPicture = m_nFreeSlot;
 			nRenderState  = Paused;
+//			m_nCurPicture = m_nFreeSlot ? m_nFreeSlot - 1 : m_nPictureSlots-1;
 			ResetEvent(m_hEvtFlush);
-			TRACE ("End flush\n");
+			SetEvent (m_hEvtPresent);
+			TRACE ("====>>> End flush  Cons=%d  Prod=%d\n", m_nCurPicture, m_nFreeSlot);
 			break;
 
 		case WAIT_OBJECT_0 + 2 :
@@ -836,6 +849,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+1)
 			{
+				m_nCurPicture = (m_nCurPicture + 1) % m_nPictureSlots;
 				TRACE ("RenderThread ==>> Presenting\n");
 				Paint(true);
 				m_pcFramesDrawn++;
@@ -845,12 +859,13 @@ void CEVRAllocatorPresenter::RenderThread()
 					// Calculate wake up timer
 					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
 					m_pMFSample[m_nCurPicture]->GetSampleTime (&nsSampleTime);
-					m_pMFSample[m_nCurPicture]->GetSampleDuration(&m_rtTimePerFrame);
+//					m_pMFSample[m_nCurPicture]->GetSampleDuration(&m_rtTimePerFrame);
+					EstimateFrameRate(nsSampleTime);
 					lDelay = (nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000 - 10;		// Wakup 10ms before next VSync!
 
 					if (lDelay > 0)
 					{
-						TRACE ("RenderThread ==>> Set timer %d   %I64d\n", lDelay, nsSampleTime/417188);
+						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d  Prod=%d\n", lDelay, nsSampleTime, m_nCurPicture, m_nFreeSlot);
 						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 
 						// If playing update statistics
@@ -875,12 +890,11 @@ void CEVRAllocatorPresenter::RenderThread()
 					{
 						dwUser = -1;
 						if (nRenderState == Playing) m_pcFrames++;
-						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)\n", nsSampleTime/417188, lDelay);
+						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d  Prod=%d\n", nsSampleTime/417188, lDelay, m_nCurPicture, m_nFreeSlot);
 						SetEvent (m_hEvtPresent);
 					}
 				}
 
-				m_nCurPicture = (m_nCurPicture + 1) % m_nPictureSlots;
 				ReleaseSemaphore (m_hSemSlot, 1, NULL);
 //				TRACE ("RenderThread ==>> Sleeping\n");
 			}
@@ -895,4 +909,17 @@ void CEVRAllocatorPresenter::RenderThread()
 
 	timeEndPeriod (dwResolution);
 	if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics (hAvrt);
+}
+
+void CEVRAllocatorPresenter::OnResetDevice()
+{
+	UINT		nResetToken = 0;
+
+	// Reset DXVA Manager, and get new buffers
+	m_pD3DManager->ResetDevice(m_pD3DDev, nResetToken);
+	AllocRessources();
+
+	// Not necessary, but Microsoft documentation say Presenter should send this message...
+	if (m_pSink)
+		m_pSink->Notify (EC_DISPLAY_CHANGED, 0, 0);
 }

@@ -1,0 +1,10 @@
+
+- Fixed : jitter test did not display on some files
+- Fixed : crash if display statistics when d3dx9_29.dll was not present
+- Fixed : crash possible with OSD when closing file
+- Fixed : kick off power option screen saver with Vista (if MPC have focus only)
+- Fixed : DVD menu freeze with nVidia Pure Video decoder on Windows XP
+- Fixed : clic to play not working at the bottom of video
+- Fixed : MKV internal subtitles did not displayed from time to time
+- Fixed : in EVR custom presenter with dual display, video disapeared when moving MPC on other screen
+- Added : Custom EVR bufferize frames in advanced (number configurable in options)
