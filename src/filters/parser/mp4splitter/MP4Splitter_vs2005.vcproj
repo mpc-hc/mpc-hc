@@ -210,7 +210,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;.\AP4\Source\MetaData"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4812"
 			/>
