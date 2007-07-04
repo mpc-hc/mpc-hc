@@ -146,6 +146,17 @@ bool CFLVSplitterFilter::ReadTag(VideoTag& vt)
 	return true;
 }
 
+bool CFLVSplitterFilter::ReadTag(VideoTweak& vt)
+{
+	if(!m_pFile->GetRemaining()) 
+		return false;
+
+	vt.x = (BYTE)m_pFile->BitRead(4);
+	vt.y = (BYTE)m_pFile->BitRead(4);
+
+	return true;
+}
+
 bool CFLVSplitterFilter::Sync(__int64& pos)
 {
 	m_pFile->Seek(pos);
@@ -312,7 +323,10 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				case 5:
 					m_pFile->BitRead(24);
 				case 4:
-					m_pFile->BitRead(8);
+					
+					VideoTweak fudge;
+					ReadTag(fudge);
+				
 					if((m_pFile->BitRead(16) & 0x80fe) != 0x0046) break;
 
 					h = m_pFile->BitRead(8) * 16;
@@ -332,6 +346,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					bih->biWidth = w;
 					bih->biHeight = h;
+					SetRect(&vih->rcSource, 0, 0, w - fudge.x, h - fudge.y);
+					SetRect(&vih->rcTarget, 0, 0, w - fudge.x, h - fudge.y);
 
 					mt.subtype = FOURCCMap(bih->biCompression = '4VLF');
 
@@ -339,7 +355,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 			}
 		}
-
+			
 		if(mt.subtype != GUID_NULL)
 		{
 			CAtlArray<CMediaType> mts;
