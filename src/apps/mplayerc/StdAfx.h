@@ -31,6 +31,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+//#define _WIN32_IE		0x0600
+#define WINVER			0x0600
+
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <afxwin.h>         // MFC core and standard components
@@ -63,7 +66,7 @@ template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
 
-#define BCM_SETSHIELD				0x0000160C		// Shield style for button (elevated privilege)
+//#define BCM_SETSHIELD				0x0000160C		// Shield style for button (elevated privilege)
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

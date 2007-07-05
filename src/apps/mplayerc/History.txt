@@ -1,4 +1,19 @@
 
+- Modify : OSD improved for EVR custom
+- Fixed : use same registry than orginal Gabest Media Player Classic
+- Fixed : freeze when playing audio only file with EVR Custom
+- Modify : EVR custom doesn't need mfplat.dll anymore (this dll is installed with WMP11)
+- Added : exit option available in popup menu
+- Fixed : mouse click on DVD menu with EVR custom
+- Fixed : wrong aspect ratio with anamorphic video using EVR custom
+- Fixed : when video was paused, frame stepping with EVR custom play video at normal speed
+- Fixed : Save thumbnail with EVR custom freeze MPC
+- Fixed : FLV splitter didn't read width and height in metadata (thanks to Chobits for this fix)
+
+
+1.0.8.0
+=======
+
 - Fixed : jitter test did not display on some files
 - Fixed : crash if display statistics when d3dx9_29.dll was not present
 - Fixed : crash possible with OSD when closing file

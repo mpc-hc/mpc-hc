@@ -120,3 +120,8 @@ void CFullscreenWnd::ShowCursor(bool bVisible)
 		PostMessage (WM_SETCURSOR,0,0);
 	}
 }
+
+bool CFullscreenWnd::IsWindow()
+{
+	return (m_hWnd != NULL);
+}

@@ -48,7 +48,6 @@
 
 #include "AllocatorCommon.h"
 
-#define VMRBITMAP_UPDATE            0x80000000
 #define FRAMERATE_MAX_DELTA			3000
 
 CCritSec g_ffdshowReceive;
@@ -200,29 +199,30 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoor
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr) 
 	: ISubPicAllocatorPresenterImpl(hWnd, hr)
 	, m_ScreenSize(0, 0)
+	, m_RefreshRate(0)
 	, m_bicubicA(0)
 	, m_nTearingPos(0)
-	, m_nPictureSlots(1)
-	, m_nCurPicture(0)
+	, m_nNbDXSurface(1)
+	, m_nCurSurface(0)
 	, m_rtCandidate(0)
+	, m_nUsedBuffer(0)
 {
+	HINSTANCE		hDll;
+
 	if(FAILED(hr)) return;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 	if(!m_pD3D) m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 	if(!m_pD3D) {hr = E_FAIL; return;}
 
-	CString d3dx9_dll;
-	d3dx9_dll.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
-
 	m_pD3DXLoadSurfaceFromMemory	= NULL;
 	m_pD3DXCreateLine				= NULL;
 	m_pD3DXCreateFont				= NULL;
-	m_hDll = LoadLibrary(d3dx9_dll);
-	if(m_hDll)
+	hDll							= AfxGetMyApp()->GetD3X9Dll();
+	if(hDll)
 	{
-		m_pD3DXLoadSurfaceFromMemory = (D3DXLoadSurfaceFromMemoryPtr)GetProcAddress(m_hDll, "D3DXLoadSurfaceFromMemory");
-		m_pD3DXCreateLine			 = (D3DXCreateLinePtr)			 GetProcAddress(m_hDll, "D3DXCreateLine");
-		m_pD3DXCreateFont			 = (D3DXCreateFontPtr)			 GetProcAddress(m_hDll, "D3DXCreateFontW");
+		m_pD3DXLoadSurfaceFromMemory = (D3DXLoadSurfaceFromMemoryPtr)GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
+		m_pD3DXCreateLine			 = (D3DXCreateLinePtr)			 GetProcAddress(hDll, "D3DXCreateLine");
+		m_pD3DXCreateFont			 = (D3DXCreateFontPtr)			 GetProcAddress(hDll, "D3DXCreateFontW");
 	}
 
 	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
@@ -241,8 +241,6 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     m_pD3DDev	= NULL;
 	m_pPSC.Free();
 	m_pD3D.Detach();
-
-	if(m_hDll) FreeLibrary(m_hDll);
 }
 
 HRESULT CDX9AllocatorPresenter::CreateDevice()
@@ -256,6 +254,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 	if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
 		return E_UNEXPECTED;
 
+	m_RefreshRate = d3ddm.RefreshRate;
 	m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
 
     D3DPRESENT_PARAMETERS pp;
@@ -372,7 +371,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 							 OUT_DEFAULT_PRECIS,    // OutputPrecision
 							 DEFAULT_QUALITY,       // Quality
 							 DEFAULT_PITCH | FF_DONTCARE, // PitchAndFamily
-							 L"Arial",              // pFaceName
+							 L"Courrier",              // pFaceName
 							 &m_pFont);              // ppFont
 
 	m_pLine = NULL;
@@ -388,7 +387,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	for(int i = 0; i < m_nPictureSlots+2; i++)
+	for(int i = 0; i < m_nNbDXSurface+2; i++)
 	{
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
@@ -400,7 +399,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
 	{
-		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nPictureSlots+2 : 1;
+		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface+2 : 1;
 
 		for(int i = 0; i < nTexturesNeeded; i++)
 		{
@@ -416,7 +415,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 
 		if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D)
 		{
-			for(int i = 0; i < m_nPictureSlots+2; i++)
+			for(int i = 0; i < m_nNbDXSurface+2; i++)
 			{
 				m_pVideoTexture[i] = NULL;
 			}
@@ -427,11 +426,11 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
 			m_NativeVideoSize.cx, m_NativeVideoSize.cy, 
 			D3DFMT_X8R8G8B8/*D3DFMT_A8R8G8B8*/, 
-			D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurPicture], NULL)))
+			D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL)))
 			return hr;
 	}
 
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurPicture], NULL, 0);
+	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
 
 	return S_OK;
 }
@@ -440,7 +439,7 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-	for(int i = 0; i < m_nPictureSlots+2; i++)
+	for(int i = 0; i < m_nNbDXSurface+2; i++)
 	{
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
@@ -914,11 +913,11 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 		if(!rDstVid.IsRectEmpty())
 		{
-			if(m_pVideoTexture[m_nCurPicture])
+			if(m_pVideoTexture[m_nCurSurface])
 			{
-				CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurPicture];
+				CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurSurface];
 
-				if(m_pVideoTexture[m_nPictureSlots] && m_pVideoTexture[m_nPictureSlots+1] && !m_pPixelShaders.IsEmpty())
+				if(m_pVideoTexture[m_nNbDXSurface] && m_pVideoTexture[m_nNbDXSurface+1] && !m_pPixelShaders.IsEmpty())
 				{
 					static __int64 counter = 0;
 					static long start = clock();
@@ -939,7 +938,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					CComPtr<IDirect3DSurface9> pRT;
 					hr = m_pD3DDev->GetRenderTarget(0, &pRT);
 
-					int src = m_nCurPicture, dst = m_nPictureSlots;
+					int src = m_nCurSurface, dst = m_nNbDXSurface;
 
 					POSITION pos = m_pPixelShaders.GetHeadPosition();
 					while(pos)
@@ -953,7 +952,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 						//if(++src > 2) src = 1;
 						//if(++dst > 2) dst = 1;
 						src		= dst;
-						if(++dst >= m_nPictureSlots+2) dst = m_nPictureSlots;
+						if(++dst >= m_nNbDXSurface+2) dst = m_nNbDXSurface;
 					}
 
 					hr = m_pD3DDev->SetRenderTarget(0, pRT);
@@ -998,7 +997,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
 					rSrcVid.left &= ~1; rSrcVid.right &= ~1;
 					rSrcVid.top &= ~1; rSrcVid.bottom &= ~1;
-					hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurPicture], rSrcVid, pBackBuffer, rDstVid, m_filter);
+					hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pBackBuffer, rDstVid, m_filter);
 
 					// Support ffdshow queueing
 					// m_pD3DDev->StretchRect may fail if ffdshow is using queue output samples.
@@ -1074,10 +1073,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	// Calculate the jitter!
 	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
-	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < m_rtTimePerFrame/2))
+	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < m_rtTimePerFrame*3))
 	{
-		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame/10;
 		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
+		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame;
 	}
 	m_llLastPerf = llPerf;
 
@@ -1114,6 +1113,10 @@ void CDX9AllocatorPresenter::DrawStats()
 		D3DXVECTOR2		Points[NB_JITTER];
 		int				nIndex;
 		RECT			rc = {700, 40, 0, 0 };
+		double			fAvrFps;
+		LONGLONG		llJitterSum = 0;
+		LONGLONG		llMaxJitter = MINLONG64;
+		LONGLONG		llMinJitter = MAXLONG64;
 
 		// === Jitter Graduation
 		m_pLine->SetWidth(1.0);          // Width 
@@ -1137,21 +1140,44 @@ void CDX9AllocatorPresenter::DrawStats()
 			{
 				nIndex = (m_nNextJitter+i) % NB_JITTER;
 				Points[i].x = i*5+5;
-				Points[i].y = m_pllJitter[nIndex]/500 + 250;
+				Points[i].y = m_pllJitter[nIndex]/5000 + 250;
+				llJitterSum += m_pllJitter[nIndex];
+				llMaxJitter	 = max(llMaxJitter, m_pllJitter[nIndex]);
+				llMinJitter	 = min(llMinJitter, m_pllJitter[nIndex]);
 			}		
 			m_pLine->Begin();
 			m_pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
 			m_pLine->End();
+
+			// === Text
+			CString		strText;
+			fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
+
+			strText.Format(L"Frame rate   : %.03f  (%I64d µs)", fAvrFps, m_rtTimePerFrame / 10);
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			OffsetRect (&rc, 0, 30);
+			strText.Format(L"Refresh rate : %d Hz", m_RefreshRate);
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			OffsetRect (&rc, 0, 30);
+			strText.Format(L"Buffer used  : %d,  free : %d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer);
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			OffsetRect (&rc, 0, 30);
+			strText.Format(L"Jitter           : Min = %+6dµS, Max = %+6dµS", (long)(llMinJitter/10), (long)(llMaxJitter/10));
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			OffsetRect (&rc, 0, 30);
+			strText.Format(L"Video size    : %d x %d  (AR = %d x %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			for (int i=0; i<6; i++)
+			{
+				OffsetRect (&rc, 0, 30);
+				m_pFont->DrawText( NULL, m_strStatsMsg[i], -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+			}
 		}
-
-		// === Text
-		CString		strText;
-		strText.Format(L"Frame rate : %.03f  (%I64d µs)", m_fps, m_rtTimePerFrame / 10);
-		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-		OffsetRect (&rc, 0, 30);
-		strText.Format(L"Candidate frame rate : %.03f  (%I64d µs)", 10000000.0 / m_rtCandidate, m_rtCandidate / 10);
-//		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 	}
 }
 
@@ -1163,20 +1189,20 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 
 	D3DSURFACE_DESC desc;
 	memset(&desc, 0, sizeof(desc));
-	m_pVideoSurface[m_nCurPicture]->GetDesc(&desc);
+	m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
 
 	DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
 	if(!lpDib) {*size = required; return S_OK;}
 	if(*size < required) return E_OUTOFMEMORY;
 	*size = required;
 
-	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurPicture];
+	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurSurface];
 	D3DLOCKED_RECT r;
 	if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
 	{
 		pSurface = NULL;
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
-		|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurPicture], pSurface))
+		|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
 		|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
 			return hr;
 	}
@@ -1715,14 +1741,14 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	if(!(lpAllocInfo->dwFlags & VMR9AllocFlag_TextureSurface))
 	{
 		// test if the colorspace is acceptable
-		if(FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE)))
+		if(FAILED(hr = m_pD3DDev->StretchRect(m_pSurfaces[0], NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE)))
 		{
 			DeleteSurfaces();
 			return E_FAIL;
 		}
 	}
 
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurPicture], NULL, 0);
+	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
 
 	return hr;
 }
@@ -1795,12 +1821,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(pTexture)
 	{
-		m_pVideoSurface[m_nCurPicture] = lpPresInfo->lpSurf;
-		if(m_pVideoTexture[m_nCurPicture]) m_pVideoTexture[m_nCurPicture] = pTexture;
+		m_pVideoSurface[m_nCurSurface] = lpPresInfo->lpSurf;
+		if(m_pVideoTexture[m_nCurSurface]) m_pVideoTexture[m_nCurSurface] = pTexture;
 	}
 	else
 	{
-		hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
 	}
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
@@ -1836,11 +1862,11 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		rcTearing.top		= 0;
 		rcTearing.right		= rcTearing.left + 4;
 		rcTearing.bottom	= m_NativeVideoSize.cy;
-		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurPicture], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
 
 		rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
 		rcTearing.right	= rcTearing.left + 4;
-		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurPicture], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
 
 		m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 	}
@@ -2070,9 +2096,9 @@ STDMETHODIMP CRM9AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 	HRESULT hr;
 	
 	if(fRGB)
-		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceOff, src2, m_pVideoSurface[m_nCurPicture], dst, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceOff, src2, m_pVideoSurface[m_nCurSurface], dst, D3DTEXF_NONE);
 	if(fYUY2)
-		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceYUY2, src2, m_pVideoSurface[m_nCurPicture], dst, D3DTEXF_NONE);
+		hr = m_pD3DDev->StretchRect(m_pVideoSurfaceYUY2, src2, m_pVideoSurface[m_nCurSurface], dst, D3DTEXF_NONE);
 
 	Paint(true);
 
@@ -2210,7 +2236,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 		}
 	}
 
-	m_pD3DDev->StretchRect(m_pVideoSurfaceOff, NULL, m_pVideoSurface[m_nCurPicture], NULL, D3DTEXF_NONE);
+	m_pD3DDev->StretchRect(m_pVideoSurfaceOff, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
 
 	Paint(true);
 

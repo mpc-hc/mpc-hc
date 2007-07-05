@@ -436,6 +436,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileVersionInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="FloatEdit.cpp"
 				>
 			</File>
@@ -862,6 +866,10 @@
 			</File>
 			<File
 				RelativePath="FileDropTarget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileVersionInfo.h"
 				>
 			</File>
 			<File

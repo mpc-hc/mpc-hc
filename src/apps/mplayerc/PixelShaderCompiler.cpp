@@ -20,41 +20,38 @@
  */
 
 #include "stdafx.h"
+#include "mplayerc.h"
 #include "PixelShaderCompiler.h"
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
 	: m_pD3DDev(pD3DDev)
-	, m_hDll(NULL)
 	, m_pD3DXCompileShader(NULL)
 	, m_pD3DXDisassembleShader(NULL)
 {
-	CString d3dx9_dll;
-	d3dx9_dll.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
+	HINSTANCE		hDll;
+	hDll = AfxGetMyApp()->GetD3X9Dll();
 
-	m_hDll = LoadLibrary(d3dx9_dll);
-
-	if(m_hDll)
+	if(hDll)
 	{
-		m_pD3DXCompileShader = (D3DXCompileShaderPtr)GetProcAddress(m_hDll, "D3DXCompileShader");
-		m_pD3DXDisassembleShader = (D3DXDisassembleShaderPtr)GetProcAddress(m_hDll, "D3DXDisassembleShader");
+		m_pD3DXCompileShader = (D3DXCompileShaderPtr)GetProcAddress(hDll, "D3DXCompileShader");
+		m_pD3DXDisassembleShader = (D3DXDisassembleShaderPtr)GetProcAddress(hDll, "D3DXDisassembleShader");
 	}
 
 	if(!fStaySilent)
 	{
-		if(!m_hDll)
+		if(!hDll)
 		{
-			AfxMessageBox(_T("Cannot load ") + d3dx9_dll + _T(", pixel shaders will not work."), MB_OK);
+			AfxMessageBox(_T("Cannot load D3DX9_xx.DLL, pixel shaders will not work."), MB_OK);
 		}
 		else if(!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) 
 		{
-			AfxMessageBox(_T("Cannot find necessary function entry points in ") + d3dx9_dll + _T(", pixel shaders will not work."), MB_OK);
+			AfxMessageBox(_T("Cannot find necessary function entry points in D3DX9_xx.DLL, pixel shaders will not work."), MB_OK);
 		}
 	}
 }
 
 CPixelShaderCompiler::~CPixelShaderCompiler()
 {
-	if(m_hDll) FreeLibrary(m_hDll);
 }
 
 HRESULT CPixelShaderCompiler::CompileShader(

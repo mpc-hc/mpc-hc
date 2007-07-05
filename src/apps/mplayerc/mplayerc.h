@@ -342,6 +342,7 @@ class CMPlayerCApp : public CWinApp
 
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
+	HINSTANCE				m_hD3DX9Dll;
 
 public:
 	CMPlayerCApp();
@@ -359,9 +360,12 @@ public:
 	bool		m_fTearingTest;
 	bool		m_fDisplayStats;
 	LONGLONG	m_PerfFrequency;
+	CString		m_strVersion;
+	CString		m_strD3DX9Version;
 
 	LONGLONG					GetPerfCounter();
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
+	HINSTANCE					GetD3X9Dll();
 
 
 // Overrides
@@ -567,7 +571,6 @@ public:
 		int				nCurrentDvdPosition;
 		FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 		int				nCurrentFilePosition;
-
 
 	public:
 		Settings();

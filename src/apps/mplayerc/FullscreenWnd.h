@@ -33,6 +33,7 @@ public:
 	virtual ~CFullscreenWnd();
 
 	void	ShowCursor(bool bVisible);
+	bool	IsWindow();
 
 protected:
 	DECLARE_MESSAGE_MAP()

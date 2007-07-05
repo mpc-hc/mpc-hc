@@ -42,8 +42,7 @@ class CPixelShaderCompiler
         BOOL                            EnableColorCode, 
         LPCSTR                          pComments, 
         LPD3DXBUFFER*                   ppDisassembly);
-
-	HMODULE m_hDll;
+	
 	D3DXCompileShaderPtr m_pD3DXCompileShader;
 	D3DXDisassembleShaderPtr m_pD3DXDisassembleShader;
 

@@ -28,6 +28,8 @@
 
 // CPPageFormats dialog
 
+const TCHAR			g_strMPCAssoc[]		= _T("MediaPlayerClassic.AssocFile");
+
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
 	: CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
@@ -36,6 +38,12 @@ CPPageFormats::CPPageFormats()
 	, m_iRtspHandler(0)
 	, m_fRtspFileExtFirst(FALSE)
 {
+/*	HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
+								NULL,
+								CLSCTX_INPROC,
+								__uuidof(IApplicationAssociationRegistration),
+								(void**)&m_pAAR);*/
+
 }
 
 CPPageFormats::~CPPageFormats()
@@ -504,6 +512,17 @@ BOOL CPPageFormats::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+/*
+BOOL CPPageFormats::SetVistaDefaultAssoc(LPCTSTR strExt, bool fRegister)
+{
+	HRESULT		hr = S_OK;
+	if (m_pAAR && fRegister)
+		hr = m_pAAR->SetAppAsDefault(g_strMPCAssoc, strExt, AT_FILEEXTENSION);
+
+  return SUCCEEDED (hr);
+}*/
+
+
 BOOL CPPageFormats::OnApply()
 {
 	UpdateData();
@@ -531,7 +550,9 @@ BOOL CPPageFormats::OnApply()
 		Explode(mf[(int)m_list.GetItemData(i)].GetExtsWithPeriod(), exts, ' ');
 
 		POSITION pos = exts.GetHeadPosition();
-		while(pos) RegisterExt(exts.GetNext(pos), !!iChecked);
+		while(pos)
+//			SetVistaDefaultAssoc (exts.GetNext(pos), !!iChecked);
+			RegisterExt(exts.GetNext(pos), !!iChecked);
 	}
 
 	{

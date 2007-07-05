@@ -688,7 +688,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 		if(w->m_fLineBreak) return(bbox); // should not happen since this class is just a line of text without any breaks
 
 //		if((w->m_style.outlineWidth > 0 || w->m_style.borderStyle == 1 && w->m_style.outlineWidth == 0) && !(w->m_ktype == 2 && time < w->m_kstart))
-		if(w->m_style.outlineWidth > 0 && !(w->m_ktype == 2 && time < w->m_kstart))
+		if(w->m_style.outlineWidth >= 0 && !(w->m_ktype == 2 && time < w->m_kstart))
 		{
 			int x = p.x;
 			int y = p.y + m_ascent - w->m_ascent;
@@ -2392,6 +2392,11 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 		p = p2;
 
+		// Casimir666 fix : opaque box overlapped
+		STSStyle style;
+		GetDefaultStyle(style);
+		int		nVertOffset = (style.borderStyle == 1) ? 16*style.outlineWidth : 0;
+
 		pos = s->GetHeadPosition();
 		while(pos) 
 		{
@@ -2403,7 +2408,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 			bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
 
-			p.y += l->m_ascent + l->m_descent;
+			p.y += l->m_ascent + l->m_descent + nVertOffset;
 		}
 
 		p = p2;
@@ -2419,7 +2424,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 			bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
 
-			p.y += l->m_ascent + l->m_descent;
+			p.y += l->m_ascent + l->m_descent + nVertOffset;
 		}
 
 		p = p2;
@@ -2435,7 +2440,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 			bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
 
-			p.y += l->m_ascent + l->m_descent;
+			p.y += l->m_ascent + l->m_descent + nVertOffset;
 		}
 	}
 

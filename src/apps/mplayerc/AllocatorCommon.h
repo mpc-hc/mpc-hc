@@ -21,6 +21,7 @@
 
 #pragma once
 
+#define VMRBITMAP_UPDATE            0x80000000
 #define MAX_PICTURE_SLOTS			(20+2)				// Last 2 for pixels shader!
 
 #define NB_JITTER					125
@@ -32,14 +33,14 @@ namespace DSObjects
 		: public ISubPicAllocatorPresenterImpl
 	{
 	protected:
-		CSize m_ScreenSize;
-		bool m_fVMRSyncFix;
+		CSize	m_ScreenSize;
+		UINT	m_RefreshRate;
+		bool	m_fVMRSyncFix;
 
 		CComPtr<IDirect3D9>						m_pD3D;
 		CComPtr<IDirect3DDevice9>				m_pD3DDev;
 		CComPtr<IDirect3DTexture9>				m_pVideoTexture[MAX_PICTURE_SLOTS];
 		CComPtr<IDirect3DSurface9>				m_pVideoSurface[MAX_PICTURE_SLOTS];
-		int										m_nCurPicture;
 		CComPtr<IDirect3DTexture9>				m_pOSDTexture;
 		CComPtr<IDirect3DSurface9>				m_pOSDSurface;
 		CComPtr<ID3DXLine>						m_pLine;
@@ -50,7 +51,7 @@ namespace DSObjects
 		D3DTEXTUREFILTERTYPE					m_filter;
 		D3DCAPS9								m_caps;
 
-		CAutoPtr<CPixelShaderCompiler> m_pPSC;
+		CAutoPtr<CPixelShaderCompiler>			m_pPSC;
 
 		virtual HRESULT CreateDevice();
 		virtual HRESULT AllocSurfaces();
@@ -104,17 +105,21 @@ namespace DSObjects
 
 		int								m_nTearingPos;
 		VMR9AlphaBitmap					m_VMR9AlphaBitmap;
-		HINSTANCE						m_hDll;
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
 		D3DXCreateLinePtr				m_pD3DXCreateLine;
 		D3DXCreateFontPtr				m_pD3DXCreateFont;
+
+		int								m_nNbDXSurface;					// Total number of DX Surfaces
+		int								m_nCurSurface;					// Surface currently displayed
+		long							m_nUsedBuffer;
 
 		LONGLONG						m_pllJitter [NB_JITTER];		// Jitter buffer for stats
 		LONGLONG						m_llLastPerf;
 		int								m_nNextJitter;
 		REFERENCE_TIME					m_rtTimePerFrame;
 		REFERENCE_TIME					m_rtCandidate;
-		int								m_nPictureSlots;
+
+		CString							m_strStatsMsg[10];
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);

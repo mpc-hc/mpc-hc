@@ -693,11 +693,11 @@ public:
 	CComPtr<IVMRMixerControl9>		m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CVMROSD							m_OSD;
-	bool							m_bD3DFullscreenMode;
 	bool							m_bRemainingTime;
 	int								m_nCurSubtitle;
 	long							m_lSubtitleShift;
 	__int64							m_rtCurSubPos;
+	CString							m_strTitle;
 
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);

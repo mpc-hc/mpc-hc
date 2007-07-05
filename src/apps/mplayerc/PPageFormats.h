@@ -23,6 +23,7 @@
 
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
+//#include <shobjidl.h>
 
 // CPPageFormats dialog
 
@@ -32,6 +33,7 @@ class CPPageFormats : public CPPageBase
 
 private:
 	CImageList m_onoff;
+//	CComPtr<IApplicationAssociationRegistration>	m_pAAR;
 
 	int GetChecked(int iItem);
 	void SetChecked(int iItem, int fChecked);
@@ -41,6 +43,7 @@ private:
 	bool IsAutoPlayRegistered(autoplay_t ap);
 
 	void SetListItemState(int nItem);
+//	BOOL SetVistaDefaultAssoc(LPCTSTR strExt, bool fRegister);
 
 public:
 	CPPageFormats();

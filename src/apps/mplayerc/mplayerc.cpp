@@ -29,6 +29,10 @@
 #include "MainFrm.h"
 #include "..\..\DSUtil\DSUtil.h"
 #include "struct.h"
+#include "FileVersionInfo.h"
+#include <psapi.h>
+#include <d3d9.h>
+#include <d3dx9.h>
 
 /////////
 
@@ -209,13 +213,16 @@ public:
 #ifdef UNICODE
 		UpdateData();
 		m_appname += _T(" (unicode build)");
+		m_strVersion += AfxGetMyApp()->m_strVersion;
 		UpdateData(FALSE);
 #endif
 		return TRUE;
 	}
+	CString m_strVersion;
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
+, m_strVersion(_T(""))
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
@@ -227,6 +234,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CAboutDlg)
 	//}}AFX_DATA_MAP
 	DDX_Text(pDX, IDC_STATIC1, m_appname);
+	DDX_Text(pDX, IDC_VERSION, m_strVersion);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
@@ -252,8 +260,16 @@ END_MESSAGE_MAP()
 CMPlayerCApp::CMPlayerCApp()
 //	: m_hMutexOneInstance(NULL)
 {
+	CFileVersionInfo	Version;
+	TCHAR				strApp [MAX_PATH];
+
+	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+	Version.Create (strApp);
+	m_strVersion = Version.GetFileVersionEx();
+
 	m_fTearingTest  = false;
 	m_fDisplayStats = false;
+	m_hD3DX9Dll		= NULL;
 	memset (&m_ColorControl, 0, sizeof(m_ColorControl));
 	m_ColorControl[0].dwSize		= sizeof (COLORPROPERTY_RANGE);
 	m_ColorControl[0].dwProperty	= Brightness;
@@ -2507,14 +2523,14 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
 
 LONGLONG CMPlayerCApp::GetPerfCounter()
 {
-	LONGLONG		i64TicksMicroSeconde;
+	LONGLONG		i64Ticks100ns;
 	if (m_PerfFrequency != 0)
 	{
-		QueryPerformanceCounter ((LARGE_INTEGER*)&i64TicksMicroSeconde);
-		i64TicksMicroSeconde	= i64TicksMicroSeconde * 1000000;
-		i64TicksMicroSeconde	= i64TicksMicroSeconde / m_PerfFrequency;
+		QueryPerformanceCounter ((LARGE_INTEGER*)&i64Ticks100ns);
+		i64Ticks100ns	= i64Ticks100ns * 10000000;
+		i64Ticks100ns	= i64Ticks100ns / m_PerfFrequency;
 
-		return i64TicksMicroSeconde;
+		return i64Ticks100ns;
 	}
 	return 0;
 }
@@ -2533,4 +2549,16 @@ COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 		return &m_ColorControl[3];
 	}
 	return NULL;
+}
+
+
+HINSTANCE CMPlayerCApp::GetD3X9Dll()
+{
+	if (m_hD3DX9Dll == NULL)
+	{
+		m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
+		m_hD3DX9Dll = LoadLibrary (m_strD3DX9Version);
+	}
+
+	return m_hD3DX9Dll;
 }
