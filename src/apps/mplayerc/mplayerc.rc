@@ -192,7 +192,7 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Media Player Classic",IDC_STATIC1,40,10,126,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2002-2006 Gabest",IDC_STATIC,40,21,113,8
-    LTEXT           "Version: 6.4.9.0 - Mod Casimir666 v1.0.7.0",IDC_STATIC,40,33,170,8
+    LTEXT           "Version: 6.4.9.0 - Mod Casimir666 v",IDC_VERSION,40,33,170,8
     PUSHBUTTON      "OK",IDOK,160,8,50,14,WS_GROUP
     LTEXT           "This program is freeware and released under the GNU General Public License.\nDistribution in Codec Packs is allowed, but the author (Gabest) is not liable for the additional content.",IDC_STATIC,11,47,199,34
 END
@@ -1473,7 +1473,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,8,0
+ FILEVERSION 1,0,8,5
  PRODUCTVERSION 6,4,9,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
@@ -1492,7 +1492,7 @@ BEGIN
             VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 0, 8, 0"
+            VALUE "FileVersion", "1, 0, 8, 5"
             VALUE "InternalName", "Media Player Classic"
             VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
             VALUE "OriginalFilename", "mplayerc.EXE"
@@ -1681,7 +1681,7 @@ BEGIN
         MENUITEM "Documentation (sf.net)",      ID_HELP_DOCUMENTATION
         MENUITEM "Command Line Switches",       ID_HELP_SHOWCOMMANDLINESWITCHES
         MENUITEM SEPARATOR
-        MENUITEM "Donate!",                     ID_HELP_DONATE
+        MENUITEM "Sourceforge project",         ID_HELP_DONATE
         MENUITEM SEPARATOR
         MENUITEM "&About...",                   ID_HELP_ABOUT
     END
@@ -1810,6 +1810,8 @@ BEGIN
         END
         MENUITEM "P&roperties",                 ID_FILE_PROPERTIES
         MENUITEM "&Options...",                 ID_VIEW_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+X",                ID_FILE_EXIT
     END
 END
 
@@ -2013,7 +2015,7 @@ IDR_HTML_PLAYER         HTML                    "res\\web\\player.html"
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME           "Media Player Classic (Mod by Casimir666)"
+    IDR_MAINFRAME           "Media Player Classic Homecinema"
     IDS_RS_DVDPOS           "Remember DVD Pos"
     IDS_RS_FILEPOS          "Remember File Pos"
     IDS_RS_LASTFULLSCREEN   "LastFullScreen"
@@ -2147,7 +2149,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_APP_TITLE       "Media Player Classic (Mod by Casimir666)"
+    AFX_IDS_APP_TITLE       "Media Player Classic"
 END
 
 STRINGTABLE 
@@ -2431,7 +2433,7 @@ END
 STRINGTABLE 
 BEGIN
     IDD_FILEPROPRES         "Resources"
-    IDD_PPAGECASIMIR        "Casimir666"
+    IDD_PPAGECASIMIR        "Miscellaneous"
 END
 
 STRINGTABLE 
