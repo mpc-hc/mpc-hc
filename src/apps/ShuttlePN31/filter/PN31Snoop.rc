@@ -65,8 +65,8 @@ LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,0,1,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -84,12 +84,12 @@ BEGIN
             VALUE "Comments", "Driver for Shuttle PN31 Remote Control (based on USBSnoop)"
             VALUE "CompanyName", "Casimir666 Incorporated"
             VALUE "FileDescription", "PN31 Lower Filter"
-            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "FileVersion", "1, 0, 1, 0"
             VALUE "InternalName", "PN31Snoop"
             VALUE "LegalCopyright", "Copyright (C) 2006"
             VALUE "OriginalFilename", "PN31Snoop.sys"
             VALUE "ProductName", " PN31Snoop Application"
-            VALUE "ProductVersion", "1, 0, 0, 1"
+            VALUE "ProductVersion", "1, 0, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
