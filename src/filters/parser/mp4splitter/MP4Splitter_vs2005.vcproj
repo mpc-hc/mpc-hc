@@ -5,6 +5,10 @@
 	Name="MP4Splitter"
 	ProjectGUID="{9ED4B036-7399-4128-868D-6E71188E0277}"
 	RootNamespace="MP4Splitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

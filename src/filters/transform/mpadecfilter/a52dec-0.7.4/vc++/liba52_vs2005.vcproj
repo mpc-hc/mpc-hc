@@ -5,6 +5,9 @@
 	Name="liba52"
 	ProjectGUID="{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 	RootNamespace="liba52"
+	SccProjectName="&quot;$/MPC Homecinema/filters_vs2005&quot;, BODAAAAA"
+	SccLocalPath="..\..\..\.."
+	SccProvider="MSSCCI:Microsoft Visual SourceSafe"
 	>
 	<Platforms>
 		<Platform

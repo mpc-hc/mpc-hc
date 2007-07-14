@@ -5,6 +5,10 @@
 	Name="MpaSplitter"
 	ProjectGUID="{C0F7A036-FC2D-40DF-9852-C37518DB6B3E}"
 	RootNamespace="MpaSplitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

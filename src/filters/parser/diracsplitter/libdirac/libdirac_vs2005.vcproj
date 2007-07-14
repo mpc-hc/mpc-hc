@@ -5,6 +5,10 @@
 	Name="libdirac"
 	ProjectGUID="{12BE3440-A1F3-4C48-A229-30CB619EA276}"
 	RootNamespace="libdirac"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

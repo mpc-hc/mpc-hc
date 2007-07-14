@@ -5,6 +5,10 @@
 	Name="RealMediaSplitter"
 	ProjectGUID="{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 	RootNamespace="RealMediaSplitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -285,7 +289,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -356,10 +359,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -431,7 +431,6 @@
 				IgnoreDefaultLibraryNames="libc.lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -501,10 +500,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

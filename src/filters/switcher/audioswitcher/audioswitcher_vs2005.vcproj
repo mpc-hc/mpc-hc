@@ -5,6 +5,10 @@
 	Name="audioswitcher"
 	ProjectGUID="{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}"
 	RootNamespace="audioswitcher"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -58,7 +62,6 @@
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -130,10 +133,7 @@
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -204,7 +204,6 @@
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -276,10 +275,7 @@
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

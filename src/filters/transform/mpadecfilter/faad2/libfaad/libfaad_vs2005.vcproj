@@ -5,6 +5,10 @@
 	Name="libfaad"
 	ProjectGUID="{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
 	RootNamespace="libfaad"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	>
 	<Platforms>
 		<Platform

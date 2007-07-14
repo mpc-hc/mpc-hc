@@ -5,6 +5,10 @@
 	Name="filters"
 	ProjectGUID="{273B3149-3192-4B75-A791-470320B90812}"
 	RootNamespace="filters"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

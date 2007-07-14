@@ -5,6 +5,10 @@
 	Name="basesplitter"
 	ProjectGUID="{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}"
 	RootNamespace="basesplitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

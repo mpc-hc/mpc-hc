@@ -5,6 +5,10 @@
 	Name="d2vsource"
 	ProjectGUID="{83CC6B88-A112-4192-BD5A-F2A249AF2277}"
 	RootNamespace="d2vsource"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -57,7 +61,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="D2VSource.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -128,10 +131,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="D2VSource.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,7 +201,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="D2VSource.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -272,10 +271,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="D2VSource.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

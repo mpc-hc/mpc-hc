@@ -5,6 +5,10 @@
 	Name="DSMMuxer"
 	ProjectGUID="{65361C7C-83D6-42E4-870C-4DC85AE641FE}"
 	RootNamespace="DSMMuxer"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -277,7 +281,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -347,10 +350,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -421,7 +421,6 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -491,10 +490,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

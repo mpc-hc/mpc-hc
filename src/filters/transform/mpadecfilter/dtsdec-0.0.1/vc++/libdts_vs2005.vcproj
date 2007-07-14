@@ -5,6 +5,9 @@
 	Name="libdts"
 	ProjectGUID="{54F609FD-A8CE-43CF-94AD-23E877B97C13}"
 	RootNamespace="libdts"
+	SccProjectName="&quot;$/MPC Homecinema/filters_vs2005&quot;, BODAAAAA"
+	SccLocalPath="..\..\..\.."
+	SccProvider="MSSCCI:Microsoft Visual SourceSafe"
 	>
 	<Platforms>
 		<Platform

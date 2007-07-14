@@ -5,6 +5,10 @@
 	Name="basevideofilter"
 	ProjectGUID="{54DDA60F-E528-4D07-A152-960A1E818680}"
 	RootNamespace="basevideofilter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

@@ -5,6 +5,10 @@
 	Name="vtsreader"
 	ProjectGUID="{664E726B-EEEE-403A-AC15-345D9C9E1375}"
 	RootNamespace="vtsreader"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -277,7 +281,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="VTSReader.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -348,7 +351,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="VTSReader.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -419,10 +421,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="VTSReader.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -492,10 +491,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="VTSReader.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

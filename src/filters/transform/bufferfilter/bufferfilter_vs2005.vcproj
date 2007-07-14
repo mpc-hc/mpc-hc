@@ -5,6 +5,10 @@
 	Name="bufferfilter"
 	ProjectGUID="{9DCFD02A-16A0-4766-BC18-66163E21929D}"
 	RootNamespace="bufferfilter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -57,7 +61,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="BufferFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -128,10 +131,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="BufferFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,7 +201,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="BufferFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -272,10 +271,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="BufferFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

@@ -5,6 +5,10 @@
 	Name="decssfilter"
 	ProjectGUID="{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
 	RootNamespace="decssfilter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -57,7 +61,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="DeCSSFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -128,10 +131,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="DeCSSFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,7 +201,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="DeCSSFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -272,10 +271,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="DeCSSFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

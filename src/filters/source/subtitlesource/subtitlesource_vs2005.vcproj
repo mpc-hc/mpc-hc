@@ -5,6 +5,10 @@
 	Name="subtitlesource"
 	ProjectGUID="{8F998497-9C51-4FAA-83E4-1D85B22CBA13}"
 	RootNamespace="subtitlesource"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -57,7 +61,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="SubtitleSource.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -128,10 +131,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="SubtitleSource.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,7 +201,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="SubtitleSource.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -272,10 +271,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="SubtitleSource.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

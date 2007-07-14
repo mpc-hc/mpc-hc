@@ -5,6 +5,10 @@
 	Name="asyncreader"
 	ProjectGUID="{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
 	RootNamespace="asyncreader"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

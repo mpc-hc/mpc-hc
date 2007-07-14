@@ -5,6 +5,10 @@
 	Name="DiracSplitter"
 	ProjectGUID="{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}"
 	RootNamespace="DiracSplitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -41,7 +45,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -99,7 +102,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -157,7 +159,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -215,7 +216,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -273,7 +273,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -291,7 +290,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -346,7 +344,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -363,10 +360,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -420,7 +414,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -439,7 +432,6 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -494,7 +486,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="./libdirac"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -512,10 +503,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

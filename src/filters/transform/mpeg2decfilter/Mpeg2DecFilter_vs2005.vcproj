@@ -5,6 +5,10 @@
 	Name="Mpeg2DecFilter"
 	ProjectGUID="{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}"
 	RootNamespace="Mpeg2DecFilter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -57,7 +61,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -128,10 +131,7 @@
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -202,7 +202,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -273,10 +272,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

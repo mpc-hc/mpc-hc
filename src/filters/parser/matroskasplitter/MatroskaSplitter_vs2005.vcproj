@@ -5,6 +5,10 @@
 	Name="MatroskaSplitter"
 	ProjectGUID="{3F5EA225-F4B7-4413-AEB3-4E4E5751E438}"
 	RootNamespace="MatroskaSplitter"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -40,7 +44,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -96,7 +99,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -152,7 +154,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -208,7 +209,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -264,7 +264,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -282,7 +281,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -336,7 +334,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -353,10 +350,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -409,7 +403,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -428,7 +421,6 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -483,7 +475,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -500,10 +491,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool

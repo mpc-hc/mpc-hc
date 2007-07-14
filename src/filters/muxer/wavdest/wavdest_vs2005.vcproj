@@ -5,6 +5,10 @@
 	Name="wavdest"
 	ProjectGUID="{EB202B68-8029-4985-B914-E94B44D2E230}"
 	RootNamespace="wavdest"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -277,7 +281,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="wavdest.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -348,7 +351,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib"
 				ModuleDefinitionFile="wavdest.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>

@@ -5,6 +5,10 @@
 	Name="BaseMuxer"
 	ProjectGUID="{DB5F93B2-54D0-4474-A588-D259BE36C832}"
 	RootNamespace="BaseMuxer"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
