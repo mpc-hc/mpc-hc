@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: cfft.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -551,7 +551,7 @@ static void passf5(const uint16_t ido, const uint16_t l1, const complex_t *cc,
                 ComplexMult(&RE(c4), &RE(c5),
                     ti12, ti11, RE(t5), RE(t4));
                 ComplexMult(&IM(c4), &IM(c5),
-                    ti12, ti12, IM(t5), IM(t4));
+                    ti12, ti11, IM(t5), IM(t4));
 
                 RE(ch[ah+l1]) = RE(c2) + IM(c5);
                 IM(ch[ah+l1]) = IM(c2) - RE(c5);
@@ -653,7 +653,7 @@ static void passf5(const uint16_t ido, const uint16_t l1, const complex_t *cc,
                     ComplexMult(&RE(c4), &RE(c5),
                         ti12, ti11, RE(t5), RE(t4));
                     ComplexMult(&IM(c4), &IM(c5),
-                        ti12, ti12, IM(t5), IM(t4));
+                        ti12, ti11, IM(t5), IM(t4));
 
                     IM(d2) = IM(c2) - RE(c5);
                     IM(d3) = IM(c3) - RE(c4);
@@ -1004,4 +1004,5 @@ void cfftu(cfft_info *cfft)
 
     if (cfft) faad_free(cfft);
 }
+
 

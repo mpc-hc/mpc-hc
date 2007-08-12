@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: specrec.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -358,6 +358,7 @@ uint8_t window_grouping_info(NeAACDecHandle hDecoder, ic_stream *ics)
             }
             ics->sect_sfb_offset[0][ics->num_swb] = hDecoder->frameLength;
             ics->swb_offset[ics->num_swb] = hDecoder->frameLength;
+            ics->swb_offset_max = hDecoder->frameLength;
         } else {
 #endif
             for (i = 0; i < ics->num_swb; i++)
@@ -367,6 +368,7 @@ uint8_t window_grouping_info(NeAACDecHandle hDecoder, ic_stream *ics)
             }
             ics->sect_sfb_offset[0][ics->num_swb] = hDecoder->frameLength;
             ics->swb_offset[ics->num_swb] = hDecoder->frameLength;
+            ics->swb_offset_max = hDecoder->frameLength;
 #ifdef LD_DEC
         }
 #endif
@@ -385,6 +387,7 @@ uint8_t window_grouping_info(NeAACDecHandle hDecoder, ic_stream *ics)
         for (i = 0; i < ics->num_swb; i++)
             ics->swb_offset[i] = swb_offset_128_window[sf_index][i];
         ics->swb_offset[ics->num_swb] = hDecoder->frameLength/8;
+        ics->swb_offset_max = hDecoder->frameLength/8;
 
         for (i = 0; i < ics->num_windows-1; i++) {
             if (bit_set(ics->scale_factor_grouping, 6-i) == 0)
@@ -682,7 +685,7 @@ static uint8_t quant_to_spec(NeAACDecHandle hDecoder,
 static uint8_t allocate_single_channel(NeAACDecHandle hDecoder, uint8_t channel,
                                        uint8_t output_channels)
 {
-    uint8_t mul = 1;
+    int mul = 1;
 
 #ifdef MAIN_DEC
     /* MAIN object type prediction */
@@ -783,7 +786,7 @@ static uint8_t allocate_single_channel(NeAACDecHandle hDecoder, uint8_t channel,
 static uint8_t allocate_channel_pair(NeAACDecHandle hDecoder,
                                      uint8_t channel, uint8_t paired_channel)
 {
-    uint8_t mul = 1;
+    int mul = 1;
 
 #ifdef MAIN_DEC
     /* MAIN object type prediction */
@@ -888,7 +891,8 @@ static uint8_t allocate_channel_pair(NeAACDecHandle hDecoder,
 uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
                                    element *sce, int16_t *spec_data)
 {
-    uint8_t retval, output_channels;
+    uint8_t retval;
+    int output_channels;
     ALIGN real_t spec_coef[1024];
 
 #ifdef PROFILE
@@ -904,6 +908,8 @@ uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
         output_channels = 2;
     else
         output_channels = 1;
+#else
+    output_channels = 1;
 #endif
 
     if (hDecoder->element_output_channels[hDecoder->fr_ch_ele] == 0)
@@ -947,7 +953,8 @@ uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
 
 
     /* pns decoding */
-    pns_decode(ics, NULL, spec_coef, NULL, hDecoder->frameLength, 0, hDecoder->object_type);
+    pns_decode(ics, NULL, spec_coef, NULL, hDecoder->frameLength, 0, hDecoder->object_type,
+        &(hDecoder->__r1), &(hDecoder->__r2));
 
 #ifdef MAIN_DEC
     /* MAIN object type prediction */
@@ -1031,8 +1038,8 @@ uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
     if (((hDecoder->sbr_present_flag == 1) || (hDecoder->forceUpSampling == 1))
         && hDecoder->sbr_alloced[hDecoder->fr_ch_ele])
     {
-        uint8_t ele = hDecoder->fr_ch_ele;
-        uint8_t ch = sce->channel;
+        int ele = hDecoder->fr_ch_ele;
+        int ch = sce->channel;
 
         /* following case can happen when forceUpSampling == 1 */
         if (hDecoder->sbr[ele] == NULL)
@@ -1047,9 +1054,9 @@ uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
         }
 
         if (sce->ics1.window_sequence == EIGHT_SHORT_SEQUENCE)
-            hDecoder->sbr[ele]->maxAACLine = 8*sce->ics1.swb_offset[max(sce->ics1.max_sfb-1, 0)];
+            hDecoder->sbr[ele]->maxAACLine = 8*min(sce->ics1.swb_offset[max(sce->ics1.max_sfb-1, 0)], sce->ics1.swb_offset_max);
         else
-            hDecoder->sbr[ele]->maxAACLine = sce->ics1.swb_offset[max(sce->ics1.max_sfb-1, 0)];
+            hDecoder->sbr[ele]->maxAACLine = min(sce->ics1.swb_offset[max(sce->ics1.max_sfb-1, 0)], sce->ics1.swb_offset_max);
 
         /* check if any of the PS tools is used */
 #if (defined(PS_DEC) || defined(DRM_PS))
@@ -1079,9 +1086,9 @@ uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics,
     if ((hDecoder->ps_used[hDecoder->fr_ch_ele] == 0) &&
         (hDecoder->element_output_channels[hDecoder->fr_ch_ele] == 2))
     {
-        uint8_t ele = hDecoder->fr_ch_ele;
-        uint8_t ch = sce->channel;
-        uint16_t frame_size = (hDecoder->sbr_alloced[ele]) ? 2 : 1;
+        int ele = hDecoder->fr_ch_ele;
+        int ch = sce->channel;
+        int frame_size = (hDecoder->sbr_alloced[ele]) ? 2 : 1;
         frame_size *= hDecoder->frameLength*sizeof(real_t);
 
         memcpy(hDecoder->time_out[ch+1], hDecoder->time_out[ch], frame_size);
@@ -1127,10 +1134,13 @@ uint8_t reconstruct_channel_pair(NeAACDecHandle hDecoder, ic_stream *ics1, ic_st
     /* pns decoding */
     if (ics1->ms_mask_present)
     {
-        pns_decode(ics1, ics2, spec_coef1, spec_coef2, hDecoder->frameLength, 1, hDecoder->object_type);
+        pns_decode(ics1, ics2, spec_coef1, spec_coef2, hDecoder->frameLength, 1, hDecoder->object_type,
+            &(hDecoder->__r1), &(hDecoder->__r2));
     } else {
-        pns_decode(ics1, NULL, spec_coef1, NULL, hDecoder->frameLength, 0, hDecoder->object_type);
-        pns_decode(ics2, NULL, spec_coef2, NULL, hDecoder->frameLength, 0, hDecoder->object_type);
+        pns_decode(ics1, NULL, spec_coef1, NULL, hDecoder->frameLength, 0, hDecoder->object_type,
+            &(hDecoder->__r1), &(hDecoder->__r2));
+        pns_decode(ics2, NULL, spec_coef2, NULL, hDecoder->frameLength, 0, hDecoder->object_type,
+            &(hDecoder->__r1), &(hDecoder->__r2));
     }
 
     /* mid/side decoding */
@@ -1282,9 +1292,9 @@ uint8_t reconstruct_channel_pair(NeAACDecHandle hDecoder, ic_stream *ics1, ic_st
     if (((hDecoder->sbr_present_flag == 1) || (hDecoder->forceUpSampling == 1))
         && hDecoder->sbr_alloced[hDecoder->fr_ch_ele])
     {
-        uint8_t ele = hDecoder->fr_ch_ele;
-        uint8_t ch0 = cpe->channel;
-        uint8_t ch1 = cpe->paired_channel;
+        int ele = hDecoder->fr_ch_ele;
+        int ch0 = cpe->channel;
+        int ch1 = cpe->paired_channel;
 
         /* following case can happen when forceUpSampling == 1 */
         if (hDecoder->sbr[ele] == NULL)
@@ -1299,9 +1309,9 @@ uint8_t reconstruct_channel_pair(NeAACDecHandle hDecoder, ic_stream *ics1, ic_st
         }
 
         if (cpe->ics1.window_sequence == EIGHT_SHORT_SEQUENCE)
-            hDecoder->sbr[ele]->maxAACLine = 8*cpe->ics1.swb_offset[max(cpe->ics1.max_sfb-1, 0)];
+            hDecoder->sbr[ele]->maxAACLine = 8*min(cpe->ics1.swb_offset[max(cpe->ics1.max_sfb-1, 0)], cpe->ics1.swb_offset_max);
         else
-            hDecoder->sbr[ele]->maxAACLine = cpe->ics1.swb_offset[max(cpe->ics1.max_sfb-1, 0)];
+            hDecoder->sbr[ele]->maxAACLine = min(cpe->ics1.swb_offset[max(cpe->ics1.max_sfb-1, 0)], cpe->ics1.swb_offset_max);
 
         retval = sbrDecodeCoupleFrame(hDecoder->sbr[ele],
             hDecoder->time_out[ch0], hDecoder->time_out[ch1],

@@ -453,7 +453,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			else if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 				track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd")))
 			{
-				const AP4_DataBuffer& db = NULL;/*= stsd->GetDataBuffer()*/;
+				const AP4_DataBuffer& db = stsd->GetDataBuffer();
 
 				for(AP4_List<AP4_Atom>::Item* item = stsd->GetChildren().FirstItem(); 
 					item; 
@@ -529,7 +529,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->nSamplesPerSec = ase->GetSampleRate();
 						wfe->nChannels = ase->GetChannelCount();
 						wfe->wBitsPerSample = ase->GetSampleSize();
-//						wfe->nBlockAlign = ase->GetBytesPerFrame();
+						wfe->nBlockAlign = ase->GetBytesPerFrame();
 						wfe->cbSize = db.GetDataSize();
 						memcpy(wfe+1, db.GetData(), db.GetDataSize());
 						mts.Add(mt);

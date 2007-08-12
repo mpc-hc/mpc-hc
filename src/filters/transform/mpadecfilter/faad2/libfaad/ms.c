@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: ms.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -63,7 +63,7 @@ void ms_decode(ic_stream *ics, ic_stream *icsr, real_t *l_spec, real_t *r_spec,
                     if ((ics->ms_used[g][sfb] || ics->ms_mask_present == 2) &&
                         !is_intensity(icsr, g, sfb) && !is_noise(ics, g, sfb))
                     {
-                        for (i = ics->swb_offset[sfb]; i < ics->swb_offset[sfb+1]; i++)
+                        for (i = ics->swb_offset[sfb]; i < min(ics->swb_offset[sfb+1], ics->swb_offset_max); i++)
                         {
                             k = (group*nshort) + i;
                             tmp = l_spec[k] - r_spec[k];

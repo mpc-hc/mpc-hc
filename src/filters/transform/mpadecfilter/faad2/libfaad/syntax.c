@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: syntax.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -1080,7 +1080,8 @@ static uint8_t fill_element(NeAACDecHandle hDecoder, bitfile *ld, drc_info *drc
             hDecoder->sbr_present_flag = 1;
 
             /* parse the SBR data */
-            hDecoder->sbr[sbr_ele]->ret = sbr_extension_data(ld, hDecoder->sbr[sbr_ele], count);
+            hDecoder->sbr[sbr_ele]->ret = sbr_extension_data(ld, hDecoder->sbr[sbr_ele], count,
+                hDecoder->postSeekResetFlag);
 
 #if 0
             if (hDecoder->sbr[sbr_ele]->ret > 0)
@@ -1363,7 +1364,7 @@ void DRM_aac_scalable_main_element(NeAACDecHandle hDecoder, NeAACDecFrameInfo *h
 
         faad_getbits(&ld_sbr, 8); /* Skip 8-bit CRC */
 
-        hDecoder->sbr[0]->ret = sbr_extension_data(&ld_sbr, hDecoder->sbr[0], count);
+        hDecoder->sbr[0]->ret = sbr_extension_data(&ld_sbr, hDecoder->sbr[0], count, hDecoder->postSeekResetFlag);
 #if (defined(PS_DEC) || defined(DRM_PS))
         if (hDecoder->sbr[0]->ps_used)
         {
@@ -1678,7 +1679,7 @@ static uint8_t section_data(NeAACDecHandle hDecoder, ic_stream *ics, bitfile *ld
 
             /* if "faad_getbits" detects error and returns "0", "k" is never
                incremented and we cannot leave the while loop */
-            if ((ld->error != 0) || (ld->no_more_reading))
+            if (ld->error != 0)
                 return 14;
 
 #ifdef ERROR_RESILIENCE
@@ -1748,12 +1749,12 @@ static uint8_t section_data(NeAACDecHandle hDecoder, ic_stream *ics, bitfile *ld
 
             if (ics->window_sequence == EIGHT_SHORT_SEQUENCE)
             {
-                if (k + sect_len >= 8*15)
+                if (k + sect_len > 8*15)
                     return 15;
                 if (i >= 8*15)
                     return 15;
             } else {
-                if (k + sect_len >= MAX_SFB)
+                if (k + sect_len > MAX_SFB)
                     return 15;
                 if (i >= MAX_SFB)
                     return 15;
@@ -2242,7 +2243,7 @@ static uint8_t dynamic_range_info(bitfile *ld, drc_info *drc)
         n++;
         drc->num_bands += band_incr;
 
-        for (i = 0; i < drc->num_bands; i++);
+        for (i = 0; i < drc->num_bands; i++)
         {
             drc->band_top[i] = (uint8_t)faad_getbits(ld, 8
                 DEBUGVAR(1,97,"dynamic_range_info(): band_top"));

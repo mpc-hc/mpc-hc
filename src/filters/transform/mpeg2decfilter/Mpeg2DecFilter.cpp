@@ -63,7 +63,7 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMpeg2DecFilter), L"MPV Decoder Filter", 0x40000002, countof(sudpPins), sudpPins},
+	{&__uuidof(CMpeg2DecFilter), L"MPEG Video Decoder (Gabest)", 0x40000002, countof(sudpPins), sudpPins},
 };
 
 CFactoryTemplate g_Templates[] =
@@ -386,6 +386,9 @@ void CMpeg2DecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 			if(mt.formattype == FORMAT_VideoInfo2 && (((VIDEOINFOHEADER2*)mt.pbFormat)->dwInterlaceFlags & AMINTERLACE_IsInterlaced))
 			{
 				// props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
+
+				if(m_dec->m_info.m_sequence->flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE)
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
 
 				if(m_fb.flags & PIC_FLAG_TOP_FIELD_FIRST)
 					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;

@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: mp4.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -245,10 +245,10 @@ int8_t AudioSpecificConfig2(uint8_t *pBuffer,
 
         if (syncExtensionType == 0x2b7)
         {
-            mp4ASC->objectTypeIndex = (uint8_t)faad_getbits(&ld, 5
+            uint8_t tmp_OTi = (uint8_t)faad_getbits(&ld, 5
                 DEBUGVAR(1,10,"parse_audio_decoder_specific_info(): extensionAudioObjectType"));
 
-            if (mp4ASC->objectTypeIndex == 5)
+            if (tmp_OTi == 5)
             {
                 mp4ASC->sbr_present_flag = (uint8_t)faad_get1bit(&ld
                     DEBUGVAR(1,11,"parse_audio_decoder_specific_info(): sbr_present_flag"));
@@ -256,6 +256,10 @@ int8_t AudioSpecificConfig2(uint8_t *pBuffer,
                 if (mp4ASC->sbr_present_flag)
                 {
                     uint8_t tmp;
+
+					/* Don't set OT to SBR until checked that it is actually there */
+					mp4ASC->objectTypeIndex = tmp_OTi;
+
                     tmp = (uint8_t)faad_getbits(&ld, 4
                         DEBUGVAR(1,12,"parse_audio_decoder_specific_info(): extensionSamplingFrequencyIndex"));
 

@@ -1,6 +1,6 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2005 M. Bakker, Ahead Software AG, http://www.nero.com
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
 ** $Id: common.c 441 2005-11-01 21:41:43Z gabest $
 **/
@@ -234,16 +234,16 @@ static uint32_t  __r2 = 1;
  *  which gives a period of 18.410.713.077.675.721.215. The result is the
  *  XORed values of both generators.
  */
-uint32_t random_int(void)
+uint32_t ne_rng(uint32_t *__r1, uint32_t *__r2)
 {
     uint32_t  t1, t2, t3, t4;
 
-    t3   = t1 = __r1;   t4   = t2 = __r2;       // Parity calculation is done via table lookup, this is also available
+    t3   = t1 = *__r1;  t4   = t2 = *__r2;      // Parity calculation is done via table lookup, this is also available
     t1  &= 0xF5;        t2 >>= 25;              // on CPUs without parity, can be implemented in C and avoid unpredictable
     t1   = Parity [t1]; t2  &= 0x63;            // jumps and slow rotate through the carry flag operations.
     t1 <<= 31;          t2   = Parity [t2];
 
-    return (__r1 = (t3 >> 1) | t1 ) ^ (__r2 = (t4 + t4) | t2 );
+    return (*__r1 = (t3 >> 1) | t1 ) ^ (*__r2 = (t4 + t4) | t2 );
 }
 
 uint32_t ones32(uint32_t x)

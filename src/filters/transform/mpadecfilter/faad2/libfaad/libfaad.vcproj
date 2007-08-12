@@ -953,15 +953,6 @@
 				RelativePath="ssr.h">
 			</File>
 			<File
-				RelativePath=".\ssr_fb.h">
-			</File>
-			<File
-				RelativePath=".\ssr_ipqf.h">
-			</File>
-			<File
-				RelativePath=".\ssr_win.h">
-			</File>
-			<File
 				RelativePath="structs.h">
 			</File>
 			<File
