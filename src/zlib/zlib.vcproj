@@ -138,10 +138,7 @@
 				RelativePath=".\Gzio.c">
 			</File>
 			<File
-				RelativePath=".\Infblock.c">
-			</File>
-			<File
-				RelativePath=".\Infcodes.c">
+				RelativePath=".\Infback.c">
 			</File>
 			<File
 				RelativePath=".\Inffast.c">
@@ -151,9 +148,6 @@
 			</File>
 			<File
 				RelativePath=".\Inftrees.c">
-			</File>
-			<File
-				RelativePath=".\Infutil.c">
 			</File>
 			<File
 				RelativePath=".\Trees.c">
@@ -169,22 +163,19 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;fi;fd">
 			<File
+				RelativePath=".\crc.h">
+			</File>
+			<File
 				RelativePath=".\deflate.h">
-			</File>
-			<File
-				RelativePath=".\infblock.h">
-			</File>
-			<File
-				RelativePath=".\infcodes.h">
 			</File>
 			<File
 				RelativePath=".\inffast.h">
 			</File>
 			<File
-				RelativePath=".\inftrees.h">
+				RelativePath=".\inflate.h">
 			</File>
 			<File
-				RelativePath=".\infutil.h">
+				RelativePath=".\inftrees.h">
 			</File>
 			<File
 				RelativePath=".\zconf.h">
