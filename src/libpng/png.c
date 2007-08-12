@@ -1,7 +1,7 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.2.15 January 5, 2007
+ * Last changed in libpng 1.2.17 May 15, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -13,7 +13,7 @@
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_16 Your_png_h_is_not_version_1_2_16;
+typedef version_1_2_18 Your_png_h_is_not_version_1_2_18;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -68,7 +68,7 @@ const int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 const int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
 /* width of interlace block (used in assembler routines only) */
-#ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#ifdef PNG_HAVE_MMX_COMBINE_ROW
 const int FARDATA png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
 #endif
 
@@ -490,6 +490,11 @@ if (mask & PNG_FREE_SPLT)
 #endif
 
 #if defined(PNG_UNKNOWN_CHUNKS_SUPPORTED)
+  if(png_ptr->unknown_chunk.data)
+  {
+    png_free(png_ptr, png_ptr->unknown_chunk.data);
+    png_ptr->unknown_chunk.data = NULL;
+  }
 #ifdef PNG_FREE_ME_SUPPORTED
 if ((mask & PNG_FREE_UNKN) & info_ptr->free_me)
 #else
@@ -701,7 +706,7 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.16 - January 31, 2007\n\
+   return ((png_charp) "\n libpng version 1.2.18 - May 15, 2007\n\
    Copyright (c) 1998-2007 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");
@@ -796,13 +801,13 @@ png_init_mmx_flags (png_structp png_ptr)
 
     if (png_mmx_support() > 0) {
         png_ptr->asm_flags |= PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU
-#    ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#    ifdef PNG_HAVE_MMX_COMBINE_ROW
                               | PNG_ASM_FLAG_MMX_READ_COMBINE_ROW
 #    endif
-#    ifdef PNG_HAVE_ASSEMBLER_READ_INTERLACE
+#    ifdef PNG_HAVE_MMX_READ_INTERLACE
                               | PNG_ASM_FLAG_MMX_READ_INTERLACE
 #    endif
-#    ifndef PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
+#    ifndef PNG_HAVE_MMX_READ_FILTER_ROW
                               ;
 #    else
                               | PNG_ASM_FLAG_MMX_READ_FILTER_SUB

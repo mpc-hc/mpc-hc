@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.2.15 January 5, 2007
+ * Last changed in libpng 1.2.17 May 15, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -181,7 +181,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
                               png_charp chunkdata, png_size_t chunklength,
                               png_size_t prefix_size, png_size_t *newlength)
 {
-   static char msg[] = "Error decoding compressed text";
+   const static char msg[] = "Error decoding compressed text";
    png_charp text;
    png_size_t text_size;
 
@@ -1314,7 +1314,10 @@ png_handle_tRNS(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
 
    if (png_crc_finish(png_ptr, 0))
+   {
+      png_ptr->num_trans = 0;
       return;
+   }
 
    png_set_tRNS(png_ptr, info_ptr, readbuf, png_ptr->num_trans,
       &(png_ptr->trans_values));
@@ -2173,8 +2176,6 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if ((png_ptr->flags & PNG_FLAG_KEEP_UNKNOWN_CHUNKS) ||
        (png_ptr->read_user_chunk_fn != NULL))
    {
-       png_unknown_chunk chunk;
-
 #ifdef PNG_MAX_MALLOC_64K
        if (length > (png_uint_32)65535L)
        {
@@ -2183,30 +2184,35 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
            length = (png_uint_32)65535L;
        }
 #endif
-       png_strcpy((png_charp)chunk.name, (png_charp)png_ptr->chunk_name);
-       chunk.data = (png_bytep)png_malloc(png_ptr, length);
-       chunk.size = (png_size_t)length;
-       png_crc_read(png_ptr, (png_bytep)chunk.data, length);
+       png_strcpy((png_charp)png_ptr->unknown_chunk.name,
+         (png_charp)png_ptr->chunk_name);
+       png_ptr->unknown_chunk.data = (png_bytep)png_malloc(png_ptr, length);
+       png_ptr->unknown_chunk.size = (png_size_t)length;
+       png_crc_read(png_ptr, (png_bytep)png_ptr->unknown_chunk.data, length);
 #if defined(PNG_READ_USER_CHUNKS_SUPPORTED)
        if(png_ptr->read_user_chunk_fn != NULL)
        {
           /* callback to user unknown chunk handler */
-          if ((*(png_ptr->read_user_chunk_fn)) (png_ptr, &chunk) <= 0)
+          int ret;
+          ret = (*(png_ptr->read_user_chunk_fn))
+            (png_ptr, &png_ptr->unknown_chunk);
+          if (ret < 0)
+             png_chunk_error(png_ptr, "error in user chunk");
+          if (ret == 0)
           {
              if (!(png_ptr->chunk_name[0] & 0x20))
                 if(png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
                      PNG_HANDLE_CHUNK_ALWAYS)
-                 {
-                   png_free(png_ptr, chunk.data);
                    png_chunk_error(png_ptr, "unknown critical chunk");
-                 }
-             png_set_unknown_chunks(png_ptr, info_ptr, &chunk, 1);
+             png_set_unknown_chunks(png_ptr, info_ptr,
+               &png_ptr->unknown_chunk, 1);
           }
        }
-       else
+#else
+       png_set_unknown_chunks(png_ptr, info_ptr, &png_ptr->unknown_chunk, 1);
 #endif
-          png_set_unknown_chunks(png_ptr, info_ptr, &chunk, 1);
-       png_free(png_ptr, chunk.data);
+       png_free(png_ptr, png_ptr->unknown_chunk.data);
+       png_ptr->unknown_chunk.data = NULL;
    }
    else
 #endif

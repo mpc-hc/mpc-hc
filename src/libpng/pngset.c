@@ -1,7 +1,7 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.2.15 January 5, 2007
+ * Last changed in libpng 1.2.17 May 15, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -877,7 +877,9 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
          textp->itxt_length = 0;
 #endif
       }
+#if 0 /* appears to be redundant; */
       info_ptr->text[info_ptr->num_text]= *textp;
+#endif
       info_ptr->num_text++;
       png_debug1(3, "transferred text chunk %d\n", info_ptr->num_text);
    }
@@ -1200,13 +1202,13 @@ png_set_asm_flags (png_structp png_ptr, png_uint_32 asm_flags)
 #ifdef PNG_MMX_CODE_SUPPORTED
 
     settable_mmx_flags =
-#ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#ifdef PNG_HAVE_MMX_COMBINE_ROW
                          PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  |
 #endif
-#ifdef PNG_HAVE_ASSEMBLER_READ_INTERLACE
+#ifdef PNG_HAVE_MMX_READ_INTERLACE
                          PNG_ASM_FLAG_MMX_READ_INTERLACE    |
 #endif
-#ifdef PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
+#ifdef PNG_HAVE_MMX_READ_FILTER_ROW
                          PNG_ASM_FLAG_MMX_READ_FILTER_SUB   |
                          PNG_ASM_FLAG_MMX_READ_FILTER_UP    |
                          PNG_ASM_FLAG_MMX_READ_FILTER_AVG   |

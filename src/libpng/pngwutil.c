@@ -523,9 +523,10 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
       png_ptr->zlib_window_bits = 15;
    if (!(png_ptr->flags & PNG_FLAG_ZLIB_CUSTOM_METHOD))
       png_ptr->zlib_method = 8;
-   deflateInit2(&png_ptr->zstream, png_ptr->zlib_level,
+   if (deflateInit2(&png_ptr->zstream, png_ptr->zlib_level,
       png_ptr->zlib_method, png_ptr->zlib_window_bits,
-      png_ptr->zlib_mem_level, png_ptr->zlib_strategy);
+      png_ptr->zlib_mem_level, png_ptr->zlib_strategy) != Z_OK)
+       png_error(png_ptr, "zlib failed to initialize compressor");
    png_ptr->zstream.next_out = png_ptr->zbuf;
    png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
    /* libpng is not interested in zstream.data_type */

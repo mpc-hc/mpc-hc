@@ -250,9 +250,9 @@
 int PNGAPI png_mmx_support(void);
 
 #ifdef PNG_USE_LOCAL_ARRAYS
-static const int FARDATA png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
-static const int FARDATA png_pass_inc[7]   = {8, 8, 4, 4, 2, 2, 1};
-static const int FARDATA png_pass_width[7] = {8, 4, 4, 2, 2, 1, 1};
+const static int FARDATA png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
+const static int FARDATA png_pass_inc[7]   = {8, 8, 4, 4, 2, 2, 1};
+const static int FARDATA png_pass_width[7] = {8, 4, 4, 2, 2, 1, 1};
 #endif
 
 #if defined(PNG_MMX_CODE_SUPPORTED)
@@ -311,30 +311,30 @@ static const int FARDATA png_pass_width[7] = {8, 4, 4, 2, 2, 1, 1};
 static int _unmask;
 #endif
 
-static unsigned long long _mask8_0  = 0x0102040810204080LL;
+const static unsigned long long _mask8_0  = 0x0102040810204080LL;
 
-static unsigned long long _mask16_1 = 0x0101020204040808LL;
-static unsigned long long _mask16_0 = 0x1010202040408080LL;
+const static unsigned long long _mask16_1 = 0x0101020204040808LL;
+const static unsigned long long _mask16_0 = 0x1010202040408080LL;
 
-static unsigned long long _mask24_2 = 0x0101010202020404LL;
-static unsigned long long _mask24_1 = 0x0408080810101020LL;
-static unsigned long long _mask24_0 = 0x2020404040808080LL;
+const static unsigned long long _mask24_2 = 0x0101010202020404LL;
+const static unsigned long long _mask24_1 = 0x0408080810101020LL;
+const static unsigned long long _mask24_0 = 0x2020404040808080LL;
 
-static unsigned long long _mask32_3 = 0x0101010102020202LL;
-static unsigned long long _mask32_2 = 0x0404040408080808LL;
-static unsigned long long _mask32_1 = 0x1010101020202020LL;
-static unsigned long long _mask32_0 = 0x4040404080808080LL;
+const static unsigned long long _mask32_3 = 0x0101010102020202LL;
+const static unsigned long long _mask32_2 = 0x0404040408080808LL;
+const static unsigned long long _mask32_1 = 0x1010101020202020LL;
+const static unsigned long long _mask32_0 = 0x4040404080808080LL;
 
-static unsigned long long _mask48_5 = 0x0101010101010202LL;
-static unsigned long long _mask48_4 = 0x0202020204040404LL;
-static unsigned long long _mask48_3 = 0x0404080808080808LL;
-static unsigned long long _mask48_2 = 0x1010101010102020LL;
-static unsigned long long _mask48_1 = 0x2020202040404040LL;
-static unsigned long long _mask48_0 = 0x4040808080808080LL;
+const static unsigned long long _mask48_5 = 0x0101010101010202LL;
+const static unsigned long long _mask48_4 = 0x0202020204040404LL;
+const static unsigned long long _mask48_3 = 0x0404080808080808LL;
+const static unsigned long long _mask48_2 = 0x1010101010102020LL;
+const static unsigned long long _mask48_1 = 0x2020202040404040LL;
+const static unsigned long long _mask48_0 = 0x4040808080808080LL;
 
-static unsigned long long _const4   = 0x0000000000FFFFFFLL;
-//static unsigned long long _const5 = 0x000000FFFFFF0000LL;     // NOT USED
-static unsigned long long _const6   = 0x00000000000000FFLL;
+const static unsigned long long _const4   = 0x0000000000FFFFFFLL;
+//const static unsigned long long _const5 = 0x000000FFFFFF0000LL;     // NOT USED
+const static unsigned long long _const6   = 0x00000000000000FFLL;
 
 // These are used in the row-filter routines and should/would be local
 //  variables if not for gcc addressing limitations.
