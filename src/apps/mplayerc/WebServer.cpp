@@ -1,3 +1,4 @@
+#include "..\..\zlib\zlib.h"
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "resource.h"
@@ -7,7 +8,6 @@
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"
 #include "WebServer.h"
-#include "..\..\zlib\zlib.h"
 
 CAtlStringMap<CWebServer::RequestHandler> CWebServer::m_internalpages;
 CAtlStringMap<UINT> CWebServer::m_downloads;

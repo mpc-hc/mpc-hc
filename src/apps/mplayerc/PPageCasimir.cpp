@@ -37,6 +37,7 @@ CPPageCasimir::CPPageCasimir()
 	: CPPageBase(CPPageCasimir::IDD, CPPageCasimir::IDD)
 	, m_fRememberDVDPos(FALSE)
 	, m_fRememberFilePos(FALSE)
+	, m_fShowOSD(FALSE)
 {
 }
 
@@ -53,6 +54,7 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
 	DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
 	DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
+	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 }
 
 
@@ -75,6 +77,7 @@ BOOL CPPageCasimir::OnInitDialog()
 
 	m_fRememberDVDPos			= s.fRememberDVDPos;
 	m_fRememberFilePos			= s.fRememberFilePos;
+	m_fShowOSD					= s.fShowOSD;
 
 	UpdateData(FALSE);
 
@@ -138,6 +141,7 @@ BOOL CPPageCasimir::OnApply()
 	s.dSaturation				= m_dSaturation;
 	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
 	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
+	s.fShowOSD					= m_fShowOSD ? true : false;
 
 	return __super::OnApply();
 }

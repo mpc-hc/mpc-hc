@@ -1,3 +1,12 @@
+- TODO : problème d'aspect ratio !!!
+- Added : latests Clsid patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, libpng 1.2.18, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
+- Added : command line "/d3dfs" to start MPC in D3D fullscreen mode
+- Added : command line "/exitafterpb" to exist MPC automaticly after end of playback
+
+
+
+1.0.9.0
+=======
 
 - Modify : OSD improved for EVR custom
 - Modify : EVR custom rendering thread, should be more stable
@@ -9,6 +18,7 @@
 - Fixed : when video was paused, frame stepping with EVR custom play video at normal speed
 - Fixed : Save thumbnail with EVR custom freeze MPC
 - Fixed : FLV splitter didn't read width and height in metadata (thanks to Chobits for this fix)
+- Fixed : The background ("Outline" color) overlap each other vertically if more than one text row for subtitles
 
 
 1.0.8.0

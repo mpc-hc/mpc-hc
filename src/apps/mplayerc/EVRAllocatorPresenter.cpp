@@ -1264,8 +1264,10 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	int						h = abs(vih2->bmiHeader.biHeight);
 
 	m_NativeVideoSize = m_AspectRatio = CSize(w, h);
-	int arx = vih2->dwPictAspectRatioX, ary = vih2->dwPictAspectRatioY;
-	if(arx > 0 && ary > 0) m_AspectRatio.SetSize(arx, ary);
+
+	// TODO : mauvais aspect ratio ici !!!
+//	int arx = vih2->dwPictAspectRatioX, ary = vih2->dwPictAspectRatioY;
+//	if(arx > 0 && ary > 0) m_AspectRatio.SetSize(arx, ary);
 
 	hr = AllocSurfaces();
 

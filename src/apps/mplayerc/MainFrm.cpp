@@ -1781,6 +1781,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				else 
 				{
 					if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
+					if(s.ExitAfterPlayback()) SendMessage(WM_COMMAND, ID_FILE_EXIT);
 					else m_fEndOfStream = true;
 					SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 	
@@ -7073,7 +7074,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	// CASIMIR666 todo
-	if (s.fD3DFullscreen && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)) )
+	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)) )
 	{
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;
@@ -8142,7 +8143,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
-		if (pVMB)
+		if (pVMB && s.fShowOSD)
 			m_OSD.Start (m_pVideoWnd, pVMB);
 		else if (pMFVMB)
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
@@ -9371,7 +9372,7 @@ void CMainFrame::SetAlwaysOnTop(int i)
 	}
 	else if(!(GetWindowLong(m_hWnd, GWL_EXSTYLE)&WS_EX_TOPMOST))
 	{
-		if (!AfxGetAppSettings().fD3DFullscreen)
+		if (!AfxGetAppSettings().IsD3DFullscreen())
 			SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
 	}
 }

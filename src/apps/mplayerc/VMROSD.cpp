@@ -299,7 +299,7 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 			UpdateSeekBarPos(point);
 			Invalidate();
 		}
-		else if (!m_bSeekBarVisible && AfxGetAppSettings().fD3DFullscreen && m_rectSeekBar.PtInRect(point))
+		else if (!m_bSeekBarVisible && AfxGetAppSettings().IsD3DFullscreen() && m_rectSeekBar.PtInRect(point))
 		{
 			m_bSeekBarVisible = true;
 			Invalidate();

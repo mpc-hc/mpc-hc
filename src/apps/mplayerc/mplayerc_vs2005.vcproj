@@ -1481,6 +1481,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\nightvision.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\procamp.psh"
 					>
 				</File>

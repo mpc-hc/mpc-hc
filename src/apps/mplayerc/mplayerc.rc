@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -915,6 +916,7 @@ BEGIN
     PUSHBUTTON      "Uninstall",IDC_UNINSTALLPN31,93,66,59,14
     GROUPBOX        " Shuttle PN31 driver ",IDC_STATIC,5,54,283,35
     LTEXT           "Direct3D Fullscreen : moved to ""Output"" ",IDC_STATIC,13,18,131,8
+    CONTROL         "Show OSD",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,34,49,10
 END
 
 
@@ -1298,6 +1300,7 @@ IDF_SHADER_SHARPEN      FILE                    "res\\shaders\\sharpen.psh"
 IDF_SHADER_SPHERE       FILE                    "res\\shaders\\sphere.psh"
 IDF_SHADER_SPOTLIGHT    FILE                    "res\\shaders\\spotlight.psh"
 IDF_SHADER_WAVE         FILE                    "res\\shaders\\wave.psh"
+IDF_SHADER_NIGHTVISION  FILE                    "res\\shaders\\nightvision.psh"
 IDF_DEFAULT_CSS         FILE                    "res\\web\\default.css"
 IDF_VBR_GIF             FILE                    "res\\web\\vbg.gif"
 IDF_VBS_GIF             FILE                    "res\\web\\vbs.GIF"
@@ -1473,7 +1476,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,8,5
+ FILEVERSION 1,0,9,1
  PRODUCTVERSION 6,4,9,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
@@ -1492,7 +1495,7 @@ BEGIN
             VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 0, 8, 5"
+            VALUE "FileVersion", "1, 0, 9, 1"
             VALUE "InternalName", "Media Player Classic"
             VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
             VALUE "OriginalFilename", "mplayerc.EXE"
@@ -2019,6 +2022,7 @@ BEGIN
     IDS_RS_DVDPOS           "Remember DVD Pos"
     IDS_RS_FILEPOS          "Remember File Pos"
     IDS_RS_LASTFULLSCREEN   "LastFullScreen"
+    IDS_RS_SHOWOSD          "Show OSD"
 END
 
 STRINGTABLE 

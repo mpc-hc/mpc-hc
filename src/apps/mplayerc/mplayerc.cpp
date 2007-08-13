@@ -645,6 +645,7 @@ public:
 	}
 };
 
+
 BOOL CMPlayerCApp::InitInstance()
 {
 	//ssftest s;
@@ -1157,6 +1158,22 @@ CMPlayerCApp::Settings::~Settings()
 		DestroyAcceleratorTable(hAccel);
 }
 
+bool CMPlayerCApp::Settings::IsD3DFullscreen()
+{
+	if(nCLSwitches&CLSW_D3DFULLSCREEN)
+		return true;
+	else
+		return fD3DFullscreen;
+}
+
+bool CMPlayerCApp::Settings::ExitAfterPlayback()
+{
+	if(nCLSwitches&CLSW_EXITAFTERPLAYBACK)
+		return true;
+	else
+		return false;
+}
+
 DVD_POSITION* CMPlayerCApp::Settings::CurrentDVDPosition()
 {
 	if (nCurrentDvdPosition != -1)
@@ -1343,6 +1360,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), strShaderList);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), iEvrBuffers);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), (int)fShowOSD);
 
 		// Position de lecture des derniers DVD's
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), (int)fRememberDVDPos);
@@ -1881,6 +1899,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		shaders[_T("grayscale")] = IDF_SHADER_GRAYSCALE;
 		shaders[_T("invert")] = IDF_SHADER_INVERT;
 		shaders[_T("letterbox")] = IDF_SHADER_LETTERBOX;
+		shaders[_T("nightvision")] = IDF_SHADER_NIGHTVISION;
 		shaders[_T("procamp")] = IDF_SHADER_PROCAMP;
 		shaders[_T("sharpen")] = IDF_SHADER_SHARPEN;
 		shaders[_T("sphere")] = IDF_SHADER_SPHERE;
@@ -1939,6 +1958,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		dSaturation		= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION),	_T("1")));
 		strShaderList	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), _T(""));
 		iEvrBuffers		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), 5);
+		fShowOSD		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
 
 		// Position de lecture des derniers DVD's
 		fRememberDVDPos		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), 0);
@@ -2034,6 +2054,8 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("logoff")) nCLSwitches |= CLSW_LOGOFF;
 			else if(sw == _T("installpn31")) nCLSwitches |= CLSW_INSTALLPN31;
 			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
+			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
+			else if(sw == _T("exitafterpb")) nCLSwitches |= CLSW_EXITAFTERPLAYBACK;
 			else if(sw == _T("fixedsize") && pos)
 			{
 				CAtlList<CString> sl;

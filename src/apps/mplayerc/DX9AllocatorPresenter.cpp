@@ -254,6 +254,41 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
 	if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
 		return E_UNEXPECTED;
 
+	/*		// TODO : add nVidia PerfHUD !!!
+	
+// Set default settings 
+UINT AdapterToUse=D3DADAPTER_DEFAULT; 
+D3DDEVTYPE DeviceType=D3DDEVTYPE_HAL; 
+ 
+#if SHIPPING_VERSION 
+// When building a shipping version, disable PerfHUD (opt-out) 
+#else 
+// Look for 'NVIDIA PerfHUD' adapter 
+// If it is present, override default settings 
+for (UINT Adapter=0;Adapter<g_pD3D->GetAdapterCount();Adapter++)  
+{ 
+  D3DADAPTER_IDENTIFIER9  Identifier; 
+      HRESULT       Res; 
+ 
+Res = g_pD3D->GetAdapterIdentifier(Adapter,0,&Identifier); 
+  if (strstr(Identifier.Description,"PerfHUD") != 0) 
+ { 
+  AdapterToUse=Adapter; 
+  DeviceType=D3DDEVTYPE_REF; 
+  break; 
+ } 
+} 
+#endif 
+ 
+if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd, 
+  D3DCREATE_HARDWARE_VERTEXPROCESSING, 
+    &d3dpp, &g_pd3dDevice) ) ) 
+{ 
+ return E_FAIL; 
+} 
+	*/
+
+
 	m_RefreshRate = d3ddm.RefreshRate;
 	m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
 
@@ -261,7 +296,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice()
     ZeroMemory(&pp, sizeof(pp));
 
 	
-	if (AfxGetAppSettings().fD3DFullscreen)
+	if (AfxGetAppSettings().IsD3DFullscreen())
 	{
 		pp.Windowed = false; 
 		pp.BackBufferWidth = d3ddm.Width; 

@@ -81,6 +81,7 @@
 #define IDF_SHADER_SPOTLIGHT            710
 #define IDF_SHADER_WAVE                 711
 #define IDF_SHADER_PROCAMP              712
+#define IDF_SHADER_NIGHTVISION          713
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVD                 801
 #define ID_FILE_OPENDEVICE              802
@@ -616,6 +617,7 @@
 #define IDS_RS_VMR9MIXERYUV             13150
 #define IDS_RS_AUDIONORMALIZERECOVER    13151
 #define IDS_RS_EVR_BUFFERS              13152
+#define IDS_RS_SHOWOSD                  13153
 #define IDS_SRC_RADGT                   14000
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002
@@ -752,6 +754,8 @@
 #define IDC_UNINSTALLPN31               22008
 #define IDC_EVR_BUFFERS                 22008
 #define IDC_VERSION                     22009
+#define IDC_FILE_POS2                   22009
+#define IDC_SHOW_OSD                    22009
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
