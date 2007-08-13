@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "CmdUI_vs2005.vcproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Debug|Win32 = Debug|Win32
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Debug|Win32.Build.0 = Debug|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Release|Win32.ActiveCfg = Release|Win32
+		{03208025-D5C2-426A-B0FA-251D4338F30C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
