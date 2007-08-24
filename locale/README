@@ -1,0 +1,8 @@
+Here you can find the diff files for the repository to apply language changes.
+
+How to apply one of these diffs:
+ - take care you checked out the right svn rev.
+ - duplicate your svn repository (do not use the diff against your local svn, or you
+   will no longer be able to sync with HEAD-revision)
+ - use the GNU patch program
+ - compile everything

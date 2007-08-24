@@ -206,7 +206,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	if (m_Output.IsOpened())
 	{
 		Thread_Loop = true;
-		hLCD_UpdateThread = (HANDLE) _beginthread(LCD_UpdateThread, 16 /* stack */, (void*) this /* arg */);
+		hLCD_UpdateThread = (HANDLE) _beginthread(LCD_UpdateThread, 512 /* stack */, (void*) this /* arg */);
 	}
 }
 
@@ -250,7 +250,7 @@ void CMPC_Lcd::SetMediaPos(__int64 nPos)
 	m_Manager.m_ProgBar[1].SetPos(nPos);
 }
 
-/* update status message (displayed nTimeOut milliseconds) */
+/* update status message (displayed for nTimeOut milliseconds) */
 void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
 {
 	if (!m_Output.IsOpened())
@@ -294,7 +294,7 @@ void CMPC_Lcd::SetPlayState(CMPC_Lcd::PlayState ps)
 		m_Manager.m_PlayState.SetBitmap(hBmp[PS_STOP]);
 		m_Manager.m_PlayState.ResetUpdate();
 		m_Manager.m_PlayState.SetSubpicWidth(7);
-		m_Manager.m_PlayState.SetAnimationRate(5000);	// just dummy
+		m_Manager.m_PlayState.SetAnimationRate(5000);	// dummy
 		break;
 
 	default:
