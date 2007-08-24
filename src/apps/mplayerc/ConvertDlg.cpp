@@ -26,7 +26,7 @@
 #include <mmreg.h>
 #include "mplayerc.h"
 #include "..\..\filters\filters.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "FGManager.h"
 #include "ConvertPropsDlg.h"
 #include "ConvertResDlg.h"

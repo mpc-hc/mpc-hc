@@ -25,7 +25,7 @@
 #include "..\..\..\DSUtil\DSUtil.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 using namespace MatroskaWriter;
 

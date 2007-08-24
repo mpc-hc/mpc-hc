@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -111,6 +112,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -184,6 +186,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -255,6 +258,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -328,6 +332,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -383,6 +388,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -438,6 +444,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -493,6 +500,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="..\..\..\..\include"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

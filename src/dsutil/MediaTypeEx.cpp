@@ -4,7 +4,7 @@
 
 #include <mmreg.h>
 #include <initguid.h>
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #pragma pack(push, 1)
 typedef struct

@@ -22,7 +22,7 @@
 #pragma once
 
 #include "IDirectVobSub.h"
-#include "..\..\..\..\include\IFilterVersion.h"
+#include <IFilterVersion.h>
 
 class CDirectVobSub : public IDirectVobSub2, public IFilterVersion
 {

@@ -48,9 +48,9 @@
 #include "QuicktimeGraph.h"
 #include "ShockwaveGraph.h"
 
-#include "..\..\..\include\IChapterInfo.h"
-#include "..\..\..\include\IKeyFrameInfo.h"
-#include "..\..\..\include\IBufferInfo.h"
+#include <IChapterInfo.h>
+#include <IKeyFrameInfo.h>
+#include <IBufferInfo.h>
 
 #include "WebServer.h"
 #include <D3d9.h>

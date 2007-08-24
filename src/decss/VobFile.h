@@ -5,7 +5,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 //#include <winioctl.h> // platform sdk
-#include "..\..\include\winddk\ntddcdvd.h"
+#include <winddk\ntddcdvd.h>
 
 class CDVDSession
 {

@@ -40,7 +40,7 @@
 #include <Mferror.h>
 #include "..\..\SubPic\DX9SubPic.h"
 #include "IQTVideoSurface.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"

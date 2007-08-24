@@ -29,7 +29,7 @@
 #include "EVRAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include <initguid.h>
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include <dmodshow.h>
 #include <D3d9.h>
 #include <Vmr9.h>

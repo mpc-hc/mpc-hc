@@ -24,7 +24,7 @@
 #include <ks.h>
 #include <initguid.h>
 #include <uuids.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "dtsac3source.h"
 #include "..\..\..\DSUtil\DSUtil.h"
 

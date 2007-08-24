@@ -58,7 +58,7 @@
 
 #include <initguid.h>
 #include <uuids.h>
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include <Qnetwork.h>
 //#include <qedit.h>		// Casimir666 : incompatible avec D3D.h
 

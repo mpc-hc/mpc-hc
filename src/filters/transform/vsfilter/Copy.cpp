@@ -23,7 +23,7 @@
 #include "..\..\..\DSUtil\MediaTypes.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 extern int c2y_yb[256];
 extern int c2y_yg[256];

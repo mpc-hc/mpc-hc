@@ -23,7 +23,7 @@
 #include <mmreg.h>
 #include <initguid.h>
 #include "DiracSplitter.h"
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #ifdef REGISTER_FILTER
 

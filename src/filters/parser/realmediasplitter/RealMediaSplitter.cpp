@@ -33,7 +33,7 @@
 //
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 template<typename T>
 static void bswap(T& var)

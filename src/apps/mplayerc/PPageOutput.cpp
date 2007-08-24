@@ -26,7 +26,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageOutput.h"
-#include "../../../include/moreuuids.h"
+#include <moreuuids.h>
 
 // CPPageOutput dialog
 

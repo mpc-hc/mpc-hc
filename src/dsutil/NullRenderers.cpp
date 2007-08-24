@@ -21,7 +21,7 @@
 
 #include "StdAfx.h"
 #include "NullRenderers.h"
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 //
 // CNullRenderer

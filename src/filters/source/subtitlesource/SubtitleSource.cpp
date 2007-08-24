@@ -24,7 +24,7 @@
 #include "..\..\..\DSUtil\DSUtil.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 static int _WIDTH = 640;
 static int _HEIGHT = 480;

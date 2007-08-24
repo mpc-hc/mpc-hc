@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include <initguid.h>
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "MediaTypes.h"
 #include "DSUtil.h"
 

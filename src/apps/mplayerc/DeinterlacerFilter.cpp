@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include ".\deinterlacerfilter.h"
+#include "deinterlacerfilter.h"
 #include "..\..\DSUtil\MediaTypes.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 CDeinterlacerFilter::CDeinterlacerFilter(LPUNKNOWN punk, HRESULT* phr)
 	: CTransformFilter(NAME("CDeinterlacerFilter"), punk, __uuidof(CDeinterlacerFilter))

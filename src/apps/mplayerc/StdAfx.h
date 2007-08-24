@@ -58,7 +58,7 @@
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
-#include "..\..\..\include\qt\qt.h"
+#include <qt\qt.h>
 #include "..\..\ui\ui.h"
 #include "..\..\DSUtil\DSUtil.h"
 

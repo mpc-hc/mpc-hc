@@ -3,7 +3,7 @@
 #include "DiracSplitterFile.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 CDiracSplitterFile::CDiracSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	: CBaseSplitterFile(pAsyncReader, hr)

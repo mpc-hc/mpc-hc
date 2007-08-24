@@ -23,7 +23,7 @@
 #include <initguid.h>
 #include "shoutcastsource.h"
 #include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #define MAXFRAMESIZE ((144 * 320000 / 8000) + 1)
 #define BUFFERS 2

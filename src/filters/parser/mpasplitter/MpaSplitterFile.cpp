@@ -24,7 +24,7 @@
 #include "MpaSplitterFile.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 //
 

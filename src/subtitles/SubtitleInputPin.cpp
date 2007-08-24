@@ -26,7 +26,7 @@
 #include "SSF.h"
 
 #include <initguid.h>
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 // our first format id
 #define __GAB1__ "GAB1"

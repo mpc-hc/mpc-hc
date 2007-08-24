@@ -34,7 +34,7 @@
 #include "..\..\..\DSUtil\MediaTypes.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #define EPSILON 1e-4
 
@@ -86,7 +86,7 @@ STDAPI DllUnregisterServer()
 
 //
 
-#include "..\..\..\..\include\detours\detours.h"
+#include <detours\detours.h>
 
 DETOUR_TRAMPOLINE(BOOL WINAPI Real_IsDebuggerPresent(), IsDebuggerPresent);
 BOOL WINAPI Mine_IsDebuggerPresent()
@@ -777,7 +777,7 @@ HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
 	return hr;
 }
 
-#include "..\..\..\..\include\IFilterVersion.h"
+#include <IFilterVersion.h>
 
 HRESULT CMpeg2DecFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 {

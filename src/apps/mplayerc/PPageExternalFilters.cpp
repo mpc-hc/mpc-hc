@@ -29,7 +29,7 @@
 #include "RegFilterChooserDlg.h"
 #include "SelectMediaType.h"
 #include "FGFilter.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #include <initguid.h>
 #include <Dmoreg.h>

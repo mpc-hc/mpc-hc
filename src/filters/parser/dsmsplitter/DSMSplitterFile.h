@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\BaseSplitter\BaseSplitter.h"
-#include "..\..\..\..\include\dsm\dsm.h"
+#include <dsm\dsm.h>
 #include "..\..\..\DSUtil\DSMPropertyBag.h"
 
 class CDSMSplitterFile : public CBaseSplitterFile

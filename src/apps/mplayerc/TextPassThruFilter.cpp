@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "mainfrm.h"
 #include "TextPassThruFilter.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "..\..\DSUtil\DSUtil.h"
 #include "..\..\subtitles\SubtitleInputPin.h"
 

@@ -240,7 +240,7 @@ public:
 
 namespace VirtualDub
 {
-	#include "..\..\..\..\include\VirtualDub\VirtualDub.h"
+	#include <VirtualDub\VirtualDub.h>
 
 	class CVirtualDubFilter : virtual public CFilter
 	{
@@ -500,7 +500,7 @@ namespace VirtualDub
 
 namespace AviSynth1
 {
-	#include "..\..\..\..\include\avisynth\avisynth1.h"
+	#include <avisynth\avisynth1.h>
 
 	class CAvisynthFilter : public GenericVideoFilter, virtual public CFilter
 	{
@@ -589,7 +589,7 @@ namespace AviSynth1
 
 namespace AviSynth25
 {
-	#include "..\..\..\..\include\avisynth\avisynth25.h"
+	#include <avisynth\avisynth25.h>
 
 	static bool s_fSwapUV = false;
 

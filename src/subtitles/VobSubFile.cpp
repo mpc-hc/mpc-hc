@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <winioctl.h>
 #include "TextFile.h"
-#include "..\..\include\unrar\unrar.h"
+#include <unrar\unrar.h>
 #include "VobSubFile.h"
 
 //

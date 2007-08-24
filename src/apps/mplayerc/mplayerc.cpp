@@ -453,8 +453,8 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp initialization
 
-#include "..\..\..\include\detours\detours.h"
-#include "..\..\..\include\winddk\ntddcdvd.h"
+#include <detours\detours.h>
+#include <winddk\ntddcdvd.h>
 
 DETOUR_TRAMPOLINE(BOOL WINAPI Real_IsDebuggerPresent(), IsDebuggerPresent);
 BOOL WINAPI Mine_IsDebuggerPresent()

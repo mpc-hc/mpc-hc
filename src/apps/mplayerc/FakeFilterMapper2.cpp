@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "fakefiltermapper2.h"
 #include "MacrovisionKicker.h"
-#include "..\..\..\include\detours\detours.h"
+#include <detours\detours.h>
 #include "..\..\DSUtil\DSUtil.h"
 
 #include <initguid.h>

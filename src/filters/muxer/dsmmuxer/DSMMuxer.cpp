@@ -26,7 +26,7 @@
 
 #include <initguid.h>
 #include <qnetwork.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #ifdef REGISTER_FILTER
 

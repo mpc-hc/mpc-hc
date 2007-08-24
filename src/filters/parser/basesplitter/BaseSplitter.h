@@ -24,9 +24,9 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include <qnetwork.h>
-#include "..\..\..\..\include\IKeyFrameInfo.h"
-#include "..\..\..\..\include\IBufferInfo.h"
-#include "..\..\..\..\include\IBitRateInfo.h"
+#include <IKeyFrameInfo.h>
+#include <IBufferInfo.h>
+#include <IBitRateInfo.h>
 #include "BaseSplitterFileEx.h"
 #include "AsyncReader.h"
 #include "..\..\..\DSUtil\DSMPropertyBag.h"

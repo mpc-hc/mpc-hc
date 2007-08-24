@@ -39,9 +39,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -97,9 +96,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -155,9 +153,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -213,9 +210,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -271,9 +267,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -344,9 +339,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -418,9 +412,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -492,9 +485,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./libdirac"
+				AdditionalIncludeDirectories=".\libdirac;..\..\..\..\include"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

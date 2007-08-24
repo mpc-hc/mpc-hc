@@ -22,7 +22,7 @@
 #include "StdAfx.h"
 #include <initguid.h>
 #include "RoQSplitter.h"
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #ifdef REGISTER_FILTER
 

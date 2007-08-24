@@ -31,7 +31,7 @@
 #include "CSSscramble.h"
 
 #include <initguid.h>
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 //
 // CDeCSSInputPin

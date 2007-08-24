@@ -26,8 +26,8 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageOutput.h"
-#include "../../../include/moreuuids.h"
-#include ".\ppagecasimir.h"
+#include <moreuuids.h>
+#include "ppagecasimir.h"
 #include <psapi.h>
 
 // CPPageCasimir dialog

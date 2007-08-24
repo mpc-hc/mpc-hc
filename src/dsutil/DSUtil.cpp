@@ -21,10 +21,10 @@
 
 #include "stdafx.h"
 #include <Vfw.h>
-#include "..\..\include\winddk\devioctl.h"
-#include "..\..\include\winddk\ntddcdrm.h"
+#include <winddk\devioctl.h>
+#include <winddk\ntddcdrm.h>
 #include "DSUtil.h"
-#include "..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {

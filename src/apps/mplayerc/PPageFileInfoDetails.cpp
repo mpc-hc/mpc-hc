@@ -29,7 +29,7 @@
 #include "..\..\DSUtil\DSUtil.h"
 #include "d3d9.h"
 #include "Vmr9.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 // CPPageFileInfoDetails dialog
 

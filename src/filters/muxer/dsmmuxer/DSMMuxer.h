@@ -22,7 +22,7 @@
 #pragma once
 
 #include "..\basemuxer\basemuxer.h"
-#include "..\..\..\..\include\dsm\dsm.h"
+#include <dsm\dsm.h>
 
 [uuid("C6590B76-587E-4082-9125-680D0693A97B")]
 class CDSMMuxerFilter : public CBaseMuxerFilter

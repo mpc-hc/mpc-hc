@@ -33,12 +33,12 @@
 #include <d3dx9.h>
 #include <Vmr9.h>
 #include "..\..\SubPic\DX9SubPic.h"
-#include "..\..\..\include\RealMedia\pntypes.h"
-#include "..\..\..\include\RealMedia\pnwintyp.h"
-#include "..\..\..\include\RealMedia\pncom.h"
-#include "..\..\..\include\RealMedia\rmavsurf.h"
+#include <RealMedia\pntypes.h>
+#include <RealMedia\pnwintyp.h>
+#include <RealMedia\pncom.h>
+#include <RealMedia\rmavsurf.h>
 #include "IQTVideoSurface.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"

@@ -30,10 +30,10 @@
 #include <ddraw.h>
 #include <d3d.h>
 #include "..\..\SubPic\DX7SubPic.h"
-#include "..\..\..\include\RealMedia\pntypes.h"
-#include "..\..\..\include\RealMedia\pnwintyp.h"
-#include "..\..\..\include\RealMedia\pncom.h"
-#include "..\..\..\include\RealMedia\rmavsurf.h"
+#include <RealMedia\pntypes.h>
+#include <RealMedia\pnwintyp.h>
+#include <RealMedia\pncom.h>
+#include <RealMedia\rmavsurf.h>
 #include "IQTVideoSurface.h"
 
 #include "IPinHook.h"

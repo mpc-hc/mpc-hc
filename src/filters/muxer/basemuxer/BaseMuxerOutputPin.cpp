@@ -27,7 +27,7 @@
 #include <atlpath.h>
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 //
 // CBaseMuxerOutputPin

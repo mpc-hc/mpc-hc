@@ -31,7 +31,7 @@
 #include "..\..\..\SubPic\MemSubPic.h"
 
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 ///////////////////////////////////////////////////////////////////////////
 

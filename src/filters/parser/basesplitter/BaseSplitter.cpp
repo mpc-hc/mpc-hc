@@ -22,7 +22,7 @@
 #include "StdAfx.h"
 #include "..\..\..\DSUtil\DSUtil.h"
 #include <initguid.h>
-#include "..\..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "..\..\switcher\AudioSwitcher\AudioSwitcher.h"
 #include "BaseSplitter.h"
 

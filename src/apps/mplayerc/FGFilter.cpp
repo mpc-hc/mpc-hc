@@ -25,7 +25,7 @@
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
 #include "EVRAllocatorPresenter.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 
 //
 // CFGFilter

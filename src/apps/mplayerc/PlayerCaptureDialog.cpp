@@ -27,7 +27,7 @@
 #include "mainfrm.h"
 #include "PlayerCaptureDialog.h"
 #include "..\..\DSUtil\DSUtil.h"
-#include "..\..\..\include\moreuuids.h"
+#include <moreuuids.h>
 #include "..\..\filters\muxer\wavdest\wavdest.h"
 #include "..\..\filters\muxer\MatroskaMuxer\MatroskaMuxer.h"
 #include "..\..\filters\muxer\DSMMuxer\DSMMuxer.h"
