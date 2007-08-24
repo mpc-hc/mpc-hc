@@ -83,7 +83,6 @@
 
 static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
-CMPC_Lcd g_Lcd;
 
 #include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
 
@@ -415,6 +414,7 @@ CMainFrame::CMainFrame() :
 	m_nCurSubtitle(-1),
 	m_lSubtitleShift(0)
 {
+	m_Lcd.SetVolumeRange(1, 100);
 }
 
 CMainFrame::~CMainFrame()
@@ -527,7 +527,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
-	g_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	return 0;
 }
@@ -1298,8 +1298,8 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 			m_wndSeekBar.SetPos(rtNow);
 			m_OSD.SetRange (0, rtDur);
 			m_OSD.SetPos (rtNow);
-			g_Lcd.SetMediaRange(0, rtDur);
-			g_Lcd.SetMediaPos(rtNow);
+			m_Lcd.SetMediaRange(0, rtDur);
+			m_Lcd.SetMediaPos(rtNow);
 		}
 		else if(m_iPlaybackMode == PM_CAPTURE)
 		{
@@ -1316,8 +1316,8 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 			m_wndSeekBar.SetPos(rtNow);
 			m_OSD.SetRange (0, rtDur);
 			m_OSD.SetPos (rtNow);
-			g_Lcd.SetMediaRange(0, rtDur);
-			g_Lcd.SetMediaPos(rtNow);
+			m_Lcd.SetMediaRange(0, rtDur);
+			m_Lcd.SetMediaPos(rtNow);
 /*
 			if(m_fCapturing)
 			{
@@ -1937,7 +1937,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			m_wndSeekBar.Enable(rtDur > 0);
 			m_wndSeekBar.SetRange(0, rtDur);
 			m_OSD.SetRange (0, rtDur);
-			g_Lcd.SetMediaRange(0, rtDur);
+			m_Lcd.SetMediaRange(0, rtDur);
 
 			REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
@@ -2862,7 +2862,7 @@ void CMainFrame::OnFilePostClosemedia()
 	RecalcLayout();
 
 	SetWindowText(m_strTitle);
-	g_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
@@ -4907,8 +4907,8 @@ void CMainFrame::OnPlayPlay()
 	}
 
 	MoveVideoWindow();
-	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
-	g_Lcd.SetPlayState(CMPC_Lcd::PS_PLAY);
+	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
+	m_Lcd.SetPlayState(CMPC_Lcd::PS_PLAY);
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -4936,8 +4936,8 @@ void CMainFrame::OnPlayPauseI()
 	}
 
 	MoveVideoWindow();
-	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
-	g_Lcd.SetPlayState(CMPC_Lcd::PS_PAUSE);
+	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
+	m_Lcd.SetPlayState(CMPC_Lcd::PS_PAUSE);
 }
 
 void CMainFrame::OnPlayPause()
@@ -5037,8 +5037,8 @@ void CMainFrame::OnPlayStop()
 		}
 	}
 
-	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
-	g_Lcd.SetPlayState(CMPC_Lcd::PS_STOP);
+	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
+	m_Lcd.SetPlayState(CMPC_Lcd::PS_STOP);
 }
 
 void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
@@ -5760,6 +5760,8 @@ void CMainFrame::OnPlayVolume(UINT nID)
 		strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
 	}
+
+	m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
@@ -8068,7 +8070,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 	}
 
 	SetWindowText(title);
-	g_Lcd.SetMediaTitle(LPCTSTR(fn));
+	m_Lcd.SetMediaTitle(LPCTSTR(fn));
 }
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
@@ -10138,7 +10140,7 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
 	m_playingmsg = msg;
 	SetTimer(TIMER_STATUSERASER, nTimeOut, NULL);
-	g_Lcd.SetStatusMessage(msg, nTimeOut);
+	m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)

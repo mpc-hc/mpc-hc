@@ -1,0 +1,33 @@
+Benoetigte Software:
+ - Microsoft® Visual Studio 2005 (Std, oder hoeher)
+ - DirectX Software Development Kit (getestet mit Juni 2007 Ausgabe)
+    http://www.microsoft.com/downloads/details.aspx?FamilyID=371f6ba4-2737-46ab-b275-0dcab31459b5
+ - Microsoft® Windows® Software Development Kit Update for Windows Vista™
+    http://www.microsoft.com/downloads/details.aspx?FamilyID=4377f86d-c913-4b5c-b87e-ef72e5b4e065
+ - MPC Quellen
+    http://sourceforge.net/svn/?group_id=170561
+
+
+Vorbereitung:
+ - DirectX und Windows SDK in die standard Pfade installieren
+    DX SDK: mindestens "DirectX Headers and Libs"
+    WINSDK: mindestens "Samples/Win32" und "Dev. Tools/Windows Vista Headers and Libraries"
+ - In Visual Studio unter "Include Files" ueberpruefen, dass folgendes unter den "VC++ Directories" eintragen ist:
+    C:\Programme\Microsoft DirectX SDK (June 2007)\Include
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Include\
+ - In Visual Studio unter "Library Files" bei den "VC++ Directories" Optionen folgendes eintragen:
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\Release\
+ 
+
+Compilieren (Release Unicode Version):
+ - Microsoft BaseClasses
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\baseclasses.sln
+    in Visual Studio laden und mit der Konfiguration "Release" compilieren, vorher aber unter
+    "C/C++/Code Generation" sicherstellen, dass "Multi-threaded" und NICHT "Multi-threaded DLL" aktiviert ist
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\Release\strmbase.lib
+    in den MPC tree unter "lib" als "strmbaseRU.lib" reinkopieren
+ - MPC Filter
+    "src\filters\filters.sln" in Visual Studio laden und mit der Konfiguration "Release Unicode lib" compilieren
+ - MPC
+    "src\apps\mplayerc\mplayerc.sln" in Visual Studio laden und mit der Konfiguration "Release Unicode" compilieren

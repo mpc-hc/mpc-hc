@@ -2,7 +2,7 @@
 - Added : latests Clsid patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, libpng 1.2.18, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
 - Added : command line "/d3dfs" to start MPC in D3D fullscreen mode
 - Added : command line "/exitafterpb" to exist MPC automaticly after end of playback
-
+- Added : logitech lcd support (g15)
 
 
 1.0.9.0
