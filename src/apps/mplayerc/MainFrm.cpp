@@ -75,6 +75,7 @@
 
 #include "..\..\subtitles\SSF.h"
 #include "ComPropertySheet.h"
+#include "LcdSupport.h"
 
 
 #define DEFCLIENTW 292
@@ -82,6 +83,7 @@
 
 static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
+CMPC_Lcd g_Lcd;
 
 #include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
 
@@ -525,6 +527,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
+	g_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	return 0;
 }
@@ -1295,6 +1298,8 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 			m_wndSeekBar.SetPos(rtNow);
 			m_OSD.SetRange (0, rtDur);
 			m_OSD.SetPos (rtNow);
+			g_Lcd.SetMediaRange(0, rtDur);
+			g_Lcd.SetMediaPos(rtNow);
 		}
 		else if(m_iPlaybackMode == PM_CAPTURE)
 		{
@@ -1311,6 +1316,8 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 			m_wndSeekBar.SetPos(rtNow);
 			m_OSD.SetRange (0, rtDur);
 			m_OSD.SetPos (rtNow);
+			g_Lcd.SetMediaRange(0, rtDur);
+			g_Lcd.SetMediaPos(rtNow);
 /*
 			if(m_fCapturing)
 			{
@@ -1930,6 +1937,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			m_wndSeekBar.Enable(rtDur > 0);
 			m_wndSeekBar.SetRange(0, rtDur);
 			m_OSD.SetRange (0, rtDur);
+			g_Lcd.SetMediaRange(0, rtDur);
 
 			REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
@@ -2854,6 +2862,7 @@ void CMainFrame::OnFilePostClosemedia()
 	RecalcLayout();
 
 	SetWindowText(m_strTitle);
+	g_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
@@ -4898,6 +4907,8 @@ void CMainFrame::OnPlayPlay()
 	}
 
 	MoveVideoWindow();
+	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
+	g_Lcd.SetPlayState(CMPC_Lcd::PS_PLAY);
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -4925,6 +4936,8 @@ void CMainFrame::OnPlayPauseI()
 	}
 
 	MoveVideoWindow();
+	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
+	g_Lcd.SetPlayState(CMPC_Lcd::PS_PAUSE);
 }
 
 void CMainFrame::OnPlayPause()
@@ -5023,6 +5036,9 @@ void CMainFrame::OnPlayStop()
 			SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 		}
 	}
+
+	g_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
+	g_Lcd.SetPlayState(CMPC_Lcd::PS_STOP);
 }
 
 void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
@@ -8052,6 +8068,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 	}
 
 	SetWindowText(title);
+	g_Lcd.SetMediaTitle(LPCTSTR(fn));
 }
 
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
@@ -10121,6 +10138,7 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
 	m_playingmsg = msg;
 	SetTimer(TIMER_STATUSERASER, nTimeOut, NULL);
+	g_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
