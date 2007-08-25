@@ -225,7 +225,7 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 	if (llMax == llMin)
 		m_rectCursor.left	= m_rectBar.left;
 	else
-		m_rectCursor.left	= m_rectBar.left + (m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax-llMin);
+		m_rectCursor.left	= m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax-llMin));
 	m_rectCursor.right	= m_rectCursor.left + SLIDER_CURSOR_WIDTH;
 	m_rectCursor.top	= rect->top   + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
 	m_rectCursor.bottom	= m_rectCursor.top + SLIDER_CURSOR_HEIGHT;

@@ -1166,13 +1166,6 @@ bool CMPlayerCApp::Settings::IsD3DFullscreen()
 		return fD3DFullscreen;
 }
 
-bool CMPlayerCApp::Settings::ExitAfterPlayback()
-{
-	if(nCLSwitches&CLSW_EXITAFTERPLAYBACK)
-		return true;
-	else
-		return false;
-}
 
 DVD_POSITION* CMPlayerCApp::Settings::CurrentDVDPosition()
 {
@@ -1364,28 +1357,31 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		// Position de lecture des derniers DVD's
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), (int)fRememberDVDPos);
-		for (int i=0; i<MAX_DVD_POSITION; i++)
-		{
-			CString		strDVDPos;
-			CString		strValue;
-
-			strDVDPos.Format (_T("DVD Position %d"), i);
-			strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
-			pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strDVDPos, strValue);
-		}
-
-		// Position de lecture des derniers fichiers
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FILEPOS), (int)fRememberFilePos);
-		for (int i=0; i<MAX_FILE_POSITION; i++)
+		if (fKeepHistory)
 		{
-			CString		strFilePos;
-			CString		strValue;
+			for (int i=0; i<MAX_DVD_POSITION; i++)
+			{
+				CString		strDVDPos;
+				CString		strValue;
 
-			strFilePos.Format (_T("File Name %d"), i);
-			pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strFilePos, FilePosition[i].strFile);
-			strFilePos.Format (_T("File Position %d"), i);
-			strValue.Format (_T("%I64d"), FilePosition[i].llPosition);
-			pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strFilePos, strValue);
+				strDVDPos.Format (_T("DVD Position %d"), i);
+				strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
+				pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strDVDPos, strValue);
+			}
+
+			// Position de lecture des derniers fichiers
+			for (int i=0; i<MAX_FILE_POSITION; i++)
+			{
+				CString		strFilePos;
+				CString		strValue;
+
+				strFilePos.Format (_T("File Name %d"), i);
+				pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strFilePos, FilePosition[i].strFile);
+				strFilePos.Format (_T("File Position %d"), i);
+				strValue.Format (_T("%I64d"), FilePosition[i].llPosition);
+				pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), strFilePos, strValue);
+			}
 		}
 
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LASTFULLSCREEN), (int)fLastFullScreen);
@@ -1958,10 +1954,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		dSaturation		= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION),	_T("1")));
 		strShaderList	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), _T(""));
 		iEvrBuffers		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), 5);
-		fShowOSD		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
+		fShowOSD		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
 
 		// Position de lecture des derniers DVD's
-		fRememberDVDPos		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), 0);
+		fRememberDVDPos		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), 0);
 		nCurrentDvdPosition = -1;
 		memset (DvdPosition, 0, sizeof(DvdPosition));
 		for (int i=0; i<MAX_DVD_POSITION; i++)
@@ -1978,7 +1974,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		// Position de lecture des derniers fichiers
-		fRememberFilePos		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FILEPOS), 0);
+		fRememberFilePos		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FILEPOS), 0);
 		nCurrentFilePosition = -1;
 		for (int i=0; i<MAX_FILE_POSITION; i++)
 		{
@@ -1993,7 +1989,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			FilePosition[i].llPosition = _tstoi64 (strValue);
 		}
 
-		fLastFullScreen		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LASTFULLSCREEN), 0);
+		fLastFullScreen		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LASTFULLSCREEN), 0);
 
 		// CASIMIR666 : fin nouveaux settings
 
@@ -2055,7 +2051,6 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("installpn31")) nCLSwitches |= CLSW_INSTALLPN31;
 			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
 			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
-			else if(sw == _T("exitafterpb")) nCLSwitches |= CLSW_EXITAFTERPLAYBACK;
 			else if(sw == _T("fixedsize") && pos)
 			{
 				CAtlList<CString> sl;

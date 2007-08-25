@@ -113,6 +113,7 @@ namespace DSObjects
 		int								m_nCurSurface;					// Surface currently displayed
 		long							m_nUsedBuffer;
 
+		double							m_fAvrFps;						// Estimate the real FPS
 		LONGLONG						m_pllJitter [NB_JITTER];		// Jitter buffer for stats
 		LONGLONG						m_llLastPerf;
 		int								m_nNextJitter;

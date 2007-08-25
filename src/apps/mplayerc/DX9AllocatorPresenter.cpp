@@ -232,6 +232,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_nNextJitter		= 0;
 	m_llLastPerf		= 0;
 	m_rtTimePerFrame	= 0;
+	m_fAvrFps			= 0.0;
 }
 
 CDX9AllocatorPresenter::~CDX9AllocatorPresenter() 
@@ -573,7 +574,7 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA)
 	if(m_bicubicA)
 	{
 		if(FAILED(m_pD3DDev->CreateTexture(
-			min(max(2048, m_ScreenSize.cx), m_caps.MaxTextureWidth), m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, 
+			min(max(2048, m_ScreenSize.cx), (int)m_caps.MaxTextureWidth), m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, 
 			D3DPOOL_DEFAULT, &m_pResizerBicubic1stPass, NULL)))
 		{
 			ASSERT(0);
@@ -757,7 +758,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 
 	ASSERT(dst1.Height() == desc.Height);
 
-	if(dst1.Width() > desc.Width || dst1.Height() > desc.Height)
+	if(dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
 	// if(dst1.Width() != desc.Width || dst1.Height() != desc.Height)
 		return TextureResizeBicubic1pass(pTexture, dst);
 
@@ -1108,10 +1109,16 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	// Calculate the jitter!
 	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
-	if ((m_rtTimePerFrame != 0) && (labs (llPerf - m_llLastPerf) < m_rtTimePerFrame*3))
+	if ((m_rtTimePerFrame != 0) && (labs ((long)(llPerf - m_llLastPerf)) < m_rtTimePerFrame*3) )
 	{
 		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
 		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame;
+
+		// Calculate the real FPS
+		LONGLONG		llJitterSum = 0;
+		for (int i=0; i<NB_JITTER; i++)
+			llJitterSum += m_pllJitter[i];
+		m_fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
 	}
 	m_llLastPerf = llPerf;
 
@@ -1148,8 +1155,6 @@ void CDX9AllocatorPresenter::DrawStats()
 		D3DXVECTOR2		Points[NB_JITTER];
 		int				nIndex;
 		RECT			rc = {700, 40, 0, 0 };
-		double			fAvrFps;
-		LONGLONG		llJitterSum = 0;
 		LONGLONG		llMaxJitter = MINLONG64;
 		LONGLONG		llMinJitter = MAXLONG64;
 
@@ -1157,12 +1162,12 @@ void CDX9AllocatorPresenter::DrawStats()
 		m_pLine->SetWidth(1.0);          // Width 
 		for (int i=10; i<500; i+= 20)
 		{
-			Points[0].x = 0;
-			Points[0].y = i;
-			Points[1].x = (i-10)%80 ? 50 : 625;
-			Points[1].y = i;
+			Points[0].x = (FLOAT)0;
+			Points[0].y = (FLOAT)i;
+			Points[1].x = (FLOAT)((i-10)%80 ? 50 : 625);
+			Points[1].y = (FLOAT)i;
 			if (i == 250) Points[1].x += 50;
-			m_pLine->SetWidth(i == 250 ? 2.0 : 1.0);          // Width 
+			m_pLine->SetWidth(i == 250 ? 2.0F : 1.0F);          // Width 
 			m_pLine->Begin();
 			m_pLine->Draw (Points, 2, D3DCOLOR_XRGB(0,0,255));
 			m_pLine->End();
@@ -1174,9 +1179,8 @@ void CDX9AllocatorPresenter::DrawStats()
 			for (int i=0; i<NB_JITTER; i++)
 			{
 				nIndex = (m_nNextJitter+i) % NB_JITTER;
-				Points[i].x = i*5+5;
-				Points[i].y = m_pllJitter[nIndex]/5000 + 250;
-				llJitterSum += m_pllJitter[nIndex];
+				Points[i].x  = (FLOAT)(i*5+5);
+				Points[i].y  = (FLOAT)(m_pllJitter[nIndex]/5000 + 250);
 				llMaxJitter	 = max(llMaxJitter, m_pllJitter[nIndex]);
 				llMinJitter	 = min(llMinJitter, m_pllJitter[nIndex]);
 			}		
@@ -1186,9 +1190,8 @@ void CDX9AllocatorPresenter::DrawStats()
 
 			// === Text
 			CString		strText;
-			fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
 
-			strText.Format(L"Frame rate   : %.03f  (%I64d µs)", fAvrFps, m_rtTimePerFrame / 10);
+			strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, m_rtTimePerFrame / 10);
 			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 			OffsetRect (&rc, 0, 30);
@@ -1294,22 +1297,22 @@ void CDX9AllocatorPresenter::EstimateFrameRate (REFERENCE_TIME rtStart)
 
 	REFERENCE_TIME		rtCurDuration = rtStart - rtLast;
 
-	if (labs (rtCurDuration - m_rtCandidate) <= 20000)
+	if (labs ((long)(rtCurDuration - m_rtCandidate)) <= 20000)
 	{
 		if (nCount <= 6) nCount++;
 		if (nCount == 5)
 		{
-			if ( labs(rtCurDuration - 417080) < FRAMERATE_MAX_DELTA)
+			if ( labs(long (rtCurDuration - 417080)) < FRAMERATE_MAX_DELTA)
 			{
 				m_rtTimePerFrame	= 417080;
 				m_fps				= 23.976;
 			}
-			else if ( labs(rtCurDuration - 400000) < FRAMERATE_MAX_DELTA)
+			else if (labs((long)(rtCurDuration - 400000)) < FRAMERATE_MAX_DELTA)
 			{
 				m_rtTimePerFrame	= 400000;
 				m_fps				= 25.000;
 			}
-			else if ( labs(rtCurDuration - 333600) < FRAMERATE_MAX_DELTA)
+			else if (labs((long)(rtCurDuration - 333600)) < FRAMERATE_MAX_DELTA)
 			{
 				m_rtTimePerFrame	= 333600;
 				m_fps				= 29.976;

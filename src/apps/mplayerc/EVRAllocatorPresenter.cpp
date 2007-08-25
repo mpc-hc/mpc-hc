@@ -187,10 +187,10 @@ class CEVRAllocatorPresenter :
 
 	public IMFAsyncCallback,
 	public IQualProp,
-	public IMFRateSupport				// Non mandatory EVR Presenter Interfaces (see later...)
+	public IMFRateSupport,				// Non mandatory EVR Presenter Interfaces (see later...)
+	public IMFVideoDisplayControl 
 /*	public IMFVideoPositionMapper,
 	public IEVRTrustedVideoPlugin,
-	public IMFVideoDisplayControl 
 */
 {
 public:
@@ -250,6 +250,23 @@ public:
 	STDMETHODIMP	GetParameters(	/* [out] */ __RPC__out DWORD *pdwFlags, /* [out] */ __RPC__out DWORD *pdwQueue);
 	STDMETHODIMP	Invoke		 (	/* [in] */ __RPC__in_opt IMFAsyncResult *pAsyncResult);
 
+	// IMFVideoDisplayControl
+    STDMETHODIMP GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo);    
+    STDMETHODIMP GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax);
+    STDMETHODIMP SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest);
+    STDMETHODIMP GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest);
+    STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode);
+    STDMETHODIMP GetAspectRatioMode(DWORD *pdwAspectRatioMode);
+    STDMETHODIMP SetVideoWindow(HWND hwndVideo);
+    STDMETHODIMP GetVideoWindow(HWND *phwndVideo);
+    STDMETHODIMP RepaintVideo( void);
+    STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp);
+    STDMETHODIMP SetBorderColor(COLORREF Clr);
+    STDMETHODIMP GetBorderColor(COLORREF *pClr);
+    STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags);
+    STDMETHODIMP GetRenderingPrefs(DWORD *pdwRenderFlags);
+    STDMETHODIMP SetFullscreen(BOOL fFullscreen);
+    STDMETHODIMP GetFullscreen(BOOL *pfFullscreen);
 
 	// IDirect3DDeviceManager9
 	STDMETHODIMP	ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);        
@@ -298,8 +315,6 @@ private :
 	// Stats variable for IQualProp
 	UINT									m_pcFrames;
 	UINT									m_pcFramesDrawn;	// Retrieves the number of frames drawn since streaming started
-	UINT									m_piAvgFrameRate;
-	UINT									m_iJitter;
 	UINT									m_piAvg;
 	UINT									m_piDev;
 
@@ -422,8 +437,6 @@ void CEVRAllocatorPresenter::ResetStats()
 {
 	m_pcFrames			= 0;
 	m_pcFramesDrawn		= 0;
-	m_piAvgFrameRate	= 0;
-	m_iJitter			= 100;
 	m_piAvg				= 0;
 	m_piDev				= 0;
 }
@@ -557,6 +570,8 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 		hr = GetInterface((IMFGetService*)this, ppv);
 	else if(riid == __uuidof(IMFAsyncCallback))
 		hr = GetInterface((IMFAsyncCallback*)this, ppv);
+	else if(riid == __uuidof(IMFVideoDisplayControl))
+		hr = GetInterface((IMFVideoDisplayControl*)this, ppv);
 	else if(riid == IID_IQualProp)
 		hr = GetInterface((IQualProp*)this, ppv);
 	else if(riid == __uuidof(IMFRateSupport))
@@ -628,12 +643,12 @@ STDMETHODIMP CEVRAllocatorPresenter::get_FramesDrawn(int *pcFramesDrawn)
 }
 STDMETHODIMP CEVRAllocatorPresenter::get_AvgFrameRate(int *piAvgFrameRate)
 {
-	*piAvgFrameRate = m_piAvgFrameRate;
+	*piAvgFrameRate = (int)(m_fAvrFps * 100);
 	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::get_Jitter(int *iJitter)
 {
-	*iJitter = m_iJitter;
+	*iJitter = (int)(m_pllJitter[m_nNextJitter]/5000);
 	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::get_AvgSyncOffset(int *piAvg)
@@ -851,6 +866,9 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 	VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
 	hr = pfMFCreateVideoMediaType  (VideoFormat, &m_pMediaType);
 
+	m_AspectRatio.cx	= VideoFormat->videoInfo.PixelAspectRatio.Numerator;
+	m_AspectRatio.cy	= VideoFormat->videoInfo.PixelAspectRatio.Denominator;
+
 	if (SUCCEEDED (hr))
 	{
 		i64Size.HighPart = VideoFormat->videoInfo.dwWidth;
@@ -859,8 +877,8 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
 		m_pMediaType->SetUINT32 (MF_MT_PAN_SCAN_ENABLED, 0);
 
-		i64Size.HighPart = 1;
-		i64Size.LowPart  = 1;
+		i64Size.HighPart = m_AspectRatio.cx;
+		i64Size.LowPart  = m_AspectRatio.cy;
 		m_pMediaType->SetUINT64 (MF_MT_PIXEL_ASPECT_RATIO, i64Size.QuadPart);
 
 		MFVideoArea Area = MakeArea (0, 0, VideoFormat->videoInfo.dwWidth, VideoFormat->videoInfo.dwHeight);
@@ -1027,7 +1045,7 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			MFTIME		nsDuration;
 			float		m_fps;
 			Buffer.pSample->GetSampleDuration(&nsDuration);
-			m_fps = 10000000.0 / nsDuration;
+			m_fps = (float)(10000000.0 / nsDuration);
 			m_pSubPicQueue->SetFPS(m_fps);
 			__super::SetTime (g_tSegmentStart + nsSampleTime);
 		}
@@ -1144,6 +1162,98 @@ STDMETHODIMP CEVRAllocatorPresenter::Invoke		 (	/* [in] */ __RPC__in_opt IMFAsyn
 }
 
 
+// IMFVideoDisplayControl
+STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo)
+{
+	if (pszVideo)
+	{
+		pszVideo->cx	= m_NativeVideoSize.cx;
+		pszVideo->cy	= m_NativeVideoSize.cy;
+	}
+	if (pszARVideo)
+	{
+		pszARVideo->cx	= m_NativeVideoSize.cx * m_AspectRatio.cx;
+		pszARVideo->cy	= m_NativeVideoSize.cy * m_AspectRatio.cy;
+	}
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
+{
+//	ASSERT (FALSE);
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetAspectRatioMode(DWORD dwAspectRatioMode)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetAspectRatioMode(DWORD *pdwAspectRatioMode)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
+{
+//	ASSERT (FALSE);
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetVideoWindow(HWND *phwndVideo)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::RepaintVideo()
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetBorderColor(COLORREF Clr)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetBorderColor(COLORREF *pClr)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetRenderingPrefs(DWORD dwRenderFlags)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetRenderingPrefs(DWORD *pdwRenderFlags)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetFullscreen(BOOL fFullscreen)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+STDMETHODIMP CEVRAllocatorPresenter::GetFullscreen(BOOL *pfFullscreen)
+{
+	ASSERT (FALSE);
+	return E_NOTIMPL;
+}
+
+
 // IDirect3DDeviceManager9
 STDMETHODIMP CEVRAllocatorPresenter::ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken)
 {
@@ -1198,6 +1308,9 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid
 
 STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight)
 {
+	// This function should be called...
+	ASSERT (FALSE);
+
 	if(lpWidth)		*lpWidth	= m_NativeVideoSize.cx;
 	if(lpHeight)	*lpHeight	= m_NativeVideoSize.cy;
 	if(lpARWidth)	*lpARWidth	= m_AspectRatio.cx;
@@ -1263,7 +1376,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	int						w = vih2->bmiHeader.biWidth;
 	int						h = abs(vih2->bmiHeader.biHeight);
 
-	m_NativeVideoSize = m_AspectRatio = CSize(w, h);
+	m_NativeVideoSize = CSize(w, h);
 
 	// TODO : mauvais aspect ratio ici !!!
 //	int arx = vih2->dwPictAspectRatioX, ary = vih2->dwPictAspectRatioY;
@@ -1310,8 +1423,6 @@ void CEVRAllocatorPresenter::RenderThread()
 	DWORD				dwUser = 0;
 	DWORD				dwObject;
 
-	LONGLONG			llPerfTotalPlay	= 0;
-	LONGLONG			llPerfLastFrame	= 0;
 	UINT				nNbPlayingFrame	= 0;
 
 	// Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
@@ -1382,14 +1493,7 @@ void CEVRAllocatorPresenter::RenderThread()
 						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 
 						// Update statistics
-						LONGLONG		llPerfCurrent = AfxGetMyApp()->GetPerfCounter();
-						
-						llPerfTotalPlay	+= (llPerfCurrent - llPerfLastFrame);
 						nNbPlayingFrame++;
-						m_piAvgFrameRate = (UINT)(Int32x32To64(nNbPlayingFrame, 1000000000) / llPerfTotalPlay);
-						m_iJitter = (UINT)(((llPerfCurrent - llPerfLastFrame) - m_rtTimePerFrame)/10000);
-
-						llPerfLastFrame	 = llPerfCurrent;
 					}
 					else
 					{

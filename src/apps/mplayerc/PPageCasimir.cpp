@@ -123,6 +123,9 @@ BOOL CPPageCasimir::OnInitDialog()
 		m_SliSaturation.SetPos		((int)(m_dSaturation*100));
 	}
 
+	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
+	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
+
 	GetDlgItem(IDC_INSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
 	GetDlgItem(IDC_UNINSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
 
@@ -134,6 +137,9 @@ BOOL CPPageCasimir::OnApply()
 	UpdateData();
 
 	AppSettings& s = AfxGetAppSettings();
+
+	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
+	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
 
 	s.dBrightness				= m_dBrightness;
 	s.dContrast					= m_dContrast;

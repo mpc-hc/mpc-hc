@@ -1163,7 +1163,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if( ((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER))
+	if ((GetMediaState() == State_Running) && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER)))
 	{
 		TRACE(_T("SC_SCREENSAVE, nID = %d, lParam = %d\n"), nID, lParam);
 		return;
@@ -1788,7 +1788,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				else 
 				{
 					if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
-					if(s.ExitAfterPlayback()) SendMessage(WM_COMMAND, ID_FILE_EXIT);
 					else m_fEndOfStream = true;
 					SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 	
