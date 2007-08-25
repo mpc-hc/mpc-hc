@@ -39,8 +39,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -58,7 +58,6 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -111,8 +110,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -130,10 +129,7 @@
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				DelayLoadDLLs=""
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -186,8 +182,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -201,11 +197,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib"
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -259,8 +254,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -277,10 +272,7 @@
 				OutputFile="$(OutDir)/$(ProjectName).ax"
 				AdditionalLibraryDirectories="../../../../lib;../../../../lib/detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				
 				SubSystem="2"
-				
-				
 				TargetMachine="1"
 			/>
 			<Tool
@@ -332,8 +324,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -390,8 +382,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -448,8 +440,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -506,8 +498,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
 				AdditionalIncludeDirectories="..\..\..\..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
