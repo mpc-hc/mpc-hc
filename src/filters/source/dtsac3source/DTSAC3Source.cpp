@@ -194,11 +194,19 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			1509750,1920000,2048000,3072000,3840000,0,0,0
 		};
 
+#define	DTS_MAGIC_NUMBER	6	//magic number to make sonic audio decoder 4.2 happy
+
 		m_nSamplesPerSec = freqtbl[freq];
 		m_nAvgBytesPerSec = (bitratetbl[transbitrate] + 4) / 8;
 //		m_nBytesPerFrame = m_nAvgBytesPerSec*10.656063618290258449304174950298/1000 + 0.5;
-		m_nBytesPerFrame = framebytes*6;
-		m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate]*6;
+		m_nBytesPerFrame = framebytes*DTS_MAGIC_NUMBER;
+  if( framebytes == 2012 )
+    // DTS and DTS-HD tracks from HD DVD and Blu-Ray sources have framesizes of 2012 bytes
+    // but if we handle them mathematically "correctly", audio sync will slowly drift away
+    // we have to handle them as if they had 2013 bytes
+  		m_AvgTimePerFrame = 10000000i64 * (2013*DTS_MAGIC_NUMBER) * 8 / bitratetbl[transbitrate];
+  else
+		  m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate];
 
 		m_subtype = MEDIASUBTYPE_DTS;
 		m_wFormatTag = WAVE_FORMAT_DVD_DTS;
@@ -238,10 +246,12 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				448000,448000,512000,512000,576000,576000,640000,640000
 			};
 
+#define	AC3_MAGIC_NUMBER	3	//magic number to make sonic audio decoder 4.2 happy
+
 			m_nSamplesPerSec = freqtbl[freq];
 			m_nAvgBytesPerSec = (bitratetbl[bitrate] + 4) / 8;
-			m_nBytesPerFrame = m_nAvgBytesPerSec*32/1000*3;
-			m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[bitrate] *3;
+			m_nBytesPerFrame = m_nAvgBytesPerSec*32/1000*AC3_MAGIC_NUMBER;
+			m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[bitrate];
 			
 			m_subtype = MEDIASUBTYPE_DOLBY_AC3;
 			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;

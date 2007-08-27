@@ -1,10 +1,11 @@
 - Fixed : wrong aspect ration with EVR custom (definitely i hope :-)
 - Added : latests Clsid patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, libpng 1.2.18, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
 - Added : command line "/d3dfs" to start MPC in D3D fullscreen mode
-- Added : logitech lcd support (g15)
+- Added : logitech lcd keyboard support (g15)
 - Modify : remember file position and DVD position work only when "Keep history" is set
 - Modify : screen saver is now kick only when a video is playing
 - Fixed : internal Mpeg2 decoder was not working with Evr and Evr custom
+- Fixed : Fix for problems with audio sync with Blu-Ray/HD DVD DTS files and wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)
 
 
 1.0.9.0

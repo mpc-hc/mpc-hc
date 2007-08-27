@@ -114,7 +114,7 @@ public:
     // GetPointer until after returning from WaitForNext.
     STDMETHODIMP Request(
                      IMediaSample* pSample,
-                     DWORD dwUser);	        // user context
+                     DWORD_PTR dwUser);	        // user context
 
     // block until the next sample is completed or the timeout occurs.
     // timeout (millisecs) may be 0 or INFINITE. Samples may not
@@ -124,7 +124,7 @@ public:
     STDMETHODIMP WaitForNext(
                       DWORD dwTimeout,
                       IMediaSample** ppSample,  // completed sample
-                      DWORD * pdwUser);		// user context
+                      DWORD_PTR* pdwUser);		// user context
 
     // sync read of data. Sample passed in must have been acquired from
     // the agreed allocator. Start and stop position must be aligned.
