@@ -1,4 +1,4 @@
-/* $Id: LcdSupport.cpp,v 1.1 2006-11-04 22:41:51 wild Exp $
+/* $Id$
  *
  * Logitech LCD Support Class
  */
