@@ -1,7 +1,7 @@
 
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.2.18 - May 15, 2007
+ * libpng version 1.2.19 - August 18, 2007
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -9,7 +9,7 @@
  * Authors and maintainers:
  *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.2.18 - May 15, 2007: Glenn
+ *  libpng versions 0.97, January 1998, through 1.2.19 - August 18, 2007: Glenn
  *  See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -150,6 +150,11 @@
  *    1.2.17                  13    10217  12.so.0.17[.0]
  *    1.0.26                  10    10026  10.so.0.26[.0]
  *    1.2.18                  13    10218  12.so.0.18[.0]
+ *    1.2.19beta1-31          13    10219  12.so.0.19[.0]
+ *    1.0.27rc1-6             10    10027  10.so.0.27[.0]
+ *    1.2.19rc1-6             13    10219  12.so.0.19[.0]
+ *    1.0.27                  10    10027  10.so.0.27[.0]
+ *    1.2.19                  13    10219  12.so.0.19[.0]
  *
  *    Henceforth the source version will match the shared-library major
  *    and minor numbers; the shared-library major version number will be
@@ -179,7 +184,7 @@
  * If you modify libpng you may insert additional notices immediately following
  * this sentence.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.2.18, May 15, 2007, are
+ * libpng versions 1.2.6, August 15, 2004, through 1.2.19, August 18, 2007, are
  * Copyright (c) 2004, 2006-2007 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
@@ -291,13 +296,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    May 15, 2007
+ *    August 18, 2007
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.2.18 are Y2K compliant.  It is my belief that earlier
+ *    upward through 1.2.19 are Y2K compliant.  It is my belief that earlier
  *    versions were also Y2K compliant.
  *
  *    Libpng only has three year fields.  One is a 2-byte unsigned integer
@@ -353,9 +358,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.18"
+#define PNG_LIBPNG_VER_STRING "1.2.19"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.18 - May 15, 2007 (header)\n"
+   " libpng version 1.2.19 - August 18, 2007\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -363,7 +368,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 18
+#define PNG_LIBPNG_VER_RELEASE 19
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -391,11 +396,11 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10218 /* 1.2.18 */
+#define PNG_LIBPNG_VER 10219 /* 1.2.19 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
-#include "..\zlib\zlib.h"
+#include "zlib.h"
 #endif
 
 /* include all user configurable info, including optional assembler routines */
@@ -479,7 +484,7 @@ extern "C" {
  * the version above.
  */
 #ifdef PNG_USE_GLOBAL_ARRAYS
-PNG_EXPORT_VAR (const char) png_libpng_ver[18];
+PNG_EXPORT_VAR (PNG_CONST char) png_libpng_ver[18];
   /* need room for 99.99.99beta99z */
 #else
 #define png_libpng_ver png_get_header_ver(NULL)
@@ -488,17 +493,17 @@ PNG_EXPORT_VAR (const char) png_libpng_ver[18];
 #ifdef PNG_USE_GLOBAL_ARRAYS
 /* This was removed in version 1.0.5c */
 /* Structures to facilitate easy interlacing.  See png.c for more details */
-PNG_EXPORT_VAR (const int FARDATA) png_pass_start[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_inc[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_ystart[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_yinc[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_mask[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_dsp_mask[7];
-#ifdef PNG_USE_PNGGCCRD
-PNG_EXPORT_VAR (const int FARDATA) png_pass_width[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_start[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_inc[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_ystart[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_yinc[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_mask[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_dsp_mask[7];
+#if defined(PNG_HAVE_MMX_COMBINE_ROW) || defined(PNG_OPTIMIZED_CODE_SUPPORTED)
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_width[7];
 #endif
 /* This isn't currently used.  If you need it, see png.c for more details.
-PNG_EXPORT_VAR (const int FARDATA) png_pass_height[7];
+PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_height[7];
 */
 #endif
 
@@ -1352,7 +1357,7 @@ struct png_struct_def
    png_byte filter_type;
 #endif
 
-#if defined(PNG_1_0_X) || (defined(PNG_DEBUG) && defined(PNG_USE_PNGGCCRD))
+#if defined(PNG_1_0_X)
 /* New member added in libpng-1.0.10, ifdef'ed out in 1.2.0 */
    png_uint_32 row_buf_size;
 #endif
@@ -1406,7 +1411,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_18;
+typedef png_structp version_1_2_19;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2062,13 +2067,17 @@ extern PNG_EXPORT(void,png_error) PNGARG((png_structp png_ptr,
 extern PNG_EXPORT(void,png_chunk_error) PNGARG((png_structp png_ptr,
    png_const_charp error_message));
 
+#ifndef PNG_NO_WARNINGS
 /* Non-fatal error in libpng.  Can continue, but may have a problem. */
 extern PNG_EXPORT(void,png_warning) PNGARG((png_structp png_ptr,
    png_const_charp warning_message));
 
+#ifdef PNG_READ_SUPPORTED
 /* Non-fatal error in libpng, chunk name is prepended to message. */
 extern PNG_EXPORT(void,png_chunk_warning) PNGARG((png_structp png_ptr,
    png_const_charp warning_message));
+#endif /* PNG_READ_SUPPORTED */
+#endif /* PNG_NO_WARNINGS */
 
 /* The png_set_<chunk> functions are for storing values in the png_info_struct.
  * Similarly, the png_get_<chunk> calls are used to read values from the
@@ -2490,10 +2499,6 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #define png_debug2(l, m, p1, p2)
 #endif
 
-#if 0
-extern PNG_EXPORT(png_bytep,png_sig_bytes) PNGARG((void));
-#endif
-
 extern PNG_EXPORT(png_charp,png_get_copyright) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_charp,png_get_header_ver) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_charp,png_get_header_version) PNGARG((png_structp png_ptr));
@@ -2817,11 +2822,8 @@ extern PNG_EXPORT(void,png_save_uint_16)
 #if !defined(PNG_NO_EXTERN) || defined(PNG_ALWAYS_EXTERN)
 /* place to hold the signature string for a PNG file. */
 #ifdef PNG_USE_GLOBAL_ARRAYS
-   PNG_EXPORT_VAR (const png_byte FARDATA) png_sig[8];
+   PNG_EXPORT_VAR (PNG_CONST png_byte FARDATA) png_sig[8];
 #else
-#if 0
-#define png_sig png_sig_bytes(NULL)
-#endif
 #endif
 #endif /* PNG_NO_EXTERN */
 
@@ -2829,50 +2831,50 @@ extern PNG_EXPORT(void,png_save_uint_16)
  * define the name here, and add an invocation of the macro in png.c and
  * wherever it's needed.
  */
-#define PNG_IHDR const png_byte png_IHDR[5] = { 73,  72,  68,  82, '\0'}
-#define PNG_IDAT const png_byte png_IDAT[5] = { 73,  68,  65,  84, '\0'}
-#define PNG_IEND const png_byte png_IEND[5] = { 73,  69,  78,  68, '\0'}
-#define PNG_PLTE const png_byte png_PLTE[5] = { 80,  76,  84,  69, '\0'}
-#define PNG_bKGD const png_byte png_bKGD[5] = { 98,  75,  71,  68, '\0'}
-#define PNG_cHRM const png_byte png_cHRM[5] = { 99,  72,  82,  77, '\0'}
-#define PNG_gAMA const png_byte png_gAMA[5] = {103,  65,  77,  65, '\0'}
-#define PNG_hIST const png_byte png_hIST[5] = {104,  73,  83,  84, '\0'}
-#define PNG_iCCP const png_byte png_iCCP[5] = {105,  67,  67,  80, '\0'}
-#define PNG_iTXt const png_byte png_iTXt[5] = {105,  84,  88, 116, '\0'}
-#define PNG_oFFs const png_byte png_oFFs[5] = {111,  70,  70, 115, '\0'}
-#define PNG_pCAL const png_byte png_pCAL[5] = {112,  67,  65,  76, '\0'}
-#define PNG_sCAL const png_byte png_sCAL[5] = {115,  67,  65,  76, '\0'}
-#define PNG_pHYs const png_byte png_pHYs[5] = {112,  72,  89, 115, '\0'}
-#define PNG_sBIT const png_byte png_sBIT[5] = {115,  66,  73,  84, '\0'}
-#define PNG_sPLT const png_byte png_sPLT[5] = {115,  80,  76,  84, '\0'}
-#define PNG_sRGB const png_byte png_sRGB[5] = {115,  82,  71,  66, '\0'}
-#define PNG_tEXt const png_byte png_tEXt[5] = {116,  69,  88, 116, '\0'}
-#define PNG_tIME const png_byte png_tIME[5] = {116,  73,  77,  69, '\0'}
-#define PNG_tRNS const png_byte png_tRNS[5] = {116,  82,  78,  83, '\0'}
-#define PNG_zTXt const png_byte png_zTXt[5] = {122,  84,  88, 116, '\0'}
+#define PNG_IHDR png_byte png_IHDR[5] = { 73,  72,  68,  82, '\0'}
+#define PNG_IDAT png_byte png_IDAT[5] = { 73,  68,  65,  84, '\0'}
+#define PNG_IEND png_byte png_IEND[5] = { 73,  69,  78,  68, '\0'}
+#define PNG_PLTE png_byte png_PLTE[5] = { 80,  76,  84,  69, '\0'}
+#define PNG_bKGD png_byte png_bKGD[5] = { 98,  75,  71,  68, '\0'}
+#define PNG_cHRM png_byte png_cHRM[5] = { 99,  72,  82,  77, '\0'}
+#define PNG_gAMA png_byte png_gAMA[5] = {103,  65,  77,  65, '\0'}
+#define PNG_hIST png_byte png_hIST[5] = {104,  73,  83,  84, '\0'}
+#define PNG_iCCP png_byte png_iCCP[5] = {105,  67,  67,  80, '\0'}
+#define PNG_iTXt png_byte png_iTXt[5] = {105,  84,  88, 116, '\0'}
+#define PNG_oFFs png_byte png_oFFs[5] = {111,  70,  70, 115, '\0'}
+#define PNG_pCAL png_byte png_pCAL[5] = {112,  67,  65,  76, '\0'}
+#define PNG_sCAL png_byte png_sCAL[5] = {115,  67,  65,  76, '\0'}
+#define PNG_pHYs png_byte png_pHYs[5] = {112,  72,  89, 115, '\0'}
+#define PNG_sBIT png_byte png_sBIT[5] = {115,  66,  73,  84, '\0'}
+#define PNG_sPLT png_byte png_sPLT[5] = {115,  80,  76,  84, '\0'}
+#define PNG_sRGB png_byte png_sRGB[5] = {115,  82,  71,  66, '\0'}
+#define PNG_tEXt png_byte png_tEXt[5] = {116,  69,  88, 116, '\0'}
+#define PNG_tIME png_byte png_tIME[5] = {116,  73,  77,  69, '\0'}
+#define PNG_tRNS png_byte png_tRNS[5] = {116,  82,  78,  83, '\0'}
+#define PNG_zTXt png_byte png_zTXt[5] = {122,  84,  88, 116, '\0'}
 
 #ifdef PNG_USE_GLOBAL_ARRAYS
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IHDR[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IDAT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IEND[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_PLTE[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_bKGD[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_cHRM[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_gAMA[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_hIST[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_iCCP[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_iTXt[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_oFFs[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_pCAL[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sCAL[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_pHYs[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sBIT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sPLT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sRGB[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tEXt[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tIME[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tRNS[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_zTXt[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_IHDR[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_IDAT[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_IEND[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_PLTE[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_bKGD[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_cHRM[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_gAMA[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_hIST[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_iCCP[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_iTXt[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_oFFs[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_pCAL[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_sCAL[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_pHYs[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_sBIT[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_sPLT[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_sRGB[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_tEXt[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_tIME[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_tRNS[5];
+PNG_EXPORT_VAR (png_byte FARDATA) png_zTXt[5];
 #endif /* PNG_USE_GLOBAL_ARRAYS */
 
 #if defined(PNG_1_0_X) || defined (PNG_1_2_X)

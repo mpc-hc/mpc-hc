@@ -48,7 +48,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -212,7 +212,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -296,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -379,7 +379,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -466,7 +466,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -550,7 +550,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -637,7 +637,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"

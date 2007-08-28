@@ -3,9 +3,9 @@
  *
  * For Intel x86 CPU and Microsoft Visual C++ compiler
  *
- * Last changed in libpng 1.2.6 - August 15, 2004
+ * Last changed in libpng 1.2.19 August 18, 2007
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2004 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * Copyright (c) 1998, Intel Corporation
  *
  * Contributed by Nirav Chhatrapati, Intel Corporation, 1998
@@ -22,15 +22,20 @@
  *
  * [runtime MMX configuration, GRR 20010102]
  *
+ * [Copy 6 bytes per pixel, not 4, and use stride of 6, not 4, in the
+ *  second loop of interlace processing of 48-bit pixels, GR-P 20070717]
+ *
+ * [move instances of uAll union into local, except for two constant
+ * instances, GR-P 20070805]
  */
 
 #define PNG_INTERNAL
 #include "png.h"
 
-#if defined(PNG_ASSEMBLER_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD)
+#if defined(PNG_MMX_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD)
+
 
 static int mmx_supported=2;
-
 
 int PNGAPI
 png_mmx_support(void)
@@ -110,7 +115,7 @@ void /* PRIVATE */
 png_combine_row(png_structp png_ptr, png_bytep row, int mask)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
-   const int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
+   PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 #endif
 
    png_debug(1,"in png_combine_row_asm\n");
@@ -135,394 +140,6 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
    {
       switch (png_ptr->row_info.pixel_depth)
       {
-         case 1:
-         {
-            png_bytep sp;
-            png_bytep dp;
-            int s_inc, s_start, s_end;
-            int m;
-            int shift;
-            png_uint_32 i;
-
-            sp = png_ptr->row_buf + 1;
-            dp = row;
-            m = 0x80;
-#if defined(PNG_READ_PACKSWAP_SUPPORTED)
-            if (png_ptr->transformations & PNG_PACKSWAP)
-            {
-                s_start = 0;
-                s_end = 7;
-                s_inc = 1;
-            }
-            else
-#endif
-            {
-                s_start = 7;
-                s_end = 0;
-                s_inc = -1;
-            }
-
-            shift = s_start;
-
-            for (i = 0; i < png_ptr->width; i++)
-            {
-               if (m & mask)
-               {
-                  int value;
-
-                  value = (*sp >> shift) & 0x1;
-                  *dp &= (png_byte)((0x7f7f >> (7 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-               else
-                  shift += s_inc;
-
-               if (m == 1)
-                  m = 0x80;
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         case 2:
-         {
-            png_bytep sp;
-            png_bytep dp;
-            int s_start, s_end, s_inc;
-            int m;
-            int shift;
-            png_uint_32 i;
-            int value;
-
-            sp = png_ptr->row_buf + 1;
-            dp = row;
-            m = 0x80;
-#if defined(PNG_READ_PACKSWAP_SUPPORTED)
-            if (png_ptr->transformations & PNG_PACKSWAP)
-            {
-               s_start = 0;
-               s_end = 6;
-               s_inc = 2;
-            }
-            else
-#endif
-            {
-               s_start = 6;
-               s_end = 0;
-               s_inc = -2;
-            }
-
-            shift = s_start;
-
-            for (i = 0; i < png_ptr->width; i++)
-            {
-               if (m & mask)
-               {
-                  value = (*sp >> shift) & 0x3;
-                  *dp &= (png_byte)((0x3f3f >> (6 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-               else
-                  shift += s_inc;
-               if (m == 1)
-                  m = 0x80;
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         case 4:
-         {
-            png_bytep sp;
-            png_bytep dp;
-            int s_start, s_end, s_inc;
-            int m;
-            int shift;
-            png_uint_32 i;
-            int value;
-
-            sp = png_ptr->row_buf + 1;
-            dp = row;
-            m = 0x80;
-#if defined(PNG_READ_PACKSWAP_SUPPORTED)
-            if (png_ptr->transformations & PNG_PACKSWAP)
-            {
-               s_start = 0;
-               s_end = 4;
-               s_inc = 4;
-            }
-            else
-#endif
-            {
-               s_start = 4;
-               s_end = 0;
-               s_inc = -4;
-            }
-            shift = s_start;
-
-            for (i = 0; i < png_ptr->width; i++)
-            {
-               if (m & mask)
-               {
-                  value = (*sp >> shift) & 0xf;
-                  *dp &= (png_byte)((0xf0f >> (4 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-               else
-                  shift += s_inc;
-               if (m == 1)
-                  m = 0x80;
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         case 8:
-         {
-            png_bytep srcptr;
-            png_bytep dstptr;
-            png_uint_32 len;
-            int m;
-            int diff, unmask;
-
-            __int64 mask0=0x0102040810204080;
-
-#if !defined(PNG_1_0_X)
-            if ((png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_COMBINE_ROW)
-                /* && mmx_supported */ )
-#else
-            if (mmx_supported)
-#endif
-            {
-               srcptr = png_ptr->row_buf + 1;
-               dstptr = row;
-               m = 0x80;
-               unmask = ~mask;
-               len  = png_ptr->width &~7;  //reduce to multiple of 8
-               diff = png_ptr->width & 7;  //amount lost
-
-               _asm
-               {
-                  movd       mm7, unmask   //load bit pattern
-                  psubb      mm6,mm6       //zero mm6
-                  punpcklbw  mm7,mm7
-                  punpcklwd  mm7,mm7
-                  punpckldq  mm7,mm7       //fill register with 8 masks
-
-                  movq       mm0,mask0
-
-                  pand       mm0,mm7       //nonzero if keep byte
-                  pcmpeqb    mm0,mm6       //zeros->1s, v versa
-
-                  mov        ecx,len       //load length of line (pixels)
-                  mov        esi,srcptr    //load source
-                  mov        ebx,dstptr    //load dest
-                  cmp        ecx,0         //lcr
-                  je         mainloop8end
-
-mainloop8:
-                  movq       mm4,[esi]
-                  pand       mm4,mm0
-                  movq       mm6,mm0
-                  pandn      mm6,[ebx]
-                  por        mm4,mm6
-                  movq       [ebx],mm4
-
-                  add        esi,8         //inc by 8 bytes processed
-                  add        ebx,8
-                  sub        ecx,8         //dec by 8 pixels processed
-
-                  ja         mainloop8
-mainloop8end:
-
-                  mov        ecx,diff
-                  cmp        ecx,0
-                  jz         end8
-
-                  mov        edx,mask
-                  sal        edx,24        //make low byte the high byte
-
-secondloop8:
-                  sal        edx,1         //move high bit to CF
-                  jnc        skip8         //if CF = 0
-                  mov        al,[esi]
-                  mov        [ebx],al
-skip8:
-                  inc        esi
-                  inc        ebx
-
-                  dec        ecx
-                  jnz        secondloop8
-end8:
-                  emms
-               }
-            }
-            else /* mmx not supported - use modified C routine */
-            {
-               register unsigned int incr1, initial_val, final_val;
-               png_size_t pixel_bytes;
-               png_uint_32 i;
-               register int disp = png_pass_inc[png_ptr->pass];
-               int offset_table[7] = {0, 4, 0, 2, 0, 1, 0};
-
-               pixel_bytes = (png_ptr->row_info.pixel_depth >> 3);
-               srcptr = png_ptr->row_buf + 1 + offset_table[png_ptr->pass]*
-                  pixel_bytes;
-               dstptr = row + offset_table[png_ptr->pass]*pixel_bytes;
-               initial_val = offset_table[png_ptr->pass]*pixel_bytes;
-               final_val = png_ptr->width*pixel_bytes;
-               incr1 = (disp)*pixel_bytes;
-               for (i = initial_val; i < final_val; i += incr1)
-               {
-                  png_memcpy(dstptr, srcptr, pixel_bytes);
-                  srcptr += incr1;
-                  dstptr += incr1;
-               }
-            } /* end of else */
-
-            break;
-         }       // end 8 bpp
-
-         case 16:
-         {
-            png_bytep srcptr;
-            png_bytep dstptr;
-            png_uint_32 len;
-            int unmask, diff;
-            __int64 mask1=0x0101020204040808,
-                    mask0=0x1010202040408080;
-
-#if !defined(PNG_1_0_X)
-            if ((png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_COMBINE_ROW)
-                /* && mmx_supported */ )
-#else
-            if (mmx_supported)
-#endif
-            {
-               srcptr = png_ptr->row_buf + 1;
-               dstptr = row;
-
-               unmask = ~mask;
-               len     = (png_ptr->width)&~7;
-               diff = (png_ptr->width)&7;
-               _asm
-               {
-                  movd       mm7, unmask       //load bit pattern
-                  psubb      mm6,mm6           //zero mm6
-                  punpcklbw  mm7,mm7
-                  punpcklwd  mm7,mm7
-                  punpckldq  mm7,mm7           //fill register with 8 masks
-
-                  movq       mm0,mask0
-                  movq       mm1,mask1
-
-                  pand       mm0,mm7
-                  pand       mm1,mm7
-
-                  pcmpeqb    mm0,mm6
-                  pcmpeqb    mm1,mm6
-
-                  mov        ecx,len           //load length of line
-                  mov        esi,srcptr        //load source
-                  mov        ebx,dstptr        //load dest
-                  cmp        ecx,0             //lcr
-                  jz         mainloop16end
-
-mainloop16:
-                  movq       mm4,[esi]
-                  pand       mm4,mm0
-                  movq       mm6,mm0
-                  movq       mm7,[ebx]
-                  pandn      mm6,mm7
-                  por        mm4,mm6
-                  movq       [ebx],mm4
-
-                  movq       mm5,[esi+8]
-                  pand       mm5,mm1
-                  movq       mm7,mm1
-                  movq       mm6,[ebx+8]
-                  pandn      mm7,mm6
-                  por        mm5,mm7
-                  movq       [ebx+8],mm5
-
-                  add        esi,16            //inc by 16 bytes processed
-                  add        ebx,16
-                  sub        ecx,8             //dec by 8 pixels processed
-
-                  ja         mainloop16
-
-mainloop16end:
-                  mov        ecx,diff
-                  cmp        ecx,0
-                  jz         end16
-
-                  mov        edx,mask
-                  sal        edx,24            //make low byte the high byte
-secondloop16:
-                  sal        edx,1             //move high bit to CF
-                  jnc        skip16            //if CF = 0
-                  mov        ax,[esi]
-                  mov        [ebx],ax
-skip16:
-                  add        esi,2
-                  add        ebx,2
-
-                  dec        ecx
-                  jnz        secondloop16
-end16:
-                  emms
-               }
-            }
-            else /* mmx not supported - use modified C routine */
-            {
-               register unsigned int incr1, initial_val, final_val;
-               png_size_t pixel_bytes;
-               png_uint_32 i;
-               register int disp = png_pass_inc[png_ptr->pass];
-               int offset_table[7] = {0, 4, 0, 2, 0, 1, 0};
-
-               pixel_bytes = (png_ptr->row_info.pixel_depth >> 3);
-               srcptr = png_ptr->row_buf + 1 + offset_table[png_ptr->pass]*
-                  pixel_bytes;
-               dstptr = row + offset_table[png_ptr->pass]*pixel_bytes;
-               initial_val = offset_table[png_ptr->pass]*pixel_bytes;
-               final_val = png_ptr->width*pixel_bytes;
-               incr1 = (disp)*pixel_bytes;
-               for (i = initial_val; i < final_val; i += incr1)
-               {
-                  png_memcpy(dstptr, srcptr, pixel_bytes);
-                  srcptr += incr1;
-                  dstptr += incr1;
-               }
-            } /* end of else */
-
-            break;
-         }       // end 16 bpp
-
          case 24:
          {
             png_bytep srcptr;
@@ -802,6 +419,394 @@ end32:
             break;
          }       // end 32 bpp
 
+         case 8:
+         {
+            png_bytep srcptr;
+            png_bytep dstptr;
+            png_uint_32 len;
+            int m;
+            int diff, unmask;
+
+            __int64 mask0=0x0102040810204080;
+
+#if !defined(PNG_1_0_X)
+            if ((png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_COMBINE_ROW)
+                /* && mmx_supported */ )
+#else
+            if (mmx_supported)
+#endif
+            {
+               srcptr = png_ptr->row_buf + 1;
+               dstptr = row;
+               m = 0x80;
+               unmask = ~mask;
+               len  = png_ptr->width &~7;  //reduce to multiple of 8
+               diff = png_ptr->width & 7;  //amount lost
+
+               _asm
+               {
+                  movd       mm7, unmask   //load bit pattern
+                  psubb      mm6,mm6       //zero mm6
+                  punpcklbw  mm7,mm7
+                  punpcklwd  mm7,mm7
+                  punpckldq  mm7,mm7       //fill register with 8 masks
+
+                  movq       mm0,mask0
+
+                  pand       mm0,mm7       //nonzero if keep byte
+                  pcmpeqb    mm0,mm6       //zeros->1s, v versa
+
+                  mov        ecx,len       //load length of line (pixels)
+                  mov        esi,srcptr    //load source
+                  mov        ebx,dstptr    //load dest
+                  cmp        ecx,0         //lcr
+                  je         mainloop8end
+
+mainloop8:
+                  movq       mm4,[esi]
+                  pand       mm4,mm0
+                  movq       mm6,mm0
+                  pandn      mm6,[ebx]
+                  por        mm4,mm6
+                  movq       [ebx],mm4
+
+                  add        esi,8         //inc by 8 bytes processed
+                  add        ebx,8
+                  sub        ecx,8         //dec by 8 pixels processed
+
+                  ja         mainloop8
+mainloop8end:
+
+                  mov        ecx,diff
+                  cmp        ecx,0
+                  jz         end8
+
+                  mov        edx,mask
+                  sal        edx,24        //make low byte the high byte
+
+secondloop8:
+                  sal        edx,1         //move high bit to CF
+                  jnc        skip8         //if CF = 0
+                  mov        al,[esi]
+                  mov        [ebx],al
+skip8:
+                  inc        esi
+                  inc        ebx
+
+                  dec        ecx
+                  jnz        secondloop8
+end8:
+                  emms
+               }
+            }
+            else /* mmx not supported - use modified C routine */
+            {
+               register unsigned int incr1, initial_val, final_val;
+               png_size_t pixel_bytes;
+               png_uint_32 i;
+               register int disp = png_pass_inc[png_ptr->pass];
+               int offset_table[7] = {0, 4, 0, 2, 0, 1, 0};
+
+               pixel_bytes = (png_ptr->row_info.pixel_depth >> 3);
+               srcptr = png_ptr->row_buf + 1 + offset_table[png_ptr->pass]*
+                  pixel_bytes;
+               dstptr = row + offset_table[png_ptr->pass]*pixel_bytes;
+               initial_val = offset_table[png_ptr->pass]*pixel_bytes;
+               final_val = png_ptr->width*pixel_bytes;
+               incr1 = (disp)*pixel_bytes;
+               for (i = initial_val; i < final_val; i += incr1)
+               {
+                  png_memcpy(dstptr, srcptr, pixel_bytes);
+                  srcptr += incr1;
+                  dstptr += incr1;
+               }
+            } /* end of else */
+
+            break;
+         }       // end 8 bpp
+
+         case 1:
+         {
+            png_bytep sp;
+            png_bytep dp;
+            int s_inc, s_start, s_end;
+            int m;
+            int shift;
+            png_uint_32 i;
+
+            sp = png_ptr->row_buf + 1;
+            dp = row;
+            m = 0x80;
+#if defined(PNG_READ_PACKSWAP_SUPPORTED)
+            if (png_ptr->transformations & PNG_PACKSWAP)
+            {
+                s_start = 0;
+                s_end = 7;
+                s_inc = 1;
+            }
+            else
+#endif
+            {
+                s_start = 7;
+                s_end = 0;
+                s_inc = -1;
+            }
+
+            shift = s_start;
+
+            for (i = 0; i < png_ptr->width; i++)
+            {
+               if (m & mask)
+               {
+                  int value;
+
+                  value = (*sp >> shift) & 0x1;
+                  *dp &= (png_byte)((0x7f7f >> (7 - shift)) & 0xff);
+                  *dp |= (png_byte)(value << shift);
+               }
+
+               if (shift == s_end)
+               {
+                  shift = s_start;
+                  sp++;
+                  dp++;
+               }
+               else
+                  shift += s_inc;
+
+               if (m == 1)
+                  m = 0x80;
+               else
+                  m >>= 1;
+            }
+            break;
+         }
+
+         case 2:
+         {
+            png_bytep sp;
+            png_bytep dp;
+            int s_start, s_end, s_inc;
+            int m;
+            int shift;
+            png_uint_32 i;
+            int value;
+
+            sp = png_ptr->row_buf + 1;
+            dp = row;
+            m = 0x80;
+#if defined(PNG_READ_PACKSWAP_SUPPORTED)
+            if (png_ptr->transformations & PNG_PACKSWAP)
+            {
+               s_start = 0;
+               s_end = 6;
+               s_inc = 2;
+            }
+            else
+#endif
+            {
+               s_start = 6;
+               s_end = 0;
+               s_inc = -2;
+            }
+
+            shift = s_start;
+
+            for (i = 0; i < png_ptr->width; i++)
+            {
+               if (m & mask)
+               {
+                  value = (*sp >> shift) & 0x3;
+                  *dp &= (png_byte)((0x3f3f >> (6 - shift)) & 0xff);
+                  *dp |= (png_byte)(value << shift);
+               }
+
+               if (shift == s_end)
+               {
+                  shift = s_start;
+                  sp++;
+                  dp++;
+               }
+               else
+                  shift += s_inc;
+               if (m == 1)
+                  m = 0x80;
+               else
+                  m >>= 1;
+            }
+            break;
+         }
+
+         case 4:
+         {
+            png_bytep sp;
+            png_bytep dp;
+            int s_start, s_end, s_inc;
+            int m;
+            int shift;
+            png_uint_32 i;
+            int value;
+
+            sp = png_ptr->row_buf + 1;
+            dp = row;
+            m = 0x80;
+#if defined(PNG_READ_PACKSWAP_SUPPORTED)
+            if (png_ptr->transformations & PNG_PACKSWAP)
+            {
+               s_start = 0;
+               s_end = 4;
+               s_inc = 4;
+            }
+            else
+#endif
+            {
+               s_start = 4;
+               s_end = 0;
+               s_inc = -4;
+            }
+            shift = s_start;
+
+            for (i = 0; i < png_ptr->width; i++)
+            {
+               if (m & mask)
+               {
+                  value = (*sp >> shift) & 0xf;
+                  *dp &= (png_byte)((0xf0f >> (4 - shift)) & 0xff);
+                  *dp |= (png_byte)(value << shift);
+               }
+
+               if (shift == s_end)
+               {
+                  shift = s_start;
+                  sp++;
+                  dp++;
+               }
+               else
+                  shift += s_inc;
+               if (m == 1)
+                  m = 0x80;
+               else
+                  m >>= 1;
+            }
+            break;
+         }
+
+         case 16:
+         {
+            png_bytep srcptr;
+            png_bytep dstptr;
+            png_uint_32 len;
+            int unmask, diff;
+            __int64 mask1=0x0101020204040808,
+                    mask0=0x1010202040408080;
+
+#if !defined(PNG_1_0_X)
+            if ((png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_COMBINE_ROW)
+                /* && mmx_supported */ )
+#else
+            if (mmx_supported)
+#endif
+            {
+               srcptr = png_ptr->row_buf + 1;
+               dstptr = row;
+
+               unmask = ~mask;
+               len     = (png_ptr->width)&~7;
+               diff = (png_ptr->width)&7;
+               _asm
+               {
+                  movd       mm7, unmask       //load bit pattern
+                  psubb      mm6,mm6           //zero mm6
+                  punpcklbw  mm7,mm7
+                  punpcklwd  mm7,mm7
+                  punpckldq  mm7,mm7           //fill register with 8 masks
+
+                  movq       mm0,mask0
+                  movq       mm1,mask1
+
+                  pand       mm0,mm7
+                  pand       mm1,mm7
+
+                  pcmpeqb    mm0,mm6
+                  pcmpeqb    mm1,mm6
+
+                  mov        ecx,len           //load length of line
+                  mov        esi,srcptr        //load source
+                  mov        ebx,dstptr        //load dest
+                  cmp        ecx,0             //lcr
+                  jz         mainloop16end
+
+mainloop16:
+                  movq       mm4,[esi]
+                  pand       mm4,mm0
+                  movq       mm6,mm0
+                  movq       mm7,[ebx]
+                  pandn      mm6,mm7
+                  por        mm4,mm6
+                  movq       [ebx],mm4
+
+                  movq       mm5,[esi+8]
+                  pand       mm5,mm1
+                  movq       mm7,mm1
+                  movq       mm6,[ebx+8]
+                  pandn      mm7,mm6
+                  por        mm5,mm7
+                  movq       [ebx+8],mm5
+
+                  add        esi,16            //inc by 16 bytes processed
+                  add        ebx,16
+                  sub        ecx,8             //dec by 8 pixels processed
+
+                  ja         mainloop16
+
+mainloop16end:
+                  mov        ecx,diff
+                  cmp        ecx,0
+                  jz         end16
+
+                  mov        edx,mask
+                  sal        edx,24            //make low byte the high byte
+secondloop16:
+                  sal        edx,1             //move high bit to CF
+                  jnc        skip16            //if CF = 0
+                  mov        ax,[esi]
+                  mov        [ebx],ax
+skip16:
+                  add        esi,2
+                  add        ebx,2
+
+                  dec        ecx
+                  jnz        secondloop16
+end16:
+                  emms
+               }
+            }
+            else /* mmx not supported - use modified C routine */
+            {
+               register unsigned int incr1, initial_val, final_val;
+               png_size_t pixel_bytes;
+               png_uint_32 i;
+               register int disp = png_pass_inc[png_ptr->pass];
+               int offset_table[7] = {0, 4, 0, 2, 0, 1, 0};
+
+               pixel_bytes = (png_ptr->row_info.pixel_depth >> 3);
+               srcptr = png_ptr->row_buf + 1 + offset_table[png_ptr->pass]*
+                  pixel_bytes;
+               dstptr = row + offset_table[png_ptr->pass]*pixel_bytes;
+               initial_val = offset_table[png_ptr->pass]*pixel_bytes;
+               final_val = png_ptr->width*pixel_bytes;
+               incr1 = (disp)*pixel_bytes;
+               for (i = initial_val; i < final_val; i += incr1)
+               {
+                  png_memcpy(dstptr, srcptr, pixel_bytes);
+                  srcptr += incr1;
+                  dstptr += incr1;
+               }
+            } /* end of else */
+
+            break;
+         }       // end 16 bpp
+
          case 48:
          {
             png_bytep srcptr;
@@ -927,9 +932,11 @@ secondloop48:
                   jnc        skip48            //if CF = 0
                   mov        eax,[esi]
                   mov        [ebx],eax
+                  mov        ax,[esi+4]       // These 2 lines added 20070717
+                  mov        [ebx+4],ax       // Glenn R-P
 skip48:
-                  add        esi,4
-                  add        ebx,4
+                  add        esi,6            // Changed 4 to 6 on these 2
+                  add        ebx,6            // lines.  Glenn R-P 20070717
 
                   dec        ecx
                   jnz        secondloop48
@@ -1005,7 +1012,7 @@ png_do_read_interlace(png_structp png_ptr)
    int pass = png_ptr->pass;
    png_uint_32 transformations = png_ptr->transformations;
 #ifdef PNG_USE_LOCAL_ARRAYS
-   const int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
+   PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 #endif
 
    png_debug(1,"in png_do_read_interlace\n");
@@ -1224,70 +1231,7 @@ png_do_read_interlace(png_structp png_ptr)
             {
                if (pixel_bytes == 3)
                {
-                  if (((pass == 0) || (pass == 1)) && width)
-                  {
-                     _asm
-                     {
-                        mov esi, sptr
-                        mov edi, dp
-                        mov ecx, width
-                        sub edi, 21   // (png_pass_inc[pass] - 1)*pixel_bytes
-loop_pass0:
-                        movd mm0, [esi]     ; X X X X X v2 v1 v0
-                        pand mm0, const4    ; 0 0 0 0 0 v2 v1 v0
-                        movq mm1, mm0       ; 0 0 0 0 0 v2 v1 v0
-                        psllq mm0, 16       ; 0 0 0 v2 v1 v0 0 0
-                        movq mm2, mm0       ; 0 0 0 v2 v1 v0 0 0
-                        psllq mm0, 24       ; v2 v1 v0 0 0 0 0 0
-                        psrlq mm1, 8        ; 0 0 0 0 0 0 v2 v1
-                        por mm0, mm2        ; v2 v1 v0 v2 v1 v0 0 0
-                        por mm0, mm1        ; v2 v1 v0 v2 v1 v0 v2 v1
-                        movq mm3, mm0       ; v2 v1 v0 v2 v1 v0 v2 v1
-                        psllq mm0, 16       ; v0 v2 v1 v0 v2 v1 0 0
-                        movq mm4, mm3       ; v2 v1 v0 v2 v1 v0 v2 v1
-                        punpckhdq mm3, mm0  ; v0 v2 v1 v0 v2 v1 v0 v2
-                        movq [edi+16] , mm4
-                        psrlq mm0, 32       ; 0 0 0 0 v0 v2 v1 v0
-                        movq [edi+8] , mm3
-                        punpckldq mm0, mm4  ; v1 v0 v2 v1 v0 v2 v1 v0
-                        sub esi, 3
-                        movq [edi], mm0
-                        sub edi, 24
-                        //sub esi, 3
-                        dec ecx
-                        jnz loop_pass0
-                        EMMS
-                     }
-                  }
-                  else if (((pass == 2) || (pass == 3)) && width)
-                  {
-                     _asm
-                     {
-                        mov esi, sptr
-                        mov edi, dp
-                        mov ecx, width
-                        sub edi, 9   // (png_pass_inc[pass] - 1)*pixel_bytes
-loop_pass2:
-                        movd mm0, [esi]     ; X X X X X v2 v1 v0
-                        pand mm0, const4    ; 0 0 0 0 0 v2 v1 v0
-                        movq mm1, mm0       ; 0 0 0 0 0 v2 v1 v0
-                        psllq mm0, 16       ; 0 0 0 v2 v1 v0 0 0
-                        movq mm2, mm0       ; 0 0 0 v2 v1 v0 0 0
-                        psllq mm0, 24       ; v2 v1 v0 0 0 0 0 0
-                        psrlq mm1, 8        ; 0 0 0 0 0 0 v2 v1
-                        por mm0, mm2        ; v2 v1 v0 v2 v1 v0 0 0
-                        por mm0, mm1        ; v2 v1 v0 v2 v1 v0 v2 v1
-                        movq [edi+4], mm0   ; move to memory
-                        psrlq mm0, 16       ; 0 0 v2 v1 v0 v2 v1 v0
-                        movd [edi], mm0     ; move to memory
-                        sub esi, 3
-                        sub edi, 12
-                        dec ecx
-                        jnz loop_pass2
-                        EMMS
-                     }
-                  }
-                  else if (width) /* && ((pass == 4) || (pass == 5)) */
+                  if (((pass == 4) || (pass == 5)) && width)
                   {
                      int width_mmx = ((width >> 1) << 1) - 8;
                      if (width_mmx < 0)
@@ -1341,11 +1285,159 @@ loop_pass4:
                         sptr -= 3;
                      }
                   }
+                  else if (((pass == 2) || (pass == 3)) && width)
+                  {
+                     _asm
+                     {
+                        mov esi, sptr
+                        mov edi, dp
+                        mov ecx, width
+                        sub edi, 9   // (png_pass_inc[pass] - 1)*pixel_bytes
+loop_pass2:
+                        movd mm0, [esi]     ; X X X X X v2 v1 v0
+                        pand mm0, const4    ; 0 0 0 0 0 v2 v1 v0
+                        movq mm1, mm0       ; 0 0 0 0 0 v2 v1 v0
+                        psllq mm0, 16       ; 0 0 0 v2 v1 v0 0 0
+                        movq mm2, mm0       ; 0 0 0 v2 v1 v0 0 0
+                        psllq mm0, 24       ; v2 v1 v0 0 0 0 0 0
+                        psrlq mm1, 8        ; 0 0 0 0 0 0 v2 v1
+                        por mm0, mm2        ; v2 v1 v0 v2 v1 v0 0 0
+                        por mm0, mm1        ; v2 v1 v0 v2 v1 v0 v2 v1
+                        movq [edi+4], mm0   ; move to memory
+                        psrlq mm0, 16       ; 0 0 v2 v1 v0 v2 v1 v0
+                        movd [edi], mm0     ; move to memory
+                        sub esi, 3
+                        sub edi, 12
+                        dec ecx
+                        jnz loop_pass2
+                        EMMS
+                     }
+                  }
+                  else if (width) /* && ((pass == 0) || (pass == 1))) */
+                  {
+                     _asm
+                     {
+                        mov esi, sptr
+                        mov edi, dp
+                        mov ecx, width
+                        sub edi, 21   // (png_pass_inc[pass] - 1)*pixel_bytes
+loop_pass0:
+                        movd mm0, [esi]     ; X X X X X v2 v1 v0
+                        pand mm0, const4    ; 0 0 0 0 0 v2 v1 v0
+                        movq mm1, mm0       ; 0 0 0 0 0 v2 v1 v0
+                        psllq mm0, 16       ; 0 0 0 v2 v1 v0 0 0
+                        movq mm2, mm0       ; 0 0 0 v2 v1 v0 0 0
+                        psllq mm0, 24       ; v2 v1 v0 0 0 0 0 0
+                        psrlq mm1, 8        ; 0 0 0 0 0 0 v2 v1
+                        por mm0, mm2        ; v2 v1 v0 v2 v1 v0 0 0
+                        por mm0, mm1        ; v2 v1 v0 v2 v1 v0 v2 v1
+                        movq mm3, mm0       ; v2 v1 v0 v2 v1 v0 v2 v1
+                        psllq mm0, 16       ; v0 v2 v1 v0 v2 v1 0 0
+                        movq mm4, mm3       ; v2 v1 v0 v2 v1 v0 v2 v1
+                        punpckhdq mm3, mm0  ; v0 v2 v1 v0 v2 v1 v0 v2
+                        movq [edi+16] , mm4
+                        psrlq mm0, 32       ; 0 0 0 0 v0 v2 v1 v0
+                        movq [edi+8] , mm3
+                        punpckldq mm0, mm4  ; v1 v0 v2 v1 v0 v2 v1 v0
+                        sub esi, 3
+                        movq [edi], mm0
+                        sub edi, 24
+                        //sub esi, 3
+                        dec ecx
+                        jnz loop_pass0
+                        EMMS
+                     }
+                  }
                } /* end of pixel_bytes == 3 */
 
                else if (pixel_bytes == 1)
                {
-                  if (((pass == 0) || (pass == 1)) && width)
+                  if (((pass == 4) || (pass == 5)) && width)
+                  {
+                     int width_mmx = ((width >> 3) << 3);
+                     width -= width_mmx;
+                     if (width_mmx)
+                     {
+                        _asm
+                        {
+                           mov esi, sptr
+                           mov edi, dp
+                           mov ecx, width_mmx
+                           sub edi, 15
+                           sub esi, 7
+loop1_pass4:
+                           movq mm0, [esi]     ; v0 v1 v2 v3 v4 v5 v6 v7
+                           movq mm1, mm0       ; v0 v1 v2 v3 v4 v5 v6 v7
+                           punpcklbw mm0, mm0  ; v4 v4 v5 v5 v6 v6 v7 v7
+                           //movq mm1, mm0     ; v0 v0 v1 v1 v2 v2 v3 v3
+                           punpckhbw mm1, mm1  ;v0 v0 v1 v1 v2 v2 v3 v3
+                           movq [edi+8], mm1   ; move to memory v0 v1 v2 and v3
+                           sub esi, 8
+                           movq [edi], mm0     ; move to memory v4 v5 v6 and v7
+                           //sub esi, 4
+                           sub edi, 16
+                           sub ecx, 8
+                           jnz loop1_pass4
+                           EMMS
+                        }
+                     }
+
+                     sptr -= width_mmx;
+                     dp -= width_mmx*2;
+                     for (i = width; i; i--)
+                     {
+                        int j;
+
+                        for (j = 0; j < png_pass_inc[pass]; j++)
+                        {
+                           *dp-- = *sptr;
+                        }
+                        sptr --;
+                     }
+                  }
+                  else if (((pass == 2) || (pass == 3)) && width)
+                  {
+                     int width_mmx = ((width >> 2) << 2);
+                     width -= width_mmx;
+                     if (width_mmx)
+                     {
+                        _asm
+                        {
+                           mov esi, sptr
+                           mov edi, dp
+                           mov ecx, width_mmx
+                           sub edi, 15
+                           sub esi, 3
+loop1_pass2:
+                           movd mm0, [esi]     ; X X X X v0 v1 v2 v3
+                           punpcklbw mm0, mm0  ; v0 v0 v1 v1 v2 v2 v3 v3
+                           movq mm1, mm0       ; v0 v0 v1 v1 v2 v2 v3 v3
+                           punpcklwd mm0, mm0  ; v2 v2 v2 v2 v3 v3 v3 v3
+                           punpckhwd mm1, mm1  ; v0 v0 v0 v0 v1 v1 v1 v1
+                           movq [edi], mm0     ; move to memory v2 and v3
+                           sub esi, 4
+                           movq [edi+8], mm1   ; move to memory v1     and v0
+                           sub edi, 16
+                           sub ecx, 4
+                           jnz loop1_pass2
+                           EMMS
+                        }
+                     }
+
+                     sptr -= width_mmx;
+                     dp -= width_mmx*4;
+                     for (i = width; i; i--)
+                     {
+                        int j;
+
+                        for (j = 0; j < png_pass_inc[pass]; j++)
+                        {
+                           *dp-- = *sptr;
+                        }
+                        sptr --;
+                     }
+                  }
+                  else if (width) /* && ((pass == 0) || (pass == 1))) */
                   {
                      int width_mmx = ((width >> 2) << 2);
                      width -= width_mmx;
@@ -1412,98 +1504,13 @@ loop1_pass0:
                         sptr--;
                      }
                   }
-                  else if (((pass == 2) || (pass == 3)) && width)
-                  {
-                     int width_mmx = ((width >> 2) << 2);
-                     width -= width_mmx;
-                     if (width_mmx)
-                     {
-                        _asm
-                        {
-                           mov esi, sptr
-                           mov edi, dp
-                           mov ecx, width_mmx
-                           sub edi, 15
-                           sub esi, 3
-loop1_pass2:
-                           movd mm0, [esi]     ; X X X X v0 v1 v2 v3
-                           punpcklbw mm0, mm0  ; v0 v0 v1 v1 v2 v2 v3 v3
-                           movq mm1, mm0       ; v0 v0 v1 v1 v2 v2 v3 v3
-                           punpcklwd mm0, mm0  ; v2 v2 v2 v2 v3 v3 v3 v3
-                           punpckhwd mm1, mm1  ; v0 v0 v0 v0 v1 v1 v1 v1
-                           movq [edi], mm0     ; move to memory v2 and v3
-                           sub esi, 4
-                           movq [edi+8], mm1   ; move to memory v1     and v0
-                           sub edi, 16
-                           sub ecx, 4
-                           jnz loop1_pass2
-                           EMMS
-                        }
-                     }
-
-                     sptr -= width_mmx;
-                     dp -= width_mmx*4;
-                     for (i = width; i; i--)
-                     {
-                        int j;
-
-                        for (j = 0; j < png_pass_inc[pass]; j++)
-                        {
-                           *dp-- = *sptr;
-                        }
-                        sptr --;
-                     }
-                  }
-                  else if (width) /* && ((pass == 4) || (pass == 5))) */
-                  {
-                     int width_mmx = ((width >> 3) << 3);
-                     width -= width_mmx;
-                     if (width_mmx)
-                     {
-                        _asm
-                        {
-                           mov esi, sptr
-                           mov edi, dp
-                           mov ecx, width_mmx
-                           sub edi, 15
-                           sub esi, 7
-loop1_pass4:
-                           movq mm0, [esi]     ; v0 v1 v2 v3 v4 v5 v6 v7
-                           movq mm1, mm0       ; v0 v1 v2 v3 v4 v5 v6 v7
-                           punpcklbw mm0, mm0  ; v4 v4 v5 v5 v6 v6 v7 v7
-                           //movq mm1, mm0     ; v0 v0 v1 v1 v2 v2 v3 v3
-                           punpckhbw mm1, mm1  ;v0 v0 v1 v1 v2 v2 v3 v3
-                           movq [edi+8], mm1   ; move to memory v0 v1 v2 and v3
-                           sub esi, 8
-                           movq [edi], mm0     ; move to memory v4 v5 v6 and v7
-                           //sub esi, 4
-                           sub edi, 16
-                           sub ecx, 8
-                           jnz loop1_pass4
-                           EMMS
-                        }
-                     }
-
-                     sptr -= width_mmx;
-                     dp -= width_mmx*2;
-                     for (i = width; i; i--)
-                     {
-                        int j;
-
-                        for (j = 0; j < png_pass_inc[pass]; j++)
-                        {
-                           *dp-- = *sptr;
-                        }
-                        sptr --;
-                     }
-                  }
                } /* end of pixel_bytes == 1 */
 
                else if (pixel_bytes == 2)
                {
-                  if (((pass == 0) || (pass == 1)) && width)
+                  if (((pass == 4) || (pass == 5)) && width)
                   {
-                     int width_mmx = ((width >> 1) << 1);
+                     int width_mmx = ((width >> 1) << 1) ;
                      width -= width_mmx;
                      if (width_mmx)
                      {
@@ -1513,27 +1520,21 @@ loop1_pass4:
                            mov edi, dp
                            mov ecx, width_mmx
                            sub esi, 2
-                           sub edi, 30
-loop2_pass0:
+                           sub edi, 6
+loop2_pass4:
                            movd mm0, [esi]        ; X X X X v1 v0 v3 v2
                            punpcklwd mm0, mm0     ; v1 v0 v1 v0 v3 v2 v3 v2
-                           movq mm1, mm0          ; v1 v0 v1 v0 v3 v2 v3 v2
-                           punpckldq mm0, mm0     ; v3 v2 v3 v2 v3 v2 v3 v2
-                           punpckhdq mm1, mm1     ; v1 v0 v1 v0 v1 v0 v1 v0
-                           movq [edi], mm0
-                           movq [edi + 8], mm0
-                           movq [edi + 16], mm1
-                           movq [edi + 24], mm1
                            sub esi, 4
-                           sub edi, 32
+                           movq [edi], mm0
+                           sub edi, 8
                            sub ecx, 2
-                           jnz loop2_pass0
+                           jnz loop2_pass4
                            EMMS
                         }
                      }
 
                      sptr -= (width_mmx*2 - 2);            // sign fixed
-                     dp -= (width_mmx*16 - 2);            // sign fixed
+                     dp -= (width_mmx*4 - 2);            // sign fixed
                      for (i = width; i; i--)
                      {
                         png_byte v[8];
@@ -1592,9 +1593,9 @@ loop2_pass2:
                         }
                      }
                   }
-                  else if (width)  // pass == 4 or 5
+                  else if (width) /* && ((pass == 0) || (pass == 1))) */
                   {
-                     int width_mmx = ((width >> 1) << 1) ;
+                     int width_mmx = ((width >> 1) << 1);
                      width -= width_mmx;
                      if (width_mmx)
                      {
@@ -1604,21 +1605,27 @@ loop2_pass2:
                            mov edi, dp
                            mov ecx, width_mmx
                            sub esi, 2
-                           sub edi, 6
-loop2_pass4:
+                           sub edi, 30
+loop2_pass0:
                            movd mm0, [esi]        ; X X X X v1 v0 v3 v2
                            punpcklwd mm0, mm0     ; v1 v0 v1 v0 v3 v2 v3 v2
-                           sub esi, 4
+                           movq mm1, mm0          ; v1 v0 v1 v0 v3 v2 v3 v2
+                           punpckldq mm0, mm0     ; v3 v2 v3 v2 v3 v2 v3 v2
+                           punpckhdq mm1, mm1     ; v1 v0 v1 v0 v1 v0 v1 v0
                            movq [edi], mm0
-                           sub edi, 8
+                           movq [edi + 8], mm0
+                           movq [edi + 16], mm1
+                           movq [edi + 24], mm1
+                           sub esi, 4
+                           sub edi, 32
                            sub ecx, 2
-                           jnz loop2_pass4
+                           jnz loop2_pass0
                            EMMS
                         }
                      }
 
                      sptr -= (width_mmx*2 - 2);            // sign fixed
-                     dp -= (width_mmx*4 - 2);            // sign fixed
+                     dp -= (width_mmx*16 - 2);            // sign fixed
                      for (i = width; i; i--)
                      {
                         png_byte v[8];
@@ -1636,7 +1643,7 @@ loop2_pass4:
 
                else if (pixel_bytes == 4)
                {
-                  if (((pass == 0) || (pass == 1)) && width)
+                  if (((pass == 4) || (pass == 5)) && width)
                   {
                      int width_mmx = ((width >> 1) << 1) ;
                      width -= width_mmx;
@@ -1648,30 +1655,24 @@ loop2_pass4:
                            mov edi, dp
                            mov ecx, width_mmx
                            sub esi, 4
-                           sub edi, 60
-loop4_pass0:
-                           movq mm0, [esi]        ; v3 v2 v1 v0 v7 v6 v5 v4
-                           movq mm1, mm0          ; v3 v2 v1 v0 v7 v6 v5 v4
-                           punpckldq mm0, mm0     ; v7 v6 v5 v4 v7 v6 v5 v4
-                           punpckhdq mm1, mm1     ; v3 v2 v1 v0 v3 v2 v1 v0
+                           sub edi, 12
+loop4_pass4:
+                           movq mm0, [esi]      ; v3 v2 v1 v0 v7 v6 v5 v4
+                           movq mm1, mm0        ; v3 v2 v1 v0 v7 v6 v5 v4
+                           punpckldq mm0, mm0   ; v7 v6 v5 v4 v7 v6 v5 v4
+                           punpckhdq mm1, mm1   ; v3 v2 v1 v0 v3 v2 v1 v0
                            movq [edi], mm0
-                           movq [edi + 8], mm0
-                           movq [edi + 16], mm0
-                           movq [edi + 24], mm0
-                           movq [edi+32], mm1
-                           movq [edi + 40], mm1
-                           movq [edi+ 48], mm1
                            sub esi, 8
-                           movq [edi + 56], mm1
-                           sub edi, 64
+                           movq [edi + 8], mm1
+                           sub edi, 16
                            sub ecx, 2
-                           jnz loop4_pass0
+                           jnz loop4_pass4
                            EMMS
                         }
                      }
 
-                     sptr -= (width_mmx*4 - 4);            // sign fixed
-                     dp -= (width_mmx*32 - 4);            // sign fixed
+                     sptr -= (width_mmx*4 - 4);          // sign fixed
+                     dp -= (width_mmx*8 - 4);            // sign fixed
                      for (i = width; i; i--)
                      {
                         png_byte v[8];
@@ -1730,7 +1731,7 @@ loop4_pass2:
                         }
                      }
                   }
-                  else if (width)  // pass == 4 or 5
+                  else if (width) /* && ((pass == 0) || (pass == 1))) */
                   {
                      int width_mmx = ((width >> 1) << 1) ;
                      width -= width_mmx;
@@ -1742,24 +1743,30 @@ loop4_pass2:
                            mov edi, dp
                            mov ecx, width_mmx
                            sub esi, 4
-                           sub edi, 12
-loop4_pass4:
-                           movq mm0, [esi]      ; v3 v2 v1 v0 v7 v6 v5 v4
-                           movq mm1, mm0        ; v3 v2 v1 v0 v7 v6 v5 v4
-                           punpckldq mm0, mm0   ; v7 v6 v5 v4 v7 v6 v5 v4
-                           punpckhdq mm1, mm1   ; v3 v2 v1 v0 v3 v2 v1 v0
+                           sub edi, 60
+loop4_pass0:
+                           movq mm0, [esi]        ; v3 v2 v1 v0 v7 v6 v5 v4
+                           movq mm1, mm0          ; v3 v2 v1 v0 v7 v6 v5 v4
+                           punpckldq mm0, mm0     ; v7 v6 v5 v4 v7 v6 v5 v4
+                           punpckhdq mm1, mm1     ; v3 v2 v1 v0 v3 v2 v1 v0
                            movq [edi], mm0
+                           movq [edi + 8], mm0
+                           movq [edi + 16], mm0
+                           movq [edi + 24], mm0
+                           movq [edi+32], mm1
+                           movq [edi + 40], mm1
+                           movq [edi+ 48], mm1
                            sub esi, 8
-                           movq [edi + 8], mm1
-                           sub edi, 16
+                           movq [edi + 56], mm1
+                           sub edi, 64
                            sub ecx, 2
-                           jnz loop4_pass4
+                           jnz loop4_pass0
                            EMMS
                         }
                      }
 
-                     sptr -= (width_mmx*4 - 4);          // sign fixed
-                     dp -= (width_mmx*8 - 4);            // sign fixed
+                     sptr -= (width_mmx*4 - 4);            // sign fixed
+                     dp -= (width_mmx*32 - 4);            // sign fixed
                      for (i = width; i; i--)
                      {
                         png_byte v[8];
@@ -1913,22 +1920,25 @@ loop4_pass4:
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
 
 
-// These variables are utilized in the functions below.  They are declared
-// globally here to ensure alignment on 8-byte boundaries.
-
-union uAll {
-   __int64 use;
-   double  align;
-} LBCarryMask = {0x0101010101010101},
-  HBClearMask = {0x7f7f7f7f7f7f7f7f},
-  ActiveMask, ActiveMask2, ActiveMaskEnd, ShiftBpp, ShiftRem;
-
+// These global constants are declared
+// here to ensure alignment on 8-byte boundaries.
+  union uAll {
+     __int64 use;
+     double  double_align;
+     long long long_long_align;
+  } ;
+  static PNG_CONST union uAll LBCarryMask = {0x0101010101010101},
+                              HBClearMask = {0x7f7f7f7f7f7f7f7f};
 
 // Optimized code for PNG Average filter decoder
 void /* PRIVATE */
 png_read_filter_row_mmx_avg(png_row_infop row_info, png_bytep row
                             , png_bytep prev_row)
 {
+  // These variables are declared
+  // here to ensure alignment on 8-byte boundaries.
+  union uAll ActiveMask, ShiftBpp, ShiftRem;
+
    int bpp;
    png_uint_32 FullLength;
    png_uint_32 MMXLength;
@@ -2362,6 +2372,10 @@ void /* PRIVATE */
 png_read_filter_row_mmx_paeth(png_row_infop row_info, png_bytep row,
                               png_bytep prev_row)
 {
+  // These variables are declared
+  // here to ensure alignment on 8-byte boundaries.
+  union uAll  ActiveMask, ActiveMask2, ActiveMaskEnd, ShiftBpp, ShiftRem;
+
    png_uint_32 FullLength;
    png_uint_32 MMXLength;
    //png_uint_32 len;
@@ -3257,6 +3271,10 @@ dpthend:
 void /* PRIVATE */
 png_read_filter_row_mmx_sub(png_row_infop row_info, png_bytep row)
 {
+  // These variables are declared
+  // here to ensure alignment on 8-byte boundaries.
+  union uAll ActiveMask, ShiftBpp, ShiftRem;
+
    //int test;
    int bpp;
    png_uint_32 FullLength;
@@ -3693,32 +3711,32 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep
    png_debug(1, "in png_read_filter_row\n");
    switch (filter)
    {
-      case 0: sprintf(filnm, "none");
+      case 0: png_snprintf(filnm, 10, "none");
          break;
 #if !defined(PNG_1_0_X)
-      case 1: sprintf(filnm, "sub-%s",
+      case 1: png_snprintf(filnm, 10, "sub-%s",
         (png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_FILTER_SUB)? "MMX" : "x86");
          break;
-      case 2: sprintf(filnm, "up-%s",
+      case 2: png_snprintf(filnm, 10, "up-%s",
         (png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_FILTER_UP)? "MMX" : "x86");
          break;
-      case 3: sprintf(filnm, "avg-%s",
+      case 3: png_snprintf(filnm, 10, "avg-%s",
         (png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_FILTER_AVG)? "MMX" : "x86");
          break;
-      case 4: sprintf(filnm, "Paeth-%s",
+      case 4: png_snprintf(filnm, 10, "Paeth-%s",
         (png_ptr->asm_flags & PNG_ASM_FLAG_MMX_READ_FILTER_PAETH)? "MMX":"x86");
          break;
 #else
-      case 1: sprintf(filnm, "sub");
+      case 1: png_snprintf(filnm, 10, "sub");
          break;
-      case 2: sprintf(filnm, "up");
+      case 2: png_snprintf(filnm, 10, "up");
          break;
-      case 3: sprintf(filnm, "avg");
+      case 3: png_snprintf(filnm, 10, "avg");
          break;
-      case 4: sprintf(filnm, "Paeth");
+      case 4: png_snprintf(filnm, 10, "Paeth");
          break;
 #endif
-      default: sprintf(filnm, "unknw");
+      default: png_snprintf(filnm, 10, "unknw");
          break;
    }
    png_debug2(0,"row=%5d, %s, ", png_ptr->row_number, filnm);
@@ -3901,4 +3919,4 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep
    }
 }
 
-#endif /* PNG_ASSEMBLER_CODE_SUPPORTED && PNG_USE_PNGVCRD */
+#endif /* PNG_MMX_CODE_SUPPORTED && PNG_USE_PNGVCRD */

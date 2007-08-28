@@ -512,8 +512,11 @@ png_get_sPLT(png_structp png_ptr, png_infop info_ptr,
              png_sPLT_tpp spalettes)
 {
    if (png_ptr != NULL && info_ptr != NULL && spalettes != NULL)
+   {
      *spalettes = info_ptr->splt_palettes;
-   return ((png_uint_32)info_ptr->splt_palettes_num);
+     return ((png_uint_32)info_ptr->splt_palettes_num);
+   }
+   return (0);
 }
 #endif
 
@@ -800,8 +803,11 @@ png_get_unknown_chunks(png_structp png_ptr, png_infop info_ptr,
              png_unknown_chunkpp unknowns)
 {
    if (png_ptr != NULL && info_ptr != NULL && unknowns != NULL)
+   {
      *unknowns = info_ptr->unknown_chunks;
-   return ((png_uint_32)info_ptr->unknown_chunks_num);
+     return ((png_uint_32)info_ptr->unknown_chunks_num);
+   }
+   return (0);
 }
 #endif
 
@@ -951,5 +957,6 @@ png_get_user_height_max (png_structp png_ptr)
     return (png_ptr? png_ptr->user_height_max : 0);
 }
 #endif /* ?PNG_SET_USER_LIMITS_SUPPORTED */
+ 
 
 #endif /* PNG_READ_SUPPORTED || PNG_WRITE_SUPPORTED */

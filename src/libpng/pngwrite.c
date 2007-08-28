@@ -391,11 +391,6 @@ png_write_end(png_structp png_ptr, png_infop info_ptr)
 
    /* write end of PNG file */
    png_write_IEND(png_ptr);
-#if 0
-/* This flush, added in libpng-1.0.8,  causes some applications to crash
-   because they do not set png_ptr->output_flush_fn */
-   png_flush(png_ptr);
-#endif
 }
 
 #if defined(PNG_WRITE_tIME_SUPPORTED)
@@ -517,11 +512,13 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
         char msg[80];
         if (user_png_ver)
         {
-          sprintf(msg, "Application was compiled with png.h from libpng-%.20s",
+          png_snprintf(msg, 80,
+             "Application was compiled with png.h from libpng-%.20s",
              user_png_ver);
           png_warning(png_ptr, msg);
         }
-        sprintf(msg, "Application  is  running with png.c from libpng-%.20s",
+        png_snprintf(msg, 80,
+           "Application  is  running with png.c from libpng-%.20s",
            png_libpng_ver);
         png_warning(png_ptr, msg);
 #endif
@@ -587,11 +584,13 @@ png_write_init_2(png_structp png_ptr, png_const_charp user_png_ver,
       png_ptr->warning_fn=NULL;
       if (user_png_ver)
       {
-        sprintf(msg, "Application was compiled with png.h from libpng-%.20s",
+        png_snprintf(msg, 80,
+           "Application was compiled with png.h from libpng-%.20s",
            user_png_ver);
         png_warning(png_ptr, msg);
       }
-      sprintf(msg, "Application  is  running with png.c from libpng-%.20s",
+      png_snprintf(msg, 80,
+         "Application  is  running with png.c from libpng-%.20s",
          png_libpng_ver);
       png_warning(png_ptr, msg);
    }
@@ -1137,15 +1136,26 @@ png_set_filter(png_structp png_ptr, int method, int filters)
    {
       switch (filters & (PNG_ALL_FILTERS | 0x07))
       {
+#ifndef PNG_NO_WRITE_FILTER
          case 5:
          case 6:
          case 7: png_warning(png_ptr, "Unknown row filter for method 0");
-         case PNG_FILTER_VALUE_NONE:  png_ptr->do_filter=PNG_FILTER_NONE; break;
-         case PNG_FILTER_VALUE_SUB:   png_ptr->do_filter=PNG_FILTER_SUB;  break;
-         case PNG_FILTER_VALUE_UP:    png_ptr->do_filter=PNG_FILTER_UP;   break;
-         case PNG_FILTER_VALUE_AVG:   png_ptr->do_filter=PNG_FILTER_AVG;  break;
-         case PNG_FILTER_VALUE_PAETH: png_ptr->do_filter=PNG_FILTER_PAETH;break;
+#endif /* PNG_NO_WRITE_FILTER */
+         case PNG_FILTER_VALUE_NONE:
+              png_ptr->do_filter=PNG_FILTER_NONE; break;
+#ifndef PNG_NO_WRITE_FILTER
+         case PNG_FILTER_VALUE_SUB:
+              png_ptr->do_filter=PNG_FILTER_SUB; break;
+         case PNG_FILTER_VALUE_UP:
+              png_ptr->do_filter=PNG_FILTER_UP; break;
+         case PNG_FILTER_VALUE_AVG:
+              png_ptr->do_filter=PNG_FILTER_AVG; break;
+         case PNG_FILTER_VALUE_PAETH:
+              png_ptr->do_filter=PNG_FILTER_PAETH; break;
          default: png_ptr->do_filter = (png_byte)filters; break;
+#else
+         default: png_warning(png_ptr, "Unknown row filter for method 0");
+#endif /* PNG_NO_WRITE_FILTER */
       }
 
       /* If we have allocated the row_buf, this means we have already started
@@ -1159,6 +1169,7 @@ png_set_filter(png_structp png_ptr, int method, int filters)
        */
       if (png_ptr->row_buf != NULL)
       {
+#ifndef PNG_NO_WRITE_FILTER
          if ((png_ptr->do_filter & PNG_FILTER_SUB) && png_ptr->sub_row == NULL)
          {
             png_ptr->sub_row = (png_bytep)png_malloc(png_ptr,
@@ -1213,6 +1224,7 @@ png_set_filter(png_structp png_ptr, int method, int filters)
          }
 
          if (png_ptr->do_filter == PNG_NO_FILTERS)
+#endif /* PNG_NO_WRITE_FILTER */
             png_ptr->do_filter = PNG_FILTER_NONE;
       }
    }
@@ -1511,8 +1523,8 @@ png_write_png(png_structp png_ptr, png_infop info_ptr,
    /* It is REQUIRED to call this to finish writing the rest of the file */
    png_write_end(png_ptr, info_ptr);
 
-   if(transforms == 0 || params == NULL)
-      /* quiet compiler warnings */ return;
+   transforms = transforms; /* quiet compiler warnings */
+   params = params;
 }
 #endif
 #endif /* PNG_WRITE_SUPPORTED */

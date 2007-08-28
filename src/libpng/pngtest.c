@@ -434,8 +434,9 @@ pngtest_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
       png_error(png_ptr, "Write Error");
    }
 }
-
 #endif /* USE_FAR_KEYWORD */
+#endif /* PNG_NO_STDIO */
+/* END of code to validate stdio-free compilation */
 
 /* This function is called when there is a warning, but the library thinks
  * it can continue anyway.  Replacement functions don't have to do anything
@@ -463,8 +464,6 @@ pngtest_error(png_structp png_ptr, png_const_charp message)
    /* We can return because png_error calls the default handler, which is
     * actually OK in this case. */
 }
-#endif /* PNG_NO_STDIO */
-/* END of code to validate stdio-free compilation */
 
 /* START of code to validate memory allocation and deallocation */
 #if defined(PNG_USER_MEM_SUPPORTED) && PNG_DEBUG
@@ -658,10 +657,8 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
    read_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, png_voidp_NULL,
       png_error_ptr_NULL, png_error_ptr_NULL);
 #endif
-#if defined(PNG_NO_STDIO)
    png_set_error_fn(read_ptr, (png_voidp)inname, pngtest_error,
        pngtest_warning);
-#endif
 #ifdef PNG_WRITE_SUPPORTED
 #if defined(PNG_USER_MEM_SUPPORTED) && PNG_DEBUG
    write_ptr = png_create_write_struct_2(PNG_LIBPNG_VER_STRING, png_voidp_NULL,
@@ -671,10 +668,8 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
    write_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, png_voidp_NULL,
       png_error_ptr_NULL, png_error_ptr_NULL);
 #endif
-#if defined(PNG_NO_STDIO)
    png_set_error_fn(write_ptr, (png_voidp)inname, pngtest_error,
        pngtest_warning);
-#endif
 #endif
    png_debug(0, "Allocating read_info, write_info and end_info structures\n");
    read_info_ptr = png_create_info_struct(read_ptr);
@@ -1007,10 +1002,11 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
       {
          png_set_tIME(write_ptr, write_info_ptr, mod_time);
 #if defined(PNG_TIME_RFC1123_SUPPORTED)
-         /* we have to use png_strcpy instead of "=" because the string
+         /* we have to use png_strncpy instead of "=" because the string
             pointed to by png_convert_to_rfc1123() gets free'ed before
             we use it */
-         png_strcpy(tIME_string,png_convert_to_rfc1123(read_ptr, mod_time));
+         png_strncpy(tIME_string,png_convert_to_rfc1123(read_ptr,
+            mod_time),30);
          tIME_chunk_present++;
 #endif /* PNG_TIME_RFC1123_SUPPORTED */
       }
@@ -1147,10 +1143,11 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
       {
          png_set_tIME(write_ptr, write_end_info_ptr, mod_time);
 #if defined(PNG_TIME_RFC1123_SUPPORTED)
-         /* we have to use png_strcpy instead of "=" because the string
+         /* we have to use png_strncpy instead of "=" because the string
             pointed to by png_convert_to_rfc1123() gets free'ed before
             we use it */
-         png_strcpy(tIME_string,png_convert_to_rfc1123(read_ptr, mod_time));
+         png_strncpy(tIME_string,png_convert_to_rfc1123(read_ptr,
+            mod_time),30);
          tIME_chunk_present++;
 #endif /* PNG_TIME_RFC1123_SUPPORTED */
       }
@@ -1551,4 +1548,4 @@ main(int argc, char *argv[])
 }
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_18 your_png_h_is_not_version_1_2_18;
+typedef version_1_2_19 your_png_h_is_not_version_1_2_19;
