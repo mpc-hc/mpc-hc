@@ -1,3 +1,6 @@
+$HeadURL$
+$ID$
+
 Required Packages:
  - Microsoft® Visual Studio 2005 (Std, or better)
  - DirectX Software Development Kit (tested with June 2007 Version)
@@ -16,8 +19,9 @@ Preparations:
     C:\Program Files\Microsoft DirectX SDK (June 2007)\Include
     C:\Program Files\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\
     C:\Program Files\Microsoft SDKs\Windows\v6.0\Include\
- - In Visual Studio add the following to the "Library Files" at the "VC++ Directories" options:
-    C:\Program Files\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\Release\
+ - In Visual Studio make sure the following are added to the "Library Files" at the "VC++ Directories" options:
+    C:\Program Files\Microsoft DirectX SDK (June 2007)\Lib\x86
+    C:\Program Files\Microsoft SDKs\Windows\v6.0\Lib
 
 
 Compile (Release Unicode Version):

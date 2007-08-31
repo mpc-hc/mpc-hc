@@ -1,3 +1,6 @@
+$HeadURL$
+$ID$
+
 Benoetigte Software:
  - Microsoft® Visual Studio 2005 (Std, oder hoeher)
  - DirectX Software Development Kit (getestet mit Juni 2007 Ausgabe)
@@ -16,8 +19,9 @@ Vorbereitung:
     C:\Programme\Microsoft DirectX SDK (June 2007)\Include
     C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\
     C:\Programme\Microsoft SDKs\Windows\v6.0\Include\
- - In Visual Studio unter "Library Files" bei den "VC++ Directories" Optionen folgendes eintragen:
-    C:\Programme\Microsoft SDKs\Windows\v6.0\Samples\Multimedia\DirectShow\BaseClasses\Release\
+ - In Visual Studio unter "Library Files" ueberpruefen, dass folgendes unter den "VC++ Directories" eintragen ist:
+    C:\Programme\Microsoft DirectX SDK (June 2007)\Lib\x86
+    C:\Programme\Microsoft SDKs\Windows\v6.0\Lib
  
 
 Compilieren (Release Unicode Version):
