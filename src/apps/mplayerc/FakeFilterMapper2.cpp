@@ -22,11 +22,209 @@
 #include "stdafx.h"
 #include "fakefiltermapper2.h"
 #include "MacrovisionKicker.h"
-#include <detours\detours.h>
 #include "..\..\DSUtil\DSUtil.h"
 
 #include <initguid.h>
 #include <qedit.h>
+
+#ifdef _WIN64		// TODOX64
+//#include "detours.h"
+//#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
+#define DetourFunctionWithTrampoline(a,b) /**/
+HRESULT (__stdcall * Real_CoCreateInstance)(CONST IID& a0,
+                                            LPUNKNOWN a1,
+                                            DWORD a2,
+                                            CONST IID& a3,
+                                            LPVOID* a4)
+    = CoCreateInstance;
+
+LONG (WINAPI * Real_RegCreateKeyExA)(HKEY a0,
+                                     LPCSTR a1,
+                                     DWORD a2,
+                                     LPSTR a3,
+                                     DWORD a4,
+                                     REGSAM a5,
+                                     LPSECURITY_ATTRIBUTES a6,
+                                     PHKEY a7,
+                                     LPDWORD a8)
+    = RegCreateKeyExA;
+
+LONG (WINAPI * Real_RegCreateKeyExW)(HKEY a0,
+                                     LPCWSTR a1,
+                                     DWORD a2,
+                                     LPWSTR a3,
+                                     DWORD a4,
+                                     REGSAM a5,
+                                     LPSECURITY_ATTRIBUTES a6,
+                                     PHKEY a7,
+                                     LPDWORD a8)
+    = RegCreateKeyExW;
+
+LONG (WINAPI * Real_RegDeleteKeyA)(HKEY a0,
+                                   LPCSTR a1)
+    = RegDeleteKeyA;
+
+LONG (WINAPI * Real_RegDeleteKeyW)(HKEY a0,
+                                   LPCWSTR a1)
+    = RegDeleteKeyW;
+
+LONG (WINAPI * Real_RegDeleteValueA)(HKEY a0,
+                                     LPCSTR a1)
+    = RegDeleteValueA;
+
+
+LONG (WINAPI * Real_RegDeleteValueW)(HKEY a0,
+                                     LPCWSTR a1)
+    = RegDeleteValueW;
+
+LONG (WINAPI * Real_RegEnumKeyExA)(HKEY a0,
+                                   DWORD a1,
+                                   LPSTR a2,
+                                   LPDWORD a3,
+                                   LPDWORD a4,
+                                   LPSTR a5,
+                                   LPDWORD a6,
+                                   struct _FILETIME* a7)
+    = RegEnumKeyExA;
+
+LONG (WINAPI * Real_RegEnumKeyExW)(HKEY a0,
+                                   DWORD a1,
+                                   LPWSTR a2,
+                                   LPDWORD a3,
+                                   LPDWORD a4,
+                                   LPWSTR a5,
+                                   LPDWORD a6,
+                                   struct _FILETIME* a7)
+    = RegEnumKeyExW;
+
+LONG (WINAPI * Real_RegEnumValueA)(HKEY a0,
+                                   DWORD a1,
+                                   LPSTR a2,
+                                   LPDWORD a3,
+                                   LPDWORD a4,
+                                   LPDWORD a5,
+                                   LPBYTE a6,
+                                   LPDWORD a7)
+    = RegEnumValueA;
+
+LONG (WINAPI * Real_RegEnumValueW)(HKEY a0,
+                                   DWORD a1,
+                                   LPWSTR a2,
+                                   LPDWORD a3,
+                                   LPDWORD a4,
+                                   LPDWORD a5,
+                                   LPBYTE a6,
+                                   LPDWORD a7)
+    = RegEnumValueW;
+
+LONG (WINAPI * Real_RegOpenKeyExA)(HKEY a0,
+                                   LPCSTR a1,
+                                   DWORD a2,
+                                   REGSAM a3,
+                                   PHKEY a4)
+    = RegOpenKeyExA;
+
+LONG (WINAPI * Real_RegOpenKeyExW)(HKEY a0,
+                                   LPCWSTR a1,
+                                   DWORD a2,
+                                   REGSAM a3,
+                                   PHKEY a4)
+    = RegOpenKeyExW;
+
+LONG (WINAPI * Real_RegQueryInfoKeyA)(HKEY a0,
+                                      LPSTR a1,
+                                      LPDWORD a2,
+                                      LPDWORD a3,
+                                      LPDWORD a4,
+                                      LPDWORD a5,
+                                      LPDWORD a6,
+                                      LPDWORD a7,
+                                      LPDWORD a8,
+                                      LPDWORD a9,
+                                      LPDWORD a10,
+                                      struct _FILETIME* a11)
+    = RegQueryInfoKeyA;
+
+LONG (WINAPI * Real_RegQueryInfoKeyW)(HKEY a0,
+                                      LPWSTR a1,
+                                      LPDWORD a2,
+                                      LPDWORD a3,
+                                      LPDWORD a4,
+                                      LPDWORD a5,
+                                      LPDWORD a6,
+                                      LPDWORD a7,
+                                      LPDWORD a8,
+                                      LPDWORD a9,
+                                      LPDWORD a10,
+                                      struct _FILETIME* a11)
+    = RegQueryInfoKeyW;
+
+LONG (WINAPI * Real_RegQueryValueExA)(HKEY a0,
+                                      LPCSTR a1,
+                                      LPDWORD a2,
+                                      LPDWORD a3,
+                                      LPBYTE a4,
+                                      LPDWORD a5)
+    = RegQueryValueExA;
+
+LONG (WINAPI * Real_RegQueryValueExW)(HKEY a0,
+                                      LPCWSTR a1,
+                                      LPDWORD a2,
+                                      LPDWORD a3,
+                                      LPBYTE a4,
+                                      LPDWORD a5)
+    = RegQueryValueExW;
+
+LONG (WINAPI * Real_RegSetValueExA)(HKEY a0,
+                                    LPCSTR a1,
+                                    DWORD a2,
+                                    DWORD a3,
+                                    const BYTE* a4,
+                                    DWORD a5)
+    = RegSetValueExA;
+
+LONG (WINAPI * Real_RegSetValueExW)(HKEY a0,
+                                    LPCWSTR a1,
+                                    DWORD a2,
+                                    DWORD a3,
+                                    const BYTE* a4,
+                                    DWORD a5)
+    = RegSetValueExW;
+
+
+LONG (WINAPI * Real_RegCloseKey)(HKEY a0)
+	= RegCloseKey;
+
+LONG (WINAPI * Real_RegFlushKey)(HKEY a0)
+	  = RegFlushKey;
+
+LONG (WINAPI * Real_RegCreateKeyA)(HKEY a0, LPCSTR a1, PHKEY a2)
+	  = RegCreateKeyA;
+
+LONG (WINAPI * Real_RegCreateKeyW)(HKEY a0, LPCWSTR a1, PHKEY a2)
+	  = RegCreateKeyW;
+
+LONG (WINAPI * Real_RegOpenKeyA)(HKEY a0, LPCSTR a1, PHKEY a2)
+	  = RegOpenKeyA;
+
+LONG (WINAPI * Real_RegOpenKeyW)(HKEY a0, LPCWSTR a1, PHKEY a2)
+	  = RegOpenKeyW;
+
+LONG (WINAPI * Real_RegQueryValueA)(HKEY a0, LPCSTR a1, LPSTR a2, PLONG a3)
+	  = RegQueryValueA;
+
+LONG (WINAPI * Real_RegQueryValueW)(HKEY a0, LPCWSTR a1, LPWSTR a2, PLONG a3)
+	  = RegQueryValueW;
+
+LONG (WINAPI * Real_RegSetValueW)(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4)
+	  = RegSetValueW;
+
+LONG (WINAPI * Real_RegSetValueA)(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
+	  = RegSetValueA;
+
+#else
+
+#include <detours\detours.h>
 
 DETOUR_TRAMPOLINE(HRESULT WINAPI Real_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter, IN DWORD dwClsContext, IN REFIID riid, OUT LPVOID FAR* ppv), CoCreateInstance);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCloseKey(HKEY a0), RegCloseKey);
@@ -57,6 +255,7 @@ DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueA(HKEY a0, LPCSTR a1, DWORD a2, LP
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4), RegSetValueW);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExA);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExW);
+#endif
 
 HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
                     IN DWORD dwClsContext, IN REFIID riid, OUT LPVOID FAR* ppv)

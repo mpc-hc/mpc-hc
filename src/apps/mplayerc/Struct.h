@@ -8,9 +8,15 @@
 ///////////////// Windows NT ///////////////
 #include <winternl.h>
 
-typedef unsigned long ULONG_PTR, *PULONG_PTR;
+#ifdef _WIN64
+	typedef unsigned __int64 ULONG_PTR, *PULONG_PTR;
+	typedef ULONG_PTR KAFFINITY, *PKAFFINITY;
+#else
+	typedef unsigned long ULONG_PTR, *PULONG_PTR;
+	typedef ULONG KAFFINITY, *PKAFFINITY;
+#endif
+
 typedef LONG NTSTATUS, *PNTSTATUS;
-typedef ULONG KAFFINITY, *PKAFFINITY;
 typedef LONG KPRIORITY;
 
 #define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)

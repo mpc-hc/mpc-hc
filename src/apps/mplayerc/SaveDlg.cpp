@@ -214,7 +214,7 @@ LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CSaveDlg::OnTimer(UINT nIDEvent)
+void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == m_nIDTimerEvent && pGB)
 	{

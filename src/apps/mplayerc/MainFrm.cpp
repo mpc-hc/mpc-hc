@@ -22,6 +22,9 @@
 // MainFrm.cpp : implementation of the CMainFrame class
 //
 
+// TODOX64 : put Mpeg2DecFilterRU.lib d2vsourceRU.lib libpngR.lib back when internal filter upgraded!
+// TODOX64 : put d2vsourceDU.lib Mpeg2DecFilterDU.lib back when internal filter upgraded!
+
 #include "stdafx.h"
 #include "mplayerc.h"
 
@@ -1263,7 +1266,7 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 	return Default();
 }
 
-void CMainFrame::OnTimer(UINT nIDEvent)
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == TIMER_STREAMPOSPOLLER && m_iMediaLoadState == MLS_LOADED)
 	{
@@ -1743,8 +1746,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
     HRESULT hr = S_OK;
 
-	LONG evCode, evParam1, evParam2;
-    while(pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0)))
+	LONG evCode; LONG_PTR evParam1, evParam2;
+    while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
     {
 		CString str;
 
@@ -7155,11 +7158,15 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		}
 		else if(engine == QuickTime)
 		{
+#ifdef _WIN64	// TODOX64
+			MessageBox (_T("Quick time not yet supported for X64 (apple library not available)"), _T(""), MB_OK);
+#else
 			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw _T("Out of memory");
 
 			if(SUCCEEDED(hr) && !!(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
                 m_fQuicktimeGraph = true;
+#endif
 		}
 
 		m_fCustomGraph = m_fRealMediaGraph || m_fShockwaveGraph || m_fQuicktimeGraph;

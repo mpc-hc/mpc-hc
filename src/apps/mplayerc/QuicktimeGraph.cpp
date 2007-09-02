@@ -624,7 +624,7 @@ BOOL CQuicktimeWindow::OnEraseBkgnd(CDC* pDC)
 	return m_fs != State_Stopped && theMovie ? TRUE : __super::OnEraseBkgnd(pDC);
 }
 
-void CQuicktimeWindow::OnTimer(UINT nIDEvent)
+void CQuicktimeWindow::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == m_idEndPoller && theMovie)
 	{

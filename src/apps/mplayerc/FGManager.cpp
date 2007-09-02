@@ -1297,6 +1297,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_source.AddTail(pFGF);
 	}
 
+#ifndef _WIN64		// TODOX64 : fix DVSource internal filter
 	__if_exists(CD2VSource)
 	{
 	if(src & SRC_D2V)
@@ -1307,6 +1308,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_source.AddTail(pFGF);
 	}
 	}
+#endif
 
 	__if_exists(CRadGtSourceFilter)
 	{
@@ -1518,6 +1520,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_transform.AddTail(pFGF);
 	}
 
+#ifndef _WIN64		// TODOX64 : fix DVSource internal filter
 	pFGF = new CFGFilterInternal<CMpeg2DecFilter>(
 		(tra & TRA_MPEG1) ? L"MPEG-1 Video Decoder" : L"MPEG-1 Video Decoder (low merit)", 
 		(tra & TRA_MPEG1) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
@@ -1533,6 +1536,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
 	m_transform.AddTail(pFGF);
+#endif
 
 	pFGF = new CFGFilterInternal<CMpaDecFilter>(
 		(tra & TRA_MPA) ? L"MPEG-1 Audio Decoder" : L"MPEG-1 Audio Decoder (low merit)",

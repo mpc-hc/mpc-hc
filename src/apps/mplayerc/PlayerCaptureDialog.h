@@ -445,7 +445,7 @@ public:
 	afx_msg void OnRecord();
 	afx_msg void OnEnChangeEdit9();
 	afx_msg void OnEnChangeEdit12();
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedVidAudPreview();
 	afx_msg void OnBnClickedCheck7();
 	afx_msg void OnCbnSelchangeCombo14();

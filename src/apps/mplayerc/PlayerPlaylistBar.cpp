@@ -990,7 +990,7 @@ void CPlayerPlaylistBar::OnMouseMove(UINT nFlags, CPoint point)
 	__super::OnMouseMove(nFlags, point);
 }
 
-void CPlayerPlaylistBar::OnTimer(UINT nIDEvent)
+void CPlayerPlaylistBar::OnTimer(UINT_PTR nIDEvent)
 {
 	int iTopItem = m_list.GetTopIndex();
 	int iBottomItem = iTopItem + m_list.GetCountPerPage() - 1;

@@ -901,7 +901,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
-void CPPageAccelTbl::OnTimer(UINT nIDEvent)
+void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 {
 	UpdateData();
 

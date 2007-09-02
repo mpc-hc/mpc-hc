@@ -453,10 +453,74 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp initialization
 
-#include <detours\detours.h>
 #include <winddk\ntddcdvd.h>
 
+#ifdef _WIN64
+//#include "detours.h"
+//#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
+#define DetourFunctionWithTrampoline(a,b) /**/
+BOOL (__stdcall * Real_IsDebuggerPresent)(void)
+    = IsDebuggerPresent;
+
+LONG (__stdcall * Real_ChangeDisplaySettingsExA)(LPCSTR a0,
+                                                 LPDEVMODEA a1,
+                                                 HWND a2,
+                                                 DWORD a3,
+                                                 LPVOID a4)
+    = ChangeDisplaySettingsExA;
+
+LONG (__stdcall * Real_ChangeDisplaySettingsExW)(LPCWSTR a0,
+                                                 LPDEVMODEW a1,
+                                                 HWND a2,
+                                                 DWORD a3,
+                                                 LPVOID a4)
+    = ChangeDisplaySettingsExW;
+
+HANDLE (__stdcall * Real_CreateFileA)(LPCSTR a0,
+                                      DWORD a1,
+                                      DWORD a2,
+                                      LPSECURITY_ATTRIBUTES a3,
+                                      DWORD a4,
+                                      DWORD a5,
+                                      HANDLE a6)
+    = CreateFileA;
+
+HANDLE (__stdcall * Real_CreateFileW)(LPCWSTR a0,
+                                      DWORD a1,
+                                      DWORD a2,
+                                      LPSECURITY_ATTRIBUTES a3,
+                                      DWORD a4,
+                                      DWORD a5,
+                                      HANDLE a6)
+    = CreateFileW;
+
+BOOL (__stdcall * Real_DeviceIoControl)(HANDLE a0,
+                                        DWORD a1,
+                                        LPVOID a2,
+                                        DWORD a3,
+                                        LPVOID a4,
+                                        DWORD a5,
+                                        LPDWORD a6,
+                                        LPOVERLAPPED a7)
+    = DeviceIoControl;
+
+MMRESULT  (__stdcall * Real_mixerSetControlDetails)( HMIXEROBJ hmxobj, 
+																	LPMIXERCONTROLDETAILS pmxcd, 
+																	DWORD fdwDetails)
+	= mixerSetControlDetails;
+
+#else
+#include <detours\detours.h>
 DETOUR_TRAMPOLINE(BOOL WINAPI Real_IsDebuggerPresent(), IsDebuggerPresent);
+DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
+DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
+DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileA);
+DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileW);
+DETOUR_TRAMPOLINE(MMRESULT WINAPI Real_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails), mixerSetControlDetails);
+DETOUR_TRAMPOLINE(BOOL WINAPI Real_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID lpInBuffer, DWORD nInBufferSize, LPVOID lpOutBuffer, DWORD nOutBufferSize, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped), DeviceIoControl);
+#endif
+
+
 BOOL WINAPI Mine_IsDebuggerPresent()
 {
 	TRACE(_T("Oops, somebody was trying to be naughty! (called IsDebuggerPresent)\n")); 
@@ -492,8 +556,6 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 	return nRet;
 }
 
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
 LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 {
 	if(dwFlags&CDS_VIDEOPARAMETERS)
@@ -537,8 +599,6 @@ LONG WINAPI Mine_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpD
 		lParam);
 }
 
-DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileA);
-DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileW);
 HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
 	CStringA fn(p1);
@@ -560,7 +620,6 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 	return Real_CreateFileW(p1, p2, p3, p4, p5, p6, p7);
 }
 
-DETOUR_TRAMPOLINE(MMRESULT WINAPI Real_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails), mixerSetControlDetails);
 MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
 {
 	if(fdwDetails == (MIXER_OBJECTF_HMIXER|MIXER_SETCONTROLDETAILSF_VALUE)) 
@@ -568,7 +627,6 @@ MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETA
 	return Real_mixerSetControlDetails(hmxobj, pmxcd, fdwDetails);
 }
 
-DETOUR_TRAMPOLINE(BOOL WINAPI Real_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID lpInBuffer, DWORD nInBufferSize, LPVOID lpOutBuffer, DWORD nOutBufferSize, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped), DeviceIoControl);
 BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID lpInBuffer, DWORD nInBufferSize, LPVOID lpOutBuffer, DWORD nOutBufferSize, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped)
 {
 	BOOL ret = Real_DeviceIoControl(hDevice, dwIoControlCode, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesReturned, lpOverlapped);
@@ -650,6 +708,11 @@ BOOL CMPlayerCApp::InitInstance()
 {
 	//ssftest s;
 
+#ifdef _WIN64
+//    DetourTransactionBegin();
+//    DetourUpdateThread(GetCurrentThread());
+#endif
+
 	DetourFunctionWithTrampoline((PBYTE)Real_IsDebuggerPresent, (PBYTE)Mine_IsDebuggerPresent);
 	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExA, (PBYTE)Mine_ChangeDisplaySettingsExA);
 	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExW, (PBYTE)Mine_ChangeDisplaySettingsExW);
@@ -660,6 +723,10 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourFunctionWithTrampoline((PBYTE)Real_NtQueryInformationProcess, (PBYTE)Mine_NtQueryInformationProcess);
 
 	CFilterMapper2::Init();
+
+#ifdef _WIN64
+//    DetourTransactionCommit();
+#endif
 
 	HRESULT hr;
     if(FAILED(hr = OleInitialize(0)))

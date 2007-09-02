@@ -406,7 +406,7 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 		if (m_pWnd)
 		{
 			KillTimer(m_pWnd->m_hWnd, (long)this);
-			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, TimerFunc);
+			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
 		}
 		Invalidate();
 	}

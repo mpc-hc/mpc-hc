@@ -1606,7 +1606,7 @@ void CPlayerCaptureDialog::OnEnChangeEdit12()
 	AfxGetApp()->WriteProfileInt(_T("Capture"), _T("AudBuffers"), max(m_nAudBuffers, 0));
 }
 
-void CPlayerCaptureDialog::OnTimer(UINT nIDEvent)
+void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == 1)
 	{

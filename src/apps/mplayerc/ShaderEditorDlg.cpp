@@ -176,7 +176,7 @@ void CShaderEdit::OnKillFocus(CWnd* pNewWnd)
 	m_acdlg.ShowWindow(SW_HIDE);
 }
 
-void CShaderEdit::OnTimer(UINT nIDEvent)
+void CShaderEdit::OnTimer(UINT_PTR nIDEvent)
 {
 	if(m_nIDEvent == nIDEvent)
 	{
@@ -367,7 +367,7 @@ void CShaderEditorDlg::OnBnClickedButton2()
 	}
 }
 
-void CShaderEditorDlg::OnTimer(UINT nIDEvent)
+void CShaderEditorDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == m_nIDEventShader && IsWindowVisible() && m_pShader)
 	{

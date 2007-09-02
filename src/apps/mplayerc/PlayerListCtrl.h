@@ -127,7 +127,7 @@ public:
 
 protected:
 	virtual void PreSubclassWindow();
-	virtual int OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
 	DECLARE_MESSAGE_MAP()
 
@@ -136,7 +136,7 @@ public:
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnLvnMarqueeBegin(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnLvnInsertitem(NMHDR* pNMHDR, LRESULT* pResult);

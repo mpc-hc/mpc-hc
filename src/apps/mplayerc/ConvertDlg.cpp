@@ -994,7 +994,7 @@ void CConvertDlg::OnUpdateButton1(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_pMC && SUCCEEDED(m_pMC->GetState(0, &fs)) && fs == State_Stopped);
 }
 
-void CConvertDlg::OnTimer(UINT nIDEvent)
+void CConvertDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == m_nIDEventStatus && m_pMS && m_pMC)
 	{

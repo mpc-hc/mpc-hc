@@ -723,7 +723,7 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 }
 
-void CPlayerListCtrl::OnTimer(UINT nIDEvent)
+void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == 1)
 	{
@@ -811,7 +811,7 @@ BOOL CPlayerListCtrl::OnHdnItemchanging(UINT id, NMHDR* pNMHDR, LRESULT* pResult
 	return FALSE;
 }
 
-int CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
+INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
 	int col;
 	int row = HitTestEx(point, &col);

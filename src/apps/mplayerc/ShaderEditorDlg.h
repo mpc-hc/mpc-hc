@@ -31,7 +31,7 @@ public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnUpdate();
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
 
@@ -74,7 +74,7 @@ protected:
 public:
 	afx_msg void OnCbnSelchangeCombo1();
 	afx_msg void OnBnClickedButton2();
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);

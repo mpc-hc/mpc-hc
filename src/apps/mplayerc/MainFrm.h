@@ -45,7 +45,12 @@
 #include "IGraphBuilder2.h"
 
 #include "RealMediaGraph.h"
+#ifdef _WIN64
+// TODOX64 : add QuickTime support when available!
+#pragma message ("No support for Quick Time for X64 yet!")
+#else
 #include "QuicktimeGraph.h"
+#endif
 #include "ShockwaveGraph.h"
 
 #include <IChapterInfo.h>
@@ -477,7 +482,7 @@ public:
 	afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
 	afx_msg LRESULT OnAppCommand(WPARAM wParam, LPARAM lParam);
 
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
 	afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
