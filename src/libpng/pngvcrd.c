@@ -40,6 +40,11 @@ static int mmx_supported=2;
 int PNGAPI
 png_mmx_support(void)
 {
+#ifdef _WIN64
+  // TODOX64 : wait for X64 png support
+  mmx_supported = 0;
+  return mmx_supported;
+#else
   int mmx_supported_local = 0;
   _asm {
     push ebx          //CPUID will trash these
@@ -95,6 +100,7 @@ NOT_SUPPORTED:
 
   mmx_supported = mmx_supported_local;
   return mmx_supported_local;
+#endif	// #ifdef _WIN64
 }
 
 /* Combines the row recently read in with the previous row.
@@ -165,6 +171,7 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             if (mmx_supported)
 #endif
             {
+#ifndef _WIN64
                _asm
                {
                   movd       mm7, unmask       //load bit pattern
@@ -248,6 +255,7 @@ skip24:
 end24:
                   emms
                }
+#endif	// #ifdef _WIN64
             }
             else /* mmx not supported - use modified C routine */
             {
@@ -301,6 +309,7 @@ end24:
             if (mmx_supported)
 #endif
             {
+#ifndef _WIN64
                _asm
                {
                   movd       mm7, unmask       //load bit pattern
@@ -392,6 +401,7 @@ skip32:
 end32:
                   emms
                }
+#endif // #ifndef _WIN64
             }
             else /* mmx _not supported - Use modified C routine */
             {
@@ -443,6 +453,7 @@ end32:
                len  = png_ptr->width &~7;  //reduce to multiple of 8
                diff = png_ptr->width & 7;  //amount lost
 
+#ifndef _WIN64
                _asm
                {
                   movd       mm7, unmask   //load bit pattern
@@ -498,6 +509,7 @@ skip8:
 end8:
                   emms
                }
+#endif	// #ifndef _WIN64
             }
             else /* mmx not supported - use modified C routine */
             {
@@ -713,6 +725,7 @@ end8:
                unmask = ~mask;
                len     = (png_ptr->width)&~7;
                diff = (png_ptr->width)&7;
+#ifndef _WIN64
                _asm
                {
                   movd       mm7, unmask       //load bit pattern
@@ -780,6 +793,7 @@ skip16:
 end16:
                   emms
                }
+#endif	// #ifndef _WIN64
             }
             else /* mmx not supported - use modified C routine */
             {
@@ -834,6 +848,7 @@ end16:
                unmask = ~mask;
                len     = (png_ptr->width)&~7;
                diff = (png_ptr->width)&7;
+#ifndef _WIN64
                _asm
                {
                   movd       mm7, unmask       //load bit pattern
@@ -944,6 +959,7 @@ skip48:
 end48:
                   emms
                }
+#endif	// #ifndef _WIN64
             }
             else /* mmx _not supported - Use modified C routine */
             {
@@ -1229,6 +1245,7 @@ png_do_read_interlace(png_structp png_ptr)
             if (mmx_supported)
 #endif
             {
+#ifndef _WIN64
                if (pixel_bytes == 3)
                {
                   if (((pass == 4) || (pass == 5)) && width)
@@ -1814,6 +1831,7 @@ loop4_pass0:
                      sptr-= pixel_bytes;
                   }
                }
+#endif	// #ifndef _WIN64
             } /* end of mmx_supported */
 
             else /* MMX not supported:  use modified C code - takes advantage
@@ -1935,6 +1953,7 @@ void /* PRIVATE */
 png_read_filter_row_mmx_avg(png_row_infop row_info, png_bytep row
                             , png_bytep prev_row)
 {
+#ifndef _WIN64
   // These variables are declared
   // here to ensure alignment on 8-byte boundaries.
   union uAll ActiveMask, ShiftBpp, ShiftRem;
@@ -1947,6 +1966,7 @@ png_read_filter_row_mmx_avg(png_row_infop row_info, png_bytep row
 
    bpp = (row_info->pixel_depth + 7) >> 3; // Get # bytes per pixel
    FullLength  = row_info->rowbytes; // # of bytes to filter
+
    _asm {
          // Init address pointers and offset
          mov edi, row          // edi ==> Avg(x)
@@ -2365,6 +2385,7 @@ davglp2:
 davgend:
          emms             // End MMX instructions; prep for possible FP instrs.
    } // end _asm block
+#endif
 }
 
 // Optimized code for PNG Paeth filter decoder
@@ -2372,6 +2393,7 @@ void /* PRIVATE */
 png_read_filter_row_mmx_paeth(png_row_infop row_info, png_bytep row,
                               png_bytep prev_row)
 {
+#ifndef _WIN64
   // These variables are declared
   // here to ensure alignment on 8-byte boundaries.
   union uAll  ActiveMask, ActiveMask2, ActiveMaskEnd, ShiftBpp, ShiftRem;
@@ -3265,12 +3287,14 @@ dpthpaeth2:
 dpthend:
          emms             // End MMX instructions; prep for possible FP instrs.
    } // end _asm block
+#endif
 }
 
 // Optimized code for PNG Sub filter decoder
 void /* PRIVATE */
 png_read_filter_row_mmx_sub(png_row_infop row_info, png_bytep row)
 {
+#ifndef _WIN64
   // These variables are declared
   // here to ensure alignment on 8-byte boundaries.
   union uAll ActiveMask, ShiftBpp, ShiftRem;
@@ -3573,6 +3597,7 @@ dsublp2:
 dsubend:
         emms             // End MMX instructions; prep for possible FP instrs.
    } // end _asm block
+#endif
 }
 
 // Optimized code for PNG Up filter decoder
@@ -3580,6 +3605,7 @@ void /* PRIVATE */
 png_read_filter_row_mmx_up(png_row_infop row_info, png_bytep row,
    png_bytep prev_row)
 {
+#ifndef _WIN64
    png_uint_32 len;
    len  = row_info->rowbytes;       // # of bytes to filter
    _asm {
@@ -3687,6 +3713,7 @@ dupend:
       // Conversion of filtered row completed
       emms          // End MMX instructions; prep for possible FP instrs.
    } // end _asm block
+#endif
 }
 
 
