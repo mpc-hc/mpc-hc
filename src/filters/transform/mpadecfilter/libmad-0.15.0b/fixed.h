@@ -16,7 +16,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: fixed.h 111 2003-08-31 19:00:18Z gabest $
  */
 
 # ifndef LIBMAD_FIXED_H
@@ -142,21 +141,34 @@ typedef mad_fixed_t mad_sample_t;
 #  if defined(_MSC_VER)
 #   pragma warning(push)
 #   pragma warning(disable: 4035)  /* no return value */
-static __forceinline
-mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
-{
-  enum {
-    fracbits = MAD_F_FRACBITS
-  };
+#   if defined(WIN64)
+     static __forceinline
+     mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
+     {
+       enum {
+         fracbits = MAD_F_FRACBITS
+       };
+       return ((__int64)x*(__int64)y)>>fracbits; //TODO: unsigned?
 
-  __asm {
-    mov eax, x
-    imul y
-    shrd eax, edx, fracbits
-  }
+       /* implicit return of eax */
+     }
+#   else
+     static __forceinline
+     mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
+     {
+       enum {
+         fracbits = MAD_F_FRACBITS
+       };
 
-  /* implicit return of eax */
-}
+       __asm {
+         mov eax, x
+         imul y
+         shrd eax, edx, fracbits
+       }
+
+       /* implicit return of eax */
+     }
+#   endif
 #   pragma warning(pop)
 
 #   define mad_f_mul		mad_f_mul_inline
@@ -241,7 +253,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 
 # elif defined(FPM_ARM)
 
-/* 
+/*
  * This ARM V4 version is as accurate as FPM_64BIT but much faster. The
  * least significant bit is properly rounded at no CPU cycle cost!
  */
@@ -372,12 +384,12 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 /*
  * This gives best accuracy but is not very fast.
  */
-#   define MAD_F_MLA(hi, lo, x, y)  \
+#  define MAD_F_MLA(hi, lo, x, y)  \
     ({ mad_fixed64hi_t __hi;  \
        mad_fixed64lo_t __lo;  \
        MAD_F_MLX(__hi, __lo, (x), (y));  \
-       asm ("addc %0,%2,%3\n\t"  \
-	    "adde %1,%4,%5"  \
+       asm ("addc %0, %2, %3\n\t"  \
+	    "adde %1, %4, %5"  \
 	    : "=r" (lo), "=r" (hi)  \
 	    : "%r" (lo), "r" (__lo),  \
 	      "%r" (hi), "r" (__hi)  \
@@ -403,7 +415,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("add %0,%1,%2"  \
 	    : "=r" (__result)  \
 	    : "%r" (__result), "r" (__round));  \
-       __result;  \
+	    __result;  \
     })
 #  else
 #   define mad_f_scale64(hi, lo)  \
@@ -414,7 +426,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("insrwi %0,%1,%2,0"  \
 	    : "+r" (__result)  \
 	    : "r" (hi), "i" (MAD_F_SCALEBITS));  \
-       __result;  \
+	    __result;  \
     })
 #  endif
 

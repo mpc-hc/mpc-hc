@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -27,7 +27,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: common.h 441 2005-11-01 21:41:43Z gabest $
+**
 **/
 
 #ifndef __COMMON_H__
@@ -309,7 +309,7 @@ char *strchr(), *strrchr();
   }
 
 
-  #if defined(_WIN32) && !defined(__MINGW32__)
+  #if defined(_WIN32) && !defined(_WIN64) && !defined(__MINGW32__)
     #define HAS_LRINTF
     static INLINE int lrintf(float f)
     {
@@ -323,7 +323,6 @@ char *strchr(), *strrchr();
     }
   #elif (defined(__i386__) && defined(__GNUC__) && \
 	!defined(__CYGWIN__) && !defined(__MINGW32__))
-    #ifndef HAVE_LRINTF
     #define HAS_LRINTF
     // from http://www.stereopsis.com/FPU.html
     static INLINE int lrintf(float f)
@@ -336,7 +335,6 @@ char *strchr(), *strrchr();
             : "m" (f));
         return i;
     }
-    #endif /* HAVE_LRINTF */
   #endif
 
 

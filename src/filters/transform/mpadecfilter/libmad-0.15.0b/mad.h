@@ -33,7 +33,7 @@ extern "C" {
 # define SIZEOF_LONG_LONG 8
 
 
-/* Id: version.h,v 1.26 2004/01/23 09:41:33 rob Exp */
+/* Id: version.h,v 1.24 2003/05/27 22:40:37 rob Exp */
 
 # ifndef LIBMAD_VERSION_H
 # define LIBMAD_VERSION_H
@@ -187,21 +187,6 @@ typedef mad_fixed_t mad_sample_t;
 #  if defined(_MSC_VER)
 #   pragma warning(push)
 #   pragma warning(disable: 4035)  /* no return value */
-static __forceinline
-mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
-{
-  enum {
-    fracbits = MAD_F_FRACBITS
-  };
-
-  __asm {
-    mov eax, x
-    imul y
-    shrd eax, edx, fracbits
-  }
-
-  /* implicit return of eax */
-}
 #   pragma warning(pop)
 
 #   define mad_f_mul		mad_f_mul_inline
@@ -286,7 +271,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 
 # elif defined(FPM_ARM)
 
-/* 
+/*
  * This ARM V4 version is as accurate as FPM_64BIT but much faster. The
  * least significant bit is properly rounded at no CPU cycle cost!
  */
@@ -417,12 +402,12 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 /*
  * This gives best accuracy but is not very fast.
  */
-#   define MAD_F_MLA(hi, lo, x, y)  \
+#  define MAD_F_MLA(hi, lo, x, y)  \
     ({ mad_fixed64hi_t __hi;  \
        mad_fixed64lo_t __lo;  \
        MAD_F_MLX(__hi, __lo, (x), (y));  \
-       asm ("addc %0,%2,%3\n\t"  \
-	    "adde %1,%4,%5"  \
+       asm ("addc %0, %2, %3\n\t"  \
+	    "adde %1, %4, %5"  \
 	    : "=r" (lo), "=r" (hi)  \
 	    : "%r" (lo), "r" (__lo),  \
 	      "%r" (hi), "r" (__hi)  \
@@ -448,7 +433,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("add %0,%1,%2"  \
 	    : "=r" (__result)  \
 	    : "%r" (__result), "r" (__round));  \
-       __result;  \
+	    __result;  \
     })
 #  else
 #   define mad_f_scale64(hi, lo)  \
@@ -459,7 +444,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("insrwi %0,%1,%2,0"  \
 	    : "+r" (__result)  \
 	    : "r" (hi), "i" (MAD_F_SCALEBITS));  \
-       __result;  \
+	    __result;  \
     })
 #  endif
 

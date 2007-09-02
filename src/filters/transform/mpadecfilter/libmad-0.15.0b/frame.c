@@ -16,7 +16,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: frame.c 111 2003-08-31 19:00:18Z gabest $
  */
 
 # ifdef HAVE_CONFIG_H

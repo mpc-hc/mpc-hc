@@ -51,7 +51,7 @@ extern "C" {
 				MAD_VERSION_STRING(MAD_VERSION_PATCH)  \
 				MAD_VERSION_EXTRA
 
-# define MAD_PUBLISHYEAR	"2000-2003"
+# define MAD_PUBLISHYEAR	"2000-2004"
 # define MAD_AUTHOR		"Underbit Technologies, Inc."
 # define MAD_EMAIL		"info@underbit.com"
 
@@ -62,7 +62,7 @@ extern char const mad_build[];
 
 # endif
 
-/* Id: fixed.h,v 1.36 2003/05/28 04:36:00 rob Exp */
+/* Id: fixed.h,v 1.38 2004/02/17 02:02:03 rob Exp */
 
 # ifndef LIBMAD_FIXED_H
 # define LIBMAD_FIXED_H
@@ -187,21 +187,6 @@ typedef mad_fixed_t mad_sample_t;
 #  if defined(_MSC_VER)
 #   pragma warning(push)
 #   pragma warning(disable: 4035)  /* no return value */
-static __forceinline
-mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
-{
-  enum {
-    fracbits = MAD_F_FRACBITS
-  };
-
-  __asm {
-    mov eax, x
-    imul y
-    shrd eax, edx, fracbits
-  }
-
-  /* implicit return of eax */
-}
 #   pragma warning(pop)
 
 #   define mad_f_mul		mad_f_mul_inline
@@ -253,7 +238,22 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 	    : "cc");  \
        __result;  \
     })
-#    else
+#   elif defined(OPT_INTEL)
+/*
+ * Alternate Intel scaling that may or may not perform better.
+ */
+#    define mad_f_scale64(hi, lo)  \
+    ({ mad_fixed_t __result;  \
+       asm ("shrl %3,%1\n\t"  \
+	    "shll %4,%2\n\t"  \
+	    "orl %2,%1"  \
+	    : "=rm" (__result)  \
+	    : "0" (lo), "r" (hi),  \
+	      "I" (MAD_F_SCALEBITS), "I" (32 - MAD_F_SCALEBITS)  \
+	    : "cc");  \
+       __result;  \
+    })
+#   else
 #    define mad_f_scale64(hi, lo)  \
     ({ mad_fixed_t __result;  \
        asm ("shrdl %3,%2,%1"  \
@@ -271,7 +271,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 
 # elif defined(FPM_ARM)
 
-/* 
+/*
  * This ARM V4 version is as accurate as FPM_64BIT but much faster. The
  * least significant bit is properly rounded at no CPU cycle cost!
  */
@@ -402,12 +402,12 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
 /*
  * This gives best accuracy but is not very fast.
  */
-#   define MAD_F_MLA(hi, lo, x, y)  \
+#  define MAD_F_MLA(hi, lo, x, y)  \
     ({ mad_fixed64hi_t __hi;  \
        mad_fixed64lo_t __lo;  \
        MAD_F_MLX(__hi, __lo, (x), (y));  \
-       asm ("addc %0,%2,%3\n\t"  \
-	    "adde %1,%4,%5"  \
+       asm ("addc %0, %2, %3\n\t"  \
+	    "adde %1, %4, %5"  \
 	    : "=r" (lo), "=r" (hi)  \
 	    : "%r" (lo), "r" (__lo),  \
 	      "%r" (hi), "r" (__hi)  \
@@ -433,7 +433,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("add %0,%1,%2"  \
 	    : "=r" (__result)  \
 	    : "%r" (__result), "r" (__round));  \
-       __result;  \
+	    __result;  \
     })
 #  else
 #   define mad_f_scale64(hi, lo)  \
@@ -444,7 +444,7 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
        asm ("insrwi %0,%1,%2,0"  \
 	    : "+r" (__result)  \
 	    : "r" (hi), "i" (MAD_F_SCALEBITS));  \
-       __result;  \
+	    __result;  \
     })
 #  endif
 
@@ -528,7 +528,7 @@ mad_fixed_t mad_f_div(mad_fixed_t, mad_fixed_t);
 
 # endif
 
-/* Id: bit.h,v 1.11 2003/05/27 22:40:36 rob Exp */
+/* Id: bit.h,v 1.12 2004/01/23 09:41:32 rob Exp */
 
 # ifndef LIBMAD_BIT_H
 # define LIBMAD_BIT_H
@@ -557,7 +557,7 @@ unsigned short mad_bit_crc(struct mad_bitptr, unsigned int, unsigned short);
 
 # endif
 
-/* Id: timer.h,v 1.15 2003/05/27 22:40:37 rob Exp */
+/* Id: timer.h,v 1.16 2004/01/23 09:41:33 rob Exp */
 
 # ifndef LIBMAD_TIMER_H
 # define LIBMAD_TIMER_H
@@ -639,7 +639,7 @@ void mad_timer_string(mad_timer_t, char *, char const *,
 
 # endif
 
-/* Id: stream.h,v 1.18 2003/05/27 22:40:37 rob Exp */
+/* Id: stream.h,v 1.20 2004/02/05 09:02:39 rob Exp */
 
 # ifndef LIBMAD_STREAM_H
 # define LIBMAD_STREAM_H
@@ -665,6 +665,7 @@ enum mad_error {
   MAD_ERROR_BADCRC	   = 0x0201,	/* CRC check failed */
   MAD_ERROR_BADBITALLOC	   = 0x0211,	/* forbidden bit allocation value */
   MAD_ERROR_BADSCALEFACTOR = 0x0221,	/* bad scalefactor index */
+  MAD_ERROR_BADMODE        = 0x0222,	/* bad bitrate/mode combination */
   MAD_ERROR_BADFRAMELEN	   = 0x0231,	/* bad frame length */
   MAD_ERROR_BADBIGVALUES   = 0x0232,	/* bad big_values count */
   MAD_ERROR_BADBLOCKTYPE   = 0x0233,	/* reserved block_type */
@@ -727,7 +728,7 @@ char const *mad_stream_errorstr(struct mad_stream const *);
 
 # endif
 
-/* Id: frame.h,v 1.19 2003/05/27 22:40:36 rob Exp */
+/* Id: frame.h,v 1.20 2004/01/23 09:41:32 rob Exp */
 
 # ifndef LIBMAD_FRAME_H
 # define LIBMAD_FRAME_H
@@ -824,7 +825,7 @@ void mad_frame_mute(struct mad_frame *);
 
 # endif
 
-/* Id: synth.h,v 1.14 2003/05/27 22:40:37 rob Exp */
+/* Id: synth.h,v 1.15 2004/01/23 09:41:33 rob Exp */
 
 # ifndef LIBMAD_SYNTH_H
 # define LIBMAD_SYNTH_H
@@ -873,7 +874,7 @@ void mad_synth_frame(struct mad_synth *, struct mad_frame const *);
 
 # endif
 
-/* Id: decoder.h,v 1.16 2003/05/27 22:40:36 rob Exp */
+/* Id: decoder.h,v 1.17 2004/01/23 09:41:32 rob Exp */
 
 # ifndef LIBMAD_DECODER_H
 # define LIBMAD_DECODER_H

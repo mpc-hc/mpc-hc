@@ -16,7 +16,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: layer3.c 601 2006-04-22 00:58:10Z gabest $
  */
 
 # ifdef HAVE_CONFIG_H
@@ -42,7 +41,7 @@
 # include "bit.h"
 # include "stream.h"
 # include "frame.h"
-# include "hufftab.h"
+# include "huffman.h"
 # include "layer3.h"
 
 /* --- Layer III ----------------------------------------------------------- */
@@ -382,7 +381,7 @@ mad_fixed_t const ca[8] = {
  * IMDCT coefficients for short blocks
  * derived from section 2.4.3.4.10.2 of ISO/IEC 11172-3
  *
- * imdct_s[i/even][k] = cos((PI / 24) * (2 *       (i / 2) + 7) * (2 * k + 1))
+ * imdct_s[i/even][k] = cos((PI / 24) * (2 * (i / 2) + 7) * (2 * k + 1))
  * imdct_s[i /odd][k] = cos((PI / 24) * (2 * (6 + (i-1)/2) + 7) * (2 * k + 1))
  */
 static
@@ -461,7 +460,7 @@ mad_fixed_t const is_table[7] = {
  * derived from section 2.4.3.2 of ISO/IEC 13818-3
  *
  * is_lsf_table[0][i] = (1 / sqrt(sqrt(2)))^(i + 1)
- * is_lsf_table[1][i] = (1 /      sqrt(2)) ^(i + 1)
+ * is_lsf_table[1][i] = (1 / sqrt(2))^(i + 1)
  */
 static
 mad_fixed_t const is_lsf_table[2][15] = {
@@ -2651,10 +2650,10 @@ int mad_layer_III(struct mad_stream *stream, struct mad_frame *frame)
       result = -1;
     }
 
-    /* designate ancillary bits */
+  /* designate ancillary bits */
 
-    stream->anc_ptr    = ptr;
-    stream->anc_bitlen = md_len * CHAR_BIT - data_bitlen;
+  stream->anc_ptr    = ptr;
+  stream->anc_bitlen = md_len * CHAR_BIT - data_bitlen;
   }
 
 # if 0 && defined(DEBUG)

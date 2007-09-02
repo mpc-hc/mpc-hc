@@ -16,7 +16,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: version.c 111 2003-08-31 19:00:18Z gabest $
  */
 
 # ifdef HAVE_CONFIG_H
@@ -26,7 +25,7 @@
 # include "global.h"
 
 # include "version.h"
-
+#include "compiler.h"
 char const mad_version[]   = "MPEG Audio Decoder " MAD_VERSION;
 char const mad_copyright[] = "Copyright (C) " MAD_PUBLISHYEAR " " MAD_AUTHOR;
 char const mad_author[]    = MAD_AUTHOR " <" MAD_EMAIL ">";
@@ -89,3 +88,10 @@ char const mad_build[] = ""
   "OPT_STRICT "
 # endif
 ;
+
+#include <string.h>
+void __stdcall getVersion(char *ver,const char* *license)
+{
+ strcpy(ver, MAD_VERSION", build date "__DATE__" "__TIME__" ("COMPILER COMPILER_X64")");
+ *license="(C) 2000-2004 Underbit Technologies, Inc.";
+}
