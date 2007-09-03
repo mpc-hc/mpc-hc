@@ -1056,9 +1056,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		m_pOSDSurface	= NULL;
 		if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0)
 		{
-			if(SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1, 
+			if( (m_pD3DXLoadSurfaceFromMemory != NULL) &&
+				SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1, 
 												D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, 
-												D3DPOOL_DEFAULT, &m_pOSDTexture, NULL)))
+												D3DPOOL_DEFAULT, &m_pOSDTexture, NULL)) )
 			{
 				if (SUCCEEDED (hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface)))
 				{
@@ -1068,17 +1069,16 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					::GetObject(hBitmap, sizeof( DIBSECTION ), &info );
 					CRect		rcBitmap (0, 0, info.dsBm.bmWidth, info.dsBm.bmHeight);
 
-					if (m_pD3DXLoadSurfaceFromMemory)
-						hr = m_pD3DXLoadSurfaceFromMemory (m_pOSDSurface,
-													NULL,
-													NULL,
-													info.dsBm.bmBits,
-													D3DFMT_A8R8G8B8,
-													info.dsBm.bmWidthBytes,
-													NULL,
-													&rcBitmap,
-													D3DX_FILTER_NONE,
-													m_VMR9AlphaBitmap.clrSrcKey);
+					hr = m_pD3DXLoadSurfaceFromMemory (m_pOSDSurface,
+												NULL,
+												NULL,
+												info.dsBm.bmBits,
+												D3DFMT_A8R8G8B8,
+												info.dsBm.bmWidthBytes,
+												NULL,
+												&rcBitmap,
+												D3DX_FILTER_NONE,
+												m_VMR9AlphaBitmap.clrSrcKey);
 				}
 				if (FAILED (hr))
 				{
@@ -1092,7 +1092,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	if (AfxGetMyApp()->m_fDisplayStats) DrawStats();
-
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 
 	if(m_fVMRSyncFix)

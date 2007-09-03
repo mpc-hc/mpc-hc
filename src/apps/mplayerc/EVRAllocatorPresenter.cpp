@@ -1184,13 +1184,23 @@ STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMa
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
 {
-//	ASSERT (FALSE);
 	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	// Always all source rectangle ?
+	if (pnrcSource)
+	{
+		pnrcSource->left	= 0.0;
+		pnrcSource->top		= 0.0;
+		pnrcSource->right	= 1.0;
+		pnrcSource->bottom	= 1.0;
+	}
+
+	if (prcDest)
+		memcpy (prcDest, &m_VideoRect, sizeof(m_VideoRect));//GetClientRect (m_hWnd, prcDest);
+
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetAspectRatioMode(DWORD dwAspectRatioMode)
 {
