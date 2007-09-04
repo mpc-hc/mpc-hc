@@ -1,6 +1,6 @@
 Index: trunk/src/apps/mplayerc/PPageFileInfoSheet.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PPageFileInfoSheet.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PPageFileInfoSheet.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PPageFileInfoSheet.cpp	(Arbeitskopie)
 @@ -67,7 +67,7 @@
  	
@@ -13,7 +13,7 @@ Index: trunk/src/apps/mplayerc/PPageFileInfoSheet.cpp
  	GetDlgItem(ID_APPLY_NOW)->GetWindowRect(&r);
 Index: trunk/src/apps/mplayerc/ShaderEditorDlg.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/ShaderEditorDlg.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/ShaderEditorDlg.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/ShaderEditorDlg.cpp	(Arbeitskopie)
 @@ -344,7 +344,7 @@
  {
@@ -26,7 +26,7 @@ Index: trunk/src/apps/mplayerc/ShaderEditorDlg.cpp
  	AppSettings& s = AfxGetAppSettings();
 Index: trunk/src/apps/mplayerc/PPageAccelTbl.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PPageAccelTbl.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PPageAccelTbl.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PPageAccelTbl.cpp	(Arbeitskopie)
 @@ -95,7 +95,7 @@
  	if(fVirt&FCONTROL) {if(!str.IsEmpty()) str += _T(" + "); str += _T("Ctrl");}
@@ -67,7 +67,7 @@ Index: trunk/src/apps/mplayerc/PPageAccelTbl.cpp
  
 Index: trunk/src/apps/mplayerc/MediaFormats.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/MediaFormats.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/MediaFormats.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/MediaFormats.cpp	(Arbeitskopie)
 @@ -180,43 +180,43 @@
  	{
@@ -185,7 +185,7 @@ Index: trunk/src/apps/mplayerc/MediaFormats.cpp
  	filter += _T("|");
 Index: trunk/src/apps/mplayerc/mplayerc.rc
 ===================================================================
---- trunk/src/apps/mplayerc/mplayerc.rc	(Revision 160)
+--- trunk/src/apps/mplayerc/mplayerc.rc	(Revision 183)
 +++ trunk/src/apps/mplayerc/mplayerc.rc	(Arbeitskopie)
 @@ -44,8 +44,8 @@
      "#define _AFX_NO_TRACKER_RESOURCES\r\n"
@@ -2918,7 +2918,7 @@ Index: trunk/src/apps/mplayerc/mplayerc.rc
 -
 Index: trunk/src/apps/mplayerc/PixelShaderCompiler.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PixelShaderCompiler.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PixelShaderCompiler.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PixelShaderCompiler.cpp	(Arbeitskopie)
 @@ -41,11 +41,11 @@
  	{
@@ -2945,7 +2945,7 @@ Index: trunk/src/apps/mplayerc/PixelShaderCompiler.cpp
  			{
 Index: trunk/src/apps/mplayerc/PPageFileInfoDetails.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PPageFileInfoDetails.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PPageFileInfoDetails.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PPageFileInfoDetails.cpp	(Arbeitskopie)
 @@ -40,11 +40,11 @@
  	, m_pFG(pFG)
@@ -2975,9 +2975,9 @@ Index: trunk/src/apps/mplayerc/PPageFileInfoDetails.cpp
  	if(::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt))
 Index: trunk/src/apps/mplayerc/mplayerc.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/mplayerc.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/mplayerc.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/mplayerc.cpp	(Arbeitskopie)
-@@ -1011,42 +1011,42 @@
+@@ -1078,42 +1078,42 @@
  	, hAccel(NULL)
  {
  #define ADDCMD(cmd) wmcmds.AddTail(wmcmd##cmd)
@@ -3055,7 +3055,7 @@ Index: trunk/src/apps/mplayerc/mplayerc.cpp
  	ADDCMD((ID_VIEW_CAPTIONMENU, '0', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Caption&Menu")));
  	ADDCMD((ID_VIEW_SEEKER, '1', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Seeker")));
  	ADDCMD((ID_VIEW_CONTROLS, '2', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Controls")));
-@@ -1057,94 +1057,98 @@
+@@ -1124,94 +1124,98 @@
  	ADDCMD((ID_VIEW_PLAYLIST, '7', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Playlist Bar")));
  	ADDCMD((ID_VIEW_CAPTURE, '8', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Capture Bar")));
  	ADDCMD((ID_VIEW_SHADEREDITOR, '9', FVIRTKEY|FCONTROL|FNOINVERT, _T("Toggle Shader Editor Bar")));
@@ -3226,7 +3226,7 @@ Index: trunk/src/apps/mplayerc/mplayerc.cpp
  	nCurrentFilePosition	= -1;
 Index: trunk/src/apps/mplayerc/ConvertDlg.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/ConvertDlg.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/ConvertDlg.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/ConvertDlg.cpp	(Arbeitskopie)
 @@ -345,7 +345,7 @@
  		{
@@ -3358,7 +3358,7 @@ Index: trunk/src/apps/mplayerc/ConvertDlg.cpp
  //
 Index: trunk/src/apps/mplayerc/PlayerShaderEditorBar.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PlayerShaderEditorBar.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PlayerShaderEditorBar.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PlayerShaderEditorBar.cpp	(Arbeitskopie)
 @@ -38,7 +38,7 @@
  
@@ -3371,7 +3371,7 @@ Index: trunk/src/apps/mplayerc/PlayerShaderEditorBar.cpp
  	m_dlg.Create(this);
 Index: trunk/src/apps/mplayerc/PPageWebServer.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PPageWebServer.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PPageWebServer.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PPageWebServer.cpp	(Arbeitskopie)
 @@ -187,7 +187,7 @@
  	bi.hwndOwner = m_hWnd;
@@ -3384,7 +3384,7 @@ Index: trunk/src/apps/mplayerc/PPageWebServer.cpp
  	bi.lParam = (LPARAM)(LPCTSTR)dir;
 Index: trunk/src/apps/mplayerc/PPageFileInfoClip.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/PPageFileInfoClip.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/PPageFileInfoClip.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/PPageFileInfoClip.cpp	(Arbeitskopie)
 @@ -36,11 +36,11 @@
  	: CPropertyPage(CPPageFileInfoClip::IDD, CPPageFileInfoClip::IDD)
@@ -3405,11 +3405,11 @@ Index: trunk/src/apps/mplayerc/PPageFileInfoClip.cpp
  }
 Index: trunk/src/apps/mplayerc/FGManager.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/FGManager.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/FGManager.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/FGManager.cpp	(Arbeitskopie)
-@@ -1519,14 +1519,14 @@
- 	}
+@@ -1522,14 +1522,14 @@
  
+ #ifndef _WIN64		// TODOX64 : fix DVSource internal filter
  	pFGF = new CFGFilterInternal<CMpeg2DecFilter>(
 -		(tra & TRA_MPEG1) ? L"MPEG-1 Video Decoder" : L"MPEG-1 Video Decoder (low merit)", 
 +		(tra & TRA_MPEG1) ? L"MPEG-1 Video Dekoder" : L"MPEG-1 Video Dekoder (niedrige Leistung)", 
@@ -3424,8 +3424,8 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_MPEG2) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
-@@ -1535,7 +1535,7 @@
- 	m_transform.AddTail(pFGF);
+@@ -1539,7 +1539,7 @@
+ #endif
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
 -		(tra & TRA_MPA) ? L"MPEG-1 Audio Decoder" : L"MPEG-1 Audio Decoder (low merit)",
@@ -3433,7 +3433,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_MPA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_MP3);
  	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_MPEG1AudioPayload);
-@@ -1544,7 +1544,7 @@
+@@ -1548,7 +1548,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3442,7 +3442,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_MPA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_AUDIO);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_AUDIO);
-@@ -1553,7 +1553,7 @@
+@@ -1557,7 +1557,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3451,7 +3451,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_LPCM) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_DVD_LPCM_AUDIO);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_DVD_LPCM_AUDIO);
-@@ -1562,7 +1562,7 @@
+@@ -1566,7 +1566,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3460,7 +3460,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_AC3) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_DOLBY_AC3);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_DOLBY_AC3);
-@@ -1572,7 +1572,7 @@
+@@ -1576,7 +1576,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3469,7 +3469,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_DTS) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_DTS);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_DTS);
-@@ -1582,7 +1582,7 @@
+@@ -1586,7 +1586,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3478,7 +3478,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_AAC) ? MERIT64_ABOVE_DSHOW+1 : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_AAC);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_AAC);
-@@ -1599,7 +1599,7 @@
+@@ -1603,7 +1603,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3487,7 +3487,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_PS2AUD) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_PS2_PCM);
  	pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_PS2_PCM);
-@@ -1608,7 +1608,7 @@
+@@ -1612,7 +1612,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CRealVideoDecoder>(
@@ -3496,7 +3496,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_RV) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV10);
  	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RV20);
-@@ -1617,7 +1617,7 @@
+@@ -1621,7 +1621,7 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CRealAudioDecoder>(
@@ -3505,7 +3505,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_RA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_14_4);
  	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_28_8);
-@@ -1629,19 +1629,19 @@
+@@ -1633,19 +1633,19 @@
  	m_transform.AddTail(pFGF);
  
  	pFGF = new CFGFilterInternal<CMpaDecFilter>(
@@ -3528,7 +3528,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_RA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RoQA);
  	m_transform.AddTail(pFGF);
-@@ -1649,7 +1649,7 @@
+@@ -1653,7 +1653,7 @@
  	__if_exists(CDiracVideoDecoder)
  	{
  	pFGF = new CFGFilterInternal<CDiracVideoDecoder>(
@@ -3537,7 +3537,7 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  		(tra & TRA_DIRAC) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
  	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DiracVideo);
  	m_transform.AddTail(pFGF);
-@@ -1668,13 +1668,13 @@
+@@ -1672,13 +1672,13 @@
  	__if_exists(CFLVVideoDecoder)
  	{
  	pFGF = new CFGFilterInternal<CFLVVideoDecoder>(
@@ -3555,9 +3555,9 @@ Index: trunk/src/apps/mplayerc/FGManager.cpp
  	m_transform.AddTail(pFGF);
 Index: trunk/src/apps/mplayerc/MainFrm.cpp
 ===================================================================
---- trunk/src/apps/mplayerc/MainFrm.cpp	(Revision 160)
+--- trunk/src/apps/mplayerc/MainFrm.cpp	(Revision 183)
 +++ trunk/src/apps/mplayerc/MainFrm.cpp	(Arbeitskopie)
-@@ -436,7 +436,7 @@
+@@ -439,7 +439,7 @@
  	if(!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
  		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
  	{
@@ -3566,7 +3566,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return -1;
  	}
  
-@@ -448,7 +448,7 @@
+@@ -451,7 +451,7 @@
  	|| !m_wndToolBar.Create(this)
  	|| !m_wndSeekBar.Create(this))
  	{
@@ -3575,7 +3575,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return -1;      // fail to create
  	}
  
-@@ -1229,7 +1229,7 @@
+@@ -1232,7 +1232,7 @@
  			module.MakeLower();
  
  			CString str;
@@ -3584,7 +3584,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			SendStatusMessage(str, 5000);
  		}
  
-@@ -1280,9 +1280,9 @@
+@@ -1283,9 +1283,9 @@
  				if (m_lSubtitleShift != 0)
  				{
  					if (m_wndSubresyncBar.SaveToDisk())
@@ -3596,7 +3596,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				}
  				m_nCurSubtitle		= -1;
  				m_lSubtitleShift	= 0;
-@@ -1426,7 +1426,7 @@
+@@ -1429,7 +1429,7 @@
  
  			pQP->get_AvgFrameRate(&val);
  			info.Format(_T("%d.%02d %s"), val/100, val%100, rate);
@@ -3605,7 +3605,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			int avg, dev;
  			pQP->get_AvgSyncOffset(&avg);
-@@ -1437,8 +1437,8 @@
+@@ -1440,8 +1440,8 @@
  			int drawn, dropped;
  			pQP->get_FramesDrawn(&drawn);
  			pQP->get_FramesDroppedInRenderer(&dropped);
@@ -3616,7 +3616,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			pQP->get_Jitter(&val);
  			info.Format(_T("%d ms"), val);
-@@ -1465,7 +1465,7 @@
+@@ -1468,7 +1468,7 @@
  				CString str;
  				str.Format(_T("%s (p%d)"), Implode(sl, ' '), pBI->GetPriority());
  				
@@ -3625,7 +3625,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  		}
  
-@@ -1535,7 +1535,7 @@
+@@ -1538,7 +1538,7 @@
  			&& SUCCEEDED(pDVDI->GetNumberOfChapters(loc.TitleNum, &ulNumOfChapters))
  			&& SUCCEEDED(pDVDI->GetDVDVolumeInfo(&ulNumOfVolumes, &ulVolume, &Side, &ulNumOfTitles)))
  			{
@@ -3634,7 +3634,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					ulVolume, ulNumOfVolumes, 
  					loc.TitleNum, ulNumOfTitles, 
  					loc.ChapterNum, ulNumOfChapters);
-@@ -1552,7 +1552,7 @@
+@@ -1555,7 +1555,7 @@
  			if(SUCCEEDED(pDVDI->GetCurrentAngle(&ulAvailable, &ulCurrent))
  			&& SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR)))
  			{
@@ -3643,7 +3643,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					ulAvailable, ulCurrent,
  					VATR.ulSourceResolutionX, VATR.ulSourceResolutionY, VATR.ulFrameRate,
  					VATR.ulAspectX, VATR.ulAspectY);
-@@ -1585,12 +1585,13 @@
+@@ -1588,12 +1588,13 @@
  
  				CString format = GetDVDAudioFormatName(AATR);
  
@@ -3659,7 +3659,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  				m_wndStatusBar.SetStatusBitmap(
  					AATR.bNumberOfChannels == 1 ? IDB_MONO 
-@@ -1881,7 +1882,7 @@
+@@ -1883,7 +1884,7 @@
  				if(m_iDVDDomain == DVD_DOMAIN_Title)
  				{
  					CString Domain;
@@ -3668,7 +3668,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
  				}
  			}
-@@ -1911,8 +1912,8 @@
+@@ -1913,8 +1914,8 @@
  				Domain = _T("First Play"); break;
  			case DVD_DOMAIN_VideoManagerMenu: Domain = _T("Video Manager Menu"); break;
  			case DVD_DOMAIN_VideoTitleSetMenu: Domain = _T("Video Title Set Menu"); break;
@@ -3679,7 +3679,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			default: Domain = _T("-"); break;
  			}
  
-@@ -1959,14 +1960,14 @@
+@@ -1961,14 +1962,14 @@
  
  			switch(evParam1)
  			{
@@ -3702,7 +3702,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  
  			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-@@ -2392,20 +2393,20 @@
+@@ -2394,20 +2395,20 @@
  
  	if(transl.IsEmpty())
  	{
@@ -3736,7 +3736,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		transl[_T("Zoom")] = IDS_ZOOM_POPUP;
  	}
  
-@@ -2658,7 +2659,7 @@
+@@ -2660,7 +2661,7 @@
  				if((lDropped + lNotDropped) > 0)
  				{
  					CString str;
@@ -3745,7 +3745,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					msg += str;
  				}
  			}
-@@ -2679,9 +2680,9 @@
+@@ -2681,9 +2682,9 @@
  
  						CString str;
  						if(size < 1024i64*1024)
@@ -3757,7 +3757,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  						msg += str;
  						
  						FindClose(h);
-@@ -2695,9 +2696,9 @@
+@@ -2697,9 +2698,9 @@
  				{
  					CString str;
  					if(FreeBytesAvailable.QuadPart < 1024i64*1024)
@@ -3769,7 +3769,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					msg += str;
  				}
  
-@@ -2723,7 +2724,7 @@
+@@ -2725,7 +2726,7 @@
  						nFreeAudBuffers = pAB->GetFreeBuffers();
  
  					CString str;
@@ -3778,7 +3778,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					msg += str;
  				}
  			}
-@@ -3093,7 +3094,7 @@
+@@ -3095,7 +3096,7 @@
  				CString	strMessage;
  				int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
  				lang.ReleaseBufferSetLength(max(len-1, 0));
@@ -3787,7 +3787,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
  			}
  		}
-@@ -3125,7 +3126,7 @@
+@@ -3127,7 +3128,7 @@
  			if (!bIsDisabled && ((nNextStream < 0) || (nNextStream >= ulStreamsAvailable)))
  			{
  				pDVDC->SetSubpictureState(FALSE, DVD_CMD_FLAG_Block, NULL);
@@ -3796,7 +3796,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  			else
  			{
-@@ -3139,7 +3140,7 @@
+@@ -3141,7 +3142,7 @@
  					CString	strMessage;
  					int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
  					lang.ReleaseBufferSetLength(max(len-1, 0));
@@ -3805,7 +3805,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
  				}
  			}
-@@ -3450,7 +3451,7 @@
+@@ -3452,7 +3453,7 @@
  	bi.hwndOwner = m_hWnd;
  	bi.pidlRoot = NULL;
  	bi.pszDisplayName = path;
@@ -3814,7 +3814,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
  	bi.lpfn = BrowseCallbackProc;
  	bi.lParam = 0;
-@@ -3560,7 +3561,7 @@
+@@ -3562,7 +3563,7 @@
  			SetSubtitle(m_pSubStreams.GetTail());
  			CPath p(sl.GetHead());
  			p.StripPath();
@@ -3823,7 +3823,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			return;
  		}
  	}
-@@ -3586,7 +3587,7 @@
+@@ -3588,7 +3589,7 @@
  
  	CFileDialog fd(FALSE, 0, out, 
  		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
@@ -3832,7 +3832,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	if(fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) return;
  
  	CPath p(fd.GetPathName());
-@@ -3658,12 +3659,12 @@
+@@ -3660,12 +3661,12 @@
  		if(m_pCAP)
  		{
  			hr = m_pCAP->GetDIB(NULL, (DWORD*)&size);
@@ -3847,7 +3847,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			if(FAILED(hr))
  			{
  				OnPlayPause();GetMediaState(); // Pause and retry to support ffdshow queueing.
-@@ -3676,18 +3677,18 @@
+@@ -3678,18 +3679,18 @@
  					retry++;
  				}
  				if(FAILED(hr))
@@ -3869,7 +3869,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		}
  	}
  	while(0);
-@@ -3745,7 +3746,7 @@
+@@ -3747,7 +3748,7 @@
  		}
  		else
  		{
@@ -3878,7 +3878,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		}
  	}
  	else if(ext == _T(".jpg"))
-@@ -3788,7 +3789,7 @@
+@@ -3790,7 +3791,7 @@
  
  	if(rtDur <= 0)
  	{
@@ -3887,7 +3887,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return;
  	}
  
-@@ -3816,7 +3817,7 @@
+@@ -3818,7 +3819,7 @@
  
  	if(wh.cx <= 0 || wh.cy <= 0)
  	{
@@ -3896,7 +3896,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return;
  	}
  
-@@ -3843,7 +3844,7 @@
+@@ -3845,7 +3846,7 @@
  	CAutoVectorPtr<BYTE> dib;
  	if(!dib.Allocate(dibsize))
  	{
@@ -3905,7 +3905,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return;
  	}
  
-@@ -3944,7 +3945,7 @@
+@@ -3946,7 +3947,7 @@
  		{
  			delete [] pData;
  			CString str;
@@ -3914,7 +3914,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			AfxMessageBox(str);
  			return;
  		}
-@@ -4031,14 +4032,14 @@
+@@ -4033,14 +4034,14 @@
  			if(shortsize > 10240) shortsize /= 1024, measure = L"KB";
  			if(shortsize > 10240) shortsize /= 1024, measure = L"MB";
  			if(shortsize > 10240) shortsize /= 1024, measure = L"GB";
@@ -3931,7 +3931,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			fn, fs, wh.cx, wh.cy, ar, hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
  		rts.Add(str, true, 0, 1, _T("thumbs"));
  
-@@ -4152,11 +4153,11 @@
+@@ -4154,11 +4155,11 @@
  {
  	if(!m_pCAP)
  	{
@@ -3948,7 +3948,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  					, MB_OK);
  		return;
  	}
-@@ -4437,12 +4438,12 @@
+@@ -4439,12 +4440,12 @@
  	if (bToggleShader)
  	{
  		SetShaders();
@@ -3963,7 +3963,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	bToggleShader = !bToggleShader;
-@@ -4454,7 +4455,7 @@
+@@ -4456,7 +4457,7 @@
  	LPCTSTR			strMsg;
  
  	s.fD3DFullscreen	= !s.fD3DFullscreen;
@@ -3972,7 +3972,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	
  	if (m_iMediaLoadState == MLS_CLOSED)
  		m_closingmsg = strMsg;
-@@ -4813,8 +4814,8 @@
+@@ -4815,8 +4816,8 @@
  	ar = s_ar[nID - ID_ASPECTRATIO_START];
  
  	CString info;
@@ -3983,7 +3983,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	SendStatusMessage(info, 3000);
  
  	MoveVideoWindow();
-@@ -5445,7 +5446,7 @@
+@@ -5447,7 +5448,7 @@
  		pASF->SetAudioTimeShift(rtShift);
  
  		CString str;
@@ -3992,7 +3992,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		SendStatusMessage(str, 3000);
  		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
  	}
-@@ -5859,7 +5860,7 @@
+@@ -5863,7 +5864,7 @@
  			if(i >= 0 && i < nChapters)
  			{
  				SeekTo(rt);
@@ -4001,7 +4001,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				return;
  			}
  		}
-@@ -6063,7 +6064,7 @@
+@@ -6067,7 +6068,7 @@
  			if(SUCCEEDED(m_pCB->ChapGet(nID, &rt, &name)))
  			{
  				SeekTo(rt);
@@ -4010,7 +4010,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  			return;
  		}
-@@ -6977,7 +6978,7 @@
+@@ -6981,7 +6982,7 @@
  			if(FAILED(hr))
  			{
  				m_pCAP->SetPixelShader(NULL, NULL);
@@ -4019,7 +4019,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				return;
  			}
  
-@@ -6989,7 +6990,7 @@
+@@ -6993,7 +6994,7 @@
  	{
  		CString str = Implode(labels, '|');
  		str.Replace(_T("|"), _T(", "));
@@ -4028,7 +4028,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  }
  
-@@ -7137,7 +7138,7 @@
+@@ -7141,7 +7142,7 @@
  		if(engine == RealMedia)
  		{
  			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CRealMediaGraph(m_pVideoWnd->m_hWnd, hr)))
@@ -4037,7 +4037,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			if(SUCCEEDED(hr) && !!(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
  				m_fRealMediaGraph = true;
-@@ -7145,17 +7146,17 @@
+@@ -7149,20 +7150,20 @@
  		else if(engine == ShockWave)
  		{
  			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CShockwaveGraph(m_pVideoWnd->m_hWnd, hr)))
@@ -4052,13 +4052,17 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		}
  		else if(engine == QuickTime)
  		{
+ #ifdef _WIN64	// TODOX64
+-			MessageBox (_T("Quick time not yet supported for X64 (apple library not available)"), _T(""), MB_OK);
++			MessageBox (_T("Quicktime auf x64 Systemen noch nicht unterstützt"), _T(""), MB_OK);
+ #else
  			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr)))
 -				throw _T("Out of memory");
 +				throw _T("Kein freier Speicher mehr vorhanden");
  
  			if(SUCCEEDED(hr) && !!(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
                  m_fQuicktimeGraph = true;
-@@ -7179,7 +7180,7 @@
+@@ -7187,7 +7188,7 @@
  
  	if(!pGB)
  	{
@@ -4067,7 +4071,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	pGB->AddToROT();
-@@ -7212,7 +7213,7 @@
+@@ -7220,7 +7221,7 @@
  void CMainFrame::OpenFile(OpenFileData* pOFD)
  {
  	if(pOFD->fns.IsEmpty())
@@ -4076,7 +4080,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  	AppSettings& s = AfxGetAppSettings();
  
-@@ -7249,17 +7250,17 @@
+@@ -7257,17 +7258,17 @@
  
  				switch(hr)
  				{
@@ -4105,7 +4109,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				}
  
  				throw err;
-@@ -7472,7 +7473,7 @@
+@@ -7480,7 +7481,7 @@
  	EndEnumFilters
  
  	if(hr == E_INVALIDARG)
@@ -4114,7 +4118,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	else if(hr == VFW_E_CANNOT_RENDER)
  		throw _T("Failed to render all pins of the DVD Navigator filter");
  	else if(hr == VFW_S_PARTIAL_RENDER)
-@@ -7480,9 +7481,9 @@
+@@ -7488,9 +7489,9 @@
  	else if(hr == E_NOINTERFACE || !pDVDC || !pDVDI)
  		throw _T("Failed to query the needed interfaces for DVD playback");
  	else if(hr == VFW_E_CANNOT_LOAD_SOURCE_FILTER)
@@ -4126,7 +4130,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  	WCHAR buff[MAX_PATH];
  	ULONG len = 0;
-@@ -7512,7 +7513,7 @@
+@@ -7520,7 +7521,7 @@
  	if(!m_VidDispName.IsEmpty())
  	{
  		if(!CreateFilter(m_VidDispName, &pVidCapTmp, vidfrname))
@@ -4135,7 +4139,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	m_AudDispName = pODD->DisplayName[1];
-@@ -7520,12 +7521,12 @@
+@@ -7528,12 +7529,12 @@
  	if(!m_AudDispName.IsEmpty())
  	{
  		if(!CreateFilter(m_AudDispName, &pAudCapTmp, audfrname))
@@ -4150,7 +4154,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	pCGB = NULL;
-@@ -7534,7 +7535,7 @@
+@@ -7542,7 +7543,7 @@
  
  	if(FAILED(pCGB.CoCreateInstance(CLSID_CaptureGraphBuilder2)))
  	{
@@ -4159,7 +4163,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	HRESULT hr;
-@@ -7554,16 +7555,16 @@
+@@ -7562,16 +7563,16 @@
  		{
  			if(FAILED(pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Interleaved, pVidCap, IID_IAMStreamConfig, (void **)&pAMVSCCap))
  			&& FAILED(pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, pVidCap, IID_IAMStreamConfig, (void **)&pAMVSCCap)))
@@ -4179,7 +4183,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  			else
  			{
-@@ -7573,17 +7574,17 @@
+@@ -7581,17 +7582,17 @@
  		else
  		{
  			if(FAILED(pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, pVidCap, IID_IAMStreamConfig, (void **)&pAMVSCCap)))
@@ -4201,7 +4205,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  /*
  		if(pAMVSCCap) 
  		{
-@@ -7630,7 +7631,7 @@
+@@ -7638,7 +7639,7 @@
  		if(FAILED(pCGB->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, pAudCap, IID_IAMStreamConfig, (void **)&pAMASC))
  		&& FAILED(pCGB->FindInterface(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Audio, pAudCap, IID_IAMStreamConfig, (void **)&pAMASC)))
  		{
@@ -4210,7 +4214,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		}
  /*
  		CInterfaceArray<IAMAudioInputMixer> pAMAIM;
-@@ -7655,7 +7656,7 @@
+@@ -7663,7 +7664,7 @@
  
  	if(!(pVidCap || pAudCap))
  	{
@@ -4219,7 +4223,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  
  	pODD->title = _T("Live");
-@@ -7715,7 +7716,7 @@
+@@ -7723,7 +7724,7 @@
  					WCHAR* pszName = NULL;
  					if(SUCCEEDED(pSS->Info((long)i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
  					{
@@ -4228,7 +4232,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  						if(idAudio != -1 && (idAudio&0x3ff) == (lcid&0x3ff) // sublang seems to be zeroed out in ogm...
  						&& name.GetLength() > sound.GetLength()
-@@ -7927,18 +7928,18 @@
+@@ -7935,18 +7936,18 @@
  	{
  		if(!pQP && (pQP = pBF))
  		{
@@ -4251,7 +4255,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			m_wndStatsBar.SetLine(_T("Bitrate"), info); // FIXME: shouldn't be here
  			RecalcLayout();
  		}
-@@ -8117,7 +8118,7 @@
+@@ -8125,7 +8126,7 @@
  					else
  					{
  						CString msg;
@@ -4260,7 +4264,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  						ret = AfxMessageBox(msg, MB_RETRYCANCEL);
  					}
  				}
-@@ -8133,7 +8134,7 @@
+@@ -8141,7 +8142,7 @@
  	// FIXME: Don't show "Closed" initially
  	PostMessage(WM_KICKIDLE);
  
@@ -4269,7 +4273,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  	m_fUpdateInfoBar = false;
  
-@@ -8581,7 +8582,7 @@
+@@ -8589,7 +8590,7 @@
  				if(SUCCEEDED(pSPP->GetPages(&caGUID)) && caGUID.cElems > 0)
  				{
  */					m_pparray.Add(pBF);
@@ -4278,7 +4282,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  /*
  					if(caGUID.pElems) CoTaskMemFree(caGUID.pElems);
  */
-@@ -8601,7 +8602,7 @@
+@@ -8609,7 +8610,7 @@
  					if(SUCCEEDED(pSPP->GetPages(&caGUID)) && caGUID.cElems > 0)
  					{
  						m_pparray.Add(pPin);
@@ -4287,7 +4291,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  						if(caGUID.pElems) CoTaskMemFree(caGUID.pElems);
  						
-@@ -8646,7 +8647,7 @@
+@@ -8654,7 +8655,7 @@
  
  					if(!wname) 
  					{
@@ -4296,7 +4300,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  						wname = (WCHAR*)CoTaskMemAlloc((stream.GetLength()+3+1)*sizeof(WCHAR));
  						swprintf(wname, L"%s %d", stream, min(i+1,999));
  					}
-@@ -8774,7 +8775,7 @@
+@@ -8782,7 +8783,7 @@
  			}
  			else
  			{
@@ -4305,7 +4309,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  		}
  
-@@ -8827,7 +8828,7 @@
+@@ -8835,7 +8836,7 @@
  			if(Language == DefLanguage) flags |= MF_DEFAULT;
              if(i == ulCurrentStream) flags |= MF_CHECKED;
  
@@ -4314,7 +4318,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			if(Language)
  			{
  				int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-@@ -8843,20 +8844,21 @@
+@@ -8851,20 +8852,21 @@
  				default: break;
  				case DVD_AUD_EXT_Captions: str += _T(" (Captions)"); break;
  				case DVD_AUD_EXT_VisuallyImpaired: str += _T(" (Visually Impaired)"); break;
@@ -4340,7 +4344,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  				}
  			}
  
-@@ -8895,7 +8897,7 @@
+@@ -8903,7 +8905,7 @@
  		if(FAILED(pDVDI->GetDefaultSubpictureLanguage(&DefLanguage, &ext)))
  			return;
  
@@ -4349,7 +4353,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		pSub->AppendMenu(MF_BYCOMMAND|MF_SEPARATOR|MF_ENABLED);
  
          for(ULONG i = 0; i < ulStreamsAvailable; i++)
-@@ -8908,7 +8910,7 @@
+@@ -8916,7 +8918,7 @@
  			if(Language == DefLanguage) flags |= MF_DEFAULT;
              if(i == ulCurrentStream) flags |= MF_CHECKED;
  
@@ -4358,7 +4362,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			if(Language)
  			{
  				int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
-@@ -8971,7 +8973,7 @@
+@@ -8979,7 +8981,7 @@
              if(i == ulCurrentStream) flags |= MF_CHECKED;
  
  			CString str;
@@ -4367,7 +4371,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			pSub->AppendMenu(flags, id++, str);
  		}
-@@ -9060,7 +9062,7 @@
+@@ -9068,7 +9070,7 @@
  			if(ulUOPs&UOP_FLAG_Play_Title) flags |= MF_DISABLED|MF_GRAYED;
  
  			CString str;
@@ -4376,7 +4380,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			pSub->AppendMenu(flags, id++, str);
  		}
-@@ -9073,7 +9075,7 @@
+@@ -9081,7 +9083,7 @@
  			if(i == 1) flags |= MF_MENUBARBREAK;
  
  			CString str;
@@ -4385,7 +4389,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			pSub->AppendMenu(flags, id++, str);
  		}
-@@ -9120,13 +9122,13 @@
+@@ -9128,13 +9130,13 @@
  
  		if(lcname.Find(_T(" off")) >= 0)
  		{
@@ -4401,7 +4405,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			}
  			else
  			{
-@@ -9667,7 +9669,7 @@
+@@ -9675,7 +9677,7 @@
  	}
  	else if(m_iPlaybackMode == PM_CAPTURE)
  	{
@@ -4410,7 +4414,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  	m_fEndOfStream = false;
  }
-@@ -9693,7 +9695,7 @@
+@@ -9701,7 +9703,7 @@
  		int nIn, nOut, nInC, nOutC;
  		if(CountPins(pBF, nIn, nOut, nInC, nOutC) > 0 && (nInC+nOutC) == 0)
  		{
@@ -4419,7 +4423,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  
  			pGB->RemoveFilter(pBF);
  			pEF->Reset();
-@@ -10226,7 +10228,7 @@
+@@ -10234,7 +10236,7 @@
  {
  	if(m_iMediaLoadState == MLS_CLOSING)
  	{
@@ -4428,7 +4432,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  		return;
  	}
  
-@@ -10241,7 +10243,7 @@
+@@ -10249,7 +10251,7 @@
  		if(nTimeWaited > 5*1000 && m_pGraphThread)
  		{
  			MessageBeep(MB_ICONEXCLAMATION);
@@ -4437,7 +4441,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  			TerminateThread(m_pGraphThread->m_hThread, -1);
  			m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
  			s_fOpenedThruThread = false;
-@@ -10347,7 +10349,7 @@
+@@ -10355,7 +10357,7 @@
  		m_fullWndSize.cx	= MonitorRect.Width();
  		m_fullWndSize.cy	= MonitorRect.Height();
  
@@ -4446,7 +4450,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  //		SetWindowLong(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);	// TODO : still freezing sometimes...
  	}
  
-@@ -10399,7 +10401,7 @@
+@@ -10407,7 +10409,7 @@
  		return _T("SDDS");
  	case DVD_AudioFormat_Other: 
  	default:
@@ -4455,7 +4459,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  	}
  }
  
-@@ -10428,7 +10430,7 @@
+@@ -10436,7 +10438,7 @@
  			if (pMS) pMS->SetPositions (&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
  		}
  
@@ -4466,7 +4470,7 @@ Index: trunk/src/apps/mplayerc/MainFrm.cpp
  }
 Index: trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.cpp
 ===================================================================
---- trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.cpp	(Revision 160)
+--- trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.cpp	(Revision 183)
 +++ trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.cpp	(Arbeitskopie)
 @@ -65,7 +65,7 @@
  
@@ -4554,7 +4558,7 @@ Index: trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.cpp
  	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 Index: trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.h
 ===================================================================
---- trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.h	(Revision 160)
+--- trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.h	(Revision 183)
 +++ trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.h	(Arbeitskopie)
 @@ -77,7 +77,7 @@
  	void OnDeactivate();
@@ -4567,7 +4571,7 @@ Index: trunk/src/filters/transform/mpadecfilter/MpaDecSettingsWnd.h
  	DECLARE_MESSAGE_MAP()
 Index: trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.cpp
 ===================================================================
---- trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.cpp	(Revision 160)
+--- trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.cpp	(Revision 183)
 +++ trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.cpp	(Arbeitskopie)
 @@ -65,21 +65,21 @@
  
@@ -4627,7 +4631,7 @@ Index: trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.cpp
  	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 Index: trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.h
 ===================================================================
---- trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.h	(Revision 160)
+--- trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.h	(Revision 183)
 +++ trunk/src/filters/transform/mpeg2decfilter/Mpeg2DecSettingsWnd.h	(Arbeitskopie)
 @@ -73,7 +73,7 @@
  	void OnDeactivate();
