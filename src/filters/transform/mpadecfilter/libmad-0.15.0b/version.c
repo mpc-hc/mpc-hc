@@ -25,7 +25,6 @@
 # include "global.h"
 
 # include "version.h"
-#include "compiler.h"
 char const mad_version[]   = "MPEG Audio Decoder " MAD_VERSION;
 char const mad_copyright[] = "Copyright (C) " MAD_PUBLISHYEAR " " MAD_AUTHOR;
 char const mad_author[]    = MAD_AUTHOR " <" MAD_EMAIL ">";
@@ -89,9 +88,3 @@ char const mad_build[] = ""
 # endif
 ;
 
-#include <string.h>
-void __stdcall getVersion(char *ver,const char* *license)
-{
- strcpy(ver, MAD_VERSION", build date "__DATE__" "__TIME__" ("COMPILER COMPILER_X64")");
- *license="(C) 2000-2004 Underbit Technologies, Inc.";
-}
