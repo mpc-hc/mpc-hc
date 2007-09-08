@@ -27,6 +27,53 @@
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
+#ifdef _WIN64
+
+CCpuID g_cpuid;
+
+CCpuID::CCpuID()
+{
+	// TODOX64 : ??
+	m_flags = (flag_t)7;
+}
+
+bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
+{
+	ASSERT(FALSE);
+	return false;
+}
+bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch, bool fInterlaced)
+{
+	ASSERT(FALSE);
+	return false;
+}
+bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
+{
+	ASSERT(FALSE);
+	return false;
+}
+bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch, int sbpp)
+{
+	ASSERT(FALSE);
+	return false;
+}
+bool BitBltFromYUY2ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* src, int srcpitch)
+{
+	ASSERT(FALSE);
+	return false;
+}
+bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch)
+{
+	ASSERT(FALSE);
+	return false;
+}
+void DeinterlaceBlend(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch)
+{
+	ASSERT(FALSE);
+}
+#else
+
+
 CCpuID::CCpuID()
 {
 	DWORD flags = 0;
@@ -1507,3 +1554,5 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 
 	return(true);
 }
+
+#endif _WIN64

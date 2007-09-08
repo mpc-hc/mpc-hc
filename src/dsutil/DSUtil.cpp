@@ -922,6 +922,9 @@ REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 
 void memsetd(void* dst, unsigned int c, int nbytes)
 {
+#ifdef _WIN64
+	memset (dst, c, nbytes);	// TODOX64 : ??
+#else
 	__asm
 	{
 		mov eax, c
@@ -931,6 +934,7 @@ void memsetd(void* dst, unsigned int c, int nbytes)
 		cld
 		rep stosd
 	}
+#endif
 }
 
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
