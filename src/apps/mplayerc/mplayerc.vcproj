@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="mplayerc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mplayerc"
@@ -1974,6 +1974,10 @@
 		</File>
 		<File
 			RelativePath=".\History.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\nightvision.psh"
 			>
 		</File>
 		<File

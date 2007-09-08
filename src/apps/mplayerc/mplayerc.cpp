@@ -291,13 +291,15 @@ void CMPlayerCApp::ShowCmdlnSwitches()
 	{
 		CAtlList<CString> sl;
 		for(int i = 0; i < __argc; i++) sl.AddTail(__targv[i]);
-		s += "Unrecognized switch(es) found in command line string: \n\n" + Implode(sl, ' ') + "\n\n";
+		s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + "\n\n";
 	}
 
-	s +=
+	s += ResStr (IDS_USAGE);
+	/*
 		_T("Usage: mplayerc.exe \"pathname\" [switches]\n\n")
 		_T("\"pathname\"\tThe main file or directory to be loaded. (wildcards allowed)\n")
 		_T("/dub \"dubname\"\tLoad an additional audio file.\n")
+		_T("/d3dfs start rendering in D3D fullscreen mode.\n")
 		_T("/sub \"subname\"\tLoad an additional subtitle file.\n")
 		_T("/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library. (wildcards allowed)\n")
 		_T("/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional).\n")
@@ -318,6 +320,7 @@ void CMPlayerCApp::ShowCmdlnSwitches()
 		_T("/fixedsize w,h\tSet fixed window size.\n")
 		_T("/monitor N\tStart on monitor N, where N starts from 1.\n")
 		_T("/help /h /?\tShow help about command line switches. (this message box)\n");
+		*/
 
 	AfxMessageBox(s);
 }
@@ -789,6 +792,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if(m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH))
 	{
+		m_s.UpdateData(false);
 		ShowCmdlnSwitches();
 		return FALSE;
 	}
@@ -1169,6 +1173,11 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_VOLUME_UP, VK_UP, FVIRTKEY|FNOINVERT, ResStr(IDS_AG_VOLUME_UP), APPCOMMAND_VOLUME_UP, wmcmd::WUP));
 	ADDCMD((ID_VOLUME_DOWN, VK_DOWN, FVIRTKEY|FNOINVERT, ResStr(IDS_AG_VOLUME_DOWN), APPCOMMAND_VOLUME_DOWN, wmcmd::WDOWN));
 	ADDCMD((ID_VOLUME_MUTE, 'M', FVIRTKEY|FCONTROL|FNOINVERT, ResStr(IDS_AG_VOLUME_MUTE), APPCOMMAND_VOLUME_MUTE));
+ADDCMD((ID_VOLUME_BOOST_INC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_INC)));
+ADDCMD((ID_VOLUME_BOOST_DEC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_DEC)));
+ADDCMD((ID_VOLUME_BOOST_MIN, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MIN)));
+ADDCMD((ID_VOLUME_BOOST_MAX, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MAX)));
+
 	ADDCMD((ID_NAVIGATE_TITLEMENU, 'T', FVIRTKEY|FALT|FNOINVERT, ResStr(IDS_MPLAYERC_63)));
 	ADDCMD((ID_NAVIGATE_ROOTMENU, 'R', FVIRTKEY|FALT|FNOINVERT, ResStr(IDS_AG_DVD_ROOT_MENU)));
 	ADDCMD((ID_NAVIGATE_SUBPICTUREMENU, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_MPLAYERC_65)));
@@ -1662,7 +1671,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		// Set interface language first!
-		iLanguage  = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LANGUAGE), 0);
+		iLanguage  = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LANGUAGE), 0);
 		if (iLanguage != 0) SetLanguage(iLanguage);
 		CreateCommands();
 
@@ -2668,10 +2677,10 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	switch (nLanguage)
 	{
 	case 1 :	// French
-		hMod = LoadLibrary (_T("mpcresource.fr.dll"));
+		hMod = LoadLibrary (_T("mpcresources.fr.dll"));
 		break;
 	case 2 :	// Deutch
-		hMod = LoadLibrary (_T("mpcresource.de.dll"));
+		hMod = LoadLibrary (_T("mpcresources.de.dll"));
 		break;
 	}
 

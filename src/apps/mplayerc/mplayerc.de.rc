@@ -1495,7 +1495,7 @@ BEGIN
             VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 0, 9, 1"
+            VALUE "FileVersion", "1, 0, 10, 0"
             VALUE "InternalName", "Media Player Classic"
             VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
             VALUE "OriginalFilename", "mplayerc.EXE"
@@ -2858,6 +2858,12 @@ BEGIN
     IDS_MAINFRM_137  "Unbekanntes Format"
     IDS_MAINFRM_138  "Untertitel shift: %ld"
 	IDS_RS_LANGUAGE  "InterfaceLanguage"
+	IDS_VOLUME_BOOST_INC "Lautstärke Boost erhöhen"
+	IDS_VOLUME_BOOST_DEC "Lautstärke Boost verringern"
+	IDS_VOLUME_BOOST_MIN "Lautstärke Boost Min"
+	IDS_VOLUME_BOOST_MAX "Lautstärke Boost Max"
+    IDS_USAGE           "Usage: mplayerc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded. (wildcards allowed)\n/dub ""dubname""\tLoad an additional audio file.\n/d3dfs\t\tstart rendering in D3D fullscreen mode.\n/sub ""subname""\tLoad an additional subtitle file.\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link library. (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd folder (optional).\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd, ""pathname"" means the drive path (optional).\n/open\t\tOpen the file, don't automatically start playing.\n/play\t\tStart playing the file as soon the player is launched.\n/close\t\tClose the player after playback (only works when used with /play).\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode.\n/minimized\tStart in minimized mode.\n/new\t\tUse a new instance of the player.\n/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play.\n/regvid\t\tRegister video formats\n/regaud\t\tRegister audio formats\n/unregvid\t\tUnregister video formats\n/unregaud\tUnregister audio formats\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/fixedsize w,h\tSet fixed window size.\n/monitor N\tStart on monitor N, where N starts from 1.\n/help /h /?\tShow help about command line switches. (this message box)\n"
+	IDS_UNKNOWN_SWITCH		"Unrecognized switch(es) found in command line string: \n\n"
 END
 
 #endif    // German (Germany) resources

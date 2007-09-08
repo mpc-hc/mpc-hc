@@ -1074,13 +1074,19 @@
 #define IDS_MAINFRM_136                 33126
 #define IDS_MAINFRM_137                 33127
 #define IDS_MAINFRM_138                 33128
+#define IDS_VOLUME_BOOST_INC			33129
+#define IDS_VOLUME_BOOST_DEC			33130
+#define IDS_VOLUME_BOOST_MIN			33131
+#define IDS_VOLUME_BOOST_MAX			33132
+#define IDS_USAGE						33133
+#define IDS_UNKNOWN_SWITCH				33134
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33129
+#define _APS_NEXT_COMMAND_VALUE         33135
 #define _APS_NEXT_CONTROL_VALUE         22010
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
