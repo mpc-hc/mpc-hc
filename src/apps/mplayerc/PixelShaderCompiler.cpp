@@ -41,11 +41,11 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
 	{
 		if(!hDll)
 		{
-			AfxMessageBox(_T("Cannot load D3DX9_xx.DLL, pixel shaders will not work."), MB_OK);
+			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_0), MB_OK);
 		}
 		else if(!m_pD3DXCompileShader || !m_pD3DXDisassembleShader) 
 		{
-			AfxMessageBox(_T("Cannot find necessary function entry points in D3DX9_xx.DLL, pixel shaders will not work."), MB_OK);
+			AfxMessageBox(ResStr(IDS_PIXELSHADERCOMPILER_1), MB_OK);
 		}
 	}
 }

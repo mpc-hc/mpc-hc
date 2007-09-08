@@ -1580,6 +1580,12 @@ BEGIN
         MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
         MENUITEM "&Display Stats\tCtrl+J",      ID_VIEW_DISPLAYSTATS
         MENUITEM "Remaining Time\tCtrl+I",      ID_VIEW_REMAINING_TIME
+        POPUP "&Language"
+        BEGIN
+            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
+            MENUITEM "&Deutsch",                    ID_LANGUAGE_DEUTSCH
+            MENUITEM "&Français",                   ID_LANGUAGE_FRENCH
+        END
         MENUITEM SEPARATOR
         POPUP "&Video Frame"
         BEGIN
@@ -2483,6 +2489,375 @@ END
 STRINGTABLE 
 BEGIN
     IDS_RS_EVR_BUFFERS      "EVRBuffers"
+    IDS_AG_CLOSE  "Close"
+    IDS_SHADEREDITORDLG_0  "Are you sure you want to delete this shader?"
+    IDS_AG_NONE  "None"
+    IDS_AG_COMMAND  "Command"
+    IDS_AG_KEY  "Key"
+    IDS_AG_TYPE  "Type"
+    IDS_AG_MOUSE  "Mouse"
+    IDS_AG_APP_COMMAND  "App Command"
+    IDS_MEDIAFORMATS_0  "Windows Media file"
+    IDS_MEDIAFORMATS_1  "Windows Media Audio file"
+    IDS_AG_VIDEO_FILE  "Video file"
+    IDS_AG_AUDIO_FILE  "Audio file"
+    IDS_MEDIAFORMATS_4  "MPEG Media file "
+    IDS_MEDIAFORMATS_5  "MPEG Audio file"
+    IDS_AG_DVD_FILE  "DVD file"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MEDIAFORMATS_7  "DVD Audio file"
+    IDS_AG_MIDI_FILE  "MIDI file"
+    IDS_MEDIAFORMATS_9  "Indeo Video file"
+    IDS_MEDIAFORMATS_10  "Ogg Media file"
+    IDS_MEDIAFORMATS_11  "Ogg Vorbis Audio file"
+    IDS_MEDIAFORMATS_12  "Windows 2000/XP or better"
+    IDS_AG_FLIC_FILE  "FLIC file"
+    IDS_MEDIAFORMATS_14  "DVD2AVI Project file"
+    IDS_AG_MPEG4_FILE  "MPEG4 file "
+    IDS_MEDIAFORMATS_16  "MPEG4 Audio file "
+    IDS_MEDIAFORMATS_17  "Matroska Media file"
+    IDS_MEDIAFORMATS_18  "Matroska Audio file"
+    IDS_MEDIAFORMATS_19  "Smacker/Bink Media file"
+    IDS_AG_RATDVD_FILE  "ratdvd file"
+    IDS_MEDIAFORMATS_21  "RoQ Media file"
+    IDS_MEDIAFORMATS_22  "Real Media file "
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MEDIAFORMATS_23  "Real Audio file "
+    IDS_MEDIAFORMATS_24  "Real Script file"
+    IDS_MEDIAFORMATS_25  "Dirac Video file"
+    IDS_MEDIAFORMATS_26  "DirectShow Media file"
+    IDS_AG_MUSEPACK_FILE  "Musepack file"
+    IDS_MEDIAFORMATS_28  "Flash Video file "
+    IDS_MEDIAFORMATS_29  "Shockwave Flash file"
+    IDS_MEDIAFORMATS_30  "Quicktime file "
+    IDS_AG_IMAGE_FILE  "Image file"
+    IDS_AG_PLAYLIST_FILE  "Playlist file"
+    IDS_AG_OTHER  "Other "
+    IDS_MEDIAFORMATS_34  "Media files (all types)|__dummy|"
+    IDS_MEDIAFORMATS_35  "All files (*.*)|__dummy|"
+    IDS_MEDIAFORMATS_36  "Audio files (all types)|__dummy|"
+    IDS_PIXELSHADERCOMPILER_0  "Cannot load D3DX9_xx.DLL, pixel shaders will not work."
+    IDS_PIXELSHADERCOMPILER_1  "Cannot find necessary function entry points in D3DX9_xx.DLL, pixel shaders will not work."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_NOT_KNOWN  "Not known"
+    IDS_MPLAYERC_0  "Quick Open File"
+    IDS_AG_OPEN_FILE  "Open File"
+    IDS_AG_OPEN_DVD  "Open DVD"
+    IDS_AG_OPEN_DEVICE  "Open Device"
+    IDS_AG_SAVE_AS  "Save As"
+    IDS_AG_SAVE_IMAGE  "Save Image"
+    IDS_MPLAYERC_6  "Save Image (auto)"
+    IDS_AG_LOAD_SUBTITLE  "Load Subtitle"
+    IDS_AG_SAVE_SUBTITLE  "Save Subtitle"
+    IDS_AG_PROPERTIES  "Properties"
+    IDS_AG_EXIT  "Exit"
+    IDS_AG_PLAYPAUSE  "Play/Pause"
+    IDS_AG_PLAY  "Play"
+    IDS_AG_STOP  "Stop"
+    IDS_AG_FRAMESTEP  "Framestep"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MPLAYERC_16  "Framestep back"
+    IDS_AG_GO_TO  "Go To"
+    IDS_AG_INCREASE_RATE  "Increase Rate"
+    IDS_AG_DECREASE_RATE  "Decrease Rate"
+    IDS_AG_RESET_RATE  "Reset Rate"
+    IDS_MPLAYERC_21  "Audio Delay +10ms"
+    IDS_MPLAYERC_22  "Audio Delay -10ms"
+    IDS_MPLAYERC_23  "Jump Forward (small)"
+    IDS_MPLAYERC_24  "Jump Backward (small)"
+    IDS_MPLAYERC_25  "Jump Forward (medium)"
+    IDS_MPLAYERC_26  "Jump Backward (medium)"
+    IDS_MPLAYERC_27  "Jump Forward (large)"
+    IDS_MPLAYERC_28  "Jump Backward (large)"
+    IDS_MPLAYERC_29  "Jump Forward (keyframe)"
+    IDS_MPLAYERC_30  "Jump Backward (keyframe)"
+    IDS_AG_NEXT  "Next"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_PREVIOUS  "Previous"
+    IDS_MPLAYERC_33  "Next Playlist Item"
+    IDS_MPLAYERC_34  "Previous Playlist Item"
+    IDS_AG_VIEW_MINIMAL  "View Minimal"
+    IDS_AG_VIEW_COMPACT  "View Compact"
+    IDS_AG_VIEW_NORMAL  "View Normal"
+    IDS_AG_FULLSCREEN  "Fullscreen"
+    IDS_MPLAYERC_39  "Fullscreen (w/o res.change)"
+    IDS_AG_ZOOM_AUTO_FIT  "Zoom Auto Fit"
+    IDS_AG_VIDFRM_HALF  "VidFrm Half"
+    IDS_AG_VIDFRM_NORMAL  "VidFrm Normal"
+    IDS_AG_VIDFRM_DOUBLE  "VidFrm Double"
+    IDS_AG_ALWAYS_ON_TOP  "Always On Top"
+    IDS_AG_PNS_INC_SIZE  "PnS Inc Size"
+    IDS_AG_PNS_INC_WIDTH  "PnS Inc Width"
+    IDS_MPLAYERC_47  "PnS Inc Height"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_PNS_DEC_SIZE  "PnS Dec Size"
+    IDS_AG_PNS_DEC_WIDTH  "PnS Dec Width"
+    IDS_MPLAYERC_50  "PnS Dec Height"
+    IDS_AG_PNS_CENTER  "PnS Center"
+    IDS_AG_PNS_LEFT  "PnS Left"
+    IDS_AG_PNS_RIGHT  "PnS Right"
+    IDS_AG_PNS_UP  "PnS Up"
+    IDS_AG_PNS_DOWN  "PnS Down"
+    IDS_AG_PNS_UPLEFT  "PnS Up/Left"
+    IDS_AG_PNS_UPRIGHT  "PnS Up/Right"
+    IDS_AG_PNS_DOWNLEFT  "PnS Down/Left"
+    IDS_MPLAYERC_59  "PnS Down/Right"
+    IDS_AG_VOLUME_UP  "Volume Up"
+    IDS_AG_VOLUME_DOWN  "Volume Down"
+    IDS_AG_VOLUME_MUTE  "Volume Mute"
+    IDS_MPLAYERC_63  "DVD Title Menu"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_DVD_ROOT_MENU  "DVD Root Menu"
+    IDS_MPLAYERC_65  "DVD Subtitle Menu"
+    IDS_MPLAYERC_66  "DVD Audio Menu"
+    IDS_MPLAYERC_67  "DVD Angle Menu"
+    IDS_MPLAYERC_68  "DVD Chapter Menu"
+    IDS_AG_DVD_MENU_LEFT  "DVD Menu Left"
+    IDS_MPLAYERC_70  "DVD Menu Right"
+    IDS_AG_DVD_MENU_UP  "DVD Menu Up"
+    IDS_AG_DVD_MENU_DOWN  "DVD Menu Down"
+    IDS_MPLAYERC_73  "DVD Menu Activate"
+    IDS_AG_DVD_MENU_BACK  "DVD Menu Back"
+    IDS_MPLAYERC_75  "DVD Menu Leave"
+    IDS_AG_BOSS_KEY  "Boss key"
+    IDS_MPLAYERC_77  "Player Menu (short)"
+    IDS_MPLAYERC_78  "Player Menu (long)"
+    IDS_AG_FILTERS_MENU  "Filters Menu"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_OPTIONS  "Options"
+    IDS_AG_NEXT_AUDIO  "Next Audio"
+    IDS_AG_PREV_AUDIO  "Prev Audio"
+    IDS_AG_NEXT_SUBTITLE  "Next Subtitle"
+    IDS_AG_PREV_SUBTITLE  "Prev Subtitle"
+    IDS_MPLAYERC_85  "On/Off Subtitle"
+    IDS_MPLAYERC_86  "Reload Subtitles"
+    IDS_MPLAYERC_87  "Next Audio (OGM)"
+    IDS_MPLAYERC_88  "Prev Audio (OGM)"
+    IDS_MPLAYERC_89  "Next Subtitle (OGM)"
+    IDS_MPLAYERC_90  "Prev Subtitle (OGM)"
+    IDS_MPLAYERC_91  "Next Angle (DVD)"
+    IDS_MPLAYERC_92  "Prev Angle (DVD)"
+    IDS_MPLAYERC_93  "Next Audio (DVD)"
+    IDS_MPLAYERC_94  "Prev Audio (DVD)"
+    IDS_MPLAYERC_95  "Next Subtitle (DVD)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MPLAYERC_96  "Prev Subtitle (DVD)"
+    IDS_MPLAYERC_97  "On/Off Subtitle (DVD)"
+    IDS_MPLAYERC_98  "Remaining Time"
+    IDS_MPLAYERC_99  "Toggle Direct3S fullscreen"
+    IDS_MPLAYERC_100  "Goto Prev Subtitle"
+    IDS_MPLAYERC_101  "Goto Next Subtitle"
+    IDS_MPLAYERC_102  "Shift Subtitle Left"
+    IDS_MPLAYERC_103  "Shift Subtitle Right"
+    IDS_AG_DISPLAY_STATS  "Display Stats"
+    IDS_CONVERTDLG_0  "Media files|*.*||"
+    IDS_CONVERTDLG_2  "Failed to start conversion"
+    IDS_CONVERTDLG_3  "Reconnection attempt failed!"
+    IDS_CONVERTDLG_4  "All files|*.*||"
+    IDS_CONVERTDLG_5  "Cannot open file!"
+    IDS_CONVERTDLG_7  "Could not complete conversion, the output file is most likely unusable.\n\nError code: 0x%08x"
+    IDS_CONVERTDLG_8  "DirectShow Media file|*.dsm|All files|*.*|"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_PLEASE_WAIT  "Please Wait"
+    IDS_AG_CONVERTING  "Converting - "
+    IDS_AG_RESOURCES  "Resources"
+    IDS_CONVERTDLG_13  "%d file(s), %.2f KB"
+    IDS_CONVERTDLG_14  "%d file(s), %.2f MB"
+    IDS_AG_CHAPTERS  "Chapters"
+    IDS_AG_SHADER_EDITOR  "Shader Editor"
+    IDS_PPAGEWEBSERVER_0  "Select the directory"
+    IDS_FGMANAGER_0  "MPEG-1 Video Decoder"
+    IDS_FGMANAGER_1  "MPEG-2 Video Decoder"
+    IDS_FGMANAGER_2  "MPEG-1 Audio Decoder"
+    IDS_FGMANAGER_3  "MPEG-2 Audio Decoder"
+    IDS_FGMANAGER_4  "LPCM Audio Decoder"
+    IDS_FGMANAGER_5  "AC3 Audio Decoder"
+    IDS_AG_DTS_DECODER  "DTS Decoder"
+    IDS_AG_AAC_DECODER  "AAC Decoder"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_FGMANAGER_8  "PS2 Audio Decoder"
+    IDS_FGMANAGER_9  "RealVideo Decoder"
+    IDS_FGMANAGER_10  "RealAudio Decoder"
+    IDS_FGMANAGER_11  "Vorbis Audio Decoder"
+    IDS_FGMANAGER_12  "RoQ Video Decoder"
+    IDS_FGMANAGER_13  "RoQ Audio Decoder"
+    IDS_FGMANAGER_14  "Dirac Video Decoder"
+    IDS_FGMANAGER_15  "FLV Video Decoder"
+    IDS_FGMANAGER_16  "VP62 Video Decoder"
+    IDS_MAINFRM_2  "Focus lost to: %s - %s"
+    IDS_AG_SUBTITLES_SAVED  "Subtitles saved"
+    IDS_MAINFRM_4  "Cannot save subtitles"
+    IDS_AG_FRAMERATE  "Frame-rate"
+    IDS_MAINFRM_6  "drawn: %d, dropped: %d"
+    IDS_AG_FRAMES  "Frames"
+    IDS_AG_BUFFERS  "Buffers"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_9  "Volume: %02d/%02d, Title: %02d/%02d, Chapter: %02d/%02d"
+    IDS_MAINFRM_10  "Angle: %02d/%02d, %dx%d %dHz %d:%d"
+    IDS_MAINFRM_11  "%s, %s %dHz %dbits %d channel(s)"
+    IDS_AG_TITLE  "Title %d"
+    IDS_MAINFRM_16  "DVD: Unexpected error"
+    IDS_MAINFRM_17  "DVD: Copy-Protect Fail"
+    IDS_MAINFRM_18  "DVD: Invalid DVD 1.x Disc"
+    IDS_MAINFRM_19  "DVD: Invalid Disc Region"
+    IDS_MAINFRM_20  "DVD: Low Parental Level"
+    IDS_MAINFRM_21  "DVD: Macrovision Fail"
+    IDS_MAINFRM_22  "DVD: Incompatible System And Decoder Regions"
+    IDS_MAINFRM_23  "DVD: Incompatible Disc And Decoder Regions"
+    IDS_AG_NAVIGATE  "Navigate"
+    IDS_AG_OPEN_DISC  "Open Disc"
+    IDS_AG_FILTERS  "Filters"
+    IDS_AG_SUBTITLES  "Subtitles"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_28  "Audio Language"
+    IDS_MAINFRM_29  "Subtitle Language"
+    IDS_AG_VIDEO_ANGLE  "Video Angle"
+    IDS_AG_JUMP_TO  "Jump To..."
+    IDS_AG_FAVORITES  "Favorites"
+    IDS_AG_SHADERS  "Shaders"
+    IDS_AG_VIDEO_FRAME  "Video Frame"
+    IDS_AG_PANSCAN  "PanScan"
+    IDS_AG_ASPECT_RATIO  "Aspect Ratio"
+    IDS_MAINFRM_37  ", Total: %d, Dropped: %d"
+    IDS_MAINFRM_38  ", Size: %I64dKB"
+    IDS_MAINFRM_39  ", Size: %I64dMB"
+    IDS_MAINFRM_40  ", Free: %I64dKB"
+    IDS_MAINFRM_41  ", Free: %I64dMB"
+    IDS_MAINFRM_42  ", Free V/A Buffers: %03d/%03d"
+    IDS_AG_ERROR  "Error"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_44  "Subtitle : off"
+    IDS_MAINFRM_45  "Subtitle : %s %s"
+    IDS_MAINFRM_46  "Select the path for the DVD:"
+    IDS_MAINFRM_47  " loaded successfully"
+    IDS_MAINFRM_48  "All files (*.*)|*.*||"
+    IDS_MAINFRM_49  "GetDIB failed, hr = %08x"
+    IDS_MAINFRM_51  "GetCurrentImage failed, hr = %08x"
+    IDS_MAINFRM_53  "Cannot create file"
+    IDS_MAINFRM_54  "Cannot create thumbnails for files with no duration"
+    IDS_MAINFRM_55  "Failed to get video frame size"
+    IDS_MAINFRM_56  "Out of memory, go buy some more!"
+    IDS_MAINFRM_57  "Invalid image format, cannot create thumbnails out of %d bpp dibs."
+    IDS_MAINFRM_58  "File Size: %I64d%s (%I64d bytes)\\N"
+    IDS_MAINFRM_59  "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}File Name: %s\\N%sResolution: %dx%d %s\\NDuration: %02d:%02d:%02d"
+    IDS_MAINFRM_60  "To load subtitles you have change the video renderer type and reopen the file.\n"
+    IDS_MAINFRM_61  "- DirectShow: VMR7/VMR9 renderless or Haali's\n"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_62  "- RealMedia: Special renderer for RealMedia, or open it through DirectShow\n"
+    IDS_MAINFRM_63  "- Quicktime: DX7 or DX9 renderer for QuickTime\n"
+    IDS_MAINFRM_64  "- ShockWave: n/a\n"
+    IDS_MAINFRM_65  "Pixel Shader on"
+    IDS_MAINFRM_66  "Pixel Shader off"
+    IDS_MAINFRM_67  "D3D Fullscreen on"
+    IDS_MAINFRM_68  "Aspect Ratio: %d:%d"
+    IDS_MAINFRM_69  "Aspect Ratio: Default"
+    IDS_MAINFRM_70  "Audio Delay: %I64dms"
+    IDS_AG_CHAPTER  "Chapter %d"
+    IDS_MAINFRM_73  "Could not load shader: "
+    IDS_AG_SHADER  "Shader: "
+    IDS_AG_OUT_OF_MEMORY  "Out of memory"
+    IDS_MAINFRM_77  "Can't create shockwave control"
+    IDS_MAINFRM_78  "Quick time not yet supported for X64 (apple library not available)"
+    IDS_MAINFRM_80  "Failed to create the filter graph object"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_81  "Invalid argument"
+    IDS_MAINFRM_82  "Opening aborted"
+    IDS_MAINFRM_83  "Failed to render the file"
+    IDS_MAINFRM_84  "Invalid file name"
+    IDS_MAINFRM_86  "Cannot connect the filters"
+    IDS_MAINFRM_87  "Cannot load any source filter"
+    IDS_MAINFRM_88  "Cannot render the file"
+    IDS_MAINFRM_89  "Invalid file format"
+    IDS_MAINFRM_90  "File not found"
+    IDS_MAINFRM_91  "Unknown file type"
+    IDS_MAINFRM_92  "Unsupported stream"
+    IDS_MAINFRM_93  "Cannot find DVD directory"
+    IDS_MAINFRM_94  "Can't create the DVD Navigator filter"
+    IDS_AG_FAILED  "Failed"
+    IDS_MAINFRM_96  "Can't create video capture filter"
+    IDS_MAINFRM_98  "No capture filters"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAINFRM_99  "Can't create capture graph builder object"
+    IDS_MAINFRM_100  "Warning: No IAMStreamConfig interface for vidcap capture"
+    IDS_MAINFRM_102  "Warning: No IAMStreamConfig interface for vidcap"
+    IDS_MAINFRM_105  "Warning: No IAMCrossbar interface was found\n"
+    IDS_MAINFRM_106  "Warning: No IAMTVTuner interface was found\n"
+    IDS_MAINFRM_108  "Couldn't open any device"
+    IDS_AG_SOUND  "Sound"
+    IDS_MAINFRM_114  "%s was not found, please insert media containing this file."
+    IDS_AG_ABORTED  "Aborted"
+    IDS_MAINFRM_116  "&Properties..."
+    IDS_MAINFRM_117  " (pin) properties..."
+    IDS_AG_UNKNOWN_STREAM  "Unknown Stream"
+    IDS_AG_UNKNOWN  "Unknown %d"
+    IDS_MAINFRM_121  " (Director Comments 1)"
+    IDS_MAINFRM_122  " (Director Comments 2)"
+    IDS_AG_ENABLED  "Enabled"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AG_ANGLE  "Angle %d"
+    IDS_AG_DISABLED  "Disabled"
+    IDS_MAINFRM_132  "Warning (CMainFrame::SeekTo): Trying to seek in capture mode"
+    IDS_AG_REMOVING  "Removing: "
+    IDS_MAINFRM_134  "WARNING: CMainFrame::CloseMedia() called twice or more\n"
+    IDS_MAINFRM_135  "CRITICAL ERROR: !!! Must kill opener thread !!!"
+    IDS_MAINFRM_136  "MPC D3D FullScreen"
+    IDS_MAINFRM_137  "Unknown format"
+    IDS_MAINFRM_138  "Sub shift : %ld"
+	IDS_RS_LANGUAGE  "InterfaceLanguage"
 END
 
 #endif    // English (U.S.) resources

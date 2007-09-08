@@ -345,7 +345,7 @@ void CConvertDlg::ShowPopup(CPoint p)
 		{
 			CFileDialog fd(TRUE, NULL, m_fn, 
 				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_NOVALIDATE, 
-				_T("Media files|*.*||"), this, 0);
+				ResStr(IDS_CONVERTDLG_0), this, 0);
 			if(fd.DoModal() == IDOK) AddFile(fd.GetPathName());
 		}
 		break;
@@ -447,12 +447,12 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 
 			CFileDialog fd(FALSE, NULL, (LPCTSTR)path, 
 				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY, 
-				_T("Media files|*.*||"), this, 0);
+				ResStr(IDS_CONVERTDLG_0), this, 0);
 			if(fd.DoModal() == IDOK)
 			{
 				if(!ConvertFile(fd.GetPathName(), pPinTo))
 				{
-					AfxMessageBox(_T("Failed to start conversion"));
+					AfxMessageBox(ResStr(IDS_CONVERTDLG_2));
 				}
 			}
 		}
@@ -469,7 +469,7 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			HRESULT hr = m_pGB->ConnectDirect(t->m_pPin, pPinTo, &mts[i]);
 			if(FAILED(hr))
 			{
-				AfxMessageBox(_T("Reconnection attempt failed!"));
+				AfxMessageBox(ResStr(IDS_CONVERTDLG_3));
 				if(mt.majortype != GUID_NULL) 
 					hr = m_pGB->ConnectDirect(t->m_pPin, pPinTo, &mt);
 			}
@@ -501,7 +501,7 @@ void CConvertDlg::ShowResourceFolderPopup(HTREEITEM hTI, CPoint p)
 		{
 			CFileDialog fd(TRUE, NULL, NULL, 
 				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY, 
-				_T("All files|*.*||"), this, 0);
+				ResStr(IDS_CONVERTDLG_4), this, 0);
 			if(fd.DoModal() == IDOK) 
 			{
 				CString fn = fd.GetPathName();
@@ -541,7 +541,7 @@ void CConvertDlg::ShowResourceFolderPopup(HTREEITEM hTI, CPoint p)
 				}
 				else
 				{
-					AfxMessageBox(_T("Cannot open file!"));
+					AfxMessageBox(ResStr(IDS_CONVERTDLG_5));
 				}
 			}
 		}
@@ -576,7 +576,7 @@ void CConvertDlg::ShowResourcePopup(HTREEITEM hTI, CPoint p)
 		{
 			CFileDialog fd(FALSE, NULL, CString(t->m_res.name), 
 				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
-				_T("All files|*.*||"), this, 0);
+				ResStr(IDS_CONVERTDLG_4), this, 0);
 			if(fd.DoModal() == IDOK)
 			{
 				if(FILE* f = _tfopen(fd.GetPathName(), _T("wb")))
@@ -857,7 +857,7 @@ LRESULT CConvertDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			}
 
 			CString str;
-			str.Format(_T("Could not complete conversion, the output file is most likely unusable.\n\nError code: 0x%08x"), evParam1);
+			str.Format(ResStr(IDS_CONVERTDLG_7), evParam1);
 			if(!errmsg.IsEmpty()) str += _T(" (") + errmsg + _T(")");
 			AfxMessageBox(str, MB_OK);
 		}
@@ -979,7 +979,7 @@ void CConvertDlg::OnBnClickedButton1()
 
 	CFileDialog fd(FALSE, _T(".dsm"), m_fn, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, 
-		_T("DirectShow Media file|*.dsm|All files|*.*|"), this, 0);
+		ResStr(IDS_CONVERTDLG_8), this, 0);
 
 	if(fd.DoModal() == IDOK)
 	{
@@ -1013,9 +1013,9 @@ void CConvertDlg::OnTimer(UINT_PTR nIDEvent)
 			else if(hr == S_OK && rtDur == 0) str = _T("Live");
 			else if(tf == TIME_FORMAT_BYTE) str.Format(_T("%.2fKB"), 1.0 * rtCur / 1024);
 			else if(tf == TIME_FORMAT_MEDIA_TIME) str.Format(_T("%02d:%02d:%02d"), int(rtCur/3600000000)%60, int(rtCur/60000000)%60, int(rtCur/1000000)%60);
-			else str = _T("Please Wait");
+			else str = ResStr(IDS_AG_PLEASE_WAIT);
 		
-			SetWindowText(_T("Converting - ") + str);
+			SetWindowText(ResStr(IDS_AG_CONVERTING) + str);
 		}
 		else
 		{
@@ -1042,7 +1042,7 @@ void CConvertDlg::OnBnClickedButton2()
 
 	if(!ConvertFile(m_fn))
 	{
-		AfxMessageBox(_T("Failed to start conversion"));
+		AfxMessageBox(ResStr(IDS_CONVERTDLG_2));
 	}
 }
 
@@ -1263,7 +1263,7 @@ CConvertDlg::CTreeItemResourceFolder::CTreeItemResourceFolder(CTreeCtrl& tree, H
 
 void CConvertDlg::CTreeItemResourceFolder::Update()
 {
-	SetLabel(_T("Resources"));
+	SetLabel(ResStr(IDS_AG_RESOURCES));
 }
 
 bool CConvertDlg::CTreeItemResourceFolder::ToolTip(CString& str)
@@ -1285,8 +1285,8 @@ bool CConvertDlg::CTreeItemResourceFolder::ToolTip(CString& str)
 	}
 
 	size /= 1024;
-	if(size < 1024) str.Format(_T("%d file(s), %.2f KB"), files, size);
-	else str.Format(_T("%d file(s), %.2f MB"), files, size/1024);
+	if(size < 1024) str.Format(ResStr(IDS_CONVERTDLG_13), files, size);
+	else str.Format(ResStr(IDS_CONVERTDLG_14), files, size/1024);
 
 	return true;
 }
@@ -1334,7 +1334,7 @@ CConvertDlg::CTreeItemChapterFolder::CTreeItemChapterFolder(CTreeCtrl& tree, HTR
 
 void CConvertDlg::CTreeItemChapterFolder::Update()
 {
-	SetLabel(_T("Chapters"));
+	SetLabel(ResStr(IDS_AG_CHAPTERS));
 }
 
 //

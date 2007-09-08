@@ -187,7 +187,7 @@ bool CPPageWebServer::PickDir(CString& dir)
 	bi.hwndOwner = m_hWnd;
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = buff;
-	bi.lpszTitle = _T("Select the directory");
+	bi.lpszTitle = ResStr(IDS_PPAGEWEBSERVER_0);
 	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI;
 	bi.lpfn = BrowseCtrlCallback;
 	bi.lParam = (LPARAM)(LPCTSTR)dir;

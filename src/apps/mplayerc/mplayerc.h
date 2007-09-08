@@ -367,7 +367,7 @@ public:
 	LONGLONG					GetPerfCounter();
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
 	HINSTANCE					GetD3X9Dll();
-
+	static void					SetLanguage (int nLanguage);
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -558,6 +558,7 @@ public:
 		bool			fRememberFilePos;
 		bool			fShowOSD;
 		int				iEvrBuffers;
+		int				iLanguage;
 
 
 		bool			IsD3DFullscreen();
@@ -574,6 +575,8 @@ public:
 		int				nCurrentDvdPosition;
 		FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 		int				nCurrentFilePosition;
+
+		void			CreateCommands();
 
 	public:
 		Settings();

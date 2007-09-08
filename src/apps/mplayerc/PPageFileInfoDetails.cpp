@@ -40,11 +40,11 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISub
 	, m_pFG(pFG)
 	, m_pCAP(pCAP)
 	, m_hIcon(NULL)
-	, m_type(_T("Not known"))
-	, m_size(_T("Not known"))
-	, m_time(_T("Not known"))
-	, m_res(_T("Not known"))
-	, m_created(_T("Not known"))
+	, m_type(ResStr(IDS_AG_NOT_KNOWN))
+	, m_size(ResStr(IDS_AG_NOT_KNOWN))
+	, m_time(ResStr(IDS_AG_NOT_KNOWN))
+	, m_res(ResStr(IDS_AG_NOT_KNOWN))
+	, m_created(ResStr(IDS_AG_NOT_KNOWN))
 {
 }
 
@@ -123,7 +123,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 		m_icon.SetIcon(m_hIcon);
 
 	if(!LoadType(ext, m_type))
-		m_type = _T("Not known");
+		m_type = ResStr(IDS_AG_NOT_KNOWN);
 
 	CComVariant vt;
 	if(::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt))

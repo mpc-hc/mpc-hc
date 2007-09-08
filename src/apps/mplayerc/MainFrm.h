@@ -691,6 +691,9 @@ public:
 
 	afx_msg void OnClose();
 
+	afx_msg void OnLanguage(UINT nID);
+	afx_msg void OnUpdateLanguage(CCmdUI* pCmdUI);
+
 
 	CMPC_Lcd			m_Lcd;
 

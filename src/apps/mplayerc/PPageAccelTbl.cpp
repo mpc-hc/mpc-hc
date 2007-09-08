@@ -95,7 +95,7 @@ CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
 	if(fVirt&FCONTROL) {if(!str.IsEmpty()) str += _T(" + "); str += _T("Ctrl");}
 	if(fVirt&FALT) {if(!str.IsEmpty()) str += _T(" + "); str += _T("Alt");}
 	if(fVirt&FSHIFT) {if(!str.IsEmpty()) str += _T(" + "); str += _T("Shift");}
-	if(str.IsEmpty()) str = _T("None");
+	if(str.IsEmpty()) str = ResStr(IDS_AG_NONE);
 	return(str);
 }
 
@@ -484,7 +484,7 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
 	CString ret;
 	switch(mouse)
 	{
-	case wmcmd::NONE: default: ret = _T("None"); break;
+	case wmcmd::NONE: default: ret = ResStr(IDS_AG_NONE); break;
 	case wmcmd::LDOWN: ret = _T("Left Down"); break;
 	case wmcmd::LUP: ret = _T("Left Up"); break;
 	case wmcmd::LDBLCLK: ret = _T("Left DblClk"); break;
@@ -623,13 +623,13 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER);
 
 	for(int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) m_list.DeleteColumn(0);
-	m_list.InsertColumn(COL_CMD, _T("Command"), LVCFMT_LEFT, 80);
+	m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_MOD, _T("Modifier"), LVCFMT_LEFT, 40);
-	m_list.InsertColumn(COL_KEY, _T("Key"), LVCFMT_LEFT, 40);
-	m_list.InsertColumn(COL_TYPE, _T("Type"), LVCFMT_LEFT, 40);
+	m_list.InsertColumn(COL_KEY, ResStr(IDS_AG_KEY), LVCFMT_LEFT, 40);
+	m_list.InsertColumn(COL_TYPE, ResStr(IDS_AG_TYPE), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
-	m_list.InsertColumn(COL_MOUSE, _T("Mouse"), LVCFMT_LEFT, 80);
-	m_list.InsertColumn(COL_APPCMD, _T("App Command"), LVCFMT_LEFT, 120);
+	m_list.InsertColumn(COL_MOUSE, ResStr(IDS_AG_MOUSE), LVCFMT_LEFT, 80);
+	m_list.InsertColumn(COL_APPCMD, ResStr(IDS_AG_APP_COMMAND), LVCFMT_LEFT, 120);
 	m_list.InsertColumn(COL_RMCMD, _T("RemoteCmd"), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_RMREPCNT, _T("RepCnt"), LVCFMT_CENTER, 60);
 
@@ -960,4 +960,5 @@ BOOL CPPageAccelTbl::OnKillActive()
 
 	return CPPageBase::OnKillActive();
 }
+
 

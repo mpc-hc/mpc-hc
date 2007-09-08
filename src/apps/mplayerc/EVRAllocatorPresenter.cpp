@@ -187,9 +187,10 @@ class CEVRAllocatorPresenter :
 
 	public IMFAsyncCallback,
 	public IQualProp,
-	public IMFRateSupport,				// Non mandatory EVR Presenter Interfaces (see later...)
-	public IMFVideoDisplayControl 
-/*	public IMFVideoPositionMapper,
+	public IMFRateSupport,				
+	public IMFVideoDisplayControl,
+	public IEVRTrustedVideoPlugin
+/*	public IMFVideoPositionMapper,		// Non mandatory EVR Presenter Interfaces (see later...)
 	public IEVRTrustedVideoPlugin,
 */
 {
@@ -267,6 +268,12 @@ public:
     STDMETHODIMP GetRenderingPrefs(DWORD *pdwRenderFlags);
     STDMETHODIMP SetFullscreen(BOOL fFullscreen);
     STDMETHODIMP GetFullscreen(BOOL *pfFullscreen);
+
+	// IEVRTrustedVideoPlugin
+    STDMETHODIMP IsInTrustedVideoMode(BOOL *pYes);
+    STDMETHODIMP CanConstrict(BOOL *pYes);
+    STDMETHODIMP SetConstriction(DWORD dwKPix);
+    STDMETHODIMP DisableImageExport(BOOL bDisable);
 
 	// IDirect3DDeviceManager9
 	STDMETHODIMP	ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);        
@@ -572,6 +579,8 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 		hr = GetInterface((IMFAsyncCallback*)this, ppv);
 	else if(riid == __uuidof(IMFVideoDisplayControl))
 		hr = GetInterface((IMFVideoDisplayControl*)this, ppv);
+	else if(riid == __uuidof(IEVRTrustedVideoPlugin))
+		hr = GetInterface((IEVRTrustedVideoPlugin*)this, ppv);
 	else if(riid == IID_IQualProp)
 		hr = GetInterface((IQualProp*)this, ppv);
 	else if(riid == __uuidof(IMFRateSupport))
@@ -1261,6 +1270,29 @@ STDMETHODIMP CEVRAllocatorPresenter::GetFullscreen(BOOL *pfFullscreen)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
+}
+
+
+// IEVRTrustedVideoPlugin
+STDMETHODIMP CEVRAllocatorPresenter::IsInTrustedVideoMode(BOOL *pYes)
+{
+	CheckPointer(pYes, E_POINTER);
+	*pYes = TRUE;
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::CanConstrict(BOOL *pYes)
+{
+	CheckPointer(pYes, E_POINTER);
+	*pYes = TRUE;
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::SetConstriction(DWORD dwKPix)
+{
+	return S_OK;
+}
+STDMETHODIMP CEVRAllocatorPresenter::DisableImageExport(BOOL bDisable)
+{
+	return S_OK;
 }
 
 
