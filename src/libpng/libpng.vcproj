@@ -319,10 +319,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pngvcrd.c"
-				>
-			</File>
-			<File
 				RelativePath=".\pngwio.c"
 				>
 			</File>

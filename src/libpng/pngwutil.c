@@ -1,7 +1,7 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * Last changed in libpng 1.2.19 August 18, 2007
+ * Last changed in libpng 1.2.19 August 19, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -1726,6 +1726,7 @@ png_write_tIME(png_structp png_ptr, png_timep mod_time)
 void /* PRIVATE */
 png_write_start_row(png_structp png_ptr)
 {
+#ifdef PNG_WRITE_INTERLACING_SUPPORTED
 #ifdef PNG_USE_LOCAL_ARRAYS
    /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
@@ -1740,6 +1741,7 @@ png_write_start_row(png_structp png_ptr)
 
    /* offset to next interlace block in the y direction */
    int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
+#endif
 #endif
 
    png_size_t buf_size;
@@ -1822,6 +1824,7 @@ png_write_start_row(png_structp png_ptr)
 void /* PRIVATE */
 png_write_finish_row(png_structp png_ptr)
 {
+#ifdef PNG_WRITE_INTERLACING_SUPPORTED
 #ifdef PNG_USE_LOCAL_ARRAYS
    /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
@@ -1836,6 +1839,7 @@ png_write_finish_row(png_structp png_ptr)
 
    /* offset to next interlace block in the y direction */
    int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
+#endif
 #endif
 
    int ret;
@@ -2110,7 +2114,9 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
 void /* PRIVATE */
 png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
 {
-   png_bytep prev_row, best_row, row_buf;
+   png_bytep best_row;
+#ifndef PNG_NO_WRITE_FILTER
+   png_bytep prev_row, row_buf;
    png_uint_32 mins, bpp;
    png_byte filter_to_do = png_ptr->do_filter;
    png_uint_32 row_bytes = row_info->rowbytes;
@@ -2123,8 +2129,10 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
    bpp = (row_info->pixel_depth + 7) >> 3;
 
    prev_row = png_ptr->prev_row;
-   best_row = row_buf = png_ptr->row_buf;
+#endif
+   best_row = png_ptr->row_buf;
 #ifndef PNG_NO_WRITE_FILTER
+   row_buf = best_row;
    mins = PNG_MAXSUM;
 
    /* The prediction method we use is to find which method provides the
@@ -2704,6 +2712,7 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
 
    png_write_filtered_row(png_ptr, best_row);
 
+#ifndef PNG_NO_WRITE_FILTER
 #if defined(PNG_WRITE_WEIGHTED_FILTER_SUPPORTED)
    /* Save the type of filter we picked this time for future calculations */
    if (png_ptr->num_prev_filters > 0)
@@ -2716,6 +2725,7 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
       png_ptr->prev_filters[j] = best_row[0];
    }
 #endif
+#endif /* PNG_NO_WRITE_FILTER */
 }
 
 

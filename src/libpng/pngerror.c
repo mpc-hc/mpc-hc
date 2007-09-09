@@ -1,7 +1,7 @@
 
 /* pngerror.c - stub functions for i/o and memory allocation
  *
- * Last changed in libpng 1.2.19 August 18, 2007
+ * Last changed in libpng 1.2.20 September 8, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -31,6 +31,7 @@ png_default_warning PNGARG((png_structp png_ptr,
  * you should supply a replacement error function and use png_set_error_fn()
  * to replace the error function at run-time.
  */
+#ifndef PNG_NO_ERROR_TEXT
 void PNGAPI
 png_error(png_structp png_ptr, png_const_charp error_message)
 {
@@ -77,6 +78,18 @@ png_error(png_structp png_ptr, png_const_charp error_message)
       use the default handler, which will not return. */
    png_default_error(png_ptr, error_message);
 }
+#else
+void PNGAPI
+png_err(png_structp png_ptr)
+{
+   if (png_ptr != NULL && png_ptr->error_fn != NULL)
+      (*(png_ptr->error_fn))(png_ptr, '\0');
+
+   /* If the custom handler doesn't exist, or if it returns,
+      use the default handler, which will not return. */
+   png_default_error(png_ptr, '\0');
+}
+#endif /* PNG_NO_ERROR_TEXT */
 
 #ifndef PNG_NO_WARNINGS
 /* This function is called whenever there is a non-fatal error.  This function
@@ -123,6 +136,7 @@ static PNG_CONST char png_digit[16] = {
    'A', 'B', 'C', 'D', 'E', 'F'
 };
 
+#if !defined(PNG_NO_WARNINGS) || !defined(PNG_NO_ERROR_TEXT)
 static void /* PRIVATE */
 png_format_buffer(png_structp png_ptr, png_charp buffer, png_const_charp
    error_message)
@@ -169,6 +183,8 @@ png_chunk_error(png_structp png_ptr, png_const_charp error_message)
      png_error(png_ptr, msg);
    }
 }
+#endif /* PNG_READ_SUPPORTED */
+#endif /* !defined(PNG_NO_WARNINGS) || !defined(PNG_NO_ERROR_TEXT) */
 
 #ifndef PNG_NO_WARNINGS
 void PNGAPI
@@ -185,7 +201,6 @@ png_chunk_warning(png_structp png_ptr, png_const_charp warning_message)
 }
 #endif /* PNG_NO_WARNINGS */
 
-#endif /* PNG_READ_SUPPORTED */
 
 /* This is the default error handling function.  Note that replacements for
  * this function MUST NOT RETURN, or the program will likely crash.  This

@@ -1202,51 +1202,13 @@ png_set_invalid(png_structp png_ptr, png_infop info_ptr, int mask)
 
 #ifndef PNG_1_0_X
 #ifdef PNG_ASSEMBLER_CODE_SUPPORTED
-/* this function was added to libpng 1.2.0 and should always exist by default */
+/* function was added to libpng 1.2.0 and should always exist by default */
 void PNGAPI
 png_set_asm_flags (png_structp png_ptr, png_uint_32 asm_flags)
 {
-#ifdef PNG_MMX_CODE_SUPPORTED
-    png_uint_32 settable_asm_flags;
-    png_uint_32 settable_mmx_flags;
-#endif
-    if (png_ptr == NULL)
-       return;
-#ifdef PNG_MMX_CODE_SUPPORTED
-
-    settable_mmx_flags =
-#ifdef PNG_HAVE_MMX_COMBINE_ROW
-                         PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  |
-#endif
-#ifdef PNG_HAVE_MMX_READ_INTERLACE
-                         PNG_ASM_FLAG_MMX_READ_INTERLACE    |
-#endif
-#ifdef PNG_HAVE_MMX_READ_FILTER_ROW
-                         PNG_ASM_FLAG_MMX_READ_FILTER_SUB   |
-                         PNG_ASM_FLAG_MMX_READ_FILTER_UP    |
-                         PNG_ASM_FLAG_MMX_READ_FILTER_AVG   |
-                         PNG_ASM_FLAG_MMX_READ_FILTER_PAETH |
-#endif
-                         0;
-
-    /* could be some non-MMX ones in the future, but not currently: */
-    settable_asm_flags = settable_mmx_flags;
-
-    if (!(png_ptr->asm_flags & PNG_ASM_FLAG_MMX_SUPPORT_COMPILED) ||
-        !(png_ptr->asm_flags & PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU))
-    {
-        /* clear all MMX flags if MMX isn't supported */
-        settable_asm_flags &= ~settable_mmx_flags;
-        png_ptr->asm_flags &= ~settable_mmx_flags;
-    }
-
-    /* we're replacing the settable bits with those passed in by the user,
-     * so first zero them out of the master copy, then bitwise-OR in the
-     * allowed subset that was requested */
-
-    png_ptr->asm_flags &= ~settable_asm_flags;               /* zero them */
-    png_ptr->asm_flags |= (asm_flags & settable_asm_flags);  /* set them */
-#endif /* ?PNG_MMX_CODE_SUPPORTED */
+/* Obsolete as of libpng-1.2.20 and will be removed from libpng-1.4.0 */
+    if (png_ptr != NULL)
+    png_ptr->asm_flags = 0;
 }
 
 /* this function was added to libpng 1.2.0 */
@@ -1255,12 +1217,9 @@ png_set_mmx_thresholds (png_structp png_ptr,
                         png_byte mmx_bitdepth_threshold,
                         png_uint_32 mmx_rowbytes_threshold)
 {
+/* Obsolete as of libpng-1.2.20 and will be removed from libpng-1.4.0 */
     if (png_ptr == NULL)
        return;
-#ifdef PNG_MMX_CODE_SUPPORTED
-    png_ptr->mmx_bitdepth_threshold = mmx_bitdepth_threshold;
-    png_ptr->mmx_rowbytes_threshold = mmx_rowbytes_threshold;
-#endif /* ?PNG_MMX_CODE_SUPPORTED */
 }
 #endif /* ?PNG_ASSEMBLER_CODE_SUPPORTED */
 
