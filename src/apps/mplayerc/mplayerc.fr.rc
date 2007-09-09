@@ -262,14 +262,14 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Emplacement du lecteur DVD ou du dossier ""VIDEO_TS""",IDC_STATIC,5,7,235,66
-    CONTROL         "Par défaut",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,21,39,10
+    CONTROL         "Par défaut",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,21,55,10
     CONTROL         "Personnalisé :",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,35,76,10
     EDITTEXT        IDC_DVDPATH,29,50,180,14,ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "...",IDC_BUTTON1,215,50,15,14
     GROUPBOX        "Langue préférée pour le navigateur DVD et le découpage OGM",IDC_STATIC,5,77,235,73
     CONTROL         "Menu",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,95,33,10
     CONTROL         "Audio",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,111,34,10
-    CONTROL         "Sous-titres",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,127,43,10
+    CONTROL         "Sous-titres",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,127,50,10
     LISTBOX         IDC_LIST1,74,90,156,53,WS_VSCROLL | WS_GROUP | WS_TABSTOP
     GROUPBOX        "Canaux audio",IDC_STATIC,5,155,235,32
     CONTROL         "Auto-configuration du nombre de haut-parleurs pour ivideo ac3",IDC_CHECK1,
@@ -306,7 +306,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,153,166,10
     CONTROL         "Indiquer les points ayant échoués lors du rendu",IDC_CHECK6,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,167,116,10
-    CONTROL         "Charger les fichiers audio",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,153,96,10
+    CONTROL         "Charger les fichiers audio",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,153,94,10
     CONTROL         "Charger les sous-titres",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,167,86,10
 END
 
@@ -750,7 +750,7 @@ BEGIN
     COMBOBOX        IDC_DX_SURFACE,151,64,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Surfaces:",IDC_STATIC,111,66,28,8
     CONTROL         "Direct3D Plein écran (réduction du ""Tearing"")",IDC_FULLSCREEN_MONITOR_CHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,133,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,161,10
     COMBOBOX        IDC_EVR_BUFFERS,241,127,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "EVR Tampons:",IDC_STATIC,191,130,42,8
 END
@@ -2880,12 +2880,12 @@ BEGIN
     IDS_MAINFRM_136         "MPC D3D FullScreen"
     IDS_MAINFRM_137         "Unknown format"
     IDS_MAINFRM_138         "Décalage des sous-titres : %ld"
-	IDS_VOLUME_BOOST_INC	"Augmenter le gain du volume"
-	IDS_VOLUME_BOOST_DEC	"Diminuer le gain du volume"
-	IDS_VOLUME_BOOST_MIN	"Gain du volume Min"
-	IDS_VOLUME_BOOST_MAX	"Gain du volume Max"
-	IDS_USAGE				"Utilisation: mplayer.exe ""nom du fichier"" [options]\n\n""nom du fichier""\tFichier principal ou répertoire à charger (jockers autorisés)\n/dub ""fichier audio""\tCharge un fichier audio supplémentaire\n/d3dfs\t\tLance le rendu en mode D3D plein écran (réduit le tearing)\n/sub ""fichier ST""\tCharge un fichier de sous-titres\n/filter ""nom""\tCharge un filtre DirectShow à partir d'une DLL (jockers autorisés)\n/dvd\t\tDémarre en mode DVD (possibilité de fournir le nom du répertoire)\n/cd\t\tCharge toutes les pistes d'un CD audio ou d'un (S)Vcd\n/open\t\tOuvrir un fichier en pause\n/play\t\tOuvrir un fichier et commencer la lecture\n/close\t\tQuitte automatiquement après la lecture\n/shutdown\tEteindre la machine après la lecture\n/fullscreen\tDémarrer en plein écran\n/minimized\tDémarrer en mode minimisé\n/new\t\tLance une nouvelle instance de MPC\n/add\t\tAjoute un fichier à la playlist\n/regvid\t\tAssocie les formats vidéo à MPC\n/regaud\t\tAssocie les formats audio à MPC\n/unregvid\t\tSupprime l'association des formats vidéo à MPC\n/unregaud\tSupprime l'association des formats audio à MPC\n/start ms\t\tDémarre la lecture à ""ms"" (millisecondes)\n/fixedsize w,h\tFixe la taille de la fenêtre vidéo aux dimentions indiquées\n/monitor N\tDémarre MPC sur l'écran N (avec N commençant à 1)\n/help /h /?\tAffiche l'aide pour les commandes en ligne\n"
-	IDS_UNKNOWN_SWITCH		"Option(s) non reconnue dans la ligne de commande : \n\n"
+    IDS_VOLUME_BOOST_INC    "Augmenter le gain du volume"
+    IDS_VOLUME_BOOST_DEC    "Diminuer le gain du volume"
+    IDS_VOLUME_BOOST_MIN    "Gain du volume Min"
+    IDS_VOLUME_BOOST_MAX    "Gain du volume Max"
+    IDS_USAGE               "Utilisation: mplayer.exe ""nom du fichier"" [options]\n\n""nom du fichier""\tFichier principal ou répertoire à charger (jockers autorisés)\n/dub ""fichier audio""\tCharge un fichier audio supplémentaire\n/d3dfs\t\tLance le rendu en mode D3D plein écran (réduit le tearing)\n/sub ""fichier ST""\tCharge un fichier de sous-titres\n/filter ""nom""\tCharge un filtre DirectShow à partir d'une DLL (jockers autorisés)\n/dvd\t\tDémarre en mode DVD (possibilité de fournir le nom du répertoire)\n/cd\t\tCharge toutes les pistes d'un CD audio ou d'un (S)Vcd\n/open\t\tOuvrir un fichier en pause\n/play\t\tOuvrir un fichier et commencer la lecture\n/close\t\tQuitte automatiquement après la lecture\n/shutdown\tEteindre la machine après la lecture\n/fullscreen\tDémarrer en plein écran\n/minimized\tDémarrer en mode minimisé\n/new\t\tLance une nouvelle instance de MPC\n/add\t\tAjoute un fichier à la playlist\n/regvid\t\tAssocie les formats vidéo à MPC\n/regaud\t\tAssocie les formats audio à MPC\n/unregvid\t\tSupprime l'association des formats vidéo à MPC\n/unregaud\tSupprime l'association des formats audio à MPC\n/start ms\t\tDémarre la lecture à ""ms"" (millisecondes)\n/fixedsize w,h\tFixe la taille de la fenêtre vidéo aux dimentions indiquées\n/monitor N\tDémarre MPC sur l'écran N (avec N commençant à 1)\n/help /h /?\tAffiche l'aide pour les commandes en ligne\n"
+    IDS_UNKNOWN_SWITCH      "Option(s) non reconnue dans la ligne de commande : \n\n"
 END
 
 #endif    // French (France) resources

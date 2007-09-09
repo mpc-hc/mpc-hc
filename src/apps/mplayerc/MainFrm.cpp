@@ -3449,11 +3449,12 @@ void CMainFrame::OnFileOpendvd()
 	AppSettings& s = AfxGetAppSettings();
 	TCHAR path[MAX_PATH];
 
+	CString		strTitle = ResStr(IDS_MAINFRM_46);
 	BROWSEINFO bi;
 	bi.hwndOwner = m_hWnd;
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = path;
-	bi.lpszTitle = ResStr(IDS_MAINFRM_46);
+	bi.lpszTitle = strTitle;
 	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
 	bi.lpfn = BrowseCallbackProc;
 	bi.lParam = 0;

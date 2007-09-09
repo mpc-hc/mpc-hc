@@ -10,6 +10,7 @@
 - Added : build for X64 plateform (alpha version)
 - Fixed : OSD was not working when D3DX9_... dll was not present (display random pixels above video)
 - Fixed : mouse is working in DVD menu with EVR custom
+- Added : multilangual support (english, french and german). 
 
 
 1.0.9.0
