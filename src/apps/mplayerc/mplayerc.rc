@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -2550,10 +2550,8 @@ BEGIN
     IDS_MEDIAFORMATS_34     "Media files (all types)|__dummy|"
     IDS_MEDIAFORMATS_35     "All files (*.*)|__dummy|"
     IDS_MEDIAFORMATS_36     "Audio files (all types)|__dummy|"
-    IDS_PIXELSHADERCOMPILER_0 
-                            "Cannot load D3DX9_xx.DLL, pixel shaders will not work."
-    IDS_PIXELSHADERCOMPILER_1 
-                            "Cannot find necessary function entry points in D3DX9_xx.DLL, pixel shaders will not work."
+    IDS_PIXELSHADERCOMPILER_0 "Cannot load D3DX9_xx.DLL, pixel shaders will not work."
+    IDS_PIXELSHADERCOMPILER_1 "Cannot find necessary function entry points in D3DX9_xx.DLL, pixel shaders will not work."
     IDS_AG_NOT_KNOWN        "Not known"
     IDS_MPLAYERC_0          "Quick Open File"
     IDS_AG_OPEN_FILE        "Open File"
