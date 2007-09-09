@@ -187,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\liba52R.lib"
+				OutputFile="..\..\..\..\..\..\lib64\liba52R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -254,7 +254,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\liba52D.lib"
+				OutputFile="..\..\..\..\..\..\lib64\liba52D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

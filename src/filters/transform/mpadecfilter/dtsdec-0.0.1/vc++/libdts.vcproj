@@ -186,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\libdtsD.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libdtsD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -250,7 +250,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\libdtsR.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libdtsR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -191,7 +191,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\libmadD.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libmadD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -256,7 +256,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\libx64\libmadR.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libmadR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

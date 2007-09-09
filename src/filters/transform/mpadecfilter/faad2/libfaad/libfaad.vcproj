@@ -185,7 +185,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\libx64\libfaad2R.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libfaad2R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -250,7 +250,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\libx64\libfaad2D.lib"
+				OutputFile="..\..\..\..\..\..\lib64\libfaad2D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

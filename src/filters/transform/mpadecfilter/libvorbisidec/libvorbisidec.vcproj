@@ -191,7 +191,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\libx64\libvorbisidecD.lib"
+				OutputFile="..\..\..\..\..\lib64\libvorbisidecD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -256,7 +256,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\libx64\libvorbisidecR.lib"
+				OutputFile="..\..\..\..\..\lib64\libvorbisidecR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

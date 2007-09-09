@@ -172,7 +172,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../libx64/libdiracD.lib"
+				OutputFile="..\..\..\..\..\lib64\libdiracD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -231,7 +231,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../libx64/libdiracR.lib"
+				OutputFile="..\..\..\..\..\lib64\libdiracR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

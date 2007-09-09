@@ -58,11 +58,7 @@ STDMETHODIMP CDVSBasePPage::GetPageInfo(LPPROPPAGEINFO pPageInfo)
 	if(!str.LoadString(m_TitleId)) return E_FAIL;
 
 	WCHAR wszTitle[STR_MAX_LENGTH];
-#ifdef UNICODE
-	wcscpy(wszTitle, str);
-#else
 	mbstowcs(wszTitle, str, str.GetLength()+1);
-#endif
 
 	CheckPointer(pPageInfo, E_POINTER);
 
@@ -405,11 +401,7 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 	{
 		CString fn;
 		m_fnedit.GetWindowText(fn);
-#ifdef UNICODE
 		wcscpy(m_fn, fn);
-#else
-		mbstowcs(m_fn, fn, fn.GetLength()+1);
-#endif
 		m_iSelectedLanguage = m_langs.GetCurSel();
 		m_fOverridePlacement = !!m_oplacement.GetCheck();
 		m_PlacementXperc = m_subposx.GetPos();
