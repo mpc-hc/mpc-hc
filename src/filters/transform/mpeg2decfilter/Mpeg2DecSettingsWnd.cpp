@@ -23,12 +23,36 @@
 #include "Mpeg2DecSettingsWnd.h"
 #include "..\..\..\dsutil\dsutil.h"
 
+// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+#define ResStr(id) CString(MAKEINTRESOURCE(id))
+
+#define IDS_MPEG2DECSETTINGSWND_0       33144
+#define IDS_MPEG2DECSETTINGSWND_1       33145
+#define IDS_MPEG2DECSETTINGSWND_2       33146
+#define IDS_MPEG2_DEINTERLACING         33147
+#define IDS_MPEG2_BRIGHTNESS            33148
+#define IDS_MPEG2_RESET                 33149
+#define IDS_MPEG2DECSETTINGSWND_7       33150
+#define IDS_MPEG2_CONTRAST				33157
+#define IDS_MPEG2_HUE					33158
+#define IDS_MPEG2_SATURATION			33159
+#define IDS_MPEG2DECSETTINGSWND_8		33160
+
 //
 // CMpeg2DecSettingsWnd
 //
 
+static TCHAR m_strBrightness[100];
+static TCHAR m_strContrast[100];
+static TCHAR m_strHue[100];
+static TCHAR m_strSaturation[100];
+
 CMpeg2DecSettingsWnd::CMpeg2DecSettingsWnd()
 {
+	wcscpy (m_strBrightness, ResStr(IDS_MPEG2_BRIGHTNESS));
+	wcscpy (m_strContrast,	 ResStr(IDS_MPEG2_CONTRAST));
+	wcscpy (m_strHue,		 ResStr(IDS_MPEG2_HUE));
+	wcscpy (m_strSaturation, ResStr(IDS_MPEG2_SATURATION));
 }
 
 bool CMpeg2DecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
@@ -65,21 +89,21 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	CPoint p(10, 10);
 
-	m_planaryuv_check.Create(_T("Enable planar YUV media types (VY12, I420, IYUY)"), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK1);
+	m_planaryuv_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_0), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK1);
 	m_planaryuv_check.SetCheck(m_planaryuv ? BST_CHECKED : BST_UNCHECKED);
 	p.y += m_fontheight + 5;
 
-	m_interlaced_check.Create(_T("Set interlaced flag in output media type"), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK2);
+	m_interlaced_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_1), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK2);
 	m_interlaced_check.SetCheck(m_interlaced ? BST_CHECKED : BST_UNCHECKED);
 	p.y += m_fontheight + 5;
 
-	m_forcedsubs_check.Create(_T("Always display forced subtitles"), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK3);
+	m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK3);
 	m_forcedsubs_check.SetCheck(m_forcedsubs ? BST_CHECKED : BST_UNCHECKED);
 	p.y += m_fontheight + 5;
 
 	p.y += 10;
 
-	m_ditype_static.Create(_T("Deinterlacing"), dwStyle, CRect(p, CSize(70, m_fontheight)), this);
+	m_ditype_static.Create(ResStr(IDS_MPEG2_DEINTERLACING), dwStyle, CRect(p, CSize(70, m_fontheight)), this);
 	m_ditype_combo.Create(dwStyle|CBS_DROPDOWNLIST, CRect(p + CSize(85, -3), CSize(100, 200)), this, IDC_PP_COMBO1);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Auto")), (DWORD)DIAuto);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Weave")), (DWORD)DIWeave);
@@ -95,7 +119,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	for(int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h)
 	{
-		static const TCHAR* labels[] = {_T("Brightness"), _T("Contrast"), _T("Hue"), _T("Saturation")};
+		static const TCHAR* labels[] = {m_strBrightness, m_strContrast,	m_strHue, m_strSaturation};
 		m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
 		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(200, h)), this, IDC_PP_SLIDER1+i);
 		m_procamp_value[i].Create(_T(""), dwStyle, CRect(p + CPoint(280, 0), CSize(40, h)), this);
@@ -117,15 +141,15 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	p.y += 5;
 
 	m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(80 + 200/2 - 55, 0), CSize(50, 20)), this, IDC_PP_BUTTON1);
-	m_procamp_reset.Create(_T("Reset"), dwStyle, CRect(p + CPoint(80 + 200/2 + 5, 0), CSize(50, 20)), this, IDC_PP_BUTTON2);
+	m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(80 + 200/2 + 5, 0), CSize(50, 20)), this, IDC_PP_BUTTON2);
 
 	p.y += 30;
 
 	UpdateProcampValues();
 
 	m_note_static.Create(
-		_T("Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies ")
-		_T("can degrade performance. \"Auto\" deinterlacer will switch to \"Blend\" when necessary."),
+		ResStr(IDS_MPEG2DECSETTINGSWND_7) +
+		ResStr(IDS_MPEG2DECSETTINGSWND_8),
 		dwStyle, CRect(p, CSize(320, m_fontheight * 3)), this);
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())

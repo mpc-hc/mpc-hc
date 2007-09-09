@@ -10463,8 +10463,17 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 
 afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 {
-	AppSettings&	s     = AfxGetAppSettings();
-	int				nLang = pCmdUI->m_nID - ID_LANGUAGE_ENGLISH;
-	pCmdUI->Enable(TRUE);
+	AppSettings&		s     = AfxGetAppSettings();
+	int					nLang = pCmdUI->m_nID - ID_LANGUAGE_ENGLISH;
+
+	WIN32_FIND_DATA		FindFileData;
+	HANDLE				hFind;
+	LPCTSTR				strSatellite = AfxGetMyApp()->GetSatelliteDll(nLang);
+
+	if (strSatellite)
+	{
+		hFind = FindFirstFile (strSatellite, &FindFileData);
+		pCmdUI->Enable(hFind != INVALID_HANDLE_VALUE);
+	}
 	pCmdUI->SetCheck (nLang == s.iLanguage);
 }

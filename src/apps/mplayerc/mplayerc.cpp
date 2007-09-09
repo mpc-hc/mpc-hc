@@ -2666,23 +2666,29 @@ HINSTANCE CMPlayerCApp::GetD3X9Dll()
 	return m_hD3DX9Dll;
 }
 
+LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
+{
+	switch (nLanguage)
+	{
+	case 1 :	// French
+		return _T("mpcresources.fr.dll");
+	case 2 :	// Deutch
+		return _T("mpcresources.de.dll");
+	}
+	return NULL;
+}
 
 
 void CMPlayerCApp::SetLanguage (int nLanguage)
 {
 	AppSettings&	s = AfxGetAppSettings();
 	HMODULE			hMod = NULL;
+	LPCTSTR			strSatellite;
 
-	s.iLanguage = nLanguage;
-	switch (nLanguage)
-	{
-	case 1 :	// French
-		hMod = LoadLibrary (_T("mpcresources.fr.dll"));
-		break;
-	case 2 :	// Deutch
-		hMod = LoadLibrary (_T("mpcresources.de.dll"));
-		break;
-	}
+	s.iLanguage  = nLanguage;
+	strSatellite = GetSatelliteDll(nLanguage);
+	if (strSatellite)
+		hMod = LoadLibrary (strSatellite);
 
 	if (!hMod) 
 	{

@@ -370,7 +370,7 @@ public:
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
 	HINSTANCE					GetD3X9Dll();
 	static void					SetLanguage (int nLanguage);
-
+	static LPCTSTR				GetSatelliteDll(int nLang);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMPlayerCApp)

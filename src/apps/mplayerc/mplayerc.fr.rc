@@ -2886,6 +2886,40 @@ BEGIN
     IDS_VOLUME_BOOST_MAX    "Gain du volume Max"
     IDS_USAGE               "Utilisation: mplayer.exe ""nom du fichier"" [options]\n\n""nom du fichier""\tFichier principal ou répertoire à charger (jockers autorisés)\n/dub ""fichier audio""\tCharge un fichier audio supplémentaire\n/d3dfs\t\tLance le rendu en mode D3D plein écran (réduit le tearing)\n/sub ""fichier ST""\tCharge un fichier de sous-titres\n/filter ""nom""\tCharge un filtre DirectShow à partir d'une DLL (jockers autorisés)\n/dvd\t\tDémarre en mode DVD (possibilité de fournir le nom du répertoire)\n/cd\t\tCharge toutes les pistes d'un CD audio ou d'un (S)Vcd\n/open\t\tOuvrir un fichier en pause\n/play\t\tOuvrir un fichier et commencer la lecture\n/close\t\tQuitte automatiquement après la lecture\n/shutdown\tEteindre la machine après la lecture\n/fullscreen\tDémarrer en plein écran\n/minimized\tDémarrer en mode minimisé\n/new\t\tLance une nouvelle instance de MPC\n/add\t\tAjoute un fichier à la playlist\n/regvid\t\tAssocie les formats vidéo à MPC\n/regaud\t\tAssocie les formats audio à MPC\n/unregvid\t\tSupprime l'association des formats vidéo à MPC\n/unregaud\tSupprime l'association des formats audio à MPC\n/start ms\t\tDémarre la lecture à ""ms"" (millisecondes)\n/fixedsize w,h\tFixe la taille de la fenêtre vidéo aux dimentions indiquées\n/monitor N\tDémarre MPC sur l'écran N (avec N commençant à 1)\n/help /h /?\tAffiche l'aide pour les commandes en ligne\n"
     IDS_UNKNOWN_SWITCH      "Option(s) non reconnue dans la ligne de commande : \n\n"
+	IDS_MPADECSETTINGSWND_0  "Format de sortie audio:"
+    IDS_MPADECSETTINGSWND_1  "Configuration AC3"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MPA_CHANNEL_1  "Canal 1"
+    IDS_MPA_CHANNEL_2  "Canal 2"
+    IDS_MPADECSETTINGSWND_5  "Type de haut parleurs"
+    IDS_MPADECSETTINGSWND_7  "Configuration DTS"
+    IDS_MPADECSETTINGSWND_11  "Configuration AAC"
+    IDS_MPADECSETTINGSWND_12  "Convertir en stereo"
+    IDS_AG_SETTINGS			   "Propriétés"
+    IDS_MPEG2DECSETTINGSWND_0  "Autoriser le format YUV planar (VY12, I420, IYUY)"
+    IDS_MPEG2DECSETTINGSWND_1  "Positionner Set interlaced flag in output media type"
+    IDS_MPEG2DECSETTINGSWND_2  "Toujours afficher les sous-titres forcés"
+    IDS_MPEG2_DEINTERLACING  "Désentrelaceur"
+    IDS_MPEG2_BRIGHTNESS  "Luninosité"
+    IDS_MPEG2_RESET  "R.A.Z"
+    IDS_MPEG2DECSETTINGSWND_7  "Note: Utiliser un format ""non planar"", un désentrelaceur BOB, ou ajuster les propriétés de couleur"
+	IDS_MPEG2DECSETTINGSWND_8  " peut dégrader les performances. Le désentrelaceur ""Auto"" passera en mode ""Blend"" si nécessaire."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MPA_3F			"3 Avant"
+    IDS_MPA_2F_1R		"2 Avant + 1 Arrière"
+    IDS_MPA_3F_1R		"3 Avant + 1 Arrière"
+    IDS_MPA_2F_2R		"2 Avant + 2 Arrière"
+    IDS_MPA_3F_2R		"3 Avant + 2 Arrière"
+	IDS_MPA_DYNRANGE	"Volume dynamique"
+	IDS_MPEG2_CONTRAST	"Contraste"
+	IDS_MPEG2_HUE		"Teinte"
+	IDS_MPEG2_SATURATION "Saturation"
 END
 
 #endif    // French (France) resources
