@@ -58,7 +58,7 @@ STDMETHODIMP CDVSBasePPage::GetPageInfo(LPPROPPAGEINFO pPageInfo)
 	if(!str.LoadString(m_TitleId)) return E_FAIL;
 
 	WCHAR wszTitle[STR_MAX_LENGTH];
-	mbstowcs(wszTitle, str, str.GetLength()+1);
+	wcscpy(wszTitle, str);
 
 	CheckPointer(pPageInfo, E_POINTER);
 
