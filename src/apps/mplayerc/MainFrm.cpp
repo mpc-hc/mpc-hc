@@ -8172,7 +8172,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
 		if (pVMB && s.fShowOSD)
 			m_OSD.Start (m_pVideoWnd, pVMB);
-		else if (pMFVMB)
+		else if (pMFVMB && s.fShowOSD)
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
 		if (m_pMC)
 		{

@@ -2659,8 +2659,16 @@ HINSTANCE CMPlayerCApp::GetD3X9Dll()
 {
 	if (m_hD3DX9Dll == NULL)
 	{
-		m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), D3DX_SDK_VERSION);
-		m_hD3DX9Dll = LoadLibrary (m_strD3DX9Version);
+		// Try to load latest DX9 available
+		for (int i=D3DX_SDK_VERSION; i>23; i--)
+		{
+			if (i != 33)	// Prevent using DXSDK April 2007 (crash sometimes during shader compilation)
+			{
+				m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), i);
+				m_hD3DX9Dll = LoadLibrary (m_strD3DX9Version);
+				if (m_hD3DX9Dll) break;
+			}
+		}
 	}
 
 	return m_hD3DX9Dll;

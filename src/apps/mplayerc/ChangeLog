@@ -1,4 +1,6 @@
 
+1.0.10.0
+========
 - Fixed : wrong aspect ration with EVR custom (definitely i hope :-)
 - Added : latests Clsid patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, libpng 1.2.18, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
 - Added : command line "/d3dfs" to start MPC in D3D fullscreen mode
@@ -7,10 +9,11 @@
 - Modify : screen saver is now kick only when a video is playing
 - Fixed : internal Mpeg2 decoder was not working with Evr and Evr custom
 - Fixed : Fix for problems with audio sync with Blu-Ray/HD DVD DTS files and wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)
-- Added : build for X64 plateform (alpha version)
+- Added : build for X64 plateforms (This build need X64 codec such as ffdshow experimental x64 tryout). Mpeg2 and QuickTime not supported for x64
 - Fixed : OSD was not working when D3DX9_... dll was not present (display random pixels above video)
-- Fixed : mouse is working in DVD menu with EVR custom
+- Fixed : mouse is working in DVD menu with EVR custom on Vista
 - Added : multilangual support (english, french and german). 
+- Modify : DirectX SDK updated to August 2007
 
 
 1.0.9.0
