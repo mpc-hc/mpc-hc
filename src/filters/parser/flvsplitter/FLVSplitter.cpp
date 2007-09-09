@@ -327,7 +327,19 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					VideoTweak fudge;
 					ReadTag(fudge);
 				
-					if((m_pFile->BitRead(16) & 0x80fe) != 0x0046) break;
+//					if((m_pFile->BitRead(16) & 0x80fe) != 0x0046) break;
+					if (m_pFile->BitRead(1)) {
+    				// Delta (inter) frame
+   					break;
+					}
+					m_pFile->BitRead(6);
+					bool fSeparatedCoeff = !!m_pFile->BitRead(1);
+					m_pFile->BitRead(5);
+					int filterHeader = m_pFile->BitRead(2);
+					m_pFile->BitRead(1);
+					if (fSeparatedCoeff || !filterHeader) {
+				    m_pFile->BitRead(16);
+					}
 
 					h = m_pFile->BitRead(8) * 16;
 					w = m_pFile->BitRead(8) * 16;
