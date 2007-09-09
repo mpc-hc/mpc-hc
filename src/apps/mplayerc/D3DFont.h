@@ -1,3 +1,26 @@
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #pragma once
 
 // Font creation flags
@@ -14,45 +37,45 @@
 
 class CD3DFont
 {
-    TCHAR   m_strFontName[80];            // Font properties
+	TCHAR   m_strFontName[80];            // Font properties
     DWORD   m_dwFontHeight;
-    DWORD   m_dwFontFlags;
+	DWORD   m_dwFontFlags;
 
-    LPDIRECT3DDEVICE9       m_pd3dDevice; // A D3DDevice used for rendering
-    LPDIRECT3DTEXTURE9      m_pTexture;   // The d3d texture for this font
-    LPDIRECT3DVERTEXBUFFER9 m_pVB;        // VertexBuffer for rendering text
-    DWORD   m_dwTexWidth;                 // Texture dimensions
-    DWORD   m_dwTexHeight;
-    FLOAT   m_fTextScale;
-    FLOAT   m_fTexCoords[128-32][4];
-    DWORD   m_dwSpacing;                  // Character pixel spacing per side
+	LPDIRECT3DDEVICE9	m_pd3dDevice;	// A D3DDevice used for rendering
+	LPDIRECT3DTEXTURE9	m_pTexture;	// The d3d texture for this font
+	LPDIRECT3DVERTEXBUFFER9	m_pVB;		// VertexBuffer for rendering text
+	DWORD m_dwTexWidth;			// Texture dimensions
+	DWORD m_dwTexHeight;
+	FLOAT m_fTextScale;
+	FLOAT m_fTexCoords[128-32][4];
+	DWORD m_dwSpacing;			// Character pixel spacing per side
 
-    // Stateblocks for setting and restoring render states
-    LPDIRECT3DSTATEBLOCK9 m_pStateBlockSaved;
-    LPDIRECT3DSTATEBLOCK9 m_pStateBlockDrawText;
+	// Stateblocks for setting and restoring render states
+	LPDIRECT3DSTATEBLOCK9 m_pStateBlockSaved;
+	LPDIRECT3DSTATEBLOCK9 m_pStateBlockDrawText;
 
-    HRESULT   CreateGDIFont( HDC hDC, HFONT* pFont );
-    HRESULT   PaintAlphabet( HDC hDC, BOOL bMeasureOnly=FALSE );
+	HRESULT CreateGDIFont( HDC hDC, HFONT* pFont );
+	HRESULT PaintAlphabet( HDC hDC, BOOL bMeasureOnly=FALSE );
 
 public:
-    // 2D and 3D text drawing functions
-    HRESULT DrawText( FLOAT x, FLOAT y, DWORD dwColor, 
-                      const TCHAR* strText, DWORD dwFlags=0L );
-    HRESULT DrawTextScaled( FLOAT x, FLOAT y, FLOAT z, 
-                            FLOAT fXScale, FLOAT fYScale, DWORD dwColor, 
-                            const TCHAR* strText, DWORD dwFlags=0L );
-    HRESULT Render3DText( const TCHAR* strText, DWORD dwFlags=0L );
-    
-    // Function to get extent of text
-    HRESULT GetTextExtent( const TCHAR* strText, SIZE* pSize );
+	// 2D and 3D text drawing functions
+	HRESULT DrawText( FLOAT x, FLOAT y, DWORD dwColor, 
+	                  const TCHAR* strText, DWORD dwFlags=0L );
+	HRESULT DrawTextScaled( FLOAT x, FLOAT y, FLOAT z, 
+		FLOAT fXScale, FLOAT fYScale, DWORD dwColor, 
+		const TCHAR* strText, DWORD dwFlags=0L );
+	HRESULT Render3DText( const TCHAR* strText, DWORD dwFlags=0L );
 
-    // Initializing and destroying device-dependent objects
-    HRESULT InitDeviceObjects( IDirect3DDevice9* pd3dDevice );
-    HRESULT RestoreDeviceObjects();
-    HRESULT InvalidateDeviceObjects();
-    HRESULT DeleteDeviceObjects();
+	// Function to get extent of text
+	HRESULT GetTextExtent( const TCHAR* strText, SIZE* pSize );
 
-    // Constructor / destructor
-    CD3DFont( const TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags=0L );
-    ~CD3DFont();
+	// Initializing and destroying device-dependent objects
+	HRESULT InitDeviceObjects( IDirect3DDevice9* pd3dDevice );
+	HRESULT RestoreDeviceObjects();
+	HRESULT InvalidateDeviceObjects();
+	HRESULT DeleteDeviceObjects();
+
+	// Constructor / destructor
+	CD3DFont( const TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags=0L );
+	~CD3DFont();
 };

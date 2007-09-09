@@ -1,27 +1,30 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * $Id$
  *
- *  This Program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2, or (at your option)
- *  any later version.
- *   
- *  This Program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *   
- *  You should have received a copy of the GNU General Public License
- *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
- *  http://www.gnu.org/copyleft/gpl.html
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 #pragma once
 
 #include "IGraphBuilder2.h"
+
 
 class CPlayerWindow : public CWnd
 {
@@ -74,8 +77,8 @@ public:
 	CBaseGraph();
 	virtual ~CBaseGraph();
 
-    DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	DECLARE_IUNKNOWN;
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	void NotifyEvent(long lEventCode, LONG_PTR lParam1 = 0, LONG_PTR lParam2 = 0);
 
@@ -87,23 +90,23 @@ protected:
 	STDMETHODIMP Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO* pExcepInfo, UINT* puArgErr);
 
 	// IFilterGraph
-    STDMETHODIMP AddFilter(IBaseFilter* pFilter, LPCWSTR pName);
+	STDMETHODIMP AddFilter(IBaseFilter* pFilter, LPCWSTR pName);
 	STDMETHODIMP RemoveFilter(IBaseFilter* pFilter);
 	STDMETHODIMP EnumFilters(IEnumFilters** ppEnum);
 	STDMETHODIMP FindFilterByName(LPCWSTR pName, IBaseFilter** ppFilter);
 	STDMETHODIMP ConnectDirect(IPin* ppinOut, IPin* ppinIn, const AM_MEDIA_TYPE* pmt);
-    STDMETHODIMP Reconnect(IPin* ppin);
+	STDMETHODIMP Reconnect(IPin* ppin);
 	STDMETHODIMP Disconnect(IPin* ppin);
-    STDMETHODIMP SetDefaultSyncSource();
+	STDMETHODIMP SetDefaultSyncSource();
 
 	// IGraphBuilder
 	STDMETHODIMP Connect(IPin* ppinOut, IPin* ppinIn);
-    STDMETHODIMP Render(IPin* ppinOut);
-    STDMETHODIMP RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList);
+	STDMETHODIMP Render(IPin* ppinOut);
+	STDMETHODIMP RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList);
 	STDMETHODIMP AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter);
-    STDMETHODIMP SetLogFile(DWORD_PTR hFile);
-    STDMETHODIMP Abort();
-    STDMETHODIMP ShouldOperationContinue();
+	STDMETHODIMP SetLogFile(DWORD_PTR hFile);
+	STDMETHODIMP Abort();
+	STDMETHODIMP ShouldOperationContinue();
 
 	// IFilterGraph2
 	STDMETHODIMP AddSourceFilterForMoniker(IMoniker* pMoniker, IBindCtx* pCtx, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter);
@@ -122,27 +125,27 @@ protected:
 	STDMETHODIMP RemoveFromROT();
 
 	// IMediaControl
-    STDMETHODIMP Run();
-    STDMETHODIMP Pause();
-    STDMETHODIMP Stop();
+	STDMETHODIMP Run();
+	STDMETHODIMP Pause();
+	STDMETHODIMP Stop();
 	STDMETHODIMP GetState(LONG msTimeout, OAFilterState* pfs);
-    STDMETHODIMP RenderFile(BSTR strFilename);
-    STDMETHODIMP AddSourceFilter(BSTR strFilename, IDispatch** ppUnk);
-    STDMETHODIMP get_FilterCollection(IDispatch** ppUnk);
-    STDMETHODIMP get_RegFilterCollection(IDispatch** ppUnk);
-    STDMETHODIMP StopWhenReady();
+	STDMETHODIMP RenderFile(BSTR strFilename);
+	STDMETHODIMP AddSourceFilter(BSTR strFilename, IDispatch** ppUnk);
+	STDMETHODIMP get_FilterCollection(IDispatch** ppUnk);
+	STDMETHODIMP get_RegFilterCollection(IDispatch** ppUnk);
+	STDMETHODIMP StopWhenReady();
 
 	// IMediaEvent
-    STDMETHODIMP GetEventHandle(OAEVENT* hEvent);
+	STDMETHODIMP GetEventHandle(OAEVENT* hEvent);
 	STDMETHODIMP GetEvent(long* lEventCode, LONG_PTR* lParam1, LONG_PTR* lParam2, long msTimeout);
-    STDMETHODIMP WaitForCompletion(long msTimeout, long* pEvCode);
+	STDMETHODIMP WaitForCompletion(long msTimeout, long* pEvCode);
 	STDMETHODIMP CancelDefaultHandling(long lEvCode);
 	STDMETHODIMP RestoreDefaultHandling(long lEvCode);
 	STDMETHODIMP FreeEventParams(long lEvCode, LONG_PTR lParam1, LONG_PTR lParam2);
 
 	// IMediaEventEx
-    STDMETHODIMP SetNotifyWindow(OAHWND hwnd, long lMsg, LONG_PTR lInstanceData);
-    STDMETHODIMP SetNotifyFlags(long lNoNotifyFlags);
+	STDMETHODIMP SetNotifyWindow(OAHWND hwnd, long lMsg, LONG_PTR lInstanceData);
+	STDMETHODIMP SetNotifyFlags(long lNoNotifyFlags);
 	STDMETHODIMP GetNotifyFlags(long* lplNoNotifyFlags);
 
 	// IMediaSeeking
@@ -165,8 +168,8 @@ protected:
 	STDMETHODIMP GetPreroll(LONGLONG* pllPreroll);
 
 	// IVideoWindow
-    STDMETHODIMP put_Caption(BSTR strCaption);    
-    STDMETHODIMP get_Caption(BSTR* strCaption);
+	STDMETHODIMP put_Caption(BSTR strCaption);    
+	STDMETHODIMP get_Caption(BSTR* strCaption);
 	STDMETHODIMP put_WindowStyle(long WindowStyle);
 	STDMETHODIMP get_WindowStyle(long* WindowStyle);
 	STDMETHODIMP put_WindowStyleEx(long WindowStyleEx);
@@ -195,9 +198,9 @@ protected:
 	STDMETHODIMP put_BorderColor(long Color);
 	STDMETHODIMP get_FullScreenMode(long* FullScreenMode);
 	STDMETHODIMP put_FullScreenMode(long FullScreenMode);
-    STDMETHODIMP SetWindowForeground(long Focus);
-    STDMETHODIMP NotifyOwnerMessage(OAHWND hwnd, long uMsg, LONG_PTR wParam, LONG_PTR lParam);
-    STDMETHODIMP SetWindowPosition(long Left, long Top, long Width, long Height);
+	STDMETHODIMP SetWindowForeground(long Focus);
+	STDMETHODIMP NotifyOwnerMessage(OAHWND hwnd, long uMsg, LONG_PTR wParam, LONG_PTR lParam);
+	STDMETHODIMP SetWindowPosition(long Left, long Top, long Width, long Height);
 	STDMETHODIMP GetWindowPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight);
 	STDMETHODIMP GetMinIdealImageSize(long* pWidth, long* pHeight);
 	STDMETHODIMP GetMaxIdealImageSize(long* pWidth, long* pHeight);
@@ -206,44 +209,44 @@ protected:
 	STDMETHODIMP IsCursorHidden(long* CursorHidden);
 
 	// IBasicVideo
-    STDMETHODIMP get_AvgTimePerFrame(REFTIME* pAvgTimePerFrame);
-    STDMETHODIMP get_BitRate(long* pBitRate);
-    STDMETHODIMP get_BitErrorRate(long* pBitErrorRate);
-    STDMETHODIMP get_VideoWidth(long* pVideoWidth);
-    STDMETHODIMP get_VideoHeight(long* pVideoHeight);
-    STDMETHODIMP put_SourceLeft(long SourceLeft);
-    STDMETHODIMP get_SourceLeft(long* pSourceLeft);
-    STDMETHODIMP put_SourceWidth(long SourceWidth);
-    STDMETHODIMP get_SourceWidth(long* pSourceWidth);
-    STDMETHODIMP put_SourceTop(long SourceTop);
-    STDMETHODIMP get_SourceTop(long* pSourceTop);
-    STDMETHODIMP put_SourceHeight(long SourceHeight);
-    STDMETHODIMP get_SourceHeight(long* pSourceHeight);
-    STDMETHODIMP put_DestinationLeft(long DestinationLeft);
-    STDMETHODIMP get_DestinationLeft(long* pDestinationLeft);
-    STDMETHODIMP put_DestinationWidth(long DestinationWidth);
-    STDMETHODIMP get_DestinationWidth(long* pDestinationWidth);
-    STDMETHODIMP put_DestinationTop(long DestinationTop);
-    STDMETHODIMP get_DestinationTop(long* pDestinationTop);
-    STDMETHODIMP put_DestinationHeight(long DestinationHeight);
-    STDMETHODIMP get_DestinationHeight(long* pDestinationHeight);
-    STDMETHODIMP SetSourcePosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetSourcePosition(long* pLeft, long* pTop, long* pWidth, long* pHeight);
-    STDMETHODIMP SetDefaultSourcePosition();
-    STDMETHODIMP SetDestinationPosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetDestinationPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight);
-    STDMETHODIMP SetDefaultDestinationPosition();
-    STDMETHODIMP GetVideoSize(long* pWidth, long* pHeight);
-    STDMETHODIMP GetVideoPaletteEntries(long StartIndex, long Entries, long* pRetrieved, long* pPalette);
-    STDMETHODIMP GetCurrentImage(long* pBufferSize, long* pDIBImage);
-    STDMETHODIMP IsUsingDefaultSource();
-    STDMETHODIMP IsUsingDefaultDestination();
+	STDMETHODIMP get_AvgTimePerFrame(REFTIME* pAvgTimePerFrame);
+	STDMETHODIMP get_BitRate(long* pBitRate);
+	STDMETHODIMP get_BitErrorRate(long* pBitErrorRate);
+	STDMETHODIMP get_VideoWidth(long* pVideoWidth);
+	STDMETHODIMP get_VideoHeight(long* pVideoHeight);
+	STDMETHODIMP put_SourceLeft(long SourceLeft);
+	STDMETHODIMP get_SourceLeft(long* pSourceLeft);
+	STDMETHODIMP put_SourceWidth(long SourceWidth);
+	STDMETHODIMP get_SourceWidth(long* pSourceWidth);
+	STDMETHODIMP put_SourceTop(long SourceTop);
+	STDMETHODIMP get_SourceTop(long* pSourceTop);
+	STDMETHODIMP put_SourceHeight(long SourceHeight);
+	STDMETHODIMP get_SourceHeight(long* pSourceHeight);
+	STDMETHODIMP put_DestinationLeft(long DestinationLeft);
+	STDMETHODIMP get_DestinationLeft(long* pDestinationLeft);
+	STDMETHODIMP put_DestinationWidth(long DestinationWidth);
+	STDMETHODIMP get_DestinationWidth(long* pDestinationWidth);
+	STDMETHODIMP put_DestinationTop(long DestinationTop);
+	STDMETHODIMP get_DestinationTop(long* pDestinationTop);
+	STDMETHODIMP put_DestinationHeight(long DestinationHeight);
+	STDMETHODIMP get_DestinationHeight(long* pDestinationHeight);
+	STDMETHODIMP SetSourcePosition(long Left, long Top, long Width, long Height);
+	STDMETHODIMP GetSourcePosition(long* pLeft, long* pTop, long* pWidth, long* pHeight);
+	STDMETHODIMP SetDefaultSourcePosition();
+	STDMETHODIMP SetDestinationPosition(long Left, long Top, long Width, long Height);
+	STDMETHODIMP GetDestinationPosition(long* pLeft, long* pTop, long* pWidth, long* pHeight);
+	STDMETHODIMP SetDefaultDestinationPosition();
+	STDMETHODIMP GetVideoSize(long* pWidth, long* pHeight);
+	STDMETHODIMP GetVideoPaletteEntries(long StartIndex, long Entries, long* pRetrieved, long* pPalette);
+	STDMETHODIMP GetCurrentImage(long* pBufferSize, long* pDIBImage);
+	STDMETHODIMP IsUsingDefaultSource();
+	STDMETHODIMP IsUsingDefaultDestination();
 
 	// IBasicAudio
-    STDMETHODIMP put_Volume(long lVolume);
-    STDMETHODIMP get_Volume(long* plVolume);
-    STDMETHODIMP put_Balance(long lBalance);
-    STDMETHODIMP get_Balance(long* plBalance);
+	STDMETHODIMP put_Volume(long lVolume);
+	STDMETHODIMP get_Volume(long* plVolume);
+	STDMETHODIMP put_Balance(long lBalance);
+	STDMETHODIMP get_Balance(long* plBalance);
 
 	// IAMOpenProgress
 	STDMETHODIMP QueryProgress(LONGLONG* pllTotal, LONGLONG* pllCurrent);
@@ -252,4 +255,3 @@ protected:
 	// IGraphEngine
 	STDMETHODIMP_(engine_t) GetEngine();
 };
-

@@ -1,21 +1,23 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * $Id$
  *
- *  This Program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2, or (at your option)
- *  any later version.
- *   
- *  This Program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *   
- *  You should have received a copy of the GNU General Public License
- *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
- *  http://www.gnu.org/copyleft/gpl.html
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -38,6 +40,7 @@
 
 #include "IPinHook.h"
 
+
 bool IsVMR7InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
@@ -49,134 +52,134 @@ bool IsVMR7InGraph(IFilterGraph* pFG)
 namespace DSObjects
 {
 
-class CDX7AllocatorPresenter
-	: public ISubPicAllocatorPresenterImpl
-{
-protected:
-	CSize m_ScreenSize;
+	class CDX7AllocatorPresenter
+		: public ISubPicAllocatorPresenterImpl
+	{
+	protected:
+		CSize m_ScreenSize;
 
-	CComPtr<IDirectDraw7> m_pDD;
-	CComQIPtr<IDirect3D7, &IID_IDirect3D7> m_pD3D;
-    CComPtr<IDirect3DDevice7> m_pD3DDev;
+		CComPtr<IDirectDraw7> m_pDD;
+		CComQIPtr<IDirect3D7, &IID_IDirect3D7> m_pD3D;
+		CComPtr<IDirect3DDevice7> m_pD3DDev;
 
-	CComPtr<IDirectDrawSurface7> m_pPrimary, m_pBackBuffer;
-	CComPtr<IDirectDrawSurface7> m_pVideoTexture, m_pVideoSurface;
+		CComPtr<IDirectDrawSurface7> m_pPrimary, m_pBackBuffer;
+		CComPtr<IDirectDrawSurface7> m_pVideoTexture, m_pVideoSurface;
 
-    virtual HRESULT CreateDevice();
-	virtual HRESULT AllocSurfaces();
-	virtual void DeleteSurfaces();
+	    virtual HRESULT CreateDevice();
+		virtual HRESULT AllocSurfaces();
+		virtual void DeleteSurfaces();
 
-public:
-	CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+	public:
+		CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-	// ISubPicAllocatorPresenter
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-	STDMETHODIMP_(bool) Paint(bool fAll);
-	STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
-};
+		// ISubPicAllocatorPresenter
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(bool) Paint(bool fAll);
+		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
+	};
 
-class CVMR7AllocatorPresenter
-	: public CDX7AllocatorPresenter
-	, public IVMRSurfaceAllocator
-	, public IVMRImagePresenter
-	, public IVMRWindowlessControl
-{
-	CComPtr<IVMRSurfaceAllocatorNotify> m_pIVMRSurfAllocNotify;
-	CComPtr<IVMRSurfaceAllocator> m_pSA;
+	class CVMR7AllocatorPresenter
+		: public CDX7AllocatorPresenter
+		, public IVMRSurfaceAllocator
+		, public IVMRImagePresenter
+		, public IVMRWindowlessControl
+	{
+		CComPtr<IVMRSurfaceAllocatorNotify> m_pIVMRSurfAllocNotify;
+		CComPtr<IVMRSurfaceAllocator> m_pSA;
 
-	HRESULT CreateDevice();
-	void DeleteSurfaces();
+		HRESULT CreateDevice();
+		void DeleteSurfaces();
 
-	bool m_fUseInternalTimer;
+		bool m_fUseInternalTimer;
 
-public:
-	CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+	public:
+		CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+		DECLARE_IUNKNOWN
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// ISubPicAllocatorPresenter
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-	STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
+		// ISubPicAllocatorPresenter
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
 
-	// IVMRSurfaceAllocator
-    STDMETHODIMP AllocateSurface(DWORD_PTR dwUserID, VMRALLOCATIONINFO* lpAllocInfo, DWORD* lpdwBuffer, LPDIRECTDRAWSURFACE7* lplpSurface);
-    STDMETHODIMP FreeSurface(DWORD_PTR dwUserID);
-    STDMETHODIMP PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags);
-    STDMETHODIMP AdviseNotify(IVMRSurfaceAllocatorNotify* lpIVMRSurfAllocNotify);
+		// IVMRSurfaceAllocator
+		STDMETHODIMP AllocateSurface(DWORD_PTR dwUserID, VMRALLOCATIONINFO* lpAllocInfo, DWORD* lpdwBuffer, LPDIRECTDRAWSURFACE7* lplpSurface);
+		STDMETHODIMP FreeSurface(DWORD_PTR dwUserID);
+		STDMETHODIMP PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags);
+		STDMETHODIMP AdviseNotify(IVMRSurfaceAllocatorNotify* lpIVMRSurfAllocNotify);
 
-	// IVMRImagePresenter
-    STDMETHODIMP StartPresenting(DWORD_PTR dwUserID);
-    STDMETHODIMP StopPresenting(DWORD_PTR dwUserID);
-    STDMETHODIMP PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo);
+		// IVMRImagePresenter
+		STDMETHODIMP StartPresenting(DWORD_PTR dwUserID);
+		STDMETHODIMP StopPresenting(DWORD_PTR dwUserID);
+		STDMETHODIMP PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo);
 
-	// IVMRWindowlessControl
-	STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-	STDMETHODIMP GetMinIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
-	STDMETHODIMP GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
-	STDMETHODIMP SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect);
-    STDMETHODIMP GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect);
-	STDMETHODIMP GetAspectRatioMode(DWORD* lpAspectRatioMode);
-	STDMETHODIMP SetAspectRatioMode(DWORD AspectRatioMode);
-	STDMETHODIMP SetVideoClippingWindow(HWND hwnd);
-	STDMETHODIMP RepaintVideo(HWND hwnd, HDC hdc);
-	STDMETHODIMP DisplayModeChanged();
-	STDMETHODIMP GetCurrentImage(BYTE** lpDib);
-	STDMETHODIMP SetBorderColor(COLORREF Clr);
-	STDMETHODIMP GetBorderColor(COLORREF* lpClr);
-	STDMETHODIMP SetColorKey(COLORREF Clr);
-	STDMETHODIMP GetColorKey(COLORREF* lpClr);
-};
+		// IVMRWindowlessControl
+		STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
+		STDMETHODIMP GetMinIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
+		STDMETHODIMP GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight);
+		STDMETHODIMP SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect);
+		STDMETHODIMP GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect);
+		STDMETHODIMP GetAspectRatioMode(DWORD* lpAspectRatioMode);
+		STDMETHODIMP SetAspectRatioMode(DWORD AspectRatioMode);
+		STDMETHODIMP SetVideoClippingWindow(HWND hwnd);
+		STDMETHODIMP RepaintVideo(HWND hwnd, HDC hdc);
+		STDMETHODIMP DisplayModeChanged();
+		STDMETHODIMP GetCurrentImage(BYTE** lpDib);
+		STDMETHODIMP SetBorderColor(COLORREF Clr);
+		STDMETHODIMP GetBorderColor(COLORREF* lpClr);
+		STDMETHODIMP SetColorKey(COLORREF Clr);
+		STDMETHODIMP GetColorKey(COLORREF* lpClr);
+	};
 
-class CRM7AllocatorPresenter
-	: public CDX7AllocatorPresenter
-	, public IRMAVideoSurface
-{
-	CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
-	CComPtr<IDirectDrawSurface7> m_pVideoSurfaceYUY2;
+	class CRM7AllocatorPresenter
+		: public CDX7AllocatorPresenter
+		, public IRMAVideoSurface
+	{
+		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
+		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceYUY2;
 
-    RMABitmapInfoHeader m_bitmapInfo;
-    RMABitmapInfoHeader m_lastBitmapInfo;
+		RMABitmapInfoHeader m_bitmapInfo;
+		RMABitmapInfoHeader m_lastBitmapInfo;
 
-protected:
-	HRESULT AllocSurfaces();
-	void DeleteSurfaces();
+	protected:
+		HRESULT AllocSurfaces();
+		void DeleteSurfaces();
 
-public:
-	CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+	public:
+		CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+		DECLARE_IUNKNOWN
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IRMAVideoSurface
-    STDMETHODIMP Blt(UCHAR*	pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect);
-	STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo);
-	STDMETHODIMP OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect);
-	STDMETHODIMP EndOptimizedBlt();
-	STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType);
-    STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType);
-};
+		// IRMAVideoSurface
+		STDMETHODIMP Blt(UCHAR*	pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect);
+		STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo);
+		STDMETHODIMP OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect);
+		STDMETHODIMP EndOptimizedBlt();
+		STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType);
+		STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType);
+	};
 
-class CQT7AllocatorPresenter
-	: public CDX7AllocatorPresenter
-	, public IQTVideoSurface
-{
-	CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
+	class CQT7AllocatorPresenter
+		: public CDX7AllocatorPresenter
+		, public IQTVideoSurface
+	{
+		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
 
-protected:
-	HRESULT AllocSurfaces();
-	void DeleteSurfaces();
+	protected:
+		HRESULT AllocSurfaces();
+		void DeleteSurfaces();
 
-public:
-	CQT7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+	public:
+		CQT7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+		DECLARE_IUNKNOWN
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IQTVideoSurface
-	STDMETHODIMP BeginBlt(const BITMAP& bm);
-	STDMETHODIMP DoBlt(const BITMAP& bm);
-};
+		// IQTVideoSurface
+		STDMETHODIMP BeginBlt(const BITMAP& bm);
+		STDMETHODIMP DoBlt(const BITMAP& bm);
+	};
 
 }
 using namespace DSObjects;
@@ -225,8 +228,8 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice7> pD3DDev, CComPtr<IDirectDraw
 		if(FAILED(hr = pTexture->GetSurfaceDesc(&ddsd)))
 			break;
 
-        float w = (float)ddsd.dwWidth;
-        float h = (float)ddsd.dwHeight;
+		float w = (float)ddsd.dwWidth;
+		float h = (float)ddsd.dwHeight;
 
 		struct
 		{
@@ -247,22 +250,22 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice7> pD3DDev, CComPtr<IDirectDraw
 			pVertices[i].y -= 0.5;
 		}
 
-        hr = pD3DDev->SetTexture(0, pTexture);
+		hr = pD3DDev->SetTexture(0, pTexture);
 
-        pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
-        pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
-        pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, FALSE);
+		pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
+		pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
+		pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, FALSE);
 		pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, FALSE); 
 
-        pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
-        pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
-        pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
+		pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+		pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
+		pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
 
-        pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
+		pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
 		//
 
-        if(FAILED(hr = pD3DDev->BeginScene()))
+		if(FAILED(hr = pD3DDev->BeginScene()))
 			break;
 
 		hr = pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
@@ -275,10 +278,10 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice7> pD3DDev, CComPtr<IDirectDraw
 		pD3DDev->SetTexture(0, NULL);
 
 		return S_OK;
-    }
+	}
 	while(0);
 
-    return E_FAIL;
+	return E_FAIL;
 }
 
 //
@@ -302,15 +305,15 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 HRESULT CDX7AllocatorPresenter::CreateDevice()
 {
-    m_pD3DDev = NULL;
+	m_pD3DDev = NULL;
 
 	m_pPrimary = NULL;
 	m_pBackBuffer = NULL;
 
-    DDSURFACEDESC2 ddsd;
+	DDSURFACEDESC2 ddsd;
 	INITDDSTRUCT(ddsd);
-    if(FAILED(m_pDD->GetDisplayMode(&ddsd))
-	|| ddsd.ddpfPixelFormat.dwRGBBitCount <= 8)
+	if(FAILED(m_pDD->GetDisplayMode(&ddsd)) ||
+	   ddsd.ddpfPixelFormat.dwRGBBitCount <= 8)
 		return DDERR_INVALIDMODE;
 
 	m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
@@ -320,31 +323,31 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
 	// m_pPrimary
 
 	INITDDSTRUCT(ddsd);
-    ddsd.dwFlags = DDSD_CAPS;
-    ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-    if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pPrimary, NULL)))
-        return hr;
+	ddsd.dwFlags = DDSD_CAPS;
+	ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+	if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pPrimary, NULL)))
+		return hr;
 
 	CComPtr<IDirectDrawClipper> pcClipper;
-    if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
-        return hr;
+	if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
+		return hr;
 	pcClipper->SetHWnd(0, m_hWnd);
 	m_pPrimary->SetClipper(pcClipper);
 
 	// m_pBackBuffer
 
 	INITDDSTRUCT(ddsd);
-    ddsd.dwFlags        = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
-    ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
+	ddsd.dwFlags        = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
+	ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
 	ddsd.dwWidth = m_ScreenSize.cx;
 	ddsd.dwHeight = m_ScreenSize.cy;
 	if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pBackBuffer, NULL)))
-        return hr;
+      	  return hr;
 
 	pcClipper = NULL;
-    if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
+	if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
 		return hr;
-    BYTE rgnDataBuffer[1024];
+	BYTE rgnDataBuffer[1024];
 	HRGN hrgn = CreateRectRgn(0, 0, ddsd.dwWidth, ddsd.dwHeight);
 	GetRegionData(hrgn, sizeof(rgnDataBuffer), (RGNDATA*)rgnDataBuffer);
 	DeleteObject(hrgn);
@@ -397,7 +400,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
 
 HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	AppSettings& s = AfxGetAppSettings();
 
@@ -458,7 +461,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 
 void CDX7AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pVideoTexture = NULL;
 	m_pVideoSurface = NULL;
@@ -614,7 +617,7 @@ CVMR7AllocatorPresenter::CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	: CDX7AllocatorPresenter(hWnd, hr)
 	, m_fUseInternalTimer(false)
 {
-    if(FAILED(hr))
+	if(FAILED(hr))
 		return;
 
 	if(FAILED(hr = m_pSA.CoCreateInstance(CLSID_AllocPresenter)))
@@ -626,7 +629,7 @@ CVMR7AllocatorPresenter::CVMR7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 STDMETHODIMP CVMR7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
 	return 
 		QI(IVMRSurfaceAllocator)
@@ -652,7 +655,7 @@ HRESULT CVMR7AllocatorPresenter::CreateDevice()
 
 void CVMR7AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pSA->FreeSurface(MY_USER_ID);
 
@@ -663,7 +666,7 @@ void CVMR7AllocatorPresenter::DeleteSurfaces()
 
 STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
-    CheckPointer(ppRenderer, E_POINTER);
+	CheckPointer(ppRenderer, E_POINTER);
 
 	*ppRenderer = NULL;
 
@@ -701,7 +704,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 	}
 	while(0);
 
-    return E_FAIL;
+	return E_FAIL;
 }
 
 STDMETHODIMP_(void) CVMR7AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
@@ -722,7 +725,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
 
 	HRESULT hr;
 
-    DeleteSurfaces();
+	DeleteSurfaces();
 
 	// HACK: yv12 will fail to blt onto the backbuffer anyway, but if we first
 	// allocate it and then let our FreeSurface callback call m_pSA->FreeSurface,
@@ -761,13 +764,13 @@ STDMETHODIMP CVMR7AllocatorPresenter::AllocateSurface(DWORD_PTR dwUserID, VMRALL
 
 STDMETHODIMP CVMR7AllocatorPresenter::FreeSurface(DWORD_PTR dwUserID)
 {
-    DeleteSurfaces();
+	DeleteSurfaces();
 	return S_OK;
 }
 
 STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags)
 {
-    if(!lpSurface)
+	if(!lpSurface)
 		return E_POINTER;
 
 	// FIXME: sometimes the msmpeg4/divx3/wmv decoder wants to reuse our 
@@ -781,8 +784,8 @@ STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirect
 
 STDMETHODIMP CVMR7AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify* lpIVMRSurfAllocNotify)
 {
-    CAutoLock cAutoLock(this);
-	
+	CAutoLock cAutoLock(this);
+
 	m_pIVMRSurfAllocNotify = lpIVMRSurfAllocNotify;
 
 	HRESULT hr;
@@ -797,9 +800,9 @@ STDMETHODIMP CVMR7AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify* l
 
 STDMETHODIMP CVMR7AllocatorPresenter::StartPresenting(DWORD_PTR dwUserID)
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
-    ASSERT(m_pD3DDev);
+	ASSERT(m_pD3DDev);
 
 	return m_pD3DDev ? S_OK : E_FAIL;
 }
@@ -811,45 +814,39 @@ STDMETHODIMP CVMR7AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo)
 {
-    HRESULT hr;
+	if(!lpPresInfo || !lpPresInfo->lpSurf)
+		return E_POINTER;
 
+	CAutoLock cAutoLock(this);
+
+	m_pVideoSurface->Blt(NULL, lpPresInfo->lpSurf, NULL, DDBLT_WAIT, NULL);
+
+	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
 	{
-		if(!lpPresInfo || !lpPresInfo->lpSurf)
-			return E_POINTER;
+		REFERENCE_TIME rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
+		m_fps = 10000000.0 / rtTimePerFrame;
 
-		CAutoLock cAutoLock(this);
-
-		hr = m_pVideoSurface->Blt(NULL, lpPresInfo->lpSurf, NULL, DDBLT_WAIT, NULL);
-
-		if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
+		if(m_pSubPicQueue) 
 		{
-			REFERENCE_TIME rtTimePerFrame = lpPresInfo->rtEnd - lpPresInfo->rtStart;
-			m_fps = 10000000.0 / rtTimePerFrame;
+			m_pSubPicQueue->SetFPS(m_fps);
 
-			if(m_pSubPicQueue) 
+			if(m_fUseInternalTimer)
 			{
-				m_pSubPicQueue->SetFPS(m_fps);
-
-				if(m_fUseInternalTimer)
-				{
-					__super::SetTime(g_tSegmentStart + g_tSampleStart);
-				}
+				__super::SetTime(g_tSegmentStart + g_tSampleStart);
 			}
 		}
-
-		CSize VideoSize = m_NativeVideoSize;
-		int arx = lpPresInfo->szAspectRatio.cx, ary = lpPresInfo->szAspectRatio.cy;
-		if(arx > 0 && ary > 0) VideoSize.cx = VideoSize.cy*arx/ary;
-		if(VideoSize != GetVideoSize())
-		{
-			m_AspectRatio.SetSize(arx, ary);
-			AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
-		}
-
-		Paint(true);
-
-		hr = S_OK;
 	}
+
+	CSize VideoSize = m_NativeVideoSize;
+	int arx = lpPresInfo->szAspectRatio.cx, ary = lpPresInfo->szAspectRatio.cy;
+	if(arx > 0 && ary > 0) VideoSize.cx = VideoSize.cy*arx/ary;
+	if(VideoSize != GetVideoSize())
+	{
+		m_AspectRatio.SetSize(arx, ary);
+		AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
+	}
+
+	Paint(true);
 
 	return S_OK;
 }
@@ -953,7 +950,7 @@ CRM7AllocatorPresenter::CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 STDMETHODIMP CRM7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
 	return 
 		QI2(IRMAVideoSurface)
@@ -962,7 +959,7 @@ STDMETHODIMP CRM7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 
 HRESULT CRM7AllocatorPresenter::AllocSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pVideoSurfaceOff = NULL;
 	m_pVideoSurfaceYUY2 = NULL;
@@ -1017,7 +1014,7 @@ HRESULT CRM7AllocatorPresenter::AllocSurfaces()
 
 void CRM7AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pVideoSurfaceOff = NULL;
 	m_pVideoSurfaceYUY2 = NULL;
@@ -1145,7 +1142,7 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 
 
 	HRESULT hr;
-	
+
 	if(fRGB)
 		hr = m_pVideoSurface->Blt(dst, m_pVideoSurfaceOff, src2, DDBLT_WAIT, NULL);
 	if(fYUY2)
@@ -1158,7 +1155,7 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 
 STDMETHODIMP CRM7AllocatorPresenter::BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo)
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 	DeleteSurfaces();
 	m_NativeVideoSize = m_AspectRatio = CSize(pBitmapInfo->biWidth, abs(pBitmapInfo->biHeight));
 	if(FAILED(AllocSurfaces())) return E_FAIL;
@@ -1197,7 +1194,7 @@ CQT7AllocatorPresenter::CQT7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 STDMETHODIMP CQT7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
 	return 
 		QI(IQTVideoSurface)
@@ -1206,7 +1203,7 @@ STDMETHODIMP CQT7AllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 
 HRESULT CQT7AllocatorPresenter::AllocSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pVideoSurfaceOff = NULL;
 
@@ -1237,7 +1234,7 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
 
 void CQT7AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	m_pVideoSurfaceOff = NULL;
 
@@ -1248,7 +1245,7 @@ void CQT7AllocatorPresenter::DeleteSurfaces()
 
 STDMETHODIMP CQT7AllocatorPresenter::BeginBlt(const BITMAP& bm)
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	DeleteSurfaces();
 
@@ -1309,7 +1306,6 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
 			TextOut(hDC, 10, 10, str, str.GetLength());
 
 			m_pVideoSurfaceOff->ReleaseDC(hDC);
-			
 		}
 	}
 

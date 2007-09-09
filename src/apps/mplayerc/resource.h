@@ -1,3 +1,26 @@
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by mplayerc.rc
@@ -618,7 +641,7 @@
 #define IDS_RS_AUDIONORMALIZERECOVER    13151
 #define IDS_RS_EVR_BUFFERS              13152
 #define IDS_RS_SHOWOSD                  13153
-#define IDS_RS_LANGUAGE					13154
+#define IDS_RS_LANGUAGE			13154
 #define IDS_SRC_RADGT                   14000
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002
@@ -1074,12 +1097,12 @@
 #define IDS_MAINFRM_136                 33126
 #define IDS_MAINFRM_137                 33127
 #define IDS_MAINFRM_138                 33128
-#define IDS_VOLUME_BOOST_INC			33129
-#define IDS_VOLUME_BOOST_DEC			33130
-#define IDS_VOLUME_BOOST_MIN			33131
-#define IDS_VOLUME_BOOST_MAX			33132
-#define IDS_USAGE						33133
-#define IDS_UNKNOWN_SWITCH				33134
+#define IDS_VOLUME_BOOST_INC		33129
+#define IDS_VOLUME_BOOST_DEC		33130
+#define IDS_VOLUME_BOOST_MIN		33131
+#define IDS_VOLUME_BOOST_MAX		33132
+#define IDS_USAGE			33133
+#define IDS_UNKNOWN_SWITCH		33134
 
 // Next default values for new objects
 // 

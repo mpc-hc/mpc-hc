@@ -1,29 +1,33 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * $Id$
  *
- *  This Program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2, or (at your option)
- *  any later version.
- *   
- *  This Program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *   
- *  You should have received a copy of the GNU General Public License
- *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
- *  http://www.gnu.org/copyleft/gpl.html
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 #pragma once
+
 #include "afxwin.h"
 #include "afxcmn.h"
 #include "..\..\filters\transform\bufferfilter\bufferfilter.h"
 #include "FloatEdit.h"
+
 
 //
 
@@ -81,7 +85,7 @@ public:
 				CFormatElem<T>* pfe = pf->GetAt(j);
 				if(!pmt || (pfe->mt.majortype == pmt->majortype && pfe->mt.subtype == pmt->subtype))
 				{
-                    if(ppf) *ppf = pf;
+					if(ppf) *ppf = pf;
 					return(true);
 				}
 			}
@@ -102,8 +106,8 @@ public:
 				CFormatElem<T>* pfe = pf->GetAt(j);
 				if((!pmt || pfe->mt == *pmt) && (!pcaps || !memcmp(pcaps, &pfe->caps, sizeof(T))))
 				{
-                    if(ppf) *ppf = pf;
-                    if(ppfe) *ppfe = pfe;
+					if(ppf) *ppf = pf;
+					if(ppfe) *ppfe = pfe;
 					return(true);
 				}
 			}
@@ -179,12 +183,12 @@ public:
 
 		switch(bih->biCompression)
 		{
-		case BI_RGB: str.Format(_T("RGB%d"), bih->biBitCount); break;
-		case BI_RLE8: str = _T("RLE8"); break;
-		case BI_RLE4: str = _T("RLE4"); break;
+		case BI_RGB:	str.Format(_T("RGB%d"), bih->biBitCount); break;
+		case BI_RLE8:	str = _T("RLE8");	break;
+		case BI_RLE4:	str = _T("RLE4");	break;
 		case BI_BITFIELDS: str.Format(_T("BITF%d"), bih->biBitCount); break;
-		case BI_JPEG: str = _T("JPEG"); break;
-		case BI_PNG: str = _T("PNG"); break;
+		case BI_JPEG:	str = _T("JPEG");	break;
+		case BI_PNG:	str = _T("PNG");	break;
 		default:  
 			str.Format(_T("%c%c%c%c"), 
 				(TCHAR)((bih->biCompression>>0)&0xff), (TCHAR)((bih->biCompression>>8)&0xff), 
@@ -283,8 +287,8 @@ public:
 
 		switch(wfe->nChannels)
 		{
-		case 1: str += _T("mono "); break;
-		case 2: str += _T("stereo "); break;
+		case 1: str += _T("mono ");	break;
+		case 2: str += _T("stereo ");	break;
 		default: str2.Format(_T("%d channels "), wfe->nChannels); str += str2; break;
 		}
 

@@ -1,21 +1,23 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * $Id$
  *
- *  This Program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2, or (at your option)
- *  any later version.
- *   
- *  This Program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *   
- *  You should have received a copy of the GNU General Public License
- *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
- *  http://www.gnu.org/copyleft/gpl.html
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -25,6 +27,7 @@
 #define MAX_PICTURE_SLOTS			(20+2)				// Last 2 for pixels shader!
 
 #define NB_JITTER					125
+
 
 namespace DSObjects
 {
@@ -37,21 +40,21 @@ namespace DSObjects
 		UINT	m_RefreshRate;
 		bool	m_fVMRSyncFix;
 
-		CComPtr<IDirect3D9>						m_pD3D;
-		CComPtr<IDirect3DDevice9>				m_pD3DDev;
-		CComPtr<IDirect3DTexture9>				m_pVideoTexture[MAX_PICTURE_SLOTS];
-		CComPtr<IDirect3DSurface9>				m_pVideoSurface[MAX_PICTURE_SLOTS];
-		CComPtr<IDirect3DTexture9>				m_pOSDTexture;
-		CComPtr<IDirect3DSurface9>				m_pOSDSurface;
-		CComPtr<ID3DXLine>						m_pLine;
-		CComPtr<ID3DXFont>						m_pFont;
+		CComPtr<IDirect3D9>			m_pD3D;
+		CComPtr<IDirect3DDevice9>		m_pD3DDev;
+		CComPtr<IDirect3DTexture9>		m_pVideoTexture[MAX_PICTURE_SLOTS];
+		CComPtr<IDirect3DSurface9>		m_pVideoSurface[MAX_PICTURE_SLOTS];
+		CComPtr<IDirect3DTexture9>		m_pOSDTexture;
+		CComPtr<IDirect3DSurface9>		m_pOSDSurface;
+		CComPtr<ID3DXLine>			m_pLine;
+		CComPtr<ID3DXFont>			m_pFont;
 		CInterfaceList<IDirect3DPixelShader9>	m_pPixelShaders;
-		CComPtr<IDirect3DPixelShader9>			m_pResizerPixelShader[3]; // bl, bc1, bc2
-		CComPtr<IDirect3DTexture9>				m_pResizerBicubic1stPass;
-		D3DTEXTUREFILTERTYPE					m_filter;
-		D3DCAPS9								m_caps;
+		CComPtr<IDirect3DPixelShader9>		m_pResizerPixelShader[3]; // bl, bc1, bc2
+		CComPtr<IDirect3DTexture9>		m_pResizerBicubic1stPass;
+		D3DTEXTUREFILTERTYPE			m_filter;
+		D3DCAPS9				m_caps;
 
-		CAutoPtr<CPixelShaderCompiler>			m_pPSC;
+		CAutoPtr<CPixelShaderCompiler>		m_pPSC;
 
 		virtual HRESULT CreateDevice();
 		virtual HRESULT AllocSurfaces();
@@ -70,57 +73,57 @@ namespace DSObjects
 
 		// Casimir666
 		typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(
-				LPDIRECT3DSURFACE9        pDestSurface,
-				CONST PALETTEENTRY*       pDestPalette,
-				CONST RECT*               pDestRect,
-				LPCVOID                   pSrcMemory,
-				D3DFORMAT                 SrcFormat,
-				UINT                      SrcPitch,
-				CONST PALETTEENTRY*       pSrcPalette,
-				CONST RECT*               pSrcRect,
-				DWORD                     Filter,
-				D3DCOLOR                  ColorKey);
+				LPDIRECT3DSURFACE9	pDestSurface,
+				CONST PALETTEENTRY*	pDestPalette,
+				CONST RECT*		pDestRect,
+				LPCVOID			pSrcMemory,
+				D3DFORMAT		SrcFormat,
+				UINT			SrcPitch,
+				CONST PALETTEENTRY*	pSrcPalette,
+				CONST RECT*		pSrcRect,
+				DWORD			Filter,
+				D3DCOLOR		ColorKey);
 
 		typedef HRESULT (WINAPI* D3DXCreateLinePtr) (LPDIRECT3DDEVICE9   pDevice, LPD3DXLINE* ppLine);
 
 		typedef HRESULT (WINAPI* D3DXCreateFontPtr)(
-										LPDIRECT3DDEVICE9       pDevice,  
-										INT                     Height,
-										UINT                    Width,
-										UINT                    Weight,
-										UINT                    MipLevels,
-										BOOL                    Italic,
-										DWORD                   CharSet,
-										DWORD                   OutputPrecision,
-										DWORD                   Quality,
-										DWORD                   PitchAndFamily,
-										LPCWSTR                 pFaceName,
-										LPD3DXFONT*             ppFont);
+										LPDIRECT3DDEVICE9	pDevice,  
+										int			Height,
+										UINT			Width,
+										UINT			Weight,
+										UINT			MipLevels,
+										bool			Italic,
+										DWORD			CharSet,
+										DWORD			OutputPrecision,
+										DWORD			Quality,
+										DWORD			PitchAndFamily,
+										LPCWSTR			pFaceName,
+										LPD3DXFONT*		ppFont);
 
 
-		void							DrawStats();
-		HRESULT							AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-		void							EstimateFrameRate (REFERENCE_TIME rtStart);
-		virtual void					OnResetDevice() {};
+		void				DrawStats();
+		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
+		void				EstimateFrameRate (REFERENCE_TIME rtStart);
+		virtual void			OnResetDevice() {};
 
-		int								m_nTearingPos;
-		VMR9AlphaBitmap					m_VMR9AlphaBitmap;
+		int				m_nTearingPos;
+		VMR9AlphaBitmap			m_VMR9AlphaBitmap;
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
-		D3DXCreateLinePtr				m_pD3DXCreateLine;
-		D3DXCreateFontPtr				m_pD3DXCreateFont;
+		D3DXCreateLinePtr		m_pD3DXCreateLine;
+		D3DXCreateFontPtr		m_pD3DXCreateFont;
 
-		int								m_nNbDXSurface;					// Total number of DX Surfaces
-		int								m_nCurSurface;					// Surface currently displayed
-		long							m_nUsedBuffer;
+		int				m_nNbDXSurface;					// Total number of DX Surfaces
+		int				m_nCurSurface;					// Surface currently displayed
+		long				m_nUsedBuffer;
 
-		double							m_fAvrFps;						// Estimate the real FPS
-		LONGLONG						m_pllJitter [NB_JITTER];		// Jitter buffer for stats
-		LONGLONG						m_llLastPerf;
-		int								m_nNextJitter;
-		REFERENCE_TIME					m_rtTimePerFrame;
-		REFERENCE_TIME					m_rtCandidate;
+		double				m_fAvrFps;						// Estimate the real FPS
+		LONGLONG			m_pllJitter [NB_JITTER];		// Jitter buffer for stats
+		LONGLONG			m_llLastPerf;
+		int				m_nNextJitter;
+		REFERENCE_TIME			m_rtTimePerFrame;
+		REFERENCE_TIME			m_rtCandidate;
 
-		CString							m_strStatsMsg[10];
+		CString				m_strStatsMsg[10];
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);

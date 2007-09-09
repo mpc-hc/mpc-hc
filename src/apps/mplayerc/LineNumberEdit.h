@@ -52,8 +52,8 @@ public:
 	void SetMarginForegroundColor( COLORREF col, BOOL redraw = TRUE, BOOL bEnabled = TRUE );
 	void SetMarginBackgroundColor( COLORREF col, BOOL redraw = TRUE, BOOL bEnabled = TRUE );
 	void SetLineNumberFormat( CString format );
-    void SetLineNumberRange( UINT nMin, UINT nMax = 0 );
-    void UseSystemColours( BOOL bUseEnabled = TRUE, BOOL bUseDisabled = TRUE );
+	void SetLineNumberRange( UINT nMin, UINT nMax = 0 );
+	void UseSystemColours( BOOL bUseEnabled = TRUE, BOOL bUseDisabled = TRUE );
 
 	int GetLineHeight() {return m_zero.cy;}
 
