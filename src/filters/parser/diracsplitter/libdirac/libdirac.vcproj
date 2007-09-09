@@ -56,7 +56,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../lib/libdiracD.lib"
+				OutputFile="..\..\..\..\..\lib\libdiracD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -112,7 +112,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../../../lib/libdiracR.lib"
+				OutputFile="..\..\..\..\..\lib\libdiracR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

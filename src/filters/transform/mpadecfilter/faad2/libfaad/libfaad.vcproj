@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Release/libfaad.pch"
+				PrecompiledHeaderFile=".\Release\libfaad.pch"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Debug/libfaad.pch"
+				PrecompiledHeaderFile=".\Debug\libfaad.pch"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -169,7 +169,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Release/libfaad.pch"
+				PrecompiledHeaderFile=".\Release\libfaad.pch"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -233,7 +233,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Debug/libfaad.pch"
+				PrecompiledHeaderFile=".\Debug\libfaad.pch"
 				DebugInformationFormat="3"
 			/>
 			<Tool

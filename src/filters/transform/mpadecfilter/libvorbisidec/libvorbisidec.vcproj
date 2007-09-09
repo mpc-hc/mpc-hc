@@ -45,7 +45,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug/libvorbisidec.pch"
+				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
 				AssemblerOutput="0"
 				CompileAs="0"
 			/>
@@ -108,7 +108,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release/libvorbisidec.pch"
+				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
 				CompileAs="0"
 			/>
 			<Tool
@@ -173,7 +173,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug/libvorbisidec.pch"
+				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
 				AssemblerOutput="0"
 				DebugInformationFormat="3"
 				CompileAs="0"
@@ -240,7 +240,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release/libvorbisidec.pch"
+				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
 				CompileAs="0"
 			/>
 			<Tool

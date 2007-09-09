@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				PrecompiledHeaderFile=".\Release/liba52.pch"
+				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
 			/>
 			<Tool
@@ -106,7 +106,7 @@
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"
-				PrecompiledHeaderFile=".\Debug/liba52.pch"
+				PrecompiledHeaderFile=".\Debug\liba52.pch"
 				AssemblerOutput="0"
 				CompileAs="0"
 			/>
@@ -171,7 +171,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				PrecompiledHeaderFile=".\Release/liba52.pch"
+				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
 			/>
 			<Tool
@@ -236,7 +236,7 @@
 				AdditionalIncludeDirectories=".,../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"
-				PrecompiledHeaderFile=".\Debug/liba52.pch"
+				PrecompiledHeaderFile=".\Debug\liba52.pch"
 				AssemblerOutput="0"
 				DebugInformationFormat="3"
 				CompileAs="0"
