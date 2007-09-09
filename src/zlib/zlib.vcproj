@@ -58,7 +58,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../lib/$(ProjectName)D.lib"
+				OutputFile="..\..\lib\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../lib/$(ProjectName)R.lib"
+				OutputFile="..\..\lib\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -178,7 +178,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../libx64/$(ProjectName)D.lib"
+				OutputFile="..\..\lib64\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -239,7 +239,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../libx64/$(ProjectName)R.lib"
+				OutputFile="..\..\lib64\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
