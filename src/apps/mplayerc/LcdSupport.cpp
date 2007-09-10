@@ -39,16 +39,18 @@
 
 void LCD_UpdateThread(void * Control) 
 {
+	CMPC_Lcd * ctrl = (CMPC_Lcd *) Control;
 	_TCHAR str[40];
 	__time64_t ltime;
 	__time64_t otime = 0;
 	struct tm  thetime;
-	_tsetlocale(LC_ALL, _T(""));		// set current system locale
+	_tsetlocale(LC_ALL, _T(""));			// set current system locale
 
-	while (((CMPC_Lcd *) Control)->Thread_Loop)
+	while (ctrl->Thread_Loop)
 	{
+		EnterCriticalSection(&ctrl->cs);
 		if (_time64(&ltime) != otime &&		// Retrieve the time
-		    (ltime > ((CMPC_Lcd *) Control)->nThread_tTimeout || ltime < otime))	// message displayed, no timeupdate until timeout
+		    (ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
 		{
 			otime = ltime;
 			_localtime64_s(&thetime, &ltime);
@@ -57,11 +59,12 @@ void LCD_UpdateThread(void * Control)
 			// using %#x is the long date representation,
 			// appropriate to the current locale
 			if (_tcsftime(str, sizeof(str), _T("%X %#x"), (const struct tm *)&thetime))
-				((CMPC_Lcd *) Control)->m_Manager.m_Text2.SetText(str);
+				ctrl->m_Manager.m_Text2.SetText(str);
 		}
 
-		((CMPC_Lcd *) Control)->m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
-		((CMPC_Lcd *) Control)->m_Output.Draw();			// This invokes OnDraw for the active screen
+		ctrl->m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
+		ctrl->m_Output.Draw();			// This invokes OnDraw for the active screen
+		LeaveCriticalSection(&ctrl->cs);
 		Sleep(LCD_UPD_TIMER);
 	}
 
@@ -76,12 +79,16 @@ HRESULT CLCDMyManager::Initialize()
 {
 	LOGFONT lf;
 	HFONT hFont;
+	unsigned int x, y;
 
 	// max dims: 160 x 43
+	x = 10;
+	y = 0;
+
 	// Initialize the text control (media)
 	m_Text1.Initialize();
-	m_Text1.SetOrigin(10, 0);
-	m_Text1.SetSize(150, 13);
+	m_Text1.SetOrigin(x, y);
+	m_Text1.SetSize(160-x, 13);
 	m_Text1.SetAlignment(DT_CENTER);
 	m_Text1.SetWordWrap(false);
 	m_Text1.SetText(_T(""));
@@ -91,10 +98,24 @@ HRESULT CLCDMyManager::Initialize()
 	m_Text1.SetScrollDirection(CLCDScrollingText::SCROLL_HORZ);
 	m_Text1.SetSpeed(24);
 
+	// Initialize the progressbar control (media progress)
+	y += 15;
+	m_ProgBar[1].Initialize();
+	m_ProgBar[1].SetOrigin(x+10, y);
+	m_ProgBar[1].SetSize(160-x-10, 7);
+	m_ProgBar[1].SetPos(0);
+	m_ProgBar[1].SetProgressStyle(CLCDProgressBar::STYLE_FILLED_H);
+
+	// gfx
+	m_PlayState.Initialize();
+	m_PlayState.SetOrigin(x, y);
+	m_PlayState.SetSize(7, 7);
+
 	// Initialize the text control (time / mpc messages)
+	y += 10;
 	m_Text2.Initialize();
-	m_Text2.SetOrigin(10, 25);
-	m_Text2.SetSize(150, 13);
+	m_Text2.SetOrigin(x, y);
+	m_Text2.SetSize(160-x, 13);
 	m_Text2.SetAlignment(DT_CENTER);
 	m_Text2.SetWordWrap(false);
 	m_Text2.SetText(_T(""));
@@ -111,18 +132,6 @@ HRESULT CLCDMyManager::Initialize()
 	m_ProgBar[0].SetPos(0);
 	m_ProgBar[0].SetProgressStyle(CLCDProgressBar::STYLE_FILLED_V);
 
-	// Initialize the progressbar control (media progress)
-	m_ProgBar[1].Initialize();
-	m_ProgBar[1].SetOrigin(20, 15);
-	m_ProgBar[1].SetSize(140, 7);
-	m_ProgBar[1].SetPos(0);
-	m_ProgBar[1].SetProgressStyle(CLCDProgressBar::STYLE_FILLED_H); /* fuer seeken benutzen: STYLE_DASHED_CURSOR */
-
-	// gfx
-	m_PlayState.Initialize();
-	m_PlayState.SetOrigin(10, 15);
-	m_PlayState.SetSize(7, 7);
-
 	AddObject(&m_Text1);
 	AddObject(&m_Text2);
 	AddObject(&m_ProgBar[0]);
@@ -136,10 +145,10 @@ void CLCDMyManager::OnLCDButtonUp(int nButton)
 {
 	switch(nButton)
 	{
-	case LGLCDBUTTON_BUTTON0://	break;
+	case LGLCDBUTTON_BUTTON0:
 	{
 /*		LOGFONT lf;
-		HFONT hFont = m_Text2.GetFont();
+		HFONT hFont = m_Text1.GetFont();
 
 		GetObject(hFont, sizeof(LOGFONT), &lf);
 
@@ -220,9 +229,11 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_Output.Draw();			// This invokes OnDraw for the active screen
 
 	hLCD_UpdateThread = 0;
+	InitializeCriticalSection(&cs);
 	if (m_Output.IsOpened())
 	{
 		Thread_Loop = true;
+		SetPlayState(PS_STOP);
 		hLCD_UpdateThread = (HANDLE) _beginthread(LCD_UpdateThread, 512 /* stack */, (void*) this /* arg */);
 	}
 }
@@ -239,32 +250,42 @@ CMPC_Lcd::~CMPC_Lcd(void)
 /* update title name */
 void CMPC_Lcd::SetMediaTitle(const _TCHAR * text)
 {
+	EnterCriticalSection(&cs);
 	m_Manager.m_Text1.SetText(text);
 	m_Manager.m_ProgBar[1].SetPos(0);
+	LeaveCriticalSection(&cs);
 }
 
 /* set volume min/max */
 void CMPC_Lcd::SetVolumeRange(__int64 nStart, __int64 nStop)
 {
+	EnterCriticalSection(&cs);
 	m_Manager.m_ProgBar[0].SetRange(nStart, nStop);
+	LeaveCriticalSection(&cs);
 }
 
 /* update volume */
 void CMPC_Lcd::SetVolume(__int64 nVol)
 {
+	EnterCriticalSection(&cs);
 	m_Manager.m_ProgBar[0].SetPos(nVol);
+	LeaveCriticalSection(&cs);
 }
 
 /* set media min/max */
 void CMPC_Lcd::SetMediaRange(__int64 nStart, __int64 nStop)
 {
+	EnterCriticalSection(&cs);
 	m_Manager.m_ProgBar[1].SetRange(nStart, nStop);
+	LeaveCriticalSection(&cs);
 }
 
 /* update media position */
 void CMPC_Lcd::SetMediaPos(__int64 nPos)
 {
+	EnterCriticalSection(&cs);
 	m_Manager.m_ProgBar[1].SetPos(nPos);
+	LeaveCriticalSection(&cs);
 }
 
 /* update status message (displayed for nTimeOut milliseconds) */
@@ -278,8 +299,10 @@ void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
 	if ((nTimeOut /= 1000) < 1)
 		nTimeOut = 1;
 
+	EnterCriticalSection(&cs);
 	nThread_tTimeout = ltime + nTimeOut;
 	m_Manager.m_Text2.SetText(text);
+	LeaveCriticalSection(&cs);
 }
 
 /* update play state bitmap */
@@ -288,6 +311,7 @@ void CMPC_Lcd::SetPlayState(CMPC_Lcd::PlayState ps)
 	if (!m_Output.IsOpened())
 		return;
 
+	EnterCriticalSection(&cs);
 	switch (ps)
 	{
 	case PS_PLAY:
@@ -311,10 +335,11 @@ void CMPC_Lcd::SetPlayState(CMPC_Lcd::PlayState ps)
 		m_Manager.m_PlayState.SetBitmap(hBmp[PS_STOP]);
 		m_Manager.m_PlayState.ResetUpdate();
 		m_Manager.m_PlayState.SetSubpicWidth(7);
-		m_Manager.m_PlayState.SetAnimationRate(5000);	// dummy
+		m_Manager.m_PlayState.SetAnimationRate(5000);	// dummy, only one picture
 		break;
 
 	default:
 		break;
 	}
+	LeaveCriticalSection(&cs);
 }

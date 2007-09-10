@@ -63,6 +63,7 @@ class CMPC_Lcd
 		CLCDMyManager		m_Manager;
 		bool			Thread_Loop;
 		__time64_t		nThread_tTimeout;
+		CRITICAL_SECTION	cs;
 
 		CMPC_Lcd();
 		~CMPC_Lcd();
