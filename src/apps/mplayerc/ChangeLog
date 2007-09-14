@@ -14,6 +14,9 @@
 - Fixed : mouse is working in DVD menu with EVR custom on Vista
 - Added : multilangual support (english, french and german). 
 - Modify : DirectX SDK updated to August 2007
+- Fixed : Fix in FLV splitter when video does not start with keyframe 
+- Fixed : Vulnerability CAL-20070912-1 in AVI source filter (could potential execute arbitrary code with the user's privileges) 
+- Fixed : Vulnerability in FLI internal source filter
 
 
 1.0.9.0
