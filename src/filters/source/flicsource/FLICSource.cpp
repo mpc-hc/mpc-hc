@@ -729,7 +729,11 @@ void CFLICStream::_deltachunk()
 
 				if(count >= 0)
 				{
-					m_flic.Read(ptr, count << 1);
+					// Fix vulnerability : http://www.team509.com/modules.php?name=News&file=article&sid=38
+					if ( m_hdr.x*m_hdr.y*32>>3 - (long)(m_pFrameBuffer - ptr) < (count << 1))
+						m_flic.Read(ptr, count << 1);
+					else
+						ASSERT(FALSE);
 					ptr += count << 1;
 				}
 				else

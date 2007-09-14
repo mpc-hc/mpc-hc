@@ -274,13 +274,12 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 		else if(t.TagType == 9 && fTypeFlagsVideo)
 		{
-			fTypeFlagsVideo = false;
-
-			name = L"Video";
-
 			VideoTag vt;
 			if(ReadTag(vt) && vt.FrameType == 1)
 			{
+				fTypeFlagsVideo = false;
+				name = L"Video";
+
 				mt.majortype = MEDIATYPE_Video;
 				mt.formattype = FORMAT_VideoInfo;
 				VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
@@ -327,9 +326,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					VideoTweak fudge;
 					ReadTag(fudge);
 				
-//					if((m_pFile->BitRead(16) & 0x80fe) != 0x0046) break;
 					if (m_pFile->BitRead(1)) {
     				// Delta (inter) frame
+					fTypeFlagsVideo = true;
    					break;
 					}
 					m_pFile->BitRead(6);

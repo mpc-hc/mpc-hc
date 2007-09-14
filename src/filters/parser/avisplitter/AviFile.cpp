@@ -165,11 +165,28 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 			case FCC('indx'):
 				if(!strm) strm.Attach(new strm_t());
 				ASSERT(strm->indx == NULL);
-				strm->indx.Attach((AVISUPERINDEX*)new BYTE[size + 8]);
-				strm->indx->fcc = FCC('indx');
-				strm->indx->cb = size;
-				if(S_OK != ByteRead((BYTE*)(AVISUPERINDEX*)strm->indx + 8, size)) return E_FAIL;
-				ASSERT(strm->indx->wLongsPerEntry == 4 && strm->indx->bIndexType == AVI_INDEX_OF_INDEXES);
+				AVISUPERINDEX*	pSuperIndex;
+				if (size < MAXDWORD-8)
+				{
+					// Fix buffer overrun vulnerability : http://www.vulnhunt.com/advisories/CAL-20070912-1_Multiple_vendor_produce_handling_AVI_file_vulnerabilities.txt
+					TRY
+					{
+						pSuperIndex = (AVISUPERINDEX*)new unsigned char [(size_t)(size + 8)];
+					}
+					CATCH (CMemoryException, e)
+					{
+						pSuperIndex = NULL;
+					}
+					END_CATCH
+					if (pSuperIndex)
+					{
+						strm->indx.Attach(pSuperIndex);
+						strm->indx->fcc = FCC('indx');
+						strm->indx->cb = size;
+						if(S_OK != ByteRead((BYTE*)(AVISUPERINDEX*)strm->indx + 8, size)) return E_FAIL;
+						ASSERT(strm->indx->wLongsPerEntry == 4 && strm->indx->bIndexType == AVI_INDEX_OF_INDEXES);
+					}
+				}
 				break;
 			case FCC('dmlh'):
 				if(S_OK != Read(m_dmlh)) return E_FAIL;
