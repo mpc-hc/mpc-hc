@@ -8,6 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -2081,16 +2082,16 @@ BEGIN
     IDS_RS_THUMBWIDTH              "ThumbWidth"
     IDS_RS_AUDIONORMALIZE          "AudioNormalize"
     IDS_RS_AUDIOBOOST              "AudioBoost"
-    IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
+    IDS_RS_D3DFULLSCREEN           "D3DFullScreen"
     IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
-    IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
-    IDS_RS_COLOR_CONTRAST   "Color Contrast"
-    IDS_RS_COLOR_HUE        "Color Hue"
-    IDS_RS_COLOR_SATURATION "Color Saturation"
-    IDS_RS_SHADERLIST       "Shaders List"
-    IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
-    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
-    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
+    IDS_RS_COLOR_BRIGHTNESS        "Color Brightness"
+    IDS_RS_COLOR_CONTRAST          "Color Contrast"
+    IDS_RS_COLOR_HUE               "Color Hue"
+    IDS_RS_COLOR_SATURATION        "Color Saturation"
+    IDS_RS_SHADERLIST              "Shaders List"
+    IDS_RS_TITLEBARTEXTTITLE       "TitleBarTextTitle"
+    IDS_RS_VMR9MIXERYUV            "VMRMixerYUV"
+    IDS_RS_AUDIONORMALIZERECOVER   "AudioNormalizeRecover"
 END
 
 STRINGTABLE 
@@ -2550,8 +2551,10 @@ BEGIN
     IDS_MEDIAFORMATS_34    "Medien Dateien (Alle Formate)|__dummy|"
     IDS_MEDIAFORMATS_35    "Alle Dateien (*.*)|__dummy|"
     IDS_MEDIAFORMATS_36    "Audio Dateien (Alle Formate)|__dummy|"
-    IDS_PIXELSHADERCOMPILER_0 "Kann D3DX9_xx.DLL nicht laden, Pixel Shaders bleiben inaktiv."
-    IDS_PIXELSHADERCOMPILER_1 "Kann benötigte Funktionen in der D3DX9_xx.DLL Library nicht\nfinden (evtl. falsche Version), Pixel Shaders bleiben inaktiv."
+    IDS_PIXELSHADERCOMPILER_0
+                           "Kann D3DX9_xx.DLL nicht laden, Pixel Shaders bleiben inaktiv."
+    IDS_PIXELSHADERCOMPILER_1
+                           "Kann benötigte Funktionen in der D3DX9_xx.DLL Library nicht\nfinden (evtl. falsche Version), Pixel Shaders bleiben inaktiv."
     IDS_AG_NOT_KNOWN       "Unbekannt"
     IDS_MPLAYERC_0         "Schnelles Datei öffnen..."
     IDS_AG_OPEN_FILE       "Datei öffnen..."
@@ -2869,42 +2872,45 @@ BEGIN
     IDS_VOLUME_BOOST_DEC   "Lautstärke Boost verringern"
     IDS_VOLUME_BOOST_MIN   "Lautstärke Boost Min"
     IDS_VOLUME_BOOST_MAX   "Lautstärke Boost Max"
-    IDS_USAGE              "Usage: mplayerc.exe ""pathname"" [switches]\n\n""pathname""\tThe main file or directory to be loaded. (wildcards allowed)\n/dub ""dubname""\tLoad an additional audio file.\n/d3dfs\t\tstart rendering in D3D fullscreen mode.\n/sub ""subname""\tLoad an additional subtitle file.\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link library. (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd folder (optional).\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd, ""pathname"" means the drive path (optional).\n/open\t\tOpen the file, don't automatically start playing.\n/play\t\tStart playing the file as soon the player is launched.\n/close\t\tClose the player after playback (only works when used with /play).\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode.\n/minimized\tStart in minimized mode.\n/new\t\tUse a new instance of the player.\n/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play.\n/regvid\t\tRegister video formats\n/regaud\t\tRegister audio formats\n/unregvid\t\tUnregister video formats\n/unregaud\tUnregister audio formats\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/fixedsize w,h\tSet fixed window size.\n/monitor N\tStart on monitor N, where N starts from 1.\n/help /h /?\tShow help about command line switches. (this message box)\n"
-    IDS_UNKNOWN_SWITCH     "Unrecognized switch(es) found in command line string: \n\n"
-    IDS_MPADECSETTINGSWND_0  "Ausgabe-Sampleformat"
-    IDS_MPADECSETTINGSWND_1  "AC3 Dekoder"
+    IDS_USAGE              "Aufruf: mplayerc.exe ""Pfadname"" [Optionen]\n\n""Pfadname""\tThe main file or directory to be loaded. (wildcards allowed)\n/dub ""dubname""\tLoad an additional audio file.\n/d3dfs\t\tstart rendering in D3D fullscreen mode.\n/sub ""subname""\tLoad an additional subtitle file.\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link library. (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd folder (optional).\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd, ""pathname"" means the drive path (optional).\n/open\t\tOpen the file, don't automatically start playing.\n/play\t\tStart playing the file as soon the player is launched.\n/close\t\tClose the player after playback (only works when used with /play).\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode.\n/minimized\tStart in minimized mode.\n/new\t\tUse a new instance of the player.\n/add\t\tAdd ""pathname"" to playlist, can be combined with /open and /play.\n/regvid\t\tRegister video formats\n/regaud\t\tRegister audio formats\n/unregvid\t\tUnregister video formats\n/unregaud\tUnregister audio formats\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/fixedsize w,h\tSet fixed window size.\n/monitor N\tStart on monitor N, where N starts from 1.\n/help /h /?\tShow help about command line switches. (this message box)\n"
+    IDS_UNKNOWN_SWITCH     "Unbekannte Option(en) in Befehlszeile gefunden: \n\n"
+    IDS_MPADECSETTINGSWND_0 "Ausgabe-Sampleformat"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MPA_CHANNEL_1  "Kanal 1"
-    IDS_MPA_CHANNEL_2  "Kanal 2"
-    IDS_MPADECSETTINGSWND_5  "Dekodieren für:"
-    IDS_MPADECSETTINGSWND_7  "DTS Dekoder"
+    IDS_MPADECSETTINGSWND_1 "AC3 Dekoder"
+    IDS_MPA_CHANNEL_1         "Kanal 1"
+    IDS_MPA_CHANNEL_2         "Kanal 2"
+    IDS_MPADECSETTINGSWND_5   "Dekodieren für:"
+    IDS_MPADECSETTINGSWND_7   "DTS Dekoder"
     IDS_MPADECSETTINGSWND_11  "AAC Dekoder"
     IDS_MPADECSETTINGSWND_12  "Downmix nach Stereo"
-    IDS_AG_SETTINGS  "Einstellungen"
-    IDS_MPEG2DECSETTINGSWND_0  "Planare YUV Medien-Typen erlauben (VY12, I420, IYUY)"
-    IDS_MPEG2DECSETTINGSWND_1  "Setze Interlaced-Flag im Medientyp"
-    IDS_MPEG2DECSETTINGSWND_2  "Erzwungene Untertitel (Forced Subs) immer anzeigen"
-    IDS_MPEG2_DEINTERLACING  "Deinterlacing:"
-    IDS_MPEG2_BRIGHTNESS  "Helligkeit:"
-    IDS_MPEG2_RESET  "Zurücksetzen"
-    IDS_MPEG2DECSETTINGSWND_7  "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinter- lacing, oder Änderung der Farb-Einstellung, "
-	IDS_MPEG2DECSETTINGSWND_8  "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
+    IDS_AG_SETTINGS           "Einstellungen"
+    IDS_MPEG2DECSETTINGSWND_0
+                              "Planare YUV Medien-Typen erlauben (VY12, I420, IYUY)"
+    IDS_MPEG2DECSETTINGSWND_1 "Setze Interlaced-Flag im Medientyp"
+    IDS_MPEG2DECSETTINGSWND_2 "Erzwungene Untertitel (Forced Subs) immer anzeigen"
+    IDS_MPEG2_DEINTERLACING   "Deinterlacing:"
+    IDS_MPEG2_BRIGHTNESS      "Helligkeit:"
+    IDS_MPEG2_RESET           "Zurücksetzen"
+    IDS_MPEG2DECSETTINGSWND_7
+                              "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinter- lacing, oder Änderung der Farb-Einstellung, "
+    IDS_MPA_3F                "3 Vorne"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_MPA_3F			"3 Front"
-    IDS_MPA_2F_1R		"2 Front + 1 Rear"
-    IDS_MPA_3F_1R		"3 Front + 1 Rear"
-    IDS_MPA_2F_2R		"2 Front + 2 Rear"
-    IDS_MPA_3F_2R		"3 Front + 2 Rear"
-	IDS_MPA_DYNRANGE	"Dynamic Range Control"
-	IDS_MPEG2_CONTRAST	"Contrast"
-	IDS_MPEG2_HUE		"Hue"
-	IDS_MPEG2_SATURATION "Saturation"
+    IDS_MPA_2F_1R          "2 Vorne + 1 Hinten"
+    IDS_MPA_3F_1R          "3 Vorne + 1 Hinten"
+    IDS_MPA_2F_2R          "2 Vorne + 2 Hinten"
+    IDS_MPA_3F_2R          "3 Vorne + 2 Hinten"
+    IDS_MPA_DYNRANGE       "Dynamic Range Control"
+    IDS_MPEG2_CONTRAST     "Kontrast"
+    IDS_MPEG2_HUE          "Farbton"
+    IDS_MPEG2_SATURATION   "Sättigung"
+    IDS_MPEG2DECSETTINGSWND_8
+                           "kann Performance beeinträchtigen. ""Auto"" Deinterlacer wechselt zu ""Blend"", wenn notwendig."
 END
 
 #endif    // German (Germany) resources
