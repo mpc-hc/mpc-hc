@@ -270,6 +270,7 @@ CMPlayerCApp::CMPlayerCApp()
 	m_fTearingTest  = false;
 	m_fDisplayStats = false;
 	m_hD3DX9Dll		= NULL;
+	m_nDXSdkRelease = 0;
 	memset (&m_ColorControl, 0, sizeof(m_ColorControl));
 	m_ColorControl[0].dwSize		= sizeof (COLORPROPERTY_RANGE);
 	m_ColorControl[0].dwProperty	= Brightness;
@@ -2659,6 +2660,7 @@ HINSTANCE CMPlayerCApp::GetD3X9Dll()
 {
 	if (m_hD3DX9Dll == NULL)
 	{
+		m_nDXSdkRelease = 0;
 		// Try to load latest DX9 available
 		for (int i=D3DX_SDK_VERSION; i>23; i--)
 		{
@@ -2666,7 +2668,11 @@ HINSTANCE CMPlayerCApp::GetD3X9Dll()
 			{
 				m_strD3DX9Version.Format(_T("d3dx9_%d.dll"), i);
 				m_hD3DX9Dll = LoadLibrary (m_strD3DX9Version);
-				if (m_hD3DX9Dll) break;
+				if (m_hD3DX9Dll) 
+				{
+					m_nDXSdkRelease = i;
+					break;
+				}
 			}
 		}
 	}
@@ -2692,23 +2698,33 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	AppSettings&	s = AfxGetAppSettings();
 	HMODULE			hMod = NULL;
 	LPCTSTR			strSatellite;
+	bool			bNoChange = false;
 
 	s.iLanguage  = nLanguage;
 	strSatellite = GetSatelliteDll(nLanguage);
 	if (strSatellite)
-		hMod = LoadLibrary (strSatellite);
+	{
+		CFileVersionInfo	Version;
+		CString				strSatVersion;
+		Version.Create (strSatellite);
+		strSatVersion = Version.GetFileVersionEx();
+
+		if (strSatVersion == _T("1.0.0.0"))
+			hMod = LoadLibrary (strSatellite);
+		else
+		{
+			bNoChange = true;
+			// This message should stay in english!
+			MessageBox (NULL, _T("Your language pack will not work with this version. Please download a compatilble one from MPC-HC homepage."), 
+							  _T("Media Player Classic - Homecinema"), MB_OK);
+		}
+	}
 
 	if (!hMod) 
 	{
 		hMod = AfxGetApp()->m_hInstance;
-		s.iLanguage = 0;
+		if (!bNoChange) s.iLanguage = 0;
 	}
 	AfxSetResourceHandle(hMod);
 }
 
-/*			TODO !
-	ADDCMD((ID_VOLUME_BOOST_INC, 0, FVIRTKEY|FNOINVERT, _T("Volume boost increase")));
-	ADDCMD((ID_VOLUME_BOOST_DEC, 0, FVIRTKEY|FNOINVERT, _T("Volume boost decrease")));
-	ADDCMD((ID_VOLUME_BOOST_MIN, 0, FVIRTKEY|FNOINVERT, _T("Volume boost Min")));
-	ADDCMD((ID_VOLUME_BOOST_MAX, 0, FVIRTKEY|FNOINVERT, _T("Volume boost Max")));
-*/

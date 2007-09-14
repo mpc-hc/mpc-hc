@@ -346,6 +346,7 @@ class CMPlayerCApp : public CWinApp
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
 	HINSTANCE				m_hD3DX9Dll;
+	int						m_nDXSdkRelease;
 
 public:
 	CMPlayerCApp();
@@ -369,6 +370,7 @@ public:
 	LONGLONG					GetPerfCounter();
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
 	HINSTANCE					GetD3X9Dll();
+	int							GetDXSdkRelease() { return m_nDXSdkRelease; };
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
 // Overrides

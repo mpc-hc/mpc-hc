@@ -1008,7 +1008,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 				switch(iDX9Resizer)
 				{
 					case 3: A = -0.60f; break;
-					case 4: A = -0.75f; break;
+					case 4: A = -0.751f; break;	// FIXME : 0.75 crash recent D3D, or eat CPU 
 					case 5: A = -1.00f; break;
 				}
 
@@ -1205,11 +1205,15 @@ void CDX9AllocatorPresenter::DrawStats()
 			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 			OffsetRect (&rc, 0, 30);
-			strText.Format(L"Jitter           : Min = %+6dµS, Max = %+6dµS", (long)(llMinJitter/10), (long)(llMaxJitter/10));
+			strText.Format(L"Jitter            : Min = %+6dµS, Max = %+6dµS", (long)(llMinJitter/10), (long)(llMaxJitter/10));
 			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 			OffsetRect (&rc, 0, 30);
 			strText.Format(L"Video size    : %d x %d  (AR = %d x %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
+			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+			OffsetRect (&rc, 0, 30);
+			strText.Format(L"DirextX SDK : %d", AfxGetMyApp()->GetDXSdkRelease());
 			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 			for (int i=0; i<6; i++)

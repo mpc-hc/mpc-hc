@@ -1488,8 +1488,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,9,1
- PRODUCTVERSION 6,4,9,0
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1504,15 +1504,14 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://gabest.org/ Modify by Casimir666"
-            VALUE "CompanyName", "Gabest"
-            VALUE "FileDescription", "Media Player Classic"
-            VALUE "FileVersion", "1, 0, 10, 0"
-            VALUE "InternalName", "Media Player Classic"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2006 Gabest"
+            VALUE "Comments", "French satellite ressource for Media Player - Homecinema"
+            VALUE "FileDescription", "Media Player Classic - Homecinema"
+            VALUE "FileVersion", "1, 0, 0, 0"
+            VALUE "InternalName", "Media Player Classic - Homecinema"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2007"
             VALUE "OriginalFilename", "mplayerc.EXE"
             VALUE "ProductName", "Media Player Classic"
-            VALUE "ProductVersion", "6, 4, 9, 0"
+            VALUE "ProductVersion", "1, 0, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
