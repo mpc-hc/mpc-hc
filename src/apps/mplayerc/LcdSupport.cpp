@@ -212,6 +212,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_ConnCtx.onConfigure.configContext	= NULL;
 	m_ConnCtx.connection			= LGLCD_INVALID_CONNECTION;	// the "connection" member will be returned upon return
 
+	InitializeCriticalSection(&cs);
 	if (m_Output.Initialize(&m_ConnCtx) != ERROR_SUCCESS ||	// Initialize the output object
 	    m_Manager.Initialize() != ERROR_SUCCESS)
 	{
@@ -229,7 +230,6 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_Output.Draw();			// This invokes OnDraw for the active screen
 
 	hLCD_UpdateThread = 0;
-	InitializeCriticalSection(&cs);
 	if (m_Output.IsOpened())
 	{
 		Thread_Loop = true;
