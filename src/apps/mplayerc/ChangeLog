@@ -1,5 +1,6 @@
 v1.0.11.0 - unreleased
 ======================
+ NEW    : Command Line Option "/dubdelay", apply a positive or negative audio delai of ???ms if filename contain string "DELAY ???ms" (required internal Audio Switcher)
 
 v1.0.10.0 - 15.Sep 2007
 ======================
