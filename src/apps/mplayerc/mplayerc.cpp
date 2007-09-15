@@ -2097,6 +2097,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	slSubs.RemoveAll();
 	slFilters.RemoveAll();
 	rtStart = 0;
+	rtShift = 0;
 	fixedWindowSize.SetSize(0, 0);
 	iMonitor = 0;
 
@@ -2118,6 +2119,14 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("new")) nCLSwitches |= CLSW_NEW;
 			else if(sw == _T("help") || sw == _T("h") || sw == _T("?")) nCLSwitches |= CLSW_HELP;
 			else if(sw == _T("dub") && pos) slDubs.AddTail(cmdln.GetNext(pos));
+			else if(sw == _T("dubdelay") && pos)
+			{
+				CString		strFile = cmdln.GetNext(pos);
+				int			nPos  = strFile.Find (_T("DELAY"));
+				if (nPos != -1)
+					rtShift = 10000 * _tstol(strFile.Mid(nPos + 6));
+				slDubs.AddTail(strFile);
+			}
 			else if(sw == _T("sub") && pos) slSubs.AddTail(cmdln.GetNext(pos));
 			else if(sw == _T("filter") && pos) slFilters.AddTail(cmdln.GetNext(pos));
 			else if(sw == _T("dvd")) nCLSwitches |= CLSW_DVD;

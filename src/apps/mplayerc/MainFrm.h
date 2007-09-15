@@ -716,4 +716,5 @@ public:
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
+	void		SetAudioDelay(REFERENCE_TIME rtShift);
 };

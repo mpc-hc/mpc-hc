@@ -5437,6 +5437,20 @@ void CMainFrame::OnUpdatePlayResetRate(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED);
 }
 
+
+void CMainFrame::SetAudioDelay(REFERENCE_TIME rtShift)
+{
+	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB))
+	{
+		pASF->SetAudioTimeShift(rtShift);
+
+		CString str;
+		str.Format(ResStr(IDS_MAINFRM_70), rtShift/10000);
+		SendStatusMessage(str, 3000);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
+	}
+}
+
 void CMainFrame::OnPlayChangeAudDelay(UINT nID)
 {
 	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB))
@@ -5446,12 +5460,8 @@ void CMainFrame::OnPlayChangeAudDelay(UINT nID)
 			nID == ID_PLAY_INCAUDDELAY ? 100000 :
 			nID == ID_PLAY_DECAUDDELAY ? -100000 : 
 			0;
-		pASF->SetAudioTimeShift(rtShift);
 
-		CString str;
-		str.Format(ResStr(IDS_MAINFRM_70), rtShift/10000);
-		SendStatusMessage(str, 3000);
-		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
+		SetAudioDelay (rtShift);
 	}
 }
 
@@ -8297,6 +8307,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	else
 	{
 		m_wndPlaylistBar.SetCurValid(true);
+
+		// Apply command line audio shift
+		if (s.rtShift != 0)
+		{
+			SetAudioDelay (s.rtShift);
+			s.rtShift = 0;
+		}
 	}
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things

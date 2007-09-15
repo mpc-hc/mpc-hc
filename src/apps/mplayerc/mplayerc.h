@@ -403,6 +403,7 @@ public:
 		// cmdline params
 		int nCLSwitches;
 		CAtlList<CString> slFiles, slDubs, slSubs, slFilters;
+		__int64 rtShift;
 		__int64 rtStart;
 		CSize fixedWindowSize;
 		bool HasFixedWindowSize() {return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;}
