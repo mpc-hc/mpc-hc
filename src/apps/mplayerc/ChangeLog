@@ -1,4 +1,7 @@
-v1.0.10.0 - 15.Sep 2007 
+v1.0.11.0 - unreleased
+======================
+
+v1.0.10.0 - 15.Sep 2007
 ======================
  CHANGED: Latest Clsid Patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
  CHANGED: libpng 1.2.20
@@ -7,9 +10,9 @@ v1.0.10.0 - 15.Sep 2007
  CHANGED: Remember File and DVD position works only when "Keep history" is active (preserve privacy issue)
  CHANGED: Kick off Screen Saver from Power Options only while video is playing (Vista)
  NEW    : Build for x64 platforms
- NEW    : Multilanguage support: english, french and german.
+ NEW    : Multilingual support for english, french and german.
  CHANGED: DirectX SDK updated to August 2007 (v35)
- FIXED  : Wrong Aspect Ratio with EVR-Custom (definitely i hope :-) 
+ FIXED  : Wrong Aspect Ratio with EVR-Custom (definitely i hope :-)
  FIXED  : Internal Mpeg2 Decoder was not working with EVR and EVR-Custom
  FIXED  : Audio async problems with Blu-Ray/HD DVD DTS files [wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)]
  FIXED  : OSD was not working when D3DX9_... dll was not present (random pixels shown in top of video)
@@ -18,84 +21,84 @@ v1.0.10.0 - 15.Sep 2007
  FIXED  : Vulnerability CAL-20070912-1 in AVI Source Filter (arbitrary code execute with users privileges)
  FIXED  : Vulnerability in FLI internal source filter
 
-v1.0.9.0 - 14.Jul 2007 
+v1.0.9.0 - 14.Jul 2007
 ======================
- CHANGED: OSD improved with EVR-Custom 
- FIXED  : EVR-Custom rendering thread stability 
- FIXED  : EVR-Custom does not need mfplat.dll anymore (dll is installed with WMP11) 
- NEW    : Exit Option in popup menu 
- FIXED  : Use same registry key like orginal Gabest Media Player Classic 
- FIXED  : Freeze when playing audio only file with EVR-Custom 
- FIXED  : Wrong Aspect Ratio with anamorphic video using EVR-custom 
- FIXED  : When Video pause, frame stepping with EVR-Custom started video playback at normal speed 
- FIXED  : Save thumbnail with EVR-Custom froze MPC 
- FIXED  : FLV splitter did not read width and height out of metadata (thanks to Chobits for this fix) 
+ CHANGED: OSD improved with EVR-Custom
+ FIXED  : EVR-Custom rendering thread stability
+ FIXED  : EVR-Custom does not need mfplat.dll anymore (dll is installed with WMP11)
+ NEW    : Exit Option in popup menu
+ FIXED  : Use same registry key like orginal Gabest Media Player Classic
+ FIXED  : Freeze when playing audio only file with EVR-Custom
+ FIXED  : Wrong Aspect Ratio with anamorphic video using EVR-custom
+ FIXED  : When Video pause, frame stepping with EVR-Custom started video playback at normal speed
+ FIXED  : Save thumbnail with EVR-Custom froze MPC
+ FIXED  : FLV splitter did not read width and height out of metadata (thanks to Chobits for this fix)
  FIXED  : If more than one subtile text rows shown, the background ("Outline" color) vertically overlaped the other one
 
-v1.0.8.0 - 31.May 2007 
+v1.0.8.0 - 31.May 2007
 ======================
  NEW    : Kick off Screen Saver from Power Options, only when MPC has focus (Vista)
- FIXED  : Jitter test was not displayed with some files 
- FIXED  : Crash if statistics should be displayed, when d3dx9_29.dll was not present 
+ FIXED  : Jitter test was not displayed with some files
+ FIXED  : Crash if statistics should be displayed, when d3dx9_29.dll was not present
  FIXED  : Possible crash when closing file, while OSD was displayed
  FIXED  : DVD menu freeze with EVR-Custom and nVidia Pure Video decoder (Windows XP)
- FIXED  : Mouse-click to play not working at the bottom of video 
- FIXED  : MKV internal subtitles were not displayed from time to time 
+ FIXED  : Mouse-click to play not working at the bottom of video
+ FIXED  : MKV internal subtitles were not displayed from time to time
  FIXED  : Video disapeared when moving MPC to other screen with EVR-Custom presenter on dual display
 
-v1.0.7.0 - 27.May 2007 
+v1.0.7.0 - 27.May 2007
 ======================
  NEW    : "EVR-Custom presenter" mode added as output renderer. In this mode EVR supports internal MPC subtitles, D3D fullscreen, tearing test and Pixels Shaders
  NEW    : Statistics option currently displays the jitter curve (Ctrl + J to activate) for VMR9 renderless and EVR-Custom presenter
- CHANGED: Output property page, options now disabled when not supported by selected renderer 
- FIXED  : Mouse cursor invisible in Fullscreen mode 
- FIXED  : Mouse-click to play was not working with some renderers 
- FIXED  : A one pixel width rectangle was not displayed around the video window (refresh problem) 
+ CHANGED: Output property page, options now disabled when not supported by selected renderer
+ FIXED  : Mouse cursor invisible in Fullscreen mode
+ FIXED  : Mouse-click to play was not working with some renderers
+ FIXED  : A one pixel width rectangle was not displayed around the video window (refresh problem)
  FIXED  : Crash when switching from VMR9 renderless to VRM7 renderless (Vista)
 
-v1.0.6.0 - 07.May 2007 
+v1.0.6.0 - 07.May 2007
 ======================
  NEW    : VP62 codec internal filter re-activated
  NEW	: Mpeg4 splitter internal filter re-activated
  CHANGED: Drevil_xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
- FIXED  : Window "flashing" during resize, after video loaded 
+ FIXED  : Window "flashing" during resize, after video loaded
 
-v1.0.5.0 - 05.May 2007 
+v1.0.5.0 - 05.May 2007
 ======================
  NEW    : MPC now Vista ready, Enhanced Video Renderer (EVR) with OSD support added
- NEW    : Shuttle PN31 Remote Control support 
- NEW    : Subtitle synchronization with keyboard shortcuts or remote control 
- FIXED  : Fixed bug on internal filter property page 
+ NEW    : Shuttle PN31 Remote Control support
+ NEW    : Subtitle synchronization with keyboard shortcuts or remote control
+ FIXED  : Fixed bug at internal filter property page
 
-v1.0.4.0 - 09.May 2006 
+v1.0.4.0 - 09.May 2006
 ======================
- CHANGED: OSD inprovement 
- NEW    : Remaining time displayed (Ctrl + I or "Remaining_Time" with WinLIRC) 
- NEW    : OSD Fast forward / rewind speed display 
- CHANGED: OSD FF/Rew for DVD playback: slow forward replace by rewind, no more predefined speed limits (will now depands on Mpeg2 decoder capabilities). 
+ CHANGED: OSD inprovement
+ NEW    : Remaining time displayed (Ctrl + I or "Remaining_Time" with WinLIRC)
+ NEW    : OSD Fast forward / rewind speed display
+ CHANGED: OSD FF/Rew for DVD playback: slow forward replaced by rewind, no more predefined speed limits (feature depends on Mpeg2 decoder capabilities).
  FIXED  : Taskbar Display bug in D3D Fullscreen mode
  FIXED  : Mouse cursor invisible in D3D Fullscreen mode
 
-v1.0.3.0 - 02.May 2006 
+v1.0.3.0 - 02.May 2006
 ======================
- NEW    : YUV mixer mode for VMR9 
- NEW    : OSD for VMR9 ouput for languages selection 
- NEW    : "DVD Menu Activate" can also be used to start playback (useful when using remote control via WinLIRC) 
- FIXED  : Aspect Ratio bug in D3D Fullscreen mode 
+ NEW    : YUV mixer mode for VMR9
+ NEW    : OSD for VMR9 ouput for languages selection
+ NEW    : "DVD Menu Activate" can also be used to start playback (useful when using remote control via WinLIRC)
+ FIXED  : Aspect Ratio bug in D3D Fullscreen mode
 
-v1.0.2.0 - 23.Apr 2006 
+v1.0.2.0 - 23.Apr 2006
 ======================
- CHANGED: D3D fullscreen mode improved 
- FIXED  : VMR9 Color control bug 
+ CHANGED: D3D fullscreen mode improved
+ FIXED  : VMR9 Color control bug
 
-v1.0.1.0 - 09.Apr 2006 
+v1.0.1.0 - 09.Apr 2006
 ======================
- NEW    : DVD open dialog now allows to select source folder or drive 
- NEW    : Possibility to save video position for the last 5 DVDs and/or files to resume playback at this position when MPC is restarted 
+ NEW    : DVD open dialog now allows to select source folder or drive
+ NEW    : Possibility to save video position for the last 5 DVDs and/or files to resume playback at this position when MPC is restarted
  NEW    : Shortcut to inhibit Pixel Shaders (Ctrl + P). Only additional Pixel Shaders effects are concerned (always used if resize active)
 
-v1.0.0.0 - 29.Mar 2006 
+v1.0.0.0 - 29.Mar 2006
 ======================
- NEW    : Color control option for VMR renderer 
- NEW    : Automaticly reload Pixel Shaders on startup 
- NEW    : Tearing test function (Ctrl+T): displays 2 moving bars (useful to also show judder) 
+ NEW    : Color control option for VMR renderer
+ NEW    : Automatically reload Pixel Shaders at startup
+ NEW    : Tearing test function (Ctrl+T): displays 2 moving bars (useful to also show judder)
