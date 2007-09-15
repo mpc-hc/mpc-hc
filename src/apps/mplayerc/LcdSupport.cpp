@@ -202,6 +202,9 @@ CMPC_Lcd::CMPC_Lcd(void)
 	hBmp[PS_PAUSE] = CreateBitmap(14, 7, 1, 1, bPause);
 	hBmp[PS_STOP]  = CreateBitmap( 8, 7, 1, 1, bStop);
 
+	InitializeCriticalSection(&cs);
+	hLCD_UpdateThread = 0;
+
 	// lcd init
 	ZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));
 
@@ -212,7 +215,6 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_ConnCtx.onConfigure.configContext	= NULL;
 	m_ConnCtx.connection			= LGLCD_INVALID_CONNECTION;	// the "connection" member will be returned upon return
 
-	InitializeCriticalSection(&cs);
 	if (m_Output.Initialize(&m_ConnCtx) != ERROR_SUCCESS ||	// Initialize the output object
 	    m_Manager.Initialize() != ERROR_SUCCESS)
 	{
@@ -229,7 +231,6 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
 	m_Output.Draw();			// This invokes OnDraw for the active screen
 
-	hLCD_UpdateThread = 0;
 	if (m_Output.IsOpened())
 	{
 		Thread_Loop = true;
