@@ -1,6 +1,6 @@
 v1.0.11.0 - unreleased
 ======================
- NEW    : Command Line Option "/dubdelay", apply a positive or negative audio delai of ???ms if filename contain string "DELAY ???ms" (required internal Audio Switcher)
+ NEW    : Command Line Option "/dubdelay" applies a positive or negative audio delay of ???ms, if filename contains "DELAY ???ms" (internal Audio Switcher required)
 
 v1.0.10.0 - 15.Sep 2007
 ======================
@@ -24,7 +24,7 @@ v1.0.10.0 - 15.Sep 2007
 
 v1.0.9.0 - 14.Jul 2007
 ======================
- CHANGED: OSD improved with EVR-Custom
+ CHANGED: OSD improved for EVR-Custom
  FIXED  : EVR-Custom rendering thread stability
  FIXED  : EVR-Custom does not need mfplat.dll anymore (dll is installed with WMP11)
  NEW    : Exit Option in popup menu
