@@ -10465,13 +10465,13 @@ afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 {
 	AppSettings &s = AfxGetAppSettings();
 	int          nLang = pCmdUI->m_nID - ID_LANGUAGE_ENGLISH;
+	LPCTSTR      strSatellite = AfxGetMyApp()->GetSatelliteDll(nLang);
 
-	WIN32_FIND_DATA	FindFileData;
-	HANDLE		hFind;
-	LPCTSTR		strSatellite = AfxGetMyApp()->GetSatelliteDll(nLang);
 	if (strSatellite)
 	{
-		CString path;
+		WIN32_FIND_DATA	FindFileData;
+		HANDLE	hFind;
+		CString	path;
 
 		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 		path.ReleaseBuffer();
@@ -10479,6 +10479,10 @@ afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 
 		hFind = FindFirstFile (path, &FindFileData);
 		pCmdUI->Enable(hFind != INVALID_HANDLE_VALUE);
+
+		if (hFind != INVALID_HANDLE_VALUE)
+			FindClose(hFind);
 	}
+
 	pCmdUI->SetCheck (nLang == s.iLanguage);
 }
