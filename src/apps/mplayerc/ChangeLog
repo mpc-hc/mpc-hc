@@ -10,7 +10,7 @@ v1.0.10.0 - 15.Sep 2007
  NEW    : Multilanguage support: english, french and german.
  CHANGED: DirectX SDK updated to August 2007 (v35)
  FIXED  : Wrong Aspect Ratio with EVR-Custom (definitely i hope :-) 
- FIXED  : Internal Mpeg2 Decoder was not working with ECR and ECR-Custom
+ FIXED  : Internal Mpeg2 Decoder was not working with EVR and EVR-Custom
  FIXED  : Audio async problems with Blu-Ray/HD DVD DTS files [wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)]
  FIXED  : OSD was not working when D3DX9_... dll was not present (random pixels shown in top of video)
  FIXED  : Mouse now working in DVD menu with EVR-Custom (Vista)
@@ -55,7 +55,9 @@ v1.0.7.0 - 27.May 2007
 
 v1.0.6.0 - 07.May 2007 
 ======================
- NEW    : Drevil_xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
+ NEW    : VP62 codec internal filter re-activated
+ NEW	: Mpeg4 splitter internal filter re-activated
+ CHANGED: Drevil_xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
  FIXED  : Window "flashing" during resize, after video loaded 
 
 v1.0.5.0 - 05.May 2007 
