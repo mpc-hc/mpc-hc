@@ -7,13 +7,12 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
+// German (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
 #ifdef _WIN32
@@ -139,7 +138,8 @@ BEGIN
     CONTROL         "Audio Verzögerung (ms):",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,95,10
     EDITTEXT        IDC_EDIT2,105,47,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,182,46,11,14
-    CONTROL         "Benutzerdefiniertes Kanal-Setup verwenden",IDC_CHECK1, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,157,10
+    CONTROL         "Benutzerdefiniertes Kanal-Setup verwenden",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,157,10
     LTEXT           "Lautsprecher-Konfiguration für ",IDC_STATIC1,7,76,102,8
     EDITTEXT        IDC_EDIT1,110,74,29,13,ES_CENTER | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,267,73,11,14
@@ -223,8 +223,7 @@ BEGIN
     GROUPBOX        "Öffnen Einstellungen",IDC_STATIC,5,7,117,119
     CONTROL         "Neue Dateien im a&ktuellen Player öffnen",IDC_RADIO1,
                     "Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,15,20,98,20
-    CONTROL         "Dateien in neuem Pla&yer öffnen",IDC_RADIO2,
-                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,63,98,15
+    CONTROL         "Dateien in neuem Pla&yer öffnen",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,63,98,15
     ICON            IDI_SINGLE,IDC_STATIC,51,40,20,20,SS_CENTERIMAGE
     ICON            IDI_MULTI,IDC_STATIC,51,84,20,20,SS_CENTERIMAGE
     CONTROL         "Dateien im V&ollbild öffnen",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,109,96,10
@@ -240,16 +239,16 @@ BEGIN
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,175,61,11,14
     LTEXT           "Sek",IDC_STATIC1,188,62,12,8
     LTEXT           " 0: auto-verstecken\n-1: nie verstecken",IDC_STATIC2,218,58,66,17
-    CONTROL         "&Bei Stopp Vollbild verlassen",IDC_CHECK5,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,79,102,10
+    CONTROL         "&Bei Stopp Vollbild verlassen",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,79,102,10
     CONTROL         "&Fensterposition merken",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,92,91,10
     CONTROL         "Fenstergr&öße merken",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,105,85,10
     CONTROL         "Am Desktoprand einrasten",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,118,101,10
-    CONTROL         "&Einstellungen in .ini Datei speichern",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,131,128,10
-    CONTROL         "&Zuletzt geöffnete Dateien merken",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,144,124,10
+    CONTROL         "&Einstellungen in .ini Datei speichern",IDC_CHECK8,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,131,128,10
+    CONTROL         "&Zuletzt geöffnete Dateien merken",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,144,124,10
     CONTROL         "&CD-ROM Menü ausblenden",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,157,101,10
-    CONTROL         "&Prozesspriorität ""höher als normal""",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,126,10
+    CONTROL         "&Prozesspriorität ""höher als normal""",IDC_CHECK9,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,126,10
     CONTROL         "Dateiname durch Titel ers.",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,101,10
 END
 
@@ -363,6 +362,7 @@ BEGIN
     CONTROL         "&Audio CD",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,183,43,10
     PUSHBUTTON      "V&ideo",IDC_BUTTON4,176,180,33,14
     PUSHBUTTON      "A&udio",IDC_BUTTON3,212,180,33,14
+    PUSHBUTTON      "&Modify",IDC_BUTTON5,196,178,63,14,NOT WS_VISIBLE
     PUSHBUTTON      "A&lle",IDC_BUTTON1,248,180,33,14
     GROUPBOX        "Autoplay (Nur WinXP)",IDC_STATIC1,6,170,151,28
 END
@@ -774,7 +774,8 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
     CONTROL         "Komprimierung aktivieren",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,96,10
     CONTROL         "Debug-Info ausgeben",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,86,10
-    CONTROL         "HTML-Seiten aus Verzeichnis verwenden:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,147,10
+    CONTROL         "HTML-Seiten aus Verzeichnis verwenden:",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,147,10
     EDITTEXT        IDC_EDIT2,7,85,175,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Auswählen...",IDC_BUTTON1,188,85,51,14
     PUSHBUTTON      "Anlegen...",IDC_BUTTON2,242,85,47,14
@@ -793,7 +794,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Herunterladen && Öffnen",IDOK,272,136,98,14
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,7,363,124
-    CONTROL         "&Ersetze momentan geladene Untertitel",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,139,10
+    CONTROL         "&Ersetze momentan geladene Untertitel",IDC_CHECK1,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,139,10
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
@@ -1334,14 +1336,14 @@ IDF_CONTROLVOLUMEOFF_PNG FILE                    "res\\web\\controlvolumeoff.png
 IDF_CONTROLVOLUMEBAR_PNG FILE                    "res\\web\\controlvolumebar.png"
 IDF_CONTROLVOLUMEGRIP_PNG FILE                    "res\\web\\controlvolumegrip.png"
 IDF_SHADER_RESIZER      FILE                    "res\\shaders\\resizer.psh"
-IDF_LOGO0               FILE                  "res\\logo.0.png"
-IDF_LOGO1               FILE                  "res\\logo.1.png"
-IDF_LOGO2               FILE                  "res\\logo.2.png"
-IDF_LOGO3               FILE                  "res\\logo.3.png"
-IDF_LOGO4               FILE                  "res\\logo.4.png"
-IDF_LOGO5               FILE                  "res\\logo.5.png"
-IDF_LOGO6               FILE                  "res\\logo.6.png"
-IDF_LOGO7               FILE                  "res\\logo.7.png"
+IDF_LOGO0               FILE                    "res\\logo.0.png"
+IDF_LOGO1               FILE                    "res\\logo.1.png"
+IDF_LOGO2               FILE                    "res\\logo.2.png"
+IDF_LOGO3               FILE                    "res\\logo.3.png"
+IDF_LOGO4               FILE                    "res\\logo.4.png"
+IDF_LOGO5               FILE                    "res\\logo.5.png"
+IDF_LOGO6               FILE                    "res\\logo.6.png"
+IDF_LOGO7               FILE                    "res\\logo.7.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1422,10 +1424,10 @@ BEGIN
 0x6552, 0x7567, 0x616c, 0x2072, 0x666f, 0x7366, 0x7263, 0x6565, 0x206e, 
 0x6c70, 0x6961, 0x206e, 0x7573, 0x6672, 0x6361, 0x0065, 
     IDC_DX_SURFACE, 0x403, 14, 0
-0x4432, 0x4F20, 0x6562, 0x6672, 0xE46C, 0x6863, 0x0065, 
+0x4432, 0x4f20, 0x6562, 0x6672, 0xe46c, 0x6863, 0x0065, 
     IDC_DX_SURFACE, 0x403, 30, 0
-0x4433, 0x4F20, 0x6562, 0x6672, 0xE46C, 0x6863, 0x2065, 0x4528, 0x706D,
-0x6F66, 0x6C68, 0x6E65, 0x2029, 0x2A2A, 0x002A,
+0x4433, 0x4f20, 0x6562, 0x6672, 0xe46c, 0x6863, 0x2065, 0x4528, 0x706d, 
+0x6f66, 0x6c68, 0x6e65, 0x2029, 0x2a2a, 0x002a, 
     IDC_EVR_BUFFERS, 0x403, 2, 0
 0x0031, 
     IDC_EVR_BUFFERS, 0x403, 2, 0
@@ -1476,14 +1478,14 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,0,1,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
-#else /* _DEBUG */
+#else
  FILEFLAGS 0x0L
-#endif /* _DEBUG */
+#endif
  FILEOS 0x4L
  FILETYPE 0x1L
  FILESUBTYPE 0x0L
@@ -1493,14 +1495,13 @@ BEGIN
         BLOCK "080004b0"
         BEGIN
             VALUE "Comments", "German satellite ressource for Media Player - Homecinema"
-            VALUE "CompanyName", ""
             VALUE "FileDescription", "Media Player Classic - Homecinema"
-            VALUE "FileVersion", "1, 0, 0, 0"
+            VALUE "FileVersion", "1, 0, 1, 0"
             VALUE "InternalName", "Media Player Classic - Homecinema"
             VALUE "LegalCopyright", "Copyright (C) 2002-2007"
             VALUE "OriginalFilename", "mplayerc.EXE"
             VALUE "ProductName", "Media Player Classic"
-            VALUE "ProductVersion", "1, 0, 0, 0"
+            VALUE "ProductVersion", "1, 0, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1519,67 +1520,67 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "&Datei"
     BEGIN
-        MENUITEM "Schnelles Datei öff&nen...\tCtrl+Q",             ID_FILE_OPENQUICK
+        MENUITEM "Schnelles Datei öff&nen...\tCtrl+Q", ID_FILE_OPENQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Datei ö&ffnen...\tCtrl+O",                       ID_FILE_OPENMEDIA
-        MENUITEM "&DVD öffnen...\tCtrl+D",                         ID_FILE_OPENDVD
-        MENUITEM "&Gerät öffnen...\tCtrl+V",                       ID_FILE_OPENDEVICE
-        MENUITEM "Dis&k öffnen",                                   ID_FILE_OPENDISC32774
-        MENUITEM "S&chließen\tCtrl+C",                             ID_FILE_CLOSEPLAYLIST
+        MENUITEM "Datei ö&ffnen...\tCtrl+O",    ID_FILE_OPENMEDIA
+        MENUITEM "&DVD öffnen...\tCtrl+D",      ID_FILE_OPENDVD
+        MENUITEM "&Gerät öffnen...\tCtrl+V",    ID_FILE_OPENDEVICE
+        MENUITEM "Dis&k öffnen",                ID_FILE_OPENDISC32774
+        MENUITEM "S&chließen\tCtrl+C",          ID_FILE_CLOSEPLAYLIST
         MENUITEM SEPARATOR
-        MENUITEM "S&peichern als...",                              ID_FILE_SAVE_COPY
-        MENUITEM "B&ild speichern...",                             ID_FILE_SAVE_IMAGE
-        MENUITEM "Speichere Miniaturansichten...",                 ID_FILE_SAVE_THUMBNAILS
+        MENUITEM "S&peichern als...",           ID_FILE_SAVE_COPY
+        MENUITEM "B&ild speichern...",          ID_FILE_SAVE_IMAGE
+        MENUITEM "Speichere Miniaturansichten...", ID_FILE_SAVE_THUMBNAILS
         MENUITEM SEPARATOR
-        MENUITEM "Untertitel &laden...\tCtrl+L",                   ID_FILE_LOAD_SUBTITLE
-        MENUITEM "Untertitel &speichern...\tCtrl+S",               ID_FILE_SAVE_SUBTITLE
+        MENUITEM "Untertitel &laden...\tCtrl+L", ID_FILE_LOAD_SUBTITLE
+        MENUITEM "Untertitel &speichern...\tCtrl+S", ID_FILE_SAVE_SUBTITLE
         POPUP "&Untertitel-Datenbank"
         BEGIN
-            MENUITEM "&Durchsuchen...",                            ID_FILE_ISDB_SEARCH
-            MENUITEM "&Hochladen...",                              ID_FILE_ISDB_UPLOAD
-            MENUITEM "He&runterladen...",                          ID_FILE_ISDB_DOWNLOAD
+            MENUITEM "&Durchsuchen...",             ID_FILE_ISDB_SEARCH
+            MENUITEM "&Hochladen...",               ID_FILE_ISDB_UPLOAD
+            MENUITEM "He&runterladen...",           ID_FILE_ISDB_DOWNLOAD
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Eigenschaften",                                 ID_FILE_PROPERTIES
+        MENUITEM "&Eigenschaften",              ID_FILE_PROPERTIES
         MENUITEM SEPARATOR
         POPUP "&Werkzeuge"
         BEGIN
-            MENUITEM "DSM Ko&nverter...",                          ID_FILE_CONVERT
+            MENUITEM "DSM Ko&nverter...",           ID_FILE_CONVERT
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Beenden\tAlt+X",                                ID_FILE_EXIT
+        MENUITEM "&Beenden\tAlt+X",             ID_FILE_EXIT
     END
     POPUP "&Ansicht"
     BEGIN
-        MENUITEM "Tite&lleiste && Menü\tCtrl+0",                   ID_VIEW_CAPTIONMENU
-        MENUITEM "&Suchleiste\tCtrl+1",                            ID_VIEW_SEEKER
-        MENUITEM "St&euerelemente\tCtrl+2",                        ID_VIEW_CONTROLS
-        MENUITEM "&Information\tCtrl+3",                           ID_VIEW_INFORMATION
-        MENUITEM "S&tatistik\tCtrl+4",                             ID_VIEW_STATISTICS
-        MENUITEM "St&atus\tCtrl+5",                                ID_VIEW_STATUS
-        MENUITEM "S&ubresync\tCtrl+6",                             ID_VIEW_SUBRESYNC
-        MENUITEM "&Playlist\tCtrl+7",                              ID_VIEW_PLAYLIST
-        MENUITEM "Au&fnahme\tCtrl+8",                              ID_VIEW_CAPTURE
-        MENUITEM "Pixel S&hader bearbeiten\tCtrl+9",               ID_VIEW_SHADEREDITOR
+        MENUITEM "Tite&lleiste && Menü\tCtrl+0", ID_VIEW_CAPTIONMENU
+        MENUITEM "&Suchleiste\tCtrl+1",         ID_VIEW_SEEKER
+        MENUITEM "St&euerelemente\tCtrl+2",     ID_VIEW_CONTROLS
+        MENUITEM "&Information\tCtrl+3",        ID_VIEW_INFORMATION
+        MENUITEM "S&tatistik\tCtrl+4",          ID_VIEW_STATISTICS
+        MENUITEM "St&atus\tCtrl+5",             ID_VIEW_STATUS
+        MENUITEM "S&ubresync\tCtrl+6",          ID_VIEW_SUBRESYNC
+        MENUITEM "&Playlist\tCtrl+7",           ID_VIEW_PLAYLIST
+        MENUITEM "Au&fnahme\tCtrl+8",           ID_VIEW_CAPTURE
+        MENUITEM "Pixel S&hader bearbeiten\tCtrl+9", ID_VIEW_SHADEREDITOR
         POPUP "P&rofil..."
         BEGIN
-            MENUITEM "&Minimal",                                   ID_VIEW_PRESETS_MINIMAL
-            MENUITEM "&Kompakt",                                   ID_VIEW_PRESETS_COMPACT
-            MENUITEM "&Normal",                                    ID_VIEW_PRESETS_NORMAL
+            MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
+            MENUITEM "&Kompakt",                    ID_VIEW_PRESETS_COMPACT
+            MENUITEM "&Normal",                     ID_VIEW_PRESETS_NORMAL
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Vollbild\tAlt+Enter",                           ID_VIEW_FULLSCREEN
+        MENUITEM "&Vollbild\tAlt+Enter",        ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
         BEGIN
-            MENUITEM "&50%\tAlt+1",                                ID_VIEW_ZOOM_50
-            MENUITEM "&100%\tAlt+2",                               ID_VIEW_ZOOM_100
-            MENUITEM "&200%\tAlt+3",                               ID_VIEW_ZOOM_200
-            MENUITEM "Autom. passend\tAlt+4",                      ID_VIEW_ZOOM_AUTOFIT
+            MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
+            MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
+            MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
+            MENUITEM "Autom. passend\tAlt+4",       ID_VIEW_ZOOM_AUTOFIT
         END
         MENUITEM SEPARATOR
         MENUITEM "Te&aring Test\tCtrl+T",       ID_VIEW_TEARING_TEST
-        MENUITEM "Stats an&zeigen\tCtrl+J",      ID_VIEW_DISPLAYSTATS
-        MENUITEM "Verbleibende Zeit\tCtrl+I",      ID_VIEW_REMAINING_TIME
+        MENUITEM "Stats an&zeigen\tCtrl+J",     ID_VIEW_DISPLAYSTATS
+        MENUITEM "Verbleibende Zeit\tCtrl+I",   ID_VIEW_REMAINING_TIME
         POPUP "&Language"
         BEGIN
             MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
@@ -1589,110 +1590,110 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Videobild"
         BEGIN
-            MENUITEM "&Halbe Größe",                               ID_VIEW_VF_HALF
-            MENUITEM "&Normale Größe",                             ID_VIEW_VF_NORMAL
-            MENUITEM "&Doppelte Größe",                            ID_VIEW_VF_DOUBLE
-            MENUITEM "Auf &Fenstergröße strecken",                 ID_VIEW_VF_STRETCH
-            MENUITEM "Fenster von &innen berühren",                ID_VIEW_VF_FROMINSIDE
-            MENUITEM "Fenster von &außen berühren",                ID_VIEW_VF_FROMOUTSIDE
+            MENUITEM "&Halbe Größe",                ID_VIEW_VF_HALF
+            MENUITEM "&Normale Größe",              ID_VIEW_VF_NORMAL
+            MENUITEM "&Doppelte Größe",             ID_VIEW_VF_DOUBLE
+            MENUITEM "Auf &Fenstergröße strecken",  ID_VIEW_VF_STRETCH
+            MENUITEM "Fenster von &innen berühren", ID_VIEW_VF_FROMINSIDE
+            MENUITEM "Fenster von &außen berühren", ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Seitenverhältnis beibehalten",              ID_VIEW_VF_KEEPASPECTRATIO
+            MENUITEM "&Seitenverhältnis beibehalten", ID_VIEW_VF_KEEPASPECTRATIO
             POPUP "&Überschreibe Seitenverhältnis"
             BEGIN
-                MENUITEM "Standard",                               ID_ASPECTRATIO_SOURCE
-                MENUITEM "4:3",                                    ID_ASPECTRATIO_4_3
-                MENUITEM "5:4",                                    ID_ASPECTRATIO_5_4
-                MENUITEM "16:9",                                   ID_ASPECTRATIO_16_9
+                MENUITEM "Standard",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
+                MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
+                MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
             END
             MENUITEM "Monitor/Desktop AR-Abweichung &korrigieren", ID_VIEW_VF_COMPMONDESKARDIFF
         END
         POPUP "Pan && S&can"
         BEGIN
-            MENUITEM "Ver&größern\tNumpad 9",                      ID_VIEW_INCSIZE
-            MENUITEM "Ver&kleinern\tNumpad 1",                     ID_VIEW_DECSIZE
-            MENUITEM "&Breiter\tNumpad 6",                         ID_VIEW_INCWIDTH
-            MENUITEM "&Schmäler\tNumpad 4",                        ID_VIEW_DECWIDTH
-            MENUITEM "&Höher\tNumpad 8",                           ID_VIEW_INCHEIGHT
-            MENUITEM "&Niedriger\tNumpad 2",                       ID_VIEW_DECHEIGHT
+            MENUITEM "Ver&größern\tNumpad 9",       ID_VIEW_INCSIZE
+            MENUITEM "Ver&kleinern\tNumpad 1",      ID_VIEW_DECSIZE
+            MENUITEM "&Breiter\tNumpad 6",          ID_VIEW_INCWIDTH
+            MENUITEM "&Schmäler\tNumpad 4",         ID_VIEW_DECWIDTH
+            MENUITEM "&Höher\tNumpad 8",            ID_VIEW_INCHEIGHT
+            MENUITEM "&Niedriger\tNumpad 2",        ID_VIEW_DECHEIGHT
             MENUITEM SEPARATOR
-            MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6",        ID_PANSCAN_MOVERIGHT
-            MENUITEM "Nach &links bewegen\tCtrl+Numpad 4",         ID_PANSCAN_MOVELEFT
-            MENUITEM "H&och bewegen\tCtrl+Numpad 8",               ID_PANSCAN_MOVEUP
-            MENUITEM "R&unter bewegen\tCtrl+Numpad 2",             ID_PANSCAN_MOVEDOWN
-            MENUITEM "&Zentrieren\tCtrl+Numpad 5",                 ID_PANSCAN_CENTER
+            MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6", ID_PANSCAN_MOVERIGHT
+            MENUITEM "Nach &links bewegen\tCtrl+Numpad 4", ID_PANSCAN_MOVELEFT
+            MENUITEM "H&och bewegen\tCtrl+Numpad 8", ID_PANSCAN_MOVEUP
+            MENUITEM "R&unter bewegen\tCtrl+Numpad 2", ID_PANSCAN_MOVEDOWN
+            MENUITEM "&Zentrieren\tCtrl+Numpad 5",  ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
-            MENUITEM "Zurü&cksetzen\tNumpad 5",                    ID_VIEW_RESET
+            MENUITEM "Zurü&cksetzen\tNumpad 5",     ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
         POPUP "Im Vordergrund"
         BEGIN
-            MENUITEM "Niemals",                                    ID_ONTOP_NEVER
-            MENUITEM "Immer",                                      ID_ONTOP_ALWAYS
-            MENUITEM "Während der Wiedergabe",                     ID_ONTOP_WHILEPLAYING
+            MENUITEM "Niemals",                     ID_ONTOP_NEVER
+            MENUITEM "Immer",                       ID_ONTOP_ALWAYS
+            MENUITEM "Während der Wiedergabe",      ID_ONTOP_WHILEPLAYING
         END
-        MENUITEM "&Optionen...",                                   ID_VIEW_OPTIONS
+        MENUITEM "&Optionen...",                ID_VIEW_OPTIONS
     END
     POPUP "&Wiedergabe"
     BEGIN
-        MENUITEM "&Wiedergabe/Pause\tSpace",                       ID_PLAY_PLAYPAUSE
-        MENUITEM "&Stopp\tPeriod",                                 ID_PLAY_STOP
-        MENUITEM "E&inzelbild vorwärts\tRight",                    ID_PLAY_FRAMESTEP
-        MENUITEM "&Gehe zu...\tCtrl+G",                            ID_PLAY_GOTO
+        MENUITEM "&Wiedergabe/Pause\tSpace",    ID_PLAY_PLAYPAUSE
+        MENUITEM "&Stopp\tPeriod",              ID_PLAY_STOP
+        MENUITEM "E&inzelbild vorwärts\tRight", ID_PLAY_FRAMESTEP
+        MENUITEM "&Gehe zu...\tCtrl+G",         ID_PLAY_GOTO
         MENUITEM SEPARATOR
-        MENUITEM "Geschwindigkeit &verringern\tCtrl+Down",         ID_PLAY_DECRATE
-        MENUITEM "Geschwindigkeit &erhöhen\tCtrl+Up",              ID_PLAY_INCRATE
-        MENUITEM "Geschwindigkeit &zurücksetzen\tCtrl+R",          ID_PLAY_RESETRATE
+        MENUITEM "Geschwindigkeit &verringern\tCtrl+Down", ID_PLAY_DECRATE
+        MENUITEM "Geschwindigkeit &erhöhen\tCtrl+Up", ID_PLAY_INCRATE
+        MENUITEM "Geschwindigkeit &zurücksetzen\tCtrl+R", ID_PLAY_RESETRATE
         MENUITEM SEPARATOR
-        MENUITEM "&Filter",                                        65535
-        MENUITEM "Pixel S&hader",                                  ID__SHADERS
+        MENUITEM "&Filter",                     65535
+        MENUITEM "Pixel S&hader",               ID__SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "Aud&io",                                         65535
-        MENUITEM "&Untertitel",                                    65535
+        MENUITEM "Aud&io",                      65535
+        MENUITEM "&Untertitel",                 65535
         MENUITEM SEPARATOR
         POPUP "&Lautstärke"
         BEGIN
-            MENUITEM "L&auter\tUp Arrow",                          ID_VOLUME_UP
-            MENUITEM "L&eiser\tDown Arrow",                        ID_VOLUME_DOWN
-            MENUITEM "&Stummschaltung\tCtrl+M",                    ID_VOLUME_MUTE
+            MENUITEM "L&auter\tUp Arrow",           ID_VOLUME_UP
+            MENUITEM "L&eiser\tDown Arrow",         ID_VOLUME_DOWN
+            MENUITEM "&Stummschaltung\tCtrl+M",     ID_VOLUME_MUTE
         END
         POPUP "&Nach der Wiedergabe"
         BEGIN
-            MENUITEM "&Beenden",                                   ID_AFTERPLAYBACK_CLOSE
-            MENUITEM "&Standby",                                   ID_AFTERPLAYBACK_STANDBY
-            MENUITEM "R&uhezustand",                               ID_AFTERPLAYBACK_HIBERNATE
-            MENUITEM "He&runterfahren",                            ID_AFTERPLAYBACK_SHUTDOWN
-            MENUITEM "&Abmelden",                                  ID_AFTERPLAYBACK_LOGOFF
+            MENUITEM "&Beenden",                    ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Standby",                    ID_AFTERPLAYBACK_STANDBY
+            MENUITEM "R&uhezustand",                ID_AFTERPLAYBACK_HIBERNATE
+            MENUITEM "He&runterfahren",             ID_AFTERPLAYBACK_SHUTDOWN
+            MENUITEM "&Abmelden",                   ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
-            MENUITEM "Nichts &machen",                             ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Nichts &machen",              ID_AFTERPLAYBACK_DONOTHING
         END
     END
     POPUP "&Navigation"
     BEGIN
-        MENUITEM "&Zurück\tPage Up",                               ID_NAVIGATE_SKIPBACK
-        MENUITEM "&Vorwärts\tPage Down",                           ID_NAVIGATE_SKIPFORWARD
-        MENUITEM "&Springe zu...",                                 65535
+        MENUITEM "&Zurück\tPage Up",            ID_NAVIGATE_SKIPBACK
+        MENUITEM "&Vorwärts\tPage Down",        ID_NAVIGATE_SKIPFORWARD
+        MENUITEM "&Springe zu...",              65535
         MENUITEM SEPARATOR
-        MENUITEM "Au&dio Sprache",                                 65535
-        MENUITEM "U&ntertitel Sprache",                            65535
-        MENUITEM "V&ideo Blickwinkel",                             65535
+        MENUITEM "Au&dio Sprache",              65535
+        MENUITEM "U&ntertitel Sprache",         65535
+        MENUITEM "V&ideo Blickwinkel",          65535
         MENUITEM SEPARATOR
-        MENUITEM "&Titel-Menü\tAlt+T",                             ID_NAVIGATE_TITLEMENU
-        MENUITEM "&Haupt-Menü\tAlt+R",                             ID_NAVIGATE_ROOTMENU
-        MENUITEM "&Untertitel-Menü",                               ID_NAVIGATE_SUBPICTUREMENU
-        MENUITEM "&Audio-Menü",                                    ID_NAVIGATE_AUDIOMENU
-        MENUITEM "&Blickwinkel-Menü",                              ID_NAVIGATE_ANGLEMENU
-        MENUITEM "&Kapitel-Menü",                                  ID_NAVIGATE_CHAPTERMENU
+        MENUITEM "&Titel-Menü\tAlt+T",          ID_NAVIGATE_TITLEMENU
+        MENUITEM "&Haupt-Menü\tAlt+R",          ID_NAVIGATE_ROOTMENU
+        MENUITEM "&Untertitel-Menü",            ID_NAVIGATE_SUBPICTUREMENU
+        MENUITEM "&Audio-Menü",                 ID_NAVIGATE_AUDIOMENU
+        MENUITEM "&Blickwinkel-Menü",           ID_NAVIGATE_ANGLEMENU
+        MENUITEM "&Kapitel-Menü",               ID_NAVIGATE_CHAPTERMENU
     END
-    MENUITEM "F&avoriten",                                         ID_FAVORITES
+    MENUITEM "F&avoriten",                  ID_FAVORITES
     POPUP "&Hilfe"
     BEGIN
-        MENUITEM "&Homepage",                                      ID_HELP_HOMEPAGE
-        MENUITEM "Dokumentation (sf.net)",                         ID_HELP_DOCUMENTATION
-        MENUITEM "&Kommandozeilen-Parameter",                      ID_HELP_SHOWCOMMANDLINESWITCHES
+        MENUITEM "&Homepage",                   ID_HELP_HOMEPAGE
+        MENUITEM "Dokumentation (sf.net)",      ID_HELP_DOCUMENTATION
+        MENUITEM "&Kommandozeilen-Parameter",   ID_HELP_SHOWCOMMANDLINESWITCHES
         MENUITEM SEPARATOR
-        MENUITEM "Sourceforge Projekt",                            ID_HELP_DONATE
+        MENUITEM "Sourceforge Projekt",         ID_HELP_DONATE
         MENUITEM SEPARATOR
-        MENUITEM "&Über...",                                       ID_HELP_ABOUT
+        MENUITEM "&Über...",                    ID_HELP_ABOUT
     END
 END
 
@@ -1700,127 +1701,127 @@ IDR_POPUP MENU
 BEGIN
     POPUP ""
     BEGIN
-        MENUITEM "&Wiedergabe/Pause",                              ID_PLAY_PLAYPAUSE
-        MENUITEM "&Stopp",                                         ID_PLAY_STOP
+        MENUITEM "&Wiedergabe/Pause",           ID_PLAY_PLAYPAUSE
+        MENUITEM "&Stopp",                      ID_PLAY_STOP
         MENUITEM SEPARATOR
-        MENUITEM "&Vollbild",                                      ID_VIEW_FULLSCREEN
+        MENUITEM "&Vollbild",                   ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
         BEGIN
-            MENUITEM "&50%\tAlt+1",                                ID_VIEW_ZOOM_50
-            MENUITEM "&100%\tAlt+2",                               ID_VIEW_ZOOM_100
-            MENUITEM "&200%\tAlt+3",                               ID_VIEW_ZOOM_200
-            MENUITEM "Autom. passend\tAlt+4",                      ID_VIEW_ZOOM_AUTOFIT
+            MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
+            MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
+            MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
+            MENUITEM "Autom. passend\tAlt+4",       ID_VIEW_ZOOM_AUTOFIT
         END
         MENUITEM SEPARATOR
         POPUP "&Videobild"
         BEGIN
-            MENUITEM "&Halbe Größe",                               ID_VIEW_VF_HALF
-            MENUITEM "&Normale Größe",                             ID_VIEW_VF_NORMAL
-            MENUITEM "&Doppelte Größe",                            ID_VIEW_VF_DOUBLE
-            MENUITEM "Auf &Fenstergröße strecken",                 ID_VIEW_VF_STRETCH
-            MENUITEM "Fenster von &innen berühren",                ID_VIEW_VF_FROMINSIDE
-            MENUITEM "Fenster von &außen berühren",                ID_VIEW_VF_FROMOUTSIDE
+            MENUITEM "&Halbe Größe",                ID_VIEW_VF_HALF
+            MENUITEM "&Normale Größe",              ID_VIEW_VF_NORMAL
+            MENUITEM "&Doppelte Größe",             ID_VIEW_VF_DOUBLE
+            MENUITEM "Auf &Fenstergröße strecken",  ID_VIEW_VF_STRETCH
+            MENUITEM "Fenster von &innen berühren", ID_VIEW_VF_FROMINSIDE
+            MENUITEM "Fenster von &außen berühren", ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Seitenverhältnis beibehalten",              ID_VIEW_VF_KEEPASPECTRATIO
+            MENUITEM "&Seitenverhältnis beibehalten", ID_VIEW_VF_KEEPASPECTRATIO
             POPUP "&Überschreibe Seitenverhältnis"
             BEGIN
-                MENUITEM "Standard",                               ID_ASPECTRATIO_SOURCE
-                MENUITEM "4:3",                                    ID_ASPECTRATIO_4_3
-                MENUITEM "5:4",                                    ID_ASPECTRATIO_5_4
-                MENUITEM "16:9",                                   ID_ASPECTRATIO_16_9
+                MENUITEM "Standard",                    ID_ASPECTRATIO_SOURCE
+                MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
+                MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
+                MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
             END
             MENUITEM "Monitor/Desktop AR-Abweichung &korrigieren", ID_VIEW_VF_COMPMONDESKARDIFF
         END
         POPUP "Pan && S&can"
         BEGIN
-            MENUITEM "Ver&größern\tNumpad 9",                      ID_VIEW_INCSIZE
-            MENUITEM "Ver&kleinern\tNumpad 1",                     ID_VIEW_DECSIZE
-            MENUITEM "&Breiter\tNumpad 6",                         ID_VIEW_INCWIDTH
-            MENUITEM "&Schmäler\tNumpad 4",                        ID_VIEW_DECWIDTH
-            MENUITEM "&Höher\tNumpad 8",                           ID_VIEW_INCHEIGHT
-            MENUITEM "&Niedriger\tNumpad 2",                       ID_VIEW_DECHEIGHT
+            MENUITEM "Ver&größern\tNumpad 9",       ID_VIEW_INCSIZE
+            MENUITEM "Ver&kleinern\tNumpad 1",      ID_VIEW_DECSIZE
+            MENUITEM "&Breiter\tNumpad 6",          ID_VIEW_INCWIDTH
+            MENUITEM "&Schmäler\tNumpad 4",         ID_VIEW_DECWIDTH
+            MENUITEM "&Höher\tNumpad 8",            ID_VIEW_INCHEIGHT
+            MENUITEM "&Niedriger\tNumpad 2",        ID_VIEW_DECHEIGHT
             MENUITEM SEPARATOR
-            MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6",        ID_PANSCAN_MOVERIGHT
-            MENUITEM "Nach &links bewegen\tCtrl+Numpad 4",         ID_PANSCAN_MOVELEFT
-            MENUITEM "H&och bewegen\tCtrl+Numpad 8",               ID_PANSCAN_MOVEUP
-            MENUITEM "R&unter bewegen\tCtrl+Numpad 2",             ID_PANSCAN_MOVEDOWN
-            MENUITEM "&Zentrieren\tCtrl+Numpad 5",                 ID_PANSCAN_CENTER
+            MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6", ID_PANSCAN_MOVERIGHT
+            MENUITEM "Nach &links bewegen\tCtrl+Numpad 4", ID_PANSCAN_MOVELEFT
+            MENUITEM "H&och bewegen\tCtrl+Numpad 8", ID_PANSCAN_MOVEUP
+            MENUITEM "R&unter bewegen\tCtrl+Numpad 2", ID_PANSCAN_MOVEDOWN
+            MENUITEM "&Zentrieren\tCtrl+Numpad 5",  ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
-            MENUITEM "Zurü&cksetzen\tNumpad 5",                    ID_VIEW_RESET
+            MENUITEM "Zurü&cksetzen\tNumpad 5",     ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
         POPUP "&Navigation"
         BEGIN
-            MENUITEM "&Zurück\tPage Up",                           ID_NAVIGATE_SKIPBACK
-            MENUITEM "&Vorwärts\tPage Down",                       ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Springe zu...",                             65535
+            MENUITEM "&Zurück\tPage Up",            ID_NAVIGATE_SKIPBACK
+            MENUITEM "&Vorwärts\tPage Down",        ID_NAVIGATE_SKIPFORWARD
+            MENUITEM "&Springe zu...",              65535
             MENUITEM SEPARATOR
-            MENUITEM "Au&dio Sprache",                             65535
-            MENUITEM "U&ntertitel Sprache",                        65535
-            MENUITEM "V&ideo Blickwinkel",                         65535
+            MENUITEM "Au&dio Sprache",              65535
+            MENUITEM "U&ntertitel Sprache",         65535
+            MENUITEM "V&ideo Blickwinkel",          65535
             MENUITEM SEPARATOR
-            MENUITEM "&Titel-Menü",                                ID_NAVIGATE_TITLEMENU
-            MENUITEM "&Haupt-Menü",                                ID_NAVIGATE_ROOTMENU
-            MENUITEM "&Untertitel-Menü",                           ID_NAVIGATE_SUBPICTUREMENU
-            MENUITEM "&Audio-Menü",                                ID_NAVIGATE_AUDIOMENU
-            MENUITEM "&Blickwinkel-Menü",                          ID_NAVIGATE_ANGLEMENU
-            MENUITEM "&Kapitel-Menü",                              ID_NAVIGATE_CHAPTERMENU
+            MENUITEM "&Titel-Menü",                 ID_NAVIGATE_TITLEMENU
+            MENUITEM "&Haupt-Menü",                 ID_NAVIGATE_ROOTMENU
+            MENUITEM "&Untertitel-Menü",            ID_NAVIGATE_SUBPICTUREMENU
+            MENUITEM "&Audio-Menü",                 ID_NAVIGATE_AUDIOMENU
+            MENUITEM "&Blickwinkel-Menü",           ID_NAVIGATE_ANGLEMENU
+            MENUITEM "&Kapitel-Menü",               ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "F&avoriten",                                     65535
+        MENUITEM "F&avoriten",                  65535
         MENUITEM SEPARATOR
-        MENUITEM "&Filter",                                        65535
-        MENUITEM "Pixel S&hader",                                  ID__SHADERS
+        MENUITEM "&Filter",                     65535
+        MENUITEM "Pixel S&hader",               ID__SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "Aud&io",                                         65535
-        MENUITEM "&Untertitel",                                    65535
+        MENUITEM "Aud&io",                      65535
+        MENUITEM "&Untertitel",                 65535
         MENUITEM SEPARATOR
         POPUP "&Lautstärke"
         BEGIN
-            MENUITEM "L&auter\tUp Arrow",                          ID_VOLUME_UP
-            MENUITEM "L&eiser\tDown Arrow",                        ID_VOLUME_DOWN
-            MENUITEM "&Stummschaltung\tCtrl+M",                    ID_VOLUME_MUTE
+            MENUITEM "L&auter\tUp Arrow",           ID_VOLUME_UP
+            MENUITEM "L&eiser\tDown Arrow",         ID_VOLUME_DOWN
+            MENUITEM "&Stummschaltung\tCtrl+M",     ID_VOLUME_MUTE
         END
         POPUP "Nach der &Wiedergabe"
         BEGIN
-            MENUITEM "&Beenden",                                   ID_AFTERPLAYBACK_CLOSE
-            MENUITEM "&Standby",                                   ID_AFTERPLAYBACK_STANDBY
-            MENUITEM "R&uhezustand",                               ID_AFTERPLAYBACK_HIBERNATE
-            MENUITEM "He&runterfahren",                            ID_AFTERPLAYBACK_SHUTDOWN
-            MENUITEM "&Abmelden",                                  ID_AFTERPLAYBACK_LOGOFF
+            MENUITEM "&Beenden",                    ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Standby",                    ID_AFTERPLAYBACK_STANDBY
+            MENUITEM "R&uhezustand",                ID_AFTERPLAYBACK_HIBERNATE
+            MENUITEM "He&runterfahren",             ID_AFTERPLAYBACK_SHUTDOWN
+            MENUITEM "&Abmelden",                   ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
-            MENUITEM "Nichts &machen",                             ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Nichts &machen",              ID_AFTERPLAYBACK_DONOTHING
         END
         MENUITEM SEPARATOR
         POPUP "Ansi&cht"
         BEGIN
             POPUP "Im &Vordergrund"
             BEGIN
-                MENUITEM "&Niemals",                               ID_ONTOP_NEVER
-                MENUITEM "&Immer",                                 ID_ONTOP_ALWAYS
-                MENUITEM "&Während der Wiedergabe",                ID_ONTOP_WHILEPLAYING
+                MENUITEM "&Niemals",                    ID_ONTOP_NEVER
+                MENUITEM "&Immer",                      ID_ONTOP_ALWAYS
+                MENUITEM "&Während der Wiedergabe",     ID_ONTOP_WHILEPLAYING
             END
             MENUITEM SEPARATOR
-            MENUITEM "Tite&lleiste && Menü",                       ID_VIEW_CAPTIONMENU
-            MENUITEM "&Suchleiste",                                ID_VIEW_SEEKER
-            MENUITEM "St&euerelemente",                            ID_VIEW_CONTROLS
-            MENUITEM "&Information",                               ID_VIEW_INFORMATION
-            MENUITEM "S&tatistik",                                 ID_VIEW_STATISTICS
-            MENUITEM "St&atus",                                    ID_VIEW_STATUS
-            MENUITEM "S&ubresync",                                 ID_VIEW_SUBRESYNC
-            MENUITEM "&Playlist",                                  ID_VIEW_PLAYLIST
-            MENUITEM "Au&fnahme",                                  ID_VIEW_CAPTURE
-            MENUITEM "Pixel S&hader bearbeiten",                   ID_VIEW_SHADEREDITOR
+            MENUITEM "Tite&lleiste && Menü",        ID_VIEW_CAPTIONMENU
+            MENUITEM "&Suchleiste",                 ID_VIEW_SEEKER
+            MENUITEM "St&euerelemente",             ID_VIEW_CONTROLS
+            MENUITEM "&Information",                ID_VIEW_INFORMATION
+            MENUITEM "S&tatistik",                  ID_VIEW_STATISTICS
+            MENUITEM "St&atus",                     ID_VIEW_STATUS
+            MENUITEM "S&ubresync",                  ID_VIEW_SUBRESYNC
+            MENUITEM "&Playlist",                   ID_VIEW_PLAYLIST
+            MENUITEM "Au&fnahme",                   ID_VIEW_CAPTURE
+            MENUITEM "Pixel S&hader bearbeiten",    ID_VIEW_SHADEREDITOR
             POPUP "P&rofil..."
             BEGIN
-                MENUITEM "&Minimal",                               ID_VIEW_PRESETS_MINIMAL
-                MENUITEM "&Kompakt",                               ID_VIEW_PRESETS_COMPACT
-                MENUITEM "&Normal",                                ID_VIEW_PRESETS_NORMAL
+                MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
+                MENUITEM "&Kompakt",                    ID_VIEW_PRESETS_COMPACT
+                MENUITEM "&Normal",                     ID_VIEW_PRESETS_NORMAL
             END
         END
-        MENUITEM "&Eigenschaften",                                 ID_FILE_PROPERTIES
-        MENUITEM "&Optionen...",                                   ID_VIEW_OPTIONS
+        MENUITEM "&Eigenschaften",              ID_FILE_PROPERTIES
+        MENUITEM "&Optionen...",                ID_VIEW_OPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "&Beenden\tAlt+X",                                 ID_FILE_EXIT
+        MENUITEM "&Beenden\tAlt+X",             ID_FILE_EXIT
     END
 END
 
@@ -1830,171 +1831,171 @@ BEGIN
     BEGIN
         POPUP "&Datei"
         BEGIN
-            MENUITEM "Schnelles Datei öff&nen...\tCtrl+Q",         ID_FILE_OPENQUICK
+            MENUITEM "Schnelles Datei öff&nen...\tCtrl+Q", ID_FILE_OPENQUICK
             MENUITEM SEPARATOR
-            MENUITEM "Datei ö&ffnen...\tCtrl+O",                   ID_FILE_OPENMEDIA
-            MENUITEM "&DVD öffnen...\tCtrl+D",                     ID_FILE_OPENDVD
-            MENUITEM "&Gerät öffnen...\tCtrl+V",                   ID_FILE_OPENDEVICE
-            MENUITEM "Dis&k öffnen",                               65535
-            MENUITEM "S&chließen",                                 ID_FILE_CLOSEPLAYLIST
+            MENUITEM "Datei ö&ffnen...\tCtrl+O",    ID_FILE_OPENMEDIA
+            MENUITEM "&DVD öffnen...\tCtrl+D",      ID_FILE_OPENDVD
+            MENUITEM "&Gerät öffnen...\tCtrl+V",    ID_FILE_OPENDEVICE
+            MENUITEM "Dis&k öffnen",                65535
+            MENUITEM "S&chließen",                  ID_FILE_CLOSEPLAYLIST
             MENUITEM SEPARATOR
-            MENUITEM "S&peichern als...",                          ID_FILE_SAVE_COPY
-            MENUITEM "B&ild speichern...",                         ID_FILE_SAVE_IMAGE
-            MENUITEM "Speichere Miniaturansichten...",             ID_FILE_SAVE_THUMBNAILS
+            MENUITEM "S&peichern als...",           ID_FILE_SAVE_COPY
+            MENUITEM "B&ild speichern...",          ID_FILE_SAVE_IMAGE
+            MENUITEM "Speichere Miniaturansichten...", ID_FILE_SAVE_THUMBNAILS
             MENUITEM SEPARATOR
-            MENUITEM "Untertitel &laden...\tCtrl+L",               ID_FILE_LOAD_SUBTITLE
-            MENUITEM "Untertitel &speichern...\tCtrl+S",           ID_FILE_SAVE_SUBTITLE
+            MENUITEM "Untertitel &laden...\tCtrl+L", ID_FILE_LOAD_SUBTITLE
+            MENUITEM "Untertitel &speichern...\tCtrl+S", ID_FILE_SAVE_SUBTITLE
             POPUP "&Untertitel-Datenbank"
             BEGIN
-                MENUITEM "&Suchen...",                             ID_FILE_ISDB_SEARCH
-                MENUITEM "&Hochladen...",                          ID_FILE_ISDB_UPLOAD
-                MENUITEM "He&runterladen...",                      ID_FILE_ISDB_DOWNLOAD
+                MENUITEM "&Suchen...",                  ID_FILE_ISDB_SEARCH
+                MENUITEM "&Hochladen...",               ID_FILE_ISDB_UPLOAD
+                MENUITEM "He&runterladen...",           ID_FILE_ISDB_DOWNLOAD
             END
             MENUITEM SEPARATOR
-            MENUITEM "&Eigenschaften",                             ID_FILE_PROPERTIES
+            MENUITEM "&Eigenschaften",              ID_FILE_PROPERTIES
             MENUITEM SEPARATOR
             POPUP "&Werkzeuge"
             BEGIN
-                MENUITEM "DSM Ko&nverter...",                      ID_FILE_CONVERT
+                MENUITEM "DSM Ko&nverter...",           ID_FILE_CONVERT
             END
         END
         POPUP "&Ansicht"
         BEGIN
-            MENUITEM "Tite&lleiste && Menü\tCtrl+0",               ID_VIEW_CAPTIONMENU
-            MENUITEM "&Suchleiste\tCtrl+1",                        ID_VIEW_SEEKER
-            MENUITEM "St&euerelemente\tCtrl+2",                    ID_VIEW_CONTROLS
-            MENUITEM "&Information\tCtrl+3",                       ID_VIEW_INFORMATION
-            MENUITEM "S&tatistik\tCtrl+4",                         ID_VIEW_STATISTICS
-            MENUITEM "St&atus\tCtrl+5",                            ID_VIEW_STATUS
-            MENUITEM "S&ubresync\tCtrl+6",                         ID_VIEW_SUBRESYNC
-            MENUITEM "&Playlist\tCtrl+7",                          ID_VIEW_PLAYLIST
-            MENUITEM "Au&fnahme\tCtrl+8",                          ID_VIEW_CAPTURE
-            MENUITEM "Pixel S&hader bearbeiten\tCtrl+9",           ID_VIEW_SHADEREDITOR
+            MENUITEM "Tite&lleiste && Menü\tCtrl+0", ID_VIEW_CAPTIONMENU
+            MENUITEM "&Suchleiste\tCtrl+1",         ID_VIEW_SEEKER
+            MENUITEM "St&euerelemente\tCtrl+2",     ID_VIEW_CONTROLS
+            MENUITEM "&Information\tCtrl+3",        ID_VIEW_INFORMATION
+            MENUITEM "S&tatistik\tCtrl+4",          ID_VIEW_STATISTICS
+            MENUITEM "St&atus\tCtrl+5",             ID_VIEW_STATUS
+            MENUITEM "S&ubresync\tCtrl+6",          ID_VIEW_SUBRESYNC
+            MENUITEM "&Playlist\tCtrl+7",           ID_VIEW_PLAYLIST
+            MENUITEM "Au&fnahme\tCtrl+8",           ID_VIEW_CAPTURE
+            MENUITEM "Pixel S&hader bearbeiten\tCtrl+9", ID_VIEW_SHADEREDITOR
             POPUP "P&rofil..."
             BEGIN
-                MENUITEM "&Minimal",                               ID_VIEW_PRESETS_MINIMAL
-                MENUITEM "&Kompakt",                               ID_VIEW_PRESETS_COMPACT
-                MENUITEM "&Normal",                                ID_VIEW_PRESETS_NORMAL
+                MENUITEM "&Minimal",                    ID_VIEW_PRESETS_MINIMAL
+                MENUITEM "&Kompakt",                    ID_VIEW_PRESETS_COMPACT
+                MENUITEM "&Normal",                     ID_VIEW_PRESETS_NORMAL
             END
             MENUITEM SEPARATOR
-            MENUITEM "&Vollbild\tAlt+Enter",                       ID_VIEW_FULLSCREEN
+            MENUITEM "&Vollbild\tAlt+Enter",        ID_VIEW_FULLSCREEN
             POPUP "&Zoom"
             BEGIN
-                MENUITEM "&50%\tAlt+1",                            ID_VIEW_ZOOM_50
-                MENUITEM "&100%\tAlt+2",                           ID_VIEW_ZOOM_100
-                MENUITEM "&200%\tAlt+3",                           ID_VIEW_ZOOM_200
-                MENUITEM "Autom. passend\tAlt+4",                  ID_VIEW_ZOOM_AUTOFIT
-           END
-            MENUITEM "Te&aring Test\tCtrl+T",                      32769
+                MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
+                MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
+                MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
+                MENUITEM "Autom. passend\tAlt+4",       ID_VIEW_ZOOM_AUTOFIT
+            END
+            MENUITEM "Te&aring Test\tCtrl+T",       32769
             MENUITEM SEPARATOR
             POPUP "Vi&deobild"
             BEGIN
-                MENUITEM "&Halbe Größe",                           ID_VIEW_VF_HALF
-                MENUITEM "&Normale Größe",                         ID_VIEW_VF_NORMAL
-                MENUITEM "&Doppelte Größe",                        ID_VIEW_VF_DOUBLE
-                MENUITEM "Auf &Fenstergröße strecken",             ID_VIEW_VF_STRETCH
-                MENUITEM "Fenster von &innen berühren",            ID_VIEW_VF_FROMINSIDE
-                MENUITEM "Fenster von &außen berühren",            ID_VIEW_VF_FROMOUTSIDE
+                MENUITEM "&Halbe Größe",                ID_VIEW_VF_HALF
+                MENUITEM "&Normale Größe",              ID_VIEW_VF_NORMAL
+                MENUITEM "&Doppelte Größe",             ID_VIEW_VF_DOUBLE
+                MENUITEM "Auf &Fenstergröße strecken",  ID_VIEW_VF_STRETCH
+                MENUITEM "Fenster von &innen berühren", ID_VIEW_VF_FROMINSIDE
+                MENUITEM "Fenster von &außen berühren", ID_VIEW_VF_FROMOUTSIDE
                 MENUITEM SEPARATOR
-                MENUITEM "&Seitenverhältnis beibehalten",          ID_VIEW_VF_KEEPASPECTRATIO
+                MENUITEM "&Seitenverhältnis beibehalten", ID_VIEW_VF_KEEPASPECTRATIO
                 POPUP "&Überschreibe Seitenverhältnis"
                 BEGIN
-                    MENUITEM "Standard",                           ID_ASPECTRATIO_SOURCE
-                    MENUITEM "4:3",                                ID_ASPECTRATIO_4_3
-                    MENUITEM "5:4",                                ID_ASPECTRATIO_5_4
-                    MENUITEM "16:9",                               ID_ASPECTRATIO_16_9
+                    MENUITEM "Standard",                    ID_ASPECTRATIO_SOURCE
+                    MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
+                    MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
+                    MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
                 END
                 MENUITEM "Monitor/Desktop AR-Abweichung &korrigieren", ID_VIEW_VF_COMPMONDESKARDIFF
             END
             POPUP "Pan && S&can"
             BEGIN
-                MENUITEM "Ver&größern\tNumpad 9",                  ID_VIEW_INCSIZE
-                MENUITEM "Ver&kleinern\tNumpad 1",                 ID_VIEW_DECSIZE
-                MENUITEM "&Breiter\tNumpad 6",                     ID_VIEW_INCWIDTH
-                MENUITEM "&Schmäler\tNumpad 4",                    ID_VIEW_DECWIDTH
-                MENUITEM "&Höher\tNumpad 8",                       ID_VIEW_INCHEIGHT
-                MENUITEM "&Niedriger\tNumpad 2",                   ID_VIEW_DECHEIGHT
+                MENUITEM "Ver&größern\tNumpad 9",       ID_VIEW_INCSIZE
+                MENUITEM "Ver&kleinern\tNumpad 1",      ID_VIEW_DECSIZE
+                MENUITEM "&Breiter\tNumpad 6",          ID_VIEW_INCWIDTH
+                MENUITEM "&Schmäler\tNumpad 4",         ID_VIEW_DECWIDTH
+                MENUITEM "&Höher\tNumpad 8",            ID_VIEW_INCHEIGHT
+                MENUITEM "&Niedriger\tNumpad 2",        ID_VIEW_DECHEIGHT
                 MENUITEM SEPARATOR
-                MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6",    ID_PANSCAN_MOVERIGHT
-                MENUITEM "Nach &links bewegen\tCtrl+Numpad 4",     ID_PANSCAN_MOVELEFT
-                MENUITEM "H&och bewegen\tCtrl+Numpad 8",           ID_PANSCAN_MOVEUP
-                MENUITEM "R&unter bewegen\tCtrl+Numpad 2",         ID_PANSCAN_MOVEDOWN
-                MENUITEM "&Zentrieren\tCtrl+Numpad 5",             ID_PANSCAN_CENTER
+                MENUITEM "Nach &rechts bewegen\tCtrl+Numpad 6", ID_PANSCAN_MOVERIGHT
+                MENUITEM "Nach &links bewegen\tCtrl+Numpad 4", ID_PANSCAN_MOVELEFT
+                MENUITEM "H&och bewegen\tCtrl+Numpad 8", ID_PANSCAN_MOVEUP
+                MENUITEM "R&unter bewegen\tCtrl+Numpad 2", ID_PANSCAN_MOVEDOWN
+                MENUITEM "&Zentrieren\tCtrl+Numpad 5",  ID_PANSCAN_CENTER
                 MENUITEM SEPARATOR
-                MENUITEM "Zurü&cksetzen\tNumpad 5",                ID_VIEW_RESET
+                MENUITEM "Zurü&cksetzen\tNumpad 5",     ID_VIEW_RESET
             END
             MENUITEM SEPARATOR
             POPUP "I&m Vordergrund"
             BEGIN
-                MENUITEM "&Niemals",                               ID_ONTOP_NEVER
-                MENUITEM "&Immer",                                 ID_ONTOP_ALWAYS
-                MENUITEM "&Während der Wiedergabe",                ID_ONTOP_WHILEPLAYING
+                MENUITEM "&Niemals",                    ID_ONTOP_NEVER
+                MENUITEM "&Immer",                      ID_ONTOP_ALWAYS
+                MENUITEM "&Während der Wiedergabe",     ID_ONTOP_WHILEPLAYING
             END
-            MENUITEM "&Optionen...",                               ID_VIEW_OPTIONS
+            MENUITEM "&Optionen...",                ID_VIEW_OPTIONS
         END
         POPUP "&Play"
         BEGIN
-            MENUITEM "&Wiedergabe/Pause\tSpace",                   ID_PLAY_PLAYPAUSE
-            MENUITEM "&Stopp\tPeriod",                             ID_PLAY_STOP
-            MENUITEM "F&rame Step\tRight",                         ID_PLAY_FRAMESTEP
-            MENUITEM "&Gehe zu...\tCtrl+G",                        ID_PLAY_GOTO
+            MENUITEM "&Wiedergabe/Pause\tSpace",    ID_PLAY_PLAYPAUSE
+            MENUITEM "&Stopp\tPeriod",              ID_PLAY_STOP
+            MENUITEM "F&rame Step\tRight",          ID_PLAY_FRAMESTEP
+            MENUITEM "&Gehe zu...\tCtrl+G",         ID_PLAY_GOTO
             MENUITEM SEPARATOR
-            MENUITEM "Geschwindigkeit &verringern\tCtrl+Down",     ID_PLAY_DECRATE
-            MENUITEM "Geschwindigkeit &erhöhen\tCtrl+Up",          ID_PLAY_INCRATE
-            MENUITEM "Geschwindigkeit &zurücksetzen\tCtrl+R",      ID_PLAY_RESETRATE
+            MENUITEM "Geschwindigkeit &verringern\tCtrl+Down", ID_PLAY_DECRATE
+            MENUITEM "Geschwindigkeit &erhöhen\tCtrl+Up", ID_PLAY_INCRATE
+            MENUITEM "Geschwindigkeit &zurücksetzen\tCtrl+R", ID_PLAY_RESETRATE
         END
         POPUP "&Navigation"
         BEGIN
-            MENUITEM "&Zurück\tPage Up",                           ID_NAVIGATE_SKIPBACK
-            MENUITEM "&Vorwärts\tPage Down",                       ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "&Springe zu...",                             65535
+            MENUITEM "&Zurück\tPage Up",            ID_NAVIGATE_SKIPBACK
+            MENUITEM "&Vorwärts\tPage Down",        ID_NAVIGATE_SKIPFORWARD
+            MENUITEM "&Springe zu...",              65535
             MENUITEM SEPARATOR
-            MENUITEM "Au&dio Sprache",                             65535
-            MENUITEM "U&ntertitel Sprache",                        65535
-            MENUITEM "V&ideo Blickwinkel",                         65535
+            MENUITEM "Au&dio Sprache",              65535
+            MENUITEM "U&ntertitel Sprache",         65535
+            MENUITEM "V&ideo Blickwinkel",          65535
             MENUITEM SEPARATOR
-            MENUITEM "&Titel-Menü\tAlt+T",                                ID_NAVIGATE_TITLEMENU
-            MENUITEM "&Haupt-Menü\tAlt+R",                                ID_NAVIGATE_ROOTMENU
-            MENUITEM "&Untertitel-Menü",                           ID_NAVIGATE_SUBPICTUREMENU
-            MENUITEM "&Audio-Menü",                                ID_NAVIGATE_AUDIOMENU
-            MENUITEM "&Blickwinkel-Menü",                          ID_NAVIGATE_ANGLEMENU
-            MENUITEM "&Kapitel-Menü",                              ID_NAVIGATE_CHAPTERMENU
+            MENUITEM "&Titel-Menü\tAlt+T",          ID_NAVIGATE_TITLEMENU
+            MENUITEM "&Haupt-Menü\tAlt+R",          ID_NAVIGATE_ROOTMENU
+            MENUITEM "&Untertitel-Menü",            ID_NAVIGATE_SUBPICTUREMENU
+            MENUITEM "&Audio-Menü",                 ID_NAVIGATE_AUDIOMENU
+            MENUITEM "&Blickwinkel-Menü",           ID_NAVIGATE_ANGLEMENU
+            MENUITEM "&Kapitel-Menü",               ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "F&avoriten",                                     65535
+        MENUITEM "F&avoriten",                  65535
         POPUP "&Hilfe"
         BEGIN
-            MENUITEM "&Homepage",                                  ID_HELP_HOMEPAGE
-            MENUITEM "&Kommandozeilen-Parameter",                  ID_HELP_SHOWCOMMANDLINESWITCHES
+            MENUITEM "&Homepage",                   ID_HELP_HOMEPAGE
+            MENUITEM "&Kommandozeilen-Parameter",   ID_HELP_SHOWCOMMANDLINESWITCHES
             MENUITEM SEPARATOR
-            MENUITEM "&Spenden!",                                  ID_HELP_DONATE
+            MENUITEM "&Spenden!",                   ID_HELP_DONATE
             MENUITEM SEPARATOR
-            MENUITEM "&Über...",                                   ID_HELP_ABOUT
+            MENUITEM "&Über...",                    ID_HELP_ABOUT
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Filter",                                        65535
-        MENUITEM "Pixel S&hader",                                  ID__SHADERS
+        MENUITEM "&Filter",                     65535
+        MENUITEM "Pixel S&hader",               ID__SHADERS
         MENUITEM SEPARATOR
-        MENUITEM "Aud&io",                                         65535
-        MENUITEM "&Untertitel",                                    65535
+        MENUITEM "Aud&io",                      65535
+        MENUITEM "&Untertitel",                 65535
         MENUITEM SEPARATOR
         POPUP "&Lautstärke"
         BEGIN
-            MENUITEM "L&auter\tUp Arrow",                          ID_VOLUME_UP
-            MENUITEM "L&eiser\tDown Arrow",                        ID_VOLUME_DOWN
-            MENUITEM "&Stummschaltung\tCtrl+M",                    ID_VOLUME_MUTE
+            MENUITEM "L&auter\tUp Arrow",           ID_VOLUME_UP
+            MENUITEM "L&eiser\tDown Arrow",         ID_VOLUME_DOWN
+            MENUITEM "&Stummschaltung\tCtrl+M",     ID_VOLUME_MUTE
         END
         POPUP "&Nach der Wiedergabe"
         BEGIN
-            MENUITEM "&Beenden",                                   ID_AFTERPLAYBACK_CLOSE
-            MENUITEM "&Standby",                                   ID_AFTERPLAYBACK_STANDBY
-            MENUITEM "R&uhezustand",                               ID_AFTERPLAYBACK_HIBERNATE
-            MENUITEM "He&runterfahren",                            ID_AFTERPLAYBACK_SHUTDOWN
-            MENUITEM "&Abmelden",                                  ID_AFTERPLAYBACK_LOGOFF
+            MENUITEM "&Beenden",                    ID_AFTERPLAYBACK_CLOSE
+            MENUITEM "&Standby",                    ID_AFTERPLAYBACK_STANDBY
+            MENUITEM "R&uhezustand",                ID_AFTERPLAYBACK_HIBERNATE
+            MENUITEM "He&runterfahren",             ID_AFTERPLAYBACK_SHUTDOWN
+            MENUITEM "&Abmelden",                   ID_AFTERPLAYBACK_LOGOFF
             MENUITEM SEPARATOR
-            MENUITEM "Nichts &machen",                             ID_AFTERPLAYBACK_DONOTHING
+            MENUITEM "Nichts &machen",              ID_AFTERPLAYBACK_DONOTHING
         END
         MENUITEM SEPARATOR
-        MENUITEM "Beenden\tAlt+X",                                 ID_FILE_EXIT
+        MENUITEM "Beenden\tAlt+X",              ID_FILE_EXIT
     END
 END
 
@@ -2024,285 +2025,285 @@ IDR_HTML_PLAYER         HTML                    "res\\web\\player.html"
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME                  "Media Player Classic Homecinema"
-    IDS_RS_DVDPOS                  "Remember DVD Pos"
-    IDS_RS_FILEPOS                 "Remember File Pos"
-    IDS_RS_LASTFULLSCREEN          "LastFullScreen"
+    IDR_MAINFRAME           "Media Player Classic Homecinema"
+    IDS_RS_DVDPOS           "Remember DVD Pos"
+    IDS_RS_FILEPOS          "Remember File Pos"
+    IDS_RS_LASTFULLSCREEN   "LastFullScreen"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_EVR_BUFFERS             "EVRBuffers"
-    IDS_RS_SHOWOSD                 "Show OSD"
-    IDS_RS_LANGUAGE                "InterfaceLanguage"
+    IDS_RS_EVR_BUFFERS      "EVRBuffers"
+    IDS_RS_SHOWOSD          "Show OSD"
+    IDS_RS_LANGUAGE         "InterfaceLanguage"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_INFOBAR_LOCATION           "Ort"
-    IDS_INFOBAR_VIDEO              "Video"
-    IDS_INFOBAR_AUDIO              "Audio"
-    IDS_INFOBAR_SUBTITLES          "Untertitel"
-    IDS_CONTROLS_COMPLETING        "Beende..."
-    IDS_AUTOPLAY_PLAYVIDEO         "Spiele Video"
-    IDS_AUTOPLAY_PLAYMUSIC         "Spiele Musik"
-    IDS_AUTOPLAY_PLAYAUDIOCD       "Spiele Musik CD"
-    IDS_AUTOPLAY_PLAYDVDMOVIE      "Spiele DVD Film"
-    IDS_PROPSHEET_PROPERTIES       "Eigenschaften"
+    IDS_INFOBAR_LOCATION    "Ort"
+    IDS_INFOBAR_VIDEO       "Video"
+    IDS_INFOBAR_AUDIO       "Audio"
+    IDS_INFOBAR_SUBTITLES   "Untertitel"
+    IDS_CONTROLS_COMPLETING "Beende..."
+    IDS_AUTOPLAY_PLAYVIDEO  "Spiele Video"
+    IDS_AUTOPLAY_PLAYMUSIC  "Spiele Musik"
+    IDS_AUTOPLAY_PLAYAUDIOCD "Spiele Musik CD"
+    IDS_AUTOPLAY_PLAYDVDMOVIE "Spiele DVD Film"
+    IDS_PROPSHEET_PROPERTIES "Eigenschaften"
     IDS_GRAPHBUILDER_AUDIOSWITCHER "Audio Switcher"
-    IDS_SHADER_EDIT                "&Bearbeiten..."
-    IDS_RS_PN31                    "UsePN31"
-    IDS_SRC_FLV                    "6.4.0.1"
-    IDS_FAVFILES                   "Dateien"
-    IDS_FAVDVDS                    "DVDs"
+    IDS_SHADER_EDIT         "&Bearbeiten..."
+    IDS_RS_PN31             "UsePN31"
+    IDS_SRC_FLV             "6.4.0.1"
+    IDS_FAVFILES            "Dateien"
+    IDS_FAVDVDS             "DVDs"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_SHADER_TOGGLE              "Toggle Pixel Shader"
+    IDS_SHADER_TOGGLE       "Toggle Pixel Shader"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_R_SETTINGS                 "Settings"
-    IDS_RS_TITLEBARTEXTSTYLE       "TitleBarTextStyle"
-    IDS_RS_USEWMASFREADER          "UseWMASFReader"
-    IDS_RS_CONTROLSTATE            "ControlState"
-    IDS_RS_VOLUME                  "Volume"
-    IDS_RS_MUTE                    "Mute"
-    IDS_RS_BALANCE                 "Balance"
-    IDS_RS_LOOP                    "Loop"
+    IDS_R_SETTINGS          "Settings"
+    IDS_RS_TITLEBARTEXTSTYLE "TitleBarTextStyle"
+    IDS_RS_USEWMASFREADER   "UseWMASFReader"
+    IDS_RS_CONTROLSTATE     "ControlState"
+    IDS_RS_VOLUME           "Volume"
+    IDS_RS_MUTE             "Mute"
+    IDS_RS_BALANCE          "Balance"
+    IDS_RS_LOOP             "Loop"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_SNAPTODESKTOPEDGES      "SnapToDesktopEdges"
-    IDS_RS_ENABLESUBTITLES         "EnableSubtitles"
-    IDS_RS_MPEGINTERLACED          "MPEGInterlaced"
-    IDS_RS_THUMBWIDTH              "ThumbWidth"
-    IDS_RS_AUDIONORMALIZE          "AudioNormalize"
-    IDS_RS_AUDIOBOOST              "AudioBoost"
-    IDS_RS_D3DFULLSCREEN           "D3DFullScreen"
+    IDS_RS_SNAPTODESKTOPEDGES "SnapToDesktopEdges"
+    IDS_RS_ENABLESUBTITLES  "EnableSubtitles"
+    IDS_RS_MPEGINTERLACED   "MPEGInterlaced"
+    IDS_RS_THUMBWIDTH       "ThumbWidth"
+    IDS_RS_AUDIONORMALIZE   "AudioNormalize"
+    IDS_RS_AUDIOBOOST       "AudioBoost"
+    IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
     IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
-    IDS_RS_COLOR_BRIGHTNESS        "Color Brightness"
-    IDS_RS_COLOR_CONTRAST          "Color Contrast"
-    IDS_RS_COLOR_HUE               "Color Hue"
-    IDS_RS_COLOR_SATURATION        "Color Saturation"
-    IDS_RS_SHADERLIST              "Shaders List"
-    IDS_RS_TITLEBARTEXTTITLE       "TitleBarTextTitle"
-    IDS_RS_VMR9MIXERYUV            "VMRMixerYUV"
-    IDS_RS_AUDIONORMALIZERECOVER   "AudioNormalizeRecover"
+    IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
+    IDS_RS_COLOR_CONTRAST   "Color Contrast"
+    IDS_RS_COLOR_HUE        "Color Hue"
+    IDS_RS_COLOR_SATURATION "Color Saturation"
+    IDS_RS_SHADERLIST       "Shaders List"
+    IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
+    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
+    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_VIDRENDDESC                "Mauszeiger über Elemente bewegen, um Hilfe anzuzeigen."
-    IDS_CONVERT_ADDFILE            "Datei hinzufügen..."
-    IDS_CONVERT_PROPERTIES         "Eigenschaften..."
-    IDS_CONVERT_REMOVE             "Entfernen"
-    IDS_CONVERT_ENABLESTREAM       "Aktiviere Stream"
-    IDS_CONVERT_DISABLESTREAM      "Deaktiviere Stream"
-    IDS_CONVERT_PINPROPERTIES      "Pin Eigenschaften..."
-    IDS_CONVERT_ADDRESOURCE        "Ressource hinzufügen..."
-    IDS_CONVERT_REMOVEALL          "Alle entfernen"
-    IDS_CONVERT_SAVEAS             "Speichern als..."
+    IDS_VIDRENDDESC         "Mauszeiger über Elemente bewegen, um Hilfe anzuzeigen."
+    IDS_CONVERT_ADDFILE     "Datei hinzufügen..."
+    IDS_CONVERT_PROPERTIES  "Eigenschaften..."
+    IDS_CONVERT_REMOVE      "Entfernen"
+    IDS_CONVERT_ENABLESTREAM "Aktiviere Stream"
+    IDS_CONVERT_DISABLESTREAM "Deaktiviere Stream"
+    IDS_CONVERT_PINPROPERTIES "Pin Eigenschaften..."
+    IDS_CONVERT_ADDRESOURCE "Ressource hinzufügen..."
+    IDS_CONVERT_REMOVEALL   "Alle entfernen"
+    IDS_CONVERT_SAVEAS      "Speichern als..."
     IDS_CONVERT_RESOURCEPROPERTIES "Ressource Eigenschaften..."
-    IDS_CONVERT_LAUNCHINBROWSER    "Im Browser öffnen..."
+    IDS_CONVERT_LAUNCHINBROWSER "Im Browser öffnen..."
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_CONVERT_ADDCHAPTER         "Kapitel hinzufügen..."
-    IDS_CONVERT_CHAPTERPROPERTIES  "Kapitel Eigenschaften..."
-    IDS_CONVERT_DEMUXSTREAM        "Demuxen..."
-    IDS_PLAYLIST_OPEN              "&Öffnen"
-    IDS_PLAYLIST_ADD               "&Hinzufügen"
-    IDS_PLAYLIST_REMOVE            "Ent&fernen"
-    IDS_PLAYLIST_COPYTOCLIPBOARD   "In die Zwischenablage &kopieren"
-    IDS_PLAYLIST_SAVEAS            "&Speichern als..."
-    IDS_PLAYLIST_SORTBYLABEL       "Nach &Label sortieren"
-    IDS_PLAYLIST_SORTBYPATH        "Nach &Pfad sortieren"
-    IDS_PLAYLIST_RANDOMIZE         "Nach &Zufall"
-    IDS_PLAYLIST_RESTORE           "&Wiederherstellen"
-    IDS_SUBRESYNC_SEPARATOR        "&Separator"
-    IDS_SUBRESYNC_DELETE           "&Löschen"
-    IDS_SUBRESYNC_DUPLICATE        "D&uplizieren"
-    IDS_SUBRESYNC_RESET            "&Zurücksetzen"
+    IDS_CONVERT_ADDCHAPTER  "Kapitel hinzufügen..."
+    IDS_CONVERT_CHAPTERPROPERTIES "Kapitel Eigenschaften..."
+    IDS_CONVERT_DEMUXSTREAM "Demuxen..."
+    IDS_PLAYLIST_OPEN       "&Öffnen"
+    IDS_PLAYLIST_ADD        "&Hinzufügen"
+    IDS_PLAYLIST_REMOVE     "Ent&fernen"
+    IDS_PLAYLIST_COPYTOCLIPBOARD "In die Zwischenablage &kopieren"
+    IDS_PLAYLIST_SAVEAS     "&Speichern als..."
+    IDS_PLAYLIST_SORTBYLABEL "Nach &Label sortieren"
+    IDS_PLAYLIST_SORTBYPATH "Nach &Pfad sortieren"
+    IDS_PLAYLIST_RANDOMIZE  "Nach &Zufall"
+    IDS_PLAYLIST_RESTORE    "&Wiederherstellen"
+    IDS_SUBRESYNC_SEPARATOR "&Separator"
+    IDS_SUBRESYNC_DELETE    "&Löschen"
+    IDS_SUBRESYNC_DUPLICATE "D&uplizieren"
+    IDS_SUBRESYNC_RESET     "&Zurücksetzen"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_LOOPNUM                 "LoopNum"
-    IDS_RS_REWIND                  "Rewind"
-    IDS_RS_ZOOM                    "Zoom"
-    IDS_RS_MULTIINST               "AllowMultipleInstances"
-    IDS_RS_ALWAYSONTOP             "AlwaysOnTop"
-    IDS_RS_AUTOZOOM                "AutoZoom"
-    IDS_RS_FULLSCREENCTRLS         "FullScreenCtrls"
-    IDS_RS_FULLSCREENCTRLSTIMEOUT  "FullScreenCtrlsTimeOut"
-    IDS_RS_VMRFLIP                 "VMRFlip"
-    IDS_RS_DVDPATH                 "DVDPath"
-    IDS_RS_USEDVDPATH              "UseDVDPath"
-    IDS_RS_MENULANG                "MenuLang"
-    IDS_RS_AUDIOLANG               "AudioLang"
-    IDS_RS_SUBTITLESLANG           "SubtitlesLang"
-    IDS_RS_SPLOGFONT               "SPDefaultStyle"
+    IDS_RS_LOOPNUM          "LoopNum"
+    IDS_RS_REWIND           "Rewind"
+    IDS_RS_ZOOM             "Zoom"
+    IDS_RS_MULTIINST        "AllowMultipleInstances"
+    IDS_RS_ALWAYSONTOP      "AlwaysOnTop"
+    IDS_RS_AUTOZOOM         "AutoZoom"
+    IDS_RS_FULLSCREENCTRLS  "FullScreenCtrls"
+    IDS_RS_FULLSCREENCTRLSTIMEOUT "FullScreenCtrlsTimeOut"
+    IDS_RS_VMRFLIP          "VMRFlip"
+    IDS_RS_DVDPATH          "DVDPath"
+    IDS_RS_USEDVDPATH       "UseDVDPath"
+    IDS_RS_MENULANG         "MenuLang"
+    IDS_RS_AUDIOLANG        "AudioLang"
+    IDS_RS_SUBTITLESLANG    "SubtitlesLang"
+    IDS_RS_SPLOGFONT        "SPDefaultStyle"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_SPOVERRIDEPLACEMENT     "SPOverridePlacement"
-    IDS_RS_SPHORPOS                "SPHorPos"
-    IDS_RS_SPVERPOS                "SPVerPos"
-    IDS_RS_SPCSIZE                 "SPCSize"
-    IDS_RS_SPCMAXRES               "SPCMaxRes"
-    IDS_RS_INTREALMEDIA            "IntRealMedia"
-    IDS_RS_DISABLEXPTOOLBARS       "DisableXPToolbars"
-    IDS_RS_USEDEDYNAMIC            "UseDeDynamic"
-    IDS_RS_DBLCLICKFULLSCREEN      "DblClickFullScreen"
-    IDS_RS_EXITFULLSCREENATTHEEND  "ExitFullscreenAtTheEnd"
+    IDS_RS_SPOVERRIDEPLACEMENT "SPOverridePlacement"
+    IDS_RS_SPHORPOS         "SPHorPos"
+    IDS_RS_SPVERPOS         "SPVerPos"
+    IDS_RS_SPCSIZE          "SPCSize"
+    IDS_RS_SPCMAXRES        "SPCMaxRes"
+    IDS_RS_INTREALMEDIA     "IntRealMedia"
+    IDS_RS_DISABLEXPTOOLBARS "DisableXPToolbars"
+    IDS_RS_USEDEDYNAMIC     "UseDeDynamic"
+    IDS_RS_DBLCLICKFULLSCREEN "DblClickFullScreen"
+    IDS_RS_EXITFULLSCREENATTHEEND "ExitFullscreenAtTheEnd"
 END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_APP_TITLE              "Media Player Classic"
+    AFX_IDS_APP_TITLE       "Media Player Classic"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_AUTOSPEAKERCONF         "AutoSpeakerConf"
-    IDS_RS_REMEMBERWINDOWPOS       "RememberWindowPos"
-    IDS_RS_LASTWINDOWRECT          "LastWindowRect"
-    IDS_RS_AUDIORENDERERTYPE       "AudioRendererType"
+    IDS_RS_AUTOSPEAKERCONF  "AutoSpeakerConf"
+    IDS_RS_REMEMBERWINDOWPOS "RememberWindowPos"
+    IDS_RS_LASTWINDOWRECT   "LastWindowRect"
+    IDS_RS_AUDIORENDERERTYPE "AudioRendererType"
     IDS_RS_SPEAKERTOCHANNELMAPPING "SpeakerToChannelMapping"
-    IDS_RS_CUSTOMCHANNELMAPPING    "CustomChannelMapping"
-    IDS_RS_DOWNSAMPLETO441         "DownSampleTo441"
-    IDS_RS_ENABLEAUDIOSWITCHER     "EnableAudioSwitcher"
-    IDS_RS_HIDECAPTIONMENU         "HideCaptionMenu"
-    IDS_R_FILTERS                  "Filters"
-    IDS_RS_DEFAULTVIDEOFRAME       "DefaultVideoFrame"
-    IDS_RS_REMEMBERWINDOWSIZE      "RememberWindowSize"
-    IDS_RS_REALMEDIARENDERLESS     "RealMediaRenderless"
-    IDS_RS_QUICKTIMERENDERER       "QuickTimeRenderer"
-    IDS_RS_REALMEDIAFPS            "RealMediaFPS"
-    IDS_RS_AUDIOTIMESHIFT          "AudioTimeShift"
+    IDS_RS_CUSTOMCHANNELMAPPING "CustomChannelMapping"
+    IDS_RS_DOWNSAMPLETO441  "DownSampleTo441"
+    IDS_RS_ENABLEAUDIOSWITCHER "EnableAudioSwitcher"
+    IDS_RS_HIDECAPTIONMENU  "HideCaptionMenu"
+    IDS_R_FILTERS           "Filters"
+    IDS_RS_DEFAULTVIDEOFRAME "DefaultVideoFrame"
+    IDS_RS_REMEMBERWINDOWSIZE "RememberWindowSize"
+    IDS_RS_REALMEDIARENDERLESS "RealMediaRenderless"
+    IDS_RS_QUICKTIMERENDERER "QuickTimeRenderer"
+    IDS_RS_REALMEDIAFPS     "RealMediaFPS"
+    IDS_RS_AUDIOTIMESHIFT   "AudioTimeShift"
 END
 
 STRINGTABLE 
 BEGIN
-    IDD_PPAGEPLAYBACK              "Wiedergabe"
-    IDD_PPAGEPLAYER                "Player"
-    IDD_PPAGEDVD                   "Wiedergabe::DVD/OGM"
-    IDD_PPAGESUBTITLES             "Untertitel"
-    IDD_PPAGEFORMATS               "Player::Formate"
-    IDD_PPAGETWEAKS                "Tweaks"
-    IDD_PPAGEAUDIOSWITCHER         "Interne Filter::Audio Umschalter"
-    IDD_PPAGEEXTERNALFILTERS       "Externe Filter"
+    IDD_PPAGEPLAYBACK       "Wiedergabe"
+    IDD_PPAGEPLAYER         "Player"
+    IDD_PPAGEDVD            "Wiedergabe::DVD/OGM"
+    IDD_PPAGESUBTITLES      "Untertitel"
+    IDD_PPAGEFORMATS        "Player::Formate"
+    IDD_PPAGETWEAKS         "Tweaks"
+    IDD_PPAGEAUDIOSWITCHER  "Interne Filter::Audio Umschalter"
+    IDD_PPAGEEXTERNALFILTERS "Externe Filter"
 END
 
 STRINGTABLE 
 BEGIN
-    IDF_LOGO3                      "Andrew S. Gildehaus, agildehaus@runbox.com"
-    IDF_LOGO4                      "Marcel Hoffs, marcelhoffs@hotmail.com"
-    IDF_LOGO7                      "Steven W. Smith, smith78@sbcglobal.net"
+    IDF_LOGO3               "Andrew S. Gildehaus, agildehaus@runbox.com"
+    IDF_LOGO4               "Marcel Hoffs, marcelhoffs@hotmail.com"
+    IDF_LOGO7               "Steven W. Smith, smith78@sbcglobal.net"
 END
 
 STRINGTABLE 
 BEGIN
-    IDD_PPAGEACCELTBL              "Player::Tasten"
-    IDD_PPAGESUBSTYLE              "Untertitel::Standard Layout"
-    IDD_PPAGEINTERNALFILTERS       "Interne Filter"
-    IDD_PPAGELOGO                  "Player::Logo"
-    IDD_PPAGEOUTPUT                "Wiedergabe::Ausgabe"
-    IDD_PPAGEWEBSERVER             "Player::Web Interface"
-    IDD_PPAGEAUDIODEC              "Interne Filter::Audio Dekoder"
-    IDD_PPAGESUBDB                 "Untertitel::Datenbank"
+    IDD_PPAGEACCELTBL       "Player::Tasten"
+    IDD_PPAGESUBSTYLE       "Untertitel::Standard Layout"
+    IDD_PPAGEINTERNALFILTERS "Interne Filter"
+    IDD_PPAGELOGO           "Player::Logo"
+    IDD_PPAGEOUTPUT         "Wiedergabe::Ausgabe"
+    IDD_PPAGEWEBSERVER      "Player::Web Interface"
+    IDD_PPAGEAUDIODEC       "Interne Filter::Audio Dekoder"
+    IDD_PPAGESUBDB          "Untertitel::Datenbank"
 END
 
 STRINGTABLE 
 BEGIN
-    IDD_FILEPROPDETAILS            "Details"
-    IDD_FILEPROPCLIP               "Clip"
+    IDD_FILEPROPDETAILS     "Details"
+    IDD_FILEPROPCLIP        "Clip"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_ENABLEAUDIOTIMESHIFT    "EnableAudioTimeShift"
-    IDS_R_FAVFILES                 "Favorites\\Files"
-    IDS_R_FAVDVDS                  "Favorites\\DVDs"
-    IDS_R_FAVDEVICES               "Favorites\\Devices"
-    IDS_RS_LOGOFILE                "LogoFile"
+    IDS_RS_ENABLEAUDIOTIMESHIFT "EnableAudioTimeShift"
+    IDS_R_FAVFILES          "Favorites\\Files"
+    IDS_R_FAVDVDS           "Favorites\\DVDs"
+    IDS_R_FAVDEVICES        "Favorites\\Devices"
+    IDS_RS_LOGOFILE         "LogoFile"
     IDS_RS_ENABLEWORKERTHREADFOROPENING "EnableWorkerThreadForOpening"
-    IDS_RS_PNSPRESETS              "PnSPresets"
-    IDS_RS_AUTOLOADAUDIO           "AutoloadAudio"
-    IDS_RS_AUTOLOADSUBTITLES       "AutoloadSubtitles"
-    IDS_RS_SEARCHKEYFRAMES         "SearchKeyframes"
-    IDS_RS_ACCELTBL                "AccelTbl"
-    IDS_RS_SETFULLSCREENRES        "SetFullscreenRes"
-    IDS_RS_FULLSCREENRES           "FullscreenRes"
-    IDS_RS_WINLIRCADDR             "WinLircAddr"
-    IDS_R_COMMANDS                 "Commands2"
-    IDS_RS_WINLIRC                 "UseWinLirc"
+    IDS_RS_PNSPRESETS       "PnSPresets"
+    IDS_RS_AUTOLOADAUDIO    "AutoloadAudio"
+    IDS_RS_AUTOLOADSUBTITLES "AutoloadSubtitles"
+    IDS_RS_SEARCHKEYFRAMES  "SearchKeyframes"
+    IDS_RS_ACCELTBL         "AccelTbl"
+    IDS_RS_SETFULLSCREENRES "SetFullscreenRes"
+    IDS_RS_FULLSCREENRES    "FullscreenRes"
+    IDS_RS_WINLIRCADDR      "WinLircAddr"
+    IDS_R_COMMANDS          "Commands2"
+    IDS_RS_WINLIRC          "UseWinLirc"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_TRAYICON                "TrayIcon"
-    IDS_RS_KEEPASPECTRATIO         "KeepAspectRatio"
-    IDS_RS_UICEADDR                "UICEAddr"
-    IDS_RS_UICE                    "UseUICE"
-    IDS_RS_JUMPDISTS               "JumpDistS"
-    IDS_RS_JUMPDISTM               "JumpDistM"
-    IDS_RS_JUMPDISTL               "JumpDistL"
-    IDS_RS_REPORTFAILEDPINS        "ReportFailedPins"
-    IDS_RS_SRCFILTERS              "SrcFilters"
-    IDS_RS_KEEPHISTORY             "KeepHistory"
-    IDS_RS_LOGOID                  "LogoID2"
-    IDS_RS_LOGOEXT                 "LogoExt"
-    IDS_RS_TRAFILTERS              "TraFilters"
-    IDS_RS_MPEGDI                  "MPEGDI"
-    IDS_RS_MPEGBRIGHT              "MPEGBright"
-    IDS_RS_MPEGCONT                "MPEGCont"
+    IDS_RS_TRAYICON         "TrayIcon"
+    IDS_RS_KEEPASPECTRATIO  "KeepAspectRatio"
+    IDS_RS_UICEADDR         "UICEAddr"
+    IDS_RS_UICE             "UseUICE"
+    IDS_RS_JUMPDISTS        "JumpDistS"
+    IDS_RS_JUMPDISTM        "JumpDistM"
+    IDS_RS_JUMPDISTL        "JumpDistL"
+    IDS_RS_REPORTFAILEDPINS "ReportFailedPins"
+    IDS_RS_SRCFILTERS       "SrcFilters"
+    IDS_RS_KEEPHISTORY      "KeepHistory"
+    IDS_RS_LOGOID           "LogoID2"
+    IDS_RS_LOGOEXT          "LogoExt"
+    IDS_RS_TRAFILTERS       "TraFilters"
+    IDS_RS_MPEGDI           "MPEGDI"
+    IDS_RS_MPEGBRIGHT       "MPEGBright"
+    IDS_RS_MPEGCONT         "MPEGCont"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_MPEGHUE                 "MPEGHue"
-    IDS_RS_MPEGSAT                 "MPEGSat"
-    IDS_RS_MPEGFORCEDSUBS          "MPEGForcedSubs"
-    IDS_RS_MPEGPLANARYUV           "MPEGPlanarYUV"
-    IDS_RS_COMPMONDESKARDIFF       "CompMonDeskARDiff"
-    IDS_RS_HIDECDROMSSUBMENU       "HideCDROMsSubMenu"
-    IDS_RS_VMRTEXTURE              "VMRTexture"
-    IDS_RS_VMR3D                   "VMR3D"
-    IDS_RS_DSVIDEORENDERERTYPE     "DSVidRen"
-    IDS_RS_RMVIDEORENDERERTYPE     "RMVidRen"
-    IDS_RS_QTVIDEORENDERERTYPE     "QTVidRen"
-    IDS_RS_APSURACEFUSAGE          "APSurfaceUsage"
-    IDS_R_LOGINS                   "Logins"
-    IDS_RS_ENABLEWEBSERVER         "EnableWebServer"
-    IDS_RS_WEBSERVERPORT           "WebServerPort"
-    IDS_RS_LASTWINDOWTYPE          "LastWindowType"
+    IDS_RS_MPEGHUE          "MPEGHue"
+    IDS_RS_MPEGSAT          "MPEGSat"
+    IDS_RS_MPEGFORCEDSUBS   "MPEGForcedSubs"
+    IDS_RS_MPEGPLANARYUV    "MPEGPlanarYUV"
+    IDS_RS_COMPMONDESKARDIFF "CompMonDeskARDiff"
+    IDS_RS_HIDECDROMSSUBMENU "HideCDROMsSubMenu"
+    IDS_RS_VMRTEXTURE       "VMRTexture"
+    IDS_RS_VMR3D            "VMR3D"
+    IDS_RS_DSVIDEORENDERERTYPE "DSVidRen"
+    IDS_RS_RMVIDEORENDERERTYPE "RMVidRen"
+    IDS_RS_QTVIDEORENDERERTYPE "QTVidRen"
+    IDS_RS_APSURACEFUSAGE   "APSurfaceUsage"
+    IDS_R_LOGINS            "Logins"
+    IDS_RS_ENABLEWEBSERVER  "EnableWebServer"
+    IDS_RS_WEBSERVERPORT    "WebServerPort"
+    IDS_RS_LASTWINDOWTYPE   "LastWindowType"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_ONTOP                   "OnTop"
-    IDS_RS_MPASF                   "MPASampleFormat"
-    IDS_RS_AC3SC                   "AC3SpeakerConfig"
-    IDS_RS_AC3DRC                  "AC3DynamicRangeControl"
+    IDS_RS_ONTOP            "OnTop"
+    IDS_RS_MPASF            "MPASampleFormat"
+    IDS_RS_AC3SC            "AC3SpeakerConfig"
+    IDS_RS_AC3DRC           "AC3DynamicRangeControl"
     IDS_RS_WEBSERVERPRINTDEBUGINFO "WebServerPrintDebugIfo"
     IDS_RS_WEBSERVERUSECOMPRESSION "WebServerUseCompression"
-    IDS_RS_MPANORMALIZE            "MPANormalize"
-    IDS_RS_DTSSC                   "DTSSpeakerConfig"
-    IDS_RS_DTSDRC                  "DTSDynamicRangeControl"
-    IDS_RS_SNAPSHOTPATH            "SnapShotPath"
-    IDS_RS_PRIORITY                "Priority"
-    IDS_RS_SNAPSHOTEXT             "SnapShotExt"
-    IDS_RS_LAUNCHFULLSCREEN        "LaunchFullScreen"
-    IDS_RS_MPABOOST                "MpaBoost"
-    IDS_RS_AACSC                   "AACSpeakerConfig"
-    IDS_RS_VMRSYNCFIX              "VMRSyncFix"
+    IDS_RS_MPANORMALIZE     "MPANormalize"
+    IDS_RS_DTSSC            "DTSSpeakerConfig"
+    IDS_RS_DTSDRC           "DTSDynamicRangeControl"
+    IDS_RS_SNAPSHOTPATH     "SnapShotPath"
+    IDS_RS_PRIORITY         "Priority"
+    IDS_RS_SNAPSHOTEXT      "SnapShotExt"
+    IDS_RS_LAUNCHFULLSCREEN "LaunchFullScreen"
+    IDS_RS_MPABOOST         "MpaBoost"
+    IDS_RS_AACSC            "AACSpeakerConfig"
+    IDS_RS_VMRSYNCFIX       "VMRSyncFix"
 END
 
 STRINGTABLE 
@@ -2494,426 +2495,431 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_CLOSE           "Schließen"
-    IDS_SHADEREDITORDLG_0  "Soll dieser Pixelshader wirklich gelöscht werden?"
+    IDS_AG_CLOSE            "Schließen"
+    IDS_SHADEREDITORDLG_0   "Soll dieser Pixelshader wirklich gelöscht werden?"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_NONE            "Keine"
-    IDS_AG_COMMAND         "Befehl"
-    IDS_AG_KEY             "Taste"
-    IDS_AG_TYPE            "Typ"
-    IDS_AG_MOUSE           "Maus"
-    IDS_AG_APP_COMMAND     "App Befehl"
-    IDS_MEDIAFORMATS_0     "Windows Medien Datei"
-    IDS_MEDIAFORMATS_1     "Windows Medien Audio Datei"
-    IDS_AG_VIDEO_FILE      "Video Datei"
-    IDS_AG_AUDIO_FILE      "Audio Datei"
-    IDS_MEDIAFORMATS_4     "MPEG Medien Datei "
-    IDS_MEDIAFORMATS_5     "MPEG Audio Datei"
-    IDS_AG_DVD_FILE        "DVD Datei"
-    IDS_MEDIAFORMATS_7     "DVD Audio Datei"
-    IDS_AG_MIDI_FILE       "MIDI Datei"
-    IDS_MEDIAFORMATS_9     "Indeo Video Datei"
+    IDS_AG_NONE             "Keine"
+    IDS_AG_COMMAND          "Befehl"
+    IDS_AG_KEY              "Taste"
+    IDS_AG_TYPE             "Typ"
+    IDS_AG_MOUSE            "Maus"
+    IDS_AG_APP_COMMAND      "App Befehl"
+    IDS_MEDIAFORMATS_0      "Windows Medien Datei"
+    IDS_MEDIAFORMATS_1      "Windows Medien Audio Datei"
+    IDS_AG_VIDEO_FILE       "Video Datei"
+    IDS_AG_AUDIO_FILE       "Audio Datei"
+    IDS_MEDIAFORMATS_4      "MPEG Medien Datei "
+    IDS_MEDIAFORMATS_5      "MPEG Audio Datei"
+    IDS_AG_DVD_FILE         "DVD Datei"
+    IDS_MEDIAFORMATS_7      "DVD Audio Datei"
+    IDS_AG_MIDI_FILE        "MIDI Datei"
+    IDS_MEDIAFORMATS_9      "Indeo Video Datei"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MEDIAFORMATS_10    "Ogg Medien Datei"
-    IDS_MEDIAFORMATS_11    "Ogg Vorbis Audio Datei"
-    IDS_MEDIAFORMATS_12    "Windows 2000/XP oder höher"
-    IDS_AG_FLIC_FILE       "FLIC Datei"
-    IDS_MEDIAFORMATS_14    "DVD2AVI Projekt Datei"
-    IDS_AG_MPEG4_FILE      "MPEG4 Datei "
-    IDS_MEDIAFORMATS_16    "MPEG4 Audio Datei "
-    IDS_MEDIAFORMATS_17    "Matroska Medien Datei"
-    IDS_MEDIAFORMATS_18    "Matroska Audio Datei"
-    IDS_MEDIAFORMATS_19    "Smacker/Bink Medien Datei"
-    IDS_AG_RATDVD_FILE     "RatDVD Datei"
-    IDS_MEDIAFORMATS_21    "RoQ Medien Datei"
-    IDS_MEDIAFORMATS_22    "Real Medien Datei "
-    IDS_MEDIAFORMATS_23    "Real Audio Datei "
-    IDS_MEDIAFORMATS_24    "Real Skript Datei"
-    IDS_MEDIAFORMATS_25    "Dirac Video Datei"
+    IDS_MEDIAFORMATS_10     "Ogg Medien Datei"
+    IDS_MEDIAFORMATS_11     "Ogg Vorbis Audio Datei"
+    IDS_MEDIAFORMATS_12     "Windows 2000/XP oder höher"
+    IDS_AG_FLIC_FILE        "FLIC Datei"
+    IDS_MEDIAFORMATS_14     "DVD2AVI Projekt Datei"
+    IDS_AG_MPEG4_FILE       "MPEG4 Datei "
+    IDS_MEDIAFORMATS_16     "MPEG4 Audio Datei "
+    IDS_MEDIAFORMATS_17     "Matroska Medien Datei"
+    IDS_MEDIAFORMATS_18     "Matroska Audio Datei"
+    IDS_MEDIAFORMATS_19     "Smacker/Bink Medien Datei"
+    IDS_AG_RATDVD_FILE      "RatDVD Datei"
+    IDS_MEDIAFORMATS_21     "RoQ Medien Datei"
+    IDS_MEDIAFORMATS_22     "Real Medien Datei "
+    IDS_MEDIAFORMATS_23     "Real Audio Datei "
+    IDS_MEDIAFORMATS_24     "Real Skript Datei"
+    IDS_MEDIAFORMATS_25     "Dirac Video Datei"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MEDIAFORMATS_26    "DirectShow Medien Datei"
-    IDS_AG_MUSEPACK_FILE   "Musepack Datei"
-    IDS_MEDIAFORMATS_28    "Flash Video Datei "
-    IDS_MEDIAFORMATS_29    "Shockwave Flash Datei"
-    IDS_MEDIAFORMATS_30    "Quicktime Datei "
-    IDS_AG_IMAGE_FILE      "Image Datei"
-    IDS_AG_PLAYLIST_FILE   "Playlist Datei"
-    IDS_AG_OTHER           "Andere  "
-    IDS_MEDIAFORMATS_34    "Medien Dateien (Alle Formate)|__dummy|"
-    IDS_MEDIAFORMATS_35    "Alle Dateien (*.*)|__dummy|"
-    IDS_MEDIAFORMATS_36    "Audio Dateien (Alle Formate)|__dummy|"
-    IDS_PIXELSHADERCOMPILER_0
-                           "Kann D3DX9_xx.DLL nicht laden, Pixel Shaders bleiben inaktiv."
-    IDS_PIXELSHADERCOMPILER_1
-                           "Kann benötigte Funktionen in der D3DX9_xx.DLL Library nicht\nfinden (evtl. falsche Version), Pixel Shaders bleiben inaktiv."
-    IDS_AG_NOT_KNOWN       "Unbekannt"
-    IDS_MPLAYERC_0         "Schnelles Datei öffnen..."
-    IDS_AG_OPEN_FILE       "Datei öffnen..."
+    IDS_MEDIAFORMATS_26     "DirectShow Medien Datei"
+    IDS_AG_MUSEPACK_FILE    "Musepack Datei"
+    IDS_MEDIAFORMATS_28     "Flash Video Datei "
+    IDS_MEDIAFORMATS_29     "Shockwave Flash Datei"
+    IDS_MEDIAFORMATS_30     "Quicktime Datei "
+    IDS_AG_IMAGE_FILE       "Image Datei"
+    IDS_AG_PLAYLIST_FILE    "Playlist Datei"
+    IDS_AG_OTHER            "Andere  "
+    IDS_MEDIAFORMATS_34     "Medien Dateien (Alle Formate)|__dummy|"
+    IDS_MEDIAFORMATS_35     "Alle Dateien (*.*)|__dummy|"
+    IDS_MEDIAFORMATS_36     "Audio Dateien (Alle Formate)|__dummy|"
+    IDS_PIXELSHADERCOMPILER_0 
+                            "Kann D3DX9_xx.DLL nicht laden, Pixel Shaders bleiben inaktiv."
+    IDS_PIXELSHADERCOMPILER_1 
+                            "Kann benötigte Funktionen in der D3DX9_xx.DLL Library nicht\nfinden (evtl. falsche Version), Pixel Shaders bleiben inaktiv."
+    IDS_AG_NOT_KNOWN        "Unbekannt"
+    IDS_MPLAYERC_0          "Schnelles Datei öffnen..."
+    IDS_AG_OPEN_FILE        "Datei öffnen..."
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_OPEN_DVD        "DVD öffnen..."
-    IDS_AG_OPEN_DEVICE     "Gerät öffnen..."
-    IDS_AG_SAVE_AS         "Speichern als..."
-    IDS_AG_SAVE_IMAGE      "Bild speichern..."
-    IDS_MPLAYERC_6         "Bild speichern (auto)"
-    IDS_AG_LOAD_SUBTITLE   "Untertitel laden..."
-    IDS_AG_SAVE_SUBTITLE   "Untertitel speichern..."
-    IDS_AG_PROPERTIES      "Eigenschaften"
-    IDS_AG_EXIT            "Beenden"
-    IDS_AG_PLAYPAUSE       "Wiedergabe/Pause"
-    IDS_AG_PLAY            "Wiedergabe"
-    IDS_AG_STOP            "Stopp"
-    IDS_AG_FRAMESTEP       "Einzelbild"
-    IDS_MPLAYERC_16        "Einzelbild zurück"
-    IDS_AG_GO_TO           "Gehe zu..."
-    IDS_AG_INCREASE_RATE   "Geschwindigkeit verringern"
+    IDS_AG_OPEN_DVD         "DVD öffnen..."
+    IDS_AG_OPEN_DEVICE      "Gerät öffnen..."
+    IDS_AG_SAVE_AS          "Speichern als..."
+    IDS_AG_SAVE_IMAGE       "Bild speichern..."
+    IDS_MPLAYERC_6          "Bild speichern (auto)"
+    IDS_AG_LOAD_SUBTITLE    "Untertitel laden..."
+    IDS_AG_SAVE_SUBTITLE    "Untertitel speichern..."
+    IDS_AG_PROPERTIES       "Eigenschaften"
+    IDS_AG_EXIT             "Beenden"
+    IDS_AG_PLAYPAUSE        "Wiedergabe/Pause"
+    IDS_AG_PLAY             "Wiedergabe"
+    IDS_AG_STOP             "Stopp"
+    IDS_AG_FRAMESTEP        "Einzelbild"
+    IDS_MPLAYERC_16         "Einzelbild zurück"
+    IDS_AG_GO_TO            "Gehe zu..."
+    IDS_AG_INCREASE_RATE    "Geschwindigkeit verringern"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_DECREASE_RATE   "Geschwindigkeit erhöhen"
-    IDS_AG_RESET_RATE      "Geschwindigkeit zurücksetzen"
-    IDS_MPLAYERC_21        "Audio Verzögerung +10ms"
-    IDS_MPLAYERC_22        "Audio Verzögerung -10ms"
-    IDS_MPLAYERC_23        "Vorwärts springen (gering)"
-    IDS_MPLAYERC_24        "Rückwärts springen (gering)"
-    IDS_MPLAYERC_25        "Vorwärts springen (mittel)"
-    IDS_MPLAYERC_26        "Rückwärts springen (mittel)"
-    IDS_MPLAYERC_27        "Vorwärts springen (viel)"
-    IDS_MPLAYERC_28        "Rückwärts springen (viel)"
-    IDS_MPLAYERC_29        "Vorwärts springen (Keyframe)"
-    IDS_MPLAYERC_30        "Rückwärts springen (Keyframe)"
-    IDS_AG_NEXT            "Vorwärts"
-    IDS_AG_PREVIOUS        "Zurück"
-    IDS_MPLAYERC_33        "Playlisten Eintrag vorwärts"
-    IDS_MPLAYERC_34        "Playlisten Eintrag zurück"
+    IDS_AG_DECREASE_RATE    "Geschwindigkeit erhöhen"
+    IDS_AG_RESET_RATE       "Geschwindigkeit zurücksetzen"
+    IDS_MPLAYERC_21         "Audio Verzögerung +10ms"
+    IDS_MPLAYERC_22         "Audio Verzögerung -10ms"
+    IDS_MPLAYERC_23         "Vorwärts springen (gering)"
+    IDS_MPLAYERC_24         "Rückwärts springen (gering)"
+    IDS_MPLAYERC_25         "Vorwärts springen (mittel)"
+    IDS_MPLAYERC_26         "Rückwärts springen (mittel)"
+    IDS_MPLAYERC_27         "Vorwärts springen (viel)"
+    IDS_MPLAYERC_28         "Rückwärts springen (viel)"
+    IDS_MPLAYERC_29         "Vorwärts springen (Keyframe)"
+    IDS_MPLAYERC_30         "Rückwärts springen (Keyframe)"
+    IDS_AG_NEXT             "Vorwärts"
+    IDS_AG_PREVIOUS         "Zurück"
+    IDS_MPLAYERC_33         "Playlisten Eintrag vorwärts"
+    IDS_MPLAYERC_34         "Playlisten Eintrag zurück"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_VIEW_MINIMAL    "Anzeige Minimal"
-    IDS_AG_VIEW_COMPACT    "Anzeige Kompakt"
-    IDS_AG_VIEW_NORMAL     "Anzeige Normal"
-    IDS_AG_FULLSCREEN      "Vollbild"
-    IDS_MPLAYERC_39        "Vollbild (w/o res.change)"
-    IDS_AG_ZOOM_AUTO_FIT   "Zoom autom. passend"
-    IDS_AG_VIDFRM_HALF     "VidFrm halb"
-    IDS_AG_VIDFRM_NORMAL   "VidFrm normal"
-    IDS_AG_VIDFRM_DOUBLE   "VidFrm doppelt"
-    IDS_AG_ALWAYS_ON_TOP   "Immer im Vordergrund"
-    IDS_AG_PNS_INC_SIZE    "PnS Inc Größe"
-    IDS_AG_PNS_INC_WIDTH   "PnS Inc Breite"
-    IDS_MPLAYERC_47        "PnS Inc Höhe"
-    IDS_AG_PNS_DEC_SIZE    "PnS Dec Größe"
-    IDS_AG_PNS_DEC_WIDTH   "PnS Dec Breite"
-    IDS_MPLAYERC_50        "PnS Dec Höhe"
+    IDS_AG_VIEW_MINIMAL     "Anzeige Minimal"
+    IDS_AG_VIEW_COMPACT     "Anzeige Kompakt"
+    IDS_AG_VIEW_NORMAL      "Anzeige Normal"
+    IDS_AG_FULLSCREEN       "Vollbild"
+    IDS_MPLAYERC_39         "Vollbild (w/o res.change)"
+    IDS_AG_ZOOM_AUTO_FIT    "Zoom autom. passend"
+    IDS_AG_VIDFRM_HALF      "VidFrm halb"
+    IDS_AG_VIDFRM_NORMAL    "VidFrm normal"
+    IDS_AG_VIDFRM_DOUBLE    "VidFrm doppelt"
+    IDS_AG_ALWAYS_ON_TOP    "Immer im Vordergrund"
+    IDS_AG_PNS_INC_SIZE     "PnS Inc Größe"
+    IDS_AG_PNS_INC_WIDTH    "PnS Inc Breite"
+    IDS_MPLAYERC_47         "PnS Inc Höhe"
+    IDS_AG_PNS_DEC_SIZE     "PnS Dec Größe"
+    IDS_AG_PNS_DEC_WIDTH    "PnS Dec Breite"
+    IDS_MPLAYERC_50         "PnS Dec Höhe"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_PNS_CENTER      "PnS zentrieren"
-    IDS_AG_PNS_LEFT        "PnS links"
-    IDS_AG_PNS_RIGHT       "PnS rechts"
-    IDS_AG_PNS_UP          "PnS hoch"
-    IDS_AG_PNS_DOWN        "PnS runter"
-    IDS_AG_PNS_UPLEFT      "PnS hoch/links"
-    IDS_AG_PNS_UPRIGHT     "PnS hoch/rechts"
-    IDS_AG_PNS_DOWNLEFT    "PnS runter/links"
-    IDS_MPLAYERC_59        "PnS runter/rechts"
-    IDS_AG_VOLUME_UP       "Lautstärke lauter"
-    IDS_AG_VOLUME_DOWN     "Lautstärke leiser"
-    IDS_AG_VOLUME_MUTE     "Lautstärke Stumm"
-    IDS_MPLAYERC_63        "DVD Titel-Menü"
-    IDS_AG_DVD_ROOT_MENU   "DVD Root-Menü"
-    IDS_MPLAYERC_65        "DVD Untertitel-Menü"
-    IDS_MPLAYERC_66        "DVD Audio-Menü"
+    IDS_AG_PNS_CENTER       "PnS zentrieren"
+    IDS_AG_PNS_LEFT         "PnS links"
+    IDS_AG_PNS_RIGHT        "PnS rechts"
+    IDS_AG_PNS_UP           "PnS hoch"
+    IDS_AG_PNS_DOWN         "PnS runter"
+    IDS_AG_PNS_UPLEFT       "PnS hoch/links"
+    IDS_AG_PNS_UPRIGHT      "PnS hoch/rechts"
+    IDS_AG_PNS_DOWNLEFT     "PnS runter/links"
+    IDS_MPLAYERC_59         "PnS runter/rechts"
+    IDS_AG_VOLUME_UP        "Lautstärke lauter"
+    IDS_AG_VOLUME_DOWN      "Lautstärke leiser"
+    IDS_AG_VOLUME_MUTE      "Lautstärke Stumm"
+    IDS_MPLAYERC_63         "DVD Titel-Menü"
+    IDS_AG_DVD_ROOT_MENU    "DVD Root-Menü"
+    IDS_MPLAYERC_65         "DVD Untertitel-Menü"
+    IDS_MPLAYERC_66         "DVD Audio-Menü"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MPLAYERC_67        "DVD Blickwinkel-Menü"
-    IDS_MPLAYERC_68        "DVD Kapitel-Menü"
-    IDS_AG_DVD_MENU_LEFT   "DVD Menü links"
-    IDS_MPLAYERC_70        "DVD Menü rechts"
-    IDS_AG_DVD_MENU_UP     "DVD Menü hoch"
-    IDS_AG_DVD_MENU_DOWN   "DVD Menü runter"
-    IDS_MPLAYERC_73        "DVD Menü aktivieren"
-    IDS_AG_DVD_MENU_BACK   "DVD Menü zurück"
-    IDS_MPLAYERC_75        "DVD Menü verlassen"
-    IDS_AG_BOSS_KEY        "Boss-Taste"
-    IDS_MPLAYERC_77        "Player Menü (kurz)"
-    IDS_MPLAYERC_78        "Player Menü (lange)"
-    IDS_AG_FILTERS_MENU    "Filter Menü"
-    IDS_AG_OPTIONS         "Optionen"
-    IDS_AG_NEXT_AUDIO      "Audio vorwärts"
-    IDS_AG_PREV_AUDIO      "Audio zurück"
+    IDS_MPLAYERC_67         "DVD Blickwinkel-Menü"
+    IDS_MPLAYERC_68         "DVD Kapitel-Menü"
+    IDS_AG_DVD_MENU_LEFT    "DVD Menü links"
+    IDS_MPLAYERC_70         "DVD Menü rechts"
+    IDS_AG_DVD_MENU_UP      "DVD Menü hoch"
+    IDS_AG_DVD_MENU_DOWN    "DVD Menü runter"
+    IDS_MPLAYERC_73         "DVD Menü aktivieren"
+    IDS_AG_DVD_MENU_BACK    "DVD Menü zurück"
+    IDS_MPLAYERC_75         "DVD Menü verlassen"
+    IDS_AG_BOSS_KEY         "Boss-Taste"
+    IDS_MPLAYERC_77         "Player Menü (kurz)"
+    IDS_MPLAYERC_78         "Player Menü (lange)"
+    IDS_AG_FILTERS_MENU     "Filter Menü"
+    IDS_AG_OPTIONS          "Optionen"
+    IDS_AG_NEXT_AUDIO       "Audio vorwärts"
+    IDS_AG_PREV_AUDIO       "Audio zurück"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_NEXT_SUBTITLE   "Untertitel vorwärts"
-    IDS_AG_PREV_SUBTITLE   "Untertitel zurück"
-    IDS_MPLAYERC_85        "Untertitel An/Aus"
-    IDS_MPLAYERC_86        "Untertitel erneut laden"
-    IDS_MPLAYERC_87        "Audio vorwärts (OGM)"
-    IDS_MPLAYERC_88        "Audio zurück (OGM)"
-    IDS_MPLAYERC_89        "Untertitel vorwärts (OGM)"
-    IDS_MPLAYERC_90        "Untertitel zurück (OGM)"
-    IDS_MPLAYERC_91        "Blickwinkel vorwärts (DVD)"
-    IDS_MPLAYERC_92        "Blickwinkel zurück (DVD)"
-    IDS_MPLAYERC_93        "Audio vorwärts (DVD)"
-    IDS_MPLAYERC_94        "Audio zurück (DVD)"
-    IDS_MPLAYERC_95        "Untertitel vorwärts (DVD)"
-    IDS_MPLAYERC_96        "Untertitel zurück (DVD)"
-    IDS_MPLAYERC_97        "Untertitel An/Aus (DVD)"
-    IDS_MPLAYERC_98        "Verbleibende Zeit"
+    IDS_AG_NEXT_SUBTITLE    "Untertitel vorwärts"
+    IDS_AG_PREV_SUBTITLE    "Untertitel zurück"
+    IDS_MPLAYERC_85         "Untertitel An/Aus"
+    IDS_MPLAYERC_86         "Untertitel erneut laden"
+    IDS_MPLAYERC_87         "Audio vorwärts (OGM)"
+    IDS_MPLAYERC_88         "Audio zurück (OGM)"
+    IDS_MPLAYERC_89         "Untertitel vorwärts (OGM)"
+    IDS_MPLAYERC_90         "Untertitel zurück (OGM)"
+    IDS_MPLAYERC_91         "Blickwinkel vorwärts (DVD)"
+    IDS_MPLAYERC_92         "Blickwinkel zurück (DVD)"
+    IDS_MPLAYERC_93         "Audio vorwärts (DVD)"
+    IDS_MPLAYERC_94         "Audio zurück (DVD)"
+    IDS_MPLAYERC_95         "Untertitel vorwärts (DVD)"
+    IDS_MPLAYERC_96         "Untertitel zurück (DVD)"
+    IDS_MPLAYERC_97         "Untertitel An/Aus (DVD)"
+    IDS_MPLAYERC_98         "Verbleibende Zeit"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MPLAYERC_99        "Toggle Direct3S Vollbild"
-    IDS_MPLAYERC_100       "Untertitel zurück"
-    IDS_MPLAYERC_101       "Untertitel vorwärts"
-    IDS_MPLAYERC_102       "Untertitel nach Links verschieben"
-    IDS_MPLAYERC_103       "Untertitel nach Rechts verschieben"
-    IDS_AG_DISPLAY_STATS   "Statistiken anzeigen"
-    IDS_CONVERTDLG_0       "Medien Dateien|*.*||"
-    IDS_CONVERTDLG_2       "Initialisierung der Konvertierung schlug fehl"
-    IDS_CONVERTDLG_3       "Wiederverbindungs-Versuch fehlgeschlagen!"
-    IDS_CONVERTDLG_4       "Alle Dateien|*.*||"
-    IDS_CONVERTDLG_5       "Kann Datei nicht öffnen!"
-    IDS_CONVERTDLG_7       "Konvertierung konnte nicht abgeschlossen werden.\nAusgabe Datei ist fehlerhaft.\n\nFehler-Code: 0x%08x"
-    IDS_CONVERTDLG_8       "DirectShow Medien Datei|*.dsm|Alle Dateien|*.*|"
-    IDS_AG_PLEASE_WAIT     "Bitte warten"
-    IDS_AG_CONVERTING      "Konvertiere - "
-    IDS_AG_RESOURCES       "Ressourcen"
+    IDS_MPLAYERC_99         "Toggle Direct3S Vollbild"
+    IDS_MPLAYERC_100        "Untertitel zurück"
+    IDS_MPLAYERC_101        "Untertitel vorwärts"
+    IDS_MPLAYERC_102        "Untertitel nach Links verschieben"
+    IDS_MPLAYERC_103        "Untertitel nach Rechts verschieben"
+    IDS_AG_DISPLAY_STATS    "Statistiken anzeigen"
+    IDS_CONVERTDLG_0        "Medien Dateien|*.*||"
+    IDS_CONVERTDLG_2        "Initialisierung der Konvertierung schlug fehl"
+    IDS_CONVERTDLG_3        "Wiederverbindungs-Versuch fehlgeschlagen!"
+    IDS_CONVERTDLG_4        "Alle Dateien|*.*||"
+    IDS_CONVERTDLG_5        "Kann Datei nicht öffnen!"
+    IDS_CONVERTDLG_7        "Konvertierung konnte nicht abgeschlossen werden.\nAusgabe Datei ist fehlerhaft.\n\nFehler-Code: 0x%08x"
+    IDS_CONVERTDLG_8        "DirectShow Medien Datei|*.dsm|Alle Dateien|*.*|"
+    IDS_AG_PLEASE_WAIT      "Bitte warten"
+    IDS_AG_CONVERTING       "Konvertiere - "
+    IDS_AG_RESOURCES        "Ressourcen"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_CONVERTDLG_13      "%d Datei(en), %.2f KB"
-    IDS_CONVERTDLG_14      "%d Datei(en), %.2f MB"
-    IDS_AG_CHAPTERS        "Kapitel"
-    IDS_AG_SHADER_EDITOR   "Pixel Shader Editor"
-    IDS_PPAGEWEBSERVER_0   "Bitte Verzeichnis auswählen"
-    IDS_FGMANAGER_0        "MPEG-1 Video Dekoder"
-    IDS_FGMANAGER_1        "MPEG-2 Video Dekoder"
-    IDS_FGMANAGER_2        "MPEG-1 Audio Dekoder"
-    IDS_FGMANAGER_3        "MPEG-2 Audio Dekoder"
-    IDS_FGMANAGER_4        "LPCM Audio Dekoder"
-    IDS_FGMANAGER_5        "AC3 Audio Dekoder"
-    IDS_AG_DTS_DECODER     "DTS Dekoder"
-    IDS_AG_AAC_DECODER     "AAC Dekoder"
-    IDS_FGMANAGER_8        "PS2 Audio Dekoder"
-    IDS_FGMANAGER_9        "RealVideo Dekoder"
-    IDS_FGMANAGER_10       "RealAudio Dekoder"
+    IDS_CONVERTDLG_13       "%d Datei(en), %.2f KB"
+    IDS_CONVERTDLG_14       "%d Datei(en), %.2f MB"
+    IDS_AG_CHAPTERS         "Kapitel"
+    IDS_AG_SHADER_EDITOR    "Pixel Shader Editor"
+    IDS_PPAGEWEBSERVER_0    "Bitte Verzeichnis auswählen"
+    IDS_FGMANAGER_0         "MPEG-1 Video Dekoder"
+    IDS_FGMANAGER_1         "MPEG-2 Video Dekoder"
+    IDS_FGMANAGER_2         "MPEG-1 Audio Dekoder"
+    IDS_FGMANAGER_3         "MPEG-2 Audio Dekoder"
+    IDS_FGMANAGER_4         "LPCM Audio Dekoder"
+    IDS_FGMANAGER_5         "AC3 Audio Dekoder"
+    IDS_AG_DTS_DECODER      "DTS Dekoder"
+    IDS_AG_AAC_DECODER      "AAC Dekoder"
+    IDS_FGMANAGER_8         "PS2 Audio Dekoder"
+    IDS_FGMANAGER_9         "RealVideo Dekoder"
+    IDS_FGMANAGER_10        "RealAudio Dekoder"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_FGMANAGER_11       "Vorbis Audio Dekoder"
-    IDS_FGMANAGER_12       "RoQ Video Dekoder"
-    IDS_FGMANAGER_13       "RoQ Audio Dekoder"
-    IDS_FGMANAGER_14       "Dirac Video Dekoder"
-    IDS_FGMANAGER_15       "FLV Video Dekoder"
-    IDS_FGMANAGER_16       "VP62 Video Dekoder"
-    IDS_MAINFRM_2          "Fokus übernommen von: %s - %s"
-    IDS_AG_SUBTITLES_SAVED "Untertitel gespeichert"
-    IDS_MAINFRM_4          "Untertitel speichern fehlgeschlagen"
-    IDS_AG_FRAMERATE       "Bildrate"
-    IDS_MAINFRM_6          "ausgegeben: %d, verworfen: %d"
-    IDS_AG_FRAMES          "Bilder"
-    IDS_AG_BUFFERS         "Buffer"
-    IDS_MAINFRM_9          "Band: %02d/%02d, Titel: %02d/%02d, Kapitel: %02d/%02d"
-    IDS_MAINFRM_10         "Blickwinkel: %02d/%02d, %dx%d %dHz %d:%d"
-    IDS_MAINFRM_11         "%s, %s %dHz %dbits %d Kan%s"
+    IDS_FGMANAGER_11        "Vorbis Audio Dekoder"
+    IDS_FGMANAGER_12        "RoQ Video Dekoder"
+    IDS_FGMANAGER_13        "RoQ Audio Dekoder"
+    IDS_FGMANAGER_14        "Dirac Video Dekoder"
+    IDS_FGMANAGER_15        "FLV Video Dekoder"
+    IDS_FGMANAGER_16        "VP62 Video Dekoder"
+    IDS_MAINFRM_2           "Fokus übernommen von: %s - %s"
+    IDS_AG_SUBTITLES_SAVED  "Untertitel gespeichert"
+    IDS_MAINFRM_4           "Untertitel speichern fehlgeschlagen"
+    IDS_AG_FRAMERATE        "Bildrate"
+    IDS_MAINFRM_6           "ausgegeben: %d, verworfen: %d"
+    IDS_AG_FRAMES           "Bilder"
+    IDS_AG_BUFFERS          "Buffer"
+    IDS_MAINFRM_9           "Band: %02d/%02d, Titel: %02d/%02d, Kapitel: %02d/%02d"
+    IDS_MAINFRM_10          "Blickwinkel: %02d/%02d, %dx%d %dHz %d:%d"
+    IDS_MAINFRM_11          "%s, %s %dHz %dbits %d Kan%s"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_TITLE           "Titel %d"
-    IDS_MAINFRM_16         "DVD: Unerwarteter Fehler"
-    IDS_MAINFRM_17         "DVD: Fehler mit Kopierschutz"
-    IDS_MAINFRM_18         "DVD: Ungültige DVD 1.x Disk"
-    IDS_MAINFRM_19         "DVD: Ungültige DVD-Region"
-    IDS_MAINFRM_20         "DVD: Jugendschutz Level zu niedrig"
-    IDS_MAINFRM_21         "DVD: Fehler mit Macrovision"
-    IDS_MAINFRM_22         "DVD: System und Dekoder Region Einstellungen stimmen nicht überein"
-    IDS_MAINFRM_23         "DVD: Laufwerk und Dekoder Region Einstellungen stimmen nicht überein"
-    IDS_AG_NAVIGATE        "Navigation"
-    IDS_AG_OPEN_DISC       "Disk öffnen"
-    IDS_AG_FILTERS         "Filter"
-    IDS_AG_SUBTITLES       "Untertitel"
-    IDS_MAINFRM_28         "Audio Sprache"
-    IDS_MAINFRM_29         "Untertitel Sprache"
-    IDS_AG_VIDEO_ANGLE     "Video Blickwinkel"
+    IDS_AG_TITLE            "Titel %d"
+    IDS_MAINFRM_16          "DVD: Unerwarteter Fehler"
+    IDS_MAINFRM_17          "DVD: Fehler mit Kopierschutz"
+    IDS_MAINFRM_18          "DVD: Ungültige DVD 1.x Disk"
+    IDS_MAINFRM_19          "DVD: Ungültige DVD-Region"
+    IDS_MAINFRM_20          "DVD: Jugendschutz Level zu niedrig"
+    IDS_MAINFRM_21          "DVD: Fehler mit Macrovision"
+    IDS_MAINFRM_22          "DVD: System und Dekoder Region Einstellungen stimmen nicht überein"
+    IDS_MAINFRM_23          "DVD: Laufwerk und Dekoder Region Einstellungen stimmen nicht überein"
+    IDS_AG_NAVIGATE         "Navigation"
+    IDS_AG_OPEN_DISC        "Disk öffnen"
+    IDS_AG_FILTERS          "Filter"
+    IDS_AG_SUBTITLES        "Untertitel"
+    IDS_MAINFRM_28          "Audio Sprache"
+    IDS_MAINFRM_29          "Untertitel Sprache"
+    IDS_AG_VIDEO_ANGLE      "Video Blickwinkel"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_JUMP_TO         "Springe zu..."
-    IDS_AG_FAVORITES       "Favoriten"
-    IDS_AG_SHADERS         "Pixel Shader"
-    IDS_AG_VIDEO_FRAME     "Videobild"
-    IDS_AG_PANSCAN         "Pan  Scan"
-    IDS_AG_ASPECT_RATIO    "Überschreibe Seitenverhältnis"
-    IDS_MAINFRM_37         ", Gesamt: %d, Verworfen: %d"
-    IDS_MAINFRM_38         ", Größe: %I64dKB"
-    IDS_MAINFRM_39         ", Größe: %I64dMB"
-    IDS_MAINFRM_40         ", Frei: %I64dKB"
-    IDS_MAINFRM_41         ", Frei: %I64dMB"
-    IDS_MAINFRM_42         ", Freie V/A Buffer: %03d/%03d"
-    IDS_AG_ERROR           "Fehler"
-    IDS_MAINFRM_44         "Untertitel : aus"
-    IDS_MAINFRM_45         "Untertitel : %s %s"
-    IDS_MAINFRM_46         "Bitte Pfad der DVD auswählen:"
+    IDS_AG_JUMP_TO          "Springe zu..."
+    IDS_AG_FAVORITES        "Favoriten"
+    IDS_AG_SHADERS          "Pixel Shader"
+    IDS_AG_VIDEO_FRAME      "Videobild"
+    IDS_AG_PANSCAN          "Pan  Scan"
+    IDS_AG_ASPECT_RATIO     "Überschreibe Seitenverhältnis"
+    IDS_MAINFRM_37          ", Gesamt: %d, Verworfen: %d"
+    IDS_MAINFRM_38          ", Größe: %I64dKB"
+    IDS_MAINFRM_39          ", Größe: %I64dMB"
+    IDS_MAINFRM_40          ", Frei: %I64dKB"
+    IDS_MAINFRM_41          ", Frei: %I64dMB"
+    IDS_MAINFRM_42          ", Freie V/A Buffer: %03d/%03d"
+    IDS_AG_ERROR            "Fehler"
+    IDS_MAINFRM_44          "Untertitel : aus"
+    IDS_MAINFRM_45          "Untertitel : %s %s"
+    IDS_MAINFRM_46          "Bitte Pfad der DVD auswählen:"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MAINFRM_47         " erfolgreich geladen"
-    IDS_MAINFRM_48         "Alle Dateien (*.*)|*.*||"
-    IDS_MAINFRM_49         "GetDIB fehlgeschlagen, hr = %08x"
-    IDS_MAINFRM_51         "GetCurrentImage fehlgeschlagen, hr = %08x"
-    IDS_MAINFRM_53         "Kann Datei nicht anlegen"
-    IDS_MAINFRM_54         "Kann keine Miniaturansichten für Dateien mit nur einem Bild erstellen"
-    IDS_MAINFRM_55         "Kann Videobildgröße nicht ermitteln"
-    IDS_MAINFRM_56         "Nicht genug Speicher verfügbar!"
-    IDS_MAINFRM_57         "Ungültiges Bildformat, kann Miniaturansichten von %d bpp dibs nicht erstellen."
-    IDS_MAINFRM_58         "Dateigröße: %I64d%s (%I64d bytes)\\N"
-    IDS_MAINFRM_59         "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung: %dx%d %s\\NLänge: %02d:%02d:%02d"
-    IDS_MAINFRM_60         "Um Untertitel laden zu können, ändern Sie bitte den Ausgabetyp und öffnen die Datei erneut.\n"
-    IDS_MAINFRM_61         "- DirectShow: VMR7/VMR9 Renderless oder Haali's\n"
-    IDS_MAINFRM_62         "- RealMedia: Spezial Renderer für RealMedia, oder mittels DirectShow öffnen\n"
-    IDS_MAINFRM_63         "- Quicktime: DX7 oder DX9 Renderer für QuickTime\n"
-    IDS_MAINFRM_64         "- ShockWave: n/v\n"
+    IDS_MAINFRM_47          " erfolgreich geladen"
+    IDS_MAINFRM_48          "Alle Dateien (*.*)|*.*||"
+    IDS_MAINFRM_49          "GetDIB fehlgeschlagen, hr = %08x"
+    IDS_MAINFRM_51          "GetCurrentImage fehlgeschlagen, hr = %08x"
+    IDS_MAINFRM_53          "Kann Datei nicht anlegen"
+    IDS_MAINFRM_54          "Kann keine Miniaturansichten für Dateien mit nur einem Bild erstellen"
+    IDS_MAINFRM_55          "Kann Videobildgröße nicht ermitteln"
+    IDS_MAINFRM_56          "Nicht genug Speicher verfügbar!"
+    IDS_MAINFRM_57          "Ungültiges Bildformat, kann Miniaturansichten von %d bpp dibs nicht erstellen."
+    IDS_MAINFRM_58          "Dateigröße: %I64d%s (%I64d bytes)\\N"
+    IDS_MAINFRM_59          "{\\an7\\1c&H000000&\\fs16\\b0\\bord0\\shad0}Dateiname: %s\\N%sAuflösung: %dx%d %s\\NLänge: %02d:%02d:%02d"
+    IDS_MAINFRM_60          "Um Untertitel laden zu können, ändern Sie bitte den Ausgabetyp und öffnen die Datei erneut.\n"
+    IDS_MAINFRM_61          "- DirectShow: VMR7/VMR9 Renderless oder Haali's\n"
+    IDS_MAINFRM_62          "- RealMedia: Spezial Renderer für RealMedia, oder mittels DirectShow öffnen\n"
+    IDS_MAINFRM_63          "- Quicktime: DX7 oder DX9 Renderer für QuickTime\n"
+    IDS_MAINFRM_64          "- ShockWave: n/v\n"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MAINFRM_65         "Pixel Shader an"
-    IDS_MAINFRM_66         "Pixel Shader aus"
-    IDS_MAINFRM_67         "D3D Vollbild an"
-    IDS_MAINFRM_68         "Seitenverhältnis: %d:%d"
-    IDS_MAINFRM_69         "Seitenverhältnis: Standard"
-    IDS_MAINFRM_70         "Audio Verzögerung: %I64dms"
-    IDS_AG_CHAPTER         "Kapitel %d"
-    IDS_MAINFRM_73         "Kann Pixel Shader nicht laden: "
-    IDS_AG_SHADER          "Pixel Shader: "
-    IDS_AG_OUT_OF_MEMORY   "Kein freier Speicher mehr vorhanden"
-    IDS_MAINFRM_77         "Kann Shockwave Control nicht erzeugen"
-    IDS_MAINFRM_78         "Quicktime auf x64 Systemen noch nicht unterstützt"
-    IDS_MAINFRM_80         "Kann das Filter-Graph Objekt nicht erstellen"
-    IDS_MAINFRM_81         "Ungültiges Argument"
-    IDS_MAINFRM_82         "Öffnen abgebrochen"
-    IDS_MAINFRM_83         "Datei-Render fehlgeschlagen"
+    IDS_MAINFRM_65          "Pixel Shader an"
+    IDS_MAINFRM_66          "Pixel Shader aus"
+    IDS_MAINFRM_67          "D3D Vollbild an"
+    IDS_MAINFRM_68          "Seitenverhältnis: %d:%d"
+    IDS_MAINFRM_69          "Seitenverhältnis: Standard"
+    IDS_MAINFRM_70          "Audio Verzögerung: %I64dms"
+    IDS_AG_CHAPTER          "Kapitel %d"
+    IDS_MAINFRM_73          "Kann Pixel Shader nicht laden: "
+    IDS_AG_SHADER           "Pixel Shader: "
+    IDS_AG_OUT_OF_MEMORY    "Kein freier Speicher mehr vorhanden"
+    IDS_MAINFRM_77          "Kann Shockwave Control nicht erzeugen"
+    IDS_MAINFRM_78          "Quicktime auf x64 Systemen noch nicht unterstützt"
+    IDS_MAINFRM_80          "Kann das Filter-Graph Objekt nicht erstellen"
+    IDS_MAINFRM_81          "Ungültiges Argument"
+    IDS_MAINFRM_82          "Öffnen abgebrochen"
+    IDS_MAINFRM_83          "Datei-Render fehlgeschlagen"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MAINFRM_84         "Ungültiger Dateiname"
-    IDS_MAINFRM_86         "Verbindung mit Filter fehlgeschlagen"
-    IDS_MAINFRM_87         "Kann Quell-Filter nicht laden"
-    IDS_MAINFRM_88         "Datei-Render fehlgeschlagen"
-    IDS_MAINFRM_89         "Ungültiges Datei Format"
-    IDS_MAINFRM_90         "Datei nicht gefunden"
-    IDS_MAINFRM_91         "Unbekannter Datei-Typ"
-    IDS_MAINFRM_92         "Format nicht unterstützt"
-    IDS_MAINFRM_93         "Kann DVD Verzeichnis nicht finden"
-    IDS_MAINFRM_94         "Erstellung des DVD Navigator Filter fehlgeschlagen"
-    IDS_AG_FAILED          "Fehlgeschlagen"
-    IDS_MAINFRM_96         "Kann Video Capture Filter nicht erstellen"
-    IDS_MAINFRM_98         "Kein Capture Filter gefunden"
-    IDS_MAINFRM_99         "Kann das Capture Graph Builder Objekt nicht erstellen"
-    IDS_MAINFRM_100        "Warnung: Kein IAMStreamConfig Interface für vidcap capture vorhanden"
-    IDS_MAINFRM_102        "Warnung: Kein IAMStreamConfig Interface für vidcap vorhanden"
+    IDS_MAINFRM_84          "Ungültiger Dateiname"
+    IDS_MAINFRM_86          "Verbindung mit Filter fehlgeschlagen"
+    IDS_MAINFRM_87          "Kann Quell-Filter nicht laden"
+    IDS_MAINFRM_88          "Datei-Render fehlgeschlagen"
+    IDS_MAINFRM_89          "Ungültiges Datei Format"
+    IDS_MAINFRM_90          "Datei nicht gefunden"
+    IDS_MAINFRM_91          "Unbekannter Datei-Typ"
+    IDS_MAINFRM_92          "Format nicht unterstützt"
+    IDS_MAINFRM_93          "Kann DVD Verzeichnis nicht finden"
+    IDS_MAINFRM_94          "Erstellung des DVD Navigator Filter fehlgeschlagen"
+    IDS_AG_FAILED           "Fehlgeschlagen"
+    IDS_MAINFRM_96          "Kann Video Capture Filter nicht erstellen"
+    IDS_MAINFRM_98          "Kein Capture Filter gefunden"
+    IDS_MAINFRM_99          "Kann das Capture Graph Builder Objekt nicht erstellen"
+    IDS_MAINFRM_100         "Warnung: Kein IAMStreamConfig Interface für vidcap capture vorhanden"
+    IDS_MAINFRM_102         "Warnung: Kein IAMStreamConfig Interface für vidcap vorhanden"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_MAINFRM_105        "Warnung: IAMCrossbar Interface konnte nicht gefunden werden\n"
-    IDS_MAINFRM_106        "Warnung: IAMTVTuner Interface konnte nicht gefunden werden\n"
-    IDS_MAINFRM_108        "Kann kein Gerät öffnen"
-    IDS_AG_SOUND           "Audio"
-    IDS_MAINFRM_114        "%s konnte nicht gefunden, bitte Medium mit dieser Datei einlegen."
-    IDS_AG_ABORTED         "Abgebrochen"
-    IDS_MAINFRM_116        "&Eigenschaften..."
-    IDS_MAINFRM_117        " (pin) Eigenschaften..."
-    IDS_AG_UNKNOWN_STREAM  "Unbekanntes Format"
-    IDS_AG_UNKNOWN         "Unbekannt %d"
-    IDS_MAINFRM_121        " (Regisseur Kommentare 1)"
-    IDS_MAINFRM_122        " (Regisseur Kommentare 2)"
-    IDS_AG_ENABLED         "Aktiviert"
-    IDS_AG_ANGLE           "Blickwinkel %d"
+    IDS_MAINFRM_105         "Warnung: IAMCrossbar Interface konnte nicht gefunden werden\n"
+    IDS_MAINFRM_106         "Warnung: IAMTVTuner Interface konnte nicht gefunden werden\n"
+    IDS_MAINFRM_108         "Kann kein Gerät öffnen"
+    IDS_AG_SOUND            "Audio"
+    IDS_MAINFRM_114         "%s konnte nicht gefunden, bitte Medium mit dieser Datei einlegen."
+    IDS_AG_ABORTED          "Abgebrochen"
+    IDS_MAINFRM_116         "&Eigenschaften..."
+    IDS_MAINFRM_117         " (pin) Eigenschaften..."
+    IDS_AG_UNKNOWN_STREAM   "Unbekanntes Format"
+    IDS_AG_UNKNOWN          "Unbekannt %d"
+    IDS_MAINFRM_121         " (Regisseur Kommentare 1)"
+    IDS_MAINFRM_122         " (Regisseur Kommentare 2)"
+    IDS_AG_ENABLED          "Aktiviert"
+    IDS_AG_ANGLE            "Blickwinkel %d"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_AG_DISABLED        "Deaktiviert"
-    IDS_MAINFRM_132        "Warnung (CMainFrame::SeekTo): Seek-Versuch im Capture-Modus"
-    IDS_AG_REMOVING        "Entferne: "
-    IDS_MAINFRM_134        "WARNUNG: CMainFrame::CloseMedia() wurde mehr als einmal aufgerufen\n"
-    IDS_MAINFRM_135        "KRITISCHER FEHLER: !!! Opener-Thread muss beendet werden !!!"
-    IDS_MAINFRM_136        "MPC D3D Vollbild"
-    IDS_MAINFRM_137        "Unbekanntes Format"
-    IDS_MAINFRM_138        "Untertitel shift: %ld"
-    IDS_VOLUME_BOOST_INC   "Lautstärke Boost erhöhen"
-    IDS_VOLUME_BOOST_DEC   "Lautstärke Boost verringern"
-    IDS_VOLUME_BOOST_MIN   "Lautstärke Boost Min"
-    IDS_VOLUME_BOOST_MAX   "Lautstärke Boost Max"
-    IDS_USAGE              "Aufruf: mplayerc.exe ""Pfadname"" [Optionen]\n\n""Pfadname""\tThe main file or directory to be loaded. (wildcards\n\t\tallowed)\n/dub ""dubname""\tLoad an additional audio file.\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tfile contains ""...DELAY XXms..."")\n/d3dfs\t\tstart rendering in D3D fullscreen mode.\n/sub ""subname""\tLoad an additional subtitle file.\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary. (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional).\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional).\n/open\t\tOpen the file, don't automatically start playing.\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched.\n/close\t\tClose the player after playback (only works when\n\t\tused with /play).\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode.\n/minimized\tStart in minimized mode.\n/new\t\tUse a new instance of the player.\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play.\n/regvid\t\tRegister video formats\n/regaud\t\tRegister audio formats\n/unregvid\t\tUnregister video formats\n/unregaud\tUnregister audio formats\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/fixedsize w,h\tSet fixed window size.\n/monitor N\tStart on monitor N, where N starts from 1.\n/help /h /?\tShow help about command line switches\n"
-    IDS_UNKNOWN_SWITCH     "Unbekannte Option(en) in Befehlszeile gefunden: \n\n"
+    IDS_AG_DISABLED         "Deaktiviert"
+    IDS_MAINFRM_132         "Warnung (CMainFrame::SeekTo): Seek-Versuch im Capture-Modus"
+    IDS_AG_REMOVING         "Entferne: "
+    IDS_MAINFRM_134         "WARNUNG: CMainFrame::CloseMedia() wurde mehr als einmal aufgerufen\n"
+    IDS_MAINFRM_135         "KRITISCHER FEHLER: !!! Opener-Thread muss beendet werden !!!"
+    IDS_MAINFRM_136         "MPC D3D Vollbild"
+    IDS_MAINFRM_137         "Unbekanntes Format"
+    IDS_MAINFRM_138         "Untertitel shift: %ld"
+    IDS_VOLUME_BOOST_INC    "Lautstärke Boost erhöhen"
+    IDS_VOLUME_BOOST_DEC    "Lautstärke Boost verringern"
+    IDS_VOLUME_BOOST_MIN    "Lautstärke Boost Min"
+    IDS_VOLUME_BOOST_MAX    "Lautstärke Boost Max"
+    IDS_USAGE               "Aufruf: mplayerc.exe ""Pfadname"" [Optionen]\n\n""Pfadname""\tThe main file or directory to be loaded. (wildcards\n\t\tallowed)\n/dub ""dubname""\tLoad an additional audio file.\n/dubdelay ""file""\tLoad an additional audio file shifted with XXms (if\n\t\tfile contains ""...DELAY XXms..."")\n/d3dfs\t\tstart rendering in D3D fullscreen mode.\n/sub ""subname""\tLoad an additional subtitle file.\n/filter ""filtername""\tLoad DirectShow filters from a dynamic link\n\t\tlibrary. (wildcards allowed)\n/dvd\t\tRun in dvd mode, ""pathname"" means the dvd\n\t\tfolder (optional).\n/cd\t\tLoad all the tracks of an audio cd or (s)vcd,\n\t\t""pathname"" means the drive path (optional).\n/open\t\tOpen the file, don't automatically start playing.\n/play\t\tStart playing the file as soon the player is\n\t\tlaunched.\n/close\t\tClose the player after playback (only works when\n\t\tused with /play).\n/shutdown\tShutdown the operating system after playback\n/fullscreen\tStart in full-screen mode.\n/minimized\tStart in minimized mode.\n/new\t\tUse a new instance of the player.\n/add\t\tAdd ""pathname"" to playlist, can be combined\n\t\twith /open and /play.\n/regvid\t\tRegister video formats\n/regaud\t\tRegister audio formats\n/unregvid\t\tUnregister video formats\n/unregaud\tUnregister audio formats\n/start ms\t\tStart playing at ""ms"" (= milliseconds)\n/fixedsize w,h\tSet fixed window size.\n/monitor N\tStart on monitor N, where N starts from 1.\n/help /h /?\tShow help about command line switches\n"
+    IDS_UNKNOWN_SWITCH      "Unbekannte Option(en) in Befehlszeile gefunden: \n\n"
     IDS_MPADECSETTINGSWND_0 "Ausgabe-Sampleformat"
 END
 
 STRINGTABLE 
 BEGIN
     IDS_MPADECSETTINGSWND_1 "AC3 Dekoder"
-    IDS_MPA_CHANNEL_1         "Kanal 1"
-    IDS_MPA_CHANNEL_2         "Kanal 2"
-    IDS_MPADECSETTINGSWND_5   "Dekodieren für:"
-    IDS_MPADECSETTINGSWND_7   "DTS Dekoder"
-    IDS_MPADECSETTINGSWND_11  "AAC Dekoder"
-    IDS_MPADECSETTINGSWND_12  "Downmix nach Stereo"
-    IDS_AG_SETTINGS           "Einstellungen"
-    IDS_MPEG2DECSETTINGSWND_0
-                              "Planare YUV Medien-Typen erlauben (VY12, I420, IYUY)"
+    IDS_MPA_CHANNEL_1       "Kanal 1"
+    IDS_MPA_CHANNEL_2       "Kanal 2"
+    IDS_MPADECSETTINGSWND_5 "Dekodieren für:"
+    IDS_MPADECSETTINGSWND_7 "DTS Dekoder"
+    IDS_MPADECSETTINGSWND_11 "AAC Dekoder"
+    IDS_MPADECSETTINGSWND_12 "Downmix nach Stereo"
+    IDS_AG_SETTINGS         "Einstellungen"
+    IDS_MPEG2DECSETTINGSWND_0 
+                            "Planare YUV Medien-Typen erlauben (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Setze Interlaced-Flag im Medientyp"
-    IDS_MPEG2DECSETTINGSWND_2 "Erzwungene Untertitel (Forced Subs) immer anzeigen"
-    IDS_MPEG2_DEINTERLACING   "Deinterlacing:"
-    IDS_MPEG2_BRIGHTNESS      "Helligkeit:"
-    IDS_MPEG2_RESET           "Zurücksetzen"
-    IDS_MPEG2DECSETTINGSWND_7
-                              "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinter- lacing, oder Änderung der Farb-Einstellung, "
-    IDS_MPA_3F                "3 Vorne"
+    IDS_MPEG2DECSETTINGSWND_2 
+                            "Erzwungene Untertitel (Forced Subs) immer anzeigen"
+    IDS_MPEG2_DEINTERLACING "Deinterlacing:"
+    IDS_MPEG2_BRIGHTNESS    "Helligkeit:"
+    IDS_MPEG2_RESET         "Zurücksetzen"
+    IDS_MPEG2DECSETTINGSWND_7 
+                            "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinter- lacing, oder Änderung der Farb-Einstellung, "
+    IDS_MPA_3F              "3 Vorne"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
-    IDS_MPA_2F_1R          "2 Vorne + 1 Hinten"
-    IDS_MPA_3F_1R          "3 Vorne + 1 Hinten"
-    IDS_MPA_2F_2R          "2 Vorne + 2 Hinten"
-    IDS_MPA_3F_2R          "3 Vorne + 2 Hinten"
-    IDS_MPA_DYNRANGE       "Dynamic Range Control"
-    IDS_MPEG2_CONTRAST     "Kontrast"
-    IDS_MPEG2_HUE          "Farbton"
-    IDS_MPEG2_SATURATION   "Sättigung"
-    IDS_MPEG2DECSETTINGSWND_8
-                           "kann Performance beeinträchtigen. ""Auto"" Deinterlacer wechselt zu ""Blend"", wenn notwendig."
+    IDS_MPA_2F_1R           "2 Vorne + 1 Hinten"
+    IDS_MPA_3F_1R           "3 Vorne + 1 Hinten"
+    IDS_MPA_2F_2R           "2 Vorne + 2 Hinten"
+    IDS_MPA_3F_2R           "3 Vorne + 2 Hinten"
+    IDS_MPA_DYNRANGE        "Dynamic Range Control"
+    IDS_MPEG2_CONTRAST      "Kontrast"
+    IDS_MPEG2_HUE           "Farbton"
+    IDS_MPEG2_SATURATION    "Sättigung"
+    IDS_MPEG2DECSETTINGSWND_8 
+                            "kann Performance beeinträchtigen. ""Auto"" Deinterlacer wechselt zu ""Blend"", wenn notwendig."
+    IDS_ADD_TO_PLAYLIST     "Add to MPC Playlist"
+    IDS_OPEN_WITH_MPC       "Play with MPC"
+    IDS_CANNOT_CHANGE_FORMAT "Media Player Classic have not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
+    IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system since. Originaly made by Hungarian developer known as Gabest, this version have additionnal features such as Direct 3D fullscreen mode and better support for Vista."
 END
 
-#endif    // German (Germany) resources
+#endif    // German (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

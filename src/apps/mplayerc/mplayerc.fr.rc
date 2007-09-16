@@ -370,6 +370,7 @@ BEGIN
     CONTROL         "CD Audio",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,111,183,43,10
     PUSHBUTTON      "&Vidéo",IDC_BUTTON4,176,180,33,14
     PUSHBUTTON      "A&udio",IDC_BUTTON3,212,180,33,14
+    PUSHBUTTON      "&Modifier",IDC_BUTTON5,196,178,63,14,NOT WS_VISIBLE
     PUSHBUTTON      "&Tout",IDC_BUTTON1,248,180,33,14
     GROUPBOX        "Lecture automatique (XP uniquement)",IDC_STATIC1,6,170,151,28
 END
@@ -1488,8 +1489,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,0,1,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1506,12 +1507,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "French satellite ressource for Media Player - Homecinema"
             VALUE "FileDescription", "Media Player Classic - Homecinema"
-            VALUE "FileVersion", "1, 0, 0, 0"
+            VALUE "FileVersion", "1, 0, 1, 0"
             VALUE "InternalName", "Media Player Classic - Homecinema"
             VALUE "LegalCopyright", "Copyright (C) 2002-2007"
             VALUE "OriginalFilename", "mplayerc.EXE"
             VALUE "ProductName", "Media Player Classic"
-            VALUE "ProductVersion", "1, 0, 0, 0"
+            VALUE "ProductVersion", "1, 0, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1535,7 +1536,7 @@ BEGIN
         MENUITEM "&Ouvrir un fichier...\tCtrl+O", ID_FILE_OPENMEDIA
         MENUITEM "Lancer un &DVD...\tCtrl+D",   ID_FILE_OPENDVD
         MENUITEM "Ouvrir un &périphérique...\tCtrl+V", ID_FILE_OPENDEVICE
-        MENUITEM "O&uvrir un disque",           ID_FILE_OPENDISC32774
+        MENUITEM "O&uvrir le disque",           ID_FILE_OPENDISC32774
         MENUITEM "&Fermer",                     ID_FILE_CLOSEPLAYLIST
         MENUITEM SEPARATOR
         MENUITEM "&Enregistrer sous...",        ID_FILE_SAVE_COPY
@@ -1654,7 +1655,7 @@ BEGIN
         MENUITEM "&Accélérer\tCtrl+Up",         ID_PLAY_INCRATE
         MENUITEM "Réinitaliser\tCtrl+R",        ID_PLAY_RESETRATE
         MENUITEM SEPARATOR
-        MENUITEM "&Filters",                    65535
+        MENUITEM "&Filtres",                    65535
         MENUITEM "S&haders",                    65535
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      65535
@@ -1711,79 +1712,79 @@ IDR_POPUP MENU
 BEGIN
     POPUP ""
     BEGIN
-        MENUITEM "&Lecture/Pause",              ID_PLAY_PLAYPAUSE
-        MENUITEM "&Arrêt",                      ID_PLAY_STOP
+        MENUITEM "&Lecture/Pause",								   ID_PLAY_PLAYPAUSE
+        MENUITEM "&Arrêt",										   ID_PLAY_STOP
         MENUITEM SEPARATOR
-        MENUITEM "Plein écran",                 ID_VIEW_FULLSCREEN
+        MENUITEM "Plein écran",                                    ID_VIEW_FULLSCREEN
         POPUP "&Zoom"
         BEGIN
-            MENUITEM "&50%\tAlt+1",                 ID_VIEW_ZOOM_50
-            MENUITEM "&100%\tAlt+2",                ID_VIEW_ZOOM_100
-            MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
-            MENUITEM "Automatique\tAlt+4",          ID_VIEW_ZOOM_AUTOFIT
+            MENUITEM "&50%\tAlt+1",                                ID_VIEW_ZOOM_50
+            MENUITEM "&100%\tAlt+2",							   ID_VIEW_ZOOM_100
+            MENUITEM "&200%\tAlt+3",							   ID_VIEW_ZOOM_200
+            MENUITEM "Automatique\tAlt+4",						   ID_VIEW_ZOOM_AUTOFIT
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"
         BEGIN
-            MENUITEM "&Moitié",                     ID_VIEW_VF_HALF
-            MENUITEM "&Originale",                  ID_VIEW_VF_NORMAL
-            MENUITEM "&Double",                     ID_VIEW_VF_DOUBLE
-            MENUITEM "&Ajuster à la fenêtre",       ID_VIEW_VF_STRETCH
-            MENUITEM "Ajuster à l'&intérieur de la fenêtre", ID_VIEW_VF_FROMINSIDE
-            MENUITEM "Ajuster à l'&extérieur de la fenêtre", ID_VIEW_VF_FROMOUTSIDE
+            MENUITEM "&Moitié",									   ID_VIEW_VF_HALF
+            MENUITEM "&Originale",								   ID_VIEW_VF_NORMAL
+            MENUITEM "&Double",									   ID_VIEW_VF_DOUBLE
+            MENUITEM "&Ajuster à la fenêtre",					   ID_VIEW_VF_STRETCH
+            MENUITEM "Ajuster à l'&intérieur de la fenêtre",	   ID_VIEW_VF_FROMINSIDE
+            MENUITEM "Ajuster à l'&extérieur de la fenêtre",       ID_VIEW_VF_FROMOUTSIDE
             MENUITEM SEPARATOR
-            MENUITEM "&Conserver les proportions",  ID_VIEW_VF_KEEPASPECTRATIO
+            MENUITEM "&Conserver les proportions",                 ID_VIEW_VF_KEEPASPECTRATIO
             POPUP "Modifier les proportions"
             BEGIN
-                MENUITEM "Par défaut",                  ID_ASPECTRATIO_SOURCE
-                MENUITEM "4:3",                         ID_ASPECTRATIO_4_3
-                MENUITEM "5:4",                         ID_ASPECTRATIO_5_4
-                MENUITEM "16:9",                        ID_ASPECTRATIO_16_9
+                MENUITEM "Par défaut",                             ID_ASPECTRATIO_SOURCE
+                MENUITEM "4:3",                                    ID_ASPECTRATIO_4_3
+                MENUITEM "5:4",                                    ID_ASPECTRATIO_5_4
+                MENUITEM "16:9",                                   ID_ASPECTRATIO_16_9
             END
-            MENUITEM "Corriger le différentiel bureau/écran", ID_VIEW_VF_COMPMONDESKARDIFF
+            MENUITEM "Corriger le différentiel bureau/écran",      ID_VIEW_VF_COMPMONDESKARDIFF
         END
         POPUP "Panoramique"
         BEGIN
-            MENUITEM "Agrandir\tPavé Numérique 9",  ID_VIEW_INCSIZE
-            MENUITEM "Rétrécir\tPavé Numérique 1",  ID_VIEW_DECSIZE
-            MENUITEM "Agrandir en largeur\tPavé Numérique 6", ID_VIEW_INCWIDTH
-            MENUITEM "Rétrécir en largeur\tPavé Numérique 4", ID_VIEW_DECWIDTH
-            MENUITEM "Agrandir en hauteur\tPavé Numérique 8", ID_VIEW_INCHEIGHT
-            MENUITEM "Rétrécir en hauteur\tPavé Numérique 2", ID_VIEW_DECHEIGHT
+            MENUITEM "Agrandir\tPavé Numérique 9",                 ID_VIEW_INCSIZE
+            MENUITEM "Rétrécir\tPavé Numérique 1",                 ID_VIEW_DECSIZE
+            MENUITEM "Agrandir en largeur\tPavé Numérique 6",      ID_VIEW_INCWIDTH
+            MENUITEM "Rétrécir en largeur\tPavé Numérique 4",      ID_VIEW_DECWIDTH
+            MENUITEM "Agrandir en hauteur\tPavé Numérique 8",      ID_VIEW_INCHEIGHT
+            MENUITEM "Rétrécir en hauteur\tPavé Numérique 2",      ID_VIEW_DECHEIGHT
             MENUITEM SEPARATOR
-            MENUITEM "Déplacer à droite\tCtrl+Pavé Numérique 6", ID_PANSCAN_MOVERIGHT
-            MENUITEM "Déplacer à gauche\tCtrl+Pavé Numérique 4", ID_PANSCAN_MOVELEFT
+            MENUITEM "Déplacer à droite\tCtrl+Pavé Numérique 6",   ID_PANSCAN_MOVERIGHT
+            MENUITEM "Déplacer à gauche\tCtrl+Pavé Numérique 4",   ID_PANSCAN_MOVELEFT
             MENUITEM "Déplacer vers le haut\tCtrl+Pavé Numérique 8", ID_PANSCAN_MOVEUP
             MENUITEM "Déplacer vers le bas\tCtrl+Pavé Numérique 2", ID_PANSCAN_MOVEDOWN
-            MENUITEM "Centrer\tCtrl+Pavé Numérique 5", ID_PANSCAN_CENTER
+            MENUITEM "Centrer\tCtrl+Pavé Numérique 5",             ID_PANSCAN_CENTER
             MENUITEM SEPARATOR
-            MENUITEM "Rétablir\tPavé Numérique 5",  ID_VIEW_RESET
+            MENUITEM "Rétablir\tPavé Numérique 5",                 ID_VIEW_RESET
         END
         MENUITEM SEPARATOR
         POPUP "&Navigation"
         BEGIN
-            MENUITEM "Chapitre &précédent\tPage Haut", ID_NAVIGATE_SKIPBACK
-            MENUITEM "Chapitre &suivant\tPage Bas", ID_NAVIGATE_SKIPFORWARD
-            MENUITEM "Atteindre...",                65535
+            MENUITEM "Chapitre &précédent\tPage Haut",             ID_NAVIGATE_SKIPBACK
+            MENUITEM "Chapitre &suivant\tPage Bas",                ID_NAVIGATE_SKIPFORWARD
+            MENUITEM "Atteindre...",							   65535
             MENUITEM SEPARATOR
-            MENUITEM "Langue &audio",               65535
-            MENUITEM "Langue des sous-titres",      65535
-            MENUITEM "Ang&le de la video",          65535
+            MENUITEM "Langue &audio",							   65535
+            MENUITEM "Langue des sous-titres",      			   65535
+            MENUITEM "Ang&le de la video",          			   65535
             MENUITEM SEPARATOR
-            MENUITEM "Menu supérieur\tAlt+T",       ID_NAVIGATE_TITLEMENU
-            MENUITEM "Menu &principal\tAlt+R",      ID_NAVIGATE_ROOTMENU
-            MENUITEM "Menu des &sous-titres",       ID_NAVIGATE_SUBPICTUREMENU
-            MENUITEM "Menu de sélection de la langue &audio", ID_NAVIGATE_AUDIOMENU
-            MENUITEM "Menu de sélection de l'an&gle", ID_NAVIGATE_ANGLEMENU
-            MENUITEM "Menu &chapitrage",            ID_NAVIGATE_CHAPTERMENU
+            MENUITEM "Menu supérieur\tAlt+T",       			   ID_NAVIGATE_TITLEMENU
+            MENUITEM "Menu &principal\tAlt+R",      			   ID_NAVIGATE_ROOTMENU
+            MENUITEM "Menu des &sous-titres",       			   ID_NAVIGATE_SUBPICTUREMENU
+            MENUITEM "Menu de sélection de la langue &audio",      ID_NAVIGATE_AUDIOMENU
+            MENUITEM "Menu de sélection de l'an&gle", 			   ID_NAVIGATE_ANGLEMENU
+            MENUITEM "Menu &chapitrage",            			   ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "F&avoris",                    65535
+        MENUITEM "F&avoris",                    			       65535
         MENUITEM SEPARATOR
-        MENUITEM "F&iltres",                    65535
-        MENUITEM "S&haders",                    65535
+        MENUITEM "F&iltres",                    			       65535
+        MENUITEM "S&haders",                    			       65535
         MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      65535
-        MENUITEM "Sous&titres",                 65535
+        MENUITEM "&Audio",                      			       65535
+        MENUITEM "Sous-&titres",                      			   65535
         MENUITEM SEPARATOR
         POPUP "Vol&ume"
         BEGIN
@@ -1846,7 +1847,7 @@ BEGIN
             MENUITEM "&Ouvrir un fichier...\tCtrl+O", ID_FILE_OPENMEDIA
             MENUITEM "Lancer un &DVD...\tCtrl+D",   ID_FILE_OPENDVD
             MENUITEM "Ouvrir un &périphérique...\tCtrl+V", ID_FILE_OPENDEVICE
-            MENUITEM "O&uvrir un disque",           65535
+            MENUITEM "O&uvrir le disque",           65535
             MENUITEM "&Fermer",                     ID_FILE_CLOSEPLAYLIST
             MENUITEM SEPARATOR
             MENUITEM "&Enregistrer sous...",        ID_FILE_SAVE_COPY
@@ -1982,11 +1983,11 @@ BEGIN
             MENUITEM "&A propos de MPC Homecinema...", ID_HELP_ABOUT
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Filters",                    65535
+        MENUITEM "&Filtres",                    65535
         MENUITEM "S&haders",                    ID__SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      65535
-        MENUITEM "Sous&titres",                 65535
+        MENUITEM "Sous-&titres",                65535
         MENUITEM SEPARATOR
         POPUP "Vol&ume"
         BEGIN
@@ -2465,9 +2466,9 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_SUBTITLES_POPUP     "Sous-titres"
+    IDS_SUBTITLES_POPUP     "Sous-&titres"
     IDS_AUDIO_POPUP         "Audio"
-    IDS_FILTERS_POPUP       "Filtres"
+    IDS_FILTERS_POPUP       "&Filtres"
     IDS_OPENCDROM_POPUP     "O&uvrir le disque"
     IDS_NAVIGATE_POPUP      "Naviguer"
     IDS_VIDEOFRAME_POPUP    "Image vidéo"
@@ -2923,6 +2924,10 @@ BEGIN
     IDS_MPEG2_SATURATION    "Saturation"
     IDS_MPEG2DECSETTINGSWND_8 
                             " peut dégrader les performances. Le désentrelaceur ""Auto"" passera en mode ""Blend"" si nécessaire."
+    IDS_ADD_TO_PLAYLIST     "Ajouter à la liste de lecture de MPC"
+    IDS_OPEN_WITH_MPC       "Jouer avec MPC"
+    IDS_CANNOT_CHANGE_FORMAT "Vous ne disposez pas des droits suffisants pour changer les associations des formats de fichiers. Veuillez cliquer sur le bouton ""Modifier"" pour donner les droits d'administration à Media Player Classic."
+    IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system since. Originaly made by Hungarian developer known as Gabest, this version have additionnal features such as Direct 3D fullscreen mode and better support for Vista."
 END
 
 #endif    // French (France) resources

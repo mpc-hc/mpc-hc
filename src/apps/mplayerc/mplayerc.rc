@@ -362,6 +362,7 @@ BEGIN
     CONTROL         "Audio CD",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,183,43,10
     PUSHBUTTON      "&Video",IDC_BUTTON4,176,180,33,14
     PUSHBUTTON      "A&udio",IDC_BUTTON3,212,180,33,14
+    PUSHBUTTON      "&Modify",IDC_BUTTON5,196,178,63,14,NOT WS_VISIBLE
     PUSHBUTTON      "A&ll",IDC_BUTTON1,248,180,33,14
     GROUPBOX        "Autoplay (XP only)",IDC_STATIC1,6,170,151,28
 END
@@ -2910,6 +2911,10 @@ BEGIN
     IDS_MPEG2_SATURATION    "Saturation"
     IDS_MPEG2DECSETTINGSWND_8 
                             "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
+    IDS_ADD_TO_PLAYLIST     "Add to MPC Playlist"
+    IDS_OPEN_WITH_MPC       "Play with MPC"
+    IDS_CANNOT_CHANGE_FORMAT "Media Player Classic have not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
+    IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system since. Originaly made by Hungarian developer known as Gabest, this version have additionnal features such as Direct 3D fullscreen mode and better support for Vista."
 END
 
 #endif    // English (U.S.) resources

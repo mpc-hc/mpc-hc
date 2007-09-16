@@ -1106,13 +1106,17 @@
 #define IDS_MPEG2_HUE                   33158
 #define IDS_MPEG2_SATURATION            33159
 #define IDS_MPEG2DECSETTINGSWND_8       33160
+#define IDS_ADD_TO_PLAYLIST             33161
+#define IDS_OPEN_WITH_MPC               33162
+#define IDS_CANNOT_CHANGE_FORMAT        33163
+#define IDS_APP_DESCRIPTION             33164
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33161
+#define _APS_NEXT_COMMAND_VALUE         33165
 #define _APS_NEXT_CONTROL_VALUE         22010
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif

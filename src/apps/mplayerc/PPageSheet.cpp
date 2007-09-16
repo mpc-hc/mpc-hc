@@ -33,6 +33,7 @@ IMPLEMENT_DYNAMIC(CPPageSheet, CTreePropSheet)
 CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage)
 	: CTreePropSheet(pszCaption, pParentWnd, 0)
 	, m_audioswitcher(pFG)
+	, m_bLockPage(false)
 {
 	AddPage(&m_player);
 	AddPage(&m_formats);
@@ -89,6 +90,9 @@ BOOL CPPageSheet::OnInitDialog()
 		for(HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node))
 			pTree->Expand(node, TVE_EXPAND);
 	}
+
+	if (m_bLockPage)
+		GetPageTreeControl()->EnableWindow (FALSE);
 
 	return bResult;
 }

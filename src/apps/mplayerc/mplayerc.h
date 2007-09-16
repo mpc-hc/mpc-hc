@@ -141,7 +141,8 @@ enum
 	CLSW_INSTALLPN31=CLSW_MONITOR<<1,	
 	CLSW_UNINSTALLPN31=CLSW_INSTALLPN31<<1,	
 	CLSW_D3DFULLSCREEN=CLSW_UNINSTALLPN31<<1,	
-	CLSW_UNRECOGNIZEDSWITCH=CLSW_D3DFULLSCREEN<<1	
+	CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,	
+	CLSW_UNRECOGNIZEDSWITCH=CLSW_ADMINOPTION<<1	
 };
 
 enum
@@ -373,6 +374,10 @@ public:
 	int							GetDXSdkRelease() { return m_nDXSdkRelease; };
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
+	static bool					IsVista();
+	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
+	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMPlayerCApp)
@@ -414,6 +419,7 @@ public:
 
 		bool fXpOrBetter;
 		int iDXVer;
+		int iAdminOption;
 
 		int nCS;
 		bool fHideCaptionMenu;

@@ -214,7 +214,7 @@ void CPPageCasimir::OnBnClickedPn31()
 	TCHAR			strApp [MAX_PATH];
 
 	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
-	::ShellExecute(0, IsVista() ? _T("runas") : _T(""), strApp, _T("/installpn31") /*: _T("/uninstallpn31")*/, 0, SW_SHOWNORMAL);
+	::ShellExecute(0, AfxGetMyApp()->IsVista() ? _T("runas") : _T(""), strApp, _T("/installpn31") /*: _T("/uninstallpn31")*/, 0, SW_SHOWNORMAL);
 }
 
 void CPPageCasimir::OnBnClickedUninstallpn31()
@@ -222,13 +222,6 @@ void CPPageCasimir::OnBnClickedUninstallpn31()
 	TCHAR			strApp [MAX_PATH];
 
 	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
-	::ShellExecute(0, IsVista() ? _T("runas") : _T(""), strApp, _T("/uninstallpn31"), 0, SW_SHOWNORMAL);
+	::ShellExecute(0, AfxGetMyApp()->IsVista() ? _T("runas") : _T(""), strApp, _T("/uninstallpn31"), 0, SW_SHOWNORMAL);
 }
 
-
-bool CPPageCasimir::IsVista()
-{
-	DWORD		dwVersion = GetVersion();
-	
-	return (LOBYTE(LOWORD(dwVersion))) >= 6;
-}

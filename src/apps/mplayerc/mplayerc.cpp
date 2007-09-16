@@ -823,14 +823,33 @@ BOOL CMPlayerCApp::InitInstance()
 			{
 				if((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly
 				|| (m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly)
-					CPPageFormats::RegisterExt(ext, true);
+					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), true);
 				
 				if((m_s.nCLSwitches&CLSW_UNREGEXTVID) && !fAudioOnly
 				|| (m_s.nCLSwitches&CLSW_UNREGEXTAUD) && fAudioOnly)
-					CPPageFormats::RegisterExt(ext, false);
+					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), false);
 			}
 		}
 
+		return FALSE;
+	}
+
+	// Enable to open options with administrator privilege (for Vista UAC)
+	if (m_s.nCLSwitches & CLSW_ADMINOPTION)
+	{
+		switch (m_s.iAdminOption)
+		{
+		case CPPageFormats::IDD :
+			{
+				CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), NULL, NULL, m_s.iAdminOption);
+				options.LockPage();
+				options.DoModal();
+			}
+			break;
+
+		default :
+			ASSERT (FALSE);
+		}
 		return FALSE;
 	}
 
@@ -2098,6 +2117,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	slFilters.RemoveAll();
 	rtStart = 0;
 	rtShift = 0;
+	iAdminOption=0;
 	fixedWindowSize.SetSize(0, 0);
 	iMonitor = 0;
 
@@ -2147,6 +2167,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("installpn31")) nCLSwitches |= CLSW_INSTALLPN31;
 			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
 			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
+			else if(sw == _T("adminoption")) { nCLSwitches |= CLSW_ADMINOPTION; iAdminOption = _ttoi (cmdln.GetNext(pos)); }
 			else if(sw == _T("fixedsize") && pos)
 			{
 				CAtlList<CString> sl;
@@ -2718,7 +2739,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		Version.Create (strSatellite);
 		strSatVersion = Version.GetFileVersionEx();
 
-		if (strSatVersion == _T("1.0.0.0"))
+		if (strSatVersion == _T("1.0.1.0"))
 			hMod = LoadLibrary (strSatellite);
 		else
 		{
@@ -2737,3 +2758,74 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	AfxSetResourceHandle(hMod);
 }
 
+
+bool CMPlayerCApp::IsVista()
+{
+	OSVERSIONINFO osver;
+
+	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+	
+	if (	::GetVersionEx( &osver ) && 
+			osver.dwPlatformId == VER_PLATFORM_WIN32_NT && 
+			(osver.dwMajorVersion >= 6 ) )
+		return TRUE;
+
+	return FALSE;
+}
+
+
+HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
+{
+	ASSERT( IsVista() );
+	ASSERT( ptet );
+
+	HRESULT hResult = E_FAIL; // assume an error occured
+	HANDLE hToken	= NULL;
+
+	if ( !::OpenProcessToken( 
+				::GetCurrentProcess(), 
+				TOKEN_QUERY, 
+				&hToken ) )
+	{
+		ASSERT( FALSE );
+		return hResult;
+	}
+
+	DWORD dwReturnLength = 0;
+
+	if ( !::GetTokenInformation(
+				hToken,
+				TokenElevationType,
+				ptet,
+				sizeof( *ptet ),
+				&dwReturnLength ) )
+	{
+		ASSERT( FALSE );
+	}
+	else
+	{
+		ASSERT( dwReturnLength == sizeof( *ptet ) );
+		hResult = S_OK;
+	}
+
+	::CloseHandle( hToken );
+
+	return hResult;
+}
+
+void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess)
+{
+	SHELLEXECUTEINFO execinfo;
+	memset(&execinfo, 0, sizeof(execinfo));
+	execinfo.lpFile			= strCommand;
+	execinfo.cbSize			= sizeof(execinfo);
+	execinfo.lpVerb			= _T("runas");
+	execinfo.fMask			= SEE_MASK_NOCLOSEPROCESS;
+	execinfo.nShow			= SW_SHOWDEFAULT;
+	execinfo.lpParameters	= strArgs;
+		
+	ShellExecuteEx(&execinfo);
+
+	if (bWaitProcess)
+		WaitForSingleObject(execinfo.hProcess, INFINITE);
+}

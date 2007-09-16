@@ -64,6 +64,8 @@ class CPPageSheet : public CTreePropSheet
 	DECLARE_DYNAMIC(CPPageSheet)
 
 private:
+	bool m_bLockPage;
+
 	CPPagePlayer m_player;
 	CPPageFormats m_formats;
 	CPPageAccelTbl m_acceltbl;
@@ -87,6 +89,7 @@ public:
 	CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
 	virtual ~CPPageSheet();
 
+	void LockPage() { m_bLockPage = true; };
 protected:
 	DECLARE_MESSAGE_MAP()
 public:

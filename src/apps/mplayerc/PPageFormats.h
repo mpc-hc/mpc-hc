@@ -34,8 +34,8 @@ class CPPageFormats : public CPPageBase
 	DECLARE_DYNAMIC(CPPageFormats)
 
 private:
-	CImageList m_onoff;
-//	CComPtr<IApplicationAssociationRegistration>	m_pAAR;
+	CImageList	m_onoff;
+	bool		m_bInsufficientPrivileges;
 
 	int GetChecked(int iItem);
 	void SetChecked(int iItem, int fChecked);
@@ -44,15 +44,16 @@ private:
 	void AddAutoPlayToRegistry(autoplay_t ap, bool fRegister);
 	bool IsAutoPlayRegistered(autoplay_t ap);
 
-	void SetListItemState(int nItem);
-//	BOOL SetVistaDefaultAssoc(LPCTSTR strExt, bool fRegister);
+	void SetListItemState(int nItem, CString strProgID);
+	static CComPtr<IApplicationAssociationRegistration>	m_pAAR;
+	static BOOL SetFileAssociation(CString strExt, CString extfile, bool fRegister);
 
 public:
 	CPPageFormats();
 	virtual ~CPPageFormats();
 
-	static bool IsRegistered(CString ext);
-	static bool RegisterExt(CString ext, bool fRegister);
+	static bool IsRegistered(CString ext, CString strProgID);
+	static bool RegisterExt(CString ext, CString strProgID, bool fRegister);
 
 	enum {COL_CATEGORY, COL_ENGINE};
 	CPlayerListCtrl m_list;
@@ -86,6 +87,7 @@ public:
 	afx_msg void OnBnClickedButton13();
 	afx_msg void OnBnClickedButton12();
 	afx_msg void OnBnClickedButton11();
+	afx_msg void OnBnVistaModify();
 	afx_msg void OnUpdateButtonDefault(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
 };

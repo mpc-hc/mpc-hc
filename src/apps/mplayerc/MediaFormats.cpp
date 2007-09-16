@@ -26,6 +26,7 @@
 #include "MediaFormats.h"
 #include "resource.h"
 
+CString			g_strPrefix			   = _T("mplayerc.");
 
 //
 // CMediaFormatCategory
@@ -37,7 +38,7 @@ CMediaFormatCategory::CMediaFormatCategory()
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
-	CString label, CAtlList<CString>& exts, bool fAudioOnly,
+	CString label, CString CommonExt, CAtlList<CString>& exts, bool fAudioOnly,
 	CString specreqnote, engine_t engine)
 {
 	m_label = label;
@@ -46,10 +47,11 @@ CMediaFormatCategory::CMediaFormatCategory(
 	m_specreqnote = specreqnote;
 	m_fAudioOnly = fAudioOnly;
 	m_engine = engine;
+	m_progid = g_strPrefix + CommonExt;
 }
 
 CMediaFormatCategory::CMediaFormatCategory(
-	CString label, CString exts, bool fAudioOnly,
+	CString label, CString CommonExt, CString exts, bool fAudioOnly,
 	CString specreqnote, engine_t engine)
 {
 	m_label = label;
@@ -61,6 +63,7 @@ CMediaFormatCategory::CMediaFormatCategory(
 	m_specreqnote = specreqnote;
 	m_fAudioOnly = fAudioOnly;
 	m_engine = engine;
+	m_progid = g_strPrefix + CommonExt;
 }
 
 CMediaFormatCategory::~CMediaFormatCategory()
@@ -94,6 +97,7 @@ CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCatego
 	m_backupexts.AddTailList(&mfc.m_backupexts);
 	m_fAudioOnly = mfc.m_fAudioOnly;
 	m_engine = mfc.m_engine;
+	m_progid = mfc.m_progid;
 	return *this;
 }
 
@@ -184,43 +188,43 @@ void CMediaFormats::UpdateData(bool fSave)
 	{
 		RemoveAll();
 #define ADDFMT(f) Add(CMediaFormatCategory##f)
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_0), _T("wmv wmp wm asf")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_1), _T("wma"), true));
-		ADDFMT((ResStr(IDS_AG_VIDEO_FILE), _T("avi")));
-		ADDFMT((ResStr(IDS_AG_AUDIO_FILE), _T("wav"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_4), _T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_5), _T("mpa mp2 m1a m2a"), true));
-		ADDFMT((ResStr(IDS_AG_DVD_FILE), _T("vob ifo")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_7), _T("ac3 dts"), true));
-		ADDFMT((_T("MP3 Format Sound"), _T("mp3"), true));
-		ADDFMT((ResStr(IDS_AG_MIDI_FILE), _T("mid midi rmi"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_9), _T("ivf")));
-		ADDFMT((_T("AIFF Format Sound"), _T("aif aifc aiff"), true));
-		ADDFMT((_T("AU Format Sound"), _T("au snd"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_10), _T("ogm")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_11), _T("ogg"), true));
-		ADDFMT((_T("CD Audio Track"), _T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
-		ADDFMT((ResStr(IDS_AG_FLIC_FILE), _T("fli flc flic")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_14), _T("d2v")));
-		ADDFMT((ResStr(IDS_AG_MPEG4_FILE), _T("mp4 m4v m4p m4b 3gp 3gpp 3g2 3gp2")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_16), _T("m4a aac"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_17), _T("mkv")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_18), _T("mka"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_19), _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
-		ADDFMT((ResStr(IDS_AG_RATDVD_FILE), _T("ratdvd"), false, _T("ratdvd media file")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_21), _T("roq"), false));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_22), _T("rm ram rmvb rpm"), false, _T("RealOne or codec pack")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_23), _T("ra"), true, _T("RealOne or codec pack")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_24), _T("rt rp smi smil"), false, _T("RealOne or codec pack"), RealMedia));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_25), _T("drc"), false));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_26), _T("dsm dsv dsa dss")));
-		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE), _T("mpc"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_28), _T("flv")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_29), _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_30), _T("mov qt amr"), false, _T("QuickTime Player or codec pack"), QuickTime));
-		ADDFMT((ResStr(IDS_AG_IMAGE_FILE), _T("jpeg jpg bmp gif pic png dib tiff tif")));
-		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
-		ADDFMT((ResStr(IDS_AG_OTHER), _T("divx vp6")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_0),		_T("wmv"),	_T("wmv wmp wm asf")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),		_T("wma"),	_T("wma"), true));
+		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),		_T("avi"),	_T("avi")));
+		ADDFMT((ResStr(IDS_AG_AUDIO_FILE),		_T("wav"),	_T("wav"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_5),		_T("mpa"),	_T("mpa mp2 m1a m2a"), true));
+		ADDFMT((ResStr(IDS_AG_DVD_FILE),		_T("dvdf"),	_T("vob ifo")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_7),		_T("dvda"),	_T("ac3 dts"), true));
+		ADDFMT((_T("MP3 Format Sound"),			_T("mp3"),	_T("mp3"), true));
+		ADDFMT((ResStr(IDS_AG_MIDI_FILE),		_T("mid"),	_T("mid midi rmi"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_9),		_T("ivf"),	_T("ivf")));
+		ADDFMT((_T("AIFF Format Sound"),		_T("aiff"),	_T("aif aifc aiff"), true));
+		ADDFMT((_T("AU Format Sound"),			_T("au"),	_T("au snd"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_10),	_T("ogm"),	_T("ogm")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_11),	_T("ogg"),	_T("ogg"), true));
+		ADDFMT((_T("CD Audio Track"),			_T("cda"),	_T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
+		ADDFMT((ResStr(IDS_AG_FLIC_FILE),		_T("flic"),	_T("fli flc flic")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),	_T("d2v"),	_T("d2v")));
+		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),		_T("mp4"),	_T("mp4 m4v m4p m4b 3gp 3gpp 3g2 3gp2")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),	_T("aac"),	_T("m4a aac"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_17),	_T("mkv"),	_T("mkv")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_18),	_T("mka"),	_T("mka"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),	_T("bik"),	_T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
+		ADDFMT((ResStr(IDS_AG_RATDVD_FILE),		_T("ratdvd"),_T("ratdvd"), false, _T("ratdvd media file")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_21),	_T("roq"),	_T("roq"), false));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rmvb rpm"), false, _T("RealOne or codec pack")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),	_T("ra"),	_T("ra"), true, _T("RealOne or codec pack")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),	_T("rt"),	_T("rt rp smi smil"), false, _T("RealOne or codec pack"), RealMedia));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_26),	_T("dsm"),	_T("dsm dsv dsa dss")));
+		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE),	_T("mpc"),	_T("mpc"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),	_T("flv"),	_T("flv")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),	_T("swf"),	_T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),	_T("mov"),	_T("mov qt amr"), false, _T("QuickTime Player or codec pack"), QuickTime));
+		ADDFMT((ResStr(IDS_AG_IMAGE_FILE),		_T("jpeg"),	_T("jpeg jpg bmp gif pic png dib tiff tif")));
+		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE),	_T("pls"),	_T("asx m3u pls wvx wax wmx mpcpl")));
+		ADDFMT((ResStr(IDS_AG_OTHER),			_T("other"),_T("divx vp6")));
 #undef ADDFMT
 
 		m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
