@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageFormats.h"
+#include <psapi.h>
 
 // CPPageFormats dialog
 
