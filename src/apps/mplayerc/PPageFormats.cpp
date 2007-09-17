@@ -152,18 +152,8 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, bool fRegister)
 
 	CRegKey key;
 
-	// Create file type if it doesn't not exist (and set MPC as default)
-	if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))
-	{
-		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, ext)) return(false);
-		if(ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) return(false);
-		fRegister = true;
-	}
-
 	// Create ProgID for this file type
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) return(false);
-	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) return(false);
-	if(ERROR_SUCCESS != key.SetStringValue(NULL, path + _T(",0"))) return(false);
 
 	// Add to playlist option
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))) return(false);
@@ -409,6 +399,7 @@ BOOL CPPageFormats::OnInitDialog()
 
 BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool fRegister)
 {
+	CString		extoldreg, extOldIcon;
 	CRegKey		key;
 	HRESULT		hr = S_OK;
 	TCHAR		buff[256];
@@ -422,6 +413,9 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 		CString		strNewApp;
 		if (fRegister)
 		{
+			// Create non existing file type
+			if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) return(false);
+
 			WCHAR*		pszCurrentAssociation;
 			// Save current application associated
 			if (SUCCEEDED (m_pAAR->QueryCurrentDefault (strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation)))
@@ -430,6 +424,19 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 					return(false);
 
 				key.SetStringValue(g_strOldAssoc, pszCurrentAssociation);
+
+				// Get current icon for file type
+				if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(pszCurrentAssociation) + _T("\\DefaultIcon")))
+				{
+					len = sizeof(buff);
+					memset(buff, 0, len);
+					if(ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
+					{
+						if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon")))
+							key.SetStringValue (NULL, buff);
+					}
+				}
+
 				CoTaskMemFree (pszCurrentAssociation);
 			}
 			strNewApp = g_strRegisteredAppName;
@@ -450,8 +457,6 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	else
 	{
 		// The 2000/XP way
-		CString		extoldreg;
-	
 		if (fRegister)
 		{
 			// Set new association
@@ -462,13 +467,28 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			memset(buff, 0, len);
 			if(ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
 				extoldreg = buff;
-
 			if(ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) return(false);
+
+			// Get current icon for file type
+			if (!extoldreg.IsEmpty())
+			{
+				if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, extoldreg + _T("\\DefaultIcon")))
+				{
+					len = sizeof(buff);
+					memset(buff, 0, len);
+					if(ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
+						extOldIcon = buff;
+				}
+			}
+
 
 			// Save old association
 			if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID))
 				return(false);
 			key.SetStringValue(g_strOldAssoc, extoldreg);
+
+			if (!extOldIcon.IsEmpty() && (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))))
+				key.SetStringValue (NULL, extOldIcon);
 		}
 		else
 		{
