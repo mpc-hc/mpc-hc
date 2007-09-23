@@ -803,6 +803,9 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	if(lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0)
 	{
+		FILE_POSITION*	FilePosition = AfxGetAppSettings().CurrentFilePosition();
+		if (FilePosition) FilePosition->llPosition = 0;
+
 		m_pl.SetPos(FindPos(lpnmlv->iItem));
 		m_list.Invalidate();
 		((CMainFrame*)AfxGetMainWnd())->OpenCurPlaylistItem();

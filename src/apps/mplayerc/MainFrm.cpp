@@ -1292,8 +1292,11 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				m_lSubtitleShift	= 0;
 			}
 
-			FILE_POSITION*	FilePosition = AfxGetAppSettings().CurrentFilePosition();
-			if (FilePosition) FilePosition->llPosition = rtNow;
+			if(!m_fEndOfStream)
+			{
+				FILE_POSITION*	FilePosition = AfxGetAppSettings().CurrentFilePosition();
+				if (FilePosition) FilePosition->llPosition = rtNow;
+			}
 
 			if(m_rtDurationOverride >= 0) rtDur = m_rtDurationOverride;
 
@@ -1765,6 +1768,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         if(EC_COMPLETE == evCode)
         {
 			AppSettings& s = AfxGetAppSettings();
+
+			FILE_POSITION*	FilePosition = s.CurrentFilePosition();
+			if (FilePosition) FilePosition->llPosition = 0;
 
 			if(m_wndPlaylistBar.GetCount() <= 1)
 			{

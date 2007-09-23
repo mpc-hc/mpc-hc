@@ -3,6 +3,7 @@ v1.0.11.0 - unreleased
  NEW    : Command Line Option "/dubdelay" applies a positive or negative audio delay of ???ms, if filename contains "DELAY ???ms" (internal Audio Switcher required)
  CHANGED: File format association. MPC is now recognize as a registered application by Vista, and compatible with UAC.
  FIXED  : Subtitle popup menu not working in French
+ FIXED  : Remember file position option not working properly in playlist mode
 
 v1.0.10.0 - 15.Sep 2007
 ======================
