@@ -49,8 +49,7 @@ void LCD_UpdateThread(void * Control)
 	while (ctrl->Thread_Loop)
 	{
 		EnterCriticalSection(&ctrl->cs);
-		if (_time64(&ltime) != otime &&		// Retrieve the time
-		    (ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
+		if (_time64(&ltime) != otime)		// Retrieve the time
 		{
 			otime = ltime;
 			_localtime64_s(&thetime, &ltime);
@@ -58,8 +57,12 @@ void LCD_UpdateThread(void * Control)
 			// Format the current time structure into a string
 			// using %#x is the long date representation,
 			// appropriate to the current locale
-			if (_tcsftime(str, sizeof(str), _T("%X %#x"), (const struct tm *)&thetime))
-				ctrl->m_Manager.m_Text2.SetText(str);
+			if (_tcsftime(str, sizeof(str), _T("%#x"), (const struct tm *)&thetime) &&
+			    (ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
+				ctrl->m_Manager.m_Text[0].SetText(str);
+
+			if (_tcsftime(str, sizeof(str), _T("%X"), (const struct tm *)&thetime))
+				ctrl->m_Manager.m_Text[1].SetText(str);
 		}
 
 		ctrl->m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
@@ -112,18 +115,31 @@ HRESULT CLCDMyManager::Initialize()
 	m_PlayState.SetSize(7, 7);
 
 	// Initialize the text control (time / mpc messages)
-	y += 10;
-	m_Text2.Initialize();
-	m_Text2.SetOrigin(x, y);
-	m_Text2.SetSize(160-x, 13);
-	m_Text2.SetAlignment(DT_CENTER);
-	m_Text2.SetWordWrap(false);
-	m_Text2.SetText(_T(""));
-	m_Text2.SetFontPointSize(7);
-	hFont = m_Text2.GetFont();
+	y += 7;
+	m_Text[0].Initialize();
+	m_Text[0].SetOrigin(x, y);
+	m_Text[0].SetSize(160-x, /*13*/25);
+	m_Text[0].SetAlignment(DT_CENTER);
+	m_Text[0].SetWordWrap(false);
+	m_Text[0].SetText(_T(""));
+	m_Text[0].SetFontPointSize(7);
+	hFont = m_Text[0].GetFont();
 	GetObject(hFont, sizeof(LOGFONT), &lf);
 	wcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("Microsoft Sans Serif"));
-	m_Text2.SetFont(lf);
+	m_Text[0].SetFont(lf);
+
+	y += 11;
+	m_Text[1].Initialize();
+	m_Text[1].SetOrigin(x, y);
+	m_Text[1].SetSize(160-x, /*13*/25);
+	m_Text[1].SetAlignment(DT_CENTER);
+	m_Text[1].SetWordWrap(false);
+	m_Text[1].SetText(_T(""));
+	m_Text[1].SetFontPointSize(7);
+	hFont = m_Text[1].GetFont();
+	GetObject(hFont, sizeof(LOGFONT), &lf);
+	wcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("Microsoft Sans Serif"));
+	m_Text[1].SetFont(lf);
 
 	// Initialize the progressbar control (volume)
 	m_ProgBar[0].Initialize();
@@ -133,7 +149,8 @@ HRESULT CLCDMyManager::Initialize()
 	m_ProgBar[0].SetProgressStyle(CLCDProgressBar::STYLE_FILLED_V);
 
 	AddObject(&m_Text1);
-	AddObject(&m_Text2);
+	AddObject(&m_Text[0]);
+	AddObject(&m_Text[1]);
 	AddObject(&m_ProgBar[0]);
 	AddObject(&m_ProgBar[1]);
 	AddObject(&m_PlayState);
@@ -302,7 +319,7 @@ void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
 
 	EnterCriticalSection(&cs);
 	nThread_tTimeout = ltime + nTimeOut;
-	m_Manager.m_Text2.SetText(text);
+	m_Manager.m_Text[0].SetText(text);
 	LeaveCriticalSection(&cs);
 }
 

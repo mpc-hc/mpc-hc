@@ -40,7 +40,7 @@ class CLCDMyManager : public CLCDManager
 		virtual void OnLCDButtonUp(int nButton);
 
 		CLCDScrollingText	m_Text1;
-		CLCDText		m_Text2;
+		CLCDText		m_Text[2];
 		CLCDProgressBar		m_ProgBar[2];
 		CLCDAnimatedBitmap	m_PlayState;
 };
