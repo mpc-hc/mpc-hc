@@ -60,7 +60,7 @@ END
 
 IDD_SELECTMEDIATYPE DIALOGEX 0, 0, 225, 47
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Выберите тип носителя"
+CAPTION "Выберите тип"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     COMBOBOX        IDC_COMBO1,7,7,211,120,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
@@ -147,7 +147,7 @@ BEGIN
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,7,93,282,94
     CTEXT           "Удерживайте shift для немедленного принятия изменений при нажатии ",IDC_STATIC3,7,189,282,8
     CONTROL         "Нормализовать",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,23,65,8
-    LTEXT           "Усиление:",IDC_STATIC,129,23,39,8
+    LTEXT           "Усиление:",IDC_STATIC,194,23,39,8
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,227,23,64,11
     CONTROL         "Восстанавливать громкость",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,77,22,110,10
 END
@@ -185,7 +185,7 @@ BEGIN
     CONTROL         "Только добавить в плейлист",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,39,37,115,10
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 222, 89
+IDD_ABOUTBOX DIALOGEX 0, 0, 222, 106
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "О программе"
 FONT 8, "MS Shell Dlg", 400, 0, 0xB1
@@ -195,7 +195,7 @@ BEGIN
     LTEXT           "Copyright (C) 2002-2006 Gabest",IDC_STATIC,40,21,113,8
     LTEXT           "Версия: 6.4.9.0 - Модификация Casimir666 v",IDC_VERSION,40,33,170,8
     PUSHBUTTON      "OK",IDOK,160,8,50,14,WS_GROUP
-    LTEXT           "Эта программа бесплатна и распространяется под лицензией GNU General Public License.\nРаспространение в наборах кодеков разрешается, но автор (Gabest) не отвечает за их дополнительное содержимое.\n\nЛокализация: YDY (http://mpc.darkhost.ru)",IDC_STATIC,11,53,206,34
+    LTEXT           "Эта программа бесплатна и распространяется под лицензией GNU General Public License.\nРаспространение в наборах кодеков разрешается, но автор (Gabest) не отвечает за их дополнительное содержимое.\n\nЛокализация: YDY (http://mpc.darkhost.ru)",IDC_STATIC,11,53,206,47
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
@@ -238,8 +238,8 @@ BEGIN
     EDITTEXT        IDC_EDIT1,152,60,32,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,175,61,11,14
     LTEXT           "сек.",IDC_STATIC1,188,62,20,8
-    LTEXT           "0: автоскрытие\n-1: не скрывать",IDC_STATIC2,218,58,69,17
-    CONTROL         "Выход из полноэкранного режима по окончании воспроизведения",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,77,135,15
+    LTEXT           " 0: автоскрытие\n-1: не скрывать",IDC_STATIC2,218,58,69,17
+    CONTROL         "Выход из полноэкранного режима по окончании воспроизведения",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,77,135,15
     CONTROL         "Запоминать позицию окна",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,93,127,10
     CONTROL         "Запоминать размер окна",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,106,127,10
     CONTROL         "Прилипать к границам экрана",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,119,129,10
@@ -249,7 +249,7 @@ BEGIN
     CONTROL         "Скрыть меню CD-ROM",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,157,97,10
     CONTROL         "Повышенный приоритет процесса",IDC_CHECK9,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,141,10
-    CONTROL         "Заменять имя файла названием",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,123,10
+    CONTROL         "Заменять названием",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,80,10
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 193
@@ -329,7 +329,7 @@ BEGIN
     COMBOBOX        IDC_COMBO1,147,77,60,39,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Внимание",IDC_STATIC,5,99,284,35
     LTEXT           "На RealMedia и QuickTime субтитры также могут быть наложены при включении их специальных рендеров на странице ""Вывод"".",IDC_STATIC,14,178,267,16
-    CONTROL         "Округлять до кратного 2",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,213,76,66,14
+    CONTROL         "Округлять до кратного 2",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,213,76,66,14
 END
 
 IDD_PPAGESUBDB DIALOGEX 0, 0, 296, 203
@@ -455,7 +455,7 @@ END
 
 IDD_FAVADD DIALOGEX 0, 0, 252, 70
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Add Favorite"
+CAPTION "Добавить в избранное"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Выберите имя для ярлыка:",IDC_STATIC,7,7,238,36
@@ -467,15 +467,15 @@ END
 
 IDD_FAVORGANIZE DIALOGEX 0, 0, 276, 174
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Добавить в избранное"
+CAPTION "Избранное"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TAB1,"SysTabControl32",0x0,7,7,204,160
     CONTROL         "",IDC_LIST2,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_EDITLABELS | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,10,22,197,141,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "Rename",IDC_BUTTON1,219,19,50,14
-    PUSHBUTTON      "Move Up",IDC_BUTTON3,219,41,50,14
-    PUSHBUTTON      "Move Down",IDC_BUTTON4,219,59,50,14
-    PUSHBUTTON      "Delete",IDC_BUTTON2,219,82,50,14
+    PUSHBUTTON      "Сменить имя",IDC_BUTTON1,219,19,50,14
+    PUSHBUTTON      "Выше",IDC_BUTTON3,219,41,50,14
+    PUSHBUTTON      "Ниже",IDC_BUTTON4,219,59,50,14
+    PUSHBUTTON      "Удалить",IDC_BUTTON2,219,82,50,14
     DEFPUSHBUTTON   "OK",IDOK,219,153,50,14
 END
 
@@ -632,10 +632,10 @@ BEGIN
     GROUPBOX        "Стиль границы",IDC_STATIC,4,127,106,68
     CONTROL         "Контур",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,140,39,10
     CONTROL         "Заливка",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,61,140,47,10
-    LTEXT           "Ширина границы",IDC_STATIC,6,158,57,8
+    LTEXT           "Ширина границы",IDC_STATIC,7,158,57,8
     EDITTEXT        IDC_EDIT1,66,155,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,94,154,11,14
-    LTEXT           "Глубина тени",IDC_STATIC,8,177,47,8
+    LTEXT           "Глубина тени",IDC_STATIC,7,177,47,8
     EDITTEXT        IDC_EDIT2,66,174,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,175,11,14
     GROUPBOX        "Выравнивание и отступы",IDC_STATIC,116,2,174,65
@@ -710,7 +710,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "DirectShow видео",IDC_STATIC,5,2,95,145
     CONTROL         "Системный",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,13,65,10
-    CONTROL         "Старый рендер",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,24,59,10
+    CONTROL         "Старый рендер",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,24,81,10
     CONTROL         "Overlay Mixer *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,35,67,10
     CONTROL         "VMR7 (windowed)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,46,73,10
     CONTROL         "VMR9 (windowed)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,57,73,10
@@ -730,27 +730,27 @@ BEGIN
     CONTROL         "DirectX 7 **",IDC_QTDX7,"Button",BS_AUTORADIOBUTTON,207,25,55,10
     CONTROL         "DirectX 9 **",IDC_QTDX9,"Button",BS_AUTORADIOBUTTON,207,36,55,10
     GROUPBOX        """VMR7/9 (renderless)"" && EVR польз. используют:",IDC_STATIC,105,53,183,94
-    LTEXT           "Интерполяция:",IDC_STATIC,111,83,27,8
-    COMBOBOX        IDC_DX9RESIZER_COMBO,151,81,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Интерполяция:",IDC_STATIC,111,83,51,8
+    COMBOBOX        IDC_DX9RESIZER_COMBO,164,81,120,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "DirectShow аудио",IDC_STATIC,5,148,283,28
     COMBOBOX        IDC_COMBO1,14,158,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Зафиксировать обратный буфер",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,129,70,10
-    LTEXT           "* Сохранение изображений не работает с этими рендерами",IDC_STATIC,13,180,158,8
-    LTEXT           "** Необходимы для отображения субтитров",IDC_STATIC,184,180,104,8
-    LTEXT           "*** Необходимы для поворота изображения и пиксельных шейдеров (DX9)",IDC_STATIC,13,190,195,8
-    CONTROL         "Режим VMR9 Mixer",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,114,73,10
-    CONTROL         "Смешение в YUV",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,114,71,10
-    COMBOBOX        IDC_DX_SURFACE,151,64,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Поверхность:",IDC_STATIC,111,66,40,8
-    CONTROL         "Полноэкранная Direct3D (устраняет дрожание)",IDC_FULLSCREEN_MONITOR_CHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,173,10
-    COMBOBOX        IDC_EVR_BUFFERS,241,127,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Буферы EVR:",IDC_STATIC,191,130,42,8
+    CONTROL         "Зафиксировать обратный буфер",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,133,129,10
+    LTEXT           "* Сохранение изображений не работает с этими рендерами",IDC_STATIC,9,177,253,8
+    LTEXT           "** Необходимы для отображения субтитров",IDC_STATIC,5,186,266,8
+    LTEXT           "*** Необходимы для поворота изображения и пиксельных шейдеров (DX9)",IDC_STATIC,1,195,291,8
+    CONTROL         "Режим VMR9 Mixer",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,108,73,10
+    CONTROL         "Смешение в YUV",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,121,71,10
+    COMBOBOX        IDC_DX_SURFACE,164,64,120,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Поверхность:",IDC_STATIC,111,66,51,8
+    CONTROL         "Полноэкранный Direct3D (устраняет дрожание)",IDC_FULLSCREEN_MONITOR_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,96,173,10
+    COMBOBOX        IDC_EVR_BUFFERS,248,107,35,26,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Буферы EVR:",IDC_STATIC,199,109,47,8
 END
 
 IDD_AUTH_DLG DIALOGEX 0, 0, 213, 146
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Authentication needed"
+CAPTION "Требуется авторизация"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,100,125,50,14
@@ -774,10 +774,10 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
     CONTROL         "Использовать сжатие",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,91,10
     CONTROL         "Выводить отладочную информацию",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,153,10
-    CONTROL         "Брать страницы из:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,87,10
+    CONTROL         "Брать страницы из:",IDC_CHECK4, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,87,10
     EDITTEXT        IDC_EDIT2,7,85,176,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Выбрать...",IDC_BUTTON1,187,85,45,14
-    PUSHBUTTON      "Выгрузить...",IDC_BUTTON2,235,85,46,14
+    PUSHBUTTON      "Выгрузить...",IDC_BUTTON2,235,85,50,14
     CONTROL         "Разрешить доступ только с локального компьютера",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,38,208,10
     LTEXT           "Интерпретаторы CGI: (.ext1=path1;.ext2=path2;...)",IDC_STATIC,8,132,189,8
     EDITTEXT        IDC_EDIT3,7,144,282,14,ES_AUTOHSCROLL
@@ -901,22 +901,22 @@ FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "Видео",IDC_STATIC,5,2,283,48
     GROUPBOX        " Управление цветом VMR9",IDC_STATIC,5,91,283,109
-    CONTROL         "",IDC_SLI_CONTRAST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,105,228,13
+    CONTROL         "",IDC_SLI_CONTRAST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,63,105,220,13
     LTEXT           "Контраст",IDC_STATIC,13,107,34,8
     LTEXT           "Яркость",IDC_STATIC,13,126,34,8
     LTEXT           "Оттенок",IDC_STATIC,13,145,34,8
     LTEXT           "Насыщенность",IDC_STATIC,13,164,44,8
-    CONTROL         "",IDC_SLI_BRIGHTNESS,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,124,228,13
-    CONTROL         "",IDC_SLI_HUE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,143,228,13
-    CONTROL         "",IDC_SLI_SATURATION,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,162,228,13
+    CONTROL         "",IDC_SLI_BRIGHTNESS,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,63,124,220,13
+    CONTROL         "",IDC_SLI_HUE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,63,143,220,13
+    CONTROL         "",IDC_SLI_SATURATION,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,63,162,220,13
     PUSHBUTTON      "Сброс",IDC_RESET,13,182,59,14
-    CONTROL         "Запоминать позицию DVD",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,33,92,10
-    CONTROL         "Запоминать позицию в файле",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,34,89,10
-    PUSHBUTTON      "Инсталлировать",IDC_INSTALLPN31,13,66,59,14
-    PUSHBUTTON      "Деинсталлировать",IDC_UNINSTALLPN31,93,66,59,14
+    CONTROL         "При выходе запомнить позицию DVD",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,24,186,10
+    CONTROL         "При выходе запомнить позицию в файле",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,36,186,10
+    PUSHBUTTON      "Инсталлировать",IDC_INSTALLPN31,13,66,70,14
+    PUSHBUTTON      "Деинсталлировать",IDC_UNINSTALLPN31,93,66,75,14
     GROUPBOX        " Драйвер Shuttle PN31 ",IDC_STATIC,5,54,283,35
-    LTEXT           "Полноэкранный Direct3D : перемещен",IDC_STATIC,13,18,131,8
-    CONTROL         "Показать OSD",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,34,55,10
+    LTEXT           "Полноэкранный Direct3D : перемещен на вкладку \"Вывод\"",IDC_STATIC,14,12,269,8
+    CONTROL         "Показать OSD",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,24,73,10
 END
 
 
@@ -2884,7 +2884,7 @@ BEGIN
     IDS_MPADECSETTINGSWND_1 "Настройки декодера AC3"
     IDS_MPA_CHANNEL_1       "Канал 1"
     IDS_MPA_CHANNEL_2       "Канал 2"
-    IDS_MPADECSETTINGSWND_5 "Декодировать на колонки"
+    IDS_MPADECSETTINGSWND_5 "Декодировать в"
     IDS_MPADECSETTINGSWND_7 "Настройки декодера DTS"
     IDS_MPADECSETTINGSWND_11 "Настройки декодераAAC"
     IDS_MPADECSETTINGSWND_12 "Сведение в стерео"
@@ -2893,11 +2893,11 @@ BEGIN
                             "Задействовать планарные типы YUV (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Установить флаг чересстрочности в вывод"
     IDS_MPEG2DECSETTINGSWND_2 "Всегда показывать принудительные субтитры"
-    IDS_MPEG2_DEINTERLACING "Устранение чересстрочности"
+    IDS_MPEG2_DEINTERLACING "Деинтерлейс"
     IDS_MPEG2_BRIGHTNESS    "Яркость"
     IDS_MPEG2_RESET         "Сброс"
     IDS_MPEG2DECSETTINGSWND_7 
-                            "Замечание: Использование непланарного формата вывода, bob deinterlacer, или подстройка свойств цвета"
+                            "Использование непланарного формата вывода, bob deinterlacer, или подстройка свойств цвета"
     IDS_MPA_3F              "3 фронтальных"
 END
 
@@ -2907,7 +2907,7 @@ BEGIN
     IDS_MPA_3F_1R           "3 фронтальных + 1 тыловая"
     IDS_MPA_2F_2R           "2 фронтальных + 2 тыловых"
     IDS_MPA_3F_2R           "3 фронтальных + 2 тыловых"
-    IDS_MPA_DYNRANGE        "Контроль динамического диапазона"
+    IDS_MPA_DYNRANGE        "Контроль динамич. диапазона"
     IDS_MPEG2_CONTRAST      "Контраст"
     IDS_MPEG2_HUE           "Оттенок"
     IDS_MPEG2_SATURATION    "Насыщенность"
