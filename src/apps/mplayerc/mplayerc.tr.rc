@@ -2213,7 +2213,7 @@ STRINGTABLE
 BEGIN
     IDD_PPAGEACCELTBL       "Oynatýcý::Tuþlar"
     IDD_PPAGESUBSTYLE       "Alt Yazýlar::Varsayýlan Þekil"
-    IDD_PPAGEINTERNALFILTERS "Harici Filtreler"
+    IDD_PPAGEINTERNALFILTERS "Dahili Filtreler"
     IDD_PPAGELOGO           "Oynatýcý::Tema"
     IDD_PPAGEOUTPUT         "Yürütme::Çýkýþ"
     IDD_PPAGEWEBSERVER      "Oynatýcý::Net Arabirimi"
