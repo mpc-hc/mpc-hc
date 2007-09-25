@@ -2719,7 +2719,7 @@ BEGIN
     IDS_CONVERTDLG_13       "%d fichier(s), %.2f KB"
     IDS_CONVERTDLG_14       "%d fichier(s), %.2f MB"
     IDS_AG_CHAPTERS         "Chapitre"
-    IDS_AG_SHADER_EDITOR    "Editeur de Shader"
+    IDS_AG_SHADER_EDITOR    "Shader Editor"
     IDS_PPAGEWEBSERVER_0    "Sélectionnez le répertoire"
     IDS_FGMANAGER_0         "Décodeur MPEG-1"
     IDS_FGMANAGER_1         "Décodeur MPEG-2"

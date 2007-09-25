@@ -2707,7 +2707,7 @@ BEGIN
     IDS_CONVERTDLG_13       "%d файл(ов), %.2f KB"
     IDS_CONVERTDLG_14       "%d файл(ов), %.2f MB"
     IDS_AG_CHAPTERS         "Сцены"
-    IDS_AG_SHADER_EDITOR    "Редактор шейдеров"
+    IDS_AG_SHADER_EDITOR    "Shader Editor"
     IDS_PPAGEWEBSERVER_0    "Выберите папку"
     IDS_FGMANAGER_0         "Видеодекодер MPEG-1"
     IDS_FGMANAGER_1         "Видеодекодер MPEG-2"

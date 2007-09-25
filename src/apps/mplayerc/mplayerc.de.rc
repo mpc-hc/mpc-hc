@@ -2707,7 +2707,7 @@ BEGIN
     IDS_CONVERTDLG_13       "%d Datei(en), %.2f KB"
     IDS_CONVERTDLG_14       "%d Datei(en), %.2f MB"
     IDS_AG_CHAPTERS         "Kapitel"
-    IDS_AG_SHADER_EDITOR    "Pixel Shader Editor"
+    IDS_AG_SHADER_EDITOR    "Shader Editor"
     IDS_PPAGEWEBSERVER_0    "Bitte Verzeichnis auswählen"
     IDS_FGMANAGER_0         "MPEG-1 Video Dekoder"
     IDS_FGMANAGER_1         "MPEG-2 Video Dekoder"

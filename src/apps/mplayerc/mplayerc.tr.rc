@@ -2707,7 +2707,7 @@ BEGIN
     IDS_CONVERTDLG_13       "%d dosya, %.2f KB"
     IDS_CONVERTDLG_14       "%d dosya, %.2f MB"
     IDS_AG_CHAPTERS         "Bölümler"
-    IDS_AG_SHADER_EDITOR    "Tonlama Düzenleyicisi"
+    IDS_AG_SHADER_EDITOR    "Shader Editor"
     IDS_PPAGEWEBSERVER_0    "Klasör seçiniz"
     IDS_FGMANAGER_0         "MPEG-1 Video Çözücüsü"
     IDS_FGMANAGER_1         "MPEG-2 Video Çözücüsü"
