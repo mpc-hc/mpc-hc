@@ -915,7 +915,7 @@ BEGIN
     PUSHBUTTON      "Инсталлировать",IDC_INSTALLPN31,13,66,70,14
     PUSHBUTTON      "Деинсталлировать",IDC_UNINSTALLPN31,93,66,75,14
     GROUPBOX        " Драйвер Shuttle PN31 ",IDC_STATIC,5,54,283,35
-    LTEXT           "Полноэкранный Direct3D : перемещен на вкладку \"Вывод\"",IDC_STATIC,14,12,269,8
+    LTEXT           "Полноэкранный Direct3D : перемещен на вкладку ""Вывод""",IDC_STATIC,14,12,269,8
     CONTROL         "Показать OSD",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,24,73,10
 END
 
