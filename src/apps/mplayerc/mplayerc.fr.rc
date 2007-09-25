@@ -2039,15 +2039,15 @@ IDR_HTML_PLAYER         HTML                    "res\\web\\player.html"
 STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "Media Player Classic Homecinema"
-    IDS_RS_DVDPOS           "Se souvenir du chemin du DVD"
-    IDS_RS_FILEPOS          "Se souvenir du chemin du fichier"
-    IDS_RS_LASTFULLSCREEN   "Dernier ""Plein écran"""
+    IDS_RS_DVDPOS           "Remember DVD Pos"
+    IDS_RS_FILEPOS          "Remember File Pos"
+    IDS_RS_LASTFULLSCREEN   "LastFullScreen"
 END
 
 STRINGTABLE 
 BEGIN
     IDS_RS_EVR_BUFFERS      "EVRBuffers"
-    IDS_RS_SHOWOSD          "Montrer l'OSD"
+    IDS_RS_SHOWOSD          "Show OSD"
     IDS_RS_LANGUAGE         "InterfaceLanguage"
 END
 
