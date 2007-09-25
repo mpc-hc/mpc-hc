@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -1583,8 +1583,10 @@ BEGIN
         POPUP "&Language"
         BEGIN
             MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
-            MENUITEM "&Deutsch",                    ID_LANGUAGE_DEUTSCH
+            MENUITEM "&Deutsch",                    ID_LANGUAGE_GERMAN
             MENUITEM "&Français",                   ID_LANGUAGE_FRENCH
+            MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
+            MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
         END
         MENUITEM SEPARATOR
         POPUP "&Video Frame"
@@ -1885,7 +1887,7 @@ BEGIN
                 MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
                 MENUITEM "Auto Fit\tAlt+4",             ID_VIEW_ZOOM_AUTOFIT
             END
-            MENUITEM "&Tearing Test\tCtrl+T",       32769
+            MENUITEM "&Tearing Test\tCtrl+T",       ID_VIEW_TEARING_TEST
             MENUITEM SEPARATOR
             POPUP "&Video Frame"
             BEGIN

@@ -776,7 +776,9 @@
 #define ID_VIEW_LANGUAGE                32786
 #define ID_LANGUAGE_ENGLISH             32787
 #define ID_LANGUAGE_FRENCH              32788
-#define ID_LANGUAGE_DEUTSCH             32789
+#define ID_LANGUAGE_GERMAN              32789
+#define ID_LANGUAGE_RUSSIAN             32790
+#define ID_LANGUAGE_TURKISH             32791
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_SHADEREDITORDLG_0           32831

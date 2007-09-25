@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -794,8 +794,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Herunterladen && Öffnen",IDOK,272,136,98,14
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,7,363,124
-    CONTROL         "&Ersetze momentan geladene Untertitel",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,139,10
+    CONTROL         "&Ersetze momentan geladene Untertitel",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,139,10
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
@@ -1494,11 +1493,12 @@ BEGIN
     BEGIN
         BLOCK "080004b0"
         BEGIN
-            VALUE "Comments", "German satellite ressource for Media Player - Homecinema"
+            VALUE "Comments", "German language resource for Media Player - Homecinema"
+            VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Media Player Classic - Homecinema"
             VALUE "FileVersion", "1, 0, 1, 0"
             VALUE "InternalName", "Media Player Classic - Homecinema"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2007"
+            VALUE "LegalCopyright", "alexW"
             VALUE "OriginalFilename", "mplayerc.EXE"
             VALUE "ProductName", "Media Player Classic"
             VALUE "ProductVersion", "1, 0, 1, 0"
@@ -1584,8 +1584,10 @@ BEGIN
         POPUP "&Language"
         BEGIN
             MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
-            MENUITEM "&Deutsch",                    ID_LANGUAGE_DEUTSCH
+            MENUITEM "&Deutsch",                    ID_LANGUAGE_GERMAN
             MENUITEM "&Français",                   ID_LANGUAGE_FRENCH
+            MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
+            MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
         END
         MENUITEM SEPARATOR
         POPUP "&Videobild"
@@ -1886,7 +1888,7 @@ BEGIN
                 MENUITEM "&200%\tAlt+3",                ID_VIEW_ZOOM_200
                 MENUITEM "Autom. passend\tAlt+4",       ID_VIEW_ZOOM_AUTOFIT
             END
-            MENUITEM "Te&aring Test\tCtrl+T",       32769
+            MENUITEM "Te&aring Test\tCtrl+T",       ID_VIEW_TEARING_TEST
             MENUITEM SEPARATOR
             POPUP "Vi&deobild"
             BEGIN
@@ -2891,13 +2893,12 @@ BEGIN
     IDS_MPEG2DECSETTINGSWND_0 
                             "Planare YUV Medien-Typen erlauben (VY12, I420, IYUY)"
     IDS_MPEG2DECSETTINGSWND_1 "Setze Interlaced-Flag im Medientyp"
-    IDS_MPEG2DECSETTINGSWND_2 
-                            "Erzwungene Untertitel (Forced Subs) immer anzeigen"
+    IDS_MPEG2DECSETTINGSWND_2 "Erzwungene Untertitel (Forced Subs) immer anzeigen"
     IDS_MPEG2_DEINTERLACING "Deinterlacing:"
     IDS_MPEG2_BRIGHTNESS    "Helligkeit:"
     IDS_MPEG2_RESET         "Zurücksetzen"
     IDS_MPEG2DECSETTINGSWND_7 
-                            "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinter- lacing, oder Änderung der Farb-Einstellung, "
+                            "Hinweis: Benutzung der Nicht-Planaren Ausgabe, Bob-Deinterlacing, oder Änderung der Farb-Einstellung, "
     IDS_MPA_3F              "3 Vorne"
 END
 
@@ -2913,9 +2914,9 @@ BEGIN
     IDS_MPEG2_SATURATION    "Sättigung"
     IDS_MPEG2DECSETTINGSWND_8 
                             "kann Performance beeinträchtigen. ""Auto"" Deinterlacer wechselt zu ""Blend"", wenn notwendig."
-    IDS_ADD_TO_PLAYLIST     "Add to MPC Playlist"
-    IDS_OPEN_WITH_MPC       "Play with MPC"
-    IDS_CANNOT_CHANGE_FORMAT "Media Player Classic have not enough privileges to change files formats associations. Please click on ""Modify"" button to get administrator rights."
+    IDS_ADD_TO_PLAYLIST     "Zur MPC Playliste hinzufügen"
+    IDS_OPEN_WITH_MPC       "Mit MPC abspielen"
+    IDS_CANNOT_CHANGE_FORMAT "Media Player Classic benötigt Administrator Rechte, um die Datei-Erweitungen zuweisen zu können. Bitte mit einem Klick auf den ""Modify"" Knopf bestätigen."
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system since. Originaly made by Hungarian developer known as Gabest, this version have additionnal features such as Direct 3D fullscreen mode and better support for Vista."
 END
 

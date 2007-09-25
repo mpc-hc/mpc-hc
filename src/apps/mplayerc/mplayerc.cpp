@@ -2714,10 +2714,14 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 {
 	switch (nLanguage)
 	{
-	case 1 :	// French
+	case 1:		// French
 		return _T("mpcresources.fr.dll");
-	case 2 :	// Deutch
+	case 2:		// German
 		return _T("mpcresources.de.dll");
+	case 3:		// Russian
+		return _T("mpcresources.ru.dll");
+	case 4:		// Turkish
+		return _T("mpcresources.tr.dll");
 	}
 	return NULL;
 }
@@ -2726,9 +2730,9 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 void CMPlayerCApp::SetLanguage (int nLanguage)
 {
 	AppSettings&	s = AfxGetAppSettings();
-	HMODULE			hMod = NULL;
-	LPCTSTR			strSatellite;
-	bool			bNoChange = false;
+	HMODULE		hMod = NULL;
+	LPCTSTR		strSatellite;
+	bool		bNoChange = false;
 
 	s.iLanguage  = nLanguage;
 	strSatellite = GetSatelliteDll(nLanguage);
@@ -2745,7 +2749,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		{
 			bNoChange = true;
 			// This message should stay in english!
-			MessageBox (NULL, _T("Your language pack will not work with this version. Please download a compatilble one from MPC-HC homepage."), 
+			MessageBox (NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."), 
 							  _T("Media Player Classic - Homecinema"), MB_OK);
 		}
 	}
