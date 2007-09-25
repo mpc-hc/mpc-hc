@@ -16,7 +16,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_TUR)
 #ifdef _WIN32
-LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
 #pragma code_page(1252)
 #endif //_WIN32
 
@@ -122,7 +122,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,10,225,104,1
     EDITTEXT        IDC_EDIT4,10,231,86,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BUTTON3,98,231,14,13
-    CONTROL         "Ses --> Wav",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,260,55,10
+    CONTROL         "Ses --> Wav",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,260,57,10
     PUSHBUTTON      "Kayýt",IDC_BUTTON2,74,259,38,13,WS_DISABLED | WS_GROUP
     COMBOBOX        IDC_COMBO14,10,245,102,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
@@ -132,23 +132,23 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Dahili ses dönüþtürücü filtresini kullan (morgan dönüþtürücüsünü kapatýr, yeniden baþlatma gerektirir)",IDC_CHECK2,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,5,273,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,5,343,10
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,18,282,1
-    CONTROL         "44100 Hz örneklemesine dönüþtür",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,35,99,10
-    CONTROL         "Ses zamaný deðiþimi (ms):",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,82,10
-    EDITTEXT        IDC_EDIT2,96,47,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
-    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,144,46,11,14
-    CONTROL         "Özel kanal adreslemesiný kullan",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,117,10
-    LTEXT           "Hoparlör sayýsý ve çýkýþýný",IDC_STATIC1,7,76,84,8
+    CONTROL         "44100 Hz örneklemesine dönüþtür",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,35,125,10
+    CONTROL         "Ses zamaný deðiþimi (ms):",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,48,100,10
+    EDITTEXT        IDC_EDIT2,106,47,46,13,ES_AUTOHSCROLL,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,154,46,11,14
+    CONTROL         "Özel kanal adreslemesiný kullan",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,116,10
+    LTEXT           "Hoparlör sayýsý ve çýkýþýný",IDC_STATIC1,7,76,96,8
     EDITTEXT        IDC_EDIT1,95,74,29,13,ES_CENTER | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,183,73,11,14
-    LTEXT           "kanallý olarak ayarla:",IDC_STATIC2,131,76,51,8
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,205,73,11,14
+    LTEXT           "kanallý olarak ayarla:",IDC_STATIC2,131,76,69,8
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_OWNERDRAWFIXED | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,7,93,282,94
     CTEXT           "Ayarlarýn hemen geçerli olabilmesi için týklarken Shift tuþuna basýnýz",IDC_STATIC3,7,189,282,8
-    CONTROL         "Normale getir",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,23,47,8
-    LTEXT           "Yükseltme:",IDC_STATIC,129,23,19,8
-    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,152,23,137,11
-    CONTROL         "Sesi arttýr",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,59,22,59,10
+    CONTROL         "Normale getir",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,23,59,8
+    LTEXT           "Yükseltme:",IDC_STATIC,129,23,36,8
+    CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,167,23,122,11
+    CONTROL         "Sesi arttýr",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,69,22,49,10
 END
 
 IDD_GOTO_DLG DIALOGEX 0, 0, 157, 113
@@ -158,11 +158,11 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Aralarýna herhangi bir karakter (rakam dýþýnda) koyarak en fazla dört sayý giriniz. Tek sayý ms, iki sayý sn ve ms içindir.",IDC_STATIC,7,7,143,27
     LTEXT           "Süre",IDC_STATIC,7,40,16,8
-    EDITTEXT        IDC_EDIT1,31,37,83,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT1,34,37,80,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Git!",IDC_OK1,119,37,31,14
     LTEXT           "Belirtilmiþ bir görüntüye atlamak için iki sayý giriniz; ilki çerçeve sayýsý, ikincisi çerçeve oraný içindir.",IDC_STATIC,7,62,143,26
-    LTEXT           "Görüntü",IDC_STATIC,7,95,20,8
-    EDITTEXT        IDC_EDIT2,31,92,83,14,ES_AUTOHSCROLL
+    LTEXT           "Görüntü",IDC_STATIC,7,95,27,8
+    EDITTEXT        IDC_EDIT2,34,92,80,14,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Git!",IDC_OK2,119,92,31,14
 END
 
@@ -172,16 +172,16 @@ CAPTION "Aç"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,9,8,21,20
-    LTEXT           "Bir görüntü veya ses dosyasý adresi giriniz (internetteki veya bilgisayarýnýzdaki). Oynatýcý dosyayý sizin için yürütecektir..",IDC_STATIC1,33,9,149,28
-    LTEXT           "Aç:",IDC_STATIC,7,52,21,8
-    COMBOBOX        IDC_COMBO1,33,50,149,76,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bir görüntü veya ses dosyasý adresi giriniz (internetteki veya bilgisayarýnýzdaki). Oynatýcý dosyayý sizin için yürütecektir..",IDC_STATIC1,38,9,144,28
+    LTEXT           "Aç:",IDC_STATIC,7,52,12,8
+    COMBOBOX        IDC_COMBO1,38,50,144,76,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Gözat...",IDC_BUTTON1,187,49,47,14
-    LTEXT           "Alt Yazý:",IDC_STATIC,7,71,16,8
-    COMBOBOX        IDC_COMBO2,33,68,149,20,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Alt Yazý:",IDC_STATIC,7,71,30,8
+    COMBOBOX        IDC_COMBO2,38,68,144,20,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Gözat...",IDC_BUTTON2,187,67,47,14
     DEFPUSHBUTTON   "Tamam",IDOK,187,9,47,14,WS_GROUP
     PUSHBUTTON      "Ýptal",IDCANCEL,187,25,47,14
-    CONTROL         "Açýlýþta oynatma listesine de ekle",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,37,115,10
+    CONTROL         "Açýlýþta oynatma listesine de ekle",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,38,37,126,10
 END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 222, 89
@@ -190,8 +190,8 @@ CAPTION "Hakkýnda"
 FONT 8, "MS Shell Dlg", 400, 0, 0xB1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Media Player Classic",IDC_STATIC1,40,10,126,8,SS_NOPREFIX
-    LTEXT           "Telif Hakký (C) 2002-2006 Gabest",IDC_STATIC,40,21,113,8
+    LTEXT           "Media Player Classic",IDC_STATIC1,40,10,65,8,SS_NOPREFIX
+    LTEXT           "Telif Hakký (C) 2002-2006 Gabest",IDC_STATIC,40,21,109,8
     LTEXT           "Sürüm: 6.4.9.1 - Casimir666 Yapýmý",IDC_VERSION,40,33,170,8
     PUSHBUTTON      "Tamam",IDOK,160,8,50,14,WS_GROUP
     LTEXT           "Bu program ücretsiz olup GNU Genel Kamusal Lisansý altýnda yayýnlanmýþtýr.\nKodlayýcý dosyalarý daðýtýmý serbesttir,fakat Yazar(Gabest) veya Çevirmen(bosluk) ilave içeriklerden sorumlu deðildir.",IDC_STATIC,11,47,199,34
@@ -221,35 +221,35 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Açýlýþ ayarlarý",IDC_STATIC,5,7,117,119
     CONTROL         "Tüm medya dosyalarý için ayný oynatýcýyý kullan",IDC_RADIO1,
-                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,15,20,93,20
+                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,15,17,104,20
     CONTROL         "Yürütülen her medya dosyasý için yeni bir oynatýcý aç",IDC_RADIO2,
-                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,63,98,15
-    ICON            IDI_SINGLE,IDC_STATIC,51,40,20,20,SS_CENTERIMAGE
-    ICON            IDI_MULTI,IDC_STATIC,51,84,20,20,SS_CENTERIMAGE
-    CONTROL         "Dosyalarý tam ekranda çalýþtýr",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,109,93,10
+                    "Button",BS_AUTORADIOBUTTON | BS_MULTILINE,15,55,106,25
+    ICON            IDI_SINGLE,IDC_STATIC,51,36,21,20,SS_CENTERIMAGE
+    ICON            IDI_MULTI,IDC_STATIC,51,81,21,20,SS_CENTERIMAGE
+    CONTROL         "Dosyalarý tam ekranda çalýþtýr",IDC_CHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,103,106,16
     GROUPBOX        "Baþlýk çubuðu",IDC_STATIC,5,130,117,61
     CONTROL         "Tam yolu göster",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,16,143,67,10
-    CONTROL         "Sadece dosya adýný göster",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,16,154,61,10
-    CONTROL         "Bir bilgi gösterme",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,16,165,83,10
+    CONTROL         "Sadece dosya adýný göster",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,16,154,105,10
+    CONTROL         "Bir bilgi gösterme",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,16,165,70,10
     GROUPBOX        "Diðer",IDC_STATIC,130,7,159,184,WS_GROUP
-    CONTROL         "Her zaman üstte",IDC_CHECK2,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,140,19,61,10
-    CONTROL         "Saat simgesi",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,32,45,10
-    CONTROL         "Kontrolleri tam ekranda gösterme süresi",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,45,112,10
+    CONTROL         "Her zaman üstte",IDC_CHECK2,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,140,19,69,10
+    CONTROL         "Saat simgesi",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,32,55,10
+    CONTROL         "Kontrolleri tam ekranda gösterme süresi",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,45,143,10
     EDITTEXT        IDC_EDIT1,152,60,32,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,175,61,11,14
-    LTEXT           "saniye",IDC_STATIC1,188,62,20,8
-    LTEXT           "0: Oto-gizle\n-1: Gizleme yok",IDC_STATIC2,218,58,48,17
+    LTEXT           "saniye",IDC_STATIC1,188,62,22,8
+    LTEXT           "0: Oto-gizle\n-1: Gizleme yok",IDC_STATIC2,218,58,62,17
     CONTROL         "Oynatmadan sonra tam ekrandan çýk",IDC_CHECK5,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,79,135,10
-    CONTROL         "Son pencere yerleþimini hatýrla",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,92,127,10
-    CONTROL         "Son pencere boyutunu hatýrla",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,105,127,10
-    CONTROL         "Masaüstü kenarlarýna uyarla",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,118,89,10
-    CONTROL         "Ayarlarý .ini dosyasýnda sakla",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,131,92,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,79,136,10
+    CONTROL         "Son pencere yerleþimini hatýrla",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,92,116,10
+    CONTROL         "Son pencere boyutunu hatýrla",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,105,113,10
+    CONTROL         "Masaüstü kenarlarýna uyarla",IDC_CHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,118,109,10
+    CONTROL         "Ayarlarý .ini dosyasýnda sakla",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,131,113,10
     CONTROL         "Son açýlan dosya geçmiþlerini sakla",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,144,133,10
-    CONTROL         "CD-ROM menüsünü gizle",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,157,82,10
-    CONTROL         "Ýþlem önceliðini normalden yüksek tut",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,111,10
-    CONTROL         "Dosya adýný baþlýkla deðiþtir",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,101,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,144,129,10
+    CONTROL         "CD-ROM menüsünü gizle",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,157,94,10
+    CONTROL         "Ýþlem önceliðini normalden yüksek tut",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,170,136,10
+    CONTROL         "Dosya adýný baþlýkla deðiþtir",IDC_CHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,108,10
 END
 
 IDD_PPAGEDVD DIALOGEX 0, 0, 296, 193
@@ -257,18 +257,18 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "DVD sürücüsü veya ""VIDEO_TS"" klasörü yolu",IDC_STATIC,5,7,235,66
-    CONTROL         "Varsayýlan",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,21,39,10
-    CONTROL         "Kullanýcý tanýmlý yol:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,35,76,10
+    CONTROL         "Varsayýlan",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,21,51,10
+    CONTROL         "Kullanýcý tanýmlý yol:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,15,35,87,10
     EDITTEXT        IDC_DVDPATH,29,50,180,14,ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "...",IDC_BUTTON1,215,50,15,14
     GROUPBOX        "DVD Yöneticisi ve harici OGM Ayýrýcýsý için tercih edilen dil",IDC_STATIC,5,77,235,73
     CONTROL         "Menü",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,95,33,10
-    CONTROL         "Ses",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,111,34,10
-    CONTROL         "Alt Yazýlar",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,127,43,10
+    CONTROL         "Ses",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON,15,111,27,10
+    CONTROL         "Alt Yazýlar",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON,15,127,50,10
     LISTBOX         IDC_LIST1,74,90,156,53,WS_VSCROLL | WS_GROUP | WS_TABSTOP
     GROUPBOX        "Ses kanallarý",IDC_STATIC,5,155,235,32
     CONTROL         "Ivideo Ac3 çözücüsü için hoparlör sayýsýný otomatik olarak seç",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,204,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,218,10
 END
 
 IDD_PPAGEPLAYBACK DIALOGEX 0, 0, 296, 198
@@ -276,31 +276,31 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Ses",IDC_STATIC,5,7,284,58
-    LTEXT           "Ses",IDC_STATIC,66,19,24,8
-    LTEXT           "Dak",IDC_STATIC,27,38,12,8
+    LTEXT           "Ses",IDC_STATIC,66,19,12,8
+    LTEXT           "Dak",IDC_STATIC,27,38,13,8
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,41,31,75,24
-    LTEXT           "Yüksek",IDC_STATIC,123,38,14,8
-    LTEXT           "Denge",IDC_STATIC,196,19,26,8
-    LTEXT           "Sol",IDC_STATIC,160,39,8,8
+    LTEXT           "Yüksek",IDC_STATIC,117,38,23,8
+    LTEXT           "Denge",IDC_STATIC,196,19,22,8
+    LTEXT           "Sol",IDC_STATIC,160,39,10,8
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,172,36,75,19
-    LTEXT           "Sað",IDC_STATIC,252,39,8,8
+    LTEXT           "Sað",IDC_STATIC,252,39,13,8
     GROUPBOX        "Yürütme",IDC_STATIC,5,67,114,71
-    CONTROL         "Oynat",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,86,29,10
-    CONTROL         "Sürekli tekrarla",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,14,102,65,10
-    CONTROL         "Oynatma bitince geri sar",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,14,119,101,10
+    CONTROL         "Oynat",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,86,35,10
+    CONTROL         "Sürekli tekrarla",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,14,102,63,10
+    CONTROL         "Oynatma bitince geri sar",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,14,119,94,10
     EDITTEXT        IDC_EDIT1,52,85,20,13,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "kere",IDC_STATIC1,81,87,23,8
+    LTEXT           "kere",IDC_STATIC1,81,87,15,8
     GROUPBOX        "Çýkýþ",IDC_STATIC,126,67,163,71
-    CONTROL         "Otomatik büyütme:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,85,48,10
-    COMBOBOX        IDC_COMBO1,193,83,49,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Tam ekran çözünürlüðünü deðiþtir:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,102,109,10
+    CONTROL         "Otomatik büyütme:",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,85,77,10
+    COMBOBOX        IDC_COMBO1,215,83,49,47,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Tam ekran çözünürlüðünü deðiþtir:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,137,102,127,10
     COMBOBOX        IDC_COMBO2,156,116,112,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Açýk Ayarlar",IDC_STATIC,5,140,284,43
     CONTROL         "Filtre grafiði kurulumu için oynatýcý önceliðini kullan",IDC_CHECK7,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,153,166,10
-    CONTROL         "Çevrilemeyen iliþkilendirmeleri rapor et",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,167,116,10
-    CONTROL         "Ses dosyalarýný oto-yükle",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,153,81,10
-    CONTROL         "Alt Yazýlarý oto-yükle",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,167,76,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,153,179,10
+    CONTROL         "Çevrilemeyen iliþkilendirmeleri rapor et",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,167,138,10
+    CONTROL         "Ses dosyalarýný oto-yükle",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,167,100,10
+    CONTROL         "Alt Yazýlarý oto-yükle",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,202,153,85,10
 END
 
 IDD_PPAGESUBTITLES DIALOGEX 0, 0, 296, 203
@@ -309,11 +309,11 @@ FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "",IDC_STATIC,5,3,192,38
     CONTROL         "Özel yerleþim",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,3,75,10
-    LTEXT           "Yatay:",IDC_STATIC1,14,22,35,8
+    LTEXT           "Yatay:",IDC_STATIC1,14,22,22,8
     EDITTEXT        IDC_EDIT2,54,20,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,74,25,11,14
     LTEXT           "%",IDC_STATIC2,88,22,8,8
-    LTEXT           "Dikey:",IDC_STATIC3,107,22,26,8
+    LTEXT           "Dikey:",IDC_STATIC3,107,22,21,8
     EDITTEXT        IDC_EDIT3,139,20,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,26,11,14
     LTEXT           "%",IDC_STATIC4,173,22,8,8
@@ -322,21 +322,21 @@ BEGIN
     EDITTEXT        IDC_EDIT1,147,58,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,168,63,11,14
     LTEXT           "Tamponlamayý kapatmak için 0 giriniz (önerilmez)",IDC_STATIC,191,55,90,17
-    LTEXT           "En fazla doku çözünürlüðü:",IDC_STATIC,14,79,92,8
+    LTEXT           "En fazla doku çözünürlüðü:",IDC_STATIC,14,79,87,8
     LTEXT           "DirectShow için alt yazýlar video ayýrýcýsýndan ""VMR7 (çevrilmeden)"" veya ""VMR9 (çevrilmeden)"" seçenekleri iþaretlenerek kullanýlabilir. VMR7 ===> Windows XP, VMR9 ===> DirectX 9, ve ikisi de HW hýzlandýrmalý bir D3D ekran kartý gerektirir.",IDC_STATIC,14,148,267,25
     GROUPBOX        "Bilgi",IDC_STATIC,5,136,284,65
-    LTEXT           "Ekran kartýnýzýn ayarlarýndan Tam ekran keskinlik yumuþatmasý seçeneðini açarsanýz, alt yazýlar düzgün görülmeyecek ve daha fazla iþlemci kullanýmýna neden olacaktýr.",IDC_STATIC,14,110,267,19
+    LTEXT           "Ekran kartýnýzýn ayarlarýndan Tam ekran keskinlik yumuþatmasý seçeneðini açarsanýz, alt yazýlar düzgün görülmeyecek ve daha fazla iþlemci kullanýmýna neden olacaktýr.",IDC_STATIC,14,108,267,23
     COMBOBOX        IDC_COMBO1,111,77,68,45,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Uyarý",IDC_STATIC,5,99,284,35
     LTEXT           "RealMedia ve QuickTime biçimleri kendilerine özel DirectX 7 ve 9 çeviricileri ile alt yazýlý olarak görüntülenebilirler.",IDC_STATIC,14,178,267,16
-    CONTROL         "Dokuyu çiftli olarak topla",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,184,79,97,10
+    CONTROL         "Dokuyu çiftli olarak topla",IDC_CHECK_SPCPOW2TEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,79,94,10
 END
 
 IDD_PPAGESUBDB DIALOGEX 0, 0, 296, 203
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
-    LTEXT           "Çevrimiçi alt yazý veritabaný adresi:",IDC_STATIC,5,8,133,8
+    LTEXT           "Çevrimiçi alt yazý veritabaný adresi:",IDC_STATIC,5,8,117,8
     COMBOBOX        IDC_COMBO1,29,22,205,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Dene",IDC_BUTTON1,239,21,50,14
     LTEXT           "http://",IDC_STATIC,5,24,22,8
@@ -348,18 +348,18 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,13,15,268,97
     GROUPBOX        "Dosya uzantýlarý",IDC_STATIC,6,4,283,135
-    EDITTEXT        IDC_EDIT1,13,118,192,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Varsayýlan",IDC_BUTTON2,210,118,34,14
+    EDITTEXT        IDC_EDIT1,13,118,183,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Varsayýlan",IDC_BUTTON2,204,118,40,14
     PUSHBUTTON      "Ayarla",IDC_BUTTON_EXT_SET,247,118,34,14
     GROUPBOX        "Gerçek-Zamanlý Yayýn Protokolü kontrolcüsü (rtsp://... adresleri için)",IDC_STATIC,6,141,283,27
     CONTROL         "RealMedia",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,153,49,10
     CONTROL         "QuickTime",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,66,153,48,10
     CONTROL         "DirectShow",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,117,153,52,10
-    CONTROL         "Önce dosya uzantýsýna bak",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,191,153,90,10
+    CONTROL         "Önce dosya uzantýsýna bak",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,174,153,107,10
     CONTROL         "Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,183,31,10
     CONTROL         "Müzik",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,45,183,31,10
     CONTROL         "DVD",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,78,183,29,10
-    CONTROL         "Ses CD'si",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,183,43,10
+    CONTROL         "Ses CD'si",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,183,45,10
     PUSHBUTTON      "&Video",IDC_BUTTON4,176,180,33,14
     PUSHBUTTON      "S&es",IDC_BUTTON3,212,180,33,14
     PUSHBUTTON      "&Deðiþtir",IDC_BUTTON5,196,178,63,14,NOT WS_VISIBLE
@@ -372,7 +372,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Oynatýcý kontrollerinde XP Temalarýný kullanma (yeniden baþlatma gerektirir)",IDC_CHECK3,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,9,207,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,9,266,10
     CONTROL         "Windows Medya dosyalarý için WM ASF Okuyucusunu kullan (dosyalara daha hýzlý eriþim saðlanýr, ancak yarým kalan dosyalar oynatýlamaz)",IDC_CHECK2,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,25,260,17
     GROUPBOX        "Atlama uzaklýklarý (ms olarak az, orta, çok)",IDC_STATIC,7,50,202,34
@@ -380,12 +380,12 @@ BEGIN
     EDITTEXT        IDC_EDIT2,64,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_EDIT3,110,62,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     PUSHBUTTON      "Varsayýlan",IDC_BUTTON1,158,62,44,14
-    CONTROL         "Serbest pencere boyutlandýrýcýsý",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,83,10
+    CONTROL         "Serbest pencere boyutlandýrýcýsý",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,128,10
     CONTROL         "MSN Messenger uygulamasýna ""Ne dinliyorum"" bilgisini gönder",IDC_CHECK4,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,106,177,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,106,213,10
     CONTROL         "mIRC uygulamasýna ""Ne dinliyorum"" bilgisini GTSdll aracýlýðýyla gönder",IDC_CHECK5,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,122,193,10
-    LTEXT           "GTSdll dosyasýný innDirmek için týklayýnýz",IDC_STATICLINKGTS,19,134,95,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,122,244,10
+    LTEXT           "GTSdll dosyasýný innDirmek için týklayýnýz",IDC_STATICLINKGTS,19,134,138,8
 END
 
 IDD_PPAGEEXTERNALFILTERS DIALOGEX 0, 0, 296, 200
@@ -395,16 +395,16 @@ BEGIN
     LISTBOX         IDC_LIST1,6,5,208,102,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Filtre Ekle...",IDC_BUTTON1,220,5,69,13
     PUSHBUTTON      "Sil",IDC_BUTTON2,220,20,69,13
-    CONTROL         "Tercih Et",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,220,39,53,10
-    CONTROL         "Önle",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,220,50,53,10
-    CONTROL         "Deðer Seç:",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,220,61,47,10
+    CONTROL         "Tercih Et",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,220,39,44,10
+    CONTROL         "Önle",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,220,50,31,10
+    CONTROL         "Deðer Seç:",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,220,61,51,10
     EDITTEXT        IDC_EDIT1,220,73,69,12,ES_RIGHT | ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "Yukarý",IDC_BUTTON3,220,95,33,13
     PUSHBUTTON      "Aþaðý",IDC_BUTTON4,256,95,33,13
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,6,112,283,1
     CONTROL         "",IDC_TREE2,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,6,117,208,81
-    PUSHBUTTON      "Medya Biçimi Ekle...",IDC_BUTTON5,220,117,69,13
-    PUSHBUTTON      "Alt Yazý Biçimi Ekle...",IDC_BUTTON6,220,132,69,13
+    PUSHBUTTON      "Medya Biçimi Ekle..",IDC_BUTTON5,220,117,69,13
+    PUSHBUTTON      "Alt Yazý Biçimi Ekle..",IDC_BUTTON6,220,132,69,13
     PUSHBUTTON      "Sil",IDC_BUTTON7,220,147,69,13
     PUSHBUTTON      "Listeyi Sýfýrla",IDC_BUTTON8,220,185,69,13
 END
@@ -416,15 +416,15 @@ BEGIN
     ICON            "",IDC_DEFAULTICON,8,8,20,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,35,213,1
-    LTEXT           "Biçim:",IDC_STATIC,40,42,20,8
+    LTEXT           "Biçim:",IDC_STATIC,41,42,19,8
     EDITTEXT        IDC_EDIT4,73,42,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Boyut:",IDC_STATIC,44,55,16,8
+    LTEXT           "Boyut:",IDC_STATIC,38,55,22,8
     EDITTEXT        IDC_EDIT3,73,55,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Medya uzunluðu:",IDC_STATIC,16,68,44,8
+    LTEXT           "Medya uzunluðu:",IDC_STATIC,4,68,56,8
     EDITTEXT        IDC_EDIT2,73,68,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Video boyutu:",IDC_STATIC,25,81,35,8
+    LTEXT           "Video boyutu:",IDC_STATIC,14,81,46,8
     EDITTEXT        IDC_EDIT5,73,81,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Oluþturulma:",IDC_STATIC,30,94,30,8
+    LTEXT           "Oluþturulma:",IDC_STATIC,18,94,42,8
     EDITTEXT        IDC_EDIT6,73,94,148,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,114,213,1
     EDITTEXT        IDC_EDIT7,8,121,213,69,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
@@ -437,19 +437,19 @@ BEGIN
     ICON            "",IDC_DEFAULTICON,8,8,20,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,35,213,1
-    LTEXT           "Klip:",IDC_STATIC,8,42,15,8
+    LTEXT           "Klip:",IDC_STATIC,8,42,14,8
     EDITTEXT        IDC_EDIT4,58,42,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Yazar:",IDC_STATIC,8,55,26,8
+    LTEXT           "Yazar:",IDC_STATIC,8,55,22,8
     EDITTEXT        IDC_EDIT3,58,55,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Telif:",IDC_STATIC,8,68,35,8
+    LTEXT           "Telif:",IDC_STATIC,8,68,17,8
     EDITTEXT        IDC_EDIT2,58,68,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Beðenilme:",IDC_STATIC,8,81,24,8
+    LTEXT           "Beðenilme:",IDC_STATIC,8,81,36,8
     EDITTEXT        IDC_EDIT5,58,81,163,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,101,213,1
-    LTEXT           "Konum:",IDC_STATIC,8,108,30,8
+    LTEXT           "Konum:",IDC_STATIC,8,108,25,8
     EDITTEXT        IDC_EDIT6,58,108,163,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,123,213,1
-    LTEXT           "Açýklama:",IDC_STATIC,8,132,39,8
+    LTEXT           "Açýklama:",IDC_STATIC,8,132,34,8
     EDITTEXT        IDC_EDIT7,58,132,144,47,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
 END
 
@@ -460,7 +460,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Kýsayolunuz için bir ad seçiniz:",IDC_STATIC,7,7,238,36
     COMBOBOX        IDC_COMBO1,15,21,222,77,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Yerleþimi hatýrla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,51,77,10
+    CONTROL         "Yerleþimi hatýrla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,51,69,10
     PUSHBUTTON      "Ýptal",IDCANCEL,139,49,50,14
     DEFPUSHBUTTON   "Tamam",IDOK,195,49,50,14
 END
@@ -498,8 +498,8 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,8,93,190,1
     PUSHBUTTON      "&Ýptal",IDCANCEL,49,100,50,14
     PUSHBUTTON      "&Kaydet",IDOK,105,100,50,14
-    LTEXT           "Yer: 0.0 -> 1.0",IDC_STATIC,135,7,61,8
-    LTEXT           "Büyüt: 0.2 -> 3.0",IDC_STATIC,135,33,61,8
+    LTEXT           "Yer: 0.0 -> 1.0",IDC_STATIC,135,7,50,8
+    LTEXT           "Büyüt: 0.2 -> 3.0",IDC_STATIC,135,33,58,8
 END
 
 IDD_PPAGEACCELTBL DIALOGEX 0, 0, 296, 198
@@ -547,7 +547,7 @@ IDD_SAVETEXTFILEDIALOGTEMPL DIALOGEX 0, 0, 304, 20
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Kodlama:",IDC_STATIC,68,2,32,8
+    LTEXT           "Kodlama:",IDC_STATIC,68,2,30,8
     COMBOBOX        IDC_COMBO1,130,0,164,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -563,34 +563,34 @@ IDD_SAVETHUMBSDIALOGTEMPL DIALOGEX 0, 0, 304, 35
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Küçük resimler:",IDC_STATIC,68,2,39,8
+    LTEXT           "Küçük resimler:",IDC_STATIC,68,2,49,8
     EDITTEXT        IDC_EDIT1,130,0,30,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,145,0,11,14
     EDITTEXT        IDC_EDIT2,187,0,30,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,203,0,11,14
-    LTEXT           "dizin",IDC_STATIC,164,2,16,8
-    LTEXT           "sütun",IDC_STATIC,221,2,26,8
+    LTEXT           "dizin",IDC_STATIC,164,2,15,8
+    LTEXT           "sütun",IDC_STATIC,221,2,19,8
     EDITTEXT        IDC_EDIT3,130,17,36,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,146,17,11,14
-    LTEXT           "Resim geniþliði:",IDC_STATIC,68,19,43,8
-    LTEXT           "piksel",IDC_STATIC,170,19,19,8
+    LTEXT           "Resim geniþliði:",IDC_STATIC,68,19,50,8
+    LTEXT           "piksel",IDC_STATIC,170,19,18,8
 END
 
 IDD_SAVETHUMBSDIALOGTEMPL_400 DIALOGEX 0, 0, 222, 33
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Küçük resimler:",IDC_STATIC,5,2,39,8
+    LTEXT           "Küçük resimler:",IDC_STATIC,5,2,49,8
     EDITTEXT        IDC_EDIT1,54,0,30,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,69,0,11,14
     EDITTEXT        IDC_EDIT2,111,0,30,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,127,0,11,14
-    LTEXT           "dizin",IDC_STATIC,88,2,16,8
-    LTEXT           "sütun",IDC_STATIC,145,2,26,8
+    LTEXT           "dizin",IDC_STATIC,88,2,15,8
+    LTEXT           "sütun",IDC_STATIC,145,2,19,8
     EDITTEXT        IDC_EDIT3,54,16,36,13,ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,70,16,11,14
-    LTEXT           "Resim geniþliði:",IDC_STATIC,5,18,43,8
-    LTEXT           "piksel",IDC_STATIC,95,17,19,8
+    LTEXT           "Resim geniþliði:",IDC_STATIC,5,18,50,8
+    LTEXT           "piksel",IDC_STATIC,95,17,18,8
 END
 
 IDD_COMPROPERTYPAGE DIALOGEX 0, 0, 5, 5
@@ -617,25 +617,25 @@ BEGIN
     GROUPBOX        "Yazý Tipi",IDC_STATIC,4,2,106,123
     PUSHBUTTON      "Yazý Tipi",IDC_BUTTON1,11,13,89,13
     COMBOBOX        IDC_COMBO1,11,30,90,52,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Aralýk boyutu",IDC_STATIC,11,50,26,8
+    LTEXT           "Aralýk boyutu",IDC_STATIC,11,50,46,8
     EDITTEXT        IDC_EDIT3,66,48,35,13,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,48,11,14
-    LTEXT           "Açý (z,°)",IDC_STATIC,11,69,36,8
+    LTEXT           "Açý (z,°)",IDC_STATIC,11,69,30,8
     EDITTEXT        IDC_EDIT4,66,67,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN10,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,67,11,14
-    LTEXT           "Ölçek (x,%)",IDC_STATIC,11,88,39,8
+    LTEXT           "Ölçek (x,%)",IDC_STATIC,11,88,40,8
     EDITTEXT        IDC_EDIT5,66,86,35,13,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,86,11,14
-    LTEXT           "Ölçek (y,%)",IDC_STATIC,11,107,39,8
+    LTEXT           "Ölçek (y,%)",IDC_STATIC,11,107,40,8
     EDITTEXT        IDC_EDIT6,66,105,35,13,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,105,11,14
     GROUPBOX        "Kenar Stili",IDC_STATIC,4,127,106,68
     CONTROL         "Çizgisel",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,11,140,39,10
-    CONTROL         "Saydam kutu",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,50,140,52,10
-    LTEXT           "Kenar geniþliði",IDC_STATIC,13,158,42,8
+    CONTROL         "Saydam kutu",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,50,140,57,10
+    LTEXT           "Kenar geniþliði",IDC_STATIC,13,158,47,8
     EDITTEXT        IDC_EDIT1,66,155,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,94,154,11,14
-    LTEXT           "Gölge derinliði",IDC_STATIC,13,177,47,8
+    LTEXT           "Gölge derinliði",IDC_STATIC,13,177,45,8
     EDITTEXT        IDC_EDIT2,66,174,35,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,93,175,11,14
     GROUPBOX        "Ekran Yerleþimi && Kenarlar",IDC_STATIC,116,2,174,66
@@ -651,33 +651,33 @@ BEGIN
     LTEXT           "Sola",IDC_STATIC,166,17,14,8
     EDITTEXT        IDC_EDIT7,188,14,30,14,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN6,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,217,14,11,14
-    LTEXT           "Saða",IDC_STATIC,166,34,18,8
+    LTEXT           "Saða",IDC_STATIC,166,34,17,8
     EDITTEXT        IDC_EDIT8,188,32,30,14,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN7,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,217,32,11,14
-    LTEXT           "Yukarý",IDC_STATIC,223,17,13,8
+    LTEXT           "Yukarý",IDC_STATIC,223,17,23,8
     EDITTEXT        IDC_EDIT9,251,14,30,14,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN8,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,12,11,14
-    LTEXT           "Aþaðý",IDC_STATIC,223,34,24,8
+    LTEXT           "Aþaðý",IDC_STATIC,223,34,22,8
     EDITTEXT        IDC_EDIT10,251,32,30,14,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN9,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,280,32,11,14
     GROUPBOX        "Renkler && Þeffaflýk",IDC_STATIC,116,70,174,108
-    LTEXT           "Birincil",IDC_STATIC,123,95,25,8
+    LTEXT           "Birincil",IDC_STATIC,123,95,20,8
     CONTROL         "",IDC_COLORPRI,"Static",SS_OWNERDRAW | SS_NOTIFY,165,92,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,94,92,12
-    LTEXT           "Ýkincil",IDC_STATIC,123,112,34,8
+    LTEXT           "Ýkincil",IDC_STATIC,123,112,20,8
     CONTROL         "",IDC_COLORSEC,"Static",SS_OWNERDRAW | SS_NOTIFY,165,109,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_SLIDER2,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,111,92,12
-    LTEXT           "Çizgi",IDC_STATIC,123,129,24,8
+    LTEXT           "Çizgi",IDC_STATIC,123,129,16,8
     CONTROL         "",IDC_COLOROUTL,"Static",SS_OWNERDRAW | SS_NOTIFY,165,126,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_SLIDER3,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,128,92,12
-    LTEXT           "Gölge",IDC_STATIC,123,146,26,8
+    LTEXT           "Gölge",IDC_STATIC,123,146,19,8
     CONTROL         "",IDC_COLORSHAD,"Static",SS_OWNERDRAW | SS_NOTIFY,165,143,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "",IDC_SLIDER4,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,187,145,92,12
-    CONTROL         "Alfa kanallarýný baðla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,195,161,76,10
+    CONTROL         "Alfa kanallarýný baðla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,195,161,87,10
     LTEXT           "100%",IDC_STATIC,265,83,20,8
     LTEXT           "0%",IDC_STATIC,190,83,12,8
     CONTROL         "Alt yazýlarý video çerçevesine baðla",IDC_CHECK_RELATIVETO,
-                    "Button",BS_AUTO3STATE | WS_TABSTOP,125,51,157,10
+                    "Button",BS_AUTO3STATE | WS_TABSTOP,125,51,133,10
 END
 
 IDD_PPAGEINTERNALFILTERS DIALOGEX 0, 0, 296, 200
@@ -696,8 +696,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     CONTROL         "",IDC_LOGOPREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,5,5,284,150
-    CONTROL         "Dahili:",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,5,164,44,10
-    CONTROL         "Harici:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,5,181,45,10
+    CONTROL         "Dahili:",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,5,164,35,10
+    CONTROL         "Harici:",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,5,181,36,10
     EDITTEXT        IDC_LOGOFILENAME,51,179,182,14,ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_ARROWKEYS | UDS_HORZ,51,163,36,12
     PUSHBUTTON      "Gözat...",IDC_BUTTON2,239,179,50,14
@@ -709,24 +709,24 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
     GROUPBOX        "DirectShow Video",IDC_STATIC,5,2,95,145
-    CONTROL         "Sistem Varsayýlaný",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,13,65,10
-    CONTROL         "Eski Çevirici",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,24,59,10
-    CONTROL         "Ters Süzme Karýþtýrýcýsý *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,35,67,10
-    CONTROL         "VMR7 (pencerede)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,46,73,10
-    CONTROL         "VMR9 (pencerede)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,57,73,10
+    CONTROL         "Sistem Varsayýlaný",IDC_DSSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,13,78,10
+    CONTROL         "Eski Çevirici",IDC_DSOLD,"Button",BS_AUTORADIOBUTTON,13,24,53,10
+    CONTROL         "Ters Süzme Karýþtýrýcýsý *",IDC_DSOVERLAYMIXER,"Button",BS_AUTORADIOBUTTON,13,35,86,10
+    CONTROL         "VMR7 (pencerede)",IDC_DSVMR7WIN,"Button",BS_AUTORADIOBUTTON,13,46,75,10
+    CONTROL         "VMR9 (pencerede)",IDC_DSVMR9WIN,"Button",BS_AUTORADIOBUTTON,13,57,75,10
     CONTROL         "VMR7 (çevrilmeden) **",IDC_DSVMR7REN,"Button",BS_AUTORADIOBUTTON,13,68,85,10
     CONTROL         "VMR9 (çevrilmeden) **",IDC_DSVMR9REN,"Button",BS_AUTORADIOBUTTON,13,79,85,10
-    CONTROL         "Haali Video Çeviricisi",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,90,83,10
+    CONTROL         "Haali Video Çeviricisi",IDC_DSDXR,"Button",BS_AUTORADIOBUTTON,13,90,80,10
     CONTROL         "Yok (hiçbirþey)",IDC_DSNULL_COMP,"Button",BS_AUTORADIOBUTTON,13,101,63,10
-    CONTROL         "Yok (sýkýþtýrýlmadan)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,112,81,10
+    CONTROL         "Yok (sýkýþtýrýlmadan)",IDC_DSNULL_UNCOMP,"Button",BS_AUTORADIOBUTTON,13,112,85,10
     CONTROL         "EVR (Vista / .Net3)",IDC_EVR,"Button",BS_AUTORADIOBUTTON,13,122,76,10
-    CONTROL         "EVR Özel Seç.",IDC_EVR_CUSTOM,"Button",BS_AUTORADIOBUTTON,13,133,73,10
+    CONTROL         "EVR Özel Seç.",IDC_EVR_CUSTOM,"Button",BS_AUTORADIOBUTTON,13,133,61,10
     GROUPBOX        "RealMedia Video",IDC_STATIC,105,2,89,50
-    CONTROL         "Sistem Varsayýlaný *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,71,10
+    CONTROL         "Sistem Varsayýlaný *",IDC_RMSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,113,14,80,10
     CONTROL         "DirectX 7 **",IDC_RMDX7,"Button",BS_AUTORADIOBUTTON,113,25,55,10
     CONTROL         "DirectX 9 **",IDC_RMDX9,"Button",BS_AUTORADIOBUTTON,113,36,55,10
     GROUPBOX        "QuickTime Video",IDC_STATIC,199,2,89,50
-    CONTROL         "Sistem Varsayýlaný *",IDC_QTSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,207,14,71,10
+    CONTROL         "Sistem Varsayýlaný *",IDC_QTSYSDEF,"Button",BS_AUTORADIOBUTTON | WS_GROUP,207,14,80,10
     CONTROL         "DirectX 7 **",IDC_QTDX7,"Button",BS_AUTORADIOBUTTON,207,25,55,10
     CONTROL         "DirectX 9 **",IDC_QTDX9,"Button",BS_AUTORADIOBUTTON,207,36,55,10
     GROUPBOX        """VMR7/9 (çevrilmeden)"" && EVR ÖZel Seç. ayarlarý",IDC_STATIC,105,53,183,94
@@ -734,18 +734,18 @@ BEGIN
     COMBOBOX        IDC_DX9RESIZER_COMBO,151,81,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "DirectShow Sesi",IDC_STATIC,5,148,283,28
     COMBOBOX        IDC_COMBO1,14,158,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Arka tamponlamayý kilitle",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,129,70,10
-    LTEXT           "* Bu çeviricilerle görüntü kaydý mümkün deðildir",IDC_STATIC,13,180,158,8
-    LTEXT           "** Alt yazý yüklemek için gerekli çeviriciler",IDC_STATIC,184,180,104,8
-    LTEXT           "*** Görüntü döndürmesi ve piksel tonlamalarý için gerekli çeviriciler (sadece DX9)",IDC_STATIC,13,190,195,8
-    CONTROL         "VMR9 karýþtýrýcýsý kipi",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,114,73,10
-    CONTROL         "YUV karýþtýrmasý",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,114,51,10
+    CONTROL         "Arka tamponlamayý kilitle",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,129,97,10
+    LTEXT           "* Bu çeviricilerle görüntü kaydý mümkün deðildir",IDC_STATIC,13,180,153,8
+    LTEXT           "** Alt yazý yüklemek için gerekli çeviriciler",IDC_STATIC,154,180,134,8
+    LTEXT           "*** Görüntü döndürmesi ve piksel tonlamalarý için gerekli çeviriciler (sadece DX9)",IDC_STATIC,13,190,259,8
+    CONTROL         "VMR9 karýþtýrýcýsý kipi",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,114,94,10
+    CONTROL         "YUV karýþtýrmasý",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,213,114,73,10
     COMBOBOX        IDC_DX_SURFACE,151,64,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Yüzey:",IDC_STATIC,111,66,28,8
     CONTROL         "Tam Ekran Direct3D (kopukluklarý sil)",IDC_FULLSCREEN_MONITOR_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,133,10
-    COMBOBOX        IDC_EVR_BUFFERS,241,127,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "EVR Tamponlarý:",IDC_STATIC,191,130,42,8
+    COMBOBOX        IDC_EVR_BUFFERS,253,128,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "EVR Tamponlarý:",IDC_STATIC,197,130,56,8
 END
 
 IDD_AUTH_DLG DIALOGEX 0, 0, 213, 146
@@ -756,33 +756,33 @@ BEGIN
     DEFPUSHBUTTON   "Tamam",IDOK,100,125,50,14
     PUSHBUTTON      "Ýptal",IDCANCEL,154,125,50,14
     CONTROL         337,IDC_STATIC,"Static",SS_BITMAP,0,0,213,37
-    LTEXT           "Kýsýtlanmýþ alan",IDC_STATIC,13,48,50,8
-    LTEXT           "Kullanýcý Adý:",IDC_STATIC,13,66,36,8
-    LTEXT           "Þifre:",IDC_STATIC,13,83,34,8
+    LTEXT           "Kýsýtlanmýþ alan",IDC_STATIC,13,48,57,8
+    LTEXT           "Kullanýcý Adý:",IDC_STATIC,13,66,48,8
+    LTEXT           "Þifre:",IDC_STATIC,13,83,18,8
     COMBOBOX        IDC_COMBO1,75,64,129,56,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT3,75,81,129,13,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Þifremi hatýrla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,75,99,94,10
+    CONTROL         "Þifremi hatýrla",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,75,99,62,10
 END
 
 IDD_PPAGEWEBSERVER DIALOGEX 0, 0, 296, 178
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "B. Noktasýný dinle:",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,4,63,10
-    EDITTEXT        IDC_EDIT1,71,3,40,12,ES_AUTOHSCROLL
-    LTEXT           "Internet tarayýcýsýnda çalýþtýr...",IDC_STATIC1,129,5,152,8
+    CONTROL         "B. Noktasýný dinle:",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,4,78,10
+    EDITTEXT        IDC_EDIT1,83,3,40,12,ES_AUTOHSCROLL
+    LTEXT           "Internet tarayýcýsýnda çalýþtýr...",IDC_STATIC1,129,5,114,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
-    CONTROL         "Sýkýþtýrmayý aç",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,79,10
-    CONTROL         "Hata bilgisini yazdýr",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,67,10
-    CONTROL         "Sunulacak sayfalar:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,75,10
+    CONTROL         "Sýkýþtýrmayý aç",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,71,10
+    CONTROL         "Hata bilgisini yazdýr",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,79,10
+    CONTROL         "Sunulacak sayfalar:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,79,10
     EDITTEXT        IDC_EDIT2,7,85,183,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Gözat...",IDC_BUTTON1,194,85,45,14
     PUSHBUTTON      "Çýkart...",IDC_BUTTON2,243,85,46,14
-    CONTROL         "Sadece yerel að eriþimine izin ver",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,38,118,10
-    LTEXT           "CGI komutlarý: (.uzantý1=yol1;.uzantý2=yol2;...)",IDC_STATIC,8,132,148,8
+    CONTROL         "Sadece yerel að eriþimine izin ver",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,38,122,10
+    LTEXT           "CGI komutlarý: (.uzantý1=yol1;.uzantý2=yol2;...)",IDC_STATIC,8,132,164,8
     EDITTEXT        IDC_EDIT3,7,144,282,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,65,281,1
-    LTEXT           "Varsayýlan sayfa:",IDC_STATIC,7,103,45,8
+    LTEXT           "Varsayýlan sayfa:",IDC_STATIC,7,103,59,8
     EDITTEXT        IDC_EDIT9,7,114,282,14,ES_AUTOHSCROLL
 END
 
@@ -793,17 +793,17 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "innDir && Aç",IDOK,272,136,98,14
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,7,363,124
-    CONTROL         "Geçerli alt yazýlarý deðiþtir",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,124,10
+    CONTROL         "Geçerli alt yazýlarý deðiþtir",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,138,103,10
 END
 
 IDD_FILEPROPRES DIALOGEX 0, 0, 234, 202
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    ICON            "",IDC_DEFAULTICON,8,8,21,20,SS_REALSIZEIMAGE
+    ICON            "",IDC_DEFAULTICON,8,8,20,20,SS_REALSIZEIMAGE
     EDITTEXT        IDC_EDIT1,35,16,186,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     CONTROL         "",-1,"Static",SS_ETCHEDHORZ,8,35,213,1
-    PUSHBUTTON      "Farklý Kaydet...",IDC_BUTTON1,8,182,50,14
+    PUSHBUTTON      "Farklý Kaydet...",IDC_BUTTON1,8,182,61,14
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,8,43,213,134
 END
 
@@ -848,8 +848,8 @@ CAPTION "DSM Dönüþtürücüsü - Medya dosyalarýný eklemek için boþ alan sað týklayý
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,5,5,312,138
-    PUSHBUTTON      "Farklý &Kaydet...",IDC_BUTTON1,267,146,50,14
-    EDITTEXT        IDC_EDIT1,5,146,259,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Farklý &Kaydet...",IDC_BUTTON1,251,146,66,14
+    EDITTEXT        IDC_EDIT1,5,146,244,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "Baþlat",IDC_BUTTON2,83,171,50,14
     PUSHBUTTON      "Duraklat",IDC_BUTTON3,136,171,50,14
     PUSHBUTTON      "Durdur",IDC_BUTTON4,188,171,50,14
@@ -879,9 +879,9 @@ BEGIN
     COMBOBOX        IDC_COMBO1,7,40,216,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT2,7,65,216,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN
     EDITTEXT        IDC_EDIT3,7,16,216,13,ES_AUTOHSCROLL
-    LTEXT           "Ad",IDC_STATIC,7,6,19,8
-    LTEXT           "Taklit",IDC_STATIC,7,30,17,8
-    LTEXT           "Açýklama",IDC_STATIC,7,55,36,8
+    LTEXT           "Ad",IDC_STATIC,7,6,10,8
+    LTEXT           "Taklit",IDC_STATIC,7,30,18,8
+    LTEXT           "Açýklama",IDC_STATIC,7,55,31,8
 END
 
 IDD_CONVERTCHAP_DLG DIALOGEX 0, 0, 213, 46
@@ -902,21 +902,21 @@ BEGIN
     GROUPBOX        "Video",IDC_STATIC,5,2,283,48
     GROUPBOX        " VMR9 renk kontrolleri ",IDC_STATIC,5,91,283,109
     CONTROL         "",IDC_SLI_CONTRAST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,105,233,13
-    LTEXT           "Karþýtlýk",IDC_STATIC,13,107,29,8
-    LTEXT           "Parlaklýk",IDC_STATIC,13,126,34,8
-    LTEXT           "Renk",IDC_STATIC,13,145,14,8
+    LTEXT           "Karþýtlýk",IDC_STATIC,13,107,31,8
+    LTEXT           "Parlaklýk",IDC_STATIC,13,126,29,8
+    LTEXT           "Renk",IDC_STATIC,13,145,17,8
     LTEXT           "Doygunluk",IDC_STATIC,13,164,34,8
     CONTROL         "",IDC_SLI_BRIGHTNESS,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,124,233,13
     CONTROL         "",IDC_SLI_HUE,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,143,233,13
     CONTROL         "",IDC_SLI_SATURATION,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOOLTIPS | WS_DISABLED | WS_TABSTOP,55,162,233,13
     PUSHBUTTON      "Sýfýrla",IDC_RESET,13,182,59,14
-    CONTROL         "DVD yerleþimini hatýrla",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,33,92,10
-    CONTROL         "Dosya yerleþimini hatýrla",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,134,34,89,10
+    CONTROL         "DVD yerleþimini hatýrla",IDC_DVD_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,33,89,10
+    CONTROL         "Dosya yerleþimini hatýrla",IDC_FILE_POS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,121,33,96,10
     PUSHBUTTON      "Yükle",IDC_INSTALLPN31,13,66,59,14
     PUSHBUTTON      "Kaldýr",IDC_UNINSTALLPN31,93,66,59,14
     GROUPBOX        " PN31 sürücüsü kullanýmý ",IDC_STATIC,5,54,283,35
-    LTEXT           "Tam Ekran Direct3D: ""Çýkýþ"" içine taþýndý",IDC_STATIC,13,18,131,8
-    CONTROL         "OSD göster",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,34,49,10
+    LTEXT           "Tam Ekran Direct3D: ""Çýkýþ"" içine taþýndý",IDC_STATIC,13,18,138,8
+    CONTROL         "OSD göster",IDC_SHOW_OSD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,34,53,10
 END
 
 
@@ -971,7 +971,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 150
-        VERTGUIDE, 31
+        VERTGUIDE, 34
         VERTGUIDE, 114
         TOPMARGIN, 7
         BOTTOMMARGIN, 106
@@ -980,7 +980,7 @@ BEGIN
     IDD_OPEN_DLG, DIALOG
     BEGIN
         VERTGUIDE, 7
-        VERTGUIDE, 33
+        VERTGUIDE, 38
         VERTGUIDE, 182
         VERTGUIDE, 187
         VERTGUIDE, 234
@@ -1015,7 +1015,7 @@ BEGIN
         VERTGUIDE, 5
         VERTGUIDE, 13
         VERTGUIDE, 137
-        VERTGUIDE, 193
+        VERTGUIDE, 190
         VERTGUIDE, 289
     END
 
@@ -2026,17 +2026,17 @@ IDR_HTML_PLAYER         HTML                    "res\\web\\player.html"
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME           "Media Player Classic Ev Sinemasý"
-    IDS_RS_DVDPOS           "DVD Yerleþimini Hatýrla"
-    IDS_RS_FILEPOS          "Dosya Yerleþimini Hatýrla"
-    IDS_RS_LASTFULLSCREEN   "SonTamEkran"
+    IDR_MAINFRAME           "Media Player Classic Homecinema"
+    IDS_RS_DVDPOS           "Remember DVD Pos"
+    IDS_RS_FILEPOS          "Remember File Pos"
+    IDS_RS_LASTFULLSCREEN   "LastFullScreen"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_EVR_BUFFERS      "EVRTamponlarý"
-    IDS_RS_SHOWOSD          "OSD Göster"
-    IDS_RS_LANGUAGE         "ArabirimDili"
+    IDS_RS_EVR_BUFFERS      "EVRBuffers"
+    IDS_RS_SHOWOSD          "Show OSD"
+    IDS_RS_LANGUAGE         "InterfaceLanguage"
 END
 
 STRINGTABLE 
@@ -2053,7 +2053,7 @@ BEGIN
     IDS_PROPSHEET_PROPERTIES "Seçenekler"
     IDS_GRAPHBUILDER_AUDIOSWITCHER "Ses Dönüþtürücüsü"
     IDS_SHADER_EDIT         "&Düzenle..."
-    IDS_RS_PN31             "PN31Kullan"
+    IDS_RS_PN31             "UsePN31"
     IDS_SRC_FLV             "6.4.0.1"
     IDS_FAVFILES            "Dosya"
     IDS_FAVDVDS             "DVD"
@@ -2066,34 +2066,34 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_R_SETTINGS          "Ayarlar"
-    IDS_RS_TITLEBARTEXTSTYLE "DurumÇubuðuYazýStili"
-    IDS_RS_USEWMASFREADER   "WMASFOkuyucusuKullan"
-    IDS_RS_CONTROLSTATE     "KontrolDurumu"
-    IDS_RS_VOLUME           "Ses"
-    IDS_RS_MUTE             "Sesi Kýs"
-    IDS_RS_BALANCE          "Dengele"
-    IDS_RS_LOOP             "Yinele"
+    IDS_R_SETTINGS          "Settings"
+    IDS_RS_TITLEBARTEXTSTYLE "TitleBarTextStyle"
+    IDS_RS_USEWMASFREADER   "UseWMASFReader"
+    IDS_RS_CONTROLSTATE     "ControlState"
+    IDS_RS_VOLUME           "Volume"
+    IDS_RS_MUTE             "Mute"
+    IDS_RS_BALANCE          "Balance"
+    IDS_RS_LOOP             "Loop"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_SNAPTODESKTOPEDGES "MasaüstüneUzat"
-    IDS_RS_ENABLESUBTITLES  "AltYazýlarýAç"
-    IDS_RS_MPEGINTERLACED   "MPEGGeçiþken"
-    IDS_RS_THUMBWIDTH       "ResimEni"
-    IDS_RS_AUDIONORMALIZE   "SesiOrtala"
-    IDS_RS_AUDIOBOOST       "SesiArttýr"
-    IDS_RS_D3DFULLSCREEN    "TamEkranD3D"
-    IDS_RS_MONITOR_AUTOREFRESHRATE "MonitörOtoÇözYenileme"
-    IDS_RS_COLOR_BRIGHTNESS "Renk Parlaklýðý"
-    IDS_RS_COLOR_CONTRAST   "Renk Karþýtlýðý"
-    IDS_RS_COLOR_HUE        "Renk Tonlamasý"
-    IDS_RS_COLOR_SATURATION "Renk Doygunluðu"
-    IDS_RS_SHADERLIST       "Tonlayýcý Listesi"
-    IDS_RS_TITLEBARTEXTTITLE "DurumÇubuðuMetinBaþlýðý"
-    IDS_RS_VMR9MIXERYUV     "VMRKarýþtýrýcýYUV"
-    IDS_RS_AUDIONORMALIZERECOVER "SesYenDengeleyicisi"
+    IDS_RS_SNAPTODESKTOPEDGES "SnapToDesktopEdges"
+    IDS_RS_ENABLESUBTITLES  "EnableSubtitles"
+    IDS_RS_MPEGINTERLACED   "MPEGInterlaced"
+    IDS_RS_THUMBWIDTH       "ThumbWidth"
+    IDS_RS_AUDIONORMALIZE   "AudioNormalize"
+    IDS_RS_AUDIOBOOST       "AudioBoost"
+    IDS_RS_D3DFULLSCREEN    "D3DFullScreen"
+    IDS_RS_MONITOR_AUTOREFRESHRATE "MonitorAutoRefreshRate"
+    IDS_RS_COLOR_BRIGHTNESS "Color Brightness"
+    IDS_RS_COLOR_CONTRAST   "Color Contrast"
+    IDS_RS_COLOR_HUE        "Color Hue"
+    IDS_RS_COLOR_SATURATION "Color Saturation"
+    IDS_RS_SHADERLIST       "Shaders List"
+    IDS_RS_TITLEBARTEXTTITLE "TitleBarTextTitle"
+    IDS_RS_VMR9MIXERYUV     "VMRMixerYUV"
+    IDS_RS_AUDIONORMALIZERECOVER "AudioNormalizeRecover"
 END
 
 STRINGTABLE 
@@ -2134,35 +2134,35 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_LOOPNUM          "SarmaSay"
-    IDS_RS_REWIND           "Geri Sar"
-    IDS_RS_ZOOM             "Büyüt"
-    IDS_RS_MULTIINST        "ÇokluAçýlýþaÝzinVer"
-    IDS_RS_ALWAYSONTOP      "DaimaÜstte"
-    IDS_RS_AUTOZOOM         "OtoBüyüt"
-    IDS_RS_FULLSCREENCTRLS  "TamEkranKont"
-    IDS_RS_FULLSCREENCTRLSTIMEOUT "TamEkranKontrolSüre"
-    IDS_RS_VMRFLIP          "VMRUzat"
-    IDS_RS_DVDPATH          "DVDPYolu"
-    IDS_RS_USEDVDPATH       "DVDYoluKul"
-    IDS_RS_MENULANG         "MenüDili"
-    IDS_RS_AUDIOLANG        "SesDili"
-    IDS_RS_SUBTITLESLANG    "AltYazýDili"
-    IDS_RS_SPLOGFONT        "AYVarYazýTipi"
+    IDS_RS_LOOPNUM          "LoopNum"
+    IDS_RS_REWIND           "Rewind"
+    IDS_RS_ZOOM             "Zoom"
+    IDS_RS_MULTIINST        "AllowMultipleInstances"
+    IDS_RS_ALWAYSONTOP      "AlwaysOnTop"
+    IDS_RS_AUTOZOOM         "AutoZoom"
+    IDS_RS_FULLSCREENCTRLS  "FullScreenCtrls"
+    IDS_RS_FULLSCREENCTRLSTIMEOUT "FullScreenCtrlsTimeOut"
+    IDS_RS_VMRFLIP          "VMRFlip"
+    IDS_RS_DVDPATH          "DVDPath"
+    IDS_RS_USEDVDPATH       "UseDVDPath"
+    IDS_RS_MENULANG         "MenuLang"
+    IDS_RS_AUDIOLANG        "AudioLang"
+    IDS_RS_SUBTITLESLANG    "SubtitlesLang"
+    IDS_RS_SPLOGFONT        "SPDefaultStyle"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_SPOVERRIDEPLACEMENT "AYYenYerleþim"
-    IDS_RS_SPHORPOS         "AYYatay"
-    IDS_RS_SPVERPOS         "AyDikey"
-    IDS_RS_SPCSIZE          "AYBoyut"
-    IDS_RS_SPCMAXRES        "AYEnBÇöz"
-    IDS_RS_INTREALMEDIA     "RealMediaAç"
-    IDS_RS_DISABLEXPTOOLBARS "XPAraçÇubKap"
-    IDS_RS_USEDEDYNAMIC     "Dinamikleme"
-    IDS_RS_DBLCLICKFULLSCREEN "ÇiftTýkTamEkr"
-    IDS_RS_EXITFULLSCREENATTHEEND "BitinceTamEkrÇýk"
+    IDS_RS_SPOVERRIDEPLACEMENT "SPOverridePlacement"
+    IDS_RS_SPHORPOS         "SPHorPos"
+    IDS_RS_SPVERPOS         "SPVerPos"
+    IDS_RS_SPCSIZE          "SPCSize"
+    IDS_RS_SPCMAXRES        "SPCMaxRes"
+    IDS_RS_INTREALMEDIA     "IntRealMedia"
+    IDS_RS_DISABLEXPTOOLBARS "DisableXPToolbars"
+    IDS_RS_USEDEDYNAMIC     "UseDeDynamic"
+    IDS_RS_DBLCLICKFULLSCREEN "DblClickFullScreen"
+    IDS_RS_EXITFULLSCREENATTHEEND "ExitFullscreenAtTheEnd"
 END
 
 STRINGTABLE 
@@ -2172,22 +2172,22 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_AUTOSPEAKERCONF  "OtoHopAyarý"
-    IDS_RS_REMEMBERWINDOWPOS "PenYerHatýrla"
-    IDS_RS_LASTWINDOWRECT   "SonPenYerHat"
-    IDS_RS_AUDIORENDERERTYPE "SesÇözBiçimi"
-    IDS_RS_SPEAKERTOCHANNELMAPPING "HopKanalAyarlarý"
-    IDS_RS_CUSTOMCHANNELMAPPING "ÖzelKanalYön"
-    IDS_RS_DOWNSAMPLETO441  "441ÖrnekYap"
-    IDS_RS_ENABLEAUDIOSWITCHER "SesDönAç"
-    IDS_RS_HIDECAPTIONMENU  "BaþMenGizle"
-    IDS_R_FILTERS           "Filtreler"
-    IDS_RS_DEFAULTVIDEOFRAME "VarVidGör"
-    IDS_RS_REMEMBERWINDOWSIZE "PenBoyHatýrla"
-    IDS_RS_REALMEDIARENDERLESS "RealMediaÇevrilme"
-    IDS_RS_QUICKTIMERENDERER "QuickTimeDönüþ"
+    IDS_RS_AUTOSPEAKERCONF  "AutoSpeakerConf"
+    IDS_RS_REMEMBERWINDOWPOS "RememberWindowPos"
+    IDS_RS_LASTWINDOWRECT   "LastWindowRect"
+    IDS_RS_AUDIORENDERERTYPE "AudioRendererType"
+    IDS_RS_SPEAKERTOCHANNELMAPPING "SpeakerToChannelMapping"
+    IDS_RS_CUSTOMCHANNELMAPPING "CustomChannelMapping"
+    IDS_RS_DOWNSAMPLETO441  "DownSampleTo441"
+    IDS_RS_ENABLEAUDIOSWITCHER "EnableAudioSwitcher"
+    IDS_RS_HIDECAPTIONMENU  "HideCaptionMenu"
+    IDS_R_FILTERS           "Filters"
+    IDS_RS_DEFAULTVIDEOFRAME "DefaultVideoFrame"
+    IDS_RS_REMEMBERWINDOWSIZE "RememberWindowSize"
+    IDS_RS_REALMEDIARENDERLESS "RealMediaRenderless"
+    IDS_RS_QUICKTIMERENDERER "QuickTimeRenderer"
     IDS_RS_REALMEDIAFPS     "RealMediaFPS"
-    IDS_RS_AUDIOTIMESHIFT   "SesSüreAyar"
+    IDS_RS_AUDIOTIMESHIFT   "AudioTimeShift"
 END
 
 STRINGTABLE 
@@ -2229,82 +2229,82 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_ENABLEAUDIOTIMESHIFT "SesSürAyarAç"
+    IDS_RS_ENABLEAUDIOTIMESHIFT "EnableAudioTimeShift"
     IDS_R_FAVFILES          "Sýk Kullanýlanlar\\Dosyalar"
     IDS_R_FAVDVDS           "Sýk Kullanýlanlar\\DVD'ler"
     IDS_R_FAVDEVICES        "Sýk Kullanýlanlar\\Aygýtlar"
-    IDS_RS_LOGOFILE         "TemaDos"
-    IDS_RS_ENABLEWORKERTHREADFOROPENING "AçÇalGeçKull"
-    IDS_RS_PNSPRESETS       "PnSTanýmlý"
-    IDS_RS_AUTOLOADAUDIO    "OtoSesYük"
-    IDS_RS_AUTOLOADSUBTITLES "OtoAltYYük"
-    IDS_RS_SEARCHKEYFRAMES  "ÇerçevAra"
-    IDS_RS_ACCELTBL         "Hýzlandýrma"
-    IDS_RS_SETFULLSCREENRES "TamEkÇözAyar"
-    IDS_RS_FULLSCREENRES    "TamEkÇöz"
-    IDS_RS_WINLIRCADDR      "WinLircAdres"
-    IDS_R_COMMANDS          "Komutlar2"
-    IDS_RS_WINLIRC          "WinLircKul"
+    IDS_RS_LOGOFILE         "LogoFile"
+    IDS_RS_ENABLEWORKERTHREADFOROPENING "EnableWorkerThreadForOpening"
+    IDS_RS_PNSPRESETS       "PnSPresets"
+    IDS_RS_AUTOLOADAUDIO    "AutoloadAudio"
+    IDS_RS_AUTOLOADSUBTITLES "AutoloadSubtitles"
+    IDS_RS_SEARCHKEYFRAMES  "SearchKeyframes"
+    IDS_RS_ACCELTBL         "AccelTbl"
+    IDS_RS_SETFULLSCREENRES "SetFullscreenRes"
+    IDS_RS_FULLSCREENRES    "FullscreenRes"
+    IDS_RS_WINLIRCADDR      "WinLircAddr"
+    IDS_R_COMMANDS          "Commands2"
+    IDS_RS_WINLIRC          "UseWinLirc"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_TRAYICON         "SaatSim"
-    IDS_RS_KEEPASPECTRATIO  "TarOranýKoru"
-    IDS_RS_UICEADDR         "UICEAdres"
-    IDS_RS_UICE             "UICEKul"
-    IDS_RS_JUMPDISTS        "AzAtla"
-    IDS_RS_JUMPDISTM        "OrtaAtla"
-    IDS_RS_JUMPDISTL        "ÇokAtla"
-    IDS_RS_REPORTFAILEDPINS "BaþFiltGös"
-    IDS_RS_SRCFILTERS       "KayFiltre"
-    IDS_RS_KEEPHISTORY      "GeçSakla"
-    IDS_RS_LOGOID           "TemaID2"
-    IDS_RS_LOGOEXT          "HarTema"
-    IDS_RS_TRAFILTERS       "BakFiltre"
+    IDS_RS_TRAYICON         "TrayIcon"
+    IDS_RS_KEEPASPECTRATIO  "KeepAspectRatio"
+    IDS_RS_UICEADDR         "UICEAddr"
+    IDS_RS_UICE             "UseUICE"
+    IDS_RS_JUMPDISTS        "JumpDistS"
+    IDS_RS_JUMPDISTM        "JumpDistM"
+    IDS_RS_JUMPDISTL        "JumpDistL"
+    IDS_RS_REPORTFAILEDPINS "ReportFailedPins"
+    IDS_RS_SRCFILTERS       "SrcFilters"
+    IDS_RS_KEEPHISTORY      "KeepHistory"
+    IDS_RS_LOGOID           "LogoID2"
+    IDS_RS_LOGOEXT          "LogoExt"
+    IDS_RS_TRAFILTERS       "TraFilters"
     IDS_RS_MPEGDI           "MPEGDI"
-    IDS_RS_MPEGBRIGHT       "MPEGParla"
-    IDS_RS_MPEGCONT         "MPEGKarþý"
+    IDS_RS_MPEGBRIGHT       "MPEGBright"
+    IDS_RS_MPEGCONT         "MPEGCont"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_MPEGHUE          "MPEGRen"
-    IDS_RS_MPEGSAT          "MPEGDoy"
-    IDS_RS_MPEGFORCEDSUBS   "MPEGZorlAltY"
-    IDS_RS_MPEGPLANARYUV    "MPEGDoðruYUV"
-    IDS_RS_COMPMONDESKARDIFF "MonMasDüzYap"
-    IDS_RS_HIDECDROMSSUBMENU "CDROMMenüGizle"
-    IDS_RS_VMRTEXTURE       "VMRDokusu"
+    IDS_RS_MPEGHUE          "MPEGHue"
+    IDS_RS_MPEGSAT          "MPEGSat"
+    IDS_RS_MPEGFORCEDSUBS   "MPEGForcedSubs"
+    IDS_RS_MPEGPLANARYUV    "MPEGPlanarYUV"
+    IDS_RS_COMPMONDESKARDIFF "CompMonDeskARDiff"
+    IDS_RS_HIDECDROMSSUBMENU "HideCDROMsSubMenu"
+    IDS_RS_VMRTEXTURE       "VMRTexture"
     IDS_RS_VMR3D            "VMR3D"
-    IDS_RS_DSVIDEORENDERERTYPE "DSVidÇöz"
-    IDS_RS_RMVIDEORENDERERTYPE "RMVidÇöz"
-    IDS_RS_QTVIDEORENDERERTYPE "QTVidÇöz"
-    IDS_RS_APSURACEFUSAGE   "APAraBKul"
-    IDS_R_LOGINS            "Giriþler"
-    IDS_RS_ENABLEWEBSERVER  "NetSunAç"
-    IDS_RS_WEBSERVERPORT    "NetSunBNok"
-    IDS_RS_LASTWINDOWTYPE   "SonPenBiçimi"
+    IDS_RS_DSVIDEORENDERERTYPE "DSVidRen"
+    IDS_RS_RMVIDEORENDERERTYPE "RMVidRen"
+    IDS_RS_QTVIDEORENDERERTYPE "QTVidRen"
+    IDS_RS_APSURACEFUSAGE   "APSurfaceUsage"
+    IDS_R_LOGINS            "Logins"
+    IDS_RS_ENABLEWEBSERVER  "EnableWebServer"
+    IDS_RS_WEBSERVERPORT    "WebServerPort"
+    IDS_RS_LASTWINDOWTYPE   "LastWindowType"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_ONTOP            "Yukarý"
-    IDS_RS_MPASF            "MPAÖrnekBiç"
-    IDS_RS_AC3SC            "AC3HoparlörAy"
-    IDS_RS_AC3DRC           "AC3DinamikAlanKontrolü"
-    IDS_RS_WEBSERVERPRINTDEBUGINFO "NetSunHatBilYazdýr"
-    IDS_RS_WEBSERVERUSECOMPRESSION "NetSunSýkýþKullan"
-    IDS_RS_MPANORMALIZE     "MPADoðrula"
-    IDS_RS_DTSSC            "DTSHoparlörAy"
-    IDS_RS_DTSDRC           "DTSDinamikAlanKont"
-    IDS_RS_SNAPSHOTPATH     "GörüntüYolu"
-    IDS_RS_PRIORITY         "Öncelik"
-    IDS_RS_SNAPSHOTEXT      "GörüntÇýk"
-    IDS_RS_LAUNCHFULLSCREEN "TamEkranYap"
-    IDS_RS_MPABOOST         "MpaHýzlan"
-    IDS_RS_AACSC            "AACHoparlörAyar"
-    IDS_RS_VMRSYNCFIX       "VMRSenkron"
+    IDS_RS_ONTOP            "OnTop"
+    IDS_RS_MPASF            "MPASampleFormat"
+    IDS_RS_AC3SC            "AC3SpeakerConfig"
+    IDS_RS_AC3DRC           "AC3DynamicRangeControl"
+    IDS_RS_WEBSERVERPRINTDEBUGINFO "WebServerPrintDebugIfo"
+    IDS_RS_WEBSERVERUSECOMPRESSION "WebServerUseCompression"
+    IDS_RS_MPANORMALIZE     "MPANormalize"
+    IDS_RS_DTSSC            "DTSSpeakerConfig"
+    IDS_RS_DTSDRC           "DTSDynamicRangeControl"
+    IDS_RS_SNAPSHOTPATH     "SnapShotPath"
+    IDS_RS_PRIORITY         "Priority"
+    IDS_RS_SNAPSHOTEXT      "SnapShotExt"
+    IDS_RS_LAUNCHFULLSCREEN "LaunchFullScreen"
+    IDS_RS_MPABOOST         "MpaBoost"
+    IDS_RS_AACSC            "AACSpeakerConfig"
+    IDS_RS_VMRSYNCFIX       "VMRSyncFix"
 END
 
 STRINGTABLE 
@@ -2380,22 +2380,22 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RS_ISDB             "AltVer"
-    IDS_RS_POW2TEX          "SPCÖzeMet"
-    IDS_R_INTERNAL_FILTERS  "Dahili Filtreler"
-    IDS_RS_WEBROOT          "NetTem"
-    IDS_RS_WEBSERVERLOCALHOSTONLY "SadYerelAdresten"
-    IDS_RS_ASPECTRATIO_X    "TarafOranýX"
-    IDS_RS_ASPECTRATIO_Y    "TarafOranýY"
-    IDS_RS_DX9_RESIZER      "DX9Yenile"
-    IDS_RS_WEBSERVERCGI     "NetSunCGI"
-    IDS_RS_WEBDEFINDEX      "NetKorSay"
-    IDS_RS_FREEWINDOWRESIZING "SerbestPenBoyutlandýr"
-    IDS_RS_NOTIFYMSN        "MSN2Bildir"
-    IDS_RS_NOTIFYGTSDLL     "GTSdllBildir"
-    IDS_RS_VMR9MIXERMODE    "VMR9KarKipi"
-    IDS_RS_THUMBROWS        "ResimSüt"
-    IDS_RS_THUMBCOLS        "ResimKut"
+    IDS_RS_ISDB             "ISDb"
+    IDS_RS_POW2TEX          "SPCPow2Tex"
+    IDS_R_INTERNAL_FILTERS  "Internal Filters"
+    IDS_RS_WEBROOT          "WebRoot"
+    IDS_RS_WEBSERVERLOCALHOSTONLY "WebServerLocalhostOnly"
+    IDS_RS_ASPECTRATIO_X    "AspectRatioX"
+    IDS_RS_ASPECTRATIO_Y    "AspectRatioY"
+    IDS_RS_DX9_RESIZER      "DX9Resizer"
+    IDS_RS_WEBSERVERCGI     "WebServerCGI"
+    IDS_RS_WEBDEFINDEX      "WebDefIndex"
+    IDS_RS_FREEWINDOWRESIZING "FreeWindowResizing"
+    IDS_RS_NOTIFYMSN        "NotifyMSN2"
+    IDS_RS_NOTIFYGTSDLL     "NotifyGTSdll"
+    IDS_RS_VMR9MIXERMODE    "VMR9MixerMode"
+    IDS_RS_THUMBROWS        "ThumbRows"
+    IDS_RS_THUMBCOLS        "ThumbCols"
 END
 
 STRINGTABLE 

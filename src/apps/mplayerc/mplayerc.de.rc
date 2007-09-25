@@ -774,8 +774,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
     CONTROL         "Komprimierung aktivieren",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,96,10
     CONTROL         "Debug-Info ausgeben",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,86,10
-    CONTROL         "HTML-Seiten aus Verzeichnis verwenden:",IDC_CHECK4,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,147,10
+    CONTROL         "HTML-Seiten aus Verzeichnis verwenden:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,147,10
     EDITTEXT        IDC_EDIT2,7,85,175,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Auswählen...",IDC_BUTTON1,188,85,51,14
     PUSHBUTTON      "Anlegen...",IDC_BUTTON2,242,85,47,14

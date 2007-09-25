@@ -774,8 +774,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
     CONTROL         "Использовать сжатие",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,91,10
     CONTROL         "Выводить отладочную информацию",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,153,10
-    CONTROL         "Брать страницы из:",IDC_CHECK4,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,87,10
+    CONTROL         "Брать страницы из:",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,87,10
     EDITTEXT        IDC_EDIT2,7,85,176,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Выбрать...",IDC_BUTTON1,187,85,45,14
     PUSHBUTTON      "Выгрузить...",IDC_BUTTON2,235,85,46,14
