@@ -764,7 +764,7 @@
 #define ID_FILE_OPENDISC                32772
 #define ID_FILE_EJECTCLIP               32773
 #define ID_FILE_OPENDISC32774           32774
-#define ID__SHADERS                     32775
+#define ID_SHADERS                      32775
 #define ID_Menu                         32776
 #define ID_VIEW_REMAINING_TIME          32778
 #define ID_D3DFULLSCREEN_TOGGLE         32779

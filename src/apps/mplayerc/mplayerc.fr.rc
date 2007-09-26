@@ -1658,7 +1658,7 @@ BEGIN
         MENUITEM "Réinitaliser\tCtrl+R",        ID_PLAY_RESETRATE
         MENUITEM SEPARATOR
         MENUITEM "&Filtres",                    65535
-        MENUITEM "S&haders",                    65535
+        MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      65535
         MENUITEM "Sou&stitres",                 65535
@@ -1780,10 +1780,10 @@ BEGIN
             MENUITEM "Menu de sélection de l'an&gle", 			   ID_NAVIGATE_ANGLEMENU
             MENUITEM "Menu &chapitrage",            			   ID_NAVIGATE_CHAPTERMENU
         END
-        MENUITEM "F&avoris",                    			       65535
+        MENUITEM "F&avoris",                    			       ID_FAVORITES
         MENUITEM SEPARATOR
         MENUITEM "F&iltres",                    			       65535
-        MENUITEM "S&haders",                    			       65535
+        MENUITEM "S&haders",                    			       ID_SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      			       65535
         MENUITEM "Sous-&titres",                      			   65535
@@ -1986,7 +1986,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "&Filtres",                    65535
-        MENUITEM "S&haders",                    ID__SHADERS
+        MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      65535
         MENUITEM "Sous-&titres",                65535
