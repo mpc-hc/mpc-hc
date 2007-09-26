@@ -5,6 +5,7 @@ v1.0.11.0 - unreleased
  FIXED  : Subtitle popup menu not working in French
  FIXED  : Remember file position option not working properly in playlist mode
  NEW    : Russian and Turkish translations
+ FIXED  : Crash when opening "Navigation" menu while playing dvd (German locale only)
 
 v1.0.10.0 - 15.Sep 2007
 ======================

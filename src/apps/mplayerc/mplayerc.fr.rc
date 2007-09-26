@@ -1595,8 +1595,8 @@ BEGIN
         POPUP "&Language"
         BEGIN
             MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
-            MENUITEM "&Deutsch",                    ID_LANGUAGE_GERMAN
-            MENUITEM "&Français",                   ID_LANGUAGE_FRENCH
+            MENUITEM "&German",                     ID_LANGUAGE_GERMAN
+            MENUITEM "&French",                     ID_LANGUAGE_FRENCH
             MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
             MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
         END
