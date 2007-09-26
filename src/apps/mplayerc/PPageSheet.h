@@ -88,6 +88,7 @@ private:
 public:
 	CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
 	virtual ~CPPageSheet();
+	afx_msg void OnContextMenu(CWnd *pWnd, CPoint point);
 
 	void LockPage() { m_bLockPage = true; };
 protected:

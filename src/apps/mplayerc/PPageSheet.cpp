@@ -79,6 +79,7 @@ CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 }
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
+	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 BOOL CPPageSheet::OnInitDialog()
@@ -95,6 +96,11 @@ BOOL CPPageSheet::OnInitDialog()
 		GetPageTreeControl()->EnableWindow (FALSE);
 
 	return bResult;
+}
+
+void CPPageSheet::OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/)
+{
+	// display your own context menu handler or do nothing
 }
 
 // CTreePropSheetTreeCtrl

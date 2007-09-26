@@ -226,7 +226,7 @@ void CPPageOutput::OnUpdateMixerYUV(CCmdUI* pCmdUI)
 }
 void CPPageOutput::OnSurfaceChange()
 {
-	// TODO: Add your control notification handler code here
+	SetModified();
 }
 
 void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
@@ -254,4 +254,6 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 		GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 		break;
 	}
+
+	SetModified();
 }
