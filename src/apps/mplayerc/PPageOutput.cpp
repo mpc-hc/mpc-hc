@@ -238,6 +238,7 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
 	GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
 	GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
+	GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 
 	switch (nIDbutton - IDC_DSSYSDEF)
 	{

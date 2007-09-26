@@ -751,12 +751,13 @@
 #define IDC_DVD_POS                     22005
 #define IDC_FILE_POS                    22006
 #define IDC_PN31                        22007
-#define IDC_INSTALLPN31                 22007
-#define IDC_UNINSTALLPN31               22008
-#define IDC_EVR_BUFFERS                 22008
-#define IDC_VERSION                     22009
-#define IDC_FILE_POS2                   22009
-#define IDC_SHOW_OSD                    22009
+#define IDC_INSTALLPN31                 22008
+#define IDC_UNINSTALLPN31               22009
+#define IDC_EVR_BUFFERS                 22010
+#define IDC_VERSION                     22011
+#define IDC_FILE_POS2                   22012
+#define IDC_SHOW_OSD                    22013
+#define IDC_EVR_BUFFERS_TXT             22014
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -1121,7 +1122,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
 #define _APS_NEXT_COMMAND_VALUE         33167
-#define _APS_NEXT_CONTROL_VALUE         22010
+#define _APS_NEXT_CONTROL_VALUE         22015
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
 #endif
