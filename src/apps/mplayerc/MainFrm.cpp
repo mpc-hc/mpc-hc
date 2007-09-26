@@ -1597,7 +1597,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					format,
 					AATR.dwFrequency,
 					AATR.bQuantization,
-					AATR.bNumberOfChannels);
+					AATR.bNumberOfChannels,
+					(AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
 
 				m_wndStatusBar.SetStatusBitmap(
 					AATR.bNumberOfChannels == 1 ? IDB_MONO 
@@ -8889,7 +8890,8 @@ void CMainFrame::SetupNavAudioSubMenu()
 						format,
 						ATR.dwFrequency,
 						ATR.bQuantization,
-						ATR.bNumberOfChannels);
+						ATR.bNumberOfChannels,
+						(ATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
 				}
 			}
 

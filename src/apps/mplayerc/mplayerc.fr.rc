@@ -2751,7 +2751,9 @@ BEGIN
     IDS_AG_BUFFERS          "Tampons"
     IDS_MAINFRM_9           "Volume: %02d/%02d, Titre: %02d/%02d, Chapitre: %02d/%02d"
     IDS_MAINFRM_10          "Angle: %02d/%02d, %dx%d %dHz %d:%d"
-    IDS_MAINFRM_11          "%s, %s %dHz %dbits %d canal(s)"
+    IDS_MAINFRM_11          "%s, %s %dHz %dbits %d %s"
+    IDS_MAINFRM_12          "canal"
+    IDS_MAINFRM_13          "canals"
 END
 
 STRINGTABLE 

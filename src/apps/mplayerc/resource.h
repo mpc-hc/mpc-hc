@@ -1112,13 +1112,15 @@
 #define IDS_OPEN_WITH_MPC               33162
 #define IDS_CANNOT_CHANGE_FORMAT        33163
 #define IDS_APP_DESCRIPTION             33164
+#define IDS_MAINFRM_12                  33165
+#define IDS_MAINFRM_13                  33166
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33165
+#define _APS_NEXT_COMMAND_VALUE         33167
 #define _APS_NEXT_CONTROL_VALUE         22010
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif
