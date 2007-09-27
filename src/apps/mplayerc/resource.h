@@ -3,12 +3,12 @@
 // Used by mplayerc.rc
 //
 #define IDR_MAINFRAME                   128
-#define IDR_POPUP                       129
-#define IDS_STRING129                   129
-#define IDS_RS_DVDPOS                   129
-#define IDR_POPUPMAIN                   130
-#define IDS_RS_FILEPOS                  130
-#define IDS_RS_LASTFULLSCREEN           131
+#define IDR_POPUP                       130
+#define IDS_STRING129                   131
+#define IDS_RS_DVDPOS                   132
+#define IDR_POPUPMAIN                   133
+#define IDS_RS_FILEPOS                  134
+#define IDS_RS_LASTFULLSCREEN           135
 #define IDB_PLAYERTOOLBAR               201
 #define IDB_NOAUDIO                     202
 #define IDB_MONO                        203
@@ -461,8 +461,8 @@
 #define IDC_DX9RESIZER_COMBO            12130
 #define IDC_DSVMR9LOADMIXER             12131
 #define IDC_CHECK_MPEGINTERLACED        12132
-#define IDC_DX_SURFACE                  12132
-#define IDC_DSVMR9YUVMIXER              12133
+#define IDC_DX_SURFACE                  12133
+#define IDC_DSVMR9YUVMIXER              12134
 #define IDC_DSVMR9LOADMIXER2            12135
 #define IDS_R_SETTINGS                  13000
 #define IDS_RS_TITLEBARTEXTSTYLE        13001
