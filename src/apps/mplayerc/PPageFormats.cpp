@@ -144,7 +144,7 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 	}
 }
 
-bool CPPageFormats::RegisterExt(CString ext, CString strProgID, bool fRegister)
+bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister)
 {
 	CString path, fn, extoldreg, cmdEnqueue, cmdOpen;
 	if(!MakeRegParams(ext, path, fn, cmdEnqueue, cmdOpen))
@@ -154,6 +154,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, bool fRegister)
 
 	// Create ProgID for this file type
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) return(false);
+	if(ERROR_SUCCESS != key.SetStringValue(NULL, strLabel)) return(false);
 
 	// Add to playlist option
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))) return(false);
@@ -560,7 +561,7 @@ BOOL CPPageFormats::OnApply()
 
 		POSITION pos = exts.GetHeadPosition();
 		while(pos)
-			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), !!iChecked);
+			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
 	}
 
 	{

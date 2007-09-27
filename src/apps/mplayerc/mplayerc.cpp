@@ -823,11 +823,11 @@ BOOL CMPlayerCApp::InitInstance()
 			{
 				if((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly
 				|| (m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly)
-					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), true);
+					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), true);
 				
 				if((m_s.nCLSwitches&CLSW_UNREGEXTVID) && !fAudioOnly
 				|| (m_s.nCLSwitches&CLSW_UNREGEXTAUD) && fAudioOnly)
-					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), false);
+					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), false);
 			}
 		}
 
