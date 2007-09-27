@@ -384,9 +384,11 @@ void CVMROSD::ClearMessage()
 {
 	if (m_pVMB) 
 	{
-		m_VMR9AlphaBitmap.dwFlags  |= VMRBITMAP_DISABLE;
+		DWORD dwBackup				= (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
+		m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_DISABLE;
 		m_nMessagePos				= OSD_NOMESSAGE;
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
+		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	}
 
 	if (m_pMFVMB)
