@@ -1,10 +1,11 @@
 v1.0.11.0 - unreleased
 ======================
  NEW    : Command Line Option "/dubdelay" applies a positive or negative audio delay of ???ms, if filename contains "DELAY ???ms" (internal Audio Switcher required)
+ NEW    : Russian and Turkish translations
  CHANGED: File format association. MPC is now recognized as a registered application. File registration now compatible with UAC. (Vista)
+ CHANGED: Matroska internal subtitles are not loaded if "auto-load subtitles" option is off
  FIXED  : Subtitle popup menu not working in French
  FIXED  : Remember file position option not working properly in playlist mode
- NEW    : Russian and Turkish translations
  FIXED  : Crash when opening "Navigation" menu while playing dvd (German locale only)
 
 v1.0.10.0 - 15.Sep 2007

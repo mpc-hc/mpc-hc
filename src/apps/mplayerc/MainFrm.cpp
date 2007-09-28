@@ -7699,7 +7699,7 @@ void CMainFrame::OpenCustomizeGraph()
 
 	if(m_iPlaybackMode == PM_FILE)
 	{
-		if(m_pCAP)
+		if(m_pCAP && AfxGetAppSettings().fAutoloadSubtitles)
 			AddTextPassThruFilter();
 	}
 
