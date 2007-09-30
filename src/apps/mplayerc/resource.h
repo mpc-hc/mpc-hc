@@ -780,6 +780,7 @@
 #define ID_LANGUAGE_GERMAN              32789
 #define ID_LANGUAGE_RUSSIAN             32790
 #define ID_LANGUAGE_TURKISH             32791
+#define ID_LANGUAGE_CZECH               32792
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_SHADEREDITORDLG_0           32831

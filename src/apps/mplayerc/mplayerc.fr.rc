@@ -1599,6 +1599,7 @@ BEGIN
             MENUITEM "&French",                     ID_LANGUAGE_FRENCH
             MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
             MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
+            MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"
@@ -2983,4 +2984,3 @@ LANGUAGE 9, 1
 #endif
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
