@@ -1663,7 +1663,7 @@ BEGIN
         MENUITEM "S&haders",                    ID_SHADERS
         MENUITEM SEPARATOR
         MENUITEM "&Audio",                      65535
-        MENUITEM "Sou&stitres",                 65535
+        MENUITEM "Sou&s-titres",                 65535
         MENUITEM SEPARATOR
         POPUP "Vol&ume"
         BEGIN
@@ -1690,7 +1690,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Langue &audio",               65535
         MENUITEM "Langue des sous-titres",      65535
-        MENUITEM "Ang&le de la video",          65535
+        MENUITEM "Ang&le de la vidéo",          65535
         MENUITEM SEPARATOR
         MENUITEM "Menu supérieur\tAlt+T",       ID_NAVIGATE_TITLEMENU
         MENUITEM "Menu &principal\tAlt+R",      ID_NAVIGATE_ROOTMENU
@@ -1773,7 +1773,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Langue &audio",							   65535
             MENUITEM "Langue des sous-titres",      			   65535
-            MENUITEM "Ang&le de la video",          			   65535
+            MENUITEM "Ang&le de la vidéo",          			   65535
             MENUITEM SEPARATOR
             MENUITEM "Menu supérieur\tAlt+T",       			   ID_NAVIGATE_TITLEMENU
             MENUITEM "Menu &principal\tAlt+R",      			   ID_NAVIGATE_ROOTMENU
@@ -1967,7 +1967,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Langue &audio",               65535
             MENUITEM "Langue des sous-titres",      65535
-            MENUITEM "Ang&le de la video",          65535
+            MENUITEM "Ang&le de la vidéo",          65535
             MENUITEM SEPARATOR
             MENUITEM "Menu supérieur\tAlt+T",       ID_NAVIGATE_TITLEMENU
             MENUITEM "Menu &principal\tAlt+R",      ID_NAVIGATE_ROOTMENU
@@ -2457,7 +2457,7 @@ BEGIN
     IDS_SHADER_POPUP        "Shaders"
     IDS_FAVORITES_POPUP     "F&avoris"
     IDS_JUMPTO_POPUP        "Atteindre..."
-    IDS_VIDEOANGLE_POPUP    "Angle vidéo"
+    IDS_VIDEOANGLE_POPUP    "Angle de la vidéo"
     IDS_SUBTITLELANGUAGE_POPUP "Langue des sous-titres"
     IDS_AUDIOLANGUAGE_POPUP "Langue audio"
 END
@@ -2773,9 +2773,9 @@ BEGIN
     IDS_AG_OPEN_DISC        "Ouvrir un disque"
     IDS_AG_FILTERS          "Filtres"
     IDS_AG_SUBTITLES        "Sous-titres"
-    IDS_MAINFRM_28          "Langue Audio"
+    IDS_MAINFRM_28          "Langue audio"
     IDS_MAINFRM_29          "Langue des sous-titres"
-    IDS_AG_VIDEO_ANGLE      "Angle de la Video"
+    IDS_AG_VIDEO_ANGLE      "Angle de la vidéo"
 END
 
 STRINGTABLE 
