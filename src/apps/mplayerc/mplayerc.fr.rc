@@ -1600,6 +1600,7 @@ BEGIN
             MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
             MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
             MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
+            MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"

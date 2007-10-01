@@ -2724,6 +2724,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.tr.dll");
 	case 5:		// Czech
 		return _T("mpcresources.cz.dll");
+	case 6:		// Spanish
+		return _T("mpcresources.es.dll");
 	}
 	return NULL;
 }
