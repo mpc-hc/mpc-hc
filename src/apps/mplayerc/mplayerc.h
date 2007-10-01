@@ -41,6 +41,9 @@
 #define MPC_WND_CLASS_NAME "MediaPlayerClassicA"
 #endif
 
+// change this to define, if you want to build mpc with a minimal set of built-in filters
+#undef MINIMAL_BUILTIN_FILTERS
+
 enum 
 {
 	WM_GRAPHNOTIFY = WM_APP+1,

@@ -104,8 +104,7 @@ private :
 	CString		m_strMessage;
 	OSD_MESSAGEPOS	m_nMessagePos;
 
-	void UpdateVMRBitmap();
-	void UpdateMFBitmap();
+	void UpdateBitmap();
 	void CalcRect();
 	void UpdateSeekBarPos(CPoint point);
 	void DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPos);

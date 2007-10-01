@@ -1204,7 +1204,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	CFGFilter* pFGF;
 
 	// Source filters
-#ifndef NO_BUILDIN_FILTERS
+#ifndef MINIMAL_BUILTIN_FILTERS
 	if(src & SRC_SHOUTCAST)
 	{
 		pFGF = new CFGFilterInternal<CShoutcastSource>();
@@ -1687,7 +1687,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	m_transform.AddTail(pFGF);
 	}
 
-#endif		// NO_BUILDIN_FILTERS
+#endif /* MINIMAL_BUILTIN_FILTERS */
 	// Blocked filters
 
 	// "Subtitle Mixer" makes an access violation around the 

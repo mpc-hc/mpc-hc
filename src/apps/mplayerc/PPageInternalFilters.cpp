@@ -38,7 +38,7 @@ static struct filter_t
 }
 s_filters[] = 
 {
-#ifndef NO_BUILDIN_FILTERS
+#ifndef MINIMAL_BUILTIN_FILTERS
 	{_T("AVI"), 0, SRC_AVI, IDS_SRC_AVI, NULL},
 	{_T("CDDA (Audio CD)"), 0, SRC_CDDA, IDS_SRC_CDDA, NULL},
 	{_T("CDXA (VCD/SVCD/XCD)"), 0, SRC_CDXA, IDS_SRC_CDXA, NULL},
@@ -77,7 +77,7 @@ s_filters[] =
 	__if_exists(CFLVVideoDecoder) {{_T("VP62"), 1, TRA_VP62, 0, NULL},}
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
-#endif // NO_BUILDIN_FILTERS
+#endif /* MINIMAL_BUILTIN_FILTERS */
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)

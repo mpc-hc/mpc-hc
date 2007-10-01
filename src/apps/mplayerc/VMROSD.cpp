@@ -48,11 +48,14 @@ CVMROSD::CVMROSD(void)
 	m_nMessagePos		= OSD_NOMESSAGE;
 	m_bSeekBarVisible	= false;
 	m_bCursorMoving		= false;
+	m_pMFVMB		= NULL;
+	m_pVMB			= NULL;
 }
 
 CVMROSD::~CVMROSD(void)
 {
 	DeleteDC(m_MemDC);
+	DeleteObject(m_Bitmap);
 }
 
 
@@ -66,62 +69,12 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
 			m_bSeekBarVisible	= false;
 			Invalidate();
 		}
-		UpdateVMRBitmap();
+		UpdateBitmap();
 	}
 }
 
 
-void CVMROSD::UpdateVMRBitmap()
-{
-	CRect				rc;
-	CWindowDC			dc (m_pWnd);
-
-	CalcRect();
-
-	m_MemDC.DeleteDC();
-	m_Bitmap.DeleteObject();
-
-	if (m_MemDC.CreateCompatibleDC (&dc))
-	{
-		BITMAPINFO	bmi = {0};
-		HBITMAP		hbmpRender;
-
-		ZeroMemory( &bmi.bmiHeader, sizeof(BITMAPINFOHEADER) );
-		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		bmi.bmiHeader.biWidth = m_rectWnd.Width();
-		bmi.bmiHeader.biHeight = - (int) m_rectWnd.Height(); // top-down
-		bmi.bmiHeader.biPlanes = 1;
-		bmi.bmiHeader.biBitCount = 32;
-		bmi.bmiHeader.biCompression = BI_RGB;
-		
-		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
-		m_MemDC.SelectObject (hbmpRender);
-
-		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0)
-		{
-			// Configure the VMR's bitmap structure
-			ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap) );
-			m_VMR9AlphaBitmap.dwFlags		= VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
-			m_VMR9AlphaBitmap.hdc			= m_MemDC;
-			m_VMR9AlphaBitmap.rSrc			= m_rectWnd;
-			m_VMR9AlphaBitmap.rDest.left	= 0;
-			m_VMR9AlphaBitmap.rDest.top		= 0;
-			m_VMR9AlphaBitmap.rDest.right	= 1.0;
-			m_VMR9AlphaBitmap.rDest.bottom	= 1.0;
-			m_VMR9AlphaBitmap.fAlpha		= 1.0;
-			m_VMR9AlphaBitmap.clrSrcKey		= m_Color[OSD_TRANSPARENT];
-
-			m_MemDC.SelectObject(m_MainFont);
-			m_MemDC.SetTextColor(RGB(255, 255, 255));
-			m_MemDC.SetBkMode(TRANSPARENT);
-		}
-		DeleteObject(hbmpRender);
-	}
-
-}
-
-
-void CVMROSD::UpdateMFBitmap()
+void CVMROSD::UpdateBitmap()
 {
 	CRect				rc;
 	CWindowDC			dc (m_pWnd);
@@ -146,19 +99,34 @@ void CVMROSD::UpdateMFBitmap()
 
 		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
 		m_MemDC.SelectObject (hbmpRender);
-		
+
 		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0)
 		{
 			// Configure the VMR's bitmap structure
-			ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap) );
-			m_MFVideoAlphaBitmap.params.dwFlags		= MFVideoAlphaBitmap_SrcColorKey;
-			m_MFVideoAlphaBitmap.params.clrSrcKey	= m_Color[OSD_TRANSPARENT];
-			m_MFVideoAlphaBitmap.params.rcSrc		= m_rectWnd;
-			m_MFVideoAlphaBitmap.params.nrcDest.right	= 1;
-			m_MFVideoAlphaBitmap.params.nrcDest.bottom  = 1;
-
-			m_MFVideoAlphaBitmap.GetBitmapFromDC	= TRUE;
-			m_MFVideoAlphaBitmap.bitmap.hdc			= m_MemDC;
+			if (m_pVMB)
+			{
+				ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap) );
+				m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
+				m_VMR9AlphaBitmap.hdc		= m_MemDC;
+				m_VMR9AlphaBitmap.rSrc		= m_rectWnd;
+				m_VMR9AlphaBitmap.rDest.left	= 0;
+				m_VMR9AlphaBitmap.rDest.top	= 0;
+				m_VMR9AlphaBitmap.rDest.right	= 1.0;
+				m_VMR9AlphaBitmap.rDest.bottom	= 1.0;
+				m_VMR9AlphaBitmap.fAlpha	= 1.0;
+				m_VMR9AlphaBitmap.clrSrcKey	= m_Color[OSD_TRANSPARENT];
+			}
+			else if (m_pMFVMB)
+			{
+				ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap) );
+				m_MFVideoAlphaBitmap.params.dwFlags		= MFVideoAlphaBitmap_SrcColorKey;
+				m_MFVideoAlphaBitmap.params.clrSrcKey		= m_Color[OSD_TRANSPARENT];
+				m_MFVideoAlphaBitmap.params.rcSrc		= m_rectWnd;
+				m_MFVideoAlphaBitmap.params.nrcDest.right	= 1;
+				m_MFVideoAlphaBitmap.params.nrcDest.bottom 	= 1;
+				m_MFVideoAlphaBitmap.GetBitmapFromDC		= TRUE;
+				m_MFVideoAlphaBitmap.bitmap.hdc			= m_MemDC;
+			}
 
 			m_MemDC.SelectObject(m_MainFont);
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
@@ -168,19 +136,22 @@ void CVMROSD::UpdateMFBitmap()
 	}
 
 }
+
 void CVMROSD::Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB)
 {
-	m_pVMB				= pVMB;
-	m_pWnd				= pWnd;
-	UpdateVMRBitmap();
+	m_pVMB   = pVMB;
+	m_pMFVMB = NULL;
+	m_pWnd   = pWnd;
+	UpdateBitmap();
 }
 
 
 void CVMROSD::Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pMFVMB)
 {
-	m_pMFVMB			= pMFVMB;
-	m_pWnd				= pWnd;
-	UpdateMFBitmap();
+	m_pMFVMB = pMFVMB;
+	m_pVMB   = NULL;
+	m_pWnd   = pWnd;
+	UpdateBitmap();
 }
 
 
@@ -399,8 +370,7 @@ void CVMROSD::ClearMessage()
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	}
-
-	if (m_pMFVMB)
+	else if (m_pMFVMB)
 	{
 		m_pMFVMB->ClearAlphaBitmap();
 	}
