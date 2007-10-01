@@ -52,6 +52,7 @@ CVMROSD::CVMROSD(void)
 
 CVMROSD::~CVMROSD(void)
 {
+	DeleteDC(m_MemDC);
 }
 
 
@@ -84,15 +85,18 @@ void CVMROSD::UpdateVMRBitmap()
 	{
 		BITMAPINFO	bmi = {0};
 		HBITMAP		hbmpRender;
+
+		ZeroMemory( &bmi.bmiHeader, sizeof(BITMAPINFOHEADER) );
 		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 		bmi.bmiHeader.biWidth = m_rectWnd.Width();
 		bmi.bmiHeader.biHeight = - (int) m_rectWnd.Height(); // top-down
 		bmi.bmiHeader.biPlanes = 1;
 		bmi.bmiHeader.biBitCount = 32;
 		bmi.bmiHeader.biCompression = BI_RGB;
+		
 		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
 		m_MemDC.SelectObject (hbmpRender);
-		
+
 		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0)
 		{
 			// Configure the VMR's bitmap structure
@@ -111,6 +115,7 @@ void CVMROSD::UpdateVMRBitmap()
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
+		DeleteObject(hbmpRender);
 	}
 
 }
@@ -130,12 +135,15 @@ void CVMROSD::UpdateMFBitmap()
 	{
 		BITMAPINFO	bmi = {0};
 		HBITMAP		hbmpRender;
+
+		ZeroMemory( &bmi.bmiHeader, sizeof(BITMAPINFOHEADER) );
 		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 		bmi.bmiHeader.biWidth = m_rectWnd.Width();
 		bmi.bmiHeader.biHeight = - (int) m_rectWnd.Height(); // top-down
 		bmi.bmiHeader.biPlanes = 1;
 		bmi.bmiHeader.biBitCount = 32;
 		bmi.bmiHeader.biCompression = BI_RGB;
+
 		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
 		m_MemDC.SelectObject (hbmpRender);
 		
@@ -156,6 +164,7 @@ void CVMROSD::UpdateMFBitmap()
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
+		DeleteObject(hbmpRender);
 	}
 
 }
