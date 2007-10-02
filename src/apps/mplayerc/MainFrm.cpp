@@ -798,16 +798,17 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 void CMainFrame::ShowTrayIcon(bool fShow)
 {
     BOOL bWasVisible = ShowWindow(SW_HIDE);
+	NOTIFYICONDATA tnid; 
+
+	ZeroMemory(&tnid, sizeof(NOTIFYICONDATA));
+	tnid.cbSize = sizeof(NOTIFYICONDATA); 
+	tnid.hWnd = m_hWnd; 
+	tnid.uID = IDR_MAINFRAME; 
 
 	if(fShow)
 	{
 		if(!m_fTrayIcon)
 		{
-			NOTIFYICONDATA tnid; 
-			tnid.cbSize = sizeof(NOTIFYICONDATA); 
-			tnid.hWnd = m_hWnd; 
-			tnid.uID = IDR_MAINFRAME; 
-//			tnid.hIcon = (HICON)LoadIcon(AfxGetResourceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME));
 			tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 			tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP; 
 			tnid.uCallbackMessage = WM_NOTIFYICON; 
@@ -821,10 +822,6 @@ void CMainFrame::ShowTrayIcon(bool fShow)
 	{
 		if(m_fTrayIcon)
 		{
-			NOTIFYICONDATA tnid; 
-			tnid.cbSize = sizeof(NOTIFYICONDATA); 
-			tnid.hWnd = m_hWnd;
-			tnid.uID = IDR_MAINFRAME; 
 			Shell_NotifyIcon(NIM_DELETE, &tnid); 
 
 			m_fTrayIcon = false;

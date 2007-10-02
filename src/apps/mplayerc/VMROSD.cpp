@@ -54,8 +54,7 @@ CVMROSD::CVMROSD(void)
 
 CVMROSD::~CVMROSD(void)
 {
-	DeleteDC(m_MemDC);
-	DeleteObject(m_Bitmap);
+	m_MemDC.DeleteDC();
 }
 
 
@@ -65,8 +64,8 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
 	{
 		if (m_bSeekBarVisible)
 		{
-			m_bCursorMoving		= false;
-			m_bSeekBarVisible	= false;
+			m_bCursorMoving   = false;
+			m_bSeekBarVisible = false;
 			Invalidate();
 		}
 		UpdateBitmap();
@@ -82,7 +81,6 @@ void CVMROSD::UpdateBitmap()
 	CalcRect();
 
 	m_MemDC.DeleteDC();
-	m_Bitmap.DeleteObject();
 
 	if (m_MemDC.CreateCompatibleDC (&dc))
 	{
