@@ -57,6 +57,22 @@
 
 using namespace dirac;
 
-#define isFrameStartCode(code) ((code) == IFRAME_START_CODE || (code) == L1FRAME_START_CODE || (code) == L2FRAME_START_CODE)
 
+// === Imported from Dirac library
+#define isFrameStartCode(c) ((c) == 0x00 || (c) == 0x0C || (c) == 0x08 || (c) == 0x0D || (c) == 0x0E || (c) == 0x09 || (c) == 0x0A || (c) == 0x10)
+
+    const unsigned int START_CODE_PREFIX = 0x42424344; //BBCD
+    const unsigned int START_CODE_PREFIX_BYTE0 = 
+                                        (START_CODE_PREFIX >> 24) & 0xFF;
+    const unsigned int START_CODE_PREFIX_BYTE1 = 
+                                        (START_CODE_PREFIX >> 16) & 0xFF;
+    const unsigned int START_CODE_PREFIX_BYTE2 = 
+                                        (START_CODE_PREFIX >>  8) & 0xFF;
+    const unsigned int START_CODE_PREFIX_BYTE3 = 
+                                        START_CODE_PREFIX & 0xFF;
+
+    //! Access unit start code
+    const unsigned char AU_START_CODE = 0x00;
+    //! Sequence end code
+    const unsigned char SEQ_END_CODE = 0x10;
 
