@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quality_monitor.h,v 1.13 2006/11/09 11:30:23 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: quality_monitor.h,v 1.14 2007/09/03 11:31:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -53,8 +53,7 @@ namespace dirac
         /*
            Constructor sets up initial Lagrangian values.
         */
-        QualityMonitor(EncoderParams& ep,
-                       const SeqParams& sparams );
+        QualityMonitor(EncoderParams& ep);
 
 
         //! Destructor
@@ -88,7 +87,8 @@ namespace dirac
         double QualityVal( const PicArray& coded_data , 
                            const PicArray& orig_data,
                            const int xlen,
-                           const int ylen );
+                           const int ylen,
+                           const CompSort cs);
 
         //member variables//
         ////////////////////
@@ -96,9 +96,6 @@ namespace dirac
         //! A reference to the encoder parameters
         EncoderParams& m_encparams;
 
-        //! A reference to the sequence parameters
-        const SeqParams& m_sparams;
-        
         //! The overall average Y quality
         long double m_totalquality_averageY;
 

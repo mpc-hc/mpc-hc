@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdata_byteio.cpp,v 1.7 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: mvdata_byteio.cpp,v 1.8 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -222,7 +222,7 @@ void MvDataByteIO::InputBlockParams()
     const OLBParams& def_olb_params = m_default_cparams.LumaBParams(2);
     OLBParams olb_params;
 
-       if (InputBit())
+    if (InputBit())
     {
         unsigned int p_idx = InputVarLengthUint();
         // FIXME : the default values from block params table must be set
@@ -308,62 +308,25 @@ void MvDataByteIO::InputGlobalMotionParams()
 
 void MvDataByteIO::OutputFramePredictionMode()
 {
-    // Output frame prediction mode index
-    if (m_cparams.Interlace() == m_default_cparams.Interlace())
-    {
-        OutputBit(false);
-    }
-    else
-    {
-        OutputBit(true);
-        if (!m_cparams.Interlace())
-        {
-            OutputVarLengthUint(IT_PROGRESSIVE);
-        }
-        else
-        {
-               OutputVarLengthUint(m_cparams.TopFieldFirst() ?
-                                 IT_INTERLACED_TFF: IT_INTERLACED_BFF);
-        }
-    }
+    //  TODO: Output default frame prediction mode index until other
+    //  modes are supported.
+    OutputBit(false);
 }
 
 void MvDataByteIO::InputFramePredictionMode()
 {
+    // TODO - need to process this field when alternative prediction modes
+    // become available.
     if (InputBit())
     {
-        m_cparams.SetTopFieldFirst(true);
-
-        switch(InputVarLengthUint())
-        {
-        case 0:
-            m_cparams.SetInterlace(false);
-            break;
-        case 1:
-            m_cparams.SetInterlace(true);
-            break;
-        case 2:
-            m_cparams.SetInterlace(true);
-            m_cparams.SetTopFieldFirst(false);
-        default:
-            DIRAC_THROW_EXCEPTION(
-            ERR_UNSUPPORTED_STREAM_DATA,
-            "Picture Prediction Mode out of range [0-2]",
-            SEVERITY_FRAME_ERROR);
-            break;
-        }
-        if (m_cparams.Interlace())
+        unsigned int frame_pred_mode = InputVarLengthUint();
+        if (frame_pred_mode != 0)
         {
             DIRAC_THROW_EXCEPTION(
                 ERR_UNSUPPORTED_STREAM_DATA,
-                "Interlace Picture Predicion Mode no supported",
+                "Non-default Picture Prediction Mode not supported",
                 SEVERITY_FRAME_ERROR);
         }
-    }
-    else
-    {
-        m_cparams.SetInterlace(m_default_cparams.Interlace());
-        m_cparams.SetTopFieldFirst(m_default_cparams.TopFieldFirst());
     }
 }
 
@@ -397,9 +360,9 @@ void MvDataByteIO::InputFrameWeights()
     if (InputBit())
     {
         m_cparams.SetFrameWeightsPrecision(InputVarLengthUint());
-        m_cparams.SetRef1Weight(InputVarLengthUint());
+        m_cparams.SetRef1Weight(InputVarLengthInt());
         if (m_fparams.Refs().size() > 1)
-            m_cparams.SetRef2Weight(InputVarLengthUint());
+            m_cparams.SetRef2Weight(InputVarLengthInt());
         else
             m_cparams.SetRef2Weight(0);
     }

@@ -316,17 +316,17 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
 
             {
                 DIRACINFOHEADER* dvih = (DIRACINFOHEADER*)m_pInput->CurrentMediaType().Format();
-                if(dvih->hdr.bmiHeader.biWidth != decoder->seq_params.width
-                || dvih->hdr.bmiHeader.biHeight != decoder->seq_params.height)
+                if(dvih->hdr.bmiHeader.biWidth != decoder->src_params.width
+                || dvih->hdr.bmiHeader.biHeight != decoder->src_params.height)
                     return E_FAIL; // hmm
             }
 
             if(!m_pYUV[0])
             {
-                int w = decoder->seq_params.width;
-                int h = decoder->seq_params.height;
-                int wc = decoder->seq_params.chroma_width;
-                int hc = decoder->seq_params.chroma_height; 
+                int w = decoder->src_params.width;
+                int h = decoder->src_params.height;
+                int wc = decoder->src_params.chroma_width;
+                int hc = decoder->src_params.chroma_height; 
                 delete [] m_pYUV[0]; m_pYUV[0] = NULL;
                 m_pYUV[0] = new BYTE[w*h + wc*hc*2 + w/2*h/2];
                 m_pYUV[1] = m_pYUV[0] + w*h;
@@ -416,10 +416,10 @@ void CDiracVideoDecoder::Copy(BYTE* pOut)
 
     dirac_decoder_t* decoder = (dirac_decoder_t*)m_decoder;
 
-    int w = decoder->seq_params.width;
-    int h = decoder->seq_params.height;
-    int wc = decoder->seq_params.chroma_width;
-    int hc = decoder->seq_params.chroma_height;
+    int w = decoder->src_params.width;
+    int h = decoder->src_params.height;
+    int wc = decoder->src_params.chroma_width;
+    int hc = decoder->src_params.chroma_height;
 
     int pitchIn = w;
 

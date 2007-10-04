@@ -58,8 +58,8 @@ HRESULT CDiracSplitterFile::Init()
             if(decoder->src_params.frame_rate.denominator)
             dvih->hdr.AvgTimePerFrame = 10000000i64 * decoder->src_params.frame_rate.denominator / decoder->src_params.frame_rate.numerator;
             dvih->hdr.bmiHeader.biSize = sizeof(dvih->hdr.bmiHeader);
-            dvih->hdr.bmiHeader.biWidth = decoder->seq_params.width;
-            dvih->hdr.bmiHeader.biHeight = decoder->seq_params.height;
+            dvih->hdr.bmiHeader.biWidth = decoder->src_params.width;
+            dvih->hdr.bmiHeader.biHeight = decoder->src_params.height;
             dvih->hdr.bmiHeader.biCompression = m_mt.subtype.Data1;
             dvih->hdr.dwInterlaceFlags = 0;
             if(decoder->src_params.interlace) dvih->hdr.dwInterlaceFlags |= AMINTERLACE_IsInterlaced;

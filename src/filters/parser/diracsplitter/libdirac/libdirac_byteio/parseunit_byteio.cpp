@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.cpp,v 1.4 2007/05/02 13:10:27 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: parseunit_byteio.cpp,v 1.6 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -54,17 +54,8 @@ const int PU_PARSE_CODE_SIZE = 1;
 const int PU_PARSEUNIT_SIZE = PU_NEXT_PARSE_OFFSET_SIZE + PU_PREVIOUS_PARSE_OFFSET_SIZE+
                               PU_PREFIX_SIZE + PU_PARSE_CODE_SIZE;
 
-// Frame types in Parse Code
-#define PARSE_CODE_IS_ACCESS_UNIT(byte)         (byte==0x00)
-#define PARSE_CODE_IS_FRAME(byte)               ((byte&0x18)==0x08)
-#define PARSE_CODE_IS_END_OF_SEQUENCE(byte)     (byte==0x10)
-#define PARSE_CODE_IS_PADDING_DATA(byte)        (byte==0x60)
-#define PARSE_CODE_IS_AUXILIARY_DATA(byte)      (byte==0x20)
-#define PARSE_CODE_IS_LOW_DELAY(byte)           ((byte&0x80)==0x80)
-
-ParseUnitByteIO::ParseUnitByteIO(int accessunit_fnum):
+ParseUnitByteIO::ParseUnitByteIO():
 ByteIO(),
-m_accessunit_fnum(accessunit_fnum),
 m_previous_parse_offset(0),
 m_next_parse_offset(0)
 {
@@ -73,17 +64,14 @@ m_next_parse_offset(0)
 
 ParseUnitByteIO::ParseUnitByteIO(const ByteIO& byte_io):
 ByteIO(byte_io),
-m_accessunit_fnum(0),
 m_previous_parse_offset(0),
 m_next_parse_offset(0)
 {
     
 }
 
-ParseUnitByteIO::ParseUnitByteIO(int accessunit_fnum,
-                                 const ParseUnitByteIO& parseunit_byteio):
+ParseUnitByteIO::ParseUnitByteIO(const ParseUnitByteIO& parseunit_byteio):
 ByteIO(parseunit_byteio),
-m_accessunit_fnum(accessunit_fnum),
 m_previous_parse_offset(parseunit_byteio.m_previous_parse_offset),
 m_next_parse_offset(parseunit_byteio.m_next_parse_offset),
 m_parse_code(parseunit_byteio.m_parse_code)
@@ -219,22 +207,22 @@ void ParseUnitByteIO::SetAdjacentParseUnits(ParseUnitByteIO *p_prev_parseunit)
 
 ParseUnitType ParseUnitByteIO::GetType() const
 {
-    if(PARSE_CODE_IS_ACCESS_UNIT(m_parse_code))
+    if(IsAU())
         return PU_ACCESS_UNIT;
     
-    if(PARSE_CODE_IS_LOW_DELAY(m_parse_code))
+    if(IsLowDelay())
         return PU_LOW_DELAY_FRAME;
 
-    if(PARSE_CODE_IS_FRAME(m_parse_code))
+    if(IsPicture())
         return PU_FRAME;
 
-    if(PARSE_CODE_IS_END_OF_SEQUENCE(m_parse_code))
+    if(IsEndOfSequence())
         return PU_END_OF_SEQUENCE;
 
-    if(PARSE_CODE_IS_AUXILIARY_DATA(m_parse_code))
+    if(IsAuxiliaryData())
         return PU_AUXILIARY_DATA;
     
-    if(PARSE_CODE_IS_PADDING_DATA(m_parse_code))
+    if(IsPaddingData())
         return PU_PADDING_DATA;
 
     return PU_UNDEFINED;

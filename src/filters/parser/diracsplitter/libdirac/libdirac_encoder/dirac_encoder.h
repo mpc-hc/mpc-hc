@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_encoder.h,v 1.12 2007/03/21 11:05:43 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_encoder.h,v 1.14 2007/09/03 11:31:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -164,10 +164,16 @@ typedef MVPrecisionType dirac_mvprecision_t;
 /*! Structure that holds the encoder specific parameters */
 typedef struct 
 {
-    /*! Quality factor */
+    /*! Lossless coding */
     int lossless;
     /*! Quality factor */
     float qf;
+    /*! Full-search motion estimation */
+    int full_search;
+    /*! x-range for full search ME */
+    int x_range_me;
+    /*! y-range for full search ME */
+    int y_range_me;
     /*! The separation between L1 frames */
     int L1_sep;
     /*! The number of L1 frames before the next intra frame. Together
@@ -204,13 +210,13 @@ typedef struct
     dirac_mvprecision_t mv_precision;
     /*! target bit rate in kbps */
     int trate;
+    /*! interlace flag: 0 - progressive; 1 - interlaced */
+    int interlace;
 } dirac_encparams_t;
 
 /*! Structure that holds the parameters that set up the encoder context */
 typedef struct
 {
-    /*! Sequence parameters */
-    dirac_seqparams_t seq_params;
     /*! Source parameters */
     dirac_sourceparams_t src_params;
     /*! Encoder parameters */
@@ -227,84 +233,10 @@ typedef struct
     \param   enc_ctx    pointer to Encoder context tp be initialised.
     \param   preset     Preset to be used to initialise the encoder context
     \verbatim
-     The sequence parameters and encoder parameters are initialised as follows
 
-     Sequence Parameters:
-     Preset           Field          Value
-     CIF              width          352
-                      height         288
-                      chroma         Planar YUV 4:2:0
-                      chroma_width   calculated from width and chroma
-                      chroma_height  calculated from height and chroma
-                      frame_rate     13/1
-                      interlace      0 (progressive)
-                      topfieldfirst  0 
-     SD576            width          720
-                      height         576
-                      chroma         Planar YUV 4:2:0
-                      chroma_width   calculated from width and chroma
-                      chroma_height  calculated from height and chroma
-                      frame_rate     25/1
-                      interlace      1 (interlaced)
-                      topfieldfirst  1 
-     HD720            width          1280
-                      height         720
-                      chroma         Planar YUV 4:2:0
-                      chroma_width   calculated from width and chroma
-                      chroma_height  calculated from height and chroma
-                      frame_rate     50/1
-                      interlace      0 (progressive)
-                      topfieldfirst  0 
-     HD1080           width          1920
-                      height         1080
-                      chroma         Planar YUV 4:2:0
-                      chroma_width   calculated from width and chroma
-                      chroma_height  calculated from height and chroma
-                      frame_rate     25/1
-                      interlace      1 (interlaced)
-                      topfieldfirst  1 
-
-     Encoder params:
-     Preset           Field          Value
-     CIF              lossless       false
-                      qf             7
-                      L1_sep         3
-                      num_L1         11
-                      cpd            20.0
-                      xblen          12
-                      yblen          12
-                      xbsep          8
-                      ybsep          8
-
-     SD576            lossless       false
-                      qf             7
-                      L1_sep         3
-                      num_L1         3
-                      cpd            32.0
-                      xblen          12
-                      yblen          12
-                      xbsep          8
-                      ybsep          8
-
-     HD720            lossless       false
-                      qf             7
-                      L1_sep         3
-                      num_L1         7
-                      cpd            20.0
-                      xblen          16
-                      yblen          16
-                      xbsep          10
-                      ybsep          12
-
-     HD1080           lossless       false
-                      qf             7
-                      L1_sep         3
-                      num_L1         3
-                      cpd            32.0
-                      xblen          20
-                      yblen          20
-                      xbsep          16
-                      ybsep          16
+	For a full list of video formats presets supported and the default values
+	of the source and encoder parameters. refer to Annex C of the Dirac
+	ByteStream Specification.
 
     \endverbatim
 */

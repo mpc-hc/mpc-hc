@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quant_chooser.cpp,v 1.11 2007/04/11 07:52:06 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: quant_chooser.cpp,v 1.12 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -51,9 +51,9 @@ static inline double pow4 (double x)
 }
 
 // Constructor
-QuantChooser::QuantChooser(  const PicArray& pic_data, 
+QuantChooser::QuantChooser(  const CoeffArray& coeff_data, 
                              const float lambda ):
-    m_pic_data( pic_data ),
+    m_coeff_data( coeff_data ),
     m_lambda( lambda ),
     m_entropy_correctionfactor( 1.0 )
 {}
@@ -66,7 +66,7 @@ int QuantChooser::GetBestQuant( Subband& node )
     const int num_blocks( block_list.LengthX() * block_list.LengthY() );
 
     // The largest value in the block or band
-    ValueType max_val;
+    CoeffType max_val;
 
     // The index of the maximum bit of the largest value
     int max_bit( 0 );
@@ -250,7 +250,7 @@ void QuantChooser::IntegralErrorCalc( const CodeBlock& code_block ,
                                       const int yratio )
 {
 
-    ValueType val, quant_val , abs_val;
+    CoeffType val, quant_val , abs_val;
 
     CalcValueType error;
 
@@ -268,7 +268,7 @@ void QuantChooser::IntegralErrorCalc( const CodeBlock& code_block ,
     {
         for ( int i=code_block.Xstart(); i<code_block.Xend() ; i+=xratio )
         {
-            val = m_pic_data[j][i];
+            val = m_coeff_data[j][i];
             abs_val = quant_val = abs(val);
 
             int q = m_bottom_idx;
@@ -308,7 +308,7 @@ void QuantChooser::IntegralErrorCalc( const CodeBlock& code_block ,
 void QuantChooser::NonIntegralErrorCalc( const CodeBlock& code_block , const int block_idx , const int xratio , const int yratio )
 {
 
-    ValueType val, abs_val;
+    CoeffType val, abs_val;
 
     CalcValueType quant_val;
     CalcValueType error;
@@ -328,7 +328,7 @@ void QuantChooser::NonIntegralErrorCalc( const CodeBlock& code_block , const int
         for ( int i=code_block.Xstart(); i<code_block.Xend() ; i+=xratio )
         {
 
-            val = m_pic_data[j][i];
+            val = m_coeff_data[j][i];
             abs_val = abs( val );
 
             int q=m_bottom_idx;
@@ -484,15 +484,15 @@ void QuantChooser::SelectBestQuant()
      }
 }
 
-ValueType QuantChooser::BlockAbsMax( const CodeBlock& code_block )
+CoeffType QuantChooser::BlockAbsMax( const CodeBlock& code_block )
 {
-    ValueType val( 0 );
+    CoeffType val( 0 );
 
     for (int j=code_block.Ystart() ; j<code_block.Yend(); ++j)
     {
         for (int i=code_block.Xstart() ; i<code_block.Xend(); ++i)
         {    
-            val = std::max( val , m_pic_data[j][i] );    
+            val = std::max( val , m_coeff_data[j][i] );    
         }// i
     }// j
 

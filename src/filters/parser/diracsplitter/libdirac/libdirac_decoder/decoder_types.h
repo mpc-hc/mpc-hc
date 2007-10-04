@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: decoder_types.h,v 1.1 2004/08/11 14:16:58 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: decoder_types.h,v 1.1 2004/08/11 14:16:58 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

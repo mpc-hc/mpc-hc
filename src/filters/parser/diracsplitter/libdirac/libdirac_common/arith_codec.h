@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arith_codec.h,v 1.38 2007/04/11 14:36:45 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: arith_codec.h,v 1.39 2007/09/19 11:19:33 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -91,32 +91,6 @@ namespace dirac
     };
     
     Context::Context(): m_prob0( 0x8000 ) {}
-
-/*
-    void Context::Update( bool symbol )
-    {
-//        if ( !symbol )
-//            ++m_count0;
-//        else
-//            ++m_count1;
-//
-//        if ( (m_count0+m_count1)%8==0)
-//        {
-//            if ( (m_count0+m_count1) == 256 )
-//            {
-//                m_count0++;
-//                m_count0 >>= 1;
-//                m_count1++;
-//                m_count1 >>= 1;
-//            }
-//            m_prob0 = m_count0*lookup( m_count0+m_count1 );
-//        }
-
-        if (symbol) m_prob0 -= lut[m_prob0>>8];
-        else m_prob0 += lut[255-(m_prob0>>8)];
-
-    }
-*/
 
     class ArithCodecBase {
 
@@ -353,7 +327,6 @@ namespace dirac
             m_low_code   &= 0xFFFF;
 
          }
-       
     }
 
     inline void ArithCodecBase::EncodeUInt(const unsigned int the_int,

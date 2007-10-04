@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp.cpp,v 1.32 2007/03/26 11:20:37 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: mot_comp.cpp,v 1.36 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -20,7 +20,7 @@
 * Portions created by the Initial Developer are Copyright (C) 2004.
 * All Rights Reserved.
 *
-* Contributor(s): Richard Felton (Original Author), 
+* Contributor(s): Richard Felton (Original Author),
 *                 Thomas Davies,
 *                 Steve Bearcroft
 *                 Mike Ferenduros
@@ -58,12 +58,12 @@ using std::vector;
 
 // Convenience function to perform motion compensation on a frame
 // Static function that motion compensates a frame. It uses the
-// MV precision value in the CodecParams to instantiate the 
+// MV precision value in the CodecParams to instantiate the
 // appropriate MotionCompensation sub-class.
-void MotionCompensator::CompensateFrame(const CodecParams &cp, 
-                                        const AddOrSub direction , 
-                                        FrameBuffer& buffer , 
-                                        const int fnum, 
+void MotionCompensator::CompensateFrame(const CodecParams &cp,
+                                        const AddOrSub direction ,
+                                        FrameBuffer& buffer ,
+                                        const int fnum,
                                         const MvData& mv_data )
 {
     switch (cp.MVPrecision())
@@ -99,11 +99,11 @@ void MotionCompensator::CompensateFrame(const CodecParams &cp,
 }
 
 // Constructor
-// Initialises the lookup tables that is needed for motion 
+// Initialises the lookup tables that is needed for motion
 // motion compensation. Creates the necessary arithmetic objects and
 // calls ReConfig to create weighting blocks to fit the values within
 // m_cparams.
-MotionCompensator::MotionCompensator( const CodecParams &cp ): 
+MotionCompensator::MotionCompensator( const CodecParams &cp ):
     m_cparams(cp),
     luma_or_chroma(true)
 {
@@ -119,7 +119,7 @@ MotionCompensator::MotionCompensator( const CodecParams &cp ):
     m_sub_block_weights[0] = new TwoDArray<ValueType>[9];
     m_sub_block_weights[1] = new TwoDArray<ValueType>[9];
     m_full_sub_block_weights = new TwoDArray<ValueType>[9];
-    
+
     //Configure weighting blocks for the first time
     ReConfig();
 }
@@ -140,14 +140,14 @@ MotionCompensator::~MotionCompensator()
 }
 
 //Called to perform motion compensated addition/subtraction on an entire frame.
-void MotionCompensator::CompensateFrame( const AddOrSub direction , 
+void MotionCompensator::CompensateFrame( const AddOrSub direction ,
                                                     FrameBuffer& my_buffer ,
-                                                    int fnum , 
+                                                    int fnum ,
                                                     const MvData& mv_data)
 {
      m_add_or_sub = direction;
 
-     int ref1_idx,ref2_idx;    
+     int ref1_idx,ref2_idx;
      Frame& my_frame=my_buffer.GetFrame(fnum);
      const FrameSort& fsort=my_frame.GetFparams().FSort();
 
@@ -169,11 +169,38 @@ void MotionCompensator::CompensateFrame( const AddOrSub direction ,
              const Frame& ref1frame = my_buffer.GetFrame(ref1_idx);
              const Frame& ref2frame = refs.size() > 0 ? my_buffer.GetFrame(ref2_idx) : ref1frame;
 
-             luma_or_chroma = true;                
+             // Now check that references are marked correctly
+             if ( !ref1frame.GetFparams().FSort().IsRef() )
+             {
+                 std::cout<<std::endl<<"WARNING! Reference frame (number "<<ref1_idx;
+                 std::cout<<") being used is not marked as a reference. Incorrect output is likely.";
+             }
+             if ( ref1frame.GetFparams().FrameNum() != ref1_idx)
+             {
+                 std::cout<<std::endl<<"WARNING! Reference frame (number "<<ref1_idx;
+                 std::cout<<") not available in buffer. Incorrect output is likely.";
+             }
+
+
+             if ( refs.size()>1 )
+             {
+                 if ( !ref2frame.GetFparams().FSort().IsRef() )
+                 {
+                     std::cout<<std::endl<<"WARNING! Reference frame (number ";
+                     std::cout<<ref2_idx<<") being used is not marked as a reference. Incorrect output is likely.";
+                 }
+                 if ( ref2frame.GetFparams().FrameNum() != ref2_idx)
+                 {
+                     std::cout<<std::endl<<"WARNING! Reference frame (number "<<ref2_idx;
+                     std::cout<<") not available in buffer. Incorrect output is likely.";
+                 }
+             }
+
+             luma_or_chroma = true;
              //now do all the components
              CompensateComponent( my_frame , ref1frame , ref2frame , mv_data , Y_COMP);
 
-             luma_or_chroma = false;                
+             luma_or_chroma = false;
              CompensateComponent( my_frame , ref1frame , ref2frame , mv_data , U_COMP);
              CompensateComponent( my_frame , ref1frame , ref2frame , mv_data , V_COMP);
          }
@@ -213,7 +240,7 @@ void MotionCompensator::ReConfig()
         ++v_shift_bits;
         overlap>>=1;
     }
-    // Total shift = shift assuming equal frame weights + 
+    // Total shift = shift assuming equal frame weights +
     //               frame weights precision
     m_shift_bits = (h_shift_bits+v_shift_bits+m_cparams.FrameWeightsBits()); //full weight
     m_max_h_weight = 1<<h_shift_bits; //linear weights
@@ -251,7 +278,7 @@ void MotionCompensator::ReConfig()
 
     // Calculate non-weighted "macro" Block Weights
     CalculateWeights( mb_xlen, mb_ylen, mb_xsep, mb_ysep , m_macro_block_weights[0] );
-    
+
     // Calculate non-weighted superblock Weights
     CalculateWeights( sb_xlen, sb_ylen, sb_xsep, sb_ysep , m_sub_block_weights[0] );
 
@@ -310,8 +337,8 @@ void MotionCompensator::ReConfig()
     }// k
 }
 
-void MotionCompensator::CompensateComponent( Frame& picframe , 
-                                                        const Frame &ref1frame , 
+void MotionCompensator::CompensateComponent( Frame& picframe ,
+                                                        const Frame &ref1frame ,
                                                         const Frame& ref2frame ,
                                                         const MvData& mv_data ,
                                                         const CompSort cs)
@@ -350,8 +377,8 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
           //  yscale_shift = 0;
         //}
 
-    } 
-    
+    }
+
     ImageCoords orig_pic_size(m_cparams.OrigXl()>>xscale_shift, m_cparams.OrigYl()>>yscale_shift);
 
     // Reference to the relevant DC array
@@ -359,7 +386,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
 
     // Set up references to the vectors
     const int num_refs = picframe.GetFparams().Refs().size();
-    const MvArray* mv_array1; 
+    const MvArray* mv_array1;
     const MvArray* mv_array2;
     mv_array1 = &mv_data.Vectors(1);
     if (num_refs ==2 )
@@ -367,7 +394,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
     else
         mv_array2 = &mv_data.Vectors(1);
 
-    ReConfig();//set all the weighting blocks up    
+    ReConfig();//set all the weighting blocks up
 
     //Blocks are listed left to right, line by line.
     MVector mv1,mv2;
@@ -392,11 +419,11 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
     const int blocks_per_mb_row = m_cparams.XNumBlocks()/m_cparams.XNumMB();
     const int blocks_per_sb_row = blocks_per_mb_row>>1;
 
-    // The picture does not contain integral number of blocks. So not all 
+    // The picture does not contain integral number of blocks. So not all
     // blocks need to be processed. Compute the relevant blocks to be
     // processed using the original picturesize and not the padded pic size
-    int y_num_blocks = NUM_USED_BLKS(orig_pic_size.y,m_bparams.Ybsep(),m_bparams.Yblen()); 
-    int x_num_blocks = NUM_USED_BLKS(orig_pic_size.x,m_bparams.Xbsep(),m_bparams.Xblen()); 
+    int y_num_blocks = NUM_USED_BLKS(orig_pic_size.y,m_bparams.Ybsep(),m_bparams.Yblen());
+    int x_num_blocks = NUM_USED_BLKS(orig_pic_size.x,m_bparams.Xbsep(),m_bparams.Xblen());
 
     for(int yblock = 0; yblock < y_num_blocks; ++yblock)
     {
@@ -408,7 +435,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
             int split_mode =  mv_data.MBSplit()[yblock/blocks_per_mb_row][xblock/blocks_per_mb_row];
 
             int blk_len_x, blk_len_y = m_bparams.Yblen();
-            
+
             switch (split_mode)
             {
             case 0: // processing superblock
@@ -454,7 +481,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
                 else
                     wgt_idx = 8;
             }
-            
+
 
             block_mode = mv_data.Mode()[yblock][xblock];
 
@@ -494,7 +521,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
                 CompensateBlock(pic_data, orig_pic_size, ref1up, mv1, pos, *wt);
             }
             else if (block_mode == REF2_ONLY)
-            {                
+            {
                 mv2 = (*mv_array2)[yblock][xblock];
                 mv2.x >>= xscale_shift;
                 mv2.y >>= yscale_shift;
@@ -534,8 +561,8 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
           if (m_add_or_sub == SUBTRACT)
           {
               int start_y = std::max(pic_data_out.FirstY() , pos.y) ;
-               int end_y = std::min (pic_data_out.FirstY() + pos.y + m_bparams.Ybsep() , y_end_data); 
-               
+               int end_y = std::min (pic_data_out.FirstY() + pos.y + m_bparams.Ybsep() , y_end_data);
+
                if (yblock == y_num_blocks - 1)
                {
                     end_y = pic_data_out.LengthY();
@@ -568,7 +595,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
           else // (m_add_or_sub == ADD)
           {
               int start_y = std::max(pic_data_out.FirstY() , pos.y) ;
-              int end_y = std::min (pic_data_out.FirstY() + pos.y + m_bparams.Ybsep() , pic_data_out.FirstY() + pic_data_out.LengthY()); 
+              int end_y = std::min (pic_data_out.FirstY() + pos.y + m_bparams.Ybsep() , pic_data_out.FirstY() + pic_data_out.LengthY());
               if (yblock == (y_num_blocks - 1))
               {
                    end_y += (m_bparams.Yblen()-m_bparams.Ybsep());
@@ -576,7 +603,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
                         end_y = m_cparams.OrigYl()>>yscale_shift;
               }
 #if defined (HAVE_MMX)
-             CompensateComponentAddAndShift_mmx (start_y, end_y, m_shift_bits, orig_pic_size, 
+             CompensateComponentAddAndShift_mmx (start_y, end_y, m_shift_bits, orig_pic_size,
                                                  pic_data, pic_data_out);
 #else
              for ( int i = start_y, pic_y = 0; i < end_y; i++, pic_y++)
@@ -586,12 +613,12 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
 
                  for ( int j =0; j < m_cparams.OrigXl()>>xscale_shift; j++)
                  {
-                     out_row[j] += static_cast<ValueType>( (pic_row[j] + round_val) >> m_shift_bits ); 
+                     out_row[j] += static_cast<ValueType>( (pic_row[j] + round_val) >> m_shift_bits );
                  }
                  // Pad the remaining pixels of the row with last truepic pixel val
                   for ( int j = m_cparams.OrigXl()>>xscale_shift; j < pic_data.LengthX(); j++)
                   {
-                     out_row[j] = out_row[(m_cparams.OrigXl()>>xscale_shift)-1]; 
+                     out_row[j] = out_row[(m_cparams.OrigXl()>>xscale_shift)-1];
                   }
              }
 #endif
@@ -609,7 +636,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
 
     if ( m_add_or_sub == SUBTRACT)
     {
-        // Finally, now we've done all the blocks, we must set all padded lines below 
+        // Finally, now we've done all the blocks, we must set all padded lines below
         // the last row equal to 0, if we're subtracting
         for ( int y=m_cparams.OrigYl()>>yscale_shift ; y<pic_data_out.LengthY() ; ++y )
         {
@@ -623,7 +650,7 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
     }
     if ( m_add_or_sub == ADD)
     {
-        // Finally, now we've done all the blocks, we must set all padded lines below 
+        // Finally, now we've done all the blocks, we must set all padded lines below
         // the last row equal to same as last row, if we're adding
         ValueType *last_row = &pic_data_out[(m_cparams.OrigYl()>>yscale_shift)-1][0];
         for ( int y=m_cparams.OrigYl()>>yscale_shift ; y<pic_data_out.LengthY() ; ++y )
@@ -640,14 +667,14 @@ void MotionCompensator::CompensateComponent( Frame& picframe ,
 
 void MotionCompensator::DCBlock( TwoDArray<CalcValueType> &pic_data ,
                                             const ImageCoords& orig_pic_size ,
-                                            const ValueType dc , 
+                                            const ValueType dc ,
                                             const ImageCoords& pos ,
                                             const TwoDArray<ValueType>& wt_array)
 {
 
     //Coordinates in the image being written to.
     const ImageCoords start_pos( std::max(0 , pos.x) , std::max(0 , pos.y) );
-    const ImageCoords end_pos( std::min(pos.x + wt_array.LengthX() , orig_pic_size.x ) , 
+    const ImageCoords end_pos( std::min(pos.x + wt_array.LengthX() , orig_pic_size.x ) ,
                                std::min(pos.y + wt_array.LengthY() , orig_pic_size.y ) );
 
     //The difference between the desired start point
@@ -656,8 +683,8 @@ void MotionCompensator::DCBlock( TwoDArray<CalcValueType> &pic_data ,
 
     //Quick process where we can just copy from the double size image.
 
-    CalcValueType *pic_curr = &pic_data[0][start_pos.x]; 
-    ValueType *wt_curr = &wt_array[diff.y][diff.x]; 
+    CalcValueType *pic_curr = &pic_data[0][start_pos.x];
+    ValueType *wt_curr = &wt_array[diff.y][diff.x];
     const int block_width = end_pos.x - start_pos.x;
     //- go down a row and back up
     const int pic_next (pic_data.LengthX() - block_width );
@@ -677,11 +704,11 @@ void MotionCompensator::DCBlock( TwoDArray<CalcValueType> &pic_data ,
 //to them. This function facilitates the calculations
 float MotionCompensator::RaisedCosine(float t, float B)
 {
-    if(std::abs(t)>(B+1.0)/2.0) 
+    if(std::abs(t)>(B+1.0)/2.0)
         return 0.0f;
-    else if(std::abs(t)<(1.0-B)/2.0) 
+    else if(std::abs(t)<(1.0-B)/2.0)
         return 1.0f;
-    else 
+    else
         return( 0.5 * ( 1.0 + std::cos( 3.141592654 * ( std::abs(t)-(1.0-B)/2.0 )/B ) ) );
 }
 
@@ -689,11 +716,11 @@ float MotionCompensator::RaisedCosine(float t, float B)
 //to them. This function facilitates the calculations
 float MotionCompensator::Linear(float t, float B)
 {
-    if(std::abs(t)>(B+1.0)/2.0) 
+    if(std::abs(t)>(B+1.0)/2.0)
         return 0.0f;
-    else if(std::abs(t)<(1.0-B)/2.0) 
+    else if(std::abs(t)<(1.0-B)/2.0)
         return 1.0f;
-    else 
+    else
         return( (1.0 + B - 2.0*std::abs(t))/(2.0*B));
 }
 
@@ -710,7 +737,7 @@ void MotionCompensator::CalculateWeights( int xblen, int yblen,
     CreateBlock( xblen, yblen , xbsep, ybsep, true , false , wts_array[1] );
     CreateBlock( xblen, yblen , xbsep, ybsep, true , true , wts_array[4] );
 
-    // Note order of flipping is important.    
+    // Note order of flipping is important.
     FlipX( wts_array[3] , xblen , yblen , wts_array[5] );
     FlipX( wts_array[0] , xblen , yblen , wts_array[2] );
     FlipY( wts_array[0] , xblen , yblen , wts_array[6] );
@@ -719,9 +746,9 @@ void MotionCompensator::CalculateWeights( int xblen, int yblen,
 
 }
 // Calculates a weighting block.
-// bparams defines the block parameters so the relevant weighting arrays can 
+// bparams defines the block parameters so the relevant weighting arrays can
 // be created.
-// FullX and FullY refer to whether the weight should be adjusted for the 
+// FullX and FullY refer to whether the weight should be adjusted for the
 // edge of an image.
 // eg. 1D Weighting shapes in x direction
 
@@ -730,8 +757,8 @@ void MotionCompensator::CalculateWeights( int xblen, int yblen,
 //   *     *                  *
 //  *       *                  *
 //*           *                  *
-void MotionCompensator::CreateBlock( int xblen, int yblen, int xbsep, int ybsep,                                     bool FullX , 
-                                     bool FullY , 
+void MotionCompensator::CreateBlock( int xblen, int yblen, int xbsep, int ybsep,                                     bool FullX ,
+                                     bool FullY ,
                                      TwoDArray<ValueType>& WeightArray)
 {
     // Create temporary arrays
@@ -800,8 +827,8 @@ void MotionCompensator::CreateBlock( int xblen, int yblen, int xbsep, int ybsep,
 }
 
 // Flips the values in an array in the x direction.
-void MotionCompensator::FlipX( const TwoDArray<ValueType>& Original , 
-                                          int xblen, int yblen, 
+void MotionCompensator::FlipX( const TwoDArray<ValueType>& Original ,
+                                          int xblen, int yblen,
                                           TwoDArray<ValueType>& Flipped)
 {
     for(int y = 0; y < yblen; ++y)
@@ -814,7 +841,7 @@ void MotionCompensator::FlipX( const TwoDArray<ValueType>& Original ,
 }
 
 // Flips the values in an array in the y direction.
-void MotionCompensator::FlipY( const TwoDArray<ValueType>& Original , 
+void MotionCompensator::FlipY( const TwoDArray<ValueType>& Original ,
                                           int xblen, int yblen,
                                           TwoDArray<ValueType>& Flipped)
 {
@@ -834,21 +861,21 @@ void MotionCompensator::FlipY( const TwoDArray<ValueType>& Original ,
 
 // Motion Compesation class that provides pixel precision compensation
 
-MotionCompensator_Pixel::MotionCompensator_Pixel( const CodecParams &cp ) : 
+MotionCompensator_Pixel::MotionCompensator_Pixel( const CodecParams &cp ) :
     MotionCompensator( cp )
 {}
 
-void MotionCompensator_Pixel::CompensateBlock( 
-                                    TwoDArray<CalcValueType> &pic_data , 
-                                    const ImageCoords& orig_pic_size , 
-                                    const PicArray &refup_data , 
-                                    const MVector &mv , 
-                                    const ImageCoords& pos , 
+void MotionCompensator_Pixel::CompensateBlock(
+                                    TwoDArray<CalcValueType> &pic_data ,
+                                    const ImageCoords& orig_pic_size ,
+                                    const PicArray &refup_data ,
+                                    const MVector &mv ,
+                                    const ImageCoords& pos ,
                                     const TwoDArray<ValueType>& wt_array)
 {
     //Coordinates in the image being written to.
     const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) , 
+    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) ,
                                std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
 
     //The difference between the desired start point
@@ -868,11 +895,11 @@ void MotionCompensator_Pixel::CompensateBlock(
 
     //Check if there are going to be any problems copying the block from
     //the upvconverted reference image.
-    if( ref_start.x < 0 ) 
+    if( ref_start.x < 0 )
         do_bounds_checking = true;
     else if( ref_start.x + ((end_pos.x - start_pos.x - 1)<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
-    if( ref_start.y < 0 ) 
+    if( ref_start.y < 0 )
         do_bounds_checking = true;
     else if( ref_start.y + ((end_pos.y - start_pos.y - 1)<<1 ) >= trueRefYlen)
         do_bounds_checking = true;
@@ -901,11 +928,11 @@ void MotionCompensator_Pixel::CompensateBlock(
     {
         // We're doing bounds checking because we'll fall off the edge of the reference otherwise.
 
-        for( int y=end_pos.y-start_pos.y, ry=ref_start.y, by=BChk(ry,trueRefYlen); 
-             y > 0; 
+        for( int y=end_pos.y-start_pos.y, ry=ref_start.y, by=BChk(ry,trueRefYlen);
+             y > 0;
              --y, pic_curr+=pic_next, wt_curr+=wt_next , ry+=2 , by=BChk(ry,trueRefYlen) )
         {
-             for( int x=block_width , rx=ref_start.x , bx=BChk(rx,trueRefXlen); 
+             for( int x=block_width , rx=ref_start.x , bx=BChk(rx,trueRefXlen);
                   x >0 ; --x, ++pic_curr, ++wt_curr, rx+=2 , bx=BChk(rx,trueRefXlen) )
              {
                  *pic_curr += CalcValueType( refup_data[by][bx] )* *wt_curr;
@@ -917,21 +944,21 @@ void MotionCompensator_Pixel::CompensateBlock(
 
 
 // Motion Compesation class that provides half-pixel precision compensation
-MotionCompensator_HalfPixel::MotionCompensator_HalfPixel( const CodecParams &cp ) : 
+MotionCompensator_HalfPixel::MotionCompensator_HalfPixel( const CodecParams &cp ) :
     MotionCompensator( cp )
 {}
 
 #if !defined (HAVE_MMX)
-void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data , 
-                                          const ImageCoords& orig_pic_size , 
-                                          const PicArray &refup_data , 
-                                          const MVector &mv , 
-                                          const ImageCoords& pos , 
+void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data ,
+                                          const ImageCoords& orig_pic_size ,
+                                          const PicArray &refup_data ,
+                                          const MVector &mv ,
+                                          const ImageCoords& pos ,
                                           const TwoDArray<ValueType>& wt_array)
 {
     //Coordinates in the image being written to.
     const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x) , 
+    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x) ,
                                std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
 
     //The difference between the desired start point
@@ -953,25 +980,25 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
     //Check if there are going to be any problems copying the block from
     //the upvconverted reference image.
 
-    if( ref_start.x < 0 ) 
+    if( ref_start.x < 0 )
         do_bounds_checking = true;
     else if( ref_start.x + ((end_pos.x - start_pos.x -1 )<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
-    if( ref_start.y < 0 ) 
+    if( ref_start.y < 0 )
         do_bounds_checking = true;
     else if( ref_start.y + ((end_pos.y - start_pos.y - 1 )<<1 ) >= trueRefYlen)
         do_bounds_checking = true;
 
     CalcValueType *pic_curr = &pic_data[0][start_pos.x];
     ValueType *wt_curr = &wt_array[diff.y][diff.x];
- 
+
     const int block_width = end_pos.x - start_pos.x;
 
     const int pic_next( pic_data.LengthX() - block_width );// go down a row and back up
     const int wt_next( wt_array.LengthX() - block_width ); // go down a row and back up
 
     if( !do_bounds_checking )
-    {  
+    {
         ValueType *refup_curr = &refup_data[ref_start.y][ref_start.x];
         const int refup_next( (refXlen - block_width)*2 );// go down 2 rows and back up
 
@@ -986,12 +1013,12 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
     else
     {
         // We're doing bounds checking because we'll fall off the edge of the reference otherwise.
-        for( int y=end_pos.y-start_pos.y, ry=ref_start.y, by=BChk(ry,trueRefYlen); 
-             y>0; 
+        for( int y=end_pos.y-start_pos.y, ry=ref_start.y, by=BChk(ry,trueRefYlen);
+             y>0;
              --y, pic_curr+=pic_next, wt_curr+=wt_next , ry+=2 , by=BChk(ry,trueRefYlen))
         {
-             for( int x=block_width , rx=ref_start.x , bx=BChk(rx,trueRefXlen); 
-                  x>0 ; 
+             for( int x=block_width , rx=ref_start.x , bx=BChk(rx,trueRefXlen);
+                  x>0 ;
                   --x, ++pic_curr, ++wt_curr, rx+=2 , bx=BChk(rx,trueRefXlen))
              {
                  *pic_curr += CalcValueType( refup_data[by][bx] )* *wt_curr;
@@ -1002,21 +1029,21 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
 #endif
 
 // Motion Compesation class that provides quarter-pixel precision compensation
-MotionCompensator_QuarterPixel::MotionCompensator_QuarterPixel( const CodecParams &cp ) : 
+MotionCompensator_QuarterPixel::MotionCompensator_QuarterPixel( const CodecParams &cp ) :
     MotionCompensator( cp )
 {}
 
 #if !defined (HAVE_MMX)
-void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data , 
-                                       const ImageCoords& orig_pic_size , 
-                                       const PicArray &refup_data , 
-                                       const MVector &mv , 
-                                       const ImageCoords& pos , 
+void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data ,
+                                       const ImageCoords& orig_pic_size ,
+                                       const PicArray &refup_data ,
+                                       const MVector &mv ,
+                                       const ImageCoords& pos ,
                                        const TwoDArray<ValueType>& wt_array)
 {
     //Coordinates in the image being written to.
     const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) , 
+    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) ,
                                std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
 
     //The difference between the desired start point
@@ -1052,15 +1079,15 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
 
     //Check if there are going to be any problems copying the block from
     //the upvconverted reference image.
-    if( ref_start.x < 0 ) 
+    if( ref_start.x < 0 )
         do_bounds_checking = true;
     else if( ref_start.x + ((end_pos.x - start_pos.x)<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
-    if( ref_start.y < 0 ) 
+    if( ref_start.y < 0 )
         do_bounds_checking = true;
     else if( ref_start.y + ((end_pos.y - start_pos.y)<<1 ) >= trueRefYlen )
         do_bounds_checking = true;
-     
+
     if( !do_bounds_checking )
     {
         ValueType *refup_curr = &refup_data[ref_start.y][ref_start.x];
@@ -1148,23 +1175,23 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
 }
 #endif
 
-// Motion Compesation class that provides one eighth-pixel precision 
+// Motion Compesation class that provides one eighth-pixel precision
 // compensation
-MotionCompensator_EighthPixel::MotionCompensator_EighthPixel( const CodecParams &cp ) : 
+MotionCompensator_EighthPixel::MotionCompensator_EighthPixel( const CodecParams &cp ) :
     MotionCompensator( cp )
 {}
 
-void MotionCompensator_EighthPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data , 
-                                      const ImageCoords& orig_pic_size , 
-                                      const PicArray &refup_data , 
-                                      const MVector &mv , 
-                                      const ImageCoords& pos , 
+void MotionCompensator_EighthPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data ,
+                                      const ImageCoords& orig_pic_size ,
+                                      const PicArray &refup_data ,
+                                      const MVector &mv ,
+                                      const ImageCoords& pos ,
                                       const TwoDArray<ValueType>& wt_array)
 {
 
     //Coordinates in the image being written to.
     const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) , 
+    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) ,
                                std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
 
     //The difference between the desired start point
@@ -1197,11 +1224,11 @@ void MotionCompensator_EighthPixel::CompensateBlock( TwoDArray<CalcValueType> &p
 
     //Check if there are going to be any problems copying the block from
     //the upvconverted reference image.
-    if( ref_start.x < 0 ) 
+    if( ref_start.x < 0 )
         do_bounds_checking = true;
     else if( ref_start.x + ((end_pos.x - start_pos.x)<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
-    if( ref_start.y < 0 ) 
+    if( ref_start.y < 0 )
         do_bounds_checking = true;
     else if( ref_start.y + ((end_pos.y - start_pos.y)<<1 ) >= trueRefYlen)
         do_bounds_checking = true;
@@ -1212,7 +1239,7 @@ void MotionCompensator_EighthPixel::CompensateBlock( TwoDArray<CalcValueType> &p
         CalcValueType *pic_curr = &pic_data[0][start_pos.x];
         ValueType *refup_curr = &refup_data[ref_start.y][ref_start.x];
         ValueType *wt_curr = &wt_array[diff.y][diff.x];
- 
+
         const int block_width = end_pos.x - start_pos.x;
 
         const int pic_next = pic_data.LengthX() - block_width;                //go down a row and back up

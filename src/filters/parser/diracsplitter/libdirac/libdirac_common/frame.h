@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame.h,v 1.11 2006/06/05 14:53:26 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame.h,v 1.13 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -66,6 +66,19 @@ namespace dirac
 
         //! Assignment =. Private as not currently used [may want to implement reference counting later.]
         Frame& operator=( const Frame& rhs );
+
+        //! Frame Copy
+        /*!
+            Copy contents of frame into the output frame passed to it 
+            retaining the frame dimensions of the output frame.
+        */
+        void CopyContents(Frame& out ) const;
+
+        //! Frame Fill
+        /*!
+            Initialise contents of frame with value provided
+        */
+        void Fill(ValueType val );
 
         //gets and sets
         //! Gets the frame parameters
@@ -159,7 +172,7 @@ namespace dirac
         void ClearData();
 
         //! Clip an individual component
-        void ClipComponent(PicArray& pic_data) const;
+        void ClipComponent(PicArray& pic_data, CompSort cs) const;
 
         //! Flag that upconversion needs to be re-done
         mutable bool m_redo_upYdata;

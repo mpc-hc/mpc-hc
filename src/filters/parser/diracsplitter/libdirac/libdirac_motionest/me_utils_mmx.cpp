@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_utils_mmx.cpp,v 1.7 2007/03/19 16:19:00 asuraparaju Exp $
+* $Id: me_utils_mmx.cpp,v 1.8 2007/08/24 16:13:38 asuraparaju Exp $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -131,6 +131,8 @@ namespace dirac
                 // sum += (pic)
                 tmp = _mm_xor_si64(tmp, tmp);
                 tmp = _mm_unpackhi_pi16(pic, tmp);
+                tmp = _mm_slli_pi32 (tmp, 16);
+                tmp = _mm_srai_pi32 (tmp, 16);
                 pic = _mm_unpacklo_pi16(pic, pic);
                 pic = _mm_srai_pi32 (pic, 16);
                 pic = _mm_add_pi32 (pic, tmp);

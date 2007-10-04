@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdata_byteio.h,v 1.2 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: mvdata_byteio.h,v 1.2 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

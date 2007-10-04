@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: video_format_defaults.h,v 1.2 2006/06/26 16:40:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: video_format_defaults.h,v 1.4 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -69,12 +69,6 @@ namespace dirac
     void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams); 
 
     /**
-    * Sets default sequence parameters
-    *@param sparams Params object for setting defaults
-    */
-    void SetDefaultSequenceParameters(SeqParams& sparams); 
-
-    /**
     * Sets default block parameters
     *@param bparams Params object for setting defaults
     *@param video_format Video format 
@@ -97,10 +91,10 @@ namespace dirac
     
     /**
     * Sets the default Transform filter depending on frame type
-    *@param ftype  Frame type i.e. intra or inter
-    *@param wf     WltFilter object for getting the default wavelet filter
+    *@param ftype    Frame type i.e. intra or inter
+    *@param wf       WltFilter object for getting the default wavelet filter
     */
-    void SetDefaultTransformFilter(FrameType ftype, WltFilter &wf);
+    void SetDefaultTransformFilter( FrameType ftype, WltFilter &wf);
 } // namespace dirac
 
 #endif

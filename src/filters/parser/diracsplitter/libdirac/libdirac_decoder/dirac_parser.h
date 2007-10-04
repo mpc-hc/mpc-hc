@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_parser.h,v 1.5 2006/05/16 11:22:45 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_parser.h,v 1.6 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -108,8 +108,6 @@ typedef struct
     dirac_decoder_state_t state;
     /*! parse parameters */
     dirac_parseparams_t parse_params;
-    /*! sequence parameters */
-    dirac_seqparams_t seq_params;
     /*! source parameters */
     dirac_sourceparams_t src_params;
     /*! frame parameters */

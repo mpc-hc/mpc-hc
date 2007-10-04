@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pic_io.h,v 1.13 2006/04/20 10:41:57 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: pic_io.h,v 1.16 2007/09/26 12:23:31 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -47,10 +47,12 @@
 #include <streambuf>
 
 #include <libdirac_common/common.h>
-#include <libdirac_common/frame.h>
+#include <libdirac_common/frame_buffer.h>
 
 namespace dirac
 {
+    class FrameBuffer;
+
     //////////////////////////////////////////
     //--------------------------------------//
     //-                                    -//
@@ -61,10 +63,10 @@ namespace dirac
 
     // Stream classes for writing/reading frames of uncompressed/decoded data
     // to stream. Streams currently supported are Memory based streams and
-    // File based streams. These classes need further restructuring. 
+    // File based streams. These classes need further restructuring.
     // Anu - 19-11-2004
 
-    // Subclass these to provide functionality for different file formats and 
+    // Subclass these to provide functionality for different file formats and
     // for streaming.
 
 
@@ -77,60 +79,113 @@ namespace dirac
     class StreamPicOutput
     {
         public:
-
-            //! Default Constructor
-            StreamPicOutput();
             //! Constructor
             /*!
                 Constructor, takes
-                \param sp the sequence parameters
-             */  
-            StreamPicOutput( const SeqParams& sp);
+                \param op_ptr the output stream object
+                \param sp     the source parameters
+             */
+            StreamPicOutput( std::ostream* op_ptr, const SourceParams& sp);
 
             //! virtual Destructor
             virtual ~StreamPicOutput();
 
             //! Write the next frame to the output
-            virtual bool WriteNextFrame(const Frame& myframe);
+            virtual bool WriteNextFrame(const Frame& myframe) = 0;
 
-            //! Get the sequence parameters 
-            SeqParams& GetSeqParams() {return m_sparams;}
+            //! Get the source parameters
+            SourceParams& GetSourceParams() {return m_sparams;}
 
         protected:
-
-            //! Sequence parameters
-            SeqParams m_sparams;
+            //! Source parameters
+            SourceParams m_sparams;
             //! Output stream
             std::ostream* m_op_pic_ptr;
 
-            //! Write a component to file
-            virtual bool WriteComponent(const PicArray& pic_data, 
-                                        const CompSort& cs);
+            //! Body-less default Constructor
+            StreamPicOutput();
+        private:
+
+    };
+
+    class StreamFrameOutput : public StreamPicOutput
+    {
+        public:
+
+            /*!
+                Constructor, takes
+                \param op_ptr the output stream object
+                \param sp the source parameters
+             */
+            StreamFrameOutput( std::ostream *op_ptr, const SourceParams& sp);
+
+            //! virtual Destructor
+            virtual ~StreamFrameOutput();
+
+            //! Write the next frame to the output
+            bool WriteNextFrame(const Frame& myframe);
+
+        protected:
+            //! Write a frame component to file
+            bool WriteFrameComponent(const PicArray& pic_data,
+                                     const CompSort& cs);
+        private:
+            //! Body-less Default Constructor
+            StreamFrameOutput();
+    };
+
+    class StreamFieldOutput : public StreamPicOutput
+    {
+        public:
+            //! Constructor
+            /*!
+                Constructor, takes
+                \param op_ptr the output stream object
+                \param sp the source parameters
+             */
+            StreamFieldOutput( std::ostream *op_ptr, const SourceParams& sp);
+
+            //! virtual Destructor
+            virtual ~StreamFieldOutput();
+
+            //! Write the next frame to the output
+            bool WriteNextFrame(const Frame& myframe);
+
+        protected:
+            //! Write a field component to file
+            bool WriteFieldComponent(const PicArray& pic_data,
+                                     int field_num,
+                                     const CompSort& cs);
+
+        private:
+            //! Body-less Default Constructor
+            StreamFieldOutput();
+            unsigned char *m_frame_store;
     };
 
     /*!
         Outputs pictures to a memory buffer
     */
-    class MemoryStreamOutput : public StreamPicOutput
+    class MemoryStreamOutput
     {
         public:
-            //! Default Constructor
-            MemoryStreamOutput();
+            //! Constructor
+            MemoryStreamOutput(SourceParams &sparams, bool interlace);
 
             //! Destructor
             ~MemoryStreamOutput();
 
-            //! Set sequence parameters
-            void SetSequenceParams ( SeqParams &sparams)
-            { m_sparams = sparams; }
+            //! Get source parameters
+            SourceParams& GetSourceParams()
+            { return m_op_pic_str->GetSourceParams();}
 
+            StreamPicOutput *GetStream() { return m_op_pic_str; }
             //! Set the memory buffer to write the data to
             void SetMembufReference (unsigned char *buf, int buf_size);
 
-            //! Returns true if we're at the end of the input, false otherwise
-            bool End() const ;
-
         protected:
+            //! Body-less default Constructor
+            MemoryStreamOutput();
             //! Body-less copy constructor
             MemoryStreamOutput(const MemoryStreamOutput&);
             //! Body-less assignment operator
@@ -143,9 +198,9 @@ namespace dirac
             {
             public:
                 //! Memory buffer constructor
-                OutputMemoryBuffer () : 
-                m_op_buf(0), 
-                m_op_buf_size(0), 
+                OutputMemoryBuffer () :
+                m_op_buf(0),
+                m_op_buf_size(0),
                 m_op_idx(0)
                 {}
 
@@ -169,7 +224,7 @@ namespace dirac
                 //! Index of first available byte in buffer
                 int m_op_idx;
 
-                //! Write Overflow method to write one char at a time 
+                //! Write Overflow method to write one char at a time
                 virtual int overflow (int c)
                 {
                     if ( c != EOF)
@@ -184,13 +239,13 @@ namespace dirac
                 }
 
                 //! xsputn method to write one multiple chars at a time to buffer
-                virtual std::streamsize xsputn (const char *s, 
+                virtual std::streamsize xsputn (const char *s,
                                             std::streamsize num)
                 {
                     std::streamsize bytes_left = m_op_buf_size - m_op_idx;
-                    std::streamsize bytes_written = bytes_left > num 
+                    std::streamsize bytes_written = bytes_left > num
                                                         ? num : bytes_left;
-                    memcpy (&m_op_buf[m_op_idx], (unsigned char *)s, 
+                    memcpy (&m_op_buf[m_op_idx], (unsigned char *)s,
                             bytes_written);
                     m_op_idx += bytes_written;
                     return bytes_written;
@@ -203,14 +258,19 @@ namespace dirac
                 OutputMemoryBuffer& operator =(const OutputMemoryBuffer&);
             };
 
+        private:
             //! Output stream Memory buffer
             OutputMemoryBuffer m_membuf;
+            //! Physical Output stream
+            std::ostream* m_op_pic_ptr;
+            //! Pic output Stream
+            StreamPicOutput *m_op_pic_str;
     };
 
     /*!
         Outputs pictures to a file
     */
-    class FileStreamOutput : public StreamPicOutput
+    class FileStreamOutput
     {
         public:
 
@@ -218,18 +278,21 @@ namespace dirac
             /*!
                 Constructor, takes
                 \param output_name the name of the output file
-                \param sp the sequence parameters
-             */  
+                \param sp the source parameters
+                \param interlace the output is interlaced
+             */
             FileStreamOutput (const char* output_name,
-              const SeqParams& sp);
+              const SourceParams& sp, bool interlace);
 
             //! Destructor
             virtual ~FileStreamOutput ();
 
-        protected:
-
-            //! Open picture's YUV data file for output
-            virtual bool OpenYUV(const char* output_name);
+            StreamPicOutput *GetStream() { return m_op_pic_str; }
+        private:
+            //! Physical Output stream
+            std::ostream* m_op_pic_ptr;
+            //! Pic output Stream
+            StreamPicOutput *m_op_pic_str;
     };
 
     //! Picture input class
@@ -247,58 +310,140 @@ namespace dirac
             /*!
                 Constructor, takes
                 \param ip_pic_ptr input stream to read from
-                \param sparams    Sequence parameters
+                \param sparams    Source parameters
              */
-            StreamPicInput(std::istream *ip_pic_ptr, const SeqParams& sparams);
+            StreamPicInput(std::istream *ip_pic_ptr, const SourceParams& sparams);
 
             //! Destructor
             virtual ~StreamPicInput();
 
             //! Skip n frames of input
-            virtual void Skip( const int n) = 0;
+            virtual void Skip( const int n)= 0;
 
-            //! Set padding values to take into account block and transform sizes
-            void SetPadding(const int xpd, const int ypd);
+            //! Read the next picture frame/field from the file
+            virtual bool ReadNextPicture(Frame& myframe) = 0;
 
-            //! Read the next frame from the file
-            virtual bool ReadNextFrame(Frame& myframe);
+            //! Read the next frame/two fields from the file
+            /*!
+                Read next frame/two fields into the frame buffer
+                \param my_fbuf     Frame Buffer
+                \param fnum        Frame/Field number
+            */
+            virtual bool ReadNextFrame(FrameBuffer &my_fbuf, int fnum) = 0;
 
-            //! Get the sequence parameters 
-            SeqParams& GetSeqParams() const {return m_sparams;}
+            //! Get the source parameters
+            SourceParams& GetSourceParams() const {return m_sparams;}
 
             //! Returns true if we're at the end of the input, false otherwise
             bool End() const ;
 
         protected:
 
-            //! Sequence parameters
-            mutable SeqParams m_sparams;
+            //! Source parameters
+            mutable SourceParams m_sparams;
 
             //! Input stream
             std::istream* m_ip_pic_ptr;
 
-            //!padding values
-            int m_xpad,m_ypad;
-
-            //! Read a component from the file
-            virtual bool ReadComponent(PicArray& pic_data,const CompSort& cs);
     };
 
+    class StreamFrameInput : public StreamPicInput
+    {
+        public:
+
+            //! Default Constructor
+            StreamFrameInput();
+            //! Constructor
+            /*!
+                Constructor, takes
+                \param ip_pic_ptr input stream to read from
+                \param sparams    Source parameters
+             */
+            StreamFrameInput(std::istream *ip_pic_ptr, const SourceParams& sparams);
+
+            //! Destructor
+            virtual ~StreamFrameInput();
+
+            //! Skip n frames of input
+            virtual void Skip( const int n);
+
+            //! Read the next picture frame/field from the file
+            virtual bool ReadNextPicture(Frame& myframe);
+
+            //! Read the next frame/two fields from the file
+            /*!
+                Read next frame/two fields into the frame buffer
+                \param my_fbuf     Frame Buffer
+                \param fnum        Frame/Field number
+            */
+            virtual bool ReadNextFrame(FrameBuffer &my_fbuf, int fnum);
+
+        private:
+
+            //! Read a Frame component from the file
+            bool ReadFrameComponent(PicArray& pic_data,const CompSort& cs);
+
+    };
+
+    class StreamFieldInput : public StreamPicInput
+    {
+        public:
+
+            //! Default Constructor
+            StreamFieldInput();
+            //! Constructor
+            /*!
+                Constructor, takes
+                \param ip_pic_ptr input stream to read from
+                \param sparams    Source parameters
+             */
+            StreamFieldInput(std::istream *ip_pic_ptr, const SourceParams& sparams);
+
+            //! Destructor
+            virtual ~StreamFieldInput();
+
+            //! Skip n frames of input
+            virtual void Skip( const int n);
+
+            //! Read the next picture frame/field from the file
+            virtual bool ReadNextPicture(Frame& myframe);
+
+            //! Read the next frame/two fields from the file
+            /*!
+                Read next frame/two fields into the frame buffer
+                \param my_fbuf     Frame Buffer
+                \param fnum        Frame/Field number
+            */
+            virtual bool ReadNextFrame(FrameBuffer &my_fbuf, int fnum);
+
+        protected:
+            //! Read both Field components from the file
+            bool ReadFieldComponent(PicArray& pic_data1,
+                                    PicArray& pic_data2,
+                                    const CompSort& cs);
+
+            //! Read  one Field component from the file
+            bool ReadFieldComponent(bool is_field1, PicArray& pic_data,
+                                    const CompSort& cs);
+    };
     /*!
         Class for reading picture data from memory
      */
-    class MemoryStreamInput : public StreamPicInput
+    class MemoryStreamInput
     {
         public:
-            //! Default constructor
-            MemoryStreamInput();
+            //! Constructor
+            /*! Create a MemoryStreamInput object
+                \param  sparams   Source parameters
+                \param  interlace Treat input as interlaced
+            */
+            MemoryStreamInput(SourceParams& sparams, bool interlace);
 
             //! Destructor
             ~MemoryStreamInput();
 
-            //! Set the seqence parameters
-            void SetSequenceParams ( SeqParams &sparams)
-            { m_sparams = sparams; }
+            SourceParams& GetSourceParams ( )
+            { return m_inp_str->GetSourceParams(); }
 
             //! Set Memory buffer
             /*! Set the input memory buffer variables
@@ -307,12 +452,8 @@ namespace dirac
             */
             void SetMembufReference (unsigned char *buf, int buf_size);
 
-            //! Returns true if we're at the end of the input, false otherwise
-            bool End() const ;
-
-            //! Skip n frame of input. Unimplemented to this class
-            virtual void Skip( const int n);
-
+            //! Return the input stream
+            StreamPicInput *GetStream() { return m_inp_str; }
         protected:
             //! Body-less copy constructor
             MemoryStreamInput(const MemoryStreamInput&);
@@ -343,7 +484,7 @@ namespace dirac
                     m_buffer = buffer;
                     m_buffer_size = buffer_size;
 
-                    setg ((char *)m_buffer, (char *)m_buffer, 
+                    setg ((char *)m_buffer, (char *)m_buffer,
                                 (char *)(m_buffer + buffer_size));
                 }
 
@@ -359,15 +500,22 @@ namespace dirac
                 int m_buffer_size;
             };
 
+        private:
             //! Input stream buffer
             InputMemoryBuffer m_membuf;
+
+            //! Input Stream Object
+            StreamPicInput *m_inp_str;
+
+            //! Input stream
+            std::istream* m_ip_pic_ptr;
     };
 
     //! Picture input class
     /*!
         Class for reading picture data from a file.
      */
-    class FileStreamInput : public StreamPicInput
+    class FileStreamInput
     {
         public:
 
@@ -375,15 +523,25 @@ namespace dirac
             /*!
                 Constructor, takes
                 \param input_name the name of the input picture file
-                \param sparams    the sequence parameters
+                \param sparams    the source parameters
+                \param interlace  input is treated as interlaced
              */
-            FileStreamInput (const char* input_name, const SeqParams &sparams);
+            FileStreamInput (const char* input_name, const SourceParams &sparams, bool interlace);
 
             //! Destructor
             virtual ~FileStreamInput ();
 
-            //! Skip n frames of input
-            virtual void Skip( const int n);
+            SourceParams& GetSourceParams ( )
+            { return m_inp_str->GetSourceParams(); }
+
+            //! Return the input stream
+            StreamPicInput *GetStream() { return m_inp_str; }
+
+        private:
+            StreamPicInput *m_inp_str;
+
+            //! Input stream
+            std::istream* m_ip_pic_ptr;
 
     };
 

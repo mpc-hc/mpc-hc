@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_compress.h,v 1.13 2007/05/01 14:51:14 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: comp_compress.h,v 1.14 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -93,20 +93,20 @@ namespace dirac
         void SetCompLambda( const double intra_ratio, const bool is_a_cut );
 
 
-        void SelectQuantisers( PicArray& pic_data , 
+        void SelectQuantisers( CoeffArray& coeff_data , 
                                SubbandList& bands ,
                                OneDArray<unsigned int>& est_counts,
                                const CodeBlockMode cb_mode );
 
-        int SelectMultiQuants( PicArray& pic_data , 
+        int SelectMultiQuants( CoeffArray& coeff_data , 
                                SubbandList& bands , 
                                const int band_num );
 
         void SetupCodeBlocks( SubbandList& bands );
 
-        void SetToVal(PicArray& pic_data,const Subband& node,ValueType val);
+        void SetToVal(CoeffArray& coeff_data,const Subband& node,ValueType val);
 
-        void AddSubAverage(PicArray& pic_data,int xl,int yl,AddOrSub dirn);
+        void AddSubAverage(CoeffArray& coeff_data,int xl,int yl,AddOrSub dirn);
 
     private:
 

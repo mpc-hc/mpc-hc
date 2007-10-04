@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: displayparams_byteio.cpp,v 1.2 2006/04/20 15:39:30 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: displayparams_byteio.cpp,v 1.3 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -40,14 +40,12 @@
 
 using namespace dirac;
 
-DisplayParamsByteIO::DisplayParamsByteIO(const SeqParams &seq_params,
-                                         SourceParams& src_params,
+DisplayParamsByteIO::DisplayParamsByteIO( SourceParams& src_params,
                                          const SourceParams& default_src_params,
                                          const ByteIO& stream_data):
 ByteIO(stream_data),
 m_src_params(src_params),
-m_default_src_params(default_src_params),
-m_seq_params(seq_params)
+m_default_src_params(default_src_params)
 {
     
 
@@ -61,9 +59,11 @@ DisplayParamsByteIO::~DisplayParamsByteIO()
 
 void DisplayParamsByteIO::Input()
 {
-    // Set the defaults for source params.
-    SourceParams tmp_src_params = SourceParams(m_seq_params.GetVideoFormat(), true);
-    m_src_params = tmp_src_params;
+    // input frame dimensions
+    InputFrameSize();
+
+    // input sampling format
+    InputSamplingFormat();
 
     // input scan format
     InputScanFormat();
@@ -82,13 +82,16 @@ void DisplayParamsByteIO::Input()
 
     // input colour spec
     InputColourSpecification();
-
-    // byte align
-    ByteAlignInput();
 }
 
 void DisplayParamsByteIO::Output()
 {
+    // input frame dimensions
+    OutputFrameSize();
+
+    // input sampling format
+    OutputSamplingFormat();
+
     // output scan format
     OutputScanFormat();
 
@@ -106,12 +109,39 @@ void DisplayParamsByteIO::Output()
 
     // output colour spec
     OutputColourSpecification();
-
-    // byte align
-    ByteAlignOutput();
 }
 
 //-------------------private-----------------------------------------------
+void DisplayParamsByteIO::InputFrameSize()
+{
+    bool custom_flag = InputBit();
+
+    if(!custom_flag)
+        return;
+
+    // set custom width
+    m_src_params.SetXl(InputVarLengthUint());
+
+    // set custom height
+    m_src_params.SetYl(InputVarLengthUint());
+}
+
+void DisplayParamsByteIO::InputSamplingFormat()
+{
+    bool chroma_flag = InputBit();
+
+    if(!chroma_flag)
+        return;
+
+    // set chroma
+    ChromaFormat chroma_format = IntToChromaFormat(InputVarLengthUint());
+    if(chroma_format==formatNK)
+        DIRAC_THROW_EXCEPTION(
+                    ERR_INVALID_CHROMA_FORMAT,
+                    "Dirac does not recognise the specified chroma-format",
+                    SEVERITY_ACCESSUNIT_ERROR)
+    m_src_params.SetCFormat(chroma_format);
+}
 
 void DisplayParamsByteIO::InputAspectRatio()
 {
@@ -238,11 +268,6 @@ void DisplayParamsByteIO::InputScanFormat()
     bool field_flag = InputBit();
     if(field_flag)
         m_src_params.SetTopFieldFirst(InputBit());
-
-    // read field interleaving flag
-    bool field_interleave_flag = InputBit();
-    if(field_interleave_flag)
-        m_src_params.SetSequentialFields(InputBit());
 }
 
 void DisplayParamsByteIO::InputSignalRange()
@@ -285,6 +310,39 @@ void DisplayParamsByteIO::InputTransferFunction()
     int trans_fun_index = InputVarLengthUint();
     m_src_params.SetTransferFunctionIndex(trans_fun_index);
 }
+
+void DisplayParamsByteIO::OutputFrameSize()
+{
+
+    // output 'is custom' dimensions flag
+    bool is_custom = (m_src_params.Xl()!=m_default_src_params.Xl() ||
+                      m_src_params.Yl()!=m_default_src_params.Yl());
+
+    OutputBit(is_custom);
+
+    if(!is_custom)
+        return;
+
+    // set custom X and Y
+    OutputVarLengthUint(m_src_params.Xl());
+    OutputVarLengthUint(m_src_params.Yl());
+
+}
+
+void DisplayParamsByteIO::OutputSamplingFormat()
+{
+    // output 'is default' flag
+    bool not_default =  m_src_params.CFormat()!=m_default_src_params.CFormat();
+    
+    OutputBit(not_default);
+
+    if(!not_default)
+        return;
+
+    // output chroma index
+    OutputVarLengthUint(static_cast<int>(m_src_params.CFormat()));
+}
+
 
 void DisplayParamsByteIO::OutputAspectRatio()
 {
@@ -429,17 +487,6 @@ void DisplayParamsByteIO::OutputScanFormat()
     {
         // output top field value
         OutputBit(m_src_params.TopFieldFirst());
-    }
-    
-    // output field interleaving flag
-    bool not_field_seq_default =  m_src_params.SequentialFields()!=m_default_src_params.SequentialFields();
-    
-    OutputBit(not_field_seq_default);
-
-    if(not_field_seq_default)
-    {
-        // output sequential fields value
-        OutputBit(m_src_params.SequentialFields());
     }
 }
 

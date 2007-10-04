@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseparams_byteio.cpp,v 1.2 2006/04/20 15:39:30 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: parseparams_byteio.cpp,v 1.4 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -44,23 +44,19 @@ const unsigned int PP_AU_FRAME_NUM_SIZE = 4;
 
 using namespace dirac;
 
-ParseParamsByteIO::ParseParamsByteIO(const int& accessunit_fnum,
-                                     const ByteIO& stream_data):
-ByteIO(stream_data),
-m_accessunit_fnum(accessunit_fnum)
+ParseParamsByteIO::ParseParamsByteIO( const ByteIO& stream_data):
+ByteIO(stream_data)
 {
-    
+
 
 }
 
-ParseParamsByteIO::ParseParamsByteIO(const int& accessunit_fnum,
-                                     const ByteIO& stream_data,
+ParseParamsByteIO::ParseParamsByteIO( const ByteIO& stream_data,
                                      ParseParams &parse_params):
 ByteIO(stream_data),
-m_accessunit_fnum(accessunit_fnum),
 m_parse_params(parse_params)
 {
-    
+
 
 }
 
@@ -72,11 +68,8 @@ ParseParamsByteIO::~ParseParamsByteIO()
 
 void ParseParamsByteIO::Input()
 {
-    // input AU Frame number
-    m_accessunit_fnum = InputFixedLengthUint(PP_AU_FRAME_NUM_SIZE);
-    
-    ParseParams def_parse_params(m_accessunit_fnum);
-   
+    ParseParams def_parse_params;
+
     //input version
     m_parse_params.SetMajorVersion(InputVarLengthUint());
     m_parse_params.SetMinorVersion(InputVarLengthUint());
@@ -106,7 +99,7 @@ void ParseParamsByteIO::Input()
         errstr << "Cannot handle profile " << m_parse_params.Profile();
         errstr << ". Supported profile is " << def_parse_params.Profile();
     }
-    
+
     if (m_parse_params.Level() > def_parse_params.Level())
     {
         errstr << "Cannot handle level " << m_parse_params.Level();
@@ -124,22 +117,14 @@ void ParseParamsByteIO::Input()
 
 void ParseParamsByteIO::Output()
 {
-    // output AU Frame number
-    OutputFixedLengthUint(m_accessunit_fnum, PP_AU_FRAME_NUM_SIZE);
- 
-    //:TODO implement
+    ParseParams def_parse_params;
     // output version
-    OutputVarLengthUint(0);
-    OutputVarLengthUint(1);
+    OutputVarLengthUint(def_parse_params.MajorVersion());
+    OutputVarLengthUint(def_parse_params.MinorVersion());
 
     // output profile
-    OutputVarLengthUint(0);
+    OutputVarLengthUint(def_parse_params.Profile());
 
     // output level
-    OutputVarLengthUint(0);
-}
-
-int ParseParamsByteIO::GetIdNumber() const
-{
-    return m_accessunit_fnum;
+    OutputVarLengthUint(def_parse_params.Level());
 }

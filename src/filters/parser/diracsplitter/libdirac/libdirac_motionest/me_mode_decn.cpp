@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_mode_decn.cpp,v 1.22 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: me_mode_decn.cpp,v 1.25 2007/08/13 10:29:23 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -362,14 +362,15 @@ float ModeDecider::DoUnitDecn(const int xpos , const int ypos , const int level 
     MEData& me_data = *( m_me_data_set[level] );
 
     // Coords of the top-leftmost block belonging to this unit
-    const int xblock = xpos<<(2-level);
-    const int yblock = ypos<<(2-level);
+//    const int xblock = xpos<<(2-level);
+//    const int yblock = ypos<<(2-level);
 
     const float loc_lambda = me_data.LambdaMap()[ypos][xpos];
 
     float unit_cost;
-    float mode_cost;
+    float mode_cost(0.0);
     float min_unit_cost;
+    float best_SAD_value;
  
     BlockDiffParams dparams;
 
@@ -378,44 +379,30 @@ float ModeDecider::DoUnitDecn(const int xpos , const int ypos , const int level 
      // First check REF1 costs //
     /**************************/
 
-    mode_cost = ModeCost( xblock , yblock )*m_mode_factor[level];
+//    mode_cost = ModeCost( xblock , yblock )*m_mode_factor[level];
     me_data.Mode()[ypos][xpos] = REF1_ONLY;
     me_data.PredCosts(1)[ypos][xpos].total *= m_level_factor[level];
     min_unit_cost = me_data.PredCosts(1)[ypos][xpos].total + mode_cost;
-
-    // Calculate the cost if we were to code the block as intra //
-    /************************************************************/
-
-    mode_cost = ModeCost( xblock , yblock ) * m_mode_factor[level];
-    me_data.IntraCosts()[ypos][xpos] = m_intradiff->Diff( dparams , me_data.DC( Y_COMP )[ypos][xpos] );
-    me_data.IntraCosts()[ypos][xpos] += loc_lambda * 
-                                       GetDCVar( me_data.DC( Y_COMP )[ypos][xpos] , GetDCPred( xblock , yblock ) );
-    me_data.IntraCosts()[ypos][xpos] *= m_level_factor[level];
-    unit_cost = me_data.IntraCosts()[ypos][xpos] +  mode_cost;
-
-    if ( unit_cost<min_unit_cost )
-    {
-        me_data.Mode()[ypos][xpos] = INTRA;
-        min_unit_cost = unit_cost;
-    }
+    best_SAD_value = me_data.PredCosts(1)[ypos][xpos].SAD;
 
     if (num_refs>1)
     {
        // Next check REF2 costs //
        /*************************/
 
-        mode_cost = ModeCost( xblock , yblock )*m_mode_factor[level];
+//        mode_cost = ModeCost( xblock , yblock )*m_mode_factor[level];
         me_data.PredCosts(2)[ypos][xpos].total *= m_level_factor[level];
         unit_cost = me_data.PredCosts(2)[ypos][xpos].total + mode_cost;
         if ( unit_cost<min_unit_cost )
         {
             me_data.Mode()[ypos][xpos] = REF2_ONLY;
             min_unit_cost = unit_cost;
+            best_SAD_value = me_data.PredCosts(2)[ypos][xpos].SAD;
         }
 
-        // Finally, calculate the cost if we were to use bi-predictions //
+        // Calculate the cost if we were to use bi-predictions //
         /****************************************************************/
-        mode_cost = ModeCost( xpos , ypos )*m_mode_factor[level];
+//        mode_cost = ModeCost( xpos , ypos )*m_mode_factor[level];
 
         me_data.BiPredCosts()[ypos][xpos].mvcost =
                                        me_data.PredCosts(1)[ypos][xpos].mvcost+
@@ -434,8 +421,28 @@ float ModeDecider::DoUnitDecn(const int xpos , const int ypos , const int level 
         {
             me_data.Mode()[ypos][xpos] = REF1AND2;
             min_unit_cost = unit_cost;
+            best_SAD_value = me_data.BiPredCosts()[ypos][xpos].SAD;
         }
 
+    }
+
+    // Calculate the cost if we were to code the block as intra //
+    /************************************************************/
+
+    if (best_SAD_value> 4.0*m_encparams.LumaBParams( level ).Xblen()*m_encparams.LumaBParams( level ).Yblen() )
+    {
+//        mode_cost = ModeCost( xblock , yblock ) * m_mode_factor[level];
+        me_data.IntraCosts()[ypos][xpos] = m_intradiff->Diff( dparams , me_data.DC( Y_COMP )[ypos][xpos] );
+//        me_data.IntraCosts()[ypos][xpos] += loc_lambda * 
+//                                       GetDCVar( me_data.DC( Y_COMP )[ypos][xpos] , GetDCPred( xblock , yblock ) );
+        me_data.IntraCosts()[ypos][xpos] *= m_level_factor[level];
+        unit_cost = me_data.IntraCosts()[ypos][xpos] +  mode_cost;
+
+        if ( unit_cost<min_unit_cost && me_data.IntraCosts()[ypos][xpos]<0.9*best_SAD_value)
+        {
+            me_data.Mode()[ypos][xpos] = INTRA;
+            min_unit_cost = unit_cost;
+        }
     }
 
     return min_unit_cost;

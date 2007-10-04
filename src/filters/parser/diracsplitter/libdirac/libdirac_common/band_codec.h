@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: band_codec.h,v 1.25 2007/05/01 14:51:14 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: band_codec.h,v 1.26 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -57,7 +57,7 @@ namespace dirac
     /*!
         A general class for coding and decoding wavelet subband data, deriving from the abstract ArithCodec class.
      */
-    class BandCodec: public ArithCodec<PicArray>
+    class BandCodec: public ArithCodec<CoeffArray>
     {
     public:
 
@@ -78,10 +78,10 @@ namespace dirac
 
     protected:
         //! Code an individual quantised value and perform inverse-quantisation
-        inline void CodeVal( PicArray& in_data , const int xpos , const int ypos , const ValueType val);
+        inline void CodeVal( CoeffArray& in_data , const int xpos , const int ypos , const CoeffType val);
 
         //! Decode an individual quantised value and perform inverse-quantisation
-        inline void DecodeVal(PicArray& out_data , const int xpos , const int ypos );
+        inline void DecodeVal(CoeffArray& out_data , const int xpos , const int ypos );
 
         //! Encode the offset for a code block quantiser
         void CodeQIndexOffset( const int offset );
@@ -90,20 +90,20 @@ namespace dirac
         int DecodeQIndexOffset();
 
         //! Set a code block area to a given value
-        inline void SetToVal( const CodeBlock& code_block , PicArray& pic_data , const ValueType val);
+        inline void SetToVal( const CodeBlock& code_block , CoeffArray& coeff_data , const CoeffType val);
 
         //! Set all block values to 0
-        inline void ClearBlock( const CodeBlock& code_block , PicArray& pic_data);
+        inline void ClearBlock( const CodeBlock& code_block , CoeffArray& coeff_data);
 
     private:
         //functions
         // Overridden from the base class
-        virtual void DoWorkCode(PicArray& in_data);
+        virtual void DoWorkCode(CoeffArray& in_data);
         // Ditto
-        virtual void DoWorkDecode(PicArray& out_data);
+        virtual void DoWorkDecode(CoeffArray& out_data);
 
-        virtual void CodeCoeffBlock(const CodeBlock& code_block , PicArray& in_data);
-        virtual void DecodeCoeffBlock(const CodeBlock& code_block , PicArray& out_data);
+        virtual void CodeCoeffBlock(const CodeBlock& code_block , CoeffArray& in_data);
+        virtual void DecodeCoeffBlock(const CodeBlock& code_block , CoeffArray& out_data);
 
         //! A function for choosing the context for "follow bits"
         inline int ChooseFollowContext( const int bin_number ) const;
@@ -112,7 +112,7 @@ namespace dirac
         inline int ChooseInfoContext() const;
 
         //! A function for choosing the context for sign bits
-        inline int ChooseSignContext(const PicArray& data , const int xpos , const int ypos ) const;
+        inline int ChooseSignContext(const CoeffArray& data , const int xpos , const int ypos ) const;
 
         //! Private, bodyless copy constructor: class should not be copied
         BandCodec(const BandCodec& cpy);
@@ -137,7 +137,7 @@ namespace dirac
         int m_qf;
     
         //! reconstruction point
-        ValueType m_offset;
+        CoeffType m_offset;
 
         //! True if neighbours non-zero
         bool m_nhood_nonzero;
@@ -183,12 +183,12 @@ namespace dirac
 
     private:
         // Overridden from the base class
-        void DoWorkCode(PicArray& in_data);
+        void DoWorkCode(CoeffArray& in_data);
         // Ditto
-        void DoWorkDecode(PicArray& out_data);
+        void DoWorkDecode(CoeffArray& out_data);
 
-        void CodeCoeffBlock(const CodeBlock& code_block , PicArray& in_data);
-        void DecodeCoeffBlock(const CodeBlock& code_block , PicArray& out_data);
+        void CodeCoeffBlock(const CodeBlock& code_block , CoeffArray& in_data);
+        void DecodeCoeffBlock(const CodeBlock& code_block , CoeffArray& out_data);
 
         //! Private, bodyless copy constructor: class should not be copied
         LFBandCodec(const LFBandCodec& cpy);
@@ -225,11 +225,11 @@ namespace dirac
 
     
     private:
-        void DoWorkCode(PicArray& in_data);                    //overridden from the base class
-        void DoWorkDecode(PicArray& out_data); //ditto
+        void DoWorkCode(CoeffArray& in_data);                    //overridden from the base class
+        void DoWorkDecode(CoeffArray& out_data); //ditto
 
-        void CodeCoeffBlock(const CodeBlock& code_block , PicArray& in_data);
-        void DecodeCoeffBlock(const CodeBlock& code_block , PicArray& out_data);
+        void CodeCoeffBlock(const CodeBlock& code_block , CoeffArray& in_data);
+        void DecodeCoeffBlock(const CodeBlock& code_block , CoeffArray& out_data);
 
         //! Private, bodyless copy constructor: class should not be copied
         IntraDCBandCodec(const IntraDCBandCodec& cpy); 
@@ -238,10 +238,10 @@ namespace dirac
         IntraDCBandCodec& operator=(const IntraDCBandCodec& rhs);
 
         //! Prediction of a DC value from its previously coded neighbours
-        ValueType GetPrediction(const PicArray& data , const int xpos , const int ypos ) const;
+        CoeffType GetPrediction(const CoeffArray& data , const int xpos , const int ypos ) const;
 
     private:
-        PicArray m_dc_pred_res;
+        CoeffArray m_dc_pred_res;
     };
 
 

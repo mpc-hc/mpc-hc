@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_compress.cpp,v 1.29 2007/04/11 14:18:28 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_compress.cpp,v 1.33 2007/08/13 10:30:17 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,7 +61,8 @@ FrameCompressor::FrameCompressor( EncoderParams& encp ) :
     m_use_global(false),
     m_use_block_mv(true),
     m_global_pred_mode(REF1_ONLY),
-    m_medata_avail(false)
+    m_medata_avail(false),
+    m_is_a_cut(false)
 {}
 
 FrameCompressor::~FrameCompressor()
@@ -70,18 +71,9 @@ FrameCompressor::~FrameCompressor()
         delete m_me_data;
 }
 
-FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
-                                        const FrameBuffer& orig_buffer ,
-                                        int fnum,
-                                        int au_fnum)
+bool FrameCompressor::MotionEstimate(const  FrameBuffer& my_fbuffer ,
+                                                            int fnum )
 {
-    Frame& my_frame = my_buffer.GetFrame( fnum );
-
-    FrameParams& fparams = my_frame.GetFparams();
-    const FrameSort& fsort = fparams.FSort();
-    
-    m_medata_avail = false;
-
     m_is_a_cut = false;
 
     if (m_me_data)
@@ -89,31 +81,37 @@ FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
         delete m_me_data;
         m_me_data = 0;
     }
+    
+    m_me_data = new MEData( m_encparams.XNumMB() , 
+                            m_encparams.YNumMB(), 
+                            my_fbuffer.GetFrame( fnum).GetFparams().NumRefs() );
 
-    if ( fsort.IsInter() )
+    MotionEstimator my_motEst( m_encparams );
+    my_motEst.DoME( my_fbuffer , fnum , *m_me_data );
+
+    // If we have a cut....
+    AnalyseMEData( *m_me_data );
+        
+    // Set me data available flag
+    if ( m_is_a_cut==false )
+        m_medata_avail = true;
+    else
     {
-        m_me_data = new MEData( m_encparams.XNumMB() , 
-                                m_encparams.YNumMB(), 
-                                fparams.NumRefs());
-
-        // Motion estimate first
-        MotionEstimator my_motEst( m_encparams );
-        my_motEst.DoME( orig_buffer , fnum , *m_me_data );
-
-        // If we have a cut....
-        AnalyseMEData( *m_me_data );
-        if ( m_is_a_cut )
-        {
-            if (my_frame.GetFparams().FSort().IsRef())
-                my_frame.SetFrameSort (FrameSort::IntraRefFrameSort());
-            else
-                my_frame.SetFrameSort (FrameSort::IntraNonRefFrameSort());
-            
-            if ( m_encparams.Verbose() )
-                std::cout<<std::endl<<"Cut detected and I-frame inserted!";
-        }
-
+        m_medata_avail = false;
+        delete m_me_data;
+        m_me_data = 0;
     }
+    
+    return m_is_a_cut;
+}
+
+FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
+                                        int fnum)
+{
+    Frame& my_frame = my_buffer.GetFrame( fnum );
+
+    FrameParams& fparams = my_frame.GetFparams();
+    const FrameSort& fsort = fparams.FSort();
 
     // Set the wavelet filter
     if ( fsort.IsIntra() )
@@ -152,8 +150,7 @@ FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
     // can do this at any point prior to actually writing any frame data.
     //WriteFrameHeader( my_frame.GetFparams() );
     FrameByteIO* p_frame_byteio = new FrameByteIO(fparams,
-                                                  fnum,  
-                                                  au_fnum);
+                                                  fnum);
    
     p_frame_byteio->Output();
 
@@ -234,8 +231,6 @@ FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
                                                     my_buffer , fnum , 
                                                     *m_me_data );   
             }
-            // Set me data available flag
-            m_medata_avail = true;
         }//?fsort
 
          //finally clip the data to keep it in range
@@ -323,39 +318,8 @@ void FrameCompressor::AnalyseMEData( const MEData& me_data )
 
     if ( m_encparams.Verbose() )
         std::cout<<std::endl<<m_intra_ratio<<"% of blocks are intra   ";
-
-    // Check the size of SAD errors across reference 1    
-    const TwoDArray<MvCostData>& pcosts = me_data.PredCosts( 1 );
-
-    // averege SAD across all relevant blocks
-    long double sad_average = 0.0;
-    // average SAD in a given block
-    long double block_average; 
-    // the block parameters
-    const OLBParams& bparams = m_encparams.LumaBParams( 2 ); 
-    //the count of the relevant blocks
-    int block_count = 0;
-
-    for ( int j=0 ; j<pcosts.LengthY() ; ++j )
-    {
-        for ( int i=0 ; i<pcosts.LengthX() ; ++i )
-        {
-
-            if ( modes[j][i] == REF1_ONLY || modes[j][i] == REF1AND2 )
-            {
-                block_average = pcosts[j][i].SAD /
-                                static_cast<long double>( bparams.Xblen() * bparams.Yblen() * 4 );
-                sad_average += block_average;
-                block_count++;
-            }
-
-        }// i
-    }// j
-
-    if ( block_count != 0)
-        sad_average /= static_cast<long double>( block_count );
    
-    if ( (sad_average > 30.0) || (m_intra_ratio > 33.33) )
+    if ( m_intra_ratio > 33.33 )
         m_is_a_cut = true;
     else
         m_is_a_cut = false;

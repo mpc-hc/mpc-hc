@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: seq_compress.h,v 1.16 2007/03/21 11:05:43 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: seq_compress.h,v 1.19 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -20,7 +20,7 @@
 * Portions created by the Initial Developer are Copyright (C) 2004.
 * All Rights Reserved.
 *
-* Contributor(s): Thomas Davies (Original Author), 
+* Contributor(s): Thomas Davies (Original Author),
 *                 Scott R Ladd,
 *                 Anuradha Suraparaju
 *                 Andrew Kennedy
@@ -60,13 +60,15 @@
 
 namespace dirac
 {
-              
-    //! Compresses a sequence of frames from a stream.
+
+    //! Compresses a sequence of frames/fields from a stream.
     /*!
-        This class compresses a sequence of frames, frame by frame. It
-        currently uses GOP parameters set in the encoder parameters in order
-        to define the temporal prediction structure. A version to incorporate
-        non-GOP structures is TBC.
+        This class compresses a sequence of frames/fields, frame by frame.
+        or field by field. It currently uses GOP parameters set in the encoder
+        parameters in order to define the temporal prediction structure.
+        A version to incorporate non-GOP structures is TBC.
+
+        This is an abstract class.
     */
     class SequenceCompressor{
     public:
@@ -76,12 +78,10 @@ namespace dirac
             with the first frame.Sets up frame padding in the picture input if
             necesary
             \param      pin     an input stream containing a sequence of frames
-            \param      srcp    parameters for the input source
             \param      encp    parameters for the encoding process
             \param      dirac_byte_stream Output destination for compressed data
         */
-        SequenceCompressor(StreamPicInput* pin, 
-                           SourceParams& srcp,
+        SequenceCompressor(StreamPicInput* pin,
                            EncoderParams& encp,
                            DiracByteStream& dirac_byte_stream);
 
@@ -89,16 +89,18 @@ namespace dirac
         /*!
             Destructor. Must delete IO objects created by constructor.
         */
-        ~SequenceCompressor();
+        virtual ~SequenceCompressor();
 
         //! Load data
         /*!
             Load one frame of data into the Sequence Compressor. Sets
             m_all_done to true if no more data is available to be loaded.
+            Input can be frame or field. So the child class will have to
+            implement this function.
             \return             true - if frame load succeeded.
                                 false - otherwise
         */
-        bool LoadNextFrame();
+        virtual bool LoadNextFrame() = 0;
 
         //! Compress the next frame in sequence
         /*!
@@ -139,22 +141,7 @@ namespace dirac
         bool Finished(){return m_all_done;}
 
 
-    private:
-        //! Copy constructor is private and body-less
-        /*!
-            Copy constructor is private and body-less. This class should not
-            be copied.
-        */
-        SequenceCompressor(const SequenceCompressor& cpy);
-
-        //! Assignment = is private and body-less
-        /*!
-            Assignment = is private and body-less. This class should not be
-            assigned..
-        */
-        SequenceCompressor& operator=(const SequenceCompressor& rhs);
-
-        //! Denoises an input frame
+    protected:
         void Denoise( Frame& frame );
 
         //! Denoises a component
@@ -162,25 +149,30 @@ namespace dirac
 
         ValueType Median( const ValueType* val_list, const int length);
 
-        /**
-        * Writes sequence data to byte stream
-        *@param p_accessunit_byteio Output destination
-        */
-        //SequenceCompressor& operator<<(AccessUnitByteIO *p_accessunit_byteio);
-
         //! Uses the GOP parameters to convert frame numbers in coded order to display order.
         /*!
              Uses the GOP parameters to convert frame numbers in coded order
-             to display order
-            \param  fnum  the frame number in coded order
+             to display order. Pure virtual function. The child class will
+             have to define it.
+            \param  pnum  the picture number in coded order
         */
-        int CodedToDisplay(const int fnum);
+        virtual int CodedToDisplay(const int pnum) = 0;
 
         //! Make a report to screen on the coding results for the whole sequence
-        void MakeSequenceReport(); 
+        void MakeSequenceReport();
 
-        //! Make a report to screen on the coding results for a single frame
-        void MakeFrameReport();
+        //! Return original un-encoded frame
+        virtual const Frame& OriginalFrame(int frame_num)
+        { return m_mebuffer->GetFrame(frame_num); }
+
+        //! Remove unwanted frames from frame buffers
+        virtual void CleanBuffers();
+
+        //! Return true if we need to start a new access unit. Purely virtual. The child class will have to define it.
+        virtual bool IsNewAccessUnit() = 0;
+
+        //! Compress the frame using constant bit rate coding. Purely virtual. The child class will have to define it.
+        virtual void RateControlCompress(Frame& my_frame, bool is_a_cut) = 0;
 
         //! Completion flag, returned via the Finished method.
         bool m_all_done;
@@ -205,8 +197,8 @@ namespace dirac
         //! A picture buffer used for local storage of frames whilst pending re-ordering or being used for reference.
         FrameBuffer* m_fbuffer;
 
-        //! A picture buffer of original frames
-        FrameBuffer* m_origbuffer;
+        //! A picture buffer for motion estimation
+        FrameBuffer* m_mebuffer;
 
         //state variables for CompressNextFrame
 
@@ -216,21 +208,18 @@ namespace dirac
         //! The number of the current frame to be coded, in coded order
         int m_current_code_fnum;
 
-        //! Current AccessUnit frame-number
-        int m_current_accessunit_fnum;
-
         //! The number of the frame which should be output for concurrent display or storage
         int m_show_fnum;
 
         //! The index, in display order, of the last frame read
-        int m_last_frame_read;        
+        int m_last_frame_read;
 
         //! A delay so that we don't display what we haven't coded
         int m_delay;
 
         //! A class for monitoring the quality of pictures and adjusting parameters appropriately
         QualityMonitor m_qmonitor;
-        
+
         //! A class for monitoring and controlling bit rate
         RateController* m_ratecontrol;
 
@@ -239,9 +228,134 @@ namespace dirac
 
         //! Output destination for compressed data in bitstream format
         DiracByteStream& m_dirac_byte_stream;
-        
+
+    private:
+        //! Copy constructor is private and body-less
+        /*!
+            Copy constructor is private and body-less. This class should not
+            be copied.
+        */
+        SequenceCompressor(const SequenceCompressor& cpy);
+
+        //! Assignment = is private and body-less
+        /*!
+            Assignment = is private and body-less. This class should not be
+            assigned..
+        */
+        SequenceCompressor& operator=(const SequenceCompressor& rhs);
+
+
     };
 
+    //! Compresses a sequence of frames from a stream.
+    /*!
+        This class compresses a sequence of frames, frame by frame. It
+        currently uses GOP parameters set in the encoder parameters in order
+        to define the temporal prediction structure. A version to incorporate
+        non-GOP structures is TBC.
+    */
+    class FrameSequenceCompressor : public SequenceCompressor
+    {
+    public:
+        //! Constructor
+        /*!
+            Creates a sequence compressor that compresses frames i.e.
+            progressive data, and prepares to begin compressing
+            with the first frame.Sets up frame padding in the picture input if
+            necesary
+            \param      pin     an input stream containing a sequence of frames
+            \param      encp    parameters for the encoding process
+            \param      dirac_byte_stream Output destination for compressed data
+        */
+        FrameSequenceCompressor(StreamPicInput* pin,
+                           EncoderParams& encp,
+                           DiracByteStream& dirac_byte_stream);
+
+        //! Destructor
+        /*!
+            Destructor. Must delete IO objects created by constructor.
+        */
+        virtual ~FrameSequenceCompressor(){};
+
+        //! Load data
+        /*!
+            Load one frame of data into the Sequence Compressor. Sets
+            m_all_done to true if no more data is available to be loaded.
+            \return             true - if frame load succeeded.
+                                false - otherwise
+        */
+        virtual bool LoadNextFrame();
+    protected:
+        virtual int CodedToDisplay(const int pnum);
+        virtual bool IsNewAccessUnit();
+        virtual void RateControlCompress(Frame& my_frame, bool is_a_cut);
+
+    };
+
+    //! Compresses a sequence of fields from a stream.
+    /*!
+        This class compresses a sequence of fields, field by field. It
+        currently uses GOP parameters set in the encoder parameters in order
+        to define the temporal prediction structure. A version to incorporate
+        non-GOP structures is TBC.
+    */
+    class FieldSequenceCompressor : public SequenceCompressor
+    {
+    public:
+        //! Constructor
+        /*!
+            Creates a sequence compressor that compresses fields i.e.
+            interlaced data, and prepares to begin compressing
+            with the first field.
+            \param      pin     an input stream containing a sequence of frames
+            \param      encp    parameters for the encoding process
+            \param      dirac_byte_stream Output destination for compressed data
+        */
+        FieldSequenceCompressor(StreamPicInput* pin,
+                           EncoderParams& encp,
+                           DiracByteStream& dirac_byte_stream);
+
+        //! Destructor
+        /*!
+            Destructor. Must delete IO objects created by constructor.
+        */
+        virtual ~FieldSequenceCompressor();
+
+        //! Load data
+        /*!
+            Load oen frame i.e. two fields of data into the Sequence
+            Compressor. Sets m_all_done to true if no more data is available
+            to be loaded.
+            \return             true - if both fields load succeeded.
+                                false - otherwise
+        */
+        virtual bool LoadNextFrame();
+
+    protected:
+        virtual const Frame& OriginalFrame(int frame_num);
+
+        virtual void CleanBuffers();
+
+        virtual int CodedToDisplay(const int pnum);
+        virtual bool IsNewAccessUnit();
+
+        virtual void RateControlCompress(Frame& my_frame, bool is_a_cut);
+    private:
+        //! Filter fields
+        /*!
+            Low pass filter the components in the fields used in Motion
+            Estimation so that ME works better. Using a 1/4 1/2 1/4 filter
+        */
+        void PreMotionEstmationFilter (PicArray& comp);
+
+        //! A picture buffer for original frames
+        FrameBuffer* m_origbuffer;
+
+        // Field1 bytes
+        int m_field1_bytes;
+        // Field2 bytes
+        int m_field2_bytes;
+    };
 } // namespace dirac
 
 #endif

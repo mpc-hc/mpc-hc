@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arrays.h,v 1.17 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: arrays.h,v 1.20 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -51,10 +51,6 @@
 
 namespace dirac
 {
-    typedef short ValueType;
-
-    typedef int CalcValueType;
-
     //! Range type. 
     /*!
         Range type encapsulating a closed range of values [first,last]. 
@@ -329,6 +325,21 @@ namespace dirac
          */    
         TwoDArray<T>& operator=(const TwoDArray<T>& rhs);
 
+        //! Copy Contents
+        /*!
+            Copy contents of array into output array retaining the dimensions
+            of the output array. If output array is larger that array then
+            pad with last true value.
+            Return true is copy was successful
+         */    
+        bool CopyContents(TwoDArray<T>& out) const;
+
+        //! Fill contents
+        /*!
+            Initialise the array with the val provided.
+         */    
+        void Fill(T val);
+
         //! Resizes the array, deleting the current data.    
         void Resize(const int height, const int width);    
 
@@ -444,6 +455,34 @@ namespace dirac
         return *this;
 
     }
+    
+    template <class T>
+    bool TwoDArray<T>::CopyContents(TwoDArray<T>& out) const
+    {
+        if (&out != this)
+        {
+            int rows = std::min (m_length_y, out.m_length_y);
+            int cols = std::min (m_length_x, out.m_length_x);
+            for (int j = 0; j < rows; ++j)
+            {
+                memcpy( out.m_array_of_rows[j], m_array_of_rows[j], cols * sizeof( T )) ;
+                for (int i = cols; i <out.m_length_x; ++i)
+                    out.m_array_of_rows[j][i] = out.m_array_of_rows[j][cols-1];
+            }
+            for (int j = rows; j < out.m_length_y; ++j)
+            {
+                memcpy( out.m_array_of_rows[j], out.m_array_of_rows[rows-1], out.m_length_x * sizeof( T )) ;
+            }
+        }
+        return true;
+    }
+    
+    template <class T>
+    void TwoDArray<T>::Fill( T val)
+    {
+        if (m_length_x && m_length_y)
+            std::fill_n( m_array_of_rows[0], m_length_x*m_length_y, val);
+    }  
 
     template <class T>
     void TwoDArray<T>::Resize(const int height, const int width)

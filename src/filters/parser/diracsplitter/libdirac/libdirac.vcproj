@@ -283,6 +283,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_byteio\codingparams_byteio.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_byteio\codingparams_byteio.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_common\common.cpp"
 				>
 			</File>
@@ -443,10 +451,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libdirac_byteio\seqparams_byteio.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\libdirac_byteio\subband_byteio.cpp"
 				>
 			</File>
@@ -489,6 +493,22 @@
 			<File
 				RelativePath=".\libdirac_common\wavelet_utils_mmx.cpp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						GeneratePreprocessedFile="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						GeneratePreprocessedFile="0"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -693,10 +713,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libdirac_byteio\seqparams_byteio.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libdirac_byteio\subband_byteio.h"
 				>
 			</File>
@@ -723,14 +739,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\ChangesForGuliverkli"
-			>
-		</File>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_decompress.h,v 1.9 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: comp_decompress.h,v 1.10 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -101,7 +101,7 @@ namespace dirac
             \param  node        subband node
             \param    val            the value to set
         */
-        void SetToVal(PicArray& pic_data,const Subband& node,ValueType val);
+        void SetToVal(CoeffArray& pic_data,const Subband& node,CoeffType val);
 
         //! Set up the code block structures for each subband
         /*!

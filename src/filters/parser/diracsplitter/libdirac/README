@@ -322,7 +322,7 @@ encoder, all of which are listed below. To encode video you need three types of
 parameter need to be set:
 
 a) quality factor or target bit rate
-b) sequence parameters (width, height, frame rate, chroma format)
+b) source parameters (width, height, frame rate, chroma format)
 c) encoding parameters (motion compensation block sizes, preferred viewing
    distance)
 
@@ -354,36 +354,40 @@ algorithm to adapt faster.
 Setting -lossless overrides both -qf and -targetrate, and enforces lossless 
 coding.
 
-b) Sequence parameters need to be set as the imput is just a raw YUV file and 
+b) Source parameters need to be set as the imput is just a raw YUV file and 
 the encoder doesn't have any information about it.
 
-The best way to set sequence parameters is to use a preset for
+The best way to set source parameters is to use a preset for
 different video formats. 
 
 The available preset options  are:
-
-QSIF     : width=176; height=120; 4:2:0 format; 15 frames/sec
-QCIF     : width=176; height=144; 4:2:0 format; 12.5 frames/sec
-SIF      : width=352; height=240; 4:2:0 format; 15 frames/sec
-CIF      : width=352; height=288; 4:2:0 format; 12.5 frames/sec
-4CIF     : width=704; height=576; 4:2:0 format; 25 frames/sec
-4SIF     : width=704; height=480; 4:2:0 format; 29.97 frames/sec
-SD480    : width=720; height=480; 4:2:0 format; 29.97 frames/sec
-SD576    : width=720; height=576; 4:2:0 format; 25 frames/sec
-HD720    : width=1280; height=720; 4:2:0 format; 50 frames/sec
-HD1080   : width=1920; height=1080; 4:2:0 format; 25 frames/sec
+QSIF      : width=176; height=120; 4:2:0 format; 14.98 frames/sec
+QCIF      : width=176; height=144; 4:2:0 format; 12.5 frames/sec
+SIF       : width=352; height=240; 4:2:0 format; 14.98 frames/sec
+CIF       : width=352; height=288; 4:2:0 format; 12.5 frames/sec
+4SIF      : width=704; height=480; 4:2:0 format; 14.98 frames/sec
+4CIF      : width=704; height=576; 4:2:0 format; 12.5  frames/sec
+SD480     : width=720; height=480; 4:2:2 format; 29.97 frames/sec
+SD576     : width=720; height=576; 4:2:2 format; 25 frames/sec
+HD720P60  : width=1280; height=720; 4:2:2 format; 60 frames/sec
+HD720P50  : width=1280; height=720; 4:2:2 format; 50 frames/sec
+HD1080I60 : width=1920; height=1080; 4:2:2 format; 29,97 frames/sec
+HD1080I50 : width=1920; height=1080; 4:2:2 format; 25 frames/sec
+HD1080P60 : width=1920; height=1080; 4:2:2 format; 59.94 frames/sec
+HD1080P50 : width=1920; height=1080; 4:2:2 format; 50 frames/sec
 
 The default format used is CUSTOM format which has the following preset values
-width=640; height=480; 4:2:0 format; 30 frames/sec.
+width=640; height=480; 4:2:0 format; 23.97 frames/sec.
 
 If your video is not one of these formats, you should pick the nearest preset
 and override the parameters that are different.
 
-Example 1 Simple coding example. Code a 720x576 sequence to high quality.
+Example 1 Simple coding example. Code a 720x576 sequence in 420 format to 
+high quality.
 
 Solution.
 
-  dirac_encoder -SD576 -qf 9 test.yuv test_out.drc
+  dirac_encoder -cformat 2 -SD576 -qf 9 test.yuv test_out.drc
 
 Example 2. Code a 720x486 sequence at 29.97 frames/sec in 422 format to 
 medium quality
@@ -392,20 +396,26 @@ Solution
 
   dirac_encoder -SD576 -width 720 -height 486 -fr 29.97 -cformat 1 -qf 7 test.yuv test_out.drc
 
-The complete list of sequence parameters is:
+Source parameters that affect coding are:
 
-width     : Width of video frame
-height    : Height of video frame
-cformat   : Chroma format. It accepts a number between 0 and 4.
-            0 - 4:4:4, 1 - 4:2:2, 2 - 4:2:0 
-fr        : Frame rate. Can be a decimal number or a fraction. Examples
-            of acceptable values are 25, 29.97, 12.5, 30000/1001.
+width           : Width of video frame
+height          : Height of video frame
+cformat         : Chroma format. It accepts a number between 0 and 4.
+                  0 - 4:4:4, 1 - 4:2:2, 2 - 4:2:0 
+fr              : Frame rate. Can be a decimal number or a fraction. Examples
+                  of acceptable values are 25, 29.97, 12.5, 30000/1001.
+source_type     : Source material type - progressive or interlaced
+field_dominance : If source is interlaced, field dominance type - topfieldfirst
+                  (default) or bottomfieldfirst
 
-WARNING!! If you use a preset but don't override sequence parameters that
+Fora complete list of source parameters, refer to Annex C of the Dirac 
+Specification.
+
+WARNING!! If you use a preset but don't override source parameters that
 are different, then Dirac will still compress, but the bit rate will be
 much, much higher and there may well be serious artefacts. The encoder prints
-out the parameters it's actually using before starting encoding, so that
-you can abort at this point.
+out the parameters it's actually using before starting encoding (in verbose
+mode only), so that you can abort at this point.
 
 c) The presets ALSO set encoding parameters. That's why it's a very good idea
 to use presets, as the encoding parameters are a bit obscure. They're still 
@@ -422,11 +432,11 @@ xbsep         : the horizontal separation between blocks. Always <xblen
 ybsep         : the vertical separation between blocks. Always <yblen
 cpd           : normalised viewing distance parameter, in cycles per degree.
 iwlt_filter   : transform filter to use when encoding INTRA frames, Valid
-                values are APPROX97, FIVETHREE, THIRTEENFIVE, HAAR,
-                DAUB97. Default value is APPROX97.
+                values are DD9_7, LEGALL5_3, DD13_7, HAAR0, HAAR1, FIDELITY,
+                DAUB97. Default value is DD9_5.
 rwlt_filter   : transform filter to use when encoding INTER frames, Valid
-                values are APPROX97, FIVETHREE, THIRTEENFIVE, HAAR, 
-                DAUB97. Default value is FIVETHREE.
+                values are DD9_7, LEGALL5_3, DD13_7, HAAR0, HAAR1, FIDELITY,
+                DAUB97. Default value is LEGALL5_3.
 wlt_depth     : transform depth, i.e number of times the component is split 
                 while applying the wavelet transform
 no_spartition : Do not split a subband into coefficient blocks before 
@@ -438,9 +448,12 @@ denoise       : Apply a denoising filter to the input video before encoding
                 (note PSNR statistics will be computed relative to the denoised 
                 video if -local is enabled)
 lossless      : Lossless coding.(overrides -qf and -targetrate)
-mv_precision  : Motion vector precision. Valid values are 1 (Pixel precision),
+mv_prec       : Motion vector precision. Valid values are 1 (Pixel precision),
                 1/2 (half-pixel precision), 1/4 (quarter pixel precision which
                 is the default), 1/8 ( Eighth pixel precision).
+full_search   : Use full search motion estimation
+interlaced    : Set coding type to interlaced for interlaced for interlaced
+                material. Default coding type is progressive.
 
 Modifying L1_sep and num_L1 allows for new GOP structures to be used, and
 should be entirely safe. There are two non-GOP modes that can also be used for

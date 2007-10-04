@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_buffer.h,v 1.14 2007/04/26 13:56:31 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_buffer.h,v 1.17 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,80 +43,93 @@
 #include <map>
 #include <libdirac_common/frame.h>
 #include <libdirac_common/common.h>
-#include <libdirac_common/pic_io.h>
 
 namespace dirac
 {
     //! Holds frames both for reference and to overcome reordering delay
     /*!
-        The buffer holds frames in a stack to overcome both reordering due to 
-        bi-directional prediction and use as references for subsequence motion 
-        estimation. Frames, and components of frames, can be accessed by their 
-        frame numbers. GOP parameters can be included in the constructors so 
-        that frames can be given types (I frame, L1 frame or L2 frame) on 
-        being pushed onto the stack; alternatively, these parameters can be 
+        The buffer holds frames in a stack to overcome both reordering due to
+        bi-directional prediction and use as references for subsequence motion
+        estimation. Frames, and components of frames, can be accessed by their
+        frame numbers. GOP parameters can be included in the constructors so
+        that frames can be given types (I frame, L1 frame or L2 frame) on
+        being pushed onto the stack; alternatively, these parameters can be
         overridden.
     */
     class FrameBuffer{
     public:
         //! Default Constructor
         FrameBuffer();
-        
+
         //! Constructor
         /*!
-            Creates a FrameBuffer using the chroma format. Suitable for 
-            compressing when there are no L2 frames, or when the temporal 
-            prediction structure is to be determined on the fly. 
+            Creates a FrameBuffer using the chroma format. Suitable for
+            compressing when there are no L2 frames, or when the temporal
+            prediction structure is to be determined on the fly.
 
-            \param    cf    the Chroma format of frames in the buffer
-            \param    xlen    the luma width of frames in the buffer
-            \param    ylen    the luma height of frames in the buffer
-            \param    c_xlen  the chroma width of frames in the buffer
-            \param    c_ylen  the chroma height of frames in the buffer
-            \param    vd      the video depth of the data in the buffer
+            \param   cf    the Chroma format of frames in the buffer
+            \param   orig_xlen  the original luma width of frames in the buffer
+            \param   orig_ylen  the original luma height of frames in the buffer
+            \param   dwt_xlen   the padded luma width of frames in the buffer
+            \param   dwt_ylen   the padded luma height of frames in the buffer
+            \param   dwt_cxlen  the padded chroma width of frames in the buffer
+            \param   dwt_cylen  the padded chroma height of frames in the buffer
+            \param   luma_depth the video depth of the luma comp in the buffer
+            \param   chroma_depth the video depth of the chroma comp in the buffer
 
         */
         FrameBuffer(ChromaFormat cf,
-                    const int xlen,
-                    const int ylen, 
-                    const int c_xlen, 
-                    const int c_ylen, 
-                    const unsigned int vd);
+                    const int orig_xlen,
+                    const int orig_ylen,
+                    const int dwt_xlen,
+                    const int dwt_ylen,
+                    const int dwt_cxlen,
+                    const int dwt_cylen,
+                    const unsigned int luma_depth,
+                    const unsigned int chroma_depth);
 
         //! Constructor
         /*!
-            Creates a FrameBuffer using the chroma format, the number of L1 
-            frames between I frames and the separation in frames between L1 
+            Creates a FrameBuffer using the chroma format, the number of L1
+            frames between I frames and the separation in frames between L1
             frames. Suitable for compressing when there is a full GOP structure
-            or when the temporal prediction structure is to be determined on 
-            the fly. 
+            or when the temporal prediction structure is to be determined on
+            the fly.
 
-            \param    cf    the Chroma format of frames in the buffer
-            \param    numL1    the number of Layer 1 frames before the next I frame. 0 means that there is only one I frame.
-            \param    L1sep    the number of Layer 2 frames between Layer 1 frames
-            \param    xlen    the luma width of frames in the buffer
-            \param    ylen    the luma height of frames in the buffer
-            \param    c_xlen  the chroma width of frames in the buffer
-            \param    c_ylen  the chroma height of frames in the buffer
-            \param    vd      the video depth of the data in the buffer
-        */    
+            \param  cf    the Chroma format of frames in the buffer
+            \param  numL1    the number of Layer 1 frames before the next I frame. 0 means that there is only one I frame.
+            \param  L1sep    the number of Layer 2 frames between Layer 1 frames
+            \param  orig_xlen  the original luma width of frames in the buffer
+            \param  orig_ylen  the original luma height of frames in the buffer
+            \param  dwt_xlen   the padded luma width of frames in the buffer
+            \param  dwt_ylen   the padded luma height of frames in the buffer
+            \param  dwt_cxlen  the padded chroma width of frames in the buffer
+            \param  dwt_cylen  the padded chroma height of frames in the buffer
+            \param   luma_depth the video depth of the luma comp in the buffer
+            \param   chroma_depth the video depth of the chroma comp in the buffer
+            \param   interlace Set true if material is being coded in interlaced mode
+        */
         FrameBuffer(ChromaFormat cf,
                     const int numL1,
                     const int L1sep,
-                    const int xlen,
-                    const int ylen, 
-                    const int c_xlen, 
-                    const int c_ylen, 
-                    const unsigned int vd);
+                    const int orig_xlen,
+                    const int orig_ylen,
+                    const int dwt_xlen,
+                    const int dwt_ylen,
+                    const int dwt_cxlen,
+                    const int dwt_cylen,
+                    const unsigned int luma_depth,
+                    const unsigned int chroma_depth,
+                    bool interlace);
 
         //! Copy constructor
         /*!
-            Copy constructor. Removes the current contents of the frame buffer 
+            Copy constructor. Removes the current contents of the frame buffer
             and copies in the contents of the initialising buffer.
         */
         FrameBuffer(const FrameBuffer& cpy);
 
-        //! Operator=. 
+        //! Operator=.
         /*!
             Operator=. Assigns all elements of the rhs to the lhs.
         */
@@ -144,7 +157,7 @@ namespace dirac
         PicArray& GetComponent(const unsigned int frame_num, CompSort c);
 
         //! Get component with a given component sort and frame number (NOT with a given position in the buffer)
-        const PicArray& GetComponent(const unsigned int frame_num, CompSort c) const;    
+        const PicArray& GetComponent(const unsigned int frame_num, CompSort c) const;
 
         //! Get upconverted component with a given component sort and frame number (NOT with a given position in the buffer)
         PicArray& GetUpComponent(const unsigned int frame_num, CompSort c);
@@ -153,56 +166,36 @@ namespace dirac
         const PicArray& GetUpComponent(const unsigned int frame_num, CompSort c) const;
 
         //! Returns a list of member frames
-        std::vector<int> Members() const; 
+        std::vector<int> Members() const;
 
         //! Put a new frame into the top of the buffer
-        /*! 
-            Put a new frame into the top of the buffer. Frame parameters 
-            associated with the frame will be the built-in parameters for the 
+        /*!
+            Put a new frame into the top of the buffer. Frame parameters
+            associated with the frame will be the built-in parameters for the
             buffer.
 
             \param    frame_num    the number of the frame being inserted
         */
-        void PushFrame(const unsigned int frame_num);    
+        void PushFrame(const unsigned int frame_num);
 
         //! Put a new frame into the top of the buffer
-        /*! 
-            Put a new frame into the top of the buffer. Frame parameters 
-            associated with the frame will be as given by the frame parameter 
+        /*!
+            Put a new frame into the top of the buffer. Frame parameters
+            associated with the frame will be as given by the frame parameter
             object.
         */
         void PushFrame(const FrameParams& fp);
 
         //! Put a copy of a new frame into the top of the buffer
-        /*! 
-            Put a copy of a new frame into the top of the buffer. 
+        /*!
+            Put a copy of a new frame into the top of the buffer.
         */
         void PushFrame( const Frame& frame );
 
-        //! Read a new frame into the buffer.
-        /*! 
-            Read a new frame into the buffer. Frame parameters associated with 
-            the frame will be as given by the frame parameter object.
-
-            \param    picin    the picture input
-            \param    fp        the frame parameters to apply to the frame
-        */    
-        void PushFrame(StreamPicInput* picin,const FrameParams& fp);
-
-        //! Read a new frame into the buffer.
-        /*! 
-            Read a new frame into the buffer. Frame parameters associated with 
-            the frame will be derived from the frame number and the internal 
-            GOP parameters in the frame buffer.
-            \param    picin    the picture input
-            \param    fnum    the frame number
-        */    
-        void PushFrame(StreamPicInput* picin,const unsigned int fnum);
-
         //! Set retired list for reference frames that will be cleaned
-        /*! 
-            Indicate frames which have been output and which are no longer 
-            required for reference. Expiry times are set in each frame's 
+        /*!
+            Indicate frames which have been output and which are no longer
+            required for reference. Expiry times are set in each frame's
             frame parameters.
             \param show_fnum             frame number in display order that can be output
             \param current_coded_fnum    frame number in display order of frame currently being coded
@@ -210,9 +203,9 @@ namespace dirac
         void SetRetiredList(const int show_fnum, const int current_coded_fnum);
 
         //! Delete expired frames
-        /*! 
-            Delete frames which have been output and which are no longer 
-            required for reference. Expiry times are set in each frame's 
+        /*!
+            Delete frames which have been output and which are no longer
+            required for reference. Expiry times are set in each frame's
             frame parameters.
             \param show_fnum             frame number in display order that can be output
             \param current_coded_fnum    frame number in display order of frame currently being coded
@@ -220,35 +213,44 @@ namespace dirac
         void Clean(const int show_fnum, const int current_coded_fnum);
 
         //! Delete frame
-        /*! 
-            Delete frame. 
-            \param fnum             frame number in display order to be deleted from frame buffer 
+        /*!
+            Delete frame.
+            \param fnum             frame number in display order to be deleted from frame buffer
         */
         void Clean(int fnum);
 
         //! Return the default frame parameters
         const FrameParams& GetFParams() const{return m_fparams;}
 
-    private:
+        //! Returnthe default frame parameters
+        FrameParams& GetFParams() { return m_fparams; }
+
         //! Set the frame parameters based on the frame number in display order and internal GOP parameters
         void SetFrameParams(const unsigned int fnum);
 
+    private:
         //! Remove a frame with a given frame number from the buffer
         /*!
-            Remove a frame with a given frame number (in display order) from 
-            the buffer. Searches through the buffer and removes frame(s) with 
+            Remove a frame with a given frame number (in display order) from
+            the buffer. Searches through the buffer and removes frame(s) with
             that number.
         */
         void Remove(const unsigned int fnum);
 
+        //! Set the frame parameters for a progressive frame based on the frame number in display order and internal GOP parameters
+        void SetProgressiveFrameParams(const unsigned int fnum);
+
+        //! Set the frame parameters for an interlaced frame based on the frame number in display order and internal GOP parameters
+        void SetInterlacedFrameParams(const unsigned int fnum);
+
     private:
-            
+
         //! the count of the number of reference frames in the buffer
         int m_ref_count;
 
         //! the buffer storing all the values
         std::vector<Frame*> m_frame_data;
-        
+
         //! the flags that specifies if the frame is currently in use or not
         std::vector<bool> m_frame_in_use;
 
@@ -267,6 +269,8 @@ namespace dirac
         //! The length of the group of pictures (GOP)
         unsigned int m_gop_len;
 
+        //! Interlaced coding
+        bool m_interlace;
 
 
 

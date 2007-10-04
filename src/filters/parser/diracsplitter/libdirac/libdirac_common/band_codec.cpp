@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: band_codec.cpp,v 1.37 2007/03/27 16:29:13 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: band_codec.cpp,v 1.39 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -56,7 +56,7 @@ BandCodec::BandCodec(SubbandByteIO* subband_byteio,
                      const SubbandList & band_list,
                      int band_num,
                      const bool is_intra):
-    ArithCodec<PicArray>(subband_byteio,number_of_contexts),
+    ArithCodec<CoeffArray>(subband_byteio,number_of_contexts),
     m_is_intra(is_intra),
     m_bnum(band_num),
     m_node(band_list(band_num)),
@@ -68,7 +68,7 @@ BandCodec::BandCodec(SubbandByteIO* subband_byteio,
 
 
 //encoding function
-void BandCodec::DoWorkCode(PicArray& in_data)
+void BandCodec::DoWorkCode(CoeffArray& in_data)
 {
 
     const TwoDArray<CodeBlock>& block_list( m_node.GetCodeBlocks() );
@@ -102,7 +102,7 @@ void BandCodec::DoWorkCode(PicArray& in_data)
 
 }
 
-void BandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& in_data )
+void BandCodec::CodeCoeffBlock( const CodeBlock& code_block , CoeffArray& in_data )
 {
     //main coding function, using binarisation
 
@@ -167,10 +167,10 @@ All bits are arithmetically coded. The follow bits have separate contexts
 based on position, and have different contexts from the info bits. 
 */
 
-inline void BandCodec::CodeVal( PicArray& in_data , 
+inline void BandCodec::CodeVal( CoeffArray& in_data , 
                                 const int xpos , 
                                 const int ypos , 
-                                const ValueType val )
+                                const CoeffType val )
 {
     unsigned int abs_val( std::abs(val) );
     abs_val <<= 2;
@@ -190,7 +190,7 @@ inline void BandCodec::CodeVal( PicArray& in_data ,
     }
     EncodeSymbol( 1, ChooseFollowContext( num_follow_zeroes+1 ) );
 
-    in_data[ypos][xpos] = static_cast<ValueType>( abs_val );
+    in_data[ypos][xpos] = static_cast<CoeffType>( abs_val );
 
     if ( abs_val )
     {
@@ -239,7 +239,7 @@ void BandCodec::CodeQIndexOffset( const int offset )
     }
 }
 
-void BandCodec::DoWorkDecode( PicArray& out_data )
+void BandCodec::DoWorkDecode( CoeffArray& out_data )
 {
     if (m_node.Parent() != 0)
     {
@@ -273,7 +273,7 @@ void BandCodec::DoWorkDecode( PicArray& out_data )
 
 }
 
-void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray& out_data )
+void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_data )
 {
 
 
@@ -313,11 +313,11 @@ void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray& out_da
     for ( int ypos=ybeg; ypos<yend ;++ypos)
     {
 	m_pypos=(( ypos-m_node.Yp() )>>1)+m_pnode.Yp();
-        ValueType *p_out_data = out_data[m_pypos];
-        ValueType *c_out_data_1 = NULL;
+        CoeffType *p_out_data = out_data[m_pypos];
+        CoeffType *c_out_data_1 = NULL;
         if (ypos!=m_node.Yp())
             c_out_data_1 = out_data[ypos-1];
-        ValueType *c_out_data_2 = out_data[ypos];
+        CoeffType *c_out_data_2 = out_data[ypos];
         for ( int xpos=xbeg; xpos<xend ;++xpos)
         {
 	    m_pxpos=(( xpos-m_node.Xp() )>>1)+m_pnode.Xp();
@@ -357,10 +357,10 @@ single loop and avoid counting the number of zeroes, sparing a register.)
 All bits are arithmetically coded. The follow bits have separate contexts
 based on position, and have different contexts from the info bits. 
 */
-inline void BandCodec::DecodeVal( PicArray& out_data , const int xpos , const int ypos )
+inline void BandCodec::DecodeVal( CoeffArray& out_data , const int xpos , const int ypos )
 {
 
-    ValueType& out_pixel = out_data[ypos][xpos];
+    CoeffType& out_pixel = out_data[ypos][xpos];
 
     out_pixel = 1;
     int bit_count=1;
@@ -388,7 +388,7 @@ inline int BandCodec::ChooseFollowContext( const int bin_number ) const
 {
     //condition on neighbouring values and parent values
 
-    if (!m_parent_notzero && (m_pxp != 0 || m_pyp != 0))
+    if (!m_parent_notzero)
     {
         switch ( bin_number )
         {
@@ -441,7 +441,7 @@ inline int BandCodec::ChooseInfoContext() const
     return INFO_CTX;
 }
 
-inline int BandCodec::ChooseSignContext( const PicArray& data , const int xpos , const int ypos ) const
+inline int BandCodec::ChooseSignContext( const CoeffArray& data , const int xpos , const int ypos ) const
 {    
     if ( m_node.Yp()==0 && m_node.Xp()!=0 )
     {
@@ -496,7 +496,7 @@ int BandCodec::DecodeQIndexOffset()
     return offset;
 }
 
-void BandCodec::SetToVal( const CodeBlock& code_block , PicArray& pic_data , const ValueType val)
+void BandCodec::SetToVal( const CodeBlock& code_block , CoeffArray& pic_data , const CoeffType val)
 {
     for (int j=code_block.Ystart() ; j<code_block.Yend() ; j++)
     {
@@ -507,12 +507,12 @@ void BandCodec::SetToVal( const CodeBlock& code_block , PicArray& pic_data , con
     }// j
 }
 
-void BandCodec::ClearBlock( const CodeBlock& code_block , PicArray& pic_data)
+void BandCodec::ClearBlock( const CodeBlock& code_block , CoeffArray& coeff_data)
 {
     for (int j=code_block.Ystart() ; j<code_block.Yend() ; j++)
     {
-        ValueType *pic = &pic_data[j][code_block.Xstart()];
-        memset (pic, 0, (code_block.Xend()-code_block.Xstart())*sizeof(ValueType));
+        CoeffType *pic = &coeff_data[j][code_block.Xstart()];
+        memset (pic, 0, (code_block.Xend()-code_block.Xstart())*sizeof(CoeffType));
     }// j
 
 }
@@ -520,7 +520,7 @@ void BandCodec::ClearBlock( const CodeBlock& code_block , PicArray& pic_data)
 //Now for special class for LF bands (since we don't want/can't refer to parent)//
 //////////////////////////////////////////////////////////////////////////////////
 
-void LFBandCodec::DoWorkCode(PicArray& in_data)
+void LFBandCodec::DoWorkCode(CoeffArray& in_data)
 {
 
     m_pxp = 0;
@@ -544,7 +544,7 @@ void LFBandCodec::DoWorkCode(PicArray& in_data)
     }// j
 }
 
-void LFBandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& in_data )
+void LFBandCodec::CodeCoeffBlock( const CodeBlock& code_block , CoeffArray& in_data )
 {
     //main coding function, using binarisation
     const int xbeg = code_block.Xstart();
@@ -588,7 +588,7 @@ void LFBandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& in_dat
 }
 
 
-void LFBandCodec::DoWorkDecode(PicArray& out_data )
+void LFBandCodec::DoWorkDecode(CoeffArray& out_data )
 {
     m_pxp = 0;
     m_pyp = 0;
@@ -612,7 +612,7 @@ void LFBandCodec::DoWorkDecode(PicArray& out_data )
 
 }
 
-void LFBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray& out_data )
+void LFBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_data )
 {
 
     const int xbeg = code_block.Xstart();
@@ -672,7 +672,7 @@ void LFBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray& out_
 //Finally,special class incorporating prediction for the DC band of intra frames//
 //////////////////////////////////////////////////////////////////////////////////
 
-void IntraDCBandCodec::DoWorkCode(PicArray& in_data)
+void IntraDCBandCodec::DoWorkCode(CoeffArray& in_data)
 {
 
     m_pxp = 0;
@@ -693,7 +693,7 @@ void IntraDCBandCodec::DoWorkCode(PicArray& in_data)
     }// j
 }
 
-void IntraDCBandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& in_data)
+void IntraDCBandCodec::CodeCoeffBlock( const CodeBlock& code_block , CoeffArray& in_data)
 {
     // Main coding function, using binarisation
     const int xbeg = code_block.Xstart();
@@ -703,9 +703,9 @@ void IntraDCBandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& i
 
     //set parent to always be zero
     m_parent_notzero = false;
-    ValueType val;
+    CoeffType val;
     
-    ValueType prediction;
+    CoeffType prediction;
 
     const int qf_idx = code_block.QIndex();
 
@@ -741,7 +741,7 @@ void IntraDCBandCodec::CodeCoeffBlock( const CodeBlock& code_block , PicArray& i
 }
 
 
-void IntraDCBandCodec::DoWorkDecode(PicArray& out_data)
+void IntraDCBandCodec::DoWorkDecode(CoeffArray& out_data)
 {
 
     m_pxp = 0;
@@ -761,7 +761,7 @@ void IntraDCBandCodec::DoWorkDecode(PicArray& out_data)
     }// j
 }
 
-void IntraDCBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray& out_data)
+void IntraDCBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_data)
 {
     const int xbeg = code_block.Xstart();
     const int ybeg = code_block.Ystart();
@@ -805,7 +805,7 @@ void IntraDCBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , PicArray&
 }
 
 
-ValueType IntraDCBandCodec::GetPrediction( const PicArray& data , const int xpos , const int ypos ) const
+CoeffType IntraDCBandCodec::GetPrediction( const CoeffArray& data , const int xpos , const int ypos ) const
 {
     if (ypos!=0)
     {

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: block_match.h,v 1.8 2005/09/27 12:52:47 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: block_match.h,v 1.10 2007/09/03 14:52:40 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -130,13 +130,13 @@ namespace dirac
                \param  xpos  the horizontal location of the block being matched
                \param  ypos  the vertical location of the block being matched
                \param  cand_list  the list of candidate vectors
-               \param  mv_prediction  the prediction for the motion vector
-               \param  lambda  the Lagrangian parameter    
+               \param  mv_prediction Prediction used for each block used to control the variation in the motion vector field.
+               \param  list_start  index into the candidate vectors list
         */
-        void FindBestMatchPel(const int xpos , const int ypos,
-                              const CandidateList& cand_list,
-                              const MVector& mv_prediction,
-                              const float lambda);
+        void FindBestMatchPel( const int xpos , const int ypos ,
+                                           const CandidateList& cand_list,
+                                           const MVector& mv_prediction,
+                                           const int list_start);
 
         //! Find the best matching vector from a list of candidates, to sub-pixel accuracy (TBC: merge with FindBestMatch)
         /*!

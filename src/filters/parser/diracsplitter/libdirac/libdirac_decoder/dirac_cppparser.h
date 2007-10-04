@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_cppparser.h,v 1.4 2006/04/20 10:41:57 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_cppparser.h,v 1.5 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -152,9 +152,6 @@ namespace dirac
         //! Return the parse parameters of the current sequence
         const ParseParams& GetParseParams() const;
 
-        //! Return the sequence parameters of the current sequence
-        const SeqParams& GetSeqParams() const;
-
         //! Return the source parameters of the current sequence
         const SourceParams& GetSourceParams() const;
 
@@ -163,6 +160,9 @@ namespace dirac
 
         //! Return the decoded frame
         const Frame& GetNextFrame() const;
+        
+        //! Return the coding parameters of the current sequence
+        const DecoderParams& GetDecoderParams() const;
 
         //! Return the last frame in the sequence
       //  const Frame& GetLastFrame() const;

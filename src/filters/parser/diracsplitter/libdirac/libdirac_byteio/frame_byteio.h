@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_byteio.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_byteio.h,v 1.3 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -65,22 +65,18 @@ namespace dirac
         * Constructor
         *@param frame_params Frame parameters
         *@param frame_num Frame number
-        *@param au_fnum AccessUnit frame number
         */
         FrameByteIO(FrameParams& frame_params,
-                    int frame_num,
-                    int au_fnum);
+                    int frame_num);
 
 
         /**
         * Constructor
         *@param frame_params Destination of data
         *@param parseunit_byteio Source of data
-        *@param au_fnum AccessUnit frame number
         */
         FrameByteIO(FrameParams& frame_params,
-                    const ParseUnitByteIO& parseunit_byteio,
-                    int au_fnum);
+                    const ParseUnitByteIO& parseunit_byteio);
 
        /**
        * Destructor
@@ -114,6 +110,31 @@ namespace dirac
         */
         ParseUnitType GetType() const { return PU_FRAME;}
 
+        /**
+        * Returns true is frame in Reference frame
+        */
+        int IsRef() const { return (GetParseCode()&0x04)==0x04;}
+
+        /**
+        * Returns true is frame in Non-Reference frame
+        */
+        int IsNonRef() const { return (GetParseCode()&0x04)==0x00;}
+
+        /**
+        * Gets parse-unit type
+        */
+        int NumRefs() const { return (GetParseCode()&0x03);}
+
+        /**
+        * Returns true is frame is Intra frame
+        */
+        bool IsIntra() const { return NumRefs()==0; }
+
+        /**
+        * Returns true is frame is Inter frame
+        */
+        bool IsInter() const { return NumRefs()>0; }
+
         /***
         * Sets the MVDataIO
         */
@@ -138,7 +159,12 @@ namespace dirac
         /**
         * Reads reference-frame data
         */
-        void InputReferenceFrames();
+        void InputReferencePictures();
+
+        /**
+        * Reads retired list
+        */
+        void InputRetiredPictureList();
 
         /**
         * Calculates frame-type (eg INTRA/INTER) of frame

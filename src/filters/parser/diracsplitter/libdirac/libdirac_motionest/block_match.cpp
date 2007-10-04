@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: block_match.cpp,v 1.17 2005/10/11 09:00:38 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: block_match.cpp,v 1.19 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -242,81 +242,27 @@ ValueType BlockMatcher::GetVarUp( const MVector& predmv , const MVector& mv ) co
 void BlockMatcher::FindBestMatchPel(const int xpos , const int ypos ,
                                     const CandidateList& cand_list,
                                     const MVector& mv_prediction,
-                                    const float lambda)
+                                    const int list_start)
 {
     BlockDiffParams dparams;
     dparams.SetBlockLimits( m_bparams , m_pic_data , xpos , ypos);
     
     //now test against the offsets in the MV list to get the lowest cost//
-    //////////////////////////////////////////////////////////////////////    
-
-    // Numbers of the lists to do more searching in
-    vector<int> list_nums; 
-
-    // Costs of the initial vectors in each list
-    OneDArray<float> list_costs( cand_list.size() );
-
-    // The minimum cost so far
-    float min_cost;    
+    //////////////////////////////////////////////////////////////////////     
 
     // First test the first in each of the lists to choose which lists to pursue
 
-    // Initialise so that we choose a valid vector to start with!
-    float best_cost( 100000000.0f );
+   
+    float best_cost = m_cost_array[ypos][xpos].total;
 
-    MVector best_mv( cand_list[0][0] );
+    MVector best_mv = m_mv_array[ypos][xpos];
 
-
-    float cand_cost;
-
-    for (size_t lnum=0 ; lnum<cand_list.size() ; ++lnum )
+    for ( size_t lnum=list_start ; lnum<cand_list.size() ; ++lnum)
     {
-
-        cand_cost = m_peldiff.Diff( dparams , cand_list[lnum][0] );
-
-        if ( cand_cost < best_cost)
+        for (size_t i=0 ; i<cand_list[lnum].size() ; ++i)
         {
-            best_cost = cand_cost;
-            best_mv = cand_list[lnum][0] ;
-        }
-
-        list_costs[lnum] = cand_cost;
-
-    }// lnum
-
-
-    // Select which lists we're going to use //
-    ///////////////////////////////////////////
-
-    min_cost = list_costs[0];
-
-    for ( int lnum=1 ; lnum<list_costs.Length() ; ++lnum)
-    {
-        if ( list_costs[lnum]<min_cost )
-            min_cost = list_costs[lnum];
-    }// lnum
-
-    for ( int lnum=0 ; lnum<list_costs.Length() ; ++lnum)
-    {
-        // Only do lists whose 1st element isn't too far off best
-        if ( list_costs[lnum] < 1.5*min_cost ) 
-            list_nums.push_back( lnum );
-    }// lnum
-
-
-    // Ok, now we know which lists to pursue. Just go through all of them //
-    ////////////////////////////////////////////////////////////////////////
-
-    int list_num;
-
-    for ( size_t num=0 ; num<list_nums.size() ; ++num)
-    {
-        list_num = list_nums[num];
-
-        for (size_t i=1 ; i<cand_list[list_num].size() ; ++i)
-        {//start at 1 since did 0 above
             m_peldiff.Diff( dparams , 
-                            cand_list[list_num][i] , 
+                            cand_list[lnum][i] , 
                             best_cost , 
                             best_mv);
         }// i
@@ -328,7 +274,7 @@ void BlockMatcher::FindBestMatchPel(const int xpos , const int ypos ,
     m_mv_array[ypos][xpos] = best_mv;
     m_cost_array[ypos][xpos].SAD = best_cost;
     m_cost_array[ypos][xpos].mvcost = GetVar( mv_prediction , best_mv);
-    m_cost_array[ypos][xpos].SetTotal( lambda );
+    m_cost_array[ypos][xpos].SetTotal( 0.0 );
 }
 
 void BlockMatcher::FindBestMatchSubp( const int xpos, const int ypos,

@@ -1,3 +1,22 @@
+dirac_0.8,0
+===========
+Major release complying with the latest Dirac Bytestream Specification.
+
+- Support for interlaced coding
+- Fixed bug with DC weight being set incorrectly
+- Improved constant bit-rate coding mode so that quality crashes and
+  rate explosions are reduced.
+- Improved motion estimation
+- Added support for full-seach block matching.
+- Fixed bugs reported by valgrind.
+- API changes to conform with spec revision 1.0.0.pre9_02. Application using 
+  Dirac libraries will need to be recompiled.
+- Added support for larger wavelet-depths in non-MMX mode.
+- Released patches to MPlayer, FFmpeg to comply with this release. Earlier
+  patch to transcode can be used with release.
+- DirectShow Filter released to be able to play back Dirac v0.8.x files in 
+  Windows Media Player.
+
 dirac_0.7.0
 ===========
 Major release complying with Dirac ByteStream Specification 1.0.0_pre4. The

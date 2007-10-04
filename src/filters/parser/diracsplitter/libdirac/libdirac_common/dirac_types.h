@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_types.h,v 1.4 2006/10/10 14:04:28 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_types.h,v 1.6 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -75,8 +75,6 @@ typedef dirac_rational_t dirac_asr_t;
 /*! Structure that holds the parase parameters */
 typedef struct
 {
-    //! access unit picture number
-    unsigned int au_pnum;
     //! Major version
     unsigned int major_ver;
     //! Minor version
@@ -86,23 +84,6 @@ typedef struct
     //! level
     unsigned int level;
 } dirac_parseparams_t;
-
-/*! Structure that holds the sequence parameters */
-typedef struct
-{
-    /*! numper of pixels per line */
-    int width;
-    /*! number of lines per frame */
-    int height;
-    /*! chroma type */
-    dirac_chroma_t chroma;
-    /*! numper of pixels of chroma per line */
-    int chroma_width;
-    /*! number of lines of chroma per frame */
-    int chroma_height;
-    /*! video depth - number of bits in video */
-    int video_depth;
-} dirac_seqparams_t;
 
 typedef struct
 {
@@ -139,12 +120,20 @@ typedef struct
 /*! Structure that holds the source parameters */
 typedef struct
 {
+    /*! numper of pixels per line */
+    unsigned int width;
+    /*! number of lines per frame */
+    unsigned int height;
+    /*! chroma type */
+    dirac_chroma_t chroma;
+    /*! numper of pixels of chroma per line */
+    unsigned int chroma_width;
+    /*! number of lines of chroma per frame */
+    unsigned int chroma_height;
     /*! interlace flag: 0 - progressive; 1 - interlaced */
     int interlace;
     /*! top field comes first : 0 - false; 1 - true */
     int topfieldfirst;
-    /*! sequential fields flag  : 0 - interleaved; 1 - sequential */
-    int seqfields;
     /*! frame rate */
     dirac_frame_rate_t frame_rate;
     /*! pixel aspect ratio */

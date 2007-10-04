@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: upconvert.cpp,v 1.9 2007/02/07 12:03:34 davidf_ Exp $ $Name: Dirac_0_7_0 $
+* $Id: upconvert.cpp,v 1.10 2007/06/10 14:00:41 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -44,16 +44,23 @@ using namespace dirac;
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #define CLIP(x,min,max) MAX(MIN(x,max),min)
 
+UpConverter::UpConverter (int min_val, int max_val, int orig_xlen, int orig_ylen) :
+    m_min_val(min_val),
+    m_max_val(max_val),
+    m_orig_xl(orig_xlen),
+    m_orig_yl(orig_ylen)
+{}
+
 #ifndef HAVE_MMX
 //MMX version defined in upconver_mmx.cpp
 //Up-convert by a factor of two.
 void UpConverter::DoUpConverter(const PicArray& pic_data, PicArray& up_data)
 {
 
-    m_width_old = pic_data.LengthX();
-    m_height_old = pic_data.LengthY();
-    m_width_new = up_data.LengthX();
-    m_height_new = up_data.LengthY();
+    m_width_old = std::min (pic_data.LengthX(), m_orig_xl);
+    m_height_old = std::min (pic_data.LengthY(), m_orig_yl);
+    m_width_new = std::min(2*m_width_old, up_data.LengthX());
+    m_height_new = std::min(2*m_height_old, up_data.LengthY());
 
     //Variables that will be used by the filter calculations
     int sum;

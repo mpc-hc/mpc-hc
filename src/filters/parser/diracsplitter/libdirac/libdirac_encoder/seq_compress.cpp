@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: seq_compress.cpp,v 1.35 2007/04/11 16:23:45 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: seq_compress.cpp,v 1.43 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -44,25 +44,22 @@
 using namespace dirac;
 
 SequenceCompressor::SequenceCompressor( StreamPicInput* pin ,
-                                        SourceParams& srcp,
                                         EncoderParams& encp,
-                                        DiracByteStream& dirac_byte_stream): 
+                                        DiracByteStream& dirac_byte_stream):
     m_all_done(false),
     m_just_finished(true),
-    m_srcparams(srcp),
+    m_srcparams(pin->GetSourceParams()),
     m_encparams(encp),
     m_pic_in(pin),
     m_current_display_fnum(-1),
     m_current_code_fnum(0),
-    m_show_fnum(-1),m_last_frame_read(-1), 
+    m_show_fnum(-1),m_last_frame_read(-1),
     m_delay(1),
-    m_qmonitor( m_encparams , m_pic_in->GetSeqParams() ),
+    m_qmonitor( m_encparams ),
     m_fcoder( m_encparams ),
     m_dirac_byte_stream(dirac_byte_stream)
 {
     // Set up the compression of the sequence
-
-    const SeqParams& sparams=m_pic_in->GetSeqParams();
 
     //TBD: put into the constructor for EncoderParams
     m_encparams.SetEntropyFactors( new EntropyCorrector(4) );
@@ -76,33 +73,14 @@ SequenceCompressor::SequenceCompressor( StreamPicInput* pin ,
     //Amount of vertical padding for Y,U and V components
     int ypad_luma,ypad_chroma;
 
-    //scaling factors for chroma based on chroma format
-    int x_chroma_fac,y_chroma_fac;    
-
     //First, we need to have sufficient padding to take account of the blocksizes.
     //It's sufficient to check for chroma
 
-    
-    if (sparams.CFormat()==format420)
-    {
-        x_chroma_fac = 2;
-        y_chroma_fac = 2;
-    }
-    else if (sparams.CFormat() == format422)
-    {
-        x_chroma_fac = 2;
-        y_chroma_fac = 1;
-    }
-    else
-    {
-        x_chroma_fac = 1;
-        y_chroma_fac = 1;
-    }
 
-    int xl_chroma = sparams.Xl() / x_chroma_fac;
-    int yl_chroma = sparams.Yl() / y_chroma_fac;
-     xpad_chroma = ypad_chroma = 0;  
-    // The pic dimensions must be a multiple of 2^(transform depth). 
+    int xl_chroma = m_encparams.OrigChromaXl();
+    int yl_chroma = m_encparams.OrigChromaYl();
+     xpad_chroma = ypad_chroma = 0;
+    // The pic dimensions must be a multiple of 2^(transform depth).
     int tx_mul = 1<<m_encparams.TransformDepth();
 
     if ( xl_chroma%tx_mul != 0 )
@@ -128,10 +106,10 @@ SequenceCompressor::SequenceCompressor( StreamPicInput* pin ,
 
 
      xpad_luma = ypad_luma = 0;
-    int xpad_len = sparams.Xl();
-    int ypad_len = sparams.Yl();
-    
-    // The pic dimensions must be a multiple of 2^(transform depth). 
+    int xpad_len = m_encparams.OrigXl();
+    int ypad_len = m_encparams.OrigYl();
+
+    // The pic dimensions must be a multiple of 2^(transform depth).
     if ( xpad_len%tx_mul != 0 )
         xpad_luma = ( (xpad_len/tx_mul)+1 ) *tx_mul - xpad_len;
     if ( ypad_len%tx_mul != 0 )
@@ -144,25 +122,36 @@ SequenceCompressor::SequenceCompressor( StreamPicInput* pin ,
 
     // Note that we do not have an integral number of macroblocks in a picture
     // So it is possible that part of a macro-block and some blocks can fall
-    // of the edge of the padded picture. We need to take this into 
+    // of the edge of the padded picture. We need to take this into
     // consideration while doing Motion Estimation
     m_encparams.SetXNumBlocks( 4 * m_encparams.XNumMB() );
     m_encparams.SetYNumBlocks( 4 * m_encparams.YNumMB() );
 
-    // NOTE: Do we still need this set padding function
-    //Set the resulting padding values
-    m_pic_in->SetPadding(xpad_luma,ypad_luma);
-
     // Set up the frame buffers with the PADDED picture sizes
-    m_fbuffer = new FrameBuffer( sparams.CFormat() , m_encparams.NumL1() , m_encparams.L1Sep() , 
-            xpad_len , ypad_len, xpad_chroma_len, ypad_chroma_len, sparams.GetVideoDepth());
+    m_fbuffer = new FrameBuffer( m_srcparams.CFormat() ,
+                                 m_encparams.NumL1() , m_encparams.L1Sep() ,
+                                 m_encparams.OrigXl(), m_encparams.OrigYl(),
+                                 xpad_len , ypad_len,
+                                 xpad_chroma_len, ypad_chroma_len,
+                                 m_encparams.LumaDepth(),
+                                 m_encparams.ChromaDepth(),
+                                 m_encparams.Interlace());
 
-    m_origbuffer = new FrameBuffer( sparams.CFormat() , m_encparams.NumL1() , m_encparams.L1Sep() , 
-            xpad_len, ypad_len, xpad_chroma_len, ypad_chroma_len, sparams.GetVideoDepth());
-            
+    // Retain the original frame dimensions for the Motion estimation
+    // buffer
+    m_mebuffer = new FrameBuffer( m_srcparams.CFormat() ,
+                                    m_encparams.NumL1() , m_encparams.L1Sep() ,
+                                    m_encparams.OrigXl(), m_encparams.OrigYl(),
+                                    m_encparams.OrigXl(), m_encparams.OrigYl(),
+                                    xl_chroma, yl_chroma,
+                                    m_encparams.LumaDepth(),
+                                    m_encparams.ChromaDepth(),
+                                    m_encparams.Interlace());
+
     // Set up a rate controller if rate control being used
     if (m_encparams.TargetRate() != 0)
-        m_ratecontrol = new RateController(m_encparams.TargetRate(), srcp, encp);
+        m_ratecontrol = new RateController(m_encparams.TargetRate(),
+                                           m_pic_in->GetSourceParams(), encp);
 }
 
 SequenceCompressor::~SequenceCompressor()
@@ -171,31 +160,14 @@ SequenceCompressor::~SequenceCompressor()
     if ( m_encparams.Verbose())
         MakeSequenceReport();
 
-    //TBD: put into the destructor for EncoderParams 
+    //TBD: put into the destructor for EncoderParams
     delete &m_encparams.EntropyFactors();
 
     delete m_fbuffer;
-    delete m_origbuffer;
-    
+    delete m_mebuffer;
+
     if (m_encparams.TargetRate()!=0)
         delete m_ratecontrol;
-}
-
-bool SequenceCompressor::LoadNextFrame()
-{     
-    m_fbuffer->PushFrame( m_pic_in , m_last_frame_read+1 );
-    
-    if ( m_encparams.Denoise() )
-        Denoise(m_fbuffer->GetFrame( m_last_frame_read+1 ) );
-
-    if ( m_pic_in->End() )
-    {
-        m_all_done = true;
-        return false;
-    }
-    m_last_frame_read++;
-    m_origbuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read ) );
-    return true;
 }
 
 Frame& SequenceCompressor::CompressNextFrame()
@@ -214,7 +186,6 @@ Frame& SequenceCompressor::CompressNextFrame()
     // m_show_fnum is the index of the frame number that can be shown when current_fnum has been coded.
     // Var m_delay is the m_delay caused by reordering (as distinct from buffering)
 
-
     TESTM (m_last_frame_read >= 0, "Data loaded before calling CompressNextFrame");
     m_current_display_fnum = CodedToDisplay( m_current_code_fnum );
 
@@ -228,28 +199,33 @@ Frame& SequenceCompressor::CompressNextFrame()
 
     if ( can_encode )
     {   // We haven't coded everything, so compress the next frame
-    
+
         if ( m_encparams.Verbose() )
         {
-            std::cout<<std::endl<<std::endl<<"Compressing frame "<<m_current_code_fnum<<", ";
+            if (m_encparams.Interlace())
+                std::cout<<std::endl<<std::endl<<"Compressing field "<<m_current_code_fnum<<", ";
+            else
+                std::cout<<std::endl<<std::endl<<"Compressing frame "<<m_current_code_fnum<<", ";
             std::cout<<m_current_display_fnum<<" in display order";
         }
- 
-    
+
+
         // stream access-unit data if first frame in unit
-        if(m_current_display_fnum % m_encparams.GOPLength()==0)
+        if(IsNewAccessUnit())
         {
             // The access unit frame number must be equal to the frame
             // number in display order of the I_Frame that follows it and
             // not the coded order.
-            m_current_accessunit_fnum = m_current_display_fnum;
-
-            AccessUnitByteIO *p_accessunit_byteio = new AccessUnitByteIO(m_current_accessunit_fnum,
-                                                                         m_pic_in->GetSeqParams(), m_srcparams);
+            AccessUnitByteIO *p_accessunit_byteio = new AccessUnitByteIO
+                                        (
+                                            m_pic_in->GetSourceParams(),
+                                            m_encparams
+                                        );
             p_accessunit_byteio->Output();
 
             // add the unit to the byte stream
             m_dirac_byte_stream.AddAccessUnit(p_accessunit_byteio);
+
         }
 
         // Compress the frame//
@@ -257,80 +233,97 @@ Frame& SequenceCompressor::CompressNextFrame()
 
         m_fbuffer->SetRetiredList( m_show_fnum, m_current_display_fnum );
 
-		FrameByteIO *p_frame_byteio;
 
-		// Rate Control
-		if (m_encparams.TargetRate() == 0)
-		{
-			// Coding Without using Rate Control Algorithm
-			p_frame_byteio =  m_fcoder.Compress(*m_fbuffer , 
-                                                *m_origbuffer , 
-												m_current_display_fnum, 
-                                                m_current_accessunit_fnum);
-		}
-		else
-		{
-			// Coding using Rate Control Algorithm
-			Frame& my_frame = m_fbuffer->GetFrame( m_current_display_fnum );
-			FrameParams& fparams = my_frame.GetFparams();
-			const FrameSort& fsort = fparams.FSort();
+        Frame& my_frame = m_fbuffer->GetFrame( m_current_display_fnum );
 
-			if ( fsort.IsIntra() && 
-                 m_current_display_fnum != 0 && 
-                 m_encparams.NumL1() != 0)
-			{
-				//Calculate the new QF for encoding the following I frames in the sequence
-				//in normal coding
-				m_ratecontrol->CalcNextIntraQualFactor();
+        FrameParams& fparams = my_frame.GetFparams();
 
-				p_frame_byteio =  m_fcoder.Compress(*m_fbuffer, 
-                                                    *m_origbuffer,          
-													m_current_display_fnum, 
-                                                    m_current_accessunit_fnum);
+        // Do motion estimation using the original (not reconstructed) data
+        if (m_encparams.Verbose() && my_frame.GetFparams().FSort().IsInter())
+        {
+            std::cout<<std::endl<<"References "
+                     << (m_encparams.Interlace() ? "field " : "frame ")
+                     << fparams.Refs()[0];
+            if (fparams.Refs().size() > 1)
+            {
+                std::cout<<" and "<< fparams.Refs()[1];
+            }
+        }
+        bool is_a_cut( false );
+        if ( my_frame.GetFparams().FSort().IsInter() )
+        {
+           is_a_cut = m_fcoder.MotionEstimate(  *m_mebuffer,
+                                                m_current_display_fnum );
+            if ( is_a_cut )
+            {
+                // Set the frame type to intra
+                if (my_frame.GetFparams().FSort().IsRef())
+                    my_frame.SetFrameSort (FrameSort::IntraRefFrameSort());
+                else
+                    my_frame.SetFrameSort (FrameSort::IntraNonRefFrameSort());
 
-			
-			}
-			else
-			{
-				p_frame_byteio =  m_fcoder.Compress(*m_fbuffer, 
-                                                    *m_origbuffer,          
-													m_current_display_fnum, 
-                                                    m_current_accessunit_fnum);
-			}
+                if ( m_encparams.Verbose() )
+                    std::cout<<std::endl<<"Cut detected and I-frame inserted!";
+            }
+        }
 
-            // Update the quality factor
-            m_ratecontrol->CalcNextQualFactor(fparams, p_frame_byteio->GetSize()*8);
 
-		}
-		//End of Rate Control
-        
-        // add the frame to the byte stream
-        m_dirac_byte_stream.AddFrame(p_frame_byteio);
+        // Now code the residual data
+        if (m_encparams.TargetRate() == 0)
+        {
+            FrameByteIO *p_frame_byteio;
+            // Coding Without using Rate Control Algorithm
+            p_frame_byteio =  m_fcoder.Compress(*m_fbuffer ,
+                                         m_current_display_fnum);
 
+            // add the frame to the byte stream
+
+            m_dirac_byte_stream.AddFrame(p_frame_byteio);
+        }
+        else
+        {
+            RateControlCompress(my_frame, is_a_cut);
+        }
 
        // Measure the encoded frame quality
        if ( m_encparams.LocalDecode() )
-           m_qmonitor.UpdateModel( m_fbuffer->GetFrame( m_current_display_fnum ) , 
-                                   m_origbuffer->GetFrame( m_current_display_fnum ) );
-    
-       if ( m_encparams.Verbose() )
        {
-           MakeFrameReport();
+           const Frame &orig_frame = OriginalFrame( m_current_display_fnum );
+           if (m_current_display_fnum != orig_frame.GetFparams().FrameNum())
+           {
+               std::cerr << "Error in frame buffer:"
+                         << " Requested : " << m_current_display_fnum
+                         << "  Retrieved : " << orig_frame.GetFparams().FrameNum() << std::endl;
+           }
+           m_qmonitor.UpdateModel(
+               m_fbuffer->GetFrame( m_current_display_fnum ) ,
+               OriginalFrame(m_current_display_fnum) );
        }
-    
         // Increment our position
         m_current_code_fnum++;
 
-        // If we're not at the beginning, clean the buffer
-        if ( m_current_code_fnum != 0 )
-        {
-            m_fbuffer->Clean( m_show_fnum, m_current_display_fnum );
-            m_origbuffer->Clean( m_show_fnum, m_current_display_fnum );
-        }
+        CleanBuffers();
+
     }
 
     // Return the latest frame that can be shown
+    if ( m_encparams.Verbose() )
+    {
+           std::cout<<std::endl<<"Return " <<
+                 (m_encparams.Interlace() ? "field " : "frame ")  <<
+                  m_show_fnum << " in display order";
+    }
     return m_fbuffer->GetFrame(m_show_fnum );
+}
+
+void SequenceCompressor::CleanBuffers()
+{
+    // If we're not at the beginning, clean the buffer
+    if ( m_current_code_fnum != 0 )
+    {
+        m_fbuffer->Clean( m_show_fnum, m_current_display_fnum );
+        m_mebuffer->Clean( m_show_fnum, m_current_display_fnum );
+    }
 }
 
 const Frame *SequenceCompressor::GetFrameEncoded()
@@ -366,16 +359,6 @@ DiracByteStats SequenceCompressor::EndSequence()
 
 void SequenceCompressor::MakeSequenceReport()
 {
-
- //   std::cout<<"Total bits for sequence="<<m_encparams.BitsOut().SequenceBytes() * 8;
- //   std::cout<<" ( "<<m_encparams.BitsOut().SequenceHeadBytes() * 8<<" header )";
-    
- //   std::cout<<std::endl<<"Of these: "<<std::endl<<std::endl;
- //   std::cout<<m_encparams.BitsOut().ComponentBytes( Y_COMP ) * 8<<" were Y, ";
- //   std::cout<<std::endl<<m_encparams.BitsOut().ComponentBytes( U_COMP ) * 8<<" were U, ";
-  //  std::cout<<std::endl<<m_encparams.BitsOut().ComponentBytes( V_COMP ) * 8<<" were V, and ";
-  //  std::cout<<std::endl<<m_encparams.BitsOut().MVBytes() * 8<<" were motion vector data.";
-
     if ( m_encparams.LocalDecode() )
         m_qmonitor.WriteLog();
 
@@ -383,76 +366,9 @@ void SequenceCompressor::MakeSequenceReport()
 
 }
 
-void SequenceCompressor::MakeFrameReport()
-{
-    // Write out to screen a report of the number of bits written
- //   const FrameOutputManager& foutput = m_encparams.BitsOut().FrameOutput();
-
-  //  unsigned int unit_bits = foutput.MVBytes() * 8;            
-  //  unsigned int unit_head_bits = foutput.MVHeadBytes() * 8;
-
-//    std::cout<<std::endl<<"Number of MV bits="<<unit_bits;
- //   std::cout<<" ( "<<unit_head_bits<<" header bits)";
-
-  //  unit_bits = foutput.ComponentBytes( Y_COMP ) * 8;
-  //  unit_head_bits = foutput.ComponentHeadBytes( Y_COMP ) * 8;
-
-  //  std::cout<<std::endl<<"Number of bits for Y="<<unit_bits;
- //   std::cout<<" ( "<<unit_head_bits<<" header bits)";
-
-  //  unit_bits = foutput.ComponentBytes( U_COMP ) * 8;
-  //  unit_head_bits = foutput.ComponentHeadBytes( U_COMP ) * 8;
-
- //   std::cout<<std::endl<<"Number of bits for U="<<unit_bits;
-  //  std::cout<<" ( "<<unit_head_bits<<" header bits)";
-
-  //  unit_bits = foutput.ComponentBytes( V_COMP ) * 8;
-   // unit_head_bits = foutput.ComponentHeadBytes( V_COMP ) * 8;
-
- //   std::cout<<std::endl<<"Number of bits for V="<<unit_bits;
- //   std::cout<<" ( "<<unit_head_bits<<" header bits)";
-
-  //  unit_bits = foutput.FrameBytes() * 8;
-   // unit_head_bits = foutput.FrameHeadBytes() * 8;
-
-  //  std::cout<<std::endl<<std::endl<<"Total frame bits="<<unit_bits;
- //   std::cout<<" ( "<<unit_head_bits<<" header bits)"<<std::endl<<std::endl;
-
-}
-
-//SequenceCompressor& SequenceCompressor::operator<<(AccessUnitByteIO *p_accessunit_byteio)
-//{
-//    
-//
-//    return *this;
-//}
-
-int SequenceCompressor::CodedToDisplay( const int fnum )
-{
-    int div;
-
-    if (m_encparams.L1Sep()>0)
-    {
-        // We have L1 and L2 frames
-        if (fnum==0)
-            return 0;
-        else if ((fnum-1)% m_encparams.L1Sep()==0)
-        {//we have L1 or subsequent I frames
-            div=(fnum-1)/m_encparams.L1Sep();
-            return fnum+m_encparams.L1Sep()-1;
-        }
-        else//we have L2 frames
-            return fnum-1;
-    }
-    else
-    {//we just have I-frames, so no re-ordering
-        return fnum;
-    }
-}
-
 void SequenceCompressor::Denoise( Frame& frame )
 {
-    DenoiseComponent( frame.Ydata() ); 
+    DenoiseComponent( frame.Ydata() );
     DenoiseComponent( frame.Udata() );
     DenoiseComponent( frame.Vdata() );
 
@@ -466,20 +382,17 @@ void SequenceCompressor::DenoiseComponent( PicArray& pic_data )
 
     const int centre_weight = 5;
     const int list_length = centre_weight+8;
-    ValueType val_list[list_length]; 
-    
-    int pos;
-    
+    ValueType val_list[list_length];
+
     for (int j=1; j<pic_data.LastY(); ++j)
     {
         for (int i=1; i<pic_data.LastX(); ++i)
         {
             // Make the value list
-            for (int k=0; k<centre_weight-1; ++k)
-                val_list[k] = pic_copy[j][i];
+            int pos=0;
+            for (; pos<centre_weight-1; ++pos)
+                val_list[pos] = pic_copy[j][i];
 
-            pos = centre_weight - 1;
-                
             for (int s=-1; s<=1; ++s)
             {
                 for (int r=-1; r<=1; ++r)
@@ -488,9 +401,9 @@ void SequenceCompressor::DenoiseComponent( PicArray& pic_data )
                     pos++;
                 }// r
             }// s
-            
+
             pic_data[j][i] = Median( val_list, list_length );
-        }// i 
+        }// i
     }// j
 
 }
@@ -503,7 +416,7 @@ ValueType SequenceCompressor::Median( const ValueType* val_list, const int lengt
 
     // Place the values in order
     int pos=0;
-    ordered_vals[0] = val_list[0]; 
+    ordered_vals[0] = val_list[0];
     for (int i=1 ; i<length ; ++i )
     {
         for (int k=0 ; k<i ; ++k)
@@ -534,6 +447,272 @@ ValueType SequenceCompressor::Median( const ValueType* val_list, const int lengt
         return ordered_vals[(length-1)/2];
     else
         return (ordered_vals[(length/2)-1]+ordered_vals[length/2]+1)>>1;
-          
+
+}
+
+FrameSequenceCompressor::FrameSequenceCompressor(
+                                  StreamPicInput* pin ,
+                                  EncoderParams& encp,
+                                  DiracByteStream& dirac_byte_stream):
+    SequenceCompressor(pin, encp, dirac_byte_stream)
+{
+}
+
+bool FrameSequenceCompressor::LoadNextFrame()
+{
+    m_pic_in->ReadNextFrame( *m_fbuffer, m_last_frame_read+1 );
+
+    if ( m_pic_in->End() )
+    {
+        m_all_done = true;
+        return false;
+    }
+
+    if ( m_encparams.Denoise() )
+        Denoise(m_fbuffer->GetFrame( m_last_frame_read+1 ) );
+
+    m_last_frame_read++;
+    m_mebuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read ) );
+    return true;
+}
+
+int FrameSequenceCompressor::CodedToDisplay( const int pnum )
+{
+    int div;
+
+    if (m_encparams.L1Sep()>0)
+    {
+        // We have L1 and L2 frames
+        if (pnum==0)
+            return 0;
+        else if ((pnum-1)% m_encparams.L1Sep()==0)
+        {//we have L1 or subsequent I frames
+            div=(pnum-1)/m_encparams.L1Sep();
+            return pnum+m_encparams.L1Sep()-1;
+        }
+        else//we have L2 frames
+            return pnum-1;
+    }
+    else
+    {//we just have I-frames, so no re-ordering
+        return pnum;
+    }
+}
+
+bool FrameSequenceCompressor::IsNewAccessUnit()
+{
+    return (m_current_display_fnum % m_encparams.GOPLength()==0);
+}
+
+void FrameSequenceCompressor::RateControlCompress(Frame& my_frame, bool is_a_cut)
+{
+    if (m_encparams.TargetRate() == 0)
+        return;
+
+    FrameParams& fparams = my_frame.GetFparams();
+    const FrameSort& fsort = fparams.FSort();
+
+    FrameByteIO *p_frame_byteio;
+
+    // Coding using Rate Control Algorithm
+
+    if ( fsort.IsIntra() &&
+         m_current_display_fnum != 0 &&
+         m_encparams.NumL1() != 0)
+    {
+        // Calculate the new QF for encoding the following I frames in the sequence
+        // in normal coding
+
+        if ( is_a_cut )
+        {
+            // Recompute the QF based on long-term history since recent history is bunk
+            m_ratecontrol->SetCutFrameQualFactor();
+        }
+        else
+            m_ratecontrol->CalcNextIntraQualFactor();
+    }
+
+    p_frame_byteio =  m_fcoder.Compress(*m_fbuffer,
+                                            m_current_display_fnum);
+
+    // Update the quality factor
+    m_ratecontrol->CalcNextQualFactor(fparams, p_frame_byteio->GetSize()*8);
+
+    // add the frame to the byte stream
+    m_dirac_byte_stream.AddFrame(p_frame_byteio);
+}
+
+
+FieldSequenceCompressor::FieldSequenceCompressor(
+                                  StreamPicInput* pin ,
+                                  EncoderParams& encp,
+                                  DiracByteStream& dirac_byte_stream):
+    SequenceCompressor(pin, encp, dirac_byte_stream)
+{
+    if ( m_encparams.LocalDecode() )
+    {
+        m_origbuffer = new FrameBuffer(*m_mebuffer);
+    }
+    m_delay = 2;
+}
+
+bool FieldSequenceCompressor::LoadNextFrame()
+{
+    m_pic_in->ReadNextFrame( *m_fbuffer, m_last_frame_read+1 );
+
+    if ( m_pic_in->End() )
+    {
+        m_all_done = true;
+        return false;
+    }
+
+    ++m_last_frame_read;
+    if ( m_encparams.Denoise() )
+    {
+        Denoise(m_fbuffer->GetFrame( m_last_frame_read ) );
+        Denoise(m_fbuffer->GetFrame( m_last_frame_read+1 ) );
+    }
+    m_mebuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read ) );
+
+    Frame &field1 = m_mebuffer->GetFrame( m_last_frame_read );
+    PreMotionEstmationFilter(field1.Ydata());
+    PreMotionEstmationFilter(field1.Udata());
+    PreMotionEstmationFilter(field1.Vdata());
+
+    if ( m_encparams.LocalDecode() )
+        m_origbuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read ) );
+
+    m_mebuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read + 1 ) );
+
+    Frame &field2 = m_mebuffer->GetFrame( m_last_frame_read + 1 );
+    PreMotionEstmationFilter(field2.Ydata());
+    PreMotionEstmationFilter(field2.Udata());
+    PreMotionEstmationFilter(field2.Vdata());
+
+    if ( m_encparams.LocalDecode() )
+        m_origbuffer->PushFrame( m_fbuffer->GetFrame( m_last_frame_read + 1 ) );
+
+    ++m_last_frame_read;
+    return true;
+}
+
+void FieldSequenceCompressor::PreMotionEstmationFilter(PicArray& comp)
+{
+    //Special case for first row
+    for (int i = comp.FirstX(); i <= comp.LastX(); ++i)
+    {
+        comp[comp.FirstY()][i] = (3*comp[comp.FirstY()][i] +
+                                  comp[comp.FirstY()+1][i] +2 )>>2;
+    }
+    //Middle section
+    for (int j = comp.FirstY()+1; j < comp.LastY(); ++j)
+    {
+        for (int i = comp.FirstX(); i <= comp.LastX(); ++i)
+        {
+            comp[j][i] = (comp[j-1][i] + 2*comp[j][i] + comp[j+1][i] + 2)>>2;
+        }
+    }
+    //Special case for last row
+    for (int i = comp.FirstX(); i <= comp.LastX(); ++i)
+    {
+        comp[comp.LastY()][i] = (comp[comp.LastY()-1][i] +
+                                 3*comp[comp.LastY()][i] + 2)>>2;
+    }
+}
+
+const Frame& FieldSequenceCompressor::OriginalFrame(int frame_num)
+{
+    if ( m_encparams.LocalDecode() )
+        return m_origbuffer->GetFrame(frame_num);
+    else
+        return m_mebuffer->GetFrame(frame_num);
+}
+
+void FieldSequenceCompressor::CleanBuffers()
+{
+    // If we're not at the beginning, clean the buffer
+    if ( m_current_code_fnum != 0 )
+    {
+        SequenceCompressor::CleanBuffers();
+        if (m_encparams.LocalDecode())
+            m_origbuffer->Clean( m_show_fnum, m_current_display_fnum );
+    }
+}
+
+FieldSequenceCompressor::~FieldSequenceCompressor()
+{
+    if ( m_encparams.LocalDecode() )
+        delete m_origbuffer;
+}
+
+int FieldSequenceCompressor::CodedToDisplay( const int pnum )
+{
+    // Frame the field pnum belongs to
+    int fnum = pnum>>1;
+    if (m_encparams.L1Sep()>0)
+    {
+        // We have L1 and L2 frames
+        if (fnum==0)
+            return pnum;
+        else if ((fnum-1)% m_encparams.L1Sep()==0)
+        {//we have L1 or subsequent I frames
+            return (pnum+(m_encparams.L1Sep()-1)*2);
+        }
+        else//we have L2 frames
+            return (pnum - 2);
+    }
+    else
+    {//we just have I-frames, so no re-ordering
+        return (pnum);
+    }
+}
+
+bool FieldSequenceCompressor::IsNewAccessUnit( )
+{
+    return ((m_current_display_fnum) % (m_encparams.GOPLength()<<1)==0);
+}
+
+void FieldSequenceCompressor::RateControlCompress(Frame& my_frame, bool is_a_cut)
+{
+    if (m_encparams.TargetRate() == 0)
+        return;
+
+    FrameParams& fparams = my_frame.GetFparams();
+    const FrameSort& fsort = fparams.FSort();
+
+    FrameByteIO *p_frame_byteio;
+
+    // Coding using Rate Control Algorithm
+
+    if ( fsort.IsIntra() &&
+         m_current_display_fnum > 1 &&
+         m_encparams.NumL1() != 0)
+    {
+        // Calculate the new QF for encoding the following I frames in the sequence
+        // in normal coding
+
+        if ( is_a_cut )
+        {
+            // Recompute the QF based on long-term history since recent history is bunk
+            m_ratecontrol->SetCutFrameQualFactor();
+        }
+        else if (m_current_display_fnum%2 == 0)
+                m_ratecontrol->CalcNextIntraQualFactor();
+    }
+
+    p_frame_byteio =  m_fcoder.Compress(*m_fbuffer,
+                                            m_current_display_fnum);
+
+    if (m_current_display_fnum%2 == 0)
+        m_field1_bytes = p_frame_byteio->GetSize();
+    else
+        m_field2_bytes = p_frame_byteio->GetSize();
+
+    // Update the quality factor
+    if (fparams.FrameNum()%2)
+        m_ratecontrol->CalcNextQualFactor(fparams, (m_field1_bytes+m_field2_bytes)*8);
+
+    // add the frame to the byte stream
+    m_dirac_byte_stream.AddFrame(p_frame_byteio);
 }
 

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: accessunit_byteio.cpp,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: accessunit_byteio.cpp,v 1.3 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -36,49 +36,45 @@
 * or the LGPL.
 * ***** END LICENSE BLOCK ***** */
 
+#include <libdirac_common/dirac_exception.h>
 #include <libdirac_byteio/accessunit_byteio.h>
 
 using namespace dirac;
 
-AccessUnitByteIO::AccessUnitByteIO(int& accessunit_fnum,
-                                   SeqParams& seq_params,
-                                   SourceParams& src_params):                  
-ParseUnitByteIO(accessunit_fnum),
-m_parseparams_byteio(accessunit_fnum,
-                     *this),
-
-// create default sequence parameters for comparisions
-m_default_seq_params(seq_params.GetVideoFormat()),
-// create default sequence parameters for comparisions
-m_default_src_params(seq_params.GetVideoFormat()),
-
-m_seqparams_byteio(seq_params,
-                   m_default_seq_params,
-                   *this),
-m_displayparams_byteio(seq_params,
-                       src_params,
-                       m_default_src_params,
-                       *this)
+// Constructor for encoding
+AccessUnitByteIO::AccessUnitByteIO( SourceParams& src_params, CodecParams& codec_params):                  
+ParseUnitByteIO(),
+m_parseparams_byteio(*this),
+// create default source parameters for comparisions
+m_default_src_params(src_params.GetVideoFormat()),
+m_src_params(src_params),
+m_displayparams_byteio( m_src_params,
+                        m_default_src_params,
+                       *this),
+m_codec_params(codec_params),
+m_codingparams_byteio(m_src_params,
+                      m_codec_params,
+                      m_default_src_params,
+                      *this)
 {
 }
 
+// Constructor for decoding
 AccessUnitByteIO::AccessUnitByteIO(const ParseUnitByteIO& parseunit_byteio,
-                                   SeqParams& seq_params,
+                                   ParseParams& parse_params,
                                    SourceParams& src_params,
-                                   ParseParams& parse_params):
+                                   CodecParams& codec_params) :
 ParseUnitByteIO(parseunit_byteio),
-m_parseparams_byteio(0, parseunit_byteio, parse_params),
-
-// crate default sequence parameters for comparisions
-m_default_seq_params(),
-
-m_seqparams_byteio(seq_params,
-                   m_default_seq_params,
-                   parseunit_byteio),
-m_displayparams_byteio(seq_params,
-                       src_params,
-                       m_default_src_params,
-                       parseunit_byteio)
+m_parseparams_byteio( parseunit_byteio, parse_params),
+m_src_params(src_params),
+m_displayparams_byteio( m_src_params,
+                        m_default_src_params,
+                        parseunit_byteio),
+m_codec_params(codec_params),
+m_codingparams_byteio( m_src_params,
+                        m_codec_params,
+                        m_default_src_params,
+                        parseunit_byteio)
 {
 }
 
@@ -91,32 +87,50 @@ bool AccessUnitByteIO::Input()
 {
     //int o=mp_stream->tellg();
     InputParseParams();
-    //int p=mp_stream->tellg();
-    InputSequenceParams();
+
+    // Inout Video format
+    SetByteParams(m_parseparams_byteio);
+    VideoFormat vf = IntToVideoFormat(InputVarLengthUint());
+    if(vf==VIDEO_FORMAT_UNDEFINED)
+         DIRAC_THROW_EXCEPTION(
+                    ERR_INVALID_VIDEO_FORMAT,
+                    "Dirac does not recognise the specified video-format",
+                    SEVERITY_ACCESSUNIT_ERROR);
+
+    SourceParams src_params(vf, true);
+    m_src_params = src_params;
+    
     InputDisplayParams();
-    //int q=mp_stream->tellg();
+    
+    CodecParams codec_params(vf);
+    m_codec_params = codec_params;
+    
+    InputCodingParams();
+    
     return true;
 }
 
 void AccessUnitByteIO::Output()
 {
     OutputParseParams();
-    OutputSequenceParams();
-    OutputDisplayParams();
-  
-}
 
-int AccessUnitByteIO::GetIdNumber() const
-{
-    return m_parseparams_byteio.GetIdNumber();
+    // Output the video format
+    SetByteParams(m_parseparams_byteio);
+    OutputVarLengthUint(static_cast<int>(m_src_params.GetVideoFormat()));
+
+    OutputDisplayParams();
+
+    OutputCodingParams();
+  
 }
 
 int AccessUnitByteIO::GetSize() const
 {
     return ParseUnitByteIO::GetSize()+
-           m_seqparams_byteio.GetSize()+
            m_parseparams_byteio.GetSize()+
-           m_displayparams_byteio.GetSize();
+           ByteIO::GetSize() + 
+           m_displayparams_byteio.GetSize()+
+           m_codingparams_byteio.GetSize();
 }
 
 
@@ -136,7 +150,7 @@ unsigned char AccessUnitByteIO::CalcParseCode() const
 void AccessUnitByteIO::InputDisplayParams()
 {
      // copy current input params
-    m_displayparams_byteio.SetByteParams(m_seqparams_byteio);
+    m_displayparams_byteio.SetByteParams(*this);
 
     m_displayparams_byteio.Input();
 }
@@ -146,18 +160,18 @@ void AccessUnitByteIO::InputParseParams()
     m_parseparams_byteio.Input();
 }
 
-void AccessUnitByteIO::InputSequenceParams()
+void AccessUnitByteIO::InputCodingParams()
 {
     // copy current input params
-    m_seqparams_byteio.SetByteParams(m_parseparams_byteio);
+    m_codingparams_byteio.SetByteParams(m_displayparams_byteio);
 
-    m_seqparams_byteio.Input();
+    m_codingparams_byteio.Input();
 }
 
 void AccessUnitByteIO::OutputDisplayParams()
 {
     // copy current output params
-    m_displayparams_byteio.SetByteParams(m_seqparams_byteio);
+    m_displayparams_byteio.SetByteParams(*this);
 
     m_displayparams_byteio.Output();
 }
@@ -167,11 +181,11 @@ void AccessUnitByteIO::OutputParseParams()
     m_parseparams_byteio.Output();
 }
 
-void AccessUnitByteIO::OutputSequenceParams()
+void AccessUnitByteIO::OutputCodingParams()
 {
     // copy current output params
-    m_seqparams_byteio.SetByteParams(m_parseparams_byteio);
+    m_codingparams_byteio.SetByteParams(m_displayparams_byteio);
 
-    m_seqparams_byteio.Output();
+    m_codingparams_byteio.Output();
 }
 

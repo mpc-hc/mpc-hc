@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pixel_match.h,v 1.4 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: pixel_match.h,v 1.6 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -97,6 +97,12 @@ namespace dirac
 
         // the search-range sizes for the hierarchical match
         int m_xr, m_yr;
+        
+        // the search-range sizes for when hierarchical match fails
+        int m_big_xr, m_big_yr;
+        
+        // the temporal distances to the reference frames
+        int m_tdiff[2];
 
         // the frame sort - I, L1 or L2
         FrameSort m_fsort;
@@ -104,13 +110,19 @@ namespace dirac
         // list of candidate vectors for checking
         CandidateList m_cand_list;
 
-        // Lagrangian lambda used for matching
-        float m_lambda;
-
         // Prediction used for each block. This is derived from neighbouring blocks
         // and is used to control the variation in the motion vector field.
         MVector m_mv_prediction;
-
+        
+        // The value used in computing block cost means with a simple recursive filter
+        double m_rho;
+        
+        // The mean of the block cost
+        double m_cost_mean;
+        
+        // The mean of the square of the block cost
+        double m_cost_mean_sq;
+        
     private:
 
         // Functions

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: seq_decompress.h,v 1.8 2006/04/20 10:41:57 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: seq_decompress.h,v 1.10 2007/09/03 11:31:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -127,14 +127,6 @@ namespace dirac
         ParseParams & GetParseParams() { return m_parse_params; }
 
 
-        //! Interrogates for decompression parameters.
-        /*!
-            Returns the parameters used for this decompression run.
-
-            \return decompression parameters originally provide din the constructor.
-         */
-        SeqParams & GetSeqParams() { return m_sparams; }
-        
         //! Interrogates for source parameters.
         /*!
             Returns the source parameters used for this decompression run.
@@ -144,6 +136,13 @@ namespace dirac
         SourceParams & GetSourceParams() { return m_srcparams; }
 
 
+        //! Interrogates for coding parameters.
+        /*!
+            Returns the decoder parameters used for this decompression run.
+
+            \return decoder parameters.
+         */
+        DecoderParams & GetDecoderParams() { return m_decparams; }
     private:
         //! Copy constructor is private and body-less
         /*!
@@ -170,8 +169,6 @@ namespace dirac
         DecoderParams m_decparams;
         //! The parse parameters obtained from the stream header
         ParseParams m_parse_params;
-        //! The sequence parameters obtained from the stream header
-        SeqParams m_sparams;
         //! The source parameters obtained from the stream header
         SourceParams m_srcparams;
         //! A picture buffer used for local storage of frames whilst pending re-ordering or being used for reference.
@@ -186,8 +183,6 @@ namespace dirac
         int m_show_fnum;
         //! Frame decompressor object
         FrameDecompressor *m_fdecoder;
-        //! Current AccessUnit frame-number
-        int m_current_accessunit_fnum;
         //! Highest frame-num processed - for tracking end-of-sequence
         int m_highest_fnum;
     };

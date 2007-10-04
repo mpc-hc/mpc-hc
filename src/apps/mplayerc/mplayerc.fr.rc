@@ -2371,7 +2371,7 @@ BEGIN
     IDS_SRC_ROQ             "6.4.0.0"
     IDS_SRC_OGG             "6.4.0.2"
     IDS_SRC_NUT             "6.4.0.0\nBased on ""NUT Open Container Format DRAFT 20030906""\nStill very incomplete, if you have or can make test files, please contact me."
-    IDS_SRC_DIRAC           "6.4.0.1\nBased on libdirac 0.5.0"
+    IDS_SRC_DIRAC           "6.4.0.1\nBased on libdirac 0.8.0"
     IDS_SRC_DSM             "6.4.0.5"
 END
 
@@ -2388,7 +2388,7 @@ BEGIN
     IDS_TRA_AC3             "6.4.0.1\nBased on liba52 0.7.4, http://liba52.sourceforge.net/"
     IDS_TRA_DTS             "6.4.0.1\nBased on libdts 0.0.2, http://www.videolan.org/dtsdec.html"
     IDS_TRA_AAC             "6.4.0.1\nBased on libfaad 2.0, http://www.audiocoding.com/"
-    IDS_TRA_DIRAC           "6.4.0.1\nBased on libdirac 0.5.0"
+    IDS_TRA_DIRAC           "6.4.0.1\nBased on libdirac 0.8.0"
     IDS_TRA_PS2AUD          "6.4.0.1\nDecodes audio streams of PSS files"
 END
 

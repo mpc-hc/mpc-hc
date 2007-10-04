@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: displayparams_byteio.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: displayparams_byteio.h,v 1.2 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,15 +61,13 @@ namespace dirac
 
         /**
         * Constructor for Input/Output
-        *@param seq_params Sequence parameters
         *@param src_params Source parameters
         *@param default_src_params Default Source parameters
         *@param stream_data Source/Destination of data
         */
-        DisplayParamsByteIO(const SeqParams &seq_params,
-                            SourceParams& src_params,
-                            const SourceParams& default_src_params,
-                            const ByteIO& stream_data);
+        DisplayParamsByteIO( SourceParams& src_params,
+                             const SourceParams& default_src_params,
+                             const ByteIO& stream_data);
         /**
         * Destructor
         */
@@ -89,6 +87,16 @@ namespace dirac
     
 
     private:
+
+        /**
+        * Reads frame dimensions
+        */
+        void InputFrameSize();
+
+        /**
+        * Reads Sampling Format
+        */
+        void InputSamplingFormat();
     
         /**
         * Reads aspect ratio info
@@ -134,6 +142,16 @@ namespace dirac
         * Reads transfer-function info
         */
         void InputTransferFunction();
+ 
+        /**
+        * Outputs frame dimensions
+        */
+        void OutputFrameSize();
+
+        /**
+        * Outputs Sampling Format
+        */
+        void OutputSamplingFormat();
 
         /**
         * Outputs aspect ratio info
@@ -174,11 +192,6 @@ namespace dirac
         * Default source parameters
         */
         const SourceParams& m_default_src_params;
-        
-        /**
-        * Sequence parameters for input video format
-        */
-        const SeqParams&      m_seq_params;
     };
 
 

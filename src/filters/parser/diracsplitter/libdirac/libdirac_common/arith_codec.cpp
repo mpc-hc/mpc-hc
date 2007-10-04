@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arith_codec.cpp,v 1.15 2007/05/07 12:38:08 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: arith_codec.cpp,v 1.16 2007/09/19 11:19:33 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -92,7 +92,7 @@ namespace dirac{
     {
         // Set the m_code word stuff
         m_low_code  = 0;
-        m_range = 0x10000;
+        m_range = 0xFFFF;
         m_underflow = 0;
     }
 
@@ -138,7 +138,7 @@ namespace dirac{
         m_code = 0;
         m_low_code = 0;
 
-        m_range = 0x10000;
+        m_range = 0xFFFF;
 
         m_code = 0;
         for (int i=0; i<16; ++i)

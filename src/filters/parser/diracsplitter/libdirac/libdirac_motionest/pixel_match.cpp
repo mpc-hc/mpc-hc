@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pixel_match.cpp,v 1.10 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: pixel_match.cpp,v 1.12 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -69,10 +69,15 @@ void PixelMatcher::DoSearch(const FrameBuffer& my_buffer, int frame_num, MEData&
 
     const vector<int>& refs = my_buffer.GetFrame( frame_num ).GetFparams().Refs();
     ref1 = refs[0];
+
     if (refs.size()>1)
         ref2 = refs[1];
     else    
         ref2 = ref1;
+
+    // Record temporal distances
+    m_tdiff[0] = std::abs( ref1 - frame_num );
+    m_tdiff[1] = std::abs( ref2 - frame_num );
 
     // Obtain C++ references to the reference picture luma components
     const PicArray& ref1_data = my_buffer.GetComponent(ref1 , Y_COMP);
@@ -81,59 +86,70 @@ void PixelMatcher::DoSearch(const FrameBuffer& my_buffer, int frame_num, MEData&
     // Determine the frame sort - this affects the motion estimation Lagrangian parameter
     m_fsort = my_buffer.GetFrame(frame_num).GetFparams().FSort();
 
-    // Set the number of downconversion levels - not too many or we run out of picture!    
-    m_depth = ( int) std::min( log(((double) pic_data.LengthX())/12.0)/log(2.0) , 
-                             log(((double) pic_data.LengthY())/12.0)/log(2.0) );
 
-    // These arrays will contain the downconverted picture and MvData hierarchy
-    OneDArray<PicArray*> ref1_down( Range( 1 , m_depth ) );
-    OneDArray<PicArray*> ref2_down( Range( 1 , m_depth ) );
-    OneDArray<PicArray*> pic_down( Range( 1 , m_depth ) );
-    OneDArray<MEData*> me_data_set( Range( 1 , m_depth ) );
-
-    // Populate the hierarchies
-    MakePicHierarchy( pic_data , pic_down );
-    MakePicHierarchy( ref1_data , ref1_down );
-    if (ref1 != ref2)
-        MakePicHierarchy( ref2_data , ref2_down );
-
-    MakeMEDataHierarchy( pic_down , me_data_set );
-
-     // Now do the work! //
-    //////////////////////
-
-    // Start with motion estimating at the very lowest level
-    m_level = m_depth;
-
-    MatchPic( *(pic_down[m_depth]) , *(ref1_down[m_depth]) , *(me_data_set[m_depth]) ,
-                                     *(me_data_set[m_depth]) , 1 );    
-    if ( ref1 != ref2 )
-        MatchPic( *(pic_down[m_depth]) , *(ref2_down[m_depth]) , *(me_data_set[m_depth]) , 
-                                         *(me_data_set[m_depth]) , 2 );
-
-     // Do the intervening levels - here we can have a genuine set of guide vectors
-    for ( m_level=m_depth-1 ; m_level>=1 ; --m_level )
+    if ( m_encparams.FullSearch() == false )
     {
-        MatchPic( *(pic_down[m_level]) , *(ref1_down[m_level]) , *(me_data_set[m_level]) , 
+        // Set the number of downconversion levels - not too many or we run out of picture!
+        m_depth = ( int) std::min( log(((double) pic_data.LengthX())/12.0)/log(2.0) , 
+                                 log(((double) pic_data.LengthY())/12.0)/log(2.0) );
+
+        // These arrays will contain the downconverted picture and MvData hierarchy
+        OneDArray<PicArray*> ref1_down( Range( 1 , m_depth ) );
+        OneDArray<PicArray*> ref2_down( Range( 1 , m_depth ) );
+        OneDArray<PicArray*> pic_down( Range( 1 , m_depth ) );
+        OneDArray<MEData*> me_data_set( Range( 1 , m_depth ) );
+
+        // Populate the hierarchies
+        MakePicHierarchy( pic_data , pic_down );
+        MakePicHierarchy( ref1_data , ref1_down );
+        if (ref1 != ref2)
+            MakePicHierarchy( ref2_data , ref2_down );
+
+        MakeMEDataHierarchy( pic_down , me_data_set );
+
+         // Now do the work! //
+        //////////////////////
+
+        // Start with motion estimating at the very lowest level
+        m_level = m_depth;
+
+        MatchPic( *(pic_down[m_depth]) , *(ref1_down[m_depth]) , *(me_data_set[m_depth]) ,
+                                     *(me_data_set[m_depth]) , 1 );    
+        if ( ref1 != ref2 )
+            MatchPic( *(pic_down[m_depth]) , *(ref2_down[m_depth]) , *(me_data_set[m_depth]) , 
+                                             *(me_data_set[m_depth]) , 2 );
+
+         // Do the intervening levels - here we can have a genuine set of guide vectors
+        for ( m_level=m_depth-1 ; m_level>=1 ; --m_level )
+        {
+            MatchPic( *(pic_down[m_level]) , *(ref1_down[m_level]) , *(me_data_set[m_level]) , 
                                          *(me_data_set[m_level+1]) , 1 );
-        if (ref1!=ref2)
-            MatchPic( *(pic_down[m_level]) , *(ref2_down[m_level]) , *(me_data_set[m_level]) , 
-                                             *(me_data_set[m_level+1]) , 2 );
-        
-    }// level
+            if (ref1!=ref2)
+                MatchPic( *(pic_down[m_level]) , *(ref2_down[m_level]) , *(me_data_set[m_level]) , 
+                                                 *(me_data_set[m_level+1]) , 2 );    
+        }// level
 
-    // Finally, do the top level, with the pictures themselves
-    m_level = 0;
-    MatchPic( pic_data , ref1_data, me_data , *(me_data_set[1]) , 1 );
-    if ( ref1 != ref2 )
-        MatchPic( pic_data , ref2_data , me_data , *(me_data_set[1]) , 2 );
+        // Finally, do the top level, with the pictures themselves
+        m_level = 0;
+        MatchPic( pic_data , ref1_data, me_data , *(me_data_set[1]) , 1 );
+        if ( ref1 != ref2 )
+            MatchPic( pic_data , ref2_data , me_data , *(me_data_set[1]) , 2 );
 
-    // Now we're finished, tidy everything up ...
-    TidyPics( pic_down );
-    TidyPics( ref1_down );
-    if (ref1 != ref2)
-        TidyPics( ref2_down );
-    TidyMEData( me_data_set );
+        // Now we're finished, tidy everything up ...
+        TidyPics( pic_down );
+        TidyPics( ref1_down );
+        if (ref1 != ref2)
+            TidyPics( ref2_down );
+        TidyMEData( me_data_set );
+    }
+    else
+    {
+        m_depth = 0;
+        m_level = 0;
+        MatchPic( pic_data , ref1_data, me_data , me_data , 1 );
+        if ( ref1 != ref2 )
+            MatchPic( pic_data , ref2_data , me_data , me_data , 2 );
+    }
 
 }
 
@@ -220,16 +236,22 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
     // Initialisation //
     ////////////////////
 
+    m_big_xr = std::min( m_tdiff[ref_id-1], 3 )*m_encparams.XRangeME();
+    m_big_yr = std::min( m_tdiff[ref_id-1], 3 )*m_encparams.YRangeME();
+
     // Set the search ranges according to the level
-    if ( m_level == m_depth )
+    if ( m_encparams.FullSearch() == false )
     {
-        m_xr = 5;
-        m_yr = 5;
+        m_cost_mean = 0.0;
+        m_cost_mean_sq = 0.0;
+        
+        m_xr = std::min( m_level+1, 5);
+        m_yr = std::min( m_level+1, 5);
     }
     else
     {
-        m_xr = 1;
-        m_yr = 1;
+        m_xr = m_big_xr;
+        m_yr = m_big_yr;
     }
 
     // Provide aliases for the appropriate motion vector data components
@@ -237,13 +259,22 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
     MvArray& mv_array = me_data.Vectors( ref_id );
     const MvArray& guide_array = guide_data.Vectors( ref_id );
     TwoDArray<MvCostData>& pred_costs = me_data.PredCosts( ref_id );
+    
+    // Initialise the arrays
+    for (int y=0; y<mv_array.LengthY(); ++y)
+    {
+        for (int x=0; x<mv_array.LengthX(); ++x)
+        {
+    	    mv_array[y][x].x = 0;
+    	    mv_array[y][x].y = 0;
+    	    pred_costs[y][x].total = 10000000.0f;
+        }// x 
+    }// y 
 
     // Provide a block matching object to do the work
     BlockMatcher my_bmatch( pic_data , ref_data , 
                             m_encparams.LumaBParams(2) , m_encparams.MVPrecision() ,
                             mv_array , pred_costs );
-
-    float loc_lambda( 0.0 );
 
     // Do the work - loop over all the blocks, finding the best match //
     ////////////////////////////////////////////////////////////////////
@@ -272,13 +303,9 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
     // Set the prediction as the zero vector
     m_mv_prediction = zero_mv;
 
-    // m_lambda is the Lagrangian smoothing parameter set to zero to get us started
-    m_lambda = 0.0;
     DoBlock(0, 0 , guide_array , my_bmatch);
 
     // The rest of the first row
-    // ( use reduced lambda here )
-    m_lambda = loc_lambda / float( m_encparams.YNumBlocks() );
     for ( int xpos=1 ; xpos<mv_array.LengthX() ; ++xpos )
     {
         m_mv_prediction = mv_array[0][xpos-1];
@@ -291,11 +318,9 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
 
         // The first element of each row
         m_mv_prediction = mv_array[ypos-1][0];
-        m_lambda = loc_lambda/float(m_encparams.XNumBlocks());
         DoBlock(0, ypos , guide_array , my_bmatch );
 
-         // The middle elementes of each row
-        m_lambda = loc_lambda;
+         // The middle elements of each row
         for ( int xpos=1 ; xpos<mv_array.LastX() ; ++xpos )
         {
             m_mv_prediction = MvMedian( mv_array[ypos][xpos-1],
@@ -306,7 +331,6 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
         }// xpos
 
          // The last element in each row
-        m_lambda = loc_lambda/float( m_encparams.XNumBlocks() );
         m_mv_prediction = MvMean( mv_array[ypos-1][ mv_array.LastX() ],
                                   mv_array[ypos][ mv_array.LastX()-1 ]);
         DoBlock(mv_array.LastX() , ypos , guide_array , my_bmatch );
@@ -318,7 +342,6 @@ void PixelMatcher::DoBlock(const int xpos, const int ypos ,
                            const MvArray& guide_array,
                            BlockMatcher& block_match)
 {
-
     // Find the best match for each block ...
 
     // Use guide from lower down if one exists
@@ -331,13 +354,16 @@ void PixelMatcher::DoBlock(const int xpos, const int ypos ,
     }
 
     // use the spatial prediction, also, as a guide
-    AddNewVlist( m_cand_list , m_mv_prediction , m_xr , m_yr);
+    if (m_encparams.FullSearch()==false )
+        AddNewVlist( m_cand_list , m_mv_prediction , m_xr , m_yr );
+    else
+        AddNewVlist( m_cand_list , m_mv_prediction , 1 , 1);
 
     // Find the best motion vector //
     /////////////////////////////////
 
-    block_match.FindBestMatchPel( xpos , ypos , m_cand_list, m_mv_prediction, m_lambda );
-
+    block_match.FindBestMatchPel( xpos , ypos , m_cand_list, m_mv_prediction, 0 );
+    
     // Reset the lists ready for the next block (don't erase the first sublist as
     // this is a neighbourhood of zero, which we always look at)
     m_cand_list.erase( m_cand_list.begin()+1 , m_cand_list.end() );

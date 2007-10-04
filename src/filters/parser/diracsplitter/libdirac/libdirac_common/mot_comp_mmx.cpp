@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp_mmx.cpp,v 1.8 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: mot_comp_mmx.cpp,v 1.8 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

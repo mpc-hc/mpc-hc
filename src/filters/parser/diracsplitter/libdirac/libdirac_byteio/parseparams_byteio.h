@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseparams_byteio.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: parseparams_byteio.h,v 1.2 2007/07/16 15:11:51 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,20 +61,16 @@ namespace dirac
 
         /**
         * Constructor
-        *@param accessunit_fnum AccessUnit frame number
         *@param stream_data Destination of data
         */
-        ParseParamsByteIO(const int& accessunit_fnum,
-                          const ByteIO& stream_data);
+        ParseParamsByteIO(const ByteIO& stream_data);
 
         /**
         * Constructor
-        *@param accessunit_fnum AccessUnit frame number
         *@param stream_data Source of data
         *@param parse_params Destination of parse params
         */
-        ParseParamsByteIO(const int& accessunit_fnum,
-                          const ByteIO& stream_data,
+        ParseParamsByteIO(const ByteIO& stream_data,
                           ParseParams &parse_params);
 
         /**
@@ -101,12 +97,6 @@ namespace dirac
     
 
     private:
-
-        /**
-        * Current access-unit frame number
-        */
-        int     m_accessunit_fnum;
-
         /**
         * Reference to parse parameters
         */

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.h,v 1.2 2007/05/02 13:10:27 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: parseunit_byteio.h,v 1.5 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -62,10 +62,10 @@ namespace dirac
         PU_LOW_DELAY_FRAME,
         PU_UNDEFINED
     } ParseUnitType;
-    
+
     /**
-    * Represents a collection of data in a Dirac bytestream that can be parsed as a 
-    * self-contained unit 
+    * Represents a collection of data in a Dirac bytestream that can be parsed as a
+    * self-contained unit
     */
     class ParseUnitByteIO : public ByteIO
     {
@@ -73,9 +73,8 @@ namespace dirac
 
         /**
         * Constructor
-        *@param accessunit_fnum AccessUnit number that parse-unit belongs to
         */
-        ParseUnitByteIO(int accessunit_fnum);
+        ParseUnitByteIO();
 
          /**
         * Constructor
@@ -85,11 +84,9 @@ namespace dirac
 
         /**
         * Constructor
-        *@param accessunit_fnum AccessUnit number that parse-unit belongs to
         *@param parseunit_byteio Parse-unit parameters
         */
-        ParseUnitByteIO(int accessunit_fnum,
-                        const ParseUnitByteIO& parseunit_byteio);
+        ParseUnitByteIO(const ParseUnitByteIO& parseunit_byteio);
 
         /**
         * Destructor
@@ -119,7 +116,7 @@ namespace dirac
         *@return <B>false</B> Nothing to skip to
         */
         bool Skip();
-      
+
         /**
         * Gets string containing coded bytes
         */
@@ -172,14 +169,57 @@ namespace dirac
         bool SyncToUnitStart();   // decoding
 
         /**
-        * AccessUnit number that parse-unit belongs to
-        */
-        int m_accessunit_fnum;
-
-        /**
         * Get parse code
         */
         unsigned char GetParseCode() const { return m_parse_code;}
+
+        /**
+        * Returns true is parse unit is an Access unit
+        */
+        bool IsAU() const
+        { return m_parse_code==0x00; }
+
+        /**
+        * Returns true is parse unit is an End of Sequence unit
+        */
+        bool IsEndOfSequence() const
+        { return m_parse_code==0x10; }
+
+        /**
+        * Returns true is parse unit is Auxiliary Data
+        */
+        bool IsAuxiliaryData() const
+        { return m_parse_code==0x20; }
+
+        /**
+        * Returns true is parse unit is Padding data
+        */
+        bool IsPaddingData() const
+        { return m_parse_code==0x30; }
+
+        /**
+        * Returns true is parse unit is Picture data
+        */
+        bool IsPicture() const
+        { return ((m_parse_code&0x08)==0x08); }
+
+        /**
+        * Returns true is parse unit is Low Delay Sybtax unit
+        */
+        bool IsLowDelay() const
+        { return ((m_parse_code&0x80)==0x80); }
+
+        /**
+        * Returns true is parse unit is Core syntax unit
+        */
+        bool IsCoreSyntax() const
+        { return ((m_parse_code&0xB8)==0x08); }
+
+        /**
+        * Returns true is parse unit uses Arithmetic coding
+        */
+        bool IsUsingAC() const
+        { return ((m_parse_code&0x40)==0x40); }
 
     private:
 

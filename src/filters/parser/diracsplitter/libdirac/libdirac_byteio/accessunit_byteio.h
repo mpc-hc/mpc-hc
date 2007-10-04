@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: accessunit_byteio.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: accessunit_byteio.h,v 1.3 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -45,10 +45,9 @@
 
 //LOCAL INCLUDES
 #include <libdirac_byteio/parseunit_byteio.h>             // Parent class
-#include <libdirac_byteio/displayparams_byteio.h>         // DisplayParamsByteIO class
 #include <libdirac_byteio/parseparams_byteio.h>           // ParseParamsByteIO class
-#include <libdirac_byteio/seqparams_byteio.h>             // SeqParamsByteIO class
-
+#include <libdirac_byteio/displayparams_byteio.h>         // DisplayParamsByteIO class
+#include <libdirac_byteio/codingparams_byteio.h>         // CodingParamsByteIO class
 
 namespace dirac
 {
@@ -61,25 +60,23 @@ namespace dirac
 
         /**
         * Constructor (encoding)
-        *@param accessunit_fnum Current AccessUnit frame-number
-        *@param seq_params Sequence parameters for current AccessUnit
         *@param src_params Source parameters for current AccessUnit
+        *@param codec_params Coding parameters for current AccessUnit
         */
-        AccessUnitByteIO(int& accessunit_fnum,
-                         SeqParams& seq_params,
-                         SourceParams& src_params);
+        AccessUnitByteIO( SourceParams& src_params,
+                          CodecParams& codec_params);
 
         /**
         * Constructor (decoding)
         *@param parseunit_byteio Source of data
-        *@param seq_params       Destination of sequence paramters data 
+        *@param parse_params     Destination of parse paramters data 
         *@param src_params       Destination of source paramters data 
-        *@param parse_params     Destination of source paramters data 
+        *@param codec_params     Destination of coding paramters data 
         */
         AccessUnitByteIO(const ParseUnitByteIO& parseunit_byteio,
-                         SeqParams& seq_params,
+                         ParseParams& parse_params,
                          SourceParams& src_params,
-                         ParseParams& parse_params);
+                         CodecParams& codec_params);
 
        /**
        * Destructor
@@ -96,11 +93,6 @@ namespace dirac
         */
         void Output();
      
-        /**
-        * Get access-unit number
-        */
-        int GetIdNumber() const;
-
         /* 
         * Gets size of access-unit (in bytes)
         */
@@ -130,9 +122,9 @@ namespace dirac
         void InputParseParams();
 
         /**
-        * Parse sequence attributes from bytestream-compatible input (decoding)
+        * Parse Coding attributes from bytestream-compatible input (decoding)
         */
-        void InputSequenceParams();
+        void InputCodingParams();
 
         /**
         * Output display attributes for bytestream-compatible output (encoding)
@@ -145,34 +137,39 @@ namespace dirac
         void OutputParseParams();
 
         /**
-        * Output sequence attributes for bytestream-compatible output (encoding)
+        * Output coding attributes for bytestream-compatible output (encoding)
         */
-        void OutputSequenceParams();
+        void OutputCodingParams();
     
         /**
         * Parse-params byte input/output
         */
         ParseParamsByteIO m_parseparams_byteio;
-   
-        /**
-        * Default sequence parameters
-        */
-        SeqParams m_default_seq_params;
-
+        
         /**
         * Default source parameters
         */
         SourceParams m_default_src_params;
    
         /**
-        * Sequence-params byte input/output
+        * Current source parameters
         */
-        SeqParamsByteIO m_seqparams_byteio;
+        SourceParams& m_src_params;
 
         /**
-        * Display-params byte input/output
+        * Source-params byte input/output
         */
         DisplayParamsByteIO m_displayparams_byteio;
+        
+        /**
+        * Current codec parameters
+        */
+        CodecParams& m_codec_params;
+        
+        /**
+        * Coding-params byte input/output
+        */
+        CodingParamsByteIO m_codingparams_byteio;
    };
 
 } // namespace dirac

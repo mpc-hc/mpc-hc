@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_decompress.h,v 1.15 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_decompress.h,v 1.17 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -68,9 +68,8 @@ namespace dirac
 
             \param  decp    decoder parameters
             \param  cf      the chroma format of the frame being decompressed
-            \param  vd      the video depth of the frame being decompressed
         */
-        FrameDecompressor(DecoderParams& decp, ChromaFormat cf, unsigned int vd);
+        FrameDecompressor(DecoderParams& decp, ChromaFormat cf);
 
         //! Destructor
         /*!
@@ -86,11 +85,9 @@ namespace dirac
 
             \param parseunit_byteio Frame info in Dirac-stream format
             \param my_buffer   picture buffer into which the frame is placed
-            \param au_fnum Current AccessUnit frame-number
         */
         bool Decompress(ParseUnitByteIO& parseunit_byteio,
-                        FrameBuffer& my_buffer,
-                        int au_fnum);
+                        FrameBuffer& my_buffer);
 
         //! Returns the frame parameters of the current frame being decoded
         const FrameParams& GetFrameParams() const{ return m_fparams; }
@@ -149,10 +146,6 @@ namespace dirac
 
         //! Current Frame Parameters
         FrameParams m_fparams;
-        
-        //! Video depth of the frame being decompressed
-        unsigned int m_video_depth;
-
     };
 
 } // namespace dirac

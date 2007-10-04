@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_subpel.cpp,v 1.14 2006/04/20 10:41:58 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: me_subpel.cpp,v 1.14 2006/04/20 10:41:58 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_compress.h,v 1.12 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_compress.h,v 1.15 2007/09/03 14:52:40 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -72,19 +72,25 @@ namespace dirac
 
         //! Destructor
         ~FrameCompressor( );
+
+        //! Performs motion estimation for a frame and writes the data locally
+        /*! Performs motion estimation for a frame and writes the data locally
+            \param my_fbuffer picture buffer of uncoded originals
+            \param fnum    frame number to compress
+            \return true   if a cut is detected.
+        */                        
+        bool MotionEstimate( const FrameBuffer& my_fbuffer, 
+                                        int fnum); 
+
         //! Compress a specific frame within a group of pictures (GOP)
         /*!
             Compresses a specified frame within a group of pictures. 
-            \param fbuffer picture buffer in which the frame resides
-            \param orig_buffer the corresponding picture buffer of uncoded originals
-            \param fnum      frame number to compress
-            \param au_fnum Current ccessUnit frame-number
+            \param my_fbuffer  picture buffer in which the reference frames resides
+            \param fnum        frame number to compress
             \return Compressed frame in Dirac bytestream format
         */
-        FrameByteIO* Compress(  FrameBuffer& fbuffer , 
-                                const FrameBuffer& orig_buffer , 
-                                int fnum ,
-                                int au_fnum);
+        FrameByteIO* Compress(  FrameBuffer& my_fbuffer , 
+                                int fnum );
 
         //! Returns true if the frame has been skipped rather than coded normally
         bool IsSkipped(){ return m_skipped; }

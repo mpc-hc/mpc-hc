@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_decompress.cpp,v 1.26 2007/04/26 13:56:31 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: frame_decompress.cpp,v 1.30 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -58,16 +58,11 @@ using namespace dirac;
 using std::vector;
 using std::auto_ptr;
 
-FrameDecompressor::FrameDecompressor(DecoderParams& decp, ChromaFormat cf, unsigned int vd)
+FrameDecompressor::FrameDecompressor(DecoderParams& decp, ChromaFormat cf)
 : 
 m_decparams(decp),
-m_cformat(cf),
-m_video_depth(vd)
+m_cformat(cf)
 {
-     
-    
-     
-
 }
 
 FrameDecompressor::~FrameDecompressor()
@@ -76,8 +71,7 @@ FrameDecompressor::~FrameDecompressor()
 
 
 bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
-                                   FrameBuffer& my_buffer,
-                                   int au_fnum)
+                                   FrameBuffer& my_buffer)
 {
     // get current byte position
     //int start_pos = parseunit_byteio.GetReadBytePosition();
@@ -85,8 +79,7 @@ bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
 
     // read frame data
     FrameByteIO frame_byteio(m_fparams,
-                             parseunit_byteio,
-                             au_fnum);
+                             parseunit_byteio);
 
     frame_byteio.Input();
     
@@ -135,7 +128,6 @@ bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
 
        FrameSort fsort = m_fparams.FSort();
        auto_ptr<MvData> mv_data;
-//       unsigned int num_mv_bits;
 
        if ( fsort.IsInter() )
        {    //do all the MV stuff 
@@ -167,6 +159,10 @@ bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
             CompDecompress( &transform_byteio, my_buffer,m_fparams.FrameNum() , Y_COMP );
             CompDecompress( &transform_byteio, my_buffer , m_fparams.FrameNum() , U_COMP );        
             CompDecompress( &transform_byteio, my_buffer , m_fparams.FrameNum() , V_COMP );
+        }
+        else
+        {
+            my_frame.Fill(0);
         }
 
         if ( fsort.IsInter() )
@@ -331,13 +327,17 @@ void FrameDecompressor::PushFrame(FrameBuffer &my_buffer)
         
     m_fparams.SetCFormat(m_cformat);
 
-    m_fparams.SetXl(xl_luma);
-    m_fparams.SetYl(yl_luma);
+    m_fparams.SetDwtXl(xl_luma);
+    m_fparams.SetDwtYl(yl_luma);
 
-    m_fparams.SetChromaXl(xl_chroma);
-    m_fparams.SetChromaYl(yl_chroma);
+    m_fparams.SetOrigXl(m_decparams.OrigXl());
+    m_fparams.SetOrigYl(m_decparams.OrigYl());
+    
+    m_fparams.SetDwtChromaXl(xl_chroma);
+    m_fparams.SetDwtChromaYl(yl_chroma);
 
-    m_fparams.SetVideoDepth(m_video_depth);
+    m_fparams.SetLumaDepth(m_decparams.LumaDepth());
+    m_fparams.SetChromaDepth(m_decparams.ChromaDepth());
 
     my_buffer.PushFrame(m_fparams);
 }

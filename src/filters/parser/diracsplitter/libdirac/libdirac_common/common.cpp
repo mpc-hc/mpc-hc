@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common.cpp,v 1.46 2007/05/02 16:29:51 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: common.cpp,v 1.54 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -60,7 +60,7 @@ PicArray::PicArray(int height, int width, CompSort cs):
          //Nothing
 }
 
-const CompSort& PicArray::CSort() const 
+const CompSort& PicArray::CSort() const
 {
     return m_csort;
 }
@@ -68,13 +68,13 @@ const CompSort& PicArray::CSort() const
 void PicArray::SetCSort(const CompSort cs)
 {
     m_csort=cs;
-}    
+}
 
 
 
 //EntropyCorrector functions
 
-EntropyCorrector::EntropyCorrector(int depth): 
+EntropyCorrector::EntropyCorrector(int depth):
     m_Yfctrs( 3 , 3*depth+1 ),
     m_Ufctrs( 3 , 3*depth+1 ),
     m_Vfctrs( 3 , 3*depth+1 )
@@ -85,7 +85,7 @@ EntropyCorrector::EntropyCorrector(int depth):
 float EntropyCorrector::Factor(const int bandnum , const FrameSort fsort ,const CompSort c) const
 {
     int idx = fsort.IsIntra() ? 0 : (fsort.IsRef() ? 1 : 2);
-    
+
     if (c == U_COMP)
         return m_Ufctrs[idx][bandnum-1];
     else if (c == V_COMP)
@@ -96,7 +96,7 @@ float EntropyCorrector::Factor(const int bandnum , const FrameSort fsort ,const 
 
 void EntropyCorrector::Init()
 {
-    
+
     //do I-frames
     for (int  i=0 ; i<m_Yfctrs.LengthX() ; ++i )
     {
@@ -128,7 +128,7 @@ void EntropyCorrector::Init()
             // Set factor for Inter Non-Ref frames
             m_Yfctrs[2][i] = 0.75f;
             m_Ufctrs[2][i] = 0.75f;
-            m_Vfctrs[2][i] = 0.75f;            
+            m_Vfctrs[2][i] = 0.75f;
         }
         else
         {
@@ -143,15 +143,15 @@ void EntropyCorrector::Init()
             // Set factor for Inter Non-Ref frames
             m_Yfctrs[2][i] = 0.75f;
             m_Ufctrs[2][i] = 0.75f;
-            m_Vfctrs[2][i] = 0.75f;            
+            m_Vfctrs[2][i] = 0.75f;
         }
     }//i
-    
+
 }
 
 void EntropyCorrector::Update(int bandnum , FrameSort fsort , CompSort c ,int est_bits , int actual_bits){
     //updates the factors - note that the estimated bits are assumed to already include the correction factor
-    
+
     float multiplier;
     if (actual_bits != 0 && est_bits != 0)
         multiplier = float(actual_bits)/float(est_bits);
@@ -180,7 +180,7 @@ OLBParams::OLBParams(const int xblen, int const yblen, int const xbsep, int cons
 
 bool OLBParams::operator ==(const OLBParams bparams) const
 {
-    if (bparams.Xblen() != m_xblen || 
+    if (bparams.Xblen() != m_xblen ||
         bparams.Yblen() != m_yblen ||
         bparams.Xbsep() != m_xbsep ||
         bparams.Ybsep() != m_ybsep)
@@ -196,7 +196,7 @@ std::ostream & operator<< (std::ostream & stream, OLBParams & params)
 {
     stream << params.Ybsep() << " " << params.Xbsep();
 //     stream << " " <<params.Yblen() << " " << params.Xblen();
-    
+
     return stream;
 }
 
@@ -215,7 +215,7 @@ std::istream & operator>> (std::istream & stream, OLBParams & params)
 
 //     stream >> temp;
 //     params.SetXblen(temp);
-    
+
     return stream;
 }
 
@@ -223,12 +223,11 @@ std::istream & operator>> (std::istream & stream, OLBParams & params)
 
 // Codec params functions
 
-CodecParams::CodecParams(const VideoFormat &vd, FrameType ftype, unsigned int num_refs, bool set_defaults): 
+CodecParams::CodecParams(const VideoFormat &vd, FrameType ftype, unsigned int num_refs, bool set_defaults):
     m_x_num_mb(0),
     m_y_num_mb(0),
     m_x_num_blocks(0),
     m_y_num_blocks(0),
-    m_verbose(false),
     m_lbparams(3),
     m_cbparams(3),
     m_video_format(vd)
@@ -246,8 +245,8 @@ void CodecParams::SetBlockSizes(const OLBParams& olbparams , const ChromaFormat 
 
     OLBParams tmp_olbparams = olbparams;
     // Factors for scaling chroma blocks
-    int xcfactor,ycfactor; 
- 
+    int xcfactor,ycfactor;
+
     if (cformat == format420)
     {
         xcfactor = 2;
@@ -266,7 +265,7 @@ void CodecParams::SetBlockSizes(const OLBParams& olbparams , const ChromaFormat 
 
 
     m_lbparams[2] = tmp_olbparams;
-        
+
     // Check separations are all divisible by 4
     int remainder= m_lbparams[2].Xbsep()%4;
     if ( remainder!=0 || m_lbparams[2].Xbsep()==0 )
@@ -293,7 +292,7 @@ void CodecParams::SetBlockSizes(const OLBParams& olbparams , const ChromaFormat 
     {
         m_lbparams[2].SetYblen( m_lbparams[2].Ybsep()+4);
     }
-        
+
     // Check there's non-negative overlap,
     // XBLEN >= XBSEP, YBLEN >= YBSEP
     if (m_lbparams[2].Xbsep()>m_lbparams[2].Xblen())
@@ -326,7 +325,7 @@ void CodecParams::SetBlockSizes(const OLBParams& olbparams , const ChromaFormat 
     if (overlap!=0 && overlap<2*ycfactor)
     {
         m_lbparams[2].SetYblen( m_lbparams[2].Ybsep()+4);
-    }    
+    }
 
     // Now check that the overlap is a power of 2
     int count = 0;
@@ -363,17 +362,17 @@ void CodecParams::SetBlockSizes(const OLBParams& olbparams , const ChromaFormat 
     m_lbparams[1].SetXblen( m_lbparams[2].Xblen() + m_lbparams[2].Xbsep() );
     m_lbparams[1].SetYbsep( m_lbparams[2].Ybsep()*2 );
     m_lbparams[1].SetYblen( m_lbparams[2].Yblen() + m_lbparams[2].Xbsep() );
-    
+
     m_lbparams[0].SetXbsep( m_lbparams[1].Xbsep()*2 );
     m_lbparams[0].SetXblen( m_lbparams[1].Xblen() + m_lbparams[1].Xbsep() );
     m_lbparams[0].SetYbsep( m_lbparams[1].Ybsep()*2 );
-    m_lbparams[0].SetYblen( m_lbparams[1].Yblen() + m_lbparams[1].Xbsep() );        
-    
+    m_lbparams[0].SetYblen( m_lbparams[1].Yblen() + m_lbparams[1].Xbsep() );
+
     m_cbparams[1].SetXbsep( m_cbparams[2].Xbsep()*2 );
     m_cbparams[1].SetXblen( m_cbparams[2].Xblen() + m_cbparams[2].Xbsep() );
     m_cbparams[1].SetYbsep( m_cbparams[2].Ybsep()*2 );
-    m_cbparams[1].SetYblen( m_cbparams[2].Yblen() + m_cbparams[2].Xbsep() );    
-    
+    m_cbparams[1].SetYblen( m_cbparams[2].Yblen() + m_cbparams[2].Xbsep() );
+
     m_cbparams[0].SetXbsep( m_cbparams[1].Xbsep()*2 );
     m_cbparams[0].SetXblen( m_cbparams[1].Xblen() + m_cbparams[1].Xbsep() );
     m_cbparams[0].SetYbsep( m_cbparams[1].Ybsep()*2 );
@@ -430,7 +429,7 @@ void CodecParams::SetTransformDepth (unsigned int wd)
     m_cb.Resize(wd+1);
 }
 
-void CodecParams::SetCodeBlocks (unsigned int level, 
+void CodecParams::SetCodeBlocks (unsigned int level,
                                    unsigned int hblocks,
                                    unsigned int vblocks)
 {
@@ -465,9 +464,6 @@ void CodecParams::SetDefaultCodeBlocks ( const FrameType &ftype)
     {
     case VIDEO_FORMAT_QSIF:
     case VIDEO_FORMAT_QCIF:
-        // No splitting by default for QSIF and CIF
-        break;
-
     case VIDEO_FORMAT_CUSTOM:
     case VIDEO_FORMAT_SIF:
     case VIDEO_FORMAT_CIF:
@@ -475,38 +471,32 @@ void CodecParams::SetDefaultCodeBlocks ( const FrameType &ftype)
     case VIDEO_FORMAT_4SIF:
     case VIDEO_FORMAT_SD_525_DIGITAL:
     case VIDEO_FORMAT_SD_625_DIGITAL:
-    case VIDEO_FORMAT_HD_720:
-    case VIDEO_FORMAT_HD_1080:
+    case VIDEO_FORMAT_HD_720P60:
+    case VIDEO_FORMAT_HD_720P50:
+    case VIDEO_FORMAT_HD_1080I60:
+    case VIDEO_FORMAT_HD_1080I50:
+    case VIDEO_FORMAT_HD_1080P60:
+    case VIDEO_FORMAT_HD_1080P50:
+    case VIDEO_FORMAT_DIGI_CINEMA_2K:
+    case VIDEO_FORMAT_DIGI_CINEMA_4K:
         if (ftype == INTRA_FRAME)
         {
-            // Intra frame default number of coeff blocks per level
-            // only the highest two levels are split.
-            int level = TransformDepth();
-            int i = 1;
-            for (; i<= level-2 || i == 1; ++i)
+            int depth = TransformDepth();
+            for (int i = 1; i <= 2; ++i)
             {
                 SetCodeBlocks(i, 1, 1);
             }
-            for (; i <=level; ++i)
+            for (int i = 3; i <=depth; ++i)
             {
                 SetCodeBlocks(i, 4, 3);
             }
         }
         else
         {
-            // Inter frame default number of coeff blocks per level
-            // only the highest three levels are split.
             int level = TransformDepth();
-            int i = 1;
-            for (; i<= level-3 || i == 1; ++i)
-            {
-                SetCodeBlocks(i, 1, 1);
-            }
-            if (i  <= level-2)
-                SetCodeBlocks(level-2, 8, 6);
-            ++i;
-
-            for (; i <=level; ++i)
+            SetCodeBlocks(1, 1, 1);
+            SetCodeBlocks(2, 8, 6);
+            for (int i = 3; i <=level; ++i)
             {
                 SetCodeBlocks(i, 12, 8);
             }
@@ -522,7 +512,7 @@ void CodecParams::SetDefaultCodeBlocks ( const FrameType &ftype)
     }
 }
 
-const CodeBlocks &CodecParams::GetCodeBlocks (unsigned int level) const 
+const CodeBlocks &CodecParams::GetCodeBlocks (unsigned int level) const
 {
     if (level > m_wlt_depth)
     {
@@ -554,13 +544,17 @@ void CodecParams::SetCodeBlockMode (unsigned int cb_mode)
 
 //EncoderParams functions
 
-//Default constructor    
+//Default constructor
 EncoderParams::EncoderParams(const VideoFormat& video_format,
                              FrameType ftype,
                              unsigned int num_refs,
                              bool set_defaults):
     CodecParams(video_format, ftype, num_refs, set_defaults),
+    m_verbose(false),
     m_loc_decode(true),
+    m_full_search(false),
+    m_x_range_me(32),
+    m_y_range_me(32),
     m_ufactor(1.0),
     m_vfactor(1.0),
     m_denoise(false),
@@ -579,7 +573,7 @@ EncoderParams::EncoderParams(const VideoFormat& video_format,
 void EncoderParams::CalcLambdas(const float qf)
 {
     if (!m_lossless )
-    { 
+    {
         m_I_lambda = std::pow( 10.0 , (10.0-qf )/2.5 )/16.0;
         m_L1_lambda = m_I_lambda*32.0;
         m_L2_lambda = m_I_lambda*256.0;
@@ -598,7 +592,7 @@ void EncoderParams::CalcLambdas(const float qf)
         m_L2_lambda = 0.0;
 
         m_L1_me_lambda = 0.0;
-        m_L2_me_lambda = 0.0;        
+        m_L2_me_lambda = 0.0;
     }
 }
 
@@ -612,40 +606,44 @@ void EncoderParams::SetInterTransformFilter(unsigned int wf_idx)
     SetInterTransformFilter(TransformFilter(wf_idx));
 }
 
+int EncoderParams::GOPLength() const
+{
+    if (m_num_L1>0)
+        return (m_num_L1+1)*m_L1_sep;
+
+    return ((m_num_L1==0) ? 10 : 0);
+}
+
 DecoderParams::DecoderParams(const VideoFormat& video_format,
                              FrameType ftype,
                              unsigned int num_refs,
                              bool set_defaults):
-    CodecParams(video_format, ftype, num_refs, set_defaults)
+    CodecParams(video_format, ftype, num_refs, set_defaults),
+    m_verbose(false)
 {
 }
 
 // ParseParams functions
 // constructor
-ParseParams::ParseParams(unsigned int au_pnum /*=0*/):
-    m_au_pnum(au_pnum),
+ParseParams::ParseParams():
     m_major_ver(0),
-    m_minor_ver(1),
+    m_minor_ver(109),
     m_profile(0),
     m_level(0)
 {}
 
-//SeqParams functions
+
+//Source functions
 //constructor
-SeqParams::SeqParams(const VideoFormat& video_format,
-                     bool set_defaults):
-m_xl(0),
-m_yl(0),
-m_cformat(format422),
-m_video_format(video_format)
+SourceParams::SourceParams(const VideoFormat& video_format,
+                           bool set_defaults)
 {
     // set default parameters
     if(set_defaults)
-        SetDefaultSequenceParameters(*this);
-
+        SetDefaultSourceParameters(video_format, *this);
 }
 
-int SeqParams::ChromaWidth() const
+int SourceParams::ChromaWidth() const
 {
     switch (m_cformat)
     {
@@ -659,7 +657,7 @@ int SeqParams::ChromaWidth() const
     }
 }
 
-int SeqParams::ChromaHeight() const
+int SourceParams::ChromaHeight() const
 {
     switch (m_cformat)
     {
@@ -673,15 +671,6 @@ int SeqParams::ChromaHeight() const
     }
 }
 
-//Source functions
-//constructor
-SourceParams::SourceParams(const VideoFormat& video_format,
-                           bool set_defaults)
-{
-    // set default parameters
-    if(set_defaults)
-        SetDefaultSourceParameters(video_format, *this);
-}
 
 void SourceParams::SetFrameRate (FrameRateType fr)
 {
@@ -719,6 +708,7 @@ void SourceParams::SetFrameRate (FrameRateType fr)
     case FRAMERATE_60_FPS:
         m_framerate.m_num = 60;
         m_framerate.m_denom = 1;
+        break;
     default:
         m_fr_idx = FRAMERATE_CUSTOM;
         m_framerate.m_num = m_framerate.m_denom = 0;
@@ -743,6 +733,14 @@ void SourceParams::SetAspectRatio (AspectRatioType aspect_ratio)
         m_aspect_ratio.m_num = 12;
         m_aspect_ratio.m_denom = 11;
         break;
+    case ASPECT_RATIO_40_33:
+        m_aspect_ratio.m_num = 40;
+        m_aspect_ratio.m_denom = 33;
+        break;
+    case ASPECT_RATIO_16_11:
+        m_aspect_ratio.m_num = 16;
+        m_aspect_ratio.m_denom = 11;
+        break;
     default:
         m_asr_idx = ASPECT_RATIO_CUSTOM;
         m_aspect_ratio.m_num = m_aspect_ratio.m_denom = 0;
@@ -758,19 +756,19 @@ void SourceParams::SetSignalRange (SignalRangeType sr)
     case SIGNAL_RANGE_8BIT_FULL:
         m_luma_offset = 0;
         m_luma_excursion = 255;
-        m_chroma_offset = 128;
-        m_chroma_excursion = 254;
+        m_chroma_offset = 0;
+        m_chroma_excursion = 255;
         break;
     case SIGNAL_RANGE_8BIT_VIDEO:
         m_luma_offset = 16;
         m_luma_excursion = 235;
-        m_chroma_offset = 128;
-        m_chroma_excursion = 244;
+        m_chroma_offset = 0;
+        m_chroma_excursion = 224;
         break;
     case SIGNAL_RANGE_10BIT_VIDEO:
         m_luma_offset = 64;
         m_luma_excursion = 876;
-        m_chroma_offset = 512;
+        m_chroma_offset = 0;
         m_chroma_excursion = 896;
         break;
     default:
@@ -789,23 +787,28 @@ void SourceParams::SetColourSpecification (unsigned int cs_idx)
     switch(cs_idx)
     {
     case 1:
-        m_col_primary = CP_SMPTE_C;
+        m_col_primary = CP_SDTV_525;
         m_col_matrix = CM_SDTV;
         m_transfer_func = TF_TV;
         break;
     case 2:
-        m_col_primary = CP_EBU_3213;
+        m_col_primary = CP_SDTV_625;
         m_col_matrix = CM_SDTV;
         m_transfer_func = TF_TV;
         break;
     case 3:
+        m_col_primary = CP_HDTV_COMP_INTERNET;
+        m_col_matrix = CM_HDTV_COMP_INTERNET;
+        m_transfer_func = TF_TV;
+        break;
+    case 4:
         m_col_primary = CP_CIE_XYZ;
-        m_col_matrix = CM_DCINEMA;
+        m_col_matrix = CM_REVERSIBLE;
         m_transfer_func = TF_DCINEMA;
         break;
     default:
         m_cs_idx = 0;
-        m_col_primary = CP_ITU_709;
+        m_col_primary = CP_HDTV_COMP_INTERNET;
         m_col_matrix = CM_HDTV_COMP_INTERNET;
         m_transfer_func = TF_TV;
         break;
@@ -817,7 +820,7 @@ void SourceParams::SetColourPrimariesIndex (unsigned int cp)
     m_cs_idx = 0;
     if (cp >= CP_UNDEF)
     {
-        //TODO: flag a warning 
+        //TODO: flag a warning
     }
     m_col_primary = static_cast<ColourPrimaries>(cp);
 }
@@ -827,7 +830,7 @@ void SourceParams::SetColourMatrixIndex (unsigned int cm)
     m_cs_idx = 0;
     if (cm >= CM_UNDEF)
     {
-        //TODO: flag a warning 
+        //TODO: flag a warning
     }
     m_col_matrix = static_cast<ColourMatrix>(cm);
 }
@@ -837,7 +840,7 @@ void SourceParams::SetTransferFunctionIndex (unsigned int tf)
     m_cs_idx = 0;
     if (tf >= TF_UNDEF)
     {
-        //TODO: flag a warning 
+        //TODO: flag a warning
     }
     m_transfer_func = static_cast<TransferFunction>(tf);
 }
@@ -849,103 +852,160 @@ void SourceParams::SetTransferFunctionIndex (unsigned int tf)
 FrameParams::FrameParams():
 m_fsort(FrameSort::IntraRefFrameSort()),
 m_frame_type( INTRA_FRAME ),
-m_reference_type( REFERENCE_FRAME ),    
+m_reference_type( REFERENCE_FRAME ),
 m_output(false)
-{}    
+{}
 
-// Constructor 
-FrameParams::FrameParams(const ChromaFormat& cf, int xlen, int ylen, int c_xlen, int c_ylen, unsigned int video_depth):
+// Constructor
+FrameParams::FrameParams(const ChromaFormat& cf,
+                         int orig_xlen, int orig_ylen,
+                         int dwt_xlen, int dwt_ylen,
+                         int c_dwt_xlen, int c_dwt_ylen,
+                         unsigned int luma_depth,
+                         unsigned int chroma_depth) :
     m_cformat(cf),
-    m_xl(xlen),
-    m_yl(ylen),
+    m_dwt_xl(dwt_xlen),
+    m_dwt_yl(dwt_ylen),
     m_fsort(FrameSort::IntraRefFrameSort()),
     m_frame_type( INTRA_FRAME ),
-    m_reference_type( REFERENCE_FRAME ),    
+    m_reference_type( REFERENCE_FRAME ),
     m_output(false),
-    m_chroma_xl(c_xlen),
-    m_chroma_yl(c_ylen),
-    m_video_depth(video_depth)
-{}
+    m_dwt_chroma_xl(c_dwt_xlen),
+    m_dwt_chroma_yl(c_dwt_ylen),
+    m_orig_xl(orig_xlen),
+    m_orig_yl(orig_ylen),
+    m_luma_depth(luma_depth),
+    m_chroma_depth(chroma_depth)
+{
+    m_orig_cxl = m_orig_cyl = 0;
+    if (cf == format420)
+    {
+        m_orig_cxl = orig_xlen>>1;
+        m_orig_cyl = orig_ylen>>1;
+    }
+    else if (cf == format422)
+    {
+        m_orig_cxl = orig_xlen>>1;
+        m_orig_cyl = orig_ylen;
+    }
+    else if (cf == format444)
+    {
+        m_orig_cxl = orig_xlen;
+        m_orig_cyl = orig_ylen;
+    }
+}
 
 // Constructor
 FrameParams::FrameParams(const ChromaFormat& cf, const FrameSort& fs):
     m_cformat(cf),
     m_output(false)
 {
-    SetFSort( fs );    
-}    
+    SetFSort( fs );
+}
 
 // Constructor
-FrameParams::FrameParams(const SeqParams& sparams):
+FrameParams::FrameParams(const SourceParams& sparams):
     m_cformat(sparams.CFormat()),
-    m_xl(sparams.Xl()),
-    m_yl(sparams.Yl()),
+    m_dwt_xl(sparams.Xl()),
+    m_dwt_yl(sparams.Yl()),
     m_fsort(FrameSort::IntraRefFrameSort()),
     m_frame_type( INTRA_FRAME ),
     m_reference_type( REFERENCE_FRAME ),
     m_output(false),
-    m_video_depth(sparams.GetVideoDepth())
+    m_dwt_chroma_xl(sparams.ChromaWidth()),
+    m_dwt_chroma_yl(sparams.ChromaHeight()),
+    m_orig_xl(m_dwt_xl),
+    m_orig_yl(m_dwt_yl),
+    m_orig_cxl(m_dwt_chroma_xl),
+    m_orig_cyl(m_dwt_chroma_yl)
 {
-    m_chroma_xl = m_chroma_yl = 0;
-    if(m_cformat == format422) 
+    if (sparams.Interlace())
     {
-        m_chroma_xl = m_xl/2;
-        m_chroma_yl = m_yl;
+        m_orig_yl = m_dwt_yl = (m_dwt_yl>>1);
+        m_orig_cyl = m_dwt_chroma_yl = (m_dwt_chroma_yl>>1);
     }
-    else if (m_cformat == format420)
-    {
-        m_chroma_xl = m_xl/2;
-        m_chroma_yl = m_yl/2;
-    }
-    else if (m_cformat==format444)
-    {
-        m_chroma_xl = m_xl;
-        m_chroma_yl = m_yl;
-    }
+    m_luma_depth = static_cast<unsigned int>
+         (
+             std::log((double)sparams.LumaExcursion())/std::log(2.0) + 1
+         );
+
+    m_chroma_depth = static_cast<unsigned int>
+         (
+             std::log((double)sparams.ChromaExcursion())/std::log(2.0) + 1
+         );
 }
 
 // Constructor
-FrameParams::FrameParams(const SeqParams& sparams, const FrameSort& fs):
+FrameParams::FrameParams(const SourceParams& sparams, const FrameSort& fs):
     m_cformat(sparams.CFormat()),
-    m_xl(sparams.Xl()),
-    m_yl(sparams.Yl()),
+    m_dwt_xl(sparams.Xl()),
+    m_dwt_yl(sparams.Yl()),
     m_output(false),
-    m_video_depth(sparams.GetVideoDepth())
+    m_orig_xl(sparams.Xl()),
+    m_orig_yl(sparams.Yl())
 {
     SetFSort(fs);
-    
-    m_chroma_xl = m_chroma_yl = 0;
-    if(m_cformat == format422) 
+
+    m_orig_cxl = m_orig_cyl = m_dwt_chroma_xl = m_dwt_chroma_yl = 0;
+    if(m_cformat == format422)
     {
-        m_chroma_xl = m_xl/2;
-        m_chroma_yl = m_yl;
+        m_orig_cxl = m_dwt_chroma_xl = m_orig_xl/2;
+        m_orig_cyl = m_dwt_chroma_yl = m_orig_yl;
     }
     else if (m_cformat == format420)
     {
-        m_chroma_xl = m_xl/2;
-        m_chroma_yl = m_yl/2;
+        m_orig_cxl = m_dwt_chroma_xl = m_orig_xl/2;
+        m_orig_cyl = m_dwt_chroma_yl = m_orig_yl/2;
     }
     else if (m_cformat==format444)
     {
-        m_chroma_xl = m_xl;
-        m_chroma_yl = m_yl;
+        m_orig_cxl = m_dwt_chroma_xl = m_orig_xl;
+        m_orig_cyl = m_dwt_chroma_yl = m_orig_yl;
+    }
+}
+
+void FrameParams::SetOrigXl(int orig_xlen)
+{
+    m_orig_xl = orig_xlen;
+    m_orig_cxl = 0;
+    if (m_cformat == format420 || m_cformat == format422)
+    {
+        m_orig_cxl = m_orig_xl>>1;
+    }
+    else if (m_cformat == format444)
+    {
+        m_orig_cxl = m_orig_xl;
+    }
+}
+
+void FrameParams::SetOrigYl(int orig_ylen)
+{
+    m_orig_yl = orig_ylen;
+    m_orig_cyl = 0;
+    if (m_cformat == format420)
+    {
+        m_orig_cyl = m_orig_yl>>1;
+    }
+    else if (m_cformat == format422 || m_cformat == format444)
+    {
+        m_orig_cyl = m_orig_yl;
     }
 }
 
 bool FrameParams::IsBFrame() const
 {
     bool is_B_frame( false );
-       
-    if ( m_refs.size() == 2 )        
+
+    if ( m_refs.size() == 2 )
     {
         if ( m_refs[0] < m_fnum && m_refs[1] > m_fnum )
             is_B_frame = true;
 
         if ( m_refs[0] > m_fnum && m_refs[1] < m_fnum )
             is_B_frame = true;
-    }  
+    }
 
-    return is_B_frame;        
+    return is_B_frame;
 }
 
 void FrameParams::SetFSort( const FrameSort& fs )
@@ -955,7 +1015,7 @@ void FrameParams::SetFSort( const FrameSort& fs )
         m_frame_type = INTRA_FRAME;
     else
         m_frame_type = INTER_FRAME;
-        
+
     if ( fs.IsRef() )
         m_reference_type = REFERENCE_FRAME;
     else
@@ -978,16 +1038,16 @@ void FrameParams::SetReferenceType(const ReferenceType rtype)
     if (rtype == REFERENCE_FRAME )
         m_fsort.SetRef();
     else
-        m_fsort.SetNonRef();    
+        m_fsort.SetNonRef();
 }
 
 
 QuantiserLists::QuantiserLists()
 :
     // FIXME: hardcode m_max_qindex to 119. In future this will depend on level
-	// As per spec max qf_idx is 127. But for values of qf_idx > 120 we
-	// will need more than 32 bits. Hence qf_idx is limited to 119.
-    m_max_qindex( 119 ),  
+    // As per spec max qf_idx is 127. But for values of qf_idx > 120 we
+    // will need more than 32 bits. Hence qf_idx is limited to 119.
+    m_max_qindex( 119 ),
     m_qflist4( m_max_qindex+1 ),
     m_intra_offset4( m_max_qindex+1 ),
     m_inter_offset4( m_max_qindex+1 )
@@ -998,7 +1058,7 @@ QuantiserLists::QuantiserLists()
     m_inter_offset4[0] = 1;
     m_intra_offset4[1] = 2;
     m_inter_offset4[1] = 2;
-   
+
 #ifdef _MSC_VER
     unsigned __int64 base, qfactor;
 #else
@@ -1011,32 +1071,32 @@ QuantiserLists::QuantiserLists()
 
         switch (q%4)
         {
-            case 0: 
+            case 0:
                  qfactor = 4*base;
                  break;
-            case 1: 
+            case 1:
                  qfactor = (503829*base+52958)/105917;
                  break;
-            case 2: 
+            case 2:
                  qfactor = (665857*base+58854)/117708;
                  break;
-            case 3: 
+            case 3:
                  qfactor = (440253*base+32722)/65444;
                  break;
             default: //Default case never used
-                 qfactor = 0; 
+                 qfactor = 0;
         }
-        
+
         m_qflist4[q] = int( qfactor );
-        
+
         m_intra_offset4[q] = (m_qflist4[q]+1)>>1;
         m_inter_offset4[q] = (3*m_qflist4[q]+4)>>3;
     }// q
 }
 
-namespace dirac 
+namespace dirac
 {
-VideoFormat IntToVideoFormat(int video_format) 
+VideoFormat IntToVideoFormat(int video_format)
 {
     switch(video_format)
     {
@@ -1058,10 +1118,22 @@ VideoFormat IntToVideoFormat(int video_format)
         return VIDEO_FORMAT_SD_525_DIGITAL;
     case VIDEO_FORMAT_SD_625_DIGITAL:
         return VIDEO_FORMAT_SD_625_DIGITAL;
-    case VIDEO_FORMAT_HD_720:
-        return VIDEO_FORMAT_HD_720;
-    case VIDEO_FORMAT_HD_1080:
-        return VIDEO_FORMAT_HD_1080;
+    case VIDEO_FORMAT_HD_720P60:
+        return VIDEO_FORMAT_HD_720P60;
+    case VIDEO_FORMAT_HD_720P50:
+        return VIDEO_FORMAT_HD_720P50;
+    case VIDEO_FORMAT_HD_1080I60:
+        return VIDEO_FORMAT_HD_1080I60;
+    case VIDEO_FORMAT_HD_1080I50:
+        return VIDEO_FORMAT_HD_1080I50;
+    case VIDEO_FORMAT_HD_1080P60:
+        return VIDEO_FORMAT_HD_1080P60;
+    case VIDEO_FORMAT_HD_1080P50:
+        return VIDEO_FORMAT_HD_1080P50;
+    case VIDEO_FORMAT_DIGI_CINEMA_2K:
+        return VIDEO_FORMAT_DIGI_CINEMA_2K;
+    case VIDEO_FORMAT_DIGI_CINEMA_4K:
+        return VIDEO_FORMAT_DIGI_CINEMA_4K;
     default:
         return VIDEO_FORMAT_UNDEFINED;
     }
@@ -1108,7 +1180,7 @@ FrameRateType IntToFrameRateType(int frame_rate_idx)
         return FRAMERATE_UNDEFINED;
     }
 }
-    
+
 AspectRatioType IntToAspectRatioType(int aspect_ratio_idx)
 {
     switch(aspect_ratio_idx)
@@ -1121,6 +1193,10 @@ AspectRatioType IntToAspectRatioType(int aspect_ratio_idx)
         return ASPECT_RATIO_10_11;
     case ASPECT_RATIO_12_11:
         return ASPECT_RATIO_12_11;
+    case ASPECT_RATIO_40_33:
+        return ASPECT_RATIO_40_33;
+    case ASPECT_RATIO_16_11:
+        return ASPECT_RATIO_16_11;
     default:
         return ASPECT_RATIO_UNDEFINED;
 

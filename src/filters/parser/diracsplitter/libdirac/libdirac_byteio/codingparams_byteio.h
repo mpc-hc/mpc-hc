@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: seqparams_byteio.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: codingparams_byteio.h,v 1.1 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -20,7 +20,7 @@
 * Portions created by the Initial Developer are Copyright (C) 2004.
 * All Rights Reserved.
 *
-* Contributor(s): Andrew Kennedy (Original Author)
+* Contributor(s): Anuradha Suraparaju (Original Author)
 *
 * Alternatively, the contents of this file may be used under the terms of
 * the GNU General Public License Version 2 (the "GPL"), or the GNU Lesser
@@ -36,14 +36,14 @@
 * ***** END LICENSE BLOCK ***** */
 
 /**
-* Definition of class SeqParamsByteIO
+* Definition of class CodingParamsByteIO
 */
-#ifndef seqparams_byteio_h
-#define seqparams_byteio_h
+#ifndef codingparams_byteio_h
+#define codingparams_byteio_h
 
 
 // DIRAC INCLUDES
-#include <libdirac_common/common.h>             // SeqParams
+#include <libdirac_common/common.h>             // CodecParams, SourceParams
 
 //LOCAL INCLUDES
 #include <libdirac_byteio/byteio.h>             // Parent class
@@ -55,25 +55,27 @@ namespace dirac
     /**
     * Represents compressed sequence-parameter data used in an AccessUnit
     */
-    class SeqParamsByteIO : public ByteIO
+    class CodingParamsByteIO : public ByteIO
     {
     public:
 
         /**
         * Constructor
-        *@param seq_params Sequence parameters
-        *@param default_seq_params Default sequence parameters
+        *@param src_params             Source parameters
+        *@param codec_params           Coding parameters
+        *@param default_source_params  Default source parameters
         *@param stream_data Source/Destination of data
         */
-        SeqParamsByteIO(SeqParams& seq_params,
-                        const SeqParams& default_seq_params,
-                        const ByteIO& stream_data);
+        CodingParamsByteIO(const SourceParams& src_params,
+                           CodecParams& codec_params,
+                           const SourceParams& default_source_params,
+                           const ByteIO& stream_data);
                       
 
         /**
         * Destructor
         */
-        ~SeqParamsByteIO();
+        ~CodingParamsByteIO();
 
         /**
         * Reads sequence information from Dirac byte-format
@@ -91,29 +93,14 @@ namespace dirac
     private:
     
         /**
-        * Reads chroma format
-        */
-        void InputChromaFormat();
-
-        /**
-        * Reads image size info (Luma only)
-        */
-        void InputImageSize();
-
-        /**
         * Reads number of bits used to compress input signal 
         */
         void InputVideoDepth();
 
         /**
-        * Outputs chroma format
+        * Reads if material was coded interlaced or progressive
         */
-        void OutputChromaFormat();
-
-        /**
-        * Outputs image size info (Luma only)
-        */
-        void OutputImageSize();
+        void InputInterlaceCoding();
 
         /**
         * Outputs number of bits used to compress input signal 
@@ -121,14 +108,24 @@ namespace dirac
         void OutputVideoDepth();
 
         /**
-        * Sequence paramters for intput/output
+        * Outputs how input was coded - i.e. interlaced or progressive
         */
-        SeqParams&   m_seq_params;
+        void OutputInterlaceCoding();
 
         /**
-        * Default sequence parameters
+        * Source paramters for intput/output
         */
-        const SeqParams& m_default_seq_params;
+        const SourceParams&   m_src_params;
+
+        /**
+        * Coding paramters for intput/output
+        */
+        CodecParams&   m_codec_params;
+
+        /**
+        * Default source parameters
+        */
+        const SourceParams& m_default_source_params;
 
     };
 

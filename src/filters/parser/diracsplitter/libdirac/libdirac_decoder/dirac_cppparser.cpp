@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_cppparser.cpp,v 1.6 2007/05/02 13:10:27 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_cppparser.cpp,v 1.7 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -261,14 +261,14 @@ DecoderState DiracParser::Parse()
     }
 }
 
-const SeqParams& DiracParser::GetSeqParams() const
-{
-    return m_decomp->GetSeqParams();
-}
-
 const SourceParams& DiracParser::GetSourceParams() const
 {
     return m_decomp->GetSourceParams();
+}
+
+const DecoderParams& DiracParser::GetDecoderParams() const
+{
+    return m_decomp->GetDecoderParams();
 }
 
 const ParseParams& DiracParser::GetParseParams() const

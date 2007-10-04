@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_assertions.cpp,v 1.2 2004/11/22 13:28:05 asuraparaju Exp $ $Name: Dirac_0_7_0 $
+* $Id: dirac_assertions.cpp,v 1.2 2004/11/22 13:28:05 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

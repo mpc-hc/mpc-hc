@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: upconvert.h,v 1.10 2007/02/07 12:03:34 davidf_ Exp $ $Name: Dirac_0_7_0 $
+* $Id: upconvert.h,v 1.12 2007/09/03 14:52:40 asuraparaju Exp $ $Name: Dirac_0_8_0 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -56,8 +56,7 @@ namespace dirac
     public:
 
         //! Constructor
-        UpConverter(int min_val, int max_val)
-            : m_min_val(min_val), m_max_val(max_val) {};
+        UpConverter(int min_val, int max_val, int orig_xlen, int orig_ylen);
 
         //! Destructor
         ~UpConverter() {};
@@ -65,7 +64,7 @@ namespace dirac
         //! Upconvert the picture data
         /*!
             Upconvert the picture data, where the parameters are
-            \param    pic_data    is the original data
+            \param    pic_data   is the original data
             \param    up_data    is the upconverted data
          */
         void DoUpConverter(const PicArray& pic_data, PicArray& up_data);
@@ -97,6 +96,9 @@ namespace dirac
 
         const int m_min_val;
         const int m_max_val;
+
+        const int m_orig_xl;
+        const int m_orig_yl;
     };
 
 } // namespace dirac
