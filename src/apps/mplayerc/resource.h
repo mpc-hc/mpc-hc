@@ -619,6 +619,7 @@
 #define IDS_RS_EVR_BUFFERS              13152
 #define IDS_RS_SHOWOSD                  13153
 #define IDS_RS_LANGUAGE                 13154
+#define IDS_RS_GLOBALMEDIA              13155
 #define IDS_SRC_RADGT                   14000
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002

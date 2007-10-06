@@ -38,6 +38,7 @@ CPPageAccelTbl::CPPageAccelTbl()
 	, m_fUIce(FALSE)
 	, m_UIceLink(_T("http://www.mediatexx.com/"))
 	, m_fPN31(FALSE)
+	, m_fGlobalMedia(FALSE)
 {
 }
 
@@ -582,6 +583,7 @@ void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_UIceEdit);
 	DDX_Control(pDX, IDC_STATICLINK2, m_UIceLink);
 	DDX_Check(pDX, IDC_CHECK9, m_fUIce);
+	DDX_Check(pDX, IDC_CHECK2, m_fGlobalMedia);
 }
 
 BEGIN_MESSAGE_MAP(CPPageAccelTbl, CPPageBase)
@@ -608,6 +610,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_WinLircAddr = s.WinLircAddr;
 	m_fUIce = s.fUIce;
 	m_UIceAddr = s.UIceAddr;
+	m_fGlobalMedia = s.fGlobalMedia;
 
 	UpdateData(FALSE);
 
@@ -677,6 +680,7 @@ BOOL CPPageAccelTbl::OnApply()
 	s.fUIce = !!m_fUIce;
 	s.UIceAddr = m_UIceAddr;
 	if(s.fUIce) s.UIceClient.Connect(m_UIceAddr);
+	s.fGlobalMedia = !!m_fGlobalMedia;
 
 	return __super::OnApply();
 }

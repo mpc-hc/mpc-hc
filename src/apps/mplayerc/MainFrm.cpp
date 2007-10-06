@@ -165,6 +165,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_SYSCOMMAND()
 	ON_WM_ACTIVATEAPP()
 	ON_MESSAGE(WM_APPCOMMAND, OnAppCommand)
+	ON_MESSAGE(WM_HOTKEY, OnHotKey)
 
 	ON_WM_TIMER()
 
@@ -1262,6 +1263,26 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	return Default();
+}
+
+LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
+{
+	AppSettings& s = AfxGetAppSettings();
+	BOOL fRet = FALSE;
+
+	if (GetActiveWindow() == this || s.fGlobalMedia == TRUE)
+	{
+		POSITION pos = s.wmcmds.GetHeadPosition();
+
+		while(pos)
+		{
+			wmcmd& wc = s.wmcmds.GetNext(pos);
+			if (wc.appcmd == wParam && TRUE == SendMessage(WM_COMMAND, wc.cmd)) 
+				fRet = TRUE;
+		}
+	}
+
+	return fRet;
 }
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)

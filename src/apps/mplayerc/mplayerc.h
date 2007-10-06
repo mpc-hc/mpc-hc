@@ -524,6 +524,7 @@ public:
 		bool fUIce;
 		CString UIceAddr;
 		CUIceClient UIceClient;
+		bool fGlobalMedia;
 
 //		bool fPN31Client;
 		CShuttlePN31Client PN31Client;

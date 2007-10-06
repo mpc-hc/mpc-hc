@@ -67,6 +67,7 @@ public:
 	CEdit m_UIceEdit;
 	CStaticLink m_UIceLink;
 	BOOL m_fPN31;
+	BOOL m_fGlobalMedia;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

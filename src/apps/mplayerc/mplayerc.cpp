@@ -908,6 +908,14 @@ BOOL CMPlayerCApp::InitInstance()
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PLAY_PAUSE,    0, VK_MEDIA_PLAY_PAUSE);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_STOP,          0, VK_MEDIA_STOP);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_NEXTTRACK,     0, VK_MEDIA_NEXT_TRACK);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PREVIOUSTRACK, 0, VK_MEDIA_PREV_TRACK);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_UP,           0, VK_VOLUME_UP);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_DOWN,         0, VK_VOLUME_DOWN);
+	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_MUTE,         0, VK_VOLUME_MUTE);
+
 	pFrame->SetFocus();
 
 	return TRUE;
@@ -917,7 +925,7 @@ int CMPlayerCApp::ExitInstance()
 {
 	m_s.UpdateData(true);
 
-    OleUninitialize();
+	OleUninitialize();
 
 	return CWinApp::ExitInstance();
 }
@@ -1193,10 +1201,10 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_VOLUME_UP, VK_UP, FVIRTKEY|FNOINVERT, ResStr(IDS_AG_VOLUME_UP), APPCOMMAND_VOLUME_UP, wmcmd::WUP));
 	ADDCMD((ID_VOLUME_DOWN, VK_DOWN, FVIRTKEY|FNOINVERT, ResStr(IDS_AG_VOLUME_DOWN), APPCOMMAND_VOLUME_DOWN, wmcmd::WDOWN));
 	ADDCMD((ID_VOLUME_MUTE, 'M', FVIRTKEY|FCONTROL|FNOINVERT, ResStr(IDS_AG_VOLUME_MUTE), APPCOMMAND_VOLUME_MUTE));
-ADDCMD((ID_VOLUME_BOOST_INC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_INC)));
-ADDCMD((ID_VOLUME_BOOST_DEC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_DEC)));
-ADDCMD((ID_VOLUME_BOOST_MIN, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MIN)));
-ADDCMD((ID_VOLUME_BOOST_MAX, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MAX)));
+	ADDCMD((ID_VOLUME_BOOST_INC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_INC)));
+	ADDCMD((ID_VOLUME_BOOST_DEC, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_DEC)));
+	ADDCMD((ID_VOLUME_BOOST_MIN, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MIN)));
+	ADDCMD((ID_VOLUME_BOOST_MAX, 0, FVIRTKEY|FNOINVERT, ResStr(IDS_VOLUME_BOOST_MAX)));
 
 	ADDCMD((ID_NAVIGATE_TITLEMENU, 'T', FVIRTKEY|FALT|FNOINVERT, ResStr(IDS_MPLAYERC_63)));
 	ADDCMD((ID_NAVIGATE_ROOTMENU, 'R', FVIRTKEY|FALT|FNOINVERT, ResStr(IDS_AG_DVD_ROOT_MENU)));
@@ -1579,6 +1587,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_WINLIRCADDR), WinLircAddr);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), fUIce);
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), UIceAddr);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_GLOBALMEDIA), fGlobalMedia);
 
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DISABLEXPTOOLBARS), fDisabeXPToolbars);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_USEWMASFREADER), fUseWMASFReader);
@@ -1932,6 +1941,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		UIceAddr = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICEADDR), _T("127.0.0.1:1234"));
 		fUIce = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_UICE), 0);
 //		fPN31Client = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_PN31), 0);
+		fGlobalMedia = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_GLOBALMEDIA), 0);
 
 		fDisabeXPToolbars = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DISABLEXPTOOLBARS), 0);
 		fUseWMASFReader = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_USEWMASFREADER), TRUE);
