@@ -42,7 +42,7 @@ s_filters[] =
 	{_T("AVI"), 0, SRC_AVI, IDS_SRC_AVI, NULL},
 	{_T("CDDA (Audio CD)"), 0, SRC_CDDA, IDS_SRC_CDDA, NULL},
 	{_T("CDXA (VCD/SVCD/XCD)"), 0, SRC_CDXA, IDS_SRC_CDXA, NULL},
-//	__if_exists(CDiracSplitterFilter) {{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},}	// Disable until Dirac is more stable
+	__if_exists(CDiracSplitterFilter) {{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},}
 	{_T("DirectShow Media"), 0, SRC_DSM, IDS_SRC_DSM, NULL},
 	{_T("DTS/AC3"), 0, SRC_DTSAC3, IDS_SRC_DTSAC3, NULL},
 	{_T("DVD Video Title Set"), 0, SRC_VTS, IDS_SRC_VTS, NULL},
@@ -62,7 +62,7 @@ s_filters[] =
 	{_T("AAC"), 1, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
-//	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}	// Disable until Dirac is more stable
+	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
 	__if_exists(CFLVVideoDecoder) {{_T("FLV4"), 1, TRA_FLV4, 0, NULL},}
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
