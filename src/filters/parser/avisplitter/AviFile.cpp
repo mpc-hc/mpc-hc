@@ -9,6 +9,7 @@ CAviFile::CAviFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	: CBaseSplitterFile(pAsyncReader, hr)
 {
 	if(FAILED(hr)) return;
+	m_isamv = false;
 	hr = Init();
 }
 
@@ -24,9 +25,10 @@ HRESULT CAviFile::Init()
 {
 	Seek(0);
 	DWORD dw[3];
-	if(S_OK != Read(dw) || dw[0] != FCC('RIFF') || (dw[2] != FCC('AVI ') && dw[2] != FCC('AVIX')))
+	if(S_OK != Read(dw) || dw[0] != FCC('RIFF') || (dw[2] != FCC('AVI ') && dw[2] != FCC('AVIX') && dw[2] != FCC('AMV ')))
 		return E_FAIL;
 
+	m_isamv = (dw[2] == FCC('AMV '));
 	Seek(0);
 	HRESULT hr = Parse(0, GetLength());
 	if(m_movis.GetCount() == 0) // FAILED(hr) is allowed as long as there was a movi chunk found
@@ -52,11 +54,45 @@ HRESULT CAviFile::Init()
 		}
 	}
 
-	if(FAILED(BuildIndex()))
+	if (!m_isamv && (FAILED(BuildIndex())))
 		EmptyIndex();
 
 	return S_OK;
 }
+
+HRESULT CAviFile::BuildAMVIndex()
+{
+	strm_t::chunk	NewChunk;
+	ULONG	ulType;
+	ULONG	ulSize;
+
+	memset (&NewChunk, 0, sizeof(strm_t::chunk));
+	while((Read(ulType) == S_OK) && (Read(ulSize) == S_OK))
+	{
+		switch (ulType)
+		{
+		case FCC('00dc'):	// 01bw : JPeg
+			NewChunk.size = ulSize;
+			NewChunk.filepos = GetPos();
+			NewChunk.orgsize = ulSize;
+			NewChunk.fKeyFrame = true;
+			m_strms[0]->cs.Add (NewChunk);
+			break;
+		case FCC('01wb') :	// 00dc : Audio
+			NewChunk.size    = ulSize;
+			NewChunk.orgsize = ulSize;
+			NewChunk.fKeyFrame = true;
+			NewChunk.filepos = GetPos();
+			m_strms[1]->cs.Add (NewChunk);
+			break;
+		}
+		Seek(GetPos() + ulSize);			
+	}
+
+	TRACE ("Video packet : %d   Audio packet :%d\n", m_strms[0]->cs.GetCount(), m_strms[1]->cs.GetCount());
+	return S_OK;
+}
+
 
 HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 {
@@ -77,6 +113,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 			if(S_OK != Read(size) || S_OK != Read(id))
 				return E_FAIL;
 
+			if (m_isamv) size = end - GetPos() - 8;		// No size set in AVM : guess end of file...
 			size += (size&1) + 8;
 
 			TRACE(_T("CAviFile::Parse(..): LIST '%c%c%c%c'\n"), 
@@ -88,6 +125,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 			if(id == FCC('movi'))
 			{
 				m_movis.AddTail(pos);
+				if (m_isamv) BuildAMVIndex();
 			}
 			else
 			{
@@ -143,8 +181,9 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 
 			switch(id)
 			{
+			case FCC('amvh'):
 			case FCC('avih'):
-				m_avih.fcc = FCC('avih');
+				m_avih.fcc = id;
 				m_avih.cb = size;
 				if(S_OK != Read(m_avih, 8)) return E_FAIL;
 				break;
@@ -153,6 +192,13 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				strm->strh.fcc = FCC('strh');
 				strm->strh.cb = size;
 				if(S_OK != Read(strm->strh, 8)) return E_FAIL;
+				if (m_isamv)
+				{
+					// First alway video, second always audio
+					strm->strh.fccType = m_strms.GetCount() == 0 ? FCC('vids') : FCC('amva');
+					strm->strh.dwRate  = m_avih.dwReserved[0]*1000;	// dwReserved[0] = fps!
+					strm->strh.dwScale = 1000;
+				}
 				break;
 			case FCC('strn'):
 				if(S_OK != ByteRead((BYTE*)strm->strn.GetBufferSetLength(size), size)) return E_FAIL;
@@ -161,6 +207,23 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				if(!strm) strm.Attach(new strm_t());
 				strm->strf.SetCount(size);
 				if(S_OK != ByteRead(strm->strf.GetData(), size)) return E_FAIL;
+				if (m_isamv)
+				{
+					if (strm->strh.fccType == FCC('vids'))
+					{
+						strm->strf.SetCount(sizeof(BITMAPINFOHEADER));
+						BITMAPINFOHEADER* pbmi = &((BITMAPINFO*)strm->strf.GetData())->bmiHeader;					
+						pbmi->biSize		= sizeof(BITMAPINFOHEADER);
+						pbmi->biHeight		= m_avih.dwHeight;
+						pbmi->biWidth		= m_avih.dwWidth;
+						pbmi->biCompression = FCC('AMVV');
+						pbmi->biPlanes		= 1;
+						pbmi->biBitCount	= 24;
+						pbmi->biSizeImage	= pbmi->biHeight * pbmi->biWidth * (pbmi->biBitCount/8);
+					}
+					m_strms.Add(strm);
+				}
+
 				break;
 			case FCC('indx'):
 				if(!strm) strm.Attach(new strm_t());
@@ -200,6 +263,13 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				m_idx1->fcc = FCC('idx1');
 				m_idx1->cb = size;
 				if(S_OK != ByteRead((BYTE*)(AVIOLDINDEX*)m_idx1 + 8, size)) return E_FAIL;
+				break;
+			default :
+				TRACE(_T("CAviFile::Parse(..): unknown tag '%c%c%c%c'\n"), 
+					TCHAR((id>>0)&0xff), 
+					TCHAR((id>>8)&0xff), 
+					TCHAR((id>>16)&0xff),
+					TCHAR((id>>24)&0xff));
 				break;
 			}
 

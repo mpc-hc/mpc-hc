@@ -58,12 +58,13 @@ STDAPI DllRegisterServer()
 	CAtlList<CString> chkbytes;
 	chkbytes.AddTail(_T("0,4,,52494646,8,4,,41564920")); // 'RIFF' ... 'AVI '
 	chkbytes.AddTail(_T("0,4,,52494646,8,4,,41564958")); // 'RIFF' ... 'AVIX'
+	chkbytes.AddTail(_T("0,4,,52494646,8,4,,414D5620")); // 'RIFF' ... 'AMV '
 
 	RegisterSourceFilter(
 		CLSID_AsyncReader, 
 		MEDIASUBTYPE_Avi, 
 		chkbytes, 
-		_T(".avi"), _T(".divx"), _T(".vp6"), NULL);
+		_T(".avi"), _T(".divx"), _T(".vp6"), _T(".amv"), NULL);
 
 	return AMovieDllRegisterServer2(TRUE);
 }
@@ -227,7 +228,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				: (pvih->bmiHeader.biWidth*pvih->bmiHeader.biHeight*4));
 			mts.Add(mt);
 		}
-		else if(s->strh.fccType == FCC('auds'))
+		else if(s->strh.fccType == FCC('auds') || s->strh.fccType == FCC('amva'))
 		{
 			label = L"Audio";
 
@@ -239,7 +240,10 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if(pwfe->nBlockAlign == 0) continue;
 
 			mt.majortype = MEDIATYPE_Audio;
-			mt.subtype = FOURCCMap(pwfe->wFormatTag);
+			if (m_pFile->m_isamv)
+				mt.subtype = FOURCCMap(MAKEFOURCC('A','M','V','A'));
+			else
+				mt.subtype = FOURCCMap(pwfe->wFormatTag);
 			mt.formattype = FORMAT_WaveFormatEx;
 			mt.SetFormat(s->strf.GetData(), max(s->strf.GetCount(), sizeof(WAVEFORMATEX)));
 			pwfe = (WAVEFORMATEX*)mt.Format();

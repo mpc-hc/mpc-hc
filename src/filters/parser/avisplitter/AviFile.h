@@ -7,6 +7,7 @@ class CAviFile : public CBaseSplitterFile
 {
 	HRESULT Init();
 	HRESULT Parse(DWORD parentid, __int64 end);
+	HRESULT BuildAMVIndex();
 
 public:
 	CAviFile(IAsyncReader* pAsyncReader, HRESULT& hr);
@@ -42,6 +43,7 @@ public:
 	CAutoPtr<AVIOLDINDEX> m_idx1;
 
 	CAtlList<UINT64> m_movis;
+	bool			 m_isamv;
     
 	REFERENCE_TIME GetTotalTime();
 	HRESULT BuildIndex();

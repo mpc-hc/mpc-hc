@@ -190,7 +190,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #define ADDFMT(f) Add(CMediaFormatCategory##f)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_0),		_T("wmv"),	_T("wmv wmp wm asf")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),		_T("wma"),	_T("wma"), true));
-		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),		_T("avi"),	_T("avi")));
+		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),		_T("avi"),	_T("avi amv")));
 		ADDFMT((ResStr(IDS_AG_AUDIO_FILE),		_T("wav"),	_T("wav"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_5),		_T("mpa"),	_T("mpa mp2 m1a m2a"), true));
