@@ -95,36 +95,40 @@ void CPPageFormats::SetChecked(int iItem, int iChecked)
 	m_list.SetItem(&lvi);
 }
 
-static bool MakeRegParams(CString ext, CString& path, CString& fn, CString& cmdEnqueue, CString& cmdOpen)
+
+CString CPPageFormats::GetEnqueueCommand()
 {
-	if(ext.GetLength() == 0)
-		return(false);
+	CString		 path;
 
 	TCHAR buff[MAX_PATH];
 	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0)
-		return(false);
+		return _T("");
 
 	path = buff;
+	return _T("\"") + path + _T("\" /add \"%1\"");
+}
 
-	fn = path.Mid(path.ReverseFind('\\')+1).MakeLower();
-	if(fn.IsEmpty())
-		return(false);
+CString CPPageFormats::GetOpenCommand()
+{
+	CString		 path;
+	TCHAR buff[MAX_PATH];
 
-	cmdEnqueue	= _T("\"") + path + _T("\" /add \"%1\"");
-	cmdOpen		= _T("\"") + path + _T("\" \"%1\"");
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0)
+		return _T("");
 
-	return(true);
+	path = buff;
+	return _T("\"") + path + _T("\" \"%1\"");
 }
 
 bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 {
+	BOOL	bIsDefault = FALSE;
+
 	if (m_pAAR)
 	{
 		// The Vista way
-		BOOL	bIsDefault = FALSE;
 		HRESULT	hr;
 		hr = m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, g_strRegisteredAppName, &bIsDefault);
-		return !!bIsDefault;
 	}
 	else
 	{
@@ -140,17 +144,33 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
 			return false;
 
-		return (buff == strProgID);
+		bIsDefault = (buff == strProgID);
 	}
+
+	// Check if association is for this instance of MPC
+	if (bIsDefault)
+	{
+		CRegKey		key;
+		TCHAR		buff[MAX_PATH];
+		ULONG		len = sizeof(buff);
+
+		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ))
+		{
+			CString		strCommand = GetOpenCommand();
+			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len))
+				bIsDefault = (strCommand.CompareNoCase(CString(buff)) == 0);
+		}
+	}
+
+	return !!bIsDefault;
 }
 
 bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister)
 {
-	CString path, fn, extoldreg, cmdEnqueue, cmdOpen;
-	if(!MakeRegParams(ext, path, fn, cmdEnqueue, cmdOpen))
-		return(false);
+	CRegKey		key;
+	bool		bSetValue;
 
-	CRegKey key;
+	bSetValue = fRegister || (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ));
 
 	// Create ProgID for this file type
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) return(false);
@@ -161,14 +181,14 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))) return(false);
 
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) return(false);
-	if(ERROR_SUCCESS != key.SetStringValue(NULL, cmdEnqueue)) return(false);
+	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetEnqueueCommand()))) return(false);
 
 	// Play option
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"))) return(false);
 	if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))) return(false);
 
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))) return(false);
-	if(ERROR_SUCCESS != key.SetStringValue(NULL, cmdOpen)) return(false);
+	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetOpenCommand()))) return(false);
 
 	if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey + _T("\\FileAssociations"))) return(false);
 	if(ERROR_SUCCESS != key.SetStringValue(ext, strProgID)) return(false);
@@ -315,7 +335,7 @@ BOOL CPPageFormats::OnInitDialog()
 	m_list.SetImageList(&m_onoff, LVSIL_SMALL);
 
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
-	for(int i = 0; i < mf.GetCount(); i++)
+	for(int i = 0; i < (int)mf.GetCount(); i++)
 	{
 		CString label;
 		label.Format (_T("%s (%s)"), mf[i].GetLabel(), mf[i].GetExts());
@@ -369,8 +389,8 @@ BOOL CPPageFormats::OnInitDialog()
 
 	CreateToolTip();
 
-	TOKEN_ELEVATION_TYPE	ptet;
-	if (AfxGetMyApp()->IsVista() && SUCCEEDED (AfxGetMyApp()->GetElevationType (&ptet)) && (ptet != TokenElevationTypeFull))
+
+	if (AfxGetMyApp()->IsVista() && !IsUserAnAdmin())
 	{
 		GetDlgItem(IDC_BUTTON1)->ShowWindow (SW_HIDE);
 		GetDlgItem(IDC_BUTTON3)->ShowWindow (SW_HIDE);

@@ -4,7 +4,6 @@ v1.0.11.0 - unreleased
  NEW    : Russian, Turkish, Czech and Spanish translations
  CHANGED: Filetype association. MPC is now recognized as a registered media player application. Filetype registration now compatible with UAC. (Vista)
  CHANGED: Matroska internal subtitles are not loaded if "auto-load subtitles" option is off
- CHANGED: Dirac internal filter re-activated, library updated to v0.7.0
  FIXED  : Subtitle popup menu not working in French
  FIXED  : Remember file position option not working properly in playlist mode
  FIXED  : Crash when opening "Navigation" menu while playing dvd (German locale only)

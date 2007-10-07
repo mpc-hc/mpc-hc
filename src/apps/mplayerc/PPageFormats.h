@@ -47,6 +47,8 @@ private:
 	void SetListItemState(int nItem, CString strProgID);
 	static CComPtr<IApplicationAssociationRegistration>	m_pAAR;
 	static BOOL SetFileAssociation(CString strExt, CString extfile, bool fRegister);
+	static CString GetOpenCommand();
+	static CString GetEnqueueCommand();
 
 public:
 	CPPageFormats();
