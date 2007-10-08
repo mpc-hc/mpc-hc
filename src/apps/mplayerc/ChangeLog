@@ -5,6 +5,7 @@ v1.0.11.0 - unreleased
  NEW    : Internal AVI splitter support AMV files (need an ffdshow update to decode)
  CHANGED: Filetype association. MPC is now recognized as a registered media player application. Filetype registration now compatible with UAC. (Vista)
  CHANGED: Matroska internal subtitles are not loaded if "auto-load subtitles" option is off
+ CHANGED: Allow DirectShow to use a disabled internal source and transform filters when no other suitable filter is available
  FIXED  : Subtitle popup menu not working in French
  FIXED  : Remember file position option not working properly in playlist mode
  FIXED  : Crash when opening "Navigation" menu while playing dvd (German locale only)
