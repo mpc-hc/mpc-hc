@@ -3860,11 +3860,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	int cols = s.ThumbCols, rows = s.ThumbRows;
+	int cols = max (1, min (8, s.ThumbCols)), rows = max(1, min (8, s.ThumbRows));
 
 	int margin = 5;
 	int infoheight = 70;
-	int width = s.ThumbWidth;
+	int width = max (256, min (2048, s.ThumbWidth));
 	int height = width * video.cy / video.cx * rows / cols + infoheight;
 
 	int dibsize = sizeof(BITMAPINFOHEADER) + width*height*4;

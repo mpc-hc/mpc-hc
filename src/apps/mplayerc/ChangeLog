@@ -12,6 +12,7 @@ v1.0.11.0 - unreleased
  FIXED  : Memory leak with window resize
  FIXED  : Many GUI related things
  FIXED  : Crash when opening zero byte length MP3 files
+ FIXED  : Crash when using "Save thumbnails" with number of row or column greater than 8 (now internally limited to 8)
 
 v1.0.10.0 - 15.Sep 2007
 ======================

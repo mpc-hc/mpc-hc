@@ -64,8 +64,8 @@ BOOL CSaveThumbnailsDialog::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	m_rowsctrl.SetRange(0, 8);
-	m_colsctrl.SetRange(0, 8);
+	m_rowsctrl.SetRange(1, 8);
+	m_colsctrl.SetRange(1, 8);
 	m_widthctrl.SetRange(256, 2048);
 	m_rowsctrl.SetPos(m_rows);
 	m_colsctrl.SetPos(m_cols);
