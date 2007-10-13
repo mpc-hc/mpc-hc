@@ -88,7 +88,7 @@ public:
 };
 
 #include "..\..\transform\BaseVideoFilter\BaseVideoFilter.h"
-#include "VP62.h" // comment this out if you don't have VP62.cpp/h
+//#include "VP62.h" // comment this out if you don't have VP62.cpp/h
 
 /*
 
