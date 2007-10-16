@@ -1345,13 +1345,19 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 			if(!f.Save(path, encoding))
 				break;
 
-			if(idx == 4)
+			if (idx == 2)
+			{
+				f.WriteString(_T("[playlist]\n"));
+			}
+			else if (idx == 4)
 			{
 				f.WriteString(_T("<ASX version = \"3.0\">\n"));
 			}
 
 			pos = m_pl.GetHeadPosition();
-			for(int i = 0; pos; i++)
+			CString str;
+			int i;
+			for(i = 0; pos; i++)
 			{
 				CPlaylistItem& pli = m_pl.GetNext(pos);
 
@@ -1369,7 +1375,6 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 				}
 				*/
 
-				CString str;
 				switch(idx)
 				{
 				case 2: str.Format(_T("File%d=%s\n"), i+1, fn); break;
@@ -1380,7 +1385,13 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 				f.WriteString(str);
 			}
 
-			if(idx == 4)
+			if (idx == 2)
+			{
+				str.Format(_T("NumberOfEntries=%d\n"), i);
+				f.WriteString(str);
+				f.WriteString(_T("Version=2\n"));
+			}
+			else if (idx == 4)
 			{
 				f.WriteString(_T("</ASX>\n"));
 			}
