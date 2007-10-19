@@ -1,5 +1,6 @@
 v1.0.12.0 - unreleased
 ======================
+ NEW    : Support for FLV4, VP5 and VP6 video using ffmpeg codec
 
 v1.0.11.0 - 14.Oct 2007
 ======================
