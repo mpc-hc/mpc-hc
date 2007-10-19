@@ -21,13 +21,13 @@
 **
 ** Software using this code must display the following message visibly in or
 ** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: sbr_dec.h 441 2005-11-01 21:41:43Z gabest $
+** $Id: sbr_dec.h,v 1.38 2007/10/11 18:41:51 menno Exp $
 **/
 
 #ifndef __SBR_DEC_H__
@@ -253,5 +253,4 @@ uint8_t sbrDecodeSingleFramePS(sbr_info *sbr, real_t *left_channel, real_t *righ
 }
 #endif
 #endif
-
 

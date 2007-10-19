@@ -27,7 +27,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: hcb_sf.h 441 2005-11-01 21:41:43Z gabest $
+** $Id: hcb_sf.h,v 1.6 2006/05/07 18:09:41 menno Exp $
 **/
 
 /* Binary search huffman table HCB_SF */

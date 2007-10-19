@@ -21,13 +21,13 @@
 **
 ** Software using this code must display the following message visibly in or
 ** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 ** in, for example, the about-box or help/startup screen.
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: error.c 441 2005-11-01 21:41:43Z gabest $
+** $Id: error.c,v 1.31 2007/10/11 18:41:50 menno Exp $
 **/
 
 #include "common.h"
@@ -68,5 +68,4 @@ char *err_msg[] = {
     "PCE shall be the first element in a frame",
     "Bitstream value not allowed by specification"
 };
-
 
