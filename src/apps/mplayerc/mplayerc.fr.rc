@@ -2384,15 +2384,16 @@ BEGIN
     IDS_SRC_MP4             "6.4.0.2"
     IDS_TRA_RV              "6.4.1.0\nRequires RealVideo decoder dlls, RV10 also works with ffdshow"
     IDS_TRA_RA              "6.4.1.0\nRequires RealAudio decoder dlls, DNET also works with ac3filter"
-    IDS_TRA_MPEG1           "6.4.0.3\nBased on libmpeg2 (mpeg1 video decoding is bogus)"
-    IDS_TRA_MPEG2           "6.4.0.3\nBased on libmpeg2"
-    IDS_TRA_MPA             "6.4.0.3\nBased on libmad, liba52, libdts, libfaad"
+    IDS_TRA_MPEG1           "6.4.0.3\nBasé sur libmpeg2 (mpeg1 video decoding is bogus)"
+    IDS_TRA_MPEG2           "6.4.0.3\nBasé sur libmpeg2"
+    IDS_TRA_MPA             "6.4.0.3\nBasé sur libmad, liba52, libdts, libfaad"
     IDS_TRA_LPCM            "6.4.0.1"
-    IDS_TRA_AC3             "6.4.0.1\nBased on liba52 0.7.4, http://liba52.sourceforge.net/"
-    IDS_TRA_DTS             "6.4.0.1\nBased on libdts 0.0.2, http://www.videolan.org/dtsdec.html"
-    IDS_TRA_AAC             "6.4.0.1\nBased on libfaad 2.0, http://www.audiocoding.com/"
-    IDS_TRA_DIRAC           "6.4.0.1\nBased on libdirac 0.8.0"
+    IDS_TRA_AC3             "6.4.0.1\nBasé sur liba52, http://liba52.sourceforge.net/"
+    IDS_TRA_DTS             "6.4.0.1\nBasé sur libdts, http://www.videolan.org/dtsdec.html"
+    IDS_TRA_AAC             "6.4.0.1\nBasé sur libfaad, http://www.audiocoding.com/"
+    IDS_TRA_DIRAC           "6.4.0.1\nBasé sur libdirac"
     IDS_TRA_PS2AUD          "6.4.0.1\nDecodes audio streams of PSS files"
+    IDS_TRA_FFMPEG          "6.4.0.1\nBased on ffmpeg codec, http://ffmpeg.mplayerhq.hu/"
 END
 
 STRINGTABLE 
