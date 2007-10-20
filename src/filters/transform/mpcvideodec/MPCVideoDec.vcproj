@@ -656,6 +656,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\intrin_fixed.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCVideoDecFilter.h"
 				>
 			</File>

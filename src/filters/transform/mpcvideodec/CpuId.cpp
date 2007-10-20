@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <intrin.h>
+#include "intrin_fixed.h"
 #include "CpuId.h"
 
 #define CPUID_MMX			(1<<23)
