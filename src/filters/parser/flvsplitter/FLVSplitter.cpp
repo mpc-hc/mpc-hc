@@ -61,18 +61,12 @@ const AMOVIESETUP_FILTER sudFilter[] =
 {
 	{&__uuidof(CFLVSplitterFilter), L"FLV Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
 	{&__uuidof(CFLVSourceFilter), L"FLV Source", MERIT_NORMAL, 0, NULL},
-	__if_exists(CFLVVideoDecoder) {
-	{&__uuidof(CFLVVideoDecoder), L"FLV Video Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
-	}
 };
 
 CFactoryTemplate g_Templates[] =
 {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLVSplitterFilter>, NULL, &sudFilter[0]},
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CFLVSourceFilter>, NULL, &sudFilter[1]},
-	__if_exists(CFLVVideoDecoder) {
-	{sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CFLVVideoDecoder>, NULL, &sudFilter[2]},
-	}
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -521,83 +515,3 @@ CFLVSourceFilter::CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	m_pInput.Free();
 }
 
-__if_exists(CFLVVideoDecoder) {
-
-//
-// CFLVVideoDecoder
-//
-
-CFLVVideoDecoder::CFLVVideoDecoder(LPUNKNOWN lpunk, HRESULT* phr) 
-	: CBaseVideoFilter(NAME("CFLVVideoDecoder"), lpunk, phr, __uuidof(this))
-{
-	if(FAILED(*phr)) return;
-}
-
-CFLVVideoDecoder::~CFLVVideoDecoder()
-{
-}
-
-STDMETHODIMP CFLVVideoDecoder::NonDelegatingQueryInterface(REFIID riid, void** ppv)
-{
-	return
-		 __super::NonDelegatingQueryInterface(riid, ppv);
-}
-
-HRESULT CFLVVideoDecoder::Transform(IMediaSample* pIn)
-{
-	HRESULT hr;
-
-	BYTE* pDataIn = NULL;
-	if(FAILED(hr = pIn->GetPointer(&pDataIn)))
-		return hr;
-
-	long len = pIn->GetActualDataLength();
-
-	if(m_dec.decodePacket(pDataIn, len) < 0)
-		return S_FALSE;
-
-	REFERENCE_TIME rtStart = _I64_MIN, rtStop = _I64_MIN;
-	hr = pIn->GetTime(&rtStart, &rtStop);
-
-	if(pIn->IsPreroll() == S_OK || rtStart < 0)
-		return S_OK;
-
-	int w, h, arx, ary;
-	m_dec.getImageSize(&w, &h);
-	m_dec.getDisplaySize(&arx, &ary);
-
-	CComPtr<IMediaSample> pOut;
-	BYTE* pDataOut = NULL;
-	if(FAILED(hr = GetDeliveryBuffer(w, h, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
-		return hr;
-
-	pOut->SetTime(&rtStart, &rtStop);
-	pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
-
-	BYTE* yuv[3];
-	int pitch;
-	m_dec.getYUV(yuv, &pitch);
-
-	if(m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_VP62)
-	{
-		yuv[0] += pitch * (h-1);
-		yuv[1] += (pitch/2) * ((h/2)-1);
-		yuv[2] += (pitch/2) * ((h/2)-1);
-		pitch = -pitch;
-	}
-
-	CopyBuffer(pDataOut, yuv, w, h, pitch, MEDIASUBTYPE_I420);
-
-	return m_pOutput->Deliver(pOut);
-}
-
-HRESULT CFLVVideoDecoder::CheckInputType(const CMediaType* mtIn)
-{
-	return mtIn->majortype == MEDIATYPE_Video 
-		&& (mtIn->subtype == MEDIASUBTYPE_FLV4
-		|| mtIn->subtype == MEDIASUBTYPE_VP62)
-		? S_OK
-		: VFW_E_TYPE_NOT_ACCEPTED;
-}
-
-}

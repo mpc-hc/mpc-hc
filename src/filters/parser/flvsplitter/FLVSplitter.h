@@ -104,29 +104,3 @@ void VP62::getYUV(BYTE** yuv, int* pitch)
 
 */
 
-__if_exists(VP62) {
-
-[uuid("7CEEEECF-3FEE-4548-B529-C254CAF4D182")]
-class CFLVVideoDecoder : public CBaseVideoFilter
-{
-	VP62 m_dec;
-
-protected:
-	HRESULT Transform(IMediaSample* pIn);
-
-public:
-	CFLVVideoDecoder(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CFLVVideoDecoder();
-
-	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-    HRESULT CheckInputType(const CMediaType* mtIn);
-/*
-	// TODO
-	bool m_fDropFrames;
-	HRESULT AlterQuality(Quality q);
-*/
-};
-
-}
