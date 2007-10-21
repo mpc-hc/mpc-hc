@@ -15,7 +15,7 @@ public:
 	~CVideoDecOutputPin();
 
 	HRESULT			InitAllocator(IMemAllocator **ppAlloc);
-	HRESULT			DecideAllocator(IMemInputPin *pPin, IMemAllocator **ppAlloc);
+//	HRESULT			DecideAllocator(IMemInputPin *pPin, IMemAllocator **ppAlloc);
 
 private :
 	CMPCVideoDecFilter*		m_pVideoDecFilter;

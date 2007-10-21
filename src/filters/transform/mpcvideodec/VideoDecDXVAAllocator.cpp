@@ -1,3 +1,26 @@
+/* 
+ * $Id: VideoDecDXVAAllocator.cpp 249 2007-09-26 11:07:22Z casimir666 $
+ *
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
 #include "stdafx.h"
 #include "VideoDecDXVAAllocator.h"
 #include "MPCVideoDecFilter.h"
@@ -5,7 +28,6 @@
 
 CDXVA2Sample::CDXVA2Sample(CVideoDecDXVAAllocator *pAlloc, HRESULT *phr)
 			: CMediaSample(NAME("CDXVA2Sample"), (CBaseAllocator*)pAlloc, phr, NULL, 0)
-			, m_pSurface(NULL)
 			, m_dwSurfaceId(0)
 { 
 }
@@ -13,14 +35,14 @@ CDXVA2Sample::CDXVA2Sample(CVideoDecDXVAAllocator *pAlloc, HRESULT *phr)
 // Note: CMediaSample does not derive from CUnknown, so we cannot use the
 //       DECLARE_IUNKNOWN macro that is used by most of the filter classes.
 
-STDMETHODIMP CDXVA2Sample::QueryInterface(REFIID riid, void **ppv)
+STDMETHODIMP CDXVA2Sample::QueryInterface(REFIID riid, __deref_out void **ppv)
 {
-	CheckPointer(ppv, E_POINTER);
+    CheckPointer(ppv,E_POINTER);
+    ValidateReadWritePtr(ppv,sizeof(PVOID));
 
 	if (riid == __uuidof(IMFGetService))
 	{
-		*ppv = static_cast<IMFGetService*>(this);
-		return S_OK;
+		return GetInterface((IMFGetService*) this, ppv);
 	}
 	else
 	{
@@ -31,13 +53,13 @@ STDMETHODIMP CDXVA2Sample::QueryInterface(REFIID riid, void **ppv)
 
 STDMETHODIMP_(ULONG) CDXVA2Sample::AddRef()
 {
-	return CMediaSample::AddRef();
+	return __super::AddRef();
 }
 
 STDMETHODIMP_(ULONG) CDXVA2Sample::Release()
 {
 	// Return a temporary variable for thread safety.
-	ULONG cRef = CMediaSample::Release();
+	ULONG cRef = __super::Release();
 	return cRef;
 }
 
@@ -70,34 +92,33 @@ STDMETHODIMP CDXVA2Sample::GetPointer(BYTE ** ppBuffer)
 // Sets the pointer to the Direct3D surface. 
 void CDXVA2Sample::SetSurface(DWORD surfaceId, IDirect3DSurface9 *pSurf)
 {
-	if (m_pSurface != NULL) m_pSurface->Release();
-
 	m_pSurface = pSurf;
-	if (m_pSurface)
-	{
-		m_pSurface->AddRef();
-	}
-
 	m_dwSurfaceId = surfaceId;
 }
 
 
 
 CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter,  HRESULT* phr)
-					  : CMemAllocator(NAME("CVideoDecDXVAAllocator"), NULL, phr)
+					  : CBaseAllocator(NAME("CVideoDecDXVAAllocator"), NULL, phr)
 {
 	m_pVideoDecFilter	= pVideoDecFilter;
-	m_pDXVA2Service		= pVideoDecFilter->m_pAccelerationService;
+	m_ppRTSurfaceArray	= NULL;
 }
 
-
+CVideoDecDXVAAllocator::~CVideoDecDXVAAllocator()
+{
+	Free();
+}
 
 HRESULT CVideoDecDXVAAllocator::Alloc()
 {
-	CheckPointer (m_pDXVA2Service, E_UNEXPECTED);
+    HRESULT										hr;
+	CComPtr<IDirectXVideoAccelerationService>	pDXVA2Service;
+
+	hr = m_pVideoDecFilter->m_pDeviceManager->GetVideoService (m_pVideoDecFilter->m_hDevice, IID_IDirectXVideoAccelerationService, (void**)&pDXVA2Service);
+	CheckPointer (pDXVA2Service, E_UNEXPECTED);
 	CAutoLock lock(this);
 
-    HRESULT hr = S_OK;
 
     hr = __super::Alloc();
 
@@ -130,7 +151,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
 	D3DFORMAT m_dwFormat = m_pVideoDecFilter->m_VideoDesc.Format;
     if (SUCCEEDED(hr))
     {
-        hr = m_pDXVA2Service->CreateSurface(
+        hr = pDXVA2Service->CreateSurface(
             m_pVideoDecFilter->PictWidth(),
             m_pVideoDecFilter->PictHeight(),
             m_lCount - 1,
@@ -141,6 +162,8 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
             m_ppRTSurfaceArray,
             NULL
             );
+
+		hr = m_pVideoDecFilter->CreateDXVA2Decoder (m_lCount, m_ppRTSurfaceArray);
     }
 
     if (SUCCEEDED(hr))
@@ -194,6 +217,7 @@ void CVideoDecDXVAAllocator::Free()
         }
 
         delete [] m_ppRTSurfaceArray;
+		m_ppRTSurfaceArray = NULL;
     }
     m_lAllocated = 0;
 }
