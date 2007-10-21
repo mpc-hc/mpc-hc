@@ -64,7 +64,7 @@ void avcodec_register_all(void)
     //REGISTER_DECODER	(eightbps);
     //REGISTER_ENCDEC  	(ffv1);
     //REGISTER_ENCDEC  	(ffvhuff);
-    //REGISTER_ENCDEC		(flv);
+    REGISTER_ENCDEC		(flv);
     //REGISTER_DECODER	(fraps);
     //REGISTER_ENCDEC		(h261);
     //REGISTER_ENCDEC		(h263);
@@ -80,7 +80,7 @@ void avcodec_register_all(void)
     REGISTER_ENCDEC		(mjpeg);
     REGISTER_DECODER	(mjpegb);
     //REGISTER_ENCDEC		(mpeg1video);
-    //REGISTER_ENCDEC		(mpeg2video);
+    REGISTER_ENCDEC		(mpeg2video);
     //REGISTER_ENCDEC		(mpeg4);
     //REGISTER_DECODER	(mpegvideo);
     //REGISTER_ENCDEC		(msmpeg4v1);
