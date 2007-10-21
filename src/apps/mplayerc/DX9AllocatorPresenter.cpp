@@ -1189,38 +1189,42 @@ void CDX9AllocatorPresenter::DrawStats()
 			m_pLine->Begin();
 			m_pLine->Draw (Points, NB_JITTER, D3DCOLOR_XRGB(255,0,0));
 			m_pLine->End();
+		}
 
-			// === Text
-			CString		strText;
+		// === Text
+		CString		strText;
 
-			strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, m_rtTimePerFrame / 10);
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+		strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, m_rtTimePerFrame / 10);
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"Refresh rate : %d Hz", m_RefreshRate);
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"Buffer used  : %d,  free : %d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer);
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"Jitter            : Min = %+6dµS, Max = %+6dµS", (long)(llMinJitter/10), (long)(llMaxJitter/10));
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"Video size    : %d x %d  (AR = %d x %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"DirectX SDK : %d", AfxGetMyApp()->GetDXSdkRelease());
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		OffsetRect (&rc, 0, 30);
+		strText.Format(L"DXVA2          : %s", GetDXVA2DecoderDescription());
+		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
+
+		for (int i=0; i<6; i++)
+		{
 			OffsetRect (&rc, 0, 30);
-			strText.Format(L"Refresh rate : %d Hz", m_RefreshRate);
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-			OffsetRect (&rc, 0, 30);
-			strText.Format(L"Buffer used  : %d,  free : %d", m_nUsedBuffer, m_nNbDXSurface - m_nUsedBuffer);
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-			OffsetRect (&rc, 0, 30);
-			strText.Format(L"Jitter            : Min = %+6dµS, Max = %+6dµS", (long)(llMinJitter/10), (long)(llMaxJitter/10));
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-			OffsetRect (&rc, 0, 30);
-			strText.Format(L"Video size    : %d x %d  (AR = %d x %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-			OffsetRect (&rc, 0, 30);
-			strText.Format(L"DirextX SDK : %d", AfxGetMyApp()->GetDXSdkRelease());
-			m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-
-			for (int i=0; i<6; i++)
-			{
-				OffsetRect (&rc, 0, 30);
-				m_pFont->DrawText( NULL, m_strStatsMsg[i], -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
-			}
+			m_pFont->DrawText( NULL, m_strStatsMsg[i], -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 		}
 	}
 }

@@ -303,6 +303,7 @@ private :
 	CComPtr<IMediaEventSink>				m_pSink;
 	CComPtr<IMFVideoMediaType>				m_pMediaType;
 
+
 	HANDLE									m_hEvtQuit;			// Stop rendering thread event
 	HANDLE									m_hEvtPresent;		// Render next frame (cued order)
 	HANDLE									m_hEvtFrameTimer;	// Render next frame (timer based)
@@ -418,6 +419,18 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	// Init DXVA manager
 	hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
 	if (SUCCEEDED (hr)) hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
+
+	CComPtr<IDirectXVideoDecoderService>	pDecoderService;
+	HANDLE							hDevice;
+	if (SUCCEEDED (m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
+		SUCCEEDED (m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService)))
+	{
+		TRACE ("DXVA2 : device handle = 0x%08x", hDevice);
+		HookDirectXVideoDecoderService (pDecoderService);
+
+		m_pD3DManager->CloseDeviceHandle (hDevice);
+	}
+
 
 	// Bufferize frame only with 3D texture!
 	if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
@@ -1156,6 +1169,9 @@ STDMETHODIMP CEVRAllocatorPresenter::GetService (/* [in] */ __RPC__in REFGUID gu
 {
 	if (guidService == MR_VIDEO_RENDER_SERVICE)
 		return NonDelegatingQueryInterface (riid, ppvObject);
+	else if (guidService == MR_VIDEO_ACCELERATION_SERVICE)
+		return m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppvObject);
+
 	return E_NOINTERFACE;
 }
 

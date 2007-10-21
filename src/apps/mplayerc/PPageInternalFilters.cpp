@@ -63,7 +63,6 @@ s_filters[] =
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
 	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
-	__if_exists(CFLVVideoDecoder) {{_T("FLV4"), 1, TRA_FLV4, 0, NULL},}
 	{_T("FLV4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
@@ -75,7 +74,7 @@ s_filters[] =
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
-	__if_exists(CFLVVideoDecoder) {{_T("VP62"), 1, TRA_VP62, 0, NULL},}
+	{_T("DXVA2 decoder (H264,Mpeg2)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter> },
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
 #endif /* MINIMAL_BUILTIN_FILTERS */

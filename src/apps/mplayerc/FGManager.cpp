@@ -1697,6 +1697,19 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6A);
 	m_transform.AddTail(pFGF);
 
+	// TODO : TO BE FINISHED !!!
+	pFGF = new CFGFilterInternal<CMPCVideoDecFilter>(
+		(tra & TRA_H264) ? L"DXVA2 decoder" : L"DXVA2 decoder (low merit)",
+		(tra & TRA_H264) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VSSH);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DAVC);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_PAVC);
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
+
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
+	m_transform.AddTail(pFGF);
 
 #endif /* MINIMAL_BUILTIN_FILTERS */
 	// Blocked filters

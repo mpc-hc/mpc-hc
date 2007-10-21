@@ -180,3 +180,7 @@ interface IAMVideoAcceleratorC
 };
 
 extern void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC);
+
+// DXVA2 hooks
+extern void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService);
+LPCTSTR GetDXVA2DecoderDescription();

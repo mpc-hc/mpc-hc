@@ -22,9 +22,14 @@
  */
 
 #include "stdafx.h"
+
+#include <d3dx9.h>
+#include <dxva2api.h>
+
 #include "IPinHook.h"
 #include "DX9AllocatorPresenter.h"
 
+#define LOG_FILE				_T("dxva.log")
 
 REFERENCE_TIME g_tSegmentStart = 0;
 REFERENCE_TIME g_tSampleStart = 0;
@@ -130,7 +135,7 @@ static void LOG(LPCTSTR fmt, ...)
 	if(TCHAR* buff = new TCHAR[_vsctprintf(fmt, args) + 1])
 	{
 		_vstprintf(buff, fmt, args);
-		if(FILE* f = _tfopen(_T("c:\\dxva.log"), _T("at")))
+		if(FILE* f = _tfopen(LOG_FILE, _T("at")))
 		{
 			fseek(f, 0, 2);
 			_ftprintf(f, _T("%s\n"), buff);
@@ -510,4 +515,289 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 	pAMVideoAcceleratorC->lpVtbl->DisplayFrame = DisplayFrameMine;
 
 	res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
+}
+
+
+
+// === Hook for DXVA2
+
+typedef struct
+{
+  const GUID*			Guid;
+  const LPCTSTR			Description;
+} DXVA2_DECODER;
+
+							   
+EXTERN_C const GUID DXVA2_UnknownMode1 = { 0x1720AC81, 0x9D1B,0x4F63,0x9A,0x37,0x4A,0x88,0x48,0x3D,0x0B,0x87};	// nVidia 6600GT
+
+const DXVA2_DECODER DXVA2Decoder[] = 
+{
+	{ &GUID_NULL,				_T("Not using DXVA2") },
+	{ &DXVA2_ModeH264_A,		_T("H.264 motion compensation, no FGT") },
+	{ &DXVA2_ModeH264_B,		_T("H.264 motion compensation, FGT") },
+	{ &DXVA2_ModeH264_C,		_T("H.264 IDCT, no FGT") },
+	{ &DXVA2_ModeH264_D,		_T("H.264 IDCT, FGT") },
+	{ &DXVA2_ModeH264_E,		_T("H.264 VLD, no FGT") },
+	{ &DXVA2_ModeH264_F,		_T("H.264 variable-length decoder, FGT") },
+	{ &DXVA2_ModeMPEG2_IDCT,	_T("MPEG-2 IDCT") },
+	{ &DXVA2_ModeMPEG2_MoComp,	_T("MPEG-2 motion compensation") },
+	{ &DXVA2_ModeMPEG2_VLD,		_T("MPEG-2 variable-length decoder") },
+	{ &DXVA2_ModeVC1_A,			_T("VC-1 post processing") },
+	{ &DXVA2_ModeVC1_B,			_T("VC-1 motion compensation") },
+	{ &DXVA2_ModeVC1_C,			_T("VC-1 IDCT") },
+	{ &DXVA2_ModeVC1_D,			_T("VC-1 VLD") },
+	{ &DXVA2_ModeWMV8_A,		_T("WMV 8 post processing.") }, 
+	{ &DXVA2_ModeWMV8_B,		_T("WMV8 motion compensation") },
+	{ &DXVA2_ModeWMV9_A,		_T("WMV9 post processing") },
+	{ &DXVA2_ModeWMV9_B,		_T("WMV9 motion compensation") },
+	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT.") },
+
+	{ &DXVA2_UnknownMode1,		_T("Unknown : 1720AC81-9D1B-4F63-9A37-4A88483D0B87") },
+};
+ 
+int		m_nCurrentDXVA2Decoder = 0;
+
+int FindDXVA2Decoder(const GUID& DecoderGuid)
+{
+	for (int i=0; i<countof(DXVA2Decoder); i++)
+		if (DecoderGuid == *DXVA2Decoder[i].Guid)
+			return i;
+
+	return 0;
+}
+
+LPCTSTR GetDXVA2DecoderDescription()
+{
+	return DXVA2Decoder[m_nCurrentDXVA2Decoder].Description;
+}
+
+
+interface IDirectXVideoDecoderServiceC;
+typedef struct IDirectXVideoDecoderServiceCVtbl
+{
+	BEGIN_INTERFACE
+	HRESULT ( STDMETHODCALLTYPE *QueryInterface )( IDirectXVideoDecoderServiceC* pThis, /* [in] */ REFIID riid, /* [iid_is][out] */ void **ppvObject );
+	ULONG ( STDMETHODCALLTYPE *AddRef )(IDirectXVideoDecoderServiceC* pThis);
+	ULONG ( STDMETHODCALLTYPE *Release )(IDirectXVideoDecoderServiceC*	pThis);
+	HRESULT (STDMETHODCALLTYPE* CreateSurface)(IDirectXVideoDecoderServiceC* pThis, __in  UINT Width, __in  UINT Height, __in  UINT BackBuffers, __in  D3DFORMAT Format, __in  D3DPOOL Pool, __in  DWORD Usage, __in  DWORD DxvaType, __out_ecount(BackBuffers+1)  IDirect3DSurface9 **ppSurface, __inout_opt  HANDLE *pSharedHandle);
+
+    HRESULT (STDMETHODCALLTYPE* GetDecoderDeviceGuids)(
+		IDirectXVideoDecoderServiceC*					pThis,
+        __out  UINT*									pCount,
+        __deref_out_ecount_opt(*pCount)  GUID**			pGuids);
+    
+    HRESULT (STDMETHODCALLTYPE* GetDecoderRenderTargets)( 
+		IDirectXVideoDecoderServiceC*					pThis,
+        __in  REFGUID									Guid,
+        __out  UINT*									pCount,
+        __deref_out_ecount_opt(*pCount)  D3DFORMAT**	pFormats);
+    
+    HRESULT (STDMETHODCALLTYPE* GetDecoderConfigurations)( 
+		IDirectXVideoDecoderServiceC*					pThis,
+        __in  REFGUID									Guid,
+        __in  const DXVA2_VideoDesc*					pVideoDesc,
+        __reserved  void*								pReserved,
+        __out  UINT*									pCount,
+        __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode **ppConfigs);
+    
+    HRESULT (STDMETHODCALLTYPE* CreateVideoDecoder)( 
+		IDirectXVideoDecoderServiceC*					pThis,
+        __in  REFGUID									Guid,
+        __in  const DXVA2_VideoDesc*					pVideoDesc,
+        __in  const DXVA2_ConfigPictureDecode*			pConfig,
+        __in_ecount(NumRenderTargets)  IDirect3DSurface9 **ppDecoderRenderTargets,
+        __in  UINT										NumRenderTargets,
+        __deref_out  IDirectXVideoDecoder**				ppDecode);
+
+	END_INTERFACE
+};
+
+interface IDirectXVideoDecoderServiceC
+{
+	CONST_VTBL struct IDirectXVideoDecoderServiceCVtbl *lpVtbl;
+};
+
+
+IDirectXVideoDecoderServiceCVtbl*	g_pIDirectXVideoDecoderServiceCVtbl;
+static HRESULT (STDMETHODCALLTYPE* CreateVideoDecoderOrg )  (IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in  const DXVA2_VideoDesc* pVideoDesc, __in  const DXVA2_ConfigPictureDecode* pConfig, __in_ecount(NumRenderTargets)  IDirect3DSurface9 **ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = NULL;
+static HRESULT (STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = NULL;
+
+
+static void LogDXVA2Config (const DXVA2_ConfigPictureDecode* pConfig)
+{
+	LOG(_T("Config"));
+	LOG(_T("	- Config4GroupedCoefs               %d"), pConfig->Config4GroupedCoefs);
+	LOG(_T("	- ConfigBitstreamRaw                %d"), pConfig->ConfigBitstreamRaw);
+	LOG(_T("	- ConfigDecoderSpecific             %d"), pConfig->ConfigDecoderSpecific);
+	LOG(_T("	- ConfigHostInverseScan             %d"), pConfig->ConfigHostInverseScan);
+	LOG(_T("	- ConfigIntraResidUnsigned          %d"), pConfig->ConfigIntraResidUnsigned);
+	LOG(_T("	- ConfigMBcontrolRasterOrder        %d"), pConfig->ConfigMBcontrolRasterOrder);
+	LOG(_T("	- ConfigMinRenderTargetBuffCount    %d"), pConfig->ConfigMinRenderTargetBuffCount);
+	LOG(_T("	- ConfigResid8Subtraction           %d"), pConfig->ConfigResid8Subtraction);
+	LOG(_T("	- ConfigResidDiffAccelerator        %d"), pConfig->ConfigResidDiffAccelerator);
+	LOG(_T("	- ConfigResidDiffHost               %d"), pConfig->ConfigResidDiffHost);
+	LOG(_T("	- ConfigSpatialHost8or9Clipping     %d"), pConfig->ConfigSpatialHost8or9Clipping);
+	LOG(_T("	- ConfigSpatialResid8               %d"), pConfig->ConfigSpatialResid8);
+	LOG(_T("	- ConfigSpatialResidInterleaved     %d"), pConfig->ConfigSpatialResidInterleaved);
+	LOG(_T("	- ConfigSpecificIDCT                %d"), pConfig->ConfigSpecificIDCT);
+	LOG(_T("	- guidConfigBitstreamEncryption     %s"), CStringFromGUID(pConfig->guidConfigBitstreamEncryption));
+	LOG(_T("	- guidConfigMBcontrolEncryption     %s"), CStringFromGUID(pConfig->guidConfigMBcontrolEncryption));
+	LOG(_T("	- guidConfigResidDiffEncryption     %s"), CStringFromGUID(pConfig->guidConfigResidDiffEncryption));
+}
+
+static void LogDXVA2VideoDesc (const DXVA2_VideoDesc* pVideoDesc)
+{
+	LOG(_T("VideoDesc"));
+	LOG(_T("	- Format                            %d"), pVideoDesc->Format);
+	LOG(_T("	- InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
+	LOG(_T("	- OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
+	LOG(_T("	- SampleFormat                      %d"), pVideoDesc->SampleFormat);
+	LOG(_T("	- SampleHeight                      %d"), pVideoDesc->SampleHeight);
+	LOG(_T("	- SampleWidth                       %d"), pVideoDesc->SampleWidth);
+	LOG(_T("	- UABProtectionLevel                %d"), pVideoDesc->UABProtectionLevel);
+}
+
+static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
+{
+	HRESULT			hr;
+    UINT			cDecoderGuids	= 0;
+    GUID*			pDecoderGuids	= NULL;
+
+	hr = pDecoderService->GetDecoderDeviceGuids(&cDecoderGuids, &pDecoderGuids);
+    if (SUCCEEDED(hr))
+    {
+        // Look for the decoder GUIDs we want.
+        for (UINT iGuid = 0; iGuid < cDecoderGuids; iGuid++)
+        {
+			int		nSupportedMode = FindDXVA2Decoder (pDecoderGuids[iGuid]);
+			
+			LOG (_T("=== New mode : %s"), DXVA2Decoder[nSupportedMode].Description);
+
+            // Find a configuration that we support. 
+			UINT						cFormats = 0;
+			UINT						cConfigurations = 0;
+			D3DFORMAT*					pFormats = NULL;
+			DXVA2_ConfigPictureDecode*	pConfig = NULL;
+			DXVA2_VideoDesc				m_VideoDesc;
+
+			hr = pDecoderService->GetDecoderRenderTargets(pDecoderGuids[iGuid], &cFormats, &pFormats);
+
+			if (SUCCEEDED(hr))
+			{
+				// Look for a format that matches our output format.
+				for (UINT iFormat = 0; iFormat < cFormats;  iFormat++)
+				{
+					LOG (_T("Direct 3D format : %c%c%c%c"),	TCHAR((pFormats[iFormat]>>0)&0xff), 
+															TCHAR((pFormats[iFormat]>>8)&0xff), 
+															TCHAR((pFormats[iFormat]>>16)&0xff),
+															TCHAR((pFormats[iFormat]>>24)&0xff));
+					// Fill in the video description. Set the width, height, format, and frame rate.
+					memset(&m_VideoDesc, 0, sizeof(m_VideoDesc));
+					m_VideoDesc.SampleWidth		= 1280;
+					m_VideoDesc.SampleHeight	= 720;
+					m_VideoDesc.Format			= pFormats[iFormat];
+
+					// Get the available configurations.
+					hr = pDecoderService->GetDecoderConfigurations(pDecoderGuids[iGuid], &m_VideoDesc, NULL, &cConfigurations, &pConfig);
+
+					if (SUCCEEDED(hr))
+					{
+
+						// Find a supported configuration.
+						for (UINT iConfig = 0; iConfig < cConfigurations; iConfig++)
+						{
+							LogDXVA2Config (&pConfig[iConfig]);
+						}
+
+						CoTaskMemFree(pConfig);
+					}
+				}
+			}
+
+			LOG(_T("\n"));
+			CoTaskMemFree(pFormats);
+        }
+	}
+}
+
+static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine( 
+		IDirectXVideoDecoderServiceC*					pThis,
+        __in  REFGUID									Guid,
+        __in  const DXVA2_VideoDesc*					pVideoDesc,
+        __in  const DXVA2_ConfigPictureDecode*			pConfig,
+        __in_ecount(NumRenderTargets)  IDirect3DSurface9 **ppDecoderRenderTargets,
+        __in  UINT										NumRenderTargets,
+        __deref_out  IDirectXVideoDecoder**				ppDecode)
+{
+	m_nCurrentDXVA2Decoder = FindDXVA2Decoder (Guid);
+
+	LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets)"), DXVA2Decoder[m_nCurrentDXVA2Decoder].Description, NumRenderTargets);
+
+	LogDXVA2VideoDesc(pVideoDesc);
+	LogDXVA2Config(pConfig);
+
+	HRESULT hr = CreateVideoDecoderOrg(pThis, Guid, pVideoDesc, pConfig, ppDecoderRenderTargets, NumRenderTargets, ppDecode);
+
+	if (FAILED (hr)) m_nCurrentDXVA2Decoder = 0;
+	LOG(_T("hr = %08x\n"), hr);
+
+	return hr;
+}
+
+
+
+static HRESULT STDMETHODCALLTYPE GetDecoderDeviceGuidsMine (IDirectXVideoDecoderServiceC*					pThis,
+														__out  UINT*									pCount,
+														__deref_out_ecount_opt(*pCount)  GUID**			pGuids)
+{
+	LOG(_T("IDirectXVideoDecoderService::GetDecoderDeviceGuids"));
+
+	HRESULT hr = GetDecoderDeviceGuidsOrg(pThis, pCount, pGuids);
+
+	LOG(_T("hr = %08x\n"), hr);
+
+	return hr;
+}
+
+
+void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
+{
+	IDirectXVideoDecoderServiceC*	pIDirectXVideoDecoderServiceC = (IDirectXVideoDecoderServiceC*) pIDirectXVideoDecoderService;
+
+	BOOL res;
+	DWORD flOldProtect = 0;
+
+	// Casimir666 : unhook previous VTables
+	if (g_pIDirectXVideoDecoderServiceCVtbl)
+	{
+		res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+		if (g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder == CreateVideoDecoderMine)
+			g_pIDirectXVideoDecoderServiceCVtbl->CreateVideoDecoder = CreateVideoDecoderOrg;
+		//if (g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids == GetDecoderDeviceGuidsMine)
+		//	g_pIDirectXVideoDecoderServiceCVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsOrg;
+		res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+
+		g_pIDirectXVideoDecoderServiceCVtbl	= NULL;
+		CreateVideoDecoderOrg				= NULL;
+		m_nCurrentDXVA2Decoder				= 0;
+	}
+
+	// TODO : remove log file !!
+	::DeleteFile (LOG_FILE);
+//	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
+
+	if (pIDirectXVideoDecoderService)
+	{
+		res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
+
+		CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;
+		pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder = CreateVideoDecoderMine;
+
+		//GetDecoderDeviceGuidsOrg = pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids;
+		//pIDirectXVideoDecoderServiceC->lpVtbl->GetDecoderDeviceGuids = GetDecoderDeviceGuidsMine;
+
+		res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), flOldProtect, &flOldProtect);
+
+		g_pIDirectXVideoDecoderServiceCVtbl			= pIDirectXVideoDecoderServiceC->lpVtbl;
+	}
 }
