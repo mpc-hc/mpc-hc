@@ -10419,7 +10419,7 @@ void CMainFrame::SetVMR9ColorControl(float dBrightness, float dContrast, float d
 {
 	VMR9ProcAmpControl		ClrControl;
 	
-	if(m_pMC)
+	if(m_pMC && !AfxGetAppSettings().fVMR9MixerYUV)
 	{
 		ClrControl.dwSize		= sizeof(ClrControl);
 		ClrControl.dwFlags		= ProcAmpControl9_Mask;
