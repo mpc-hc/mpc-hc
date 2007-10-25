@@ -842,6 +842,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
 		TRACE ("=>MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
+		// WARNING : some decoder notify once for several sample (Microsoft MPEG2 filter for example)
 		GetImageFromMixer();
 		break;
 
@@ -1041,63 +1042,70 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 	LONGLONG					llClockBefore = 0;
 	LONGLONG					llClockAfter  = 0;
 	LONGLONG					llMixerLatency;
+	DWORD						dwOutputStatus;
 
 	// Get image from Mixer until sample queue is full
-	if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 50) == WAIT_OBJECT_0)
+	do
 	{
-		memset (&Buffer, 0, sizeof(Buffer));
-		m_pMFSample[m_nFreeSlot] = NULL;
-		hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[m_nFreeSlot], &m_pMFSample[m_nFreeSlot]);
-		Buffer.pSample = m_pMFSample[m_nFreeSlot];
-
-		if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockBefore, &nsCurrentTime);			
-		hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
-		if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockAfter, &nsCurrentTime);
-		llMixerLatency = llClockAfter - llClockBefore;
-		if (m_pSink) 
+		hr = S_FALSE;
+		if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 50) == WAIT_OBJECT_0)
 		{
-//			CAutoLock autolock(this);
-			m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
+			memset (&Buffer, 0, sizeof(Buffer));
+			m_pMFSample[m_nFreeSlot] = NULL;
+			hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[m_nFreeSlot], &m_pMFSample[m_nFreeSlot]);
+			Buffer.pSample = m_pMFSample[m_nFreeSlot];
+
+			if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockBefore, &nsCurrentTime);			
+			hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
+			if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockAfter, &nsCurrentTime);
+			llMixerLatency = llClockAfter - llClockBefore;
+			if (m_pSink) 
+			{
+	//			CAutoLock autolock(this);
+	//			m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
+			}
+
+			Buffer.pSample->GetSampleTime (&nsSampleTime);
+
+			// Update internal subtitle clock
+			if(m_fUseInternalTimer && m_pSubPicQueue)
+			{
+				MFTIME		nsDuration;
+				float		m_fps;
+				Buffer.pSample->GetSampleDuration(&nsDuration);
+				m_fps = (float)(10000000.0 / nsDuration);
+				m_pSubPicQueue->SetFPS(m_fps);
+				__super::SetTime (g_tSegmentStart + nsSampleTime);
+			}
+
+			if (AfxGetMyApp()->m_fTearingTest)
+			{
+				RECT		rcTearing;
+				
+				rcTearing.left		= m_nTearingPos;
+				rcTearing.top		= 0;
+				rcTearing.right		= rcTearing.left + 4;
+				rcTearing.bottom	= m_NativeVideoSize.cy;
+				m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+
+				rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
+				rcTearing.right	= rcTearing.left + 4;
+				m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+				m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
+			}
+		
+			TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
+
+			m_nFreeSlot = (m_nFreeSlot+1) % m_nNbDXSurface;
+			ReleaseSemaphore (m_hSemPicture, 1, NULL);
+
+			InterlockedIncrement (&m_nUsedBuffer);
+			hr = m_pMixer->GetOutputStatus (&dwOutputStatus);
 		}
+		else
+			m_nWaitingSample++;
 
-		Buffer.pSample->GetSampleTime (&nsSampleTime);
-
-		// Update internal subtitle clock
-		if(m_fUseInternalTimer && m_pSubPicQueue)
-		{
-			MFTIME		nsDuration;
-			float		m_fps;
-			Buffer.pSample->GetSampleDuration(&nsDuration);
-			m_fps = (float)(10000000.0 / nsDuration);
-			m_pSubPicQueue->SetFPS(m_fps);
-			__super::SetTime (g_tSegmentStart + nsSampleTime);
-		}
-
-		if (AfxGetMyApp()->m_fTearingTest)
-		{
-			RECT		rcTearing;
-			
-			rcTearing.left		= m_nTearingPos;
-			rcTearing.top		= 0;
-			rcTearing.right		= rcTearing.left + 4;
-			rcTearing.bottom	= m_NativeVideoSize.cy;
-			m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
-
-			rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
-			rcTearing.right	= rcTearing.left + 4;
-			m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
-			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
-		}
-	
-		TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
-
-		m_nFreeSlot = (m_nFreeSlot+1) % m_nNbDXSurface;
-		ReleaseSemaphore (m_hSemPicture, 1, NULL);
-
-		InterlockedIncrement (&m_nUsedBuffer);
-	}
-	else
-		m_nWaitingSample++;
+	} while ((hr == S_OK) && (dwOutputStatus == MFT_OUTPUT_STATUS_SAMPLE_READY));
 
 	return hr;
 }
