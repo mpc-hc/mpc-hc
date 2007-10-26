@@ -47,3 +47,6 @@
 
 #include <atlcoll.h>
 #include <vector>
+
+
+void LOG(LPCTSTR fmt, ...);

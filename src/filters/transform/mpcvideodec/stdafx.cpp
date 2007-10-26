@@ -25,5 +25,23 @@
 
 #include "stdafx.h"
 
-// TODO: reference any additional headers you need in STDAFX.H
-// and not in this file
+
+#define LOG_FILE				_T("dxva.log")
+
+void LOG(LPCTSTR fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	if(TCHAR* buff = new TCHAR[_vsctprintf(fmt, args) + 1])
+	{
+		_vstprintf(buff, fmt, args);
+		if(FILE* f = _tfopen(LOG_FILE, _T("at")))
+		{
+			fseek(f, 0, 2);
+			_ftprintf(f, _T("%s\n"), buff);
+			fclose(f);
+		}
+		delete [] buff;
+	}
+	va_end(args);
+}

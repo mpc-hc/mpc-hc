@@ -75,6 +75,7 @@ public:
 
 	HRESULT SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
 	HRESULT CheckInputType(const CMediaType* mtIn);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 	HRESULT Transform(IMediaSample* pIn);
 	HRESULT CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
     HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
@@ -86,7 +87,7 @@ public:
 
 	// === DXVA2 functions
 	void			FillInVideoDescription(DXVA2_VideoDesc *pDesc);
-	BOOL			IsSupportedDecoderConfig(const DXVA2_ConfigPictureDecode& config);
+	BOOL			IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config);
 	BOOL			IsSupportedDecoderMode(const GUID& mode);
 	HRESULT			ConfigureDXVA2(IPin *pPin);
 	HRESULT			SetEVRForDXVA2(IPin *pPin);

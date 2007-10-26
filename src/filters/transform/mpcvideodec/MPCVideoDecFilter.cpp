@@ -43,14 +43,14 @@
 
 /////
 #define MAX_SUPPORTED_MODE			5
-typedef struct FFMPEG_CODECS
+typedef struct
 {
   const CLSID*			clsMinorType;
   const enum CodecID	nFFCodec;
   const int				fourcc;
   const	bool			bSupportDXVA;
   const GUID*			SupportedMode[MAX_SUPPORTED_MODE];
-};
+} FFMPEG_CODECS;
 
 
 const FFMPEG_CODECS		ffCodecs[] =
@@ -67,6 +67,10 @@ const FFMPEG_CODECS		ffCodecs[] =
 
 	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	true, { /*&DXVA2_ModeMPEG2_MoComp,*/ &DXVA2_ModeMPEG2_VLD, &GUID_NULL } },
 
+	// AMV Video
+	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V',' '),	false, { &GUID_NULL } },
+
+	// H264
 	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
@@ -87,6 +91,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
 
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV  },
+
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO  },
 
 	// H264
@@ -103,7 +109,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
 {
-	{&MEDIATYPE_Audio, &MEDIASUBTYPE_PCM},
+	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},
+	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV24},
 };
 
 const AMOVIESETUP_PIN sudpPins[] =
@@ -255,8 +262,13 @@ void CMPCVideoDecFilter::Cleanup()
 
 void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
 {
+#ifdef _DEBUG
 	AVCodecContext*	m_pAVCtx = (AVCodecContext*) par;
-	TRACE(fmt,valist);
+
+	char		Msg [500];
+	snprintf (Msg, sizeof(Msg), fmt, valist);
+	TRACE("AVLIB : %s", Msg);
+#endif
 }
 
 
@@ -264,8 +276,8 @@ STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 {
 	return
 		QI(IMPCVideoDecFilter)
-		QI(ISpecifyPropertyPages)
-		QI(ISpecifyPropertyPages2)
+//		QI(ISpecifyPropertyPages)
+//		QI(ISpecifyPropertyPages2)
 		 __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -359,6 +371,27 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 }
 
 
+HRESULT CMPCVideoDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
+{
+	HRESULT			hr			= __super::GetMediaType (iPosition, pmt);
+	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
+
+	if (hr == S_OK)
+	{
+		VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
+		VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+
+		if (vih && vihInput)
+		{
+			memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
+			memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
+		}
+	}
+
+	return hr;
+}
+
+
 void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
 {
 	const BYTE*		data = NULL;
@@ -410,8 +443,9 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 
 HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin)
 {
-	HRESULT		hr;
+	LOG(_T("CMPCVideoDecFilter::CompleteConnect"));
 	if ( (direction==PINDIR_OUTPUT) &&
+		 (m_nCodecNb != -1) &&
 		 ffCodecs[m_nCodecNb].bSupportDXVA &&
 		 SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&
 		 SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
@@ -450,7 +484,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
 	HRESULT			hr;
 	BYTE*			pDataIn = NULL;
-	long			nSize;
+	UINT			nSize;
 	int				got_picture;
 	REFERENCE_TIME	rtStart = _I64_MIN, rtStop = _I64_MIN;
 
@@ -494,25 +528,53 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		hr = m_pOutput->GetDeliveryBuffer(&pOut, 0, 0, 0);
 		pSampleService = pOut;
 
-		if (SUCCEEDED (hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget)) &&
-			SUCCEEDED (hr = m_pDecoder->BeginFrame(pDecoderRenderTarget, NULL)) &&
-			SUCCEEDED (hr = m_pDecoder->GetBuffer (DXVA2_BitStreamDateBufferType, (void**)&pDXVABuffer, &nDXVASize)) )
+		hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
+		LOG(_T("pSampleService->GetService  hr=0x%08x"), hr);
+		hr = m_pDecoder->BeginFrame(pDecoderRenderTarget, NULL);
+		LOG(_T("m_pDecoder->BeginFrame  hr=0x%08x"), hr);
+
+		// ==>> http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=1659948&SiteID=1
+		// TODO !!	==>>  DXVA_PicParams_H264
+		hr = m_pDecoder->GetBuffer (DXVA2_PictureParametersBufferType, (void**)&pDXVABuffer, &nDXVASize);
+		LOG(_T("GetBuffer DXVA2_PictureParametersBufferType :  hr=0x%08x   size=%d"), hr, nDXVASize);
+		hr = m_pDecoder->ReleaseBuffer (DXVA2_PictureParametersBufferType);
+
+		// TODO !!  ==> is bConfigBitstreamRaw =2 alors DXVA_Slice_H264_Short, sinon DXVA_Slice_H264_Long
+		hr = m_pDecoder->GetBuffer (DXVA2_SliceControlBufferType, (void**)&pDXVABuffer, &nDXVASize);
+		LOG(_T("GetBuffer DXVA2_SliceControlBufferType :  hr=0x%08x   size=%d"), hr, nDXVASize);
+		hr = m_pDecoder->ReleaseBuffer (DXVA2_SliceControlBufferType);
+
+		// TODO !!	==>> DXVA_Qmatrix_H264
+		hr = m_pDecoder->GetBuffer (DXVA2_InverseQuantizationMatrixBufferType, (void**)&pDXVABuffer, &nDXVASize);
+		LOG(_T("GetBuffer DXVA2_InverseQuantizationMatrixBufferType :  hr=0x%08x   size=%d"), hr, nDXVASize);
+		hr = m_pDecoder->ReleaseBuffer (DXVA2_InverseQuantizationMatrixBufferType);
+
+		hr = m_pDecoder->GetBuffer (DXVA2_BitStreamDateBufferType, (void**)&pDXVABuffer, &nDXVASize);
+		LOG(_T("GetBuffer DXVA2_BitStreamDateBufferType :  hr=0x%08x   size=%d"), hr, nDXVASize);
+		if (SUCCEEDED (hr))
+		//if (SUCCEEDED (hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget)) &&
+		//	SUCCEEDED (hr = m_pDecoder->BeginFrame(pDecoderRenderTarget, NULL)) &&
+		//	SUCCEEDED (hr = m_pDecoder->GetBuffer (DXVA2_BitStreamDateBufferType, (void**)&pDXVABuffer, &nDXVASize)) )
 		{
 			ASSERT (nDXVASize > nSize);
 			if (nSize > nDXVASize)	 return VFW_E_BUFFER_OVERFLOW;
 			CheckPointer (pDataIn, E_POINTER);
 			memcpy (pDXVABuffer, pDataIn, nSize);
-			m_pDecoder->ReleaseBuffer (DXVA2_BitStreamDateBufferType);
+			hr = m_pDecoder->ReleaseBuffer (DXVA2_BitStreamDateBufferType);
+			LOG(_T("m_pDecoder->ReleaseBuffer  hr=0x%08x"), hr);
 
 			// TODO ????
 			m_ExecuteParams.NumCompBuffers = 1;
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize = nSize;
 
 			hr = m_pDecoder->Execute(&m_ExecuteParams);
+			LOG(_T("m_pDecoder->Execute  hr=0x%08x"), hr);
 		}
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
-		return m_pOutput->Deliver(pOut);
+		hr = m_pOutput->Deliver(pOut);
+		LOG(_T("m_pOutput->Deliver  hr=0x%08x"), hr);
+		return hr;
 	}
 }
 
@@ -540,10 +602,14 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
 	return false;
 }
 
-BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const DXVA2_ConfigPictureDecode& config)
+BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config)
 {
-	return true;
-	return (config.ConfigBitstreamRaw == 1);
+	bool	bRet;
+
+	bRet = ((config.ConfigBitstreamRaw == 1) /*&& (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2'))*/ );
+
+	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);
+	return bRet;
 }
 
 HRESULT CMPCVideoDecFilter::FindDecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
@@ -581,7 +647,7 @@ HRESULT CMPCVideoDecFilter::FindDecoderConfiguration(IDirectXVideoDecoderService
             // Find a supported configuration.
             for (UINT iConfig = 0; iConfig < cConfigurations; iConfig++)
             {
-                if (IsSupportedDecoderConfig(pConfig[iConfig]))
+                if (IsSupportedDecoderConfig(pFormats[iConfig], pConfig[iConfig]))
                 {
                     // This configuration is good.
                     *pbFoundDXVA2Configuration = TRUE;
