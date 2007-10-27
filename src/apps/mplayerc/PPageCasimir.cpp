@@ -60,7 +60,7 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageCasimir, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
-	ON_BN_CLICKED(IDC_PN31, &CPPageCasimir::OnBnClickedPn31)
+	ON_BN_CLICKED(IDC_INSTALLPN31, &CPPageCasimir::OnBnClickedPn31)
 	ON_BN_CLICKED(IDC_UNINSTALLPN31, &CPPageCasimir::OnBnClickedUninstallpn31)
 END_MESSAGE_MAP()
 

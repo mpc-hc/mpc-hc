@@ -4,6 +4,7 @@ v1.0.12.0 - unreleased
  NEW	: Custom presenter now support DXVA2, and display decoder mode in Jitter test information.
  FIXED  : Incorrect colors on video when using YUV mixing and "VMR Color controls"
  FIXED  : EVR custom didn't display image with Microsoft MPEG2 decoder (Vista)
+ FIXED  : PN31 driver installation was not working
 
 v1.0.11.0 - 14.Oct 2007
 ======================

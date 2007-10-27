@@ -483,6 +483,28 @@ void CShuttlePN31Client::SetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* hDevInf
 
 bool CShuttlePN31Client::Install(void)
 {
+	HRSRC hrsrc = FindResource(AfxGetResourceHandle(), MAKEINTRESOURCE(IDF_PN31SNOOP), RT_RCDATA);
+	if(!hrsrc) return(false);
+	HGLOBAL hGlobal = LoadResource(AfxGetResourceHandle(), hrsrc);
+	if(!hGlobal) return(false);
+	DWORD size = SizeofResource(AfxGetResourceHandle(), hrsrc);
+	if(!size) return(false);
+
+	CString	System32Path;
+	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, System32Path.GetBuffer(MAX_PATH))))
+	{
+		HANDLE		hPN31Snoop;
+		DWORD		dwWritten;
+		System32Path.ReleaseBuffer();
+		System32Path.Append(_T("\\drivers\\PN31Snoop.sys"));
+		if ((hPN31Snoop = CreateFile(System32Path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL)) == INVALID_HANDLE_VALUE)
+			return false;
+		WriteFile (hPN31Snoop, LockResource(hGlobal), size, &dwWritten, NULL);
+		CloseHandle (hPN31Snoop);
+	}
+	else 
+		return false;
+
 	return UpdateDriver(true);
 }
 
