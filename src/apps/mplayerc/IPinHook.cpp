@@ -24,6 +24,7 @@
 #include "stdafx.h"
 
 #include <d3dx9.h>
+#include <dxva.h>
 #include <dxva2api.h>
 
 #include "IPinHook.h"
@@ -527,9 +528,6 @@ typedef struct
   const LPCTSTR			Description;
 } DXVA2_DECODER;
 
-							   
-EXTERN_C const GUID DXVA2_UnknownMode1 = { 0x1720AC81, 0x9D1B,0x4F63,0x9A,0x37,0x4A,0x88,0x48,0x3D,0x0B,0x87};	// nVidia 6600GT
-
 const DXVA2_DECODER DXVA2Decoder[] = 
 {
 	{ &GUID_NULL,				_T("Not using DXVA2") },
@@ -551,9 +549,106 @@ const DXVA2_DECODER DXVA2Decoder[] =
 	{ &DXVA2_ModeWMV9_A,		_T("WMV9 post processing") },
 	{ &DXVA2_ModeWMV9_B,		_T("WMV9 motion compensation") },
 	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT.") },
-
-	{ &DXVA2_UnknownMode1,		_T("Unknown : 1720AC81-9D1B-4F63-9A37-4A88483D0B87") },
 };
+
+
+#define MAX_BUFFER_TYPE		15
+class CFaceDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder							   
+{
+private :
+	CComPtr<IDirectXVideoDecoder>		m_pDec;
+	int									m_nDXVA2Decoder;
+	BYTE*								m_ppBuffer[MAX_BUFFER_TYPE];
+	UINT								m_ppBufferLen[MAX_BUFFER_TYPE];
+
+public :
+		CFaceDirectXVideoDecoder(int nDXVA2Decoder, LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk)
+		{
+			m_pDec			= pDec;
+			m_nDXVA2Decoder	= nDXVA2Decoder;
+
+			memset (m_ppBuffer, 0, sizeof(m_ppBuffer));
+		}
+
+		DECLARE_IUNKNOWN;
+
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
+		{
+			if(riid == __uuidof(IDirectXVideoDecoder))
+				return GetInterface((IDirectXVideoDecoder*)this, ppv);
+			else
+				return __super::NonDelegatingQueryInterface(riid, ppv);
+		}
+
+        virtual HRESULT STDMETHODCALLTYPE GetVideoDecoderService(IDirectXVideoDecoderService **ppService)
+		{
+			HRESULT		hr = m_pDec->GetVideoDecoderService (ppService);
+			return hr;
+		}
+        
+        virtual HRESULT STDMETHODCALLTYPE GetCreationParameters(GUID *pDeviceGuid, DXVA2_VideoDesc *pVideoDesc, DXVA2_ConfigPictureDecode *pConfig, IDirect3DSurface9 ***pDecoderRenderTargets, UINT *pNumSurfaces)
+		{
+			HRESULT		hr = m_pDec->GetCreationParameters(pDeviceGuid, pVideoDesc, pConfig, pDecoderRenderTargets, pNumSurfaces);
+			return hr;
+		}
+
+        
+        virtual HRESULT STDMETHODCALLTYPE GetBuffer(UINT BufferType, void **ppBuffer, UINT *pBufferSize)
+		{
+			HRESULT		hr = m_pDec->GetBuffer(BufferType, ppBuffer, pBufferSize);
+			
+			if (BufferType < MAX_BUFFER_TYPE)
+			{
+				m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
+				m_ppBufferLen[BufferType]		= *pBufferSize;
+			}
+			
+			return hr;
+		}
+        
+        virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType)
+		{
+			HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
+			return hr;
+		}
+        
+        virtual HRESULT STDMETHODCALLTYPE BeginFrame(IDirect3DSurface9 *pRenderTarget, void *pvPVPData)
+		{
+			HRESULT		hr = m_pDec->BeginFrame (pRenderTarget, pvPVPData);
+			return hr;
+		}
+        
+        virtual HRESULT STDMETHODCALLTYPE EndFrame(HANDLE *pHandleComplete)
+		{
+			HRESULT		hr = m_pDec->EndFrame (pHandleComplete);
+			return hr;
+		}
+        
+        virtual HRESULT STDMETHODCALLTYPE Execute(const DXVA2_DecodeExecuteParams *pExecuteParams)
+		{
+			LOG(_T("IDirectXVideoDecoder::Execute  %s  %d"), DXVA2Decoder[m_nDXVA2Decoder].Description, sizeof(DXVA_PictureParameters));
+
+			for (int i=0; i<pExecuteParams->NumCompBuffers; i++)
+			{
+				CString		strBuffer;
+				for (int j=0; j<44 && j<m_ppBufferLen[i]; j++)
+					strBuffer.AppendFormat (_T("%02x "), m_ppBuffer[i][j]);
+
+				LOG (_T(" - Buffer type=%d,  offset=%d, size=%d"),
+					pExecuteParams->pCompressedBuffers[i].CompressedBufferType,
+					pExecuteParams->pCompressedBuffers[i].DataOffset,
+					pExecuteParams->pCompressedBuffers[i].DataSize);
+
+				LOG (strBuffer);
+			}
+
+			HRESULT		hr = m_pDec->Execute (pExecuteParams);
+			return hr;
+		}
+};
+
+							   
+
  
 int		m_nCurrentDXVA2Decoder = 0;
 
@@ -648,7 +743,10 @@ static void LogDXVA2Config (const DXVA2_ConfigPictureDecode* pConfig)
 static void LogDXVA2VideoDesc (const DXVA2_VideoDesc* pVideoDesc)
 {
 	LOG(_T("VideoDesc"));
-	LOG(_T("	- Format                            %d"), pVideoDesc->Format);
+	LOG(_T("	- Format                            %c%c%c%c"), TCHAR((pVideoDesc->Format>>0)&0xff), 
+															    TCHAR((pVideoDesc->Format>>8)&0xff), 
+															    TCHAR((pVideoDesc->Format>>16)&0xff),
+															    TCHAR((pVideoDesc->Format>>24)&0xff));
 	LOG(_T("	- InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
 	LOG(_T("	- OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
 	LOG(_T("	- SampleFormat                      %d"), pVideoDesc->SampleFormat);
@@ -671,7 +769,10 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
         {
 			int		nSupportedMode = FindDXVA2Decoder (pDecoderGuids[iGuid]);
 			
-			LOG (_T("=== New mode : %s"), DXVA2Decoder[nSupportedMode].Description);
+			if (nSupportedMode != -1)
+				LOG (_T("=== New mode : %s"), DXVA2Decoder[nSupportedMode].Description);
+			else
+				LOG (_T("=== New mode : %s"), CStringFromGUID(pDecoderGuids[iGuid]));
 
             // Find a configuration that we support. 
 			UINT						cFormats = 0;
@@ -738,8 +839,19 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 
 	HRESULT hr = CreateVideoDecoderOrg(pThis, Guid, pVideoDesc, pConfig, ppDecoderRenderTargets, NumRenderTargets, ppDecode);
 
-	if (FAILED (hr)) m_nCurrentDXVA2Decoder = 0;
+	if (FAILED (hr))
+		m_nCurrentDXVA2Decoder = 0;
+	else
+	{
+#ifdef _DEBUG
+		*ppDecode	= new CFaceDirectXVideoDecoder (m_nCurrentDXVA2Decoder, NULL, *ppDecode);
+		(*ppDecode)->AddRef();
+#endif
+	}
+
 	LOG(_T("hr = %08x\n"), hr);
+
+
 
 	return hr;
 }
@@ -784,7 +896,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
 	// TODO : remove log file !!
 	::DeleteFile (LOG_FILE);
-//	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
+	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
 
 	if (pIDirectXVideoDecoderService)
 	{

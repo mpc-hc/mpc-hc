@@ -1,6 +1,6 @@
 v1.0.12.0 - unreleased
 ======================
- NEW    : Support for FLV4, VP5 and VP6 video using ffmpeg codec
+ NEW    : Support for Flash video (FLV4, VP5,VP6), XVID and DivX using ffmpeg codec
  NEW	: Custom presenter now support DXVA2, and display decoder mode in Jitter test information.
  FIXED  : Incorrect colors on video when using YUV mixing and "VMR Color controls"
  FIXED  : EVR custom didn't display image with Microsoft MPEG2 decoder (Vista)

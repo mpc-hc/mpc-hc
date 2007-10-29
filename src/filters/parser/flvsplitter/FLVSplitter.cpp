@@ -249,10 +249,13 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				
 				switch(at.SoundFormat)
 				{
-				case 0: 
+				case 0: // FLV_CODECID_PCM_BE
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
 					break;
-				case 2:
+				case 1: // FLV_CODECID_ADPCM
+//					mt.subtype = FOURCCMap(wfe->wFormatTag = ???);
+					break;
+				case 2:	// FLV_CODECID_MP3
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
 
 					{
@@ -261,7 +264,11 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if(m_pFile->Read(h, 4, false, &mt2))
 							mt = mt2;
 					}
-
+					break;
+				case 3 :	// FLV_CODECID_PCM_LE
+				case 5 :	// FLV_CODECID_NELLYMOSER_8HZ_MONO
+				case 6 :	// FLV_CODECID_NELLYMOSER
+					ASSERT(FALSE);
 					break;
 				}
 			}

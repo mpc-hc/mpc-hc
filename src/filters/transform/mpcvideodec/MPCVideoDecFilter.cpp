@@ -65,7 +65,13 @@ const FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	false, { &GUID_NULL } },
 
+	// Mpeg2
 	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	true, { /*&DXVA2_ModeMPEG2_MoComp,*/ &DXVA2_ModeMPEG2_VLD, &GUID_NULL } },
+
+	// DivX - XVid
+	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV5, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','5','0'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIVX, CODEC_ID_MPEG4,  MAKEFOURCC('D','I','V','X'),	false, { &GUID_NULL } },
 
 	// AMV Video
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V',' '),	false, { &GUID_NULL } },
@@ -91,9 +97,16 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
 
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV  },
-
+	// Mpeg2
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO  },
+
+	// DivX - XVid
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVID  },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV5  },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIVX  },
+
+	// AMV Video
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV  },
 
 	// H264
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H264   },
@@ -308,8 +321,13 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		m_nCodecNb	= nNewCodec;
 		m_pAVCodec	= avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 		m_pAVCtx	= avcodec_alloc_context();
+
+		CheckPointer (m_pAVCodec, VFW_E_INVALID_FILE_FORMAT);
+		CheckPointer (m_pAVCtx,	  E_POINTER);
+
 		avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
 		m_pFrame = avcodec_alloc_frame();
+		CheckPointer (m_pFrame,	  E_POINTER);
 
 		if(pmt->formattype == FORMAT_VideoInfo)
 		{
