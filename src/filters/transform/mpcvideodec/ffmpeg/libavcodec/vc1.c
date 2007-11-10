@@ -33,6 +33,7 @@
 #include "vc1acdata.h"
 #include "msmpeg4data.h"
 #include "unary.h"
+#include "simple_idct.h"
 
 #undef NDEBUG
 #include <assert.h>
@@ -818,9 +819,7 @@ static int decode_sequence_header(AVCodecContext *avctx, GetBitContext *gb)
     v->res_fasttx = get_bits1(gb);
     if (!v->res_fasttx)
     {
-        av_log(avctx, AV_LOG_ERROR,
-               "0 for reserved RES_FASTTX is forbidden\n");
-        //return -1;
+        v->s.dsp.vc1_inv_trans_8x8 = simple_idct;
     }
 
     v->fastuvmc =  get_bits1(gb); //common
@@ -3098,7 +3097,6 @@ static int vc1_decode_p_mb(VC1Context *v)
                     s->dsp.vc1_inv_trans_8x8(s->block[i]);
                     if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
                     for(j = 0; j < 64; j++) s->block[i][j] += 128;
-                    if(!v->res_fasttx && v->res_x8) for(j = 0; j < 64; j++) s->block[i][j] += 16;
                     s->dsp.put_pixels_clamped(s->block[i], s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
                     if(v->pq >= 9 && v->overlap) {
                         if(v->c_avail)
@@ -3202,7 +3200,6 @@ static int vc1_decode_p_mb(VC1Context *v)
                     s->dsp.vc1_inv_trans_8x8(s->block[i]);
                     if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
                     for(j = 0; j < 64; j++) s->block[i][j] += 128;
-                    if(!v->res_fasttx && v->res_x8) for(j = 0; j < 64; j++) s->block[i][j] += 16;
                     s->dsp.put_pixels_clamped(s->block[i], s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize);
                     if(v->pq >= 9 && v->overlap) {
                         if(v->c_avail)
@@ -3466,7 +3463,6 @@ static void vc1_decode_i_blocks(VC1Context *v)
                 vc1_decode_i_block(v, s->block[k], k, val, (k<4)? v->codingset : v->codingset2);
 
                 s->dsp.vc1_inv_trans_8x8(s->block[k]);
-                if(!v->res_fasttx && !v->res_x8) for(j = 0; j < 64; j++) s->block[k][j] -= 16;
                 if(v->pq >= 9 && v->overlap) {
                     for(j = 0; j < 64; j++) s->block[k][j] += 128;
                 }

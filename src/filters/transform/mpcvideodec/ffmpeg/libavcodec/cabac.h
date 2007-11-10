@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -91,6 +90,7 @@ static inline void renorm_cabac_encoder(CABACContext *c){
     }
 }
 
+#if 0
 static void put_cabac(CABACContext *c, uint8_t * const state, int bit){
     int RangeLPS= ff_h264_lps_range[2*(c->range&0xC0) + *state];
 
@@ -260,6 +260,7 @@ static void put_cabac_ueg(CABACContext *c, uint8_t * state, int v, int max, int 
             put_cabac_bypass(c, sign);
     }
 }
+#endif /* 0 */
 
 static void refill(CABACContext *c){
 #if CABAC_BITS == 16
@@ -271,6 +272,7 @@ static void refill(CABACContext *c){
     c->bytestream+= CABAC_BITS/8;
 }
 
+#if ! ( defined(ARCH_X86) && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) )
 static void refill2(CABACContext *c){
     int i, x;
 
@@ -288,6 +290,7 @@ static void refill2(CABACContext *c){
     c->low += x<<i;
     c->bytestream+= CABAC_BITS/8;
 }
+#endif
 
 static inline void renorm_cabac_decoder(CABACContext *c){
     while(c->range < 0x100){
@@ -382,7 +385,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
 #define FFBYTE        "16"
 #define BYTEEND     "20"
 #endif
-#if defined(ARCH_X86) && defined(CONFIG_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS)
+#if defined(ARCH_X86) && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS)
     int bit;
 
 #ifndef BRANCHLESS_CABAC_DECODER
@@ -460,7 +463,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
         "2:                                     \n\t"
         "movl %%edx, "RANGE    "(%2)            \n\t"
         "movl %%ebx, "LOW      "(%2)            \n\t"
-        :"=&a"(bit) //FIXME this is fragile gcc either runs out of registers or misscompiles it (for example if "+a"(bit) or "+m"(*state) is used
+        :"=&a"(bit) //FIXME this is fragile gcc either runs out of registers or miscompiles it (for example if "+a"(bit) or "+m"(*state) is used
         :"r"(state), "r"(c)
         : "%"REG_c, "%ebx", "%edx", "%"REG_S, "memory"
     );
@@ -538,7 +541,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
     );
     bit&=1;
 #endif /* BRANCHLESS_CABAC_DECODER */
-#else /* defined(ARCH_X86) && defined(CONFIG_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
+#else /* defined(ARCH_X86) && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
     int s = *state;
     int RangeLPS= ff_h264_lps_range[2*(c->range&0xC0) + s];
     int bit, lps_mask av_unused;
@@ -577,7 +580,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
     if(!(c->low & CABAC_MASK))
         refill2(c);
 #endif /* BRANCHLESS_CABAC_DECODER */
-#endif /* defined(ARCH_X86) && defined(CONFIG_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
+#endif /* defined(ARCH_X86) && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
     return bit;
 }
 
@@ -689,8 +692,8 @@ static av_always_inline int get_cabac_bypass_sign(CABACContext *c, int val){
 }
 
 //FIXME the x86 code from this file should be moved into i386/h264 or cabac something.c/h (note ill kill you if you move my code away from under my fingers before iam finished with it!)
-//FIXME use some macros to avoid duplicatin get_cabac (cant be done yet as that would make optimization work hard)
-#if defined(ARCH_X86) && defined(CONFIG_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS)
+//FIXME use some macros to avoid duplicatin get_cabac (cannot be done yet as that would make optimization work hard)
+#if defined(ARCH_X86) && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS)
 static int decode_significance_x86(CABACContext *c, int max_coeff, uint8_t *significant_coeff_ctx_base, int *index){
     void *end= significant_coeff_ctx_base + max_coeff - 1;
     int minusstart= -(int)significant_coeff_ctx_base;
@@ -796,7 +799,7 @@ static int decode_significance_8x8_x86(CABACContext *c, uint8_t *significant_coe
     );
     return coeff_count;
 }
-#endif /* defined(ARCH_X86) && && defined(CONFIG_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
+#endif /* defined(ARCH_X86) && && defined(HAVE_7REGS) && defined(HAVE_EBX_AVAILABLE) && !defined(BROKEN_RELOCATIONS) */
 
 /**
  *
@@ -812,8 +815,9 @@ static int get_cabac_terminate(CABACContext *c){
     }
 }
 
+#if 0
 /**
- * get (truncated) unnary binarization.
+ * Get (truncated) unary binarization.
  */
 static int get_cabac_u(CABACContext *c, uint8_t * state, int max, int max_index, int truncated){
     int i;
@@ -867,5 +871,6 @@ static int get_cabac_ueg(CABACContext *c, uint8_t * state, int max, int is_signe
     }else
         return i;
 }
+#endif /* 0 */
 
 #endif /* CABAC_H */

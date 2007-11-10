@@ -32,11 +32,15 @@
 #include "mpegvideo.h"
 #include "simple_idct.h"
 #include "faandct.h"
+#if 0 // disable snow
 #include "snow.h"
+#endif
 #include "skl_dct.h"
 
+#if 0 // disable snow
 /* snow.c */
 void ff_spatial_dwt(int *buffer, int width, int height, int stride, int type, int decomposition_count);
+#endif
 
 /* vorbis.c */
 void vorbis_inverse_coupling(float *mag, float *ang, int blocksize);
@@ -4096,10 +4100,12 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->try_8x8basis= try_8x8basis_c;
     c->add_8x8basis= add_8x8basis_c;
 
+#if 0 // disable snow
 #if __STDC_VERSION__ >= 199901L
     c->vertical_compose97i = ff_snow_vertical_compose97i;
     c->horizontal_compose97i = ff_snow_horizontal_compose97i;
     c->inner_add_yblock = ff_snow_inner_add_yblock;
+#endif
 #endif
 
     c->vorbis_inverse_coupling = vorbis_inverse_coupling;

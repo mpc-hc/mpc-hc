@@ -32,6 +32,7 @@
 #include "mpegvideo.h"
 #include "mpegvideo_common.h"
 #include "mjpegenc.h"
+#include "msmpeg4.h"
 #include "faandct.h"
 #include <limits.h>
 
@@ -126,7 +127,7 @@ const uint8_t *ff_find_start_code(const uint8_t * restrict p, const uint8_t *end
 }
 
 /* init common dct for both encoder and decoder */
-static int DCT_common_init(MpegEncContext *s)
+int ff_dct_common_init(MpegEncContext *s)
 {
     s->dct_unquantize_h263_intra = dct_unquantize_h263_intra_c;
     s->dct_unquantize_h263_inter = dct_unquantize_h263_inter_c;
@@ -415,7 +416,7 @@ int MPV_common_init(MpegEncContext *s)
         return -1;
 
     dsputil_init(&s->dsp, s->avctx);
-    DCT_common_init(s);
+    ff_dct_common_init(s);
 
     s->flags= s->avctx->flags;
     s->flags2= s->avctx->flags2;
@@ -826,7 +827,19 @@ int ff_find_unused_picture(MpegEncContext *s, int shared){
         }
     }
 
-    assert(0);
+    av_log(s->avctx, AV_LOG_FATAL, "Internal error, picture buffer overflow\n");
+    /* We could return -1, but the codec would crash trying to draw into a
+     * non-existing frame anyway. This is safer than waiting for a random crash.
+     * Also the return of this is never useful, an encoder must only allocate
+     * as much as allowed in the specification. This has no relationship to how
+     * much libavcodec could allocate (and MAX_PICTURE_COUNT is always large
+     * enough for such valid streams).
+     * Plus, a decoder has to check stream validity and remove frames if too
+     * many reference frames are around. Waiting for "OOM" is not correct at
+     * all. Similarly, missing reference frames have to be replaced by
+     * interpolated/MC frames, anything else is a bug in the codec ...
+     */
+    abort();
     return -1;
 }
 
@@ -938,7 +951,7 @@ alloc:
 
     assert(s->pict_type == I_TYPE || (s->last_picture_ptr && s->last_picture_ptr->data[0]));
 
-    if(s->picture_structure!=PICT_FRAME){
+    if(s->picture_structure!=PICT_FRAME && s->out_format != FMT_H264){
         int i;
         for(i=0; i<4; i++){
             if(s->picture_structure == PICT_BOTTOM_FIELD){

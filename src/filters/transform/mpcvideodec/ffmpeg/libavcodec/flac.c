@@ -217,7 +217,7 @@ static int decode_residuals(FLACContext *s, int channel, int pred_order)
     int sample = 0, samples;
 
     method_type = get_bits(&s->gb, 2);
-    if (method_type != 0){
+    if (method_type > 1){
         av_log(s->avctx, AV_LOG_DEBUG, "illegal residual coding method %d\n", method_type);
         return -1;
     }
@@ -234,8 +234,8 @@ static int decode_residuals(FLACContext *s, int channel, int pred_order)
     i= pred_order;
     for (partition = 0; partition < (1 << rice_order); partition++)
     {
-        tmp = get_bits(&s->gb, 4);
-        if (tmp == 15)
+        tmp = get_bits(&s->gb, method_type == 0 ? 4 : 5);
+        if (tmp == (method_type == 0 ? 15 : 31))
         {
             av_log(s->avctx, AV_LOG_DEBUG, "fixed len partition\n");
             tmp = get_bits(&s->gb, 5);
@@ -481,7 +481,7 @@ static inline int decode_subframe(FLACContext *s, int channel)
     return 0;
 }
 
-static int decode_frame(FLACContext *s)
+static int decode_frame(FLACContext *s, int alloc_data_size)
 {
     int blocksize_code, sample_rate_code, sample_size_code, assignment, i, crc8;
     int decorrelation, bps, blocksize, samplerate;
@@ -543,6 +543,9 @@ static int decode_frame(FLACContext *s)
         return -1;
     }
 
+    if(blocksize * s->channels * sizeof(int16_t) > alloc_data_size)
+        return -1;
+
     if (sample_rate_code == 0){
         samplerate= s->samplerate;
     }else if ((sample_rate_code > 3) && (sample_rate_code < 12))
@@ -595,6 +598,9 @@ static int flac_decode_frame(AVCodecContext *avctx,
     FLACContext *s = avctx->priv_data;
     int tmp = 0, i, j = 0, input_buf_size = 0;
     int16_t *samples = data;
+    int alloc_data_size= *data_size;
+
+    *data_size=0;
 
     if(s->max_framesize == 0){
         s->max_framesize= 65536; // should hopefully be enough for the first header
@@ -626,14 +632,14 @@ static int flac_decode_frame(AVCodecContext *avctx,
     if (!metadata_parse(s))
     {
         tmp = show_bits(&s->gb, 16);
-        if(tmp != 0xFFF8){
+        if((tmp & 0xFFFE) != 0xFFF8){
             av_log(s->avctx, AV_LOG_ERROR, "FRAME HEADER not here\n");
-            while(get_bits_count(&s->gb)/8+2 < buf_size && show_bits(&s->gb, 16) != 0xFFF8)
+            while(get_bits_count(&s->gb)/8+2 < buf_size && (show_bits(&s->gb, 16) & 0xFFFE) != 0xFFF8)
                 skip_bits(&s->gb, 8);
             goto end; // we may not have enough bits left to decode a frame, so try next time
         }
         skip_bits(&s->gb, 16);
-        if (decode_frame(s) < 0){
+        if (decode_frame(s, alloc_data_size) < 0){
             av_log(s->avctx, AV_LOG_ERROR, "decode_frame() failed\n");
             s->bitstream_size=0;
             s->bitstream_index=0;

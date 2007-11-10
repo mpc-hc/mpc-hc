@@ -59,7 +59,7 @@
 #define MB_MBAFF h->mb_mbaff
 #define MB_FIELD h->mb_field_decoding_flag
 #define FRAME_MBAFF h->mb_aff_frame
-#define FIELD_PICTURE 0
+#define FIELD_PICTURE (s->picture_structure != PICT_FRAME)
 #else
 #define MB_MBAFF 0
 #define MB_FIELD 0
@@ -68,6 +68,7 @@
 #undef  IS_INTERLACED
 #define IS_INTERLACED(mb_type) 0
 #endif
+#define FIELD_OR_MBAFF_PICTURE (FRAME_MBAFF || FIELD_PICTURE)
 
 /**
  * Sequence parameter set

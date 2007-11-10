@@ -365,8 +365,8 @@ typedef struct MpegEncContext {
     uint8_t (*b_field_select_table[2][2]);
     int me_method;                       ///< ME algorithm
     int mv_dir;
-#define MV_DIR_BACKWARD  1
-#define MV_DIR_FORWARD   2
+#define MV_DIR_FORWARD   1
+#define MV_DIR_BACKWARD  2
 #define MV_DIRECT        4 ///< bidirectional mode where the difference equals the MV of the last P/S/I-Frame (mpeg4)
     int mv_type;
 #define MV_TYPE_16X16       0   ///< 1 vector for the whole mb
@@ -716,6 +716,9 @@ void ff_er_frame_start(MpegEncContext *s);
 void ff_er_frame_end(MpegEncContext *s);
 void ff_er_add_slice(MpegEncContext *s, int startx, int starty, int endx, int endy, int status);
 
+int ff_dct_common_init(MpegEncContext *s);
+void ff_convert_matrix(DSPContext *dsp, int (*qmat)[64], uint16_t (*qmat16)[2][64],
+                       const uint16_t *quant_matrix, int bias, int qmin, int qmax, int intra);
 
 extern enum PixelFormat ff_yuv420p_list[2];
 

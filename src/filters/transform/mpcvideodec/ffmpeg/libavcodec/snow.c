@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#if 0 // disable snow
+
 #include "avcodec.h"
 #include "dsputil.h"
 #include "snow.h"
@@ -4109,3 +4111,4 @@ AVCodec snow_encoder = {
 };
 #endif
 
+#endif

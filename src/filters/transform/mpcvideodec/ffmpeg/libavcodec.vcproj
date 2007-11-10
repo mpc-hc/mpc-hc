@@ -530,6 +530,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\huffman.c"
+				>
+			</File>
+			<File
 				RelativePath="libavcodec\imgconvert.c"
 				>
 			</File>
@@ -702,6 +706,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vc1.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\vc1data.c"
 				>
 			</File>
@@ -739,6 +747,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\w32thread.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\wmv2.c"
 				>
 			</File>
 			<File
@@ -903,6 +915,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\huffman.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\imcdata.h"
 				>
 			</File>
@@ -976,6 +992,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegvideo_common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\msmpeg4.h"
 				>
 			</File>
 			<File

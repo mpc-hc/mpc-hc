@@ -216,26 +216,7 @@ static int mpeg_decode_mb(MpegEncContext *s,
     assert(s->mb_skipped==0);
 
     if (s->mb_skip_run-- != 0) {
-        if(s->pict_type == I_TYPE){
-            av_log(s->avctx, AV_LOG_ERROR, "skipped MB in I frame at %d %d\n", s->mb_x, s->mb_y);
-            return -1;
-        }
-
-        /* skip mb */
-        s->mb_intra = 0;
-        for(i=0;i<12;i++)
-            s->block_last_index[i] = -1;
-        if(s->picture_structure == PICT_FRAME)
-            s->mv_type = MV_TYPE_16X16;
-        else
-            s->mv_type = MV_TYPE_FIELD;
         if (s->pict_type == P_TYPE) {
-            /* if P type, zero motion vector is implied */
-            s->mv_dir = MV_DIR_FORWARD;
-            s->mv[0][0][0] = s->mv[0][0][1] = 0;
-            s->last_mv[0][0][0] = s->last_mv[0][0][1] = 0;
-            s->last_mv[0][1][0] = s->last_mv[0][1][1] = 0;
-            s->field_select[0][0]= s->picture_structure - 1;
             s->mb_skipped = 1;
             s->current_picture.mb_type[ s->mb_x + s->mb_y*s->mb_stride ]= MB_TYPE_SKIP | MB_TYPE_L0 | MB_TYPE_16x16;
         } else {
@@ -247,12 +228,6 @@ static int mpeg_decode_mb(MpegEncContext *s,
                 mb_type= s->current_picture.mb_type[ s->mb_width + (s->mb_y-1)*s->mb_stride - 1]; // FIXME not sure if this is allowed in mpeg at all,
             if(IS_INTRA(mb_type))
                 return -1;
-
-            /* if B type, reuse previous vectors and directions */
-            s->mv[0][0][0] = s->last_mv[0][0][0];
-            s->mv[0][0][1] = s->last_mv[0][0][1];
-            s->mv[1][0][0] = s->last_mv[1][0][0];
-            s->mv[1][0][1] = s->last_mv[1][0][1];
 
             s->current_picture.mb_type[ s->mb_x + s->mb_y*s->mb_stride ]=
                 mb_type | MB_TYPE_SKIP;
@@ -358,23 +333,20 @@ static int mpeg_decode_mb(MpegEncContext *s,
         if (mb_type & MB_TYPE_ZERO_MV){
             assert(mb_type & MB_TYPE_CBP);
 
-            /* compute dct type */
-            if (s->picture_structure == PICT_FRAME && //FIXME add a interlaced_dct coded var?
-                !s->frame_pred_frame_dct) {
-                s->interlaced_dct = get_bits1(&s->gb);
+            s->mv_dir = MV_DIR_FORWARD;
+            if(s->picture_structure == PICT_FRAME){
+                if(!s->frame_pred_frame_dct)
+                    s->interlaced_dct = get_bits1(&s->gb);
+                s->mv_type = MV_TYPE_16X16;
+            }else{
+                s->mv_type = MV_TYPE_FIELD;
+                mb_type |= MB_TYPE_INTERLACED;
+                s->field_select[0][0]= s->picture_structure - 1;
             }
 
             if (IS_QUANT(mb_type))
                 s->qscale = get_qscale(s);
 
-            s->mv_dir = MV_DIR_FORWARD;
-            if(s->picture_structure == PICT_FRAME)
-                s->mv_type = MV_TYPE_16X16;
-            else{
-                s->mv_type = MV_TYPE_FIELD;
-                mb_type |= MB_TYPE_INTERLACED;
-                s->field_select[0][0]= s->picture_structure - 1;
-            }
             s->last_mv[0][0][0] = 0;
             s->last_mv[0][0][1] = 0;
             s->last_mv[0][1][0] = 0;
@@ -389,29 +361,24 @@ static int mpeg_decode_mb(MpegEncContext *s,
                 motion_type = MT_FRAME;
             else{
                 motion_type = get_bits(&s->gb, 2);
-            }
-
-            /* compute dct type */
-            if (s->picture_structure == PICT_FRAME && //FIXME add a interlaced_dct coded var?
-                !s->frame_pred_frame_dct && HAS_CBP(mb_type)) {
-                s->interlaced_dct = get_bits1(&s->gb);
+                if (s->picture_structure == PICT_FRAME && HAS_CBP(mb_type))
+                    s->interlaced_dct = get_bits1(&s->gb);
             }
 
             if (IS_QUANT(mb_type))
                 s->qscale = get_qscale(s);
 
             /* motion vectors */
-            s->mv_dir = 0;
-            for(i=0;i<2;i++) {
-                if (USES_LIST(mb_type, i)) {
-                    s->mv_dir |= (MV_DIR_FORWARD >> i);
-                    dprintf(s->avctx, "motion_type=%d\n", motion_type);
-                    switch(motion_type) {
-                    case MT_FRAME: /* or MT_16X8 */
-                        if (s->picture_structure == PICT_FRAME) {
+            s->mv_dir= (mb_type>>13)&3;
+            dprintf(s->avctx, "motion_type=%d\n", motion_type);
+            switch(motion_type) {
+            case MT_FRAME: /* or MT_16X8 */
+                if (s->picture_structure == PICT_FRAME) {
+                    mb_type |= MB_TYPE_16x16;
+                    s->mv_type = MV_TYPE_16X16;
+                    for(i=0;i<2;i++) {
+                        if (USES_LIST(mb_type, i)) {
                             /* MT_FRAME */
-                            mb_type |= MB_TYPE_16x16;
-                            s->mv_type = MV_TYPE_16X16;
                             s->mv[i][0][0]= s->last_mv[i][0][0]= s->last_mv[i][1][0] =
                                 mpeg_decode_motion(s, s->mpeg_f_code[i][0], s->last_mv[i][0][0]);
                             s->mv[i][0][1]= s->last_mv[i][0][1]= s->last_mv[i][1][1] =
@@ -421,10 +388,14 @@ static int mpeg_decode_mb(MpegEncContext *s,
                                 s->mv[i][0][0] <<= 1;
                                 s->mv[i][0][1] <<= 1;
                             }
-                        } else {
+                        }
+                    }
+                } else {
+                    mb_type |= MB_TYPE_16x8 | MB_TYPE_INTERLACED;
+                    s->mv_type = MV_TYPE_16X8;
+                    for(i=0;i<2;i++) {
+                        if (USES_LIST(mb_type, i)) {
                             /* MT_16X8 */
-                            mb_type |= MB_TYPE_16x8 | MB_TYPE_INTERLACED;
-                            s->mv_type = MV_TYPE_16X8;
                             for(j=0;j<2;j++) {
                                 s->field_select[i][j] = get_bits1(&s->gb);
                                 for(k=0;k<2;k++) {
@@ -435,11 +406,15 @@ static int mpeg_decode_mb(MpegEncContext *s,
                                 }
                             }
                         }
-                        break;
-                    case MT_FIELD:
-                        s->mv_type = MV_TYPE_FIELD;
-                        if (s->picture_structure == PICT_FRAME) {
-                            mb_type |= MB_TYPE_16x8 | MB_TYPE_INTERLACED;
+                    }
+                }
+                break;
+            case MT_FIELD:
+                s->mv_type = MV_TYPE_FIELD;
+                if (s->picture_structure == PICT_FRAME) {
+                    mb_type |= MB_TYPE_16x8 | MB_TYPE_INTERLACED;
+                    for(i=0;i<2;i++) {
+                        if (USES_LIST(mb_type, i)) {
                             for(j=0;j<2;j++) {
                                 s->field_select[i][j] = get_bits1(&s->gb);
                                 val = mpeg_decode_motion(s, s->mpeg_f_code[i][0],
@@ -453,8 +428,12 @@ static int mpeg_decode_mb(MpegEncContext *s,
                                 s->mv[i][j][1] = val;
                                 dprintf(s->avctx, "fmy=%d\n", val);
                             }
-                        } else {
-                            mb_type |= MB_TYPE_16x16 | MB_TYPE_INTERLACED;
+                        }
+                    }
+                } else {
+                    mb_type |= MB_TYPE_16x16 | MB_TYPE_INTERLACED;
+                    for(i=0;i<2;i++) {
+                        if (USES_LIST(mb_type, i)) {
                             s->field_select[i][0] = get_bits1(&s->gb);
                             for(k=0;k<2;k++) {
                                 val = mpeg_decode_motion(s, s->mpeg_f_code[i][k],
@@ -464,59 +443,60 @@ static int mpeg_decode_mb(MpegEncContext *s,
                                 s->mv[i][0][k] = val;
                             }
                         }
-                        break;
-                    case MT_DMV:
-                        {
-                            int dmx, dmy, mx, my, m;
-
-                            mx = mpeg_decode_motion(s, s->mpeg_f_code[i][0],
-                                                    s->last_mv[i][0][0]);
-                            s->last_mv[i][0][0] = mx;
-                            s->last_mv[i][1][0] = mx;
-                            dmx = get_dmv(s);
-                            my = mpeg_decode_motion(s, s->mpeg_f_code[i][1],
-                                                    s->last_mv[i][0][1] >> 1);
-                            dmy = get_dmv(s);
-                            s->mv_type = MV_TYPE_DMV;
-
-
-                            s->last_mv[i][0][1] = my<<1;
-                            s->last_mv[i][1][1] = my<<1;
-
-                            s->mv[i][0][0] = mx;
-                            s->mv[i][0][1] = my;
-                            s->mv[i][1][0] = mx;//not used
-                            s->mv[i][1][1] = my;//not used
-
-                            if (s->picture_structure == PICT_FRAME) {
-                                mb_type |= MB_TYPE_16x16 | MB_TYPE_INTERLACED;
-
-                                //m = 1 + 2 * s->top_field_first;
-                                m = s->top_field_first ? 1 : 3;
-
-                                /* top -> top pred */
-                                s->mv[i][2][0] = ((mx * m + (mx > 0)) >> 1) + dmx;
-                                s->mv[i][2][1] = ((my * m + (my > 0)) >> 1) + dmy - 1;
-                                m = 4 - m;
-                                s->mv[i][3][0] = ((mx * m + (mx > 0)) >> 1) + dmx;
-                                s->mv[i][3][1] = ((my * m + (my > 0)) >> 1) + dmy + 1;
-                            } else {
-                                mb_type |= MB_TYPE_16x16;
-
-                                s->mv[i][2][0] = ((mx + (mx > 0)) >> 1) + dmx;
-                                s->mv[i][2][1] = ((my + (my > 0)) >> 1) + dmy;
-                                if(s->picture_structure == PICT_TOP_FIELD)
-                                    s->mv[i][2][1]--;
-                                else
-                                    s->mv[i][2][1]++;
-                            }
-                        }
-                        break;
-                    default:
-                        av_log(s->avctx, AV_LOG_ERROR, "00 motion_type at %d %d\n", s->mb_x, s->mb_y);
-                        return -1;
                     }
                 }
+                break;
+            case MT_DMV:
+                s->mv_type = MV_TYPE_DMV;
+                for(i=0;i<2;i++) {
+                    if (USES_LIST(mb_type, i)) {
+                        int dmx, dmy, mx, my, m;
+                        mx = mpeg_decode_motion(s, s->mpeg_f_code[i][0],
+                                                s->last_mv[i][0][0]);
+                        s->last_mv[i][0][0] = mx;
+                        s->last_mv[i][1][0] = mx;
+                        dmx = get_dmv(s);
+                        my = mpeg_decode_motion(s, s->mpeg_f_code[i][1],
+                                                s->last_mv[i][0][1] >> 1);
+                        dmy = get_dmv(s);
+
+
+                        s->last_mv[i][0][1] = my<<1;
+                        s->last_mv[i][1][1] = my<<1;
+
+                        s->mv[i][0][0] = mx;
+                        s->mv[i][0][1] = my;
+                        s->mv[i][1][0] = mx;//not used
+                        s->mv[i][1][1] = my;//not used
+
+                        if (s->picture_structure == PICT_FRAME) {
+                            mb_type |= MB_TYPE_16x16 | MB_TYPE_INTERLACED;
+
+                            //m = 1 + 2 * s->top_field_first;
+                            m = s->top_field_first ? 1 : 3;
+
+                            /* top -> top pred */
+                            s->mv[i][2][0] = ((mx * m + (mx > 0)) >> 1) + dmx;
+                            s->mv[i][2][1] = ((my * m + (my > 0)) >> 1) + dmy - 1;
+                            m = 4 - m;
+                            s->mv[i][3][0] = ((mx * m + (mx > 0)) >> 1) + dmx;
+                            s->mv[i][3][1] = ((my * m + (my > 0)) >> 1) + dmy + 1;
+                        } else {
+                            mb_type |= MB_TYPE_16x16;
+
+                            s->mv[i][2][0] = ((mx + (mx > 0)) >> 1) + dmx;
+                            s->mv[i][2][1] = ((my + (my > 0)) >> 1) + dmy;
+                            if(s->picture_structure == PICT_TOP_FIELD)
+                                s->mv[i][2][1]--;
+                            else
+                                s->mv[i][2][1]++;
+                        }
+                    }
+                }
+                break;
+            default:
+                av_log(s->avctx, AV_LOG_ERROR, "00 motion_type at %d %d\n", s->mb_x, s->mb_y);
+                return -1;
             }
         }
 
@@ -524,18 +504,15 @@ static int mpeg_decode_mb(MpegEncContext *s,
         if (HAS_CBP(mb_type)) {
             s->dsp.clear_blocks(s->block[0]);
 
-            if(!s->chroma_y_shift){
-                s->dsp.clear_blocks(s->block[6]);
-            }
-
             cbp = get_vlc2(&s->gb, mb_pat_vlc.table, MB_PAT_VLC_BITS, 1);
-            if (cbp < 0 || ((cbp == 0) && (s->chroma_format < 2)) ){
-                av_log(s->avctx, AV_LOG_ERROR, "invalid cbp at %d %d\n", s->mb_x, s->mb_y);
-                return -1;
-            }
             if(mb_block_count > 6){
                  cbp<<= mb_block_count-6;
                  cbp |= get_bits(&s->gb, mb_block_count-6);
+                 s->dsp.clear_blocks(s->block[6]);
+            }
+            if (cbp <= 0){
+                av_log(s->avctx, AV_LOG_ERROR, "invalid cbp at %d %d\n", s->mb_x, s->mb_y);
+                return -1;
             }
 
 #ifdef HAVE_XVMC
@@ -1661,7 +1638,6 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
 {
     MpegEncContext *s = &s1->mpeg_enc_ctx;
     AVCodecContext *avctx= s->avctx;
-    int ret;
     const int field_pic= s->picture_structure != PICT_FRAME;
     const int lowres= s->avctx->lowres;
 
@@ -1736,11 +1712,7 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
             XVMC_init_block(s);//set s->block
 #endif
 
-        ret = mpeg_decode_mb(s, s->block);
-        s->chroma_qscale= s->qscale;
-
-        dprintf(s->avctx, "ret=%d\n", ret);
-        if (ret < 0)
+        if(mpeg_decode_mb(s, s->block) < 0)
             return -1;
 
         if(s->current_picture.motion_val[0] && !s->encoding){ //note motion_val is normally NULL unless we want to extract the MVs
@@ -1775,8 +1747,8 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
         }
 
         s->dest[0] += 16 >> lowres;
-        s->dest[1] += 16 >> (s->chroma_x_shift + lowres);
-        s->dest[2] += 16 >> (s->chroma_x_shift + lowres);
+        s->dest[1] +=(16 >> lowres) >> s->chroma_x_shift;
+        s->dest[2] +=(16 >> lowres) >> s->chroma_x_shift;
 
         MPV_decode_mb(s, s->block);
 
@@ -1829,6 +1801,36 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
                 } else {
                     s->mb_skip_run += code;
                     break;
+                }
+            }
+            if(s->mb_skip_run){
+                int i;
+                if(s->pict_type == I_TYPE){
+                    av_log(s->avctx, AV_LOG_ERROR, "skipped MB in I frame at %d %d\n", s->mb_x, s->mb_y);
+                    return -1;
+                }
+
+                /* skip mb */
+                s->mb_intra = 0;
+                for(i=0;i<12;i++)
+                    s->block_last_index[i] = -1;
+                if(s->picture_structure == PICT_FRAME)
+                    s->mv_type = MV_TYPE_16X16;
+                else
+                    s->mv_type = MV_TYPE_FIELD;
+                if (s->pict_type == P_TYPE) {
+                    /* if P type, zero motion vector is implied */
+                    s->mv_dir = MV_DIR_FORWARD;
+                    s->mv[0][0][0] = s->mv[0][0][1] = 0;
+                    s->last_mv[0][0][0] = s->last_mv[0][0][1] = 0;
+                    s->last_mv[0][1][0] = s->last_mv[0][1][1] = 0;
+                    s->field_select[0][0]= s->picture_structure - 1;
+                } else {
+                    /* if B type, reuse previous vectors and directions */
+                    s->mv[0][0][0] = s->last_mv[0][0][0];
+                    s->mv[0][0][1] = s->last_mv[0][0][1];
+                    s->mv[1][0][0] = s->last_mv[1][0][0];
+                    s->mv[1][0][1] = s->last_mv[1][0][1];
                 }
             }
         }
@@ -2162,6 +2164,10 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
                 pc->rtStart=*rtStart;*rtStart=_I64_MIN;
                 break;
             }
+            if(state == SEQ_END_CODE){
+                pc->state=-1;
+                return i+1;
+            }
         }
     }
 
@@ -2198,7 +2204,7 @@ static int mpeg_decode_frame(AVCodecContext *avctx,
     MpegEncContext *s2 = &s->mpeg_enc_ctx;
     dprintf(avctx, "fill_buffer\n");
 
-    if (buf_size == 0) {
+    if (buf_size == 0 || (buf_size == 4 && AV_RB32(buf) == SEQ_END_CODE)) {
         /* special case for last picture */
         if (s2->low_delay==0 && s2->next_picture_ptr) {
             *picture= *(AVFrame*)s2->next_picture_ptr;
@@ -2206,7 +2212,7 @@ static int mpeg_decode_frame(AVCodecContext *avctx,
 
             *data_size = sizeof(AVFrame);
         }
-        return 0;
+        return buf_size;
     }
 
     if(s2->flags&CODEC_FLAG_TRUNCATED){

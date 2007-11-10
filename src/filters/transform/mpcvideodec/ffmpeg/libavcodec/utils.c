@@ -635,24 +635,11 @@ int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *sa
     return ret;
 }
 
-/* decode an audio frame. return -1 if error, otherwise return the
-   *number of bytes used. If no frame could be decompressed,
-   *frame_size_ptr is zero. Otherwise, it is the decompressed frame
-   *size in BYTES. */
 int avcodec_decode_audio(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
-                         uint8_t *buf, int buf_size)
-{
-    int ret;
-
-    *frame_size_ptr= 0;
-    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || buf_size){
-        ret = avctx->codec->decode(avctx, samples, frame_size_ptr,
-                                buf, buf_size);
-        avctx->frame_number++;
-    }else
-        ret= 0;
-    return ret;
+                         uint8_t *buf, int buf_size){
+    *frame_size_ptr= AVCODEC_MAX_AUDIO_FRAME_SIZE;
+    return avcodec_decode_audio2(avctx, samples, frame_size_ptr, buf, buf_size);
 }
 
 int avcodec_close(AVCodecContext *avctx)

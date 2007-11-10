@@ -87,6 +87,7 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     recoded[j++] = 0xFF;
     recoded[j++] = 0xD9;
 
+    avctx->flags &= ~CODEC_FLAG_EMU_EDGE;
     i = ff_mjpeg_decode_frame(avctx, data, data_size, recoded, j);
 
     av_free(recoded);
@@ -209,5 +210,4 @@ AVCodec amv_decoder = {
     /*.encode=*/NULL,
     /*.close=*/ff_mjpeg_decode_end,
     /*.decode=*/sp5x_decode_frame,
-    /*.capabilities=*/CODEC_CAP_DR1
 };
