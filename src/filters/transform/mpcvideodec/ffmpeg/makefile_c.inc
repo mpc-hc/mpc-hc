@@ -1,7 +1,7 @@
 all:.all
 
-#if FFDSHOW_PREFIX is set, assume cross-compilation
-ifeq ($(FFDSHOW_PREFIX),)
+#if FFMPEG_PREFIX is set, assume cross-compilation
+ifeq ($(FFMPEG_PREFIX),)
   NASM=yasm.exe
 else
   NASM=yasm
@@ -81,10 +81,10 @@ else
 endif
 
 .c.o:
-	$(FFDSHOW_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
+	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
 .cpp.o:
-	$(FFDSHOW_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
+	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
 %.o: %.asm
 	$(NASM) -f win32 -DWIN32 -DPREFIX $(NASMFLAGS) -I$(<D)/ -o $@  $<
@@ -98,7 +98,7 @@ ifeq ($(CC),cl)
 	rc /Fo$@ $<
 else
 %.res.o: %.rc
-	$(FFDSHOW_PREFIX)windres $< -o $@ -D_WIN32_IE=0x0500 -DIDCLOSE=8
+	$(FFMPEG_PREFIX)windres $< -o $@ -D_WIN32_IE=0x0500 -DIDCLOSE=8
 endif
 endif
 
@@ -120,10 +120,10 @@ $(SLIB):$(OBJS) $(DEF)
 else
 $(SLIB): $(OBJS) $(DEF)
 #	=== Modify for MPC-HC to create library instead of DLL
-#	$(FFDSHOW_PREFIX)dllwrap -mno-cygwin --target=i386-mingw32 \
+#	$(FFMPEG_PREFIX)dllwrap -mno-cygwin --target=i386-mingw32 \
 #             -Wl,--enable-stdcall-fixup,--strip-all \
 #             --def $(GCCDEF) $(GCCDLLENTRY) -o $@ $(OBJS) $(GCCLIBS)
-	$(FFDSHOW_PREFIX)ar rc $@ $(OBJS) 
+	$(FFMPEG_PREFIX)ar rc $@ $(OBJS) 
 endif
 endif
 
@@ -140,9 +140,9 @@ $(SEXE): $(OBJS) $(DEF)
              /out:$(SEXE)
 else
 $(SEXE): $(OBJS)
-	$(FFDSHOW_PREFIX)$(CC) -mno-cygwin --target=i386-mingw32 \
+	$(FFMPEG_PREFIX)$(CC) -mno-cygwin --target=i386-mingw32 \
              -Wl,--enable-stdcall-fixup -o $@ $(OBJS) $(GCCLIBS)
-	$(FFDSHOW_PREFIX)strip $@
+	$(FFMPEG_PREFIX)strip $@
 endif
 endif
 

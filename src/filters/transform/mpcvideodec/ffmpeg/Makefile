@@ -68,6 +68,8 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/imgconvert.c \
       $(LAVC_DIR)/indeo2.c \
       $(LAVC_DIR)/indeo3.c \
+      $(LAVC_DIR)/intrax8.c \
+      $(LAVC_DIR)/intrax8dsp.c \
       $(LAVC_DIR)/jfdctfst.c \
       $(LAVC_DIR)/jfdctint.c \
       $(LAVC_DIR)/jpegls.c \
@@ -144,6 +146,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/xiph.c \
 	\
       $(LAVU_DIR)/crc.c \
+      $(LAVU_DIR)/integer.c \
       $(LAVU_DIR)/log.c \
       $(LAVU_DIR)/lzo.c \
       $(LAVU_DIR)/mathematics.c \

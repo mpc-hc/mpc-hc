@@ -27,8 +27,8 @@
  * absolutely necessary to call emms_c() between dsp & float/double code
  */
 
-#ifndef DSPUTIL_H
-#define DSPUTIL_H
+#ifndef FFMPEG_DSPUTIL_H
+#define FFMPEG_DSPUTIL_H
 
 #include "avcodec.h"
 
@@ -48,6 +48,7 @@ void j_rev_dct (DCTELEM *data);
 void j_rev_dct4 (DCTELEM *data);
 void j_rev_dct2 (DCTELEM *data);
 void j_rev_dct1 (DCTELEM *data);
+void ff_wmv2_idct_c(DCTELEM *data);
 
 void ff_fdct_mmx(DCTELEM *block);
 void ff_fdct_mmx2(DCTELEM *block);
@@ -323,6 +324,9 @@ typedef struct DSPContext {
 
     void (*h261_loop_filter)(uint8_t *src, int stride);
 
+    void (*x8_v_loop_filter)(uint8_t *src, int stride, int qscale);
+    void (*x8_h_loop_filter)(uint8_t *src, int stride, int qscale);
+
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
@@ -345,13 +349,13 @@ typedef struct DSPContext {
     /**
      * block -> idct -> clip to unsigned 8 bit -> dest.
      * (-1392, 0, 0, ...) -> idct -> (-174, -174, ...) -> put -> (0, 0, ...)
-     * @param line_size size in bytes of a horizotal line of dest
+     * @param line_size size in bytes of a horizontal line of dest
      */
     void (*idct_put)(uint8_t *dest/*align 8*/, int line_size, DCTELEM *block/*align 16*/);
 
     /**
      * block -> idct -> add dest -> clip to unsigned 8 bit -> dest.
-     * @param line_size size in bytes of a horizotal line of dest
+     * @param line_size size in bytes of a horizontal line of dest
      */
     void (*idct_add)(uint8_t *dest/*align 8*/, int line_size, DCTELEM *block/*align 16*/);
 
@@ -409,6 +413,12 @@ typedef struct DSPContext {
      * last argument is actually round value instead of height
      */
     op_pixels_func put_vc1_mspel_pixels_tab[16];
+
+    /* intrax8 functions */
+    void (*x8_spatial_compensation[12])(uint8_t *src , uint8_t *dst, int linesize);
+    void (*x8_setup_spatial_compensation)(uint8_t *src, uint8_t *dst, int linesize,
+           int * range, int * sum,  int edges);
+
 } DSPContext;
 
 void dsputil_static_init(void);
@@ -684,4 +694,5 @@ static inline void copy_block17(uint8_t *dst, uint8_t *src, int dstStride, int s
 }
 
 const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
-#endif
+
+#endif /* FFMPEG_DSPUTIL_H */

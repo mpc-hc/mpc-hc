@@ -29,6 +29,7 @@
 #include "dsputil.h"
 #include "mpegvideo.h"
 #include "h263_parser.h"
+#include "msmpeg4.h"
 
 //#define DEBUG
 //#define PRINT_FRAME_TIME
@@ -663,8 +664,9 @@ retry:
     //the second part of the wmv2 header contains the MB skip bits which are stored in current_picture->mb_type
     //which is not available before MPV_frame_start()
     if (s->msmpeg4_version==5){
-        if(ff_wmv2_decode_secondary_picture_header(s) < 0)
-            return -1;
+        ret = ff_wmv2_decode_secondary_picture_header(s);
+        if(ret<0) return ret;
+        if(ret==1) goto intrax8_decoded;
     }
 
     /* decode each macroblock */
@@ -721,6 +723,7 @@ retry:
         }
     }
 
+intrax8_decoded:
     ff_er_frame_end(s);
 
     MPV_frame_end(s);
@@ -848,4 +851,5 @@ AVCodec flv_decoder = {
     ff_h263_decode_frame,
     CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1
 };
+
 

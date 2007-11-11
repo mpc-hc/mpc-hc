@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_H
-#define AVCODEC_H
+#ifndef FFMPEG_AVCODEC_H
+#define FFMPEG_AVCODEC_H
 
 #ifdef __cplusplus
 	#define FF_EXPORT extern "C" 
@@ -1067,6 +1067,7 @@ typedef struct AVCodecContext {
 #define FF_IDCT_SIMPLEARM    14
 #define FF_IDCT_IPP          15
 #define FF_IDCT_CAVS         16
+#define FF_IDCT_WMV2         17
 
     /**
      * slice count
