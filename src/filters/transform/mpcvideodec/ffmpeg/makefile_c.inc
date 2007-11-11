@@ -123,7 +123,7 @@ $(SLIB): $(OBJS) $(DEF)
 #	$(FFDSHOW_PREFIX)dllwrap -mno-cygwin --target=i386-mingw32 \
 #             -Wl,--enable-stdcall-fixup,--strip-all \
 #             --def $(GCCDEF) $(GCCDLLENTRY) -o $@ $(OBJS) $(GCCLIBS)
-	$(FFDSHOW_PREFIX)ar rc ../../../../../lib/libavcodec_gcc.lib $(OBJS) 
+	$(FFDSHOW_PREFIX)ar rc $@ $(OBJS) 
 endif
 endif
 

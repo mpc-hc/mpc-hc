@@ -16,8 +16,8 @@ endif
 
 #CFLAGS+=-fverbose-asm -save-temps -fno-stack-check
        
-SRCS_C=DllEntry.c \
-      $(LAVC_DIR)/8bps.c \
+#SRCS_C=DllEntry.c \			=> No entry in MPC!
+SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/aasc.c \
       $(LAVC_DIR)/ac3.c \
       $(LAVC_DIR)/ac3enc.c \
@@ -62,6 +62,7 @@ SRCS_C=DllEntry.c \
       $(LAVC_DIR)/h264_parser.c \
       $(LAVC_DIR)/h264idct.c \
       $(LAVC_DIR)/h264pred.c \
+      $(LAVC_DIR)/huffman.c \
       $(LAVC_DIR)/huffyuv.c \
       $(LAVC_DIR)/imc.c \
       $(LAVC_DIR)/imgconvert.c \
@@ -136,6 +137,7 @@ SRCS_C=DllEntry.c \
       $(LAVC_DIR)/w32thread.c \
       $(LAVC_DIR)/wma.c \
       $(LAVC_DIR)/wmadec.c \
+      $(LAVC_DIR)/wmv2.c \
       $(LAVC_DIR)/wnv1.c \
       $(LAVC_DIR)/xl.c \
       $(LAVC_DIR)/zmbv.c \
@@ -148,6 +150,7 @@ SRCS_C=DllEntry.c \
       $(LAVU_DIR)/mem.c \
       $(LAVU_DIR)/random.c \
       $(LAVU_DIR)/rational.c \
+#	=== Modify for MPC-HC to create library instead of DLL : ZLib is linked already	  
 #	\
 #      $(ZLIB_DIR)/adler32.c \
 #      $(ZLIB_DIR)/compress.c \
@@ -187,26 +190,29 @@ endif
 
 # For 64-bit build. Dunno if it will compile properly.
 ifeq ($(64BIT),yes)
- CFLAGS+=-DARCH_X86_64
+	 CFLAGS+=-DARCH_X86_64
+	 SLIB=../../../../../lib64/libavcodec_gcc.lib
+else
+	 SLIB=../../../../../lib/libavcodec_gcc.lib
 endif
 
-ifeq ($(DECODERS_ONLY),yes)
- CFLAGS+=-DDECODERS_ONLY
- SLIB= ../../bin/libavcodec_dec.dll
- DEF=libavcodec_dec.def
-else
- SLIB= ../../bin/libavcodec.dll
- DEF=libavcodec.def
-endif
+#ifeq ($(DECODERS_ONLY),yes)
+# CFLAGS+=-DDECODERS_ONLY
+# SLIB= ../../bin/libavcodec_dec.dll
+# DEF=libavcodec_dec.def
+#else
+# SLIB= ../../bin/libavcodec.dll
+# DEF=libavcodec.def
+#endif
 
 NOINTRIN=1
 
-GCCDLLENTRY=--entry=_DllEntryPoint@12
-ifeq ($(CC),icl)
-CLDLLENTRY=/entry:"DllEntryPoint"
-else
-CLDLLENTRY=/entry:"DllEntryPoint@12"
-endif
+#GCCDLLENTRY=--entry=_DllEntryPoint@12
+#ifeq ($(CC),icl)
+#CLDLLENTRY=/entry:"DllEntryPoint"
+#else
+#CLDLLENTRY=/entry:"DllEntryPoint@12"
+#endif
 
 include makefile_c.inc
 

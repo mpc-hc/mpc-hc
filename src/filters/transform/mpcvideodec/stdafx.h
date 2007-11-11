@@ -50,3 +50,6 @@
 
 
 void LOG(LPCTSTR fmt, ...);
+
+// === Uncomment to compile with GCC
+#define _USE_FFMPEG_WITHGCC

@@ -31,6 +31,13 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
+	CListCtrl	m_lvFormats;
+	CImageList	m_onoff;
+
+	void	OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
+	void	SetChecked(int iItem, int iChecked);
+	int		GetChecked(int iItem);
+
 public:
 	CMPCVideoDecSettingsWnd();
 	

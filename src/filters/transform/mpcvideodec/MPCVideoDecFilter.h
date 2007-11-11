@@ -30,13 +30,33 @@
 #include "IMPCVideoDecFilter.h"
 #include "MPCVideoDecSettingsWnd.h"
 #include "..\..\..\decss\DeCSSInputPin.h"
-
+#include "DXVADecoder.h"
 
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 
 class CCpuId;
+
+
+
+
+// === FFMpeg extern function
+typedef unsigned char uint8_t;
+typedef void			(*FUNC_AVCODEC_INIT)();
+typedef void			(*FUNC_AVCODEC_REGISTER_ALL)();
+typedef AVCodec*		(*FUNC_AVCODEC_FIND_DECODER)(enum CodecID id);
+typedef AVCodecContext* (*FUNC_AVCODEC_ALLOC_CONTEXT)(void);
+typedef AVFrame*		(*FUNC_AVCODEC_ALLOC_FRAME)(void);
+typedef int				(*FUNC_AVCODEC_OPEN)(AVCodecContext *avctx, AVCodec *codec);
+typedef int				(*FUNC_AVCODEC_DECODE_VIDEO)(AVCodecContext *avctx, AVFrame *picture, int *got_picture_ptr, uint8_t *buf, int buf_size);
+typedef void			(*FUNC_AV_LOG_SET_CALLBACK)(void (*callback)(void*, int, const char*, va_list));
+typedef int				(*FUNC_AVCODEC_CLOSE)(AVCodecContext *avctx);
+typedef void			(*FUNC_AVCODEC_THREAD_FREE)(AVCodecContext *s);
+typedef int				(*FUNC_AVCODEC_THREAD_INIT)(AVCodecContext *s, int thread_count);
+typedef void			(*FUNC_AV_FREE)(void *ptr);
+
+
 
 [uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4")]
 class CMPCVideoDecFilter 
@@ -49,22 +69,36 @@ protected:
 	static void LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 protected:
-	AVCodec*			m_pAVCodec;
-	AVCodecContext*		m_pAVCtx;
-	AVFrame*			m_pFrame;
-	int					m_nCodecNb;
-	int					m_nWorkaroundBug;
-	int					m_nErrorConcealment;
-	int					m_nErrorResilience;
-	int					m_nThreadNumber;
+	friend class CVideoDecDXVAAllocator;
 
-	CCpuId*				m_pCpuId;
-	bool				m_bUseDXVA2;
+	CCpuId*						m_pCpuId;
 
+	// === FFMpeg variables
+	AVCodec*					m_pAVCodec;
+	AVCodecContext*				m_pAVCtx;
+	AVFrame*					m_pFrame;
+	int							m_nCodecNb;
+	int							m_nWorkaroundBug;
+	int							m_nErrorConcealment;
+	int							m_nErrorResilience;
+	int							m_nThreadNumber;
+
+
+	// === DXVA2 variables
+	CComPtr<IDirect3DDeviceManager9>		m_pDeviceManager;
+	CComPtr<IDirectXVideoDecoderService>	m_pDecoderService;
+	DXVA2_ConfigPictureDecode				m_DecoderConfig;
+	GUID									m_DecoderGuid;
+	HANDLE									m_hDevice;
+	DXVA2_VideoDesc							m_VideoDesc;
+	CComPtr<IDirect3DSurface9>				m_pDecoderRenderTarget;
+	bool									m_bUseDXVA2;
+	CDXVADecoder*							m_pDXVADecoder;
+
+	// === Private functions
 	void				Cleanup();
 	int					FindCodec(const CMediaType* mtIn);
 	void				AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
-
 
 public:
 	CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
@@ -101,14 +135,4 @@ public:
 	int				PictWidth();
 	int				PictHeight();
 
-	// === DXVA2 variables
-	CComPtr<IDirect3DDeviceManager9>			m_pDeviceManager;
-	CComPtr<IDirectXVideoDecoderService>		m_pDecoderService;
-	CComPtr<IDirectXVideoDecoder>				m_pDecoder;
-	DXVA2_ConfigPictureDecode					m_DecoderConfig;
-	GUID										m_DecoderGuid;
-	HANDLE										m_hDevice;
-	DXVA2_VideoDesc								m_VideoDesc;
-	DXVA2_DecodeExecuteParams					m_ExecuteParams;
-	CComPtr<IDirect3DSurface9>					m_pDecoderRenderTarget;
 };

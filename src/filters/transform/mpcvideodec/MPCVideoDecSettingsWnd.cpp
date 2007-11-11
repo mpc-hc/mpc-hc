@@ -28,6 +28,8 @@
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
+#define IDB_ONOFF                       205
+#define IDC_LIST_FORMAT                 11160
 //
 
 //
@@ -60,6 +62,31 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
+	DWORD dwStyle = WS_VISIBLE|WS_CHILD|WS_BORDER|LVS_REPORT;
+
+	CPoint p(10, 10);
+
+
+
+	m_lvFormats.Create (dwStyle, CRect (p, CSize (320, 240)), this, IDC_LIST_FORMAT);
+	m_onoff.Create(IDB_ONOFF, 12, 3, 0xffffff);
+	m_lvFormats.SetImageList(&m_onoff, LVSIL_SMALL);
+
+
+	m_lvFormats.SetExtendedStyle(m_lvFormats.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
+	m_lvFormats.InsertColumn(0, _T("Format"), LVCFMT_LEFT, 300);
+
+	m_lvFormats.InsertItem(0, _T("WM9"));
+	m_lvFormats.InsertItem(1, _T("H264"));
+
+/*	m_note_static.Create(
+		ResStr(IDS_MPEG2DECSETTINGSWND_7) +
+		ResStr(IDS_MPEG2DECSETTINGSWND_8),
+		dwStyle, CRect(p, CSize(320, m_fontheight * 3)), this);*/
+
+	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
+		pWnd->SetFont(&m_font, FALSE);
+
 	return true;
 }
 
@@ -78,5 +105,42 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 	return true;
 }
 
+void CMPCVideoDecSettingsWnd::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
+
+	if(lpnmlv->iItem >= 0 /*&& lpnmlv->iSubItem == COL_CATEGORY*/)
+	{
+		CRect r;
+		m_lvFormats.GetItemRect(lpnmlv->iItem, r, LVIR_ICON);
+		if(r.PtInRect(lpnmlv->ptAction))
+		{
+			SetChecked(lpnmlv->iItem, (GetChecked(lpnmlv->iItem)&1) == 0 ? 1 : 0);
+			SetDirty(TRUE);
+		}
+	}
+}
+
+void CMPCVideoDecSettingsWnd::SetChecked(int iItem, int iChecked)
+{
+	LVITEM lvi;
+	lvi.iItem = iItem;
+	lvi.iSubItem = 0;
+	lvi.mask = LVIF_IMAGE;
+	lvi.iImage = iChecked;
+	m_lvFormats.SetItem(&lvi);
+}
+
+int CMPCVideoDecSettingsWnd::GetChecked(int iItem)
+{
+	LVITEM lvi;
+	lvi.iItem = iItem;
+	lvi.iSubItem = 0;
+	lvi.mask = LVIF_IMAGE;
+	m_lvFormats.GetItem(&lvi);
+	return(lvi.iImage);
+}
+
 BEGIN_MESSAGE_MAP(CMPCVideoDecSettingsWnd, CInternalPropertyPageWnd)
+	ON_NOTIFY(NM_CLICK, IDC_LIST_FORMAT, OnNMClickList1)
 END_MESSAGE_MAP()

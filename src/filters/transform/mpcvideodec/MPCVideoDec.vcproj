@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;_WINDOWS;HAVE_AV_CONFIG_H;CONFIG_H264_PARSER;CONFIG_VORBIS_DECODER;CONFIG_H264_DECODER;H264_MERGE_TESTING,HAVE_MMX"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -57,7 +57,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib"
+				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib"
+				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -202,7 +202,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodecR.lib"
+				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -275,7 +275,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodecR.lib"
+				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -332,7 +332,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
-				PreprocessorDefinitions="WIN32;_DEBUG;HAVE_AV_CONFIG_H;CONFIG_H264_PARSER;CONFIG_VORBIS_DECODER;CONFIG_H264_DECODER;H264_MERGE_TESTING;HAVE_MMX"
+				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -345,7 +345,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib libdtsD.lib liba52D.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
@@ -393,7 +392,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
-				PreprocessorDefinitions="WIN32;_DEBUG"
+				PreprocessorDefinitions="WIN32;_DEBUG;"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -559,6 +558,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DXVADecoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DXVADecoderH264.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCVideoDecFilter.cpp"
 				>
 			</File>
@@ -649,6 +656,18 @@
 			>
 			<File
 				RelativePath=".\CpuId.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DXVADecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DXVADecoderH264.h"
+				>
+			</File>
+			<File
+				RelativePath=".\H264QuantizationMatrix.h"
 				>
 			</File>
 			<File
