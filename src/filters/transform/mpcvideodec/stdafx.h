@@ -48,7 +48,6 @@
 #include <atlcoll.h>
 #include <vector>
 
-
 void LOG(LPCTSTR fmt, ...);
 
 // === Uncomment to compile with GCC

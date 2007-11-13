@@ -95,16 +95,16 @@ char		szFeatures[256];
 	if(nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);
-		if(nBuff[3] & 1<<23)	m_nCPUFeatures|=MM_MMX;
-		if(nBuff[3] & 1<<25)	m_nCPUFeatures|=MM_SSE;
-		if(nBuff[3] & 1<<26)	m_nCPUFeatures|=MM_SSE2;
-		if(nBuff[2] & 1<<0)		m_nCPUFeatures|=MM_SSE3;
+		if(nBuff[3] & 1<<23)	m_nCPUFeatures|=FF_MM_MMX;
+		if(nBuff[3] & 1<<25)	m_nCPUFeatures|=FF_MM_SSE;
+		if(nBuff[3] & 1<<26)	m_nCPUFeatures|=FF_MM_SSE2;
+		if(nBuff[2] & 1<<0)		m_nCPUFeatures|=FF_MM_SSE3;
 
 		// Intel specific:
 		if(m_nType == PROCESSOR_INTEL)
 		{
-			if(nBuff[2] & 1<<9)	m_nCPUFeatures|=MM_SSSE3;
-//			if(nBuff[2] & 1<<7) strcat(szFeatures, "EST ");
+			if(nBuff[2] & 1<<9)	m_nCPUFeatures|=FF_MM_SSSE3;
+		//	if(nBuff[2] & 1<<7) strcat(szFeatures, "EST ");
 		}
 
 		//if(nBuff[3] & 1<<28)
@@ -119,9 +119,9 @@ char		szFeatures[256];
 		if(nHighestFeatureEx >= 0x80000001)
 		{
 			__cpuid(nBuff, 0x80000001);
-			if(nBuff[3] & 1<<31)	m_nCPUFeatures|=MM_3DNOW;
-//			if(nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
-			if(nBuff[3] & 1<<22)	m_nCPUFeatures|=MM_MMXEXT;
+			if(nBuff[3] & 1<<31)	m_nCPUFeatures|=FF_MM_3DNOW;
+		//	if(nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
+			if(nBuff[3] & 1<<22)	m_nCPUFeatures|=FF_MM_MMXEXT;
 		}
 
 		// Get level 1 cache size
@@ -192,9 +192,6 @@ char		szFeatures[256];
 	}
 	*/
 }
-
-
-
 
 int CCpuId::GetProcessorNumber()
 {
