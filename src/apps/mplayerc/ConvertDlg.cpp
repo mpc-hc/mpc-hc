@@ -431,8 +431,8 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			else if(mt.subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || mt.subtype == MEDIASUBTYPE_DOLBY_AC3) ext = _T("ac3");
 			else if(mt.subtype == MEDIASUBTYPE_WAVE_DTS || mt.subtype == MEDIASUBTYPE_DTS) ext = _T("dts");
 			else if((mt.subtype == FOURCCMap('1CVA') || mt.subtype == FOURCCMap('1cva')) && mt.formattype == FORMAT_MPEG2_VIDEO) ext = _T("h264");
-			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_XVID) ext = _T("xvid");
-			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_DIVX) ext = _T("divx");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_XVID || mt.subtype == MEDIASUBTYPE_xvid)) ext = _T("xvid");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_DIVX || mt.subtype == MEDIASUBTYPE_DX50)) ext = _T("divx");
 			else if(mt.subtype == FOURCCMap('GEPJ') || mt.subtype == FOURCCMap('gepj')) ext = _T("jpg");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG2_VIDEO) ext = _T("m2v");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG1Payload) ext = _T("m1v");
