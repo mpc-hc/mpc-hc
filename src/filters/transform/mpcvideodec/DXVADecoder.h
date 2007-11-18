@@ -52,4 +52,7 @@ protected :
 
 	CComPtr<IDirectXVideoDecoder>	m_pDXDecoder;
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
+
+
+	HRESULT			AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer);
 };

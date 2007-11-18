@@ -566,6 +566,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MPCAudioDecFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MPCFfmpegDec.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCVideoDecFilter.cpp"
 				>
 			</File>
@@ -676,6 +684,10 @@
 			</File>
 			<File
 				RelativePath=".\intrin_fixed.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MPCAudioDecFilter.h"
 				>
 			</File>
 			<File

@@ -54,3 +54,25 @@ void CDXVADecoder::AllocExecuteParams (int nSize)
 	for (int i=0; i<nSize; i++)
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
 }
+
+
+HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer)
+{
+	HRESULT						hr;
+	UINT						nDXVASize;
+	BYTE*						pDXVABuffer;
+
+	hr = m_pDXDecoder->GetBuffer (CompressedBufferType, (void**)&pDXVABuffer, &nDXVASize);
+	ASSERT (nSize <= nDXVASize);
+
+	if (SUCCEEDED (hr) && (nSize <= nDXVASize))
+	{
+		LOG(_T("GetBuffer %d :  hr=0x%08x   DXsize=%d  BuffSize=%d"), CompressedBufferType, hr, nDXVASize, nSize);
+		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+		hr = m_pDXDecoder->ReleaseBuffer (CompressedBufferType);
+		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
+		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
+		m_ExecuteParams.NumCompBuffers++;
+	}
+	return hr;
+}

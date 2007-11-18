@@ -101,6 +101,12 @@ protected:
 	void				AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
 
 public:
+
+	const static AMOVIESETUP_MEDIATYPE		sudPinTypesIn[];
+	const static int						sudPinTypesInCount;
+	const static AMOVIESETUP_MEDIATYPE		sudPinTypesOut[];
+	const static int						sudPinTypesOutCount;
+
 	CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMPCVideoDecFilter();
 

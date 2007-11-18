@@ -431,8 +431,15 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			else if(mt.subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 || mt.subtype == MEDIASUBTYPE_DOLBY_AC3) ext = _T("ac3");
 			else if(mt.subtype == MEDIASUBTYPE_WAVE_DTS || mt.subtype == MEDIASUBTYPE_DTS) ext = _T("dts");
 			else if((mt.subtype == FOURCCMap('1CVA') || mt.subtype == FOURCCMap('1cva')) && mt.formattype == FORMAT_MPEG2_VIDEO) ext = _T("h264");
-			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_XVID || mt.subtype == MEDIASUBTYPE_xvid)) ext = _T("xvid");
-			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_DIVX || mt.subtype == MEDIASUBTYPE_DX50)) ext = _T("divx");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_XVID || mt.subtype == MEDIASUBTYPE_xvid || mt.subtype == MEDIASUBTYPE_XVIX || mt.subtype == MEDIASUBTYPE_xvix)) ext = _T("xvid");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_DIVX || mt.subtype == MEDIASUBTYPE_divx || mt.subtype == MEDIASUBTYPE_DX50 || mt.subtype == MEDIASUBTYPE_dx50)) ext = _T("divx");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP4V || mt.subtype == MEDIASUBTYPE_mp4v || mt.subtype == MEDIASUBTYPE_M4S2 || mt.subtype == MEDIASUBTYPE_m4s2 || mt.subtype == MEDIASUBTYPE_MP4S || mt.subtype == MEDIASUBTYPE_mp4s)) ext = _T("mp4v");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_VP50) ext = _T("vp50");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_VP60 || mt.subtype == MEDIASUBTYPE_VP61 || mt.subtype == MEDIASUBTYPE_VP62 || mt.subtype == MEDIASUBTYPE_VP6A || mt.subtype == MEDIASUBTYPE_VP6F)) ext = _T("vp60");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV1) ext = _T("flv1");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV4) ext = _T("flv4");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_SVQ3) ext = _T("svq3");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_SVQ1) ext = _T("svq1");
 			else if(mt.subtype == FOURCCMap('GEPJ') || mt.subtype == FOURCCMap('gepj')) ext = _T("jpg");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG2_VIDEO) ext = _T("m2v");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG1Payload) ext = _T("m1v");

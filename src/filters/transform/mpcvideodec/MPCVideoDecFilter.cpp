@@ -43,18 +43,6 @@
 #include <malloc.h>
 
 
-#ifdef _USE_FFMPEG_WITHGCC
-	#pragma comment( lib, "libgcc.a" )
-	#pragma comment( lib, "libmingwex.a" )
-	#pragma comment( lib, "libavcodec_gcc.lib" )
-#else
-	#ifdef _DEBUG
-		#pragma comment( lib, "libavcodecD.lib" )
-	#else
-		#pragma comment( lib, "libavcodecR.lib" )
-	#endif
-#endif
-
 /////
 #define MAX_SUPPORTED_MODE			5
 typedef struct
@@ -71,7 +59,11 @@ const FFMPEG_CODECS		ffCodecs[] =
 {
 	// Flash video
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	false, { &GUID_NULL } },
+
+	// VP5
 	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	false, { &GUID_NULL } },
+
+	// VP6
 	{ &MEDIASUBTYPE_VP60, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','0'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_VP61, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','1'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_VP62, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','2'),	false, { &GUID_NULL } },
@@ -82,34 +74,96 @@ const FFMPEG_CODECS		ffCodecs[] =
 	// Mpeg2
 	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	true, { /*&DXVA2_ModeMPEG2_MoComp,*/ &DXVA2_ModeMPEG2_VLD, &GUID_NULL } },
 
-	// DivX - Xvid
+	// Xvid
 	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_xvid, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','d'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_XVIX, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','X'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_xvix, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','x'),	false, { &GUID_NULL } },
+
+	// DivX
 	{ &MEDIASUBTYPE_DX50, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','5','0'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_dx50, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','5','0'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_DIVX, CODEC_ID_MPEG4,  MAKEFOURCC('D','I','V','X'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_divx, CODEC_ID_MPEG4,  MAKEFOURCC('d','i','v','x'),	false, { &GUID_NULL } },
+
+	// Other MPEG-4
+	{ &MEDIASUBTYPE_MP4V, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','V'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mp4v, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','v'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_M4S2, CODEC_ID_MPEG4,  MAKEFOURCC('M','4','S','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_m4s2, CODEC_ID_MPEG4,  MAKEFOURCC('m','4','s','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MP4S, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','S'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mp4s, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','s'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3IV1, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3iv1, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3IV2, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3iv2, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3IVX, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','X'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_3ivx, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','x'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_BLZ0, CODEC_ID_MPEG4,  MAKEFOURCC('B','L','Z','0'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_blz0, CODEC_ID_MPEG4,  MAKEFOURCC('b','l','z','0'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DM4V, CODEC_ID_MPEG4,  MAKEFOURCC('D','M','4','V'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_dm4v, CODEC_ID_MPEG4,  MAKEFOURCC('d','m','4','v'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_FFDS, CODEC_ID_MPEG4,  MAKEFOURCC('F','F','D','S'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_ffds, CODEC_ID_MPEG4,  MAKEFOURCC('f','f','d','s'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_FVFW, CODEC_ID_MPEG4,  MAKEFOURCC('F','V','F','W'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_fvfw, CODEC_ID_MPEG4,  MAKEFOURCC('f','v','f','w'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DXGM, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','G','M'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_dxgm, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','g','m'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_FMP4, CODEC_ID_MPEG4,  MAKEFOURCC('F','M','P','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_fmp4, CODEC_ID_MPEG4,  MAKEFOURCC('f','m','p','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_HDX4, CODEC_ID_MPEG4,  MAKEFOURCC('H','D','X','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_hdx4, CODEC_ID_MPEG4,  MAKEFOURCC('h','d','x','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_LMP4, CODEC_ID_MPEG4,  MAKEFOURCC('L','M','P','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_lmp4, CODEC_ID_MPEG4,  MAKEFOURCC('l','m','p','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_NDIG, CODEC_ID_MPEG4,  MAKEFOURCC('N','D','I','G'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_ndig, CODEC_ID_MPEG4,  MAKEFOURCC('n','d','i','g'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_RMP4, CODEC_ID_MPEG4,  MAKEFOURCC('R','M','P','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_rmp4, CODEC_ID_MPEG4,  MAKEFOURCC('r','m','p','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_SMP4, CODEC_ID_MPEG4,  MAKEFOURCC('S','M','P','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_smp4, CODEC_ID_MPEG4,  MAKEFOURCC('s','m','p','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_SEDG, CODEC_ID_MPEG4,  MAKEFOURCC('S','E','D','G'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_sedg, CODEC_ID_MPEG4,  MAKEFOURCC('s','e','d','g'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_UMP4, CODEC_ID_MPEG4,  MAKEFOURCC('U','M','P','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_ump4, CODEC_ID_MPEG4,  MAKEFOURCC('u','m','p','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	false, { &GUID_NULL } },
 
 	// AMV Video
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V',' '),	false, { &GUID_NULL } },
 
-	// H264
+	// H264/AVC
 	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_DAVC, CODEC_ID_H264, MAKEFOURCC('D','A','V','C'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_davc, CODEC_ID_H264, MAKEFOURCC('d','a','v','c'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_PAVC, CODEC_ID_H264, MAKEFOURCC('P','A','V','C'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_pavc, CODEC_ID_H264, MAKEFOURCC('p','a','v','c'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_AVC1, CODEC_ID_H264, MAKEFOURCC('A','V','C','1'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
 	{ &MEDIASUBTYPE_avc1, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	
+
+	// SVQ3
+	{ &MEDIASUBTYPE_SVQ3, CODEC_ID_SVQ3, MAKEFOURCC('S','V','Q','3'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+
+	// SVQ1
+	{ &MEDIASUBTYPE_SVQ1, CODEC_ID_SVQ1, MAKEFOURCC('S','V','Q','1'),	true, { &GUID_NULL } },
+
 	// WVC1
 	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	true, { &GUID_NULL } },
 };
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
+const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 {
 	// Flash video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV1   },
+
+	// VP5
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP50   },
+
+	// VP6
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP60   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP61   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP62   },
@@ -118,76 +172,94 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
 
 	// Mpeg2
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO  },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO   },
 
-	// DivX - Xvid
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVID  },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_xvid  },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DX50  },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIVX  },
+	// Xvid
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVID   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_xvid   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVIX   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_xvix   },
+
+	// DivX
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DX50   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_dx50   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIVX   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_divx   },
+
+	// Other MPEG-4
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MP4V   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mp4v   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_M4S2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_m4s2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MP4S   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mp4s   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3IV1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3iv1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3IV2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3iv2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3IVX   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_3ivx   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_BLZ0   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_blz0   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DM4V   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_dm4v   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FFDS   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ffds   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FVFW   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_fvfw   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DXGM   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_dxgm   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FMP4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_fmp4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_HDX4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_hdx4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_LMP4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_lmp4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_NDIG   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ndig   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_RMP4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_rmp4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SMP4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_smp4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SEDG   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_sedg   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_UMP4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ump4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   },
 
 	// AMV Video
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV  },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV   },
 
-	// H264
+	// H264/AVC
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H264   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_h264   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_X264   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_x264   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VSSH   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vssh   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DAVC   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_davc   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_PAVC   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_pavc   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AVC1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_avc1   },
+
+	// SVQ3
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ3   },
 
 	// VC1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WVC1   },
 };
+const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
 
 
-#ifdef REGISTER_FILTER
-
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
+const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV24},
 };
-
-const AMOVIESETUP_PIN sudpPins[] =
-{
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn),  sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
-};
-
-const AMOVIESETUP_FILTER sudFilter[] =
-{
-	{&__uuidof(CMPCVideoDecFilter), L"MPC - Video decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPins), sudpPins},
-};
-
-CFactoryTemplate g_Templates[] =
-{
-    {sudFilter[0].strName, &__uuidof(CMPCVideoDecFilter), CreateInstance<CMPCVideoDecFilter>, NULL, &sudFilter[0]},
-	{L"CMPCVideoDecPropertyPage", &__uuidof(CMPCVideoDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMPCVideoDecSettingsWnd> >},
-};
-
-int g_cTemplates = countof(g_Templates);
-
-STDAPI DllRegisterServer()
-{
-	return AMovieDllRegisterServer2(TRUE);
-}
-
-STDAPI DllUnregisterServer()
-{
-	return AMovieDllRegisterServer2(FALSE);
-}
-
-//
-
-#include "..\..\FilterApp.h"
-
-CFilterApp theApp;
-
-#endif
+const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::sudPinTypesOut);
 
 
 CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
@@ -632,7 +704,7 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, co
 {
 	bool	bRet;
 
-	bRet = ((config.ConfigBitstreamRaw == 1) /*&& (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2'))*/ );
+	bRet = ((config.ConfigBitstreamRaw == 2) && (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2')) );
 
 	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);
 	return bRet;
@@ -892,6 +964,7 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 
 
 // IFfmpegDecFilter
+
 
 
 

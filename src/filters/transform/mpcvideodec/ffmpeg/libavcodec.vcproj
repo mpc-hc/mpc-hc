@@ -213,6 +213,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil"
 				PreprocessorDefinitions="WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;NDEBUG;_WINDOWS;HAVE_AV_CONFIG_H"
 				StringPooling="true"
@@ -220,8 +221,9 @@
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
-				EnableEnhancedInstructionSet="2"
+				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
+				FloatingPointExceptions="false"
 				UsePrecompiledHeader="0"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
@@ -357,14 +359,6 @@
 				RelativePath=".\libavcodec\adpcm.c"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
@@ -374,14 +368,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -411,10 +397,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\cook.c"
-				>
-			</File>
-			<File
-				RelativePath=".\DllEntry.c"
 				>
 			</File>
 			<File
@@ -535,6 +517,14 @@
 			</File>
 			<File
 				RelativePath="libavcodec\imgconvert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\intrax8.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\intrax8dsp.c"
 				>
 			</File>
 			<File
@@ -699,6 +689,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\sp5xdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\svq1.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\svq1dec.c"
 				>
 			</File>
 			<File
@@ -1207,6 +1205,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\integer.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\integer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\internal.h"
 				>
 			</File>
@@ -1272,7 +1278,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\libavcodec.def"
+			RelativePath=".\libavcodec_dec.def"
 			>
 		</File>
 	</Files>

@@ -39,5 +39,5 @@ private:
 	DXVA_PicParams_H264		m_PicParams;
 	QMatrixH264Type			m_nQMatrix;		// N° for inverse quantization matrix
 	
-	DXVA_Slice_H264_Short	m_pSliceShort;	// => tableau de 64 maxi ????
+	DXVA_Slice_H264_Short	m_SliceShort;
 };

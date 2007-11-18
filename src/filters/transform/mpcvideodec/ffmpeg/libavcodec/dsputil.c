@@ -4162,11 +4162,12 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->vsse[4]= vsse_intra16_c;
     c->nsse[0]= nsse16_c;
     c->nsse[1]= nsse8_c;
+#ifdef CONFIG_ENCODERS
     c->w53[0]= w53_16_c;
     c->w53[1]= w53_8_c;
     c->w97[0]= w97_16_c;
     c->w97[1]= w97_8_c;
-
+#endif
     c->add_bytes= add_bytes_c;
     c->diff_bytes= diff_bytes_c;
     c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_c;

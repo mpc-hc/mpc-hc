@@ -2,8 +2,7 @@
   #define ARCH_X86 1
   #ifndef ARCH_X86_64
   	#define ARCH_X86_32 1
-  #endif
-  
+  #endif 
   #define HAVE_SSSE3 1
 #endif
 
@@ -24,17 +23,11 @@
 #define HAVE_MEMALIGN 1
 #define ASMALIGN(ZEROBITS) ".align 1<<" #ZEROBITS "\n\t"
 
-#ifndef DECODERS_ONLY
- /* encoding stuff */
- #define CONFIG_ENCODERS 1
- #define CONFIG_H261_ENCODER 1
-#endif
+#define DECODERS_ONLY 1
 
 #define CONFIG_DECODERS 1
 
-
 #define CONFIG_MPEGAUDIO_HP 1
-
 
 #ifdef __GNUC__
  #include <stdint.h>

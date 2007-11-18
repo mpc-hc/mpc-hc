@@ -14,9 +14,6 @@ CFLAGS+=-std=gnu99
 endif
 endif
 
-#CFLAGS+=-fverbose-asm -save-temps -fno-stack-check
-       
-#SRCS_C=DllEntry.c \			=> No entry in MPC!
 SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/aasc.c \
       $(LAVC_DIR)/ac3.c \
@@ -199,23 +196,10 @@ else
 	 SLIB=../../../../../lib/libavcodec_gcc.lib
 endif
 
-#ifeq ($(DECODERS_ONLY),yes)
-# CFLAGS+=-DDECODERS_ONLY
-# SLIB= ../../bin/libavcodec_dec.dll
-# DEF=libavcodec_dec.def
-#else
-# SLIB= ../../bin/libavcodec.dll
-# DEF=libavcodec.def
-#endif
+CFLAGS+=-DDECODERS_ONLY
+DEF=libavcodec_dec.def
 
 NOINTRIN=1
-
-#GCCDLLENTRY=--entry=_DllEntryPoint@12
-#ifeq ($(CC),icl)
-#CLDLLENTRY=/entry:"DllEntryPoint"
-#else
-#CLDLLENTRY=/entry:"DllEntryPoint@12"
-#endif
 
 include makefile_c.inc
 

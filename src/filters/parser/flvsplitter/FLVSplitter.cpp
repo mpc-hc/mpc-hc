@@ -267,8 +267,10 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					break;
 				case 3 :	// FLV_CODECID_PCM_LE
 				case 5 :	// FLV_CODECID_NELLYMOSER_8HZ_MONO
-				case 6 :	// FLV_CODECID_NELLYMOSER
 					ASSERT(FALSE);
+					break;
+				case 6 :	// FLV_CODECID_NELLYMOSER
+					mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 					break;
 				}
 			}

@@ -51,7 +51,7 @@ void avcodec_register_all(void)
     
     /* video codecs */
 //    REGISTER_DECODER	(aasc);
-//    REGISTER_DECODER	(amv);
+    REGISTER_DECODER	(amv);
 //    REGISTER_DECODER	(asv1);
 //    REGISTER_DECODER	(asv2);
 //    REGISTER_DECODER	(avs);
@@ -60,28 +60,28 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER	(cscd);
 //    REGISTER_DECODER	(corepng);
 //    REGISTER_DECODER	(cyuv);
-//    REGISTER_ENCDEC		(dvvideo);
+//    REGISTER_DECODER	(dvvideo);
 //    REGISTER_DECODER	(eightbps);
-//    REGISTER_ENCDEC  	(ffv1);
-//    REGISTER_ENCDEC  	(ffvhuff);
-//    REGISTER_ENCDEC		(flv);
+//    REGISTER_DECODER  	(ffv1);
+//    REGISTER_DECODER  	(ffvhuff);
+    REGISTER_DECODER	(flv);
 //    REGISTER_DECODER	(fraps);
-//    REGISTER_ENCDEC		(h261);
-    REGISTER_ENCDEC		(h263);
+//    REGISTER_DECODER		(h261);
+    REGISTER_DECODER	(h263);
     REGISTER_DECODER	(h263i);
-    REGISTER_ENCODER	(h263p);
+//    REGISTER_DECODER	(h263p);
     REGISTER_DECODER	(h264);
-//    REGISTER_ENCDEC		(huffyuv);
+//    REGISTER_DECODER	(huffyuv);
 //    REGISTER_DECODER	(indeo2);
 //    REGISTER_DECODER	(indeo3);
 //    REGISTER_DECODER	(jpegls);
 //    REGISTER_ENCODER	(ljpeg);
 //    REGISTER_DECODER	(loco);
-//    REGISTER_ENCDEC		(mjpeg);
+//    REGISTER_DECODER	(mjpeg);
 //    REGISTER_DECODER	(mjpegb);
-    REGISTER_ENCDEC		(mpeg1video);
-    REGISTER_ENCDEC		(mpeg2video);
-    REGISTER_ENCDEC		(mpeg4);
+    REGISTER_DECODER	(mpeg1video);
+    REGISTER_DECODER	(mpeg2video);
+    REGISTER_DECODER	(mpeg4);
     REGISTER_DECODER	(mpegvideo);
 //    REGISTER_ENCDEC		(msmpeg4v1);
 //    REGISTER_ENCDEC		(msmpeg4v2);
@@ -101,8 +101,8 @@ void avcodec_register_all(void)
 //    REGISTER_ENCDEC		(snow);
 //    #endif
 //    REGISTER_DECODER	(sp5x);
-//    REGISTER_DECODER	(svq1);
-//    REGISTER_DECODER	(svq3);
+    REGISTER_DECODER	(svq1);
+    REGISTER_DECODER	(svq3);
 //    REGISTER_DECODER	(theora);
 //    REGISTER_DECODER	(truemotion1);
 //    REGISTER_DECODER	(truemotion2);
@@ -151,22 +151,22 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER  (pcm_mulaw);
 
 		/* adpcm codecs */
-//    REGISTER_DECODER  (adpcm_4xm);
-//    REGISTER_DECODER  (adpcm_ct);
-//    REGISTER_DECODER  (adpcm_ea);
-//    REGISTER_DECODER  (adpcm_g726);
-//    REGISTER_DECODER  (adpcm_ima_amv);
-//    REGISTER_DECODER  (adpcm_ima_dk3);
-//    REGISTER_DECODER  (adpcm_ima_dk4);
-//    REGISTER_DECODER  (adpcm_ima_qt);
-//    REGISTER_DECODER  (adpcm_ima_smjpeg);
-//    REGISTER_DECODER  (adpcm_ima_wav);
-//    REGISTER_DECODER  (adpcm_ima_ws);
-//    REGISTER_DECODER  (adpcm_ms);
-//    REGISTER_DECODER  (adpcm_sbpro_2);
-//    REGISTER_DECODER  (adpcm_sbpro_3);
-//    REGISTER_DECODER  (adpcm_sbpro_4);
-//    REGISTER_DECODER  (adpcm_swf);
-//    REGISTER_DECODER  (adpcm_xa);
-//    REGISTER_DECODER  (adpcm_yamaha);
+    REGISTER_DECODER  (adpcm_4xm);
+    REGISTER_DECODER  (adpcm_ct);
+    REGISTER_DECODER  (adpcm_ea);
+    REGISTER_DECODER  (adpcm_g726);
+    REGISTER_DECODER  (adpcm_ima_amv);
+    REGISTER_DECODER  (adpcm_ima_dk3);
+    REGISTER_DECODER  (adpcm_ima_dk4);
+    REGISTER_DECODER  (adpcm_ima_qt);
+    REGISTER_DECODER  (adpcm_ima_smjpeg);
+    REGISTER_DECODER  (adpcm_ima_wav);
+    REGISTER_DECODER  (adpcm_ima_ws);
+    REGISTER_DECODER  (adpcm_ms);
+    REGISTER_DECODER  (adpcm_sbpro_2);
+    REGISTER_DECODER  (adpcm_sbpro_3);
+    REGISTER_DECODER  (adpcm_sbpro_4);
+    REGISTER_DECODER  (adpcm_swf);
+    REGISTER_DECODER  (adpcm_xa);
+    REGISTER_DECODER  (adpcm_yamaha);
 }

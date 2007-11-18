@@ -74,8 +74,12 @@ s_filters[] =
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
-	{_T("H264"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter> },
-	{_T("Xvid"), 1, TRA_XVID, 0, NULL},
+	{_T("H264/AVC"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("Xvid"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("Generic MPEG-4"), 1, TRA_MPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("SVQ3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("SVQ1"), 1, TRA_SVQ1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
 #endif /* MINIMAL_BUILTIN_FILTERS */

@@ -199,6 +199,11 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 		names['RV30'] = _T("RealVideo 3");
 		names['RV40'] = _T("RealVideo 4");
 		names['FLV1'] = _T("Flash Video 1");
+		names['FLV4'] = _T("Flash Video 4");
+		names['VP50'] = _T("On2 VP5");
+		names['VP60'] = _T("On2 VP6");
+		names['SVQ3'] = _T("SVQ3");
+		names['SVQ1'] = _T("SVQ1");
 		// names[''] = _T("");
 	}
 

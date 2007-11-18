@@ -313,7 +313,7 @@ char *strchr(), *strrchr();
   }
 
 
-  #if defined(_WIN32) && !defined(__MINGW32__)
+  #if defined(_WIN32) && !defined(_WIN64) && !defined(__MINGW32__)
     #define HAS_LRINTF
     static INLINE int lrintf(float f)
     {
