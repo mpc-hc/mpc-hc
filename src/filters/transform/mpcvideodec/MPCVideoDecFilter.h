@@ -83,6 +83,19 @@ protected:
 	int							m_nErrorResilience;
 	int							m_nThreadNumber;
 
+	FUNC_AVCODEC_INIT			ff_avcodec_init;
+	FUNC_AVCODEC_REGISTER_ALL	ff_avcodec_register_all;
+	FUNC_AVCODEC_FIND_DECODER	ff_avcodec_find_decoder;
+	FUNC_AVCODEC_ALLOC_CONTEXT	ff_avcodec_alloc_context;
+	FUNC_AVCODEC_ALLOC_FRAME	ff_avcodec_alloc_frame;
+	FUNC_AVCODEC_OPEN			ff_avcodec_open;
+	FUNC_AVCODEC_DECODE_VIDEO	ff_avcodec_decode_video;
+	FUNC_AV_LOG_SET_CALLBACK	ff_av_log_set_callback;
+	FUNC_AVCODEC_CLOSE			ff_avcodec_close;
+	FUNC_AVCODEC_THREAD_FREE	ff_avcodec_thread_free;
+	FUNC_AVCODEC_THREAD_INIT	ff_avcodec_thread_init;
+	FUNC_AV_FREE				ff_av_free;
+
 
 	// === DXVA2 variables
 	CComPtr<IDirect3DDeviceManager9>		m_pDeviceManager;
@@ -99,6 +112,7 @@ protected:
 	void				Cleanup();
 	int					FindCodec(const CMediaType* mtIn);
 	void				AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
+	bool				IsMultiThreadSupported(int nCodec);
 
 public:
 

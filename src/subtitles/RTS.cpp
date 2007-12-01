@@ -2395,7 +2395,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 		// Casimir666 fix : opaque box overlapped
 		STSStyle style;
 		GetDefaultStyle(style);
-		int		nVertOffset = (style.borderStyle == 1) ? 16*style.outlineWidth : 0;
+		int	nVertOffset = (style.borderStyle == 1) ? 16*style.outlineWidth : 0;
 
 		pos = s->GetHeadPosition();
 		while(pos) 

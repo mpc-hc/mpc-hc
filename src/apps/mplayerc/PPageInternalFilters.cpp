@@ -78,6 +78,7 @@ s_filters[] =
 	{_T("Xvid"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Generic MPEG-4"), 1, TRA_MPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("MSMPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ1"), 1, TRA_SVQ1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #else

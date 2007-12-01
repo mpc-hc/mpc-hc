@@ -25,8 +25,8 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifndef H264_H
-#define H264_H
+#ifndef FFMPEG_H264_H
+#define FFMPEG_H264_H
 
 #include "dsputil.h"
 #include "cabac.h"
@@ -157,6 +157,35 @@ typedef struct MMCO{
     int short_pic_num;  ///< pic_num without wrapping (pic_num & max_pic_num)
     int long_arg;       ///< index, pic_num, or num long refs depending on opcode
 } MMCO;
+
+/**
+ *
+ */
+
+typedef struct H264mb {
+    int mb_x, mb_y;
+    int qscale;
+    int chroma_qp[2]; //QPc
+    int chroma_pred_mode;
+    int intra16x16_pred_mode;
+    unsigned int topleft_samples_available;
+    unsigned int topright_samples_available;
+    int8_t intra4x4_pred_mode_cache[5*8];
+
+    uint8_t non_zero_count_cache[6*8];
+
+    int16_t mv_cache[2][5*8][2];
+    int8_t ref_cache[2][5*8];
+
+    int cbp;
+    int top_mb_xy;
+    int left_mb_xy[2];
+
+    unsigned int sub_mb_type[4];
+
+    DCTELEM mb[16*24];
+} H264mb;
+
 
 /**
  * H264Context
@@ -414,6 +443,12 @@ typedef struct H264Context{
     int last_slice_type;
     /** @} */
 
+    /* experimental */
+
+    int phaze;
+    int todecode;
+    H264mb *blocks[2];
+
 }H264Context;
 
-#endif /* H264_H */
+#endif /* FFMPEG_H264_H */

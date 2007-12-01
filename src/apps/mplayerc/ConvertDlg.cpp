@@ -434,6 +434,10 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_XVID || mt.subtype == MEDIASUBTYPE_xvid || mt.subtype == MEDIASUBTYPE_XVIX || mt.subtype == MEDIASUBTYPE_xvix)) ext = _T("xvid");
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_DIVX || mt.subtype == MEDIASUBTYPE_divx || mt.subtype == MEDIASUBTYPE_DX50 || mt.subtype == MEDIASUBTYPE_dx50)) ext = _T("divx");
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP4V || mt.subtype == MEDIASUBTYPE_mp4v || mt.subtype == MEDIASUBTYPE_M4S2 || mt.subtype == MEDIASUBTYPE_m4s2 || mt.subtype == MEDIASUBTYPE_MP4S || mt.subtype == MEDIASUBTYPE_mp4s)) ext = _T("mp4v");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_DIV3 || mt.subtype == MEDIASUBTYPE_div3 || mt.subtype == MEDIASUBTYPE_DIV4 || mt.subtype == MEDIASUBTYPE_div4 || mt.subtype == MEDIASUBTYPE_DIV5 || mt.subtype == MEDIASUBTYPE_div5)) ext = _T("div3");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP43 || mt.subtype == MEDIASUBTYPE_mp43 || mt.subtype == MEDIASUBTYPE_MPG3 || mt.subtype == MEDIASUBTYPE_mpg3)) ext = _T("mp43");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP42 || mt.subtype == MEDIASUBTYPE_mp42 || mt.subtype == MEDIASUBTYPE_DIV2 || mt.subtype == MEDIASUBTYPE_div2)) ext = _T("mp42");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP41 || mt.subtype == MEDIASUBTYPE_mp41 || mt.subtype == MEDIASUBTYPE_DIV1 || mt.subtype == MEDIASUBTYPE_div1)) ext = _T("mp41");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_VP50) ext = _T("vp50");
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_VP60 || mt.subtype == MEDIASUBTYPE_VP61 || mt.subtype == MEDIASUBTYPE_VP62 || mt.subtype == MEDIASUBTYPE_VP6A || mt.subtype == MEDIASUBTYPE_VP6F)) ext = _T("vp60");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV1) ext = _T("flv1");

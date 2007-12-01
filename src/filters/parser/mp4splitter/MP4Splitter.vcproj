@@ -162,7 +162,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				DisableSpecificWarnings="4812"
+				DisableSpecificWarnings="4812;4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

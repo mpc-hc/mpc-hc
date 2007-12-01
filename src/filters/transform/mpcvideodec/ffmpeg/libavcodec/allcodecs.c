@@ -83,9 +83,9 @@ void avcodec_register_all(void)
     REGISTER_DECODER	(mpeg2video);
     REGISTER_DECODER	(mpeg4);
     REGISTER_DECODER	(mpegvideo);
-//    REGISTER_ENCDEC		(msmpeg4v1);
-//    REGISTER_ENCDEC		(msmpeg4v2);
-//    REGISTER_ENCDEC		(msmpeg4v3);
+    REGISTER_DECODER	(msmpeg4v1);
+    REGISTER_DECODER	(msmpeg4v2);
+    REGISTER_DECODER	(msmpeg4v3);
 //    REGISTER_DECODER	(msrle);
 //    REGISTER_DECODER	(msvideo1);
 //    REGISTER_DECODER	(mszh);

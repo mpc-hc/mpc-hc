@@ -188,6 +188,9 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 		names['WMV2'] = _T("Windows Media Video 8");
 		names['WMV3'] = _T("Windows Media Video 9");
 		names['DIV3'] = _T("DivX 3");
+		names['MP43'] = _T("MSMPEG4v3");
+		names['MP42'] = _T("MSMPEG4v2");
+		names['MP41'] = _T("MSMPEG4v1");
 		names['DX50'] = _T("DivX 5");
 		names['DIVX'] = _T("DivX 6");
 		names['XVID'] = _T("Xvid");

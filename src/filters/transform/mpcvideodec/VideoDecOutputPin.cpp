@@ -120,3 +120,73 @@ HRESULT CVideoDecOutputPin::DecideAllocator(IMemInputPin *pPin, IMemAllocator **
 		return __super::DecideAllocator(pPin, ppAlloc);
 }
 */
+
+
+HRESULT CVideoDecOutputPin::Deliver(IMediaSample* pMediaSample)
+{
+	if (!m_pVideoDecFilter->UseDXVA2())
+	{
+		if(!m_pOutputQueue) return NOERROR;
+		pMediaSample->AddRef();
+		return m_pOutputQueue->Receive(pMediaSample);
+	}
+	else
+		return __super::Deliver (pMediaSample);
+}
+
+
+HRESULT CVideoDecOutputPin::Active()
+{
+	CAutoLock cAutoLock(m_pLock);
+
+	// TODO
+
+	if(m_Connected && !m_pOutputQueue)
+	{
+		HRESULT hr = NOERROR;
+
+		m_pOutputQueue.Attach(new COutputQueue(m_Connected, &hr));
+		if(!m_pOutputQueue) hr = E_OUTOFMEMORY;
+
+		if(FAILED(hr))
+		{
+			m_pOutputQueue.Free();
+			return hr;
+		}
+	}
+
+	return __super::Active();
+}
+
+HRESULT CVideoDecOutputPin::Inactive()
+{
+	CAutoLock cAutoLock(m_pLock);
+	m_pOutputQueue.Free();
+	return __super::Inactive();
+}
+
+
+#define CallQueue(call) \
+	if(!m_pOutputQueue) return NOERROR; \
+	m_pOutputQueue->##call; \
+	return NOERROR; \
+
+HRESULT CVideoDecOutputPin::DeliverEndOfStream()
+{
+	CallQueue(EOS());
+}
+
+HRESULT CVideoDecOutputPin::DeliverBeginFlush()
+{
+	CallQueue(BeginFlush());
+}
+
+HRESULT CVideoDecOutputPin::DeliverEndFlush()
+{
+	CallQueue(EndFlush());
+}
+
+HRESULT CVideoDecOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
+{
+	CallQueue(NewSegment(tStart, tStop, dRate));
+}

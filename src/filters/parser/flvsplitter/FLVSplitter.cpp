@@ -253,7 +253,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
 					break;
 				case 1: // FLV_CODECID_ADPCM
-//					mt.subtype = FOURCCMap(wfe->wFormatTag = ???);
+					mt.subtype = FOURCCMap(MAKEFOURCC('A','S','W','F'));
 					break;
 				case 2:	// FLV_CODECID_MP3
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
@@ -266,8 +266,12 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					}
 					break;
 				case 3 :	// FLV_CODECID_PCM_LE
+					// ToDo
+					break;
+				case 4 :	// unknown
+					break;
 				case 5 :	// FLV_CODECID_NELLYMOSER_8HZ_MONO
-					ASSERT(FALSE);
+					mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 					break;
 				case 6 :	// FLV_CODECID_NELLYMOSER
 					mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
@@ -523,4 +527,5 @@ CFLVSourceFilter::CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	m_clsid = __uuidof(this);
 	m_pInput.Free();
 }
+
 

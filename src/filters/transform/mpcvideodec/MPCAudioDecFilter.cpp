@@ -172,7 +172,6 @@ HRESULT CMPCAudioDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin)
 {
-	HRESULT		hr;
 	int			nNewCodec;
 
 	if (direction == PINDIR_OUTPUT)
@@ -249,7 +248,7 @@ HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 
 HRESULT CMPCAudioDecFilter::Transform(IMediaSample* pIn)
 {
-	HRESULT			hr;
+	HRESULT			hr = S_OK;
 	//BYTE*			pDataIn = NULL;
 	//UINT			nSize;
 	//int				got_picture;

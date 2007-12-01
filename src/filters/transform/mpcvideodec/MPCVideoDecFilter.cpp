@@ -128,8 +128,38 @@ const FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	false, { &GUID_NULL } },
 	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	false, { &GUID_NULL } },
 
+	// MSMPEG-4
+	{ &MEDIASUBTYPE_DIV3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DVX3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','V','X','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_dvx3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','v','x','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MP43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','4','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mp43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','4','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_COL1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('C','O','L','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_col1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('c','o','l','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','5'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','5'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','6'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','6'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_AP41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('A','P','4','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_ap41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('a','p','4','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MPG3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','G','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mpg3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','g','3'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('D','I','V','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('d','i','v','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MP42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('M','P','4','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mp42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('m','p','4','2'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MPG4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','G','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mpg4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','g','4'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('D','I','V','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_div1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('d','i','v','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MP41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','4','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_mp41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','4','1'),	false, { &GUID_NULL } },
+
 	// AMV Video
-	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V',' '),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	false, { &GUID_NULL } },
 
 	// H264/AVC
 	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
@@ -228,6 +258,36 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   },
 
+	// MSMPEG-4
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DVX3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_dvx3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MP43   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mp43   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_COL1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_col1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV5   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div5   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV6   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div6   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AP41   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ap41   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPG3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mpg3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MP42   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mp42   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPG4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mpg4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_MP41   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_mp41   },
+
 	// AMV Video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV   },
 
@@ -299,9 +359,43 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bUseDXVA2			= false;
 	m_pDXVADecoder		= NULL;
 
-	avcodec_init();
-	avcodec_register_all();
-	av_log_set_callback(LogLibAVCodec);
+#ifdef __USE_FFMPEG_DLL	
+	// Test with ffmpeg as DLL
+	HMODULE		hLib = LoadLibrary (_T("libavcodec.dll"));
+	if (hLib)
+	{
+		ff_avcodec_init				= (FUNC_AVCODEC_INIT)			GetProcAddress (hLib, "avcodec_init");
+		ff_avcodec_register_all		= (FUNC_AVCODEC_REGISTER_ALL)	GetProcAddress (hLib, "avcodec_register_all");
+		ff_avcodec_find_decoder		= (FUNC_AVCODEC_FIND_DECODER)	GetProcAddress (hLib, "avcodec_find_decoder");
+		ff_avcodec_alloc_context	= (FUNC_AVCODEC_ALLOC_CONTEXT)	GetProcAddress (hLib, "avcodec_alloc_context");
+		ff_avcodec_alloc_frame		= (FUNC_AVCODEC_ALLOC_FRAME)	GetProcAddress (hLib, "avcodec_alloc_frame");
+		ff_avcodec_open				= (FUNC_AVCODEC_OPEN)			GetProcAddress (hLib, "avcodec_open");
+		ff_avcodec_decode_video		= (FUNC_AVCODEC_DECODE_VIDEO)	GetProcAddress (hLib, "avcodec_decode_video");
+		ff_av_log_set_callback		= (FUNC_AV_LOG_SET_CALLBACK)	GetProcAddress (hLib, "av_log_set_callback");
+		ff_avcodec_close			= (FUNC_AVCODEC_CLOSE)			GetProcAddress (hLib, "avcodec_close");
+		ff_avcodec_thread_free		= (FUNC_AVCODEC_THREAD_FREE)	GetProcAddress (hLib, "avcodec_thread_free");
+		ff_avcodec_thread_init		= (FUNC_AVCODEC_THREAD_INIT)	GetProcAddress (hLib, "avcodec_thread_init");
+		ff_av_free					= (FUNC_AV_FREE)				GetProcAddress (hLib, "av_free");
+	}
+#else
+	// Test with ffmpeg as static library
+	ff_avcodec_init				= avcodec_init;
+	ff_avcodec_register_all		= avcodec_register_all;
+	ff_avcodec_find_decoder		= avcodec_find_decoder;
+	ff_avcodec_alloc_context	= avcodec_alloc_context;
+	ff_avcodec_alloc_frame		= avcodec_alloc_frame;
+	ff_avcodec_open				= avcodec_open;
+	ff_avcodec_decode_video		= avcodec_decode_video;
+	ff_av_log_set_callback		= av_log_set_callback;
+	ff_avcodec_close			= avcodec_close;
+	ff_avcodec_thread_free		= avcodec_thread_free;
+	ff_avcodec_thread_init		= avcodec_thread_init;
+	ff_av_free					= av_free;
+#endif
+
+	ff_avcodec_init();
+	ff_avcodec_register_all();
+	ff_av_log_set_callback(LogLibAVCodec);
 }
 
 
@@ -366,12 +460,15 @@ void CMPCVideoDecFilter::Cleanup()
 		if (m_pAVCtx->inter_matrix_luma)	free(m_pAVCtx->inter_matrix_luma);
 		if (m_pAVCtx->inter_matrix_chroma)	free(m_pAVCtx->inter_matrix_chroma);
 
-		if (m_pAVCtx->slice_offset) av_free(m_pAVCtx->slice_offset);
-		if (m_pAVCtx) avcodec_close(m_pAVCtx);
-		avcodec_thread_free (m_pAVCtx);
-		av_free(m_pAVCtx);
+		if (m_pAVCtx->slice_offset) ff_av_free(m_pAVCtx->slice_offset);
+		if (m_pAVCtx) ff_avcodec_close(m_pAVCtx);
+
+		if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
+			ff_avcodec_thread_free (m_pAVCtx);
+
+		ff_av_free(m_pAVCtx);
 	}
-	if (m_pFrame)	av_free(m_pFrame);
+	if (m_pFrame)	ff_av_free(m_pFrame);
 
 	m_pAVCodec	= NULL;
 	m_pAVCtx	= NULL;
@@ -416,6 +513,12 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 }
 
 
+bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
+{
+	return (nCodec==CODEC_ID_MPEG1VIDEO) || (nCodec==CODEC_ID_MPEG2VIDEO) || (nCodec==CODEC_ID_H264);
+}
+
+
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
 	int		nNewCodec;
@@ -425,14 +528,15 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 	{
 		m_nCodecNb	= nNewCodec;
 
-		m_pAVCodec	= avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
+		m_pAVCodec	= ff_avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 		CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
-		m_pAVCtx	= avcodec_alloc_context();
+		m_pAVCtx	= ff_avcodec_alloc_context();
 		CheckPointer (m_pAVCtx,	  E_POINTER);
 
-		avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
-		m_pFrame = avcodec_alloc_frame();
+		if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
+			ff_avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
+		m_pFrame = ff_avcodec_alloc_frame();
 		CheckPointer (m_pFrame,	  E_POINTER);
 
 		if(pmt->formattype == FORMAT_VideoInfo)
@@ -487,7 +591,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 		AllocExtradata (m_pAVCtx, pmt);		
 
-		if (avcodec_open(m_pAVCtx, m_pAVCodec)<0)
+		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
 	}
 
@@ -608,7 +712,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
 	HRESULT			hr;
 	BYTE*			pDataIn = NULL;
-	UINT			nSize;
+	int				nSize;
 	int				got_picture;
 	REFERENCE_TIME	rtStart = _I64_MIN, rtStop = _I64_MIN;
 
@@ -630,8 +734,8 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		
 		while (nSize > 0)
 		{
-			used_bytes = avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
-			if (!got_picture || !m_pFrame->data[0]) return S_FALSE;
+			used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
+			if (!got_picture || !m_pFrame->data[0]) return S_OK;
 
 			if(pIn->IsPreroll() == S_OK || rtStart < 0)
 				return S_OK;
@@ -641,12 +745,13 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 			if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
 				return hr;
 
-			TRACE ("CMPCVideoDecFilter::Transform  %I64d - %I64d\n", rtStart, rtStop);
 
 			//rtStart = m_pFrame->rtStart;
 			//rtStop = m_pFrame->rtStart + 1;
+			TRACE ("CMPCVideoDecFilter::Transform    %ld\n", rtStart/400000);
 
 			pOut->SetTime(&rtStart, &rtStop);
+			pOut->SetMediaTime(NULL, NULL);
 			pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
 
 			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);

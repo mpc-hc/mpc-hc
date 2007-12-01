@@ -697,6 +697,7 @@ public:
 		}
 		catch(ssf::Exception& e)
 		{
+			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 			ASSERT(0);
 		}
