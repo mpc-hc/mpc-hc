@@ -34,6 +34,7 @@
 #include "CpuId.h"
 
 #include "..\..\..\DSUtil\DSUtil.h"
+#include "..\..\..\DSUtil\MediaTypes.h"
 
 #include <moreuuids.h>
 
@@ -422,6 +423,10 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 	}*/
 }
 
+HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
+{
+	return false;	// TODO
+};
 
 int CMPCVideoDecFilter::PictWidth()
 {
@@ -599,25 +604,123 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 }
 
 
+VIDEO_OUTPUT_FORMATS DXVAFormats[] =
+{
+	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},
+	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
+	{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
+	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'},
+	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
+	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
+	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
+};
+
+void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
+{
+	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].bSupportDXVA)
+	{
+		nNumber		= countof(DXVAFormats);
+		*ppFormats	= DXVAFormats;
+	}
+	else
+		__super::GetOutputFormats (nNumber, ppFormats);
+}
+/*
 HRESULT CMPCVideoDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	HRESULT			hr			= __super::GetMediaType (iPosition, pmt);
-	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
+	return __super::GetMediaType(iPosition,pmt);
+    if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-	if (hr == S_OK)
+	VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 	{
-		VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
-		VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+		{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},
+		{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
+		{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
+		{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'},
+		{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
+		{&MEDIASUBTYPE_I420, 3, 12, '024I'},
+		{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
+		{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
+	};
 
-		if (vih && vihInput)
-		{
-			memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
-			memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
-		}
+	// this will make sure we won't connect to the old renderer in dvd mode
+	// that renderer can't switch the format dynamically
+
+	bool fFoundDVDNavigator = false;
+	CComPtr<IBaseFilter> pBF = this;
+	CComPtr<IPin> pPin = m_pInput;
+	for(; !fFoundDVDNavigator && (pBF = GetUpStreamFilter(pBF, pPin)); pPin = GetFirstPin(pBF))
+        fFoundDVDNavigator = GetCLSID(pBF) == CLSID_DVDNavigator;
+
+	if(fFoundDVDNavigator || m_pInput->CurrentMediaType().formattype == FORMAT_VideoInfo2)
+		iPosition = iPosition*2;
+
+	//
+
+	if(iPosition < 0) return E_INVALIDARG;
+	if(iPosition >= 2*countof(fmts)) return VFW_S_NO_MORE_ITEMS;
+
+	pmt->majortype = MEDIATYPE_Video;
+	pmt->subtype = *fmts[iPosition/2].subtype;
+
+	int w = m_w, h = m_h, arx = m_arx, ary = m_ary;
+	GetOutputSize(w, h, arx, ary);
+
+	BITMAPINFOHEADER bihOut;
+	memset(&bihOut, 0, sizeof(bihOut));
+	bihOut.biSize = sizeof(bihOut);
+	bihOut.biWidth = w;
+	bihOut.biHeight = h;
+	bihOut.biPlanes = fmts[iPosition/2].biPlanes;
+	bihOut.biBitCount = fmts[iPosition/2].biBitCount;
+	bihOut.biCompression = fmts[iPosition/2].biCompression;
+	bihOut.biSizeImage = w*h*bihOut.biBitCount>>3;
+	pmt->SetSampleSize (bihOut.biSizeImage);
+
+	if(iPosition&1)
+	{
+		pmt->formattype = FORMAT_VideoInfo;
+		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
+		memset(vih, 0, sizeof(VIDEOINFOHEADER));
+		vih->bmiHeader = bihOut;
+		vih->bmiHeader.biXPelsPerMeter = vih->bmiHeader.biWidth * ary;
+		vih->bmiHeader.biYPelsPerMeter = vih->bmiHeader.biHeight * arx;
+	}
+	else
+	{
+		pmt->formattype = FORMAT_VideoInfo2;
+		VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
+		memset(vih, 0, sizeof(VIDEOINFOHEADER2));
+		vih->bmiHeader = bihOut;
+		vih->dwPictAspectRatioX = arx;
+		vih->dwPictAspectRatioY = ary;
+		if(IsVideoInterlaced()) vih->dwInterlaceFlags = AMINTERLACE_IsInterlaced | AMINTERLACE_DisplayModeBobOrWeave;
+		vih->dwCopyProtectFlags = 1;
 	}
 
-	return hr;
-}
+	CMediaType& mt = m_pInput->CurrentMediaType();
+
+	// these fields have the same field offset in all four structs
+	((VIDEOINFOHEADER*)pmt->Format())->AvgTimePerFrame = ((VIDEOINFOHEADER*)mt.Format())->AvgTimePerFrame;
+	((VIDEOINFOHEADER*)pmt->Format())->dwBitRate = ((VIDEOINFOHEADER*)mt.Format())->dwBitRate;
+	((VIDEOINFOHEADER*)pmt->Format())->dwBitErrorRate = ((VIDEOINFOHEADER*)mt.Format())->dwBitErrorRate;
+
+	CorrectMediaType(pmt);
+
+	// Fix FLV !
+	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
+	VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
+	VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+
+	if (vih && vihInput)
+	{
+		memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
+		memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
+	}
+
+	return S_OK;
+}*/
 
 
 void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
@@ -694,7 +797,7 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
 		if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-		pProperties->cBuffers += m_DecoderConfig.ConfigMinRenderTargetBuffCount;
+		pProperties->cBuffers = 14;		// TODO !!!
 
 		if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
 			return hr;
@@ -786,7 +889,8 @@ void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 	memset (&m_VideoDesc, 0, sizeof(m_VideoDesc));
 	pDesc->SampleWidth	= m_pAVCtx->width;
 	pDesc->SampleHeight	= m_pAVCtx->height;
-	pDesc->Format       = D3DFMT_YUY2;
+	pDesc->Format       = D3DFMT_A8R8G8B8;
+	m_VideoDesc.UABProtectionLevel = 1;
 }
 
 BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
@@ -1027,7 +1131,6 @@ HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3D
 
 	//hr = m_pDecoderService->CreateSurface (m_pAVCtx->width,m_pAVCtx->height, 0, D3DFMT_A8R8G8B8, 
 	//							D3DPOOL_DEFAULT, 0, DXVA2_VideoDecoderRenderTarget, &m_pDecoderRenderTarget, NULL);
-
 	hr = m_pDecoderService->CreateVideoDecoder (m_DecoderGuid, &m_VideoDesc, &m_DecoderConfig, 
 								pDecoderRenderTargets, nNumRenderTargets, &pDecoder);
 

@@ -434,27 +434,39 @@ HRESULT CBaseVideoFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_
 		: NOERROR;
 }
 
+
+VIDEO_OUTPUT_FORMATS DefaultFormats[] =
+{
+	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
+	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
+	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
+	{&MEDIASUBTYPE_ARGB32, 1, 32, BI_RGB},
+	{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},
+	{&MEDIASUBTYPE_RGB24, 1, 24, BI_RGB},
+	{&MEDIASUBTYPE_RGB565, 1, 16, BI_RGB},
+	{&MEDIASUBTYPE_RGB555, 1, 16, BI_RGB},
+	{&MEDIASUBTYPE_ARGB32, 1, 32, BI_BITFIELDS},
+	{&MEDIASUBTYPE_RGB32, 1, 32, BI_BITFIELDS},
+	{&MEDIASUBTYPE_RGB24, 1, 24, BI_BITFIELDS},
+	{&MEDIASUBTYPE_RGB565, 1, 16, BI_BITFIELDS},
+	{&MEDIASUBTYPE_RGB555, 1, 16, BI_BITFIELDS},
+};
+
+void CBaseVideoFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
+{
+	nNumber		= countof(DefaultFormats);
+	*ppFormats	= DefaultFormats;
+}
+
+
 HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
+	VIDEO_OUTPUT_FORMATS*	fmts;
+	int						nFormatCount;
+
     if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-	struct {const GUID* subtype; WORD biPlanes, biBitCount; DWORD biCompression;} fmts[] =
-	{
-		{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
-		{&MEDIASUBTYPE_I420, 3, 12, '024I'},
-		{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-		{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
-		{&MEDIASUBTYPE_ARGB32, 1, 32, BI_RGB},
-		{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},
-		{&MEDIASUBTYPE_RGB24, 1, 24, BI_RGB},
-		{&MEDIASUBTYPE_RGB565, 1, 16, BI_RGB},
-		{&MEDIASUBTYPE_RGB555, 1, 16, BI_RGB},
-		{&MEDIASUBTYPE_ARGB32, 1, 32, BI_BITFIELDS},
-		{&MEDIASUBTYPE_RGB32, 1, 32, BI_BITFIELDS},
-		{&MEDIASUBTYPE_RGB24, 1, 24, BI_BITFIELDS},
-		{&MEDIASUBTYPE_RGB565, 1, 16, BI_BITFIELDS},
-		{&MEDIASUBTYPE_RGB555, 1, 16, BI_BITFIELDS},
-	};
 
 	// this will make sure we won't connect to the old renderer in dvd mode
 	// that renderer can't switch the format dynamically
@@ -469,9 +481,9 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 		iPosition = iPosition*2;
 
 	//
-
+	GetOutputFormats (nFormatCount, &fmts);
 	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition >= 2*countof(fmts)) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition >= 2*nFormatCount) return VFW_S_NO_MORE_ITEMS;
 
 	pmt->majortype = MEDIATYPE_Video;
 	pmt->subtype = *fmts[iPosition/2].subtype;
@@ -517,6 +529,17 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	((VIDEOINFOHEADER*)pmt->Format())->dwBitErrorRate = ((VIDEOINFOHEADER*)mt.Format())->dwBitErrorRate;
 
 	CorrectMediaType(pmt);
+
+	// copy source and target rectangles from input pin
+	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
+	VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
+	VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+
+	if (vih && vihInput)
+	{
+		memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
+		memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
+	}
 
 	return S_OK;
 }

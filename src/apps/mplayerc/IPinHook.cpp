@@ -152,7 +152,18 @@ static void LOG(LPCTSTR fmt, ...)
 #ifdef _DEBUG
 	va_list args;
 	va_start(args, fmt);
-	LOG_TOFILE(LOG_FILE, fmt, args);
+	if(TCHAR* buff = new TCHAR[_vsctprintf(fmt, args) + 1])
+	{
+		_vstprintf(buff, fmt, args);
+		if(FILE* f = _tfopen(LOG_FILE, _T("at")))
+		{
+			fseek(f, 0, 2);
+			_ftprintf(f, _T("%s\n"), buff);
+			fclose(f);
+		}
+		delete [] buff;
+	}
+	va_end(args);
 #endif
 }
 
@@ -560,6 +571,84 @@ const DXVA2_DECODER DXVA2Decoder[] =
 	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT.") },
 };
 
+typedef struct
+{
+  const int				Format;
+  const LPCTSTR			Description;
+} D3DFORMAT_TYPE;
+
+const D3DFORMAT_TYPE	D3DFormatType[] = 
+{
+	{ D3DFMT_UNKNOWN              , _T("D3DFMT_UNKNOWN      ") },
+	{ D3DFMT_R8G8B8               , _T("D3DFMT_R8G8B8       ") },
+	{ D3DFMT_A8R8G8B8             , _T("D3DFMT_A8R8G8B8     ") },
+	{ D3DFMT_X8R8G8B8             , _T("D3DFMT_X8R8G8B8     ") },
+	{ D3DFMT_R5G6B5               , _T("D3DFMT_R5G6B5       ") },
+	{ D3DFMT_X1R5G5B5             , _T("D3DFMT_X1R5G5B5     ") },
+	{ D3DFMT_A1R5G5B5             , _T("D3DFMT_A1R5G5B5     ") },
+	{ D3DFMT_A4R4G4B4             , _T("D3DFMT_A4R4G4B4     ") },
+	{ D3DFMT_R3G3B2               , _T("D3DFMT_R3G3B2       ") },
+	{ D3DFMT_A8                   , _T("D3DFMT_A8           ") },
+	{ D3DFMT_A8R3G3B2             , _T("D3DFMT_A8R3G3B2     ") },
+	{ D3DFMT_X4R4G4B4             , _T("D3DFMT_X4R4G4B4     ") },
+	{ D3DFMT_A2B10G10R10          , _T("D3DFMT_A2B10G10R10  ") },
+	{ D3DFMT_A8B8G8R8             , _T("D3DFMT_A8B8G8R8     ") },
+	{ D3DFMT_X8B8G8R8             , _T("D3DFMT_X8B8G8R8     ") },
+	{ D3DFMT_G16R16               , _T("D3DFMT_G16R16       ") },
+	{ D3DFMT_A2R10G10B10          , _T("D3DFMT_A2R10G10B10  ") },
+	{ D3DFMT_A16B16G16R16         , _T("D3DFMT_A16B16G16R16 ") },
+	{ D3DFMT_A8P8                 , _T("D3DFMT_A8P8         ") },
+	{ D3DFMT_P8                   , _T("D3DFMT_P8           ") },
+	{ D3DFMT_L8                   , _T("D3DFMT_L8           ") },
+	{ D3DFMT_A8L8                 , _T("D3DFMT_A8L8         ") },
+	{ D3DFMT_A4L4                 , _T("D3DFMT_A4L4         ") },
+	{ D3DFMT_X8L8V8U8             , _T("D3DFMT_X8L8V8U8     ") },
+	{ D3DFMT_Q8W8V8U8             , _T("D3DFMT_Q8W8V8U8     ") },
+	{ D3DFMT_V16U16               , _T("D3DFMT_V16U16       ") },
+	{ D3DFMT_A2W10V10U10          , _T("D3DFMT_A2W10V10U10  ") },
+	{ D3DFMT_UYVY                 , _T("D3DFMT_UYVY         ") },
+	{ D3DFMT_R8G8_B8G8            , _T("D3DFMT_R8G8_B8G8    ") },
+	{ D3DFMT_YUY2                 , _T("D3DFMT_YUY2         ") },
+	{ D3DFMT_G8R8_G8B8            , _T("D3DFMT_G8R8_G8B8    ") },
+	{ D3DFMT_DXT1                 , _T("D3DFMT_DXT1         ") },
+	{ D3DFMT_DXT2                 , _T("D3DFMT_DXT2         ") },
+	{ D3DFMT_DXT3                 , _T("D3DFMT_DXT3         ") },
+	{ D3DFMT_DXT4                 , _T("D3DFMT_DXT4         ") },
+	{ D3DFMT_DXT5                 , _T("D3DFMT_DXT5         ") },
+	{ D3DFMT_D16_LOCKABLE         , _T("D3DFMT_D16_LOCKABLE ") },
+	{ D3DFMT_D32                  , _T("D3DFMT_D32          ") },
+	{ D3DFMT_D15S1                , _T("D3DFMT_D15S1        ") },
+	{ D3DFMT_D24S8                , _T("D3DFMT_D24S8        ") },
+	{ D3DFMT_D24X8                , _T("D3DFMT_D24X8        ") },
+	{ D3DFMT_D24X4S4              , _T("D3DFMT_D24X4S4      ") },
+	{ D3DFMT_D16                  , _T("D3DFMT_D16          ") },
+	{ D3DFMT_D32F_LOCKABLE        , _T("D3DFMT_D32F_LOCKABLE") },
+	{ D3DFMT_D24FS8               , _T("D3DFMT_D24FS8       ") },
+	{ D3DFMT_L16                  , _T("D3DFMT_L16          ") },
+	{ D3DFMT_VERTEXDATA           , _T("D3DFMT_VERTEXDATA   ") },
+	{ D3DFMT_INDEX16              , _T("D3DFMT_INDEX16      ") },
+	{ D3DFMT_INDEX32              , _T("D3DFMT_INDEX32      ") },
+	{ D3DFMT_Q16W16V16U16         , _T("D3DFMT_Q16W16V16U16 ") },
+
+	{ MAKEFOURCC('N','V','1','2') , _T("D3DFMT_NV12") },
+	{ MAKEFOURCC('N','V','2','4') , _T("D3DFMT_NV24") },
+};
+
+
+static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
+{
+	LOG(_T("DecodeBufferDesc type : %d"), pDecodeBuff->CompressedBufferType);
+	LOG(_T("	- BufferIndex                       %d"), pDecodeBuff->BufferIndex);
+	LOG(_T("	- DataOffset                        %d"), pDecodeBuff->DataOffset);
+	LOG(_T("	- DataSize                          %d"), pDecodeBuff->DataSize);
+	LOG(_T("	- FirstMBaddress                    %d"), pDecodeBuff->FirstMBaddress);
+	LOG(_T("	- NumMBsInBuffer                    %d"), pDecodeBuff->NumMBsInBuffer);
+	LOG(_T("	- Width                             %d"), pDecodeBuff->Width);
+	LOG(_T("	- Height                            %d"), pDecodeBuff->Height);
+	LOG(_T("	- Stride                            %d"), pDecodeBuff->Stride);
+	LOG(_T("	- ReservedBits                      %d"), pDecodeBuff->ReservedBits);
+	LOG(_T("	- pvPVPState                        %d"), pDecodeBuff->pvPVPState);
+}
 
 #define MAX_BUFFER_TYPE		15
 class CFaceDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder							   
@@ -592,12 +681,14 @@ public :
         virtual HRESULT STDMETHODCALLTYPE GetVideoDecoderService(IDirectXVideoDecoderService **ppService)
 		{
 			HRESULT		hr = m_pDec->GetVideoDecoderService (ppService);
+			LOG(_T("IDirectXVideoDecoder::GetVideoDecoderService  hr = %08x\n"), hr);
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE GetCreationParameters(GUID *pDeviceGuid, DXVA2_VideoDesc *pVideoDesc, DXVA2_ConfigPictureDecode *pConfig, IDirect3DSurface9 ***pDecoderRenderTargets, UINT *pNumSurfaces)
 		{
 			HRESULT		hr = m_pDec->GetCreationParameters(pDeviceGuid, pVideoDesc, pConfig, pDecoderRenderTargets, pNumSurfaces);
+			LOG(_T("IDirectXVideoDecoder::GetCreationParameters hr = %08x\n"), hr);
 			return hr;
 		}
 
@@ -611,20 +702,25 @@ public :
 				m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
 				m_ppBufferLen[BufferType]		= *pBufferSize;
 			}
+			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x\n"), BufferType, hr);
 			
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType)
 		{
+			if (BufferType == DXVA2_PictureParametersBufferType)
+				LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[BufferType]);
+
 			HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
+			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x\n"), BufferType, hr);
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE BeginFrame(IDirect3DSurface9 *pRenderTarget, void *pvPVPData)
 		{
 			HRESULT		hr = m_pDec->BeginFrame (pRenderTarget, pvPVPData);
-			LOG(_T("IDirectXVideoDecoder::BeginFrame  hr = %08x\n"), hr);
+			LOG(_T("IDirectXVideoDecoder::BeginFrame pRenderTarget = %08x,  hr = %08x\n"), pRenderTarget, hr);
 			return hr;
 		}
         
@@ -717,12 +813,11 @@ public :
 
         virtual HRESULT STDMETHODCALLTYPE Execute(const DXVA2_DecodeExecuteParams *pExecuteParams)
 		{
-			LOG(_T("IDirectXVideoDecoder::Execute  %s  %d"), DXVA2Decoder[m_nDXVA2Decoder].Description, sizeof(DXVA_PictureParameters));
-
 			for (int i=0; i<pExecuteParams->NumCompBuffers; i++)
 			{
 				CString		strBuffer;
-
+			
+				LogDecodeBufferDesc (&pExecuteParams->pCompressedBuffers[i]);
 				/*
 				for (int j=0; j<4000 && j<pExecuteParams->pCompressedBuffers[i].DataSize; j++)
 					strBuffer.AppendFormat (_T("%02x "), m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType][j]);
@@ -736,10 +831,33 @@ public :
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_PictureParametersBufferType)
 					LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
+
+				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_SliceControlBufferType)
+				{
+					DXVA_Slice_H264_Short*	pSlice = (DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
+					LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
+					LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
+					LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+				}
+
+				//if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
+				//{
+				//	FILE*	hFile = fopen ("BitStream.bin", "wb");
+				//	if (hFile)
+				//	{
+				//		fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+				//				1,
+				//				pExecuteParams->pCompressedBuffers[i].DataSize,
+				//				hFile);
+				//		fclose (hFile);
+				//	}
+				//	m_pDec = NULL;
+				//}
+
 			}
 
-			LOG (_T("\n"));
 			HRESULT		hr = m_pDec->Execute (pExecuteParams);
+			LOG(_T("IDirectXVideoDecoder::Execute  %d buffer,  hr = %08x"), pExecuteParams->NumCompBuffers, hr);
 			return hr;
 		}
 };
@@ -756,6 +874,17 @@ int FindDXVA2Decoder(const GUID& DecoderGuid)
 			return i;
 
 	return 0;
+}
+
+LPCTSTR FindD3DFormat(const D3DFORMAT Format)
+{
+	for (int i=0; i<countof(D3DFormatType); i++)
+	{
+		if (Format == D3DFormatType[i].Format)
+			return D3DFormatType[i].Description;
+	}
+
+	return D3DFormatType[0].Description;
 }
 
 LPCTSTR GetDXVA2DecoderDescription()
@@ -815,6 +944,7 @@ static HRESULT (STDMETHODCALLTYPE* CreateVideoDecoderOrg )  (IDirectXVideoDecode
 static HRESULT (STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = NULL;
 
 
+
 static void LogDXVA2Config (const DXVA2_ConfigPictureDecode* pConfig)
 {
 	LOG(_T("Config"));
@@ -840,13 +970,10 @@ static void LogDXVA2Config (const DXVA2_ConfigPictureDecode* pConfig)
 static void LogDXVA2VideoDesc (const DXVA2_VideoDesc* pVideoDesc)
 {
 	LOG(_T("VideoDesc"));
-	LOG(_T("	- Format                            %c%c%c%c"), TCHAR((pVideoDesc->Format>>0)&0xff), 
-															    TCHAR((pVideoDesc->Format>>8)&0xff), 
-															    TCHAR((pVideoDesc->Format>>16)&0xff),
-															    TCHAR((pVideoDesc->Format>>24)&0xff));
+	LOG(_T("	- Format                            %s  (0x%08x)"), FindD3DFormat(pVideoDesc->Format), pVideoDesc->Format);
 	LOG(_T("	- InputSampleFreq                   %d/%d"), pVideoDesc->InputSampleFreq.Numerator, pVideoDesc->InputSampleFreq.Denominator);
 	LOG(_T("	- OutputFrameFreq                   %d/%d"), pVideoDesc->OutputFrameFreq.Numerator, pVideoDesc->OutputFrameFreq.Denominator);
-	LOG(_T("	- SampleFormat                      %d"), pVideoDesc->SampleFormat);
+	LOG(_T("	- SampleFormat                      %d"), pVideoDesc->SampleFormat.value);
 	LOG(_T("	- SampleHeight                      %d"), pVideoDesc->SampleHeight);
 	LOG(_T("	- SampleWidth                       %d"), pVideoDesc->SampleWidth);
 	LOG(_T("	- UABProtectionLevel                %d"), pVideoDesc->UABProtectionLevel);
@@ -885,10 +1012,7 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
 				// Look for a format that matches our output format.
 				for (UINT iFormat = 0; iFormat < cFormats;  iFormat++)
 				{
-					LOG (_T("Direct 3D format : %c%c%c%c"),	TCHAR((pFormats[iFormat]>>0)&0xff), 
-															TCHAR((pFormats[iFormat]>>8)&0xff), 
-															TCHAR((pFormats[iFormat]>>16)&0xff),
-															TCHAR((pFormats[iFormat]>>24)&0xff));
+					LOG (_T("Direct 3D format : %s"),	FindD3DFormat(pFormats[iFormat]));
 					// Fill in the video description. Set the width, height, format, and frame rate.
 					memset(&m_VideoDesc, 0, sizeof(m_VideoDesc));
 					m_VideoDesc.SampleWidth		= 1280;
@@ -927,10 +1051,13 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
         __in  UINT										NumRenderTargets,
         __deref_out  IDirectXVideoDecoder**				ppDecode)
 {
+//	DebugBreak();
+//	((DXVA2_VideoDesc*)pVideoDesc)->Format = (D3DFORMAT)0x3231564E;
 	m_nCurrentDXVA2Decoder = FindDXVA2Decoder (Guid);
 
 
 #ifdef _DEBUG
+	LOG(_T("\n\n"));
 	LogDXVA2VideoDesc(pVideoDesc);
 	LogDXVA2Config(pConfig);
 #endif
@@ -944,6 +1071,9 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 #ifdef _DEBUG
 		*ppDecode	= new CFaceDirectXVideoDecoder (m_nCurrentDXVA2Decoder, NULL, *ppDecode);
 		(*ppDecode)->AddRef();
+
+		for (int i=0; i<NumRenderTargets; i++)
+			LOG(_T(" - Surf %d : %08x"), i, ppDecoderRenderTargets[i]);
 #endif
 	}
 
@@ -989,7 +1119,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
 	// TODO : remove log file !!
 	::DeleteFile (LOG_FILE);
-	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
+//	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
 
 	if (pIDirectXVideoDecoderService)
 	{

@@ -21,6 +21,15 @@
 
 #pragma once
 
+
+typedef struct
+{
+	const GUID*		subtype;
+	WORD			biPlanes;
+	WORD			biBitCount;
+	DWORD			biCompression;
+} VIDEO_OUTPUT_FORMATS;
+
 class CBaseVideoFilter : public CTransformFilter
 {
 private:
@@ -45,6 +54,7 @@ protected:
 	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary) {}
 	virtual HRESULT Transform(IMediaSample* pIn) = 0;
 	virtual HRESULT IsVideoInterlaced() {return false;}
+	virtual void GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 
 public:
 	CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);

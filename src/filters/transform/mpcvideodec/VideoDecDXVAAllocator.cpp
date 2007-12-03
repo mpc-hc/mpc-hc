@@ -162,13 +162,12 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
             m_ppRTSurfaceArray,
             NULL
             );
-
-		hr = m_pVideoDecFilter->CreateDXVA2Decoder (m_lCount, m_ppRTSurfaceArray);
     }
 
     if (SUCCEEDED(hr))
     {
-        for (m_lAllocated = 0; m_lAllocated < m_lCount; m_lAllocated++)
+		// Important : create samples in reverse order !
+        for (m_lAllocated = m_lCount-1; m_lAllocated >= 0; m_lAllocated--)
         {
             CDXVA2Sample *pSample = new CDXVA2Sample(this, &hr);
             if (pSample == NULL)
@@ -186,7 +185,9 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
             // Add to the sample list.
             m_lFree.Add(pSample);
         }
-    }
+
+		hr = m_pVideoDecFilter->CreateDXVA2Decoder (m_lCount, m_ppRTSurfaceArray);
+	}
 
     if (SUCCEEDED(hr))
     {

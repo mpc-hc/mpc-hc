@@ -38,7 +38,7 @@ CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDe
 
 		m_PicParams.wFrameWidthInMbsMinus1	= 79;
 		m_PicParams.wFrameHeightInMbsMinus1	= 44;
-		m_PicParams.num_ref_frames			= 8;
+		m_PicParams.num_ref_frames			= 6;
 		m_PicParams.wBitFields				= 64592;
 
 		for (int i =0; i<16; i++)
@@ -93,12 +93,27 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 
 	m_ExecuteParams.NumCompBuffers	= 0;
 	// TODO !!  ==> is bConfigBitstreamRaw =2 alors DXVA_Slice_H264_Short, sinon DXVA_Slice_H264_Long
+
+	//FILE*	hFile = fopen ("BitStream.bin", "rb");
+	//if (hFile)
+	//{
+	//	BYTE		pBuff[30000];
+	//	nSize = fread (pBuff, 1, sizeof(pBuff), hFile);
+	//	fclose (hFile);
+	//	hr = AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pBuff);
+	//	m_SliceShort.SliceBytesInBuffer = nSize;
+	//}
 	hr = AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn);
+
+	m_SliceShort.SliceBytesInBuffer = nSize;
 	hr = AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceShort), &m_SliceShort);
 	hr = AddExecuteBuffer (DXVA2_InverseQuantizationMatrixBufferType, sizeof (DXVA_Qmatrix_H264), (void*)&g_QMatrixH264[m_nQMatrix]);
-
+//m_ExecuteParams.pCompressedBuffers[0].NumMBsInBuffer = 1;
+//m_ExecuteParams.pCompressedBuffers[1].NumMBsInBuffer = 1;
 	hr = m_pDXDecoder->Execute(&m_ExecuteParams);
 	LOG(_T("m_pDXDecoder->Execute  hr=0x%08x"), hr);
+
+	hr = m_pDXDecoder->EndFrame(NULL);
 
 	/*
 	hr = m_pDXDecoder->GetBuffer (DXVA2_SliceControlBufferType, (void**)&pDXVABuffer, &nDXVASize);
@@ -138,5 +153,18 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 		LOG(_T("m_pDXDecoder->Execute  hr=0x%08x"), hr);
 	}
 */
+	CComPtr<IDirect3DDevice9>		pD3DDev;
+	if (SUCCEEDED (pDecoderRenderTarget->GetDevice (&pD3DDev)))
+	{
+		RECT		rcTearing;
+		
+		rcTearing.left		= 0;
+		rcTearing.top		= 0;
+		rcTearing.right		= 80;
+		rcTearing.bottom	= 80;
+
+		pD3DDev->ColorFill (pDecoderRenderTarget, &rcTearing, D3DCOLOR_ARGB (255,0,0,255));
+	}
+
 	return hr;
 }

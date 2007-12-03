@@ -113,6 +113,7 @@ protected:
 	int					FindCodec(const CMediaType* mtIn);
 	void				AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* mt);
 	bool				IsMultiThreadSupported(int nCodec);
+	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 
 public:
 
@@ -125,14 +126,15 @@ public:
 	virtual ~CMPCVideoDecFilter();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	virtual HRESULT IsVideoInterlaced();
 
-	HRESULT SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
-	HRESULT CheckInputType(const CMediaType* mtIn);
-	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	HRESULT Transform(IMediaSample* pIn);
-	HRESULT CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
-    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT			SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
+	HRESULT			CheckInputType(const CMediaType* mtIn);
+//	HRESULT			GetMediaType(int iPosition, CMediaType* pmt);
+	HRESULT			Transform(IMediaSample* pIn);
+	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
+    HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
 	// ISpecifyPropertyPages2
 
