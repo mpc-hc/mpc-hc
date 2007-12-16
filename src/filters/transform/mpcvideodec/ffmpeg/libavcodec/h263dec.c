@@ -742,7 +742,7 @@ assert(s->current_picture.pict_type == s->pict_type);
     }
 
     /* Return the Picture timestamp as the frame number */
-    /* we substract 1 because it is added on utils.c    */
+    /* we subtract 1 because it is added on utils.c     */
     avctx->frame_number = s->picture_number - 1;
 
 #ifdef PRINT_FRAME_TIME
@@ -851,5 +851,3 @@ AVCodec flv_decoder = {
     ff_h263_decode_frame,
     CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1
 };
-
-

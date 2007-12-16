@@ -20,7 +20,7 @@
  */
 
 #include "common.h"
-#include "../dsputil.h"
+#include "dsputil.h"
 
 #include "mmx.h"
 
@@ -33,7 +33,7 @@
 #define rounder(bias) {round (bias), round (bias)}
 
 #if 0
-/* C row IDCT - its just here to document the MMXEXT and MMX versions */
+/* C row IDCT - it is just here to document the MMXEXT and MMX versions */
 static inline void idct_row (int16_t * row, int offset,
                              int16_t * table, int32_t * rounder)
 {
@@ -313,7 +313,7 @@ static inline void mmx_row_mid (int16_t * row, int store,
 
 
 #if 0
-// C column IDCT - its just here to document the MMXEXT and MMX versions
+// C column IDCT - it is just here to document the MMXEXT and MMX versions
 static inline void idct_col (int16_t * col, int offset)
 {
 /* multiplication - as implemented on mmx */
@@ -397,7 +397,7 @@ static inline void idct_col (int16_t * col, int offset)
     static const short _T3[] ATTR_ALIGN(8) = {T3,T3,T3,T3};
     static const short _C4[] ATTR_ALIGN(8) = {C4,C4,C4,C4};
 
-    /* column code adapted from peter gubanov */
+    /* column code adapted from Peter Gubanov */
     /* http://www.elecard.com/peter/idct.shtml */
 
     movq_m2r (*_T1, mm0);               // mm0 = T1

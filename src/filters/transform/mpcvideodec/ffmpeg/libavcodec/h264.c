@@ -32,6 +32,7 @@
 #include "h264data.h"
 #include "h264_parser.h"
 #include "golomb.h"
+#include "rectangle.h"
 
 #include "cabac.h"
 
@@ -75,94 +76,6 @@ const uint8_t ff_div6[52]={
 };
 
 
-/**
- * fill a rectangle.
- * @param h height of the rectangle, should be a constant
- * @param w width of the rectangle, should be a constant
- * @param size the size of val (1 or 4), should be a constant
- */
-static av_always_inline void fill_rectangle(void *vp, int w, int h, int stride, uint32_t val, int size){
-    uint8_t *p= (uint8_t*)vp;
-    assert(size==1 || size==4);
-    assert(w<=4);
-
-    w      *= size;
-    stride *= size;
-
-    assert((((long)vp)&(FFMIN(w, STRIDE_ALIGN)-1)) == 0);
-    assert((stride&(w-1))==0);
-    if(w==2){
-        const uint16_t v= size==4 ? val : val*0x0101;
-        *(uint16_t*)(p + 0*stride)= v;
-        if(h==1) return;
-        *(uint16_t*)(p + 1*stride)= v;
-        if(h==2) return;
-        *(uint16_t*)(p + 2*stride)= v;
-        *(uint16_t*)(p + 3*stride)= v;
-    }else if(w==4){
-        const uint32_t v= size==4 ? val : val*0x01010101;
-        *(uint32_t*)(p + 0*stride)= v;
-        if(h==1) return;
-        *(uint32_t*)(p + 1*stride)= v;
-        if(h==2) return;
-        *(uint32_t*)(p + 2*stride)= v;
-        *(uint32_t*)(p + 3*stride)= v;
-    }else if(w==8){
-    //gcc can't optimize 64bit math on x86_32
-#if defined(ARCH_X86_64) || (defined(MP_WORDSIZE) && MP_WORDSIZE >= 64)
-        const uint64_t v= val*0x0100000001ULL;
-        *(uint64_t*)(p + 0*stride)= v;
-        if(h==1) return;
-        *(uint64_t*)(p + 1*stride)= v;
-        if(h==2) return;
-        *(uint64_t*)(p + 2*stride)= v;
-        *(uint64_t*)(p + 3*stride)= v;
-    }else if(w==16){
-        const uint64_t v= val*0x0100000001ULL;
-        *(uint64_t*)(p + 0+0*stride)= v;
-        *(uint64_t*)(p + 8+0*stride)= v;
-        *(uint64_t*)(p + 0+1*stride)= v;
-        *(uint64_t*)(p + 8+1*stride)= v;
-        if(h==2) return;
-        *(uint64_t*)(p + 0+2*stride)= v;
-        *(uint64_t*)(p + 8+2*stride)= v;
-        *(uint64_t*)(p + 0+3*stride)= v;
-        *(uint64_t*)(p + 8+3*stride)= v;
-#else
-        *(uint32_t*)(p + 0+0*stride)= val;
-        *(uint32_t*)(p + 4+0*stride)= val;
-        if(h==1) return;
-        *(uint32_t*)(p + 0+1*stride)= val;
-        *(uint32_t*)(p + 4+1*stride)= val;
-        if(h==2) return;
-        *(uint32_t*)(p + 0+2*stride)= val;
-        *(uint32_t*)(p + 4+2*stride)= val;
-        *(uint32_t*)(p + 0+3*stride)= val;
-        *(uint32_t*)(p + 4+3*stride)= val;
-    }else if(w==16){
-        *(uint32_t*)(p + 0+0*stride)= val;
-        *(uint32_t*)(p + 4+0*stride)= val;
-        *(uint32_t*)(p + 8+0*stride)= val;
-        *(uint32_t*)(p +12+0*stride)= val;
-        *(uint32_t*)(p + 0+1*stride)= val;
-        *(uint32_t*)(p + 4+1*stride)= val;
-        *(uint32_t*)(p + 8+1*stride)= val;
-        *(uint32_t*)(p +12+1*stride)= val;
-        if(h==2) return;
-        *(uint32_t*)(p + 0+2*stride)= val;
-        *(uint32_t*)(p + 4+2*stride)= val;
-        *(uint32_t*)(p + 8+2*stride)= val;
-        *(uint32_t*)(p +12+2*stride)= val;
-        *(uint32_t*)(p + 0+3*stride)= val;
-        *(uint32_t*)(p + 4+3*stride)= val;
-        *(uint32_t*)(p + 8+3*stride)= val;
-        *(uint32_t*)(p +12+3*stride)= val;
-#endif
-    }else
-        assert(0);
-    assert(h==4);
-}
-
 static void fill_caches(H264Context *h, int mb_type, int for_deblock){
     MpegEncContext * const s = &h->s;
     const int mb_xy= s->mb_x + s->mb_y*s->mb_stride;
@@ -171,13 +84,14 @@ static void fill_caches(H264Context *h, int mb_type, int for_deblock){
     int left_block[8];
     int i;
 
+    top_xy     = mb_xy  - (s->mb_stride << FIELD_PICTURE);
+
     //FIXME deblocking could skip the intra and nnz parts.
-    if(for_deblock && (h->slice_num == 1 || h->slice_table[mb_xy] == h->slice_table[mb_xy-s->mb_stride]) && !FRAME_MBAFF)
+    if(for_deblock && (h->slice_num == 1 || h->slice_table[mb_xy] == h->slice_table[top_xy]) && !FRAME_MBAFF)
         return;
 
     //wow what a mess, why didn't they simplify the interlacing&intra stuff, i can't imagine that these complex rules are worth it
 
-    top_xy     = mb_xy  - (s->mb_stride << FIELD_PICTURE);
     topleft_xy = top_xy - 1;
     topright_xy= top_xy + 1;
     left_xy[1] = left_xy[0] = mb_xy-1;
@@ -3548,6 +3462,31 @@ static int execute_ref_pic_marking(H264Context *h, MMCO *mmco, int mmco_count){
         s->current_picture_ptr->reference |= s->picture_structure;
     }
 
+    if (h->long_ref_count + h->short_ref_count > h->sps.ref_frame_count){
+
+        /* We have too many reference frames, probably due to corrupted
+         * stream. Need to discard one frame. Prevents overrun of the
+         * short_ref and long_ref buffers.
+         */
+        av_log(h->s.avctx, AV_LOG_ERROR,
+               "number of reference frames exceeds max (probably "
+               "corrupt input), discarding one\n");
+
+        if (h->long_ref_count) {
+            for (i = 0; i < 16; ++i)
+                if (h->long_ref[i])
+                    break;
+
+            assert(i < 16);
+            pic = h->long_ref[i];
+            remove_long_at_index(h, i);
+        } else {
+            pic = h->short_ref[h->short_ref_count - 1];
+            remove_short_at_index(h, h->short_ref_count - 1);
+        }
+        unreference_pic(h, pic, 0);
+    }
+
     print_short_term(h);
     print_long_term(h);
     return 0;
@@ -3599,7 +3538,7 @@ static int decode_ref_pic_marking(H264Context *h, GetBitContext *gb){
         }else{
             assert(h->long_ref_count + h->short_ref_count <= h->sps.ref_frame_count);
 
-            if(h->long_ref_count + h->short_ref_count == h->sps.ref_frame_count &&
+            if(h->short_ref_count && h->long_ref_count + h->short_ref_count == h->sps.ref_frame_count &&
                     !(FIELD_PICTURE && !s->first_field && s->current_picture_ptr->reference)) {
                 h->mmco[0].opcode= MMCO_SHORT2UNUSED;
                 h->mmco[0].short_pic_num= h->short_ref[ h->short_ref_count - 1 ]->frame_num;
@@ -3849,6 +3788,14 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
     s->dropable= h->nal_ref_idc == 0;
 
+    if((s->avctx->flags2 & CODEC_FLAG2_FAST) && !h->nal_ref_idc){
+        s->me.qpel_put= s->dsp.put_2tap_qpel_pixels_tab;
+        s->me.qpel_avg= s->dsp.avg_2tap_qpel_pixels_tab;
+    }else{
+        s->me.qpel_put= s->dsp.put_h264_qpel_pixels_tab;
+        s->me.qpel_avg= s->dsp.avg_h264_qpel_pixels_tab;
+    }
+
     first_mb_in_slice= get_ue_golomb(&s->gb);
 
     if((s->flags2 & CODEC_FLAG2_CHUNKS) && first_mb_in_slice == 0){
@@ -3876,6 +3823,11 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->slice_type= slice_type;
 
     s->pict_type= h->slice_type; // to make a few old func happy, it's wrong though
+    if (s->pict_type == B_TYPE && s->last_picture_ptr == NULL) {
+        av_log(h->s.avctx, AV_LOG_ERROR,
+               "B picture before any references, skipping\n");
+        return -1;
+    }
 
     pps_id= get_ue_golomb(&s->gb);
     if(pps_id>=MAX_PPS_COUNT){
@@ -4215,14 +4167,6 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                h->use_weight,
                h->use_weight==1 && h->use_weight_chroma ? "c" : ""
                );
-    }
-
-    if((s->avctx->flags2 & CODEC_FLAG2_FAST) && !h->nal_ref_idc){
-        s->me.qpel_put= s->dsp.put_2tap_qpel_pixels_tab;
-        s->me.qpel_avg= s->dsp.avg_2tap_qpel_pixels_tab;
-    }else{
-        s->me.qpel_put= s->dsp.put_h264_qpel_pixels_tab;
-        s->me.qpel_avg= s->dsp.avg_h264_qpel_pixels_tab;
     }
 
     return 0;
@@ -7348,8 +7292,9 @@ static inline int decode_seq_parameter_set(H264Context *h){
     }
 
     tmp= get_ue_golomb(&s->gb);
-    if(tmp > MAX_PICTURE_COUNT-2){
+    if(tmp > MAX_PICTURE_COUNT-2 || tmp >= 32){
         av_log(h->s.avctx, AV_LOG_ERROR, "too many reference frames\n");
+        return -1;
     }
     sps->ref_frame_count= tmp;
     sps->gaps_in_frame_num_allowed_flag= get_bits1(&s->gb);

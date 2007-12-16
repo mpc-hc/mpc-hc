@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -109,44 +108,3 @@ int ff_rac_terminate(RangeCoder *c){
 
     return c->bytestream - c->bytestream_start;
 }
-
-#if 0 //selftest
-#define SIZE 10240
-int main(){
-    RangeCoder c;
-    uint8_t b[9*SIZE];
-    uint8_t r[9*SIZE];
-    int i;
-    uint8_t state[10]= {0};
-
-    ff_init_range_encoder(&c, b, SIZE);
-    ff_build_rac_states(&c, 0.05*(1LL<<32), 128+64+32+16);
-
-    memset(state, 128, sizeof(state));
-
-    for(i=0; i<SIZE; i++){
-        r[i]= random()%7;
-    }
-
-    for(i=0; i<SIZE; i++){
-START_TIMER
-        put_rac(&c, state, r[i]&1);
-STOP_TIMER("put_rac")
-    }
-
-    ff_put_rac_terminate(&c);
-
-    ff_init_range_decoder(&c, b, SIZE);
-
-    memset(state, 128, sizeof(state));
-
-    for(i=0; i<SIZE; i++){
-START_TIMER
-        if( (r[i]&1) != get_rac(&c, state) )
-            av_log(NULL, AV_LOG_DEBUG, "rac failure at %d\n", i);
-STOP_TIMER("get_rac")
-    }
-
-    return 0;
-}
-#endif

@@ -24,8 +24,8 @@
  * Context Adaptive Binary Arithmetic Coder.
  */
 
-#ifndef CABAC_H
-#define CABAC_H
+#ifndef FFMPEG_CABAC_H
+#define FFMPEG_CABAC_H
 
 #include "bitstream.h"
 
@@ -744,7 +744,7 @@ static int decode_significance_x86(CABACContext *c, int max_coeff, uint8_t *sign
     return coeff_count;
 }
 
-static int decode_significance_8x8_x86(CABACContext *c, uint8_t *significant_coeff_ctx_base, int *index, uint8_t *sig_off){
+static int decode_significance_8x8_x86(CABACContext *c, uint8_t *significant_coeff_ctx_base, int *index, const uint8_t *sig_off){
     int minusindex= 4-(int)index;
     int coeff_count;
     long last=0;
@@ -873,4 +873,4 @@ static int get_cabac_ueg(CABACContext *c, uint8_t * state, int max, int is_signe
 }
 #endif /* 0 */
 
-#endif /* CABAC_H */
+#endif /* FFMPEG_CABAC_H */

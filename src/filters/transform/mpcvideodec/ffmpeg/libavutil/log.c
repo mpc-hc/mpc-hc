@@ -45,7 +45,7 @@ void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl)
     vfprintf(stderr, fmt, vl);
 }
 
-void (*av_vlog)(void*, int, const char*, va_list) = av_log_default_callback;
+static void (*av_log_callback)(void*, int, const char*, va_list) = av_log_default_callback;
 
 void av_log(void* avcl, int level, const char *fmt, ...)
 {
@@ -55,12 +55,27 @@ void av_log(void* avcl, int level, const char *fmt, ...)
     va_end(vl);
 }
 
+void av_vlog(void* avcl, int level, const char *fmt, va_list vl)
+{
+    av_log_callback(avcl, level, fmt, vl);
+}
+
+int av_log_get_level(void)
+{
+    return av_log_level;
+}
+
+void av_log_set_level(int level)
+{
+    av_log_level = level;
+}
+
 void av_log_set_callback(void (*callback)(void*, int, const char*, va_list))
 {
-    av_vlog = callback;
+    av_log_callback = callback;
 }
 
 void* av_log_get_callback(void)
 {
-    return av_vlog;
+    return av_log_callback;
 }

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef LOG_H
-#define LOG_H
+#ifndef FFMPEG_LOG_H
+#define FFMPEG_LOG_H
 
 #include <stdarg.h>
 
@@ -94,15 +94,11 @@ extern void av_log(void*, int level, const char *fmt, ...) __attribute__ ((__for
 extern void av_log(void*, int level, const char *fmt, ...);
 #endif
 
-extern void (*av_vlog)(void*, int, const char*, va_list);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern void av_vlog(void*, int level, const char *fmt, va_list);
+extern int av_log_get_level(void);
+extern void av_log_set_level(int);
 extern void av_log_set_callback(void (*)(void*, int, const char*, va_list));
+extern void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
 extern void* av_log_get_callback(void);
-#ifdef __cplusplus
-}
-#endif
 
-#endif /* LOG_H */
+#endif /* FFMPEG_LOG_H */

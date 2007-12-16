@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -279,7 +278,7 @@ static int decode_init(AVCodecContext *avctx)
     case  8: avctx->pix_fmt = PIX_FMT_PAL8; break;
     case 16: avctx->pix_fmt = PIX_FMT_RGB555; break;
     case 24:
-             avctx->pix_fmt = PIX_FMT_BGR24;
+             avctx->pix_fmt = PIX_FMT_RGB24;
              break;
     case 32: avctx->pix_fmt = PIX_FMT_RGB32; break;
     default: av_log(avctx, AV_LOG_ERROR, "Camtasia error: unknown depth %i bpp\n", avctx->bits_per_sample);

@@ -127,6 +127,7 @@
  CODEC_OP(CODEC_ID_RA_144            ,142,"14_4") \
  CODEC_OP(CODEC_ID_RA_288            ,143,"28_8") \
  CODEC_OP(CODEC_ID_ATRAC3            ,144,"atrac 3") \
+ CODEC_OP(CODEC_ID_NELLYMOSER        ,145,"nellymoser") \
  \
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \

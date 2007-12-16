@@ -25,8 +25,8 @@
  * mpegvideo header.
  */
 
-#ifndef AVCODEC_MPEGVIDEO_H
-#define AVCODEC_MPEGVIDEO_H
+#ifndef FFMPEG_MPEGVIDEO_H
+#define FFMPEG_MPEGVIDEO_H
 
 #include "dsputil.h"
 #include "bitstream.h"
@@ -107,7 +107,7 @@ typedef struct Picture{
     uint8_t *interpolated[3];
     int16_t (*motion_val_base[2])[2];
     uint32_t *mb_type_base;
-#define MB_TYPE_INTRA MB_TYPE_INTRA4x4 //default mb_type if theres just one type
+#define MB_TYPE_INTRA MB_TYPE_INTRA4x4 //default mb_type if there is just one type
 #define IS_INTRA4x4(a)   ((a)&MB_TYPE_INTRA4x4)
 #define IS_INTRA16x16(a) ((a)&MB_TYPE_INTRA16x16)
 #define IS_PCM(a)        ((a)&MB_TYPE_INTRA_PCM)
@@ -891,5 +891,5 @@ void ff_wmv2_encode_mb(MpegEncContext * s,
                        DCTELEM block[6][64],
                        int motion_x, int motion_y);
 
-#endif /* AVCODEC_MPEGVIDEO_H */
+#endif /* FFMPEG_MPEGVIDEO_H */
 

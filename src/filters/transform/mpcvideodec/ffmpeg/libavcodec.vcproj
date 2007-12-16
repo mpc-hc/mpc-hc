@@ -356,8 +356,35 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\libavcodec\8bps.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\aasc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3enc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3tab.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\adpcm.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|x64"
 					ExcludedFromBuild="true"
@@ -368,7 +395,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -380,7 +406,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\amr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\asv1.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\atrac3.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\avs.c"
 				>
 			</File>
 			<File
@@ -392,11 +430,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\cavs.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cavsdec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\cavsdsp.c"
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\cinepak.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\cook.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\corepng.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cscd.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cyuv.c"
 				>
 			</File>
 			<File
@@ -421,6 +483,10 @@
 			</File>
 			<File
 				RelativePath="libavcodec\fft.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ffv1.c"
 				>
 			</File>
 			<File
@@ -458,6 +524,10 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavcodec\fraps.c"
+				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\g726.c"
@@ -516,7 +586,55 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\huffyuv.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\imc.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="libavcodec\imgconvert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\indeo2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\indeo3.c"
 				>
 			</File>
 			<File
@@ -552,6 +670,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\ljpegenc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\loco.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mace.c"
+				>
+			</File>
+			<File
 				RelativePath="libavcodec\mdct.c"
 				>
 			</File>
@@ -578,6 +708,42 @@
 			<File
 				RelativePath=".\libavcodec\motion_est.c"
 				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\motion_est_template.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg12.c"
@@ -624,11 +790,111 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\nellymoserdec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\parser.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\pcm.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavcodec\png.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\pngdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\pngenc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\qdm2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\qpeg.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\qtrle.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ra144.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ra288.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -672,6 +938,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\rpza.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\rtjpeg.c"
 				>
 			</File>
@@ -688,6 +958,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\snow.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\sp5xdec.c"
 				>
 			</File>
@@ -697,6 +971,66 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\svq1dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\svq3.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavcodec\truemotion1.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\truemotion2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\truespeech.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\tscc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\tta.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ulti.c"
 				>
 			</File>
 			<File
@@ -713,6 +1047,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\vc1dsp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vcr1.c"
 				>
 			</File>
 			<File
@@ -748,11 +1086,39 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\wma.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\wmadec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\wmv2.c"
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\wmv2dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\wmv2enc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\wnv1.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\xiph.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\xl.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\zmbv.c"
 				>
 			</File>
 		</Filter>
@@ -793,6 +1159,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\cavs.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\cavsdata.h"
 				>
 			</File>
@@ -807,46 +1177,6 @@
 			<File
 				RelativePath=".\config.h"
 				>
-			</File>
-			<File
-				RelativePath="..\ffmpeg\libavcodec\cook.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\libavcodec\cookdata.h"
@@ -926,6 +1256,14 @@
 			</File>
 			<File
 				RelativePath="libavcodec\indeo3data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\intrax8.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\intrax8huf.h"
 				>
 			</File>
 			<File
@@ -1033,6 +1371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\rectangle.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\rl.h"
 				>
 			</File>
@@ -1134,6 +1476,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\wmadata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\wmv2.h"
 				>
 			</File>
 			<File

@@ -2,6 +2,9 @@
  * The simplest mpeg encoder (well, it was the simplest!)
  * Copyright (c) 2000,2001 Fabrice Bellard.
  *
+ * Optimized for ia32 CPUs by Nick Kurshev <nickols_k@mail.ru>
+ * h263, mpeg1, mpeg2 dequantizer & draw_edges by Michael Niedermayer <michaelni@gmx.at>
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -17,20 +20,15 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
- * Optimized for ia32 cpus by Nick Kurshev <nickols_k@mail.ru>
- * h263, mpeg1, mpeg2 dequantizer & draw_edges by Michael Niedermayer <michaelni@gmx.at>
  */
 
-#include "../dsputil.h"
-#include "../mpegvideo.h"
-#include "../avcodec.h"
+#include "dsputil.h"
+#include "dsputil_mmx.h"
+#include "mpegvideo.h"
+#include "avcodec.h"
 #include "x86_cpu.h"
 
 extern uint16_t inv_zigzag_direct16[64];
-
-static const unsigned long long int mm_wabs __attribute__ ((aligned(8))) = 0xffffffffffffffffULL;
-static const unsigned long long int mm_wone __attribute__ ((aligned(8))) = 0x0001000100010001ULL;
 
 
 static void dct_unquantize_h263_intra_mmx(MpegEncContext *s,
@@ -179,7 +177,7 @@ asm volatile(
                 if (level < -2048 || level > 2047)
                     fprintf(stderr, "unquant error %d %d\n", i, level);
 #endif
-  We can suppose that result of two multiplications can't be greate of 0xFFFF
+  We can suppose that result of two multiplications can't be greater than 0xFFFF
   i.e. is 16-bit, so we use here only PMULLW instruction and can avoid
   a complex multiplication.
 =====================================================
@@ -397,7 +395,7 @@ asm volatile(
                 : "%"REG_a, "memory"
         );
     block[0]= block0;
-        //Note, we dont do mismatch control for intra as errors cannot accumulate
+        //Note, we do not do mismatch control for intra as errors cannot accumulate
 }
 
 static void dct_unquantize_mpeg2_inter_mmx(MpegEncContext *s,

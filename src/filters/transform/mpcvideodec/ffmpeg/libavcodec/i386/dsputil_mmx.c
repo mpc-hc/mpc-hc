@@ -22,9 +22,10 @@
  * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
  */
 
-#include "../dsputil.h"
-#include "../simple_idct.h"
-#include "../mpegvideo.h"
+#include "dsputil.h"
+#include "dsputil_mmx.h"
+#include "simple_idct.h"
+#include "mpegvideo.h"
 #include "x86_cpu.h"
 #include "mmx.h"
 #include "../skl_dct.h"
@@ -40,30 +41,34 @@ extern void ff_idct_xvid_mmx2(short *block);
 int mm_flags; /* multimedia extension flags */
 
 /* pixel operations */
-static const uint64_t mm_bone attribute_used __attribute__ ((aligned(8))) = 0x0101010101010101ULL;
-static const uint64_t mm_wone attribute_used __attribute__ ((aligned(8))) = 0x0001000100010001ULL;
-static const uint64_t mm_wtwo attribute_used __attribute__ ((aligned(8))) = 0x0002000200020002ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_bone) = 0x0101010101010101ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
 
-static const uint64_t ff_pdw_80000000[2] attribute_used __attribute__ ((aligned(16))) =
+DECLARE_ALIGNED_16(const uint64_t, ff_pdw_80000000[2]) =
 {0x8000000080000000ULL, 0x8000000080000000ULL};
 
-static const uint64_t ff_pw_20 attribute_used __attribute__ ((aligned(8))) = 0x0014001400140014ULL;
-static const uint64_t ff_pw_3  attribute_used __attribute__ ((aligned(8))) = 0x0003000300030003ULL;
-static const uint64_t ff_pw_4  attribute_used __attribute__ ((aligned(8))) = 0x0004000400040004ULL;
-static const uint64_t ff_pw_5  attribute_used __attribute__ ((aligned(8))) = 0x0005000500050005ULL;
-static const uint64_t ff_pw_8  attribute_used __attribute__ ((aligned(8))) = 0x0008000800080008ULL;
-static const uint64_t ff_pw_16 attribute_used __attribute__ ((aligned(8))) = 0x0010001000100010ULL;
-static const uint64_t ff_pw_32 attribute_used __attribute__ ((aligned(8))) = 0x0020002000200020ULL;
-static const uint64_t ff_pw_64 attribute_used __attribute__ ((aligned(8))) = 0x0040004000400040ULL;
-static const uint64_t ff_pw_15 attribute_used __attribute__ ((aligned(8))) = 0x000F000F000F000FULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_3  ) = 0x0003000300030003ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_4  ) = 0x0004000400040004ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_5  ) = 0x0005000500050005ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_8  ) = 0x0008000800080008ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_16 ) = 0x0010001000100010ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_32 ) = 0x0020002000200020ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_42 ) = 0x002A002A002A002AULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_64 ) = 0x0040004000400040ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pw_96 ) = 0x0060006000600060ULL;
+DECLARE_ALIGNED_16(const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
 
-static const uint64_t ff_pb_1  attribute_used __attribute__ ((aligned(8))) = 0x0101010101010101ULL;
-static const uint64_t ff_pb_3  attribute_used __attribute__ ((aligned(8))) = 0x0303030303030303ULL;
-static const uint64_t ff_pb_7  attribute_used __attribute__ ((aligned(8))) = 0x0707070707070707ULL;
-static const uint64_t ff_pb_3F attribute_used __attribute__ ((aligned(8))) = 0x3F3F3F3F3F3F3F3FULL;
-static const uint64_t ff_pb_A1 attribute_used __attribute__ ((aligned(8))) = 0xA1A1A1A1A1A1A1A1ULL;
-static const uint64_t ff_pb_5F attribute_used __attribute__ ((aligned(8))) = 0x5F5F5F5F5F5F5F5FULL;
-static const uint64_t ff_pb_FC attribute_used __attribute__ ((aligned(8))) = 0xFCFCFCFCFCFCFCFCULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_1  ) = 0x0101010101010101ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3  ) = 0x0303030303030303ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_7  ) = 0x0707070707070707ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3F ) = 0x3F3F3F3F3F3F3F3FULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_A1 ) = 0xA1A1A1A1A1A1A1A1ULL;
+DECLARE_ALIGNED_8 (const uint64_t, ff_pb_FC ) = 0xFCFCFCFCFCFCFCFCULL;
+
+DECLARE_ALIGNED_16(const double, ff_pd_1[2]) = { 1.0, 1.0 };
+DECLARE_ALIGNED_16(const double, ff_pd_2[2]) = { 2.0, 2.0 };
 
 #define JUMPALIGN() __asm __volatile (ASMALIGN(3)::)
 #define MOVQ_ZERO(regd)  __asm __volatile ("pxor %%" #regd ", %%" #regd ::)
@@ -79,8 +84,8 @@ static const uint64_t ff_pb_FC attribute_used __attribute__ ((aligned(8))) = 0xF
     "paddb %%" #regd ", %%" #regd " \n\t" ::)
 
 #ifndef PIC
-#define MOVQ_BONE(regd)  __asm __volatile ("movq %0, %%" #regd " \n\t" ::"m"(mm_bone))
-#define MOVQ_WTWO(regd)  __asm __volatile ("movq %0, %%" #regd " \n\t" ::"m"(mm_wtwo))
+#define MOVQ_BONE(regd)  __asm __volatile ("movq %0, %%" #regd " \n\t" ::"m"(ff_bone))
+#define MOVQ_WTWO(regd)  __asm __volatile ("movq %0, %%" #regd " \n\t" ::"m"(ff_wtwo))
 #else
 // for shared library it's better to use this way for accessing constants
 // pcmpeqd -> -1
@@ -778,7 +783,7 @@ static int sse8_mmx(void *v, uint8_t * pix1, uint8_t * pix2, int line_size, int 
       "movq (%1,%3),%%mm4\n"    /* mm4 = pix2[1][0-7] */
 
       /* todo: mm1-mm2, mm3-mm4 */
-      /* algo: substract mm1 from mm2 with saturation and vice versa */
+      /* algo: subtract mm1 from mm2 with saturation and vice versa */
       /*       OR the results to get absolute difference */
       "movq %%mm1,%%mm5\n"
       "movq %%mm3,%%mm6\n"
@@ -838,7 +843,7 @@ static int sse16_mmx(void *v, uint8_t * pix1, uint8_t * pix2, int line_size, int
       "movq 8(%1),%%mm4\n"      /* mm4 = pix2[8-15] */
 
       /* todo: mm1-mm2, mm3-mm4 */
-      /* algo: substract mm1 from mm2 with saturation and vice versa */
+      /* algo: subtract mm1 from mm2 with saturation and vice versa */
       /*       OR the results to get absolute difference */
       "movq %%mm1,%%mm5\n"
       "movq %%mm3,%%mm6\n"
@@ -898,7 +903,7 @@ static int sse16_sse2(void *v, uint8_t * pix1, uint8_t * pix2, int line_size, in
       "movdqu (%1,%4),%%xmm4\n" /* mm4 = pix2[1][0-15] */
 
       /* todo: mm1-mm2, mm3-mm4 */
-      /* algo: substract mm1 from mm2 with saturation and vice versa */
+      /* algo: subtract mm1 from mm2 with saturation and vice versa */
       /*       OR the results to get absolute difference */
       "movdqa %%xmm1,%%xmm5\n"
       "movdqa %%xmm3,%%xmm6\n"
@@ -1527,10 +1532,11 @@ static void sub_hfyu_median_prediction_mmx2(uint8_t *dst, uint8_t *src1, uint8_t
         "mov"#m1" "#mm"0, %0          \n\t"\
         DIFF_PIXELS_1(m0, mm##7, mm##0, (%1,%3,4), (%2,%3,4))\
         "mov"#m1" %0, "#mm"0          \n\t"\
-        : "=m"(temp), "+r"(p1b), "+r"(p2b)\
+        : "+m"(temp), "+r"(p1b), "+r"(p2b)\
         : "r"((long)stride), "r"((long)stride*3)\
     );\
 }
+    //the "+m"(temp) is needed as gcc 2.95 sometimes fails to compile "=m"(temp)
 
 #define DIFF_PIXELS_4x8(p1,p2,stride,temp) DIFF_PIXELS_8(d, q,   %%mm,  p1, p2, stride, temp)
 #define DIFF_PIXELS_8x8(p1,p2,stride,temp) DIFF_PIXELS_8(q, dqa, %%xmm, p1, p2, stride, temp)
@@ -2851,6 +2857,13 @@ void ff_avg_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
     avg_pixels16_mmx(dst, src, stride, 16);
 }
 
+/* VC1 specific */
+void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx);
+
+void ff_put_vc1_mspel_mc00_mmx(uint8_t *dst, const uint8_t *src, int stride, int rnd) {
+    put_pixels8_mmx(dst, src, stride, 8);
+}
+
 /* external functions, from idct_mmx.c */
 void ff_mmx_idct(DCTELEM *block);
 void ff_mmxext_idct(DCTELEM *block);
@@ -3508,6 +3521,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
 
             ff_cavsdsp_init_mmx2(c, avctx);
+            ff_vc1dsp_init_mmx(c, avctx);
 
 #ifdef CONFIG_ENCODERS
             c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_mmx2;

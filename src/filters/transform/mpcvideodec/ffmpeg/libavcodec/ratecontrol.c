@@ -138,7 +138,7 @@ int ff_rate_control_init(MpegEncContext *s)
         i+= s->max_b_frames;
         if(i<=0 || i>=INT_MAX / sizeof(RateControlEntry))
             return -1;
-        rcc->entry = (RateControlEntry*)av_mallocz(i*sizeof(RateControlEntry));
+        rcc->entry = av_mallocz(i*sizeof(RateControlEntry));
         rcc->num_entries= i;
 
         /* init all to skipped p frames (with b frames we might have a not encoded frame at the end FIXME) */
@@ -754,6 +754,7 @@ float ff_rate_estimate_qscale(MpegEncContext *s, int dry_run)
     }else{
         Picture *dts_pic;
         rce= &local_rce;
+
         //FIXME add a dts field to AVFrame and ensure its set and use it here instead of reordering
         //but the reordering is simpler for now until h.264 b pyramid must be handeld
         if(s->pict_type == B_TYPE || s->low_delay)

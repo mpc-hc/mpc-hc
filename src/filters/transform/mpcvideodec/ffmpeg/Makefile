@@ -94,6 +94,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/msmpeg4data.c \
       $(LAVC_DIR)/msrle.c \
       $(LAVC_DIR)/msvideo1.c \
+      $(LAVC_DIR)/nellymoserdec.c \
       $(LAVC_DIR)/parser.c \
       $(LAVC_DIR)/pcm.c \
       $(LAVC_DIR)/png.c \
@@ -137,6 +138,8 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/wma.c \
       $(LAVC_DIR)/wmadec.c \
       $(LAVC_DIR)/wmv2.c \
+      $(LAVC_DIR)/wmv2dec.c \
+      $(LAVC_DIR)/wmv2enc.c \
       $(LAVC_DIR)/wnv1.c \
       $(LAVC_DIR)/xl.c \
       $(LAVC_DIR)/zmbv.c \
@@ -179,6 +182,7 @@ SRCS_C+=$(LAVC_DIR)/i386/cputest.c \
       $(LAVC_DIR)/i386/mpegvideo_mmx.c \
       $(LAVC_DIR)/i386/simple_idct_mmx.c \
       $(LAVC_DIR)/i386/snowdsp_mmx.c \
+      $(LAVC_DIR)/i386/vc1dsp_mmx.c \
       $(LAVC_DIR)/i386/vp3dsp_mmx.c \
       $(LAVC_DIR)/i386/vp3dsp_sse2.c
 SRCS_NASM=$(LAVC_DIR)/i386/skl_dct_sse.asm \

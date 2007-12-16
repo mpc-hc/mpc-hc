@@ -46,8 +46,8 @@
 #define AV_STRINGIFY(s)         AV_TOSTRING(s)
 #define AV_TOSTRING(s) #s
 
-#define LIBAVCODEC_VERSION_INT  ((51<<16)+(46<<8)+0)
-#define LIBAVCODEC_VERSION      51.46.0
+#define LIBAVCODEC_VERSION_INT  ((51<<16)+(48<<8)+0)
+#define LIBAVCODEC_VERSION      51.48.0
 #define LIBAVCODEC_BUILD        LIBAVCODEC_VERSION_INT
 
 #define LIBAVCODEC_IDENT        "Lavc" AV_STRINGIFY(LIBAVCODEC_VERSION)
@@ -1837,11 +1837,11 @@ typedef struct AVCodecContext {
      * - decoding: unused
      */
     int partitions;
-#define X264_PART_I4X4 0x001  /* Analyse i4x4 */
-#define X264_PART_I8X8 0x002  /* Analyse i8x8 (requires 8x8 transform) */
-#define X264_PART_P8X8 0x010  /* Analyse p16x8, p8x16 and p8x8 */
-#define X264_PART_P4X4 0x020  /* Analyse p8x4, p4x8, p4x4 */
-#define X264_PART_B8X8 0x100  /* Analyse b16x8, b8x16 and b8x8 */
+#define X264_PART_I4X4 0x001  /* Analyze i4x4 */
+#define X264_PART_I8X8 0x002  /* Analyze i8x8 (requires 8x8 transform) */
+#define X264_PART_P8X8 0x010  /* Analyze p16x8, p8x16 and p8x8 */
+#define X264_PART_P4X4 0x020  /* Analyze p8x4, p4x8, p4x4 */
+#define X264_PART_B8X8 0x100  /* Analyze b16x8, b8x16 and b8x8 */
 
     /**
      * direct MV prediction mode - 0 (none), 1 (spatial), 2 (temporal)
@@ -2359,8 +2359,10 @@ FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
  * @param[out] buf the output buffer
  * @param[in] buf_size the output buffer size
  * @param[in] samples the input buffer containing the samples
- * @return On error a negative value is returned, on succes zero or the number
- * of bytes used from the input buffer.
+ * The number of samples read from this buffer is frame_size*channels,
+ * both of which are defined in \p avctx.
+ * @return On error a negative value is returned, on success zero or the number
+ * of bytes used to encode the data read from the input buffer.
  */
 int avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
                          const short *samples);
