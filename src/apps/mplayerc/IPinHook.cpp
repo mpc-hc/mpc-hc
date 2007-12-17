@@ -555,20 +555,20 @@ const DXVA2_DECODER DXVA2Decoder[] =
 	{ &DXVA2_ModeH264_B,		_T("H.264 motion compensation, FGT") },
 	{ &DXVA2_ModeH264_C,		_T("H.264 IDCT, no FGT") },
 	{ &DXVA2_ModeH264_D,		_T("H.264 IDCT, FGT") },
-	{ &DXVA2_ModeH264_E,		_T("H.264 VLD, no FGT") },
-	{ &DXVA2_ModeH264_F,		_T("H.264 variable-length decoder, FGT") },
+	{ &DXVA2_ModeH264_E,		_T("H.264 bitstream decoder, no FGT") },
+	{ &DXVA2_ModeH264_F,		_T("H.264 bitstream decoder, FGT") },
 	{ &DXVA2_ModeMPEG2_IDCT,	_T("MPEG-2 IDCT") },
 	{ &DXVA2_ModeMPEG2_MoComp,	_T("MPEG-2 motion compensation") },
 	{ &DXVA2_ModeMPEG2_VLD,		_T("MPEG-2 variable-length decoder") },
 	{ &DXVA2_ModeVC1_A,			_T("VC-1 post processing") },
 	{ &DXVA2_ModeVC1_B,			_T("VC-1 motion compensation") },
 	{ &DXVA2_ModeVC1_C,			_T("VC-1 IDCT") },
-	{ &DXVA2_ModeVC1_D,			_T("VC-1 VLD") },
+	{ &DXVA2_ModeVC1_D,			_T("VC-1 bitstream decoder") },
 	{ &DXVA2_ModeWMV8_A,		_T("WMV 8 post processing.") }, 
 	{ &DXVA2_ModeWMV8_B,		_T("WMV8 motion compensation") },
 	{ &DXVA2_ModeWMV9_A,		_T("WMV9 post processing") },
 	{ &DXVA2_ModeWMV9_B,		_T("WMV9 motion compensation") },
-	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT.") },
+	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT") },
 };
 
 typedef struct
@@ -637,17 +637,17 @@ const D3DFORMAT_TYPE	D3DFormatType[] =
 
 static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)
 {
-	LOG(_T("DecodeBufferDesc type : %d"), pDecodeBuff->CompressedBufferType);
-	LOG(_T("	- BufferIndex                       %d"), pDecodeBuff->BufferIndex);
-	LOG(_T("	- DataOffset                        %d"), pDecodeBuff->DataOffset);
-	LOG(_T("	- DataSize                          %d"), pDecodeBuff->DataSize);
-	LOG(_T("	- FirstMBaddress                    %d"), pDecodeBuff->FirstMBaddress);
-	LOG(_T("	- NumMBsInBuffer                    %d"), pDecodeBuff->NumMBsInBuffer);
-	LOG(_T("	- Width                             %d"), pDecodeBuff->Width);
-	LOG(_T("	- Height                            %d"), pDecodeBuff->Height);
-	LOG(_T("	- Stride                            %d"), pDecodeBuff->Stride);
-	LOG(_T("	- ReservedBits                      %d"), pDecodeBuff->ReservedBits);
-	LOG(_T("	- pvPVPState                        %d"), pDecodeBuff->pvPVPState);
+	LOG(_T("DecodeBufferDesc type : %d   Size=%d   NumMBsInBuffer=%d"), pDecodeBuff->CompressedBufferType, pDecodeBuff->DataSize, pDecodeBuff->NumMBsInBuffer);
+	//LOG(_T("	- BufferIndex                       %d"), pDecodeBuff->BufferIndex);
+	//LOG(_T("	- DataOffset                        %d"), pDecodeBuff->DataOffset);
+	//LOG(_T("	- DataSize                          %d"), pDecodeBuff->DataSize);
+	//LOG(_T("	- FirstMBaddress                    %d"), pDecodeBuff->FirstMBaddress);
+	//LOG(_T("	- NumMBsInBuffer                    %d"), pDecodeBuff->NumMBsInBuffer);
+	//LOG(_T("	- Width                             %d"), pDecodeBuff->Width);
+	//LOG(_T("	- Height                            %d"), pDecodeBuff->Height);
+	//LOG(_T("	- Stride                            %d"), pDecodeBuff->Stride);
+	//LOG(_T("	- ReservedBits                      %d"), pDecodeBuff->ReservedBits);
+	//LOG(_T("	- pvPVPState                        %d"), pDecodeBuff->pvPVPState);
 }
 
 #define MAX_BUFFER_TYPE		15
@@ -702,32 +702,29 @@ public :
 				m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
 				m_ppBufferLen[BufferType]		= *pBufferSize;
 			}
-			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x\n"), BufferType, hr);
+//			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType)
 		{
-			if (BufferType == DXVA2_PictureParametersBufferType)
-				LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[BufferType]);
-
 			HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
-			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x\n"), BufferType, hr);
+//			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE BeginFrame(IDirect3DSurface9 *pRenderTarget, void *pvPVPData)
 		{
 			HRESULT		hr = m_pDec->BeginFrame (pRenderTarget, pvPVPData);
-			LOG(_T("IDirectXVideoDecoder::BeginFrame pRenderTarget = %08x,  hr = %08x\n"), pRenderTarget, hr);
+			LOG(_T("IDirectXVideoDecoder::BeginFrame pRenderTarget = %08x,  hr = %08x"), pRenderTarget, hr);
 			return hr;
 		}
         
         virtual HRESULT STDMETHODCALLTYPE EndFrame(HANDLE *pHandleComplete)
 		{
 			HRESULT		hr = m_pDec->EndFrame (pHandleComplete);
-			LOG(_T("IDirectXVideoDecoder::EndFrame  hr = %08x\n"), hr);
+			LOG(_T("IDirectXVideoDecoder::EndFrame  Handle=0x%08x  hr = %08x\n"), pHandleComplete, hr);
 			return hr;
 		}
         
@@ -806,6 +803,23 @@ public :
 			//	strRes.AppendFormat(_T("%d,"), pPic->SliceGroupMap[i]);
 //			strRes.AppendFormat(_T("%d,"), pPic->SliceGroupMap[810]);
 
+			// SABOTAGE !!!
+//for (int i=0; i<16; i++)
+//{
+//	pPic->FieldOrderCntList[i][0] =  pPic->FieldOrderCntList[i][1] = 0;
+//	pPic->RefFrameList[i].AssociatedFlag = 1;
+//	pPic->RefFrameList[i].bPicEntry = 255;
+//	pPic->RefFrameList[i].Index7Bits = 127;
+//}
+
+			// === Dump PicParams!
+			//static FILE*	hPict = NULL;
+			//if (!hPict) hPict = fopen ("PicParam.bin", "wb");
+			//if (hPict)
+			//{
+			//	fwrite (pPic, sizeof (DXVA_PicParams_H264), 1, hPict);
+			//}
+
 			LOG_TOFILE (_T("picture.log"), strRes);
 		}
 
@@ -840,24 +854,35 @@ public :
 					LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
 				}
 
-				//if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
-				//{
-				//	FILE*	hFile = fopen ("BitStream.bin", "wb");
-				//	if (hFile)
-				//	{
-				//		fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
-				//				1,
-				//				pExecuteParams->pCompressedBuffers[i].DataSize,
-				//				hFile);
-				//		fclose (hFile);
-				//	}
-				//	m_pDec = NULL;
-				//}
+				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
+				{
+					//char		strFile[MAX_PATH];
+					//static	int	nNb = 1;
+					//sprintf (strFile, "BitStream%d.bin", nNb++);
+					//FILE*		hFile = fopen (strFile, "wb");
+					//if (hFile)
+					//{
+					//	fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+					//			1,
+					//			pExecuteParams->pCompressedBuffers[i].DataSize,
+					//			hFile);
+					//	fclose (hFile);
+					//}
+				}
 
 			}
 
 			HRESULT		hr = m_pDec->Execute (pExecuteParams);
-			LOG(_T("IDirectXVideoDecoder::Execute  %d buffer,  hr = %08x"), pExecuteParams->NumCompBuffers, hr);
+
+			if (pExecuteParams->pExtensionData)
+				LOG(_T("IDirectXVideoDecoder::Execute  %d buffer, fct = %d  (in=%d, out=%d),  hr = %08x"), 
+						pExecuteParams->NumCompBuffers, 
+						pExecuteParams->pExtensionData->Function, 
+						pExecuteParams->pExtensionData->PrivateInputDataSize,
+						pExecuteParams->pExtensionData->PrivateOutputDataSize,
+						hr);
+			else
+				LOG(_T("IDirectXVideoDecoder::Execute  %d buffer, hr = %08x"), pExecuteParams->NumCompBuffers, hr);
 			return hr;
 		}
 };
@@ -1119,6 +1144,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
 	// TODO : remove log file !!
 	::DeleteFile (LOG_FILE);
+	::DeleteFile (_T("picture.log"));
 //	LogVideoCardCaps((IDirectXVideoDecoderService*) pIDirectXVideoDecoderService);
 
 	if (pIDirectXVideoDecoderService)

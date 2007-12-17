@@ -797,7 +797,7 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
 		if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-		pProperties->cBuffers = 14;		// TODO !!!
+		pProperties->cBuffers = CDXVADecoderH264::PicEntryNumber;		// TODO !!! 16 for H264 ??
 
 		if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
 			return hr;
@@ -911,7 +911,7 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
 
 BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config)
 {
-	bool	bRet;
+	bool	bRet = false;
 
 	bRet = ((config.ConfigBitstreamRaw == 2) && (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2')) );
 
@@ -1135,7 +1135,10 @@ HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3D
 								pDecoderRenderTargets, nNumRenderTargets, &pDecoder);
 
 	if (SUCCEEDED (hr))
+	{
 		m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pDecoder, &m_DecoderGuid);
+		m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+	}
 
 	return hr;
 }

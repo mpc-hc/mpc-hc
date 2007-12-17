@@ -42,6 +42,8 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* p
 	m_pFilter		= pFilter;
 	m_nMode			= nMode; 
 	m_pDXDecoder	= pDXDecoder;
+
+	memset (&m_ExecuteParams, 0, sizeof(m_ExecuteParams));
 };
 
 
@@ -49,7 +51,6 @@ void CDXVADecoder::AllocExecuteParams (int nSize)
 {
 	m_ExecuteParams.NumCompBuffers		= nSize;
 	m_ExecuteParams.pCompressedBuffers	= new DXVA2_DecodeBufferDesc[nSize];
-	m_ExecuteParams.pExtensionData		= NULL;
 
 	for (int i=0; i<nSize; i++)
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
@@ -68,11 +69,39 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 	if (SUCCEEDED (hr) && (nSize <= nDXVASize))
 	{
 		LOG(_T("GetBuffer %d :  hr=0x%08x   DXsize=%d  BuffSize=%d"), CompressedBufferType, hr, nDXVASize, nSize);
+
+		//	TODO : patch pour H264 à faire !!
+		if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
+		{
+			pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
+			pDXVABuffer += 3;
+		}
+
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+
+		if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
+		{
+			// For H264 bitstream buffers should be multiple of 128
+			nSize += 3;
+			int		nDummy = 128 - (nSize %128);
+			pDXVABuffer += nSize;
+			memset (pDXVABuffer, 0, nDummy);
+			nSize += nDummy;
+		}
+
 		hr = m_pDXDecoder->ReleaseBuffer (CompressedBufferType);
 		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
 		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
+		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
 		m_ExecuteParams.NumCompBuffers++;
 	}
 	return hr;
+}
+
+
+void CDXVADecoder::SetExtraData (BYTE* pDataIn, UINT nSize)
+{
+	// Extradata is codec dependant
+	UNREFERENCED_PARAMETER (pDataIn);
+	UNREFERENCED_PARAMETER (nSize);
 }

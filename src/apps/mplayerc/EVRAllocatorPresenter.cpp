@@ -841,7 +841,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
-		TRACE ("=>MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
+//		TRACE ("=>MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
 		// WARNING : some decoder notify once for several sample (Microsoft MPEG2 filter for example)
 		GetImageFromMixer();
 		break;
@@ -1094,7 +1094,7 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 				m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 			}
 		
-			TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
+//			TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
 
 			m_nFreeSlot = (m_nFreeSlot+1) % m_nNbDXSurface;
 			ReleaseSemaphore (m_hSemPicture, 1, NULL);

@@ -333,12 +333,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "src\filters\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
-		Debug Unicode lib|x64 = Debug Unicode lib|x64
 		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug Unicode|x64 = Debug Unicode|x64
-		Release Unicode lib|Win32 = Release Unicode lib|Win32
-		Release Unicode lib|x64 = Release Unicode lib|x64
 		Release Unicode|Win32 = Release Unicode|Win32
 		Release Unicode|x64 = Release Unicode|x64
 	EndGlobalSection

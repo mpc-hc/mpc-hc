@@ -41,7 +41,8 @@ public :
 	DXVA2Mode		GetMode()		{ return m_nMode; };
 	void			AllocExecuteParams (int nSize);
 
-	virtual HRESULT DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* pOut) = NULL;
+	virtual HRESULT DecodeFrame  (BYTE* pDataIn, UINT nSize, IMediaSample* pOut) = NULL;
+	virtual void    SetExtraData (BYTE* pDataIn, UINT nSize);
 
 	static CDXVADecoder* CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDecoder, const GUID* guidDecoder);
 
