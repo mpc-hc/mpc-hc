@@ -253,8 +253,31 @@ private:
 		unsigned int frame_cropping_rect_bottom_offset;              // ue(v)
 	  bool   vui_parameters_present_flag;                      // u(1)
 //		VUI_SEQ_PARAMETERS vui_seq_parameters;                  // vui_seq_parameters_t
-		unsigned  residual_colour_transform_flag;                       // u(1)
+		unsigned  residual_colour_transform_flag;                       // u(1)	separate_colour_plane_flag
 	} SEQ_PARAMETER_SET_RBSP;
+
+
+	// image parameters
+	typedef struct
+	{
+		int                 first_mb_in_slice;
+		int                 pic_parameter_set_id;   //!<the ID of the picture parameter set the slice is reffering to
+		FRAME_TYPE			slice_type;
+		UINT				frame_num;
+		int					colour_plane_id;
+		unsigned int		field_pic_flag;
+		unsigned int		bottom_field_flag;
+		int					idr_flag;
+		int					nal_reference_idc;                       //!< nal_reference_idc from NAL unit
+		int					idr_pic_id;
+		//the following is for slice header syntax elements of poc
+		// for poc mode 0.
+		unsigned int		pic_order_cnt_lsb;
+		int					delta_pic_order_cnt_bottom;
+		// for poc mode 1.
+		int					delta_pic_order_cnt[3];
+	} SLICE_PARAMETER;
+
 
 	DXVA_PicParams_H264		m_DXVAPicParams;
 	QMatrixH264Type			m_nQMatrix;			// N° for inverse quantization matrix
@@ -278,7 +301,7 @@ private:
 	bool					u_1 (BYTE* pBuffer, UINT nBufferLength, UINT& nBitOffset);
 	static void				LInfo_Ue(int len, int info, int *value1, int *dummy);
 	static void				LInfo_Se(int len,  int info, int *value1, int *dummy);
-	void					ReadSliceHeader(BYTE* pBuffer, UINT nBufferLength, UINT& nFrameNum, FRAME_TYPE& nType, bool& bRefFrame);
+	void					ReadSliceHeader(SLICE_PARAMETER* pSlice, BYTE* pBuffer, UINT nBufferLength);
 
 	int						MoreRBSPData (BYTE* buffer,int totbitoffset,int bytecount);
 	void					ReadNalu (NALU* Nalu, BYTE* pDataIn, UINT nSize);
@@ -286,6 +309,6 @@ private:
 	void					ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength);
 //	void					ReadVUI(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength, UINT nBitOffset);
 
-	void					ResetPictureParams();
-	void					UpdatePictureParams (int nFrameNum, FRAME_TYPE nFrameType, bool bRefFrame);
+	void					InitPictureParams();
+	void					UpdatePictureParams (int nFrameNum, bool bRefFrame);
 };
