@@ -31,7 +31,13 @@ class CMPCVideoDecFilter;
 class CVideoDecDXVAAllocator;
 
 
-class CDXVA2Sample : public CMediaSample, public IMFGetService
+[uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494")]
+interface IMPCDXVA2Sample : public IUnknown
+{
+	STDMETHOD_(int, GetDXSurfaceId()) = 0;
+};
+
+class CDXVA2Sample : public CMediaSample, public IMFGetService, public IMPCDXVA2Sample
 {
     friend class CVideoDecDXVAAllocator;
 
@@ -48,6 +54,9 @@ public:
 
     // IMFGetService::GetService
     STDMETHODIMP GetService(REFGUID guidService, REFIID riid, LPVOID *ppv);
+
+	// IMPCDXVA2Sample
+	STDMETHODIMP_(int) GetDXSurfaceId();
 
     // Override GetPointer because this class does not manage a system memory buffer.
     // The EVR uses the MR_BUFFER_SERVICE service to get the Direct3D surface.

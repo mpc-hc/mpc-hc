@@ -34,8 +34,9 @@ class CDXVADecoderH264 : public CDXVADecoder
 public:
 	CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDecoder, DXVA2Mode nMode);
 
-	virtual HRESULT DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* pOut);
-	virtual void	SetExtraData (BYTE* pDataIn, UINT nSize);
+	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, IMediaSample* pOut);
+	virtual void	SetExtraData  (BYTE* pDataIn, UINT nSize);
+	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 
 	const static int		PicEntryNumber = 14;
 private:
@@ -288,7 +289,7 @@ private:
 	UINT					m_nCurRefFrame;		// First free RefFrameList position
 	
 	DXVA_Slice_H264_Short	m_SliceShort;
-
+	CComPtr<IMediaSample>	m_pCurRefSample[PicEntryNumber];
 
 	// Bitstream parsing functions from JM Ref h264 decoder (http://iphome.hhi.de/suehring/tml/)
 	int						GetBits (byte buffer[],int totbitoffset,int *info, int bytecount, int numbits);

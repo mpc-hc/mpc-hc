@@ -21,6 +21,7 @@
  */
 
 #include "stdafx.h"
+#include "VideoDecDXVAAllocator.h"
 #include "DXVADecoderH264.h"
 #include "MPCVideoDecFilter.h"
 
@@ -52,6 +53,21 @@ CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDe
 }
 
 
+void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
+{
+	pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
+	pDXVABuffer += 3;
+
+	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+
+	// For H264 bitstream buffers should be multiple of 128
+	nSize += 3;
+	int		nDummy = 128 - (nSize %128);
+	pDXVABuffer += nSize;
+	memset (pDXVABuffer, 0, nDummy);
+	nSize += nDummy;
+}
+
 
 HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* pOut)
 {
@@ -63,6 +79,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 	int							nBuffCount;
 	NALU						Nalu;
 	SLICE_PARAMETER				Slice;
+	CComQIPtr<IMPCDXVA2Sample>	pMPCDXVA2Sample = pOut;
+	int							nSurfaceNumber  = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
 
 	//char		strFile[MAX_PATH];
 	//static	int	nNb = 1;
@@ -136,8 +154,11 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 	// Fill CurrPic parameters
 	if (Slice.field_pic_flag)
 		m_DXVAPicParams.CurrPic.AssociatedFlag	= Slice.delta_pic_order_cnt_bottom;
-//	m_DXVAPicParams.CurrPic.bPicEntry			= ;
-//	m_DXVAPicParams.CurrPic.Index7Bits			= ;
+	m_DXVAPicParams.CurrPic.bPicEntry			= nSurfaceNumber;
+	m_DXVAPicParams.CurrPic.Index7Bits			= nSurfaceNumber;
+
+	m_DXVAPicParams.CurrFieldOrderCnt[0] = Slice.pic_order_cnt_lsb;
+	m_DXVAPicParams.CurrFieldOrderCnt[1] = Slice.pic_order_cnt_lsb;
 
 	// TODO : pas fini !!!
 //	m_DXVAPicParams.wBitFields	= 0x7C10 + (nFrameType == I_FRAME ? 0x8000 : 0) +  (bRefFrame ? 0x40 : 0);
@@ -175,7 +196,10 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 
 	m_ExecuteParams.NumCompBuffers	= 0;
 
-	hr = AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn);
+//nSize += 3;
+//int		nDummy = 128 - (nSize %128);
+//nSize += nDummy;
+	hr = AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize);
 
 	m_SliceShort.SliceBytesInBuffer = nSize;
 	hr = AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceShort), &m_SliceShort);
@@ -188,6 +212,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, IMediaSample* 
 	hr = m_pDXDecoder->EndFrame(NULL);
 
 	UpdatePictureParams (Slice.frame_num, Nalu.nal_reference_idc);
+	if (Nalu.nal_reference_idc)
+		m_pCurRefSample[nSurfaceNumber] = pOut;
 
 
 	//CComPtr<IDirect3DDevice9>		pD3DDev;
@@ -263,6 +289,10 @@ void CDXVADecoderH264::InitPictureParams()
 	m_DXVAPicParams.deblocking_filter_control_present_flag	= m_PicParam.deblocking_filter_control_present_flag;
 	m_DXVAPicParams.redundant_pic_cnt_present_flag			= m_PicParam.redundant_pic_cnt_present_flag;
 	m_DXVAPicParams.slice_group_change_rate_minus1			= m_PicParam.slice_group_change_rate_minus1;
+
+	m_DXVAPicParams.pic_init_qp_minus26						= m_PicParam.pic_init_qp_minus26;
+	m_DXVAPicParams.num_ref_idx_l0_active_minus1			= m_PicParam.num_ref_idx_l0_active_minus1;
+	m_DXVAPicParams.num_ref_idx_l1_active_minus1			= m_PicParam.num_ref_idx_l1_active_minus1;
 }
 
 
@@ -306,6 +336,9 @@ void CDXVADecoderH264::UpdatePictureParams (int nFrameNum, bool bRefFrame)
 
 			m_DXVAPicParams.FrameNumList[i]					= 0;
 		}
+
+		for (i=0; i<PicEntryNumber; i++)
+			m_pCurRefSample[i] = NULL;
 	}
 
 	if (bRefFrame)
@@ -313,10 +346,15 @@ void CDXVADecoderH264::UpdatePictureParams (int nFrameNum, bool bRefFrame)
 		// Shift buffers if needed
 		if (!m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag)
 		{
+			if (m_DXVAPicParams.RefFrameList[0].bPicEntry != 255)
+				m_pCurRefSample[m_DXVAPicParams.RefFrameList[0].bPicEntry] = NULL;
 			for (i=1; i<m_DXVAPicParams.num_ref_frames; i++)
 			{
 				m_DXVAPicParams.FrameNumList[i-1] = m_DXVAPicParams.FrameNumList[i];
 				memcpy (&m_DXVAPicParams.RefFrameList[i-1], &m_DXVAPicParams.RefFrameList[i], sizeof (DXVA_PicEntry_H264));
+
+				m_DXVAPicParams.FieldOrderCntList[i-1][0] = m_DXVAPicParams.FieldOrderCntList[i][0];
+				m_DXVAPicParams.FieldOrderCntList[i-1][1] = m_DXVAPicParams.FieldOrderCntList[i][1];
 			}
 		}
 
@@ -327,6 +365,9 @@ void CDXVADecoderH264::UpdatePictureParams (int nFrameNum, bool bRefFrame)
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag	= 0;
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].bPicEntry		= m_DXVAPicParams.CurrPic.bPicEntry;
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].Index7Bits		= m_DXVAPicParams.CurrPic.Index7Bits;
+
+		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
+		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];
 
 		m_nCurRefFrame = min (m_nCurRefFrame+1, m_DXVAPicParams.num_ref_frames-1);
 	}
@@ -838,84 +879,6 @@ void CDXVADecoderH264::ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pBuffer, UINT 
 	pps->Valid = TRUE;
 }
 
-/*
-void CDXVADecoderH264::ReadVUI(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength, UINT nBitOffset)
-{
-	sps->vui_seq_parameters.matrix_coefficients = 2;
-	if (sps->vui_parameters_present_flag)
-	{
-		sps->vui_seq_parameters.aspect_ratio_info_present_flag = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.aspect_ratio_info_present_flag)
-		{
-			sps->vui_seq_parameters.aspect_ratio_idc             = u_v  ( 8, pBuffer, nBufferLength, nBitOffset);
-			if (255==sps->vui_seq_parameters.aspect_ratio_idc)
-			{
-				sps->vui_seq_parameters.sar_width                  = u_v  (16, pBuffer, nBufferLength, nBitOffset);
-				sps->vui_seq_parameters.sar_height                 = u_v  (16, pBuffer, nBufferLength, nBitOffset);
-			}
-		}
-
-		sps->vui_seq_parameters.overscan_info_present_flag     = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.overscan_info_present_flag)
-		{
-			sps->vui_seq_parameters.overscan_appropriate_flag    = u_1  (pBuffer, nBufferLength, nBitOffset);
-		}
-
-		sps->vui_seq_parameters.video_signal_type_present_flag = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.video_signal_type_present_flag)
-		{
-			sps->vui_seq_parameters.video_format                    = u_v  ( 3, pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.video_full_range_flag           = u_1  (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.colour_description_present_flag = u_1  (pBuffer, nBufferLength, nBitOffset);
-			if(sps->vui_seq_parameters.colour_description_present_flag)
-			{
-				sps->vui_seq_parameters.colour_primaries              = u_v  ( 8,pBuffer, nBufferLength, nBitOffset);
-				sps->vui_seq_parameters.transfer_characteristics      = u_v  ( 8,pBuffer, nBufferLength, nBitOffset);
-				sps->vui_seq_parameters.matrix_coefficients           = u_v  ( 8,pBuffer, nBufferLength, nBitOffset);
-			}
-		}
-		sps->vui_seq_parameters.chroma_location_info_present_flag = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if(sps->vui_seq_parameters.chroma_location_info_present_flag)
-		{
-			sps->vui_seq_parameters.chroma_sample_loc_type_top_field     = ue_v  (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.chroma_sample_loc_type_bottom_field  = ue_v  (pBuffer, nBufferLength, nBitOffset);
-		}
-		sps->vui_seq_parameters.timing_info_present_flag          = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.timing_info_present_flag)
-		{
-			sps->vui_seq_parameters.num_units_in_tick               = u_v  (32,pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.time_scale                      = u_v  (32,pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.fixed_frame_rate_flag           = u_1  (   pBuffer, nBufferLength, nBitOffset);
-		}
-		sps->vui_seq_parameters.nal_hrd_parameters_present_flag   = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.nal_hrd_parameters_present_flag)
-		{
-			ReadHRDParameters(p, &(sps->vui_seq_parameters.nal_hrd_parameters));
-		}
-		sps->vui_seq_parameters.vcl_hrd_parameters_present_flag   = u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.vcl_hrd_parameters_present_flag)
-		{
-			ReadHRDParameters(p, &(sps->vui_seq_parameters.vcl_hrd_parameters));
-		}
-		if (sps->vui_seq_parameters.nal_hrd_parameters_present_flag || sps->vui_seq_parameters.vcl_hrd_parameters_present_flag)
-		{
-			sps->vui_seq_parameters.low_delay_hrd_flag             =  u_1  (pBuffer, nBufferLength, nBitOffset);
-		}
-		sps->vui_seq_parameters.pic_struct_present_flag          =  u_1  (pBuffer, nBufferLength, nBitOffset);
-		sps->vui_seq_parameters.bitstream_restriction_flag       =  u_1  (pBuffer, nBufferLength, nBitOffset);
-		if (sps->vui_seq_parameters.bitstream_restriction_flag)
-		{
-			sps->vui_seq_parameters.motion_vectors_over_pic_boundaries_flag =  u_1  (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.max_bytes_per_pic_denom                 =  ue_v (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.max_bits_per_mb_denom                   =  ue_v (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.log2_max_mv_length_horizontal           =  ue_v (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.log2_max_mv_length_vertical             =  ue_v (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.num_reorder_frames                      =  ue_v (pBuffer, nBufferLength, nBitOffset);
-			sps->vui_seq_parameters.max_dec_frame_buffering                 =  ue_v (pBuffer, nBufferLength, nBitOffset);
-		}
-	}
-}
-*/
 
 
 void CDXVADecoderH264::ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength)

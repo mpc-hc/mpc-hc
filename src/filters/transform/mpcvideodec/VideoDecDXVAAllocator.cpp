@@ -44,6 +44,10 @@ STDMETHODIMP CDXVA2Sample::QueryInterface(REFIID riid, __deref_out void **ppv)
 	{
 		return GetInterface((IMFGetService*) this, ppv);
 	}
+	if (riid == __uuidof(IMPCDXVA2Sample))
+	{
+		return GetInterface((IMPCDXVA2Sample*) this, ppv);
+	}
 	else
 	{
 		return CMediaSample::QueryInterface(riid, ppv);
@@ -96,6 +100,10 @@ void CDXVA2Sample::SetSurface(DWORD surfaceId, IDirect3DSurface9 *pSurf)
 	m_dwSurfaceId = surfaceId;
 }
 
+STDMETHODIMP_(int) CDXVA2Sample::GetDXSurfaceId()
+{
+	return m_dwSurfaceId;
+}
 
 
 CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter,  HRESULT* phr)

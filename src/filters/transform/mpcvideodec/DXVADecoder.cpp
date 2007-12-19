@@ -56,8 +56,12 @@ void CDXVADecoder::AllocExecuteParams (int nSize)
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
 }
 
+void CDXVADecoder::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
+{
+	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+}
 
-HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer)
+HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize)
 {
 	HRESULT						hr;
 	UINT						nDXVASize;
@@ -68,32 +72,19 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 
 	if (SUCCEEDED (hr) && (nSize <= nDXVASize))
 	{
-		LOG(_T("GetBuffer %d :  hr=0x%08x   DXsize=%d  BuffSize=%d"), CompressedBufferType, hr, nDXVASize, nSize);
-
 		//	TODO : patch pour H264 à faire !!
 		if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
-		{
-			pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1;
-			pDXVABuffer += 3;
-		}
-
-		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-
-		if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
-		{
-			// For H264 bitstream buffers should be multiple of 128
-			nSize += 3;
-			int		nDummy = 128 - (nSize %128);
-			pDXVABuffer += nSize;
-			memset (pDXVABuffer, 0, nDummy);
-			nSize += nDummy;
-		}
+			CopyBitstream (pDXVABuffer, (BYTE*)pBuffer, nSize);
+		else
+			memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 
 		hr = m_pDXDecoder->ReleaseBuffer (CompressedBufferType);
 		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
 		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
 		m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
 		m_ExecuteParams.NumCompBuffers++;
+
+		if (pRealSize) *pRealSize = nSize;
 	}
 	return hr;
 }

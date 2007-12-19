@@ -43,6 +43,7 @@ public :
 
 	virtual HRESULT DecodeFrame  (BYTE* pDataIn, UINT nSize, IMediaSample* pOut) = NULL;
 	virtual void    SetExtraData (BYTE* pDataIn, UINT nSize);
+	virtual void	CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 
 	static CDXVADecoder* CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDecoder, const GUID* guidDecoder);
 
@@ -55,5 +56,5 @@ protected :
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
 
 
-	HRESULT			AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer);
+	HRESULT			AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
 };
