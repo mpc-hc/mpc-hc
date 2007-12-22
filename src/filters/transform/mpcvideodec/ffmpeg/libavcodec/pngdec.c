@@ -398,22 +398,14 @@ static int decode_frame(AVCodecContext *avctx,
                 } else {
                     goto fail;
                 }
-                if(picture->data[0]==NULL){
-                    if(p->data[0])
-                        avctx->release_buffer(avctx, p);
+                if(p->data[0])
+                    avctx->release_buffer(avctx, p);
 
-                    p->reference= 0;
-                    if(avctx->get_buffer(avctx, p) < 0){
-                        av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
-                        goto fail;
-                    }
-                }else{
-                    p->data[0]=picture->data[0];
-                    p->linesize[0]=picture->linesize[0];
-                    if (p->linesize[0]<0)
-                        p->data[0]+=(avctx->height-1)*(-p->linesize[0]);
+                p->reference= 0;
+                if(avctx->get_buffer(avctx, p) < 0){
+                    av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
+                    goto fail;
                 }
-
                 p->pict_type= FF_I_TYPE;
                 p->key_frame= 1;
                 p->interlaced_frame = !!s->interlace_type;
@@ -432,7 +424,7 @@ static int decode_frame(AVCodecContext *avctx,
                 s->image_linesize = p->linesize[0];
                 /* copy the palette if needed */
                 if (s->color_type == PNG_COLOR_TYPE_PALETTE)
-                    memcpy(avctx->palctrl->palette, s->palette, 256 * sizeof(uint32_t));
+                    memcpy(p->data[1], s->palette, 256 * sizeof(uint32_t));
                 /* empty row is used if differencing to the first row */
                 s->last_row = av_mallocz(s->row_size);
                 if (!s->last_row)

@@ -3823,7 +3823,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->slice_type= slice_type;
 
     s->pict_type= h->slice_type; // to make a few old func happy, it's wrong though
-    if (s->pict_type == B_TYPE && s->last_picture_ptr == NULL) {
+    if (s->pict_type == B_TYPE && s0->last_picture_ptr == NULL) {
         av_log(h->s.avctx, AV_LOG_ERROR,
                "B picture before any references, skipping\n");
         return -1;
@@ -4129,7 +4129,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(h->deblocking_filter == 1 && h0->max_contexts > 1) {
         if(s->avctx->flags2 & CODEC_FLAG2_FAST) {
             /* Cheat slightly for speed:
-               Dont bother to deblock across slices */
+               Do not bother to deblock across slices. */
             h->deblocking_filter = 2;
         } else {
             h0->max_contexts = 1;

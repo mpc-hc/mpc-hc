@@ -46,8 +46,8 @@
 #define AV_STRINGIFY(s)         AV_TOSTRING(s)
 #define AV_TOSTRING(s) #s
 
-#define LIBAVCODEC_VERSION_INT  ((51<<16)+(48<<8)+0)
-#define LIBAVCODEC_VERSION      51.48.0
+#define LIBAVCODEC_VERSION_INT  ((51<<16)+(49<<8)+0)
+#define LIBAVCODEC_VERSION      51.49.0
 #define LIBAVCODEC_BUILD        LIBAVCODEC_VERSION_INT
 
 #define LIBAVCODEC_IDENT        "Lavc" AV_STRINGIFY(LIBAVCODEC_VERSION)
@@ -67,8 +67,10 @@ enum CodecType {
     CODEC_TYPE_NB
 };
 
-/* Currently unused, may be used if 24/32 bits samples are ever supported. */
-/* all in native-endian format */
+/**
+ * Currently unused, may be used if 24/32 bits samples are ever supported.
+ * all in native-endian format
+ */
 enum SampleFormat {
     SAMPLE_FMT_NONE = -1,
     SAMPLE_FMT_U8,              ///< unsigned 8 bits
@@ -97,17 +99,19 @@ enum SampleFormat {
  */
 #define FF_MIN_BUFFER_SIZE 16384
 
-/* motion estimation type, EPZS by default */
+/**
+ * motion estimation type.
+ */
 enum Motion_Est_ID {
-    ME_ZERO = 1,
+    ME_ZERO = 1,    ///< no search, that is use 0,0 vector whenever one is needed
     ME_FULL,
     ME_LOG,
     ME_PHODS,
-    ME_EPZS,
-    ME_X1,
-    ME_HEX,
-    ME_UMH,
-    ME_ITER,
+    ME_EPZS,        ///< enhanced predictive zonal search
+    ME_X1,          ///< reserved for experiments
+    ME_HEX,         ///< hexagon based search
+    ME_UMH,         ///< uneven multi-hexagon search
+    ME_ITER,        ///< iterative search
 };
 
 enum AVDiscard{
@@ -141,9 +145,11 @@ typedef struct RcOverride{
 #define CODEC_FLAG_GMC    0x0020  ///< Use GMC.
 #define CODEC_FLAG_MV0    0x0040  ///< Always try a MB with MV=<0,0>.
 #define CODEC_FLAG_PART   0x0080  ///< Use data partitioning.
-/* The parent program guarantees that the input for B-frames containing
+/**
+ * The parent program guarantees that the input for B-frames containing
  * streams is not written to for at least s->max_b_frames+1 frames, if
- * this is not set the input will be copied. */
+ * this is not set the input will be copied.
+ */
 #define CODEC_FLAG_INPUT_PRESERVED 0x0100
 #define CODEC_FLAG_PASS1           0x0200   ///< Use internal 2pass ratecontrol in first pass mode.
 #define CODEC_FLAG_PASS2           0x0400   ///< Use internal 2pass ratecontrol in second pass mode.
@@ -509,6 +515,12 @@ typedef struct AVPanScan{
 
 /**
  * Audio Video Frame.
+ * New fields can be added to the end of FF_COMMON_FRAME with minor version
+ * bumps.
+ * Removial, reordering and changes to existing fields require a Major
+ * version bump. No fields should be added into AVFrame before or after
+ * FF_COMMON_FRAME!
+ * sizeof(AVFrame) must not be used outside libav*
  */
 typedef struct AVFrame {
     FF_COMMON_FRAME
@@ -517,7 +529,11 @@ typedef struct AVFrame {
 #define DEFAULT_FRAME_RATE_BASE 1001000
 
 /**
- * main external API structure
+ * main external API structure.
+ * New fields can be added to the end with minor version bumps.
+ * Removial, reordering and changes to existing fields require a Major
+ * version bump.
+ * sizeof(AVCodecContext) must not be used outside libav*
  */
 struct TlibavcodecExt;
 typedef struct AVCodecContext {
@@ -1944,6 +1960,14 @@ typedef struct AVCodecContext {
      * - decoding: Set by user.
      */
     int request_channels;
+
+    /**
+     * Percentage of dynamic range compression to be applied by the decoder.
+     * The default value is 1.0, corresponding to full compression.
+     * - encoding: unused
+     * - decoding: Set by user.
+     */
+    float drc_scale;
 } AVCodecContext;
 
 /**
@@ -2129,7 +2153,7 @@ int avpicture_deinterlace(AVPicture *dst, const AVPicture *src,
 
 /* external high level API */
 
-extern AVCodec *first_avcodec;
+AVCodec *av_codec_next(AVCodec *c);
 
 /* returns LIBAVCODEC_VERSION_INT constant */
 unsigned avcodec_version(void);
