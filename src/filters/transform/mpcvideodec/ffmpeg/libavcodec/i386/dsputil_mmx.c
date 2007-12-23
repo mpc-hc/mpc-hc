@@ -3374,10 +3374,13 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
 #endif //CONFIG_ENCODERS
 
-        c->h263_v_loop_filter= h263_v_loop_filter_mmx;
-        c->h263_h_loop_filter= h263_h_loop_filter_mmx;
-        c->put_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx;
+
+            c->h263_v_loop_filter= h263_v_loop_filter_mmx;
+            c->h263_h_loop_filter= h263_h_loop_filter_mmx;
+
+        c->put_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx_rnd;
         c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_mmx;
+        c->put_no_rnd_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx_nornd;
 
         c->h264_idct_dc_add=
         c->h264_idct_add= ff_h264_idct_add_mmx;
@@ -3490,7 +3493,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             dspfunc(avg_2tap_qpel, 1, 8);
 #undef dspfunc
 
-            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_mmx2;
+            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_mmx2_rnd;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_mmx2;
             c->avg_h264_chroma_pixels_tab[2]= avg_h264_chroma_mc2_mmx2;
             c->put_h264_chroma_pixels_tab[2]= put_h264_chroma_mc2_mmx2;
@@ -3615,7 +3618,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             dspfunc(avg_2tap_qpel, 0, 16);
             dspfunc(avg_2tap_qpel, 1, 8);
 
-            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_3dnow;
+            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_3dnow_rnd;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_3dnow;
         }
 
