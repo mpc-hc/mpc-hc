@@ -81,7 +81,8 @@
 #define IDF_SHADER_SPOTLIGHT            710
 #define IDF_SHADER_WAVE                 711
 #define IDF_SHADER_PROCAMP              712
-#define IDF_SHADER_NIGHTVISION          713
+#define IDF_SHADER_LEVELS               713
+#define IDF_SHADER_NIGHTVISION          714
 #define ID_FILE_OPENMEDIA               800
 #define ID_FILE_OPENDVD                 801
 #define ID_FILE_OPENDEVICE              802

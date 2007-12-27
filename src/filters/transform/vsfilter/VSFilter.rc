@@ -29,7 +29,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
 
 3 TEXTINCLUDE 
 BEGIN
-    "\r\n"
+    "\r\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -73,8 +73,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,1,3
- PRODUCTVERSION 1,0,1,3
+ FILEVERSION 1,0,1,4
+ PRODUCTVERSION 1,0,1,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -89,15 +89,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "Visit http://gabest.org/ for updates."
+            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
-            VALUE "FileVersion", "1, 0, 1, 3"
+            VALUE "FileVersion", "1, 0, 1, 4"
             VALUE "InternalName", "VSFilter"
-            VALUE "LegalCopyright", "Copyright (C) 2001-2006 Gabest"
-            VALUE "OriginalFilename", "VSFilter.DLL"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2007 Gabest"
+            VALUE "OriginalFilename", "VSFilter.dll"
             VALUE "ProductName", "VSFilter"
-            VALUE "ProductVersion", "1, 0, 1, 3"
+            VALUE "ProductVersion", "1, 0, 1, 4"
         END
     END
     BLOCK "VarFileInfo"
@@ -117,7 +117,7 @@ STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif", 400, 0, 0x1
 BEGIN
     GROUPBOX        "",IDC_STATIC,7,7,232,151
-    LTEXT           "DirectVobSub 2.37\nCopyright 2001-2006 Gabest",IDC_STATIC,13,17,183,19
+    LTEXT           "DirectVobSub 2.38\nCopyright 2001-2007 Gabest",IDC_STATIC,13,17,183,19
     LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,39,218,32
     LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,70,219,26
     PUSHBUTTON      "Homepage",IDC_HOMEPAGEBTN,63,132,50,14,BS_FLAT
@@ -225,7 +225,7 @@ FONT 8, "MS Sans Serif", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Subtitle Timing",IDC_STATIC,7,7,233,96
     LTEXT           "Delay (enter a positive number if the subtitles are late, or a negative if they come early)",IDC_STATIC,14,20,219,16
-    EDITTEXT        IDC_EDIT5,20,41,48,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT5,20,41,48,12,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "",IDC_SPIN5,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,60,45,11,14
     LTEXT           "(millisecs)",IDC_STATIC,73,43,31,8
     LTEXT           "Speed Ratio (this may be useful for using a subtitle originally synchronized to a video with a different fps)",IDC_STATIC,14,61,219,18
@@ -525,7 +525,7 @@ BEGIN
     IDS_RG_EXTERNALLOAD     "ExtLoad"
     IDS_RG_WEBLOAD          "WebLoad"
     IDS_RG_EMBEDDEDLOAD     "EmbLoad"
-    IDS_URL_HOMEPAGE        "http://gabest.org/"
+    IDS_URL_HOMEPAGE        "http://sourceforge.net/projects/guliverkli/"
     IDS_URL_EMAIL           "mailto:gabest@freemail.hu"
 END
 
@@ -596,4 +596,5 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
 

@@ -182,6 +182,13 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 		}
 	}
 
+		// exceptions first
+
+	if(ext == _T(".dvr-ms")) // doh, this is stupid 
+	{
+		fl.Insert(new CFGFilterRegistry(CLSID_StreamBufferSource, MERIT64_PREFERRED), 0);
+	}
+
 	TCHAR buff[256], buff2[256];
 	ULONG len, len2;
 
@@ -1994,6 +2001,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	// NVIDIA Transport Demux crashed for someone, I could not reproduce it
 	m_transform.AddTail(new CFGFilterRegistry(GUIDFromCString(_T("{735823C1-ACC4-11D3-85AC-006008376FB8}")), MERIT64_DO_NOT_USE));	
 */
+	// mainconcept color space converter
+	m_transform.AddTail(new CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));	
+
 	// Overrides
 
 	WORD merit_low = 1;

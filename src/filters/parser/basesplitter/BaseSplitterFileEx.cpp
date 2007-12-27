@@ -30,8 +30,8 @@
 // CBaseSplitterFileEx
 //
 
-CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen, bool fNeedRandomAccess)
-	: CBaseSplitterFile(pReader, hr, cachelen, fNeedRandomAccess)
+CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen, bool fRandomAccess, bool fStreaming)
+	: CBaseSplitterFile(pReader, hr, cachelen, fRandomAccess, fStreaming)
 	, m_tslen(0)
 {
 }
@@ -88,7 +88,7 @@ bool CBaseSplitterFileEx::Read(pshdr& h)
 		h.scr |= BitRead(3) << 30; MARKER; // 32..30
 		h.scr |= BitRead(15) << 15; MARKER; // 29..15
 		h.scr |= BitRead(15); MARKER; // 14..0
-		h.scr = h.scr*300 + BitRead(9); MARKER;
+		h.scr = (h.scr*300 + BitRead(9)) * 10 / 27; MARKER;
 		h.bitrate = BitRead(22); MARKER; MARKER;
 		BitRead(5); // reserved
 		UINT64 stuffing = BitRead(3);
@@ -133,7 +133,7 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 {
 	memset(&h, 0, sizeof(h));
 
-	if(!(code >= 0xbd && code < 0xf0))
+	if(!(code >= 0xbd && code < 0xf0 || code == 0xfd)) // 0xfd => blu-ray (.m2ts)
 		return(false);
 
 	h.len = (WORD)BitRead(16);
@@ -914,7 +914,20 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 			h.privatedata = BitRead(1);
 			h.extension = BitRead(1);
 
-			for(int i = 1; i < h.length; i++)
+			int i = 1;
+
+			if(h.PCR)
+			{
+				UINT64 PCR = BitRead(33);
+				BitRead(6);
+				UINT64 PCRExt = BitRead(9);
+				PCR = (PCR*300 + PCRExt) * 10 / 27;
+				i += 6;
+			}
+
+			ASSERT(i <= h.length);
+
+			for(; i < h.length; i++)
 				BitRead(8);
 		}
 

@@ -31,6 +31,13 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+// VS2005 changed result of OnNCHitTest
+#if _MSC_VER >= 1400
+#define HITTEST_RET LRESULT
+#else
+#define HITTEST_RET UINT
+#endif
+
 //#define _WIN32_IE		0x0600
 #define WINVER			0x0600
 

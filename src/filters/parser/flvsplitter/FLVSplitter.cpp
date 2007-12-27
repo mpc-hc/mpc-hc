@@ -232,13 +232,13 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		if(t.TagType == 8 && fTypeFlagsAudio)
 		{
-			fTypeFlagsAudio = false;
-
-			name = L"Audio";
-
+			UNREFERENCED_PARAMETER(at);
 			AudioTag at;
 			if(ReadTag(at))
 			{
+				fTypeFlagsAudio = false;
+				name = L"Audio";
+
 				mt.majortype = MEDIATYPE_Audio;
 				mt.formattype = FORMAT_WaveFormatEx;
 				WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
@@ -281,6 +281,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 		else if(t.TagType == 9 && fTypeFlagsVideo)
 		{
+			UNREFERENCED_PARAMETER(vt);
 			VideoTag vt;
 			if(ReadTag(vt) && vt.FrameType == 1)
 			{
@@ -334,9 +335,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					ReadTag(fudge);
 				
 					if (m_pFile->BitRead(1)) {
-    				// Delta (inter) frame
+					// Delta (inter) frame
 					fTypeFlagsVideo = true;
-   					break;
+					break;
 					}
 					m_pFile->BitRead(6);
 					bool fSeparatedCoeff = !!m_pFile->BitRead(1);
@@ -344,7 +345,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					int filterHeader = m_pFile->BitRead(2);
 					m_pFile->BitRead(1);
 					if (fSeparatedCoeff || !filterHeader) {
-				    m_pFile->BitRead(16);
+					m_pFile->BitRead(16);
 					}
 
 					h = m_pFile->BitRead(8) * 16;

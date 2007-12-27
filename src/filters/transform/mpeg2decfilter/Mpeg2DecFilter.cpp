@@ -46,8 +46,10 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_MPEG2_PACK, &MEDIASUBTYPE_MPEG2_VIDEO},
 	{&MEDIATYPE_MPEG2_PES, &MEDIASUBTYPE_MPEG2_VIDEO},
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO},
+#ifndef MPEG2ONLY
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_MPEG1Packet},
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_MPEG1Payload},
+#endif
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
@@ -63,7 +65,11 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMpeg2DecFilter), L"MPEG Video Decoder (Gabest)", 0x40000002, countof(sudpPins), sudpPins},
+	#ifdef MPEG2ONLY
+	{&__uuidof(CMpeg2DecFilter), L"MPEG-2 Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
+	#else
+	{&__uuidof(CMpeg2DecFilter), L"MPEG Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
+	#endif
 };
 
 CFactoryTemplate g_Templates[] =

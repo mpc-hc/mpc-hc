@@ -102,7 +102,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 
 			bool fEmpty = true;
 
-			if((hFile = FindFirstFile(path + title + "*", &wfd)) != INVALID_HANDLE_VALUE)
+			if((hFile = FindFirstFile(path + title + _T("*"), &wfd)) != INVALID_HANDLE_VALUE)
 			{
 				do
 				{

@@ -442,7 +442,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				DisableSpecificWarnings="4244"
+				DisableSpecificWarnings="4244;4799;4731;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

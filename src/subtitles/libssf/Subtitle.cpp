@@ -144,6 +144,7 @@ namespace ssf
 		}
 		catch(Exception& e)
 		{
+			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s"), e.ToString());
 			return false;
 		}

@@ -73,8 +73,6 @@ void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
 
 BEGIN_MESSAGE_MAP(CMediaTypesDlg, CResizableDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnCbnSelchangeCombo1)
-	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateButton1)
 END_MESSAGE_MAP()
 
 
@@ -100,7 +98,6 @@ BOOL CMediaTypesDlg::OnInitDialog()
 	AddAnchor(IDC_STATIC2, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(IDC_COMBO1, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(IDC_EDIT1, TOP_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_BUTTON1, BOTTOM_LEFT);
 	AddAnchor(IDOK, BOTTOM_RIGHT);
 
 	SetMinTrackSize(CSize(300, 200));
@@ -141,24 +138,4 @@ void CMediaTypesDlg::OnCbnSelchangeCombo1()
 	}
 
 	m_report.SetSel(0, 0);
-}
-
-void CMediaTypesDlg::OnBnClickedButton1()
-{
-	if(m_subtype.Data2 == 0x0000 && m_subtype.Data3 == 0x0010
-	&& *(unsigned __int64*)m_subtype.Data4 == 0x719b3800aa000080i64)
-	{
-		BYTE* p = (BYTE*)&m_subtype.Data1;
-		for(int i = 0; i < 4; i++, p++)
-			if(*p >= 'a' && *p <= 'z') *p -= 0x20;
-	}
-
-	CString str;
-	str.Format(_T("http://gabest.org/codec.php?type=%d&guid=%s"), m_type, CStringFromGUID(m_subtype));
-	ShellExecute(NULL, _T("open"), str, NULL, NULL, SW_SHOW);
-}
-
-void CMediaTypesDlg::OnUpdateButton1(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(m_subtype != GUID_NULL);
 }

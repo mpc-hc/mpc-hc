@@ -30,9 +30,12 @@
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
-	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
+	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
+	, m_rtMin(0), m_rtMax(0)
+	, m_posMin(0), m_posMax(0)
+
 {
 	if(SUCCEEDED(hr)) hr = Init();
 }
@@ -42,8 +45,6 @@ HRESULT CMpegSplitterFile::Init()
 	HRESULT hr;
 
 	// get the type first
-	m_rtMin = m_posMin = _I64_MAX;
-	m_rtMax = m_posMax = 0;
 
 	m_type = us;
 
@@ -108,6 +109,9 @@ HRESULT CMpegSplitterFile::Init()
 
 	// min/max pts & bitrate
 
+	m_rtMin = m_posMin = _I64_MAX;
+	m_rtMax = m_posMax = 0;
+
 	if(IsRandomAccess() || IsStreaming())
 	{
 		if(IsStreaming())
@@ -171,10 +175,7 @@ void CMpegSplitterFile::OnComplete()
 	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength())))
 	{
 		int indicated_rate = m_rate;
-		int detected_rate;
-
-		if (m_rtMax - m_rtMin != 0)
-			detected_rate = 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin);
+		int detected_rate = m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0;
 		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 		// (update: also allowing +/-50k/s)
 		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
@@ -420,30 +421,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				type = audio;
 		}
 	}
-	else if (pid == 0x1100) // AVCHD ac3 audio
-	{
-		if(!m_streams[audio].Find(s))
-		{
-			__int64 pos = GetPos();
-
-			if(type == unknown)
-			{
-				CMpegSplitterFile::ac3hdr h;
-				if(Read(h, len, &s.mt))
-					type = audio;
-			}
-
-			Seek(pos);
-
-			if(type == unknown)
-			{
-				CMpegSplitterFile::dtshdr h;
-				if(Read(h, len, &s.mt))
-					type = audio;
-			}
-		}
-	}
-	else if(pesid == 0xbd) // private stream 1
+	else if(pesid == 0xbd || pesid == 0xfd) // private stream 1
 	{
 		if(s.pid)
 		{
@@ -574,6 +552,15 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	}
 
 	return s;
+}
+
+CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
+{
+	return
+		!m_streams[video].IsEmpty() ? &m_streams[video] :
+		!m_streams[audio].IsEmpty() ? &m_streams[audio] :
+		!m_streams[subpic].IsEmpty() ? &m_streams[subpic] :
+		NULL;
 }
 
 void CMpegSplitterFile::UpdatePrograms(const trhdr& h)

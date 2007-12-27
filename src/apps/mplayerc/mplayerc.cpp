@@ -605,20 +605,20 @@ LONG WINAPI Mine_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpD
 
 HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
-	CStringA fn(p1);
-	fn.MakeLower();
-	int i = fn.Find(".part");
-	if(i > 0 && i == fn.GetLength() - 5)
+	//CStringA fn(p1);
+	//fn.MakeLower();
+	//int i = fn.Find(".part");
+	//if(i > 0 && i == fn.GetLength() - 5)
 		p3 |= FILE_SHARE_WRITE;
 
 	return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
 }
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
-	CStringW fn(p1);
-	fn.MakeLower();
-	int i = fn.Find(L".part");
-	if(i > 0 && i == fn.GetLength() - 5)
+	//CStringW fn(p1);
+	//fn.MakeLower();
+	//int i = fn.Find(L".part");
+	//if(i > 0 && i == fn.GetLength() - 5)
 		p3 |= FILE_SHARE_WRITE;
 
 	return Real_CreateFileW(p1, p2, p3, p4, p5, p6, p7);
@@ -1662,24 +1662,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 	{
 		if(fInitialized) return;
 
-		if(pApp->m_pszRegistryKey)
-		{
-			CRegKey appkey, settingskey;
-			appkey.Attach(pApp->GetAppRegistryKey());
-			settingskey.Attach(pApp->GetSectionKey(ResStr(IDS_R_INTERNAL_FILTERS)));
-			if(appkey && settingskey)
-			{
-				ULONGLONG ftapp = 0, ftsettings = 0;
-				RegQueryInfoKey(appkey, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, (FILETIME*)&ftapp);
-				RegQueryInfoKey(settingskey, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, (FILETIME*)&ftsettings);
-				if(ftapp < ftsettings)
-				{
-					pApp->WriteProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_SRCFILTERS), ~0);
-					pApp->WriteProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1);
-				}
-			}
-		}
-
 		OSVERSIONINFO vi;
 		vi.dwOSVersionInfoSize = sizeof(vi);
 		GetVersionEx(&vi);
@@ -1706,7 +1688,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		CreateCommands();
 
 		fHideCaptionMenu = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_HIDECAPTIONMENU), 0);
-		nCS = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_CONTROLSTATE), CS_SEEKBAR|CS_TOOLBAR|CS_INFOBAR|CS_STATUSBAR);
+		nCS = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_CONTROLSTATE), CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR);
 		iDefaultVideoSize = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DEFAULTVIDEOFRAME), DVS_FROMINSIDE);
 		fKeepAspectRatio = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_KEEPASPECTRATIO), TRUE);
 		fCompMonDeskARDiff = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COMPMONDESKARDIFF), FALSE);
@@ -1714,8 +1696,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		nBalance = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_BALANCE), 0);
 		fMute = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_MUTE), 0);
 		nLoops = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOOPNUM), 1);
-		fLoopForever = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOOP), 1);
-		fRewind = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_REWIND), TRUE);
+		fLoopForever = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOOP), 0);
+		fRewind = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_REWIND), FALSE);
 		iZoomLevel = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ZOOM), 1);
 		iDSVideoRendererType = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DSVIDEORENDERERTYPE), VIDRNDT_DS_DEFAULT);
 		iRMVideoRendererType = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_RMVIDEORENDERERTYPE), VIDRNDT_RM_DEFAULT);
@@ -1727,7 +1709,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fVMR9MixerYUV = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMR9MIXERYUV), FALSE);
 		AudioRendererDisplayName = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIORENDERERTYPE), _T(""));
 		fAutoloadAudio = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADAUDIO), TRUE);
-		fAutoloadSubtitles = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADSUBTITLES), TRUE);
+		fAutoloadSubtitles = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADSUBTITLES), FALSE);
 		fEnableWorkerThreadForOpening = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLEWORKERTHREADFOROPENING), TRUE);
 		fReportFailedPins = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_REPORTFAILEDPINS), TRUE);
 		fAllowMultipleInst = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_MULTIINST), 0);
@@ -1747,13 +1729,13 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		{
 			dmFullscreenRes.fValid = false;
 		}
-		fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EXITFULLSCREENATTHEEND), 0);
+		fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EXITFULLSCREENATTHEEND), 1);
 		fRememberWindowPos = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_REMEMBERWINDOWPOS), 0);
 		fRememberWindowSize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_REMEMBERWINDOWSIZE), 0);
 		fSnapToDesktopEdges = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SNAPTODESKTOPEDGES), 0);
 		AspectRatio.cx = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ASPECTRATIO_X), 0);
 		AspectRatio.cy = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ASPECTRATIO_Y), 0);
-		fKeepHistory = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_KEEPHISTORY), 1);
+		fKeepHistory = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_KEEPHISTORY), 0);
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LASTWINDOWRECT), &ptr, &len))
 		{
 			memcpy(&rcLastWindowPos, ptr, sizeof(rcLastWindowPos));
@@ -1921,7 +1903,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			if(POSITION pos = wmcmds.Find(cmd))
 			{
 				wmcmd& wc = wmcmds.GetAt(pos);
-                wc.cmd = cmd;
+				wc.cmd = cmd;
 				wc.fVirt = fVirt;
 				wc.key = key;
 				if(n >= 6) wc.mouse = (UINT)mouse;
@@ -1996,7 +1978,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		ThumbCols = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_THUMBCOLS), 4);
 		ThumbWidth = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_THUMBWIDTH), 1024);
 
-		ISDb = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ISDB), _T("isdb.go.dyndns.org"));
+		ISDb = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ISDB), _T("www.opensubtitles.org/isdb"));
 
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("LastUsedPage"), 0);
 
@@ -2006,8 +1988,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		CAtlStringMap<UINT> shaders;
 
+		shaders[_T("16-235 -> 0-255")] = IDF_SHADER_LEVELS;
 		shaders[_T("contour")] = IDF_SHADER_CONTOUR;
 		shaders[_T("deinterlace (blend)")] = IDF_SHADER_DEINTERLACE;
+		shaders[_T("edge sharpen")] = IDF_SHADER_EDGE_SHARPEN;
 		shaders[_T("emboss")] = IDF_SHADER_EMBOSS;
 		shaders[_T("grayscale")] = IDF_SHADER_GRAYSCALE;
 		shaders[_T("invert")] = IDF_SHADER_INVERT;
@@ -2015,11 +1999,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		shaders[_T("nightvision")] = IDF_SHADER_NIGHTVISION;
 		shaders[_T("procamp")] = IDF_SHADER_PROCAMP;
 		shaders[_T("sharpen")] = IDF_SHADER_SHARPEN;
+		shaders[_T("sharpen complex")] = IDF_SHADER_SHARPEN_COMPLEX;
 		shaders[_T("sphere")] = IDF_SHADER_SPHERE;
 		shaders[_T("spotlight")] = IDF_SHADER_SPOTLIGHT;
 		shaders[_T("wave")] = IDF_SHADER_WAVE;
-		shaders[_T("Edge Sharpen (jim.ro)")] = IDF_SHADER_EDGE_SHARPEN;
-		shaders[_T("Sharpen complex (jim.ro)")] = IDF_SHADER_SHARPEN_COMPLEX;
 
 		int iShader = 0;
 

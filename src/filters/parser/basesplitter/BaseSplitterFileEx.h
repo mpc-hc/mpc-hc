@@ -28,7 +28,7 @@ class CBaseSplitterFileEx : public CBaseSplitterFile
 	int m_tslen; // transport stream packet length (188 or 192 bytes, auto-detected)
 
 public:
-	CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fNeedRandomAccess = true);
+	CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fRandomAccess = true, bool fStreaming = false);
 	virtual ~CBaseSplitterFileEx();
 
 	// using CBaseSplitterFile::Read;
@@ -167,7 +167,7 @@ public:
 		DWORD sync;
 		BYTE frametype:1;
 		BYTE deficitsamplecount:5;
-        BYTE fcrc:1;
+		BYTE fcrc:1;
 		BYTE nblocks:7;
 		WORD framebytes;
 		BYTE amode:6;

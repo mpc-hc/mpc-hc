@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,3
- PRODUCTVERSION 1,0,0,3
+ FILEVERSION 1,0,0,4
+ PRODUCTVERSION 1,0,0,4
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -69,15 +69,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://gabest.org/"
+            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Mpeg Audio Decoder for DirectShow, based on libmad"
-            VALUE "FileVersion", "1, 0, 0, 3"
+            VALUE "FileVersion", "1, 0, 0, 4"
             VALUE "InternalName", "MpaDecFilter Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2006 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
             VALUE "OriginalFilename", "MpaDecFilter.ax"
             VALUE "ProductName", "MpaDecFilter Filter"
-            VALUE "ProductVersion", "1, 0, 0, 3"
+            VALUE "ProductVersion", "1, 0, 0, 4"
         END
     END
     BLOCK "VarFileInfo"

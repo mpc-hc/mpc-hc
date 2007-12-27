@@ -57,6 +57,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnCbnSelchangeCombo1();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnUpdateButton1(CCmdUI* pCmdUI);
 };

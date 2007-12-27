@@ -27,7 +27,7 @@
 // CBaseSplitterFile
 //
 
-CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, int cachelen, bool fNeedRandomAccess)
+CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, int cachelen, bool fRandomAccess, bool fStreaming)
 	: m_pAsyncReader(pAsyncReader)
 	, m_fStreaming(false)
 	, m_fRandomAccess(false)
@@ -44,7 +44,7 @@ CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, in
 	m_fRandomAccess = total > 0 && total == available;
 	m_len = total;
 
-	if(FAILED(hr) || fNeedRandomAccess && !m_fRandomAccess || m_len < 0)
+	if(FAILED(hr) || fRandomAccess && !m_fRandomAccess  || !fStreaming && m_fStreaming || m_len < 0)
 	{
 		hr = E_FAIL;
 		return;
@@ -82,11 +82,17 @@ __int64 CBaseSplitterFile::GetAvailable()
 	return available;
 }
 
-__int64 CBaseSplitterFile::GetLength()
+__int64 CBaseSplitterFile::GetLength(bool fUpdate)
 {
 	if(m_fStreaming)
 	{
 		m_len = GetAvailable();
+	}
+	else if(fUpdate)
+	{
+		LONGLONG total = 0, available;
+		m_pAsyncReader->Length(&total, &available);
+		m_len = total;
 	}
 
 	return m_len;

@@ -66,6 +66,7 @@ namespace ssf
 		}
 		catch(Exception& e)
 		{
+			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
 
@@ -89,6 +90,7 @@ namespace ssf
 		}
 		catch(Exception& e)
 		{
+			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
 
@@ -105,6 +107,7 @@ namespace ssf
 		}
 		catch(Exception& e)
 		{
+			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 		}
 	}

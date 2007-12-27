@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,2,9
- PRODUCTVERSION 1,0,2,9
+ FILEVERSION 1,0,3,0
+ PRODUCTVERSION 1,0,3,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -43,15 +43,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://gabest.org/"
+            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Matroska Splitter"
-            VALUE "FileVersion", "1, 0, 2, 9"
+            VALUE "FileVersion", "1, 0, 3, 0"
             VALUE "InternalName", "Matroska Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2006 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
             VALUE "OriginalFilename", "MatroskaSplitter.ax"
             VALUE "ProductName", "Matroska Splitter"
-            VALUE "ProductVersion", "1, 0, 2, 9"
+            VALUE "ProductVersion", "1, 0, 3, 0"
         END
     END
     BLOCK "VarFileInfo"

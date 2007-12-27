@@ -50,6 +50,7 @@ int g_cTemplates = countof(g_Templates);
 STDAPI DllRegisterServer()
 {
 	SetRegKeyValue(_T("udp"), 0, _T("Source Filter"), CStringFromGUID(__uuidof(CUDPReader)));
+	SetRegKeyValue(_T("tévé"), 0, _T("Source Filter"), CStringFromGUID(__uuidof(CUDPReader)));
 
 	return AMovieDllRegisterServer2(TRUE);
 }
@@ -184,6 +185,7 @@ bool CUDPStream::Load(const WCHAR* fnw)
 #ifdef DEBUG
 //	url = L"udp://:1234/"; 
 //	url = L"udp://239.255.255.250:1234/{e436eb8e-524f-11ce-9f53-0020af0ba770}"; 
+//	url = L"udp://239.255.255.19:2345/";
 #endif
 
 	CAtlList<CStringW> sl;
@@ -191,7 +193,7 @@ bool CUDPStream::Load(const WCHAR* fnw)
 	if(sl.GetCount() != 3) return false;
 
 	CStringW protocol = sl.RemoveHead();
-	if(protocol != L"udp") return false;
+	// if(protocol != L"udp") return false;
 
 	m_ip = CString(sl.RemoveHead()).TrimLeft('/');
 
@@ -209,6 +211,10 @@ bool CUDPStream::Load(const WCHAR* fnw)
 		return false;
 	}
 
+	clock_t start = clock();
+	while(clock() - start < 3000 && m_len < 1000000) 
+		Sleep(100);
+
 	return true;
 }
 
@@ -220,7 +226,7 @@ HRESULT CUDPStream::SetPointer(LONGLONG llPos)
 	|| !m_packets.IsEmpty() && llPos < m_packets.GetHead()->m_start 
 	|| !m_packets.IsEmpty() && llPos > m_packets.GetTail()->m_end)
 	{
-		ASSERT(0); 
+		TRACE(_T("CUDPStream: SetPointer error\n"));
 		return E_FAIL;
 	}
 
@@ -305,8 +311,7 @@ void CUDPStream::Unlock()
 DWORD CUDPStream::ThreadProc()
 {
 	WSADATA wsaData;
-	int init = WSAStartup(MAKEWORD(2, 0), &wsaData);
-	if(init != 0) init = WSAStartup(MAKEWORD(1, 0), &wsaData);
+	WSAStartup(MAKEWORD(2, 2), &wsaData);
 
 	sockaddr_in addr;
 	memset(&addr, 0, sizeof(addr));
@@ -318,20 +323,29 @@ DWORD CUDPStream::ThreadProc()
 	imr.imr_multiaddr.s_addr = inet_addr(CStringA(m_ip));
 	imr.imr_interface.s_addr = INADDR_ANY;
 
-    if((m_socket = socket(AF_INET, SOCK_DGRAM, 0)) >= 0)
+	if((m_socket = socket(AF_INET, SOCK_DGRAM, 0)) >= 0)
 	{
 /*		u_long argp = 1;
 		ioctlsocket(m_socket, FIONBIO, &argp);
 */
-	    if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+		DWORD dw = TRUE;
+		if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw)) < 0)
 		{
 			closesocket(m_socket);
 			m_socket = -1;
 		}
 
-		if((htonl(imr.imr_multiaddr.s_addr) & 0xf0000000) == 0xe0000000)
+		if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr)) < 0)
 		{
-			setsockopt(m_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*)&imr, sizeof(imr));
+			closesocket(m_socket);
+			m_socket = -1;
+		}
+
+		if(IN_MULTICAST(htonl(imr.imr_multiaddr.s_addr)))
+		{
+			int ret = setsockopt(m_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*)&imr, sizeof(imr));
+			if(ret < 0) ret = ::WSAGetLastError();
+			ret = ret;
 		}
 	}
 
@@ -351,7 +365,7 @@ DWORD CUDPStream::ThreadProc()
 		default:
 		case CMD_EXIT: 
 			if(m_socket >= 0) {closesocket(m_socket); m_socket = -1;}
-			if(init == 0) WSACleanup();
+			WSACleanup();
 			if(dump) fclose(dump);
 			if(log) fclose(log);
 			Reply(S_OK);
@@ -362,7 +376,6 @@ DWORD CUDPStream::ThreadProc()
 			{
 				char buff[65536*2];
 				int buffsize = 0;
-				sockaddr_in from;
 
 				for(unsigned int i = 0; ; i++)
 				{
@@ -372,8 +385,8 @@ DWORD CUDPStream::ThreadProc()
 							break;
 					}
 
-					int fromlen = sizeof(from);
-					int len = recvfrom(m_socket, &buff[buffsize], 65536, 0, (SOCKADDR*)&from, &fromlen);
+					int fromlen = sizeof(addr);
+					int len = recvfrom(m_socket, &buff[buffsize], 65536, 0, (SOCKADDR*)&addr, &fromlen);
 					if(len <= 0) {Sleep(1); continue;}
 
 					if(log)

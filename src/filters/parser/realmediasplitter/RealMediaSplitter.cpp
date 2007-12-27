@@ -1184,6 +1184,11 @@ HRESULT CRMFile::Init()
 			}
 		}
 
+		if(hdr.object_id == 'CONT' && BitRead(32, true) == 'DATA')
+		{
+			hdr.size = GetPos() - pos;
+		}
+
 		ASSERT(hdr.object_id == 'DATA' 
 			|| GetPos() == pos + hdr.size 
 			|| GetPos() == pos + sizeof(hdr));
@@ -1920,7 +1925,7 @@ HRESULT CRealAudioDecoder::InitRA(const CMediaType* pmt)
 
 		initdata.bpframe = m_rai.sub_packet_size;
 		initdata.packetsize = m_rai.coded_frame_size;
-		initdata.extralen = *(DWORD*)p;
+		initdata.extralen = min((pmt->Format() + pmt->FormatLength()) - (p + 4), *(DWORD*)p);
 		initdata.extra = p + 4;
 	}
 

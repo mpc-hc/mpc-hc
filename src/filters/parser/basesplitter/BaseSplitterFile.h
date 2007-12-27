@@ -43,14 +43,14 @@ protected:
 	virtual void OnComplete() {}
 
 public:
-	CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fNeedRandomAccess = true);
+	CBaseSplitterFile(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fRandomAccess = true, bool fStreaming = false);
 	virtual ~CBaseSplitterFile() {}
 
 	bool SetCacheSize(int cachelen = DEFAULT_CACHE_LENGTH);
 
 	__int64 GetPos();
 	__int64 GetAvailable();
-	__int64 GetLength();
+	__int64 GetLength(bool fUpdate = false);
 	__int64 GetRemaining() {return max(0, GetLength() - GetPos());}
 	virtual void Seek(__int64 pos);
 

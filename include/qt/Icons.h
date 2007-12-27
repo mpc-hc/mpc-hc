@@ -1,4 +1,4 @@
-/*
+ï»¿/*
      File:       Icons.h
  
      Contains:   Icon Utilities and Icon Services Interfaces.
@@ -719,35 +719,35 @@ enum {
 
 /* Special folders */
 enum {
-    kAppleExtrasFolderIcon      = FOUR_CHAR_CODE('aexÄ'),
+    kAppleExtrasFolderIcon      = FOUR_CHAR_CODE('aexÃ„'),
     kAppleMenuFolderIcon        = FOUR_CHAR_CODE('amnu'),
     kApplicationsFolderIcon     = FOUR_CHAR_CODE('apps'),
     kApplicationSupportFolderIcon = FOUR_CHAR_CODE('asup'),
-    kAssistantsFolderIcon       = FOUR_CHAR_CODE('astÄ'),
+    kAssistantsFolderIcon       = FOUR_CHAR_CODE('astÃ„'),
     kContextualMenuItemsFolderIcon = FOUR_CHAR_CODE('cmnu'),
     kControlPanelDisabledFolderIcon = FOUR_CHAR_CODE('ctrD'),
     kControlPanelFolderIcon     = FOUR_CHAR_CODE('ctrl'),
-    kControlStripModulesFolderIcon = FOUR_CHAR_CODE('sdvÄ'),
+    kControlStripModulesFolderIcon = FOUR_CHAR_CODE('sdvÃ„'),
     kDocumentsFolderIcon        = FOUR_CHAR_CODE('docs'),
     kExtensionsDisabledFolderIcon = FOUR_CHAR_CODE('extD'),
     kExtensionsFolderIcon       = FOUR_CHAR_CODE('extn'),
     kFavoritesFolderIcon        = FOUR_CHAR_CODE('favs'),
     kFontsFolderIcon            = FOUR_CHAR_CODE('font'),
-    kHelpFolderIcon             = FOUR_CHAR_CODE('Ählp'),
-    kInternetFolderIcon         = FOUR_CHAR_CODE('intÄ'),
-    kInternetPlugInFolderIcon   = FOUR_CHAR_CODE('Änet'),
-    kLocalesFolderIcon          = FOUR_CHAR_CODE('Äloc'),
-    kMacOSReadMeFolderIcon      = FOUR_CHAR_CODE('morÄ'),
-    kPreferencesFolderIcon      = FOUR_CHAR_CODE('prfÄ'),
+    kHelpFolderIcon             = FOUR_CHAR_CODE('Ã„hlp'),
+    kInternetFolderIcon         = FOUR_CHAR_CODE('intÃ„'),
+    kInternetPlugInFolderIcon   = FOUR_CHAR_CODE('Ã„net'),
+    kLocalesFolderIcon          = FOUR_CHAR_CODE('Ã„loc'),
+    kMacOSReadMeFolderIcon      = FOUR_CHAR_CODE('morÃ„'),
+    kPreferencesFolderIcon      = FOUR_CHAR_CODE('prfÃ„'),
     kPrinterDescriptionFolderIcon = FOUR_CHAR_CODE('ppdf'),
-    kPrinterDriverFolderIcon    = FOUR_CHAR_CODE('Äprd'),
+    kPrinterDriverFolderIcon    = FOUR_CHAR_CODE('Ã„prd'),
     kPrintMonitorFolderIcon     = FOUR_CHAR_CODE('prnt'),
     kRecentApplicationsFolderIcon = FOUR_CHAR_CODE('rapp'),
     kRecentDocumentsFolderIcon  = FOUR_CHAR_CODE('rdoc'),
     kRecentServersFolderIcon    = FOUR_CHAR_CODE('rsrv'),
-    kScriptingAdditionsFolderIcon = FOUR_CHAR_CODE('Äscr'),
-    kSharedLibrariesFolderIcon  = FOUR_CHAR_CODE('Älib'),
-    kScriptsFolderIcon          = FOUR_CHAR_CODE('scrÄ'),
+    kScriptingAdditionsFolderIcon = FOUR_CHAR_CODE('Ã„scr'),
+    kSharedLibrariesFolderIcon  = FOUR_CHAR_CODE('Ã„lib'),
+    kScriptsFolderIcon          = FOUR_CHAR_CODE('scrÃ„'),
     kShutdownItemsDisabledFolderIcon = FOUR_CHAR_CODE('shdD'),
     kShutdownItemsFolderIcon    = FOUR_CHAR_CODE('shdf'),
     kSpeakableItemsFolder       = FOUR_CHAR_CODE('spki'),
@@ -755,13 +755,13 @@ enum {
     kStartupItemsFolderIcon     = FOUR_CHAR_CODE('strt'),
     kSystemExtensionDisabledFolderIcon = FOUR_CHAR_CODE('macD'),
     kSystemFolderIcon           = FOUR_CHAR_CODE('macs'),
-    kTextEncodingsFolderIcon    = FOUR_CHAR_CODE('Ätex'),
+    kTextEncodingsFolderIcon    = FOUR_CHAR_CODE('Ã„tex'),
     kAppearanceFolderIcon       = FOUR_CHAR_CODE('appr'),
-    kUtilitiesFolderIcon        = FOUR_CHAR_CODE('utiÄ'),
+    kUtilitiesFolderIcon        = FOUR_CHAR_CODE('utiÃ„'),
     kVoicesFolderIcon           = FOUR_CHAR_CODE('fvoc'),
     kColorSyncFolderIcon        = FOUR_CHAR_CODE('prof'),
     kInternetSearchSitesFolderIcon = FOUR_CHAR_CODE('issf'),
-    kUsersFolderIcon            = FOUR_CHAR_CODE('usrÄ')
+    kUsersFolderIcon            = FOUR_CHAR_CODE('usrÃ„')
 };
 
 /* Badges */

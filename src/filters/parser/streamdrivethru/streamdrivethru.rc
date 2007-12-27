@@ -43,11 +43,11 @@ BEGIN
     BEGIN
         BLOCK "040e04b0"
         BEGIN
-            VALUE "Comments", "http://gabest.org"
+            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileVersion", "1, 0, 0, 0"
             VALUE "InternalName", "StreamDriverThru Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2006 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
             VALUE "OriginalFilename", "StreamDriverThru.ax"
             VALUE "ProductName", "StreamDriverThru Filter"
             VALUE "ProductVersion", "1, 0, 0, 0"
