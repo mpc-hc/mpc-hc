@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -566,6 +566,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DXVADecoderVC1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FfmpegContext.c"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCAudioDecFilter.cpp"
 				>
 			</File>
@@ -650,6 +658,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\TlibavcodecExt.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VideoDecDXVAAllocator.cpp"
 				>
 			</File>
@@ -672,6 +684,14 @@
 			</File>
 			<File
 				RelativePath=".\DXVADecoderH264.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DXVADecoderVC1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FfmpegContext.h"
 				>
 			</File>
 			<File
@@ -704,6 +724,10 @@
 			</File>
 			<File
 				RelativePath="stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TlibavcodecExt.h"
 				>
 			</File>
 			<File

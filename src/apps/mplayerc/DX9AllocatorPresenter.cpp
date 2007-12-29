@@ -1122,6 +1122,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			llJitterSum += m_pllJitter[i];
 		m_fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
 	}
+	else
+		CalculateFrameRate();
+
 	m_llLastPerf = llPerf;
 
 	bool fResetDevice = false;
@@ -1218,7 +1221,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 		OffsetRect (&rc, 0, 30);
-		strText.Format(L"DXVA2          : %s", GetDXVA2DecoderDescription());
+		strText.Format(L"%s          : %s", GetDXVAVersion(), GetDXVADecoderDescription());
 		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 		for (int i=0; i<6; i++)
@@ -1300,47 +1303,60 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTar
 	return S_OK;
 }
 
-void CDX9AllocatorPresenter::EstimateFrameRate (REFERENCE_TIME rtStart)
+void CDX9AllocatorPresenter::CalculateFrameRate (/*REFERENCE_TIME rtStart*/)
 {
-	static REFERENCE_TIME	rtLast = 0;
-	static int				nCount	= 0;
+	CMediaType	mt;
+	HookCallConnectionMediaType (&mt);
 
-	REFERENCE_TIME		rtCurDuration = rtStart - rtLast;
+	if (mt.formattype==FORMAT_VideoInfo)
+		m_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_VideoInfo2)
+		m_rtTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_MPEGVideo)
+		m_rtTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_MPEG2Video)
+		m_rtTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+	return;
 
-	if (labs ((long)(rtCurDuration - m_rtCandidate)) <= 20000)
-	{
-		if (nCount <= 6) nCount++;
-		if (nCount == 5)
-		{
-			if ( labs(long (rtCurDuration - 417080)) < FRAMERATE_MAX_DELTA)
-			{
-				m_rtTimePerFrame	= 417080;
-				m_fps				= 23.976;
-			}
-			else if (labs((long)(rtCurDuration - 400000)) < FRAMERATE_MAX_DELTA)
-			{
-				m_rtTimePerFrame	= 400000;
-				m_fps				= 25.000;
-			}
-			else if (labs((long)(rtCurDuration - 333600)) < FRAMERATE_MAX_DELTA)
-			{
-				m_rtTimePerFrame	= 333600;
-				m_fps				= 29.976;
-			}
-			else
-			{
-				m_rtTimePerFrame = rtCurDuration;
-				m_fps = 10000000.0 / m_rtTimePerFrame;
-			}
-		}
-	}
-	else
-	{
-		nCount = max (nCount-1, 0);
-		if (nCount == 0) m_rtCandidate = rtCurDuration;
-	}
+	//static REFERENCE_TIME	rtLast = 0;
+	//static int				nCount	= 0;
 
-	rtLast = rtStart;
+	//REFERENCE_TIME		rtCurDuration = rtStart - rtLast;
+
+	//if (labs ((long)(rtCurDuration - m_rtCandidate)) <= 20000)
+	//{
+	//	if (nCount <= 6) nCount++;
+	//	if (nCount == 5)
+	//	{
+	//		if ( labs(long (rtCurDuration - 417080)) < FRAMERATE_MAX_DELTA)
+	//		{
+	//			m_rtTimePerFrame	= 417080;
+	//			m_fps				= 23.976;
+	//		}
+	//		else if (labs((long)(rtCurDuration - 400000)) < FRAMERATE_MAX_DELTA)
+	//		{
+	//			m_rtTimePerFrame	= 400000;
+	//			m_fps				= 25.000;
+	//		}
+	//		else if (labs((long)(rtCurDuration - 333600)) < FRAMERATE_MAX_DELTA)
+	//		{
+	//			m_rtTimePerFrame	= 333600;
+	//			m_fps				= 29.976;
+	//		}
+	//		else
+	//		{
+	//			m_rtTimePerFrame = rtCurDuration;
+	//			m_fps = 10000000.0 / m_rtTimePerFrame;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	nCount = max (nCount-1, 0);
+	//	if (nCount == 0) m_rtCandidate = rtCurDuration;
+	//}
+
+	//rtLast = rtStart;
 }
 
 //
@@ -1696,10 +1712,10 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		CComPtr<IPin> pPin = GetFirstPin(pBF);
 		CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 		m_fUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
-/*
-if(CComQIPtr<IAMVideoAccelerator> pAMVA = pPin)
-	HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
-*/
+
+		if(CComQIPtr<IAMVideoAccelerator> pAMVA = pPin)
+			HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
+
 		CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
 		if(!pConfig)
 			break;
@@ -1879,7 +1895,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
 	{
-		EstimateFrameRate (lpPresInfo->rtStart);
+		//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*lpPresInfo->rtStart*/);
 
 		if(m_pSubPicQueue)
 		{

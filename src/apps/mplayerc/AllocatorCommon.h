@@ -103,7 +103,7 @@ namespace DSObjects
 
 		void				DrawStats();
 		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-		void				EstimateFrameRate (REFERENCE_TIME rtStart);
+		void				CalculateFrameRate (/*REFERENCE_TIME rtStart*/);
 		virtual void			OnResetDevice() {};
 
 		int				m_nTearingPos;

@@ -24,12 +24,14 @@
 #include "VideoDecOutputPin.h"
 #include "VideoDecDXVAAllocator.h"
 #include "MPCVideoDecFilter.h"
+#include "..\..\..\DSUtil\DSUtil.h"
 
 CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
 				  : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
-	m_pVideoDecFilter	= (CMPCVideoDecFilter*) pFilter;
-	m_pDXVAAllocator	= NULL;
+	m_pVideoDecFilter		= (CMPCVideoDecFilter*) pFilter;
+	m_pDXVA2Allocator		= NULL;
+	m_dwDXVA1SurfaceCount	= 0;
 }
 
 CVideoDecOutputPin::~CVideoDecOutputPin(void)
@@ -43,83 +45,23 @@ HRESULT CVideoDecOutputPin::InitAllocator(IMemAllocator **ppAlloc)
 	if (m_pVideoDecFilter->UseDXVA2())
 	{
 		HRESULT hr = S_FALSE;
-		m_pDXVAAllocator = new CVideoDecDXVAAllocator(m_pVideoDecFilter, &hr);
-		if (!m_pDXVAAllocator)
+		m_pDXVA2Allocator = new CVideoDecDXVAAllocator(m_pVideoDecFilter, &hr);
+		if (!m_pDXVA2Allocator)
 		{
 			return E_OUTOFMEMORY;
 		}
 		if (FAILED(hr))
 		{
-			delete m_pDXVAAllocator;
+			delete m_pDXVA2Allocator;
 			return hr;
 		}
 		// Return the IMemAllocator interface.
-		return m_pDXVAAllocator->QueryInterface(__uuidof(IMemAllocator), (void **)ppAlloc);
+		return m_pDXVA2Allocator->QueryInterface(__uuidof(IMemAllocator), (void **)ppAlloc);
 	}
 	else
 		return __super::InitAllocator(ppAlloc);
 }
 
-/*
-HRESULT CVideoDecOutputPin::DecideAllocator(IMemInputPin *pPin, IMemAllocator **ppAlloc)
-{
-	if (m_pVideoDecFilter->UseDXVA2())
-	{
-		HRESULT hr = NOERROR;
-		*ppAlloc = NULL;
-
-		// get downstream prop request
-		// the derived class may modify this in DecideBufferSize, but
-		// we assume that he will consistently modify it the same way,
-		// so we only get it once
-		ALLOCATOR_PROPERTIES prop;
-		ZeroMemory(&prop, sizeof(prop));
-
-		// whatever he returns, we assume prop is either all zeros
-		// or he has filled it out.
-		pPin->GetAllocatorRequirements(&prop);
-
-		// if he doesn't care about alignment, then set it to 1
-		if (prop.cbAlign == 0) {
-			prop.cbAlign = 1;
-		}
-
-		// If the GetAllocator failed we may not have an interface
-
-		if (*ppAlloc) {
-			(*ppAlloc)->Release();
-			*ppAlloc = NULL;
-		}
-
-		// Try the output pin's allocator by the same method
-
-		hr = InitAllocator(ppAlloc);
-		if (SUCCEEDED(hr)) {
-
-			// note - the properties passed here are in the same
-			// structure as above and may have been modified by
-			// the previous call to DecideBufferSize
-			hr = DecideBufferSize(*ppAlloc, &prop);
-			if (SUCCEEDED(hr)) {
-				hr = pPin->NotifyAllocator(*ppAlloc, FALSE);
-				if (SUCCEEDED(hr)) {
-					return NOERROR;
-				}
-			}
-		}
-
-		// Likewise we may not have an interface to release
-
-		if (*ppAlloc) {
-			(*ppAlloc)->Release();
-			*ppAlloc = NULL;
-		}
-		return hr;
-	}
-	else
-		return __super::DecideAllocator(pPin, ppAlloc);
-}
-*/
 
 
 HRESULT CVideoDecOutputPin::Deliver(IMediaSample* pMediaSample)
@@ -189,4 +131,77 @@ HRESULT CVideoDecOutputPin::DeliverEndFlush()
 HRESULT CVideoDecOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	CallQueue(NewSegment(tStart, tStop, dRate));
+}
+
+
+
+STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
+{
+	return
+		QI(IAMVideoAcceleratorNotify)
+		 __super::NonDelegatingQueryInterface(riid, ppv);
+}
+
+
+// === IAMVideoAcceleratorNotify
+
+STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo)
+{
+	HRESULT			hr = E_INVALIDARG;
+	
+	if (SUCCEEDED (m_pVideoDecFilter->CheckDXVA1Decoder (pGuid)))
+	{
+		CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator	= GetConnected();
+
+		if (pAMVideoAccelerator)
+		{
+			pUncompBufferInfo->dwMaxNumSurfaces		= m_pVideoDecFilter->GetPicEntryNumber();
+			pUncompBufferInfo->dwMinNumSurfaces		= m_pVideoDecFilter->GetPicEntryNumber();
+
+			hr = m_pVideoDecFilter->FindDXVA1DecoderConfiguration (pAMVideoAccelerator, pGuid, &pUncompBufferInfo->ddUncompPixelFormat);
+			if (SUCCEEDED (hr)) m_pVideoDecFilter->SetDXVA1Params (pGuid, &pUncompBufferInfo->ddUncompPixelFormat);
+		}
+	}
+	return hr;
+}
+
+STDMETHODIMP CVideoDecOutputPin::SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated)      
+{
+	m_dwDXVA1SurfaceCount = dwActualUncompSurfacesAllocated;
+	return S_OK;
+}
+
+STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid, LPDWORD pdwSizeMiscData, LPVOID *ppMiscData)
+{
+	HRESULT								hr						= E_UNEXPECTED;
+	AMVAUncompDataInfo					UncompInfo;
+	AMVACompBufferInfo					CompInfo[16];
+	DWORD								dwNumTypesCompBuffers	= countof(CompInfo);
+	CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator		= GetConnected();
+	DXVA_ConnectMode*					pConnectMode;	
+
+	if (pAMVideoAccelerator)
+	{
+		memcpy (&UncompInfo.ddUncompPixelFormat, m_pVideoDecFilter->GetPixelFormat(), sizeof (DDPIXELFORMAT));
+		UncompInfo.dwUncompHeight		= m_pVideoDecFilter->PictHeight();
+		UncompInfo.dwUncompWidth		= m_pVideoDecFilter->PictWidth();
+		hr = pAMVideoAccelerator->GetCompBufferInfo(m_pVideoDecFilter->GetDXVA1Decoder(), &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
+
+		if (SUCCEEDED (hr))
+		{
+			hr = m_pVideoDecFilter->CreateDXVA1Decoder (pAMVideoAccelerator, pGuid, m_dwDXVA1SurfaceCount);
+
+			if (SUCCEEDED (hr))
+			{
+				pConnectMode					= (DXVA_ConnectMode*)CoTaskMemAlloc (sizeof(DXVA_ConnectMode));
+				pConnectMode->guidMode			= *m_pVideoDecFilter->GetDXVA1Decoder();
+				pConnectMode->wRestrictedMode	= m_pVideoDecFilter->GetDXVA1RestrictedMode();
+				*pdwSizeMiscData				= sizeof(DXVA_ConnectMode);
+				*ppMiscData						= pConnectMode;
+			}
+		}
+	}
+
+
+	return hr;
 }

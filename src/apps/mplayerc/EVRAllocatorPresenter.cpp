@@ -1444,11 +1444,6 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	int						h = abs(vih2->bmiHeader.biHeight);
 
 	m_NativeVideoSize = CSize(w, h);
-
-	// TODO : mauvais aspect ratio ici !!!
-//	int arx = vih2->dwPictAspectRatioX, ary = vih2->dwPictAspectRatioY;
-//	if(arx > 0 && ary > 0) m_AspectRatio.SetSize(arx, ary);
-
 	hr = AllocSurfaces();
 
 	return hr;
@@ -1550,7 +1545,7 @@ void CEVRAllocatorPresenter::RenderThread()
 					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
 					m_pMFSample[m_nCurSurface]->GetSampleTime (&nsSampleTime);
 
-					EstimateFrameRate(nsSampleTime);
+					//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
 					// Wakup 1/2 refresh rate before next VSync!
 					lDelay = (UINT)((nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
 

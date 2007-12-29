@@ -425,6 +425,7 @@ CMainFrame::CMainFrame() :
 CMainFrame::~CMainFrame()
 {
 //	m_owner.DestroyWindow();
+	delete m_pFullscreenWnd;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -2041,7 +2042,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 		}
 		else if(!m_fCustomGraph)
 		{
-			TRACE(_T("evCode: %d\n"), evCode);
+			//TRACE(_T("evCode: %d\n"), evCode);
 		}
 		else if(EC_BG_AUDIO_CHANGED == evCode)
 		{

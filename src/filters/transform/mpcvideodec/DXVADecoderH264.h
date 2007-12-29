@@ -27,18 +27,25 @@
 #include "DXVADecoder.h"
 #include "H264QuantizationMatrix.h"
 
-#define MAXnum_slice_groups_minus1  8
+
 
 class CDXVADecoderH264 : public CDXVADecoder
 {
 public:
-	CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDecoder, DXVA2Mode nMode);
+	CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
+	CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber);
+	virtual ~CDXVADecoderH264();
 
-	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, IMediaSample* pOut);
+	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
 	virtual void	SetExtraData  (BYTE* pDataIn, UINT nSize);
 	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
+	virtual void	Flush();
 
-	const static int		PicEntryNumber = 14;
+	static QMatrixH264Type			g_nH264QuantMatrix;			// Index for inverse quantization matrix
+
+protected :
+
+
 private:
 
 	typedef enum
@@ -50,6 +57,8 @@ private:
 		SI_FRAME
 	} FRAME_TYPE; 
 
+	// === H264 bitstream structures (based on JM / reference decoder)
+	#pragma region
 
 	//! Syntaxelement
 	typedef struct syntaxelement
@@ -117,144 +126,101 @@ private:
 	  byte *buf;                    //! contains the first byte followed by the EBSP
 	} NALU;
 
+	#define MAXnum_slice_groups_minus1  8
 	typedef struct
 	{
-		bool   Valid;                  // indicates the parameter set is valid
-		unsigned  int pic_parameter_set_id;                             // ue(v)
-		unsigned  int seq_parameter_set_id;                             // ue(v)
-		bool   entropy_coding_mode_flag;                         // u(1)
+		bool				Valid;												// indicates the parameter set is valid
+		unsigned  int		pic_parameter_set_id;								// ue(v)
+		unsigned  int		seq_parameter_set_id;								// ue(v)
+		bool				entropy_coding_mode_flag;							// u(1)
 
-		bool   transform_8x8_mode_flag;                          // u(1)
+		bool				transform_8x8_mode_flag;							// u(1)
 
-		bool   pic_scaling_matrix_present_flag;                  // u(1)
-		//int       pic_scaling_list_present_flag[12];                 // u(1)
-		//int       ScalingList4x4[6][16];                            // se(v)
-		//int       ScalingList8x8[6][64];                            // se(v)
-		//bool   UseDefaultScalingMatrix4x4Flag[6];
-		//bool   UseDefaultScalingMatrix8x8Flag[6];
+		bool				pic_scaling_matrix_present_flag;					// u(1)
 
 		// if( pic_order_cnt_type < 2 )  in the sequence parameter set
-		bool      pic_order_present_flag;                           // u(1)
-		unsigned  int num_slice_groups_minus1;                          // ue(v)
-		unsigned  int slice_group_map_type;                        // ue(v)
+		bool				pic_order_present_flag;								// u(1)
+		unsigned  int		num_slice_groups_minus1;							// ue(v)
+		unsigned  int		slice_group_map_type;								// ue(v)
 		// if( slice_group_map_type = = 0 )
-		  unsigned  int run_length_minus1[MAXnum_slice_groups_minus1]; // ue(v)
+		unsigned  int		run_length_minus1[MAXnum_slice_groups_minus1];		// ue(v)
 		// else if( slice_group_map_type = = 2 )
-		  unsigned  int top_left[MAXnum_slice_groups_minus1];         // ue(v)
-		  unsigned  int bottom_right[MAXnum_slice_groups_minus1];     // ue(v)
+		unsigned  int		top_left[MAXnum_slice_groups_minus1];				// ue(v)
+		unsigned  int		bottom_right[MAXnum_slice_groups_minus1];			// ue(v)
 		// else if( slice_group_map_type = = 3 || 4 || 5
-		  bool   slice_group_change_direction_flag;            // u(1)
-		  unsigned  int slice_group_change_rate_minus1;               // ue(v)
+		bool				slice_group_change_direction_flag;					// u(1)
+		unsigned  int		slice_group_change_rate_minus1;						// ue(v)
 		// else if( slice_group_map_type = = 6 )
-		  unsigned  int num_slice_group_map_units_minus1;             // ue(v)
-		  unsigned  int *slice_group_id;                              // complete MBAmap u(v)
-		unsigned  int num_ref_idx_l0_active_minus1;                     // ue(v)
-		unsigned  int num_ref_idx_l1_active_minus1;                     // ue(v)
-		bool   weighted_pred_flag;                               // u(1)
-		unsigned  int weighted_bipred_idc;                              // u(2)
-		int       pic_init_qp_minus26;                              // se(v)
-		int       pic_init_qs_minus26;                              // se(v)
-		int       chroma_qp_index_offset;                           // se(v)
+		unsigned  int		num_slice_group_map_units_minus1;					// ue(v)
+		unsigned  int*		slice_group_id;										// complete MBAmap u(v)
+		unsigned  int		num_ref_idx_l0_active_minus1;						 // ue(v)
+		unsigned  int		num_ref_idx_l1_active_minus1;						// ue(v)
+		bool				weighted_pred_flag;									// u(1)
+		unsigned  int		weighted_bipred_idc;								// u(2)
+		int					pic_init_qp_minus26;								// se(v)
+		int					pic_init_qs_minus26;								// se(v)
+		int					chroma_qp_index_offset;								// se(v)
 
-		int       second_chroma_qp_index_offset;                    // se(v)
+		int					second_chroma_qp_index_offset;						// se(v)
 
-		bool   deblocking_filter_control_present_flag;           // u(1)
-		bool   constrained_intra_pred_flag;                      // u(1)
-		bool   redundant_pic_cnt_present_flag;                   // u(1)
+		bool				deblocking_filter_control_present_flag;				// u(1)
+		bool				constrained_intra_pred_flag;						// u(1)
+		bool				redundant_pic_cnt_present_flag;						// u(1)
 	} PIC_PARAMETER_SET_RBSP;
 
-/*
-	typedef struct
-	{
-	  bool      aspect_ratio_info_present_flag;                   // u(1)
-		unsigned int aspect_ratio_idc;                               // u(8)
-		  unsigned int sar_width;                                    // u(16)
-		  unsigned int sar_height;                                   // u(16)
-	  bool      overscan_info_present_flag;                       // u(1)
-		bool      overscan_appropriate_flag;                      // u(1)
-	  bool      video_signal_type_present_flag;                   // u(1)
-		unsigned  video_format;                                   // u(3)
-		bool      video_full_range_flag;                          // u(1)
-		bool      colour_description_present_flag;                // u(1)
-		  unsigned int colour_primaries;                             // u(8)
-		  unsigned int transfer_characteristics;                     // u(8)
-		  unsigned int matrix_coefficients;                          // u(8)
-	  bool      chroma_location_info_present_flag;                // u(1)
-		unsigned int  chroma_sample_loc_type_top_field;               // ue(v)
-		unsigned int  chroma_sample_loc_type_bottom_field;            // ue(v)
-	  bool      timing_info_present_flag;                         // u(1)
-		unsigned  int num_units_in_tick;                              // u(32)
-		unsigned  int time_scale;                                     // u(32)
-		bool      fixed_frame_rate_flag;                          // u(1)
-	  bool      nal_hrd_parameters_present_flag;                  // u(1)
-		hrd_parameters_t nal_hrd_parameters;                      // hrd_paramters_t
-	  bool      vcl_hrd_parameters_present_flag;                  // u(1)
-		hrd_parameters_t vcl_hrd_parameters;                      // hrd_paramters_t
-	  // if ((nal_hrd_parameters_present_flag || (vcl_hrd_parameters_present_flag))
-		bool      low_delay_hrd_flag;                             // u(1)
-	  bool      pic_struct_present_flag;                        // u(1)
-	  bool      bitstream_restriction_flag;                       // u(1)
-		bool      motion_vectors_over_pic_boundaries_flag;        // u(1)
-		unsigned int max_bytes_per_pic_denom;                        // ue(v)
-		unsigned int max_bits_per_mb_denom;                          // ue(v)
-		unsigned int log2_max_mv_length_vertical;                    // ue(v)
-		unsigned int log2_max_mv_length_horizontal;                  // ue(v)
-		unsigned int num_reorder_frames;                             // ue(v)
-		unsigned int max_dec_frame_buffering;                        // ue(v)
-	} VUI_SEQ_PARAMETERS;
-	*/
+
 
 	#define MAXnum_ref_frames_in_pic_order_cnt_cycle  256
 	typedef struct
 	{
-	  bool   Valid;                  // indicates the parameter set is valid
+		bool				Valid;                  // indicates the parameter set is valid
 
-	  unsigned  int profile_idc;                                      // u(8)
-	  bool   constrained_set0_flag;                            // u(1)
-	  bool   constrained_set1_flag;                            // u(1)
-	  bool   constrained_set2_flag;                            // u(1)
-	  bool   constrained_set3_flag;                            // u(1)
-	  unsigned  int level_idc;                                        // u(8)
-	  unsigned  int seq_parameter_set_id;                             // ue(v)
-	  unsigned  int chroma_format_idc;                                // ue(v)
+		unsigned  int		profile_idc;										// u(8)
+		bool				constrained_set0_flag;								// u(1)
+		bool				constrained_set1_flag;								// u(1)
+		bool				constrained_set2_flag;								// u(1)
+		bool				constrained_set3_flag;								// u(1)
+		unsigned  int		level_idc;											// u(8)
+		unsigned  int		seq_parameter_set_id;								// ue(v)
+		unsigned  int		chroma_format_idc;									// ue(v)
 
-	  bool  seq_scaling_matrix_present_flag;                   // u(1)
-	  int      seq_scaling_list_present_flag[12];                 // u(1)
-	  int      ScalingList4x4[6][16];                             // se(v)
-	  int      ScalingList8x8[6][64];                             // se(v)
-	  bool  UseDefaultScalingMatrix4x4Flag[6];
-	  bool  UseDefaultScalingMatrix8x8Flag[6];
+		bool				seq_scaling_matrix_present_flag;					// u(1)
+		int					seq_scaling_list_present_flag[12];					// u(1)
+		int					ScalingList4x4[6][16];								// se(v)
+		int					ScalingList8x8[6][64];								// se(v)
+		bool				UseDefaultScalingMatrix4x4Flag[6];
+		bool				UseDefaultScalingMatrix8x8Flag[6];
 
-	  unsigned int bit_depth_luma_minus8;                            // ue(v)
-	  unsigned int bit_depth_chroma_minus8;                          // ue(v)
+		unsigned int		bit_depth_luma_minus8;								// ue(v)
+		unsigned int		bit_depth_chroma_minus8;							// ue(v)
 
-	  unsigned int log2_max_frame_num_minus4;                        // ue(v)
-	  unsigned int pic_order_cnt_type;
-	  // if( pic_order_cnt_type == 0 )
-	  unsigned log2_max_pic_order_cnt_lsb_minus4;                 // ue(v)
-	  // else if( pic_order_cnt_type == 1 )
-		bool delta_pic_order_always_zero_flag;               // u(1)
-		int     offset_for_non_ref_pic;                         // se(v)
-		int     offset_for_top_to_bottom_field;                 // se(v)
-		unsigned int num_ref_frames_in_pic_order_cnt_cycle;          // ue(v)
+		unsigned int		log2_max_frame_num_minus4;							// ue(v)
+		unsigned int		pic_order_cnt_type;
+		// if( pic_order_cnt_type == 0 )
+		unsigned			log2_max_pic_order_cnt_lsb_minus4;					// ue(v)
+		// else if( pic_order_cnt_type == 1 )
+		bool				delta_pic_order_always_zero_flag;					// u(1)
+		int					offset_for_non_ref_pic;								// se(v)
+		int					offset_for_top_to_bottom_field;						// se(v)
+		unsigned int		num_ref_frames_in_pic_order_cnt_cycle;				// ue(v)
 		// for( i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++ )
-		  int   offset_for_ref_frame[MAXnum_ref_frames_in_pic_order_cnt_cycle];   // se(v)
-	  unsigned int num_ref_frames;                                   // ue(v)
-	  bool   gaps_in_frame_num_value_allowed_flag;             // u(1)
-	  unsigned int pic_width_in_mbs_minus1;                          // ue(v)
-	  unsigned int pic_height_in_map_units_minus1;                   // ue(v)
-	  bool   frame_mbs_only_flag;                              // u(1)
-	  // if( !frame_mbs_only_flag )
-		bool   mb_adaptive_frame_field_flag;                   // u(1)
-	  bool   direct_8x8_inference_flag;                        // u(1)
-	  bool   frame_cropping_flag;                              // u(1)
-		unsigned int frame_cropping_rect_left_offset;                // ue(v)
-		unsigned int frame_cropping_rect_right_offset;               // ue(v)
-		unsigned int frame_cropping_rect_top_offset;                 // ue(v)
-		unsigned int frame_cropping_rect_bottom_offset;              // ue(v)
-	  bool   vui_parameters_present_flag;                      // u(1)
-//		VUI_SEQ_PARAMETERS vui_seq_parameters;                  // vui_seq_parameters_t
-		unsigned  residual_colour_transform_flag;                       // u(1)	separate_colour_plane_flag
+		int					offset_for_ref_frame[MAXnum_ref_frames_in_pic_order_cnt_cycle];   // se(v)
+		unsigned int		num_ref_frames;										// ue(v)
+		bool				gaps_in_frame_num_value_allowed_flag;				// u(1)
+		unsigned int		pic_width_in_mbs_minus1;							// ue(v)
+		unsigned int		pic_height_in_map_units_minus1;						// ue(v)
+		bool				frame_mbs_only_flag;								// u(1)
+		// if( !frame_mbs_only_flag )
+		bool				mb_adaptive_frame_field_flag;						// u(1)
+		bool				direct_8x8_inference_flag;							// u(1)
+		bool				frame_cropping_flag;								// u(1)
+		unsigned int		frame_cropping_rect_left_offset;					// ue(v)
+		unsigned int		frame_cropping_rect_right_offset;					// ue(v)
+		unsigned int		frame_cropping_rect_top_offset;						// ue(v)
+		unsigned int		frame_cropping_rect_bottom_offset;					// ue(v)
+		bool				vui_parameters_present_flag;						// u(1)
+		//		VUI_SEQ_PARAMETERS vui_seq_parameters;							// vui_seq_parameters_t
+		unsigned			residual_colour_transform_flag;                     // u(1)	separate_colour_plane_flag
 	} SEQ_PARAMETER_SET_RBSP;
 
 
@@ -271,25 +237,52 @@ private:
 		int					idr_flag;
 		int					nal_reference_idc;                       //!< nal_reference_idc from NAL unit
 		int					idr_pic_id;
+
 		//the following is for slice header syntax elements of poc
 		// for poc mode 0.
 		unsigned int		pic_order_cnt_lsb;
 		int					delta_pic_order_cnt_bottom;
 		// for poc mode 1.
 		int					delta_pic_order_cnt[3];
+
+		int					toppoc;      //poc for this top field // POC200301
+		int					bottompoc;   //poc of bottom field of frame
+		int					framepoc;    //poc of this frame // POC200301
+
+		// ////////////////////////
+		// for POC mode 0:
+		signed int			PrevPicOrderCntMsb;
+		unsigned int		PrevPicOrderCntLsb;
+		signed int			PicOrderCntMsb;
+
+		// for POC mode 1:
+		unsigned int		AbsFrameNum;
+		signed int			ExpectedPicOrderCnt, PicOrderCntCycleCnt, FrameNumInPicOrderCntCycle;
+		unsigned int		PreviousFrameNum, FrameNumOffset;
+		int					ExpectedDeltaPerPicOrderCntCycle;
+		int					PreviousPOC, ThisPOC;
+		int					PreviousFrameNumOffset;
 	} SLICE_PARAMETER;
+
+	#pragma endregion
 
 
 	DXVA_PicParams_H264		m_DXVAPicParams;
-	QMatrixH264Type			m_nQMatrix;			// N° for inverse quantization matrix
 	PIC_PARAMETER_SET_RBSP	m_PicParam;
 	SEQ_PARAMETER_SET_RBSP	m_SeqParam;
+	SLICE_PARAMETER			m_Slice;
 
 	// Variables for RefFrameList fields
 	UINT					m_nCurRefFrame;		// First free RefFrameList position
 	
 	DXVA_Slice_H264_Short	m_SliceShort;
-	CComPtr<IMediaSample>	m_pCurRefSample[PicEntryNumber];
+
+	// Private functions
+	void					Init();
+
+	// DXVA functions
+	void					InitPictureParams();
+	void					UpdatePictureParams (int nFrameNum, bool bRefFrame);
 
 	// Bitstream parsing functions from JM Ref h264 decoder (http://iphome.hhi.de/suehring/tml/)
 	int						GetBits (byte buffer[],int totbitoffset,int *info, int bytecount, int numbits);
@@ -303,13 +296,10 @@ private:
 	static void				LInfo_Ue(int len, int info, int *value1, int *dummy);
 	static void				LInfo_Se(int len,  int info, int *value1, int *dummy);
 	void					ReadSliceHeader(SLICE_PARAMETER* pSlice, BYTE* pBuffer, UINT nBufferLength);
+	void					DecodePOC(SLICE_PARAMETER* pSlice);
 
 	int						MoreRBSPData (BYTE* buffer,int totbitoffset,int bytecount);
 	void					ReadNalu (NALU* Nalu, BYTE* pDataIn, UINT nSize);
 	void					ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pDataIn, UINT nSize);
 	void					ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength);
-//	void					ReadVUI(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength, UINT nBitOffset);
-
-	void					InitPictureParams();
-	void					UpdatePictureParams (int nFrameNum, bool bRefFrame);
 };

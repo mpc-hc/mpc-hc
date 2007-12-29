@@ -1,5 +1,5 @@
 /* 
- * $Id: stdafx.cpp 249 2007-09-26 11:07:22Z casimir666 $
+ * $Id: FfmpegContext.h 249 2007-09-26 11:07:22Z casimir666 $
  *
  * (C) 2006-2007 see AUTHORS
  *
@@ -20,25 +20,8 @@
  *
  */
 
+#pragma once
 
-#include "stdafx.h"
+#include <dxva.h>
 
-#define LOG_FILE				_T("dxva.log")
-
-void LOG(LPCTSTR fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	if(TCHAR* buff = new TCHAR[_vsctprintf(fmt, args) + 1])
-	{
-		_vstprintf(buff, fmt, args);
-		if(FILE* f = _tfopen(LOG_FILE, _T("at")))
-		{
-			fseek(f, 0, 2);
-			_ftprintf(f, _T("%s\n"), buff);
-			fclose(f);
-		}
-		delete [] buff;
-	}
-	va_end(args);
-}
+void FillH264Context (DXVA_PicParams_H264* m_DXVAPicParams, void* pPrivData);

@@ -181,6 +181,9 @@ interface IAMVideoAcceleratorC
 
 extern void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC);
 
+extern HRESULT	HookCallConnectionMediaType (AM_MEDIA_TYPE *pmt);
+
 // DXVA2 hooks
 extern void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService);
-LPCTSTR GetDXVA2DecoderDescription();
+LPCTSTR GetDXVADecoderDescription();
+LPCTSTR GetDXVAVersion();

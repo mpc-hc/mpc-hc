@@ -2235,9 +2235,9 @@ void avcodec_get_frame_defaults(AVFrame *pic);
  */
 FF_EXPORT AVFrame *avcodec_alloc_frame(void);
 
-int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
-void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
-int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
+FF_EXPORT int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
+FF_EXPORT void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
+FF_EXPORT int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height);
 
 /**

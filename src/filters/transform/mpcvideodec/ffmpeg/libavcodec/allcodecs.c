@@ -108,7 +108,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER	(truemotion2);
 //    REGISTER_DECODER	(tscc);
 //    REGISTER_DECODER	(ulti);
-//    REGISTER_DECODER	(vc1);
+    REGISTER_DECODER	(vc1);
 //    REGISTER_DECODER	(vcr1);
 //    REGISTER_DECODER	(vp3);
     REGISTER_DECODER	(vp5);

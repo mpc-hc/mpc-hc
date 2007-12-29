@@ -46,144 +46,186 @@
 
 /////
 #define MAX_SUPPORTED_MODE			5
+
+typedef struct
+{
+	const int			PicEntryNumber;
+	const GUID*			Decoder[MAX_SUPPORTED_MODE];
+	const WORD			RestrictedMode[MAX_SUPPORTED_MODE];
+} DXVA_PARAMS;
+
 typedef struct
 {
   const CLSID*			clsMinorType;
   const enum CodecID	nFFCodec;
   const int				fourcc;
-  const	bool			bSupportDXVA;
-  const GUID*			SupportedMode[MAX_SUPPORTED_MODE];
+  const DXVA_PARAMS*	DXVAModes;
+
+  bool					IsDXVASupported()	{ return (DXVAModes != NULL); }
+  int					DXVAModeCount()		
+  {
+	  if (!DXVAModes) return 0;
+	  for (int i=0; i<MAX_SUPPORTED_MODE; i++)
+	  {
+		  if (DXVAModes->Decoder[i] == &GUID_NULL) return i;
+	  }
+	  return MAX_SUPPORTED_MODE;
+  }
 } FFMPEG_CODECS;
 
 
-const FFMPEG_CODECS		ffCodecs[] =
+// DXVA modes supported for Mpeg2
+DXVA_PARAMS		DXVA_Mpeg2 =
+{
+	14, // TODO
+	{ &DXVA_ModeMPEG2_A,			&DXVA_ModeMPEG2_C,				&GUID_NULL },
+	{ DXVA_RESTRICTED_MODE_MPEG2_A,  DXVA_RESTRICTED_MODE_MPEG2_C,	 0 }
+};
+
+// DXVA modes supported for H264
+DXVA_PARAMS		DXVA_H264 =
+{
+	14,
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },	// TODO : REMOVE MPEG2!!
+	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
+};
+
+// DXVA modes supported for VC1
+DXVA_PARAMS		DXVA_VC1 =
+{
+	14,
+	{ &DXVA2_ModeVC1_D,				&GUID_NULL },
+	{ DXVA_RESTRICTED_MODE_VC1_D,	 0}
+};
+
+FFMPEG_CODECS		ffCodecs[] =
 {
 	// Flash video
-	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	NULL },
 
 	// VP5
-	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	NULL },
 
 	// VP6
-	{ &MEDIASUBTYPE_VP60, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','0'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_VP61, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_VP62, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, MAKEFOURCC('F','L','V','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_VP60, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','0'),	NULL },
+	{ &MEDIASUBTYPE_VP61, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','1'),	NULL },
+	{ &MEDIASUBTYPE_VP62, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','2'),	NULL },
+	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, MAKEFOURCC('F','L','V','4'),	NULL },
+	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	NULL },
+	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	NULL },
 
 	// Mpeg2
-	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	true, { /*&DXVA2_ModeMPEG2_MoComp,*/ &DXVA2_ModeMPEG2_VLD, &GUID_NULL } },
+	{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	&DXVA_Mpeg2 },
 
 	// Xvid
-	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_xvid, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','d'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_XVIX, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','X'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_xvix, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','x'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	NULL },
+	{ &MEDIASUBTYPE_xvid, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','d'),	NULL },
+	{ &MEDIASUBTYPE_XVIX, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','X'),	NULL },
+	{ &MEDIASUBTYPE_xvix, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','x'),	NULL },
 
 	// DivX
-	{ &MEDIASUBTYPE_DX50, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','5','0'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_dx50, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','5','0'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIVX, CODEC_ID_MPEG4,  MAKEFOURCC('D','I','V','X'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_divx, CODEC_ID_MPEG4,  MAKEFOURCC('d','i','v','x'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DX50, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','5','0'),	NULL },
+	{ &MEDIASUBTYPE_dx50, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','5','0'),	NULL },
+	{ &MEDIASUBTYPE_DIVX, CODEC_ID_MPEG4,  MAKEFOURCC('D','I','V','X'),	NULL },
+	{ &MEDIASUBTYPE_divx, CODEC_ID_MPEG4,  MAKEFOURCC('d','i','v','x'),	NULL },
 
 	// Other MPEG-4
-	{ &MEDIASUBTYPE_MP4V, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','V'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mp4v, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','v'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_M4S2, CODEC_ID_MPEG4,  MAKEFOURCC('M','4','S','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_m4s2, CODEC_ID_MPEG4,  MAKEFOURCC('m','4','s','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MP4S, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','S'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mp4s, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','s'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3IV1, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3iv1, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3IV2, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3iv2, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3IVX, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','X'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_3ivx, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','x'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_BLZ0, CODEC_ID_MPEG4,  MAKEFOURCC('B','L','Z','0'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_blz0, CODEC_ID_MPEG4,  MAKEFOURCC('b','l','z','0'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DM4V, CODEC_ID_MPEG4,  MAKEFOURCC('D','M','4','V'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_dm4v, CODEC_ID_MPEG4,  MAKEFOURCC('d','m','4','v'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_FFDS, CODEC_ID_MPEG4,  MAKEFOURCC('F','F','D','S'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_ffds, CODEC_ID_MPEG4,  MAKEFOURCC('f','f','d','s'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_FVFW, CODEC_ID_MPEG4,  MAKEFOURCC('F','V','F','W'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_fvfw, CODEC_ID_MPEG4,  MAKEFOURCC('f','v','f','w'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DXGM, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','G','M'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_dxgm, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','g','m'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_FMP4, CODEC_ID_MPEG4,  MAKEFOURCC('F','M','P','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_fmp4, CODEC_ID_MPEG4,  MAKEFOURCC('f','m','p','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_HDX4, CODEC_ID_MPEG4,  MAKEFOURCC('H','D','X','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_hdx4, CODEC_ID_MPEG4,  MAKEFOURCC('h','d','x','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_LMP4, CODEC_ID_MPEG4,  MAKEFOURCC('L','M','P','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_lmp4, CODEC_ID_MPEG4,  MAKEFOURCC('l','m','p','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_NDIG, CODEC_ID_MPEG4,  MAKEFOURCC('N','D','I','G'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_ndig, CODEC_ID_MPEG4,  MAKEFOURCC('n','d','i','g'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_RMP4, CODEC_ID_MPEG4,  MAKEFOURCC('R','M','P','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_rmp4, CODEC_ID_MPEG4,  MAKEFOURCC('r','m','p','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_SMP4, CODEC_ID_MPEG4,  MAKEFOURCC('S','M','P','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_smp4, CODEC_ID_MPEG4,  MAKEFOURCC('s','m','p','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_SEDG, CODEC_ID_MPEG4,  MAKEFOURCC('S','E','D','G'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_sedg, CODEC_ID_MPEG4,  MAKEFOURCC('s','e','d','g'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_UMP4, CODEC_ID_MPEG4,  MAKEFOURCC('U','M','P','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_ump4, CODEC_ID_MPEG4,  MAKEFOURCC('u','m','p','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_MP4V, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','V'),	NULL },
+	{ &MEDIASUBTYPE_mp4v, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','v'),	NULL },
+	{ &MEDIASUBTYPE_M4S2, CODEC_ID_MPEG4,  MAKEFOURCC('M','4','S','2'),	NULL },
+	{ &MEDIASUBTYPE_m4s2, CODEC_ID_MPEG4,  MAKEFOURCC('m','4','s','2'),	NULL },
+	{ &MEDIASUBTYPE_MP4S, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','S'),	NULL },
+	{ &MEDIASUBTYPE_mp4s, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','s'),	NULL },
+	{ &MEDIASUBTYPE_3IV1, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','1'),	NULL },
+	{ &MEDIASUBTYPE_3iv1, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','1'),	NULL },
+	{ &MEDIASUBTYPE_3IV2, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','2'),	NULL },
+	{ &MEDIASUBTYPE_3iv2, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','2'),	NULL },
+	{ &MEDIASUBTYPE_3IVX, CODEC_ID_MPEG4,  MAKEFOURCC('3','I','V','X'),	NULL },
+	{ &MEDIASUBTYPE_3ivx, CODEC_ID_MPEG4,  MAKEFOURCC('3','i','v','x'),	NULL },
+	{ &MEDIASUBTYPE_BLZ0, CODEC_ID_MPEG4,  MAKEFOURCC('B','L','Z','0'),	NULL },
+	{ &MEDIASUBTYPE_blz0, CODEC_ID_MPEG4,  MAKEFOURCC('b','l','z','0'),	NULL },
+	{ &MEDIASUBTYPE_DM4V, CODEC_ID_MPEG4,  MAKEFOURCC('D','M','4','V'),	NULL },
+	{ &MEDIASUBTYPE_dm4v, CODEC_ID_MPEG4,  MAKEFOURCC('d','m','4','v'),	NULL },
+	{ &MEDIASUBTYPE_FFDS, CODEC_ID_MPEG4,  MAKEFOURCC('F','F','D','S'),	NULL },
+	{ &MEDIASUBTYPE_ffds, CODEC_ID_MPEG4,  MAKEFOURCC('f','f','d','s'),	NULL },
+	{ &MEDIASUBTYPE_FVFW, CODEC_ID_MPEG4,  MAKEFOURCC('F','V','F','W'),	NULL },
+	{ &MEDIASUBTYPE_fvfw, CODEC_ID_MPEG4,  MAKEFOURCC('f','v','f','w'),	NULL },
+	{ &MEDIASUBTYPE_DXGM, CODEC_ID_MPEG4,  MAKEFOURCC('D','X','G','M'),	NULL },
+	{ &MEDIASUBTYPE_dxgm, CODEC_ID_MPEG4,  MAKEFOURCC('d','x','g','m'),	NULL },
+	{ &MEDIASUBTYPE_FMP4, CODEC_ID_MPEG4,  MAKEFOURCC('F','M','P','4'),	NULL },
+	{ &MEDIASUBTYPE_fmp4, CODEC_ID_MPEG4,  MAKEFOURCC('f','m','p','4'),	NULL },
+	{ &MEDIASUBTYPE_HDX4, CODEC_ID_MPEG4,  MAKEFOURCC('H','D','X','4'),	NULL },
+	{ &MEDIASUBTYPE_hdx4, CODEC_ID_MPEG4,  MAKEFOURCC('h','d','x','4'),	NULL },
+	{ &MEDIASUBTYPE_LMP4, CODEC_ID_MPEG4,  MAKEFOURCC('L','M','P','4'),	NULL },
+	{ &MEDIASUBTYPE_lmp4, CODEC_ID_MPEG4,  MAKEFOURCC('l','m','p','4'),	NULL },
+	{ &MEDIASUBTYPE_NDIG, CODEC_ID_MPEG4,  MAKEFOURCC('N','D','I','G'),	NULL },
+	{ &MEDIASUBTYPE_ndig, CODEC_ID_MPEG4,  MAKEFOURCC('n','d','i','g'),	NULL },
+	{ &MEDIASUBTYPE_RMP4, CODEC_ID_MPEG4,  MAKEFOURCC('R','M','P','4'),	NULL },
+	{ &MEDIASUBTYPE_rmp4, CODEC_ID_MPEG4,  MAKEFOURCC('r','m','p','4'),	NULL },
+	{ &MEDIASUBTYPE_SMP4, CODEC_ID_MPEG4,  MAKEFOURCC('S','M','P','4'),	NULL },
+	{ &MEDIASUBTYPE_smp4, CODEC_ID_MPEG4,  MAKEFOURCC('s','m','p','4'),	NULL },
+	{ &MEDIASUBTYPE_SEDG, CODEC_ID_MPEG4,  MAKEFOURCC('S','E','D','G'),	NULL },
+	{ &MEDIASUBTYPE_sedg, CODEC_ID_MPEG4,  MAKEFOURCC('s','e','d','g'),	NULL },
+	{ &MEDIASUBTYPE_UMP4, CODEC_ID_MPEG4,  MAKEFOURCC('U','M','P','4'),	NULL },
+	{ &MEDIASUBTYPE_ump4, CODEC_ID_MPEG4,  MAKEFOURCC('u','m','p','4'),	NULL },
+	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	NULL },
+	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	NULL },
 
 	// MSMPEG-4
-	{ &MEDIASUBTYPE_DIV3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DVX3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','V','X','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_dvx3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','v','x','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MP43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','4','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mp43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','4','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_COL1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('C','O','L','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_col1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('c','o','l','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIV4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIV5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','5'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','5'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIV6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','6'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','6'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_AP41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('A','P','4','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_ap41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('a','p','4','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MPG3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','G','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mpg3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','g','3'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIV2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('D','I','V','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('d','i','v','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MP42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('M','P','4','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mp42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('m','p','4','2'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MPG4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','G','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mpg4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','g','4'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_DIV1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('D','I','V','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_div1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('d','i','v','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_MP41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','4','1'),	false, { &GUID_NULL } },
-	{ &MEDIASUBTYPE_mp41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','4','1'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_DIV3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','3'),	NULL },
+	{ &MEDIASUBTYPE_div3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','3'),	NULL },
+	{ &MEDIASUBTYPE_DVX3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','V','X','3'),	NULL },
+	{ &MEDIASUBTYPE_dvx3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','v','x','3'),	NULL },
+	{ &MEDIASUBTYPE_MP43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','4','3'),	NULL },
+	{ &MEDIASUBTYPE_mp43, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','4','3'),	NULL },
+	{ &MEDIASUBTYPE_COL1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('C','O','L','1'),	NULL },
+	{ &MEDIASUBTYPE_col1, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('c','o','l','1'),	NULL },
+	{ &MEDIASUBTYPE_DIV4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','4'),	NULL },
+	{ &MEDIASUBTYPE_div4, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','4'),	NULL },
+	{ &MEDIASUBTYPE_DIV5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','5'),	NULL },
+	{ &MEDIASUBTYPE_div5, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','5'),	NULL },
+	{ &MEDIASUBTYPE_DIV6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('D','I','V','6'),	NULL },
+	{ &MEDIASUBTYPE_div6, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('d','i','v','6'),	NULL },
+	{ &MEDIASUBTYPE_AP41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('A','P','4','1'),	NULL },
+	{ &MEDIASUBTYPE_ap41, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('a','p','4','1'),	NULL },
+	{ &MEDIASUBTYPE_MPG3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('M','P','G','3'),	NULL },
+	{ &MEDIASUBTYPE_mpg3, CODEC_ID_MSMPEG4V3,  MAKEFOURCC('m','p','g','3'),	NULL },
+	{ &MEDIASUBTYPE_DIV2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('D','I','V','2'),	NULL },
+	{ &MEDIASUBTYPE_div2, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('d','i','v','2'),	NULL },
+	{ &MEDIASUBTYPE_MP42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('M','P','4','2'),	NULL },
+	{ &MEDIASUBTYPE_mp42, CODEC_ID_MSMPEG4V2,  MAKEFOURCC('m','p','4','2'),	NULL },
+	{ &MEDIASUBTYPE_MPG4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','G','4'),	NULL },
+	{ &MEDIASUBTYPE_mpg4, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','g','4'),	NULL },
+	{ &MEDIASUBTYPE_DIV1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('D','I','V','1'),	NULL },
+	{ &MEDIASUBTYPE_div1, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('d','i','v','1'),	NULL },
+	{ &MEDIASUBTYPE_MP41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','4','1'),	NULL },
+	{ &MEDIASUBTYPE_mp41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','4','1'),	NULL },
 
 	// AMV Video
-	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	false, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	NULL },
 
 	// H264/AVC
-	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_DAVC, CODEC_ID_H264, MAKEFOURCC('D','A','V','C'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_davc, CODEC_ID_H264, MAKEFOURCC('d','a','v','c'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_PAVC, CODEC_ID_H264, MAKEFOURCC('P','A','V','C'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_pavc, CODEC_ID_H264, MAKEFOURCC('p','a','v','c'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_AVC1, CODEC_ID_H264, MAKEFOURCC('A','V','C','1'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
-	{ &MEDIASUBTYPE_avc1, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_DAVC, CODEC_ID_H264, MAKEFOURCC('D','A','V','C'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_davc, CODEC_ID_H264, MAKEFOURCC('d','a','v','c'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_PAVC, CODEC_ID_H264, MAKEFOURCC('P','A','V','C'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_pavc, CODEC_ID_H264, MAKEFOURCC('p','a','v','c'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_AVC1, CODEC_ID_H264, MAKEFOURCC('A','V','C','1'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_avc1, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'),	&DXVA_H264 },
 
 	// SVQ3
-	{ &MEDIASUBTYPE_SVQ3, CODEC_ID_SVQ3, MAKEFOURCC('S','V','Q','3'),	true, { &DXVA2_ModeH264_E, &GUID_NULL } },
+	{ &MEDIASUBTYPE_SVQ3, CODEC_ID_SVQ3, MAKEFOURCC('S','V','Q','3'),	&DXVA_H264 },
 
 	// SVQ1
-	{ &MEDIASUBTYPE_SVQ1, CODEC_ID_SVQ1, MAKEFOURCC('S','V','Q','1'),	true, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_SVQ1, CODEC_ID_SVQ1, MAKEFOURCC('S','V','Q','1'),	NULL },
 
 	// WVC1
-	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	true, { &GUID_NULL } },
+	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	&DXVA_VC1 },
 };
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
@@ -331,67 +373,78 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	if (m_pOutput)	delete m_pOutput;
 	if(!(m_pOutput = new CVideoDecOutputPin(NAME("CVideoDecOutputPin"), this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
 
-/*	CRegKey key;
-	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ))
+	m_pCpuId				= new CCpuId();
+	m_pAVCodec				= NULL;
+	m_pAVCtx				= NULL;
+	m_pFrame				= NULL;
+	m_nCodecNb				= -1;
+	m_rtAvrTimePerFrame		= 0;
+
+	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
+	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
+
+	m_nThreadNumber			= 1;
+	m_nDiscardMode			= AVDISCARD_DEFAULT;
+	m_nErrorResilience		= FF_ER_CAREFUL;
+	m_nIDCTAlgo				= FF_IDCT_AUTO;
+	m_bEnableDXVA			= true;
+
+	m_nDXVAMode				= MODE_SOFTWARE;
+	m_pDXVADecoder			= NULL;
+	m_pVideoOutputFormat	= NULL;
+	m_nVideoOutputCount		= 0;
+
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
 	{
 		DWORD dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("SampleFormat"), dw)) m_iSampleFormat = (SampleFormat)dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Normalize"), dw)) m_fNormalize = !!dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Boost"), dw)) m_boost = *(float*)&dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3SpeakerConfig"), dw)) m_iSpeakerConfig[ac3] = (int)dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsSpeakerConfig"), dw)) m_iSpeakerConfig[dts] = (int)dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AacSpeakerConfig"), dw)) m_iSpeakerConfig[aac] = (int)dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Ac3DynamicRangeControl"), dw)) m_fDynamicRangeControl[ac3] = !!dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DtsDynamicRangeControl"), dw)) m_fDynamicRangeControl[dts] = !!dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AacDynamicRangeControl"), dw)) m_fDynamicRangeControl[aac] = !!dw;
-	}*/
-
-	m_pCpuId			= new CCpuId();
-	m_pAVCodec			= NULL;
-	m_pAVCtx			= NULL;
-	m_pFrame			= NULL;
-	m_nCodecNb			= -1;
-
-	m_nWorkaroundBug	= 1;		// TODO : add config in property page
-	m_nErrorConcealment	= 3;
-	m_nErrorResilience	= 1;
-	m_nThreadNumber		= 1; //m_CpuId.GetProcessorNumber();
-
-	m_bUseDXVA2			= false;
-	m_pDXVADecoder		= NULL;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ThreadNumber"), dw)) m_nThreadNumber = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) m_nDiscardMode = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorResilience"), dw)) m_nErrorResilience = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableDXVA"), dw)) m_bEnableDXVA = !!dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("H264QuantMatrix"), dw)) CDXVADecoderH264::g_nH264QuantMatrix = (QMatrixH264Type)dw;
+	}
 
 #ifdef __USE_FFMPEG_DLL	
 	// Test with ffmpeg as DLL
 	HMODULE		hLib = LoadLibrary (_T("libavcodec.dll"));
 	if (hLib)
 	{
-		ff_avcodec_init				= (FUNC_AVCODEC_INIT)			GetProcAddress (hLib, "avcodec_init");
-		ff_avcodec_register_all		= (FUNC_AVCODEC_REGISTER_ALL)	GetProcAddress (hLib, "avcodec_register_all");
-		ff_avcodec_find_decoder		= (FUNC_AVCODEC_FIND_DECODER)	GetProcAddress (hLib, "avcodec_find_decoder");
-		ff_avcodec_alloc_context	= (FUNC_AVCODEC_ALLOC_CONTEXT)	GetProcAddress (hLib, "avcodec_alloc_context");
-		ff_avcodec_alloc_frame		= (FUNC_AVCODEC_ALLOC_FRAME)	GetProcAddress (hLib, "avcodec_alloc_frame");
-		ff_avcodec_open				= (FUNC_AVCODEC_OPEN)			GetProcAddress (hLib, "avcodec_open");
-		ff_avcodec_decode_video		= (FUNC_AVCODEC_DECODE_VIDEO)	GetProcAddress (hLib, "avcodec_decode_video");
-		ff_av_log_set_callback		= (FUNC_AV_LOG_SET_CALLBACK)	GetProcAddress (hLib, "av_log_set_callback");
-		ff_avcodec_close			= (FUNC_AVCODEC_CLOSE)			GetProcAddress (hLib, "avcodec_close");
-		ff_avcodec_thread_free		= (FUNC_AVCODEC_THREAD_FREE)	GetProcAddress (hLib, "avcodec_thread_free");
-		ff_avcodec_thread_init		= (FUNC_AVCODEC_THREAD_INIT)	GetProcAddress (hLib, "avcodec_thread_init");
-		ff_av_free					= (FUNC_AV_FREE)				GetProcAddress (hLib, "av_free");
+		ff_avcodec_init						= (FUNC_AVCODEC_INIT)				GetProcAddress (hLib, "avcodec_init");
+		ff_avcodec_register_all				= (FUNC_AVCODEC_REGISTER_ALL)		GetProcAddress (hLib, "avcodec_register_all");
+		ff_avcodec_find_decoder				= (FUNC_AVCODEC_FIND_DECODER)		GetProcAddress (hLib, "avcodec_find_decoder");
+		ff_avcodec_alloc_context			= (FUNC_AVCODEC_ALLOC_CONTEXT)		GetProcAddress (hLib, "avcodec_alloc_context");
+		ff_avcodec_alloc_frame				= (FUNC_AVCODEC_ALLOC_FRAME)		GetProcAddress (hLib, "avcodec_alloc_frame");
+		ff_avcodec_open						= (FUNC_AVCODEC_OPEN)				GetProcAddress (hLib, "avcodec_open");
+		ff_avcodec_decode_video				= (FUNC_AVCODEC_DECODE_VIDEO)		GetProcAddress (hLib, "avcodec_decode_video");
+		ff_av_log_set_callback				= (FUNC_AV_LOG_SET_CALLBACK)		GetProcAddress (hLib, "av_log_set_callback");
+		ff_avcodec_close					= (FUNC_AVCODEC_CLOSE)				GetProcAddress (hLib, "avcodec_close");
+		ff_avcodec_thread_free				= (FUNC_AVCODEC_THREAD_FREE)		GetProcAddress (hLib, "avcodec_thread_free");
+		ff_avcodec_thread_init				= (FUNC_AVCODEC_THREAD_INIT)		GetProcAddress (hLib, "avcodec_thread_init");
+		ff_av_free							= (FUNC_AV_FREE)					GetProcAddress (hLib, "av_free");
+		ff_avcodec_default_get_buffer		= (FUNC_AV_DEFAULT_GET_BUFFER)		GetProcAddress (hLib, "avcodec_default_get_buffer");
+		ff_avcodec_default_release_buffer	= (FUNC_AV_DEFAULT_RELEASE_BUFFER)	GetProcAddress (hLib, "avcodec_default_release_buffer");
+		ff_avcodec_default_reget_buffer		= (FUNC_AV_DEFAULT_REGET_BUFFER)	GetProcAddress (hLib, "avcodec_default_reget_buffer");
+
 	}
 #else
 	// Test with ffmpeg as static library
-	ff_avcodec_init				= avcodec_init;
-	ff_avcodec_register_all		= avcodec_register_all;
-	ff_avcodec_find_decoder		= avcodec_find_decoder;
-	ff_avcodec_alloc_context	= avcodec_alloc_context;
-	ff_avcodec_alloc_frame		= avcodec_alloc_frame;
-	ff_avcodec_open				= avcodec_open;
-	ff_avcodec_decode_video		= avcodec_decode_video;
-	ff_av_log_set_callback		= av_log_set_callback;
-	ff_avcodec_close			= avcodec_close;
-	ff_avcodec_thread_free		= avcodec_thread_free;
-	ff_avcodec_thread_init		= avcodec_thread_init;
-	ff_av_free					= av_free;
+	ff_avcodec_init						= avcodec_init;
+	ff_avcodec_register_all				= avcodec_register_all;
+	ff_avcodec_find_decoder				= avcodec_find_decoder;
+	ff_avcodec_alloc_context			= avcodec_alloc_context;
+	ff_avcodec_alloc_frame				= avcodec_alloc_frame;
+	ff_avcodec_open						= avcodec_open;
+	ff_avcodec_decode_video				= avcodec_decode_video;
+	ff_av_log_set_callback				= av_log_set_callback;
+	ff_avcodec_close					= avcodec_close;
+	ff_avcodec_thread_free				= avcodec_thread_free;
+	ff_avcodec_thread_init				= avcodec_thread_init;
+	ff_av_free							= av_free;
+	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
+	ff_avcodec_default_release_buffer	= avcodec_default_release_buffer;
+	ff_avcodec_default_reget_buffer		= avcodec_default_reget_buffer;
 #endif
 
 	ff_avcodec_init();
@@ -407,20 +460,17 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 
 	delete m_pCpuId;
 
-	/*
+	
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")))
+	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder")))
 	{
-		key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
-		key.SetDWORDValue(_T("Normalize"), m_fNormalize);
-		key.SetDWORDValue(_T("Boost"), *(DWORD*)&m_boost);
-		key.SetDWORDValue(_T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
-		key.SetDWORDValue(_T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-		key.SetDWORDValue(_T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
-		key.SetDWORDValue(_T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
-		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
-		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
-	}*/
+		key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
+		key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
+		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
+		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
+		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
+		key.SetDWORDValue(_T("H264QuantMatrix"), CDXVADecoderH264::g_nH264QuantMatrix);
+	}
 }
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
@@ -439,6 +489,7 @@ int CMPCVideoDecFilter::PictHeight()
 	return m_pAVCtx ? m_pAVCtx->height : 0;
 }
 
+
 int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 {
 	for (int i=0; i<countof(ffCodecs); i++)
@@ -450,12 +501,9 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 
 void CMPCVideoDecFilter::Cleanup()
 {
-	if (m_pDXVADecoder)
-	{
-		delete m_pDXVADecoder;
-		m_pDXVADecoder = NULL;
-	}
+	SAFE_DELETE (m_pDXVADecoder);
 
+	// Release FFMpeg
 	if (m_pAVCtx)
 	{
 		if (m_pAVCtx->intra_matrix)			free(m_pAVCtx->intra_matrix);
@@ -464,9 +512,10 @@ void CMPCVideoDecFilter::Cleanup()
 		if (m_pAVCtx->intra_matrix_chroma)	free(m_pAVCtx->intra_matrix_chroma);
 		if (m_pAVCtx->inter_matrix_luma)	free(m_pAVCtx->inter_matrix_luma);
 		if (m_pAVCtx->inter_matrix_chroma)	free(m_pAVCtx->inter_matrix_chroma);
+		if (m_pAVCtx->extradata)			free((unsigned char*)m_pAVCtx->extradata);
 
-		if (m_pAVCtx->slice_offset) ff_av_free(m_pAVCtx->slice_offset);
-		if (m_pAVCtx) ff_avcodec_close(m_pAVCtx);
+		if (m_pAVCtx->slice_offset)			ff_av_free(m_pAVCtx->slice_offset);
+		if (m_pAVCtx->codec)				ff_avcodec_close(m_pAVCtx);
 
 		if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
 			ff_avcodec_thread_free (m_pAVCtx);
@@ -479,6 +528,30 @@ void CMPCVideoDecFilter::Cleanup()
 	m_pAVCtx	= NULL;
 	m_pFrame	= NULL;
 	m_nCodecNb	= -1;
+	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
+
+	// Release smart pointer
+	m_pDeviceManager		= NULL;
+	m_pDecoderService		= NULL;
+	m_pDecoderRenderTarget	= NULL;
+}
+
+void CMPCVideoDecFilter::CalcAvgTimePerFrame()
+{
+	CMediaType &mt	= m_pInput->CurrentMediaType();
+	if (mt.formattype==FORMAT_VideoInfo)
+		m_rtAvrTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_VideoInfo2)
+		m_rtAvrTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_MPEGVideo)
+		m_rtAvrTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+	else if (mt.formattype==FORMAT_MPEG2Video)
+		m_rtAvrTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+	else
+	{
+		ASSERT (FALSE);
+		m_rtAvrTimePerFrame	= 1;
+	}
 }
 
 void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
@@ -486,12 +559,17 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 #ifdef _DEBUG
 	//AVCodecContext*	m_pAVCtx = (AVCodecContext*) par;
 
-	//char		Msg [500];
-	//snprintf (Msg, sizeof(Msg), fmt, valist);
-	//TRACE("AVLIB : %s", Msg);
+	char		Msg [500];
+	vsnprintf (Msg, sizeof(Msg), fmt, valist);
+	TRACE("AVLIB : %s", Msg);
 #endif
 }
 
+void CMPCVideoDecFilter::OnGetBuffer(AVFrame *pic)
+{
+	// Callback from FFMpeg to store Ref Time in frame (needed to have correct rtStart after avcodec_decode_video calls)
+	pic->rtStart	= m_rtStart;
+}
 
 STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
@@ -585,16 +663,29 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		m_pAVCtx->inter_matrix_luma		= (uint16_t*)calloc(sizeof(uint16_t),16);
 		m_pAVCtx->inter_matrix_chroma	= (uint16_t*)calloc(sizeof(uint16_t),16);
 		m_pAVCtx->codec_tag				= ffCodecs[nNewCodec].fourcc;
-		m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;	// TODO !! 
+		m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 		m_pAVCtx->error_concealment		= m_nErrorConcealment;
 		m_pAVCtx->error_resilience		= m_nErrorResilience;
+		m_pAVCtx->idct_algo				= m_nIDCTAlgo;
+		m_pAVCtx->skip_loop_filter		= (AVDiscard)m_nDiscardMode;
 		m_pAVCtx->dsp_mask				= FF_MM_FORCE | m_pCpuId->GetFeatures();
 
 		m_pAVCtx->postgain				= 1.0f;
 		m_pAVCtx->scenechange_factor	= 1;
-		m_pAVCtx->debug_mv				= 1;
+		m_pAVCtx->debug_mv				= 0;
+#ifdef _DEBUG
+		//m_pAVCtx->debug					= FF_DEBUG_PICT_INFO | FF_DEBUG_STARTCODE | FF_DEBUG_PTS;
+#endif
+		
+		m_pAVCtx->self					= this;
+		m_pAVCtx->get_buffer			= get_buffer;
 
-		AllocExtradata (m_pAVCtx, pmt);		
+		AllocExtradata (m_pAVCtx, pmt);
+		ConnectTo (m_pAVCtx);
+		CalcAvgTimePerFrame();
+
+		if (ffCodecs[nNewCodec].IsDXVASupported())
+			BuildDXVAOutputFormat();
 
 		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
@@ -606,121 +697,65 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 {
-	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},
+	//{&DXVA_ModeMPEG2_A,  1, 12, 'avxd'},
+	//{&DXVA_ModeMPEG2_C,  1, 12, 'avxd'},
+
+	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},	// DXVA2
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'},
-	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
+
+	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},	// Software
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
 	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
 };
 
+void CMPCVideoDecFilter::BuildDXVAOutputFormat()
+{
+	int			i;
+
+	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
+
+	m_nVideoOutputCount		= ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats);
+	m_pVideoOutputFormat	= new VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
+
+	// Dynamic DXVA media types for DXVA1
+	for (i=0; i<ffCodecs[m_nCodecNb].DXVAModeCount(); i++)
+	{
+		m_pVideoOutputFormat[i].subtype			= ffCodecs[m_nCodecNb].DXVAModes->Decoder[i];
+		m_pVideoOutputFormat[i].biCompression	= '21VN';
+		m_pVideoOutputFormat[i].biBitCount		= 12;
+		m_pVideoOutputFormat[i].biPlanes		= 1;
+	}
+
+	// Static list for DXVA2 & software rendering
+	memcpy (&m_pVideoOutputFormat[ffCodecs[m_nCodecNb].DXVAModeCount()], DXVAFormats, sizeof(DXVAFormats));
+}
+
+
+int CMPCVideoDecFilter::GetPicEntryNumber()
+{
+	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported())
+		return ffCodecs[m_nCodecNb].DXVAModes->PicEntryNumber;
+	else
+		return 0;
+}
+
+
 void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
-	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].bSupportDXVA)
+	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported())
 	{
-		nNumber		= countof(DXVAFormats);
-		*ppFormats	= DXVAFormats;
+		nNumber		= m_nVideoOutputCount;
+		*ppFormats	= m_pVideoOutputFormat;
+		//nNumber		= countof(DXVAFormats);
+		//*ppFormats	= DXVAFormats;
 	}
 	else
 		__super::GetOutputFormats (nNumber, ppFormats);
 }
-/*
-HRESULT CMPCVideoDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
-{
-	return __super::GetMediaType(iPosition,pmt);
-    if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-	VIDEO_OUTPUT_FORMATS DXVAFormats[] =
-	{
-		{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},
-		{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
-		{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
-		{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'},
-		{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
-		{&MEDIASUBTYPE_I420, 3, 12, '024I'},
-		{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-		{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
-	};
-
-	// this will make sure we won't connect to the old renderer in dvd mode
-	// that renderer can't switch the format dynamically
-
-	bool fFoundDVDNavigator = false;
-	CComPtr<IBaseFilter> pBF = this;
-	CComPtr<IPin> pPin = m_pInput;
-	for(; !fFoundDVDNavigator && (pBF = GetUpStreamFilter(pBF, pPin)); pPin = GetFirstPin(pBF))
-        fFoundDVDNavigator = GetCLSID(pBF) == CLSID_DVDNavigator;
-
-	if(fFoundDVDNavigator || m_pInput->CurrentMediaType().formattype == FORMAT_VideoInfo2)
-		iPosition = iPosition*2;
-
-	//
-
-	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition >= 2*countof(fmts)) return VFW_S_NO_MORE_ITEMS;
-
-	pmt->majortype = MEDIATYPE_Video;
-	pmt->subtype = *fmts[iPosition/2].subtype;
-
-	int w = m_w, h = m_h, arx = m_arx, ary = m_ary;
-	GetOutputSize(w, h, arx, ary);
-
-	BITMAPINFOHEADER bihOut;
-	memset(&bihOut, 0, sizeof(bihOut));
-	bihOut.biSize = sizeof(bihOut);
-	bihOut.biWidth = w;
-	bihOut.biHeight = h;
-	bihOut.biPlanes = fmts[iPosition/2].biPlanes;
-	bihOut.biBitCount = fmts[iPosition/2].biBitCount;
-	bihOut.biCompression = fmts[iPosition/2].biCompression;
-	bihOut.biSizeImage = w*h*bihOut.biBitCount>>3;
-	pmt->SetSampleSize (bihOut.biSizeImage);
-
-	if(iPosition&1)
-	{
-		pmt->formattype = FORMAT_VideoInfo;
-		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
-		memset(vih, 0, sizeof(VIDEOINFOHEADER));
-		vih->bmiHeader = bihOut;
-		vih->bmiHeader.biXPelsPerMeter = vih->bmiHeader.biWidth * ary;
-		vih->bmiHeader.biYPelsPerMeter = vih->bmiHeader.biHeight * arx;
-	}
-	else
-	{
-		pmt->formattype = FORMAT_VideoInfo2;
-		VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
-		memset(vih, 0, sizeof(VIDEOINFOHEADER2));
-		vih->bmiHeader = bihOut;
-		vih->dwPictAspectRatioX = arx;
-		vih->dwPictAspectRatioY = ary;
-		if(IsVideoInterlaced()) vih->dwInterlaceFlags = AMINTERLACE_IsInterlaced | AMINTERLACE_DisplayModeBobOrWeave;
-		vih->dwCopyProtectFlags = 1;
-	}
-
-	CMediaType& mt = m_pInput->CurrentMediaType();
-
-	// these fields have the same field offset in all four structs
-	((VIDEOINFOHEADER*)pmt->Format())->AvgTimePerFrame = ((VIDEOINFOHEADER*)mt.Format())->AvgTimePerFrame;
-	((VIDEOINFOHEADER*)pmt->Format())->dwBitRate = ((VIDEOINFOHEADER*)mt.Format())->dwBitRate;
-	((VIDEOINFOHEADER*)pmt->Format())->dwBitErrorRate = ((VIDEOINFOHEADER*)mt.Format())->dwBitErrorRate;
-
-	CorrectMediaType(pmt);
-
-	// Fix FLV !
-	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
-	VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
-	VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
-
-	if (vih && vihInput)
-	{
-		memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
-		memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
-	}
-
-	return S_OK;
-}*/
 
 
 void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
@@ -777,12 +812,18 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	LOG(_T("CMPCVideoDecFilter::CompleteConnect"));
 	if ( (direction==PINDIR_OUTPUT) &&
 		 (m_nCodecNb != -1) &&
-		 ffCodecs[m_nCodecNb].bSupportDXVA &&
-		 SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&
-		 SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
+		 m_bEnableDXVA &&
+		 ffCodecs[m_nCodecNb].IsDXVASupported() )		 
 	{
-		m_bUseDXVA2  = true;
+		if (m_nDXVAMode == MODE_DXVA1)
+			m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!
+		else if (SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&	SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
+			m_nDXVAMode  = MODE_DXVA2;
 	}
+
+	// TODO : update CopyBuffer to add NV12 pixelformat !!
+	if ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE))
+		return VFW_E_INVALIDMEDIATYPE;
 
 	return __super::CompleteConnect (direction, pReceivePin);
 }
@@ -790,14 +831,14 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 
 HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if (m_bUseDXVA2)
+	if (UseDXVA2())
 	{
 		HRESULT					hr;
 		ALLOCATOR_PROPERTIES	Actual;
 
 		if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-		pProperties->cBuffers = CDXVADecoderH264::PicEntryNumber;		// TODO !!! 16 for H264 ??
+		pProperties->cBuffers = GetPicEntryNumber();
 
 		if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
 			return hr;
@@ -811,76 +852,140 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 }
 
 
+HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
+{
+	if (m_pDXVADecoder)
+		m_pDXVADecoder->Flush();
+	return __super::NewSegment (rtStart, rtStop, dRate);
+}
+
+void* CMPCVideoDecFilter::GetAVContextPrivateData()
+{
+	if (m_pAVCtx)
+		return m_pAVCtx->priv_data;
+	else
+		return NULL;
+}
+
+
+void CMPCVideoDecFilter::DecodeData (BYTE* pDataIn, int nSize)
+{
+	int		got_picture;
+	if (m_pAVCtx && m_pFrame)
+		ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
+}
+
+
+HRESULT CMPCVideoDecFilter::TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+{
+	HRESULT			hr;
+	int				got_picture;
+	int				used_bytes;
+
+	//TRACE ("CMPCVideoDecFilter::Transform    %ld\n", rtStart, rtStart/m_rtAvrTimePerFrame);
+	while (nSize > 0)
+	{
+		m_pAVCtx->parserRtStart=&rtStart;
+		used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
+		if (!got_picture || !m_pFrame->data[0]) return S_OK;
+		if(pIn->IsPreroll() == S_OK || rtStart < 0) return S_OK;
+
+		CComPtr<IMediaSample>	pOut;
+		BYTE*					pDataOut = NULL;
+		if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
+			return hr;
+
+		// Time for output sample different from input (due to ffmpeg frame re-ordering)
+		rtStart = m_pFrame->rtStart;
+		rtStop  = m_pFrame->rtStart + m_rtAvrTimePerFrame;
+
+		pOut->SetTime(&rtStart, &rtStop);
+		pOut->SetMediaTime(NULL, NULL);
+		pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
+
+		CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
+
+		hr = m_pOutput->Deliver(pOut);
+
+		nSize	-= used_bytes;
+		pDataIn += used_bytes;
+	}
+
+	return hr;
+}
+
+
+//HRESULT CMPCVideoDecFilter::TransformDXVA1(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+//{
+//	HRESULT						hr;
+//	AMVABeginFrameInfo			BeginFrameInfo;
+//	AMVAEndFrameInfo			EndFrameInfo;
+//	WORD						wBeginPictureIndex = 0;
+//	CComPtr<IMediaSample>		pOut;
+//
+//	memset (&BeginFrameInfo, 0, sizeof (AMVABeginFrameInfo));
+//	memset (&EndFrameInfo,   0, sizeof (AMVAEndFrameInfo));
+//	BeginFrameInfo.dwDestSurfaceIndex	= 0;
+//	BeginFrameInfo.dwSizeInputData		= 2;
+//	BeginFrameInfo.pInputData			= &wBeginPictureIndex;
+//	hr = m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo);
+//	hr = m_pAMVideoAccelerator->EndFrame(&EndFrameInfo);
+//
+//	hr = m_pOutput->GetDeliveryBuffer(&pOut, 0, 0, 0);
+//	pOut->SetTime(&rtStart, &rtStop);
+//	pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
+//	hr = m_pAMVideoAccelerator->DisplayFrame(0, pOut);
+//
+//	return hr;
+//}
+
+HRESULT CMPCVideoDecFilter::TransformDXVA2(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+{
+	HRESULT			hr;
+	BOOL			bDiscontinuity;
+
+	CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
+//	CComPtr<IMediaSample>		pSampleToDecode;
+	//CComPtr<IMediaSample>		pSampleToDeliver;
+
+//	hr = m_pOutput->GetDeliveryBuffer(&pSampleToDecode, 0, 0, 0);
+//	pSampleToDecode->SetTime(&rtStart, &rtStop);
+//	pSampleToDecode->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
+	bDiscontinuity = pIn->IsDiscontinuity() == S_OK;
+	hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, rtStart, rtStop, bDiscontinuity);
+
+	return hr;
+}
+
+
+
 HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
 	HRESULT			hr;
-	BYTE*			pDataIn = NULL;
+	BYTE*			pDataIn;
 	int				nSize;
-	int				got_picture;
-	REFERENCE_TIME	rtStart = _I64_MIN, rtStop = _I64_MIN;
+	REFERENCE_TIME	rtStart;
+	REFERENCE_TIME	rtStop;
 
 	if(FAILED(hr = pIn->GetPointer(&pDataIn)))
 		return hr;
 
-	nSize	= pIn->GetActualDataLength();
-	hr		= pIn->GetTime(&rtStart, &rtStop);
+	nSize		= pIn->GetActualDataLength();
+	hr			= pIn->GetTime(&rtStart, &rtStop);
+	m_rtStart	= rtStart;
 
-	//FILE*	File = fopen ("e:\\temp\\h264.bin", "wb");
-	//fwrite (pDataIn, nSize, 1, File);
-	//fclose (File);
-
-	if (!m_bUseDXVA2)
+	switch (m_nDXVAMode)
 	{
-		int		used_bytes;
-
-		m_pAVCtx->parserRtStart=&rtStart;
-		
-		while (nSize > 0)
-		{
-			used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
-			if (!got_picture || !m_pFrame->data[0]) return S_OK;
-
-			if(pIn->IsPreroll() == S_OK || rtStart < 0)
-				return S_OK;
-
-			CComPtr<IMediaSample>	pOut;
-			BYTE*					pDataOut = NULL;
-			if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
-				return hr;
-
-
-			//rtStart = m_pFrame->rtStart;
-			//rtStop = m_pFrame->rtStart + 1;
-			TRACE ("CMPCVideoDecFilter::Transform    %ld\n", rtStart/400000);
-
-			pOut->SetTime(&rtStart, &rtStop);
-			pOut->SetMediaTime(NULL, NULL);
-			pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
-
-			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
-
-			hr = m_pOutput->Deliver(pOut);
-
-			nSize	-= used_bytes;
-			pDataIn += used_bytes;
-		}
-
-		return hr;
-	}
-	else
-	{
-		CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
-		CComPtr<IMediaSample>		pOut;
-
-		hr = m_pOutput->GetDeliveryBuffer(&pOut, 0, 0, 0);
-
-		hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, pOut);
-
-		pOut->SetTime(&rtStart, &rtStop);
-		pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
-		hr = m_pOutput->Deliver(pOut);
-		LOG(_T("m_pOutput->Deliver  hr=0x%08x"), hr);
-		return hr;
+	case MODE_SOFTWARE :
+		return TransformSoftware (pIn, pDataIn, nSize, rtStart, rtStop);
+	case MODE_DXVA1 :
+		return TransformDXVA2 (pIn, pDataIn, nSize, rtStart, rtStop);		// TODO
+//		return TransformDXVA1 (pIn, pDataIn, nSize, rtStart, rtStop);
+	case MODE_DXVA2 :
+		return TransformDXVA2 (pIn, pDataIn, nSize, rtStart, rtStop);
+	default :
+		ASSERT (FALSE);
+		return E_UNEXPECTED;
 	}
 }
 
@@ -895,13 +1000,13 @@ void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 
 BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
 {
-	if (ffCodecs[m_nCodecNb].bSupportDXVA)
+	if (ffCodecs[m_nCodecNb].IsDXVASupported())
 	{
 		for (int i=0; i<MAX_SUPPORTED_MODE; i++)
 		{
-			if (*ffCodecs[m_nCodecNb].SupportedMode[i] == GUID_NULL) 
+			if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == GUID_NULL) 
 				break;
-			else if (*ffCodecs[m_nCodecNb].SupportedMode[i] == mode)
+			else if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == mode)
 				return true;
 		}
 	}
@@ -919,7 +1024,7 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, co
 	return bRet;
 }
 
-HRESULT CMPCVideoDecFilter::FindDecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
+HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
 													 const GUID& guidDecoder, 
 													 DXVA2_ConfigPictureDecode *pSelectedConfig,
 													 BOOL *pbFoundDXVA2Configuration)
@@ -1037,7 +1142,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
             }
 
             // Find a configuration that we support. 
-            hr = FindDecoderConfiguration(pDecoderService, pDecoderGuids[iGuid], &config, &bFoundDXVA2Configuration);
+            hr = FindDXVA2DecoderConfiguration(pDecoderService, pDecoderGuids[iGuid], &config, &bFoundDXVA2Configuration);
 
             if (FAILED(hr))
             {
@@ -1063,7 +1168,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 		m_pDeviceManager	= pDeviceManager;
         m_pDecoderService	= pDecoderService;
 
-        m_DecoderConfig		= config;
+        m_DXVA2Config		= config;
         m_DecoderGuid		= guidDecoder;
         m_hDevice			= hDevice;
     }
@@ -1127,21 +1232,143 @@ HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3D
 {
 	HRESULT		hr;
 	m_pDecoderRenderTarget	= NULL;
-	CComPtr<IDirectXVideoDecoder>	pDecoder;
+	CComPtr<IDirectXVideoDecoder>	pDirectXVideoDec;
 
 	//hr = m_pDecoderService->CreateSurface (m_pAVCtx->width,m_pAVCtx->height, 0, D3DFMT_A8R8G8B8, 
 	//							D3DPOOL_DEFAULT, 0, DXVA2_VideoDecoderRenderTarget, &m_pDecoderRenderTarget, NULL);
-	hr = m_pDecoderService->CreateVideoDecoder (m_DecoderGuid, &m_VideoDesc, &m_DecoderConfig, 
-								pDecoderRenderTargets, nNumRenderTargets, &pDecoder);
+	hr = m_pDecoderService->CreateVideoDecoder (m_DecoderGuid, &m_VideoDesc, &m_DXVA2Config, 
+								pDecoderRenderTargets, nNumRenderTargets, &pDirectXVideoDec);
 
 	if (SUCCEEDED (hr))
 	{
-		m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pDecoder, &m_DecoderGuid);
-		m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+		m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pDirectXVideoDec, &m_DecoderGuid, GetPicEntryNumber());
+		if (m_pDXVADecoder) m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
 	}
 
 	return hr;
 }
+
+
+HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat)
+{
+	HRESULT			hr				= E_FAIL;
+	DWORD			dwFormats		= 0;
+	DDPIXELFORMAT*	pPixelFormats	= NULL;
+
+
+	pAMVideoAccelerator->GetUncompFormatsSupported (guidDecoder, &dwFormats, NULL);
+	if (dwFormats > 0)
+	{
+	    // Find the valid render target formats for this decoder GUID.
+		pPixelFormats = new DDPIXELFORMAT[dwFormats];
+		hr = pAMVideoAccelerator->GetUncompFormatsSupported (guidDecoder, &dwFormats, pPixelFormats);
+		if (SUCCEEDED(hr))
+		{
+			// Look for a format that matches our output format.
+			for (DWORD iFormat = 0; iFormat < dwFormats; iFormat++)
+			{
+				if (pPixelFormats[iFormat].dwFourCC == MAKEFOURCC ('N', 'V', '1', '2'))
+				{
+					memcpy (pPixelFormat, &pPixelFormats[iFormat], sizeof(DDPIXELFORMAT));
+					return S_OK;
+				}
+			}
+
+			delete[] pPixelFormats;
+			hr = E_FAIL;
+		}
+	}
+
+	return hr;
+}
+
+//HRESULT CMPCVideoDecFilter::ConfigureDXVA1(IPin *pPin)
+//{
+//	HRESULT								hr						= E_FAIL;
+//	CComQIPtr<IAMVideoAccelerator>		pAMVideoAcc				= pPin;
+//	DWORD								cDecoderGuids			= 0;
+//    GUID*								pDecoderGuids			= NULL;
+//	BOOL								bFoundDXVA1Configuration= FALSE;
+//
+//	if (pAMVideoAcc)
+//	{
+//		pAMVideoAcc->GetVideoAcceleratorGUIDs(&cDecoderGuids, pDecoderGuids);
+//		if (cDecoderGuids > 0)
+//		{
+//			pDecoderGuids = new GUID[cDecoderGuids];
+//
+//			hr = pAMVideoAcc->GetVideoAcceleratorGUIDs(&cDecoderGuids, pDecoderGuids);
+//
+//			if (SUCCEEDED(hr))
+//			{
+//				// Look for the decoder GUIDs we want.
+//				for (UINT iGuid = 0; iGuid < cDecoderGuids; iGuid++)
+//				{
+//					TRACE ("%S \n", CStringFromGUID(pDecoderGuids[iGuid]));
+//					// Do we support this mode?
+//					if (!IsSupportedDecoderMode(pDecoderGuids[iGuid]))
+//					{
+//						continue;
+//					}
+//
+//					if (FAILED (hr = FindDXVA1DecoderConfiguration (pAMVideoAcc, &pDecoderGuids[iGuid], &m_PixelFormat))) break;
+//
+//					TRACE ("Ok\n");
+//				}
+//			}
+//
+//			delete[] pDecoderGuids;
+//		}
+//	}
+//	
+//	return hr;
+//}
+
+HRESULT CMPCVideoDecFilter::CheckDXVA1Decoder(const GUID *pGuid)
+{
+	if (m_nCodecNb != -1)
+	{
+		for (int i=0; i<MAX_SUPPORTED_MODE; i++)
+			if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == *pGuid)
+				return S_OK;
+	}
+
+	return E_INVALIDARG;
+}
+
+void CMPCVideoDecFilter::SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat)
+{
+	//m_pAMVideoAccelerator	= pAMVideoAccelerator;
+	m_DXVA1Decoder			= *pGuid;
+	memcpy (&m_PixelFormat, pPixelFormat, sizeof (DDPIXELFORMAT));
+}
+
+WORD CMPCVideoDecFilter::GetDXVA1RestrictedMode()
+{
+	if (m_nCodecNb != -1)
+	{
+		for (int i=0; i<MAX_SUPPORTED_MODE; i++)
+			if (*ffCodecs[m_nCodecNb].DXVAModes->Decoder[i] == m_DXVA1Decoder)
+				return ffCodecs[m_nCodecNb].DXVAModes->RestrictedMode [i];
+	}
+
+	return DXVA_RESTRICTED_MODE_UNRESTRICTED;
+}
+
+HRESULT CMPCVideoDecFilter::CreateDXVA1Decoder(IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* pDecoderGuid, DWORD dwSurfaceCount)
+{
+	SAFE_DELETE (m_pDXVADecoder);
+
+	if (!m_bEnableDXVA) return E_FAIL;
+
+	m_nDXVAMode		= MODE_DXVA1;
+	m_DecoderGuid	= *pDecoderGuid;
+	m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pAMVideoAccelerator, &m_DecoderGuid, dwSurfaceCount);
+	if (m_pDXVADecoder) m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+
+	return S_OK;
+}
+
 
 
 // ISpecifyPropertyPages2
@@ -1176,6 +1403,69 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 
 // IFfmpegDecFilter
 
-
-
-
+STDMETHODIMP CMPCVideoDecFilter::SetThreadNumber(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nThreadNumber = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetThreadNumber()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nThreadNumber;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetEnableDXVA(bool fValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_bEnableDXVA = fValue;
+	return S_OK;
+}
+STDMETHODIMP_(bool) CMPCVideoDecFilter::GetEnableDXVA()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_bEnableDXVA;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetDiscardMode(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nDiscardMode = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetDiscardMode()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nDiscardMode;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetErrorResilience(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nErrorResilience = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetErrorResilience()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nErrorResilience;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetIDCTAlgo(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nIDCTAlgo = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nIDCTAlgo;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetH264QuantMatrix(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	CDXVADecoderH264::g_nH264QuantMatrix = (QMatrixH264Type)nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetH264QuantMatrix()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return CDXVADecoderH264::g_nH264QuantMatrix;
+}

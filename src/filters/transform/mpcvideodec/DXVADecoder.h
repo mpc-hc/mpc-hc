@@ -23,38 +23,97 @@
 #pragma once
 
 #include <dxva2api.h>
+#include <videoacc.h>
+
+typedef enum
+{
+	ENGINE_DXVA1,
+	ENGINE_DXVA2
+} DXVA_ENGINE;
 
 typedef enum
 {
 	H264_VLD,
 	VC1_VLD
-} DXVA2Mode;
+} DXVAMode;
 
+typedef struct
+{
+	bool						bRefPicture;	// True if reference picture
+	int							nFrameOrder;	// Picture display order
+	bool						bDisplayed;		// True if picture have been presented
+	CComPtr<IMediaSample>		pSample;		// Only for DXVA2 !
+	REFERENCE_TIME				rtStart;
+	REFERENCE_TIME				rtStop;
+	BOOL						bDiscontinuity;
+} PICTURE_STORE;
+
+
+#define MAX_COM_BUFFER				6		// Max uncompressed buffer for an Execute command (DXVA1)
 
 class CMPCVideoDecFilter;
 
 class CDXVADecoder
 {
 public :
-	CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDXDecoder, DXVA2Mode nMode);
+	// === Public functions
+	virtual				   ~CDXVADecoder();
+	DXVAMode				GetMode()		{ return m_nMode; };
+	DXVA_ENGINE				GetEngine()		{ return m_nEngine; };
+	void					AllocExecuteParams (int nSize);
 
-	DXVA2Mode		GetMode()		{ return m_nMode; };
-	void			AllocExecuteParams (int nSize);
+	virtual HRESULT			DecodeFrame  (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity) = NULL;
+	virtual void			SetExtraData (BYTE* pDataIn, UINT nSize);
+	virtual void			CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
+	virtual void			Flush();
+	HRESULT					ConfigureDXVA1();
 
-	virtual HRESULT DecodeFrame  (BYTE* pDataIn, UINT nSize, IMediaSample* pOut) = NULL;
-	virtual void    SetExtraData (BYTE* pDataIn, UINT nSize);
-	virtual void	CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
-
-	static CDXVADecoder* CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDecoder, const GUID* guidDecoder);
+	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* guidDecoder, int nPicEntryNumber);
+	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber);
 
 
 protected :
-	DXVA2Mode						m_nMode;
+	CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
+	CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber);
+
 	CMPCVideoDecFilter*				m_pFilter;
 
-	CComPtr<IDirectXVideoDecoder>	m_pDXDecoder;
+
+
+	// === DXVA functions
+	HRESULT					AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
+	HRESULT					GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity, IMediaSample** ppSampleToDeliver);
+	HRESULT					Execute();
+	DWORD					GetDXVA1CompressedType (DWORD dwDXVA2CompressedType);
+	HRESULT					BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
+	HRESULT					EndFrame();
+
+	// === Picture store functions
+	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, int nFrameOrder, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
+	void					RemoveRefFrame (int nSurfaceIndex);
+	HRESULT					DisplayNextFrame();
+	HRESULT					GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
+
+private :
+	DXVAMode						m_nMode;
+	DXVA_ENGINE						m_nEngine;
+
+	// === DXVA1 variables
+	CComQIPtr<IAMVideoAccelerator>	m_pAMVideoAccelerator;
+	AMVABUFFERINFO					m_DXVA1BufferInfo[MAX_COM_BUFFER];
+	DXVA_BufferDescription 			m_DXVA1BufferDesc[MAX_COM_BUFFER];
+	DWORD							m_dwNumBuffersInfo;
+	DXVA_ConfigPictureDecode		m_DXVA1Config;
+	int								m_nCurrentnSurfaceIndex;
+
+	// === DXVA2 variables
+	CComPtr<IDirectXVideoDecoder>	m_pDirectXVideoDec;
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
 
+	PICTURE_STORE*					m_pPictureStore;		// Store reference picture, and delayed B-frames
+	int								m_nPicEntryNumber;
+	int								m_nLastFrameOrder;
 
-	HRESULT			AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
+	void					Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber);
+	void					FreePictureSlot (int nSurfaceIndex);
 };

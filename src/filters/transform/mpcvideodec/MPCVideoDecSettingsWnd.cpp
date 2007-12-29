@@ -28,13 +28,32 @@
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-#define IDB_ONOFF                       205
-#define IDC_LIST_FORMAT                 11160
 //
+
+#define LEFT_SPACING					25
+#define VERTICAL_SPACING				25
 
 //
 // CMPCVideoDecSettingsWnd
 //
+
+int		g_AVDiscard[] =
+{
+    -16, ///< AVDISCARD_NONE    discard nothing
+      0, ///< AVDISCARD_DEFAULT discard useless packets like 0 size packets in avi
+      8, ///< AVDISCARD_NONREF  discard all non reference
+     16, ///< AVDISCARD_BIDIR   discard all bidirectional frames
+     32, ///< AVDISCARD_NONKEY  discard all frames except keyframes
+     48, ///< AVDISCARD_ALL     discard all
+};
+
+int FindDiscardIndex(int nValue)
+{
+	for (int i=0; i<countof (g_AVDiscard); i++)
+		if (g_AVDiscard[i] == nValue) return i;
+	return 1;
+}
+
 
 CMPCVideoDecSettingsWnd::CMPCVideoDecSettingsWnd()
 {
@@ -51,7 +70,6 @@ bool CMPCVideoDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnk
 	
 	if(!m_pMDF) return false;
 
-
 	return true;
 }
 
@@ -62,30 +80,85 @@ void CMPCVideoDecSettingsWnd::OnDisconnect()
 
 bool CMPCVideoDecSettingsWnd::OnActivate()
 {
-	DWORD dwStyle = WS_VISIBLE|WS_CHILD|WS_BORDER|LVS_REPORT;
+	DWORD	dwStyle = WS_VISIBLE|WS_CHILD|WS_BORDER;
+	int		nPosY	= 10;
 
-	CPoint p(10, 10);
+	m_grpFFMpeg.Create (_T("FFMpeg settings"), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
+
+	// Decoding frame number
+	nPosY += VERTICAL_SPACING;
+	m_txtThreadNumber.Create (_T("Decoding thread number"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 260, nPosY+8), this, IDC_PP_THREAD_NUMBER);
+	m_cbThreadNumber.AddString (_T("1"));
+	m_cbThreadNumber.AddString (_T("2"));
+	m_cbThreadNumber.AddString (_T("3"));
+	m_cbThreadNumber.AddString (_T("4"));
+	m_cbThreadNumber.AddString (_T("5"));
+	m_cbThreadNumber.AddString (_T("6"));
+
+	// H264 deblocking mode
+	nPosY += VERTICAL_SPACING;
+	m_txtDiscardMode.Create (_T("H264 skip deblocking mode"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbDiscardMode.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
+	m_cbDiscardMode.AddString (_T("None"));
+	m_cbDiscardMode.AddString (_T("Default"));
+	m_cbDiscardMode.AddString (_T("Non Reference"));
+	m_cbDiscardMode.AddString (_T("Bidirectional"));
+	m_cbDiscardMode.AddString (_T("Non keyframes"));
+	m_cbDiscardMode.AddString (_T("All frames"));
+	
+	// Error resilience
+	nPosY += VERTICAL_SPACING;
+	m_txtErrorResilience.Create (_T("Error resilience"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbErrorResilience.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
+	m_cbErrorResilience.AddString (_T("Careful"));
+	m_cbErrorResilience.AddString (_T("Compliant"));
+	m_cbErrorResilience.AddString (_T("Aggressive"));
+	m_cbErrorResilience.AddString (_T("Very aggressive"));
+
+	// IDCT Algo
+	nPosY += VERTICAL_SPACING;
+	m_txtIDCTAlgo.Create (_T("IDCT Algorithm"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbIDCTAlgo.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
+	m_cbIDCTAlgo.AddString (_T("Auto"));
+	m_cbIDCTAlgo.AddString (_T("Lib Mpeg2 MMX"));
+	m_cbIDCTAlgo.AddString (_T("Simple MMX"));
+	m_cbIDCTAlgo.AddString (_T("SKAL"));
+	m_cbIDCTAlgo.AddString (_T("Simple"));
 
 
+	nPosY = 170;
+	m_grpDXVA.Create   (_T("DXVA settings"),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
+	nPosY += VERTICAL_SPACING;
 
-	m_lvFormats.Create (dwStyle, CRect (p, CSize (320, 240)), this, IDC_LIST_FORMAT);
-	m_onoff.Create(IDB_ONOFF, 12, 3, 0xffffff);
-	m_lvFormats.SetImageList(&m_onoff, LVSIL_SMALL);
+	// Enable DXVA
+	m_chkEnableDXVA.Create (_T("Enable DXVA"), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DXVA);
 
+	// Enable deblocking
+	nPosY += VERTICAL_SPACING;
+	m_chkEnableDeblocking.Create (_T("Enable deblocking"), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|WS_DISABLED, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DEBLOCKING);
 
-	m_lvFormats.SetExtendedStyle(m_lvFormats.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
-	m_lvFormats.InsertColumn(0, _T("Format"), LVCFMT_LEFT, 300);
-
-	m_lvFormats.InsertItem(0, _T("WM9"));
-	m_lvFormats.InsertItem(1, _T("H264"));
-
-/*	m_note_static.Create(
-		ResStr(IDS_MPEG2DECSETTINGSWND_7) +
-		ResStr(IDS_MPEG2DECSETTINGSWND_8),
-		dwStyle, CRect(p, CSize(320, m_fontheight * 3)), this);*/
+	// H264 quantization Matrix
+	nPosY += VERTICAL_SPACING;
+	m_txtH264QuantMatrix.Create (_T("Inverse H264 quantization Matrix"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbH264QuantMatrix.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
+	m_cbH264QuantMatrix.AddString (_T("Flat 16"));
+	m_cbH264QuantMatrix.AddString (_T("JVT"));
+	m_cbH264QuantMatrix.AddString (_T("Q-Matrix"));
+	m_cbH264QuantMatrix.AddString (_T("Q-Matrix 2"));
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 		pWnd->SetFont(&m_font, FALSE);
+
+	if (m_pMDF)
+	{
+		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
+		m_chkEnableDXVA.SetCheck		(m_pMDF->GetEnableDXVA());
+		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
+		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
+		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
+		m_cbH264QuantMatrix.SetCurSel	(m_pMDF->GetH264QuantMatrix());
+	}
 
 	return true;
 }
@@ -100,47 +173,18 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 
 	if(m_pMDF)
 	{
+		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
+		m_pMDF->SetEnableDXVA		(!!m_chkEnableDXVA.GetCheck());
+		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
+		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
+		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
+		m_pMDF->SetH264QuantMatrix	(m_cbH264QuantMatrix.GetCurSel());
 	}
 
 	return true;
 }
 
-void CMPCVideoDecSettingsWnd::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
-{
-	LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
-	if(lpnmlv->iItem >= 0 /*&& lpnmlv->iSubItem == COL_CATEGORY*/)
-	{
-		CRect r;
-		m_lvFormats.GetItemRect(lpnmlv->iItem, r, LVIR_ICON);
-		if(r.PtInRect(lpnmlv->ptAction))
-		{
-			SetChecked(lpnmlv->iItem, (GetChecked(lpnmlv->iItem)&1) == 0 ? 1 : 0);
-			SetDirty(TRUE);
-		}
-	}
-}
-
-void CMPCVideoDecSettingsWnd::SetChecked(int iItem, int iChecked)
-{
-	LVITEM lvi;
-	lvi.iItem = iItem;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_IMAGE;
-	lvi.iImage = iChecked;
-	m_lvFormats.SetItem(&lvi);
-}
-
-int CMPCVideoDecSettingsWnd::GetChecked(int iItem)
-{
-	LVITEM lvi;
-	lvi.iItem = iItem;
-	lvi.iSubItem = 0;
-	lvi.mask = LVIF_IMAGE;
-	m_lvFormats.GetItem(&lvi);
-	return(lvi.iImage);
-}
 
 BEGIN_MESSAGE_MAP(CMPCVideoDecSettingsWnd, CInternalPropertyPageWnd)
-	ON_NOTIFY(NM_CLICK, IDC_LIST_FORMAT, OnNMClickList1)
 END_MESSAGE_MAP()

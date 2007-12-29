@@ -27,4 +27,21 @@
 [uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262")]
 interface IMPCVideoDecFilter : public IUnknown
 {
+	STDMETHOD(SetThreadNumber(int nValue)) = 0;
+	STDMETHOD_(int, GetThreadNumber()) = 0;
+
+	STDMETHOD(SetEnableDXVA(bool fValue)) = 0;
+	STDMETHOD_(bool, GetEnableDXVA()) = 0;
+
+	STDMETHOD(SetDiscardMode(int nValue)) = 0;
+	STDMETHOD_(int, GetDiscardMode()) = 0;
+
+	STDMETHOD(SetErrorResilience(int nValue)) = 0;
+	STDMETHOD_(int, GetErrorResilience()) = 0;
+
+	STDMETHOD(SetIDCTAlgo(int nValue)) = 0;
+	STDMETHOD_(int, GetIDCTAlgo()) = 0;
+
+	STDMETHOD(SetH264QuantMatrix(int nValue)) = 0;
+	STDMETHOD_(int, GetH264QuantMatrix()) = 0;
 };

@@ -31,12 +31,30 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
-	CListCtrl	m_lvFormats;
-	CImageList	m_onoff;
+	CButton		m_grpFFMpeg;
+	CStatic		m_txtThreadNumber;
+	CComboBox	m_cbThreadNumber;
+	CStatic		m_txtDiscardMode;
+	CComboBox	m_cbDiscardMode;
+	CStatic		m_txtErrorResilience;
+	CComboBox	m_cbErrorResilience;
+	CStatic		m_txtIDCTAlgo;
+	CComboBox	m_cbIDCTAlgo;
+	
+	CButton		m_grpDXVA;
+	CButton		m_chkEnableDXVA;
+	CButton		m_chkEnableDeblocking;
+	CStatic		m_txtH264QuantMatrix;
+	CComboBox	m_cbH264QuantMatrix;
 
-	void	OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult);
-	void	SetChecked(int iItem, int iChecked);
-	int		GetChecked(int iItem);
+	enum 
+	{
+		IDC_PP_THREAD_NUMBER = 10000,
+		IDC_PP_ENABLE_DXVA,
+		IDC_PP_ENABLE_DEBLOCKING,
+		IDC_PP_DISCARD_MODE,
+		IDC_PP_ERROR_RESILIENCE,
+	};
 
 public:
 	CMPCVideoDecSettingsWnd();
