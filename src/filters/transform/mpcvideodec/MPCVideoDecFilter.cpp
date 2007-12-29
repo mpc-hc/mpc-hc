@@ -383,7 +383,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
 
-	m_nThreadNumber			= 1;
+	m_nThreadNumber			= m_pCpuId->GetProcessorNumber();
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
@@ -939,18 +939,12 @@ HRESULT CMPCVideoDecFilter::TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, 
 //	return hr;
 //}
 
-HRESULT CMPCVideoDecFilter::TransformDXVA2(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+HRESULT CMPCVideoDecFilter::TransformDXVA(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr;
 	BOOL			bDiscontinuity;
 
 	CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
-//	CComPtr<IMediaSample>		pSampleToDecode;
-	//CComPtr<IMediaSample>		pSampleToDeliver;
-
-//	hr = m_pOutput->GetDeliveryBuffer(&pSampleToDecode, 0, 0, 0);
-//	pSampleToDecode->SetTime(&rtStart, &rtStop);
-//	pSampleToDecode->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
 	bDiscontinuity = pIn->IsDiscontinuity() == S_OK;
 	hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, rtStart, rtStop, bDiscontinuity);
 
@@ -979,10 +973,8 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	case MODE_SOFTWARE :
 		return TransformSoftware (pIn, pDataIn, nSize, rtStart, rtStop);
 	case MODE_DXVA1 :
-		return TransformDXVA2 (pIn, pDataIn, nSize, rtStart, rtStop);		// TODO
-//		return TransformDXVA1 (pIn, pDataIn, nSize, rtStart, rtStop);
 	case MODE_DXVA2 :
-		return TransformDXVA2 (pIn, pDataIn, nSize, rtStart, rtStop);
+		return TransformDXVA (pIn, pDataIn, nSize, rtStart, rtStop);		// TODO
 	default :
 		ASSERT (FALSE);
 		return E_UNEXPECTED;

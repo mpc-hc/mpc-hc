@@ -298,7 +298,8 @@ private:
 	void					ReadSliceHeader(SLICE_PARAMETER* pSlice, BYTE* pBuffer, UINT nBufferLength);
 	void					DecodePOC(SLICE_PARAMETER* pSlice);
 
-	int						MoreRBSPData (BYTE* buffer,int totbitoffset,int bytecount);
+	int						more_rbsp_data (BYTE* buffer,int totbitoffset,int bytecount);
+	int						RBSPtoSODB(BYTE* pBuffer, int last_byte_pos);
 	void					ReadNalu (NALU* Nalu, BYTE* pDataIn, UINT nSize);
 	void					ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pDataIn, UINT nSize);
 	void					ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength);

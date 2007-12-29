@@ -144,8 +144,7 @@ protected:
 	void				CalcAvgTimePerFrame();
 
 	HRESULT				TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-	//HRESULT				TransformDXVA1(IMediaSample* pIn,    BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-	HRESULT				TransformDXVA2(IMediaSample* pIn,    BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+	HRESULT				TransformDXVA(IMediaSample* pIn,    BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 public:
 
@@ -223,6 +222,5 @@ public:
 												  DXVA2_ConfigPictureDecode *pSelectedConfig,
 											      BOOL *pbFoundDXVA2Configuration);
 	HRESULT			CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
-
 
 };

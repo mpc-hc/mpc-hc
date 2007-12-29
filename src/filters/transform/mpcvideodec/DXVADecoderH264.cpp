@@ -49,7 +49,7 @@ CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDe
 
 CDXVADecoderH264::~CDXVADecoderH264()
 {
-	Flush();
+//	Flush();
 }
 
 
@@ -277,20 +277,22 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 	
 	nNaluSize  = (pDataIn[0] << 8) + pDataIn[1] + 2;
 	pDataIn   += 2;
+	nSize	  -= 2;
 	while (nCount < 2)
 	{
 		ReadNalu (&Nalu, pDataIn, nSize);
 		switch (Nalu.nal_unit_type)
 		{
 		case NALU_TYPE_PPS :
-			ReadPPS(&m_PicParam, pDataIn, nSize);
+			ReadPPS(&m_PicParam, pDataIn + 1, RBSPtoSODB(pDataIn+1,  nSize-1));
 			break;
 		case NALU_TYPE_SPS :
-			ReadSPS(&m_SeqParam, pDataIn, nSize);
+			ReadSPS(&m_SeqParam, pDataIn + 1, nSize);		// TODO : buffer size correct ??
 			break;
 		}
 
 		pDataIn   += nNaluSize;
+		nSize	  -= nNaluSize;
 		nCount++;
 	}
 
@@ -914,7 +916,7 @@ void CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pDataIn, UINT nSize)
  *    true if more bits available
  ************************************************************************
  */
-int CDXVADecoderH264::MoreRBSPData (BYTE* pBuffer,int totbitoffset,int bytecount)
+int CDXVADecoderH264::more_rbsp_data (BYTE* pBuffer,int totbitoffset,int bytecount)
 {
   int bitoffset   = (7 - (totbitoffset & 0x07));      // bit from start of byte
   long byteoffset = (totbitoffset >> 3);      // byte from start of pBuffer
@@ -941,10 +943,61 @@ int CDXVADecoderH264::MoreRBSPData (BYTE* pBuffer,int totbitoffset,int bytecount
   return (cnt);
 }
 
+ /*!
+ ************************************************************************
+ * \brief
+ *    Converts RBSP to string of data bits
+ * \param pBuffer
+ *          pointer to buffer containing data
+ *  \param last_byte_pos
+ *          position of the last byte containing data.
+ * \return last_byte_pos
+ *          position of the last byte pos. If the last-byte was entirely a stuffing byte,
+ *          it is removed, and the last_byte_pos is updated.
+ *
+************************************************************************/
+
+int CDXVADecoderH264::RBSPtoSODB(BYTE* pBuffer, int last_byte_pos)
+{
+  int ctr_bit, bitoffset;
+
+  bitoffset = 0;
+  //find trailing 1
+  ctr_bit = (pBuffer[last_byte_pos-1] & (0x01<<bitoffset));   // set up control bit
+
+  while (ctr_bit==0)
+  {                 // find trailing 1 bit
+    bitoffset++;
+    if(bitoffset == 8)
+    {
+      if(last_byte_pos == 0)
+        printf(" Panic: All zero data sequence in RBSP \n");
+      ASSERT(last_byte_pos != 0);
+      last_byte_pos -= 1;
+      bitoffset = 0;
+    }
+    ctr_bit= pBuffer[last_byte_pos-1] & (0x01<<(bitoffset));
+  }
+
+
+  // We keep the stop bit for now
+/*  if (remove_stop)
+  {
+    pBuffer[last_byte_pos-1] -= (0x01<<(bitoffset));
+    if(bitoffset == 7)
+      return(last_byte_pos-1);
+    else
+      return(last_byte_pos);
+  }
+*/
+  return(last_byte_pos);
+
+}
+
 
 void CDXVADecoderH264::ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pBuffer, UINT nBufferLength)
 {
-	UINT		nBitOffset = 8;
+	UINT		nBitOffset = 0;
 	int			NumberBitsPerSliceGroupId;
 //	int			chroma_format_idc;
 	unsigned	i;
@@ -1018,7 +1071,7 @@ void CDXVADecoderH264::ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pBuffer, UINT 
 	pps->constrained_intra_pred_flag           = u_1  (pBuffer, nBufferLength, nBitOffset);
 	pps->redundant_pic_cnt_present_flag        = u_1  (pBuffer, nBufferLength, nBitOffset);
 	
-	if(MoreRBSPData(pBuffer, nBitOffset, nBufferLength)) // more_data_in_rbsp()
+	if(more_rbsp_data(pBuffer, nBitOffset, nBufferLength)) // more_data_in_rbsp()
 	{
 		//Fidelity Range Extensions Stuff
 		pps->transform_8x8_mode_flag           = u_1  (pBuffer, nBufferLength, nBitOffset);
@@ -1055,7 +1108,7 @@ void CDXVADecoderH264::ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pBuffer, UINT 
 
 void CDXVADecoderH264::ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength)
 {
-	UINT		nBitOffset = 8;
+	UINT		nBitOffset = 0;
 	unsigned	i;
 	unsigned	n_ScalingList;
 	int			reserved_zero;
