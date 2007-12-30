@@ -195,6 +195,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
         }
 
 		hr = m_pVideoDecFilter->CreateDXVA2Decoder (m_lCount, m_ppRTSurfaceArray);
+		if (FAILED (hr)) Free();
 	}
 
     if (SUCCEEDED(hr))
@@ -208,6 +209,7 @@ void CVideoDecDXVAAllocator::Free()
 {
     CMediaSample *pSample = NULL;
 
+	m_pVideoDecFilter->FlushDXVADecoder();
     do
     {
         pSample = m_lFree.RemoveHead();

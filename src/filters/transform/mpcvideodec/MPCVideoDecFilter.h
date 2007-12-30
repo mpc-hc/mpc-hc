@@ -120,20 +120,19 @@ protected:
 	int										m_nVideoOutputCount;
 	DXVA_MODE								m_nDXVAMode;
 	CDXVADecoder*							m_pDXVADecoder;
+	GUID									m_DXVADecoderGUID;
 
 	// === DXVA1 variables
-	GUID									m_DXVA1Decoder;
 	DDPIXELFORMAT							m_PixelFormat;
 	//CComPtr<IAMVideoAccelerator>			m_pAMVideoAccelerator;
 
 	// === DXVA2 variables
 	CComPtr<IDirect3DDeviceManager9>		m_pDeviceManager;
 	CComPtr<IDirectXVideoDecoderService>	m_pDecoderService;
+	CComPtr<IDirect3DSurface9>				m_pDecoderRenderTarget;
 	DXVA2_ConfigPictureDecode				m_DXVA2Config;
-	GUID									m_DecoderGuid;
 	HANDLE									m_hDevice;
 	DXVA2_VideoDesc							m_VideoDesc;
-	CComPtr<IDirect3DSurface9>				m_pDecoderRenderTarget;
 
 	// === Private functions
 	void				Cleanup();
@@ -201,11 +200,12 @@ public:
 	bool			UseDXVA2()	{ return (m_nDXVAMode == MODE_DXVA2); };
 	void*			GetAVContextPrivateData();
 	void			DecodeData (BYTE* pDataIn, int nSize);
+	GUID*			GetDXVADecoderGUID() { return &m_DXVADecoderGUID; }
+	void			FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
 
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*	GetPixelFormat() { return &m_PixelFormat; }
-	GUID*			GetDXVA1Decoder() { return &m_DXVA1Decoder; }
 	HRESULT			FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat);
 	HRESULT			CheckDXVA1Decoder(const GUID *pGuid);
 	void			SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat);
