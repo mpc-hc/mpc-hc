@@ -391,6 +391,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pDXVADecoder			= NULL;
 	m_pVideoOutputFormat	= NULL;
 	m_nVideoOutputCount		= 0;
+	m_hDevice				= INVALID_HANDLE_VALUE;
 
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
@@ -528,7 +529,13 @@ void CMPCVideoDecFilter::Cleanup()
 	m_nCodecNb	= -1;
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
-	// Release smart pointer
+	// Release DXVA ressources
+	if (m_hDevice != INVALID_HANDLE_VALUE)
+	{
+		m_pDeviceManager->CloseDeviceHandle(m_hDevice);
+		m_hDevice = INVALID_HANDLE_VALUE;
+	}
+
 	m_pDeviceManager		= NULL;
 	m_pDecoderService		= NULL;
 	m_pDecoderRenderTarget	= NULL;
@@ -1015,6 +1022,7 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, co
 {
 	bool	bRet = false;
 
+	// TODO : not finished
 	bRet = ((config.ConfigBitstreamRaw == 2) && (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2')) );
 
 	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);

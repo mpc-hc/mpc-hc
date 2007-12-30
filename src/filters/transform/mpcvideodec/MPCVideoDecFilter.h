@@ -79,7 +79,6 @@ protected:
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 	virtual void	OnGetBuffer(AVFrame *pic);
 
-protected:
 	friend class CVideoDecDXVAAllocator;
 
 	CCpuId*									m_pCpuId;
@@ -124,7 +123,6 @@ protected:
 
 	// === DXVA1 variables
 	DDPIXELFORMAT							m_PixelFormat;
-	//CComPtr<IAMVideoAccelerator>			m_pAMVideoAccelerator;
 
 	// === DXVA2 variables
 	CComPtr<IDirect3DDeviceManager9>		m_pDeviceManager;
@@ -163,7 +161,6 @@ public:
 	// === Overriden DirectShow functions
 	HRESULT			SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
 	HRESULT			CheckInputType(const CMediaType* mtIn);
-//	HRESULT			GetMediaType(int iPosition, CMediaType* pmt);
 	HRESULT			Transform(IMediaSample* pIn);
 	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
     HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);

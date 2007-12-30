@@ -117,13 +117,12 @@ private:
 
 	typedef struct
 	{
-	  int startcodeprefix_len;      //! 4 for parameter sets and first slice in picture, 3 for everything else (suggested)
-	  unsigned len;                 //! Length of the NAL unit (Excluding the start code, which does not belong to the NALU)
-	  unsigned max_size;            //! Nal Unit Buffer size
-	  int forbidden_bit;            //! should be always FALSE
-	  int nal_reference_idc;        //! NALU_PRIORITY_xxxx
-	  int nal_unit_type;            //! NALU_TYPE_xxxx    
-	  byte *buf;                    //! contains the first byte followed by the EBSP
+	  unsigned		len;                //! Complete size
+	  int			forbidden_bit;      //! should be always FALSE
+	  int			nal_reference_idc;  //! NALU_PRIORITY_xxxx
+	  int			nal_unit_type;      //! NALU_TYPE_xxxx    
+	  BYTE*			data;				//! Useful part
+	  unsigned		data_len;			//! Length of the NAL unit (Excluding the start code, which does not belong to the NALU)
 	} NALU;
 
 	#define MAXnum_slice_groups_minus1  8
@@ -281,8 +280,8 @@ private:
 	void					Init();
 
 	// DXVA functions
-	void					InitPictureParams();
-	void					UpdatePictureParams (int nFrameNum, bool bRefFrame);
+	void					UpdatePictureParams(bool bInit);
+	void					UpdateRefFramesList (int nFrameNum, bool bRefFrame);
 
 	// Bitstream parsing functions from JM Ref h264 decoder (http://iphome.hhi.de/suehring/tml/)
 	int						GetBits (byte buffer[],int totbitoffset,int *info, int bytecount, int numbits);
@@ -300,7 +299,7 @@ private:
 
 	int						more_rbsp_data (BYTE* buffer,int totbitoffset,int bytecount);
 	int						RBSPtoSODB(BYTE* pBuffer, int last_byte_pos);
-	void					ReadNalu (NALU* Nalu, BYTE* pDataIn, UINT nSize);
+	void					ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize);
 	void					ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pDataIn, UINT nSize);
 	void					ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength);
 };

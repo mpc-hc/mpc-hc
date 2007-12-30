@@ -469,6 +469,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 	case ENGINE_DXVA2 :
 		CComPtr<IMediaSample>		pNewSample;
 		CComQIPtr<IMPCDXVA2Sample>	pMPCDXVA2Sample;
+		// TODO : test  IDirect3DDeviceManager9::TestDevice !!!
 		if (SUCCEEDED (hr = GetDeliveryBuffer(rtStart, rtStop, bDiscontinuity, &pNewSample)))
 		{
 			pMPCDXVA2Sample	 = pNewSample;
