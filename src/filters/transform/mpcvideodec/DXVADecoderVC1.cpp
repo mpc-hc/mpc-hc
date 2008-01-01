@@ -51,18 +51,6 @@ void CDXVADecoderVC1::Init()
 	memset (&m_PictureParams, 0, sizeof(m_PictureParams));
 	memset (&m_SliceInfo,     0, sizeof(m_SliceInfo));
 
-	m_PictureParams.wForwardRefPictureIndex			= VC1_NO_REF;
-	m_PictureParams.wBackwardRefPictureIndex		= VC1_NO_REF;
-	m_PictureParams.wPicHeightInMBminus1			= 15;
-	m_PictureParams.bMacroblockHeightMinus1			= 15;
-	m_PictureParams.bBlockWidthMinus1				= 7;
-	m_PictureParams.bBlockHeightMinus1				= 7;
-	m_PictureParams.bBPPminus1						= 7;
-	m_PictureParams.bPicStructure					= VC1_PS_PROGRESSIVE;
-	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
-	m_PictureParams.bPicScanFixed					= 1;
-	m_PictureParams.bPicScanMethod					= VC1_SCAN_ARBITRARY;
-
 	switch (GetMode())
 	{
 	case VC1_VLD :
@@ -80,28 +68,59 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
-	m_PictureParams.bMVprecisionAndChromaRelation	= VC1_CR_BICUBIC_QUARTER_CHROMA;		
-	m_PictureParams.bPicSpatialResid8				= m_PictureParams.bPicIntra;
-	m_PictureParams.bPicExtrapolation				= (m_PictureParams.bPicStructure == VC1_PS_PROGRESSIVE) ? 1 : 0;
-	/*
-	m_PictureParams.wForwardRefPictureIndex			= ;
-	m_PictureParams.wBackwardRefPictureIndex		= ;
-	m_PictureParams.wPicWidthInMBminus1				= ;
-	m_PictureParams.bPicIntra						= ;
-	m_PictureParams.bPicBackwardPrediction			= ;
-	m_PictureParams.bBidirectionalAveragingMode		= ;		// 0x80, 0x88, 0x90, 0x98, 0xC0, 0xC8, 0xD0, 0xD8
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	m_PictureParams.	= ;
-	*/
-
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
+
+
+	m_PictureParams.wDecodedPictureIndex			= nSurfaceIndex;
+	//m_PictureParams.wDeblockedPictureIndex;
+
+	m_PictureParams.wForwardRefPictureIndex			= VC1_NO_REF;	// TODO
+	m_PictureParams.wBackwardRefPictureIndex		= VC1_NO_REF;	// TODO
+
+	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  / 16;	// TODO
+	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() / 16;	// TODO
+	m_PictureParams.bMacroblockWidthMinus1			= 15;
+	m_PictureParams.bMacroblockHeightMinus1			= 15;
+	m_PictureParams.bBlockWidthMinus1				= 7;
+	m_PictureParams.bBlockHeightMinus1				= 7;
+
+	m_PictureParams.bBPPminus1						= 7;
+
+	m_PictureParams.bPicStructure					= VC1_PS_PROGRESSIVE;	// TODO
+	//m_PictureParams.bSecondField;
+	m_PictureParams.bPicIntra						= 1;		// TODO!
+	//m_PictureParams.bPicBackwardPrediction;
+
+	//m_PictureParams.bBidirectionalAveragingMode;	TODO section 3.2.5
+	m_PictureParams.bMVprecisionAndChromaRelation	= VC1_CR_BICUBIC_QUARTER_CHROMA;;
+	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
+
+	m_PictureParams.bPicScanFixed					= 1;		// TODO sections 3.8.1 and 3.8.2
+	m_PictureParams.bPicScanMethod					= VC1_SCAN_ARBITRARY;
+	m_PictureParams.bPicReadbackRequests			= 0;
+
+	m_PictureParams.bRcontrol						= 0;
+	//m_PictureParams.bPicSpatialResid8				TODO Cf. page 37 spéc
+	//m_PictureParams.bPicOverflowBlocks			TODO Cf. page 37 spéc
+	m_PictureParams.bPicExtrapolation				= (m_PictureParams.bPicStructure == VC1_PS_PROGRESSIVE) ? 1 : 0;;
+
+	//m_PictureParams.bPicDeblocked;				TODO section 3.2.20.6
+
+	// TODO : complete bPicDeblockConfined from parsing  Cf. page 37 spéc
+	m_PictureParams.bPicDeblockConfined			= (m_PictureParams.bPicIntra) ? VC1_REFPICFLAG : 0;
+	m_PictureParams.bPic4MVallowed					= 0;	// TODO
+	//m_PictureParams.bPicOBMC;
+	m_PictureParams.bPicBinPB						= 3;	// TODO
+	m_PictureParams.bMV_RPS							= 0;	// TODO
+
+	//m_PictureParams.bReservedBits;
+
+	m_PictureParams.wBitstreamFcodes				= 0;	// TODO
+	m_PictureParams.wBitstreamPCEelements			= 0;	// TODO
+	m_PictureParams.bBitstreamConcealmentNeed		= 0;	// TODO
+	m_PictureParams.bBitstreamConcealmentMethod		= 0;	// TODO
+
 
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
@@ -109,7 +128,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	CHECK_HR (Execute());
 
 	// Send bitstream to accelerator
-	m_SliceInfo.dwSliceDataLocation	= nSize * 8;
+	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
 	m_SliceInfo.wQuantizerScaleCode	= 1;			// TODO : 1->31 ???
 	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
@@ -118,9 +137,9 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	CHECK_HR (Execute());
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
-//	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), m_Slice.framepoc/2, rtStart, rtStop);
+	AddToStore (nSurfaceIndex, pSampleToDeliver, !!m_PictureParams.bPicIntra, 0, rtStart, rtStop); 
 
-	return hr;
+	return DisplayNextFrame();
 }
 
 void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)

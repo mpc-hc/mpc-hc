@@ -34,7 +34,6 @@ extern "C"
 
 static UINT g_UsedForReferenceFlags[] =
 {
-	0x00000000,
 	0x00000003,
 	0x0000000F,
 	0x0000003F,
@@ -175,9 +174,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	m_Slice.idr_flag = (Nalu.nal_unit_type == NALU_TYPE_IDR);
 	ReadSliceHeader (&m_Slice, pDataSlice + 4, nSliceSize - 4);
 
-	// Reset when new picture group detected
-	if (m_Slice.frame_num == 0) ClearRefFramesList();
-
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
 
 	m_DXVAPicParams.field_pic_flag	= m_Slice.field_pic_flag;
@@ -185,8 +181,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	m_DXVAPicParams.IntraPicFlag	= (m_Slice.slice_type == I_FRAME);
 	m_DXVAPicParams.MbaffFrameFlag	= (m_SeqParam.mb_adaptive_frame_field_flag && (m_Slice.field_pic_flag==0));
 	m_DXVAPicParams.frame_num		= m_Slice.frame_num;
-	if (m_Slice.frame_num > 0)
-		m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [min(m_Slice.frame_num, m_DXVAPicParams.num_ref_frames)];
 
 	// Fill CurrPic parameters
 	if (m_Slice.field_pic_flag)
@@ -288,6 +282,8 @@ void CDXVADecoderH264::UpdatePictureParams(bool bInit)
 	m_DXVAPicParams.slice_group_change_rate_minus1			= m_PicParam.slice_group_change_rate_minus1;
 
 	m_DXVAPicParams.pic_init_qp_minus26						= m_PicParam.pic_init_qp_minus26;
+	m_DXVAPicParams.chroma_qp_index_offset					= m_PicParam.chroma_qp_index_offset;
+	m_DXVAPicParams.second_chroma_qp_index_offset			= m_PicParam.second_chroma_qp_index_offset;
 	m_DXVAPicParams.num_ref_idx_l0_active_minus1			= m_PicParam.num_ref_idx_l0_active_minus1;
 	m_DXVAPicParams.num_ref_idx_l1_active_minus1			= m_PicParam.num_ref_idx_l1_active_minus1;
 
@@ -348,6 +344,9 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 {
 	int			i;
 
+	// Reset when new picture group detected
+	if (m_Slice.frame_num == 0) ClearRefFramesList();
+
 	if (bRefFrame)
 	{
 		// Shift buffers if needed
@@ -376,6 +375,7 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];
 
+		m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame];
 		m_nCurRefFrame = min (m_nCurRefFrame+1, (UINT)(m_DXVAPicParams.num_ref_frames-1));
 	}
 }

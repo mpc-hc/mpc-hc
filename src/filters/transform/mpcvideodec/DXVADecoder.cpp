@@ -428,7 +428,7 @@ void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 }
 
 
-int CDXVADecoder::FindOldestFrame()		// TODO : not finished!
+int CDXVADecoder::FindOldestFrame()
 {
 	REFERENCE_TIME		rtMin	= _I64_MAX;
 	int					nPos	= -1;

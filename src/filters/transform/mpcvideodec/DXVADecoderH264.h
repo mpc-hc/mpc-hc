@@ -268,7 +268,7 @@ private:
 
 	DXVA_PicParams_H264		m_DXVAPicParams;
 	DXVA_Qmatrix_H264		m_DXVAInverseQuantMatrix;
-	PIC_PARAMETER_SET_RBSP	m_PicParam;
+	PIC_PARAMETER_SET_RBSP	m_PicParam;			// TODO : manage multiple PPS / SPS ( SeqParSet[MAXSPS] )
 	SEQ_PARAMETER_SET_RBSP	m_SeqParam;
 	SLICE_PARAMETER			m_Slice;
 
