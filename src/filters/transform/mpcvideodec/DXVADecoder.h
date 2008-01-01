@@ -45,11 +45,11 @@ typedef struct
 	CComPtr<IMediaSample>		pSample;		// Only for DXVA2 !
 	REFERENCE_TIME				rtStart;
 	REFERENCE_TIME				rtStop;
-	BOOL						bDiscontinuity;
 } PICTURE_STORE;
 
 
 #define MAX_COM_BUFFER				6		// Max uncompressed buffer for an Execute command (DXVA1)
+#define COMP_BUFFER_COUNT			18
 
 class CMPCVideoDecFilter;
 
@@ -62,7 +62,7 @@ public :
 	DXVA_ENGINE				GetEngine()		{ return m_nEngine; };
 	void					AllocExecuteParams (int nSize);
 
-	virtual HRESULT			DecodeFrame  (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity) = NULL;
+	virtual HRESULT			DecodeFrame  (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop) = NULL;
 	virtual void			SetExtraData (BYTE* pDataIn, UINT nSize);
 	virtual void			CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 	virtual void			Flush();
@@ -82,17 +82,18 @@ protected :
 
 	// === DXVA functions
 	HRESULT					AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
-	HRESULT					GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity, IMediaSample** ppSampleToDeliver);
+	HRESULT					GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver);
 	HRESULT					Execute();
 	DWORD					GetDXVA1CompressedType (DWORD dwDXVA2CompressedType);
+	HRESULT					FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferIndex);
 	HRESULT					BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
-	HRESULT					EndFrame();
+	HRESULT					EndFrame(int nSurfaceIndex);
 
 	// === Picture store functions
-	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, int nFrameOrder, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
+	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, int nFrameOrder, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
-	HRESULT					GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
+	HRESULT					GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 
 private :
 	DXVAMode						m_nMode;
@@ -104,16 +105,18 @@ private :
 	DXVA_BufferDescription 			m_DXVA1BufferDesc[MAX_COM_BUFFER];
 	DWORD							m_dwNumBuffersInfo;
 	DXVA_ConfigPictureDecode		m_DXVA1Config;
-	int								m_nCurrentnSurfaceIndex;
+	AMVACompBufferInfo				m_ComBufferInfo[COMP_BUFFER_COUNT];
+	DWORD							m_dwBufferIndex;
 
 	// === DXVA2 variables
 	CComPtr<IDirectXVideoDecoder>	m_pDirectXVideoDec;
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
 
 	PICTURE_STORE*					m_pPictureStore;		// Store reference picture, and delayed B-frames
-	int								m_nPicEntryNumber;
-	int								m_nLastFrameOrder;
+	int								m_nPicEntryNumber;		// Total number of picture in store
+	int								m_nWaitingPics;			// Number of picture not yet displayed
 
 	void					Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber);
 	void					FreePictureSlot (int nSurfaceIndex);
+	int						FindOldestFrame();
 };

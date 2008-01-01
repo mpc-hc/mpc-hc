@@ -74,7 +74,7 @@ void CDXVADecoderVC1::Init()
 }
 
 // === Public functions
-HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity)
+HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
 	HRESULT						hr;
 	int							nSurfaceIndex;
@@ -100,7 +100,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.	= ;
 	*/
 
-	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop, bDiscontinuity));
+	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
 	// Send picture params to accelerator
@@ -116,9 +116,9 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	// Decode frame
 	CHECK_HR (Execute());
-	CHECK_HR (EndFrame());
+	CHECK_HR (EndFrame(nSurfaceIndex));
 
-//	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), m_Slice.framepoc/2, rtStart, rtStop, bDiscontinuity);
+//	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), m_Slice.framepoc/2, rtStart, rtStop);
 
 	return hr;
 }

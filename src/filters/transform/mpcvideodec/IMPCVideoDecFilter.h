@@ -41,7 +41,4 @@ interface IMPCVideoDecFilter : public IUnknown
 
 	STDMETHOD(SetIDCTAlgo(int nValue)) = 0;
 	STDMETHOD_(int, GetIDCTAlgo()) = 0;
-
-	STDMETHOD(SetH264QuantMatrix(int nValue)) = 0;
-	STDMETHOD_(int, GetH264QuantMatrix()) = 0;
 };

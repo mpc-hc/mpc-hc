@@ -138,14 +138,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_chkEnableDeblocking.Create (_T("Enable deblocking"), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|WS_DISABLED, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DEBLOCKING);
 
-	// H264 quantization Matrix
-	nPosY += VERTICAL_SPACING;
-	m_txtH264QuantMatrix.Create (_T("Inverse H264 quantization Matrix"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
-	m_cbH264QuantMatrix.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
-	m_cbH264QuantMatrix.AddString (_T("Flat 16"));
-	m_cbH264QuantMatrix.AddString (_T("JVT"));
-	m_cbH264QuantMatrix.AddString (_T("Q-Matrix"));
-	m_cbH264QuantMatrix.AddString (_T("Q-Matrix 2"));
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 		pWnd->SetFont(&m_font, FALSE);
@@ -157,7 +149,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
 		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
-		m_cbH264QuantMatrix.SetCurSel	(m_pMDF->GetH264QuantMatrix());
 	}
 
 	return true;
@@ -178,7 +169,6 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
-		m_pMDF->SetH264QuantMatrix	(m_cbH264QuantMatrix.GetCurSel());
 	}
 
 	return true;

@@ -48,6 +48,7 @@
 typedef struct
 {
 	const int			PicEntryNumber;
+	const UINT			ConfigBitstreamRawMin;
 	const GUID*			Decoder[MAX_SUPPORTED_MODE];
 	const WORD			RestrictedMode[MAX_SUPPORTED_MODE];
 } DXVA_PARAMS;
@@ -72,10 +73,11 @@ typedef struct
 } FFMPEG_CODECS;
 
 
-// DXVA modes supported for Mpeg2
+// DXVA modes supported for Mpeg2	TODO
 DXVA_PARAMS		DXVA_Mpeg2 =
 {
-	14, // TODO
+	14,		// PicEntryNumber
+	1,		// ConfigBitstreamRawMin
 	{ &DXVA_ModeMPEG2_A,			&DXVA_ModeMPEG2_C,				&GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_MPEG2_A,  DXVA_RESTRICTED_MODE_MPEG2_C,	 0 }
 };
@@ -83,15 +85,17 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 // DXVA modes supported for H264
 DXVA_PARAMS		DXVA_H264 =
 {
-	14,
-	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },	// TODO : REMOVE MPEG2!!
+	14,		// PicEntryNumber
+	2,		// ConfigBitstreamRawMin
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
 // DXVA modes supported for VC1
 DXVA_PARAMS		DXVA_VC1 =
 {
-	14,
+	14,		// PicEntryNumber
+	1,		// ConfigBitstreamRawMin
 	{ &DXVA2_ModeVC1_D,				&GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_VC1_D,	 0}
 };
@@ -402,7 +406,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorResilience"), dw)) m_nErrorResilience = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableDXVA"), dw)) m_bEnableDXVA = !!dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("H264QuantMatrix"), dw)) CDXVADecoderH264::g_nH264QuantMatrix = (QMatrixH264Type)dw;
 	}
 
 #ifdef __USE_FFMPEG_DLL	
@@ -468,7 +471,6 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
 		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
 		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
-		key.SetDWORDValue(_T("H264QuantMatrix"), CDXVADecoderH264::g_nH264QuantMatrix);
 	}
 }
 
@@ -476,6 +478,7 @@ HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 {
 	return false;	// TODO
 };
+
 
 int CMPCVideoDecFilter::PictWidth()
 {
@@ -485,7 +488,7 @@ int CMPCVideoDecFilter::PictWidth()
 
 int CMPCVideoDecFilter::PictHeight()
 {
-	return m_pAVCtx ? m_pAVCtx->height : 0;
+	return m_pAVCtx ? m_pAVCtx->height + (m_pAVCtx->height % 16): 0;
 }
 
 
@@ -557,6 +560,8 @@ void CMPCVideoDecFilter::CalcAvgTimePerFrame()
 		ASSERT (FALSE);
 		m_rtAvrTimePerFrame	= 1;
 	}
+
+	m_rtAvrTimePerFrame = max (1, m_rtAvrTimePerFrame);
 }
 
 void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
@@ -729,7 +734,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 	for (i=0; i<ffCodecs[m_nCodecNb].DXVAModeCount(); i++)
 	{
 		m_pVideoOutputFormat[i].subtype			= ffCodecs[m_nCodecNb].DXVAModes->Decoder[i];
-		m_pVideoOutputFormat[i].biCompression	= 'AVXD';
+		m_pVideoOutputFormat[i].biCompression	= 'avxd';
 		m_pVideoOutputFormat[i].biBitCount		= 12;
 		m_pVideoOutputFormat[i].biPlanes		= 1;
 	}
@@ -859,6 +864,10 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
 HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
 {
+	CAutoLock cAutoLock(&m_csReceive);		// TODO : check this
+	m_nPosB = 1;
+	memset (&m_BFrames, 0, sizeof(m_BFrames));
+
 	if (m_pDXVADecoder)
 		m_pDXVADecoder->Flush();
 	return __super::NewSegment (rtStart, rtStop, dRate);
@@ -881,34 +890,53 @@ void CMPCVideoDecFilter::DecodeData (BYTE* pDataIn, int nSize)
 }
 
 
-HRESULT CMPCVideoDecFilter::TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr;
 	int				got_picture;
 	int				used_bytes;
 
-	//TRACE ("CMPCVideoDecFilter::Transform    %ld\n", rtStart, rtStart/m_rtAvrTimePerFrame);
+	if (m_pAVCtx->has_b_frames)
+	{
+		m_BFrames[m_nPosB].rtStart	= rtStart;
+		m_BFrames[m_nPosB].rtStop	= rtStop;
+		m_nPosB						= 1-m_nPosB;
+	}
+
 	while (nSize > 0)
 	{
-		m_pAVCtx->parserRtStart=&rtStart;
 		used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
 		if (!got_picture || !m_pFrame->data[0]) return S_OK;
 		if(pIn->IsPreroll() == S_OK || rtStart < 0) return S_OK;
 
 		CComPtr<IMediaSample>	pOut;
 		BYTE*					pDataOut = NULL;
+
 		if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
 			return hr;
-
-		// Time for output sample different from input (due to ffmpeg frame re-ordering)
+	
 		rtStart = m_pFrame->rtStart;
 		rtStop  = m_pFrame->rtStart + m_rtAvrTimePerFrame;
 
+		// Re-order B-frames if needed
+		if (m_pAVCtx->has_b_frames)
+		{
+			rtStart	= m_BFrames [m_nPosB].rtStart;
+			rtStop	= m_BFrames [m_nPosB].rtStop;
+		}
+
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
-		pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
 
+		// TODO : check pixelformat !
 		CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
+
+#ifdef _DEBUG
+		static REFERENCE_TIME	rtLast = 0;
+		TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop, 
+					rtStop - rtStart, rtStart - rtLast);
+		rtLast = rtStart;
+#endif
 
 		hr = m_pOutput->Deliver(pOut);
 
@@ -920,46 +948,9 @@ HRESULT CMPCVideoDecFilter::TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, 
 }
 
 
-//HRESULT CMPCVideoDecFilter::TransformDXVA1(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
-//{
-//	HRESULT						hr;
-//	AMVABeginFrameInfo			BeginFrameInfo;
-//	AMVAEndFrameInfo			EndFrameInfo;
-//	WORD						wBeginPictureIndex = 0;
-//	CComPtr<IMediaSample>		pOut;
-//
-//	memset (&BeginFrameInfo, 0, sizeof (AMVABeginFrameInfo));
-//	memset (&EndFrameInfo,   0, sizeof (AMVAEndFrameInfo));
-//	BeginFrameInfo.dwDestSurfaceIndex	= 0;
-//	BeginFrameInfo.dwSizeInputData		= 2;
-//	BeginFrameInfo.pInputData			= &wBeginPictureIndex;
-//	hr = m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo);
-//	hr = m_pAMVideoAccelerator->EndFrame(&EndFrameInfo);
-//
-//	hr = m_pOutput->GetDeliveryBuffer(&pOut, 0, 0, 0);
-//	pOut->SetTime(&rtStart, &rtStop);
-//	pOut->SetDiscontinuity(pIn->IsDiscontinuity() == S_OK);
-//	hr = m_pAMVideoAccelerator->DisplayFrame(0, pOut);
-//
-//	return hr;
-//}
-
-HRESULT CMPCVideoDecFilter::TransformDXVA(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
-{
-	HRESULT			hr;
-	BOOL			bDiscontinuity;
-
-	CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
-	bDiscontinuity = pIn->IsDiscontinuity() == S_OK;
-	hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, rtStart, rtStop, bDiscontinuity);
-
-	return hr;
-}
-
-
-
 HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
+	CAutoLock cAutoLock(&m_csReceive);		// TODO : check this
 	HRESULT			hr;
 	BYTE*			pDataIn;
 	int				nSize;
@@ -972,34 +963,33 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	nSize		= pIn->GetActualDataLength();
 	hr			= pIn->GetTime(&rtStart, &rtStop);
 	m_rtStart	= rtStart;
+	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
 
 	switch (m_nDXVAMode)
 	{
 	case MODE_SOFTWARE :
-		hr = TransformSoftware (pIn, pDataIn, nSize, rtStart, rtStop);
+		hr = SoftwareDecode (pIn, pDataIn, nSize, rtStart, rtStop);
 		break;
 	case MODE_DXVA1 :
 	case MODE_DXVA2 :
-		hr = TransformDXVA (pIn, pDataIn, nSize, rtStart, rtStop);
+		CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
+		hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, rtStart, rtStop);
 		break;
 	default :
 		ASSERT (FALSE);
 		hr = E_UNEXPECTED;
 	}
 
-#ifdef _DEBUG
-	TRACE ("CMPCVideoDecFilter::Transform  %I64d - %I64d  (Thread %d)\n", rtStart, rtStop, GetCurrentThreadId());
-#endif
 	return hr;
 }
 
 void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 {
-	memset (&m_VideoDesc, 0, sizeof(m_VideoDesc));
-	pDesc->SampleWidth	= m_pAVCtx->width;
-	pDesc->SampleHeight	= m_pAVCtx->height;
-	pDesc->Format       = D3DFMT_A8R8G8B8;
-	m_VideoDesc.UABProtectionLevel = 1;
+	memset (pDesc, 0, sizeof(DXVA2_VideoDesc));
+	pDesc->SampleWidth			= PictWidth();
+	pDesc->SampleHeight			= PictHeight();
+	pDesc->Format				= D3DFMT_A8R8G8B8;
+	pDesc->UABProtectionLevel	= 1;
 }
 
 BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
@@ -1023,7 +1013,8 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, co
 	bool	bRet = false;
 
 	// TODO : not finished
-	bRet = ((config.ConfigBitstreamRaw == 2) && (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2')) );
+	bRet = ((config.ConfigBitstreamRaw >= ffCodecs[m_nCodecNb].DXVAModes->ConfigBitstreamRawMin) && 
+			(nD3DFormat				   == MAKEFOURCC('N', 'V', '1', '2')) );
 
 	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);
 	return bRet;
@@ -1287,48 +1278,6 @@ HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* p
 	return hr;
 }
 
-//HRESULT CMPCVideoDecFilter::ConfigureDXVA1(IPin *pPin)
-//{
-//	HRESULT								hr						= E_FAIL;
-//	CComQIPtr<IAMVideoAccelerator>		pAMVideoAcc				= pPin;
-//	DWORD								cDecoderGuids			= 0;
-//    GUID*								pDecoderGuids			= NULL;
-//	BOOL								bFoundDXVA1Configuration= FALSE;
-//
-//	if (pAMVideoAcc)
-//	{
-//		pAMVideoAcc->GetVideoAcceleratorGUIDs(&cDecoderGuids, pDecoderGuids);
-//		if (cDecoderGuids > 0)
-//		{
-//			pDecoderGuids = new GUID[cDecoderGuids];
-//
-//			hr = pAMVideoAcc->GetVideoAcceleratorGUIDs(&cDecoderGuids, pDecoderGuids);
-//
-//			if (SUCCEEDED(hr))
-//			{
-//				// Look for the decoder GUIDs we want.
-//				for (UINT iGuid = 0; iGuid < cDecoderGuids; iGuid++)
-//				{
-//					TRACE ("%S \n", CStringFromGUID(pDecoderGuids[iGuid]));
-//					// Do we support this mode?
-//					if (!IsSupportedDecoderMode(pDecoderGuids[iGuid]))
-//					{
-//						continue;
-//					}
-//
-//					if (FAILED (hr = FindDXVA1DecoderConfiguration (pAMVideoAcc, &pDecoderGuids[iGuid], &m_PixelFormat))) break;
-//
-//					TRACE ("Ok\n");
-//				}
-//			}
-//
-//			delete[] pDecoderGuids;
-//		}
-//	}
-//	
-//	return hr;
-//}
-
 HRESULT CMPCVideoDecFilter::CheckDXVA1Decoder(const GUID *pGuid)
 {
 	if (m_nCodecNb != -1)
@@ -1343,7 +1292,6 @@ HRESULT CMPCVideoDecFilter::CheckDXVA1Decoder(const GUID *pGuid)
 
 void CMPCVideoDecFilter::SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat)
 {
-	//m_pAMVideoAccelerator	= pAMVideoAccelerator;
 	m_DXVADecoderGUID		= *pGuid;
 	memcpy (&m_PixelFormat, pPixelFormat, sizeof (DDPIXELFORMAT));
 }
@@ -1463,14 +1411,4 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nIDCTAlgo;
 }
-STDMETHODIMP CMPCVideoDecFilter::SetH264QuantMatrix(int nValue)
-{
-	CAutoLock cAutoLock(&m_csProps);
-	CDXVADecoderH264::g_nH264QuantMatrix = (QMatrixH264Type)nValue;
-	return S_OK;
-}
-STDMETHODIMP_(int) CMPCVideoDecFilter::GetH264QuantMatrix()
-{
-	CAutoLock cAutoLock(&m_csProps);
-	return CDXVADecoderH264::g_nH264QuantMatrix;
-}
+

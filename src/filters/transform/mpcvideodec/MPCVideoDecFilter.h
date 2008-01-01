@@ -66,6 +66,13 @@ typedef enum
 	MODE_DXVA2
 } DXVA_MODE;
 
+
+typedef struct
+{
+	REFERENCE_TIME	rtStart;
+	REFERENCE_TIME	rtStop;
+} B_FRAME;
+
 [uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4")]
 class CMPCVideoDecFilter 
 	: public CBaseVideoFilter
@@ -100,6 +107,8 @@ protected:
 	int										m_nErrorConcealment;
 	REFERENCE_TIME							m_rtStart;				// Ref. time for last decoded frame (use for Ffmpeg callback)
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
+	B_FRAME									m_BFrames[2];
+	int										m_nPosB;
 
 	FUNC_AVCODEC_INIT						ff_avcodec_init;
 	FUNC_AVCODEC_REGISTER_ALL				ff_avcodec_register_all;
@@ -140,8 +149,7 @@ protected:
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
 
-	HRESULT				TransformSoftware(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-	HRESULT				TransformDXVA(IMediaSample* pIn,    BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 public:
 
@@ -183,8 +191,6 @@ public:
 	STDMETHOD_(int, GetErrorResilience());
 	STDMETHOD(SetIDCTAlgo(int nValue));
 	STDMETHOD_(int, GetIDCTAlgo());
-	STDMETHOD(SetH264QuantMatrix(int nValue));
-	STDMETHOD_(int, GetH264QuantMatrix());
 
 
 	// === DXVA common functions

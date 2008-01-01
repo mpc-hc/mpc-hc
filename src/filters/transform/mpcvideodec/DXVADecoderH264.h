@@ -36,12 +36,10 @@ public:
 	CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber);
 	virtual ~CDXVADecoderH264();
 
-	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, BOOL bDiscontinuity);
+	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	virtual void	SetExtraData  (BYTE* pDataIn, UINT nSize);
 	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 	virtual void	Flush();
-
-	static QMatrixH264Type			g_nH264QuantMatrix;			// Index for inverse quantization matrix
 
 protected :
 
@@ -136,6 +134,8 @@ private:
 		bool				transform_8x8_mode_flag;							// u(1)
 
 		bool				pic_scaling_matrix_present_flag;					// u(1)
+		int					pic_scaling_list_present_flag[12];                  // u(1)
+		DXVA_Qmatrix_H264   QuantMatrix;
 
 		// if( pic_order_cnt_type < 2 )  in the sequence parameter set
 		bool				pic_order_present_flag;								// u(1)
@@ -267,6 +267,7 @@ private:
 
 
 	DXVA_PicParams_H264		m_DXVAPicParams;
+	DXVA_Qmatrix_H264		m_DXVAInverseQuantMatrix;
 	PIC_PARAMETER_SET_RBSP	m_PicParam;
 	SEQ_PARAMETER_SET_RBSP	m_SeqParam;
 	SLICE_PARAMETER			m_Slice;
@@ -280,6 +281,7 @@ private:
 	void					Init();
 
 	// DXVA functions
+	void					ClearRefFramesList();
 	void					UpdatePictureParams(bool bInit);
 	void					UpdateRefFramesList (int nFrameNum, bool bRefFrame);
 
@@ -302,4 +304,5 @@ private:
 	void					ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize);
 	void					ReadPPS(PIC_PARAMETER_SET_RBSP* pps, BYTE* pDataIn, UINT nSize);
 	void					ReadSPS(SEQ_PARAMETER_SET_RBSP* sps, BYTE* pBuffer, UINT nBufferLength);
+	void					Scaling_List(UCHAR* scalingList, int sizeOfScalingList, BYTE* pBuffer, UINT nBufferLength, UINT& nBitOffset);
 };
