@@ -48,7 +48,7 @@ s_filters[] =
 	{_T("DVD Video Title Set"), 0, SRC_VTS, IDS_SRC_VTS, NULL},
 	{_T("DVD2AVI Project File"), 0, SRC_D2V, IDS_SRC_D2V, NULL},
 	{_T("FLI/FLC"), 0, SRC_FLIC, IDS_SRC_FLIC, NULL},
-//	{_T("FLV"), 0, SRC_FLV, IDS_SRC_FLV, NULL},
+	{_T("FLV"), 0, SRC_FLV, IDS_SRC_FLV, NULL},
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
 	{_T("MP4/MOV"), 0, SRC_MP4, IDS_SRC_MP4, NULL},
 	{_T("MPEG Audio"), 0, SRC_MPA, IDS_SRC_MPA, NULL},
