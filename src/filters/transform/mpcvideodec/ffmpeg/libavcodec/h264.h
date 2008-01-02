@@ -109,6 +109,12 @@ typedef struct SPS{
     int scaling_matrix_present;
     uint8_t scaling_matrix4[6][16];
     uint8_t scaling_matrix8[2][64];
+	// ==> Start patch MPC
+	int chroma_format_idc;
+	int residual_colour_transform_flag;
+	int bit_depth_luma;
+	int bit_depth_chroma;
+	// <== End patch MPC
 }SPS;
 
 /**
@@ -134,6 +140,11 @@ typedef struct PPS{
     uint8_t scaling_matrix8[2][64];
     uint8_t chroma_qp_table[2][256];  ///< pre-scaled (with chroma_qp_index_offset) version of qp_table
     int chroma_qp_diff;
+	// ==> Start patch MPC
+	int slice_group_change_direction_flag;
+	int slice_group_change_rate_minus1;
+	// <== End patch MPC
+
 }PPS;
 
 /**

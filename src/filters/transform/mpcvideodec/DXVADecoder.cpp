@@ -48,7 +48,6 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* p
 
 CDXVADecoder::~CDXVADecoder()
 {
-	Flush();
 	SAFE_DELETE_ARRAY (m_pPictureStore);
 	SAFE_DELETE_ARRAY (m_ExecuteParams.pCompressedBuffers);
 }
@@ -100,7 +99,7 @@ void CDXVADecoder::Flush()
 	for (int i=0; i<m_nPicEntryNumber; i++)
 	{
 		m_pPictureStore[i].bRefPicture	= false;
-		m_pPictureStore[i].nFrameOrder	= -1;
+		m_pPictureStore[i].bInUse		= false;
 		m_pPictureStore[i].bDisplayed	= false;
 		m_pPictureStore[i].pSample		= NULL;
 	}
@@ -404,12 +403,13 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 }
 
 // === Picture store functions
-void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, int nFrameOrder, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
+void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
+//	TRACE ("AddStore: %d   %d\n", nSurfaceIndex);
 	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
-	m_pPictureStore[nSurfaceIndex].nFrameOrder		= nFrameOrder;
+	m_pPictureStore[nSurfaceIndex].bInUse			= true;
 	m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
 	m_pPictureStore[nSurfaceIndex].pSample			= pSample;
 	m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
@@ -420,7 +420,7 @@ void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 
 void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 {
-	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].nFrameOrder != -1));
+	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && m_pPictureStore[nSurfaceIndex].bInUse);
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture	= false;
 	if (m_pPictureStore[nSurfaceIndex].bDisplayed)
@@ -433,12 +433,13 @@ int CDXVADecoder::FindOldestFrame()
 	REFERENCE_TIME		rtMin	= _I64_MAX;
 	int					nPos	= -1;
 
-	if (m_nWaitingPics > 5)
+	// TODO : find better solution...
+	if (m_nWaitingPics > 3)
 	{
 		for (int i=0; i<m_nPicEntryNumber; i++)
 		{
 			if (!m_pPictureStore[i].bDisplayed &&
-				(m_pPictureStore[i].nFrameOrder != -1) &&
+				 m_pPictureStore[i].bInUse &&
 				(m_pPictureStore[i].rtStart < rtMin))
 			{
 				rtMin	= m_pPictureStore[i].rtStart;
@@ -480,7 +481,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 					m_pPictureStore[nPicIndex].rtStart, 
 					m_pPictureStore[nPicIndex].rtStop, 
 					m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 
-					m_pPictureStore[nPicIndex].rtStart - rtLast, m_nWaitingPics);
+					m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex);
 		rtLast = m_pPictureStore[nPicIndex].rtStart;
 #endif
 
@@ -502,7 +503,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 	case ENGINE_DXVA1 :
 		for (int i=0; i<m_nPicEntryNumber; i++)
 		{
-			if (m_pPictureStore[i].nFrameOrder == -1)
+			if (!m_pPictureStore[i].bInUse)
 			{
 				nSurfaceIndex = i;
 				return S_OK;
@@ -530,7 +531,8 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {
-	m_pPictureStore[nSurfaceIndex].nFrameOrder	= -1;
+//	TRACE ("Free    : %d\n", nSurfaceIndex);
+	m_pPictureStore[nSurfaceIndex].bInUse		= false;
 	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
 	m_pPictureStore[nSurfaceIndex].pSample		= NULL;
 }

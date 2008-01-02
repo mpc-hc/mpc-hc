@@ -201,10 +201,10 @@ public:
 	int				PictWidth();
 	int				PictHeight();
 	bool			UseDXVA2()	{ return (m_nDXVAMode == MODE_DXVA2); };
-	void*			GetAVContextPrivateData();
 	void			DecodeData (BYTE* pDataIn, int nSize);
 	GUID*			GetDXVADecoderGUID() { return &m_DXVADecoderGUID; }
 	void			FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
+	AVCodecContext*	GetAVCtx()		 { return m_pAVCtx; };
 
 
 	// === DXVA1 functions

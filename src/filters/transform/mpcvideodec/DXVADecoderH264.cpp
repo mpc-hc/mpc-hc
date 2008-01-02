@@ -96,25 +96,39 @@ void CDXVADecoderH264::Init()
 void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	NALU			Nalu;
-	BYTE*			pDataSlice	= pDXVABuffer;
+	BYTE*			pDataSlice	= pBuffer;
 	UINT			nSliceSize	= nSize;
 	int				nDummy;
 
-	// Copy raw bitstream buffer
-	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-
-	// Replace NALU sizes by startcode 00000001
+	nSize = 0;
 	do
 	{
 		ReadNalu (&Nalu, pDataSlice, nSliceSize, 4);
-		pDataSlice[0]=pDataSlice[1]=pDataSlice[2]=0; pDataSlice[3]=1;
+
+		switch (Nalu.nal_unit_type)
+		{
+			case NALU_TYPE_PPS :
+			case NALU_TYPE_SPS :
+				// Do not copy thoses units, accelerator don't like it
+				break;
+			default :
+				// Put startcode 00000001
+				pDXVABuffer[0]=pDXVABuffer[1]=pDXVABuffer[2]=0; pDXVABuffer[3]=1;
+				
+				// Copy NALU
+				memcpy (pDXVABuffer+4, (BYTE*)pDataSlice+4, Nalu.len-4);
+				pDXVABuffer	+= Nalu.len;
+				nSize       += Nalu.len;
+				break;
+		}
+
 		pDataSlice	+= Nalu.len;
 		nSliceSize	-= Nalu.len;
 	} while (nSliceSize > 0);
 
 	// Complete with zero padding (buffer size should be a multiple of 128)
 	nDummy  = 128 - (nSize %128);
-	pDXVABuffer += nSize;
+
 	memset (pDXVABuffer, 0, nDummy);
 	nSize  += nDummy;
 }
@@ -137,6 +151,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
 	bool		bSliceFound = false;
+	int x;
 	while (!bSliceFound)
 	{
 		ReadNalu (&Nalu, pDataSlice, nSliceSize, 4);
@@ -148,22 +163,27 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			break;
 
 		case NALU_TYPE_PPS :
-			ReadPPS(&m_PicParam, Nalu.data, RBSPtoSODB(Nalu.data,  Nalu.data_len));
-			UpdatePictureParams(false);
+			//ReadPPS(&m_PicParam, Nalu.data, RBSPtoSODB(Nalu.data,  Nalu.data_len));
+			//UpdatePictureParams(false);
+
+			m_pFilter->DecodeData (pDataSlice, nSliceSize);
+			FFUpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
+
 			pDataSlice	+= Nalu.len;
 			nSliceSize	-= Nalu.len;
 			break;
 		case NALU_TYPE_SPS :
-			ReadSPS(&m_SeqParam, Nalu.data, Nalu.data_len);		// TODO : buffer size correct ??
-			UpdatePictureParams(false);
+			//ReadSPS(&m_SeqParam, Nalu.data, Nalu.data_len);		// TODO : buffer size correct ??
+			//UpdatePictureParams(false);
+
+			m_pFilter->DecodeData (pDataSlice, nSliceSize);
+			FFUpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
+
 			pDataSlice	+= Nalu.len;
 			nSliceSize	-= Nalu.len;
 			break;
 
 		default :
-			//m_pFilter->DecodeData (pDataSlice, nSliceSize);
-			//FillH264Context (&m_DXVAPicParams, m_pFilter->GetAVContextPrivateData());
-			//ASSERT (Nalu.nal_unit_type == NALU_TYPE_SEI);	// ???
 			pDataSlice	+= Nalu.len;
 			nSliceSize	-= Nalu.len;
 			break;
@@ -205,7 +225,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	// Decode bitstream
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceShort), &m_SliceShort));
-	CHECK_HR (AddExecuteBuffer (DXVA2_InverseQuantizationMatrixBufferType, sizeof (DXVA_Qmatrix_H264), (void*)&m_DXVAInverseQuantMatrix));
+	CHECK_HR (AddExecuteBuffer (DXVA2_InverseQuantizationMatrixBufferType, sizeof (DXVA_Qmatrix_H264), (void*)&m_DXVAScalingMatrix));
 
 	m_DXVAPicParams.StatusReportFeedbackNumber++;
 	CHECK_HR (Execute());
@@ -213,7 +233,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
 	UpdateRefFramesList (m_Slice.frame_num, (Nalu.nal_reference_idc != 0));
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), m_Slice.framepoc/2, rtStart, rtStop);
+	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), /*m_Slice.framepoc/2,*/ rtStart, rtStop);
 
 	return DisplayNextFrame();
 }
@@ -229,6 +249,7 @@ void CDXVADecoderH264::UpdatePictureParams(bool bInit)
 		m_DXVAPicParams.ContinuationFlag					= 1;
 		m_DXVAPicParams.Reserved8BitsA						= 0;
 		m_DXVAPicParams.Reserved8BitsB						= 0;
+		m_DXVAPicParams.MinLumaBipredSize8x8Flag			= 1;	// Improve accelerator performances
 
 		for (int i =0; i<16; i++)
 		{
@@ -252,7 +273,6 @@ void CDXVADecoderH264::UpdatePictureParams(bool bInit)
 	m_DXVAPicParams.weighted_bipred_idc				= m_PicParam.weighted_bipred_idc;
 	m_DXVAPicParams.frame_mbs_only_flag				= m_SeqParam.frame_mbs_only_flag;
 	m_DXVAPicParams.transform_8x8_mode_flag			= m_PicParam.transform_8x8_mode_flag;
-	m_DXVAPicParams.MinLumaBipredSize8x8Flag		= 1;	// TODO : always activate ???
 //	m_DXVAPicParams.IntraPicFlag					= SET IN DecodeFrame;
 
 	m_DXVAPicParams.bit_depth_luma_minus8			= m_SeqParam.bit_depth_luma_minus8;
@@ -287,7 +307,7 @@ void CDXVADecoderH264::UpdatePictureParams(bool bInit)
 	m_DXVAPicParams.num_ref_idx_l0_active_minus1			= m_PicParam.num_ref_idx_l0_active_minus1;
 	m_DXVAPicParams.num_ref_idx_l1_active_minus1			= m_PicParam.num_ref_idx_l1_active_minus1;
 
-	memcpy (&m_DXVAInverseQuantMatrix, &m_PicParam.QuantMatrix, sizeof(DXVA_Qmatrix_H264));
+	memcpy (&m_DXVAScalingMatrix, &m_PicParam.QuantMatrix, sizeof(DXVA_Qmatrix_H264));
 }
 
 
@@ -312,8 +332,14 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 		pDataIn   += Nalu.len;
 		nSize	  -= Nalu.len;
 	}
-
 	UpdatePictureParams(true);
+
+	DXVA_PicParams_H264		Test;
+	FFUpdatePictureParam (true, &Test, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
+	int x = memcmp (&m_DXVAPicParams, &Test, sizeof(DXVA_PicParams_H264));
+	ASSERT (x == 0);
+
+	FFUpdatePictureParam (true, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
 }
 
 
@@ -706,7 +732,85 @@ void CDXVADecoderH264::ReadSliceHeader(SLICE_PARAMETER* pSlice, BYTE* pBuffer, U
 		}
 	}
 
+	// TODO : read sp_for_switch_flag !!
+
 	//! redundant_pic_cnt is missing here
+/*
+	if (active_pps->redundant_pic_cnt_present_flag)
+	{
+		img->redundant_pic_cnt = ue_v ("SH: redundant_pic_cnt", currStream);
+	}
+
+	if(img->type==B_SLICE)
+	{
+		img->direct_spatial_mv_pred_flag = u_1 ("SH: direct_spatial_mv_pred_flag", currStream);
+	}
+
+	img->num_ref_idx_l0_active = active_pps->num_ref_idx_l0_active_minus1 + 1;
+	img->num_ref_idx_l1_active = active_pps->num_ref_idx_l1_active_minus1 + 1;
+
+	if(img->type==P_SLICE || img->type == SP_SLICE || img->type==B_SLICE)
+	{
+		val = u_1 ("SH: num_ref_idx_override_flag", currStream);
+		if (val)
+		{
+			img->num_ref_idx_l0_active = 1 + ue_v ("SH: num_ref_idx_l0_active_minus1", currStream);
+
+			if(img->type==B_SLICE)
+			{
+				img->num_ref_idx_l1_active = 1 + ue_v ("SH: num_ref_idx_l1_active_minus1", currStream);
+			}
+		}
+	}
+	if (img->type!=B_SLICE)
+	{
+		img->num_ref_idx_l1_active = 0;
+	}
+
+	ref_pic_list_reordering();
+
+	img->apply_weights = ((active_pps->weighted_pred_flag && (currSlice->picture_type == P_SLICE || currSlice->picture_type == SP_SLICE) )
+				   	  || ((active_pps->weighted_bipred_idc > 0 ) && (currSlice->picture_type == B_SLICE)));
+
+	if ((active_pps->weighted_pred_flag&&(img->type==P_SLICE|| img->type == SP_SLICE))||
+		(active_pps->weighted_bipred_idc==1 && (img->type==B_SLICE)))
+	{
+		pred_weight_table();
+	}
+
+	if (img->nal_reference_idc)
+		dec_ref_pic_marking(currStream);
+
+	if (active_pps->entropy_coding_mode_flag && img->type!=I_SLICE && img->type!=SI_SLICE)
+	{
+		img->model_number = ue_v("SH: cabac_init_idc", currStream);
+	}
+	else
+	{
+		img->model_number = 0;
+	}
+
+	val = se_v("SH: slice_qp_delta", currStream);
+	currSlice->qp = img->qp = 26 + active_pps->pic_init_qp_minus26 + val;
+	if ((img->qp < -img->bitdepth_luma_qp_scale) || (img->qp > 51))
+		error ("slice_qp_delta makes slice_qp_y out of range", 500);
+
+
+	currSlice->slice_qp_delta = val;
+
+	if(img->type==SP_SLICE || img->type == SI_SLICE)
+	{
+		if(img->type==SP_SLICE)
+		{
+			img->sp_switch = u_1 ("SH: sp_for_switch_flag", currStream);
+		}
+		val = se_v("SH: slice_qs_delta", currStream);
+		img->qpsp = 26 + active_pps->pic_init_qs_minus26 + val;
+		if ((img->qpsp < 0) || (img->qpsp > 51))
+			error ("slice_qs_delta makes slice_qs_y out of range", 500);
+	}
+*/
+
 	DecodePOC (pSlice);
 }
 

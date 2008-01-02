@@ -24,4 +24,7 @@
 
 #include <dxva.h>
 
-void FillH264Context (DXVA_PicParams_H264* m_DXVAPicParams, void* pPrivData);
+struct AVCodecContext;
+
+void FFUpdatePictureParam (int bInit, DXVA_PicParams_H264* m_DXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx);
+void FillVC1Context	 (DXVA_PictureParameters* pPicParams,	struct AVCodecContext* pAVCtx);

@@ -40,7 +40,7 @@ typedef enum
 typedef struct
 {
 	bool						bRefPicture;	// True if reference picture
-	int							nFrameOrder;	// Picture display order
+	int							bInUse;			// Slot in use
 	bool						bDisplayed;		// True if picture have been presented
 	CComPtr<IMediaSample>		pSample;		// Only for DXVA2 !
 	REFERENCE_TIME				rtStart;
@@ -90,7 +90,7 @@ protected :
 	HRESULT					EndFrame(int nSurfaceIndex);
 
 	// === Picture store functions
-	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, int nFrameOrder, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
 	HRESULT					GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);

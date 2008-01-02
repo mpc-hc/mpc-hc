@@ -24,6 +24,10 @@
 #include "DXVADecoderVC1.h"
 #include "MPCVideoDecFilter.h"
 
+extern "C"
+{
+	#include "FfmpegContext.h"
+}
 
 #define VC1_NO_REF			0xFFFF;
 
@@ -92,20 +96,14 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.bPicIntra						= 1;		// TODO!
 	//m_PictureParams.bPicBackwardPrediction;
 
-	//m_PictureParams.bBidirectionalAveragingMode;	TODO section 3.2.5
 	m_PictureParams.bMVprecisionAndChromaRelation	= VC1_CR_BICUBIC_QUARTER_CHROMA;;
 	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
 
-	m_PictureParams.bPicScanFixed					= 1;		// TODO sections 3.8.1 and 3.8.2
-	m_PictureParams.bPicScanMethod					= VC1_SCAN_ARBITRARY;
 	m_PictureParams.bPicReadbackRequests			= 0;
 
 	m_PictureParams.bRcontrol						= 0;
-	//m_PictureParams.bPicSpatialResid8				TODO Cf. page 37 spéc
-	//m_PictureParams.bPicOverflowBlocks			TODO Cf. page 37 spéc
 	m_PictureParams.bPicExtrapolation				= (m_PictureParams.bPicStructure == VC1_PS_PROGRESSIVE) ? 1 : 0;;
 
-	//m_PictureParams.bPicDeblocked;				TODO section 3.2.20.6
 
 	// TODO : complete bPicDeblockConfined from parsing  Cf. page 37 spéc
 	m_PictureParams.bPicDeblockConfined			= (m_PictureParams.bPicIntra) ? VC1_REFPICFLAG : 0;
@@ -120,6 +118,11 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.wBitstreamPCEelements			= 0;	// TODO
 	m_PictureParams.bBitstreamConcealmentNeed		= 0;	// TODO
 	m_PictureParams.bBitstreamConcealmentMethod		= 0;	// TODO
+
+
+	// === Each frame!
+	m_PictureParams.bPicScanFixed					= 1;	// Use for status reporting sections 3.8.1 and 3.8.2
+	m_PictureParams.bPicScanMethod++;
 
 
 	// Send picture params to accelerator
@@ -137,13 +140,14 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	CHECK_HR (Execute());
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, !!m_PictureParams.bPicIntra, 0, rtStart, rtStop); 
+	AddToStore (nSurfaceIndex, pSampleToDeliver, !!m_PictureParams.bPicIntra, rtStart, rtStop); 
 
 	return DisplayNextFrame();
 }
 
 void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
+	FillVC1Context (&m_PictureParams, m_pFilter->GetAVCtx());
 }
 
 void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)

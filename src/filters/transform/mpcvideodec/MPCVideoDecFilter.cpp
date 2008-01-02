@@ -615,6 +615,7 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
 	int		nNewCodec;
+	bool	bIsAVC	= false;
 
 	nNewCodec = FindCodec(pmt);
 	if ((direction == PINDIR_INPUT) && (nNewCodec != -1) && (nNewCodec != m_nCodecNb))
@@ -660,9 +661,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->height	= abs(mpg2v->hdr.bmiHeader.biHeight);
 			m_pAVCtx->codec_tag	= mpg2v->hdr.bmiHeader.biCompression;
 
-			if (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1'))
+			if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
 			{
 				m_pAVCtx->nal_length_size = mpg2v->dwFlags;
+				bIsAVC = true;
 			}
 		}
 		
@@ -699,6 +701,13 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
+
+		if (bIsAVC)
+		{
+			// TODO : ugly code to force ffmpeg init (decode_init didn't read extra data...)
+			int got_picture;
+			ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, (uint8_t*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+		}
 	}
 
 	return __super::SetMediaType(direction, pmt);
@@ -873,18 +882,11 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
 
-void* CMPCVideoDecFilter::GetAVContextPrivateData()
-{
-	if (m_pAVCtx)
-		return m_pAVCtx->priv_data;
-	else
-		return NULL;
-}
-
 
 void CMPCVideoDecFilter::DecodeData (BYTE* pDataIn, int nSize)
 {
 	int		got_picture;
+
 	if (m_pAVCtx && m_pFrame)
 		ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
 }
