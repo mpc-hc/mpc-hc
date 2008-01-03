@@ -182,11 +182,11 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 	{
 	case ENGINE_DXVA1 :
 		DWORD		dwTypeIndex;
-		LONG		lDXVASize;
+		LONG		lStride;
 		dwTypeIndex = GetDXVA1CompressedType (CompressedBufferType);
 
-		TRACE ("Fill : %d - %d\n", dwTypeIndex, m_dwBufferIndex);
-		hr = m_pAMVideoAccelerator->GetBuffer(dwTypeIndex, m_dwBufferIndex, FALSE, (void**)&pDXVABuffer, &lDXVASize);	// TODO : Nb ??
+//		TRACE ("Fill : %d - %d\n", dwTypeIndex, m_dwBufferIndex);
+		hr = m_pAMVideoAccelerator->GetBuffer(dwTypeIndex, m_dwBufferIndex, FALSE, (void**)&pDXVABuffer, &lStride);
 		ASSERT (SUCCEEDED (hr));
 
 		if (SUCCEEDED (hr))
@@ -226,14 +226,13 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
 			m_ExecuteParams.NumCompBuffers++;
 
-			if (pRealSize) *pRealSize = nSize;
 		}
-
 		break;
 	default :
 		ASSERT (FALSE);
 		break;
 	}
+	if (pRealSize) *pRealSize = nSize;
 
 	return hr;
 }
@@ -341,14 +340,14 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 	case ENGINE_DXVA1 :
 		AMVABeginFrameInfo			BeginFrameInfo;
 
-		BeginFrameInfo.dwDestSurfaceIndex	= 0;
+		BeginFrameInfo.dwDestSurfaceIndex	= nSurfaceIndex;
 		BeginFrameInfo.dwSizeInputData		= sizeof(nSurfaceIndex);
 		BeginFrameInfo.pInputData			= &nSurfaceIndex;
 		BeginFrameInfo.dwSizeOutputData		= 0;
 		BeginFrameInfo.pOutputData			= NULL;
 		hr = m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo);
 		ASSERT (SUCCEEDED (hr));
-		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
+//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
 		if (SUCCEEDED (hr))
 			hr = FindFreeDXVA1Buffer (-1, m_dwBufferIndex);
 		break;
@@ -387,7 +386,7 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 		EndFrameInfo.dwSizeMiscData	= sizeof (dwDummy);		// TODO : usefull ??
 		EndFrameInfo.pMiscData		= &dwDummy;
 		hr = m_pAMVideoAccelerator->EndFrame(&EndFrameInfo);
-		TRACE ("EndFrame  %d\n",nSurfaceIndex);
+//		TRACE ("EndFrame  %d\n",nSurfaceIndex);
 		ASSERT (SUCCEEDED (hr));
 		break;
 
@@ -466,7 +465,6 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 			// For DXVA1, query a media sample at the last time (only one in the allocator)
 			hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
 			if (SUCCEEDED (hr)) hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
-			TRACE ("Deliver frame : %ld   %I64d\n", nPicIndex, m_pPictureStore[nPicIndex].rtStart);
 			break;
 		case ENGINE_DXVA2 :
 			// For DXVA2 media sample is in the picture store
