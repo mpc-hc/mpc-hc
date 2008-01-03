@@ -1533,7 +1533,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
 				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
-				TRACE ("RenderThread ==>> Presenting Cons=%d  Prod=%d\n", m_nCurSurface, m_nFreeSlot);
+//				TRACE ("RenderThread ==>> Presenting Cons=%d  Prod=%d\n", m_nCurSurface, m_nFreeSlot);
 				Paint(true);
 				m_pcFramesDrawn++;
 				InterlockedDecrement (&m_nUsedBuffer);
@@ -1547,11 +1547,11 @@ void CEVRAllocatorPresenter::RenderThread()
 
 					//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
 					// Wakup 1/2 refresh rate before next VSync!
-					lDelay = (UINT)((nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
+					lDelay = (UINT)((nsSampleTime + g_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
 
 					if (lDelay > 0)
 					{
-						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d  Prod=%d\n", lDelay, nsSampleTime, m_nCurSurface, m_nFreeSlot);
+//						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d  Prod=%d\n", lDelay, nsSampleTime, m_nCurSurface, m_nFreeSlot);
 						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 
 						// Update statistics
@@ -1561,7 +1561,7 @@ void CEVRAllocatorPresenter::RenderThread()
 					{
 						dwUser = -1;
 						if (m_nRenderState == Started) m_pcFrames++;
-						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d  Prod=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface, m_nFreeSlot);
+//						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d  Prod=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface, m_nFreeSlot);
 						SetEvent (m_hEvtPresent);
 					}
 				}

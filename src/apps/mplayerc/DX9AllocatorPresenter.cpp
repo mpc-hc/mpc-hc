@@ -234,7 +234,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	memset (m_pllJitter, 0, sizeof(m_pllJitter));
 	m_nNextJitter		= 0;
 	m_llLastPerf		= 0;
-	m_rtTimePerFrame	= 0;
 	m_fAvrFps			= 0.0;
 }
 
@@ -1111,19 +1110,17 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	// Calculate the jitter!
 	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
-	if ((m_rtTimePerFrame != 0) && (labs ((long)(llPerf - m_llLastPerf)) < m_rtTimePerFrame*3) )
+	if ((g_rtTimePerFrame != 0) && (labs ((long)(llPerf - m_llLastPerf)) < g_rtTimePerFrame*3) )
 	{
 		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
-		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame;
+		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - g_rtTimePerFrame;
 
 		// Calculate the real FPS
 		LONGLONG		llJitterSum = 0;
 		for (int i=0; i<NB_JITTER; i++)
 			llJitterSum += m_pllJitter[i];
-		m_fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
+		m_fAvrFps = 10000000.0/(llJitterSum/125 + g_rtTimePerFrame);
 	}
-	else
-		CalculateFrameRate();
 
 	m_llLastPerf = llPerf;
 
@@ -1179,7 +1176,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		}
 
 		// === Jitter curve
-		if (m_rtTimePerFrame)
+		if (g_rtTimePerFrame)
 		{
 			for (int i=0; i<NB_JITTER; i++)
 			{
@@ -1197,7 +1194,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		// === Text
 		CString		strText;
 
-		strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, m_rtTimePerFrame / 10);
+		strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, g_rtTimePerFrame / 10);
 		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 		OffsetRect (&rc, 0, 30);
@@ -1301,62 +1298,6 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader(LPCSTR pSrcData, LPCSTR pTar
 	Paint(true);
 
 	return S_OK;
-}
-
-void CDX9AllocatorPresenter::CalculateFrameRate (/*REFERENCE_TIME rtStart*/)
-{
-	CMediaType	mt;
-	HookCallConnectionMediaType (&mt);
-
-	if (mt.formattype==FORMAT_VideoInfo)
-		m_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
-	else if (mt.formattype==FORMAT_VideoInfo2)
-		m_rtTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
-	else if (mt.formattype==FORMAT_MPEGVideo)
-		m_rtTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
-	else if (mt.formattype==FORMAT_MPEG2Video)
-		m_rtTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
-	return;
-
-	//static REFERENCE_TIME	rtLast = 0;
-	//static int				nCount	= 0;
-
-	//REFERENCE_TIME		rtCurDuration = rtStart - rtLast;
-
-	//if (labs ((long)(rtCurDuration - m_rtCandidate)) <= 20000)
-	//{
-	//	if (nCount <= 6) nCount++;
-	//	if (nCount == 5)
-	//	{
-	//		if ( labs(long (rtCurDuration - 417080)) < FRAMERATE_MAX_DELTA)
-	//		{
-	//			m_rtTimePerFrame	= 417080;
-	//			m_fps				= 23.976;
-	//		}
-	//		else if (labs((long)(rtCurDuration - 400000)) < FRAMERATE_MAX_DELTA)
-	//		{
-	//			m_rtTimePerFrame	= 400000;
-	//			m_fps				= 25.000;
-	//		}
-	//		else if (labs((long)(rtCurDuration - 333600)) < FRAMERATE_MAX_DELTA)
-	//		{
-	//			m_rtTimePerFrame	= 333600;
-	//			m_fps				= 29.976;
-	//		}
-	//		else
-	//		{
-	//			m_rtTimePerFrame = rtCurDuration;
-	//			m_fps = 10000000.0 / m_rtTimePerFrame;
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	nCount = max (nCount-1, 0);
-	//	if (nCount == 0) m_rtCandidate = rtCurDuration;
-	//}
-
-	//rtLast = rtStart;
 }
 
 //
@@ -1895,8 +1836,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 
 	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
 	{
-		//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*lpPresInfo->rtStart*/);
-
 		if(m_pSubPicQueue)
 		{
 			m_pSubPicQueue->SetFPS(m_fps);

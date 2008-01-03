@@ -77,7 +77,7 @@ interface IMemInputPinC
 };
 
 extern bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPin);
-extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart;
+extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
 //
 
@@ -180,8 +180,6 @@ interface IAMVideoAcceleratorC
 };
 
 extern void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC);
-
-extern HRESULT	HookCallConnectionMediaType (AM_MEDIA_TYPE *pmt);
 
 // DXVA2 hooks
 extern void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService);

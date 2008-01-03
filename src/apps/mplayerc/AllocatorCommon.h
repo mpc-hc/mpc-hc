@@ -103,7 +103,6 @@ namespace DSObjects
 
 		void				DrawStats();
 		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-		void				CalculateFrameRate (/*REFERENCE_TIME rtStart*/);
 		virtual void			OnResetDevice() {};
 
 		int				m_nTearingPos;
@@ -120,7 +119,6 @@ namespace DSObjects
 		LONGLONG			m_pllJitter [NB_JITTER];		// Jitter buffer for stats
 		LONGLONG			m_llLastPerf;
 		int				m_nNextJitter;
-		REFERENCE_TIME			m_rtTimePerFrame;
 		REFERENCE_TIME			m_rtCandidate;
 
 		CString				m_strStatsMsg[10];
