@@ -64,8 +64,8 @@ BOOL CPPageSubDB::OnInitDialog()
 
 	m_ISDb = s.ISDb;
 	m_ISDbCombo.AddString(m_ISDb);
-	if(m_ISDb.CompareNoCase(_T("sub.sytes.net")))
-		m_ISDbCombo.AddString(_T("sub.sytes.net"));
+	if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb")))
+		m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
 
 	UpdateData(FALSE);
 
