@@ -459,29 +459,32 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 	nPicIndex = FindOldestFrame();
 	if (nPicIndex != -1)
 	{
-		switch (m_nEngine)
+		if (m_pPictureStore[nPicIndex].rtStart > 0)
 		{
-		case ENGINE_DXVA1 :
-			// For DXVA1, query a media sample at the last time (only one in the allocator)
-			hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
-			if (SUCCEEDED (hr)) hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
-			break;
-		case ENGINE_DXVA2 :
-			// For DXVA2 media sample is in the picture store
-			hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
-			break;
-		}
+			switch (m_nEngine)
+			{
+			case ENGINE_DXVA1 :
+				// For DXVA1, query a media sample at the last time (only one in the allocator)
+				hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
+				if (SUCCEEDED (hr)) hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
+				break;
+			case ENGINE_DXVA2 :
+				// For DXVA2 media sample is in the picture store
+				hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
+				break;
+			}
 
 
 #ifdef _DEBUG
-		static REFERENCE_TIME	rtLast = 0;
-		TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}   %d\n", 
-					m_pPictureStore[nPicIndex].rtStart, 
-					m_pPictureStore[nPicIndex].rtStop, 
-					m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 
-					m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex);
-		rtLast = m_pPictureStore[nPicIndex].rtStart;
+			static REFERENCE_TIME	rtLast = 0;
+			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d)  {Delta prev = %10I64d}   %d\n", 
+						m_pPictureStore[nPicIndex].rtStart, 
+						m_pPictureStore[nPicIndex].rtStop, 
+						m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 
+						m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex);
+			rtLast = m_pPictureStore[nPicIndex].rtStart;
 #endif
+		}
 
 		m_nWaitingPics--;
 
