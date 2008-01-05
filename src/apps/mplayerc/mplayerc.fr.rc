@@ -1490,8 +1490,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,1,0
- PRODUCTVERSION 1,0,1,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1508,12 +1508,12 @@ BEGIN
         BEGIN
             VALUE "Comments", "French satellite ressource for Media Player - Homecinema"
             VALUE "FileDescription", "Media Player Classic - Homecinema"
-            VALUE "FileVersion", "1, 0, 1, 0"
+            VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "Media Player Classic - Homecinema"
             VALUE "LegalCopyright", "Copyright (C) 2002-2007"
             VALUE "OriginalFilename", "mplayerc.EXE"
             VALUE "ProductName", "Media Player Classic"
-            VALUE "ProductVersion", "1, 0, 1, 0"
+            VALUE "ProductVersion", "1, 1, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -2938,6 +2938,37 @@ BEGIN
     IDS_OPEN_WITH_MPC       "Jouer avec MPC"
     IDS_CANNOT_CHANGE_FORMAT "Vous ne disposez pas des droits suffisants pour changer les associations des formats de fichiers. Veuillez cliquer sur le bouton ""Modifier"" pour donner les droits d'administration à Media Player Classic."
     IDS_APP_DESCRIPTION     "One of the most powerful, configurable multimedia players for Windows operating system since. Originaly made by Hungarian developer known as Gabest, this version have additionnal features such as Direct 3D fullscreen mode and better support for Vista."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_VDF_FFSETTINGS			"Configuration FFMpeg"
+    IDS_VDF_THREADNUMBER		"Nombre de thread"
+    IDS_VDF_SKIPDEBLOCK			"Pas de déblocage H264"
+    IDS_VDF_DBLK_NONE			"Jamais"
+    IDS_VDF_DBLK_DEFAULT		"Par défaut"
+    IDS_VDF_DBLK_NONREF			"Sauf référence"
+    IDS_VDF_DBLK_BIDIR			"Sauf bidirectionnelle"
+    IDS_VDF_DBLK_NONKFRM        "Sauf images clé"
+    IDS_VDF_DBLK_ALL			"Toutes les images"
+    IDS_VDF_ERROR_RESILIENCE	"Erreur de résilience"
+    IDS_VDF_ERR_CAREFUL			"Prudente"
+    IDS_VDF_ERR_COMPLIANT		"Par défaut"
+    IDS_VDF_ERR_AGGRESSIVE		"Aggréssive"
+    IDS_VDF_ERR_VERYAGGRESSIVE  "Très aggréssive"
+    IDS_VDF_IDCT_ALGO			"Algorithme IDCT"
+    IDS_VDF_IDCT_AUTO           "Automatique"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_VDF_IDCT_LIBMPG2		"MMX Lib Mpeg2"
+    IDS_VDF_IDCT_SIMPLE_MMX		"MMX Simple"
+    IDS_VDF_IDCT_SKAL			"SKAL"
+    IDS_VDF_IDCT_SIMPLE			"Simple"
+    IDS_VDF_DXVA_SETTING		"Configuration DXVA"
+    IDS_VDF_DXVA_ENABLE			"Activer DXVA"
+    IDS_VDF_DXVA_MODE			"Mode DXVA"
 END
 
 #endif    // French (France) resources
