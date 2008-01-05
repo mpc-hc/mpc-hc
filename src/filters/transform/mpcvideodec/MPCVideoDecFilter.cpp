@@ -476,7 +476,7 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 {
-	return false;	// TODO
+	return false; // TODO
 };
 
 
