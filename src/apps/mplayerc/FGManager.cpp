@@ -1720,8 +1720,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ3);
-//		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 	}
+#ifdef _DEBUG
+	if (tra & TRA_WVC1)
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
+	}
+#endif
 	if (tra & TRA_XVID)
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVID);
@@ -1848,8 +1853,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_SVQ3);
-//		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 	}
+#ifdef _DEBUG
+	if (!(tra & TRA_WVC1))
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
+	}
+#endif
 	if (!(tra & TRA_XVID))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_XVID);

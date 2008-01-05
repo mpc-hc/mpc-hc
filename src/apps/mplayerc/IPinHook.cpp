@@ -35,13 +35,14 @@
 REFERENCE_TIME		g_tSegmentStart			= 0;
 REFERENCE_TIME		g_tSampleStart			= 0;
 REFERENCE_TIME		g_rtTimePerFrame		= 0;
-int					g_nCurrentDXVA2Decoder	= 0;
+GUID				g_guidDXVADecoder		= GUID_NULL;
 int					g_nDXVAVersion			= 0;
 
 IPinCVtbl*			g_pPinCVtbl				= NULL;
 IMemInputPinCVtbl*	g_pMemInputPinCVtbl		= NULL;
 IPinC*				g_pPinC					= NULL;
 
+/*
 typedef struct
 {
   const GUID*			Guid;
@@ -74,7 +75,7 @@ const DXVA2_DECODER DXVA2Decoder[] =
 	{ &DXVA2_ModeWMV9_B,		_T("WMV9 motion compensation") },
 	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT") },
 };
-
+*/
 
 typedef struct
 {
@@ -143,21 +144,12 @@ const LPCTSTR		DXVAVersion[] = { _T("DXVA "), _T("DXVA1"), _T("DXVA2") };
 
 LPCTSTR GetDXVADecoderDescription()
 {
-	return DXVA2Decoder[g_nCurrentDXVA2Decoder].Description;
+	return GetDXVAMode (&g_guidDXVADecoder);
 }
 
 LPCTSTR GetDXVAVersion()
 {
 	return DXVAVersion[g_nDXVAVersion];
-}
-
-int FindDXVA2Decoder(const GUID& DecoderGuid)
-{
-	for (int i=0; i<countof(DXVA2Decoder); i++)
-		if (DecoderGuid == *DXVA2Decoder[i].Guid)
-			return i;
-
-	return 0;
 }
 
 LPCTSTR FindD3DFormat(const D3DFORMAT Format)
@@ -531,8 +523,8 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC * Th
 
 	if(pGuid)
 	{
-		g_nCurrentDXVA2Decoder  = FindDXVA2Decoder (*pGuid);
-		g_nDXVAVersion			= 1;
+		g_guidDXVADecoder	= *pGuid;
+		g_nDXVAVersion		= 1;
 		LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
 
 		if(pdwNumTypesCompBuffers)
@@ -788,8 +780,8 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 	DWORD flOldProtect = 0;
 	res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_WRITECOPY, &flOldProtect);
 
-	g_nCurrentDXVA2Decoder	= 0;
-	g_nDXVAVersion			= 0;
+	g_guidDXVADecoder	= GUID_NULL;
+	g_nDXVAVersion		= 0;
 
 	if(GetVideoAcceleratorGUIDsOrg == NULL) GetVideoAcceleratorGUIDsOrg = pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs;
 	if(GetUncompFormatsSupportedOrg == NULL) GetUncompFormatsSupportedOrg = pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported;
@@ -849,16 +841,13 @@ class CFaceDirectXVideoDecoder : public CUnknown, public IDirectXVideoDecoder
 {
 private :
 	CComPtr<IDirectXVideoDecoder>		m_pDec;
-	int									m_nDXVA2Decoder;
 	BYTE*								m_ppBuffer[MAX_BUFFER_TYPE];
 	UINT								m_ppBufferLen[MAX_BUFFER_TYPE];
 
 public :
-		CFaceDirectXVideoDecoder(int nDXVA2Decoder, LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk)
+		CFaceDirectXVideoDecoder(LPUNKNOWN pUnk, IDirectXVideoDecoder* pDec) : CUnknown(_T("Fake DXVA2 Dec"), pUnk)
 		{
 			m_pDec.Attach (pDec);
-			m_nDXVA2Decoder	= nDXVA2Decoder;
-
 			memset (m_ppBuffer, 0, sizeof(m_ppBuffer));
 		}
 
@@ -1102,12 +1091,7 @@ static void LogVideoCardCaps(IDirectXVideoDecoderService* pDecoderService)
         // Look for the decoder GUIDs we want.
         for (UINT iGuid = 0; iGuid < cDecoderGuids; iGuid++)
         {
-			int		nSupportedMode = FindDXVA2Decoder (pDecoderGuids[iGuid]);
-			
-			if (nSupportedMode != -1)
-				LOG (_T("=== New mode : %s"), DXVA2Decoder[nSupportedMode].Description);
-			else
-				LOG (_T("=== New mode : %s"), CStringFromGUID(pDecoderGuids[iGuid]));
+			LOG (_T("=== New mode : %s"), GetDXVAMode (&pDecoderGuids[iGuid]));
 
             // Find a configuration that we support. 
 			UINT						cFormats = 0;
@@ -1164,8 +1148,8 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 {
 //	DebugBreak();
 //	((DXVA2_VideoDesc*)pVideoDesc)->Format = (D3DFORMAT)0x3231564E;
-	g_nCurrentDXVA2Decoder  = FindDXVA2Decoder (Guid);
-	g_nDXVAVersion			= 2;
+	g_guidDXVADecoder	= Guid;
+	g_nDXVAVersion		= 2;
 
 
 #ifdef _DEBUG
@@ -1177,13 +1161,13 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 	HRESULT hr = CreateVideoDecoderOrg(pThis, Guid, pVideoDesc, pConfig, ppDecoderRenderTargets, NumRenderTargets, ppDecode);
 
 	if (FAILED (hr))
-		g_nCurrentDXVA2Decoder = 0;
+		g_guidDXVADecoder	= GUID_NULL;
 	else
 	{
 #ifdef _DEBUG
 		if (Guid == DXVA2_ModeH264_E)
 		{
-			*ppDecode	= new CFaceDirectXVideoDecoder (g_nCurrentDXVA2Decoder, NULL, *ppDecode);
+			*ppDecode	= new CFaceDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();
 		}
 
@@ -1192,10 +1176,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 #endif
 	}
 
-	if (g_nCurrentDXVA2Decoder != 0)
-		LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets) hr = %08x"), DXVA2Decoder[g_nCurrentDXVA2Decoder].Description, NumRenderTargets, hr);
-	else
-		LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets) hr = %08x"), CStringFromGUID(Guid), NumRenderTargets, hr);
+	LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets) hr = %08x"), GetDXVAMode(&g_guidDXVADecoder), NumRenderTargets, hr);
 
 	return hr;
 }
@@ -1232,7 +1213,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 
 		g_pIDirectXVideoDecoderServiceCVtbl	= NULL;
 		CreateVideoDecoderOrg				= NULL;
-		g_nCurrentDXVA2Decoder				= 0;
+		g_guidDXVADecoder					= GUID_NULL;
 		g_nDXVAVersion						= 0;
 	}
 

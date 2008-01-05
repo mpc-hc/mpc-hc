@@ -2743,7 +2743,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		Version.Create (strSatellite);
 		strSatVersion = Version.GetFileVersionEx();
 
-		if (strSatVersion == _T("1.0.1.0"))
+		if (strSatVersion == _T("1.1.0.0"))
 			hMod = LoadLibrary (strSatellite);
 		else
 		{
