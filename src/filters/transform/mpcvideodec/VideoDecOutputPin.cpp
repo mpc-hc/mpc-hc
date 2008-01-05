@@ -185,7 +185,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 		memcpy (&UncompInfo.ddUncompPixelFormat, m_pVideoDecFilter->GetPixelFormat(), sizeof (DDPIXELFORMAT));
 		UncompInfo.dwUncompHeight		= m_pVideoDecFilter->PictHeight();
 		UncompInfo.dwUncompWidth		= m_pVideoDecFilter->PictWidth();
-		hr = pAMVideoAccelerator->GetCompBufferInfo(m_pVideoDecFilter->GetDXVADecoderGUID(), &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
+		hr = pAMVideoAccelerator->GetCompBufferInfo(m_pVideoDecFilter->GetDXVADecoderGuid(), &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
 
 		if (SUCCEEDED (hr))
 		{
@@ -194,7 +194,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 			if (SUCCEEDED (hr))
 			{
 				pConnectMode					= (DXVA_ConnectMode*)CoTaskMemAlloc (sizeof(DXVA_ConnectMode));
-				pConnectMode->guidMode			= *m_pVideoDecFilter->GetDXVADecoderGUID();
+				pConnectMode->guidMode			= *m_pVideoDecFilter->GetDXVADecoderGuid();
 				pConnectMode->wRestrictedMode	= m_pVideoDecFilter->GetDXVA1RestrictedMode();
 				*pdwSizeMiscData				= sizeof(DXVA_ConnectMode);
 				*ppMiscData						= pConnectMode;

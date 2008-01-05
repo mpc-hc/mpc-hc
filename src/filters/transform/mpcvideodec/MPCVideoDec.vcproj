@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -345,6 +345,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libavcodecD.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
@@ -406,7 +407,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib libdtsD.lib liba52D.lib"
+				AdditionalDependencies="libavcodecD.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>
@@ -464,7 +465,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib libdtsR.lib liba52R.lib"
+				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
@@ -525,7 +526,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib libdtsR.lib liba52R.lib"
+				AdditionalDependencies="libavcodecR.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>

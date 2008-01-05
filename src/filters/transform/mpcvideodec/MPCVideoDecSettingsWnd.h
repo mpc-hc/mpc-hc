@@ -43,7 +43,8 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	
 	CButton		m_grpDXVA;
 	CButton		m_chkEnableDXVA;
-	CButton		m_chkEnableDeblocking;
+	CStatic		m_txtDXVAMode;
+	CEdit		m_edtDXVAMode;
 
 	enum 
 	{

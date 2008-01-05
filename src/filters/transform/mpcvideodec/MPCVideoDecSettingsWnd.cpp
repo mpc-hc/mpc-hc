@@ -27,6 +27,30 @@
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
+#define IDS_VDF_FFSETTINGS				33167
+#define IDS_VDF_THREADNUMBER			33168
+#define IDS_VDF_SKIPDEBLOCK				33169
+#define IDS_VDF_DBLK_NONE				33170
+#define IDS_VDF_DBLK_DEFAULT			33171
+#define IDS_VDF_DBLK_NONREF				33172
+#define IDS_VDF_DBLK_BIDIR				33173
+#define IDS_VDF_DBLK_NONKFRM			33174
+#define IDS_VDF_DBLK_ALL				33175
+#define IDS_VDF_ERROR_RESILIENCE		33176
+#define IDS_VDF_ERR_CAREFUL				33177
+#define IDS_VDF_ERR_COMPLIANT			33178
+#define IDS_VDF_ERR_AGGRESSIVE			33179
+#define IDS_VDF_ERR_VERYAGGRESSIVE		33180
+#define IDS_VDF_IDCT_ALGO				33181
+#define IDS_VDF_IDCT_AUTO				33182
+#define IDS_VDF_IDCT_AUTO				33182
+#define IDS_VDF_IDCT_LIBMPG2			33183
+#define IDS_VDF_IDCT_SIMPLE_MMX			33184
+#define IDS_VDF_IDCT_SKAL				33185
+#define IDS_VDF_IDCT_SIMPLE				33186
+#define IDS_VDF_DXVA_SETTING			33187
+#define IDS_VDF_DXVA_ENABLE				33188
+#define IDS_VDF_DXVA_MODE				33189
 
 //
 
@@ -83,11 +107,11 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	DWORD	dwStyle = WS_VISIBLE|WS_CHILD|WS_BORDER;
 	int		nPosY	= 10;
 
-	m_grpFFMpeg.Create (_T("FFMpeg settings"), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
+	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
 
 	// Decoding frame number
 	nPosY += VERTICAL_SPACING;
-	m_txtThreadNumber.Create (_T("Decoding thread number"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 260, nPosY+8), this, IDC_PP_THREAD_NUMBER);
 	m_cbThreadNumber.AddString (_T("1"));
 	m_cbThreadNumber.AddString (_T("2"));
@@ -98,45 +122,48 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 	// H264 deblocking mode
 	nPosY += VERTICAL_SPACING;
-	m_txtDiscardMode.Create (_T("H264 skip deblocking mode"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_txtDiscardMode.Create (ResStr (IDS_VDF_SKIPDEBLOCK), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbDiscardMode.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
-	m_cbDiscardMode.AddString (_T("None"));
-	m_cbDiscardMode.AddString (_T("Default"));
-	m_cbDiscardMode.AddString (_T("Non Reference"));
-	m_cbDiscardMode.AddString (_T("Bidirectional"));
-	m_cbDiscardMode.AddString (_T("Non keyframes"));
-	m_cbDiscardMode.AddString (_T("All frames"));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONE));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_DEFAULT));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONREF));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_BIDIR));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONKFRM));
+	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
 	
 	// Error resilience
 	nPosY += VERTICAL_SPACING;
-	m_txtErrorResilience.Create (_T("Error resilience"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_txtErrorResilience.Create (ResStr (IDS_VDF_ERROR_RESILIENCE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbErrorResilience.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
-	m_cbErrorResilience.AddString (_T("Careful"));
-	m_cbErrorResilience.AddString (_T("Compliant"));
-	m_cbErrorResilience.AddString (_T("Aggressive"));
-	m_cbErrorResilience.AddString (_T("Very aggressive"));
+	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_CAREFUL));
+	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_COMPLIANT));
+	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_AGGRESSIVE));
+	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_VERYAGGRESSIVE));
 
 	// IDCT Algo
 	nPosY += VERTICAL_SPACING;
-	m_txtIDCTAlgo.Create (_T("IDCT Algorithm"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_txtIDCTAlgo.Create (ResStr (IDS_VDF_IDCT_ALGO), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbIDCTAlgo.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+8), this, IDC_PP_DISCARD_MODE);
-	m_cbIDCTAlgo.AddString (_T("Auto"));
-	m_cbIDCTAlgo.AddString (_T("Lib Mpeg2 MMX"));
-	m_cbIDCTAlgo.AddString (_T("Simple MMX"));
-	m_cbIDCTAlgo.AddString (_T("SKAL"));
-	m_cbIDCTAlgo.AddString (_T("Simple"));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_AUTO));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_LIBMPG2));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SKAL));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
 
 
 	nPosY = 170;
-	m_grpDXVA.Create   (_T("DXVA settings"),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
+	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
 	nPosY += VERTICAL_SPACING;
 
 	// Enable DXVA
-	m_chkEnableDXVA.Create (_T("Enable DXVA"), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DXVA);
+	m_chkEnableDXVA.Create (ResStr (IDS_VDF_DXVA_ENABLE), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DXVA);
 
-	// Enable deblocking
+	// DXVA mode
 	nPosY += VERTICAL_SPACING;
-	m_chkEnableDeblocking.Create (_T("Enable deblocking"), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|WS_DISABLED, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DEBLOCKING);
+//	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|WS_DISABLED, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DEBLOCKING);
+	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_edtDXVAMode.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED|WS_BORDER, CRect (140,  nPosY, 315, nPosY+20), this, 0);
+	m_edtDXVAMode.SetWindowText (GetDXVAMode (m_pMDF->GetDXVADecoderGuid()));
 
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())

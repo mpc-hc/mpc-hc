@@ -160,24 +160,18 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			break;
 
 		case NALU_TYPE_PPS :
-			m_pFilter->DecodeData (pDataSlice, nSliceSize);
-			FFH264UpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
-
-			pDataSlice	+= Nalu.len;
-			nSliceSize	-= Nalu.len;
-			break;
 		case NALU_TYPE_SPS :
 			m_pFilter->DecodeData (pDataSlice, nSliceSize);
 			FFH264UpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
+			break;
+		}
 
+		if (!bSliceFound)
+		{
+			if (Nalu.len > nSliceSize) 
+				return E_INVALIDARG;
 			pDataSlice	+= Nalu.len;
 			nSliceSize	-= Nalu.len;
-			break;
-
-		default :
-			pDataSlice	+= Nalu.len;
-			nSliceSize	-= Nalu.len;
-			break;
 		}
 	}
 

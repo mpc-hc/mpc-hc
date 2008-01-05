@@ -381,6 +381,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
 	m_rtAvrTimePerFrame		= 0;
+	m_DXVADecoderGUID		= GUID_NULL;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -1413,4 +1414,7 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nIDCTAlgo;
 }
-
+STDMETHODIMP_(GUID*) CMPCVideoDecFilter::GetDXVADecoderGuid()
+{
+	return &m_DXVADecoderGUID;
+}

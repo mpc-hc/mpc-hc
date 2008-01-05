@@ -41,4 +41,6 @@ interface IMPCVideoDecFilter : public IUnknown
 
 	STDMETHOD(SetIDCTAlgo(int nValue)) = 0;
 	STDMETHOD_(int, GetIDCTAlgo()) = 0;
+
+	STDMETHOD_(GUID*, GetDXVADecoderGuid()) = 0;
 };
