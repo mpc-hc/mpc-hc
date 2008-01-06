@@ -25,6 +25,9 @@
 #include <winddk\ntddcdrm.h>
 #include "DSUtil.h"
 #include <moreuuids.h>
+#include <d3dx9.h>
+#include <dxva.h>
+#include <dxva2api.h>
 
 void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
@@ -2219,4 +2222,55 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlLi
 void UnRegisterSourceFilter(const GUID& subtype)
 {
 	DeleteRegKey(_T("Media Type\\") + CStringFromGUID(MEDIATYPE_Stream), CStringFromGUID(subtype));
+}
+
+
+typedef struct
+{
+  const GUID*			Guid;
+  const LPCTSTR			Description;
+} DXVA2_DECODER;
+
+static const DXVA2_DECODER DXVA2Decoder[] = 
+{
+	{ &GUID_NULL,				_T("Unknown") },
+	{ &GUID_NULL,				_T("Not using DXVA") },
+	{ &DXVA2_ModeH264_A,		_T("H.264 motion compensation, no FGT") },
+	{ &DXVA2_ModeH264_B,		_T("H.264 motion compensation, FGT") },
+	{ &DXVA2_ModeH264_C,		_T("H.264 IDCT, no FGT") },
+	{ &DXVA2_ModeH264_D,		_T("H.264 IDCT, FGT") },
+	{ &DXVA2_ModeH264_E,		_T("H.264 bitstream decoder, no FGT") },
+	{ &DXVA2_ModeH264_F,		_T("H.264 bitstream decoder, FGT") },
+	{ &DXVA2_ModeMPEG2_IDCT,	_T("MPEG-2 IDCT") },
+	{ &DXVA2_ModeMPEG2_MoComp,	_T("MPEG-2 motion compensation") },
+	{ &DXVA2_ModeMPEG2_VLD,		_T("MPEG-2 variable-length decoder") },
+	{ &DXVA_ModeMPEG2_A,		_T("MPEG-2 A") },	// TODO : find label !!!
+	{ &DXVA_ModeMPEG2_B,		_T("MPEG-2 B") },
+	{ &DXVA_ModeMPEG2_C,		_T("MPEG-2 IDCT") },
+	{ &DXVA_ModeMPEG2_D,		_T("MPEG-2 D") },
+	{ &DXVA2_ModeVC1_A,			_T("VC-1 post processing") },
+	{ &DXVA2_ModeVC1_B,			_T("VC-1 motion compensation") },
+	{ &DXVA2_ModeVC1_C,			_T("VC-1 IDCT") },
+	{ &DXVA2_ModeVC1_D,			_T("VC-1 bitstream decoder") },
+	{ &DXVA2_ModeWMV8_A,		_T("WMV 8 post processing.") }, 
+	{ &DXVA2_ModeWMV8_B,		_T("WMV8 motion compensation") },
+	{ &DXVA2_ModeWMV9_A,		_T("WMV9 post processing") },
+	{ &DXVA2_ModeWMV9_B,		_T("WMV9 motion compensation") },
+	{ &DXVA2_ModeWMV9_C,		_T("WMV9 IDCT") },
+};
+
+LPCTSTR GetDXVAMode(const GUID* guidDecoder)
+{
+	int			nPos = 0;
+
+	for (int i=1; i<countof(DXVA2Decoder); i++)
+	{
+		if (*guidDecoder == *DXVA2Decoder[i].Guid)
+		{
+			nPos = i;
+			break;
+		}
+	}
+
+	return DXVA2Decoder[nPos].Description;
 }
