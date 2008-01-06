@@ -1,5 +1,5 @@
 /* 
- * $Id: H264QuantizationMatrix.h 249 2007-09-26 11:07:22Z casimir666 $
+ * $Id$
  *
  * (C) 2006-2007 see AUTHORS
  *
