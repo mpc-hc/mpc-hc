@@ -381,6 +381,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
 	m_rtAvrTimePerFrame		= 0;
+	m_bIsAVC				= false;
 	m_DXVADecoderGUID		= GUID_NULL;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
@@ -616,13 +617,13 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
 	int		nNewCodec;
-	bool	bIsAVC	= false;
 
 	nNewCodec = FindCodec(pmt);
 	if ((direction == PINDIR_INPUT) && (nNewCodec != -1) && (nNewCodec != m_nCodecNb))
 	{
 		m_nCodecNb	= nNewCodec;
 
+		m_bIsAVC	= false;
 		m_pAVCodec	= ff_avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 		CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
@@ -665,7 +666,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
 			{
 				m_pAVCtx->nal_length_size = mpg2v->dwFlags;
-				bIsAVC = true;
+				m_bIsAVC = true;
 			}
 		}
 		
@@ -703,7 +704,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
 
-		if (bIsAVC)
+		if (m_bIsAVC)
 		{
 			// TODO : ugly code to force ffmpeg init (decode_init didn't read extra data...)
 			int got_picture;
@@ -922,7 +923,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		rtStop  = m_pFrame->rtStart + m_rtAvrTimePerFrame;
 
 		// Re-order B-frames if needed
-		if (m_pAVCtx->has_b_frames)
+		if (m_pAVCtx->has_b_frames && !m_bIsAVC)
 		{
 			rtStart	= m_BFrames [m_nPosB].rtStart;
 			rtStop	= m_BFrames [m_nPosB].rtStop;

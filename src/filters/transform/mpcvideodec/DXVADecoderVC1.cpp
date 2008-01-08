@@ -82,8 +82,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.wForwardRefPictureIndex			= VC1_NO_REF;	// TODO
 	m_PictureParams.wBackwardRefPictureIndex		= VC1_NO_REF;	// TODO
 
-	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  / 16;	// TODO
-	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() / 16;	// TODO
+	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  / 16 - 1;	// TODO
+	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() / 16 - 1;	// TODO
 	m_PictureParams.bMacroblockWidthMinus1			= 15;
 	m_PictureParams.bMacroblockHeightMinus1			= 15;
 	m_PictureParams.bBlockWidthMinus1				= 7;
@@ -95,6 +95,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	//m_PictureParams.bSecondField;
 	m_PictureParams.bPicIntra						= 1;		// TODO!
 	//m_PictureParams.bPicBackwardPrediction;
+	//m_PictureParams.bBidirectionalAveragingMode	each frame
 
 	m_PictureParams.bMVprecisionAndChromaRelation	= VC1_CR_BICUBIC_QUARTER_CHROMA;;
 	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
@@ -102,6 +103,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.bPicReadbackRequests			= 0;
 
 	m_PictureParams.bRcontrol						= 0;
+	// bPicSpatialResid8
+	// bPicOverflowBlocks
 	m_PictureParams.bPicExtrapolation				= (m_PictureParams.bPicStructure == VC1_PS_PROGRESSIVE) ? 1 : 0;;
 
 
@@ -109,10 +112,12 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.bPicDeblockConfined			= (m_PictureParams.bPicIntra) ? VC1_REFPICFLAG : 0;
 	m_PictureParams.bPic4MVallowed					= 0;	// TODO
 	//m_PictureParams.bPicOBMC;
-	m_PictureParams.bPicBinPB						= 3;	// TODO
+	m_PictureParams.bPicBinPB						= 0;	// TODO
 	m_PictureParams.bMV_RPS							= 0;	// TODO
 
 	//m_PictureParams.bReservedBits;
+	m_PictureParams.wBitstreamFcodes				= 32;	// TODO
+
 
 	m_PictureParams.wBitstreamFcodes				= 0;	// TODO
 	m_PictureParams.wBitstreamPCEelements			= 0;	// TODO
@@ -122,7 +127,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	// === Each frame!
 	m_PictureParams.bPicScanFixed					= 1;	// Use for status reporting sections 3.8.1 and 3.8.2
-	m_PictureParams.bPicScanMethod++;
+	m_PictureParams.bPicScanMethod= 0;
 
 
 	// Send picture params to accelerator
