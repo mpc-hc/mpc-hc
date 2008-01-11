@@ -45,7 +45,11 @@
 #include <atlcoll.h>
 #include <vector>
 
-void LOG(LPCTSTR fmt, ...);
+#ifdef _DEBUG
+	void LOG(LPCTSTR fmt, ...);
+#else
+	inline void LOG(LPCTSTR fmt, ...) {}
+#endif
 
 #define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) return hr;
 

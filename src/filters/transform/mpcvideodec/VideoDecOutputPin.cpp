@@ -175,7 +175,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 {
 	HRESULT								hr						= E_UNEXPECTED;
 	AMVAUncompDataInfo					UncompInfo;
-	AMVACompBufferInfo					CompInfo[16];
+	AMVACompBufferInfo					CompInfo[30];
 	DWORD								dwNumTypesCompBuffers	= countof(CompInfo);
 	CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator		= GetConnected();
 	DXVA_ConnectMode*					pConnectMode;	

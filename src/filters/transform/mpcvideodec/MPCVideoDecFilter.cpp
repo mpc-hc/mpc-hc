@@ -490,7 +490,8 @@ int CMPCVideoDecFilter::PictWidth()
 
 int CMPCVideoDecFilter::PictHeight()
 {
-	return m_pAVCtx ? m_pAVCtx->height + (m_pAVCtx->height % 16): 0;
+	// Picture height should be rounded to 16 for DXVA
+	return m_pAVCtx ? ((m_pAVCtx->height + 15) / 16) * 16: 0;
 }
 
 
@@ -703,13 +704,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
-
-		if (m_bIsAVC)
-		{
-			// TODO : ugly code to force ffmpeg init (decode_init didn't read extra data...)
-			int got_picture;
-			ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, (uint8_t*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
-		}
 	}
 
 	return __super::SetMediaType(direction, pmt);
@@ -882,15 +876,6 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	if (m_pDXVADecoder)
 		m_pDXVADecoder->Flush();
 	return __super::NewSegment (rtStart, rtStop, dRate);
-}
-
-
-void CMPCVideoDecFilter::DecodeData (BYTE* pDataIn, int nSize)
-{
-	int		got_picture;
-
-	if (m_pAVCtx && m_pFrame)
-		ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
 }
 
 

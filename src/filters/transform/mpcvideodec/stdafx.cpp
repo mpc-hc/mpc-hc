@@ -25,6 +25,8 @@
 
 #define LOG_FILE				_T("dxva.log")
 
+#ifdef _DEBUG
+
 void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
@@ -42,3 +44,5 @@ void LOG(LPCTSTR fmt, ...)
 	}
 	va_end(args);
 }
+
+#endif

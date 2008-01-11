@@ -161,8 +161,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
-			m_pFilter->DecodeData (pDataSlice, nSliceSize);
-			FFH264UpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx());
+			FFH264UpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice, nSliceSize);
 			break;
 		}
 
@@ -211,7 +210,7 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
-	FFH264UpdatePictureParam (true, &m_DXVAPicParams, &m_DXVAScalingMatrix, pAVCtx);
+	FFH264UpdatePictureParam (true, &m_DXVAPicParams, &m_DXVAScalingMatrix, pAVCtx, pDataIn, nSize);
 }
 
 

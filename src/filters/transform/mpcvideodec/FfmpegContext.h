@@ -26,7 +26,7 @@
 
 struct AVCodecContext;
 
-void FFH264UpdatePictureParam (int bInit, DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx);
-HRESULT  FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
+void		FFH264UpdatePictureParam (int bInit, DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
+HRESULT		FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 
 void FillVC1Context	 (DXVA_PictureParameters* pPicParams,	struct AVCodecContext* pAVCtx);
