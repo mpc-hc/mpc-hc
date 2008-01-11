@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -98,9 +97,9 @@ typedef struct {
 /**
  * A node in the subpacket list
  */
-typedef struct _QDM2SubPNode {
+typedef struct QDM2SubPNode {
     QDM2SubPacket *packet;      ///< packet
-    struct _QDM2SubPNode *next; ///< pointer to next packet in the list, NULL if leaf node
+    struct QDM2SubPNode *next; ///< pointer to next packet in the list, NULL if leaf node
 } QDM2SubPNode;
 
 typedef struct {

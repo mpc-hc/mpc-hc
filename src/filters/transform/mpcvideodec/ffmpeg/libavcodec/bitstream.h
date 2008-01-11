@@ -23,8 +23,8 @@
  * bitstream api header.
  */
 
-#ifndef BITSTREAM_H
-#define BITSTREAM_H
+#ifndef FFMPEG_BITSTREAM_H
+#define FFMPEG_BITSTREAM_H
 
 #include "libavutil/log.h"
 #include "libavutil/bswap.h"
@@ -942,4 +942,11 @@ static inline int decode012(GetBitContext *gb){
         return get_bits1(gb) + 1;
 }
 
-#endif /* BITSTREAM_H */
+static inline int decode210(GetBitContext *gb){
+    if (get_bits1(gb))
+        return 0;
+    else
+        return 2 - get_bits1(gb);
+}
+
+#endif /* FFMPEG_BITSTREAM_H */

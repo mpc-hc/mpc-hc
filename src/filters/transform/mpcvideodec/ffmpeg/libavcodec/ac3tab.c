@@ -71,14 +71,6 @@ const uint16_t ff_ac3_frame_size_tab[38][3] = {
     { 1280, 1394, 1920 },
 };
 
-/**
- * Maps audio coding mode (acmod) to number of full-bandwidth channels.
- * from ATSC A/52 Table 5.8 Audio Coding Mode
- */
-const uint8_t ff_ac3_channels_tab[8] = {
-    2, 1, 2, 3, 3, 4, 4, 5
-};
-
 /* possible frequencies */
 const uint16_t ff_ac3_sample_rate_tab[3] = { 48000, 44100, 32000 };
 

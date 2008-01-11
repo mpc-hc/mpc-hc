@@ -27,8 +27,8 @@
  * MSMPEG4 data tables.
  */
 
-#ifndef MSMPEG4DATA_H
-#define MSMPEG4DATA_H
+#ifndef FFMPEG_MSMPEG4DATA_H
+#define FFMPEG_MSMPEG4DATA_H
 
 #include "common.h"
 #include "bitstream.h"
@@ -67,7 +67,7 @@ extern const uint8_t inter_MCBPC_bits[28];
 
 #define WMV1_SCANTABLE_COUNT 4
 
-extern const uint8_t *wmv1_scantable[WMV1_SCANTABLE_COUNT+1];
+extern const uint8_t wmv1_scantable[WMV1_SCANTABLE_COUNT][64];
 
 #define NB_RL_TABLES  6
 
@@ -97,4 +97,4 @@ extern const uint32_t (*wmv2_inter_table[WMV2_INTER_CBP_TABLE_COUNT])[2];
 extern const uint8_t wmv2_scantableA[64];
 extern const uint8_t wmv2_scantableB[64];
 
-#endif /* MSMPEG4DATA_H */
+#endif /* FFMPEG_MSMPEG4DATA_H */

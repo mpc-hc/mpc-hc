@@ -3194,6 +3194,7 @@ static void flush_dpb(AVCodecContext *avctx){
         h->s.current_picture_ptr->reference= 0;
     h->s.first_field= 0;
     ff_mpeg_flush(avctx);
+    h->first_I_frame_detected = 0;
 }
 
 /**
@@ -3829,6 +3830,15 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
         return -1;
     }
 
+    // ffdshow custom code
+    if (s->pict_type == I_TYPE){
+        h->first_I_frame_detected = 1;
+    } else if (s->pict_type == P_TYPE && !h->first_I_frame_detected) {
+        av_log(h->s.avctx, AV_LOG_ERROR,
+               "P picture before first I picture, skipping\n");
+        return -1;
+    }
+
     pps_id= get_ue_golomb(&s->gb);
     if(pps_id>=MAX_PPS_COUNT){
         av_log(h->s.avctx, AV_LOG_ERROR, "pps_id out of range\n");
@@ -4033,6 +4043,8 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             h->direct_spatial_mv_pred= get_bits1(&s->gb);
             if(FIELD_OR_MBAFF_PICTURE && h->direct_spatial_mv_pred)
                 av_log(h->s.avctx, AV_LOG_ERROR, "Interlaced pictures + spatial direct mode is not implemented\n");
+            else
+                h->is_valid_direct_spatial_mv_pred = 1; // ffdshow custom code
         }
         num_ref_idx_active_override_flag= get_bits1(&s->gb);
 
@@ -7257,21 +7269,21 @@ static inline int decode_seq_parameter_set(H264Context *h){
     sps->profile_idc= profile_idc;
     sps->level_idc= level_idc;
 
-	// ==> Start patch MPC Fidelity Range Extensions stuff
-	sps->chroma_format_idc = 1;
-	sps->bit_depth_luma   = 8;	//	bit_depth_luma_minus8
-	sps->bit_depth_chroma = 8;	// bit_depth_chroma_minus8
-	sps->residual_colour_transform_flag = 0;
-	// <== End patch MPC
+    // ==> Start patch MPC Fidelity Range Extensions stuff
+    sps->chroma_format_idc = 1;
+    sps->bit_depth_luma   = 8;  // bit_depth_luma_minus8
+    sps->bit_depth_chroma = 8;  // bit_depth_chroma_minus8
+    sps->residual_colour_transform_flag = 0;
+    // <== End patch MPC
 
     if(sps->profile_idc >= 100){ //high profile
-		// ==> Start patch MPC
-		sps->chroma_format_idc = get_ue_golomb(&s->gb);	//chroma_format_idc
-        if(sps->chroma_format_idc == 3) 
+    // ==> Start patch MPC
+        sps->chroma_format_idc = get_ue_golomb(&s->gb);  // chroma_format_idc
+        if(sps->chroma_format_idc == 3)
             sps->residual_colour_transform_flag = get_bits1(&s->gb);  //residual_color_transform_flag
         sps->bit_depth_luma  = get_ue_golomb(&s->gb) + 8;  //bit_depth_luma_minus8
         sps->bit_depth_chroma = get_ue_golomb(&s->gb) + 8;  //bit_depth_chroma_minus8
-		// <== End patch MPC
+    // <== End patch MPC
         sps->transform_bypass = get_bits1(&s->gb);
         decode_scaling_matrices(h, sps, NULL, 1, sps->scaling_matrix4, sps->scaling_matrix8);
     }else
@@ -7501,10 +7513,17 @@ static void execute_decode_slices(H264Context *h, int context_count){
     int i;
 
     if(context_count == 1) {
-        if(avctx->thread_count > 1 && h->pps.cabac)
-        decode_slice2(avctx, h);
+        if(avctx->thread_count > 1 && h->pps.cabac
+           /* ffdshow custom code */
+           /* spatial direct mode plus interlacing is not supported by the multithreading code */
+           /* This check avoids using multithreading in such cases. */
+           /* Incomplete. Just checking the prior frame. Should be current frame. */
+           /* Just works for most of samples */
+           && !(FIELD_OR_MBAFF_PICTURE && h->direct_spatial_mv_pred)
+           && h->is_valid_direct_spatial_mv_pred)
+            decode_slice2(avctx, h);
         else
-        decode_slice(avctx, h);
+            decode_slice(avctx, h);
     } else {
         for(i = 1; i < context_count; i++) {
             hx = h->thread_context[i];

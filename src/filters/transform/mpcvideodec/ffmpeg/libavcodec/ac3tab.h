@@ -25,7 +25,6 @@
 #include "../libavutil/common.h"
 
 extern const uint16_t ff_ac3_frame_size_tab[38][3];
-extern const uint8_t  ff_ac3_channels_tab[8];
 extern const uint16_t ff_ac3_sample_rate_tab[3];
 extern const uint16_t ff_ac3_bitrate_tab[19];
 extern const int16_t  ff_ac3_window[256];

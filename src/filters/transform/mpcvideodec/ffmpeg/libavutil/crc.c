@@ -21,10 +21,22 @@
 #include "common.h"
 #include "crc.h"
 
-AVCRC av_crcEDB88320[257];
-AVCRC av_crc04C11DB7[257];
-AVCRC av_crc8005    [257];
-AVCRC av_crc07      [257];
+#ifdef CONFIG_HARDCODED_TABLES
+#include "crc_data.h"
+#else
+static struct {
+    uint8_t  le;
+    uint8_t  bits;
+    uint32_t poly;
+} av_crc_table_params[AV_CRC_MAX] = {
+    [AV_CRC_8_ATM]      = { 0,  8,       0x07 },
+    [AV_CRC_16_ANSI]    = { 0, 16,     0x8005 },
+    [AV_CRC_16_CCITT]   = { 0, 16,     0x1021 },
+    [AV_CRC_32_IEEE]    = { 0, 32, 0x04C11DB7 },
+    [AV_CRC_32_IEEE_LE] = { 1, 32, 0xEDB88320 },
+};
+static AVCRC av_crc_table[AV_CRC_MAX][257];
+#endif
 
 /**
  * Inits a crc table.
@@ -70,6 +82,24 @@ int av_crc_init(AVCRC *ctx, int le, int bits, uint32_t poly, int ctx_size){
 #endif
 
     return 0;
+}
+
+/**
+ * Get an initialized standard CRC table.
+ * @param crc_id ID of a standard CRC
+ * @return a pointer to the CRC table or NULL on failure
+ */
+const AVCRC *av_crc_get_table(AVCRCId crc_id){
+#ifndef CONFIG_HARDCODED_TABLES
+    if (!av_crc_table[crc_id][sizeof(av_crc_table[crc_id])/sizeof(av_crc_table[crc_id][0])-1])
+        if (av_crc_init(av_crc_table[crc_id],
+                        av_crc_table_params[crc_id].le,
+                        av_crc_table_params[crc_id].bits,
+                        av_crc_table_params[crc_id].poly,
+                        sizeof(av_crc_table[crc_id])) < 0)
+            return NULL;
+#endif
+    return av_crc_table[crc_id];
 }
 
 /**

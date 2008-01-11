@@ -514,7 +514,7 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
         goto end;
     }
 
-    if(avctx->codec)
+    if(avctx->codec || !codec)
         goto end;
 
     if (codec->priv_data_size > 0) {
@@ -723,12 +723,6 @@ unsigned avcodec_build( void )
   return LIBAVCODEC_BUILD;
 }
 
-static void init_crcs(void){
-    av_crc_init(av_crc04C11DB7, 0, 32, AV_CRC_32_IEEE, sizeof(AVCRC)*257);
-    av_crc_init(av_crc8005    , 0, 16, AV_CRC_16     , sizeof(AVCRC)*257);
-    av_crc_init(av_crc07      , 0,  8, AV_CRC_8_ATM  , sizeof(AVCRC)*257);
-}
-
 void avcodec_init(void)
 {
     static int inited = 0;
@@ -744,7 +738,6 @@ void avcodec_init(void)
 #endif
 
     dsputil_static_init();
-    init_crcs();
 }
 
 void avcodec_flush_buffers(AVCodecContext *avctx)

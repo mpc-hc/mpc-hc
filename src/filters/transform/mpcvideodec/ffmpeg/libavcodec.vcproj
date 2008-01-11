@@ -379,22 +379,8 @@
 				RelativePath=".\libavcodec\adpcm.c"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|x64"
 					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1548,6 +1534,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\crc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\crc_data.h"
 				>
 			</File>
 			<File

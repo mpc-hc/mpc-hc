@@ -44,13 +44,6 @@
 static const uint16_t table_mb_intra[64][2];
 
 
-static inline int decode210(GetBitContext *gb){
-    if (get_bits1(gb))
-        return 0;
-    else
-        return 2 - get_bits1(gb);
-}
-
 /**
  * Init VC-1 specific tables and VC1Context members
  * @param v The VC1Context to initialize
@@ -993,9 +986,9 @@ static int decode_entry_point(AVCodecContext *avctx, GetBitContext *gb)
     blink = get_bits1(gb); // broken link
     clentry = get_bits1(gb); // closed entry
     v->panscanflag = get_bits1(gb);
-	// ==> Start patch MPC
+    // ==> Start patch MPC
     v->refdist = get_bits1(gb); // refdist flag
-	// <== End patch MPC
+    // <== End patch MPC
     v->s.loop_filter = get_bits1(gb);
     v->fastuvmc = get_bits1(gb);
     v->extended_mv = get_bits1(gb);
@@ -1025,14 +1018,14 @@ static int decode_entry_point(AVCodecContext *avctx, GetBitContext *gb)
         skip_bits(gb, 3); // UV range, ignored for now
     }
 
-	// ==> Start patch MPC
+    // ==> Start patch MPC
     av_log(avctx, AV_LOG_DEBUG, "Entry point info:\n"
         "BrokenLink=%i, ClosedEntry=%i, PanscanFlag=%i\n"
         "RefDist=%i, Postproc=%i, FastUVMC=%i, ExtMV=%i\n"
         "DQuant=%i, VSTransform=%i, Overlap=%i, Qmode=%i\n",
         blink, clentry, v->panscanflag, v->refdist, v->s.loop_filter,
         v->fastuvmc, v->extended_mv, v->dquant, v->vstransform, v->overlap, v->quantizer_mode);
-	// <== End patch MPC
+    // <== End patch MPC
 
     return 0;
 }

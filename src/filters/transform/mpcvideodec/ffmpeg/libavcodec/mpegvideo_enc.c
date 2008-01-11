@@ -63,8 +63,6 @@ static const uint16_t aanscales[64] = {
 static uint8_t default_mv_penalty[MAX_FCODE+1][MAX_MV*2+1];
 static uint8_t default_fcode_tab[MAX_MV*2+1];
 
-enum PixelFormat ff_yuv420p_list[2]= {PIX_FMT_YUV420P, -1};
-
 void ff_convert_matrix(DSPContext *dsp, int (*qmat)[64], uint16_t (*qmat16)[2][64],
                            const uint16_t *quant_matrix, int bias, int qmin, int qmax, int intra)
 {
@@ -1407,7 +1405,7 @@ static inline void clip_coeffs(MpegEncContext *s, DCTELEM *block, int last_index
         av_log(s->avctx, AV_LOG_INFO, "warning, clipping %d dct coefficients to %d..%d\n", overflow, minlevel, maxlevel);
 }
 
-static void get_vissual_weight(int16_t *weight, uint8_t *ptr, int stride){
+static void get_visual_weight(int16_t *weight, uint8_t *ptr, int stride){
     int x, y;
 //FIXME optimize
     for(y=0; y<8; y++){
@@ -1611,15 +1609,15 @@ static av_always_inline void encode_mb_internal(MpegEncContext *s, int motion_x,
     }
 
     if(s->avctx->quantizer_noise_shaping){
-        if(!skip_dct[0]) get_vissual_weight(weight[0], ptr_y                 , wrap_y);
-        if(!skip_dct[1]) get_vissual_weight(weight[1], ptr_y              + 8, wrap_y);
-        if(!skip_dct[2]) get_vissual_weight(weight[2], ptr_y + dct_offset    , wrap_y);
-        if(!skip_dct[3]) get_vissual_weight(weight[3], ptr_y + dct_offset + 8, wrap_y);
-        if(!skip_dct[4]) get_vissual_weight(weight[4], ptr_cb                , wrap_c);
-        if(!skip_dct[5]) get_vissual_weight(weight[5], ptr_cr                , wrap_c);
+        if(!skip_dct[0]) get_visual_weight(weight[0], ptr_y                 , wrap_y);
+        if(!skip_dct[1]) get_visual_weight(weight[1], ptr_y              + 8, wrap_y);
+        if(!skip_dct[2]) get_visual_weight(weight[2], ptr_y + dct_offset    , wrap_y);
+        if(!skip_dct[3]) get_visual_weight(weight[3], ptr_y + dct_offset + 8, wrap_y);
+        if(!skip_dct[4]) get_visual_weight(weight[4], ptr_cb                , wrap_c);
+        if(!skip_dct[5]) get_visual_weight(weight[5], ptr_cr                , wrap_c);
         if(!s->chroma_y_shift){ /* 422 */
-            if(!skip_dct[6]) get_vissual_weight(weight[6], ptr_cb + (dct_offset>>1), wrap_c);
-            if(!skip_dct[7]) get_vissual_weight(weight[7], ptr_cr + (dct_offset>>1), wrap_c);
+            if(!skip_dct[6]) get_visual_weight(weight[6], ptr_cb + (dct_offset>>1), wrap_c);
+            if(!skip_dct[7]) get_visual_weight(weight[7], ptr_cr + (dct_offset>>1), wrap_c);
         }
         memcpy(orig[0], s->block[0], sizeof(DCTELEM)*64*mb_block_count);
     }
@@ -1737,6 +1735,8 @@ static inline void copy_context_before_encode(MpegEncContext *d, MpegEncContext 
     d->mb_skipped= 0;
     d->qscale= s->qscale;
     d->dquant= s->dquant;
+
+    d->esc3_level_length= s->esc3_level_length;
 }
 
 static inline void copy_context_after_encode(MpegEncContext *d, MpegEncContext *s, int type){
@@ -1774,6 +1774,8 @@ static inline void copy_context_after_encode(MpegEncContext *d, MpegEncContext *
         d->block_last_index[i]= s->block_last_index[i];
     d->interlaced_dct= s->interlaced_dct;
     d->qscale= s->qscale;
+
+    d->esc3_level_length= s->esc3_level_length;
 }
 
 static inline void encode_mb_hq(MpegEncContext *s, MpegEncContext *backup, MpegEncContext *best, int type,

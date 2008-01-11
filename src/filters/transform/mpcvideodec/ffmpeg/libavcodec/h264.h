@@ -109,12 +109,12 @@ typedef struct SPS{
     int scaling_matrix_present;
     uint8_t scaling_matrix4[6][16];
     uint8_t scaling_matrix8[2][64];
-	// ==> Start patch MPC
-	int chroma_format_idc;
-	int residual_colour_transform_flag;
-	int bit_depth_luma;
-	int bit_depth_chroma;
-	// <== End patch MPC
+    // ==> Start patch MPC
+    int chroma_format_idc;
+    int residual_colour_transform_flag;
+    int bit_depth_luma;
+    int bit_depth_chroma;
+    // <== End patch MPC
 }SPS;
 
 /**
@@ -140,11 +140,10 @@ typedef struct PPS{
     uint8_t scaling_matrix8[2][64];
     uint8_t chroma_qp_table[2][256];  ///< pre-scaled (with chroma_qp_index_offset) version of qp_table
     int chroma_qp_diff;
-	// ==> Start patch MPC
-	int slice_group_change_direction_flag;
-	int slice_group_change_rate_minus1;
-	// <== End patch MPC
-
+    // ==> Start patch MPC
+    int slice_group_change_direction_flag;
+    int slice_group_change_rate_minus1;
+    // <== End patch MPC
 }PPS;
 
 /**
@@ -460,6 +459,10 @@ typedef struct H264Context{
     int todecode;
     H264mb *blocks[2];
 
+    /* ffdshow custom stuff (temporary work around for multithreading and spatial direct mode plus interlacing) */
+    int is_valid_direct_spatial_mv_pred;
+    /* ffdshow custom stuff */
+    int first_I_frame_detected;
 }H264Context;
 
 #endif /* FFMPEG_H264_H */

@@ -70,39 +70,6 @@ typedef struct AC3BitAllocParameters {
     int cpl_fast_leak, cpl_slow_leak;
 } AC3BitAllocParameters;
 
-/**
- * @struct AC3HeaderInfo
- * Coded AC-3 header values up to the lfeon element, plus derived values.
- */
-typedef struct {
-    /** @defgroup coded Coded elements
-     * @{
-     */
-    uint16_t sync_word;
-    uint16_t crc1;
-    uint8_t sr_code;
-    uint8_t frame_size_code;
-    uint8_t bitstream_id;
-    uint8_t bitstream_mode;
-    uint8_t channel_mode;
-    uint8_t center_mix_level;
-    uint8_t surround_mix_level;
-    uint8_t dolby_surround_mode;
-    uint8_t lfe_on;
-    /** @} */
-
-    /** @defgroup derived Derived values
-     * @{
-     */
-    uint8_t sr_shift;
-    uint16_t sample_rate;
-    uint32_t bit_rate;
-    uint8_t channels;
-    uint16_t frame_size;
-    /** @} */
-} AC3HeaderInfo;
-
-
 void ac3_common_init(void);
 
 /**
@@ -165,12 +132,5 @@ void ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
  */
 void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
                                int snr_offset, int floor, uint8_t *bap);
-
-void ac3_parametric_bit_allocation(AC3BitAllocParameters *s, uint8_t *bap,
-                                   int8_t *exp, int start, int end,
-                                   int snr_offset, int fast_gain, int is_lfe,
-                                   int dba_mode, int dba_nsegs,
-                                   uint8_t *dba_offsets, uint8_t *dba_lengths,
-                                   uint8_t *dba_values);
 
 #endif /* FFMPEG_AC3_H */

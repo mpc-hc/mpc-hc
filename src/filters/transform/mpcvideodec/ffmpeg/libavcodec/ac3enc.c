@@ -573,7 +573,7 @@ static int compute_bit_allocation(AC3EncodeContext *s,
            bit_alloc(s, mask, psd, bap, frame_bits, coarse_snr_offset, 0) < 0)
         coarse_snr_offset -= SNR_INC1;
     if (coarse_snr_offset < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Bit allocation failed, try increasing the bitrate, -ab 384k for example!\n");
+        av_log(NULL, AV_LOG_ERROR, "Bit allocation failed. Try increasing the bitrate.\n");
         return -1;
     }
     while ((coarse_snr_offset + SNR_INC1) <= 63 &&
@@ -632,6 +632,7 @@ static int AC3_encode_init(AVCodecContext *avctx)
     AC3EncodeContext *s = avctx->priv_data;
     int i, j, ch;
     float alpha;
+    int bw_code;
 #if 0
     static const uint8_t acmod_defs[6] = {
         0x01, /* C */
@@ -670,9 +671,8 @@ static int AC3_encode_init(AVCodecContext *avctx)
     s->bitstream_mode = 0; /* complete main audio service */
 
     /* bitrate & frame size */
-    bitrate /= 1000;
     for(i=0;i<19;i++) {
-        if ((ff_ac3_bitrate_tab[i] >> s->sr_shift) == bitrate)
+        if ((ff_ac3_bitrate_tab[i] >> s->sr_shift)*1000 == bitrate)
             break;
     }
     if (i == 19)
@@ -685,12 +685,21 @@ static int AC3_encode_init(AVCodecContext *avctx)
     s->frame_size = s->frame_size_min;
 
     /* bit allocation init */
-    for(ch=0;ch<s->nb_channels;ch++) {
-        /* bandwidth for each channel */
+    if(avctx->cutoff) {
+        /* calculate bandwidth based on user-specified cutoff frequency */
+        int cutoff = av_clip(avctx->cutoff, 1, s->sample_rate >> 1);
+        int fbw_coeffs = cutoff * 512 / s->sample_rate;
+        bw_code = av_clip((fbw_coeffs - 73) / 3, 0, 60);
+    } else {
+        /* use default bandwidth setting */
         /* XXX: should compute the bandwidth according to the frame
            size, so that we avoid anoying high freq artefacts */
-        s->chbwcod[ch] = 50; /* sample bandwidth as mpeg audio layer 2 table 0 */
-        s->nb_coefs[ch] = ((s->chbwcod[ch] + 12) * 3) + 37;
+        bw_code = 50;
+    }
+    for(ch=0;ch<s->nb_channels;ch++) {
+        /* bandwidth for each channel */
+        s->chbwcod[ch] = bw_code;
+        s->nb_coefs[ch] = bw_code * 3 + 73;
     }
     if (s->lfe) {
         s->nb_coefs[s->lfe_channel] = 7; /* fixed */
@@ -739,7 +748,7 @@ static void output_frame_header(AC3EncodeContext *s, unsigned char *frame)
     put_bits(&s->pb, 1, 1); /* original bitstream */
     put_bits(&s->pb, 1, 0); /* no time code 1 */
     put_bits(&s->pb, 1, 0); /* no time code 2 */
-    put_bits(&s->pb, 1, 0); /* no addtional bit stream info */
+    put_bits(&s->pb, 1, 0); /* no additional bit stream info */
 }
 
 /* symetric quantization on 'levels' levels */
@@ -1133,13 +1142,16 @@ static int output_frame_end(AC3EncodeContext *s)
     /* Now we must compute both crcs : this is not so easy for crc1
        because it is at the beginning of the data... */
     frame_size_58 = (frame_size >> 1) + (frame_size >> 3);
-    crc1 = bswap_16(av_crc(av_crc8005, 0, frame + 4, 2 * frame_size_58 - 4));
+    crc1 = bswap_16(av_crc(av_crc_get_table(AV_CRC_16_ANSI), 0,
+                           frame + 4, 2 * frame_size_58 - 4));
     /* XXX: could precompute crc_inv */
     crc_inv = pow_poly((CRC16_POLY >> 1), (16 * frame_size_58) - 16, CRC16_POLY);
     crc1 = mul_poly(crc_inv, crc1, CRC16_POLY);
     AV_WB16(frame+2,crc1);
 
-    crc2 = bswap_16(av_crc(av_crc8005, 0, frame + 2 * frame_size_58, (frame_size - frame_size_58) * 2 - 2));
+    crc2 = bswap_16(av_crc(av_crc_get_table(AV_CRC_16_ANSI), 0,
+                           frame + 2 * frame_size_58,
+                           (frame_size - frame_size_58) * 2 - 2));
     AV_WB16(frame+2*frame_size-2,crc2);
 
     //    printf("n=%d frame_size=%d\n", n, frame_size);
@@ -1241,11 +1253,11 @@ static int AC3_encode_frame(AVCodecContext *avctx,
     }
 
     /* adjust for fractional frame sizes */
-    while(s->bits_written >= s->bit_rate*1000 && s->samples_written >= s->sample_rate) {
-        s->bits_written -= s->bit_rate*1000;
+    while(s->bits_written >= s->bit_rate && s->samples_written >= s->sample_rate) {
+        s->bits_written -= s->bit_rate;
         s->samples_written -= s->sample_rate;
     }
-    s->frame_size = s->frame_size_min + (s->bits_written * s->sample_rate < s->samples_written * s->bit_rate*1000);
+    s->frame_size = s->frame_size_min + (s->bits_written * s->sample_rate < s->samples_written * s->bit_rate);
     s->bits_written += s->frame_size * 16;
     s->samples_written += AC3_FRAME_SIZE;
 
