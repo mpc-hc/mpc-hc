@@ -39,8 +39,10 @@
 #include "h264data.h"
 #include "vc1.h"
 
+
 int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size);
+int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
 
 
@@ -159,10 +161,20 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCod
 
 
 
-void FillVC1Context (DXVA_PictureParameters* pPicParams, AVCodecContext* pAVCtx)
+void FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {
+	int				refpic;
 	VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
 
+	if (pBuffer)
+	{
+		av_vc1_decode_frame (pAVCtx, pBuffer, nSize);
+	}
+
+	refpic = ((vc1->s.pict_type != B_TYPE) && (vc1->s.pict_type != BI_TYPE));
+
+	pPicParams->bPicIntra				= (vc1->s.pict_type == I_TYPE);
+	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type != B_TYPE);		// TODO check this !
 
 	//   Ok     Todo    Todo    Todo    Ok
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA		| Section 3.2.5
@@ -179,6 +191,15 @@ void FillVC1Context (DXVA_PictureParameters* pPicParams, AVCodecContext* pAVCtx)
 									  (vc1->s.resync_marker << 4) | (vc1->rangered << 3) |
 									  (vc1->s.max_b_frames);
 
+	// Section 3.2.20.2
+	pPicParams->bPicDeblockConfined	= (vc1->postprocflag << 7) | (vc1->broadcast  << 6) |
+									  (vc1->interlace    << 5) | (vc1->tfcntrflag << 4) | 
+									  (vc1->finterpflag  << 3) | (refpic		  << 2) |
+									  (vc1->psf << 1)		   | vc1->extended_dmv;
+
+
 	//				TODO section 3.2.20.6
 	//pPicParams->bPicDeblocked		= 
+	//pPicParams->bPicDeblockConfined
+	//pPicParams->wBitstreamFcodes
 }

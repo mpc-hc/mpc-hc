@@ -183,7 +183,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 	if (pAMVideoAccelerator)
 	{
 		memcpy (&UncompInfo.ddUncompPixelFormat, m_pVideoDecFilter->GetPixelFormat(), sizeof (DDPIXELFORMAT));
-		UncompInfo.dwUncompHeight		= m_pVideoDecFilter->PictHeight();
+		UncompInfo.dwUncompHeight		= m_pVideoDecFilter->PictHeightRounded();
 		UncompInfo.dwUncompWidth		= m_pVideoDecFilter->PictWidth();
 		hr = pAMVideoAccelerator->GetCompBufferInfo(m_pVideoDecFilter->GetDXVADecoderGuid(), &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
 

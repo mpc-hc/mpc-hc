@@ -487,8 +487,13 @@ int CMPCVideoDecFilter::PictWidth()
 	return m_pAVCtx ? m_pAVCtx->width  : 0; 
 }
 
-
 int CMPCVideoDecFilter::PictHeight()
+{
+	// Picture height should be rounded to 16 for DXVA
+	return m_pAVCtx ? m_pAVCtx->height : 0;
+}
+
+int CMPCVideoDecFilter::PictHeightRounded()
 {
 	// Picture height should be rounded to 16 for DXVA
 	return m_pAVCtx ? ((m_pAVCtx->height + 15) / 16) * 16: 0;
@@ -976,7 +981,7 @@ void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 {
 	memset (pDesc, 0, sizeof(DXVA2_VideoDesc));
 	pDesc->SampleWidth			= PictWidth();
-	pDesc->SampleHeight			= PictHeight();
+	pDesc->SampleHeight			= PictHeightRounded();
 	pDesc->Format				= D3DFMT_A8R8G8B8;
 	pDesc->UABProtectionLevel	= 1;
 }

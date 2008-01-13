@@ -129,12 +129,12 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 			hr = m_pAMVideoAccelerator->Execute (m_DXVA1Config.dwFunction, &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), &ConfigRequested, sizeof(DXVA_ConfigPictureDecode), 0, NULL);
 
 			// TODO : check config!
-			ASSERT (ConfigRequested.bConfigBitstreamRaw == 2);
+//			ASSERT (ConfigRequested.bConfigBitstreamRaw == 2);
 
 			AMVAUncompDataInfo		DataInfo;
 			DWORD					dwNum = COMP_BUFFER_COUNT;
 			DataInfo.dwUncompWidth	= m_pFilter->PictWidth();
-			DataInfo.dwUncompHeight	= m_pFilter->PictHeight(); 
+			DataInfo.dwUncompHeight	= m_pFilter->PictHeightRounded(); 
 			memcpy (&DataInfo.ddUncompPixelFormat, m_pFilter->GetPixelFormat(), sizeof (DDPIXELFORMAT));
 			hr = m_pAMVideoAccelerator->GetCompBufferInfo (m_pFilter->GetDXVADecoderGuid(), &DataInfo, &dwNum, m_ComBufferInfo);
 		}
@@ -404,7 +404,7 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 // === Picture store functions
 void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-//	TRACE ("AddStore: %d   %d\n", nSurfaceIndex);
+	TRACE ("AddStore: %d   %d\n", nSurfaceIndex, rtStart);
 	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
@@ -518,11 +518,13 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 		CComPtr<IMediaSample>		pNewSample;
 		CComQIPtr<IMPCDXVA2Sample>	pMPCDXVA2Sample;
 		// TODO : test  IDirect3DDeviceManager9::TestDevice !!!
+		TRACE ("==> Try get buffer...\n");
 		if (SUCCEEDED (hr = GetDeliveryBuffer(rtStart, rtStop, &pNewSample)))
 		{
 			pMPCDXVA2Sample	 = pNewSample;
 			nSurfaceIndex    = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
 			*ppSampleToDeliver = pNewSample.Detach();
+			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
 		}
 		break;
 	}
@@ -532,7 +534,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {
-//	TRACE ("Free    : %d\n", nSurfaceIndex);
+	TRACE ("Free    : %d\n", nSurfaceIndex);
 	m_pPictureStore[nSurfaceIndex].bInUse		= false;
 	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
 	m_pPictureStore[nSurfaceIndex].pSample		= NULL;

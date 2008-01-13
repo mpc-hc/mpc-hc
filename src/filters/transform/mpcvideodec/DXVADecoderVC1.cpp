@@ -72,35 +72,21 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
+	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), pDataIn, nSize);
+
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
 
 	m_PictureParams.wDecodedPictureIndex			= nSurfaceIndex;
-	//m_PictureParams.wDeblockedPictureIndex;
+	m_PictureParams.wDeblockedPictureIndex			= m_PictureParams.wDecodedPictureIndex;
 
 	m_PictureParams.wForwardRefPictureIndex			= VC1_NO_REF;	// TODO
 	m_PictureParams.wBackwardRefPictureIndex		= VC1_NO_REF;	// TODO
 
-	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  / 16 - 1;	// TODO
-	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() / 16 - 1;	// TODO
-	m_PictureParams.bMacroblockWidthMinus1			= 15;
-	m_PictureParams.bMacroblockHeightMinus1			= 15;
-	m_PictureParams.bBlockWidthMinus1				= 7;
-	m_PictureParams.bBlockHeightMinus1				= 7;
-
-	m_PictureParams.bBPPminus1						= 7;
-
-	m_PictureParams.bPicStructure					= VC1_PS_PROGRESSIVE;	// TODO
-	//m_PictureParams.bSecondField;
-	m_PictureParams.bPicIntra						= 1;		// TODO!
 	//m_PictureParams.bPicBackwardPrediction;
 	//m_PictureParams.bBidirectionalAveragingMode	each frame
 
-	m_PictureParams.bMVprecisionAndChromaRelation	= VC1_CR_BICUBIC_QUARTER_CHROMA;;
-	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
-
-	m_PictureParams.bPicReadbackRequests			= 0;
 
 	m_PictureParams.bRcontrol						= 0;
 	// bPicSpatialResid8
@@ -109,26 +95,12 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 
 	// TODO : complete bPicDeblockConfined from parsing  Cf. page 37 spéc
-	m_PictureParams.bPicDeblockConfined			= (m_PictureParams.bPicIntra) ? VC1_REFPICFLAG : 0;
-	m_PictureParams.bPic4MVallowed					= 0;	// TODO
-	//m_PictureParams.bPicOBMC;
-	m_PictureParams.bPicBinPB						= 0;	// TODO
-	m_PictureParams.bMV_RPS							= 0;	// TODO
-
-	//m_PictureParams.bReservedBits;
-	m_PictureParams.wBitstreamFcodes				= 32;	// TODO
-
-
-	m_PictureParams.wBitstreamFcodes				= 0;	// TODO
-	m_PictureParams.wBitstreamPCEelements			= 0;	// TODO
-	m_PictureParams.bBitstreamConcealmentNeed		= 0;	// TODO
-	m_PictureParams.bBitstreamConcealmentMethod		= 0;	// TODO
+//	m_PictureParams.bPicDeblockConfined			= (m_PictureParams.bPicIntra) ? VC1_REFPICFLAG : 0;
 
 
 	// === Each frame!
-	m_PictureParams.bPicScanFixed					= 1;	// Use for status reporting sections 3.8.1 and 3.8.2
-	m_PictureParams.bPicScanMethod= 0;
-
+	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
+	//m_PictureParams.bRcontrol
 
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
@@ -137,7 +109,9 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	// Send bitstream to accelerator
 	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
-	m_SliceInfo.wQuantizerScaleCode	= 1;			// TODO : 1->31 ???
+	m_SliceInfo.wNumberMBsInSlice	= 8160;		// TODO ???
+//	m_SliceInfo.wMBbitOffset		= ???
+	m_SliceInfo.wQuantizerScaleCode	= 2;		// TODO : 1->31 ???
 	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
 
@@ -152,15 +126,43 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
-	FillVC1Context (&m_PictureParams, m_pFilter->GetAVCtx());
+	m_PictureParams.wPicWidthInMBminus1				= m_pFilter->PictWidth()  - 1;
+	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() - 1;
+	m_PictureParams.bMacroblockWidthMinus1			= 15;
+	m_PictureParams.bMacroblockHeightMinus1			= 15;
+	m_PictureParams.bBlockWidthMinus1				= 7;
+	m_PictureParams.bBlockHeightMinus1				= 7;
+	m_PictureParams.bBPPminus1						= 7;
+
+	m_PictureParams.bPicStructure					= VC1_PS_PROGRESSIVE;	// TODO
+	//m_PictureParams.bSecondField;
+
+	m_PictureParams.bMVprecisionAndChromaRelation	= 0;
+	m_PictureParams.bChromaFormat					= VC1_CHROMA_420;
+	m_PictureParams.bPicScanFixed					= 0;	// Use for status reporting sections 3.8.1 and 3.8.2
+	m_PictureParams.bPicReadbackRequests			= 0;
+
+	m_PictureParams.bPicDeblocked					= 2;	// TODO ???
+	m_PictureParams.bPic4MVallowed					= 0;	// TODO
+	m_PictureParams.bPicOBMC						= 0;
+	m_PictureParams.bPicBinPB						= 0;	// TODO
+	m_PictureParams.bMV_RPS							= 0;	// TODO
+
+	m_PictureParams.bReservedBits					= 0;
+	m_PictureParams.wBitstreamFcodes				= 32;	// TODO
+
 }
 
 void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	int		nDummy;
 
+pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1; pDXVABuffer[3]=0x0D;
+pDXVABuffer+=4;
+	
 	// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
 	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+nSize+=4;
 	nDummy  = 128 - (nSize %128);
 	pDXVABuffer += nSize;
 	memset (pDXVABuffer, 0, nDummy);
