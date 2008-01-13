@@ -8132,8 +8132,8 @@ static int decode_ref_pic_list_reordering_noframe(H264Context *h){
         }
     }
 
-    if(h->slice_type==B_TYPE && !h->direct_spatial_mv_pred)
-        direct_dist_scale_factor(h);
+    //if(h->slice_type==B_TYPE && !h->direct_spatial_mv_pred)
+    //    direct_dist_scale_factor(h);
 //    direct_ref_list_init(h);
     return 0;
 }
