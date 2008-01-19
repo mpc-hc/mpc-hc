@@ -144,8 +144,6 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCod
 	av_h264_decode_slice_header (pAVCtx, pBuffer, nSize, &sp_for_switch_flag);
 
 	field_pic_flag = (h->s.picture_structure != PICT_FRAME);
-	pDXVAPicParams->wFrameWidthInMbsMinus1		= s->mb_width  - 1;		// pic_width_in_mbs_minus1;
-	pDXVAPicParams->wFrameHeightInMbsMinus1		= s->mb_height - 1;		// pic_height_in_map_units_minus1;
 
 	pDXVAPicParams->field_pic_flag				= field_pic_flag;
 	pDXVAPicParams->RefPicFlag					= (h->nal_ref_idc != 0);

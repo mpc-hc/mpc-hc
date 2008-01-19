@@ -81,7 +81,7 @@ private:
 
 	// Private functions
 	void					Init();
-	void					ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize);
+	HRESULT					ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize);
 
 	// DXVA functions
 	void					ClearRefFramesList();

@@ -96,6 +96,7 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 	int				nDummy;
 
 	nSize = 0;
+
 	do
 	{
 		ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength);
@@ -104,16 +105,30 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 		{
 			case NALU_TYPE_PPS :
 			case NALU_TYPE_SPS :
+			case NALU_TYPE_SEI :
 				// Do not copy thoses units, accelerator don't like it
 				break;
-			default :
-				// Put startcode 00000001
-				pDXVABuffer[0]=pDXVABuffer[1]=pDXVABuffer[2]=0; pDXVABuffer[3]=1;
-				
-				// Copy NALU
-				memcpy (pDXVABuffer+4, (BYTE*)pDataSlice+m_nNALLength, Nalu.len-m_nNALLength);
-				pDXVABuffer	+= Nalu.len;
-				nSize       += Nalu.len;
+			default :				
+				if (m_nNALLength > 0)
+				{
+					// For AVC1, put startcode 0x000001
+					pDXVABuffer[0]=pDXVABuffer[1]=0;pDXVABuffer[2]=1;
+					
+					// Copy NALU
+					memcpy (pDXVABuffer+3, (BYTE*)pDataSlice+m_nNALLength, Nalu.len-m_nNALLength);
+					
+					// Add trailing bit
+					pDXVABuffer[Nalu.len-1] = 0x00;
+
+					pDXVABuffer	+= Nalu.len;
+					nSize       += Nalu.len;
+				}
+				else
+				{
+					memcpy (pDXVABuffer, (BYTE*)pDataSlice, Nalu.len);
+					pDXVABuffer	+= Nalu.len;
+					nSize       += Nalu.len;
+				}
 				break;
 		}
 
@@ -149,9 +164,9 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	bool		bSliceFound = false;
 
-	while (!bSliceFound)
+	while (!bSliceFound && (nSliceSize>0))
 	{
-		ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength);
+		CHECK_HR(ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength));
 		switch (Nalu.nal_unit_type)
 		{
 		case NALU_TYPE_SLICE:
@@ -278,10 +293,11 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 }
 
 
-void CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize)
+HRESULT CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize)
 {
 	if (m_nNALLength > 0)
 	{
+		// NALU for AVC stream (Size -> Nalu)
 		pNalu->data		= pBuffer;
 
 		pNalu->data_len = 0;
@@ -292,14 +308,27 @@ void CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength,
 		}
 	}
 	else
-	{
-		// TODO : not finished !!
-		ASSERT (*((DWORD*) pBuffer) == 0x01000000);
-		pNalu->data	= pBuffer + 4;
-		pNalu->data_len = 4;
-		for (int i=4; i<nBufferLength; i++)
+	{		
+		// NALU for H264 streams (Startcode -> Nalu)
+		if ((pBuffer[0] == 0x00) || (pBuffer[1] == 0x00) || (pBuffer[2] == 0x01))
 		{
-			if (*((DWORD*) (pBuffer+i)) == 0x01000000) break;
+			pNalu->data		= pBuffer + 3;
+			pNalu->data_len = 3;
+		}
+		else if ((pBuffer[0] == 0x00) || (pBuffer[1] == 0x00) || (pBuffer[2] == 0x00) || (pBuffer[3] == 0x01))
+		{
+			pNalu->data		= pBuffer + 4;
+			pNalu->data_len = 4;
+		}
+		else
+		{
+			ASSERT (FALSE);
+			return E_INVALIDARG;
+		}
+	
+		for (int i=pNalu->data_len; i<nBufferLength; i++)
+		{
+			if ((pBuffer[i] == 0x00) && (pBuffer[i+1] == 0x00) && (pBuffer[i+2] == 0x01)) break;
 			pNalu->data_len++;
 		}
 	}

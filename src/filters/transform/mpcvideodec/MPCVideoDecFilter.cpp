@@ -207,13 +207,12 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	NULL },
 
 	// H264/AVC
-	// TODO : manage H264 for DXVA !!!
-	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	NULL/*&DXVA_H264*/ },
-	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	NULL/*&DXVA_H264*/ },
-	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	NULL/*&DXVA_H264*/ },
-	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	NULL/*&DXVA_H264*/ },
-	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	NULL/*&DXVA_H264*/ },
-	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_DAVC, CODEC_ID_H264, MAKEFOURCC('D','A','V','C'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_davc, CODEC_ID_H264, MAKEFOURCC('d','a','v','c'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_PAVC, CODEC_ID_H264, MAKEFOURCC('P','A','V','C'),	&DXVA_H264 },
@@ -354,6 +353,9 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	// SVQ3
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ3   },
 
+	// SVQ1
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ1   },
+
 	// VC1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WVC1   },
 };
@@ -455,6 +457,15 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	ff_avcodec_init();
 	ff_avcodec_register_all();
 	ff_av_log_set_callback(LogLibAVCodec);
+
+#ifdef _DEBUG
+	// Check codec definition table
+	int		nCodecs	  = countof(ffCodecs);
+	int		nPinTypes = countof(sudPinTypesIn);
+	ASSERT (nCodecs == nPinTypes);
+	for (int i=0; i<nPinTypes; i++)
+		ASSERT (ffCodecs[i].clsMinorType == sudPinTypesIn[i].clsMinorType);
+#endif
 }
 
 
@@ -671,9 +682,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->codec_tag	= mpg2v->hdr.bmiHeader.biCompression;
 
 			if (mpg2v->hdr.bmiHeader.biCompression == NULL)
+			{
 				m_pAVCtx->codec_tag = pmt->subtype.Data1;
-
-			if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
+			}
+			else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
 			{
 				m_pAVCtx->nal_length_size = mpg2v->dwFlags;
 				m_bIsAVC = true;
@@ -961,6 +973,9 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	nSize		= pIn->GetActualDataLength();
 	hr			= pIn->GetTime(&rtStart, &rtStop);
 	m_rtStart	= rtStart;
+
+	if (rtStop < rtStart)
+		rtStop = rtStart + m_rtAvrTimePerFrame;
 	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
 
 	switch (m_nDXVAMode)
