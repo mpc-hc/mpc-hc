@@ -170,7 +170,7 @@ static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC * This, /* [in] */ REFEREN
 {
 	CMediaType	mt;
 	
-	if (SUCCEEDED (g_pPinCVtbl->ConnectionMediaType (g_pPinC, &mt)))
+	if (g_pPinC && g_pPinCVtbl && SUCCEEDED (g_pPinCVtbl->ConnectionMediaType (g_pPinC, &mt)))
 	{
 		if (mt.formattype==FORMAT_VideoInfo)
 			g_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
@@ -208,15 +208,9 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample 
 	return ReceiveMineI(This,pSample);
 }
 
-bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
+
+void UnhookNewSegmentAndReceive()
 {
-	if(!pPinC || !pMemInputPinC || (GetVersion()&0x80000000))
-		return false;
-
-	g_tSegmentStart		= 0;
-	g_tSampleStart		= 0;
-	g_rtTimePerFrame	= 417080;
-
 	BOOL res;
 	DWORD flOldProtect = 0;
 
@@ -237,7 +231,23 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 		g_pMemInputPinCVtbl = NULL;
 		NewSegmentOrg		= NULL;
 		ReceiveOrg			= NULL;
+		g_pPinC				= NULL;
 	}
+}
+
+bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
+{
+	if(!pPinC || !pMemInputPinC || (GetVersion()&0x80000000))
+		return false;
+
+	g_tSegmentStart		= 0;
+	g_tSampleStart		= 0;
+	g_rtTimePerFrame	= 417080;
+
+	BOOL res;
+	DWORD flOldProtect = 0;
+
+	UnhookNewSegmentAndReceive();
 
 	// Casimir666 : change sizeof(IPinC) to sizeof(IPinCVtbl) to fix crash with EVR hack on Vista!
 	res = VirtualProtect(pPinC->lpVtbl, sizeof(IPinCVtbl), PAGE_WRITECOPY, &flOldProtect);

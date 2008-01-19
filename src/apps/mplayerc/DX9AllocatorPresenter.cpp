@@ -244,6 +244,7 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     m_pD3DDev	= NULL;
 	m_pPSC.Free();
 	m_pD3D.Detach();
+	UnhookNewSegmentAndReceive();
 }
 
 HRESULT CDX9AllocatorPresenter::CreateDevice()
@@ -628,8 +629,8 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx = 1.0f/w;
-	float dy = 1.0f/h;
+	float dx = 0.98f/w;
+	float dy = 0.98f/h;
 
 	MYD3DVERTEX<1> v[] =
 	{
@@ -661,8 +662,8 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx = 1.0f/w;
-	float dy = 1.0f/h;
+	float dx = 0.98f/w;
+	float dy = 0.98f/h;
 
 	MYD3DVERTEX<5> v[] =
 	{
@@ -701,8 +702,8 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx = 1.0f/w;
-	float dy = 1.0f/h;
+	float dx = 0.98f/w;
+	float dy = 0.98f/h;
 
 	MYD3DVERTEX<2> v[] =
 	{
@@ -743,7 +744,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	float dx = 1.0f/desc.Width;
+	float dx = 0.98f/desc.Width;
 
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
@@ -753,7 +754,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	if(!m_pResizerBicubic1stPass || FAILED(m_pResizerBicubic1stPass->GetLevelDesc(0, &desc)))
 		return TextureResizeBicubic1pass(pTexture, dst);
 
-	float dy = 1.0f/desc.Height;
+	float dy = 0.98f/desc.Height;
 
 	float dw = (float)dst1.Width() / desc.Width;
 	float dh = (float)dst1.Height() / desc.Height;

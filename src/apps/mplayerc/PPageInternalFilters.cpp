@@ -75,7 +75,9 @@ s_filters[] =
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
 	{_T("H264/AVC (DXVA)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#ifdef _DEBUG
 	{_T("VC1 (DXVA)"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
 	{_T("Xvid"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Generic MPEG-4"), 1, TRA_MPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},

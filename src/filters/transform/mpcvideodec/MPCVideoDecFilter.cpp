@@ -207,12 +207,13 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	NULL },
 
 	// H264/AVC
-	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	&DXVA_H264 },
-	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	&DXVA_H264 },
-	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	&DXVA_H264 },
-	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	&DXVA_H264 },
-	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	&DXVA_H264 },
-	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	&DXVA_H264 },
+	// TODO : manage H264 for DXVA !!!
+	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_h264, CODEC_ID_H264, MAKEFOURCC('h','2','6','4'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_X264, CODEC_ID_H264, MAKEFOURCC('X','2','6','4'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_x264, CODEC_ID_H264, MAKEFOURCC('x','2','6','4'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_VSSH, CODEC_ID_H264, MAKEFOURCC('V','S','S','H'),	NULL/*&DXVA_H264*/ },
+	{ &MEDIASUBTYPE_vssh, CODEC_ID_H264, MAKEFOURCC('v','s','s','h'),	NULL/*&DXVA_H264*/ },
 	{ &MEDIASUBTYPE_DAVC, CODEC_ID_H264, MAKEFOURCC('D','A','V','C'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_davc, CODEC_ID_H264, MAKEFOURCC('d','a','v','c'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_PAVC, CODEC_ID_H264, MAKEFOURCC('P','A','V','C'),	&DXVA_H264 },
@@ -668,6 +669,9 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->width		= mpg2v->hdr.bmiHeader.biWidth;
 			m_pAVCtx->height	= abs(mpg2v->hdr.bmiHeader.biHeight);
 			m_pAVCtx->codec_tag	= mpg2v->hdr.bmiHeader.biCompression;
+
+			if (mpg2v->hdr.bmiHeader.biCompression == NULL)
+				m_pAVCtx->codec_tag = pmt->subtype.Data1;
 
 			if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
 			{

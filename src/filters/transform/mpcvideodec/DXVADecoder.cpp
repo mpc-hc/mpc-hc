@@ -293,6 +293,39 @@ HRESULT CDXVADecoder::Execute()
 	return hr;
 }
 
+DWORD CDXVADecoder::QueryStatus()
+{
+	HRESULT						hr = E_INVALIDARG;
+	DXVA2_DecodeExecuteParams	ExecuteParams;
+	DXVA2_DecodeExtensionData	ExtensionData;
+	DXVA_Status_H264			Status;
+
+	switch (m_nEngine)
+	{
+	case ENGINE_DXVA1 :
+		break;
+
+	case ENGINE_DXVA2 :
+		memset (&ExecuteParams, 0, sizeof(ExecuteParams));
+		memset (&ExtensionData, 0, sizeof(ExtensionData));
+		memset (&Status,        0, sizeof(Status));
+		ExecuteParams.pExtensionData		= &ExtensionData;
+		ExtensionData.pPrivateOutputData	= &Status;
+		ExtensionData.PrivateOutputDataSize	= sizeof (Status);
+		ExtensionData.Function		= 7;
+		Status.bDXVA_Func			= 1;
+		Status.field_pic_flag		= 1;
+		hr = m_pDirectXVideoDec->Execute(&ExecuteParams);
+		break;
+	default :
+		ASSERT (FALSE);
+		break;
+	}
+
+	return hr;
+}
+
+
 DWORD CDXVADecoder::GetDXVA1CompressedType (DWORD dwDXVA2CompressedType)
 {
 	if (dwDXVA2CompressedType <= DXVA2_BitStreamDateBufferType)

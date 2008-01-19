@@ -280,13 +280,28 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 
 void CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize)
 {
-	pNalu->data		= pBuffer;
-
-	pNalu->data_len = 0;
-	for (UINT i=0; i<NbBytesForSize; i++)
+	if (m_nNALLength > 0)
 	{
-		pNalu->data_len = (pNalu->data_len << 8) + *pNalu->data;
-		pNalu->data++;
+		pNalu->data		= pBuffer;
+
+		pNalu->data_len = 0;
+		for (UINT i=0; i<NbBytesForSize; i++)
+		{
+			pNalu->data_len = (pNalu->data_len << 8) + *pNalu->data;
+			pNalu->data++;
+		}
+	}
+	else
+	{
+		// TODO : not finished !!
+		ASSERT (*((DWORD*) pBuffer) == 0x01000000);
+		pNalu->data	= pBuffer + 4;
+		pNalu->data_len = 4;
+		for (int i=4; i<nBufferLength; i++)
+		{
+			if (*((DWORD*) (pBuffer+i)) == 0x01000000) break;
+			pNalu->data_len++;
+		}
 	}
 
 	pNalu->len					= pNalu->data_len + NbBytesForSize;
