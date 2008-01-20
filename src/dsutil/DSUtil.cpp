@@ -25,6 +25,8 @@
 #include <winddk\ntddcdrm.h>
 #include "DSUtil.h"
 #include <moreuuids.h>
+
+#include <initguid.h>
 #include <d3dx9.h>
 #include <dxva.h>
 #include <dxva2api.h>
@@ -2246,8 +2248,8 @@ static const DXVA2_DECODER DXVA2Decoder[] =
 	{ &DXVA2_ModeMPEG2_VLD,		_T("MPEG-2 variable-length decoder") },
 	{ &DXVA_ModeMPEG2_A,		_T("MPEG-2 A") },	// TODO : find label !!!
 	{ &DXVA_ModeMPEG2_B,		_T("MPEG-2 B") },
-	{ &DXVA_ModeMPEG2_C,		_T("MPEG-2 IDCT") },
-	{ &DXVA_ModeMPEG2_D,		_T("MPEG-2 D") },
+	{ &DXVA_ModeMPEG2_C,		_T("MPEG-2 C") },
+	{ &DXVA_ModeMPEG2_D,		_T("MPEG-2 D (IDCT)") },
 	{ &DXVA2_ModeVC1_A,			_T("VC-1 post processing") },
 	{ &DXVA2_ModeVC1_B,			_T("VC-1 motion compensation") },
 	{ &DXVA2_ModeVC1_C,			_T("VC-1 IDCT") },
