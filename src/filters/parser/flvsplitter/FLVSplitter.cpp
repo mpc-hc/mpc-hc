@@ -498,7 +498,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 
 		UINT64 next = m_pFile->GetPos() + t.DataSize;
 
-		if(t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt))
+		if((t.DataSize > 0) && (t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt)))
 		{
 			p.Attach(new Packet());
 			p->TrackNumber = t.TagType;
