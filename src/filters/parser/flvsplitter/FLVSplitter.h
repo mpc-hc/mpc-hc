@@ -45,7 +45,7 @@ class CFLVSplitterFilter : public CBaseSplitterFilter
 		BYTE TagType;
 		UINT32 DataSize;
 		UINT32 TimeStamp;
-		UINT32 Reserved;
+		UINT32 StreamID;
 	};
 
 	bool ReadTag(Tag& t);
