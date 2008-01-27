@@ -103,7 +103,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER	(sp5x);
     REGISTER_DECODER	(svq1);
     REGISTER_DECODER	(svq3);
-//    REGISTER_DECODER	(theora);
+    REGISTER_DECODER	(theora);
 //    REGISTER_DECODER	(truemotion1);
 //    REGISTER_DECODER	(truemotion2);
 //    REGISTER_DECODER	(tscc);

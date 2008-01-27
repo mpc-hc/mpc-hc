@@ -1144,6 +1144,7 @@
 #define IDS_VDF_DXVA_SETTING			33187
 #define IDS_VDF_DXVA_ENABLE				33188
 #define IDS_VDF_DXVA_MODE				33189
+#define IDS_D3DFS_WARNING				33190
 
 
 // Next default values for new objects
@@ -1151,7 +1152,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33190
+#define _APS_NEXT_COMMAND_VALUE         33191
 #define _APS_NEXT_CONTROL_VALUE         22015
 #define _APS_NEXT_SYMED_VALUE           24000
 #endif

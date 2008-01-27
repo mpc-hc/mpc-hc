@@ -58,7 +58,7 @@ CFactoryTemplate g_Templates[] =
     {sudFilters[0].strName, &__uuidof(CMPCVideoDecFilter), CreateInstance<CMPCVideoDecFilter>, NULL, &sudFilters[0]},
 	{L"CMPCVideoDecPropertyPage", &__uuidof(CMPCVideoDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMPCVideoDecSettingsWnd> >},
 
-    {sudFilters[1].strName, &__uuidof(CMPCAudioDecFilter), CreateInstance<CMPCAudioDecFilter>, NULL, &sudFilters[1]},
+//    {sudFilters[1].strName, &__uuidof(CMPCAudioDecFilter), CreateInstance<CMPCAudioDecFilter>, NULL, &sudFilters[1]},
 //	{L"CMPCAudioDecPropertyPage", &__uuidof(CMPCAudioDecSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMPCAudioDecSettingsWnd> >},
 };
 

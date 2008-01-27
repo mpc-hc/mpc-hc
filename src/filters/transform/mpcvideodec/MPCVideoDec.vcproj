@@ -573,6 +573,14 @@
 			<File
 				RelativePath=".\FfmpegContext.c"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\MPCAudioDecFilter.cpp"

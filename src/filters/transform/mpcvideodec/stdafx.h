@@ -33,7 +33,6 @@
 #include <afx.h>
 #include <afxwin.h>         // MFC core and standard components
 
-// TODO: reference additional headers your program requires here
 
 #include <streams.h>
 #include <dvdmedia.h>
@@ -51,7 +50,7 @@
 	inline void LOG(LPCTSTR fmt, ...) {}
 #endif
 
-#define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) return hr;
+#define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) { ASSERT (FALSE); return hr; }
 
 #define SAFE_DELETE(x)				delete x;   x=NULL;
 #define SAFE_DELETE_ARRAY(x)		delete[] x; x=NULL;

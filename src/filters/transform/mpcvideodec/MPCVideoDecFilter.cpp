@@ -226,8 +226,15 @@ FFMPEG_CODECS		ffCodecs[] =
 	// SVQ1
 	{ &MEDIASUBTYPE_SVQ1, CODEC_ID_SVQ1, MAKEFOURCC('S','V','Q','1'),	NULL },
 
+	// Theora
+	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'),	NULL },
+
 	// WVC1
+#ifdef _DEBUG
 	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	&DXVA_VC1 },
+#else
+	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	NULL },
+#endif
 };
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
@@ -356,6 +363,9 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	// SVQ1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ1   },
 
+	// Theora
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_THEORA },
+
 	// VC1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WVC1   },
 };
@@ -390,7 +400,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
 
-	m_nThreadNumber			= m_pCpuId->GetProcessorNumber();
+	// TODO : find why 2 thread eat more CPU than 1...
+	m_nThreadNumber			= 1; //m_pCpuId->GetProcessorNumber();
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
@@ -591,7 +602,7 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 
 	char		Msg [500];
 	vsnprintf (Msg, sizeof(Msg), fmt, valist);
-	TRACE("AVLIB : %s", Msg);
+//	TRACE("AVLIB : %s", Msg);
 #endif
 }
 
@@ -890,7 +901,7 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
 HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
 {
-	CAutoLock cAutoLock(&m_csReceive);		// TODO : check this
+	CAutoLock cAutoLock(&m_csReceive);
 	m_nPosB = 1;
 	memset (&m_BFrames, 0, sizeof(m_BFrames));
 
@@ -960,7 +971,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
-	CAutoLock cAutoLock(&m_csReceive);		// TODO : check this
+	CAutoLock cAutoLock(&m_csReceive);
 	HRESULT			hr;
 	BYTE*			pDataIn;
 	int				nSize;
@@ -974,7 +985,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	hr			= pIn->GetTime(&rtStart, &rtStop);
 	m_rtStart	= rtStart;
 
-	if (rtStop < rtStart)
+	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
 	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
 

@@ -98,6 +98,7 @@ protected :
 private:
 	DXVA_PictureParameters		m_PictureParams;
 	DXVA_SliceInfo				m_SliceInfo;
+	WORD						m_wRefPictureIndex[2];
 
 	// Private functions
 	void					Init();

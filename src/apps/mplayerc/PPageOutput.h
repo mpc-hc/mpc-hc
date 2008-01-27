@@ -67,4 +67,5 @@ public:
 	afx_msg void OnUpdateMixerYUV(CCmdUI* pCmdUI);
 	afx_msg void OnSurfaceChange();
 	afx_msg void OnDSRendererChange(UINT nIDbutton);
+	afx_msg void OnFullscreenCheck();
 };

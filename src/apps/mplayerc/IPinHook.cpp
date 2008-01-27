@@ -447,11 +447,63 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	LOG_TOFILE (_T("picture.log"), strRes);
 }
 
+
+static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
+{
+	static bool	bFirst = true;
+	TCHAR		strBuff[800];
+	CString		strRes;
+
+	if (bFirst)
+		LOG_TOFILE (_T("picture.log"), _T("wDecodedPictureIndex,wDeblockedPictureIndex,wForwardRefPictureIndex,wBackwardRefPictureIndex,wPicWidthInMBminus1,wPicHeightInMBminus1,bMacroblockWidthMinus1,bMacroblockHeightMinus1,bBlockWidthMinus1,bBlockHeightMinus1,bBPPminus1,bPicStructure,bSecondField,bPicIntra,bPicBackwardPrediction,bBidirectionalAveragingMode,bMVprecisionAndChromaRelation,bChromaFormat,bPicScanFixed,bPicScanMethod,bPicReadbackRequests,bRcontrol,bPicSpatialResid8,bPicOverflowBlocks,bPicExtrapolation,bPicDeblocked,bPicDeblockConfined,bPic4MVallowed,bPicOBMC,bPicBinPB,bMV_RPS,bReservedBits,wBitstreamFcodes,wBitstreamPCEelements,bBitstreamConcealmentNeed,bBitstreamConcealmentMethod"));
+	bFirst = false;
+
+	strRes.Format (_T("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d"),
+		pPic->wDecodedPictureIndex,
+		pPic->wDeblockedPictureIndex,
+		pPic->wForwardRefPictureIndex,
+		pPic->wBackwardRefPictureIndex,
+		pPic->wPicWidthInMBminus1,
+		pPic->wPicHeightInMBminus1,
+		pPic->bMacroblockWidthMinus1,
+		pPic->bMacroblockHeightMinus1,
+		pPic->bBlockWidthMinus1,
+		pPic->bBlockHeightMinus1,
+		pPic->bBPPminus1,
+		pPic->bPicStructure,
+		pPic->bSecondField,
+		pPic->bPicIntra,
+		pPic->bPicBackwardPrediction,
+		pPic->bBidirectionalAveragingMode,
+		pPic->bMVprecisionAndChromaRelation,
+		pPic->bChromaFormat,
+		pPic->bPicScanFixed,
+		pPic->bPicScanMethod,
+		pPic->bPicReadbackRequests,
+		pPic->bRcontrol,
+		pPic->bPicSpatialResid8,
+		pPic->bPicOverflowBlocks,
+		pPic->bPicExtrapolation,
+		pPic->bPicDeblocked,
+		pPic->bPicDeblockConfined,
+		pPic->bPic4MVallowed,
+		pPic->bPicOBMC,
+		pPic->bPicBinPB,
+		pPic->bMV_RPS,
+		pPic->bReservedBits,
+		pPic->wBitstreamFcodes,
+		pPic->wBitstreamPCEelements,
+		pPic->bBitstreamConcealmentNeed,
+		pPic->bBitstreamConcealmentMethod);
+
+	LOG_TOFILE (_T("picture.log"), strRes);
+}
 #else
 inline static void LOG(...) { }
 inline static void LOGPF(LPCTSTR prefix, const DDPIXELFORMAT* p, int n) {}
 inline static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n) {}
 inline static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic) {}
+inline static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic) {}
 #endif
 
 
@@ -732,7 +784,10 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 	{
 		if (pamvaBufferInfo[i].dwTypeIndex == DXVA_PICTURE_DECODE_BUFFER)
 		{
-			LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
+			if (g_guidDXVADecoder == DXVA2_ModeH264_F)
+				LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
+			else if (g_guidDXVADecoder == DXVA2_ModeVC1_D)
+				LogDXVA_PictureParameters((DXVA_PictureParameters*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
 		}
 		else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER)
 		{
@@ -945,7 +1000,12 @@ public :
 				LOG (strBuffer);*/
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_PictureParametersBufferType)
-					LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
+				{
+					if (g_guidDXVADecoder == DXVA2_ModeH264_F)
+						LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
+					else if (g_guidDXVADecoder == DXVA2_ModeVC1_D)
+						LogDXVA_PictureParameters((DXVA_PictureParameters*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
+				}
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_SliceControlBufferType)
 				{
@@ -1175,7 +1235,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 	else
 	{
 #ifdef _DEBUG
-		if (Guid == DXVA2_ModeH264_E)
+		if ((Guid == DXVA2_ModeH264_E) || (Guid == DXVA2_ModeVC1_D))
 		{
 			*ppDecode	= new CFaceDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();

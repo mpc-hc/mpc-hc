@@ -729,6 +729,7 @@ void CPPageFormats::OnBnClickedButton14()
 
 	for(int i = 0, j = m_list.GetItemCount(); i < j; i++)
 	{
+		if(!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("Image file"))) continue;
 		SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly()?0:1);
 	}
 

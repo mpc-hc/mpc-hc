@@ -81,8 +81,6 @@ HRESULT CVideoDecOutputPin::Active()
 {
 	CAutoLock cAutoLock(m_pLock);
 
-	// TODO
-
 	if(m_Connected && !m_pOutputQueue)
 	{
 		HRESULT hr = NOERROR;

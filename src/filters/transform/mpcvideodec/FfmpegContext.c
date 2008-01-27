@@ -172,10 +172,10 @@ void FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodec
 		av_vc1_decode_frame (pAVCtx, pBuffer, nSize);
 	}
 
-	refpic = ((vc1->s.pict_type != B_TYPE) && (vc1->s.pict_type != BI_TYPE));
+	refpic = ((vc1->s.pict_type != B_TYPE) || (vc1->s.pict_type != BI_TYPE));
 
 	pPicParams->bPicIntra				= (vc1->s.pict_type == I_TYPE);
-	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type != B_TYPE);		// TODO check this !
+	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == B_TYPE);
 
 	//   Ok     Todo    Todo    Todo    Ok
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA		| Section 3.2.5

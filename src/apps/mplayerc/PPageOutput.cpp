@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_DSVMR9YUVMIXER, OnUpdateMixerYUV)	
 	ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_EVR_CUSTOM, &CPPageOutput::OnDSRendererChange)
+	ON_BN_CLICKED(IDC_FULLSCREEN_MONITOR_CHECK, OnFullscreenCheck)
 END_MESSAGE_MAP()
 
 void CPPageOutput::DisableRadioButton(UINT nID, UINT nDefID)
@@ -256,4 +257,15 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	}
 
 	SetModified();
+}
+
+void CPPageOutput::OnFullscreenCheck()
+{
+	UpdateData();
+	if (m_fD3DFullscreen &&
+		(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO))
+	{
+		m_fD3DFullscreen = false;
+		UpdateData(FALSE);
+	}
 }

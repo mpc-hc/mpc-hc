@@ -75,15 +75,14 @@ s_filters[] =
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
 	{_T("H264/AVC (DXVA)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#ifdef _DEBUG
-	{_T("VC1 (DXVA)"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
+	{_T("VC1"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Xvid"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Generic MPEG-4"), 1, TRA_MPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("MSMPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ1"), 1, TRA_SVQ1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
 #endif /* MINIMAL_BUILTIN_FILTERS */
