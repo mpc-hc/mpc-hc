@@ -1603,6 +1603,7 @@ BEGIN
             MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
             MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
             MENUITEM "&Hungarian",                  ID_LANGUAGE_HUNGARIAN
+			MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"
