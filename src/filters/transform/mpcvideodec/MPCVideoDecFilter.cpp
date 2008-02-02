@@ -230,11 +230,7 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'),	NULL },
 
 	// WVC1
-#ifdef _DEBUG
 	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	&DXVA_VC1 },
-#else
-	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	NULL },
-#endif
 };
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
@@ -987,7 +983,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
-	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
+//	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
 
 	switch (m_nDXVAMode)
 	{

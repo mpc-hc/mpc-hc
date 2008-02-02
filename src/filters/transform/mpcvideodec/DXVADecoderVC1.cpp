@@ -118,18 +118,37 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	//	m_SliceInfo.wMBbitOffset = 252;
 
 	// Send bitstream to accelerator
-	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
 //	m_SliceInfo.wNumberMBsInSlice	= 8160;		// TODO ???
 //	m_SliceInfo.wMBbitOffset		= ???
 	m_SliceInfo.wQuantizerScaleCode	= 1;		// TODO : 1->31 ???
 	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
+	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
 
 	// Decode frame
 	CHECK_HR (Execute());
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop); 
+	// Re-order B frames
+	if (m_PictureParams.bPicBackwardPrediction == 1)
+	{
+		UpdateStore (m_nDelayedSurfaceIndex, rtStart, rtStop);
+		rtStart = m_rtStartDelayed;
+		rtStop  = m_rtStopDelayed;
+	}
+	else
+	{
+		m_rtStartDelayed		= rtStart;
+		m_rtStopDelayed			= rtStop;
+		if (m_nDelayedSurfaceIndex != -1)
+		{
+			rtStart					= _I64_MAX;
+			rtStop					= _I64_MAX;
+		}
+		m_nDelayedSurfaceIndex	= nSurfaceIndex;
+	}
+
+	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop);
 
 	return DisplayNextFrame();
 }
@@ -163,25 +182,6 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 }
 
-//
-//static int vc1_unescape_buffer(BYTE* src, int size, BYTE* dst)
-//{
-//    int dsize = 0, i;
-//
-//    if(size < 4){
-//        for(dsize = 0; dsize < size; dsize++) *dst++ = *src++;
-//        return size;
-//    }
-//    for(i = 0; i < size; i++, src++) {
-//        if(src[0] == 3 && i >= 2 && !src[-1] && !src[-2] && i < size-1 && src[1] < 4) {
-//            dst[dsize++] = src[1];
-//            src++;
-//            i++;
-//        } else
-//            dst[dsize++] = *src;
-//    }
-//    return dsize;
-//}
 
 void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
@@ -192,7 +192,6 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 	pDXVABuffer	+=4;
 	
 	// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
-//	nSize = vc1_unescape_buffer ((BYTE*)pBuffer, nSize, pDXVABuffer);
 	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 
 	nSize  +=4;
@@ -205,6 +204,10 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 
 void CDXVADecoderVC1::Flush()
 {
+	m_nDelayedSurfaceIndex	= -1;
+	m_rtStartDelayed		= _I64_MAX;
+	m_rtStopDelayed			= _I64_MAX;
+
 	if (m_wRefPictureIndex[0] != VC1_NO_REF) RemoveRefFrame (m_wRefPictureIndex[0]);
 	if (m_wRefPictureIndex[1] != VC1_NO_REF) RemoveRefFrame (m_wRefPictureIndex[1]);
 

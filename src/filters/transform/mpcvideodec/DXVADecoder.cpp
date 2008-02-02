@@ -247,6 +247,7 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 	if (SUCCEEDED (hr))
 	{
 		pNewSample->SetTime(&rtStart, &rtStop);
+		pNewSample->SetMediaTime(NULL, NULL);
 		*ppSampleToDeliver = pNewSample.Detach();
 	}
 	return hr;
@@ -435,7 +436,7 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 // === Picture store functions
 void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-//	TRACE ("AddStore: %d   %d\n", nSurfaceIndex, rtStart);
+//	TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d\n", rtStart, rtStop, nSurfaceIndex);
 	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
@@ -447,6 +448,12 @@ void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 	m_nWaitingPics++;
 }
 
+void CDXVADecoder::UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
+{
+	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample != NULL) && !m_pPictureStore[nSurfaceIndex].bDisplayed);
+	m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
+	m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
+}
 
 void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 {
@@ -501,6 +508,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 				break;
 			case ENGINE_DXVA2 :
 				// For DXVA2 media sample is in the picture store
+				m_pPictureStore[nPicIndex].pSample->SetTime (&m_pPictureStore[nPicIndex].rtStart, &m_pPictureStore[nPicIndex].rtStop);
 				hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
 				break;
 			}
@@ -508,7 +516,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 
 #ifdef _DEBUG
 			static REFERENCE_TIME	rtLast = 0;
-			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d)  {Delta prev = %10I64d}   %d\n", 
+			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d)  {Delta prev = %10I64d}   Ind = %d\n", 
 						m_pPictureStore[nPicIndex].rtStart, 
 						m_pPictureStore[nPicIndex].rtStop, 
 						m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 

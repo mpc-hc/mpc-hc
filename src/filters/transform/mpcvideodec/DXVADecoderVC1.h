@@ -100,6 +100,10 @@ private:
 	DXVA_SliceInfo				m_SliceInfo;
 	WORD						m_wRefPictureIndex[2];
 
+	int							m_nDelayedSurfaceIndex;
+	REFERENCE_TIME				m_rtStartDelayed;
+	REFERENCE_TIME				m_rtStopDelayed;
+
 	// Private functions
 	void					Init();
 
