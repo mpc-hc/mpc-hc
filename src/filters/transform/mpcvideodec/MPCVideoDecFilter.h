@@ -182,6 +182,7 @@ public:
 	STDMETHODIMP	CreatePage(const GUID& guid, IPropertyPage** ppPage);
 
 	// === IMPCVideoDecFilter
+	STDMETHODIMP Apply();
 	STDMETHODIMP SetThreadNumber(int nValue);
 	STDMETHODIMP_(int) GetThreadNumber();
 	STDMETHODIMP SetEnableDXVA(bool fValue);

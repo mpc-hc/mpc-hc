@@ -481,18 +481,7 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 {
 	Cleanup();
 
-	delete m_pCpuId;
-
-	
-	CRegKey key;
-	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder")))
-	{
-		key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
-		key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
-		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
-		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
-		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
-	}
+	SAFE_DELETE(m_pCpuId);
 }
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
@@ -1286,11 +1275,12 @@ HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* p
 				if (pPixelFormats[iFormat].dwFourCC == MAKEFOURCC ('N', 'V', '1', '2'))
 				{
 					memcpy (pPixelFormat, &pPixelFormats[iFormat], sizeof(DDPIXELFORMAT));
+					SAFE_DELETE_ARRAY(pPixelFormats)
 					return S_OK;
 				}
 			}
 
-			delete[] pPixelFormats;
+			SAFE_DELETE_ARRAY(pPixelFormats);
 			hr = E_FAIL;
 		}
 	}
@@ -1375,6 +1365,19 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 
 
 // IFfmpegDecFilter
+STDMETHODIMP CMPCVideoDecFilter::Apply()
+{
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder")))
+	{
+		key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
+		key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
+		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
+		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
+		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
+	}
+	return S_OK;
+}
 
 STDMETHODIMP CMPCVideoDecFilter::SetThreadNumber(int nValue)
 {

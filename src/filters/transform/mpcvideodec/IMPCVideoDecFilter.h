@@ -27,6 +27,8 @@
 [uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262")]
 interface IMPCVideoDecFilter : public IUnknown
 {
+	STDMETHOD(Apply()) = 0;
+
 	STDMETHOD(SetThreadNumber(int nValue)) = 0;
 	STDMETHOD_(int, GetThreadNumber()) = 0;
 

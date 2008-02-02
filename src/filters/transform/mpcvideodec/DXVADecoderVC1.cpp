@@ -132,12 +132,18 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	// Re-order B frames
 	if (m_PictureParams.bPicBackwardPrediction == 1)
 	{
-		UpdateStore (m_nDelayedSurfaceIndex, rtStart, rtStop);
-		rtStart = m_rtStartDelayed;
-		rtStop  = m_rtStopDelayed;
+		// if previous frame is I or P, swap reference time with b-frame
+		if (m_nDelayedSurfaceIndex != -1)
+		{
+			UpdateStore (m_nDelayedSurfaceIndex, rtStart, rtStop);
+			rtStart = m_rtStartDelayed;
+			rtStop  = m_rtStopDelayed;
+		}
+		m_nDelayedSurfaceIndex = -1;
 	}
 	else
 	{
+		// Save I or P reference time (swap later)
 		m_rtStartDelayed		= rtStart;
 		m_rtStopDelayed			= rtStop;
 		if (m_nDelayedSurfaceIndex != -1)

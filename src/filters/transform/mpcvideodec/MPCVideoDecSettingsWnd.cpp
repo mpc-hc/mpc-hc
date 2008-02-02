@@ -196,6 +196,8 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
+
+		m_pMDF->Apply();
 	}
 
 	return true;
