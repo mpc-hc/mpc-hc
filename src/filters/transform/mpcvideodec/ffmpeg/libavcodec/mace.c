@@ -2,18 +2,20 @@
  * MACE decoder
  * Copyright (c) 2002 Laszlo Torok <torokl@alpha.dfmk.hu>
  *
- * This library is free software; you can redistribute it and/or
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -261,7 +263,7 @@ static void chomp3(MACEContext *ctx,
 
 /* /// "Exp1to3()" */
 static void Exp1to3(MACEContext *ctx,
-             uint8_t *inBuffer,
+             const uint8_t *inBuffer,
              void *outBuffer,
              uint32_t cnt,
              uint32_t numChannels,
@@ -345,7 +347,7 @@ static void chomp6(MACEContext *ctx,
 
 /* /// "Exp1to6()" */
 static void Exp1to6(MACEContext *ctx,
-             uint8_t *inBuffer,
+             const uint8_t *inBuffer,
              void *outBuffer,
              uint32_t cnt,
              uint32_t numChannels,
@@ -399,7 +401,7 @@ static int mace_decode_init(AVCodecContext * avctx)
 
 static int mace_decode_frame(AVCodecContext *avctx,
                             void *data, int *data_size,
-                            uint8_t *buf, int buf_size)
+                            const uint8_t *buf, int buf_size)
 {
     short *samples;
     MACEContext *c = avctx->priv_data;

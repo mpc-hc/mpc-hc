@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef INTREADWRITE_H
-#define INTREADWRITE_H
+#ifndef FFMPEG_INTREADWRITE_H
+#define FFMPEG_INTREADWRITE_H
 
 #ifdef __GNUC__
 #include <stdint.h>
@@ -40,9 +40,9 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
 
 #else /* __GNUC__ */
 
-#define AV_RN16(a) (*((uint16_t*)(a)))
-#define AV_RN32(a) (*((uint32_t*)(a)))
-#define AV_RN64(a) (*((uint64_t*)(a)))
+#define AV_RN16(a) (*((const uint16_t*)(a)))
+#define AV_RN32(a) (*((const uint32_t*)(a)))
+#define AV_RN64(a) (*((const uint64_t*)(a)))
 
 #define AV_WN16(a, b) *((uint16_t*)(a)) = (b)
 #define AV_WN32(a, b) *((uint32_t*)(a)) = (b)
@@ -51,7 +51,7 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
 #endif /* !__GNUC__ */
 
 /* endian macros */
-#define AV_RB8(x)     (((uint8_t*)(x))[0])
+#define AV_RB8(x)     (((const uint8_t*)(x))[0])
 #define AV_WB8(p, d)  do { ((uint8_t*)(p))[0] = (d); } while(0)
 
 #define AV_RL8(x)     AV_RB8(x)
@@ -72,29 +72,29 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
 #  define AV_WL16(p, d) AV_WN16(p, d)
 # endif
 #else /* HAVE_FAST_UNALIGNED */
-#define AV_RB16(x)  ((((uint8_t*)(x))[0] << 8) | ((uint8_t*)(x))[1])
+#define AV_RB16(x)  ((((const uint8_t*)(x))[0] << 8) | ((const uint8_t*)(x))[1])
 #define AV_WB16(p, d) do { \
                     ((uint8_t*)(p))[1] = (d); \
                     ((uint8_t*)(p))[0] = (d)>>8; } while(0)
 
-#define AV_RL16(x)  ((((uint8_t*)(x))[1] << 8) | \
-                      ((uint8_t*)(x))[0])
+#define AV_RL16(x)  ((((const uint8_t*)(x))[1] << 8) | \
+                      ((const uint8_t*)(x))[0])
 #define AV_WL16(p, d) do { \
                     ((uint8_t*)(p))[0] = (d); \
                     ((uint8_t*)(p))[1] = (d)>>8; } while(0)
 #endif
 
-#define AV_RB24(x)  ((((uint8_t*)(x))[0] << 16) | \
-                     (((uint8_t*)(x))[1] <<  8) | \
-                      ((uint8_t*)(x))[2])
+#define AV_RB24(x)  ((((const uint8_t*)(x))[0] << 16) | \
+                     (((const uint8_t*)(x))[1] <<  8) | \
+                      ((const uint8_t*)(x))[2])
 #define AV_WB24(p, d) do { \
                     ((uint8_t*)(p))[2] = (d); \
                     ((uint8_t*)(p))[1] = (d)>>8; \
                     ((uint8_t*)(p))[0] = (d)>>16; } while(0)
 
-#define AV_RL24(x)  ((((uint8_t*)(x))[2] << 16) | \
-                     (((uint8_t*)(x))[1] <<  8) | \
-                      ((uint8_t*)(x))[0])
+#define AV_RL24(x)  ((((const uint8_t*)(x))[2] << 16) | \
+                     (((const uint8_t*)(x))[1] <<  8) | \
+                      ((const uint8_t*)(x))[0])
 #define AV_WL24(p, d) do { \
                     ((uint8_t*)(p))[0] = (d); \
                     ((uint8_t*)(p))[1] = (d)>>8; \
@@ -115,20 +115,20 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
 #  define AV_WL32(p, d) AV_WN32(p, d)
 # endif
 #else /* HAVE_FAST_UNALIGNED */
-#define AV_RB32(x)  ((((uint8_t*)(x))[0] << 24) | \
-                     (((uint8_t*)(x))[1] << 16) | \
-                     (((uint8_t*)(x))[2] <<  8) | \
-                      ((uint8_t*)(x))[3])
+#define AV_RB32(x)  ((((const uint8_t*)(x))[0] << 24) | \
+                     (((const uint8_t*)(x))[1] << 16) | \
+                     (((const uint8_t*)(x))[2] <<  8) | \
+                      ((const uint8_t*)(x))[3])
 #define AV_WB32(p, d) do { \
                     ((uint8_t*)(p))[3] = (d); \
                     ((uint8_t*)(p))[2] = (d)>>8; \
                     ((uint8_t*)(p))[1] = (d)>>16; \
                     ((uint8_t*)(p))[0] = (d)>>24; } while(0)
 
-#define AV_RL32(x) ((((uint8_t*)(x))[3] << 24) | \
-                    (((uint8_t*)(x))[2] << 16) | \
-                    (((uint8_t*)(x))[1] <<  8) | \
-                     ((uint8_t*)(x))[0])
+#define AV_RL32(x) ((((const uint8_t*)(x))[3] << 24) | \
+                    (((const uint8_t*)(x))[2] << 16) | \
+                    (((const uint8_t*)(x))[1] <<  8) | \
+                     ((const uint8_t*)(x))[0])
 #define AV_WL32(p, d) do { \
                     ((uint8_t*)(p))[0] = (d); \
                     ((uint8_t*)(p))[1] = (d)>>8; \
@@ -151,14 +151,14 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
 #  define AV_WL64(p, d) AV_WN64(p, d)
 # endif
 #else /* HAVE_FAST_UNALIGNED */
-#define AV_RB64(x)  (((uint64_t)((uint8_t*)(x))[0] << 56) | \
-                     ((uint64_t)((uint8_t*)(x))[1] << 48) | \
-                     ((uint64_t)((uint8_t*)(x))[2] << 40) | \
-                     ((uint64_t)((uint8_t*)(x))[3] << 32) | \
-                     ((uint64_t)((uint8_t*)(x))[4] << 24) | \
-                     ((uint64_t)((uint8_t*)(x))[5] << 16) | \
-                     ((uint64_t)((uint8_t*)(x))[6] <<  8) | \
-                      (uint64_t)((uint8_t*)(x))[7])
+#define AV_RB64(x)  (((uint64_t)((const uint8_t*)(x))[0] << 56) | \
+                     ((uint64_t)((const uint8_t*)(x))[1] << 48) | \
+                     ((uint64_t)((const uint8_t*)(x))[2] << 40) | \
+                     ((uint64_t)((const uint8_t*)(x))[3] << 32) | \
+                     ((uint64_t)((const uint8_t*)(x))[4] << 24) | \
+                     ((uint64_t)((const uint8_t*)(x))[5] << 16) | \
+                     ((uint64_t)((const uint8_t*)(x))[6] <<  8) | \
+                      (uint64_t)((const uint8_t*)(x))[7])
 #define AV_WB64(p, d) do { \
                     ((uint8_t*)(p))[7] = (d);     \
                     ((uint8_t*)(p))[6] = (d)>>8;  \
@@ -169,14 +169,14 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
                     ((uint8_t*)(p))[1] = (d)>>48; \
                     ((uint8_t*)(p))[0] = (d)>>56; } while(0)
 
-#define AV_RL64(x)  (((uint64_t)((uint8_t*)(x))[7] << 56) | \
-                     ((uint64_t)((uint8_t*)(x))[6] << 48) | \
-                     ((uint64_t)((uint8_t*)(x))[5] << 40) | \
-                     ((uint64_t)((uint8_t*)(x))[4] << 32) | \
-                     ((uint64_t)((uint8_t*)(x))[3] << 24) | \
-                     ((uint64_t)((uint8_t*)(x))[2] << 16) | \
-                     ((uint64_t)((uint8_t*)(x))[1] <<  8) | \
-                      (uint64_t)((uint8_t*)(x))[0])
+#define AV_RL64(x)  (((uint64_t)((const uint8_t*)(x))[7] << 56) | \
+                     ((uint64_t)((const uint8_t*)(x))[6] << 48) | \
+                     ((uint64_t)((const uint8_t*)(x))[5] << 40) | \
+                     ((uint64_t)((const uint8_t*)(x))[4] << 32) | \
+                     ((uint64_t)((const uint8_t*)(x))[3] << 24) | \
+                     ((uint64_t)((const uint8_t*)(x))[2] << 16) | \
+                     ((uint64_t)((const uint8_t*)(x))[1] <<  8) | \
+                      (uint64_t)((const uint8_t*)(x))[0])
 #define AV_WL64(p, d) do { \
                     ((uint8_t*)(p))[0] = (d);     \
                     ((uint8_t*)(p))[1] = (d)>>8;  \
@@ -188,4 +188,4 @@ struct unaligned_16 { uint16_t l; } __attribute__((packed));
                     ((uint8_t*)(p))[7] = (d)>>56; } while(0)
 #endif
 
-#endif /* INTREADWRITE_H */
+#endif /* FFMPEG_INTREADWRITE_H */

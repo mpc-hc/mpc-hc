@@ -351,7 +351,7 @@ static void xa_decode(short *out, const unsigned char *in,
 
 static int adpcm_decode_frame(AVCodecContext *avctx,
                             void *data, int *data_size,
-                            uint8_t *buf, int buf_size)
+                            const uint8_t *buf, int buf_size)
 {
     ADPCMContext *c = avctx->priv_data;
     ADPCMChannelStatus *cs;
@@ -359,7 +359,7 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
     int block_predictor[2];
     short *samples;
     short *samples_end;
-    uint8_t *src;
+    const uint8_t *src;
     int st; /* stereo */
 
     /* DK3 ADPCM accounting variables */
@@ -446,10 +446,8 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
 
         for(i=0; i<avctx->channels; i++){
             cs = &(c->status[i]);
-            cs->predictor = (int16_t)(src[0] + (src[1]<<8));
+            cs->predictor = *samples++ = (int16_t)(src[0] + (src[1]<<8));
             src+=2;
-
-        // XXX: is this correct ??: *samples++ = cs->predictor;
 
             cs->step_index = *src++;
             if (cs->step_index > 88){
@@ -633,8 +631,6 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
         }
         break;
     case CODEC_ID_ADPCM_XA:
-        c->status[0].sample1 = c->status[0].sample2 =
-        c->status[1].sample1 = c->status[1].sample2 = 0;
         while (buf_size >= 128) {
             xa_decode(samples, src, &c->status[0], &c->status[1],
                 avctx->channels);
@@ -886,5 +882,3 @@ ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_2, adpcm_sbpro_2);
 ADPCM_DECODER(CODEC_ID_ADPCM_SWF, adpcm_swf);
 ADPCM_DECODER(CODEC_ID_ADPCM_XA, adpcm_xa);
 ADPCM_DECODER(CODEC_ID_ADPCM_YAMAHA, adpcm_yamaha);
-
-#undef ADPCM_CODEC

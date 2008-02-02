@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -201,7 +200,7 @@ static void ulti_grad(AVFrame *frame, int x, int y, uint8_t *Y, int chroma, int 
 
 static int ulti_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
-                             uint8_t *buf, int buf_size)
+                             const uint8_t *buf, int buf_size)
 {
     UltimotionDecodeContext *s=avctx->priv_data;
     int modifier = 0;

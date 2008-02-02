@@ -46,8 +46,8 @@
 #define AV_STRINGIFY(s)         AV_TOSTRING(s)
 #define AV_TOSTRING(s) #s
 
-#define LIBAVCODEC_VERSION_INT  ((51<<16)+(49<<8)+0)
-#define LIBAVCODEC_VERSION      51.49.0
+#define LIBAVCODEC_VERSION_INT  ((51<<16)+(50<<8)+0)
+#define LIBAVCODEC_VERSION      51.50.0
 #define LIBAVCODEC_BUILD        LIBAVCODEC_VERSION_INT
 
 #define LIBAVCODEC_IDENT        "Lavc" AV_STRINGIFY(LIBAVCODEC_VERSION)
@@ -517,10 +517,10 @@ typedef struct AVPanScan{
  * Audio Video Frame.
  * New fields can be added to the end of FF_COMMON_FRAME with minor version
  * bumps.
- * Removial, reordering and changes to existing fields require a Major
+ * Removal, reordering and changes to existing fields require a major
  * version bump. No fields should be added into AVFrame before or after
  * FF_COMMON_FRAME!
- * sizeof(AVFrame) must not be used outside libav*
+ * sizeof(AVFrame) must not be used outside libav*.
  */
 typedef struct AVFrame {
     FF_COMMON_FRAME
@@ -531,9 +531,9 @@ typedef struct AVFrame {
 /**
  * main external API structure.
  * New fields can be added to the end with minor version bumps.
- * Removial, reordering and changes to existing fields require a Major
+ * Removal, reordering and changes to existing fields require a major
  * version bump.
- * sizeof(AVCodecContext) must not be used outside libav*
+ * sizeof(AVCodecContext) must not be used outside libav*.
  */
 struct TlibavcodecExt;
 typedef struct AVCodecContext {
@@ -1867,7 +1867,7 @@ typedef struct AVCodecContext {
     int directpred;
 
     /**
-     * Audio cutoff bandwidth (0 means "automatic").
+     * Audio cutoff bandwidth (0 means "automatic")
      * - encoding: Set by user.
      * - decoding: unused
      */
@@ -1988,7 +1988,7 @@ typedef struct AVCodec {
     int (*encode)(AVCodecContext *, uint8_t *buf, int buf_size, void *data);
     int (*close)(AVCodecContext *);
     int (*decode)(AVCodecContext *, void *outdata, int *outdata_size,
-                  uint8_t *buf, int buf_size);
+                  const uint8_t *buf, int buf_size);
     int capabilities;
     struct AVCodec *next;
     void (*flush)(AVCodecContext *);

@@ -1,4 +1,8 @@
 /*
+ * Creative YUV (CYUV) Video Decoder
+ *   by Mike Melanson (melanson@pcisys.net)
+ * based on "Creative YUV (CYUV) stream format for AVI":
+ *   http://www.csse.monash.edu.au/~timf/videocodec/cyuv.txt
  *
  * Copyright (C) 2003 the ffmpeg project
  *
@@ -17,12 +21,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
- * Creative YUV (CYUV) Video Decoder
- *   by Mike Melanson (melanson@pcisys.net)
- * based on "Creative YUV (CYUV) stream format for AVI":
- *   http://www.csse.monash.edu.au/~timf/videocodec/cyuv.txt
- *
  */
 
 /**
@@ -63,7 +61,7 @@ static int cyuv_decode_init(AVCodecContext *avctx)
 
 static int cyuv_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
-                             uint8_t *buf, int buf_size)
+                             const uint8_t *buf, int buf_size)
 {
     CyuvDecodeContext *s=avctx->priv_data;
 
@@ -75,9 +73,9 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
     int v_ptr;
 
     /* prediction error tables (make it clear that they are signed values) */
-    signed char *y_table = (signed char*)buf +  0;
-    signed char *u_table = (signed char*)buf + 16;
-    signed char *v_table = (signed char*)buf + 32;
+    const signed char *y_table = (const signed char*)buf +  0;
+    const signed char *u_table = (const signed char*)buf + 16;
+    const signed char *v_table = (const signed char*)buf + 32;
 
     unsigned char y_pred, u_pred, v_pred;
     int stream_ptr;

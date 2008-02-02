@@ -362,7 +362,7 @@ int ff_mpeg4_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size){
 
 int ff_h263_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
-                             uint8_t *buf, int buf_size)
+                             const uint8_t *buf, int buf_size)
 {
     MpegEncContext *s = avctx->priv_data;
     int ret;

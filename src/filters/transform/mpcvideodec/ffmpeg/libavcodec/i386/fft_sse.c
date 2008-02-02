@@ -35,15 +35,6 @@ static const int p1m1p1m1[4] __attribute__((aligned(16))) =
 static const int m1m1m1m1[4] __attribute__((aligned(16))) =
     { 1 << 31, 1 << 31, 1 << 31, 1 << 31 };
 
-#if 0
-static void print_v4sf(const char *str, __m128 a)
-{
-    float *p = (float *)&a;
-    printf("%s: %f %f %f %f\n",
-           str, p[0], p[1], p[2], p[3]);
-}
-#endif
-
 /* XXX: handle reverse case */
 void ff_fft_calc_sse(FFTContext *s, FFTComplex *z)
 {

@@ -363,7 +363,7 @@ static inline void bit_copy(PutBitContext *pb, GetBitContext *gb)
 
 /* mb_x and mb_y are in units of 8 pixels */
 static inline void dv_decode_video_segment(DVVideoContext *s,
-                                           uint8_t *buf_ptr1,
+                                           const uint8_t *buf_ptr1,
                                            const uint16_t *mb_pos_ptr)
 {
     int quant, dc, dct_mode, class1, j;
@@ -372,7 +372,7 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
     int c_offset;
     uint8_t *y_ptr;
     void (*idct_put)(uint8_t *dest, int line_size, DCTELEM *block);
-    uint8_t *buf_ptr;
+    const uint8_t *buf_ptr;
     PutBitContext pb, vs_pb;
     GetBitContext gb;
     BlockInfo mb_data[5 * 6], *mb, *mb1;
@@ -1030,7 +1030,7 @@ static int dv_encode_mt(AVCodecContext *avctx, void* sl)
    144000 bytes for PAL - or twice those for 50Mbps) */
 static int dvvideo_decode_frame(AVCodecContext *avctx,
                                  void *data, int *data_size,
-                                 uint8_t *buf, int buf_size)
+                                 const uint8_t *buf, int buf_size)
 {
     DVVideoContext *s = avctx->priv_data;
 

@@ -225,14 +225,14 @@ static void IMLT(float *pInput, float *pOutput, int odd_band, float* mdct_tmp)
  * @param out       pointer to 8 bit array of outdata
  */
 
-static int decode_bytes(uint8_t* inbuffer, uint8_t* out, int bytes){
+static int decode_bytes(const uint8_t* inbuffer, uint8_t* out, int bytes){
     int i, off;
     uint32_t c;
-    uint32_t* buf;
+    const uint32_t* buf;
     uint32_t* obuf = (uint32_t*) out;
 
     off = (int)((long)inbuffer & 3);
-    buf = (uint32_t*) (inbuffer - off);
+    buf = (const uint32_t*) (inbuffer - off);
     c = be2me_32((0x537F6103 >> (off*8)) | (0x537F6103 << (32-(off*8))));
     bytes += 3 + off;
     for (i = 0; i < bytes/4; i++)
@@ -868,7 +868,7 @@ static int decodeFrame(ATRAC3Context *q, uint8_t* databuf)
 
 static int atrac3_decode_frame(AVCodecContext *avctx,
             void *data, int *data_size,
-            uint8_t *buf, int buf_size) {
+            const uint8_t *buf, int buf_size) {
     ATRAC3Context *q = avctx->priv_data;
     int result = 0, i;
     uint8_t* databuf;
@@ -895,13 +895,13 @@ static int atrac3_decode_frame(AVCodecContext *avctx,
     if (q->channels == 1) {
         /* mono */
         for (i = 0; i<1024; i++)
-            samples[i] = av_clip((int)(q->outSamples[i] + 0.5), -32768, 32767);
+            samples[i] = av_clip_int16((int)(q->outSamples[i] + 0.5));
         *data_size = 1024 * sizeof(int16_t);
     } else {
         /* stereo */
         for (i = 0; i < 1024; i++) {
-            samples[i*2] = av_clip((int)(q->outSamples[i] + 0.5), -32768, 32767);
-            samples[i*2+1] = av_clip((int)(q->outSamples[1024+i] + 0.5), -32768, 32767);
+            samples[i*2] = av_clip_int16((int)(q->outSamples[i] + 0.5));
+            samples[i*2+1] = av_clip_int16((int)(q->outSamples[1024+i] + 0.5));
         }
         *data_size = 2048 * sizeof(int16_t);
     }
@@ -919,7 +919,7 @@ static int atrac3_decode_frame(AVCodecContext *avctx,
 static int atrac3_decode_init(AVCodecContext *avctx)
 {
     int i;
-    uint8_t *edata_ptr = avctx->extradata;
+    const uint8_t *edata_ptr = avctx->extradata;
     ATRAC3Context *q = avctx->priv_data;
 
     /* Take data from the AVCodecContext (RM container). */

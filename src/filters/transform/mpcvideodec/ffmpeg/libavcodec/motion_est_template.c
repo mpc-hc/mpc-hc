@@ -233,6 +233,10 @@ static int no_sub_motion_search(MpegEncContext * s,
     return dmin;
 }
 
+#if defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ > 1)
+#define inline __attribute__ ((gnu_inline)) inline
+#endif
+
 inline int ff_get_mb_score(MpegEncContext * s, int mx, int my, int src_index,
                                int ref_index, int size, int h, int add_rate)
 {

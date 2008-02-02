@@ -24,8 +24,8 @@
  * Constants for DV codec.
  */
 
-#ifndef AVCODEC_DVDATA_H
-#define AVCODEC_DVDATA_H
+#ifndef FFMPEG_DVDATA_H
+#define FFMPEG_DVDATA_H
 
 #include "avcodec.h"
 //#include "rational.h"
@@ -336,7 +336,7 @@ static const uint8_t dv_quant_shifts[22][4] = {
 
 static const uint8_t dv_quant_offset[4] = { 6, 3, 0, 1 };
 
-/* NOTE: I prefer hardcoding the positionning of dv blocks, it is
+/* NOTE: I prefer hardcoding the positioning of dv blocks, it is
    simpler :-) */
 
 static const uint16_t dv_place_420[1620] = {
@@ -2671,7 +2671,7 @@ enum dv_pack_type {
 /* largest possible DV frame, in bytes (PAL 50Mbps) */
 #define DV_MAX_FRAME_SIZE 288000
 
-static inline const DVprofile* dv_frame_profile(uint8_t* frame)
+static inline const DVprofile* dv_frame_profile(const uint8_t* frame)
 {
     if ((frame[3] & 0x80) == 0) {      /* DSF flag */
         /* it's an NTSC format */
@@ -2739,4 +2739,4 @@ static inline int dv_write_ssyb_id(uint8_t syb_num, uint8_t fr, uint8_t* buf)
     return 3;
 }
 
-#endif // AVCODEC_DVDATA_H
+#endif /* FFMPEG_DVDATA_H */

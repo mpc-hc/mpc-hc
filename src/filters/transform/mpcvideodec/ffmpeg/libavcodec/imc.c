@@ -41,6 +41,7 @@
 
 #include "imcdata.h"
 
+#define IMC_BLOCK_SIZE 64
 #define IMC_FRAME_ID 0x21
 #define BANDS 32
 #define COEFFS 256
@@ -625,7 +626,7 @@ static int imc_get_coeffs (IMCContext* q) {
 
 static int imc_decode_frame(AVCodecContext * avctx,
                             void *data, int *data_size,
-                            uint8_t * buf, int buf_size)
+                            const uint8_t * buf, int buf_size)
 {
 
     IMCContext *q = avctx->priv_data;
@@ -635,13 +636,12 @@ static int imc_decode_frame(AVCodecContext * avctx,
     int flag;
     int bits, summer;
     int counter, bitscount;
-    uint16_t *buf16 = (uint16_t *) buf;
+    uint16_t buf16[IMC_BLOCK_SIZE / 2];
 
-    /* FIXME: input should not be modified */
-    for(i = 0; i < FFMIN(buf_size, avctx->block_align) / 2; i++)
-        buf16[i] = bswap_16(buf16[i]);
+    for(i = 0; i < IMC_BLOCK_SIZE / 2; i++)
+        buf16[i] = bswap_16(((const uint16_t*)buf)[i]);
 
-    init_get_bits(&q->gb, buf, 512);
+    init_get_bits(&q->gb, (const uint8_t*)buf16, IMC_BLOCK_SIZE * 8);
 
     /* Check the frame header */
     imc_hdr = get_bits(&q->gb, 9);
@@ -788,7 +788,7 @@ static int imc_decode_frame(AVCodecContext * avctx,
 
     *data_size = COEFFS * sizeof(int16_t);
 
-    return avctx->block_align;
+    return IMC_BLOCK_SIZE;
 }
 
 
@@ -802,11 +802,12 @@ static int imc_decode_close(AVCodecContext * avctx)
 
 
 AVCodec imc_decoder = {
-    .name = "imc",
-    .type = CODEC_TYPE_AUDIO,
-    .id = CODEC_ID_IMC,
-    .priv_data_size = sizeof(IMCContext),
-    .init = imc_decode_init,
-    .close = imc_decode_close,
-    .decode = imc_decode_frame,
+    /*.name =*/ "imc",
+    /*.type =*/ CODEC_TYPE_AUDIO,
+    /*.id =*/ CODEC_ID_IMC,
+    /*.priv_data_size =*/ sizeof(IMCContext),
+    /*.init =*/ imc_decode_init,
+	/*.encode =*/ NULL,
+    /*.close =*/ imc_decode_close,
+    /*.decode =*/ imc_decode_frame,
 };

@@ -394,11 +394,12 @@ AVEvalExpr * ff_parse(char *s, const char **const_name,
                char **error){
     Parser p;
     AVEvalExpr * e;
-#ifdef __GNUC__
-    char w[strlen(s) + 1], * wp = w;
+#if __STDC_VERSION__ >= 199901L
+    char w[strlen(s) + 1];
 #else
-    char *w=(char *)alloca(strlen(s)),* wp=w;
+    char *w=(char *)alloca(strlen(s));
 #endif
+		char *wp=w;
 
     while (*s)
         if (!isspace(*s++)) *wp++ = s[-1];

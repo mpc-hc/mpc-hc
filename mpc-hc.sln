@@ -812,7 +812,6 @@ Global
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Debug Unicode|x64.ActiveCfg = Debug Unicode lib|x64
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Debug Unicode|x64.Build.0 = Debug Unicode lib|x64
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Release Unicode|Win32.ActiveCfg = Release Unicode lib|Win32
-		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}.Release Unicode|x64.Build.0 = Release Unicode lib|x64
 	EndGlobalSection

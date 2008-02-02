@@ -64,7 +64,6 @@ typedef struct AC3EncodeContext {
 
 static int16_t costab[64];
 static int16_t sintab[64];
-static int16_t fft_rev[512];
 static int16_t xcos1[128];
 static int16_t xsin1[128];
 
@@ -73,8 +72,6 @@ static int16_t xsin1[128];
 
 /* new exponents are sent if their Norm 1 exceed this number */
 #define EXP_DIFF_THRESHOLD 1000
-
-static void fft_init(int ln);
 
 static inline int16_t fix15(float a)
 {
@@ -93,7 +90,7 @@ typedef struct IComplex {
 
 static void fft_init(int ln)
 {
-    int i, j, m, n;
+    int i, n;
     float alpha;
 
     n = 1 << ln;
@@ -102,14 +99,6 @@ static void fft_init(int ln)
         alpha = 2 * M_PI * (float)i / (float)n;
         costab[i] = fix15(cos(alpha));
         sintab[i] = fix15(sin(alpha));
-    }
-
-    for(i=0;i<n;i++) {
-        m=0;
-        for(j=0;j<ln;j++) {
-            m |= ((i >> j) & 1) << (ln-j-1);
-        }
-        fft_rev[i]=m;
     }
 }
 
@@ -148,14 +137,9 @@ static void fft(IComplex *z, int ln)
 
     /* reverse */
     for(j=0;j<np;j++) {
-        int k;
-        IComplex tmp;
-        k = fft_rev[j];
-        if (k < j) {
-            tmp = z[k];
-            z[k] = z[j];
-            z[j] = tmp;
-        }
+        int k = ff_reverse[j] >> (8 - ln);
+        if (k < j)
+            FFSWAP(IComplex, z[k], z[j]);
     }
 
     /* pass 0 */

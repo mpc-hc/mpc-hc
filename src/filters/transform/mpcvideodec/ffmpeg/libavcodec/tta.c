@@ -386,7 +386,7 @@ static int set_position (TTAstate *s,unsigned int pos) {
 
 static int tta_decode_frame(AVCodecContext *avctx,
 			    void *data, int *data_size,
-			    uint8_t *buf, int buf_size)
+			    const uint8_t *buf, int buf_size)
 {
     TTAstate *s = avctx->priv_data;
     unsigned int k, depth, unary, binary;

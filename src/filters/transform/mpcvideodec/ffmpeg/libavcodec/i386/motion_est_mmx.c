@@ -3,6 +3,8 @@
  * Copyright (c) 2001 Fabrice Bellard.
  * Copyright (c) 2002-2004 Michael Niedermayer
  *
+ * mostly by Michael Niedermayer <michaelni@gmx.at>
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -18,19 +20,17 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
- * mostly by Michael Niedermayer <michaelni@gmx.at>
  */
 #include "../dsputil.h"
 #include "x86_cpu.h"
 
-static const __attribute__ ((aligned(8))) uint64_t round_tab[3]={
+DECLARE_ASM_CONST(8, uint64_t, round_tab[3])={
 0x0000000000000000ULL,
 0x0001000100010001ULL,
 0x0002000200020002ULL,
 };
 
-static attribute_used __attribute__ ((aligned(8))) uint64_t bone= 0x0101010101010101LL;
+DECLARE_ASM_CONST(8, uint64_t, bone)= 0x0101010101010101LL;
 
 static inline void sad8_1_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
 {

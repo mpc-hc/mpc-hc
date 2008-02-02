@@ -203,17 +203,6 @@ DECLARE_ALIGNED_16(const double, ff_pd_2[2]) = { 2.0, 2.0 };
 #undef DEF
 #undef PAVGB
 
-#define SBUTTERFLY(a,b,t,n,m)\
-    "mov" #m " " #a ", " #t "         \n\t" /* abcd */\
-    "punpckl" #n " " #b ", " #a "     \n\t" /* aebf */\
-    "punpckh" #n " " #b ", " #t "     \n\t" /* cgdh */\
-
-#define TRANSPOSE4(a,b,c,d,t)\
-    SBUTTERFLY(a,b,t,wd,q) /* a=aebf t=cgdh */\
-    SBUTTERFLY(c,d,b,wd,q) /* c=imjn b=kolp */\
-    SBUTTERFLY(a,c,d,dq,q) /* a=aeim d=bfjn */\
-    SBUTTERFLY(t,b,c,dq,q) /* t=cgko c=dhlp */
-
 /***********************************/
 /* standard MMX */
 
@@ -676,7 +665,7 @@ static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int 
 
 static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale){
     const int strength= ff_h263_loop_filter_strength[qscale];
-    uint64_t temp[4] __attribute__ ((aligned(8)));
+    DECLARE_ALIGNED(8, uint64_t, temp[4]);
     uint8_t *btemp= (uint8_t*)temp;
 
     src -= 2;
@@ -1540,46 +1529,6 @@ static void sub_hfyu_median_prediction_mmx2(uint8_t *dst, uint8_t *src1, uint8_t
 
 #define DIFF_PIXELS_4x8(p1,p2,stride,temp) DIFF_PIXELS_8(d, q,   %%mm,  p1, p2, stride, temp)
 #define DIFF_PIXELS_8x8(p1,p2,stride,temp) DIFF_PIXELS_8(q, dqa, %%xmm, p1, p2, stride, temp)
-
-#ifdef ARCH_X86_64
-// permutes 01234567 -> 05736421
-#define TRANSPOSE8(a,b,c,d,e,f,g,h,t)\
-    SBUTTERFLY(a,b,%%xmm8,wd,dqa)\
-    SBUTTERFLY(c,d,b,wd,dqa)\
-    SBUTTERFLY(e,f,d,wd,dqa)\
-    SBUTTERFLY(g,h,f,wd,dqa)\
-    SBUTTERFLY(a,c,h,dq,dqa)\
-    SBUTTERFLY(%%xmm8,b,c,dq,dqa)\
-    SBUTTERFLY(e,g,b,dq,dqa)\
-    SBUTTERFLY(d,f,g,dq,dqa)\
-    SBUTTERFLY(a,e,f,qdq,dqa)\
-    SBUTTERFLY(%%xmm8,d,e,qdq,dqa)\
-    SBUTTERFLY(h,b,d,qdq,dqa)\
-    SBUTTERFLY(c,g,b,qdq,dqa)\
-    "movdqa %%xmm8, "#g"              \n\t"
-#else
-#define TRANSPOSE8(a,b,c,d,e,f,g,h,t)\
-    "movdqa "#h", "#t"                \n\t"\
-    SBUTTERFLY(a,b,h,wd,dqa)\
-    "movdqa "#h", 16"#t"              \n\t"\
-    "movdqa "#t", "#h"                \n\t"\
-    SBUTTERFLY(c,d,b,wd,dqa)\
-    SBUTTERFLY(e,f,d,wd,dqa)\
-    SBUTTERFLY(g,h,f,wd,dqa)\
-    SBUTTERFLY(a,c,h,dq,dqa)\
-    "movdqa "#h", "#t"                \n\t"\
-    "movdqa 16"#t", "#h"              \n\t"\
-    SBUTTERFLY(h,b,c,dq,dqa)\
-    SBUTTERFLY(e,g,b,dq,dqa)\
-    SBUTTERFLY(d,f,g,dq,dqa)\
-    SBUTTERFLY(a,e,f,qdq,dqa)\
-    SBUTTERFLY(h,d,e,qdq,dqa)\
-    "movdqa "#h", 16"#t"              \n\t"\
-    "movdqa "#t", "#h"                \n\t"\
-    SBUTTERFLY(h,b,d,qdq,dqa)\
-    SBUTTERFLY(c,g,b,qdq,dqa)\
-    "movdqa 16"#t", "#g"              \n\t"
-#endif
 
 #define LBUTTERFLY2(a1,b1,a2,b2)\
     "paddw " #b1 ", " #a1 "           \n\t"\
@@ -3733,7 +3682,7 @@ const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
         return "Simple MMX (ff_simple_idct_mmx)";
     if (c->idct_put==Skl_IDct16_Put_SSE2)
         return "Skal's IDCT (Skl_IDct16_SSE2)";
-    if (c->idct_put==Skl_IDct16_SSE)
+    if (c->idct_put==Skl_IDct16_Put_SSE)
         return "Skal's IDCT (Skl_IDct16_SSE)";
     if (c->idct_put==Skl_IDct16_Put_MMX)
         return "Skal's IDCT (Skl_IDct16_MMX)";

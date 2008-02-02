@@ -22,6 +22,10 @@
 #include "avcodec.h"
 #include "ra288.h"
 
+#if __STDC_VERSION__ < 199901L
+#include <malloc.h>
+#endif
+
 typedef struct {
         float   history[8];
         float   output[40];
@@ -49,11 +53,16 @@ static void colmult(float *tgt, float *m1, const float *m2, int n);
 
 
 /* initial decode */
-static void unpack(unsigned short *tgt, unsigned char *src, unsigned int len)
+static void unpack(unsigned short *tgt, const unsigned char *src, unsigned int len)
 {
   int x,y,z;
   int n,temp;
+  
+  #if __STDC_VERSION__ >= 199901L 
   int buffer[len];
+  #else
+  int *buffer = (int *)alloca(len*sizeof(int));
+  #endif
 
   for (x=0;x<len;tgt[x++]=0)
     buffer[x]=9+(x&1);
@@ -208,11 +217,16 @@ static void prodsum(float *tgt, float *src, int len, int n)
   }
 }
 
-static void * decode_block(AVCodecContext * avctx, unsigned char *in, signed short int *out,unsigned len)
+static void * decode_block(AVCodecContext * avctx, const unsigned char *in, signed short int *out,unsigned len)
 {
   int x,y;
   Real288_internal *glob=avctx->priv_data;
+  
+  #if __STDC_VERSION__ >= 199901L  
   unsigned short int buffer[len];
+  #else
+  unsigned short int *buffer = (unsigned short int *)alloca(len*sizeof(unsigned short int));
+  #endif 
 
   unpack(buffer,in,len);
   for (x=0;x<32;x++)
@@ -228,7 +242,7 @@ static void * decode_block(AVCodecContext * avctx, unsigned char *in, signed sho
 /* Decode a block (celp) */
 static int ra288_decode_frame(AVCodecContext * avctx,
             void *data, int *data_size,
-            uint8_t * buf, int buf_size)
+            const uint8_t * buf, int buf_size)
 {
     void *datao;
 

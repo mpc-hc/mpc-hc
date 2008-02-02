@@ -777,10 +777,14 @@ static int decode_sequence_header(AVCodecContext *avctx, GetBitContext *gb)
 
     if (v->profile == PROFILE_ADVANCED)
     {
+        v->zz_8x4 = ff_vc1_adv_progressive_8x4_zz;
+        v->zz_4x8 = ff_vc1_adv_progressive_4x8_zz;
         return decode_sequence_header_adv(v, gb);
     }
     else
     {
+        v->zz_8x4 = ff_vc1_simple_progressive_8x4_zz;
+        v->zz_4x8 = ff_vc1_simple_progressive_4x8_zz;
         v->res_sm = get_bits(gb, 2); //reserved
         if (v->res_sm)
         {
@@ -980,7 +984,7 @@ static int decode_sequence_header_adv(VC1Context *v, GetBitContext *gb)
 static int decode_entry_point(AVCodecContext *avctx, GetBitContext *gb)
 {
     VC1Context *v = avctx->priv_data;
-    int i, blink, clentry;
+    int i, blink, clentry, refdist;
 
     av_log(avctx, AV_LOG_DEBUG, "Entry point: %08X\n", show_bits_long(gb, 32));
     blink = get_bits1(gb); // broken link
@@ -1065,6 +1069,7 @@ static int vc1_parse_frame_header(VC1Context *v, GetBitContext* gb)
 
     /* Quantizer stuff */
     pqindex = get_bits(gb, 5);
+    if(!pqindex) return -1;
     if (v->quantizer_mode == QUANT_FRAME_IMPLICIT)
         v->pq = ff_vc1_pquant_table[0][pqindex];
     else
@@ -1301,6 +1306,7 @@ static int vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
         }
     }
     pqindex = get_bits(gb, 5);
+    if(!pqindex) return -1;
     v->pqindex = pqindex;
     if (v->quantizer_mode == QUANT_FRAME_IMPLICIT)
         v->pq = ff_vc1_pquant_table[0][pqindex];
@@ -2965,13 +2971,10 @@ static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n, int mquan
                 i += skip;
                 if(i > 31)
                     break;
-                if(v->profile < PROFILE_ADVANCED)
-                    idx = ff_vc1_simple_progressive_8x4_zz[i++];
-                else
-                    idx = ff_vc1_adv_progressive_8x4_zz[i++];
-                block[idx + off] = value * scale;
+                idx = v->zz_8x4[i++]+off;
+                block[idx] = value * scale;
                 if(!v->pquantizer)
-                    block[idx + off] += (block[idx + off] < 0) ? -mquant : mquant;
+                    block[idx] += (block[idx] < 0) ? -mquant : mquant;
             }
             if(!(subblkpat & (1 << (1 - j))) && !skip_block)
                 s->dsp.vc1_inv_trans_8x4(dst + j*4*linesize, linesize, block + off);
@@ -2987,13 +2990,10 @@ static int vc1_decode_p_block(VC1Context *v, DCTELEM block[64], int n, int mquan
                 i += skip;
                 if(i > 31)
                     break;
-                if(v->profile < PROFILE_ADVANCED)
-                    idx = ff_vc1_simple_progressive_4x8_zz[i++];
-                else
-                    idx = ff_vc1_adv_progressive_4x8_zz[i++];
-                block[idx + off] = value * scale;
+                idx = v->zz_4x8[i++]+off;
+                block[idx] = value * scale;
                 if(!v->pquantizer)
-                    block[idx + off] += (block[idx + off] < 0) ? -mquant : mquant;
+                    block[idx] += (block[idx] < 0) ? -mquant : mquant;
             }
             if(!(subblkpat & (1 << (1 - j))) && !skip_block)
                 s->dsp.vc1_inv_trans_4x8(dst + j*4, linesize, block + off);
@@ -3780,7 +3780,7 @@ static void vc1_decode_blocks(VC1Context *v)
 /** Find VC-1 marker in buffer
  * @return position where next marker starts or end of buffer if no marker found
  */
-static av_always_inline uint8_t* find_next_marker(uint8_t *src, uint8_t *end)
+static av_always_inline const uint8_t* find_next_marker(const uint8_t *src, const uint8_t *end)
 {
     uint32_t mrk = 0xFFFFFFFF;
 
@@ -3793,7 +3793,7 @@ static av_always_inline uint8_t* find_next_marker(uint8_t *src, uint8_t *end)
     return end;
 }
 
-static av_always_inline int vc1_unescape_buffer(uint8_t *src, int size, uint8_t *dst)
+static av_always_inline int vc1_unescape_buffer(const uint8_t *src, int size, uint8_t *dst)
 {
     int dsize = 0, i;
 
@@ -3866,8 +3866,10 @@ static int vc1_decode_init(AVCodecContext *avctx)
             av_log(avctx, AV_LOG_INFO, "Read %i bits in overflow\n", -count);
         }
     } else { // VC1/WVC1
-        uint8_t *start = avctx->extradata, *end = avctx->extradata + avctx->extradata_size;
-        uint8_t *next; int size, buf2_size;
+        const uint8_t *start = avctx->extradata;
+        uint8_t *end = avctx->extradata + avctx->extradata_size;
+        const uint8_t *next;
+        int size, buf2_size;
         uint8_t *buf2 = NULL;
         int seq_inited = 0, ep_inited = 0;
 
@@ -3877,7 +3879,8 @@ static int vc1_decode_init(AVCodecContext *avctx)
         }
 
         buf2 = av_mallocz(avctx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
-        if(start[0]) start++; // in WVC1 extradata first byte is its size
+        // if(start[0]) /* ffdshow custom code (comment out this line) to support madshi's eac3to http://forum.doom9.org/showthread.php?p=1091626#post1091626*/
+         start++; // in WVC1 extradata first byte is its size
         next = start;
         for(; next < end; start = next){
             next = find_next_marker(start + 4, end);
@@ -3945,7 +3948,7 @@ static int vc1_decode_init(AVCodecContext *avctx)
  */
 static int vc1_decode_frame(AVCodecContext *avctx,
                             void *data, int *data_size,
-                            uint8_t *buf, int buf_size)
+                            const uint8_t *buf, int buf_size)
 {
     VC1Context *v = avctx->priv_data;
     MpegEncContext *s = &v->s;
@@ -3978,7 +3981,7 @@ static int vc1_decode_frame(AVCodecContext *avctx,
         buf2 = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
 
         if(IS_MARKER(AV_RB32(buf))){ /* frame starts with marker and needs to be parsed */
-            uint8_t *start, *end, *next;
+            const uint8_t *start, *end, *next;
             int size;
 
             next = buf;
@@ -4002,7 +4005,7 @@ static int vc1_decode_frame(AVCodecContext *avctx,
                 }
             }
         }else if(v->interlace && ((buf[0] & 0xC0) == 0xC0)){ /* WVC1 interlaced stores both fields divided by marker */
-            uint8_t *divider;
+            const uint8_t *divider;
 
             divider = find_next_marker(buf, buf + buf_size);
             if((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD){
@@ -4123,6 +4126,7 @@ static int vc1_decode_end(AVCodecContext *avctx)
     av_freep(&v->acpred_plane);
     av_freep(&v->over_flags_plane);
     av_freep(&v->mb_type_base);
+    ff_intrax8_common_end(&v->x8);
     return 0;
 }
 

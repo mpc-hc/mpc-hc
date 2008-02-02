@@ -1,53 +1,43 @@
-///****************************************************************************
-// *
-// *  XVID MPEG-4 VIDEO CODEC
-// *  - MMX and XMM forward discrete cosine transform -
-// *
-// *  Copyright(C) 2001 Peter Ross <pross@xvid.org>
-// *
-// * This file is part of FFmpeg.
-// *
-// * FFmpeg is free software; you can redistribute it and/or
-// * modify it under the terms of the GNU Lesser General Public
-// * License as published by the Free Software Foundation; either
-// * version 2.1 of the License, or (at your option) any later version.
-// *
-// * FFmpeg is distributed in the hope that it will be useful,
-// * but WITHOUT ANY WARRANTY; without even the implied warranty of
-// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// * Lesser General Public License for more details.
-// *
-// * You should have received a copy of the GNU Lesser General Public License
-// * along with FFmpeg; if not, write to the Free Software Foundation,
-// * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-// *
-// * $Id: idct_mmx_xvid.c 9034 2007-05-16 09:51:45Z diego $
-// *
-// ***************************************************************************/
-
-// ****************************************************************************
-//
-// Originally provided by Intel at AP-922
-// http://developer.intel.com/vtune/cbts/strmsimd/922down.htm
-// (See more app notes at http://developer.intel.com/vtune/cbts/strmsimd/appnotes.htm)
-// but in a limited edition.
-// New macro implements a column part for precise iDCT
-// The routine precision now satisfies IEEE standard 1180-1990.
-//
-// Copyright(C) 2000-2001 Peter Gubanov <peter@elecard.net.ru>
-// Rounding trick Copyright(C) 2000 Michel Lespinasse <walken@zoy.org>
-//
-// http://www.elecard.com/peter/idct.html
-// http://www.linuxvideo.org/mpeg2dec/
-//
-// ***************************************************************************/
-//
-// These examples contain code fragments for first stage iDCT 8x8
-// (for rows) and first stage DCT 8x8 (for columns)
-//
-
-// conversion to gcc syntax by michael niedermayer
-
+/*
+ * XVID MPEG-4 VIDEO CODEC
+ * - MMX and XMM forward discrete cosine transform -
+ *
+ * Copyright(C) 2001 Peter Ross <pross@xvid.org>
+ *
+ * Originally provided by Intel at AP-922
+ * http://developer.intel.com/vtune/cbts/strmsimd/922down.htm
+ * (See more app notes at http://developer.intel.com/vtune/cbts/strmsimd/appnotes.htm)
+ * but in a limited edition.
+ * New macro implements a column part for precise iDCT
+ * The routine precision now satisfies IEEE standard 1180-1990.
+ *
+ * Copyright(C) 2000-2001 Peter Gubanov <peter@elecard.net.ru>
+ * Rounding trick Copyright(C) 2000 Michel Lespinasse <walken@zoy.org>
+ *
+ * http://www.elecard.com/peter/idct.html
+ * http://www.linuxvideo.org/mpeg2dec/
+ *
+ * These examples contain code fragments for first stage iDCT 8x8
+ * (for rows) and first stage DCT 8x8 (for columns)
+ *
+ * conversion to gcc syntax by Michael Niedermayer
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with FFmpeg; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 
 #include <inttypes.h>
 #include "../avcodec.h"
@@ -74,13 +64,13 @@
 //-----------------------------------------------------------------------------
 
 
-static const int16_t tg_1_16[4*4] attribute_used __attribute__ ((aligned(8))) = {
+DECLARE_ALIGNED(8, static const int16_t, tg_1_16[4*4]) = {
   13036,13036,13036,13036,        // tg * (2<<16) + 0.5
   27146,27146,27146,27146,        // tg * (2<<16) + 0.5
   -21746,-21746,-21746,-21746,    // tg * (2<<16) + 0.5
   23170,23170,23170,23170};       // cos * (2<<15) + 0.5
 
-static const int32_t rounder_0[2*8] attribute_used __attribute__ ((aligned(8))) = {
+DECLARE_ALIGNED(8, static const int32_t, rounder_0[2*8]) = {
   65536,65536,
   3597,3597,
   2260,2260,
@@ -150,7 +140,7 @@ static const int32_t rounder_0[2*8] attribute_used __attribute__ ((aligned(8))) 
 //-----------------------------------------------------------------------------
 
 // Table for rows 0,4 - constants are multiplied by cos_4_16
-static const int16_t tab_i_04_mmx[32*4] attribute_used __attribute__ ((aligned(8))) = {
+DECLARE_ALIGNED(8, static const int16_t, tab_i_04_mmx[32*4]) = {
   16384,16384,16384,-16384,       // movq-> w06 w04 w02 w00
   21407,8867,8867,-21407,         // w07 w05 w03 w01
   16384,-16384,16384,16384,       // w14 w12 w10 w08
@@ -192,7 +182,7 @@ static const int16_t tab_i_04_mmx[32*4] attribute_used __attribute__ ((aligned(8
 //-----------------------------------------------------------------------------
 
 // %3 for rows 0,4 - constants are multiplied by cos_4_16
-static const int16_t tab_i_04_xmm[32*4] attribute_used __attribute__ ((aligned(8))) = {
+DECLARE_ALIGNED(8, static const int16_t, tab_i_04_xmm[32*4]) = {
   16384,21407,16384,8867,      // movq-> w05 w04 w01 w00
   16384,8867,-16384,-21407,    // w07 w06 w03 w02
   16384,-8867,16384,-21407,    // w13 w12 w09 w08

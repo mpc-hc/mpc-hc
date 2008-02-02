@@ -98,12 +98,12 @@ static int pcm_decode_init(AVCodecContext * avctx)
 
 static int pcm_decode_frame(AVCodecContext *avctx,
                             void *data, int *data_size,
-                            uint8_t *buf, int buf_size)
+                            const uint8_t *buf, int buf_size)
 {
     PCMDecode *s = avctx->priv_data;
     int n;
     short *samples;
-    uint8_t *src;
+    const uint8_t *src;
 
     samples = data;
     src = buf;

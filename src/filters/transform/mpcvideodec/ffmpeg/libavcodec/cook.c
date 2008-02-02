@@ -144,7 +144,7 @@ typedef struct cook {
     float               decode_buffer_2[1024];
     float               decode_buffer_0[1060]; /* static allocation for joint decode */
 
-    float               *cplscales[5];
+    const float         *cplscales[5];
 } COOKContext;
 
 /*************** init functions ***************/
@@ -231,7 +231,7 @@ static int init_cook_mlt(COOKContext *q) {
     return 0;
 }
 
-static float *maybe_reformat_buffer32 (COOKContext *q, float *ptr, int n)
+static const float *maybe_reformat_buffer32 (COOKContext *q, const float *ptr, int n)
 {
     if (1)
         return ptr;
@@ -268,10 +268,10 @@ static void init_cplscales_table (COOKContext *q) {
 #define DECODE_BYTES_PAD1(bytes) (3 - ((bytes)+3) % 4)
 #define DECODE_BYTES_PAD2(bytes) ((bytes) % 4 + DECODE_BYTES_PAD1(2 * (bytes)))
 
-static inline int decode_bytes(uint8_t* inbuffer, uint8_t* out, int bytes){
+static inline int decode_bytes(const uint8_t* inbuffer, uint8_t* out, int bytes){
     int i, off;
     uint32_t c;
-    uint32_t* buf;
+    const uint32_t* buf;
     uint32_t* obuf = (uint32_t*) out;
     /* FIXME: 64 bit platforms would be able to do 64 bits at a time.
      * I'm too lazy though, should be something like
@@ -280,7 +280,7 @@ static inline int decode_bytes(uint8_t* inbuffer, uint8_t* out, int bytes){
      * Buffer alignment needs to be checked. */
 
     off = (int)((long)inbuffer & 3);
-    buf = (uint32_t*) (inbuffer - off);
+    buf = (const uint32_t*) (inbuffer - off);
     c = be2me_32((0x37c511f2 >> (off*8)) | (0x37c511f2 << (32-(off*8))));
     bytes += 3 + off;
     for (i = 0; i < bytes/4; i++)
@@ -799,7 +799,7 @@ static void joint_decode(COOKContext *q, float* mlt_buffer1,
     float *decode_buffer = q->decode_buffer_0;
     int idx, cpl_tmp;
     float f1,f2;
-    float* cplscale;
+    const float* cplscale;
 
     memset(decouple_tab, 0, sizeof(decouple_tab));
     memset(decode_buffer, 0, sizeof(decode_buffer));
@@ -842,7 +842,7 @@ static void joint_decode(COOKContext *q, float* mlt_buffer1,
  */
 
 static inline void
-decode_bytes_and_gain(COOKContext *q, uint8_t *inbuffer,
+decode_bytes_and_gain(COOKContext *q, const uint8_t *inbuffer,
                       cook_gains *gains_ptr)
 {
     int offset;
@@ -911,7 +911,7 @@ mlt_compensate_output(COOKContext *q, float *decode_buffer,
  */
 
 
-static int decode_subpacket(COOKContext *q, uint8_t *inbuffer,
+static int decode_subpacket(COOKContext *q, const uint8_t *inbuffer,
                             int sub_packet_size, int16_t *outbuffer) {
     /* packet dump */
 //    for (i=0 ; i<sub_packet_size ; i++) {
@@ -956,7 +956,7 @@ static int decode_subpacket(COOKContext *q, uint8_t *inbuffer,
 
 static int cook_decode_frame(AVCodecContext *avctx,
             void *data, int *data_size,
-            uint8_t *buf, int buf_size) {
+            const uint8_t *buf, int buf_size) {
     COOKContext *q = avctx->priv_data;
 
     if (buf_size < avctx->block_align)
@@ -979,7 +979,7 @@ static int cook_decode_frame(AVCodecContext *avctx,
 static int cook_decode_init(AVCodecContext *avctx)
 {
     COOKContext *q = avctx->priv_data;
-    uint8_t *edata_ptr = avctx->extradata;
+    const uint8_t *edata_ptr = avctx->extradata;
 
     /* Take care of the codec specific extradata. */
     if (avctx->extradata_size <= 0) {

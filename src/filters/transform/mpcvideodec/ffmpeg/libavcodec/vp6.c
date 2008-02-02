@@ -44,7 +44,7 @@
 static void vp6_parse_coeff(vp56_context_t *s);
 static void vp6_parse_coeff_huffman(vp56_context_t *s);
 
-static int vp6_parse_header(vp56_context_t *s, uint8_t *buf, int buf_size,
+static int vp6_parse_header(vp56_context_t *s, const uint8_t *buf, int buf_size,
                             int *golden_frame)
 {
     vp56_range_coder_t *c = &s->c;
@@ -215,11 +215,11 @@ static int vp6_huff_cmp(const void *va, const void *vb)
 static void vp6_build_huff_tree(vp56_context_t *s, uint8_t coeff_model[],
                                 const uint8_t *map, unsigned size, VLC *vlc)
 {
-#ifdef __GNUC__
+    #if __STDC_VERSION__ >= 199901L
     Node nodes[2*size], *tmp = &nodes[size];
-#else
+    #else
     Node *nodes=(Node *)alloca(2*size*sizeof(Node)), *tmp = &nodes[size];
-#endif
+    #endif
     int a, b, i;
 
     /* first compute probabilities from model */

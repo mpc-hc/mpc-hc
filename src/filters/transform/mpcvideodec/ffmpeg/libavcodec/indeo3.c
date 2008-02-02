@@ -27,6 +27,7 @@
 #include "avcodec.h"
 #include "dsputil.h"
 #include "mpegvideo.h"
+#include "bytestream.h"
 
 #include "indeo3data.h"
 
@@ -54,13 +55,13 @@ typedef struct Indeo3DecodeContext {
     unsigned short *corrector_type;
 } Indeo3DecodeContext;
 
-static int corrector_type_0[24] = {
+static const int corrector_type_0[24] = {
   195, 159, 133, 115, 101,  93,  87,  77,
   195, 159, 133, 115, 101,  93,  87,  77,
   128,  79,  79,  79,  79,  79,  79,  79
 };
 
-static int corrector_type_2[8] = { 9, 7, 6, 8, 5, 4, 3, 2 };
+static const int corrector_type_2[8] = { 9, 7, 6, 8, 5, 4, 3, 2 };
 
 static void build_modpred(Indeo3DecodeContext *s)
 {
@@ -92,9 +93,9 @@ static void build_modpred(Indeo3DecodeContext *s)
 }
 
 static void iv_Decode_Chunk(Indeo3DecodeContext *s, unsigned char *cur,
-  unsigned char *ref, int width, int height, unsigned char *buf1,
-  long fflags2, unsigned char *hdr,
-  unsigned char *buf2, int min_width_160);
+  unsigned char *ref, int width, int height, const unsigned char *buf1,
+  long fflags2, const unsigned char *hdr,
+  const unsigned char *buf2, int min_width_160);
 
 /* ---------------------------------------------------------------------- */
 static void iv_alloc_frames(Indeo3DecodeContext *s)
@@ -176,38 +177,32 @@ static void iv_free_func(Indeo3DecodeContext *s)
 
 /* ---------------------------------------------------------------------- */
 static unsigned long iv_decode_frame(Indeo3DecodeContext *s,
-                                     unsigned char *buf, int buf_size)
+                                     const unsigned char *buf, int buf_size)
 {
   unsigned int hdr_width, hdr_height,
     chroma_width, chroma_height;
   unsigned long fflags1, fflags2, fflags3, offs1, offs2, offs3, offs;
-  unsigned char *hdr_pos, *buf_pos;
+  const unsigned char *hdr_pos, *buf_pos;
 
   buf_pos = buf;
   buf_pos += 18;
 
-  fflags1 = le2me_16(*(uint16_t *)buf_pos);
-  buf_pos += 2;
-  fflags3 = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 4;
+  fflags1 = bytestream_get_le16(&buf_pos);
+  fflags3 = bytestream_get_le32(&buf_pos);
   fflags2 = *buf_pos++;
   buf_pos += 3;
-  hdr_height = le2me_16(*(uint16_t *)buf_pos);
-  buf_pos += 2;
-  hdr_width = le2me_16(*(uint16_t *)buf_pos);
+  hdr_height = bytestream_get_le16(&buf_pos);
+  hdr_width  = bytestream_get_le16(&buf_pos);
 
   if(avcodec_check_dimensions(NULL, hdr_width, hdr_height))
       return -1;
 
-  buf_pos += 2;
   chroma_height = ((hdr_height >> 2) + 3) & 0x7ffc;
   chroma_width = ((hdr_width >> 2) + 3) & 0x7ffc;
-  offs1 = le2me_32(*(uint32_t *)buf_pos);
+  offs1 = bytestream_get_le32(&buf_pos);
+  offs2 = bytestream_get_le32(&buf_pos);
+  offs3 = bytestream_get_le32(&buf_pos);
   buf_pos += 4;
-  offs2 = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 4;
-  offs3 = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 8;
   hdr_pos = buf_pos;
   if(fflags3 == 0x80) return 4;
 
@@ -220,8 +215,7 @@ static unsigned long iv_decode_frame(Indeo3DecodeContext *s,
   }
 
   buf_pos = buf + 16 + offs1;
-  offs = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 4;
+  offs = bytestream_get_le32(&buf_pos);
 
   iv_Decode_Chunk(s, s->cur_frame->Ybuf, s->ref_frame->Ybuf, hdr_width,
     hdr_height, buf_pos + offs * 2, fflags2, hdr_pos, buf_pos,
@@ -231,16 +225,14 @@ static unsigned long iv_decode_frame(Indeo3DecodeContext *s,
   {
 
   buf_pos = buf + 16 + offs2;
-  offs = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 4;
+  offs = bytestream_get_le32(&buf_pos);
 
   iv_Decode_Chunk(s, s->cur_frame->Vbuf, s->ref_frame->Vbuf, chroma_width,
     chroma_height, buf_pos + offs * 2, fflags2, hdr_pos, buf_pos,
     FFMIN(chroma_width, 40));
 
   buf_pos = buf + 16 + offs3;
-  offs = le2me_32(*(uint32_t *)buf_pos);
-  buf_pos += 4;
+  offs = bytestream_get_le32(&buf_pos);
 
   iv_Decode_Chunk(s, s->cur_frame->Ubuf, s->ref_frame->Ubuf, chroma_width,
     chroma_height, buf_pos + offs * 2, fflags2, hdr_pos, buf_pos,
@@ -307,13 +299,13 @@ typedef struct {
 
 static void iv_Decode_Chunk(Indeo3DecodeContext *s,
   unsigned char *cur, unsigned char *ref, int width, int height,
-  unsigned char *buf1, long fflags2, unsigned char *hdr,
-  unsigned char *buf2, int min_width_160)
+  const unsigned char *buf1, long fflags2, const unsigned char *hdr,
+  const unsigned char *buf2, int min_width_160)
 {
   unsigned char bit_buf;
   unsigned long bit_pos, lv, lv1, lv2;
   long *width_tbl, width_tbl_arr[10];
-  signed char *ref_vectors;
+  const signed char *ref_vectors;
   unsigned char *cur_frm_pos, *ref_frm_pos, *cp, *cp2;
   uint32_t *cur_lp, *ref_lp;
   const uint32_t *correction_lp[2], *correctionloworder_lp[2], *correctionhighorder_lp[2];
@@ -378,7 +370,7 @@ static void iv_Decode_Chunk(Indeo3DecodeContext *s,
     } else if(cmd == 3) {
       if(strip->usl7 == 0) {
         strip->usl7 = 1;
-        ref_vectors = (signed char*)buf2 + (*buf1 * 2);
+        ref_vectors = (const signed char*)buf2 + (*buf1 * 2);
         buf1++;
         continue;
       }
@@ -1074,7 +1066,7 @@ static int indeo3_decode_init(AVCodecContext *avctx)
 
 static int indeo3_decode_frame(AVCodecContext *avctx,
                                void *data, int *data_size,
-                               unsigned char *buf, int buf_size)
+                               const unsigned char *buf, int buf_size)
 {
     Indeo3DecodeContext *s=avctx->priv_data;
     unsigned char *src, *dest;

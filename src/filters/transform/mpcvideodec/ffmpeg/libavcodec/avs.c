@@ -2,19 +2,21 @@
  * AVS video decoder.
  * Copyright (c) 2006  Aurelien Jacobs <aurel@gnuage.org>
  *
- * This library is free software; you can redistribute it and/or
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "avcodec.h"
@@ -42,12 +44,13 @@ typedef enum {
 
 static int
 avs_decode_frame(AVCodecContext * avctx,
-                 void *data, int *data_size, uint8_t * buf, int buf_size)
+                 void *data, int *data_size, const uint8_t * buf, int buf_size)
 {
     avs_context_t *const avs = avctx->priv_data;
     AVFrame *picture = data;
     AVFrame *const p = (AVFrame *) & avs->picture;
-    uint8_t *table, *vect, *out;
+    const uint8_t *table, *vect;
+    uint8_t *out;
     int i, j, x, y, stride, vect_w = 3, vect_h = 3;
     int sub_type;
     avs_block_type_t type;
