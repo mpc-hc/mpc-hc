@@ -4252,4 +4252,5 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
             return -1;
         }
     }
+	av_free(buf2);
 }

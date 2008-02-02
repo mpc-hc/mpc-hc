@@ -8083,6 +8083,201 @@ typedef unsigned short      WORD;
 #define E_FAIL              0x80004005L
 
 
+static int decode_ref_pic_list_reordering_noframe(H264Context *h){
+    MpegEncContext * const s = &h->s;
+    int list, index, pic_structure;
+
+    print_short_term(h);
+    print_long_term(h);
+    if(h->slice_type==I_TYPE || h->slice_type==SI_TYPE) return 0; //FIXME move before func
+
+    for(list=0; list<h->list_count; list++){
+        memcpy(h->ref_list[list], h->default_ref_list[list], sizeof(Picture)*h->ref_count[list]);
+
+        if(get_bits1(&s->gb)){
+            int pred= h->curr_pic_num;
+
+            for(index=0; ; index++){
+                unsigned int reordering_of_pic_nums_idc= get_ue_golomb(&s->gb);
+                unsigned int pic_id;
+                int i;
+                Picture *ref = NULL;
+
+                if(reordering_of_pic_nums_idc==3)
+                    break;
+
+                if(index >= h->ref_count[list]){
+                    av_log(h->s.avctx, AV_LOG_ERROR, "reference count overflow\n");
+                    return -1;
+                }
+
+                if(reordering_of_pic_nums_idc<3){
+                    if(reordering_of_pic_nums_idc<2){
+                        const unsigned int abs_diff_pic_num= get_ue_golomb(&s->gb) + 1;
+                        int frame_num;
+
+                        if(abs_diff_pic_num > h->max_pic_num){
+                            av_log(h->s.avctx, AV_LOG_ERROR, "abs_diff_pic_num overflow\n");
+                            return -1;
+                        }
+
+                        if(reordering_of_pic_nums_idc == 0) pred-= abs_diff_pic_num;
+                        else                                pred+= abs_diff_pic_num;
+                        pred &= h->max_pic_num - 1;
+
+                        frame_num = pic_num_extract(h, pred, &pic_structure);
+
+                        for(i= h->short_ref_count-1; i>=0; i--){
+                            ref = h->short_ref[i];
+                            assert(ref->reference);
+                            assert(!ref->long_ref);
+                            if(ref->data[0] != NULL &&
+                                   ref->frame_num == frame_num &&
+                                   (ref->reference & pic_structure) &&
+                                   ref->long_ref == 0) // ignore non existing pictures by testing data[0] pointer
+                                break;
+                        }
+                        if(i>=0)
+                            ref->pic_id= pred;
+                    }else{
+                        int long_idx;
+                        pic_id= get_ue_golomb(&s->gb); //long_term_pic_idx
+
+                        long_idx= pic_num_extract(h, pic_id, &pic_structure);
+
+                        if(long_idx>31){
+                            av_log(h->s.avctx, AV_LOG_ERROR, "long_term_pic_idx overflow\n");
+                            return -1;
+                        }
+                        ref = h->long_ref[long_idx];
+                        assert(!(ref && !ref->reference));
+                        if(ref && (ref->reference & pic_structure)){
+                            ref->pic_id= pic_id;
+                            assert(ref->long_ref);
+                            i=0;
+                        }else{
+                            i=-1;
+                        }
+                    }
+
+                    if (i < 0) {
+                        av_log(h->s.avctx, AV_LOG_ERROR, "reference picture missing during reorder\n");
+                        memset(&h->ref_list[list][index], 0, sizeof(Picture)); //FIXME
+                    } else {
+                        for(i=index; i+1<h->ref_count[list]; i++){
+                            if(ref->long_ref == h->ref_list[list][i].long_ref && ref->pic_id == h->ref_list[list][i].pic_id)
+                                break;
+                        }
+                        for(; i > index; i--){
+                            h->ref_list[list][i]= h->ref_list[list][i-1];
+                        }
+                        h->ref_list[list][index]= *ref;
+                        if (FIELD_PICTURE){
+                            pic_as_field(&h->ref_list[list][index], pic_structure);
+                        }
+                    }
+                }else{
+                    av_log(h->s.avctx, AV_LOG_ERROR, "illegal reordering_of_pic_nums_idc\n");
+                    return -1;
+                }
+            }
+        }
+    }
+    for(list=0; list<h->list_count; list++){
+        for(index= 0; index < h->ref_count[list]; index++){
+            if(!h->ref_list[list][index].data[0])
+                h->ref_list[list][index]= s->current_picture;
+        }
+    }
+
+    //if(h->slice_type==B_TYPE && !h->direct_spatial_mv_pred)
+    //    direct_dist_scale_factor(h);
+//    direct_ref_list_init(h);
+    return 0;
+}
+
+static int init_poc_noframe(H264Context *h){
+    MpegEncContext * const s = &h->s;
+    const int max_frame_num= 1<<h->sps.log2_max_frame_num;
+    int field_poc[2];
+
+    if(h->nal_unit_type == NAL_IDR_SLICE){
+        h->frame_num_offset= 0;
+    }else{
+        if(h->frame_num < h->prev_frame_num)
+            h->frame_num_offset= h->prev_frame_num_offset + max_frame_num;
+        else
+            h->frame_num_offset= h->prev_frame_num_offset;
+    }
+
+    if(h->sps.poc_type==0){
+        const int max_poc_lsb= 1<<h->sps.log2_max_poc_lsb;
+
+        if(h->nal_unit_type == NAL_IDR_SLICE){
+             h->prev_poc_msb=
+             h->prev_poc_lsb= 0;
+        }
+
+        if     (h->poc_lsb < h->prev_poc_lsb && h->prev_poc_lsb - h->poc_lsb >= max_poc_lsb/2)
+            h->poc_msb = h->prev_poc_msb + max_poc_lsb;
+        else if(h->poc_lsb > h->prev_poc_lsb && h->prev_poc_lsb - h->poc_lsb < -max_poc_lsb/2)
+            h->poc_msb = h->prev_poc_msb - max_poc_lsb;
+        else
+            h->poc_msb = h->prev_poc_msb;
+//printf("poc: %d %d\n", h->poc_msb, h->poc_lsb);
+        field_poc[0] =
+        field_poc[1] = h->poc_msb + h->poc_lsb;
+        if(s->picture_structure == PICT_FRAME)
+            field_poc[1] += h->delta_poc_bottom;
+    }else if(h->sps.poc_type==1){
+        int abs_frame_num, expected_delta_per_poc_cycle, expectedpoc;
+        int i;
+
+        if(h->sps.poc_cycle_length != 0)
+            abs_frame_num = h->frame_num_offset + h->frame_num;
+        else
+            abs_frame_num = 0;
+
+        if(h->nal_ref_idc==0 && abs_frame_num > 0)
+            abs_frame_num--;
+
+        expected_delta_per_poc_cycle = 0;
+        for(i=0; i < h->sps.poc_cycle_length; i++)
+            expected_delta_per_poc_cycle += h->sps.offset_for_ref_frame[ i ]; //FIXME integrate during sps parse
+
+        if(abs_frame_num > 0){
+            int poc_cycle_cnt          = (abs_frame_num - 1) / h->sps.poc_cycle_length;
+            int frame_num_in_poc_cycle = (abs_frame_num - 1) % h->sps.poc_cycle_length;
+
+            expectedpoc = poc_cycle_cnt * expected_delta_per_poc_cycle;
+            for(i = 0; i <= frame_num_in_poc_cycle; i++)
+                expectedpoc = expectedpoc + h->sps.offset_for_ref_frame[ i ];
+        } else
+            expectedpoc = 0;
+
+        if(h->nal_ref_idc == 0)
+            expectedpoc = expectedpoc + h->sps.offset_for_non_ref_pic;
+
+        field_poc[0] = expectedpoc + h->delta_poc[0];
+        field_poc[1] = field_poc[0] + h->sps.offset_for_top_to_bottom_field;
+
+        if(s->picture_structure == PICT_FRAME)
+            field_poc[1] += h->delta_poc[1];
+    }else{
+        int poc;
+        if(h->nal_unit_type == NAL_IDR_SLICE){
+            poc= 0;
+        }else{
+            if(h->nal_ref_idc) poc= 2*(h->frame_num_offset + h->frame_num);
+            else               poc= 2*(h->frame_num_offset + h->frame_num) - 1;
+        }
+        field_poc[0]= poc;
+        field_poc[1]= poc;
+    }
+
+    return 0;
+}
+
 int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* sp_for_switch_flag)
 {
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
@@ -8093,7 +8288,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     unsigned int			first_mb_in_slice;
 	unsigned int			pps_id;
     static const uint8_t	slice_type_map[5]= {P_TYPE, B_TYPE, I_TYPE, SP_TYPE, SI_TYPE};
-    unsigned int			slice_type, tmp, i;
+    unsigned int			slice_type, tmp;
     int						num_ref_idx_active_override_flag;
 	int						field_pic_flag;
 
@@ -8142,50 +8337,6 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
 	s->mb_width= h->sps.mb_width;
     s->mb_height= h->sps.mb_height * (2 - h->sps.frame_mbs_only_flag);
 
-	// === Allocate a dummy frame to use standard function (not used for decoding)
-    if (!s->context_initialized) {
-        if (MPV_common_init(s) < 0)
-            return -1;
-        s->first_field = 0;
-
-        init_scan_tables(h);
-        alloc_tables(h);
-
-        for(i = 1; i < s->avctx->thread_count; i++) {
-            H264Context *c;
-            c = h->thread_context[i] = av_malloc(sizeof(H264Context));
-            memcpy(c, h, sizeof(MpegEncContext));
-            memset(&c->s + 1, 0, sizeof(H264Context) - sizeof(MpegEncContext));
-            c->sps = h->sps;
-            c->pps = h->pps;
-            init_scan_tables(c);
-            clone_tables(c, h);
-        }
-
-        for(i = 0; i < s->avctx->thread_count; i++)
-            if(context_init(h->thread_context[i]) < 0)
-                return -1;
-
-        s->avctx->width = s->width;
-        s->avctx->height = s->height;
-        s->avctx->sample_aspect_ratio= h->sps.sar;
-        if(!s->avctx->sample_aspect_ratio.den)
-            s->avctx->sample_aspect_ratio.den = 1;
-
-        if(h->sps.timing_info_present_flag){
-            //s->avctx->time_base= (AVRational){h->sps.num_units_in_tick * 2, h->sps.time_scale};
-            s->avctx->time_base.num= h->sps.num_units_in_tick * 2;
-            s->avctx->time_base.den= h->sps.time_scale;
-            if(h->x264_build > 0 && h->x264_build < 44)
-                s->avctx->time_base.den *= 2;
-            av_reduce(&s->avctx->time_base.num, &s->avctx->time_base.den,
-                      s->avctx->time_base.num, s->avctx->time_base.den, 1<<30);
-        }
-
-		frame_start(h);
-	}
-	// ===
-
     h->frame_num= get_bits(&s->gb, h->sps.log2_max_frame_num);
 
     h->mb_mbaff = 0;
@@ -8221,7 +8372,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
             h->delta_poc[1]= get_se_golomb(&s->gb);
     }
 
-    init_poc(h);
+    init_poc_noframe(h);
 
     if(h->pps.redundant_pic_cnt_present){
         h->redundant_pic_count= get_ue_golomb(&s->gb);
@@ -8257,7 +8408,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     }else
         h->list_count= 0;
 
-    if(decode_ref_pic_list_reordering(h) < 0)
+    if(decode_ref_pic_list_reordering_noframe(h) < 0)
         return E_FAIL;
 
     if(   (h->pps.weighted_pred          && (h->slice_type == P_TYPE || h->slice_type == SP_TYPE ))
