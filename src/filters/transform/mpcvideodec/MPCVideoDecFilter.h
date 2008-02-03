@@ -51,7 +51,7 @@ typedef AVCodec*		(*FUNC_AVCODEC_FIND_DECODER)(enum CodecID id);
 typedef AVCodecContext* (*FUNC_AVCODEC_ALLOC_CONTEXT)(void);
 typedef AVFrame*		(*FUNC_AVCODEC_ALLOC_FRAME)(void);
 typedef int				(*FUNC_AVCODEC_OPEN)(AVCodecContext *avctx, AVCodec *codec);
-typedef int				(*FUNC_AVCODEC_DECODE_VIDEO)(AVCodecContext *avctx, AVFrame *picture, int *got_picture_ptr, uint8_t *buf, int buf_size);
+typedef int				(*FUNC_AVCODEC_DECODE_VIDEO)(AVCodecContext *avctx, AVFrame *picture, int *got_picture_ptr, const uint8_t *buf, int buf_size);
 typedef void			(*FUNC_AV_LOG_SET_CALLBACK)(void (*callback)(void*, int, const char*, va_list));
 typedef int				(*FUNC_AVCODEC_CLOSE)(AVCodecContext *avctx);
 typedef void			(*FUNC_AVCODEC_THREAD_FREE)(AVCodecContext *s);
