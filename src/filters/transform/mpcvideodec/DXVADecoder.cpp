@@ -104,7 +104,8 @@ void CDXVADecoder::Flush()
 		m_pPictureStore[i].pSample		= NULL;
 	}
 
-	m_nWaitingPics = 0;
+	m_nWaitingPics	= 0;
+	m_bFlushed	= true;
 }
 
 HRESULT CDXVADecoder::ConfigureDXVA1()
@@ -450,7 +451,7 @@ void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 
 void CDXVADecoder::UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
-	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample != NULL) && !m_pPictureStore[nSurfaceIndex].bDisplayed);
+	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && m_pPictureStore[nSurfaceIndex].bInUse && !m_pPictureStore[nSurfaceIndex].bDisplayed);
 	m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
 	m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
 }
@@ -563,7 +564,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 			pMPCDXVA2Sample	 = pNewSample;
 			nSurfaceIndex    = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
 			*ppSampleToDeliver = pNewSample.Detach();
-//			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
+			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
 		}
 		break;
 	}

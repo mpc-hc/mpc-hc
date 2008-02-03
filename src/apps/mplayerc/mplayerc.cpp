@@ -909,13 +909,16 @@ BOOL CMPlayerCApp::InitInstance()
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PLAY_PAUSE,    0, VK_MEDIA_PLAY_PAUSE);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_STOP,          0, VK_MEDIA_STOP);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_NEXTTRACK,     0, VK_MEDIA_NEXT_TRACK);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PREVIOUSTRACK, 0, VK_MEDIA_PREV_TRACK);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_UP,           0, VK_VOLUME_UP);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_DOWN,         0, VK_VOLUME_DOWN);
-	RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_MUTE,         0, VK_VOLUME_MUTE);
+	if (m_s.fGlobalMedia)
+	{
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PLAY_PAUSE,    0, VK_MEDIA_PLAY_PAUSE);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_STOP,          0, VK_MEDIA_STOP);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_NEXTTRACK,     0, VK_MEDIA_NEXT_TRACK);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PREVIOUSTRACK, 0, VK_MEDIA_PREV_TRACK);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_UP,           0, VK_VOLUME_UP);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_DOWN,         0, VK_VOLUME_DOWN);
+		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_MUTE,         0, VK_VOLUME_MUTE);
+	}
 
 	pFrame->SetFocus();
 

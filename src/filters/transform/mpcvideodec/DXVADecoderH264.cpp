@@ -99,7 +99,11 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 
 	do
 	{
-		ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength);
+		if (FAILED (ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength)) || (Nalu.len > nSliceSize))
+		{
+			ASSERT(FALSE);
+			break;
+		}
 
 		switch (Nalu.nal_unit_type)
 		{
@@ -191,6 +195,10 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	// Parse slice header and set DX destination surface
 	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, m_pFilter->GetAVCtx(), pDataSlice+ m_nNALLength, nSliceSize -  m_nNALLength));
+	// Wait I frame after a flush
+	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
+		return S_FALSE;
+
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
 	m_DXVAPicParams.CurrPic.bPicEntry			= nSurfaceIndex;
 	m_DXVAPicParams.CurrPic.Index7Bits			= nSurfaceIndex;
@@ -217,6 +225,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	UpdateRefFramesList (m_DXVAPicParams.frame_num, (Nalu.nal_reference_idc != 0));
 	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), /*m_Slice.framepoc/2,*/ rtStart, rtStop);
 
+	m_bFlushed = false;
 	return DisplayNextFrame();
 }
 
@@ -308,7 +317,8 @@ HRESULT CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLeng
 		}
 	}
 	else
-	{		
+	{
+		if (nBufferLength < 4) return E_INVALIDARG;
 		// NALU for H264 streams (Startcode -> Nalu)
 		if ((pBuffer[0] == 0x00) || (pBuffer[1] == 0x00) || (pBuffer[2] == 0x01))
 		{
@@ -328,6 +338,11 @@ HRESULT CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLeng
 	
 		for (int i=pNalu->data_len; i<nBufferLength; i++)
 		{
+			if (i>=nBufferLength-3)	// Test end of buffer!
+			{
+				pNalu->data_len += 3;
+				break;
+			}
 			if ((pBuffer[i] == 0x00) && (pBuffer[i+1] == 0x00) && (pBuffer[i+2] == 0x01)) break;
 			pNalu->data_len++;
 		}

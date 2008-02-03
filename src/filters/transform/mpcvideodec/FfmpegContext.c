@@ -45,6 +45,14 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
 
+char* GetFFMpegPictureType(int nType)
+{
+	static char*	s_FFMpegPictTypes[] = { "? ", "I ", "P ", "B ", "S ", "SI", "SP" };
+	int		nTypeCount = sizeof(s_FFMpegPictTypes)/sizeof(TCHAR)-1;
+
+	return s_FFMpegPictTypes[min(nType, nTypeCount)];
+}
+
 
 void FFH264UpdatePictureParam (int bInit, DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {
@@ -162,7 +170,7 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCod
 
 
 
-void FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+int FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {
 	int				refpic;
 	VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
@@ -203,4 +211,6 @@ void FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodec
 	//pPicParams->bPicDeblocked		= 
 	//pPicParams->bPicDeblockConfined
 	//pPicParams->wBitstreamFcodes
+
+	return vc1->s.pict_type;
 }

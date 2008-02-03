@@ -78,6 +78,7 @@ protected :
 	CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber);
 
 	CMPCVideoDecFilter*				m_pFilter;
+	bool							m_bFlushed;
 
 
 

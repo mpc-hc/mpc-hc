@@ -1,14 +1,20 @@
 v1.0.12.0 - unreleased
 ======================
- NEW    : Support for Flash video (FLV4, VP5,VP6), XVID and DivX using ffmpeg codec
- NEW	: Custom presenter now support DXVA2, and display decoder mode in Jitter test information.
+ NEW    : Internal video decoder based on ffmpeg for Flash video (FLV4, VP5,VP6), AMV, Mpeg4, SQV, Theora, VC1, XVID, and DivX
+ NEW    : Internal video decoder H264 with DXVA 1 acceleration (using VMR9 or overlay on XP) and DXVA2 (using EVR on Vista).
+ NEW	: Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
+ NEW    : Korean translation
  CHANGED: FAAD library updated to 2.6
  FIXED  : Incorrect colors on video when using YUV mixing and "VMR Color controls"
- FIXED  : EVR custom didn't display image with Microsoft MPEG2 decoder (Vista)
+ FIXED  : EVR custom didn't display images with Microsoft MPEG2 decoder (Vista)
  FIXED  : PN31 driver installation was not working
  FIXED  : MPC graph manager now use the same filter priority as WMP and graphedit (clsid patch)
  FIXED  : MPC-HC is now recognize as an application by SUMo (http://www.kcsoftwares.com/index.php?sumo)
  FIXED  : Ghost horizontal and vertical lines with Pixel Shader resizer (especially on ATI graphics card)
+ FIXED  : Crash in FLV splitter with file containing 0 bytes packets
+ FIXED  : Button "Video" in format property page didn't select images anymore
+ FIXED  : So sound in some FLV video with Nellymoser audio track
+ FIXED  : Multimedia keys (mute, vol+-, ...) was captured by MPC even if option "global media keys" was off
 
 v1.0.11.0 - 14.Oct 2007
 ======================
