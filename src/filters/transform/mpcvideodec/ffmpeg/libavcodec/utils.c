@@ -591,7 +591,7 @@ int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf
 
 int attribute_align_arg avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
-                         uint8_t *buf, int buf_size)
+                         const uint8_t *buf, int buf_size)
 {
     int ret;
 
@@ -614,7 +614,7 @@ int attribute_align_arg avcodec_decode_video(AVCodecContext *avctx, AVFrame *pic
 
 int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
-                         uint8_t *buf, int buf_size)
+                         const uint8_t *buf, int buf_size)
 {
     int ret;
 
@@ -642,7 +642,7 @@ int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *sa
 
 int avcodec_decode_audio(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
-                         uint8_t *buf, int buf_size){
+                         const uint8_t *buf, int buf_size){
     *frame_size_ptr= AVCODEC_MAX_AUDIO_FRAME_SIZE;
     return avcodec_decode_audio2(avctx, samples, frame_size_ptr, buf, buf_size);
 }

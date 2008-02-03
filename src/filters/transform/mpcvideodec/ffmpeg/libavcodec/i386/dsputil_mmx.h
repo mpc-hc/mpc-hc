@@ -22,6 +22,10 @@
 #ifndef FFMPEG_DSPUTIL_MMX_H
 #define FFMPEG_DSPUTIL_MMX_H
 
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
+
 extern const uint64_t ff_bone;
 extern const uint64_t ff_wtwo;
 
@@ -34,7 +38,7 @@ extern const uint64_t ff_pw_8;
 extern const uint64_t ff_pw_15;
 extern const uint64_t ff_pw_16;
 extern const uint64_t ff_pw_20;
-extern const uint64_t ff_pw_32;
+extern const uint64_t ff_pw_32[2];
 extern const uint64_t ff_pw_42;
 extern const uint64_t ff_pw_64;
 extern const uint64_t ff_pw_96;

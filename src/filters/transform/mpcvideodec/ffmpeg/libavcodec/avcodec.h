@@ -2293,7 +2293,7 @@ FF_EXPORT int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
  */
 attribute_deprecated int avcodec_decode_audio(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
-                         uint8_t *buf, int buf_size);
+                         const uint8_t *buf, int buf_size);
 
 /**
  * Decodes an audio frame from \p buf into \p samples.
@@ -2333,7 +2333,7 @@ attribute_deprecated int avcodec_decode_audio(AVCodecContext *avctx, int16_t *sa
  */
 int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
-                         uint8_t *buf, int buf_size);
+                         const uint8_t *buf, int buf_size);
 
 /**
  * Decodes a video frame from \p buf into \p picture.
@@ -2368,7 +2368,7 @@ int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
  */
 FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
-                         uint8_t *buf, int buf_size);
+                         const uint8_t *buf, int buf_size);
 
 /**
  * Encodes an audio frame from \p samples into \p buf.
