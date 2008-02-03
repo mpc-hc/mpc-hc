@@ -85,7 +85,7 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 // DXVA modes supported for H264
 DXVA_PARAMS		DXVA_H264 =
 {
-	14,		// PicEntryNumber
+	16,		// PicEntryNumber
 	2,		// ConfigBitstreamRawMin
 	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
@@ -490,6 +490,12 @@ HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 };
 
 
+void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
+{
+	w = PictWidth();
+	h = PictHeightRounded();
+}
+
 int CMPCVideoDecFilter::PictWidth()
 {
 	return m_pAVCtx ? m_pAVCtx->width  : 0; 
@@ -777,7 +783,7 @@ int CMPCVideoDecFilter::GetPicEntryNumber()
 
 void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
-	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported())
+	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported() && m_bEnableDXVA)
 	{
 		nNumber		= m_nVideoOutputCount;
 		*ppFormats	= m_pVideoOutputFormat;

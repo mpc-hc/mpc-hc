@@ -235,6 +235,8 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
 	FFH264UpdatePictureParam (true, &m_DXVAPicParams, &m_DXVAScalingMatrix, pAVCtx, pDataIn, nSize);
+
+	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);	// TODO : find better solution...
 }
 
 

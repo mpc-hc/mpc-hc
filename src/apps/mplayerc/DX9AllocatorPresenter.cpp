@@ -244,7 +244,6 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     m_pD3DDev	= NULL;
 	m_pPSC.Free();
 	m_pD3D.Detach();
-	UnhookNewSegmentAndReceive();
 }
 
 HRESULT CDX9AllocatorPresenter::CreateDevice()

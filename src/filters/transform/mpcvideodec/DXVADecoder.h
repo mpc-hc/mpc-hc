@@ -79,7 +79,7 @@ protected :
 
 	CMPCVideoDecFilter*				m_pFilter;
 	bool							m_bFlushed;
-
+	int								m_nMaxWaiting;
 
 
 	// === DXVA functions

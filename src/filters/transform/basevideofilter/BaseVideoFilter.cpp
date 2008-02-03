@@ -542,8 +542,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	}
 	else
 	{
-		vih->rcSource.right  = vih->rcTarget.right  = w;
-		vih->rcSource.bottom = vih->rcTarget.bottom = h;
+		vih->rcSource.right  = vih->rcTarget.right  = m_win;
+		vih->rcSource.bottom = vih->rcTarget.bottom = m_hin;
 	}
 
 	return S_OK;

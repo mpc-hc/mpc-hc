@@ -33,6 +33,7 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 	m_nEngine				= ENGINE_DXVA1;
 	m_pAMVideoAccelerator	= pAMVideoAccelerator;
 	m_dwBufferIndex			= 0;
+	m_nMaxWaiting			= 3;
 
 	Init (pFilter, nMode, nPicEntryNumber);
 }
@@ -472,7 +473,7 @@ int CDXVADecoder::FindOldestFrame()
 	int					nPos	= -1;
 
 	// TODO : find better solution...
-	if (m_nWaitingPics > 3)
+	if (m_nWaitingPics > m_nMaxWaiting)
 	{
 		for (int i=0; i<m_nPicEntryNumber; i++)
 		{
@@ -526,8 +527,6 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 #endif
 		}
 
-		m_nWaitingPics--;
-
 		m_pPictureStore[nPicIndex].bDisplayed	= true;
 		if (!m_pPictureStore[nPicIndex].bRefPicture) 
 			FreePictureSlot (nPicIndex);
@@ -578,4 +577,5 @@ void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 	m_pPictureStore[nSurfaceIndex].bInUse		= false;
 	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
 	m_pPictureStore[nSurfaceIndex].pSample		= NULL;
+	m_nWaitingPics--;
 }
