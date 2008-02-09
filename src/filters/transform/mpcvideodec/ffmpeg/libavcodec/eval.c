@@ -63,7 +63,7 @@ typedef struct Parser{
     double (**func2)(void *, double a, double b); // NULL terminated
     char **func2_name;          // NULL terminated
     void *opaque;
-    char **error;
+    const char **error;
 #define VARS 10
     double var[VARS];
 } Parser;
@@ -391,7 +391,7 @@ static int verify_expr(AVEvalExpr * e) {
 AVEvalExpr * ff_parse(char *s, const char **const_name,
                double (**func1)(void *, double), const char **func1_name,
                double (**func2)(void *, double, double), char **func2_name,
-               char **error){
+               const char **error){
     Parser p;
     AVEvalExpr * e;
 #if __STDC_VERSION__ >= 199901L
@@ -399,7 +399,7 @@ AVEvalExpr * ff_parse(char *s, const char **const_name,
 #else
     char *w=(char *)alloca(strlen(s));
 #endif
-		char *wp=w;
+    char *wp=w;
 
     while (*s)
         if (!isspace(*s++)) *wp++ = s[-1];
@@ -433,7 +433,7 @@ double ff_parse_eval(AVEvalExpr * e, double *const_value, void *opaque) {
 double ff_eval2(char *s, double *const_value, const char **const_name,
                double (**func1)(void *, double), const char **func1_name,
                double (**func2)(void *, double, double), char **func2_name,
-               void *opaque, char **error){
+               void *opaque, const char **error){
     AVEvalExpr * e = ff_parse(s, const_name, func1, func1_name, func2, func2_name, error);
     double d;
     if (!e) return NAN;

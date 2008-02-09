@@ -18,8 +18,10 @@
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#ifndef AVCODEC_I386MMX_H
-#define AVCODEC_I386MMX_H
+#ifndef FFMPEG_MMX_H
+#define FFMPEG_MMX_H
+
+#warning Everything in this header is deprecated, use plain asm()! New code using this header will be rejected.
 
 /*
  * The type of an value that fits in an MMX register (note that long
@@ -280,4 +282,4 @@ typedef        union {
 #define         punpckhqdq_r2r(regs,regd)   mmx_r2r (punpckhqdq, regs, regd)
 
 
-#endif /* AVCODEC_I386MMX_H */
+#endif /* FFMPEG_MMX_H */

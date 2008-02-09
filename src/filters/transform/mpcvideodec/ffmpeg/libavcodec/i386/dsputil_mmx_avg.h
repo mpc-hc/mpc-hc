@@ -3,6 +3,10 @@
  * Copyright (c) 2000, 2001 Fabrice Bellard.
  * Copyright (c) 2002-2004 Michael Niedermayer
  *
+ * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
+ * mostly rewritten by Michael Niedermayer <michaelni@gmx.at>
+ * and improved by Zdenek Kabelac <kabi@users.sf.net>
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -18,11 +22,11 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
- * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
- * mostly rewritten by Michael Niedermayer <michaelni@gmx.at>
- * and improved by Zdenek Kabelac <kabi@users.sf.net>
  */
+
+/* This header intentionally has no multiple inclusion guards. It is meant to
+ * be included multiple times and generates different code depending on the
+ * value of certain #defines. */
 
 /* XXX: we use explicit registers to avoid a gcc 2.95.2 register asm
    clobber bug - now it will work with 2.95.2 and also with -fPIC
@@ -96,7 +100,7 @@ static void DEF(put_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         "add    $16, %2                 \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -143,7 +147,7 @@ static void DEF(put_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         "add    $32, %2                 \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -213,7 +217,7 @@ static void DEF(put_no_rnd_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src
         "add    $32, %2                 \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -268,7 +272,7 @@ static void DEF(avg_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         "add    $16, %2                 \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -320,7 +324,7 @@ static void DEF(avg_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         "add    $32, %2                 \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -408,7 +412,7 @@ static void DEF(put_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int
         "add    $32, %2                 \n\t"
         "subl   $2, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -462,7 +466,7 @@ static void DEF(avg_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int
         "add    $32, %2                 \n\t"
         "subl   $2, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -535,7 +539,7 @@ static void DEF(put_no_rnd_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *sr
         "add    $32, %2                 \n\t"
         "subl   $2, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -748,7 +752,8 @@ static void DEF(avg_pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_
         :"%"REG_a, "memory");
 }
 
-// Note this is not correctly rounded, but this function is only used for b frames so it doesnt matter
+/* Note this is not correctly rounded, but this function is only
+ * used for B-frames so it does not matter. */
 static void DEF(avg_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     MOVQ_BONE(mm6);
@@ -788,6 +793,31 @@ static void DEF(avg_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line
         :"+g"(h), "+S"(pixels), "+D"(block)
         :"r" ((long)line_size)
         :"%"REG_a,  "memory");
+}
+
+static void DEF(avg_pixels4)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
+    do {
+        asm volatile(
+            "movd (%1), %%mm0               \n\t"
+            "movd (%1, %2), %%mm1           \n\t"
+            "movd (%1, %2, 2), %%mm2        \n\t"
+            "movd (%1, %3), %%mm3           \n\t"
+            PAVGB" (%0), %%mm0              \n\t"
+            PAVGB" (%0, %2), %%mm1          \n\t"
+            PAVGB" (%0, %2, 2), %%mm2       \n\t"
+            PAVGB" (%0, %3), %%mm3          \n\t"
+            "movd %%mm0, (%1)               \n\t"
+            "movd %%mm1, (%1, %2)           \n\t"
+            "movd %%mm2, (%1, %2, 2)        \n\t"
+            "movd %%mm3, (%1, %3)           \n\t"
+            ::"S"(pixels), "D"(block),
+             "r" ((long)line_size), "r"(3L*line_size)
+            :"memory");
+        block += 4*line_size;
+        pixels += 4*line_size;
+        h -= 4;
+    } while(h > 0);
 }
 
 //FIXME the following could be optimized too ...
