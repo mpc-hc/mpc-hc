@@ -314,7 +314,7 @@ private :
 	int										m_nFreeSlot;
 	bool									m_fUseInternalTimer;
 
-	HANDLE									m_hThread[1];
+	HANDLE									m_hThread;
 	RENDER_STATE							m_nRenderState;
 	CComPtr<IMFSample>						m_pMFSample[MAX_PICTURE_SLOTS];
 	UINT									m_nResetToken;
@@ -389,7 +389,14 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	// Load EVR specifics DLLs
 	hLib = LoadLibrary (L"dxva2.dll");
 	pfDXVA2CreateDirect3DDeviceManager9	= hLib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress (hLib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
-	m_nResetToken = 0;
+	m_nResetToken	 = 0;
+	m_hThread		 = INVALID_HANDLE_VALUE;
+	m_hSemPicture	 = INVALID_HANDLE_VALUE;
+	m_hSemSlot		 = INVALID_HANDLE_VALUE;
+	m_hEvtPresent	 = INVALID_HANDLE_VALUE;
+	m_hEvtFrameTimer = INVALID_HANDLE_VALUE;
+	m_hEvtFlush		 = INVALID_HANDLE_VALUE;
+	m_hEvtQuit		 = INVALID_HANDLE_VALUE;
 
 //	hLib = LoadLibrary (L"mf.dll");
 //	pfMFCreatePresentationClock = hLib ? (PTR_MFCreatePresentationClock) GetProcAddress (hLib, "MFCreatePresentationClock") : NULL;
@@ -492,7 +499,7 @@ void CEVRAllocatorPresenter::StartWorkerThreads()
 		m_nFreeSlot		= 0;
 		m_nCurSurface	= m_nNbDXSurface-1;
 
-		m_hThread[0]	= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
+		m_hThread		= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 
 		m_nRenderState		= Stopped;
 		TRACE ("Worker threads started...\n");
@@ -507,11 +514,10 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 
 		SetEvent (m_hEvtFlush);
 		SetEvent (m_hEvtQuit);
-		if (WaitForMultipleObjects (countof(m_hThread), m_hThread, TRUE, 10000) == WAIT_TIMEOUT)
+		if ((m_hThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hThread, 10000) == WAIT_TIMEOUT))
 		{
 			ASSERT (FALSE);
-			for (i=0; i<countof(m_hThread); i++)
-				TerminateThread (m_hThread[i], 0xDEAD);
+			TerminateThread (m_hThread, 0xDEAD);
 		}
 
 		for (i=0; i<m_nNbDXSurface; i++)
@@ -519,14 +525,13 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 			m_pMFSample[i] = NULL;
 		}
 
-		for (i=0; i<countof(m_hThread); i++)
-			CloseHandle (m_hThread[i]);
-		CloseHandle (m_hSemPicture);
-		CloseHandle (m_hSemSlot);
-		CloseHandle (m_hEvtPresent);
-		CloseHandle (m_hEvtFrameTimer);
-		CloseHandle (m_hEvtFlush);
-		CloseHandle (m_hEvtQuit);
+		if (m_hThread		 != INVALID_HANDLE_VALUE) CloseHandle (m_hThread);
+		if (m_hSemPicture	 != INVALID_HANDLE_VALUE) CloseHandle (m_hSemPicture);
+		if (m_hSemSlot		 != INVALID_HANDLE_VALUE) CloseHandle (m_hSemSlot);
+		if (m_hEvtPresent	 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtPresent);
+		if (m_hEvtFrameTimer != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtFrameTimer);
+		if (m_hEvtFlush		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtFlush);
+		if (m_hEvtQuit		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtQuit);
 
 		TRACE ("Worker threads stopped...\n");
 	}
@@ -625,7 +630,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 	TRACE ("OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nRenderState		= Stopped;
 
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
@@ -1047,7 +1052,8 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 	// Get image from Mixer until sample queue is full
 	do
 	{
-		hr = S_FALSE;
+		hr				= S_FALSE;
+		dwOutputStatus	= 0;
 		if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 50) == WAIT_OBJECT_0)
 		{
 			memset (&Buffer, 0, sizeof(Buffer));
