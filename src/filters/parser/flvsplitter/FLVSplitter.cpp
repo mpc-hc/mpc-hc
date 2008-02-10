@@ -59,8 +59,8 @@ const AMOVIESETUP_PIN sudpPins2[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CFLVSplitterFilter), L"FLV Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CFLVSourceFilter), L"FLV Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source", MERIT_NORMAL, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =

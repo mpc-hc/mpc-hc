@@ -26,6 +26,10 @@
 #include <initguid.h>
 #include <moreuuids.h>
 
+#define MAKE32BITS(x)		(x[0]<<24 | x[1]<<16 | x[2]<<8 | x[3])
+#define MAKE24BITS(x)		(x[0]<<16 | x[1]<<8  | x[2])
+#define MAKE16BITS(x)		(x[0]<<8  | x[1])
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
@@ -41,8 +45,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(COggSplitterFilter), L"Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(COggSourceFilter), L"Ogg Source", MERIT_NORMAL+1, 0, NULL},
+	{&__uuidof(COggSplitterFilter), L"MPC - Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
+	{&__uuidof(COggSourceFilter), L"MPC - Ogg Source", MERIT_NORMAL+1, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =
@@ -138,7 +142,8 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 {
 	CheckPointer(pAsyncReader, E_POINTER);
 
-	HRESULT hr = E_FAIL;
+	HRESULT				hr = E_FAIL;
+	TheoraStreamHeader*	pTheoraHeader = NULL;;
 
 	m_pFile.Free();
 
@@ -199,6 +204,23 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 			}
+#ifdef _DEBUG
+			// TODO : finish theora parsing !!
+			else if(type == 0x80 && !memcmp(p, "theora", 6))
+			{
+				pTheoraHeader		 = (TheoraStreamHeader*) new BYTE [page.GetCount()+2];
+				pTheoraHeader->nSize = page.GetCount();
+				memcpy ((BYTE*)pTheoraHeader + 2, page.GetData(), page.GetCount());
+			}
+			else if(type == 0x81 && !memcmp(p, "theora", 6))
+			{
+				CAutoPtr<CBaseSplitterOutputPin> pPinOut;
+
+				name.Format(L"Theora %d", i);
+				pPinOut.Attach(new COggVideoOutputPin(pTheoraHeader, &page, name, this, this, &hr));
+				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
+			}
+#endif
 			else if(type == 3 && !memcmp(p, "vorbis", 6))
 			{
 				if(COggSplitterOutputPin* pOggPin = 
@@ -219,6 +241,8 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if(p->IsInitialized()) nWaitForMore--;
 		}
 	}
+
+	if (pTheoraHeader) delete pTheoraHeader;
 
 	if(m_pOutputs.IsEmpty())
 		return E_FAIL;
@@ -935,6 +959,15 @@ COggStreamOutputPin::COggStreamOutputPin(OggStreamHeader* h, LPCWSTR pName, CBas
 	m_default_len = h->default_len;
 }
 
+COggStreamOutputPin::COggStreamOutputPin(TheoraStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+	: COggSplitterOutputPin(pName, pFilter, pLock, phr)
+{
+	// TODO ????
+	m_time_unit			= (10000000i64 * MAKE32BITS(h->framerate_denominator)) / MAKE32BITS(h->framerate_numerator);
+	m_samples_per_unit	= 1;
+	m_default_len		= 1;
+}
+
 REFERENCE_TIME COggStreamOutputPin::GetRefTime(__int64 granule_position)
 {
 	return granule_position * m_time_unit / m_samples_per_unit;
@@ -1003,6 +1036,63 @@ COggVideoOutputPin::COggVideoOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseF
 	case BI_RLE4: mt.subtype = MEDIASUBTYPE_RGB4; break;
 	}
 	mt.SetSampleSize(max(h->buffersize, 1));
+	m_mts.Add(mt);
+}
+
+COggVideoOutputPin::COggVideoOutputPin(TheoraStreamHeader* h, OggPage* pPage, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+	: COggStreamOutputPin(h, pName, pFilter, pLock, phr)
+{
+	int		extra	= (int)h->nSize + 2 + pPage->GetCount() + pPage->m_lens.GetCount()*2;
+	int		nFormat = sizeof(MPEG2VIDEOINFO) - 4;
+	BYTE*	pExtraBuff;
+
+	CMediaType mt;
+	mt.majortype	= MEDIATYPE_Video;
+	mt.subtype		= MEDIASUBTYPE_THEORA;
+	mt.formattype	= FORMAT_MPEG2Video;
+	mt.SetSampleSize(1);
+
+	MPEG2VIDEOINFO* mpeg2info = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(nFormat + extra);
+	pExtraBuff = mt.Format();
+	memset(pExtraBuff, 0, mt.FormatLength());
+
+	// Set header size
+	pExtraBuff += nFormat;
+	pExtraBuff[0] = h->nSize >> 8;
+	pExtraBuff[1] = h->nSize &  0xFF;
+	pExtraBuff   += 2;
+
+	// Copy header
+	memcpy(pExtraBuff, (BYTE*)h+2, h->nSize);
+	pExtraBuff += h->nSize;
+
+	BYTE*	pPageData  = pPage->GetData();
+	int		len;
+    for(POSITION pos = pPage->m_lens.GetHeadPosition(); pos; pPage->m_lens.GetNext(pos))
+	{
+		len = pPage->m_lens.GetAt(pos);
+		pExtraBuff[0] = len >> 8;
+		pExtraBuff[1] = len  & 0xFF;
+		pExtraBuff += 2;
+		memcpy(pExtraBuff, pPageData, len);
+		pExtraBuff += len;
+		pPageData  += len;
+	}
+
+	mpeg2info->hdr.bmiHeader.biSize			= sizeof(BITMAPINFOHEADER);
+	mpeg2info->hdr.bmiHeader.biWidth		= MAKE24BITS(h->frame_width);
+	mpeg2info->hdr.bmiHeader.biHeight		=  MAKE24BITS(h->frame_height);
+	mpeg2info->hdr.bmiHeader.biPlanes		= 1;
+	mpeg2info->hdr.bmiHeader.biBitCount		= 24;
+	mpeg2info->hdr.bmiHeader.biXPelsPerMeter= 1;
+	mpeg2info->hdr.bmiHeader.biYPelsPerMeter= 1;
+	mpeg2info->hdr.bmiHeader.biCompression	= MAKEFOURCC ('T','H','E','O');
+	mpeg2info->hdr.AvgTimePerFrame			= (10000000i64 * MAKE32BITS(h->framerate_denominator)) / MAKE32BITS(h->framerate_numerator);
+	mpeg2info->hdr.dwPictAspectRatioX		= MAKE24BITS(h->aspectratio_numerator);
+	mpeg2info->hdr.dwPictAspectRatioY		= MAKE24BITS(h->aspectratio_denominator);
+
+	mpeg2info->cbSequenceHeader	= extra;
+
 	m_mts.Add(mt);
 }
 

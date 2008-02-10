@@ -40,8 +40,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CNutSplitterFilter), L"Nut Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(CNutSourceFilter), L"Nut Source", MERIT_NORMAL+1, 0, NULL},
+	{&__uuidof(CNutSplitterFilter), L"MPC - Nut Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
+	{&__uuidof(CNutSourceFilter), L"MPC - Nut Source", MERIT_NORMAL+1, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =

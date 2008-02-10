@@ -109,12 +109,14 @@ class COggStreamOutputPin : public COggSplitterOutputPin
 
 public:
 	COggStreamOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+	COggStreamOutputPin(TheoraStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 };
 
 class COggVideoOutputPin : public COggStreamOutputPin
 {
 public:
 	COggVideoOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+	COggVideoOutputPin(TheoraStreamHeader* h, OggPage* pPage, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 };
 
 class COggAudioOutputPin : public COggStreamOutputPin

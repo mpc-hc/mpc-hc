@@ -40,8 +40,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CSSFSplitterFilter), L"SSF Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CSSFSourceFilter), L"SSF Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CSSFSplitterFilter), L"MPC - SSF Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CSSFSourceFilter), L"MPC - SSF Source", MERIT_NORMAL, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =

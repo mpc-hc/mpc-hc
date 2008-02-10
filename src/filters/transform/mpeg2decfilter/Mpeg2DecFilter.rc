@@ -90,6 +90,42 @@ END
 /////////////////////////////////////////////////////////////////////////////
 
 
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_MPEG2DECSETTINGSWND_0 
+                            "Enable planar YUV media types (VY12, I420, IYUY)"
+    IDS_MPEG2DECSETTINGSWND_1 "Set interlaced flag in output media type"
+    IDS_MPEG2DECSETTINGSWND_2 "Always display forced subtitles"
+    IDS_MPEG2_DEINTERLACING "Deinterlacing"
+    IDS_MPEG2_BRIGHTNESS    "Brightness"
+    IDS_MPEG2_RESET         "Reset"
+    IDS_MPEG2DECSETTINGSWND_7 
+                            "Note: Using a non-planar output format, bob deinterlacer, or adjusting color properies "
+    IDS_MPEG2_CONTRAST      "Contrast"
+    IDS_MPEG2_HUE           "Hue"
+    IDS_MPEG2_SATURATION    "Saturation"
+    IDS_MPEG2DECSETTINGSWND_8 
+                            "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
+END
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

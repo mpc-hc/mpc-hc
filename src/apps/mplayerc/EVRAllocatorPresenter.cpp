@@ -1047,13 +1047,8 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 	LONGLONG					llClockBefore = 0;
 	LONGLONG					llClockAfter  = 0;
 	LONGLONG					llMixerLatency;
-	DWORD						dwOutputStatus;
 
-	// Get image from Mixer until sample queue is full
-	do
-	{
-		hr				= S_FALSE;
-		dwOutputStatus	= 0;
+	// TODO : put a loop to read samples presents in Mixer (Microsoft Mpeg2)
 		if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 50) == WAIT_OBJECT_0)
 		{
 			memset (&Buffer, 0, sizeof(Buffer));
@@ -1067,8 +1062,8 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			llMixerLatency = llClockAfter - llClockBefore;
 			if (m_pSink) 
 			{
-	//			CAutoLock autolock(this);
-	//			m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
+				CAutoLock autolock(this);
+				m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
 			}
 
 			Buffer.pSample->GetSampleTime (&nsSampleTime);
@@ -1106,12 +1101,9 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			ReleaseSemaphore (m_hSemPicture, 1, NULL);
 
 			InterlockedIncrement (&m_nUsedBuffer);
-			hr = m_pMixer->GetOutputStatus (&dwOutputStatus);
 		}
 		else
 			m_nWaitingSample++;
-
-	} while ((hr == S_OK) && (dwOutputStatus == MFT_OUTPUT_STATUS_SAMPLE_READY));
 
 	return hr;
 }

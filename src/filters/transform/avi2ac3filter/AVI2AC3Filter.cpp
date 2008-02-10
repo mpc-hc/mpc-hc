@@ -48,7 +48,7 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CAVI2AC3Filter), L"AVI<->AC3/DTS", MERIT_NORMAL, countof(sudpPins), sudpPins}
+	{&__uuidof(CAVI2AC3Filter), L"MPC - AVI<->AC3/DTS", MERIT_NORMAL, countof(sudpPins), sudpPins}
 };
 
 CFactoryTemplate g_Templates[] =

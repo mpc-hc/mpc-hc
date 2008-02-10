@@ -139,10 +139,10 @@ const AMOVIESETUP_PIN sudpPins3[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CRealMediaSplitterFilter), L"RealMedia Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CRealMediaSourceFilter), L"RealMedia Source", MERIT_NORMAL, 0, NULL},
-	{&__uuidof(CRealVideoDecoder), L"RealVideo Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
-	{&__uuidof(CRealAudioDecoder), L"RealAudio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3},
+	{&__uuidof(CRealMediaSplitterFilter), L"MPC - RealMedia Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CRealMediaSourceFilter), L"MPC - RealMedia Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CRealVideoDecoder), L"MPC - RealVideo Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
+	{&__uuidof(CRealAudioDecoder), L"MPC - RealAudio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3},
 };
 
 CFactoryTemplate g_Templates[] =

@@ -21,36 +21,13 @@
  */
 
 #include "stdafx.h"
+#include "resource.h"
 #include "MPCVideoDecSettingsWnd.h"
 #include "..\..\..\dsutil\dsutil.h"
 
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
-#define IDS_VDF_FFSETTINGS				33167
-#define IDS_VDF_THREADNUMBER			33168
-#define IDS_VDF_SKIPDEBLOCK				33169
-#define IDS_VDF_DBLK_NONE				33170
-#define IDS_VDF_DBLK_DEFAULT			33171
-#define IDS_VDF_DBLK_NONREF				33172
-#define IDS_VDF_DBLK_BIDIR				33173
-#define IDS_VDF_DBLK_NONKFRM			33174
-#define IDS_VDF_DBLK_ALL				33175
-#define IDS_VDF_ERROR_RESILIENCE		33176
-#define IDS_VDF_ERR_CAREFUL				33177
-#define IDS_VDF_ERR_COMPLIANT			33178
-#define IDS_VDF_ERR_AGGRESSIVE			33179
-#define IDS_VDF_ERR_VERYAGGRESSIVE		33180
-#define IDS_VDF_IDCT_ALGO				33181
-#define IDS_VDF_IDCT_AUTO				33182
-#define IDS_VDF_IDCT_AUTO				33182
-#define IDS_VDF_IDCT_LIBMPG2			33183
-#define IDS_VDF_IDCT_SIMPLE_MMX			33184
-#define IDS_VDF_IDCT_SKAL				33185
-#define IDS_VDF_IDCT_SIMPLE				33186
-#define IDS_VDF_DXVA_SETTING			33187
-#define IDS_VDF_DXVA_ENABLE				33188
-#define IDS_VDF_DXVA_MODE				33189
 
 //
 

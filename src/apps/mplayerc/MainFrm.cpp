@@ -535,6 +535,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	SetWindowText(m_strTitle);
 	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
+	SendAPICommand (CMD_CONNECT, L"%d", GetSafeHwnd());
+
 	return 0;
 }
 
@@ -2830,7 +2832,7 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	m_nCurSubtitle		= -1;
 	m_lSubtitleShift	= 0;
-	m_iMediaLoadState	= MLS_LOADED;
+	SetState (MLS_LOADED);
 
 	// IMPORTANT: must not call any windowing msgs before
 	// this point, it will deadlock when OpenMediaPrivate is
@@ -2858,6 +2860,7 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	SendNowPlayingToMSN();
 	SendNowPlayingTomIRC();
+	SendNowPlayingToApi();
 }
 
 void CMainFrame::OnUpdateFilePostOpenmedia(CCmdUI* pCmdUI)
@@ -3275,6 +3278,14 @@ void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 {
+	AppSettings& s = AfxGetAppSettings();
+
+	if (s.hMasterWnd) 
+	{
+		ProcessAPICommand(pCDS);
+		return TRUE;
+	}
+
 	if(m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar))
 		return FALSE;
 
@@ -3295,7 +3306,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		cmdln.AddTail(str);
 	}
 
-	AppSettings& s = AfxGetAppSettings();
 
 	s.ParseCommandLine(cmdln);
 
@@ -4939,6 +4949,7 @@ void CMainFrame::OnPlayPlay()
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
 	m_Lcd.SetPlayState(CMPC_Lcd::PS_PLAY);
+	SendAPICommand (CMD_PLAYMODE, L"%d", PS_PLAY);
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -4968,6 +4979,7 @@ void CMainFrame::OnPlayPauseI()
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
 	m_Lcd.SetPlayState(CMPC_Lcd::PS_PAUSE);
+	SendAPICommand (CMD_PLAYMODE, L"%d", PS_PAUSE);
 }
 
 void CMainFrame::OnPlayPause()
@@ -5069,6 +5081,7 @@ void CMainFrame::OnPlayStop()
 
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
 	m_Lcd.SetPlayState(CMPC_Lcd::PS_STOP);
+	SendAPICommand (CMD_PLAYMODE, L"%d", PS_STOP);
 }
 
 void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
@@ -8174,7 +8187,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		}
 	}
 
-	m_iMediaLoadState = MLS_LOADING;
+	SetState (MLS_LOADING);
 
 	// FIXME: Don't show "Closed" initially
 	PostMessage(WM_KICKIDLE);
@@ -8349,7 +8362,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 void CMainFrame::CloseMediaPrivate()
 {
-	m_iMediaLoadState = MLS_CLOSING;
+	SetState (MLS_CLOSING);
 
     OnPlayStop(); // SendMessage(WM_COMMAND, ID_PLAY_STOP);
 
@@ -8411,7 +8424,7 @@ void CMainFrame::CloseMediaPrivate()
 
 	AfxGetAppSettings().nCLSwitches &= CLSW_OPEN|CLSW_PLAY|CLSW_AFTERPLAYBACK_MASK|CLSW_NOFOCUS;
 
-	m_iMediaLoadState = MLS_CLOSED;
+	SetState (MLS_CLOSED);
 }
 
 // msn
@@ -10311,7 +10324,7 @@ void CMainFrame::CloseMedia()
 
 	m_closingmsg.Empty();
 
-	m_iMediaLoadState = MLS_CLOSING;
+	SetState (MLS_CLOSING);
 
 	OnFilePostClosemedia();
 
@@ -10381,6 +10394,13 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 
 
 // ==== Added by CASIMIR666
+void CMainFrame::SetState(MPC_LOADSTATE iState)
+{
+	m_iMediaLoadState	= iState;
+	SendAPICommand (CMD_STATE, L"%d", m_iMediaLoadState);
+}
+
+
 bool CMainFrame::CreateFullScreenWindow()
 {
 	HMONITOR		hMonitor;
@@ -10521,4 +10541,167 @@ afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 	}
 
 	pCmdUI->SetCheck(nLang == s.iLanguage);
+}
+
+
+void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
+{
+	CAtlList<CString>	fns;
+	REFERENCE_TIME		rtPos	= 0;
+	long				lPos	= 0;
+
+	switch (pCDS->dwData)
+	{
+	case CMD_OPENFILE :
+		fns.AddHead ((LPCWSTR)pCDS->lpData);
+		m_wndPlaylistBar.Open(fns, false);
+		OpenCurPlaylistItem();
+		break;
+	case CMD_STOP :
+		OnPlayStop();
+		break;
+	case CMD_CLOSEFILE :
+		CloseMedia();
+		break;
+	case CMD_PLAYPAUSE :
+		OnPlayPlaypause();
+		break;
+	case CMD_ADDTOPLAYLIST :
+		fns.AddHead ((LPCWSTR)pCDS->lpData);
+		m_wndPlaylistBar.Append(fns, true);
+		break;
+	case CMD_STARTPLAYLIST :
+		OpenCurPlaylistItem();
+		break;
+	case CMD_CLEARPLAYLIST :
+		m_wndPlaylistBar.Empty();
+		break;
+	case CMD_SETPOSITION :
+		DVD_HMSF_TIMECODE	tcPos;
+
+		lPos			= _wtol ((LPCWSTR)pCDS->lpData);
+		tcPos.bHours	= lPos/3600;
+		tcPos.bMinutes	= (lPos/60) % 60;
+		tcPos.bSeconds	= lPos%60;
+		rtPos = HMSF2RT(tcPos);
+		SeekTo(rtPos);
+		break;
+	case CMD_SETAUDIODELAY :
+		rtPos			= _wtol ((LPCWSTR)pCDS->lpData) * 10000;
+		SetAudioDelay (rtPos);
+		break;
+	}
+}
+
+
+void CMainFrame::SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
+{
+	AppSettings&	s = AfxGetAppSettings();
+
+	if (s.hMasterWnd)
+	{
+		COPYDATASTRUCT	CDS;
+		TCHAR			buff[800];
+
+		va_list args;
+		va_start(args, fmt);
+		_vstprintf(buff, fmt, args);
+
+		CDS.cbData = (_tcslen (buff) + 1) * sizeof(TCHAR);
+		CDS.dwData = nCommand;
+		CDS.lpData = (LPVOID)buff;
+
+		::SendMessage(s.hMasterWnd, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&CDS);
+
+		va_end(args);
+	}
+}
+
+
+void CMainFrame::SendNowPlayingToApi()
+{
+	if(!AfxGetAppSettings().hMasterWnd)
+		return;
+
+
+	if(m_iMediaLoadState == MLS_LOADED)
+	{
+		CPlaylistItem	pli;
+		CString			title, author, description;
+		CString			label;
+		long			lDuration = 0;
+		REFERENCE_TIME	rtDur;
+
+		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
+		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+
+		m_wndPlaylistBar.GetCur(pli);
+		if(!pli.m_fns.IsEmpty())
+		{
+			label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+			if(m_iPlaybackMode == PM_FILE)
+			{
+				pMS->GetDuration(&rtDur);
+				DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur);
+				lDuration = tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds;
+			}
+/*			CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+
+			if(m_iPlaybackMode == PM_FILE)
+			{
+				CString fn = label;
+				if(fn.Find(_T("://")) >= 0) {int i = fn.Find('?'); if(i >= 0) fn = fn.Left(i);}
+				CPath path(fn);
+				path.StripPath();
+				path.MakePretty();
+				path.RemoveExtension();
+				title = (LPCTSTR)path;
+				author.Empty();
+			}
+			else if(m_iPlaybackMode == PM_CAPTURE)
+			{
+				title = label != pli.m_fns.GetHead() ? label : _T("Live");
+				author.Empty();
+			}
+			else if(m_iPlaybackMode == PM_DVD)
+			{
+				title = _T("DVD");
+				author.Empty();
+			}*/
+		}
+
+		CStringW buff;
+		buff.Format (L"%s|%s|%s|%s|%d", title, author, description, label, lDuration);
+
+		SendAPICommand (CMD_NOWPLAYING, buff);
+		SendSubtitlesToApi();
+	}
+}
+
+void CMainFrame::SendSubtitlesToApi()
+{
+	CStringW	strSubs;
+	POSITION	pos = m_pSubStreams.GetHeadPosition();
+
+	if (pos)
+	{
+		while(pos)
+		{
+			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+
+			for(int i = 0, j = pSubStream->GetStreamCount(); i < j; i++)
+			{
+				WCHAR* pName = NULL;
+				if(SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, NULL)))
+				{
+					CString name(pName);
+					if (!strSubs.IsEmpty()) strSubs.Append (L"|");
+					strSubs.AppendFormat(L"%s", name);
+					CoTaskMemFree(pName);
+				}
+			}
+		}
+		SendAPICommand (CMD_SUBTITLES, strSubs);
+	}
 }

@@ -5,8 +5,9 @@ v1.0.12.0 - unreleased
  NEW	: Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
  NEW    : Korean translation
  CHANGED: FAAD library updated to 2.6
+ CHANGED: Standalone filter renamed to be prefixed by "MPC - xxx"
+ CHANGED: CSS classes added in WebServer (request #1885296)
  FIXED  : Incorrect colors on video when using YUV mixing and "VMR Color controls"
- FIXED  : EVR custom didn't display images with Microsoft MPEG2 decoder (Vista)
  FIXED  : PN31 driver installation was not working
  FIXED  : MPC graph manager now use the same filter priority as WMP and graphedit (clsid patch)
  FIXED  : MPC-HC is now recognize as an application by SUMo (http://www.kcsoftwares.com/index.php?sumo)

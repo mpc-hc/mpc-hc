@@ -90,6 +90,55 @@ END
 /////////////////////////////////////////////////////////////////////////////
 
 
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+#ifdef _WIN32
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_VDF_FFSETTINGS      "FFMpeg settings"
+    IDS_VDF_THREADNUMBER    "Decoding thread number"
+    IDS_VDF_SKIPDEBLOCK     "H264 skip deblocking mode"
+    IDS_VDF_DBLK_NONE       "None"
+    IDS_VDF_DBLK_DEFAULT    "Default"
+    IDS_VDF_DBLK_NONREF     "Non Reference"
+    IDS_VDF_DBLK_BIDIR      "Bidirectional"
+    IDS_VDF_DBLK_NONKFRM    "Non keyframes"
+    IDS_VDF_DBLK_ALL        "All frames"
+    IDS_VDF_ERROR_RESILIENCE "Error resilience"
+    IDS_VDF_ERR_CAREFUL     "Careful"
+    IDS_VDF_ERR_COMPLIANT   "Compliant"
+    IDS_VDF_ERR_AGGRESSIVE  "Aggressive"
+    IDS_VDF_ERR_VERYAGGRESSIVE "Very aggressive"
+    IDS_VDF_IDCT_ALGO       "IDCT Algorithm"
+    IDS_VDF_IDCT_AUTO       "Auto"
+    IDS_VDF_IDCT_LIBMPG2    "Lib Mpeg2 MMX"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_VDF_IDCT_SIMPLE_MMX "Simple MMX"
+    IDS_VDF_IDCT_SKAL       "SKAL"
+    IDS_VDF_IDCT_SIMPLE     "Simple"
+    IDS_VDF_DXVA_SETTING    "DXVA settings"
+    IDS_VDF_DXVA_ENABLE     "Enable DXVA"
+    IDS_VDF_DXVA_MODE       "DXVA Mode"
+END
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

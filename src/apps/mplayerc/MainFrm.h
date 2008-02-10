@@ -66,11 +66,13 @@
 #include <evr9.h>
 #include "VMROSD.h"
 #include "LcdSupport.h"
+#include "MpcApi.h"
 
 
 class CFullscreenWnd;
 
 enum {PM_NONE, PM_FILE, PM_DVD, PM_CAPTURE};
+
 
 class OpenMediaData
 {
@@ -332,7 +334,6 @@ public:
 	CControlBar* m_pLastBar;
 
 protected: 
-	enum {MLS_CLOSED, MLS_LOADING, MLS_LOADED, MLS_CLOSING};
 	int m_iMediaLoadState;
 
 	bool m_fAudioOnly;
@@ -714,8 +715,15 @@ public:
 	__int64				m_rtCurSubPos;
 	CString				m_strTitle;
 
+	void		SetState(MPC_LOADSTATE iState);
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
+
+	// MPC API functions
+	void		ProcessAPICommand(COPYDATASTRUCT* pCDS);
+	void		SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...);
+	void		SendNowPlayingToApi();
+	void		SendSubtitlesToApi();
 };

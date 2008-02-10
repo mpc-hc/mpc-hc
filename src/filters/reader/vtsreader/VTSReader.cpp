@@ -38,7 +38,7 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CVTSReader), L"VTS Reader", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CVTSReader), L"MPC - VTS Reader", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
 };
 
 CFactoryTemplate g_Templates[] =

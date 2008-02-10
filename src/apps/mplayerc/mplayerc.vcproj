@@ -972,6 +972,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MpcApi.h"
+				>
+			</File>
+			<File
 				RelativePath=".\mplayerc.h"
 				>
 			</File>

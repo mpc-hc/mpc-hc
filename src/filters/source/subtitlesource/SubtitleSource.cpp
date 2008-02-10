@@ -46,13 +46,13 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CSubtitleSourceASCII), L"SubtitleSource (S_TEXT/ASCII)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourceUTF8), L"SubtitleSource (S_TEXT/UTF8)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourceSSA), L"SubtitleSource (S_TEXT/SSA)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourceASS), L"SubtitleSource (S_TEXT/ASS)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourceUSF), L"SubtitleSource (S_TEXT/USF)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourcePreview), L"SubtitleSource (Preview)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
-	{&__uuidof(CSubtitleSourceARGB), L"SubtitleSource (ARGB)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceASCII), L"MPC - SubtitleSource (S_TEXT/ASCII)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceUTF8), L"MPC - SubtitleSource (S_TEXT/UTF8)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceSSA), L"MPC - SubtitleSource (S_TEXT/SSA)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceASS), L"MPC - SubtitleSource (S_TEXT/ASS)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceUSF), L"MPC - SubtitleSource (S_TEXT/USF)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourcePreview), L"MPC - SubtitleSource (Preview)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
+	{&__uuidof(CSubtitleSourceARGB), L"MPC - SubtitleSource (ARGB)", MERIT_NORMAL, countof(sudOpPin), sudOpPin},
 };
 
 CFactoryTemplate g_Templates[] =

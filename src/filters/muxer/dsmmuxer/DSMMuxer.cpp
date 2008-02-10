@@ -43,7 +43,7 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CDSMMuxerFilter), L"DSM Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins}
+	{&__uuidof(CDSMMuxerFilter), L"MPC - DSM Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins}
 };
 
 CFactoryTemplate g_Templates[] =

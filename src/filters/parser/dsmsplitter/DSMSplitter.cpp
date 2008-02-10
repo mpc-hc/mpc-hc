@@ -42,8 +42,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CDSMSplitterFilter), L"DSM Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CDSMSourceFilter), L"DSM Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CDSMSplitterFilter), L"MPC - DSM Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CDSMSourceFilter), L"MPC - DSM Source", MERIT_NORMAL, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =

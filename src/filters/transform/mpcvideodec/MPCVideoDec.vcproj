@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -275,9 +275,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
+				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodecr.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
 				TargetMachine="17"

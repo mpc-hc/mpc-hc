@@ -46,7 +46,7 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CDeCSSFilter), L"DeCSSFilter", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins},
+	{&__uuidof(CDeCSSFilter), L"MPC - DeCSSFilter", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins},
 };
 
 CFactoryTemplate g_Templates[] =

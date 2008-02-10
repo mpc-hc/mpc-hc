@@ -20,23 +20,12 @@
  */
 
 #include "stdafx.h"
+#include "resource.h"
 #include "Mpeg2DecSettingsWnd.h"
 #include "..\..\..\dsutil\dsutil.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
-
-#define IDS_MPEG2DECSETTINGSWND_0       33144
-#define IDS_MPEG2DECSETTINGSWND_1       33145
-#define IDS_MPEG2DECSETTINGSWND_2       33146
-#define IDS_MPEG2_DEINTERLACING         33147
-#define IDS_MPEG2_BRIGHTNESS            33148
-#define IDS_MPEG2_RESET                 33149
-#define IDS_MPEG2DECSETTINGSWND_7       33150
-#define IDS_MPEG2_CONTRAST				33157
-#define IDS_MPEG2_HUE					33158
-#define IDS_MPEG2_SATURATION			33159
-#define IDS_MPEG2DECSETTINGSWND_8		33160
 
 //
 // CMpeg2DecSettingsWnd

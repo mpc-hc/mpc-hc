@@ -66,9 +66,9 @@ const AMOVIESETUP_PIN sudpPins[] =
 const AMOVIESETUP_FILTER sudFilter[] =
 {
 	#ifdef MPEG2ONLY
-	{&__uuidof(CMpeg2DecFilter), L"MPEG-2 Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
+	{&__uuidof(CMpeg2DecFilter), L"MPC - MPEG-2 Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
 	#else
-	{&__uuidof(CMpeg2DecFilter), L"MPEG Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
+	{&__uuidof(CMpeg2DecFilter), L"MPC - MPEG Video Decoder (Gabest)", 0x00600001, countof(sudpPins), sudpPins},
 	#endif
 };
 

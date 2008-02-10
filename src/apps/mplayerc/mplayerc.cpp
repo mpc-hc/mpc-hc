@@ -2117,6 +2117,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	iAdminOption=0;
 	fixedWindowSize.SetSize(0, 0);
 	iMonitor = 0;
+	hMasterWnd = 0;
 
 	if(launchfullscreen) nCLSwitches |= CLSW_FULLSCREEN;
 
@@ -2165,6 +2166,11 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
 			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
 			else if(sw == _T("adminoption")) { nCLSwitches |= CLSW_ADMINOPTION; iAdminOption = _ttoi (cmdln.GetNext(pos)); }
+			else if(sw == _T("slave"))
+			{
+				nCLSwitches |= CLSW_SLAVE;
+				hMasterWnd = (HWND)_ttol (cmdln.GetNext(pos));
+			}
 			else if(sw == _T("fixedsize") && pos)
 			{
 				CAtlList<CString> sl;

@@ -53,6 +53,32 @@ struct OggStreamHeader
 	DWORD alignmentfix2;
 };
 
+struct TheoraStreamHeader
+{
+	USHORT			nSize;
+	char			Type;
+	char			streamtype[6];
+	unsigned char	version_major;
+	unsigned char	version_minor;
+	unsigned char	version_subminor;
+	unsigned char	mb_width[2];
+	unsigned char	mb_height[2];
+	unsigned char	frame_width[3];
+	unsigned char	frame_height[3];
+	unsigned char	picx;
+	unsigned char	picy;
+	unsigned char	framerate_numerator[4];
+	unsigned char	framerate_denominator[4];
+	unsigned char	aspectratio_numerator[3];
+	unsigned char	aspectratio_denominator[3];
+	unsigned char	colorspace;
+	unsigned char	nombr[3];
+	unsigned int	reserved : 3;
+	unsigned int	pf : 2;
+	unsigned int	kfgshift : 5;
+	unsigned int	qual : 6;
+};
+
 #pragma pack(pop)
 
 class OggPage : public CAtlArray<BYTE>

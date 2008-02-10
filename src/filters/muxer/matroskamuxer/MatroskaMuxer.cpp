@@ -44,7 +44,7 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMatroskaMuxerFilter), L"Matroska Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins}
+	{&__uuidof(CMatroskaMuxerFilter), L"MPC - Matroska Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins}
 };
 
 CFactoryTemplate g_Templates[] =
