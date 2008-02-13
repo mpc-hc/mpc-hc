@@ -238,13 +238,11 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
 	{
 		pitchOut = bihOut.biWidth*bihOut.biBitCount>>3;
 
-		//if(bihOut.biHeight > 0)
-		if (h > 0)
+		if(bihOut.biHeight > 0)
 		{
 			pOut += pitchOut*(h-1);
 			pitchOut = -pitchOut;
-			//if(h < 0) h = -h;
-			h = -h;
+			if(h < 0) h = -h;
 		}
 	}
 
@@ -560,6 +558,10 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 		m_arxin = m_arx;
 		m_aryin = m_ary;
 		GetOutputSize(m_w, m_h, m_arx, m_ary);
+
+		DWORD a = m_arx, b = m_ary;
+		while(a) {int tmp = a; a = b % tmp; b = tmp;}
+		if(b) m_arx /= b, m_ary /= b;
 	}
 	else if(dir == PINDIR_OUTPUT)
 	{

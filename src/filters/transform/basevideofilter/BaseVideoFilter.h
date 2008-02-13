@@ -34,7 +34,6 @@ class CBaseVideoFilter : public CTransformFilter
 {
 private:
     HRESULT Receive(IMediaSample* pIn);
-	HRESULT ReconnectOutput(int w, int h);
 
 	// these are private for a reason, don't bother them
 	DWORD m_win, m_hin, m_arxin, m_aryin;
@@ -47,6 +46,7 @@ protected:
 
 	int m_w, m_h, m_arx, m_ary;
 
+	HRESULT ReconnectOutput(int w, int h);
 	HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);

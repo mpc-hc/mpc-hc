@@ -43,12 +43,12 @@ BEGIN
     BEGIN
         BLOCK "040e04b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
+            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Ogg Splitter"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "Ogg Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2008 Gabest"
             VALUE "OriginalFilename", "OggSplitter.ax"
             VALUE "ProductName", "Ogg Splitter"
             VALUE "ProductVersion", "1, 0, 0, 1"
@@ -100,4 +100,5 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
 

@@ -40,27 +40,15 @@ const AMOVIESETUP_PIN sudpPins[] =
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
 };
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesIn2[] =
-{
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_FLV4},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_VP62},
-};
-
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] =
 {
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_NULL},
 };
 
-const AMOVIESETUP_PIN sudpPins2[] =
-{
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn2), sudPinTypesIn2},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut2), sudPinTypesOut2}
-};
-
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter (Gabest)", MERIT_NORMAL, countof(sudpPins), sudpPins},
+	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source (Gabest)", MERIT_NORMAL, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =
@@ -141,6 +129,7 @@ bool CFLVSplitterFilter::ReadTag(VideoTag& vt)
 	return true;
 }
 
+#ifndef NOVIDEOTWEAK
 bool CFLVSplitterFilter::ReadTag(VideoTweak& vt)
 {
 	if(!m_pFile->GetRemaining()) 
@@ -151,6 +140,7 @@ bool CFLVSplitterFilter::ReadTag(VideoTweak& vt)
 
 	return true;
 }
+#endif
 
 bool CFLVSplitterFilter::Sync(__int64& pos)
 {
@@ -280,7 +270,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 			}
 		}
-		else if(t.TagType == 9  && t.DataSize != 0 && fTypeFlagsVideo)
+		else if(t.TagType == 9 && t.DataSize != 0 && fTypeFlagsVideo)
 		{
 			UNREFERENCED_PARAMETER(vt);
 			VideoTag vt;
@@ -331,9 +321,12 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				case 5:
 					m_pFile->BitRead(24);
 				case 4:
-					
+					#ifdef NOVIDEOTWEAK
+					m_pFile->BitRead(8);
+					#else					
 					VideoTweak fudge;
 					ReadTag(fudge);
+					#endif
 				
 					if (m_pFile->BitRead(1)) {
 					// Delta (inter) frame
@@ -366,8 +359,10 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					bih->biWidth = w;
 					bih->biHeight = h;
+					#ifndef NOVIDEOTWEAK
 					SetRect(&vih->rcSource, 0, 0, w - fudge.x, h - fudge.y);
 					SetRect(&vih->rcTarget, 0, 0, w - fudge.x, h - fudge.y);
+					#endif
 
 					mt.subtype = FOURCCMap(bih->biCompression = '4VLF');
 
@@ -529,5 +524,6 @@ CFLVSourceFilter::CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	m_clsid = __uuidof(this);
 	m_pInput.Free();
 }
+
 
 

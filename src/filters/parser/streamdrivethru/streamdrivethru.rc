@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "040e04b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
+            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileVersion", "1, 0, 0, 0"
             VALUE "InternalName", "StreamDriverThru Filter"
@@ -111,4 +111,5 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
 

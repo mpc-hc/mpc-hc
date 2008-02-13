@@ -295,6 +295,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	bool GetDIB(BYTE** ppData, long& size, bool fSilent = false);
 	void SaveDIB(LPCTSTR fn, BYTE* pData, long size);
+	BOOL IsRendererCompatibleWithSaveImage();
 	void SaveImage(LPCTSTR fn);
 	void SaveThumbnails(LPCTSTR fn);
 

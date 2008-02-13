@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/guliverkli/"
+            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "DirectShow Media Muxer"
             VALUE "FileVersion", "1, 0, 0, 4"
@@ -112,4 +112,5 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
 

@@ -388,6 +388,7 @@ public:
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
 	static bool					IsVista();
+	static bool					IsVSFilterInstalled();
 	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
 	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
