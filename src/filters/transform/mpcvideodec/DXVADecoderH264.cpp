@@ -356,4 +356,6 @@ HRESULT CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLeng
 	pNalu->nal_unit_type		= (*pNalu->data)	  & 0x1f;
 	pNalu->data++;
 	pNalu->data_len--;
+
+	return S_OK;
 }

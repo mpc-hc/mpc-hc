@@ -187,13 +187,20 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 	int		nDummy;
 
 	// Add VC1 frame start code
-	pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1; pDXVABuffer[3]=0x0D;
-	pDXVABuffer	+=4;
+	if (*((DWORD*)pBuffer) != 0x0d010000)
+	{
+		pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1; pDXVABuffer[3]=0x0D;
+		pDXVABuffer	+=4;
+		// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
+		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+		nSize  +=4;
+	}
+	else
+	{
+		// Startcode already present
+		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+	}
 	
-	// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
-	memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-
-	nSize  +=4;
 	nDummy  = 128 - (nSize %128);
 
 	pDXVABuffer += nSize;

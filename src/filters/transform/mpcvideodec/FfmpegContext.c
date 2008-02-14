@@ -141,6 +141,40 @@ void FFH264UpdatePictureParam (int bInit, DXVA_PicParams_H264* pDXVAPicParams, D
 }
 
 
+int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+{
+	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
+	SPS*			cur_sps;
+	PPS*			cur_pps;
+	int				i;
+
+	if (pBuffer != NULL)
+		av_h264_decode_frame (pAVCtx, pBuffer, nSize);
+
+	cur_sps		= pContext->sps_buffers[0];
+	cur_pps		= pContext->pps_buffers[0];
+
+	if (cur_sps != NULL)
+	{
+		// Check aspect ratio
+		if (   (cur_sps->sar.num ==  0) ||	// Weird but happen...
+			  ((cur_sps->sar.num ==  1) && (cur_sps->sar.den == 1)) ||
+			  ((cur_sps->sar.num ==  4) && (cur_sps->sar.den == 3)) ||
+			  ((cur_sps->sar.num ==  5) && (cur_sps->sar.den == 4)) ||
+			  ((cur_sps->sar.num == 16) && (cur_sps->sar.den == 9)) )
+		{
+			// Check max num reference frame according to resolution
+			if ( ((nWidth > 720)  && (nWidth*nHeight*cur_sps->ref_frame_count > 1920*1088*4)) ||	// HD limit
+				 ((nWidth <= 720) && (nWidth*nHeight*cur_sps->ref_frame_count >  720*576*11)) )		// SD limit
+				return 2;	// Too much ref frames
+		}
+		else
+			return 1;	// Wrong SAR
+	}
+
+	return 0;
+}
+
 
 HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
 {

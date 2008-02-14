@@ -33,6 +33,11 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
+extern "C"
+{
+	#include "FfmpegContext.h"
+}
+
 #include "..\..\..\DSUtil\DSUtil.h"
 #include "..\..\..\DSUtil\MediaTypes.h"
 
@@ -44,6 +49,7 @@
 
 /////
 #define MAX_SUPPORTED_MODE			5
+#define MPCVD_CAPTION				_T("MPC Video decoder")
 
 typedef struct
 {
@@ -60,7 +66,6 @@ typedef struct
   const int				fourcc;
   const DXVA_PARAMS*	DXVAModes;
 
-  bool					IsDXVASupported()	{ return (DXVAModes != NULL); }
   int					DXVAModeCount()		
   {
 	  if (!DXVAModes) return 0;
@@ -402,6 +407,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
 	m_bEnableDXVA			= true;
+	m_bDXVACompatible		= true;
+	m_nCompatibilityMode	= 0;
 
 	m_nDXVAMode				= MODE_SOFTWARE;
 	m_pDXVADecoder			= NULL;
@@ -418,6 +425,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorResilience"), dw)) m_nErrorResilience = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableDXVA"), dw)) m_bEnableDXVA = !!dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 	}
 
 #ifdef __USE_FFMPEG_DLL	
@@ -593,7 +601,7 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 
 	char		Msg [500];
 	vsnprintf (Msg, sizeof(Msg), fmt, valist);
-//	TRACE("AVLIB : %s", Msg);
+	TRACE("AVLIB : %s", Msg);
 #endif
 }
 
@@ -722,11 +730,32 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 		ConnectTo (m_pAVCtx);
 		CalcAvgTimePerFrame();
 
-		if (ffCodecs[nNewCodec].IsDXVASupported())
-			BuildDXVAOutputFormat();
-
 		if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 			return VFW_E_INVALIDMEDIATYPE;
+
+		if (ffCodecs[m_nCodecNb].nFFCodec == CODEC_ID_H264)
+		{
+			int		nCompat;
+			nCompat = FFH264CheckCompatibility (PictWidth(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+			switch (nCompat)
+			{
+			case 1 :	// SAR not supported
+				 m_bDXVACompatible = false;
+				 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : SAR is not supported"), MPCVD_CAPTION, MB_OK);
+				 break;
+			case 2 :	// Too much ref frames
+				 m_bDXVACompatible = false;
+				 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : too much ref frame"), MPCVD_CAPTION, MB_OK);
+				 break;
+			}
+
+			// Force opening all files
+			if (m_nCompatibilityMode & 2) 
+				m_bDXVACompatible = true;
+		}
+
+		if (IsDXVASupported())
+			BuildDXVAOutputFormat();
 	}
 
 	return __super::SetMediaType(direction, pmt);
@@ -748,6 +777,21 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
 	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
 };
+
+
+bool CMPCVideoDecFilter::IsDXVASupported()
+{
+	if ((m_nCodecNb != -1) && 
+		(ffCodecs[m_nCodecNb].DXVAModes != NULL) &&	// Supported by Codec ?
+		 m_bEnableDXVA &&							// Enable by user ?
+		 m_bDXVACompatible)							// File compatible ?
+	{
+		return true;
+	}
+
+	return false;
+}
+
 
 void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 {
@@ -774,7 +818,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 
 int CMPCVideoDecFilter::GetPicEntryNumber()
 {
-	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported())
+	if (IsDXVASupported())
 		return ffCodecs[m_nCodecNb].DXVAModes->PicEntryNumber;
 	else
 		return 0;
@@ -783,7 +827,7 @@ int CMPCVideoDecFilter::GetPicEntryNumber()
 
 void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
-	if ((m_nCodecNb != -1) && ffCodecs[m_nCodecNb].IsDXVASupported() && m_bEnableDXVA)
+	if (IsDXVASupported())
 	{
 		nNumber		= m_nVideoOutputCount;
 		*ppFormats	= m_pVideoOutputFormat;
@@ -849,9 +893,7 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 {
 	LOG(_T("CMPCVideoDecFilter::CompleteConnect"));
 	if ( (direction==PINDIR_OUTPUT) &&
-		 (m_nCodecNb != -1) &&
-		 m_bEnableDXVA &&
-		 ffCodecs[m_nCodecNb].IsDXVASupported() )		 
+		 IsDXVASupported() )		 
 	{
 		if (m_nDXVAMode == MODE_DXVA1)
 			m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!
@@ -1009,7 +1051,7 @@ void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 
 BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
 {
-	if (ffCodecs[m_nCodecNb].IsDXVASupported())
+	if (IsDXVASupported())
 	{
 		for (int i=0; i<MAX_SUPPORTED_MODE; i++)
 		{
