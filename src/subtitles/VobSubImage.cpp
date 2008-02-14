@@ -43,7 +43,7 @@ bool CVobSubImage::Alloc(int w, int h)
 	// wide border around the text, that's why we need a bit more memory
 	// to be allocated.
 
-	if(lpTemp1 == NULL || w*h > org.cx*org.cy)
+	if(lpTemp1 == NULL || w*h > org.cx*org.cy || (w+2)*(h+2) > (org.cx+2)*(org.cy+2))
 	{
 		Free();
 
