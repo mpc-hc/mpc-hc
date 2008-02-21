@@ -186,18 +186,18 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,37,115,10
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 238, 113
+IDD_ABOUTBOX DIALOGEX 0, 0, 222, 111
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "A propos"
 FONT 8, "MS Shell Dlg", 400, 0, 0xB1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
-    LTEXT           "Media Player Classic - Homecinema",IDC_STATIC1,40,10,126,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2002-2007 Gabest",IDC_STATIC,40,21,113,8
-    LTEXT           "Version: 6.4.9.0 / Homecinema par Casimir666 v",IDC_VERSION,40,33,182,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Media Player Classic",IDC_STATIC1,40,12,122,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2002-2008 see AUTHORS file",IDC_STATIC,40,26,170,8	//TODO : to be translated
+    LTEXT           "Version: MPC HomeCinema v",IDC_VERSION,40,40,170,8
     PUSHBUTTON      "OK",IDOK,172,8,50,14,WS_GROUP
-    LTEXT           "Ce programme est gratuit et est distribué sous GNU General Public License.\nLa distribution dans des packs de codecs est autorisée, mais l'auteur (Gabest) n'est pas responsable du contenu additionnel.",IDC_STATIC,17,62,199,42
-    LTEXT           "Traduction par Julien (Vk) ~ Transcription Pho3nX",IDC_STATIC,40,46,182,8
+    LTEXT           "Ce programme est gratuit et est distribué sous GNU General Public License.\nLa distribution dans des packs de codecs est autorisée, mais l'auteur (Gabest) n'est pas responsable du contenu additionnel.",IDC_STATIC,11,53,205,35
+    LTEXT           "Traduction par Julien (Vk) ~ Transcription Pho3nX",IDC_STATIC,11,91,199,17
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
@@ -1506,13 +1506,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "French satellite ressource for Media Player - Homecinema"
-            VALUE "FileDescription", "Media Player Classic - Homecinema"
+            VALUE "CompanyName", "mpc-hc@Sourceforge"
+            VALUE "FileDescription", "French satellite ressource for Media Player Classic - Homecinema"
             VALUE "FileVersion", "1, 1, 0, 0"
-            VALUE "InternalName", "Media Player Classic - Homecinema"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2007"
-            VALUE "OriginalFilename", "mplayerc.EXE"
-            VALUE "ProductName", "Media Player Classic"
+            VALUE "InternalName", "mpc-hc"
+            VALUE "LegalCopyright", "2007-2008 Casimir666"
+            VALUE "OriginalFilename", "mplayerc.exe"
+            VALUE "ProductName", "Media Player Classic - Homecinema"
             VALUE "ProductVersion", "1, 1, 0, 0"
         END
     END
