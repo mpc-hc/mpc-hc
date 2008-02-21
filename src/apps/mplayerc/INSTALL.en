@@ -33,5 +33,8 @@ Compile (Release Unicode Version):
     to the MPC "lib" directory and name it "strmbaseRU.lib"
  - MPC filters
     import "src\filters\filters.sln" into Visual Studio and compile it using the "Release Unicode lib" configuration
+    if you do not want to use gcc for mpcvideo compilation, first you should open properties of "MPCVideoDec" and remove
+    everything under "Librarian/General/Additional Depencies" and add "libavcodecR.lib" only. now you are able to get
+    this lib completely compiled with VS
  - MPC
     import "src\apps\mplayerc\mplayerc.sln" into Visual Studio and compile it using the "Release Unicode" configuration
