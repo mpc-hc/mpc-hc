@@ -1,7 +1,8 @@
 In order of appearance in svn:
 ------------------------------------------------
-Casimir666	<casimir666@users.sourceforge.net>
-Alexander Wild	<alexwild@users.sourceforge.net>
+Casimir666	<casimir666@users.sourceforge.net>	(Code; Admin; French)
+Alexander Wild	<alexwild@users.sourceforge.net>	(Code; Admin; German)
+Drevil XXL	<drevil_xxl@users.sourceforge.net>	(FFMpeg)
 
 Translators:
 ------------------------------------------------
@@ -10,6 +11,9 @@ Bosluk		<bosluk@users.sourceforge.net>		(Turkish)
 khagaroth	<khagaroth@users.sourceforge.net>	(Czech)
 SquallMX	<squallmx@users.sourceforge.net>	(Spanish)
 mague		<mague@users.sourceforge.net>		(Hungarian)
+XNeo 		<xneokr@users.sourceforge.net>		(Korean)
+
+Based on original version (C) 2002-2006 by gabest (e-Mail unknown)
 
 Also many thanks to everyone who supported development
 without having svn write access
