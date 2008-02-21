@@ -409,6 +409,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bEnableDXVA			= true;
 	m_bDXVACompatible		= true;
 	m_nCompatibilityMode	= 0;
+	m_pFFBuffer				= NULL;
+	m_nFFBufferSize			= 0;
 
 	m_nDXVAMode				= MODE_SOFTWARE;
 	m_pDXVADecoder			= NULL;
@@ -545,6 +547,7 @@ void CMPCVideoDecFilter::Cleanup()
 		if (m_pAVCtx->inter_matrix_luma)	free(m_pAVCtx->inter_matrix_luma);
 		if (m_pAVCtx->inter_matrix_chroma)	free(m_pAVCtx->inter_matrix_chroma);
 		if (m_pAVCtx->extradata)			free((unsigned char*)m_pAVCtx->extradata);
+		if (m_pFFBuffer)					free(m_pFFBuffer);
 
 		if (m_pAVCtx->slice_offset)			ff_av_free(m_pAVCtx->slice_offset);
 		if (m_pAVCtx->codec)				ff_avcodec_close(m_pAVCtx);
@@ -764,9 +767,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 {
-	//{&DXVA_ModeMPEG2_A,  1, 12, 'avxd'},
-	//{&DXVA_ModeMPEG2_C,  1, 12, 'avxd'},
-
 	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},	// DXVA2
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
@@ -959,7 +959,21 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 	while (nSize > 0)
 	{
-		used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, pDataIn, nSize);
+		if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize)
+		{
+			m_nFFBufferSize = nSize+FF_INPUT_BUFFER_PADDING_SIZE;
+			m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+		}
+
+		// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
+		// This is mainly needed because some optimized bitstream readers read
+		// 32 or 64 bit at once and could read over the end.<br>
+		// Note: If the first 23 bits of the additional bytes are not 0, then damaged
+		// MPEG bitstreams could cause overread and segfault.
+		memcpy(m_pFFBuffer, pDataIn, nSize);
+		memset(m_pFFBuffer+nSize,0,FF_INPUT_BUFFER_PADDING_SIZE);
+
+		used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, m_pFFBuffer, nSize);
 		if (!got_picture || !m_pFrame->data[0]) return S_OK;
 		if(pIn->IsPreroll() == S_OK || rtStart < 0) return S_OK;
 

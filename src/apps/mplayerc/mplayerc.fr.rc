@@ -193,7 +193,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0xB1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Media Player Classic",IDC_STATIC1,40,12,122,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2002-2008 see AUTHORS file",IDC_STATIC,40,26,170,8	//TODO : to be translated
+    LTEXT           "Copyright (C) 2002-2008 (voir le fichier AUTHORS)",IDC_STATIC,40,26,170,8
     LTEXT           "Version: MPC HomeCinema v",IDC_VERSION,40,40,170,8
     PUSHBUTTON      "OK",IDOK,172,8,50,14,WS_GROUP
     LTEXT           "Ce programme est gratuit et est distribué sous GNU General Public License.\nLa distribution dans des packs de codecs est autorisée, mais l'auteur (Gabest) n'est pas responsable du contenu additionnel.",IDC_STATIC,11,53,205,35
@@ -1709,8 +1709,6 @@ BEGIN
         MENUITEM "Documentation (sf.net)",      ID_HELP_DOCUMENTATION
         MENUITEM "Options de la ligne de commandes", ID_HELP_SHOWCOMMANDLINESWITCHES
         MENUITEM SEPARATOR
-        MENUITEM "Sourceforge project",         ID_HELP_DONATE
-        MENUITEM SEPARATOR
         MENUITEM "&A propos de MPC Homecinema...", ID_HELP_ABOUT
     END
 END
@@ -1984,8 +1982,6 @@ BEGIN
         BEGIN
             MENUITEM "Site Web de &MPC Homecinema", ID_HELP_HOMEPAGE
             MENUITEM "Options de la ligne de commandes", ID_HELP_SHOWCOMMANDLINESWITCHES
-            MENUITEM SEPARATOR
-            MENUITEM "Sourceforge project",         ID_HELP_DONATE
             MENUITEM SEPARATOR
             MENUITEM "&A propos de MPC Homecinema...", ID_HELP_ABOUT
         END

@@ -90,7 +90,13 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	if (m_bFlushed && ! m_PictureParams.bPicIntra)
 		return S_FALSE;
 
-	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
+	hr = GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop);
+	if (FAILED (hr))
+	{
+		ASSERT (hr == VFW_E_NOT_COMMITTED);		// Normal when stop playing
+		return hr;
+	}
+
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
 	TRACE ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nPictType), rtStart, nSurfaceIndex);
@@ -182,13 +188,44 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 }
 
 
+BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
+{
+	BYTE*		pStart	= pBuffer;
+	BYTE		bCode	= 0;
+	for (int i=0; i<nSize-4; i++)
+	{
+		if ( ((*((DWORD*)(pBuffer+i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize-5) )
+		{
+			if (bCode == 0) 
+				bCode = pBuffer[i+3];
+			else
+			{
+				if (bCode == 0x0D)
+				{
+					// Start code found!
+					nPacketSize = i - (pStart - pBuffer) + (i >= nSize-5 ? 5 : 1);
+					return pStart;
+				}
+				else
+				{
+					// Other stuff, ignore it
+					pStart = pBuffer + i;
+					bCode  = pBuffer[i+3];
+				}
+			}
+		}
+	}
+
+	return NULL;
+}
+
 void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	int		nDummy;
 
-	// Add VC1 frame start code
-	if (*((DWORD*)pBuffer) != 0x0d010000)
+	if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000)
 	{
+		// Some splitter have remove startcode (Haali)
 		pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1; pDXVABuffer[3]=0x0D;
 		pDXVABuffer	+=4;
 		// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
@@ -197,8 +234,16 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 	}
 	else
 	{
-		// Startcode already present
-		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+		BYTE*	pStart;
+		UINT	nPacketSize;
+
+		pStart = FindNextStartCode (pBuffer, nSize, nPacketSize);
+		if (pStart)
+		{
+			// Startcode already present
+			memcpy (pDXVABuffer, (BYTE*)pStart, nPacketSize);
+			nSize = nPacketSize;
+		}
 	}
 	
 	nDummy  = 128 - (nSize %128);

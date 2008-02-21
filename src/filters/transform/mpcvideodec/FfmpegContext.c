@@ -89,7 +89,7 @@ void FFH264UpdatePictureParam (int bInit, DXVA_PicParams_H264* pDXVAPicParams, D
 	if (cur_sps && cur_pps)
 	{
 		pDXVAPicParams->wFrameWidthInMbsMinus1			= cur_sps->mb_width  - 1;		// pic_width_in_mbs_minus1;
-		pDXVAPicParams->wFrameHeightInMbsMinus1			= cur_sps->mb_height - 1;		// pic_height_in_map_units_minus1;
+		pDXVAPicParams->wFrameHeightInMbsMinus1			= cur_sps->mb_height * (2 - cur_sps->frame_mbs_only_flag) - 1;		// pic_height_in_map_units_minus1;
 		pDXVAPicParams->num_ref_frames					= cur_sps->ref_frame_count;		// num_ref_frames;
 	//	pDXVAPicParams->field_pic_flag					= SET IN DecodeFrame;
 	//	pDXVAPicParams->MbaffFrameFlag					= SET IN DecodeFrame;

@@ -112,6 +112,8 @@ protected:
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
 	B_FRAME									m_BFrames[2];
 	int										m_nPosB;
+	BYTE*									m_pFFBuffer;
+	int										m_nFFBufferSize;
 
 	FUNC_AVCODEC_INIT						ff_avcodec_init;
 	FUNC_AVCODEC_REGISTER_ALL				ff_avcodec_register_all;
