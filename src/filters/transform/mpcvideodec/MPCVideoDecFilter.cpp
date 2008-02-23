@@ -1498,5 +1498,8 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
 }
 STDMETHODIMP_(GUID*) CMPCVideoDecFilter::GetDXVADecoderGuid()
 {
-	return &m_DXVADecoderGUID;
+	if (m_pGraph == NULL) 
+		return NULL;
+	else
+		return &m_DXVADecoderGUID;
 }

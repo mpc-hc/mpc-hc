@@ -83,6 +83,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 {
 	DWORD	dwStyle = WS_VISIBLE|WS_CHILD|WS_BORDER;
 	int		nPosY	= 10;
+	GUID*	DxvaGui = NULL;
 
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
 
@@ -140,7 +141,15 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 //	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|WS_DISABLED, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_DEBLOCKING);
 	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_edtDXVAMode.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (140,  nPosY, 315, nPosY+20), this, 0);
-	m_edtDXVAMode.SetWindowText (GetDXVAMode (m_pMDF->GetDXVADecoderGuid()));
+	
+	DxvaGui = m_pMDF->GetDXVADecoderGuid();
+	if (DxvaGui != NULL)
+		m_edtDXVAMode.SetWindowText (GetDXVAMode (DxvaGui));
+	else
+	{
+		m_txtDXVAMode.ShowWindow (SW_HIDE);
+		m_edtDXVAMode.ShowWindow (SW_HIDE);
+	}
 
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())

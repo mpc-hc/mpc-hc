@@ -40,16 +40,6 @@ public:
 	~CVideoDecOutputPin();
 
 	HRESULT			InitAllocator(IMemAllocator **ppAlloc);
-//	HRESULT			DecideAllocator(IMemInputPin *pPin, IMemAllocator **ppAlloc);
-
-	HRESULT			Deliver(IMediaSample* pMediaSample);
-	HRESULT			Active();
-	HRESULT			Inactive();
-
-	HRESULT			DeliverEndOfStream();
-	HRESULT			DeliverBeginFlush();
-	HRESULT			DeliverEndFlush();
-	HRESULT			DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
 	DECLARE_IUNKNOWN
     STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -63,6 +53,6 @@ private :
 	CMPCVideoDecFilter*			m_pVideoDecFilter;
 	CVideoDecDXVAAllocator*		m_pDXVA2Allocator;
 	DWORD						m_dwDXVA1SurfaceCount;
-
-	CAutoPtr<COutputQueue>		m_pOutputQueue;
+	GUID						m_GuidDecoderDXVA1;
+	DDPIXELFORMAT				m_ddUncompPixelFormat;
 };
