@@ -1668,7 +1668,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 			if(FAILED(hr = pConfig->SetNumberOfStreams(1)))
 				break;
 
-			if(s.fVMR9MixerYUV)
+			if(s.fVMR9MixerYUV && !AfxGetMyApp()->IsVista())
 			{
 				if(CComQIPtr<IVMRMixerControl9> pMC = pBF)
 				{

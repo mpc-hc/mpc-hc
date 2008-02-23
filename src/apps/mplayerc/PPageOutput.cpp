@@ -192,6 +192,12 @@ BOOL CPPageOutput::OnInitDialog()
 		DisableRadioButton(IDC_DSDXR, IDC_DSSYSDEF);
 	}
 
+	// YUV mixing is not compatible with Vista
+	if (AfxGetMyApp()->IsVista())
+	{
+		GetDlgItem(IDC_DSVMR9YUVMIXER)->ShowWindow (SW_HIDE);
+	}
+
 	OnDSRendererChange (m_iDSVideoRendererType + IDC_DSSYSDEF);
 
 	CreateToolTip();
