@@ -40,6 +40,7 @@ extern "C"
 
 #include "..\..\..\DSUtil\DSUtil.h"
 #include "..\..\..\DSUtil\MediaTypes.h"
+#include "..\..\parser\mpegsplitter\MpegSplitter.h"
 
 #include <moreuuids.h>
 
@@ -395,14 +396,13 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
 	m_rtAvrTimePerFrame		= 0;
-	m_bIsAVC				= false;
+	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
 
-	// TODO : find why 2 thread eat more CPU than 1...
-	m_nThreadNumber			= 1; //m_pCpuId->GetProcessorNumber();
+	m_nThreadNumber			= m_pCpuId->GetProcessorNumber();
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
@@ -496,7 +496,7 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 {
-	return false; // TODO
+	return false;
 };
 
 
@@ -654,8 +654,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 	{
 		m_nCodecNb	= nNewCodec;
 
-		m_bIsAVC	= false;
-		m_pAVCodec	= ff_avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
+		m_bReorderBFrame	= true;
+		m_pAVCodec			= ff_avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 		CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
 		m_pAVCtx	= ff_avcodec_alloc_context();
@@ -701,7 +701,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			else if ( (m_pAVCtx->codec_tag == MAKEFOURCC('a','v','c','1')) || (m_pAVCtx->codec_tag == MAKEFOURCC('A','V','C','1')))
 			{
 				m_pAVCtx->nal_length_size = mpg2v->dwFlags;
-				m_bIsAVC = true;
+				m_bReorderBFrame = false;
 			}
 		}
 		
@@ -895,13 +895,19 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	if ( (direction==PINDIR_OUTPUT) &&
 		 IsDXVASupported() )		 
 	{
+		CLSID		ClsidSourceFilter;
+
 		if (m_nDXVAMode == MODE_DXVA1)
 			m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!
 		else if (SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&	SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
 			m_nDXVAMode  = MODE_DXVA2;
+
+		// TODO :
+		//ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
+		//if((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter)))
+		//	m_bReorderBFrame = false;
 	}
 
-	// TODO : update CopyBuffer to add NV12 pixelformat !!
 	if ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE))
 		return VFW_E_INVALIDMEDIATYPE;
 
@@ -987,7 +993,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		rtStop  = m_pFrame->rtStart + m_rtAvrTimePerFrame;
 
 		// Re-order B-frames if needed
-		if (m_pAVCtx->has_b_frames && !m_bIsAVC)
+		if (m_pAVCtx->has_b_frames && m_bReorderBFrame)
 		{
 			rtStart	= m_BFrames [m_nPosB].rtStart;
 			rtStop	= m_BFrames [m_nPosB].rtStop;
@@ -996,13 +1002,12 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
-		// TODO : check pixelformat !
 		CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
 
 #ifdef _DEBUG
 		static REFERENCE_TIME	rtLast = 0;
-		TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop, 
-					rtStop - rtStart, rtStart - rtLast);
+		//TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop, 
+		//			rtStop - rtStart, rtStart - rtLast);
 		rtLast = rtStart;
 #endif
 
@@ -1034,7 +1039,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
-//	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)\n", rtStart, rtStop, rtStop - rtStart);
+	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
 
 	switch (m_nDXVAMode)
 	{

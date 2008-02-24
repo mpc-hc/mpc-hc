@@ -63,6 +63,7 @@ void CDXVADecoderVC1::Init()
 	memset (&m_PictureParams, 0, sizeof(m_PictureParams));
 	memset (&m_SliceInfo,     0, sizeof(m_SliceInfo));
 
+	m_nMaxWaiting		  = 5;
 	m_wRefPictureIndex[0] = VC1_NO_REF;
 	m_wRefPictureIndex[1] = VC1_NO_REF;
 
@@ -132,22 +133,25 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
 	// Re-order B frames
-	if (m_PictureParams.bPicBackwardPrediction == 1)
+	if (m_pFilter->ReorderBFrame())
 	{
-		SwapRT (rtStart, m_rtStartDelayed);
-		SwapRT (rtStop,  m_rtStopDelayed);
-	}
-	else
-	{
-		// Save I or P reference time (swap later)
-		if (!m_bFlushed)
+		if (m_PictureParams.bPicBackwardPrediction == 1)
 		{
-			if (m_nDelayedSurfaceIndex != -1)
-				UpdateStore (m_nDelayedSurfaceIndex, m_rtStartDelayed, m_rtStopDelayed);
-			m_rtStartDelayed = m_rtStopDelayed = _I64_MAX;
 			SwapRT (rtStart, m_rtStartDelayed);
 			SwapRT (rtStop,  m_rtStopDelayed);
-			m_nDelayedSurfaceIndex	= nSurfaceIndex;
+		}
+		else
+		{
+			// Save I or P reference time (swap later)
+			if (!m_bFlushed)
+			{
+				if (m_nDelayedSurfaceIndex != -1)
+					UpdateStore (m_nDelayedSurfaceIndex, m_rtStartDelayed, m_rtStopDelayed);
+				m_rtStartDelayed = m_rtStopDelayed = _I64_MAX;
+				SwapRT (rtStart, m_rtStartDelayed);
+				SwapRT (rtStop,  m_rtStopDelayed);
+				m_nDelayedSurfaceIndex	= nSurfaceIndex;
+			}
 		}
 	}
 
@@ -196,8 +200,15 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 	{
 		if ( ((*((DWORD*)(pBuffer+i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize-5) )
 		{
-			if (bCode == 0) 
+			if (bCode == 0)
+			{
 				bCode = pBuffer[i+3];
+				if ((nSize == 5) && (bCode == 0x0D))
+				{
+					nPacketSize = nSize;
+					return pBuffer;
+				}
+			}
 			else
 			{
 				if (bCode == 0x0D)
@@ -216,6 +227,7 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 		}
 	}
 
+	ASSERT (FALSE);		// Should never happen!
 	return NULL;
 }
 

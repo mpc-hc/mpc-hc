@@ -2940,8 +2940,8 @@ END
 STRINGTABLE 
 BEGIN
     IDS_VDF_FFSETTINGS			"Configuration FFMpeg"
-    IDS_VDF_THREADNUMBER		"Nombre de thread"
-    IDS_VDF_SKIPDEBLOCK			"Pas de déblocage H264"
+    IDS_VDF_THREADNUMBER		"Nombre de threads"
+    IDS_VDF_SKIPDEBLOCK			"Déblocage H264"
     IDS_VDF_DBLK_NONE			"Jamais"
     IDS_VDF_DBLK_DEFAULT		"Par défaut"
     IDS_VDF_DBLK_NONREF			"Sauf référence"

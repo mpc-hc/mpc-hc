@@ -107,9 +107,9 @@ protected:
 	int										m_nCodecNb;
 	int										m_nWorkaroundBug;
 	int										m_nErrorConcealment;
-	bool									m_bIsAVC;
 	REFERENCE_TIME							m_rtStart;				// Ref. time for last decoded frame (use for Ffmpeg callback)
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
+	bool									m_bReorderBFrame;
 	B_FRAME									m_BFrames[2];
 	int										m_nPosB;
 	BYTE*									m_pFFBuffer;
@@ -213,6 +213,7 @@ public:
 	void			FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
 	AVCodecContext*	GetAVCtx()		 { return m_pAVCtx; };
 	bool			IsDXVASupported();
+	bool			ReorderBFrame() { return m_bReorderBFrame; };
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*	GetPixelFormat() { return &m_PixelFormat; }
