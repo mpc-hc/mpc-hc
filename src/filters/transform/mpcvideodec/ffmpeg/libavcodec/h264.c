@@ -7487,10 +7487,10 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
         case 3:
         case 4:
         case 5:
-			// ==> Start patch MPC
-			pps->slice_group_change_direction_flag=get_bits1(&s->gb);		//	|1  |u(1)    |
-			pps->slice_group_change_rate_minus1=get_ue_golomb(&s->gb);		//  |1  |ue(v)   |
-			// <== End patch MPC
+            // ==> Start patch MPC
+            pps->slice_group_change_direction_flag=get_bits1(&s->gb);        //    |1  |u(1)    |
+            pps->slice_group_change_rate_minus1=get_ue_golomb(&s->gb);        //      |1  |ue(v)   |
+            // <== End patch MPC
             break;
         case 6:
 #if 0
@@ -8071,13 +8071,13 @@ AVCodec h264_decoder = {
 
 // <====== MPC-HC DXVA specific implementation =====>
 
-typedef unsigned short		USHORT;
-typedef unsigned char		UCHAR;
-typedef int                 INT;
-typedef unsigned int        UINT;
-typedef char				CHAR;
-typedef unsigned char       BYTE;
-typedef unsigned short      WORD;
+typedef unsigned short        USHORT;
+typedef unsigned char         UCHAR;
+typedef int                   INT;
+typedef unsigned int          UINT;
+typedef char                  CHAR;
+typedef unsigned char         BYTE;
+typedef unsigned short        WORD;
 
 #define S_OK                0x00000000L
 #define E_FAIL              0x80004005L
@@ -8280,22 +8280,22 @@ static int init_poc_noframe(H264Context *h){
 
 int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* sp_for_switch_flag)
 {
-	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
-    MpegEncContext* const	s = &h->s;
-	H264Context*			hx;
-	SPS*					cur_sps		= h->sps_buffers[0];
-	PPS*					cur_pps		= h->pps_buffers[0];
-    unsigned int			first_mb_in_slice;
-	unsigned int			pps_id;
-    static const uint8_t	slice_type_map[5]= {P_TYPE, B_TYPE, I_TYPE, SP_TYPE, SI_TYPE};
-    unsigned int			slice_type, tmp;
-    int						num_ref_idx_active_override_flag;
-	int						field_pic_flag;
+    H264Context* h = (H264Context*) pAVCtx->priv_data;
+    MpegEncContext* const s = &h->s;
+    H264Context* hx;
+    SPS* cur_sps = h->sps_buffers[0];
+    PPS* cur_pps = h->pps_buffers[0];
+    unsigned int first_mb_in_slice;
+    unsigned int pps_id;
+    static const uint8_t slice_type_map[5]= {P_TYPE, B_TYPE, I_TYPE, SP_TYPE, SI_TYPE};
+    unsigned int slice_type, tmp;
+    int num_ref_idx_active_override_flag;
+    int field_pic_flag;
 
-	*sp_for_switch_flag = 0;
-	hx					= h->thread_context[0];
-    h->nal_ref_idc		= pBuffer[0]>>5;
-    h->nal_unit_type	= pBuffer[0]&0x1F;
+    *sp_for_switch_flag = 0;
+    hx = h->thread_context[0];
+    h->nal_ref_idc = pBuffer[0]>>5;
+    h->nal_unit_type = pBuffer[0]&0x1F;
 
     init_get_bits(&hx->s.gb, pBuffer+1, nSize-1);
     hx->intra_gb_ptr=
@@ -8303,18 +8303,18 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     hx->s.data_partitioning = 0;
 
 
-    first_mb_in_slice	= get_ue_golomb(&s->gb);
-    slice_type			= get_ue_golomb(&s->gb);
+    first_mb_in_slice = get_ue_golomb(&s->gb);
+    slice_type        = get_ue_golomb(&s->gb);
 
     if(slice_type > 9)
         return E_FAIL;
     
     if(slice_type > 4)
-	{
+    {
         slice_type -= 5;
         h->slice_type_fixed=1;
     }
-	else
+    else
         h->slice_type_fixed=0;
 
     h->slice_type= slice_type_map[ slice_type ];
@@ -8334,7 +8334,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     h->sps = *h->sps_buffers[h->pps.sps_id];
 
 
-	s->mb_width= h->sps.mb_width;
+    s->mb_width= h->sps.mb_width;
     s->mb_height= h->sps.mb_height * (2 - h->sps.frame_mbs_only_flag);
 
     h->frame_num= get_bits(&s->gb, h->sps.log2_max_frame_num);
@@ -8344,7 +8344,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     if(h->sps.frame_mbs_only_flag){
         s->picture_structure= PICT_FRAME;
     }else{
-		field_pic_flag = get_bits1(&s->gb);
+        field_pic_flag = get_bits1(&s->gb);
         if(field_pic_flag) { //field_pic_flag
             s->picture_structure= PICT_TOP_FIELD + get_bits1(&s->gb); //bottom_field_flag
         } else {
@@ -8427,7 +8427,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
         h->cabac_init_idc= tmp;
     }
 
-	
+
     h->last_qscale_diff = 0;
     tmp = h->pps.init_qp + get_se_golomb(&s->gb);
     if(tmp>51){
@@ -8436,14 +8436,14 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     }
     s->qscale= tmp;
 
-	if(h->slice_type == SP_TYPE){
+    if(h->slice_type == SP_TYPE){
         *sp_for_switch_flag = get_bits1(&s->gb); // sp_for_switch_flag
     }
     if(h->slice_type==SP_TYPE || h->slice_type == SI_TYPE){
         get_se_golomb(&s->gb); // slice_qs_delta
     }
-	
-	return S_OK;
+
+    return S_OK;
 }
 
 
@@ -8609,7 +8609,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         }
 
         if(context_count == h->max_contexts) {
-//            execute_decode_slices(h, context_count);
+      // execute_decode_slices(h, context_count);
             context_count = 0;
         }
 
@@ -8627,7 +8627,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         }
     }
     //if(context_count)
-    //    execute_decode_slices(h, context_count);
+    //execute_decode_slices(h, context_count);
     return buf_index;
 }
 
