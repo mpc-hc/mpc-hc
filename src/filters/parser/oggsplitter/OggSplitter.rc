@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,12 +46,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Ogg Splitter"
-            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "Ogg Splitter"
             VALUE "LegalCopyright", "Copyright (C) 2003-2008 Gabest"
             VALUE "OriginalFilename", "OggSplitter.ax"
             VALUE "ProductName", "Ogg Splitter"
-            VALUE "ProductVersion", "1, 0, 0, 1"
+            VALUE "ProductVersion", "1, 1, 0, 0"
         END
     END
     BLOCK "VarFileInfo"

@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,12 +72,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/project/showfiles.php?group_id=170561"
             VALUE "CompanyName", "MPC HomeCinema"
             VALUE "FileDescription", "H.264/VC-1 DXVA video decoder"
-            VALUE "FileVersion", "1, 0, 0, 0"
+            VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MPCVideoDec Filter"
             VALUE "LegalCopyright", "Copyright (C) 2007-2008 Casimir666"
             VALUE "OriginalFilename", "MPCVideoDecFilter.ax"
             VALUE "ProductName", "MPCVideoDec Filter"
-            VALUE "ProductVersion", "1, 0, 0, 0"
+            VALUE "ProductVersion", "1, 1, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
