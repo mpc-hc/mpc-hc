@@ -77,6 +77,12 @@ protected:
     virtual void OnDisconnecting(int hConnection);
 
 protected:
+    BOOL DoesBitmapNeedUpdate(lgLcdBitmap160x43x1* pCurrentBitmap);
+    void ClearBitmap(lgLcdBitmap160x43x1* pCurrentBitmap);
+    lgLcdBitmap160x43x1* m_pLastBitmap;
+    BOOL m_bPriorityHasChanged;
+
+protected:
     CLCDManager* m_pActiveScreen;
 
     // list 

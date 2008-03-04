@@ -40,6 +40,11 @@ CLCDOutput::CLCDOutput()
                         LGLCD_DEVICE_FAMILY_JACKBOX |
                         LGLCD_DEVICE_FAMILY_SPEAKERS_Z10;
     m_dwDeviceFamiliesSupportedReserved1 = 0; 
+
+    m_pLastBitmap = new lgLcdBitmap160x43x1;
+    ClearBitmap(m_pLastBitmap);
+    // Allow the first update to go through
+    m_bPriorityHasChanged = TRUE;
 }
 
 //************************************************************************
@@ -50,7 +55,8 @@ CLCDOutput::CLCDOutput()
 
 CLCDOutput::~CLCDOutput()
 {
-
+    delete m_pLastBitmap;
+    m_pLastBitmap = NULL;
 }
 
 
@@ -208,29 +214,33 @@ void CLCDOutput::Shutdown(void)
 
 HRESULT CLCDOutput::Draw()
 {
-    DWORD dwPriorityToUse;
+    DWORD dwPriorityToUse = LGLCD_ASYNC_UPDATE(m_nPriority);
     
-    if (m_pActiveScreen)
+    if ( (NULL == m_pActiveScreen)              ||
+         (LGLCD_INVALID_DEVICE == m_hDevice)    ||
+         (LGLCD_PRIORITY_IDLE_NO_SHOW == dwPriorityToUse) )
     {
-        m_pActiveScreen->Draw();
-        dwPriorityToUse = LGLCD_ASYNC_UPDATE(m_nPriority);
+        // don't submit the bitmap
+        return S_OK;
     }
-    else
-    {
-        dwPriorityToUse = LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW);
-    }
-    
-    lgLcdBitmap160x43x1* pScreen = GetLCDScreen();
-    if (pScreen && (LGLCD_INVALID_DEVICE != m_hDevice) && (LGLCD_PRIORITY_IDLE_NO_SHOW != dwPriorityToUse))
-    {
-        DWORD res = ERROR_SUCCESS;
-        res = lgLcdUpdateBitmap(m_hDevice, &pScreen->hdr, dwPriorityToUse);
-        
-        HandleErrorFromAPI(res);
 
-        // read the soft buttons
-        ReadButtons();
+    // Render the active screen
+    m_pActiveScreen->Draw();
+    
+    // Get the active bitmap
+    lgLcdBitmap160x43x1* pScreen = m_pActiveScreen->GetLCDScreen();
+
+    // Only submit if the bitmap needs to be updated
+    // (If the priority or bitmap have changed)
+    DWORD res = ERROR_SUCCESS;
+    if (DoesBitmapNeedUpdate(pScreen))
+    {
+        res = lgLcdUpdateBitmap(m_hDevice, &pScreen->hdr, dwPriorityToUse);
+        HandleErrorFromAPI(res);
     }
+
+    // read the soft buttons
+    ReadButtons();
 
     return S_OK;
 }
@@ -258,6 +268,9 @@ void CLCDOutput::Update(DWORD dwTimestamp)
 		// priority sticks.
 
         OnScreenExpired(m_pActiveScreen);
+
+        // Clear the bitmap
+        ClearBitmap(m_pLastBitmap);
 
         // find the next active screen
         LCD_MGR_LIST::iterator it = m_LCDMgrList.begin();
@@ -696,14 +709,25 @@ void CLCDOutput::HandleErrorFromAPI(DWORD dwRes)
 //************************************************************************
 void CLCDOutput::SetScreenPriority(DWORD priority)
 {
+    if (priority == m_nPriority)
+    {
+        // Nothing to do
+        return;
+    }
+
+    // Clear the bitmap
+    ClearBitmap(m_pLastBitmap);
+
     m_nPriority = priority;
+    m_bPriorityHasChanged = TRUE;
+
     if (LGLCD_PRIORITY_IDLE_NO_SHOW == m_nPriority)
     {
         // send an empty bitmap at idle priority
         if (LGLCD_INVALID_DEVICE != m_hDevice)
         {
-            lgLcdUpdateBitmap(m_hDevice, &CLCDManager::GetLCDScreen()->hdr,
-                              LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
+            lgLcdUpdateBitmap(m_hDevice, &m_pLastBitmap->hdr,
+                LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
         }
     }
 }
@@ -769,6 +793,7 @@ void CLCDOutput::OnClosingDevice(int hDevice)
         lgLcdClose(m_hDevice);
         m_hDevice = LGLCD_INVALID_DEVICE;
     }
+    ClearBitmap(m_pLastBitmap);
 }
 
 //************************************************************************
@@ -788,6 +813,7 @@ void CLCDOutput::OnDisconnecting(int hConnection)
     {
         lgLcdDisconnect(m_hConnection);
         m_hConnection = LGLCD_INVALID_CONNECTION;
+        ZeroMemory(m_pLastBitmap, sizeof(lgLcdBitmap160x43x1));
     }
 }
 
@@ -816,6 +842,54 @@ void CLCDOutput::SetAsForeground(BOOL bSetAsForeground)
     if (LGLCD_INVALID_DEVICE != m_hDevice)
     {
         lgLcdSetAsLCDForegroundApp(m_hDevice, bSetAsForeground);
+    }
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::DoesBitmapNeedUpdate
+//
+//************************************************************************
+
+BOOL CLCDOutput::DoesBitmapNeedUpdate(lgLcdBitmap160x43x1* pCurrentBitmap)
+{
+    // The bitmap is different from the last one sent
+    // send the bitmap
+    BOOL bBitmapChanged = 0 != memcmp(pCurrentBitmap, m_pLastBitmap, sizeof(lgLcdBitmap160x43x1));
+    BOOL bPriorityChanged = m_bPriorityHasChanged;
+
+    if (bBitmapChanged)
+    {
+        LCDUITRACE(_T("Resubmitting bitmap (bitmap changed)\n"));
+    }
+    else if (bPriorityChanged)
+    {
+        LCDUITRACE(_T("Resubmitting bitmap (priority changed)\n"));
+    }
+
+    // Save the current bitmap
+    memcpy(m_pLastBitmap, pCurrentBitmap, sizeof(lgLcdBitmap160x43x1));
+    // Reset the priority change
+    m_bPriorityHasChanged = FALSE;
+
+    return (bBitmapChanged || bPriorityChanged);
+}
+
+
+//************************************************************************
+//
+// CLCDOutput::ClearBitmap
+//
+//************************************************************************
+
+void CLCDOutput::ClearBitmap(lgLcdBitmap160x43x1* pCurrentBitmap)
+{
+    LCDUIASSERT(NULL != pCurrentBitmap);
+    if (pCurrentBitmap)
+    {
+        pCurrentBitmap->hdr.Format = LGLCD_BMP_FORMAT_160x43x1;
+        ZeroMemory(pCurrentBitmap->pixels, sizeof(pCurrentBitmap->pixels));
     }
 }
 

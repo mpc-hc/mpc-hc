@@ -123,6 +123,7 @@ typedef struct
 #define LGLCD_DEVICE_FAMILY_SPEAKERS_Z10                (0x00000002)
 #define LGLCD_DEVICE_FAMILY_JACKBOX                     (0x00000004)
 #define LGLCD_DEVICE_FAMILY_LCDEMULATOR_G15             (0x00000008)
+#define LGLCD_DEVICE_FAMILY_RAINBOW			            (0x00000010)
 #define LGLCD_DEVICE_FAMILY_OTHER                       (0x80000000)
 
 // Capabilities of applets connecting to LCD Manager. 

@@ -22,7 +22,7 @@ CLCDText::CLCDText()
 {
     m_nTextLength = 0;
     m_hFont = NULL;
-    m_sText.clear();
+    m_sText.erase(m_sText.begin(), m_sText.end());
     m_crColor = RGB(255, 255, 255); // white
     m_bRecalcExtent = TRUE;
     ZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
@@ -117,7 +117,9 @@ void CLCDText::SetFontFaceName(LPCTSTR szFontName)
     ZeroMemory(&lf, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    _tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
+    //_tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
+    //_tcsncpy_s(lf.lfFaceName, LF_FACESIZE, szFontName, LF_FACESIZE);
+    LCDUI_tcsncpy(lf.lfFaceName, szFontName, LF_FACESIZE);
 
     SetFont(lf);
 }
