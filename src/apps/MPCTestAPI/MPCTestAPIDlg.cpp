@@ -25,8 +25,12 @@ LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
 		return _T("CMD_PLAYMODE");
 	case CMD_NOWPLAYING :
 		return _T("CMD_NOWPLAYING");
-	case CMD_SUBTITLES :
-		return _T("CMD_SUBTITLES");
+	case CMD_LISTSUBTITLETRACKS :
+		return _T("CMD_LISTSUBTITLETRACKS");
+	case CMD_LISTAUDIOTRACKS :
+		return _T("CMD_LISTAUDIOTRACKS");
+	case CMD_PLAYLIST :
+		return _T("CMD_PLAYLIST");
 	default :
 		return _T("CMD_UNK");
 	}
@@ -290,6 +294,27 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
 		break;
 	case 8 :
 		Senddata (CMD_SETAUDIODELAY, m_txtCommand);
+		break;
+	case 9 :
+		Senddata (CMD_SETSUBTITLEDELAY, m_txtCommand);
+		break;
+	case 10 :
+		Senddata (CMD_GETAUDIOTRACKS, strEmpty);
+		break;
+	case 11 :
+		Senddata (CMD_GETSUBTITLETRACKS, strEmpty);
+		break;
+	case 12 :
+		Senddata (CMD_GETPLAYLIST, strEmpty);
+		break;
+	case 13 :
+		Senddata (CMD_SETINDEXPLAYLIST, m_txtCommand);
+		break;
+	case 14 :
+		Senddata (CMD_SETAUDIOTRACK, m_txtCommand);
+		break;
+	case 15 :
+		Senddata (CMD_SETSUBTITLETRACK, m_txtCommand);
 		break;
 	}
 }

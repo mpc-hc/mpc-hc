@@ -35,6 +35,7 @@
 // To pilot mpc-hc, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
 // formatted as Unicode strings. For commands or notifications with multiple parameters, values are
 // separated by |
+// If a string contains a |, it will be escaped with a \ so a \| is not a separator
 //
 // Ex : When a file is openned, mpc-hc send to host the "now playing" notification :
 //		- dwData	: CMD_NOWPLAYING
@@ -85,11 +86,32 @@ typedef enum MPCAPI_COMMAND
 	// Par 5 : duration in seconds
 	CMD_NOWPLAYING			= 0x50000003,
 
-	// List of subtitles
-	// Par 1 : Subtitle name 1
-	// Par 2 : Subtitle name 2
+	// List of subtitle tracks
+	// Par 1 : Subtitle track name 0
+	// Par 2 : Subtitle track name 1
 	// ...
-	CMD_SUBTITLES			= 0x50000004,
+	// Par n : Active subtitle track, -1 if subtitles disabled
+	//
+	// if no subtitle track present, returns -1
+	// if no file loaded, returns -2
+	CMD_LISTSUBTITLETRACKS		= 0x50000004,
+
+	// List of audio tracks
+	// Par 1 : Audio track name 0
+	// Par 2 : Audio track name 1
+	// ...
+	// Par n : Active audio track
+	//
+	// if no audio track present, returns -1
+	// if no file loaded, returns -2
+	CMD_LISTAUDIOTRACKS			= 0x50000005,
+
+	// List of files in the playlist
+	// Par 1 : file path 0
+	// Par 2 : file path 1
+	// ...
+	// Par n : active file, -1 if no active file
+	CMD_PLAYLIST				= 0x50000006,
 
 
 	// ==== Commands from host to MPC
@@ -123,7 +145,40 @@ typedef enum MPCAPI_COMMAND
 	// Par 1 : new position in seconds
 	CMD_SETPOSITION			= 0xA0002000,
 
-	// Cue current file to specific position
+	// Set the audio delay
 	// Par 1 : new audio delay in ms
 	CMD_SETAUDIODELAY		= 0xA0002001,
+
+	// Set the subtitle delay
+	// Par 1 : new subtitle delay in ms
+	CMD_SETSUBTITLEDELAY	= 0xA0002002,
+
+	// Set the active file in the playlist
+	// Par 1 : index of the active file, -1 for no file selected
+	// DOESN'T WORK
+	CMD_SETINDEXPLAYLIST	= 0xA0002003,
+
+	// Set the audio track
+	// Par 1 : index of the audio track
+	CMD_SETAUDIOTRACK		= 0xA0002004,
+
+	// Set the subtitle track
+	// Par 1 : index of the subtitle track, -1 for disabling subtitles
+	CMD_SETSUBTITLETRACK	= 0xA0002005,
+
+	// Ask for a list of the subtitles tracks of the file
+	// return a CMD_LISTSUBTITLETRACKS
+	CMD_GETSUBTITLETRACKS		= 0xA0003000,
+
+	// Ask for a list of the audio tracks of the file
+	// return a CMD_LISTAUDIOTRACKS
+	CMD_GETAUDIOTRACKS			= 0xA0003001,
+	
+	// Ask for the properties of the current loaded file
+	// return a CMD_NOWPLAYING
+	CMD_GETNOWPLAYING			= 0xA0003002,
+
+	// Ask for the current playlist
+	// return a CMD_PLAYLIST
+	CMD_GETPLAYLIST				= 0xA0003003,
 };

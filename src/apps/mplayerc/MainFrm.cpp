@@ -9745,6 +9745,32 @@ void CMainFrame::ReloadSubtitle()
 	UpdateSubtitle();
 }
 
+void CMainFrame::SetSubtitleTrackIdx(int index) {
+	if(m_iMediaLoadState == MLS_LOADED) {
+		if (index < 0) {
+			m_iSubtitleSel ^= 0x80000000;
+		} else {
+			POSITION pos = m_pSubStreams.FindIndex(index);
+			if(pos)
+				m_iSubtitleSel = index;
+		}
+		UpdateSubtitle();
+	}
+}
+
+void CMainFrame::SetAudioTrackIdx(int index) {
+	if(m_iMediaLoadState == MLS_LOADED) {
+		CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
+		if(!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
+
+		DWORD cStreams = 0;
+		DWORD dwFlags = AMSTREAMSELECTENABLE_ENABLE;
+		if(pSS && SUCCEEDED(pSS->Count(&cStreams)))
+			if((index >= 0) && (index < ((int)cStreams)))
+				pSS->Enable(index, dwFlags);
+	}
+}
+
 REFERENCE_TIME CMainFrame::GetPos()
 {
 	return(m_iMediaLoadState == MLS_LOADED ? m_wndSeekBar.GetPos() : 0);
@@ -10667,6 +10693,27 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 		rtPos			= _wtol ((LPCWSTR)pCDS->lpData) * 10000;
 		SetAudioDelay (rtPos);
 		break;
+	case CMD_SETSUBTITLEDELAY :
+		SetSubtitleDelay(_wtoi((LPCWSTR)pCDS->lpData));
+		break;
+	case CMD_SETINDEXPLAYLIST :
+		//m_wndPlaylistBar.SetSelIdx(_wtoi((LPCWSTR)pCDS->lpData));
+		break;
+	case CMD_SETAUDIOTRACK :
+		SetAudioTrackIdx(_wtoi((LPCWSTR)pCDS->lpData));
+		break;
+	case CMD_SETSUBTITLETRACK :
+		SetSubtitleTrackIdx(_wtoi((LPCWSTR)pCDS->lpData));
+		break;
+	case CMD_GETSUBTITLETRACKS :
+		SendSubtitleTracksToApi();
+		break;
+	case CMD_GETAUDIOTRACKS :
+		SendAudioTracksToApi();
+		break;
+	case CMD_GETPLAYLIST :
+		SendPlaylistToApi();
+		break;
 	}
 }
 
@@ -10748,37 +10795,138 @@ void CMainFrame::SendNowPlayingToApi()
 			}*/
 		}
 
+		title.Replace(L"|", L"\\|");
+		author.Replace(L"|", L"\\|");
+		description.Replace(L"|", L"\\|");
+		label.Replace(L"|", L"\\|");
+
 		CStringW buff;
 		buff.Format (L"%s|%s|%s|%s|%d", title, author, description, label, lDuration);
 
 		SendAPICommand (CMD_NOWPLAYING, buff);
-		SendSubtitlesToApi();
+		SendSubtitleTracksToApi();
+		SendAudioTracksToApi();
 	}
 }
 
-void CMainFrame::SendSubtitlesToApi()
+
+void CMainFrame::SendSubtitleTracksToApi()
 {
 	CStringW	strSubs;
 	POSITION	pos = m_pSubStreams.GetHeadPosition();
 
-	if (pos)
+	if(m_iMediaLoadState == MLS_LOADED)
 	{
-		while(pos)
+		if (pos)
 		{
-			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
-
-			for(int i = 0, j = pSubStream->GetStreamCount(); i < j; i++)
+			while(pos)
 			{
-				WCHAR* pName = NULL;
-				if(SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, NULL)))
+				CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+
+				for(int i = 0, j = pSubStream->GetStreamCount(); i < j; i++)
 				{
-					CString name(pName);
-					if (!strSubs.IsEmpty()) strSubs.Append (L"|");
-					strSubs.AppendFormat(L"%s", name);
-					CoTaskMemFree(pName);
+					WCHAR* pName = NULL;
+					if(SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, NULL)))
+					{
+						CString name(pName);
+						if (!strSubs.IsEmpty())
+							strSubs.Append (L"|");
+						name.Replace(L"|", L"\\|");
+						strSubs.AppendFormat(L"%s", name);
+						CoTaskMemFree(pName);
+					}
 				}
 			}
+			if(AfxGetAppSettings().fEnableSubtitles) {
+				if(m_iSubtitleSel >= 0)
+					strSubs.AppendFormat(L"|%i", m_iSubtitleSel);
+				else
+					strSubs.Append(L"|-1");
+			} else {
+				strSubs.Append (L"|-1");
+			}
+		} else {
+			strSubs.Append (L"-1");
 		}
-		SendAPICommand (CMD_SUBTITLES, strSubs);
+	} else {
+		strSubs.Append (L"-2");
 	}
+	SendAPICommand (CMD_LISTSUBTITLETRACKS, strSubs);
+}
+
+
+void CMainFrame::SendAudioTracksToApi()
+{
+	CStringW	strAudios;
+
+	if(m_iMediaLoadState == MLS_LOADED)
+	{
+		CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
+		if(!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
+
+		DWORD cStreams = 0;
+		if(pSS && SUCCEEDED(pSS->Count(&cStreams)))
+		{
+			int currentStream = -1;
+			for(int i = 0; i < (int)cStreams; i++)
+			{
+				AM_MEDIA_TYPE* pmt = NULL;
+				DWORD dwFlags = 0;
+				LCID lcid = 0;
+				DWORD dwGroup = 0;
+				WCHAR* pszName = NULL;
+				if(FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
+					return;
+				if(dwFlags == AMSTREAMSELECTINFO_EXCLUSIVE)
+					currentStream = i;
+				CString name(pszName);
+				if (!strAudios.IsEmpty())
+					strAudios.Append (L"|");
+				name.Replace(L"|", L"\\|");
+				strAudios.AppendFormat(L"%s", name);
+				if(pmt) DeleteMediaType(pmt);
+				if(pszName) CoTaskMemFree(pszName);	
+			}
+			strAudios.AppendFormat(L"|%i", currentStream);
+
+		} else {
+				strAudios.Append(L"-1");
+		}
+	} else {
+		strAudios.Append(L"-2");
+	}
+	SendAPICommand (CMD_LISTAUDIOTRACKS, strAudios);
+	
+}
+
+
+void CMainFrame::SendPlaylistToApi()
+{
+	CStringW		strPlaylist;
+	int index;
+
+	POSITION pos = m_wndPlaylistBar.m_pl.GetHeadPosition(), pos2;
+	while(pos)
+	{
+		CPlaylistItem& pli = m_wndPlaylistBar.m_pl.GetNext(pos);
+
+		if(pli.m_type == CPlaylistItem::file)
+		{
+			pos2 = pli.m_fns.GetHeadPosition();
+			while(pos2)
+			{
+				CString fn = pli.m_fns.GetNext(pos2);
+				if (!strPlaylist.IsEmpty())
+					strPlaylist.Append (L"|");
+				fn.Replace(L"|", L"\\|");
+				strPlaylist.AppendFormat(L"%s", fn);
+			}
+		}
+	}
+	index = m_wndPlaylistBar.GetSelIdx();
+	if (strPlaylist.IsEmpty())
+		strPlaylist.Append(L"-1");
+	else
+		strPlaylist.AppendFormat(L"|%i", index);
+	SendAPICommand (CMD_PLAYLIST, strPlaylist);
 }

@@ -402,6 +402,9 @@ public:
 	void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);
 	void ReloadSubtitle();
 
+	void SetAudioTrackIdx(int index);
+	void SetSubtitleTrackIdx(int index);
+
 	// shaders
 	CAtlList<CString> m_shaderlabels;
 	void SetShaders();
@@ -728,5 +731,7 @@ public:
 	void		ProcessAPICommand(COPYDATASTRUCT* pCDS);
 	void		SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...);
 	void		SendNowPlayingToApi();
-	void		SendSubtitlesToApi();
+	void		SendSubtitleTracksToApi();
+	void		SendAudioTracksToApi();
+	void		SendPlaylistToApi();
 };
