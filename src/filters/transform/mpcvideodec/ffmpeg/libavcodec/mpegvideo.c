@@ -75,27 +75,6 @@ static const uint8_t ff_default_chroma_qscale_table[32]={
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
 };
 
-void ff_init_scantable(uint8_t *permutation, ScanTable *st, const uint8_t *src_scantable){
-    int i;
-    int end;
-
-    st->scantable= src_scantable;
-
-    for(i=0; i<64; i++){
-        int j;
-        j = src_scantable[i];
-        st->permutated[i] = permutation[j];
-    }
-
-    end=-1;
-    for(i=0; i<64; i++){
-        int j;
-        j = st->permutated[i];
-        if(j>end) end=j;
-        st->raster_end[i]= end;
-    }
-}
-
 const uint8_t *ff_find_start_code(const uint8_t * restrict p, const uint8_t *end, uint32_t * restrict state){
     int i;
 
@@ -1062,76 +1041,6 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict){
     }
 }
 
-/**
- * Copies a rectangular area of samples to a temporary buffer and replicates the boarder samples.
- * @param buf destination buffer
- * @param src source buffer
- * @param linesize number of bytes between 2 vertically adjacent samples in both the source and destination buffers
- * @param block_w width of block
- * @param block_h height of block
- * @param src_x x coordinate of the top left sample of the block in the source buffer
- * @param src_y y coordinate of the top left sample of the block in the source buffer
- * @param w width of the source buffer
- * @param h height of the source buffer
- */
-void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize, int block_w, int block_h,
-                                    int src_x, int src_y, int w, int h){
-    int x, y;
-    int start_y, start_x, end_y, end_x;
-
-    if(src_y>= h){
-        src+= (h-1-src_y)*linesize;
-        src_y=h-1;
-    }else if(src_y<=-block_h){
-        src+= (1-block_h-src_y)*linesize;
-        src_y=1-block_h;
-    }
-    if(src_x>= w){
-        src+= (w-1-src_x);
-        src_x=w-1;
-    }else if(src_x<=-block_w){
-        src+= (1-block_w-src_x);
-        src_x=1-block_w;
-    }
-
-    start_y= FFMAX(0, -src_y);
-    start_x= FFMAX(0, -src_x);
-    end_y= FFMIN(block_h, h-src_y);
-    end_x= FFMIN(block_w, w-src_x);
-
-    // copy existing part
-    for(y=start_y; y<end_y; y++){
-        for(x=start_x; x<end_x; x++){
-            buf[x + y*linesize]= src[x + y*linesize];
-        }
-    }
-
-    //top
-    for(y=0; y<start_y; y++){
-        for(x=start_x; x<end_x; x++){
-            buf[x + y*linesize]= buf[x + start_y*linesize];
-        }
-    }
-
-    //bottom
-    for(y=end_y; y<block_h; y++){
-        for(x=start_x; x<end_x; x++){
-            buf[x + y*linesize]= buf[x + (end_y-1)*linesize];
-        }
-    }
-
-    for(y=0; y<block_h; y++){
-       //left
-        for(x=0; x<start_x; x++){
-            buf[x + y*linesize]= buf[start_x + y*linesize];
-        }
-
-       //right
-        for(x=end_x; x<block_w; x++){
-            buf[x + y*linesize]= buf[end_x - 1 + y*linesize];
-        }
-    }
-}
 
 static inline int hpel_motion_lowres(MpegEncContext *s,
                                   uint8_t *dest, uint8_t *src,
