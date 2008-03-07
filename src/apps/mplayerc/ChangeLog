@@ -1,4 +1,7 @@
-v1.0.12.0 - unreleased
+v1.x.x.x - Unreleased
+======================
+
+v1.1.0.0 - 6.March 2008
 ======================
  NEW	: Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
  NEW    : Internal video decoder based on ffmpeg for Flash video (FLV4, VP5,VP6), AMV, Mpeg4, SQV, Theora, VC1, XVID, and DivX
