@@ -895,7 +895,6 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	if ( (direction==PINDIR_OUTPUT) &&
 		 IsDXVASupported() )		 
 	{
-		CLSID		ClsidSourceFilter;
 
 		if (m_nDXVAMode == MODE_DXVA1)
 			m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!

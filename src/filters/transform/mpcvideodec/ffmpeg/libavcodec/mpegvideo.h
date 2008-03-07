@@ -87,15 +87,6 @@ enum OutputFormat {
 #define USER_START_CODE         0x000001b2
 
 /**
- * Scantable.
- */
-typedef struct ScanTable{
-    const uint8_t *scantable;
-    uint8_t permutated[64];
-    uint8_t raster_end[64];
-} ScanTable;
-
-/**
  * Picture.
  */
 typedef struct Picture{
