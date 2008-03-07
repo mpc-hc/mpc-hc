@@ -324,6 +324,9 @@ BEGIN
     EDITTEXT        IDC_EDIT3,139,20,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
     CONTROL         "",IDC_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,159,26,11,14
     LTEXT           "%",IDC_STATIC4,173,22,8,8
+    GROUPBOX        "Interval synchro",IDC_STATIC,201,3,88,38
+    LTEXT           "ms",IDC_STATIC,266,20,15,11
+    EDITTEXT        IDC_EDIT4,220,18,41,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     GROUPBOX        "Paramètres de texture (réouvrir la vidéo pour voir les modifications)",IDC_STATIC,5,43,284,55
     LTEXT           "Nombre de sous-titres à mettre en cache :",IDC_STATIC,14,60,128,8
     EDITTEXT        IDC_EDIT1,147,58,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
@@ -2202,6 +2205,7 @@ BEGIN
     IDS_RS_QUICKTIMERENDERER "QuickTimeRenderer"
     IDS_RS_REALMEDIAFPS     "RealMediaFPS"
     IDS_RS_AUDIOTIMESHIFT   "AudioTimeShift"
+	IDS_RS_SUBDELAYINTERVAL "SubDelayInterval"
 END
 
 STRINGTABLE 
@@ -2704,6 +2708,8 @@ BEGIN
     IDS_MPLAYERC_101        "Sous-titre suivant"
     IDS_MPLAYERC_102        "Shift Subtitle Left"
     IDS_MPLAYERC_103        "Shift Subtitle Right"
+    IDS_MPLAYERC_104        "Délai des sous-titres -"
+    IDS_MPLAYERC_105        "Délai des sous-titres +"
     IDS_AG_DISPLAY_STATS    "Affichage des statistiques"
     IDS_CONVERTDLG_0        "Fichier Media|*.*||"
     IDS_CONVERTDLG_2        "Failed to start conversion"
@@ -2887,6 +2893,7 @@ BEGIN
     IDS_MAINFRM_136         "MPC D3D FullScreen"
     IDS_MAINFRM_137         "Unknown format"
     IDS_MAINFRM_138         "Décalage des sous-titres : %ld"
+	IDS_MAINFRM_139         "Délai des sous-titres : %ld ms"
     IDS_VOLUME_BOOST_INC    "Augmenter le gain du volume"
     IDS_VOLUME_BOOST_DEC    "Diminuer le gain du volume"
     IDS_VOLUME_BOOST_MIN    "Gain du volume Min"
