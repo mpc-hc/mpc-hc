@@ -56,6 +56,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
 	virtual BOOL OnApply();
+	void	OnSubDelayInterval();
 
 	DECLARE_MESSAGE_MAP()
 

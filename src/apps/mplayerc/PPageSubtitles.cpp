@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CPPageSubtitles, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdatePosOverride)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdatePosOverride)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC4, OnUpdatePosOverride)
+	ON_EN_CHANGE(IDC_EDIT4, OnSubDelayInterval)
 END_MESSAGE_MAP()
 
 
@@ -141,4 +142,14 @@ void CPPageSubtitles::OnUpdatePosOverride(CCmdUI* pCmdUI)
 {
 	UpdateData();
 	pCmdUI->Enable(m_fOverridePlacement);
+}
+
+
+void CPPageSubtitles::OnSubDelayInterval()
+{
+	// If incorrect number, revert modifications
+	if (!UpdateData())
+		UpdateData(FALSE);
+
+	SetModified();
 }
