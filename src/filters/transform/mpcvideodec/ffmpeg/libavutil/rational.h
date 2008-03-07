@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -26,8 +25,12 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifndef RATIONAL_H
-#define RATIONAL_H
+#ifndef FFMPEG_RATIONAL_H
+#define FFMPEG_RATIONAL_H
+
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
 
 /**
  * Rational number num/den.
@@ -95,4 +98,4 @@ AVRational av_div_q(AVRational b, AVRational c);
  */
 AVRational av_d2q(double d, int max);
 
-#endif // RATIONAL_H
+#endif /* FFMPEG_RATIONAL_H */

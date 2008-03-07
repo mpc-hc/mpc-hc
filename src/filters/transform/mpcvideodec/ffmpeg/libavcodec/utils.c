@@ -27,8 +27,8 @@
 
 #include "avcodec.h"
 #include "dsputil.h"
-#include "mpegvideo.h"
 #include "crc.h"
+#include "imgconvert.h"
 #include <stdarg.h>
 #include <limits.h>
 #include <float.h>
@@ -55,7 +55,7 @@ const uint8_t ff_reverse[256]={
 0x0F,0x8F,0x4F,0xCF,0x2F,0xAF,0x6F,0xEF,0x1F,0x9F,0x5F,0xDF,0x3F,0xBF,0x7F,0xFF,
 };
 
-static int volatile entangled_thread_counter=0;
+//static int volatile entangled_thread_counter=0; /* ffdshow custom coment out */
 
 void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
 {
@@ -264,7 +264,8 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
         buf->last_pic_num= *picture_number;
     }else{
         int h_chroma_shift, v_chroma_shift;
-        int pixel_size, size[4];
+        int size[4] = {0};
+        int tmpsize;
         AVPicture picture;
 
         avcodec_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift, &v_chroma_shift);
@@ -277,23 +278,16 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
         }
         avcodec_align_dimensions(s, &w, &h);
 
-        avpicture_fill(&picture, NULL, s->pix_fmt, w, h);
-        pixel_size= picture.linesize[0]*8 / w;
-//av_log(NULL, AV_LOG_ERROR, "%d %d %d %d\n", (int)picture.data[1], w, h, s->pix_fmt);
-        assert(pixel_size>=1);
-            //FIXME next ensures that linesize= 2^x uvlinesize, that is needed because some MC code assumes it
-        if(pixel_size == 3*8)
-            w= ALIGN(w, STRIDE_ALIGN<<h_chroma_shift);
-        else
-            w= ALIGN(pixel_size*w, STRIDE_ALIGN<<(h_chroma_shift+3)) / pixel_size;
-        size[1] = avpicture_fill(&picture, NULL, s->pix_fmt, w, h);
-        size[0] = picture.linesize[0] * h;
-        size[1] -= size[0];
-        size[2] = size[3] = 0;
-        if(picture.data[2])
-            size[1]= size[2]= size[1]/2;
-        if(picture.data[3])
-            size[3] = picture.linesize[3] * h;
+        ff_fill_linesize(&picture, s->pix_fmt, w);
+
+        for (i=0; i<4; i++)
+            picture.linesize[i] = ALIGN(picture.linesize[i], STRIDE_ALIGN);
+
+        tmpsize = ff_fill_pointer(&picture, NULL, s->pix_fmt, h);
+
+        for (i=0; i<3 && picture.data[i+1]; i++)
+            size[i] = picture.data[i+1] - picture.data[i];
+        size[i] = tmpsize - (picture.data[i] - picture.data[0]);
 
         buf->last_pic_num= -256*256*256*64;
         memset(buf->base, 0, sizeof(buf->base));
@@ -508,11 +502,12 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
 {
     int ret= -1;
 
-    entangled_thread_counter++;
-    if(entangled_thread_counter != 1){
-        av_log(avctx, AV_LOG_ERROR, "insufficient thread locking around avcodec_open/close()\n");
-        goto end;
-    }
+    /* ffdshow custom coment out */
+    //entangled_thread_counter++;
+    //if(entangled_thread_counter != 1){
+    //    av_log(avctx, AV_LOG_ERROR, "insufficient thread locking around avcodec_open/close()\n");
+    //    goto end;
+    //}
 
     if(avctx->codec || !codec)
         goto end;
@@ -551,7 +546,7 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
     }
     ret=0;
 end:
-    entangled_thread_counter--;
+    //entangled_thread_counter--; /* ffdshow custom coment out */
     return ret;
 }
 
@@ -649,19 +644,20 @@ int avcodec_decode_audio(AVCodecContext *avctx, int16_t *samples,
 
 int avcodec_close(AVCodecContext *avctx)
 {
-    entangled_thread_counter++;
-    if(entangled_thread_counter != 1){
-        av_log(avctx, AV_LOG_ERROR, "insufficient thread locking around avcodec_open/close()\n");
-        entangled_thread_counter--;
-        return -1;
-    }
+    /* ffdshow custom coment out */
+    //entangled_thread_counter++;
+    //if(entangled_thread_counter != 1){
+    //    av_log(avctx, AV_LOG_ERROR, "insufficient thread locking around avcodec_open/close()\n");
+    //    entangled_thread_counter--;
+    //    return -1;
+    //}
 
     if (avctx->codec->close)
         avctx->codec->close(avctx);
     avcodec_default_free_buffers(avctx);
     av_freep(&avctx->priv_data);
     avctx->codec = NULL;
-    entangled_thread_counter--;
+    //entangled_thread_counter--; /* ffdshow custom coment out */
     return 0;
 }
 
@@ -725,11 +721,11 @@ unsigned avcodec_build( void )
 
 void avcodec_init(void)
 {
-    static int inited = 0;
+    static int initialized = 0;
 
-    if (inited != 0)
+    if (initialized != 0)
         return;
-    inited = 1;
+    initialized = 1;
 #if __STDC_VERSION__ < 199901L
     {
     extern void avpicture_init_pixfmtinfo(void);
@@ -765,13 +761,14 @@ void avcodec_default_free_buffers(AVCodecContext *s){
 
 char av_get_pict_type_char(int pict_type){
     switch(pict_type){
-    case I_TYPE: return 'I';
-    case P_TYPE: return 'P';
-    case B_TYPE: return 'B';
-    case S_TYPE: return 'S';
-    case SI_TYPE:return 'i';
-    case SP_TYPE:return 'p';
-    default:     return '?';
+    case FF_I_TYPE: return 'I';
+    case FF_P_TYPE: return 'P';
+    case FF_B_TYPE: return 'B';
+    case FF_S_TYPE: return 'S';
+    case FF_SI_TYPE:return 'i';
+    case FF_SP_TYPE:return 'p';
+    case FF_BI_TYPE:return 'b';
+    default:        return '?';
     }
 }
 

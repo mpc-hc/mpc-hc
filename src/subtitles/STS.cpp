@@ -447,7 +447,7 @@ static CStringW MBCSSSAToUnicode(CStringW str, int CharSet)
 
 CStringW RemoveSSATags(CStringW str, bool fUnicode, int CharSet)
 {
-	str.Replace (L"{\\i1}", L"<i>");        // Casimir666 : tag <i> supported in SRT files!   
+	str.Replace (L"{\\i1}", L"<i>");
 	str.Replace (L"{\\i}", L"</i>"); 
 
 	for(int i = 0, j; i < str.GetLength(); )
@@ -1736,7 +1736,6 @@ static OpenFunctStruct OpenFuncts[] =
 	OpenMPL2, TIME, EXTSRT,
 };
 
-
 static int nOpenFuncts = countof(OpenFuncts);
 
 //
@@ -1787,8 +1786,8 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
 
 	m_name = sts.m_name;
 	m_mode = sts.m_mode;
-	m_path = sts.m_path;   
-	m_exttype = sts.m_exttype; 
+	m_path = sts.m_path;
+	m_exttype = sts.m_exttype;
 	m_dstScreenSize = sts.m_dstScreenSize;
 	m_defaultWrapStyle = sts.m_defaultWrapStyle;
 	m_collisions = sts.m_collisions;

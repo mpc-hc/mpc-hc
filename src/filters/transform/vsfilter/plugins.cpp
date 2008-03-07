@@ -520,7 +520,7 @@ namespace AviSynth1
 			dst.bits = (void**)frame->GetWritePtr();
 			dst.bpp = vi.BitsPerPixel();
 			dst.type = 
-				vi.IsRGB32() ? MSP_RGB32 : 
+				vi.IsRGB32() ? ( env->GetVar("RGBA").AsBool() ? MSP_RGBA :MSP_RGB32) : 
 				vi.IsRGB24() ? MSP_RGB24 : 
 				vi.IsYUY2() ? MSP_YUY2 : 
 				-1;
@@ -577,12 +577,37 @@ namespace AviSynth1
 		return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), args[3].AsFloat()));
 	}
 
+	AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
+	{
+		AVSValue rgb32("RGB32");
+		AVSValue  tab[5] = {
+			args[1],
+			args[2],
+			args[3],
+			args[4],
+			rgb32
+		};
+		AVSValue value(tab,5);
+		const char * nom[5]={
+			"width",
+			"height",
+			"fps",
+			"length",
+			"pixel_type"
+		};
+		AVSValue clip(env->Invoke("Blackness",value,nom));
+		env->SetVar("RGBA",true);
+		return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+	}
+
 	extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit(IScriptEnvironment* env)
 	{
 		env->AddFunction("VobSub", "cs", VobSubCreateS, 0);
 		env->AddFunction("TextSub", "cs", TextSubCreateS, 0);
 		env->AddFunction("TextSub", "csi", TextSubCreateSI, 0);
 		env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
+		env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
+		env->SetVar("RGBA",false);
 		return(NULL);
 	}
 }
@@ -614,7 +639,7 @@ namespace AviSynth25
 			dst.bitsV = frame->GetWritePtr(PLANAR_V);
 			dst.bpp = dst.pitch/dst.w*8; //vi.BitsPerPixel();
 			dst.type = 
-				vi.IsRGB32() ? MSP_RGB32 : 
+				vi.IsRGB32() ?( env->GetVar("RGBA").AsBool() ? MSP_RGBA : MSP_RGB32)  : 
 				vi.IsRGB24() ? MSP_RGB24 : 
 				vi.IsYUY2() ? MSP_YUY2 : 
 				/*vi.IsYV12()*/ vi.pixel_type == VideoInfo::CS_YV12 ? (s_fSwapUV?MSP_IYUV:MSP_YV12) : 
@@ -679,6 +704,30 @@ namespace AviSynth25
 		return(AVSValue());
 	}
 
+	AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
+	{
+		AVSValue rgb32("RGB32");
+		AVSValue  tab[5] = {
+			args[1],
+			args[2],
+			args[3],
+			args[4],
+			rgb32
+		};
+		AVSValue value(tab,5);
+		const char * nom[5]={
+			"width",
+			"height",
+			"fps",
+			"length",
+			"pixel_type"
+		};
+		AVSValue clip(env->Invoke("Blackness",value,nom));
+		env->SetVar("RGBA",true);
+		return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
+		
+	}
+
 	extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit2(IScriptEnvironment* env)
 	{
 		env->AddFunction("VobSub", "cs", VobSubCreateS, 0);
@@ -686,6 +735,8 @@ namespace AviSynth25
 		env->AddFunction("TextSub", "csi", TextSubCreateSI, 0);
 		env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
 		env->AddFunction("TextSubSwapUV", "b", TextSubSwapUV, 0);
+		env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
+		env->SetVar("RGBA",false);
 		return(NULL);
 	}
 }

@@ -343,7 +343,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 	for(int j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 	{
-		if(dst.type == MSP_RGB32 || dst.type == MSP_AYUV)
+		if(dst.type == MSP_RGBA)
 		{
 			BYTE* s2 = s;
 			BYTE* s2end = s2 + w*4;
@@ -352,6 +352,25 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 			{
 				if(s2[3] < 0xff)
 				{
+					DWORD bd =0x00000100 -( (DWORD) s2[3]);
+					DWORD B = ((*((DWORD*)s2)&0x000000ff)<<8)/bd;
+					DWORD V = ((*((DWORD*)s2)&0x0000ff00)/bd)<<8;
+					DWORD R = (((*((DWORD*)s2)&0x00ff0000)>>8)/bd)<<16;
+					*d2 = B | V | R
+						| (0xff000000-(*((DWORD*)s2)&0xff000000))&0xff000000;
+				}
+			}
+		}
+		else if(dst.type == MSP_RGB32 || dst.type == MSP_AYUV)
+		{
+			BYTE* s2 = s;
+			BYTE* s2end = s2 + w*4;
+			DWORD* d2 = (DWORD*)d;
+			for(; s2 < s2end; s2 += 4, d2++)
+			{
+				
+				if(s2[3] < 0xff)
+				{	
 					*d2 = (((((*d2&0x00ff00ff)*s2[3])>>8) + (*((DWORD*)s2)&0x00ff00ff))&0x00ff00ff)
 						| (((((*d2&0x0000ff00)*s2[3])>>8) + (*((DWORD*)s2)&0x0000ff00))&0x0000ff00);
 				}

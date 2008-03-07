@@ -43,11 +43,16 @@
 #include "libavutil/avutil.h"
 #include <sys/types.h> /* size_t */
 
-#define AV_STRINGIFY(s)         AV_TOSTRING(s)
-#define AV_TOSTRING(s) #s
+#define LIBAVCODEC_VERSION_MAJOR 51
+#define LIBAVCODEC_VERSION_MINOR 50
+#define LIBAVCODEC_VERSION_MICRO  1
 
-#define LIBAVCODEC_VERSION_INT  ((51<<16)+(50<<8)+0)
-#define LIBAVCODEC_VERSION      51.50.0
+#define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
+                                               LIBAVCODEC_VERSION_MINOR, \
+                                               LIBAVCODEC_VERSION_MICRO)
+#define LIBAVCODEC_VERSION      AV_VERSION(LIBAVCODEC_VERSION_MAJOR,    \
+                                           LIBAVCODEC_VERSION_MINOR,    \
+                                           LIBAVCODEC_VERSION_MICRO)
 #define LIBAVCODEC_BUILD        LIBAVCODEC_VERSION_INT
 
 #define LIBAVCODEC_IDENT        "Lavc" AV_STRINGIFY(LIBAVCODEC_VERSION)
@@ -501,12 +506,13 @@ typedef struct AVPanScan{
 #define FF_BUFFER_TYPE_COPY     8 ///< Just a (modified) copy of some other buffer, don't deallocate anything.
 
 
-#define FF_I_TYPE  1 // Intra
-#define FF_P_TYPE  2 // Predicted
-#define FF_B_TYPE  3 // Bi-dir predicted
-#define FF_S_TYPE  4 // S(GMC)-VOP MPEG4
-#define FF_SI_TYPE 5
-#define FF_SP_TYPE 6
+#define FF_I_TYPE  1 ///< Intra
+#define FF_P_TYPE  2 ///< Predicted
+#define FF_B_TYPE  3 ///< Bi-dir predicted
+#define FF_S_TYPE  4 ///< S(GMC)-VOP MPEG4
+#define FF_SI_TYPE 5 ///< Switching Intra
+#define FF_SP_TYPE 6 ///< Switching Predicted
+#define FF_BI_TYPE 7
 
 #define FF_BUFFER_HINTS_VALID    0x01 // Buffer hints value is meaningful (if 0 ignore).
 #define FF_BUFFER_HINTS_READABLE 0x02 // Codec will read from buffer.
@@ -954,7 +960,7 @@ typedef struct AVCodecContext {
      * - encoding: Set by user
      * - decoding: unused
      */
-    char *rc_eq;
+    const char *rc_eq;
 
     /**
      * maximum bitrate
@@ -1249,8 +1255,10 @@ typedef struct AVCodecContext {
 #define FF_CMP_VSAD   8
 #define FF_CMP_VSSE   9
 #define FF_CMP_NSSE   10
+#if 0 // disable snow
 #define FF_CMP_W53    11
 #define FF_CMP_W97    12
+#endif
 #define FF_CMP_DCTMAX 13
 #define FF_CMP_DCT264 14
 #define FF_CMP_CHROMA 256
@@ -1416,13 +1424,6 @@ typedef struct AVCodecContext {
 #define SLICE_FLAG_CODED_ORDER    0x0001 ///< draw_horiz_band() is called in coded order instead of display
 #define SLICE_FLAG_ALLOW_FIELD    0x0002 ///< allow draw_horiz_band() with field slices (MPEG2 field pics)
 #define SLICE_FLAG_ALLOW_PLANE    0x0004 ///< allow draw_horiz_band() with 1 component at a time (SVQ1)
-
-    /**
-     * XVideo Motion Acceleration
-     * - encoding: forbidden
-     * - decoding: set by decoder
-     */
-    int xvmc_acceleration;
 
     /**
      * macroblock decision mode

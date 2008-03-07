@@ -36,7 +36,7 @@
 
 #include "avcodec.h"
 #include "dsputil.h"
-#include "mpegvideo.h"
+#include "bitstream.h"
 
 #include "vp3data.h"
 #include "xiph.h"
@@ -273,7 +273,7 @@ typedef struct Vp3DecodeContext {
      * which of the fragments are coded */
     int *coded_fragment_list;
     int coded_fragment_list_index;
-    int pixel_addresses_inited;
+    int pixel_addresses_initialized;
 
     VLC dc_vlc[16];
     VLC ac_vlc_1[16];
@@ -473,7 +473,7 @@ static int init_block_mapping(Vp3DecodeContext *s)
     current_width = -1;
     current_height = 0;
     superblock_row_inc = s->macroblock_width -
-        (s->y_superblock_width * 2 - s->macroblock_width);;
+        (s->y_superblock_width * 2 - s->macroblock_width);
     hilbert = hilbert_walk_mb;
     mapping_index = 0;
     current_macroblock = -1;
@@ -1953,7 +1953,7 @@ static int vp3_decode_init(AVCodecContext *avctx)
     s->all_fragments = av_malloc(s->fragment_count * sizeof(Vp3Fragment));
     s->coeffs = av_malloc(s->fragment_count * sizeof(Coeff) * 65);
     s->coded_fragment_list = av_malloc(s->fragment_count * sizeof(int));
-    s->pixel_addresses_inited = 0;
+    s->pixel_addresses_initialized = 0;
 
     if (!s->theora_tables)
     {
@@ -2147,18 +2147,18 @@ static int vp3_decode_frame(AVCodecContext *avctx,
         s->current_frame= s->golden_frame;
 
         /* time to figure out pixel addresses? */
-        if (!s->pixel_addresses_inited)
+        if (!s->pixel_addresses_initialized)
         {
             if (!s->flipped_image)
                 vp3_calculate_pixel_addresses(s);
             else
                 theora_calculate_pixel_addresses(s);
-            s->pixel_addresses_inited = 1;
+            s->pixel_addresses_initialized = 1;
         }
     } else {
         /* allocate a new current frame */
         s->current_frame.reference = 3;
-        if (!s->pixel_addresses_inited) {
+        if (!s->pixel_addresses_initialized) {
             av_log(s->avctx, AV_LOG_ERROR, "vp3: first frame not a keyframe\n");
             return -1;
         }
@@ -2245,7 +2245,9 @@ if (!s->keyframe) {
 static int vp3_decode_end(AVCodecContext *avctx)
 {
     Vp3DecodeContext *s = avctx->priv_data;
+    int i;
 
+    av_free(s->superblock_coding);
     av_free(s->all_fragments);
     av_free(s->coeffs);
     av_free(s->coded_fragment_list);
@@ -2253,6 +2255,19 @@ static int vp3_decode_end(AVCodecContext *avctx)
     av_free(s->superblock_macroblocks);
     av_free(s->macroblock_fragments);
     av_free(s->macroblock_coding);
+
+    for (i = 0; i < 16; i++) {
+        free_vlc(&s->dc_vlc[i]);
+        free_vlc(&s->ac_vlc_1[i]);
+        free_vlc(&s->ac_vlc_2[i]);
+        free_vlc(&s->ac_vlc_3[i]);
+        free_vlc(&s->ac_vlc_4[i]);
+    }
+
+    free_vlc(&s->superblock_run_length_vlc);
+    free_vlc(&s->fragment_run_length_vlc);
+    free_vlc(&s->mode_code_vlc);
+    free_vlc(&s->motion_vector_vlc);
 
     /* release all frames */
     if (s->golden_frame.data[0] && s->golden_frame.data[0] != s->last_frame.data[0])
@@ -2303,7 +2318,7 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
     int visible_width, visible_height;
 
     s->theora = get_bits_long(gb, 24);
-    av_log(avctx, AV_LOG_VERBOSE, "Theora bitstream version %X\n", s->theora);
+    av_log(avctx, AV_LOG_DEBUG, "Theora bitstream version %X\n", s->theora);
 
     /* 3.2.0 aka alpha3 has the same frame orientation as original vp3 */
     /* but previous versions have the image flipped relative to vp3 */

@@ -43,12 +43,12 @@
  */
 void avcodec_register_all(void)
 {
-    static int inited = 0;
+    static int initialized;
 
-    if (inited != 0)
+    if (initialized)
         return;
-    inited = 1;
-    
+    initialized = 1;
+
     /* video codecs */
 //    REGISTER_DECODER	(aasc);
     REGISTER_DECODER	(amv);
@@ -99,8 +99,6 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER	(rv20);
 //	#if __STDC_VERSION__ >= 199901L
 //    REGISTER_ENCDEC		(snow);
-//    #endif
-//    REGISTER_DECODER	(sp5x);
     REGISTER_DECODER	(svq1);
     REGISTER_DECODER	(svq3);
     REGISTER_DECODER	(theora);
@@ -142,15 +140,12 @@ void avcodec_register_all(void)
 //    #endif
 //    REGISTER_DECODER	(truespeech);
 //    REGISTER_DECODER	(tta);
-//    REGISTER_DECODER	(vorbis);
-//    REGISTER_DECODER	(wmav1);
-//    REGISTER_DECODER	(wmav2);
 
 		/* pcm codecs */
 //    REGISTER_DECODER  (pcm_alaw);
 //    REGISTER_DECODER  (pcm_mulaw);
 
-		/* adpcm codecs */
+    /* adpcm codecs */
     REGISTER_DECODER  (adpcm_4xm);
     REGISTER_DECODER  (adpcm_ct);
     REGISTER_DECODER  (adpcm_ea);

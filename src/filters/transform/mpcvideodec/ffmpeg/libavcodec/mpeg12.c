@@ -68,10 +68,6 @@ static void exchange_uv(MpegEncContext *s);
 static const enum PixelFormat pixfmt_yuv_420[]= {PIX_FMT_YUV420P,-1};
 static const enum PixelFormat pixfmt_yuv_422[]= {PIX_FMT_YUV422P,-1};
 static const enum PixelFormat pixfmt_yuv_444[]= {PIX_FMT_YUV444P,-1};
-static const enum PixelFormat pixfmt_xvmc_mpg2_420[] = {
-                                           PIX_FMT_XVMC_MPEG2_IDCT,
-                                           PIX_FMT_XVMC_MPEG2_MC,
-                                           -1};
 
 uint8_t ff_mpeg12_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];
 
@@ -302,15 +298,6 @@ static int mpeg_decode_mb(MpegEncContext *s,
         }else
             memset(s->last_mv, 0, sizeof(s->last_mv)); /* reset mv prediction */
         s->mb_intra = 1;
-#ifdef HAVE_XVMC
-        //one 1 we memcpy blocks in xvmcvideo
-        if(s->avctx->xvmc_acceleration > 1){
-            XVMC_pack_pblocks(s,-1);//inter are always full blocks
-            if(s->swap_uv){
-                exchange_uv(s);
-            }
-        }
-#endif
 
         if (s->codec_id == CODEC_ID_MPEG2VIDEO) {
             if(s->flags2 & CODEC_FLAG2_FAST){
@@ -514,16 +501,6 @@ static int mpeg_decode_mb(MpegEncContext *s,
                 av_log(s->avctx, AV_LOG_ERROR, "invalid cbp at %d %d\n", s->mb_x, s->mb_y);
                 return -1;
             }
-
-#ifdef HAVE_XVMC
-            //on 1 we memcpy blocks in xvmcvideo
-            if(s->avctx->xvmc_acceleration > 1){
-                XVMC_pack_pblocks(s,cbp);
-                if(s->swap_uv){
-                    exchange_uv(s);
-                }
-            }
-#endif
 
             if (s->codec_id == CODEC_ID_MPEG2VIDEO) {
                 if(s->flags2 & CODEC_FLAG2_FAST){
@@ -1278,9 +1255,6 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
             }
         }//mpeg2
 
-        if(avctx->xvmc_acceleration){
-            avctx->pix_fmt = avctx->get_format(avctx,pixfmt_xvmc_mpg2_420);
-        }else{
             if(s->chroma_format <  2){
                 avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_420);
             }else
@@ -1290,11 +1264,6 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
             if(s->chroma_format >  2){
                 avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_444);
             }
-        }
-        //until then pix_fmt may be changed right after codec init
-        if( avctx->pix_fmt == PIX_FMT_XVMC_MPEG2_IDCT )
-            if( avctx->idct_algo == FF_IDCT_AUTO )
-                avctx->idct_algo = FF_IDCT_SIMPLE;
 
         //quantization matrixes may need reordering
         //if dct permutation is changed
@@ -1615,12 +1584,6 @@ static int mpeg_field_start(MpegEncContext *s){
                 }
             }
     }
-#ifdef HAVE_XVMC
-// MPV_frame_start will call this function too,
-// but we need to call it on every field
-    if(s->avctx->xvmc_acceleration)
-         XVMC_field_start(s,avctx);
-#endif
 
     return 0;
 }
@@ -1706,12 +1669,6 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
     }
 
     for(;;) {
-#ifdef HAVE_XVMC
-        //one 1 we memcpy blocks in xvmcvideo
-        if(s->avctx->xvmc_acceleration > 1)
-            XVMC_init_block(s);//set s->block
-#endif
-
         if(mpeg_decode_mb(s, s->block) < 0)
             return -1;
 
@@ -1836,7 +1793,7 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
         }
     }
 eos: // end of slice
-    *buf += get_bits_count(&s->gb)/8 - 1;
+    *buf += (get_bits_count(&s->gb)-1)/8;
 //printf("y %d %d %d %d\n", s->resync_mb_x, s->resync_mb_y, s->mb_x, s->mb_y);
     return 0;
 }
@@ -1888,10 +1845,6 @@ static int slice_end(AVCodecContext *avctx, AVFrame *pict)
     if (!s1->mpeg_enc_ctx_allocated || !s->current_picture_ptr)
         return 0;
 
-#ifdef HAVE_XVMC
-    if(s->avctx->xvmc_acceleration)
-        XVMC_field_end(s);
-#endif
     /* end of slice reached */
     if (/*s->mb_y<<field_pic == s->mb_height &&*/ !s->first_field) {
         /* end of image */
@@ -2047,15 +2000,7 @@ static int vcr2_init_sequence(AVCodecContext *avctx)
     avctx->has_b_frames= 0; //true?
     s->low_delay= 1;
 
-    if(avctx->xvmc_acceleration){
-        avctx->pix_fmt = avctx->get_format(avctx,pixfmt_xvmc_mpg2_420);
-    }else{
-        avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_420);
-    }
-
-    if( avctx->pix_fmt == PIX_FMT_XVMC_MPEG2_IDCT )
-        if( avctx->idct_algo == FF_IDCT_AUTO )
-            avctx->idct_algo = FF_IDCT_SIMPLE;
+    avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_420);
 
     if (MPV_common_init(s) < 0)
         return -1;

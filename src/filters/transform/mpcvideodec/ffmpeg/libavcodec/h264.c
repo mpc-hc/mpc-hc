@@ -2856,7 +2856,7 @@ static int fill_default_ref_list(H264Context *h){
                 if(sel != PICT_FRAME) continue;
 
                 frame_list[ list ][index  ]= *h->long_ref[i];
-                frame_list[ list ][index++].pic_id= i;;
+                frame_list[ list ][index++].pic_id= i;
             }
             len[list] = index;
         }
@@ -2900,7 +2900,7 @@ static int fill_default_ref_list(H264Context *h){
             sel = h->long_ref[i]->reference | structure_sel;
             if(sel != PICT_FRAME) continue;
             frame_list[0][index  ]= *h->long_ref[i];
-            frame_list[0][index++].pic_id= i;;
+            frame_list[0][index++].pic_id= i;
         }
 
         if (FIELD_PICTURE)
@@ -5488,7 +5488,7 @@ static void decode_cabac_residual( H264Context *h, DCTELEM *block, int cat, int 
             if( !qmul ) {
                 block[j] = get_cabac_bypass_sign( CC, -1);
             }else{
-                block[j] = (get_cabac_bypass_sign( CC, -qmul[j]) + 32) >> 6;;
+                block[j] = (get_cabac_bypass_sign( CC, -qmul[j]) + 32) >> 6;
             }
 
             abslevel1++;
@@ -7166,7 +7166,7 @@ static inline int decode_vui_parameters(H264Context *h, SPS *sps){
         if( aspect_ratio_idc == EXTENDED_SAR ) {
             sps->sar.num= get_bits(&s->gb, 16);
             sps->sar.den= get_bits(&s->gb, 16);
-        }else if(aspect_ratio_idc < 14){
+        }else if(aspect_ratio_idc < sizeof(pixel_aspect)/sizeof(*pixel_aspect)){
             sps->sar=  pixel_aspect[aspect_ratio_idc];
         }else{
             av_log(h->s.avctx, AV_LOG_ERROR, "illegal aspect ratio\n");

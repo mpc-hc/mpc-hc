@@ -26,14 +26,14 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifndef AVCODEC_H264DATA_H
-#define AVCODEC_H264DATA_H
+#ifndef FFMPEG_H264DATA_H
+#define FFMPEG_H264DATA_H
 
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
 #include "mpegvideo.h"
-//#include "rational.h"
+#include "..\libavutil\rational.h"
 
 
 #define EXTENDED_SAR          255
@@ -56,7 +56,7 @@ NAL_SPS_EXT,
 NAL_AUXILIARY_SLICE=19
 };
 
-static const AVRational pixel_aspect[14]={
+static const AVRational pixel_aspect[17]={
  {0, 1},
  {1, 1},
  {12, 11},
@@ -71,6 +71,9 @@ static const AVRational pixel_aspect[14]={
  {15, 11},
  {64, 33},
  {160,99},
+ {4, 3},
+ {3, 2},
+ {2, 1},
 };
 
 static const uint8_t golomb_to_pict_type[5]=
@@ -1307,4 +1310,4 @@ static const int8_t cabac_context_init_PB[3][460][2] =
     }
 };
 
-#endif // AVCODEC_H264DATA_H
+#endif /* FFMPEG_H264DATA_H */

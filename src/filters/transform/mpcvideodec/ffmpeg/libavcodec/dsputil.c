@@ -45,8 +45,15 @@ void ff_spatial_dwt(int *buffer, int width, int height, int stride, int type, in
 /* vorbis.c */
 void vorbis_inverse_coupling(float *mag, float *ang, int blocksize);
 
+/* pngdec.c */
+void ff_add_png_paeth_prediction(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
+
 uint8_t ff_cropTbl[256 + 2 * MAX_NEG_CROP] = {0, };
 uint32_t ff_squareTbl[512] = {0, };
+
+// 0x7f7f7f7f or 0x7f7f7f7f7f7f7f7f or whatever, depending on the cpu's native arithmetic size
+#define pb_7f (~0UL/255 * 0x7f)
+#define pb_80 (~0UL/255 * 0x80)
 
 const uint8_t ff_zigzag_direct[64] = {
     0,   1,  8, 16,  9,  2,  3, 10,
@@ -97,7 +104,7 @@ const uint8_t ff_alternate_vertical_scan[64] = {
     38, 46, 54, 62, 39, 47, 55, 63,
 };
 
-/* a*ff_inverse[b]>>32 == a/b for all 0<=a<=65536 && 2<=b<=255 */
+/* a*inverse[b]>>32 == a/b for all 0<=a<=65536 && 2<=b<=255 */
 const uint32_t ff_inverse[256]={
          0, 4294967295U,2147483648U,1431655766, 1073741824,  858993460,  715827883,  613566757,
  536870912,  477218589,  429496730,  390451573,  357913942,  330382100,  306783379,  286331154,
@@ -144,6 +151,27 @@ static const uint8_t simple_mmx_permutation[64]={
         0x22, 0x2A, 0x26, 0x2B, 0x23, 0x2E, 0x27, 0x2F,
         0x32, 0x3A, 0x36, 0x3B, 0x33, 0x3E, 0x37, 0x3F,
 };
+
+void ff_init_scantable(uint8_t *permutation, ScanTable *st, const uint8_t *src_scantable){
+    int i;
+    int end;
+
+    st->scantable= src_scantable;
+
+    for(i=0; i<64; i++){
+        int j;
+        j = src_scantable[i];
+        st->permutated[i] = permutation[j];
+    }
+
+    end=-1;
+    for(i=0; i<64; i++){
+        int j;
+        j = st->permutated[i];
+        if(j>end) end=j;
+        st->raster_end[i]= end;
+    }
+}
 
 static int pix_sum_c(uint8_t * pix, int line_size)
 {
@@ -301,7 +329,7 @@ static int sse16_c(void *v, uint8_t *pix1, uint8_t *pix2, int line_size, int h)
     return s;
 }
 
-
+#if 0 // disable snow
 #ifdef CONFIG_ENCODERS
 static inline int w_c(void *v, uint8_t * pix1, uint8_t * pix2, int line_size, int w, int h, int type){
     int s, i, j;
@@ -396,6 +424,107 @@ int w97_32_c(void *v, uint8_t * pix1, uint8_t * pix2, int line_size, int h){
     return w_c(v, pix1, pix2, line_size, 32, h, 0);
 }
 #endif
+#endif
+
+/* draw the edges of width 'w' of an image of size width, height */
+//FIXME check that this is ok for mpeg4 interlaced
+static void draw_edges_c(uint8_t *buf, int wrap, int width, int height, int w)
+{
+    uint8_t *ptr, *last_line;
+    int i;
+
+    last_line = buf + (height - 1) * wrap;
+    for(i=0;i<w;i++) {
+        /* top and bottom */
+        memcpy(buf - (i + 1) * wrap, buf, width);
+        memcpy(last_line + (i + 1) * wrap, last_line, width);
+    }
+    /* left and right */
+    ptr = buf;
+    for(i=0;i<height;i++) {
+        memset(ptr - w, ptr[0], w);
+        memset(ptr + width, ptr[width-1], w);
+        ptr += wrap;
+    }
+    /* corners */
+    for(i=0;i<w;i++) {
+        memset(buf - (i + 1) * wrap - w, buf[0], w); /* top left */
+        memset(buf - (i + 1) * wrap + width, buf[width-1], w); /* top right */
+        memset(last_line + (i + 1) * wrap - w, last_line[0], w); /* top left */
+        memset(last_line + (i + 1) * wrap + width, last_line[width-1], w); /* top right */
+    }
+}
+
+/**
+ * Copies a rectangular area of samples to a temporary buffer and replicates the boarder samples.
+ * @param buf destination buffer
+ * @param src source buffer
+ * @param linesize number of bytes between 2 vertically adjacent samples in both the source and destination buffers
+ * @param block_w width of block
+ * @param block_h height of block
+ * @param src_x x coordinate of the top left sample of the block in the source buffer
+ * @param src_y y coordinate of the top left sample of the block in the source buffer
+ * @param w width of the source buffer
+ * @param h height of the source buffer
+ */
+void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize, int block_w, int block_h,
+                                    int src_x, int src_y, int w, int h){
+    int x, y;
+    int start_y, start_x, end_y, end_x;
+
+    if(src_y>= h){
+        src+= (h-1-src_y)*linesize;
+        src_y=h-1;
+    }else if(src_y<=-block_h){
+        src+= (1-block_h-src_y)*linesize;
+        src_y=1-block_h;
+    }
+    if(src_x>= w){
+        src+= (w-1-src_x);
+        src_x=w-1;
+    }else if(src_x<=-block_w){
+        src+= (1-block_w-src_x);
+        src_x=1-block_w;
+    }
+
+    start_y= FFMAX(0, -src_y);
+    start_x= FFMAX(0, -src_x);
+    end_y= FFMIN(block_h, h-src_y);
+    end_x= FFMIN(block_w, w-src_x);
+
+    // copy existing part
+    for(y=start_y; y<end_y; y++){
+        for(x=start_x; x<end_x; x++){
+            buf[x + y*linesize]= src[x + y*linesize];
+        }
+    }
+
+    //top
+    for(y=0; y<start_y; y++){
+        for(x=start_x; x<end_x; x++){
+            buf[x + y*linesize]= buf[x + start_y*linesize];
+        }
+    }
+
+    //bottom
+    for(y=end_y; y<block_h; y++){
+        for(x=start_x; x<end_x; x++){
+            buf[x + y*linesize]= buf[x + (end_y-1)*linesize];
+        }
+    }
+
+    for(y=0; y<block_h; y++){
+       //left
+        for(x=0; x<start_x; x++){
+            buf[x + y*linesize]= buf[start_x + y*linesize];
+        }
+
+       //right
+        for(x=end_x; x<block_w; x++){
+            buf[x + y*linesize]= buf[end_x - 1 + y*linesize];
+        }
+    }
+}
 
 static void get_pixels_c(DCTELEM *restrict block, const uint8_t *pixels, int line_size)
 {
@@ -3240,6 +3369,7 @@ void ff_set_cmp(DSPContext* c, me_cmp_func *cmp, int type){
         case FF_CMP_NSSE:
             cmp[i]= c->nsse[i];
             break;
+#if 0 // disable snow
 #ifdef CONFIG_ENCODERS
         case FF_CMP_W53:
             cmp[i]= c->w53[i];
@@ -3247,6 +3377,7 @@ void ff_set_cmp(DSPContext* c, me_cmp_func *cmp, int type){
         case FF_CMP_W97:
             cmp[i]= c->w97[i];
             break;
+#endif
 #endif
         default:
             av_log(NULL, AV_LOG_ERROR,"internal error in cmp function selection\n");
@@ -3263,32 +3394,47 @@ static void clear_blocks_c(DCTELEM *blocks)
 }
 
 static void add_bytes_c(uint8_t *dst, uint8_t *src, int w){
-    int i;
-    for(i=0; i+7<w; i+=8){
-        dst[i+0] += src[i+0];
-        dst[i+1] += src[i+1];
-        dst[i+2] += src[i+2];
-        dst[i+3] += src[i+3];
-        dst[i+4] += src[i+4];
-        dst[i+5] += src[i+5];
-        dst[i+6] += src[i+6];
-        dst[i+7] += src[i+7];
+    long i;
+    for(i=0; i<=w-sizeof(long); i+=sizeof(long)){
+        long a = *(long*)(src+i);
+        long b = *(long*)(dst+i);
+        *(long*)(dst+i) = ((a&pb_7f) + (b&pb_7f)) ^ ((a^b)&pb_80);
     }
     for(; i<w; i++)
         dst[i+0] += src[i+0];
 }
 
+static void add_bytes_l2_c(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
+    long i;
+    for(i=0; i<=w-sizeof(long); i+=sizeof(long)){
+        long a = *(long*)(src1+i);
+        long b = *(long*)(src2+i);
+        *(long*)(dst+i) = ((a&pb_7f) + (b&pb_7f)) ^ ((a^b)&pb_80);
+    }
+    for(; i<w; i++)
+        dst[i] = src1[i]+src2[i];
+}
+
 static void diff_bytes_c(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
-    int i;
-    for(i=0; i+7<w; i+=8){
-        dst[i+0] = src1[i+0]-src2[i+0];
-        dst[i+1] = src1[i+1]-src2[i+1];
-        dst[i+2] = src1[i+2]-src2[i+2];
-        dst[i+3] = src1[i+3]-src2[i+3];
-        dst[i+4] = src1[i+4]-src2[i+4];
-        dst[i+5] = src1[i+5]-src2[i+5];
-        dst[i+6] = src1[i+6]-src2[i+6];
-        dst[i+7] = src1[i+7]-src2[i+7];
+    long i;
+#ifndef HAVE_FAST_UNALIGNED
+    if((long)src2 & (sizeof(long)-1)){
+        for(i=0; i+7<w; i+=8){
+            dst[i+0] = src1[i+0]-src2[i+0];
+            dst[i+1] = src1[i+1]-src2[i+1];
+            dst[i+2] = src1[i+2]-src2[i+2];
+            dst[i+3] = src1[i+3]-src2[i+3];
+            dst[i+4] = src1[i+4]-src2[i+4];
+            dst[i+5] = src1[i+5]-src2[i+5];
+            dst[i+6] = src1[i+6]-src2[i+6];
+            dst[i+7] = src1[i+7]-src2[i+7];
+        }
+    }else
+#endif
+    for(i=0; i<=w-sizeof(long); i+=sizeof(long)){
+        long a = *(long*)(src1+i);
+        long b = *(long*)(src2+i);
+        *(long*)(dst+i) = ((a|pb_80) - (b&pb_7f)) ^ ((a^b^pb_80)&pb_80);
     }
     for(; i<w; i++)
         dst[i+0] = src1[i+0]-src2[i+0];
@@ -4160,6 +4306,8 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->biweight_h264_pixels_tab[8]= biweight_h264_pixels2x4_c;
     c->biweight_h264_pixels_tab[9]= biweight_h264_pixels2x2_c;
 
+    c->draw_edges = draw_edges_c;
+    
     ff_cavsdsp_init(c,avctx);
     ff_vc1dsp_init(c,avctx);
     ff_intrax8dsp_init(c,avctx);
@@ -4198,16 +4346,22 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->vsse[4]= vsse_intra16_c;
     c->nsse[0]= nsse16_c;
     c->nsse[1]= nsse8_c;
+#if 0 // disable snow
 #ifdef CONFIG_ENCODERS
     c->w53[0]= w53_16_c;
     c->w53[1]= w53_8_c;
     c->w97[0]= w97_16_c;
     c->w97[1]= w97_8_c;
 #endif
+#endif
     c->add_bytes= add_bytes_c;
+    c->add_bytes_l2= add_bytes_l2_c;
     c->diff_bytes= diff_bytes_c;
     c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_c;
     c->bswap_buf= bswap_buf;
+
+    c->add_png_paeth_prediction= ff_add_png_paeth_prediction;
+
 
     c->h264_v_loop_filter_luma= h264_v_loop_filter_luma_c;
     c->h264_h_loop_filter_luma= h264_h_loop_filter_luma_c;

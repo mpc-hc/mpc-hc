@@ -149,9 +149,25 @@ static void a(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
 // although currently h<4 is not used as functions with width <8 are neither used nor implemented
 typedef int (*me_cmp_func)(void /*MpegEncContext*/ *s, uint8_t *blk1/*align width (8 or 16)*/, uint8_t *blk2/*align 1*/, int line_size, int h)/* __attribute__ ((const))*/;
 
-
+#if 0 // disable snow
 // for snow slices
 typedef struct slice_buffer_s slice_buffer;
+#endif
+
+/**
+ * Scantable.
+ */
+typedef struct ScanTable{
+    const uint8_t *scantable;
+    uint8_t permutated[64];
+    uint8_t raster_end[64];
+} ScanTable;
+
+void ff_init_scantable(uint8_t *, ScanTable *st, const uint8_t *src_scantable);
+
+void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize,
+                         int block_w, int block_h,
+                         int src_x, int src_y, int w, int h);
 
 /**
  * DSPContext.
@@ -190,8 +206,10 @@ typedef struct DSPContext {
     me_cmp_func vsad[5];
     me_cmp_func vsse[5];
     me_cmp_func nsse[5];
+#if 0 // disable snow
     me_cmp_func w53[5];
     me_cmp_func w97[5];
+#endif
     me_cmp_func dct_max[5];
     me_cmp_func dct264_sad[5];
 
@@ -301,12 +319,15 @@ typedef struct DSPContext {
 
     /* huffyuv specific */
     void (*add_bytes)(uint8_t *dst/*align 16*/, uint8_t *src/*align 16*/, int w);
+    void (*add_bytes_l2)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 16*/, int w);
     void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/,int w);
     /**
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
      */
     void (*sub_hfyu_median_prediction)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w, int *left, int *left_top);
+    /* this might write to dst[w] */
+    void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
 
     void (*h264_v_loop_filter_luma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
@@ -384,6 +405,9 @@ typedef struct DSPContext {
 #define BASIS_SHIFT 16
 #define RECON_SHIFT 6
 
+    void (*draw_edges)(uint8_t *buf, int wrap, int width, int height, int w);
+#define EDGE_WIDTH 16
+
     /* h264 functions */
     void (*h264_idct_add)(uint8_t *dst, DCTELEM *block, int stride);
     void (*h264_idct8_add)(uint8_t *dst, DCTELEM *block, int stride);
@@ -453,10 +477,12 @@ static inline int get_penalty_factor(int lambda, int lambda2, int type){
         return lambda>>FF_LAMBDA_SHIFT;
     case FF_CMP_DCT:
         return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
+#if 0 // disable snow
     case FF_CMP_W53:
         return (4*lambda)>>(FF_LAMBDA_SHIFT);
     case FF_CMP_W97:
         return (2*lambda)>>(FF_LAMBDA_SHIFT);
+#endif
     case FF_CMP_SATD:
     case FF_CMP_DCT264:
         return (2*lambda)>>FF_LAMBDA_SHIFT;
@@ -507,7 +533,7 @@ static inline void emms(void)
  #if defined(__INTEL_COMPILER) || defined(_MSC_VER)
     __asm emms;
  #else
-    __asm __volatile ("emms;":::"memory");
+    asm volatile ("emms;":::"memory");
  #endif
 }
 
@@ -518,18 +544,17 @@ static inline void emms(void)
         emms();\
 }
 
-#define DECLARE_ALIGNED_8(t, v) DECLARE_ALIGNED(8, t, v)
-
-#define STRIDE_ALIGN 8
-
-void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 void dsputil_init_pix_mmx(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
-#else
+#endif
 
-#define DECLARE_ALIGNED_8(t, v) DECLARE_ALIGNED(8, t, v)
-#define STRIDE_ALIGN 8
+#ifndef DECLARE_ALIGNED_8
+#   define DECLARE_ALIGNED_8(t, v) DECLARE_ALIGNED(8, t, v)
+#endif
 
+#ifndef STRIDE_ALIGN
+#   define STRIDE_ALIGN 8
 #endif
 
 /* PSNR */

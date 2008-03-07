@@ -3,6 +3,10 @@
  * Copyright (c) 2000, 2001 Fabrice Bellard.
  * Copyright (c) 2003-2004 Michael Niedermayer <michaelni@gmx.at>
  *
+ * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
+ * mostly rewritten by Michael Niedermayer <michaelni@gmx.at>
+ * and improved by Zdenek Kabelac <kabi@users.sf.net>
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -18,17 +22,17 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
- * MMX optimization by Nick Kurshev <nickols_k@mail.ru>
- * mostly rewritten by Michael Niedermayer <michaelni@gmx.at>
- * and improved by Zdenek Kabelac <kabi@users.sf.net>
  */
+
+/* This header intentionally has no multiple inclusion guards. It is meant to
+ * be included multiple times and generates different code depending on the
+ * value of certain #defines. */
 
 // put_pixels
 static void DEF(put, pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "lea    (%3, %3), %%"REG_a"     \n\t"
         ASMALIGN(3)
         "1:                             \n\t"
@@ -60,7 +64,7 @@ static void DEF(put, pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line
 static void av_unused DEF(put, pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "testl $1, %0                   \n\t"
         " jz 1f                         \n\t"
         "movq   (%1), %%mm0             \n\t"
@@ -98,7 +102,7 @@ static void av_unused DEF(put, pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t 
         "add    %5, %3                  \n\t"
         "subl   $4, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -110,7 +114,7 @@ static void av_unused DEF(put, pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t 
 static void DEF(put, pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "lea        (%3, %3), %%"REG_a" \n\t"
         ASMALIGN(3)
         "1:                             \n\t"
@@ -156,7 +160,7 @@ static void DEF(put, pixels16_x2)(uint8_t *block, const uint8_t *pixels, int lin
 static void av_unused DEF(put, pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "testl $1, %0                   \n\t"
         " jz 1f                         \n\t"
         "movq   (%1), %%mm0             \n\t"
@@ -193,7 +197,7 @@ static void av_unused DEF(put, pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t
         "add    $32, %2                 \n\t"
         "subl   $2, %0                  \n\t"
         "jnz    1b                      \n\t"
-#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cant be used
+#ifdef PIC //Note "+bm" and "+mb" are buggy too (with gcc 3.2.2 at least) and cannot be used
         :"+m"(h), "+a"(src1), "+c"(src2), "+d"(dst)
 #else
         :"+b"(h), "+a"(src1), "+c"(src2), "+d"(dst)
@@ -205,7 +209,7 @@ static void av_unused DEF(put, pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t
 static void DEF(put, pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "lea (%3, %3), %%"REG_a"        \n\t"
         "movq (%1), %%mm0               \n\t"
         ASMALIGN(3)
@@ -235,7 +239,7 @@ static void DEF(put, pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int lin
 {
     MOVQ_ZERO(mm7);
     SET_RND(mm6); // =2 for rnd  and  =1 for no_rnd version
-    __asm __volatile(
+    asm volatile(
         "movq   (%1), %%mm0             \n\t"
         "movq   1(%1), %%mm4            \n\t"
         "movq   %%mm0, %%mm1            \n\t"
@@ -303,7 +307,7 @@ static void av_unused DEF(avg, pixels4)(uint8_t *block, const uint8_t *pixels, i
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
              "movd  %0, %%mm0           \n\t"
              "movd  %1, %%mm1           \n\t"
              PAVGB(%%mm0, %%mm1, %%mm2, %%mm6)
@@ -323,7 +327,7 @@ static void DEF(avg, pixels8)(uint8_t *block, const uint8_t *pixels, int line_si
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
              "movq  %0, %%mm0           \n\t"
              "movq  %1, %%mm1           \n\t"
              PAVGB(%%mm0, %%mm1, %%mm2, %%mm6)
@@ -342,7 +346,7 @@ static void DEF(avg, pixels16)(uint8_t *block, const uint8_t *pixels, int line_s
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
              "movq  %0, %%mm0           \n\t"
              "movq  %1, %%mm1           \n\t"
              PAVGB(%%mm0, %%mm1, %%mm2, %%mm6)
@@ -365,7 +369,7 @@ static void DEF(avg, pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
             "movq  %1, %%mm0            \n\t"
             "movq  1%1, %%mm1           \n\t"
             "movq  %0, %%mm3            \n\t"
@@ -385,7 +389,7 @@ static av_unused void DEF(avg, pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t 
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
             "movq  %1, %%mm0            \n\t"
             "movq  %2, %%mm1            \n\t"
             "movq  %0, %%mm3            \n\t"
@@ -406,7 +410,7 @@ static void DEF(avg, pixels16_x2)(uint8_t *block, const uint8_t *pixels, int lin
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
             "movq  %1, %%mm0            \n\t"
             "movq  1%1, %%mm1           \n\t"
             "movq  %0, %%mm3            \n\t"
@@ -432,7 +436,7 @@ static av_unused void DEF(avg, pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t
     MOVQ_BFE(mm6);
     JUMPALIGN();
     do {
-        __asm __volatile(
+        asm volatile(
             "movq  %1, %%mm0            \n\t"
             "movq  %2, %%mm1            \n\t"
             "movq  %0, %%mm3            \n\t"
@@ -457,7 +461,7 @@ static av_unused void DEF(avg, pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t
 static void DEF(avg, pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     MOVQ_BFE(mm6);
-    __asm __volatile(
+    asm volatile(
         "lea    (%3, %3), %%"REG_a"     \n\t"
         "movq   (%1), %%mm0             \n\t"
         ASMALIGN(3)
@@ -498,7 +502,7 @@ static void DEF(avg, pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int lin
 {
     MOVQ_ZERO(mm7);
     SET_RND(mm6); // =2 for rnd  and  =1 for no_rnd version
-    __asm __volatile(
+    asm volatile(
         "movq   (%1), %%mm0             \n\t"
         "movq   1(%1), %%mm4            \n\t"
         "movq   %%mm0, %%mm1            \n\t"
@@ -588,5 +592,3 @@ static void DEF(avg, pixels16_xy2)(uint8_t *block, const uint8_t *pixels, int li
     DEF(avg, pixels8_xy2)(block  , pixels  , line_size, h);
     DEF(avg, pixels8_xy2)(block+8, pixels+8, line_size, h);
 }
-
-

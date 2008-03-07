@@ -23,8 +23,10 @@
  * byte swap.
  */
 
-#ifndef BSWAP_H
-#define BSWAP_H
+#ifndef FFMPEG_BSWAP_H
+#define FFMPEG_BSWAP_H
+
+#include "common.h"
 
 #ifdef HAVE_BYTESWAP_H
 #include <byteswap.h>
@@ -36,17 +38,12 @@
 #  define LEGACY_REGS "=q"
 #endif
 
-/*custom*/
-#ifndef av_always_inline
-#define av_always_inline always_inline
-#endif
-
 static av_always_inline uint16_t bswap_16(uint16_t x)
 {
 #if defined(ARCH_X86)
-  __asm("rorw $8, %0"   :
-        LEGACY_REGS (x) :
-        "0" (x));
+    __asm("rorw $8, %0"   :
+          LEGACY_REGS (x) :
+          "0" (x));
 #else
     x= (x>>8) | (x<<8);
 #endif
@@ -57,15 +54,15 @@ static av_always_inline uint32_t bswap_32(uint32_t x)
 {
 #if defined(ARCH_X86)
 #if __CPU__ != 386
- __asm("bswap   %0":
-      "=r" (x)     :
+    __asm("bswap   %0":
+          "=r" (x)    :
 #else
- __asm("xchgb   %b0,%h0\n"
-      "         rorl    $16,%0\n"
-      "         xchgb   %b0,%h0":
-      LEGACY_REGS (x)                :
+    __asm("xchgb   %b0,%h0\n"
+          "rorl    $16,%0 \n"
+          "xchgb   %b0,%h0":
+          LEGACY_REGS (x)  :
 #endif
-      "0" (x));
+          "0" (x));
 #else
     x= ((x<<8)&0xFF00FF00) | ((x>>8)&0x00FF00FF);
     x= (x>>16) | (x<<16);
@@ -117,4 +114,4 @@ static inline uint64_t bswap_64(uint64_t x)
 #define le2me_64(x) (x)
 #endif
 
-#endif /* BSWAP_H */
+#endif /* FFMPEG_BSWAP_H */

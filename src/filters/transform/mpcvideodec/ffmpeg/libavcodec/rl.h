@@ -24,14 +24,17 @@
  * rl header.
  */
 
-#ifndef AVCODEC_RL_H
-#define AVCODEC_RL_H
+#ifndef FFMPEG_RL_H
+#define FFMPEG_RL_H
 
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
 #include "bitstream.h"
-#include "mpegvideo.h"
+
+/* run length table */
+#define MAX_RUN    64
+#define MAX_LEVEL  64
 
 /** RLTable. */
 typedef struct RLTable {
@@ -66,4 +69,4 @@ static inline int get_rl_index(const RLTable *rl, int last, int run, int level)
     return index + level - 1;
 }
 
-#endif
+#endif /* FFMPEG_RL_H */

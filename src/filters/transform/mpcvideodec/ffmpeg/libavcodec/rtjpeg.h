@@ -24,7 +24,7 @@
 
 #ifdef __GNUC__
 #include <stdint.h>
-#include <dsputil.h>
+#include "dsputil.h"
 #endif
 
 typedef struct {

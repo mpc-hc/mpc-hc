@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_PNG_H
-#define AVCODEC_PNG_H
+#ifndef FFMPEG_PNG_H
+#define FFMPEG_PNG_H
 
 #ifdef __GNUC__
 #include <stdint.h>
@@ -36,11 +36,13 @@
 #define PNG_COLOR_TYPE_RGB_ALPHA  (PNG_COLOR_MASK_COLOR | PNG_COLOR_MASK_ALPHA)
 #define PNG_COLOR_TYPE_GRAY_ALPHA (PNG_COLOR_MASK_ALPHA)
 
+#define PNG_FILTER_TYPE_LOCO   64
 #define PNG_FILTER_VALUE_NONE  0
 #define PNG_FILTER_VALUE_SUB   1
 #define PNG_FILTER_VALUE_UP    2
 #define PNG_FILTER_VALUE_AVG   3
 #define PNG_FILTER_VALUE_PAETH 4
+#define PNG_FILTER_VALUE_MIXED 5
 
 #define PNG_IHDR      0x0001
 #define PNG_IDAT      0x0002
@@ -50,6 +52,7 @@
 #define NB_PASSES 7
 
 extern const uint8_t ff_pngsig[8];
+extern const uint8_t ff_mngsig[8];
 
 /* Mask to determine which y pixels are valid in a pass */
 extern const uint8_t ff_png_pass_ymask[NB_PASSES];
@@ -73,4 +76,4 @@ extern int ff_png_get_nb_channels(int color_type);
 /* compute the row size of an interleaved pass */
 extern int ff_png_pass_row_size(int pass, int bits_per_pixel, int width);
 
-#endif
+#endif /* FFMPEG_PNG_H */

@@ -260,12 +260,6 @@ static const PixFmtInfo pix_fmt_info[PIX_FMT_NB] = {
         .pixel_type = FF_PIXEL_PALETTE,
         .depth = 8,
     },
-    [PIX_FMT_XVMC_MPEG2_MC] = {
-        .name = "xvmcmc",
-    },
-    [PIX_FMT_XVMC_MPEG2_IDCT] = {
-        .name = "xvmcidct",
-    },
     [PIX_FMT_UYYVYY411] = {
         .name = "uyyvyy411",
         .nb_channels = 1,
@@ -572,10 +566,6 @@ void avpicture_init_pixfmtinfo(void)
  pix_fmt_info[PIX_FMT_PAL8].pixel_type = FF_PIXEL_PALETTE;
  pix_fmt_info[PIX_FMT_PAL8].depth = 8;
 
- pix_fmt_info[PIX_FMT_XVMC_MPEG2_MC].name = "xvmcmc";
-
- pix_fmt_info[PIX_FMT_XVMC_MPEG2_IDCT].name = "xvmcidct";
-
  pix_fmt_info[PIX_FMT_UYYVYY411].name = "uyyvyy411";
  pix_fmt_info[PIX_FMT_UYYVYY411].nb_channels = 1;
  pix_fmt_info[PIX_FMT_UYYVYY411].color_type = FF_COLOR_YUV;
@@ -699,17 +689,14 @@ void avcodec_get_chroma_sub_sample(int pix_fmt, int *h_shift, int *v_shift)
     *v_shift = pix_fmt_info[pix_fmt].y_chroma_shift;
 }
 
-int avpicture_fill(AVPicture *picture, uint8_t *ptr,
-                   int pix_fmt, int width, int height)
+int ff_fill_linesize(AVPicture *picture, int pix_fmt, int width)
 {
-    int size, w2, h2, size2;
+    int w2;
     const PixFmtInfo *pinfo;
 
-    if(avcodec_check_dimensions(NULL, width, height))
-        goto fail;
+    memset(picture->linesize, 0, sizeof(picture->linesize));
 
     pinfo = &pix_fmt_info[pix_fmt];
-    size = width * height;
     switch(pix_fmt) {
     case PIX_FMT_YUV420P:
     case PIX_FMT_YUV422P:
@@ -722,62 +709,33 @@ int avpicture_fill(AVPicture *picture, uint8_t *ptr,
     case PIX_FMT_YUVJ444P:
     case PIX_FMT_YUVJ440P:
         w2 = (width + (1 << pinfo->x_chroma_shift) - 1) >> pinfo->x_chroma_shift;
-        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
-        size2 = w2 * h2;
-        picture->data[0] = ptr;
-        picture->data[1] = picture->data[0] + size;
-        picture->data[2] = picture->data[1] + size2;
-        picture->data[3] = NULL;
         picture->linesize[0] = width;
         picture->linesize[1] = w2;
         picture->linesize[2] = w2;
-        picture->linesize[3] = 0;
-        return size + 2 * size2;
+        break;
     case PIX_FMT_YUVA420P:
         w2 = (width + (1 << pinfo->x_chroma_shift) - 1) >> pinfo->x_chroma_shift;
-        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
-        size2 = w2 * h2;
-        picture->data[0] = ptr;
-        picture->data[1] = picture->data[0] + size;
-        picture->data[2] = picture->data[1] + size2;
-        picture->data[3] = picture->data[1] + size2 + size2;
         picture->linesize[0] = width;
         picture->linesize[1] = w2;
         picture->linesize[2] = w2;
         picture->linesize[3] = width;
-        return 2 * size + 2 * size2;
+        break;
     case PIX_FMT_NV12:
     case PIX_FMT_NV21:
         w2 = (width + (1 << pinfo->x_chroma_shift) - 1) >> pinfo->x_chroma_shift;
-        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
-        size2 = w2 * h2 * 2;
-        picture->data[0] = ptr;
-        picture->data[1] = picture->data[0] + size;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width;
         picture->linesize[1] = w2;
-        picture->linesize[2] = 0;
-        picture->linesize[3] = 0;
-        return size + 2 * size2;
+        break;
     case PIX_FMT_RGB24:
     case PIX_FMT_BGR24:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width * 3;
-        return size * 3;
+        break;
     case PIX_FMT_RGB32:
     case PIX_FMT_BGR32:
     case PIX_FMT_RGB32_1:
     case PIX_FMT_BGR32_1:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width * 4;
-        return size * 4;
+        break;
     case PIX_FMT_GRAY16BE:
     case PIX_FMT_GRAY16LE:
     case PIX_FMT_BGR555:
@@ -785,70 +743,138 @@ int avpicture_fill(AVPicture *picture, uint8_t *ptr,
     case PIX_FMT_RGB555:
     case PIX_FMT_RGB565:
     case PIX_FMT_YUYV422:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width * 2;
-        return size * 2;
+        break;
     case PIX_FMT_UYVY422:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width * 2;
-        return size * 2;
+        break;
     case PIX_FMT_UYYVYY411:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width + width/2;
-        return size + size/2;
+        break;
     case PIX_FMT_RGB8:
     case PIX_FMT_BGR8:
     case PIX_FMT_RGB4_BYTE:
     case PIX_FMT_BGR4_BYTE:
     case PIX_FMT_GRAY8:
-        picture->data[0] = ptr;
-        picture->data[1] = NULL;
-        picture->data[2] = NULL;
-        picture->data[3] = NULL;
         picture->linesize[0] = width;
-        return size;
+        break;
     case PIX_FMT_RGB4:
     case PIX_FMT_BGR4:
+        picture->linesize[0] = width / 2;
+        break;
+    case PIX_FMT_MONOWHITE:
+    case PIX_FMT_MONOBLACK:
+        picture->linesize[0] = (width + 7) >> 3;
+        break;
+    case PIX_FMT_PAL8:
+        picture->linesize[0] = width;
+        picture->linesize[1] = 4;
+        break;
+    default:
+        return -1;
+    }
+    return 0;
+}
+
+int ff_fill_pointer(AVPicture *picture, uint8_t *ptr, int pix_fmt,
+                    int height)
+{
+    int size, h2, size2;
+    const PixFmtInfo *pinfo;
+
+    pinfo = &pix_fmt_info[pix_fmt];
+    size = picture->linesize[0] * height;
+    switch(pix_fmt) {
+    case PIX_FMT_YUV420P:
+    case PIX_FMT_YUV422P:
+    case PIX_FMT_YUV444P:
+    case PIX_FMT_YUV410P:
+    case PIX_FMT_YUV411P:
+    case PIX_FMT_YUV440P:
+    case PIX_FMT_YUVJ420P:
+    case PIX_FMT_YUVJ422P:
+    case PIX_FMT_YUVJ444P:
+    case PIX_FMT_YUVJ440P:
+        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
+        size2 = picture->linesize[1] * h2;
         picture->data[0] = ptr;
-        picture->data[1] = NULL;
+        picture->data[1] = picture->data[0] + size;
+        picture->data[2] = picture->data[1] + size2;
+        picture->data[3] = NULL;
+        return size + 2 * size2;
+    case PIX_FMT_YUVA420P:
+        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
+        size2 = picture->linesize[1] * h2;
+        picture->data[0] = ptr;
+        picture->data[1] = picture->data[0] + size;
+        picture->data[2] = picture->data[1] + size2;
+        picture->data[3] = picture->data[1] + size2 + size2;
+        return 2 * size + 2 * size2;
+    case PIX_FMT_NV12:
+    case PIX_FMT_NV21:
+        h2 = (height + (1 << pinfo->y_chroma_shift) - 1) >> pinfo->y_chroma_shift;
+        size2 = picture->linesize[1] * h2 * 2;
+        picture->data[0] = ptr;
+        picture->data[1] = picture->data[0] + size;
         picture->data[2] = NULL;
         picture->data[3] = NULL;
-        picture->linesize[0] = width / 2;
-        return size / 2;
+        return size + 2 * size2;
+    case PIX_FMT_RGB24:
+    case PIX_FMT_BGR24:
+    case PIX_FMT_RGB32:
+    case PIX_FMT_BGR32:
+    case PIX_FMT_RGB32_1:
+    case PIX_FMT_BGR32_1:
+    case PIX_FMT_GRAY16BE:
+    case PIX_FMT_GRAY16LE:
+    case PIX_FMT_BGR555:
+    case PIX_FMT_BGR565:
+    case PIX_FMT_RGB555:
+    case PIX_FMT_RGB565:
+    case PIX_FMT_YUYV422:
+    case PIX_FMT_UYVY422:
+    case PIX_FMT_UYYVYY411:
+    case PIX_FMT_RGB8:
+    case PIX_FMT_BGR8:
+    case PIX_FMT_RGB4_BYTE:
+    case PIX_FMT_BGR4_BYTE:
+    case PIX_FMT_GRAY8:
+    case PIX_FMT_RGB4:
+    case PIX_FMT_BGR4:
     case PIX_FMT_MONOWHITE:
     case PIX_FMT_MONOBLACK:
         picture->data[0] = ptr;
         picture->data[1] = NULL;
         picture->data[2] = NULL;
         picture->data[3] = NULL;
-        picture->linesize[0] = (width + 7) >> 3;
-        return picture->linesize[0] * height;
+        return size;
     case PIX_FMT_PAL8:
         size2 = (size + 3) & ~3;
         picture->data[0] = ptr;
         picture->data[1] = ptr + size2; /* palette is stored here as 256 32 bit words */
         picture->data[2] = NULL;
         picture->data[3] = NULL;
-        picture->linesize[0] = width;
-        picture->linesize[1] = 4;
         return size2 + 256 * 4;
     default:
-fail:
         picture->data[0] = NULL;
         picture->data[1] = NULL;
         picture->data[2] = NULL;
         picture->data[3] = NULL;
         return -1;
     }
+}
+
+int avpicture_fill(AVPicture *picture, uint8_t *ptr,
+                   int pix_fmt, int width, int height)
+{
+
+    if(avcodec_check_dimensions(NULL, width, height))
+        return -1;
+
+    if (ff_fill_linesize(picture, pix_fmt, width))
+        return -1;
+
+    return ff_fill_pointer(picture, ptr, pix_fmt, height);
 }
 
 void ff_img_copy_plane(uint8_t *dst, int dst_wrap,
@@ -864,10 +890,9 @@ void ff_img_copy_plane(uint8_t *dst, int dst_wrap,
     }
 }
 
-void av_picture_copy(AVPicture *dst, const AVPicture *src,
-              int pix_fmt, int width, int height)
+int ff_get_plane_bytewidth(enum PixelFormat pix_fmt, int width, int plane)
 {
-    int bwidth, bits, i;
+    int bits;
     const PixFmtInfo *pf = &pix_fmt_info[pix_fmt];
 
     pf = &pix_fmt_info[pix_fmt];
@@ -889,21 +914,42 @@ void av_picture_copy(AVPicture *dst, const AVPicture *src,
             bits = pf->depth * pf->nb_channels;
             break;
         }
-        bwidth = (width * bits + 7) >> 3;
-        ff_img_copy_plane(dst->data[0], dst->linesize[0],
-                       src->data[0], src->linesize[0],
-                       bwidth, height);
+        return (width * bits + 7) >> 3;
         break;
+    case FF_PIXEL_PLANAR:
+            if (plane == 1 || plane == 2)
+                width >>= pf->x_chroma_shift;
+
+            return (width * pf->depth + 7) >> 3;
+        break;
+    case FF_PIXEL_PALETTE:
+        if (plane == 0)
+            return width;
+        break;
+    }
+
+    return -1;
+}
+
+void av_picture_copy(AVPicture *dst, const AVPicture *src,
+              int pix_fmt, int width, int height)
+{
+    int i;
+    const PixFmtInfo *pf = &pix_fmt_info[pix_fmt];
+
+    pf = &pix_fmt_info[pix_fmt];
+    switch(pf->pixel_type) {
+    case FF_PIXEL_PACKED:
     case FF_PIXEL_PLANAR:
         for(i = 0; i < pf->nb_channels; i++) {
             int w, h;
+            int bwidth = ff_get_plane_bytewidth(pix_fmt, width, i);
             w = width;
             h = height;
             if (i == 1 || i == 2) {
                 w >>= pf->x_chroma_shift;
                 h >>= pf->y_chroma_shift;
             }
-            bwidth = (w * pf->depth + 7) >> 3;
             ff_img_copy_plane(dst->data[i], dst->linesize[i],
                            src->data[i], src->linesize[i],
                            bwidth, h);

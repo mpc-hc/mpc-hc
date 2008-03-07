@@ -108,7 +108,7 @@ static void filter181(int16_t *data, int width, int height, int stride){
 }
 
 /**
- * guess the dc of blocks which dont have a undamaged dc
+ * guess the dc of blocks which do not have an undamaged dc
  * @param w     width in 8 pixel blocks
  * @param h     height in 8 pixel blocks
  */
@@ -768,7 +768,7 @@ void ff_er_frame_end(MpegEncContext *s){
 
             if(   error2==(VP_START|DC_ERROR|AC_ERROR|MV_ERROR|AC_END|DC_END|MV_END)
                && error1!=(VP_START|DC_ERROR|AC_ERROR|MV_ERROR|AC_END|DC_END|MV_END)
-               && ((error1&AC_END) || (error1&DC_END) || (error1&MV_END))){ //end & uninited
+               && ((error1&AC_END) || (error1&DC_END) || (error1&MV_END))){ //end & uninit
                 end_ok=0;
             }
 
@@ -933,10 +933,6 @@ void ff_er_frame_end(MpegEncContext *s){
     }else
         guess_mv(s);
 
-#ifdef HAVE_XVMC
-    /* the filters below are not XvMC compatible, skip them */
-    if(s->avctx->xvmc_acceleration) goto ec_clean;
-#endif
     /* fill DC for inter blocks */
     for(mb_y=0; mb_y<s->mb_height; mb_y++){
         for(mb_x=0; mb_x<s->mb_width; mb_x++){
@@ -1022,9 +1018,6 @@ void ff_er_frame_end(MpegEncContext *s){
         v_block_filter(s, s->current_picture.data[2], s->mb_width  , s->mb_height  , s->uvlinesize, 0);
     }
 
-#ifdef HAVE_XVMC
-ec_clean:
-#endif
     /* clean a few tables */
     for(i=0; i<s->mb_num; i++){
         const int mb_xy= s->mb_index2xy[i];
