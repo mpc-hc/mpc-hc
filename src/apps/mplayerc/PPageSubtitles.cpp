@@ -37,6 +37,7 @@ CPPageSubtitles::CPPageSubtitles()
 	, m_nVerPos(0)
 	, m_nSPCSize(0)
 	, m_fSPCPow2Tex(FALSE)
+	, m_nSubDelayInterval(0)
 {
 }
 
@@ -58,6 +59,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
 	DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
 	DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
+	DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
 }
 
 
@@ -96,6 +98,7 @@ BOOL CPPageSubtitles::OnInitDialog()
 	m_spmaxres.AddString(_T("384x288"));
 	m_spmaxres.SetCurSel(s.nSPCMaxRes);
 	m_fSPCPow2Tex = s.fSPCPow2Tex;
+	m_nSubDelayInterval = s.nSubDelayInterval;
 
 	UpdateData(FALSE);
 
@@ -115,6 +118,7 @@ BOOL CPPageSubtitles::OnApply()
 	|| s.nHorPos != m_nHorPos
 	|| s.nVerPos != m_nVerPos
 	|| s.nSPCSize != m_nSPCSize
+	|| s.nSubDelayInterval != m_nSubDelayInterval
 	|| s.nSPCMaxRes != m_spmaxres.GetCurSel()
 	|| s.fSPCPow2Tex != !!m_fSPCPow2Tex)
 	{
@@ -122,6 +126,7 @@ BOOL CPPageSubtitles::OnApply()
 		s.nHorPos = m_nHorPos;
 		s.nVerPos = m_nVerPos;
 		s.nSPCSize = m_nSPCSize;
+		s.nSubDelayInterval = m_nSubDelayInterval;
 		s.nSPCMaxRes = m_spmaxres.GetCurSel();
 		s.fSPCPow2Tex = !!m_fSPCPow2Tex;
 

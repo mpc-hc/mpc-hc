@@ -323,6 +323,8 @@ interface ISubPicAllocatorPresenter : public IUnknown
 	STDMETHOD_(bool, Paint) (bool fAll) PURE;
 
 	STDMETHOD_(void, SetTime) (REFERENCE_TIME rtNow) PURE;
+	STDMETHOD_(void, SetSubtitleDelay) (int delay_ms) PURE;
+	STDMETHOD_(int, GetSubtitleDelay) () PURE;
 	STDMETHOD_(double, GetFPS) () PURE;
 
 	STDMETHOD_(void, SetSubPicProvider) (ISubPicProvider* pSubPicProvider) PURE;
@@ -343,6 +345,7 @@ protected:
 	HWND m_hWnd;
 	CSize m_spMaxSize; // TODO:
 	int m_spMaxQueued; // TODO:
+	REFERENCE_TIME m_lSubtitleDelay;
 
 	CSize m_NativeVideoSize, m_AspectRatio;
 	CRect m_VideoRect, m_WindowRect;
@@ -375,6 +378,8 @@ public:
 	STDMETHODIMP_(bool) Paint(bool fAll) = 0;
 
 	STDMETHODIMP_(void) SetTime(REFERENCE_TIME rtNow);
+	STDMETHODIMP_(void) SetSubtitleDelay(int delay_ms);
+	STDMETHODIMP_(int) GetSubtitleDelay();
 	STDMETHODIMP_(double) GetFPS();
 
 	STDMETHODIMP_(void) SetSubPicProvider(ISubPicProvider* pSubPicProvider);	
@@ -402,4 +407,7 @@ interface ISubStream : public IPersist
 	// TODO: get rid of IPersist to identify type and use only 
 	// interface functions to modify the settings of the substream
 };
+
+
+
 

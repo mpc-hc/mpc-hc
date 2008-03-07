@@ -761,6 +761,11 @@
 #define IDC_FILE_POS2                   22012
 #define IDC_SHOW_OSD                    22013
 #define IDC_EVR_BUFFERS_TXT             22014
+#define ID_SUB_DELAY_DOWN               24000
+#define ID_SUB_DELAY_UP                 24001
+#define IDS_MPLAYERC_104                24002
+#define IDS_MPLAYERC_105                24003
+#define IDS_RS_SUBDELAYINTERVAL         24004
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -1084,6 +1089,7 @@
 #define IDS_MAINFRM_136                 33126
 #define IDS_MAINFRM_137                 33127
 #define IDS_MAINFRM_138                 33128
+#define IDS_MAINFRM_139                 33191
 #define IDS_VOLUME_BOOST_INC            33129
 #define IDS_VOLUME_BOOST_DEC            33130
 #define IDS_VOLUME_BOOST_MIN            33131
@@ -1147,14 +1153,13 @@
 #define IDS_VDF_DXVA_MODE				33189
 #define IDS_D3DFS_WARNING				33190
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33191
+#define _APS_NEXT_COMMAND_VALUE         33192
 #define _APS_NEXT_CONTROL_VALUE         22015
-#define _APS_NEXT_SYMED_VALUE           24000
+#define _APS_NEXT_SYMED_VALUE           24005
 #endif
 #endif

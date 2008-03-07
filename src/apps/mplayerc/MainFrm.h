@@ -630,6 +630,7 @@ public:
 	afx_msg void OnD3DFullscreenToggle();
 	afx_msg void OnGotoSubtitle(UINT nID);
 	afx_msg void OnShiftSubtitle(UINT nID);
+	afx_msg void OnSubtitleDelay(UINT nID);
 
 
 	afx_msg void OnPlayPlay();
@@ -721,6 +722,7 @@ public:
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
+	void		SetSubtitleDelay(int delay_ms);
 
 	// MPC API functions
 	void		ProcessAPICommand(COPYDATASTRUCT* pCDS);

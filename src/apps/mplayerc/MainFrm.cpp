@@ -313,6 +313,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
 	ON_COMMAND_RANGE(ID_GOTO_PREV_SUB, ID_GOTO_NEXT_SUB, OnGotoSubtitle)
 	ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
+	ON_COMMAND_RANGE(ID_SUB_DELAY_DOWN, ID_SUB_DELAY_UP, OnSubtitleDelay)
 	ON_COMMAND_RANGE(ID_LANGUAGE_ENGLISH, ID_LANGUAGE_LAST, OnLanguage)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_LANGUAGE_ENGLISH, ID_LANGUAGE_LAST, OnUpdateLanguage)
 
@@ -2832,6 +2833,7 @@ void CMainFrame::OnFilePostOpenmedia()
 
 	m_nCurSubtitle		= -1;
 	m_lSubtitleShift	= 0;
+	if(m_pCAP) m_pCAP->SetSubtitleDelay(0);
 	SetState (MLS_LOADED);
 
 	// IMPORTANT: must not call any windowing msgs before
@@ -5535,6 +5537,17 @@ void CMainFrame::SetAudioDelay(REFERENCE_TIME rtShift)
 		str.Format(ResStr(IDS_MAINFRM_70), rtShift/10000);
 		SendStatusMessage(str, 3000);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
+	}
+}
+
+void CMainFrame::SetSubtitleDelay(int delay_ms)
+{
+	if(m_pCAP) {
+		m_pCAP->SetSubtitleDelay(delay_ms);
+
+		CString		strSubDelay;
+		strSubDelay.Format (ResStr(IDS_MAINFRM_139), delay_ms);
+		m_OSD.DisplayMessage (OSD_TOPLEFT, strSubDelay);
 	}
 }
 
@@ -10552,6 +10565,22 @@ afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 
 		strSubShift.Format (ResStr(IDS_MAINFRM_138), m_lSubtitleShift);
 		m_OSD.DisplayMessage (OSD_TOPLEFT, strSubShift);
+	}
+}
+
+
+afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
+{
+	if(m_pCAP) {
+		int newDelay;
+		int oldDelay = m_pCAP->GetSubtitleDelay();
+
+		if(nID == ID_SUB_DELAY_DOWN)
+			newDelay = oldDelay-AfxGetAppSettings().nSubDelayInterval;
+		else
+			newDelay = oldDelay+AfxGetAppSettings().nSubDelayInterval;
+
+		SetSubtitleDelay(newDelay);
 	}
 }
 

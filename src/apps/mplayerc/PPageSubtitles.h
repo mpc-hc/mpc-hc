@@ -47,6 +47,7 @@ public:
 	CSpinButtonCtrl m_nSPCSizeCtrl;
 	CComboBox m_spmaxres;
 	BOOL m_fSPCPow2Tex;
+	int m_nSubDelayInterval;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGESUBTITLES };

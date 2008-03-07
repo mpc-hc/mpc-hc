@@ -1,5 +1,6 @@
 v1.x.x.x - Unreleased
 ======================
+ NEW	: Subtitle delay support (this one does not modify the subtitle file)
 
 v1.1.0.0 - 6.March 2008
 ======================
