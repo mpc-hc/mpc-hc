@@ -23,6 +23,20 @@
 
 #pragma once
 
+// Internal codec list (use to enable/disable codec in standalone mode)
+typedef enum 
+{
+	MPCVD_H264		= 1,
+	MPCVD_VC1		= MPCVD_H264<<1,
+	MPCVD_XVID		= MPCVD_VC1<<1,
+	MPCVD_DIVX		= MPCVD_XVID<<1,
+	MPCVD_MPEG4		= MPCVD_DIVX<<1,
+	MPCVD_MSMPEG4	= MPCVD_MPEG4<<1,
+	MPCVD_SVQ1		= MPCVD_MSMPEG4<<1,
+	MPCVD_SVQ3		= MPCVD_SVQ1<<1,
+	MPCVD_THEORA	= MPCVD_SVQ3<<1,
+	MPCVD_FLASH		= MPCVD_THEORA<<1,
+} MPC_VIDEO_CODEC;
 
 [uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262")]
 interface IMPCVideoDecFilter : public IUnknown
@@ -45,4 +59,7 @@ interface IMPCVideoDecFilter : public IUnknown
 	STDMETHOD_(int, GetIDCTAlgo()) = 0;
 
 	STDMETHOD_(GUID*, GetDXVADecoderGuid()) = 0;
+
+	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue)) = 0;
+	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs()) = 0;
 };

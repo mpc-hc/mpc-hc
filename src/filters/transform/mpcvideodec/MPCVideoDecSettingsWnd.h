@@ -65,7 +65,36 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(320, 240);}
+	static CSize GetWindowSize() {return CSize(320, 300);}
+
+	DECLARE_MESSAGE_MAP()
+};
+
+
+
+
+
+
+[uuid("3C395D46-8B0F-440d-B962-2F4A97355453")]
+class CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
+{
+	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
+
+	CButton		m_grpSelectedCodec;
+	CCheckListBox	m_lstCodecs;
+	CImageList	m_onoff;
+
+public:
+	CMPCVideoDecCodecWnd();
+	
+	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+	void OnDisconnect();
+	bool OnActivate();
+	void OnDeactivate();
+	bool OnApply();
+
+	static LPCTSTR GetWindowTitle() {return _T("Codecs");}
+	static CSize GetWindowSize() {return CSize(320, 300);}
 
 	DECLARE_MESSAGE_MAP()
 };

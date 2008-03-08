@@ -99,6 +99,7 @@ protected:
 	bool									m_bEnableDXVA;
 	bool									m_bDXVACompatible;
 	int										m_nCompatibilityMode;
+	int										m_nActiveCodecs;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -199,6 +200,8 @@ public:
 	STDMETHOD(SetIDCTAlgo(int nValue));
 	STDMETHOD_(int, GetIDCTAlgo());
 	STDMETHOD_(GUID*, GetDXVADecoderGuid());
+	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
+	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
 
 
 	// === DXVA common functions
