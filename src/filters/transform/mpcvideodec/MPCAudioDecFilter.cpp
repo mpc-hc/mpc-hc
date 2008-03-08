@@ -87,7 +87,6 @@ CMPCAudioDecFilter::CMPCAudioDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 }
 
-
 CMPCAudioDecFilter::~CMPCAudioDecFilter(void)
 {
 	Cleanup();
@@ -119,7 +118,6 @@ void CMPCAudioDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 #endif
 }
 
-
 STDMETHODIMP CMPCAudioDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	return
@@ -128,7 +126,6 @@ STDMETHODIMP CMPCAudioDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 //		QI(ISpecifyPropertyPages2)
 		 __super::NonDelegatingQueryInterface(riid, ppv);
 }
-
 
 HRESULT CMPCAudioDecFilter::CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut)
 {
@@ -139,13 +136,10 @@ HRESULT CMPCAudioDecFilter::CheckTransform(const CMediaType* mtIn, const CMediaT
 		: VFW_E_TYPE_NOT_ACCEPTED;
 }
 
-
 HRESULT CMPCAudioDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
 	return S_OK;
 }
-
-
 
 HRESULT CMPCAudioDecFilter::CheckInputType(const CMediaType* mtIn)
 {
@@ -191,7 +185,6 @@ HRESULT CMPCAudioDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 {
 	return __super::SetMediaType(direction, pmt);
 }
-
 
 HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin)
 {
@@ -323,7 +316,6 @@ HRESULT CMPCAudioDecFilter::Transform(IMediaSample* pIn)
 	return hr;
 }
 
-
 int CMPCAudioDecFilter::FindCodec(const CMediaType* mtIn)
 {
 	for (int i=0; i<countof(ffCodecs); i++)
@@ -333,13 +325,11 @@ int CMPCAudioDecFilter::FindCodec(const CMediaType* mtIn)
 	return -1;
 }
 
-
 STDMETHODIMP_(SampleFormat) CMPCAudioDecFilter::GetSampleFormat()
 {
 //	CAutoLock cAutoLock(&m_csProps);
 	return m_iSampleFormat;
 }
-
 
 CMediaType CMPCAudioDecFilter::CreateMediaType(SampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask)
 {
