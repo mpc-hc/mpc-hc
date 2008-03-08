@@ -1304,7 +1304,7 @@ IDB_STREAMTYPES         BITMAP                  "res\\streamtypes.bmp"
 //
 // FILE
 //
-
+/*
 IDF_SHADER_EMPTY        FILE                    "res\\shaders\\empty.psh"
 IDF_SHADER_CONTOUR      FILE                    "res\\shaders\\contour.psh"
 IDF_SHADER_DEINTERLACE  FILE                    "res\\shaders\\deinterlace (blend).psh"
@@ -1318,6 +1318,8 @@ IDF_SHADER_SPHERE       FILE                    "res\\shaders\\sphere.psh"
 IDF_SHADER_SPOTLIGHT    FILE                    "res\\shaders\\spotlight.psh"
 IDF_SHADER_WAVE         FILE                    "res\\shaders\\wave.psh"
 IDF_SHADER_NIGHTVISION  FILE                    "res\\shaders\\nightvision.psh"
+IDF_SHADER_EDGE_SHARPEN FILE                    "res\\shaders\\EdgeSharpen.psh"
+IDF_SHADER_SHARPEN_COMPLEX FILE                 "res\\shaders\\SharpenComplex.psh"
 IDF_DEFAULT_CSS         FILE                    "res\\web\\default.css"
 IDF_VBR_GIF             FILE                    "res\\web\\vbg.gif"
 IDF_VBS_GIF             FILE                    "res\\web\\vbs.GIF"
@@ -1359,6 +1361,14 @@ IDF_LOGO4               FILE                    "res\\logo.4.png"
 IDF_LOGO5               FILE                    "res\\logo.5.png"
 IDF_LOGO6               FILE                    "res\\logo.6.png"
 IDF_LOGO7               FILE                    "res\\logo.7.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RCDATA
+//
+
+IDF_PN31SNOOP           RCDATA                  "res\\PN31snoop.sys"
+*/
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2029,12 +2039,13 @@ IDR_AVI_FILECOPY        AVI                     "res\\ani.avi"
 //
 // HTML
 //
-
+/* === Shink resource file
 IDR_HTML_INDEX          HTML                    "res\\web\\index.html"
 IDR_HTML_404            HTML                    "res\\web\\404.html"
 IDR_HTML_BROWSER        HTML                    "res\\web\\browser.html"
 IDR_HTML_CONTROLS       HTML                    "res\\web\\controls.html"
 IDR_HTML_PLAYER         HTML                    "res\\web\\player.html"
+*/
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2990,20 +3001,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(1252)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// FILE
-//
-
-IDF_SHADER_EDGE_SHARPEN FILE                    "res\\shaders\\EdgeSharpen.psh"
-IDF_SHADER_SHARPEN_COMPLEX FILE                    "res\\shaders\\SharpenComplex.psh"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// RCDATA
-//
-
-IDF_PN31SNOOP           RCDATA                  "res\\PN31snoop.sys"
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////
 

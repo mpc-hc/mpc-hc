@@ -171,11 +171,11 @@ bool LoadType(CString fn, CString& type)
 bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 {
 	str.Empty();
-	HRSRC hrsrc = FindResource(AfxGetResourceHandle(), MAKEINTRESOURCE(resid), restype);
+	HRSRC hrsrc = FindResource(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(resid), restype);
 	if(!hrsrc) return(false);
-	HGLOBAL hGlobal = LoadResource(AfxGetResourceHandle(), hrsrc);
+	HGLOBAL hGlobal = LoadResource(AfxGetApp()->m_hInstance, hrsrc);
 	if(!hGlobal) return(false);
-	DWORD size = SizeofResource(AfxGetResourceHandle(), hrsrc);
+	DWORD size = SizeofResource(AfxGetApp()->m_hInstance, hrsrc);
 	if(!size) return(false);
 	memcpy(str.GetBufferSetLength(size), LockResource(hGlobal), size);
 	return(true);
