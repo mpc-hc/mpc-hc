@@ -2738,6 +2738,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.hu.dll");
 	case 8:		// Korean
 		return _T("mpcresources.kr.dll");
+	case 9:		// Polish
+		return _T("mpcresources.pl.dll");
 	}
 	return NULL;
 }
@@ -2759,7 +2761,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		Version.Create (strSatellite);
 		strSatVersion = Version.GetFileVersionEx();
 
-		if (strSatVersion == _T("1.1.0.0"))
+		if (strSatVersion == _T("1.1.1.0"))
 			hMod = LoadLibrary (strSatellite);
 		else
 		{

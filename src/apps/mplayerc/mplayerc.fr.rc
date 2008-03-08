@@ -1493,8 +1493,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,0
- PRODUCTVERSION 1,1,0,0
+ FILEVERSION 1,1,1,0
+ PRODUCTVERSION 1,1,1,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1511,12 +1511,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "mpc-hc@Sourceforge"
             VALUE "FileDescription", "French satellite ressource for Media Player Classic - Homecinema"
-            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "FileVersion", "1, 1, 1, 0"
             VALUE "InternalName", "mpc-hc"
             VALUE "LegalCopyright", "2007-2008 Casimir666"
             VALUE "OriginalFilename", "mplayerc.exe"
             VALUE "ProductName", "Media Player Classic - Homecinema"
-            VALUE "ProductVersion", "1, 1, 0, 0"
+            VALUE "ProductVersion", "1, 1, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1607,6 +1607,7 @@ BEGIN
             MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
             MENUITEM "&Hungarian",                  ID_LANGUAGE_HUNGARIAN
 			MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
+            MENUITEM "&Polish",                     ID_LANGUAGE_POLISH
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"
