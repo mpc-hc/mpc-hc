@@ -32,6 +32,9 @@
 #include <stdint.h>
 #endif
 
+/* Needed by MSVC compiler*/
+#include "common.h"
+
 /**
  * Rational number num/den.
  */
