@@ -3,6 +3,9 @@ v1.x.x.x - Unreleased
  NEW	: Subtitle delay support (this one does not modify the subtitle file)
  NEW    : Polish translation
  CHANGED: Size shrink for translation Dll
+ CHANGED: New property page for "MPC - Video decoder" standalone filter to select activated codecs
+ FIXED  : Sorenson video was not played when DXVA was activated on internal filter
+ FIXED  : Minimum EVR buffer set to 3 (instead of 1)
 
 v1.1.0.0 - 6.March 2008
 ======================
