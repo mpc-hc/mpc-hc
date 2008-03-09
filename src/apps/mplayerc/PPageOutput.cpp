@@ -103,7 +103,7 @@ BOOL CPPageOutput::OnInitDialog()
 	m_fVMR9MixerMode		= s.fVMR9MixerMode;
 	m_fVMR9MixerYUV			= s.fVMR9MixerYUV;
 	m_fD3DFullscreen		= s.fD3DFullscreen;
-	m_iEvrBuffers			= s.iEvrBuffers-1;
+	m_iEvrBuffers			= s.iEvrBuffers-3;
 
 	m_AudioRendererDisplayNames.Add(_T(""));
 	m_iAudioRendererTypeCtrl.AddString(_T("System Default"));
@@ -222,7 +222,7 @@ BOOL CPPageOutput::OnApply()
 	s.fVMR9MixerMode			= !!m_fVMR9MixerMode;
 	s.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
-	s.iEvrBuffers				= m_iEvrBuffers+1;
+	s.iEvrBuffers				= m_iEvrBuffers+3;
 
 	return __super::OnApply();
 }
