@@ -82,7 +82,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER    (mpeg1video);
 //    REGISTER_DECODER    (mpeg2video);
     REGISTER_DECODER  (mpeg4);
-    REGISTER_DECODER  (mpegvideo);
+//    REGISTER_DECODER  (mpegvideo);
     REGISTER_DECODER  (msmpeg4v1);
     REGISTER_DECODER  (msmpeg4v2);
     REGISTER_DECODER  (msmpeg4v3);
@@ -150,7 +150,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER  (adpcm_ct);
 //    REGISTER_DECODER  (adpcm_ea);
 //    REGISTER_DECODER  (adpcm_g726);
-//    REGISTER_DECODER  (adpcm_ima_amv);
+    REGISTER_DECODER  (adpcm_ima_amv);
 //    REGISTER_DECODER  (adpcm_ima_dk3);
 //    REGISTER_DECODER  (adpcm_ima_dk4);
 //    REGISTER_DECODER  (adpcm_ima_qt);

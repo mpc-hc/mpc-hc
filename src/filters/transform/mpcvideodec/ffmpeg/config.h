@@ -11,7 +11,7 @@
   #define HAVE_MMX 1
  #endif
  #define HAVE_BUILTIN_VECTOR 1
- #define __CPU__ 586
+ #define __CPU__ 686
 #endif
 
 #define HAVE_MALLOC_H 1
@@ -22,12 +22,9 @@
 #define HAVE_THREADS 1
 #define HAVE_MEMALIGN 1
 #define ASMALIGN(ZEROBITS) ".align 1<<" #ZEROBITS "\n\t"
-
-#define DECODERS_ONLY 1
+#define HAVE_BSWAP 1
 
 #define CONFIG_DECODERS 1
-
-#define CONFIG_MPEGAUDIO_HP 1
 
 #ifdef __GNUC__
  #include <stdint.h>

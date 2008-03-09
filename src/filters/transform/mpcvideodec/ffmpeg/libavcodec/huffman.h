@@ -32,8 +32,11 @@ typedef struct {
     uint32_t count;
 } Node;
 
+#define FF_HUFFMAN_FLAG_HNODE_FIRST 0x01
+#define FF_HUFFMAN_FLAG_ZERO_COUNT  0x02
+
 typedef int (*huff_cmp_t)(const void *va, const void *vb);
 int ff_huff_build_tree(AVCodecContext *avctx, VLC *vlc, int nb_codes,
-                       Node *nodes, huff_cmp_t cmp, int hnode_first);
+                       Node *nodes, huff_cmp_t cmp, int flags);
 
 #endif /* FFMPEG_HUFFMAN_H */

@@ -399,8 +399,7 @@ static void slice_buffer_init(slice_buffer * buf, int line_count, int max_alloca
     buf->line = av_mallocz (sizeof(IDWTELEM *) * line_count);
     buf->data_stack = av_malloc (sizeof(IDWTELEM *) * max_allocated_lines);
 
-    for (i = 0; i < max_allocated_lines; i++)
-    {
+    for(i = 0; i < max_allocated_lines; i++){
         buf->data_stack[i] = av_malloc (sizeof(IDWTELEM) * line_width);
     }
 
@@ -443,8 +442,7 @@ static void slice_buffer_release(slice_buffer * buf, int line)
 static void slice_buffer_flush(slice_buffer * buf)
 {
     int i;
-    for (i = 0; i < buf->line_count; i++)
-    {
+    for(i = 0; i < buf->line_count; i++){
         if (buf->line[i])
             slice_buffer_release(buf, i);
     }
@@ -455,8 +453,7 @@ static void slice_buffer_destroy(slice_buffer * buf)
     int i;
     slice_buffer_flush(buf);
 
-    for (i = buf->data_count - 1; i >= 0; i--)
-    {
+    for(i = buf->data_count - 1; i >= 0; i--){
         av_freep(&buf->data_stack[i]);
     }
     av_freep(&buf->data_stack);
@@ -1434,8 +1431,7 @@ static inline void decode_subband_slice_buffered(SnowContext *s, SubBand *b, sli
         memset(line, 0, b->width*sizeof(IDWTELEM));
         v = b->x_coeff[new_index].coeff;
         x = b->x_coeff[new_index++].x;
-        while(x < w)
-        {
+        while(x < w){
             register int t= ( (v>>1)*qmul + qadd)>>QEXPSHIFT;
             register int u= -(v&1);
             line[x] = (t^u) - u;
@@ -2346,36 +2342,71 @@ static av_always_inline void add_yblock(SnowContext *s, int sliced, slice_buffer
         block[3]= ptmp;
         pred_block(s, block[3], tmp, src_stride, src_x, src_y, b_w, b_h, rb, plane_index, w, h);
     }
-
+#if 0
+    for(y=0; y<b_h; y++){
+        for(x=0; x<b_w; x++){
+            int v=   obmc [x + y*obmc_stride] * block[3][x + y*src_stride] * (256/OBMC_MAX);
+            if(add) dst[x + y*dst_stride] += v;
+            else    dst[x + y*dst_stride] -= v;
+        }
+    }
+    for(y=0; y<b_h; y++){
+        uint8_t *obmc2= obmc + (obmc_stride>>1);
+        for(x=0; x<b_w; x++){
+            int v=   obmc2[x + y*obmc_stride] * block[2][x + y*src_stride] * (256/OBMC_MAX);
+            if(add) dst[x + y*dst_stride] += v;
+            else    dst[x + y*dst_stride] -= v;
+        }
+    }
+    for(y=0; y<b_h; y++){
+        uint8_t *obmc3= obmc + obmc_stride*(obmc_stride>>1);
+        for(x=0; x<b_w; x++){
+            int v=   obmc3[x + y*obmc_stride] * block[1][x + y*src_stride] * (256/OBMC_MAX);
+            if(add) dst[x + y*dst_stride] += v;
+            else    dst[x + y*dst_stride] -= v;
+        }
+    }
+    for(y=0; y<b_h; y++){
+        uint8_t *obmc3= obmc + obmc_stride*(obmc_stride>>1);
+        uint8_t *obmc4= obmc3+ (obmc_stride>>1);
+        for(x=0; x<b_w; x++){
+            int v=   obmc4[x + y*obmc_stride] * block[0][x + y*src_stride] * (256/OBMC_MAX);
+            if(add) dst[x + y*dst_stride] += v;
+            else    dst[x + y*dst_stride] -= v;
+        }
+    }
+#else
     if(sliced){
         s->dsp.inner_add_yblock(obmc, obmc_stride, block, b_w, b_h, src_x,src_y, src_stride, sb, add, dst8);
-    }else
-    for(y=0; y<b_h; y++){
-        //FIXME ugly misuse of obmc_stride
-        const uint8_t *obmc1= obmc + y*obmc_stride;
-        const uint8_t *obmc2= obmc1+ (obmc_stride>>1);
-        const uint8_t *obmc3= obmc1+ obmc_stride*(obmc_stride>>1);
-        const uint8_t *obmc4= obmc3+ (obmc_stride>>1);
-        for(x=0; x<b_w; x++){
-            int v=   obmc1[x] * block[3][x + y*src_stride]
-                    +obmc2[x] * block[2][x + y*src_stride]
-                    +obmc3[x] * block[1][x + y*src_stride]
-                    +obmc4[x] * block[0][x + y*src_stride];
+    }else{
+        for(y=0; y<b_h; y++){
+            //FIXME ugly misuse of obmc_stride
+            const uint8_t *obmc1= obmc + y*obmc_stride;
+            const uint8_t *obmc2= obmc1+ (obmc_stride>>1);
+            const uint8_t *obmc3= obmc1+ obmc_stride*(obmc_stride>>1);
+            const uint8_t *obmc4= obmc3+ (obmc_stride>>1);
+            for(x=0; x<b_w; x++){
+                int v=   obmc1[x] * block[3][x + y*src_stride]
+                        +obmc2[x] * block[2][x + y*src_stride]
+                        +obmc3[x] * block[1][x + y*src_stride]
+                        +obmc4[x] * block[0][x + y*src_stride];
 
-            v <<= 8 - LOG2_OBMC_MAX;
-            if(FRAC_BITS != 8){
-                v >>= 8 - FRAC_BITS;
-            }
-            if(add){
-                v += dst[x + y*dst_stride];
-                v = (v + (1<<(FRAC_BITS-1))) >> FRAC_BITS;
-                if(v&(~255)) v= ~(v>>31);
-                dst8[x + y*src_stride] = v;
-            }else{
-                dst[x + y*dst_stride] -= v;
+                v <<= 8 - LOG2_OBMC_MAX;
+                if(FRAC_BITS != 8){
+                    v >>= 8 - FRAC_BITS;
+                }
+                if(add){
+                    v += dst[x + y*dst_stride];
+                    v = (v + (1<<(FRAC_BITS-1))) >> FRAC_BITS;
+                    if(v&(~255)) v= ~(v>>31);
+                    dst8[x + y*src_stride] = v;
+                }else{
+                    dst[x + y*dst_stride] -= v;
+                }
             }
         }
     }
+#endif /* 0 */
 }
 
 static av_always_inline void predict_slice_buffered(SnowContext *s, slice_buffer * sb, IDWTELEM * old_buffer, int plane_index, int add, int mb_y){
@@ -2397,12 +2428,11 @@ static av_always_inline void predict_slice_buffered(SnowContext *s, slice_buffer
             return;
 
         if(add){
-            for(y=block_w*mb_y; y<FFMIN(h,block_w*(mb_y+1)); y++)
-            {
+            for(y=block_w*mb_y; y<FFMIN(h,block_w*(mb_y+1)); y++){
 //                DWTELEM * line = slice_buffer_get_line(sb, y);
                 IDWTELEM * line = sb->line[y];
-                for(x=0; x<w; x++)
-                {
+                for(x=0; x<w; x++){
+//                    int v= buf[x + y*w] + (128<<FRAC_BITS) + (1<<(FRAC_BITS-1));
                     int v= line[x] + (128<<FRAC_BITS) + (1<<(FRAC_BITS-1));
                     v >>= FRAC_BITS;
                     if(v&(~255)) v= ~(v>>31);
@@ -2410,13 +2440,12 @@ static av_always_inline void predict_slice_buffered(SnowContext *s, slice_buffer
                 }
             }
         }else{
-            for(y=block_w*mb_y; y<FFMIN(h,block_w*(mb_y+1)); y++)
-            {
+            for(y=block_w*mb_y; y<FFMIN(h,block_w*(mb_y+1)); y++){
 //                DWTELEM * line = slice_buffer_get_line(sb, y);
                 IDWTELEM * line = sb->line[y];
-                for(x=0; x<w; x++)
-                {
+                for(x=0; x<w; x++){
                     line[x] -= 128 << FRAC_BITS;
+//                    buf[x + y*w]-= 128<<FRAC_BITS;
                 }
             }
         }
@@ -2424,16 +2453,16 @@ static av_always_inline void predict_slice_buffered(SnowContext *s, slice_buffer
         return;
     }
 
-        for(mb_x=0; mb_x<=mb_w; mb_x++){
-            add_yblock(s, 1, sb, old_buffer, dst8, obmc,
-                       block_w*mb_x - block_w/2,
-                       block_w*mb_y - block_w/2,
-                       block_w, block_w,
-                       w, h,
-                       w, ref_stride, obmc_stride,
-                       mb_x - 1, mb_y - 1,
-                       add, 0, plane_index);
-        }
+    for(mb_x=0; mb_x<=mb_w; mb_x++){
+        add_yblock(s, 1, sb, old_buffer, dst8, obmc,
+                   block_w*mb_x - block_w/2,
+                   block_w*mb_y - block_w/2,
+                   block_w, block_w,
+                   w, h,
+                   w, ref_stride, obmc_stride,
+                   mb_x - 1, mb_y - 1,
+                   add, 0, plane_index);
+    }
 }
 
 static av_always_inline void predict_slice(SnowContext *s, IDWTELEM *buf, int plane_index, int add, int mb_y){
@@ -2904,8 +2933,7 @@ static void iterative_me(SnowContext *s){
                 }
 
                 //skip stuff outside the picture
-                if(mb_x==0 || mb_y==0 || mb_x==b_width-1 || mb_y==b_height-1)
-                {
+                if(mb_x==0 || mb_y==0 || mb_x==b_width-1 || mb_y==b_height-1){
                     uint8_t *src= s->  input_picture.data[0];
                     uint8_t *dst= s->current_picture.data[0];
                     const int stride= s->current_picture.linesize[0];

@@ -1,9 +1,9 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 ZLIB_DIR=../../../../zlib
-PNG_DIR =../png
+PNG_DIR =../../../../libpng
 
-CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I../codecs -I../imgFilters -I../../../../zlib \
+CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
          -DHAVE_AV_CONFIG_H
 
 ifeq ($(CC),icl)
@@ -153,19 +153,6 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVU_DIR)/mem.c \
       $(LAVU_DIR)/random.c \
       $(LAVU_DIR)/rational.c \
-#	=== Modify for MPC-HC to create library instead of DLL : ZLib is linked already	  
-#	\
-#      $(ZLIB_DIR)/adler32.c \
-#      $(ZLIB_DIR)/compress.c \
-#      $(ZLIB_DIR)/crc32.c \
-#      $(ZLIB_DIR)/deflate.c \
-#      $(ZLIB_DIR)/infback.c \
-#      $(ZLIB_DIR)/inffast.c \
-#      $(ZLIB_DIR)/inflate.c \
-#      $(ZLIB_DIR)/inftrees.c \
-#      $(ZLIB_DIR)/trees.c \
-#      $(ZLIB_DIR)/uncompr.c \
-#      $(ZLIB_DIR)/zutil.c \
 
 ifneq ($(CC),icl)
 ifneq ($(CC),cl)
@@ -200,7 +187,6 @@ else
 	 SLIB=../../../../../lib/libavcodec_gcc.lib
 endif
 
-CFLAGS+=-DDECODERS_ONLY
 DEF=libavcodec_dec.def
 
 NOINTRIN=1

@@ -53,15 +53,6 @@ static void dct_unquantize_h263_intra_c(MpegEncContext *s,
                                   DCTELEM *block, int n, int qscale);
 static void dct_unquantize_h263_inter_c(MpegEncContext *s,
                                   DCTELEM *block, int n, int qscale);
-static void draw_edges_c(uint8_t *buf, int wrap, int width, int height, int w);
-
-#ifdef HAVE_XVMC
-extern int  XVMC_field_start(MpegEncContext*s, AVCodecContext *avctx);
-extern void XVMC_field_end(MpegEncContext *s);
-extern void XVMC_decode_mb(MpegEncContext *s);
-#endif
-
-void (*draw_edges)(uint8_t *buf, int wrap, int width, int height, int w)= draw_edges_c;
 
 
 /* enable all paranoid tests for rounding, overflows, etc... */
@@ -74,6 +65,15 @@ static const uint8_t ff_default_chroma_qscale_table[32]={
 //  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
 };
+
+const uint8_t ff_mpeg1_dc_scale_table[128]={
+//  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+};
+
 
 const uint8_t *ff_find_start_code(const uint8_t * restrict p, const uint8_t *end, uint32_t * restrict state){
     int i;
@@ -759,35 +759,6 @@ void init_vlc_rl(RLTable *rl, int use_static)
     }
 }
 
-/* draw the edges of width 'w' of an image of size width, height */
-//FIXME check that this is ok for mpeg4 interlaced
-static void draw_edges_c(uint8_t *buf, int wrap, int width, int height, int w)
-{
-    uint8_t *ptr, *last_line;
-    int i;
-
-    last_line = buf + (height - 1) * wrap;
-    for(i=0;i<w;i++) {
-        /* top and bottom */
-        memcpy(buf - (i + 1) * wrap, buf, width);
-        memcpy(last_line + (i + 1) * wrap, last_line, width);
-    }
-    /* left and right */
-    ptr = buf;
-    for(i=0;i<height;i++) {
-        memset(ptr - w, ptr[0], w);
-        memset(ptr + width, ptr[width-1], w);
-        ptr += wrap;
-    }
-    /* corners */
-    for(i=0;i<w;i++) {
-        memset(buf - (i + 1) * wrap - w, buf[0], w); /* top left */
-        memset(buf - (i + 1) * wrap + width, buf[width-1], w); /* top right */
-        memset(last_line + (i + 1) * wrap - w, last_line[0], w); /* top left */
-        memset(last_line + (i + 1) * wrap + width, last_line[width-1], w); /* top right */
-    }
-}
-
 int ff_find_unused_picture(MpegEncContext *s, int shared){
     int i;
 
@@ -962,10 +933,6 @@ alloc:
         update_noise_reduction(s);
     }
 
-#ifdef HAVE_XVMC
-    if(s->avctx->xvmc_acceleration)
-        return XVMC_field_start(s, avctx);
-#endif
     return 0;
 }
 
@@ -974,16 +941,11 @@ void MPV_frame_end(MpegEncContext *s)
 {
     int i;
     /* draw edge for correct motion prediction if outside */
-#ifdef HAVE_XVMC
-//just to make sure that all data is rendered.
-    if(s->avctx->xvmc_acceleration){
-        XVMC_field_end(s);
-    }else
-#endif
+
     if(s->unrestricted_mv && s->current_picture.reference && !s->intra_only && !(s->flags&CODEC_FLAG_EMU_EDGE)) {
-            draw_edges(s->current_picture.data[0], s->linesize  , s->h_edge_pos   , s->v_edge_pos   , EDGE_WIDTH  );
-            draw_edges(s->current_picture.data[1], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
-            draw_edges(s->current_picture.data[2], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
+            s->dsp.draw_edges(s->current_picture.data[0], s->linesize  , s->h_edge_pos   , s->v_edge_pos   , EDGE_WIDTH  );
+            s->dsp.draw_edges(s->current_picture.data[1], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
+            s->dsp.draw_edges(s->current_picture.data[2], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
     }
     emms_c();
 
@@ -1040,7 +1002,6 @@ void ff_print_debug_info(MpegEncContext *s, AVFrame *pict){
      pict->real_sprite_warping_points=s->real_sprite_warping_points;
     }
 }
-
 
 static inline int hpel_motion_lowres(MpegEncContext *s,
                                   uint8_t *dest, uint8_t *src,
@@ -1431,12 +1392,6 @@ static av_always_inline void MPV_decode_mb_internal(MpegEncContext *s, DCTELEM b
 {
     int mb_x, mb_y;
     const int mb_xy = s->mb_y * s->mb_stride + s->mb_x;
-#ifdef HAVE_XVMC
-    if(s->avctx->xvmc_acceleration){
-        XVMC_decode_mb(s);//xvmc uses pblocks
-        return;
-    }
-#endif
 
     mb_x = s->mb_x;
     mb_y = s->mb_y;
@@ -1703,7 +1658,7 @@ void ff_draw_horiz_band(MpegEncContext *s, int y, int h){
             offset[2]=
             offset[3]= 0;
         }else{
-            offset[0]= y * s->linesize;;
+            offset[0]= y * s->linesize;
             offset[1]=
             offset[2]= (y >> s->chroma_y_shift) * s->uvlinesize;
             offset[3]= 0;

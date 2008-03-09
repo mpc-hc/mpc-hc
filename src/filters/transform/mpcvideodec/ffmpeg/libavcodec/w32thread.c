@@ -20,7 +20,6 @@
 //#define DEBUG
 
 #include "avcodec.h"
-#include "common.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -37,7 +36,7 @@ typedef struct ThreadContext{
 }ThreadContext;
 
 
-static unsigned __stdcall attribute_align_arg thread_func(void *v){
+static unsigned WINAPI attribute_align_arg thread_func(void *v){
     ThreadContext *c= v;
 
     for(;;){

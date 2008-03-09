@@ -17,12 +17,14 @@
     #define COMPILER "icl"
   #endif
 #elif defined(_MSC_VER)
-  #if _MSC_VER>=1400
+  #if _MSC_VER>=1500
+    #define COMPILER "msvc 2008"
+  #elif _MSC_VER>=1400
     #define COMPILER "msvc 2005"
   #elif _MSC_VER>=1300
     #define COMPILER "msvc 2003"
   #else
-    #define COMPILER "msvc 6"
+# error This version of Microsoft Visual C++ is not supported.
   #endif
 #elif defined(__GNUC__)
   #ifdef __SSE__
