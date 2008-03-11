@@ -4,9 +4,11 @@ v1.x.x.x - Unreleased
  NEW    : Polish translation
  CHANGED: Size shrink for translation Dll
  CHANGED: New property page for "MPC - Video decoder" standalone filter to select activated codecs
+ CHANGED: Option added in "MPC Video Decoder" property page to disable ffmpeg software decoding (to use other decoder instead)
  FIXED  : Sorenson video was not played when DXVA was activated on internal filter
  FIXED  : Minimum EVR buffer set to 3 (instead of 1)
  FIXED  : Better subtitle synchronization with EVR custom (delay due to buffering remove)
+ FIXED  : DXVA compatibility improved with some nVidia cards
 
 v1.1.0.0 - 6.March 2008
 ======================

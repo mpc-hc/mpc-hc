@@ -1090,7 +1090,6 @@
 #define IDS_MAINFRM_136                 33126
 #define IDS_MAINFRM_137                 33127
 #define IDS_MAINFRM_138                 33128
-#define IDS_MAINFRM_139                 33191
 #define IDS_VOLUME_BOOST_INC            33129
 #define IDS_VOLUME_BOOST_DEC            33130
 #define IDS_VOLUME_BOOST_MIN            33131
@@ -1153,13 +1152,15 @@
 #define IDS_VDF_DXVA_ENABLE				33188
 #define IDS_VDF_DXVA_MODE				33189
 #define IDS_D3DFS_WARNING				33190
+#define IDS_MAINFRM_139                 33191
+#define IDS_VDF_FFMPEG_ENABLE			33192
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33192
+#define _APS_NEXT_COMMAND_VALUE         33193
 #define _APS_NEXT_CONTROL_VALUE         22015
 #define _APS_NEXT_SYMED_VALUE           24005
 #endif

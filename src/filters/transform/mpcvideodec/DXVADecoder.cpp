@@ -369,38 +369,45 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 {
 	HRESULT						hr = E_INVALIDARG;
 
-	switch (m_nEngine)
+	for (int i=0; i<20; i++)
 	{
-	case ENGINE_DXVA1 :
-		AMVABeginFrameInfo			BeginFrameInfo;
-
-		BeginFrameInfo.dwDestSurfaceIndex	= nSurfaceIndex;
-		BeginFrameInfo.dwSizeInputData		= sizeof(nSurfaceIndex);
-		BeginFrameInfo.pInputData			= &nSurfaceIndex;
-		BeginFrameInfo.dwSizeOutputData		= 0;
-		BeginFrameInfo.pOutputData			= NULL;
-		hr = m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo);
-		ASSERT (SUCCEEDED (hr));
-//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
-		if (SUCCEEDED (hr))
-			hr = FindFreeDXVA1Buffer (-1, m_dwBufferIndex);
-		break;
-
-	case ENGINE_DXVA2 :
+		switch (m_nEngine)
 		{
-			CComQIPtr<IMFGetService>	pSampleService;
-			CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
-			pSampleService = pSampleToDeliver;
-			if (pSampleService)
+		case ENGINE_DXVA1 :
+			AMVABeginFrameInfo			BeginFrameInfo;
+
+			BeginFrameInfo.dwDestSurfaceIndex	= nSurfaceIndex;
+			BeginFrameInfo.dwSizeInputData		= sizeof(nSurfaceIndex);
+			BeginFrameInfo.pInputData			= &nSurfaceIndex;
+			BeginFrameInfo.dwSizeOutputData		= 0;
+			BeginFrameInfo.pOutputData			= NULL;
+			hr = m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo);
+			ASSERT (SUCCEEDED (hr));
+	//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
+			if (SUCCEEDED (hr))
+				hr = FindFreeDXVA1Buffer (-1, m_dwBufferIndex);
+			break;
+
+		case ENGINE_DXVA2 :
 			{
-				hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
-				if (SUCCEEDED (hr)) hr = m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL);
+				CComQIPtr<IMFGetService>	pSampleService;
+				CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
+				pSampleService = pSampleToDeliver;
+				if (pSampleService)
+				{
+					hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
+					if (SUCCEEDED (hr)) hr = m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL);
+				}
 			}
+			break;
+		default :
+			ASSERT (FALSE);
+			break;
 		}
-		break;
-	default :
-		ASSERT (FALSE);
-		break;
+
+		// For slow accelerator wait a little...
+		if (hr != E_PENDING) break;
+		Sleep(1);
 	}
 
 	return hr;

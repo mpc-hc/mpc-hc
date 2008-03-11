@@ -40,7 +40,7 @@
 #include "vc1.h"
 
 
-int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
+int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* sp_for_switch_flag);
 int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 

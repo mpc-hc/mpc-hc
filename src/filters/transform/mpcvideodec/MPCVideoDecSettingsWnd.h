@@ -40,6 +40,7 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CComboBox	m_cbErrorResilience;
 	CStatic		m_txtIDCTAlgo;
 	CComboBox	m_cbIDCTAlgo;
+	CButton		m_chkEnableFfmpeg;
 	
 	CButton		m_grpDXVA;
 	CButton		m_chkEnableDXVA;
@@ -53,6 +54,7 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 		IDC_PP_ENABLE_DEBLOCKING,
 		IDC_PP_DISCARD_MODE,
 		IDC_PP_ERROR_RESILIENCE,
+		IDC_PP_ENABLE_FFMPEG,
 	};
 
 public:

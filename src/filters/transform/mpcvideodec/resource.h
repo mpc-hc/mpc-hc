@@ -25,6 +25,7 @@
 #define IDS_VDF_DXVA_SETTING			33187
 #define IDS_VDF_DXVA_ENABLE				33188
 #define IDS_VDF_DXVA_MODE				33189
+#define IDS_VDF_FFMPEG_ENABLE			33192
 
 
 // Next default values for new objects

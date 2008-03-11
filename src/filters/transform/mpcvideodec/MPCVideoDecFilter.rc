@@ -140,6 +140,7 @@ BEGIN
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_ENABLE     "Enable DXVA"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
+	IDS_VDF_FFMPEG_ENABLE	"Enable Ffmpeg"
 END
 
 #endif    // French (France) resources

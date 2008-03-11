@@ -43,22 +43,6 @@ class CCpuId;
 
 
 
-// === FFMpeg extern function
-typedef unsigned char uint8_t;
-typedef void			(*FUNC_AVCODEC_INIT)();
-typedef void			(*FUNC_AVCODEC_REGISTER_ALL)();
-typedef AVCodec*		(*FUNC_AVCODEC_FIND_DECODER)(enum CodecID id);
-typedef AVCodecContext* (*FUNC_AVCODEC_ALLOC_CONTEXT)(void);
-typedef AVFrame*		(*FUNC_AVCODEC_ALLOC_FRAME)(void);
-typedef int				(*FUNC_AVCODEC_OPEN)(AVCodecContext *avctx, AVCodec *codec);
-typedef int				(*FUNC_AVCODEC_DECODE_VIDEO)(AVCodecContext *avctx, AVFrame *picture, int *got_picture_ptr, const uint8_t *buf, int buf_size);
-typedef void			(*FUNC_AV_LOG_SET_CALLBACK)(void (*callback)(void*, int, const char*, va_list));
-typedef int				(*FUNC_AVCODEC_CLOSE)(AVCodecContext *avctx);
-typedef void			(*FUNC_AVCODEC_THREAD_FREE)(AVCodecContext *s);
-typedef int				(*FUNC_AVCODEC_THREAD_INIT)(AVCodecContext *s, int thread_count);
-typedef void			(*FUNC_AV_FREE)(void *ptr);
-
-
 typedef enum
 {
 	MODE_SOFTWARE,
@@ -100,6 +84,7 @@ protected:
 	bool									m_bDXVACompatible;
 	int										m_nCompatibilityMode;
 	int										m_nActiveCodecs;
+	bool									m_bEnableFfmpeg;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -115,19 +100,6 @@ protected:
 	int										m_nPosB;
 	BYTE*									m_pFFBuffer;
 	int										m_nFFBufferSize;
-
-	FUNC_AVCODEC_INIT						ff_avcodec_init;
-	FUNC_AVCODEC_REGISTER_ALL				ff_avcodec_register_all;
-	FUNC_AVCODEC_FIND_DECODER				ff_avcodec_find_decoder;
-	FUNC_AVCODEC_ALLOC_CONTEXT				ff_avcodec_alloc_context;
-	FUNC_AVCODEC_ALLOC_FRAME				ff_avcodec_alloc_frame;
-	FUNC_AVCODEC_OPEN						ff_avcodec_open;
-	FUNC_AVCODEC_DECODE_VIDEO				ff_avcodec_decode_video;
-	FUNC_AV_LOG_SET_CALLBACK				ff_av_log_set_callback;
-	FUNC_AVCODEC_CLOSE						ff_avcodec_close;
-	FUNC_AVCODEC_THREAD_FREE				ff_avcodec_thread_free;
-	FUNC_AVCODEC_THREAD_INIT				ff_avcodec_thread_init;
-	FUNC_AV_FREE							ff_av_free;
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
@@ -202,6 +174,8 @@ public:
 	STDMETHOD_(GUID*, GetDXVADecoderGuid());
 	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
+	STDMETHODIMP SetEnableFfmpeg(bool fValue);
+	STDMETHODIMP_(bool) GetEnableFfmpeg();
 
 
 	// === DXVA common functions

@@ -62,4 +62,8 @@ interface IMPCVideoDecFilter : public IUnknown
 
 	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue)) = 0;
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs()) = 0;
+
+	STDMETHOD(SetEnableFfmpeg(bool fValue)) = 0;
+	STDMETHOD_(bool, GetEnableFfmpeg()) = 0;
+
 };

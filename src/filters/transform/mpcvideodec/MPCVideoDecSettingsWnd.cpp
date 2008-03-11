@@ -87,6 +87,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
 
+	// Enable FFmpeg
+	nPosY += VERTICAL_SPACING;
+	m_chkEnableFfmpeg.Create (ResStr (IDS_VDF_FFMPEG_ENABLE), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_PP_ENABLE_FFMPEG);
+
 	// Decoding frame number
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
@@ -128,7 +132,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SKAL));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
 
-
 	nPosY = 170;
 	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
 	nPosY += VERTICAL_SPACING;
@@ -162,6 +165,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
 		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
+		m_chkEnableFfmpeg.SetCheck		(m_pMDF->GetEnableFfmpeg());
 	}
 
 	return true;
@@ -182,6 +186,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
+		m_pMDF->SetEnableFfmpeg		(!!m_chkEnableFfmpeg.GetCheck());
 
 		m_pMDF->Apply();
 	}

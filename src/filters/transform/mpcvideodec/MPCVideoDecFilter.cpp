@@ -407,6 +407,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
 	m_bEnableDXVA			= true;
+	m_bEnableFfmpeg			= true;
 	m_bDXVACompatible		= true;
 	m_nCompatibilityMode	= 0;
 	m_pFFBuffer				= NULL;
@@ -429,52 +430,16 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableDXVA"), dw)) m_bEnableDXVA = !!dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableFfmpeg"), dw)) m_bEnableFfmpeg = !!dw;		
 	}
 
-#ifdef __USE_FFMPEG_DLL	
-	// Test with ffmpeg as DLL
-	HMODULE		hLib = LoadLibrary (_T("libavcodec.dll"));
-	if (hLib)
-	{
-		ff_avcodec_init						= (FUNC_AVCODEC_INIT)				GetProcAddress (hLib, "avcodec_init");
-		ff_avcodec_register_all				= (FUNC_AVCODEC_REGISTER_ALL)		GetProcAddress (hLib, "avcodec_register_all");
-		ff_avcodec_find_decoder				= (FUNC_AVCODEC_FIND_DECODER)		GetProcAddress (hLib, "avcodec_find_decoder");
-		ff_avcodec_alloc_context			= (FUNC_AVCODEC_ALLOC_CONTEXT)		GetProcAddress (hLib, "avcodec_alloc_context");
-		ff_avcodec_alloc_frame				= (FUNC_AVCODEC_ALLOC_FRAME)		GetProcAddress (hLib, "avcodec_alloc_frame");
-		ff_avcodec_open						= (FUNC_AVCODEC_OPEN)				GetProcAddress (hLib, "avcodec_open");
-		ff_avcodec_decode_video				= (FUNC_AVCODEC_DECODE_VIDEO)		GetProcAddress (hLib, "avcodec_decode_video");
-		ff_av_log_set_callback				= (FUNC_AV_LOG_SET_CALLBACK)		GetProcAddress (hLib, "av_log_set_callback");
-		ff_avcodec_close					= (FUNC_AVCODEC_CLOSE)				GetProcAddress (hLib, "avcodec_close");
-		ff_avcodec_thread_free				= (FUNC_AVCODEC_THREAD_FREE)		GetProcAddress (hLib, "avcodec_thread_free");
-		ff_avcodec_thread_init				= (FUNC_AVCODEC_THREAD_INIT)		GetProcAddress (hLib, "avcodec_thread_init");
-		ff_av_free							= (FUNC_AV_FREE)					GetProcAddress (hLib, "av_free");
-		ff_avcodec_default_get_buffer		= (FUNC_AV_DEFAULT_GET_BUFFER)		GetProcAddress (hLib, "avcodec_default_get_buffer");
-		ff_avcodec_default_release_buffer	= (FUNC_AV_DEFAULT_RELEASE_BUFFER)	GetProcAddress (hLib, "avcodec_default_release_buffer");
-		ff_avcodec_default_reget_buffer		= (FUNC_AV_DEFAULT_REGET_BUFFER)	GetProcAddress (hLib, "avcodec_default_reget_buffer");
-
-	}
-#else
-	// Test with ffmpeg as static library
-	ff_avcodec_init						= avcodec_init;
-	ff_avcodec_register_all				= avcodec_register_all;
-	ff_avcodec_find_decoder				= avcodec_find_decoder;
-	ff_avcodec_alloc_context			= avcodec_alloc_context;
-	ff_avcodec_alloc_frame				= avcodec_alloc_frame;
-	ff_avcodec_open						= avcodec_open;
-	ff_avcodec_decode_video				= avcodec_decode_video;
-	ff_av_log_set_callback				= av_log_set_callback;
-	ff_avcodec_close					= avcodec_close;
-	ff_avcodec_thread_free				= avcodec_thread_free;
-	ff_avcodec_thread_init				= avcodec_thread_init;
-	ff_av_free							= av_free;
 	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
 	ff_avcodec_default_release_buffer	= avcodec_default_release_buffer;
 	ff_avcodec_default_reget_buffer		= avcodec_default_reget_buffer;
-#endif
 
-	ff_avcodec_init();
-	ff_avcodec_register_all();
-	ff_av_log_set_callback(LogLibAVCodec);
+	avcodec_init();
+	avcodec_register_all();
+	av_log_set_callback(LogLibAVCodec);
 
 #ifdef _DEBUG
 	// Check codec definition table
@@ -609,15 +574,15 @@ void CMPCVideoDecFilter::Cleanup()
 		if (m_pAVCtx->extradata)			free((unsigned char*)m_pAVCtx->extradata);
 		if (m_pFFBuffer)					free(m_pFFBuffer);
 
-		if (m_pAVCtx->slice_offset)			ff_av_free(m_pAVCtx->slice_offset);
-		if (m_pAVCtx->codec)				ff_avcodec_close(m_pAVCtx);
+		if (m_pAVCtx->slice_offset)			av_free(m_pAVCtx->slice_offset);
+		if (m_pAVCtx->codec)				avcodec_close(m_pAVCtx);
 
 		if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
-			ff_avcodec_thread_free (m_pAVCtx);
+			avcodec_thread_free (m_pAVCtx);
 
-		ff_av_free(m_pAVCtx);
+		av_free(m_pAVCtx);
 	}
-	if (m_pFrame)	ff_av_free(m_pFrame);
+	if (m_pFrame)	av_free(m_pFrame);
 
 	m_pAVCodec	= NULL;
 	m_pAVCtx	= NULL;
@@ -719,15 +684,15 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_nCodecNb	= nNewCodec;
 
 			m_bReorderBFrame	= true;
-			m_pAVCodec			= ff_avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
+			m_pAVCodec			= avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 			CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
-			m_pAVCtx	= ff_avcodec_alloc_context();
+			m_pAVCtx	= avcodec_alloc_context();
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
 			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
-				ff_avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
-			m_pFrame = ff_avcodec_alloc_frame();
+				avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
+			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
 			if(pmt->formattype == FORMAT_VideoInfo)
@@ -797,7 +762,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			ConnectTo (m_pAVCtx);
 			CalcAvgTimePerFrame();
 
-			if (ff_avcodec_open(m_pAVCtx, m_pAVCodec)<0)
+			if (avcodec_open(m_pAVCtx, m_pAVCodec)<0)
 				return VFW_E_INVALIDMEDIATYPE;
 
 			if (ffCodecs[m_nCodecNb].nFFCodec == CODEC_ID_H264)
@@ -821,8 +786,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 					m_bDXVACompatible = true;
 			}
 
-			if (IsDXVASupported())
-				BuildDXVAOutputFormat();
+			BuildDXVAOutputFormat();
 		}
 	}
 
@@ -835,12 +799,15 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},	// DXVA2
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVxD'},
-	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'},
+	{&MEDIASUBTYPE_NV12, 1, 12, 'AvXD'}
+};
 
+VIDEO_OUTPUT_FORMATS SoftwareFormats[] =
+{
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},	// Software
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'}
 };
 
 
@@ -860,24 +827,34 @@ bool CMPCVideoDecFilter::IsDXVASupported()
 
 void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 {
-	int			i;
+	int			nPos = 0;
 
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
-	m_nVideoOutputCount		= ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats);
+	m_nVideoOutputCount = (IsDXVASupported() ? ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats) : 0) +
+						  (m_bEnableFfmpeg   ? countof(SoftwareFormats) : 0);
+
 	m_pVideoOutputFormat	= new VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
 
-	// Dynamic DXVA media types for DXVA1
-	for (i=0; i<ffCodecs[m_nCodecNb].DXVAModeCount(); i++)
+	if (IsDXVASupported())
 	{
-		m_pVideoOutputFormat[i].subtype			= ffCodecs[m_nCodecNb].DXVAModes->Decoder[i];
-		m_pVideoOutputFormat[i].biCompression	= 'avxd';
-		m_pVideoOutputFormat[i].biBitCount		= 12;
-		m_pVideoOutputFormat[i].biPlanes		= 1;
+		// Dynamic DXVA media types for DXVA1
+		for (nPos=0; nPos<ffCodecs[m_nCodecNb].DXVAModeCount(); nPos++)
+		{
+			m_pVideoOutputFormat[nPos].subtype			= ffCodecs[m_nCodecNb].DXVAModes->Decoder[nPos];
+			m_pVideoOutputFormat[nPos].biCompression	= 'avxd';
+			m_pVideoOutputFormat[nPos].biBitCount		= 12;
+			m_pVideoOutputFormat[nPos].biPlanes		= 1;
+		}
+
+		// Static list for DXVA2
+		memcpy (&m_pVideoOutputFormat[nPos], DXVAFormats, sizeof(DXVAFormats));
+		nPos += countof (DXVAFormats);
 	}
 
-	// Static list for DXVA2 & software rendering
-	memcpy (&m_pVideoOutputFormat[ffCodecs[m_nCodecNb].DXVAModeCount()], DXVAFormats, sizeof(DXVAFormats));
+	// Software rendering
+	if (m_bEnableFfmpeg)
+		memcpy (&m_pVideoOutputFormat[nPos], SoftwareFormats, sizeof(SoftwareFormats));
 }
 
 
@@ -892,15 +869,8 @@ int CMPCVideoDecFilter::GetPicEntryNumber()
 
 void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
-	if (IsDXVASupported())
-	{
-		nNumber		= m_nVideoOutputCount;
-		*ppFormats	= m_pVideoOutputFormat;
-		//nNumber		= countof(DXVAFormats);
-		//*ppFormats	= DXVAFormats;
-	}
-	else
-		__super::GetOutputFormats (nNumber, ppFormats);
+	nNumber		= m_nVideoOutputCount;
+	*ppFormats	= m_pVideoOutputFormat;
 }
 
 
@@ -1043,7 +1013,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		memcpy(m_pFFBuffer, pDataIn, nSize);
 		memset(m_pFFBuffer+nSize,0,FF_INPUT_BUFFER_PADDING_SIZE);
 
-		used_bytes = ff_avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, m_pFFBuffer, nSize);
+		used_bytes = avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, m_pFFBuffer, nSize);
 		if (!got_picture || !m_pFrame->data[0]) return S_OK;
 		if(pIn->IsPreroll() == S_OK || rtStart < 0) return S_OK;
 
@@ -1516,7 +1486,8 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
 		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
 		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
-		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);		
+		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
+		key.SetDWORDValue(_T("EnableFfmpeg"), m_bEnableFfmpeg);
 	}
 	return S_OK;
 }
@@ -1593,4 +1564,15 @@ STDMETHODIMP_(MPC_VIDEO_CODEC) CMPCVideoDecFilter::GetActiveCodecs()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return (MPC_VIDEO_CODEC)m_nActiveCodecs;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetEnableFfmpeg(bool fValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_bEnableFfmpeg = fValue;
+	return S_OK;
+}
+STDMETHODIMP_(bool) CMPCVideoDecFilter::GetEnableFfmpeg()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_bEnableFfmpeg;
 }

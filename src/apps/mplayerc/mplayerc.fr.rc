@@ -2982,6 +2982,7 @@ BEGIN
     IDS_VDF_DXVA_ENABLE			"Activer DXVA"
     IDS_VDF_DXVA_MODE			"Mode DXVA"
     IDS_D3DFS_WARNING			"Cette option permet de supprimer le ""tearing"" (déchirement de l'image), mais empêche l'affichage des boîtes de dialogue et du menu contextuel lorsqu'une vidéo est chargée (voir les explications complétes sur http://tibrium.neuf.fr).\n\nEtes vous sûr de vouloir activer cette option ?"
+	IDS_VDF_FFMPEG_ENABLE		"Activer Ffmpeg"
 END
 
 #endif    // French (France) resources

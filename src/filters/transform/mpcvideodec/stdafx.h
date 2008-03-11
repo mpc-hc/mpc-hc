@@ -50,7 +50,7 @@
 	inline void LOG(LPCTSTR fmt, ...) {}
 #endif
 
-#define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) { ASSERT (FALSE); return hr; }
+#define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) { TRACE("Error : 0x%08x\n", hr); ASSERT (FALSE); return hr; }
 
 #define SAFE_DELETE(x)				delete x;   x=NULL;
 #define SAFE_DELETE_ARRAY(x)		delete[] x; x=NULL;
