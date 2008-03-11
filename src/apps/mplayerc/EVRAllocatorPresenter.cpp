@@ -1076,7 +1076,6 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 				Buffer.pSample->GetSampleDuration(&nsDuration);
 				m_fps = (float)(10000000.0 / nsDuration);
 				m_pSubPicQueue->SetFPS(m_fps);
-				__super::SetTime (g_tSegmentStart + nsSampleTime);
 			}
 
 			if (AfxGetMyApp()->m_fTearingTest)
@@ -1531,8 +1530,12 @@ void CEVRAllocatorPresenter::RenderThread()
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
 				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
+				m_pMFSample[m_nCurSurface]->GetSampleTime (&nsSampleTime);
 //				TRACE ("RenderThread ==>> Presenting Cons=%d  Prod=%d\n", m_nCurSurface, m_nFreeSlot);
+
+				__super::SetTime (g_tSegmentStart + nsSampleTime);
 				Paint(true);
+
 				m_pcFramesDrawn++;
 				InterlockedDecrement (&m_nUsedBuffer);
 				CompleteFrameStep (false);
@@ -1541,7 +1544,6 @@ void CEVRAllocatorPresenter::RenderThread()
 				{
 					// Calculate wake up timer
 					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
-					m_pMFSample[m_nCurSurface]->GetSampleTime (&nsSampleTime);
 
 					//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
 					// Wakup 1/2 refresh rate before next VSync!
