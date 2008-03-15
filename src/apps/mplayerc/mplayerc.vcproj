@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="mplayerc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mplayerc"
 	Keyword="MFCProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -74,6 +75,8 @@
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				SupportUnloadOfDelayLoadedDLL="true"
 			/>
 			<Tool
@@ -93,9 +96,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -161,6 +161,8 @@
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				SupportUnloadOfDelayLoadedDLL="true"
 				TargetMachine="17"
 			/>
@@ -183,9 +185,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="..\..\..\bin\upx.exe --best &quot;$(TargetPath)&quot;"
 				ExcludedFromBuild="true"
@@ -196,6 +195,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
@@ -224,6 +224,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -240,11 +241,14 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib MPCVideoDecDU.lib"
+				ShowProgress="0"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -263,9 +267,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -327,6 +328,8 @@
 				IgnoreDefaultLibraryNames="MSVCRT;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -346,9 +349,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

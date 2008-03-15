@@ -814,7 +814,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 	{
 		rt += m_pFile->m_rtOffset;
 
-		QWORD lastCueClusterPosition = -1;
+		MatroskaReader::QWORD lastCueClusterPosition = -1;
 
 		Segment& s = m_pFile->m_segment;
 

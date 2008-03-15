@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="libdts"
 	ProjectGUID="{54F609FD-A8CE-43CF-94AD-23E877B97C13}"
 	RootNamespace="libdts"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform

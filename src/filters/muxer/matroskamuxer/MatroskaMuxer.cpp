@@ -320,7 +320,7 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 	ULONGLONG segpos = GetStreamPosition(pStream);
 
 	// TODO
-	QWORD voidlen = 100;
+	MatroskaWriter::QWORD voidlen = 100;
 	if(rtDur > 0) voidlen += int(1.0 * rtDur / MAXCLUSTERTIME / 10000 + 0.5) * 20;
 	else voidlen += int(1.0 * 1000*60*60*24 / MAXCLUSTERTIME + 0.5) * 20; // when no duration is known, allocate for 24 hours (~340k)
 	ULONGLONG voidpos = GetStreamPosition(pStream);

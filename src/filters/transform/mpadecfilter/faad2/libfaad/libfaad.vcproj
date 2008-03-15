@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="libfaad"
 	ProjectGUID="{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
 	RootNamespace="libfaad"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="basesplitter"
 	ProjectGUID="{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}"
 	RootNamespace="basesplitter"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="sizecbar"
 	ProjectGUID="{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
 	RootNamespace="sizecbar"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform

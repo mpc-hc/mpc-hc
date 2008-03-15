@@ -60,7 +60,9 @@
 +---------------------------------------------------------------------*/
 #ifdef WIN32
 #define snprintf _snprintf
+#if _MSC_VER < 1500 
 #define vsnprintf _vsnprintf
+#endif
 #if defined(_DEBUG)
 #define AP4_DEBUG
 #endif

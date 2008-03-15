@@ -26,6 +26,16 @@
 #include <algorithm>
 #include "Rasterizer.h"
 
+ #ifndef _MAX	/* avoid collision with common (nonconforming) macros */
+  #define _MAX	(max)
+  #define _MIN	(min)
+  #define _IMPL_MAX max
+  #define _IMPL_MIN min
+ #else
+  #define _IMPL_MAX _MAX
+  #define _IMPL_MIN _MIN
+ #endif
+
 Rasterizer::Rasterizer() : mpPathTypes(NULL), mpPathPoints(NULL), mPathPoints(0), mpOverlayBuffer(NULL)
 {
 	mOverlayWidth = mOverlayHeight = 0;
