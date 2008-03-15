@@ -190,3 +190,4 @@ class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CStrin
 extern CHtmlColorMap g_colors;
 
 
+

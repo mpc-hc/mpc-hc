@@ -1752,10 +1752,10 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			{
 				if(Effect* e = new Effect)
 				{
-					e->param[0] = (int)(sub->m_scalex*wcstol(params[0], NULL, 10)*8);
-					e->param[1] = (int)(sub->m_scaley*wcstol(params[1], NULL, 10)*8);
-					e->param[2] = (int)(sub->m_scalex*wcstol(params[2], NULL, 10)*8);
-					e->param[3] = (int)(sub->m_scaley*wcstol(params[3], NULL, 10)*8);
+					e->param[0] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
+					e->param[1] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
+					e->param[2] = (int)(sub->m_scalex*wcstod(params[2], NULL)*8);
+					e->param[3] = (int)(sub->m_scaley*wcstod(params[3], NULL)*8);
 
 					e->t[0] = e->t[1] = -1;
 
@@ -1775,8 +1775,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			{
 				if(Effect* e = new Effect)
 				{
-					e->param[0] = (int)(sub->m_scalex*wcstol(params[0], NULL, 10)*8);
-					e->param[1] = (int)(sub->m_scaley*wcstol(params[1], NULL, 10)*8);
+					e->param[0] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
+					e->param[1] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
 
 					sub->m_effects[EF_ORG] = e;
 				}
@@ -1792,8 +1792,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			{
 				if(Effect* e = new Effect)
 				{
-					e->param[0] = e->param[2] = (int)(sub->m_scalex*wcstol(params[0], NULL, 10)*8);
-					e->param[1] = e->param[3] = (int)(sub->m_scaley*wcstol(params[1], NULL, 10)*8);
+					e->param[0] = e->param[2] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
+					e->param[1] = e->param[3] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
 					e->t[0] = e->t[1] = 0;
 
 					sub->m_effects[EF_MOVE] = e;
@@ -2392,7 +2392,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 		p = p2;
 
-		// Casimir666 fix : opaque box overlapped
+		// fix : opaque box overlapped
 		STSStyle style;
 		GetDefaultStyle(style);
 		int	nVertOffset = (style.borderStyle == 1) ? 16*style.outlineWidth : 0;
