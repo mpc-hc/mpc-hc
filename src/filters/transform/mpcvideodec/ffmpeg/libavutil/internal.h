@@ -26,9 +26,19 @@
 #ifndef FFMPEG_INTERNAL_H
 #define FFMPEG_INTERNAL_H
 
+#if !defined(DEBUG) && !defined(NDEBUG)
+#    define NDEBUG
+#endif
+
 #if defined(_MSC_VER) & !defined(__cplusplus)
 #    define inline
 #endif
+
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
+#include <stddef.h>
+#include <assert.h>
 
 #if defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ > 1)
 #   define GCC420_OR_NEWER 1
@@ -100,10 +110,10 @@
 #    define PIC
 #endif
 
+#include "config.h"
 #include "intreadwrite.h"
 #include "bswap.h"
 
-#include <stddef.h>
 #ifndef offsetof
 #    define offsetof(T,F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
@@ -132,11 +142,6 @@
 #endif
 
 /* debug stuff */
-
-#if !defined(DEBUG) && !defined(NDEBUG)
-#    define NDEBUG
-#endif
-#include <assert.h>
 
 /* dprintf macros */
 #if defined(__GNUC__)
@@ -199,7 +204,7 @@ static inline unsigned int ff_sqrt(unsigned int a)
 #if defined(ARCH_X86)
 #define MASK_ABS(mask, level)\
             asm volatile(\
-                "cdq                    \n\t"\
+                "cltd                   \n\t"\
                 "xorl %1, %0            \n\t"\
                 "subl %1, %0            \n\t"\
                 : "+a" (level), "=&d" (mask)\

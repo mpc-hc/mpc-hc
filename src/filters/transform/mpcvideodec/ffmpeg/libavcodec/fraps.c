@@ -84,7 +84,8 @@ static int huff_cmp(const void *va, const void *vb){
  * decode Fraps v2 packed plane
  */
 static int fraps2_decode_plane(FrapsContext *s, uint8_t *dst, int stride, int w,
-                               int h, const uint8_t *src, int size, int Uoff)
+                               int h, const uint8_t *src, int size, int Uoff,
+                               const int step)
 {
     int i, j;
     GetBitContext gb;
@@ -104,7 +105,7 @@ static int fraps2_decode_plane(FrapsContext *s, uint8_t *dst, int stride, int w,
 
     init_get_bits(&gb, s->tmpbuf, size * 8);
     for(j = 0; j < h; j++){
-        for(i = 0; i < w; i++){
+        for(i = 0; i < w*step; i += step){
             dst[i] = get_vlc2(&gb, vlc.table, 9, 3);
             /* lines are stored as deltas between previous lines
              * and we need to add 0x80 to the first lines of chroma planes
@@ -147,7 +148,7 @@ static int decode_frame(AVCodecContext *avctx,
     version = header & 0xff;
     header_size = (header & (1<<30))? 8 : 4; /* bit 30 means pad to 8 bytes */
 
-    if (version > 2 && version != 4) {
+    if (version > 2 && version != 4 && version != 5) {
         av_log(avctx, AV_LOG_ERROR,
                "This file is encoded with Fraps version %d. " \
                "This codec can only decode version 0, 1, 2 and 4.\n", version);
@@ -281,7 +282,48 @@ static int decode_frame(AVCodecContext *avctx,
             is_chroma = !!i;
             s->tmpbuf = av_realloc(s->tmpbuf, offs[i + 1] - offs[i] - 1024 + FF_INPUT_BUFFER_PADDING_SIZE);
             if(fraps2_decode_plane(s, f->data[i], f->linesize[i], avctx->width >> is_chroma,
-                    avctx->height >> is_chroma, buf + offs[i], offs[i + 1] - offs[i], is_chroma) < 0) {
+                    avctx->height >> is_chroma, buf + offs[i], offs[i + 1] - offs[i], is_chroma, 1) < 0) {
+                av_log(avctx, AV_LOG_ERROR, "Error decoding plane %i\n", i);
+                return -1;
+            }
+        }
+        break;
+    case 5:
+        /* Virtually the same as version 4, but is for RGB24 */
+        avctx->pix_fmt = PIX_FMT_BGR24;
+        planes = 3;
+        f->reference = 1;
+        f->buffer_hints = FF_BUFFER_HINTS_VALID |
+                          FF_BUFFER_HINTS_PRESERVE |
+                          FF_BUFFER_HINTS_REUSABLE;
+        if (avctx->reget_buffer(avctx, f)) {
+            av_log(avctx, AV_LOG_ERROR, "reget_buffer() failed\n");
+            return -1;
+        }
+        /* skip frame */
+        if(buf_size == 8) {
+            f->pict_type = FF_P_TYPE;
+            f->key_frame = 0;
+            break;
+        }
+        f->pict_type = FF_I_TYPE;
+        f->key_frame = 1;
+        if ((AV_RL32(buf) != FPS_TAG)||(buf_size < (planes*1024 + 24))) {
+            av_log(avctx, AV_LOG_ERROR, "Fraps: error in data stream\n");
+            return -1;
+        }
+        for(i = 0; i < planes; i++) {
+            offs[i] = AV_RL32(buf + 4 + i * 4);
+            if(offs[i] >= buf_size || (i && offs[i] <= offs[i - 1] + 1024)) {
+                av_log(avctx, AV_LOG_ERROR, "Fraps: plane %i offset is out of bounds\n", i);
+                return -1;
+            }
+        }
+        offs[planes] = buf_size;
+        for(i = 0; i < planes; i++){
+            s->tmpbuf = av_realloc(s->tmpbuf, offs[i + 1] - offs[i] - 1024 + FF_INPUT_BUFFER_PADDING_SIZE);
+            if(fraps2_decode_plane(s, f->data[0] + i + (f->linesize[0] * (avctx->height - 1)), -f->linesize[0],
+                    avctx->width, avctx->height, buf + offs[i], offs[i + 1] - offs[i], 1, 3) < 0) {
                 av_log(avctx, AV_LOG_ERROR, "Error decoding plane %i\n", i);
                 return -1;
             }

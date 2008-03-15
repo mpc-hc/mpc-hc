@@ -20,7 +20,7 @@
 
 /**
  * @file bswap.h
- * byte swap.
+ * byte swapping routines
  */
 
 #ifndef FFMPEG_BSWAP_H
@@ -29,6 +29,7 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
+#include "config.h"
 #include "common.h"
 
 #ifdef HAVE_BYTESWAP_H

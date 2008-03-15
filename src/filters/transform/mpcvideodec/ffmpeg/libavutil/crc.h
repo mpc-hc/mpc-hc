@@ -21,6 +21,11 @@
 #ifndef FFMPEG_CRC_H
 #define FFMPEG_CRC_H
 
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
+#include <stddef.h>
+
 typedef uint32_t AVCRC;
 
 typedef enum {

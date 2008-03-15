@@ -388,7 +388,7 @@ typedef struct H264Context{
     GetBitContext *inter_gb_ptr;
 
     DECLARE_ALIGNED_16(DCTELEM, mb[16*24]);
-    DCTELEM mb_padding[256];        ///< as mb is addressed by scantable[i] and scantable is uint8_t we can either check that i is not to large or ensure that there is some unused stuff after mb
+    DCTELEM mb_padding[256];        ///< as mb is addressed by scantable[i] and scantable is uint8_t we can either check that i is not too large or ensure that there is some unused stuff after mb
 
     /**
      * Cabac
@@ -459,8 +459,6 @@ typedef struct H264Context{
     int todecode;
     H264mb *blocks[2];
 
-    /* ffdshow custom stuff (temporary work around for multithreading and spatial direct mode plus interlacing) */
-    int is_valid_direct_spatial_mv_pred;
     /* ffdshow custom stuff */
     int first_I_frame_detected;
 }H264Context;

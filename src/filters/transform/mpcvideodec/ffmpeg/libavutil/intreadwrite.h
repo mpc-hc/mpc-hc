@@ -22,6 +22,7 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
+#include "config.h"
 #include "bswap.h"
 
 #ifdef __GNUC__

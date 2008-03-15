@@ -27,8 +27,8 @@
  * The simplest mpeg encoder (well, it was the simplest!).
  */
 
-#ifndef MPEGVIDEO_COMMON_H
-#define MPEGVIDEO_COMMON_H
+#ifndef FFMPEG_MPEGVIDEO_COMMON_H
+#define FFMPEG_MPEGVIDEO_COMMON_H
 
 #include "avcodec.h"
 #include "dsputil.h"
@@ -607,7 +607,7 @@ static inline void MPV_motion(MpegEncContext *s,
 
     prefetch_motion(s, ref_picture, dir);
 
-    if(s->obmc && s->pict_type != B_TYPE){
+    if(s->obmc && s->pict_type != FF_B_TYPE){
         int16_t mv_cache[4][4][2];
         const int xy= s->mb_x + s->mb_y*s->mb_stride;
         const int mot_stride= s->b8_stride;
@@ -769,7 +769,7 @@ static inline void MPV_motion(MpegEncContext *s,
                             s->mv[dir][1][0], s->mv[dir][1][1], 8);
             }
         } else {
-            if(s->picture_structure != s->field_select[dir][0] + 1 && s->pict_type != B_TYPE && !s->first_field){
+            if(s->picture_structure != s->field_select[dir][0] + 1 && s->pict_type != FF_B_TYPE && !s->first_field){
                 ref_picture= s->current_picture_ptr->data;
             }
 
@@ -783,7 +783,7 @@ static inline void MPV_motion(MpegEncContext *s,
         for(i=0; i<2; i++){
             uint8_t ** ref2picture;
 
-            if(s->picture_structure == s->field_select[dir][i] + 1 || s->pict_type == B_TYPE || s->first_field){
+            if(s->picture_structure == s->field_select[dir][i] + 1 || s->pict_type == FF_B_TYPE || s->first_field){
                 ref2picture= ref_picture;
             }else{
                 ref2picture= s->current_picture_ptr->data;
@@ -832,4 +832,4 @@ static inline void MPV_motion(MpegEncContext *s,
     }
 }
 
-#endif /* MPEGVIDEO_COMMON_H */
+#endif /* FFMPEG_MPEGVIDEO_COMMON_H */

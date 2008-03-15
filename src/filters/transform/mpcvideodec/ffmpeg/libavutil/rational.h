@@ -31,9 +31,9 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
-
-/* Needed by MSVC compiler*/
+#ifndef __GNUC__
 #include "common.h"
+#endif
 
 /**
  * Rational number num/den.

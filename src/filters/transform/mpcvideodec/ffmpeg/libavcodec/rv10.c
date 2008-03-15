@@ -238,9 +238,9 @@ static int rv10_decode_picture_header(MpegEncContext *s)
     marker = get_bits1(&s->gb);
 
     if (get_bits1(&s->gb))
-        s->pict_type = P_TYPE;
+        s->pict_type = FF_P_TYPE;
     else
-        s->pict_type = I_TYPE;
+        s->pict_type = FF_I_TYPE;
 //printf("h:%X ver:%d\n",h,s->rv10_version);
     if(!marker) av_log(s->avctx, AV_LOG_ERROR, "marker missing\n");
     pb_frame = get_bits1(&s->gb);
@@ -260,7 +260,7 @@ static int rv10_decode_picture_header(MpegEncContext *s)
         return -1;
     }
 
-    if (s->pict_type == I_TYPE) {
+    if (s->pict_type == FF_I_TYPE) {
         if (s->rv10_version == 3) {
             /* specific MPEG like DC coding not used */
             s->last_dc[0] = get_bits(&s->gb, 8);
@@ -325,16 +325,16 @@ static int rv20_decode_picture_header(MpegEncContext *s)
 
     i= get_bits(&s->gb, 2);
     switch(i){
-    case 0: s->pict_type= I_TYPE; break;
-    case 1: s->pict_type= I_TYPE; break; //hmm ...
-    case 2: s->pict_type= P_TYPE; break;
-    case 3: s->pict_type= B_TYPE; break;
+    case 0: s->pict_type= FF_I_TYPE; break;
+    case 1: s->pict_type= FF_I_TYPE; break; //hmm ...
+    case 2: s->pict_type= FF_P_TYPE; break;
+    case 3: s->pict_type= FF_B_TYPE; break;
     default:
         av_log(s->avctx, AV_LOG_ERROR, "unknown frame type\n");
         return -1;
     }
 
-    if(s->last_picture_ptr==NULL && s->pict_type==B_TYPE){
+    if(s->last_picture_ptr==NULL && s->pict_type==FF_B_TYPE){
         av_log(s->avctx, AV_LOG_ERROR, "early B pix\n");
         return -1;
     }
@@ -405,7 +405,7 @@ static int rv20_decode_picture_header(MpegEncContext *s)
     if(seq - s->time >  0x4000) seq -= 0x8000;
     if(seq - s->time < -0x4000) seq += 0x8000;
     if(seq != s->time){
-        if(s->pict_type!=B_TYPE){
+        if(s->pict_type!=FF_B_TYPE){
             s->time= seq;
             s->pp_time= s->time - s->last_non_b_time;
             s->last_non_b_time= s->time;
@@ -428,7 +428,7 @@ av_log(s->avctx, AV_LOG_DEBUG, "\n");*/
 
     s->f_code = 1;
     s->unrestricted_mv = 1;
-    s->h263_aic= s->pict_type == I_TYPE;
+    s->h263_aic= s->pict_type == FF_I_TYPE;
 //    s->alt_inter_vlc=1;
 //    s->obmc=1;
 //    s->umvplus=1;
@@ -440,7 +440,7 @@ av_log(s->avctx, AV_LOG_DEBUG, "\n");*/
                    seq, s->mb_x, s->mb_y, s->pict_type, s->qscale, s->no_rounding);
     }
 
-    assert(s->pict_type != B_TYPE || !s->low_delay);
+    assert(s->pict_type != FF_B_TYPE || !s->low_delay);
 
     return s->mb_width*s->mb_height - mb_pos;
 }
@@ -546,7 +546,7 @@ static int rv10_decode_packet(AVCodecContext *avctx,
         av_log(s->avctx, AV_LOG_ERROR, "COUNT ERROR\n");
         return -1;
     }
-//if(s->pict_type == P_TYPE) return 0;
+//if(s->pict_type == FF_P_TYPE) return 0;
 
     if ((s->mb_x == 0 && s->mb_y == 0) || s->current_picture_ptr==NULL) {
         if(s->current_picture_ptr){ //FIXME write parser so we always have complete frames?
@@ -613,7 +613,7 @@ static int rv10_decode_packet(AVCodecContext *avctx,
             av_log(s->avctx, AV_LOG_ERROR, "ERROR at MB %d %d\n", s->mb_x, s->mb_y);
             return -1;
         }
-        if(s->pict_type != B_TYPE)
+        if(s->pict_type != FF_B_TYPE)
             ff_h263_update_motion_val(s);
         MPV_decode_mb(s, s->block);
         if(s->loop_filter)
@@ -682,7 +682,7 @@ static int rv10_decode_frame(AVCodecContext *avctx,
         ff_er_frame_end(s);
         MPV_frame_end(s);
 
-        if (s->pict_type == B_TYPE || s->low_delay) {
+        if (s->pict_type == FF_B_TYPE || s->low_delay) {
             *pict= *(AVFrame*)s->current_picture_ptr;
         } else if (s->last_picture_ptr != NULL) {
             *pict= *(AVFrame*)s->last_picture_ptr;

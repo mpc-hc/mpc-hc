@@ -189,7 +189,7 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, struct AVCod
 
 	pDXVAPicParams->field_pic_flag				= field_pic_flag;
 	pDXVAPicParams->RefPicFlag					= (h->nal_ref_idc != 0);
-	pDXVAPicParams->IntraPicFlag				= (h->slice_type == I_TYPE );
+	pDXVAPicParams->IntraPicFlag				= (h->slice_type == FF_I_TYPE );
 	pDXVAPicParams->MbaffFrameFlag				= (h->sps.mb_aff && (field_pic_flag==0));
 	pDXVAPicParams->frame_num					= h->frame_num;
 	pDXVAPicParams->sp_for_switch_flag			= sp_for_switch_flag;
@@ -214,10 +214,10 @@ int FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecC
 		av_vc1_decode_frame (pAVCtx, pBuffer, nSize);
 	}
 
-	refpic = ((vc1->s.pict_type != B_TYPE) || (vc1->s.pict_type != BI_TYPE));
+	refpic = ((vc1->s.pict_type != FF_B_TYPE) || (vc1->s.pict_type != FF_BI_TYPE));
 
-	pPicParams->bPicIntra				= (vc1->s.pict_type == I_TYPE);
-	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == B_TYPE);
+	pPicParams->bPicIntra				= (vc1->s.pict_type == FF_I_TYPE);
+	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == FF_B_TYPE);
 
 	//   Ok     Todo    Todo    Todo    Ok
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA		| Section 3.2.5

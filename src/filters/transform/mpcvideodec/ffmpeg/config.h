@@ -2,7 +2,7 @@
   #define ARCH_X86 1
   #ifndef ARCH_X86_64
   	#define ARCH_X86_32 1
-  #endif 
+  #endif
   #define HAVE_SSSE3 1
 #endif
 
