@@ -73,7 +73,24 @@ void CDXVADecoderH264::Init()
 {
 	memset (&m_DXVAPicParams,	0, sizeof(m_DXVAPicParams));
 	memset (&m_SliceShort,		0, sizeof(m_SliceShort));
+	memset (&m_DXVAPicParams, 0, sizeof (DXVA_PicParams_H264));
 	
+	m_DXVAPicParams.MbsConsecutiveFlag					= 1;
+	m_DXVAPicParams.Reserved16Bits						= 0;
+	m_DXVAPicParams.ContinuationFlag					= 1;
+	m_DXVAPicParams.Reserved8BitsA						= 0;
+	m_DXVAPicParams.Reserved8BitsB						= 0;
+	m_DXVAPicParams.MinLumaBipredSize8x8Flag			= 1;	// Improve accelerator performances
+	m_DXVAPicParams.StatusReportFeedbackNumber			= 0;	// Use to report status
+
+	for (int i =0; i<16; i++)
+	{
+		m_DXVAPicParams.RefFrameList[i].AssociatedFlag	= 1;
+		m_DXVAPicParams.RefFrameList[i].bPicEntry		= 255;
+		m_DXVAPicParams.RefFrameList[i].Index7Bits		= 127;
+	}
+
+
 	m_nCurRefFrame		= 0;
 	m_nNALLength		= 4;
 
@@ -180,7 +197,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
-			FFH264UpdatePictureParam (false, &m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice, nSliceSize);
+			FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataSlice, nSliceSize);
 			break;
 		}
 
@@ -194,7 +211,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	}
 
 	// Parse slice header and set DX destination surface
-	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, m_pFilter->GetAVCtx(), pDataSlice+ m_nNALLength, nSliceSize -  m_nNALLength));
+	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice+ m_nNALLength, nSliceSize -  m_nNALLength));
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
@@ -234,7 +251,7 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
-	FFH264UpdatePictureParam (true, &m_DXVAPicParams, &m_DXVAScalingMatrix, pAVCtx, pDataIn, nSize);
+	FFH264DecodeBuffer (pAVCtx, pDataIn, nSize);
 
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);	// TODO : find better solution...
 }
