@@ -42,6 +42,8 @@ IPinCVtbl*			g_pPinCVtbl				= NULL;
 IMemInputPinCVtbl*	g_pMemInputPinCVtbl		= NULL;
 IPinC*				g_pPinC					= NULL;
 
+static bool			bFirst					= true;
+
 /*
 typedef struct
 {
@@ -356,7 +358,24 @@ static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n)
 static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 {
 	CString		strRes;
-	int			i, j;
+	int			i;
+
+	if (bFirst)
+	{
+		LOG_TOFILE (_T("picture.log"), _T("wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.AssociatedFlag,CurrPic.bPicEntry,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.AssociatedFlag[0],RFL.bPicEntry[0],RFL.Index7Bits[0],") \
+									   _T("RFL.AssociatedFlag[1],RFL.bPicEntry[1],RFL.Index7Bits[1],RFL.AssociatedFlag[2],RFL.bPicEntry[2],RFL.Index7Bits[2],RFL.AssociatedFlag[3],RFL.bPicEntry[3],RFL.Index7Bits[3],RFL.AssociatedFlag[4],RFL.bPicEntry[4],RFL.Index7Bits[4],RFL.AssociatedFlag[5],RFL.bPicEntry[5],RFL.Index7Bits[5],") \
+									   _T("RFL.AssociatedFlag[6],RFL.bPicEntry[6],RFL.Index7Bits[6],RFL.AssociatedFlag[7],RFL.bPicEntry[7],RFL.Index7Bits[7],RFL.AssociatedFlag[8],RFL.bPicEntry[8],RFL.Index7Bits[8],RFL.AssociatedFlag[9],RFL.bPicEntry[9],RFL.Index7Bits[9],RFL.AssociatedFlag[10],RFL.bPicEntry[10],RFL.Index7Bits[10],") \
+									   _T("RFL.AssociatedFlag[11],RFL.bPicEntry[11],RFL.Index7Bits[11],RFL.AssociatedFlag[12],RFL.bPicEntry[12],RFL.Index7Bits[12],RFL.AssociatedFlag[13],RFL.bPicEntry[13],RFL.Index7Bits[13],RFL.AssociatedFlag[14],RFL.bPicEntry[14],RFL.Index7Bits[14],RFL.AssociatedFlag[15],RFL.bPicEntry[15],RFL.Index7Bits[15],") \
+									   _T("CurrFieldOrderCnt[0], CurrFieldOrderCnt[1],FieldOrderCntList[0][0], FieldOrderCntList[0][1],FieldOrderCntList[1][0], FieldOrderCntList[1][1],FieldOrderCntList[2][0], FieldOrderCntList[2][1],FieldOrderCntList[3][0], FieldOrderCntList[3][1],FieldOrderCntList[4][0], FieldOrderCntList[4][1],FieldOrderCntList[5][0],") \
+									   _T("FieldOrderCntList[5][1],FieldOrderCntList[6][0], FieldOrderCntList[6][1],FieldOrderCntList[7][0], FieldOrderCntList[7][1],FieldOrderCntList[8][0], FieldOrderCntList[8][1],FieldOrderCntList[9][0], FieldOrderCntList[9][1],FieldOrderCntList[10][0], FieldOrderCntList[10][1],FieldOrderCntList[11][0],")\
+									   _T("FieldOrderCntList[11][1],FieldOrderCntList[12][0], FieldOrderCntList[12][1],FieldOrderCntList[13][0], FieldOrderCntList[13][1],FieldOrderCntList[14][0], FieldOrderCntList[14][1],FieldOrderCntList[15][0], FieldOrderCntList[15][1],pic_init_qs_minus26,chroma_qp_index_offset,second_chroma_qp_index_offset,")\
+									   _T("ContinuationFlag,pic_init_qp_minus26,num_ref_idx_l0_active_minus1,num_ref_idx_l1_active_minus1,Reserved8BitsA,FrameNumList[0],FrameNumList[1],FrameNumList[2],FrameNumList[3],FrameNumList[4],FrameNumList[5],FrameNumList[6],FrameNumList[7],FrameNumList[8],FrameNumList[9],FrameNumList[10],FrameNumList[11],")\
+									   _T("FrameNumList[12],FrameNumList[13],FrameNumList[14],FrameNumList[15],UsedForReferenceFlags,NonExistingFrameFlags,frame_num,log2_max_frame_num_minus4,pic_order_cnt_type,log2_max_pic_order_cnt_lsb_minus4,delta_pic_order_always_zero_flag,direct_8x8_inference_flag,entropy_coding_mode_flag,pic_order_present_flag,")\
+									   _T("num_slice_groups_minus1,slice_group_map_type,deblocking_filter_control_present_flag,redundant_pic_cnt_present_flag,Reserved8BitsB,slice_group_change_rate_minus1"));
+
+	}
+	bFirst = false;
+
 	strRes.AppendFormat(_T("%d,"), pPic->wFrameWidthInMbsMinus1);
 	strRes.AppendFormat(_T("%d,"), pPic->wFrameHeightInMbsMinus1);
 
@@ -450,8 +469,6 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 
 static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 {
-	static bool	bFirst = true;
-	TCHAR		strBuff[800];
 	CString		strRes;
 
 	if (bFirst)
@@ -587,6 +604,7 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC * Th
 	{
 		g_guidDXVADecoder	= *pGuid;
 		g_nDXVAVersion		= 1;
+		bFirst				= true;
 		LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
 
 		if(pdwNumTypesCompBuffers)
@@ -847,6 +865,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 
 	g_guidDXVADecoder	= GUID_NULL;
 	g_nDXVAVersion		= 0;
+	bFirst				= true;
 
 	if(GetVideoAcceleratorGUIDsOrg == NULL) GetVideoAcceleratorGUIDsOrg = pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs;
 	if(GetUncompFormatsSupportedOrg == NULL) GetUncompFormatsSupportedOrg = pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported;
@@ -1064,7 +1083,7 @@ public :
 
 
 interface IDirectXVideoDecoderServiceC;
-typedef struct IDirectXVideoDecoderServiceCVtbl
+struct IDirectXVideoDecoderServiceCVtbl
 {
 	BEGIN_INTERFACE
 	HRESULT ( STDMETHODCALLTYPE *QueryInterface )( IDirectXVideoDecoderServiceC* pThis, /* [in] */ REFIID riid, /* [iid_is][out] */ void **ppvObject );

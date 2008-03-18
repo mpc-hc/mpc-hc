@@ -304,17 +304,25 @@ bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 
 void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 {
+	CString		strTemp;
+
 	filter += ResStr(IDS_MEDIAFORMATS_34);
 	mask.Add(_T(""));
 
 	for(int i = 0; i < GetCount(); i++) 
-		mask[0] += GetAt(i).GetFilter() + _T(";");
+	{
+		strTemp  = GetAt(i).GetFilter() + _T(";");;
+		mask[0] += strTemp;
+		filter  += strTemp;
+	}
 	mask[0].TrimRight(_T(";"));
+	filter.TrimRight(_T(";"));
+	filter += _T("|");
 
 	for(int i = 0; i < GetCount(); i++)
 	{
 		CMediaFormatCategory& mfc = GetAt(i);
-		filter += mfc.GetLabel() + _T("|__dummy|");
+		filter += mfc.GetLabel() + _T("|" + GetAt(i).GetFilter() + _T("|"));
 		mask.Add(mfc.GetFilter());
 	}
 
@@ -326,6 +334,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 
 void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 {
+	CString		strTemp;
 	filter += ResStr(IDS_MEDIAFORMATS_36);
 	mask.Add(_T(""));
 
@@ -333,16 +342,20 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 	{
 		CMediaFormatCategory& mfc = GetAt(i);
 		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) continue;
-		mask[0] += GetAt(i).GetFilter() + _T(";");
+		strTemp  = GetAt(i).GetFilter() + _T(";");
+		mask[0] += strTemp;
+		filter  += strTemp;
 	}
 
 	mask[0].TrimRight(_T(";"));
+	filter.TrimRight(_T(";"));
+	filter += _T("|");
 
 	for(int i = 0; i < GetCount(); i++)
 	{
 		CMediaFormatCategory& mfc = GetAt(i);
 		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) continue;
-		filter += mfc.GetLabel() + _T("|__dummy|");
+		filter += mfc.GetLabel() + _T("|") + GetAt(i).GetFilter() + _T("|");
 		mask.Add(mfc.GetFilter());
 	}
 

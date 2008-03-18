@@ -9,6 +9,8 @@ v1.x.x.x - Unreleased
  FIXED  : Minimum EVR buffer set to 3 (instead of 1)
  FIXED  : Better subtitle synchronization with EVR custom (delay due to buffering remove)
  FIXED  : DXVA compatibility improved with some nVidia cards
+ FIXED  : Report subtitle fixes from Guliverkli2
+ FIXED  : Incorrect colors with DXVA internal decoder for H264 files with multiple PPS / SPS settings
 
 v1.1.0.0 - 6.March 2008
 ======================
