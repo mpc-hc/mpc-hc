@@ -320,10 +320,11 @@ void CShuttlePN31Client::Connect()
 void CShuttlePN31Client::Disconnect()
 {
 	DWORD		dwSize;
+	UNREFERENCED_PARAMETER(dwSize);
 //	if (m_hPipe != INVALID_HANDLE_VALUE)
 //	{
 //		HANDLE	hEndMsg;
-////		FlushFileBuffers(m_hPipe); 
+//		FlushFileBuffers(m_hPipe); 
 //		DWORD dwMode = PIPE_NOWAIT;
 //		SetNamedPipeHandleState (m_hPipe, &dwMode, NULL, NULL);
 //		DisconnectNamedPipe(m_hPipe); 

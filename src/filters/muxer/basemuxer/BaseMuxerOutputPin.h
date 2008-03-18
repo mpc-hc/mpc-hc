@@ -24,7 +24,7 @@
 #include "BitStream.h"
 #include "BaseMuxerInputPin.h"
 #include "BaseMuxerRelatedPin.h"
-// #include "..\..\..\subtitles\libssf\SubtitleFile.h"
+#include "..\..\..\subtitles\libssf\SubtitleFile.h"
 
 class CBaseMuxerOutputPin : public CBaseOutputPin
 {
@@ -53,7 +53,7 @@ class CBaseMuxerRawOutputPin : public CBaseMuxerOutputPin, public CBaseMuxerRela
 	struct idx_t {REFERENCE_TIME rt; __int64 fp;};
 	CAtlList<idx_t> m_idx;
 
-//	ssf::SubtitleFile m_ssf;
+	ssf::SubtitleFile m_ssf;
 
 public:
 	CBaseMuxerRawOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);

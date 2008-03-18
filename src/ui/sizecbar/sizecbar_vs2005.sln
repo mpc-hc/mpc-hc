@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "sizecbar.vcproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "sizecbar_vs2005.vcproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

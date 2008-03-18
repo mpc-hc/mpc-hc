@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subpic", "subpic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subpic", "subpic_vs2005.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

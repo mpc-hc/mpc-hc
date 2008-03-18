@@ -289,7 +289,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib Winmm.lib"
+				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib libssfDU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -364,7 +364,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib Winmm.lib"
+				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib libssfDU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -435,7 +435,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib Winmm.lib"
+				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib libssfRU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -508,7 +508,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib Winmm.lib"
+				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib libssfRU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
