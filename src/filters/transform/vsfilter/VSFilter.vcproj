@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="VSFilter"
 	ProjectGUID="{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}"
 	RootNamespace="VSFilter"
 	Keyword="AtlProj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -41,6 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
@@ -85,9 +87,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -165,9 +164,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -198,6 +194,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
@@ -244,9 +241,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -326,9 +320,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

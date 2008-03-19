@@ -18,7 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subtitles", "..\..\..\subti
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsutil", "..\..\..\dsutil\dsutil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basevideofilter", "..\basevideofilter\basevideofilter_vs2005.vcproj", "{54DDA60F-E528-4D07-A152-960A1E818680}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basevideofilter", "..\basevideofilter\basevideofilter.vcproj", "{54DDA60F-E528-4D07-A152-960A1E818680}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "..\..\..\subtitles\libssf\libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
