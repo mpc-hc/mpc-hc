@@ -1694,6 +1694,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 
 	// High merit MPC Video Decoder
 	pFGF = new CFGFilterInternal<CMPCVideoDecFilter>(_T("MPC Video Decoder"), MERIT64_ABOVE_DSHOW);
+	if (tra & TRA_FLV4)
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
+	}
 	if (tra & TRA_VP62)
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
@@ -1702,8 +1707,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP62);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6F);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6A);
-		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
-		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
 	}
 	if (tra & TRA_H264)
 	{
@@ -1831,6 +1834,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 
 	// Low merit MPC Video Decoder
 	pFGF = new CFGFilterInternal<CMPCVideoDecFilter>(_T("MPC Video Decoder (low merit)"), MERIT64_DO_USE);
+	if (!(tra & TRA_FLV4))
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
+	}
 	if (!(tra & TRA_VP62))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP50);
@@ -1839,8 +1847,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP62);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6F);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6A);
-		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV1);
-		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_FLV4);
 	}
 	if (!(tra & TRA_H264))
 	{

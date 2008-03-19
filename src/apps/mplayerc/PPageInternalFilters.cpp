@@ -63,7 +63,6 @@ s_filters[] =
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
 	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
-	{_T("FLV4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, NULL},
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
 #ifndef _WIN64		// TODOX64 : fix DVSource internal filter
@@ -74,8 +73,10 @@ s_filters[] =
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("FLV1/4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VP5/6"), 1, TRA_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("H264/AVC (DXVA)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("VC1"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VC1 (DXVA)"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Xvid"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Generic MPEG-4"), 1, TRA_MPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},

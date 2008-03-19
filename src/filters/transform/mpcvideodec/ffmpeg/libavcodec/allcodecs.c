@@ -70,7 +70,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER  (h263);
     REGISTER_DECODER  (h263i);
 //    REGISTER_DECODER    (h263p);
-   REGISTER_DECODER  (h264);
+    REGISTER_DECODER  (h264);
 //    REGISTER_DECODER    (huffyuv);
 //    REGISTER_DECODER    (indeo2);
 //    REGISTER_DECODER    (indeo3);
@@ -82,7 +82,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER    (mpeg1video);
 //    REGISTER_DECODER    (mpeg2video);
     REGISTER_DECODER  (mpeg4);
-//    REGISTER_DECODER  (mpegvideo);
+    REGISTER_DECODER  (mpegvideo);
     REGISTER_DECODER  (msmpeg4v1);
     REGISTER_DECODER  (msmpeg4v2);
     REGISTER_DECODER  (msmpeg4v3);
