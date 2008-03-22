@@ -122,9 +122,6 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	NULL },
 	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	NULL },
 
-	// Mpeg2
-	//{ &MEDIASUBTYPE_MPEG2_VIDEO, CODEC_ID_MPEG2VIDEO, MAKEFOURCC('M','P','G','2'),	NULL },
-
 	// Xvid
 	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	NULL },
 	{ &MEDIASUBTYPE_xvid, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','d'),	NULL },
@@ -666,7 +663,7 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 
 bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 {
-	return (nCodec==CODEC_ID_MPEG1VIDEO) || (nCodec==CODEC_ID_MPEG2VIDEO) || (nCodec==CODEC_ID_H264);
+	return (nCodec==CODEC_ID_H264);
 }
 
 

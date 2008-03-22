@@ -1828,8 +1828,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_THEORA);
 	}
-
-
+	if (tra & TRA_AMVV)
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
+	}
 	m_transform.AddTail(pFGF);
 
 	// Low merit MPC Video Decoder
@@ -1968,11 +1970,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_THEORA);
 	}
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
+	if (!(tra & TRA_AMVV))
+	{
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
+	}
 	m_transform.AddTail(pFGF);
-
-
 
 	// Low merit MPC Audio Decoder
 	/*
@@ -1981,7 +1983,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA_AMV);
 	m_transform.AddTail(pFGF);
 	*/
-
 
 #endif /* MINIMAL_BUILTIN_FILTERS */
 	// Blocked filters

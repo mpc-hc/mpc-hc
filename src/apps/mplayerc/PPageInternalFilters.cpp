@@ -83,6 +83,7 @@ s_filters[] =
 	{_T("MSMPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("SVQ1"), 1, TRA_SVQ1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("AMVV"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
