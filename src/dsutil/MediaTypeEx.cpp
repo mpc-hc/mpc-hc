@@ -207,6 +207,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 		names['VP60'] = _T("On2 VP6");
 		names['SVQ3'] = _T("SVQ3");
 		names['SVQ1'] = _T("SVQ1");
+		names['H263'] = _T("H263");
 		// names[''] = _T("");
 	}
 

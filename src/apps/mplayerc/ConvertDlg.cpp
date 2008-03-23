@@ -440,10 +440,11 @@ void CConvertDlg::ShowPinPopup(HTREEITEM hTI, CPoint p)
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_MP41 || mt.subtype == MEDIASUBTYPE_mp41 || mt.subtype == MEDIASUBTYPE_DIV1 || mt.subtype == MEDIASUBTYPE_div1)) ext = _T("mp41");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_VP50) ext = _T("vp5");
 			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_VP60 || mt.subtype == MEDIASUBTYPE_VP61 || mt.subtype == MEDIASUBTYPE_VP62 || mt.subtype == MEDIASUBTYPE_VP6A || mt.subtype == MEDIASUBTYPE_VP6F)) ext = _T("vp6");
-			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV1) ext = _T("flv1");
-			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV4) ext = _T("flv4");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV1) ext = _T("flv");
+			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_FLV4) ext = _T("flv");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_SVQ3) ext = _T("svq3");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_SVQ1) ext = _T("svq1");
+			else if(mt.majortype == MEDIATYPE_Video && (mt.subtype == MEDIASUBTYPE_H263 || mt.subtype == MEDIASUBTYPE_h263)) ext = _T("h263");
 			else if(mt.subtype == FOURCCMap('GEPJ') || mt.subtype == FOURCCMap('gepj')) ext = _T("jpg");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG2_VIDEO) ext = _T("m2v");
 			else if(mt.majortype == MEDIATYPE_Video && mt.subtype == MEDIASUBTYPE_MPEG1Payload) ext = _T("m1v");

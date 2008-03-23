@@ -229,6 +229,10 @@ FFMPEG_CODECS		ffCodecs[] =
 	// SVQ1
 	{ &MEDIASUBTYPE_SVQ1, CODEC_ID_SVQ1, MAKEFOURCC('S','V','Q','1'),	NULL },
 
+	// H263
+	{ &MEDIASUBTYPE_H263, CODEC_ID_H263, MAKEFOURCC('H','2','6','3'),	NULL },
+	{ &MEDIASUBTYPE_h263, CODEC_ID_H263, MAKEFOURCC('h','2','6','3'),	NULL },
+
 	// Theora
 	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'),	NULL },
 
@@ -362,6 +366,10 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	// SVQ1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ1   },
 
+	// H263
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H263   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_h263   },
+
 	// Theora
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_THEORA },
 
@@ -394,7 +402,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_FLASH|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MPEG4|MPCVD_MSMPEG4|MPCVD_SVQ1|MPCVD_SVQ3|MPCVD_THEORA;
+	m_nActiveCodecs			= MPCVD_FLASH|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MPEG4|MPCVD_MSMPEG4|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -534,16 +542,20 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				bCodecActivated = (m_nActiveCodecs & MPCVD_H264) != 0;
 				break;
 			case CODEC_ID_SVQ3 :
+			case CODEC_ID_SVQ1 :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_SVQ3) != 0;
 				break;
-			case CODEC_ID_SVQ1 :
-				bCodecActivated = (m_nActiveCodecs & MPCVD_SVQ1) != 0;
+			case CODEC_ID_H263 :
+				bCodecActivated = (m_nActiveCodecs & MPCVD_H263) != 0;
 				break;
 			case CODEC_ID_THEORA :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_THEORA) != 0;
 				break;
 			case CODEC_ID_VC1 :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_VC1) != 0;
+				break;
+			case CODEC_ID_AMV :
+				bCodecActivated = (m_nActiveCodecs & MPCVD_AMVV) != 0;
 				break;
 			default :
 				ASSERT(FALSE);
@@ -841,7 +853,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 			m_pVideoOutputFormat[nPos].subtype			= ffCodecs[m_nCodecNb].DXVAModes->Decoder[nPos];
 			m_pVideoOutputFormat[nPos].biCompression	= 'avxd';
 			m_pVideoOutputFormat[nPos].biBitCount		= 12;
-			m_pVideoOutputFormat[nPos].biPlanes		= 1;
+			m_pVideoOutputFormat[nPos].biPlanes			= 1;
 		}
 
 		// Static list for DXVA2

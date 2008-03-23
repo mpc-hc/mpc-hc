@@ -69,7 +69,6 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER        (h261);
     REGISTER_DECODER  (h263);
     REGISTER_DECODER  (h263i);
-//    REGISTER_DECODER    (h263p);
     REGISTER_DECODER  (h264);
 //    REGISTER_DECODER    (huffyuv);
 //    REGISTER_DECODER    (indeo2);
@@ -99,6 +98,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER    (rv20);
 //    #if __STDC_VERSION__ >= 199901L
 //    REGISTER_ENCDEC        (snow);
+//    #endif
     REGISTER_DECODER  (svq1);
     REGISTER_DECODER  (svq3);
     REGISTER_DECODER  (theora);
@@ -150,7 +150,7 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER  (adpcm_ct);
 //    REGISTER_DECODER  (adpcm_ea);
 //    REGISTER_DECODER  (adpcm_g726);
-    REGISTER_DECODER  (adpcm_ima_amv);
+//    REGISTER_DECODER  (adpcm_ima_amv);
 //    REGISTER_DECODER  (adpcm_ima_dk3);
 //    REGISTER_DECODER  (adpcm_ima_dk4);
 //    REGISTER_DECODER  (adpcm_ima_qt);

@@ -251,10 +251,12 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MPEG4) != 0);
 	m_lstCodecs.AddString (_T("MS-Mpeg4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);
-	m_lstCodecs.AddString (_T("SVQ1"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_SVQ1) != 0);
+	m_lstCodecs.AddString (_T("H263"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_H263) != 0);
 	m_lstCodecs.AddString (_T("SVQ3"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_SVQ3) != 0);
+	m_lstCodecs.AddString (_T("AMVV"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_AMVV) != 0);
 	m_lstCodecs.AddString (_T("Theora"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_THEORA) != 0);
 
@@ -284,8 +286,9 @@ bool CMPCVideoDecCodecWnd::OnApply()
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_DIVX;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MPEG4;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MSMPEG4;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_SVQ1;
+		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H263;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_SVQ3;
+		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_AMVV;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_THEORA;
 		m_pMDF->SetActiveCodecs ((MPC_VIDEO_CODEC)nActiveCodecs);
 

@@ -107,7 +107,7 @@ v1.0.6.0 - 07.May 2007
 ======================
  NEW    : VP62 codec internal filter re-activated
  NEW	: Mpeg4 splitter internal filter re-activated
- CHANGED: Drevil_xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
+ CHANGED: _xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
  FIXED  : Window "flashing" during resize, after video loaded
 
 v1.0.5.0 - 05.May 2007
