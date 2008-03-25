@@ -417,6 +417,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nCompatibilityMode	= 0;
 	m_pFFBuffer				= NULL;
 	m_nFFBufferSize			= 0;
+	m_nWidth				= 0;
+	m_nHeight				= 0;
 
 	m_nDXVAMode				= MODE_SOFTWARE;
 	m_pDXVADecoder			= NULL;
@@ -479,19 +481,19 @@ void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
 
 int CMPCVideoDecFilter::PictWidth()
 {
-	return m_pAVCtx ? m_pAVCtx->width  : 0; 
+	return m_nWidth; 
 }
 
 int CMPCVideoDecFilter::PictHeight()
 {
 	// Picture height should be rounded to 16 for DXVA
-	return m_pAVCtx ? m_pAVCtx->height : 0;
+	return m_nHeight;
 }
 
 int CMPCVideoDecFilter::PictHeightRounded()
 {
 	// Picture height should be rounded to 16 for DXVA
-	return m_pAVCtx ? ((m_pAVCtx->height + 15) / 16) * 16: 0;
+	return ((m_nHeight + 15) / 16) * 16;
 }
 
 
@@ -593,10 +595,12 @@ void CMPCVideoDecFilter::Cleanup()
 	}
 	if (m_pFrame)	av_free(m_pFrame);
 
-	m_pAVCodec	= NULL;
-	m_pAVCtx	= NULL;
-	m_pFrame	= NULL;
-	m_nCodecNb	= -1;
+	m_pAVCodec		= NULL;
+	m_pAVCtx		= NULL;
+	m_pFrame		= NULL;
+	m_pFFBuffer		= NULL;
+	m_nFFBufferSize	= 0;
+	m_nCodecNb		= -1;
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
 	// Release DXVA ressources
@@ -742,6 +746,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 					m_bReorderBFrame = false;
 				}
 			}
+			m_nWidth	= m_pAVCtx->width;
+			m_nHeight	= m_pAVCtx->height;
 			
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
@@ -936,8 +942,12 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin)
 {
 	LOG(_T("CMPCVideoDecFilter::CompleteConnect"));
-	if ( (direction==PINDIR_OUTPUT) &&
-		 IsDXVASupported() )		 
+
+	if (direction==PINDIR_INPUT && m_pOutput->IsConnected())
+	{
+		ReconnectOutput (m_nWidth, m_nHeight);
+	}
+	else if ( (direction==PINDIR_OUTPUT) && IsDXVASupported() )		 
 	{
 
 		if (m_nDXVAMode == MODE_DXVA1)
@@ -990,6 +1000,17 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	if (m_pDXVADecoder)
 		m_pDXVADecoder->Flush();
 	return __super::NewSegment (rtStart, rtStop, dRate);
+}
+
+
+HRESULT CMPCVideoDecFilter::BreakConnect(PIN_DIRECTION dir)
+{
+	if (dir == PINDIR_INPUT)
+	{
+		Cleanup();
+	}
+
+	return __super::BreakConnect (dir);
 }
 
 

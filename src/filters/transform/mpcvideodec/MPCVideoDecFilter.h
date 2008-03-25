@@ -100,6 +100,8 @@ protected:
 	int										m_nPosB;
 	BYTE*									m_pFFBuffer;
 	int										m_nFFBufferSize;
+	int										m_nWidth;				// Frame width give to input pin
+	int										m_nHeight;				// Frame height give to input pin
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
@@ -152,6 +154,7 @@ public:
 	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
     HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT			NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate);
+	HRESULT			BreakConnect(PIN_DIRECTION dir);
 
 
 	// === ISpecifyPropertyPages2
