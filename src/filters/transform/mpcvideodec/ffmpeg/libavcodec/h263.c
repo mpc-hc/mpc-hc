@@ -2987,7 +2987,7 @@ void ff_h263_encode_mba(MpegEncContext *s)
 
 /**
  * decodes the group of blocks header or slice header.
- * @return <0 if an error occured
+ * @return <0 if an error occurred
  */
 static int h263_decode_gob_header(MpegEncContext *s)
 {
@@ -3200,7 +3200,7 @@ static int mpeg4_decode_video_packet_header(MpegEncContext *s)
     }
     if(s->pict_type == FF_B_TYPE){
         while(s->next_picture.mbskip_table[ s->mb_index2xy[ mb_num ] ]) mb_num++;
-        if(mb_num >= s->mb_num) return -1; // slice contains just skipped MBs which where allready decoded
+        if(mb_num >= s->mb_num) return -1; // slice contains just skipped MBs which where already decoded
     }
 
     s->mb_x= mb_num % s->mb_width;
@@ -3383,7 +3383,7 @@ static inline int get_amv(MpegEncContext *s, int n){
 
 /**
  * decodes first partition.
- * @return number of MBs decoded or <0 if an error occured
+ * @return number of MBs decoded or <0 if an error occurred
  */
 static int mpeg4_decode_partition_a(MpegEncContext *s){
     int mb_num;
@@ -3548,7 +3548,7 @@ try_again:
 
 /**
  * decode second partition.
- * @return <0 if an error occured
+ * @return <0 if an error occurred
  */
 static int mpeg4_decode_partition_b(MpegEncContext *s, int mb_count){
     int mb_num=0;
@@ -3688,7 +3688,7 @@ int ff_mpeg4_decode_partitions(MpegEncContext *s)
 
 /**
  * decode partition C of one MB.
- * @return <0 if an error occured
+ * @return <0 if an error occurred
  */
 static int mpeg4_decode_partitioned_mb(MpegEncContext *s, DCTELEM block[6][64])
 {
@@ -4717,7 +4717,7 @@ static inline int mpeg4_decode_dc(MpegEncContext * s, int n, int *dir_ptr)
 
 /**
  * decodes a block.
- * @return <0 if an error occured
+ * @return <0 if an error occurred
  */
 static inline int mpeg4_decode_block(MpegEncContext * s, DCTELEM * block,
                               int n, int coded, int intra, int rvlc)

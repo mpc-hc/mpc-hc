@@ -18,7 +18,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -26,8 +25,12 @@
  * Cook AKA RealAudio G2 compatible decoderdata
  */
 
-#ifndef AVCODEC_COOKDATA_H
-#define AVCODEC_COOKDATA_H
+#ifndef FFMPEG_COOKDATA_H
+#define FFMPEG_COOKDATA_H
+
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
 
 /* various data tables */
 
@@ -38,8 +41,6 @@ static const int expbits_tab[8] = {
 static const float dither_tab[8] = {
   0.0, 0.0, 0.0, 0.0, 0.0, 0.176777, 0.25, 0.707107,
 };
-
-static const float randsign[2] = {1.0, -1.0};
 
 static const float quant_centroid_tab[7][14] = {
   { 0.000, 0.392, 0.761, 1.120, 1.477, 1.832, 2.183, 2.541, 2.893, 3.245, 3.598, 3.942, 4.288, 4.724 },
@@ -561,4 +562,4 @@ static const float* cplscales[5] = {
     cplscale2, cplscale3, cplscale4, cplscale5, cplscale6,
 };
 
-#endif // AVCODEC_COOKDATA_H
+#endif /* FFMPEG_COOKDATA_H */

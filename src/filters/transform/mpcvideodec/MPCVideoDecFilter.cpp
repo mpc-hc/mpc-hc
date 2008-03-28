@@ -110,17 +110,25 @@ FFMPEG_CODECS		ffCodecs[] =
 {
 	// Flash video
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	NULL },
+	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, MAKEFOURCC('f','l','v','1'),	NULL },
 
 	// VP5
 	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	NULL },
+	{ &MEDIASUBTYPE_vp50, CODEC_ID_VP5,  MAKEFOURCC('v','p','5','0'),	NULL },
 
 	// VP6
 	{ &MEDIASUBTYPE_VP60, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','0'),	NULL },
+	{ &MEDIASUBTYPE_vp60, CODEC_ID_VP6,  MAKEFOURCC('v','p','6','0'),	NULL },
 	{ &MEDIASUBTYPE_VP61, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','1'),	NULL },
+	{ &MEDIASUBTYPE_vp61, CODEC_ID_VP6,  MAKEFOURCC('v','p','6','1'),	NULL },
 	{ &MEDIASUBTYPE_VP62, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','2'),	NULL },
+	{ &MEDIASUBTYPE_vp62, CODEC_ID_VP6,  MAKEFOURCC('v','p','6','2'),	NULL },
 	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, MAKEFOURCC('F','L','V','4'),	NULL },
+	{ &MEDIASUBTYPE_flv4, CODEC_ID_VP6F, MAKEFOURCC('f','l','v','4'),	NULL },
 	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	NULL },
+	{ &MEDIASUBTYPE_vp6f, CODEC_ID_VP6F, MAKEFOURCC('v','p','6','f'),	NULL },
 	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	NULL },
+	{ &MEDIASUBTYPE_vp6a, CODEC_ID_VP6A, MAKEFOURCC('v','p','6','a'),	NULL },
 
 	// Xvid
 	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	NULL },
@@ -235,29 +243,36 @@ FFMPEG_CODECS		ffCodecs[] =
 
 	// Theora
 	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'),	NULL },
+	{ &MEDIASUBTYPE_theora, CODEC_ID_THEORA, MAKEFOURCC('t','h','e','o'),	NULL },
 
 	// WVC1
 	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'),	&DXVA_VC1 },
+	{ &MEDIASUBTYPE_wvc1, CODEC_ID_VC1,  MAKEFOURCC('w','v','c','1'),	&DXVA_VC1 }
 };
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 {
 	// Flash video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv1   },
 
 	// VP5
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP50   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp50   },
 
 	// VP6
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP60   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp60   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP61   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp61   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP62   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp62   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6f   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
-
-	// Mpeg2
-	//{ &MEDIATYPE_Video, &MEDIASUBTYPE_MPEG2_VIDEO   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6a   },
 
 	// Xvid
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVID   },
@@ -372,9 +387,11 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 
 	// Theora
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_THEORA },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_theora },
 
 	// VC1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WVC1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wvc1   }
 };
 const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
 
@@ -382,7 +399,7 @@ const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::s
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV12},
-	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV24},
+	{&MEDIATYPE_Video, &MEDIASUBTYPE_NV24}
 };
 const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::sudPinTypesOut);
 

@@ -146,7 +146,7 @@ typedef struct ADPCMContext {
     ADPCMChannelStatus status[2];
 } ADPCMContext;
 
-static int adpcm_decode_init(AVCodecContext * avctx)
+static av_cold int adpcm_decode_init(AVCodecContext * avctx)
 {
     ADPCMContext *c = avctx->priv_data;
     unsigned int max_channels = 2;

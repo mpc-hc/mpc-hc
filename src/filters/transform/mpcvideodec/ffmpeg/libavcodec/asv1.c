@@ -113,7 +113,7 @@ static VLC dc_ccp_vlc;
 static VLC ac_ccp_vlc;
 static VLC asv2_level_vlc;
 
-static void init_vlcs(ASV1Context *a){
+static av_cold void init_vlcs(ASV1Context *a){
     static int done = 0;
 
     if (!done) {
@@ -375,7 +375,7 @@ for(i=0; i<s->avctx->extradata_size; i++){
     return (get_bits_count(&a->gb)+31)/32*4;
 }
 
-static void common_init(AVCodecContext *avctx){
+static av_cold void common_init(AVCodecContext *avctx){
     ASV1Context * const a = avctx->priv_data;
 
     dsputil_init(&a->dsp, avctx);
@@ -389,7 +389,7 @@ static void common_init(AVCodecContext *avctx){
     a->avctx= avctx;
 }
 
-static int decode_init(AVCodecContext *avctx){
+static av_cold int decode_init(AVCodecContext *avctx){
     ASV1Context * const a = avctx->priv_data;
     AVFrame *p= (AVFrame*)&a->picture;
     int i;
@@ -423,7 +423,7 @@ static int decode_init(AVCodecContext *avctx){
     return 0;
 }
 
-static int decode_end(AVCodecContext *avctx){
+static av_cold int decode_end(AVCodecContext *avctx){
     ASV1Context * const a = avctx->priv_data;
 
     av_freep(&a->bitstream_buffer);

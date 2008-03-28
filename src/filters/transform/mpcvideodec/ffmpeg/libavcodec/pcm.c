@@ -40,7 +40,7 @@
  * alaw2linear() - Convert an A-law value to 16-bit linear PCM
  *
  */
-static int alaw2linear(unsigned char a_val)
+static av_cold int alaw2linear(unsigned char a_val)
 {
         int t;
         int seg;
@@ -55,7 +55,7 @@ static int alaw2linear(unsigned char a_val)
         return ((a_val & SIGN_BIT) ? t : -t);
 }
 
-static int ulaw2linear(unsigned char u_val)
+static av_cold int ulaw2linear(unsigned char u_val)
 {
         int t;
 

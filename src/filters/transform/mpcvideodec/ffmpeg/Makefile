@@ -21,7 +21,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/ac3tab.c \
       $(LAVC_DIR)/adpcm.c \
       $(LAVC_DIR)/allcodecs.c \
-      $(LAVC_DIR)/amr.c \
+      $(LAVC_DIR)/libamr.c \
       $(LAVC_DIR)/amr_float/interf_dec.c \
       $(LAVC_DIR)/amr_float/sp_dec.c \
       $(LAVC_DIR)/atrac3.c \
@@ -159,6 +159,7 @@ ifneq ($(CC),cl)
 SRCS_C+=$(LAVC_DIR)/i386/cputest.c \
       $(LAVC_DIR)/i386/cavsdsp_mmx.c \
       $(LAVC_DIR)/i386/dsputil_mmx.c \
+      $(LAVC_DIR)/i386/dsputilenc_mmx.c \
       $(LAVC_DIR)/i386/fdct_mmx.c \
       $(LAVC_DIR)/i386/fft_3dn.c \
       $(LAVC_DIR)/i386/fft_3dn2.c \

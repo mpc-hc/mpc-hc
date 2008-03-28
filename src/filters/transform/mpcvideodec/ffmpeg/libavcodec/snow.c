@@ -3474,7 +3474,7 @@ static void init_qexp(void){
     }
 }
 
-static int common_init(AVCodecContext *avctx){
+static av_cold int common_init(AVCodecContext *avctx){
     SnowContext *s = avctx->priv_data;
     int width, height;
     int i, j;
@@ -3794,7 +3794,7 @@ static void dwt_quantize(SnowContext *s, Plane *p, DWTELEM *buffer, int width, i
 
 #endif /* QUANTIZE2==1 */
 
-static int encode_init(AVCodecContext *avctx)
+static av_cold int encode_init(AVCodecContext *avctx)
 {
     SnowContext *s = avctx->priv_data;
     int plane_index;
@@ -4251,7 +4251,7 @@ redo_frame:
     return ff_rac_terminate(c);
 }
 
-static void common_end(SnowContext *s){
+static av_cold void common_end(SnowContext *s){
     int plane_index, level, orientation, i;
 
     av_freep(&s->spatial_dwt_buffer);
@@ -4282,7 +4282,7 @@ static void common_end(SnowContext *s){
     }
 }
 
-static int encode_end(AVCodecContext *avctx)
+static av_cold int encode_end(AVCodecContext *avctx)
 {
     SnowContext *s = avctx->priv_data;
 
@@ -4292,7 +4292,7 @@ static int encode_end(AVCodecContext *avctx)
     return 0;
 }
 
-static int decode_init(AVCodecContext *avctx)
+static av_cold int decode_init(AVCodecContext *avctx)
 {
     avctx->pix_fmt= PIX_FMT_YUV420P;
 
@@ -4464,7 +4464,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size, const
     return bytes_read;
 }
 
-static int decode_end(AVCodecContext *avctx)
+static av_cold int decode_end(AVCodecContext *avctx)
 {
     SnowContext *s = avctx->priv_data;
 

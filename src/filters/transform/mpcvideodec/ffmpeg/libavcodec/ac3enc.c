@@ -608,7 +608,7 @@ static int compute_bit_allocation(AC3EncodeContext *s,
     return 0;
 }
 
-static int AC3_encode_init(AVCodecContext *avctx)
+static av_cold int AC3_encode_init(AVCodecContext *avctx)
 {
     int freq = avctx->sample_rate;
     int bitrate = avctx->bit_rate;
@@ -677,7 +677,7 @@ static int AC3_encode_init(AVCodecContext *avctx)
     } else {
         /* use default bandwidth setting */
         /* XXX: should compute the bandwidth according to the frame
-           size, so that we avoid anoying high freq artefacts */
+           size, so that we avoid annoying high frequency artifacts */
         bw_code = 50;
     }
     for(ch=0;ch<s->nb_channels;ch++) {
@@ -1256,7 +1256,7 @@ static int AC3_encode_frame(AVCodecContext *avctx,
     return output_frame_end(s);
 }
 
-static int AC3_encode_close(AVCodecContext *avctx)
+static av_cold int AC3_encode_close(AVCodecContext *avctx)
 {
     av_freep(&avctx->coded_frame);
     return 0;

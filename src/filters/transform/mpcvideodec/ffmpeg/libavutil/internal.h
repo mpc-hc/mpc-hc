@@ -30,10 +30,6 @@
 #    define NDEBUG
 #endif
 
-#if defined(_MSC_VER) & !defined(__cplusplus)
-#    define inline
-#endif
-
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
@@ -126,20 +122,18 @@
 #    define memcpy(a,b,c) fast_memcpy(a,b,c)
 #endif
 
-// Use rip-relative addressing if compiling PIC code on x86-64.
 #if defined(__MINGW32__) || defined(__CYGWIN__)
-#    if defined(ARCH_X86_64) && defined(PIC)
-#        define MANGLE(a) "_" #a"(%%rip)"
-#    else
-#        define MANGLE(a) "_" #a
-#    endif
-#else
-#    if defined(ARCH_X86_64) && defined(PIC)
-#        define MANGLE(a) #a"(%%rip)"
-#    else
-#        define MANGLE(a) #a
-#    endif
+#define EXTERN_PREFIX "_"
 #endif
+
+// Use rip-relative addressing if compiling PIC code on x86-64.
+#if defined(ARCH_X86_64) && defined(PIC)
+#    define LOCAL_MANGLE(a) #a "(%%rip)"
+#else
+#    define LOCAL_MANGLE(a) #a
+#endif
+
+#define MANGLE(a) EXTERN_PREFIX LOCAL_MANGLE(a)
 
 /* debug stuff */
 
@@ -181,7 +175,7 @@ extern const uint8_t ff_sqrt_tab[256];
 
 static inline int av_log2_16bit(unsigned int v);
 
-static inline unsigned int ff_sqrt(unsigned int a)
+static inline av_const unsigned int ff_sqrt(unsigned int a)
 {
     unsigned int b;
 
@@ -269,11 +263,8 @@ if((y)<(x)){\
     }\
 }
 
-#ifndef HAVE_LRINTF
-static av_always_inline long int lrintf(float x)
-{
-    return (int)(rint(x));
-}
-#endif /* HAVE_LRINTF */
+#ifndef __GNUC__
+  #define lrintf(x) (int)(x)
+#endif
 
 #endif /* FFMPEG_INTERNAL_H */

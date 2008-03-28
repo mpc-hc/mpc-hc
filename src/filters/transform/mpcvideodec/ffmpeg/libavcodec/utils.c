@@ -64,7 +64,11 @@ void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
 
     *size= FFMAX(17*min_size/16 + 32, min_size);
 
-    return av_realloc(ptr, *size);
+    ptr= av_realloc(ptr, *size);
+    if(!ptr) //we could set this to the unmodified min_size but this is safer if the user lost the ptr and uses NULL now
+        *size= 0;
+
+    return ptr;
 }
 
 static unsigned int last_static = 0;
@@ -113,7 +117,9 @@ void av_free_static(void)
  * Call av_free_static automatically before it's too late
  */
 
+#ifdef __GNUC__
 static void do_free(void) __attribute__ ((destructor));
+#endif
 
 static void do_free(void)
 {

@@ -43,7 +43,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 51
-#define LIBAVCODEC_VERSION_MINOR 51
+#define LIBAVCODEC_VERSION_MINOR 52
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -351,6 +351,8 @@ typedef struct AVPanScan{
 \
     /**\
      * is this picture used as reference\
+     * The values for this are the same as the MpegEncContext.picture_structure\
+     * variable, that is 1->top field, 2->bottom field, 3->frame/both fields.\
      * - encoding: unused\
      * - decoding: Set by libavcodec. (before get_buffer() call)).\
      */\
@@ -888,7 +890,7 @@ typedef struct AVCodecContext {
     int (*get_buffer)(struct AVCodecContext *c, AVFrame *pic);
 
     /**
-     * Called to release buffers which where allocated with get_buffer.
+     * Called to release buffers which were allocated with get_buffer.
      * A released buffer can be reused in get_buffer().
      * pic.data[*] must be set to NULL.
      * - encoding: unused
@@ -1985,8 +1987,16 @@ typedef struct AVCodec {
     int (*close)(AVCodecContext *);
     int (*decode)(AVCodecContext *, void *outdata, int *outdata_size,
                   const uint8_t *buf, int buf_size);
+    /**
+     * Codec capabilities.
+     * see CODEC_CAP_*
+     */
     int capabilities;
     struct AVCodec *next;
+    /**
+     * Flush buffers.
+     * Will be called when seeking
+     */
     void (*flush)(AVCodecContext *);
     const AVRational *supported_framerates; ///array of supported framerates, or NULL if any, array is terminated by {0,0}
     const enum PixelFormat *pix_fmts;       ///array of supported pixel formats, or NULL if unknown, array is terminanted by -1

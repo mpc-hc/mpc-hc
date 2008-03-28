@@ -1889,7 +1889,7 @@ static void hl_motion(H264Context *h, uint8_t *dest_y, uint8_t *dest_cb, uint8_t
     prefetch_motion(h, 1);
 }
 
-static void decode_init_vlc(void){
+static av_cold void decode_init_vlc(void){
     static int done = 0;
 
     if (!done) {
@@ -2103,7 +2103,7 @@ fail:
     return -1; // free_tables will clean up for us
 }
 
-static void common_init(H264Context *h){
+static av_cold void common_init(H264Context *h){
     MpegEncContext * const s = &h->s;
 
     s->width = s->avctx->width;
@@ -2120,7 +2120,7 @@ static void common_init(H264Context *h){
     memset(h->pps.scaling_matrix8, 16, 2*64*sizeof(uint8_t));
 }
 
-static int decode_init(AVCodecContext *avctx){
+static av_cold int decode_init(AVCodecContext *avctx){
     H264Context *h= avctx->priv_data;
     MpegEncContext * const s = &h->s;
 
@@ -3832,7 +3832,7 @@ static void clone_slice(H264Context *dst, H264Context *src, int full)
  * @param h h264context
  * @param h0 h264 master context (differs from 'h' when doing sliced based parallel decoding)
  *
- * @return 0 if okay, <0 if an error occured, 1 if decoding must not be multithreaded
+ * @return 0 if okay, <0 if an error occurred, 1 if decoding must not be multithreaded
  */
 static int decode_slice_header(H264Context *h, H264Context *h0){
     MpegEncContext * const s = &h->s;
@@ -4276,7 +4276,7 @@ static inline int get_dct8x8_allowed(H264Context *h){
  * @param n block index
  * @param scantable scantable
  * @param max_coeff number of coefficients in the block
- * @return <0 if an error occured
+ * @return <0 if an error occurred
  */
 static int decode_residual(H264Context *h, GetBitContext *gb, DCTELEM *block, int n, const uint8_t *scantable, const uint32_t *qmul, int max_coeff){
     MpegEncContext * const s = &h->s;

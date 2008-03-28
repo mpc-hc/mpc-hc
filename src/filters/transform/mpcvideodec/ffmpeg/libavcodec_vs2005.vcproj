@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="libavcodec"
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -392,10 +392,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amr.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\asv1.c"
 				>
 			</File>
@@ -579,13 +575,6 @@
 				RelativePath=".\libavcodec\imc.c"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
@@ -644,6 +633,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\lcldec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\libamr.c"
 				>
 			</File>
 			<File
@@ -838,13 +831,6 @@
 				RelativePath=".\libavcodec\ra144.c"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
@@ -864,13 +850,6 @@
 			<File
 				RelativePath=".\libavcodec\ra288.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"

@@ -201,7 +201,7 @@ void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
  * note: This function must remain thread safe because it is called by the
  *       AVParser init code.
  */
-void ac3_common_init(void)
+av_cold void ac3_common_init(void)
 {
     int i, j, k, l, v;
     /* compute bndtab and masktab from bandsz */

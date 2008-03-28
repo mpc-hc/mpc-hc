@@ -323,7 +323,7 @@ static int amr_nb_decode_frame(AVCodecContext * avctx,
 {
     AMRContext *s = avctx->priv_data;
     uint8_t*amrData=buf;
-    static short block_size[16]={ 12, 13, 15, 17, 19, 20, 26, 31, 5, 0, 0, 0, 0, 0, 0, 0 };
+    static const uint8_t block_size[16]={ 12, 13, 15, 17, 19, 20, 26, 31, 5, 0, 0, 0, 0, 0, 0, 0 };
     enum Mode dec_mode;
     int packet_size;
 
@@ -348,9 +348,9 @@ static int amr_nb_decode_frame(AVCodecContext * avctx,
 
 #endif
 
-AVCodec amr_nb_decoder =
+AVCodec libamr_nb_decoder =
 {
-    "amr_nb",
+    "libamr_nb",
     CODEC_TYPE_AUDIO,
     CODEC_ID_AMR_NB,
     sizeof(AMRContext),

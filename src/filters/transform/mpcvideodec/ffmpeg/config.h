@@ -1,17 +1,16 @@
 #if defined(__GNUC__)
-  #define ARCH_X86 1
-  #ifndef ARCH_X86_64
-  	#define ARCH_X86_32 1
-  #endif
-  #define HAVE_SSSE3 1
-#endif
-
-#if defined(__GNUC__) || defined(__INTEL_COMPILER)
- #ifndef WIN64
   #define HAVE_MMX 1
- #endif
- #define HAVE_BUILTIN_VECTOR 1
- #define __CPU__ 686
+  #define HAVE_SSSE3 1
+
+  #define ARCH_X86 1
+
+  #ifndef ARCH_X86_64
+    #define ARCH_X86_32 1
+  #endif
+
+  #ifdef ARCH_X86_64
+    #define HAVE_FAST_64BIT 1
+  #endif
 #endif
 
 #define HAVE_MALLOC_H 1
@@ -26,12 +25,6 @@
 
 #define CONFIG_DECODERS 1
 
-#ifdef __GNUC__
- #include <stdint.h>
-#else
- #ifndef __attribute__
-  #define __attribute__(x) /**/
- #endif
- #define lrintf(x) (int)(x)
- #define EMULATE_FAST_INT
+#ifndef __GNUC__
+  #define EMULATE_FAST_INT
 #endif

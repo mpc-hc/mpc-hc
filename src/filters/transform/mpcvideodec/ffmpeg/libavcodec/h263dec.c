@@ -34,7 +34,7 @@
 //#define DEBUG
 //#define PRINT_FRAME_TIME
 
-int ff_h263_decode_init(AVCodecContext *avctx)
+av_cold int ff_h263_decode_init(AVCodecContext *avctx)
 {
     MpegEncContext *s = avctx->priv_data;
 
@@ -118,7 +118,7 @@ int ff_h263_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-int ff_h263_decode_end(AVCodecContext *avctx)
+av_cold int ff_h263_decode_end(AVCodecContext *avctx)
 {
     MpegEncContext *s = avctx->priv_data;
 

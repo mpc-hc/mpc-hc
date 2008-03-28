@@ -36,37 +36,27 @@
 #include <byteswap.h>
 #else
 
-#ifdef ARCH_X86_64
-#  define LEGACY_REGS "=Q"
-#else
-#  define LEGACY_REGS "=q"
-#endif
-
-static av_always_inline uint16_t bswap_16(uint16_t x)
+static av_always_inline av_const uint16_t bswap_16(uint16_t x)
 {
 #if defined(ARCH_X86)
-    __asm("rorw $8, %0"   :
-          LEGACY_REGS (x) :
-          "0" (x));
+    asm("rorw $8, %0" : "+r"(x));
 #else
     x= (x>>8) | (x<<8);
 #endif
     return x;
 }
 
-static av_always_inline uint32_t bswap_32(uint32_t x)
+static av_always_inline av_const uint32_t bswap_32(uint32_t x)
 {
 #if defined(ARCH_X86)
 #ifdef HAVE_BSWAP
-    __asm("bswap   %0":
-          "=r" (x)    :
+    asm("bswap   %0" : "+r" (x));
 #else
-    __asm("xchgb   %b0,%h0\n"
-          "rorl    $16,%0 \n"
-          "xchgb   %b0,%h0":
-          LEGACY_REGS (x)  :
+    asm("rorw    $8,  %w0 \n\t"
+        "rorl    $16, %0  \n\t"
+        "rorw    $8,  %w0"
+        : "+r"(x));
 #endif
-          "0" (x));
 #else
     x= ((x<<8)&0xFF00FF00) | ((x>>8)&0x00FF00FF);
     x= (x>>16) | (x<<16);
@@ -74,16 +64,14 @@ static av_always_inline uint32_t bswap_32(uint32_t x)
     return x;
 }
 
-static inline uint64_t bswap_64(uint64_t x)
+static inline uint64_t av_const bswap_64(uint64_t x)
 {
 #if 0
     x= ((x<< 8)&0xFF00FF00FF00FF00ULL) | ((x>> 8)&0x00FF00FF00FF00FFULL);
     x= ((x<<16)&0xFFFF0000FFFF0000ULL) | ((x>>16)&0x0000FFFF0000FFFFULL);
     return (x>>32) | (x<<32);
 #elif defined(ARCH_X86_64)
-  __asm("bswap  %0":
-        "=r" (x)   :
-        "0" (x));
+  asm("bswap  %0": "=r" (x) : "0" (x));
   return x;
 #else
     union {

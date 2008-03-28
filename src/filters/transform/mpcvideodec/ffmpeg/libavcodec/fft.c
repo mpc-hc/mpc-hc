@@ -2,18 +2,20 @@
  * FFT/IFFT transforms
  * Copyright (c) 2002 Fabrice Bellard.
  *
- * This library is free software; you can redistribute it and/or
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -32,6 +34,8 @@ int ff_fft_init(FFTContext *s, int nbits, int inverse)
 {
     int i, j, m, n;
     float alpha, c1, s1, s2;
+    int shuffle = 0;
+    int av_unused has_vectors;
 
     s->nbits = nbits;
     n = 1 << nbits;
@@ -57,54 +61,53 @@ int ff_fft_init(FFTContext *s, int nbits, int inverse)
     s->imdct_calc = ff_imdct_calc;
     s->exptab1 = NULL;
 
-    /* compute constant table for HAVE_SSE version */
-#if defined(HAVE_MMX) 
-		{
-        int has_vectors = mm_support();
-
-        if (has_vectors) {
-            if (has_vectors & MM_3DNOWEXT) {
-                /* 3DNowEx for K7/K8 */
-                s->imdct_calc = ff_imdct_calc_3dn2;
-                s->fft_calc = ff_fft_calc_3dn2;
-            } else if (has_vectors & MM_3DNOW) {
-                /* 3DNow! for K6-2/3 */
-                s->fft_calc = ff_fft_calc_3dn;
-            } else if (has_vectors & MM_SSE) {
-                /* SSE for P3/P4 */
-                s->imdct_calc = ff_imdct_calc_sse;
-                s->fft_calc = ff_fft_calc_sse;
-            }
-        }
-        if (s->fft_calc != ff_fft_calc_c) {
-            int np, nblocks, np2, l;
-            FFTComplex *q;
-
-            np = 1 << nbits;
-            nblocks = np >> 3;
-            np2 = np >> 1;
-            s->exptab1 = av_malloc(np * 2 * sizeof(FFTComplex));
-            if (!s->exptab1)
-                goto fail;
-            q = s->exptab1;
-            do {
-                for(l = 0; l < np2; l += 2 * nblocks) {
-                    *q++ = s->exptab[l];
-                    *q++ = s->exptab[l + nblocks];
-
-                    q->re = -s->exptab[l].im;
-                    q->im = s->exptab[l].re;
-                    q++;
-                    q->re = -s->exptab[l + nblocks].im;
-                    q->im = s->exptab[l + nblocks].re;
-                    q++;
-                }
-                nblocks = nblocks >> 1;
-            } while (nblocks != 0);
-            av_freep(&s->exptab);
-        }
+#ifdef HAVE_MMX
+    has_vectors = mm_support();
+    shuffle = 1;
+    if (has_vectors & MM_3DNOWEXT) {
+        /* 3DNowEx for K7/K8 */
+        s->imdct_calc = ff_imdct_calc_3dn2;
+        s->fft_calc = ff_fft_calc_3dn2;
+    } else if (has_vectors & MM_3DNOW) {
+        /* 3DNow! for K6-2/3 */
+        s->fft_calc = ff_fft_calc_3dn;
+    } else if (has_vectors & MM_SSE) {
+        /* SSE for P3/P4 */
+        s->imdct_calc = ff_imdct_calc_sse;
+        s->fft_calc = ff_fft_calc_sse;
+    } else {
+        shuffle = 0;
     }
 #endif
+
+    /* compute constant table for HAVE_SSE version */
+    if (shuffle) {
+        int np, nblocks, np2, l;
+        FFTComplex *q;
+
+        np = 1 << nbits;
+        nblocks = np >> 3;
+        np2 = np >> 1;
+        s->exptab1 = av_malloc(np * 2 * sizeof(FFTComplex));
+        if (!s->exptab1)
+            goto fail;
+        q = s->exptab1;
+        do {
+            for(l = 0; l < np2; l += 2 * nblocks) {
+                *q++ = s->exptab[l];
+                *q++ = s->exptab[l + nblocks];
+
+                q->re = -s->exptab[l].im;
+                q->im = s->exptab[l].re;
+                q++;
+                q->re = -s->exptab[l + nblocks].im;
+                q->im = s->exptab[l + nblocks].re;
+                q++;
+            }
+            nblocks = nblocks >> 1;
+        } while (nblocks != 0);
+        av_freep(&s->exptab);
+    }
 
     /* compute bit reverse table */
 

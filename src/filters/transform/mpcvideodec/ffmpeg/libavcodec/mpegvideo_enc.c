@@ -239,7 +239,7 @@ static void MPV_encode_defaults(MpegEncContext *s){
 }
 
 /* init video encoder */
-int MPV_encode_init(AVCodecContext *avctx)
+av_cold int MPV_encode_init(AVCodecContext *avctx)
 {
     MpegEncContext *s = avctx->priv_data;
     int i;
@@ -719,7 +719,7 @@ int MPV_encode_init(AVCodecContext *avctx)
     return 0;
 }
 
-int MPV_encode_end(AVCodecContext *avctx)
+av_cold int MPV_encode_end(AVCodecContext *avctx)
 {
     MpegEncContext *s = avctx->priv_data;
 
@@ -1360,7 +1360,7 @@ static inline void dct_single_coeff_elimination(MpegEncContext *s, int n, int th
     }else
         skip_dc=1;
 
-    /* are all which we could set to zero are allready zero? */
+    /* Are all we could set to zero already zero? */
     if(last_index<=skip_dc - 1) return;
 
     for(i=0; i<=last_index; i++){
@@ -2708,6 +2708,7 @@ static int encode_picture(MpegEncContext *s, int picture_number)
     // RAL: Condition added for MPEG1VIDEO
     if (s->codec_id == CODEC_ID_MPEG1VIDEO || s->codec_id == CODEC_ID_MPEG2VIDEO || (s->h263_pred && !s->h263_msmpeg4))
         set_frame_distances(s);
+    if(s->codec_id == CODEC_ID_MPEG4)
         ff_set_mpeg4_time(s);
 
     s->me.scene_change_score=0;

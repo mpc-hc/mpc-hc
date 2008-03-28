@@ -113,14 +113,14 @@ static int decode_frame(AVCodecContext *avctx,
     return buf_size;
 }
 
-static void common_init(AVCodecContext *avctx){
+static av_cold void common_init(AVCodecContext *avctx){
     VCR1Context * const a = avctx->priv_data;
 
     avctx->coded_frame= (AVFrame*)&a->picture;
     a->avctx= avctx;
 }
 
-static int decode_init(AVCodecContext *avctx){
+static av_cold int decode_init(AVCodecContext *avctx){
 
     common_init(avctx);
 
