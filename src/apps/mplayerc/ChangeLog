@@ -11,6 +11,7 @@ v1.x.x.x - Unreleased
  FIXED  : DXVA compatibility improved with some nVidia cards
  FIXED  : Report subtitle fixes from Guliverkli2
  FIXED  : Incorrect colors with DXVA internal decoder for H264 files with multiple PPS / SPS settings
+ FIXED  : Broken FLV playback
 
 v1.1.0.0 - 6.March 2008
 ======================

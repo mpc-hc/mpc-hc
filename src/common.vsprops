@@ -11,5 +11,6 @@
 		EnableFunctionLevelLinking="true"
 		WarningLevel="3"
 		DisableSpecificWarnings="4995;4996;4244;4018;"
+		PreprocessorDefinitions="WINVER=0x0600"
 	/>
 </VisualStudioPropertySheet>

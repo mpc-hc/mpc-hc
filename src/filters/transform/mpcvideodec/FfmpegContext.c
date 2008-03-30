@@ -66,7 +66,6 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
 	SPS*			cur_sps;
 	PPS*			cur_pps;
-	int				i;
 
 	if (pBuffer != NULL)
 		av_h264_decode_frame (pAVCtx, pBuffer, nSize);

@@ -39,13 +39,95 @@ CCpuID::CCpuID()
 
 bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
-	ASSERT(FALSE);
-	return false;
+	if((w&1)) return(false);
+
+	if(w > 0 && w == srcpitch && w == dstpitch)
+	{
+		memcpy(dsty, srcy, h*srcpitch);
+		memcpy(dstu, srcu, h/2*srcpitch/2);
+		memcpy(dstv, srcv, h/2*srcpitch/2);
+	}
+	else
+	{
+		int pitch = min(abs(srcpitch), abs(dstpitch));
+
+		for(int y = 0; y < h; y++, srcy += srcpitch, dsty += dstpitch)
+			memcpy(dsty, srcy, pitch);
+
+		srcpitch >>= 1;
+		dstpitch >>= 1;
+
+		pitch = min(abs(srcpitch), abs(dstpitch));
+
+		for(int y = 0; y < h; y+=2, srcu += srcpitch, dstu += dstpitch)
+			memcpy(dstu, srcu, pitch);
+
+		for(int y = 0; y < h; y+=2, srcv += srcpitch, dstv += dstpitch)
+			memcpy(dstv, srcv, pitch);
+	}
+
+	return true;
 }
+
+static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2)
+	{
+		*dstw++ = (*srcu++<<8)|*srcy++;
+		*dstw++ = (*srcv++<<8)|*srcy++;
+	}
+}
+
+static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2, srcu++, srcv++)
+	{
+		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
+		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
+	}
+}
+
+
 bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch, bool fInterlaced)
 {
-	ASSERT(FALSE);
-	return false;
+	if(w<=0 || h<=0 || (w&1) || (h&1))
+		return(false);
+
+	if(srcpitch == 0) srcpitch = w;
+
+	if((g_cpuid.m_flags & CCpuID::sse2) 
+        && !((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
+        && !((DWORD_PTR)dst&15) && !(dstpitch&15))
+	{
+		ASSERT (FALSE);
+		//if(!fInterlaced) yv12_yuy2_sse2(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
+		//else yv12_yuy2_sse2_interlaced(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
+		//return true;
+		return false;
+	}
+	else
+	{
+		ASSERT(!fInterlaced);
+	}
+
+	do
+	{
+		yuvtoyuy2row_c(dst, srcy, srcu, srcv, w);
+		yuvtoyuy2row_avg_c(dst + dstpitch, srcy + srcpitch, srcu, srcv, w, srcpitch/2);
+
+		dst += 2*dstpitch;
+		srcy += srcpitch*2;
+		srcu += srcpitch/2;
+		srcv += srcpitch/2;
+	}
+	while((h -= 2) > 2);
+
+	yuvtoyuy2row_c(dst, srcy, srcu, srcv, w);
+	yuvtoyuy2row_c(dst + dstpitch, srcy + srcpitch, srcu, srcv, w);
+
+	return(true);
 }
 bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {

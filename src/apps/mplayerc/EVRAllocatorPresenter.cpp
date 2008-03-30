@@ -70,12 +70,6 @@ typedef HRESULT (__stdcall *PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* 
 typedef HRESULT (__stdcall *PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
 typedef HRESULT (__stdcall *PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
 
-
-
-// mfplat.dll
-//typedef HRESULT (__stdcall *PTR_MFCreateSample)(IMFSample** ppIMFSample);
-//typedef HRESULT (__stdcall *PTR_MFCreateSystemTimeSource)(IMFPresentationTimeSource** ppSystemTimeSource);
-
 // AVRT.dll
 typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
 typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
@@ -192,7 +186,6 @@ class CEVRAllocatorPresenter :
 	public IMFVideoDisplayControl,
 	public IEVRTrustedVideoPlugin
 /*	public IMFVideoPositionMapper,		// Non mandatory EVR Presenter Interfaces (see later...)
-	public IEVRTrustedVideoPlugin,
 */
 {
 public:
@@ -343,15 +336,11 @@ private :
 	HRESULT									CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
 	HRESULT									SetMediaType(IMFMediaType* pType);
 
-//	virtual HRESULT							AllocSurfaces();
-
 	// === Functions pointers on Vista / .Net3 specifics library
 	PTR_DXVA2CreateDirect3DDeviceManager9	pfDXVA2CreateDirect3DDeviceManager9;
-//	PTR_MFCreateSystemTimeSource			pfMFCreateSystemTimeSource;
 	PTR_MFCreateDXSurfaceBuffer				pfMFCreateDXSurfaceBuffer;
 	PTR_MFCreateVideoSampleFromSurface		pfMFCreateVideoSampleFromSurface;
 	PTR_MFCreateVideoMediaType				pfMFCreateVideoMediaType;
-//	PTR_MFCreateSample						pfMFCreateSample;
 											
 	PTR_AvSetMmThreadCharacteristicsW		pfAvSetMmThreadCharacteristicsW;
 	PTR_AvSetMmThreadPriority				pfAvSetMmThreadPriority;
@@ -397,13 +386,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_hEvtFrameTimer = INVALID_HANDLE_VALUE;
 	m_hEvtFlush		 = INVALID_HANDLE_VALUE;
 	m_hEvtQuit		 = INVALID_HANDLE_VALUE;
-
-//	hLib = LoadLibrary (L"mf.dll");
-//	pfMFCreatePresentationClock = hLib ? (PTR_MFCreatePresentationClock) GetProcAddress (hLib, "MFCreatePresentationClock") : NULL;
-
-//	hLib = LoadLibrary (L"mfplat.dll");
-//	pfMFCreateSystemTimeSource	= hLib ? (PTR_MFCreateSystemTimeSource) GetProcAddress (hLib, "MFCreateSystemTimeSource") : NULL;
-//	pfMFCreateSample			= hLib ? (PTR_MFCreateSample)			GetProcAddress (hLib, "MFCreateSample") : NULL;
 	
 	// Load EVR functions
 	hLib = LoadLibrary (L"evr.dll");
@@ -1018,24 +1000,6 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 }
 
 
-//HRESULT CEVRAllocatorPresenter::AllocRessources()
-//{
-//	HRESULT			hr;
-//	int				i;
-//
-//	// Create Media Foundation buffers for EVR Mixer
-//	for (i=0; i<m_nNbDXSurface; i++)
-//	{
-//		m_pMFSample[i] = NULL;
-//
-//		if (m_pVideoSurface[i] == NULL) return E_POINTER;
-//
-//		hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &m_pMFSample[i]);
-//	}
-//
-//	return hr;
-//}
-
 HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 {
 	MFT_OUTPUT_DATA_BUFFER		Buffer;
@@ -1363,7 +1327,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid
 	else if (riid == __uuidof(IDirectXVideoProcessorService))
 	{
 		IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
-//		pDXVAProcessor->GetVideoProcessorRenderTargets(
 	}
 
 	return hr;
@@ -1381,53 +1344,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpH
 	if(lpARHeight)	*lpARHeight	= m_AspectRatio.cy;
 	return S_OK;
 }
-
-
-/*
-HRESULT CEVRAllocatorPresenter::AllocSurfaces()
-{
-    CAutoLock cAutoLock(this);
-	AppSettings& s = AfxGetAppSettings();
-
-	HANDLE										hDevice;
-	CComPtr<IDirectXVideoAccelerationService>	pDXVAService;
-	HRESULT hr = m_pD3DManager->OpenDeviceHandle (&hDevice);
-	hr = m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoAccelerationService), (void**)&pDXVAService);
-
-	for(int i = 0; i < m_nNbDXSurface+2; i++)
-	{
-		m_pVideoTexture[i] = NULL;
-		m_pVideoSurface[i] = NULL;
-	}
-
-	m_pResizerBicubic1stPass = NULL;
-
-	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-	{
-		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface+2 : 1;
-
-		for(int i = 0; i < nTexturesNeeded; i++)
-		{
-			hr = pDXVAService->CreateSurface (m_NativeVideoSize.cx, m_NativeVideoSize.cy, 0, D3DFMT_A8R8G8B8, 
-				D3DPOOL_DEFAULT, 0, DXVA2_VideoProcessorRenderTarget, &m_pVideoSurface[i], NULL);
-
-		}
-	}
-	else
-	{
-		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-			m_NativeVideoSize.cx, m_NativeVideoSize.cy, 
-			D3DFMT_X8R8G8B8, 
-			D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL)))
-			return hr;
-	}
-
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
-
-	return S_OK;
-}
-*/
-
 
 
 STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
@@ -1585,12 +1501,10 @@ void CEVRAllocatorPresenter::RenderThread()
 
 void CEVRAllocatorPresenter::OnResetDevice()
 {
-//	UINT		m_nResetToken = 0;
 	HRESULT		hr;
 
 	// Reset DXVA Manager, and get new buffers
 	hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
-//	AllocRessources();
 
 	// Not necessary, but Microsoft documentation say Presenter should send this message...
 	if (m_pSink)
