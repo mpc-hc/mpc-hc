@@ -295,6 +295,9 @@ private :
 	CComPtr<IMFTransform>					m_pMixer;
 	CComPtr<IMediaEventSink>				m_pSink;
 	CComPtr<IMFVideoMediaType>				m_pMediaType;
+	MFVideoAspectRatioMode					m_dwVideoAspectRatioMode;
+	MFVideoRenderPrefs						m_dwVideoRenderPrefs;
+	COLORREF								m_BorderColor;
 
 
 	HANDLE									m_hEvtQuit;			// Stop rendering thread event
@@ -428,10 +431,13 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 		m_nNbDXSurface = 1;
 
 	ResetStats();
-	m_nRenderState		= Shutdown;
-	m_fUseInternalTimer	= false;
-	m_nWaitingSample	= 0;
-	m_nStepCount		= 0;
+	m_nRenderState				= Shutdown;
+	m_fUseInternalTimer			= false;
+	m_nWaitingSample			= 0;
+	m_nStepCount				= 0;
+	m_dwVideoAspectRatioMode	= MFVideoARMode_PreservePicture;
+	m_dwVideoRenderPrefs		= (MFVideoRenderPrefs)0;
+	m_BorderColor				= RGB (0,0,0);
 }
 
 CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
@@ -1174,8 +1180,25 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(SIZE *pszVideo, SIZE *ps
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	if (pszMin)
+	{
+		pszMin->cx	= 1;
+		pszMin->cy	= 1;
+	}
+
+	if (pszMax)
+	{
+		D3DDISPLAYMODE	d3ddm;
+
+		ZeroMemory(&d3ddm, sizeof(d3ddm));
+		if(SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
+		{
+			pszMax->cx	= d3ddm.Width;
+			pszMax->cy	= d3ddm.Height;
+		}
+	}
+
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
 {
@@ -1199,28 +1222,31 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoPosition(MFVideoNormalizedRect *pnr
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetAspectRatioMode(DWORD dwAspectRatioMode)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	m_dwVideoAspectRatioMode = (MFVideoAspectRatioMode)dwAspectRatioMode;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetAspectRatioMode(DWORD *pdwAspectRatioMode)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	CheckPointer (pdwAspectRatioMode, E_POINTER);
+	*pdwAspectRatioMode = m_dwVideoAspectRatioMode;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
 {
-//	ASSERT (FALSE);
+	ASSERT (m_hWnd == hwndVideo);	// What if not ??
+//	m_hWnd = hwndVideo;
 	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetVideoWindow(HWND *phwndVideo)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	CheckPointer (phwndVideo, E_POINTER);
+	*phwndVideo = m_hWnd;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::RepaintVideo()
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	Paint (true);
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp)
 {
@@ -1229,23 +1255,25 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentImage(BITMAPINFOHEADER *pBih, BYT
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetBorderColor(COLORREF Clr)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	m_BorderColor = Clr;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetBorderColor(COLORREF *pClr)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	CheckPointer (pClr, E_POINTER);
+	*pClr = m_BorderColor;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetRenderingPrefs(DWORD dwRenderFlags)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	m_dwVideoRenderPrefs = (MFVideoRenderPrefs)dwRenderFlags;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::GetRenderingPrefs(DWORD *pdwRenderFlags)
 {
-	ASSERT (FALSE);
-	return E_NOTIMPL;
+	CheckPointer(pdwRenderFlags, E_POINTER);
+	*pdwRenderFlags = m_dwVideoRenderPrefs;
+	return S_OK;
 }
 STDMETHODIMP CEVRAllocatorPresenter::SetFullscreen(BOOL fFullscreen)
 {
