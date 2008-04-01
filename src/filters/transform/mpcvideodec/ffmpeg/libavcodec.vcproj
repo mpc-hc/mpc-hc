@@ -6,7 +6,6 @@
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
 	RootNamespace="libavcodec"
-	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -57,7 +56,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				BufferSecurityCheck="true"
-				OpenMP="true"
+				OpenMP="false"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
