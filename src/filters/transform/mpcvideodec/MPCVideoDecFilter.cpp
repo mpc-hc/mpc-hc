@@ -214,6 +214,14 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_MP41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('M','P','4','1'),	NULL },
 	{ &MEDIASUBTYPE_mp41, CODEC_ID_MSMPEG4V1,  MAKEFOURCC('m','p','4','1'),	NULL },
 
+	// WMV1/2/3
+	{ &MEDIASUBTYPE_WMV1, CODEC_ID_WMV1,  MAKEFOURCC('W','M','V','1'),	NULL },
+	{ &MEDIASUBTYPE_wmv1, CODEC_ID_WMV1,  MAKEFOURCC('w','m','v','1'),	NULL },
+	{ &MEDIASUBTYPE_WMV2, CODEC_ID_WMV2,  MAKEFOURCC('W','M','V','2'),	NULL },
+	{ &MEDIASUBTYPE_wmv2, CODEC_ID_WMV2,  MAKEFOURCC('w','m','v','2'),	NULL },
+	{ &MEDIASUBTYPE_WMV3, CODEC_ID_WMV3,  MAKEFOURCC('W','M','V','3'),	NULL },
+	{ &MEDIASUBTYPE_wmv3, CODEC_ID_WMV3,  MAKEFOURCC('w','m','v','3'),	NULL },
+
 	// AMV Video
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'),	NULL },
 
@@ -328,6 +336,14 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   },
 
+	// WMV1/2/3
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WMV1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wmv1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WMV2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wmv2   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WMV3   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wmv3   },
+
 	// MSMPEG-4
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_DIV3   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_div3   },
@@ -419,7 +435,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_FLASH|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MPEG4|MPCVD_MSMPEG4|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA;
+	m_nActiveCodecs			= MPCVD_FLASH|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_WMV|MPCVD_MSMPEG4|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -547,10 +563,11 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				{
 					bCodecActivated = (m_nActiveCodecs & MPCVD_DIVX) != 0;
 				}
-				else
-				{
-					bCodecActivated = (m_nActiveCodecs & MPCVD_MPEG4) != 0;
-				}
+				break;
+			case CODEC_ID_WMV1 :
+			case CODEC_ID_WMV2 :
+			case CODEC_ID_WMV3 :
+				bCodecActivated = (m_nActiveCodecs & MPCVD_WMV) != 0;
 				break;
 			case CODEC_ID_MSMPEG4V3 :
 			case CODEC_ID_MSMPEG4V2 :

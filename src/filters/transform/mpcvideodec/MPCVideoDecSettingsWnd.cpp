@@ -247,8 +247,8 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_XVID) != 0);
 	m_lstCodecs.AddString (_T("DivX"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_DIVX) != 0);
-	m_lstCodecs.AddString (_T("Generic Mpeg4"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MPEG4) != 0);
+	m_lstCodecs.AddString (_T("WMV1/2/3"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_WMV) != 0);
 	m_lstCodecs.AddString (_T("MS-Mpeg4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);
 	m_lstCodecs.AddString (_T("H263"));
@@ -284,7 +284,7 @@ bool CMPCVideoDecCodecWnd::OnApply()
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VC1;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_XVID;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_DIVX;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MPEG4;
+		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_WMV;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MSMPEG4;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H263;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_SVQ3;

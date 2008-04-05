@@ -113,9 +113,9 @@ void avcodec_register_all(void)
     REGISTER_DECODER  (vp6);
     REGISTER_DECODER  (vp6a);
     REGISTER_DECODER  (vp6f);
-//    REGISTER_ENCDEC        (wmv1);
-//    REGISTER_ENCDEC        (wmv2);
-//    REGISTER_DECODER    (wmv3);
+    REGISTER_DECODER  (wmv1);
+    REGISTER_DECODER  (wmv2);
+    REGISTER_DECODER  (wmv3);
 //    REGISTER_DECODER    (wnv1);
 //    REGISTER_DECODER    (xl);
 //    REGISTER_DECODER    (zlib);
