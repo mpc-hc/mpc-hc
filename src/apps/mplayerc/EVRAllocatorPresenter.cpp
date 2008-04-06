@@ -76,6 +76,10 @@ typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIO
 typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
 
+// Guid to tag IMFSample with DirectX surface index
+static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
+
+
 // === Helper functions
 #define CheckHR(exp) {if(FAILED(hr = exp)) return hr;}
 
@@ -304,17 +308,18 @@ private :
 	HANDLE									m_hEvtPresent;		// Render next frame (cued order)
 	HANDLE									m_hEvtFrameTimer;	// Render next frame (timer based)
 	HANDLE									m_hEvtFlush;		// Discard all buffers
+	HANDLE									m_hSemPicture;		// Indicate present of buffered frames
 
-	HANDLE									m_hSemPicture;
-	HANDLE									m_hSemSlot;
-	int										m_nFreeSlot;
 	bool									m_fUseInternalTimer;
 
 	HANDLE									m_hThread;
 	RENDER_STATE							m_nRenderState;
-	CComPtr<IMFSample>						m_pMFSample[MAX_PICTURE_SLOTS];
+	
+	CInterfaceList<IMFSample, &IID_IMFSample>		m_FreeSamples;
+	CInterfaceList<IMFSample, &IID_IMFSample>		m_ScheduledSamples;
+	bool									m_bWaitingSample;
+
 	UINT									m_nResetToken;
-	UINT									m_nWaitingSample;
 	UINT									m_nStepCount;
 
 	// Stats variable for IQualProp
@@ -332,6 +337,13 @@ private :
 	HRESULT									CheckShutdown() const;
 	void									CompleteFrameStep(bool bCancel);
 	void									CheckWaitingSampleFromMixer();
+
+	void									RemoveAllSamples();
+	HRESULT									GetFreeSample(IMFSample** ppSample);
+	HRESULT									GetScheduledSample(IMFSample** ppSample);
+	void									MoveToFreeList(IMFSample* pSample);
+	void									MoveToScheduledList(IMFSample* pSample);
+	void									FlushSamples();
 
 	// === Media type negociation functions
 	HRESULT									RenegotiateMediaType();
@@ -384,7 +396,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	m_nResetToken	 = 0;
 	m_hThread		 = INVALID_HANDLE_VALUE;
 	m_hSemPicture	 = INVALID_HANDLE_VALUE;
-	m_hSemSlot		 = INVALID_HANDLE_VALUE;
 	m_hEvtPresent	 = INVALID_HANDLE_VALUE;
 	m_hEvtFrameTimer = INVALID_HANDLE_VALUE;
 	m_hEvtFlush		 = INVALID_HANDLE_VALUE;
@@ -433,7 +444,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	ResetStats();
 	m_nRenderState				= Shutdown;
 	m_fUseInternalTimer			= false;
-	m_nWaitingSample			= 0;
+	m_bWaitingSample			= false;
 	m_nStepCount				= 0;
 	m_dwVideoAspectRatioMode	= MFVideoARMode_PreservePicture;
 	m_dwVideoRenderPrefs		= (MFVideoRenderPrefs)0;
@@ -482,10 +493,6 @@ void CEVRAllocatorPresenter::StartWorkerThreads()
 		m_hEvtFrameTimer= CreateEvent (NULL, FALSE, FALSE, NULL);
 		m_hEvtFlush		= CreateEvent (NULL, TRUE, FALSE, NULL);
 		m_hSemPicture	= CreateSemaphore(NULL, 0, m_nNbDXSurface, NULL);
-		// Si possible un freeslot de moins pour éviter d'écraser l'image en cours sur un pause
-		m_hSemSlot		= CreateSemaphore(NULL, max(1, m_nNbDXSurface-1), max (1, m_nNbDXSurface-1), NULL);
-		m_nFreeSlot		= 0;
-		m_nCurSurface	= m_nNbDXSurface-1;
 
 		m_hThread		= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 
@@ -498,8 +505,6 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 {
 	if (m_nRenderState != Shutdown)
 	{
-		int			i;
-
 		SetEvent (m_hEvtFlush);
 		SetEvent (m_hEvtQuit);
 		if ((m_hThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hThread, 10000) == WAIT_TIMEOUT))
@@ -508,14 +513,8 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 			TerminateThread (m_hThread, 0xDEAD);
 		}
 
-		for (i=0; i<m_nNbDXSurface; i++)
-		{
-			m_pMFSample[i] = NULL;
-		}
-
 		if (m_hThread		 != INVALID_HANDLE_VALUE) CloseHandle (m_hThread);
 		if (m_hSemPicture	 != INVALID_HANDLE_VALUE) CloseHandle (m_hSemPicture);
-		if (m_hSemSlot		 != INVALID_HANDLE_VALUE) CloseHandle (m_hSemSlot);
 		if (m_hEvtPresent	 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtPresent);
 		if (m_hEvtFrameTimer != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtFrameTimer);
 		if (m_hEvtFlush		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtFlush);
@@ -834,8 +833,6 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_PROCESSINPUTNOTIFY :		// One input stream on the mixer has received a new sample
-//		TRACE ("=>MFVP_MESSAGE_PROCESSINPUTNOTIFY\n");
-		// WARNING : some decoder notify once for several sample (Microsoft MPEG2 filter for example)
 		GetImageFromMixer();
 		break;
 
@@ -1009,70 +1006,80 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 {
 	MFT_OUTPUT_DATA_BUFFER		Buffer;
-	HRESULT						hr = S_FALSE;
+	HRESULT						hr = S_OK;
 	DWORD						dwStatus;
 	REFERENCE_TIME				nsSampleTime;
-	HANDLE						hEvts[] = { /*m_hEvtFlush ,*/ m_hSemSlot };
 	MFTIME						nsCurrentTime;
 	LONGLONG					llClockBefore = 0;
 	LONGLONG					llClockAfter  = 0;
 	LONGLONG					llMixerLatency;
+	UINT						dwSurface;
 
-	// TODO : put a loop to read samples presents in Mixer (Microsoft Mpeg2)
-		if (WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 50) == WAIT_OBJECT_0)
+	while (SUCCEEDED(hr))
+	{
+		CComPtr<IMFSample>		pSample;
+
+		if (FAILED (GetFreeSample (&pSample)))
 		{
-			memset (&Buffer, 0, sizeof(Buffer));
-			m_pMFSample[m_nFreeSlot] = NULL;
-			hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[m_nFreeSlot], &m_pMFSample[m_nFreeSlot]);
-			Buffer.pSample = m_pMFSample[m_nFreeSlot];
-
-			if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockBefore, &nsCurrentTime);			
-			hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
-			if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockAfter, &nsCurrentTime);
-			llMixerLatency = llClockAfter - llClockBefore;
-			if (m_pSink) 
-			{
-				CAutoLock autolock(this);
-				m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
-			}
-
-			Buffer.pSample->GetSampleTime (&nsSampleTime);
-
-			// Update internal subtitle clock
-			if(m_fUseInternalTimer && m_pSubPicQueue)
-			{
-				MFTIME		nsDuration;
-				float		m_fps;
-				Buffer.pSample->GetSampleDuration(&nsDuration);
-				m_fps = (float)(10000000.0 / nsDuration);
-				m_pSubPicQueue->SetFPS(m_fps);
-			}
-
-			if (AfxGetMyApp()->m_fTearingTest)
-			{
-				RECT		rcTearing;
-				
-				rcTearing.left		= m_nTearingPos;
-				rcTearing.top		= 0;
-				rcTearing.right		= rcTearing.left + 4;
-				rcTearing.bottom	= m_NativeVideoSize.cy;
-				m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
-
-				rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
-				rcTearing.right	= rcTearing.left + 4;
-				m_pD3DDev->ColorFill (m_pVideoSurface[m_nFreeSlot], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
-				m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
-			}
-		
-//			TRACE ("New image from muxer Slot %d : %I64d\n", m_nFreeSlot, nsSampleTime/417188);
-
-			m_nFreeSlot = (m_nFreeSlot+1) % m_nNbDXSurface;
-			ReleaseSemaphore (m_hSemPicture, 1, NULL);
-
-			InterlockedIncrement (&m_nUsedBuffer);
+			m_bWaitingSample = true;
+			break;
 		}
-		else
-			m_nWaitingSample++;
+
+		memset (&Buffer, 0, sizeof(Buffer));
+		Buffer.pSample	= pSample;
+		pSample->GetUINT32 (GUID_SURFACE_INDEX, &dwSurface);
+
+		if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockBefore, &nsCurrentTime);			
+		hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
+		if (m_pClock) m_pClock->GetCorrelatedTime(0, &llClockAfter, &nsCurrentTime);
+
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) 
+		{
+			MoveToFreeList (pSample);
+			break;
+		}
+
+		if (m_pSink) 
+		{
+			CAutoLock autolock(this);
+			llMixerLatency = llClockAfter - llClockBefore;
+			m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
+		}
+
+		pSample->GetSampleTime (&nsSampleTime);
+
+		// Update internal subtitle clock
+		if(m_fUseInternalTimer && m_pSubPicQueue)
+		{
+			MFTIME		nsDuration;
+			float		m_fps;
+			pSample->GetSampleDuration(&nsDuration);
+			m_fps = (float)(10000000.0 / nsDuration);
+			m_pSubPicQueue->SetFPS(m_fps);
+		}
+
+		if (AfxGetMyApp()->m_fTearingTest)
+		{
+			RECT		rcTearing;
+			
+			rcTearing.left		= m_nTearingPos;
+			rcTearing.top		= 0;
+			rcTearing.right		= rcTearing.left + 4;
+			rcTearing.bottom	= m_NativeVideoSize.cy;
+			m_pD3DDev->ColorFill (m_pVideoSurface[dwSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+
+			rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
+			rcTearing.right	= rcTearing.left + 4;
+			m_pD3DDev->ColorFill (m_pVideoSurface[dwSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
+		}	
+
+		TRACE ("Get from Mixer : %d  (%I64d)\n", dwSurface, nsSampleTime);
+
+		MoveToScheduledList (pSample);
+		ReleaseSemaphore (m_hSemPicture, 1, NULL);
+		InterlockedIncrement (&m_nUsedBuffer);
+	}
 
 	return hr;
 }
@@ -1387,6 +1394,22 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	m_NativeVideoSize = CSize(w, h);
 	hr = AllocSurfaces();
 
+	CAutoLock lock(this);
+	RemoveAllSamples();
+	for(int i = 0; i < m_nNbDXSurface; i++)
+	{
+		CComPtr<IMFSample>		pMFSample;
+		hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
+
+		if (SUCCEEDED (hr))
+		{
+			pMFSample->SetUINT32 (GUID_SURFACE_INDEX, i);
+			m_FreeSamples.AddTail (pMFSample);
+		}
+		ASSERT (SUCCEEDED (hr));
+	}
+
+
 	return hr;
 }
 
@@ -1402,9 +1425,9 @@ DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 
 void CEVRAllocatorPresenter::CheckWaitingSampleFromMixer()
 {
-	if (m_nWaitingSample > 0)
+	if (m_bWaitingSample)
 	{
-		m_nWaitingSample--;
+		m_bWaitingSample = false;
 		GetImageFromMixer();
 	}
 }
@@ -1446,22 +1469,13 @@ void CEVRAllocatorPresenter::RenderThread()
 			bQuit = true;
 			break;
 		case WAIT_OBJECT_0 + 1 :
-			TRACE ("Begin flush\n");
 			// Flush pending samples!
 			if (dwUser != -1) timeKillEvent (dwUser);
 			dwUser = -1;		
 
-			while (WaitForSingleObject (m_hSemPicture, 0) == WAIT_OBJECT_0)
-			{
-				ReleaseSemaphore (m_hSemSlot, 1, NULL);
-				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
-				TRACE ("Free slot\n");
-				CheckWaitingSampleFromMixer();
-			}
-
-			m_nUsedBuffer = 0;
+			FlushSamples();
 			ResetEvent(m_hEvtFlush);
-			TRACE ("====>>> End flush  Cons=%d  Prod=%d\n", m_nCurSurface, m_nFreeSlot);
+			TRACE ("Flush done!\n");
 			break;
 
 		case WAIT_OBJECT_0 + 2 :
@@ -1473,9 +1487,13 @@ void CEVRAllocatorPresenter::RenderThread()
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
-				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
-				m_pMFSample[m_nCurSurface]->GetSampleTime (&nsSampleTime);
-//				TRACE ("RenderThread ==>> Presenting Cons=%d  Prod=%d\n", m_nCurSurface, m_nFreeSlot);
+//				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
+				CComPtr<IMFSample>		pMFSample = m_ScheduledSamples.RemoveHead();
+			
+				pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
+				pMFSample->GetSampleTime (&nsSampleTime);
+
+				TRACE ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
 
 				__super::SetTime (g_tSegmentStart + nsSampleTime);
 				Paint(true);
@@ -1495,7 +1513,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
 					if (lDelay > 0)
 					{
-//						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d  Prod=%d\n", lDelay, nsSampleTime, m_nCurSurface, m_nFreeSlot);
+//						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d \n", lDelay, nsSampleTime, m_nCurSurface);
 						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 
 						// Update statistics
@@ -1505,14 +1523,13 @@ void CEVRAllocatorPresenter::RenderThread()
 					{
 						dwUser = -1;
 						if (m_nRenderState == Started) m_pcFrames++;
-//						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d  Prod=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface, m_nFreeSlot);
+//						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface);
 						SetEvent (m_hEvtPresent);
 					}
 				}
 
+				MoveToFreeList(pMFSample);
 				CheckWaitingSampleFromMixer();
-				ReleaseSemaphore (m_hSemSlot, 1, NULL);
-//				TRACE ("RenderThread ==>> Sleeping\n");
 			}
 			else
 			{				
@@ -1537,4 +1554,70 @@ void CEVRAllocatorPresenter::OnResetDevice()
 	// Not necessary, but Microsoft documentation say Presenter should send this message...
 	if (m_pSink)
 		m_pSink->Notify (EC_DISPLAY_CHANGED, 0, 0);
+}
+
+
+
+void CEVRAllocatorPresenter::RemoveAllSamples()
+{
+	m_ScheduledSamples.RemoveAll();
+	m_FreeSamples.RemoveAll();
+}
+
+HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
+{
+	CAutoLock lock(this);
+	HRESULT		hr = S_OK;
+
+	if (m_FreeSamples.GetCount() > 1)	// <= Cannot use first free buffer (can be currently displayed)
+		*ppSample = m_FreeSamples.RemoveHead().Detach();
+	else
+		hr = MF_E_SAMPLEALLOCATOR_EMPTY;
+
+	return hr;
+}
+
+
+HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample)
+{
+	CAutoLock lock(this);
+	HRESULT		hr = S_OK;
+
+	if (m_ScheduledSamples.GetCount() > 0)
+		*ppSample = m_ScheduledSamples.RemoveHead().Detach();
+	else
+		hr = MF_E_SAMPLEALLOCATOR_EMPTY;
+
+	return hr;
+}
+
+
+void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample)
+{
+	CAutoLock lock(this);
+	m_FreeSamples.AddTail (pSample);
+}
+
+
+void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample)
+{
+	CAutoLock lock(this);
+	m_ScheduledSamples.AddTail (pSample);
+}
+
+
+void CEVRAllocatorPresenter::FlushSamples()
+{
+	CAutoLock				lock(this);
+
+	m_nUsedBuffer = 0;
+	while (m_ScheduledSamples.GetCount() > 0)
+	{
+		CComPtr<IMFSample>		pMFSample;
+
+		pMFSample = m_ScheduledSamples.RemoveHead();
+		MoveToFreeList (pMFSample);
+
+		WaitForSingleObject (m_hSemPicture, 0);
+	}
 }

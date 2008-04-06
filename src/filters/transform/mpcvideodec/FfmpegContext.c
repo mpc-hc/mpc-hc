@@ -157,14 +157,16 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 		pDXVAPicParams->redundant_pic_cnt_present_flag			= cur_pps->redundant_pic_cnt_present;				// redundant_pic_cnt_present_flag;
 		pDXVAPicParams->slice_group_change_rate_minus1			= cur_pps->slice_group_change_rate_minus1;
 
-		pDXVAPicParams->pic_init_qp_minus26						= cur_pps->init_qp - 26;							// pic_init_qp_minus26;
 		pDXVAPicParams->chroma_qp_index_offset					= cur_pps->chroma_qp_index_offset[0];
 		pDXVAPicParams->second_chroma_qp_index_offset			= cur_pps->chroma_qp_index_offset[1];
 		pDXVAPicParams->num_ref_idx_l0_active_minus1			= cur_pps->ref_count[0]-1;							// num_ref_idx_l0_active_minus1;
 		pDXVAPicParams->num_ref_idx_l1_active_minus1			= cur_pps->ref_count[1]-1;							// num_ref_idx_l1_active_minus1;
+		pDXVAPicParams->pic_init_qp_minus26						= cur_pps->init_qp - 26;
+		pDXVAPicParams->pic_init_qs_minus26						= cur_pps->init_qs - 26;
 
-		if (field_pic_flag)
-			pDXVAPicParams->CurrPic.AssociatedFlag	= h->delta_poc[0];
+		//if (field_pic_flag)
+		//	pDXVAPicParams->CurrPic.AssociatedFlag	= h->delta_poc[0];
+
 		pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb;		// m_Slice.pic_order_cnt_lsb;
 		pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb;		// m_Slice.pic_order_cnt_lsb;
 
