@@ -1959,10 +1959,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		#if !defined(_XXL)
 		SrcFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_SRCFILTERS), ~0^SRC_MATROSKA^SRC_MP4^SRC_MPEG^SRC_OGG);
-		TraFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1^TRA_AAC^TRA_AC3^TRA_DTS^TRA_LPCM^TRA_MPEG2^TRA_VORBIS);
+		TraFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1^TRA_WMV^TRA_AAC^TRA_AC3^TRA_DTS^TRA_LPCM^TRA_MPEG2^TRA_VORBIS);
 		#else
 		SrcFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_SRCFILTERS), ~0);
-		TraFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1);
+		TraFilters = pApp->GetProfileInt(ResStr(IDS_R_INTERNAL_FILTERS), ResStr(IDS_RS_TRAFILTERS), ~0^TRA_MPEG1^TRA_WMV);
 		#endif
 
 		logofn = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LOGOFILE), _T(""));

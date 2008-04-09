@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -87,10 +86,10 @@ AVInteger av_shr_i(AVInteger a, int s){
     int i;
 
     for(i=0; i<AV_INTEGER_SIZE; i++){
-        int index= i + (s>>4);
+        unsigned int index= i + (s>>4);
         unsigned int v=0;
-        if(index+1<AV_INTEGER_SIZE && index+1>=0) v = a.v[index+1]<<16;
-        if(index  <AV_INTEGER_SIZE && index  >=0) v+= a.v[index  ];
+        if(index+1<AV_INTEGER_SIZE) v = a.v[index+1]<<16;
+        if(index  <AV_INTEGER_SIZE) v+= a.v[index  ];
         out.v[i]= v >> (s&15);
     }
     return out;

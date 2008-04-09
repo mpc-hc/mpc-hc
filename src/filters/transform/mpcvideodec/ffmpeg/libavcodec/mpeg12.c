@@ -2102,30 +2102,46 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
     int i;
     uint32_t state= pc->state;
 
-    i=0;
-    if(!pc->frame_start_found){
-        for(i=0; i<buf_size; i++){
+    /* EOF considered as end of frame */
+    if (buf_size == 0)
+        return 0;
+        
+/*
+ 0  frame start         -> 1/4
+ 1  first_SEQEXT        -> 0/2
+ 2  first field start   -> 3/0
+ 3  second_SEQEXT       -> 2/0
+ 4  searching end
+*/
+
+    for(i=0; i<buf_size; i++){
+        assert(pc->frame_start_found>=0 && pc->frame_start_found<=4);
+        if(pc->frame_start_found&1){
+            if(state == EXT_START_CODE && (buf[i]&0xF0) != 0x80)
+                pc->frame_start_found--;
+            else if(state == EXT_START_CODE+2){
+                if((buf[i]&3) == 3) pc->frame_start_found= 0;
+                else                pc->frame_start_found= (pc->frame_start_found+1)&3;
+            }
+            state++;
+        }else{
             i= ff_find_start_code(buf+i, buf+buf_size, &state) - buf - 1;
-            if(state >= SLICE_MIN_START_CODE && state <= SLICE_MAX_START_CODE){
+            if(pc->frame_start_found==0 && state >= SLICE_MIN_START_CODE && state <= SLICE_MAX_START_CODE){
                 i++;
-                pc->frame_start_found=1;
-                pc->rtStart=*rtStart;*rtStart=_I64_MIN;
-                break;
+                pc->frame_start_found=4;
+                
+                pc->rtStart=*rtStart;
+                *rtStart=_I64_MIN;
             }
             if(state == SEQ_END_CODE){
                 pc->state=-1;
                 return i+1;
             }
-        }
-    }
-
-    if(pc->frame_start_found){
-        /* EOF considered as end of frame */
-        if (buf_size == 0)
-            return 0;
-        for(; i<buf_size; i++){
-            i= ff_find_start_code(buf+i, buf+buf_size, &state) - buf - 1;
-            if((state&0xFFFFFF00) == 0x100){
+            if(pc->frame_start_found==2 && state == SEQ_START_CODE)
+                pc->frame_start_found= 0;
+            if(pc->frame_start_found<4 && state == EXT_START_CODE)
+                pc->frame_start_found++;
+            if(pc->frame_start_found == 4 && (state&0xFFFFFF00) == 0x100){
                 if(state < SLICE_MIN_START_CODE || state > SLICE_MAX_START_CODE){
                     pc->frame_start_found=0;
                     pc->state=-1;
@@ -2138,16 +2154,16 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
     return END_NOT_FOUND;
 }
 
+static int decode_chunks(AVCodecContext *avctx,
+                             AVFrame *picture, int *data_size,
+                             const uint8_t *buf, int buf_size);
+
 /* handle buffering and image synchronisation */
 static int mpeg_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
                              const uint8_t *buf, int buf_size)
 {
     Mpeg1Context *s = avctx->priv_data;
-    const uint8_t *buf_end;
-    const uint8_t *buf_ptr;
-    uint32_t start_code;
-    int ret, input_size;
     AVFrame *picture = data;
     MpegEncContext *s2 = &s->mpeg_enc_ctx;
     dprintf(avctx, "fill_buffer\n");
@@ -2170,9 +2186,6 @@ static int mpeg_decode_frame(AVCodecContext *avctx,
             return buf_size;
     }
 
-    buf_ptr = buf;
-    buf_end = buf + buf_size;
-
 #if 0
     if (s->repeat_field % 2 == 1) {
         s->repeat_field++;
@@ -2190,9 +2203,25 @@ static int mpeg_decode_frame(AVCodecContext *avctx,
 
     s->slice_count= 0;
 
+    if(avctx->extradata && !avctx->frame_number)
+        decode_chunks(avctx, picture, data_size, avctx->extradata, avctx->extradata_size);
+
+    return decode_chunks(avctx, picture, data_size, buf, buf_size);
+}
+
+static int decode_chunks(AVCodecContext *avctx,
+                             AVFrame *picture, int *data_size,
+                             const uint8_t *buf, int buf_size)
+{
+    Mpeg1Context *s = avctx->priv_data;
+    MpegEncContext *s2 = &s->mpeg_enc_ctx;
+    const uint8_t *buf_ptr = buf;
+    const uint8_t *buf_end = buf + buf_size;
+    int ret, input_size;
+
     for(;;) {
         /* find start next code */
-        start_code = -1;
+        uint32_t start_code = -1;
         buf_ptr = ff_find_start_code(buf_ptr,buf_end, &start_code);
         if (start_code > 0x1ff){
             if(s2->pict_type != FF_B_TYPE || avctx->skip_frame <= AVDISCARD_DEFAULT){

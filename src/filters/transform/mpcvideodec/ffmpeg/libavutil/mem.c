@@ -116,9 +116,7 @@ void av_freep(void *arg)
 
 void *av_mallocz(unsigned int size)
 {
-    void *ptr;
-
-    ptr = av_malloc(size);
+    void *ptr = av_malloc(size);
     if (ptr)
         memset(ptr, 0, size);
     return ptr;
@@ -127,8 +125,7 @@ void *av_mallocz(unsigned int size)
 char *av_strdup(const char *s)
 {
     char *ptr;
-    int len;
-    len = strlen(s) + 1;
+    int len = strlen(s) + 1;
     ptr = av_malloc(len);
     if (ptr)
         memcpy(ptr, s, len);
