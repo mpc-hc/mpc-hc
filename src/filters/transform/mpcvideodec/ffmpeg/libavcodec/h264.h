@@ -461,6 +461,10 @@ typedef struct H264Context{
 
     /* ffdshow custom stuff */
     int first_I_frame_detected;
+
+    // ==> Start patch MPC
+    int sp_for_switch_flag;
+    // <== End patch MPC
 }H264Context;
 
 #endif /* FFMPEG_H264_H */

@@ -40,7 +40,7 @@
 #include "vc1.h"
 
 
-int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* sp_for_switch_flag);
+int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
@@ -90,7 +90,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		else
 			return 1;	// Wrong SAR
 	}
-
+		
 	return 0;
 }
 
@@ -101,11 +101,10 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 	SPS*					cur_sps;
 	PPS*					cur_pps;
     MpegEncContext* const	s = &h->s;
-	int						sp_for_switch_flag = 0;
 	int						field_pic_flag;
 	HRESULT					hr = E_FAIL;
 
-	av_h264_decode_slice_header (pAVCtx, pBuffer, nSize, &sp_for_switch_flag);
+	av_h264_decode_slice_header (pAVCtx, pBuffer, nSize);
 
 	field_pic_flag = (h->s.picture_structure != PICT_FRAME);
 
@@ -120,7 +119,7 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 		pDXVAPicParams->field_pic_flag					= field_pic_flag;
 		pDXVAPicParams->MbaffFrameFlag					= (h->sps.mb_aff && (field_pic_flag==0));
 		pDXVAPicParams->residual_colour_transform_flag	= cur_sps->residual_colour_transform_flag;
-		pDXVAPicParams->sp_for_switch_flag				= sp_for_switch_flag;
+		pDXVAPicParams->sp_for_switch_flag				= h->sp_for_switch_flag;
 		pDXVAPicParams->chroma_format_idc				= cur_sps->chroma_format_idc;
 		pDXVAPicParams->RefPicFlag						= (h->nal_ref_idc != 0);
 		pDXVAPicParams->constrained_intra_pred_flag		= cur_pps->constrained_intra_pred;
@@ -164,11 +163,22 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 		pDXVAPicParams->pic_init_qp_minus26						= cur_pps->init_qp - 26;
 		pDXVAPicParams->pic_init_qs_minus26						= cur_pps->init_qs - 26;
 
-		//if (field_pic_flag)
-		//	pDXVAPicParams->CurrPic.AssociatedFlag	= h->delta_poc[0];
 
-		pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb;		// m_Slice.pic_order_cnt_lsb;
-		pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb;		// m_Slice.pic_order_cnt_lsb;
+		if (field_pic_flag && pDXVAPicParams->CurrPic.AssociatedFlag)
+		{
+			pDXVAPicParams->CurrFieldOrderCnt[0] = 0;
+			pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
+		}
+		else if (field_pic_flag && !pDXVAPicParams->CurrPic.AssociatedFlag)
+		{
+			pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
+			pDXVAPicParams->CurrFieldOrderCnt[1] = 0;
+		}
+		else
+		{
+			pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
+			pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
+		}
 
 		memcpy (pDXVAScalingMatrix, cur_pps->scaling_matrix4, sizeof (DXVA_Qmatrix_H264));
 		hr = S_OK;

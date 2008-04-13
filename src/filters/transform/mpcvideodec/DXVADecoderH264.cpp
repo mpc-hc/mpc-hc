@@ -139,10 +139,10 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 					memcpy (pDXVABuffer+3, (BYTE*)pDataSlice+m_nNALLength, Nalu.len-m_nNALLength);
 					
 					// Add trailing bit
-					pDXVABuffer[Nalu.len-1] = 0x00;
+					pDXVABuffer[Nalu.len+3-m_nNALLength] = 0x00;
 
-					pDXVABuffer	+= Nalu.len;
-					nSize       += Nalu.len;
+					pDXVABuffer	+= Nalu.len + 4 - m_nNALLength;
+					nSize       += Nalu.len + 4 - m_nNALLength;
 				}
 				else
 				{
@@ -209,6 +209,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			nSliceSize	-= Nalu.len;
 		}
 	}
+	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// Parse slice header and set DX destination surface
 	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice+ m_nNALLength, nSliceSize -  m_nNALLength));
@@ -252,8 +253,6 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
 	FFH264DecodeBuffer (pAVCtx, pDataIn, nSize);
-
-	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);	// TODO : find better solution...
 }
 
 
