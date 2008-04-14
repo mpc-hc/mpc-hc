@@ -3925,11 +3925,11 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->b_stride=  s->mb_width*4;
     h->b8_stride= s->mb_width*2;
 
-    s->width = 16*s->mb_width - 2*(h->sps.crop_left + h->sps.crop_right );
+    s->width = 16*s->mb_width - 2*FFMIN(h->sps.crop_right, 7);
     if(h->sps.frame_mbs_only_flag)
-        s->height= 16*s->mb_height - 2*(h->sps.crop_top  + h->sps.crop_bottom);
+        s->height= 16*s->mb_height - 2*FFMIN(h->sps.crop_bottom, 7);
     else
-        s->height= 16*s->mb_height - 4*(h->sps.crop_top  + h->sps.crop_bottom); //FIXME recheck
+        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 3);
 
     if (s->context_initialized
         && (   s->width != s->avctx->width || s->height != s->avctx->height)) {
@@ -7408,6 +7408,9 @@ static inline int decode_seq_parameter_set(H264Context *h){
         if(sps->crop_left || sps->crop_top){
             av_log(h->s.avctx, AV_LOG_ERROR, "insane cropping not completely supported, this could look slightly wrong ...\n");
         }
+        if(sps->crop_right >= 8 || sps->crop_bottom >= (8>> !h->sps.frame_mbs_only_flag)){
+            av_log(h->s.avctx, AV_LOG_ERROR, "brainfart cropping not supported, this could look slightly wrong ...\n");
+        }
     }else{
         sps->crop_left  =
         sps->crop_right =
@@ -8288,7 +8291,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     unsigned int slice_type, tmp, i;
     int default_ref_list_done = 0;
     int last_pic_structure;
-	int field_pic_flag;
+    int field_pic_flag;
 
     s->dropable= h->nal_ref_idc == 0;
 
@@ -8360,11 +8363,11 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     h->b_stride=  s->mb_width*4;
     h->b8_stride= s->mb_width*2;
 
-    s->width = 16*s->mb_width - 2*(h->sps.crop_left + h->sps.crop_right );
+    s->width = 16*s->mb_width - 2*FFMIN(h->sps.crop_right, 7);
     if(h->sps.frame_mbs_only_flag)
-        s->height= 16*s->mb_height - 2*(h->sps.crop_top  + h->sps.crop_bottom);
+        s->height= 16*s->mb_height - 2*FFMIN(h->sps.crop_bottom, 7);
     else
-        s->height= 16*s->mb_height - 4*(h->sps.crop_top  + h->sps.crop_bottom); //FIXME recheck
+        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 3);
 
     if (s->context_initialized
         && (   s->width != s->avctx->width || s->height != s->avctx->height)) {
@@ -8394,7 +8397,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
             av_reduce(&s->avctx->time_base.num, &s->avctx->time_base.den,
                       s->avctx->time_base.num, s->avctx->time_base.den, 1<<30);
         }
-		frame_start(h);
+        frame_start(h);
     }
 
     h->frame_num= get_bits(&s->gb, h->sps.log2_max_frame_num);

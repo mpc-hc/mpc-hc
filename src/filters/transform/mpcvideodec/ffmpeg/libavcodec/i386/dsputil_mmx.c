@@ -31,12 +31,10 @@
 #include "../skl_dct.h"
 #include "vp3dsp_mmx.h"
 #include "vp3dsp_sse2.h"
+#include "idct_xvid.h"
 
 //#undef NDEBUG
 //#include <assert.h>
-
-extern void ff_idct_xvid_mmx(short *block);
-extern void ff_idct_xvid_mmx2(short *block);
 
 int mm_flags; /* multimedia extension flags */
 
@@ -2091,7 +2089,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                 c->idct_add= ff_simple_idct_add_mmx;
                 c->idct    = ff_simple_idct_mmx;
                 c->idct_permutation_type= FF_SIMPLE_IDCT_PERM;
-        }else if(idct_algo==FF_IDCT_SKAL){
+            }else if(idct_algo==FF_IDCT_SKAL){
                 if(mm_flags & MM_SSE2){
                     c->idct_put= Skl_IDct16_Put_SSE2;
                     c->idct_add= Skl_IDct16_Add_SSE2;
