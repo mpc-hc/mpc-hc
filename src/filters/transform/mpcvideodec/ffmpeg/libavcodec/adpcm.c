@@ -667,8 +667,8 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
             src++;
 
             for (count2 = 0; count2 < 28; count2++) {
-                next_left_sample = (((*src & 0xF0) << 24) >> shift_left);
-                next_right_sample = (((*src & 0x0F) << 28) >> shift_right);
+                next_left_sample  = (int32_t)((*src & 0xF0) << 24) >> shift_left;
+                next_right_sample = (int32_t)((*src & 0x0F) << 28) >> shift_right;
                 src++;
 
                 next_left_sample = (next_left_sample +

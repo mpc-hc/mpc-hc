@@ -2133,7 +2133,12 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             }else if(idct_algo==FF_IDCT_CAVS){
                     c->idct_permutation_type= FF_TRANSPOSE_IDCT_PERM;
             }else if(idct_algo==FF_IDCT_XVIDMMX){
-                if(mm_flags & MM_MMXEXT){
+                if(mm_flags & MM_SSE2){
+                    c->idct_put= ff_idct_xvid_sse2_put;
+                    c->idct_add= ff_idct_xvid_sse2_add;
+                    c->idct    = ff_idct_xvid_sse2;
+                    c->idct_permutation_type= FF_SSE2_IDCT_PERM;
+                }else if(mm_flags & MM_MMXEXT){
                     c->idct_put= ff_idct_xvid_mmx2_put;
                     c->idct_add= ff_idct_xvid_mmx2_add;
                     c->idct    = ff_idct_xvid_mmx2;
@@ -2435,9 +2440,11 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
 {
     if (c->idct_put==ff_idct_xvid_mmx_put)
-        return "XvidMMX (ff_idct_xvid_mmx)";
+        return "Xvid (ff_idct_xvid_mmx)";
     if (c->idct_put==ff_idct_xvid_mmx2_put)
-        return "XvidMMX (ff_idct_xvid_mmx2)";
+        return "Xvid (ff_idct_xvid_mmx2)";
+    if (c->idct_put==ff_idct_xvid_sse2_put)
+        return "Xvid (ff_idct_xvid_sse2)";
     if (c->idct_put==ff_simple_idct_put_mmx)
         return "Simple MMX (ff_simple_idct_mmx)";
     if (c->idct_put==Skl_IDct16_Put_SSE2)

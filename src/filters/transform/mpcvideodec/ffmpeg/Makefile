@@ -166,6 +166,7 @@ SRCS_C+=$(LAVC_DIR)/i386/cputest.c \
       $(LAVC_DIR)/i386/fft_sse.c \
       $(LAVC_DIR)/i386/idct_mmx.c \
       $(LAVC_DIR)/i386/idct_mmx_xvid.c \
+      $(LAVC_DIR)/i386/idct_sse2_xvid.c \
       $(LAVC_DIR)/i386/motion_est_mmx.c \
       $(LAVC_DIR)/i386/mpegvideo_mmx.c \
       $(LAVC_DIR)/i386/simple_idct_mmx.c \
