@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: codingparams_byteio.cpp,v 1.3 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: codingparams_byteio.cpp,v 1.8 2007/12/11 02:27:22 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,8 +61,8 @@ CodingParamsByteIO::~CodingParamsByteIO()
 
 void CodingParamsByteIO::Input()
 {
-    // input interlaced coding flag
-    InputInterlaceCoding();
+    // input picture coding mode
+    InputPictureCodingMode();
 
     m_codec_params.SetTopFieldFirst(m_src_params.TopFieldFirst());
 
@@ -73,9 +73,9 @@ void CodingParamsByteIO::Input()
     m_codec_params.SetOrigChromaXl(m_src_params.ChromaWidth());
     m_codec_params.SetOrigChromaYl(m_src_params.ChromaHeight());
 
-    // If source was coded interlaced, halve the vertical dimensions
+    // If source was coded as fields, halve the vertical dimensions
     // to set them to field dimensions
-    if (m_codec_params.Interlace())
+    if (m_codec_params.FieldCoding())
     {
         m_codec_params.SetOrigYl(m_codec_params.OrigYl()>>1);
         m_codec_params.SetOrigChromaYl(m_codec_params.OrigChromaYl()>>1);
@@ -100,8 +100,8 @@ void CodingParamsByteIO::Input()
 
 void CodingParamsByteIO::Output()
 {
-    // output interlaced coding flag
-    OutputInterlaceCoding();
+    // output picture coding mode flag
+    OutputPictureCodingMode();
 
     // byte align
     ByteAlignOutput();
@@ -109,21 +109,26 @@ void CodingParamsByteIO::Output()
 
 //-------------private---------------------------------------------------------------
 
-void CodingParamsByteIO::InputInterlaceCoding()
+void CodingParamsByteIO::InputPictureCodingMode()
 {
-
-    m_codec_params.SetInterlace(m_src_params.Interlace());
-    if (InputBit()) // custom coding
-        m_codec_params.SetInterlace(!m_codec_params.Interlace());
+    unsigned int coding_mode = ReadUint();
+    if (coding_mode > 1)
+    {
+        std::ostringstream errstr;
+        errstr << "Picture coding mode " << coding_mode
+               << " out of range [0-1]";
+        DIRAC_THROW_EXCEPTION(
+            ERR_UNSUPPORTED_STREAM_DATA,
+            errstr.str(),
+            SEVERITY_ACCESSUNIT_ERROR);
+    }
+    m_codec_params.SetFieldCoding(coding_mode == 1);
 }
 
 
-void CodingParamsByteIO::OutputInterlaceCoding()
+void CodingParamsByteIO::OutputPictureCodingMode()
 {
-    bool is_custom = m_codec_params.Interlace() !=
-                                   m_default_source_params.Interlace();
-
-    OutputBit(is_custom);
+    WriteUint(m_codec_params.FieldCoding() ? 1 : 0);
 }
 
 

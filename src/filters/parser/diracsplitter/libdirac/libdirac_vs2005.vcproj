@@ -44,6 +44,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				UsePrecompiledHeader="0"
+				DisableSpecificWarnings="4800;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -272,6 +273,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\band_vlc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_motionest\block_match.cpp"
 				>
 			</File>
@@ -285,10 +290,6 @@
 			</File>
 			<File
 				RelativePath=".\libdirac_byteio\codingparams_byteio.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_byteio\codingparams_byteio.h"
 				>
 			</File>
 			<File
@@ -534,6 +535,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\band_vlc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_motionest\block_match.h"
 				>
 			</File>
@@ -543,6 +548,10 @@
 			</File>
 			<File
 				RelativePath=".\libdirac_common\cmd_line.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_byteio\codingparams_byteio.h"
 				>
 			</File>
 			<File

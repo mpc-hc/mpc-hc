@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pixel_match.cpp,v 1.12 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: pixel_match.cpp,v 1.12 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

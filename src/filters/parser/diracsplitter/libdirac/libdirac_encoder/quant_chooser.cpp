@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quant_chooser.cpp,v 1.12 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: quant_chooser.cpp,v 1.14 2008/01/16 16:11:17 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,9 +61,11 @@ QuantChooser::QuantChooser(  const CoeffArray& coeff_data,
 
 int QuantChooser::GetBestQuant( Subband& node )
 {
+    // NB : quantiser selection only supports a single quantiser per subband
+    // Setting MultiQuants=true and using this function will get the same
+    // quantiser for each codeblock
 
-    TwoDArray<CodeBlock>& block_list( node.GetCodeBlocks() );
-    const int num_blocks( block_list.LengthX() * block_list.LengthY() );
+    m_subband_wt = node.Wt();
 
     // The largest value in the block or band
     CoeffType max_val;
@@ -71,8 +73,7 @@ int QuantChooser::GetBestQuant( Subband& node )
     // The index of the maximum bit of the largest value
     int max_bit( 0 );
 
-    CodeBlock big_block( node.Xp() , node.Yp() , node.Xp()+node.Xl() , node.Yp()+node.Yl() );
-    max_val = BlockAbsMax( big_block );
+    max_val = BlockAbsMax( node );
 
     if ( max_val>=1 )
         max_bit = int( std::floor( std::log( float( max_val ) )/std::log( 2.0 ) ) );
@@ -87,186 +88,92 @@ int QuantChooser::GetBestQuant( Subband& node )
     int num_quants( 4 * max_bit + 5 );
 
     // Set the array sizes
-    m_costs.Resize( num_blocks , num_quants );
-    m_count0.Resize(  num_blocks , num_quants );
-    m_count1.Resize(  num_blocks );
-    m_countPOS.Resize( num_blocks , num_quants );
-    m_countNEG.Resize(  num_blocks , num_quants );
-    m_error_total.Resize(  num_blocks , num_quants );
+    m_costs.Resize( num_quants );
+    m_count0.Resize(  num_quants );
+    m_count1=node.Xl()*node.Yl();
+    m_countPOS.Resize( num_quants );
+    m_countNEG.Resize( num_quants );
+    m_error_total.Resize( num_quants );
 
     // Total estimated bits for the subband
     double bit_sum( 0.0 );
 
-    // Number of bits for an individual block  
-    double block_bit_cost;
+    // Step 1. Do integral bits first
+    m_bottom_idx = 0;
+    m_top_idx = num_quants-1;
+    m_index_step = 4;
 
-    if ( !node.UsingMultiQuants() )
+    IntegralErrorCalc( node, 2 , 2);
+    LagrangianCalc( );
+    SelectBestQuant();
+
+    // Step 2. Do 1/2-bit accuracy next
+    m_bottom_idx = std::max( m_min_idx - 2 , 0 );
+    m_top_idx = std::min( m_min_idx + 2 , num_quants-1 );
+    m_index_step = 2;
+
+    NonIntegralErrorCalc( node, 2 , 2);
+    LagrangianCalc( );
+    SelectBestQuant();
+
+    // Step 3. Finally, do 1/4-bit accuracy next
+    m_bottom_idx = std::max( m_min_idx - 1 , 0 );
+    m_top_idx = std::min( m_min_idx + 1 , num_quants-1 );
+    m_index_step = 1;
+
+    NonIntegralErrorCalc( node, 1 , 2);
+    LagrangianCalc( );
+    SelectBestQuant();
+
+    bit_sum = m_costs[m_min_idx].ENTROPY * node.Xl() * node.Yl();
+
+    node.SetQIndex( m_min_idx );
+
+    TwoDArray<CodeBlock>& block_list( node.GetCodeBlocks() );
+
+    // Set the codeblock quantisers
+    for (int j=0 ; j<block_list.LengthY() ; ++j )
     {
-    // We have just one quantiser for the whole band. We still want to collate R-D info by
-    // block so that we know which blocks we can skip
-
-        int block_idx;
-
-        // Step 1. Do integral bits first
-        m_bottom_idx = 0;
-        m_top_idx = num_quants-1;
-        m_index_step = 4;
-
-        for (int j=0 ; j<block_list.LengthY() ; ++j )
+        for (int i=0 ; i<block_list.LengthX() ; ++i )
         {
-            for (int i=0 ; i<block_list.LengthX() ; ++i )
-            {
-                block_idx = j*block_list.LengthX() + i;     
-
-                IntegralErrorCalc( block_list[j][i] , block_idx , 2 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-            }// i
-        }// j
-        SelectBestQuant();
-
-
-        // Step 2. Do 1/2-bit accuracy next
-        m_bottom_idx = std::max( m_min_idx - 2 , 0 );
-        m_top_idx = std::min( m_min_idx + 2 , num_quants-1 );
-        m_index_step = 2;
-
-        for (int j=0 ; j<block_list.LengthY() ; ++j )
-        {
-            for (int i=0 ; i<block_list.LengthX() ; ++i )
-            {
-                block_idx = j*block_list.LengthX() + i;     
-
-                NonIntegralErrorCalc( block_list[j][i] , block_idx  , 2 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-            }// i
-        }// j
-        SelectBestQuant();
-
-        // Step 3. Finally, do 1/4-bit accuracy next
-        m_bottom_idx = std::max( m_min_idx - 1 , 0 );
-        m_top_idx = std::min( m_min_idx + 1 , num_quants-1 );
-        m_index_step = 1;
-
-        for (int j=0 ; j<block_list.LengthY() ; ++j )
-        {
-            for (int i=0 ; i<block_list.LengthX() ; ++i )
-            {
-                block_idx = j*block_list.LengthX() + i;     
-
-                NonIntegralErrorCalc( block_list[j][i] , block_idx  , 1 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-            }// i
-        }// j
-        SelectBestQuant();
-
-        for (int j=0 ; j<block_list.LengthY() ; ++j )
-        {
-            for (int i=0 ; i<block_list.LengthX() ; ++i )
-            {
-                block_idx = j*block_list.LengthX() + i;     
-
-                block_bit_cost = ( m_costs[block_idx][m_min_idx].ENTROPY 
-                           * block_list[j][i].Xl() 
-                           * block_list[j][i].Yl() );
-
-                bit_sum += block_bit_cost;
-
-                block_list[j][i].SetQIndex( m_min_idx );
-
-                if ( block_bit_cost >= 1.0 )
-                    block_list[j][i].SetSkip( false );
-                else
-                    // We can skip this block after all
-                    block_list[j][i].SetSkip( true );
-
-            }// i
-        }// j
-
-        node.SetQIndex( m_min_idx );
-
-        return static_cast<int>( bit_sum );
-
-    }
-    else
+            block_list[j][i].SetQIndex( m_min_idx );
+        }// i
+    }// j        
+        
+    // Set the codeblock skip flags
+    for (int j=0 ; j<block_list.LengthY() ; ++j )
     {
-        int block_idx;
-
-        for (int j=0 ; j<block_list.LengthY() ; ++j )
+        for (int i=0 ; i<block_list.LengthX() ; ++i )
         {
-            for (int i=0 ; i<block_list.LengthX() ; ++i )
-            {
-                block_idx = j*block_list.LengthX() + i;     
-                // Step 1. Do integral bits first
-                m_bottom_idx = 4;
-                m_top_idx = num_quants-1;
-                m_index_step = 4;
-
-                IntegralErrorCalc( block_list[j][i] , block_idx , 2 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-                SelectBestQuant( block_idx );
-
-                // Step 2. Do 1/2-bit accuracy next
-                m_bottom_idx = std::max( m_min_idx - 2 , 0 );
-                m_top_idx = std::min( m_min_idx + 2 , num_quants-1 );
-                m_index_step = 2;
-
-                NonIntegralErrorCalc( block_list[j][i] , block_idx  , 2 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-                SelectBestQuant( block_idx );
-
-                // Step 3. Finally, do 1/4-bit accuracy next
-                m_bottom_idx = std::max( m_min_idx - 1 , 0 );
-                m_top_idx = std::min( m_min_idx + 1 , num_quants-1 );
-                m_index_step = 1;
-
-                NonIntegralErrorCalc( block_list[j][i] , block_idx  , 1 , 2);
-                LagrangianCalc( block_list[j][i] , block_idx  );
-                SelectBestQuant( block_idx );
-
-                block_bit_cost = ( m_costs[block_idx][m_min_idx].ENTROPY 
-                                 * block_list[j][i].Xl() 
-                                 * block_list[j][i].Yl() );
-                bit_sum += block_bit_cost;
-
-                block_list[j][i].SetQIndex( m_min_idx );
-
-                if ( block_bit_cost < 1.0 )
-                    // We can skip this block after all
-                    block_list[j][i].SetSkip( true );
-            }// i
-        }// j
-
-        // Set the overall quantisation index, used as a predictor for the block indices
-        node.SetQIndex( block_list[0][0].QIndex() );
-
-        return static_cast<int>( bit_sum );
-    }      
+            SetSkip( block_list[j][i], m_min_idx );
+        }// i
+    }// j        
+        
+        
+    return static_cast<int>( bit_sum );
 
 }
 
-void QuantChooser::IntegralErrorCalc( const CodeBlock& code_block , 
-                                      const int block_idx , 
-                                      const int xratio , 
-                                      const int yratio )
+void QuantChooser::IntegralErrorCalc( Subband& node, const int xratio , const int yratio )
 {
 
     CoeffType val, quant_val , abs_val;
 
     CalcValueType error;
 
-    m_count1[block_idx] = ( (code_block.Xl()/xratio)*(code_block.Yl()/yratio) );
+    m_count1 = ( (node.Xl()/xratio)*(node.Yl()/yratio) );
     for (int q = m_bottom_idx ; q<=m_top_idx ; q+=4 )
     {
-        m_error_total[block_idx][q] = 0.0;
-        m_count0[block_idx][q] =0;
-        m_countPOS[block_idx][q] = 0;
-        m_countNEG[block_idx][q] = 0;
+        m_error_total[q] = 0.0;
+        m_count0[q] =0;
+        m_countPOS[q] = 0;
+        m_countNEG[q] = 0;
     }
 
     // Work out the error totals and counts for each quantiser
-    for ( int j=code_block.Ystart(); j<code_block.Yend() ; j+=yratio )
+    for ( int j=node.Yp(); j<node.Yp()+node.Yl() ; j+=yratio )
     {
-        for ( int i=code_block.Xstart(); i<code_block.Xend() ; i+=xratio )
+        for ( int i=node.Xp(); i<node.Xp()+node.Xl() ; i+=xratio )
         {
             val = m_coeff_data[j][i];
             abs_val = quant_val = abs(val);
@@ -279,33 +186,33 @@ void QuantChooser::IntegralErrorCalc( const CodeBlock& code_block ,
                 if (!quant_val)
                     break;
 
-                m_count0[block_idx][q] += quant_val;
+                m_count0[q] += quant_val;
                 // Multiply back up so that we can quantise again in the next loop step
                 quant_val <<= (q>>2)+2;
                 quant_val += dirac_quantiser_lists.InterQuantOffset4( q )+2;
                 quant_val >>= 2;
                 if (val>0)
-                    m_countPOS[block_idx][q]++;
+                    m_countPOS[q]++;
                 else
-                    m_countNEG[block_idx][q]++;
+                    m_countNEG[q]++;
 
                 error = abs_val-quant_val;
 
                 // Using the fourth power to measure the error
-                m_error_total[block_idx][q] +=  pow4( static_cast<double>( error ) );
+                m_error_total[q] +=  pow4( static_cast<double>( error ) );
 
             }// q
             double derror = pow4 ( static_cast<double>( abs_val ) );
             for (; q <= m_top_idx; q+= 4)
             {
-                m_error_total[block_idx][q] += derror;
+                m_error_total[q] += derror;
             }
         }// i
     }// j
 
 }
 
-void QuantChooser::NonIntegralErrorCalc( const CodeBlock& code_block , const int block_idx , const int xratio , const int yratio )
+void QuantChooser::NonIntegralErrorCalc( Subband& node , const int xratio , const int yratio )
 {
 
     CoeffType val, abs_val;
@@ -313,19 +220,19 @@ void QuantChooser::NonIntegralErrorCalc( const CodeBlock& code_block , const int
     CalcValueType quant_val;
     CalcValueType error;
 
-    m_count1[block_idx] = ( (code_block.Xl()/xratio)*(code_block.Yl()/yratio) );
+    m_count1 = ( (node.Xl()/xratio)*(node.Yl()/yratio) );
     for (int q = m_bottom_idx ; q<=m_top_idx ; q+=m_index_step )
     {
-        m_error_total[block_idx][q] = 0.0;
-        m_count0[block_idx][q] =0;
-        m_countPOS[block_idx][q] = 0;
-        m_countNEG[block_idx][q] = 0;
+        m_error_total[q] = 0.0;
+        m_count0[q] =0;
+        m_countPOS[q] = 0;
+        m_countNEG[q] = 0;
     }
 
     // Work out the error totals and counts for each quantiser
-    for ( int j=code_block.Ystart(); j<code_block.Yend() ; j+=yratio )
+    for ( int j=node.Yp(); j<node.Yp()+node.Yl() ; j+=yratio )
     {
-        for ( int i=code_block.Xstart(); i<code_block.Xend() ; i+=xratio )
+        for ( int i=node.Xp(); i<node.Xp()+node.Xl() ; i+=xratio )
         {
 
             val = m_coeff_data[j][i];
@@ -342,31 +249,30 @@ void QuantChooser::NonIntegralErrorCalc( const CodeBlock& code_block , const int
                  if ( !quant_val )
                      break;
 
-                 m_count0[block_idx][q] += quant_val;
+                 m_count0[q] += quant_val;
                  quant_val *= dirac_quantiser_lists.QuantFactor4( q );
                  quant_val += dirac_quantiser_lists.InterQuantOffset4( q )+2;
                  quant_val >>= 2;
 
                  if ( val>0 )
-                     m_countPOS[block_idx][q]++;
+                     m_countPOS[q]++;
                  else
-                     m_countNEG[block_idx][q]++;
+                     m_countNEG[q]++;
 
                  error = abs_val-quant_val;
-                 m_error_total[block_idx][q] += pow4( error );
+                 m_error_total[q] += pow4( error );
              }// q
              double derror = pow4( abs_val );
              for ( ; q <= m_top_idx; q += m_index_step)
-                 m_error_total[block_idx][q] += derror;
+                 m_error_total[q] += derror;
         }// i
     }// j
 
 }
 
 
-void QuantChooser::LagrangianCalc(const CodeBlock& code_block , const int block_idx )
+void QuantChooser::LagrangianCalc()
 {
-    const double vol( static_cast<double>( m_count1[block_idx] ) );
 
     // probabilities
     double p0,p1;
@@ -377,26 +283,26 @@ void QuantChooser::LagrangianCalc(const CodeBlock& code_block , const int block_
     for ( int q=m_bottom_idx ; q<=m_top_idx ; q += m_index_step )
     {
 
-        m_costs[block_idx][q].Error = m_error_total[block_idx][q]/vol;
-        m_costs[block_idx][q].Error = std::sqrt( m_costs[block_idx][q].Error )/( code_block.Wt()*code_block.Wt() );
+        m_costs[q].Error = m_error_total[q]/double(m_count1);
+        m_costs[q].Error = std::sqrt( m_costs[q].Error )/( m_subband_wt*m_subband_wt );
 
         // Calculate probabilities and entropy
-        p0 = double( m_count0[block_idx][q] )/ double( m_count0[block_idx][q]+m_count1[block_idx] );
+        p0 = double( m_count0[q] )/ double( m_count0[q]+m_count1 );
         p1 = 1.0 - p0;
 
         if ( p0 != 0.0 && p1 != 0.0)
-            m_costs[block_idx][q].ENTROPY = -( p0*std::log(p0)+p1*std::log(p1) ) / std::log(2.0);
+            m_costs[q].ENTROPY = -( p0*std::log(p0)+p1*std::log(p1) ) / std::log(2.0);
         else
-            m_costs[block_idx][q].ENTROPY = 0.0;
+            m_costs[q].ENTROPY = 0.0;
 
         // We want the entropy *per symbol*, not per bit ...            
-        m_costs[block_idx][q].ENTROPY *= double(m_count0[block_idx][q]+m_count1[block_idx]);
-        m_costs[block_idx][q].ENTROPY /= vol;
+        m_costs[q].ENTROPY *= double(m_count0[q]+m_count1);
+        m_costs[q].ENTROPY /= double(m_count1);
 
         // Now add in the sign entropy
-        if ( m_countPOS[block_idx][q] + m_countNEG[block_idx][q] != 0 )
+        if ( m_countPOS[q] + m_countNEG[q] != 0 )
         {
-            p0 = double( m_countNEG[block_idx][q] )/double( m_countPOS[block_idx][q]+m_countNEG[block_idx][q] );
+            p0 = double( m_countNEG[q] )/double( m_countPOS[q]+m_countNEG[q] );
             p1 = 1.0-p0;
             if ( p0 != 0.0 && p1 != 0.0)
                 sign_entropy = -( (p0*std::log(p0)+p1*std::log(p1) ) / std::log(2.0));
@@ -407,90 +313,55 @@ void QuantChooser::LagrangianCalc(const CodeBlock& code_block , const int block_
             sign_entropy = 0.0;    
 
         // We want the entropy *per symbol*, not per bit ...
-        sign_entropy *= double( m_countNEG[block_idx][q] + m_countPOS[block_idx][q] );
-        sign_entropy /= vol;    
+        sign_entropy *= double( m_countNEG[q] + m_countPOS[q] );
+        sign_entropy /= double(m_count1);
 
-        m_costs[block_idx][q].ENTROPY += sign_entropy;
+        m_costs[q].ENTROPY += sign_entropy;
 
         // Sort out correction factors
-        m_costs[block_idx][q].ENTROPY *= m_entropy_correctionfactor;
-        m_costs[block_idx][q].TOTAL = m_costs[block_idx][q].Error+m_lambda*m_costs[block_idx][q].ENTROPY;
+        m_costs[q].ENTROPY *= m_entropy_correctionfactor;
+        m_costs[q].TOTAL = m_costs[q].Error+m_lambda*m_costs[q].ENTROPY;
 
     }// q
 }
 
-void QuantChooser::SelectBestQuant( const int block_idx )
+void QuantChooser::SelectBestQuant()
 {
-    // Selects the best quantiser to use for a code block
+    // Selects the best quantiser to use for a subband block
 
     m_min_idx = m_bottom_idx;
     for ( int q=m_bottom_idx + m_index_step; q<=m_top_idx ; q +=m_index_step )
     {
-        if ( m_costs[block_idx][q].TOTAL < m_costs[block_idx][m_min_idx].TOTAL)
+        if ( m_costs[q].TOTAL < m_costs[m_min_idx].TOTAL)
             m_min_idx = q;
     }// q
          
 }
 
-void QuantChooser::SelectBestQuant()
+void QuantChooser::SetSkip( CodeBlock& cblock , const int qidx)
 {
-    // Selects the best quantiser to use for all the code blocks together    
-
-    m_min_idx = m_bottom_idx;
-
-    OneDArray<double> total_costs( m_costs.LengthX() );
-    double vol;
-/*
-    for ( int q=m_bottom_idx; q<=m_top_idx ; q +=m_index_step )
+    const int u_threshold = dirac_quantiser_lists.QuantFactor4( qidx );
+    
+    // Sets the skip flag for a codeblock
+    bool can_skip = true;
+    for (int j=cblock.Ystart(); j<cblock.Yend(); ++j )
     {
-        total_costs[q] = 0.0;
-        vol = 0.0;
-        for (int block_idx=0 ; block_idx<m_costs.LengthY() ; ++block_idx)
+        for (int i=cblock.Xstart(); i<cblock.Xend(); ++i )
         {
-            total_costs[q] += m_costs[block_idx][q].TOTAL * m_count1[block_idx];
-            vol += m_count1[block_idx];
-        }
-
-        total_costs[q] /= vol;
-
-        if ( total_costs[q] < total_costs[m_min_idx] )
-            m_min_idx = q;
-    }// q
-*/
-
-
-    double entropy_total, error_total;
-
-    for ( int q=m_bottom_idx; q<=m_top_idx ; q +=m_index_step )
-    {
-        entropy_total = 0.0;
-        error_total = 0.0;
-        vol = 0.0;
-        for (int block_idx=0 ; block_idx<m_costs.LengthY() ; ++block_idx)
-        {
-            entropy_total += m_costs[block_idx][q].ENTROPY * m_count1[block_idx];
-            error_total += m_costs[block_idx][q].Error * m_count1[block_idx];
-            vol += m_count1[block_idx];
-        }
-
-        entropy_total /= vol;
-        error_total /= vol;
-
-        total_costs[q] = error_total + m_lambda*entropy_total;
-
-        if ( total_costs[q] < total_costs[m_min_idx] )
-            m_min_idx = q;
-
-     }
+            if ( (std::abs(m_coeff_data[j][i])<<2) >= u_threshold )
+                can_skip = false;
+        }   
+    }
+    cblock.SetSkip( can_skip );
 }
 
-CoeffType QuantChooser::BlockAbsMax( const CodeBlock& code_block )
+CoeffType QuantChooser::BlockAbsMax( const Subband& node )
 {
     CoeffType val( 0 );
 
-    for (int j=code_block.Ystart() ; j<code_block.Yend(); ++j)
+    for (int j=node.Yp() ; j<node.Yp()+node.Yl(); ++j)
     {
-        for (int i=code_block.Xstart() ; i<code_block.Xend(); ++i)
+        for (int i=node.Xp() ; i<node.Xp()+node.Xl(); ++i)
         {    
             val = std::max( val , m_coeff_data[j][i] );    
         }// i

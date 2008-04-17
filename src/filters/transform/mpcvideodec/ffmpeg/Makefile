@@ -42,6 +42,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/error_resilience.c \
       $(LAVC_DIR)/eval.c \
       $(LAVC_DIR)/faandct.c \
+      $(LAVC_DIR)/faanidct.c \
       $(LAVC_DIR)/fft.c \
       $(LAVC_DIR)/ffv1.c \
       $(LAVC_DIR)/flac.c \
@@ -111,7 +112,6 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/rtjpeg.c \
       $(LAVC_DIR)/rv10.c \
       $(LAVC_DIR)/simple_idct.c \
-      $(LAVC_DIR)/skl_dct_c.c \
       $(LAVC_DIR)/snow.c \
       $(LAVC_DIR)/sp5xdec.c \
       $(LAVC_DIR)/svq1.c \
@@ -174,8 +174,6 @@ SRCS_C+=$(LAVC_DIR)/i386/cputest.c \
       $(LAVC_DIR)/i386/vc1dsp_mmx.c \
       $(LAVC_DIR)/i386/vp3dsp_mmx.c \
       $(LAVC_DIR)/i386/vp3dsp_sse2.c
-SRCS_NASM=$(LAVC_DIR)/i386/skl_dct_sse.asm \
-          $(LAVC_DIR)/i386/skl_dct_sse2.asm
 
 NASMFLAGS=-DUSE32 -Dalloc -Dexec
 endif

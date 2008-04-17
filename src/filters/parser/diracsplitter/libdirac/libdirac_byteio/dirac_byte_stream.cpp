@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_byte_stream.cpp,v 1.3 2007/06/10 13:47:56 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_byte_stream.cpp,v 1.5 2008/01/15 00:19:30 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -88,7 +88,8 @@ ParseUnitByteIO* DiracByteStream::GetNextParseUnit()
     if(mp_prev_parse_unit)
     {
         // remove the unwanted bytes associated with the previous parse-unit
-        RemoveRedundantBytes(mp_prev_parse_unit->GetNextParseOffset());
+        int prev_offset = mp_prev_parse_unit->GetNextParseOffset();
+        RemoveRedundantBytes(prev_offset ? prev_offset : mp_prev_parse_unit->GetSize());
         delete mp_prev_parse_unit;
         mp_prev_parse_unit=NULL;
         if(!GetSize())
@@ -181,7 +182,7 @@ void DiracByteStream::AddAccessUnit(AccessUnitByteIO *p_accessunit_byteio)
     p_accessunit_byteio->SetAdjacentParseUnits(mp_previous_parse_unit);
     
     // push onto to pending list
-    m_parse_unit_list.push(std::make_pair (PU_ACCESS_UNIT, p_accessunit_byteio) );
+    m_parse_unit_list.push(std::make_pair (PU_SEQ_HEADER, p_accessunit_byteio) );
 
     // set previous parse-unit
     mp_previous_parse_unit = p_accessunit_byteio;

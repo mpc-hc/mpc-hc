@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_decompress.cpp,v 1.27 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: comp_decompress.cpp,v 1.28 2007/11/16 04:50:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,6 +43,7 @@
 #include <libdirac_decoder/comp_decompress.h>
 #include <libdirac_common/wavelet_utils.h>
 #include <libdirac_common/band_codec.h>
+#include <libdirac_common/band_vlc.h>
 using namespace dirac;
 
 #include <vector>
@@ -65,9 +66,6 @@ void CompDecompressor::Decompress(ComponentByteIO* p_component_byteio,
     const FrameSort& fsort=m_fparams.FSort();
     const int depth( m_decparams.TransformDepth() );
 
-    // A pointer to the object(s) we'll be using for coding the bands
-    BandCodec* bdecoder;
-    
     // The array holding the coefficients
     CoeffArray coeff_data( pic_data.LengthY(), pic_data.LengthX() );
 
@@ -100,32 +98,45 @@ void CompDecompressor::Decompress(ComponentByteIO* p_component_byteio,
 
         if ( !bands(b).Skipped() )
         {
-            if ( b>=bands.Length()-3)
+            if (m_fparams.UsingAC())
             {
-                if ( fsort.IsIntra() && b==bands.Length() )
-                    bdecoder=new IntraDCBandCodec(&subband_byteio, 
-                                                   TOTAL_COEFF_CTXS ,bands);
-                else
-                    bdecoder=new LFBandCodec(&subband_byteio , TOTAL_COEFF_CTXS,
+                // A pointer to the object(s) we'll be using for coding the bands
+                BandCodec* bdecoder;
+    
+                if ( b>=bands.Length()-3)
+                {
+                    if ( fsort.IsIntra() && b==bands.Length() )
+                        bdecoder=new IntraDCBandCodec(&subband_byteio, 
+                                                       TOTAL_COEFF_CTXS ,bands);
+                    else
+                        bdecoder=new LFBandCodec(&subband_byteio , TOTAL_COEFF_CTXS,
                                              bands , b, fsort.IsIntra());
+                }
+                else
+                    bdecoder=new BandCodec( &subband_byteio , TOTAL_COEFF_CTXS ,
+                                            bands , b, fsort.IsIntra());
+
+                bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
+                delete bdecoder;
             }
             else
-                bdecoder=new BandCodec( &subband_byteio , TOTAL_COEFF_CTXS ,
-                                        bands , b, fsort.IsIntra());
+            {
+                // A pointer to the object(s) we'll be using for coding the bands
+                BandVLC* bdecoder;
+    
+                   if ( fsort.IsIntra() && b==bands.Length() )
+                      bdecoder=new IntraDCBandVLC(&subband_byteio, bands);
+                else
+                    bdecoder=new BandVLC( &subband_byteio , bands ,
+                                          b, fsort.IsIntra());
 
-            bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
-            delete bdecoder;
+                bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
+                delete bdecoder;
+            }
         }
         else
         {
-#if 0
-            if ( b==bands.Length() && fsort.IsIntra() )
-                SetToVal( coeff_data , bands(b) , wtransform.GetMeanDCVal() );
-            else
-                SetToVal( coeff_data , bands(b) , 0 );
-#else
             SetToVal( coeff_data , bands(b) , 0 );
-#endif
         }
     }
     

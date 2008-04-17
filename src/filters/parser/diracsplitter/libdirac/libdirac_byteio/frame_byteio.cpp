@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_byteio.cpp,v 1.5 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_byteio.cpp,v 1.9 2008/01/09 10:45:09 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -37,6 +37,7 @@
 * ***** END LICENSE BLOCK ***** */
 
 #include "frame_byteio.h"
+#include <libdirac_common/dirac_exception.h>
 
 using namespace dirac;
 using namespace std;
@@ -47,7 +48,7 @@ const int CODE_ONE_REF_BIT =  0;
 const int CODE_TWO_REF_BIT = 1;
 const int CODE_REF_FRAME_BIT = 2;
 const int CODE_PUTYPE_1_BIT = 3;
-const int CODE_PUTYPE_2_BIT = 4;
+const int CODE_VLC_ENTROPY_CODING_BIT = 6;
 
 // maximum number of refs allowed
 const unsigned int MAX_NUM_REFS = 2;
@@ -105,16 +106,30 @@ bool FrameByteIO::Input()
     // set frame type
     SetFrameType();
     SetReferenceType();
+    SetEntropyCodingFlag();
+
+    // Use of VLC for entropy coding is supported for
+    // intra frames only
+    if (m_frame_params.GetFrameType() == INTER_FRAME && 
+        m_frame_params.UsingAC() == false)
+    {
+        DIRAC_THROW_EXCEPTION(
+                    ERR_UNSUPPORTED_STREAM_DATA,
+                    "VLC codes for entropy coding of coefficient data supported for Intra frames only",
+                    SEVERITY_FRAME_ERROR);
+    }
 
     // input frame number
-    m_frame_num = InputFixedLengthUint(PP_FRAME_NUM_SIZE);
+    m_frame_num = ReadUintLit(PP_FRAME_NUM_SIZE);
     m_frame_params.SetFrameNum(m_frame_num);
 
     // input reference Picture numbers
     InputReferencePictures();
     
     // input retired Picture numbers list
-    InputRetiredPictureList();
+    m_frame_params.SetRetiredFrameNum(-1);
+    if (IsRef())
+        InputRetiredPicture();
 
     // byte align
     ByteAlignInput();
@@ -155,24 +170,27 @@ int FrameByteIO::GetSize() const
 void FrameByteIO::Output()
 {
     // output frame number
-    OutputFixedLengthUint(m_frame_num, PP_FRAME_NUM_SIZE);
+    WriteUintLit(m_frame_num, PP_FRAME_NUM_SIZE);
 
     if(m_frame_params.GetFrameType()==INTER_FRAME)
     {
         // output reference frame numbers
         const std::vector<int>& refs = m_frame_params.Refs();
         for(size_t i=0; i < refs.size() && i < MAX_NUM_REFS; ++i)
-            OutputVarLengthInt(refs[i] - m_frame_num);
+            WriteSint(refs[i] - m_frame_num);
     }
 
-    // output retired frames
-    const std::vector<int>& retd_list = m_frame_params.RetiredFrames();
-    OutputVarLengthUint(retd_list.size());
-    for (size_t i = 0; i < retd_list.size(); ++i)
+    // output retired frame
+    ASSERTM (m_frame_params.GetReferenceType() == REFERENCE_FRAME || m_frame_params.RetiredFrameNum() == -1, "Only Reference frames can retire frames");
+    if(m_frame_params.GetReferenceType() == REFERENCE_FRAME)
     {
-        OutputVarLengthInt(retd_list[i] - m_frame_num);
+        if (m_frame_params.RetiredFrameNum() == -1)
+            WriteSint(0);
+        else
+        {
+            WriteSint (m_frame_params.RetiredFrameNum() - m_frame_num);
+        }
     }
-
     // byte align output
     ByteAlignOutput();
 
@@ -200,8 +218,13 @@ unsigned char FrameByteIO::CalcParseCode() const
         SetBit(code, CODE_REF_FRAME_BIT);
 
     // Set parse unit type
-        SetBit(code, CODE_PUTYPE_1_BIT);
+    SetBit(code, CODE_PUTYPE_1_BIT);
 
+    // Set Entropy Coding type
+    if (!m_frame_params.UsingAC())
+    {
+        SetBit(code, CODE_VLC_ENTROPY_CODING_BIT);
+    }
     return code;
 
     
@@ -216,26 +239,19 @@ void FrameByteIO::InputReferencePictures()
     vector<int>& refs = m_frame_params.Refs();
     refs.resize(ref_count);
     for(int i=0; i < ref_count; ++i)
-        refs[i]=m_frame_num+InputVarLengthInt();
+        refs[i]=m_frame_num+ReadSint();
 }
     
-void FrameByteIO::InputRetiredPictureList() 
+void FrameByteIO::InputRetiredPicture() 
 {
-    if (IsLowDelay())
-        return;
+    TESTM(IsRef(), "Retired Picture offset only set for Reference Frames");
 
+    // input retired frame offset
+    int offset = ReadSint();
     // input retired frames
-    int val = InputVarLengthUint();
-    // input retired frames
-    std::vector<int>& retd_list = m_frame_params.RetiredFrames();
-    retd_list.resize(val);
-    if (val)
+    if (offset)
     {
-        for (size_t i = 0; i < retd_list.size(); ++i)
-        {
-            int offset = InputVarLengthInt();
-            retd_list[i] = m_frame_num + offset;
-        }
+        m_frame_params.SetRetiredFrameNum(m_frame_num + offset);
     }
 }
 
@@ -255,4 +271,9 @@ void FrameByteIO::SetReferenceType()
     else if(IsNonRef())
         m_frame_params.SetReferenceType(NON_REFERENCE_FRAME);
 
+}
+
+void FrameByteIO::SetEntropyCodingFlag()
+{
+    m_frame_params.SetUsingAC(IsUsingAC());
 }

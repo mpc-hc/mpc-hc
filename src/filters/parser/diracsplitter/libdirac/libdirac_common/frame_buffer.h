@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_buffer.h,v 1.17 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_buffer.h,v 1.19 2007/11/16 04:50:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -76,6 +76,7 @@ namespace dirac
             \param   dwt_cylen  the padded chroma height of frames in the buffer
             \param   luma_depth the video depth of the luma comp in the buffer
             \param   chroma_depth the video depth of the chroma comp in the buffer
+            \param   using_ac   True if using Arithmetic coding to code coefficient data
 
         */
         FrameBuffer(ChromaFormat cf,
@@ -86,7 +87,8 @@ namespace dirac
                     const int dwt_cxlen,
                     const int dwt_cylen,
                     const unsigned int luma_depth,
-                    const unsigned int chroma_depth);
+                    const unsigned int chroma_depth,
+                    bool using_ac);
 
         //! Constructor
         /*!
@@ -108,6 +110,7 @@ namespace dirac
             \param   luma_depth the video depth of the luma comp in the buffer
             \param   chroma_depth the video depth of the chroma comp in the buffer
             \param   interlace Set true if material is being coded in interlaced mode
+            \param   using_ac   True if using Arithmetic coding to code coefficient data
         */
         FrameBuffer(ChromaFormat cf,
                     const int numL1,
@@ -120,7 +123,8 @@ namespace dirac
                     const int dwt_cylen,
                     const unsigned int luma_depth,
                     const unsigned int chroma_depth,
-                    bool interlace);
+                    bool interlace,
+                    bool using_ac);
 
         //! Copy constructor
         /*!
@@ -192,17 +196,17 @@ namespace dirac
         */
         void PushFrame( const Frame& frame );
 
-        //! Set retired list for reference frames that will be cleaned
+        //! Sets the reference frame number that will be cleaned
         /*!
-            Indicate frames which have been output and which are no longer
+            Indicate which frame which has been output and which is no longer
             required for reference. Expiry times are set in each frame's
             frame parameters.
             \param show_fnum             frame number in display order that can be output
             \param current_coded_fnum    frame number in display order of frame currently being coded
         */
-        void SetRetiredList(const int show_fnum, const int current_coded_fnum);
+        void SetRetiredFrameNum(const int show_fnum, const int current_coded_fnum);
 
-        //! Delete expired frames
+        //! Delete all expired frames
         /*!
             Delete frames which have been output and which are no longer
             required for reference. Expiry times are set in each frame's
@@ -210,7 +214,16 @@ namespace dirac
             \param show_fnum             frame number in display order that can be output
             \param current_coded_fnum    frame number in display order of frame currently being coded
         */
-        void Clean(const int show_fnum, const int current_coded_fnum);
+        void CleanAll(const int show_fnum, const int current_coded_fnum);
+
+        //! Delete retired reference frames and expired non-ref frames
+        /*!
+            Delete frames which have been output and retired reference frames.
+            Expiry times are set in each frame's frame parameters.
+            \param show_fnum             frame number in display order that can be output
+            \param current_coded_fnum    frame number in display order of frame currently being coded
+        */
+        void CleanRetired(const int show_fnum, const int current_coded_fnum);
 
         //! Delete frame
         /*!
@@ -271,6 +284,9 @@ namespace dirac
 
         //! Interlaced coding
         bool m_interlace;
+
+        //! Arithmetic coding flag to code coefficients
+        bool m_using_ac;
 
 
 

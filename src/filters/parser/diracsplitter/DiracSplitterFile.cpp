@@ -62,7 +62,7 @@ HRESULT CDiracSplitterFile::Init()
             dvih->hdr.bmiHeader.biHeight = decoder->src_params.height;
             dvih->hdr.bmiHeader.biCompression = m_mt.subtype.Data1;
             dvih->hdr.dwInterlaceFlags = 0;
-            if(decoder->src_params.interlace) dvih->hdr.dwInterlaceFlags |= AMINTERLACE_IsInterlaced;
+            if(decoder->src_params.source_sampling) dvih->hdr.dwInterlaceFlags |= AMINTERLACE_IsInterlaced;
             if(decoder->src_params.topfieldfirst) dvih->hdr.dwInterlaceFlags |= AMINTERLACE_Field1First;
             dvih->hdr.dwPictAspectRatioX = dvih->hdr.bmiHeader.biWidth;
             dvih->hdr.dwPictAspectRatioY = dvih->hdr.bmiHeader.biHeight;

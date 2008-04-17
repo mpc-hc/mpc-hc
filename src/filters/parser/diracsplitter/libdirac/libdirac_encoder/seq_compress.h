@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: seq_compress.h,v 1.19 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: seq_compress.h,v 1.19 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

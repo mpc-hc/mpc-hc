@@ -32,10 +32,8 @@
 #include "mpegvideo.h"
 #include "simple_idct.h"
 #include "faandct.h"
-#if 0 // disable snow
-#include "snow.h"
-#endif
-#include "skl_dct.h"
+#include "faanidct.h"
+//#include "snow.h"
 
 #if 0 // disable snow
 /* snow.c */
@@ -4154,10 +4152,10 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
             c->idct_add= ff_wmv2_idct_add_c;
             c->idct    = ff_wmv2_idct_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-        }else if(avctx->idct_algo==FF_IDCT_SKAL){
-            c->idct_put= Skl_IDct16_Put_C;
-            c->idct_add= Skl_IDct16_Add_C;
-            c->idct    = Skl_IDct16_C;
+        }else if(avctx->idct_algo==FF_IDCT_FAAN){
+            c->idct_put= ff_faanidct_put;
+            c->idct_add= ff_faanidct_add;
+            c->idct    = ff_faanidct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
         }else{ //accurate/default
             c->idct_put= ff_simple_idct_put;
@@ -4466,8 +4464,8 @@ const char* avcodec_get_current_idct(AVCodecContext *avctx)
         return "H.264 (ff_h264_lowres_idct_c)";
     if (c->idct_put==ff_vp3_idct_put_c)
         return "VP3 (ff_vp3_idct_c)";
-    if (c->idct_put==Skl_IDct16_Put_C)
-        return "Skal's IDCT (Skl_IDct16_C)";
+    if (c->idct_put==ff_faanidct_put)
+        return "FAAN (ff_faanidct_put)";
     if (c->idct_put==ff_simple_idct_put)
         return "Simple IDCT (simple_idct)";
 #if defined(HAVE_MMX)

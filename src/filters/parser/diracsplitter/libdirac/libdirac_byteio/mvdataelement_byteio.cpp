@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdataelement_byteio.cpp,v 1.1 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: mvdataelement_byteio.cpp,v 1.2 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -81,7 +81,7 @@ const std::string MvDataElementByteIO::GetBytes()
 void MvDataElementByteIO::Input()
 {
     // Input block data size
-    m_block_size = InputVarLengthUint();
+    m_block_size = ReadUint();
 
     // Byte Alignment
     ByteAlignInput();
@@ -90,7 +90,7 @@ void MvDataElementByteIO::Input()
 void MvDataElementByteIO::Output()
 {    
     //Output size of block data
-    OutputVarLengthUint(m_block_data.GetSize());
+    WriteUint(m_block_data.GetSize());
 
     // Byte Align
     ByteAlignOutput();

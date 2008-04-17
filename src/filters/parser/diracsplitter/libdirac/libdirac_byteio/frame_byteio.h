@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_byteio.h,v 1.3 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_byteio.h,v 1.6 2007/11/16 04:50:47 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -113,12 +113,12 @@ namespace dirac
         /**
         * Returns true is frame in Reference frame
         */
-        int IsRef() const { return (GetParseCode()&0x04)==0x04;}
+        int IsRef() const { return (GetParseCode()&0x0C)==0x0C;}
 
         /**
         * Returns true is frame in Non-Reference frame
         */
-        int IsNonRef() const { return (GetParseCode()&0x04)==0x00;}
+        int IsNonRef() const { return (GetParseCode()&0x0C)==0x08;}
 
         /**
         * Gets parse-unit type
@@ -128,12 +128,12 @@ namespace dirac
         /**
         * Returns true is frame is Intra frame
         */
-        bool IsIntra() const { return NumRefs()==0; }
+        bool IsIntra() const { return IsPicture() && (NumRefs()==0) ; }
 
         /**
         * Returns true is frame is Inter frame
         */
-        bool IsInter() const { return NumRefs()>0; }
+        bool IsInter() const { return IsPicture() && (NumRefs()>0) ; }
 
         /***
         * Sets the MVDataIO
@@ -162,9 +162,9 @@ namespace dirac
         void InputReferencePictures();
 
         /**
-        * Reads retired list
+        * Reads retired picture number
         */
-        void InputRetiredPictureList();
+        void InputRetiredPicture();
 
         /**
         * Calculates frame-type (eg INTRA/INTER) of frame
@@ -175,6 +175,11 @@ namespace dirac
         * Calculates reference-type of frame
         */
         void SetReferenceType();
+
+        /**
+        * Sets the entropy coding flag in the frame parameters
+        */
+        void SetEntropyCodingFlag();
 
         /**
         * Frame parameters

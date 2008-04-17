@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_encoder.cpp,v 1.30 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_encoder.cpp,v 1.39 2008/01/15 04:36:24 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -51,6 +51,8 @@
 #include <libdirac_encoder/seq_compress.h>
 #include <libdirac_byteio/dirac_byte_stream.h>
 #include <libdirac_common/video_format_defaults.h>
+#include <libdirac_common/dirac_exception.h>
+
 using namespace dirac;
 using namespace std;
 
@@ -421,12 +423,12 @@ DiracEncoder::DiracEncoder(const dirac_encoder_context_t *enc_ctx,
     SetEncoderParams (enc_ctx);
 
     // Set up the input data stream (uncompressed data)
-    m_inp_ptr = new MemoryStreamInput(m_srcparams, m_encparams.Interlace());
+    m_inp_ptr = new MemoryStreamInput(m_srcparams, m_encparams.FieldCoding());
     // Set up the output data stream (locally decoded frame)
-    m_out_ptr = new MemoryStreamOutput(m_srcparams, m_encparams.Interlace());
+    m_out_ptr = new MemoryStreamOutput(m_srcparams, m_encparams.FieldCoding());
 
     // initialise the sequence compressor
-    if (!m_encparams.Interlace())
+    if (!m_encparams.FieldCoding())
     {
         m_comp = new FrameSequenceCompressor (m_inp_ptr->GetStream(), m_encparams, m_dirac_byte_stream);
     }
@@ -456,21 +458,23 @@ void DiracEncoder::SetSourceParams (const dirac_encoder_context_t *enc_ctx)
     m_srcparams.SetXl( enc_ctx->src_params.width );
     m_srcparams.SetYl( enc_ctx->src_params.height );
 
-    m_srcparams.SetInterlace( enc_ctx->src_params.interlace );
-    m_srcparams.SetTopFieldFirst( enc_ctx->src_params.topfieldfirst );
+    m_srcparams.SetSourceSampling( enc_ctx->src_params.source_sampling );
     if (m_srcparams.FrameRate().m_num != (unsigned int)enc_ctx->src_params.frame_rate.numerator ||
         m_srcparams.FrameRate().m_denom != (unsigned int)enc_ctx->src_params.frame_rate.denominator)
     {
         m_srcparams.SetFrameRate( enc_ctx->src_params.frame_rate.numerator,
                             enc_ctx->src_params.frame_rate.denominator );
     }
-    if (m_srcparams.AspectRatio().m_num != (unsigned int)enc_ctx->src_params.pix_asr.numerator ||
-        m_srcparams.AspectRatio().m_denom != (unsigned int)enc_ctx->src_params.pix_asr.denominator)
+    if (m_srcparams.PixelAspectRatio().m_num != (unsigned int)enc_ctx->src_params.pix_asr.numerator ||
+        m_srcparams.PixelAspectRatio().m_denom != (unsigned int)enc_ctx->src_params.pix_asr.denominator)
     {
-        m_srcparams.SetAspectRatio( enc_ctx->src_params.pix_asr.numerator,
+        m_srcparams.SetPixelAspectRatio( enc_ctx->src_params.pix_asr.numerator,
                             enc_ctx->src_params.pix_asr.denominator );
     }
     // TO DO: CLEAN AREA and signal range
+    // FIXME: Dirac currently support 8BIT_VIDEO only. Accept from command line
+    // when Dirac supports multiple signal ranges.
+    m_srcparams.SetSignalRange(SIGNAL_RANGE_8BIT_VIDEO);
 
 }
 
@@ -485,8 +489,21 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
     m_encparams.SetOrigChromaXl( enc_ctx->src_params.chroma_width );
     m_encparams.SetOrigChromaYl( enc_ctx->src_params.chroma_height );
 
-    m_encparams.SetInterlace(enc_ctx->enc_params.interlace);
-    if (m_encparams.Interlace())
+    if (enc_ctx->enc_params.picture_coding_mode > 1)
+    {
+        std::ostringstream errstr;
+
+        errstr << "Picture coding mode " 
+               << enc_ctx->enc_params.picture_coding_mode
+               << " out of supported range [0-1]";
+        DIRAC_THROW_EXCEPTION(
+            ERR_INVALID_INIT_DATA,
+            errstr.str(),
+            SEVERITY_TERMINATE);
+    }
+
+    m_encparams.SetFieldCoding(enc_ctx->enc_params.picture_coding_mode == 1);
+    if (m_encparams.FieldCoding())
     {
         // Change coding dimensions to field dimensions
         m_encparams.SetOrigYl( enc_ctx->src_params.height>>1 );
@@ -514,6 +531,7 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
     m_encparams.SetUFactor(1.5f);
     m_encparams.SetVFactor(0.75f);
     m_encparams.SetMVPrecision(enc_ctx->enc_params.mv_precision);
+    m_encparams.SetUsingAC(enc_ctx->enc_params.using_ac);
     bparams.SetYblen( enc_ctx->enc_params.yblen );
     bparams.SetXblen( enc_ctx->enc_params.xblen );
     bparams.SetYbsep( enc_ctx->enc_params.ybsep );
@@ -537,9 +555,7 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
     m_encparams.SetIntraTransformFilter(enc_ctx->enc_params.intra_wlt_filter);
     m_encparams.SetInterTransformFilter(enc_ctx->enc_params.inter_wlt_filter);
     m_encparams.SetSpatialPartition(enc_ctx->enc_params.spatial_partition);
-    // Set default spatial partitoning to false if wavelet depth is not
-    // equal to default value.
-    m_encparams.SetDefaultSpatialPartition(enc_ctx->enc_params.def_spatial_partition && m_encparams.TransformDepth() == enc_ctx->enc_params.wlt_depth );
+
     m_encparams.SetTransformDepth(enc_ctx->enc_params.wlt_depth);
     m_encparams.SetCodeBlockMode(enc_ctx->enc_params.spatial_partition && enc_ctx->enc_params.multi_quants ? QUANT_MULTIPLE : QUANT_SINGLE);
 }
@@ -551,7 +567,7 @@ bool DiracEncoder::LoadNextFrame (unsigned char *data, int size)
     m_inp_ptr->SetMembufReference(data, size);
     if (m_comp->LoadNextFrame())
     {
-        if (!m_encparams.Interlace())
+        if (!m_encparams.FieldCoding())
             m_num_loaded_pictures++;
         else
             m_num_loaded_pictures+=2;
@@ -631,7 +647,7 @@ void DiracEncoder::GetFrameStats(dirac_encoder_t *encoder)
         std::cout<<std::endl<<"Number of bits for Y="<<fstats->ycomp_bits;
         std::cout<<std::endl<<"Number of bits for U="<<fstats->ucomp_bits;
         std::cout<<std::endl<<"Number of bits for V="<<fstats->vcomp_bits;
-        if (m_encparams.Interlace())
+        if (m_encparams.FieldCoding())
             std::cout<<std::endl<<"Total field bits="<<fstats->frame_bits;
         else
             std::cout<<std::endl<<"Total frame bits="<<fstats->frame_bits;
@@ -659,7 +675,7 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
 
         // Get frame statistics
         GetFrameStats (encoder);
-        if(m_encparams.Verbose() && encoder->enc_ctx.enc_params.interlace)
+        if(m_encparams.Verbose() && encoder->enc_ctx.enc_params.picture_coding_mode==1)
         {
             if (encoder->enc_fparams.fnum%2 == 0)
                 m_field1_stats = encoder->enc_fstats;
@@ -692,10 +708,11 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
 
        //Rate Control - work out bit rate to date and for current GOP
        // and keep track of frame numbers
-    int interlace_factor = m_encparams.Interlace() ? 2 : 1;
+    int interlace_factor = m_encparams.FieldCoding() ? 2 : 1;
     int num_L1 = encoder->enc_ctx.enc_params.num_L1;
     int L1_sep = encoder->enc_ctx.enc_params.L1_sep;
     int GOP_Length = (num_L1+1)*L1_sep*interlace_factor;
+
     int offset;
     if (num_L1 == 0)
     {
@@ -708,7 +725,8 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
     m_gop_bits += encoder->enc_fstats.frame_bits;
     m_frame_count++;
 
-    if (m_frame_count == GOP_Length-offset)
+    if ( (m_gop_count==0 && m_frame_count == GOP_Length-offset) || 
+         (m_gop_count>0 && m_frame_count == GOP_Length))
     {
         int denominator = encoder->enc_ctx.src_params.frame_rate.denominator;
         int numerator = encoder->enc_ctx.src_params.frame_rate.numerator;
@@ -726,7 +744,7 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
 
         m_gop_count++;
         m_gop_bits = 0;
-        m_frame_count = -offset;
+        m_frame_count = 0;
     }
     //End of Rate Control
 
@@ -765,7 +783,7 @@ void DiracEncoder::GetSequenceStats(dirac_encoder_t *encoder,
     sstats->bit_rate = int((sstats->seq_bits *
                         (double)m_srcparams.FrameRate().m_num)/
                         (m_srcparams.FrameRate().m_denom * m_num_coded_pictures));
-    if (encoder->enc_ctx.enc_params.interlace)
+    if (encoder->enc_ctx.enc_params.picture_coding_mode==1)
         sstats->bit_rate *= 2;
 
     DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
@@ -883,9 +901,9 @@ static void SetSourceParameters(dirac_encoder_context_t *enc_ctx,
     src_params.chroma = default_src_params.CFormat();
     src_params.frame_rate.numerator = default_src_params.FrameRate().m_num;
     src_params.frame_rate.denominator = default_src_params.FrameRate().m_denom;
-    src_params.pix_asr.numerator = default_src_params.AspectRatio().m_num;
-    src_params.pix_asr.denominator = default_src_params.AspectRatio().m_denom;
-    src_params.interlace = default_src_params.Interlace();
+    src_params.pix_asr.numerator = default_src_params.PixelAspectRatio().m_num;
+    src_params.pix_asr.denominator = default_src_params.PixelAspectRatio().m_denom;
+    src_params.source_sampling = default_src_params.SourceSampling();
     src_params.topfieldfirst = default_src_params.TopFieldFirst();
 
     //TODO - Need to accept these params from command line
@@ -909,6 +927,7 @@ static void SetEncoderParameters(dirac_encoder_context_t *enc_ctx,
     encparams.denoise = default_enc_params.Denoise();
     encparams.L1_sep = default_enc_params.L1Sep();
     encparams.lossless = default_enc_params.Lossless();
+    encparams.using_ac = default_enc_params.UsingAC();
     encparams.num_L1 = default_enc_params.NumL1();
 
     // Set rate to zero by default, meaning no rate control
@@ -938,10 +957,9 @@ static void SetEncoderParameters(dirac_encoder_context_t *enc_ctx,
     encparams.inter_wlt_filter = wf;
     encparams.wlt_depth = default_enc_params.TransformDepth();
     encparams.spatial_partition = default_enc_params.SpatialPartition();
-    encparams.def_spatial_partition = default_enc_params.DefaultSpatialPartition();
     encparams.multi_quants = default_enc_params.GetCodeBlockMode() == QUANT_MULTIPLE;
 
-    encparams.interlace = default_enc_params.Interlace();
+    encparams.picture_coding_mode = default_enc_params.FieldCoding() ? 1 : 0;
 }
 
 #ifdef __cplusplus

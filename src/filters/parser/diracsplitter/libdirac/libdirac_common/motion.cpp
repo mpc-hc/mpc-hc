@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: motion.cpp,v 1.21 2007/07/30 18:40:01 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: motion.cpp,v 1.21 2007/07/30 18:40:01 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

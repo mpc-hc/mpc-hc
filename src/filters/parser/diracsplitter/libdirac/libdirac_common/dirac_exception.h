@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_exception.h,v 1.3 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_exception.h,v 1.5 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -62,9 +62,10 @@ namespace dirac {
         ERR_INVALID_CHROMA_FORMAT,
         ERR_INVALID_FRAME_RATE,
         ERR_INVALID_SIGNAL_RANGE,
-        ERR_INVALID_ASPECT_RATIO,
+        ERR_INVALID_PIXEL_ASPECT_RATIO,
         ERR_INVALID_VIDEO_DEPTH,
-        ERR_INVALID_MOTION_VECTOR_PRECISION
+        ERR_INVALID_MOTION_VECTOR_PRECISION,
+        ERR_INVALID_INIT_DATA
 
     };
 

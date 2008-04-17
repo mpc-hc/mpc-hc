@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_cppparser.cpp,v 1.7 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_cppparser.cpp,v 1.9 2007/11/16 04:50:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -190,7 +190,7 @@ DecoderState DiracParser::Parse()
             }
             else
                 // otherwise....get remaining frames from buffer
-                pu_type = PU_FRAME;
+                pu_type = PU_CORE_FRAME;
             
         }
         
@@ -205,7 +205,7 @@ DecoderState DiracParser::Parse()
 
         switch(pu_type)
         {
-        case PU_ACCESS_UNIT:
+        case PU_SEQ_HEADER:
 
             if(!m_decomp)
             {
@@ -217,7 +217,7 @@ DecoderState DiracParser::Parse()
             m_decomp->NewAccessUnit(*p_parse_unit);
             break;
 
-        case PU_FRAME:
+        case PU_CORE_FRAME:
             {
                if (!m_decomp)
                    continue;
@@ -231,7 +231,7 @@ DecoderState DiracParser::Parse()
                     m_show_fnum = my_frame.GetFparams().FrameNum();
                     if (m_verbose)
                     {
-                        std::cerr << "Frame " << m_show_fnum << " available" << std::endl;
+                        std::cout << std::endl << "Frame " << m_show_fnum << " available";
                     }
                     m_state = STATE_PICTURE_AVAIL;
                     return m_state;

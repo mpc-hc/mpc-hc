@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp_mmx.h,v 1.3 2006/06/19 17:35:54 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: mot_comp_mmx.h,v 1.4 2008/01/09 10:50:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -53,8 +53,10 @@ namespace dirac
     void CompensateComponentAddAndShift_mmx (int start_y, int end_y,
                                            int weight_bits,
                                            const ImageCoords& orig_pic_size, 
-                                           TwoDArray<CalcValueType> &comp_data, 
+                                           TwoDArray<ValueType> &comp_data, 
                                            PicArray &pic_data_out);
+    
+    void AddMCBlock_mmx (const ImageCoords& start_pos, TwoDArray<ValueType> &comp_strip, TwoDArray<ValueType>& block_data);
 }
 
 #endif // HAVE_MMX

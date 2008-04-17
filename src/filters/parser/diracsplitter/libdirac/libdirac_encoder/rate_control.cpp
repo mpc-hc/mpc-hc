@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: rate_control.cpp,v 1.13 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: rate_control.cpp,v 1.20 2008/01/26 11:44:33 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -94,7 +94,7 @@ RateController::RateController(int trate, SourceParams& srcp, EncoderParams& enc
     m_I_qf_long_term(encp.Qf()),
     m_target_rate(trate),
     m_buffer_size(4000*trate),// for the moment, set buffer size to 4*bitrate
-    m_buffer_bits((m_buffer_size*3)/4),// initial occupancy of 75%
+    m_buffer_bits((m_buffer_size*9)/10),// initial occupancy of 90%
     m_encparams(encp),
     m_fcount(encp.L1Sep() ),
     m_intra_only(false),
@@ -102,7 +102,17 @@ RateController::RateController(int trate, SourceParams& srcp, EncoderParams& enc
 {
     SetFrameDistribution();
     CalcTotalBits(srcp);
-
+    
+    if (m_intra_only)
+        m_Iframe_bits = m_total_GOP_bits;
+    else
+    {
+        m_Iframe_bits = m_total_GOP_bits/10;
+        m_L1frame_bits = (m_Iframe_bits*3)/m_num_L1frame;
+        m_L2frame_bits = ( m_total_GOP_bits - m_Iframe_bits - 
+                           m_L1frame_bits*m_num_L1frame )/
+                     (m_encparams.GOPLength()-1-m_num_L1frame);
+    }
 }
 
 void RateController::SetFrameDistribution()
@@ -128,7 +138,8 @@ void RateController::CalcTotalBits(const SourceParams& sourceparams)
     m_GOP_duration = GOP_length/f_rate;
     m_total_GOP_bits = (long int)(m_GOP_duration*1000.0)*m_target_rate; //Unit in bits
 
-    m_current_GOP_bits = m_total_GOP_bits;
+    m_GOP_target = m_total_GOP_bits;
+
     m_picture_bits = m_total_GOP_bits/GOP_length;
 
     if (m_encparams.Verbose())
@@ -148,9 +159,21 @@ void RateController::CalcTotalBits(const SourceParams& sourceparams)
     }
 }
 
+void RateController::Report()
+{
+
+    std::cout<<std::endl;
+    std::cout<<std::endl<<"GOP target is "<<m_GOP_target;
+    std::cout<<std::endl<<"Allocated frame bits by type: ";
+    std::cout<<"I frames - "<<m_Iframe_bits;
+    std::cout<<"; L1/P frames - "<<m_L1frame_bits;
+    std::cout<<"; L2/B frames - "<<m_L2frame_bits;
+    std::cout<<std::endl;
+}
+
+
 double RateController::TargetSubgroupRate()
 {
-    // To do - take into account buffer occupancy
     long int bits = (m_encparams.L1Sep()-1)*m_L2frame_bits+
                m_L1frame_bits;
     return (double)(bits)/(1000.0*m_GOP_duration);
@@ -166,8 +189,6 @@ double RateController::ProjectedSubgroupRate()
 }
 void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits)
 {
-    // Frame type of the frame we have JUST CODED
-    const FrameSort& fsort = fparams.FSort();
 
     // Decrement the subgroup frame counter. This is zero just after the last
     // L2 frame before the next L1 frame i.e. before the start of an L1L2L2
@@ -175,13 +196,26 @@ void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits
     m_fcount--;
 
     UpdateBuffer( num_bits );
+    
 
     if (!m_intra_only)
     {
+        bool emergency_realloc = false;
+        int target;
+
         // First, do normal coding
 
-        if (fsort.IsIntra())
+        if ( fparams.FrameNum() % m_encparams.GOPLength()==0 )
         {
+            // We have a scheduled I frame
+            target = m_Iframe_bits;
+
+            if (num_bits < target/2 )
+            {
+                emergency_realloc = true;
+            }
+    
+            
             // Update the statistics
             m_frame_complexity.SetIComplexity( num_bits );
 
@@ -190,7 +224,7 @@ void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits
             m_encparams.SetQf( m_qf );
 
             if (fparams.FrameNum()==0 ||
-               (m_encparams.Interlace() && fparams.FrameNum() < 2))
+               (m_encparams.FieldCoding() && fparams.FrameNum() < 2))
             {
                 // We've just coded the very first frame, which is a special
                 // case as the two L2 frames which normally follow are missing
@@ -200,29 +234,54 @@ void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits
         }
         else
         {
-            // We have an inter frame. We allocate bits for the next
-            // group if we can
+            // We have a scheduled inter frame (we may have an inserted
+            // intra frame). We allocate bits for the next
+            // group if we can (L1 frame) or if we need to (emergency).
 
             //Update complexities
-            if ( fparams.IsBFrame() )
-                m_L2_complexity_sum += num_bits;
-            else
-                m_frame_complexity.SetL1Complexity(num_bits);
-        }
+            if ( fparams.FrameNum() % m_encparams.L1Sep() !=0 )
+            {
+                // Scheduled B/L2 picture 
+                
+                target = m_L2frame_bits;
 
-        if ( m_fcount==0 )
+                if (num_bits < target/2 ){
+                    emergency_realloc = true;
+                }
+
+                m_L2_complexity_sum += num_bits;
+            }
+            else
+            {
+                // Scheduled P/L1 picture 
+
+                target = m_L1frame_bits;
+ 
+                if (num_bits < target/2 ){
+                    emergency_realloc = true; 
+                }
+                    
+                m_frame_complexity.SetL1Complexity(num_bits);
+            }
+
+        }
+        
+
+        if ( m_fcount==0 || emergency_realloc==true)
         {
+
+            if (emergency_realloc==true && m_encparams.Verbose()==true )
+                std::cout<<std::endl<<"Major undershoot of frame bit rate: re-allocating";
+            
 
             /* We recompute allocations for the next subgroup */
 
-            if ( m_encparams.L1Sep()>1 )
+            if ( m_encparams.L1Sep()>1 && m_fcount<m_encparams.L1Sep()-1)
             {
                 m_frame_complexity.SetL2Complexity(m_L2_complexity_sum/
-                                                  (m_encparams.L1Sep()-1));
+                                                  (m_encparams.L1Sep()-1-m_fcount));
             }
-            Allocate();
-
-
+            Allocate(fparams.FrameNum());
 
             /* We work out what this means for the quality factor and set it*/
 
@@ -234,6 +293,11 @@ void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits
             // from measured values (complexities)
             double prate = ProjectedSubgroupRate();
 
+            if (emergency_realloc==true && m_encparams.Verbose()==true )
+            {
+                std::cout<<std::endl<<"Target subgroup rate = "<<trate;
+                std::cout<<", projected subgroup rate = "<<prate;
+            }
             // Determine K value
             double K = std::pow(prate, 2)*std::pow(10.0, ((double)2/5*(10-m_qf)))/16;
 
@@ -246,7 +310,8 @@ void RateController::CalcNextQualFactor(const FrameParams& fparams, int num_bits
             /* Resetting */
 
             // Reset the frame counter
-            m_fcount = m_encparams.L1Sep();
+            if (m_fcount==0)
+                m_fcount = m_encparams.L1Sep();
 
             // Reset the count of L2 bits
             m_L2_complexity_sum = 0;
@@ -317,7 +382,7 @@ void RateController::UpdateBuffer( const long int num_bits )
 {
     m_buffer_bits -= num_bits;
     m_buffer_bits += m_picture_bits;
-///*
+
     if (m_encparams.Verbose())
     {
         std::cout<<std::endl<<"Buffer occupancy = "<<((double)m_buffer_bits*100.0)
@@ -341,22 +406,40 @@ void RateController::UpdateBuffer( const long int num_bits )
         }
         m_buffer_bits = m_buffer_size;
     }
-//*/
+
 
 }
 
-void RateController::Allocate ()
+void RateController::Allocate (const int fnum)
 {
     const int XI = m_frame_complexity.IComplexity();
     const int XL1 = m_frame_complexity.L1Complexity();
     const int XL2 = m_frame_complexity.L2Complexity();
 
-    long int GOP_target = m_total_GOP_bits;
+    double buffer_occ = ( (double)m_buffer_bits)/((double)m_buffer_size);
+
+    if ( !m_intra_only)
+    {
+        double correction;
+        if (buffer_occ<0.9 && ( (fnum+1) % m_encparams.GOPLength())==0 )
+        {            
+            // If we're undershooting buffer target, correct slowly
+            correction = std::min( 0.1, 0.1*(0.9 - buffer_occ )/0.9 );
+            m_GOP_target = ( long int)(double(m_total_GOP_bits)*( 1.0-correction) );   
+        }    
+        else if (buffer_occ>0.9 && ((fnum+1) % m_encparams.L1Sep())==0)
+        {
+            // If we're overshooting buffer target, correct quickly
+            correction = std::min( 0.5, 0.5*( buffer_occ - 0.9 )/0.9 );
+            m_GOP_target = ( long int)(double(m_total_GOP_bits)*( 1.0+correction) );
+        }
+    }
+    
 
     const long int min_bits = m_total_GOP_bits/(100*m_encparams.GOPLength());
 
     // Allocate intra bits
-    m_Iframe_bits = (long int) (GOP_target
+    m_Iframe_bits = (long int) (m_GOP_target
                   / (m_num_Iframe
                     +(double)(m_num_L1frame*XL1)/XI
                     +(double)(m_num_L2frame*XL2)/XI));
@@ -364,7 +447,7 @@ void RateController::Allocate ()
     m_Iframe_bits = std::max( min_bits, m_Iframe_bits );
 
     // Allocate L1 bits
-    m_L1frame_bits = (long int) (GOP_target
+    m_L1frame_bits = (long int) (m_GOP_target
                    / (m_num_L1frame
                      +(double)(m_num_Iframe*XI)/XL1
                      +(double)(m_num_L2frame*XL2)/XL1));
@@ -372,13 +455,12 @@ void RateController::Allocate ()
     m_L1frame_bits = std::max( min_bits, m_L1frame_bits );
 
     // Allocate L2 bits
-    m_L2frame_bits = (long int) (GOP_target
+    m_L2frame_bits = (long int) (m_GOP_target
                    / (m_num_L2frame
                      +(double)(m_num_Iframe*XI)/XL2
                      +(double)(m_num_L1frame*XL1)/XL2));
 
     m_L2frame_bits = std::max( min_bits, m_L2frame_bits );
-
 }
 
 

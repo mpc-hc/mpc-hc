@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_compress.cpp,v 1.33 2007/08/13 10:30:17 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_compress.cpp,v 1.36 2008/01/09 10:48:21 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -48,6 +48,7 @@
 #include <libdirac_common/mot_comp.h>
 #include <libdirac_motionest/motion_estimate.h>
 #include <libdirac_common/mv_codec.h>
+#include <libdirac_encoder/quant_chooser.h>
 #include <libdirac_common/dirac_assertions.h>
 using namespace dirac;
 
@@ -112,36 +113,17 @@ FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
 
     FrameParams& fparams = my_frame.GetFparams();
     const FrameSort& fsort = fparams.FSort();
-
+    
     // Set the wavelet filter
     if ( fsort.IsIntra() )
     {
         m_encparams.SetTransformFilter( m_encparams.IntraTransformFilter() );
-        m_encparams.SetDefaultCodeBlocks( INTRA_FRAME );
+        m_encparams.SetUsualCodeBlocks( INTRA_FRAME );
     }
     else
     {
         m_encparams.SetTransformFilter( m_encparams.InterTransformFilter() );
-        m_encparams.SetDefaultCodeBlocks( INTER_FRAME );
-        // Set the frame weight parameters.
-        // FIXME - setting to default at the moment. Need to process command
-        // line args in future
-        if (fparams.Refs().size() == 1)
-        {
-            m_encparams.SetFrameWeightsPrecision(0);
-            m_encparams.SetRef1Weight(1);
-            m_encparams.SetRef2Weight(0);
-        }
-        else
-        {
-            m_encparams.SetFrameWeightsPrecision(1);
-            m_encparams.SetRef1Weight(1);
-            m_encparams.SetRef2Weight(1);
-            // TESTING
-            //m_encparams.SetFrameWeightsPrecision(2);
-            //m_encparams.SetRef1Weight(1);
-            //m_encparams.SetRef2Weight(3);
-        }
+        m_encparams.SetUsualCodeBlocks( INTER_FRAME );
     }
 
     // Write the frame header. We wait until after motion estimation, since
@@ -195,30 +177,78 @@ FrameByteIO* FrameCompressor::Compress( FrameBuffer& my_buffer ,
         p_frame_byteio->SetTransformData(p_transform_byteio);
         p_transform_byteio->Output();
 
-        //code component data
+        /* Code component data */
+        /////////////////////////
         
         CompCompressor my_compcoder(m_encparams , fparams );
 
-        if ( fsort.IsIntra() )
-        {
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , Y_COMP), m_is_a_cut ) );
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , U_COMP), m_is_a_cut ) );
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , V_COMP), m_is_a_cut ) );
+        PicArray* comp_data[3];
+        CoeffArray* comp_coeff_data[3];
+        WaveletTransform* comp_transform[3];
+        SubbandList* comp_bands[3];
+        OneDArray<unsigned int>* est_bits[3];
+
+
+        const int depth=m_encparams.TransformDepth();
+        const WltFilter filter = m_encparams.TransformFilter();
+
+        // Construction and definition of objects
+        for (int i=0;i<3;++i){
+            comp_data[i] = &my_buffer.GetComponent( fnum , (CompSort) i );
+            comp_transform[i] = new WaveletTransform( depth, filter );
+            comp_coeff_data[i] = new CoeffArray(comp_data[i]->LengthY(),
+                                           comp_data[i]->LengthX(), (CompSort) i );
+        }// i
+
+        // Do the wavelet transforms for Y, U and V
+
+        for (int i=0;i<3;++i){
+            comp_transform[i]->Transform( FORWARD , *comp_data[i], *comp_coeff_data[i] );
+            comp_transform[i]->SetBandWeights( m_encparams.CPD() , fsort , 
+                            fparams.CFormat(), (CompSort) i, m_encparams.FieldCoding());
+            comp_bands[i] = &comp_transform[i]->BandList();
+            SetupCodeBlocks( *comp_bands[i] );
+
+        }//i
+
+
+        // Select the component quantisers
+        float lambda;
+        for (int i=0; i<3; ++i){
+            lambda = GetCompLambda( fparams, (CompSort) i );
+
+            est_bits[i] = new OneDArray<unsigned int>( Range( 1, comp_bands[i]->Length() ) );
+
+            SelectQuantisers( *comp_coeff_data[i] , *comp_bands[i] , lambda, 
+                              *est_bits[i] , m_encparams.GetCodeBlockMode(), 
+                              fsort, (CompSort) i );
         }
-        else
+            
+
+
+        // Quantise and code the component subbands
+        for (int i=0; i<3; ++i){
+            p_transform_byteio->AddComponent( my_compcoder.Compress( 
+                *comp_coeff_data[i], *comp_bands[i], *est_bits[i] ) );
+        }
+
+
+        // Transform back into the picture domain if required
+        if ( fsort.IsIntra() || fsort.IsRef() || m_encparams.LocalDecode() )
         {
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , Y_COMP), false , 
-                    m_intra_ratio , m_me_data ) );
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , U_COMP), false , 
-                    m_intra_ratio , m_me_data ) );
-            p_transform_byteio->AddComponent( my_compcoder.Compress( 
-                my_buffer.GetComponent( fnum , V_COMP), false , 
-                    m_intra_ratio , m_me_data ) );
+            for (int i=0; i<3; ++i){
+                comp_transform[i]->Transform( BACKWARD , *comp_data[i], *comp_coeff_data[i] );
+            }// i
+        }
+        
+        
+        // Destruction of objects
+        for (int i=0; i<3; ++i)
+        {
+            delete comp_transform[i];
+            delete comp_coeff_data[i];
+            delete est_bits[i];
+            
         }
                                           
 
@@ -324,4 +354,199 @@ void FrameCompressor::AnalyseMEData( const MEData& me_data )
     else
         m_is_a_cut = false;
   
+}
+
+float FrameCompressor::GetCompLambda( const FrameParams& fparams,
+                                      const CompSort csort )
+{
+    const FrameSort fsort = fparams.FSort();
+    
+    float lambda;
+    
+    if ( fsort.IsIntra() )
+    {
+        lambda= m_encparams.ILambda();
+        if ( m_is_a_cut )
+        {
+            // The intra frame is inserted so we can lower the quality
+            lambda *= 5;
+
+        }
+    }
+    else
+    {
+        double log_intra_lambda = std::log10( m_encparams.ILambda() );
+        double log_frame_lambda;
+
+        if (fparams.IsBFrame() )
+            log_frame_lambda= std::log10( m_encparams.L2Lambda() );
+        else
+            log_frame_lambda= std::log10( m_encparams.L1Lambda() );
+
+
+        lambda= std::pow(10.0, ( (1.7*m_intra_ratio*log_intra_lambda+
+                         (100.0-2*m_intra_ratio)*log_frame_lambda )/100.0) );
+    }
+
+
+    if (csort == U_COMP)
+        lambda*= m_encparams.UFactor();
+    if (csort == V_COMP)
+        lambda*= m_encparams.VFactor();
+        
+    return lambda;
+}
+
+void FrameCompressor::SetupCodeBlocks( SubbandList& bands )
+{
+    int xregions;
+    int yregions;
+
+    // The maximum number of regions horizontally and vertically
+
+
+    for (int band_num = 1; band_num<=bands.Length() ; ++band_num)
+    {
+        if (m_encparams.SpatialPartition())
+        {
+            int level = m_encparams.TransformDepth() - (band_num-1)/3;
+            const CodeBlocks &cb = m_encparams.GetCodeBlocks(level);
+            xregions = cb.HorizontalCodeBlocks();
+            yregions = cb.VerticalCodeBlocks();
+        }
+        else
+        {
+               xregions = 1;
+               yregions = 1;
+        }
+
+        bands( band_num ).SetNumBlocks( yregions , xregions );
+    }// band_num
+}
+
+void FrameCompressor::SelectQuantisers( CoeffArray& coeff_data ,
+                                       SubbandList& bands ,
+                                       const float lambda,
+                                       OneDArray<unsigned int>& est_bits,
+                                       const CodeBlockMode cb_mode,
+                                       const FrameSort fsort,
+                                       const CompSort csort )
+{
+
+   // Set up the multiquantiser mode
+    for ( int b=bands.Length() ; b>=1 ; --b )
+    {
+        // Set multiquants flag in the subband only if
+        // a. Global m_cb_mode flag is set to QUANT_MULTIPLE in encparams
+        //           and
+        // b. Current subband has more than one block
+        if (
+            cb_mode == QUANT_MULTIPLE &&
+            (bands(b).GetCodeBlocks().LengthX() > 1  ||
+            bands(b).GetCodeBlocks().LengthY() > 1)
+           )
+            bands(b).SetUsingMultiQuants( true );
+        else
+            bands(b).SetUsingMultiQuants( false );
+    }// b
+
+    // Select all the quantizers
+    if ( !m_encparams.Lossless() )
+    {
+        // Set the DC band quantiser to be 1
+        bands( bands.Length() ).SetQIndex( 0 );
+        bands( bands.Length() ).SetSkip( false );
+        bands( bands.Length() ).SetUsingMultiQuants( false );
+        est_bits[ bands.Length()] = 0;
+        TwoDArray<CodeBlock>& blocks = bands( bands.Length() ).GetCodeBlocks();
+        for (int j=0; j<blocks.LengthY(); ++j)
+            for (int i=0 ; i<blocks.LengthX(); ++i )
+                blocks[j][i].SetQIndex( 0 );
+
+        // Now do the rest of the bands.
+        for ( int b=bands.Length()-1 ; b>=1 ; --b )
+        {            est_bits[b] = SelectMultiQuants( coeff_data , bands , b, lambda, 
+                                      fsort, csort );
+        }// b
+    }
+    else
+    {
+        for ( int b=bands.Length() ; b>=1 ; --b )
+        {
+            bands(b).SetQIndex( 0 );
+            TwoDArray<CodeBlock>& blocks = bands(b).GetCodeBlocks();
+            for (int j=0; j<blocks.LengthY() ;++j)
+            {
+                for (int i=0; i<blocks.LengthX() ;++i)
+                {
+                    blocks[j][i].SetQIndex( 0 );
+                }// i
+            }// j
+        }// b
+    }
+}
+
+int FrameCompressor::SelectMultiQuants( CoeffArray& coeff_data , SubbandList& bands , 
+    const int band_num , const float lambda, const FrameSort fsort, const CompSort csort)
+{
+    Subband& node( bands( band_num ) );
+
+    // Now select the quantisers //
+    ///////////////////////////////
+
+    QuantChooser qchooser( coeff_data , lambda );
+
+    // For the DC band in I frames, remove the average
+    if ( band_num == bands.Length() && fsort.IsIntra() )
+        AddSubAverage( coeff_data , node.Xl() , node.Yl() , SUBTRACT);
+
+    // The total estimated bits for the subband
+    int band_bits( 0 );
+    qchooser.SetEntropyCorrection( m_encparams.EntropyFactors().Factor( band_num , fsort , csort ) );
+    band_bits = qchooser.GetBestQuant( node );
+
+    // Put the DC band average back in if necessary
+    if ( band_num == bands.Length() && fsort.IsIntra() )
+        AddSubAverage( coeff_data , node.Xl() , node.Yl() , ADD);
+
+    if ( band_bits == 0 )
+        node.SetSkip( true );
+    else
+        node.SetSkip( false );
+
+    return band_bits;
+}
+
+
+void FrameCompressor::AddSubAverage( CoeffArray& coeff_data, int xl, int yl ,
+                                    AddOrSub dirn)
+{
+
+    ValueType last_val=0;
+    ValueType last_val2;
+
+    if ( dirn == SUBTRACT )
+    {
+        for ( int j=0 ; j<yl ; j++)
+            {
+            for ( int i=0 ; i<xl ; i++)
+                {
+                last_val2 = coeff_data[j][i];
+                coeff_data[j][i] -= last_val;
+                last_val = last_val2;
+            }// i
+        }// j
+    }
+    else
+    {
+        for ( int j=0 ; j<yl ; j++)
+        {
+            for ( int i=0 ; i<xl; i++ )
+            {
+                coeff_data[j][i] += last_val;
+                last_val = coeff_data[j][i];
+            }// i
+        }// j
+
+    }
 }

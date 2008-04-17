@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdata_byteio.cpp,v 1.8 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: mvdata_byteio.cpp,v 1.11 2008/01/09 10:45:09 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -148,7 +148,7 @@ void MvDataByteIO::Input()
     // Input chroma 
     InputGlobalMotionParams();
 
-    // Input video depth
+    // Input Picture Prediction mode
     InputFramePredictionMode();
 
     // Input frame weights
@@ -169,7 +169,7 @@ void MvDataByteIO::Output()
     // output global motion 
     OutputGlobalMotionParams();
 
-    // output video depth
+    // output picture prediction mode
     OutputFramePredictionMode();
 
     // output frame weights
@@ -183,101 +183,63 @@ void MvDataByteIO::Output()
 
 void MvDataByteIO::OutputBlockParams()
 {
-    // output 'is default' flag
-    bool is_default =  true;
-    const OLBParams& def_olb_params = m_default_cparams.LumaBParams(2);
     const OLBParams& olb_params = m_cparams.LumaBParams(2);
 
-    if (olb_params.Xblen() != def_olb_params.Xblen() ||
-        olb_params.Yblen() != def_olb_params.Yblen() ||
-        olb_params.Xbsep() != def_olb_params.Xbsep() ||
-        olb_params.Ybsep() != def_olb_params.Ybsep())
-    {
-        is_default = false;
-    }
-       OutputBit(!is_default);
-    if(is_default)
-        return;
-
     // output custom block params flag 
-    // NOTE: FIXME - need to check if we can set just block inder
     unsigned int pidx = BlockParametersIndex(olb_params);
-    OutputVarLengthUint(pidx);
+    WriteUint(pidx);
     if (pidx == 0) // custom block params
     {
         // output Xblen
-        OutputVarLengthUint(olb_params.Xblen());
+        WriteUint(olb_params.Xblen());
         // output Yblen
-        OutputVarLengthUint(olb_params.Yblen());
+        WriteUint(olb_params.Yblen());
         // output Xbsep
-        OutputVarLengthUint(olb_params.Xbsep());
+        WriteUint(olb_params.Xbsep());
         // output Ybsep
-        OutputVarLengthUint(olb_params.Ybsep());
+        WriteUint(olb_params.Ybsep());
     }
 }
 
 void MvDataByteIO::InputBlockParams()
 {
-    // output 'is default' flag
-    const OLBParams& def_olb_params = m_default_cparams.LumaBParams(2);
     OLBParams olb_params;
 
-    if (InputBit())
+    unsigned int p_idx = ReadUint();
+    if (p_idx == 0)
     {
-        unsigned int p_idx = InputVarLengthUint();
-        // FIXME : the default values from block params table must be set
-        // elsehwere
-        if (p_idx == 0)
-        {
-            // Input Xblen
-            olb_params.SetXblen(InputVarLengthUint());
-            // Input Yblen
-            olb_params.SetYblen(InputVarLengthUint());
-            // Input Xbsep
-            olb_params.SetXbsep(InputVarLengthUint());
-            // Input Ybsep
-            olb_params.SetYbsep(InputVarLengthUint());
-        }
-        else
-            SetDefaultBlockParameters (olb_params, p_idx);
-
+        // Input Xblen
+        olb_params.SetXblen(ReadUint());
+        // Input Yblen
+        olb_params.SetYblen(ReadUint());
+        // Input Xbsep
+        olb_params.SetXbsep(ReadUint());
+        // Input Ybsep
+        olb_params.SetYbsep(ReadUint());
     }
     else
-    {
-        // is default
-        olb_params = def_olb_params;
-    }
+        SetDefaultBlockParameters (olb_params, p_idx);
+
     m_cparams.SetLumaBlockParams(olb_params);
 }
 
 void MvDataByteIO::OutputMVPrecision()
 {
     // Output Motion vector precision
-    if (m_cparams.MVPrecision() != m_default_cparams.MVPrecision())
-    {
-        OutputBit(true);
-        OutputVarLengthUint(m_cparams.MVPrecision());
-    }
-    else
-        OutputBit(false);
+    WriteUint(m_cparams.MVPrecision());
 }
 
 void MvDataByteIO::InputMVPrecision()
 {
     // Input Motion vector precision
-    if (InputBit())
-    {
-        MVPrecisionType mv_prec = IntToMVPrecisionType(InputVarLengthUint());
-        if(mv_prec==MV_PRECISION_UNDEFINED)
-            DIRAC_THROW_EXCEPTION(
-                    ERR_INVALID_MOTION_VECTOR_PRECISION,
-                    "Dirac does not recognise the specified MV precision",
-                    SEVERITY_FRAME_ERROR)
+    MVPrecisionType mv_prec = IntToMVPrecisionType(ReadUint());
+    if(mv_prec==MV_PRECISION_UNDEFINED)
+        DIRAC_THROW_EXCEPTION(
+                ERR_INVALID_MOTION_VECTOR_PRECISION,
+                "Dirac does not recognise the specified MV precision",
+                SEVERITY_FRAME_ERROR)
 
-        m_cparams.SetMVPrecision(mv_prec);
-    }
-    else
-        m_cparams.SetMVPrecision(m_default_cparams.MVPrecision());
+    m_cparams.SetMVPrecision(mv_prec);
 }
 
 void MvDataByteIO::OutputGlobalMotionParams()
@@ -285,14 +247,14 @@ void MvDataByteIO::OutputGlobalMotionParams()
     // Always setting global motion to false
     // NOTE: FIXME - output actual global motion params in future
     // Using Global motion flag
-    OutputBit(false);
+    WriteBit(false);
 }
 
 void MvDataByteIO::InputGlobalMotionParams()
 {
     // Always setting global motion to false
     // Using Global motion flag
-    if (InputBit())
+    if (ReadBool())
     {
         m_cparams.SetUsingGlobalMotion(true);
  
@@ -310,23 +272,20 @@ void MvDataByteIO::OutputFramePredictionMode()
 {
     //  TODO: Output default frame prediction mode index until other
     //  modes are supported.
-    OutputBit(false);
+    WriteUint(0);
 }
 
 void MvDataByteIO::InputFramePredictionMode()
 {
     // TODO - need to process this field when alternative prediction modes
     // become available.
-    if (InputBit())
+    unsigned int frame_pred_mode = ReadUint();
+    if (frame_pred_mode != 0)
     {
-        unsigned int frame_pred_mode = InputVarLengthUint();
-        if (frame_pred_mode != 0)
-        {
-            DIRAC_THROW_EXCEPTION(
-                ERR_UNSUPPORTED_STREAM_DATA,
-                "Non-default Picture Prediction Mode not supported",
-                SEVERITY_FRAME_ERROR);
-        }
+        DIRAC_THROW_EXCEPTION(
+            ERR_UNSUPPORTED_STREAM_DATA,
+            "Non-default Picture Prediction Mode not supported",
+            SEVERITY_FRAME_ERROR);
     }
 }
 
@@ -338,31 +297,31 @@ void MvDataByteIO::OutputFrameWeights()
         m_cparams.Ref1Weight() !=  m_default_cparams.Ref1Weight() ||
         (m_fparams.Refs().size() > 1 && m_cparams.Ref2Weight() !=  m_default_cparams.Ref2Weight()))
     {
-           OutputBit(true);
+           WriteBit(true);
         // Output weight precision bits
-        OutputVarLengthUint(m_cparams.FrameWeightsBits());
+        WriteUint(m_cparams.FrameWeightsBits());
         // Output Ref1 weight
-        OutputVarLengthUint(m_cparams.Ref1Weight());
+        WriteSint(m_cparams.Ref1Weight());
         if (m_fparams.Refs().size() > 1)
         {
             // Output Ref1 weight
-            OutputVarLengthUint(m_cparams.Ref2Weight());
+            WriteSint(m_cparams.Ref2Weight());
         }
     }
     else
     {
-           OutputBit(false);
+           WriteBit(false);
     }
 }
 
 void MvDataByteIO::InputFrameWeights()
 {
-    if (InputBit())
+    if (ReadBool())
     {
-        m_cparams.SetFrameWeightsPrecision(InputVarLengthUint());
-        m_cparams.SetRef1Weight(InputVarLengthInt());
+        m_cparams.SetFrameWeightsPrecision(ReadUint());
+        m_cparams.SetRef1Weight(ReadSint());
         if (m_fparams.Refs().size() > 1)
-            m_cparams.SetRef2Weight(InputVarLengthInt());
+            m_cparams.SetRef2Weight(ReadSint());
         else
             m_cparams.SetRef2Weight(0);
     }

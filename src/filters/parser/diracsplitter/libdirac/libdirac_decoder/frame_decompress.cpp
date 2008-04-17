@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_decompress.cpp,v 1.30 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_decompress.cpp,v 1.31 2007/11/12 02:27:18 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -96,6 +96,12 @@ bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
         fs.SetNonRef();
 
     m_fparams.SetFSort(fs);
+
+    if (m_fparams.GetReferenceType() == REFERENCE_FRAME)
+    {
+        // Now clean the reference frames from the buffer
+        CleanReferenceFrames( my_buffer );
+    }
         
     // Check if the frame can be decoded
     if (m_fparams.FSort().IsInter())
@@ -181,9 +187,6 @@ bool FrameDecompressor::Decompress(ParseUnitByteIO& parseunit_byteio,
 
         }
 
-        // Now clean the reference frames from the buffer
-        CleanReferenceFrames( my_buffer );
-
         //exit success
         return true;
     }// try
@@ -201,16 +204,13 @@ void FrameDecompressor::CleanReferenceFrames( FrameBuffer& my_buffer )
     if ( m_decparams.Verbose() )
         std::cout<<std::endl<<"Cleaning reference buffer: ";
     // Do frame buffer cleaning
-    std::vector<int>& retd_list = m_fparams.RetiredFrames();
+    int retd_fnum = m_fparams.RetiredFrameNum();
 
-    for (size_t i = 0; i < retd_list.size(); ++i)
+    if ( retd_fnum >= 0 && my_buffer.IsFrameAvail(retd_fnum) && my_buffer.GetFrame(retd_fnum).GetFparams().FSort().IsRef() )
     {
-        if ( my_buffer.IsFrameAvail(retd_list[i]) && my_buffer.GetFrame(retd_list[i]).GetFparams().FSort().IsRef() )
-        {
-            my_buffer.Clean(retd_list[i]);
-            if ( m_decparams.Verbose() )
-                std::cout<<retd_list[i]<<" ";    
-        }
+        my_buffer.Clean(retd_fnum);
+        if ( m_decparams.Verbose() )
+            std::cout<<retd_fnum<<" ";    
     }
 }
 

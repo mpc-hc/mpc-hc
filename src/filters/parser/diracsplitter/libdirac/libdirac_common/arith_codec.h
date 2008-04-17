@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arith_codec.h,v 1.39 2007/09/19 11:19:33 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: arith_codec.h,v 1.40 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -229,15 +229,15 @@ namespace dirac
 
         while ( m_range<=0x4000 )
         {
-       	    if( ( (m_low_code+m_range-1)^m_low_code)>=0x8000 )
-       	    {
-       	    	// Straddle condition
+            if( ( (m_low_code+m_range-1)^m_low_code)>=0x8000 )
+            {
+                // Straddle condition
                 // We must have an underflow situation with
                 // low = 0x01... and high = 0x10...
                 // Flip 2nd bit prior to rescaling
                 m_code      ^= 0x4000;
                 m_low_code  ^= 0x4000;
-       	    }
+            }
 
             // Double low and range, throw away top bit of low
             m_low_code  <<= 1;
@@ -303,27 +303,27 @@ namespace dirac
         { 
             if ( ( (m_low_code+m_range-1)^m_low_code)>=0x8000 )
             {    
-       	    	// Straddle condition
+                // Straddle condition
                 // We must have an underflow situation with
                 // low = 0x01... and high = 0x10...
 
                 m_low_code  ^= 0x4000;
-               	m_underflow++;
+                m_underflow++;
 
             }
             else
             {
-            	// Bits agree - output them
-                m_byteio->OutputBit( m_low_code & 0x8000);
+                // Bits agree - output them
+                m_byteio->WriteBit( m_low_code & 0x8000);
                 for (; m_underflow > 0; m_underflow-- )
-                    m_byteio->OutputBit(~m_low_code & 0x8000);
+                    m_byteio->WriteBit(~m_low_code & 0x8000);
             }
 
             // Double low value and range
             m_low_code  <<= 1;
-    	    m_range <<= 1;
-    	    
-    	    // keep low to 16 bits - throw out top bit
+            m_range <<= 1;
+
+            // keep low to 16 bits - throw out top bit
             m_low_code   &= 0xFFFF;
 
          }

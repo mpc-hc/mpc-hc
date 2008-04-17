@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame.cpp,v 1.20 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame.cpp,v 1.20 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp.h,v 1.17 2006/06/26 16:38:51 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: mot_comp.h,v 1.18 2008/01/09 10:50:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -66,7 +66,7 @@ namespace dirac
         Motion compensator class, for doing motion compensation with two 
         references and overlapped blocks, using raised-cosine roll-off.
         This is an abstract class. It must be sub-classed and the 
-        CompensateBlock must be defined in the sub-classes.
+        BlockPixelPred must be defined in the sub-classes.
     */
     class MotionCompensator
     {
@@ -127,23 +127,12 @@ namespace dirac
 
         //! Recalculate the weight matrix and store other key block related parameters.
         //! DC-compensate an individual block
-        void DCBlock( TwoDArray<CalcValueType> &pic_data ,
-                      const ImageCoords &orig_pic_size,
-                      const ValueType dc ,
-                      const ImageCoords& Pos , 
-                      const TwoDArray<ValueType>& Weights );
+        void DCBlock( TwoDArray<ValueType> &block_data ,
+                      const ValueType dc);
         void ReConfig();
 
-        // Overlapping blocks are acheived by applying a 2D raised cosine shape
-        // to them. This function facilitates the calculations
-        float RaisedCosine(float t, float B);
-
-        // Overlapping blocks are acheived by applying a 2D linear shape
-        // to them. This function facilitates the calculations
-        float Linear(float t, float B);
-
         // Calculates a weighting arrays blocks.
-        void CalculateWeights(int xblen, int yblen, int xbsep, int ybsep, TwoDArray<ValueType>* wt_array);
+        void CalculateWeights(int xbsep, int ybsep, TwoDArray<ValueType>* wt_array);
 
         //! Calculates a weighting block.
         /*! 
@@ -157,22 +146,60 @@ namespace dirac
              *       *                  *
            *           *                  *
         */
-        void CreateBlock(int xblen, int yblen, int xbsep, int ybsep, bool FullX, bool FullY, TwoDArray<ValueType>& WeightArray);
+        void CreateBlock(int xbsep, int ybsep, bool FullX, bool FullY, TwoDArray<ValueType>& WeightArray);
 
         //! Flips the values in an array in the x direction
-        void FlipX(const TwoDArray<ValueType>& Original, int xblen, int yblen, TwoDArray<ValueType>& Flipped);
+        void FlipX(const TwoDArray<ValueType>& Original, TwoDArray<ValueType>& Flipped);
 
         //! Flips the values in an array in the y direction.
-        void FlipY(const TwoDArray<ValueType>& Original, int xblen, int yblen, TwoDArray<ValueType>& Flipped);
+        void FlipY(const TwoDArray<ValueType>& Original, TwoDArray<ValueType>& Flipped);
 
-        //! Motion-compensate a block. Pure virtual. SubClasses need to define it
-        virtual void CompensateBlock( TwoDArray<CalcValueType>& pic_data , 
+        virtual void CompensateBlock( TwoDArray<ValueType>& pic_data , 
+                              const ImageCoords& pos , 
+                              const ImageCoords &orig_pic_size,
+                              PredMode block_mode,
+                              ValueType dc,
+                              const PicArray& ref1up_data , 
+                              const MVector& mv1 ,
+                              const PicArray& ref2up_data , 
+                              const MVector& mv2 ,
+                              const TwoDArray<ValueType>& Weights );
+        //! Predict pixels in a block. Pure virtual. SubClasses need to define it
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+                              const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
                               const PicArray& refup_data , 
-                              const MVector& Vec ,
-                              const ImageCoords& Pos , 
-                              const TwoDArray<ValueType>& Weights ) = 0;
-       
+                              const MVector& mv) = 0;
+     
+        // Adjust the block value based on reference weights
+        /*
+        * Adjust the block value based on reference weights of each
+        * reference picture.
+        * val1_block - Block predicted from a single reference picture
+        * val2_block - Block predicted from second reference picture
+        *              mode is REF1AND2
+        * block_mode  - Block prediction mode.
+        *
+        * On return, val1_block will contain the weight reference weight 
+        * adjusted block values
+        */
+        void AdjustBlockByRefWeights (TwoDArray<ValueType>& val1_block, 
+                                      TwoDArray<ValueType>& val2_block, 
+                                      PredMode block_mode);
+     
+        // Adjust the block value based spatial weighting matrix
+        /*
+        * Adjust the block value based on spatial weighting matrix
+        * val_block - Predicted block
+        * pos       - position of top lef corner of block in frame
+        * wt_array  - spatial weighting matrix
+        *
+        * On return, val_block will contain the spatial weight adjusted block 
+        * values
+        */
+        void AdjustBlockBySpatialWeights (TwoDArray<ValueType>& val_block,
+                                          const ImageCoords &pos,
+                                          const TwoDArray<ValueType> &wt_array);
     protected:
         //variables    
 
@@ -188,26 +215,12 @@ namespace dirac
 
         // Block information
         OLBParams m_bparams;
-        // Arrays of Ref1 and Ref2 block weights
-        TwoDArray<ValueType>* m_block_weights[2];
-        // Array of Ref1+Ref2 block weights
-        TwoDArray<ValueType>* m_full_block_weights;
-        // Arrays of Ref1 and Ref2 super block weights
-        TwoDArray<ValueType>* m_macro_block_weights[2];
-        // Array of Ref1+Ref2 super block weights
-        TwoDArray<ValueType>* m_full_macro_block_weights;
-        // Arrays of Ref1 and Ref2 sub super block weights
-        TwoDArray<ValueType>* m_sub_block_weights[2];
-        // Array of Ref1+Ref2 sub super block weights
-        TwoDArray<ValueType>* m_full_sub_block_weights;
-
-        // OBMC related values
-        // Max value frame weight in x-direction
-        CalcValueType m_max_h_weight;
-        // Max value frame weight in y-direction
-        CalcValueType m_max_v_weight;
-        // Bits to round the output of OBMC to
-        CalcValueType m_shift_bits;
+        // Arrays of  block weights
+        TwoDArray<ValueType>* m_block_weights;
+        // Arrays of super block weights
+        TwoDArray<ValueType>* m_macro_block_weights;
+        // Arrays of  sub super block weights
+        TwoDArray<ValueType>* m_sub_block_weights;
     };
 
     //! Pixel precision Motion compensator class. 
@@ -223,12 +236,11 @@ namespace dirac
 
     private:
         //! Motion-compensate a block. 
-        virtual void CompensateBlock( TwoDArray<CalcValueType>& pic_data , 
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+                              const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
                               const PicArray& refup_data , 
-                              const MVector& Vec ,
-                              const ImageCoords& Pos , 
-                              const TwoDArray<ValueType>& Weights );
+                              const MVector& mv);
     };
 
     //! Half Pixel precision Motion compensator class. 
@@ -242,12 +254,11 @@ namespace dirac
         MotionCompensator_HalfPixel (const CodecParams &cp);
     private:
         //! Motion-compensate a block. 
-        virtual void CompensateBlock( TwoDArray<CalcValueType>& pic_data , 
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+                              const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
                               const PicArray& refup_data , 
-                              const MVector& Vec ,
-                              const ImageCoords& Pos , 
-                              const TwoDArray<ValueType>& Weights );
+                              const MVector& mv);
     };
 
     //! Quarter Pixel precision Motion compensator class. 
@@ -261,12 +272,11 @@ namespace dirac
         MotionCompensator_QuarterPixel (const CodecParams &cp);
     private:
         //! Motion-compensate a block. 
-        virtual void CompensateBlock( TwoDArray<CalcValueType>& pic_data , 
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+                              const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
                               const PicArray& refup_data , 
-                              const MVector& Vec ,
-                              const ImageCoords& Pos , 
-                              const TwoDArray<ValueType>& Weights );
+                              const MVector& mv);
     };
 
     //! Eighth Pixel precision Motion compensator class. 
@@ -280,12 +290,11 @@ namespace dirac
         MotionCompensator_EighthPixel (const CodecParams &cp);
     private:
         //! Motion-compensate a block. 
-        virtual void CompensateBlock( TwoDArray<CalcValueType>& pic_data , 
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+                              const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
                               const PicArray& refup_data , 
-                              const MVector& Vec ,
-                              const ImageCoords& Pos , 
-                              const TwoDArray<ValueType>& Weights );
+                              const MVector& mv);
     };
 
 

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quality_monitor.cpp,v 1.25 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: quality_monitor.cpp,v 1.28 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -149,7 +149,7 @@ void QualityMonitor::UpdateModel(const Frame& ld_frame, const Frame& orig_frame 
 
     if (m_encparams.Verbose() )
     {
-        std::cout<<std::endl<< (!m_encparams.Interlace() ? "Frame" : "Field");
+        std::cout<<std::endl<< (!m_encparams.FieldCoding() ? "Frame" : "Field");
         std::cout << " PSNR: Y="<<fqualityY;
         std::cout<<", U="<<fqualityU;
         std::cout<<", V="<<fqualityV;

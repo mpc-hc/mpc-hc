@@ -96,11 +96,11 @@ static const int16_t nelly_delta_table[32] = {
 typedef struct NellyMoserDecodeContext {
     AVCodecContext* avctx;
     DECLARE_ALIGNED_16(float,float_buf[NELLY_SAMPLES]);
-    float           state[64];
+    float           state[128];
     AVRandomState   random_state;
     GetBitContext   gb;
     int             add_bias;
-    int             scale_bias;
+    float           scale_bias;
     DSPContext      dsp;
     MDCTContext     imdct_ctx;
     DECLARE_ALIGNED_16(float,imdct_tmp[NELLY_BUF_LEN]);
@@ -115,32 +115,22 @@ static inline int signed_shift(int i, int shift) {
     return i >> -shift;
 }
 
-static void overlap_and_window(NellyMoserDecodeContext *s, float *state, float *audio)
+
+static void overlap_and_window(NellyMoserDecodeContext *s, float *state, float *audio, float *a_in)
 {
-    int bot, mid_up, mid_down, top;
-    float s_bot, s_top;
+    int bot, top;
 
     bot = 0;
     top = NELLY_BUF_LEN-1;
-    mid_up = NELLY_BUF_LEN/2;
-    mid_down = (NELLY_BUF_LEN/2)-1;
 
-    while (bot < NELLY_BUF_LEN/4) {
-        s_bot = audio[bot];
-        s_top = -audio[top];
-        audio[bot] =  (-audio[mid_up]*sine_window[bot]-state[bot   ]*sine_window[top])/s->scale_bias + s->add_bias;
-        audio[top] = (-state[bot   ]*sine_window[bot]+audio[mid_up]*sine_window[top])/s->scale_bias + s->add_bias;
-        state[bot] =  audio[mid_down];
-
-        audio[mid_down] =  (s_top          *sine_window[mid_down]-state[mid_down]*sine_window[mid_up])/s->scale_bias + s->add_bias;
-        audio[mid_up  ] = (-state[mid_down]*sine_window[mid_down]-s_top          *sine_window[mid_up])/s->scale_bias + s->add_bias;
-        state[mid_down] =  s_bot;
+    while (bot < NELLY_BUF_LEN) {
+        audio[bot] = a_in [bot]*sine_window[bot]
+                    +state[bot]*sine_window[top] + s->add_bias;
 
         bot++;
-        mid_up++;
-        mid_down--;
         top--;
     }
+    memcpy(state, a_in + NELLY_BUF_LEN, sizeof(float)*NELLY_BUF_LEN);
 }
 
 static int sum_bits(short *buf, short shift, short off)
@@ -294,7 +284,7 @@ void nelly_decode_block(NellyMoserDecodeContext *s, const unsigned char block[NE
     for (i=0 ; i<NELLY_BANDS ; i++) {
         if (i > 0)
             val += nelly_delta_table[get_bits(&s->gb, 5)];
-        pval = pow(2, val/2048);
+        pval = -pow(2, val/2048) * s->scale_bias;
         for (j = 0; j < nelly_band_sizes_table[i]; j++) {
             *bptr++ = val;
             *pptr++ = pval;
@@ -327,9 +317,7 @@ void nelly_decode_block(NellyMoserDecodeContext *s, const unsigned char block[NE
                                     aptr, s->imdct_tmp);
         /* XXX: overlapping and windowing should be part of a more
            generic imdct function */
-        memcpy(&aptr[0],&s->imdct_out[NELLY_BUF_LEN+NELLY_BUF_LEN/2], (NELLY_BUF_LEN/2)*sizeof(float));
-        memcpy(&aptr[NELLY_BUF_LEN / 2],&s->imdct_out[0],(NELLY_BUF_LEN/2)*sizeof(float));
-        overlap_and_window(s, s->state, aptr);
+        overlap_and_window(s, s->state, aptr, s->imdct_out);
     }
 }
 
@@ -345,10 +333,10 @@ static av_cold int decode_init(AVCodecContext * avctx) {
 
     if(s->dsp.float_to_int16 == ff_float_to_int16_c) {
         s->add_bias = 385;
-        s->scale_bias = 8*32768;
+        s->scale_bias = 1.0/(8*32768);
     } else {
         s->add_bias = 0;
-        s->scale_bias = 1*8;
+        s->scale_bias = 1.0/(1*8);
     }
 
     /* Generate overlap window */

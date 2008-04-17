@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp_mmx.cpp,v 1.8 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: mot_comp_mmx.cpp,v 1.9 2008/01/09 10:50:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -66,26 +66,13 @@ inline void check_active_columns(
     }
 }
 
-void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data , 
+void MotionCompensator_QuarterPixel::BlockPixelPred( 
+                                   TwoDArray<ValueType> &block_data , 
+                                   const ImageCoords& pos , 
                                    const ImageCoords& orig_pic_size , 
                                    const PicArray &refup_data , 
-                                   const MVector &mv , 
-                                   const ImageCoords& pos , 
-                                   const TwoDArray<ValueType>& wt_array )
+                                   const MVector &mv) 
 {
-    //Coordinates in the image being written to.
-    const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    // check that we are doing MC within true pic boundaries
-    if (start_pos.x >= orig_pic_size.x || start_pos.y >= orig_pic_size.y)
-        return;
-
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x ) , 
-                               std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
-
-    //The difference between the desired start point
-    //pos and the actual start point start_pos.
-    const ImageCoords diff( start_pos.x - pos.x , start_pos.y - pos.y );
-
     // Set up the start point in the reference image by rounding the motion vector
     // to 1/2 pel accuracy.NB: bit shift rounds negative values DOWN, as required
     const MVector roundvec( mv.x>>1 , mv.y>>1 );
@@ -94,71 +81,55 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
     const MVector rmdr( mv.x & 1 , mv.y & 1 );
 
     //Where to start in the upconverted image
+    const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
+    // check that we are doing MC within true pic boundaries
+    if (start_pos.x >= orig_pic_size.x || start_pos.y >= orig_pic_size.y)
+        return;
     const ImageCoords ref_start( ( start_pos.x<<1 ) + roundvec.x ,( start_pos.y<<1 ) + roundvec.y );
 
     //An additional stage to make sure the block to be copied does not fall outside
     //the reference image.
     const int refXlen = refup_data.LengthX();
-    //const int refYlen = refup_data.LengthY();
-    
-    const int trueRefXlen = orig_pic_size.x << 1;
-    const int trueRefYlen = orig_pic_size.y << 1;
+    const int trueRefXlen = (orig_pic_size.x << 1) - 1;
+    const int trueRefYlen = (orig_pic_size.y << 1) - 1;
 
-    CalcValueType *pic_curr = &pic_data[0][start_pos.x];
-    ValueType *wt_curr = &wt_array[diff.y][diff.x];
-
-    const int block_width = end_pos.x - start_pos.x;
-    if (block_width <= 0)
-    {
-        std::cerr << "Block_width=" << block_width << std::endl;
-        return;
-    }
-
-    const int pic_next( pic_data.LengthX() - block_width ); //go down a row and back to beginning of block line
-    const int wt_next( wt_array.LengthX() - block_width ); //go down a row and back to beginning of block line
+    ValueType *block_curr = &block_data[0][0];
 
     bool do_bounds_checking = false;
-
     //Check if there are going to be any problems copying the block from
     //the upvconverted reference image.
     if( ref_start.x < 0 ) 
         do_bounds_checking = true;
-    else if( ref_start.x + ((end_pos.x - start_pos.x)<<1 ) >= trueRefXlen )
+    else if( ref_start.x + (block_data.LengthX()<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
     if( ref_start.y < 0 ) 
         do_bounds_checking = true;
-    else if( ref_start.y + ((end_pos.y - start_pos.y)<<1 ) >= trueRefYlen)
+    else if( ref_start.y + (block_data.LengthY()<<1 ) >= trueRefYlen)
         do_bounds_checking = true;
 
     if( !do_bounds_checking )
     {
-        int stopX = (block_width>>2)<<2;
+        int stopX = (block_data.LengthX()>>2)<<2;
         ValueType *refup_curr = &refup_data[ref_start.y][ref_start.x];
-        const int refup_next( ( refXlen - block_width )*2 ); //go down 2 rows and back to beginning of block line
+        const int refup_next( ( refXlen - block_data.LengthX() )*2 ); //go down 2 rows and back to beginning of block line
         if( rmdr.x == 0 && rmdr.y == 0 )
         {
-            __m64 m1, m2, m3;
-            for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+            __m64 m1, m2;
+            for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
             {
                 int x;
-                for( x=0; x < stopX; x+=4, pic_curr+=4, wt_curr+=4, refup_curr+=8 )
+                for( x=0; x < stopX; x+=4, block_curr+=4, refup_curr+=8 )
                 {
                     m1 = _mm_unpacklo_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
                     m2 = _mm_unpackhi_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
-                    m1 = _mm_unpacklo_pi16 (m1, m2);
-                    m2 = _mm_mulhi_pi16 (*(__m64 *)wt_curr, m1);
-                    m1 = _mm_mullo_pi16 (*(__m64 *)wt_curr, m1);
-                    m3 =  _mm_unpacklo_pi16 (m1, m2);
-                    m1 =  _mm_unpackhi_pi16 (m1, m2);
-                    *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr, m3);
-                    *(__m64 *)(pic_curr+2) = _mm_add_pi32 (*(__m64 *)(pic_curr+2), m1);
+                    // *block_curr = refup_curr[0]
+                    *(__m64 *)block_curr = _mm_unpacklo_pi16 (m1, m2);
                 }
                 // Mopup the last value
-                for ( x=stopX ; x < block_width; ++x)
+                for ( x=stopX ; x < block_data.LengthX(); ++x)
                 {
-                    *pic_curr += CalcValueType( *refup_curr )* *wt_curr;
-                    ++pic_curr;
-                    ++wt_curr;
+                    *block_curr = *refup_curr;
+                    ++block_curr;
                     refup_curr+=2;
                 }
             }
@@ -169,38 +140,29 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
             __m64 round = _mm_set_pi16 (1, 1, 1, 1);
             __m64 m1, m2, m3;
 
-            for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+            for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
             {
                 int x;
-                for( x=0; x < stopX; x+=4, pic_curr+=4, wt_curr+=4, refup_curr+=8 )
+                for( x=0; x < stopX; x+=4, block_curr+=4, refup_curr+=8 )
                 {
                     m1 = _mm_unpacklo_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
                     m3 = _mm_unpackhi_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
                     m2 = _mm_unpackhi_pi16 (m1, m3);
                     m1 = _mm_unpacklo_pi16 (m1, m3);
 
+                    // (refup_curr[0] + refup_curr[1] + 1)>>1
                     m1 = _mm_add_pi16 (m1, m2);
-                    
                     m1 = _mm_add_pi16 (m1, round);
-                    m1 = _mm_srai_pi16 (m1, 1);
-
-                    m2 = _mm_mulhi_pi16 (*(__m64 *)wt_curr, m1);
-                    m1 = _mm_mullo_pi16 (*(__m64 *)wt_curr, m1);
-                    
-                    m3 =  _mm_unpacklo_pi16 (m1, m2);
-                    m1 =  _mm_unpackhi_pi16 (m1, m2);
-                    *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr, m3);
-                    *(__m64 *)(pic_curr+2) = _mm_add_pi32 (*(__m64 *)(pic_curr+2), m1);
+                    *(__m64 *)block_curr = _mm_srai_pi16 (m1, 1);
                 }
 
                 // Mopup the last value
-                for ( x=stopX; x < block_width; ++x)
+                for ( x=stopX; x < block_data.LengthX(); ++x)
                 {
-                    *pic_curr += ((    *refup_curr  +
+                    *block_curr = ((    *refup_curr  +
                                        *(refup_curr+1)  + 1
-                                  ) >> 1) * CalcValueType(*wt_curr);
-                    ++pic_curr;
-                    ++wt_curr;
+                                  ) >> 1);
+                    ++block_curr;
                     refup_curr+=2;
                 }
             }
@@ -210,38 +172,32 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
         {
             __m64 round = _mm_set_pi16 (1, 1, 1, 1);
             __m64 m1, m2, m3;
-            for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+            for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
             {
                 int x;
-                for( x = 0; x < stopX; x+=4, pic_curr+=4, wt_curr+=4, refup_curr+=8 )
+                for( x = 0; x < stopX; x+=4, block_curr+=4, refup_curr+=8 )
                 {
                     m1 = _mm_unpacklo_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
                     m2 = _mm_unpackhi_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
+                    // m1 now contains r00 r02 r04 r06
                     m1 = _mm_unpacklo_pi16 (m1, m2);
 
                     m3 = _mm_unpacklo_pi16 (*(__m64 *)(refup_curr+refXlen), *(__m64 *)(refup_curr+refXlen+4));
                     m2 = _mm_unpackhi_pi16 (*(__m64 *)(refup_curr+refXlen), *(__m64 *)(refup_curr+refXlen+4));
+                    // m1 now contains r10 r12 r14 r16
                     m2 = _mm_unpacklo_pi16 (m3, m2);
 
+                    // (refup_curr[0] + (refup_curr+refXlen)[0] + 1)>>1 
                     m1 = _mm_add_pi16 (m1, m2);
                     m1 = _mm_add_pi16 (m1, round);
-                    m1 = _mm_srai_pi16 (m1, 1);
-
-                    m2 = _mm_mulhi_pi16 (*(__m64 *)wt_curr, m1);
-                    m1 = _mm_mullo_pi16 (*(__m64 *)wt_curr, m1);
-                    
-                    m3 =  _mm_unpacklo_pi16 (m1, m2);
-                    m1 =  _mm_unpackhi_pi16 (m1, m2);
-                    *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr, m3);
-                    *(__m64 *)(pic_curr+2) = _mm_add_pi32 (*(__m64 *)(pic_curr+2), m1);
+                    *(__m64 *)block_curr = _mm_srai_pi16 (m1, 1);
                 }
-                for ( x=stopX; x < block_width; ++x)
+                for ( x=stopX; x < block_data.LengthX(); ++x)
                 {
-                    *pic_curr += ((    *refup_curr + *(refup_curr+refXlen) +
+                    *block_curr = (( *refup_curr + *(refup_curr+refXlen) +
                                        1
-                                   ) >> 1) * CalcValueType(*wt_curr);
-                    ++pic_curr;
-                    ++wt_curr;
+                                   ) >> 1);
+                    ++block_curr;
                     refup_curr+=2;
                 }
             }
@@ -251,10 +207,10 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
         {
             __m64 round = _mm_set_pi16 (2, 2, 2, 2);
             __m64 m1, m2, m3;
-            for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+            for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
             {
                 int x;
-                for( x = 0; x < stopX; x+=4, pic_curr+=4, wt_curr+=4, refup_curr+=8 )
+                for( x = 0; x < stopX; x+=4, block_curr+=4, refup_curr+=8 )
                 {
                     m1 = _mm_add_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+refXlen));
                     m2 = _mm_add_pi16 (*(__m64 *)(refup_curr+4), *(__m64 *)(refup_curr+refXlen+4));
@@ -266,26 +222,17 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
 
                     m1 = _mm_add_pi16 (m1, m2);
                     m1 = _mm_add_pi16 (m1, round);
-                    m1 = _mm_srai_pi16 (m1, 2);
-                    
-                    m2 = _mm_mulhi_pi16 (*(__m64 *)wt_curr, m1);
-                    m1 = _mm_mullo_pi16 (*(__m64 *)wt_curr, m1);
-                    
-                    m3 =  _mm_unpacklo_pi16 (m1, m2);
-                    m1 =  _mm_unpackhi_pi16 (m1, m2);
-                    *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr, m3);
-                    *(__m64 *)(pic_curr+2) = _mm_add_pi32 (*(__m64 *)(pic_curr+2), m1);
+                    *(__m64 *)block_curr = _mm_srai_pi16 (m1, 2);
                 }
-                for ( x=stopX; x < block_width; ++x)
+                for ( x=stopX; x < block_data.LengthX(); ++x)
                 {
-                    *pic_curr += ((    *refup_curr  +
+                    *block_curr = ((  *refup_curr  +
                                        *(refup_curr+1)  +
                                        *(refup_curr+refXlen)  +
                                        *(refup_curr+refXlen+1)  +
                                        2
-                                   ) >> 2) * CalcValueType(*wt_curr);
-                    ++pic_curr;
-                    ++wt_curr;
+                                   ) >> 2);
+                    ++block_curr;
                     refup_curr+=2;
                 }
             }
@@ -302,83 +249,42 @@ void MotionCompensator_QuarterPixel::CompensateBlock( TwoDArray<CalcValueType> &
                                            (2 - rmdr.x) * rmdr.y,          //bl
                                            rmdr.x * rmdr.y };              //br
 
-        __m64 m_wts1 = _mm_set_pi16 (linear_wts[1], linear_wts[0], linear_wts[1], linear_wts[0]);
-        __m64 m_wts2 = _mm_set_pi16 (linear_wts[3], linear_wts[2], linear_wts[3], linear_wts[2]);
-
         ValueType act_cols1[4], act_cols2[4];
-        ValueType *pact_cols1=act_cols1;
-        ValueType *pact_cols2=act_cols2;
-
         int uX, uY, c, l;
-        int stopX = (block_width>>1)<<1;
-#ifdef WIN32
-        stopX = stopX > 2 ? stopX - 2 : 0;
-#endif
-        __m64 m_two = _mm_set_pi32 (2, 2);
-        __m64 m_zero = _mm_set_pi32 (0, 0);
-        
-       for(c = 0, uY = ref_start.y; c < end_pos.y - start_pos.y; ++c, pic_curr += pic_next, wt_curr += wt_next, uY += 2)
+       for(c = 0, uY = ref_start.y; c < block_data.LengthY(); ++c, uY += 2)
        {
-           __m64 m1, m2;
-           for(l = 0, uX = ref_start.x; l < stopX; l+=2, pic_curr+=2, wt_curr+=2, uX += 4)
+           for(l = 0, uX=ref_start.x; l < block_data.LengthX(); ++l, ++block_curr, uX += 2)
            {
-                  check_active_columns(uX, trueRefXlen, act_cols1, act_cols2, refup_data[BChk(uY, trueRefYlen)], refup_data[BChk(uY+1, trueRefYlen)]);
+               check_active_columns(uX, trueRefXlen, act_cols1, act_cols2, refup_data[BChk(uY, trueRefYlen)], refup_data[BChk(uY+1, trueRefYlen)]);
 
-                m1 = _mm_madd_pi16 (*(__m64 *)pact_cols1, m_wts1);
-                m2 = _mm_madd_pi16 (*(__m64 *)pact_cols2, m_wts2);
-                m1 = _mm_add_pi32 (m1, m2);
-                m1 = _mm_add_pi32 (m1, m_two);
-                m1 = _mm_srai_pi32 (m1, 2);
-                //m2 = _mm_unpackhi_pi32 (m1, m_zero);
-                //m1 = _mm_unpacklo_pi32 (m1, m_zero);
-                //m1 = _mm_packs_pi32 (m1, m2);
-                m2 = _mm_unpacklo_pi16 (*(__m64 *)wt_curr, m_zero);
-                m1 = _mm_madd_pi16 (m1, m2);
-                *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr , m1);
-           }//l
-           //mopup
-           for(l = stopX, uX=ref_start.x + stopX*2; l < block_width; ++l, ++pic_curr, ++wt_curr, uX += 2)
-           {
-                   //std::cerr << "In mopup : stopX=" << stopX << " block_width=" << block_width<< std::endl;
-                  check_active_columns(uX, trueRefXlen, act_cols1, act_cols2, refup_data[BChk(uY, trueRefYlen)], refup_data[BChk(uY+1, trueRefYlen)]);
-
-               *pic_curr += ((     linear_wts[0] * CalcValueType( act_cols1[0] ) +
-                                        linear_wts[1] * CalcValueType( act_cols1[1] ) +
-                                        linear_wts[2] * CalcValueType( act_cols2[0] )+
-                                        linear_wts[3] * CalcValueType( act_cols2[1] ) +
-                                        2
-                                  ) >> 2) * *wt_curr;
+               *block_curr = ((     linear_wts[0] * act_cols1[0] +
+                                    linear_wts[1] * act_cols1[1] +
+                                    linear_wts[2] * act_cols2[0] +
+                                    linear_wts[3] * act_cols2[1] +
+                                    2
+                               ) >> 2);
            }//l
        }//c
-       _mm_empty();
     }
 }
 
-void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic_data , 
-                                          const ImageCoords& orig_pic_size , 
-                                          const PicArray &refup_data , 
-                                          const MVector &mv , 
-                                          const ImageCoords& pos , 
-                                          const TwoDArray<ValueType>& wt_array)
+void MotionCompensator_HalfPixel::BlockPixelPred( 
+                                   TwoDArray<ValueType> &block_data , 
+                                   const ImageCoords& pos , 
+                                   const ImageCoords& orig_pic_size , 
+                                   const PicArray &refup_data , 
+                                   const MVector &mv) 
 {
-    //Coordinates in the image being written to.
-    const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
-    const ImageCoords end_pos( std::min( pos.x + wt_array.LengthX() , orig_pic_size.x) , 
-                               std::min( pos.y + wt_array.LengthY() , orig_pic_size.y ) );
-
-    //The difference between the desired start point
-    //pos and the actual start point start_pos.
-    const ImageCoords diff( start_pos.x - pos.x , start_pos.y - pos.y );
-
     //Where to start in the upconverted image
+    const ImageCoords start_pos( std::max(pos.x,0) , std::max(pos.y,0) );
     const ImageCoords ref_start( ( start_pos.x<<1 ) + mv.x ,( start_pos.y<<1 ) + mv.y );
 
     //An additional stage to make sure the block to be copied does not fall outside
     //the reference image.
     const int refXlen = refup_data.LengthX();
     //const int refYlen = refup_data.LengthY();
-    const int trueRefXlen = orig_pic_size.x << 1;
-    const int trueRefYlen = orig_pic_size.y << 1;
+    const int trueRefXlen = (orig_pic_size.x << 1) - 1;
+    const int trueRefYlen = (orig_pic_size.y << 1) - 1;
 
     bool do_bounds_checking = false;
 
@@ -387,54 +293,38 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
 
     if( ref_start.x < 0 ) 
         do_bounds_checking = true;
-    else if( ref_start.x + ((end_pos.x - start_pos.x -1 )<<1 ) >= trueRefXlen )
+    else if( ref_start.x + ((block_data.LengthX() - 1 )<<1 ) >= trueRefXlen )
         do_bounds_checking = true;
     if( ref_start.y < 0 ) 
         do_bounds_checking = true;
-    else if( ref_start.y + ((end_pos.y - start_pos.y - 1 )<<1 ) >= trueRefYlen)
+    else if( ref_start.y + ((block_data.LengthY() - 1 )<<1 ) >= trueRefYlen)
         do_bounds_checking = true;
 
-    CalcValueType *pic_curr = &pic_data[0][start_pos.x];
-    ValueType *wt_curr = &wt_array[diff.y][diff.x];
+    ValueType *block_curr = &block_data[0][0];
  
-    const int block_width = end_pos.x - start_pos.x;
-    if (block_width <= 0)
-        return;
-
-
-    const int pic_next( pic_data.LengthX() - block_width );// go down a row and back up
-    const int wt_next( wt_array.LengthX() - block_width ); // go down a row and back up
-
     if( !do_bounds_checking )
     {  
         ValueType *refup_curr = &refup_data[ref_start.y][ref_start.x];
-        const int refup_next( (refXlen - block_width)*2 );// go down 2 rows and back up
-        int stopX = (block_width>>2)<<2;
+        const int refup_next( (refXlen - block_data.LengthX())*2 );// go down 2 rows and back up
 #if 1
+        int stopX = (block_data.LengthX()>>2)<<2;
         {
-            __m64 m1, m2, m3;
+            __m64 m1, m2;
 
-            for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+            for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
             {
                 int x;
-                for( x=0; x < stopX; x+=4, pic_curr+=4, wt_curr+=4, refup_curr+=8 )
+                for( x=0; x < stopX; x+=4, block_curr+=4, refup_curr+=8 )
                 {
                     m1 = _mm_unpacklo_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
                     m2 = _mm_unpackhi_pi16 (*(__m64 *)refup_curr, *(__m64 *)(refup_curr+4));
-                    m1 = _mm_unpacklo_pi16 (m1, m2);
-                    m2 = _mm_mulhi_pi16 (*(__m64 *)wt_curr, m1);
-                    m1 = _mm_mullo_pi16 (*(__m64 *)wt_curr, m1);
-                    m3 =  _mm_unpacklo_pi16 (m1, m2);
-                    m1 =  _mm_unpackhi_pi16 (m1, m2);
-                    *(__m64 *)pic_curr = _mm_add_pi32 (*(__m64 *)pic_curr, m3);
-                    *(__m64 *)(pic_curr+2) = _mm_add_pi32 (*(__m64 *)(pic_curr+2), m1);
+                    *(__m64 *)block_curr  = _mm_unpacklo_pi16 (m1, m2);
                 }
                 // Mopup the last value
-                for ( x=stopX ; x < block_width; ++x)
+                for ( x=stopX ; x < block_data.LengthX(); ++x)
                 {
-                    *pic_curr += CalcValueType( *refup_curr )* *wt_curr;
-                    ++pic_curr;
-                    ++wt_curr;
+                    *block_curr = *refup_curr;
+                    ++block_curr;
                     refup_curr+=2;
                 }
             }
@@ -442,11 +332,11 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
         }
 #else
 
-        for( int y=end_pos.y-start_pos.y; y > 0; --y, pic_curr+=pic_next, wt_curr+=wt_next, refup_curr+=refup_next )
+        for( int y=0; y < block_data.LengthY(); ++y, refup_curr+=refup_next )
         {
-            for( int x=block_width; x > 0; --x, ++pic_curr, ++wt_curr, refup_curr+=2 )
+            for( int x=0; x < block_data.LengthX(); ++x, ++block_curr, refup_curr+=2 )
             {
-                *pic_curr += CalcValueType( refup_curr[0] )* *wt_curr;
+                *block_curr =  refup_curr[0];
             }
         }
 #endif
@@ -454,18 +344,54 @@ void MotionCompensator_HalfPixel::CompensateBlock( TwoDArray<CalcValueType> &pic
     else
     {
         // We're doing bounds checking because we'll fall off the edge of the reference otherwise.
-        for( int y=end_pos.y-start_pos.y, ry=ref_start.y, by=BChk(ry,trueRefYlen); 
-             y>0; 
-             --y, pic_curr+=pic_next, wt_curr+=wt_next , ry+=2 , by=BChk(ry,trueRefYlen))
+        for( int y=0, ry=ref_start.y, by=BChk(ry,trueRefYlen); 
+             y<block_data.LengthY(); 
+             ++y, ry+=2,by=BChk(ry,trueRefYlen))
         {
-             for( int x=block_width , rx=ref_start.x , bx=BChk(rx,trueRefXlen); 
-                  x>0 ; 
-                  --x, ++pic_curr, ++wt_curr, rx+=2 , bx=BChk(rx,trueRefXlen))
+             for( int x=0 , rx=ref_start.x , bx=BChk(rx,trueRefXlen); 
+                  x<block_data.LengthX() ; 
+                  ++x, ++block_curr, rx+=2 , bx=BChk(rx,trueRefXlen))
              {
-                 *pic_curr += CalcValueType( refup_data[by][bx] )* *wt_curr;
+                 *block_curr = refup_data[by][bx];
              }// x
         }// y
     }
+}
+
+void MotionCompensator::AdjustBlockBySpatialWeights (
+                                       TwoDArray<ValueType>& val_block,
+                                       const ImageCoords &pos,
+                                       const TwoDArray<ValueType> &wt_array)
+{
+    ImageCoords start_pos (std::max(0, pos.x), std::max(0, pos.y));
+    ImageCoords wt_start (start_pos.x - pos.x, start_pos.y - pos.y);
+
+    ValueType *val_curr = &val_block[0][0];
+    ValueType *wt_curr = &wt_array[wt_start.y][wt_start.x];
+
+    // go down at row and back to beginning of weights line
+    const int wt_next = wt_array.LengthX() - val_block.LengthX();
+
+    const int stopX = (val_block.LengthX()>>2)<<2; 
+        
+    for ( int j = 0; j < val_block.LengthY(); ++j, wt_curr += wt_next)
+    {
+        for ( int i =  0; i < stopX; i+=4, val_curr+=4, wt_curr+=4)
+        {
+            /*
+            * NOTE: Using only the low 16 bits of the result of multiplication
+            * by weights because the result is supposed to fit in 16 bit
+            * words. For some weights could result in overflow and errors
+            */
+           __m64 *out = (__m64 *)val_curr;
+           *out = _mm_mullo_pi16 (*(__m64 *)val_curr, *(__m64 *)wt_curr);
+        }
+        for (int i = stopX; i < val_block.LengthX(); ++i, ++val_curr, ++wt_curr)
+        {
+            *val_curr = *val_curr * *wt_curr;
+        }
+    }
+    _mm_empty();
 }
 
 namespace dirac
@@ -473,7 +399,7 @@ namespace dirac
     void CompensateComponentAddAndShift_mmx (int start_y, int end_y, 
                                            int weight_bits,
                                            const ImageCoords& orig_pic_size,
-                                           TwoDArray<CalcValueType> &comp_data, 
+                                           TwoDArray<ValueType> &comp_data, 
                                            PicArray &pic_data_out)
     {
         if (start_y >= end_y)
@@ -482,18 +408,15 @@ namespace dirac
         int stopX = pic_data_out.FirstX() + ((orig_pic_size.x>>2)<<2);
         int x_end_truepic_data = pic_data_out.FirstX() + orig_pic_size.x;
         int x_end_data = pic_data_out.FirstX() + pic_data_out.LengthX();
-        __m64 max_val = _mm_set_pi32 (round_val, round_val);
-           CalcValueType *pic_row = &comp_data[0][comp_data.FirstX()];
-           ValueType *out_row = &pic_data_out[start_y][pic_data_out.FirstX()];
+        __m64 mround_val = _mm_set_pi16 (round_val, round_val, round_val, round_val);
+        ValueType *pic_row = &comp_data[0][comp_data.FirstX()];
+        ValueType *out_row = &pic_data_out[start_y][pic_data_out.FirstX()];
         for ( int i = start_y; i < end_y; i++)
         {
             for ( int j =  pic_data_out.FirstX(); j < stopX; j+=4)
             {
-                __m64 in1 = _mm_add_pi32 (*(__m64 *)pic_row, max_val);
-                in1 = _mm_srai_pi32 (in1, weight_bits);
-                __m64 in2 = _mm_add_pi32 (*(__m64 *)(pic_row+2), max_val);
-                in2 = _mm_srai_pi32 (in2, weight_bits);
-                in1 = _mm_packs_pi32 (in1, in2);
+                __m64 in1 = _mm_add_pi16 (*(__m64 *)pic_row, mround_val);
+                in1 = _mm_srai_pi16 (in1, weight_bits);
                 __m64 *out = (__m64 *)out_row;
                 *out = _mm_add_pi16 (in1, *out);
                 pic_row += 4;
@@ -516,6 +439,32 @@ namespace dirac
             }
          }
         _mm_empty();
-   }
+    }
+
+    void AddMCBlock_mmx (const ImageCoords& start_pos, 
+                        TwoDArray<ValueType> &comp_strip, 
+                        TwoDArray<ValueType>& block_data)
+    {
+        const int stopX = (block_data.LengthX()>>2)<<2;
+
+        const int comp_next = comp_strip.LengthX()-block_data.LengthX();
+        ValueType *comp_curr = &comp_strip[start_pos.y][start_pos.x];
+        ValueType *block_curr = &block_data[0][0];
+
+        for (int j = 0; j < block_data.LengthY(); ++j, comp_curr += comp_next)
+        {
+            for (int i = 0; i < stopX; i+=4, comp_curr+=4, block_curr+=4)
+            {
+                __m64 *out = (__m64 *)comp_curr;
+                // mc_tmp[y][x] += val
+                *out = _mm_add_pi16 (*(__m64 *)comp_curr, *(__m64 *)block_curr);
+            }
+            for (int i = stopX; i < block_data.LengthX(); ++i, ++comp_curr, ++block_curr)
+            {
+                *comp_curr += *block_curr;
+            }
+        }
+        _mm_empty();
+    }
 }
 #endif

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: displayparams_byteio.h,v 1.2 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: displayparams_byteio.h,v 1.4 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -36,7 +36,7 @@
 * ***** END LICENSE BLOCK ***** */
 
 /**
-* Definition of class DisplayParamsByteIO
+* Definition of class SourceParamsByteIO
 */
 #ifndef displayparams_byteio_h
 #define displayparams_byteio_h
@@ -53,9 +53,9 @@ namespace dirac
 {
              
     /**
-    * Represents compressed display-parameter data contained in an AccessUnit
+    * Represents compressed source-parameter data contained in a sequence header
     */
-    class DisplayParamsByteIO : public ByteIO
+    class SourceParamsByteIO : public ByteIO
     {
     public:
 
@@ -65,21 +65,21 @@ namespace dirac
         *@param default_src_params Default Source parameters
         *@param stream_data Source/Destination of data
         */
-        DisplayParamsByteIO( SourceParams& src_params,
+        SourceParamsByteIO( SourceParams& src_params,
                              const SourceParams& default_src_params,
                              const ByteIO& stream_data);
         /**
         * Destructor
         */
-        ~DisplayParamsByteIO();
+        ~SourceParamsByteIO();
 
         /**
-        * Reads display information from Dirac byte-format
+        * Reads source params information from Dirac byte-format
         */
         void Input();
 
         /**
-        * Outputs sequence information to Dirac byte-format
+        * Outputs source params information to Dirac byte-format
         */
         void Output();
 
@@ -94,14 +94,14 @@ namespace dirac
         void InputFrameSize();
 
         /**
-        * Reads Sampling Format
+        * Reads Chroma Sampling Format
         */
-        void InputSamplingFormat();
+        void InputChromaSamplingFormat();
     
         /**
-        * Reads aspect ratio info
+        * Reads pixel aspect ratio info
         */
-        void InputAspectRatio();
+        void InputPixelAspectRatio();
 
         /**
         * Reads clean-area info
@@ -149,14 +149,14 @@ namespace dirac
         void OutputFrameSize();
 
         /**
-        * Outputs Sampling Format
+        * Outputs Chroma Sampling Format
         */
-        void OutputSamplingFormat();
+        void OutputChromaSamplingFormat();
 
         /**
-        * Outputs aspect ratio info
+        * Outputs pixel aspect ratio info
         */
-        void OutputAspectRatio();
+        void OutputPixelAspectRatio();
 
         /**
         * Outputs clean-area info

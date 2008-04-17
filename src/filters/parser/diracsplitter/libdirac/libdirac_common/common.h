@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common.h,v 1.59 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: common.h,v 1.70 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -191,11 +191,11 @@ namespace dirac
     FrameRateType IntToFrameRateType(int frame_rate_idx);
 
     /**
-    * Function to convert an integer to a valid AspectRatio type
-    *@param aspect_ratio_idx Integer corresponding to a aspect-ratio in the spec table
-    *@return Valid AspectRatioType (returns ASPECT_RATIO_UNDEFINED if no valid aspect-ratio found)
+    * Function to convert an integer to a valid PixelAspectRatio type
+    *@param pix_asr_idx Integer corresponding to a pixel aspect ratio in the spec table
+    *@return Valid PixelAspectRatioType (returns PIXEL_ASPECT_RATIO_UNDEFINED if no valid pixel aspect ratio found)
     */
-    AspectRatioType IntToAspectRatioType(int aspect_ratio_idx);
+    PixelAspectRatioType IntToPixelAspectRatioType(int pix_asr_idx);
 
     /**
     * Function to convert an integer to a valid SignalRange type
@@ -291,7 +291,8 @@ namespace dirac
             Contructor creates a two-D array, with specified size and colour
             format.
         */
-        PicArray(int height, int width, CompSort cs=Y_COMP);
+        PicArray(int height, int width, CompSort cs=Y_COMP): 
+            TwoDArray<ValueType>(height, width), m_csort(cs){}
 
         //copy constructor and assignment= derived by inheritance
 
@@ -299,10 +300,10 @@ namespace dirac
         ~PicArray(){}
 
         //! Return which component is stored
-        const CompSort& CSort() const;
-
+        const CompSort& CSort() const {return m_csort;}
+        
         //! Set the type of component being stored
-        void SetCSort(const CompSort cs);
+        void SetCSort(const CompSort cs){ m_csort = cs; }
 
     private:
 
@@ -327,12 +328,23 @@ namespace dirac
             Contructor creates a two-D array, with specified size and colour
             format.
         */
-        CoeffArray(int height, int width): TwoDArray<CoeffType>(height, width){}
+        CoeffArray(int height, int width, CompSort cs=Y_COMP): 
+            TwoDArray<CoeffType>(height, width), m_csort(cs){}
 
         //copy constructor and assignment= derived by inheritance
 
         //! Destructor
         ~CoeffArray(){}
+        
+        //! Return which component is stored
+        const CompSort& CSort() const {return m_csort;}
+        
+        //! Set the type of component being stored
+        void SetCSort(const CompSort cs){ m_csort = cs; }
+        
+        private:
+
+        CompSort m_csort;
 
     };
 
@@ -559,8 +571,8 @@ namespace dirac
         //! Returns the chroma height
         int ChromaHeight() const;
 
-        //! Returns true if the source material is interlaced
-        bool Interlace() const { return m_interlace; }
+        //! Returns the source sampling field of the source scan format
+        unsigned int SourceSampling() const { return m_source_sampling; }
 
         //! Returns true if top field comes first in time
         bool TopFieldFirst() const { return m_topfieldfirst; }
@@ -572,10 +584,10 @@ namespace dirac
         FrameRateType FrameRateIndex() const { return m_fr_idx; }
 
            //! Return the pixel aspect ratio
-        Rational AspectRatio() const { return m_aspect_ratio; }
+        Rational PixelAspectRatio() const { return m_pixel_aspect_ratio; }
 
-         //! Return the type from the aspect ratio table
-        AspectRatioType AspectRatioIndex() const { return m_asr_idx; }
+         //! Return the type from the pixel aspect ratio table
+        PixelAspectRatioType PixelAspectRatioIndex() const { return m_pix_asr_idx; }
 
         // Clean area parameters
         //! Return the Clean area width
@@ -622,8 +634,9 @@ namespace dirac
         //! Sets the chroma format (Y only, 420, 422 etc)
         void SetCFormat(ChromaFormat cf) {m_cformat=cf;}
 
-        //! Set if the source material is interlaced
-        void SetInterlace(bool interlace) { m_interlace = interlace; }
+        //! Set if the source sampling field of the scan format
+        void SetSourceSampling(unsigned int source_sampling) 
+        { m_source_sampling = source_sampling; }
 
         //! Set Topfield first. True if top field comes first in time
         void SetTopFieldFirst(bool tff) { m_topfieldfirst = tff; }
@@ -649,22 +662,22 @@ namespace dirac
         void SetFrameRate(FrameRateType fr);
 
            //! Set the pixel aspect ratio
-        void SetAspectRatio(const Rational &asr)
+        void SetPixelAspectRatio(const Rational &pix_asr)
         {
-            m_asr_idx = ASPECT_RATIO_CUSTOM;
-            m_aspect_ratio = asr;
+            m_pix_asr_idx = PIXEL_ASPECT_RATIO_CUSTOM;
+            m_pixel_aspect_ratio = pix_asr;
         }
 
         //! Set the pixel aspect ratio
-        void SetAspectRatio(unsigned int as_num, unsigned int as_denom )
+        void SetPixelAspectRatio(unsigned int pix_as_num, unsigned int pix_as_denom )
         {
-            m_asr_idx = ASPECT_RATIO_CUSTOM;
-            m_aspect_ratio.m_num = as_num;
-            m_aspect_ratio.m_denom = as_denom;
+            m_pix_asr_idx = PIXEL_ASPECT_RATIO_CUSTOM;
+            m_pixel_aspect_ratio.m_num = pix_as_num;
+            m_pixel_aspect_ratio.m_denom = pix_as_denom;
         }
 
         //! Set the Pixel Aspect Ratio
-        void SetAspectRatio(AspectRatioType aspect_ratio);
+        void SetPixelAspectRatio(PixelAspectRatioType pixel_aspect_ratio);
 
         // Clean area parameters
         //! Set the Clean area width
@@ -711,10 +724,10 @@ namespace dirac
         //! Presence of chroma and/or chroma sampling structure
         ChromaFormat m_cformat;
 
-        //! True if interlaced
-        bool m_interlace;
+        //! Source sampling field : 0 - progressive, 1 - interlaced
+        unsigned int m_source_sampling;
 
-        //! If interlaced, true if the top field is first in temporal order
+        //! If m_source_sampling=1, true if the top field is first in temporal order
         bool m_topfieldfirst;
 
         //! Index into frame rate table
@@ -724,10 +737,10 @@ namespace dirac
         Rational m_framerate;
 
         //! Index into pixel aspect ratio table
-        AspectRatioType m_asr_idx;
+        PixelAspectRatioType m_pix_asr_idx;
 
         //! Pixel Aspect Ratio
-        Rational m_aspect_ratio;
+        Rational m_pixel_aspect_ratio;
 
         // Clean area parameters
 
@@ -850,6 +863,9 @@ namespace dirac
         //! Returns the number of the frame (in time order)
         int FrameNum() const {return m_fnum;}
 
+        //! Returns the retired reference frame number 
+        int RetiredFrameNum() const {return m_retd_fnum;}
+
         //! Returns whether the frame is bi-directionally predicted by checking references
         bool IsBFrame() const;
 
@@ -873,6 +889,9 @@ namespace dirac
 
         //! Returns reference frame type (see enum)
         ReferenceType GetReferenceType() const { return m_reference_type;}
+
+        //! Returns true is entropy coding using Arithmetic coding
+        bool UsingAC() const { return m_using_ac; }
 
         // ... Sets
 
@@ -921,11 +940,11 @@ namespace dirac
         //! Set Chroma Depth
         void SetChromaDepth(unsigned int chroma_depth) { m_chroma_depth = chroma_depth; }
 
-        //! Returns a const C++ reference to the set of frame numbers to be retired
-        std::vector<int>& RetiredFrames() const {return m_retd_list;}
+        //! Sets the retired reference frame number 
+        void SetRetiredFrameNum(int retd_fnum) {m_retd_fnum = retd_fnum;}
 
-        //! Returns a non-const C++ reference to the set of frame numbers to be retired
-        std::vector<int>& RetiredFrames() {return m_retd_list;}
+        //! Sets the arithmetic coding flag
+        void SetUsingAC(bool using_ac) { m_using_ac = using_ac; }
 
     private:
 
@@ -965,8 +984,8 @@ namespace dirac
         //! DWT Chroma height
         int m_dwt_chroma_yl;
 
-        //! The set of frame numbers in the retired frame list
-        mutable std::vector<int> m_retd_list;
+        //! The frame number of the retired frame
+        mutable  int m_retd_fnum;
 
         //! Orignal Frame luma width
         int m_orig_xl;
@@ -986,6 +1005,8 @@ namespace dirac
         //! chroma depth - number of bits required for luma
         unsigned int m_chroma_depth;
 
+        //! arithmetic coding flag
+        bool m_using_ac;
     };
 
     //! Structure to hold code block sizes when spatial partitioning is used
@@ -993,7 +1014,7 @@ namespace dirac
     {
     public:
         //! Default Constructor
-        CodeBlocks () : m_hblocks(0), m_vblocks(0)
+        CodeBlocks () : m_hblocks(1), m_vblocks(1)
         {}
 
         //! Constructor
@@ -1050,8 +1071,8 @@ namespace dirac
         //! Returns the number of blocks vertically
         int YNumBlocks() const {return m_y_num_blocks;}
 
-        //! Returns true if we're operating using interend tools
-        bool Interlace() const {return m_interlace;}
+        //! Returns true if we're coding input as fields (independent of source format!)
+        bool FieldCoding() const {return m_field_coding;}
 
         //! Returns true if the topmost field comes first in time when coding
         bool TopFieldFirst() const {return m_topfieldfirst;}
@@ -1099,8 +1120,6 @@ namespace dirac
         //! Return the spatial partitioning flag being used for frame (de)coding
         bool SpatialPartition() const { return m_spatial_partition; }
 
-        //! Return the default spatial partitioning flag being used for frame (de)coding
-        bool DefaultSpatialPartition() const { return m_def_spatial_partition; }
         //! Return the code blocks for a particular level
         const CodeBlocks &GetCodeBlocks(unsigned int level) const;
 
@@ -1114,11 +1133,17 @@ namespace dirac
         unsigned int FrameWeightsBits() const { return m_frame_weights_bits; }
 
         //! Return the Ref1 weight
-        unsigned int Ref1Weight() const { return m_ref1_weight; }
+        int Ref1Weight() const { return m_ref1_weight; }
 
         //! Return the Ref2 weight
-        unsigned int Ref2Weight() const { return m_ref2_weight; }
+        int Ref2Weight() const { return m_ref2_weight; }
 
+        bool CustomRefWeights()
+        {
+            return (m_frame_weights_bits != 1 ||
+                    m_ref1_weight != 1 ||
+                    m_ref2_weight != 1);
+        }
         // ... and Sets
         //! Set how many MBs there are horizontally
         void SetXNumMB(const int xn){m_x_num_mb=xn;}
@@ -1132,8 +1157,8 @@ namespace dirac
         //! Set how many blocks there are vertically
         void SetYNumBlocks(const int yn){m_y_num_blocks=yn;}
 
-        //! Sets whether interlace tools are to be used
-        void SetInterlace(bool intlc){m_interlace=intlc;}
+        //! Sets whether input is coded as fields
+        void SetFieldCoding(bool field_coding){m_field_coding=field_coding;}
 
         //! Sets whether the topmost field comes first in time [NB: TBD since this duplicates metadata in the sequence header]
         void SetTopFieldFirst(bool topf){m_topfieldfirst=topf;}
@@ -1195,14 +1220,8 @@ namespace dirac
         //! Set the spatial partition flag usedto frame (de)coding
         void SetSpatialPartition(bool spatial_partition) { m_spatial_partition=spatial_partition; }
 
-        //! Set the spatial partition flag usedto frame (de)coding
-        void SetDefaultSpatialPartition(bool def_spatial_partition) { m_def_spatial_partition=def_spatial_partition; }
-
         //! Set the number of code blocks for a particular level
         void  SetCodeBlocks(unsigned int level, unsigned int hblocks, unsigned int vblocks);
-
-        //! Set the default number of code blocks for all levels
-        void  SetDefaultCodeBlocks(const FrameType& ftype);
 
         //! Set the video format used for frame (de)coding
         void SetVideoFormat(const VideoFormat vd) { m_video_format=vd; }
@@ -1214,18 +1233,18 @@ namespace dirac
         void SetFrameWeightsPrecision(unsigned int wt_prec) { m_frame_weights_bits=wt_prec; }
 
         //! Set the ref 1 frame weight
-        void SetRef1Weight(unsigned int wt) { m_ref1_weight=wt; }
+        void SetRef1Weight(int wt) { m_ref1_weight=wt; }
 
         //! Set the ref 2 frame weight
-        void SetRef2Weight(unsigned int wt) { m_ref2_weight=wt; }
+        void SetRef2Weight(int wt) { m_ref2_weight=wt; }
 
     protected:
         //! Return the Wavelet filter associated with the wavelet index
         WltFilter TransformFilter (unsigned int wf_idx);
     private:
 
-        //! True if input is treated as interlaced, false otherwise
-        bool m_interlace;
+        //! True if input is coded as fields, false if coded as frames
+        bool m_field_coding;
 
         //! True if interlaced and top field is first in temporal order
         bool m_topfieldfirst;
@@ -1277,10 +1296,10 @@ namespace dirac
         unsigned int m_frame_weights_bits;
 
         //! frame predicion parameters - reference frame 1 weight
-        unsigned int m_ref1_weight;
+        int m_ref1_weight;
 
         //! frame predicion parameters - reference frame 1 weight
-        unsigned int m_ref2_weight;
+        int m_ref2_weight;
 
         //! Zero transform flag
         bool m_zero_transform;
@@ -1296,9 +1315,6 @@ namespace dirac
 
         //! Spatial partitioning flag
         bool m_spatial_partition;
-
-        //! Default Spatial partitioning flag
-        bool m_def_spatial_partition;
 
         //! Code block array. Number of entries is m_wlt_depth+1
         OneDArray<CodeBlocks> m_cb;
@@ -1407,6 +1423,9 @@ namespace dirac
         //! Return the Target Bit Rate in kbps
         int TargetRate() {return m_target_rate;}
 
+        //! Return true if using Arithmetic coding
+        bool UsingAC()  const {return m_using_ac;}
+
         // ... and Sets
 
         //! Sets verbosity on or off
@@ -1462,12 +1481,18 @@ namespace dirac
 
         //! Set the Wavelet filter to be used for intra frames
         void SetIntraTransformFilter(WltFilter wf) { m_intra_wltfilter = wf; }
+        
+         //! Set the number of code blocks for all levels
+        void  SetUsualCodeBlocks(const FrameType& ftype);
 
         //! Set the Wavelet filter to be used for inter frames
         void SetInterTransformFilter(WltFilter wf) { m_inter_wltfilter = wf; }
 
         //! Set the target bit rate
         void SetTargetRate(const int rate){m_target_rate = rate;}
+
+        //! Set the arithmetic coding flag
+        void SetUsingAC(bool using_ac) {m_using_ac = using_ac;}
     private:
 
         //! Calculate the Lagrangian parameters from the quality factor
@@ -1543,6 +1568,9 @@ namespace dirac
 
         //! Target bit rate
         int m_target_rate;
+
+        //! Arithmetic coding flag
+        bool m_using_ac;
 
     };
 

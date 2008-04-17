@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: endofsequence_byteio.cpp,v 1.2 2007/03/29 16:43:38 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: endofsequence_byteio.cpp,v 1.2 2007/03/29 16:43:38 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

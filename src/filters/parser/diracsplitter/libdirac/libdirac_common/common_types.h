@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common_types.h,v 1.11 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: common_types.h,v 1.15 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -88,22 +88,22 @@ typedef enum {
 /*! Types for video-format */
 typedef enum {
         VIDEO_FORMAT_CUSTOM=0,
-        VIDEO_FORMAT_QSIF,
+        VIDEO_FORMAT_QSIF525,
         VIDEO_FORMAT_QCIF,
-        VIDEO_FORMAT_SIF,
+        VIDEO_FORMAT_SIF525,
         VIDEO_FORMAT_CIF,
+        VIDEO_FORMAT_4SIF525,
         VIDEO_FORMAT_4CIF,
-        VIDEO_FORMAT_4SIF,
-        VIDEO_FORMAT_SD_525_DIGITAL,
-        VIDEO_FORMAT_SD_625_DIGITAL,
+        VIDEO_FORMAT_SD_480I60,
+        VIDEO_FORMAT_SD_576I50,
         VIDEO_FORMAT_HD_720P60,
         VIDEO_FORMAT_HD_720P50,
         VIDEO_FORMAT_HD_1080I60,
         VIDEO_FORMAT_HD_1080I50,
         VIDEO_FORMAT_HD_1080P60,
         VIDEO_FORMAT_HD_1080P50,
-        VIDEO_FORMAT_DIGI_CINEMA_2K,
-        VIDEO_FORMAT_DIGI_CINEMA_4K,
+        VIDEO_FORMAT_DIGI_CINEMA_2K24,
+        VIDEO_FORMAT_DIGI_CINEMA_4K24,
         VIDEO_FORMAT_UNDEFINED
 } VideoFormat;
 
@@ -112,7 +112,7 @@ typedef enum {
     CP_HDTV_COMP_INTERNET=0,
     CP_SDTV_525,
     CP_SDTV_625,
-    CP_CIE_XYZ,
+    CP_DCINEMA,
     CP_UNDEF
 }ColourPrimaries;
 
@@ -144,19 +144,22 @@ typedef enum {
     FRAMERATE_50_FPS,
     FRAMERATE_59p94_FPS,
     FRAMERATE_60_FPS,
+    FRAMERATE_14p98_FPS,
+    FRAMERATE_12p5_FPS,
     FRAMERATE_UNDEFINED
 } FrameRateType;
 
 /*! Types of Aspect Ratio */
 typedef enum {
-    ASPECT_RATIO_CUSTOM=0,
-    ASPECT_RATIO_1_1,
-    ASPECT_RATIO_10_11,
-    ASPECT_RATIO_12_11,
-    ASPECT_RATIO_40_33,
-    ASPECT_RATIO_16_11,
-    ASPECT_RATIO_UNDEFINED
-} AspectRatioType;
+    PIXEL_ASPECT_RATIO_CUSTOM=0,
+    PIXEL_ASPECT_RATIO_1_1,
+    PIXEL_ASPECT_RATIO_10_11,
+    PIXEL_ASPECT_RATIO_12_11,
+    PIXEL_ASPECT_RATIO_40_33,
+    PIXEL_ASPECT_RATIO_16_11,
+    PIXEL_ASPECT_RATIO_4_3,
+    PIXEL_ASPECT_RATIO_UNDEFINED
+} PixelAspectRatioType;
 
 
 /*! Types of signal range */
@@ -165,6 +168,7 @@ typedef enum {
     SIGNAL_RANGE_8BIT_FULL,
     SIGNAL_RANGE_8BIT_VIDEO,
     SIGNAL_RANGE_10BIT_VIDEO,
+    SIGNAL_RANGE_12BIT_VIDEO,
     SIGNAL_RANGE_UNDEFINED
 } SignalRangeType;
 

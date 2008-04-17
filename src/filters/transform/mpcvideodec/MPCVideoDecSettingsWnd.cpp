@@ -129,7 +129,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_AUTO));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_LIBMPG2));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE_MMX));
-	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SKAL));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_XVID));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
 
 	nPosY = 170;

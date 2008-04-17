@@ -43,7 +43,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 51
-#define LIBAVCODEC_VERSION_MINOR 52
+#define LIBAVCODEC_VERSION_MINOR 55
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -181,7 +181,7 @@ typedef struct RcOverride{
 #define CODEC_FLAG_H263P_SLICE_STRUCT 0x10000000
 #define CODEC_FLAG_INTERLACED_ME  0x20000000 ///< interlaced motion estimation
 #define CODEC_FLAG_SVCD_SCAN_OFFSET 0x40000000 ///< Will reserve space for SVCD scan offset user data.
-#define CODEC_FLAG_CLOSED_GOP     ((int)0x80000000)
+#define CODEC_FLAG_CLOSED_GOP     0x80000000
 #define CODEC_FLAG2_FAST          0x00000001 ///< Allow non spec compliant speedup tricks.
 #define CODEC_FLAG2_STRICT_GOP    0x00000002 ///< Strictly enforce GOP size.
 #define CODEC_FLAG2_NO_OUTPUT     0x00000004 ///< Skip bitstream encoding.
@@ -1063,30 +1063,22 @@ typedef struct AVCodecContext {
      * - decoding: Set by user.
      */
     int idct_algo;
+/*
+ * idct_algo is set by ffdshow.ax.
+ * It uses the list "idctNames[]" found in Tlibavcodec.cpp.
+ * The indexes of the items in that list should match with the values below.
+ */
 #define FF_IDCT_AUTO         0
 #define FF_IDCT_LIBMPEG2MMX  1
 #define FF_IDCT_SIMPLEMMX    2
-#define FF_IDCT_SKAL         3
+#define FF_IDCT_XVIDMMX      3
 #define FF_IDCT_SIMPLE       4
 #define FF_IDCT_INT          5
-#define FF_IDCT_XVIDMMX      6
+#define FF_IDCT_FAAN         6
 #define FF_IDCT_H264         7
 #define FF_IDCT_VP3          8
-/*
- * idct_algo is set by ffdshow.ax.
- * ffdshow.ax is not watching here to set idct_algo.
- * ffdshow.ax set idct_algo depending on the registry (dialog box).
- * So do not overwrite this even if the original ffmpeg is changed.
- */
-#define FF_IDCT_PS2          9
-#define FF_IDCT_MLIB         10
-#define FF_IDCT_ARM          11
-#define FF_IDCT_ALTIVEC      12
-#define FF_IDCT_SH4          13
-#define FF_IDCT_SIMPLEARM    14
-#define FF_IDCT_IPP          15
-#define FF_IDCT_CAVS         16
-#define FF_IDCT_WMV2         17
+#define FF_IDCT_CAVS         9
+#define FF_IDCT_WMV2         10
 
     /**
      * slice count

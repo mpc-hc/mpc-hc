@@ -216,9 +216,9 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rpm rmm rnx"), false, _T("RealPlayer or Real Alternative")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),	_T("ra"),	_T("ra"), true, _T("RealPlayer or Real Alternative")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),	_T("rt"),	_T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
+//		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_26),	_T("dsm"),	_T("dsm dsv dsa dss")));
-		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE),	_T("mpc"),	_T("mpc"), true));
+//		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE),	_T("mpc"),	_T("mpc"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),	_T("flv"),	_T("flv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),	_T("swf"),	_T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),	_T("mov"),	_T("mov qt amr 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: frame_compress.h,v 1.15 2007/09/03 14:52:40 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: frame_compress.h,v 1.16 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -121,6 +121,30 @@ namespace dirac
         
         //! Compresses the motion vector data
         void CompressMVData(MvDataByteIO* mv_data);
+        
+        //! Returns the value lambda according to frame and component type
+        float GetCompLambda( const FrameParams& fparams,
+                             const CompSort csort );
+
+        void SelectQuantisers( CoeffArray& coeff_data , 
+                               SubbandList& bands ,
+                               const float lambda,
+                               OneDArray<unsigned int>& est_counts,
+                               const CodeBlockMode cb_mode,
+                               const FrameSort fsort,
+                               const CompSort csort );
+
+        int SelectMultiQuants( CoeffArray& coeff_data , 
+                               SubbandList& bands , 
+                               const int band_num,
+                               const float lambda,
+                               const FrameSort fsort, 
+                               const CompSort csort );
+
+        void SetupCodeBlocks( SubbandList& bands );
+
+
+        void AddSubAverage(CoeffArray& coeff_data,int xl,int yl,AddOrSub dirn);
 
     private:
 

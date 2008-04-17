@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.cpp,v 1.6 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: parseunit_byteio.cpp,v 1.7 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -103,9 +103,9 @@ bool ParseUnitByteIO::Input()
     m_parse_code = InputUnByte();
 
     // input parse-offsets
-    m_next_parse_offset = InputFixedLengthUint(PU_NEXT_PARSE_OFFSET_SIZE);
+    m_next_parse_offset = ReadUintLit(PU_NEXT_PARSE_OFFSET_SIZE);
 
-    m_previous_parse_offset = InputFixedLengthUint(PU_PREVIOUS_PARSE_OFFSET_SIZE);
+    m_previous_parse_offset = ReadUintLit(PU_PREVIOUS_PARSE_OFFSET_SIZE);
 
     return true;
 }
@@ -207,9 +207,12 @@ void ParseUnitByteIO::SetAdjacentParseUnits(ParseUnitByteIO *p_prev_parseunit)
 
 ParseUnitType ParseUnitByteIO::GetType() const
 {
-    if(IsAU())
-        return PU_ACCESS_UNIT;
+    if(IsSeqHeader())
+        return PU_SEQ_HEADER;
     
+    if(IsCoreSyntax())
+        return PU_CORE_FRAME;
+
     if(IsLowDelay())
         return PU_LOW_DELAY_FRAME;
 

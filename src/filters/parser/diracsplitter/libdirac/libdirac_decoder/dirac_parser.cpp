@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_parser.cpp,v 1.12 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_parser.cpp,v 1.17 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -114,14 +114,14 @@ static void set_sequence_params (const  DiracParser * const parser, dirac_decode
     src_params->chroma_height = srcparams.ChromaHeight();
 
    // set the source parmeters
-    src_params->interlace = srcparams.Interlace() ? 1 : 0;
+    src_params->source_sampling = srcparams.SourceSampling();
     src_params->topfieldfirst = srcparams.TopFieldFirst() ? 1 : 0;
 
     src_params->frame_rate.numerator = srcparams.FrameRate().m_num;
     src_params->frame_rate.denominator = srcparams.FrameRate().m_denom;
 
-    src_params->pix_asr.numerator = srcparams.AspectRatio().m_num;
-    src_params->pix_asr.denominator = srcparams.AspectRatio().m_denom;
+    src_params->pix_asr.numerator = srcparams.PixelAspectRatio().m_num;
+    src_params->pix_asr.denominator = srcparams.PixelAspectRatio().m_denom;
 
     // clean area
     src_params->clean_area.width = srcparams.CleanWidth();
@@ -300,7 +300,7 @@ static void set_frame_data (const  DiracParser * const parser, dirac_decoder_t *
 
     const Frame& my_frame = parser->GetNextFrame();
 
-    if (!parser->GetDecoderParams().Interlace())
+    if (!parser->GetDecoderParams().FieldCoding())
     {
         set_frame_component (my_frame.Ydata(), Y_COMP, decoder);
         set_frame_component (my_frame.Udata(), U_COMP, decoder);
@@ -365,7 +365,7 @@ extern DllExport dirac_decoder_state_t dirac_parse (dirac_decoder_t *decoder)
                 /* frame params of the frame available for display */
                 set_frame_params (parser->GetNextFrame().GetFparams(), decoder);
                 set_frame_data (parser, decoder);
-                if (!parser->GetDecoderParams().Interlace() ||
+                if (!parser->GetDecoderParams().FieldCoding() ||
                     decoder->frame_params.fnum%2)
                 {
                     decoder->frame_avail = 1;

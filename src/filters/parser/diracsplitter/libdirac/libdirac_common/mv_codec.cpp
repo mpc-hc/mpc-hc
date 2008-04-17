@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mv_codec.cpp,v 1.31 2007/04/11 14:18:29 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: mv_codec.cpp,v 1.32 2007/12/12 11:10:54 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -590,7 +590,7 @@ ValueType DCCodec::Prediction(const TwoDArray < ValueType > & dcdata,
 {
     std::vector < unsigned int >  nbrs; 
     PredMode pmode;
-    ValueType result = 128; 
+    ValueType result = 0; 
     
     if (m_b_xp > 0 && m_b_yp > 0)
     {

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.h,v 1.5 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: parseunit_byteio.h,v 1.9 2008/01/16 02:42:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -54,11 +54,12 @@ namespace dirac
 
     /* Types of parse-unit */
     typedef enum {
-        PU_ACCESS_UNIT=0,
+        PU_SEQ_HEADER=0,
         PU_FRAME,
         PU_END_OF_SEQUENCE,
         PU_AUXILIARY_DATA,
         PU_PADDING_DATA,
+        PU_CORE_FRAME,
         PU_LOW_DELAY_FRAME,
         PU_UNDEFINED
     } ParseUnitType;
@@ -174,9 +175,9 @@ namespace dirac
         unsigned char GetParseCode() const { return m_parse_code;}
 
         /**
-        * Returns true is parse unit is an Access unit
+        * Returns true is parse unit is a Sequence Header
         */
-        bool IsAU() const
+        bool IsSeqHeader() const
         { return m_parse_code==0x00; }
 
         /**
@@ -189,7 +190,7 @@ namespace dirac
         * Returns true is parse unit is Auxiliary Data
         */
         bool IsAuxiliaryData() const
-        { return m_parse_code==0x20; }
+        { return (m_parse_code&0xF8)==0x20; }
 
         /**
         * Returns true is parse unit is Padding data
@@ -207,19 +208,19 @@ namespace dirac
         * Returns true is parse unit is Low Delay Sybtax unit
         */
         bool IsLowDelay() const
-        { return ((m_parse_code&0x80)==0x80); }
+        { return ((m_parse_code&0x88)==0x88); }
 
         /**
         * Returns true is parse unit is Core syntax unit
         */
         bool IsCoreSyntax() const
-        { return ((m_parse_code&0xB8)==0x08); }
+        { return ((m_parse_code&0x88)==0x08); }
 
         /**
         * Returns true is parse unit uses Arithmetic coding
         */
         bool IsUsingAC() const
-        { return ((m_parse_code&0x40)==0x40); }
+        { return ((m_parse_code&0x48)==0x08); }
 
     private:
 

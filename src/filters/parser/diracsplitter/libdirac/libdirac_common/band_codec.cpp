@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: band_codec.cpp,v 1.39 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: band_codec.cpp,v 1.40 2007/12/05 01:23:43 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -127,10 +127,10 @@ void BandCodec::CodeCoeffBlock( const CodeBlock& code_block , CoeffArray& in_dat
 
     for ( int ypos=ybeg; ypos<yend ;++ypos)
     {
-	m_pypos=(( ypos-m_node.Yp() )>>1)+m_pnode.Yp();
+        m_pypos=(( ypos-m_node.Yp() )>>1)+m_pnode.Yp();
         for ( int xpos=xbeg; xpos<xend ;++xpos)
         {
-	    m_pxpos=(( xpos-m_node.Xp() )>>1)+m_pnode.Xp();
+            m_pxpos=(( xpos-m_node.Xp() )>>1)+m_pnode.Xp();
 
             m_nhood_nonzero = false;
             if (ypos > m_node.Yp())
@@ -290,11 +290,11 @@ void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_
         m_last_qf_idx = qf_idx;
     }
 
-	if (qf_idx > (int)dirac_quantiser_lists.MaxQIndex())
+    if (qf_idx > (int)dirac_quantiser_lists.MaxQIndex())
     {
-		std::ostringstream errstr;
-		errstr << "Quantiser index out of range [0.."  
-		       << (int)dirac_quantiser_lists.MaxQIndex() << "]";
+        std::ostringstream errstr;
+        errstr << "Quantiser index out of range [0.."  
+               << (int)dirac_quantiser_lists.MaxQIndex() << "]";
         DIRAC_THROW_EXCEPTION(
             ERR_UNSUPPORTED_STREAM_DATA,
             errstr.str(),
@@ -312,7 +312,7 @@ void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_
     
     for ( int ypos=ybeg; ypos<yend ;++ypos)
     {
-	m_pypos=(( ypos-m_node.Yp() )>>1)+m_pnode.Yp();
+    m_pypos=(( ypos-m_node.Yp() )>>1)+m_pnode.Yp();
         CoeffType *p_out_data = out_data[m_pypos];
         CoeffType *c_out_data_1 = NULL;
         if (ypos!=m_node.Yp())
@@ -320,7 +320,7 @@ void BandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& out_
         CoeffType *c_out_data_2 = out_data[ypos];
         for ( int xpos=xbeg; xpos<xend ;++xpos)
         {
-	    m_pxpos=(( xpos-m_node.Xp() )>>1)+m_pnode.Xp();
+        m_pxpos=(( xpos-m_node.Xp() )>>1)+m_pnode.Xp();
 
             m_nhood_nonzero = false;
             /* c_out_data_1 is the line above the current
@@ -630,11 +630,11 @@ void LFBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArray& ou
         m_last_qf_idx = qf_idx;
     }
 
-	if (qf_idx > (int)dirac_quantiser_lists.MaxQIndex())
+    if (qf_idx > (int)dirac_quantiser_lists.MaxQIndex())
     {
-		std::ostringstream errstr;
-		errstr << "Quantiser index out of range [0.."  
-		       << (int)dirac_quantiser_lists.MaxQIndex() << "]";
+        std::ostringstream errstr;
+        errstr << "Quantiser index out of range [0.."  
+               << (int)dirac_quantiser_lists.MaxQIndex() << "]";
         DIRAC_THROW_EXCEPTION(
             ERR_UNSUPPORTED_STREAM_DATA,
             errstr.str(),
@@ -807,15 +807,19 @@ void IntraDCBandCodec::DecodeCoeffBlock( const CodeBlock& code_block , CoeffArra
 
 CoeffType IntraDCBandCodec::GetPrediction( const CoeffArray& data , const int xpos , const int ypos ) const
 {
+    /* NB, 4.5.3 integer division
+     * numbers are rounded down towards -ve infinity, differing from
+     * C's convention that rounds towards 0
+    */
     if (ypos!=0)
     {
         if (xpos!=0)
         {
-            int sum = data[ypos][xpos-1] + data[ypos-1][xpos-1] + data[ypos-1][xpos];
-            if (sum>0)
-                return (sum+1)/3;
+            int sum = data[ypos][xpos-1] + data[ypos-1][xpos-1] + data[ypos-1][xpos] + 3/2;
+            if (sum<0)
+                return (sum-2)/3;
             else
-                return -((-sum)+1)/3;
+                return sum/3;
         }
         else
             return data[ypos - 1][0];

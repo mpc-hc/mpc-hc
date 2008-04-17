@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_types.h,v 1.6 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_types.h,v 1.9 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -70,7 +70,7 @@ typedef struct
 } dirac_rational_t;
 
 typedef dirac_rational_t dirac_frame_rate_t;
-typedef dirac_rational_t dirac_asr_t;
+typedef dirac_rational_t dirac_pix_asr_t;
 
 /*! Structure that holds the parase parameters */
 typedef struct
@@ -130,14 +130,14 @@ typedef struct
     unsigned int chroma_width;
     /*! number of lines of chroma per frame */
     unsigned int chroma_height;
-    /*! interlace flag: 0 - progressive; 1 - interlaced */
-    int interlace;
-    /*! top field comes first : 0 - false; 1 - true */
+    /*! source sampling field: 0 - progressive; 1 - interlaced */
+    unsigned int source_sampling;
+    /*! top field comes first : 0 - false; 1 - true. Set by Dirac library. */
     int topfieldfirst;
     /*! frame rate */
     dirac_frame_rate_t frame_rate;
     /*! pixel aspect ratio */
-    dirac_asr_t pix_asr;
+    dirac_pix_asr_t pix_asr;
     /* clean area*/
     dirac_clean_area_t clean_area;
     /* signal range*/

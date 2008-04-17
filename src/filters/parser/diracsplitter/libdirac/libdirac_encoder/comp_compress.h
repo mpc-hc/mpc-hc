@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_compress.h,v 1.14 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: comp_compress.h,v 1.16 2008/01/22 07:38:37 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -70,16 +70,14 @@ namespace dirac
         //! Compress a frame component
         /*!
             Compress a PicArray containing a frame component (Y, U, or V).
-            \param  pic_data    the component data to be compressed
-            \param  is_a_cut    cut detection flag.
-            \param  intra_ratio proportion of intra blocks that motion estimation has found
-            \param  me_data     Pointer to the motion vector data
-            \return Frame-componentin Dirac-bytestream format
+            \param  coeff_data      the component data to be compressed
+            \param  bands           Subbands list
+            \param  estimated_bits  the list of estimated number of bits in each subband
+            \return Frame-component in Dirac-bytestream format
         */
-        ComponentByteIO* Compress( PicArray & pic_data ,
-                                   const bool is_a_cut ,
-                                   const double intra_ratio=100.0 ,
-                                   MEData *me_data=0 );
+        ComponentByteIO* Compress( CoeffArray& coeff_data ,
+                                   SubbandList& bands,
+                                   const OneDArray<unsigned int>& estimated_bits);
 
     private:
         //! Copy constructor is private and body-less. This class should not be copied.
@@ -87,26 +85,10 @@ namespace dirac
 
         //! Assignment = is private and body-less. This class should not be assigned.
         CompCompressor& operator=(const CompCompressor& rhs);
-
-
-        //! Sets the value m_lambda according to frame and component type
-        void SetCompLambda( const double intra_ratio, const bool is_a_cut );
-
-
-        void SelectQuantisers( CoeffArray& coeff_data , 
-                               SubbandList& bands ,
-                               OneDArray<unsigned int>& est_counts,
-                               const CodeBlockMode cb_mode );
-
-        int SelectMultiQuants( CoeffArray& coeff_data , 
-                               SubbandList& bands , 
-                               const int band_num );
-
-        void SetupCodeBlocks( SubbandList& bands );
-
+        
+        //! Set a subband to a constant value
         void SetToVal(CoeffArray& coeff_data,const Subband& node,ValueType val);
 
-        void AddSubAverage(CoeffArray& coeff_data,int xl,int yl,AddOrSub dirn);
 
     private:
 
@@ -123,7 +105,6 @@ namespace dirac
 
         float m_lambda;
         
-        MEData* m_me_data;
     };
 
 } // namespace dirac

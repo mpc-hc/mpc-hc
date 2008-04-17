@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: wavelet_utils_mmx.cpp,v 1.11 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: wavelet_utils_mmx.cpp,v 1.11 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

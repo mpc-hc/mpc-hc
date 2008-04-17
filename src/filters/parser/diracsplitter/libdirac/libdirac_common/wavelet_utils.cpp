@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: wavelet_utils.cpp,v 1.37 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: wavelet_utils.cpp,v 1.39 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -115,10 +115,6 @@ Subband::Subband(int xpos,int ypos, int xlen, int ylen, int d)
 void Subband::SetWt( const float w )
 {
     m_wt = w;
-
-    for (int j=0; j<m_code_block_array.LengthY() ; ++j)
-        for (int i=0; i<m_code_block_array.LengthX() ; ++i)
-            m_code_block_array[j][i].SetWt( m_wt );
 }
 
 void Subband::SetNumBlocks( const int ynum , const int xnum)
@@ -304,9 +300,8 @@ void WaveletTransform::SetBandWeights (const float cpd,
                                        const FrameSort& fsort,
                                        const ChromaFormat& cformat,
                                        const CompSort csort,
-                                       const bool interlace)
+                                       const bool field_coding)
 {
-    //NB - only designed for progressive to date
 
     int xlen, ylen, xl, yl, xp, yp;
     float xfreq, yfreq;
@@ -353,7 +348,7 @@ void WaveletTransform::SetBandWeights (const float cpd,
                 xfreq /= 8.0;
                 yfreq /= 8.0;
             }
-            if(interlace)
+            if(field_coding)
                 yfreq/=2.0;
 
             temp = PerceptualWeight( xfreq/chroma_xfac , yfreq/chroma_yfac , csort );

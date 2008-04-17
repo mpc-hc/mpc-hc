@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: subband_byteio.cpp,v 1.2 2006/04/20 15:39:30 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: subband_byteio.cpp,v 1.3 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -67,7 +67,7 @@ SubbandByteIO::~SubbandByteIO()
 bool SubbandByteIO::Input()
 {
     // read length of Arith-coded data block
-    m_band_data_length = InputVarLengthUint();
+    m_band_data_length = ReadUint();
 
     // set skip flag if no data
     m_subband.SetSkip(m_band_data_length==0 ? true : false);
@@ -80,16 +80,16 @@ bool SubbandByteIO::Input()
     }
 
      // If we're not skipped, we need a quantisation index for the subband
-    m_subband.SetQIndex(InputVarLengthUint() );
+    m_subband.SetQIndex(ReadUint() );
 
-       if ( !m_subband.UsingMultiQuants() )
-       {
-           // Propogate the quantiser index to all the code blocks if we 
-           // don't have multiquants
-           for ( int j=0 ; j<m_subband.GetCodeBlocks().LengthY() ; ++j )
-               for ( int i=0 ; i<m_subband.GetCodeBlocks().LengthX() ; ++i )
-              m_subband.GetCodeBlocks()[j][i].SetQIndex( m_subband.QIndex() );
-       }
+    if ( !m_subband.UsingMultiQuants() )
+    {
+        // Propogate the quantiser index to all the code blocks if we 
+        // don't have multiquants
+        for ( int j=0 ; j<m_subband.GetCodeBlocks().LengthY() ; ++j )
+            for ( int i=0 ; i<m_subband.GetCodeBlocks().LengthX() ; ++i )
+           m_subband.GetCodeBlocks()[j][i].SetQIndex( m_subband.QIndex() );
+    }
 
     // byte align
     ByteAlignInput();
@@ -107,8 +107,10 @@ const string SubbandByteIO::GetBytes()
 {
     ByteIO byte_io;
 
+    ByteAlignOutput();
+
     // output size
-    byte_io.OutputVarLengthUint(GetSize());
+    byte_io.WriteUint(GetSize());
 
     // check for zero-length sub-band
     if(GetSize()==0)
@@ -118,7 +120,7 @@ const string SubbandByteIO::GetBytes()
     }
 
     // output quantisation
-    byte_io.OutputVarLengthUint(m_subband.QIndex());
+    byte_io.WriteUint(m_subband.QIndex());
 
     // byte align
     byte_io.ByteAlignOutput();

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: wavelet_utils.h,v 1.26 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: wavelet_utils.h,v 1.28 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -99,9 +99,6 @@ namespace dirac
         //! Returns the quantisation index associated to the code block
         int QIndex() const{ return m_qindex; }
 
-        //! Returns the weight associated to the code block
-        float Wt() const { return m_wt; }
-
         //! Returns true if the code-block is skipped, false if not
         bool Skipped() const { return m_skipped; }
 
@@ -123,10 +120,6 @@ namespace dirac
         */
         void Init( const int xstart , const int ystart , const int xend , const int yend );
 
-        //! Sets the perceptual weight (can only be done by friend class, eg Subband
-        void SetWt( const float w ){ m_wt = w; }
-
-
     private:
 
         int m_xstart;
@@ -137,7 +130,6 @@ namespace dirac
         int m_yl;
 
         int m_qindex;
-        float m_wt;
 
         bool m_skipped;
     };
@@ -362,17 +354,17 @@ namespace dirac
             (weight noise less at higher spatial frequencies) and the scaling needed for the
             wavelet transform.
 
-            \param    cpd      perctual factor - the number of cycles per degree
-            \param    fsort    the frame sort (I, L1 or L2)
-            \param    cformat  the chroma format
-            \param    csort    the component type (Y, U or V)
-            \param    interlace Interlaced coding flag
+            \param    cpd          perctual factor - the number of cycles per degree
+            \param    fsort        the frame sort (I, L1 or L2)
+            \param    cformat      the chroma format
+            \param    csort        the component type (Y, U or V)
+            \param    field_coding True if input is coded as fields
         */
         void SetBandWeights (const float cpd,
                              const FrameSort& fsort,
                              const ChromaFormat& cformat,
                              const CompSort csort,
-                             const bool interlace);
+                             const bool field_coding);
 
 
     private:

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: band_codec.h,v 1.26 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: band_codec.h,v 1.26 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

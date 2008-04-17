@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arith_codec.cpp,v 1.16 2007/09/19 11:19:33 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: arith_codec.cpp,v 1.17 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -102,9 +102,9 @@ namespace dirac{
          // Do final renormalisation and output
         while (((m_low_code+m_range-1)^m_low_code)<0x8000 )
         {
-            m_byteio->OutputBit( m_low_code & 0x8000);
+            m_byteio->WriteBit( m_low_code & 0x8000);
             for (; m_underflow > 0; m_underflow-- )
-                m_byteio->OutputBit(~m_low_code & 0x8000);
+                m_byteio->WriteBit(~m_low_code & 0x8000);
 
             m_low_code  <<= 1;
             m_low_code   &= 0xFFFF;
@@ -113,17 +113,16 @@ namespace dirac{
             
         while ( (m_low_code & 0x4000) && !((m_low_code+m_range-1) & 0x4000) )
         {
-           	m_underflow += 1;
+            m_underflow += 1;
             m_low_code  ^= 0x4000;
             m_low_code  <<= 1;
             m_low_code   &= 0xFFFF;
             m_range <<= 1;
         }
  
-    	
-        m_byteio->OutputBit(m_low_code & 0x4000);
+        m_byteio->WriteBit(m_low_code & 0x4000);
         while ( m_underflow >= 0 ) {
-            m_byteio->OutputBit(~m_low_code & 0x4000);
+            m_byteio->WriteBit(~m_low_code & 0x4000);
             m_underflow -= 1; }
 
         // byte align
@@ -143,7 +142,7 @@ namespace dirac{
         m_code = 0;
         for (int i=0; i<16; ++i)
        {
-       	    m_code <<= 1;
+            m_code <<= 1;
             m_code += InputBit();
        }
 

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: byteio.h,v 1.5 2007/03/19 16:18:59 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: byteio.h,v 1.7 2008/01/22 07:38:37 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -127,7 +127,18 @@ namespace dirac
         * Ouputs an unsigned integer in interleaved exp Golomb format
         *@param value Integer to be output
         */
-        void OutputVarLengthUint(const unsigned int& value);
+        //void OutputVarLengthUint(const unsigned int& value);
+        void WriteUint(const unsigned int& value);
+
+         /**
+         * Sets input size in bits. Read is limited by this
+         */
+         void SetBitsLeft(int left_bits) { m_bits_left = left_bits; }
+
+         /**
+         * Sets input size in bits. Read is limited by this
+         */
+         int BitsLeft(void) { return m_bits_left; }
 
     protected:
 
@@ -146,9 +157,31 @@ namespace dirac
 
 
         /**
+        * Reads boolean value
+        */
+        bool ReadBool();
+
+        /**
+        * Reads boolean value - bounded i/o
+        */
+        bool ReadBoolB();
+
+        /**
         * Reads next bit
         */
-        bool InputBit();
+        int ReadBit();
+
+        /**
+        * Reads next bit - bounded i/o
+        */
+        int ReadBitB();
+
+        /**
+        * Reads next 'count' bits
+        *@param count number of bits to be read
+        *@return unsigned interger read
+        */
+        unsigned int ReadNBits(int count);
 
         /**
         * Reads from stream
@@ -164,23 +197,44 @@ namespace dirac
         }
 
         /**
-        * Reads an integer in interleaved exp-Golomb format
+        * Flushes the bounde input
+        */
+        void FlushInputB();
+
+        /**
+        * Reads a signed integer in interleaved exp-Golomb format
         *return Signed integer read
         */
-        int InputVarLengthInt();
+        //int InputVarLengthInt();
+        int ReadSint();
+
+        /**
+        * Reads a signed integer in interleaved exp-Golomb format from bounded input
+        *return Signed integer read
+        */
+        int ReadSintB();
 
         /**
         * Reads an unsigned integer in interleaved exp Golomb format
         *@return Unsigned Integer read
         */
-        unsigned int InputVarLengthUint();
+        //unsigned int InputVarLengthUint();
+        unsigned int ReadUint();
+
+        /**
+        * Reads an unsigned integer in interleaved exp Golomb format from bounded input
+        *@return Unsigned Integer read
+        */
+        //unsigned int InputVarLengthUint();
+        unsigned int ReadUintB();
 
         /**
         * Reads a fixed length unsigned integer from the stream in big endian
         *@param byte_size Number of bytes in fixed length integer 
         *@return Unsigned Integer read 
         */
-        inline unsigned int InputFixedLengthUint(const int byte_size) { 
+        //inline unsigned int InputFixedLengthUint(const int byte_size) { 
+        inline unsigned int ReadUintLit(const int byte_size) { 
            unsigned int val=0; 
            for(int i=0; i < byte_size; ++i)
            {
@@ -211,7 +265,22 @@ namespace dirac
         * Outputs a bit
         *@param bit 1/0 Output
         */
-        void OutputBit(const bool& bit);
+        void WriteBit(const bool& bit);
+
+        /**
+        * Outputs an unsigned integer
+        *@param val Integer to be output
+        *@return number of bits written
+        */
+        int WriteNBits(unsigned int val);
+
+        /**
+        * Outputs an n bit integer
+        *@param val   Unsigned Integer to be output
+        *@param count number of bits to be written
+        */
+        void WriteNBits(unsigned int val, int count);
+
 
 
         /**
@@ -243,14 +312,16 @@ namespace dirac
         * Outputs an integer in Golomb signed integer format
         *@param val Integer to be output
         */ 
-       void OutputVarLengthInt(const int val);
+       //void OutputVarLengthInt(const int val);
+       void WriteSint(const int val);
 
        /**
        * Output unsigned int value in big endian format
        * @param value Integer to be output
        * @param length number of bytes in val to output
        */
-       inline void OutputFixedLengthUint(const unsigned int& value, const int& length)
+       //inline void OutputFixedLengthUint(const unsigned int& value, const int& length)
+       inline void WriteUintLit(const unsigned int& value, const int& length)
        {
            for(int i=length-1; i >=0 ; --i)
            {
@@ -285,6 +356,11 @@ namespace dirac
        friend class ArithCodecBase;
 
        /**
+       * VLC entropy coder can see internals for getting/setting bits
+       */
+       friend class BandVLC;
+
+       /**
        * Char used for temporary storage of op data bits
        */
        unsigned char m_current_byte;
@@ -304,7 +380,10 @@ namespace dirac
        */
        bool m_new_stream;
         
-        
+       /**
+       * num bits left to read
+       */
+       int m_bits_left;
    protected:
 
         

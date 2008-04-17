@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: codingparams_byteio.h,v 1.1 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: codingparams_byteio.h,v 1.3 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -98,9 +98,9 @@ namespace dirac
         void InputVideoDepth();
 
         /**
-        * Reads if material was coded interlaced or progressive
+        * Reads picture coding mode - 0 - frames, 1 - fields
         */
-        void InputInterlaceCoding();
+        void InputPictureCodingMode();
 
         /**
         * Outputs number of bits used to compress input signal 
@@ -108,9 +108,9 @@ namespace dirac
         void OutputVideoDepth();
 
         /**
-        * Outputs how input was coded - i.e. interlaced or progressive
+        * Outputs how input was coded - i.e. frames or fields
         */
-        void OutputInterlaceCoding();
+        void OutputPictureCodingMode();
 
         /**
         * Source paramters for intput/output

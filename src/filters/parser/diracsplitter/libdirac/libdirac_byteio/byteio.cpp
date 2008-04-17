@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: byteio.cpp,v 1.2 2006/04/20 15:39:30 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: byteio.cpp,v 1.3 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -36,6 +36,7 @@
 * or the LGPL.
 * ***** END LICENSE BLOCK ***** */
 
+#include <cmath>
 #include <libdirac_byteio/byteio.h>
 using namespace dirac;
 using namespace std;
@@ -44,7 +45,8 @@ ByteIO::ByteIO(bool new_stream):
 m_current_byte(0),
 m_current_pos(0),
 m_num_bytes(0),
-m_new_stream(true)
+m_new_stream(true),
+m_bits_left(0)
 {
     if(new_stream)
         mp_stream = new stringstream(stringstream::in | stringstream::out |
@@ -57,7 +59,8 @@ ByteIO::ByteIO(const ByteIO& stream_data):
 m_current_byte(0),
 m_current_pos(0),
 m_num_bytes(0),
-m_new_stream(false)
+m_new_stream(false),
+m_bits_left(0)
 {
      mp_stream=stream_data.mp_stream;
 }
@@ -100,7 +103,7 @@ void ByteIO::ByteAlignOutput()
         OutputCurrentByte();
 }
 
-bool ByteIO::InputBit()
+int ByteIO::ReadBit()
 {
     if(m_current_pos == CHAR_BIT)
         m_current_pos=0;
@@ -116,37 +119,106 @@ bool ByteIO::InputBit()
 #endif
 }
 
-int ByteIO::InputVarLengthInt()
+int ByteIO::ReadBitB()
+{
+    if (m_bits_left)
+    {
+        --m_bits_left;
+        return ReadBit();
+    }
+    else
+        return 1;
+}
+
+bool ByteIO::ReadBool()
+{
+    return ReadBit();
+}
+
+bool ByteIO::ReadBoolB()
+{
+    return ReadBitB();
+}
+
+unsigned int ByteIO::ReadNBits(int count)
+{
+    unsigned int val = 0;
+    for (int i = 0; i < count; ++i)
+    {
+        val <<= 1;
+        val += ReadBit();
+    }
+    return val;
+}
+
+void ByteIO::FlushInputB()
+{
+    while(m_bits_left)
+    {
+        ReadBit();
+        --m_bits_left;
+    }
+}
+
+int ByteIO::ReadSint()
 {
 
-    int val = InputVarLengthUint();
+    int val = ReadUint();
     bool bit;
 
      //get the sign
     if (val != 0)
     {
-        bit = InputBit();
+        bit = ReadBit();
         if (bit )
             val = -val;
     }
     return val;        
 }
 
-unsigned int ByteIO::InputVarLengthUint()
+int ByteIO::ReadSintB()
+{
+
+    int val = ReadUintB();
+    bool bit;
+
+     //get the sign
+    if (val != 0)
+    {
+        bit = ReadBitB();
+        if (bit )
+            val = -val;
+    }
+    return val;        
+}
+
+unsigned int ByteIO::ReadUint()
 {
     unsigned int value = 1;
-    while (!InputBit())
+    while (!ReadBit())
     {
         value <<= 1;
-        if (InputBit())
+        if (ReadBit())
             value +=1; 
     }
     --value;
     return value;
 }
 
+unsigned int ByteIO::ReadUintB()
+{
+    unsigned int value = 1;
+    while (!ReadBitB())
+    {
+        value <<= 1;
+        if (ReadBitB())
+            value +=1; 
+    }
+    --value;
+    return value;
+}
 
-void ByteIO::OutputBit(const bool& bit)
+void ByteIO::WriteBit(const bool& bit)
 {
     if(bit)
 #if 1
@@ -169,17 +241,34 @@ void ByteIO::OutputBit(const bool& bit)
         ++m_current_pos;
 }
 
-void ByteIO::OutputVarLengthInt(const int val)
+void ByteIO::WriteNBits(unsigned int val, int count)
 {
-    //output magnitude
-    OutputVarLengthUint(abs(val));
-
-    //do sign
-    if (val<0) OutputBit(1);
-    else if (val>0) OutputBit(0);
+    do
+    {
+        WriteBit(val & ( 1 << (count-1)));
+        count--;
+    }
+    while(count > 0);
 }
 
-void ByteIO::OutputVarLengthUint(const unsigned int& value)
+int ByteIO::WriteNBits(unsigned int val)
+{
+    int nbits = static_cast<int>(log(static_cast<double>(val))/log(2.0)) + 1;
+    WriteNBits(val, nbits);
+    return nbits;
+}
+
+void ByteIO::WriteSint(const int val)
+{
+    //output magnitude
+    WriteUint(abs(val));
+
+    //do sign
+    if (val<0) WriteBit(1);
+    else if (val>0) WriteBit(0);
+}
+
+void ByteIO::WriteUint(const unsigned int& value)
 {
     unsigned int val = value+1;
 
@@ -191,10 +280,10 @@ void ByteIO::OutputVarLengthUint(const unsigned int& value)
 
     for (int i=num_follow_zeroes-1; i>=0; --i)
     {
-        OutputBit(BIT_ZERO);
-        OutputBit(val&(1<<i));
+        WriteBit(BIT_ZERO);
+        WriteBit(val&(1<<i));
     }
-    OutputBit(BIT_ONE);
+    WriteBit(BIT_ONE);
 }
 
 void ByteIO::RemoveRedundantBytes(const int size)

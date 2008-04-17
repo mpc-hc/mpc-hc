@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: downconvert_mmx.cpp,v 1.2 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: downconvert_mmx.cpp,v 1.2 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

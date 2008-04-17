@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common.cpp,v 1.54 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: common.cpp,v 1.64 2008/01/26 11:43:14 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -51,25 +51,6 @@
 using namespace dirac;
 
 //const dirac::QuantiserLists dirac::dirac_quantiser_lists;
-
-//PicArray functions
-PicArray::PicArray(int height, int width, CompSort cs):
-    TwoDArray<ValueType>(height , width),
-    m_csort(cs)
-{
-         //Nothing
-}
-
-const CompSort& PicArray::CSort() const
-{
-    return m_csort;
-}
-
-void PicArray::SetCSort(const CompSort cs)
-{
-    m_csort=cs;
-}
-
 
 
 //EntropyCorrector functions
@@ -447,71 +428,6 @@ void CodecParams::SetCodeBlocks (unsigned int level,
     m_cb[level].SetVerticalCodeBlocks(vblocks);
 }
 
-void CodecParams::SetDefaultCodeBlocks ( const FrameType &ftype)
-{
-    // No subband splitting if  spatial partitioning if false
-    // Since this function is common to encoder and decoder we allow the
-    // setting of code blocks without checking if DefaultSpatialPartition is
-    // true.
-    if (SpatialPartition() == false)
-        return;
-
-    SetCodeBlocks(0, 1, 1);
-    if (m_wlt_depth == 0)
-        return;
-
-    switch (GetVideoFormat())
-    {
-    case VIDEO_FORMAT_QSIF:
-    case VIDEO_FORMAT_QCIF:
-    case VIDEO_FORMAT_CUSTOM:
-    case VIDEO_FORMAT_SIF:
-    case VIDEO_FORMAT_CIF:
-    case VIDEO_FORMAT_4CIF:
-    case VIDEO_FORMAT_4SIF:
-    case VIDEO_FORMAT_SD_525_DIGITAL:
-    case VIDEO_FORMAT_SD_625_DIGITAL:
-    case VIDEO_FORMAT_HD_720P60:
-    case VIDEO_FORMAT_HD_720P50:
-    case VIDEO_FORMAT_HD_1080I60:
-    case VIDEO_FORMAT_HD_1080I50:
-    case VIDEO_FORMAT_HD_1080P60:
-    case VIDEO_FORMAT_HD_1080P50:
-    case VIDEO_FORMAT_DIGI_CINEMA_2K:
-    case VIDEO_FORMAT_DIGI_CINEMA_4K:
-        if (ftype == INTRA_FRAME)
-        {
-            int depth = TransformDepth();
-            for (int i = 1; i <= 2; ++i)
-            {
-                SetCodeBlocks(i, 1, 1);
-            }
-            for (int i = 3; i <=depth; ++i)
-            {
-                SetCodeBlocks(i, 4, 3);
-            }
-        }
-        else
-        {
-            int level = TransformDepth();
-            SetCodeBlocks(1, 1, 1);
-            SetCodeBlocks(2, 8, 6);
-            for (int i = 3; i <=level; ++i)
-            {
-                SetCodeBlocks(i, 12, 8);
-            }
-        }
-        break;
-
-    default:
-        DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_VIDEO_FORMAT,
-            "Unsupported video format",
-            SEVERITY_FRAME_ERROR);
-        break;
-    }
-}
-
 const CodeBlocks &CodecParams::GetCodeBlocks (unsigned int level) const
 {
     if (level > m_wlt_depth)
@@ -606,6 +522,73 @@ void EncoderParams::SetInterTransformFilter(unsigned int wf_idx)
     SetInterTransformFilter(TransformFilter(wf_idx));
 }
 
+void EncoderParams::SetUsualCodeBlocks ( const FrameType &ftype)
+{
+    // No subband splitting if  spatial partitioning if false
+    // Since this function is common to encoder and decoder we allow the
+    // setting of code blocks without checking if DefaultSpatialPartition is
+    // true.
+    if (SpatialPartition() == false)
+        return;
+
+    SetCodeBlocks(0, 1, 1);
+    if (TransformDepth() == 0)
+        return;
+
+    switch (GetVideoFormat())
+    {
+    case VIDEO_FORMAT_QSIF525:
+    case VIDEO_FORMAT_QCIF:
+    case VIDEO_FORMAT_CUSTOM:
+    case VIDEO_FORMAT_SIF525:
+    case VIDEO_FORMAT_CIF:
+    case VIDEO_FORMAT_4CIF:
+    case VIDEO_FORMAT_4SIF525:
+    case VIDEO_FORMAT_SD_480I60:
+    case VIDEO_FORMAT_SD_576I50:
+    case VIDEO_FORMAT_HD_720P60:
+    case VIDEO_FORMAT_HD_720P50:
+    case VIDEO_FORMAT_HD_1080I60:
+    case VIDEO_FORMAT_HD_1080I50:
+    case VIDEO_FORMAT_HD_1080P60:
+    case VIDEO_FORMAT_HD_1080P50:
+    case VIDEO_FORMAT_DIGI_CINEMA_2K24:
+    case VIDEO_FORMAT_DIGI_CINEMA_4K24:
+        if (ftype == INTRA_FRAME)
+        {
+            int depth = TransformDepth();
+            for (int i = 1; i <= 2; ++i)
+            {
+                SetCodeBlocks(i, 1, 1);
+            }
+            for (int i = 3; i <=depth; ++i)
+            {
+                SetCodeBlocks(i, 4, 3);
+            }
+        }
+        else
+        {
+            int level = TransformDepth();
+            SetCodeBlocks(1, 1, 1);
+            SetCodeBlocks(2, 8, 6);
+            for (int i = 3; i <=level; ++i)
+            {
+                SetCodeBlocks(i, 12, 8);
+            }
+        }
+        break;
+
+    default:
+        DIRAC_THROW_EXCEPTION(
+            ERR_INVALID_VIDEO_FORMAT,
+            "Unsupported video format",
+            SEVERITY_FRAME_ERROR);
+        break;
+    }
+}
+
+
+
 int EncoderParams::GOPLength() const
 {
     if (m_num_L1>0)
@@ -626,8 +609,8 @@ DecoderParams::DecoderParams(const VideoFormat& video_format,
 // ParseParams functions
 // constructor
 ParseParams::ParseParams():
-    m_major_ver(0),
-    m_minor_ver(109),
+    m_major_ver(2),
+    m_minor_ver(1),
     m_profile(0),
     m_level(0)
 {}
@@ -709,6 +692,14 @@ void SourceParams::SetFrameRate (FrameRateType fr)
         m_framerate.m_num = 60;
         m_framerate.m_denom = 1;
         break;
+    case FRAMERATE_14p98_FPS:
+        m_framerate.m_num = 15000;
+        m_framerate.m_denom = 1001;
+        break;
+    case FRAMERATE_12p5_FPS:
+        m_framerate.m_num = 25;
+        m_framerate.m_denom = 2;
+        break;
     default:
         m_fr_idx = FRAMERATE_CUSTOM;
         m_framerate.m_num = m_framerate.m_denom = 0;
@@ -716,34 +707,38 @@ void SourceParams::SetFrameRate (FrameRateType fr)
     }
 }
 
-void SourceParams::SetAspectRatio (AspectRatioType aspect_ratio)
+void SourceParams::SetPixelAspectRatio (PixelAspectRatioType pix_asr_idx)
 {
-    m_asr_idx = aspect_ratio;
+    m_pix_asr_idx = pix_asr_idx;
 
-    switch (aspect_ratio)
+    switch (pix_asr_idx)
     {
-    case ASPECT_RATIO_1_1:
-        m_aspect_ratio.m_num = m_aspect_ratio.m_denom = 1;
+    case PIXEL_ASPECT_RATIO_1_1:
+        m_pixel_aspect_ratio.m_num = m_pixel_aspect_ratio.m_denom = 1;
         break;
-    case ASPECT_RATIO_10_11:
-        m_aspect_ratio.m_num = 10;
-        m_aspect_ratio.m_denom = 11;
+    case PIXEL_ASPECT_RATIO_10_11:
+        m_pixel_aspect_ratio.m_num = 10;
+        m_pixel_aspect_ratio.m_denom = 11;
         break;
-    case ASPECT_RATIO_12_11:
-        m_aspect_ratio.m_num = 12;
-        m_aspect_ratio.m_denom = 11;
+    case PIXEL_ASPECT_RATIO_12_11:
+        m_pixel_aspect_ratio.m_num = 12;
+        m_pixel_aspect_ratio.m_denom = 11;
         break;
-    case ASPECT_RATIO_40_33:
-        m_aspect_ratio.m_num = 40;
-        m_aspect_ratio.m_denom = 33;
+    case PIXEL_ASPECT_RATIO_40_33:
+        m_pixel_aspect_ratio.m_num = 40;
+        m_pixel_aspect_ratio.m_denom = 33;
         break;
-    case ASPECT_RATIO_16_11:
-        m_aspect_ratio.m_num = 16;
-        m_aspect_ratio.m_denom = 11;
+    case PIXEL_ASPECT_RATIO_16_11:
+        m_pixel_aspect_ratio.m_num = 16;
+        m_pixel_aspect_ratio.m_denom = 11;
+        break;
+    case PIXEL_ASPECT_RATIO_4_3:
+        m_pixel_aspect_ratio.m_num = 4;
+        m_pixel_aspect_ratio.m_denom = 3;
         break;
     default:
-        m_asr_idx = ASPECT_RATIO_CUSTOM;
-        m_aspect_ratio.m_num = m_aspect_ratio.m_denom = 0;
+        m_pix_asr_idx = PIXEL_ASPECT_RATIO_CUSTOM;
+        m_pixel_aspect_ratio.m_num = m_pixel_aspect_ratio.m_denom = 0;
         break;
     }
 }
@@ -756,20 +751,26 @@ void SourceParams::SetSignalRange (SignalRangeType sr)
     case SIGNAL_RANGE_8BIT_FULL:
         m_luma_offset = 0;
         m_luma_excursion = 255;
-        m_chroma_offset = 0;
+        m_chroma_offset = 128;
         m_chroma_excursion = 255;
         break;
     case SIGNAL_RANGE_8BIT_VIDEO:
         m_luma_offset = 16;
-        m_luma_excursion = 235;
-        m_chroma_offset = 0;
+        m_luma_excursion = 219;
+        m_chroma_offset = 128;
         m_chroma_excursion = 224;
         break;
     case SIGNAL_RANGE_10BIT_VIDEO:
         m_luma_offset = 64;
         m_luma_excursion = 876;
-        m_chroma_offset = 0;
+        m_chroma_offset = 512;
         m_chroma_excursion = 896;
+        break;
+    case SIGNAL_RANGE_12BIT_VIDEO:
+        m_luma_offset = 256;
+        m_luma_excursion = 3504;
+        m_chroma_offset = 2048;
+        m_chroma_excursion = 3584;
         break;
     default:
         m_sr_idx = SIGNAL_RANGE_CUSTOM;
@@ -802,8 +803,8 @@ void SourceParams::SetColourSpecification (unsigned int cs_idx)
         m_transfer_func = TF_TV;
         break;
     case 4:
-        m_col_primary = CP_CIE_XYZ;
-        m_col_matrix = CM_REVERSIBLE;
+        m_col_primary = CP_DCINEMA;
+        m_col_matrix = CM_HDTV_COMP_INTERNET;
         m_transfer_func = TF_DCINEMA;
         break;
     default:
@@ -850,10 +851,11 @@ void SourceParams::SetTransferFunctionIndex (unsigned int tf)
 
 // Default constructor
 FrameParams::FrameParams():
-m_fsort(FrameSort::IntraRefFrameSort()),
-m_frame_type( INTRA_FRAME ),
-m_reference_type( REFERENCE_FRAME ),
-m_output(false)
+    m_fsort(FrameSort::IntraRefFrameSort()),
+    m_frame_type( INTRA_FRAME ),
+    m_reference_type( REFERENCE_FRAME ),
+    m_output(false),
+    m_using_ac(true)
 {}
 
 // Constructor
@@ -875,7 +877,8 @@ FrameParams::FrameParams(const ChromaFormat& cf,
     m_orig_xl(orig_xlen),
     m_orig_yl(orig_ylen),
     m_luma_depth(luma_depth),
-    m_chroma_depth(chroma_depth)
+    m_chroma_depth(chroma_depth),
+    m_using_ac(true)
 {
     m_orig_cxl = m_orig_cyl = 0;
     if (cf == format420)
@@ -898,7 +901,8 @@ FrameParams::FrameParams(const ChromaFormat& cf,
 // Constructor
 FrameParams::FrameParams(const ChromaFormat& cf, const FrameSort& fs):
     m_cformat(cf),
-    m_output(false)
+    m_output(false),
+    m_using_ac(true)
 {
     SetFSort( fs );
 }
@@ -917,9 +921,10 @@ FrameParams::FrameParams(const SourceParams& sparams):
     m_orig_xl(m_dwt_xl),
     m_orig_yl(m_dwt_yl),
     m_orig_cxl(m_dwt_chroma_xl),
-    m_orig_cyl(m_dwt_chroma_yl)
+    m_orig_cyl(m_dwt_chroma_yl),
+    m_using_ac(true)
 {
-    if (sparams.Interlace())
+    if (sparams.SourceSampling() == 1)
     {
         m_orig_yl = m_dwt_yl = (m_dwt_yl>>1);
         m_orig_cyl = m_dwt_chroma_yl = (m_dwt_chroma_yl>>1);
@@ -942,7 +947,8 @@ FrameParams::FrameParams(const SourceParams& sparams, const FrameSort& fs):
     m_dwt_yl(sparams.Yl()),
     m_output(false),
     m_orig_xl(sparams.Xl()),
-    m_orig_yl(sparams.Yl())
+    m_orig_yl(sparams.Yl()),
+    m_using_ac(true)
 {
     SetFSort(fs);
 
@@ -1102,22 +1108,22 @@ VideoFormat IntToVideoFormat(int video_format)
     {
     case VIDEO_FORMAT_CUSTOM:
         return VIDEO_FORMAT_CUSTOM;
-    case VIDEO_FORMAT_QSIF:
-        return VIDEO_FORMAT_QSIF;
+    case VIDEO_FORMAT_QSIF525:
+        return VIDEO_FORMAT_QSIF525;
     case VIDEO_FORMAT_QCIF:
         return VIDEO_FORMAT_QCIF;
-    case VIDEO_FORMAT_SIF:
-        return VIDEO_FORMAT_SIF;
+    case VIDEO_FORMAT_SIF525:
+        return VIDEO_FORMAT_SIF525;
     case VIDEO_FORMAT_CIF:
         return VIDEO_FORMAT_CIF;
     case VIDEO_FORMAT_4CIF:
         return VIDEO_FORMAT_4CIF;
-    case VIDEO_FORMAT_4SIF:
-        return VIDEO_FORMAT_4SIF;
-    case VIDEO_FORMAT_SD_525_DIGITAL:
-        return VIDEO_FORMAT_SD_525_DIGITAL;
-    case VIDEO_FORMAT_SD_625_DIGITAL:
-        return VIDEO_FORMAT_SD_625_DIGITAL;
+    case VIDEO_FORMAT_4SIF525:
+        return VIDEO_FORMAT_4SIF525;
+    case VIDEO_FORMAT_SD_480I60:
+        return VIDEO_FORMAT_SD_480I60;
+    case VIDEO_FORMAT_SD_576I50:
+        return VIDEO_FORMAT_SD_576I50;
     case VIDEO_FORMAT_HD_720P60:
         return VIDEO_FORMAT_HD_720P60;
     case VIDEO_FORMAT_HD_720P50:
@@ -1130,10 +1136,10 @@ VideoFormat IntToVideoFormat(int video_format)
         return VIDEO_FORMAT_HD_1080P60;
     case VIDEO_FORMAT_HD_1080P50:
         return VIDEO_FORMAT_HD_1080P50;
-    case VIDEO_FORMAT_DIGI_CINEMA_2K:
-        return VIDEO_FORMAT_DIGI_CINEMA_2K;
-    case VIDEO_FORMAT_DIGI_CINEMA_4K:
-        return VIDEO_FORMAT_DIGI_CINEMA_4K;
+    case VIDEO_FORMAT_DIGI_CINEMA_2K24:
+        return VIDEO_FORMAT_DIGI_CINEMA_2K24;
+    case VIDEO_FORMAT_DIGI_CINEMA_4K24:
+        return VIDEO_FORMAT_DIGI_CINEMA_4K24;
     default:
         return VIDEO_FORMAT_UNDEFINED;
     }
@@ -1176,29 +1182,35 @@ FrameRateType IntToFrameRateType(int frame_rate_idx)
         return FRAMERATE_59p94_FPS;
     case FRAMERATE_60_FPS:
         return FRAMERATE_60_FPS;
+    case FRAMERATE_14p98_FPS:
+        return FRAMERATE_14p98_FPS;
+    case FRAMERATE_12p5_FPS:
+        return FRAMERATE_12p5_FPS;
     default:
         return FRAMERATE_UNDEFINED;
     }
 }
 
-AspectRatioType IntToAspectRatioType(int aspect_ratio_idx)
+PixelAspectRatioType IntToPixelAspectRatioType(int pix_asr_idx)
 {
-    switch(aspect_ratio_idx)
+    switch(pix_asr_idx)
     {
-    case ASPECT_RATIO_CUSTOM:
-        return ASPECT_RATIO_CUSTOM;
-    case ASPECT_RATIO_1_1:
-        return ASPECT_RATIO_1_1;
-    case ASPECT_RATIO_10_11:
-        return ASPECT_RATIO_10_11;
-    case ASPECT_RATIO_12_11:
-        return ASPECT_RATIO_12_11;
-    case ASPECT_RATIO_40_33:
-        return ASPECT_RATIO_40_33;
-    case ASPECT_RATIO_16_11:
-        return ASPECT_RATIO_16_11;
+    case PIXEL_ASPECT_RATIO_CUSTOM:
+        return PIXEL_ASPECT_RATIO_CUSTOM;
+    case PIXEL_ASPECT_RATIO_1_1:
+        return PIXEL_ASPECT_RATIO_1_1;
+    case PIXEL_ASPECT_RATIO_10_11:
+        return PIXEL_ASPECT_RATIO_10_11;
+    case PIXEL_ASPECT_RATIO_12_11:
+        return PIXEL_ASPECT_RATIO_12_11;
+    case PIXEL_ASPECT_RATIO_40_33:
+        return PIXEL_ASPECT_RATIO_40_33;
+    case PIXEL_ASPECT_RATIO_16_11:
+        return PIXEL_ASPECT_RATIO_16_11;
+    case PIXEL_ASPECT_RATIO_4_3:
+        return PIXEL_ASPECT_RATIO_4_3;
     default:
-        return ASPECT_RATIO_UNDEFINED;
+        return PIXEL_ASPECT_RATIO_UNDEFINED;
 
     }
 }
@@ -1215,6 +1227,8 @@ SignalRangeType IntToSignalRangeType(int signal_range_idx)
         return SIGNAL_RANGE_8BIT_VIDEO;
     case SIGNAL_RANGE_10BIT_VIDEO:
         return SIGNAL_RANGE_10BIT_VIDEO;
+    case SIGNAL_RANGE_12BIT_VIDEO:
+        return SIGNAL_RANGE_12BIT_VIDEO;
     default:
         return SIGNAL_RANGE_UNDEFINED;
     }

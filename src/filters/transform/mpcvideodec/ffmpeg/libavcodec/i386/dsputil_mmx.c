@@ -28,7 +28,6 @@
 #include "mpegvideo.h"
 #include "x86_cpu.h"
 #include "mmx.h"
-#include "../skl_dct.h"
 #include "vp3dsp_mmx.h"
 #include "vp3dsp_sse2.h"
 #include "idct_xvid.h"
@@ -2089,21 +2088,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                 c->idct_add= ff_simple_idct_add_mmx;
                 c->idct    = ff_simple_idct_mmx;
                 c->idct_permutation_type= FF_SIMPLE_IDCT_PERM;
-            }else if(idct_algo==FF_IDCT_SKAL){
-                if(mm_flags & MM_SSE2){
-                    c->idct_put= Skl_IDct16_Put_SSE2;
-                    c->idct_add= Skl_IDct16_Add_SSE2;
-                    c->idct    = Skl_IDct16_SSE2;
-                }else if(mm_flags & MM_MMXEXT){
-                    c->idct_put= Skl_IDct16_Put_SSE;
-                    c->idct_add= Skl_IDct16_Add_SSE;
-                    c->idct    = Skl_IDct16_SSE;
-                }else{
-                    c->idct_put= Skl_IDct16_Put_MMX;
-                    c->idct_add= Skl_IDct16_Add_MMX;
-                    c->idct    = Skl_IDct16_MMX;
-                }
-                c->idct_permutation_type= FF_NO_IDCT_PERM;
             }else if(idct_algo==FF_IDCT_LIBMPEG2MMX){
                 if(mm_flags & MM_MMXEXT){
                     c->idct_put= ff_libmpeg2mmx2_idct_put;
@@ -2447,12 +2431,6 @@ const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
         return "Xvid (ff_idct_xvid_sse2)";
     if (c->idct_put==ff_simple_idct_put_mmx)
         return "Simple MMX (ff_simple_idct_mmx)";
-    if (c->idct_put==Skl_IDct16_Put_SSE2)
-        return "Skal's IDCT (Skl_IDct16_SSE2)";
-    if (c->idct_put==Skl_IDct16_Put_SSE)
-        return "Skal's IDCT (Skl_IDct16_SSE)";
-    if (c->idct_put==Skl_IDct16_Put_MMX)
-        return "Skal's IDCT (Skl_IDct16_MMX)";
     if (c->idct_put==ff_libmpeg2mmx2_idct_put)
         return "libmpeg2 (ff_libmpeg2mmx2_idct)";
     if (c->idct_put==ff_libmpeg2mmx_idct_put)

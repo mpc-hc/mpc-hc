@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quant_chooser.h,v 1.4 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_8_0 $
+* $Id: quant_chooser.h,v 1.6 2008/01/16 16:11:17 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -68,32 +68,27 @@ namespace dirac
         //! Assignment = is private and body-less. This class should not be assigned.
         QuantChooser& operator=(const QuantChooser& rhs);
  
-        //! Calculate errors and entropies for integral-bit quantisers on a block of coeffs
-        void IntegralErrorCalc( const CodeBlock& code_block , 
-                                const int block_idx , 
-                                const int xratio , 
-                                const int yratio );
+        //! Calculate errors and entropies for integral-bit quantisers
+        void IntegralErrorCalc( Subband& node , const int xratio , const int yratio );
 
-        //! Calculate errors and entropies for non-integral-bit quantisers on a block of coeffs
-        void NonIntegralErrorCalc( const CodeBlock& code_block , 
-                                   const int block_idx , 
-                                   const int xratio , 
-                                   const int yratio );
+        //! Calculate errors and entropies for non-integral-bit quantisers
+        void NonIntegralErrorCalc( Subband& node, const int xratio, const int yratio );
 
         //! Having got statistics, calculate the Lagrangian costs
-        void LagrangianCalc(const CodeBlock& code_block , 
-                            const int block_idx );
+        void LagrangianCalc();
 
-        //! Select the best quantisation index for a whole subband on the basis of the Lagrangian calculations
+        //! Select the best quantisation index on the basis of the Lagrangian calculations
         void SelectBestQuant();
 
-        //! Select the best quantisation index for a code block on the basis of the Lagrangian calculations
-        void SelectBestQuant( const int block_idx );
+        CoeffType BlockAbsMax( const Subband& node );
 
-        //! Find the absolute max value in the block under consideration
-        CoeffType BlockAbsMax( const CodeBlock& code_block );
+        //! Set the skip flag for a codeblock
+        void SetSkip( CodeBlock& cblock , const int qidx);
 
     private:
+        //! The perceptual weighting factor of the subband being tested
+        float m_subband_wt;
+
         //! The smallest quantisation index being tested
         int m_bottom_idx;
         //! The largest quantisation index being tested
@@ -114,17 +109,17 @@ namespace dirac
         float m_entropy_correctionfactor;
 
         //! An array used to count the number of zeroes
-        TwoDArray<int> m_count0;
-        //! An array used to count the number of ones
-        OneDArray<int> m_count1;
+        OneDArray<int> m_count0;
+        //! The number of ones (equal to the number of coefficients)
+        int m_count1;
         //! An array used to count the number of positive values
-        TwoDArray<int> m_countPOS;
+        OneDArray<int> m_countPOS;
         //! An array used to count the number of negative values
-        TwoDArray<int> m_countNEG;    
+        OneDArray<int> m_countNEG;    
         //! An array used to collate the sum of the perceptually-weighted errors
-        TwoDArray<double> m_error_total;
+        OneDArray<double> m_error_total;
         //! An array used to collate the computed costs
-        TwoDArray<CostType> m_costs;
+        OneDArray<CostType> m_costs;
 
     };
 

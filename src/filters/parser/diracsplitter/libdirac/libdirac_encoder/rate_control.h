@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: rate_control.h,v 1.5 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: rate_control.h,v 1.6 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -110,6 +110,9 @@ namespace dirac
 
         //! Return qf
         double QualFactor() {return m_qf;}
+        
+        //! Report the allocation to picture types
+        void Report();
 
 
     private:
@@ -119,7 +122,7 @@ namespace dirac
         double ProjectedSubgroupRate();
 
         //! Allocate the bits to each type of frame in a GOP
-        void Allocate();
+        void Allocate(const int fnum);
 
         //! Calculate the total number of bits in a GOP
         void CalcTotalBits(const SourceParams& sourceparams);
@@ -190,8 +193,8 @@ namespace dirac
         //! The rate of change of buffer occupancy
         double m_buffer_rate_of_change;
 
-        //! The Number of bits currently left for allocating the remaining frames in a GOP
-        long int m_current_GOP_bits;
+        //! The target number of bits for the current GOP
+        long int m_GOP_target;
 
         //! The duration of a GOP
         double m_GOP_duration;

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_encoder.h,v 1.14 2007/09/03 11:31:43 asuraparaju Exp $ $Name: Dirac_0_8_0 $
+* $Id: dirac_encoder.h,v 1.19 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -202,16 +202,16 @@ typedef struct
     unsigned int spatial_partition;
     /*! Denoising flag */
     unsigned int denoise;
-    /*! default Spatial partitioning flag */
-    unsigned int def_spatial_partition;
     /*! Multiple quantisers flag */
     unsigned int multi_quants;
     /*! motion-vector pixel precision */
     dirac_mvprecision_t mv_precision;
     /*! target bit rate in kbps */
     int trate;
-    /*! interlace flag: 0 - progressive; 1 - interlaced */
-    int interlace;
+    /*! picture coding mode: 0 - frame coding; 1 - field coding */
+    unsigned int picture_coding_mode;
+    /*! arithmetic coding flag: 0 - vlc coding; 1 - arithmetic coding */
+    int using_ac;
 } dirac_encparams_t;
 
 /*! Structure that holds the parameters that set up the encoder context */
@@ -234,9 +234,9 @@ typedef struct
     \param   preset     Preset to be used to initialise the encoder context
     \verbatim
 
-	For a full list of video formats presets supported and the default values
-	of the source and encoder parameters. refer to Annex C of the Dirac
-	ByteStream Specification.
+    For a full list of video formats presets supported and the default values
+    of the source and encoder parameters. refer to Annex C of the Dirac
+    ByteStream Specification.
 
     \endverbatim
 */
