@@ -7196,6 +7196,19 @@ void CMainFrame::SetupIViAudReg()
 // Open/Close
 //
 
+bool CMainFrame::IsRealEngineCompatible(CString strFilename)
+{
+	// Real Media engine didn't support Unicode filename (nor filenames with # characters)
+	for(int i=0; i<strFilename.GetLength(); i++)
+	{
+		WCHAR	Char = strFilename[i];
+		if (Char<32 || Char>126 || Char==35)
+			return false;
+	}
+	return true;
+}
+
+
 void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 {
 	ASSERT(pGB == NULL);
@@ -7252,6 +7265,9 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 		if(engine == RealMedia)
 		{
+			if (!IsRealEngineCompatible(p->fns.GetHead()))
+				throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
+
 			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CRealMediaGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
 
@@ -10930,3 +10946,104 @@ void CMainFrame::SendPlaylistToApi()
 		strPlaylist.AppendFormat(L"|%i", index);
 	SendAPICommand (CMD_PLAYLIST, strPlaylist);
 }
+
+
+// TODO : to be finished !
+//void CMainFrame::AutoSelectTracks()
+//{
+//	LCID		DefAudioLanguageLcid	[2] = {MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT), MAKELCID( MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT), SORT_DEFAULT)};
+//	int			DefAudioLanguageIndex	[2] = {-1, -1};
+//	LCID		DefSubtitleLanguageLcid [2] = {0, MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)};
+//	int			DefSubtitleLanguageIndex[2] = {-1, -1};
+//	LCID		Language = MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT);
+//
+//	if((m_iMediaLoadState == MLS_LOADING) || (m_iMediaLoadState == MLS_LOADED))
+//	{
+//		if(m_iPlaybackMode == PM_FILE)
+//		{
+//			CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
+//			if(!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
+//
+//			DWORD cStreams = 0;
+//			if(pSS && SUCCEEDED(pSS->Count(&cStreams)))
+//			{
+//				for(int i = 0; i < (int)cStreams; i++)
+//				{
+//					AM_MEDIA_TYPE* pmt = NULL;
+//					DWORD dwFlags = 0;
+//					LCID lcid = 0;
+//					DWORD dwGroup = 0;
+//					WCHAR* pszName = NULL;
+//					if(FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
+//						return;
+//				}
+//			}
+//
+//			POSITION pos = m_pSubStreams.GetHeadPosition();
+//			while(pos)
+//			{
+//				CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
+//				if(!pSubStream) continue;
+//
+//				for(int i = 0, j = pSubStream->GetStreamCount(); i < j; i++)
+//				{
+//					WCHAR* pName = NULL;
+//					if(SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, &Language)))
+//					{
+//						if (DefAudioLanguageLcid[0] == Language)	DefSubtitleLanguageIndex[0] = i;
+//						if (DefSubtitleLanguageLcid[1] == Language) DefSubtitleLanguageIndex[1] = i;
+//						CoTaskMemFree(pName);
+//					}
+//				}
+//			}
+//		}
+//		else if(m_iPlaybackMode == PM_DVD)
+//		{
+//			ULONG	ulStreamsAvailable, ulCurrentStream;
+//			BOOL	bIsDisabled;
+//
+//			if(SUCCEEDED(pDVDI->GetCurrentSubpicture(&ulStreamsAvailable, &ulCurrentStream, &bIsDisabled)))
+//			{
+//				for(ULONG i = 0; i < ulStreamsAvailable; i++)
+//				{
+//					DVD_SubpictureAttributes	ATR;
+//					if(SUCCEEDED(pDVDI->GetSubpictureLanguage(i, &Language)))
+//					{
+//						// Auto select forced subtitle
+//						if ((DefAudioLanguageLcid[0] == Language) && (ATR.LanguageExtension == DVD_SP_EXT_Forced))
+//							DefSubtitleLanguageIndex[0] = i;
+//
+//						if (DefSubtitleLanguageLcid[1] == Language) DefSubtitleLanguageIndex[1] = i;
+//					}
+//				}
+//			}
+//
+//			if(SUCCEEDED(pDVDI->GetCurrentAudio(&ulStreamsAvailable, &ulCurrentStream)))
+//			{
+//				for(ULONG i = 0; i < ulStreamsAvailable; i++)
+//				{
+//					if(SUCCEEDED(pDVDI->GetAudioLanguage(i, &Language)))
+//					{
+//						if (DefAudioLanguageLcid[0] == Language)	DefAudioLanguageIndex[0] = i;
+//						if (DefAudioLanguageLcid[1] == Language)	DefAudioLanguageIndex[1] = i;
+//					}
+//				}
+//			}
+//
+//			// Select best audio/subtitles tracks
+//			if (DefAudioLanguageLcid[0] != -1)
+//			{
+//				pDVDC->SelectAudioStream(DefAudioLanguageIndex[0], DVD_CMD_FLAG_Block, NULL);
+//				if (DefSubtitleLanguageIndex[0] != -1)
+//					pDVDC->SelectSubpictureStream(DefSubtitleLanguageIndex[0], DVD_CMD_FLAG_Block, NULL);
+//			}
+//			else if ((DefAudioLanguageLcid[1] != -1) && (DefSubtitleLanguageLcid[1] != -1))
+//			{
+//				pDVDC->SelectAudioStream	  (DefAudioLanguageIndex[1],    DVD_CMD_FLAG_Block, NULL);
+//				pDVDC->SelectSubpictureStream (DefSubtitleLanguageIndex[1], DVD_CMD_FLAG_Block, NULL);
+//			}
+//		}
+//
+//
+//	}
+//}

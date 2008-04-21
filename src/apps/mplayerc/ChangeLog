@@ -12,6 +12,9 @@ v1.x.x.x - Unreleased
  FIXED  : Report subtitle fixes from Guliverkli2
  FIXED  : Incorrect colors with DXVA internal decoder for H264 files with multiple PPS / SPS settings
  FIXED  : Broken FLV playback
+ FIXED  : EVR custom presenter incompatibility with Microsoft Mpeg2 & Cyberlink decoder
+ FIXED  : DXVA decoding bugs for some H264 files
+ FIXED  : Prevent crash opening Real Media files containing invalid characters
 
 v1.1.0.0 - 6.March 2008
 ======================

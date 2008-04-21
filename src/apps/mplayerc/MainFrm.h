@@ -726,6 +726,9 @@ public:
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);
+//	void		AutoSelectTracks();
+	bool		IsRealEngineCompatible(CString strFilename);
+
 
 	// MPC API functions
 	void		ProcessAPICommand(COPYDATASTRUCT* pCDS);
