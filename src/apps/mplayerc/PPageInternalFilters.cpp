@@ -38,7 +38,6 @@ static struct filter_t
 }
 s_filters[] = 
 {
-#ifndef MINIMAL_BUILTIN_FILTERS
 	{_T("AVI"), 0, SRC_AVI, IDS_SRC_AVI, NULL},
 	{_T("CDDA (Audio CD)"), 0, SRC_CDDA, IDS_SRC_CDDA, NULL},
 	{_T("CDXA (VCD/SVCD/XCD)"), 0, SRC_CDXA, IDS_SRC_CDXA, NULL},
@@ -85,9 +84,6 @@ s_filters[] =
 	{_T("H263"), 1, TRA_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("AMVV"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#else
-	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
-#endif /* MINIMAL_BUILTIN_FILTERS */
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)

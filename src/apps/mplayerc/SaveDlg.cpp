@@ -87,7 +87,6 @@ BOOL CSaveDlg::OnInitDialog()
 	CStringW fnw = m_in;
 	CComPtr<IFileSourceFilter> pReader;
 
-#ifndef MINIMAL_BUILTIN_FILTERS
 	if(!pReader && m_in.Mid(m_in.ReverseFind('.')+1).MakeLower() == _T("cda"))
 	{
 		hr = S_OK;
@@ -117,7 +116,6 @@ BOOL CSaveDlg::OnInitDialog()
 			CopyFile(m_in, pout, FALSE);
 		}
 	}
-#endif /* MINIMAL_BUILTIN_FILTERS */
 
 	if(!pReader)
 	{
