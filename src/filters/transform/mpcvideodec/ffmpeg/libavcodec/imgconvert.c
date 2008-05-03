@@ -683,6 +683,15 @@ void avpicture_init_pixfmtinfo(void)
 }
 #endif
 
+const char *avcodec_get_pix_fmt_name(int pix_fmt)
+{
+    if (pix_fmt < 0 || pix_fmt >= PIX_FMT_NB)
+        return "???";
+    else
+        return pix_fmt_info[pix_fmt].name;
+}
+
+
 void avcodec_get_chroma_sub_sample(int pix_fmt, int *h_shift, int *v_shift)
 {
     *h_shift = pix_fmt_info[pix_fmt].x_chroma_shift;
@@ -875,6 +884,12 @@ int avpicture_fill(AVPicture *picture, uint8_t *ptr,
         return -1;
 
     return ff_fill_pointer(picture, ptr, pix_fmt, height);
+}
+
+int avpicture_get_size(int pix_fmt, int width, int height)
+{
+    AVPicture dummy_pict;
+    return avpicture_fill(&dummy_pict, NULL, pix_fmt, width, height);
 }
 
 void ff_img_copy_plane(uint8_t *dst, int dst_wrap,

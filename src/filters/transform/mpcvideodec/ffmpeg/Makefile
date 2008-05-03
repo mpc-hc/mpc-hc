@@ -1,5 +1,6 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
+LAVF_DIR=libavformat
 ZLIB_DIR=../../../../zlib
 PNG_DIR =../../../../libpng
 
@@ -15,8 +16,11 @@ endif
 endif
 
 SRCS_C=$(LAVC_DIR)/8bps.c \
+      $(LAVC_DIR)/aac_ac3_parser.c \
+      $(LAVC_DIR)/aac_parser.c \
       $(LAVC_DIR)/aasc.c \
       $(LAVC_DIR)/ac3.c \
+      $(LAVC_DIR)/ac3_parser.c \
       $(LAVC_DIR)/ac3enc.c \
       $(LAVC_DIR)/ac3tab.c \
       $(LAVC_DIR)/adpcm.c \
@@ -39,6 +43,8 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/cyuv.c \
       $(LAVC_DIR)/dsputil.c \
       $(LAVC_DIR)/dv.c \
+      $(LAVC_DIR)/dvbsub_parser.c \
+      $(LAVC_DIR)/dvdsub_parser.c \
       $(LAVC_DIR)/error_resilience.c \
       $(LAVC_DIR)/eval.c \
       $(LAVC_DIR)/faandct.c \
@@ -51,6 +57,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/golomb.c \
       $(LAVC_DIR)/gsm.c \
       $(LAVC_DIR)/h261.c \
+      $(LAVC_DIR)/h261_parser.c \
       $(LAVC_DIR)/h261dec.c \
       $(LAVC_DIR)/h261enc.c \
       $(LAVC_DIR)/h263.c \
@@ -83,19 +90,26 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/mjpegdec.c \
       $(LAVC_DIR)/mjpegenc.c \
       $(LAVC_DIR)/mjpeg_parser.c \
+      $(LAVC_DIR)/mlp_parser.c \
       $(LAVC_DIR)/motion_est.c \
       $(LAVC_DIR)/mpeg12.c \
       $(LAVC_DIR)/mpeg12data.c \
       $(LAVC_DIR)/mpeg12enc.c \
+      $(LAVC_DIR)/mpeg4audio.c \
+      $(LAVC_DIR)/mpeg4video_parser.c \
+      $(LAVC_DIR)/mpegaudio_parser.c \
       $(LAVC_DIR)/mpegaudiodata.c \
       $(LAVC_DIR)/mpegaudiodec.c \
+      $(LAVC_DIR)/mpegaudiodecheader.c \
       $(LAVC_DIR)/mpegvideo.c \
       $(LAVC_DIR)/mpegvideo_enc.c \
+      $(LAVC_DIR)/mpegvideo_parser.c \
       $(LAVC_DIR)/msmpeg4.c \
       $(LAVC_DIR)/msmpeg4data.c \
       $(LAVC_DIR)/msrle.c \
       $(LAVC_DIR)/msvideo1.c \
       $(LAVC_DIR)/nellymoserdec.c \
+      $(LAVC_DIR)/opt.c \
       $(LAVC_DIR)/parser.c \
       $(LAVC_DIR)/pcm.c \
       $(LAVC_DIR)/png.c \
@@ -124,6 +138,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
       $(LAVC_DIR)/ulti.c \
       $(LAVC_DIR)/utils.c \
       $(LAVC_DIR)/vc1.c \
+      $(LAVC_DIR)/vc1_parser.c \
       $(LAVC_DIR)/vc1data.c \
       $(LAVC_DIR)/vc1dsp.c \
       $(LAVC_DIR)/vcr1.c \
@@ -147,12 +162,28 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
 	\
       $(LAVU_DIR)/crc.c \
       $(LAVU_DIR)/integer.c \
+      $(LAVU_DIR)/intfloat_readwrite.c \
       $(LAVU_DIR)/log.c \
       $(LAVU_DIR)/lzo.c \
       $(LAVU_DIR)/mathematics.c \
       $(LAVU_DIR)/mem.c \
       $(LAVU_DIR)/random.c \
       $(LAVU_DIR)/rational.c \
+      $(LAVU_DIR)/string.c \
+	\
+	  $(LAVF_DIR)/allformats.c \
+	  $(LAVF_DIR)/avio.c \
+	  $(LAVF_DIR)/aviobuf.c \
+	  $(LAVF_DIR)/avisynth.c \
+	  $(LAVF_DIR)/cutils.c \
+	  $(LAVF_DIR)/file.c \
+	  $(LAVF_DIR)/matroska.c \
+	  $(LAVF_DIR)/matroskadec.c \
+	  $(LAVF_DIR)/mpeg.c \
+	  $(LAVF_DIR)/mpegts.c \
+	  $(LAVF_DIR)/raw.c \
+	  $(LAVF_DIR)/riff.c \
+	  $(LAVF_DIR)/utils.c \
 
 ifneq ($(CC),icl)
 ifneq ($(CC),cl)

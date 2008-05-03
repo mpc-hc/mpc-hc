@@ -128,7 +128,13 @@
  CODEC_OP(CODEC_ID_RA_288            ,143,"28_8") \
  CODEC_OP(CODEC_ID_ATRAC3            ,144,"atrac 3") \
  CODEC_OP(CODEC_ID_NELLYMOSER        ,145,"nellymoser") \
- \
+ CODEC_OP(CODEC_ID_ADPCM_ADX         ,146,"adpcm adx") \
+ CODEC_OP(CODEC_ID_MLP               ,147,"MLP") \
+ CODEC_OP(CODEC_ID_EAC3              ,148,"EAC3") \
+ CODEC_OP(CODEC_ID_WAVPACK           ,149,"Wavpack") \
+ CODEC_OP(CODEC_ID_PCM_ZORK          ,150,"PCM Zork") \
+ CODEC_OP(CODEC_ID_SHORTEN           ,151,"Shorten") \
+\
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \
  CODEC_OP(CODEC_ID_YUY2          ,301,"raw") \
@@ -158,6 +164,7 @@
  CODEC_OP(CODEC_ID_PAL8          ,325,"raw") \
  CODEC_OP(CODEC_ID_LPCM          ,398,"raw") \
  CODEC_OP(CODEC_ID_PCM           ,399,"raw") \
+ CODEC_OP(CODEC_ID_RAWVIDEO      ,400,"raw") \
  \
  CODEC_OP(CODEC_ID_PCM_S32LE           ,200,"raw") \
  CODEC_OP(CODEC_ID_PCM_S32BE           ,201,"raw") \
@@ -203,8 +210,19 @@
  CODEC_OP(CODEC_ID_AUDX          ,1800,"Aud-X") \
  \
  CODEC_OP(CODEC_ID_X264          ,1900,"x264") \
- CODEC_OP(CODEC_ID_X264_LOSSLESS ,1901,"x264 lossless")
-
+ CODEC_OP(CODEC_ID_X264_LOSSLESS ,1901,"x264 lossless") \
+ \
+ /* Subtitles formats */ \
+ CODEC_OP(CODEC_ID_DVD_SUBTITLE  ,2000,"DVD Subs") \
+ CODEC_OP(CODEC_ID_DVB_SUBTITLE  ,2001,"DVB Subs") \
+ CODEC_OP(CODEC_ID_SSA           ,2002,"SSA") \
+ CODEC_OP(CODEC_ID_TEXT          ,2003,"Text") \
+ /* Other formats */ \
+ CODEC_OP(CODEC_TYPE_ATTACHMENT  ,2100,"Matroska Attachement") \
+ CODEC_OP(CODEC_ID_GSM           ,2101,"GSM") \
+ CODEC_OP(CODEC_ID_GIF           ,2102,"Gif") \
+ CODEC_OP(CODEC_ID_TIFF          ,2103,"Tiff") \
+ CODEC_OP(CODEC_ID_TTF           ,2104,"TTF")
 enum CodecID
 {
  #define CODEC_OP(codecEnum,codecId,codecName) codecEnum=codecId,

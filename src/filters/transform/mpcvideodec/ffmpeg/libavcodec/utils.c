@@ -715,6 +715,175 @@ AVCodec *avcodec_find_decoder_by_name(const char *name)
     return NULL;
 }
 
+void avcodec_string(char *buf, int buf_size, AVCodecContext *enc, int encode)
+{
+    const char *codec_name;
+    AVCodec *p;
+    char buf1[32];
+    char channels_str[100];
+    int bitrate;
+    AVRational display_aspect_ratio;
+
+    if (encode)
+        p = avcodec_find_encoder(enc->codec_id);
+    else
+        p = avcodec_find_decoder(enc->codec_id);
+
+    if (p) {
+        codec_name = p->name;
+        if (!encode && enc->codec_id == CODEC_ID_MP3) {
+            if (enc->sub_id == 2)
+                codec_name = "mp2";
+            else if (enc->sub_id == 1)
+                codec_name = "mp1";
+        }
+    } else if (enc->codec_id == CODEC_ID_MPEG2TS) {
+        /* fake mpeg2 transport stream codec (currently not
+           registered) */
+        codec_name = "mpeg2ts";
+    } else if (enc->codec_name[0] != '\0') {
+        codec_name = enc->codec_name;
+    } else {
+        /* output avi tags */
+        if(   isprint(enc->codec_tag&0xFF) && isprint((enc->codec_tag>>8)&0xFF)
+           && isprint((enc->codec_tag>>16)&0xFF) && isprint((enc->codec_tag>>24)&0xFF)){
+            snprintf(buf1, sizeof(buf1), "%c%c%c%c / 0x%04X",
+                     enc->codec_tag & 0xff,
+                     (enc->codec_tag >> 8) & 0xff,
+                     (enc->codec_tag >> 16) & 0xff,
+                     (enc->codec_tag >> 24) & 0xff,
+                      enc->codec_tag);
+        } else {
+            snprintf(buf1, sizeof(buf1), "0x%04x", enc->codec_tag);
+        }
+        codec_name = buf1;
+    }
+
+    switch(enc->codec_type) {
+    case CODEC_TYPE_VIDEO:
+        snprintf(buf, buf_size,
+                 "Video: %s%s",
+                 codec_name, enc->mb_decision ? " (hq)" : "");
+        if (enc->pix_fmt != PIX_FMT_NONE) {
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", %s",
+                     avcodec_get_pix_fmt_name(enc->pix_fmt));
+        }
+        if (enc->width) {
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", %dx%d",
+                     enc->width, enc->height);
+            if (enc->sample_aspect_ratio.num) {
+                av_reduce(&display_aspect_ratio.num, &display_aspect_ratio.den,
+                          enc->width*enc->sample_aspect_ratio.num,
+                          enc->height*enc->sample_aspect_ratio.den,
+                          1024*1024);
+                snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                         " [PAR %d:%d DAR %d:%d]",
+                         enc->sample_aspect_ratio.num, enc->sample_aspect_ratio.den,
+                         display_aspect_ratio.num, display_aspect_ratio.den);
+            }
+            if(av_log_get_level() >= AV_LOG_DEBUG){
+                int g= ff_gcd(enc->time_base.num, enc->time_base.den);
+                snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", %d/%d",
+                     enc->time_base.num/g, enc->time_base.den/g);
+            }
+        }
+        if (encode) {
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", q=%d-%d", enc->qmin, enc->qmax);
+        }
+        bitrate = enc->bit_rate;
+        break;
+    case CODEC_TYPE_AUDIO:
+        snprintf(buf, buf_size,
+                 "Audio: %s",
+                 codec_name);
+        switch (enc->channels) {
+            case 1:
+                strcpy(channels_str, "mono");
+                break;
+            case 2:
+                strcpy(channels_str, "stereo");
+                break;
+            case 6:
+                strcpy(channels_str, "5:1");
+                break;
+            default:
+                snprintf(channels_str, sizeof(channels_str), "%d channels", enc->channels);
+                break;
+        }
+        if (enc->sample_rate) {
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", %d Hz, %s",
+                     enc->sample_rate,
+                     channels_str);
+        }
+
+        /* for PCM codecs, compute bitrate directly */
+        switch(enc->codec_id) {
+        case CODEC_ID_PCM_S32LE:
+        case CODEC_ID_PCM_S32BE:
+        case CODEC_ID_PCM_U32LE:
+        case CODEC_ID_PCM_U32BE:
+            bitrate = enc->sample_rate * enc->channels * 32;
+            break;
+        case CODEC_ID_PCM_S24LE:
+        case CODEC_ID_PCM_S24BE:
+        case CODEC_ID_PCM_U24LE:
+        case CODEC_ID_PCM_U24BE:
+        case CODEC_ID_PCM_S24DAUD:
+            bitrate = enc->sample_rate * enc->channels * 24;
+            break;
+        case CODEC_ID_PCM_S16LE:
+        case CODEC_ID_PCM_S16BE:
+//        case CODEC_ID_PCM_S16LE_PLANAR:
+        case CODEC_ID_PCM_U16LE:
+        case CODEC_ID_PCM_U16BE:
+            bitrate = enc->sample_rate * enc->channels * 16;
+            break;
+        case CODEC_ID_PCM_S8:
+        case CODEC_ID_PCM_U8:
+        case CODEC_ID_PCM_ALAW:
+        case CODEC_ID_PCM_MULAW:
+            bitrate = enc->sample_rate * enc->channels * 8;
+            break;
+        default:
+            bitrate = enc->bit_rate;
+            break;
+        }
+        break;
+    case CODEC_TYPE_DATA:
+        snprintf(buf, buf_size, "Data: %s", codec_name);
+        bitrate = enc->bit_rate;
+        break;
+    case CODEC_TYPE_SUBTITLE:
+        snprintf(buf, buf_size, "Subtitle: %s", codec_name);
+        bitrate = enc->bit_rate;
+        break;
+    case CODEC_TYPE_ATTACHMENT:
+        snprintf(buf, buf_size, "Attachment: %s", codec_name);
+        bitrate = enc->bit_rate;
+        break;
+    default:
+        snprintf(buf, buf_size, "Invalid Codec type %d", enc->codec_type);
+        return;
+    }
+    if (encode) {
+        if (enc->flags & CODEC_FLAG_PASS1)
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", pass 1");
+        if (enc->flags & CODEC_FLAG_PASS2)
+            snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                     ", pass 2");
+    }
+    if (bitrate != 0) {
+        snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                 ", %d kb/s", bitrate / 1000);
+    }
+}
+
 unsigned avcodec_version( void )
 {
   return LIBAVCODEC_VERSION_INT;
@@ -813,4 +982,166 @@ unsigned int av_xiphlacing(unsigned char *s, unsigned int v)
     *s = v;
     n++;
     return n;
+}
+
+/* Wrapper to work around the lack of mkstemp() on mingw/cygin.
+ * Also, tries to create file in /tmp first, if possible.
+ * *prefix can be a character constant; *filename will be allocated internally.
+ * Returns file descriptor of opened file (or -1 on error)
+ * and opened file name in **filename. */
+int av_tempfile(char *prefix, char **filename) {
+    int fd=-1;
+#if !defined(HAVE_MKSTEMP)
+    *filename = tempnam(".", prefix);
+#else
+    size_t len = strlen(prefix) + 12; /* room for "/tmp/" and "XXXXXX\0" */
+    *filename = av_malloc(len);
+#endif
+    /* -----common section-----*/
+    if (*filename == NULL) {
+        av_log(NULL, AV_LOG_ERROR, "ff_tempfile: Cannot allocate file name\n");
+        return -1;
+    }
+#if !defined(HAVE_MKSTEMP)
+    fd = open(*filename, O_RDWR | O_BINARY | O_CREAT, 0444);
+#else
+    snprintf(*filename, len, "/tmp/%sXXXXXX", prefix);
+    fd = mkstemp(*filename);
+    if (fd < 0) {
+        snprintf(*filename, len, "./%sXXXXXX", prefix);
+        fd = mkstemp(*filename);
+    }
+#endif
+    /* -----common section-----*/
+    if (fd < 0) {
+        av_log(NULL, AV_LOG_ERROR, "ff_tempfile: Cannot open temporary file %s\n", *filename);
+        return -1;
+    }
+    return fd; /* success */
+}
+
+typedef struct {
+    const char *abbr;
+    int width, height;
+} VideoFrameSizeAbbr;
+
+typedef struct {
+    const char *abbr;
+    int rate_num, rate_den;
+} VideoFrameRateAbbr;
+
+static VideoFrameSizeAbbr video_frame_size_abbrs[] = {
+    { "ntsc",      720, 480 },
+    { "pal",       720, 576 },
+    { "qntsc",     352, 240 }, /* VCD compliant NTSC */
+    { "qpal",      352, 288 }, /* VCD compliant PAL */
+    { "sntsc",     640, 480 }, /* square pixel NTSC */
+    { "spal",      768, 576 }, /* square pixel PAL */
+    { "film",      352, 240 },
+    { "ntsc-film", 352, 240 },
+    { "sqcif",     128,  96 },
+    { "qcif",      176, 144 },
+    { "cif",       352, 288 },
+    { "4cif",      704, 576 },
+    { "qqvga",     160, 120 },
+    { "qvga",      320, 240 },
+    { "vga",       640, 480 },
+    { "svga",      800, 600 },
+    { "xga",      1024, 768 },
+    { "uxga",     1600,1200 },
+    { "qxga",     2048,1536 },
+    { "sxga",     1280,1024 },
+    { "qsxga",    2560,2048 },
+    { "hsxga",    5120,4096 },
+    { "wvga",      852, 480 },
+    { "wxga",     1366, 768 },
+    { "wsxga",    1600,1024 },
+    { "wuxga",    1920,1200 },
+    { "woxga",    2560,1600 },
+    { "wqsxga",   3200,2048 },
+    { "wquxga",   3840,2400 },
+    { "whsxga",   6400,4096 },
+    { "whuxga",   7680,4800 },
+    { "cga",       320, 200 },
+    { "ega",       640, 350 },
+    { "hd480",     852, 480 },
+    { "hd720",    1280, 720 },
+    { "hd1080",   1920,1080 },
+};
+
+static VideoFrameRateAbbr video_frame_rate_abbrs[]= {
+    { "ntsc",      30000, 1001 },
+    { "pal",          25,    1 },
+    { "qntsc",     30000, 1001 }, /* VCD compliant NTSC */
+    { "qpal",         25,    1 }, /* VCD compliant PAL */
+    { "sntsc",     30000, 1001 }, /* square pixel NTSC */
+    { "spal",         25,    1 }, /* square pixel PAL */
+    { "film",         24,    1 },
+    { "ntsc-film", 24000, 1001 },
+};
+
+int av_parse_video_frame_size(int *width_ptr, int *height_ptr, const char *str)
+{
+    int i;
+    int n = sizeof(video_frame_size_abbrs) / sizeof(VideoFrameSizeAbbr);
+    const char *p;
+    int frame_width = 0, frame_height = 0;
+
+    for(i=0;i<n;i++) {
+        if (!strcmp(video_frame_size_abbrs[i].abbr, str)) {
+            frame_width = video_frame_size_abbrs[i].width;
+            frame_height = video_frame_size_abbrs[i].height;
+            break;
+        }
+    }
+    if (i == n) {
+        p = str;
+        frame_width = strtol(p, (char **)&p, 10);
+        if (*p)
+            p++;
+        frame_height = strtol(p, (char **)&p, 10);
+    }
+    if (frame_width <= 0 || frame_height <= 0)
+        return -1;
+    *width_ptr = frame_width;
+    *height_ptr = frame_height;
+    return 0;
+}
+
+int av_parse_video_frame_rate(AVRational *frame_rate, const char *arg)
+{
+    int i;
+    int n = sizeof(video_frame_rate_abbrs) / sizeof(VideoFrameRateAbbr);
+    char* cp;
+
+    /* First, we check our abbreviation table */
+    for (i = 0; i < n; ++i)
+         if (!strcmp(video_frame_rate_abbrs[i].abbr, arg)) {
+             frame_rate->num = video_frame_rate_abbrs[i].rate_num;
+             frame_rate->den = video_frame_rate_abbrs[i].rate_den;
+             return 0;
+         }
+
+    /* Then, we try to parse it as fraction */
+    cp = strchr(arg, '/');
+    if (!cp)
+        cp = strchr(arg, ':');
+    if (cp) {
+        char* cpp;
+        frame_rate->num = strtol(arg, &cpp, 10);
+        if (cpp != arg || cpp == cp)
+            frame_rate->den = strtol(cp+1, &cpp, 10);
+        else
+           frame_rate->num = 0;
+    }
+    else {
+        /* Finally we give up and parse it as double */
+        AVRational time_base = av_d2q(strtod(arg, 0), DEFAULT_FRAME_RATE_BASE);
+        frame_rate->den = time_base.den;
+        frame_rate->num = time_base.num;
+    }
+    if (!frame_rate->num || !frame_rate->den)
+        return -1;
+    else
+        return 0;
 }

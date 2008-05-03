@@ -6,6 +6,7 @@
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
 	RootNamespace="libavcodec"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -360,11 +361,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\aac_ac3_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\aac_parser.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\aasc.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\ac3.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3_parser.c"
 				>
 			</File>
 			<File
@@ -452,6 +465,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\dvbsub_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\dvdsub_parser.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\error_resilience.c"
 				>
 			</File>
@@ -529,6 +550,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\h261.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h261_parser.c"
 				>
 			</File>
 			<File
@@ -680,6 +705,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mlp_parser.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\motion_est.c"
 				>
 			</File>
@@ -732,6 +761,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg4audio.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg4audio.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg4video_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpegaudio_parser.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpegaudiodata.c"
 				>
 			</File>
@@ -740,11 +785,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpegaudiodecheader.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpegvideo.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegvideo_enc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpegvideo_parser.c"
 				>
 			</File>
 			<File
@@ -765,6 +818,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\nellymoserdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\opt.c"
 				>
 			</File>
 			<File
@@ -980,6 +1037,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vc1_parser.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\vc1data.c"
 				>
 			</File>
@@ -1065,7 +1126,15 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\libavcodec\aac_ac3_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\ac3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3_parser.h"
 				>
 			</File>
 			<File
@@ -1245,6 +1314,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mlp_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg12.h"
 				>
 			</File>
@@ -1261,11 +1334,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg4video_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpegaudio.h"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegaudiodata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpegaudiodecheader.h"
 				>
 			</File>
 			<File
@@ -1282,6 +1363,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\msmpeg4data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\opt.h"
 				>
 			</File>
 			<File
@@ -1473,6 +1558,10 @@
 			Name="libavutil"
 			>
 			<File
+				RelativePath=".\libavutil\avstring.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avutil.h"
 				>
 			</File>
@@ -1506,6 +1595,14 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\internal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\intfloat_readwrite.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\intfloat_readwrite.h"
 				>
 			</File>
 			<File
@@ -1557,6 +1654,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\string.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\x86_cpu.h"
 				>
 			</File>
@@ -1567,6 +1668,154 @@
 			<File
 				RelativePath=".\libavcodec\i386\fft_sse.c"
 				>
+			</File>
+		</Filter>
+		<Filter
+			Name="libavformat"
+			>
+			<File
+				RelativePath=".\libavformat\allformats.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\avformat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\avio.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\avio.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\aviobuf.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\avisynth.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\cutils.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\file.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\matroska.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\matroska.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\matroskadec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\mpeg.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\mpeg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\mpegts.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\mpegts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\raw.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavformat\raw.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\riff.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\riff.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\utils.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\utilsformat.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\utilsformat.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\utilsformat.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\utilsformat.obj"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<File

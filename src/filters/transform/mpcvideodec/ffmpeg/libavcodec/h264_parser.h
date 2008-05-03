@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -26,8 +25,8 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifndef H264_PARSER_H
-#define H264_PARSER_H
+#ifndef FFMPEG_H264_PARSER_H
+#define FFMPEG_H264_PARSER_H
 
 #include "h264.h"
 
@@ -37,4 +36,4 @@
  */
 int ff_h264_find_frame_end(H264Context *h, const uint8_t *buf, int buf_size);
 
-#endif /* H264_PARSER_H */
+#endif /* FFMPEG_H264_PARSER_H */

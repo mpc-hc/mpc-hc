@@ -25,6 +25,11 @@
 
 #define CONFIG_DECODERS 1
 
+// == LibAVFormat
+#define CONFIG_DEMUXERS 1
+#define CONFIG_AC3_DEMUXER	1
+// ==
+
 #ifndef __GNUC__
   #define EMULATE_FAST_INT
 #endif
