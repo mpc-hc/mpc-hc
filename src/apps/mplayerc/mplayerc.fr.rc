@@ -1614,6 +1614,7 @@ BEGIN
             MENUITEM "&Hungarian",                  ID_LANGUAGE_HUNGARIAN
 			MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
             MENUITEM "&Polish",                     ID_LANGUAGE_POLISH
+			MENUITEM "&Ukrainian",                  ID_LANGUAGE_UKRAINIAN
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"

@@ -793,6 +793,7 @@
 #define ID_LANGUAGE_HUNGARIAN           32794
 #define ID_LANGUAGE_KOREAN              32795
 #define ID_LANGUAGE_POLISH              32796
+#define ID_LANGUAGE_UKRAINIAN           32797
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_SHADEREDITORDLG_0           32831

@@ -192,7 +192,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),		_T("wma"),	_T("wma"), true));
 		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),		_T("avi"),	_T("avi")));
 		ADDFMT((ResStr(IDS_AG_AUDIO_FILE),		_T("wav"),	_T("wav"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss evo m2ts")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_5),		_T("mpa"),	_T("mpa mp2 m1a m2a"), true));
 		ADDFMT((ResStr(IDS_AG_DVD_FILE),		_T("dvdf"),	_T("vob ifo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_7),		_T("dvda"),	_T("ac3 dts"), true));
@@ -206,7 +206,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("CD Audio Track"),			_T("cda"),	_T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
 		ADDFMT((ResStr(IDS_AG_FLIC_FILE),		_T("flic"),	_T("fli flc flic")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),	_T("d2v"),	_T("d2v")));
-		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),		_T("mp4"),	_T("mp4 m4v m4b hdmov 3gp 3gpp")));
+		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),		_T("mp4"),	_T("mp4 m4v m4a m4b hdmov 3gp 3gpp")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),	_T("aac"),	_T("m4a aac"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_17),	_T("mkv"),	_T("mkv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_18),	_T("mka"),	_T("mka"), true));
