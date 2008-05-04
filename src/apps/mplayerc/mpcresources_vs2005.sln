@@ -23,6 +23,8 @@ Global
 		Debug Unicode Spanish|x64 = Debug Unicode Spanish|x64
 		Debug Unicode Turkish|Win32 = Debug Unicode Turkish|Win32
 		Debug Unicode Turkish|x64 = Debug Unicode Turkish|x64
+		Debug Unicode Ukrainian|Win32 = Debug Unicode Ukrainian|Win32
+		Debug Unicode Ukrainian|x64 = Debug Unicode Ukrainian|x64
 		Release Unicode Czech|Win32 = Release Unicode Czech|Win32
 		Release Unicode Czech|x64 = Release Unicode Czech|x64
 		Release Unicode French|Win32 = Release Unicode French|Win32
@@ -41,6 +43,8 @@ Global
 		Release Unicode Spanish|x64 = Release Unicode Spanish|x64
 		Release Unicode Turkish|Win32 = Release Unicode Turkish|Win32
 		Release Unicode Turkish|x64 = Release Unicode Turkish|x64
+		Release Unicode Ukrainian|Win32 = Release Unicode Ukrainian|Win32
+		Release Unicode Ukrainian|x64 = Release Unicode Ukrainian|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Czech|Win32.ActiveCfg = Debug Unicode Czech|Win32
@@ -79,6 +83,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Turkish|Win32.Build.0 = Debug Unicode Turkish|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Turkish|x64.ActiveCfg = Debug Unicode Turkish|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Turkish|x64.Build.0 = Debug Unicode Turkish|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Ukrainian|Win32.ActiveCfg = Debug Unicode Ukrainian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Ukrainian|Win32.Build.0 = Debug Unicode Ukrainian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Ukrainian|x64.ActiveCfg = Debug Unicode Ukrainian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Ukrainian|x64.Build.0 = Debug Unicode Ukrainian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|Win32.ActiveCfg = Release Unicode Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|Win32.Build.0 = Release Unicode Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|x64.ActiveCfg = Release Unicode Czech|x64
@@ -115,6 +123,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Turkish|Win32.Build.0 = Release Unicode Turkish|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Turkish|x64.ActiveCfg = Release Unicode Turkish|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Turkish|x64.Build.0 = Release Unicode Turkish|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Ukrainian|Win32.ActiveCfg = Release Unicode Ukrainian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Ukrainian|Win32.Build.0 = Release Unicode Ukrainian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Ukrainian|x64.ActiveCfg = Release Unicode Ukrainian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Ukrainian|x64.Build.0 = Release Unicode Ukrainian|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
