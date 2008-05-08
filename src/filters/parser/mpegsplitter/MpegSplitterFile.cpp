@@ -393,7 +393,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		}
 
 		Seek(pos);
-
 		if(type == unknown)
 		{
 			CMpegSplitterFile::avchdr h;
@@ -425,10 +424,11 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	{
 		if(s.pid)
 		{
-			if(!m_streams[audio].Find(s))
+			if(!m_streams[audio].Find(s) && !m_streams[video].Find(s))
 			{
 				__int64 pos = GetPos();
 
+				// AC3
 				if(type == unknown)
 				{
 					CMpegSplitterFile::ac3hdr h;
@@ -436,13 +436,22 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = audio;
 				}
 
+				// DTS
 				Seek(pos);
-
 				if(type == unknown)
 				{
 					CMpegSplitterFile::dtshdr h;
 					if(Read(h, len, &s.mt))
 						type = audio;
+				}
+
+				// VC1
+				Seek(pos);				
+				if(type == unknown)
+				{
+					CMpegSplitterFile::vc1hdr h;
+					if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
+						type = video;
 				}
 			}
 		}
@@ -529,6 +538,20 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = subpic;
 				}
 			}
+			//else if(b >= 0xc0 && b < 0xc8) // dolby digital +		TODO : HDDVD not finished !!
+			//{
+			//	s.ps1id = (BYTE)BitRead(8);
+			//	s.pid = (WORD)((BitRead(8) << 8) | BitRead(16)); // pid = 0x9000 | track id
+
+			//	w = (WORD)BitRead(16, true);
+
+			//	if(w == 0x0b77)
+			//	{
+			//		CMpegSplitterFile::ac3hdr h;
+			//		if(!m_streams[audio].Find(s) && Read(h, len, &s.mt))
+			//			type = audio;
+			//	}
+			//}
 		}
 	}
 	else if(pesid == 0xbe) // padding

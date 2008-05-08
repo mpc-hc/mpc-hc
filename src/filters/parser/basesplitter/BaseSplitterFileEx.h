@@ -290,6 +290,24 @@ public:
 		unsigned int width, height;
 	};
 
+	struct vc1hdr
+	{
+		BYTE		profile;
+		BYTE		level;
+		BYTE		chromaformat;
+		BYTE		frmrtq_postproc;
+		BYTE		bitrtq_postproc;
+		BYTE		postprocflag;
+		BYTE		broadcast;
+		BYTE		interlace;
+		BYTE		tfcntrflag;
+		BYTE		finterpflag;
+		BYTE		psf;
+		UINT		ArX;
+		UINT		ArY;
+		unsigned int width, height;
+	};
+
 #pragma pack(pop)
 
 	bool Read(pshdr& h);
@@ -310,4 +328,5 @@ public:
 	bool Read(trsechdr& h);
 	bool Read(pvahdr& h, bool fSync = true);
 	bool Read(avchdr& h, int len, CMediaType* pmt = NULL);
+	bool Read(vc1hdr& h, int len, CMediaType* pmt = NULL);
 };

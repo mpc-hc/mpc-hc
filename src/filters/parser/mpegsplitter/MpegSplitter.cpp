@@ -191,6 +191,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				p->rtStop = p->rtStart+1;
 				p->SetCount(h.bytes - (m_pFile->GetPos() - pos));
 				m_pFile->ByteRead(p->GetData(), h.bytes - (m_pFile->GetPos() - pos));
+
 				hr = DeliverPacket(p);
 			}
 		}
@@ -562,9 +563,10 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 		p->rtStart += m_rtOffset;
 		p->rtStop += m_rtOffset;
-TRACE(_T("%I64d, %I64d (%I64d)\n"), p->rtStart, m_rtPrev, m_rtOffset);
+//TRACE(_T("%I64d, %I64d (%I64d)\n"), p->rtStart, m_rtPrev, m_rtOffset);
 		m_rtPrev = p->rtStart;
 	}
+
 
 	if(m_mt.subtype == MEDIASUBTYPE_AAC) // special code for aac, the currently available decoders only like whole frame samples
 	{

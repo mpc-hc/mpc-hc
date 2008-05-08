@@ -589,6 +589,9 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 		return(false);
 
 	h.sync = (WORD)BitRead(16);
+	if(h.sync != 0x0B77)
+		return(false);
+
 	h.crc1 = (WORD)BitRead(16);
 	h.fscod = BitRead(2);
 	h.frmsizecod = BitRead(6);
@@ -848,9 +851,9 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 			{
 				__int64 pos = GetPos();
 				Seek(pos + 188);
-				if(BitRead(8, true) == 0x47) {m_tslen = 188; break;}
+				if(BitRead(8, true) == 0x47) {m_tslen = 188; break;}	// TS stream
 				Seek(pos + 192);
-				if(BitRead(8, true) == 0x47) {m_tslen = 192; break;}
+				if(BitRead(8, true) == 0x47) {m_tslen = 192; break;}	// M2TS stream
 			}
 
 			BitRead(8);
@@ -1017,6 +1020,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	__int64 spspos = 0, spslen = 0;
 	__int64 ppspos = 0, ppslen = 0;
+	DWORD	dwStartCode;
 
 	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001)
 	{
@@ -1024,9 +1028,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		BitRead(32);
 		BYTE id = BitRead(8);
-
-		if(spspos != 0 && spslen == 0) spslen = pos - spspos;
-		else if(ppspos != 0 && ppslen == 0) ppslen = pos - ppspos;
 		
 		if((id&0x9f) == 0x07 && (id&0x60) != 0)
 		{
@@ -1092,8 +1093,18 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		BitByteAlign();
 
-		while(GetPos() < endpos+4 && BitRead(32, true) != 0x00000001)
+		dwStartCode = 0xFFFFFFFF;
+		while(GetPos() < endpos+4 && (dwStartCode != 0x00000001) && (dwStartCode & 0xFFFFFF00) != 0x00000100)		    
+		{
 			BitRead(8);
+			dwStartCode = BitRead(32, true);
+		}
+
+		if(spspos != 0 && spslen == 0)
+			spslen = GetPos() - spspos;
+		else if(ppspos != 0 && ppslen == 0) 
+			ppslen = GetPos() - ppspos;
+
 	}
 
 	if(!spspos || !spslen || !ppspos || !ppslen) 
@@ -1139,3 +1150,137 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	return(true);
 }
+
+
+bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
+{
+	__int64 endpos = GetPos() + len; // - sequence header length
+	__int64 extrapos = 0, extralen = 0;
+	int		nFrameRateNum = 0, nFrameRateDen = 1;
+
+	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010F)
+	{
+		extrapos = GetPos();
+
+		BitRead(32);
+
+		h.profile	= BitRead(2);
+
+		// Check if advanced profile
+		if (h.profile != 3) return(false);
+
+		h.level = BitRead (3);
+		h.chromaformat = BitRead (2);
+
+		// (fps-2)/4 (->30)
+		h.frmrtq_postproc	= BitRead (3); //common
+		// (bitrate-32kbps)/64kbps
+		h.bitrtq_postproc	= BitRead (5); //common
+		h.postprocflag		= BitRead (1); //common
+
+		h.width				= (BitRead (12) + 1) << 1;
+		h.height			= (BitRead (12) + 1) << 1;
+
+		h.broadcast			= BitRead (1);
+		h.interlace			= BitRead (1);
+		h.tfcntrflag		= BitRead (1);
+		h.finterpflag		= BitRead (1);
+		BitRead (1); // reserved
+		h.psf				= BitRead (1);
+		if(BitRead (1))
+		{
+			int ar = 0;
+			h.ArX  = BitRead (14) + 1;
+			h.ArY  = BitRead (14) + 1;
+			if(BitRead (1))
+				ar = BitRead (4);
+			// TODO : next is not the true A/R! 
+			if(ar && ar < 14)
+			{
+//				h.ArX = ff_vc1_pixel_aspect[ar].num;
+//				h.ArY = ff_vc1_pixel_aspect[ar].den;
+			}
+			else if(ar == 15)
+			{
+				/*h.ArX =*/ BitRead (8);
+				/*h.ArY =*/ BitRead (8);
+			}
+
+			// Read framerate
+			const int	ff_vc1_fps_nr[5] = { 24, 25, 30, 50, 60 },
+						ff_vc1_fps_dr[2] = { 1000, 1001 };
+
+			if(BitRead (1))
+			{
+				if(BitRead (1)) 
+				{
+					nFrameRateNum = 32;
+					nFrameRateDen = BitRead (16) + 1;
+				} else {
+					int nr, dr;
+					nr = BitRead (8);
+					dr = BitRead (4);
+					if(nr && nr < 8 && dr && dr < 3)
+					{
+						nFrameRateNum = ff_vc1_fps_dr[dr - 1];
+						nFrameRateDen = ff_vc1_fps_nr[nr - 1] * 1000;
+					}
+				}
+			}
+
+		}
+
+		Seek(extrapos+4);
+		extralen = 0;
+		long	parse = 0;
+
+		while (GetPos() < endpos+4 && ((parse == 0x0000010E) || (parse & 0xFFFFFF00) != 0x00000100))
+		{
+			parse = (parse<<8) | BitRead(8);
+			extralen++;
+		}
+	}
+
+	if(!extrapos || !extralen) 
+		return(false);
+
+	if(!pmt) return(true);
+
+	{
+		pmt->majortype = MEDIATYPE_Video;
+		pmt->subtype = FOURCCMap('1CVW');
+		pmt->formattype = FORMAT_MPEG2_VIDEO;
+		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extralen + 1;
+		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		memset(vi, 0, len);
+		// vi->hdr.dwBitRate = ;
+		vi->hdr.AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
+		vi->hdr.dwPictAspectRatioX = h.width;
+		vi->hdr.dwPictAspectRatioY = h.height;
+		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
+		vi->hdr.bmiHeader.biWidth = h.width;
+		vi->hdr.bmiHeader.biHeight = h.height;
+		vi->hdr.bmiHeader.biCompression = '1CVW';
+		vi->dwProfile = h.profile;
+		vi->dwFlags = 4; // ?
+		vi->dwLevel = h.level;
+		vi->cbSequenceHeader = extralen+1;
+		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
+		*p++ = 0;
+		Seek(extrapos);
+		ByteRead(p, extralen);
+		pmt->SetFormat((BYTE*)vi, len);
+		delete [] vi;
+	}
+
+	return(true);
+}
+
+
+/*
+
+To see working buffer in debugger, look :
+	- m_pCache.m_p	 for the cached buffer
+	- m_pos			 for current read position
+
+*/
