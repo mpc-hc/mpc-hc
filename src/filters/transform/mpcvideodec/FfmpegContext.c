@@ -163,21 +163,28 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 		pDXVAPicParams->pic_init_qp_minus26						= cur_pps->init_qp - 26;
 		pDXVAPicParams->pic_init_qs_minus26						= cur_pps->init_qs - 26;
 
+		if (field_pic_flag)
+		{
+			pDXVAPicParams->CurrPic.AssociatedFlag  = (h->s.picture_structure == PICT_BOTTOM_FIELD);
 
-		if (field_pic_flag && pDXVAPicParams->CurrPic.AssociatedFlag)
-		{
-			pDXVAPicParams->CurrFieldOrderCnt[0] = 0;
-			pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
-		}
-		else if (field_pic_flag && !pDXVAPicParams->CurrPic.AssociatedFlag)
-		{
-			pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
-			pDXVAPicParams->CurrFieldOrderCnt[1] = 0;
+			if (pDXVAPicParams->CurrPic.AssociatedFlag)
+			{
+				// Bottom field
+				pDXVAPicParams->CurrFieldOrderCnt[0] = 0;
+				pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
+			}
+			else
+			{
+				// Top field
+				pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
+				pDXVAPicParams->CurrFieldOrderCnt[1] = 0;
+			}
 		}
 		else
 		{
-			pDXVAPicParams->CurrFieldOrderCnt[0] = h->poc_lsb + h->poc_msb;
-			pDXVAPicParams->CurrFieldOrderCnt[1] = h->poc_lsb + h->poc_msb;
+			pDXVAPicParams->CurrPic.AssociatedFlag	= 0;
+			pDXVAPicParams->CurrFieldOrderCnt[0]	= h->poc_lsb + h->poc_msb;
+			pDXVAPicParams->CurrFieldOrderCnt[1]	= h->poc_lsb + h->poc_msb;
 		}
 
 		memcpy (pDXVAScalingMatrix, cur_pps->scaling_matrix4, sizeof (DXVA_Qmatrix_H264));

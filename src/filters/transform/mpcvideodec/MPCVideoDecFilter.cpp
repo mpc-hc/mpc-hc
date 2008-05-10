@@ -992,7 +992,7 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			m_nDXVAMode  = MODE_DXVA2;
 
 		// TODO :
-		//ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
+		//CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
 		//if((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter)))
 		//	m_bReorderBFrame = false;
 	}
@@ -1139,7 +1139,15 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
+	
+//	DumpBuffer (pDataIn, nSize);
 	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
+
+	//char		strMsg[300];
+	//FILE* hFile = fopen ("d:\\receive.txt", "at");
+	//sprintf (strMsg, "Receive : %10I64d - %10I64d   Size=%d\n", (rtStart + m_rtAvrTimePerFrame/2) / m_rtAvrTimePerFrame, rtStart, nSize);
+	//fwrite (strMsg, strlen(strMsg), 1, hFile);
+	//fclose (hFile);
 
 	switch (m_nDXVAMode)
 	{

@@ -218,7 +218,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		return S_FALSE;
 
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
-	m_DXVAPicParams.CurrPic.bPicEntry			= nSurfaceIndex;
 	m_DXVAPicParams.CurrPic.Index7Bits			= nSurfaceIndex;
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
@@ -263,7 +262,7 @@ void CDXVADecoderH264::ClearRefFramesList()
 	for (i=0; i<m_DXVAPicParams.num_ref_frames; i++)
 	{
 		if (m_DXVAPicParams.RefFrameList[i].bPicEntry != 255)
-			RemoveRefFrame (m_DXVAPicParams.RefFrameList[i].bPicEntry);
+			RemoveRefFrame (m_DXVAPicParams.RefFrameList[i].Index7Bits);
 
 		m_DXVAPicParams.RefFrameList[i].AssociatedFlag	= 1;
 		m_DXVAPicParams.RefFrameList[i].bPicEntry		= 255;
@@ -292,7 +291,7 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 		if (!m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag)
 		{
 			if (m_DXVAPicParams.RefFrameList[0].bPicEntry != 255)
-				RemoveRefFrame (m_DXVAPicParams.RefFrameList[0].bPicEntry);
+				RemoveRefFrame (m_DXVAPicParams.RefFrameList[0].Index7Bits);
 
 			for (i=1; i<m_DXVAPicParams.num_ref_frames; i++)
 			{
@@ -307,9 +306,7 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 		m_DXVAPicParams.FrameNumList[m_nCurRefFrame] = nFrameNum;
 
 		// Update current frame parameters
-		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag	= 0;
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].bPicEntry		= m_DXVAPicParams.CurrPic.bPicEntry;
-		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].Index7Bits		= m_DXVAPicParams.CurrPic.Index7Bits;
 
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];
