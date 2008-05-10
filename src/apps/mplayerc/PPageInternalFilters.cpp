@@ -154,7 +154,7 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	CFont* pOldFont = NULL;
 	
-	if(((filter_t*)lpDrawItemStruct->itemData)->CreateInstance)
+	if((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->CreateInstance)
 	{
 		if(!(HFONT)m_bold)
 		{

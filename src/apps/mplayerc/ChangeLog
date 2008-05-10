@@ -1,10 +1,12 @@
 v1.x.x.x - Unreleased
 ======================
  NEW	: Subtitle delay support (this one does not modify the subtitle file)
- NEW    : Polish translation
+ NEW    : Polish, Ukrainian & Italian translations
  CHANGED: Size shrink for translation Dll
  CHANGED: New property page for "MPC - Video decoder" standalone filter to select activated codecs
  CHANGED: Option added in "MPC Video Decoder" property page to disable ffmpeg software decoding (to use other decoder instead)
+ CHANGED: Added file extensions Evo, M2ts and m4a in option / format
+ CHANGED: support for M2TS VC1 streams
  FIXED  : Sorenson video was not played when DXVA was activated on internal filter
  FIXED  : Minimum EVR buffer set to 3 (instead of 1)
  FIXED  : Better subtitle synchronization with EVR custom (delay due to buffering remove)

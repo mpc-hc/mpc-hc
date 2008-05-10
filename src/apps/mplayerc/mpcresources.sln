@@ -13,6 +13,8 @@ Global
 		Debug Unicode German|x64 = Debug Unicode German|x64
 		Debug Unicode Hungarian|Win32 = Debug Unicode Hungarian|Win32
 		Debug Unicode Hungarian|x64 = Debug Unicode Hungarian|x64
+		Debug Unicode Italian|Win32 = Debug Unicode Italian|Win32
+		Debug Unicode Italian|x64 = Debug Unicode Italian|x64
 		Debug Unicode Korean|Win32 = Debug Unicode Korean|Win32
 		Debug Unicode Korean|x64 = Debug Unicode Korean|x64
 		Debug Unicode Polish|Win32 = Debug Unicode Polish|Win32
@@ -33,6 +35,8 @@ Global
 		Release Unicode German|x64 = Release Unicode German|x64
 		Release Unicode Hungarian|Win32 = Release Unicode Hungarian|Win32
 		Release Unicode Hungarian|x64 = Release Unicode Hungarian|x64
+		Release Unicode Italian|Win32 = Release Unicode Italian|Win32
+		Release Unicode Italian|x64 = Release Unicode Italian|x64
 		Release Unicode Korean|Win32 = Release Unicode Korean|Win32
 		Release Unicode Korean|x64 = Release Unicode Korean|x64
 		Release Unicode Polish|Win32 = Release Unicode Polish|Win32
@@ -63,6 +67,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Hungarian|Win32.Build.0 = Debug Unicode Hungarian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Hungarian|x64.ActiveCfg = Debug Unicode Hungarian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Hungarian|x64.Build.0 = Debug Unicode Hungarian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Italian|Win32.ActiveCfg = Debug Unicode Italian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Italian|Win32.Build.0 = Debug Unicode Italian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Italian|x64.ActiveCfg = Debug Unicode Italian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Italian|x64.Build.0 = Debug Unicode Italian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Korean|Win32.ActiveCfg = Debug Unicode Korean|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Korean|Win32.Build.0 = Debug Unicode Korean|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Debug Unicode Korean|x64.ActiveCfg = Debug Unicode Korean|x64
@@ -103,6 +111,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Hungarian|Win32.Build.0 = Release Unicode Hungarian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Hungarian|x64.ActiveCfg = Release Unicode Hungarian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Hungarian|x64.Build.0 = Release Unicode Hungarian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Italian|Win32.ActiveCfg = Release Unicode Italian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Italian|Win32.Build.0 = Release Unicode Italian|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Italian|x64.ActiveCfg = Release Unicode Italian|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Italian|x64.Build.0 = Release Unicode Italian|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Korean|Win32.ActiveCfg = Release Unicode Korean|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Korean|Win32.Build.0 = Release Unicode Korean|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Korean|x64.ActiveCfg = Release Unicode Korean|x64
