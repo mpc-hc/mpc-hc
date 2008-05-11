@@ -117,7 +117,9 @@ void CDXVADecoder::Flush()
 	}
 
 	m_nWaitingPics	= 0;
-	m_bFlushed	= true;
+	m_bFlushed		= true;
+	m_nFieldSurface = -1;
+	m_pFieldSample	= NULL;
 }
 
 HRESULT CDXVADecoder::ConfigureDXVA1()
@@ -453,18 +455,30 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 }
 
 // === Picture store functions
-void CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
+bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField)
 {
-//	TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d\n", rtStart, rtStop, nSurfaceIndex);
-	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
+	if (bIsField && (m_nFieldSurface == -1))
+	{
+		m_nFieldSurface = nSurfaceIndex;
+		m_pFieldSample	= pSample;
+		return false;
+	}
+	else
+	{
+	//	TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d\n", rtStart, rtStop, nSurfaceIndex);
+		ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
 
-	m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
-	m_pPictureStore[nSurfaceIndex].bInUse			= true;
-	m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
-	m_pPictureStore[nSurfaceIndex].pSample			= pSample;
-	m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
-	m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
-	m_nWaitingPics++;
+		m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
+		m_pPictureStore[nSurfaceIndex].bInUse			= true;
+		m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
+		m_pPictureStore[nSurfaceIndex].pSample			= pSample;
+		m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
+		m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
+		
+		m_nFieldSurface	= -1;
+		m_nWaitingPics++;
+		return true;
+	}
 }
 
 void CDXVADecoder::UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
@@ -555,6 +569,14 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
 	HRESULT		hr = E_UNEXPECTED;
+
+	if (m_nFieldSurface != -1)
+	{
+		nSurfaceIndex		= m_nFieldSurface;
+		*ppSampleToDeliver	= m_pFieldSample.Detach();
+		return S_FALSE;
+	}
+
 	switch (m_nEngine)
 	{
 	case ENGINE_DXVA1 :
@@ -587,6 +609,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 
 	return hr;
 }
+
 
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {

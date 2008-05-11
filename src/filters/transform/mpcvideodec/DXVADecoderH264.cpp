@@ -209,6 +209,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			nSliceSize	-= Nalu.len;
 		}
 	}
+	if (!bSliceFound) return S_FALSE;
+
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// Parse slice header and set DX destination surface
@@ -217,7 +219,9 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
 
+	
 	CHECK_HR (GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop));
+
 	m_DXVAPicParams.CurrPic.Index7Bits			= nSurfaceIndex;
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
@@ -239,11 +243,16 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
+	if (AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), rtStart, rtStop, m_DXVAPicParams.field_pic_flag))
+	{
+		// Reset when new picture group detected
+		if (m_DXVAPicParams.frame_num == 0) ClearRefFramesList();
+		hr = DisplayNextFrame();
+	}
 	UpdateRefFramesList (m_DXVAPicParams.frame_num, (Nalu.nal_reference_idc != 0));
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), /*m_Slice.framepoc/2,*/ rtStart, rtStop);
 
 	m_bFlushed = false;
-	return DisplayNextFrame();
+	return hr;
 }
 
 
@@ -282,9 +291,6 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 {
 	int			i;
 
-	// Reset when new picture group detected
-	if (nFrameNum == 0) ClearRefFramesList();
-
 	if (bRefFrame)
 	{
 		// Shift buffers if needed
@@ -306,7 +312,8 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 		m_DXVAPicParams.FrameNumList[m_nCurRefFrame] = nFrameNum;
 
 		// Update current frame parameters
-		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].bPicEntry		= m_DXVAPicParams.CurrPic.bPicEntry;
+		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag	= 0;
+		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].Index7Bits		= m_DXVAPicParams.CurrPic.Index7Bits;
 
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
 		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];

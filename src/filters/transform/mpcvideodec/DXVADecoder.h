@@ -68,7 +68,7 @@ public :
 	virtual void			Flush();
 	HRESULT					ConfigureDXVA1();
 	DWORD					QueryStatus();
-
+	
 	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* guidDecoder, int nPicEntryNumber);
 	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber);
 
@@ -92,7 +92,7 @@ protected :
 	HRESULT					EndFrame(int nSurfaceIndex);
 
 	// === Picture store functions
-	void					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField);
 	void					UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
@@ -101,6 +101,9 @@ protected :
 private :
 	DXVAMode						m_nMode;
 	DXVA_ENGINE						m_nEngine;
+
+	CComPtr<IMediaSample>			m_pFieldSample;
+	int								m_nFieldSurface;
 
 	// === DXVA1 variables
 	CComQIPtr<IAMVideoAccelerator>	m_pAMVideoAccelerator;
