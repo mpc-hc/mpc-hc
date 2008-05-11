@@ -338,7 +338,7 @@ DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders[]) = {
     "movdqa   %%xmm6, 4*16("dct")     \n\t" \
     "movdqa   "SREG2", 7*16("dct")    \n\t"
 
-inline void ff_idct_xvid_sse2(short *block)
+void ff_idct_xvid_sse2(short *block)
 {
     asm volatile(
     "movq     "MANGLE(m127)", %%mm0                              \n\t"

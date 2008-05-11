@@ -82,9 +82,9 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			  ((cur_sps->sar.num ==  5) && (cur_sps->sar.den == 4)) ||
 			  ((cur_sps->sar.num == 16) && (cur_sps->sar.den == 9)) )
 		{
-			// Check max num reference frame according to resolution
-			if ( ((nWidth > 720)  && (nWidth*nHeight*cur_sps->ref_frame_count > 1920*1088*4)) ||	// HD limit
-				 ((nWidth <= 720) && (nWidth*nHeight*cur_sps->ref_frame_count >  720*576*11)) )		// SD limit
+			// Check max num reference frame according to the level
+			#define MAXDPB 12288 // value for level 4.1
+			if (cur_sps->ref_frame_count > (1024*MAXDPB/((nWidth/16)*(nHeight/16)*384)))
 				return 2;	// Too much ref frames
 		}
 		else
