@@ -603,7 +603,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	if(h.acmod == 2) h.dsurmod = BitRead(2);
 	h.lfeon = BitRead(1);
 
-	if(h.bsid >= 12 || h.fscod == 3 || h.frmsizecod >= 38)
+	if(h.bsid >= 12 || h.fscod == 3 || h.frmsizecod >= 38)	// TODO : for Eac3 h.bsid = 16 !
 		return(false);
 
 	if(!pmt) return(true);
@@ -1022,6 +1022,11 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	__int64 ppspos = 0, ppslen = 0;
 	DWORD	dwStartCode;
 
+	__int64	num_units_in_tick;
+	__int64	time_scale;
+	long	fixed_frame_rate_flag;
+
+
 	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001)
 	{
 		__int64 pos = GetPos();
@@ -1085,6 +1090,73 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 			h.width = (pic_width_in_mbs_minus1 + 1) * 16;
 			h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
+
+			if (!frame_mbs_only_flag) 
+				BitRead(1);							// mb_adaptive_frame_field_flag
+			BitRead(1);								// direct_8x8_inference_flag
+			if (BitRead(1))							// frame_cropping_flag
+			{
+				UExpGolombRead();					// frame_cropping_rect_left_offset
+				UExpGolombRead();					// frame_cropping_rect_right_offset
+				UExpGolombRead();					// frame_cropping_rect_top_offset
+				UExpGolombRead();					// frame_cropping_rect_bottom_offset
+			}
+			
+			if (BitRead(1))							// vui_parameters_present_flag
+			{
+				if (BitRead(1))						// aspect_ratio_info_present_flag
+				{
+					if (255==(BYTE)BitRead(8))		// aspect_ratio_idc)
+					{
+						BitRead(16);				// sar_width
+						BitRead(16);				// sar_height
+					}
+				}
+
+				if (BitRead(1))						// overscan_info_present_flag
+				{
+					BitRead(1);						// overscan_appropriate_flag
+				}
+
+				if (BitRead(1))						// video_signal_type_present_flag
+				{
+					BitRead(3);						// video_format
+					BitRead(1);						// video_full_range_flag
+					if(BitRead(1))					// colour_description_present_flag
+					{
+						BitRead(8);					// colour_primaries
+						BitRead(8);					// transfer_characteristics
+						BitRead(8);					// matrix_coefficients
+					}
+				}
+				if(BitRead(1))						// chroma_location_info_present_flag
+				{
+					UExpGolombRead();				// chroma_sample_loc_type_top_field
+					UExpGolombRead();				// chroma_sample_loc_type_bottom_field
+				}
+				if (BitRead(1))						// timing_info_present_flag
+				{
+					num_units_in_tick		= BitRead(32);
+					time_scale				= BitRead(32);
+					fixed_frame_rate_flag	= BitRead(1);
+
+					// Trick for weird parameters (10x to Madshi)!
+					if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001))
+					{
+						if  ((time_scale % num_units_in_tick != 0) && ((time_scale*1001) % num_units_in_tick == 0))
+						{
+							time_scale			= (time_scale * 1001) / num_units_in_tick;
+							num_units_in_tick	= 1001;
+						}
+						else
+						{
+							time_scale			= (time_scale * 1000) / num_units_in_tick;
+							num_units_in_tick	= 1000;
+						}
+					}
+					time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
+				}
+			}
 		}
 		else if((id&0x9f) == 0x08 && (id&0x60) != 0)
 		{
@@ -1122,7 +1194,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
 		memset(vi, 0, len);
 		// vi->hdr.dwBitRate = ;
-		// vi->hdr.AvgTimePerFrame = ;
+		vi->hdr.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
 		vi->hdr.dwPictAspectRatioX = h.width;
 		vi->hdr.dwPictAspectRatioY = h.height;
 		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
