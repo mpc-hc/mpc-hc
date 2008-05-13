@@ -8439,7 +8439,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
             h->delta_poc[1]= get_se_golomb(&s->gb);
     }
 
-    init_poc_noframe(h);
+//    init_poc_noframe(h);	// <= Bug NCFOM : create macroblocks if uncommented!
 
     if(h->pps.redundant_pic_cnt_present){
         h->redundant_pic_count= get_ue_golomb(&s->gb);

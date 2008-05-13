@@ -992,9 +992,9 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			m_nDXVAMode  = MODE_DXVA2;
 
 		// TODO :
-		//CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
-		//if((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter)))
-		//	m_bReorderBFrame = false;
+		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
+		if((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter)))
+			m_bReorderBFrame = false;
 	}
 
 	if ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE))

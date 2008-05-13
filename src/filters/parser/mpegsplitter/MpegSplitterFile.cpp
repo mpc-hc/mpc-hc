@@ -204,6 +204,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 			rtpos = GetPos()-4;
 
 			if(b >= 0xbd && b < 0xf0)
+//			if((b >= 0xbd && b < 0xf0) || (b == 0xfd))		TODO EVO SUPPORT
 			{
 				peshdr h;
 				if(!Read(h, b) || !h.len) continue;
@@ -286,6 +287,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop)
 				if(!Read(h)) continue;
 			}
 			else if(b >= 0xbd && b < 0xf0) // pes packet
+//			else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet	TODO EVO SUPPORT
 			{
 				peshdr h;
 				if(!Read(h, b)) continue;
@@ -455,6 +457,12 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 			}
 		}
+		//else if (pesid == 0xfd)		TODO EVO SUPPORT
+		//{
+		//	CMpegSplitterFile::vc1hdr h;
+		//	if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
+		//		type = video;
+		//}
 		else
 		{
 			BYTE b = (BYTE)BitRead(8, true);
@@ -538,7 +546,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = subpic;
 				}
 			}
-			//else if(b >= 0xc0 && b < 0xc8) // dolby digital +		TODO : HDDVD not finished !!
+			//else if(b >= 0xc0 && b < 0xc8) // dolby digital +		TODO EVO SUPPORT
 			//{
 			//	s.ps1id = (BYTE)BitRead(8);
 			//	s.pid = (WORD)((BitRead(8) << 8) | BitRead(16)); // pid = 0x9000 | track id

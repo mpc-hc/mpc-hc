@@ -107,55 +107,33 @@ void CDXVADecoderH264::Init()
 
 void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
-	NALU			Nalu;
-	BYTE*			pDataSlice	= pBuffer;
-	UINT			nSliceSize	= nSize;
+	CNalu			Nalu;
 	int				nDummy;
 
+	Nalu.SetBuffer (pBuffer, nSize, m_nNALLength);
 	nSize = 0;
 
-	do
+	while (Nalu.ReadNext())
 	{
-		if (FAILED (ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength)) || (Nalu.len > nSliceSize))
+		switch (Nalu.GetType())
 		{
-			ASSERT(FALSE);
+		case NALU_TYPE_SLICE:
+		case NALU_TYPE_IDR:
+			// For AVC1, put startcode 0x000001
+			pDXVABuffer[0]=pDXVABuffer[1]=0;pDXVABuffer[2]=1;
+			
+			// Copy NALU
+			memcpy (pDXVABuffer+3, Nalu.GetDataBuffer(), Nalu.GetDataLength());
+			
+			// Add trailing bit
+//			pDXVABuffer[Nalu.GetDataLength()+3] = 0x00;		// ???????
+
+			pDXVABuffer	+= Nalu.GetDataLength() + 3;
+			nSize       += Nalu.GetDataLength() + 3;
+
 			break;
 		}
-
-		switch (Nalu.nal_unit_type)
-		{
-			case NALU_TYPE_PPS :
-			case NALU_TYPE_SPS :
-			case NALU_TYPE_SEI :
-				// Do not copy thoses units, accelerator don't like it
-				break;
-			default :				
-				if (m_nNALLength > 0)
-				{
-					// For AVC1, put startcode 0x000001
-					pDXVABuffer[0]=pDXVABuffer[1]=0;pDXVABuffer[2]=1;
-					
-					// Copy NALU
-					memcpy (pDXVABuffer+3, (BYTE*)pDataSlice+m_nNALLength, Nalu.len-m_nNALLength);
-					
-					// Add trailing bit
-					pDXVABuffer[Nalu.len+3-m_nNALLength] = 0x00;
-
-					pDXVABuffer	+= Nalu.len + 4 - m_nNALLength;
-					nSize       += Nalu.len + 4 - m_nNALLength;
-				}
-				else
-				{
-					memcpy (pDXVABuffer, (BYTE*)pDataSlice, Nalu.len);
-					pDXVABuffer	+= Nalu.len;
-					nSize       += Nalu.len;
-				}
-				break;
-		}
-
-		pDataSlice	+= Nalu.len;
-		nSliceSize	-= Nalu.len;
-	} while (nSliceSize > 0);
+	}
 
 	// Complete with zero padding (buffer size should be a multiple of 128)
 	nDummy  = 128 - (nSize %128);
@@ -173,40 +151,34 @@ void CDXVADecoderH264::Flush()
 	__super::Flush();
 }
 
-
 HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
 	HRESULT						hr			= S_FALSE;
-	BYTE*						pDataSlice	= pDataIn;
-	UINT						nSliceSize	= nSize;
-	NALU						Nalu;
+	CNalu						Nalu;
+	bool						bSliceFound = false;
+	BYTE*						pDataSlice	= NULL;
+	UINT						nSliceSize	= 0;
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
-	bool		bSliceFound = false;
 
-	while (!bSliceFound && (nSliceSize>0))
+	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
+
+	while (!bSliceFound && Nalu.ReadNext())
 	{
-		CHECK_HR(ReadNalu (&Nalu, pDataSlice, nSliceSize, m_nNALLength));
-		switch (Nalu.nal_unit_type)
+		switch (Nalu.GetType())
 		{
 		case NALU_TYPE_SLICE:
 		case NALU_TYPE_IDR:
+			pDataSlice	= Nalu.GetDataBuffer();
+			nSliceSize	= Nalu.GetDataLength();
 			bSliceFound = true;
 			break;
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
-			FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataSlice, nSliceSize);
+			FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength());			
 			break;
-		}
-
-		if (!bSliceFound)
-		{
-			if (Nalu.len > nSliceSize) 
-				return E_INVALIDARG;
-			pDataSlice	+= Nalu.len;
-			nSliceSize	-= Nalu.len;
 		}
 	}
 	if (!bSliceFound) return S_FALSE;
@@ -214,7 +186,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// Parse slice header and set DX destination surface
-	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice+ m_nNALLength, nSliceSize -  m_nNALLength));
+	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), pDataSlice, nSliceSize));
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
@@ -243,13 +215,13 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
-	if (AddToStore (nSurfaceIndex, pSampleToDeliver, (Nalu.nal_reference_idc != 0), rtStart, rtStop, m_DXVAPicParams.field_pic_flag))
+	if (AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop, m_DXVAPicParams.field_pic_flag))
 	{
 		// Reset when new picture group detected
 		if (m_DXVAPicParams.frame_num == 0) ClearRefFramesList();
 		hr = DisplayNextFrame();
 	}
-	UpdateRefFramesList (m_DXVAPicParams.frame_num, (Nalu.nal_reference_idc != 0));
+	UpdateRefFramesList (m_DXVAPicParams.frame_num, Nalu.IsRefFrame());
 
 	m_bFlushed = false;
 	return hr;
@@ -324,58 +296,72 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 }
 
 
-HRESULT CDXVADecoderH264::ReadNalu (NALU* pNalu, BYTE* pBuffer, UINT nBufferLength, UINT NbBytesForSize)
+void CNalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)
 {
-	if (m_nNALLength > 0)
-	{
-		// NALU for AVC stream (Size -> Nalu)
-		pNalu->data		= pBuffer;
+	m_pBuffer		= pBuffer;
+	m_nSize			= nSize;
+	m_nNALSize		= nNALSize;
+	m_nCurPos		= 0;
+	m_nNextRTP		= 0;
 
-		pNalu->data_len = 0;
-		for (UINT i=0; i<NbBytesForSize; i++)
+	m_nNALStartPos	= 0;
+	m_nNALDataPos	= 0;
+	m_nDataLen		= 0;
+}
+
+bool CNalu::MoveToNextStartcode()
+{
+	for (int i=m_nCurPos; i<min (m_nNextRTP, m_nSize-4); i++)
+	{
+		if ((*((DWORD*)(m_pBuffer+i)) & 0x00FFFFFF) == 0x00010000)
 		{
-			pNalu->data_len = (pNalu->data_len << 8) + *pNalu->data;
-			pNalu->data++;
+			// Find next AnnexB Nal
+			m_nCurPos = i;
+			return true;
 		}
+	}
+
+	if ((m_nNALSize != 0) && (m_nNextRTP < m_nSize))
+	{
+		m_nCurPos = m_nNextRTP;
+		return true;
+	}
+
+	m_nCurPos = m_nSize;
+	return false;
+}
+
+bool CNalu::ReadNext()
+{
+	int		nTemp;
+
+	if (m_nCurPos >= m_nSize) return false;
+
+	if ((m_nNALSize != 0) && (m_nCurPos == m_nNextRTP))
+	{
+		// RTP Nalu type
+		m_nNALStartPos	= m_nCurPos;
+		m_nNALDataPos	= m_nCurPos + m_nNALSize;
+		nTemp			= 0;
+		for (UINT i=0; i<m_nNALSize; i++)
+		{
+			nTemp = (nTemp << 8) + m_pBuffer[m_nCurPos++];
+		}
+		m_nNextRTP += nTemp + m_nNALSize;
+		MoveToNextStartcode();
 	}
 	else
 	{
-		if (nBufferLength < 4) return E_INVALIDARG;
-		// NALU for H264 streams (Startcode -> Nalu)
-		if ((pBuffer[0] == 0x00) || (pBuffer[1] == 0x00) || (pBuffer[2] == 0x01))
-		{
-			pNalu->data		= pBuffer + 3;
-			pNalu->data_len = 3;
-		}
-		else if ((pBuffer[0] == 0x00) || (pBuffer[1] == 0x00) || (pBuffer[2] == 0x00) || (pBuffer[3] == 0x01))
-		{
-			pNalu->data		= pBuffer + 4;
-			pNalu->data_len = 4;
-		}
-		else
-		{
-			ASSERT (FALSE);
-			return E_INVALIDARG;
-		}
-	
-		for (int i=pNalu->data_len; i<nBufferLength; i++)
-		{
-			if (i>=nBufferLength-3)	// Test end of buffer!
-			{
-				pNalu->data_len += 3;
-				break;
-			}
-			if ((pBuffer[i] == 0x00) && (pBuffer[i+1] == 0x00) && (pBuffer[i+2] == 0x01)) break;
-			pNalu->data_len++;
-		}
+		// AnnexB Nalu
+		m_nNALStartPos	= m_nCurPos;
+		m_nCurPos	   += 3;
+		m_nNALDataPos	= m_nCurPos;
+		MoveToNextStartcode();
 	}
 
-	pNalu->len					= pNalu->data_len + NbBytesForSize;
-	pNalu->forbidden_bit		= (*pNalu->data>>7) & 1;
-	pNalu->nal_reference_idc	= (*pNalu->data>>5) & 3;
-	pNalu->nal_unit_type		= (*pNalu->data)	  & 0x1f;
-	pNalu->data++;
-	pNalu->data_len--;
+	forbidden_bit		= (m_pBuffer[m_nNALDataPos]>>7) & 1;
+	nal_reference_idc	= (m_pBuffer[m_nNALDataPos]>>5) & 3;
+	nal_unit_type		= (NALU_TYPE) (m_pBuffer[m_nNALDataPos] & 0x1f);
 
-	return S_OK;
+	return true;
 }

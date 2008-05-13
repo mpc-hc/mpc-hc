@@ -129,6 +129,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 			if(!m_pFile->Read(h)) return S_FALSE;
 		}
 		else if(b >= 0xbd && b < 0xf0) // pes packet
+//		else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet	TODO EVO SUPPORT
 		{
 			CMpegSplitterFile::peshdr h;
 			if(!m_pFile->Read(h, b) || !h.len) return S_FALSE;
@@ -727,6 +728,63 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				HRESULT hr = __super::DeliverPacket(p);
 				if(hr != S_OK) return hr;
 			}
+		}
+
+		return S_OK;
+	}
+	else if(m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw')) // just like aac, this has to be starting nalus, more can be packed together
+	{
+		if(!m_p)
+		{
+			m_p.Attach(new Packet());
+			m_p->TrackNumber = p->TrackNumber;
+			m_p->bDiscontinuity = p->bDiscontinuity; p->bDiscontinuity = FALSE;
+			m_p->bSyncPoint = p->bSyncPoint; p->bSyncPoint = FALSE;
+			m_p->rtStart = p->rtStart; p->rtStart = Packet::INVALID_TIME;
+			m_p->rtStop = p->rtStop; p->rtStop = Packet::INVALID_TIME;
+		}
+
+		m_p->Append(*p);
+
+		BYTE* start = m_p->GetData();
+		BYTE* end = start + m_p->GetCount();
+
+		while(start <= end-4 && *(DWORD*)start != 0x0D010000) start++;
+
+		while(start <= end-4)
+		{
+			BYTE* next = start+1;
+
+			while(next <= end-4 && *(DWORD*)next != 0x0D010000) next++;
+
+			if(next >= end-4) break;
+
+			int size = next - start - 4;
+
+
+			CAutoPtr<Packet> p2(new Packet());
+			p2->TrackNumber = m_p->TrackNumber;
+			p2->bDiscontinuity = m_p->bDiscontinuity; m_p->bDiscontinuity = FALSE;
+			p2->bSyncPoint = m_p->bSyncPoint; m_p->bSyncPoint = FALSE;
+			p2->rtStart = m_p->rtStart; m_p->rtStart = Packet::INVALID_TIME;
+			p2->rtStop = m_p->rtStop; m_p->rtStop = Packet::INVALID_TIME;
+			p2->pmt = m_p->pmt; m_p->pmt = NULL;
+			p2->SetData(start, next - start);
+
+			HRESULT hr = __super::DeliverPacket(p2);
+			if(hr != S_OK) return hr;
+
+			if(p->rtStart != Packet::INVALID_TIME) {m_p->rtStart = p->rtStart; m_p->rtStop = p->rtStop; p->rtStart = Packet::INVALID_TIME;}
+			if(p->bDiscontinuity) {m_p->bDiscontinuity = p->bDiscontinuity; p->bDiscontinuity = FALSE;}
+			if(p->bSyncPoint) {m_p->bSyncPoint = p->bSyncPoint; p->bSyncPoint = FALSE;}
+			if(m_p->pmt) DeleteMediaType(m_p->pmt); m_p->pmt = p->pmt; p->pmt = NULL;
+
+			start = next;
+		}
+
+		if(start > m_p->GetData())
+		{
+			m_p->RemoveAt(0, start - m_p->GetData());
 		}
 
 		return S_OK;
