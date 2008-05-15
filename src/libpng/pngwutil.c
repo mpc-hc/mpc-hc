@@ -1,9 +1,9 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * Last changed in libpng 1.2.19 August 19, 2007
+ * Last changed in libpng 1.2.27 [April 29, 2008]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2007 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2008 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  */
@@ -380,6 +380,8 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
 #ifdef PNG_USE_LOCAL_ARRAYS
    PNG_IHDR;
 #endif
+   int ret;
+
    png_byte buf[13]; /* buffer to store the IHDR info */
 
    png_debug(1, "in png_write_IHDR\n");
@@ -494,7 +496,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    buf[12] = (png_byte)interlace_type;
 
    /* write the chunk */
-   png_write_chunk(png_ptr, (png_bytep)png_IHDR, buf, (png_size_t)13);
+   png_write_chunk(png_ptr, png_IHDR, buf, (png_size_t)13);
 
    /* initialize zlib with PNG info */
    png_ptr->zstream.zalloc = png_zalloc;
@@ -523,10 +525,19 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
       png_ptr->zlib_window_bits = 15;
    if (!(png_ptr->flags & PNG_FLAG_ZLIB_CUSTOM_METHOD))
       png_ptr->zlib_method = 8;
-   if (deflateInit2(&png_ptr->zstream, png_ptr->zlib_level,
-      png_ptr->zlib_method, png_ptr->zlib_window_bits,
-      png_ptr->zlib_mem_level, png_ptr->zlib_strategy) != Z_OK)
-       png_error(png_ptr, "zlib failed to initialize compressor");
+   ret = deflateInit2(&png_ptr->zstream, png_ptr->zlib_level,
+         png_ptr->zlib_method, png_ptr->zlib_window_bits,
+         png_ptr->zlib_mem_level, png_ptr->zlib_strategy);
+   if (ret != Z_OK)
+   {
+      if (ret == Z_VERSION_ERROR) png_error(png_ptr,
+          "zlib failed to initialize compressor -- version error");
+      if (ret == Z_STREAM_ERROR) png_error(png_ptr,
+           "zlib failed to initialize compressor -- stream error");
+      if (ret == Z_MEM_ERROR) png_error(png_ptr,
+           "zlib failed to initialize compressor -- mem error");
+      png_error(png_ptr, "zlib failed to initialize compressor");
+   }
    png_ptr->zstream.next_out = png_ptr->zbuf;
    png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
    /* libpng is not interested in zstream.data_type */
@@ -650,7 +661,7 @@ png_write_IDAT(png_structp png_ptr, png_bytep data, png_size_t length)
             "Invalid zlib compression method or flags in IDAT");
    }
 
-   png_write_chunk(png_ptr, (png_bytep)png_IDAT, data, length);
+   png_write_chunk(png_ptr, png_IDAT, data, length);
    png_ptr->mode |= PNG_HAVE_IDAT;
 }
 
@@ -662,7 +673,7 @@ png_write_IEND(png_structp png_ptr)
    PNG_IEND;
 #endif
    png_debug(1, "in png_write_IEND\n");
-   png_write_chunk(png_ptr, (png_bytep)png_IEND, png_bytep_NULL,
+   png_write_chunk(png_ptr, png_IEND, png_bytep_NULL,
      (png_size_t)0);
    png_ptr->mode |= PNG_HAVE_IEND;
 }
@@ -683,7 +694,7 @@ png_write_gAMA(png_structp png_ptr, double file_gamma)
    /* file_gamma is saved in 1/100,000ths */
    igamma = (png_uint_32)(file_gamma * 100000.0 + 0.5);
    png_save_uint_32(buf, igamma);
-   png_write_chunk(png_ptr, (png_bytep)png_gAMA, buf, (png_size_t)4);
+   png_write_chunk(png_ptr, png_gAMA, buf, (png_size_t)4);
 }
 #endif
 #ifdef PNG_FIXED_POINT_SUPPORTED
@@ -698,7 +709,7 @@ png_write_gAMA_fixed(png_structp png_ptr, png_fixed_point file_gamma)
    png_debug(1, "in png_write_gAMA\n");
    /* file_gamma is saved in 1/100,000ths */
    png_save_uint_32(buf, (png_uint_32)file_gamma);
-   png_write_chunk(png_ptr, (png_bytep)png_gAMA, buf, (png_size_t)4);
+   png_write_chunk(png_ptr, png_gAMA, buf, (png_size_t)4);
 }
 #endif
 #endif
@@ -718,7 +729,7 @@ png_write_sRGB(png_structp png_ptr, int srgb_intent)
          png_warning(png_ptr,
             "Invalid sRGB rendering intent specified");
    buf[0]=(png_byte)srgb_intent;
-   png_write_chunk(png_ptr, (png_bytep)png_sRGB, buf, (png_size_t)1);
+   png_write_chunk(png_ptr, png_sRGB, buf, (png_size_t)1);
 }
 #endif
 
@@ -931,7 +942,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
       buf[size++] = sbit->alpha;
    }
 
-   png_write_chunk(png_ptr, (png_bytep)png_sBIT, buf, size);
+   png_write_chunk(png_ptr, png_sBIT, buf, size);
 }
 #endif
 
@@ -995,7 +1006,7 @@ png_write_cHRM(png_structp png_ptr, double white_x, double white_y,
    itemp = (png_uint_32)(blue_y * 100000.0 + 0.5);
    png_save_uint_32(buf + 28, itemp);
 
-   png_write_chunk(png_ptr, (png_bytep)png_cHRM, buf, (png_size_t)32);
+   png_write_chunk(png_ptr, png_cHRM, buf, (png_size_t)32);
 }
 #endif
 #ifdef PNG_FIXED_POINT_SUPPORTED
@@ -1047,7 +1058,7 @@ png_write_cHRM_fixed(png_structp png_ptr, png_fixed_point white_x,
    png_save_uint_32(buf + 24, (png_uint_32)blue_x);
    png_save_uint_32(buf + 28, (png_uint_32)blue_y);
 
-   png_write_chunk(png_ptr, (png_bytep)png_cHRM, buf, (png_size_t)32);
+   png_write_chunk(png_ptr, png_cHRM, buf, (png_size_t)32);
 }
 #endif
 #endif
@@ -1072,7 +1083,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
          return;
       }
       /* write the chunk out as it is */
-      png_write_chunk(png_ptr, (png_bytep)png_tRNS, trans, (png_size_t)num_trans);
+      png_write_chunk(png_ptr, png_tRNS, trans, (png_size_t)num_trans);
    }
    else if (color_type == PNG_COLOR_TYPE_GRAY)
    {
@@ -1084,7 +1095,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
          return;
       }
       png_save_uint_16(buf, tran->gray);
-      png_write_chunk(png_ptr, (png_bytep)png_tRNS, buf, (png_size_t)2);
+      png_write_chunk(png_ptr, png_tRNS, buf, (png_size_t)2);
    }
    else if (color_type == PNG_COLOR_TYPE_RGB)
    {
@@ -1098,7 +1109,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
               "Ignoring attempt to write 16-bit tRNS chunk when bit_depth is 8");
             return;
          }
-      png_write_chunk(png_ptr, (png_bytep)png_tRNS, buf, (png_size_t)6);
+      png_write_chunk(png_ptr, png_tRNS, buf, (png_size_t)6);
    }
    else
    {
@@ -1131,7 +1142,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
          return;
       }
       buf[0] = back->index;
-      png_write_chunk(png_ptr, (png_bytep)png_bKGD, buf, (png_size_t)1);
+      png_write_chunk(png_ptr, png_bKGD, buf, (png_size_t)1);
    }
    else if (color_type & PNG_COLOR_MASK_COLOR)
    {
@@ -1144,7 +1155,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
               "Ignoring attempt to write 16-bit bKGD chunk when bit_depth is 8");
             return;
          }
-      png_write_chunk(png_ptr, (png_bytep)png_bKGD, buf, (png_size_t)6);
+      png_write_chunk(png_ptr, png_bKGD, buf, (png_size_t)6);
    }
    else
    {
@@ -1155,7 +1166,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
          return;
       }
       png_save_uint_16(buf, back->gray);
-      png_write_chunk(png_ptr, (png_bytep)png_bKGD, buf, (png_size_t)2);
+      png_write_chunk(png_ptr, png_bKGD, buf, (png_size_t)2);
    }
 }
 #endif
@@ -1346,7 +1357,7 @@ png_write_tEXt(png_structp png_ptr, png_charp key, png_charp text,
       text_len = png_strlen(text);
 
    /* make sure we include the 0 after the key */
-   png_write_chunk_start(png_ptr, (png_bytep)png_tEXt, (png_uint_32)key_len+text_len+1);
+   png_write_chunk_start(png_ptr, png_tEXt, (png_uint_32)key_len+text_len+1);
    /*
     * We leave it to the application to meet PNG-1.0 requirements on the
     * contents of the text.  PNG-1.0 through PNG-1.2 discourage the use of
@@ -1404,7 +1415,7 @@ png_write_zTXt(png_structp png_ptr, png_charp key, png_charp text,
        &comp);
 
    /* write start of chunk */
-   png_write_chunk_start(png_ptr, (png_bytep)png_zTXt, (png_uint_32)
+   png_write_chunk_start(png_ptr, png_zTXt, (png_uint_32)
       (key_len+text_len+2));
    /* write key */
    png_write_chunk_data(png_ptr, (png_bytep)new_key, key_len + 1);
@@ -1472,7 +1483,7 @@ png_write_iTXt(png_structp png_ptr, int compression, png_charp key,
    /* make sure we include the compression flag, the compression byte,
     * and the NULs after the key, lang, and lang_key parts */
 
-   png_write_chunk_start(png_ptr, (png_bytep)png_iTXt,
+   png_write_chunk_start(png_ptr, png_iTXt,
           (png_uint_32)(
         5 /* comp byte, comp flag, terminators for key, lang and lang_key */
         + key_len
@@ -1505,8 +1516,7 @@ png_write_iTXt(png_structp png_ptr, int compression, png_charp key,
 
    png_write_chunk_end(png_ptr);
    png_free(png_ptr, new_key);
-   if (new_lang)
-     png_free(png_ptr, new_lang);
+   png_free(png_ptr, new_lang);
 }
 #endif
 

@@ -1,9 +1,9 @@
 
 /* pngread.c - read a PNG file
  *
- * Last changed in libpng 1.2.19 August 19, 2007
+ * Last changed in libpng 1.2.25 [February 18, 2008]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2007 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2008 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -89,12 +89,18 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
 
    png_set_error_fn(png_ptr, error_ptr, error_fn, warn_fn);
 
-   i=0;
-   do
+   if(user_png_ver)
    {
-     if(user_png_ver[i] != png_libpng_ver[i])
+     i=0;
+     do
+     {
+       if(user_png_ver[i] != png_libpng_ver[i])
+          png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
+     } while (png_libpng_ver[i++]);
+   }
+   else
         png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
-   } while (png_libpng_ver[i++]);
+   
 
    if (png_ptr->flags & PNG_FLAG_LIBRARY_MISMATCH)
    {
@@ -318,7 +324,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
 void PNGAPI
 png_read_info(png_structp png_ptr, png_infop info_ptr)
 {
-   if(png_ptr == NULL) return;
+   if(png_ptr == NULL || info_ptr == NULL) return;
    png_debug(1, "in png_read_info\n");
    /* If we haven't checked all of the PNG signature bytes, do so now. */
    if (png_ptr->sig_bytes < 8)
@@ -415,7 +421,7 @@ png_read_info(png_structp png_ptr, png_infop info_ptr)
       /* This should be a binary subdivision search or a hash for
        * matching the chunk name rather than a linear search.
        */
-      if (!png_memcmp(png_ptr->chunk_name, (png_bytep)png_IDAT, 4))
+      if (!png_memcmp(png_ptr->chunk_name, png_IDAT, 4))
         if(png_ptr->mode & PNG_AFTER_IDAT)
           png_ptr->mode |= PNG_HAVE_CHUNK_AFTER_IDAT;
 
@@ -1099,24 +1105,28 @@ png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
    png_structp png_ptr = NULL;
    png_infop info_ptr = NULL, end_info_ptr = NULL;
 #ifdef PNG_USER_MEM_SUPPORTED
-   png_free_ptr free_fn;
-   png_voidp mem_ptr;
+   png_free_ptr free_fn = NULL;
+   png_voidp mem_ptr = NULL;
 #endif
 
    png_debug(1, "in png_destroy_read_struct\n");
    if (png_ptr_ptr != NULL)
+   {
       png_ptr = *png_ptr_ptr;
+   }
+   if (png_ptr == NULL)
+      return;
+
+#ifdef PNG_USER_MEM_SUPPORTED
+   free_fn = png_ptr->free_fn;
+   mem_ptr = png_ptr->mem_ptr;
+#endif
 
    if (info_ptr_ptr != NULL)
       info_ptr = *info_ptr_ptr;
 
    if (end_info_ptr_ptr != NULL)
       end_info_ptr = *end_info_ptr_ptr;
-
-#ifdef PNG_USER_MEM_SUPPORTED
-   free_fn = png_ptr->free_fn;
-   mem_ptr = png_ptr->mem_ptr;
-#endif
 
    png_read_destroy(png_ptr, info_ptr, end_info_ptr);
 
@@ -1149,16 +1159,13 @@ png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
       *end_info_ptr_ptr = NULL;
    }
 
-   if (png_ptr != NULL)
-   {
 #ifdef PNG_USER_MEM_SUPPORTED
-      png_destroy_struct_2((png_voidp)png_ptr, (png_free_ptr)free_fn,
-          (png_voidp)mem_ptr);
+   png_destroy_struct_2((png_voidp)png_ptr, (png_free_ptr)free_fn,
+       (png_voidp)mem_ptr);
 #else
-      png_destroy_struct((png_voidp)png_ptr);
+   png_destroy_struct((png_voidp)png_ptr);
 #endif
-      *png_ptr_ptr = NULL;
-   }
+   *png_ptr_ptr = NULL;
 }
 
 /* free all memory used by the read (old method) */

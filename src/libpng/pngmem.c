@@ -1,9 +1,9 @@
 
 /* pngmem.c - stub functions for memory allocation
  *
- * Last changed in libpng 1.2.13 November 13, 2006
+ * Last changed in libpng 1.2.27 [April 29, 2008]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2008 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -293,7 +293,7 @@ png_free_default(png_structp png_ptr, png_voidp ptr)
 {
 #endif /* PNG_USER_MEM_SUPPORTED */
 
-   if(png_ptr == NULL) return;
+   if(png_ptr == NULL || ptr == NULL) return;
 
    if (png_ptr->offset_table != NULL)
    {
@@ -456,7 +456,7 @@ png_malloc_default(png_structp png_ptr, png_uint_32 size)
    if (size > (png_uint_32)65536L)
    {
 #ifndef PNG_USER_MEM_SUPPORTED
-      if(png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+      if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
          png_error(png_ptr, "Cannot Allocate > 64K");
       else
 #endif
