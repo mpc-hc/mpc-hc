@@ -568,6 +568,9 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		m_rtPrev = p->rtStart;
 	}
 
+	if (p->pmt && p->pmt->subtype != m_mt.subtype)
+		SetMediaType ((CMediaType*)p->pmt);
+
 
 	if(m_mt.subtype == MEDIASUBTYPE_AAC) // special code for aac, the currently available decoders only like whole frame samples
 	{
@@ -788,6 +791,11 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
+	}
+	else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
+	{
+		BYTE* start = p->GetData();
+		p->SetData(start + 4, p->GetCount() - 4);
 	}
 	else
 	{

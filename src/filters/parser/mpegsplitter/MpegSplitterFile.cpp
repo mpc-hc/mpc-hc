@@ -455,6 +455,41 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 					if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
 						type = video;
 				}
+
+				const program* pProgram = FindProgram (s.pid);
+				if((type == unknown) && (pProgram != NULL))
+				{
+					ElementaryStreamTypes	StreamType = INVALID;
+					
+					Seek(pos);
+					for (int i=0; i<16; i++)
+					{
+						if (pProgram->pid[i] == s.pid)
+						{
+							StreamType = pProgram->stream_type[i];
+							break;
+						}
+					}
+
+
+					switch (StreamType)
+					{
+					case AUDIO_STREAM_LPCM :
+						{
+						CMpegSplitterFile::hdmvlpcmhdr h;
+						if(!m_streams[audio].Find(s) && Read(h, &s.mt))
+							type = audio;
+						}
+						break;
+					case PRESENTATION_GRAPHICS_STREAM :
+						{
+						CMpegSplitterFile::dvdspuhdr h;
+						if(!m_streams[subpic].Find(s) && Read(h, &s.mt))
+							type = subpic;
+						}
+						break;
+					}
+				}
 			}
 		}
 		//else if (pesid == 0xfd)		TODO EVO SUPPORT
@@ -655,7 +690,8 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD ES_info_length = (WORD)BitRead(12);
 				len -= 5+ES_info_length;
 				while(ES_info_length-- > 0) BitRead(8);
-				pPair->m_value.pid[i] = pid;
+				pPair->m_value.pid[i]			= pid;
+				pPair->m_value.stream_type[i]	= (ElementaryStreamTypes)stream_type;
 			}
 		}
 	}

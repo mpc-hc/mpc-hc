@@ -690,6 +690,46 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(hdmvlpcmhdr& h, CMediaType* pmt)
+{
+	memset(&h, 0, sizeof(h));
+
+	h.size			= BitRead(16);
+	h.channels		= BitRead(4);
+	h.samplerate	= BitRead(4);
+	h.bitpersample	= BitRead(2);
+
+	if (h.channels==0 || h.channels==2 || 
+	    (h.samplerate != 1 && h.samplerate!= 4  && h.samplerate!= 5) || 
+		h.bitpersample<0 || h.bitpersample>3)
+		return(false);
+
+	if(!pmt) return(true);
+
+	WAVEFORMATEX_HDMV_LPCM wfe;
+	wfe.wFormatTag = WAVE_FORMAT_PCM;
+
+	static int channels[] = {0, 1, 0, 2, 3, 3, 4, 4, 5, 6, 7, 8};
+	wfe.nChannels	 = channels[h.channels];
+	wfe.channel_conf = h.channels;
+
+	static int freq[] = {0, 48000, 0, 0, 96000, 192000};
+	wfe.nSamplesPerSec = freq[h.samplerate];
+
+	static int bitspersample[] = {0, 16, 20, 24};
+	wfe.wBitsPerSample = bitspersample[h.bitpersample];
+
+	wfe.nBlockAlign		= wfe.nChannels*wfe.wBitsPerSample>>3;
+	wfe.nAvgBytesPerSec = wfe.nBlockAlign*wfe.nSamplesPerSec;
+
+	pmt->majortype	= MEDIATYPE_Audio;
+	pmt->subtype	= MEDIASUBTYPE_HDMV_LPCM_AUDIO;
+	pmt->formattype = FORMAT_WaveFormatEx;
+	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
+
+	return(true);
+}
+
 bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
@@ -1090,6 +1130,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 			h.width = (pic_width_in_mbs_minus1 + 1) * 16;
 			h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
+
+			if (h.height == 1088) h.height = 1080;	// Prevent blur lines 
 
 			if (!frame_mbs_only_flag) 
 				BitRead(1);							// mb_adaptive_frame_field_flag

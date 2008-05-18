@@ -189,6 +189,15 @@ public:
 		BYTE drc; // 0x80: off
 	};
 
+	class hdmvlpcmhdr
+	{
+	public:
+		WORD size;
+		BYTE channels:4;
+		BYTE samplerate:4;
+		BYTE bitpersample:2;
+	};
+
 	class dvdspuhdr
 	{
 	public:
@@ -319,6 +328,7 @@ public:
 	bool Read(ac3hdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(dtshdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
+	bool Read(hdmvlpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(dvdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(svcdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(cvdspuhdr& h, CMediaType* pmt = NULL);

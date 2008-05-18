@@ -25,6 +25,31 @@
 #include <atlcoll.h>
 #include "..\BaseSplitter\BaseSplitter.h"
 
+
+enum ElementaryStreamTypes
+{
+    INVALID								= 0,
+    VIDEO_STREAM_MPEG1					= 0x01,
+    VIDEO_STREAM_MPEG2					= 0x02,
+    AUDIO_STREAM_MPEG1					= 0x03, // all layers including mp3
+    AUDIO_STREAM_MPEG2					= 0x04,
+    VIDEO_STREAM_H264					= 0x1b,
+    AUDIO_STREAM_LPCM					= 0x80,
+    AUDIO_STREAM_AC3					= 0x81,
+    AUDIO_STREAM_DTS					= 0x82,
+    AUDIO_STREAM_AC3_TRUE_HD			= 0x83,
+    AUDIO_STREAM_AC3_PLUS				= 0x84,
+    AUDIO_STREAM_DTS_HD					= 0x85,
+    AUDIO_STREAM_DTS_HD_MASTER_AUDIO	= 0x86,
+    PRESENTATION_GRAPHICS_STREAM		= 0x90,
+    INTERACTIVE_GRAPHICS_STREAM			= 0x91,
+    SUBTITLE_STREAM						= 0x92,
+    SECONDARY_AUDIO_AC3_PLUS			= 0xa1,
+    SECONDARY_AUDIO_DTS_HD				= 0xa2,
+    VIDEO_STREAM_VC1					= 0xea
+};
+
+
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
@@ -100,8 +125,9 @@ public:
 
 	struct program
 	{
-		WORD program_number;
-		WORD pid[16];
+		WORD					program_number;
+		WORD					pid[16];
+		ElementaryStreamTypes	stream_type[16];
 		struct program() {memset(this, 0, sizeof(*this));}
 	};
 

@@ -101,6 +101,7 @@ extern CStringW UTF8To16(LPCSTR utf8);
 extern CStringA UTF16To8(LPCWSTR utf16);
 extern CString ISO6391ToLanguage(LPCSTR code);
 extern CString ISO6392ToLanguage(LPCSTR code);
+extern LCID    ISO6392ToLcid(LPCSTR code);
 extern CString ISO6391To6392(LPCSTR code);
 extern CString ISO6392To6391(LPCSTR code);
 extern CString LanguageToISO6392(LPCTSTR lang);
@@ -113,6 +114,7 @@ extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, LPCTS
 extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlList<CString>& chkbytes, LPCTSTR ext = NULL, ...);
 extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
+extern void DumpBuffer(BYTE* pBuffer, int nSize);
 
 class CPinInfo : public PIN_INFO
 {

@@ -94,6 +94,7 @@ protected:
 	float m_sample_max;
 
 	HRESULT ProcessLPCM();
+	HRESULT ProcessHdmvLPCM();
 	HRESULT ProcessAC3();
 	HRESULT ProcessDTS();
 	HRESULT ProcessAAC();
