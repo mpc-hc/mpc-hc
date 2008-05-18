@@ -142,7 +142,6 @@ typedef struct ADPCMChannelStatus {
 } ADPCMChannelStatus;
 
 typedef struct ADPCMContext {
-    int channel; /* for stereo MOVs, decode left, then decode right, then tell it's decoded */
     ADPCMChannelStatus status[2];
 } ADPCMContext;
 
@@ -395,48 +394,43 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
 
     switch(avctx->codec->id) {
     case CODEC_ID_ADPCM_IMA_QT:
-        n = (buf_size - 2);/* >> 2*avctx->channels;*/
-        channel = c->channel;
-        cs = &(c->status[channel]);
-        /* (pppppp) (piiiiiii) */
+        n = buf_size - 2*avctx->channels;
+        for (channel = 0; channel < avctx->channels; channel++) {
+            cs = &(c->status[channel]);
+            /* (pppppp) (piiiiiii) */
 
-        /* Bits 15-7 are the _top_ 9 bits of the 16-bit initial predictor value */
-        cs->predictor = (*src++) << 8;
-        cs->predictor |= (*src & 0x80);
-        cs->predictor &= 0xFF80;
+            /* Bits 15-7 are the _top_ 9 bits of the 16-bit initial predictor value */
+            cs->predictor = (*src++) << 8;
+            cs->predictor |= (*src & 0x80);
+            cs->predictor &= 0xFF80;
 
-        /* sign extension */
-        if(cs->predictor & 0x8000)
-            cs->predictor -= 0x10000;
+            /* sign extension */
+            if(cs->predictor & 0x8000)
+                cs->predictor -= 0x10000;
 
-        cs->predictor = av_clip_int16(cs->predictor);
+            cs->predictor = av_clip_int16(cs->predictor);
 
-        cs->step_index = (*src++) & 0x7F;
+            cs->step_index = (*src++) & 0x7F;
 
-        if (cs->step_index > 88){
-            av_log(avctx, AV_LOG_ERROR, "ERROR: step_index = %i\n", cs->step_index);
-            cs->step_index = 88;
-        }
+            if (cs->step_index > 88){
+                av_log(avctx, AV_LOG_ERROR, "ERROR: step_index = %i\n", cs->step_index);
+                cs->step_index = 88;
+            }
 
-        cs->step = step_table[cs->step_index];
+            cs->step = step_table[cs->step_index];
 
-        if (st && channel)
-            samples++;
+            samples = (short*)data + channel;
 
-        for(m=32; n>0 && m>0; n--, m--) { /* in QuickTime, IMA is encoded by chuncks of 34 bytes (=64 samples) */
-            *samples = adpcm_ima_expand_nibble(cs, src[0] & 0x0F, 3);
-            samples += avctx->channels;
-            *samples = adpcm_ima_expand_nibble(cs, src[0] >> 4  , 3);
-            samples += avctx->channels;
-            src ++;
-        }
-
-        if(st) { /* handle stereo interlacing */
-            c->channel = (channel + 1) % 2; /* we get one packet for left, then one for right data */
-            if(channel == 1) { /* wait for the other packet before outputing anything */
-                return src - buf;
+            for(m=32; n>0 && m>0; n--, m--) { /* in QuickTime, IMA is encoded by chuncks of 34 bytes (=64 samples) */
+                *samples = adpcm_ima_expand_nibble(cs, src[0] & 0x0F, 3);
+                samples += avctx->channels;
+                *samples = adpcm_ima_expand_nibble(cs, src[0] >> 4  , 3);
+                samples += avctx->channels;
+                src ++;
             }
         }
+        if (st)
+            samples--;
         break;
     case CODEC_ID_ADPCM_IMA_WAV:
         if (avctx->block_align != 0 && buf_size > avctx->block_align)
@@ -853,7 +847,7 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
     return src - buf;
 }
 
-#define ADPCM_DECODER(id,name)                  \
+#define ADPCM_DECODER(id,name,long_name_)       \
 AVCodec name ## _decoder = {                    \
     #name,                                      \
     CODEC_TYPE_AUDIO,                           \
@@ -863,22 +857,28 @@ AVCodec name ## _decoder = {                    \
     NULL,                                       \
     NULL,                                       \
     adpcm_decode_frame,                         \
+    /*.capabilities = */0,                      \
+    /*.next = */NULL,                           \
+    /*.flush = */NULL,                          \
+    /*.supported_framerates = */NULL,           \
+    /*.pix_fmts = */NULL,                       \
+    /*.long_name = */long_name_,                \
 };
 
-ADPCM_DECODER(CODEC_ID_ADPCM_4XM, adpcm_4xm);
-ADPCM_DECODER(CODEC_ID_ADPCM_CT, adpcm_ct);
-ADPCM_DECODER(CODEC_ID_ADPCM_EA, adpcm_ea);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_AMV, adpcm_ima_amv);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_DK3, adpcm_ima_dk3);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_DK4, adpcm_ima_dk4);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_QT, adpcm_ima_qt);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_SMJPEG, adpcm_ima_smjpeg);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_WAV, adpcm_ima_wav);
-ADPCM_DECODER(CODEC_ID_ADPCM_IMA_WS, adpcm_ima_ws);
-ADPCM_DECODER(CODEC_ID_ADPCM_MS, adpcm_ms);
-ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_4, adpcm_sbpro_4);
-ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_3, adpcm_sbpro_3);
-ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_2, adpcm_sbpro_2);
-ADPCM_DECODER(CODEC_ID_ADPCM_SWF, adpcm_swf);
-ADPCM_DECODER(CODEC_ID_ADPCM_XA, adpcm_xa);
-ADPCM_DECODER(CODEC_ID_ADPCM_YAMAHA, adpcm_yamaha);
+ADPCM_DECODER(CODEC_ID_ADPCM_4XM, adpcm_4xm, "4X Movie ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_CT, adpcm_ct, "Creative Technology ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_EA, adpcm_ea, "Electronic Arts ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_AMV, adpcm_ima_amv, "IMA AMV ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_DK3, adpcm_ima_dk3, "IMA Duck DK3 ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_DK4, adpcm_ima_dk4, "IMA Duck DK4 ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_QT, adpcm_ima_qt, "IMA QuickTime ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_SMJPEG, adpcm_ima_smjpeg, "IMA Loki SDL MJPEG ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_WAV, adpcm_ima_wav, "IMA Wav ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_IMA_WS, adpcm_ima_ws, "IMA Westwood ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_MS, adpcm_ms, "Microsoft ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_2, adpcm_sbpro_2, "Sound Blaster Pro 2-bit ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_3, adpcm_sbpro_3, "Sound Blaster Pro 2.6-bit ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_SBPRO_4, adpcm_sbpro_4, "Sound Blaster Pro 4-bit ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_SWF, adpcm_swf, "Shockwave Flash ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_XA, adpcm_xa, "CDROM XA ADPCM");
+ADPCM_DECODER(CODEC_ID_ADPCM_YAMAHA, adpcm_yamaha, "Yamaha ADPCM");

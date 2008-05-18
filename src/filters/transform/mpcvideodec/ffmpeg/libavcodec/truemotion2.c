@@ -232,7 +232,7 @@ static inline int tm2_read_header(TM2Context *ctx, const uint8_t *buf)
         return -1;
     }
 
-    return (buf - obuf);
+    return buf - obuf;
 }
 
 static int tm2_read_deltas(TM2Context *ctx, int stream_id) {
@@ -886,5 +886,10 @@ AVCodec truemotion2_decoder = {
     NULL,
     decode_end,
     decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Duck TrueMotion 2.0",
 };

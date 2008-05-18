@@ -1213,7 +1213,7 @@ eoi_parser:
                         *data_size = sizeof(AVFrame);
 
                         if(!s->lossless){
-                            picture->quality= FFMAX(FFMAX(s->qscale[0], s->qscale[1]), s->qscale[2]);
+                            picture->quality= FFMAX3(s->qscale[0], s->qscale[1], s->qscale[2]);
                             picture->qstride= 0;
                             picture->qscale_table= s->qscale_table;
                             memset(picture->qscale_table, picture->quality, (s->width+15)/16);
@@ -1292,6 +1292,9 @@ AVCodec mjpeg_decoder = {
     /*.close=*/ff_mjpeg_decode_end,
     /*.decode=*/ff_mjpeg_decode_frame,
     /*.capabilities=*/CODEC_CAP_DR1,
-    /*.next=*/NULL,
-    /*.flush=*/NULL,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"MJPEG (Motion JPEG)",
 };

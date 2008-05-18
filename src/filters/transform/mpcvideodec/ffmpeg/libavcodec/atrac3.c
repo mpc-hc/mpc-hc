@@ -1064,12 +1064,18 @@ static int atrac3_decode_init(AVCodecContext *avctx)
 
 AVCodec atrac3_decoder =
 {
-    /*.name =*/ "atrac 3",
-    /*.type =*/ CODEC_TYPE_AUDIO,
-    /*.id =*/ CODEC_ID_ATRAC3,
-    /*.priv_data_size =*/ sizeof(ATRAC3Context),
-    /*.init =*/ atrac3_decode_init,
-    NULL,
-    /*.close =*/ atrac3_decode_close,
-    /*.decode =*/ atrac3_decode_frame,
+    /*.name = */"atrac 3",
+    /*.type = */CODEC_TYPE_AUDIO,
+    /*.id = */CODEC_ID_ATRAC3,
+    /*.priv_data_size = */sizeof(ATRAC3Context),
+    /*.init = */atrac3_decode_init,
+    /*.encode = */NULL,
+    /*.close = */atrac3_decode_close,
+    /*.decode = */atrac3_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Atrac 3 (Adaptive TRansform Acoustic Coding 3)",
 };

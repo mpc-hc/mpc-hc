@@ -95,15 +95,15 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
                             DCTELEM *block, int n,
                             int qscale, int *overflow)
 {
-    long last_non_zero_p1;
-    int level=0, q; //=0 is cuz gcc says uninitalized ...
+    x86_reg last_non_zero_p1;
+    int level=0, q; //=0 is because gcc says uninitialized ...
     const uint16_t *qmat, *bias;
     DECLARE_ALIGNED_16(int16_t, temp_block[64]);
 
     assert((7&(int)(&temp_block[0])) == 0); //did gcc align it correctly?
 
     //s->fdct (block);
-    RENAMEl(ff_fdct) (block); //cant be anything else ...
+    RENAMEl(ff_fdct) (block); //cannot be anything else ...
 
     if(s->dct_error_sum)
         s->denoise_dct(s, block);

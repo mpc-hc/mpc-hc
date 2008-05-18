@@ -291,5 +291,9 @@ AVCodec vp5_decoder = {
     NULL,
     vp56_free,
     vp56_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
 };

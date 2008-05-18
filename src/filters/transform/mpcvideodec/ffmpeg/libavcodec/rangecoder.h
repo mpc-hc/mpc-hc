@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- *
  */
 
 /**
@@ -25,10 +24,14 @@
  * Range coder.
  */
 
-#ifndef AVCODEC_RANGECODER_H
-#define AVCODEC_RANGECODER_H
+#ifndef FFMPEG_RANGECODER_H
+#define FFMPEG_RANGECODER_H
 
-#include "common.h"
+#ifdef __GNUC__
+#include <stdint.h>
+#include <assert.h>
+#endif
+#include "libavutil/common.h"
 
 typedef struct RangeCoder{
     int low;
@@ -137,4 +140,4 @@ static inline int get_rac(RangeCoder *c, uint8_t * const state){
 #endif
 }
 
-#endif // AVCODEC_RANGECODER_H
+#endif /* FFMPEG_RANGECODER_H */

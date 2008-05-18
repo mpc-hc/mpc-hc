@@ -20,8 +20,8 @@
  */
 #include "avcodec.h"
 #include "bytestream.h"
+#include "dsputil.h"
 #include "png.h"
-#include <dsputil.h>
 
 /* TODO:
  * - add 2, 4 and 16 bit depth support
@@ -449,6 +449,9 @@ AVCodec png_encoder = {
     /*.flush=*/NULL,
     /*.supported_framerates=*/NULL,
 #if __STDC_VERSION >= 199901L
-    .pix_fmts= (enum PixelFormat[]){PIX_FMT_RGB24, PIX_FMT_RGB32, PIX_FMT_PAL8, PIX_FMT_GRAY8, PIX_FMT_MONOBLACK, -1},
+    .pix_fmts= (enum PixelFormat[]){PIX_FMT_RGB24, PIX_FMT_RGB32, PIX_FMT_PAL8, PIX_FMT_GRAY8, PIX_FMT_MONOBLACK, PIX_FMT_NONE},
+#else
+    /*.pix_fmts = */NULL,
 #endif
+    /*.long_name= */"PNG image",
 };

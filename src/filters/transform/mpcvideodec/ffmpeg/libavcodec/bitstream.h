@@ -26,18 +26,24 @@
 #ifndef FFMPEG_BITSTREAM_H
 #define FFMPEG_BITSTREAM_H
 
-#include "libavutil/log.h"
+#ifdef __GNUC__
+#include <stdint.h>
+#include <stdlib.h>
+#include <assert.h>
+#endif
 #include "libavutil/bswap.h"
+#include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
+#include "libavutil/log.h"
 
 #if defined(ALT_BITSTREAM_READER_LE) && !defined(ALT_BITSTREAM_READER)
-#define ALT_BITSTREAM_READER
+#   define ALT_BITSTREAM_READER
 #endif
 
 //#define ALT_BITSTREAM_WRITER
 //#define ALIGNED_BITSTREAM_WRITER
 #if !defined(LIBMPEG2_BITSTREAM_READER) && !defined(A32_BITSTREAM_READER) && !defined(ALT_BITSTREAM_READER)
-#define ALT_BITSTREAM_READER
+#       define ALT_BITSTREAM_READER
 //#define LIBMPEG2_BITSTREAM_READER
 //#define A32_BITSTREAM_READER
 #endif
@@ -165,7 +171,7 @@ typedef struct RL_VLC_ELEM {
     uint8_t run;
 } RL_VLC_ELEM;
 
-/* used to avoid missaligned exceptions on some archs (alpha, ...) */
+/* used to avoid misaligned exceptions on some archs (alpha, ...) */
 #if defined(ARCH_X86)
 #    define unaligned16(a) (*(const uint16_t*)(a))
 #    define unaligned32(a) (*(const uint32_t*)(a))

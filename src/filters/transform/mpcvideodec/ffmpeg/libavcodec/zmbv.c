@@ -661,6 +661,12 @@ AVCodec zmbv_decoder = {
     decode_init,
     NULL,
     decode_end,
-    decode_frame
+    decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Zip Motion Blocks Video",
 };
 

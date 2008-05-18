@@ -22,10 +22,8 @@
 #ifndef FFMPEG_DSPUTIL_MMX_H
 #define FFMPEG_DSPUTIL_MMX_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
-#include "dsputil.h"
+#include "libavcodec/dsputil.h"
 
 typedef struct { uint64_t a, b; } xmm_t;
 

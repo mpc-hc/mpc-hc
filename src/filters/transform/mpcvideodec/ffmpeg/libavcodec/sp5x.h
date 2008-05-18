@@ -19,8 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef SP5X_H
-#define SP5X_H
+#ifndef FFMPEG_SP5X_H
+#define FFMPEG_SP5X_H
+
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
 
 static const uint8_t sp5x_data_sof[] =
 {
@@ -329,4 +333,4 @@ static const uint8_t sp5x_quant_table_orig[18][64] =
 };
 #endif
 
-#endif /* SP5X_H */
+#endif /* FFMPEG_SP5X_H */

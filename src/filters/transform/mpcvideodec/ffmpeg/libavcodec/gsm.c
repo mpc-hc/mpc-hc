@@ -897,4 +897,10 @@ AVCodec msgsm_decoder = {
     NULL,
     NULL,
     gsm_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"libgsm GSM Microsoft variant",
 };

@@ -21,8 +21,8 @@
  */
 
 #include <stdlib.h>
-#include "../dsputil.h"
 #include "libavutil/x86_cpu.h"
+#include "libavcodec/dsputil.h"
 
 #undef printf
 
@@ -42,9 +42,9 @@ int mm_support(void)
     int rval = 0;
     int eax, ebx, ecx, edx;
     int max_std_level, max_ext_level, std_caps=0, ext_caps=0;
-    long a, c;
+    x86_reg a, c;
 
-    __asm__ __volatile__ (
+    asm volatile (
         /* See if CPUID instruction is supported ... */
         /* ... Get copies of EFLAGS into eax and ecx */
         "pushf\n\t"
@@ -75,13 +75,17 @@ int mm_support(void)
         if (std_caps & (1<<23))
             rval |= FF_MM_MMX;
         if (std_caps & (1<<25))
-            rval |= FF_MM_MMXEXT | FF_MM_SSE;
+            rval |= FF_MM_MMXEXT
+#if !defined(__GNUC__) || __GNUC__ > 2
+                  | FF_MM_SSE;
         if (std_caps & (1<<26))
             rval |= FF_MM_SSE2;
         if (ecx & 1)
             rval |= FF_MM_SSE3;
         if (ecx & 0x00000200 )
-            rval |= FF_MM_SSSE3;
+            rval |= FF_MM_SSSE3
+#endif
+                  ;
     }
 
     cpuid(0x80000000, max_ext_level, ebx, ecx, edx);

@@ -700,4 +700,7 @@ AVCodec cavs_decoder = {
     /*.capabilities=*/CODEC_CAP_DR1 | CODEC_CAP_DELAY,
     /*.next=*/NULL,
     /*.flush=*/cavs_flush,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name= */"Chinese AVS video (AVS1-P2, JiZhun profile)",
 };

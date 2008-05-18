@@ -2039,4 +2039,10 @@ AVCodec qdm2_decoder =
     /* .encode */ NULL,
     /*.close = */qdm2_decode_close,
     /*.decode = */qdm2_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"QDesign Music Codec 2",
 };

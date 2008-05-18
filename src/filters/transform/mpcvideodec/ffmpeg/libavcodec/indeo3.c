@@ -1133,6 +1133,10 @@ AVCodec indeo3_decoder = {
     NULL,
     indeo3_decode_end,
     indeo3_decode_frame,
-    0,
-    NULL
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Intel Indeo 3",
 };

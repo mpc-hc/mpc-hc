@@ -21,9 +21,9 @@
  
 #if 0 // disable snow
 
-#include "../avcodec.h"
-#include "../snow.h"
-#include "x86_cpu.h"
+#include "libavutil/x86_cpu.h"
+#include "libavcodec/avcodec.h"
+#include "libavcodec/snow.h"
 
 void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width){
     const int w2= (width+1)>>1;
@@ -75,7 +75,7 @@ void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width){
         IDWTELEM * const dst = b+w2;
 
         i = 0;
-        for(; (((long)&dst[i]) & 0x1F) && i<w_r; i++){
+        for(; (((x86_reg)&dst[i]) & 0x1F) && i<w_r; i++){
             dst[i] = dst[i] - (b[i] + b[i + 1]);
         }
         for(; i<w_r-15; i+=16){
@@ -148,7 +148,7 @@ void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width){
         IDWTELEM * const src = b+w2;
 
         i = 0;
-        for(; (((long)&temp[i]) & 0x1F) && i<w_r; i++){
+        for(; (((x86_reg)&temp[i]) & 0x1F) && i<w_r; i++){
             temp[i] = src[i] - ((-W_AM*(b[i] + b[i+1]))>>W_AS);
         }
         for(; i<w_r-7; i+=8){
@@ -388,6 +388,7 @@ void ff_snow_horizontal_compose97i_mmx(IDWTELEM *b, int width){
     }
 }
 
+#ifdef HAVE_7REGS
 #define snow_vertical_compose_sse2_load_add(op,r,t0,t1,t2,t3)\
         ""op" ("r",%%"REG_d"), %%"t0"      \n\t"\
         ""op" 16("r",%%"REG_d"), %%"t1"    \n\t"\
@@ -437,7 +438,7 @@ void ff_snow_horizontal_compose97i_mmx(IDWTELEM *b, int width){
         "movdqa %%"s3", %%"t3" \n\t"
 
 void ff_snow_vertical_compose97i_sse2(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width){
-    long i = width;
+    x86_reg i = width;
 
     while(i & 0x1F)
     {
@@ -535,7 +536,7 @@ void ff_snow_vertical_compose97i_sse2(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, 
 
 
 void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width){
-    long i = width;
+    x86_reg i = width;
     while(i & 15)
     {
         i--;
@@ -602,10 +603,11 @@ void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, I
         :"+d"(i)
         :"r"(b0),"r"(b1),"r"(b2),"r"(b3),"r"(b4),"r"(b5));
 }
+#endif //HAVE_7REGS
 
 #define snow_inner_add_yblock_sse2_header \
     IDWTELEM * * dst_array = sb->line + src_y;\
-    long tmp;\
+    x86_reg tmp;\
     asm volatile(\
              "mov  %7, %%"REG_c"             \n\t"\
              "mov  %6, %2                    \n\t"\
@@ -667,7 +669,7 @@ void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, I
              "jnz 1b                         \n\t"\
              :"+m"(dst8),"+m"(dst_array),"=&r"(tmp)\
              :\
-             "rm"((long)(src_x<<1)),"m"(obmc),"a"(block),"m"((long)b_h),"m"((long)src_stride):\
+             "rm"((x86_reg)(src_x<<1)),"m"(obmc),"a"(block),"m"((x86_reg)b_h),"m"((x86_reg)src_stride):\
              "%"REG_c"","%"REG_S"","%"REG_D"","%"REG_d"");
 
 #define snow_inner_add_yblock_sse2_end_8\
@@ -684,8 +686,8 @@ void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, I
              "dec %2                         \n\t"\
              snow_inner_add_yblock_sse2_end_common2
 
-static void inner_add_yblock_bw_8_obmc_16_bh_even_sse2(const uint8_t *obmc, const long obmc_stride, uint8_t * * block, int b_w, long b_h,
-                      int src_x, int src_y, long src_stride, slice_buffer * sb, int add, uint8_t * dst8){
+static void inner_add_yblock_bw_8_obmc_16_bh_even_sse2(const uint8_t *obmc, const x86_reg obmc_stride, uint8_t * * block, int b_w, x86_reg b_h,
+                      int src_x, int src_y, x86_reg src_stride, slice_buffer * sb, int add, uint8_t * dst8){
 snow_inner_add_yblock_sse2_header
 snow_inner_add_yblock_sse2_start_8("xmm1", "xmm5", "3", "0")
 snow_inner_add_yblock_sse2_accum_8("2", "8")
@@ -732,8 +734,8 @@ snow_inner_add_yblock_sse2_accum_8("0", "136")
 snow_inner_add_yblock_sse2_end_8
 }
 
-static void inner_add_yblock_bw_16_obmc_32_sse2(const uint8_t *obmc, const long obmc_stride, uint8_t * * block, int b_w, long b_h,
-                      int src_x, int src_y, long src_stride, slice_buffer * sb, int add, uint8_t * dst8){
+static void inner_add_yblock_bw_16_obmc_32_sse2(const uint8_t *obmc, const x86_reg obmc_stride, uint8_t * * block, int b_w, x86_reg b_h,
+                      int src_x, int src_y, x86_reg src_stride, slice_buffer * sb, int add, uint8_t * dst8){
 snow_inner_add_yblock_sse2_header
 snow_inner_add_yblock_sse2_start_16("xmm1", "xmm5", "3", "0")
 snow_inner_add_yblock_sse2_accum_16("2", "16")
@@ -758,7 +760,7 @@ snow_inner_add_yblock_sse2_end_16
 
 #define snow_inner_add_yblock_mmx_header \
     IDWTELEM * * dst_array = sb->line + src_y;\
-    long tmp;\
+    x86_reg tmp;\
     asm volatile(\
              "mov  %7, %%"REG_c"             \n\t"\
              "mov  %6, %2                    \n\t"\
@@ -815,11 +817,11 @@ snow_inner_add_yblock_sse2_end_16
              "jnz 1b                         \n\t"\
              :"+m"(dst8),"+m"(dst_array),"=&r"(tmp)\
              :\
-             "rm"((long)(src_x<<1)),"m"(obmc),"a"(block),"m"((long)b_h),"m"((long)src_stride):\
+             "rm"((x86_reg)(src_x<<1)),"m"(obmc),"a"(block),"m"((x86_reg)b_h),"m"((x86_reg)src_stride):\
              "%"REG_c"","%"REG_S"","%"REG_D"","%"REG_d"");
 
-static void inner_add_yblock_bw_8_obmc_16_mmx(const uint8_t *obmc, const long obmc_stride, uint8_t * * block, int b_w, long b_h,
-                      int src_x, int src_y, long src_stride, slice_buffer * sb, int add, uint8_t * dst8){
+static void inner_add_yblock_bw_8_obmc_16_mmx(const uint8_t *obmc, const x86_reg obmc_stride, uint8_t * * block, int b_w, x86_reg b_h,
+                      int src_x, int src_y, x86_reg src_stride, slice_buffer * sb, int add, uint8_t * dst8){
 snow_inner_add_yblock_mmx_header
 snow_inner_add_yblock_mmx_start("mm1", "mm5", "3", "0", "0")
 snow_inner_add_yblock_mmx_accum("2", "8", "0")
@@ -829,8 +831,8 @@ snow_inner_add_yblock_mmx_mix("0", "0")
 snow_inner_add_yblock_mmx_end("16")
 }
 
-static void inner_add_yblock_bw_16_obmc_32_mmx(const uint8_t *obmc, const long obmc_stride, uint8_t * * block, int b_w, long b_h,
-                      int src_x, int src_y, long src_stride, slice_buffer * sb, int add, uint8_t * dst8){
+static void inner_add_yblock_bw_16_obmc_32_mmx(const uint8_t *obmc, const x86_reg obmc_stride, uint8_t * * block, int b_w, x86_reg b_h,
+                      int src_x, int src_y, x86_reg src_stride, slice_buffer * sb, int add, uint8_t * dst8){
 snow_inner_add_yblock_mmx_header
 snow_inner_add_yblock_mmx_start("mm1", "mm5", "3", "0", "0")
 snow_inner_add_yblock_mmx_accum("2", "16", "0")

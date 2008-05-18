@@ -1218,6 +1218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\flac.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\golomb.h"
 				>
 			</File>
@@ -1327,6 +1331,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg12decdata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg4audio.h"
 				>
 			</File>
 			<File
@@ -1630,6 +1638,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\mathematics.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\mem.c"
 				>
 			</File>
@@ -1665,10 +1677,6 @@
 		<Filter
 			Name="i386"
 			>
-			<File
-				RelativePath=".\libavcodec\i386\fft_sse.c"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="libavformat"

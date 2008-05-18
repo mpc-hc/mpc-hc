@@ -338,5 +338,10 @@ AVCodec msvideo1_decoder = {
     NULL,
     msvideo1_decode_end,
     msvideo1_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name= */"Microsoft Video 1",
 };

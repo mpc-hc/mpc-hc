@@ -326,16 +326,19 @@ AVCodec h261_encoder = {
     CODEC_TYPE_VIDEO,
     CODEC_ID_H261,
     sizeof(H261Context),
-    /*.init=*/MPV_encode_init,
-    /*.encode=*/MPV_encode_picture,
-    /*.close=*/MPV_encode_end,
-    /*.decode=*/NULL,
-    /*.capabilities=*/0,
-    /*.next=*/NULL,
-    /*.flush=*/NULL,
-    /*.supported_framerates=*/NULL,
+    /*.init = */MPV_encode_init,
+    /*.encode = */MPV_encode_picture,
+    /*.close = */MPV_encode_end,
+    /*.decode = */NULL,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
 #if __STDC_VERSION >= 199901L
-    .pix_fmts= (enum PixelFormat[]){PIX_FMT_YUV420P, -1},
+    .pix_fmts = (enum PixelFormat[]){PIX_FMT_YUV420P, PIX_FMT_NONE},
+#else
+    /*.pix_fmts = */NULL,
 #endif
+    /*.long_name= */"H.261",
 };
 

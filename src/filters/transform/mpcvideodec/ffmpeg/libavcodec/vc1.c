@@ -4141,7 +4141,11 @@ AVCodec vc1_decoder = {
     vc1_decode_end,
     vc1_decode_frame,
     CODEC_CAP_DELAY,
-    NULL
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"SMPTE VC-1",
 };
 
 AVCodec wmv3_decoder = {
@@ -4154,7 +4158,11 @@ AVCodec wmv3_decoder = {
     vc1_decode_end,
     vc1_decode_frame,
     CODEC_CAP_DELAY,
-    NULL
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Windows Media Video 9",
 };
 
 

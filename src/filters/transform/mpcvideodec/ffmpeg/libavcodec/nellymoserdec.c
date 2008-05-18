@@ -30,8 +30,9 @@
  * The 3 alphanumeric copyright notices are md5summed they are from the original
  * implementors. The original code is available from http://code.google.com/p/nelly2pcm/
  */
+
+#include "libavutil/random.h"
 #include "avcodec.h"
-#include "random.h"
 #include "dsputil.h"
 
 #define ALT_BITSTREAM_READER_LE
@@ -135,10 +136,10 @@ static void overlap_and_window(NellyMoserDecodeContext *s, float *state, float *
 
 static int sum_bits(short *buf, short shift, short off)
 {
-    int b, i = 0, ret = 0;
+    int i, ret = 0;
 
     for (i = 0; i < NELLY_FILL_LEN; i++) {
-        b = buf[i]-off;
+        int b = buf[i]-off;
         b = ((b>>(shift-1))+1)>>1;
         ret += av_clip(b, 0, NELLY_BIT_CAP);
     }
@@ -268,7 +269,9 @@ static void get_sample_bits(const float *buf, int *bits)
     }
 }
 
-void nelly_decode_block(NellyMoserDecodeContext *s, const unsigned char block[NELLY_BLOCK_LEN], float audio[NELLY_SAMPLES])
+static void nelly_decode_block(NellyMoserDecodeContext *s,
+                               const unsigned char block[NELLY_BLOCK_LEN],
+                               float audio[NELLY_SAMPLES])
 {
     int i,j;
     float buf[NELLY_FILL_LEN], pows[NELLY_FILL_LEN];
@@ -399,5 +402,11 @@ AVCodec nellymoser_decoder = {
     NULL,
     decode_end,
     decode_tag,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Nellymoser Asao",
 };
 

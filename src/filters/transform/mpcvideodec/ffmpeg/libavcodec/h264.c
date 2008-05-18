@@ -5350,7 +5350,7 @@ static inline int get_cabac_cbf_ctx( H264Context *h, int cat, int idx ) {
     return ctx + 4 * cat;
 }
 
-DECLARE_ASM_CONST(1, const uint8_t, last_coeff_flag_offset_8x8[63]) = {
+DECLARE_ASM_CONST(1, uint8_t, last_coeff_flag_offset_8x8[63]) = {
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -5380,14 +5380,24 @@ static void decode_cabac_residual( H264Context *h, DCTELEM *block, int cat, int 
         9, 9,10,10, 8,11,12,11, 9, 9,10,10, 8,13,13, 9,
         9,10,10, 8,13,13, 9, 9,10,10,14,14,14,14,14 }
     };
+    /* node ctx: 0..3: abslevel1 (with abslevelgt1 == 0).
+     * 4..7: abslevelgt1 + 3 (and abslevel1 doesn't matter).
+     * map node ctx => cabac ctx for level=1 */
+    static const uint8_t coeff_abs_level1_ctx[8] = { 1, 2, 3, 4, 0, 0, 0, 0 };
+    /* map node ctx => cabac ctx for level>1 */
+    static const uint8_t coeff_abs_levelgt1_ctx[8] = { 5, 5, 5, 5, 6, 7, 8, 9 };
+    static const uint8_t coeff_abs_level_transition[2][8] = {
+    /* update node ctx after decoding a level=1 */
+        { 1, 2, 3, 3, 4, 5, 6, 7 },
+    /* update node ctx after decoding a level>1 */
+        { 4, 4, 4, 4, 5, 6, 7, 7 }
+    };
 
     int index[64];
 
     int av_unused last;
     int coeff_count = 0;
-
-    int abslevel1 = 1;
-    int abslevelgt1 = 0;
+    int node_ctx = 0;
 
     uint8_t *significant_coeff_ctx_base;
     uint8_t *last_coeff_ctx_base;
@@ -5481,20 +5491,22 @@ static void decode_cabac_residual( H264Context *h, DCTELEM *block, int cat, int 
     }
 
     for( coeff_count--; coeff_count >= 0; coeff_count-- ) {
-        uint8_t *ctx = (abslevelgt1 != 0 ? 0 : FFMIN( 4, abslevel1 )) + abs_level_m1_ctx_base;
+        uint8_t *ctx = coeff_abs_level1_ctx[node_ctx] + abs_level_m1_ctx_base;
+
         int j= scantable[index[coeff_count]];
 
         if( get_cabac( CC, ctx ) == 0 ) {
+            node_ctx = coeff_abs_level_transition[0][node_ctx];
             if( !qmul ) {
                 block[j] = get_cabac_bypass_sign( CC, -1);
             }else{
                 block[j] = (get_cabac_bypass_sign( CC, -qmul[j]) + 32) >> 6;
             }
-
-            abslevel1++;
         } else {
             int coeff_abs = 2;
-            ctx = 5 + FFMIN( 4, abslevelgt1 ) + abs_level_m1_ctx_base;
+            ctx = coeff_abs_levelgt1_ctx[node_ctx] + abs_level_m1_ctx_base;
+            node_ctx = coeff_abs_level_transition[1][node_ctx];
+
             while( coeff_abs < 15 && get_cabac( CC, ctx ) ) {
                 coeff_abs++;
             }
@@ -5519,8 +5531,6 @@ static void decode_cabac_residual( H264Context *h, DCTELEM *block, int cat, int 
                 if( get_cabac_bypass( CC ) ) block[j] = (-coeff_abs * qmul[j] + 32) >> 6;
                 else                                block[j] = ( coeff_abs * qmul[j] + 32) >> 6;
             }
-
-            abslevelgt1++;
         }
     }
 #ifdef CABAC_ON_STACK
@@ -6488,7 +6498,7 @@ static void filter_mb( H264Context *h, int mb_x, int mb_y, uint8_t *img_y, uint8
     //for sufficiently low qp, filtering wouldn't do anything
     //this is a conservative estimate: could also check beta_offset and more accurate chroma_qp
     if(!FRAME_MBAFF){
-        int qp_thresh = 15 - h->slice_alpha_c0_offset - FFMAX(0, FFMAX(h->pps.chroma_qp_index_offset[0], h->pps.chroma_qp_index_offset[1]));
+        int qp_thresh = 15 - h->slice_alpha_c0_offset - FFMAX3(0, h->pps.chroma_qp_index_offset[0], h->pps.chroma_qp_index_offset[1]);
         int qp = s->current_picture.qscale_table[mb_xy];
         if(qp <= qp_thresh
            && (mb_x == 0 || ((qp + s->current_picture.qscale_table[mb_xy-1] + 1)>>1) <= qp_thresh)
@@ -8057,13 +8067,16 @@ AVCodec h264_decoder = {
     CODEC_TYPE_VIDEO,
     CODEC_ID_H264,
     sizeof(H264Context),
-    /*.init=*/decode_init,
-    /*.encode=*/NULL,
-    /*.close=*/decode_end,
-    /*.decode=*/decode_frame,
-    /*.capabilities=*//*CODEC_CAP_DRAW_HORIZ_BAND |*/ CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY,
-    /*.next=*/NULL,
-    /*.flush=*/flush_dpb
+    /*.init = */decode_init,
+    /*.encode = */NULL,
+    /*.close = */decode_end,
+    /*.decode = */decode_frame,
+    /*.capabilities = *//*CODEC_CAP_DRAW_HORIZ_BAND |*/ CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY,
+    /*.next = */NULL,
+    /*.flush = */flush_dpb,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
 };
 
 #include "svq3.c"

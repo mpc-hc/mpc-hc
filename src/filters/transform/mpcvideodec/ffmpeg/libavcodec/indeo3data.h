@@ -19,8 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_INDEO3DATA_H
-#define AVCODEC_INDEO3DATA_H
+#ifndef FFMPEG_INDEO3DATA_H
+#define FFMPEG_INDEO3DATA_H
+
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
 
 static const uint32_t correction[] = {
         0x00000000, 0x00000202, 0xfffffdfe, 0x000002ff, 0xfffffd01, 0xffffff03, 0x000000fd, 0x00000404,
@@ -2337,4 +2341,4 @@ static const uint32_t correctionhighorder[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 };
 
-#endif // AVCODEC_INDEO3DATA_H
+#endif /* FFMPEG_INDEO3DATA_H */

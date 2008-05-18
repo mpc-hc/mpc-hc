@@ -52,7 +52,7 @@ static av_cold int alaw2linear(unsigned char a_val)
         if(seg) t= (t + t + 1 + 32) << (seg + 2);
         else    t= (t + t + 1     ) << 3;
 
-        return ((a_val & SIGN_BIT) ? t : -t);
+        return (a_val & SIGN_BIT) ? t : -t;
 }
 
 static av_cold int ulaw2linear(unsigned char u_val)
@@ -69,7 +69,7 @@ static av_cold int ulaw2linear(unsigned char u_val)
         t = ((u_val & QUANT_MASK) << 3) + BIAS;
         t <<= ((unsigned)u_val & SEG_MASK) >> SEG_SHIFT;
 
-        return ((u_val & SIGN_BIT) ? (BIAS - t) : (t - BIAS));
+        return (u_val & SIGN_BIT) ? (BIAS - t) : (t - BIAS);
 }
 
 typedef struct PCMDecode {
@@ -132,7 +132,7 @@ static int pcm_decode_frame(AVCodecContext *avctx,
     return src - buf;
 }
 
-#define PCM_CODEC(id, name)                     \
+#define PCM_CODEC(id, name, long_name_)         \
 AVCodec name ## _decoder = {                    \
     #name,                                      \
     CODEC_TYPE_AUDIO,                           \
@@ -142,9 +142,15 @@ AVCodec name ## _decoder = {                    \
     NULL,                                       \
     NULL,                                       \
     pcm_decode_frame,                           \
+    /*.capabilities = */0,                      \
+    /*.next = */NULL,                           \
+    /*.flush = */NULL,                          \
+    /*.supported_framerates = */NULL,           \
+    /*.pix_fmts = */NULL,                       \
+    /*.long_name = */long_name_,                \
 }
 
-PCM_CODEC(CODEC_ID_PCM_ALAW, pcm_alaw);
-PCM_CODEC(CODEC_ID_PCM_MULAW, pcm_mulaw);
+PCM_CODEC  (CODEC_ID_PCM_ALAW, pcm_alaw, "A-law PCM");
+PCM_CODEC  (CODEC_ID_PCM_MULAW, pcm_mulaw, "mu-law PCM");
 
 #undef PCM_CODEC

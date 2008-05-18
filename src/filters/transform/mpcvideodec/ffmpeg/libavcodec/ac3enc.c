@@ -25,9 +25,9 @@
  */
 //#define DEBUG
 //#define DEBUG_BITALLOC
+#include "libavutil/crc.h"
 #include "avcodec.h"
 #include "bitstream.h"
-#include "crc.h"
 #include "ac3.h"
 
 typedef struct AC3EncodeContext {
@@ -1271,4 +1271,10 @@ AVCodec ac3_encoder = {
     /*.encode=*/AC3_encode_frame,
     /*.close=*/AC3_encode_close,
     /*.decode=*/NULL,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"ATSC A/52 / AC-3",
 };

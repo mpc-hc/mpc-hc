@@ -596,11 +596,14 @@ AVCodec png_decoder = {
     CODEC_TYPE_VIDEO,
     CODEC_ID_PNG,
     sizeof(PNGDecContext),
-    /*.init=*/png_dec_init,
-    /*.encode=*/NULL,
-    /*.close=*/NULL, //decode_end
-    /*.decode=*/decode_frame,
-    /*.capabilities=*/0, //CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND
-    /*.next=*/NULL,
-    /*.flush=*/NULL,
+    /*.init = */png_dec_init,
+    /*.encode = */NULL,
+    /*.close = */NULL, //decode_end
+    /*.decode = */decode_frame,
+    /*.capabilities = */0, //CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"PNG image",
 };

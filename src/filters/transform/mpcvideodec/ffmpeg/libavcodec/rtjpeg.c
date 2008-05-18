@@ -18,7 +18,7 @@
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include "common.h"
+#include "libavutil/common.h"
 #include "bitstream.h"
 #include "dsputil.h"
 #include "rtjpeg.h"
@@ -41,7 +41,7 @@
  *
  * Note: GetBitContext is used to make the code simpler, since all data is
  * aligned this could be done faster in a different way, e.g. as it is done
- * in MPlayer libmpcodecs/native/RTjpegN.c
+ * in MPlayer libmpcodecs/native/rtjpegn.c.
  */
 static inline int get_block(GetBitContext *gb, DCTELEM *block, const uint8_t *scan,
                             const uint32_t *quant) {

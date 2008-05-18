@@ -25,15 +25,14 @@
  * MPEG1/2 decoder tables.
  */
 
-#ifndef AVCODEC_MPEG12DECDATA_H
-#define AVCODEC_MPEG12DECDATA_H
+#ifndef FFMPEG_MPEG12DECDATA_H
+#define FFMPEG_MPEG12DECDATA_H
 
-/* x64 fixes */
 #ifdef __GNUC__
- #include <stdint.h>
+#include <stdint.h>
 #endif
-
 #include "mpegvideo.h"
+
 
 #define MB_TYPE_ZERO_MV   0x20000000
 #define IS_ZERO_MV(a)   ((a)&MB_TYPE_ZERO_MV)
@@ -124,4 +123,4 @@ static const uint8_t *mpeg2_dc_scale_table[4]={
     mpeg2_dc_scale_table3,
 };
 
-#endif // AVCODEC_MPEG12DECDATA_H
+#endif /* FFMPEG_MPEG12DECDATA_H */

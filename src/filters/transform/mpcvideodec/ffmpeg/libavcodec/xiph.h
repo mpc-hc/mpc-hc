@@ -18,10 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_XIPH_H
-#define AVCODEC_XIPH_H
+#ifndef FFMPEG_XIPH_H
+#define FFMPEG_XIPH_H
 
-#include "common.h"
+#include "libavutil/common.h"
 
 /**
  * Splits a single extradata buffer into the three headers that most
@@ -40,4 +40,4 @@ int ff_split_xiph_headers(uint8_t *extradata, int extradata_size,
                           int first_header_size, uint8_t *header_start[3],
                           int header_len[3]);
 
-#endif // AVCODEC_XIPH_H
+#endif /* FFMPEG_XIPH_H */

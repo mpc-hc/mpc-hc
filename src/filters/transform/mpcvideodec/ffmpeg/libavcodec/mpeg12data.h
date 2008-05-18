@@ -31,7 +31,7 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
-#include "..\libavutil\rational.h"
+#include "libavutil/rational.h"
 #include "rl.h"
 
 extern const uint16_t ff_mpeg1_default_intra_matrix[64];

@@ -25,9 +25,9 @@
  * utils.
  */
 
+#include "libavutil/crc.h"
 #include "avcodec.h"
 #include "dsputil.h"
-#include "crc.h"
 #include "imgconvert.h"
 #include <stdarg.h>
 #include <limits.h>

@@ -37,7 +37,7 @@
 #include "avcodec.h"
 
 
-static const enum PixelFormat pixfmt_rgb24[] = {PIX_FMT_BGR24, PIX_FMT_RGB32, -1};
+static const enum PixelFormat pixfmt_rgb24[] = {PIX_FMT_BGR24, PIX_FMT_RGB32, PIX_FMT_NONE};
 
 /*
  * Decoder context
@@ -225,9 +225,14 @@ AVCodec eightbps_decoder = {
         CODEC_TYPE_VIDEO,
         CODEC_ID_8BPS,
         sizeof(EightBpsContext),
-        decode_init,
-        NULL,
-        decode_end,
-        decode_frame,
-        CODEC_CAP_DR1,
+        /*.init = */decode_init,
+        /*.encode = */NULL,
+        /*.close = */decode_end,
+        /*.decode = */decode_frame,
+        /*.capabilities = */CODEC_CAP_DR1,
+        /*.next = */NULL,
+        /*.flush = */NULL,
+        /*.supported_framerates = */NULL,
+        /*.pix_fmts = */NULL,
+        /*.long_name = */"QuickTime 8BPS video",
 };

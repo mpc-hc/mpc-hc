@@ -806,12 +806,18 @@ static av_cold int imc_decode_close(AVCodecContext * avctx)
 
 
 AVCodec imc_decoder = {
-    /*.name =*/ "imc",
-    /*.type =*/ CODEC_TYPE_AUDIO,
-    /*.id =*/ CODEC_ID_IMC,
-    /*.priv_data_size =*/ sizeof(IMCContext),
-    /*.init =*/ imc_decode_init,
-	/*.encode =*/ NULL,
-    /*.close =*/ imc_decode_close,
-    /*.decode =*/ imc_decode_frame,
+    /*.name = */"imc",
+    /*.type = */CODEC_TYPE_AUDIO,
+    /*.id = */CODEC_ID_IMC,
+    /*.priv_data_size = */sizeof(IMCContext),
+    /*.init = */imc_decode_init,
+    /*.encode = */NULL,
+    /*.close =*/imc_decode_close,
+    /*.decode =*/imc_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"IMC (Intel Music Coder)",
 };

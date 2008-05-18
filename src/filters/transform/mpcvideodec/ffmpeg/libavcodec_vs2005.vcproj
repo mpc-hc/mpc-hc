@@ -1065,7 +1065,15 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\libavcodec\aac_ac3_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\ac3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3_parser.h"
 				>
 			</File>
 			<File
@@ -1146,6 +1154,10 @@
 			</File>
 			<File
 				RelativePath=".\ffImgfmt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\flac.h"
 				>
 			</File>
 			<File
@@ -1245,6 +1257,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mlp_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg12.h"
 				>
 			</File>
@@ -1257,7 +1273,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg4audio.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg4data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg4video_parser.h"
 				>
 			</File>
 			<File
@@ -1266,6 +1290,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegaudiodata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpegaudiodecheader.h"
 				>
 			</File>
 			<File
@@ -1282,6 +1310,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\msmpeg4data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\opt.h"
 				>
 			</File>
 			<File
@@ -1473,6 +1505,10 @@
 			Name="libavutil"
 			>
 			<File
+				RelativePath=".\libavutil\avstring.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avutil.h"
 				>
 			</File>
@@ -1509,6 +1545,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\intfloat_readwrite.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\intreadwrite.h"
 				>
 			</File>
@@ -1530,6 +1570,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\mathematics.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\mathematics.h"
 				>
 			</File>
 			<File
@@ -1564,10 +1608,6 @@
 		<Filter
 			Name="i386"
 			>
-			<File
-				RelativePath=".\libavcodec\i386\fft_sse.c"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\libavcodec_dec.def"

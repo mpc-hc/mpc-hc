@@ -21,8 +21,9 @@
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include "../dsputil.h"
-#include "x86_cpu.h"
+
+#include "libavutil/x86_cpu.h"
+#include "libavcodec/dsputil.h"
 
 DECLARE_ASM_CONST(8, uint64_t, round_tab[3])={
 0x0000000000000000ULL,
@@ -34,7 +35,7 @@ DECLARE_ASM_CONST(8, uint64_t, bone)= 0x0101010101010101LL;
 
 static inline void sad8_1_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
 {
-    long len= -(stride*h);
+    x86_reg len= -(stride*h);
     asm volatile(
         ASMALIGN(4)
         "1:                             \n\t"
@@ -64,7 +65,7 @@ static inline void sad8_1_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
         "add %3, %%"REG_a"              \n\t"
         " js 1b                         \n\t"
         : "+a" (len)
-        : "r" (blk1 - len), "r" (blk2 - len), "r" ((long)stride)
+        : "r" (blk1 - len), "r" (blk2 - len), "r" ((x86_reg)stride)
     );
 }
 
@@ -84,7 +85,7 @@ static inline void sad8_1_mmx2(uint8_t *blk1, uint8_t *blk2, int stride, int h)
         "sub $2, %0                     \n\t"
         " jg 1b                         \n\t"
         : "+r" (h), "+r" (blk1), "+r" (blk2)
-        : "r" ((long)stride)
+        : "r" ((x86_reg)stride)
     );
 }
 
@@ -107,7 +108,7 @@ static int sad16_sse2(void *v, uint8_t *blk2, uint8_t *blk1, int stride, int h)
         "sub $2, %0                     \n\t"
         " jg 1b                         \n\t"
         : "+r" (h), "+r" (blk1), "+r" (blk2)
-        : "r" ((long)stride)
+        : "r" ((x86_reg)stride)
     );
     asm volatile(
         "movhlps %%xmm6, %%xmm0         \n\t"
@@ -137,7 +138,7 @@ static inline void sad8_x2a_mmx2(uint8_t *blk1, uint8_t *blk2, int stride, int h
         "sub $2, %0                     \n\t"
         " jg 1b                         \n\t"
         : "+r" (h), "+r" (blk1), "+r" (blk2)
-        : "r" ((long)stride)
+        : "r" ((x86_reg)stride)
     );
 }
 
@@ -162,7 +163,7 @@ static inline void sad8_y2a_mmx2(uint8_t *blk1, uint8_t *blk2, int stride, int h
         "sub $2, %0                     \n\t"
         " jg 1b                         \n\t"
         : "+r" (h), "+r" (blk1), "+r" (blk2)
-        : "r" ((long)stride)
+        : "r" ((x86_reg)stride)
     );
 }
 
@@ -192,13 +193,13 @@ static inline void sad8_4_mmx2(uint8_t *blk1, uint8_t *blk2, int stride, int h)
         "sub $2, %0                     \n\t"
         " jg 1b                         \n\t"
         : "+r" (h), "+r" (blk1), "+r" (blk2)
-        : "r" ((long)stride)
+        : "r" ((x86_reg)stride)
     );
 }
 
 static inline void sad8_2_mmx(uint8_t *blk1a, uint8_t *blk1b, uint8_t *blk2, int stride, int h)
 {
-    long len= -(stride*h);
+    x86_reg len= -(stride*h);
     asm volatile(
         ASMALIGN(4)
         "1:                             \n\t"
@@ -230,13 +231,13 @@ static inline void sad8_2_mmx(uint8_t *blk1a, uint8_t *blk1b, uint8_t *blk2, int
         "add %4, %%"REG_a"              \n\t"
         " js 1b                         \n\t"
         : "+a" (len)
-        : "r" (blk1a - len), "r" (blk1b -len), "r" (blk2 - len), "r" ((long)stride)
+        : "r" (blk1a - len), "r" (blk1b -len), "r" (blk2 - len), "r" ((x86_reg)stride)
     );
 }
 
 static inline void sad8_4_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
 {
-    long len= -(stride*h);
+    x86_reg len= -(stride*h);
     asm volatile(
         "movq (%1, %%"REG_a"), %%mm0    \n\t"
         "movq 1(%1, %%"REG_a"), %%mm2   \n\t"
@@ -283,7 +284,7 @@ static inline void sad8_4_mmx(uint8_t *blk1, uint8_t *blk2, int stride, int h)
         "add %4, %%"REG_a"              \n\t"
         " js 1b                         \n\t"
         : "+a" (len)
-        : "r" (blk1 - len), "r" (blk1 -len + stride), "r" (blk2 - len), "r" ((long)stride)
+        : "r" (blk1 - len), "r" (blk1 -len + stride), "r" (blk2 - len), "r" ((x86_reg)stride)
     );
 }
 

@@ -157,5 +157,10 @@ AVCodec avs_decoder = {
     NULL,
     NULL,
     avs_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"AVS (Audio Video Standard) video",
 };

@@ -24,7 +24,7 @@
  *
  * VP3 Video Decoder by Mike Melanson (mike at multimedia.cx)
  * For more information about the VP3 coding process, visit:
- *   http://multimedia.cx/
+ *   http://wiki.multimedia.cx/index.php?title=On2_VP3
  *
  * Theora decoder by Alex Beregszaszi
  */
@@ -2560,12 +2560,16 @@ AVCodec theora_decoder = {
     CODEC_TYPE_VIDEO,
     CODEC_ID_THEORA,
     sizeof(Vp3DecodeContext),
-    theora_decode_init,
-    NULL,
-    vp3_decode_end,
-    vp3_decode_frame,
-    0,
-    NULL
+    /*.init = */theora_decode_init,
+    /*.encode = */NULL,
+    /*.close = */vp3_decode_end,
+    /*.decode = */vp3_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Theora",
 };
 
 AVCodec vp3_decoder = {
@@ -2573,10 +2577,14 @@ AVCodec vp3_decoder = {
     CODEC_TYPE_VIDEO,
     CODEC_ID_VP3,
     sizeof(Vp3DecodeContext),
-    vp3_decode_init,
-    NULL,
-    vp3_decode_end,
-    vp3_decode_frame,
-    0,
-    NULL
+    /*.init = */vp3_decode_init,
+    /*.encode = */NULL,
+    /*.close = */vp3_decode_end,
+    /*.decode = */vp3_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"On2 VP3",
 };

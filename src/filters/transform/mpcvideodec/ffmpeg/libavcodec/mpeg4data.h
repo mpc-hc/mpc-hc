@@ -25,9 +25,12 @@
  * mpeg4 tables.
  */
 
-#ifndef AVCODEC_MPEG4DATA_H
-#define AVCODEC_MPEG4DATA_H
+#ifndef FFMPEG_MPEG4DATA_H
+#define FFMPEG_MPEG4DATA_H
 
+#ifdef __GNUC__
+#include <stdint.h>
+#endif
 #include "mpegvideo.h"
 
 // shapes
@@ -428,4 +431,4 @@ static const uint8_t mpeg4_dc_threshold[8]={
     99, 13, 15, 17, 19, 21, 23, 0
 };
 
-#endif // AVCODEC_MPEG4DATA_H
+#endif /* FFMPEG_MPEG4DATA_H */

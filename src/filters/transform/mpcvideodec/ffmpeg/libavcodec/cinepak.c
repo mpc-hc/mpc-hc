@@ -462,5 +462,10 @@ AVCodec cinepak_decoder = {
     NULL,
     cinepak_decode_end,
     cinepak_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Cinepak",
 };

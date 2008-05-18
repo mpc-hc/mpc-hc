@@ -24,7 +24,7 @@
  */
 
 #include "common.h"
-#include "rational.h"
+#include "mathematics.h"
 
 const uint8_t ff_sqrt_tab[256]={
   0, 16, 23, 28, 32, 36, 40, 43, 46, 48, 51, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 77, 79, 80, 82, 84, 85, 87, 88, 90,

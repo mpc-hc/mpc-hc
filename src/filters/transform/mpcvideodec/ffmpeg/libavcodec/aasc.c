@@ -170,5 +170,10 @@ AVCodec aasc_decoder = {
     NULL,
     aasc_decode_end,
     aasc_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Autodesk RLE",
 };

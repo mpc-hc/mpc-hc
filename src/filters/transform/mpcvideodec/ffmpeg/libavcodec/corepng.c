@@ -186,5 +186,10 @@ AVCodec corepng_decoder = {
     NULL,
     decode_done,
     decode_frame,
-    0
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"CorePNG",
 };

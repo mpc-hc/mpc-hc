@@ -46,11 +46,11 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "libavutil/random.h"
 #include "avcodec.h"
 #include "bitstream.h"
 #include "dsputil.h"
 #include "bytestream.h"
-#include "random.h"
 
 #include "cookdata.h"
 
@@ -1145,4 +1145,10 @@ AVCodec cook_decoder =
     /*.encode = */ NULL,
     /*.close = */cook_decode_close,
     /*.decode = */cook_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"COOK",
 };

@@ -1451,8 +1451,12 @@ AVCodec huffyuv_decoder = {
     NULL,
     decode_end,
     decode_frame,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
-    NULL
+    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
+    /*.next=*/NULL,
+    /*.flush=*/NULL,
+    /*.supported_framerates=*/NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Huffyuv / HuffYUV",
 };
 
 AVCodec ffvhuff_decoder = {
@@ -1464,8 +1468,12 @@ AVCodec ffvhuff_decoder = {
     NULL,
     decode_end,
     decode_frame,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
-    NULL
+    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
+    /*.next=*/NULL,
+    /*.flush=*/NULL,
+    /*.supported_framerates=*/NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */"Huffyuv FFmpeg variant",
 };
 #endif
 
@@ -1486,6 +1494,8 @@ AVCodec huffyuv_encoder = {
     /*.supported_framerates=*/NULL,
 #if __STDC_VERSION >= 199901L
     .pix_fmts= (enum PixelFormat[]){PIX_FMT_YUV422P, PIX_FMT_RGB32, -1},
+#else
+    /*.pix_fmts = */NULL,
 #endif
 };
 
@@ -1504,6 +1514,8 @@ AVCodec ffvhuff_encoder = {
     /*.supported_framerates=*/NULL,
 #if __STDC_VERSION >= 199901L
     .pix_fmts= (enum PixelFormat[]){PIX_FMT_YUV420P, PIX_FMT_YUV422P, PIX_FMT_RGB32, -1},
+#else
+    /*.pix_fmts = */NULL,
 #endif
 };
 

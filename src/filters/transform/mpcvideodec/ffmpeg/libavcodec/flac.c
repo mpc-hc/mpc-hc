@@ -36,10 +36,11 @@
 #include <limits.h>
 
 #define ALT_BITSTREAM_READER
+#include "libavutil/crc.h"
 #include "avcodec.h"
 #include "bitstream.h"
 #include "golomb.h"
-#include "crc.h"
+#include "flac.h"
 
 #undef NDEBUG
 #include <assert.h>
@@ -56,14 +57,13 @@ enum decorrelation_type {
 };
 
 typedef struct FLACContext {
+    FLACSTREAMINFO
+
     AVCodecContext *avctx;
     GetBitContext gb;
 
-    int min_blocksize, max_blocksize;
-    int min_framesize, max_framesize;
-    int samplerate, channels;
     int blocksize/*, last_blocksize*/;
-    int bps, curr_bps;
+    int curr_bps;
     enum decorrelation_type decorrelation;
 
     int32_t *decoded[MAX_CHANNELS];
@@ -94,7 +94,6 @@ static int64_t get_utf8(GetBitContext *gb){
     return val;
 }
 
-static void metadata_streaminfo(FLACContext *s);
 static void allocate_buffers(FLACContext *s);
 static int metadata_parse(FLACContext *s);
 
@@ -105,11 +104,11 @@ static av_cold int flac_decode_init(AVCodecContext * avctx)
 
     if (avctx->extradata_size > 4) {
         /* initialize based on the demuxer-supplied streamdata header */
-        init_get_bits(&s->gb, avctx->extradata, avctx->extradata_size*8);
         if (avctx->extradata_size == FLAC_STREAMINFO_SIZE) {
-            metadata_streaminfo(s);
+            ff_flac_parse_streaminfo(avctx, (FLACStreaminfo *)s, avctx->extradata);
             allocate_buffers(s);
         } else {
+            init_get_bits(&s->gb, avctx->extradata, avctx->extradata_size*8);
             metadata_parse(s);
         }
     }
@@ -117,13 +116,13 @@ static av_cold int flac_decode_init(AVCodecContext * avctx)
     return 0;
 }
 
-static void dump_headers(FLACContext *s)
+static void dump_headers(AVCodecContext *avctx, FLACStreaminfo *s)
 {
-    av_log(s->avctx, AV_LOG_DEBUG, "  Blocksize: %d .. %d (%d)\n", s->min_blocksize, s->max_blocksize, s->blocksize);
-    av_log(s->avctx, AV_LOG_DEBUG, "  Framesize: %d .. %d\n", s->min_framesize, s->max_framesize);
-    av_log(s->avctx, AV_LOG_DEBUG, "  Samplerate: %d\n", s->samplerate);
-    av_log(s->avctx, AV_LOG_DEBUG, "  Channels: %d\n", s->channels);
-    av_log(s->avctx, AV_LOG_DEBUG, "  Bits: %d\n", s->bps);
+    av_log(avctx, AV_LOG_DEBUG, "  Blocksize: %d .. %d\n", s->min_blocksize, s->max_blocksize);
+    av_log(avctx, AV_LOG_DEBUG, "  Max Framesize: %d\n", s->max_framesize);
+    av_log(avctx, AV_LOG_DEBUG, "  Samplerate: %d\n", s->samplerate);
+    av_log(avctx, AV_LOG_DEBUG, "  Channels: %d\n", s->channels);
+    av_log(avctx, AV_LOG_DEBUG, "  Bits: %d\n", s->bps);
 }
 
 static void allocate_buffers(FLACContext *s){
@@ -143,28 +142,32 @@ static void allocate_buffers(FLACContext *s){
     s->bitstream= av_fast_realloc(s->bitstream, &s->allocated_bitstream_size, s->max_framesize);
 }
 
-static void metadata_streaminfo(FLACContext *s)
+void ff_flac_parse_streaminfo(AVCodecContext *avctx, struct FLACStreaminfo *s,
+                              const uint8_t *buffer)
 {
+    GetBitContext gb;
+    init_get_bits(&gb, buffer, FLAC_STREAMINFO_SIZE*8);
+
     /* mandatory streaminfo */
-    s->min_blocksize = get_bits(&s->gb, 16);
-    s->max_blocksize = get_bits(&s->gb, 16);
+    s->min_blocksize = get_bits(&gb, 16);
+    s->max_blocksize = get_bits(&gb, 16);
 
-    s->min_framesize = get_bits_long(&s->gb, 24);
-    s->max_framesize = get_bits_long(&s->gb, 24);
+    skip_bits(&gb, 24); /* skip min frame size */
+    s->max_framesize = get_bits_long(&gb, 24);
 
-    s->samplerate = get_bits_long(&s->gb, 20);
-    s->channels = get_bits(&s->gb, 3) + 1;
-    s->bps = get_bits(&s->gb, 5) + 1;
+    s->samplerate = get_bits_long(&gb, 20);
+    s->channels = get_bits(&gb, 3) + 1;
+    s->bps = get_bits(&gb, 5) + 1;
 
-    s->avctx->channels = s->channels;
-    s->avctx->sample_rate = s->samplerate;
+    avctx->channels = s->channels;
+    avctx->sample_rate = s->samplerate;
 
-    skip_bits(&s->gb, 36); /* total num of samples */
+    skip_bits(&gb, 36); /* total num of samples */
 
-    skip_bits(&s->gb, 64); /* md5 sum */
-    skip_bits(&s->gb, 64); /* md5 sum */
+    skip_bits(&gb, 64); /* md5 sum */
+    skip_bits(&gb, 64); /* md5 sum */
 
-    dump_headers(s);
+    dump_headers(avctx, s);
 }
 
 /**
@@ -193,9 +196,8 @@ static int metadata_parse(FLACContext *s)
             if (metadata_size) {
                 switch (metadata_type) {
                 case METADATA_TYPE_STREAMINFO:
-                    metadata_streaminfo(s);
+                    ff_flac_parse_streaminfo(s->avctx, (FLACStreaminfo *)s, s->gb.buffer+get_bits_count(&s->gb)/8);
                     streaminfo_updated = 1;
-                    break;
 
                 default:
                     for (i=0; i<metadata_size; i++)
@@ -277,10 +279,14 @@ static int decode_subframe_fixed(FLACContext *s, int channel, int pred_order)
     if (decode_residuals(s, channel, pred_order) < 0)
         return -1;
 
-    a = decoded[pred_order-1];
-    b = a - decoded[pred_order-2];
-    c = b - decoded[pred_order-2] + decoded[pred_order-3];
-    d = c - decoded[pred_order-2] + 2*decoded[pred_order-3] - decoded[pred_order-4];
+    if(pred_order > 0)
+        a = decoded[pred_order-1];
+    if(pred_order > 1)
+        b = a - decoded[pred_order-2];
+    if(pred_order > 2)
+        c = b - decoded[pred_order-2] + decoded[pred_order-3];
+    if(pred_order > 3)
+        d = c - decoded[pred_order-2] + 2*decoded[pred_order-3] - decoded[pred_order-4];
 
     switch(pred_order)
     {
@@ -574,7 +580,7 @@ static int decode_frame(FLACContext *s, int alloc_data_size)
     s->bps          = bps;
     s->decorrelation= decorrelation;
 
-//    dump_headers(s);
+//    dump_headers(s->avctx, (FLACStreaminfo *)s);
 
     /* subframes */
     for (i = 0; i < s->channels; i++)
@@ -767,11 +773,14 @@ AVCodec flac_decoder = {
     CODEC_TYPE_AUDIO,
     CODEC_ID_FLAC,
     sizeof(FLACContext),
-    /*.init=*/flac_decode_init,
-    /*.encode=*/NULL,
-    /*.close=*/flac_decode_close,
-    /*.decode=*/flac_decode_frame,
-    /*.capabilities=*/0,
-    /*.next=*/NULL,
-    /*.flush=*/flac_flush,
+    /*.init = */flac_decode_init,
+    /*.encode = */NULL,
+    /*.close = */flac_decode_close,
+    /*.decode = */flac_decode_frame,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */flac_flush,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name= */"FLAC (Free Lossless Audio Codec)"
 };

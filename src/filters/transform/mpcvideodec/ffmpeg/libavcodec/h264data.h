@@ -32,8 +32,8 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
+#include "libavutil/rational.h"
 #include "mpegvideo.h"
-#include "..\libavutil\rational.h"
 
 
 #define EXTENDED_SAR          255

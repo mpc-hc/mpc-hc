@@ -187,7 +187,7 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
 
 ifneq ($(CC),icl)
 ifneq ($(CC),cl)
-SRCS_C+=$(LAVC_DIR)/i386/cputest.c \
+SRCS_C+=$(LAVC_DIR)/i386/cpuid.c \
       $(LAVC_DIR)/i386/cavsdsp_mmx.c \
       $(LAVC_DIR)/i386/dsputil_mmx.c \
       $(LAVC_DIR)/i386/dsputilenc_mmx.c \

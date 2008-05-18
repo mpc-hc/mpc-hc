@@ -303,5 +303,10 @@ AVCodec msrle_decoder = {
     NULL,
     msrle_decode_end,
     msrle_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name= */"Microsoft RLE",
 };

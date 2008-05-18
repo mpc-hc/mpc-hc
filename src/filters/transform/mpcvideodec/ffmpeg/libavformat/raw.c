@@ -22,8 +22,9 @@
 #include "avformat.h"
 #include "ac3_parser.h"
 #include "raw.h"
-#include "crc.h"
 #include "bitstream.h"
+#include "libavutil/crc.h"
+#include "libavutil/mathematics.h"
 
 const PixelFormatTag ff_raw_pixelFormatTags[] = {
     { PIX_FMT_YUV420P, MKTAG('I', '4', '2', '0') }, /* Planar formats */
