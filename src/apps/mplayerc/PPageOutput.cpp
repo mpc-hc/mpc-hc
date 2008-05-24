@@ -257,6 +257,17 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 		GetDlgItem(IDC_CHECK1)->EnableWindow(TRUE);		// Lock back buffer
 
+		// Force 3D surface with EVR Custom
+		if (nIDbutton - IDC_DSSYSDEF == 11)
+		{
+			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
+			m_iAPSurfaceUsage = 2;
+			UpdateData(FALSE);
+		}
+		else
+			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
+		break;
+
 	case 5 :	// VMR7 renderless
 		GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 		break;

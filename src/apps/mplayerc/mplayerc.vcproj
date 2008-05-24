@@ -1549,6 +1549,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\levels.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\procamp.psh"
 					>
 				</File>
