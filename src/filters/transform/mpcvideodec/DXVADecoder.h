@@ -61,6 +61,7 @@ public :
 	DXVAMode				GetMode()		{ return m_nMode; };
 	DXVA_ENGINE				GetEngine()		{ return m_nEngine; };
 	void					AllocExecuteParams (int nSize);
+	void					SetDirectXVideoDec (IDirectXVideoDecoder* pDirectXVideoDec)  { m_pDirectXVideoDec = pDirectXVideoDec; };
 
 	virtual HRESULT			DecodeFrame  (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop) = NULL;
 	virtual void			SetExtraData (BYTE* pDataIn, UINT nSize);

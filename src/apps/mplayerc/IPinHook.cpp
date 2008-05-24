@@ -34,13 +34,11 @@
 
 REFERENCE_TIME		g_tSegmentStart			= 0;
 REFERENCE_TIME		g_tSampleStart			= 0;
-REFERENCE_TIME		g_rtTimePerFrame		= 0;
 GUID				g_guidDXVADecoder		= GUID_NULL;
 int					g_nDXVAVersion			= 0;
 
 IPinCVtbl*			g_pPinCVtbl				= NULL;
 IMemInputPinCVtbl*	g_pMemInputPinCVtbl		= NULL;
-IPinC*				g_pPinC					= NULL;
 
 static bool			bFirst					= true;
 
@@ -170,20 +168,6 @@ static HRESULT (STDMETHODCALLTYPE * NewSegmentOrg)(IPinC * This, /* [in] */ REFE
 
 static HRESULT STDMETHODCALLTYPE NewSegmentMine(IPinC * This, /* [in] */ REFERENCE_TIME tStart, /* [in] */ REFERENCE_TIME tStop, /* [in] */ double dRate)
 {
-	CMediaType	mt;
-	
-	if (g_pPinC && g_pPinCVtbl && SUCCEEDED (g_pPinCVtbl->ConnectionMediaType (g_pPinC, &mt)))
-	{
-		if (mt.formattype==FORMAT_VideoInfo)
-			g_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
-		else if (mt.formattype==FORMAT_VideoInfo2)
-			g_rtTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
-		else if (mt.formattype==FORMAT_MPEGVideo)
-			g_rtTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
-		else if (mt.formattype==FORMAT_MPEG2Video)
-			g_rtTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
-	}
-
 	g_tSegmentStart = tStart;
 	return NewSegmentOrg(This, tStart, tStop, dRate);
 }
@@ -233,7 +217,6 @@ void UnhookNewSegmentAndReceive()
 		g_pMemInputPinCVtbl = NULL;
 		NewSegmentOrg		= NULL;
 		ReceiveOrg			= NULL;
-		g_pPinC				= NULL;
 	}
 }
 
@@ -244,7 +227,6 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
 	g_tSegmentStart		= 0;
 	g_tSampleStart		= 0;
-	g_rtTimePerFrame	= 417080;
 
 	BOOL res;
 	DWORD flOldProtect = 0;
@@ -265,7 +247,6 @@ bool HookNewSegmentAndReceive(IPinC* pPinC, IMemInputPinC* pMemInputPinC)
 
 	g_pPinCVtbl			= pPinC->lpVtbl;
 	g_pMemInputPinCVtbl = pMemInputPinC->lpVtbl;
-	g_pPinC				= pPinC;
 
 	return true;
 }
@@ -974,7 +955,7 @@ public :
 				m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
 				m_ppBufferLen[BufferType]		= *pBufferSize;
 			}
-//			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
+			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			
 			return hr;
 		}
@@ -982,7 +963,7 @@ public :
         virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType)
 		{
 			HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
-//			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
+			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			return hr;
 		}
         

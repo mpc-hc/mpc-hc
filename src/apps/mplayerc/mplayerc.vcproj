@@ -1529,6 +1529,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\EdgeSharpen.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\emboss.psh"
 					>
 				</File>
@@ -1553,6 +1557,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\nightvision.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\procamp.psh"
 					>
 				</File>
@@ -1562,6 +1570,10 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\sharpen.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\SharpenComplex.psh"
 					>
 				</File>
 				<File
@@ -1583,19 +1595,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\res\shaders\EdgeSharpen.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\nightvision.psh"
-			>
-		</File>
-		<File
 			RelativePath=".\res\PN31Snoop.sys"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\SharpenComplex.psh"
 			>
 		</File>
 	</Files>

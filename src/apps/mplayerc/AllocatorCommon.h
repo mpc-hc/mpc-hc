@@ -105,23 +105,23 @@ namespace DSObjects
 		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
 		virtual void			OnResetDevice() {};
 
-		int				m_nTearingPos;
+		int						m_nTearingPos;
 		VMR9AlphaBitmap			m_VMR9AlphaBitmap;
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
 		D3DXCreateLinePtr		m_pD3DXCreateLine;
 		D3DXCreateFontPtr		m_pD3DXCreateFont;
 
-		int				m_nNbDXSurface;					// Total number of DX Surfaces
-		int				m_nCurSurface;					// Surface currently displayed
-		long				m_nUsedBuffer;
+		int						m_nNbDXSurface;					// Total number of DX Surfaces
+		int						m_nCurSurface;					// Surface currently displayed
+		long					m_nUsedBuffer;
 
-		double				m_fAvrFps;						// Estimate the real FPS
-		LONGLONG			m_pllJitter [NB_JITTER];		// Jitter buffer for stats
-		LONGLONG			m_llLastPerf;
-		int				m_nNextJitter;
-		REFERENCE_TIME			m_rtCandidate;
+		double					m_fAvrFps;						// Estimate the real FPS
+		LONGLONG				m_pllJitter [NB_JITTER];		// Jitter buffer for stats
+		LONGLONG				m_llLastPerf;
+		int						m_nNextJitter;
+		REFERENCE_TIME			m_rtTimePerFrame;
 
-		CString				m_strStatsMsg[10];
+		CString					m_strStatsMsg[10];
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);

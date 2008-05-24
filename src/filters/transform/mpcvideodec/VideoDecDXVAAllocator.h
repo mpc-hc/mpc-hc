@@ -80,9 +80,19 @@ public:
 	CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr);
 	virtual ~CVideoDecDXVAAllocator();
 
+ //   STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,		// Try for a circular buffer!
+ //                          __in_opt REFERENCE_TIME * pStartTime,
+ //                          __in_opt REFERENCE_TIME * pEndTime,
+ //                          DWORD dwFlags);
+ //
+ //    STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
+ //	    CAtlList<int>				m_FreeSurface;
+
+
 protected:
 	HRESULT		Alloc(void);
 	void		Free(void);
+
 
 private :
 	CMPCVideoDecFilter*		m_pVideoDecFilter;

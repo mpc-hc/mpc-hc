@@ -207,7 +207,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr)
 	, m_nTearingPos(0)
 	, m_nNbDXSurface(1)
 	, m_nCurSurface(0)
-	, m_rtCandidate(0)
+	, m_rtTimePerFrame(0)
 	, m_nUsedBuffer(0)
 {
 	HINSTANCE		hDll;
@@ -1110,16 +1110,16 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	// Calculate the jitter!
 	LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
-	if ((g_rtTimePerFrame != 0) && (labs ((long)(llPerf - m_llLastPerf)) < g_rtTimePerFrame*3) )
+	if ((m_rtTimePerFrame != 0) && (labs ((long)(llPerf - m_llLastPerf)) < m_rtTimePerFrame*3) )
 	{
 		m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
-		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - g_rtTimePerFrame;
+		m_pllJitter[m_nNextJitter] = llPerf - m_llLastPerf - m_rtTimePerFrame;
 
 		// Calculate the real FPS
 		LONGLONG		llJitterSum = 0;
 		for (int i=0; i<NB_JITTER; i++)
 			llJitterSum += m_pllJitter[i];
-		m_fAvrFps = 10000000.0/(llJitterSum/125 + g_rtTimePerFrame);
+		m_fAvrFps = 10000000.0/(llJitterSum/125 + m_rtTimePerFrame);
 	}
 
 	m_llLastPerf = llPerf;
@@ -1176,7 +1176,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		}
 
 		// === Jitter curve
-		if (g_rtTimePerFrame)
+		if (m_rtTimePerFrame)
 		{
 			for (int i=0; i<NB_JITTER; i++)
 			{
@@ -1194,7 +1194,7 @@ void CDX9AllocatorPresenter::DrawStats()
 		// === Text
 		CString		strText;
 
-		strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, g_rtTimePerFrame / 10);
+		strText.Format(L"Frame rate   : %.03f  (%I64d µs)", m_fAvrFps, m_rtTimePerFrame / 10);
 		m_pFont->DrawText( NULL, strText, -1, &rc, DT_NOCLIP, D3DXCOLOR( 1.0f, 0.0f, 0.0f, 1.0f ));
 
 		OffsetRect (&rc, 0, 30);
@@ -1813,6 +1813,27 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
 	CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
+
+	if (m_rtTimePerFrame == 0)
+	{
+		CComPtr<IBaseFilter>	pVMR9;
+		CComPtr<IPin>			pPin;
+		CMediaType				mt;
+		
+		if (SUCCEEDED (m_pIVMRSurfAllocNotify->QueryInterface (__uuidof(IBaseFilter), (void**)&pVMR9)) &&
+			SUCCEEDED (pVMR9->FindPin(L"VMR Input0", &pPin)) &&
+			SUCCEEDED (pPin->ConnectionMediaType(&mt)) )
+		{
+			if (mt.formattype==FORMAT_VideoInfo)
+				m_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+			else if (mt.formattype==FORMAT_VideoInfo2)
+				m_rtTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+			else if (mt.formattype==FORMAT_MPEGVideo)
+				m_rtTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+			else if (mt.formattype==FORMAT_MPEG2Video)
+				m_rtTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+		}
+	}
 
     HRESULT hr;
 

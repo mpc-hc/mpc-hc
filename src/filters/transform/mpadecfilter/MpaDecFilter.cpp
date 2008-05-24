@@ -208,7 +208,7 @@ s_scmap_hdmv[] =
 	{4, { 0, 1, 2, 3,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},											// 2/2			FL, FR, BL, BR
 	{6, { 0, 1, 2, 3, 4,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},						// 3/2			FL, FR, FC, BL, BR
 	{6, { 0, 1, 2, 5, 3, 4,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/2+LFe		FL, FR, FC, BL, BR, LFe
-	{8, { 0, 1, 2,-1, 3, 6, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_FRONT_LEFT_OF_CENTER|SPEAKER_FRONT_RIGHT_OF_CENTER},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
+	{8, { 0, 1, 2, 3, 6, 4, 5,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_FRONT_LEFT_OF_CENTER|SPEAKER_FRONT_RIGHT_OF_CENTER},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
 	{8, { 0, 1, 2, 7, 3, 6, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_FRONT_LEFT_OF_CENTER|SPEAKER_FRONT_RIGHT_OF_CENTER},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
 };
 
@@ -427,10 +427,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 			for(int j = 0; j < wfein->nChannels; j++)
 			{
 				int		nRemap = remap->ch[j];
-				if (nRemap != -1)
-					*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / 0x8000;
-				else
-					*pDataOut = 0.0;
+				*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / 0x8000;
 				pDataOut++;
 			}
 			pDataIn += remap->nChannels*2;
@@ -439,16 +436,17 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 
 	case 24 :
 	case 20 :
+		long		lSample;
+
 		for (int i=0; i<len/wfein->nChannels/3; i++)
 		{
 			for(int j = 0; j < wfein->nChannels; j++)
 			{
 				BYTE		nRemap = remap->ch[j];
-				// TODO : not finished (division not ok)!
-				if (nRemap != 255)
-					*pDataOut = (float)(short)((pDataIn[nRemap*3]<<16)|pDataIn[nRemap*3+1]<<8|pDataIn[nRemap*3+2]) / 0x8000;
-				else
-					*pDataOut = 0.0;
+
+				lSample = (long)pDataIn[nRemap*3]<<24 | (long)pDataIn[nRemap*3+1]<<16 | (long)pDataIn[nRemap*3+2]<<8;
+				*pDataOut = (float)(long)lSample / 0x80000000;
+
 				pDataOut++;
 			}
 			pDataIn += remap->nChannels*3;
@@ -1291,9 +1289,7 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 	else if(mtIn->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 	{
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
-		
-		// TODO: remove this limitation
-		return (wfe->wBitsPerSample == 16) ? S_OK : VFW_E_TYPE_NOT_ACCEPTED;
+		return S_OK;
 	}
 	else if(mtIn->subtype == MEDIASUBTYPE_PS2_ADPCM)
 	{

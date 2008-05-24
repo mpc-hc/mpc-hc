@@ -261,8 +261,7 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 		if (nIDbutton - IDC_DSSYSDEF == 11)
 		{
 			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
-			m_iAPSurfaceUsage = 2;
-			UpdateData(FALSE);
+			((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
 		}
 		else
 			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);

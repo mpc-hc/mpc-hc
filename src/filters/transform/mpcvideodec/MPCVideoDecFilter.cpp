@@ -676,7 +676,7 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 
 	char		Msg [500];
 	vsnprintf (Msg, sizeof(Msg), fmt, valist);
-	TRACE("AVLIB : %s", Msg);
+//	TRACE("AVLIB : %s", Msg);
 #endif
 }
 
@@ -1141,7 +1141,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
 	
 //	DumpBuffer (pDataIn, nSize);
-	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
+//	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
 
 	//char		strMsg[300];
 	//FILE* hFile = fopen ("d:\\receive.txt", "at");
@@ -1239,7 +1239,7 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
             // Find a supported configuration.
             for (UINT iConfig = 0; iConfig < cConfigurations; iConfig++)
             {
-                if (IsSupportedDecoderConfig(pFormats[iConfig], pConfig[iConfig]))
+                if (IsSupportedDecoderConfig(pFormats[iFormat], pConfig[iConfig]))
                 {
                     // This configuration is good.
                     *pbFoundDXVA2Configuration = TRUE;
@@ -1337,6 +1337,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
         }
     }
 
+	if (pDecoderGuids) CoTaskMemFree(pDecoderGuids);
     if (!bFoundDXVA2Configuration)
     {
         hr = E_FAIL; // Unable to find a configuration.
@@ -1410,19 +1411,25 @@ HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin *pPin)
 
 HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets)
 {
-	HRESULT		hr;
-	m_pDecoderRenderTarget	= NULL;
+	HRESULT							hr;
 	CComPtr<IDirectXVideoDecoder>	pDirectXVideoDec;
+	
+	m_pDecoderRenderTarget	= NULL;
 
-	//hr = m_pDecoderService->CreateSurface (m_pAVCtx->width,m_pAVCtx->height, 0, D3DFMT_A8R8G8B8, 
-	//							D3DPOOL_DEFAULT, 0, DXVA2_VideoDecoderRenderTarget, &m_pDecoderRenderTarget, NULL);
+	if (m_pDXVADecoder) m_pDXVADecoder->SetDirectXVideoDec (NULL);
+
 	hr = m_pDecoderService->CreateVideoDecoder (m_DXVADecoderGUID, &m_VideoDesc, &m_DXVA2Config, 
 								pDecoderRenderTargets, nNumRenderTargets, &pDirectXVideoDec);
 
 	if (SUCCEEDED (hr))
 	{
-		m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pDirectXVideoDec, &m_DXVADecoderGUID, GetPicEntryNumber());
-		if (m_pDXVADecoder) m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+		if (!m_pDXVADecoder)
+		{
+			m_pDXVADecoder	= CDXVADecoder::CreateDecoder (this, pDirectXVideoDec, &m_DXVADecoderGUID, GetPicEntryNumber());
+			if (m_pDXVADecoder) m_pDXVADecoder->SetExtraData ((BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+		}
+
+		m_pDXVADecoder->SetDirectXVideoDec (pDirectXVideoDec);
 	}
 
 	return hr;

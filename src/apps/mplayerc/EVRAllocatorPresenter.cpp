@@ -880,6 +880,8 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 	VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
 	hr = pfMFCreateVideoMediaType  (VideoFormat, &m_pMediaType);
 
+	m_rtTimePerFrame = (10000000I64*VideoFormat->videoInfo.FramesPerSecond.Denominator)/VideoFormat->videoInfo.FramesPerSecond.Numerator;
+
 	m_AspectRatio.cx	= VideoFormat->videoInfo.PixelAspectRatio.Numerator;
 	m_AspectRatio.cy	= VideoFormat->videoInfo.PixelAspectRatio.Denominator;
 
@@ -1509,7 +1511,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
 					//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
 					// Wakup 1/2 refresh rate before next VSync!
-					lDelay = (UINT)((nsSampleTime + g_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
+					lDelay = (UINT)((nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
 
 					if (lDelay > 0)
 					{

@@ -235,7 +235,6 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 			else
 				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 
-			hr = m_pDirectXVideoDec->ReleaseBuffer (CompressedBufferType);
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
@@ -289,13 +288,20 @@ HRESULT CDXVADecoder::Execute()
 		for (DWORD i=0; i<m_dwNumBuffersInfo; i++)
 		{
 			hr2 = m_pAMVideoAccelerator->ReleaseBuffer (m_DXVA1BufferInfo[i].dwTypeIndex, m_DXVA1BufferInfo[i].dwBufferIndex);
-			ASSERT (SUCCEEDED (hr));
+			ASSERT (SUCCEEDED (hr2));
 		}
 
 		m_dwNumBuffersInfo = 0;
 		break;
 
 	case ENGINE_DXVA2 :
+
+		for (DWORD i=0; i<m_ExecuteParams.NumCompBuffers; i++)
+		{
+			hr2 = m_pDirectXVideoDec->ReleaseBuffer (m_ExecuteParams.pCompressedBuffers[i].CompressedBufferType);
+			ASSERT (SUCCEEDED (hr2));
+		}
+
 		hr = m_pDirectXVideoDec->Execute(&m_ExecuteParams);
 		m_ExecuteParams.NumCompBuffers	= 0;
 		break;
@@ -602,7 +608,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 			pMPCDXVA2Sample	 = pNewSample;
 			nSurfaceIndex    = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
 			*ppSampleToDeliver = pNewSample.Detach();
-			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
+//			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
 		}
 		break;
 	}
