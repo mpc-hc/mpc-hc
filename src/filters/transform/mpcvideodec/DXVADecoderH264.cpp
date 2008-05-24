@@ -197,10 +197,13 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	m_DXVAPicParams.CurrPic.Index7Bits			= nSurfaceIndex;
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
+	
+	m_DXVAPicParams.StatusReportFeedbackNumber++;
+
+	TRACE("CDXVADecoderH264 : Decode frame %u\n", m_DXVAPicParams.StatusReportFeedbackNumber);
 
 	// Send picture parameters
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_DXVAPicParams), &m_DXVAPicParams));
-	m_DXVAPicParams.StatusReportFeedbackNumber++;
 	CHECK_HR (Execute());
 
 	// Add bitstream, slice control and quantization matrix
@@ -210,10 +213,13 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CHECK_HR (AddExecuteBuffer (DXVA2_InverseQuantizationMatrixBufferType, sizeof (DXVA_Qmatrix_H264), (void*)&m_DXVAScalingMatrix));
 
 	// Decode bitstream
-	m_DXVAPicParams.StatusReportFeedbackNumber++;
 	CHECK_HR (Execute());
 
 	CHECK_HR (EndFrame(nSurfaceIndex));
+
+#ifdef _DEBUG
+	DisplayStatus();
+#endif
 
 	if (AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop, m_DXVAPicParams.field_pic_flag))
 	{
@@ -364,4 +370,23 @@ bool CNalu::ReadNext()
 	nal_unit_type		= (NALU_TYPE) (m_pBuffer[m_nNALDataPos] & 0x1f);
 
 	return true;
+}
+
+
+HRESULT CDXVADecoderH264::DisplayStatus()
+{
+	HRESULT 			hr = E_INVALIDARG;
+	DXVA_Status_H264 	Status;
+
+	memset (&Status, 0, sizeof(Status));
+
+	CHECK_HR (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
+
+	TRACE ("CDXVADecoderH264 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
+		Status.StatusReportFeedbackNumber,
+		Status.bBufType,
+		Status.bStatus,
+		Status.wNumMbsAffected);
+
+	return hr;
 }

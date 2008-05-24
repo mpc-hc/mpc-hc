@@ -313,28 +313,26 @@ HRESULT CDXVADecoder::Execute()
 	return hr;
 }
 
-DWORD CDXVADecoder::QueryStatus()
+HRESULT CDXVADecoder::QueryStatus(PVOID LPDXVAStatus, UINT nSize)
 {
 	HRESULT						hr = E_INVALIDARG;
 	DXVA2_DecodeExecuteParams	ExecuteParams;
 	DXVA2_DecodeExtensionData	ExtensionData;
-	DXVA_Status_H264			Status;
+	DWORD						dwFunction = 0x07000000;
 
 	switch (m_nEngine)
 	{
 	case ENGINE_DXVA1 :
+		hr = m_pAMVideoAccelerator->Execute (dwFunction, NULL, 0, LPDXVAStatus, nSize, 0, NULL);
 		break;
 
 	case ENGINE_DXVA2 :
 		memset (&ExecuteParams, 0, sizeof(ExecuteParams));
 		memset (&ExtensionData, 0, sizeof(ExtensionData));
-		memset (&Status,        0, sizeof(Status));
 		ExecuteParams.pExtensionData		= &ExtensionData;
-		ExtensionData.pPrivateOutputData	= &Status;
-		ExtensionData.PrivateOutputDataSize	= sizeof (Status);
-		ExtensionData.Function		= 7;
-		Status.bDXVA_Func			= 1;
-		Status.field_pic_flag		= 1;
+		ExtensionData.pPrivateOutputData	= LPDXVAStatus;
+		ExtensionData.PrivateOutputDataSize	= nSize;
+		ExtensionData.Function				= 7;
 		hr = m_pDirectXVideoDec->Execute(&ExecuteParams);
 		break;
 	default :
@@ -344,7 +342,6 @@ DWORD CDXVADecoder::QueryStatus()
 
 	return hr;
 }
-
 
 DWORD CDXVADecoder::GetDXVA1CompressedType (DWORD dwDXVA2CompressedType)
 {

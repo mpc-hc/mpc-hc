@@ -116,6 +116,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.wBackwardRefPictureIndex	= (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : VC1_NO_REF;
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
+	TRACE("CDXVADecoderVC1 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
@@ -131,6 +133,10 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	// Decode frame
 	CHECK_HR (Execute());
 	CHECK_HR (EndFrame(nSurfaceIndex));
+
+#ifdef _DEBUG
+	DisplayStatus();
+#endif
 
 	// Re-order B frames
 	if (m_pFilter->ReorderBFrame())
@@ -278,4 +284,24 @@ void CDXVADecoderVC1::Flush()
 	m_wRefPictureIndex[1] = VC1_NO_REF;
 
 	__super::Flush();
+}
+
+HRESULT CDXVADecoderVC1::DisplayStatus()
+{
+	HRESULT			hr = E_INVALIDARG;
+	DXVA_Status_VC1 Status;
+
+	memset (&Status, 0, sizeof(Status));
+
+	CHECK_HR (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
+
+	Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
+
+	TRACE ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
+		Status.StatusReportFeedbackNumber,
+		Status.bBufType,
+		Status.bStatus,
+		Status.wNumMbsAffected);
+
+	return hr;
 }

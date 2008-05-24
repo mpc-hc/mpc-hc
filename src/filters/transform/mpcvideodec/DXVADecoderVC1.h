@@ -106,6 +106,7 @@ private:
 
 	// Private functions
 	void					Init();
+	HRESULT					DisplayStatus();
 	BYTE*					FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
 
 };

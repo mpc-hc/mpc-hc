@@ -206,8 +206,8 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("CD Audio Track"),			_T("cda"),	_T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
 		ADDFMT((ResStr(IDS_AG_FLIC_FILE),		_T("flic"),	_T("fli flc flic")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),	_T("d2v"),	_T("d2v")));
-		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),		_T("mp4"),	_T("mp4 m4v m4a m4b hdmov 3gp 3gpp")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),	_T("aac"),	_T("m4a aac"), true));
+		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),		_T("mp4"),	_T("mp4 m4v hdmov 3gp 3gpp")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),	_T("aac"),	_T("m4a m4b aac"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_17),	_T("mkv"),	_T("mkv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_18),	_T("mka"),	_T("mka"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),	_T("bik"),	_T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));

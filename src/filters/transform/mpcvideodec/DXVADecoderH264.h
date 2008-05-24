@@ -101,6 +101,7 @@ private:
 
 	// Private functions
 	void					Init();
+	HRESULT					DisplayStatus();
 
 	// DXVA functions
 	void					ClearRefFramesList();

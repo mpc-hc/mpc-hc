@@ -68,7 +68,6 @@ public :
 	virtual void			CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 	virtual void			Flush();
 	HRESULT					ConfigureDXVA1();
-	DWORD					QueryStatus();
 	
 	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* guidDecoder, int nPicEntryNumber);
 	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber);
@@ -91,6 +90,7 @@ protected :
 	HRESULT					FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferIndex);
 	HRESULT					BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
 	HRESULT					EndFrame(int nSurfaceIndex);
+	HRESULT					QueryStatus(PVOID LPDXVAStatus, UINT nSize);
 
 	// === Picture store functions
 	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField);
