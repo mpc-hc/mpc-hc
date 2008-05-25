@@ -33,6 +33,9 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
+#include <setupapi.h>
+#include <devguid.h>
+
 extern "C"
 {
 	#include "FfmpegContext.h"
@@ -51,6 +54,7 @@ extern "C"
 /////
 #define MAX_SUPPORTED_MODE			5
 #define MPCVD_CAPTION				_T("MPC Video decoder")
+#define DEVINFO_BUFFER_SIZE		800
 
 typedef struct
 {
@@ -481,6 +485,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);
 
+	DetectVideoCard();
+
 #ifdef _DEBUG
 	// Check codec definition table
 	int		nCodecs	  = countof(ffCodecs);
@@ -491,6 +497,52 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #endif
 }
 
+
+void CMPCVideoDecFilter::DetectVideoCard()
+{
+	TCHAR			sEnumerator[] = _T("PCI");
+	HDEVINFO		hDev;
+	DWORD			dwIndex = 0;
+	SP_DEVINFO_DATA	devInfo;
+	DWORD			BufferSize = 0;
+	DWORD			DataType;
+	bool			bRet = false;
+	CString			strHardwareId;
+	CString			strDriver;
+	CString			strDescription;
+
+	m_nPCIVendor = 0;
+	m_nPCIDevice = 0;
+
+	hDev = SetupDiGetClassDevs(&GUID_DEVCLASS_DISPLAY, sEnumerator, NULL, DIGCF_PRESENT);
+	if (hDev != INVALID_HANDLE_VALUE)
+	{
+		memset(&devInfo, 0, sizeof(devInfo));
+		devInfo.cbSize = sizeof(devInfo);
+		while (SetupDiEnumDeviceInfo(hDev, dwIndex ++, &devInfo))
+		{
+			if (SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_HARDWAREID,
+							&DataType,(BYTE*)strHardwareId.GetBuffer (DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize))
+			{
+				strHardwareId.ReleaseBuffer();
+
+				SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_DRIVER,
+					&DataType,(BYTE*)strDriver.GetBuffer(DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize);
+				strDriver.ReleaseBuffer();
+
+				SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_DEVICEDESC,
+					&DataType,(BYTE*)strDescription.GetBuffer(DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize);
+				strDescription.ReleaseBuffer();
+
+				strHardwareId.MakeLower();
+				m_nPCIVendor = _ttoi (_tcsstr(strHardwareId, _T("ven_"))+4);
+				m_nPCIDevice = _ttoi (_tcsstr(strHardwareId, _T("dev_"))+4);
+				m_strDeviceDescription.Format (_T("%s (%d)"), strDescription, m_nPCIVendor);
+				break;
+			}
+		}
+	}
+}
 
 
 CMPCVideoDecFilter::~CMPCVideoDecFilter()
@@ -1218,12 +1270,15 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
 
     // Find the valid render target formats for this decoder GUID.
     hr = pDecoderService->GetDecoderRenderTargets(guidDecoder, &cFormats, &pFormats);
+	LOG (_T("GetDecoderRenderTargets => %d"), cFormats);
 
     if (SUCCEEDED(hr))
     {
         // Look for a format that matches our output format.
         for (UINT iFormat = 0; iFormat < cFormats;  iFormat++)
         {
+			LOG (_T("Try to negociate => 0x%08x"), pFormats[iFormat]);
+
             // Fill in the video description. Set the width, height, format, and frame rate.
             FillInVideoDescription(&m_VideoDesc); // Private helper function.
             m_VideoDesc.Format = pFormats[iFormat];
@@ -1233,7 +1288,7 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
 
             if (FAILED(hr))
             {
-                break;
+                continue;
             }
 
             // Find a supported configuration.
@@ -1249,8 +1304,6 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
             }
 
             CoTaskMemFree(pConfig);
-            break;
-
         } // End of formats loop.
     }
 
@@ -1656,4 +1709,10 @@ STDMETHODIMP_(bool) CMPCVideoDecFilter::GetEnableFfmpeg()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_bEnableFfmpeg;
+}
+
+STDMETHODIMP_(LPCTSTR) CMPCVideoDecFilter::GetVideoCardDescription()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_strDeviceDescription;
 }

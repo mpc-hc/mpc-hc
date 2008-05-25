@@ -46,6 +46,8 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CButton		m_chkEnableDXVA;
 	CStatic		m_txtDXVAMode;
 	CEdit		m_edtDXVAMode;
+	CStatic		m_txtVideoCardDescription;
+	CEdit		m_edtVideoCardDescription;
 
 	enum 
 	{

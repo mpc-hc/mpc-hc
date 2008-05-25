@@ -110,6 +110,10 @@ protected:
 	CDXVADecoder*							m_pDXVADecoder;
 	GUID									m_DXVADecoderGUID;
 
+	int										m_nPCIVendor;
+	int										m_nPCIDevice;
+	CString									m_strDeviceDescription;
+
 	// === DXVA1 variables
 	DDPIXELFORMAT							m_PixelFormat;
 
@@ -128,6 +132,8 @@ protected:
 	bool				IsMultiThreadSupported(int nCodec);
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
+	void				DetectVideoCard();
+
 
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
@@ -179,6 +185,7 @@ public:
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
 	STDMETHODIMP SetEnableFfmpeg(bool fValue);
 	STDMETHODIMP_(bool) GetEnableFfmpeg();
+	STDMETHODIMP_(LPCTSTR) GetVideoCardDescription();
 
 
 	// === DXVA common functions
@@ -194,6 +201,7 @@ public:
 	AVCodecContext*	GetAVCtx()		 { return m_pAVCtx; };
 	bool			IsDXVASupported();
 	bool			ReorderBFrame() { return m_bReorderBFrame; };
+	int				GetPCIVendor()  { return m_nPCIVendor; };
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*	GetPixelFormat() { return &m_PixelFormat; }

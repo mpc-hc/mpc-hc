@@ -1824,14 +1824,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 			SUCCEEDED (pVMR9->FindPin(L"VMR Input0", &pPin)) &&
 			SUCCEEDED (pPin->ConnectionMediaType(&mt)) )
 		{
-			if (mt.formattype==FORMAT_VideoInfo)
-				m_rtTimePerFrame = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
-			else if (mt.formattype==FORMAT_VideoInfo2)
-				m_rtTimePerFrame = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
-			else if (mt.formattype==FORMAT_MPEGVideo)
-				m_rtTimePerFrame = ((MPEG1VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
-			else if (mt.formattype==FORMAT_MPEG2Video)
-				m_rtTimePerFrame = ((MPEG2VIDEOINFO*)mt.pbFormat)->hdr.AvgTimePerFrame;
+			ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
 		}
 	}
 

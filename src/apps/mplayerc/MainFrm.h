@@ -237,6 +237,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void SetupFavoritesSubMenu();
 	void SetupShadersSubMenu();
 
+	IBaseFilter* FindSourceSelectableFilter();
 	void SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup);
 	void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
 

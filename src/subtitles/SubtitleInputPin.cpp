@@ -82,6 +82,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 		DWORD dwOffset = psi->dwOffset;
 
 		CString name = ISO6392ToLanguage(psi->IsoLang);
+		LCID	lcid = ISO6392ToLcid(psi->IsoLang);
 		if(name.IsEmpty()) name = _T("English");
 		if(wcslen(psi->TrackName) > 0) name += _T(" (") + CString(psi->TrackName) + _T(")");
 
@@ -94,6 +95,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 			if(!(m_pSubStream = new CRenderedTextSubtitle(m_pSubLock))) return E_FAIL;
 			CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 			pRTS->m_name = name;
+			pRTS->m_lcid = lcid;
 			pRTS->m_dstScreenSize = CSize(384, 288);
 			pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
 
@@ -368,4 +370,5 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
     return hr;
 }
+
 

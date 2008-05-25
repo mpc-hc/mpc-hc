@@ -32,6 +32,9 @@
 
 #define LOG_FILE				_T("dxva.log")
 
+//#define LOG_BITSTREAM
+//#define LOG_MATRIX
+
 REFERENCE_TIME		g_tSegmentStart			= 0;
 REFERENCE_TIME		g_tSampleStart			= 0;
 GUID				g_guidDXVADecoder		= GUID_NULL;
@@ -790,18 +793,20 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 		}
 		else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER)
 		{
-			//char		strFile[MAX_PATH];
-			//static	int	nNb = 1;
-			//sprintf (strFile, "BitStream%d.bin", nNb++);
-			//FILE*		hFile = fopen (strFile, "wb");
-			//if (hFile)
-			//{
-			//	fwrite (g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex],
-			//			1,
-			//			pamvaBufferInfo[i].dwDataSize,
-			//			hFile);
-			//	fclose (hFile);
-			//}
+#if defined(LOG_BITSTREAM) && defined(_DEBUG)
+			char		strFile[MAX_PATH];
+			static	int	nNb = 1;
+			sprintf (strFile, "BitStream%d.bin", nNb++);
+			FILE*		hFile = fopen (strFile, "wb");
+			if (hFile)
+			{
+				fwrite (g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex],
+						1,
+						pamvaBufferInfo[i].dwDataSize,
+						hFile);
+				fclose (hFile);
+			}
+#endif
 		}
 	}
 #endif
@@ -1014,37 +1019,42 @@ public :
 					LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
 					LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
 				}
-				//if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_InverseQuantizationMatrixBufferType)
-				//{
-				//	char		strFile[MAX_PATH];
-				//	sprintf (strFile, "Matrix.bin");
-				//	FILE*		hFile = fopen (strFile, "wb");
-				//	if (hFile)
-				//	{
-				//		fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
-				//				1,
-				//				pExecuteParams->pCompressedBuffers[i].DataSize,
-				//				hFile);
-				//		fclose (hFile);
-				//	}
-				//}
+
+#if defined(LOG_MATRIX) && defined(_DEBUG)
+				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_InverseQuantizationMatrixBufferType)
+				{
+					char		strFile[MAX_PATH];
+					static	int	nNb = 1;
+					sprintf (strFile, "Matrix%d.bin", nNb++);
+					FILE*		hFile = fopen (strFile, "wb");
+					if (hFile)
+					{
+						fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+								1,
+								pExecuteParams->pCompressedBuffers[i].DataSize,
+								hFile);
+						fclose (hFile);
+					}
+				}
+#endif
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
 				{
-					//char		strFile[MAX_PATH];
-					//static	int	nNb = 1;
-					//sprintf (strFile, "BitStream%d.bin", nNb++);
-					//FILE*		hFile = fopen (strFile, "wb");
-					//if (hFile)
-					//{
-					//	fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
-					//			1,
-					//			pExecuteParams->pCompressedBuffers[i].DataSize,
-					//			hFile);
-					//	fclose (hFile);
-					//}
+#if defined(LOG_BITSTREAM) && defined(_DEBUG)
+					char		strFile[MAX_PATH];
+					static	int	nNb = 1;
+					sprintf (strFile, "BitStream%d.bin", nNb++);
+					FILE*		hFile = fopen (strFile, "wb");
+					if (hFile)
+					{
+						fwrite (m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType],
+								1,
+								pExecuteParams->pCompressedBuffers[i].DataSize,
+								hFile);
+						fclose (hFile);
+					}
+#endif
 				}
-
 			}
 
 			HRESULT		hr = m_pDec->Execute (pExecuteParams);

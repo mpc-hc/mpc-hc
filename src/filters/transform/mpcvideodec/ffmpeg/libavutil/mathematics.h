@@ -21,7 +21,9 @@
 #ifndef FFMPEG_MATHEMATICS_H
 #define FFMPEG_MATHEMATICS_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "rational.h"
 
 enum AVRounding {

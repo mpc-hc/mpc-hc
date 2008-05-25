@@ -67,4 +67,5 @@ interface IMPCVideoDecFilter : public IUnknown
 	STDMETHOD(SetEnableFfmpeg(bool fValue)) = 0;
 	STDMETHOD_(bool, GetEnableFfmpeg()) = 0;
 
+	STDMETHOD_(LPCTSTR, GetVideoCardDescription()) = 0;
 };

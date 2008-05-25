@@ -2477,7 +2477,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
 	if(pLCID)
 	{
-		*pLCID = 0; // TODO
+		*pLCID = m_lcid;
 	}
 
 	return S_OK;

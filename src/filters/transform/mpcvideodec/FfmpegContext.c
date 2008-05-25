@@ -45,6 +45,17 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
 
+const byte ZZ_SCAN[16]  =
+{  0,  1,  4,  8,  5,  2,  3,  6,  9, 12, 13, 10,  7, 11, 14, 15
+};
+
+const byte ZZ_SCAN8[64] =
+{  0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
+   12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
+   35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
+   58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
+};
+
 char* GetFFMpegPictureType(int nType)
 {
 	static char*	s_FFMpegPictTypes[] = { "? ", "I ", "P ", "B ", "S ", "SI", "SP" };
@@ -76,28 +87,52 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL)
 	{
 		// Check aspect ratio
-		if (   (cur_sps->sar.num ==  0) ||	// Weird but happen...
-			  ((cur_sps->sar.num ==  1) && (cur_sps->sar.den == 1)) ||
-			  ((cur_sps->sar.num ==  4) && (cur_sps->sar.den == 3)) ||
-			  ((cur_sps->sar.num ==  5) && (cur_sps->sar.den == 4)) ||
-			  ((cur_sps->sar.num == 16) && (cur_sps->sar.den == 9)) )
-		{
+		//if (   (cur_sps->sar.num ==  0) ||	// Weird but happen...
+		//	  ((cur_sps->sar.num ==  1) && (cur_sps->sar.den == 1)) ||
+		//	  ((cur_sps->sar.num ==  4) && (cur_sps->sar.den == 3)) ||
+		//	  ((cur_sps->sar.num ==  5) && (cur_sps->sar.den == 4)) ||
+		//	  ((cur_sps->sar.num == 16) && (cur_sps->sar.den == 9)) )
+		//{
 			// Check max num reference frame according to the level and the resolution
 			#define MAX_DPB_41 12288 // value for level 4.1
 			#define MAX_DPB_31 6750 // value for level 3.1
 			if (((nWidth > 720) && (cur_sps->ref_frame_count > (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) || // HD content, level 4.1
 			((nWidth <= 720) && (cur_sps->ref_frame_count > (1024*MAX_DPB_31/(nWidth*nHeight*1.5))))) // SD content, level 3.1
 				return 2;	// Too much ref frames
-		}
-		else
-			return 1;	// Wrong SAR
+		//}
+		//else
+		//	return 1;	// Wrong SAR
 	}
 		
 	return 0;
 }
 
 
-HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, int nPCIVendor)
+{
+	int		i,j;
+
+	switch (nPCIVendor)
+	{
+	case 1002 :
+		// The ATI way
+		memcpy (pDest, pSource, sizeof (DXVA_Qmatrix_H264));
+		break;
+
+	default :
+		// The nVidia way (and other manufacturers compliant with specifications....)
+		for (i=0; i<6; i++)
+			for (j=0; j<16; j++)
+				pDest->bScalingLists4x4[i][j] = pSource->bScalingLists4x4[i][ZZ_SCAN[j]];
+
+		for (i=0; i<2; i++)
+			for (j=0; j<64; j++)
+				pDest->bScalingLists8x8[i][j] = pSource->bScalingLists8x8[i][ZZ_SCAN8[j]];
+		break;
+	}
+}
+
+HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor)
 {
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
 	SPS*					cur_sps;
@@ -189,7 +224,7 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 			pDXVAPicParams->CurrFieldOrderCnt[1]	= h->poc_lsb + h->poc_msb;
 		}
 
-		memcpy (pDXVAScalingMatrix, cur_pps->scaling_matrix4, sizeof (DXVA_Qmatrix_H264));
+		CopyScalingMatrix (pDXVAScalingMatrix, (DXVA_Qmatrix_H264*)cur_pps->scaling_matrix4, nPCIVendor);
 		hr = S_OK;
 	}
 

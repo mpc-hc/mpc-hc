@@ -1748,6 +1748,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 	m_collisions = 0;
 	m_fScaledBAS = false;
 	m_encoding = CTextFile::ASCII;
+	m_lcid = 0;
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
@@ -3029,4 +3030,5 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 
 	return(s);
 }
+
 

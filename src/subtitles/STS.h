@@ -109,6 +109,7 @@ protected:
 
 public:
 	CString m_name;
+	LCID m_lcid;
 	exttype m_exttype;
 	tmode m_mode;
 	CTextFile::enc m_encoding;
@@ -188,6 +189,7 @@ extern int CharSetLen;
 
 class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {public: CHtmlColorMap();};
 extern CHtmlColorMap g_colors;
+
 
 
 

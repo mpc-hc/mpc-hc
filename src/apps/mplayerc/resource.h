@@ -1157,13 +1157,14 @@
 #define IDS_MAINFRM_139                 33191
 #define IDS_VDF_FFMPEG_ENABLE			33192
 #define IDS_REALVIDEO_INCOMPATIBLE		33193
+#define IDS_VDF_VIDEOCARD				33194
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33194
+#define _APS_NEXT_COMMAND_VALUE         33195
 #define _APS_NEXT_CONTROL_VALUE         22015
 #define _APS_NEXT_SYMED_VALUE           24005
 #endif

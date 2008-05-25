@@ -983,6 +983,23 @@ bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
 	return false;
 }
 
+bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimePerFrame)
+{
+	if (pmt->formattype==FORMAT_VideoInfo)
+		rtAvgTimePerFrame = ((VIDEOINFOHEADER*)pmt->pbFormat)->AvgTimePerFrame;
+	else if (pmt->formattype==FORMAT_VideoInfo2)
+		rtAvgTimePerFrame = ((VIDEOINFOHEADER2*)pmt->pbFormat)->AvgTimePerFrame;
+	else if (pmt->formattype==FORMAT_MPEGVideo)
+		rtAvgTimePerFrame = ((MPEG1VIDEOINFO*)pmt->pbFormat)->hdr.AvgTimePerFrame;
+	else if (pmt->formattype==FORMAT_MPEG2Video)
+		rtAvgTimePerFrame = ((MPEG2VIDEOINFO*)pmt->pbFormat)->hdr.AvgTimePerFrame;
+	else
+		return false;
+
+	return true;
+}
+
+
 bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 {
 	AM_MEDIA_TYPE* pmt = NULL;

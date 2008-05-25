@@ -3004,8 +3004,7 @@ void CMainFrame::OnOgmAudio(UINT nID)
 
 	if(m_iMediaLoadState != MLS_LOADED) return;
 
-	CComQIPtr<IAMStreamSelect> pSS = FindFilter(CLSID_OggSplitter, pGB);
-	if(!pSS) pSS = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
+	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
 	if(!pSS) return;
 
     CAtlArray<int> snds;
@@ -3038,7 +3037,34 @@ void CMainFrame::OnOgmAudio(UINT nID)
 
 		int cnt = snds.GetCount();
 		if(cnt > 1 && iSel >= 0)
-			pSS->Enable(snds[(iSel+(nID==0?1:cnt-1))%cnt], AMSTREAMSELECTENABLE_ENABLE);
+		{
+			int nNewStream = snds[(iSel+(nID==0?1:cnt-1))%cnt];
+			pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);
+
+			AM_MEDIA_TYPE* pmt = NULL;
+			DWORD dwFlags = 0;
+			LCID lcid = 0;
+			DWORD dwGroup = 0;
+			WCHAR* pszName = NULL;
+
+			if(SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
+			{
+				CString lang;
+				CString	strMessage;
+				if (lcid == 0)
+					strMessage.Format (_T("Audio : %s - %s"), ResStr(IDS_AG_UNKNOWN_STREAM), pszName);
+				else
+				{
+					int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+					lang.ReleaseBufferSetLength(max(len-1, 0));
+					strMessage.Format (_T("Audio : %s"), lang);
+				}
+				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+
+				if(pmt) DeleteMediaType(pmt);
+				if(pszName) CoTaskMemFree(pszName);
+			}
+		}
 	}
 }
 
@@ -3048,8 +3074,7 @@ void CMainFrame::OnOgmSub(UINT nID)
 
 	if(m_iMediaLoadState != MLS_LOADED) return;
 
-	CComQIPtr<IAMStreamSelect> pSS = FindFilter(CLSID_OggSplitter, pGB);
-	if(!pSS) pSS = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
+	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
 	if(!pSS) return;
 
     CArray<int> subs;
@@ -3082,7 +3107,33 @@ void CMainFrame::OnOgmSub(UINT nID)
 
 		int cnt = subs.GetCount();
 		if(cnt > 1 && iSel >= 0)
-			pSS->Enable(subs[(iSel+(nID==0?1:cnt-1))%cnt], AMSTREAMSELECTENABLE_ENABLE);
+		{
+			int nNewStream = subs[(iSel+(nID==0?1:cnt-1))%cnt];
+			pSS->Enable(nNewStream, AMSTREAMSELECTENABLE_ENABLE);
+
+			AM_MEDIA_TYPE* pmt = NULL;
+			DWORD dwFlags = 0;
+			LCID lcid = 0;
+			DWORD dwGroup = 0;
+			WCHAR* pszName = NULL;
+			if(SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
+			{
+				CString lang;
+				CString	strMessage;
+				if (lcid == 0)
+					lang = pszName;
+				else
+				{
+					int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+					lang.ReleaseBufferSetLength(max(len-1, 0));
+				}
+
+				strMessage.Format (ResStr(IDS_MAINFRM_45), lang, _T(""));
+				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+				if(pmt) DeleteMediaType(pmt);
+				if(pszName) CoTaskMemFree(pszName);
+			}
+		}
 	}
 }
 
@@ -9224,12 +9275,23 @@ void CMainFrame::SetupNavChaptersSubMenu()
 	}
 }
 
+IBaseFilter* CMainFrame::FindSourceSelectableFilter()
+{
+	IBaseFilter*	pSF = NULL;
+
+	pSF = FindFilter(CLSID_OggSplitter, pGB);
+	if(!pSF) pSF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
+	if(!pSF) pSF = FindFilter(__uuidof(CMpegSplitterFilter), pGB);
+	if(!pSF) pSF = FindFilter(__uuidof(CMpegSourceFilter), pGB);
+
+	return pSF;
+}
+
 void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup)
 {
 	UINT baseid = id;
 
-	CComQIPtr<IAMStreamSelect> pSS = FindFilter(CLSID_OggSplitter, pGB);
-	if(!pSS) pSS = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
+	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
 	if(!pSS) return;
 
 	DWORD cStreams;
@@ -9294,8 +9356,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGr
 
 void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 {
-	CComQIPtr<IAMStreamSelect> pSS = FindFilter(CLSID_OggSplitter, pGB);
-	if(!pSS) pSS = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
+	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
 	if(!pSS) return;
 
 	DWORD cStreams;
