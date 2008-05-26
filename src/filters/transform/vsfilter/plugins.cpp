@@ -596,7 +596,7 @@ namespace AviSynth1
 			"pixel_type"
 		};
 		AVSValue clip(env->Invoke("Blackness",value,nom));
-		env->SetVar("RGBA",true);
+		env->SetVar(env->SaveString("RGBA"),true);
 		return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
 	}
 
@@ -607,7 +607,7 @@ namespace AviSynth1
 		env->AddFunction("TextSub", "csi", TextSubCreateSI, 0);
 		env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
 		env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
-		env->SetVar("RGBA",false);
+		env->SetVar(env->SaveString("RGBA"),false);
 		return(NULL);
 	}
 }
@@ -723,7 +723,7 @@ namespace AviSynth25
 			"pixel_type"
 		};
 		AVSValue clip(env->Invoke("Blackness",value,nom));
-		env->SetVar("RGBA",true);
+		env->SetVar(env->SaveString("RGBA"),true);
 		return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
 		
 	}
@@ -736,7 +736,7 @@ namespace AviSynth25
 		env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
 		env->AddFunction("TextSubSwapUV", "b", TextSubSwapUV, 0);
 		env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
-		env->SetVar("RGBA",false);
+		env->SetVar(env->SaveString("RGBA"),false);
 		return(NULL);
 	}
 }
