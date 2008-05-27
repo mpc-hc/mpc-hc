@@ -33,9 +33,6 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
-#include <setupapi.h>
-#include <devguid.h>
-
 extern "C"
 {
 	#include "FfmpegContext.h"
@@ -54,7 +51,6 @@ extern "C"
 /////
 #define MAX_SUPPORTED_MODE			5
 #define MPCVD_CAPTION				_T("MPC Video decoder")
-#define DEVINFO_BUFFER_SIZE		800
 
 typedef struct
 {
@@ -500,47 +496,19 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 void CMPCVideoDecFilter::DetectVideoCard()
 {
-	TCHAR			sEnumerator[] = _T("PCI");
-	HDEVINFO		hDev;
-	DWORD			dwIndex = 0;
-	SP_DEVINFO_DATA	devInfo;
-	DWORD			BufferSize = 0;
-	DWORD			DataType;
-	bool			bRet = false;
-	CString			strHardwareId;
-	CString			strDriver;
-	CString			strDescription;
-
+	IDirect3D9* pD3D9;
 	m_nPCIVendor = 0;
 	m_nPCIDevice = 0;
 
-	hDev = SetupDiGetClassDevs(&GUID_DEVCLASS_DISPLAY, sEnumerator, NULL, DIGCF_PRESENT);
-	if (hDev != INVALID_HANDLE_VALUE)
-	{
-		memset(&devInfo, 0, sizeof(devInfo));
-		devInfo.cbSize = sizeof(devInfo);
-		while (SetupDiEnumDeviceInfo(hDev, dwIndex ++, &devInfo))
-		{
-			if (SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_HARDWAREID,
-							&DataType,(BYTE*)strHardwareId.GetBuffer (DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize))
-			{
-				strHardwareId.ReleaseBuffer();
-
-				SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_DRIVER,
-					&DataType,(BYTE*)strDriver.GetBuffer(DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize);
-				strDriver.ReleaseBuffer();
-
-				SetupDiGetDeviceRegistryProperty(hDev,&devInfo,SPDRP_DEVICEDESC,
-					&DataType,(BYTE*)strDescription.GetBuffer(DEVINFO_BUFFER_SIZE),DEVINFO_BUFFER_SIZE,&BufferSize);
-				strDescription.ReleaseBuffer();
-
-				strHardwareId.MakeLower();
-				m_nPCIVendor = _ttoi (_tcsstr(strHardwareId, _T("ven_"))+4);
-				m_nPCIDevice = _ttoi (_tcsstr(strHardwareId, _T("dev_"))+4);
-				m_strDeviceDescription.Format (_T("%s (%d)"), strDescription, m_nPCIVendor);
-				break;
-			}
+	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) {
+		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+		if (pD3D9->GetAdapterIdentifier(0, 0, &adapterIdentifier) == S_OK) {
+			m_nPCIVendor = adapterIdentifier.VendorId;
+			m_nPCIDevice = adapterIdentifier.DeviceId;
+			m_strDeviceDescription = adapterIdentifier.Description;
+			m_strDeviceDescription.AppendFormat (_T(" (%d)"), m_nPCIVendor);
 		}
+		pD3D9->Release();
 	}
 }
 

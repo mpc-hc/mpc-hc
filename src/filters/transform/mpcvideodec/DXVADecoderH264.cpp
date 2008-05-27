@@ -213,7 +213,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	switch (m_pFilter->GetPCIVendor())
 	{
-	case 1002 :
+	case 4098 :
 		// The ATI way, only one DXVA_Slice_H264_Short structure pointing to the whole buffer
 		pSliceShort[0].BSNALunitDataLocation = 0;
 		pSliceShort[0].SliceBytesInBuffer = nSize;

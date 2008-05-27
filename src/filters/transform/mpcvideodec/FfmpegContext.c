@@ -114,7 +114,7 @@ void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, int
 
 	switch (nPCIVendor)
 	{
-	case 1002 :
+	case 4098 :
 		// The ATI way
 		memcpy (pDest, pSource, sizeof (DXVA_Qmatrix_H264));
 		break;

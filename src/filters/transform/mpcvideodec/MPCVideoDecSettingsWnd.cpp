@@ -141,13 +141,13 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 	// DXVA mode
 	nPosY += VERTICAL_SPACING;
-	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
-	m_edtDXVAMode.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (140,  nPosY, 315, nPosY+20), this, 0);
+	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 120, nPosY+15), this, IDC_STATIC);
+	m_edtDXVAMode.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 315, nPosY+20), this, 0);
 
 	// Video card description
 	nPosY += VERTICAL_SPACING;
-	m_txtVideoCardDescription.Create (ResStr (IDS_VDF_VIDEOCARD), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
-	m_edtVideoCardDescription.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (140,  nPosY, 315, nPosY+20), this, 0);
+	m_txtVideoCardDescription.Create (ResStr (IDS_VDF_VIDEOCARD), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 120, nPosY+15), this, IDC_STATIC);
+	m_edtVideoCardDescription.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 315, nPosY+20), this, 0);
 	m_edtVideoCardDescription.SetWindowText (m_pMDF->GetVideoCardDescription());
 	
 	DxvaGui = m_pMDF->GetDXVADecoderGuid();
