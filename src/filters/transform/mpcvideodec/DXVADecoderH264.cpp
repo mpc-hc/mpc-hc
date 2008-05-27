@@ -72,7 +72,6 @@ CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDe
 void CDXVADecoderH264::Init()
 {
 	memset (&m_DXVAPicParams,	0, sizeof(m_DXVAPicParams));
-	memset (&m_SliceShort,		0, sizeof(m_SliceShort));
 	memset (&m_DXVAPicParams, 0, sizeof (DXVA_PicParams_H264));
 	
 	m_DXVAPicParams.MbsConsecutiveFlag					= 1;
@@ -155,24 +154,26 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 {
 	HRESULT						hr			= S_FALSE;
 	CNalu						Nalu;
-	bool						bSliceFound = false;
-	BYTE*						pDataSlice	= NULL;
-	UINT						nSliceSize	= 0;
+	DXVA_Slice_H264_Short*		pSliceShort	= NULL;
+	UINT						nSlices	= 0;
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
 
-	while (!bSliceFound && Nalu.ReadNext())
+	while (Nalu.ReadNext())
 	{
 		switch (Nalu.GetType())
 		{
 		case NALU_TYPE_SLICE:
 		case NALU_TYPE_IDR:
-			pDataSlice	= Nalu.GetDataBuffer();
-			nSliceSize	= Nalu.GetDataLength();
-			bSliceFound = true;
+			if((nSlices%10) == 0)
+				pSliceShort	= (DXVA_Slice_H264_Short*)realloc(pSliceShort, (nSlices+10)*sizeof(DXVA_Slice_H264_Short));
+			pSliceShort[nSlices].BSNALunitDataLocation = (UINT) (Nalu.GetDataBuffer() - pDataIn);
+			pSliceShort[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength();
+			pSliceShort[nSlices].wBadSliceChopping = 0;
+			nSlices++;
 			break;
 
 		case NALU_TYPE_PPS :
@@ -181,13 +182,13 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			break;
 		}
 	}
-	if (!bSliceFound) return S_FALSE;
+	if (nSlices == 0) return S_FALSE;
 
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// Parse slice header and set DX destination surface
 	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), 
-									  pDataSlice, nSliceSize, m_pFilter->GetPCIVendor()));
+									  (BYTE*) (pSliceShort[0].BSNALunitDataLocation + pDataIn), pSliceShort[0].SliceBytesInBuffer, m_pFilter->GetPCIVendor()));
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
@@ -209,8 +210,23 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	// Add bitstream, slice control and quantization matrix
 	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
-	m_SliceShort.SliceBytesInBuffer = nSize;
-	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceShort), &m_SliceShort));
+
+	switch (m_pFilter->GetPCIVendor())
+	{
+	case 1002 :
+		// The ATI way, only one DXVA_Slice_H264_Short structure pointing to the whole buffer
+		pSliceShort[0].BSNALunitDataLocation = 0;
+		pSliceShort[0].SliceBytesInBuffer = nSize;
+		CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (DXVA_Slice_H264_Short), pSliceShort));
+		break;
+	default :
+		// The NVIDIA way (the compliant way ??), one DXVA_Slice_H264_Short structure for each slice
+		CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (DXVA_Slice_H264_Short)*nSlices, pSliceShort));
+		break;
+	}
+
+	free(pSliceShort);
+
 	CHECK_HR (AddExecuteBuffer (DXVA2_InverseQuantizationMatrixBufferType, sizeof (DXVA_Qmatrix_H264), (void*)&m_DXVAScalingMatrix));
 
 	// Decode bitstream

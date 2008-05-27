@@ -96,7 +96,6 @@ private:
 	DXVA_PicParams_H264		m_DXVAPicParams;
 	DXVA_Qmatrix_H264		m_DXVAScalingMatrix;
 	UINT					m_nCurRefFrame;		// First free RefFrameList position
-	DXVA_Slice_H264_Short	m_SliceShort;
 	int						m_nNALLength;
 
 	// Private functions
