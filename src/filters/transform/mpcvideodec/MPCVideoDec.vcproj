@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib"
+				AdditionalDependencies="decssDU.lib dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib d3d9.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -197,7 +197,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a "
+				LinkLibraryDependencies="false"
+				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
