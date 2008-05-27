@@ -2986,6 +2986,7 @@ BEGIN
     IDS_D3DFS_WARNING			"Cette option permet de supprimer le ""tearing"" (déchirement de l'image), mais empêche l'affichage des boîtes de dialogue et du menu contextuel lorsqu'une vidéo est chargée (voir les explications complétes sur http://tibrium.neuf.fr).\n\nEtes vous sûr de vouloir activer cette option ?"
 	IDS_VDF_FFMPEG_ENABLE		"Activer Ffmpeg"
 	IDS_REALVIDEO_INCOMPATIBLE  "Le nom du fichier contiens des caractères interdits (n'utilisez que A-Z, 0-9)"
+	IDS_VDF_VIDEOCARD		"Carte graphique"
 END
 
 #endif    // French (France) resources
