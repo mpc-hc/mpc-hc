@@ -1,83 +1,64 @@
 all:.all
 
-#if FFMPEG_PREFIX is set, assume cross-compilation
-ifeq ($(FFMPEG_PREFIX),)
-  NASM=yasm.exe
-else
-  NASM=yasm
+ifeq ($(64BIT),yes)
+FFDSHOW_PREFIX=x86_64-pc-mingw32-
 endif
 
-ifeq ($(CC),icl)
-  OUTPUTFLAG=/Fo
-
-  CFLAGS+=/nologo /MD /LD
-  CFLAGS+=/D "WIN64" /D "_WIN64" /D "_WINDOWS" /D "_USERDLL" /D "NDEBUG"
-  OPTFLAGS=/O3 /G7 /GF /Qip /Zc:wchar_t
+ifeq ($(64BIT),yes)
+	TARGET_OS=x86_64-pc-mingw32
 else
-ifeq ($(CC),cl)
-  OUTPUTFLAG=/Fo
+	TARGET_OS=i686-pc-mingw32
+endif
 
-  CFLAGS+=/nologo /MD /LD
-  CFLAGS+=/D "WIN32" /D "_WIN32" /D "_WINDOWS" /D "_USERDLL" /D "NDEBUG"
-  OPTFLAGS=/Ox /G7 /Zc:wchar_t
-  ifeq ($(SSE),yes)
-    OPTFLAGS+=/arch:SSE
-  endif
+OUTPUTFLAG=-MMD -o\
+
+CFLAGS+=-mno-cygwin -mdll -mthreads -pipe
+CFLAGS+=-DNDEBUG -UDEBUG
+
+ifeq ($(64BIT),yes)
+	CFLAGS+=-DWIN64 -D_WIN64
 else
-  OUTPUTFLAG=-MMD -o\
-
-  CFLAGS+=-mno-cygwin -mdll -mthreads -pipe
-  CFLAGS+=-mmmx
-  ifeq ($(SSE),yes)
-    CFLAGS+=-msse -mfpmath=sse
-  endif
-  ifeq ($(SSE2),yes)
-    CFLAGS+=-msse2
-  endif
-  CFLAGS+=-DNDEBUG -UDEBUG -DWIN32 -D_WIN32
-  OPTFLAGS=-O3 -march=i686 -fomit-frame-pointer
-  CPPFLAGS+=-fno-rtti
-
-  GCCDEF=$(DEF)
+	CFLAGS+=-DWIN32 -D_WIN32
 endif
+
+ifeq ($(64BIT),yes)
+	CFLAGS+=-msse2
+else
+	CFLAGS+=-mmmx
 endif
+
+ifeq ($(SSE),yes)
+	CFLAGS+=-msse -mfpmath=sse
+endif
+ifeq ($(SSE2),yes)
+	CFLAGS+=-msse2
+endif
+
+OPTFLAGS=-O3 -fomit-frame-pointer
+ifeq ($(64BIT),yes)
+	OPTFLAGS+=-m64 -fno-leading-underscore
+else
+	OPTFLAGS+=-march=i686
+endif
+
+CPPFLAGS+=-fno-rtti
+
+GCCDEF=$(DEF)
 
 ifeq ($(UNICODE),yes)
-  CFLAGS+=-DUNICODE -D_UNICODE
+	CFLAGS+=-DUNICODE -D_UNICODE
 endif
 
 OBJS+=$(SRCS:.cpp=.o) $(SRCS_C:.c=.o) $(SRCS_NASM:.asm=.o) $(RESSRC:.rc=.res.o)
 
 ifeq ($(FORCECPP),1)
-  ifeq ($(CC),icl)
-    CFLAGS+=/TP
-  else
-  ifeq ($(CC),cl)
-    CFLAGS+=/TP
-  else
-    CFLAGS+=-x c++
-  endif
-  endif
+	CFLAGS+=-x c++
 endif
 
 ifeq ($(EXCEPTIONS),1)
-  ifeq ($(CC),icl)
-    CPPFLAGS+=/EHsc
-  else
-  ifeq ($(CC),cl)
-    CPPFLAGS+=/EHsc
-  else
-    CPPFLAGS+=-fexceptions
-  endif
-  endif
+	CPPFLAGS+=-fexceptions
 else
-  ifeq ($(CC),icl)
-  else
-  ifeq ($(CC),cl)
-  else
-    CPPFLAGS+=-fno-exceptions
-  endif
-  endif
+	CPPFLAGS+=-fno-exceptions
 endif
 
 .c.o:
@@ -87,64 +68,27 @@ endif
 	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
 %.o: %.asm
+ifeq ($(64BIT),yes)
+	$(NASM) -f win64 -DWIN64 -DPREFIX $(NASMFLAGS) -I$(<D)/ -o $@  $<
+else
 	$(NASM) -f win32 -DWIN32 -DPREFIX $(NASMFLAGS) -I$(<D)/ -o $@  $<
+endif
 
-ifeq ($(CC),icl)
-%.res.o: %.rc
-	rc /Fo$@ $<
-else
-ifeq ($(CC),cl)
-%.res.o: %.rc
-	rc /Fo$@ $<
-else
 %.res.o: %.rc
 	$(FFMPEG_PREFIX)windres $< -o $@ -D_WIN32_IE=0x0500 -DIDCLOSE=8
-endif
-endif
 
-ifeq ($(CC),icl)
-$(SLIB):$(OBJS) $(DEF)
-	link $(OBJS) msvcrt.lib kernel32.lib oldnames.lib libircmt.lib libmmds.lib $(CLLIBS) \
-             /dll /machine:AMD64 /nodefaultlib \
-             /def:"$(DEF)" \
-             $(CLDLLENTRY) \
-             /out:$(SLIB)
-else
-ifeq ($(CC),cl)
-$(SLIB):$(OBJS) $(DEF)
-	link $(OBJS) msvcrt.lib kernel32.lib oldnames.lib $(CLLIBS) \
-             /dll /machine:I386 /nodefaultlib \
-             /def:"$(DEF)" \
-             $(CLDLLENTRY) \
-             /out:$(SLIB)
-else
 $(SLIB): $(OBJS) $(DEF)
-#	=== Modify for MPC-HC to create library instead of DLL
-#	$(FFMPEG_PREFIX)dllwrap -mno-cygwin --target=i386-mingw32 \
+	$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
+#===> Modify for MPC-HC to create library instead of DLL
+#	$(FFMPEG_PREFIX)dllwrap -mno-cygwin --target=$(TARGET_OS) \
 #             -Wl,--enable-stdcall-fixup,--strip-all \
 #             --def $(GCCDEF) $(GCCDLLENTRY) -o $@ $(OBJS) $(GCCLIBS)
-	$(FFMPEG_PREFIX)ar rc $@ $(OBJS) 
-endif
-endif
+#<=== Modify for MPC-HC to create library instead of DLL
 
-ifeq ($(CC),icl)
-$(SEXE): $(OBJS) $(DEF)
-	link $(OBJS) msvcrt.lib kernel32.lib oldnames.lib libircmt.lib libmmds.lib $(CLLIBS) $(ICLLIBS) \
-             /machine:AMD64 /nodefaultlib \
-             /out:$(SEXE)
-else
-ifeq ($(CC),cl)
-$(SEXE): $(OBJS) $(DEF)
-	link $(OBJS) msvcrt.lib kernel32.lib oldnames.lib $(CLLIBS) \
-             /machine:I386 /nodefaultlib \
-             /out:$(SEXE)
-else
 $(SEXE): $(OBJS)
-	$(FFMPEG_PREFIX)$(CC) -mno-cygwin --target=i386-mingw32 \
+	$(FFMPEG_PREFIX)$(CC) -mno-cygwin --target=$(TARGET_OS) \
              -Wl,--enable-stdcall-fixup -o $@ $(OBJS) $(GCCLIBS)
 	$(FFMPEG_PREFIX)strip $@
-endif
-endif
 
 distclean: clean
 

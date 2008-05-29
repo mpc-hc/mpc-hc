@@ -33,7 +33,6 @@
 #include "mpeg12data.h"
 #include "bytestream.h"
 
-
 static const uint8_t inv_non_linear_qscale[13] = {
     0, 2, 4, 6, 8,
     9,10,11,12,13,14,15,16,

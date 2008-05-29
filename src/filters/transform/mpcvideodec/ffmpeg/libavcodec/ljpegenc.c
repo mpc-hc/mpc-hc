@@ -36,7 +36,6 @@
 #include "mjpeg.h"
 #include "mjpegenc.h"
 
-
 static int encode_picture_lossless(AVCodecContext *avctx, unsigned char *buf, int buf_size, void *data){
     MpegEncContext * const s = avctx->priv_data;
     MJpegContext * const m = s->mjpeg_ctx;

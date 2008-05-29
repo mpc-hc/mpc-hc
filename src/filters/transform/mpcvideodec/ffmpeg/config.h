@@ -24,6 +24,7 @@
 #define HAVE_BSWAP 1
 
 #define CONFIG_DECODERS 1
+//#define CONFIG_ENCODERS 1
 
 // == LibAVFormat
 #define CONFIG_DEMUXERS 1

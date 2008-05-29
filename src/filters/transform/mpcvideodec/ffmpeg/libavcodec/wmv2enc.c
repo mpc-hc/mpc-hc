@@ -25,7 +25,6 @@
 #include "msmpeg4data.h"
 #include "wmv2.h"
 
-
 static int encode_ext_header(Wmv2Context *w){
     MpegEncContext * const s= &w->s;
     PutBitContext pb;

@@ -115,25 +115,26 @@
  CODEC_OP(CODEC_ID_ADPCM_SBPRO_3     ,130,"") \
  CODEC_OP(CODEC_ID_ADPCM_SBPRO_4     ,131,"") \
  CODEC_OP(CODEC_ID_ADPCM_IMA_AMV     ,132,"adpcm ima amv") \
- CODEC_OP(CODEC_ID_FLAC              ,133,"flac") \
- CODEC_OP(CODEC_ID_AMR_NB            ,134,"amr nb") \
- CODEC_OP(CODEC_ID_GSM_MS            ,135,"gsm ms") \
- CODEC_OP(CODEC_ID_TTA               ,136,"tta") \
- CODEC_OP(CODEC_ID_MACE3             ,137,"mace3") \
- CODEC_OP(CODEC_ID_MACE6             ,138,"mace6") \
- CODEC_OP(CODEC_ID_QDM2              ,139,"qdm2") \
- CODEC_OP(CODEC_ID_COOK              ,140,"cook") \
- CODEC_OP(CODEC_ID_TRUESPEECH        ,141,"truespeech") \
- CODEC_OP(CODEC_ID_RA_144            ,142,"14_4") \
- CODEC_OP(CODEC_ID_RA_288            ,143,"28_8") \
- CODEC_OP(CODEC_ID_ATRAC3            ,144,"atrac 3") \
- CODEC_OP(CODEC_ID_NELLYMOSER        ,145,"nellymoser") \
- CODEC_OP(CODEC_ID_ADPCM_ADX         ,146,"adpcm adx") \
- CODEC_OP(CODEC_ID_MLP               ,147,"MLP") \
- CODEC_OP(CODEC_ID_EAC3              ,148,"EAC3") \
- CODEC_OP(CODEC_ID_WAVPACK           ,149,"Wavpack") \
- CODEC_OP(CODEC_ID_PCM_ZORK          ,150,"PCM Zork") \
- CODEC_OP(CODEC_ID_SHORTEN           ,151,"Shorten") \
+ CODEC_OP(CODEC_ID_XAN_DPCM          ,133,"adpcm ima xan") \
+ CODEC_OP(CODEC_ID_FLAC              ,134,"flac") \
+ CODEC_OP(CODEC_ID_AMR_NB            ,135,"amr nb") \
+ CODEC_OP(CODEC_ID_GSM_MS            ,136,"gsm ms") \
+ CODEC_OP(CODEC_ID_TTA               ,137,"tta") \
+ CODEC_OP(CODEC_ID_MACE3             ,138,"mace3") \
+ CODEC_OP(CODEC_ID_MACE6             ,139,"mace6") \
+ CODEC_OP(CODEC_ID_QDM2              ,140,"qdm2") \
+ CODEC_OP(CODEC_ID_COOK              ,141,"cook") \
+ CODEC_OP(CODEC_ID_TRUESPEECH        ,142,"truespeech") \
+ CODEC_OP(CODEC_ID_RA_144            ,143,"14_4") \
+ CODEC_OP(CODEC_ID_RA_288            ,144,"28_8") \
+ CODEC_OP(CODEC_ID_ATRAC3            ,145,"atrac 3") \
+ CODEC_OP(CODEC_ID_NELLYMOSER        ,146,"nellymoser") \
+ CODEC_OP(CODEC_ID_ADPCM_ADX         ,147,"adpcm adx") \
+ CODEC_OP(CODEC_ID_MLP               ,148,"MLP") \
+ CODEC_OP(CODEC_ID_EAC3              ,149,"EAC3") \
+ CODEC_OP(CODEC_ID_WAVPACK           ,150,"Wavpack") \
+ CODEC_OP(CODEC_ID_PCM_ZORK          ,151,"PCM Zork") \
+ CODEC_OP(CODEC_ID_SHORTEN           ,152,"Shorten") \
 \
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \
@@ -217,6 +218,7 @@
  CODEC_OP(CODEC_ID_DVB_SUBTITLE  ,2001,"DVB Subs") \
  CODEC_OP(CODEC_ID_SSA           ,2002,"SSA") \
  CODEC_OP(CODEC_ID_TEXT          ,2003,"Text") \
+ CODEC_OP(CODEC_ID_XSUB          ,2004,"XSUB") \
  /* Other formats */ \
  CODEC_OP(CODEC_TYPE_ATTACHMENT  ,2100,"Matroska Attachement") \
  CODEC_OP(CODEC_ID_GSM           ,2101,"GSM") \

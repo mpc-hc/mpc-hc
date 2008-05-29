@@ -1145,3 +1145,17 @@ int av_parse_video_frame_rate(AVRational *frame_rate, const char *arg)
     else
         return 0;
 }
+
+//===> Modify for MPC-HC
+#include <windows.h>
+#include "../compiler.h"
+static char av_datetime[]=__DATE__" "__TIME__;
+void getVersion(char **version,char **build,char **datetime,const char* *license)
+{
+ if (version) *version=AV_STRINGIFY(LIBAVCODEC_VERSION)", "COMPILER COMPILER_X64;
+ if (build) *build=AV_STRINGIFY(LIBAVCODEC_BUILD);
+ if (datetime) *datetime=av_datetime;
+ if (license) *license="";
+}
+//<=== Modify for MPC-HC
+
