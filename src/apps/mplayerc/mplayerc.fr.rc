@@ -1604,18 +1604,19 @@ BEGIN
         MENUITEM "Temps restant\tCtrl+I",       ID_VIEW_REMAINING_TIME
         POPUP "&Language"
         BEGIN
-            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
-            MENUITEM "&German",                     ID_LANGUAGE_GERMAN
-            MENUITEM "&French",                     ID_LANGUAGE_FRENCH
-            MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
-            MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
             MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
-            MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
+            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
+            MENUITEM "&French",                     ID_LANGUAGE_FRENCH
+            MENUITEM "&German",                     ID_LANGUAGE_GERMAN
             MENUITEM "&Hungarian",                  ID_LANGUAGE_HUNGARIAN
-			MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
-            MENUITEM "&Polish",                     ID_LANGUAGE_POLISH
-			MENUITEM "&Ukrainian",                  ID_LANGUAGE_UKRAINIAN
 			MENUITEM "&Italian",                    ID_LANGUAGE_ITALIAN
+            MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
+            MENUITEM "&Polish",                     ID_LANGUAGE_POLISH
+            MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
+			MENUITEM "&Slovak",                     ID_LANGUAGE_SLOVAK
+            MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
+            MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
+			MENUITEM "&Ukrainian",                  ID_LANGUAGE_UKRAINIAN
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"

@@ -795,6 +795,7 @@
 #define ID_LANGUAGE_POLISH              32796
 #define ID_LANGUAGE_UKRAINIAN           32797
 #define ID_LANGUAGE_ITALIAN             32798
+#define ID_LANGUAGE_SLOVAK              32799
 #define ID_LANGUAGE_LAST                32829
 #define IDS_AG_CLOSE                    32830
 #define IDS_SHADEREDITORDLG_0           32831
