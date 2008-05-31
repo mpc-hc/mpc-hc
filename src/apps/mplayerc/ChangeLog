@@ -23,6 +23,7 @@ v1.x.x.x - Unreleased
  FIXED  : Crash on stop/play with DXVA decoder
  FIXED  : Random crash with EVR custom
  FIXED  : Macroblocks with nVidia card (appear on H264 streams with custom quantitization matrix) 
+ FIXED  : Access violation using VSFilter as AviSynth plugin
 
 v1.1.0.0 - 6.March 2008
 ======================

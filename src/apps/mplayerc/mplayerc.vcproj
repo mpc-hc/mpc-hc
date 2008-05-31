@@ -155,7 +155,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib dxguid.lib Dsound.lib strmbaseRU.lib dsutilRU.lib subpicRU.lib subtitlesRU.lib libssfRU.lib asyncreaderRU.lib audioswitcherRU.lib avi2ac3filterRU.lib bufferfilterRU.lib cddareaderRU.lib cdxareaderRU.lib decssfilterRU.lib flicsourceRU.lib dtsac3sourceRU.lib basesourceRU.lib wavdestRU.lib shoutcastsourceRU.lib streamdrivethruRU.lib vtsreaderRU.lib basesplitterRU.lib MatroskaSplitterRU.lib MatroskaMuxerRU.lib RealMediaSplitterRU.lib AviSplitterRU.lib MpaDecFilterRU.lib RoQSplitterRU.lib OggSplitterRU.lib NutSplitterRU.lib MpegSplitterRU.lib DiracSplitterRU.lib MpaSplitterRU.lib DSMSplitterRU.lib BaseMuxerRU.lib DSMMuxerRU.lib UDPReaderRU.lib FLVSplitterRU.lib zlibR.lib subtitlesourceRU.lib filtersRU.lib libvorbisidecR.lib SSFSplitterRU.lib MP4SplitterRU.lib libpngR.lib Setupapi.lib lgLcd.lib libLCDUIRU.lib Uuid.Lib strmiids.lib MPCVideoDecRU.lib"
-				ShowProgress="1"
+				ShowProgress="2"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd"
 				IgnoreDefaultLibraryNames="MSVCRT"

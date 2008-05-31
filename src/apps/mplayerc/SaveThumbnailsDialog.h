@@ -30,6 +30,7 @@ class CSaveThumbnailsDialog : public CFileDialog
 {
 	DECLARE_DYNAMIC(CSaveThumbnailsDialog)
 
+	CComPtr<IFileDialogCustomize>	m_pCustom;
 public:
 	CSaveThumbnailsDialog(
 		int rows, int cols, int width,

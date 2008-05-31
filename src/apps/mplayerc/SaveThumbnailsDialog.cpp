@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "SaveThumbnailsDialog.h"
 
+#define CAP_SELECTION(_MIN,_VAL,_MAX)	min (max (_MIN, _VAL), _MAX)
 
 // CSaveThumbnailsDialog
 
@@ -38,7 +39,29 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 			lpszFilter, pParentWnd, 0),
 	m_rows(rows), m_cols(cols), m_width(width)
 {
-	if(m_ofn.lStructSize == sizeof(OPENFILENAME))
+	m_pCustom.Attach (GetIFileDialogCustomize());
+
+	if (m_pCustom)
+	{
+		CString			strTmp;
+
+		strTmp.Format (_T("%d"), m_rows);
+        m_pCustom->StartVisualGroup (IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER)); 
+		m_pCustom->AddEditBox (IDC_EDIT1, strTmp);
+        m_pCustom->EndVisualGroup();
+
+		strTmp.Format (_T("%d"), m_width);
+        m_pCustom->StartVisualGroup (IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER)); 
+		m_pCustom->AddEditBox (IDC_EDIT3, strTmp);
+        m_pCustom->EndVisualGroup();
+
+		strTmp.Format (_T("%d"), m_cols);
+        m_pCustom->StartVisualGroup (IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH)); 
+		m_pCustom->AddEditBox (IDC_EDIT2, strTmp);
+        m_pCustom->EndVisualGroup();
+
+	}
+	else if(m_ofn.lStructSize == sizeof(OPENFILENAME))
 	{
 		SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
 	}
@@ -50,13 +73,17 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 
 CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
 {
+	m_pCustom = NULL;
 }
 
 void CSaveThumbnailsDialog::DoDataExchange(CDataExchange* pDX)
 {
-	DDX_Control(pDX, IDC_SPIN1, m_rowsctrl);
-	DDX_Control(pDX, IDC_SPIN2, m_colsctrl);
-	DDX_Control(pDX, IDC_SPIN3, m_widthctrl);	
+	if (!m_pCustom)
+	{
+		DDX_Control(pDX, IDC_SPIN1, m_rowsctrl);
+		DDX_Control(pDX, IDC_SPIN2, m_colsctrl);
+		DDX_Control(pDX, IDC_SPIN3, m_widthctrl);	
+	}
 	__super::DoDataExchange(pDX);
 }
 
@@ -82,9 +109,29 @@ END_MESSAGE_MAP()
 
 BOOL CSaveThumbnailsDialog::OnFileNameOK()
 {
-	m_rows = m_rowsctrl.GetPos();
-	m_cols = m_colsctrl.GetPos();
-	m_width = m_widthctrl.GetPos();
+	if (!m_pCustom)
+	{
+		m_rows = m_rowsctrl.GetPos();
+		m_cols = m_colsctrl.GetPos();
+		m_width = m_widthctrl.GetPos();
+	}
+	else
+	{
+		// Vista !
+		WCHAR*		pstrTemp;
+
+		m_pCustom->GetEditBoxText(IDC_EDIT1, &pstrTemp);
+		m_rows = CAP_SELECTION (1, _wtol (pstrTemp), 8);
+		CoTaskMemFree (pstrTemp);
+
+		m_pCustom->GetEditBoxText(IDC_EDIT2, &pstrTemp);
+		m_cols = CAP_SELECTION (1, _wtol (pstrTemp), 8);
+		CoTaskMemFree (pstrTemp);
+
+		m_pCustom->GetEditBoxText(IDC_EDIT3, &pstrTemp);
+		m_width = CAP_SELECTION (256, _wtol (pstrTemp), 2048);
+		CoTaskMemFree (pstrTemp);
+	}
 
 	return __super::OnFileNameOK();
 }
