@@ -1058,14 +1058,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 {
 	__int64 endpos = GetPos() + len; // - sequence header length
 
-	__int64 spspos = 0, spslen = 0;
-	__int64 ppspos = 0, ppslen = 0;
 	DWORD	dwStartCode;
-
-	__int64	num_units_in_tick;
-	__int64	time_scale;
-	long	fixed_frame_rate_flag;
-
 
 	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001)
 	{
@@ -1076,7 +1069,11 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		
 		if((id&0x9f) == 0x07 && (id&0x60) != 0)
 		{
-			spspos = pos;
+			__int64	num_units_in_tick;
+			__int64	time_scale;
+			long	fixed_frame_rate_flag;
+
+			h.spspos = pos;
 
 			h.profile = (BYTE)BitRead(8);
 			BitRead(8);
@@ -1197,12 +1194,14 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 						}
 					}
 					time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
+
+					h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
 				}
 			}
 		}
 		else if((id&0x9f) == 0x08 && (id&0x60) != 0)
 		{
-			ppspos = pos;
+			h.ppspos = pos;
 		}
 
 		BitByteAlign();
@@ -1214,20 +1213,20 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 			dwStartCode = BitRead(32, true);
 		}
 
-		if(spspos != 0 && spslen == 0)
-			spslen = GetPos() - spspos;
-		else if(ppspos != 0 && ppslen == 0) 
-			ppslen = GetPos() - ppspos;
+		if(h.spspos != 0 && h.spslen == 0)
+			h.spslen = GetPos() - h.spspos;
+		else if(h.ppspos != 0 && h.ppslen == 0) 
+			h.ppslen = GetPos() - h.ppspos;
 
 	}
 
-	if(!spspos || !spslen || !ppspos || !ppslen) 
+	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen) 
 		return(false);
 
 	if(!pmt) return(true);
 
 	{
-		int extra = 2+spslen-4 + 2+ppslen-4;
+		int extra = 2+h.spslen-4 + 2+h.ppslen-4;
 
 		pmt->majortype = MEDIATYPE_Video;
 		pmt->subtype = FOURCCMap('1CVA');
@@ -1236,7 +1235,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
 		memset(vi, 0, len);
 		// vi->hdr.dwBitRate = ;
-		vi->hdr.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
+		vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
 		vi->hdr.dwPictAspectRatioX = h.width;
 		vi->hdr.dwPictAspectRatioY = h.height;
 		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
@@ -1248,16 +1247,16 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		vi->dwLevel = h.level;
 		vi->cbSequenceHeader = extra;
 		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
-		*p++ = (spslen-4) >> 8;
-		*p++ = (spslen-4) & 0xff;
-		Seek(spspos+4);
-		ByteRead(p, spslen-4);
-		p += spslen-4;
-		*p++ = (ppslen-4) >> 8;
-		*p++ = (ppslen-4) & 0xff;
-		Seek(ppspos+4);
-		ByteRead(p, ppslen-4);
-		p += ppslen-4;
+		*p++ = (h.spslen-4) >> 8;
+		*p++ = (h.spslen-4) & 0xff;
+		Seek(h.spspos+4);
+		ByteRead(p, h.spslen-4);
+		p += h.spslen-4;
+		*p++ = (h.ppslen-4) >> 8;
+		*p++ = (h.ppslen-4) & 0xff;
+		Seek(h.ppspos+4);
+		ByteRead(p, h.ppslen-4);
+		p += h.ppslen-4;
 		pmt->SetFormat((BYTE*)vi, len);
 		delete [] vi;
 	}

@@ -297,6 +297,18 @@ public:
 	{
 		BYTE profile, level;
 		unsigned int width, height;
+		__int64 spspos, spslen;
+		__int64 ppspos, ppslen;
+		__int64 AvgTimePerFrame;
+
+		avchdr()
+		{
+			spspos = 0;
+			spslen = 0;
+			ppspos = 0;
+			ppslen = 0;
+			AvgTimePerFrame = 0;
+		}
 	};
 
 	struct vc1hdr

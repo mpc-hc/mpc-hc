@@ -397,8 +397,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		Seek(pos);
 		if(type == unknown)
 		{
-			CMpegSplitterFile::avchdr h;
-			if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
+//			CMpegSplitterFile::avchdr h;	<= PPS and SPS can be present on differents packets !
+			if(!m_streams[video].Find(s) && Read(avch, len, &s.mt))
 				type = video;
 		}
 	}

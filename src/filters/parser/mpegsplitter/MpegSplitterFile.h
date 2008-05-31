@@ -53,6 +53,8 @@ enum ElementaryStreamTypes
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
+	CMpegSplitterFile::avchdr avch;
+
 
 	HRESULT Init();
 
