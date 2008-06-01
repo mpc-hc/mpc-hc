@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="RealMediaSplitter"
 	ProjectGUID="{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 	RootNamespace="RealMediaSplitter"
@@ -445,7 +445,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib basevideofilterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
@@ -517,7 +517,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib basevideofilterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="AviSplitter"
 	ProjectGUID="{9738B023-FC46-48A2-953A-0035FD897678}"
 	RootNamespace="AviSplitter"
@@ -435,7 +435,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
@@ -507,7 +507,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"

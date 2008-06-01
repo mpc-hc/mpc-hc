@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="flicsource"
 	ProjectGUID="{431DD5B6-3F2F-47EE-A23F-514BC044B704}"
 	RootNamespace="flicsource"
@@ -199,7 +199,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="FLICSource.def"
 				SubSystem="2"
@@ -270,7 +270,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="FLICSource.def"
 				SubSystem="2"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="udpreader"
 	ProjectGUID="{3020FF9B-8202-488D-B137-11DECC510E6E}"
 	RootNamespace="udpreader"
@@ -433,7 +433,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="asyncreaderRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="UDPReader.def"
 				SubSystem="2"
@@ -505,7 +505,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreaderRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="UDPReader.def"
 				SubSystem="2"

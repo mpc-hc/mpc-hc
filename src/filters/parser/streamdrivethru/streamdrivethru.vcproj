@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="streamdrivethru"
 	ProjectGUID="{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}"
 	RootNamespace="streamdrivethru"
@@ -429,7 +429,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
@@ -500,7 +500,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"

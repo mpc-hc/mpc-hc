@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="decssfilter"
 	ProjectGUID="{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
 	RootNamespace="decssfilter"
@@ -199,7 +199,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="decssRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="DeCSSFilter.def"
 				SubSystem="2"
@@ -270,7 +270,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="decssRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="DeCSSFilter.def"
 				SubSystem="2"

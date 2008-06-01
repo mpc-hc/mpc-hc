@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MP4Splitter"
 	ProjectGUID="{9ED4B036-7399-4128-868D-6E71188E0277}"
 	RootNamespace="MP4Splitter"
@@ -443,7 +443,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="zlibR.lib strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
@@ -516,7 +516,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="zlibR.lib strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="dtsac3source"
 	ProjectGUID="{30D48874-899F-41C6-9B26-A40C96C91102}"
 	RootNamespace="dtsac3source"
@@ -433,7 +433,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
@@ -505,7 +505,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"

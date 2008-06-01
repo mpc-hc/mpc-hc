@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="cdxareader"
 	ProjectGUID="{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}"
 	RootNamespace="cdxareader"
@@ -201,7 +201,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreaderRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="CDXAReader.def"
 				SubSystem="2"
@@ -273,7 +273,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreaderRU.lib strmbaseRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="CDXAReader.def"
 				SubSystem="2"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="subtitlesource"
 	ProjectGUID="{8F998497-9C51-4FAA-83E4-1D85B22CBA13}"
 	RootNamespace="subtitlesource"
@@ -202,7 +202,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="strmbaseRU.lib subtitlesRU.lib subpicRU.lib dsutilRU.lib Winmm.lib comsuppw.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="SubtitleSource.def"
 				SubSystem="2"
@@ -274,7 +274,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseRU.lib subtitlesRU.lib subpicRU.lib dsutilRU.lib Winmm.lib comsuppw.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="SubtitleSource.def"
 				SubSystem="2"

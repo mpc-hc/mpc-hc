@@ -199,7 +199,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
@@ -268,8 +268,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodecR.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodecR.lib d3d9.lib"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
