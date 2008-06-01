@@ -1360,25 +1360,45 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 	if(!pmt) return(true);
 
 	{
+		//pmt->majortype = MEDIATYPE_Video;
+		//pmt->subtype = FOURCCMap('1CVW');
+		//pmt->formattype = FORMAT_MPEG2_VIDEO;
+		//int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extralen + 1;
+		//MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		//memset(vi, 0, len);
+		//// vi->hdr.dwBitRate = ;
+		//vi->hdr.AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
+		//vi->hdr.dwPictAspectRatioX = h.width;
+		//vi->hdr.dwPictAspectRatioY = h.height;
+		//vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
+		//vi->hdr.bmiHeader.biWidth = h.width;
+		//vi->hdr.bmiHeader.biHeight = h.height;
+		//vi->hdr.bmiHeader.biCompression = '1CVW';
+		//vi->dwProfile = h.profile;
+		//vi->dwFlags = 4; // ?
+		//vi->dwLevel = h.level;
+		//vi->cbSequenceHeader = extralen+1;
+		//BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
+		//*p++ = 0;
+		//Seek(extrapos);
+		//ByteRead(p, extralen);
+		//pmt->SetFormat((BYTE*)vi, len);
+		//delete [] vi;
+
 		pmt->majortype = MEDIATYPE_Video;
 		pmt->subtype = FOURCCMap('1CVW');
-		pmt->formattype = FORMAT_MPEG2_VIDEO;
-		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extralen + 1;
-		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		pmt->formattype = FORMAT_VIDEOINFO2;
+		int len = sizeof(VIDEOINFOHEADER2) + extralen + 1;
+		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)new BYTE[len];
 		memset(vi, 0, len);
-		// vi->hdr.dwBitRate = ;
-		vi->hdr.AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
-		vi->hdr.dwPictAspectRatioX = h.width;
-		vi->hdr.dwPictAspectRatioY = h.height;
-		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
-		vi->hdr.bmiHeader.biWidth = h.width;
-		vi->hdr.bmiHeader.biHeight = h.height;
-		vi->hdr.bmiHeader.biCompression = '1CVW';
-		vi->dwProfile = h.profile;
-		vi->dwFlags = 4; // ?
-		vi->dwLevel = h.level;
-		vi->cbSequenceHeader = extralen+1;
-		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
+		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
+		vi->dwPictAspectRatioX = h.width;
+		vi->dwPictAspectRatioY = h.height;
+		vi->bmiHeader.biSize = sizeof(vi->bmiHeader);
+		vi->bmiHeader.biWidth = h.width;
+		vi->bmiHeader.biHeight = h.height;
+		vi->bmiHeader.biCompression = '1CVW';
+		BYTE* p = (BYTE*)vi + sizeof(VIDEOINFOHEADER2);
 		*p++ = 0;
 		Seek(extrapos);
 		ByteRead(p, extralen);

@@ -28,6 +28,7 @@
 class CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
 {
 	REFERENCE_TIME m_rtStartOffset;
+	bool m_pPipoBimbo;
 
 protected:
 	CAutoPtr<CMpegSplitterFile> m_pFile;
@@ -41,9 +42,11 @@ protected:
 
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));
+	void SetPipo(bool bPipo) { m_pPipoBimbo = bPipo; };
 
 	DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP GetClassID(CLSID* pClsID);
 
 	// IAMStreamSelect
 
@@ -74,4 +77,5 @@ protected:
 public:
 	CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMpegSplitterOutputPin();
+	STDMETHODIMP	Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
 };

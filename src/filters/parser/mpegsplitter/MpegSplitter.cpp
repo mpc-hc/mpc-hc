@@ -22,6 +22,7 @@
 #include "StdAfx.h"
 #include <mmreg.h>
 #include <initguid.h>
+#include <dmodshow.h>
 #include "MpegSplitter.h"
 #include <moreuuids.h>
 
@@ -94,6 +95,7 @@ CFilterApp theApp;
 
 CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid)
 	: CBaseSplitterFilter(NAME("CMpegSplitterFilter"), pUnk, phr, clsid)
+	, m_pPipoBimbo(false)
 {
 }
 
@@ -104,6 +106,19 @@ STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void*
     return 
 		QI(IAMStreamSelect)
 		__super::NonDelegatingQueryInterface(riid, ppv);
+}
+
+STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
+{
+	CheckPointer (pClsID, E_POINTER);
+
+	if (m_pPipoBimbo)
+	{
+		memcpy (pClsID, &CLSID_WMAsfReader, sizeof (GUID));
+		return S_OK;
+	}
+	else
+		return __super::GetClassID(pClsID);
 }
 
 //
@@ -804,4 +819,23 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	}
 
 	return __super::DeliverPacket(p);
+}
+
+
+STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt)
+{
+	HRESULT		hr;
+	PIN_INFO	PinInfo;
+	GUID		FilterClsid;
+
+	if (SUCCEEDED (pReceivePin->QueryPinInfo (&PinInfo)))
+	{
+		if (SUCCEEDED (PinInfo.pFilter->GetClassID(&FilterClsid)) && (FilterClsid == CLSID_DMOWrapperFilter))
+			((CMpegSplitterFilter*)m_pFilter)->SetPipo(true);
+		PinInfo.pFilter->Release();
+	}
+
+	hr = __super::Connect (pReceivePin, pmt);
+	((CMpegSplitterFilter*)m_pFilter)->SetPipo(false);
+	return hr;
 }
