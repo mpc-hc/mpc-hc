@@ -35,7 +35,7 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 	LPCTSTR lpszFilter, CWnd* pParentWnd) :
 		CFileDialog(FALSE, lpszDefExt, lpszFileName, 
 			OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-			lpszFilter, pParentWnd, 0),
+			lpszFilter, pParentWnd, 0, FALSE),
 		m_e(e)
 {
 	if(m_ofn.lStructSize == sizeof(OPENFILENAME))
