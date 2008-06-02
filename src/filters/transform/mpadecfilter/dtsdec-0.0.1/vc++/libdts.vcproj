@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libdts"
 	ProjectGUID="{54F609FD-A8CE-43CF-94AD-23E877B97C13}"
 	RootNamespace="libdts"
@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,../include"
+				AdditionalIncludeDirectories=".,../include,  ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				PrecompiledHeaderFile=".\Debug\libdts.pch"
 				CompileAs="0"
@@ -107,7 +107,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,../include"
+				AdditionalIncludeDirectories=".,../include,  ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN64;_DEBUG;_LIB"
 				PrecompiledHeaderFile=".\Debug\libdts.pch"
 				DebugInformationFormat="3"
@@ -169,7 +169,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,../include"
+				AdditionalIncludeDirectories=".,../include,  ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				PrecompiledHeaderFile=".\Release\libdts.pch"
 				CompileAs="0"
@@ -234,7 +234,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".,../include"
+				AdditionalIncludeDirectories=".,../include,  ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN64;NDEBUG;_LIB"
 				PrecompiledHeaderFile=".\Release\libdts.pch"
 				CompileAs="0"

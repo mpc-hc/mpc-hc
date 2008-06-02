@@ -109,14 +109,12 @@ class COggStreamOutputPin : public COggSplitterOutputPin
 
 public:
 	COggStreamOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	COggStreamOutputPin(TheoraStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 };
 
 class COggVideoOutputPin : public COggStreamOutputPin
 {
 public:
 	COggVideoOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
-	COggVideoOutputPin(TheoraStreamHeader* h, OggPage* pPage, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 };
 
 class COggAudioOutputPin : public COggStreamOutputPin
@@ -129,6 +127,20 @@ class COggTextOutputPin : public COggStreamOutputPin
 {
 public:
 	COggTextOutputPin(OggStreamHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+};
+
+class COggTheoraOutputPin : public COggSplitterOutputPin
+{
+	CAutoPtrList<OggPacket> m_initpackets;
+
+	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len);
+	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);
+
+public:
+	COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+
+	HRESULT UnpackInitPage(OggPage& page);
+	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
 };
 
 [uuid("9FF48807-E133-40AA-826F-9B2959E5232D")]

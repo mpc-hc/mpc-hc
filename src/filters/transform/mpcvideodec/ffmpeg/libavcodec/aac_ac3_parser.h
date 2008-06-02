@@ -23,9 +23,7 @@
 #ifndef FFMPEG_AAC_AC3_PARSER_H
 #define FFMPEG_AAC_AC3_PARSER_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "avcodec.h"
 
 typedef struct AACAC3ParseContext {

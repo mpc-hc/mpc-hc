@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="dsutil"
 	ProjectGUID="{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 	RootNamespace="dsutil"
@@ -403,6 +403,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HdmvClipInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MediaTypeEx.cpp"
 				>
 			</File>
@@ -473,6 +477,10 @@
 			</File>
 			<File
 				RelativePath=".\FontInstaller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HdmvClipInfo.h"
 				>
 			</File>
 			<File
