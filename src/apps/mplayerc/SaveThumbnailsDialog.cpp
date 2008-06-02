@@ -35,7 +35,11 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 	LPCTSTR lpszFilter, CWnd* pParentWnd) :
 		CFileDialog(FALSE, lpszDefExt, lpszFileName, 
 			OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-			lpszFilter, pParentWnd, 0, FALSE),
+			lpszFilter, pParentWnd, 0
+#if (_MSC_VER >= 1500)	// <= Parameter added after Visual Studio 2008!
+			, FALSE
+#endif
+			),
 	m_rows(rows), m_cols(cols), m_width(width)
 {
 	if(m_ofn.lStructSize == sizeof(OPENFILENAME))
