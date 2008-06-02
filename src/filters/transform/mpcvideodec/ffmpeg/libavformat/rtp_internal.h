@@ -26,7 +26,7 @@
 #ifdef __GNUC__
  #include <stdint.h>
 #endif
-#include "avcodec.h"
+#include "libavcodec/avcodec.h"
 #include "rtp.h"
 
 // these statistics are used for rtcp receiver reports...

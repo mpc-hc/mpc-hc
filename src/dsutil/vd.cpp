@@ -153,8 +153,40 @@ void DeinterlaceBlend(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpi
 {
 	ASSERT(FALSE);
 }
-#else
+void DeinterlaceBob(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch, bool topfield)
+{
+	if(topfield)
+	{
+		BitBltFromRGBToRGB(rowbytes, h/2, dst, dstpitch*2, 8, src, srcpitch*2, 8);
+		AvgLines8(dst, h, dstpitch);
+	}
+	else
+	{
+		BitBltFromRGBToRGB(rowbytes, h/2, dst + dstpitch, dstpitch*2, 8, src + srcpitch, srcpitch*2, 8);
+		AvgLines8(dst + dstpitch, h-1, dstpitch);
+	}
+}
 
+void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
+{
+	if(h <= 1) return;
+
+	BYTE* s = dst;
+	BYTE* d = dst + (h-2)*pitch;
+
+	for(; s < d; s += pitch*2)
+	{
+		BYTE* tmp = s;
+		{
+			for(int i = pitch; i--; tmp++)
+			{
+				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
+			}
+		}
+	}
+}
+
+#else
 
 CCpuID::CCpuID()
 {
@@ -1637,4 +1669,4 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	return(true);
 }
 
-#endif _WIN64
+#endif //_WIN64

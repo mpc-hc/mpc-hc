@@ -385,7 +385,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG"
+				PreprocessorDefinitions="WIN64;_DEBUG"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -500,7 +500,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				PreprocessorDefinitions="WIN64;NDEBUG"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

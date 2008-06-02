@@ -438,9 +438,9 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 	while(len >= 0)
 	{
 		mpeg2_state_t state = m_dec->mpeg2_parse();
-
+#ifndef _WIN64
 		__asm emms; // this one is missing somewhere in the precompiled mmx obj files
-
+#endif
 		switch(state)
 		{
 		case STATE_BUFFER:

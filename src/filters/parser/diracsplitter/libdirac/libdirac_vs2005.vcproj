@@ -102,7 +102,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN64;_DEBUG;_LIB"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
@@ -219,7 +219,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX"
+				PreprocessorDefinitions="WIN64;NDEBUG;_LIB;HAVE_MMX"
 				UsePrecompiledHeader="0"
 			/>
 			<Tool

@@ -501,7 +501,7 @@ int CMpeg2Dec::copy_chunk(int bytes)
 	// this assembly gives us a nice speed up
 	// 36 sec down to 32 sec decoding the ts.stream.tpr test file
 	// (idtc, mc was set to null)
-
+#ifndef _WIN64
 	__asm
 	{
 		mov ebx, this
@@ -542,7 +542,7 @@ int CMpeg2Dec::copy_chunk(int bytes)
 		mov [ebx].m_buf_start, esi
 		mov [ebx].m_shift, edx
 	}
-/*
+#else
 	uint8_t* chunk_ptr = m_chunk_ptr;
 	uint8_t* current = m_buf_start;
 	uint8_t* limit = current + bytes;
@@ -561,7 +561,7 @@ int CMpeg2Dec::copy_chunk(int bytes)
 	}
 
 	m_buf_start = current;
-*/
+#endif
 	return len;
 }
 
@@ -1963,6 +1963,7 @@ CMpeg2Decoder::CMpeg2Decoder()
 
 //	//
 /**/
+#ifndef _WIN64
 	if(g_cpuid.m_flags&CCpuID::sse2)
 	{
 		m_idct_init = mpeg2_idct_init_sse2;
@@ -1978,6 +1979,7 @@ CMpeg2Decoder::CMpeg2Decoder()
 		m_mc = &mpeg2_mc_mmx;
 	}
 	else
+#endif
 	{
 		m_idct_init = mpeg2_idct_init_c;
 		m_idct_copy = mpeg2_idct_copy_c;

@@ -169,20 +169,20 @@ void avcodec_register_all(void)
 //    REGISTER_DECODER  (adpcm_yamaha);
 
     /* parsers */
-    REGISTER_PARSER  (AAC, aac);
-    REGISTER_PARSER  (AC3, ac3);
+    //REGISTER_PARSER  (AAC, aac);
+    //REGISTER_PARSER  (AC3, ac3);
     //REGISTER_PARSER  (CAVSVIDEO, cavsvideo);
     //REGISTER_PARSER  (DCA, dca);
-    REGISTER_PARSER  (DVBSUB, dvbsub);
-    REGISTER_PARSER  (DVDSUB, dvdsub);
-    REGISTER_PARSER  (H261, h261);
-    REGISTER_PARSER  (H263, h263);
-    REGISTER_PARSER  (H264, h264);
+    //REGISTER_PARSER  (DVBSUB, dvbsub);
+    //REGISTER_PARSER  (DVDSUB, dvdsub);
+    //REGISTER_PARSER  (H261, h261);
+    //REGISTER_PARSER  (H263, h263);
+    //REGISTER_PARSER  (H264, h264);
     //REGISTER_PARSER  (MJPEG, mjpeg);
-    REGISTER_PARSER  (MLP, mlp);
-    REGISTER_PARSER  (MPEG4VIDEO, mpeg4video);
-    REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
-    REGISTER_PARSER  (MPEGVIDEO, mpegvideo);
+    //REGISTER_PARSER  (MLP, mlp);
+    //REGISTER_PARSER  (MPEG4VIDEO, mpeg4video);
+    //REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
+    //REGISTER_PARSER  (MPEGVIDEO, mpegvideo);
     //REGISTER_PARSER  (PNM, pnm);
-    REGISTER_PARSER  (VC1, vc1);
+    //REGISTER_PARSER  (VC1, vc1);
 }
