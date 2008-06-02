@@ -36,6 +36,7 @@
 #endif
 
 #include "NullRenderers.h"
+#include "HdmvClipInfo.h"
 //#include "MediaTypes.h"
 #include "MediaTypeEx.h"
 #include "vd.h"

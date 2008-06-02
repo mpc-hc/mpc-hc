@@ -1,7 +1,6 @@
-/*
- * $Id$
+/* 
+ * $Id: HdmvClipInfo.h 522 2008-05-24 15:02:34Z casimir666 $
  *
- * (C) 2003-2006 Gabest
  * (C) 2006-2007 see AUTHORS
  *
  * This file is part of mplayerc.
@@ -24,28 +23,37 @@
 #pragma once
 
 
-// CSaveThumbnailsDialog
-
-class CSaveThumbnailsDialog : public CFileDialog
+class CHdmvClipInfo
 {
-	DECLARE_DYNAMIC(CSaveThumbnailsDialog)
-
 public:
-	CSaveThumbnailsDialog(
-		int rows, int cols, int width,
-		LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL, 
-		LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
-	virtual ~CSaveThumbnailsDialog();
 
-protected:
-	DECLARE_MESSAGE_MAP()
-	virtual void DoDataExchange(CDataExchange* pDX);
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnFileNameOK();
+	struct Stream
+	{
+		SHORT		stream_PID;
+		BYTE		stream_coding_type;
+		char		language_code[4];
+		LCID		lcid;
 
-public:
-	int m_rows, m_cols, m_width;
-	CSpinButtonCtrl m_rowsctrl;
-	CSpinButtonCtrl m_colsctrl;
-	CSpinButtonCtrl m_widthctrl;
+		LPCTSTR Format();
+	};
+
+	CHdmvClipInfo(void);
+
+	HRESULT		ReadInfo(LPCTSTR strFile);
+	Stream*		FindStream(SHORT wPID);
+
+private :
+	DWORD		SequenceInfo_start_address;
+	DWORD		ProgramInfo_start_address;
+
+	HANDLE		m_hFile;
+	int			m_nStreamNumber;
+	Stream		m_Stream[50];
+
+	DWORD		ReadDword();
+	SHORT		ReadShort();
+	SHORT		ReadByte();
+	void		ReadBuffer(BYTE* pBuff, int nLen);
+
+	HRESULT		ReadProgramInfo();
 };

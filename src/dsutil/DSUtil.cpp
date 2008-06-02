@@ -1623,6 +1623,7 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 	{"Fon", "fon", ""},
 	{"French", "fre", "fr",						MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)},
 	{"French", "fra*", "fr",					MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)},
+	{"French", "fra", "fr",						MAKELCID( MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT)},
 	{"French, Middle (ca.1400-1600)", "frm", ""},
 	{"French, Old (842-ca.1400)", "fro", ""},
 	{"Frisian", "fry", "fy",					MAKELCID( MAKELANGID(LANG_FRISIAN, SUBLANG_DEFAULT), SORT_DEFAULT)},

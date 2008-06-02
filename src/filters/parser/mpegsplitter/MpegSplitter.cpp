@@ -121,6 +121,31 @@ STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
 		return __super::GetClassID(pClsID);
 }
 
+STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
+{
+	HRESULT		hr = __super::Load (pszFileName, pmt);
+
+	if(SUCCEEDED (hr))
+	{
+		if (!m_fn.IsEmpty())
+		{
+			WCHAR		Drive[5];
+			WCHAR		Dir[MAX_PATH];
+			WCHAR		Filename[MAX_PATH];
+			WCHAR		Ext[10];
+			
+			if (_wsplitpath_s (m_fn, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
+			{
+				CString		strClipInfo;
+				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+				m_ClipInfo.ReadInfo (strClipInfo);
+			}
+		}
+	}
+
+	return hr;
+}
+
 //
 
 HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
@@ -491,21 +516,32 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 			POSITION pos = m_pFile->m_streams[i].FindIndex(lIndex);
 			if(!pos) return E_UNEXPECTED;
 
-			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetAt(pos);
+			CMpegSplitterFile::stream&	s = m_pFile->m_streams[i].GetAt(pos);
+			CHdmvClipInfo::Stream*		pStream = m_ClipInfo.FindStream (s.pid);
 
 			if(ppmt) *ppmt = CreateMediaType(&s.mt);
 			if(pdwFlags) *pdwFlags = GetOutputPin(s) ? (AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE) : 0;
-			if(plcid) *plcid = 0;
+			if(plcid) *plcid = pStream ? pStream->lcid : 0;
 			if(pdwGroup) *pdwGroup = i;
 			if(ppObject) *ppObject = NULL;
 			if(ppUnk) *ppUnk = NULL;
+
 			
 			if(ppszName)
 			{
 				CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 
 				CStringW str;
-				str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+
+				if (pStream)
+				{
+					CString lang;
+					int len = GetLocaleInfo(pStream->lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+					lang.ReleaseBufferSetLength(max(len-1, 0));
+					str.Format (L"%s (%s - %s)", name, lang, pStream->Format());
+				}
+				else
+					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
 
 				*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));
 				if(*ppszName == NULL) return E_OUTOFMEMORY;

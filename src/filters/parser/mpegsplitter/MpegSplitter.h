@@ -27,8 +27,9 @@
 [uuid("DC257063-045F-4BE2-BD5B-E12279C464F0")]
 class CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
 {
-	REFERENCE_TIME m_rtStartOffset;
-	bool m_pPipoBimbo;
+	REFERENCE_TIME	m_rtStartOffset;
+	bool			m_pPipoBimbo;
+	CHdmvClipInfo	m_ClipInfo;
 
 protected:
 	CAutoPtr<CMpegSplitterFile> m_pFile;
@@ -47,6 +48,7 @@ public:
 	DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 	STDMETHODIMP GetClassID(CLSID* pClsID);
+	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
 
 	// IAMStreamSelect
 
