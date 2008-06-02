@@ -362,7 +362,6 @@ Global
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|Win32.ActiveCfg = Debug Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|Win32.Build.0 = Debug Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|x64.ActiveCfg = Debug Unicode lib|x64
-		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|x64.Build.0 = Debug Unicode lib|x64
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode|Win32.ActiveCfg = Release Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
@@ -501,6 +500,7 @@ Global
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode|Win32.ActiveCfg = Release Unicode lib|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
+		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode|x64.Build.0 = Release Unicode lib|x64
 		{4421516D-10A6-41C1-ADF3-099573BBB0C6}.Debug Unicode|Win32.ActiveCfg = Debug Unicode lib|Win32
 		{4421516D-10A6-41C1-ADF3-099573BBB0C6}.Debug Unicode|Win32.Build.0 = Debug Unicode lib|Win32
 		{4421516D-10A6-41C1-ADF3-099573BBB0C6}.Debug Unicode|x64.ActiveCfg = Debug Unicode lib|x64

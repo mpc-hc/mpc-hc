@@ -273,7 +273,7 @@
 			ConfigurationType="4"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -297,10 +297,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="3"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil"
 				PreprocessorDefinitions="WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;NDEBUG;_WINDOWS;HAVE_AV_CONFIG_H"
 				StringPooling="true"
@@ -308,6 +310,7 @@
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="0"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
@@ -762,10 +765,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg4audio.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpeg4audio.h"
 				>
 			</File>
 			<File
@@ -1690,6 +1689,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavformat\avi.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavformat\avio.c"
 				>
 			</File>
@@ -1711,6 +1714,10 @@
 			</File>
 			<File
 				RelativePath=".\libavformat\file.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\flv.h"
 				>
 			</File>
 			<File
@@ -1742,40 +1749,16 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavformat\mpjpeg.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\os_support.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavformat\raw.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\libavformat\raw.h"
@@ -1790,6 +1773,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavformat\rtp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavformat\rtp_internal.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavformat\utils.c"
 				>
 				<FileConfiguration
@@ -1797,7 +1788,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\utilsformat.obj"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1805,7 +1797,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\utilsformat.obj"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1813,7 +1806,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\utilsformat.obj"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1821,7 +1815,8 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\utilsformat.obj"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
 					/>
 				</FileConfiguration>
 			</File>

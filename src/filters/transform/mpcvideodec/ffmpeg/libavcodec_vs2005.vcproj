@@ -1604,6 +1604,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\intfloat_readwrite.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\intfloat_readwrite.h"
 				>
 			</File>
@@ -1657,6 +1661,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\rational.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\string.c"
 				>
 			</File>
 			<File
