@@ -28,9 +28,7 @@
 #ifndef FFMPEG_MPEG12DATA_H
 #define FFMPEG_MPEG12DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "libavutil/rational.h"
 #include "rl.h"
 

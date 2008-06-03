@@ -29,9 +29,7 @@
 #ifndef FFMPEG_H264DATA_H
 #define FFMPEG_H264DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "libavutil/rational.h"
 #include "mpegvideo.h"
 

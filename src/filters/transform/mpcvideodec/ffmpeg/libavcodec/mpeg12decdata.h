@@ -28,9 +28,7 @@
 #ifndef FFMPEG_MPEG12DECDATA_H
 #define FFMPEG_MPEG12DECDATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "mpegvideo.h"
 
 

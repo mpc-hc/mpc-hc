@@ -28,9 +28,7 @@
 #ifndef FFMPEG_COOKDATA_H
 #define FFMPEG_COOKDATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 /* various data tables */
 

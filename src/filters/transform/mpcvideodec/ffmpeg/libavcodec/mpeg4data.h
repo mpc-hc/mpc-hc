@@ -28,9 +28,7 @@
 #ifndef FFMPEG_MPEG4DATA_H
 #define FFMPEG_MPEG4DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "mpegvideo.h"
 
 // shapes

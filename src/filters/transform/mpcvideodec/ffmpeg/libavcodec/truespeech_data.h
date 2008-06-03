@@ -22,9 +22,7 @@
 #ifndef FFMPEG_TRUESPEECH_DATA_H
 #define FFMPEG_TRUESPEECH_DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 /* codebooks fo expanding input filter */
 static const int16_t ts_cb_0[32] = {

@@ -19,9 +19,7 @@
 #ifndef FFMPEG_INTREADWRITE_H
 #define FFMPEG_INTREADWRITE_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "config.h"
 #include "bswap.h"
 

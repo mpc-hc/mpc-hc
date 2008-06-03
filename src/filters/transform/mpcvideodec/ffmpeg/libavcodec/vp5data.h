@@ -24,9 +24,7 @@
 #ifndef FFMPEG_VP5DATA_H
 #define FFMPEG_VP5DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 static const uint8_t vp5_coeff_groups[] = {
     -1, 0, 1, 1, 2, 1, 1, 2,

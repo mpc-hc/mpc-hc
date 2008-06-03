@@ -26,11 +26,9 @@
 #ifndef FFMPEG_BITSTREAM_H
 #define FFMPEG_BITSTREAM_H
 
-#ifdef __GNUC__
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
-#endif
 #include "libavutil/bswap.h"
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"

@@ -34,9 +34,7 @@
 extern "C" {
 #endif
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "bitstream.h"
 
 #define INVALID_VLC           0x80000000

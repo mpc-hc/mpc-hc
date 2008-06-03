@@ -28,9 +28,7 @@
 #ifndef FFMPEG_VC1DATA_H
 #define FFMPEG_VC1DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "libavutil/rational.h"
 #include "bitstream.h"
 

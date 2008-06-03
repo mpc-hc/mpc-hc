@@ -28,9 +28,7 @@
 #ifndef FFMPEG_INTEGER_H
 #define FFMPEG_INTEGER_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "common.h"
 
 #define AV_INTEGER_SIZE 8

@@ -22,9 +22,7 @@
 #ifndef FFMPEG_SP5X_H
 #define FFMPEG_SP5X_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 static const uint8_t sp5x_data_sof[] =
 {

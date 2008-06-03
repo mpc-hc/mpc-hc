@@ -27,9 +27,7 @@
 #ifndef FFMPEG_RL_H
 #define FFMPEG_RL_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "bitstream.h"
 
 /* run length table */

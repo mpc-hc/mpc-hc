@@ -28,9 +28,7 @@
 #ifndef FFMPEG_RATIONAL_H
 #define FFMPEG_RATIONAL_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "common.h"
 
 /**

@@ -27,9 +27,7 @@
 #ifndef FFMPEG_H261DATA_H
 #define FFMPEG_H261DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "h261.h"
 
 // H.261 VLC table for macroblock addressing

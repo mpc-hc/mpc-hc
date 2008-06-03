@@ -21,10 +21,8 @@
 #ifndef FFMPEG_VP3DATA_H
 #define FFMPEG_VP3DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
 #include <stdlib.h>
-#endif
 
 /* these coefficients dequantize intraframe Y plane coefficients
  * (note: same as JPEG) */

@@ -26,9 +26,7 @@
 #ifndef FFMPEG_BSWAP_H
 #define FFMPEG_BSWAP_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "config.h"
 #include "common.h"
 

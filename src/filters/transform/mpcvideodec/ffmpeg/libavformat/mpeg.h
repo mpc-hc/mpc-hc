@@ -22,9 +22,7 @@
 #ifndef FFMPEG_MPEG_H
 #define FFMPEG_MPEG_H
 
-#ifdef __GNUC__
- #include <stdint.h>
-#endif
+#include <stdint.h>
 #include "intreadwrite.h"
 
 #define PACK_START_CODE             ((unsigned int)0x000001ba)

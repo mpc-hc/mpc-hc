@@ -22,9 +22,7 @@
 #ifndef FFMPEG_INDEO2DATA_H
 #define FFMPEG_INDEO2DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #define IR2_CODES 143
 static const uint16_t ir2_codes[IR2_CODES][2] = {

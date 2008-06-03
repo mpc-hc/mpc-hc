@@ -33,6 +33,7 @@
 #    include "config.h"
 #    include <stdlib.h>
 #    include <stdio.h>
+#    include <stdint.h>
 #    include <string.h>
 #    include <ctype.h>
 #    include <limits.h>
@@ -123,10 +124,8 @@
 
 #ifdef EMULATE_FAST_INT
 typedef signed char int_fast8_t;
-typedef signed int  int_fast16_t;
 typedef signed int  int_fast32_t;
 typedef unsigned char uint_fast8_t;
-typedef unsigned int  uint_fast16_t;
 typedef unsigned int  uint_fast32_t;
 typedef uint64_t uint_fast64_t;
 #endif

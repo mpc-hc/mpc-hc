@@ -23,9 +23,7 @@
 #ifndef FFMPEG_RTP_INTERNAL_H
 #define FFMPEG_RTP_INTERNAL_H
 
-#ifdef __GNUC__
- #include <stdint.h>
-#endif
+#include <stdint.h>
 #include "libavcodec/avcodec.h"
 #include "rtp.h"
 

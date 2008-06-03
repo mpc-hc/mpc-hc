@@ -22,9 +22,7 @@
 #ifndef FFMPEG_RTJPEG_H
 #define FFMPEG_RTJPEG_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "dsputil.h"
 
 typedef struct {

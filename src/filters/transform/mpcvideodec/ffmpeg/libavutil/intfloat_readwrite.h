@@ -21,9 +21,7 @@
 #ifndef FFMPEG_INTFLOAT_READWRITE_H
 #define FFMPEG_INTFLOAT_READWRITE_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "common.h"
 
 /* IEEE 80 bits extended float */

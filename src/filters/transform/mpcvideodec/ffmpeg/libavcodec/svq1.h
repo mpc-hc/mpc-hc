@@ -33,9 +33,7 @@
 #ifndef FFMPEG_SVQ1_H
 #define FFMPEG_SVQ1_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "libavutil/common.h"
 
 #define SVQ1_BLOCK_SKIP         0

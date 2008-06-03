@@ -29,9 +29,7 @@
 #ifndef FFMPEG_H263DATA_H
 #define FFMPEG_H263DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "mpegvideo.h"
 
 /* intra MCBPC, mb_type = (intra), then (intraq) */
