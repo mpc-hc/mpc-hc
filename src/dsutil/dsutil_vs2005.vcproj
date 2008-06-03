@@ -402,6 +402,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HdmvClipInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MediaTypeEx.cpp"
 				>
 			</File>
@@ -472,6 +476,10 @@
 			</File>
 			<File
 				RelativePath=".\FontInstaller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HdmvClipInfo.h"
 				>
 			</File>
 			<File

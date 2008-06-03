@@ -42,7 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN64;_LIB;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
@@ -172,7 +172,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN64;_LIB;NDEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
