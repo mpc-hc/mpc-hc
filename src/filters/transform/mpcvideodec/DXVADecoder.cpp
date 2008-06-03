@@ -421,7 +421,7 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 		}
 
 		// For slow accelerator wait a little...
-		if (hr != E_PENDING) break;
+		if (SUCCEEDED (hr)) break;
 		Sleep(1);
 	}
 
