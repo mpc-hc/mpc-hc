@@ -82,7 +82,8 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			m_Stream[m_nStreamNumber].stream_PID			= ReadShort();	// stream_PID
 			
 			// == StreamCodingInfo
-			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + ReadByte() + 1;	// length
+			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + 1;
+			dwPos += ReadByte();	// length
 			m_Stream[m_nStreamNumber].stream_coding_type	= ReadByte();
 			
 			switch (m_Stream[m_nStreamNumber].stream_coding_type)
