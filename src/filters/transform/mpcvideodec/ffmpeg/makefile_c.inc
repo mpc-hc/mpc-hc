@@ -1,7 +1,7 @@
 all:.all
 
 ifeq ($(64BIT),yes)
-FFDSHOW_PREFIX=x86_64-pc-mingw32-
+FFMPEG_PREFIX=x86_64-pc-mingw32-
 endif
 
 ifeq ($(64BIT),yes)
