@@ -1,13 +1,10 @@
 #if defined(__GNUC__)
   #define HAVE_MMX 1
   #define HAVE_SSSE3 1
-
   #define ARCH_X86 1
-
   #ifndef ARCH_X86_64
     #define ARCH_X86_32 1
   #endif
-
   #ifdef ARCH_X86_64
     #define HAVE_FAST_64BIT 1
   #endif
@@ -31,12 +28,5 @@
 #define CONFIG_AC3_DEMUXER 1
 // ==
 
-#ifndef __GNUC__
-  #define EMULATE_FAST_INT
-#endif
-
 #define HAVE_7REGS
 #define HAVE_EBX_AVAILABLE
-
-/* CPU specific */
-//#define HAVE_FAST_CMOV

@@ -22,6 +22,7 @@
 #undef V_DEBUG
 
 #include <math.h>
+#include <inttypes.h>
 
 #define ALT_BITSTREAM_READER_LE
 #include "avcodec.h"

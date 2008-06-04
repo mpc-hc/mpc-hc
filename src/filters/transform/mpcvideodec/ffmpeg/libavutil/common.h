@@ -110,26 +110,6 @@
 #    define restrict
 #endif
 
-/* custom code */
-#ifndef EMULATE_INTTYPES
-#   include <inttypes.h>
-#else
-    typedef signed char  int8_t;
-    typedef signed short int16_t;
-    typedef signed int   int32_t;
-    typedef unsigned char  uint8_t;
-    typedef unsigned short uint16_t;
-    typedef unsigned int   uint32_t;
-#endif /* EMULATE_INTTYPES */
-
-#ifdef EMULATE_FAST_INT
-typedef signed char int_fast8_t;
-typedef signed int  int_fast32_t;
-typedef unsigned char uint_fast8_t;
-typedef unsigned int  uint_fast32_t;
-typedef uint64_t uint_fast64_t;
-#endif
-
 #ifndef INT64_C
 #define INT64_C(c)     (c ## LL)
 #define UINT64_C(c)    (c ## ULL)
