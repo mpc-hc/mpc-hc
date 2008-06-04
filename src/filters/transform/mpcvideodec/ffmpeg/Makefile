@@ -4,7 +4,7 @@ LAVF_DIR=libavformat
 ZLIB_DIR=../../../../zlib
 PNG_DIR =../../../../libpng
 
-CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
+CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LAVF_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
 		-DHAVE_AV_CONFIG_H -std=gnu99
 
 SRCS_C=$(LAVC_DIR)/8bps.c \
@@ -162,18 +162,6 @@ SRCS_C=$(LAVC_DIR)/8bps.c \
 		$(LAVU_DIR)/random.c \
 		$(LAVU_DIR)/rational.c \
 		$(LAVU_DIR)/string.c \
-#    \
-#		$(ZLIB_DIR)/adler32.c \
-#		$(ZLIB_DIR)/compress.c \
-#		$(ZLIB_DIR)/crc32.c \
-#		$(ZLIB_DIR)/deflate.c \
-#		$(ZLIB_DIR)/infback.c \
-#		$(ZLIB_DIR)/inffast.c \
-#		$(ZLIB_DIR)/inflate.c \
-#		$(ZLIB_DIR)/inftrees.c \
-#		$(ZLIB_DIR)/trees.c \
-#		$(ZLIB_DIR)/uncompr.c \
-#		$(ZLIB_DIR)/zutil.c \
     \
 		$(LAVF_DIR)/allformats.c \
 		$(LAVF_DIR)/avio.c \
@@ -215,8 +203,6 @@ else
 	CFLAGS+=-DARCH_X86_32
 	SLIB=../../../../../lib/libavcodec_gcc.lib
 endif
-
-#GCCLIBS=-lvfw32
 
 DEF=libavcodec_dec.def
 
