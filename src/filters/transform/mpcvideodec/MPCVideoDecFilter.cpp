@@ -528,7 +528,7 @@ HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
 {
-	w = PictWidth();
+	w = PictWidthRounded();
 	h = PictHeightRounded();
 }
 
@@ -539,8 +539,13 @@ int CMPCVideoDecFilter::PictWidth()
 
 int CMPCVideoDecFilter::PictHeight()
 {
-	// Picture height should be rounded to 16 for DXVA
 	return m_nHeight;
+}
+
+int CMPCVideoDecFilter::PictWidthRounded()
+{
+	// Picture height should be rounded to 16 for DXVA
+	return ((m_nWidth + 15) / 16) * 16;
 }
 
 int CMPCVideoDecFilter::PictHeightRounded()
@@ -837,7 +842,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if (ffCodecs[m_nCodecNb].nFFCodec == CODEC_ID_H264)
 			{
 				int		nCompat;
-				nCompat = FFH264CheckCompatibility (PictWidth(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
+				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size);
 				switch (nCompat)
 				{
 				case 1 :	// SAR not supported
@@ -1190,7 +1195,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 {
 	memset (pDesc, 0, sizeof(DXVA2_VideoDesc));
-	pDesc->SampleWidth			= PictWidth();
+	pDesc->SampleWidth			= PictWidthRounded();
 	pDesc->SampleHeight			= PictHeightRounded();
 	pDesc->Format				= D3DFMT_A8R8G8B8;
 	pDesc->UABProtectionLevel	= 1;

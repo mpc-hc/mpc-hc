@@ -334,7 +334,9 @@ void CNalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)
 
 bool CNalu::MoveToNextStartcode()
 {
-	for (int i=m_nCurPos; i<min (m_nNextRTP, m_nSize-4); i++)
+	int		nBuffEnd = (m_nNextRTP > 0) ? min (m_nNextRTP, m_nSize-4) : m_nSize-4;
+
+	for (int i=m_nCurPos; i<nBuffEnd; i++)
 	{
 		if ((*((DWORD*)(m_pBuffer+i)) & 0x00FFFFFF) == 0x00010000)
 		{
@@ -362,7 +364,7 @@ bool CNalu::ReadNext()
 
 	if ((m_nNALSize != 0) && (m_nCurPos == m_nNextRTP))
 	{
-		// RTP Nalu type
+		// RTP Nalu type : (XX XX) XX XX NAL..., with XX XX XX XX or XX XX equal to NAL size
 		m_nNALStartPos	= m_nCurPos;
 		m_nNALDataPos	= m_nCurPos + m_nNALSize;
 		nTemp			= 0;
@@ -375,7 +377,11 @@ bool CNalu::ReadNext()
 	}
 	else
 	{
-		// AnnexB Nalu
+		// Remove trailing bits
+		while (m_pBuffer[m_nCurPos]==0x00 && ((*((DWORD*)(m_pBuffer+m_nCurPos)) & 0x00FFFFFF) != 0x00010000))
+			m_nCurPos++;
+
+		// AnnexB Nalu : 00 00 01 NAL...
 		m_nNALStartPos	= m_nCurPos;
 		m_nCurPos	   += 3;
 		m_nNALDataPos	= m_nCurPos;

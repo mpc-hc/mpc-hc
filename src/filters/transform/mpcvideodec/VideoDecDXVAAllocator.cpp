@@ -154,7 +154,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
     if (SUCCEEDED(hr))
     {
         hr = pDXVA2Service->CreateSurface(
-            m_pVideoDecFilter->PictWidth(),
+            m_pVideoDecFilter->PictWidthRounded(),
             m_pVideoDecFilter->PictHeightRounded(),
             m_lCount - 1,
             (D3DFORMAT)m_dwFormat,

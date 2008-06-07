@@ -29,6 +29,7 @@
 
 #include <windows.h>
 #include <winnt.h>
+#include <vfwmsgs.h>
 #include "FfmpegContext.h"
 #include "dsputil.h"
 #include "avcodec.h"
@@ -148,6 +149,7 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
 
 	if (cur_sps && cur_pps)
 	{
+		if (cur_sps->mb_width==0 || cur_sps->mb_height==0) return VFW_E_INVALID_FILE_FORMAT;
 		pDXVAPicParams->wFrameWidthInMbsMinus1			= cur_sps->mb_width  - 1;		// pic_width_in_mbs_minus1;
 		pDXVAPicParams->wFrameHeightInMbsMinus1			= cur_sps->mb_height * (2 - cur_sps->frame_mbs_only_flag) - 1;		// pic_height_in_map_units_minus1;
 		pDXVAPicParams->num_ref_frames					= cur_sps->ref_frame_count;		// num_ref_frames;
