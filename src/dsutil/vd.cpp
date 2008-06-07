@@ -27,7 +27,7 @@
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
-#ifdef _WIN64
+#ifdef WIN64
 
 CCpuID g_cpuid;
 
@@ -35,6 +35,41 @@ CCpuID::CCpuID()
 {
 	// TODOX64 : ??
 	m_flags = (flag_t)7;
+}
+
+static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2)
+	{
+		*dstw++ = (*srcu++<<8)|*srcy++;
+		*dstw++ = (*srcv++<<8)|*srcy++;
+	}
+}
+
+static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2, srcu++, srcv++)
+	{
+		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
+		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
+	}
+}
+
+static void asm_blend_row_clipped_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+{
+	BYTE* src2 = src + srcpitch;
+	do {*dst++ = (*src++ + *src2++ + 1) >> 1;}
+	while(w--);
+}
+
+static void asm_blend_row_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+{
+	BYTE* src2 = src + srcpitch;
+	BYTE* src3 = src2 + srcpitch;
+	do {*dst++ = (*src++ + (*src2++ << 1) + *src3++ + 2) >> 2;}
+	while(w--);
 }
 
 bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
@@ -69,27 +104,6 @@ bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int 
 	return true;
 }
 
-static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
-{
-	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2)
-	{
-		*dstw++ = (*srcu++<<8)|*srcy++;
-		*dstw++ = (*srcv++<<8)|*srcy++;
-	}
-}
-
-static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
-{
-	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2, srcu++, srcv++)
-	{
-		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
-		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
-	}
-}
-
-
 bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch, bool fInterlaced)
 {
 	if(w<=0 || h<=0 || (w&1) || (h&1))
@@ -97,14 +111,10 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 
 	if(srcpitch == 0) srcpitch = w;
 
-	if((g_cpuid.m_flags & CCpuID::sse2) 
-        && !((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
+	if(!((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
         && !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
 		ASSERT (FALSE);
-		//if(!fInterlaced) yv12_yuy2_sse2(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
-		//else yv12_yuy2_sse2_interlaced(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
-		//return true;
 		return false;
 	}
 	else
@@ -129,30 +139,144 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 
 	return(true);
 }
+
+bool BitBltFromYUY2ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* src, int srcpitch)
+{
+	if(w > 0 && w == srcpitch && w == dstpitch)
+	{
+		memcpy(dst, src, h*srcpitch);
+	}
+	else
+	{
+		int pitch = min(abs(srcpitch), abs(dstpitch));
+
+		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+			memcpy(dst, src, pitch);
+	}
+
+	return(true);
+}
+
 bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
 	ASSERT(FALSE);
 	return false;
 }
+
 bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch, int sbpp)
 {
-	ASSERT(FALSE);
-	return false;
+	if(dbpp == sbpp)
+	{
+		int rowbytes = w*dbpp>>3;
+
+		if(rowbytes > 0 && rowbytes == srcpitch && rowbytes == dstpitch)
+		{
+			memcpy(dst, src, h*rowbytes);
+		}
+		else
+		{
+			for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+				memcpy(dst, src, rowbytes);
+		}
+
+		return(true);
+	}
+	
+	if(sbpp != 16 && sbpp != 24 && sbpp != 32
+	|| dbpp != 16 && dbpp != 24 && dbpp != 32)
+		return(false);
+
+	if(dbpp == 16)
+	{
+		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		{
+			if(sbpp == 24)
+			{
+				BYTE* s = (BYTE*)src;
+				WORD* d = (WORD*)dst;
+				for(int x = 0; x < w; x++, s+=3, d++)
+					*d = (WORD)(((*((DWORD*)s)>>8)&0xf800)|((*((DWORD*)s)>>5)&0x07e0)|((*((DWORD*)s)>>3)&0x1f));
+			}
+			else if(sbpp == 32)
+			{
+				DWORD* s = (DWORD*)src;
+				WORD* d = (WORD*)dst;
+				for(int x = 0; x < w; x++, s++, d++)
+					*d = (WORD)(((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x1f));
+			}
+		}
+	}
+	else if(dbpp == 24)
+	{
+		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		{
+			if(sbpp == 16)
+			{
+				WORD* s = (WORD*)src;
+				BYTE* d = (BYTE*)dst;
+				for(int x = 0; x < w; x++, s++, d+=3)
+				{	// not tested, r-g-b might be in reverse
+					d[0] = (*s&0x001f)<<3;
+					d[1] = (*s&0x07e0)<<5;
+					d[2] = (*s&0xf800)<<8;
+				}
+			}
+			else if(sbpp == 32)
+			{
+				BYTE* s = (BYTE*)src;
+				BYTE* d = (BYTE*)dst;
+				for(int x = 0; x < w; x++, s+=4, d+=3)
+					{d[0] = s[0]; d[1] = s[1]; d[2] = s[2];}
+			}
+		}
+	}
+	else if(dbpp == 32)
+	{
+		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		{
+			if(sbpp == 16)
+			{
+				WORD* s = (WORD*)src;
+				DWORD* d = (DWORD*)dst;
+				for(int x = 0; x < w; x++, s++, d++)
+					*d = ((*s&0xf800)<<8)|((*s&0x07e0)<<5)|((*s&0x001f)<<3);
+			}
+			else if(sbpp == 24)
+			{	
+				BYTE* s = (BYTE*)src;
+				DWORD* d = (DWORD*)dst;
+				for(int x = 0; x < w; x++, s+=3, d++)
+					*d = *((DWORD*)s)&0xffffff;
+			}
+		}
+	}
+
+	return(true);
 }
-bool BitBltFromYUY2ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* src, int srcpitch)
-{
-	ASSERT(FALSE);
-	return false;
-}
+
 bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* src, int srcpitch)
 {
 	ASSERT(FALSE);
 	return false;
 }
+
 void DeinterlaceBlend(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch)
 {
-	ASSERT(FALSE);
+
+	asm_blend_row_clipped_c(dst, src, rowbytes, srcpitch);
+
+	if((h -= 2) > 0) do
+	{
+		dst += dstpitch;
+		asm_blend_row_c(dst, src, rowbytes, srcpitch);
+        src += srcpitch;
+	}
+	while(--h);
+
+	asm_blend_row_clipped_c(dst + dstpitch, src, rowbytes, srcpitch);
+
 }
+
 void DeinterlaceBob(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch, bool topfield)
 {
 	if(topfield)
@@ -177,6 +301,7 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 	for(; s < d; s += pitch*2)
 	{
 		BYTE* tmp = s;
+
 		{
 			for(int i = pitch; i--; tmp++)
 			{
@@ -184,6 +309,13 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 			}
 		}
 	}
+
+	if(!(h&1) && h >= 2)
+	{
+		dst += (h-2)*pitch;
+		memcpy(dst + pitch, dst, pitch);
+	}
+
 }
 
 #else
@@ -325,6 +457,41 @@ void memcpy_accel(void* dst, const void* src, size_t len)
 	}
 }
 
+static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2)
+	{
+		*dstw++ = (*srcu++<<8)|*srcy++;
+		*dstw++ = (*srcv++<<8)|*srcy++;
+	}
+}
+
+static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
+{
+	WORD* dstw = (WORD*)dst;
+	for(; width > 1; width -= 2, srcu++, srcv++)
+	{
+		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
+		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
+	}
+}
+
+static void asm_blend_row_clipped_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+{
+	BYTE* src2 = src + srcpitch;
+	do {*dst++ = (*src++ + *src2++ + 1) >> 1;}
+	while(w--);
+}
+
+static void asm_blend_row_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+{
+	BYTE* src2 = src + srcpitch;
+	BYTE* src3 = src2 + srcpitch;
+	do {*dst++ = (*src++ + (*src2++ << 1) + *src3++ + 2) >> 2;}
+	while(w--);
+}
+
 bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch)
 {
 	if((w&1)) return(false);
@@ -442,16 +609,6 @@ bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	return true;
 }
 
-static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
-{
-	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2)
-	{
-		*dstw++ = (*srcu++<<8)|*srcy++;
-		*dstw++ = (*srcv++<<8)|*srcy++;
-	}
-}
-
 static void __declspec(naked) yuvtoyuy2row_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
 {
 	__asm {
@@ -495,16 +652,6 @@ yuvtoyuy2row_loop:
 		pop		ebp
 		ret
 	};
-}
-
-static void yuvtoyuy2row_avg_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
-{
-	WORD* dstw = (WORD*)dst;
-	for(; width > 1; width -= 2, srcu++, srcv++)
-	{
-		*dstw++ = (((srcu[0]+srcu[pitchuv])>>1)<<8)|*srcy++;
-		*dstw++ = (((srcv[0]+srcv[pitchuv])>>1)<<8)|*srcy++;
-	}
 }
 
 static void __declspec(naked) yuvtoyuy2row_avg_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
@@ -1011,21 +1158,6 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 	}
 
 	return(true);
-}
-
-static void asm_blend_row_clipped_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
-{
-	BYTE* src2 = src + srcpitch;
-	do {*dst++ = (*src++ + *src2++ + 1) >> 1;}
-	while(w--);
-}
-
-static void asm_blend_row_c(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
-{
-	BYTE* src2 = src + srcpitch;
-	BYTE* src3 = src2 + srcpitch;
-	do {*dst++ = (*src++ + (*src2++ << 1) + *src3++ + 2) >> 2;}
-	while(w--);
 }
 
 static void __declspec(naked) asm_blend_row_clipped_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
@@ -1669,4 +1801,4 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	return(true);
 }
 
-#endif //_WIN64
+#endif //WIN64

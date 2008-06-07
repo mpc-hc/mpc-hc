@@ -47,12 +47,12 @@
 #include "IGraphBuilder2.h"
 
 #include "RealMediaGraph.h"
-#ifdef _WIN64
+#ifdef WIN64
 // TODOX64 : add QuickTime support when available!
 #pragma message ("No support for Quick Time for X64 yet!")
-#else /* _WIN64 */
+#else /* WIN64 */
 #include "QuicktimeGraph.h"
-#endif /* _WIN64 */
+#endif /* WIN64 */
 #include "ShockwaveGraph.h"
 
 #include <IChapterInfo.h>

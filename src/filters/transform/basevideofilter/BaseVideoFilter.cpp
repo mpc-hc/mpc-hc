@@ -71,7 +71,7 @@ CBasePin* CBaseVideoFilter::GetPin(int n)
 
 HRESULT CBaseVideoFilter::Receive(IMediaSample* pIn)
 {
-#ifndef _WIN64
+#ifndef WIN64
 	// TODOX64 : fixme!
 	_mm_empty(); // just for safety
 #endif

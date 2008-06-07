@@ -7337,7 +7337,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		}
 		else if(engine == QuickTime)
 		{
-#ifdef _WIN64	// TODOX64
+#ifdef WIN64	// TODOX64
 			MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
 			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr)))

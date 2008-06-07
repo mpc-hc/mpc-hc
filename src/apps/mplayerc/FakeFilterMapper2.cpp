@@ -30,7 +30,7 @@
 #include <qedit.h>
 
 
-#ifdef _WIN64		// TODOX64
+#ifdef WIN64		// TODOX64
 //#include "detours.h"
 //#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
 #define DetourFunctionWithTrampoline(a,b) /**/
@@ -225,7 +225,7 @@ LONG (WINAPI * Real_RegSetValueW)(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWO
 LONG (WINAPI * Real_RegSetValueA)(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
 	  = RegSetValueA;
 
-#else /* _WIN64 */
+#else /* WIN64 */
 
 #include <detours\detours.h>
 
@@ -258,7 +258,7 @@ DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueA(HKEY a0, LPCSTR a1, DWORD a2, LP
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4), RegSetValueW);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExA);
 DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExW);
-#endif /* _WIN64 */
+#endif /* WIN64 */
 
 HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
                     IN DWORD dwClsContext, IN REFIID riid, OUT LPVOID FAR* ppv)

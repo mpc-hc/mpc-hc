@@ -1307,7 +1307,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		m_source.AddTail(pFGF);
 	}
 
-#ifndef _WIN64	// TODOX64 : fix DVSource internal filter
+// TODOX64 : fix DVSource internal filter
+#ifndef WIN64
 	__if_exists(CD2VSource)
 	{
 	if(src & SRC_D2V)
@@ -1543,7 +1544,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 	m_transform.AddTail(pFGF);
 
-	// TODOX64 : fix DVSource internal filter
 	pFGF = new CFGFilterInternal<CMpeg2DecFilter>(
 		(tra & TRA_MPEG1) ? ResStr(IDS_FGMANAGER_0) : L"MPEG-1 Video Decoder (low merit)", 
 		(tra & TRA_MPEG1) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
