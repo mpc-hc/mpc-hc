@@ -960,7 +960,7 @@ public :
 				m_ppBuffer[BufferType]	= (BYTE*)*ppBuffer;
 				m_ppBufferLen[BufferType]		= *pBufferSize;
 			}
-			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
+//			LOG(_T("IDirectXVideoDecoder::GetBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			
 			return hr;
 		}
@@ -968,7 +968,7 @@ public :
         virtual HRESULT STDMETHODCALLTYPE ReleaseBuffer(UINT BufferType)
 		{
 			HRESULT		hr = m_pDec->ReleaseBuffer (BufferType);
-			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
+//			LOG(_T("IDirectXVideoDecoder::ReleaseBuffer Type = %d,  hr = %08x"), BufferType, hr);
 			return hr;
 		}
         

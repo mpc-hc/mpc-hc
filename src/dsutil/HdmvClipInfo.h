@@ -1,5 +1,5 @@
 /* 
- * $Id: HdmvClipInfo.h 522 2008-05-24 15:02:34Z casimir666 $
+ * $Id$
  *
  * (C) 2006-2007 see AUTHORS
  *

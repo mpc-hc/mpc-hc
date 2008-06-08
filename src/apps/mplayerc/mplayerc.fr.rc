@@ -2988,9 +2988,9 @@ BEGIN
 	IDS_VDF_FFMPEG_ENABLE		"Activer Ffmpeg"
 	IDS_REALVIDEO_INCOMPATIBLE  "Le nom du fichier contiens des caractères interdits (n'utilisez que A-Z, 0-9)"
 	IDS_VDF_VIDEOCARD			"Carte graphique"
-	IDS_THUMB_ROWNUMBER			"Lignes:"	// TODO
-	IDS_THUMB_COLNUMBER			"Colonnes:"	// TODO
-	IDS_THUMB_IMAGE_WIDTH		"Largeur (px):" // TODO
+	IDS_THUMB_ROWNUMBER			"Lignes:"
+	IDS_THUMB_COLNUMBER			"Colonnes:"
+	IDS_THUMB_IMAGE_WIDTH		"Largeur (px):"
 END
 
 #endif    // French (France) resources

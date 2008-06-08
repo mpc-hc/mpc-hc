@@ -51,6 +51,11 @@
 
 #include "AllocatorCommon.h"
 
+#if (0)		// Set to 1 to activate EVR traces
+	#define TRACE_EVR		TRACE
+#else
+	#define TRACE_EVR
+#endif
 
 typedef enum 
 {
@@ -428,7 +433,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	if (SUCCEEDED (m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
 		SUCCEEDED (m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService)))
 	{
-		TRACE ("DXVA2 : device handle = 0x%08x", hDevice);
+		TRACE_EVR ("DXVA2 : device handle = 0x%08x", hDevice);
 		HookDirectXVideoDecoderService (pDecoderService);
 
 		m_pD3DManager->CloseDeviceHandle (hDevice);
@@ -497,7 +502,7 @@ void CEVRAllocatorPresenter::StartWorkerThreads()
 		m_hThread		= ::CreateThread(NULL, 0, PresentThread, (LPVOID)this, 0, &dwThreadId);
 
 		m_nRenderState		= Stopped;
-		TRACE ("Worker threads started...\n");
+		TRACE_EVR ("Worker threads started...\n");
 	}
 }
 
@@ -520,7 +525,7 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 		if (m_hEvtFlush		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtFlush);
 		if (m_hEvtQuit		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtQuit);
 
-		TRACE ("Worker threads stopped...\n");
+		TRACE_EVR ("Worker threads stopped...\n");
 	}
 	m_nRenderState = Shutdown;
 }
@@ -607,14 +612,14 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLON
 	m_nRenderState		= Started;
 
 	SetEvent(m_hEvtPresent);
-	TRACE ("OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
+	TRACE_EVR ("OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
 
 	return S_OK;
 }
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 {
-	TRACE ("OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nRenderState		= Stopped;
 
 	return S_OK;
@@ -622,7 +627,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
 {
-	TRACE ("OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nRenderState		= Paused;
 	
 	return S_OK;
@@ -633,7 +638,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(MFTIME hnsSystemTime)
 	m_nRenderState	= Started;
 	SetEvent(m_hEvtPresent);
 
-	TRACE ("OnClockRestart  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("OnClockRestart  hnsSystemTime = %I64d\n", hnsSystemTime);
 
 	return S_OK;
 }
@@ -797,27 +802,27 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 	{
 	case MFVP_MESSAGE_BEGINSTREAMING :			// The EVR switched from stopped to paused. The presenter should allocate resources
 		ResetStats();		
-		TRACE ("MFVP_MESSAGE_BEGINSTREAMING\n");
+		TRACE_EVR ("MFVP_MESSAGE_BEGINSTREAMING\n");
 		SetEvent(m_hEvtPresent);
 		break;
 
 	case MFVP_MESSAGE_CANCELSTEP :				// Cancels a frame step
-		TRACE ("MFVP_MESSAGE_CANCELSTEP\n");
+		TRACE_EVR ("MFVP_MESSAGE_CANCELSTEP\n");
 		CompleteFrameStep (true);
 		break;
 
 	case MFVP_MESSAGE_ENDOFSTREAM :				// All input streams have ended. 
-		TRACE ("MFVP_MESSAGE_ENDOFSTREAM\n");
+		TRACE_EVR ("MFVP_MESSAGE_ENDOFSTREAM\n");
 		m_pSink->Notify (EC_COMPLETE, 0, 0);
 		break;
 
 	case MFVP_MESSAGE_ENDSTREAMING :			// The EVR switched from running or paused to stopped. The presenter should free resources
-		TRACE ("MFVP_MESSAGE_ENDSTREAMING\n");
+		TRACE_EVR ("MFVP_MESSAGE_ENDSTREAMING\n");
 		break;
 
 	case MFVP_MESSAGE_FLUSH :					// The presenter should discard any pending samples
 		SetEvent(m_hEvtFlush);
-		TRACE ("MFVP_MESSAGE_FLUSH\n");
+		TRACE_EVR ("MFVP_MESSAGE_FLUSH\n");
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
 		SetEvent(m_hEvtPresent);
 		break;
@@ -837,7 +842,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_STEP :					// Requests a frame step.
-		TRACE ("MFVP_MESSAGE_STEP\n");
+		TRACE_EVR ("MFVP_MESSAGE_STEP\n");
 		m_nStepCount = ulParam;
 		hr = S_OK;
 		break;
@@ -1077,7 +1082,7 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 		}	
 
-		TRACE ("Get from Mixer : %d  (%I64d)\n", dwSurface, nsSampleTime);
+		TRACE_EVR ("Get from Mixer : %d  (%I64d)\n", dwSurface, nsSampleTime);
 
 		MoveToScheduledList (pSample);
 		ReleaseSemaphore (m_hSemPicture, 1, NULL);
@@ -1113,7 +1118,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 	HRESULT						hr;
 	DWORD						dwObjects = 1;
 
-	TRACE ("EVR : CEVRAllocatorPresenter::InitServicePointers\n");
+	TRACE_EVR ("EVR : CEVRAllocatorPresenter::InitServicePointers\n");
 	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
 								  __uuidof (IMFTransform), (void**)&m_pMixer, &dwObjects);
 
@@ -1129,7 +1134,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 
 STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 {
-	TRACE ("EVR : CEVRAllocatorPresenter::ReleaseServicePointers\n");
+	TRACE_EVR ("EVR : CEVRAllocatorPresenter::ReleaseServicePointers\n");
 	StopWorkerThreads();
 	m_pMixer	= NULL;
 	m_pSink		= NULL;
@@ -1478,7 +1483,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
 			FlushSamples();
 			ResetEvent(m_hEvtFlush);
-			TRACE ("Flush done!\n");
+			TRACE_EVR ("Flush done!\n");
 			break;
 
 		case WAIT_OBJECT_0 + 2 :
@@ -1486,7 +1491,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			// Discard timer events if playback stop
 			if ((dwObject == WAIT_OBJECT_0 + 3) && (m_nRenderState != Started)) continue;
 
-//			TRACE ("RenderThread ==>> Waiting buffer\n");
+//			TRACE_EVR ("RenderThread ==>> Waiting buffer\n");
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
@@ -1496,7 +1501,7 @@ void CEVRAllocatorPresenter::RenderThread()
 				pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
 				pMFSample->GetSampleTime (&nsSampleTime);
 
-				TRACE ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
+				TRACE_EVR ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
 
 				__super::SetTime (g_tSegmentStart + nsSampleTime);
 				Paint(true);
@@ -1516,7 +1521,7 @@ void CEVRAllocatorPresenter::RenderThread()
 
 					if (lDelay > 0)
 					{
-//						TRACE ("RenderThread ==>> Set timer %d   %I64d  Cons=%d \n", lDelay, nsSampleTime, m_nCurSurface);
+//						TRACE_EVR ("RenderThread ==>> Set timer %d   %I64d  Cons=%d \n", lDelay, nsSampleTime, m_nCurSurface);
 						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
 
 						// Update statistics
@@ -1526,7 +1531,7 @@ void CEVRAllocatorPresenter::RenderThread()
 					{
 						dwUser = -1;
 						if (m_nRenderState == Started) m_pcFrames++;
-//						TRACE ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface);
+//						TRACE_EVR ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface);
 						SetEvent (m_hEvtPresent);
 					}
 				}
@@ -1536,7 +1541,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			}
 			else
 			{				
-				TRACE ("RenderThread ==>> Flush before rendering frame!\n");
+				TRACE_EVR ("RenderThread ==>> Flush before rendering frame!\n");
 			}
 
 			break;

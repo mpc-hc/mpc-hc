@@ -1540,7 +1540,7 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 	{"Burmese", "mya", "my"},
 	{"Caddo", "cad", ""},
 	{"Carib", "car", ""},
-	{"Spanish; Castilian", "spa", "es"},
+	{"Spanish; Castilian", "spa", "es",			MAKELCID( MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT)},
 	{"Catalan", "cat", "ca",					MAKELCID( MAKELANGID(LANG_CATALAN, SUBLANG_DEFAULT), SORT_DEFAULT)},
 	{"Caucasian (Other)", "cau", ""},
 	{"Cebuano", "ceb", ""},

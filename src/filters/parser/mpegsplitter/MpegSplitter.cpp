@@ -545,7 +545,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 				*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));
 				if(*ppszName == NULL) return E_OUTOFMEMORY;
-				wcscpy(*ppszName, str);
+				wcscpy_s(*ppszName, str.GetLength()+1, str);
 			}
 		}
 
@@ -728,22 +728,41 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 			if(next >= end-4) break;
 
-			int size = next - start - 4;
+			int size = next - start;
 
-			*(DWORD*)start = 
-				((size >> 24) & 0x000000ff) |
-				((size >>  8) & 0x0000ff00) |
-				((size <<  8) & 0x00ff0000) |
-				((size << 24) & 0xff000000);
+			CH264Nalu			Nalu;
+			Nalu.SetBuffer (start, size, 0);
 
-			CAutoPtr<Packet> p2(new Packet());
+			CAutoPtr<Packet> p2;
+
+			while (Nalu.ReadNext())
+			{
+				DWORD	dwNalLength = 
+					((Nalu.GetDataLength() >> 24) & 0x000000ff) |
+					((Nalu.GetDataLength() >>  8) & 0x0000ff00) |
+					((Nalu.GetDataLength() <<  8) & 0x00ff0000) |
+					((Nalu.GetDataLength() << 24) & 0xff000000);
+
+				CAutoPtr<Packet> p3(new Packet());
+				
+				//p2->SetData(start, next - start);
+				p3->SetCount (Nalu.GetDataLength()+sizeof(dwNalLength));
+				memcpy (p3->GetData(), &dwNalLength, sizeof(dwNalLength));
+				memcpy (p3->GetData()+sizeof(dwNalLength), Nalu.GetDataBuffer(), Nalu.GetDataLength());
+				
+				if (p2 == NULL)
+					p2 = p3;
+				else
+					p2->Append(*p3);
+			}
+
 			p2->TrackNumber = m_p->TrackNumber;
 			p2->bDiscontinuity = m_p->bDiscontinuity; m_p->bDiscontinuity = FALSE;
 			p2->bSyncPoint = m_p->bSyncPoint; m_p->bSyncPoint = FALSE;
 			p2->rtStart = m_p->rtStart; m_p->rtStart = Packet::INVALID_TIME;
 			p2->rtStop = m_p->rtStop; m_p->rtStop = Packet::INVALID_TIME;
 			p2->pmt = m_p->pmt; m_p->pmt = NULL;
-			p2->SetData(start, next - start);
+
 			m_pl.AddTail(p2);
 
 			if(p->rtStart != Packet::INVALID_TIME) {m_p->rtStart = p->rtStart; m_p->rtStop = p->rtStop; p->rtStart = Packet::INVALID_TIME;}
@@ -753,7 +772,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 			start = next;
 		}
-
 		if(start > m_p->GetData())
 		{
 			m_p->RemoveAt(0, start - m_p->GetData());
