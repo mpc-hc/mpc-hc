@@ -8290,12 +8290,24 @@ static int init_poc_noframe(H264Context *h){
         field_poc[1]= poc;
     }
 
+    //if(s->picture_structure != PICT_BOTTOM_FIELD) {
+    //    s->current_picture_ptr->field_poc[0]= field_poc[0];
+    //    s->current_picture_ptr->poc = field_poc[0];
+    //}
+    //if(s->picture_structure != PICT_TOP_FIELD) {
+    //    s->current_picture_ptr->field_poc[1]= field_poc[1];
+    //    s->current_picture_ptr->poc = field_poc[1];
+    //}
+    //if(!FIELD_PICTURE || !s->first_field) {
+    //    Picture *cur = s->current_picture_ptr;
+    //    cur->poc= FFMIN(cur->field_poc[0], cur->field_poc[1]);
+    //}
+
     return 0;
 }
 
-int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+int decode_slice_header_noexecute (H264Context *h)
 {
-    H264Context* h = (H264Context*) pAVCtx->priv_data;
     MpegEncContext* const s = &h->s;
     H264Context* hx;
     SPS* cur_sps = h->sps_buffers[0];
@@ -8329,10 +8341,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
 
     h->sp_for_switch_flag = 0;
     hx = h->thread_context[0];
-    h->nal_ref_idc = pBuffer[0]>>5;
-    h->nal_unit_type = pBuffer[0]&0x1F;
 
-    init_get_bits(&hx->s.gb, pBuffer+1, nSize-1);
     hx->intra_gb_ptr=
     hx->inter_gb_ptr= &hx->s.gb;
     hx->s.data_partitioning = 0;
@@ -8348,13 +8357,33 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
     {
         slice_type -= 5;
         h->slice_type_fixed=1;
-    }
-    else
+    }else
         h->slice_type_fixed=0;
 
-    h->slice_type= slice_type_map[ slice_type ];
-    pps_id= get_ue_golomb(&s->gb);
+    slice_type= slice_type_map[ slice_type ];
+    if (slice_type == FF_I_TYPE
+        || (h->current_slice != 0 && slice_type == h->last_slice_type) ) {
+        default_ref_list_done = 1;
+    }
+    h->slice_type= slice_type;
 
+    //s->pict_type= h->slice_type; // to make a few old func happy, it's wrong though
+    //if (s->pict_type == FF_B_TYPE && s0->last_picture_ptr == NULL) {
+    //    av_log(h->s.avctx, AV_LOG_ERROR,
+    //           "B picture before any references, skipping\n");
+    //    return -1;
+    //}
+
+    // ffdshow custom code
+    if (s->pict_type == FF_I_TYPE){
+        h->first_I_frame_detected = 1;
+    } else if (s->pict_type == FF_P_TYPE && !h->first_I_frame_detected) {
+        av_log(h->s.avctx, AV_LOG_ERROR,
+               "P picture before first I picture, skipping\n");
+        return -1;
+    }
+
+    pps_id= get_ue_golomb(&s->gb);
     if(pps_id>=MAX_PPS_COUNT){
         return E_FAIL;
     }
@@ -8433,6 +8462,27 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
         }
     }
 
+    assert(s->mb_num == s->mb_width * s->mb_height);
+    if(first_mb_in_slice << FIELD_OR_MBAFF_PICTURE >= s->mb_num ||
+       first_mb_in_slice                    >= s->mb_num){
+        av_log(h->s.avctx, AV_LOG_ERROR, "first_mb_in_slice overflow\n");
+        return -1;
+    }
+    s->resync_mb_x = s->mb_x = first_mb_in_slice % s->mb_width;
+    s->resync_mb_y = s->mb_y = (first_mb_in_slice / s->mb_width) << FIELD_OR_MBAFF_PICTURE;
+    if (s->picture_structure == PICT_BOTTOM_FIELD)
+        s->resync_mb_y = s->mb_y = s->mb_y + 1;
+    assert(s->mb_y < s->mb_height);
+
+    if(s->picture_structure==PICT_FRAME){
+        h->curr_pic_num=   h->frame_num;
+        h->max_pic_num= 1<< h->sps.log2_max_frame_num;
+    }else{
+        h->curr_pic_num= 2*h->frame_num + 1;
+        h->max_pic_num= 1<<(h->sps.log2_max_frame_num + 1);
+    }
+
+	
     if(h->nal_unit_type == NAL_IDR_SLICE){
         get_ue_golomb(&s->gb); /* idr_pic_id */
     }
@@ -8452,7 +8502,7 @@ int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, U
             h->delta_poc[1]= get_se_golomb(&s->gb);
     }
 
-//    init_poc_noframe(h);	// <= Bug NCFOM : create macroblocks if uncommented!
+    init_poc_noframe(h);
 
     if(h->pps.redundant_pic_cnt_present){
         h->redundant_pic_count= get_ue_golomb(&s->gb);
@@ -8619,13 +8669,13 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             }
             idr(h); //FIXME ensure we don't loose some frames if there is reordering
         case NAL_SLICE:
-            //init_get_bits(&hx->s.gb, ptr, bit_length);
-            //hx->intra_gb_ptr=
-            //hx->inter_gb_ptr= &hx->s.gb;
-            //hx->s.data_partitioning = 0;
+            init_get_bits(&hx->s.gb, ptr, bit_length);
+            hx->intra_gb_ptr=
+            hx->inter_gb_ptr= &hx->s.gb;
+            hx->s.data_partitioning = 0;
 
-            //if((err = decode_slice_header(hx, h)))
-            //   break;
+            if((err = decode_slice_header_noexecute(hx)))
+               break;
 
             //s->current_picture_ptr->key_frame|= (hx->nal_unit_type == NAL_IDR_SLICE);
             //if(hx->redundant_pic_count==0 && hx->s.hurry_up < 5
@@ -8636,12 +8686,12 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             //    context_count++;
             break;
         case NAL_DPA:
-            //init_get_bits(&hx->s.gb, ptr, bit_length);
-            //hx->intra_gb_ptr=
-            //hx->inter_gb_ptr= NULL;
-            //hx->s.data_partitioning = 1;
+            init_get_bits(&hx->s.gb, ptr, bit_length);
+            hx->intra_gb_ptr=
+            hx->inter_gb_ptr= NULL;
+            hx->s.data_partitioning = 1;
 
-            //err = decode_slice_header(hx, h);
+            err = decode_slice_header_noexecute(hx);
             break;
         case NAL_DPB:
             //init_get_bits(&hx->intra_gb, ptr, bit_length);
@@ -8697,7 +8747,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         }
 
         if (err < 0)
-            av_log(h->s.avctx, AV_LOG_ERROR, "decode_slice_header error\n");
+            av_log(h->s.avctx, AV_LOG_ERROR, "decode_slice_header_noexecute error\n");
         else if(err == 1) {
             /* Slice could not be decoded in parallel mode, copy down
              * NAL unit stuff to context 0 and restart. Note that
@@ -8817,127 +8867,29 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
     if(buf_index < 0)
         return -1;
 
-    if(!(s->flags2 & CODEC_FLAG2_CHUNKS) && !s->current_picture_ptr){
-        if (avctx->skip_frame >= AVDISCARD_NONREF || s->hurry_up) return 0;
-        av_log(avctx, AV_LOG_ERROR, "no frame!\n");
-        return -1;
-    }
+    //if(!(s->flags2 & CODEC_FLAG2_CHUNKS) && !s->current_picture_ptr){
+    //    if (avctx->skip_frame >= AVDISCARD_NONREF || s->hurry_up) return 0;
+    //    av_log(avctx, AV_LOG_ERROR, "no frame!\n");
+    //    return -1;
+    //}
 
     if(!(s->flags2 & CODEC_FLAG2_CHUNKS) || (s->mb_y >= s->mb_height && s->mb_height)){
-        Picture *out = s->current_picture_ptr;
-        Picture *cur = s->current_picture_ptr;
-        Picture *prev = h->delayed_output_pic;
+        //Picture *out = s->current_picture_ptr;
+        //Picture *cur = s->current_picture_ptr;
+        //Picture *prev = h->delayed_output_pic;
         int i, pics, cross_idr, out_of_order, out_idx;
 
         s->mb_y= 0;
 
-        s->current_picture_ptr->qscale_type= FF_QSCALE_TYPE_H264;
-        s->current_picture_ptr->pict_type= s->pict_type;
+        //s->current_picture_ptr->qscale_type= FF_QSCALE_TYPE_H264;
+        //s->current_picture_ptr->pict_type= s->pict_type;
 
         h->prev_frame_num_offset= h->frame_num_offset;
         h->prev_frame_num= h->frame_num;
         if(!s->dropable) {
             h->prev_poc_msb= h->poc_msb;
             h->prev_poc_lsb= h->poc_lsb;
-            execute_ref_pic_marking(h, h->mmco, h->mmco_index);
-        }
-
-        /*
-         * FIXME: Error handling code does not seem to support interlaced
-         * when slices span multiple rows
-         * The ff_er_add_slice calls don't work right for bottom
-         * fields; they cause massive erroneous error concealing
-         * Error marking covers both fields (top and bottom).
-         * This causes a mismatched s->error_count
-         * and a bad error table. Further, the error count goes to
-         * INT_MAX when called for bottom field, because mb_y is
-         * past end by one (callers fault) and resync_mb_y != 0
-         * causes problems for the first MB line, too.
-         */
-        //if (!FIELD_PICTURE)
-        //    ff_er_frame_end(s);
-
-        MPV_frame_end(s);
-
-        if (s->first_field) {
-            /* Wait for second field. */
-//            *data_size = 0;
-
-        } else {
-            cur->interlaced_frame = FIELD_OR_MBAFF_PICTURE;
-            /* Derive top_field_first from field pocs. */
-            cur->top_field_first = cur->field_poc[0] <= cur->field_poc[1];
-
-        //FIXME do something with unavailable reference frames
-
-#if 0 //decode order
-            *data_size = sizeof(AVFrame);
-#else
-            /* Sort B-frames into display order */
-
-            if(h->sps.bitstream_restriction_flag
-               && s->avctx->has_b_frames < h->sps.num_reorder_frames){
-                s->avctx->has_b_frames = h->sps.num_reorder_frames;
-                s->low_delay = 0;
-            }
-
-            pics = 0;
-            while(h->delayed_pic[pics]) pics++;
-
-            assert(pics+1 < sizeof(h->delayed_pic) / sizeof(h->delayed_pic[0]));
-
-            h->delayed_pic[pics++] = cur;
-            if(cur->reference == 0)
-                cur->reference = DELAYED_PIC_REF;
-
-            cross_idr = 0;
-            for(i=0; h->delayed_pic[i]; i++)
-                if(h->delayed_pic[i]->key_frame || h->delayed_pic[i]->poc==0)
-                    cross_idr = 1;
-
-            out = h->delayed_pic[0];
-            out_idx = 0;
-            for(i=1; h->delayed_pic[i] && !h->delayed_pic[i]->key_frame; i++)
-                if(h->delayed_pic[i]->poc < out->poc){
-                    out = h->delayed_pic[i];
-                    out_idx = i;
-                }
-
-            out_of_order = !cross_idr && prev && out->poc < prev->poc;
-            if(h->sps.bitstream_restriction_flag && s->avctx->has_b_frames >= h->sps.num_reorder_frames)
-                { }
-            else if(prev && pics <= s->avctx->has_b_frames)
-                out = prev;
-            else if((out_of_order && pics-1 == s->avctx->has_b_frames && pics < 15)
-               || (s->low_delay &&
-                ((!cross_idr && prev && out->poc > prev->poc + 2)
-                 || cur->pict_type == FF_B_TYPE)))
-            {
-                s->low_delay = 0;
-                s->avctx->has_b_frames++;
-                out = prev;
-            }
-            else if(out_of_order)
-                out = prev;
-
-            if(out_of_order || pics > s->avctx->has_b_frames){
-                for(i=out_idx; h->delayed_pic[i]; i++)
-                    h->delayed_pic[i] = h->delayed_pic[i+1];
-            }
-
-            //if(prev == out)
-            //    *data_size = 0;
-            //else
-            //    *data_size = sizeof(AVFrame);
-            if(prev && prev != out && prev->reference == DELAYED_PIC_REF)
-                prev->reference = 0;
-            h->delayed_output_pic = out;
-#endif
-
-            //if(out)
-            //    *pict= *(AVFrame*)out;
-            //else
-            //    av_log(avctx, AV_LOG_DEBUG, "no picture\n");
+//            execute_ref_pic_marking(h, h->mmco, h->mmco_index);
         }
     }
 

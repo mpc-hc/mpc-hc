@@ -41,7 +41,6 @@
 #include "vc1.h"
 
 
-int av_h264_decode_slice_header (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
@@ -87,20 +86,10 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 	if (cur_sps != NULL)
 	{
-		// Check aspect ratio
-		//if (   (cur_sps->sar.num ==  0) ||	// Weird but happen...
-		//	  ((cur_sps->sar.num ==  1) && (cur_sps->sar.den == 1)) ||
-		//	  ((cur_sps->sar.num ==  4) && (cur_sps->sar.den == 3)) ||
-		//	  ((cur_sps->sar.num ==  5) && (cur_sps->sar.den == 4)) ||
-		//	  ((cur_sps->sar.num == 16) && (cur_sps->sar.den == 9)) )
-		//{
-			// Check max num reference frame according to the level
-			#define MAX_DPB_41 12288 // value for level 4.1
-			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
-				return 2;	// Too much ref frames
-		//}
-		//else
-		//	return 1;	// Wrong SAR
+		// Check max num reference frame according to the level
+		#define MAX_DPB_41 12288 // value for level 4.1
+		if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
+			return 2;	// Too much ref frames
 	}
 		
 	return 0;
@@ -131,7 +120,7 @@ void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, int
 	}
 }
 
-HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor)
+HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_H264* pDXVAScalingMatrix, struct AVCodecContext* pAVCtx, int nPCIVendor)
 {
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
 	SPS*					cur_sps;
@@ -139,8 +128,6 @@ HRESULT FFH264ReadSlideHeader (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix
     MpegEncContext* const	s = &h->s;
 	int						field_pic_flag;
 	HRESULT					hr = E_FAIL;
-
-	av_h264_decode_slice_header (pAVCtx, pBuffer, nSize);
 
 	field_pic_flag = (h->s.picture_structure != PICT_FRAME);
 

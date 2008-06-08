@@ -174,7 +174,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 			pSliceShort[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength();
 			pSliceShort[nSlices].wBadSliceChopping = 0;
 			nSlices++;
-			break;
+//			break;
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
@@ -186,9 +186,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
-	// Parse slice header and set DX destination surface
-	CHECK_HR (FFH264ReadSlideHeader (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), 
-									  (BYTE*) (pSliceShort[0].BSNALunitDataLocation + pDataIn), pSliceShort[0].SliceBytesInBuffer, m_pFilter->GetPCIVendor()));
+	// Parse ffmpeg context and fill m_DXVAPicParams structure
+	CHECK_HR (FFH264BuildPicParams (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor()));
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
