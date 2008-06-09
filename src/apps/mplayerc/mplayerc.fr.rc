@@ -2991,6 +2991,9 @@ BEGIN
 	IDS_THUMB_ROWNUMBER			"Lignes:"
 	IDS_THUMB_COLNUMBER			"Colonnes:"
 	IDS_THUMB_IMAGE_WIDTH		"Largeur (px):"
+	IDS_PPSDB_URLCORRECT		"Adresse du site est correcte"
+	IDS_PPSDB_PROTOCOLERR		"Protocol de communication incorrect, veuillez mettre à jour Mpc-hc ou bien sélectionner une autre adresse"
+	IDS_PPSDB_BADURL			"Adresse du site incorrect, impossible de contacter la base de données des sous-titres"
 END
 
 #endif    // French (France) resources

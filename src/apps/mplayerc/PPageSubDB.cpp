@@ -97,15 +97,15 @@ void CPPageSubDB::OnBnClickedButton1()
 	CWebTextFile wtf;
 	if(wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver)
 	{
-		msg = _T("The URL appears to be correct!");
+		msg = ResStr(IDS_PPSDB_URLCORRECT);
 	}
 	else if(str.Find(_T("ISDb v")) == 0)
 	{
-		msg = _T("Protocol version mismatch, please upgrade your player or choose a different address!");
+		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
 	}
 	else
 	{
-		msg = _T("Bad URL, could not locate subtitle database there!");
+		msg = ResStr(IDS_PPSDB_BADURL);
 	}
 
 	AfxMessageBox(msg, MB_OK);
