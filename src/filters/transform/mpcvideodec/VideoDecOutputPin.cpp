@@ -73,7 +73,6 @@ STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void**
 
 
 // === IAMVideoAcceleratorNotify
-
 STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo)
 {
 	HRESULT			hr = E_INVALIDARG;
