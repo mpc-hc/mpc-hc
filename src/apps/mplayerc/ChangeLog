@@ -9,6 +9,7 @@ v1.x.x.x - Unreleased
  CHANGED: Option added in "MPC Video Decoder" property page to disable ffmpeg software decoding (to use other decoder instead)
  CHANGED: Added file extensions Evo, M2ts and m4a in option / format
  CHANGED: Force using 3D surface with EVR custom
+ CHANGED: x64 executable is now mplayerc64.exe
  FIXED  : Sorenson video was not played when DXVA was activated on internal filter
  FIXED  : Minimum EVR buffer set to 3 (instead of 1)
  FIXED  : Better subtitle synchronization with EVR custom (delay due to buffering remove)
@@ -18,14 +19,13 @@ v1.x.x.x - Unreleased
  FIXED  : Broken FLV playback
  FIXED  : EVR custom presenter incompatibility with Microsoft Mpeg2 & Cyberlink decoder
  FIXED  : DXVA decoding bugs for some H264 files
- FIXED  : Prevent crash opening Real Media files containing invalid characters
  FIXED  : Memory leak in DXVA decoder (bug #1962448)
  FIXED  : Crash on stop/play with DXVA decoder
  FIXED  : Random crash with EVR custom
  FIXED  : Macroblocks with nVidia card (appear on H264 streams with custom quantitization matrix) 
  FIXED  : Access violation using VSFilter as AviSynth plugin
  FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on differents packets)
-
+ 
 v1.1.0.0 - 6.March 2008
 ======================
  NEW	: Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.

@@ -7316,8 +7316,9 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 		if(engine == RealMedia)
 		{
-			if (!IsRealEngineCompatible(p->fns.GetHead()))
-				throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
+			// TODO : see why Real SDK crash here ...
+			//if (!IsRealEngineCompatible(p->fns.GetHead()))
+			//	throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
 
 			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CRealMediaGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
