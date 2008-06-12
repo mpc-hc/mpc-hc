@@ -29,6 +29,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV		666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH		0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -116,6 +117,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV		666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH		0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -1528,6 +1530,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\EdgeSharpen.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\emboss.psh"
 					>
 				</File>
@@ -1548,6 +1554,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\levels.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\nightvision.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\procamp.psh"
 					>
 				</File>
@@ -1557,6 +1571,10 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\sharpen.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\SharpenComplex.psh"
 					>
 				</File>
 				<File
@@ -1578,19 +1596,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\res\shaders\EdgeSharpen.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\nightvision.psh"
-			>
-		</File>
-		<File
 			RelativePath=".\res\PN31Snoop.sys"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\SharpenComplex.psh"
 			>
 		</File>
 	</Files>
