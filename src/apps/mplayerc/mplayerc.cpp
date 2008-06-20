@@ -2012,6 +2012,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		shaders[_T("sphere")] = IDF_SHADER_SPHERE;
 		shaders[_T("spotlight")] = IDF_SHADER_SPOTLIGHT;
 		shaders[_T("wave")] = IDF_SHADER_WAVE;
+		shaders[_T("denoise")] = IDF_SHADER_DENOISE;
 
 		int iShader = 0;
 
