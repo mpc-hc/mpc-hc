@@ -111,6 +111,7 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 
 	if(srcpitch == 0) srcpitch = w;
 
+#ifndef WIN64
 	if(!((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
         && !((DWORD_PTR)dst&15) && !(dstpitch&15))
 	{
@@ -121,6 +122,7 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 	{
 		ASSERT(!fInterlaced);
 	}
+#endif
 
 	do
 	{

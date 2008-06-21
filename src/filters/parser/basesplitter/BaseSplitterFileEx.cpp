@@ -1060,7 +1060,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	DWORD	dwStartCode;
 
-	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001)
+	// TODO : manage H264 escape codes (see "remove escapes (very rare 1:2^22)" in ffmpeg h264.c file)
+	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001 && (!h.spslen || !h.ppslen))
 	{
 		__int64 pos = GetPos();
 

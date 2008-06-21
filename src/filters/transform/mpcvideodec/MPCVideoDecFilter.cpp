@@ -91,7 +91,7 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 // DXVA modes supported for H264
 DXVA_PARAMS		DXVA_H264 =
 {
-	16,		// PicEntryNumber
+	22,		// PicEntryNumber
 	2,		// ConfigBitstreamRawMin
 	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}

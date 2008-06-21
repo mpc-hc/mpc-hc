@@ -293,15 +293,16 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 
 	memset (&Status, 0, sizeof(Status));
 
-	CHECK_HR (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)));
+	if (SUCCEEDED (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status))))
+	{
+		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
-	Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
-
-	TRACE ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
-		Status.StatusReportFeedbackNumber,
-		Status.bBufType,
-		Status.bStatus,
-		Status.wNumMbsAffected);
+		TRACE ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
+			Status.StatusReportFeedbackNumber,
+			Status.bBufType,
+			Status.bStatus,
+			Status.wNumMbsAffected);
+	}
 
 	return hr;
 }

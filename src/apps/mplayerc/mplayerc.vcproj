@@ -325,10 +325,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib strmiids.lib MPCVideoDecDU.lib Mpeg2DecFilterRU.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib strmiids.lib MPCVideoDecDU.lib Mpeg2DecFilterDU.lib"
+				ShowProgress="0"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="MSVCRTD;"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -516,6 +517,22 @@
 			<File
 				RelativePath=".\mplayerc.rc"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG, WIN64"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="_DEBUG, WIN64"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="OpenCapDeviceDlg.cpp"
@@ -1278,34 +1295,98 @@
 			<File
 				RelativePath=".\res\logo.0.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.1.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.2.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.3.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.4.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.5.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.6.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.7.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="res\mono.bmp"
@@ -1592,6 +1673,42 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\wave.psh"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="x64"
+				>
+				<File
+					RelativePath=".\res\x64\logo.0.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.1.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.2.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.3.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.4.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.5.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.6.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.7.png"
 					>
 				</File>
 			</Filter>
