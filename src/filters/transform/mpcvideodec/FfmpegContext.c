@@ -88,7 +88,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	{
 		// Check max num reference frame according to the level
 		#define MAX_DPB_41 12288 // value for level 4.1
-		if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
+		if (cur_sps->ref_frame_count > (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))
 			return 2;	// Too much ref frames
 	}
 		
