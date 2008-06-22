@@ -2581,7 +2581,7 @@ BEGIN
     IDS_AG_PLAYLIST_FILE    "Fichier Playlist"
     IDS_AG_OTHER            "Autres "
     IDS_MEDIAFORMATS_34     "Fichiers multimedia (tous types)|"
-    IDS_MEDIAFORMATS_35     "Tous les fichiers (*.*)|(*.*)|"
+    IDS_MEDIAFORMATS_35     "Tous les fichiers (*.*)|*.*|"
     IDS_MEDIAFORMATS_36     "Fichiers audioAudio (tous types)|"
     IDS_PIXELSHADERCOMPILER_0 
                             "Le fichier D3DX9_xx.dll est introuvable, une mise à jour de DirectX 9 est nécessaire pour utiliser les Pixels Shaders."

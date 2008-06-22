@@ -1835,7 +1835,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).fr.dll"
+				OutputFile="x64\Release Unicode\$(ProjectName).sk.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
