@@ -248,6 +248,10 @@ void CChildView::OnWindowPosChanged(WINDOWPOS* lpwndpos)
 BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 {
 	if(nID == ID_PLAY_STOP) SetVideoRect();
+	CString osd = ResStr(nID);
+	int i = osd.Find(_T("\n"));
+	if(i > 0) osd.Delete(i, osd.GetLength()-i);
+	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
 	return FALSE;
 }
 

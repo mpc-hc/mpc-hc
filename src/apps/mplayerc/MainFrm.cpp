@@ -5922,7 +5922,15 @@ void CMainFrame::OnPlayVolume(UINT nID)
 		CString		strVolume;
 		pBA->put_Volume(m_wndToolBar.Volume);
 
-		strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
+		//strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
+		if(m_wndToolBar.Volume == -10000)
+		{
+			strVolume.Format(ResStr(IDS_VOLUME_OSD), 0);
+		}
+		else
+		{
+			strVolume.Format(ResStr(IDS_VOLUME_OSD), m_wndToolBar.m_volctrl.GetPos());
+		}
 		m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
 	}
 
@@ -9866,6 +9874,17 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 	OAFilterState fs = GetMediaState();
 
 	if(rtPos < 0) rtPos = 0;
+
+	AppSettings &s = AfxGetAppSettings();
+	if(m_iPlaybackMode != PM_CAPTURE)
+	{
+		__int64 start, stop;
+		m_wndSeekBar.GetRange(start, stop);
+		GUID tf;
+		pMS->GetTimeFormat(&tf);
+		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+	}
 
 	if(m_iPlaybackMode == PM_FILE)
 	{

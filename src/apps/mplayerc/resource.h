@@ -1168,6 +1168,7 @@
 #define IDS_PPSDB_BADURL				33200
 
 // Next default values for new objects
+#define	IDS_VOLUME_OSD					50000
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
