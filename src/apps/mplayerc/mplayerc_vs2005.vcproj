@@ -29,7 +29,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV		666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH		0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -117,7 +117,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR		1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV		666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH		0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -198,6 +198,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
+			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
@@ -323,7 +324,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib strmiids.lib MPCVideoDecDU.lib Mpeg2DecFilterRU.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib strmiids.lib MPCVideoDecDU.lib Mpeg2DecFilterDU.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd"
 				IgnoreDefaultLibraryNames=""
@@ -515,6 +516,22 @@
 			<File
 				RelativePath=".\mplayerc.rc"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG, WIN64"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="_DEBUG, WIN64"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="OpenCapDeviceDlg.cpp"
@@ -1277,34 +1294,98 @@
 			<File
 				RelativePath=".\res\logo.0.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.1.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.2.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.3.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.4.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.5.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.6.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\logo.7.png"
 				>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="res\mono.bmp"
@@ -1530,6 +1611,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\denoise.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\EdgeSharpen.psh"
 					>
 				</File>
@@ -1587,6 +1672,42 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\wave.psh"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="x64"
+				>
+				<File
+					RelativePath=".\res\x64\logo.0.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.1.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.2.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.3.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.4.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.5.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.6.png"
+					>
+				</File>
+				<File
+					RelativePath=".\res\x64\logo.7.png"
 					>
 				</File>
 			</Filter>
