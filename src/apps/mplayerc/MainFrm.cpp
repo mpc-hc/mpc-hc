@@ -3892,7 +3892,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	CSize video, wh(0, 0), arxy(0, 0);
 
-	if(m_pCAP)
+	if (m_pMFVDC)
+	{
+		m_pMFVDC->GetNativeVideoSize(&wh, &arxy);
+	}
+	else if(m_pCAP)
 	{
 		wh = m_pCAP->GetVideoSize(false);
 		arxy = m_pCAP->GetVideoSize(true);

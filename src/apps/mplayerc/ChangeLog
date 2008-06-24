@@ -27,6 +27,7 @@ v1.x.x.x - Unreleased
  FIXED  : Access violation using VSFilter as AviSynth plugin
  FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on differents packets)
  FIXED  : Subtitle and OSD display for x64 edition
+ FIXED	: Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
  
 v1.1.0.0 - 6.March 2008
 ======================
