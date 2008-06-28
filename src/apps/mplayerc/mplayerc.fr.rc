@@ -3000,7 +3000,6 @@ STRINGTABLE
 BEGIN
 	IDS_VOLUME_OSD	"Vol: %d%%"
 end
-// TODO - Volume OSD
 
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////

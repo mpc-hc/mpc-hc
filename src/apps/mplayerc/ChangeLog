@@ -26,7 +26,7 @@ v1.x.x.x - Unreleased
  FIXED  : Macroblocks with nVidia card (appear on H264 streams with custom quantitization matrix) 
  FIXED  : Access violation using VSFilter as AviSynth plugin
  FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on differents packets)
- FIXED  : Subtitle and OSD display for x64 edition
+ FIXED  : Black screen when OSD or subtitles was displayed in x64 release
  FIXED	: Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
  
 v1.1.0.0 - 6.March 2008
