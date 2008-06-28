@@ -2845,6 +2845,7 @@ BEGIN
     IDS_MAINFRM_69          "Proportions: par defaut"
     IDS_MAINFRM_70          "Délai audio: %I64dms"
     IDS_AG_CHAPTER          "Chapitre %d"
+	IDS_AG_CHAPTER2         "Chapitre: "
     IDS_MAINFRM_73          "Impossible de charger le shader: "
     IDS_AG_SHADER           "Shader: "
     IDS_AG_OUT_OF_MEMORY    "Mémoire insuffisante"

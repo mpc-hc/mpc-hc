@@ -6038,7 +6038,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			if(i >= 0 && i < nChapters)
 			{
 				SeekTo(rt);
-				SendStatusMessage(ResStr(IDS_AG_CHAPTER) + CString(name), 3000);
+				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 				return;
 			}
 		}
@@ -6242,7 +6242,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			if(SUCCEEDED(m_pCB->ChapGet(nID, &rt, &name)))
 			{
 				SeekTo(rt);
-				SendStatusMessage(ResStr(IDS_AG_CHAPTER) + CString(name), 3000);
+				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 			}
 			return;
 		}
