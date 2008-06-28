@@ -1,0 +1,49 @@
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2007 see AUTHORS
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#pragma once
+
+// CStatusLabel
+
+class CStatusLabel : public CStatic
+{
+	DECLARE_DYNAMIC(CStatusLabel)
+
+private:
+	bool m_fRightAlign, m_fAddEllipses;
+	CFont m_font;
+
+public:
+	CStatusLabel(bool fRightAlign, bool fAddEllipses);
+	virtual ~CStatusLabel();
+
+	CFont& GetFont() {return m_font;}
+
+	void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+
+protected:
+	DECLARE_MESSAGE_MAP()
+
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+};
