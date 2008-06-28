@@ -59,29 +59,32 @@ s_filters[] =
 	{_T("RoQ"), 0, SRC_ROQ, IDS_SRC_ROQ, NULL},
 	{_T("SHOUTcast"), 0, SRC_SHOUTCAST, IDS_SRC_SHOUTCAST, NULL},
 	__if_exists(CRadGtSplitterFilter) {{_T("Smacker/Bink"), 0, SRC_RADGT, IDS_SRC_RADGT, NULL},}
+	
 	{_T("AAC"), 1, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
-	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
+	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
+	{_T("PS2 Audio (PCM/ADPCM)"), 1, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
+	
 	{_T("MPEG-1 Video"), 1, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},
 	{_T("MPEG-2 Video"), 1, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
-	{_T("PS2 Audio (PCM/ADPCM)"), 1, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
+	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
-	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
-	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
-	{_T("FLV1/4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("VP5/6"), 1, TRA_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	
 	{_T("H264/AVC (DXVA)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("VC1 (DXVA)"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Xvid/MPEG-4"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("WMV1/2/3"), 1, TRA_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("MSMPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("SVQ3/1"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("MS MPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("FLV1/4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VP5/6"), 1, TRA_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+	{_T("WMV1/2/3"), 1, TRA_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+	{_T("SVQ1/3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("H263"), 1, TRA_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("AMVV"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("AMV video"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #else
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
