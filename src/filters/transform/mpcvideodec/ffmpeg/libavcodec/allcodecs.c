@@ -26,13 +26,9 @@
 
 #include "avcodec.h"
 
-#define REGISTER_ENCODER(x) { \
-          extern AVCodec x##_encoder; \
-          register_avcodec(&x##_encoder); }
 #define REGISTER_DECODER(x) { \
           extern AVCodec x##_decoder; \
           register_avcodec(&x##_decoder); }
-#define REGISTER_ENCDEC(x)  REGISTER_ENCODER(x); REGISTER_DECODER(x)
 #define REGISTER_PARSER(X,x) { \
           extern AVCodecParser x##_parser; \
           av_register_codec_parser(&x##_parser); }
@@ -46,86 +42,81 @@
  */
 void avcodec_register_all(void)
 {
-    static int initialized;
+	static int initialized;
 
-    if (initialized)
-        return;
-    initialized = 1;
+  if (initialized)
+    return;
+  initialized = 1;
 
-    /* video codecs */
-//REGISTER_DECODER    (aasc);
- REGISTER_DECODER  (amv);
-//REGISTER_DECODER    (asv1);
-//REGISTER_DECODER    (asv2);
-//REGISTER_DECODER    (avs);
-//REGISTER_DECODER    (cavs);
-//REGISTER_DECODER    (cinepak);
-//REGISTER_DECODER    (cscd);
-//REGISTER_DECODER    (corepng);
-//REGISTER_DECODER    (cyuv);
-//REGISTER_DECODER    (dvvideo);
-//REGISTER_DECODER    (eightbps);
-//REGISTER_DECODER      (ffv1);
-//REGISTER_DECODER      (ffvhuff);
- REGISTER_DECODER  (flv);
-//REGISTER_DECODER    (fraps);
-//REGISTER_DECODER        (h261);
- REGISTER_DECODER  (h263);
- REGISTER_DECODER  (h263i);
- REGISTER_DECODER  (h264);
-//REGISTER_DECODER    (huffyuv);
-//REGISTER_DECODER    (indeo2);
-//REGISTER_DECODER    (indeo3);
-//REGISTER_DECODER    (jpegls);
-//REGISTER_ENCODER    (ljpeg);
-//REGISTER_DECODER    (loco);
-//REGISTER_DECODER    (mjpeg);
-//REGISTER_DECODER    (mjpegb);
-//REGISTER_DECODER    (mpeg1video);
-//REGISTER_DECODER    (mpeg2video);
- REGISTER_DECODER  (mpeg4);
- REGISTER_DECODER  (mpegvideo);
- REGISTER_DECODER  (msmpeg4v1);
- REGISTER_DECODER  (msmpeg4v2);
- REGISTER_DECODER  (msmpeg4v3);
-//REGISTER_DECODER    (msrle);
-//REGISTER_DECODER    (msvideo1);
-//REGISTER_DECODER    (mszh);
+  /* video codecs */
+//REGISTER_DECODER  (aasc);
+  REGISTER_DECODER  (amv);
+//REGISTER_DECODER  (asv1);
+//REGISTER_DECODER  (asv2);
+//REGISTER_DECODER  (avs);
+//REGISTER_DECODER  (cavs);
+//REGISTER_DECODER  (cinepak);
+//REGISTER_DECODER  (cscd);
+//REGISTER_DECODER  (corepng);
+//REGISTER_DECODER  (cyuv);
+//REGISTER_DECODER  (dvvideo);
+//REGISTER_DECODER  (eightbps);
+//REGISTER_DECODER  (ffv1);
+//REGISTER_DECODER  (ffvhuff);
+  REGISTER_DECODER  (flv);
+//REGISTER_DECODER  (fraps);
+//REGISTER_DECODER  (h261);
+  REGISTER_DECODER  (h263);
+//REGISTER_DECODER  (h263i);
+  REGISTER_DECODER  (h264);
+//REGISTER_DECODER  (huffyuv);
+//REGISTER_DECODER  (indeo2);
+//REGISTER_DECODER  (indeo3);
+//REGISTER_DECODER  (jpegls);
+//REGISTER_DECODER  (loco);
+//REGISTER_DECODER  (mjpeg);
+//REGISTER_DECODER  (mjpegb);
+//REGISTER_DECODER  (mpeg1video);
+//REGISTER_DECODER  (mpeg2video);
+  REGISTER_DECODER  (mpeg4);
+//REGISTER_DECODER  (mpegvideo);
+  REGISTER_DECODER  (msmpeg4v1);
+  REGISTER_DECODER  (msmpeg4v2);
+  REGISTER_DECODER  (msmpeg4v3);
+//REGISTER_DECODER  (msrle);
+//REGISTER_DECODER  (msvideo1);
+//REGISTER_DECODER  (mszh);
 //#ifdef CONFIG_ZLIB
-//EGISTER_ENCDEC        (png);
+//REGISTER_DECODER  (png);
 //#endif
-//REGISTER_DECODER    (qpeg);
-//REGISTER_DECODER    (qtrle);
-//REGISTER_DECODER    (rpza);
-//REGISTER_DECODER    (rv10);
-//REGISTER_DECODER    (rv20);
-//#if __STDC_VERSION__ >= 199901L
-//REGISTER_ENCDEC        (snow);
-//#endif
- REGISTER_DECODER  (svq1);
- REGISTER_DECODER  (svq3);
- REGISTER_DECODER  (theora);
-//REGISTER_DECODER    (truemotion1);
-//REGISTER_DECODER    (truemotion2);
-//REGISTER_DECODER    (tscc);
-//REGISTER_DECODER    (ulti);
- REGISTER_DECODER  (vc1);
-//REGISTER_DECODER    (vcr1);
-//REGISTER_DECODER    (vp3);
- REGISTER_DECODER  (vp5);
- REGISTER_DECODER  (vp6);
- REGISTER_DECODER  (vp6a);
- REGISTER_DECODER  (vp6f);
- REGISTER_DECODER  (wmv1);
- REGISTER_DECODER  (wmv2);
- REGISTER_DECODER  (wmv3);
-//REGISTER_DECODER    (wnv1);
-//REGISTER_DECODER    (xl);
-//REGISTER_DECODER    (zlib);
-//REGISTER_DECODER    (zmbv);
+//REGISTER_DECODER  (qpeg);
+//REGISTER_DECODER  (qtrle);
+//REGISTER_DECODER  (rpza);
+//REGISTER_DECODER  (rv10);
+//REGISTER_DECODER  (rv20);
+  REGISTER_DECODER  (svq1);
+  REGISTER_DECODER  (svq3);
+  REGISTER_DECODER  (theora);
+//REGISTER_DECODER  (truemotion1);
+//REGISTER_DECODER  (truemotion2);
+//REGISTER_DECODER  (tscc);
+//REGISTER_DECODER  (ulti);
+  REGISTER_DECODER  (vc1);
+//REGISTER_DECODER  (vcr1);
+//REGISTER_DECODER  (vp3);
+  REGISTER_DECODER  (vp5);
+  REGISTER_DECODER  (vp6);
+  REGISTER_DECODER  (vp6a);
+  REGISTER_DECODER  (vp6f);
+  REGISTER_DECODER  (wmv1);
+  REGISTER_DECODER  (wmv2);
+  REGISTER_DECODER  (wmv3);
+//REGISTER_DECODER  (wnv1);
+//REGISTER_DECODER  (xl);
+//REGISTER_DECODER  (zlib);
+//REGISTER_DECODER  (zmbv);
 
-/* audio codecs */
-//REGISTER_ENCODER    (ac3);
+  /* audio codecs */
 //REGISTER_DECODER    (atrac3);
 //REGISTER_DECODER    (amr_nb);
 //REGISTER_DECODER    (cook);
