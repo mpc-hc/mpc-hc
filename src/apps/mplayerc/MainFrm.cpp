@@ -87,6 +87,8 @@ static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
 
 #include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
 
+#include ".\MultiMonitor\Monitors.h"
+#include ".\MultiMonitor\MultiMonitor.h"
 
 class CSubClock : public CUnknown, public ISubClock
 {
@@ -6840,10 +6842,39 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			GetCurDispMode(m_dmBeforeFullscreen);
 			SetDispMode(dm);
 		}
-
+		/*
 		MONITORINFO mi;
 		mi.cbSize = sizeof(MONITORINFO);
 		GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
+		*/
+		CString str;
+		CMonitor monitor;
+		CMonitors monitors;
+
+		HMONITOR hm = 0;
+
+		if(s.f_hmonitor == _T("Current"))
+		{
+			hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+		}
+		else
+		{
+			for ( int i = 0; i < monitors.GetCount(); i++ )
+			{
+				monitor = monitors.GetMonitor( i );
+				monitor.GetName(str);
+				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
+				{
+					hm = monitor.operator HMONITOR();
+					break;
+				}
+			}
+			if(!hm) hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+		}
+		
+		MONITORINFO mi;
+		mi.cbSize = sizeof(MONITORINFO);
+		GetMonitorInfo(hm, &mi);
 
 		dwRemove = WS_CAPTION|WS_THICKFRAME;
 		if(fToNearest) r = mi.rcMonitor;
@@ -7075,6 +7106,13 @@ void CMainFrame::ZoomVideoWindow(double scale)
 		w = r.Width(); // mmi.ptMinTrackSize.x;
 		h = mmi.ptMinTrackSize.y;
 	}
+	
+	//Prevention of going beyond the scopes of screen
+	MONITORINFO mi;
+	mi.cbSize = sizeof(MONITORINFO);
+	GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
+	w = min(w, (mi.rcWork.right - mi.rcWork.left));
+	h = min(h, (mi.rcWork.bottom - mi.rcWork.top));
 
 	// center window
 	if(!s.fRememberWindowPos)
@@ -7087,9 +7125,11 @@ void CMainFrame::ZoomVideoWindow(double scale)
 	r.right = r.left + w;
 	r.bottom = r.top + h;
 
+	/*
 	MONITORINFO mi;
 	mi.cbSize = sizeof(MONITORINFO);
 	GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
+	*/
 	if(r.right > mi.rcWork.right) r.OffsetRect(mi.rcWork.right-r.right, 0);
 	if(r.left < mi.rcWork.left) r.OffsetRect(mi.rcWork.left-r.left, 0);
 	if(r.bottom > mi.rcWork.bottom) r.OffsetRect(0, mi.rcWork.bottom-r.bottom);

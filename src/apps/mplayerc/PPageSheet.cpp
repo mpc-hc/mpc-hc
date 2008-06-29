@@ -35,6 +35,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	, m_audioswitcher(pFG)
 	, m_bLockPage(false)
 {
+	SetTreeWidth(180);
 	AddPage(&m_player);
 	AddPage(&m_formats);
 	AddPage(&m_acceltbl);

@@ -30,7 +30,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -117,7 +117,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -511,6 +511,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MultiMonitor\Monitors.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\mplayerc.cpp"
 				>
 			</File>
@@ -533,6 +537,10 @@
 						PreprocessorDefinitions="_DEBUG, WIN64"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor\MultiMonitor.cpp"
+				>
 			</File>
 			<File
 				RelativePath="OpenCapDeviceDlg.cpp"
@@ -992,11 +1000,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MultiMonitor\Monitors.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MpcApi.h"
 				>
 			</File>
 			<File
 				RelativePath=".\mplayerc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor\MultiMonitor.h"
 				>
 			</File>
 			<File
@@ -1401,7 +1417,6 @@
 				>
 				<FileConfiguration
 					Name="Release Unicode|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1409,7 +1424,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"

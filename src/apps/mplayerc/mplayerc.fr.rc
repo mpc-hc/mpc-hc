@@ -716,7 +716,7 @@ BEGIN
     RTEXT           "",IDC_AUTHOR,95,164,194,9
 END
 
-IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 203
+IDD_PPAGEOUTPUT DIALOGEX 0, 0, 296, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0xEE
 BEGIN
@@ -747,9 +747,9 @@ BEGIN
     GROUPBOX        "DirectShow Audio",IDC_STATIC,5,148,283,28
     COMBOBOX        IDC_COMBO1,14,158,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Verrouiller Tampon",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,129,70,10
-    LTEXT           "* Pas de sauvegarde d'imagettes",IDC_STATIC,13,180,158,8
-    LTEXT           "** Requis pour le chargement de sous-titres",IDC_STATIC,184,180,104,8
-    LTEXT           "*** Requis pour la rotation des images et les pixel shaders (DX9 uniquement)",IDC_STATIC,13,190,195,8
+    LTEXT           "* Pas de sauvegarde d'imagettes",IDC_STATIC,13,206,158,8
+    LTEXT           "** Requis pour le chargement de sous-titres",IDC_STATIC,184,206,104,8
+    LTEXT           "*** Requis pour la rotation des images et les pixel shaders (DX9 uniquement)",IDC_STATIC,13,216,195,8
     CONTROL         "Mixeur Mode VMR9",IDC_DSVMR9LOADMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,114,73,10
     CONTROL         "Mixeur YUV",IDC_DSVMR9YUVMIXER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,114,51,10
     COMBOBOX        IDC_DX_SURFACE,151,64,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -758,7 +758,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,161,10
     COMBOBOX        IDC_EVR_BUFFERS,241,127,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "EVR Tampons:",IDC_EVR_BUFFERS_TXT,191,130,42,8
+    GROUPBOX        "Full Screen Monitor",IDC_STATIC,5,176,283,27
+    COMBOBOX        IDC_COMBO2,13,185,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP	
 END
+// TODO - translate "Full Screen Monitor"
 
 IDD_AUTH_DLG DIALOGEX 0, 0, 213, 146
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -3000,7 +3003,10 @@ END
 STRINGTABLE 
 BEGIN
 	IDS_VOLUME_OSD	"Vol: %d%%"
-end
+	IDS_FULLSCREENMONITOR		"FullScreenMonitor" // dont't translate, it is for resource
+	IDS_FULLSCREENMONITOR_CURRENT	"Current"	
+END
+//TODO - Translate "Current"
 
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////

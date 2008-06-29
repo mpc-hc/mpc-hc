@@ -1169,7 +1169,9 @@
 #define IDS_AG_CHAPTER2                 33201
 
 // Next default values for new objects
-#define	IDS_VOLUME_OSD					50000
+#define	IDS_VOLUME_OSD									50000
+#define	IDS_FULLSCREENMONITOR						50001
+#define	IDS_FULLSCREENMONITOR_CURRENT		50002
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

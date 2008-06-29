@@ -1452,6 +1452,9 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIONORMALIZERECOVER), fAudioNormalizeRecover);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIOBOOST), (int)AudioBoost);
 
+		// Multi-monitor code
+		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), CString(f_hmonitor));
+
 		// CASIMIR666 : nouveau settings
 		CString		strTemp;
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_D3DFULLSCREEN), fD3DFullscreen);
@@ -1727,6 +1730,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fRememberZoomLevel = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOZOOM), 1);
 		fShowBarsWhenFullScreen = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENCTRLS), 1);
 		nShowBarsWhenFullScreenTimeOut = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENCTRLSTIMEOUT), 0);
+		
+		//Multi-monitor code
+		f_hmonitor = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), _T(""));
+
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENRES), &ptr, &len))
 		{
 			memcpy(&dmFullscreenRes, ptr, sizeof(dmFullscreenRes));

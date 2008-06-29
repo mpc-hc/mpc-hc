@@ -510,6 +510,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MultiMonitor\Monitors.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\mplayerc.cpp"
 				>
 			</File>
@@ -532,6 +536,10 @@
 						PreprocessorDefinitions="_DEBUG, WIN64"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor\MultiMonitor.cpp"
+				>
 			</File>
 			<File
 				RelativePath="OpenCapDeviceDlg.cpp"
@@ -991,11 +999,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MultiMonitor\Monitors.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MpcApi.h"
 				>
 			</File>
 			<File
 				RelativePath=".\mplayerc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiMonitor\MultiMonitor.h"
 				>
 			</File>
 			<File
@@ -1400,7 +1416,6 @@
 				>
 				<FileConfiguration
 					Name="Release Unicode|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1408,7 +1423,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"

@@ -470,6 +470,8 @@ public:
 		bool fEnableWorkerThreadForOpening;
 		bool fReportFailedPins;
 
+		CStringW f_hmonitor;
+
 		bool fAllowMultipleInst;
 		int iTitleBarTextStyle;
 		bool fTitleBarTextTitle;
