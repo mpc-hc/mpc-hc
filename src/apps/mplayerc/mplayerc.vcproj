@@ -511,7 +511,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiMonitor\Monitors.cpp"
+				RelativePath=".\Monitors.cpp"
 				>
 			</File>
 			<File
@@ -539,7 +539,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MultiMonitor\MultiMonitor.cpp"
+				RelativePath=".\MultiMonitor.cpp"
 				>
 			</File>
 			<File
@@ -1000,7 +1000,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiMonitor\Monitors.h"
+				RelativePath=".\Monitors.h"
 				>
 			</File>
 			<File
@@ -1012,7 +1012,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiMonitor\MultiMonitor.h"
+				RelativePath=".\MultiMonitor.h"
 				>
 			</File>
 			<File

@@ -1,29 +1,37 @@
-#pragma once
-//////////////////////////////////////////////////
-// CMonitor - wrapper to Win32 multi-monitor API
-//
-// Author: Donald Kackman
-// Email:  don@itsEngineering.com
-// Copyright 2002, Donald Kackman
-//
-// You may freely use or modify this code provided this
-// Copyright is included in all derived versions.
-//
-///////////////////////////////////////////////////
+/*
+ * $Id: MultiMonitor.h 349 2007-12-27 00:07:03Z matmaul $
+ *
+ * Author: Donald Kackman
+ * Email: don@itsEngineering.com
+ * Copyright 2002, Donald Kackman
+ *
+ * This file is part of mplayerc.
+ *
+ * Mplayerc is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mplayerc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
-//
-//David Campbell's article
-//How to Exploit Multiple Monitor Support in Memphis and Windows NT 5.0
-//is very helpful for multimonitor api calls
-//http://www.microsoft.com/msj/defaultframe.asp?page=/msj/0697/monitor/monitor.htm&nav=/msj/0697/newnav.htm
-//
-
-
-
-//include multimon.h here to get the types
-//multimon.cpp includes this with the COMPILESTUBS define to get the implementations
+/*
+ * David Campbell's article
+ * How to Exploit Multiple Monitor Support in Memphis and Windows NT 5.0
+ * is very helpful for multimonitor api calls
+ * http://www.microsoft.com/msj/defaultframe.asp?page=/msj/0697/monitor/monitor.htm&nav=/msj/0697/newnav.htm
+*/
 
 // CMonitor 
+
+#pragma once
 
 class CMonitor : public CObject
 {
