@@ -1,5 +1,5 @@
 /*
- * $Id: MultiMonitor.cpp 349 2007-12-27 00:07:03Z matmaul $
+ * $Id$
  *
  * Author: Donald Kackman
  * Email: don@itsEngineering.com

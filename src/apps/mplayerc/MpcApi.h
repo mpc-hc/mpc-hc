@@ -1,5 +1,5 @@
 /*
- * $Id: MpcApi.h 193 2007-09-09 09:12:21Z Casimir666 $
+ * $Id$
  *
  * (C) 2006-2007 see AUTHORS
  *
