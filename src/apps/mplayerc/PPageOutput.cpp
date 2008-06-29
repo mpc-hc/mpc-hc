@@ -27,8 +27,8 @@
 #include "PPageOutput.h"
 #include <moreuuids.h>
 
-#include ".\MultiMonitor\Monitors.h"
-#include ".\MultiMonitor\MultiMonitor.h"
+#include "Monitors.h"
+#include "MultiMonitor.h"
 
 // CPPageOutput dialog
 

@@ -87,8 +87,8 @@ static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
 
 #include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
 
-#include ".\MultiMonitor\Monitors.h"
-#include ".\MultiMonitor\MultiMonitor.h"
+#include "Monitors.h"
+#include "MultiMonitor.h"
 
 class CSubClock : public CUnknown, public ISubClock
 {
