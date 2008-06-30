@@ -1167,16 +1167,15 @@
 #define IDS_PPSDB_PROTOCOLERR			33199
 #define IDS_PPSDB_BADURL				33200
 #define IDS_AG_CHAPTER2                 33201
+#define	IDS_VOLUME_OSD					33202
+#define	IDS_FULLSCREENMONITOR			33203
+#define	IDS_FULLSCREENMONITOR_CURRENT	33204
 
-// Next default values for new objects
-#define	IDS_VOLUME_OSD									50000
-#define	IDS_FULLSCREENMONITOR						50001
-#define	IDS_FULLSCREENMONITOR_CURRENT		50002
-// 
+// Next default values for new objects 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20002
-#define _APS_NEXT_COMMAND_VALUE         33202
+#define _APS_NEXT_COMMAND_VALUE         33205
 #define _APS_NEXT_CONTROL_VALUE         22015
 #define _APS_NEXT_SYMED_VALUE           24005
 #endif
