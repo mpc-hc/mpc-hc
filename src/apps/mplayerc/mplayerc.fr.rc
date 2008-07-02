@@ -1605,7 +1605,7 @@ BEGIN
         MENUITEM "&Test mode Tearing\tCtrl+T",  ID_VIEW_TEARING_TEST
         MENUITEM "&Statistiques d'affichage\tCtrl+J", ID_VIEW_DISPLAYSTATS
         MENUITEM "Temps restant\tCtrl+I",       ID_VIEW_REMAINING_TIME
-        POPUP "&Language"
+        POPUP "&Langue"
         BEGIN
             MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
             MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
