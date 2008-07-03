@@ -80,11 +80,9 @@ protected:
 	int										m_nDiscardMode;
 	int										m_nErrorResilience;
 	int										m_nIDCTAlgo;
-	bool									m_bEnableDXVA;
 	bool									m_bDXVACompatible;
 	int										m_nCompatibilityMode;
 	int										m_nActiveCodecs;
-	bool									m_bEnableFfmpeg;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -102,6 +100,9 @@ protected:
 	int										m_nFFBufferSize;
 	int										m_nWidth;				// Frame width give to input pin
 	int										m_nHeight;				// Frame height give to input pin
+	
+	bool									m_bUseDXVA;
+	bool									m_bUseFFmpeg;				
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
@@ -172,8 +173,6 @@ public:
 	STDMETHODIMP Apply();
 	STDMETHODIMP SetThreadNumber(int nValue);
 	STDMETHODIMP_(int) GetThreadNumber();
-	STDMETHODIMP SetEnableDXVA(bool fValue);
-	STDMETHODIMP_(bool) GetEnableDXVA();
 	STDMETHOD(SetDiscardMode(int nValue));
 	STDMETHOD_(int, GetDiscardMode());
 	STDMETHOD(SetErrorResilience(int nValue));
@@ -183,8 +182,6 @@ public:
 	STDMETHOD_(GUID*, GetDXVADecoderGuid());
 	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
-	STDMETHODIMP SetEnableFfmpeg(bool fValue);
-	STDMETHODIMP_(bool) GetEnableFfmpeg();
 	STDMETHODIMP_(LPCTSTR) GetVideoCardDescription();
 
 

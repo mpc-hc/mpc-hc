@@ -74,8 +74,10 @@ s_filters[] =
 	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
 	
-	{_T("H264/AVC (DXVA)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("VC1 (DXVA)"), 1, TRA_WVC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("H264/AVC (DXVA)"), 1, TRA_H264_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("H264/AVC (FFmpeg)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VC1 (DXVA)"), 1, TRA_VC1_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VC1 (FFmpeg)"), 1, TRA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("Xvid/MPEG-4"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 	{_T("MS MPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},

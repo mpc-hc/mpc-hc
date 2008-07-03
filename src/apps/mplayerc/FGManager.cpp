@@ -1716,7 +1716,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6A);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vp6a);
 	}
-	if (tra & TRA_H264)
+	if ((tra & TRA_H264) || (tra & TRA_H264_DXVA))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
@@ -1731,7 +1731,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 	}
-	if (tra & TRA_WVC1)
+	if ((tra & TRA_VC1) || (tra & TRA_VC1_DXVA))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
@@ -1871,7 +1871,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP6A);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vp6a);
 	}
-	if (!(tra & TRA_H264))
+	if (!(tra & TRA_H264) && !(tra & TRA_H264_DXVA))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
@@ -1886,7 +1886,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 	}
-	if (!(tra & TRA_WVC1))
+	if (!(tra & TRA_VC1) && !(tra & TRA_VC1_DXVA))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);

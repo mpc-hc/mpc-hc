@@ -435,7 +435,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_FLASH|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_WMV|MPCVD_MSMPEG4|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -444,14 +444,15 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
 	m_nErrorResilience		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
-	m_bEnableDXVA			= true;
-	m_bEnableFfmpeg			= true;
 	m_bDXVACompatible		= true;
 	m_nCompatibilityMode	= 0;
 	m_pFFBuffer				= NULL;
 	m_nFFBufferSize			= 0;
 	m_nWidth				= 0;
 	m_nHeight				= 0;
+	
+	m_bUseDXVA = true;
+	m_bUseFFmpeg = true;
 
 	m_nDXVAMode				= MODE_SOFTWARE;
 	m_pDXVADecoder			= NULL;
@@ -467,10 +468,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) m_nDiscardMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorResilience"), dw)) m_nErrorResilience = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableDXVA"), dw)) m_bEnableDXVA = !!dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("EnableFfmpeg"), dw)) m_bEnableFfmpeg = !!dw;		
 	}
 
 	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
@@ -561,7 +560,33 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 		if (mtIn->subtype == *ffCodecs[i].clsMinorType)
 		{
 #ifndef REGISTER_FILTER
-			return i;
+			// check MPC internal filter settings to see if DXVA or FFmpeg may be used
+			int trafilters = 0;
+			CRegKey key;
+			if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic\\Internal Filters"), KEY_READ))
+			{
+				DWORD dw;
+				if(ERROR_SUCCESS == key.QueryDWORDValue(_T("TraFilters"), dw)) trafilters = dw;
+			}			
+			
+			switch (ffCodecs[i].nFFCodec)
+			{
+			case CODEC_ID_H264 :
+				/* is it safe to include mplayerc.h here for getting the values below? */
+				/* TRA_H264 = 16384, TRA_H264_DXVA = 16777216 */
+				m_bUseDXVA = (trafilters & 16777216) != 0;
+				m_bUseFFmpeg = (trafilters & 16384) != 0;
+				break;
+			case CODEC_ID_VC1 :
+				/* TRA_VC1 = 32768, TRA_VC1_DXVA = 33554432 */
+				m_bUseDXVA = (trafilters & 33554432) != 0;
+				m_bUseFFmpeg = (trafilters & 32768) != 0;
+				break;
+			default :
+				m_bUseDXVA = false;
+			}
+			
+			return ((m_bUseDXVA || m_bUseFFmpeg) ? i : -1);
 #else
 			bool	bCodecActivated = true;
 			switch (ffCodecs[i].nFFCodec)
@@ -600,7 +625,9 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				bCodecActivated = (m_nActiveCodecs & MPCVD_MSMPEG4) != 0;
 				break;
 			case CODEC_ID_H264 :
-				bCodecActivated = (m_nActiveCodecs & MPCVD_H264) != 0;
+				m_bUseDXVA = (m_nActiveCodecs & MPCVD_H264_DXVA) != 0;
+				m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_H264) != 0;
+				bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
 				break;
 			case CODEC_ID_SVQ3 :
 			case CODEC_ID_SVQ1 :
@@ -613,7 +640,9 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				bCodecActivated = (m_nActiveCodecs & MPCVD_THEORA) != 0;
 				break;
 			case CODEC_ID_VC1 :
-				bCodecActivated = (m_nActiveCodecs & MPCVD_VC1) != 0;
+				m_bUseDXVA = (m_nActiveCodecs & MPCVD_VC1_DXVA) != 0;
+				m_bUseFFmpeg = (m_nActiveCodecs & MPCVD_VC1) != 0;
+				bCodecActivated = m_bUseDXVA || m_bUseFFmpeg;
 				break;
 			case CODEC_ID_AMV :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_AMVV) != 0;
@@ -808,6 +837,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_nWidth	= m_pAVCtx->width;
 			m_nHeight	= m_pAVCtx->height;
 			
+			// ToDo: the matrix stuff is encoding related and should be removed here and from the used FFmpeg code
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->intra_matrix_luma		= (uint16_t*)calloc(sizeof(uint16_t),16);
@@ -889,14 +919,18 @@ VIDEO_OUTPUT_FORMATS SoftwareFormats[] =
 
 bool CMPCVideoDecFilter::IsDXVASupported()
 {
-	if ((m_nCodecNb != -1) && 
-		(ffCodecs[m_nCodecNb].DXVAModes != NULL) &&	// Supported by Codec ?
-		 m_bEnableDXVA &&							// Enable by user ?
-		 m_bDXVACompatible)							// File compatible ?
-	{
-		return true;
+	if (m_nCodecNb != -1) {
+		// Does the codec suppport DXVA ?
+		if (ffCodecs[m_nCodecNb].DXVAModes != NULL) {
+			// Enabled by user ?
+			if (m_bUseDXVA) {
+				// is the file compatible ?
+		 		if (m_bDXVACompatible) {
+					return true;
+				}
+			}
+		}
 	}
-
 	return false;
 }
 
@@ -908,7 +942,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
 	m_nVideoOutputCount = (IsDXVASupported() ? ffCodecs[m_nCodecNb].DXVAModeCount() + countof (DXVAFormats) : 0) +
-						  (m_bEnableFfmpeg   ? countof(SoftwareFormats) : 0);
+						  (m_bUseFFmpeg   ? countof(SoftwareFormats) : 0);
 
 	m_pVideoOutputFormat	= new VIDEO_OUTPUT_FORMATS[m_nVideoOutputCount];
 
@@ -929,7 +963,7 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 	}
 
 	// Software rendering
-	if (m_bEnableFfmpeg)
+	if (m_bUseFFmpeg)
 		memcpy (&m_pVideoOutputFormat[nPos], SoftwareFormats, sizeof(SoftwareFormats));
 }
 
@@ -1530,7 +1564,7 @@ HRESULT CMPCVideoDecFilter::CreateDXVA1Decoder(IAMVideoAccelerator*  pAMVideoAcc
 {
 	SAFE_DELETE (m_pDXVADecoder);
 
-	if (!m_bEnableDXVA) return E_FAIL;
+	if (!m_bUseDXVA) return E_FAIL;
 
 	m_nDXVAMode			= MODE_DXVA1;
 	m_DXVADecoderGUID	= *pDecoderGuid;
@@ -1592,9 +1626,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 		key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
 		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
 		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
-		key.SetDWORDValue(_T("EnableDXVA"), m_bEnableDXVA);
 		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
-		key.SetDWORDValue(_T("EnableFfmpeg"), m_bEnableFfmpeg);
 	}
 	return S_OK;
 }
@@ -1609,17 +1641,6 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetThreadNumber()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nThreadNumber;
-}
-STDMETHODIMP CMPCVideoDecFilter::SetEnableDXVA(bool fValue)
-{
-	CAutoLock cAutoLock(&m_csProps);
-	m_bEnableDXVA = fValue;
-	return S_OK;
-}
-STDMETHODIMP_(bool) CMPCVideoDecFilter::GetEnableDXVA()
-{
-	CAutoLock cAutoLock(&m_csProps);
-	return m_bEnableDXVA;
 }
 STDMETHODIMP CMPCVideoDecFilter::SetDiscardMode(int nValue)
 {
@@ -1672,18 +1693,6 @@ STDMETHODIMP_(MPC_VIDEO_CODEC) CMPCVideoDecFilter::GetActiveCodecs()
 	CAutoLock cAutoLock(&m_csProps);
 	return (MPC_VIDEO_CODEC)m_nActiveCodecs;
 }
-STDMETHODIMP CMPCVideoDecFilter::SetEnableFfmpeg(bool fValue)
-{
-	CAutoLock cAutoLock(&m_csProps);
-	m_bEnableFfmpeg = fValue;
-	return S_OK;
-}
-STDMETHODIMP_(bool) CMPCVideoDecFilter::GetEnableFfmpeg()
-{
-	CAutoLock cAutoLock(&m_csProps);
-	return m_bEnableFfmpeg;
-}
-
 STDMETHODIMP_(LPCTSTR) CMPCVideoDecFilter::GetVideoCardDescription()
 {
 	CAutoLock cAutoLock(&m_csProps);
