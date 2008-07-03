@@ -111,8 +111,10 @@ FFMPEG_CODECS		ffCodecs[] =
 	// Flash video
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	NULL },
 	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, MAKEFOURCC('f','l','v','1'),	NULL },
-	{ &MEDIASUBTYPE_FLV4, CODEC_ID_FLV4, MAKEFOURCC('F','L','V','4'),	NULL },
-	{ &MEDIASUBTYPE_flv4, CODEC_ID_FLV4, MAKEFOURCC('f','l','v','4'),	NULL },
+	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, MAKEFOURCC('F','L','V','4'),	NULL },
+	{ &MEDIASUBTYPE_flv4, CODEC_ID_VP6F, MAKEFOURCC('f','l','v','4'),	NULL },
+	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	NULL },
+	{ &MEDIASUBTYPE_vp6f, CODEC_ID_VP6F, MAKEFOURCC('v','p','6','f'),	NULL },
 
 	// VP5
 	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	NULL },
@@ -125,10 +127,6 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_vp61, CODEC_ID_VP6,  MAKEFOURCC('v','p','6','1'),	NULL },
 	{ &MEDIASUBTYPE_VP62, CODEC_ID_VP6,  MAKEFOURCC('V','P','6','2'),	NULL },
 	{ &MEDIASUBTYPE_vp62, CODEC_ID_VP6,  MAKEFOURCC('v','p','6','2'),	NULL },
-	{ &MEDIASUBTYPE_FLV4, CODEC_ID_VP6F, MAKEFOURCC('F','L','V','4'),	NULL },
-	{ &MEDIASUBTYPE_flv4, CODEC_ID_VP6F, MAKEFOURCC('f','l','v','4'),	NULL },
-	{ &MEDIASUBTYPE_VP6F, CODEC_ID_VP6F, MAKEFOURCC('V','P','6','F'),	NULL },
-	{ &MEDIASUBTYPE_vp6f, CODEC_ID_VP6F, MAKEFOURCC('v','p','6','f'),	NULL },
 	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	NULL },
 	{ &MEDIASUBTYPE_vp6a, CODEC_ID_VP6A, MAKEFOURCC('v','p','6','a'),	NULL },
 
@@ -594,7 +592,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			switch (ffCodecs[i].nFFCodec)
 			{
 			case CODEC_ID_FLV1 :
-			case CODEC_ID_FLV4 :
+			case CODEC_ID_VP6F :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_FLASH) != 0;
 				break;
 			case CODEC_ID_MPEG4 :
@@ -648,7 +646,6 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				break;
 			case CODEC_ID_VP5  :
 			case CODEC_ID_VP6  :
-			case CODEC_ID_VP6F :
 			case CODEC_ID_VP6A :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_VP6) != 0;
 				break;
