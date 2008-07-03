@@ -246,6 +246,8 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);	
 	m_lstCodecs.AddString (_T("FLV1/4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_FLASH) != 0);
+	m_lstCodecs.AddString (_T("VP5/6"));
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VP6) != 0);
 	m_lstCodecs.AddString (_T("WMV1/2/3"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_WMV) != 0);
 	m_lstCodecs.AddString (_T("H.263"));
@@ -284,6 +286,7 @@ bool CMPCVideoDecCodecWnd::OnApply()
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_DIVX;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MSMPEG4;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_FLASH;
+		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VP6;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_WMV;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H263;
 		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_SVQ3;

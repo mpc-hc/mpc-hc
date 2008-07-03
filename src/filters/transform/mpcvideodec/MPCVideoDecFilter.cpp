@@ -111,6 +111,8 @@ FFMPEG_CODECS		ffCodecs[] =
 	// Flash video
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'),	NULL },
 	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, MAKEFOURCC('f','l','v','1'),	NULL },
+	{ &MEDIASUBTYPE_FLV4, CODEC_ID_FLV4, MAKEFOURCC('F','L','V','4'),	NULL },
+	{ &MEDIASUBTYPE_flv4, CODEC_ID_FLV4, MAKEFOURCC('f','l','v','4'),	NULL },
 
 	// VP5
 	{ &MEDIASUBTYPE_VP50, CODEC_ID_VP5,  MAKEFOURCC('V','P','5','0'),	NULL },
@@ -435,7 +437,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -592,10 +594,7 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			switch (ffCodecs[i].nFFCodec)
 			{
 			case CODEC_ID_FLV1 :
-			case CODEC_ID_VP5  :
-			case CODEC_ID_VP6  :
-			case CODEC_ID_VP6F :
-			case CODEC_ID_VP6A :
+			case CODEC_ID_FLV4 :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_FLASH) != 0;
 				break;
 			case CODEC_ID_MPEG4 :
@@ -646,6 +645,12 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 				break;
 			case CODEC_ID_AMV :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_AMVV) != 0;
+				break;
+			case CODEC_ID_VP5  :
+			case CODEC_ID_VP6  :
+			case CODEC_ID_VP6F :
+			case CODEC_ID_VP6A :
+				bCodecActivated = (m_nActiveCodecs & MPCVD_VP6) != 0;
 				break;
 			default :
 				ASSERT(FALSE);
