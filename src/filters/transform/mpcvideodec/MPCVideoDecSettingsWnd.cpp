@@ -25,6 +25,8 @@
 #include "MPCVideoDecSettingsWnd.h"
 #include "..\..\..\dsutil\dsutil.h"
 
+#include "../../../apps/mplayerc/internal_filter_config.h"
+
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
@@ -85,9 +87,11 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	int		nPosY	= 10;
 	GUID*	DxvaGui = NULL;
 
+#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
 
-	// Decoding frame number
+	#if defined(REGISTER_FILTER) | INTERNAL_DECODER_H264
+	// Decoding threads
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 260, nPosY+90), this, IDC_PP_THREAD_NUMBER);
@@ -108,6 +112,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_BIDIR));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONKFRM));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
+	#endif
 	
 	// Error resilience
 	nPosY += VERTICAL_SPACING;
@@ -129,6 +134,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
 
 	nPosY = 170;
+#endif
+
 	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
 
 	// DXVA mode
@@ -155,13 +162,17 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 		pWnd->SetFont(&m_font, FALSE);
 
+	#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
 	if (m_pMDF)
 	{
+		#if defined(REGISTER_FILTER) | INTERNAL_DECODER_H264
 		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
+		#endif
 		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 	}
+	#endif
 
 	return true;
 }
@@ -174,15 +185,19 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF && m_cbThreadNumber.m_hWnd)
+	#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
+	if(m_pMDF && m_cbErrorResilience.m_hWnd)
 	{
+		#if defined(REGISTER_FILTER) | INTERNAL_DECODER_H264
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
+		#endif
 		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
 
 		m_pMDF->Apply();
 	}
+	#endif
 
 	return true;
 }

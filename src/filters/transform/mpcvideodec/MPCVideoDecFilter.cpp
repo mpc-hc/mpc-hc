@@ -46,6 +46,7 @@ extern "C"
 
 #include "DXVADecoderH264.h"
 
+#include "../../../apps/mplayerc/internal_filter_config.h"
 
 
 /////
@@ -574,13 +575,29 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			case CODEC_ID_H264 :
 				/* is it safe to include mplayerc.h here for getting the values below? */
 				/* TRA_H264 = 16384, TRA_H264_DXVA = 16777216 */
+				#if INTERNAL_DECODER_H264_DXVA
 				m_bUseDXVA = (trafilters & 16777216) != 0;
+				#else
+				m_bUseDXVA = false;
+				#endif
+				#if INTERNAL_DECODER_H264
 				m_bUseFFmpeg = (trafilters & 16384) != 0;
+				#else
+				m_bUseFFmpeg = false;
+				#endif
 				break;
 			case CODEC_ID_VC1 :
 				/* TRA_VC1 = 32768, TRA_VC1_DXVA = 33554432 */
+				#if INTERNAL_DECODER_VC1_DXVA
 				m_bUseDXVA = (trafilters & 33554432) != 0;
+				#else
+				m_bUseDXVA = false;
+				#endif
+				#if INTERNAL_DECODER_VC1
 				m_bUseFFmpeg = (trafilters & 32768) != 0;
+				#else
+				m_bUseFFmpeg = false;
+				#endif
 				break;
 			default :
 				m_bUseDXVA = false;

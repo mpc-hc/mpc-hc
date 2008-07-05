@@ -43,9 +43,9 @@
 //#include ".\parser\RadGtSplitter\RadGtSplitter.h"
 #include ".\parser\RoQSplitter\RoQSplitter.h"
 #include ".\parser\OggSplitter\OggSplitter.h"
-//#include ".\parser\NutSplitter\NutSplitter.h"
+#include ".\parser\NutSplitter\NutSplitter.h"
 #include ".\parser\MpegSplitter\MpegSplitter.h"
-//#include ".\parser\DiracSplitter\DiracSplitter.h"		// Disable until Dirac is more stable
+#include ".\parser\DiracSplitter\DiracSplitter.h"
 #include ".\parser\MpaSplitter\MpaSplitter.h"
 #include ".\parser\DSMSplitter\DSMSplitter.h"
 #include ".\parser\MP4Splitter\MP4Splitter.h"

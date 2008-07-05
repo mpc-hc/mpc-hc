@@ -26,6 +26,7 @@
 #include "PPageInternalFilters.h"
 #include "ComPropertySheet.h"
 #include "..\..\filters\filters.h"
+#include "internal_filter_config.h"
 
 
 static struct filter_t
@@ -38,59 +39,145 @@ static struct filter_t
 }
 s_filters[] = 
 {
-#ifndef MINIMAL_BUILTIN_FILTERS
+#if INTERNAL_SOURCEFILTER_AVI
 	{_T("AVI"), 0, SRC_AVI, IDS_SRC_AVI, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_CDDA
 	{_T("CDDA (Audio CD)"), 0, SRC_CDDA, IDS_SRC_CDDA, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_CDXA
 	{_T("CDXA (VCD/SVCD/XCD)"), 0, SRC_CDXA, IDS_SRC_CDXA, NULL},
-	__if_exists(CDiracSplitterFilter) {{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},}
+#endif
+#if INTERNAL_SOURCEFILTER_DIRAC
+	{_T("Dirac"), 0, SRC_DIRAC, IDS_SRC_DIRAC, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_DSM
 	{_T("DirectShow Media"), 0, SRC_DSM, IDS_SRC_DSM, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_DTSAC3
 	{_T("DTS/AC3"), 0, SRC_DTSAC3, IDS_SRC_DTSAC3, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_VTS
 	{_T("DVD Video Title Set"), 0, SRC_VTS, IDS_SRC_VTS, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_DVSOURCE
 	{_T("DVD2AVI Project File"), 0, SRC_D2V, IDS_SRC_D2V, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_FLIC
 	{_T("FLI/FLC"), 0, SRC_FLIC, IDS_SRC_FLIC, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_FLV
 	{_T("FLV"), 0, SRC_FLV, IDS_SRC_FLV, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_MATROSKA
 	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_MP4
 	{_T("MP4/MOV"), 0, SRC_MP4, IDS_SRC_MP4, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_MPEGAUDIO
 	{_T("MPEG Audio"), 0, SRC_MPA, IDS_SRC_MPA, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_MPEG
 	{_T("MPEG PS/TS/PVA"), 0, SRC_MPEG, 0, NULL},
-	__if_exists(CNutSplitterFilter) {{_T("Nut"), 0, SRC_NUT, IDS_SRC_NUT, NULL},}
+#endif
+#if INTERNAL_SOURCEFILTER_NUT
+	{_T("Nut"), 0, SRC_NUT, IDS_SRC_NUT, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_OGG
 	{_T("Ogg"), 0, SRC_OGG, IDS_SRC_OGG, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_REALMEDIA
 	{_T("RealMedia"), 0, SRC_REALMEDIA, IDS_SRC_REALMEDIA, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_ROQ
 	{_T("RoQ"), 0, SRC_ROQ, IDS_SRC_ROQ, NULL},
+#endif
+#if INTERNAL_SOURCEFILTER_SHOUTCAST
 	{_T("SHOUTcast"), 0, SRC_SHOUTCAST, IDS_SRC_SHOUTCAST, NULL},
-	__if_exists(CRadGtSplitterFilter) {{_T("Smacker/Bink"), 0, SRC_RADGT, IDS_SRC_RADGT, NULL},}
-	
+#endif
+#if INTERNAL_SOURCEFILTER_RADGT
+	{_T("Smacker/Bink"), 0, SRC_RADGT, IDS_SRC_RADGT, NULL},
+#endif
+
+#if INTERNAL_DECODER_AAC
 	{_T("AAC"), 1, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
+#endif
+#if INTERNAL_DECODER_AC3
 	{_T("AC3"), 1, TRA_AC3, IDS_TRA_AC3, CreateInstance<CMpaDecFilter>},
+#endif
+#if INTERNAL_DECODER_DTS
 	{_T("DTS"), 1, TRA_DTS, IDS_TRA_DTS, CreateInstance<CMpaDecFilter>},
 	{_T("LPCM"), 1, TRA_LPCM, IDS_TRA_LPCM, CreateInstance<CMpaDecFilter>},
+#endif
+#if INTERNAL_DECODER_MPEGAUDIO
 	{_T("MPEG Audio"), 1, TRA_MPA, IDS_TRA_MPA, CreateInstance<CMpaDecFilter>},
+#endif
+#if INTERNAL_DECODER_VORBIS
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+#endif
+#if INTERNAL_DECODER_REALAUDIO
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
+#endif
+#if INTERNAL_DECODER_PS2AUDIO
 	{_T("PS2 Audio (PCM/ADPCM)"), 1, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
-	
+#endif
+
+#if INTERNAL_DECODER_MPEG1
 	{_T("MPEG-1 Video"), 1, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},
+#endif
+#if INTERNAL_DECODER_MPEG2
 	{_T("MPEG-2 Video"), 1, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
-	__if_exists(CDiracVideoDecoder) {{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},}
+#endif
+#if INTERNAL_DECODER_DIRAC
+	{_T("Dirac"), 1, TRA_DIRAC, IDS_TRA_DIRAC, NULL},
+#endif
+#if INTERNAL_DECODER_REALVIDEO
 	{_T("RealVideo"), 1, TRA_RV, IDS_TRA_RV, NULL},
-	
+#endif
+
+#if INTERNAL_DECODER_H264_DXVA
 	{_T("H264/AVC (DXVA)"), 1, TRA_H264_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_H264
 	{_T("H264/AVC (FFmpeg)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-	{_T("VC1 (DXVA)"), 1, TRA_VC1_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_VC1
 	{_T("VC1 (FFmpeg)"), 1, TRA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_VC1_DXVA
+	{_T("VC1 (DXVA)"), 1, TRA_VC1_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_XVID
 	{_T("Xvid/MPEG-4"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_DIVX
 	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_MSMPEG4
 	{_T("MS MPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_FLV
 	{_T("FLV1/4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_VP6
 	{_T("VP5/6"), 1, TRA_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+#endif
+#if INTERNAL_DECODER_WMV
 	{_T("WMV1/2/3"), 1, TRA_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+#endif
+#if INTERNAL_DECODER_SVQ
 	{_T("SVQ1/3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_H263
 	{_T("H263"), 1, TRA_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_AMVV
 	{_T("AMV video"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_THEORA
 	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#else
-	{_T("Matroska"), 0, SRC_MATROSKA, IDS_SRC_MATROSKA, NULL},
-#endif /* MINIMAL_BUILTIN_FILTERS */
+#endif
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)

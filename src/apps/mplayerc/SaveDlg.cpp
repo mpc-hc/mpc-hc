@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "SaveDlg.h"
 #include "..\..\filters\filters.h"
+#include "internal_filter_config.h"
 
 
 // CSaveDlg dialog
@@ -87,7 +88,7 @@ BOOL CSaveDlg::OnInitDialog()
 	CStringW fnw = m_in;
 	CComPtr<IFileSourceFilter> pReader;
 
-#ifndef MINIMAL_BUILTIN_FILTERS
+#if INTERNAL_SOURCEFILTER_CDDA
 	if(!pReader && m_in.Mid(m_in.ReverseFind('.')+1).MakeLower() == _T("cda"))
 	{
 		hr = S_OK;
@@ -95,7 +96,9 @@ BOOL CSaveDlg::OnInitDialog()
 		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL)))
 			pReader.Release();
 	}
+#endif
 
+#if INTERNAL_SOURCEFILTER_CDXA
 	if(!pReader)
 	{
 		hr = S_OK;
@@ -103,7 +106,9 @@ BOOL CSaveDlg::OnInitDialog()
 		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL)))
 			pReader.Release();
 	}
+#endif
 
+#if INTERNAL_SOURCEFILTER_VTS
 	if(!pReader /*&& ext == _T("ifo")*/)
 	{
 		hr = S_OK;
@@ -117,7 +122,7 @@ BOOL CSaveDlg::OnInitDialog()
 			CopyFile(m_in, pout, FALSE);
 		}
 	}
-#endif /* MINIMAL_BUILTIN_FILTERS */
+#endif
 
 	if(!pReader)
 	{
