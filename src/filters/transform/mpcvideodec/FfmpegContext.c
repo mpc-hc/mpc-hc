@@ -56,6 +56,20 @@ const byte ZZ_SCAN8[64] =
    58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
 };
 
+int IsVista()
+{
+	OSVERSIONINFO osver;
+
+	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+	
+	if (	GetVersionEx( &osver ) && 
+			osver.dwPlatformId == VER_PLATFORM_WIN32_NT && 
+			(osver.dwMajorVersion >= 6 ) )
+		return 1;
+
+	return 0;
+}
+
 char* GetFFMpegPictureType(int nType)
 {
 	static char*	s_FFMpegPictTypes[] = { "? ", "I ", "P ", "B ", "S ", "SI", "SP" };
@@ -88,8 +102,17 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	{
 		// Check max num reference frame according to the level
 		#define MAX_DPB_41 12288 // value for level 4.1
-		if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
-			return 2;	// Too much ref frames
+		if(IsVista())
+		{
+			if (cur_sps->ref_frame_count > (1024*MAX_DPB_41/(nWidth*nHeight*1.5))) // level 4.1 with 11 refs as absolute max
+				return 2;	// Too much ref frames
+		}
+		else
+		{
+			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
+				return 2;	// Too much ref frames
+		}
+	
 	}
 		
 	return 0;

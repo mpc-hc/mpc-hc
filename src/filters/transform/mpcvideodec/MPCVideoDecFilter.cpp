@@ -98,6 +98,14 @@ DXVA_PARAMS		DXVA_H264 =
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
+DXVA_PARAMS		DXVA_H264_VISTA =
+{
+	22,		// PicEntryNumber
+	2,		// ConfigBitstreamRawMin
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
+	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
+};
+
 // DXVA modes supported for VC1
 DXVA_PARAMS		DXVA_VC1 =
 {
@@ -424,6 +432,17 @@ const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::
 CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
 	: CBaseVideoFilter(NAME("MPC - Video decoder"), lpunk, phr, __uuidof(this))
 {
+	for (int i=0; i<countof(ffCodecs); i++)
+	{
+		if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
+		{
+			if(IsVista())
+			{
+				ffCodecs[i].DXVAModes = &DXVA_H264_VISTA;
+			}
+		}
+	}
+
 	if(phr) *phr = S_OK;
 
 	if (m_pOutput)	delete m_pOutput;
