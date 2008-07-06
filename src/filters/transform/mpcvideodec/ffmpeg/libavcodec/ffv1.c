@@ -29,6 +29,7 @@
 #include "avcodec.h"
 #include "bitstream.h"
 #include "dsputil.h"
+#include "rangecoder.h"
 #include "golomb.h"
 
 #define MAX_PLANES 4

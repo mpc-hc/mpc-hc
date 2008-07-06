@@ -689,6 +689,18 @@ typedef struct AVCodecContext {
 //#define FF_BUG_FAKE_SCALABILITY 16 //Autodetection should work 100%.
 
     /**
+     * strictly follow the standard (MPEG4, ...).
+     * - encoding: Set by user.
+     * - decoding: unused
+     */
+     int strict_std_compliance;
+#define FF_COMPLIANCE_VERY_STRICT   2 ///< Strictly conform to a older more strict version of the spec or reference software.
+#define FF_COMPLIANCE_STRICT        1 ///< Strictly conform to all the things in the spec no matter what consequences.
+#define FF_COMPLIANCE_NORMAL        0
+#define FF_COMPLIANCE_INOFFICIAL   -1 ///< Allow inofficial extensions.
+#define FF_COMPLIANCE_EXPERIMENTAL -2 ///< Allow nonstandardized experimental things.
+
+    /**
      * Error resilience; higher values will detect more errors but may
      * misdetect some more or less valid parts as errors.
      * - encoding: unused
@@ -742,6 +754,13 @@ typedef struct AVCodecContext {
      * - decoding: unused
      */
     char *stats_out;
+
+    /**
+     * decoder bitstream buffer size
+     * - encoding: Set by user.
+     * - decoding: unused
+     */
+     int rc_buffer_size;
 
     /**
      * DCT algorithm, see FF_DCT_* below
@@ -942,6 +961,15 @@ typedef struct AVCodecContext {
 #define SLICE_FLAG_CODED_ORDER    0x0001 ///< draw_horiz_band() is called in coded order instead of display
 #define SLICE_FLAG_ALLOW_FIELD    0x0002 ///< allow draw_horiz_band() with field slices (MPEG2 field pics)
 #define SLICE_FLAG_ALLOW_PLANE    0x0004 ///< allow draw_horiz_band() with 1 component at a time (SVQ1)
+
+#define FF_CODER_TYPE_VLC   0
+#define FF_CODER_TYPE_AC    1
+    /**
+     * coder type
+     * - encoding: Set by user.
+     * - decoding: unused
+     */
+     int coder_type;
 
     /**
      * macroblock decision mode

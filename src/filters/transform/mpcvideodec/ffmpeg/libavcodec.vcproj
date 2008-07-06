@@ -565,10 +565,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\h261enc.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\h263.c"
 				>
 			</File>
@@ -673,10 +669,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\ljpegenc.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\loco.c"
 				>
 			</File>
@@ -705,52 +697,8 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mjpegenc.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mlp_parser.c"
 				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\motion_est.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\motion_est_template.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg12.c"
@@ -758,10 +706,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg12data.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpeg12enc.c"
 				>
 			</File>
 			<File
@@ -790,10 +734,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegvideo.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegvideo_enc.c"
 				>
 			</File>
 			<File
@@ -873,10 +813,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\pngenc.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\qdm2.c"
 				>
 			</File>
@@ -929,14 +865,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\libavcodec\rangecoder.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ratecontrol.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\rpza.c"
 				>
 			</File>
@@ -950,10 +878,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\simple_idct.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\snow.c"
 				>
 			</File>
 			<File
@@ -1098,10 +1022,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\wmv2dec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\wmv2enc.c"
 				>
 			</File>
 			<File
@@ -1314,10 +1234,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mjpegenc.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mlp_parser.h"
 				>
 			</File>
@@ -1402,14 +1318,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\rangecoder.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ratecontrol.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\rectangle.h"
 				>
 			</File>
@@ -1423,10 +1331,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\simple_idct.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\snow.h"
 				>
 			</File>
 			<File
