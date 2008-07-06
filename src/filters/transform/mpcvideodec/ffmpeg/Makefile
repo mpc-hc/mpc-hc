@@ -63,7 +63,6 @@ SRCS_C=\
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
 		$(LAVC_DIR)/wmv2dec.c \
-		$(LAVC_DIR)/wmv2enc.c \
 		$(LAVC_DIR)/xiph.c
 
 #SRCS_C+=\
@@ -100,7 +99,6 @@ SRCS_C=\
 #		$(LAVC_DIR)/gsm.c \
 #		$(LAVC_DIR)/h261_parser.c \
 #		$(LAVC_DIR)/h261dec.c \
-#		$(LAVC_DIR)/h261enc.c \
 #		$(LAVC_DIR)/huffyuv.c \
 #		$(LAVC_DIR)/imc.c \
 #		$(LAVC_DIR)/indeo2.c \
@@ -108,40 +106,31 @@ SRCS_C=\
 #		$(LAVC_DIR)/jfdctfst.c \
 #		$(LAVC_DIR)/jfdctint.c \
 #		$(LAVC_DIR)/lcldec.c \
-#		$(LAVC_DIR)/ljpegenc.c \
 #		$(LAVC_DIR)/loco.c \
 #		$(LAVC_DIR)/mace.c \
 #		$(LAVC_DIR)/mjpegbdec.c \
-#		$(LAVC_DIR)/mjpegenc.c \
 #		$(LAVC_DIR)/mjpeg_parser.c \
 #		$(LAVC_DIR)/mlp_parser.c \
-#		$(LAVC_DIR)/motion_est.c \
 #		$(LAVC_DIR)/mpeg12.c \
 #		$(LAVC_DIR)/mpeg12data.c \
-#		$(LAVC_DIR)/mpeg12enc.c \
 #		$(LAVC_DIR)/mpeg4audio.c \
 #		$(LAVC_DIR)/mpegaudio_parser.c \
 #		$(LAVC_DIR)/mpegaudiodata.c \
 #		$(LAVC_DIR)/mpegaudiodec.c \
 #		$(LAVC_DIR)/mpegaudiodecheader.c \
-#		$(LAVC_DIR)/mpegvideo_enc.c \
 #		$(LAVC_DIR)/mpegvideo_parser.c \
 #		$(LAVC_DIR)/msrle.c \
 #		$(LAVC_DIR)/msvideo1.c \
 #		$(LAVC_DIR)/nellymoserdec.c \
 #		$(LAVC_DIR)/opt.c \
 #		$(LAVC_DIR)/pcm.c \
-#		$(LAVC_DIR)/pngenc.c \
 #		$(LAVC_DIR)/qdm2.c \
 #		$(LAVC_DIR)/qpeg.c \
 #		$(LAVC_DIR)/qtrle.c \
 #		$(LAVC_DIR)/ra144.c \
 #		$(LAVC_DIR)/ra288.c \
-#		$(LAVC_DIR)/rangecoder.c \
-#		$(LAVC_DIR)/ratecontrol.c \
 #		$(LAVC_DIR)/rpza.c \
 #		$(LAVC_DIR)/rtjpeg.c \
-#		$(LAVC_DIR)/snow.c \
 #		$(LAVC_DIR)/truemotion1.c \
 #		$(LAVC_DIR)/truemotion2.c \
 #		$(LAVC_DIR)/truespeech.c \
@@ -188,7 +177,6 @@ SRCS_C+=\
 		$(LAVC_DIR)/i386/cavsdsp_mmx.c \
     $(LAVC_DIR)/i386/cpuid.c \
 		$(LAVC_DIR)/i386/dsputil_mmx.c \
-		$(LAVC_DIR)/i386/dsputilenc_mmx.c \
 		$(LAVC_DIR)/i386/fdct_mmx.c \
 		$(LAVC_DIR)/i386/fft_3dn.c \
 		$(LAVC_DIR)/i386/fft_3dn2.c \
@@ -196,15 +184,11 @@ SRCS_C+=\
 		$(LAVC_DIR)/i386/idct_mmx.c \
 		$(LAVC_DIR)/i386/idct_mmx_xvid.c \
 		$(LAVC_DIR)/i386/idct_sse2_xvid.c \
-		$(LAVC_DIR)/i386/motion_est_mmx.c \
 		$(LAVC_DIR)/i386/mpegvideo_mmx.c \
 		$(LAVC_DIR)/i386/simple_idct_mmx.c \
 		$(LAVC_DIR)/i386/vc1dsp_mmx.c \
 		$(LAVC_DIR)/i386/vp3dsp_mmx.c \
 		$(LAVC_DIR)/i386/vp3dsp_sse2.c
-
-#SRCS_C+=\
-#		$(LAVC_DIR)/i386/snowdsp_mmx.c
 
 
 ifeq ($(64BIT),yes)

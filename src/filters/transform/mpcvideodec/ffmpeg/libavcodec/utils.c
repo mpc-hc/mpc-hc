@@ -421,29 +421,10 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     s->av_class= &av_codec_context_class;
 
     s->bit_rate= 800*1000;
-    s->bit_rate_tolerance= s->bit_rate*10;
-    s->qmin= 2;
-    s->qmax= 31;
-    s->mb_lmin= FF_QP2LAMBDA * 2;
-    s->mb_lmax= FF_QP2LAMBDA * 31;
-    s->cqp = -1;
-    s->refs = 1;
-    s->directpred = 2;
-    s->qcompress= 0.5;
-    s->complexityblur = 20.0;
-    s->keyint_min = 25;
     s->flags2 = CODEC_FLAG2_FASTPSKIP;
-    s->max_qdiff= 3;
-    s->b_quant_factor=1.25;
-    s->b_quant_offset=1.25;
-    s->i_quant_factor=-0.8;
-    s->i_quant_offset=0.0;
     s->error_concealment= 3;
     s->error_resilience= 1;
     s->workaround_bugs= FF_BUG_AUTODETECT;
-    s->gop_size= 50;
-    s->me_method= ME_EPZS;
-    s->rc_eq= "tex^qComp";
     s->time_base.num=0;s->time_base.den=1;// (AVRational){0,1};
     s->get_buffer= avcodec_default_get_buffer;
     s->release_buffer= avcodec_default_release_buffer;
@@ -455,26 +436,9 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     s->palctrl = NULL;
     s->reget_buffer= avcodec_default_reget_buffer;
     s->thread_count=1;
-    s->me_subpel_quality=8;
-    s->lmin= FF_QP2LAMBDA * s->qmin;
-    s->lmax= FF_QP2LAMBDA * s->qmax;
-    s->ildct_cmp= FF_CMP_VSAD;
     s->profile= FF_PROFILE_UNKNOWN;
     s->level= FF_LEVEL_UNKNOWN;
-    s->me_penalty_compensation= 256;
-    s->frame_skip_cmp= FF_CMP_DCTMAX;
-    s->nsse_weight= 8;
-    s->mv0_threshold= 256;
-    s->b_sensitivity= 40;
     s->compression_level = FF_COMPRESSION_DEFAULT;
-    s->use_lpc = -1;
-    s->min_prediction_order = -1;
-    s->max_prediction_order = -1;
-    s->prediction_order_method = -1;
-    s->min_partition_order = -1;
-    s->max_partition_order = -1;
-    s->intra_quant_bias= FF_DEFAULT_QUANT_BIAS;
-    s->inter_quant_bias= FF_DEFAULT_QUANT_BIAS;
 }
 
 AVCodecContext *avcodec_alloc_context(void){
@@ -566,25 +530,6 @@ int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf
     if((avctx->codec->capabilities & CODEC_CAP_DELAY) || samples){
         int ret = avctx->codec->encode(avctx, buf, buf_size, (void *)samples);
         avctx->frame_number++;
-        return ret;
-    }else
-        return 0;
-}
-
-int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf, int buf_size,
-                         const AVFrame *pict)
-{
-    if(buf_size < FF_MIN_BUFFER_SIZE){
-        av_log(avctx, AV_LOG_ERROR, "buffer smaller than minimum size\n");
-        return -1;
-    }
-    if(avcodec_check_dimensions(avctx,avctx->width,avctx->height))
-        return -1;
-    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || pict){
-        int ret = avctx->codec->encode(avctx, buf, buf_size, (void *)pict);
-        avctx->frame_number++;
-        emms_c(); //needed to avoid an emms_c() call before every return;
-
         return ret;
     }else
         return 0;
@@ -713,175 +658,6 @@ AVCodec *avcodec_find_decoder_by_name(const char *name)
         p = p->next;
     }
     return NULL;
-}
-
-void avcodec_string(char *buf, int buf_size, AVCodecContext *enc, int encode)
-{
-    const char *codec_name;
-    AVCodec *p;
-    char buf1[32];
-    char channels_str[100];
-    int bitrate;
-    AVRational display_aspect_ratio;
-
-    if (encode)
-        p = avcodec_find_encoder(enc->codec_id);
-    else
-        p = avcodec_find_decoder(enc->codec_id);
-
-    if (p) {
-        codec_name = p->name;
-        if (!encode && enc->codec_id == CODEC_ID_MP3) {
-            if (enc->sub_id == 2)
-                codec_name = "mp2";
-            else if (enc->sub_id == 1)
-                codec_name = "mp1";
-        }
-    } else if (enc->codec_id == CODEC_ID_MPEG2TS) {
-        /* fake mpeg2 transport stream codec (currently not
-           registered) */
-        codec_name = "mpeg2ts";
-    } else if (enc->codec_name[0] != '\0') {
-        codec_name = enc->codec_name;
-    } else {
-        /* output avi tags */
-        if(   isprint(enc->codec_tag&0xFF) && isprint((enc->codec_tag>>8)&0xFF)
-           && isprint((enc->codec_tag>>16)&0xFF) && isprint((enc->codec_tag>>24)&0xFF)){
-            snprintf(buf1, sizeof(buf1), "%c%c%c%c / 0x%04X",
-                     enc->codec_tag & 0xff,
-                     (enc->codec_tag >> 8) & 0xff,
-                     (enc->codec_tag >> 16) & 0xff,
-                     (enc->codec_tag >> 24) & 0xff,
-                      enc->codec_tag);
-        } else {
-            snprintf(buf1, sizeof(buf1), "0x%04x", enc->codec_tag);
-        }
-        codec_name = buf1;
-    }
-
-    switch(enc->codec_type) {
-    case CODEC_TYPE_VIDEO:
-        snprintf(buf, buf_size,
-                 "Video: %s%s",
-                 codec_name, enc->mb_decision ? " (hq)" : "");
-        if (enc->pix_fmt != PIX_FMT_NONE) {
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", %s",
-                     avcodec_get_pix_fmt_name(enc->pix_fmt));
-        }
-        if (enc->width) {
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", %dx%d",
-                     enc->width, enc->height);
-            if (enc->sample_aspect_ratio.num) {
-                av_reduce(&display_aspect_ratio.num, &display_aspect_ratio.den,
-                          enc->width*enc->sample_aspect_ratio.num,
-                          enc->height*enc->sample_aspect_ratio.den,
-                          1024*1024);
-                snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                         " [PAR %d:%d DAR %d:%d]",
-                         enc->sample_aspect_ratio.num, enc->sample_aspect_ratio.den,
-                         display_aspect_ratio.num, display_aspect_ratio.den);
-            }
-            if(av_log_get_level() >= AV_LOG_DEBUG){
-                int g= ff_gcd(enc->time_base.num, enc->time_base.den);
-                snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", %d/%d",
-                     enc->time_base.num/g, enc->time_base.den/g);
-            }
-        }
-        if (encode) {
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", q=%d-%d", enc->qmin, enc->qmax);
-        }
-        bitrate = enc->bit_rate;
-        break;
-    case CODEC_TYPE_AUDIO:
-        snprintf(buf, buf_size,
-                 "Audio: %s",
-                 codec_name);
-        switch (enc->channels) {
-            case 1:
-                strcpy(channels_str, "mono");
-                break;
-            case 2:
-                strcpy(channels_str, "stereo");
-                break;
-            case 6:
-                strcpy(channels_str, "5:1");
-                break;
-            default:
-                snprintf(channels_str, sizeof(channels_str), "%d channels", enc->channels);
-                break;
-        }
-        if (enc->sample_rate) {
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", %d Hz, %s",
-                     enc->sample_rate,
-                     channels_str);
-        }
-
-        /* for PCM codecs, compute bitrate directly */
-        switch(enc->codec_id) {
-        case CODEC_ID_PCM_S32LE:
-        case CODEC_ID_PCM_S32BE:
-        case CODEC_ID_PCM_U32LE:
-        case CODEC_ID_PCM_U32BE:
-            bitrate = enc->sample_rate * enc->channels * 32;
-            break;
-        case CODEC_ID_PCM_S24LE:
-        case CODEC_ID_PCM_S24BE:
-        case CODEC_ID_PCM_U24LE:
-        case CODEC_ID_PCM_U24BE:
-        case CODEC_ID_PCM_S24DAUD:
-            bitrate = enc->sample_rate * enc->channels * 24;
-            break;
-        case CODEC_ID_PCM_S16LE:
-        case CODEC_ID_PCM_S16BE:
-//        case CODEC_ID_PCM_S16LE_PLANAR:
-        case CODEC_ID_PCM_U16LE:
-        case CODEC_ID_PCM_U16BE:
-            bitrate = enc->sample_rate * enc->channels * 16;
-            break;
-        case CODEC_ID_PCM_S8:
-        case CODEC_ID_PCM_U8:
-        case CODEC_ID_PCM_ALAW:
-        case CODEC_ID_PCM_MULAW:
-            bitrate = enc->sample_rate * enc->channels * 8;
-            break;
-        default:
-            bitrate = enc->bit_rate;
-            break;
-        }
-        break;
-    case CODEC_TYPE_DATA:
-        snprintf(buf, buf_size, "Data: %s", codec_name);
-        bitrate = enc->bit_rate;
-        break;
-    case CODEC_TYPE_SUBTITLE:
-        snprintf(buf, buf_size, "Subtitle: %s", codec_name);
-        bitrate = enc->bit_rate;
-        break;
-    case CODEC_TYPE_ATTACHMENT:
-        snprintf(buf, buf_size, "Attachment: %s", codec_name);
-        bitrate = enc->bit_rate;
-        break;
-    default:
-        snprintf(buf, buf_size, "Invalid Codec type %d", enc->codec_type);
-        return;
-    }
-    if (encode) {
-        if (enc->flags & CODEC_FLAG_PASS1)
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", pass 1");
-        if (enc->flags & CODEC_FLAG_PASS2)
-            snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                     ", pass 2");
-    }
-    if (bitrate != 0) {
-        snprintf(buf + strlen(buf), buf_size - strlen(buf),
-                 ", %d kb/s", bitrate / 1000);
-    }
 }
 
 unsigned avcodec_version( void )

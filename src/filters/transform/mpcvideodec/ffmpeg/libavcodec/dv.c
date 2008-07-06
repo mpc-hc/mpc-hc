@@ -1005,27 +1005,6 @@ static int dv_decode_mt(AVCodecContext *avctx, void* sl)
     return 0;
 }
 
-#ifdef CONFIG_ENCODERS
-static int dv_encode_mt(AVCodecContext *avctx, void* sl)
-{
-    DVVideoContext *s = avctx->priv_data;
-    int slice = (size_t)sl;
-
-    /* which DIF channel is this? */
-    int chan = slice / (s->sys->difseg_size * 27);
-
-    /* slice within the DIF channel */
-    int chan_slice = slice % (s->sys->difseg_size * 27);
-
-    /* byte offset of this channel's data */
-    int chan_offset = chan * s->sys->difseg_size * 150 * 80;
-
-    dv_encode_video_segment(s, &s->buf[((chan_slice/27)*6+(chan_slice/3)+chan_slice*5+7)*80 + chan_offset],
-                            &s->sys->video_place[slice*5]);
-    return 0;
-}
-#endif
-
 /* NOTE: exactly one frame must be given (120000 bytes for NTSC,
    144000 bytes for PAL - or twice those for 50Mbps) */
 static int dvvideo_decode_frame(AVCodecContext *avctx,
@@ -1188,36 +1167,6 @@ static void dv_format_frame(DVVideoContext* c, uint8_t* buf)
     }
 }
 
-
-#ifdef CONFIG_ENCODERS
-static int attribute_align_arg dvvideo_encode_frame(AVCodecContext *c, uint8_t *buf, int buf_size,
-                                void *data)
-{
-    DVVideoContext *s = c->priv_data;
-
-    s->sys = dv_codec_profile(c);
-    if (!s->sys)
-        return -1;
-    if(buf_size < s->sys->frame_size)
-        return -1;
-
-    c->pix_fmt = s->sys->pix_fmt;
-    s->picture = *((AVFrame *)data);
-    s->picture.key_frame = 1;
-    s->picture.pict_type = FF_I_TYPE;
-
-    s->buf = buf;
-    c->execute(c, dv_encode_mt, (void**)&dv_anchor[0], NULL,
-               s->sys->n_difchan * s->sys->difseg_size * 27);
-
-    emms_c();
-
-    dv_format_frame(s, buf);
-
-    return s->sys->frame_size;
-}
-#endif
-
 static int dvvideo_close(AVCodecContext *c)
 {
     DVVideoContext *s = c->priv_data;
@@ -1227,29 +1176,6 @@ static int dvvideo_close(AVCodecContext *c)
 
     return 0;
 }
-
-#ifdef CONFIG_ENCODERS
-AVCodec dvvideo_encoder = {
-    "dvvideo",
-    CODEC_TYPE_VIDEO,
-    CODEC_ID_DVVIDEO,
-    sizeof(DVVideoContext),
-    /*.init=*/dvvideo_init,
-    /*.encode=*/dvvideo_encode_frame,
-    /*.close=*/NULL,
-    /*.decode=*/NULL,
-    /*.capabilities=*/0,
-    /*.next=*/NULL,
-    /*.flush=*/NULL,
-    /*.supported_framerates=*/NULL,
-#if __STDC_VERSION >= 199901L
-    .pix_fmts = (enum PixelFormat[]) {PIX_FMT_YUV411P, PIX_FMT_YUV422P, PIX_FMT_YUV420P, PIX_FMT_NONE},
-#else
-    /*.pix_fmts = */NULL,
-#endif
-    /*.long_name = */"DV (Digital Video)",
-};
-#endif // CONFIG_ENCODERS
 
 AVCodec dvvideo_decoder = {
     "dvvideo",

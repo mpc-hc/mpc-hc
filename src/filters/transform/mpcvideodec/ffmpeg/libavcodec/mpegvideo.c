@@ -31,7 +31,6 @@
 #include "dsputil.h"
 #include "mpegvideo.h"
 #include "mpegvideo_common.h"
-#include "mjpegenc.h"
 #include "msmpeg4.h"
 #include "faandct.h"
 #include <limits.h>
@@ -987,20 +986,7 @@ void MPV_frame_end(MpegEncContext *s)
  */
 void ff_print_debug_info(MpegEncContext *s, AVFrame *pict){
 
-    if(!pict || !pict->mb_type) return;
-
-    if (s->avctx->debug_mv && pict->motion_val) {
-        pict->mb_height=s->mb_height;
-        pict->mb_width=s->mb_width;
-        pict->mb_stride=s->mb_stride;
-        pict->b8_stride=s->b8_stride;
-    }
-   if (pict)
-    {
-     pict->play_flags=(s->quarter_sample?CODEC_FLAG_QPEL:0);
-     pict->num_sprite_warping_points=s->num_sprite_warping_points;
-     pict->real_sprite_warping_points=s->real_sprite_warping_points;
-    }
+		return;
 }
 
 static inline int hpel_motion_lowres(MpegEncContext *s,

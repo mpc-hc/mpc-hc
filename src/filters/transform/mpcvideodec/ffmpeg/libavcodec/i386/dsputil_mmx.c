@@ -2042,17 +2042,6 @@ static void float_to_int16_sse(int16_t *dst, const float *src, int len){
     asm volatile("emms");
 }
 
-#if 0 /* disable snow */
-extern void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width);
-extern void ff_snow_horizontal_compose97i_mmx(IDWTELEM *b, int width);
-extern void ff_snow_vertical_compose97i_sse2(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-extern void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-extern void ff_snow_inner_add_yblock_sse2(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
-                           int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-extern void ff_snow_inner_add_yblock_mmx(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
-                          int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-#endif
-
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 {
     mm_flags = mm_support();
@@ -2378,25 +2367,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
 #endif
 
-#if 0 /* disable snow */
-        if(mm_flags & MM_SSE2 & 0){
-            c->horizontal_compose97i = ff_snow_horizontal_compose97i_sse2;
-#ifdef HAVE_7REGS
-            c->vertical_compose97i = ff_snow_vertical_compose97i_sse2;
-#endif
-            c->inner_add_yblock = ff_snow_inner_add_yblock_sse2;
-        }
-        else{
-            if(mm_flags & MM_MMXEXT){
-            c->horizontal_compose97i = ff_snow_horizontal_compose97i_mmx;
-#ifdef HAVE_7REGS
-            c->vertical_compose97i = ff_snow_vertical_compose97i_mmx;
-#endif
-            }
-            c->inner_add_yblock = ff_snow_inner_add_yblock_mmx;
-        }
-#endif
-
 #endif /*GCC420_OR_NEWER*/
 
         if(mm_flags & MM_3DNOW){
@@ -2417,8 +2387,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         if(mm_flags & MM_3DNOW)
             c->vector_fmul_add_add = vector_fmul_add_add_3dnow; // faster than sse
     }
-
-    dsputilenc_init_mmx(c, avctx);
 }
 
 const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)

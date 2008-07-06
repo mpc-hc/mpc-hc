@@ -152,11 +152,6 @@ static void a(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
 // although currently h<4 is not used as functions with width <8 are neither used nor implemented
 typedef int (*me_cmp_func)(void /*MpegEncContext*/ *s, uint8_t *blk1/*align width (8 or 16)*/, uint8_t *blk2/*align 1*/, int line_size, int h)/* __attribute__ ((const))*/;
 
-#if 0 // disable snow
-// for snow slices
-typedef struct slice_buffer_s slice_buffer;
-#endif
-
 /**
  * Scantable.
  */
@@ -200,28 +195,6 @@ typedef struct DSPContext {
 // 16x16 8x8 4x4 2x2 16x8 8x4 4x2 8x16 4x8 2x4
 
     me_cmp_func sad[5]; /* identical to pix_absAxA except additional void * */
-    me_cmp_func sse[5];
-    me_cmp_func hadamard8_diff[5];
-    me_cmp_func dct_sad[5];
-    me_cmp_func quant_psnr[5];
-    me_cmp_func bit[5];
-    me_cmp_func rd[5];
-    me_cmp_func vsad[5];
-    me_cmp_func vsse[5];
-    me_cmp_func nsse[5];
-#if 0 // disable snow
-    me_cmp_func w53[5];
-    me_cmp_func w97[5];
-#endif
-    me_cmp_func dct_max[5];
-    me_cmp_func dct264_sad[5];
-
-    me_cmp_func me_pre_cmp[5];
-    me_cmp_func me_cmp[5];
-    me_cmp_func me_sub_cmp[5];
-    me_cmp_func mb_cmp[5];
-    me_cmp_func ildct_cmp[5]; //only width 16 used
-    me_cmp_func frame_skip_cmp[5]; //only width 8 used
 
     /**
      * Halfpel motion compensation with rounding (a+b+1)>>1.
@@ -419,13 +392,6 @@ typedef struct DSPContext {
     void (*h264_idct8_dc_add)(uint8_t *dst, DCTELEM *block, int stride);
     void (*h264_dct)(DCTELEM block[4][4]);
 
-#if 0 // disable snow
-    /* snow wavelet */
-    void (*vertical_compose97i)(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-    void (*horizontal_compose97i)(IDWTELEM *b, int width);
-    void (*inner_add_yblock)(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h, int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-#endif
-
     void (*prefetch)(void *mem, int stride, int h);
 
     void (*shrink[4])(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
@@ -460,8 +426,6 @@ int ff_check_alignment(void);
  */
 void ff_block_permute(DCTELEM *block, uint8_t *permutation, const uint8_t *scantable, int last);
 
-void ff_set_cmp(DSPContext* c, me_cmp_func *cmp, int type);
-
 #define         BYTE_VEC32(c)   ((c)*0x01010101UL)
 
 static inline uint32_t rnd_avg32(uint32_t a, uint32_t b)
@@ -472,32 +436,6 @@ static inline uint32_t rnd_avg32(uint32_t a, uint32_t b)
 static inline uint32_t no_rnd_avg32(uint32_t a, uint32_t b)
 {
     return (a & b) + (((a ^ b) & ~BYTE_VEC32(0x01)) >> 1);
-}
-
-static inline int get_penalty_factor(int lambda, int lambda2, int type){
-    switch(type&0xFF){
-    default:
-    case FF_CMP_SAD:
-        return lambda>>FF_LAMBDA_SHIFT;
-    case FF_CMP_DCT:
-        return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
-#if 0 // disable snow
-    case FF_CMP_W53:
-        return (4*lambda)>>(FF_LAMBDA_SHIFT);
-    case FF_CMP_W97:
-        return (2*lambda)>>(FF_LAMBDA_SHIFT);
-#endif
-    case FF_CMP_SATD:
-    case FF_CMP_DCT264:
-        return (2*lambda)>>FF_LAMBDA_SHIFT;
-    case FF_CMP_RD:
-    case FF_CMP_PSNR:
-    case FF_CMP_SSE:
-    case FF_CMP_NSSE:
-        return lambda2>>FF_LAMBDA_SHIFT;
-    case FF_CMP_BIT:
-        return 1;
-    }
 }
 
 /**

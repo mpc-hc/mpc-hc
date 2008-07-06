@@ -119,6 +119,4 @@ extern const double ff_pd_2[2];
     "pcmpeqd %%" #regd ", %%" #regd " \n\t" \
     "psrlw $15, %%" #regd ::)
 
-void dsputilenc_init_mmx(DSPContext* c, AVCodecContext *avctx);
-
 #endif /* FFMPEG_DSPUTIL_MMX_H */

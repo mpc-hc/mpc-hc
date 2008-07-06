@@ -259,6 +259,7 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_wvc1, CODEC_ID_VC1,  MAKEFOURCC('w','v','c','1'),	&DXVA_VC1 }
 };
 
+/* Important: the order should be exactly the same as in ffCodecs[] */
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 {
 	// Flash video
@@ -856,7 +857,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_nWidth	= m_pAVCtx->width;
 			m_nHeight	= m_pAVCtx->height;
 			
-			// ToDo: the matrix stuff is encoding related and should be removed here and from the used FFmpeg code
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->intra_matrix_luma		= (uint16_t*)calloc(sizeof(uint16_t),16);
@@ -872,7 +872,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->dsp_mask				= FF_MM_FORCE | m_pCpuId->GetFeatures();
 
 			m_pAVCtx->postgain				= 1.0f;
-			m_pAVCtx->scenechange_factor	= 1;
 			m_pAVCtx->debug_mv				= 0;
 	#ifdef _DEBUG
 			//m_pAVCtx->debug					= FF_DEBUG_PICT_INFO | FF_DEBUG_STARTCODE | FF_DEBUG_PTS;
