@@ -264,6 +264,10 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	// Flash video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv4   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6f   },
 
 	// VP5
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP50   },
@@ -276,10 +280,6 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp61   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP62   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp62   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV4   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv4   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6F   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6f   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6a   },
 
@@ -522,7 +522,7 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
 {
-	return false;
+	return FFIsInterlaced(m_pAVCtx, PictHeightRounded());
 };
 
 

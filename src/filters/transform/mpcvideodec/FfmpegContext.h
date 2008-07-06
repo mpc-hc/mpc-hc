@@ -33,3 +33,4 @@ int			FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* p
 int			FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize);
 
 char*		GetFFMpegPictureType(int nType);
+int			FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);

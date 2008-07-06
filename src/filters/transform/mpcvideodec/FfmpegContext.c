@@ -264,3 +264,20 @@ int FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecC
 
 	return vc1->s.pict_type;
 }
+
+int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
+{
+	if (pAVCtx->codec_id == CODEC_ID_H264)
+	{
+		// Simple way to detect interlaced streams ?
+		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
+		return (nHeight / (h->sps_buffers[0]->mb_height*16)) == 2;
+	}
+	else if (pAVCtx->codec_id == CODEC_ID_VC1)
+	{
+		VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
+		return vc1->interlace;
+	}
+
+	return 0;
+}

@@ -60,5 +60,5 @@ private:
 
 	// DXVA functions
 	void					ClearRefFramesList();
-	void					UpdateRefFramesList (int nFrameNum, bool bRefFrame);
+	void					UpdateRefFramesList (int nFrameNum, bool bRefFrame, bool bAdded);
 };

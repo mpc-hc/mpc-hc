@@ -38,24 +38,39 @@ extern "C"
 
 static UINT g_UsedForReferenceFlags[] =
 {
+	0x00000001,
 	0x00000003,
+	0x00000007,
 	0x0000000F,
+	0x0000001F,
 	0x0000003F,
+	0x0000007F,
 	0x000000FF,
+	0x000001FF,
 	0x000003FF,
+	0x000007FF,
 	0x00000FFF,
+	0x00001FFF,
 	0x00003FFF,
+	0x00007FFF,
 	0x0000FFFF,
+	0x0001FFFF,
 	0x0003FFFF,
+	0x0007FFFF,
 	0x000FFFFF,
+	0x001FFFFF,
 	0x003FFFFF,
+	0x007FFFFF,
 	0x00FFFFFF,
+	0x01FFFFFF,
 	0x03FFFFFF,
+	0x07FFFFFF,
 	0x0FFFFFFF,
+	0x1FFFFFFF,
 	0x3FFFFFFF,
+	0x7FFFFFFF,
 	0xFFFFFFFF,
 };
-
 
 CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 				: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
@@ -202,7 +217,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	
 	m_DXVAPicParams.StatusReportFeedbackNumber++;
 
-	TRACE("CDXVADecoderH264 : Decode frame %u\n", m_DXVAPicParams.StatusReportFeedbackNumber);
+//	TRACE("CDXVADecoderH264 : Decode frame %u\n", m_DXVAPicParams.StatusReportFeedbackNumber);
 
 	// Send picture parameters
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_DXVAPicParams), &m_DXVAPicParams));
@@ -235,16 +250,17 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CHECK_HR (EndFrame(nSurfaceIndex));
 
 #ifdef _DEBUG
-	DisplayStatus();
+//	DisplayStatus();
 #endif
 
-	if (AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop, m_DXVAPicParams.field_pic_flag))
-	{
-		// Reset when new picture group detected
-		if (m_DXVAPicParams.frame_num == 0) ClearRefFramesList();
-		hr = DisplayNextFrame();
-	}
-	UpdateRefFramesList (m_DXVAPicParams.frame_num, Nalu.IsRefFrame());
+	bool bAdded		= AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop, m_DXVAPicParams.field_pic_flag);
+
+	if (bAdded) hr = DisplayNextFrame();
+
+	if ((m_DXVAPicParams.frame_num == 0) && (!bAdded || !m_DXVAPicParams.field_pic_flag))
+		ClearRefFramesList();
+
+	UpdateRefFramesList (m_DXVAPicParams.frame_num, Nalu.IsRefFrame(), bAdded);
 
 	m_bFlushed = false;
 	return hr;
@@ -282,14 +298,14 @@ void CDXVADecoderH264::ClearRefFramesList()
 }
 
 
-void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
+void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame, bool bAdded)
 {
 	int			i;
 
 	if (bRefFrame)
 	{
 		// Shift buffers if needed
-		if (!m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag)
+		if (!m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag && (!bAdded || !m_DXVAPicParams.field_pic_flag))
 		{
 			if (m_DXVAPicParams.RefFrameList[0].bPicEntry != 255)
 				RemoveRefFrame (m_DXVAPicParams.RefFrameList[0].Index7Bits);
@@ -302,6 +318,8 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 				m_DXVAPicParams.FieldOrderCntList[i-1][0] = m_DXVAPicParams.FieldOrderCntList[i][0];
 				m_DXVAPicParams.FieldOrderCntList[i-1][1] = m_DXVAPicParams.FieldOrderCntList[i][1];
 			}
+			m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0] = 0;
+			m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1] = 0;
 		}
 
 		m_DXVAPicParams.FrameNumList[m_nCurRefFrame] = nFrameNum;
@@ -310,11 +328,20 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame)
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].AssociatedFlag	= 0;
 		m_DXVAPicParams.RefFrameList[m_nCurRefFrame].Index7Bits		= m_DXVAPicParams.CurrPic.Index7Bits;
 
-		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
-		m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];
+		if (m_DXVAPicParams.CurrFieldOrderCnt[0])
+			m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][0]		= m_DXVAPicParams.CurrFieldOrderCnt[0];
 
-		m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame];
-		m_nCurRefFrame = min (m_nCurRefFrame+1, (UINT)(m_DXVAPicParams.num_ref_frames-1));
+		if (m_DXVAPicParams.CurrFieldOrderCnt[1])
+			m_DXVAPicParams.FieldOrderCntList[m_nCurRefFrame][1]		= m_DXVAPicParams.CurrFieldOrderCnt[1];
+
+
+		if (m_DXVAPicParams.field_pic_flag)
+			m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame*2+(bAdded?1:0)];
+		else
+			m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame*2];
+
+		if (bAdded)
+			m_nCurRefFrame = min (m_nCurRefFrame+1, (UINT)(m_DXVAPicParams.num_ref_frames-1));
 	}
 }
 
