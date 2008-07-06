@@ -77,7 +77,7 @@
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				DataExecutionPrevention="1"
 				SupportUnloadOfDelayLoadedDLL="true"
 			/>
 			<Tool
@@ -508,6 +508,10 @@
 			</File>
 			<File
 				RelativePath="MediaTypesDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MiniDump.cpp"
 				>
 			</File>
 			<File

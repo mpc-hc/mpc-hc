@@ -3003,6 +3003,8 @@ BEGIN
 	IDS_VOLUME_OSD	"Vol: %d%%"
 	IDS_FULLSCREENMONITOR		"FullScreenMonitor" // dont't translate, it is for resource
 	IDS_FULLSCREENMONITOR_CURRENT	"Current"	
+	IDS_MPC_CRASH			"Mpc-hc viens de se terminer de manière anormale. Merci d'envoyer par mail le fichier '%s' à l'adresse mpchomecinema@gmail.com afin que nous analysions le problème."
+	IDS_MPC_MINIDUMP_FAIL	"Impossible de créer le mini-dump '%s' (erreur %d)"
 END
 //TODO - Translate "Current"
 

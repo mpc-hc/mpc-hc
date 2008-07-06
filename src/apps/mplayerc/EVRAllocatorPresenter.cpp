@@ -1495,49 +1495,50 @@ void CEVRAllocatorPresenter::RenderThread()
 			
 			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
-//				m_nCurSurface = (m_nCurSurface + 1) % m_nNbDXSurface;
-				CComPtr<IMFSample>		pMFSample = m_ScheduledSamples.RemoveHead();
-			
-				pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
-				pMFSample->GetSampleTime (&nsSampleTime);
-
-				TRACE_EVR ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
-
-				__super::SetTime (g_tSegmentStart + nsSampleTime);
-				Paint(true);
-
-				m_pcFramesDrawn++;
-				InterlockedDecrement (&m_nUsedBuffer);
-				CompleteFrameStep (false);
-
-				if ((m_nRenderState == Started) && (m_nStepCount == 0))
+				CComPtr<IMFSample>		pMFSample;
+				if (SUCCEEDED (GetScheduledSample(&pMFSample)))
 				{
-					// Calculate wake up timer
-					m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
+					pMFSample->GetUINT32 (GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
+					pMFSample->GetSampleTime (&nsSampleTime);
 
-					//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
-					// Wakup 1/2 refresh rate before next VSync!
-					lDelay = (UINT)((nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
+					TRACE_EVR ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
 
-					if (lDelay > 0)
+					__super::SetTime (g_tSegmentStart + nsSampleTime);
+					Paint(true);
+
+					m_pcFramesDrawn++;
+					InterlockedDecrement (&m_nUsedBuffer);
+					CompleteFrameStep (false);
+
+					if ((m_nRenderState == Started) && (m_nStepCount == 0))
 					{
-//						TRACE_EVR ("RenderThread ==>> Set timer %d   %I64d  Cons=%d \n", lDelay, nsSampleTime, m_nCurSurface);
-						dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
+						// Calculate wake up timer
+						m_pClock->GetCorrelatedTime(0, &llClockTime, &nsCurrentTime);			
 
-						// Update statistics
-						nNbPlayingFrame++;
+						//if (m_rtTimePerFrame == 0) CalculateFrameRate(/*nsSampleTime*/);
+						// Wakup 1/2 refresh rate before next VSync!
+						lDelay = (UINT)((nsSampleTime + m_rtTimePerFrame - llClockTime) / 10000) - (500/m_RefreshRate);
+
+						if (lDelay > 0)
+						{
+	//						TRACE_EVR ("RenderThread ==>> Set timer %d   %I64d  Cons=%d \n", lDelay, nsSampleTime, m_nCurSurface);
+							dwUser			= timeSetEvent (lDelay, dwResolution, (LPTIMECALLBACK)m_hEvtFrameTimer, NULL, TIME_CALLBACK_EVENT_SET); 
+
+							// Update statistics
+							nNbPlayingFrame++;
+						}
+						else
+						{
+							dwUser = -1;
+							if (m_nRenderState == Started) m_pcFrames++;
+	//						TRACE_EVR ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface);
+							SetEvent (m_hEvtPresent);
+						}
 					}
-					else
-					{
-						dwUser = -1;
-						if (m_nRenderState == Started) m_pcFrames++;
-//						TRACE_EVR ("RenderThread ==>> immediate display   %I64d  (delay=%d)  Cons=%d\n", nsSampleTime/417188, lDelay, m_nCurSurface);
-						SetEvent (m_hEvtPresent);
-					}
+
+					MoveToFreeList(pMFSample);
+					CheckWaitingSampleFromMixer();
 				}
-
-				MoveToFreeList(pMFSample);
-				CheckWaitingSampleFromMixer();
 			}
 			else
 			{				
@@ -1568,6 +1569,7 @@ void CEVRAllocatorPresenter::OnResetDevice()
 
 void CEVRAllocatorPresenter::RemoveAllSamples()
 {
+	FlushSamples();
 	m_ScheduledSamples.RemoveAll();
 	m_FreeSamples.RemoveAll();
 }

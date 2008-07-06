@@ -4544,6 +4544,7 @@ void CMainFrame::OnFileCloseMedia()
 void CMainFrame::OnUpdateViewTearingTest(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable (TRUE);
+	pCmdUI->SetCheck (AfxGetMyApp()->m_fTearingTest);
 }
 
 void CMainFrame::OnViewTearingTest()
@@ -4554,6 +4555,7 @@ void CMainFrame::OnViewTearingTest()
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable (TRUE);
+	pCmdUI->SetCheck (AfxGetMyApp()->m_fDisplayStats);
 }
 
 void CMainFrame::OnViewDisplayStats()
