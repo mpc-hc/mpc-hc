@@ -350,6 +350,17 @@ static inline long long read_time(void)
 #define START_TIMER
 #define STOP_TIMER(id) {}
 
+/**
+ * Returns NULL if CONFIG_SMALL is defined otherwise the argument
+ * without modifications, used to disable the definition of strings
+ * (for example AVCodec long_names).
+ */
+#ifdef CONFIG_SMALL
+#   define NULL_IF_CONFIG_SMALL(x) NULL
+#else
+#   define NULL_IF_CONFIG_SMALL(x) x
+#endif
+
 #endif /* HAVE_AV_CONFIG_H */
 
 #endif /* FFMPEG_COMMON_H */

@@ -190,6 +190,7 @@ typedef struct H264mb {
     int cbp;
     int top_mb_xy;
     int left_mb_xy[2];
+    int mb_xy;
 
     unsigned int sub_mb_type[4];
 
@@ -452,6 +453,7 @@ typedef struct H264Context{
 
     int last_slice_type;
     /** @} */
+    int mb_xy;
 
     /* experimental */
 
