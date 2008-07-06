@@ -3774,6 +3774,22 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 					{errmsg.Format(ResStr(IDS_MAINFRM_49), hr); break;}
 			}
 		}
+		else if (m_pMFVDC)
+		{
+			// Capture with EVR
+			BITMAPINFOHEADER	bih = {sizeof(BITMAPINFOHEADER)};
+			BYTE*				pDib;
+			DWORD				dwSize;
+			REFERENCE_TIME		rtImage = 0;
+			hr = m_pMFVDC->GetCurrentImage (&bih, &pDib, &dwSize, &rtImage);
+			if(FAILED(hr) || dwSize == 0) {errmsg.Format(ResStr(IDS_MAINFRM_51), hr); break;}
+
+			size = (long)dwSize+sizeof(BITMAPINFOHEADER);
+			if(!(*ppData = new BYTE[size])) return false;
+			memcpy_s (*ppData, size, &bih, sizeof(BITMAPINFOHEADER));
+			memcpy_s (*ppData+sizeof(BITMAPINFOHEADER), size-sizeof(BITMAPINFOHEADER), pDib, dwSize);
+			CoTaskMemFree (pDib);
+		}
 		else
 		{
 			hr = pBV->GetCurrentImage(&size, NULL);

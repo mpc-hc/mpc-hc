@@ -270,8 +270,13 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 	if (pAVCtx->codec_id == CODEC_ID_H264)
 	{
 		// Simple way to detect interlaced streams ?
-		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
-		return (nHeight / (h->sps_buffers[0]->mb_height*16)) == 2;
+		H264Context*	h		= (H264Context*) pAVCtx->priv_data;
+		SPS*			cur_sps = h->sps_buffers[0];
+
+		if (cur_sps && cur_sps->mb_height>0)
+			return (nHeight / (cur_sps->mb_height*16)) == 2;
+		else
+			return 0;	// Don't know... suppose it's progressive...
 	}
 	else if (pAVCtx->codec_id == CODEC_ID_VC1)
 	{

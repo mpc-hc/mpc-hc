@@ -46,11 +46,13 @@ typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hF
 
 CMiniDump::CMiniDump ()
 {
+#ifndef _DEBUG
 	SetUnhandledExceptionFilter (UnhandledExceptionFilter);
 	
 #ifndef _WIN64
 	// Enable catching in CRT (http://blog.kalmbachnet.de/?postid=75)
 	PreventSetUnhandledExceptionFilter();
+#endif
 #endif
 }
 
