@@ -20,6 +20,8 @@
  */
 
 #include "avcodec.h"
+#define ALT_BITSTREAM_READER_LE
+#include "bitstream.h"
 #include "ra288.h"
 
 #if __STDC_VERSION__ < 199901L
@@ -27,235 +29,215 @@
 #endif
 
 typedef struct {
-        float   history[8];
-        float   output[40];
-        float   pr1[36];
-        float   pr2[10];
-        int     phase, phasep;
+    float history[8];
+    float output[40];
+    float pr1[36];
+    float pr2[10];
+    int   phase;
 
-        float   st1a[111],st1b[37],st1[37];
-        float   st2a[38],st2b[11],st2[11];
-        float   sb[41];
-        float   lhist[10];
+    float st1a[111], st1b[37], st1[37];
+    float st2a[38], st2b[11], st2[11];
+    float sb[41];
+    float lhist[10];
 } Real288_internal;
 
-static int ra288_decode_init(AVCodecContext * avctx)
+static inline float scalar_product_float(float * v1, float * v2, int size)
 {
-        Real288_internal *glob=avctx->priv_data;
-        memset(glob,0,sizeof(Real288_internal));
-        return 0;
-}
+    float res = 0.;
 
-static void prodsum(float *tgt, float *src, int len, int n);
-static void co(int n, int i, int j, float *in, float *out, float *st1, float *st2, const float *table);
-static int pred(float *in, float *tgt, int n);
-static void colmult(float *tgt, float *m1, const float *m2, int n);
+    while (size--)
+        res += *v1++ * *v2++;
 
-
-/* initial decode */
-static void unpack(unsigned short *tgt, const unsigned char *src, unsigned int len)
-{
-  int x,y,z;
-  int n,temp;
-  
-  #if __STDC_VERSION__ >= 199901L 
-  int buffer[len];
-  #else
-  int *buffer = (int *)alloca(len*sizeof(int));
-  #endif
-
-  for (x=0;x<len;tgt[x++]=0)
-    buffer[x]=9+(x&1);
-
-  for (x=y=z=0;x<len/*was 38*/;x++) {
-    n=buffer[y]-z;
-    temp=src[x];
-    if (n<8) temp&=255>>(8-n);
-    tgt[y]+=temp<<z;
-    if (n<=8) {
-      tgt[++y]+=src[x]>>n;
-      z=8-n;
-    } else z+=8;
-  }
-}
-
-static void update(Real288_internal *glob)
-{
-  int x,y;
-  float buffer1[40],temp1[37];
-  float buffer2[8],temp2[11];
-
-  for (x=0,y=glob->phasep+5;x<40;buffer1[x++]=glob->output[(y++)%40]);
-  co(36,40,35,buffer1,temp1,glob->st1a,glob->st1b,table1);
-  if (pred(temp1,glob->st1,36))
-    colmult(glob->pr1,glob->st1,table1a,36);
-
-  for (x=0,y=glob->phase+1;x<8;buffer2[x++]=glob->history[(y++)%8]);
-  co(10,8,20,buffer2,temp2,glob->st2a,glob->st2b,table2);
-  if (pred(temp2,glob->st2,10))
-    colmult(glob->pr2,glob->st2,table2a,10);
+    return res;
 }
 
 /* Decode and produce output */
-static void decode(Real288_internal *glob, unsigned int input)
+static void decode(Real288_internal *glob, float gain, int cb_coef)
 {
-  unsigned int x,y;
-  float f;
-  double sum,sumsum;
-  float *p1,*p2;
-  float buffer[5];
-  const float *table;
+    int x, y;
+    double sum, sumsum;
+    float buffer[5];
 
-  for (x=36;x--;glob->sb[x+5]=glob->sb[x]);
-  for (x=5;x--;) {
-    p1=glob->sb+x;p2=glob->pr1;
-    for (sum=0,y=36;y--;sum-=(*(++p1))*(*(p2++)));
-    glob->sb[x]=sum;
-  }
+    memmove(glob->sb + 5, glob->sb, 36 * sizeof(*glob->sb));
 
-  f=amptable[input&7];
-  table=codetable+(input>>3)*5;
+    for (x=4; x >= 0; x--)
+        glob->sb[x] = -scalar_product_float(glob->sb + x + 1, glob->pr1, 36);
 
-  /* convert log and do rms */
-  for (sum=32,x=10;x--;sum-=glob->pr2[x]*glob->lhist[x]);
-  if (sum<0) sum=0; else if (sum>60) sum=60;
+    /* convert log and do rms */
+    sum = 32. - scalar_product_float(glob->pr2, glob->lhist, 10);
 
-  sumsum=exp(sum*0.1151292546497)*f;    /* pow(10.0,sum/20)*f */
-  for (sum=0,x=5;x--;) { buffer[x]=table[x]*sumsum; sum+=buffer[x]*buffer[x]; }
-  if ((sum/=5)<1) sum=1;
+    if (sum < 0)
+        sum = 0;
+    else if (sum > 60)
+        sum = 60;
 
-  /* shift and store */
-  for (x=10;--x;glob->lhist[x]=glob->lhist[x-1]);
-  *glob->lhist=glob->history[glob->phase]=10*log10(sum)-32;
+    sumsum = exp(sum * 0.1151292546497) * gain;    /* pow(10.0,sum/20)*f */
 
-  for (x=1;x<5;x++) for (y=x;y--;buffer[x]-=glob->pr1[x-y-1]*buffer[y]);
+    for (x=0; x < 5; x++)
+        buffer[x] = codetable[cb_coef][x] * sumsum;
 
-  /* output */
-  for (x=0;x<5;x++) {
-    f=glob->sb[4-x]+buffer[x];
-    if (f>4095) f=4095; else if (f<-4095) f=-4095;
-    glob->output[glob->phasep+x]=glob->sb[4-x]=f;
-  }
+    sum = scalar_product_float(buffer, buffer, 5) / 5;
+
+    if (sum < 1)
+        sum = 1;
+
+    /* shift and store */
+    memmove(glob->lhist, glob->lhist - 1, 10 * sizeof(*glob->lhist));
+
+    *glob->lhist = glob->history[glob->phase] = 10 * log10(sum) - 32;
+
+    for (x=1; x < 5; x++)
+        for (y=x-1; y >= 0; y--)
+            buffer[x] -= glob->pr1[x-y-1] * buffer[y];
+
+    /* output */
+    for (x=0; x < 5; x++) {
+        float f = glob->sb[4-x] + buffer[x];
+
+        if (f > 4095)
+            f = 4095;
+        else if (f < -4095)
+            f = -4095;
+
+        glob->output[glob->phase*5+x] = glob->sb[4-x] = f;
+    }
 }
 
 /* column multiply */
 static void colmult(float *tgt, float *m1, const float *m2, int n)
 {
-  while (n--)
-    *(tgt++)=(*(m1++))*(*(m2++));
+    while (n--)
+        *(tgt++) = (*(m1++)) * (*(m2++));
 }
 
 static int pred(float *in, float *tgt, int n)
 {
-  int x,y;
-  float *p1,*p2;
-  double f0,f1,f2;
-  float temp;
+    int x, y;
+    double f0, f1, f2;
 
-  if (in[n]==0) return 0;
-  if ((f0=*in)<=0) return 0;
+    if (in[n] == 0)
+        return 0;
 
-  for (x=1;;x++) {
-    if (n<x) return 1;
+    if ((f0 = *in) <= 0)
+        return 0;
 
-    p1=in+x;
-    p2=tgt;
-    f1=*(p1--);
-    for (y=x;--y;f1+=(*(p1--))*(*(p2++)));
+    for (x=1 ; ; x++) {
+        float *p1 = in + x;
+        float *p2 = tgt;
 
-    p1=tgt+x-1;
-    p2=tgt;
-    *(p1--)=f2=-f1/f0;
-    for (y=x>>1;y--;) {
-      temp=*p2+*p1*f2;
-      *(p1--)+=*p2*f2;
-      *(p2++)=temp;
+        if (n < x)
+            return 1;
+
+        f1 = *(p1--);
+
+        for (y=0; y < x - 1; y++)
+            f1 += (*(p1--))*(*(p2++));
+
+        p1 = tgt + x - 1;
+        p2 = tgt;
+        *(p1--) = f2 = -f1/f0;
+        for (y=x >> 1; y--;) {
+            float temp = *p2 + *p1 * f2;
+            *(p1--) += *p2 * f2;
+            *(p2++) = temp;
+        }
+        if ((f0 += f1*f2) < 0)
+            return 0;
     }
-    if ((f0+=f1*f2)<0) return 0;
-  }
-}
-
-static void co(int n, int i, int j, float *in, float *out, float *st1, float *st2, const float *table)
-{
-  int a,b,c;
-  unsigned int x;
-  float *fp;
-  float buffer1[37];
-  float buffer2[37];
-  float work[111];
-
-  /* rotate and multiply */
-  c=(b=(a=n+i)+j)-i;
-  fp=st1+i;
-  for (x=0;x<b;x++) {
-    if (x==c) fp=in;
-    work[x]=*(table++)*(*(st1++)=*(fp++));
-  }
-
-  prodsum(buffer1,work+n,i,n);
-  prodsum(buffer2,work+a,j,n);
-
-  for (x=0;x<=n;x++) {
-    *st2=*st2*(0.5625)+buffer1[x];
-    out[x]=*(st2++)+buffer2[x];
-  }
-  *out*=1.00390625; /* to prevent clipping */
 }
 
 /* product sum (lsf) */
 static void prodsum(float *tgt, float *src, int len, int n)
 {
-  unsigned int x;
-  float *p1,*p2;
-  double sum;
+    for (; n >= 0; n--)
+        tgt[n] = scalar_product_float(src, src - n, len);
 
-  while (n>=0)
-  {
-    p1=(p2=src)-n;
-    for (sum=0,x=len;x--;sum+=(*p1++)*(*p2++));
-    tgt[n--]=sum;
-  }
 }
 
-static void * decode_block(AVCodecContext * avctx, const unsigned char *in, signed short int *out,unsigned len)
+static void co(int n, int i, int j, float *in, float *out, float *st1,
+               float *st2, const float *table)
 {
-  int x,y;
-  Real288_internal *glob=avctx->priv_data;
-  
-  #if __STDC_VERSION__ >= 199901L  
-  unsigned short int buffer[len];
-  #else
-  unsigned short int *buffer = (unsigned short int *)alloca(len*sizeof(unsigned short int));
-  #endif 
+    int a, b, c;
+    unsigned int x;
+    float *fp;
+    float buffer1[37];
+    float buffer2[37];
+    float work[111];
 
-  unpack(buffer,in,len);
-  for (x=0;x<32;x++)
-  {
-    glob->phasep=(glob->phase=x&7)*5;
-    decode(glob,buffer[x]);
-    for (y=0;y<5;*(out++)=8*glob->output[glob->phasep+(y++)]);
-    if (glob->phase==3) update(glob);
-  }
-  return out;
+    /* rotate and multiply */
+    c = (b = (a = n + i) + j) - i;
+    fp = st1 + i;
+    for (x=0; x < b; x++) {
+        if (x == c)
+            fp=in;
+        work[x] = *(table++) * (*(st1++) = *(fp++));
+    }
+
+    prodsum(buffer1, work + n, i, n);
+    prodsum(buffer2, work + a, j, n);
+
+    for (x=0;x<=n;x++) {
+        *st2 = *st2 * (0.5625) + buffer1[x];
+        out[x] = *(st2++) + buffer2[x];
+    }
+    *out *= 1.00390625; /* to prevent clipping */
+}
+
+static void update(Real288_internal *glob)
+{
+    float buffer1[40], temp1[37];
+    float buffer2[8], temp2[11];
+
+    memcpy(buffer1     , glob->output + 20, 20*sizeof(*buffer1));
+    memcpy(buffer1 + 20, glob->output     , 20*sizeof(*buffer1));
+
+    co(36, 40, 35, buffer1, temp1, glob->st1a, glob->st1b, table1);
+
+    if (pred(temp1, glob->st1, 36))
+        colmult(glob->pr1, glob->st1, table1a, 36);
+
+    memcpy(buffer2    , glob->history + 4, 4*sizeof(*buffer2));
+    memcpy(buffer2 + 4, glob->history    , 4*sizeof(*buffer2));
+
+    co(10, 8, 20, buffer2, temp2, glob->st2a, glob->st2b, table2);
+
+    if (pred(temp2, glob->st2, 10))
+        colmult(glob->pr2, glob->st2, table2a, 10);
 }
 
 /* Decode a block (celp) */
-static int ra288_decode_frame(AVCodecContext * avctx,
-            void *data, int *data_size,
-            const uint8_t * buf, int buf_size)
+static int ra288_decode_frame(AVCodecContext * avctx, void *data,
+                              int *data_size, const uint8_t * buf,
+                              int buf_size)
 {
-    void *datao;
+    int16_t *out = data;
+    int x, y;
+    Real288_internal *glob = avctx->priv_data;
+    GetBitContext gb;
 
-    if (buf_size < avctx->block_align)
-    {
-        av_log(avctx, AV_LOG_ERROR, "ffra288: Error! Input buffer is too small [%d<%d]\n",buf_size,avctx->block_align);
+    if (buf_size < avctx->block_align) {
+        av_log(avctx, AV_LOG_ERROR,
+               "Error! Input buffer is too small [%d<%d]\n",
+               buf_size, avctx->block_align);
         return 0;
     }
 
-    datao = data;
-    data = decode_block(avctx, buf, (signed short *)data, avctx->block_align);
+    init_get_bits(&gb, buf, avctx->block_align * 8);
 
-    *data_size = (char *)data - (char *)datao;
+    for (x=0; x < 32; x++) {
+        float gain = amptable[get_bits(&gb, 3)];
+        int cb_coef = get_bits(&gb, 6 + (x&1));
+        glob->phase = x & 7;
+        decode(glob, gain, cb_coef);
+
+        for (y=0; y < 5; y++)
+            *(out++) = 8 * glob->output[glob->phase*5 + y];
+
+        if (glob->phase == 3)
+            update(glob);
+    }
+
+    *data_size = (char *)out - (char *)data;
     return avctx->block_align;
 }
 
@@ -265,7 +247,7 @@ AVCodec ra_288_decoder =
     CODEC_TYPE_AUDIO,
     CODEC_ID_RA_288,
     sizeof(Real288_internal),
-    ra288_decode_init,
+    NULL,
     NULL,
     NULL,
     ra288_decode_frame,
@@ -274,5 +256,5 @@ AVCodec ra_288_decoder =
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"RealAudio 2.0 (28.8K)",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("RealAudio 2.0 (28.8K)"),
 };

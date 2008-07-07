@@ -111,7 +111,7 @@ av_cold int ff_h263_decode_init(AVCodecContext *avctx)
         if (MPV_common_init(s) < 0)
             return -1;
 
-    if (s->h263_msmpeg4)
+    if (ENABLE_MSMPEG4_DECODER && s->h263_msmpeg4)
         ff_msmpeg4_decode_init(s);
     else
         h263_decode_init_vlc(s);
@@ -355,9 +355,9 @@ uint64_t time= rdtsc();
     if(s->flags&CODEC_FLAG_TRUNCATED){
         int next;
 
-        if(s->codec_id==CODEC_ID_MPEG4){
+        if(ENABLE_MPEG4_DECODER && s->codec_id==CODEC_ID_MPEG4){
             next= ff_mpeg4_find_frame_end(&s->parse_context, buf, buf_size);
-        }else if(s->codec_id==CODEC_ID_H263){
+        }else if(ENABLE_H263_DECODER && s->codec_id==CODEC_ID_H263){
             next= ff_h263_find_frame_end(&s->parse_context, buf, buf_size);
         }else{
             av_log(s->avctx, AV_LOG_ERROR, "this codec does not support truncated bitstreams\n");
@@ -390,9 +390,9 @@ retry:
     }
 
     /* let's go :-) */
-    if (s->msmpeg4_version==5) {
+    if (ENABLE_WMV2_DECODER && s->msmpeg4_version==5) {
         ret= ff_wmv2_decode_picture_header(s);
-    } else if (s->msmpeg4_version) {
+    } else if (ENABLE_MSMPEG4_DECODER && s->msmpeg4_version) {
         ret = msmpeg4_decode_picture_header(s);
     } else if (s->h263_pred) {
         if(s->avctx->extradata_size && s->picture_number==0){
@@ -623,7 +623,7 @@ retry:
 
     //the second part of the wmv2 header contains the MB skip bits which are stored in current_picture->mb_type
     //which is not available before MPV_frame_start()
-    if (s->msmpeg4_version==5){
+    if (ENABLE_WMV2_DECODER && s->msmpeg4_version==5){
         ret = ff_wmv2_decode_secondary_picture_header(s);
         if(ret<0) return ret;
         if(ret==1) goto intrax8_decoded;
@@ -650,7 +650,7 @@ retry:
     }
 
     if (s->h263_msmpeg4 && s->msmpeg4_version<4 && s->pict_type==FF_I_TYPE)
-        if(msmpeg4_decode_ext_header(s, buf_size) < 0){
+        if(!ENABLE_MSMPEG4_DECODER || msmpeg4_decode_ext_header(s, buf_size) < 0){
             s->error_status_table[s->mb_num-1]= AC_ERROR|DC_ERROR|MV_ERROR;
         }
 
@@ -726,7 +726,7 @@ AVCodec mpeg4_decoder = {
     /*.flush = */ ff_mpeg_flush,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MPEG-4 part 2",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
 };
 
 AVCodec h263_decoder = {
@@ -743,7 +743,7 @@ AVCodec h263_decoder = {
     /*.flush = */ff_mpeg_flush,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"H.263",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("H.263"),
 };
 
 AVCodec msmpeg4v1_decoder = {
@@ -760,7 +760,7 @@ AVCodec msmpeg4v1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MPEG-4 part 2 Microsoft variant version 1",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 1"),
 };
 
 AVCodec msmpeg4v2_decoder = {
@@ -777,7 +777,7 @@ AVCodec msmpeg4v2_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MPEG-4 part 2 Microsoft variant version 2",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 2"),
 };
 
 AVCodec msmpeg4v3_decoder = {
@@ -794,7 +794,7 @@ AVCodec msmpeg4v3_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MPEG-4 part 2 Microsoft variant version 3",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 3"),
 };
 
 AVCodec wmv1_decoder = {
@@ -811,7 +811,7 @@ AVCodec wmv1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Windows Media Video 7",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
 };
 
 AVCodec h263i_decoder = {
@@ -828,7 +828,7 @@ AVCodec h263i_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"H.263i",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("H.263i"),
 };
 
 AVCodec flv_decoder = {
@@ -845,5 +845,5 @@ AVCodec flv_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Flash Video",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Flash Video"),
 };

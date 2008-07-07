@@ -986,14 +986,14 @@ typedef struct AVCodecContext {
      * - encoding: Set by user, can be NULL.
      * - decoding: Set by libavcodec.
      */
-    uint16_t *intra_matrix,*intra_matrix_luma,*intra_matrix_chroma;
+    uint16_t *intra_matrix;
 
     /**
      * custom inter quantization matrix
      * - encoding: Set by user, can be NULL.
      * - decoding: Set by libavcodec.
      */
-    uint16_t *inter_matrix,*inter_matrix_luma,*inter_matrix_chroma;
+    uint16_t *inter_matrix;
 
     /**
      * fourcc from the AVI stream header (LSB first, so "ABCD" -> ('D'<<24) + ('C'<<16) + ('B'<<8) + 'A').

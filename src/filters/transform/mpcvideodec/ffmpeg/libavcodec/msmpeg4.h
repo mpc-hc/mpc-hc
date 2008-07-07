@@ -49,19 +49,6 @@ int ff_msmpeg4_decode_block(MpegEncContext * s, DCTELEM * block,
                             int n, int coded, const uint8_t *scan_table);
 int ff_wmv2_decode_mb(MpegEncContext *s, DCTELEM block[6][64]);
 
-
-#define ENABLE_MSMPEG4V1_DECODER 1
-#define ENABLE_MSMPEG4V2_DECODER 1
-#define ENABLE_MSMPEG4V3_DECODER 1
-#define ENABLE_MSMPEG4V1_ENCODER 1
-#define ENABLE_MSMPEG4V2_ENCODER 1
-#define ENABLE_MSMPEG4V3_ENCODER 1
-#define ENABLE_WMV1_DECODER 1
-#define ENABLE_WMV1_ENCODER 1
-#define ENABLE_WMV2_DECODER 1
-#define ENABLE_WMV2_ENCODER 1
-
-
 #define ENABLE_MSMPEG4_DECODER (ENABLE_MSMPEG4V1_DECODER || \
                                 ENABLE_MSMPEG4V2_DECODER || \
                                 ENABLE_MSMPEG4V3_DECODER || \

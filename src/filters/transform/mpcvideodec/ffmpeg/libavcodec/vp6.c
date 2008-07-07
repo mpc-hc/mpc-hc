@@ -205,10 +205,11 @@ static void vp6_parse_vector_models(vp56_context_t *s)
                 model->vector_fdv[comp][node] = vp56_rac_gets_nn(c, 7);
 }
 
+/* nodes must ascend by count, but with descending symbol order */
 static int vp6_huff_cmp(const void *va, const void *vb)
 {
     const Node *a = va, *b = vb;
-    return a->count >= b->count;
+    return (a->count - b->count)*16 + (b->sym - a->sym);
 }
 
 static void vp6_build_huff_tree(vp56_context_t *s, uint8_t coeff_model[],
@@ -649,6 +650,7 @@ AVCodec vp6_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP6"),
 };
 
 /* flash version, not flipped upside-down */
@@ -666,6 +668,7 @@ AVCodec vp6f_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version)"),
 };
 
 /* flash version, not flipped upside-down, with alpha channel */
@@ -683,4 +686,5 @@ AVCodec vp6a_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version, with alpha channel)"),
 };

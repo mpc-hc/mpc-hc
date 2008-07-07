@@ -847,6 +847,7 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
     return src - buf;
 }
 
+#ifdef CONFIG_DECODERS
 #define ADPCM_DECODER(id,name,long_name_)       \
 AVCodec name ## _decoder = {                    \
     #name,                                      \
@@ -862,9 +863,13 @@ AVCodec name ## _decoder = {                    \
     /*.flush = */NULL,                          \
     /*.supported_framerates = */NULL,           \
     /*.pix_fmts = */NULL,                       \
-    /*.long_name = */long_name_,                \
+    /*.long_name = */NULL_IF_CONFIG_SMALL(long_name_), \
 };
+#else
+#define ADPCM_DECODER(id,name,long_name_)
+#endif
 
+/* Note: Do not forget to add new entries to the Makefile as well. */
 ADPCM_DECODER(CODEC_ID_ADPCM_4XM, adpcm_4xm, "4X Movie ADPCM");
 ADPCM_DECODER(CODEC_ID_ADPCM_CT, adpcm_ct, "Creative Technology ADPCM");
 ADPCM_DECODER(CODEC_ID_ADPCM_EA, adpcm_ea, "Electronic Arts ADPCM");

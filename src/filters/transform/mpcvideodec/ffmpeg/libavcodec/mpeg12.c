@@ -71,18 +71,21 @@ static const enum PixelFormat pixfmt_yuv_444[]= {PIX_FMT_YUV444P,PIX_FMT_NONE};
 
 uint8_t ff_mpeg12_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];
 
-static void init_2d_vlc_rl(RLTable *rl, int use_static)
+
+#define INIT_2D_VLC_RL(rl, static_size)\
+{\
+    static RL_VLC_ELEM rl_vlc_table[static_size];\
+    INIT_VLC_STATIC(&rl.vlc, TEX_VLC_BITS, rl.n + 2,\
+             &rl.table_vlc[0][1], 4, 2,\
+             &rl.table_vlc[0][0], 4, 2, static_size);\
+\
+    rl.rl_vlc[0]= rl_vlc_table;\
+    init_2d_vlc_rl(&rl);\
+}
+
+static void init_2d_vlc_rl(RLTable *rl)
 {
     int i;
-
-    init_vlc(&rl->vlc, TEX_VLC_BITS, rl->n + 2,
-             &rl->table_vlc[0][1], 4, 2,
-             &rl->table_vlc[0][0], 4, 2, use_static);
-
-    if(use_static)
-        rl->rl_vlc[0]= av_mallocz_static(rl->vlc.table_size*sizeof(RL_VLC_ELEM));
-    else
-        rl->rl_vlc[0]= av_malloc(rl->vlc.table_size*sizeof(RL_VLC_ELEM));
 
     for(i=0; i<rl->vlc.table_size; i++){
         int code= rl->vlc.table[i][0];
@@ -147,33 +150,33 @@ static void init_vlcs(void)
     if (!done) {
         done = 1;
 
-        init_vlc(&dc_lum_vlc, DC_VLC_BITS, 12,
+        INIT_VLC_STATIC(&dc_lum_vlc, DC_VLC_BITS, 12,
                  ff_mpeg12_vlc_dc_lum_bits, 1, 1,
-                 ff_mpeg12_vlc_dc_lum_code, 2, 2, 1);
-        init_vlc(&dc_chroma_vlc,  DC_VLC_BITS, 12,
+                 ff_mpeg12_vlc_dc_lum_code, 2, 2, 512);
+        INIT_VLC_STATIC(&dc_chroma_vlc,  DC_VLC_BITS, 12,
                  ff_mpeg12_vlc_dc_chroma_bits, 1, 1,
-                 ff_mpeg12_vlc_dc_chroma_code, 2, 2, 1);
-        init_vlc(&mv_vlc, MV_VLC_BITS, 17,
+                 ff_mpeg12_vlc_dc_chroma_code, 2, 2, 514);
+        INIT_VLC_STATIC(&mv_vlc, MV_VLC_BITS, 17,
                  &ff_mpeg12_mbMotionVectorTable[0][1], 2, 1,
-                 &ff_mpeg12_mbMotionVectorTable[0][0], 2, 1, 1);
-        init_vlc(&mbincr_vlc, MBINCR_VLC_BITS, 36,
+                 &ff_mpeg12_mbMotionVectorTable[0][0], 2, 1, 518);
+        INIT_VLC_STATIC(&mbincr_vlc, MBINCR_VLC_BITS, 36,
                  &ff_mpeg12_mbAddrIncrTable[0][1], 2, 1,
-                 &ff_mpeg12_mbAddrIncrTable[0][0], 2, 1, 1);
-        init_vlc(&mb_pat_vlc, MB_PAT_VLC_BITS, 64,
+                 &ff_mpeg12_mbAddrIncrTable[0][0], 2, 1, 538);
+        INIT_VLC_STATIC(&mb_pat_vlc, MB_PAT_VLC_BITS, 64,
                  &ff_mpeg12_mbPatTable[0][1], 2, 1,
-                 &ff_mpeg12_mbPatTable[0][0], 2, 1, 1);
+                 &ff_mpeg12_mbPatTable[0][0], 2, 1, 512);
 
-        init_vlc(&mb_ptype_vlc, MB_PTYPE_VLC_BITS, 7,
+        INIT_VLC_STATIC(&mb_ptype_vlc, MB_PTYPE_VLC_BITS, 7,
                  &table_mb_ptype[0][1], 2, 1,
-                 &table_mb_ptype[0][0], 2, 1, 1);
-        init_vlc(&mb_btype_vlc, MB_BTYPE_VLC_BITS, 11,
+                 &table_mb_ptype[0][0], 2, 1, 64);
+        INIT_VLC_STATIC(&mb_btype_vlc, MB_BTYPE_VLC_BITS, 11,
                  &table_mb_btype[0][1], 2, 1,
-                 &table_mb_btype[0][0], 2, 1, 1);
+                 &table_mb_btype[0][0], 2, 1, 64);
         init_rl(&ff_rl_mpeg1, ff_mpeg12_static_rl_table_store[0]);
         init_rl(&ff_rl_mpeg2, ff_mpeg12_static_rl_table_store[1]);
 
-        init_2d_vlc_rl(&ff_rl_mpeg1, 1);
-        init_2d_vlc_rl(&ff_rl_mpeg2, 1);
+        INIT_2D_VLC_RL(ff_rl_mpeg1, 680);
+        INIT_2D_VLC_RL(ff_rl_mpeg2, 674);
     }
 }
 
@@ -1886,8 +1889,7 @@ static int mpeg1_decode_sequence(AVCodecContext *avctx,
 
     width = get_bits(&s->gb, 12);
     height = get_bits(&s->gb, 12);
-    if (width <= 0 || height <= 0 ||
-        (width % 2) != 0 || (height % 2) != 0)
+    if (width <= 0 || height <= 0)
         return -1;
     s->aspect_ratio_info= get_bits(&s->gb, 4);
     if (s->aspect_ratio_info == 0) {
@@ -2071,7 +2073,7 @@ static void mpeg_decode_gop(AVCodecContext *avctx,
     int drop_frame_flag;
     int time_code_hours, time_code_minutes;
     int time_code_seconds, time_code_pictures;
-    int broken_link;
+    int closed_gop, broken_link;
 
     init_get_bits(&s->gb, buf, buf_size*8);
 
@@ -2089,9 +2091,9 @@ static void mpeg_decode_gop(AVCodecContext *avctx,
     broken_link = get_bits1(&s->gb);
 
     if(s->avctx->debug & FF_DEBUG_PICT_INFO)
-        av_log(s->avctx, AV_LOG_DEBUG, "GOP (%2d:%02d:%02d.[%02d]) broken_link=%d\n",
+        av_log(s->avctx, AV_LOG_DEBUG, "GOP (%2d:%02d:%02d.[%02d]) closed_gop=%d broken_link=%d\n",
             time_code_hours, time_code_minutes, time_code_seconds,
-            time_code_pictures, broken_link);
+            time_code_pictures, closed_gop, broken_link);
 }
 /**
  * finds the end of the current frame in the bitstream.

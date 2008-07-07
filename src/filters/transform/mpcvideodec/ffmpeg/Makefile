@@ -11,14 +11,12 @@ SRCS_C=\
 		$(LAVC_DIR)/allcodecs.c \
 		$(LAVC_DIR)/bitstream.c \
 		$(LAVC_DIR)/cabac.c \
-		$(LAVC_DIR)/cavsdsp.c \
 		$(LAVC_DIR)/dsputil.c \
 		$(LAVC_DIR)/error_resilience.c \
 		$(LAVC_DIR)/faandct.c \
 		$(LAVC_DIR)/faanidct.c \
 		$(LAVC_DIR)/fft.c \
 		$(LAVC_DIR)/golomb.c \
-		$(LAVC_DIR)/h261.c \
 		$(LAVC_DIR)/h263.c \
 		$(LAVC_DIR)/h263_parser.c \
 		$(LAVC_DIR)/h263dec.c \
@@ -41,9 +39,6 @@ SRCS_C=\
 		$(LAVC_DIR)/msmpeg4.c \
 		$(LAVC_DIR)/msmpeg4data.c \
 		$(LAVC_DIR)/parser.c \
-		$(LAVC_DIR)/png.c \
-		$(LAVC_DIR)/pngdec.c \
-		$(LAVC_DIR)/rv10.c \
 		$(LAVC_DIR)/simple_idct.c \
 		$(LAVC_DIR)/sp5xdec.c \
 		$(LAVC_DIR)/svq1.c \
@@ -53,7 +48,6 @@ SRCS_C=\
 		$(LAVC_DIR)/vc1_parser.c \
 		$(LAVC_DIR)/vc1data.c \
 		$(LAVC_DIR)/vc1dsp.c \
-		$(LAVC_DIR)/vorbis.c \
 		$(LAVC_DIR)/vp3.c \
 		$(LAVC_DIR)/vp3dsp.c \
 		$(LAVC_DIR)/vp5.c \
@@ -62,8 +56,7 @@ SRCS_C=\
 		$(LAVC_DIR)/vp6.c \
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
-		$(LAVC_DIR)/wmv2dec.c \
-		$(LAVC_DIR)/xiph.c
+		$(LAVC_DIR)/wmv2dec.c
 
 #SRCS_C+=\
 #		$(LAVC_DIR)/8bps.c \
@@ -83,6 +76,7 @@ SRCS_C=\
 #		$(LAVC_DIR)/avs.c \
 #		$(LAVC_DIR)/cavs.c \
 #		$(LAVC_DIR)/cavsdec.c \
+#		$(LAVC_DIR)/cavsdsp.c \
 #		$(LAVC_DIR)/cinepak.c \
 #		$(LAVC_DIR)/cook.c \
 #		$(LAVC_DIR)/corepng.c \
@@ -97,6 +91,7 @@ SRCS_C=\
 #		$(LAVC_DIR)/fraps.c \
 #		$(LAVC_DIR)/g726.c \
 #		$(LAVC_DIR)/gsm.c \
+#		$(LAVC_DIR)/h261.c \
 #		$(LAVC_DIR)/h261_parser.c \
 #		$(LAVC_DIR)/h261dec.c \
 #		$(LAVC_DIR)/huffyuv.c \
@@ -124,6 +119,9 @@ SRCS_C=\
 #		$(LAVC_DIR)/nellymoserdec.c \
 #		$(LAVC_DIR)/opt.c \
 #		$(LAVC_DIR)/pcm.c \
+#		$(LAVC_DIR)/png.c \
+#		$(LAVC_DIR)/pngdec.c \
+#		$(LAVC_DIR)/rv10.c \
 #		$(LAVC_DIR)/qdm2.c \
 #		$(LAVC_DIR)/qpeg.c \
 #		$(LAVC_DIR)/qtrle.c \
@@ -138,10 +136,12 @@ SRCS_C=\
 #		$(LAVC_DIR)/tta.c \
 #		$(LAVC_DIR)/ulti.c \
 #		$(LAVC_DIR)/vcr1.c \
+#		$(LAVC_DIR)/vorbis.c \
 #		$(LAVC_DIR)/wma.c \
 #		$(LAVC_DIR)/wmadec.c \
 #		$(LAVC_DIR)/wnv1.c \
 #		$(LAVC_DIR)/xl.c \
+#		$(LAVC_DIR)/xiph.c \
 #		$(LAVC_DIR)/zmbv.c
 
 SRCS_C+=\

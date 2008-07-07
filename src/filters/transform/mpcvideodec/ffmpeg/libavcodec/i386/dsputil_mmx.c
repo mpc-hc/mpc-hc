@@ -24,6 +24,7 @@
 
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/dsputil.h"
+#include "libavcodec/h263.h"
 #include "libavcodec/mpegvideo.h"
 #include "libavcodec/simple_idct.h"
 #include "dsputil_mmx.h"
@@ -481,6 +482,7 @@ static void clear_blocks_mmx(DCTELEM *blocks)
 static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w){
     x86_reg i=0;
     asm volatile(
+        "jmp 2f                         \n\t"
         "1:                             \n\t"
         "movq  (%1, %0), %%mm0          \n\t"
         "movq  (%2, %0), %%mm1          \n\t"
@@ -491,8 +493,9 @@ static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w){
         "paddb %%mm0, %%mm1             \n\t"
         "movq %%mm1, 8(%2, %0)          \n\t"
         "add $16, %0                    \n\t"
+        "2:                             \n\t"
         "cmp %3, %0                     \n\t"
-        " jb 1b                         \n\t"
+        " js 1b                         \n\t"
         : "+r" (i)
         : "r"(src), "r"(dst), "r"((x86_reg)w-15)
     );
@@ -503,6 +506,7 @@ static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w){
 static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
     x86_reg i=0;
     asm volatile(
+        "jmp 2f                         \n\t"
         "1:                             \n\t"
         "movq   (%2, %0), %%mm0         \n\t"
         "movq  8(%2, %0), %%mm1         \n\t"
@@ -511,8 +515,9 @@ static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
         "movq %%mm0,  (%1, %0)          \n\t"
         "movq %%mm1, 8(%1, %0)          \n\t"
         "add $16, %0                    \n\t"
+        "2:                             \n\t"
         "cmp %4, %0                     \n\t"
-        " jb 1b                         \n\t"
+        " js 1b                         \n\t"
         : "+r" (i)
         : "r"(dst), "r"(src1), "r"(src2), "r"((x86_reg)w-15)
     );
@@ -592,6 +597,7 @@ static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
         "paddb %%mm1, %%mm6             \n\t"
 
 static void h263_v_loop_filter_mmx(uint8_t *src, int stride, int qscale){
+    if(ENABLE_ANY_H263) {
     const int strength= ff_h263_loop_filter_strength[qscale];
 
     asm volatile(
@@ -608,6 +614,7 @@ static void h263_v_loop_filter_mmx(uint8_t *src, int stride, int qscale){
           "+m" (*(uint64_t*)(src + 1*stride))
         : "g" (2*strength), "m"(ff_pb_FC)
     );
+    }
 }
 
 static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int src_stride){
@@ -640,6 +647,7 @@ static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int 
 }
 
 static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale){
+    if(ENABLE_ANY_H263) {
     const int strength= ff_h263_loop_filter_strength[qscale];
     DECLARE_ALIGNED(8, uint64_t, temp[4]);
     uint8_t *btemp= (uint8_t*)temp;
@@ -688,6 +696,7 @@ static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale){
            "r" ((x86_reg)   stride ),
            "r" ((x86_reg)(3*stride))
     );
+    }
 }
 
 /* draw the edges of width 'w' of an image of size width, height
@@ -1732,6 +1741,7 @@ void ff_mmxext_idct(DCTELEM *block);
 
 /* XXX: those functions should be suppressed ASAP when all IDCTs are
    converted */
+#ifdef CONFIG_GPL
 static void ff_libmpeg2mmx_idct_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
     ff_mmx_idct (block);
@@ -1752,7 +1762,7 @@ static void ff_libmpeg2mmx2_idct_add(uint8_t *dest, int line_size, DCTELEM *bloc
     ff_mmxext_idct (block);
     add_pixels_clamped_mmx(block, dest, line_size);
 }
-
+#endif
 static void ff_idct_xvid_mmx_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
     ff_idct_xvid_mmx (block);
@@ -2077,6 +2087,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                 c->idct_add= ff_simple_idct_add_mmx;
                 c->idct    = ff_simple_idct_mmx;
                 c->idct_permutation_type= FF_SIMPLE_IDCT_PERM;
+#ifdef CONFIG_GPL
             }else if(idct_algo==FF_IDCT_LIBMPEG2MMX){
                 if(mm_flags & MM_MMXEXT){
                     c->idct_put= ff_libmpeg2mmx2_idct_put;
@@ -2088,7 +2099,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                     c->idct    = ff_mmx_idct;
                 }
                 c->idct_permutation_type= FF_LIBMPEG2_IDCT_PERM;
-            }else if(idct_algo==FF_IDCT_VP3 &&
+#endif
+            }else if((ENABLE_VP3_DECODER || ENABLE_VP5_DECODER || ENABLE_VP6_DECODER) &&
+                     idct_algo==FF_IDCT_VP3 &&
                      avctx->codec->id!=CODEC_ID_THEORA &&
                      !(avctx->flags & CODEC_FLAG_BITEXACT)){
                 if(mm_flags & MM_SSE2){
@@ -2150,9 +2163,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
         c->draw_edges = draw_edges_mmx;
 
-        c->h263_v_loop_filter= h263_v_loop_filter_mmx;
-        c->h263_h_loop_filter= h263_h_loop_filter_mmx;
-
+        if (ENABLE_ANY_H263) {
+            c->h263_v_loop_filter= h263_v_loop_filter_mmx;
+            c->h263_h_loop_filter= h263_h_loop_filter_mmx;
+        }
         c->put_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx_rnd;
         c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_mmx;
         c->put_no_rnd_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx_nornd;
@@ -2260,10 +2274,12 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->biweight_h264_pixels_tab[6]= ff_h264_biweight_4x4_mmx2;
             c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
 
-            ff_cavsdsp_init_mmx2(c, avctx);
-            
-            ff_vc1dsp_init_mmx(c, avctx);
-            
+            if (ENABLE_CAVS_DECODER)
+                ff_cavsdsp_init_mmx2(c, avctx);
+
+            if (ENABLE_VC1_DECODER || ENABLE_WMV3_DECODER)
+                ff_vc1dsp_init_mmx(c, avctx);
+
             c->add_png_paeth_prediction= add_png_paeth_prediction_mmx2;
         } else if (mm_flags & MM_3DNOW) {
             c->prefetch = prefetch_3dnow;
@@ -2312,8 +2328,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_3dnow_rnd;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_3dnow;
-            
-            ff_cavsdsp_init_3dnow(c, avctx);
+
+            if (ENABLE_CAVS_DECODER)
+                ff_cavsdsp_init_3dnow(c, avctx);
         }
 
 #if GCC420_OR_NEWER

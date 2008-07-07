@@ -1,7 +1,7 @@
 /*
  * Atrac 3 compatible decoder
- * Copyright (c) 2006-2007 Maxim Poliakovski
- * Copyright (c) 2006-2007 Benjamin Larsson
+ * Copyright (c) 2006-2008 Maxim Poliakovski
+ * Copyright (c) 2006-2008 Benjamin Larsson
  *
  * This file is part of FFmpeg.
  *
@@ -23,12 +23,13 @@
 /**
  * @file atrac3.c
  * Atrac 3 compatible decoder.
- * This decoder handles RealNetworks, RealAudio atrc data.
- * Atrac 3 is identified by the codec name atrc in RealMedia files.
+ * This decoder handles Sony's ATRAC3 data.
+ *
+ * Container formats used to store atrac 3 data:
+ * RealMedia (.rm), RIFF WAV (.wav, .at3), Sony OpenMG (.oma, .aa3).
  *
  * To use this decoder, a calling application must supply the extradata
- * bytes provided from the RealMedia container: 10 bytes or 14 bytes
- * from the WAV container.
+ * bytes provided in the containers above.
  */
 
 #include <math.h>
@@ -305,7 +306,6 @@ static void readQuantSpectralCoeffs (GetBitContext *gb, int selector, int coding
 
     if (codingFlag != 0) {
         /* constant length coding (CLC) */
-        //FIXME we don't have any samples coded in CLC mode
         numBits = CLCLengthTab[selector];
 
         if (selector > 1) {
@@ -468,7 +468,7 @@ static int decodeTonalComponents (GetBitContext *gb, tonal_component *pComponent
                 pComponent[component_count].numCoefs = coded_values;
 
                 /* inverse quant */
-                pCoef = pComponent[k].coef;
+                pCoef = pComponent[component_count].coef;
                 for (cnt = 0; cnt < coded_values; cnt++)
                     pCoef[cnt] = mantissa[cnt] * scalefactor;
 
@@ -577,24 +577,28 @@ static void gainCompensateAndOverlap (float *pIn, float *pPrev, float *pOut, gai
 
 /**
  * Combine the tonal band spectrum and regular band spectrum
+ * Return position of the last tonal coefficient
  *
  * @param pSpectrum     output spectrum buffer
  * @param numComponents amount of tonal components
  * @param pComponent    tonal components for this band
  */
 
-static void addTonalComponents (float *pSpectrum, int numComponents, tonal_component *pComponent)
+static int addTonalComponents (float *pSpectrum, int numComponents, tonal_component *pComponent)
 {
-    int   cnt, i;
+    int   cnt, i, lastPos = -1;
     float   *pIn, *pOut;
 
     for (cnt = 0; cnt < numComponents; cnt++){
+        lastPos = FFMAX(pComponent[cnt].pos + pComponent[cnt].numCoefs, lastPos);
         pIn = pComponent[cnt].coef;
         pOut = &(pSpectrum[pComponent[cnt].pos]);
 
         for (i=0 ; i<pComponent[cnt].numCoefs ; i++)
             pOut[i] += pIn[i];
     }
+
+    return lastPos;
 }
 
 
@@ -714,7 +718,7 @@ static void channelWeighting (float *su1, float *su2, int *p3)
 
 static int decodeChannelSoundUnit (ATRAC3Context *q, GetBitContext *gb, channel_unit *pSnd, float *pOut, int channelNum, int codingMode)
 {
-    int   band, result=0, numSubbands, numBands;
+    int   band, result=0, numSubbands, lastTonal, numBands;
 
     if (codingMode == JOINT_STEREO && channelNum == 1) {
         if (get_bits(gb,2) != 3) {
@@ -740,11 +744,13 @@ static int decodeChannelSoundUnit (ATRAC3Context *q, GetBitContext *gb, channel_
     numSubbands = decodeSpectrum (gb, pSnd->spectrum);
 
     /* Merge the decoded spectrum and tonal components. */
-    addTonalComponents (pSnd->spectrum, pSnd->numComponents, pSnd->components);
+    lastTonal = addTonalComponents (pSnd->spectrum, pSnd->numComponents, pSnd->components);
 
 
-    /* Convert number of subbands into number of MLT/QMF bands */
+    /* calculate number of used MLT/QMF bands according to the amount of coded spectral lines */
     numBands = (subbandTab[numSubbands] - 1) >> 8;
+    if (lastTonal >= 0)
+        numBands = FFMAX((lastTonal + 256) >> 8, numBands);
 
 
     /* Reconstruct time domain samples. */

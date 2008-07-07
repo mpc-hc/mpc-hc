@@ -90,7 +90,7 @@ static void common_init(MpegEncContext * s)
     case 3:
         if(s->workaround_bugs){
             s->y_dc_scale_table= old_ff_y_dc_scale_table;
-            s->c_dc_scale_table= old_ff_c_dc_scale_table;
+            s->c_dc_scale_table= wmv1_c_dc_scale_table;
         } else{
             s->y_dc_scale_table= ff_mpeg4_y_dc_scale_table;
             s->c_dc_scale_table= ff_mpeg4_c_dc_scale_table;
@@ -101,10 +101,12 @@ static void common_init(MpegEncContext * s)
         s->y_dc_scale_table= wmv1_y_dc_scale_table;
         s->c_dc_scale_table= wmv1_c_dc_scale_table;
         break;
+#if defined(CONFIG_WMV3_DECODER)||defined(CONFIG_VC1_DECODER)
     case 6:
         s->y_dc_scale_table= wmv3_dc_scale_table;
         s->c_dc_scale_table= wmv3_dc_scale_table;
         break;
+#endif
 
     }
 
@@ -621,8 +623,13 @@ int ff_msmpeg4_decode_init(MpegEncContext *s)
 
         for(i=0;i<NB_RL_TABLES;i++) {
             init_rl(&rl_table[i], static_rl_table_store[i]);
-            init_vlc_rl(&rl_table[i], 1);
         }
+        INIT_VLC_RL(rl_table[0], 642);
+        INIT_VLC_RL(rl_table[1], 1104);
+        INIT_VLC_RL(rl_table[2], 554);
+        INIT_VLC_RL(rl_table[3], 940);
+        INIT_VLC_RL(rl_table[4], 962);
+        INIT_VLC_RL(rl_table[5], 554);
         for(i=0;i<2;i++) {
             mv = &mv_tables[i];
             init_vlc(&mv->vlc, MV_VLC_BITS, mv->n + 1,

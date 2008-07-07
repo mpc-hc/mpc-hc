@@ -651,46 +651,46 @@ void h263_decode_init_vlc(MpegEncContext *s)
     if (!done) {
         done = 1;
 
-        init_vlc(&intra_MCBPC_vlc, INTRA_MCBPC_VLC_BITS, 9,
+        INIT_VLC_STATIC(&intra_MCBPC_vlc, INTRA_MCBPC_VLC_BITS, 9,
                  intra_MCBPC_bits, 1, 1,
-                 intra_MCBPC_code, 1, 1, 1);
-        init_vlc(&inter_MCBPC_vlc, INTER_MCBPC_VLC_BITS, 28,
+                 intra_MCBPC_code, 1, 1, 72);
+        INIT_VLC_STATIC(&inter_MCBPC_vlc, INTER_MCBPC_VLC_BITS, 28,
                  inter_MCBPC_bits, 1, 1,
-                 inter_MCBPC_code, 1, 1, 1);
-        init_vlc(&cbpy_vlc, CBPY_VLC_BITS, 16,
+                 inter_MCBPC_code, 1, 1, 198);
+        INIT_VLC_STATIC(&cbpy_vlc, CBPY_VLC_BITS, 16,
                  &cbpy_tab[0][1], 2, 1,
-                 &cbpy_tab[0][0], 2, 1, 1);
-        init_vlc(&mv_vlc, MV_VLC_BITS, 33,
+                 &cbpy_tab[0][0], 2, 1, 64);
+        INIT_VLC_STATIC(&mv_vlc, MV_VLC_BITS, 33,
                  &mvtab[0][1], 2, 1,
-                 &mvtab[0][0], 2, 1, 1);
+                 &mvtab[0][0], 2, 1, 538);
         init_rl(&rl_inter, static_rl_table_store[0]);
         init_rl(&rl_intra, static_rl_table_store[1]);
         init_rl(&rvlc_rl_inter, static_rl_table_store[3]);
         init_rl(&rvlc_rl_intra, static_rl_table_store[4]);
         init_rl(&rl_intra_aic, static_rl_table_store[2]);
-        init_vlc_rl(&rl_inter, 1);
-        init_vlc_rl(&rl_intra, 1);
-        init_vlc_rl(&rvlc_rl_inter, 1);
-        init_vlc_rl(&rvlc_rl_intra, 1);
-        init_vlc_rl(&rl_intra_aic, 1);
-        init_vlc(&dc_lum, DC_VLC_BITS, 10 /* 13 */,
+        INIT_VLC_RL(rl_inter, 554);
+        INIT_VLC_RL(rl_intra, 554);
+        INIT_VLC_RL(rvlc_rl_inter, 1072);
+        INIT_VLC_RL(rvlc_rl_intra, 1072);
+        INIT_VLC_RL(rl_intra_aic, 554);
+        INIT_VLC_STATIC(&dc_lum, DC_VLC_BITS, 10 /* 13 */,
                  &DCtab_lum[0][1], 2, 1,
-                 &DCtab_lum[0][0], 2, 1, 1);
-        init_vlc(&dc_chrom, DC_VLC_BITS, 10 /* 13 */,
+                 &DCtab_lum[0][0], 2, 1, 512);
+        INIT_VLC_STATIC(&dc_chrom, DC_VLC_BITS, 10 /* 13 */,
                  &DCtab_chrom[0][1], 2, 1,
-                 &DCtab_chrom[0][0], 2, 1, 1);
-        init_vlc(&sprite_trajectory, SPRITE_TRAJ_VLC_BITS, 15,
+                 &DCtab_chrom[0][0], 2, 1, 512);
+        INIT_VLC_STATIC(&sprite_trajectory, SPRITE_TRAJ_VLC_BITS, 15,
                  &sprite_trajectory_tab[0][1], 4, 2,
-                 &sprite_trajectory_tab[0][0], 4, 2, 1);
-        init_vlc(&mb_type_b_vlc, MB_TYPE_B_VLC_BITS, 4,
+                 &sprite_trajectory_tab[0][0], 4, 2, 128);
+        INIT_VLC_STATIC(&mb_type_b_vlc, MB_TYPE_B_VLC_BITS, 4,
                  &mb_type_b_tab[0][1], 2, 1,
-                 &mb_type_b_tab[0][0], 2, 1, 1);
-        init_vlc(&h263_mbtype_b_vlc, H263_MBTYPE_B_VLC_BITS, 15,
+                 &mb_type_b_tab[0][0], 2, 1, 16);
+        INIT_VLC_STATIC(&h263_mbtype_b_vlc, H263_MBTYPE_B_VLC_BITS, 15,
                  &h263_mbtype_b_tab[0][1], 2, 1,
-                 &h263_mbtype_b_tab[0][0], 2, 1, 1);
-        init_vlc(&cbpc_b_vlc, CBPC_B_VLC_BITS, 4,
+                 &h263_mbtype_b_tab[0][0], 2, 1, 80);
+        INIT_VLC_STATIC(&cbpc_b_vlc, CBPC_B_VLC_BITS, 4,
                  &cbpc_b_tab[0][1], 2, 1,
-                 &cbpc_b_tab[0][0], 2, 1, 1);
+                 &cbpc_b_tab[0][0], 2, 1, 8);
     }
 }
 
@@ -2248,6 +2248,7 @@ static int h263_decode_block(MpegEncContext * s, DCTELEM * block,
     } else if (s->mb_intra) {
         /* DC coef */
         if(s->codec_id == CODEC_ID_RV10){
+#ifdef CONFIG_RV10_DECODER
           if (s->rv10_version == 3 && s->pict_type == FF_I_TYPE) {
             int component, diff;
             component = (n <= 3 ? 0 : n - 4 + 1);
@@ -2267,7 +2268,8 @@ static int h263_decode_block(MpegEncContext * s, DCTELEM * block,
                 if (level == 255)
                     level = 128;
           }
-        } else {
+#endif
+        }else{
             level = get_bits(&s->gb, 8);
             if((level&0x7F) == 0){
                 av_log(s->avctx, AV_LOG_ERROR, "illegal dc %d at %d %d\n", level, s->mb_x, s->mb_y);
@@ -3417,7 +3419,7 @@ static int decode_vol_header(MpegEncContext *s, GetBitContext *gb){
 
 /**
  * decodes the user data stuff in the header.
- * allso inits divx/xvid/lavc_version/build
+ * Also initializes divx/xvid/lavc_version/build.
  */
 static int decode_user_data(MpegEncContext *s, GetBitContext *gb){
     char buf[256];
@@ -3440,6 +3442,8 @@ static int decode_user_data(MpegEncContext *s, GetBitContext *gb){
         s->divx_version= ver;
         s->divx_build= build;
         s->divx_packed= e==3 && last=='p';
+        if(s->divx_packed)
+            av_log(s->avctx, AV_LOG_WARNING, "Invalid and inefficient vfw-avi packed B frames detected\n");
     }
 
     /* ffmpeg detection */
@@ -3460,7 +3464,7 @@ static int decode_user_data(MpegEncContext *s, GetBitContext *gb){
         s->lavc_build= build;
     }
 
-    /* xvid detection */
+    /* Xvid detection */
     e=sscanf(buf, "XviD%d", &build);
     if(e==1){
         s->xvid_build= build;

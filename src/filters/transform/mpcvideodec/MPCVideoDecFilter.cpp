@@ -705,10 +705,6 @@ void CMPCVideoDecFilter::Cleanup()
 	{
 		if (m_pAVCtx->intra_matrix)			free(m_pAVCtx->intra_matrix);
 		if (m_pAVCtx->inter_matrix)			free(m_pAVCtx->inter_matrix);
-		if (m_pAVCtx->intra_matrix_luma)	free(m_pAVCtx->intra_matrix_luma);
-		if (m_pAVCtx->intra_matrix_chroma)	free(m_pAVCtx->intra_matrix_chroma);
-		if (m_pAVCtx->inter_matrix_luma)	free(m_pAVCtx->inter_matrix_luma);
-		if (m_pAVCtx->inter_matrix_chroma)	free(m_pAVCtx->inter_matrix_chroma);
 		if (m_pAVCtx->extradata)			free((unsigned char*)m_pAVCtx->extradata);
 		if (m_pFFBuffer)					free(m_pFFBuffer);
 
@@ -878,10 +874,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			
 			m_pAVCtx->intra_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
 			m_pAVCtx->inter_matrix			= (uint16_t*)calloc(sizeof(uint16_t),64);
-			m_pAVCtx->intra_matrix_luma		= (uint16_t*)calloc(sizeof(uint16_t),16);
-			m_pAVCtx->intra_matrix_chroma	= (uint16_t*)calloc(sizeof(uint16_t),16);
-			m_pAVCtx->inter_matrix_luma		= (uint16_t*)calloc(sizeof(uint16_t),16);
-			m_pAVCtx->inter_matrix_chroma	= (uint16_t*)calloc(sizeof(uint16_t),16);
 			m_pAVCtx->codec_tag				= ffCodecs[nNewCodec].fourcc;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;

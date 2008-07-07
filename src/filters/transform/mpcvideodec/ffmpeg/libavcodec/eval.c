@@ -41,7 +41,7 @@
 #endif
 
 #ifndef NAN
-#if __STDC_VERSION >= 199901L
+#if __STDC_VERSION__ >= 199901L
   #define NAN 0.0/0.0
 #else
   #define NAN -1234567891234
@@ -68,7 +68,7 @@ typedef struct Parser{
 } Parser;
 
 #ifdef __GNUC__
-static int8_t si_prefixes['z' - 'E' + 1]={
+static const int8_t si_prefixes['z' - 'E' + 1]={
     ['y'-'E']= -24,
     ['z'-'E']= -21,
     ['a'-'E']= -18,
@@ -91,7 +91,7 @@ static int8_t si_prefixes['z' - 'E' + 1]={
     ['Y'-'E']=  24,
 };
 #else
-static int8_t si_prefixes['z' - 'E' + 1];
+static const int8_t si_prefixes['z' - 'E' + 1];
 #endif
 
 /** strtod() function extended with 'k', 'M', 'G', 'ki', 'Mi', 'Gi' and 'B'
@@ -229,7 +229,7 @@ static AVEvalExpr * parse_primary(Parser *p) {
 
     p->s= strchr(p->s, '(');
     if(p->s==NULL){
-        *p->error = "missing (";
+        *p->error = "undefined constant or missing (";
         p->s= next;
         ff_eval_free(d);
         return NULL;

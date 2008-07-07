@@ -489,6 +489,11 @@ static inline void emms(void)
 void dsputil_init_pix_mmx(DSPContext* c, AVCodecContext *avctx);
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
+#else
+
+#define mm_flags 0
+#define mm_support() 0
+
 #endif
 
 #ifndef DECLARE_ALIGNED_8
@@ -551,6 +556,13 @@ typedef struct MDCTContext {
     FFTSample *tsin;
     FFTContext fft;
 } MDCTContext;
+
+/**
+ * Generate a sine window.
+ * @param   window  pointer to half window
+ * @param   n       size of half window
+ */
+void ff_sine_window_init(float *window, int n);
 
 int ff_mdct_init(MDCTContext *s, int nbits, int inverse);
 void ff_imdct_calc(MDCTContext *s, FFTSample *output,

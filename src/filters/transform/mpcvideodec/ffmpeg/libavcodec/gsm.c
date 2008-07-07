@@ -880,7 +880,7 @@ static void XA_MSGSM_Decoder(XAGSMstate *gsm_state,const unsigned char *ibuf,uns
 
 static int gsm_decode_frame(AVCodecContext *avctx,
 			    void *data, int *data_size,
-			    uint8_t *buf, int buf_size)
+			    const uint8_t *buf, int buf_size)
 {
     XAGSMstate *s = avctx->priv_data;
     XA_MSGSM_Decoder(s,buf,data);

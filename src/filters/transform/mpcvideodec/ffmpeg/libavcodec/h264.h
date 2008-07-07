@@ -70,6 +70,10 @@
 #endif
 #define FIELD_OR_MBAFF_PICTURE (FRAME_MBAFF || FIELD_PICTURE)
 
+#ifndef ENABLE_H264_ENCODER
+#define ENABLE_H264_ENCODER 0
+#endif
+
 /**
  * Sequence parameter set
  */
@@ -190,6 +194,7 @@ typedef struct H264mb {
     int cbp;
     int top_mb_xy;
     int left_mb_xy[2];
+    
     int mb_xy;
 
     unsigned int sub_mb_type[4];
@@ -453,6 +458,7 @@ typedef struct H264Context{
 
     int last_slice_type;
     /** @} */
+    
     int mb_xy;
 
     /* experimental */

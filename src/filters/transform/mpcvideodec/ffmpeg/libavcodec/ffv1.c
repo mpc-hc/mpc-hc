@@ -35,6 +35,8 @@
 #define MAX_PLANES 4
 #define CONTEXT_SIZE 32
 
+extern const uint8_t ff_log2_run[32];
+
 static const int8_t quant3[256]={
  0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -142,12 +144,6 @@ static const int8_t quant13[256]={
 -5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,
 -5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,
 -4,-4,-4,-4,-4,-4,-4,-4,-4,-3,-3,-3,-3,-2,-2,-1,
-};
-
-static const uint8_t log2_run[32]={
- 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,
- 4, 4, 5, 5, 6, 6, 7, 7,
- 8, 9,10,11,12,13,14,15,
 };
 
 typedef struct VlcState{
@@ -435,10 +431,10 @@ static inline void decode_line(FFV1Context *s, int w, int_fast16_t *sample[2], i
             if(run_mode){
                 if(run_count==0 && run_mode==1){
                     if(get_bits1(&s->gb)){
-                        run_count = 1<<log2_run[run_index];
+                        run_count = 1<<ff_log2_run[run_index];
                         if(x + run_count <= w) run_index++;
                     }else{
-                        if(log2_run[run_index]) run_count = get_bits(&s->gb, log2_run[run_index]);
+                        if(ff_log2_run[run_index]) run_count = get_bits(&s->gb, ff_log2_run[run_index]);
                         else run_count=0;
                         if(run_index) run_index--;
                         run_mode=2;
@@ -472,7 +468,9 @@ static void decode_plane(FFV1Context *s, uint8_t *src, int w, int h, int stride,
 #else
     int_fast16_t *sample_buffer;
 #endif
-    int_fast16_t *sample[2]= {sample_buffer[0]+3, sample_buffer[1]+3};
+    int_fast16_t *sample[2];
+    sample[0]=sample_buffer[0]+3;
+    sample[1]=sample_buffer[1]+3;
 
     s->run_index=0;
 
@@ -503,10 +501,11 @@ static void decode_rgb_frame(FFV1Context *s, uint32_t *src, int w, int h, int st
 #else
     int_fast16_t *sample_buffer[3][2];
 #endif
-    int_fast16_t *sample[3][2]= {
-        {sample_buffer[0][0]+3, sample_buffer[0][1]+3},
-        {sample_buffer[1][0]+3, sample_buffer[1][1]+3},
-        {sample_buffer[2][0]+3, sample_buffer[2][1]+3}};
+    int_fast16_t *sample[3][2];
+    for(x=0; x<3; x++){
+        sample[x][0] = sample_buffer[x][0]+3;
+        sample[x][1] = sample_buffer[x][1]+3;
+    }
 
     s->run_index=0;
 
@@ -734,5 +733,5 @@ AVCodec ffv1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"FFmpeg codec #1",
+    /*.long_name= */NULL_IF_CONFIG_SMALL("FFmpeg codec #1"),
 };

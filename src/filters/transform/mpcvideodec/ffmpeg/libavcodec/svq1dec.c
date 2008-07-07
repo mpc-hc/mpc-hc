@@ -829,7 +829,7 @@ AVCodec svq1_decoder = {
     /*.next=*/NULL,
     /*.flush=*/ff_mpeg_flush,
     /*.supported_framerates = */NULL,
-#if __STDC_VERSION >= 199901L	 
+#if __STDC_VERSION__ >= 199901L 
     .pix_fmts=(enum PixelFormat[]){PIX_FMT_YUV410P, PIX_FMT_NONE},
 #else
     /*.pix_fmts = */NULL,

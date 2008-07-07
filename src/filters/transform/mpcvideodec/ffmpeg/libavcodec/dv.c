@@ -271,11 +271,6 @@ static inline int get_bits_left(GetBitContext *s)
     return s->size_in_bits - get_bits_count(s);
 }
 
-static inline int get_bits_size(GetBitContext *s)
-{
-    return s->size_in_bits;
-}
-
 static inline int put_bits_left(PutBitContext* s)
 {
     return (s->buf_end - s->buf) * 8 - put_bits_count(s);
@@ -284,7 +279,7 @@ static inline int put_bits_left(PutBitContext* s)
 /* decode ac coefs */
 static void dv_decode_ac(GetBitContext *gb, BlockInfo *mb, DCTELEM *block)
 {
-    int last_index = get_bits_size(gb);
+    int last_index = gb->size_in_bits;
     const uint8_t *scan_table = mb->scan_table;
     const uint8_t *shift_table = mb->shift_table;
     const int *iweight_table = mb->iweight_table;
@@ -1024,6 +1019,9 @@ static int dvvideo_decode_frame(AVCodecContext *avctx,
     s->picture.key_frame = 1;
     s->picture.pict_type = FF_I_TYPE;
     avctx->pix_fmt = s->sys->pix_fmt;
+    //avctx->time_base = (AVRational){s->sys->frame_rate_base, s->sys->frame_rate};
+	avctx->time_base.num = s->sys->frame_rate_base;
+	avctx->time_base.den = s->sys->frame_rate;
     avcodec_set_dimensions(avctx, s->sys->width, s->sys->height);
     if(avctx->get_buffer(avctx, &s->picture) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
@@ -1191,5 +1189,5 @@ AVCodec dvvideo_decoder = {
     /*.flush=*/NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"DV (Digital Video)",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
 };

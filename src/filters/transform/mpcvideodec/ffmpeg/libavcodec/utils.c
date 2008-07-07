@@ -72,38 +72,7 @@ void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
 }
 
 static unsigned int last_static = 0;
-static unsigned int allocated_static = 0;
 static void** array_static = NULL;
-
-void *av_mallocz_static(unsigned int size)
-{
-    void *ptr = av_mallocz(size);
-
-    if(ptr){
-        array_static =av_fast_realloc(array_static, &allocated_static, sizeof(void*)*(last_static+1));
-        if(!array_static)
-            return NULL;
-        array_static[last_static++] = ptr;
-    }
-
-    return ptr;
-}
-
-void *ff_realloc_static(void *ptr, unsigned int size)
-{
-    int i;
-    if(!ptr)
-      return av_mallocz_static(size);
-    /* Look for the old ptr */
-    for(i = 0; i < last_static; i++) {
-        if(array_static[i] == ptr) {
-            array_static[i] = av_realloc(array_static[i], size);
-            return array_static[i];
-        }
-    }
-    return NULL;
-
-}
 
 void av_free_static(void)
 {
@@ -112,20 +81,6 @@ void av_free_static(void)
     }
     av_freep(&array_static);
 }
-
-/**
- * Call av_free_static automatically before it's too late
- */
-
-#ifdef __GNUC__
-static void do_free(void) __attribute__ ((destructor));
-#endif
-
-static void do_free(void)
-{
-    av_free_static();
-}
-
 
 /* encoder management */
 AVCodec *first_avcodec = NULL;
@@ -758,42 +713,6 @@ unsigned int av_xiphlacing(unsigned char *s, unsigned int v)
     *s = v;
     n++;
     return n;
-}
-
-/* Wrapper to work around the lack of mkstemp() on mingw/cygin.
- * Also, tries to create file in /tmp first, if possible.
- * *prefix can be a character constant; *filename will be allocated internally.
- * Returns file descriptor of opened file (or -1 on error)
- * and opened file name in **filename. */
-int av_tempfile(char *prefix, char **filename) {
-    int fd=-1;
-#if !defined(HAVE_MKSTEMP)
-    *filename = tempnam(".", prefix);
-#else
-    size_t len = strlen(prefix) + 12; /* room for "/tmp/" and "XXXXXX\0" */
-    *filename = av_malloc(len);
-#endif
-    /* -----common section-----*/
-    if (*filename == NULL) {
-        av_log(NULL, AV_LOG_ERROR, "ff_tempfile: Cannot allocate file name\n");
-        return -1;
-    }
-#if !defined(HAVE_MKSTEMP)
-    fd = open(*filename, O_RDWR | O_BINARY | O_CREAT, 0444);
-#else
-    snprintf(*filename, len, "/tmp/%sXXXXXX", prefix);
-    fd = mkstemp(*filename);
-    if (fd < 0) {
-        snprintf(*filename, len, "./%sXXXXXX", prefix);
-        fd = mkstemp(*filename);
-    }
-#endif
-    /* -----common section-----*/
-    if (fd < 0) {
-        av_log(NULL, AV_LOG_ERROR, "ff_tempfile: Cannot open temporary file %s\n", *filename);
-        return -1;
-    }
-    return fd; /* success */
 }
 
 typedef struct {
