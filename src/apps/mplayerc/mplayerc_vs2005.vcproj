@@ -510,6 +510,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MiniDump.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Monitors.cpp"
 				>
 			</File>
