@@ -1605,21 +1605,22 @@ BEGIN
         MENUITEM "&Test mode Tearing\tCtrl+T",  ID_VIEW_TEARING_TEST
         MENUITEM "&Statistiques d'affichage\tCtrl+J", ID_VIEW_DISPLAYSTATS
         MENUITEM "Temps restant\tCtrl+I",       ID_VIEW_REMAINING_TIME
-        POPUP "&Langue"
+        POPUP "&Language"
         BEGIN
-            MENUITEM "&Czech",                      ID_LANGUAGE_CZECH
-            MENUITEM "&English",                    ID_LANGUAGE_ENGLISH
-            MENUITEM "&French",                     ID_LANGUAGE_FRENCH
-            MENUITEM "&German",                     ID_LANGUAGE_GERMAN
-            MENUITEM "&Hungarian",                  ID_LANGUAGE_HUNGARIAN
-			MENUITEM "&Italian",                    ID_LANGUAGE_ITALIAN
-            MENUITEM "&Korean",                     ID_LANGUAGE_KOREAN
-            MENUITEM "&Polish",                     ID_LANGUAGE_POLISH
-            MENUITEM "&Russian",                    ID_LANGUAGE_RUSSIAN
-			MENUITEM "&Slovak",                     ID_LANGUAGE_SLOVAK
-            MENUITEM "&Spanish",                    ID_LANGUAGE_SPANISH
-            MENUITEM "&Turkish",                    ID_LANGUAGE_TURKISH
-			MENUITEM "&Ukrainian",                  ID_LANGUAGE_UKRAINIAN
+            MENUITEM "Czech",                      ID_LANGUAGE_CZECH
+			MENUITEM "Chinese (simplified)",	   ID_LANGUAGE_CHINESE_SIMPLIFIED
+            MENUITEM "English",                    ID_LANGUAGE_ENGLISH
+            MENUITEM "French",                     ID_LANGUAGE_FRENCH
+            MENUITEM "German",                     ID_LANGUAGE_GERMAN
+            MENUITEM "Hungarian",                  ID_LANGUAGE_HUNGARIAN
+			MENUITEM "Italian",                    ID_LANGUAGE_ITALIAN
+            MENUITEM "Korean",                     ID_LANGUAGE_KOREAN
+            MENUITEM "Polish",                     ID_LANGUAGE_POLISH
+            MENUITEM "Russian",                    ID_LANGUAGE_RUSSIAN
+			MENUITEM "Slovak",                     ID_LANGUAGE_SLOVAK
+            MENUITEM "Spanish",                    ID_LANGUAGE_SPANISH
+            MENUITEM "Turkish",                    ID_LANGUAGE_TURKISH
+			MENUITEM "Ukrainian",                  ID_LANGUAGE_UKRAINIAN
         END
         MENUITEM SEPARATOR
         POPUP "Fenêtre &Video"

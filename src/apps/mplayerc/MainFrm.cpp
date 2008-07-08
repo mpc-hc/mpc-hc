@@ -420,7 +420,8 @@ CMainFrame::CMainFrame() :
 	m_pVideoWnd(NULL),
 	m_bRemainingTime(false),
 	m_nCurSubtitle(-1),
-	m_lSubtitleShift(0)
+	m_lSubtitleShift(0),
+	m_bToggleShader(false)
 {
 	m_Lcd.SetVolumeRange(1, 100);
 }
@@ -4582,6 +4583,7 @@ void CMainFrame::OnViewDisplayStats()
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable (m_iMediaLoadState != MLS_CLOSED);
+	pCmdUI->SetCheck (m_bRemainingTime);
 }
 
 void CMainFrame::OnViewRemainingTime()
@@ -4593,13 +4595,12 @@ void CMainFrame::OnViewRemainingTime()
 void CMainFrame::OnUpdateShaderToggle(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable (TRUE);
+	pCmdUI->SetCheck (m_bToggleShader);
 }
 
 void CMainFrame::OnShaderToggle()
 {
-	static bool		bToggleShader = false;
-
-	if (bToggleShader)
+	if (m_bToggleShader)
 	{
 		SetShaders();
 		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_65));
@@ -4610,7 +4611,7 @@ void CMainFrame::OnShaderToggle()
 		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_66));
 	}
 
-	bToggleShader = !bToggleShader;
+	m_bToggleShader = !m_bToggleShader;
 }
 
 void CMainFrame::OnD3DFullscreenToggle()

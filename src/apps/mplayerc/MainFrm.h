@@ -720,6 +720,7 @@ public:
 	long				m_lSubtitleShift;
 	__int64				m_rtCurSubPos;
 	CString				m_strTitle;
+	bool				m_bToggleShader;
 
 	void		SetState(MPC_LOADSTATE iState);
 	bool		CreateFullScreenWindow();
