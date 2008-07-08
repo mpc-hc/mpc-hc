@@ -58,6 +58,9 @@ SRCS_C=\
 		$(LAVC_DIR)/wmv2.c \
 		$(LAVC_DIR)/wmv2dec.c
 
+SRCS_C+=\
+		$(LAVC_DIR)/xiph.c
+
 #SRCS_C+=\
 #		$(LAVC_DIR)/8bps.c \
 #		$(LAVC_DIR)/aac_ac3_parser.c \
