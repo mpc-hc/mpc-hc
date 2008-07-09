@@ -29,7 +29,6 @@
 
 #include "avcodec.h"
 #include "dsputil.h"
-#include "mpegvideo.h"
 #include "simple_idct.h"
 #include "faandct.h"
 #include "faanidct.h"
@@ -3197,7 +3196,7 @@ void ff_vector_fmul_add_add_c(float *dst, const float *src0, const float *src1, 
         dst[i*step] = src0[i] * src1[i] + src2[i] + src3;
 }
 
-void ff_float_to_int16_c(int16_t *dst, const float *src, int len){
+void ff_float_to_int16_c(int16_t *dst, const float *src, long len){
     int i;
     for(i=0; i<len; i++) {
         int_fast32_t tmp = ((const int32_t*)src)[i];
@@ -3649,9 +3648,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     memset(c->put_2tap_qpel_pixels_tab, 0, sizeof(c->put_2tap_qpel_pixels_tab));
     memset(c->avg_2tap_qpel_pixels_tab, 0, sizeof(c->avg_2tap_qpel_pixels_tab));
 
-#ifdef HAVE_MMX
-	dsputil_init_mmx   (c, avctx);
-#endif
+		if (ENABLE_MMX)      dsputil_init_mmx   (c, avctx);
 
     for(i=0; i<64; i++){
         if(!c->put_2tap_qpel_pixels_tab[0][i])

@@ -39,6 +39,7 @@
  */
 
 #include "libavcodec/dsputil.h"
+#include "libavcodec/i386/idct_xvid.h"
 
 /*!
  * @file idct_sse2_xvid.c
@@ -338,7 +339,7 @@ DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders[]) = {
     "movdqa   %%xmm6, 4*16("dct")     \n\t" \
     "movdqa   "SREG2", 7*16("dct")    \n\t"
 
-void ff_idct_xvid_sse2(short *block)
+inline void ff_idct_xvid_sse2(short *block)
 {
     asm volatile(
     "movq     "MANGLE(m127)", %%mm0                              \n\t"
