@@ -1,21 +1,22 @@
 #if defined(__GNUC__)
+/* used for inline assembly stuff with GCC syntax */
   #define HAVE_MMX 1
   #define ENABLE_MMX 1
   #define HAVE_SSSE3 1
   #define ENABLE_SSSE3 1
 
   #define ARCH_X86 1
-  #define ENABLE_X86 1
 
   #ifdef ARCH_X86_64
-  	#define ENABLE_X86_64 1
-  	
     #define HAVE_FAST_64BIT 1
   #else
     #define ARCH_X86_32 1
-    #define ENABLE_X86_32 1
   #endif
+#else
+	#define ENABLE_MMX 0
+	#define ENABLE_SSSE3 0
 #endif
+
 
 #define HAVE_MALLOC_H 1
 #define HAVE_LRINTF 1
