@@ -48,8 +48,8 @@ const AMOVIESETUP_PIN sudpPinsAudioDec[] =
 
 const AMOVIESETUP_FILTER sudFilters[] =
 {
-	{&__uuidof(CMPCVideoDecFilter), L"MPC - Video decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsVideoDec), sudpPinsVideoDec},
-	{&__uuidof(CMPCAudioDecFilter), L"MPC - Audio decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsAudioDec), sudpPinsAudioDec},
+	{&__uuidof(CMPCVideoDecFilter), L"MPC - Video decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsVideoDec), sudpPinsVideoDec}
+//	{&__uuidof(CMPCAudioDecFilter), L"MPC - Audio decoder", /*MERIT_DO_NOT_USE*/0x40000001, countof(sudpPinsAudioDec), sudpPinsAudioDec},
 };
 
 

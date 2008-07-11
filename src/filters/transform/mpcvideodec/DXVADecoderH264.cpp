@@ -338,7 +338,7 @@ void CDXVADecoderH264::UpdateRefFramesList (int nFrameNum, bool bRefFrame, bool 
 		if (m_DXVAPicParams.field_pic_flag)
 			m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame*2+(bAdded?1:0)];
 		else
-			m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame*2];
+			m_DXVAPicParams.UsedForReferenceFlags	= g_UsedForReferenceFlags [m_nCurRefFrame*2+1];
 
 		if (bAdded)
 			m_nCurRefFrame = min (m_nCurRefFrame+1, (UINT)(m_DXVAPicParams.num_ref_frames-1));
