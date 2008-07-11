@@ -425,7 +425,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 
 // Workaround : graphedit crash when filter expose more than 115 input MediaTypes !
 const int CMPCVideoDecFilter::sudPinTypesInCount = 115; //countof(CMPCVideoDecFilter::sudPinTypesIn);
-
+UINT       CMPCVideoDecFilter::Trafilters = 0xFFFFFFFF;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
@@ -585,28 +585,19 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 	for (int i=0; i<countof(ffCodecs); i++)
 		if (mtIn->subtype == *ffCodecs[i].clsMinorType)
 		{
-#ifndef REGISTER_FILTER
-			// check MPC internal filter settings to see if DXVA or FFmpeg may be used
-			int trafilters = 0;
-			CRegKey key;
-			if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Media Player Classic\\Internal Filters"), KEY_READ))
-			{
-				DWORD dw;
-				if(ERROR_SUCCESS == key.QueryDWORDValue(_T("TraFilters"), dw)) trafilters = dw;
-			}			
-			
+#ifndef REGISTER_FILTER		
 			switch (ffCodecs[i].nFFCodec)
 			{
 			case CODEC_ID_H264 :
 				/* is it safe to include mplayerc.h here for getting the values below? */
 				/* TRA_H264 = 16384, TRA_H264_DXVA = 16777216 */
 				#if INTERNAL_DECODER_H264_DXVA
-				m_bUseDXVA = (trafilters & 16777216) != 0;
+				m_bUseDXVA = (Trafilters & 16777216) != 0;
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_H264
-				m_bUseFFmpeg = (trafilters & 16384) != 0;
+				m_bUseFFmpeg = (Trafilters & 16384) != 0;
 				#else
 				m_bUseFFmpeg = false;
 				#endif
@@ -614,12 +605,12 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			case CODEC_ID_VC1 :
 				/* TRA_VC1 = 32768, TRA_VC1_DXVA = 33554432 */
 				#if INTERNAL_DECODER_VC1_DXVA
-				m_bUseDXVA = (trafilters & 33554432) != 0;
+				m_bUseDXVA = (Trafilters & 33554432) != 0;
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_VC1
-				m_bUseFFmpeg = (trafilters & 32768) != 0;
+				m_bUseFFmpeg = (Trafilters & 32768) != 0;
 				#else
 				m_bUseFFmpeg = false;
 				#endif

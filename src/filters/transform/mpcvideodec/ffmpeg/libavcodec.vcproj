@@ -445,6 +445,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\CompilatorVersion.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\cook.c"
 				>
 			</File>
@@ -1203,10 +1207,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\intrax8huf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inttypes.h"
 				>
 			</File>
 			<File

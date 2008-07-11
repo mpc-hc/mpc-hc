@@ -2158,6 +2158,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT
 	m_transform.AddTail(pFGF);
 	*/
 
+	CMPCVideoDecFilter::Trafilters = s.TraFilters;
 
 	// Blocked filters
 

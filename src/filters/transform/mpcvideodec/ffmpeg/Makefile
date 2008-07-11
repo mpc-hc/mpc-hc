@@ -11,6 +11,7 @@ SRCS_C=\
 		$(LAVC_DIR)/allcodecs.c \
 		$(LAVC_DIR)/bitstream.c \
 		$(LAVC_DIR)/cabac.c \
+		$(LAVC_DIR)/CompilatorVersion.c\
 		$(LAVC_DIR)/dsputil.c \
 		$(LAVC_DIR)/error_resilience.c \
 		$(LAVC_DIR)/faandct.c \

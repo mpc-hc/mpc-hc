@@ -184,6 +184,8 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
+extern "C" char *GetFfmpegCompiler();
+
 class CAboutDlg : public CDialog
 {
 public:
@@ -210,19 +212,34 @@ public:
 	CString m_appname;
 	virtual BOOL OnInitDialog()
 	{
-#ifdef UNICODE
+		USES_CONVERSION;
 		UpdateData();
-		m_appname += _T(" (unicode build)");
-		m_strVersion += AfxGetMyApp()->m_strVersion;
+		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
+
+		#if (_MSC_VER == 1500)
+			m_MPCCompiler = _T("VS 2008");
+		#elif (_MSC_VER == 1400)
+			m_MPCCompiler = _T("VS 2005");
+		#elif (_MSC_VER == 1310)
+			m_MPCCompiler = _T("VS 2003");
+		#elif (_MSC_VER == 1300)
+			m_MPCCompiler = _T("VS 2002");
+		#endif
+
+		m_FfmpegCompiler.Format (A2W(GetFfmpegCompiler()));
+
 		UpdateData(FALSE);
-#endif
 		return TRUE;
 	}
-	CString m_strVersion;
+	CString m_strBuildNumber;
+	CString m_MPCCompiler;
+	CString m_FfmpegCompiler;
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
-, m_strVersion(_T(""))
+, m_strBuildNumber(_T(""))
+, m_MPCCompiler(_T(""))
+, m_FfmpegCompiler(_T(""))
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
@@ -234,7 +251,9 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CAboutDlg)
 	//}}AFX_DATA_MAP
 	DDX_Text(pDX, IDC_STATIC1, m_appname);
-	DDX_Text(pDX, IDC_VERSION, m_strVersion);
+	DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
+	DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
+	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FfmpegCompiler);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
