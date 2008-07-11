@@ -186,18 +186,23 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,37,115,10
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 222, 111
+IDD_ABOUTBOX DIALOGEX 0, 0, 222, 151
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "A propos"
 FONT 8, "MS Shell Dlg", 400, 0, 0xB1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "Media Player Classic",IDC_STATIC1,40,12,122,8,SS_NOPREFIX
+    LTEXT           "Media Player Classic - Homecinema",IDC_STATIC1,40,12,118,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2002-2008 (voir le fichier AUTHORS)",IDC_STATIC,40,26,170,8
-    LTEXT           "Version: MPC HomeCinema v",IDC_VERSION,40,40,170,8
-    PUSHBUTTON      "OK",IDOK,172,8,50,14,WS_GROUP
-    LTEXT           "Ce programme est gratuit et est distribué sous GNU General Public License.\nLa distribution dans des packs de codecs est autorisée, mais l'auteur (Gabest) n'est pas responsable du contenu additionnel.",IDC_STATIC,11,53,205,35
-    LTEXT           "Traduction par Julien (Vk) ~ Transcription Pho3nX",IDC_STATIC,11,91,199,17
+    LTEXT           "N° version :",IDC_VERSION,40,44,48,8
+    PUSHBUTTON      "OK",IDOK,166,8,44,14,WS_GROUP
+    LTEXT           "Ce programme est gratuit et est distribué sous GNU General Public License.\nLa distribution dans des packs de codecs est autorisée, mais l'auteur (Gabest) n'est pas responsable du contenu additionnel.",IDC_STATIC,40,97,170,46
+    LTEXT           "Compilateur MPC :",IDC_STATIC,40,61,49,8
+    LTEXT           "Compilateur Ffmpeg :",IDC_STATIC,40,80,59,8
+    EDITTEXT        IDC_BUILD_NUMBER,107,42,61,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_MPC_COMPILER,107,60,61,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_FFMPEG_COMPILER,107,78,61,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Traduction par Julien (Vk) ~ Transcription Pho3nX",IDC_STATIC,40,138,170,10
 END
 
 IDD_PLAYERSTATUSBAR DIALOGEX 0, 0, 183, 15
