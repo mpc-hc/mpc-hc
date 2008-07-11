@@ -1196,7 +1196,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 					}
 					time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
 
-					h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
+					if (time_scale)
+						h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
 				}
 			}
 		}

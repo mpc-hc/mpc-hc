@@ -767,6 +767,7 @@
 #define IDS_MPLAYERC_104                24002
 #define IDS_MPLAYERC_105                24003
 #define IDS_RS_SUBDELAYINTERVAL         24004
+#define IDS_FILE_SAVE_THUMBNAILS		24005
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_SHADER_TOGGLE                32770
 #define IDS_SHADER_TOGGLE               32771
@@ -1178,6 +1179,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        20002
 #define _APS_NEXT_COMMAND_VALUE         33207
 #define _APS_NEXT_CONTROL_VALUE         22015
-#define _APS_NEXT_SYMED_VALUE           24005
+#define _APS_NEXT_SYMED_VALUE           24006
 #endif
 #endif
