@@ -444,6 +444,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\CompilatorVersion.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\cook.c"
 				>
 			</File>
