@@ -1,0 +1,100 @@
+//
+// mplayerc.RC2 - resources Microsoft Visual C++ does not edit directly
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+
+/////////////////////////////////////////////////////////////////////////////
+
+#include "resource.h"
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#include "../../../../include/version.h"
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Sys. Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#endif //_WIN32
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FILE
+//
+
+#ifdef WIN64
+	IDF_LOGO1               FILE                    "res\\x64\\logo.1.png"
+	IDF_LOGO2               FILE                    "res\\x64\\logo.2.png"
+	IDF_LOGO3               FILE                    "res\\x64\\logo.3.png"
+	IDF_LOGO4               FILE                    "res\\x64\\logo.4.png"
+	IDF_LOGO5               FILE                    "res\\x64\\logo.5.png"
+	IDF_LOGO6               FILE                    "res\\x64\\logo.6.png"
+	IDF_LOGO7               FILE                    "res\\x64\\logo.7.png"
+#else
+	IDF_LOGO1               FILE                    "res\\logo.1.png"
+	IDF_LOGO2               FILE                    "res\\logo.2.png"
+	IDF_LOGO3               FILE                    "res\\logo.3.png"
+	IDF_LOGO4               FILE                    "res\\logo.4.png"
+	IDF_LOGO5               FILE                    "res\\logo.5.png"
+	IDF_LOGO6               FILE                    "res\\logo.6.png"
+	IDF_LOGO7               FILE                    "res\\logo.7.png"
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
+ PRODUCTVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
+ FILEFLAGSMASK 0x1fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Based on original Media Player Classic v6.4.9.0 (C) gabest"
+            VALUE "CompanyName", "mpc-hc@Sourceforge"
+            VALUE "FileDescription", "Media Player Classic - Homecinema"
+            VALUE "FileVersion", "1, 1, 0, 2"
+            VALUE "InternalName", "mpc-hc"
+            VALUE "LegalCopyright", "2002-2008 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/AUTHORS?revision=HEAD"
+            VALUE "OriginalFilename", "mplayerc.exe"
+            VALUE "ProductName", "Media Player Classic - Homecinema"
+            VALUE "ProductVersion", "1, 1, 0, 2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // Neutral (Sys. Default) resources

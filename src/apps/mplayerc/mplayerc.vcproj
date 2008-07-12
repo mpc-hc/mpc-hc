@@ -526,11 +526,19 @@
 				RelativePath=".\mplayerc.rc"
 				>
 				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release Unicode|x64"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="NDEBUG, WIN64"
+						PreprocessorDefinitions="NDEBUG"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1428,6 +1436,17 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\res\mplayerc.rc2"
+				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
