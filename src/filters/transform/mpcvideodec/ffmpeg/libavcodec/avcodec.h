@@ -43,7 +43,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 51
-#define LIBAVCODEC_VERSION_MINOR 56
+#define LIBAVCODEC_VERSION_MINOR 60
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -68,6 +68,7 @@ enum CodecType {
     CODEC_TYPE_AUDIO,
     CODEC_TYPE_DATA,
     CODEC_TYPE_SUBTITLE,
+    CODEC_TYPE_ATTACHMENT,
     CODEC_TYPE_NB
 };
 
@@ -145,7 +146,6 @@ enum AVDiscard{
 #define CODEC_FLAG_INTERLACED_DCT 0x00040000 ///< Use interlaced DCT.
 #define CODEC_FLAG_LOW_DELAY      0x00080000 ///< Force low delay.
 #define CODEC_FLAG_ALT_SCAN       0x00100000 ///< Use alternate scan.
-#define CODEC_FLAG_TRELLIS_QUANT  0x00200000 ///< Use trellis quantization.
 #define CODEC_FLAG_GLOBAL_HEADER  0x00400000 ///< Place global headers in extradata instead of every keyframe.
 #define CODEC_FLAG_BITEXACT       0x00800000 ///< Use only bitexact stuff (except (I)DCT).
 /* Fx : Flag for h263+ extra options */
@@ -601,7 +601,7 @@ typedef struct AVCodecContext {
 
     /* audio only */
     int sample_rate; ///< samples per second
-    int channels;
+    int channels;    ///< number of audio channels
     float postgain;		/* FOXFIX: Now removed from lavc */
 
     /**
@@ -693,7 +693,7 @@ typedef struct AVCodecContext {
      * - encoding: Set by user.
      * - decoding: unused
      */
-     int strict_std_compliance;
+    int strict_std_compliance;
 #define FF_COMPLIANCE_VERY_STRICT   2 ///< Strictly conform to a older more strict version of the spec or reference software.
 #define FF_COMPLIANCE_STRICT        1 ///< Strictly conform to all the things in the spec no matter what consequences.
 #define FF_COMPLIANCE_NORMAL        0
@@ -969,7 +969,7 @@ typedef struct AVCodecContext {
      * - encoding: Set by user.
      * - decoding: unused
      */
-     int coder_type;
+    int coder_type;
 
     /**
      * macroblock decision mode
@@ -1211,7 +1211,11 @@ typedef struct AVCodec {
     void (*flush)(AVCodecContext *);
     const AVRational *supported_framerates; ///< array of supported framerates, or NULL if any, array is terminated by {0,0}
     const enum PixelFormat *pix_fmts;       ///< array of supported pixel formats, or NULL if unknown, array is terminated by -1
-    const char *long_name;                  ///< descriptive name for the codec, meant to be more human readable than \p name
+    /**
+     * Descriptive name for the codec, meant to be more human readable than \p name.
+     * You \e should use the NULL_IF_CONFIG_SMALL() macro to define it.
+     */
+    const char *long_name;
     const int *supported_samplerates;       ///< array of supported audio samplerates, or NULL if unknown, array is terminated by 0
 } AVCodec;
 
@@ -1246,7 +1250,7 @@ typedef struct AVPaletteControl {
      * data is probably 6 bits in size and needs to be scaled. */
     unsigned int palette[AVPALETTE_COUNT];
 
-} AVPaletteControl;
+} AVPaletteControl attribute_deprecated;
 
 /**
  * Allocate memory for a picture.  Call avpicture_free to free it.
@@ -1309,8 +1313,6 @@ AVCodec *av_codec_next(AVCodec *c);
 
 /* returns LIBAVCODEC_VERSION_INT constant */
 unsigned avcodec_version(void);
-/* returns LIBAVCODEC_BUILD constant */
-unsigned avcodec_build(void);
 
 /**
  * Initializes libavcodec.
@@ -1536,6 +1538,8 @@ FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
  * @param[in] samples the input buffer containing the samples
  * The number of samples read from this buffer is frame_size*channels,
  * both of which are defined in \p avctx.
+ * For PCM audio the number of samples read from \p samples is equal to
+ * \p buf_size * input_sample_size / output_sample_size.
  * @return On error a negative value is returned, on success zero or the number
  * of bytes used to encode the data read from the input buffer.
  */
@@ -1578,7 +1582,7 @@ typedef struct AVCodecParserContext {
     int64_t frame_offset; /* offset of the current frame */
     int64_t cur_offset; /* current offset
                            (incremented by each av_parser_parse()) */
-    int64_t last_frame_offset; /* offset of the last frame */
+    int64_t next_frame_offset; /* offset of the next frame */
     /* video info */
     int pict_type; /* XXX: Put it back in AVCodecContext. */
     int repeat_pict; /* XXX: Put it back in AVCodecContext. */
@@ -1600,7 +1604,7 @@ typedef struct AVCodecParserContext {
 #define PARSER_FLAG_COMPLETE_FRAMES           0x0001
 
     int64_t offset;      ///< byte offset from starting packet start
-    int64_t last_offset;
+    int64_t cur_frame_end[AV_PARSER_PTS_NB];
 } AVCodecParserContext;
 
 typedef struct AVCodecParser {
@@ -1640,18 +1644,6 @@ void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size);
  *
  */
 attribute_deprecated void av_free_static(void);
-
-/**
- * Allocation of static arrays.
- *
- * @warning Do not use for normal allocation.
- *
- * @param[in] size The amount of memory you need in bytes.
- * @return block of memory of the requested size
- * @deprecated. Code which uses av_mallocz_static is broken/misdesigned
- * and should correctly use static arrays
- */
-attribute_deprecated void *av_mallocz_static(unsigned int size);
 
 /**
  * Copy image 'src' to 'dst'.

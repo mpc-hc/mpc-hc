@@ -166,7 +166,7 @@ static inline void asv1_put_level(PutBitContext *pb, int level){
     if(index <= 6) put_bits(pb, level_tab[index][1], level_tab[index][0]);
     else{
         put_bits(pb, level_tab[3][1], level_tab[3][0]);
-        put_bits(pb, 8, level&0xFF);
+        put_sbits(pb, 8, level);
     }
 }
 
@@ -447,7 +447,7 @@ AVCodec asv1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"ASUS V1",
+    /*.long_name= */NULL_IF_CONFIG_SMALL("ASUS V1"),
 };
 
 AVCodec asv2_decoder = {
@@ -464,6 +464,6 @@ AVCodec asv2_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"ASUS V2",
+    /*.long_name= */NULL_IF_CONFIG_SMALL("ASUS V2"),
 };
 

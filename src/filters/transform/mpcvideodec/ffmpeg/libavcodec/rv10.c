@@ -712,7 +712,7 @@ AVCodec rv10_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"RealVideo 1.0",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("RealVideo 1.0"),
 };
 
 AVCodec rv20_decoder = {
@@ -729,6 +729,6 @@ AVCodec rv20_decoder = {
     /*.flush = */ff_mpeg_flush,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"RealVideo 2.0",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("RealVideo 2.0"),
 };
 

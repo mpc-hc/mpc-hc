@@ -42,12 +42,12 @@ struct MpegEncContext;
 typedef struct ParseContext1{
     ParseContext pc;
 /* XXX/FIXME PC1 vs. PC */
-    /* MPEG2 specific */
+    /* MPEG-2-specific */
     AVRational frame_rate;
     int progressive_sequence;
     int width, height;
 
-    /* XXX: suppress that, needed by MPEG4 */
+    /* XXX: suppress that, needed by MPEG-4 */
     struct MpegEncContext *enc;
     int first_picture;
 } ParseContext1;
@@ -60,7 +60,11 @@ int ff_mpeg4video_split(AVCodecContext *avctx, const uint8_t *buf,
 void ff_parse_close(AVCodecParserContext *s);
 void ff_parse1_close(AVCodecParserContext *s);
 
-/* h263dec.c */
-int ff_mpeg4_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size);
+/**
+ * Fetches timestamps for a specific byte within the current access unit.
+ * @param off byte position within the access unit
+ * @param remove Found timestamps will be removed if set to 1, kept if set to 0.
+ */
+void ff_fetch_timestamp(AVCodecParserContext *s, int off, int remove);
 
 #endif /* FFMPEG_PARSER_H */

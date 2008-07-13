@@ -220,7 +220,6 @@
  CODEC_OP(CODEC_ID_TEXT          ,2003,"Text") \
  CODEC_OP(CODEC_ID_XSUB          ,2004,"XSUB") \
  /* Other formats */ \
- CODEC_OP(CODEC_TYPE_ATTACHMENT  ,2100,"Matroska Attachement") \
  CODEC_OP(CODEC_ID_GSM           ,2101,"GSM") \
  CODEC_OP(CODEC_ID_GIF           ,2102,"Gif") \
  CODEC_OP(CODEC_ID_TIFF          ,2103,"Tiff") \

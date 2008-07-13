@@ -1000,6 +1000,7 @@ static int dv_decode_mt(AVCodecContext *avctx, void* sl)
     return 0;
 }
 
+#ifdef CONFIG_DECODERS
 /* NOTE: exactly one frame must be given (120000 bytes for NTSC,
    144000 bytes for PAL - or twice those for 50Mbps) */
 static int dvvideo_decode_frame(AVCodecContext *avctx,
@@ -1042,6 +1043,7 @@ static int dvvideo_decode_frame(AVCodecContext *avctx,
 
     return s->sys->frame_size;
 }
+#endif
 
 
 static inline int dv_write_pack(enum dv_pack_type pack_id, DVVideoContext *c, uint8_t* buf)
@@ -1116,55 +1118,6 @@ static inline int dv_write_pack(enum dv_pack_type pack_id, DVVideoContext *c, ui
     return 5;
 }
 
-static void dv_format_frame(DVVideoContext* c, uint8_t* buf)
-{
-    int chan, i, j, k;
-
-    for (chan = 0; chan < c->sys->n_difchan; chan++) {
-        for (i = 0; i < c->sys->difseg_size; i++) {
-            memset(buf, 0xff, 80 * 6); /* First 6 DIF blocks are for control data */
-
-            /* DV header: 1DIF */
-            buf += dv_write_dif_id(dv_sect_header, chan, i, 0, buf);
-            buf += dv_write_pack((c->sys->dsf ? dv_header625 : dv_header525), c, buf);
-            buf += 72; /* unused bytes */
-
-            /* DV subcode: 2DIFs */
-            for (j = 0; j < 2; j++) {
-                buf += dv_write_dif_id(dv_sect_subcode, chan, i, j, buf);
-                for (k = 0; k < 6; k++)
-                     buf += dv_write_ssyb_id(k, (i < c->sys->difseg_size/2), buf) + 5;
-                buf += 29; /* unused bytes */
-            }
-
-            /* DV VAUX: 3DIFS */
-            for (j = 0; j < 3; j++) {
-                buf += dv_write_dif_id(dv_sect_vaux, chan, i, j, buf);
-                buf += dv_write_pack(dv_video_source,  c, buf);
-                buf += dv_write_pack(dv_video_control, c, buf);
-                buf += 7*5;
-                buf += dv_write_pack(dv_video_source,  c, buf);
-                buf += dv_write_pack(dv_video_control, c, buf);
-                buf += 4*5 + 2; /* unused bytes */
-            }
-
-            /* DV Audio/Video: 135 Video DIFs + 9 Audio DIFs */
-            for (j = 0; j < 135; j++) {
-                if (j%15 == 0) {
-                    memset(buf, 0xff, 80);
-                    buf += dv_write_dif_id(dv_sect_audio, chan, i, j/15, buf);
-                    buf += 77; /* audio control & shuffled PCM audio */
-                }
-                buf += dv_write_dif_id(dv_sect_video, chan, i, j, buf);
-                buf += 77; /* 1 video macro block: 1 bytes control
-                              4 * 14 bytes Y 8x8 data
-                              10 bytes Cr 8x8 data
-                              10 bytes Cb 8x8 data */
-            }
-        }
-    }
-}
-
 static int dvvideo_close(AVCodecContext *c)
 {
     DVVideoContext *s = c->priv_data;
@@ -1175,6 +1128,7 @@ static int dvvideo_close(AVCodecContext *c)
     return 0;
 }
 
+#ifdef CONFIG_DVVIDEO_DECODER
 AVCodec dvvideo_decoder = {
     "dvvideo",
     CODEC_TYPE_VIDEO,
@@ -1191,3 +1145,4 @@ AVCodec dvvideo_decoder = {
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
 };
+#endif

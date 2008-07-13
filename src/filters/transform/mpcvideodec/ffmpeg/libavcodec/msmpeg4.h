@@ -39,9 +39,7 @@ extern VLC ff_mb_non_intra_vlc[4];
 extern VLC ff_inter_intra_vlc;
 
 void ff_msmpeg4_code012(PutBitContext *pb, int n);
-void ff_msmpeg4_encode_block(MpegEncContext * s, DCTELEM * block, int n);
 void ff_msmpeg4_handle_slices(MpegEncContext *s);
-void ff_msmpeg4_encode_motion(MpegEncContext * s, int mx, int my);
 int ff_msmpeg4_coded_block_pred(MpegEncContext * s, int n,
                                 uint8_t **coded_block_ptr);
 int ff_msmpeg4_decode_motion(MpegEncContext * s, int *mx_ptr, int *my_ptr);

@@ -21,7 +21,9 @@
 #ifndef FFMPEG_X86CPU_H
 #define FFMPEG_X86CPU_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "config.h"
 
 #ifdef ARCH_X86_64
@@ -66,6 +68,10 @@ typedef int32_t x86_reg;
 
 #if defined(ARCH_X86_64) || (defined(ARCH_X86_32) && defined(HAVE_EBX_AVAILABLE) && defined(HAVE_EBP_AVAILABLE))
 #    define HAVE_7REGS 1
+#endif
+
+#if defined(ARCH_X86_64) || (defined(ARCH_X86_32) && (defined(HAVE_EBX_AVAILABLE) || defined(HAVE_EBP_AVAILABLE)))
+#    define HAVE_6REGS 1
 #endif
 
 #if defined(ARCH_X86_64) && defined(PIC)

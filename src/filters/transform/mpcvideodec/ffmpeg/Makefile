@@ -178,7 +178,6 @@ SRCS_C+=\
 #		$(LAVF_DIR)/utils.c \
 
 SRCS_C+=\
-		$(LAVC_DIR)/i386/cavsdsp_mmx.c \
     $(LAVC_DIR)/i386/cpuid.c \
 		$(LAVC_DIR)/i386/dsputil_mmx.c \
 		$(LAVC_DIR)/i386/fdct_mmx.c \
@@ -193,6 +192,9 @@ SRCS_C+=\
 		$(LAVC_DIR)/i386/vc1dsp_mmx.c \
 		$(LAVC_DIR)/i386/vp3dsp_mmx.c \
 		$(LAVC_DIR)/i386/vp3dsp_sse2.c
+		
+#SRCS_C+=\
+#		$(LAVC_DIR)/i386/cavsdsp_mmx.c
 
 
 ifeq ($(64BIT),yes)
