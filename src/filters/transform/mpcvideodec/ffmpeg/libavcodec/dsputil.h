@@ -175,13 +175,17 @@ void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize,
 typedef struct DSPContext {
     /* pixel ops : interface with DCT */
     void (*get_pixels)(DCTELEM *block/*align 16*/, const uint8_t *pixels/*align 8*/, int line_size);
+#if 0
     void (*diff_pixels)(DCTELEM *block/*align 16*/, const uint8_t *s1/*align 8*/, const uint8_t *s2/*align 8*/, int stride);
+#endif
     void (*put_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*put_signed_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels8)(uint8_t *pixels, DCTELEM *block, int line_size);
     void (*add_pixels4)(uint8_t *pixels, DCTELEM *block, int line_size);
+#if 0
     int (*sum_abs_dctelem)(DCTELEM *block/*align 16*/);
+#endif
     /**
      * translational global motion compensation.
      */
@@ -192,8 +196,10 @@ typedef struct DSPContext {
     void (*gmc )(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*/, int stride, int h, int ox, int oy,
                     int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height);
     void (*clear_blocks)(DCTELEM *blocks/*align 16*/);
+#if 0
     int (*pix_sum)(uint8_t * pix, int line_size);
     int (*pix_norm1)(uint8_t * pix, int line_size);
+#endif
 // 16x16 8x8 4x4 2x2 16x8 8x4 4x2 8x16 4x8 2x4
 
     me_cmp_func sad[5]; /* identical to pix_absAxA except additional void * */
@@ -285,6 +291,7 @@ typedef struct DSPContext {
     h264_biweight_func biweight_h264_pixels_tab[10];
 
     /* AVS specific */
+#if ENABLE_CAVS_DECODER
     qpel_mc_func put_cavs_qpel_pixels_tab[2][16];
     qpel_mc_func avg_cavs_qpel_pixels_tab[2][16];
     void (*cavs_filter_lv)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
@@ -292,20 +299,33 @@ typedef struct DSPContext {
     void (*cavs_filter_cv)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
     void (*cavs_filter_ch)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
     void (*cavs_idct8_add)(uint8_t *dst, DCTELEM *block, int stride);
+#endif
 
+#if 0
     me_cmp_func pix_abs[2][4];
+#endif
 
     /* huffyuv specific */
+#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER) || defined(CONDIG_PNG_DECODER)
     void (*add_bytes)(uint8_t *dst/*align 16*/, uint8_t *src/*align 16*/, int w);
+#endif
+#ifdef CONFIG_PNG_DECODER
     void (*add_bytes_l2)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 16*/, int w);
+#endif
+#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER)
     void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/,int w);
+#endif
     /**
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
      */
+#if 0
     void (*sub_hfyu_median_prediction)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w, int *left, int *left_top);
+#endif
     /* this might write to dst[w] */
+#ifdef CONFIG_PNG_DECODER
     void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
+#endif
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
 
     void (*h264_v_loop_filter_luma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
@@ -326,8 +346,10 @@ typedef struct DSPContext {
     void (*x8_v_loop_filter)(uint8_t *src, int stride, int qscale);
     void (*x8_h_loop_filter)(uint8_t *src, int stride, int qscale);
 
+#ifdef CONFIG_VORBIS_DECODER
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
+#endif
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
@@ -336,10 +358,12 @@ typedef struct DSPContext {
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vector_fmul_window)(float *dst, const float *src0, const float *src1, const float *win, float add_bias, int len);
 
+#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
     /* C version: convert floats from the range [384.0,386.0] to ints in [-32768,32767]
      * simd versions: convert floats from [-32768.0,32767.0] without rescaling and arrays are 16byte aligned */
     void (*float_to_int16)(int16_t *dst, const float *src, long len);
     void (*float_to_int16_interleave)(int16_t *dst, const float *src, long len, int channels);
+#endif
 
     /* (I)DCT */
     void (*fdct)(DCTELEM *block/* align 16*/);
@@ -382,8 +406,10 @@ typedef struct DSPContext {
 #define FF_PARTTRANS_IDCT_PERM 5
 #define FF_SSE2_IDCT_PERM 6
 
+#if 0
     int (*try_8x8basis)(int16_t rem[64], int16_t weight[64], int16_t basis[64], int scale);
     void (*add_8x8basis)(int16_t rem[64], int16_t basis[64], int scale);
+#endif
 #define BASIS_SHIFT 16
 #define RECON_SHIFT 6
 
@@ -685,7 +711,5 @@ static inline void copy_block17(uint8_t *dst, uint8_t *src, int dstStride, int s
         src+=srcStride;
     }
 }
-
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
 
 #endif /* FFMPEG_DSPUTIL_H */

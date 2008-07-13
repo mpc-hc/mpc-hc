@@ -32,7 +32,6 @@
 #include "mpegvideo.h"
 #include "mpegvideo_common.h"
 #include "msmpeg4.h"
-#include "faandct.h"
 #include <limits.h>
 
 //#undef NDEBUG

@@ -30,7 +30,6 @@
 #include "avcodec.h"
 #include "dsputil.h"
 #include "simple_idct.h"
-#include "faandct.h"
 #include "faanidct.h"
 #include "h263.h"
 
@@ -3418,6 +3417,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 
     ff_check_alignment();
 
+/* lowres is not an available option in MPCVideoDecFilter
     if(avctx->lowres==1){
         if(avctx->idct_algo==FF_IDCT_INT || avctx->idct_algo==FF_IDCT_AUTO || !ENABLE_H264_DECODER){
             c->idct_put= ff_jref_idct4_put;
@@ -3439,6 +3439,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
         c->idct    = j_rev_dct1;
         c->idct_permutation_type= FF_NO_IDCT_PERM;
     }else{
+*/
         if(avctx->idct_algo==FF_IDCT_INT){
             c->idct_put= ff_jref_idct_put;
             c->idct_add= ff_jref_idct_add;
@@ -3455,18 +3456,22 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
             c->idct_add= ff_wmv2_idct_add_c;
             c->idct    = ff_wmv2_idct_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
+/* FAAN IDCT is not an available option in MPCVideoDecFilter
         }else if(avctx->idct_algo==FF_IDCT_FAAN){
             c->idct_put= ff_faanidct_put;
             c->idct_add= ff_faanidct_add;
             c->idct    = ff_faanidct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
+*/
         }else{ //accurate/default
             c->idct_put= ff_simple_idct_put;
             c->idct_add= ff_simple_idct_add;
             c->idct    = ff_simple_idct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
         }
+/*
     }
+*/
 
     if (ENABLE_H264_DECODER) {
         c->h264_idct_add= ff_h264_idct_add_c;
@@ -3476,19 +3481,26 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     }
 
     c->get_pixels = get_pixels_c;
+#if 0
     c->diff_pixels = diff_pixels_c;
+#endif
     c->put_pixels_clamped = put_pixels_clamped_c;
     c->put_signed_pixels_clamped = put_signed_pixels_clamped_c;
     c->add_pixels_clamped = add_pixels_clamped_c;
     c->add_pixels8 = add_pixels8_c;
     c->add_pixels4 = add_pixels4_c;
+#if 0
     c->sum_abs_dctelem = sum_abs_dctelem_c;
+#endif
     c->gmc1 = gmc1_c;
     c->gmc = ff_gmc_c;
     c->clear_blocks = clear_blocks_c;
+#if 0
     c->pix_sum = pix_sum_c;
     c->pix_norm1 = pix_norm1_c;
+#endif
 
+#if 0
     /* TODO [0] 16  [1] 8 */
     c->pix_abs[0][0] = pix_abs16_c;
     c->pix_abs[0][1] = pix_abs16_x2_c;
@@ -3498,6 +3510,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->pix_abs[1][1] = pix_abs8_x2_c;
     c->pix_abs[1][2] = pix_abs8_y2_c;
     c->pix_abs[1][3] = pix_abs8_xy2_c;
+#endif
 
 #define dspfunc(PFX, IDX, NUM) \
     c->PFX ## _pixels_tab[IDX][0] = PFX ## _pixels ## NUM ## _c;     \
@@ -3635,10 +3648,18 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->sad[0]= pix_abs16_c;
     c->sad[1]= pix_abs8_c;
 
+#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER) || defined(CONDIG_PNG_DECODER)
     c->add_bytes= add_bytes_c;
+#endif
+#ifdef CONFIG_PNG_DECODER
     c->add_bytes_l2= add_bytes_l2_c;
+#endif
+#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER)
     c->diff_bytes= diff_bytes_c;
+#endif
+#if 0
     c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_c;
+#endif
     c->bswap_buf= bswap_buf;
 #ifdef CONFIG_PNG_DECODER
     c->add_png_paeth_prediction= ff_add_png_paeth_prediction;
@@ -3659,8 +3680,10 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 
     c->h261_loop_filter= h261_loop_filter_c;
 
+#if 0
     c->try_8x8basis= try_8x8basis_c;
     c->add_8x8basis= add_8x8basis_c;
+#endif
 
 #ifdef CONFIG_VORBIS_DECODER
     c->vorbis_inverse_coupling = vorbis_inverse_coupling;
@@ -3669,8 +3692,10 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->vector_fmul_reverse = vector_fmul_reverse_c;
     c->vector_fmul_add_add = ff_vector_fmul_add_add_c;
     c->vector_fmul_window = ff_vector_fmul_window_c;
+#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
     c->float_to_int16 = ff_float_to_int16_c;
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
+#endif
 
     c->shrink[0]= ff_img_copy_plane;
     c->shrink[1]= ff_shrink22;
@@ -3719,42 +3744,4 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     default:
         av_log(avctx, AV_LOG_ERROR, "Internal error, IDCT permutation not set\n");
     }
-}
-
-// avcodec_get_current_idct,avcodec_get_encoder_info by h.yamagata
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-const char* avcodec_get_current_idct(AVCodecContext *avctx)
-{
-    MpegEncContext *s = avctx->priv_data;
-    DSPContext *c = &s->dsp;
-
-    if (c->idct_put==ff_jref_idct_put)
-        return "Integer (ff_jref_idct)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct1)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct2)";
-    if (c->idct_put==ff_jref_idct4_put)
-        return "Integer (ff_jref_idct4)";
-    if (c->idct_put==ff_h264_lowres_idct_put_c)
-        return "H.264 (ff_h264_lowres_idct_c)";
-    if (c->idct_put==ff_vp3_idct_put_c)
-        return "VP3 (ff_vp3_idct_c)";
-    if (c->idct_put==ff_faanidct_put)
-        return "FAAN (ff_faanidct_put)";
-    if (c->idct_put==ff_simple_idct_put)
-        return "Simple IDCT (simple_idct)";
-#if defined(HAVE_MMX)
-    return avcodec_get_current_idct_mmx(avctx,c);
-#endif
-}
-
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build)
-{
-    MpegEncContext *s = avctx->priv_data;
-    *xvid_build = s->xvid_build;
-    *divx_version = s->divx_version;
-    *divx_build = s->divx_build;
-    *lavc_build = s->lavc_build;
 }

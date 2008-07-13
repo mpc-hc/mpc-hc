@@ -2352,8 +2352,12 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
         c->gmc= gmc_mmx;
 
+#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER) || defined(CONDIG_PNG_DECODER)
         c->add_bytes= add_bytes_mmx;
+#endif
+#ifdef CONFIG_PNG_DECODER
         c->add_bytes_l2= add_bytes_l2_mmx;
+#endif
 
         c->draw_edges = draw_edges_mmx;
 
@@ -2474,7 +2478,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             if (ENABLE_VC1_DECODER || ENABLE_WMV3_DECODER)
                 ff_vc1dsp_init_mmx(c, avctx);
 
+#ifdef CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_mmx2;
+#endif
         } else if (mm_flags & MM_3DNOW) {
             c->prefetch = prefetch_3dnow;
 
@@ -2574,59 +2580,50 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_ssse3_rnd;
             c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
+#ifdef CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
+#endif
         }
 #endif
 
 #endif /*GCC420_OR_NEWER*/
 
         if(mm_flags & MM_3DNOW){
+#ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
+#endif
             c->vector_fmul = vector_fmul_3dnow;
+#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16 = float_to_int16_3dnow;
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
             }
+#endif
         }
         if(mm_flags & MM_3DNOWEXT){
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
             c->vector_fmul_window = vector_fmul_window_3dnow2;
         }
         if(mm_flags & MM_SSE){
+#ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
+#endif
             c->vector_fmul = vector_fmul_sse;
+#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             c->float_to_int16 = float_to_int16_sse;
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
+#endif
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add_add = vector_fmul_add_add_sse;
             c->vector_fmul_window = vector_fmul_window_sse;
         }
+#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
         if(mm_flags & MM_SSE2){
             c->float_to_int16 = float_to_int16_sse2;
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
         }
+#endif
         if(mm_flags & MM_3DNOW)
             c->vector_fmul_add_add = vector_fmul_add_add_3dnow; // faster than sse
     }
-}
-
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
-{
-    if (c->idct_put==ff_idct_xvid_mmx_put)
-        return "Xvid (ff_idct_xvid_mmx)";
-    if (c->idct_put==ff_idct_xvid_mmx2_put)
-        return "Xvid (ff_idct_xvid_mmx2)";
-    if (c->idct_put==ff_idct_xvid_sse2_put)
-        return "Xvid (ff_idct_xvid_sse2)";
-    if (c->idct_put==ff_simple_idct_put_mmx)
-        return "Simple MMX (ff_simple_idct_mmx)";
-    if (c->idct_put==ff_libmpeg2mmx2_idct_put)
-        return "libmpeg2 (ff_libmpeg2mmx2_idct)";
-    if (c->idct_put==ff_libmpeg2mmx_idct_put)
-        return "libmpeg2 (ff_libmpeg2mmx_idct)";
-    if (c->idct_put==ff_vp3_idct_put_sse2)
-        return "VP3 (ff_vp3_idct_sse2)";
-    if (c->idct_put==ff_vp3_idct_put_mmx)
-        return "VP3 (ff_vp3_idct_mmx)";
-    return NULL;
 }

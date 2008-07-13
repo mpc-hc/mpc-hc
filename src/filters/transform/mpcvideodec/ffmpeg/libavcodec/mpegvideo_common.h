@@ -34,7 +34,6 @@
 #include "dsputil.h"
 #include "mpegvideo.h"
 #include "msmpeg4.h"
-#include "faandct.h"
 #include <limits.h>
 
 void copy_picture(Picture *dst, Picture *src);

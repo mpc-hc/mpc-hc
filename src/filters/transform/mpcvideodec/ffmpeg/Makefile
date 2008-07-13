@@ -14,9 +14,6 @@ SRCS_C=\
 		$(LAVC_DIR)/CompilatorVersion.c\
 		$(LAVC_DIR)/dsputil.c \
 		$(LAVC_DIR)/error_resilience.c \
-		$(LAVC_DIR)/faandct.c \
-		$(LAVC_DIR)/faanidct.c \
-		$(LAVC_DIR)/fft.c \
 		$(LAVC_DIR)/golomb.c \
 		$(LAVC_DIR)/h263.c \
 		$(LAVC_DIR)/h263_parser.c \
@@ -32,7 +29,6 @@ SRCS_C=\
 		$(LAVC_DIR)/jpegls.c \
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
-		$(LAVC_DIR)/mdct.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
 		$(LAVC_DIR)/mpeg4video_parser.c \
@@ -57,10 +53,8 @@ SRCS_C=\
 		$(LAVC_DIR)/vp6.c \
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
-		$(LAVC_DIR)/wmv2dec.c
-
-SRCS_C+=\
-		$(LAVC_DIR)/xiph.c
+		$(LAVC_DIR)/wmv2dec.c \
+		$(LAVC_DIR)/xiph.c	
 
 #SRCS_C+=\
 #		$(LAVC_DIR)/8bps.c \
@@ -90,6 +84,8 @@ SRCS_C+=\
 #		$(LAVC_DIR)/dvbsub_parser.c \
 #		$(LAVC_DIR)/dvdsub_parser.c \
 #		$(LAVC_DIR)/eval.c \
+#		$(LAVC_DIR)/faanidct.c \
+#		$(LAVC_DIR)/fft.c \
 #		$(LAVC_DIR)/ffv1.c \
 #		$(LAVC_DIR)/flac.c \
 #		$(LAVC_DIR)/fraps.c \
@@ -107,6 +103,7 @@ SRCS_C+=\
 #		$(LAVC_DIR)/lcldec.c \
 #		$(LAVC_DIR)/loco.c \
 #		$(LAVC_DIR)/mace.c \
+#		$(LAVC_DIR)/mdct.c \
 #		$(LAVC_DIR)/mjpegbdec.c \
 #		$(LAVC_DIR)/mjpeg_parser.c \
 #		$(LAVC_DIR)/mlp_parser.c \
@@ -145,7 +142,6 @@ SRCS_C+=\
 #		$(LAVC_DIR)/wmadec.c \
 #		$(LAVC_DIR)/wnv1.c \
 #		$(LAVC_DIR)/xl.c \
-#		$(LAVC_DIR)/xiph.c \
 #		$(LAVC_DIR)/zmbv.c
 
 SRCS_C+=\
@@ -180,10 +176,6 @@ SRCS_C+=\
 SRCS_C+=\
     $(LAVC_DIR)/i386/cpuid.c \
 		$(LAVC_DIR)/i386/dsputil_mmx.c \
-		$(LAVC_DIR)/i386/fdct_mmx.c \
-		$(LAVC_DIR)/i386/fft_3dn.c \
-		$(LAVC_DIR)/i386/fft_3dn2.c \
-		$(LAVC_DIR)/i386/fft_sse.c \
 		$(LAVC_DIR)/i386/idct_mmx.c \
 		$(LAVC_DIR)/i386/idct_mmx_xvid.c \
 		$(LAVC_DIR)/i386/idct_sse2_xvid.c \
@@ -194,7 +186,11 @@ SRCS_C+=\
 		$(LAVC_DIR)/i386/vp3dsp_sse2.c
 		
 #SRCS_C+=\
-#		$(LAVC_DIR)/i386/cavsdsp_mmx.c
+#		$(LAVC_DIR)/i386/cavsdsp_mmx.c \
+#		$(LAVC_DIR)/i386/fdct_mmx.c \
+#		$(LAVC_DIR)/i386/fft_3dn.c \
+#		$(LAVC_DIR)/i386/fft_3dn2.c \
+#		$(LAVC_DIR)/i386/fft_sse.c
 
 
 ifeq ($(64BIT),yes)
