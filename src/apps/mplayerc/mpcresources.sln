@@ -11,6 +11,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release Unicode Chinese simplified|Win32 = Release Unicode Chinese simplified|Win32
 		Release Unicode Chinese simplified|x64 = Release Unicode Chinese simplified|x64
+		Release Unicode Chinese traditional|Win32 = Release Unicode Chinese traditional|Win32
+		Release Unicode Chinese traditional|x64 = Release Unicode Chinese traditional|x64
 		Release Unicode Czech|Win32 = Release Unicode Czech|Win32
 		Release Unicode Czech|x64 = Release Unicode Czech|x64
 		Release Unicode French|Win32 = Release Unicode French|Win32
@@ -41,6 +43,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese simplified|Win32.Build.0 = Release Unicode Chinese simplified|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese simplified|x64.ActiveCfg = Release Unicode Chinese simplified|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese simplified|x64.Build.0 = Release Unicode Chinese simplified|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese traditional|Win32.ActiveCfg = Release Unicode Chinese traditional|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese traditional|Win32.Build.0 = Release Unicode Chinese traditional|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese traditional|x64.ActiveCfg = Release Unicode Chinese traditional|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Chinese traditional|x64.Build.0 = Release Unicode Chinese traditional|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|Win32.ActiveCfg = Release Unicode Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|Win32.Build.0 = Release Unicode Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|x64.ActiveCfg = Release Unicode Czech|x64

@@ -2776,6 +2776,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.sk.dll");
 	case 13 :	// Chinese (simplified)
 		return _T("mpcresources.sc.dll");
+	case 14 :	// Chinese (traditional)
+		return _T("mpcresources.tc.dll");
 	}
 	return NULL;
 }
