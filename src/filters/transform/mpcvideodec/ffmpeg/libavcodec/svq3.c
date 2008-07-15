@@ -835,6 +835,7 @@ static int svq3_decode_frame (AVCodecContext *avctx,
   if (buf_size == 0) {
     if (s->next_picture_ptr && !s->low_delay) {
       *(AVFrame *) data = *(AVFrame *) &s->next_picture;
+      s->next_picture_ptr= NULL;
       *data_size = sizeof(AVFrame);
     }
     return 0;
@@ -987,5 +988,5 @@ AVCodec svq3_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Sorenson Vector Quantizer 3",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 3"),
 };

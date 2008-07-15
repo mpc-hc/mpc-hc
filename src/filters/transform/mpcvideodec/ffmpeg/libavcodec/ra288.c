@@ -24,10 +24,6 @@
 #include "bitstream.h"
 #include "ra288.h"
 
-#if __STDC_VERSION__ < 199901L
-#include <malloc.h>
-#endif
-
 typedef struct {
     float history[8];
     float output[40];
@@ -55,8 +51,8 @@ static inline float scalar_product_float(float * v1, float * v2, int size)
 static void decode(Real288_internal *glob, float gain, int cb_coef)
 {
     int x, y;
-    double sum, sumsum;
-    float buffer[5];
+    double sumsum;
+    float sum, buffer[5];
 
     memmove(glob->sb + 5, glob->sb, 36 * sizeof(*glob->sb));
 
@@ -66,10 +62,7 @@ static void decode(Real288_internal *glob, float gain, int cb_coef)
     /* convert log and do rms */
     sum = 32. - scalar_product_float(glob->pr2, glob->lhist, 10);
 
-    if (sum < 0)
-        sum = 0;
-    else if (sum > 60)
-        sum = 60;
+    sum = av_clipf(sum, 0, 60);
 
     sumsum = exp(sum * 0.1151292546497) * gain;    /* pow(10.0,sum/20)*f */
 
@@ -78,8 +71,7 @@ static void decode(Real288_internal *glob, float gain, int cb_coef)
 
     sum = scalar_product_float(buffer, buffer, 5) / 5;
 
-    if (sum < 1)
-        sum = 1;
+    sum = FFMAX(sum, 1);
 
     /* shift and store */
     memmove(glob->lhist, glob->lhist - 1, 10 * sizeof(*glob->lhist));
@@ -92,14 +84,8 @@ static void decode(Real288_internal *glob, float gain, int cb_coef)
 
     /* output */
     for (x=0; x < 5; x++) {
-        float f = glob->sb[4-x] + buffer[x];
-
-        if (f > 4095)
-            f = 4095;
-        else if (f < -4095)
-            f = -4095;
-
-        glob->output[glob->phase*5+x] = glob->sb[4-x] = f;
+        glob->output[glob->phase*5+x] = glob->sb[4-x] =
+            av_clipf(glob->sb[4-x] + buffer[x], -4095, 4095);
     }
 }
 

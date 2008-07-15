@@ -374,13 +374,9 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     memset(s, 0, sizeof(AVCodecContext));
 
     s->av_class= &av_codec_context_class;
-
-    s->bit_rate= 800*1000;
-    s->flags2 = CODEC_FLAG2_FASTPSKIP;
-    s->error_concealment= 3;
-    s->error_resilience= 1;
-    s->workaround_bugs= FF_BUG_AUTODETECT;
-    s->time_base.num=0;s->time_base.den=1;// (AVRational){0,1};
+    
+    s->time_base.num=0; s->time_base.den=1;
+    
     s->get_buffer= avcodec_default_get_buffer;
     s->release_buffer= avcodec_default_release_buffer;
     s->get_format= avcodec_default_get_format;
@@ -388,8 +384,14 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     s->sample_aspect_ratio.num=0; s->sample_aspect_ratio.den=1;
     s->pix_fmt= PIX_FMT_NONE;
     s->sample_fmt= SAMPLE_FMT_S16; // FIXME: set to NONE
+
     s->palctrl = NULL;
     s->reget_buffer= avcodec_default_reget_buffer;
+    
+    s->flags2 = CODEC_FLAG2_FASTPSKIP;
+    s->error_concealment= 3;
+    s->error_resilience= 1;
+    s->workaround_bugs= FF_BUG_AUTODETECT;
     s->thread_count=1;
     s->profile= FF_PROFILE_UNKNOWN;
     s->level= FF_LEVEL_UNKNOWN;

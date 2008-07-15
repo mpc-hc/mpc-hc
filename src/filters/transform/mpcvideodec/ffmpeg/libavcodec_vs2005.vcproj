@@ -360,63 +360,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\libavcodec\8bps.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\aac_ac3_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\aac_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\aasc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3enc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3tab.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\adpcm.c"
-				>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\libavcodec\allcodecs.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\asv1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\atrac3.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\avs.c"
 				>
 			</File>
 			<File
@@ -428,55 +372,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\cavs.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cavsdec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cavsdsp.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cinepak.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\CompilatorVersion.c"
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\cook.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\corepng.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cscd.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cyuv.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\dsputil.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\dv.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\dvbsub_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\dvdsub_parser.c"
 				>
 			</File>
 			<File
@@ -488,71 +388,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\faandct.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\faanidct.c"
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\fft.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ffv1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\flac.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\fraps.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\g726.c"
-				>
-			</File>
-			<File
 				RelativePath="libavcodec\golomb.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\gsm.c"
 				>
 			</File>
 			<File
@@ -600,39 +440,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\huffyuv.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\imc.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="libavcodec\imgconvert.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\indeo2.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\indeo3.c"
 				>
 			</File>
 			<File
@@ -664,43 +472,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\lcldec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\libamr.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\loco.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mace.c"
-				>
-			</File>
-			<File
-				RelativePath="libavcodec\mdct.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mjpeg.c"
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mjpeg_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mjpegbdec.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mjpegdec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mlp_parser.c"
 				>
 			</File>
 			<File
@@ -712,27 +488,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mpeg4audio.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudio_parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudiodata.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudiodec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudiodecheader.c"
 				>
 			</File>
 			<File
@@ -752,131 +508,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\msrle.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\msvideo1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\nellymoserdec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\opt.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\pcm.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\png.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\pngdec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\qdm2.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\qpeg.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\qtrle.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ra144.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ra288.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\rpza.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\rtjpeg.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\rv10.c"
 				>
 			</File>
 			<File
@@ -932,30 +564,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\libavcodec\truemotion1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\truemotion2.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\truespeech.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\tscc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\tta.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ulti.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\utils.c"
 				>
 			</File>
@@ -973,14 +581,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\vc1dsp.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\vcr1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\vorbis.c"
 				>
 			</File>
 			<File
@@ -1012,14 +612,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\wma.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\wmadec.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\wmv2.c"
 				>
 			</File>
@@ -1028,19 +620,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\wnv1.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\xiph.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\xl.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\zmbv.c"
 				>
 			</File>
 		</Filter>
@@ -1049,27 +629,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\libavcodec\aac_ac3_parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3_parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ac3tab.h"
-				>
-			</File>
-			<File
 				RelativePath=".\array_allocator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\atrac3data.h"
 				>
 			</File>
 			<File
@@ -1089,14 +649,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\cavs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cavsdata.h"
-				>
-			</File>
-			<File
 				RelativePath=".\char_t.h"
 				>
 			</File>
@@ -1109,23 +661,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\cookdata.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\dsputil.h"
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\dvdata.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\eval.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\faandct.h"
 				>
 			</File>
 			<File
@@ -1138,10 +678,6 @@
 			</File>
 			<File
 				RelativePath=".\ffImgfmt.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\flac.h"
 				>
 			</File>
 			<File
@@ -1185,22 +721,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\imcdata.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\imgconvert.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\indeo2data.h"
-				>
-			</File>
-			<File
-				RelativePath="libavcodec\indeo3data.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\intrax8.h"
 				>
 			</File>
@@ -1210,18 +730,6 @@
 			</File>
 			<File
 				RelativePath=".\inttypes.h"
-				>
-			</File>
-			<File
-				RelativePath="libavcodec\jpegls.h"
-				>
-			</File>
-			<File
-				RelativePath="libavcodec\jpeglsdec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\lcl.h"
 				>
 			</File>
 			<File
@@ -1237,10 +745,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mlp_parser.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mpeg12.h"
 				>
 			</File>
@@ -1253,27 +757,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mpeg4audio.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mpeg4data.h"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudiodata.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegaudiodecheader.h"
 				>
 			</File>
 			<File
@@ -1293,31 +781,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\opt.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\parser.h"
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\png.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PODtypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\qdm2data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ra144.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ra288.h"
 				>
 			</File>
 			<File
@@ -1326,10 +794,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\rl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\rtjpeg.h"
 				>
 			</File>
 			<File
@@ -1357,18 +821,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\truemotion1data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\truespeech_data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ulti_cb.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\unary.h"
 				>
 			</File>
@@ -1389,10 +841,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\vorbis.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\vp3data.h"
 				>
 			</File>
@@ -1410,14 +858,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\vp6data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\wma.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\wmadata.h"
 				>
 			</File>
 			<File
@@ -1579,154 +1019,6 @@
 			<File
 				RelativePath=".\libavutil\x86_cpu.h"
 				>
-			</File>
-		</Filter>
-		<Filter
-			Name="i386"
-			>
-		</Filter>
-		<Filter
-			Name="libavformat"
-			>
-			<File
-				RelativePath=".\libavformat\allformats.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\avformat.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\avi.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\avio.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\avio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\aviobuf.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\avisynth.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\cutils.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\file.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\flv.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\matroska.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\matroska.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\matroskadec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\mpeg.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\mpeg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\mpegts.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\mpegts.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\mpjpeg.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\os_support.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\raw.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\raw.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\riff.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\riff.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\rtp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\rtp_internal.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavformat\utils.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\$(InputName)1.obj"
-						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<File

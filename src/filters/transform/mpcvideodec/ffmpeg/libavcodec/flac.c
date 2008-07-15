@@ -75,15 +75,15 @@ typedef struct FLACContext {
 
 #define METADATA_TYPE_STREAMINFO 0
 
-static int sample_rate_table[] =
+static const int sample_rate_table[] =
 { 0, 0, 0, 0,
   8000, 16000, 22050, 24000, 32000, 44100, 48000, 96000,
   0, 0, 0, 0 };
 
-static int sample_size_table[] =
+static const int sample_size_table[] =
 { 0, 8, 12, 0, 16, 20, 24, 0 };
 
-static int blocksize_table[] = {
+static const int blocksize_table[] = {
      0,    192, 576<<0, 576<<1, 576<<2, 576<<3,      0,      0,
 256<<0, 256<<1, 256<<2, 256<<3, 256<<4, 256<<5, 256<<6, 256<<7
 };
@@ -628,7 +628,7 @@ static int flac_decode_frame(AVCodecContext *avctx,
             buf_size += s->bitstream_size;
             s->bitstream_size= buf_size;
 
-            if(buf_size < s->max_framesize){
+            if(buf_size < s->max_framesize && input_buf_size){
 //                printf("wanna more data ...\n");
                 return input_buf_size;
             }
@@ -777,10 +777,10 @@ AVCodec flac_decoder = {
     /*.encode = */NULL,
     /*.close = */flac_decode_close,
     /*.decode = */flac_decode_frame,
-    /*.capabilities = */0,
+    /*.capabilities = */CODEC_CAP_DELAY,
     /*.next = */NULL,
     /*.flush = */flac_flush,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"FLAC (Free Lossless Audio Codec)"
+    /*.long_name= */NULL_IF_CONFIG_SMALL("FLAC (Free Lossless Audio Codec)"),
 };
