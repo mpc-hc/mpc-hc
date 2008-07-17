@@ -2137,7 +2137,11 @@ static av_cold int decode_init(AVCodecContext *avctx){
 //    s->decode_mb= ff_h263_decode_mb;
     s->quarter_sample = 1;
     s->low_delay= 1;
-    avctx->pix_fmt= PIX_FMT_YUV420P;
+
+    if(avctx->codec_id == CODEC_ID_SVQ3)
+        avctx->pix_fmt= PIX_FMT_YUVJ420P;
+    else
+        avctx->pix_fmt= PIX_FMT_YUV420P;
 
     decode_init_vlc();
 
@@ -3239,7 +3243,7 @@ static void idr(H264Context *h){
 static void flush_dpb(AVCodecContext *avctx){
     H264Context *h= avctx->priv_data;
     int i;
-    for(i=0; i<16; i++) {
+    for(i=0; i<MAX_DELAYED_PIC_COUNT; i++) {
         if(h->delayed_pic[i])
             h->delayed_pic[i]->reference= 0;
         h->delayed_pic[i]= NULL;
@@ -8015,7 +8019,7 @@ static int decode_frame(AVCodecContext *avctx,
             pics = 0;
             while(h->delayed_pic[pics]) pics++;
 
-            assert(pics+1 < sizeof(h->delayed_pic) / sizeof(h->delayed_pic[0]));
+            assert(pics <= MAX_DELAYED_PIC_COUNT);
 
             h->delayed_pic[pics++] = cur;
             if(cur->reference == 0)
