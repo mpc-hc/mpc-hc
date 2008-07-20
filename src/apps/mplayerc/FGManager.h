@@ -126,7 +126,7 @@ public:
 	STDMETHODIMP AddFilter(IBaseFilter* pFilter, LPCWSTR pName);
 
 public:
-	CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT tra);
+	CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk);
 };
 
 class CFGManagerPlayer : public CFGManagerCustom
@@ -140,7 +140,7 @@ protected:
 	STDMETHODIMP ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MEDIA_TYPE* pmt);
 
 public:
-	CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT tra, HWND hWnd);
+	CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd);
 };
 
 class CFGManagerDVD : public CFGManagerPlayer
@@ -152,13 +152,13 @@ protected:
 	STDMETHODIMP AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppFilter);
 
 public:
-	CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT tra, HWND hWnd);
+	CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd);
 };
 
 class CFGManagerCapture : public CFGManagerPlayer
 {
 public:
-	CFGManagerCapture(LPCTSTR pName, LPUNKNOWN pUnk, UINT src, UINT tra, HWND hWnd);
+	CFGManagerCapture(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd);
 };
 
 class CFGManagerMuxer : public CFGManagerCustom

@@ -137,46 +137,46 @@ s_filters[] =
 #endif
 
 #if INTERNAL_DECODER_H264_DXVA
-	{_T("H264/AVC (DXVA)"), 1, TRA_H264_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("H264/AVC (DXVA)"), 2, DXVA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_H264
-	{_T("H264/AVC (FFmpeg)"), 1, TRA_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
-#endif
-#if INTERNAL_DECODER_VC1
-	{_T("VC1 (FFmpeg)"), 1, TRA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("H264/AVC (FFmpeg)"), 3, FFM_H264, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_VC1_DXVA
-	{_T("VC1 (DXVA)"), 1, TRA_VC1_DXVA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("VC1 (DXVA)"), 2, DXVA_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+#endif
+#if INTERNAL_DECODER_VC1
+	{_T("VC1 (FFmpeg)"), 3, FFM_VC1, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_XVID
-	{_T("Xvid/MPEG-4"), 1, TRA_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("Xvid/MPEG-4"), 3, FFM_XVID, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_DIVX
-	{_T("DivX"), 1, TRA_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("DivX"), 3, FFM_DIVX, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_MSMPEG4
-	{_T("MS MPEG-4"), 1, TRA_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("MS MPEG-4"), 3, FFM_MSMPEG4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_FLV
-	{_T("FLV1/4"), 1, TRA_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("FLV1/4"), 3, FFM_FLV4, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_VP6
-	{_T("VP5/6"), 1, TRA_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+	{_T("VP5/6"), 3, FFM_VP62, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
 #endif
 #if INTERNAL_DECODER_WMV
-	{_T("WMV1/2/3"), 1, TRA_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
+	{_T("WMV1/2/3"), 3, FFM_WMV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},	
 #endif
 #if INTERNAL_DECODER_SVQ
-	{_T("SVQ1/3"), 1, TRA_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("SVQ1/3"), 3, FFM_SVQ3, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_H263
-	{_T("H263"), 1, TRA_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("H263"), 3, FFM_H263, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_AMVV
-	{_T("AMV video"), 1, TRA_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("AMV video"), 3, FFM_AMVV, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_THEORA
-	{_T("Theora"), 1, TRA_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
+	{_T("Theora"), 3, FFM_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 };
 
@@ -306,15 +306,31 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
 	for(int i = 0; i < countof(s_filters); i++)
 	{
-		CCheckListBox* l = 
-			s_filters[i].type == 0 ? &m_listSrc : 
-			s_filters[i].type == 1 ? &m_listTra : 
-			NULL; 
-
-		UINT* pflags = 
-			s_filters[i].type == 0 ? &s.SrcFilters : 
-			s_filters[i].type == 1 ? &s.TraFilters : 
-			NULL; 
+		CCheckListBox* l;
+		UINT* pflags;
+		
+		switch(s_filters[i].type)
+		{
+			case 0: // source filter
+				l = &m_listSrc;
+				pflags = &s.SrcFilters;
+				break;
+			case 1: // decoder
+				l = &m_listTra;
+				pflags = &s.TraFilters;
+				break;
+			case 2: // dxva decoder
+				l = &m_listTra;
+				pflags = &s.DXVAFilters;
+				break;
+			case 3: // ffmpeg decoder
+				l = &m_listTra;
+				pflags = &s.FFmpegFilters;
+				break;
+			default:
+				l = NULL;
+				pflags = NULL;
+		}
 
 		if(l && pflags)
 		{
@@ -336,7 +352,7 @@ BOOL CPPageInternalFilters::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.SrcFilters = s.TraFilters = 0;
+	s.SrcFilters = s.TraFilters = s.DXVAFilters = s.FFmpegFilters = 0;
 
 	CList<filter_t*> fl;
 	for(int i = 0; i < m_listSrc.GetCount(); i++)
@@ -351,13 +367,21 @@ BOOL CPPageInternalFilters::OnApply()
 	{
 		filter_t* f = fl.GetNext(pos);
 
-		UINT* pflags = 
-			f->type == 0 ? &s.SrcFilters : 
-			f->type == 1 ? &s.TraFilters : 
-			NULL; 
-
-		if(pflags)
-			*pflags |= f->flag;
+		switch(f->type)
+		{
+			case 0:
+				s.SrcFilters |= f->flag;
+				break;
+			case 1:
+				s.TraFilters |= f->flag;
+				break;
+			case 2:
+				s.DXVAFilters |= f->flag;
+				break;
+			case 3:
+				s.FFmpegFilters |= f->flag;
+				break;
+		}
 	}
 
 	return __super::OnApply();

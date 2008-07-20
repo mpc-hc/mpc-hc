@@ -454,6 +454,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

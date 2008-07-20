@@ -7424,16 +7424,16 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 		if(!m_fCustomGraph)
 		{
-			pGB = new CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, s.SrcFilters, s.TraFilters, m_pVideoWnd->m_hWnd);
+			pGB = new CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, m_pVideoWnd->m_hWnd);
 		}
 	}
 	else if(OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD))
 	{
-		pGB = new CFGManagerDVD(_T("CFGManagerDVD"), NULL, s.SrcFilters, s.TraFilters, m_pVideoWnd->m_hWnd);
+		pGB = new CFGManagerDVD(_T("CFGManagerDVD"), NULL, m_pVideoWnd->m_hWnd);
 	}
 	else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD))
 	{
-		pGB = new CFGManagerCapture(_T("CFGManagerCapture"), NULL, s.SrcFilters, s.TraFilters, m_pVideoWnd->m_hWnd);
+		pGB = new CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
 	}
 
 	if(!pGB)

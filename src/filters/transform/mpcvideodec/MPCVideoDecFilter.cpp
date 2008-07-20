@@ -425,7 +425,9 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 
 // Workaround : graphedit crash when filter expose more than 115 input MediaTypes !
 const int CMPCVideoDecFilter::sudPinTypesInCount = 115; //countof(CMPCVideoDecFilter::sudPinTypesIn);
-UINT       CMPCVideoDecFilter::Trafilters = 0xFFFFFFFF;
+
+UINT       CMPCVideoDecFilter::FFmpegFilters = 0xFFFFFFFF;
+UINT       CMPCVideoDecFilter::DXVAFilters = 0xFFFFFFFF;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
@@ -589,28 +591,25 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			switch (ffCodecs[i].nFFCodec)
 			{
 			case CODEC_ID_H264 :
-				/* is it safe to include mplayerc.h here for getting the values below? */
-				/* TRA_H264 = 16384, TRA_H264_DXVA = 16777216 */
 				#if INTERNAL_DECODER_H264_DXVA
-				m_bUseDXVA = (Trafilters & 16777216) != 0;
+				m_bUseDXVA = (DXVAFilters & 1) != 0;
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_H264
-				m_bUseFFmpeg = (Trafilters & 16384) != 0;
+				m_bUseFFmpeg = (FFmpegFilters & 1) != 0;
 				#else
 				m_bUseFFmpeg = false;
 				#endif
 				break;
 			case CODEC_ID_VC1 :
-				/* TRA_VC1 = 32768, TRA_VC1_DXVA = 33554432 */
 				#if INTERNAL_DECODER_VC1_DXVA
-				m_bUseDXVA = (Trafilters & 33554432) != 0;
+				m_bUseDXVA = (DXVAFilters & 2) != 0;
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_VC1
-				m_bUseFFmpeg = (Trafilters & 32768) != 0;
+				m_bUseFFmpeg = (FFmpegFilters & 2) != 0;
 				#else
 				m_bUseFFmpeg = false;
 				#endif
