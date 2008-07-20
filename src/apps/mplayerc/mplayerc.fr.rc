@@ -3010,6 +3010,12 @@ BEGIN
 END
 //TODO - Translate "Current"
 
+STRINGTABLE 
+BEGIN
+    IDS_RS_DXVAFILTERS      "DXVAFilters"
+    IDS_RS_FFMPEGFILTERS    "FFmpegFilters"    
+END
+
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////
 
