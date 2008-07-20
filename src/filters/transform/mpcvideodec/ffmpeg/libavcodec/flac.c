@@ -68,8 +68,8 @@ typedef struct FLACContext {
 
     int32_t *decoded[MAX_CHANNELS];
     uint8_t *bitstream;
-    int bitstream_size;
-    int bitstream_index;
+    unsigned int bitstream_size;
+    unsigned int bitstream_index;
     unsigned int allocated_bitstream_size;
 } FLACContext;
 
@@ -139,7 +139,8 @@ static void allocate_buffers(FLACContext *s){
         s->decoded[i] = av_realloc(s->decoded[i], sizeof(int32_t)*s->max_blocksize);
     }
 
-    s->bitstream= av_fast_realloc(s->bitstream, &s->allocated_bitstream_size, s->max_framesize);
+    if(s->allocated_bitstream_size < s->max_framesize)
+        s->bitstream= av_fast_realloc(s->bitstream, &s->allocated_bitstream_size, s->max_framesize);
 }
 
 void ff_flac_parse_streaminfo(AVCodecContext *avctx, struct FLACStreaminfo *s,
@@ -180,6 +181,7 @@ void ff_flac_parse_streaminfo(AVCodecContext *avctx, struct FLACStreaminfo *s,
 static int metadata_parse(FLACContext *s)
 {
     int i, metadata_last, metadata_type, metadata_size, streaminfo_updated=0;
+    int initial_pos= get_bits_count(&s->gb);
 
     if (show_bits_long(&s->gb, 32) == MKBETAG('f','L','a','C')) {
         skip_bits(&s->gb, 32);
@@ -189,6 +191,11 @@ static int metadata_parse(FLACContext *s)
             metadata_last = get_bits1(&s->gb);
             metadata_type = get_bits(&s->gb, 7);
             metadata_size = get_bits_long(&s->gb, 24);
+
+            if(get_bits_count(&s->gb) + 8*metadata_size > s->gb.size_in_bits){
+                skip_bits_long(&s->gb, initial_pos - get_bits_count(&s->gb));
+                break;
+            }
 
             av_log(s->avctx, AV_LOG_DEBUG,
                    " metadata block: flag = %d, type = %d, size = %d\n",
@@ -615,8 +622,15 @@ static int flac_decode_frame(AVCodecContext *avctx,
     }
 
     if(1 && s->max_framesize){//FIXME truncated
-            buf_size= FFMAX(FFMIN(buf_size, s->max_framesize - s->bitstream_size), 0);
+            if(s->bitstream_size < 4 || AV_RL32(s->bitstream) != MKTAG('f','L','a','C'))
+                buf_size= FFMIN(buf_size, s->max_framesize - FFMIN(s->bitstream_size, s->max_framesize));
             input_buf_size= buf_size;
+
+            if(s->bitstream_size + buf_size < buf_size || s->bitstream_index + s->bitstream_size + buf_size < s->bitstream_index)
+                return -1;
+
+            if(s->allocated_bitstream_size < s->bitstream_size + buf_size)
+                s->bitstream= av_fast_realloc(s->bitstream, &s->allocated_bitstream_size, s->bitstream_size + buf_size);
 
             if(s->bitstream_index + s->bitstream_size + buf_size > s->allocated_bitstream_size){
 //                printf("memmove\n");
@@ -636,8 +650,9 @@ static int flac_decode_frame(AVCodecContext *avctx,
 
     init_get_bits(&s->gb, buf, buf_size*8);
 
-    if (!metadata_parse(s))
-    {
+    if(metadata_parse(s))
+        goto end;
+
         tmp = show_bits(&s->gb, 16);
         if((tmp & 0xFFFE) != 0xFFF8){
             av_log(s->avctx, AV_LOG_ERROR, "FRAME HEADER not here\n");
@@ -652,7 +667,6 @@ static int flac_decode_frame(AVCodecContext *avctx,
             s->bitstream_index=0;
             return -1;
         }
-    }
 
 
 #if 0

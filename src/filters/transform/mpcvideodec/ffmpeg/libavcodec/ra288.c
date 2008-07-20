@@ -37,7 +37,8 @@ typedef struct {
     float lhist[10];
 } Real288_internal;
 
-static inline float scalar_product_float(float * v1, float * v2, int size)
+static inline float scalar_product_float(const float * v1, const float * v2,
+                                         int size)
 {
     float res = 0.;
 
@@ -90,13 +91,13 @@ static void decode(Real288_internal *glob, float gain, int cb_coef)
 }
 
 /* column multiply */
-static void colmult(float *tgt, float *m1, const float *m2, int n)
+static void colmult(float *tgt, const float *m1, const float *m2, int n)
 {
     while (n--)
         *(tgt++) = (*(m1++)) * (*(m2++));
 }
 
-static int pred(float *in, float *tgt, int n)
+static int pred(const float *in, float *tgt, int n)
 {
     int x, y;
     double f0, f1, f2;
@@ -107,64 +108,59 @@ static int pred(float *in, float *tgt, int n)
     if ((f0 = *in) <= 0)
         return 0;
 
-    for (x=1 ; ; x++) {
-        float *p1 = in + x;
-        float *p2 = tgt;
+    in--; // To avoid a -1 subtraction in the inner loop
 
-        if (n < x)
-            return 1;
-
-        f1 = *(p1--);
+    for (x=1; x <= n; x++) {
+        f1 = in[x+1];
 
         for (y=0; y < x - 1; y++)
-            f1 += (*(p1--))*(*(p2++));
+            f1 += in[x-y]*tgt[y];
 
-        p1 = tgt + x - 1;
-        p2 = tgt;
-        *(p1--) = f2 = -f1/f0;
-        for (y=x >> 1; y--;) {
-            float temp = *p2 + *p1 * f2;
-            *(p1--) += *p2 * f2;
-            *(p2++) = temp;
+        tgt[x-1] = f2 = -f1/f0;
+        for (y=0; y < x >> 1; y++) {
+            float temp = tgt[y] + tgt[x-y-2]*f2;
+            tgt[x-y-2] += tgt[y]*f2;
+            tgt[y] = temp;
         }
         if ((f0 += f1*f2) < 0)
             return 0;
     }
+
+    return 1;
 }
 
 /* product sum (lsf) */
-static void prodsum(float *tgt, float *src, int len, int n)
+static void prodsum(float *tgt, const float *src, int len, int n)
 {
     for (; n >= 0; n--)
         tgt[n] = scalar_product_float(src, src - n, len);
 
 }
 
-static void co(int n, int i, int j, float *in, float *out, float *st1,
+static void co(int n, int i, int j, const float *in, float *out, float *st1,
                float *st2, const float *table)
 {
-    int a, b, c;
     unsigned int x;
-    float *fp;
+    const float *fp;
     float buffer1[37];
     float buffer2[37];
     float work[111];
 
     /* rotate and multiply */
-    c = (b = (a = n + i) + j) - i;
     fp = st1 + i;
-    for (x=0; x < b; x++) {
-        if (x == c)
+    for (x=0; x < n + i + j; x++) {
+        if (x == n + j)
             fp=in;
-        work[x] = *(table++) * (*(st1++) = *(fp++));
+        st1[x] = *(fp++);
+        work[x] = table[x] * st1[x];
     }
 
-    prodsum(buffer1, work + n, i, n);
-    prodsum(buffer2, work + a, j, n);
+    prodsum(buffer1, work + n    , i, n);
+    prodsum(buffer2, work + n + i, j, n);
 
-    for (x=0;x<=n;x++) {
-        *st2 = *st2 * (0.5625) + buffer1[x];
-        out[x] = *(st2++) + buffer2[x];
+    for (x=0; x <= n; x++) {
+        st2[x] = st2[x] * 0.5625 + buffer1[x];
+        out[x] = st2[x]          + buffer2[x];
     }
     *out *= 1.00390625; /* to prevent clipping */
 }

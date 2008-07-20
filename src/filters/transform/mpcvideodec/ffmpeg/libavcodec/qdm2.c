@@ -684,7 +684,7 @@ static void fill_coding_method_array (sb_int8_array tone_level_idx, sb_int8_arra
         SAMPLES_NEEDED
         for (ch = 0; ch < nb_channels; ch++)
             for (sb = 0; sb < 30; sb++) {
-                for (j = 1; j < 64; j++) {
+                for (j = 1; j < 63; j++) {  // The loop only iterates to 63 so the code doesn't overflow the buffer
                     add1 = tone_level_idx[ch][sb][j] - 10;
                     if (add1 < 0)
                         add1 = 0;
@@ -1438,10 +1438,10 @@ static void qdm2_decode_fft_packets (QDM2Context *q)
 
     /* process subpackets ordered by type, largest type first */
     for (i = 0, max = 256; i < q->sub_packets_B; i++) {
-        QDM2SubPacket *packet;
+        QDM2SubPacket *packet= NULL;
 
         /* find subpacket with largest type less than max */
-        for (j = 0, min = 0, packet = NULL; j < q->sub_packets_B; j++) {
+        for (j = 0, min = 0; j < q->sub_packets_B; j++) {
             value = q->sub_packet_list_B[j].packet->type;
             if (value > min && value < max) {
                 min = value;
@@ -1452,6 +1452,9 @@ static void qdm2_decode_fft_packets (QDM2Context *q)
         max = min;
 
         /* check for errors (?) */
+        if (!packet)
+            return;
+
         if (i == 0 && (packet->type < 16 || packet->type >= 48 || fft_subpackets[packet->type - 16]))
             return;
 
