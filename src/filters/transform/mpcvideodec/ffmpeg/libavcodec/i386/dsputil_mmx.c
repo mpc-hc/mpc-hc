@@ -2093,6 +2093,8 @@ static void vector_fmul_window_sse(float *dst, const float *src0, const float *s
         ff_vector_fmul_window_c(dst, src0, src1, win, add_bias, len);
 }
 
+/* All the float_to_int16 stuff doesn't compile properly with MinGW64 */
+#ifndef ARCH_X86_64
 static void float_to_int16_3dnow(int16_t *dst, const float *src, long len){
     // not bit-exact: pf2id uses different rounding than C and SSE
     asm volatile(
@@ -2233,6 +2235,7 @@ FLOAT_TO_INT16_INTERLEAVE(sse2,
     "add $16, %0                \n"
     "js 1b                      \n"
 )
+#endif
 
 
 #if 0 /* disable snow */
@@ -2595,8 +2598,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->vector_fmul = vector_fmul_3dnow;
 #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+                #ifndef ARCH_X86_64
                 c->float_to_int16 = float_to_int16_3dnow;
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
+                #endif
             }
 #endif
         }
@@ -2610,8 +2615,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #endif
             c->vector_fmul = vector_fmul_sse;
 #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
+            #ifndef ARCH_X86_64
             c->float_to_int16 = float_to_int16_sse;
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
+            #endif
 #endif
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add_add = vector_fmul_add_add_sse;
@@ -2619,8 +2626,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
 #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
         if(mm_flags & MM_SSE2){
+            #ifndef ARCH_X86_64
             c->float_to_int16 = float_to_int16_sse2;
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
+            #endif
         }
 #endif
         if(mm_flags & MM_3DNOW)

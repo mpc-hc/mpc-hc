@@ -5,7 +5,7 @@ ZLIB_DIR=../../../../zlib
 PNG_DIR =../../../../libpng
 
 CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LAVF_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
-		-DHAVE_AV_CONFIG_H -std=gnu99
+		-DHAVE_AV_CONFIG_H -D_ISOC9X_SOURCE -std=gnu9x
 
 SRCS_C=\
 		$(LAVC_DIR)/allcodecs.c \
@@ -206,6 +206,8 @@ DEF=libavcodec_dec.def
 NOINTRIN=1
 
 include makefile_c.inc
+
+OPTFLAGS+= -fno-math-errno
 
 .all: $(SLIB)
 

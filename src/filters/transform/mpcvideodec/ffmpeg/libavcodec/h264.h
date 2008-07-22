@@ -144,7 +144,7 @@ typedef struct PPS{
     int transform_8x8_mode;     ///< transform_8x8_mode_flag
     uint8_t scaling_matrix4[6][16];
     uint8_t scaling_matrix8[2][64];
-    uint8_t chroma_qp_table[2][256];  ///< pre-scaled (with chroma_qp_index_offset) version of qp_table
+    uint8_t chroma_qp_table[2][64];  ///< pre-scaled (with chroma_qp_index_offset) version of qp_table
     int chroma_qp_diff;
     // ==> Start patch MPC
     int slice_group_change_direction_flag;
@@ -311,6 +311,7 @@ typedef struct H264Context{
     uint8_t *slice_table_base;
     uint8_t *slice_table;      ///< slice_table_base + 2*mb_stride + 1
     int slice_type;
+    int slice_type_nos;        ///< S free slice type (SI/SP are remapped to I/P)
     int slice_type_fixed;
 
     //interlacing specific flags
@@ -377,6 +378,7 @@ typedef struct H264Context{
     Picture ref_list[2][48];         /**< 0..15: frame refs, 16..47: mbaff field refs.
                                           Reordered version of default_ref_list
                                           according to picture reordering in slice header */
+    int ref2frm[16][2][48+2];            ///< reference to frame number lists, used in the loop filter, the first 2 are for -2,-1
     Picture *delayed_pic[MAX_DELAYED_PIC_COUNT+2]; //FIXME size?
     int outputed_poc;
 
@@ -460,7 +462,7 @@ typedef struct H264Context{
 
     int last_slice_type;
     /** @} */
-    
+
     int mb_xy;
 
     /* experimental */
