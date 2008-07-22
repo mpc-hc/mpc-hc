@@ -3,6 +3,7 @@ v1.x.x.x - unreleased
  NEW	: support Multi-Monitor configuration, select Monitor for full-screen playback
  NEW	: creation of minidump when mpc crash
  NEW    : Simplified Chinese translation
+ NEW    : Pixel shader to convert BT601 -> BT701
  CHANGED: Add VIRTKEY for "Save Thumbnails" (req #1964399)
  FIXED  : Chapter message improperly displayed in status bar (for file only)
  FIXED  : Crash with CoreAVC when changing "prefered decoder" setting during playback

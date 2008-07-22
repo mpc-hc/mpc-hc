@@ -1641,6 +1641,10 @@
 				Name="shaders"
 				>
 				<File
+					RelativePath=".\res\shaders\BT601BT701.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\contour.psh"
 					>
 				</File>
