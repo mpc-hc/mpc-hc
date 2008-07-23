@@ -488,6 +488,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nVideoOutputCount		= 0;
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
+	m_sar						= 0;
+
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
 	{
@@ -545,6 +547,18 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 	Cleanup();
 
 	SAFE_DELETE(m_pCpuId);
+}
+
+inline int LNKO(int a, int b)
+{
+	if(a == 0 || b == 0)
+		return(1);
+	while(a != b)
+	{
+		if(a < b) b -= a;
+		else if(a > b) a -= b;
+	}
+	return(a);
 }
 
 HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
@@ -1231,6 +1245,31 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//sprintf (strMsg, "Receive : %10I64d - %10I64d   Size=%d\n", (rtStart + m_rtAvrTimePerFrame/2) / m_rtAvrTimePerFrame, rtStart, nSize);
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
+
+	if(m_pAVCtx)
+	{
+		if((m_pAVCtx->sample_aspect_ratio.num>1) && (m_pAVCtx->sample_aspect_ratio.num>1))
+		{
+			double SAR = ((double)m_pAVCtx->sample_aspect_ratio.num/(double)m_pAVCtx->sample_aspect_ratio.den);
+			if(m_sar != SAR)
+			{
+				m_sar = SAR;
+				double DAR = SAR * m_nWidth/m_nHeight;
+				CSize aspect(0,0);
+				aspect.cy = m_nHeight;
+				aspect.cx = (int)m_nHeight*DAR;
+	
+				int lnko = 0;
+				do
+				{
+					lnko = LNKO(aspect.cx, aspect.cy);
+					if(lnko > 1) aspect.cx /= lnko, aspect.cy /= lnko;
+				}
+				while(lnko > 1);
+				if(aspect.cx != aspect.cy) SetAspect(aspect);
+			}
+		}
+	}
 
 	switch (m_nDXVAMode)
 	{

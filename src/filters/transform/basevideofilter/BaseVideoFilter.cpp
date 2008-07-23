@@ -54,6 +54,12 @@ CBaseVideoFilter::~CBaseVideoFilter()
 {
 }
 
+void CBaseVideoFilter::SetAspect(CSize aspect)
+{
+	m_arx = aspect.cx;
+	m_ary = aspect.cy;
+}
+
 int CBaseVideoFilter::GetPinCount()
 {
 	return 2;

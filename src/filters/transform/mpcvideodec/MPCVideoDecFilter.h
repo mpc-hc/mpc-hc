@@ -222,5 +222,7 @@ public:
 												  DXVA2_ConfigPictureDecode *pSelectedConfig,
 											      BOOL *pbFoundDXVA2Configuration);
 	HRESULT			CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
-
+	
+	// === aspect ratio
+	double			m_sar;
 };

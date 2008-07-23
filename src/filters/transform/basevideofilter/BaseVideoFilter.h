@@ -69,6 +69,8 @@ public:
     HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
     HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
 	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
+
+	void SetAspect(CSize aspect);
 };
 
 class CBaseVideoInputAllocator : public CMemAllocator
