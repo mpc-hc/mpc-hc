@@ -1473,6 +1473,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		// Multi-monitor code
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), CString(f_hmonitor));
+		// Prevent Minimize when in FullScreen mode on non default monitor
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), m_fPreventMinimize);
 
 		// CASIMIR666 : nouveau settings
 		CString		strTemp;
@@ -1754,6 +1756,9 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		
 		//Multi-monitor code
 		f_hmonitor = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), _T(""));
+		// Prevent Minimize when in FullScreen mode on non default monitor
+		m_fPreventMinimize = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
+
 
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENRES), &ptr, &len))
 		{

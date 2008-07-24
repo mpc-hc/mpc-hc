@@ -6850,6 +6850,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	DWORD dwRemoveEx = 0, dwAddEx = 0;
 	HMENU hMenu;
 
+	HMONITOR hm = 0;
+
+	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+
 	if(!m_fFullScreen)
 	{
 		GetWindowRect(&m_lastWindowRect);
@@ -6869,8 +6873,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		CString str;
 		CMonitor monitor;
 		CMonitors monitors;
-
-		HMONITOR hm = 0;
 
 		if(s.f_hmonitor == _T("Current"))
 		{
@@ -6929,9 +6931,15 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	{
 		m_fHideCursor = true;
         ShowControls(CS_NONE, false);
+
+		if(s.m_fPreventMinimize)
+		{
+			if(hm != hm_cur) ModifyStyle(WS_MINIMIZEBOX, 0, SWP_NOZORDER);
+		}
 	}
 	else
 	{
+		ModifyStyle(0, WS_MINIMIZEBOX, SWP_NOZORDER);
 		KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
 		KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 		m_fHideCursor = false;

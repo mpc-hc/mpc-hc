@@ -55,6 +55,8 @@ public:
 	BOOL m_fNotifyGTSdll;
 	CStaticLink m_GTSdllLink;
 
+	BOOL m_fPreventMinimize;
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();

@@ -40,6 +40,7 @@ CPPageTweaks::CPPageTweaks()
 	, m_fNotifyMSN(TRUE)
 	, m_fNotifyGTSdll(FALSE)
 	, m_GTSdllLink(_T("https://sourceforge.net/project/showfiles.php?group_id=82303&package_id=169521&release_id=371114"))
+	, m_fPreventMinimize(FALSE)
 {
 	m_fWMASFReader = SUCCEEDED(CComPtr<IBaseFilter>().CoCreateInstance(
 		GUIDFromCString(_T("{187463A0-5BB7-11D3-ACBE-0080C75E246E}")))); // WM ASF Reader
@@ -63,6 +64,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK4, m_fNotifyMSN);
 	DDX_Check(pDX, IDC_CHECK5, m_fNotifyGTSdll);
 	DDX_Control(pDX, IDC_STATICLINKGTS, m_GTSdllLink);
+	DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
 }
 
 BOOL CPPageTweaks::OnInitDialog()
@@ -79,6 +81,8 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fFreeWindowResizing = s.fFreeWindowResizing;
 	m_fNotifyMSN = s.fNotifyMSN;
 	m_fNotifyGTSdll = s.fNotifyGTSdll;
+
+	m_fPreventMinimize = s.m_fPreventMinimize;
 
 	UpdateData(FALSE);
 
@@ -100,6 +104,8 @@ BOOL CPPageTweaks::OnApply()
 	s.fFreeWindowResizing = !!m_fFreeWindowResizing;
 	s.fNotifyMSN = !!m_fNotifyMSN;
 	s.fNotifyGTSdll = !!m_fNotifyGTSdll;
+
+	s.m_fPreventMinimize = m_fPreventMinimize;
 
 	return __super::OnApply();
 }

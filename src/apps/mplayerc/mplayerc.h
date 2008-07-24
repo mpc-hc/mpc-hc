@@ -626,6 +626,8 @@ public:
 		void GetFav(favtype ft, CAtlList<CString>& sl);
 		void SetFav(favtype ft, CAtlList<CString>& sl);
 		void AddFav(favtype ft, CString s);
+
+		bool m_fPreventMinimize;
 	} m_s;
 
 public:
