@@ -213,8 +213,8 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),	_T("bik"),	_T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
 		ADDFMT((ResStr(IDS_AG_RATDVD_FILE),		_T("ratdvd"),_T("ratdvd"), false, _T("ratdvd media file")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_21),	_T("roq"),	_T("roq"), false));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rpm rmm rnx"), false, _T("RealPlayer or Real Alternative")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),	_T("ra"),	_T("ra"), true, _T("RealPlayer or Real Alternative")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rpm rmm rnx"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),	_T("ra"),	_T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),	_T("rt"),	_T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 //		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_26),	_T("dsm"),	_T("dsm dsv dsa dss")));
