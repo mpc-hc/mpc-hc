@@ -133,7 +133,7 @@ static void fill_caches(H264Context *h, int mb_type, int for_deblock){
             topleft_xy -= s->mb_stride;
         } else if(bottom && curr_mb_frame_flag && !left_mb_frame_flag) {
             topleft_xy += s->mb_stride;
-            // take topleft mv from the middle of the mb, as opposed to all other modes which use the bottom-right partition
+            // take top left mv from the middle of the mb, as opposed to all other modes which use the bottom right partition
             topleft_partition = 0;
         }
         if (bottom
@@ -292,7 +292,7 @@ static void fill_caches(H264Context *h, int mb_type, int for_deblock){
 4 L . .L . . . .
 5 L . .. . . . .
 */
-//FIXME constraint_intra_pred & partitioning & nnz (lets hope this is just a typo in the spec)
+//FIXME constraint_intra_pred & partitioning & nnz (let us hope this is just a typo in the spec)
     if(top_type){
         h->non_zero_count_cache[4+8*0]= h->non_zero_count[top_xy][4];
         h->non_zero_count_cache[5+8*0]= h->non_zero_count[top_xy][5];
@@ -673,7 +673,7 @@ static inline void write_back_non_zero_count(H264Context *h){
 }
 
 /**
- * gets the predicted number of non zero coefficients.
+ * gets the predicted number of non-zero coefficients.
  * @param n block index
  */
 static inline int pred_non_zero_count(H264Context *h, int n){
@@ -728,7 +728,7 @@ static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, in
             if(MB_FIELD
                && !IS_INTERLACED(mb_types[h->left_mb_xy[0]])
                && i >= scan8[0]+8){
-                // leftshift will turn LIST_NOT_USED into PART_NOT_AVAILABLE, but that's ok.
+                // left shift will turn LIST_NOT_USED into PART_NOT_AVAILABLE, but that's OK.
                 SET_DIAG_MV(/2, <<1, s->mb_x*4-1, (s->mb_y&~1)*4 - 1 + ((i-scan8[0])>>3)*2);
             }
         }
@@ -1454,7 +1454,7 @@ static int decode_rbsp_trailing(H264Context *h, const uint8_t *src){
 }
 
 /**
- * idct tranforms the 16 dc values and dequantize them.
+ * IDCT transforms the 16 dc values and dequantizes them.
  * @param qp quantization parameter
  */
 static void h264_luma_dc_dequant_idct_c(DCTELEM *block, int qp, int qmul){
@@ -1486,7 +1486,7 @@ static void h264_luma_dc_dequant_idct_c(DCTELEM *block, int qp, int qmul){
         const int z2= temp[4*1+i] - temp[4*3+i];
         const int z3= temp[4*1+i] + temp[4*3+i];
 
-        block[stride*0 +offset]= ((((z0 + z3)*qmul + 128 ) >> 8)); //FIXME think about merging this into decode_resdual
+        block[stride*0 +offset]= ((((z0 + z3)*qmul + 128 ) >> 8)); //FIXME think about merging this into decode_residual
         block[stride*2 +offset]= ((((z1 + z2)*qmul + 128 ) >> 8));
         block[stride*8 +offset]= ((((z1 - z2)*qmul + 128 ) >> 8));
         block[stride*10+offset]= ((((z0 - z3)*qmul + 128 ) >> 8));
@@ -1621,7 +1621,7 @@ static inline void mc_dir_part(H264Context *h, Picture *pic, int n, int square, 
     const int pic_width  = 16*s->mb_width;
     const int pic_height = 16*s->mb_height >> MB_FIELD;
 
-    if(!pic->data[0]) //FIXME this is unacceptable, some senseable error concealment must be done for missing reference frames
+    if(!pic->data[0]) //FIXME this is unacceptable, some sensible error concealment must be done for missing reference frames
         return;
 
     if(mx&7) extra_width -= 3;
@@ -2163,7 +2163,7 @@ static int frame_start(H264Context *h){
     /*
      * MPV_frame_start uses pict_type to derive key_frame.
      * This is incorrect for H.264; IDR markings must be used.
-     * Zero here; IDR markings per slice in frame or fields are OR'd in later.
+     * Zero here; IDR markings per slice in frame or fields are ORed in later.
      * See decode_nal_units().
      */
     s->current_picture_ptr->key_frame= 0;
@@ -2193,7 +2193,7 @@ static int frame_start(H264Context *h){
 
 //    s->decode= (s->flags&CODEC_FLAG_PSNR) || !s->encoding || s->current_picture.reference /*|| h->contains_intra*/ || 1;
 
-    // We mark the current picture as non reference after allocating it, so
+    // We mark the current picture as non-reference after allocating it, so
     // that if we break out due to an error it can be released automatically
     // in the next MPV_frame_start().
     // SVQ3 as well as most other codecs have only last/next/current and thus
@@ -2404,7 +2404,7 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple){
         linesize   = h->mb_linesize   = s->linesize * 2;
         uvlinesize = h->mb_uvlinesize = s->uvlinesize * 2;
         block_offset = &h->block_offset[24];
-        if(mb_y&1){ //FIXME move out of this func?
+        if(mb_y&1){ //FIXME move out of this function?
             dest_y -= s->linesize*15;
             dest_cb-= s->uvlinesize*7;
             dest_cr-= s->uvlinesize*7;
@@ -2813,7 +2813,7 @@ static int fill_default_ref_list(H264Context *h){
         int out_i;
         int limit= INT_MIN;
 
-        /* sort frame according to poc in B slice */
+        /* sort frame according to POC in B slice */
         for(out_i=0; out_i<h->short_ref_count; out_i++){
             int best_i=INT_MIN;
             int best_poc=INT_MAX;
@@ -2840,7 +2840,7 @@ static int fill_default_ref_list(H264Context *h){
 
         tprintf(h->s.avctx, "current poc: %d, smallest_poc_greater_than_current: %d\n", s->current_picture_ptr->poc, smallest_poc_greater_than_current);
 
-        // find the largest poc
+        // find the largest POC
         for(list=0; list<2; list++){
             int index = 0;
             int j= -99;
@@ -2970,7 +2970,7 @@ static int decode_ref_pic_list_reordering(H264Context *h){
 
     print_short_term(h);
     print_long_term(h);
-    if(h->slice_type_nos==FF_I_TYPE) return 0; //FIXME move before func
+    if(h->slice_type_nos==FF_I_TYPE) return 0; //FIXME move before function
 
     for(list=0; list<h->list_count; list++){
         memcpy(h->ref_list[list], h->default_ref_list[list], sizeof(Picture)*h->ref_count[list]);
@@ -3015,7 +3015,7 @@ static int decode_ref_pic_list_reordering(H264Context *h){
                             if(ref->data[0] != NULL &&
                                    ref->frame_num == frame_num &&
                                    (ref->reference & pic_structure) &&
-                                   ref->long_ref == 0) // ignore non existing pictures by testing data[0] pointer
+                                   ref->long_ref == 0) // ignore non-existing pictures by testing data[0] pointer
                                 break;
                         }
                         if(i>=0)
@@ -3240,6 +3240,7 @@ static void idr(H264Context *h){
         h->short_ref[i]= NULL;
     }
     h->short_ref_count=0;
+    h->prev_frame_num= 0;
 }
 
 /* forget old pics after a seek */
@@ -3476,6 +3477,13 @@ static int execute_ref_pic_marking(H264Context *h, MMCO *mmco, int mmco_count){
                 pic= remove_long(h, j);
                 if(pic) unreference_pic(h, pic, 0);
             }
+            s->current_picture_ptr->poc=
+            s->current_picture_ptr->field_poc[0]=
+            s->current_picture_ptr->field_poc[1]=
+            h->poc_lsb=
+            h->poc_msb=
+            h->frame_num=
+            s->current_picture_ptr->frame_num= 0;
             break;
         default: assert(0);
         }
@@ -3535,7 +3543,7 @@ static int execute_ref_pic_marking(H264Context *h, MMCO *mmco, int mmco_count){
                "number of reference frames exceeds max (probably "
                "corrupt input), discarding one\n");
 
-        if (h->long_ref_count) {
+        if (h->long_ref_count && !h->short_ref_count) {
             for (i = 0; i < 16; ++i)
                 if (h->long_ref[i])
                     break;
@@ -3886,7 +3894,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->slice_type= slice_type;
     h->slice_type_nos= slice_type & 3;
 
-    s->pict_type= h->slice_type; // to make a few old func happy, it's wrong though
+    s->pict_type= h->slice_type; // to make a few old functions happy, it's wrong though
     if (s->pict_type == FF_B_TYPE && s0->last_picture_ptr == NULL) {
         av_log(h->s.avctx, AV_LOG_ERROR,
                "B picture before any references, skipping\n");
@@ -3908,13 +3916,13 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
         return -1;
     }
     if(!h0->pps_buffers[pps_id]) {
-        av_log(h->s.avctx, AV_LOG_ERROR, "non existing PPS referenced\n");
+        av_log(h->s.avctx, AV_LOG_ERROR, "non-existing PPS referenced\n");
         return -1;
     }
     h->pps= *h0->pps_buffers[pps_id];
 
     if(!h0->sps_buffers[h->pps.sps_id]) {
-        av_log(h->s.avctx, AV_LOG_ERROR, "non existing SPS referenced\n");
+        av_log(h->s.avctx, AV_LOG_ERROR, "non-existing SPS referenced\n");
         return -1;
     }
     h->sps = *h0->sps_buffers[h->pps.sps_id];
@@ -4002,6 +4010,16 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     }
 
     if(h0->current_slice == 0){
+        while(h->frame_num !=  h->prev_frame_num &&
+              h->frame_num != (h->prev_frame_num+1)%(1<<h->sps.log2_max_frame_num)){
+            av_log(NULL, AV_LOG_DEBUG, "Frame num gap %d %d\n", h->frame_num, h->prev_frame_num);
+            frame_start(h);
+            h->prev_frame_num++;
+            h->prev_frame_num %= 1<<h->sps.log2_max_frame_num;
+            s->current_picture_ptr->frame_num= h->prev_frame_num;
+            execute_ref_pic_marking(h, NULL, 0);
+        }
+
         /* See if we have a decoded first field looking for a pair... */
         if (s0->first_field) {
             assert(s0->current_picture_ptr);
@@ -4097,7 +4115,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
         h->redundant_pic_count= get_ue_golomb(&s->gb);
     }
 
-    //set defaults, might be overriden a few line later
+    //set defaults, might be overridden a few lines later
     h->ref_count[0]= h->pps.ref_count[0];
     h->ref_count[1]= h->pps.ref_count[1];
 
@@ -4491,7 +4509,7 @@ static void decode_mb_skip(H264Context *h){
 
 /**
  * decodes a macroblock
- * @returns 0 if ok, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
+ * @returns 0 if OK, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
  */
 static int decode_mb_cavlc(H264Context *h){
     MpegEncContext * const s = &h->s;
@@ -5609,7 +5627,7 @@ static inline void compute_mb_neighbors(H264Context *h)
 
 /**
  * decodes a macroblock
- * @returns 0 if ok, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
+ * @returns 0 if OK, AC_ERROR / DC_ERROR / MV_ERROR if an error is noticed
  */
 static int decode_mb_cabac(H264Context *h) {
     MpegEncContext * const s = &h->s;
@@ -7850,7 +7868,7 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
         else if(err == 1) {
             /* Slice could not be decoded in parallel mode, copy down
              * NAL unit stuff to context 0 and restart. Note that
-             * rbsp_buffer is not transfered, but since we no longer
+             * rbsp_buffer is not transferred, but since we no longer
              * run in parallel mode this should not be an issue. */
             h->nal_unit_type = hx->nal_unit_type;
             h->nal_ref_idc   = hx->nal_ref_idc;
@@ -7867,17 +7885,10 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
  * returns the number of bytes consumed for building the current frame
  */
 static int get_consumed_bytes(MpegEncContext *s, int pos, int buf_size){
-    if(s->flags&CODEC_FLAG_TRUNCATED){
-        pos -= s->parse_context.last_index;
-        if(pos<0) pos=0; // FIXME remove (unneeded?)
-
-        return pos;
-    }else{
         if(pos==0) pos=1; //avoid infinite loops (i doubt that is needed but ...)
         if(pos+10>buf_size) pos=buf_size; // oops ;)
 
         return pos;
-    }
 }
 
 static int decode_frame(AVCodecContext *avctx,
@@ -7892,16 +7903,7 @@ static int decode_frame(AVCodecContext *avctx,
     s->flags= avctx->flags;
     s->flags2= avctx->flags2;
 
-    if(s->flags&CODEC_FLAG_TRUNCATED){
-        const int next= ff_h264_find_frame_end(h, buf, buf_size);
-        assert((buf_size > 0) || (next == END_NOT_FOUND));
-
-        if( ff_combine_frame(&s->parse_context, next, &buf, &buf_size) < 0 )
-          return buf_size;
-//printf("next:%d buf_size:%d last_index:%d\n", next, buf_size, s->parse_context.last_index);
-    }
-
-   /* no supplementary picture */
+   /* end of stream, output what is still in the buffers */
     if (buf_size == 0) {
         Picture *out;
         int i, out_idx;
@@ -7909,7 +7911,7 @@ static int decode_frame(AVCodecContext *avctx,
 //FIXME factorize this with the output code below
         out = h->delayed_pic[0];
         out_idx = 0;
-        for(i=1; h->delayed_pic[i] && !h->delayed_pic[i]->key_frame; i++)
+        for(i=1; h->delayed_pic[i] && h->delayed_pic[i]->poc; i++)
             if(h->delayed_pic[i]->poc < out->poc){
                 out = h->delayed_pic[i];
                 out_idx = i;
@@ -7998,13 +8000,13 @@ static int decode_frame(AVCodecContext *avctx,
         s->current_picture_ptr->qscale_type= FF_QSCALE_TYPE_H264;
         s->current_picture_ptr->pict_type= s->pict_type;
 
-        h->prev_frame_num_offset= h->frame_num_offset;
-        h->prev_frame_num= h->frame_num;
         if(!s->dropable) {
+            execute_ref_pic_marking(h, h->mmco, h->mmco_index);
             h->prev_poc_msb= h->poc_msb;
             h->prev_poc_lsb= h->poc_lsb;
-            execute_ref_pic_marking(h, h->mmco, h->mmco_index);
         }
+        h->prev_frame_num_offset= h->frame_num_offset;
+        h->prev_frame_num= h->frame_num;
 
         /*
          * FIXME: Error handling code does not seem to support interlaced
@@ -8057,18 +8059,14 @@ static int decode_frame(AVCodecContext *avctx,
             if(cur->reference == 0)
                 cur->reference = DELAYED_PIC_REF;
 
-            cross_idr = 0;
-            for(i=0; h->delayed_pic[i]; i++)
-                if(h->delayed_pic[i]->key_frame || h->delayed_pic[i]->poc==0)
-                    cross_idr = 1;
-
             out = h->delayed_pic[0];
             out_idx = 0;
-            for(i=1; h->delayed_pic[i] && !h->delayed_pic[i]->key_frame; i++)
+            for(i=1; h->delayed_pic[i] && h->delayed_pic[i]->poc; i++)
                 if(h->delayed_pic[i]->poc < out->poc){
                     out = h->delayed_pic[i];
                     out_idx = i;
                 }
+            cross_idr = !h->delayed_pic[0]->poc || !!h->delayed_pic[i];
 
             out_of_order = !cross_idr && out->poc < h->outputed_poc;
 

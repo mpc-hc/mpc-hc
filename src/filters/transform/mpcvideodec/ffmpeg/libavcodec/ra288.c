@@ -97,16 +97,22 @@ static void colmult(float *tgt, const float *m1, const float *m2, int n)
         *(tgt++) = (*(m1++)) * (*(m2++));
 }
 
-static int pred(const float *in, float *tgt, int n)
+/**
+ * Converts autocorrelation coefficients to LPC coefficients using the
+ * Levinson-Durbin algorithm. See blocks 37 and 50 of the G.728 specification.
+ *
+ * @return 0 if success, -1 if fail
+ */
+static int eval_lpc_coeffs(const float *in, float *tgt, int n)
 {
     int x, y;
     double f0, f1, f2;
 
     if (in[n] == 0)
-        return 0;
+        return -1;
 
     if ((f0 = *in) <= 0)
-        return 0;
+        return -1;
 
     in--; // To avoid a -1 subtraction in the inner loop
 
@@ -123,10 +129,10 @@ static int pred(const float *in, float *tgt, int n)
             tgt[y] = temp;
         }
         if ((f0 += f1*f2) < 0)
-            return 0;
+            return -1;
     }
 
-    return 1;
+    return 0;
 }
 
 /* product sum (lsf) */
@@ -137,35 +143,51 @@ static void prodsum(float *tgt, const float *src, int len, int n)
 
 }
 
-static void co(int n, int i, int j, const float *in, float *out, float *st1,
-               float *st2, const float *table)
+/**
+ * Hybrid window filtering. See blocks 36 and 49 of the G.728 specification.
+ *
+ * @param order   the order of the filter
+ * @param n       the length of the input
+ * @param non_rec the number of non-recursive samples
+ * @param out     the filter output
+ * @param in      pointer to the input of the filter
+ * @param hist    pointer to the input history of the filter. It is updated by
+ *                this function.
+ * @param out     pointer to the non-recursive part of the output
+ * @param out2    pointer to the recursive part of the output
+ * @param window  pointer to the windowing function table
+ */
+static void do_hybrid_window(int order, int n, int non_rec, const float *in,
+                             float *out, float *hist, float *out2,
+                             const float *window)
 {
     unsigned int x;
-    const float *fp;
     float buffer1[37];
     float buffer2[37];
     float work[111];
 
-    /* rotate and multiply */
-    fp = st1 + i;
-    for (x=0; x < n + i + j; x++) {
-        if (x == n + j)
-            fp=in;
-        st1[x] = *(fp++);
-        work[x] = table[x] * st1[x];
+    /* update history */
+    memmove(hist                  , hist + n, (order + non_rec)*sizeof(*hist));
+    memcpy (hist + order + non_rec, in      , n                *sizeof(*hist));
+
+    colmult(work, window, hist, order + n + non_rec);
+
+    prodsum(buffer1, work + order    , n      , order);
+    prodsum(buffer2, work + order + n, non_rec, order);
+
+    for (x=0; x <= order; x++) {
+        out2[x] = out2[x] * 0.5625 + buffer1[x];
+        out [x] = out2[x]          + buffer2[x];
     }
 
-    prodsum(buffer1, work + n    , i, n);
-    prodsum(buffer2, work + n + i, j, n);
-
-    for (x=0; x <= n; x++) {
-        st2[x] = st2[x] * 0.5625 + buffer1[x];
-        out[x] = st2[x]          + buffer2[x];
-    }
-    *out *= 1.00390625; /* to prevent clipping */
+    /* Multiply by the white noise correcting factor (WNCF) */
+    *out *= 257./256.;
 }
 
-static void update(Real288_internal *glob)
+/**
+ * Backward synthesis filter. Find the LPC coefficients from past speech data.
+ */
+static void backward_filter(Real288_internal *glob)
 {
     float buffer1[40], temp1[37];
     float buffer2[8], temp2[11];
@@ -173,18 +195,20 @@ static void update(Real288_internal *glob)
     memcpy(buffer1     , glob->output + 20, 20*sizeof(*buffer1));
     memcpy(buffer1 + 20, glob->output     , 20*sizeof(*buffer1));
 
-    co(36, 40, 35, buffer1, temp1, glob->st1a, glob->st1b, table1);
+    do_hybrid_window(36, 40, 35, buffer1, temp1, glob->st1a, glob->st1b,
+                     syn_window);
 
-    if (pred(temp1, glob->st1, 36))
-        colmult(glob->pr1, glob->st1, table1a, 36);
+    if (!eval_lpc_coeffs(temp1, glob->st1, 36))
+        colmult(glob->pr1, glob->st1, syn_bw_tab, 36);
 
     memcpy(buffer2    , glob->history + 4, 4*sizeof(*buffer2));
     memcpy(buffer2 + 4, glob->history    , 4*sizeof(*buffer2));
 
-    co(10, 8, 20, buffer2, temp2, glob->st2a, glob->st2b, table2);
+    do_hybrid_window(10, 8, 20, buffer2, temp2, glob->st2a, glob->st2b,
+                     gain_window);
 
-    if (pred(temp2, glob->st2, 10))
-        colmult(glob->pr2, glob->st2, table2a, 10);
+    if (!eval_lpc_coeffs(temp2, glob->st2, 10))
+        colmult(glob->pr2, glob->st2, gain_bw_tab, 10);
 }
 
 /* Decode a block (celp) */
@@ -216,7 +240,7 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
             *(out++) = 8 * glob->output[glob->phase*5 + y];
 
         if (glob->phase == 3)
-            update(glob);
+            backward_filter(glob);
     }
 
     *data_size = (char *)out - (char *)data;
