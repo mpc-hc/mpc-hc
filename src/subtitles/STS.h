@@ -124,6 +124,17 @@ public:
 
 	CSTSStyleMap m_styles;
 
+	enum EPARCompensationType
+	{
+		EPCTDisabled = 0,
+		EPCTDownscale = 1,
+		EPCTUpscale = 2,
+		EPCTAccurateSize = 3
+	};
+	
+	EPARCompensationType m_ePARCompensationType;
+	double m_dPARCompensation;
+
 public:
 	CSimpleTextSubtitle();
 	virtual ~CSimpleTextSubtitle();

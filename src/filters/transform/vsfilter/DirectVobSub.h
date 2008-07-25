@@ -40,6 +40,7 @@ protected:
 	bool m_fOverridePlacement;
 	int	m_PlacementXperc, m_PlacementYperc;
 	bool m_fBufferVobSub, m_fOnlyShowForcedVobSubs, m_fPolygonize;
+	CSimpleTextSubtitle::EPARCompensationType m_ePARCompensationType;
 
 	STSStyle m_defStyle;
 
@@ -117,6 +118,8 @@ public:
 	STDMETHODIMP put_Forced(bool fForced);
     STDMETHODIMP get_TextSettings(STSStyle* pDefStyle);
     STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
+	STDMETHODIMP get_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
+	STDMETHODIMP put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
 
 	// IFilterVersion
 	

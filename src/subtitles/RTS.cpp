@@ -2026,6 +2026,35 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
 	STSStyle stss, orgstss;
 	GetStyle(entry, stss);
+
+	if (m_ePARCompensationType == EPCTUpscale)
+	{
+		if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0)
+		{
+			if (m_dPARCompensation < 1.0)
+				stss.fontScaleY /= m_dPARCompensation;
+			else
+				stss.fontScaleX *= m_dPARCompensation;
+		}
+	}
+	else if (m_ePARCompensationType == EPCTDownscale)
+	{
+		if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0)
+		{
+			if (m_dPARCompensation < 1.0)
+				stss.fontScaleX *= m_dPARCompensation;
+			else
+				stss.fontScaleY /= m_dPARCompensation;
+		}
+	}
+	else if (m_ePARCompensationType == EPCTAccurateSize)
+	{
+		if (stss.fontScaleX / stss.fontScaleY == 1.0 && m_dPARCompensation != 1.0)
+		{
+			stss.fontScaleX *= m_dPARCompensation;
+		}
+	}
+
 	orgstss = stss;
 
 	sub->m_clip.SetRect(0, 0, m_size.cx>>3, m_size.cy>>3);

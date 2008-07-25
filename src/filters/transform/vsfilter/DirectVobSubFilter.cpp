@@ -92,6 +92,8 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
 	CAMThread::Create();
 	m_frd.EndThreadEvent.Create(0, FALSE, FALSE, 0);
 	m_frd.RefreshEvent.Create(0, FALSE, FALSE, 0);
+
+	memset(&m_CurrentVIH2, 0, sizeof(VIDEOINFOHEADER2));
 }
 
 CDirectVobSubFilter::~CDirectVobSubFilter()
@@ -379,6 +381,9 @@ HRESULT CDirectVobSubFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* p
 			0;
 
 		m_fps = atpf ? 10000000.0 / atpf : 25;
+
+		if (pmt->formattype == FORMAT_VideoInfo2)
+			m_CurrentVIH2 = *(VIDEOINFOHEADER2*)pmt->Format();
 
         InitSubPicQueue();
 	}
@@ -1045,6 +1050,18 @@ STDMETHODIMP CDirectVobSubFilter::put_TextSettings(STSStyle* pDefStyle)
 	return hr;
 }
 
+STDMETHODIMP CDirectVobSubFilter::put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType)
+{
+	HRESULT hr = CDirectVobSub::put_AspectRatioSettings(ePARCompensationType);
+
+	if(hr == NOERROR)
+	{
+		UpdateSubtitle(true);
+	}
+
+	return hr;
+}
+
 // IDirectVobSubFilterColor
 
 STDMETHODIMP CDirectVobSubFilter::HasConfigDialog(int iSelected)
@@ -1488,6 +1505,18 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
 				}
 
 				pRTS->SetDefaultStyle(s);
+			}
+
+			pRTS->m_ePARCompensationType = m_ePARCompensationType;
+			if (m_CurrentVIH2.dwPictAspectRatioX != 0 && m_CurrentVIH2.dwPictAspectRatioY != 0&& m_CurrentVIH2.bmiHeader.biWidth != 0 && m_CurrentVIH2.bmiHeader.biHeight != 0)
+			{
+				pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / (double)abs(m_CurrentVIH2.bmiHeader.biHeight)) /
+					((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / (double)abs((long)m_CurrentVIH2.dwPictAspectRatioY));
+
+			}
+			else
+			{
+				pRTS->m_dPARCompensation = 1.00;
 			}
 
 			pRTS->Deinit();

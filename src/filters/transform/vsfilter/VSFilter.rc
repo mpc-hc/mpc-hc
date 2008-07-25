@@ -186,6 +186,9 @@ BEGIN
     COMBOBOX        IDC_LANGCOMBO,15,50,95,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CTEXT           "This space was intentionally left blank... :)",IDC_STATIC,7,188,232,31,SS_CENTERIMAGE | NOT WS_VISIBLE | WS_BORDER
     LTEXT           "Language:",IDC_STATIC,15,37,35,8
+    GROUPBOX        "Aspect ratio settings",IDC_STATIC,7,112,232,47
+    COMBOBOX        IDC_PARCOMBO,15,138,95,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "PAR compensation",IDC_STATIC,15,126,62,8
 END
 
 IDD_DVSMISCPAGE DIALOGEX 0, 0, 247, 188
@@ -575,6 +578,11 @@ BEGIN
     IDS_ALWAYSLOAD          "Always load"
     IDS_EXTTO576            "Extend to 576 lines"
     IDS_EXTTO480            "Extend to 480 lines"
+    IDS_RT_AUTOPARCOMPENSATION "AutomaticPARCompensation"
+    IDS_RT_PAR_DISABLED     "Disabled"
+    IDS_RT_PAR_UPSCALE      "Upscale"
+    IDS_RT_PAR_DOWNSCALE    "Downscale"
+    IDS_RT_PAR_ACCURATE_SIZE "Accurate size"
 END
 
 STRINGTABLE 
@@ -596,6 +604,5 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
 
 

@@ -304,6 +304,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="RealTextParser.cpp"
+				>
+			</File>	
+			<File
 				RelativePath="RTS.cpp"
 				>
 				<FileConfiguration
@@ -470,6 +474,10 @@
 			</File>
 			<File
 				RelativePath="Rasterizer.h"
+				>
+			</File>
+			<File
+				RelativePath="RealTextParser.h"
 				>
 			</File>
 			<File

@@ -286,6 +286,7 @@ CDVSMainPPage::CDVSMainPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 	BindControl(IDC_SPIN2, m_subposy);
 	BindControl(IDC_FONT, m_font);
 	BindControl(IDC_ONLYSHOWFORCEDSUBS, m_forcedsubs);
+	BindControl(IDC_PARCOMBO, m_PARCombo);
 }
 
 CDVSMainPPage::~CDVSMainPPage()
@@ -380,6 +381,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 		m_pDirectVobSub->put_Placement(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc);
 		m_pDirectVobSub->put_VobSubSettings(true, m_fOnlyShowForcedVobSubs, false);
 		m_pDirectVobSub->put_TextSettings(&m_defStyle);
+		m_pDirectVobSub->put_AspectRatioSettings(&m_ePARCompensationType);
 	}
 	else
 	{
@@ -392,6 +394,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 		m_pDirectVobSub->get_Placement(&m_fOverridePlacement, &m_PlacementXperc, &m_PlacementYperc);
 		m_pDirectVobSub->get_VobSubSettings(NULL, &m_fOnlyShowForcedVobSubs, NULL);
 		m_pDirectVobSub->get_TextSettings(&m_defStyle);
+		m_pDirectVobSub->get_AspectRatioSettings(&m_ePARCompensationType);
 	}
 }
 
@@ -407,6 +410,10 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 		m_PlacementXperc = m_subposx.GetPos();
 		m_PlacementYperc = m_subposy.GetPos();
 		m_fOnlyShowForcedVobSubs = !!m_forcedsubs.GetCheck();
+		if (m_PARCombo.GetCurSel() != CB_ERR)
+			m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(m_PARCombo.GetItemData(m_PARCombo.GetCurSel()));
+		else
+			m_ePARCompensationType = CSimpleTextSubtitle::EPCTDisabled;
 	}
 	else
 	{
@@ -424,6 +431,27 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 		m_langs.EnableWindow(m_nLangs > 0);
 		for(int i = 0; i < m_nLangs; i++) m_langs.AddString(CString(m_ppLangs[i]));
 		m_langs.SetCurSel(m_iSelectedLanguage);
+
+		m_PARCombo.ResetContent();
+		m_PARCombo.InsertString(0, ResStr(IDS_RT_PAR_DISABLED));
+		m_PARCombo.SetItemData(0, CSimpleTextSubtitle::EPCTDisabled);
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDisabled)
+			m_PARCombo.SetCurSel(0);
+
+		m_PARCombo.InsertString(1, ResStr(IDS_RT_PAR_DOWNSCALE));
+		m_PARCombo.SetItemData(1, CSimpleTextSubtitle::EPCTDownscale);
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDownscale)
+			m_PARCombo.SetCurSel(1);
+
+		m_PARCombo.InsertString(2, ResStr(IDS_RT_PAR_UPSCALE));
+		m_PARCombo.SetItemData(2, CSimpleTextSubtitle::EPCTUpscale);
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTUpscale)
+			m_PARCombo.SetCurSel(2);
+
+		m_PARCombo.InsertString(3, ResStr(IDS_RT_PAR_ACCURATE_SIZE));
+		m_PARCombo.SetItemData(3, CSimpleTextSubtitle::EPCTAccurateSize);
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTAccurateSize)
+			m_PARCombo.SetCurSel(3);
 	}
 }
 

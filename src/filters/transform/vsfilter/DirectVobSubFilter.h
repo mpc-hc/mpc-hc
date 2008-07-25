@@ -105,6 +105,7 @@ public:
 
 	// IDirectVobSub2
 	STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
+	STDMETHODIMP put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
 
     // ISpecifyPropertyPages
     STDMETHODIMP GetPages(CAUUID* pPages);
@@ -176,6 +177,8 @@ private:
 private:
 	HANDLE m_hSystrayThread;
 	SystrayIconData m_tbid;
+
+	VIDEOINFOHEADER2 m_CurrentVIH2;
 };
 
 /* The "auto-loading" version */

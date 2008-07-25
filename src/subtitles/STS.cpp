@@ -1,4 +1,4 @@
-/*
+/* 
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -22,6 +22,9 @@
 #include "stdafx.h"
 #include "STS.h"
 #include <atlbase.h>
+
+#include "RealTextParser.h"
+#include <fstream>
 
 // gathered from http://www.netwave.or.jp/~shikai/shikai/shcolor.htm
 
@@ -1720,6 +1723,8 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
 typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
 
+static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
+
 typedef struct {STSOpenFunct open; tmode mode; exttype type; } OpenFunctStruct;
 
 static OpenFunctStruct OpenFuncts[] =
@@ -1734,6 +1739,7 @@ static OpenFunctStruct OpenFuncts[] =
 	OpenXombieSub, TIME, EXTXSS,
 	OpenUSF, TIME, EXTUSF,
 	OpenMPL2, TIME, EXTSRT,
+	OpenRealText, TIME, EXTRT,
 };
 
 static int nOpenFuncts = countof(OpenFuncts);
@@ -1749,6 +1755,8 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 	m_fScaledBAS = false;
 	m_encoding = CTextFile::ASCII;
 	m_lcid = 0;
+	m_ePARCompensationType = EPCTDisabled;
+	m_dPARCompensation = 1.0;
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
@@ -3031,4 +3039,38 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 	return(s);
 }
 
+static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
+{
+	wstring szFile;
 
+	CStringW buff;
+	while(file->ReadString(buff))
+	{
+		buff.Trim();
+		if(buff.IsEmpty()) continue;
+
+		szFile += CStringW(_T("\n")) + buff.GetBuffer();
+	}
+
+	CRealTextParser RealTextParser;
+	if (!RealTextParser.ParseRealText(szFile))
+		return false;
+
+	CRealTextParser::Subtitles crRealText = RealTextParser.GetParsedSubtitles();
+
+	for (map<pair<int, int>, wstring>::const_iterator i = crRealText.m_mapLines.begin();
+		 i != crRealText.m_mapLines.end();
+		 ++i)
+	{
+		ret.Add(
+			SubRipper2SSA(i->second.c_str(), CharSet), 
+			file->IsUnicode(),
+			i->first.first, 
+			i->first.second);
+	}
+
+//	std::wofstream wofsOut(L"c:/zzz.srt");
+//	RealTextParser.OutputSRT(wofsOut);
+
+	return(ret.GetCount() > 0);
+}

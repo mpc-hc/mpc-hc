@@ -71,12 +71,15 @@ class CDVSMainPPage : public CDVSBasePPage
 	int	m_PlacementXperc, m_PlacementYperc;
 	STSStyle m_defStyle;
 	bool m_fOnlyShowForcedVobSubs;
+	CSimpleTextSubtitle::EPARCompensationType m_ePARCompensationType;
 
 	CEdit m_fnedit;
 	CComboBox m_langs;
 	CButton m_oplacement;
 	CSpinButtonCtrl m_subposx, m_subposy;
 	CButton m_font, m_forcedsubs;
+	CButton m_AutoPARCompensation;
+	CComboBox m_PARCombo;
 
 protected:
     virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);

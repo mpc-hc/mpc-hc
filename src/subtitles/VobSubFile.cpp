@@ -2234,7 +2234,10 @@ void CVobSubStream::Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData
 
 	CAutoLock cAutoLock(&m_csSubPics);
 	while(m_subpics.GetCount() && m_subpics.GetTail()->tStart >= tStart)
+	{
 		m_subpics.RemoveTail();
+		m_img.iIdx = -1;
+	}
 	m_subpics.AddTail(p);
 }
 
@@ -2242,6 +2245,7 @@ void CVobSubStream::RemoveAll()
 {
 	CAutoLock cAutoLock(&m_csSubPics);
 	m_subpics.RemoveAll();
+	m_img.iIdx = -1;
 }
 
 STDMETHODIMP CVobSubStream::NonDelegatingQueryInterface(REFIID riid, void** ppv)

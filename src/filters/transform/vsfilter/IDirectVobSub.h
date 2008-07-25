@@ -283,6 +283,14 @@ extern "C" {
 		STDMETHOD(put_TextSettings) (THIS_
 					STSStyle* pDefStyle
 				) PURE;
+
+		STDMETHOD(get_AspectRatioSettings) (THIS_
+					CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType
+				) PURE;
+
+		STDMETHOD(put_AspectRatioSettings) (THIS_
+					CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType
+				) PURE;
 	};
 
 
