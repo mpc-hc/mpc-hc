@@ -43,7 +43,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 51
-#define LIBAVCODEC_VERSION_MINOR 60
+#define LIBAVCODEC_VERSION_MINOR 61
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -893,6 +893,7 @@ typedef struct AVCodecContext {
 #define FF_DEBUG_BUGS        0x00001000
 #define FF_DEBUG_VIS_QP      0x00002000
 #define FF_DEBUG_VIS_MB_TYPE 0x00004000
+#define FF_DEBUG_BUFFERS     0x00008000
 
     /**
      * debug
@@ -1224,6 +1225,7 @@ typedef struct AVCodec {
      */
     const char *long_name;
     const int *supported_samplerates;       ///< array of supported audio samplerates, or NULL if unknown, array is terminated by 0
+    const enum SampleFormat *sample_fmts;   ///< array of supported sample formats, or NULL if unknown, array is terminated by -1
 } AVCodec;
 
 /**
@@ -1579,6 +1581,14 @@ char av_get_pict_type_char(int pict_type);
  * @return Number of bits per sample or zero if unknown for the given codec.
  */
 int av_get_bits_per_sample(enum CodecID codec_id);
+
+/**
+ * Returns sample format bits per sample.
+ *
+ * @param[in] sample_fmt the sample format
+ * @return Number of bits per sample or zero if unknown for the given sample format.
+ */
+int av_get_bits_per_sample_format(enum SampleFormat sample_fmt);
 
 /* frame parsing */
 typedef struct AVCodecParserContext {

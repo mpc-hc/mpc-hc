@@ -284,6 +284,9 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
     }
     s->internal_buffer_count++;
 
+    if(s->debug&FF_DEBUG_BUFFERS)
+        av_log(s, AV_LOG_DEBUG, "default_get_buffer called on pic %p, %d buffers used\n", pic, s->internal_buffer_count);
+
     return 0;
 }
 
@@ -311,6 +314,9 @@ void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic){
 //        pic->base[i]=NULL;
     }
 //printf("R%X\n", pic->opaque);
+
+    if(s->debug&FF_DEBUG_BUFFERS)
+        av_log(s, AV_LOG_DEBUG, "default_release_buffer called on pic %p, %d buffers used\n", pic, s->internal_buffer_count);
 }
 
 int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic){
@@ -687,6 +693,22 @@ int av_get_bits_per_sample(enum CodecID codec_id){
     case CODEC_ID_PCM_ALAW:
     case CODEC_ID_PCM_MULAW:
         return 8;
+    default:
+        return 0;
+    }
+}
+
+int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
+    switch (sample_fmt) {
+    case SAMPLE_FMT_U8:
+        return 8;
+    case SAMPLE_FMT_S16:
+        return 16;
+    case SAMPLE_FMT_S24:
+        return 24;
+    case SAMPLE_FMT_S32:
+    case SAMPLE_FMT_FLT:
+        return 32;
     default:
         return 0;
     }

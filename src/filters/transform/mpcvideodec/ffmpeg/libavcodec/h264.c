@@ -2707,87 +2707,57 @@ static int split_field_copy(Picture *dest, Picture *src,
 
     if (match) {
         *dest = *src;
-        pic_as_field(dest, parity);
-        dest->pic_id *= 2;
-        dest->pic_id += id_add;
+        if(parity != PICT_FRAME){
+            pic_as_field(dest, parity);
+            dest->pic_id *= 2;
+            dest->pic_id += id_add;
+        }
     }
 
     return match;
 }
 
-/**
- * Split one reference list into field parts, interleaving by parity
- * as per H.264 spec section 8.2.4.2.5. Output fields have their data pointers
- * set to look at the actual start of data for that field.
- *
- * @param dest output list
- * @param dest_len maximum number of fields to put in dest
- * @param src the source reference list containing fields and/or field pairs
- *            (aka short_ref/long_ref, or
- *             refFrameListXShortTerm/refFrameListLongTerm in spec-speak)
- * @param src_len number of Picture's in source (pairs and unmatched fields)
- * @param parity the parity of the picture being decoded/needing
- *        these ref pics (PICT_{TOP,BOTTOM}_FIELD)
- * @return number of fields placed in dest
- */
-static int split_field_half_ref_list(Picture *dest, int dest_len,
-                                     Picture *src,  int src_len,  int parity){
-    int same_parity   = 1;
-    int same_i        = 0;
-    int opp_i         = 0;
-    int out_i;
-    int field_output;
+static int build_def_list(Picture *def, Picture **in, int len, int is_long, int sel){
+    int i[2]={0};
+    int index=0;
 
-    for (out_i = 0; out_i < dest_len; out_i += field_output) {
-        if (same_parity && same_i < src_len) {
-            field_output = split_field_copy(dest + out_i, src + same_i,
-                                            parity, 1);
-            same_parity = !field_output;
-            same_i++;
-
-        } else if (opp_i < src_len) {
-            field_output = split_field_copy(dest + out_i, src + opp_i,
-                                            PICT_FRAME - parity, 0);
-            same_parity = field_output;
-            opp_i++;
-
-        } else {
-            break;
+    while(i[0]<len || i[1]<len){
+        while(i[0]<len && !(in[ i[0] ] && (in[ i[0] ]->reference & sel)))
+            i[0]++;
+        while(i[1]<len && !(in[ i[1] ] && (in[ i[1] ]->reference & (sel^3))))
+            i[1]++;
+        if(i[0] < len){
+            in[ i[0] ]->pic_id= is_long ? i[0] : in[ i[0] ]->frame_num;
+            split_field_copy(&def[index++], in[ i[0]++ ], sel  , 1);
+        }
+        if(i[1] < len){
+            in[ i[1] ]->pic_id= is_long ? i[1] : in[ i[1] ]->frame_num;
+            split_field_copy(&def[index++], in[ i[1]++ ], sel^3, 0);
         }
     }
 
-    return out_i;
+    return index;
 }
 
-/**
- * Split the reference frame list into a reference field list.
- * This implements H.264 spec 8.2.4.2.5 for a combined input list.
- * The input list contains both reference field pairs and
- * unmatched reference fields; it is ordered as spec describes
- * RefPicListX for frames in 8.2.4.2.1 and 8.2.4.2.3, except that
- * unmatched field pairs are also present. Conceptually this is equivalent
- * to concatenation of refFrameListXShortTerm with refFrameListLongTerm.
- *
- * @param dest output reference list where ordered fields are to be placed
- * @param dest_len max number of fields to place at dest
- * @param src source reference list, as described above
- * @param src_len number of pictures (pairs and unmatched fields) in src
- * @param parity parity of field being currently decoded
- *        (one of PICT_{TOP,BOTTOM}_FIELD)
- * @param long_i index into src array that holds first long reference picture,
- *        or src_len if no long refs present.
- */
-static int split_field_ref_list(Picture *dest, int dest_len,
-                                Picture *src,  int src_len,
-                                int parity,    int long_i){
+static int add_sorted(Picture **sorted, Picture **src, int len, int limit, int dir){
+    int i, best_poc;
+    int out_i= 0;
 
-    int i = split_field_half_ref_list(dest, dest_len, src, long_i, parity);
-    dest += i;
-    dest_len -= i;
+    for(;;){
+        best_poc= dir ? INT_MIN : INT_MAX;
 
-    i += split_field_half_ref_list(dest, dest_len, src + long_i,
-                                   src_len - long_i, parity);
-    return i;
+        for(i=0; i<len; i++){
+            const int poc= src[i]->poc;
+            if(((poc > limit) ^ dir) && ((poc < best_poc) ^ dir)){
+                best_poc= poc;
+                sorted[out_i]= src[i];
+            }
+        }
+        if(best_poc == (dir ? INT_MIN : INT_MAX))
+            break;
+        limit= sorted[out_i++]->poc - dir;
+    }
+    return out_i;
 }
 
 /**
@@ -2795,140 +2765,42 @@ static int split_field_ref_list(Picture *dest, int dest_len,
  */
 static int fill_default_ref_list(H264Context *h){
     MpegEncContext * const s = &h->s;
-    int i;
-    int smallest_poc_greater_than_current = -1;
-    int structure_sel;
-    Picture sorted_short_ref[32];
-    Picture field_entry_list[2][32];
-    Picture *frame_list[2];
-
-    if (FIELD_PICTURE) {
-        structure_sel = PICT_FRAME;
-        frame_list[0] = field_entry_list[0];
-        frame_list[1] = field_entry_list[1];
-    } else {
-        structure_sel = 0;
-        frame_list[0] = h->default_ref_list[0];
-        frame_list[1] = h->default_ref_list[1];
-    }
+    int i, len;
 
     if(h->slice_type_nos==FF_B_TYPE){
-        int list;
-        int len[2];
-        int short_len[2];
-        int out_i;
-        int limit= INT_MIN;
+        Picture *sorted[32];
+        int cur_poc, list;
+        int lens[2];
 
-        /* sort frame according to POC in B slice */
-        for(out_i=0; out_i<h->short_ref_count; out_i++){
-            int best_i=INT_MIN;
-            int best_poc=INT_MAX;
+        if(FIELD_PICTURE)
+            cur_poc= s->current_picture_ptr->field_poc[ s->picture_structure == PICT_BOTTOM_FIELD ];
+        else
+            cur_poc= s->current_picture_ptr->poc;
 
-            for(i=0; i<h->short_ref_count; i++){
-                const int poc= h->short_ref[i]->poc;
-                if(poc > limit && poc < best_poc){
-                    best_poc= poc;
-                    best_i= i;
-                }
-            }
+        for(list= 0; list<2; list++){
+            len= add_sorted(sorted    , h->short_ref, h->short_ref_count, cur_poc, 1^list);
+            len+=add_sorted(sorted+len, h->short_ref, h->short_ref_count, cur_poc, 0^list);
+            assert(len<=32);
+            len= build_def_list(h->default_ref_list[list]    , sorted     , len, 0, s->picture_structure);
+            len+=build_def_list(h->default_ref_list[list]+len, h->long_ref, 16 , 1, s->picture_structure);
+            assert(len<=32);
 
-            assert(best_i != INT_MIN);
-
-            limit= best_poc;
-            sorted_short_ref[out_i]= *h->short_ref[best_i];
-            tprintf(h->s.avctx, "sorted poc: %d->%d poc:%d fn:%d\n", best_i, out_i, sorted_short_ref[out_i].poc, sorted_short_ref[out_i].frame_num);
-            if (-1 == smallest_poc_greater_than_current) {
-                if (h->short_ref[best_i]->poc >= s->current_picture_ptr->poc) {
-                    smallest_poc_greater_than_current = out_i;
-                }
-            }
+            if(len < h->ref_count[list])
+                memset(&h->default_ref_list[list][len], 0, sizeof(Picture)*(h->ref_count[list] - len));
+            lens[list]= len;
         }
 
-        tprintf(h->s.avctx, "current poc: %d, smallest_poc_greater_than_current: %d\n", s->current_picture_ptr->poc, smallest_poc_greater_than_current);
-
-        // find the largest POC
-        for(list=0; list<2; list++){
-            int index = 0;
-            int j= -99;
-            int step= list ? -1 : 1;
-
-            for(i=0; i<h->short_ref_count && index < h->ref_count[list]; i++, j+=step) {
-                int sel;
-                while(j<0 || j>= h->short_ref_count){
-                    if(j != -99 && step == (list ? -1 : 1))
-                        return -1;
-                    step = -step;
-                    j= smallest_poc_greater_than_current + (step>>1);
-                }
-                sel = sorted_short_ref[j].reference | structure_sel;
-                if(sel != PICT_FRAME) continue;
-                frame_list[list][index  ]= sorted_short_ref[j];
-                frame_list[list][index++].pic_id= sorted_short_ref[j].frame_num;
-            }
-            short_len[list] = index;
-
-            for(i = 0; i < 16 && index < h->ref_count[ list ]; i++){
-                int sel;
-                if(h->long_ref[i] == NULL) continue;
-                sel = h->long_ref[i]->reference | structure_sel;
-                if(sel != PICT_FRAME) continue;
-
-                frame_list[ list ][index  ]= *h->long_ref[i];
-                frame_list[ list ][index++].pic_id= i;
-            }
-            len[list] = index;
+        if(lens[0] == lens[1] && lens[1] > 1){
+            for(i=0; h->default_ref_list[0][i].data[0] == h->default_ref_list[1][i].data[0] && i<lens[0]; i++);
+            if(i == lens[0])
+                FFSWAP(Picture, h->default_ref_list[1][0], h->default_ref_list[1][1]);
         }
-
-        for(list=0; list<2; list++){
-            if (FIELD_PICTURE)
-                len[list] = split_field_ref_list(h->default_ref_list[list],
-                                                 h->ref_count[list],
-                                                 frame_list[list],
-                                                 len[list],
-                                                 s->picture_structure,
-                                                 short_len[list]);
-
-            // swap the two first elements of L1 when L0 and L1 are identical
-            if(list && len[0] > 1 && len[0] == len[1])
-                for(i=0; h->default_ref_list[0][i].data[0] == h->default_ref_list[1][i].data[0]; i++)
-                    if(i == len[0]){
-                        FFSWAP(Picture, h->default_ref_list[1][0], h->default_ref_list[1][1]);
-                        break;
-                    }
-
-            if(len[list] < h->ref_count[ list ])
-                memset(&h->default_ref_list[list][len[list]], 0, sizeof(Picture)*(h->ref_count[ list ] - len[list]));
-        }
-
-
     }else{
-        int index=0;
-        int short_len;
-        for(i=0; i<h->short_ref_count; i++){
-            int sel;
-            sel = h->short_ref[i]->reference | structure_sel;
-            if(sel != PICT_FRAME) continue;
-            frame_list[0][index  ]= *h->short_ref[i];
-            frame_list[0][index++].pic_id= h->short_ref[i]->frame_num;
-        }
-        short_len = index;
-        for(i = 0; i < 16; i++){
-            int sel;
-            if(h->long_ref[i] == NULL) continue;
-            sel = h->long_ref[i]->reference | structure_sel;
-            if(sel != PICT_FRAME) continue;
-            frame_list[0][index  ]= *h->long_ref[i];
-            frame_list[0][index++].pic_id= i;
-        }
-
-        if (FIELD_PICTURE)
-            index = split_field_ref_list(h->default_ref_list[0],
-                                         h->ref_count[0], frame_list[0],
-                                         index, s->picture_structure,
-                                         short_len);
-
-        if(index < h->ref_count[0])
-            memset(&h->default_ref_list[0][index], 0, sizeof(Picture)*(h->ref_count[0] - index));
+        len = build_def_list(h->default_ref_list[0]    , h->short_ref, h->short_ref_count, 0, s->picture_structure);
+        len+= build_def_list(h->default_ref_list[0]+len, h-> long_ref, 16                , 1, s->picture_structure);
+        assert(len <= 32);
+        if(len < h->ref_count[0])
+            memset(&h->default_ref_list[0][len], 0, sizeof(Picture)*(h->ref_count[0] - len));
     }
 #ifdef TRACE
     for (i=0; i<h->ref_count[0]; i++) {
@@ -3018,10 +2890,10 @@ static int decode_ref_pic_list_reordering(H264Context *h){
                             ref = h->short_ref[i];
                             assert(ref->reference);
                             assert(!ref->long_ref);
-                            if(ref->data[0] != NULL &&
+                            if(
                                    ref->frame_num == frame_num &&
-                                   (ref->reference & pic_structure) &&
-                                   ref->long_ref == 0) // ignore non-existing pictures by testing data[0] pointer
+                                   (ref->reference & pic_structure)
+                              )
                                 break;
                         }
                         if(i>=0)
@@ -3072,8 +2944,10 @@ static int decode_ref_pic_list_reordering(H264Context *h){
     }
     for(list=0; list<h->list_count; list++){
         for(index= 0; index < h->ref_count[list]; index++){
-            if(!h->ref_list[list][index].data[0])
-                h->ref_list[list][index]= s->current_picture;
+            if(!h->ref_list[list][index].data[0]){
+                av_log(h->s.avctx, AV_LOG_ERROR, "Missing reference picture\n");
+                h->ref_list[list][index]= s->current_picture; //FIXME this is not a sensible solution
+            }
         }
     }
 
@@ -3142,21 +3016,23 @@ static int pred_weight_table(H264Context *h){
                 h->luma_offset[list][i]= 0;
             }
 
-            chroma_weight_flag= get_bits1(&s->gb);
-            if(chroma_weight_flag){
-                int j;
-                for(j=0; j<2; j++){
-                    h->chroma_weight[list][i][j]= get_se_golomb(&s->gb);
-                    h->chroma_offset[list][i][j]= get_se_golomb(&s->gb);
-                    if(   h->chroma_weight[list][i][j] != chroma_def
-                       || h->chroma_offset[list][i][j] != 0)
-                        h->use_weight_chroma= 1;
-                }
-            }else{
-                int j;
-                for(j=0; j<2; j++){
-                    h->chroma_weight[list][i][j]= chroma_def;
-                    h->chroma_offset[list][i][j]= 0;
+            if(CHROMA){
+                chroma_weight_flag= get_bits1(&s->gb);
+                if(chroma_weight_flag){
+                    int j;
+                    for(j=0; j<2; j++){
+                        h->chroma_weight[list][i][j]= get_se_golomb(&s->gb);
+                        h->chroma_offset[list][i][j]= get_se_golomb(&s->gb);
+                        if(   h->chroma_weight[list][i][j] != chroma_def
+                        || h->chroma_offset[list][i][j] != 0)
+                            h->use_weight_chroma= 1;
+                    }
+                }else{
+                    int j;
+                    for(j=0; j<2; j++){
+                        h->chroma_weight[list][i][j]= chroma_def;
+                        h->chroma_offset[list][i][j]= 0;
+                    }
                 }
             }
         }
@@ -3397,6 +3273,8 @@ static int execute_ref_pic_marking(H264Context *h, MMCO *mmco, int mmco_count){
             frame_num = pic_num_extract(h, mmco[i].short_pic_num, &structure);
             pic = find_short(h, frame_num, &j);
             if(!pic){
+                if(mmco[i].opcode != MMCO_SHORT2LONG || !h->long_ref[mmco[i].long_arg]
+                   || h->long_ref[mmco[i].long_arg]->frame_num != frame_num)
                 av_log(h->s.avctx, AV_LOG_ERROR, "mmco: unref short failure\n");
                 continue;
             }
@@ -4547,18 +4425,20 @@ decode_intra_mb:
                 h->mb[index + (x&3) + 16*((x>>2)&1) + 64*(x>>3)]= get_bits(&s->gb, 8);
             }
         }
-        for(y=0; y<8; y++){
-            const int index= 256 + 4*(y&3) + 32*(y>>2);
-            for(x=0; x<8; x++){
-                tprintf(s->avctx, "CHROMA U ICPM LEVEL (%3d)\n", show_bits(&s->gb, 8));
-                h->mb[index + (x&3) + 16*(x>>2)]= get_bits(&s->gb, 8);
+        if(CHROMA){
+            for(y=0; y<8; y++){
+                const int index= 256 + 4*(y&3) + 32*(y>>2);
+                for(x=0; x<8; x++){
+                    tprintf(s->avctx, "CHROMA U ICPM LEVEL (%3d)\n", show_bits(&s->gb, 8));
+                    h->mb[index + (x&3) + 16*(x>>2)]= get_bits(&s->gb, 8);
+                }
             }
-        }
-        for(y=0; y<8; y++){
-            const int index= 256 + 64 + 4*(y&3) + 32*(y>>2);
-            for(x=0; x<8; x++){
-                tprintf(s->avctx, "CHROMA V ICPM LEVEL (%3d)\n", show_bits(&s->gb, 8));
-                h->mb[index + (x&3) + 16*(x>>2)]= get_bits(&s->gb, 8);
+            for(y=0; y<8; y++){
+                const int index= 256 + 64 + 4*(y&3) + 32*(y>>2);
+                for(x=0; x<8; x++){
+                    tprintf(s->avctx, "CHROMA V ICPM LEVEL (%3d)\n", show_bits(&s->gb, 8));
+                    h->mb[index + (x&3) + 16*(x>>2)]= get_bits(&s->gb, 8);
+                }
             }
         }
 
@@ -4580,43 +4460,44 @@ decode_intra_mb:
 
     //mb_pred
     if(IS_INTRA(mb_type)){
-            int pred_mode;
+        int pred_mode;
 //            init_top_left_availability(h);
-            if(IS_INTRA4x4(mb_type)){
-                int i;
-                int di = 1;
-                if(dct8x8_allowed && get_bits1(&s->gb)){
-                    mb_type |= MB_TYPE_8x8DCT;
-                    di = 4;
-                }
-
-//                fill_intra4x4_pred_table(h);
-                for(i=0; i<16; i+=di){
-                    int mode= pred_intra_mode(h, i);
-
-                    if(!get_bits1(&s->gb)){
-                        const int rem_mode= get_bits(&s->gb, 3);
-                        mode = rem_mode + (rem_mode >= mode);
-                    }
-
-                    if(di==4)
-                        fill_rectangle( &h->intra4x4_pred_mode_cache[ scan8[i] ], 2, 2, 8, mode, 1 );
-                    else
-                        h->intra4x4_pred_mode_cache[ scan8[i] ] = mode;
-                }
-                write_back_intra_pred_mode(h);
-                if( check_intra4x4_pred_mode(h) < 0)
-                    return -1;
-            }else{
-                h->intra16x16_pred_mode= check_intra_pred_mode(h, h->intra16x16_pred_mode);
-                if(h->intra16x16_pred_mode < 0)
-                    return -1;
+        if(IS_INTRA4x4(mb_type)){
+            int i;
+            int di = 1;
+            if(dct8x8_allowed && get_bits1(&s->gb)){
+                mb_type |= MB_TYPE_8x8DCT;
+                di = 4;
             }
 
+//                fill_intra4x4_pred_table(h);
+            for(i=0; i<16; i+=di){
+                int mode= pred_intra_mode(h, i);
+
+                if(!get_bits1(&s->gb)){
+                    const int rem_mode= get_bits(&s->gb, 3);
+                    mode = rem_mode + (rem_mode >= mode);
+                }
+
+                if(di==4)
+                    fill_rectangle( &h->intra4x4_pred_mode_cache[ scan8[i] ], 2, 2, 8, mode, 1 );
+                else
+                    h->intra4x4_pred_mode_cache[ scan8[i] ] = mode;
+            }
+            write_back_intra_pred_mode(h);
+            if( check_intra4x4_pred_mode(h) < 0)
+                return -1;
+        }else{
+            h->intra16x16_pred_mode= check_intra_pred_mode(h, h->intra16x16_pred_mode);
+            if(h->intra16x16_pred_mode < 0)
+                return -1;
+        }
+        if(CHROMA){
             pred_mode= check_intra_pred_mode(h, get_ue_golomb(&s->gb));
             if(pred_mode < 0)
                 return -1;
             h->chroma_pred_mode= pred_mode;
+        }
     }else if(partition_count==4){
         int i, j, sub_partition_count[4], list, ref[2][4];
 
@@ -4822,10 +4703,13 @@ decode_intra_mb:
             return -1;
         }
 
-        if(IS_INTRA4x4(mb_type))
-            cbp= golomb_to_intra4x4_cbp[cbp];
-        else
-            cbp= golomb_to_inter_cbp[cbp];
+        if(CHROMA){
+            if(IS_INTRA4x4(mb_type)) cbp= golomb_to_intra4x4_cbp[cbp];
+            else                     cbp= golomb_to_inter_cbp   [cbp];
+        }else{
+            if(IS_INTRA4x4(mb_type)) cbp= golomb_to_intra4x4_cbp_gray[cbp];
+            else                     cbp= golomb_to_inter_cbp_gray[cbp];
+        }
     }
     h->cbp = cbp;
 
@@ -5687,18 +5571,20 @@ decode_intra_mb:
                 h->mb[index + (x&3) + 16*((x>>2)&1) + 64*(x>>3)]= *ptr++;
             }
         }
-        for(y=0; y<8; y++){
-            const int index= 256 + 4*(y&3) + 32*(y>>2);
-            for(x=0; x<8; x++){
-                tprintf(s->avctx, "CHROMA U ICPM LEVEL (%3d)\n", *ptr);
-                h->mb[index + (x&3) + 16*(x>>2)]= *ptr++;
+        if(CHROMA){
+            for(y=0; y<8; y++){
+                const int index= 256 + 4*(y&3) + 32*(y>>2);
+                for(x=0; x<8; x++){
+                    tprintf(s->avctx, "CHROMA U ICPM LEVEL (%3d)\n", *ptr);
+                    h->mb[index + (x&3) + 16*(x>>2)]= *ptr++;
+                }
             }
-        }
-        for(y=0; y<8; y++){
-            const int index= 256 + 64 + 4*(y&3) + 32*(y>>2);
-            for(x=0; x<8; x++){
-                tprintf(s->avctx, "CHROMA V ICPM LEVEL (%3d)\n", *ptr);
-                h->mb[index + (x&3) + 16*(x>>2)]= *ptr++;
+            for(y=0; y<8; y++){
+                const int index= 256 + 64 + 4*(y&3) + 32*(y>>2);
+                for(x=0; x<8; x++){
+                    tprintf(s->avctx, "CHROMA V ICPM LEVEL (%3d)\n", *ptr);
+                    h->mb[index + (x&3) + 16*(x>>2)]= *ptr++;
+                }
             }
         }
 
@@ -5747,12 +5633,14 @@ decode_intra_mb:
             h->intra16x16_pred_mode= check_intra_pred_mode( h, h->intra16x16_pred_mode );
             if( h->intra16x16_pred_mode < 0 ) return -1;
         }
-        h->chroma_pred_mode_table[mb_xy] =
-        pred_mode                        = decode_cabac_mb_chroma_pre_mode( h );
+        if(CHROMA){
+            h->chroma_pred_mode_table[mb_xy] =
+            pred_mode                        = decode_cabac_mb_chroma_pre_mode( h );
 
-        pred_mode= check_intra_pred_mode( h, pred_mode );
-        if( pred_mode < 0 ) return -1;
-        h->chroma_pred_mode= pred_mode;
+            pred_mode= check_intra_pred_mode( h, pred_mode );
+            if( pred_mode < 0 ) return -1;
+            h->chroma_pred_mode= pred_mode;
+        }
     } else if( partition_count == 4 ) {
         int i, j, sub_partition_count[4], list, ref[2][4];
 
@@ -5954,7 +5842,8 @@ decode_intra_mb:
 
     if( !IS_INTRA16x16( mb_type ) ) {
         cbp  = decode_cabac_mb_cbp_luma( h );
-        cbp |= decode_cabac_mb_cbp_chroma( h ) << 4;
+        if(CHROMA)
+            cbp |= decode_cabac_mb_cbp_chroma( h ) << 4;
     }
 
     h->cbp_table[mb_xy] = h->cbp = cbp;
@@ -7416,8 +7305,8 @@ static inline int decode_seq_parameter_set(H264Context *h){
     // <== End patch MPC
 
     if(sps->profile_idc >= 100){ //high profile
+        sps->chroma_format_idc= get_ue_golomb(&s->gb);
     // ==> Start patch MPC
-        sps->chroma_format_idc = get_ue_golomb(&s->gb);  // chroma_format_idc
         if(sps->chroma_format_idc == 3)
             sps->residual_colour_transform_flag = get_bits1(&s->gb);  //residual_color_transform_flag
         sps->bit_depth_luma  = get_ue_golomb(&s->gb) + 8;  //bit_depth_luma_minus8
@@ -7425,8 +7314,10 @@ static inline int decode_seq_parameter_set(H264Context *h){
     // <== End patch MPC
         sps->transform_bypass = get_bits1(&s->gb);
         decode_scaling_matrices(h, sps, NULL, 1, sps->scaling_matrix4, sps->scaling_matrix8);
-    }else
+    }else{
         sps->scaling_matrix_present = 0;
+        sps->chroma_format_idc= 1;
+    }
 
     sps->log2_max_frame_num= get_ue_golomb(&s->gb) + 4;
     sps->poc_type= get_ue_golomb(&s->gb);
@@ -7508,7 +7399,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
         decode_vui_parameters(h, sps);
 
     if(s->avctx->debug&FF_DEBUG_PICT_INFO){
-        av_log(h->s.avctx, AV_LOG_DEBUG, "sps:%u profile:%d/%d poc:%d ref:%d %dx%d %s %s crop:%d/%d/%d/%d %s\n",
+        av_log(h->s.avctx, AV_LOG_DEBUG, "sps:%u profile:%d/%d poc:%d ref:%d %dx%d %s %s crop:%d/%d/%d/%d %s %s\n",
                sps_id, sps->profile_idc, sps->level_idc,
                sps->poc_type,
                sps->ref_frame_count,
@@ -7517,7 +7408,8 @@ static inline int decode_seq_parameter_set(H264Context *h){
                sps->direct_8x8_inference_flag ? "8B8" : "",
                sps->crop_left, sps->crop_right,
                sps->crop_top, sps->crop_bottom,
-               sps->vui_parameters_present_flag ? "VUI" : ""
+               sps->vui_parameters_present_flag ? "VUI" : "",
+               ((const char*[]){"Gray","420","422","444"})[sps->chroma_format_idc]
                );
     }
     return 0;
