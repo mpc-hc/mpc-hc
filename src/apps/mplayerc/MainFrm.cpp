@@ -6853,9 +6853,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	DWORD dwRemoveEx = 0, dwAddEx = 0;
 	HMENU hMenu;
 
-	HMONITOR hm = 0;
-
+	HMONITOR hm		= MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+
+	CMonitors monitors;
 
 	if(!m_fFullScreen)
 	{
@@ -6875,8 +6876,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		*/
 		CString str;
 		CMonitor monitor;
-		CMonitors monitors;
-
+		
 		if(s.f_hmonitor == _T("Current"))
 		{
 			hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
@@ -6928,6 +6928,14 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
+
+	// try disable shader when move from one monitor to other ...
+
+	if((!m_bToggleShader) && (monitors.GetCount()>0))
+	{
+		if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+	}
+
 	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
 
 	if(m_fFullScreen)
@@ -6954,6 +6962,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	m_fAudioOnly = fAudioOnly;
 
 	MoveVideoWindow();
+
+	if((!m_bToggleShader) && (monitors.GetCount()>0)) // Enabled shader ...
+	{
+		SetShaders();
+	}
 }
 
 void CMainFrame::MoveVideoWindow(bool fShowStats)
@@ -11203,23 +11216,100 @@ void CMainFrame::SendPlaylistToApi()
 //	}
 //}
 
-static int CALLBACK BrowseCallbackProcDIR(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData) 
-{   
-    switch(uMsg) 
-    {
-    case BFFM_INITIALIZED: 
-		::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)_T("C:\\"));
-        break;
-    default:
-        break;
-    }
-    return 0;
+WNDPROC CBProc;
+bool m_incl_subdir;
+
+void SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
+{
+	HFONT hf;
+	LOGFONT lf={0};
+	HDC hdc=GetDC(hwnd);
+	
+	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
+	lf.lfWeight = FW_REGULAR;
+	lf.lfHeight = (LONG)FontSize;
+	lstrcpy( lf.lfFaceName, FontName );
+	hf=CreateFontIndirect(&lf);
+	SetBkMode(hdc,OPAQUE);
+	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE);
+	ReleaseDC(hwnd,hdc);
+   
+}
+
+// Subclass procedure 
+LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam) 
+{
+	if(uMsg==WM_LBUTTONUP)
+	{
+		if((SendMessage(hwnd,BM_GETCHECK,0,0))==1)
+		{
+			m_incl_subdir = FALSE;
+		}
+		else
+		{
+			m_incl_subdir = TRUE;
+		}
+	
+	}
+
+     return CallWindowProc(CBProc, hwnd, uMsg, 
+        wParam, lParam); 
+} 
+
+int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
+{
+	HWND checkbox;
+	TCHAR strFolderPath[MAX_PATH];
+	
+	//Initialization callback message
+	if(uMsg==BFFM_INITIALIZED)
+	{
+		//SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)_T("C:\\"));
+		
+		RECT ListViewRect;
+		RECT Dialog;
+		RECT ClientArea;
+		RECT ButtonRect;
+		
+		checkbox = CreateWindowEx(0, _T("BUTTON"), ResStr(IDS_MAINFRM_DIR_CHECK),
+			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE, 0, 100, 100,
+			50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
+
+		HWND ListView=FindWindowEx(hwnd,NULL,_T("SysTreeView32"),NULL);
+
+		HWND id_ok = GetDlgItem(hwnd, IDOK);
+		HWND id_cancel = GetDlgItem(hwnd, IDCANCEL);
+
+		GetWindowRect(hwnd,&Dialog);
+		MoveWindow(hwnd, Dialog.left, Dialog.top, Dialog.right-Dialog.left+50, Dialog.bottom-Dialog.top+70, TRUE);
+		GetWindowRect(hwnd,&Dialog);
+
+		GetClientRect(hwnd,&ClientArea);
+
+		GetWindowRect(ListView,&ListViewRect);
+		MoveWindow(ListView, ListViewRect.left-Dialog.left, ListViewRect.top-Dialog.top-20, ListViewRect.right-ListViewRect.left+50, ListViewRect.bottom-ListViewRect.top+70, TRUE);
+		GetWindowRect(ListView,&ListViewRect);
+
+		GetWindowRect(id_ok,&ButtonRect);
+		MoveWindow(id_ok, ButtonRect.left-Dialog.left+50, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+
+		GetWindowRect(id_cancel,&ButtonRect);
+		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+50, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+
+		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
+		SetFont(checkbox,_T("Tahoma"),13);
+
+		CBProc = (WNDPROC) SetWindowLong(checkbox,GWL_WNDPROC, (LONG) CheckBoxSubclassProc);
+
+		SendMessage(checkbox,BM_SETCHECK,(WPARAM)m_incl_subdir,0);
+	}
+	return 0;
 }
 
 void RecurseAddDir(CString path, CAtlList<CString>* sl)
 {
 	WIN32_FIND_DATA fd = {0};
-
+	
 	HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
 	if(hFind != INVALID_HANDLE_VALUE)
 	{
@@ -11252,6 +11342,7 @@ void CMainFrame::OnFileOpendirectory()
 	AfxGetAppSettings().Formats.GetFilter(filter, mask);
 
 	TCHAR path[MAX_PATH];
+	m_incl_subdir = TRUE;
 
 	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
 	BROWSEINFO bi;
@@ -11259,7 +11350,7 @@ void CMainFrame::OnFileOpendirectory()
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = path;
 	bi.lpszTitle = strTitle;
-	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
+	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;//BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
 	bi.lpfn = BrowseCallbackProcDIR;
 	bi.lParam = 0;
 	bi.iImage = 0; 
@@ -11275,7 +11366,7 @@ void CMainFrame::OnFileOpendirectory()
 
 		CAtlList<CString> sl;
 		sl.AddTail(_path);
-		RecurseAddDir(_path, &sl);		
+		if(m_incl_subdir) RecurseAddDir(_path, &sl);		
 		
 		if(m_wndPlaylistBar.IsWindowVisible())
 		{

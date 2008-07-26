@@ -3013,7 +3013,8 @@ BEGIN
 	IDS_MPC_MINIDUMP_FAIL	"Impossible de créer le mini-dump '%s' (erreur %d)"
 	IDS_FILE_SAVE_THUMBNAILS "Enregistrer les miniatures"
 	IDS_MPC_PREVENT_MINIMIZE	"PreventMinimize"
-	IDS_MAINFRM_DIR_TITLE		"Select Directory(incl. subdir)" // TODO
+	IDS_MAINFRM_DIR_TITLE		"Select Directory" // TODO
+	IDS_MAINFRM_DIR_CHECK		"Incl. subdir" // TODO
 END
 //TODO - Translate "Current"
 
