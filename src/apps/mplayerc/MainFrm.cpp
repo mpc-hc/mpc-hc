@@ -385,6 +385,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
 	ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
 
+	// Open Dir incl. SubDir
+	ON_COMMAND(ID_FILE_OPENDIRECTORY, OnFileOpendirectory)
+	ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3295,7 +3298,7 @@ void CMainFrame::OnFileOpenQuick()
 	{
 		ShowControlBar(&m_wndPlaylistBar, FALSE, TRUE);
 	}
-
+	
 	OpenCurPlaylistItem();
 }
 
@@ -11199,3 +11202,89 @@ void CMainFrame::SendPlaylistToApi()
 //
 //	}
 //}
+
+static int CALLBACK BrowseCallbackProcDIR(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData) 
+{   
+    switch(uMsg) 
+    {
+    case BFFM_INITIALIZED: 
+		::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)_T("C:\\"));
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
+
+void RecurseAddDir(CString path, CAtlList<CString>* sl)
+{
+	WIN32_FIND_DATA fd = {0};
+
+	HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			CString f_name = fd.cFileName;
+			if((fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (f_name!=_T(".")) && (f_name!=_T("..")))
+			{
+				CString fullpath = path + f_name;
+				if(fullpath[fullpath.GetLength()-1] != '\\') fullpath += '\\';
+				sl->AddTail(fullpath);
+				RecurseAddDir(fullpath, sl);
+			}
+			else
+			{
+				continue;
+			}
+		}
+		while(FindNextFile(hFind, &fd));
+		FindClose(hFind);
+	}
+}
+
+void CMainFrame::OnFileOpendirectory()
+{
+	if(m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar)) return;
+
+	CString filter;
+	CAtlArray<CString> mask;
+	AfxGetAppSettings().Formats.GetFilter(filter, mask);
+
+	TCHAR path[MAX_PATH];
+
+	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
+	BROWSEINFO bi;
+	bi.hwndOwner = m_hWnd;
+	bi.pidlRoot = NULL;
+	bi.pszDisplayName = path;
+	bi.lpszTitle = strTitle;
+	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
+	bi.lpfn = BrowseCallbackProcDIR;
+	bi.lParam = 0;
+	bi.iImage = 0; 
+
+	static LPITEMIDLIST iil;
+
+	if(iil = SHBrowseForFolder(&bi))
+	{
+		SHGetPathFromIDList(iil, path);
+		CString _path = path;
+		_path.Replace('/', '\\');
+		if(_path[_path.GetLength()-1] != '\\') _path += '\\';
+
+		CAtlList<CString> sl;
+		sl.AddTail(_path);
+		RecurseAddDir(_path, &sl);		
+		
+		if(m_wndPlaylistBar.IsWindowVisible())
+		{
+			m_wndPlaylistBar.Append(sl, true);
+		}
+		else
+		{
+			m_wndPlaylistBar.Open(sl, true);
+			OpenCurPlaylistItem();
+		}
+	}
+}

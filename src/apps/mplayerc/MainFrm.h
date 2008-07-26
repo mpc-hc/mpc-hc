@@ -739,4 +739,5 @@ public:
 	void		SendSubtitleTracksToApi();
 	void		SendAudioTracksToApi();
 	void		SendPlaylistToApi();
+	afx_msg void OnFileOpendirectory();
 };
