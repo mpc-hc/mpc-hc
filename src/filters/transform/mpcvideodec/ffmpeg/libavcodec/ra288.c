@@ -31,11 +31,19 @@ typedef struct {
     float pr2[10];
     int   phase;
 
-    float st1a[111], st1b[37], st1[37];
-    float st2a[38], st2b[11], st2[11];
+    float sp_hist[111]; ///< Speech data history (spec: SB)
+
+    /** Speech part of the gain autocorrelation (spec: REXP) */
+    float sp_rec[37];
+
+    float gain_hist[38];   ///< Log-gain history (spec: SBLG)
+
+    /** Recursive part of the gain autocorrelation (spec: REXPLG) */
+    float gain_rec[11];
+
     float sb[41];
     float lhist[10];
-} Real288_internal;
+} RA288Context;
 
 static inline float scalar_product_float(const float * v1, const float * v2,
                                          int size)
@@ -48,20 +56,26 @@ static inline float scalar_product_float(const float * v1, const float * v2,
     return res;
 }
 
+static void colmult(float *tgt, const float *m1, const float *m2, int n)
+{
+    while (n--)
+        *tgt++ = *m1++ * *m2++;
+}
+
 /* Decode and produce output */
-static void decode(Real288_internal *glob, float gain, int cb_coef)
+static void decode(RA288Context *ractx, float gain, int cb_coef)
 {
     int x, y;
     double sumsum;
     float sum, buffer[5];
 
-    memmove(glob->sb + 5, glob->sb, 36 * sizeof(*glob->sb));
+    memmove(ractx->sb + 5, ractx->sb, 36 * sizeof(*ractx->sb));
 
     for (x=4; x >= 0; x--)
-        glob->sb[x] = -scalar_product_float(glob->sb + x + 1, glob->pr1, 36);
+        ractx->sb[x] = -scalar_product_float(ractx->sb + x + 1, ractx->pr1, 36);
 
     /* convert log and do rms */
-    sum = 32. - scalar_product_float(glob->pr2, glob->lhist, 10);
+    sum = 32. - scalar_product_float(ractx->pr2, ractx->lhist, 10);
 
     sum = av_clipf(sum, 0, 60);
 
@@ -75,26 +89,19 @@ static void decode(Real288_internal *glob, float gain, int cb_coef)
     sum = FFMAX(sum, 1);
 
     /* shift and store */
-    memmove(glob->lhist, glob->lhist - 1, 10 * sizeof(*glob->lhist));
+    memmove(ractx->lhist, ractx->lhist - 1, 10 * sizeof(*ractx->lhist));
 
-    *glob->lhist = glob->history[glob->phase] = 10 * log10(sum) - 32;
+    *ractx->lhist = ractx->history[ractx->phase] = 10 * log10(sum) - 32;
 
     for (x=1; x < 5; x++)
         for (y=x-1; y >= 0; y--)
-            buffer[x] -= glob->pr1[x-y-1] * buffer[y];
+            buffer[x] -= ractx->pr1[x-y-1] * buffer[y];
 
     /* output */
     for (x=0; x < 5; x++) {
-        glob->output[glob->phase*5+x] = glob->sb[4-x] =
-            av_clipf(glob->sb[4-x] + buffer[x], -4095, 4095);
+        ractx->output[ractx->phase*5+x] = ractx->sb[4-x] =
+            av_clipf(ractx->sb[4-x] + buffer[x], -4095, 4095);
     }
-}
-
-/* column multiply */
-static void colmult(float *tgt, const float *m1, const float *m2, int n)
-{
-    while (n--)
-        *(tgt++) = (*(m1++)) * (*(m2++));
 }
 
 /**
@@ -135,7 +142,6 @@ static int eval_lpc_coeffs(const float *in, float *tgt, int n)
     return 0;
 }
 
-/* product sum (lsf) */
 static void prodsum(float *tgt, const float *src, int len, int n)
 {
     for (; n >= 0; n--)
@@ -187,28 +193,30 @@ static void do_hybrid_window(int order, int n, int non_rec, const float *in,
 /**
  * Backward synthesis filter. Find the LPC coefficients from past speech data.
  */
-static void backward_filter(Real288_internal *glob)
+static void backward_filter(RA288Context *ractx)
 {
     float buffer1[40], temp1[37];
     float buffer2[8], temp2[11];
+    float st1[37];
+    float st2[11];
 
-    memcpy(buffer1     , glob->output + 20, 20*sizeof(*buffer1));
-    memcpy(buffer1 + 20, glob->output     , 20*sizeof(*buffer1));
+    memcpy(buffer1     , ractx->output + 20, 20*sizeof(*buffer1));
+    memcpy(buffer1 + 20, ractx->output     , 20*sizeof(*buffer1));
 
-    do_hybrid_window(36, 40, 35, buffer1, temp1, glob->st1a, glob->st1b,
+    do_hybrid_window(36, 40, 35, buffer1, temp1, ractx->sp_hist, ractx->sp_rec,
                      syn_window);
 
-    if (!eval_lpc_coeffs(temp1, glob->st1, 36))
-        colmult(glob->pr1, glob->st1, syn_bw_tab, 36);
+    if (!eval_lpc_coeffs(temp1, st1, 36))
+        colmult(ractx->pr1, st1, syn_bw_tab, 36);
 
-    memcpy(buffer2    , glob->history + 4, 4*sizeof(*buffer2));
-    memcpy(buffer2 + 4, glob->history    , 4*sizeof(*buffer2));
+    memcpy(buffer2    , ractx->history + 4, 4*sizeof(*buffer2));
+    memcpy(buffer2 + 4, ractx->history    , 4*sizeof(*buffer2));
 
-    do_hybrid_window(10, 8, 20, buffer2, temp2, glob->st2a, glob->st2b,
+    do_hybrid_window(10, 8, 20, buffer2, temp2, ractx->gain_hist, ractx->gain_rec,
                      gain_window);
 
-    if (!eval_lpc_coeffs(temp2, glob->st2, 10))
-        colmult(glob->pr2, glob->st2, gain_bw_tab, 10);
+    if (!eval_lpc_coeffs(temp2, st2, 10))
+        colmult(ractx->pr2, st2, gain_bw_tab, 10);
 }
 
 /* Decode a block (celp) */
@@ -218,7 +226,7 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
 {
     int16_t *out = data;
     int x, y;
-    Real288_internal *glob = avctx->priv_data;
+    RA288Context *ractx = avctx->priv_data;
     GetBitContext gb;
 
     if (buf_size < avctx->block_align) {
@@ -233,14 +241,14 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
     for (x=0; x < 32; x++) {
         float gain = amptable[get_bits(&gb, 3)];
         int cb_coef = get_bits(&gb, 6 + (x&1));
-        glob->phase = x & 7;
-        decode(glob, gain, cb_coef);
+        ractx->phase = x & 7;
+        decode(ractx, gain, cb_coef);
 
         for (y=0; y < 5; y++)
-            *(out++) = 8 * glob->output[glob->phase*5 + y];
+            *(out++) = 8 * ractx->output[ractx->phase*5 + y];
 
-        if (glob->phase == 3)
-            backward_filter(glob);
+        if (ractx->phase == 3)
+            backward_filter(ractx);
     }
 
     *data_size = (char *)out - (char *)data;
@@ -252,7 +260,7 @@ AVCodec ra_288_decoder =
     "real_288",
     CODEC_TYPE_AUDIO,
     CODEC_ID_RA_288,
-    sizeof(Real288_internal),
+    sizeof(RA288Context),
     NULL,
     NULL,
     NULL,
