@@ -3707,7 +3707,9 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     memset(c->put_2tap_qpel_pixels_tab, 0, sizeof(c->put_2tap_qpel_pixels_tab));
     memset(c->avg_2tap_qpel_pixels_tab, 0, sizeof(c->avg_2tap_qpel_pixels_tab));
 
-		if (ENABLE_MMX)      dsputil_init_mmx   (c, avctx);
+#if ENABLE_MMX == 1
+	dsputil_init_mmx   (c, avctx);
+#endif
 
     for(i=0; i<64; i++){
         if(!c->put_2tap_qpel_pixels_tab[0][i])
