@@ -100,14 +100,14 @@ int dts_downmix_init (int input, int flags, level_t * level,
 	switch (CONVERT (input & 7, output)) {
 
 	case CONVERT (DTS_3F, DTS_MONO):
-	    adjust = DIV (LEVEL_3DB, LEVEL (1) + clev);
+	    adjust = (sample_t)(DIV (LEVEL_3DB, LEVEL (1) + clev));
 	    break;
 
 	case CONVERT (DTS_STEREO, DTS_MONO):
 	case CONVERT (DTS_2F2R, DTS_2F1R):
 	case CONVERT (DTS_3F2R, DTS_3F1R):
 	level_3db:
-	    adjust = LEVEL (LEVEL_3DB);
+	    adjust = (sample_t)(LEVEL (LEVEL_3DB));
 	    break;
 
 	case CONVERT (DTS_3F2R, DTS_2F1R):
@@ -122,24 +122,24 @@ int dts_downmix_init (int input, int flags, level_t * level,
 	    break;
 
 	case CONVERT (DTS_2F1R, DTS_MONO):
-	    adjust = DIV (LEVEL_PLUS3DB, LEVEL (2) + slev);
+	    adjust = (sample_t)(DIV (LEVEL_PLUS3DB, LEVEL (2) + slev));
 	    break;
 
 	case CONVERT (DTS_2F1R, DTS_STEREO):
 	case CONVERT (DTS_3F1R, DTS_3F):
-	    adjust = DIV (1, LEVEL (1) + MUL_C (slev, LEVEL_3DB));
+	    adjust = (sample_t)(DIV (1, LEVEL (1) + MUL_C (slev, LEVEL_3DB)));
 	    break;
 
 	case CONVERT (DTS_3F1R, DTS_MONO):
-	    adjust = DIV (LEVEL_3DB, LEVEL (1) + clev + MUL_C (slev, 0.5));
+	    adjust = (sample_t)(DIV (LEVEL_3DB, LEVEL (1) + clev + MUL_C (slev, 0.5)));
 	    break;
 
 	case CONVERT (DTS_3F1R, DTS_STEREO):
-	    adjust = DIV (1, LEVEL (1) + clev + MUL_C (slev, LEVEL_3DB));
+	    adjust = (sample_t)(DIV (1, LEVEL (1) + clev + MUL_C (slev, LEVEL_3DB)));
 	    break;
 
 	case CONVERT (DTS_2F2R, DTS_MONO):
-	    adjust = DIV (LEVEL_3DB, LEVEL (1) + slev);
+	    adjust = (sample_t)(DIV (LEVEL_3DB, LEVEL (1) + slev));
 	    break;
 
 	case CONVERT (DTS_2F2R, DTS_STEREO):
@@ -148,7 +148,7 @@ int dts_downmix_init (int input, int flags, level_t * level,
 	    break;
 
 	case CONVERT (DTS_3F2R, DTS_MONO):
-	    adjust = DIV (LEVEL_3DB, LEVEL (1) + clev + slev);
+	    adjust = (sample_t)(DIV (LEVEL_3DB, LEVEL (1) + clev + slev));
 	    break;
 
 	case CONVERT (DTS_3F2R, DTS_STEREO):
@@ -156,21 +156,21 @@ int dts_downmix_init (int input, int flags, level_t * level,
 	    break;
 
 	case CONVERT (DTS_MONO, DTS_DOLBY):
-	    adjust = LEVEL (LEVEL_PLUS3DB);
+	    adjust = (sample_t)(LEVEL (LEVEL_PLUS3DB));
 	    break;
 
 	case CONVERT (DTS_3F, DTS_DOLBY):
 	case CONVERT (DTS_2F1R, DTS_DOLBY):
-	    adjust = LEVEL (1 / (1 + LEVEL_3DB));
+	    adjust = (sample_t)(LEVEL (1 / (1 + LEVEL_3DB)));
 	    break;
 
 	case CONVERT (DTS_3F1R, DTS_DOLBY):
 	case CONVERT (DTS_2F2R, DTS_DOLBY):
-	    adjust = LEVEL (1 / (1 + 2 * LEVEL_3DB));
+	    adjust = (sample_t)(LEVEL (1 / (1 + 2 * LEVEL_3DB)));
 	    break;
 
 	case CONVERT (DTS_3F2R, DTS_DOLBY):
-	    adjust = LEVEL (1 / (1 + 3 * LEVEL_3DB));
+	    adjust = (sample_t)(LEVEL (1 / (1 + 3 * LEVEL_3DB)));
 	    break;
 
 	default:
@@ -188,7 +188,7 @@ int dts_downmix_coeff (level_t * coeff, int acmod, int output, level_t level,
 {
     level_t level_3db;
 
-    level_3db = MUL_C (level, LEVEL_3DB);
+    level_3db = (sample_t)(MUL_C (level, LEVEL_3DB));
 
     switch (CONVERT (acmod, output & DTS_CHANNEL_MASK)) {
 
@@ -205,7 +205,7 @@ int dts_downmix_coeff (level_t * coeff, int acmod, int output, level_t level,
 	return 0;
 
     case CONVERT (DTS_CHANNEL, DTS_MONO):
-	coeff[0] = coeff[1] = MUL_C (level, LEVEL_6DB);
+	coeff[0] = coeff[1] = (sample_t)(MUL_C (level, LEVEL_6DB));
 	return 3;
 
     case CONVERT (DTS_STEREO, DTS_MONO):
@@ -214,7 +214,7 @@ int dts_downmix_coeff (level_t * coeff, int acmod, int output, level_t level,
 
     case CONVERT (DTS_3F, DTS_MONO):
 	coeff[0] = coeff[2] = level_3db;
-	coeff[1] = MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB);
+	coeff[1] = (sample_t)(MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB));
 	return 7;
 
     case CONVERT (DTS_2F1R, DTS_MONO):
@@ -229,13 +229,13 @@ int dts_downmix_coeff (level_t * coeff, int acmod, int output, level_t level,
 
     case CONVERT (DTS_3F1R, DTS_MONO):
 	coeff[0] = coeff[2] = level_3db;
-	coeff[1] = MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB);
+	coeff[1] = (sample_t)(MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB));
 	coeff[3] = MUL_L (level_3db, slev);
 	return 15;
 
     case CONVERT (DTS_3F2R, DTS_MONO):
 	coeff[0] = coeff[2] = level_3db;
-	coeff[1] = MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB);
+	coeff[1] = (sample_t)(MUL_C (MUL_L (level_3db, clev), LEVEL_PLUS6DB));
 	coeff[3] = coeff[4] = MUL_L (level_3db, slev);
 	return 31;
 
@@ -494,6 +494,8 @@ static void zero (sample_t * samples)
 void dts_downmix (sample_t * samples, int acmod, int output, sample_t bias,
 		  level_t clev, level_t slev)
 {
+    (void)clev;
+
     switch (CONVERT (acmod, output & DTS_CHANNEL_MASK)) {
 
     case CONVERT (DTS_CHANNEL, DTS_MONO):

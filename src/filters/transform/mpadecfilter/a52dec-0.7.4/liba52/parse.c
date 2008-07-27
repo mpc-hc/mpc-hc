@@ -1,6 +1,6 @@
 /*
  * parse.c
- * Copyright (C) 2000-2002 Michel Lespinasse <walken@zoy.org>
+ * Copyright (C) 2000-2003 Michel Lespinasse <walken@zoy.org>
  * Copyright (C) 1999-2000 Aaron Holtzman <aholtzma@ess.engr.uvic.ca>
  *
  * This file is part of a52dec, a free ATSC A-52 stream decoder.
@@ -149,6 +149,8 @@ int a52_frame (a52_state_t * state, uint8_t * buf, int * flags,
 
     if ((acmod == 2) && (bitstream_get (state, 2) == 2))	/* dsurmod */
 	acmod = A52_DOLBY;
+
+    state->clev = state->slev = 0;
 
     if ((acmod & 1) && (acmod != 1))
 	state->clev = clev[bitstream_get (state, 2)];	/* cmixlev */
@@ -695,11 +697,11 @@ int a52_block (a52_state_t * state)
     }
 
     if (bitstream_get (state, 1)) {	/* baie */
-	do_bit_alloc = -1;
+	do_bit_alloc = 127;
 	state->bai = bitstream_get (state, 11);
     }
     if (bitstream_get (state, 1)) {	/* snroffste */
-	do_bit_alloc = -1;
+	do_bit_alloc = 127;
 	state->csnroffst = bitstream_get (state, 6);
 	if (state->chincpl)	/* cplinu */
 	    state->cplba.bai = bitstream_get (state, 7);
@@ -715,7 +717,7 @@ int a52_block (a52_state_t * state)
     }
 
     if (bitstream_get (state, 1)) {	/* deltbaie */
-	do_bit_alloc = -1;
+	do_bit_alloc = 127;
 	if (state->chincpl)	/* cplinu */
 	    state->cplba.deltbae = bitstream_get (state, 2);
 	for (i = 0; i < nfchans; i++)

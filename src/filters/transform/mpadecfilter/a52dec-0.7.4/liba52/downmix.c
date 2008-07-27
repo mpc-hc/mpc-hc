@@ -1,6 +1,6 @@
 /*
  * downmix.c
- * Copyright (C) 2000-2002 Michel Lespinasse <walken@zoy.org>
+ * Copyright (C) 2000-2003 Michel Lespinasse <walken@zoy.org>
  * Copyright (C) 1999-2000 Aaron Holtzman <aholtzma@ess.engr.uvic.ca>
  *
  * This file is part of a52dec, a free ATSC A-52 stream decoder.
@@ -583,7 +583,7 @@ void a52_downmix (sample_t * samples, int acmod, int output, sample_t bias,
 	break;
 
     case CONVERT (A52_3F1R, A52_3F2R):
-	memcpy (samples + 1027, samples + 768, 256 * sizeof (sample_t));
+	memcpy (samples + 1024, samples + 768, 256 * sizeof (sample_t));
 	break;
     }
 }

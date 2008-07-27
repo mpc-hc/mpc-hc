@@ -76,6 +76,7 @@ dts_state_t * dts_init (uint32_t mm_accel)
     dts_state_t * state;
     int i;
 
+    (void)mm_accel;
     state = (dts_state_t *) malloc (sizeof (dts_state_t));
     if (state == NULL)
         return NULL;
@@ -134,13 +135,13 @@ static int syncinfo (dts_state_t * state, int * flags,
         return 0;
 
     *sample_rate = bitstream_get (state, 4);
-    if (*sample_rate >= sizeof (dts_sample_rates) / sizeof (int))
+    if ((size_t)*sample_rate >= sizeof (dts_sample_rates) / sizeof (int))
         return 0;
     *sample_rate = dts_sample_rates[ *sample_rate ];
     if (!*sample_rate) return 0;
 
     *bit_rate = bitstream_get (state, 5);
-    if (*bit_rate >= sizeof (dts_bit_rates) / sizeof (int))
+    if ((size_t)*bit_rate >= sizeof (dts_bit_rates) / sizeof (int))
         return 0;
     *bit_rate = dts_bit_rates[ *bit_rate ];
     if (!*bit_rate) return 0;
@@ -306,7 +307,13 @@ int dts_frame (dts_state_t * state, uint8_t * buf, int * flags,
 
     /* Primary audio coding header */
     state->subframes = bitstream_get (state, 4) + 1;
+
+    if (state->subframes > DTS_SUBFRAMES_MAX)
+        state->subframes = DTS_SUBFRAMES_MAX;
+
     state->prim_channels = bitstream_get (state, 3) + 1;
+    if (state->prim_channels > DTS_PRIM_CHANNELS_MAX)
+        state->prim_channels = DTS_PRIM_CHANNELS_MAX;
 
 #ifdef DEBUG
     fprintf (stderr, "subframes: %i\n", state->subframes);
@@ -358,7 +365,10 @@ int dts_frame (dts_state_t * state, uint8_t * buf, int * flags,
     for (i = 0; i < state->prim_channels; i++)
     {
         state->bitalloc_huffman[i] = bitstream_get (state, 3);
-        /* if (state->bitalloc_huffman[i] == 7) bailout */
+        /* There might be a way not to trash the whole frame, but for
+         * now we must bail out or we will buffer overflow later. */
+        if (state->bitalloc_huffman[i] == 7)
+            return 1;
 #ifdef DEBUG
         fprintf (stderr, "bit allocation quantizer: %i\n",
                  state->bitalloc_huffman[i]);
@@ -535,6 +545,7 @@ static int dts_subframe_header (dts_state_t * state)
                 k < state->vq_start_subband[j] &&
                 state->bitalloc[j][k] > 0)
             {
+                /* tmode cannot overflow since transient_huffman[j] < 4 */
                 state->transition_mode[j][k] = InverseQ (state,
                     tmode[state->transient_huffman[j]]);
             }
@@ -773,7 +784,7 @@ static int dts_subsubframe (dts_state_t * state)
      */
 
     /* Select quantization step size table */
-    if (state->bit_rate == 0x1f) 
+    if (state->bit_rate == 0x1f)
         quant_step_table = lossless_quant_d;
     else
         quant_step_table = lossy_quant_d;
@@ -791,11 +802,11 @@ static int dts_subsubframe (dts_state_t * state)
             double rscale;
 
             /*
-             * Determine quantization index code book and its type 
+             * Determine quantization index code book and its type
              */
 
             /* Select quantization index code book */
-            int sel = state->quant_index_huffman[k][abits]; 
+            int sel = state->quant_index_huffman[k][abits];
 
             /* Determine its type */
             int q_type = 1; /* (Assume Huffman type by default) */
@@ -809,7 +820,7 @@ static int dts_subsubframe (dts_state_t * state)
             if (abits == 0) q_type = 0; /* No bits allocated */
 
             /*
-             * Extract bits from the bit stream 
+             * Extract bits from the bit stream
              */
             switch (q_type)
             {
@@ -946,7 +957,7 @@ static int dts_subsubframe (dts_state_t * state)
 
             for (m=0; m<8; m++)
             {
-                subband_samples[k][l][m] = 
+                subband_samples[k][l][m] =
                     high_freq_vq[state->high_freq_vq[k][l]][subsubframe*8+m]
                         * (double)state->scale_factor[k][l][0] / 16.0;
             }
@@ -1105,7 +1116,7 @@ int dts_block (dts_state_t * state)
 /* Very compact version of the block code decoder that does not use table
  * look-up but is slightly slower */
 int decode_blockcode( int code, int levels, int *values )
-{ 
+{
     int i;
     int offset = (levels - 1) >> 1;
 
@@ -1213,7 +1224,7 @@ static void qmf_32_subbands (dts_state_t * state, int chans,
 
         /* Create 32 PCM output samples */
         for (i=0;i<32;i++)
-            samples_out[nChIndex++] = subband_fir_hist2[i] / scale + bias;
+            samples_out[nChIndex++] = (sample_t)(subband_fir_hist2[i] / scale + bias);
 
         /* Update working arrays */
         for (i=511;i>=32;i--)
@@ -1271,7 +1282,7 @@ static void lfe_interpolation_fir (int nDecimationSelect, int nNumDeciSample,
                 rTmp += samples_in[nDeciIndex-J]*prCoeff[k+J*nDeciFactor];
 
             /* Save interpolated samples */
-            samples_out[nInterpIndex++] = rTmp / scale + bias;
+            samples_out[nInterpIndex++] = (sample_t)(rTmp / scale + bias);
         }
     }
 }

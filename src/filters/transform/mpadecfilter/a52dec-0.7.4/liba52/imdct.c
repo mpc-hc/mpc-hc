@@ -1,6 +1,6 @@
 /*
  * imdct.c
- * Copyright (C) 2000-2002 Michel Lespinasse <walken@zoy.org>
+ * Copyright (C) 2000-2003 Michel Lespinasse <walken@zoy.org>
  * Copyright (C) 1999-2000 Aaron Holtzman <aholtzma@ess.engr.uvic.ca>
  *
  * The ifft algorithms in this file have been largely inspired by Dan
@@ -419,13 +419,13 @@ void a52_imdct_init (uint32_t mm_accel)
 
 #ifdef LIBA52_DJBFFT
     if (mm_accel & MM_ACCEL_DJBFFT) {
-	fprintf (stderr, "Using djbfft for IMDCT transform\n");
+	//fprintf (stderr, "Using djbfft for IMDCT transform\n");
 	ifft128 = (void (*) (complex_t *)) fftc4_un128;
 	ifft64 = (void (*) (complex_t *)) fftc4_un64;
     } else
 #endif
     {
-	fprintf (stderr, "No accelerated IMDCT transform found\n");
+	//fprintf (stderr, "No accelerated IMDCT transform found\n");
 	ifft128 = ifft128_c;
 	ifft64 = ifft64_c;
     }
