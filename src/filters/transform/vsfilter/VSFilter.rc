@@ -73,8 +73,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,1,5
- PRODUCTVERSION 1,0,1,5
+ FILEVERSION 1,1,604,0
+ PRODUCTVERSION 1,1,604,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -89,14 +89,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
+            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
-            VALUE "FileVersion", "1, 0, 1, 5"
+            VALUE "FileVersion", "1, 1, 604, 0"
             VALUE "InternalName", "VSFilter"
             VALUE "LegalCopyright", "Copyright (C) 2001-2008 Gabest"
-            VALUE "OriginalFilename", "VSFilter.DLL"
+            VALUE "OriginalFilename", "VSFilter.dll"
             VALUE "ProductName", "VSFilter"
-            VALUE "ProductVersion", "1, 0, 1, 5"
+            VALUE "ProductVersion", "1, 1, 604, 0"
         END
     END
     BLOCK "VarFileInfo"
