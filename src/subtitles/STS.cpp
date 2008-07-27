@@ -1416,8 +1416,8 @@ if(sver >= 5)	style->fontScaleY = GetFloat(buff);
 if(sver >= 5)	style->fontSpacing = GetFloat(buff);
 if(sver >= 5)	style->fontAngleZ = GetFloat(buff);
 if(sver >= 4)	style->borderStyle = GetInt(buff);
-				style->outlineWidth = GetFloat(buff);
-				style->shadowDepth = GetFloat(buff);
+				style->outlineWidthX = style->outlineWidthY = GetFloat(buff);
+				style->shadowDepthX = style->shadowDepthY = GetFloat(buff);
 				style->scrAlignment = GetInt(buff);
 				style->marginRect.left = GetInt(buff);
 				style->marginRect.right = GetInt(buff);
@@ -1436,8 +1436,10 @@ if(sver >= 5)	style->fontScaleY = max(style->fontScaleY, 0);
 if(sver >= 5)	style->fontSpacing = max(style->fontSpacing, 0);
 				style->fontAngleX = style->fontAngleY = 0;
 				style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-				style->outlineWidth = max(style->outlineWidth, 0);
-				style->shadowDepth = max(style->shadowDepth, 0);
+				style->outlineWidthX = max(style->outlineWidthX, 0);
+				style->outlineWidthY = max(style->outlineWidthY, 0);
+				style->shadowDepthX = max(style->shadowDepthX, 0);
+				style->shadowDepthY = max(style->shadowDepthY, 0);
 if(sver <= 4)	style->scrAlignment = (style->scrAlignment&4) ? ((style->scrAlignment&3)+6) // top
 										: (style->scrAlignment&8) ? ((style->scrAlignment&3)+3) // mid
 										: (style->scrAlignment&3); // bottom
@@ -1577,7 +1579,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				style->fItalic = !!GetInt(buff);
 				style->fUnderline = !!GetInt(buff);
 				style->fStrikeOut = !!GetInt(buff);
-				style->fBlur = !!GetInt(buff);
+				style->fBlur = GetInt(buff) ? 1 : 0;;
 				style->fontScaleX = GetFloat(buff);
 				style->fontScaleY = GetFloat(buff);
 				style->fontSpacing = GetFloat(buff);
@@ -1585,8 +1587,8 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				style->fontAngleY = GetFloat(buff);
 				style->fontAngleZ = GetFloat(buff);
 				style->borderStyle = GetInt(buff);
-				style->outlineWidth = GetFloat(buff);
-				style->shadowDepth = GetFloat(buff);
+				style->outlineWidthX = style->outlineWidthY = GetFloat(buff);
+				style->shadowDepthX = style->shadowDepthY = GetFloat(buff);
 				style->scrAlignment = GetInt(buff);
 				style->marginRect.left = GetInt(buff);
 				style->marginRect.right = GetInt(buff);
@@ -1597,8 +1599,10 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				style->fontScaleY = max(style->fontScaleY, 0);
 				style->fontSpacing = max(style->fontSpacing, 0);
 				style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
-				style->outlineWidth = max(style->outlineWidth, 0);
-				style->shadowDepth = max(style->shadowDepth, 0);
+				style->outlineWidthX = max(style->outlineWidthX, 0);
+				style->outlineWidthY = max(style->outlineWidthY, 0);
+				style->shadowDepthX = max(style->shadowDepthX, 0);
+				style->shadowDepthY = max(style->shadowDepthY, 0);
 				
 				ret.AddStyle(StyleName, style);
 			}
@@ -2717,7 +2721,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 					s->colors[3]&0xffffff, 
 					s->fontWeight > FW_NORMAL ? -1 : 0, s->fItalic ? -1 : 0,
 					s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0, 
-					(int)s->outlineWidth, (int)s->shadowDepth, 
+					(int)s->outlineWidthY, (int)s->shadowDepthY, 
 					s->scrAlignment <= 3 ? s->scrAlignment : s->scrAlignment <= 6 ? ((s->scrAlignment-3)|8) : s->scrAlignment <= 9 ? ((s->scrAlignment-6)|4) : 2,
 					s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 					s->alpha[0],
@@ -2738,7 +2742,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 					(int)s->fontScaleX, (int)s->fontScaleY,
 					(int)s->fontSpacing, (float)s->fontAngleZ,
 					s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0, 
-					(int)s->outlineWidth, (int)s->shadowDepth, 
+					(int)s->outlineWidthY, (int)s->shadowDepthY, 
 					s->scrAlignment,
 					s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 					s->charSet);
@@ -2871,7 +2875,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			(int)s->fontScaleX, (int)s->fontScaleY,
 			(int)s->fontSpacing, (float)s->fontAngleZ,
 			s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0, 
-			(int)s->outlineWidth, (int)s->shadowDepth, 
+			(int)s->outlineWidthY, (int)s->shadowDepthY, 
 			s->scrAlignment,
 			s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 			s->charSet);
@@ -2893,8 +2897,8 @@ void STSStyle::SetDefault()
 	marginRect = CRect(20, 20, 20, 20);
 	scrAlignment = 2;
 	borderStyle = 0;
-	outlineWidth = 2;
-	shadowDepth = 3;
+	outlineWidthX = outlineWidthY = 2;
+	shadowDepthX = shadowDepthY = 3;
 	colors[0] = 0x00ffffff;
 	colors[1] = 0x0000ffff;
 	colors[2] = 0x00000000;
@@ -2912,7 +2916,8 @@ void STSStyle::SetDefault()
 	fItalic = false;
 	fUnderline = false;
 	fStrikeOut = false;
-	fBlur = false;
+	fBlur = 0;
+	fGaussianBlur = 0;
 	fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
 	relativeTo = 2;
 }
@@ -2922,8 +2927,10 @@ bool STSStyle::operator == (STSStyle& s)
 	return(marginRect == s.marginRect 
 		&& scrAlignment == s.scrAlignment
 		&& borderStyle == s.borderStyle
-		&& outlineWidth == s.outlineWidth
-		&& shadowDepth == s.shadowDepth 
+		&& outlineWidthX == s.outlineWidthX
+		&& outlineWidthY == s.outlineWidthY
+		&& shadowDepthX == s.shadowDepthX
+		&& shadowDepthY == s.shadowDepthY
 		&& *((int*)&colors[0]) == *((int*)&s.colors[0])
 		&& *((int*)&colors[1]) == *((int*)&s.colors[1])
 		&& *((int*)&colors[2]) == *((int*)&s.colors[2])
@@ -2933,6 +2940,7 @@ bool STSStyle::operator == (STSStyle& s)
 		&& alpha[2] == s.alpha[2]
 		&& alpha[3] == s.alpha[3]
 		&& fBlur == s.fBlur
+		&& fGaussianBlur == s.fGaussianBlur
 		&& relativeTo == s.relativeTo
 		&& IsFontStyleEqual(s));
 }
@@ -3001,11 +3009,11 @@ CString& operator <<= (CString& style, STSStyle& s)
 {
 	style.Format(_T("%d,%d,%d,%d,%d,%d,%f,%f,0x%06x,0x%06x,0x%06x,0x%06x,0x%02x,0x%02x,0x%02x,0x%02x,%d,%s,%f,%f,%f,%f,%d,%d,%d,%d,%d,%f,%f,%f,%d"),
 		s.marginRect.left,s.marginRect.right,s.marginRect.top,s.marginRect.bottom,
-		s.scrAlignment, s.borderStyle, s.outlineWidth, s.shadowDepth,
+		s.scrAlignment, s.borderStyle, s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,
 		s.colors[0], s.colors[1], s.colors[2], s.colors[3], s.alpha[0], s.alpha[1], s.alpha[2], s.alpha[3],
 		s.charSet,
 		s.fontName, s.fontSize, s.fontScaleX, s.fontScaleY, s.fontSpacing, s.fontWeight,
-		(int)s.fItalic, (int)s.fUnderline, (int)s.fStrikeOut, (int)s.fBlur,
+		(int)s.fItalic, (int)s.fUnderline, (int)s.fStrikeOut, s.fBlur, s.fGaussianBlur,
 		s.fontAngleZ, s.fontAngleX, s.fontAngleY,
 		s.relativeTo);
 
@@ -3020,14 +3028,15 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 	{
 		CStringW str = TToW(style);
 		s.marginRect.left = GetInt(str); s.marginRect.right = GetInt(str); s.marginRect.top = GetInt(str); s.marginRect.bottom = GetInt(str);
-		s.scrAlignment = GetInt(str); s.borderStyle = GetInt(str); s.outlineWidth = GetFloat(str); s.shadowDepth = GetFloat(str);
+		s.scrAlignment = GetInt(str); s.borderStyle = GetInt(str);
+		s.outlineWidthX = GetFloat(str); s.outlineWidthY = GetFloat(str); s.shadowDepthX = GetFloat(str); s.shadowDepthY = GetFloat(str);
 		for(int i = 0; i < 4; i++) s.colors[i] = (COLORREF)GetInt(str);
 		for(int i = 0; i < 4; i++) s.alpha[i] = GetInt(str);
 		s.charSet = GetInt(str);
 		s.fontName = WToT(GetStr(str)); s.fontSize = GetFloat(str); 
 		s.fontScaleX = GetFloat(str); s.fontScaleY = GetFloat(str);
 		s.fontSpacing = GetFloat(str); s.fontWeight = GetInt(str);
-		s.fItalic = !!GetInt(str); s.fUnderline = !!GetInt(str); s.fStrikeOut = !!GetInt(str); s.fBlur = !!GetInt(str);
+		s.fItalic = !!GetInt(str); s.fUnderline = !!GetInt(str); s.fStrikeOut = !!GetInt(str); s.fBlur = GetInt(str); s.fGaussianBlur = GetFloat(str);
 		s.fontAngleZ = GetFloat(str); s.fontAngleX = GetFloat(str); s.fontAngleY = GetFloat(str);
 		s.relativeTo = GetInt(str);
 	}

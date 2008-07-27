@@ -116,9 +116,9 @@ void CWord::Paint(CPoint p, CPoint org)
 
 		if(!ScanConvert()) return;
 
-		if(m_style.borderStyle == 0 && m_style.outlineWidth > 0)
+		if(m_style.borderStyle == 0 && (m_style.outlineWidthX+m_style.outlineWidthY > 0))
 		{
-			if(!CreateWidenedRegion((int)(m_style.outlineWidth+0.5))) return;
+			if(!CreateWidenedRegion((int)(m_style.outlineWidthX+0.5), (int)(m_style.outlineWidthY+0.5))) return;
 		}
 		else if(m_style.borderStyle == 1)
 		{
@@ -127,11 +127,11 @@ void CWord::Paint(CPoint p, CPoint org)
 
 		m_fDrawn = true;
 
-		if(!Rasterize(p.x&7, p.y&7, m_style.fBlur)) return;
+		if(!Rasterize(p.x&7, p.y&7, m_style.fBlur, m_style.fGaussianBlur)) return;
 	}
 	else if((m_p.x&7) != (p.x&7) || (m_p.y&7) != (p.y&7))
 	{
-		Rasterize(p.x&7, p.y&7, m_style.fBlur);
+		Rasterize(p.x&7, p.y&7, m_style.fBlur, m_style.fGaussianBlur);
 	}
 
 	m_p = p;
@@ -188,18 +188,19 @@ bool CWord::CreateOpaqueBox()
 
 	STSStyle style = m_style;
 	style.borderStyle = 0;
-	style.outlineWidth = 0;
+	style.outlineWidthX = style.outlineWidthY = 0;
 	style.colors[0] = m_style.colors[2];
 	style.alpha[0] = m_style.alpha[2];
 
-	int w = (int)(m_style.outlineWidth + 0.5);
+	int w = (int)(m_style.outlineWidthX + 0.5);
+	int h = (int)(m_style.outlineWidthY + 0.5);
 
 	CStringW str;
 	str.Format(L"m %d %d l %d %d %d %d %d %d", 
-		-w, -w, 
-		m_width+w, -w, 
-		m_width+w, m_ascent+m_descent+w, 
-		-w, m_ascent+m_descent+w);
+		-w, -h, 
+		m_width+w, -h, 
+		m_width+w, m_ascent+m_descent+h, 
+		-w, m_ascent+m_descent+h);
 
 	m_pOpaqueBox = new CPolygon(style, str, 0, 0, 0, 1.0/8, 1.0/8, 0);
 
@@ -518,7 +519,7 @@ bool CPolygon::CreatePath()
 
 // CClipper
 
-CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley) 
+CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse) 
 	: CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0)
 {
 	m_size.cx = m_size.cy = 0;
@@ -527,6 +528,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley)
 	if(size.cx < 0 || size.cy < 0 || !(m_pAlphaMask = new BYTE[size.cx*size.cy])) return;
 
 	m_size = size;
+	m_inverse = inverse;
 
 	memset(m_pAlphaMask, 0, size.cx*size.cy);
 
@@ -555,6 +557,13 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley)
 		src += 2*mOverlayWidth;
 		dst += m_size.cx;
 	}
+
+	if(inverse)
+	{
+		BYTE* dst = m_pAlphaMask;
+		for(int i = size.cx*size.cy; i>0; --i, ++dst)
+			*dst = 0x40 - *dst; // mask is 6 bit
+	}
 }
 
 CClipper::~CClipper()
@@ -565,7 +574,7 @@ CClipper::~CClipper()
 
 CWord* CClipper::Copy()
 {
-	return(new CClipper(m_str, m_size, m_scalex, m_scaley));
+	return(new CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse));
 }
 
 bool CClipper::Append(CWord* w)
@@ -622,7 +631,7 @@ void CLine::Compact()
 			AddTail(last = w->Copy());
 	}
 
-	m_ascent = m_descent = m_border = 0;
+	m_ascent = m_descent = m_borderX = m_borderY = 0;
 
 	pos = GetHeadPosition();
 	while(pos)
@@ -631,7 +640,8 @@ void CLine::Compact()
 
 		if(m_ascent < w->m_ascent) m_ascent = w->m_ascent;
 		if(m_descent < w->m_descent) m_descent = w->m_descent;
-		if(m_border < w->m_style.outlineWidth) m_border = (int)(w->m_style.outlineWidth+0.5);
+		if(m_borderX < w->m_style.outlineWidthX) m_borderX = (int)(w->m_style.outlineWidthX+0.5);
+		if(m_borderY < w->m_style.outlineWidthY) m_borderY = (int)(w->m_style.outlineWidthY+0.5);
 	}
 }
 
@@ -646,10 +656,10 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 
 		if(w->m_fLineBreak) return(bbox); // should not happen since this class is just a line of text without any breaks
 
-		if(w->m_style.shadowDepth > 0)
+		if(w->m_style.shadowDepthX != 0 || w->m_style.shadowDepthY != 0)
 		{
-			int x = p.x + (int)(w->m_style.shadowDepth+0.5);
-			int y = p.y + m_ascent - w->m_ascent + (int)(w->m_style.shadowDepth+0.5);
+			int x = p.x + (int)(w->m_style.shadowDepthX+0.5);
+			int y = p.y + m_ascent - w->m_ascent + (int)(w->m_style.shadowDepthY+0.5);
 
 			DWORD a = 0xff - w->m_style.alpha[3];
 			if(alpha > 0) a = MulDiv(a, 0xff - alpha, 0xff);
@@ -662,7 +672,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 			{
 				bbox |= w->Draw(spd, clipRect, pAlphaMask, x, y, sw, 
 					w->m_ktype > 0 || w->m_style.alpha[0] < 0xff, 
-					w->m_style.outlineWidth > 0 && !(w->m_ktype == 2 && time < w->m_kstart));
+					(w->m_style.outlineWidthX+w->m_style.outlineWidthY > 0) && !(w->m_ktype == 2 && time < w->m_kstart));
 			}
 			else if(w->m_style.borderStyle == 1 && w->m_pOpaqueBox)
 			{
@@ -687,8 +697,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 
 		if(w->m_fLineBreak) return(bbox); // should not happen since this class is just a line of text without any breaks
 
-//		if((w->m_style.outlineWidth > 0 || w->m_style.borderStyle == 1 && w->m_style.outlineWidth == 0) && !(w->m_ktype == 2 && time < w->m_kstart))
-		if(w->m_style.outlineWidth >= 0 && !(w->m_ktype == 2 && time < w->m_kstart))
+		if(w->m_style.outlineWidthX+w->m_style.outlineWidthY > 0 && !(w->m_ktype == 2 && time < w->m_kstart))
 		{
 			int x = p.x;
 			int y = p.y + m_ascent - w->m_ascent;
@@ -702,11 +711,11 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 
 			if(w->m_style.borderStyle == 0)
 			{
-				bbox |= w->Draw(spd, clipRect, pAlphaMask, x, y, sw, !w->m_style.alpha[0] && !w->m_style.alpha[1], true);
+				bbox |= w->Draw(spd, clipRect, pAlphaMask, x, y, sw, !w->m_style.alpha[0] && !w->m_style.alpha[1] && !alpha, true);
 			}
 			else if(w->m_style.borderStyle == 1 && w->m_pOpaqueBox)
 			{
-				bbox |= w->m_pOpaqueBox->Draw(spd, clipRect, pAlphaMask, x, y, sw, true/*!w->m_style.alpha[0] && !w->m_style.alpha[1]*/, false);
+				bbox |= w->m_pOpaqueBox->Draw(spd, clipRect, pAlphaMask, x, y, sw, true, false);
 			}
 		}
 
@@ -772,7 +781,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 			sw[1] = 0xffffffff;
 		}
 
-		sw[3] = (int)(w->m_style.outlineWidth + t*w->m_width) >> 3;
+		sw[3] = (int)(w->m_style.outlineWidthX + t*w->m_width) >> 3;
 		sw[4] = sw[2];
 		sw[5] = 0x00ffffff;
 
@@ -793,6 +802,7 @@ CSubtitle::CSubtitle()
 {
 	memset(m_effects, 0, sizeof(Effect*)*EF_NUMBEROFEFFECTS);
 	m_pClipper = NULL;
+	m_clipInverse = false;
 	m_scalex = m_scaley = 1;
 }
 
@@ -884,7 +894,7 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
 	CLine* ret = new CLine();
 	if(!ret) return(NULL);
 
-	ret->m_width = ret->m_ascent = ret->m_descent = ret->m_border = 0;
+	ret->m_width = ret->m_ascent = ret->m_descent = ret->m_borderX = ret->m_borderY = 0;
 
 	maxwidth = GetWrapWidth(pos, maxwidth);
 
@@ -896,11 +906,12 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
 
 		if(ret->m_ascent < w->m_ascent) ret->m_ascent = w->m_ascent;
 		if(ret->m_descent < w->m_descent) ret->m_descent = w->m_descent;
-		if(ret->m_border < w->m_style.outlineWidth) ret->m_border = (int)(w->m_style.outlineWidth+0.5);
+		if(ret->m_borderX < w->m_style.outlineWidthX) ret->m_borderX = (int)(w->m_style.outlineWidthX+0.5);
+		if(ret->m_borderY < w->m_style.outlineWidthY) ret->m_borderY = (int)(w->m_style.outlineWidthY+0.5);
 
 		if(w->m_fLineBreak) 
 		{
-			if(fEmptyLine) {ret->m_ascent /= 2; ret->m_descent /= 2; ret->m_border = 0;}
+			if(fEmptyLine) {ret->m_ascent /= 2; ret->m_descent /= 2; ret->m_borderX = ret->m_borderY = 0;}
 
 			ret->Compact();
 
@@ -964,7 +975,7 @@ void CSubtitle::CreateClippers(CSize size)
 		{
 			CStringW str;
 			str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-			m_pClipper = new CClipper(str, size, 1, 1);
+			m_pClipper = new CClipper(str, size, 1, 1, false);
 			if(!m_pClipper) return;
 		}
 
@@ -998,7 +1009,7 @@ void CSubtitle::CreateClippers(CSize size)
 		{
 			CStringW str;
 			str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-			m_pClipper = new CClipper(str, size, 1, 1);
+			m_pClipper = new CClipper(str, size, 1, 1, false);
 			if(!m_pClipper) return;
 		}
 
@@ -1061,15 +1072,15 @@ void CSubtitle::MakeLines(CSize size, CRect marginRect)
 		l = GetNextLine(pos, size.cx - marginRect.left - marginRect.right);
 		if(!l) break;
 
-		if(fFirstLine) {m_topborder = l->m_border; fFirstLine = false;}
+		if(fFirstLine) {m_topborder = l->m_borderY; fFirstLine = false;}
 
-		spaceNeeded.cx = max(l->m_width, spaceNeeded.cx);
+		spaceNeeded.cx = max(l->m_width+l->m_borderX, spaceNeeded.cx);
 		spaceNeeded.cy += l->m_ascent + l->m_descent;
 
 		AddTail(l);
 	}
 
-	if(l) m_bottomborder = l->m_border;
+	if(l) m_bottomborder = l->m_borderY;
 
 	m_rect = CRect(
 		CPoint((m_scrAlignment%3) == 1 ? marginRect.left
@@ -1419,6 +1430,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			params.Add(cmd.Mid(2)), cmd = cmd.Left(2);
 		else if(!cmd.Find(L"a"))
 			params.Add(cmd.Mid(1)), cmd = cmd.Left(1);
+		else if(!cmd.Find(L"blur"))
+			params.Add(cmd.Mid(4)), cmd = cmd.Left(4);
 		else if(!cmd.Find(L"bord"))
 			params.Add(cmd.Mid(4)), cmd = cmd.Left(4);
 		else if(!cmd.Find(L"be"))
@@ -1449,6 +1462,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			params.Add(cmd.Mid(3)), cmd = cmd.Left(3);
 		else if(!cmd.Find(L"fs"))
 			params.Add(cmd.Mid(2)), cmd = cmd.Left(2);
+		else if(!cmd.Find(L"iclip"))
+			;
 		else if(!cmd.Find(L"i"))
 			params.Add(cmd.Mid(1)), cmd = cmd.Left(1);
 		else if(!cmd.Find(L"kt") || !cmd.Find(L"kf") || !cmd.Find(L"ko"))
@@ -1477,6 +1492,14 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			;
 		else if(!cmd.Find(L"u"))
 			params.Add(cmd.Mid(1)), cmd = cmd.Left(1);
+		else if(!cmd.Find(L"xbord"))
+			params.Add(cmd.Mid(5)), cmd = cmd.Left(5);
+		else if(!cmd.Find(L"xshad"))
+			params.Add(cmd.Mid(5)), cmd = cmd.Left(5);
+		else if(!cmd.Find(L"ybord"))
+			params.Add(cmd.Mid(5)), cmd = cmd.Left(5);
+		else if(!cmd.Find(L"yshad"))
+			params.Add(cmd.Mid(5)), cmd = cmd.Left(5);
 		else
 			nUnrecognizedTags++;
 
@@ -1526,18 +1549,30 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			if(sub->m_scrAlignment < 0)
                 sub->m_scrAlignment = (n > 0 && n < 12) ? ((((n-1)&3)+1)+((n&4)?6:0)+((n&8)?3:0)) : org.scrAlignment;
 		}
+		else if(cmd == L"blur")
+		{
+			double n = CalcAnimation(wcstod(p, NULL), style.fGaussianBlur, fAnimate);
+			style.fGaussianBlur = !p.IsEmpty()
+				? (n < 0 ? 0 : n)
+				: org.fGaussianBlur;
+		}
 		else if(cmd == L"bord")
 		{
-			double n = CalcAnimation(wcstod(p, NULL), style.outlineWidth, fAnimate);
-			style.outlineWidth = !p.IsEmpty()
-				? (n < 0 ? 0 : n)
-				: org.outlineWidth;
+			double dst = wcstod(p, NULL);
+			double nx = CalcAnimation(dst, style.outlineWidthX, fAnimate);
+			style.outlineWidthX = !p.IsEmpty()
+				? (nx < 0 ? 0 : nx)
+				: org.outlineWidthX;
+			double ny = CalcAnimation(dst, style.outlineWidthY, fAnimate);
+			style.outlineWidthY = !p.IsEmpty()
+				? (ny < 0 ? 0 : ny)
+				: org.outlineWidthY;
 		}
 		else if(cmd == L"be")
 		{
-			int n = wcstol(p, NULL, 10);
+			int n = (int)(CalcAnimation(wcstol(p, NULL, 10), style.fBlur, fAnimate)+0.5);
 			style.fBlur = !p.IsEmpty()
-				? (n == 0 ? false : n == 1 ? true : org.fBlur)
+				? n
 				: org.fBlur;
 		}
 		else if(cmd == L"b")
@@ -1547,20 +1582,24 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				? (n == 0 ? FW_NORMAL : n == 1 ? FW_BOLD : n >= 100 ? n : org.fontWeight)
 				: org.fontWeight;
 		}
-		else if(cmd == L"clip")
+		else if(cmd == L"clip" || cmd == L"iclip")
 		{
+			bool invert = (cmd == L"iclip");
+
 			if(params.GetCount() == 1 && !sub->m_pClipper)
 			{
-				sub->m_pClipper = new CClipper(params[0], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex, sub->m_scaley);
+				sub->m_pClipper = new CClipper(params[0], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex, sub->m_scaley, invert);
 			}
 			else if(params.GetCount() == 2 && !sub->m_pClipper)
 			{
 				int scale = max(wcstol(p, NULL, 10), 1);
-				sub->m_pClipper = new CClipper(params[1], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex/(1<<(scale-1)), sub->m_scaley/(1<<(scale-1)));
+				sub->m_pClipper = new CClipper(params[1], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex/(1<<(scale-1)), sub->m_scaley/(1<<(scale-1)), invert);
 			}
 			else if(params.GetCount() == 4)
 			{
 				CRect r;
+
+				sub->m_clipInverse = invert;
 
 				r.SetRect(
 					wcstol(params[0], NULL, 10),
@@ -1819,10 +1858,15 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		}
 		else if(cmd == L"shad")
 		{
-			double n = CalcAnimation(wcstod(p, NULL), style.shadowDepth, fAnimate);
-			style.shadowDepth = !p.IsEmpty()
-				? (n < 0 ? 0 : n)
-				: org.shadowDepth;
+			double dst = wcstod(p, NULL);
+			double nx = CalcAnimation(dst, style.shadowDepthX, fAnimate);
+			style.shadowDepthX = !p.IsEmpty()
+				? (nx < 0 ? 0 : nx)
+				: org.shadowDepthX;
+			double ny = CalcAnimation(dst, style.shadowDepthY, fAnimate);
+			style.shadowDepthY = !p.IsEmpty()
+				? (ny < 0 ? 0 : ny)
+				: org.shadowDepthY;
 		}
 		else if(cmd == L"s")
 		{
@@ -1871,6 +1915,38 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			style.fUnderline = !p.IsEmpty()
 				? (n == 0 ? false : n == 1 ? true : org.fUnderline)
 				: org.fUnderline;
+		}
+		else if(cmd == L"xbord")
+		{
+			double dst = wcstod(p, NULL);
+			double nx = CalcAnimation(dst, style.outlineWidthX, fAnimate);
+			style.outlineWidthX = !p.IsEmpty()
+				? (nx < 0 ? 0 : nx)
+				: org.outlineWidthX;
+		}
+		else if(cmd == L"xshad")
+		{
+			double dst = wcstod(p, NULL);
+			double nx = CalcAnimation(dst, style.shadowDepthX, fAnimate);
+			style.shadowDepthX = !p.IsEmpty()
+				? nx
+				: org.shadowDepthX;
+		}
+		else if(cmd == L"ybord")
+		{
+			double dst = wcstod(p, NULL);
+			double ny = CalcAnimation(dst, style.outlineWidthY, fAnimate);
+			style.outlineWidthY = !p.IsEmpty()
+				? (ny < 0 ? 0 : ny)
+				: org.outlineWidthY;
+		}
+		else if(cmd == L"yshad")
+		{
+			double dst = wcstod(p, NULL);
+			double ny = CalcAnimation(dst, style.shadowDepthY, fAnimate);
+			style.shadowDepthY = !p.IsEmpty()
+				? ny
+				: org.shadowDepthY;
 		}
 	}
 
@@ -1949,7 +2025,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
 				}
 				else if(attribs[i] == L"outline-level")
 				{
-					style.outlineWidth = wcstol(params[i], NULL, 10);
+					style.outlineWidthX = style.outlineWidthY = wcstol(params[i], NULL, 10);
 				}
 				else if(attribs[i] == L"shadow-color")
 				{
@@ -1957,7 +2033,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
 				}
 				else if(attribs[i] == L"shadow-level")
 				{
-					style.shadowDepth = wcstol(params[i], NULL, 10);
+					style.shadowDepthX = style.shadowDepthY = wcstol(params[i], NULL, 10);
 				}
 
 				if(nColor >= 0 && nColor < 4)
@@ -2108,8 +2184,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
 		tmp.fontSize = sub->m_scaley*tmp.fontSize*64;
 		tmp.fontSpacing = sub->m_scalex*tmp.fontSpacing*64;
-		tmp.outlineWidth *= (m_fScaledBAS ? ((sub->m_scalex+sub->m_scaley)/2) : 1) * 8;
-		tmp.shadowDepth *= (m_fScaledBAS ? ((sub->m_scalex+sub->m_scaley)/2) : 1) * 8;
+		tmp.outlineWidthX *= (m_fScaledBAS ? sub->m_scalex : 1) * 8;
+		tmp.outlineWidthY *= (m_fScaledBAS ? sub->m_scaley : 1) * 8;
+		tmp.shadowDepthX *= (m_fScaledBAS ? sub->m_scalex : 1) * 8;
+		tmp.shadowDepthY *= (m_fScaledBAS ? sub->m_scaley : 1) * 8;
 
 		if(m_nPolygon)
 		{
@@ -2312,6 +2390,7 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 					if(t1 <= 0 && t2 <= 0) {t1 = 0; t2 = m_delay;}
 
 					if(m_time <= t1) p = p1;
+					else if (p1 == p2) p = p1;
 					else if(t1 < m_time && m_time < t2)
 					{
 						double t = 1.0*(m_time-t1)/(t2-t1);
@@ -2421,10 +2500,12 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 		p = p2;
 
-		// fix : opaque box overlapped
-		STSStyle style;
-		GetDefaultStyle(style);
-		int	nVertOffset = (style.borderStyle == 1) ? 16*style.outlineWidth : 0;
+		// Rectangles for inverse clip
+		CRect iclipRect[4];
+		iclipRect[0] = CRect(0, 0, spd.w, clipRect.top);
+		iclipRect[1] = CRect(0, clipRect.top, clipRect.left, clipRect.bottom);
+		iclipRect[2] = CRect(clipRect.right, clipRect.top, spd.w, clipRect.bottom);
+		iclipRect[3] = CRect(0, clipRect.bottom, spd.w, spd.h);
 
 		pos = s->GetHeadPosition();
 		while(pos) 
@@ -2435,9 +2516,19 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 				: (s->m_scrAlignment%3) == 0 ? org.x - l->m_width
 				:							   org.x - (l->m_width/2);
 
-			bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			if (s->m_clipInverse)
+			{
+				bbox2 |= l->PaintShadow(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintShadow(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintShadow(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintShadow(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
+			}
+			else
+			{
+				bbox2 |= l->PaintShadow(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			}
 
-			p.y += l->m_ascent + l->m_descent + nVertOffset;
+			p.y += l->m_ascent + l->m_descent;
 		}
 
 		p = p2;
@@ -2451,9 +2542,19 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 				: (s->m_scrAlignment%3) == 0 ? org.x - l->m_width
 				:							   org.x - (l->m_width/2);
 
-			bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			if (s->m_clipInverse)
+			{
+				bbox2 |= l->PaintOutline(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintOutline(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintOutline(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintOutline(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
+			}
+			else
+			{
+				bbox2 |= l->PaintOutline(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			}
 
-			p.y += l->m_ascent + l->m_descent + nVertOffset;
+			p.y += l->m_ascent + l->m_descent;
 		}
 
 		p = p2;
@@ -2467,9 +2568,19 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 				: (s->m_scrAlignment%3) == 0 ? org.x - l->m_width
 				:							   org.x - (l->m_width/2);
 
-			bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			if (s->m_clipInverse)
+			{
+				bbox2 |= l->PaintBody(spd, iclipRect[0], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintBody(spd, iclipRect[1], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintBody(spd, iclipRect[2], pAlphaMask, p, org2, m_time, alpha);
+				bbox2 |= l->PaintBody(spd, iclipRect[3], pAlphaMask, p, org2, m_time, alpha);
+			}
+			else
+			{
+				bbox2 |= l->PaintBody(spd, clipRect, pAlphaMask, p, org2, m_time, alpha);
+			}
 
-			p.y += l->m_ascent + l->m_descent + nVertOffset;
+			p.y += l->m_ascent + l->m_descent;
 		}
 	}
 
@@ -2506,7 +2617,7 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
 	if(pLCID)
 	{
-		*pLCID = m_lcid;
+		*pLCID = 0; // TODO
 	}
 
 	return S_OK;

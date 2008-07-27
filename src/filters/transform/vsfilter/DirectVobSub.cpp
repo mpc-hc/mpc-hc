@@ -74,7 +74,11 @@ STDMETHODIMP CDirectVobSub::get_FileName(WCHAR* fn)
 
 	if(!fn) return E_POINTER;
 
+#ifdef UNICODE
 	wcscpy(fn, m_FileName);
+#else
+	mbstowcs(fn, m_FileName, m_FileName.GetLength()+1);
+#endif
 
     return S_OK;
 }
@@ -88,7 +92,15 @@ STDMETHODIMP CDirectVobSub::put_FileName(WCHAR* fn)
 	CString tmp = fn;
 	if(!m_FileName.Left(m_FileName.ReverseFind('.')+1).CompareNoCase(tmp.Left(tmp.ReverseFind('.')+1))) return S_FALSE;
 
+#ifdef UNICODE
 	m_FileName = fn;
+#else
+	CHARSETINFO cs={0};
+	::TranslateCharsetInfo((DWORD *)DEFAULT_CHARSET, &cs, TCI_SRCCHARSET);
+	CHAR* buff = m_FileName.GetBuffer(MAX_PATH*2);
+	int len = WideCharToMultiByte(cs.ciACP/*CP_OEMCP*/, NULL, fn, -1, buff, MAX_PATH*2, NULL, NULL);
+	m_FileName.ReleaseBuffer(len+1);
+#endif
 
 	return S_OK;
 }
@@ -235,8 +247,8 @@ STDMETHODIMP CDirectVobSub::get_TextSettings(void* lf, int lflen, COLORREF* colo
 	}
 
 	if(color) *color = m_defStyle.colors[0];
-	if(fShadow) *fShadow = m_defStyle.shadowDepth>0;
-	if(fOutline) *fOutline = m_defStyle.outlineWidth>0;
+	if(fShadow) *fShadow = (m_defStyle.shadowDepthX!=0) || (m_defStyle.shadowDepthY!=0);
+	if(fOutline) *fOutline = (m_defStyle.outlineWidthX+m_defStyle.outlineWidthY)>0;
 	if(fAdvancedRenderer) *fAdvancedRenderer = m_fAdvancedRenderer;
 
 	return S_OK;
@@ -272,8 +284,8 @@ STDMETHODIMP CDirectVobSub::put_TextSettings(void* lf, int lflen, COLORREF color
 	}
 
 	m_defStyle.colors[0] = color;
-	m_defStyle.shadowDepth = fShadow?2:0;
-	m_defStyle.outlineWidth = fOutline?2:0;
+	m_defStyle.shadowDepthX = m_defStyle.shadowDepthY = fShadow?2:0;
+	m_defStyle.outlineWidthX = m_defStyle.outlineWidthY = fOutline?2:0;
 
 	return S_OK;
 

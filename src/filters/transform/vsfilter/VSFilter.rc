@@ -73,8 +73,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,604,0
- PRODUCTVERSION 1,1,604,0
+ FILEVERSION 1,0,1,5
+ PRODUCTVERSION 1,0,1,5
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -89,15 +89,14 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
-            VALUE "FileVersion", "1, 1, 604, 0"
+            VALUE "FileVersion", "1, 0, 1, 5"
             VALUE "InternalName", "VSFilter"
-            VALUE "LegalCopyright", "Copyright (C) 2001-2007 Gabest"
-            VALUE "OriginalFilename", "VSFilter.dll"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2008 Gabest"
+            VALUE "OriginalFilename", "VSFilter.DLL"
             VALUE "ProductName", "VSFilter"
-            VALUE "ProductVersion", "1, 1, 604, 0"
+            VALUE "ProductVersion", "1, 0, 1, 5"
         END
     END
     BLOCK "VarFileInfo"
@@ -117,12 +116,10 @@ STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif", 400, 0, 0x1
 BEGIN
     GROUPBOX        "",IDC_STATIC,7,7,232,151
-    LTEXT           "DirectVobSub 2.38\nCopyright 2001-2007 Gabest",IDC_STATIC,13,17,183,19
-    LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,39,218,32
-    LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,70,219,26
-    PUSHBUTTON      "Homepage",IDC_HOMEPAGEBTN,63,132,50,14,BS_FLAT
-    PUSHBUTTON      "Bug Report",IDC_BUGREPORTBTN,133,132,50,14,BS_FLAT
-    LTEXT           "- Adding hotkeys, Chinese (Taiwan) && Chinese (P.R.C.) localized, Kii Ali <kiiali@cpatch.org>",IDC_STATIC,14,95,206,20
+    LTEXT           "DirectVobSub 2.39\nCopyright 2001-2008 Gabest",IDC_STATIC,14,14,183,20
+    LTEXT           "Credits:\n- SAMI format support by Sanger && Wilowisp of SPKOR\n- Handling of some basic html style modifier tags in SAMI done by [maven]",IDC_STATIC,14,40,218,34
+    LTEXT           "- Advanced Text Renderer is using the 'Rasterizer' class \nof Avery Lee's subtitler plugin\n- Command line ppage launcher by @livier",IDC_STATIC,14,74,219,26
+    LTEXT           "- Adding hotkeys, Chinese (Taiwan) && Chinese (P.R.C.) localized, Kii Ali <kiiali@cpatch.org>",IDC_STATIC,14,100,206,20
 END
 
 IDD_DVSCOLORPAGE DIALOGEX 0, 0, 247, 188
@@ -528,8 +525,6 @@ BEGIN
     IDS_RG_EXTERNALLOAD     "ExtLoad"
     IDS_RG_WEBLOAD          "WebLoad"
     IDS_RG_EMBEDDEDLOAD     "EmbLoad"
-    IDS_URL_HOMEPAGE        "http://sourceforge.net/projects/mpc-hc/"
-    IDS_URL_EMAIL           "mailto:gabest@freemail.hu"
 END
 
 STRINGTABLE 
@@ -604,5 +599,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
 

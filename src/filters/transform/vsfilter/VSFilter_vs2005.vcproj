@@ -351,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\csriapi.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DirectVobSub.cpp"
 				>
 			</File>
@@ -431,6 +435,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath=".\csri.h"
+				>
+			</File>
 			<File
 				RelativePath="DirectVobSub.h"
 				>

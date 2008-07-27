@@ -306,7 +306,7 @@
 			<File
 				RelativePath="RealTextParser.cpp"
 				>
-			</File>	
+			</File>
 			<File
 				RelativePath="RTS.cpp"
 				>
@@ -482,6 +482,10 @@
 			</File>
 			<File
 				RelativePath="RTS.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SeparableFilter.h"
 				>
 			</File>
 			<File

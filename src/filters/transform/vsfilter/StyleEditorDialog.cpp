@@ -115,8 +115,8 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 		m_stss.fontScaleY = m_scaley;
 
 		m_stss.borderStyle = m_borderstyle;
-		m_stss.outlineWidth = m_borderwidth;
-		m_stss.shadowDepth = m_shadowdepth;
+		m_stss.outlineWidthX = m_stss.outlineWidthY = m_borderwidth;
+		m_stss.shadowDepthX = m_stss.shadowDepthY = m_shadowdepth;
 
 		m_stss.scrAlignment = m_screenalignment+1;
 		m_stss.marginRect = m_margin;
@@ -147,9 +147,9 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 		m_scaleyspin.SetRange32(-10000, 10000);
 
 		m_borderstyle = m_stss.borderStyle;
-		m_borderwidth = m_stss.outlineWidth;
-		m_borderwidthspin.SetRange32(0, 10000);
-		m_shadowdepth = m_stss.shadowDepth;
+		m_borderwidth = min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+ 		m_borderwidthspin.SetRange32(0, 10000);
+		m_shadowdepth = min(m_stss.shadowDepthX, m_stss.shadowDepthY);
 		m_shadowdepthspin.SetRange32(0, 10000);
 
 		m_screenalignment = m_stss.scrAlignment-1;

@@ -287,8 +287,8 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 			0;
 
 		stss->borderStyle = 0;
-		if(!s->fontstyle.outline.IsEmpty()) stss->outlineWidth = wcstol(s->fontstyle.outline, NULL, 10);
-		if(!s->fontstyle.shadow.IsEmpty()) stss->shadowDepth = wcstol(s->fontstyle.shadow, NULL, 10);
+		if(!s->fontstyle.outline.IsEmpty()) stss->outlineWidthX = stss->outlineWidthY = wcstol(s->fontstyle.outline, NULL, 10);
+		if(!s->fontstyle.shadow.IsEmpty()) stss->shadowDepthX = stss->shadowDepthY = wcstol(s->fontstyle.shadow, NULL, 10);
 
 		for(int i = 0; i < 4; i++)
 		{

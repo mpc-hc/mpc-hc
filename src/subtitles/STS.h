@@ -34,8 +34,8 @@ public:
 	CRect	marginRect; // measured from the sides
 	int		scrAlignment; // 1 - 9: as on the numpad, 0: default
 	int		borderStyle; // 0: outline, 1: opaque box
-	double	outlineWidth;
-	double	shadowDepth;
+	double	outlineWidthX, outlineWidthY;
+	double	shadowDepthX, shadowDepthY;
 	COLORREF colors[4]; // usually: {primary, secondary, outline/background, shadow}
 	BYTE	alpha[4];
     int		charSet;
@@ -47,7 +47,8 @@ public:
 	bool	fItalic;
 	bool	fUnderline;
 	bool	fStrikeOut;
-	bool	fBlur;
+	int		fBlur;
+	double	fGaussianBlur;
 	double	fontAngleZ, fontAngleX, fontAngleY;
 	double	fontShiftX, fontShiftY;
 	int		relativeTo; // 0: window, 1: video, 2: undefined (~window)
@@ -200,7 +201,6 @@ extern int CharSetLen;
 
 class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {public: CHtmlColorMap();};
 extern CHtmlColorMap g_colors;
-
 
 
 
