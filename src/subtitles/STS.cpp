@@ -3007,12 +3007,16 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 
 CString& operator <<= (CString& style, STSStyle& s)
 {
-	style.Format(_T("%d,%d,%d,%d,%d,%d,%f,%f,0x%06x,0x%06x,0x%06x,0x%06x,0x%02x,0x%02x,0x%02x,0x%02x,%d,%s,%f,%f,%f,%f,%d,%d,%d,%d,%d,%f,%f,%f,%d"),
-		s.marginRect.left,s.marginRect.right,s.marginRect.top,s.marginRect.bottom,
-		s.scrAlignment, s.borderStyle, s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,
-		s.colors[0], s.colors[1], s.colors[2], s.colors[3], s.alpha[0], s.alpha[1], s.alpha[2], s.alpha[3],
+	style.Format(_T("%d,%d,%d,%d,%d,%d,%f,%f,%f,%f,0x%06x,0x%06x,0x%06x,0x%06x,0x%02x,0x%02x,0x%02x,0x%02x,%d,%s,%f,%f,%f,%f,%d,%d,%d,%d,%d,%f,%f,%f,%f,%d"),
+		s.marginRect.left, s.marginRect.right, s.marginRect.top, s.marginRect.bottom,
+		s.scrAlignment, s.borderStyle, 
+		s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,
+		s.colors[0], s.colors[1], s.colors[2], s.colors[3], 
+		s.alpha[0], s.alpha[1], s.alpha[2], s.alpha[3],
 		s.charSet,
-		s.fontName, s.fontSize, s.fontScaleX, s.fontScaleY, s.fontSpacing, s.fontWeight,
+		s.fontName,s.fontSize,
+		s.fontScaleX, s.fontScaleY,
+		s.fontSpacing,s.fontWeight,
 		(int)s.fItalic, (int)s.fUnderline, (int)s.fStrikeOut, s.fBlur, s.fGaussianBlur,
 		s.fontAngleZ, s.fontAngleX, s.fontAngleY,
 		s.relativeTo);
