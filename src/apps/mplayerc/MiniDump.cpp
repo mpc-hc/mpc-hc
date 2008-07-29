@@ -23,6 +23,7 @@
 #include "StdAfx.h"
 #include "resource.h"
 #include "DbgHelp.h"
+#include "UserConfig.h"
 
 class CMiniDump
 {
@@ -34,7 +35,9 @@ private :
 	static BOOL				PreventSetUnhandledExceptionFilter();
 };
 
+#ifdef ENABLE_MINIDUMP
 CMiniDump	_Singleton;
+#endif
 
 
 typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
