@@ -418,6 +418,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mmintrin64.c"
+				>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\NullRenderers.cpp"
 				>
 			</File>
@@ -500,6 +520,10 @@
 			</File>
 			<File
 				RelativePath=".\NullRenderers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\simd_common.h"
 				>
 			</File>
 			<File

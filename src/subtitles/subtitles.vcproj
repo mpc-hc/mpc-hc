@@ -268,26 +268,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\mmintrin64.c"
-				>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="Rasterizer.cpp"
 				>
 				<FileConfiguration
@@ -506,10 +486,6 @@
 			</File>
 			<File
 				RelativePath=".\SeparableFilter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\simd_common.h"
 				>
 			</File>
 			<File
