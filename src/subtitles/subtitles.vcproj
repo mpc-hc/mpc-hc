@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="subtitles"
 	ProjectGUID="{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 	RootNamespace="subtitles"
@@ -268,6 +268,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mmintrin64.c"
+				>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="Rasterizer.cpp"
 				>
 				<FileConfiguration
@@ -486,6 +506,10 @@
 			</File>
 			<File
 				RelativePath=".\SeparableFilter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\simd_common.h"
 				>
 			</File>
 			<File
