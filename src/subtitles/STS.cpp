@@ -1579,7 +1579,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				style->fItalic = !!GetInt(buff);
 				style->fUnderline = !!GetInt(buff);
 				style->fStrikeOut = !!GetInt(buff);
-				style->fBlur = GetInt(buff) ? 1 : 0;;
+				style->fBlur = !!GetInt(buff);
 				style->fontScaleX = GetFloat(buff);
 				style->fontScaleY = GetFloat(buff);
 				style->fontSpacing = GetFloat(buff);
