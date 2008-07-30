@@ -29,7 +29,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;&#x0D;&#x0A;if exist ..\..\..\include\UserConfig.h goto SpecificConfig&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\UserConfig.h&#x0D;&#x0A;echo //#ifdef ENABLE_MINIDUMP &gt;&gt;..\..\..\include\UserConfig.h&#x0D;&#x0A;&#x0D;&#x0A;:SpecificConfig"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -118,7 +118,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;&#x0D;&#x0A;if exist ..\..\..\include\UserConfig.h goto SpecificConfig&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\UserConfig.h&#x0D;&#x0A;echo //#ifdef ENABLE_MINIDUMP &gt;&gt;..\..\..\include\UserConfig.h&#x0D;&#x0A;&#x0D;&#x0A;:SpecificConfig"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -525,6 +525,14 @@
 			<File
 				RelativePath=".\mplayerc.rc"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode|x64"
 					>
@@ -1435,6 +1443,17 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\res\mplayerc.rc2"
+				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="res\multi.ico"
 				>
 			</File>
@@ -1621,6 +1640,10 @@
 			<Filter
 				Name="shaders"
 				>
+				<File
+					RelativePath=".\res\shaders\BT601BT701.psh"
+					>
+				</File>
 				<File
 					RelativePath=".\res\shaders\contour.psh"
 					>
