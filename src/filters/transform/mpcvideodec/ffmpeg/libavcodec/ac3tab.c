@@ -71,14 +71,6 @@ const uint16_t ff_ac3_frame_size_tab[38][3] = {
     { 1280, 1394, 1920 },
 };
 
-/**
- * Maps audio coding mode (acmod) to number of full-bandwidth channels.
- * from ATSC A/52 Table 5.8 Audio Coding Mode
- */
-const uint8_t ff_ac3_channels_tab[8] = {
-    2, 1, 2, 3, 3, 4, 4, 5
-};
-
 /* possible frequencies */
 const uint16_t ff_ac3_sample_rate_tab[3] = { 48000, 44100, 32000 };
 
@@ -246,17 +238,4 @@ const uint8_t ff_ac3_critical_band_size_tab[50]={
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3,
     3, 6, 6, 6, 6, 6, 6, 12, 12, 12, 12, 24, 24, 24, 24, 24
-};
-/**
- * Default channel map for a dependent substream defined by acmod
- */
-const uint16_t ff_eac3_default_chmap[8] = {
-    AC3_CHMAP_L |               AC3_CHMAP_R, // FIXME Ch1+Ch2
-                  AC3_CHMAP_C,
-    AC3_CHMAP_L |               AC3_CHMAP_R,
-    AC3_CHMAP_L | AC3_CHMAP_C | AC3_CHMAP_R,
-    AC3_CHMAP_L |               AC3_CHMAP_R |                   AC3_CHMAP_C_SUR,
-    AC3_CHMAP_L | AC3_CHMAP_C | AC3_CHMAP_R |                   AC3_CHMAP_C_SUR,
-    AC3_CHMAP_L |               AC3_CHMAP_R | AC3_CHMAP_L_SUR |                  AC3_CHMAP_R_SUR,
-    AC3_CHMAP_L | AC3_CHMAP_C | AC3_CHMAP_R | AC3_CHMAP_L_SUR |                  AC3_CHMAP_R_SUR
 };

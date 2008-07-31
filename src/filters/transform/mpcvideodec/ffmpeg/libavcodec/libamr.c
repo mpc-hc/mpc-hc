@@ -135,6 +135,7 @@ static void amr_decode_fix_avctx(AVCodecContext * avctx)
     }
 
     avctx->frame_size = 160 * is_amr_wb;
+    avctx->sample_fmt = SAMPLE_FMT_S16;
 }
 
 #ifdef CONFIG_LIBAMR_NB_FIXED
@@ -363,5 +364,5 @@ AVCodec libamr_nb_decoder =
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
 };

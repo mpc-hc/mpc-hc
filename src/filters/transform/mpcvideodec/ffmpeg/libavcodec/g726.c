@@ -312,6 +312,9 @@ static av_cold int g726_init(AVCodecContext * avctx)
         return AVERROR(ENOMEM);
     avctx->coded_frame->key_frame = 1;
 
+    if (avctx->codec->decode)
+        avctx->sample_fmt = SAMPLE_FMT_S16;
+
     return 0;
 }
 

@@ -22,7 +22,6 @@
 #undef V_DEBUG
 
 #include <math.h>
-#include <inttypes.h>
 
 #define ALT_BITSTREAM_READER_LE
 #include "avcodec.h"
@@ -1160,6 +1159,7 @@ static int vorbis_decode_init(AVCodecContext *avccontext) {
     avccontext->channels = vc->audio_channels;
     avccontext->sample_rate = vc->audio_samplerate;
     vc->inited=1;
+    avccontext->sample_fmt = SAMPLE_FMT_S16;
 
     return 0 ;
 }
@@ -1963,5 +1963,6 @@ AVCodec vorbis_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Vorbis"),
 };
 

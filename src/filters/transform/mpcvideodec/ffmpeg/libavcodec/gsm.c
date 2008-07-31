@@ -59,6 +59,8 @@ static int gsm_decode_init(AVCodecContext * avctx)
 
     memset(s,0,sizeof(XAGSMstate));
     s->nrp = 40;
+    
+    avctx->sample_fmt = SAMPLE_FMT_S16;
 
     return 0;
 }
@@ -902,5 +904,5 @@ AVCodec msgsm_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"libgsm GSM Microsoft variant",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("libgsm GSM Microsoft variant"),
 };

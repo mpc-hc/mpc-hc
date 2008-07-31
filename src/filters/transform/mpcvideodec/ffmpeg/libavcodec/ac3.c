@@ -157,8 +157,8 @@ void ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
     if (dba_mode == DBA_REUSE || dba_mode == DBA_NEW) {
         int band, seg, delta;
         band = 0;
-        for (seg = 0; seg < dba_nsegs; seg++) {
-            band += dba_offsets[seg];
+        for (seg = 0; seg < FFMIN(8, dba_nsegs); seg++) {
+            band = FFMIN(49, band + dba_offsets[seg]);
             if (dba_values[seg] >= 4) {
                 delta = (dba_values[seg] - 3) << 7;
             } else {
@@ -173,7 +173,8 @@ void ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
 }
 
 void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
-                               int snr_offset, int floor, uint8_t *bap)
+                               int snr_offset, int floor,
+                               const uint8_t *bap_tab, uint8_t *bap)
 {
     int i, j, k, end1, v, address;
 
@@ -190,32 +191,10 @@ void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
         end1 = FFMIN(band_start_tab[j] + ff_ac3_critical_band_size_tab[j], end);
         for (k = i; k < end1; k++) {
             address = av_clip((psd[i] - v) >> 5, 0, 63);
-            bap[i] = ff_ac3_bap_tab[address];
+            bap[i] = bap_tab[address];
             i++;
         }
     } while (end > band_start_tab[j++]);
-}
-
-/* AC3 bit allocation. The algorithm is the one described in the AC3
-   spec. */
-void ac3_parametric_bit_allocation(AC3BitAllocParameters *s, uint8_t *bap,
-                                   int8_t *exp, int start, int end,
-                                   int snr_offset, int fast_gain, int is_lfe,
-                                   int dba_mode, int dba_nsegs,
-                                   uint8_t *dba_offsets, uint8_t *dba_lengths,
-                                   uint8_t *dba_values)
-{
-    int16_t psd[256];   /* scaled exponents */
-    int16_t band_psd[50]; /* interpolated exponents */
-    int16_t mask[50];   /* masking value */
-
-    ff_ac3_bit_alloc_calc_psd(exp, start, end, psd, band_psd);
-
-    ff_ac3_bit_alloc_calc_mask(s, band_psd, start, end, fast_gain, is_lfe,
-                               dba_mode, dba_nsegs, dba_offsets, dba_lengths, dba_values,
-                               mask);
-
-    ff_ac3_bit_alloc_calc_bap(mask, psd, start, end, snr_offset, s->floor, bap);
 }
 
 /**

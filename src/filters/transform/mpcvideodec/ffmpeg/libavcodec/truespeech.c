@@ -54,6 +54,7 @@ static av_cold int truespeech_decode_init(AVCodecContext * avctx)
 {
 //    TSContext *c = avctx->priv_data;
 
+    avctx->sample_fmt = SAMPLE_FMT_S16;
     return 0;
 }
 
@@ -385,5 +386,5 @@ AVCodec truespeech_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"DSP Group TrueSpeech",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("DSP Group TrueSpeech"),
 };

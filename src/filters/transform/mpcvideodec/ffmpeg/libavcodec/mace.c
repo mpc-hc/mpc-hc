@@ -396,6 +396,7 @@ static av_cold int mace_decode_init(AVCodecContext * avctx)
 {
     if (avctx->channels > 2)
         return -1;
+    avctx->sample_fmt = SAMPLE_FMT_S16;
     return 0;
 }
 
@@ -440,7 +441,7 @@ AVCodec mace3_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MACE (Macintosh Audio Compression/Expansion) 3:1",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 3:1"),
 };
 
 AVCodec mace6_decoder = {
@@ -457,6 +458,6 @@ AVCodec mace6_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"MACE (Macintosh Audio Compression/Expansion) 6:1",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 6:1"),
 };
 

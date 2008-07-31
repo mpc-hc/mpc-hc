@@ -1119,6 +1119,8 @@ static int cook_decode_init(AVCodecContext *avctx)
         return -1;
     }
 
+    avctx->sample_fmt = SAMPLE_FMT_S16;
+    
     return 0;
 }
 

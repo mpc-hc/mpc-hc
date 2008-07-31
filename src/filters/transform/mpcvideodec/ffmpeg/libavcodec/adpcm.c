@@ -167,6 +167,7 @@ static av_cold int adpcm_decode_init(AVCodecContext * avctx)
     default:
         break;
     }
+    avctx->sample_fmt = SAMPLE_FMT_S16;
     return 0;
 }
 

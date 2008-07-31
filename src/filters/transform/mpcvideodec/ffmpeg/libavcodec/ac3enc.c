@@ -463,7 +463,8 @@ static int bit_alloc(AC3EncodeContext *s,
         for(ch=0;ch<s->nb_all_channels;ch++) {
             ff_ac3_bit_alloc_calc_bap(mask[i][ch], psd[i][ch], 0,
                                       s->nb_coefs[ch], snr_offset,
-                                      s->bit_alloc.floor, bap[i][ch]);
+                                      s->bit_alloc.floor, ff_ac3_bap_tab,
+                                      bap[i][ch]);
             frame_bits += compute_mantissa_size(s, bap[i][ch],
                                                  s->nb_coefs[ch]);
         }
@@ -489,7 +490,7 @@ static int compute_bit_allocation(AC3EncodeContext *s,
     uint8_t bap1[NB_BLOCKS][AC3_MAX_CHANNELS][N/2];
     int16_t psd[NB_BLOCKS][AC3_MAX_CHANNELS][N/2];
     int16_t mask[NB_BLOCKS][AC3_MAX_CHANNELS][50];
-    static int frame_bits_inc[8] = { 0, 0, 2, 2, 2, 4, 2, 4 };
+    static const int frame_bits_inc[8] = { 0, 0, 2, 2, 2, 4, 2, 4 };
 
     /* init default parameters */
     s->slow_decay_code = 2;
@@ -633,7 +634,7 @@ static av_cold int AC3_encode_init(AVCodecContext *avctx)
 
     /* number of channels */
     if (channels < 1 || channels > 6)
-    	return -1;
+        return -1;
     s->channel_mode = avctx->ac3mode; /* intentional diff from ffmpeg */
     s->lfe = avctx->ac3lfe; /* intentional diff from ffmpeg */
     s->nb_all_channels = channels;
@@ -1276,5 +1277,10 @@ AVCodec ac3_encoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"ATSC A/52 / AC-3",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("ATSC A/52 / AC-3"),
+    #if __STDC_VERSION__ >= 199901L
+    .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
+    #else
+    /*.sample_fmts = */NULL,
+    #endif
 };

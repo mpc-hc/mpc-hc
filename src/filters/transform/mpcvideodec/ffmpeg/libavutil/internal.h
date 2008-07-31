@@ -30,7 +30,9 @@
 #    define NDEBUG
 #endif
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include <stddef.h>
 #include <assert.h>
 
@@ -105,7 +107,7 @@
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 
-#ifdef USE_FASTMEMCPY
+#ifdef CONFIG_FASTMEMCPY
 #    include "fastmemcpy.h"
 #    define memcpy(a,b,c) fast_memcpy(a,b,c)
 #endif
@@ -241,6 +243,10 @@ if((y)<(x)){\
 #define printf please_use_av_log
 #undef  fprintf
 #define fprintf please_use_av_log
+#undef  puts
+#define puts please_use_av_log
+#undef  perror
+#define perror please_use_av_log_instead_of_perror
 
 #define CHECKED_ALLOCZ(p, size)\
 {\
