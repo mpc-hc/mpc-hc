@@ -1,5 +1,5 @@
 /*
- * Common code between AC3 encoder and decoder
+ * Common code between the AC-3 encoder and decoder
  * Copyright (c) 2000 Fabrice Bellard.
  *
  * This file is part of FFmpeg.
@@ -21,7 +21,7 @@
 
 /**
  * @file ac3.c
- * Common code between AC3 encoder and decoder.
+ * Common code between the AC-3 encoder and decoder.
  */
 
 #include "avcodec.h"

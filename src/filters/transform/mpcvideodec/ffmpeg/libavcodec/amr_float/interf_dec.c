@@ -1,9 +1,8 @@
 /*
  * ===================================================================
  *  TS 26.104
- *  R99   V3.5.0 2003-03
- *  REL-4 V4.4.0 2003-03
- *  REL-5 V5.1.0 2003-03
+ *  REL-5 V5.4.0 2004-03
+ *  REL-6 V6.1.0 2004-03
  *  3GPP AMR Floating-point Speech Codec
  * ===================================================================
  *
@@ -695,32 +694,32 @@ void Decoder_Interface_Decode( void *st,
    if (!bfi)	bfi = 1 - q_bit;
 #endif
 
-   /*
-    * if no mode information
-    * guess one from the previous frame
-    */
-   if ( frame_type == RX_SPEECH_BAD ) {
-      if ( s->prev_ft > 3 ) {
-         frame_type = RX_SID_BAD;
-         mode = MRDTX;
-      }
-      else {
-         mode = s->prev_mode;
-      }
-   }
-   else if ( frame_type == RX_NO_DATA ) {
-      mode = s->prev_mode;
-   }
-
    if ( bfi == 1 ) {
-      if ( mode < 8 ) {
+      if ( mode <= MR122 ) {
          frame_type = RX_SPEECH_BAD;
       }
-      else if ( mode != 15 ) {
+      else if ( frame_type != RX_NO_DATA ) {
          frame_type = RX_SID_BAD;
+         mode = s->prev_mode;
       }
+   } else {
+       if ( frame_type == RX_SID_FIRST || frame_type == RX_SID_UPDATE) {
+           mode = speech_mode;
+       }
+       else if ( frame_type == RX_NO_DATA ) {
+           mode = s->prev_mode;
+       }
+       /*
+        * if no mode information
+        * guess one from the previous frame
+        */
+       if ( frame_type == RX_SPEECH_BAD ) {
+          mode = s->prev_mode;
+          if ( s->prev_ft >= RX_SID_FIRST ) {
+             frame_type = RX_SID_BAD;
+          }
+       }
    }
-
 #else
    bfi = 0;
    frame_type = bits[0];
@@ -734,12 +733,12 @@ void Decoder_Interface_Decode( void *st,
 
       case 1:
          frame_type = RX_SID_FIRST;
-         mode = s->prev_mode;
+         mode = bits[245];
          break;
 
       case 2:
          frame_type = RX_SID_UPDATE;
-         mode = s->prev_mode;
+         mode = bits[245];
          Bits2Prm( MRDTX, &bits[1], prm );
          break;
 
@@ -748,7 +747,6 @@ void Decoder_Interface_Decode( void *st,
          mode = s->prev_mode;
          break;
    }
-
 #endif
 
    /* test for homing frame */

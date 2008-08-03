@@ -542,8 +542,8 @@ int MPV_common_init(MpegEncContext *s)
     s->parse_context.state= -1;
     if((s->avctx->debug&(FF_DEBUG_VIS_QP|FF_DEBUG_VIS_MB_TYPE)) || (s->avctx->debug_mv)){
        s->visualization_buffer[0] = av_malloc((s->mb_width*16 + 2*EDGE_WIDTH) * s->mb_height*16 + 2*EDGE_WIDTH);
-       s->visualization_buffer[1] = av_malloc((s->mb_width*8 + EDGE_WIDTH) * s->mb_height*8 + EDGE_WIDTH);
-       s->visualization_buffer[2] = av_malloc((s->mb_width*8 + EDGE_WIDTH) * s->mb_height*8 + EDGE_WIDTH);
+       s->visualization_buffer[1] = av_malloc((s->mb_width*16 + 2*EDGE_WIDTH) * s->mb_height*16 + 2*EDGE_WIDTH);
+       s->visualization_buffer[2] = av_malloc((s->mb_width*16 + 2*EDGE_WIDTH) * s->mb_height*16 + 2*EDGE_WIDTH);
     }
 
     s->context_initialized = 1;

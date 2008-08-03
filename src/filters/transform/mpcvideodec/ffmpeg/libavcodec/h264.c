@@ -873,7 +873,8 @@ static inline void pred_pskip_motion(H264Context * const h, int * const mx, int 
 }
 
 static inline void direct_dist_scale_factor(H264Context * const h){
-    const int poc = h->s.current_picture_ptr->poc;
+    MpegEncContext * const s = &h->s;
+    const int poc = h->s.current_picture_ptr->field_poc[ s->picture_structure == PICT_BOTTOM_FIELD ];
     const int poc1 = h->ref_list[1][0].poc;
     int i;
     for(i=0; i<h->ref_count[0]; i++){
@@ -899,20 +900,21 @@ static inline void direct_ref_list_init(H264Context * const h){
     Picture * const ref1 = &h->ref_list[1][0];
     Picture * const cur = s->current_picture_ptr;
     int list, i, j;
+    int sidx= s->picture_structure&1;
     if(cur->pict_type == FF_I_TYPE)
-        cur->ref_count[0] = 0;
+        cur->ref_count[sidx][0] = 0;
     if(cur->pict_type != FF_B_TYPE)
-        cur->ref_count[1] = 0;
+        cur->ref_count[sidx][1] = 0;
     for(list=0; list<2; list++){
-        cur->ref_count[list] = h->ref_count[list];
+        cur->ref_count[sidx][list] = h->ref_count[list];
         for(j=0; j<h->ref_count[list]; j++)
-            cur->ref_poc[list][j] = h->ref_list[list][j].poc;
+            cur->ref_poc[sidx][list][j] = h->ref_list[list][j].poc;
     }
     if(cur->pict_type != FF_B_TYPE || h->direct_spatial_mv_pred)
         return;
     for(list=0; list<2; list++){
-        for(i=0; i<ref1->ref_count[list]; i++){
-            const int poc = ref1->ref_poc[list][i];
+        for(i=0; i<ref1->ref_count[sidx][list]; i++){
+            const int poc = ref1->ref_poc[sidx][list][i];
             h->map_col_to_list0[list][i] = 0; /* bogus; fills in for missing frames */
             for(j=0; j<h->ref_count[list]; j++)
                 if(h->ref_list[list][j].poc == poc){
@@ -923,7 +925,7 @@ static inline void direct_ref_list_init(H264Context * const h){
     }
     if(FRAME_MBAFF){
         for(list=0; list<2; list++){
-            for(i=0; i<ref1->ref_count[list]; i++){
+            for(i=0; i<ref1->ref_count[sidx][list]; i++){
                 j = h->map_col_to_list0[list][i];
                 h->map_col_to_list0_field[list][2*i] = 2*j;
                 h->map_col_to_list0_field[list][2*i+1] = 2*j+1;
@@ -2660,6 +2662,7 @@ static void pic_as_field(Picture *pic, const int parity){
         pic->reference = parity;
         pic->linesize[i] *= 2;
     }
+    pic->poc= pic->field_poc[parity == PICT_BOTTOM_FIELD];
 }
 
 static int split_field_copy(Picture *dest, Picture *src,
@@ -3797,6 +3800,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             h->mb_aff_frame = h->sps.mb_aff;
         }
     }
+    h->mb_field_decoding_flag= s->picture_structure != PICT_FRAME;
 
     if(h0->current_slice == 0){
         while(h->frame_num !=  h->prev_frame_num &&
@@ -4332,8 +4336,7 @@ static int decode_mb_cavlc(H264Context *h){
     if(FRAME_MBAFF){
         if( (s->mb_y&1) == 0 )
             h->mb_mbaff = h->mb_field_decoding_flag = get_bits1(&s->gb);
-    }else
-        h->mb_field_decoding_flag= (s->picture_structure!=PICT_FRAME);
+    }
 
     h->prev_mb_skipped= 0;
 
@@ -5451,8 +5454,7 @@ static int decode_mb_cabac(H264Context *h) {
         if( (s->mb_y&1) == 0 )
             h->mb_mbaff =
             h->mb_field_decoding_flag = decode_cabac_field_decoding_flag(h);
-    }else
-        h->mb_field_decoding_flag= (s->picture_structure!=PICT_FRAME);
+    }
 
     h->prev_mb_skipped = 0;
 
