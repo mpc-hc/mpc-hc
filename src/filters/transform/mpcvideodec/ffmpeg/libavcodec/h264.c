@@ -49,13 +49,28 @@
 #define DELAYED_PIC_REF 4
 
 static VLC coeff_token_vlc[4];
+static VLC_TYPE coeff_token_vlc_tables[520+332+280+256][2];
+static const int coeff_token_vlc_tables_size[4]={520,332,280,256};
+
 static VLC chroma_dc_coeff_token_vlc;
+static VLC_TYPE chroma_dc_coeff_token_vlc_table[256][2];
+static const int chroma_dc_coeff_token_vlc_table_size = 256;
 
 static VLC total_zeros_vlc[15];
+static VLC_TYPE total_zeros_vlc_tables[15][512][2];
+static const int total_zeros_vlc_tables_size = 512;
+
 static VLC chroma_dc_total_zeros_vlc[3];
+static VLC_TYPE chroma_dc_total_zeros_vlc_tables[3][8][2];
+static const int chroma_dc_total_zeros_vlc_tables_size = 8;
 
 static VLC run_vlc[6];
+static VLC_TYPE run_vlc_tables[6][8][2];
+static const int run_vlc_tables_size = 8;
+
 static VLC run7_vlc;
+static VLC_TYPE run7_vlc_table[96][2];
+static const int run7_vlc_table_size = 96;
 
 static void svq3_luma_dc_dequant_idct_c(DCTELEM *block, int qp);
 static void svq3_add_idct_c(uint8_t *dst, DCTELEM *block, int stride, int qp, int dc);
@@ -880,7 +895,7 @@ static inline void direct_dist_scale_factor(H264Context * const h){
     for(i=0; i<h->ref_count[0]; i++){
         int poc0 = h->ref_list[0][i].poc;
         int td = av_clip(poc1 - poc0, -128, 127);
-        if(td == 0 /* FIXME || pic0 is a long-term ref */){
+        if(td == 0 || h->ref_list[0][i].long_ref){
             h->dist_scale_factor[i] = 256;
         }else{
             int tb = av_clip(poc - poc0, -128, 127);
@@ -901,23 +916,26 @@ static inline void direct_ref_list_init(H264Context * const h){
     Picture * const cur = s->current_picture_ptr;
     int list, i, j;
     int sidx= s->picture_structure&1;
-    if(cur->pict_type == FF_I_TYPE)
-        cur->ref_count[sidx][0] = 0;
-    if(cur->pict_type != FF_B_TYPE)
-        cur->ref_count[sidx][1] = 0;
+    int ref1sidx= ref1->reference&1;
     for(list=0; list<2; list++){
         cur->ref_count[sidx][list] = h->ref_count[list];
         for(j=0; j<h->ref_count[list]; j++)
-            cur->ref_poc[sidx][list][j] = h->ref_list[list][j].poc;
+            cur->ref_poc[sidx][list][j] = 4*h->ref_list[list][j].frame_num + (h->ref_list[list][j].reference&3);
+    }
+    if(s->picture_structure == PICT_FRAME){
+        memcpy(cur->ref_count[0], cur->ref_count[1], sizeof(cur->ref_count[0]));
+        memcpy(cur->ref_poc  [0], cur->ref_poc  [1], sizeof(cur->ref_poc  [0]));
     }
     if(cur->pict_type != FF_B_TYPE || h->direct_spatial_mv_pred)
         return;
     for(list=0; list<2; list++){
-        for(i=0; i<ref1->ref_count[sidx][list]; i++){
-            const int poc = ref1->ref_poc[sidx][list][i];
+        for(i=0; i<ref1->ref_count[ref1sidx][list]; i++){
+            int poc = ref1->ref_poc[ref1sidx][list][i];
+            if(((poc&3) == 3) != (s->picture_structure == PICT_FRAME))
+                poc= (poc&~3) + s->picture_structure;
             h->map_col_to_list0[list][i] = 0; /* bogus; fills in for missing frames */
             for(j=0; j<h->ref_count[list]; j++)
-                if(h->ref_list[list][j].poc == poc){
+                if(4*h->ref_list[list][j].frame_num + (h->ref_list[list][j].reference&3) == poc){
                     h->map_col_to_list0[list][i] = j;
                     break;
                 }
@@ -925,7 +943,7 @@ static inline void direct_ref_list_init(H264Context * const h){
     }
     if(FRAME_MBAFF){
         for(list=0; list<2; list++){
-            for(i=0; i<ref1->ref_count[sidx][list]; i++){
+            for(i=0; i<ref1->ref_count[ref1sidx][list]; i++){
                 j = h->map_col_to_list0[list][i];
                 h->map_col_to_list0_field[list][2*i] = 2*j;
                 h->map_col_to_list0_field[list][2*i+1] = 2*j+1;
@@ -936,37 +954,80 @@ static inline void direct_ref_list_init(H264Context * const h){
 
 static inline void pred_direct_motion(H264Context * const h, int *mb_type){
     MpegEncContext * const s = &h->s;
-    const int mb_xy =   h->mb_xy;
-    const int b8_xy = 2*s->mb_x + 2*s->mb_y*h->b8_stride;
-    const int b4_xy = 4*s->mb_x + 4*s->mb_y*h->b_stride;
-    const int mb_type_col = h->ref_list[1][0].mb_type[mb_xy];
-    const int16_t (*l1mv0)[2] = (const int16_t (*)[2]) &h->ref_list[1][0].motion_val[0][b4_xy];
-    const int16_t (*l1mv1)[2] = (const int16_t (*)[2]) &h->ref_list[1][0].motion_val[1][b4_xy];
-    const int8_t *l1ref0 = &h->ref_list[1][0].ref_index[0][b8_xy];
-    const int8_t *l1ref1 = &h->ref_list[1][0].ref_index[1][b8_xy];
+    int b8_stride = h->b8_stride;
+    int b4_stride = h->b_stride;
+    int mb_xy = h->mb_xy;
+    int mb_type_col[2];
+    const int16_t (*l1mv0)[2], (*l1mv1)[2];
+    const int8_t *l1ref0, *l1ref1;
     const int is_b8x8 = IS_8X8(*mb_type);
     unsigned int sub_mb_type;
     int i8, i4;
 
 #define MB_TYPE_16x16_OR_INTRA (MB_TYPE_16x16|MB_TYPE_INTRA4x4|MB_TYPE_INTRA16x16|MB_TYPE_INTRA_PCM)
-    if(IS_8X8(mb_type_col) && !h->sps.direct_8x8_inference_flag){
-        /* FIXME save sub mb types from previous frames (or derive from MVs)
-         * so we know exactly what block size to use */
-        sub_mb_type = MB_TYPE_8x8|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_4x4 */
-        *mb_type =    MB_TYPE_8x8|MB_TYPE_L0L1;
-    }else if(!is_b8x8 && (mb_type_col & MB_TYPE_16x16_OR_INTRA)){
-        sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
-        *mb_type =    MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_16x16 */
-    }else{
-        sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
-        *mb_type =    MB_TYPE_8x8|MB_TYPE_L0L1;
-    }
-    if(!is_b8x8)
-        *mb_type |= MB_TYPE_DIRECT2;
-    if(MB_FIELD)
-        *mb_type |= MB_TYPE_INTERLACED;
 
-    tprintf(s->avctx, "mb_type = %08x, sub_mb_type = %08x, is_b8x8 = %d, mb_type_col = %08x\n", *mb_type, sub_mb_type, is_b8x8, mb_type_col);
+    if(IS_INTERLACED(h->ref_list[1][0].mb_type[mb_xy])){ // AFL/AFR/FR/FL -> AFL/FL
+        if(h->ref_list[1][0].reference == PICT_FRAME){   // AFL/AFR/FR/FL -> AFL
+            if(!IS_INTERLACED(*mb_type)){                //     AFR/FR    -> AFL
+                int cur_poc = s->current_picture_ptr->poc;
+                int *col_poc = h->ref_list[1]->field_poc;
+                int col_parity = FFABS(col_poc[0] - cur_poc) >= FFABS(col_poc[1] - cur_poc);
+                mb_xy= s->mb_x + ((s->mb_y&~1) + col_parity)*s->mb_stride;
+                b8_stride = 0;
+            }
+        }else if(!(s->picture_structure & h->ref_list[1][0].reference)){// FL -> FL & differ parity
+            int fieldoff= 2*(h->ref_list[1][0].reference)-3;
+            mb_xy += s->mb_stride*fieldoff;
+        }
+        goto single_col;
+    }else{                                               // AFL/AFR/FR/FL -> AFR/FR
+        if(IS_INTERLACED(*mb_type)){                     // AFL       /FL -> AFR/FR
+            mb_xy= s->mb_x + (s->mb_y&~1)*s->mb_stride;
+            mb_type_col[0] = h->ref_list[1][0].mb_type[mb_xy];
+            mb_type_col[1] = h->ref_list[1][0].mb_type[mb_xy + s->mb_stride];
+            b8_stride *= 3;
+            b4_stride *= 6;
+            //FIXME IS_8X8(mb_type_col[0]) && !h->sps.direct_8x8_inference_flag
+            if(    (mb_type_col[0] & MB_TYPE_16x16_OR_INTRA)
+                && (mb_type_col[1] & MB_TYPE_16x16_OR_INTRA)
+                && !is_b8x8){
+                sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
+                *mb_type   |= MB_TYPE_16x8 |MB_TYPE_L0L1|MB_TYPE_DIRECT2; /* B_16x8 */
+            }else{
+                sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
+                *mb_type   |= MB_TYPE_8x8|MB_TYPE_L0L1;
+            }
+        }else{                                           //     AFR/FR    -> AFR/FR
+single_col:
+            mb_type_col[0] =
+            mb_type_col[1] = h->ref_list[1][0].mb_type[mb_xy];
+            if(IS_8X8(mb_type_col[0]) && !h->sps.direct_8x8_inference_flag){
+                /* FIXME save sub mb types from previous frames (or derive from MVs)
+                * so we know exactly what block size to use */
+                sub_mb_type = MB_TYPE_8x8|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_4x4 */
+                *mb_type   |= MB_TYPE_8x8|MB_TYPE_L0L1;
+            }else if(!is_b8x8 && (mb_type_col[0] & MB_TYPE_16x16_OR_INTRA)){
+                sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
+                *mb_type   |= MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_16x16 */
+            }else{
+                sub_mb_type = MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2; /* B_SUB_8x8 */
+                *mb_type   |= MB_TYPE_8x8|MB_TYPE_L0L1;
+            }
+        }
+    }
+
+    l1mv0  = &h->ref_list[1][0].motion_val[0][h->mb2b_xy [mb_xy]];
+    l1mv1  = &h->ref_list[1][0].motion_val[1][h->mb2b_xy [mb_xy]];
+    l1ref0 = &h->ref_list[1][0].ref_index [0][h->mb2b8_xy[mb_xy]];
+    l1ref1 = &h->ref_list[1][0].ref_index [1][h->mb2b8_xy[mb_xy]];
+    if(!b8_stride){
+        if(s->mb_y&1){
+            l1ref0 += h->b8_stride;
+            l1ref1 += h->b8_stride;
+            l1mv0  +=  2*b4_stride;
+            l1mv1  +=  2*b4_stride;
+        }
+    }
 
     if(h->direct_spatial_mv_pred){
         int ref[2];
@@ -1010,39 +1071,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
             sub_mb_type &= ~MB_TYPE_L0;
         }
 
-        if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col)){
-            int pair_xy = s->mb_x + (s->mb_y&~1)*s->mb_stride;
-            int mb_types_col[2];
-            int b8_stride = h->b8_stride;
-            int b4_stride = h->b_stride;
-
-            *mb_type = (*mb_type & ~MB_TYPE_16x16) | MB_TYPE_8x8;
-
-            if(IS_INTERLACED(*mb_type)){
-                mb_types_col[0] = h->ref_list[1][0].mb_type[pair_xy];
-                mb_types_col[1] = h->ref_list[1][0].mb_type[pair_xy+s->mb_stride];
-                if(s->mb_y&1){
-                    l1ref0 -= 2*b8_stride;
-                    l1ref1 -= 2*b8_stride;
-                    l1mv0 -= 4*b4_stride;
-                    l1mv1 -= 4*b4_stride;
-                }
-                b8_stride *= 3;
-                b4_stride *= 6;
-            }else{
-                int cur_poc = s->current_picture_ptr->poc;
-                int *col_poc = h->ref_list[1]->field_poc;
-                int col_parity = FFABS(col_poc[0] - cur_poc) >= FFABS(col_poc[1] - cur_poc);
-                int dy = 2*col_parity - (s->mb_y&1);
-                mb_types_col[0] =
-                mb_types_col[1] = h->ref_list[1][0].mb_type[pair_xy + col_parity*s->mb_stride];
-                l1ref0 += dy*b8_stride;
-                l1ref1 += dy*b8_stride;
-                l1mv0 += 2*dy*b4_stride;
-                l1mv1 += 2*dy*b4_stride;
-                b8_stride = 0;
-            }
-
+        if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col[0])){
             for(i8=0; i8<4; i8++){
                 int x8 = i8&1;
                 int y8 = i8>>1;
@@ -1056,7 +1085,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
 
                 fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, (uint8_t)ref[0], 1);
                 fill_rectangle(&h->ref_cache[1][scan8[i8*4]], 2, 2, 8, (uint8_t)ref[1], 1);
-                if(!IS_INTRA(mb_types_col[y8])
+                if(!IS_INTRA(mb_type_col[y8])
                    && (   (l1ref0[xy8] == 0 && FFABS(l1mv0[xy4][0]) <= 1 && FFABS(l1mv0[xy4][1]) <= 1)
                        || (l1ref0[xy8]  < 0 && l1ref1[xy8] == 0 && FFABS(l1mv1[xy4][0]) <= 1 && FFABS(l1mv1[xy4][1]) <= 1))){
                     if(ref[0] > 0)
@@ -1075,7 +1104,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
 
             fill_rectangle(&h->ref_cache[0][scan8[0]], 4, 4, 8, (uint8_t)ref[0], 1);
             fill_rectangle(&h->ref_cache[1][scan8[0]], 4, 4, 8, (uint8_t)ref[1], 1);
-            if(!IS_INTRA(mb_type_col)
+            if(!IS_INTRA(mb_type_col[0])
                && (   (l1ref0[0] == 0 && FFABS(l1mv0[0][0]) <= 1 && FFABS(l1mv0[0][1]) <= 1)
                    || (l1ref0[0]  < 0 && l1ref1[0] == 0 && FFABS(l1mv1[0][0]) <= 1 && FFABS(l1mv1[0][1]) <= 1
                        && (h->x264_build>33 || !h->x264_build)))){
@@ -1104,7 +1133,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
                 fill_rectangle(&h->ref_cache[1][scan8[i8*4]], 2, 2, 8, (uint8_t)ref[1], 1);
 
                 /* col_zero_flag */
-                if(!IS_INTRA(mb_type_col) && (   l1ref0[x8 + y8*h->b8_stride] == 0
+                if(!IS_INTRA(mb_type_col[0]) && (   l1ref0[x8 + y8*h->b8_stride] == 0
                                               || (l1ref0[x8 + y8*h->b8_stride] < 0 && l1ref1[x8 + y8*h->b8_stride] == 0
                                                   && (h->x264_build>33 || !h->x264_build)))){
                     const int16_t (*l1mv)[2]= l1ref0[x8 + y8*h->b8_stride] == 0 ? l1mv0 : l1mv1;
@@ -1133,100 +1162,54 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
         const int *map_col_to_list0[2] = {h->map_col_to_list0[0], h->map_col_to_list0[1]};
         const int *dist_scale_factor = h->dist_scale_factor;
 
-        if(FRAME_MBAFF){
-            if(IS_INTERLACED(*mb_type)){
-                map_col_to_list0[0] = h->map_col_to_list0_field[0];
-                map_col_to_list0[1] = h->map_col_to_list0_field[1];
-                dist_scale_factor = h->dist_scale_factor_field;
-            }
-            if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col)){
-                /* FIXME assumes direct_8x8_inference == 1 */
-                const int pair_xy = s->mb_x + (s->mb_y&~1)*s->mb_stride;
-                int mb_types_col[2];
-                int y_shift;
+        if(FRAME_MBAFF && IS_INTERLACED(*mb_type)){
+            map_col_to_list0[0] = h->map_col_to_list0_field[0];
+            map_col_to_list0[1] = h->map_col_to_list0_field[1];
+            dist_scale_factor = h->dist_scale_factor_field;
+        }
+        if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col[0])){
+            /* FIXME assumes direct_8x8_inference == 1 */
+            int y_shift  = 2*!IS_INTERLACED(*mb_type);
+            int ref_shift= FRAME_MBAFF ? y_shift : 1;
 
-                *mb_type = MB_TYPE_8x8|MB_TYPE_L0L1
-                         | (is_b8x8 ? 0 : MB_TYPE_DIRECT2)
-                         | (*mb_type & MB_TYPE_INTERLACED);
-                sub_mb_type = MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2|MB_TYPE_16x16;
+            for(i8=0; i8<4; i8++){
+                const int x8 = i8&1;
+                const int y8 = i8>>1;
+                int ref0, scale;
+                const int16_t (*l1mv)[2]= l1mv0;
 
-                if(IS_INTERLACED(*mb_type)){
-                    /* frame to field scaling */
-                    mb_types_col[0] = h->ref_list[1][0].mb_type[pair_xy];
-                    mb_types_col[1] = h->ref_list[1][0].mb_type[pair_xy+s->mb_stride];
-                    if(s->mb_y&1){
-                        l1ref0 -= 2*h->b8_stride;
-                        l1ref1 -= 2*h->b8_stride;
-                        l1mv0 -= 4*h->b_stride;
-                        l1mv1 -= 4*h->b_stride;
-                    }
-                    y_shift = 0;
+                if(is_b8x8 && !IS_DIRECT(h->sub_mb_type[i8]))
+                    continue;
+                h->sub_mb_type[i8] = sub_mb_type;
 
-                    if(   (mb_types_col[0] & MB_TYPE_16x16_OR_INTRA)
-                       && (mb_types_col[1] & MB_TYPE_16x16_OR_INTRA)
-                       && !is_b8x8)
-                        *mb_type |= MB_TYPE_16x8;
-                    else
-                        *mb_type |= MB_TYPE_8x8;
-                }else{
-                    /* field to frame scaling */
-                    /* col_mb_y = (mb_y&~1) + (topAbsDiffPOC < bottomAbsDiffPOC ? 0 : 1)
-                     * but in MBAFF, top and bottom POC are equal */
-                    int dy = (s->mb_y&1) ? 1 : 2;
-                    mb_types_col[0] =
-                    mb_types_col[1] = h->ref_list[1][0].mb_type[pair_xy+s->mb_stride];
-                    l1ref0 += dy*h->b8_stride;
-                    l1ref1 += dy*h->b8_stride;
-                    l1mv0 += 2*dy*h->b_stride;
-                    l1mv1 += 2*dy*h->b_stride;
-                    y_shift = 2;
-
-                    if((mb_types_col[0] & (MB_TYPE_16x16_OR_INTRA|MB_TYPE_16x8))
-                       && !is_b8x8)
-                        *mb_type |= MB_TYPE_16x16;
-                    else
-                        *mb_type |= MB_TYPE_8x8;
+                fill_rectangle(&h->ref_cache[1][scan8[i8*4]], 2, 2, 8, 0, 1);
+                if(IS_INTRA(mb_type_col[y8])){
+                    fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, 0, 1);
+                    fill_rectangle(&h-> mv_cache[0][scan8[i8*4]], 2, 2, 8, 0, 4);
+                    fill_rectangle(&h-> mv_cache[1][scan8[i8*4]], 2, 2, 8, 0, 4);
+                    continue;
                 }
 
-                for(i8=0; i8<4; i8++){
-                    const int x8 = i8&1;
-                    const int y8 = i8>>1;
-                    int ref0, scale;
-                    const int16_t (*l1mv)[2]= l1mv0;
-
-                    if(is_b8x8 && !IS_DIRECT(h->sub_mb_type[i8]))
-                        continue;
-                    h->sub_mb_type[i8] = sub_mb_type;
-
-                    fill_rectangle(&h->ref_cache[1][scan8[i8*4]], 2, 2, 8, 0, 1);
-                    if(IS_INTRA(mb_types_col[y8])){
-                        fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, 0, 1);
-                        fill_rectangle(&h-> mv_cache[0][scan8[i8*4]], 2, 2, 8, 0, 4);
-                        fill_rectangle(&h-> mv_cache[1][scan8[i8*4]], 2, 2, 8, 0, 4);
-                        continue;
-                    }
-
-                    ref0 = l1ref0[x8 + (y8*2>>y_shift)*h->b8_stride];
-                    if(ref0 >= 0)
-                        ref0 = map_col_to_list0[0][ref0*2>>y_shift];
-                    else{
-                        ref0 = map_col_to_list0[1][l1ref1[x8 + (y8*2>>y_shift)*h->b8_stride]*2>>y_shift];
-                        l1mv= l1mv1;
-                    }
-                    scale = dist_scale_factor[ref0];
-                    fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, ref0, 1);
-
-                    {
-                        const int16_t *mv_col = l1mv[x8*3 + (y8*6>>y_shift)*h->b_stride];
-                        int my_col = (mv_col[1]<<y_shift)/2;
-                        int mx = (scale * mv_col[0] + 128) >> 8;
-                        int my = (scale * my_col + 128) >> 8;
-                        fill_rectangle(&h->mv_cache[0][scan8[i8*4]], 2, 2, 8, pack16to32(mx,my), 4);
-                        fill_rectangle(&h->mv_cache[1][scan8[i8*4]], 2, 2, 8, pack16to32(mx-mv_col[0],my-my_col), 4);
-                    }
+                ref0 = l1ref0[x8 + y8*b8_stride];
+                if(ref0 >= 0)
+                    ref0 = map_col_to_list0[0][ref0*2>>ref_shift];
+                else{
+                    ref0 = map_col_to_list0[1][l1ref1[x8 + y8*b8_stride]*2>>ref_shift];
+                    l1mv= l1mv1;
                 }
-                return;
+                scale = dist_scale_factor[ref0];
+                fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, ref0, 1);
+
+                {
+                    const int16_t *mv_col = l1mv[x8*3 + y8*b4_stride];
+                    int my_col = (mv_col[1]<<y_shift)/2;
+                    int mx = (scale * mv_col[0] + 128) >> 8;
+                    int my = (scale * my_col + 128) >> 8;
+                    fill_rectangle(&h->mv_cache[0][scan8[i8*4]], 2, 2, 8, pack16to32(mx,my), 4);
+                    fill_rectangle(&h->mv_cache[1][scan8[i8*4]], 2, 2, 8, pack16to32(mx-mv_col[0],my-my_col), 4);
+                }
             }
+            return;
         }
 
         /* one-to-one mv scaling */
@@ -1235,7 +1218,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
             int ref, mv0, mv1;
 
             fill_rectangle(&h->ref_cache[1][scan8[0]], 4, 4, 8, 0, 1);
-            if(IS_INTRA(mb_type_col)){
+            if(IS_INTRA(mb_type_col[0])){
                 ref=mv0=mv1=0;
             }else{
                 const int ref0 = l1ref0[0] >= 0 ? map_col_to_list0[0][l1ref0[0]]
@@ -1263,7 +1246,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
                     continue;
                 h->sub_mb_type[i8] = sub_mb_type;
                 fill_rectangle(&h->ref_cache[1][scan8[i8*4]], 2, 2, 8, 0, 1);
-                if(IS_INTRA(mb_type_col)){
+                if(IS_INTRA(mb_type_col[0])){
                     fill_rectangle(&h->ref_cache[0][scan8[i8*4]], 2, 2, 8, 0, 1);
                     fill_rectangle(&h-> mv_cache[0][scan8[i8*4]], 2, 2, 8, 0, 4);
                     fill_rectangle(&h-> mv_cache[1][scan8[i8*4]], 2, 2, 8, 0, 4);
@@ -1872,37 +1855,67 @@ static av_cold void decode_init_vlc(void){
 
     if (!done) {
         int i;
+        int offset;
         done = 1;
 
+        chroma_dc_coeff_token_vlc.table = chroma_dc_coeff_token_vlc_table;
+        chroma_dc_coeff_token_vlc.table_allocated = chroma_dc_coeff_token_vlc_table_size;
         init_vlc(&chroma_dc_coeff_token_vlc, CHROMA_DC_COEFF_TOKEN_VLC_BITS, 4*5,
                  &chroma_dc_coeff_token_len [0], 1, 1,
-                 &chroma_dc_coeff_token_bits[0], 1, 1, 1);
+                 &chroma_dc_coeff_token_bits[0], 1, 1,
+                 INIT_VLC_USE_NEW_STATIC);
 
+        offset = 0;
         for(i=0; i<4; i++){
+            coeff_token_vlc[i].table = coeff_token_vlc_tables+offset;
+            coeff_token_vlc[i].table_allocated = coeff_token_vlc_tables_size[i];
             init_vlc(&coeff_token_vlc[i], COEFF_TOKEN_VLC_BITS, 4*17,
                      &coeff_token_len [i][0], 1, 1,
-                     &coeff_token_bits[i][0], 1, 1, 1);
+                     &coeff_token_bits[i][0], 1, 1,
+                     INIT_VLC_USE_NEW_STATIC);
+            offset += coeff_token_vlc_tables_size[i];
         }
+        /*
+         * This is a one time safety check to make sure that
+         * the packed static coeff_token_vlc table sizes
+         * were initialized correctly.
+         */
+        assert(offset == sizeof(coeff_token_vlc_tables)/(sizeof(VLC_TYPE)*2));
 
         for(i=0; i<3; i++){
-            init_vlc(&chroma_dc_total_zeros_vlc[i], CHROMA_DC_TOTAL_ZEROS_VLC_BITS, 4,
+            chroma_dc_total_zeros_vlc[i].table = chroma_dc_total_zeros_vlc_tables[i];
+            chroma_dc_total_zeros_vlc[i].table_allocated = chroma_dc_total_zeros_vlc_tables_size;
+            init_vlc(&chroma_dc_total_zeros_vlc[i],
+                     CHROMA_DC_TOTAL_ZEROS_VLC_BITS, 4,
                      &chroma_dc_total_zeros_len [i][0], 1, 1,
-                     &chroma_dc_total_zeros_bits[i][0], 1, 1, 1);
+                     &chroma_dc_total_zeros_bits[i][0], 1, 1,
+                     INIT_VLC_USE_NEW_STATIC);
         }
         for(i=0; i<15; i++){
-            init_vlc(&total_zeros_vlc[i], TOTAL_ZEROS_VLC_BITS, 16,
+            total_zeros_vlc[i].table = total_zeros_vlc_tables[i];
+            total_zeros_vlc[i].table_allocated = total_zeros_vlc_tables_size;
+            init_vlc(&total_zeros_vlc[i],
+                     TOTAL_ZEROS_VLC_BITS, 16,
                      &total_zeros_len [i][0], 1, 1,
-                     &total_zeros_bits[i][0], 1, 1, 1);
+                     &total_zeros_bits[i][0], 1, 1,
+                     INIT_VLC_USE_NEW_STATIC);
         }
 
         for(i=0; i<6; i++){
-            init_vlc(&run_vlc[i], RUN_VLC_BITS, 7,
+            run_vlc[i].table = run_vlc_tables[i];
+            run_vlc[i].table_allocated = run_vlc_tables_size;
+            init_vlc(&run_vlc[i],
+                     RUN_VLC_BITS, 7,
                      &run_len [i][0], 1, 1,
-                     &run_bits[i][0], 1, 1, 1);
+                     &run_bits[i][0], 1, 1,
+                     INIT_VLC_USE_NEW_STATIC);
         }
+        run7_vlc.table = run7_vlc_table,
+        run7_vlc.table_allocated = run7_vlc_table_size;
         init_vlc(&run7_vlc, RUN7_VLC_BITS, 16,
                  &run_len [6][0], 1, 1,
-                 &run_bits[6][0], 1, 1, 1);
+                 &run_bits[6][0], 1, 1,
+                 INIT_VLC_USE_NEW_STATIC);
     }
 }
 
@@ -4276,7 +4289,7 @@ static void decode_mb_skip(H264Context *h){
     if( h->slice_type_nos == FF_B_TYPE )
     {
         // just for fill_caches. pred_direct_motion will set the real mb_type
-        mb_type|= MB_TYPE_16x16|MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2|MB_TYPE_SKIP;
+        mb_type|= MB_TYPE_P0L0|MB_TYPE_P0L1|MB_TYPE_DIRECT2|MB_TYPE_SKIP;
 
         fill_caches(h, mb_type, 0); //FIXME check what is needed and what not ...
         pred_direct_motion(h, &mb_type);
