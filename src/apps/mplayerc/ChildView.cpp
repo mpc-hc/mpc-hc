@@ -251,6 +251,11 @@ BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 	CString osd = ResStr(nID);
 	int i = osd.Find(_T("\n"));
 	if(i > 0) osd.Delete(i, osd.GetLength()-i);
+
+	CRect r1;
+	((CMainFrame*)AfxGetMainWnd())->GetClientRect(&r1);
+	if((!r1.Width()) || (!r1.Height())) return FALSE;
+
 	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
 	return FALSE;
 }
