@@ -250,17 +250,34 @@ void CPlaylist::SetPos(POSITION pos)
 	m_pos = pos;
 }
 
+#define Rand(a, b) rand()%(b-a+1)+a
+
+POSITION CPlaylist::Shuffle()
+{
+	CAtlArray<plsort2_t> a;
+	a.SetCount(GetCount());
+	srand((unsigned)time(NULL));
+	POSITION pos = GetHeadPosition();
+	for(int i = 0; pos; i++, GetNext(pos))
+		a[i].pos = pos;
+	
+	pos = GetPos();
+	int rnd = Rand(0, a.GetCount()-1);
+	while(pos == a[rnd].pos) rnd = Rand(0, a.GetCount()-1);
+
+	return a[rnd].pos;
+}
+
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 {
-	GetNext(pos);
-
-	if(!pos)
+	if(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), FALSE) && GetCount() > 2)
 	{
-		// FIXME: add param: , bool fShuffle
-		if(GetCount() > 2 && AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), FALSE))
-			Randomize();
-
-		pos = GetHeadPosition();
+		pos = Shuffle();
+	}
+	else
+	{
+		GetNext(pos);
+		if(!pos) pos = GetHeadPosition();
 	}
 
 	return(GetAt(pos));
