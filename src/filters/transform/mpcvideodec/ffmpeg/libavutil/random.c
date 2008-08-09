@@ -28,6 +28,7 @@ see http://en.wikipedia.org/wiki/Mersenne_twister for an explanation of this alg
 #include <stdio.h>
 #include "random.h"
 
+
 /* Period parameters */
 #define M 397
 #define A 0x9908b0df /* constant vector a */
@@ -40,7 +41,7 @@ void av_init_random(unsigned int seed, AVRandomState *state)
     int index;
 
     /*
-     This differs from the wikipedia article.  Source is from the Makoto
+     This differs from the wikipedia article.  Source is from the
      Makoto Matsumoto and Takuji Nishimura code, with the following comment:
      */
      /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
