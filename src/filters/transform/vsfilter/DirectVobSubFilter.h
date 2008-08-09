@@ -139,9 +139,6 @@ protected:
 	// 3.x- versions of microsoft's mpeg4 codec output flipped image
 	bool m_fMSMpeg4Fix;
 
-	// DivxPlus puts our picture upside-down on the tv
-	bool m_fDivxPlusFix;
-
 	// don't set the "hide subtitles" stream until we are finished with loading
 	bool m_fLoading;
 

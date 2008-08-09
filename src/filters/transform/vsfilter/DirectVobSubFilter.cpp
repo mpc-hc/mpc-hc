@@ -48,7 +48,6 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
 	: CBaseVideoFilter(NAME("CDirectVobSubFilter"), punk, phr, clsid)
 	, m_nSubtitleId(-1)
 	, m_fMSMpeg4Fix(false)
-	, m_fDivxPlusFix(false)
 	, m_fps(25)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -245,11 +244,9 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	bool fFlip = fInputFlipped != fOutputFlipped;
 	if(m_fFlipPicture) fFlip = !fFlip;
 	if(m_fMSMpeg4Fix) fFlip = !fFlip;
-//	if(m_fDivxPlusFix) fFlip = !fFlip;
 
 	bool fFlipSub = fOutputFlipped;
 	if(m_fFlipSubtitles) fFlipSub = !fFlipSub;
-//	if(m_fDivxPlusFix) fFlipSub = !fFlipSub;
 
 	//
 
@@ -465,14 +462,14 @@ HRESULT CDirectVobSubFilter::BreakConnect(PIN_DIRECTION dir)
 
 HRESULT CDirectVobSubFilter::StartStreaming()
 {
+	// WARNING : calls to m_pGraph member functions from here will generate deadlock with Haali Renderer
+	// within MPC-HC (reason is CAutoLock's variables in IFilterGraph functions overriden by CFGManager class)
+
 	m_fLoading = false;
 
 	InitSubPicQueue();
 
 	m_tbid.fRunOnce = true;
-
-	CComPtr<IBaseFilter> pFilter;
-	m_fDivxPlusFix = SUCCEEDED(m_pGraph->FindFilterByName(L"HPlus YUV Video Renderer", &pFilter));
 
 	put_MediaFPS(m_fMediaFPSEnabled, m_MediaFPS);
 
