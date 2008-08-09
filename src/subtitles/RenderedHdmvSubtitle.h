@@ -66,4 +66,5 @@ private :
 	REFERENCE_TIME	m_rtStart;
 
 	CHdmvSub		m_HdmvSub;
+	CCritSec		m_csCritSec;
 };

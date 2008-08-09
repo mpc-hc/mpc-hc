@@ -25,6 +25,7 @@
 #include "..\DSUtil\GolombBuffer.h"
 
 #define MAX_PG_DURATION		25*400000*15	//200000000		// Max duration for ST
+#define INDEX_TRANSPARENT	0xFF
 
 CHdmvSub::CHdmvSub(void)
 {
@@ -36,36 +37,18 @@ CHdmvSub::CHdmvSub(void)
 	m_nTotalSegBuffer	= 0;
 	m_nSegBufferPos		= 0;
 	m_nSegSize			= 0;
-
-	m_pObjects			= NULL;
-	m_nActiveObjects	= 0;
-	m_nTotalObjects		= 0;
-	m_rtStart			= 0;
-	m_rtStop			= 0;
+	m_pCurrentObject	= NULL;
 
 	memset (&m_VideoDescriptor, 0, sizeof(VIDEO_DESCRIPTOR));
 }
 
 CHdmvSub::~CHdmvSub()
 {
+	m_pObjects.RemoveAll();
 	delete[] m_pColors;
-	delete[] m_pObjects;
 	delete[] m_pSegBuffer;
 }
 
-
-void CHdmvSub::AllocObjects(int nCount)
-{
-	if (nCount > m_nTotalObjects)
-	{
-		delete[] m_pObjects;
-		m_pObjects		= new CompositionObject[nCount];
-		m_nTotalObjects	= nCount;
-		for (int i=0; i<nCount; i++)
-			m_pObjects[i].Init(this);
-	}
-	m_nActiveObjects = nCount;
-}
 
 void CHdmvSub::AllocSegment(int nSize)
 {
@@ -79,19 +62,9 @@ void CHdmvSub::AllocSegment(int nSize)
 	m_nSegSize       = nSize;
 }
 
-CHdmvSub::CompositionObject* CHdmvSub::FindObject (SHORT id_ref)
-{
-	for (int i=0; i<m_nActiveObjects; i++)
-	{
-		if (m_pObjects[i].m_object_id_ref == id_ref)
-			return &m_pObjects[i];
-	}
-	return NULL;
-}
-
 long CHdmvSub::GetColor(int nIndex)
 {
-	if ((nIndex != 0xFF) && (nIndex>0) && (nIndex-1 < m_nColorNumber))
+	if ((nIndex != INDEX_TRANSPARENT) && (nIndex>0) && (nIndex-1 < m_nColorNumber))
 		return m_pColors[nIndex-1];
 	else
 		return 0x00000000;	// Transparent!
@@ -149,36 +122,48 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 				switch (m_nCurSegment)
 				{
 				case PALETTE :
-					TRACE ("PALETTE            rtStart=%10I64d\n", rtStart);
+					// TRACE ("CHdmvSub:PALETTE            rtStart=%10I64d\n", rtStart);
 					ParsePalette(&SegmentBuffer, m_nSegSize);
 					break;
 				case OBJECT :
-					TRACE ("OBJECT             rtStart=%10I64d\n", rtStart);
+					//TRACE ("CHdmvSub:OBJECT\n");
 					ParseObject(&SegmentBuffer, m_nSegSize);
 					break;
 				case PRESENTATION_SEG :
-					TRACE ("PRESENTATION_SEG   rtStart=%10I64d (size=%d)\n", rtStart, m_nSegSize);
-					ParsePresentationSegment(&SegmentBuffer);
-					if (m_nActiveObjects>0)
-						m_rtStart	= rtStart;
+					// TRACE ("CHdmvSub:PRESENTATION_SEG   rtStart=%10I64d (size=%d)\n", rtStart, m_nSegSize);
+					
+					if (ParsePresentationSegment(&SegmentBuffer) > 0)
+					{
+						m_pCurrentObject->m_rtStart	= rtStart;
+						m_pCurrentObject->m_rtStop	= rtStart + 1;
+					}
+					else
+					{
+						if (m_pObjects.GetCount() > 0)
+						{
+							CompositionObject*	pObject = m_pObjects.RemoveHead();
+							TRACE ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (pObject->m_rtStart), ReftimeToString(rtStart));
+							if (pObject->m_pSubPic)
+								pObject->m_pSubPic->SetStop (rtStart);
+							pObject->m_pSubPic = NULL;
+							delete pObject;
+						}
+					}
 					break;
 				case WINDOW_DEF :
-					TRACE ("WINDOW_DEF         rtStart=%10I64d\n", rtStart);
+					//TRACE ("CHdmvSub:WINDOW_DEF         rtStart=%10I64d\n", rtStart);
 					break;
 				case END_OF_DISPLAY :
-					TRACE ("END_OF_DISPLAY     rtStart=%10I64d\n", rtStart);
-					m_rtStop	= rtStart + MAX_PG_DURATION;
-					hr = m_nActiveObjects>0 ? S_OK : VFW_S_NO_MORE_ITEMS;
-					
-					if (m_nActiveObjects==0 && m_pObjects[0].m_pSubPic!=NULL)
+					TRACE ("CHdmvSub:END_OF_DISPLAY\n");
+					if (m_pCurrentObject)
 					{
-						m_pObjects[0].m_pSubPic->SetStop (rtStart);
-						m_pObjects[0].m_pSubPic = NULL;
+						m_pObjects.AddTail (m_pCurrentObject);
+						m_pCurrentObject = NULL;
 					}
-
+//					hr = m_nActiveObjects>0 ? S_OK : VFW_S_NO_MORE_ITEMS;
 					break;
 				default :
-					TRACE ("UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
+					TRACE ("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
 				}
 
 				m_nCurSegment = NO_SEGMENT;
@@ -190,7 +175,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 	return hr;
 }
 
-void CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
+int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 {
 	COMPOSITION_DESCRIPTOR	CompositionDescriptor;
 	BYTE					nObjectNumber;
@@ -203,11 +188,14 @@ void CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 	palette_id_ref		= pGBuffer->ReadByte();
 	nObjectNumber		= pGBuffer->ReadByte();
 
-	AllocObjects (nObjectNumber);
-	for (int i=0; i<nObjectNumber; i++)
+	if (nObjectNumber > 0)
 	{
-		ParseCompositionObject (pGBuffer, &m_pObjects[i]);
+		delete m_pCurrentObject;
+		m_pCurrentObject = new CompositionObject(this);
+		ParseCompositionObject (pGBuffer, m_pCurrentObject);
 	}
+
+	return nObjectNumber;
 }
 
 void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
@@ -218,7 +206,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 
 	ASSERT ((nSize-2) % sizeof(HDMV_PALETTE) == 0);
 	nNbEntry = (nSize-2) / sizeof(HDMV_PALETTE);
-	if (nNbEntry != m_nColorNumber)
+	if (nNbEntry>0 && nNbEntry!=m_nColorNumber)
 	{
 		delete[] m_pColors;
 		m_nColorNumber	= nNbEntry;
@@ -240,22 +228,24 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
 {
 	int			nEnd;
 	SHORT							object_id	= pGBuffer->ReadShort();
-	CHdmvSub::CompositionObject*	pObject		= FindObject (object_id);
 
-	if (pObject != NULL)
+	if (m_pCurrentObject->m_object_id_ref == object_id)
 	{
-		pObject->m_version_number	= pGBuffer->ReadByte();
-		pObject->m_sequence_desc	= pGBuffer->ReadByte();
+		m_pCurrentObject->m_version_number	= pGBuffer->ReadByte();
+		m_pCurrentObject->m_sequence_desc	= pGBuffer->ReadByte();
 
 		DWORD	object_data_length  = (DWORD)pGBuffer->BitRead(24);
 		
-		pObject->m_width			= pGBuffer->ReadShort();
-		pObject->m_height 			= pGBuffer->ReadShort();
+		m_pCurrentObject->m_width			= pGBuffer->ReadShort();
+		m_pCurrentObject->m_height 			= pGBuffer->ReadShort();
 
 		nEnd = (DWORD)pGBuffer->GetPos() + object_data_length;
 		ASSERT (nUnitSize-object_data_length == 7);
 
-		pObject->SetRLEData (pGBuffer->GetBufferPos(), object_data_length);
+		m_pCurrentObject->SetRLEData (pGBuffer->GetBufferPos(), object_data_length);
+
+//		DumpBuffer(pGBuffer->GetBufferPos(), object_data_length);
+		TRACE ("CHdmvSub:NewObject	size=%ld (total obj = %d)\n", object_data_length, m_pObjects.GetCount());
 	}
 }
 
@@ -294,54 +284,66 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 
 void CHdmvSub::Render(SubPicDesc& spd, RECT& bbox)
 {
-	ASSERT (spd.w >= m_pObjects[0].m_width && spd.h >= m_pObjects[0].m_height);
+	CompositionObject*	pObject = m_pObjects.GetHead();
 
-	if (spd.w >= m_pObjects[0].m_width && spd.h >= m_pObjects[0].m_height)
+	ASSERT (spd.w >= pObject->m_width && spd.h >= pObject->m_height);
+
+	if (spd.w >= pObject->m_width && spd.h >= pObject->m_height)
 	{
-		for (int i=0; i<m_nActiveObjects; i++)
-			m_pObjects[i].Render(spd);
+		TRACE ("CHdmvSub:Render	    size=%ld\n", pObject->GetRLEDataSize());
+		pObject->Render(spd);
 
 		bbox.left	= 0;
 		bbox.top	= 0;
-		bbox.right	= bbox.left + m_pObjects[0].m_width;
-		bbox.bottom	= bbox.top  + m_pObjects[0].m_height;
+		bbox.right	= bbox.left + pObject->m_width;
+		bbox.bottom	= bbox.top  + pObject->m_height;
 	}
 }
 
 HRESULT CHdmvSub::GetTextureSize (SIZE& TextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 {
-	TextureSize.cx	= m_pObjects[0].m_width;
-	TextureSize.cy	= m_pObjects[0].m_height;
+	CompositionObject*	pObject = m_pObjects.GetTail();
+	if (pObject)
+	{
+		//TextureSize.cx	= ((pObject->m_width + 15) / 16) * 16;
+		//TextureSize.cy	= ((pObject->m_height + 15) / 16) * 16;
+		TextureSize.cx	= pObject->m_width;
+		TextureSize.cy	= pObject->m_height;
 
-	VideoSize.cx	= m_VideoDescriptor.nVideoWidth;
-	VideoSize.cy	= m_VideoDescriptor.nVideoHeight;
+		VideoSize.cx	= m_VideoDescriptor.nVideoWidth;
+		VideoSize.cy	= m_VideoDescriptor.nVideoHeight;
 
-	VideoTopLeft.x	= m_pObjects[0].m_horizontal_position;
-	VideoTopLeft.y	= m_pObjects[0].m_vertical_position;
+		VideoTopLeft.x	= pObject->m_horizontal_position;
+		VideoTopLeft.y	= pObject->m_vertical_position;
+
+//TextureSize.cx	= m_VideoDescriptor.nVideoWidth;		// TODO remove this!!!
+//TextureSize.cy	= m_VideoDescriptor.nVideoHeight;
+//VideoTopLeft.x	= 0;
+//VideoTopLeft.y	= 0;
+	}
 
 	return S_OK;
 }
 
 HRESULT CHdmvSub::SetSubPic (ISubPic* pSubPic)
 {
-	m_pObjects[0].m_pSubPic = pSubPic;
+	CompositionObject*	pObject = m_pObjects.GetTail();
+	if (pObject)
+		pObject->m_pSubPic = pSubPic;
 	return S_OK;
 }
 
 void CHdmvSub::Reset()
 {
-	if (m_nTotalObjects > 0) m_pObjects[0].m_pSubPic = NULL;	// TODO : urk!
-	m_nActiveObjects		= 0;
+	CompositionObject*	pObject;
+	while (m_pObjects.GetCount() > 0)
+	{
+		pObject = m_pObjects.RemoveHead();
+		delete pObject;
+	}
 }
 
 // ===== CHdmvSub::CompositionObject
-
-void CHdmvSub::CompositionObject::Init(CHdmvSub* pSub)
-{
-	m_pSub			= pSub;
-	m_pRLEData		= NULL;
-	m_nRLEDataSize	= 0;
-}
 
 CHdmvSub::CompositionObject::~CompositionObject()
 {
@@ -395,12 +397,12 @@ void CHdmvSub::CompositionObject::Render(SubPicDesc& spd)
 					{
 						nCount		= bSwitch & 0x3F;
 						if (nCount > 0)
-							nPaletteIndex	= GBuffer.ReadByte();
+							nPaletteIndex	= INDEX_TRANSPARENT;
 					}
 					else
 					{
 						nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
-						nPaletteIndex	= GBuffer.ReadByte();
+						nPaletteIndex	= INDEX_TRANSPARENT;
 					}
 				}
 				else

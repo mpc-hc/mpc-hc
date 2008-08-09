@@ -50,23 +50,29 @@ STDMETHODIMP CRenderedHdmvSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 
 STDMETHODIMP_(POSITION) CRenderedHdmvSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
-	return	(GetNext((POSITION)0));
+	CAutoLock cAutoLock(&m_csCritSec);
+	return	m_HdmvSub.GetStartPosition(rt, fps);
 }
 
 STDMETHODIMP_(POSITION) CRenderedHdmvSubtitle::GetNext(POSITION pos)
 {
-	return (POSITION)((int)pos==0 && m_HdmvSub.GetActiveObjects()>0 ? 1 : 0);
+	CAutoLock cAutoLock(&m_csCritSec);
+	return m_HdmvSub.GetNext (pos);
+//	return (POSITION)(((int)pos <m_HdmvSub.GetActiveObjects()) ? pos+1 : 0);
+//	return (POSITION)((int)pos==0 && m_HdmvSub.GetActiveObjects()>0 ? 1 : 0);
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedHdmvSubtitle::GetStart(POSITION pos, double fps)
 {
-	return m_HdmvSub.GetStart() + m_rtStart;
+	CAutoLock cAutoLock(&m_csCritSec);
+	return m_HdmvSub.GetStart(pos) + m_rtStart;
 }
 
 STDMETHODIMP_(REFERENCE_TIME) CRenderedHdmvSubtitle::GetStop(POSITION pos, double fps)
 {
+	CAutoLock cAutoLock(&m_csCritSec);
 //	return(10000i64 * TranslateSegmentEnd((int)pos-1, fps));
-	return m_HdmvSub.GetStop() + m_rtStart;
+	return m_HdmvSub.GetStop(pos) + m_rtStart;
 }
 
 STDMETHODIMP_(bool) CRenderedHdmvSubtitle::IsAnimated(POSITION pos)
@@ -76,6 +82,7 @@ STDMETHODIMP_(bool) CRenderedHdmvSubtitle::IsAnimated(POSITION pos)
 
 STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
+	CAutoLock cAutoLock(&m_csCritSec);
 	m_HdmvSub.Render (spd, bbox);
 
 	return S_OK;
@@ -83,11 +90,13 @@ STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (SIZE& TextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 { 
+	CAutoLock cAutoLock(&m_csCritSec);
 	return m_HdmvSub.GetTextureSize(TextureSize, VideoSize, VideoTopLeft); 
 };
 
 STDMETHODIMP CRenderedHdmvSubtitle::SetSubPic (ISubPic* pSubPic)
 {
+	CAutoLock cAutoLock(&m_csCritSec);
 	return m_HdmvSub.SetSubPic(pSubPic); 
 }
 
@@ -142,6 +151,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::Reload()
 
 HRESULT CRenderedHdmvSubtitle::ParseSample (IMediaSample* pSample)
 {
+	CAutoLock cAutoLock(&m_csCritSec);
 	HRESULT		hr;
 
 	hr = m_HdmvSub.ParseSample (pSample);
@@ -150,6 +160,8 @@ HRESULT CRenderedHdmvSubtitle::ParseSample (IMediaSample* pSample)
 
 HRESULT CRenderedHdmvSubtitle::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
+	CAutoLock cAutoLock(&m_csCritSec);
+
 	m_HdmvSub.Reset();
 	m_rtStart = tStart;
 	return S_OK;

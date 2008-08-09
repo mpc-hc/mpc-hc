@@ -86,12 +86,23 @@ public:
 		SHORT				m_cropping_vertical_position;
 		SHORT				m_cropping_width;
 		SHORT				m_cropping_height;
-		CComPtr<ISubPic>	m_pSubPic;
 
+		CComPtr<ISubPic>	m_pSubPic;
+		REFERENCE_TIME		m_rtStart;
+		REFERENCE_TIME		m_rtStop;
+
+		CompositionObject(CHdmvSub* pSub)
+		{
+			m_rtStart		= 0;
+			m_rtStop		= 0;
+			m_pSub			= pSub;
+			m_pRLEData		= NULL;
+			m_nRLEDataSize	= 0;
+		}
 		~CompositionObject();
 
-		void				Init(CHdmvSub* pSub);
 		void				SetRLEData(BYTE* pBuffer, int nSize);
+		int					GetRLEDataSize() { return m_nRLEDataSize; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 
@@ -117,9 +128,21 @@ public:
 	HRESULT			ParseSample (IMediaSample* pSample);
 	long			GetColor(int nIndex);
 
-	int				GetActiveObjects()  { return m_nActiveObjects; };
-	REFERENCE_TIME	GetStart()			{ return m_rtStart; };
-	REFERENCE_TIME	GetStop()			{ return m_rtStop;  };
+	int				GetActiveObjects()  { return m_pObjects.GetCount(); };
+
+	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps)	{ return m_pObjects.GetHeadPosition(); };
+	POSITION		GetNext(POSITION pos) { m_pObjects.GetNext(pos); return pos; };
+
+	REFERENCE_TIME	GetStart(POSITION nPos)	
+	{
+		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
+		return pObject!=NULL ? pObject->m_rtStart : INVALID_TIME; 
+	};
+	REFERENCE_TIME	GetStop(POSITION nPos)	
+	{ 
+		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
+		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME; 
+	};
 
 	void			Render(SubPicDesc& spd, RECT& bbox);
 	HRESULT			GetTextureSize (SIZE& TextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
@@ -128,25 +151,22 @@ public:
 
 private :
 
-	HDMV_SEGMENT_TYPE		m_nCurSegment;
-	BYTE*					m_pSegBuffer;
-	int						m_nTotalSegBuffer;
-	int						m_nSegBufferPos;
-	int						m_nSegSize;
+	HDMV_SEGMENT_TYPE				m_nCurSegment;
+	BYTE*							m_pSegBuffer;
+	int								m_nTotalSegBuffer;
+	int								m_nSegBufferPos;
+	int								m_nSegSize;
 
-	VIDEO_DESCRIPTOR		m_VideoDescriptor;
+	VIDEO_DESCRIPTOR				m_VideoDescriptor;
 
-	CompositionObject*		m_pObjects;
-	int						m_nActiveObjects;
-	int						m_nTotalObjects;
-	REFERENCE_TIME			m_rtStart;
-	REFERENCE_TIME			m_rtStop;
+	CompositionObject*				m_pCurrentObject;
+	CAtlList<CompositionObject*>	m_pObjects;
 
-	int						m_nColorNumber;
-	long*					m_pColors;
+	int								m_nColorNumber;
+	long*							m_pColors;
 
 
-	void				ParsePresentationSegment(CGolombBuffer* pGBuffer);
+	int					ParsePresentationSegment(CGolombBuffer* pGBuffer);
 	void				ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
 	void				ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
 
@@ -154,8 +174,6 @@ private :
 	void				ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_DESCRIPTOR* pCompositionDescriptor);
 	void				ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
-	void				AllocObjects(int nCount);
 	void				AllocSegment(int nSize);
-	CompositionObject*	FindObject (SHORT id_ref);
 	void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 };
