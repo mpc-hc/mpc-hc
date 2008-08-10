@@ -51,7 +51,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::NonDelegatingQueryInterface(REFIID riid, voi
 STDMETHODIMP_(POSITION) CRenderedHdmvSubtitle::GetStartPosition(REFERENCE_TIME rt, double fps)
 {
 	CAutoLock cAutoLock(&m_csCritSec);
-	return	m_HdmvSub.GetStartPosition(rt, fps);
+	return	m_HdmvSub.GetStartPosition(rt - m_rtStart, fps);
 }
 
 STDMETHODIMP_(POSITION) CRenderedHdmvSubtitle::GetNext(POSITION pos)
@@ -83,22 +83,16 @@ STDMETHODIMP_(bool) CRenderedHdmvSubtitle::IsAnimated(POSITION pos)
 STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
 {
 	CAutoLock cAutoLock(&m_csCritSec);
-	m_HdmvSub.Render (spd, bbox);
+	m_HdmvSub.Render (spd, rt - m_rtStart, bbox);
 
 	return S_OK;
 }
 
-STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (SIZE& TextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
+STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 { 
 	CAutoLock cAutoLock(&m_csCritSec);
-	return m_HdmvSub.GetTextureSize(TextureSize, VideoSize, VideoTopLeft); 
+	return m_HdmvSub.GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
 };
-
-STDMETHODIMP CRenderedHdmvSubtitle::SetSubPic (ISubPic* pSubPic)
-{
-	CAutoLock cAutoLock(&m_csCritSec);
-	return m_HdmvSub.SetSubPic(pSubPic); 
-}
 
 // IPersist
 

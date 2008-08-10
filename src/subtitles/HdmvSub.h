@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include "../SubPic/ISubpic.h"
 #include "Rasterizer.h"
 
 class CGolombBuffer;
@@ -87,30 +86,25 @@ public:
 		SHORT				m_cropping_width;
 		SHORT				m_cropping_height;
 
-		CComPtr<ISubPic>	m_pSubPic;
 		REFERENCE_TIME		m_rtStart;
 		REFERENCE_TIME		m_rtStop;
 
-		CompositionObject(CHdmvSub* pSub)
-		{
-			m_rtStart		= 0;
-			m_rtStop		= 0;
-			m_pSub			= pSub;
-			m_pRLEData		= NULL;
-			m_nRLEDataSize	= 0;
-		}
+		CompositionObject();
 		~CompositionObject();
 
 		void				SetRLEData(BYTE* pBuffer, int nSize);
 		int					GetRLEDataSize() { return m_nRLEDataSize; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
-
+		void				SetColors (int nColorNumber, long* pColors);
+		long				GetColor(int nIndex);
 
 	private :
 		CHdmvSub*	m_pSub;
 		BYTE*		m_pRLEData;
 		int			m_nRLEDataSize;
+		int			m_nColorNumber;
+		long*		m_pColors;
 	};
 
 	struct HDMV_PALETTE
@@ -126,12 +120,12 @@ public:
 	~CHdmvSub();
 
 	HRESULT			ParseSample (IMediaSample* pSample);
-	long			GetColor(int nIndex);
 
 	int				GetActiveObjects()  { return m_pObjects.GetCount(); };
 
-	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps)	{ return m_pObjects.GetHeadPosition(); };
+	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps);
 	POSITION		GetNext(POSITION pos) { m_pObjects.GetNext(pos); return pos; };
+
 
 	REFERENCE_TIME	GetStart(POSITION nPos)	
 	{
@@ -144,9 +138,8 @@ public:
 		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME; 
 	};
 
-	void			Render(SubPicDesc& spd, RECT& bbox);
-	HRESULT			GetTextureSize (SIZE& TextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
-	HRESULT			SetSubPic (ISubPic* pSubPic);
+	void			Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
+	HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
 	void			Reset();
 
 private :
@@ -176,4 +169,6 @@ private :
 
 	void				AllocSegment(int nSize);
 	void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
+
+	CompositionObject*	FindObject(REFERENCE_TIME rt);
 };

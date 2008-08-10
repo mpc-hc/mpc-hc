@@ -44,8 +44,7 @@ public:
 	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps);
 	STDMETHODIMP_(bool) IsAnimated(POSITION pos);
 	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox);
-	STDMETHODIMP GetTextureSize (SIZE& TextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
-	STDMETHODIMP SetSubPic (ISubPic* pSubPic);
+	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft);
 
 	// IPersist
 	STDMETHODIMP GetClassID(CLSID* pClassID);
