@@ -403,6 +403,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GolombBuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\H264Nalu.cpp"
 				>
 			</File>
@@ -501,6 +505,10 @@
 			</File>
 			<File
 				RelativePath=".\FontInstaller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GolombBuffer.h"
 				>
 			</File>
 			<File

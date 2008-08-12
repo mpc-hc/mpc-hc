@@ -29,6 +29,7 @@ CHdmvClipInfo::CHdmvClipInfo(void)
 {
 	m_nStreamNumber	= 0;
 	m_hFile			= INVALID_HANDLE_VALUE;
+	m_bIsHdmv		= false;
 }
 
 
@@ -88,11 +89,11 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			
 			switch (m_Stream[m_nStreamNumber].stream_coding_type)
 			{
-			case 0x02 :
+			case 0x02 :	// Video streams
 			case 0x1B :
 			case 0xEA :
 				break;
-			case 0x80 :
+			case 0x80 :	// Audio streams
 			case 0x81 :
 			case 0x82 :
 			case 0x83 :
@@ -105,12 +106,12 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
 				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
 				break;
-			case 0x90 :
-			case 0x91 :
+			case 0x90 :	// Presentation Graphics stream 
+			case 0x91 :	// Interactive Graphics stream
 				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
 				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
 				break;
-			case 0x92 :
+			case 0x92 :	// Text subtitle stream 
 				ReadByte();
 				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
 				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
@@ -131,8 +132,9 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 {
 	BYTE		Buff[100];
 
-	m_hFile = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, 
-					   OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+	m_bIsHdmv = false;
+	m_hFile   = CreateFile(strFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, 
+					       OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
 	if(m_hFile != INVALID_HANDLE_VALUE)
 	{
@@ -147,6 +149,8 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 		ProgramInfo_start_address	= ReadDword();
 
 		ReadProgramInfo();
+
+		m_bIsHdmv = true;
 
 		CloseHandle (m_hFile);
 		return S_OK;

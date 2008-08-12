@@ -2340,3 +2340,16 @@ void DumpBuffer(BYTE* pBuffer, int nSize)
 
 	TRACE (strMsg);
 }
+
+CString ReftimeToString(const REFERENCE_TIME& rtVal)
+{
+	CString		strTemp;
+	LONGLONG	llTotalMs =  ConvertToMilliseconds (rtVal);
+	int			lHour	  = llTotalMs  / (1000*60*60);
+	int			lMinute	  = (llTotalMs / (1000*60)) % 60;
+	int			lSecond	  = (llTotalMs /  1000) % 60;
+	int			lMillisec = llTotalMs  %  1000;
+
+	strTemp.Format (_T("%02d:%02d:%02d:%02d"), lHour, lMinute, lSecond, lMillisec);
+	return strTemp;
+}

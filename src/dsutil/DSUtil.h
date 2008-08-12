@@ -118,6 +118,7 @@ extern void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const
 extern void UnRegisterSourceFilter(const GUID& subtype);
 extern LPCTSTR GetDXVAMode(const GUID* guidDecoder);
 extern void DumpBuffer(BYTE* pBuffer, int nSize);
+extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 
 class CPinInfo : public PIN_INFO
 {

@@ -20,44 +20,35 @@
  *
  */
 
+
 #pragma once
 
 
-class CHdmvClipInfo
+class CGolombBuffer
 {
 public:
+	CGolombBuffer(BYTE* pBuffer, int nSize);
 
-	struct Stream
-	{
-		SHORT		stream_PID;
-		BYTE		stream_coding_type;
-		char		language_code[4];
-		LCID		lcid;
+	UINT64			BitRead(int nBits, bool fPeek = false);
+	UINT64			UExpGolombRead();
+	INT64			SExpGolombRead();
+	void			BitByteAlign();
 
-		LPCTSTR Format();
-	};
+	inline BYTE		ReadByte()  { return (BYTE) BitRead ( 8); };
+	inline SHORT	ReadShort() { return (SHORT)BitRead (16); };
+	inline DWORD	ReadDword() { return (DWORD)BitRead (32); };
+	void			ReadBuffer(BYTE* pDest, int nSize);
 
-	CHdmvClipInfo(void);
-
-	HRESULT		ReadInfo(LPCTSTR strFile);
-	Stream*		FindStream(SHORT wPID);
-	bool		IsHdmv()					{ return m_bIsHdmv; };
-	int			GetStreamNumber()			{ return m_nStreamNumber; };
-	Stream*		GetStreamByIndex(int nIndex){ return (nIndex < m_nStreamNumber) ? &m_Stream[nIndex] : NULL; };
+	void			SetSize(int nValue) { m_nSize = nValue; };
+	int				GetSize()			{ return m_nSize; };
+	bool			IsEOF()				{ return m_nBitPos >= m_nSize; };
+	INT64			GetPos();
+	BYTE*			GetBufferPos()		{ return m_pBuffer + m_nBitPos; };
 
 private :
-	DWORD		SequenceInfo_start_address;
-	DWORD		ProgramInfo_start_address;
-
-	HANDLE		m_hFile;
-	int			m_nStreamNumber;
-	Stream		m_Stream[50];
-	bool		m_bIsHdmv;
-
-	DWORD		ReadDword();
-	SHORT		ReadShort();
-	SHORT		ReadByte();
-	void		ReadBuffer(BYTE* pBuff, int nLen);
-
-	HRESULT		ReadProgramInfo();
+	BYTE*		m_pBuffer;
+	int			m_nSize;
+	int			m_nBitPos;
+	int			m_bitlen;
+	INT64		m_bitbuff;
 };
