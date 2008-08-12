@@ -81,8 +81,6 @@ SRCS_C=\
 #		$(LAVC_DIR)/cscd.c \
 #		$(LAVC_DIR)/cyuv.c \
 #		$(LAVC_DIR)/dv.c \
-#		$(LAVC_DIR)/dvbsub_parser.c \
-#		$(LAVC_DIR)/dvdsub_parser.c \
 #		$(LAVC_DIR)/eval.c \
 #		$(LAVC_DIR)/faanidct.c \
 #		$(LAVC_DIR)/fft.c \
@@ -138,6 +136,8 @@ SRCS_C=\
 #		$(LAVC_DIR)/ulti.c \
 #		$(LAVC_DIR)/vcr1.c \
 #		$(LAVC_DIR)/vorbis.c \
+#		$(LAVC_DIR)/vorbis_dec.c \
+#		$(LAVC_DIR)/vorbis_data.c \
 #		$(LAVC_DIR)/wma.c \
 #		$(LAVC_DIR)/wmadec.c \
 #		$(LAVC_DIR)/wnv1.c \
@@ -191,6 +191,9 @@ SRCS_C+=\
 #		$(LAVC_DIR)/i386/fft_3dn.c \
 #		$(LAVC_DIR)/i386/fft_3dn2.c \
 #		$(LAVC_DIR)/i386/fft_sse.c
+
+#SRCS_YASM=\
+#      $(LAVC_DIR)/i386/fft_mmx.asm
 
 
 ifeq ($(64BIT),yes)

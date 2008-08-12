@@ -30,6 +30,9 @@
 #define HAVE_BSWAP 1
 #define ENABLE_BSWAP 1
 
+#define HAVE_YASM 1
+#define ENABLE_YASM 1
+
 #define HAVE_FAST_UNALIGNED 1
 #define ENABLE_FAST_UNALIGNED 1
 

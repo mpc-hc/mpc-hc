@@ -1,3 +1,9 @@
+ifeq ($(FFMPEG_PREFIX),)
+    YASM=yasm.exe
+else
+    YASM=yasm
+endif
+
 ifeq ($(64BIT),yes)
 FFMPEG_PREFIX=x86_64-pc-mingw32-
 endif
@@ -49,7 +55,7 @@ ifeq ($(UNICODE),yes)
 	CFLAGS+=-DUNICODE -D_UNICODE
 endif
 
-OBJS+=$(SRCS:.cpp=.o) $(SRCS_C:.c=.o) $(SRCS_NASM:.asm=.o) $(RESSRC:.rc=.res.o)
+OBJS+=$(SRCS:.cpp=.o) $(SRCS_C:.c=.o) $(SRCS_YASM:.asm=.o) $(RESSRC:.rc=.res.o)
 
 ifeq ($(FORCECPP),1)
 	CFLAGS+=-x c++
@@ -69,9 +75,9 @@ endif
 
 %.o: %.asm
 ifeq ($(64BIT),yes)
-	$(NASM) -f win64 -DWIN64 -DPREFIX $(NASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
 else
-	$(NASM) -f win32 -DWIN32 -DPREFIX $(NASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win32 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
 endif
 
 %.res.o: %.rc
