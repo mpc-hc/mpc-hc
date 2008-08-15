@@ -24,6 +24,10 @@
 #include "bitstream.h"
 #include "ra288.h"
 
+#ifndef __GNUC__
+#include <malloc.h>
+#endif
+
 typedef struct {
     float sp_lpc[36];      ///< LPC coefficients for speech data (spec: A)
     float gain_lpc[10];    ///< LPC coefficients for gain (spec: GB)
@@ -177,9 +181,15 @@ static void do_hybrid_window(int order, int n, int non_rec, const float *in,
                              const float *window)
 {
     int i;
+	#if __STDC_VERSION__ >= 199901L
     float buffer1[order + 1];
     float buffer2[order + 1];
     float work[order + n + non_rec];
+    #else
+    float *buffer1=(float *)alloca((order + 1)*sizeof(float));
+    float *buffer2=(float *)alloca((order + 1)*sizeof(float));
+    float *work=(float *)alloca((order + n + non_rec)*sizeof(float));
+    #endif
 
     /* update history */
     memmove(hist                  , hist + n, (order + non_rec)*sizeof(*hist));

@@ -32,6 +32,10 @@
 #include "rangecoder.h"
 #include "golomb.h"
 
+#ifndef __GNUC__
+#include <malloc.h>
+#endif
+
 #define MAX_PLANES 4
 #define CONTEXT_SIZE 32
 
@@ -463,11 +467,11 @@ static inline void decode_line(FFV1Context *s, int w, int_fast16_t *sample[2], i
 
 static void decode_plane(FFV1Context *s, uint8_t *src, int w, int h, int stride, int plane_index){
     int x, y;
-#if __STDC_VERSION__ >= 199901L
+    #if __STDC_VERSION__ >= 199901L
     int_fast16_t sample_buffer[2][w+6];
-#else
-    int_fast16_t *sample_buffer;
-#endif
+    #else
+    int_fast16_t *sample_buffer=alloca(2*(w+6)*sizeof(int_fast16_t));
+    #endif
     int_fast16_t *sample[2];
     sample[0]=sample_buffer[0]+3;
     sample[1]=sample_buffer[1]+3;

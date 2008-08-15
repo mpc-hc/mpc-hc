@@ -329,12 +329,13 @@ typedef struct DSPContext {
 #endif
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
 
-    void (*h264_v_loop_filter_luma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
-    void (*h264_h_loop_filter_luma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
-    void (*h264_v_loop_filter_chroma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
-    void (*h264_h_loop_filter_chroma)(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
-    void (*h264_v_loop_filter_chroma_intra)(uint8_t *pix, int stride, int alpha, int beta);
-    void (*h264_h_loop_filter_chroma_intra)(uint8_t *pix, int stride, int alpha, int beta);
+    void (*h264_v_loop_filter_luma)(uint8_t *pix/*align 16*/, int stride, int alpha, int beta, int8_t *tc0);
+    void (*h264_h_loop_filter_luma)(uint8_t *pix/*align 4 */, int stride, int alpha, int beta, int8_t *tc0);
+    /* v/h_loop_filter_luma_intra: align 16 */
+    void (*h264_v_loop_filter_chroma)(uint8_t *pix/*align 8*/, int stride, int alpha, int beta, int8_t *tc0);
+    void (*h264_h_loop_filter_chroma)(uint8_t *pix/*align 4*/, int stride, int alpha, int beta, int8_t *tc0);
+    void (*h264_v_loop_filter_chroma_intra)(uint8_t *pix/*align 8*/, int stride, int alpha, int beta);
+    void (*h264_h_loop_filter_chroma_intra)(uint8_t *pix/*align 8*/, int stride, int alpha, int beta);
     // h264_loop_filter_strength: simd only. the C version is inlined in h264.c
     void (*h264_loop_filter_strength)(int16_t bS[2][4][4], uint8_t nnz[40], int8_t ref[2][40], int16_t mv[2][40][2],
                                       int bidir, int edges, int step, int mask_mv0, int mask_mv1, int field);
@@ -612,6 +613,12 @@ static inline void ff_imdct_half(MDCTContext *s, FFTSample *output, const FFTSam
  * @param   n       size of half window
  */
 void ff_sine_window_init(float *window, int n);
+extern float ff_sine_128 [ 128];
+extern float ff_sine_256 [ 256];
+extern float ff_sine_512 [ 512];
+extern float ff_sine_1024[1024];
+extern float ff_sine_2048[2048];
+extern float *ff_sine_windows[5];
 
 int ff_mdct_init(MDCTContext *s, int nbits, int inverse);
 void ff_imdct_calc_c(MDCTContext *s, FFTSample *output, const FFTSample *input);

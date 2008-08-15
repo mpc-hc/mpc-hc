@@ -23,7 +23,9 @@
 #ifndef FFMPEG_ACELP_FILTERS_H
 #define FFMPEG_ACELP_FILTERS_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 
 /**
  * low-pass FIR (Finite Impulse Response) filter coefficients

@@ -21,8 +21,27 @@
 #ifndef FFMPEG_MATHEMATICS_H
 #define FFMPEG_MATHEMATICS_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
+#include <math.h>
 #include "rational.h"
+
+#ifndef M_E
+#define M_E            2.7182818284590452354   /* e */
+#endif
+#ifndef M_LN2
+#define M_LN2          0.69314718055994530942  /* log_e 2 */
+#endif
+#ifndef M_LN10
+#define M_LN10         2.30258509299404568402  /* log_e 10 */
+#endif
+#ifndef M_PI
+#define M_PI           3.14159265358979323846  /* pi */
+#endif
+#ifndef M_SQRT1_2
+#define M_SQRT1_2      0.70710678118654752440  /* 1/sqrt(2) */
+#endif
 
 enum AVRounding {
     AV_ROUND_ZERO     = 0, ///< round toward zero

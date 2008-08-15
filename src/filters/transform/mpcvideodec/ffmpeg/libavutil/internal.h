@@ -44,14 +44,6 @@
 #endif
 #endif
 
-#ifndef M_PI
-#define M_PI    3.14159265358979323846
-#endif
-
-#ifndef M_E
-#define M_E     2.7182818284590452354
-#endif
-
 #ifndef INT16_MIN
 #define INT16_MIN       (-0x7fff-1)
 #endif
@@ -106,11 +98,6 @@
 
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
-
-#ifdef CONFIG_FASTMEMCPY
-#    include "fastmemcpy.h"
-#    define memcpy(a,b,c) fast_memcpy(a,b,c)
-#endif
 
 #if defined(__MINGW32__) || defined(__CYGWIN__)
 #define EXTERN_PREFIX "_"
@@ -258,7 +245,45 @@ if((y)<(x)){\
 }
 
 #ifndef __GNUC__
-  #define lrintf(x) (int)(x)
+
+#ifndef rint
+#define rint(x) (int)(x+0.5)
 #endif
+
+#ifndef llrint
+static av_always_inline av_const long long llrint(double x)
+{
+    return rint(x);
+}
+#endif
+
+#ifndef lrint
+static av_always_inline av_const long int lrint(double x)
+{
+    return rint(x);
+}
+#endif
+
+#ifndef lrintf
+static av_always_inline av_const long int lrintf(float x)
+{
+    return (int)(rint(x));
+}
+#endif
+
+#ifndef round
+static av_always_inline av_const double round(double x)
+{
+    return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
+}
+#endif
+
+#ifndef roundf
+static av_always_inline av_const float roundf(float x)
+{
+    return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
+}
+#endif
+#endif /* __GNUC__ */
 
 #endif /* FFMPEG_INTERNAL_H */
