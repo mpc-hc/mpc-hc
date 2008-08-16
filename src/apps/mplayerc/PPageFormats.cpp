@@ -170,6 +170,19 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	CRegKey		key;
 	bool		bSetValue;
 
+	if(!fRegister)
+	{
+		// Empty "to playlist option"
+		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) return(false);
+		if(ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) return(false);
+
+		// Empty "Play option"
+		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))) return(false);
+		if(ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) return(false);
+		
+		return(true);
+	}
+	
 	bSetValue = fRegister || (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ));
 
 	// Create ProgID for this file type
@@ -192,6 +205,18 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 
 	if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey + _T("\\FileAssociations"))) return(false);
 	if(ERROR_SUCCESS != key.SetStringValue(ext, strProgID)) return(false);
+
+	CString AppIcon = _T("");
+	TCHAR buff[MAX_PATH];
+
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH))
+	{
+		AppIcon = buff;
+		AppIcon = "\""+AppIcon+"\"";
+		AppIcon += _T(",0");
+	}
+	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) return(false);
+	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, AppIcon))) return(false);
 
 	if(fRegister != IsRegistered(ext, strProgID))
 		SetFileAssociation (ext, strProgID, fRegister);
@@ -340,7 +365,8 @@ BOOL CPPageFormats::OnInitDialog()
 		CString label;
 		label.Format (_T("%s (%s)"), mf[i].GetLabel(), mf[i].GetExts());
 		// HACK: sorry, mpc is just not an image viewer :)
-		if(!label.CompareNoCase(_T("Image file"))) continue;
+		//if(!label.CompareNoCase(_T("Image file"))) continue;
+		if(!label.CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 		int iItem = m_list.InsertItem(i, label);
 		m_list.SetItemData(iItem, i);
 		engine_t e = mf[i].GetEngineType();
@@ -551,6 +577,16 @@ BOOL CPPageFormats::OnApply()
 
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
 
+	CString AppIcon = _T("");
+	TCHAR buff[MAX_PATH];
+
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH))
+	{
+		AppIcon = buff;
+		AppIcon = "\""+AppIcon+"\"";
+		AppIcon += _T(",0");
+	}
+
 	if (m_pAAR)
 	{
 		// Register MPC for the windows "Default application" manager
@@ -565,7 +601,7 @@ BOOL CPPageFormats::OnApply()
 
 			// ==>>  TODO icon !!!
 			key.SetStringValue(_T("ApplicationDescription"), ResStr(IDS_APP_DESCRIPTION), REG_EXPAND_SZ);
-			key.SetStringValue(_T("ApplicationIcon"), _T(""), REG_EXPAND_SZ);
+			key.SetStringValue(_T("ApplicationIcon"), AppIcon, REG_EXPAND_SZ);
 			key.SetStringValue(_T("ApplicationName"), ResStr(IDR_MAINFRAME), REG_EXPAND_SZ);
 		}
 	}
@@ -729,7 +765,8 @@ void CPPageFormats::OnBnClickedButton14()
 
 	for(int i = 0, j = m_list.GetItemCount(); i < j; i++)
 	{
-		if(!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("Image file"))) continue;
+		//if(!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("Image file"))) continue;
+		if(!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 		SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly()?0:1);
 	}
 

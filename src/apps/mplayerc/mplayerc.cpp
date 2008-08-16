@@ -833,7 +833,8 @@ BOOL CMPlayerCApp::InitInstance()
 		for(int i = 0; i < mf.GetCount(); i++)
 		{
 			// HACK
-			if(!mf[i].GetLabel().CompareNoCase(_T("Image file"))) continue;
+			//if(!mf[i].GetLabel().CompareNoCase(_T("Image file"))) continue;
+			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 
 			bool fAudioOnly = mf[i].IsAudioOnly();
 
