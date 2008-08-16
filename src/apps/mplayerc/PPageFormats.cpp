@@ -154,6 +154,7 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 		TCHAR		buff[MAX_PATH];
 		ULONG		len = sizeof(buff);
 
+		bIsDefault = FALSE;
 		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ))
 		{
 			CString		strCommand = GetOpenCommand();
@@ -172,14 +173,9 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 
 	if(!fRegister)
 	{
-		// Empty "to playlist option"
-		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) return(false);
-		if(ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) return(false);
-
-		// Empty "Play option"
-		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))) return(false);
-		if(ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) return(false);
 		
+		key.Attach(HKEY_CLASSES_ROOT);
+		key.RecurseDeleteKey(strProgID+_T("\\shell"));
 		return(true);
 	}
 	
