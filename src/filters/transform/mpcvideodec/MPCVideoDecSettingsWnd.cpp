@@ -133,6 +133,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_XVID));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));
 
+	nPosY += VERTICAL_SPACING;
+	m_cbARMode.Create (ResStr (IDS_VDF_AR_MODE), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 315, nPosY+15), this, IDC_PP_AR);
+	m_cbARMode.SetCheck(FALSE);
+
 	nPosY = 170;
 #endif
 
@@ -149,15 +153,22 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_edtVideoCardDescription.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 315, nPosY+20), this, 0);
 	m_edtVideoCardDescription.SetWindowText (m_pMDF->GetVideoCardDescription());
 	
+	
 	DxvaGui = m_pMDF->GetDXVADecoderGuid();
 	if (DxvaGui != NULL)
-		m_edtDXVAMode.SetWindowText (GetDXVAMode (DxvaGui));
+	{
+		CString DXVAMode = GetDXVAMode (DxvaGui);
+#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
+		if(!DXVAMode.CompareNoCase(_T("Not using DXVA"))){} 
+		else m_cbARMode.ShowWindow (SW_HIDE);
+#endif
+		m_edtDXVAMode.SetWindowText (/*GetDXVAMode (DxvaGui)*/DXVAMode);
+	}
 	else
 	{
 		m_txtDXVAMode.ShowWindow (SW_HIDE);
 		m_edtDXVAMode.ShowWindow (SW_HIDE);
 	}
-
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 		pWnd->SetFont(&m_font, FALSE);
@@ -171,6 +182,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		#endif
 		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
+
+		m_cbARMode.SetCheck(m_pMDF->GetARMode());
 	}
 	#endif
 
@@ -194,6 +207,8 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		#endif
 		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
+		
+		m_pMDF->SetARMode(m_cbARMode.GetCheck());
 
 		m_pMDF->Apply();
 	}

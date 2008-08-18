@@ -2983,6 +2983,7 @@ BEGIN
     IDS_VDF_ERR_VERYAGGRESSIVE  "Très aggréssive"
     IDS_VDF_IDCT_ALGO			"Algorithme IDCT"
     IDS_VDF_IDCT_AUTO           "Automatique"
+    IDS_VDF_AR_MODE				"Read AR from stream" //TODO
 END
 
 STRINGTABLE 

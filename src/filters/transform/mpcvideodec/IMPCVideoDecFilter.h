@@ -65,4 +65,7 @@ interface IMPCVideoDecFilter : public IUnknown
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs()) = 0;
 
 	STDMETHOD_(LPCTSTR, GetVideoCardDescription()) = 0;
+
+	STDMETHOD(SetARMode(int nValue)) = 0;
+	STDMETHOD_(int, GetARMode()) = 0;
 };

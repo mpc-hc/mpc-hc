@@ -25,6 +25,7 @@
 #define IDS_VDF_DXVA_SETTING			33187
 #define IDS_VDF_DXVA_MODE				33189
 #define IDS_VDF_VIDEOCARD				33194
+#define IDS_VDF_AR_MODE					33211
 
 
 // Next default values for new objects

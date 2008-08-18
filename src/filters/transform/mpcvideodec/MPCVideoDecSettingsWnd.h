@@ -47,12 +47,15 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CStatic		m_txtVideoCardDescription;
 	CEdit		m_edtVideoCardDescription;
 
+	CButton		m_cbARMode;
+
 	enum 
 	{
 		IDC_PP_THREAD_NUMBER = 10000,
 		IDC_PP_ENABLE_DEBLOCKING,
 		IDC_PP_DISCARD_MODE,
 		IDC_PP_ERROR_RESILIENCE,
+		IDC_PP_AR,
 	};
 
 public:

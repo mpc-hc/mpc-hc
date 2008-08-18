@@ -488,8 +488,9 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nVideoOutputCount		= 0;
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
-	m_sar						= 0;
-
+	m_nARMode				= 0;
+	m_sar					= 0;
+	
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
 	{
@@ -500,6 +501,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ARMode"), dw)) m_nARMode = dw;
 	}
 
 	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
@@ -1246,7 +1248,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
 
-	if(m_pAVCtx)
+	if((m_nARMode) && (m_pAVCtx))
 	{
 		if((m_pAVCtx->sample_aspect_ratio.num>1) && (m_pAVCtx->sample_aspect_ratio.num>1))
 		{
@@ -1690,6 +1692,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
 		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
 		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
+		key.SetDWORDValue(_T("ARMode"), m_nARMode);
 	}
 	return S_OK;
 }
@@ -1760,4 +1763,15 @@ STDMETHODIMP_(LPCTSTR) CMPCVideoDecFilter::GetVideoCardDescription()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_strDeviceDescription;
+}
+STDMETHODIMP CMPCVideoDecFilter::SetARMode(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nARMode = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetARMode()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nARMode;
 }

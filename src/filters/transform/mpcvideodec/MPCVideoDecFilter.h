@@ -83,6 +83,7 @@ protected:
 	bool									m_bDXVACompatible;
 	int										m_nCompatibilityMode;
 	int										m_nActiveCodecs;
+	int										m_nARMode;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -186,6 +187,10 @@ public:
 	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
 	STDMETHODIMP_(LPCTSTR) GetVideoCardDescription();
+	
+	STDMETHOD(SetARMode(int nValue));
+	STDMETHOD_(int, GetARMode());
+
 
 
 	// === DXVA common functions
