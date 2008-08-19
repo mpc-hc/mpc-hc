@@ -617,7 +617,6 @@ public:
 		int				nCurrentFilePosition;
 
 		void			CreateCommands();
-
 	public:
 		Settings();
 		virtual ~Settings();
@@ -628,6 +627,11 @@ public:
 		void AddFav(favtype ft, CString s);
 
 		bool m_fPreventMinimize;
+
+		CStringArray	cmd_name;
+		void			CreateCmdName();
+		CString			GetCmdName(int i);
+		
 	} m_s;
 
 public:

@@ -2428,7 +2428,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 	static CAtlStringMap<UINT> transl;
 
-	if(transl.IsEmpty())
+	//if(transl.IsEmpty())
 	{
 		transl[ResStr(IDS_AG_NAVIGATE)] = IDS_NAVIGATE_POPUP;
 		transl[ResStr(IDS_AG_OPEN_DISC)] = IDS_OPENCDROM_POPUP;
@@ -10801,8 +10801,12 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	CMenu*	OldMenu;
 
 	AfxGetMyApp()->SetLanguage (nID - ID_LANGUAGE_ENGLISH);
+	
+	m_popup.LoadMenu(IDR_POPUP);
+	m_popupmain.LoadMenu(IDR_POPUPMAIN);
+
 	OldMenu = GetMenu();
-    DefaultMenu.LoadMenu(IDR_MAINFRAME);
+	DefaultMenu.LoadMenu(IDR_MAINFRAME);
 
 	SetMenu(&DefaultMenu);
 	DefaultMenu.Detach();

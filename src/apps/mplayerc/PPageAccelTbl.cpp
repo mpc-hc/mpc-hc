@@ -636,10 +636,12 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_list.InsertColumn(COL_RMCMD, _T("RemoteCmd"), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_RMREPCNT, _T("RepCnt"), LVCFMT_CENTER, 60);
 
+
+	s.CreateCmdName();
 	POSITION pos = m_wmcmds.GetHeadPosition();
     for(int i = 0; pos; i++)
 	{
-		int row = m_list.InsertItem(m_list.GetItemCount(), m_wmcmds.GetAt(pos).name, COL_CMD);
+		int row = m_list.InsertItem(m_list.GetItemCount(), /*m_wmcmds.GetAt(pos).name*/s.GetCmdName(i), COL_CMD);
 		m_list.SetItemData(row, (DWORD_PTR)pos);
 		m_wmcmds.GetNext(pos);
 	}
