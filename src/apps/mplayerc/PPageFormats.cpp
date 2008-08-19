@@ -603,11 +603,13 @@ BOOL CPPageFormats::OnApply()
 		}
 	}
 
-
+	
+	int cntChecked = 0;
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
 		int iChecked = GetChecked(i);
 		if(iChecked == 2) continue;
+		cntChecked += iChecked;
 
 		CAtlList<CString> exts;
 		Explode(mf[(int)m_list.GetItemData(i)].GetExtsWithPeriod(), exts, ' ');
@@ -615,6 +617,32 @@ BOOL CPPageFormats::OnApply()
 		POSITION pos = exts.GetHeadPosition();
 		while(pos)
 			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
+	}
+	
+	CRegKey	key;
+	if(cntChecked)
+	{
+		if(ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.enqueue"))){
+			key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
+		}
+
+		if(ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.enqueue\\command"))){
+			key.SetStringValue(NULL, GetEnqueueCommand());
+		}
+
+		if(ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play"))){
+			key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC));
+		}
+
+		if(ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play\\command"))){
+			key.SetStringValue(NULL, GetOpenCommand());
+		}
+	}
+	else
+	{
+		key.Attach(HKEY_CLASSES_ROOT);
+		key.RecurseDeleteKey(_T("Directory\\shell\\mplayerc.enqueue"));
+		key.RecurseDeleteKey(_T("Directory\\shell\\mplayerc.play"));
 	}
 
 	{
