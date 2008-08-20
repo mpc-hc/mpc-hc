@@ -100,7 +100,11 @@
 #define vsnprintf _vsnprintf
 
 #if defined(__MINGW32__) || defined(__CYGWIN__)
-#define EXTERN_PREFIX "_"
+#if defined(ARCH_X86_64)
+#    define EXTERN_PREFIX ""
+#else
+#    define EXTERN_PREFIX "_"
+#endif
 #endif
 
 // Use rip-relative addressing if compiling PIC code on x86-64.
