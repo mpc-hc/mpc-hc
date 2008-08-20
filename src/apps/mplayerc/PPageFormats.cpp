@@ -174,11 +174,13 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	if(!fRegister)
 	{
 		
+		SetFileAssociation (ext, strProgID, fRegister);
 		key.Attach(HKEY_CLASSES_ROOT);
-		key.RecurseDeleteKey(strProgID+_T("\\shell"));
+		//key.RecurseDeleteKey(strProgID+_T("\\shell"));
+		key.RecurseDeleteKey(strProgID);
 		return(true);
 	}
-	
+
 	bSetValue = fRegister || (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ));
 
 	// Create ProgID for this file type
@@ -450,7 +452,6 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	ULONG		len = sizeof(buff);
 	memset(buff, 0, len);
 
-
 	if (m_pAAR)
 	{
 		// The Vista way
@@ -470,6 +471,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 				key.SetStringValue(g_strOldAssoc, pszCurrentAssociation);
 
 				// Get current icon for file type
+				/*
 				if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, CString(pszCurrentAssociation) + _T("\\DefaultIcon")))
 				{
 					len = sizeof(buff);
@@ -480,7 +482,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 							key.SetStringValue (NULL, buff);
 					}
 				}
-
+				*/
 				CoTaskMemFree (pszCurrentAssociation);
 			}
 			strNewApp = g_strRegisteredAppName;
@@ -514,6 +516,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			if(ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) return(false);
 
 			// Get current icon for file type
+			/*
 			if (!extoldreg.IsEmpty())
 			{
 				if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, extoldreg + _T("\\DefaultIcon")))
@@ -524,15 +527,17 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 						extOldIcon = buff;
 				}
 			}
-
-
+			*/
+			
 			// Save old association
 			if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID))
 				return(false);
 			key.SetStringValue(g_strOldAssoc, extoldreg);
 
+			/*
 			if (!extOldIcon.IsEmpty() && (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))))
 				key.SetStringValue (NULL, extOldIcon);
+			*/
 		}
 		else
 		{
