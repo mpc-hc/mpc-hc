@@ -192,7 +192,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),		_T("wma"),	_T("wma"), true));
 		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),		_T("avi"),	_T("avi")));
 		ADDFMT((ResStr(IDS_AG_AUDIO_FILE),		_T("wav"),	_T("wav"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v dat ts tp tpr pva pss evo m2ts")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),		_T("mpg"),	_T("mpg mpeg mpe m1v m2v mpv2 mp2v ts tp tpr pva pss m2ts m2t mts evo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_5),		_T("mpa"),	_T("mpa mp2 m1a m2a"), true));
 		ADDFMT((ResStr(IDS_AG_DVD_FILE),		_T("dvdf"),	_T("vob ifo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_7),		_T("dvda"),	_T("ac3 dts"), true));
@@ -213,12 +213,14 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),	_T("bik"),	_T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
 		ADDFMT((ResStr(IDS_AG_RATDVD_FILE),		_T("ratdvd"),_T("ratdvd"), false, _T("ratdvd media file")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_21),	_T("roq"),	_T("roq"), false));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rpm rmm rnx"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),	_T("rm"),	_T("rm ram rpm rmm"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),	_T("ra"),	_T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),	_T("rt"),	_T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
-//		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),	_T("drc"),	_T("drc"), false));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_26),	_T("dsm"),	_T("dsm dsv dsa dss")));
-//		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE),	_T("mpc"),	_T("mpc"), true));
+		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE),	_T("mpc"),	_T("mpc"), true));
+		ADDFMT((_T("FLAC Audio file"),        _T("flac"),	_T("flac"), true));
+		ADDFMT((_T("ALAC Audio file"),        _T("alac"),	_T("alac"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),	_T("flv"),	_T("flv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),	_T("swf"),	_T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),	_T("mov"),	_T("mov qt amr 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));

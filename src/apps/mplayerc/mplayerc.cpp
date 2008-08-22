@@ -315,32 +315,6 @@ void CMPlayerCApp::ShowCmdlnSwitches()
 	}
 
 	s += ResStr (IDS_USAGE);
-	/*
-		_T("Usage: mplayerc.exe \"pathname\" [switches]\n\n")
-		_T("\"pathname\"\tThe main file or directory to be loaded. (wildcards allowed)\n")
-		_T("/dub \"dubname\"\tLoad an additional audio file.\n")
-		_T("/d3dfs start rendering in D3D fullscreen mode.\n")
-		_T("/sub \"subname\"\tLoad an additional subtitle file.\n")
-		_T("/filter \"filtername\"\tLoad DirectShow filters from a dynamic link library. (wildcards allowed)\n")
-		_T("/dvd\t\tRun in dvd mode, \"pathname\" means the dvd folder (optional).\n")
-		_T("/cd\t\tLoad all the tracks of an audio cd or (s)vcd, \"pathname\" means the drive path (optional).\n")
-		_T("/open\t\tOpen the file, don't automatically start playing.\n")
-		_T("/play\t\tStart playing the file as soon the player is launched.\n")
-		_T("/close\t\tClose the player after playback (only works when used with /play).\n")
-		_T("/shutdown\tShutdown the operating system after playback\n")
-		_T("/fullscreen\tStart in full-screen mode.\n")
-		_T("/minimized\tStart in minimized mode.\n")
-		_T("/new\t\tUse a new instance of the player.\n")
-		_T("/add\t\tAdd \"pathname\" to playlist, can be combined with /open and /play.\n")
-		_T("/regvid\t\tRegister video formats\n")
-		_T("/regaud\t\tRegister audio formats\n")
-		_T("/unregvid\t\tUnregister video formats\n")
-		_T("/unregaud\tUnregister audio formats\n")
-		_T("/start ms\t\tStart playing at \"ms\" (= milliseconds)\n")
-		_T("/fixedsize w,h\tSet fixed window size.\n")
-		_T("/monitor N\tStart on monitor N, where N starts from 1.\n")
-		_T("/help /h /?\tShow help about command line switches. (this message box)\n");
-		*/
 
 	AfxMessageBox(s);
 }
