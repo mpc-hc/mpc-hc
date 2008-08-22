@@ -234,7 +234,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 					for(int i = 0; i < mf.GetCount(); i++)
 					{
 						CMediaFormatCategory& mfc = mf.GetAt(i);
-						if(CPPageFormats::IsRegistered(ext, mfc.GetProgId()))
+						if((mfc.FindExt(ext)) && (CPPageFormats::IsRegistered(ext, mfc.GetProgId())))
 						{
 							sl.AddTail(path);
 							break;
