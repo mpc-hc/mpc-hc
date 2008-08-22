@@ -260,7 +260,7 @@ void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 
 		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, 
 			CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) return;
-		key.SetStringValue(NULL, exe + handlers[i].cmd);
+		key.SetStringValue(NULL, _T("\"") + exe + _T("\"") + handlers[i].cmd);
 		key.Close();
 
 		if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
@@ -313,7 +313,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	len = countof(buff);
 	if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len))
 		return(false);
-	if(_tcsnicmp(exe, buff, exe.GetLength()))
+	if(_tcsnicmp(_T("\"") + exe, buff, exe.GetLength() + 1))
 		return(false);
 	key.Close();
 
