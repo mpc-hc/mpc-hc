@@ -284,6 +284,8 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
     }
     s->internal_buffer_count++;
 
+    pic->reordered_opaque= s->reordered_opaque;
+
     if(s->debug&FF_DEBUG_BUFFERS)
         av_log(s, AV_LOG_DEBUG, "default_get_buffer called on pic %p, %d buffers used\n", pic, s->internal_buffer_count);
 
@@ -380,9 +382,9 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     memset(s, 0, sizeof(AVCodecContext));
 
     s->av_class= &av_codec_context_class;
-    
+
     s->time_base.num=0; s->time_base.den=1;
-    
+
     s->get_buffer= avcodec_default_get_buffer;
     s->release_buffer= avcodec_default_release_buffer;
     s->get_format= avcodec_default_get_format;
@@ -709,6 +711,8 @@ int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
     case SAMPLE_FMT_S32:
     case SAMPLE_FMT_FLT:
         return 32;
+    case SAMPLE_FMT_DBL:
+        return 64;
     default:
         return 0;
     }

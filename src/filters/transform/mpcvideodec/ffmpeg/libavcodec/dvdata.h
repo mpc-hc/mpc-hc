@@ -49,7 +49,8 @@ typedef struct DVprofile {
     AVRational       sar[2];              /* sample aspect ratios for 4:3 and 16:9 */
     const uint16_t  *video_place;         /* positions of all DV macro blocks */
     enum PixelFormat pix_fmt;             /* picture pixel format */
-
+    int              bpm;                 /* blocks per macroblock */
+    const uint8_t   *block_sizes;         /* AC block sizes, in bits */
     int              audio_stride;        /* size of audio_shuffle table */
     int              audio_min_samples[3];/* min ammount of audio samples */
                                           /* for 48Khz, 44.1Khz and 32Khz */
@@ -2522,6 +2523,15 @@ static const av_unused int dv_audio_frequency[3] = {
     48000, 44100, 32000,
 };
 
+/* macroblock bit budgets */
+static const uint8_t block_sizes_dv2550[8] = {
+    112, 112, 112, 112, 80, 80, 0, 0,
+};
+
+static const uint8_t block_sizes_dv100[8] = {
+    80, 80, 80, 80, 80, 80, 64, 64,
+};
+
 enum  {
   DV_PROFILE_AUTO=-1
 };
@@ -2539,9 +2549,11 @@ static const DVprofile dv_profiles[] = {
       /* .sar = */ {{10, 11}, {40, 33}},
       /* .video_place = */ dv_place_411,
       /* .pix_fmt = */ PIX_FMT_YUV411P,
+      /* .bpm = */ 6,
+      /* .block_sizes = */ block_sizes_dv2550,
       /* .audio_stride = */ 90,
       /* .audio_min_samples = */ { 1580, 1452, 1053 }, /* for 48, 44.1 and 32Khz */
-      /* .audio_samples_dist = */ { 1602, 1601, 1602, 1601, 1602 },
+      /* .audio_samples_dist = */ { 1600, 1602, 1602, 1602, 1602 }, /* per SMPTE-314M */
       /* .audio_shuffle = */ dv_audio_shuffle525,
       "IEC 61834, SMPTE-314M - 525/60 (NTSC)",
     },
@@ -2557,6 +2569,8 @@ static const DVprofile dv_profiles[] = {
       /* .sar = */ {{59, 54}, {118, 81}},
       /* .video_place = */ dv_place_420,
       /* .pix_fmt = */ PIX_FMT_YUV420P,
+      /* .bpm = */ 6,
+      /* .block_sizes = */ block_sizes_dv2550,
       /* .audio_stride = */ 108,
       /* .audio_min_samples = */ { 1896, 1742, 1264 }, /* for 48, 44.1 and 32Khz */
       /* .audio_samples_dist = */ { 1920, 1920, 1920, 1920, 1920 },
@@ -2575,6 +2589,8 @@ static const DVprofile dv_profiles[] = {
       /* .sar = */ {{59, 54}, {118, 81}},
       /* .video_place = */ dv_place_411P,
       /* .pix_fmt = */ PIX_FMT_YUV411P,
+      /* .bpm = */ 6,
+      /* .block_sizes = */ block_sizes_dv2550,
       /* .audio_stride = */ 108,
       /* .audio_min_samples = */ { 1896, 1742, 1264 }, /* for 48, 44.1 and 32Khz */
       /* .audio_samples_dist = */ { 1920, 1920, 1920, 1920, 1920 },
@@ -2593,6 +2609,8 @@ static const DVprofile dv_profiles[] = {
       /* .sar = */ {{10, 11}, {40, 33}},
       /* .video_place = */ dv_place_422_525,
       /* .pix_fmt = */ PIX_FMT_YUV422P,
+      /* .bpm = */ 6,
+      /* .block_sizes = */ block_sizes_dv2550,
       /* .audio_stride = */ 90,
       /* .audio_min_samples = */ { 1580, 1452, 1053 }, /* for 48, 44.1 and 32Khz */
       /* .audio_samples_dist = */ { 1600, 1602, 1602, 1602, 1602 }, /* per SMPTE-314M */
@@ -2611,6 +2629,8 @@ static const DVprofile dv_profiles[] = {
       /* .sar = */ {{59, 54}, {118, 81}},
       /* .video_place =*/  dv_place_422_625,
       /* .pix_fmt =*/  PIX_FMT_YUV422P,
+      /* .bpm = */ 6,
+      /* .block_sizes = */ block_sizes_dv2550,
       /* .audio_stride = */ 108,
       /* .audio_min_samples = */ { 1896, 1742, 1264 }, /* for 48, 44.1 and 32Khz */
       /* .audio_samples_dist = */ { 1920, 1920, 1920, 1920, 1920 },
@@ -2647,6 +2667,9 @@ enum dv_pack_type {
 
 /* largest possible DV frame, in bytes (PAL 50Mbps) */
 #define DV_MAX_FRAME_SIZE 288000
+
+/* maximum number of blocks per macroblock in any DV format */
+#define DV_MAX_BPM 8
 
 static inline const DVprofile* dv_frame_profile(const uint8_t* frame)
 {

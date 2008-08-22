@@ -253,10 +253,6 @@ typedef struct BlockInfo {
     int shift_offset;
 } BlockInfo;
 
-/* block size in bits */
-static const uint16_t block_sizes[6] = {
-    112, 112, 112, 112, 80, 80
-};
 /* bit budget for AC only in 5 MBs */
 static const int vs_total_ac_bits = (100 * 4 + 68*2) * 5;
 /* see dv_88_areas and dv_248_areas for details */
@@ -360,8 +356,8 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
     const uint8_t *buf_ptr;
     PutBitContext pb, vs_pb;
     GetBitContext gb;
-    BlockInfo mb_data[5 * 6], *mb, *mb1;
-    DECLARE_ALIGNED_16(DCTELEM, sblock[5*6][64]);
+    BlockInfo mb_data[5 * DV_MAX_BPM], *mb, *mb1;
+    DECLARE_ALIGNED_16(DCTELEM, sblock[5*DV_MAX_BPM][64]);
     DECLARE_ALIGNED_8(uint8_t, mb_bit_buffer[80 + 4]); /* allow some slack */
     DECLARE_ALIGNED_8(uint8_t, vs_bit_buffer[5 * 80 + 4]); /* allow some slack */
     const int log2_blocksize= 3-s->avctx->lowres;
@@ -376,15 +372,15 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
     block1 = &sblock[0][0];
     mb1 = mb_data;
     init_put_bits(&vs_pb, vs_bit_buffer, 5 * 80);
-    for(mb_index = 0; mb_index < 5; mb_index++, mb1 += 6, block1 += 6 * 64) {
+    for(mb_index = 0; mb_index < 5; mb_index++, mb1 += s->sys->bpm, block1 += s->sys->bpm * 64) {
         /* skip header */
         quant = buf_ptr[3] & 0x0f;
         buf_ptr += 4;
         init_put_bits(&pb, mb_bit_buffer, 80);
         mb = mb1;
         block = block1;
-        for(j = 0;j < 6; j++) {
-            last_index = block_sizes[j];
+        for(j = 0;j < s->sys->bpm; j++) {
+            last_index = s->sys->block_sizes[j];
             init_get_bits(&gb, buf_ptr, last_index);
 
             /* get the dc */
@@ -426,7 +422,7 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
         mb = mb1;
         init_get_bits(&gb, mb_bit_buffer, put_bits_count(&pb));
         flush_put_bits(&pb);
-        for(j = 0;j < 6; j++, block += 64, mb++) {
+        for(j = 0;j < s->sys->bpm; j++, block += 64, mb++) {
             if (mb->pos < 64 && get_bits_left(&gb) > 0) {
                 dv_decode_ac(&gb, mb, block);
                 /* if still not finished, no need to parse other blocks */
@@ -436,7 +432,7 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
         }
         /* all blocks are finished, so the extra bytes can be used at
            the video segment level */
-        if (j >= 6)
+        if (j >= s->sys->bpm)
             bit_copy(&vs_pb, &gb);
     }
 
@@ -449,7 +445,7 @@ static inline void dv_decode_video_segment(DVVideoContext *s,
     init_get_bits(&gb, vs_bit_buffer, put_bits_count(&vs_pb));
     flush_put_bits(&vs_pb);
     for(mb_index = 0; mb_index < 5; mb_index++) {
-        for(j = 0;j < 6; j++) {
+        for(j = 0;j < s->sys->bpm; j++) {
             if (mb->pos < 64) {
 #ifdef VLC_DEBUG
                 printf("start %d:%d\n", mb_index, j);
@@ -911,7 +907,7 @@ static inline void dv_encode_video_segment(DVVideoContext *s,
                                 enc_blk->dct_mode ? dv_weight_248 : dv_weight_88,
                                 j/4);
 
-            init_put_bits(pb, ptr, block_sizes[j]/8);
+            init_put_bits(pb, ptr, s->sys->block_sizes[j]/8);
             put_bits(pb, 9, (uint16_t)(((enc_blk->mb[0] >> 3) - 1024 + 2) >> 2));
             put_bits(pb, 1, enc_blk->dct_mode);
             put_bits(pb, 2, enc_blk->cno);
@@ -920,7 +916,7 @@ static inline void dv_encode_video_segment(DVVideoContext *s,
                            enc_blk->bit_size[2] + enc_blk->bit_size[3];
             ++enc_blk;
             ++pb;
-            ptr += block_sizes[j]/8;
+            ptr += s->sys->block_sizes[j]/8;
         }
     }
 

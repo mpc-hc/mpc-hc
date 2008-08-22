@@ -899,7 +899,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			//m_pAVCtx->debug					= FF_DEBUG_PICT_INFO | FF_DEBUG_STARTCODE | FF_DEBUG_PTS;
 	#endif
 			
-			m_pAVCtx->self					= this;
+			m_pAVCtx->opaque					= this;
 			m_pAVCtx->get_buffer			= get_buffer;
 
 			AllocExtradata (m_pAVCtx, pmt);
