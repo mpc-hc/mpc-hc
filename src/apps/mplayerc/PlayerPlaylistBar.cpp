@@ -225,11 +225,23 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 				if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
 
 				CString fn = fd.cFileName;
-				CString ext = fn.Mid(fn.ReverseFind('.')+1).MakeLower();
+				//CString ext = fn.Mid(fn.ReverseFind('.')+1).MakeLower();
+				CString ext = fn.Mid(fn.ReverseFind('.')).MakeLower();
 				CString path = dir + fd.cFileName;
 
 				if(!fFilterKnownExts || mf.FindExt(ext))
-					sl.AddTail(path);
+				{
+					for(int i = 0; i < mf.GetCount(); i++)
+					{
+						CMediaFormatCategory& mfc = mf.GetAt(i);
+						if(CPPageFormats::IsRegistered(ext, mfc.GetProgId()))
+						{
+							sl.AddTail(path);
+							break;
+						}
+					}
+				}
+
 			}
 			while(FindNextFile(h, &fd));
 			

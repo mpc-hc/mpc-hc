@@ -124,6 +124,16 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 {
 	BOOL	bIsDefault = FALSE;
 
+	if (m_pAAR == NULL)
+	{
+		// Default manager (requiered at least Vista)
+		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
+									NULL,
+									CLSCTX_INPROC,
+									__uuidof(IApplicationAssociationRegistration),
+									(void**)&m_pAAR);
+	}
+
 	if (m_pAAR)
 	{
 		// The Vista way
@@ -161,6 +171,7 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len))
 				bIsDefault = (strCommand.CompareNoCase(CString(buff)) == 0);
 		}
+
 	}
 
 	return !!bIsDefault;
@@ -173,10 +184,9 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 
 	if(!fRegister)
 	{
-		
-		SetFileAssociation (ext, strProgID, fRegister);
+		if(fRegister != IsRegistered(ext, strProgID))
+			SetFileAssociation (ext, strProgID, fRegister);
 		key.Attach(HKEY_CLASSES_ROOT);
-		//key.RecurseDeleteKey(strProgID+_T("\\shell"));
 		key.RecurseDeleteKey(strProgID);
 		return(true);
 	}
@@ -451,6 +461,16 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	TCHAR		buff[256];
 	ULONG		len = sizeof(buff);
 	memset(buff, 0, len);
+
+	if (m_pAAR == NULL)
+	{
+		// Default manager (requiered at least Vista)
+		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
+									NULL,
+									CLSCTX_INPROC,
+									__uuidof(IApplicationAssociationRegistration),
+									(void**)&m_pAAR);
+	}
 
 	if (m_pAAR)
 	{
