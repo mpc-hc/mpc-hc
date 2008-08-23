@@ -66,6 +66,15 @@ public:
 		BYTE		bReserved : 8;
 	};
 
+	struct HDMV_PALETTE
+	{
+		BYTE		entry_id;
+		BYTE		Y;
+		BYTE		Cr;
+		BYTE		Cb;
+		BYTE		T;
+	};
+
 	class CompositionObject : Rasterizer
 	{
 	public :
@@ -97,8 +106,7 @@ public:
 		bool				IsRLEUncomplete() { return m_nRLEPos != 0; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
-		void				SetColors (int nColorNumber, long* pColors);
-		long				GetColor(int nIndex);
+		void				SetPalette (int nNbEntry, HDMV_PALETTE* pPalette);
 
 	private :
 		CHdmvSub*	m_pSub;
@@ -106,16 +114,7 @@ public:
 		int			m_nRLEDataSize;
 		int			m_nRLEPos;
 		int			m_nColorNumber;
-		long*		m_pColors;
-	};
-
-	struct HDMV_PALETTE
-	{
-		BYTE		entry_id;
-		BYTE		Y;
-		BYTE		Cr;
-		BYTE		Cb;
-		BYTE		T;
+		long		m_Colors[256];
 	};
 
 	CHdmvSub();
@@ -158,7 +157,6 @@ private :
 	CAtlList<CompositionObject*>	m_pObjects;
 
 	int								m_nColorNumber;
-	long*							m_pColors;
 
 
 	int					ParsePresentationSegment(CGolombBuffer* pGBuffer);
@@ -170,7 +168,6 @@ private :
 	void				ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
 	void				AllocSegment(int nSize);
-	void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 
 	CompositionObject*	FindObject(REFERENCE_TIME rt);
 };

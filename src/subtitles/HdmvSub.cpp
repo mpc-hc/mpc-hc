@@ -35,7 +35,6 @@
 
 CHdmvSub::CHdmvSub(void)
 {
-	m_pColors			= NULL;
 	m_nColorNumber		= 0;
 
 	m_nCurSegment		= NO_SEGMENT;
@@ -51,7 +50,6 @@ CHdmvSub::CHdmvSub(void)
 CHdmvSub::~CHdmvSub()
 {
 	m_pObjects.RemoveAll();
-	delete[] m_pColors;
 	delete[] m_pSegBuffer;
 }
 
@@ -142,7 +140,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 				switch (m_nCurSegment)
 				{
 				case PALETTE :
-					// TRACE_HDMVSUB ("CHdmvSub:PALETTE            rtStart=%10I64d\n", rtStart);
+					TRACE_HDMVSUB ("CHdmvSub:PALETTE            rtStart=%10I64d\n", rtStart);
 					ParsePalette(&SegmentBuffer, m_nSegSize);
 					break;
 				case OBJECT :
@@ -161,10 +159,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 					{
 						if (m_pCurrentObject)
 						{
-//							CompositionObject*	pObject = m_pObjects.GetHead();
 							m_pCurrentObject->m_rtStop = rtStart;
-//if (rtStart < m_pCurrentObject->m_rtStart)
-//	m_pCurrentObject->m_rtStop = m_pCurrentObject->m_rtStart+400000*50;
 							m_pObjects.AddTail (m_pCurrentObject);
 							TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
 							m_pCurrentObject = NULL;
@@ -172,17 +167,10 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 					}
 					break;
 				case WINDOW_DEF :
-					TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
+					// TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
 					break;
 				case END_OF_DISPLAY :
-					TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
-					if (m_pCurrentObject)
-						m_pCurrentObject->SetColors (m_nColorNumber, m_pColors);
-					//{
-					//	m_pObjects.AddTail (m_pCurrentObject);
-					//	m_pCurrentObject = NULL;
-					//}
-//					hr = m_nActiveObjects>0 ? S_OK : VFW_S_NO_MORE_ITEMS;
+					// TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
 					break;
 				default :
 					TRACE_HDMVSUB ("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
@@ -228,22 +216,10 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 
 	ASSERT ((nSize-2) % sizeof(HDMV_PALETTE) == 0);
 	nNbEntry = (nSize-2) / sizeof(HDMV_PALETTE);
-	if (nNbEntry>0 && nNbEntry!=m_nColorNumber)
-	{
-		delete[] m_pColors;
-		m_nColorNumber	= nNbEntry;
-		m_pColors		= new long [m_nColorNumber];
-	}
-
 	HDMV_PALETTE*	pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
-	for (int i=0; i<m_nColorNumber; i++)
-	{
-		BYTE	R = pPalette[i].Y + 1.402*(pPalette[i].Cr-128);
-		BYTE	G = pPalette[i].Y - 0.34414*(pPalette[i].Cb-128) - 0.71414*(pPalette[i].Cr-128);
-		BYTE	B = pPalette[i].Y + 1.772*(pPalette[i].Cb-128);
 
-		m_pColors[i] = pPalette[i].T<<24|R<<16|G<<8|B;
-	}
+	if (m_pCurrentObject)
+		m_pCurrentObject->SetPalette (nNbEntry, pPalette);
 }
 
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
@@ -387,31 +363,30 @@ CHdmvSub::CompositionObject::CompositionObject()
 	m_pRLEData		= NULL;
 	m_nRLEDataSize	= 0;
 	m_nRLEPos		= 0;
-	m_pColors		= NULL;
 	m_nColorNumber	= 0;
+	memset (m_Colors, 0, sizeof(m_Colors));
 }
 
 CHdmvSub::CompositionObject::~CompositionObject()
 {
 	delete[] m_pRLEData;
-	delete[] m_pColors;
 }
 
-void CHdmvSub::CompositionObject::SetColors (int nColorNumber, long* pColors)
+void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette)
 {
-	ASSERT (m_pColors == NULL);		// Memory leak if not null...
-	m_nColorNumber	= nColorNumber;
-	m_pColors		= new long[nColorNumber];
-	memcpy (m_pColors, pColors, nColorNumber*sizeof(long));
+	m_nColorNumber	= nNbEntry;
+
+	for (int i=0; i<m_nColorNumber; i++)
+	{
+		BYTE	R = (BYTE)(pPalette[i].Y + 1.402*(pPalette[i].Cr-128));
+		BYTE	G = (BYTE)(pPalette[i].Y - 0.34414*(pPalette[i].Cb-128) - 0.71414*(pPalette[i].Cr-128));
+		BYTE	B = (BYTE)(pPalette[i].Y + 1.772*(pPalette[i].Cb-128));
+
+		m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24|R<<16|G<<8|B;
+		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
+	}
 }
 
-long CHdmvSub::CompositionObject::GetColor(int nIndex)
-{
-	if ((nIndex != INDEX_TRANSPARENT) && (nIndex>0) && (nIndex < m_nColorNumber-1))
-		return m_pColors[nIndex];
-	else
-		return 0x00000000;	// Transparent!
-}
 
 void CHdmvSub::CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
 {
@@ -431,12 +406,6 @@ void CHdmvSub::CompositionObject::AppendRLEData(BYTE* pBuffer, int nSize)
 		memcpy (m_pRLEData+m_nRLEPos, pBuffer, nSize);
 		m_nRLEPos += nSize;
 	}
-}
-
-void CHdmvSub::CompositionObject::WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex)
-{
-	long nColor = GetColor (nPaletteIndex);
-	FillSolidRect (spd, nX, nY, nCount, 1, nColor, 0xFFFFFFFF);
 }
 
 void CHdmvSub::CompositionObject::Render(SubPicDesc& spd)
@@ -495,7 +464,7 @@ void CHdmvSub::CompositionObject::Render(SubPicDesc& spd)
 
 			if (nCount>0)
 			{
-				WriteSeg (spd, nX, nY, nCount, nPaletteIndex);
+				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex], 0xFFFFFFFF);
 				nX += nCount;
 			}
 			else
