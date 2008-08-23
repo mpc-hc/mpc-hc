@@ -74,7 +74,6 @@ public:
 		bool				m_object_cropped_flag;
 		bool				m_forced_on_flag;
 		BYTE				m_version_number;
-		BYTE				m_sequence_desc;
 
 		SHORT				m_horizontal_position;
 		SHORT				m_vertical_position;
@@ -92,8 +91,10 @@ public:
 		CompositionObject();
 		~CompositionObject();
 
-		void				SetRLEData(BYTE* pBuffer, int nSize);
-		int					GetRLEDataSize() { return m_nRLEDataSize; };
+		void				SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize);
+		void				AppendRLEData(BYTE* pBuffer, int nSize);
+		int					GetRLEDataSize()  { return m_nRLEDataSize; };
+		bool				IsRLEUncomplete() { return m_nRLEPos != 0; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 		void				SetColors (int nColorNumber, long* pColors);
@@ -103,6 +104,7 @@ public:
 		CHdmvSub*	m_pSub;
 		BYTE*		m_pRLEData;
 		int			m_nRLEDataSize;
+		int			m_nRLEPos;
 		int			m_nColorNumber;
 		long*		m_pColors;
 	};
