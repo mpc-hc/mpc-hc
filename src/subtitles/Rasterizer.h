@@ -87,5 +87,6 @@ public:
 	void DeleteOutlines();
 	bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
 	CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const long* switchpts, bool fBody, bool fBorder);
+	void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, long lColor, long lAlpha);
 };
 

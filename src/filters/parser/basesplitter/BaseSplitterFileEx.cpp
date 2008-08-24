@@ -782,6 +782,26 @@ bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, char* language_code)
+{
+	memset(&h, 0, sizeof(h));
+
+	if(!pmt) return(true);
+
+	pmt->majortype = MEDIATYPE_Subtitle;
+	pmt->subtype = MEDIASUBTYPE_HDMVSUB;
+	pmt->formattype = FORMAT_None;
+
+	SUBTITLEINFO* psi = (SUBTITLEINFO*)pmt->AllocFormatBuffer(sizeof(SUBTITLEINFO));
+	if (psi)
+	{
+		memset(psi, 0, pmt->FormatLength());
+		strcpy(psi->IsoLang, language_code ? language_code : "eng");
+	}
+
+	return(true);
+}
+
 bool CBaseSplitterFileEx::Read(svcdspuhdr& h, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));

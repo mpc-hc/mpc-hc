@@ -85,6 +85,7 @@ STDMETHODIMP CDX9SubPic::CopyTo(ISubPic* pSubPic)
 		return E_FAIL;
 
 	hr = pD3DDev->UpdateTexture((IDirect3DTexture9*)GetObject(), (IDirect3DTexture9*)pSubPic->GetObject());
+	ASSERT (SUCCEEDED (hr));
 
 	return SUCCEEDED(hr) ? S_OK : E_FAIL;
 }
@@ -320,6 +321,13 @@ STDMETHODIMP CDX9SubPicAllocator::ChangeDevice(IUnknown* pDev)
 	m_pD3DDev = pD3DDev;
 
 	return __super::ChangeDevice(pDev);
+}
+
+STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
+{
+	m_maxsize	= MaxTextureSize;
+	SetCurSize(MaxTextureSize);
+	return S_OK;
 }
 
 // ISubPicAllocatorImpl

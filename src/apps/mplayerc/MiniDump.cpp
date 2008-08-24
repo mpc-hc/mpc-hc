@@ -23,6 +23,8 @@
 #include "StdAfx.h"
 #include "resource.h"
 #include "DbgHelp.h"
+
+#include "Version.h"
 #include "UserConfig.h"
 
 class CMiniDump
@@ -121,8 +123,11 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS *lpTopLevelE
 		if (pDump)
 		{
 			TCHAR szDumpPath[_MAX_PATH];
+			TCHAR szVersion[40];
 
 			GetModuleFileName (NULL, szDumpPath, _MAX_PATH);
+			_stprintf_s (szVersion, countof(szVersion), _T(".%d.%d.%d.%d"), VERSION_MAJOR, VERSION_MINOR, VERSION_REV, VERSION_PATCH);
+			_tcscat_s( szDumpPath, _MAX_PATH, szVersion );
 			_tcscat_s( szDumpPath, _MAX_PATH, _T(".dmp") );
 
 			// create the file

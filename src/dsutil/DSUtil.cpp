@@ -1999,6 +1999,7 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 	{"Haitian", "hat", "ht"},
 	{"Kalmyk", "xal", ""},
 	{"", "", ""},
+	{"No subtitles", "---", "", LCID_NOSUBTITLES},
 };
 
 CString ISO6391ToLanguage(LPCSTR code)

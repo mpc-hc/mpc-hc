@@ -31,6 +31,7 @@ ISubPicImpl::ISubPicImpl()
 	: CUnknown(NAME("ISubPicImpl"), NULL)
 	, m_rtStart(0), m_rtStop(0)
 	, m_rcDirty(0, 0, 0, 0), m_maxsize(0, 0), m_size(0, 0), m_vidrect(0, 0, 0, 0)
+	, m_VirtualTextureSize(0, 0), m_VirtualTextureTopLeft (0, 0)
 {
 }
 
@@ -72,6 +73,7 @@ STDMETHODIMP ISubPicImpl::CopyTo(ISubPic* pSubPic)
 	pSubPic->SetStop(m_rtStop);
 	pSubPic->SetDirtyRect(m_rcDirty);
 	pSubPic->SetSize(m_size, m_vidrect);
+	pSubPic->SetVirtualTextureSize(m_VirtualTextureSize, m_VirtualTextureTopLeft);
 
 	return S_OK;
 }
@@ -79,6 +81,32 @@ STDMETHODIMP ISubPicImpl::CopyTo(ISubPic* pSubPic)
 STDMETHODIMP ISubPicImpl::GetDirtyRect(RECT* pDirtyRect)
 {
 	return pDirtyRect ? *pDirtyRect = m_rcDirty, S_OK : E_POINTER;
+}
+
+STDMETHODIMP ISubPicImpl::GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* pRcDest)
+{
+	CheckPointer (pRcSource, E_POINTER);
+	CheckPointer (pRcDest,	 E_POINTER);
+
+	if(m_size.cx > 0 && m_size.cy > 0)
+	{
+		CRect		rcTemp = m_rcDirty;
+
+		// FIXME
+		rcTemp.DeflateRect(1, 1);
+
+		*pRcSource = rcTemp;
+
+		rcTemp.OffsetRect (m_VirtualTextureTopLeft);
+		*pRcDest = CRect (rcTemp.left   * pSize->cx / m_VirtualTextureSize.cx,
+						  rcTemp.top    * pSize->cy / m_VirtualTextureSize.cy,
+						  rcTemp.right  * pSize->cx / m_VirtualTextureSize.cx,
+						  rcTemp.bottom * pSize->cy / m_VirtualTextureSize.cy);
+
+		return S_OK;
+	}
+	else
+		return E_INVALIDARG;
 }
 
 STDMETHODIMP ISubPicImpl::SetDirtyRect(RECT* pDirtyRect)
@@ -115,7 +143,16 @@ STDMETHODIMP ISubPicImpl::SetSize(SIZE size, RECT vidrect)
 		m_vidrect.left = MulDiv(m_vidrect.left, m_size.cy, size.cy);
 		m_vidrect.right = MulDiv(m_vidrect.right, m_size.cy, size.cy);
 	}
+	m_VirtualTextureSize = m_size;
 
+	return S_OK;
+}
+
+STDMETHODIMP ISubPicImpl::SetVirtualTextureSize (const SIZE pSize, const POINT pTopLeft)
+{
+	m_VirtualTextureSize.SetSize (pSize.cx, pSize.cy);
+	m_VirtualTextureTopLeft.SetPoint (pTopLeft.x, pTopLeft.y);
+	
 	return S_OK;
 }
 
@@ -194,6 +231,7 @@ STDMETHODIMP ISubPicAllocatorImpl::ChangeDevice(IUnknown* pDev)
 	m_pStatic = NULL;
 	return S_OK;
 }
+
 
 //
 // ISubPicProviderImpl
@@ -526,6 +564,12 @@ DWORD CSubPicQueue::ThreadProc()
 
 				if(rtNow < rtStop)
 				{
+					SIZE	MaxTextureSize, VirtualSize;
+					POINT	VirtualTopLeft;
+					HRESULT	hr2;
+					if (SUCCEEDED (hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft)))
+						m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+
 					CComPtr<ISubPic> pStatic;
 					if(FAILED(m_pAllocator->GetStatic(&pStatic)))
 						break;
@@ -542,6 +586,9 @@ DWORD CSubPicQueue::ThreadProc()
 					if(FAILED(m_pAllocator->AllocDynamic(&pDynamic))
 					|| FAILED(pStatic->CopyTo(pDynamic)))
 						break;
+
+					if (SUCCEEDED (hr2))
+						pDynamic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
 
 					AppendQueue(pDynamic);
 				}
@@ -639,6 +686,12 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 
 				if(rtStart <= rtNow && rtNow < rtStop)
 				{
+					SIZE	MaxTextureSize, VirtualSize;
+					POINT	VirtualTopLeft;
+					HRESULT	hr2;
+					if (SUCCEEDED (hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft)))
+						m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+					
 					if(m_pAllocator->IsDynamicWriteOnly())
 					{
 						CComPtr<ISubPic> pStatic;
@@ -652,6 +705,8 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 						if(SUCCEEDED(RenderTo(m_pSubPic, rtStart, rtStop, fps)))
 							(*ppSubPic = pSubPic)->AddRef();
 					}
+					if (SUCCEEDED(hr2))
+						pSubPic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
 				}
 			}
 
@@ -734,7 +789,10 @@ void ISubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
 	CComPtr<ISubPic> pSubPic;
 	if(m_pSubPicQueue->LookupSubPic(m_rtNow, &pSubPic))
 	{
-		SubPicDesc spd;
+		CRect rcSource, rcDest;
+		if (SUCCEEDED (pSubPic->GetSourceAndDest(&size, rcSource, rcDest)))
+			pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
+/*		SubPicDesc spd;
 		pSubPic->GetDesc(spd);
 
 		if(spd.w > 0 && spd.h > 0)
@@ -752,7 +810,7 @@ void ISubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
 				r.bottom * size.cy / spd.h);
 
 			pSubPic->AlphaBlt(r, rDstText, pTarget);
-		}
+		}*/
 	}
 }
 

@@ -58,6 +58,7 @@ public:
 
 	// ISubPicAllocator
 	STDMETHODIMP ChangeDevice(IUnknown* pDev);
+	STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize);
 };
 
 [uuid("CD6D2AA5-20D3-4ebe-A8A9-34D3B00CC253")]

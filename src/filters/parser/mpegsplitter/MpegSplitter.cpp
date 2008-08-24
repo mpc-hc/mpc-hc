@@ -26,6 +26,7 @@
 #include "MpegSplitter.h"
 #include <moreuuids.h>
 
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
@@ -123,27 +124,22 @@ STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
 
 STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	HRESULT		hr = __super::Load (pszFileName, pmt);
-
-	if(SUCCEEDED (hr))
+	if (wcslen (pszFileName) > 0)
 	{
-		if (!m_fn.IsEmpty())
+		WCHAR		Drive[5];
+		WCHAR		Dir[MAX_PATH];
+		WCHAR		Filename[MAX_PATH];
+		WCHAR		Ext[10];
+		
+		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
 		{
-			WCHAR		Drive[5];
-			WCHAR		Dir[MAX_PATH];
-			WCHAR		Filename[MAX_PATH];
-			WCHAR		Ext[10];
-			
-			if (_wsplitpath_s (m_fn, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
-			{
-				CString		strClipInfo;
-				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
-				m_ClipInfo.ReadInfo (strClipInfo);
-			}
+			CString		strClipInfo;
+			strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			m_ClipInfo.ReadInfo (strClipInfo);
 		}
 	}
-
-	return hr;
+	
+	return __super::Load (pszFileName, pmt);
 }
 
 //
@@ -188,7 +184,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				p->bAppendable = !h.fpts;
 				p->rtStart = h.fpts ? (h.pts - rtStartOffset) : Packet::INVALID_TIME;
 				p->rtStop = p->rtStart+1;
-				p->SetCount(h.len - (m_pFile->GetPos() - pos));
+				p->SetCount(h.len - (size_t)(m_pFile->GetPos() - pos));
 				m_pFile->ByteRead(p->GetData(), h.len - (m_pFile->GetPos() - pos));
 				hr = DeliverPacket(p);
 			}
@@ -219,7 +215,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 			if(h.payloadstart && m_pFile->NextMpegStartCode(b, 4) && m_pFile->Read(h2, b)) // pes packet
 			{
 				if(h2.type == CMpegSplitterFile::mpeg2 && h2.scrambling) {ASSERT(0); return E_FAIL;}
-				TrackNumber = m_pFile->AddStream(h.pid, b, h.bytes - (m_pFile->GetPos() - pos));
+				TrackNumber = m_pFile->AddStream(h.pid, b, h.bytes - (DWORD)(m_pFile->GetPos() - pos));
 			}
 
 			if(GetOutputPin(TrackNumber))
@@ -230,7 +226,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				p->bAppendable = !h2.fpts;
 				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
 				p->rtStop = p->rtStart+1;
-				p->SetCount(h.bytes - (m_pFile->GetPos() - pos));
+				p->SetCount(h.bytes - (size_t)(m_pFile->GetPos() - pos));
 				m_pFile->ByteRead(p->GetData(), h.bytes - (m_pFile->GetPos() - pos));
 
 				hr = DeliverPacket(p);
@@ -282,7 +278,18 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
-	//
+	// Create
+	if (m_ClipInfo.IsHdmv())
+	{
+		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++)
+		{
+			CHdmvClipInfo::Stream*		stream = m_ClipInfo.GetStreamByIndex (i);
+			if (stream->stream_coding_type == 0x90)
+			{
+				m_pFile->AddHdmvPGStream (stream->stream_PID, stream->language_code);
+			}
+		}
+	}
 
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
@@ -301,6 +308,8 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			HRESULT hr;
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CMpegSplitterOutputPin(mts, name, this, this, &hr));
+			if (i == CMpegSplitterFile::subpic)
+				((CMpegSplitterOutputPin*)pPinOut.m_p)->SetMaxShift (_I64_MAX);
 			if(S_OK == AddOutputPin(s, pPinOut))
 				break;
 		}
@@ -540,6 +549,11 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					lang.ReleaseBufferSetLength(max(len-1, 0));
 					str.Format (L"%s (%s - %s)", name, lang, pStream->Format());
 				}
+				else if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID)
+				{
+					str		= _T("No subtitles");
+					*plcid	= LCID_NOSUBTITLES;
+				}
 				else
 					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
 
@@ -572,6 +586,7 @@ CMpegSourceFilter::CMpegSourceFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& 
 CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
 	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
 	, m_fHasAccessUnitDelimiters(false)
+	, m_rtMaxShift(50000000)
 {
 }
 
@@ -609,8 +624,9 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	{
 		REFERENCE_TIME rt = p->rtStart + m_rtOffset;
 
+		// Filter invalid PTS (if too different from previous packet)
 		if(m_rtPrev != Packet::INVALID_TIME)
-		if(abs(rt - m_rtPrev) > 50000000)
+		if(_abs64(rt - m_rtPrev) > m_rtMaxShift)
 			m_rtOffset += m_rtPrev - rt;
 
 		p->rtStart += m_rtOffset;

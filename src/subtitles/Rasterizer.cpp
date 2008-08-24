@@ -1152,3 +1152,21 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 
 	return bbox;
 }
+
+
+void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, long lColor, long lAlpha)
+{
+	bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
+
+	for (int wy=y; wy<y+nHeight; wy++)
+	{
+		DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
+
+		if(fSSE2)
+			for(int wt=0; wt<nWidth; ++wt)
+				pixmix_sse2(&dst[wt], lColor, lAlpha);
+		else
+			for(int wt=0; wt<nWidth; ++wt)
+				pixmix(&dst[wt], lColor, lAlpha);
+	}
+}

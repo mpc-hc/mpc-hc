@@ -68,7 +68,7 @@ class CMpegSplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 {
 	CAutoPtr<Packet> m_p;
 	CAutoPtrList<Packet> m_pl;
-	REFERENCE_TIME m_rtPrev, m_rtOffset;
+	REFERENCE_TIME m_rtPrev, m_rtOffset, m_rtMaxShift;
 	bool m_fHasAccessUnitDelimiters;
 
 protected:
@@ -80,4 +80,5 @@ public:
 	CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMpegSplitterOutputPin();
 	STDMETHODIMP	Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
+	void			SetMaxShift(REFERENCE_TIME rtMaxShift) { m_rtMaxShift = rtMaxShift; };
 };

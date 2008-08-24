@@ -67,15 +67,50 @@ interface ISubPic : public IUnknown
 	STDMETHOD (Unlock) (RECT* pDirtyRect /*[in]*/) PURE;
 
 	STDMETHOD (AlphaBlt) (RECT* pSrc, RECT* pDst, SubPicDesc* pTarget = NULL /*[in]*/) PURE;
+	STDMETHOD (GetSourceAndDest) (SIZE* pSize /*[in]*/, RECT* pRcSource /*[out]*/, RECT* pRcDest /*[out]*/) PURE;
+	STDMETHOD (SetVirtualTextureSize) (const SIZE pSize, const POINT pTopLeft) PURE;
 };
 
 class ISubPicImpl : public CUnknown, public ISubPic
 {
 protected:
 	REFERENCE_TIME m_rtStart, m_rtStop;
-	CRect m_rcDirty;
-	CSize m_maxsize, m_size;
-	CRect m_vidrect;
+	CRect	m_rcDirty;
+	CSize	m_maxsize;
+	CSize	m_size;
+	CRect	m_vidrect;
+	CSize	m_VirtualTextureSize;
+	CPoint	m_VirtualTextureTopLeft;
+
+/*
+
+                          Texture
+		+-------+---------------------------------+ 
+		|       .                                 |   . 
+		|       .             m_maxsize           |       .
+ TextureTopLeft .<=============================== |======>    .           Video
+		| . . . +-------------------------------- | -----+       +-----------------------------------+
+		|       |                         .       |      |       |  m_vidrect                        |
+		|       |                         .       |      |       |                                   |
+		|       |                         .       |      |       |                                   |
+		|       |        +-----------+    .       |      |       |                                   |
+		|       |        | m_rcDirty |    .       |      |       |                                   |
+		|       |        |           |    .       |      |       |                                   |
+		|       |        +-----------+    .       |      |       |                                   |
+		|       +-------------------------------- | -----+       |                                   |
+		|                    m_size               |              |                                   |
+		|       <=========================>       |              |                                   |
+		|                                         |              |                                   |
+		|                                         |              +-----------------------------------+
+		|                                         |          . 
+		|                                         |      .     
+		|                                         |   .   
+		+-----------------------------------------+  
+                   m_VirtualTextureSize 
+        <=========================================>
+
+*/
+
 
 public:
 	ISubPicImpl();
@@ -104,6 +139,9 @@ public:
 	STDMETHODIMP Unlock(RECT* pDirtyRect) = 0;
 
 	STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget) = 0;
+
+	STDMETHODIMP SetVirtualTextureSize (const SIZE pSize, const POINT pTopLeft);
+	STDMETHODIMP GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* pRcDest);
 };
 
 //
@@ -122,6 +160,7 @@ interface ISubPicAllocator : public IUnknown
 	STDMETHOD_(bool, IsDynamicWriteOnly) () PURE;
 
 	STDMETHOD (ChangeDevice) (IUnknown* pDev) PURE;
+	STDMETHOD (SetMaxTextureSize) (SIZE MaxTextureSize) PURE;
 };
 
 
@@ -153,6 +192,7 @@ public:
 	STDMETHODIMP AllocDynamic(ISubPic** ppSubPic);
 	STDMETHODIMP_(bool) IsDynamicWriteOnly();
 	STDMETHODIMP ChangeDevice(IUnknown* pDev);
+	STDMETHODIMP SetMaxTextureSize(SIZE MaxTextureSize) { return E_NOTIMPL; };
 };
 
 //
@@ -174,6 +214,7 @@ interface ISubPicProvider : public IUnknown
 	STDMETHOD_(bool, IsAnimated) (POSITION pos) PURE;
 
 	STDMETHOD (Render) (SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) PURE;
+	STDMETHOD (GetTextureSize) (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) PURE;
 };
 
 class ISubPicProviderImpl : public CUnknown, public ISubPicProvider
@@ -200,6 +241,7 @@ public:
 	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
 
 	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
+	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };
 };
 
 //

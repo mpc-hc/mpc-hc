@@ -203,6 +203,12 @@ public:
 	public:
 		// nothing ;)
 	};
+
+	class hdmvsubhdr
+	{
+	public:
+		// nothing ;)
+	};
 	
 	class svcdspuhdr
 	{
@@ -342,6 +348,7 @@ public:
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(hdmvlpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(dvdspuhdr& h, CMediaType* pmt = NULL);
+	bool Read(hdmvsubhdr& h, CMediaType* pmt = NULL, char* language_code = NULL);
 	bool Read(svcdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(cvdspuhdr& h, CMediaType* pmt = NULL);
 	bool Read(ps2audhdr& h, CMediaType* pmt = NULL);

@@ -25,6 +25,7 @@
 #include <atlcoll.h>
 #include "..\BaseSplitter\BaseSplitter.h"
 
+#define NO_SUBTITLE_PID			1		// Fake PID use for the "No subtitle" entry
 
 enum ElementaryStreamTypes
 {
@@ -123,6 +124,7 @@ public:
 
 	HRESULT SearchStreams(__int64 start, __int64 stop);
 	DWORD AddStream(WORD pid, BYTE pesid, DWORD len);
+	void  AddHdmvPGStream(WORD pid, char* language_code);
 	CAtlList<stream>* GetMasterStream();
 
 	struct program

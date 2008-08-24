@@ -268,6 +268,9 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop)
 	Seek(start);
 	stop = min(stop, GetLength());
 
+	// Add fake stream for "No subtitle"
+	AddHdmvPGStream (NO_SUBTITLE_PID, "---");
+
 	while(GetPos() < stop)
 	{
 		BYTE b;
@@ -483,7 +486,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						break;
 					case PRESENTATION_GRAPHICS_STREAM :
 						{
-						CMpegSplitterFile::dvdspuhdr h;
+						CMpegSplitterFile::hdmvsubhdr h;
 						if(!m_streams[subpic].Find(s) && Read(h, &s.mt))
 							type = subpic;
 						}
@@ -619,6 +622,23 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 
 	return s;
 }
+
+
+void CMpegSplitterFile::AddHdmvPGStream(WORD pid, char* language_code)
+{
+	stream s;
+
+	s.pid		= pid;
+	s.pesid		= 0xbd;
+
+	CMpegSplitterFile::hdmvsubhdr h;
+	if(!m_streams[subpic].Find(s) && Read(h, &s.mt, language_code))
+	{
+		m_streams[subpic].Insert(s);
+	}
+}
+
+
 
 CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 {

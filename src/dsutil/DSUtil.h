@@ -43,6 +43,8 @@
 #include "vd.h"
 #include "text.h"
 
+#define LCID_NOSUBTITLES			-1
+
 extern void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap);
 extern int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
 extern bool IsSplitter(IBaseFilter* pBF, bool fCountConnectedOnly = false);
