@@ -18,7 +18,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -39,7 +39,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 // FILE
 //
 
-#ifdef WIN64
+#ifdef _WIN64
 	IDF_LOGO1               FILE                    "res\\x64\\logo.1.png"
 	IDF_LOGO2               FILE                    "res\\x64\\logo.2.png"
 	IDF_LOGO3               FILE                    "res\\x64\\logo.3.png"

@@ -104,7 +104,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN64;_DEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
@@ -224,7 +224,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN64;NDEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

@@ -452,7 +452,7 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 #include <winddk\ntddcdvd.h>
 
-#ifdef WIN64
+#ifdef _WIN64
 //#include "detours.h"
 //#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
 #define DetourFunctionWithTrampoline(a,b) /**/
@@ -706,7 +706,7 @@ BOOL CMPlayerCApp::InitInstance()
 {
 	//ssftest s;
 
-#ifdef WIN64
+#ifdef _WIN64
 //    DetourTransactionBegin();
 //    DetourUpdateThread(GetCurrentThread());
 #endif
@@ -722,7 +722,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	CFilterMapper2::Init();
 
-#ifdef WIN64
+#ifdef _WIN64
 //    DetourTransactionCommit();
 #endif
 

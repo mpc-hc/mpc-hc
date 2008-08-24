@@ -43,7 +43,7 @@
   #define COMPILER "unknown"
 #endif
 
-#ifdef WIN64
+#ifdef _WIN64
   #define COMPILER_X64 ", x64"
 #else
   #define COMPILER_X64 ", x86"

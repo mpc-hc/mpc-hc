@@ -23,6 +23,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "..\..\..\subtitles\libssf\libssf_vs2005.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
 		Debug Unicode lib|Win64 (AMD64) = Debug Unicode lib|Win64 (AMD64)

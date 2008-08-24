@@ -158,7 +158,7 @@ STDMETHODIMP CMemSubPic::ClearDirtyRect(DWORD color)
 //        memsetd(p, 0, m_rcDirty.Width());
 
 		int w = m_rcDirty.Width();
-#ifdef WIN64
+#ifdef _WIN64
 		ASSERT(FALSE);	// TODOX64
 #else
 		__asm
@@ -452,7 +452,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 					ia = (ia<<24)|(s2[7]<<16)|(ia<<8)|s2[3];
 					c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 
-#ifdef WIN64
+#ifdef _WIN64
 		ASSERT(FALSE);	// TODOX64
 #else
 					__asm
@@ -562,7 +562,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 	}
 
 
-#ifdef WIN64
+#ifdef _WIN64
 	ASSERT(FALSE);	// TODOX64
 #else
 	__asm emms;

@@ -102,7 +102,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN64;_DEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"
 			/>
@@ -219,7 +219,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				UsePrecompiledHeader="2"
 			/>
 			<Tool

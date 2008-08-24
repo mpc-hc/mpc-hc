@@ -1338,7 +1338,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_DVSOURCE
 // TODOX64 : fix DVSource internal filter
-#ifndef WIN64
+#ifndef _WIN64
 	__if_exists(CD2VSource)
 	{
 	if(src & SRC_D2V)

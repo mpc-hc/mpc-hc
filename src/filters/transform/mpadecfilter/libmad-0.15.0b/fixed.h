@@ -141,7 +141,7 @@ typedef mad_fixed_t mad_sample_t;
 #  if defined(_MSC_VER)
 #   pragma warning(push)
 #   pragma warning(disable: 4035)  /* no return value */
-#   if defined(WIN64)
+#   if defined(_WIN64)
      static __forceinline
      mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
      {

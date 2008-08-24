@@ -497,7 +497,7 @@ int CMpeg2Dec::copy_chunk(int bytes)
 	// this assembly gives us a nice speed up
 	// 36 sec down to 32 sec decoding the ts.stream.tpr test file
 	// (idtc, mc was set to null)
-#ifndef WIN64
+#ifndef _WIN64
 	__asm
 	{
 		mov ebx, this
@@ -1959,7 +1959,7 @@ CMpeg2Decoder::CMpeg2Decoder()
 
 //	//
 /**/
-#ifndef WIN64
+#ifndef _WIN64
 	if(g_cpuid.m_flags&CCpuID::sse2)
 	{
 		m_idct_init = mpeg2_idct_init_sse2;

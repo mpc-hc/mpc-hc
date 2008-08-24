@@ -138,7 +138,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
-				PreprocessorDefinitions="WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 			/>
@@ -307,7 +307,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
-				PreprocessorDefinitions="WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				DebugInformationFormat="3"
@@ -538,7 +538,7 @@
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="NDEBUG"
+						PreprocessorDefinitions="NDEBUG,_WIN64"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -546,7 +546,7 @@
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="_DEBUG, WIN64"
+						PreprocessorDefinitions="_DEBUG,_WIN64"
 					/>
 				</FileConfiguration>
 			</File>

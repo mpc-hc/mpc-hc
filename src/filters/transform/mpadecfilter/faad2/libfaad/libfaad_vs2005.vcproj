@@ -108,7 +108,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
-				PreprocessorDefinitions="WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
 			/>
 			<Tool
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions=""
-				PreprocessorDefinitions="WIN64;_LIB;_DEBUG"
+				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG"
 				PrecompiledHeaderFile=".\Debug\libfaad.pch"
 				DebugInformationFormat="3"
 			/>

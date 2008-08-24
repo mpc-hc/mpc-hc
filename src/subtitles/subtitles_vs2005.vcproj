@@ -102,7 +102,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN64;_DEBUG;"
+				PreprocessorDefinitions="_WIN64;_DEBUG;"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -219,7 +219,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include"
-				PreprocessorDefinitions="WIN64;NDEBUG;"
+				PreprocessorDefinitions="_WIN64;NDEBUG;"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HdmvSub.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Rasterizer.cpp"
 				>
 				<FileConfiguration
@@ -301,6 +305,10 @@
 						AssemblerOutput="4"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderedHdmvSubtitle.cpp"
+				>
 			</File>
 			<File
 				RelativePath="RealTextParser.cpp"
@@ -472,7 +480,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HdmvSub.h"
+				>
+			</File>
+			<File
 				RelativePath="Rasterizer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderedHdmvSubtitle.h"
 				>
 			</File>
 			<File

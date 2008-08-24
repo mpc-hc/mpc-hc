@@ -27,7 +27,7 @@
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
-#ifdef WIN64
+#ifdef _WIN64 // _WIN64
 
 CCpuID g_cpuid;
 
@@ -110,19 +110,6 @@ bool BitBltFromI420ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* srcy, BYT
 		return(false);
 
 	if(srcpitch == 0) srcpitch = w;
-
-#ifndef WIN64
-	if(!((DWORD_PTR)srcy&15) && !((DWORD_PTR)srcu&15) && !((DWORD_PTR)srcv&15) && !(srcpitch&31) 
-        && !((DWORD_PTR)dst&15) && !(dstpitch&15))
-	{
-		ASSERT (FALSE);
-		return false;
-	}
-	else
-	{
-		ASSERT(!fInterlaced);
-	}
-#endif
 
 	do
 	{
@@ -320,7 +307,7 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 
 }
 
-#else
+#else // _WIN64
 
 CCpuID::CCpuID()
 {
@@ -1803,4 +1790,4 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	return(true);
 }
 
-#endif //WIN64
+#endif //_WIN64

@@ -532,7 +532,7 @@ void CSizingControlBar::OnNcPaint()
     DrawBorders(&mdc, rcDraw);
 
     // erase the NC background
-#ifdef WIN64
+#ifdef _WIN64
     mdc.FillRect(rcDraw, CBrush::FromHandle(
         (HBRUSH) GetClassLong(m_hWnd, GCLP_HBRBACKGROUND)));
 #else

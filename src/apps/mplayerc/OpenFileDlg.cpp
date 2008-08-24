@@ -80,7 +80,7 @@ BOOL COpenFileDlg::OnInitDialog()
 {
 	CFileDialog::OnInitDialog();
 
-#ifdef WIN64
+#ifdef _WIN64
 	m_wndProc = (WNDPROC)SetWindowLong(GetParent()->m_hWnd, GWLP_WNDPROC , (LONG)WindowProcNew);
 #else
 	m_wndProc = (WNDPROC)SetWindowLong(GetParent()->m_hWnd, GWL_WNDPROC, (LONG)WindowProcNew);

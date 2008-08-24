@@ -105,7 +105,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN64;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS"
 				PrecompiledHeaderFile=".\Debug/zlib.pch"
 				DebugInformationFormat="3"
 			/>
@@ -225,7 +225,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN64;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
 			/>
 			<Tool
