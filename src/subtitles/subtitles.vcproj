@@ -141,6 +141,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -200,6 +201,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -308,11 +310,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\RenderedHdmvSubtitle.cpp"
+				RelativePath="RealTextParser.cpp"
 				>
 			</File>
 			<File
-				RelativePath="RealTextParser.cpp"
+				RelativePath=".\RenderedHdmvSubtitle.cpp"
 				>
 			</File>
 			<File
@@ -489,11 +491,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderedHdmvSubtitle.h"
+				RelativePath="RealTextParser.h"
 				>
 			</File>
 			<File
-				RelativePath="RealTextParser.h"
+				RelativePath=".\RenderedHdmvSubtitle.h"
 				>
 			</File>
 			<File

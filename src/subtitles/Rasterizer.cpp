@@ -709,13 +709,13 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	{
 		int bluradjust = 0;
 		if (fGaussianBlur > 0)
-			mWideBorder += (int)(fGaussianBlur*3*8 + 0.5) | 1;
+			bluradjust += (int)(fGaussianBlur*3*8 + 0.5) | 1;
 		if (fBlur)
-			mWideBorder += 8;
-
-		mWideBorder = (mWideBorder+7)&~7;
+			bluradjust += 8;
 
 		// Expand the buffer a bit when we're blurring, since that can also widen the borders a bit
+		bluradjust = (bluradjust+7)&~7;
+
 		width += 2*mWideBorder + bluradjust*2;
 		height += 2*mWideBorder + bluradjust*2;
 
@@ -907,6 +907,7 @@ static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
 	DWORD r = (DWORD)_mm_cvtsi64_si32(rp);
 	_mm_empty();
 	return r;
+	//return (b > a) ? 0 : a - b;
 }
 
 // For CPUID usage in Rasterizer::Draw

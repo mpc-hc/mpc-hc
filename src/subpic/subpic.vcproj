@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="subpic"
 	ProjectGUID="{D514EA4D-EAFB-47A9-A437-A582CA571251}"
 	RootNamespace="subpic"
@@ -141,6 +141,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -200,6 +201,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

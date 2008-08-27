@@ -140,6 +140,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -199,6 +200,7 @@
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
