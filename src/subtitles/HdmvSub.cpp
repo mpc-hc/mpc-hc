@@ -219,7 +219,7 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 	HDMV_PALETTE*	pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
 
 	if (m_pCurrentObject)
-		m_pCurrentObject->SetPalette (nNbEntry, pPalette);
+		m_pCurrentObject->SetPalette (nNbEntry, pPalette, m_VideoDescriptor.nVideoWidth>720);
 }
 
 void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
@@ -372,18 +372,19 @@ CHdmvSub::CompositionObject::~CompositionObject()
 	delete[] m_pRLEData;
 }
 
-void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette)
+void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD)
 {
 	m_nColorNumber	= nNbEntry;
 
 	for (int i=0; i<m_nColorNumber; i++)
 	{
-		BYTE	R = (BYTE)(pPalette[i].Y + 1.402*(pPalette[i].Cr-128));
-		BYTE	G = (BYTE)(pPalette[i].Y - 0.34414*(pPalette[i].Cb-128) - 0.71414*(pPalette[i].Cr-128));
-		BYTE	B = (BYTE)(pPalette[i].Y + 1.772*(pPalette[i].Cb-128));
-
-		m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24|R<<16|G<<8|B;
-		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
+		if (bIsHD)
+			m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24| 
+					YCrCbToRGB_Rec709 (pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+		else
+			m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24| 
+					YCrCbToRGB_Rec601 (pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+//		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
 	}
 }
 

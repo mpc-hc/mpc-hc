@@ -2354,3 +2354,35 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 	strTemp.Format (_T("%02d:%02d:%02d:%02d"), lHour, lMinute, lSecond, lMillisec);
 	return strTemp;
 }
+
+
+const double Rec601_Kr = 0.299;
+const double Rec601_Kb = 0.114;
+const double Rec601_Kg = 0.587;
+COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb)
+{
+
+  double rp = Y + 2*(Cr-128)*(1.0-Rec601_Kr);
+  double gp = Y - 2*(Cb-128)*(1.0-Rec601_Kb)*Rec601_Kb/Rec601_Kg - 2*(Cr-128)*(1.0-Rec601_Kr)*Rec601_Kr/Rec601_Kg;
+  double bp = Y + 2*(Cb-128)*(1.0-Rec601_Kb);
+
+//  R = fabs(rp); G = fabs(gp); B = fabs(bp);
+
+  return RGB (fabs(rp), fabs(gp), fabs(bp));
+}
+
+
+const double Rec709_Kr = 0.2125;
+const double Rec709_Kb = 0.0721;
+const double Rec709_Kg = 0.7154;
+COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb)
+{
+
+  double rp = Y + 2*(Cr-128)*(1.0-Rec709_Kr);
+  double gp = Y - 2*(Cb-128)*(1.0-Rec709_Kb)*Rec709_Kb/Rec709_Kg - 2*(Cr-128)*(1.0-Rec709_Kr)*Rec709_Kr/Rec709_Kg;
+  double bp = Y + 2*(Cb-128)*(1.0-Rec709_Kb);
+
+//  R = fabs(rp); G = fabs(gp); B = fabs(bp);
+
+  return RGB (fabs(rp), fabs(gp), fabs(bp));
+}

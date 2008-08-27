@@ -106,7 +106,7 @@ public:
 		bool				IsRLEUncomplete() { return m_nRLEPos != 0; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
-		void				SetPalette (int nNbEntry, HDMV_PALETTE* pPalette);
+		void				SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD);
 
 	private :
 		CHdmvSub*	m_pSub;
