@@ -92,4 +92,5 @@ public:
 	afx_msg void OnBnVistaModify();
 	afx_msg void OnUpdateButtonDefault(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
+	CButton m_fContextDir;
 };

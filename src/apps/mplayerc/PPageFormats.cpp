@@ -73,6 +73,7 @@ void CPPageFormats::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHECK4, m_apdvd);
 	DDX_Radio(pDX, IDC_RADIO1, m_iRtspHandler);
 	DDX_Check(pDX, IDC_CHECK5, m_fRtspFileExtFirst);
+	DDX_Control(pDX, IDC_CHECK6, m_fContextDir);
 }
 
 int CPPageFormats::GetChecked(int iItem)
@@ -448,6 +449,20 @@ BOOL CPPageFormats::OnInitDialog()
 	else
 		GetDlgItem(IDC_BUTTON5)->ShowWindow (SW_HIDE);
 
+	
+	CRegKey		key;
+	TCHAR		buff[MAX_PATH];
+	ULONG		len = sizeof(buff);
+
+	int fContextDir = 0;
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play\\command"), KEY_READ))
+	{
+		CString		strCommand = GetOpenCommand();
+		if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len))
+			fContextDir = (strCommand.CompareNoCase(CString(buff)) == 0);
+	}
+	m_fContextDir.SetCheck(fContextDir);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -629,6 +644,7 @@ BOOL CPPageFormats::OnApply()
 	}
 
 	
+	/*
 	int cntChecked = 0;
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
@@ -643,9 +659,10 @@ BOOL CPPageFormats::OnApply()
 		while(pos)
 			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
 	}
+	*/
 	
 	CRegKey	key;
-	if(cntChecked)
+	if(m_fContextDir.GetCheck())
 	{
 		if(ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.enqueue"))){
 			key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
