@@ -644,13 +644,10 @@ BOOL CPPageFormats::OnApply()
 	}
 
 	
-	/*
-	int cntChecked = 0;
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
 		int iChecked = GetChecked(i);
 		if(iChecked == 2) continue;
-		cntChecked += iChecked;
 
 		CAtlList<CString> exts;
 		Explode(mf[(int)m_list.GetItemData(i)].GetExtsWithPeriod(), exts, ' ');
@@ -659,7 +656,6 @@ BOOL CPPageFormats::OnApply()
 		while(pos)
 			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
 	}
-	*/
 	
 	CRegKey	key;
 	if(m_fContextDir.GetCheck())
