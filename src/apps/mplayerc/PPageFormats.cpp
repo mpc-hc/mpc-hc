@@ -36,6 +36,9 @@ LPCTSTR			g_strRegisteredAppName = _T("Media Player Classic");
 LPCTSTR			g_strOldAssoc		   = _T("PreviousRegistration");
 CString			g_strRegisteredKey	   = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities");
 
+int	f_setContextFiles = 0;
+int	f_getContextFiles = 0;
+
 
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
@@ -74,6 +77,7 @@ void CPPageFormats::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_RADIO1, m_iRtspHandler);
 	DDX_Check(pDX, IDC_CHECK5, m_fRtspFileExtFirst);
 	DDX_Control(pDX, IDC_CHECK6, m_fContextDir);
+	DDX_Control(pDX, IDC_CHECK7, m_fContextFiles);
 }
 
 int CPPageFormats::GetChecked(int iItem)
@@ -157,6 +161,19 @@ bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
 
 		bIsDefault = (buff == strProgID);
 	}
+	if(!f_setContextFiles)
+	{
+		CRegKey		key;
+		TCHAR		buff[MAX_PATH];
+		ULONG		len = sizeof(buff);
+
+		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ))
+		{
+			CString		strCommand = ResStr(IDS_OPEN_WITH_MPC);
+			if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len))
+				f_setContextFiles = (strCommand.CompareNoCase(CString(buff)) == 0);
+		}
+	}
 
 	// Check if association is for this instance of MPC
 	if (bIsDefault)
@@ -199,15 +216,30 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	if(ERROR_SUCCESS != key.SetStringValue(NULL, strLabel)) return(false);
 
 	// Add to playlist option
-	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))) return(false);
-	if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))) return(false);
+	if(f_setContextFiles)
+	{
+		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))) return(false);
+		if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))) return(false);
 
-	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) return(false);
-	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetEnqueueCommand()))) return(false);
+		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) return(false);
+		if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetEnqueueCommand()))) return(false);
+	}
+	else
+	{
+		key.Attach(HKEY_CLASSES_ROOT);
+		key.RecurseDeleteKey(strProgID + _T("\\shell\\enqueue"));
+	}
 
 	// Play option
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"))) return(false);
-	if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))) return(false);
+	if(f_setContextFiles)
+	{
+		if(ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))) return(false);
+	}
+	else
+	{
+		if(ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) return(false);
+	}
 
 	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))) return(false);
 	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetOpenCommand()))) return(false);
@@ -402,10 +434,13 @@ BOOL CPPageFormats::OnInitDialog()
 
 	UpdateData(FALSE);
 
+	f_setContextFiles = 0;
+
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
 		SetListItemState(i,  mf[m_list.GetItemData(i)].GetProgId());
 	}
+	m_fContextFiles.SetCheck(f_setContextFiles);
 
 	if(AfxGetAppSettings().fXpOrBetter)
 	{
@@ -643,6 +678,7 @@ BOOL CPPageFormats::OnApply()
 		}
 	}
 
+	f_setContextFiles = m_fContextFiles.GetCheck();
 	
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{

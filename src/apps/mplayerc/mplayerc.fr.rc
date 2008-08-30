@@ -382,6 +382,7 @@ BEGIN
     GROUPBOX        "Lecture automatique (XP uniquement)",IDC_STATIC1,6,209,151,28
     GROUPBOX        "Explorer Context Menu",IDC_STATIC,6,156,283,23 // TODO
     CONTROL         "Directory",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,165,65,10 // TODO
+    CONTROL         "File(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,116,165,65,10 // TODO    
 END
 
 IDD_PPAGETWEAKS DIALOGEX 0, 0, 296, 241

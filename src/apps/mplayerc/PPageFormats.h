@@ -25,6 +25,7 @@
 
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
+#include "afxwin.h"
 
 
 // CPPageFormats dialog
@@ -93,4 +94,5 @@ public:
 	afx_msg void OnUpdateButtonDefault(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
 	CButton m_fContextDir;
+	CButton m_fContextFiles;
 };
