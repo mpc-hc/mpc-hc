@@ -223,6 +223,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec", "transform\mpcvideodec\ffmpeg\libavcodec.vcproj", "{5CAF881C-9349-4EE2-9697-982C10795033}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
 		Debug Unicode lib|x64 = Debug Unicode lib|x64
