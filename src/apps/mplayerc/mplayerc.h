@@ -627,9 +627,9 @@ public:
 
 		bool m_fPreventMinimize;
 
-		CStringArray	cmd_name;
-		void			CreateCmdName();
-		CString			GetCmdName(int i);
+		//CStringArray	cmd_name;
+		//void			CreateCmdName();
+		//CString			GetCmdName(int i);
 		
 	} m_s;
 

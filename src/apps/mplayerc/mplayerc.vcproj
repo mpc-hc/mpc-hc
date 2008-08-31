@@ -1721,10 +1721,6 @@
 				Name="x64"
 				>
 				<File
-					RelativePath=".\res\x64\logo.0.png"
-					>
-				</File>
-				<File
 					RelativePath=".\res\x64\logo.1.png"
 					>
 				</File>
