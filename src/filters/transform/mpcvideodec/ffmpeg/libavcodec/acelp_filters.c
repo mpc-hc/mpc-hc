@@ -75,7 +75,9 @@ void ff_acelp_interpolate(
             i++;
             v += in[n - i] * filter_coeffs[idx - frac_pos];
         }
-        out[n] = av_clip_int16(v >> 15);
+        if(av_clip_int16(v>>15) != (v>>15))
+            av_log(NULL, AV_LOG_WARNING, "overflow that would need cliping in ff_acelp_interpolate()\n");
+        out[n] = v >> 15;
     }
 }
 
@@ -150,11 +152,13 @@ void ff_acelp_high_pass_filter(
 
     for(i=0; i<length; i++)
     {
-        tmp =  (hpf_f[0]* 15836LL)>>13;                   /* (14.13) = (13.13) * (1.13) */
-        tmp += (hpf_f[1]* -7667LL)>>13;                   /* (13.13) = (13.13) * (0.13) */
-        tmp += 7699 * (in[i] - 2*in[i-1] + in[i-2]); /* (14.13) =  (0.13) * (14.0) */
+        tmp =  (hpf_f[0]* 15836LL)>>13;
+        tmp += (hpf_f[1]* -7667LL)>>13;
+        tmp += 7699 * (in[i] - 2*in[i-1] + in[i-2]);
 
-        out[i] = av_clip_int16((tmp + 0x800) >> 12);      /* (15.0) = 2 * (13.13) = (14.13) */
+        /* With "+0x800" rounding, clipping is needed
+           for ALGTHM and SPEECH tests. */
+        out[i] = av_clip_int16((tmp + 0x800) >> 12);
 
         hpf_f[1] = hpf_f[0];
         hpf_f[0] = tmp;

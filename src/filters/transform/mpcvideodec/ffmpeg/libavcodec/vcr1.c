@@ -143,5 +143,5 @@ AVCodec vcr1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"ATI VCR1",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("ATI VCR1"),
 };

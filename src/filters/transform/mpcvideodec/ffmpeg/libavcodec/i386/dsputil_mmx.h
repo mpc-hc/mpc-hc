@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_DSPUTIL_MMX_H
-#define FFMPEG_DSPUTIL_MMX_H
+#ifndef AVCODEC_I386_DSPUTIL_MMX_H
+#define AVCODEC_I386_DSPUTIL_MMX_H
 
 #include <stdint.h>
 #include "libavcodec/dsputil.h"
@@ -35,7 +35,7 @@ extern const uint64_t ff_pdw_80000000[2];
 extern const uint64_t ff_pw_3;
 extern const uint64_t ff_pw_4;
 extern const xmm_t    ff_pw_5;
-extern const uint64_t ff_pw_8;
+extern const xmm_t    ff_pw_8;
 extern const uint64_t ff_pw_15;
 extern const xmm_t    ff_pw_16;
 extern const uint64_t ff_pw_20;
@@ -131,4 +131,4 @@ extern const double ff_pd_2[2];
     "pcmpeqd %%" #regd ", %%" #regd " \n\t" \
     "psrlw $15, %%" #regd ::)
 
-#endif /* FFMPEG_DSPUTIL_MMX_H */
+#endif /* AVCODEC_I386_DSPUTIL_MMX_H */

@@ -618,16 +618,7 @@ static av_cold int AC3_encode_init(AVCodecContext *avctx)
     int i, j, ch;
     float alpha;
     int bw_code;
-#if 0
-    static const uint8_t acmod_defs[6] = {
-        0x01, /* C */
-        0x02, /* L R */
-        0x03, /* L C R */
-        0x06, /* L R SL SR */
-        0x07, /* L C R SL SR */
-        0x07, /* L C R SL SR (+LFE) */
-    };
-#endif
+    /* ffdshow custom code (begin) */
     avctx->frame_size = AC3_FRAME_SIZE;
 
     ac3_common_init();
@@ -635,12 +626,13 @@ static av_cold int AC3_encode_init(AVCodecContext *avctx)
     /* number of channels */
     if (channels < 1 || channels > 6)
         return -1;
-    s->channel_mode = avctx->ac3mode; /* intentional diff from ffmpeg */
-    s->lfe = avctx->ac3lfe; /* intentional diff from ffmpeg */
+    s->channel_mode = avctx->ac3mode;
+    s->lfe = avctx->ac3lfe;
     s->nb_all_channels = channels;
-    s->nb_channels = s->lfe?channels-1:channels; //channels > 5 ? 5 : channels; /* intentional diff from ffmpeg */
-    s->lfe_channel = s->lfe?channels-1:-1; //s->lfe ? 5 : -1; /* intentional diff from ffmpeg */
-
+    s->nb_channels = s->lfe?channels-1:channels;
+    s->lfe_channel = s->lfe?channels-1:-1;
+    /* ffdshow custom code (end) */
+    
     /* frequency */
     for(i=0;i<3;i++) {
         for(j=0;j<3;j++)
@@ -1277,7 +1269,7 @@ AVCodec ac3_encoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("ATSC A/52 / AC-3"),
+    /*.long_name = */NULL_IF_CONFIG_SMALL("ATSC A/52A (AC-3)"),
     #if __STDC_VERSION__ >= 199901L
     .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
     #else

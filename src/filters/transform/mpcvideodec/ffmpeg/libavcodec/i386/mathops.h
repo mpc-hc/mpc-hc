@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_X86_MATHOPS_H
-#define AVCODEC_X86_MATHOPS_H
+#ifndef FFMPEG_I386_MATHOPS_H
+#define FFMPEG_I386_MATHOPS_H
 
 #ifdef FRAC_BITS
 #   define MULL(ra, rb) \
@@ -28,18 +28,18 @@
             "imull %3               \n\t"\
             "shrdl %4, %%edx, %%eax \n\t"\
             : "=a"(rt), "=d"(dummy)\
-            : "a" (ra), "rm" (rb), "i"(FRAC_BITS));\
+            : "a" ((int)ra), "rm" ((int)rb), "i"(FRAC_BITS));\
          rt; })
 #endif
 
 #define MULH(ra, rb) \
     ({ int rt, dummy;\
-     asm ("imull %3\n\t" : "=d"(rt), "=a"(dummy): "a" (ra), "rm" (rb));\
+     asm ("imull %3\n\t" : "=d"(rt), "=a"(dummy): "a" ((int)ra), "rm" ((int)rb));\
      rt; })
 
 #define MUL64(ra, rb) \
     ({ int64_t rt;\
-     asm ("imull %2\n\t" : "=A"(rt) : "a" (ra), "g" (rb));\
+     asm ("imull %2\n\t" : "=A"(rt) : "a" ((int)ra), "g" ((int)rb));\
      rt; })
 
-#endif // AVCODEC_X86_MATHOPS_H
+#endif /* FFMPEG_I386_MATHOPS_H */

@@ -193,6 +193,7 @@ SRCS_C+=\
 #		$(LAVC_DIR)/i386/fft_sse.c
 
 #SRCS_YASM=\
+#      $(LAVC_DIR)/i386/dsputil_yasm.asm \
 #      $(LAVC_DIR)/i386/fft_mmx.asm
 
 

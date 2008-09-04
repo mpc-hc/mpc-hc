@@ -470,7 +470,7 @@ static void decode_plane(FFV1Context *s, uint8_t *src, int w, int h, int stride,
     #if __STDC_VERSION__ >= 199901L
     int_fast16_t sample_buffer[2][w+6];
     #else
-    int_fast16_t *sample_buffer=alloca(2*(w+6)*sizeof(int_fast16_t));
+    int_fast16_t **sample_buffer = _alloca(2 * (w+6) * sizeof(int_fast16_t));
     #endif
     int_fast16_t *sample[2];
     sample[0]=sample_buffer[0]+3;

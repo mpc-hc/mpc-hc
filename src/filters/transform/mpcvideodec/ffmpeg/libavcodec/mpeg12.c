@@ -63,10 +63,6 @@ static inline int mpeg2_fast_decode_block_intra(MpegEncContext *s, DCTELEM *bloc
 static int mpeg_decode_motion(MpegEncContext *s, int fcode, int pred);
 static void exchange_uv(MpegEncContext *s);
 
-static const enum PixelFormat pixfmt_yuv_420[]= {PIX_FMT_YUV420P,PIX_FMT_NONE};
-static const enum PixelFormat pixfmt_yuv_422[]= {PIX_FMT_YUV422P,PIX_FMT_NONE};
-static const enum PixelFormat pixfmt_yuv_444[]= {PIX_FMT_YUV444P,PIX_FMT_NONE};
-
 uint8_t ff_mpeg12_static_rl_table_store[2][2][2*MAX_RUN + MAX_LEVEL + 3];
 
 
@@ -1211,7 +1207,9 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
                 1<<30);
         //MPEG-2 aspect
             if(s->aspect_ratio_info > 1){
-                if( (s1->pan_scan.width == 0 )||(s1->pan_scan.height == 0) ){
+                //we ignore the spec here as reality does not match the spec, see for example
+                // res_change_ffmpeg_aspect.ts and sequence-display-aspect.mpg
+                if( (s1->pan_scan.width == 0 )||(s1->pan_scan.height == 0) || 1){
                     AVRational r={s->width, s->height};
                     s->avctx->sample_aspect_ratio=
                         av_div_q(
@@ -1233,13 +1231,13 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
         }//MPEG-2
 
             if(s->chroma_format <  2){
-                avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_420);
+                avctx->pix_fmt = PIX_FMT_YUV420P;
             }else
             if(s->chroma_format == 2){
-                avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_422);
+                avctx->pix_fmt = PIX_FMT_YUV422P;
             }else
             if(s->chroma_format >  2){
-                avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_444);
+                avctx->pix_fmt = PIX_FMT_YUV444P;
             }
 
         /* Quantization matrices may need reordering
@@ -1979,7 +1977,7 @@ static int vcr2_init_sequence(AVCodecContext *avctx)
     avctx->has_b_frames= 0; //true?
     s->low_delay= 1;
 
-    avctx->pix_fmt = avctx->get_format(avctx,pixfmt_yuv_420);
+    avctx->pix_fmt = PIX_FMT_YUV420P;
 
     if (MPV_common_init(s) < 0)
         return -1;

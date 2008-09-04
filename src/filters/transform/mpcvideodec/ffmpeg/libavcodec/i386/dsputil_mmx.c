@@ -48,7 +48,7 @@ DECLARE_ALIGNED_16(const uint64_t, ff_pdw_80000000[2]) =
 DECLARE_ALIGNED_8 (const uint64_t, ff_pw_3  ) = 0x0003000300030003ULL;
 DECLARE_ALIGNED_8 (const uint64_t, ff_pw_4  ) = 0x0004000400040004ULL;
 DECLARE_ALIGNED_16(const xmm_t,    ff_pw_5  ) = {0x0005000500050005ULL, 0x0005000500050005ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_8  ) = 0x0008000800080008ULL;
+DECLARE_ALIGNED_16(const xmm_t,    ff_pw_8  ) = {0x0008000800080008ULL, 0x0008000800080008ULL};
 DECLARE_ALIGNED_8 (const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
 DECLARE_ALIGNED_16(const xmm_t,    ff_pw_16 ) = {0x0010001000100010ULL, 0x0010001000100010ULL};
 DECLARE_ALIGNED_8 (const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
@@ -2156,9 +2156,20 @@ static void float_to_int16_sse2(int16_t *dst, const float *src, long len){
     );
 }
 
+#ifdef HAVE_YASM
+void ff_float_to_int16_interleave6_sse(int16_t *dst, const float **src, int len);
+void ff_float_to_int16_interleave6_3dnow(int16_t *dst, const float **src, int len);
+void ff_float_to_int16_interleave6_3dn2(int16_t *dst, const float **src, int len);
+#else
+#define ff_float_to_int16_interleave6_sse(a,b,c)   float_to_int16_interleave_misc_sse(a,b,c,6)
+#define ff_float_to_int16_interleave6_3dnow(a,b,c) float_to_int16_interleave_misc_3dnow(a,b,c,6)
+#define ff_float_to_int16_interleave6_3dn2(a,b,c)  float_to_int16_interleave_misc_3dnow(a,b,c,6)
+#endif
+#define ff_float_to_int16_interleave6_sse2 ff_float_to_int16_interleave6_sse
+
 #define FLOAT_TO_INT16_INTERLEAVE(cpu, body) \
 /* gcc pessimizes register allocation if this is in the same function as float_to_int16_interleave_sse2*/\
-static av_noinline void float_to_int16_interleave2_##cpu(int16_t *dst, const float **src, long len, int channels){\
+static av_noinline void float_to_int16_interleave_misc_##cpu(int16_t *dst, const float **src, long len, int channels){\
     DECLARE_ALIGNED_16(int16_t, tmp[len]);\
     int i,j,c;\
     for(c=0; c<channels; c++){\
@@ -2171,9 +2182,7 @@ static av_noinline void float_to_int16_interleave2_##cpu(int16_t *dst, const flo
 static void float_to_int16_interleave_##cpu(int16_t *dst, const float **src, long len, int channels){\
     if(channels==1)\
         float_to_int16_##cpu(dst, src[0], len);\
-    else if(channels>2)\
-        float_to_int16_interleave2_##cpu(dst, src, len, channels);\
-    else{\
+    else if(channels==2){\
         const float *src0 = src[0];\
         const float *src1 = src[1];\
         asm volatile(\
@@ -2185,7 +2194,10 @@ static void float_to_int16_interleave_##cpu(int16_t *dst, const float **src, lon
             body\
             :"+r"(len), "+r"(dst), "+r"(src0), "+r"(src1)\
         );\
-    }\
+    }else if(channels==6){\
+        ff_float_to_int16_interleave6_##cpu(dst, src, len);\
+    }else\
+        float_to_int16_interleave_misc_##cpu(dst, src, len, channels);\
 }
 
 FLOAT_TO_INT16_INTERLEAVE(3dnow,
@@ -2235,6 +2247,13 @@ FLOAT_TO_INT16_INTERLEAVE(sse2,
     "add $16, %0                \n"
     "js 1b                      \n"
 )
+
+static void float_to_int16_interleave_3dn2(int16_t *dst, const float **src, long len, int channels){
+    if(channels==6)
+        ff_float_to_int16_interleave6_3dn2(dst, src, len);
+    else
+        float_to_int16_interleave_3dnow(dst, src, len, channels);
+}
 #endif
 
 
@@ -2307,7 +2326,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                     c->idct    = ff_vp3_idct_sse2;
                     c->idct_permutation_type= FF_TRANSPOSE_IDCT_PERM;
                 }else{
-                    ff_vp3_dsp_init_mmx();
                     c->idct_put= ff_vp3_idct_put_mmx;
                     c->idct_add= ff_vp3_idct_add_mmx;
                     c->idct    = ff_vp3_idct_mmx;
@@ -2592,47 +2610,62 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #endif /*GCC420_OR_NEWER*/
 
         if(mm_flags & MM_3DNOW){
-#ifdef CONFIG_VORBIS_DECODER
+            #ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
-#endif
+            #endif
             c->vector_fmul = vector_fmul_3dnow;
-#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
+            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER) || defined(CONFIG_VORBIS_DECODER)
+            #ifndef ARCH_X86_64
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
-                #ifndef ARCH_X86_64
+                #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
                 c->float_to_int16 = float_to_int16_3dnow;
+                #endif
+                #ifdef CONFIG_VORBIS_DECODER
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
                 #endif
             }
-#endif
+            #endif
+            #endif
         }
         if(mm_flags & MM_3DNOWEXT){
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
             c->vector_fmul_window = vector_fmul_window_3dnow2;
+            #ifdef CONFIG_VORBIS_DECODER
+            #ifndef ARCH_X86_64
+            if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+                c->float_to_int16_interleave = float_to_int16_interleave_3dn2;
+            }
+            #endif
+            #endif
         }
         if(mm_flags & MM_SSE){
-#ifdef CONFIG_VORBIS_DECODER
+            #ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
-#endif
+            #endif
             c->vector_fmul = vector_fmul_sse;
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add_add = vector_fmul_add_add_sse;
             c->vector_fmul_window = vector_fmul_window_sse;
-#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             #ifndef ARCH_X86_64
+            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             c->float_to_int16 = float_to_int16_sse;
+            #endif
+            #ifdef CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
             #endif
-#endif
+            #endif
         }
         if(mm_flags & MM_3DNOW)
             c->vector_fmul_add_add = vector_fmul_add_add_3dnow; // faster than sse
-#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
         if(mm_flags & MM_SSE2){
             #ifndef ARCH_X86_64
+            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             c->float_to_int16 = float_to_int16_sse2;
+            #endif
+            #ifdef CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
             #endif
+            #endif
         }
-#endif
     }
 }
