@@ -639,7 +639,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	POSITION pos = m_wmcmds.GetHeadPosition();
     for(int i = 0; pos; i++)
 	{
-		int row = m_list.InsertItem(m_list.GetItemCount(), m_wmcmds.GetAt(pos).name, COL_CMD);
+		int row = m_list.InsertItem(m_list.GetItemCount(), m_wmcmds.GetAt(pos).GetName(), COL_CMD);
 		m_list.SetItemData(row, (DWORD_PTR)pos);
 		m_wmcmds.GetNext(pos);
 	}

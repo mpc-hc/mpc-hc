@@ -380,7 +380,7 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 		CStringA str;
 		str.Format("%d", wc.cmd);
 		wmcoptions += "<option value=\"" + str + "\">" 
-			+ CStringA(wc.name) + "\r\n";
+			+ CStringA(wc.GetName()) + "\r\n";
 	}
 
 	m_pWebServer->LoadPage(IDR_HTML_INDEX, body, m_path);
