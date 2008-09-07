@@ -201,8 +201,8 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_9),		_T("ivf"),	_T("ivf")));
 		ADDFMT((_T("AIFF Format Sound"),		_T("aiff"),	_T("aif aifc aiff"), true));
 		ADDFMT((_T("AU Format Sound"),			_T("au"),	_T("au snd"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_10),	_T("ogm"),	_T("ogm")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_11),	_T("ogg"),	_T("ogg"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_10),	_T("ogm"),	_T("ogm ogv")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_11),	_T("ogg"),	_T("ogg oga"), true));
 		ADDFMT((_T("CD Audio Track"),			_T("cda"),	_T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
 		ADDFMT((ResStr(IDS_AG_FLIC_FILE),		_T("flic"),	_T("fli flc flic")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),	_T("d2v"),	_T("d2v")));

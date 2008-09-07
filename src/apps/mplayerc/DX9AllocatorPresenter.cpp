@@ -1826,6 +1826,8 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		{
 			ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
 		}
+		// If framerate not set by Video Decoder choose 23.97...
+		if (m_rtTimePerFrame == 0) m_rtTimePerFrame = 417166;
 	}
 
     HRESULT hr;
