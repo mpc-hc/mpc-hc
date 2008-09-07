@@ -1255,7 +1255,10 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 	UINT uDevice = GET_DEVICE_LPARAM(lParam);
 	UINT dwKeys = GET_KEYSTATE_LPARAM(lParam);
 
-	if(uDevice != FAPPCOMMAND_OEM)
+	if(uDevice != FAPPCOMMAND_OEM ||
+	   cmd == APPCOMMAND_MEDIA_PLAY || cmd == APPCOMMAND_MEDIA_PAUSE || cmd == APPCOMMAND_MEDIA_CHANNEL_UP || 
+	   cmd == APPCOMMAND_MEDIA_CHANNEL_DOWN || cmd == APPCOMMAND_MEDIA_RECORD || 
+	   cmd == APPCOMMAND_MEDIA_FAST_FORWARD || cmd == APPCOMMAND_MEDIA_REWIND )
 	{
 		AppSettings& s = AfxGetAppSettings();
 

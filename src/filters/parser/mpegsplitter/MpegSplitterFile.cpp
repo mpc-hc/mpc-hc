@@ -29,12 +29,13 @@
 #define MEGABYTE 1024*1024
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
+	, m_bIsHdmv(bIsHdmv)
 
 {
 	if(SUCCEEDED(hr)) hr = Init();
@@ -105,10 +106,7 @@ HRESULT CMpegSplitterFile::Init()
 		return E_FAIL;
 	}
 
-	//
-
 	// min/max pts & bitrate
-
 	m_rtMin = m_posMin = _I64_MAX;
 	m_rtMax = m_posMax = 0;
 
@@ -152,16 +150,24 @@ HRESULT CMpegSplitterFile::Init()
 		m_rate = detected_rate;
 	else ; // TODO: in this case disable seeking, or try doing something less drastical...
 
-#ifndef DEBUG
-	if(m_streams[video].GetCount() && m_streams[subpic].GetCount())
+//#ifndef DEBUG
+	if(m_streams[video].GetCount())
 	{
+		if (m_bIsHdmv)
+		{
+			// Add fake stream for "No subtitle"
+			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
+		}
+		else if (m_streams[subpic].GetCount())
+		{
 		stream s;
 		s.mt.majortype = MEDIATYPE_Video;
 		s.mt.subtype = MEDIASUBTYPE_DVD_SUBPICTURE;
 		s.mt.formattype = FORMAT_None;
 		m_streams[subpic].Insert(s);
+		}
 	}
-#endif
+//#endif
 
 	Seek(0);
 
@@ -267,9 +273,6 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop)
 {
 	Seek(start);
 	stop = min(stop, GetLength());
-
-	// Add fake stream for "No subtitle"
-	AddHdmvPGStream (NO_SUBTITLE_PID, "---");
 
 	while(GetPos() < stop)
 	{

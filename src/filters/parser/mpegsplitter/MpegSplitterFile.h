@@ -55,6 +55,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
 	CMpegSplitterFile::avchdr avch;
+	bool m_bIsHdmv;
 
 
 	HRESULT Init();
@@ -62,7 +63,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	void OnComplete();
 
 public:
-	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr);
+	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv);
 
 	REFERENCE_TIME NextPTS(DWORD TrackNum);
 
