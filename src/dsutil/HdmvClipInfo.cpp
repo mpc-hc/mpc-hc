@@ -139,11 +139,10 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 	if(m_hFile != INVALID_HANDLE_VALUE)
 	{
 		ReadBuffer(Buff, 4);
-		if (memcmp (Buff, "HDMV", 4)) return E_FAIL;
+		if (memcmp (Buff, "HDMV", 4)) return VFW_E_INVALID_FILE_FORMAT;
 
 		ReadBuffer(Buff, 4);
-		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0))
-			return VFW_E_INVALID_FILE_FORMAT;
+		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return VFW_E_INVALID_FILE_FORMAT;
 
 		SequenceInfo_start_address	= ReadDword();
 		ProgramInfo_start_address	= ReadDword();
@@ -207,4 +206,108 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
 	default :
 		return _T("Unknown");
 	}
+}
+
+
+HRESULT CHdmvClipInfo::ReadPlaylist(LPCTSTR strPath, LPCTSTR strFile, REFERENCE_TIME& rtDuration, CAtlList<CString>& Playlist)
+{
+	DWORD				dwPos;
+	DWORD				dwTemp;
+	SHORT				nPlaylistItems;
+	REFERENCE_TIME		rtIn, rtOut;
+	BYTE				Buff[100];
+	CString				strTemp;
+
+	strTemp.Format(_T("%sPLAYLIST\\%s"), strPath, strFile);
+	m_hFile   = CreateFile(strTemp, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, 
+					       OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+
+	if(m_hFile != INVALID_HANDLE_VALUE)
+	{
+		ReadBuffer(Buff, 4);
+		if (memcmp (Buff, "MPLS", 4)) return VFW_E_INVALID_FILE_FORMAT;
+
+		ReadBuffer(Buff, 4);
+		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return VFW_E_INVALID_FILE_FORMAT;
+
+		dwPos = ReadDword();
+		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+
+		ReadDword();
+		ReadShort();
+		dwTemp		   = ReadShort();
+		nPlaylistItems = min(dwTemp, 5);	// Main movie should be more than 5 parts...
+		ReadShort();
+		
+		dwPos	  += 10;
+		rtDuration = 0;
+		for (int i=0; i<nPlaylistItems; i++)
+		{		
+			SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+			dwPos = dwPos + ReadShort() + 2;
+			ReadBuffer(Buff, 5);
+			strTemp.Format(_T("%sSTREAM\\%c%c%c%c%c.M2TS"), strPath, Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
+			Playlist.AddTail (strTemp);
+
+			ReadBuffer(Buff, 4);
+			if (memcmp (Buff, "M2TS", 4)) return VFW_E_INVALID_FILE_FORMAT;
+			ReadBuffer(Buff, 3);
+
+			dwTemp	= ReadDword();
+			rtIn = 20000i64*dwTemp/90;	// Carefull : 32->33 bits!
+
+			dwTemp	= ReadDword();
+			rtOut = 20000i64*dwTemp/90;	// Carefull : 32->33 bits!
+
+			rtDuration += (rtOut - rtIn);
+
+//			TRACE ("File : %S,  Duration : %S, Total duration  : %S\n", strName, ReftimeToString (rtOut - rtIn), ReftimeToString (rtDuration));
+		}
+
+		CloseHandle (m_hFile);
+		return S_OK;
+	}
+
+	return AmHresultFromWin32(GetLastError());
+}
+
+HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CAtlList<CString>& MainPlaylist)
+{
+	HRESULT				hr		= E_FAIL;
+	REFERENCE_TIME		rtMax	= 0;
+	REFERENCE_TIME		rtCurrent;
+	CString				strPath (strFolder);
+	CString				strFilter;
+	CAtlList<CString>	Playlist;
+	WIN32_FIND_DATA		fd = {0};
+
+	strPath.Replace(_T("\\PLAYLIST\\"), _T("\\"));
+	strPath.Replace(_T("\\BDMV\\"),		_T("\\"));
+	strPath.Replace(_T("\\STREAM\\"),		_T("\\"));
+	strPath  += _T("\\BDMV\\");
+	strFilter.Format (_T("%sPLAYLIST\\*.mpls"), strPath);
+
+	HANDLE hFind = FindFirstFile(strFilter, &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			Playlist.RemoveAll();
+			if (SUCCEEDED (ReadPlaylist(strPath, fd.cFileName, rtCurrent, Playlist)) && rtCurrent > rtMax)
+			{
+				rtMax			= rtCurrent;
+
+				MainPlaylist.RemoveAll();
+				POSITION pos = Playlist.GetHeadPosition();
+				while(pos) MainPlaylist.AddTail(Playlist.GetNext(pos));
+
+				hr				= S_OK;
+			}
+		}
+		while(FindNextFile(hFind, &fd));
+		
+		FindClose(hFind);
+	}
+
+	return hr;
 }

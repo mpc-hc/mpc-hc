@@ -10,6 +10,13 @@ v1.x.x.x - unreleased
  CHANGED: Store the settings for the internal DXVA/FFmpeg decoders in a different value than the other internal decoders. This makes the settings better interchangeable with old MPC builds. Also gives more room in the bitvector for adding more (FFmpeg based) decoders in the future.
  CHANGED: PAR correction option (for anamorphic video)in VSFilter and RealText support 
  CHANGED: liba52 & libdts library updated
+ CHANGED: x64 edition of MPCVideodec is now build using GCC/MingW64 (improve performances)
+ CHANGED: Gui option for Explorer Context menu->Files(see Formats Page)
+ CHANGED: Gui option for Explorer Context menu->Directory(see Formats Page)
+ CHANGED: Open directory(shell context menu or MPC-HC menu) - load only enqueue audio/video files, those with file extensions from the Formats page in MPC options
+ CHANGED: Replaced command line switches /unregvid and /unregaud with a new switch /unregall. That cleans up  all file associations, including image/playlist formats.
+ CHANGED: Change in VideoDecoder Settings for rev.681(read AR from stream)
+ CHANGED: Open DVD detect and open Blu Ray main movie
  FIXED  : Chapter message improperly displayed in status bar (for file only)
  FIXED  : Crash with CoreAVC when changing "prefered decoder" setting during playback
  FIXED  : Missing checkmarks on "tearing test" and "display stats" options (bug #2010857)
@@ -18,6 +25,9 @@ v1.x.x.x - unreleased
  FIXED  : Fix rare seeking issue with VobSubs in VSFilter
  FIXED  : Subtitle style not save in settings.
  FIXED  : random freeze when using mpc-hc, vsfilter and Haali renderer at the same time
+ FIXED  : shortcuts with MEDIA_PLAY, MEDIA_PAUSE not working with some remote control
+ FIXED  : shortcuts label in "Option / Key" dialog box is now localized
+ FIXED  : MPC-HC file association cleanup bug (rev.731), these commands are not working: mplayerc /unregvid, mplayerc /unregaud 
 
 v1.1.604.0 - 28 June 2008
 ======================

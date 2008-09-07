@@ -45,6 +45,8 @@ public:
 	int			GetStreamNumber()			{ return m_nStreamNumber; };
 	Stream*		GetStreamByIndex(int nIndex){ return (nIndex < m_nStreamNumber) ? &m_Stream[nIndex] : NULL; };
 
+	HRESULT		FindMainMovie(LPCTSTR strFolder, CAtlList<CString>& MainPlaylist);
+
 private :
 	DWORD		SequenceInfo_start_address;
 	DWORD		ProgramInfo_start_address;
@@ -60,4 +62,5 @@ private :
 	void		ReadBuffer(BYTE* pBuff, int nLen);
 
 	HRESULT		ReadProgramInfo();
+	HRESULT		ReadPlaylist(LPCTSTR strPath, LPCTSTR strFile, REFERENCE_TIME& rtDuration, CAtlList<CString>& Playlist);
 };

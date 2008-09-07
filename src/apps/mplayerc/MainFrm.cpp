@@ -3562,16 +3562,25 @@ void CMainFrame::OnFileOpendvd()
 
 	if(iil = SHBrowseForFolder(&bi))
 	{
-		CAutoPtr<OpenDVDData> p(new OpenDVDData());
-
+		CHdmvClipInfo		ClipInfo;
+		CAtlList<CString>	MainPlaylist;
 		SHGetPathFromIDList(iil, path);
-
 		s.sDVDPath = path;
-		p->path = path;
-		p->path.Replace('/', '\\');
-		if(p->path[p->path.GetLength()-1] != '\\') p->path += '\\';
 
-		OpenMedia(p);
+		if (SUCCEEDED (ClipInfo.FindMainMovie (path, MainPlaylist)))
+		{
+			m_wndPlaylistBar.Open(MainPlaylist, MainPlaylist.GetCount()>1);
+			OpenCurPlaylistItem();
+		}
+		else
+		{
+			CAutoPtr<OpenDVDData> p(new OpenDVDData());
+			p->path = path;
+			p->path.Replace('/', '\\');
+			if(p->path[p->path.GetLength()-1] != '\\') p->path += '\\';
+
+			OpenMedia(p);
+		}
 	}
 }
 
