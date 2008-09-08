@@ -68,7 +68,7 @@ STDMETHODIMP IDSMPropertyBagImpl::GetPropertyInfo(ULONG iProperty, ULONG cProper
 		CStringW key = GetKeyAt(iProperty);
 		pPropBag[i].pstrName = (BSTR)CoTaskMemAlloc((key.GetLength()+1)*sizeof(WCHAR));
 		if(!pPropBag[i].pstrName) return E_FAIL;
-        wcscpy(pPropBag[i].pstrName, key);
+        wcscpy_s(pPropBag[i].pstrName, key.GetLength()+1, key);
 	}
 	return S_OK;
 }

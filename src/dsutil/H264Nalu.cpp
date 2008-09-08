@@ -71,7 +71,7 @@ bool CH264Nalu::ReadNext()
 		m_nNALStartPos	= m_nCurPos;
 		m_nNALDataPos	= m_nCurPos + m_nNALSize;
 		nTemp			= 0;
-		for (UINT i=0; i<m_nNALSize; i++)
+		for (int i=0; i<m_nNALSize; i++)
 		{
 			nTemp = (nTemp << 8) + m_pBuffer[m_nCurPos++];
 		}

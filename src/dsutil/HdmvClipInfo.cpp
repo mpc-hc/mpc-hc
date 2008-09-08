@@ -70,12 +70,12 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 
 	ReadDword();	//length
 	ReadByte();		//reserved_for_word_align
-	number_of_program_sequences		= ReadByte();
+	number_of_program_sequences		= (BYTE)ReadByte();
 	for (int i=0; i<number_of_program_sequences; i++)
 	{     
 		ReadDword();	//SPN_program_sequence_start
 		ReadShort();	//program_map_PID
-		number_of_streams_in_ps = ReadByte();		//number_of_streams_in_ps
+		number_of_streams_in_ps = (BYTE)ReadByte();		//number_of_streams_in_ps
 		ReadByte();		//reserved_for_future_use
 	
 		for (int stream_index=0; stream_index<number_of_streams_in_ps; stream_index++)
@@ -85,7 +85,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			// == StreamCodingInfo
 			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + 1;
 			dwPos += ReadByte();	// length
-			m_Stream[m_nStreamNumber].stream_coding_type	= ReadByte();
+			m_Stream[m_nStreamNumber].stream_coding_type	= (BYTE)ReadByte();
 			
 			switch (m_Stream[m_nStreamNumber].stream_coding_type)
 			{
@@ -236,7 +236,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(LPCTSTR strPath, LPCTSTR strFile, REFERENCE_
 		ReadDword();
 		ReadShort();
 		dwTemp		   = ReadShort();
-		nPlaylistItems = min(dwTemp, 5);	// Main movie should be more than 5 parts...
+		nPlaylistItems = min((SHORT)dwTemp, 5);	// Main movie should be more than 5 parts...
 		ReadShort();
 		
 		dwPos	  += 10;

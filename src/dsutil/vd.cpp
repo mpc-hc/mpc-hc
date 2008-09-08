@@ -349,7 +349,7 @@ CCpuID g_cpuid;
 
 void memcpy_accel(void* dst, const void* src, size_t len)
 {
-	if((g_cpuid.m_flags & CCpuID::flag_t::ssefpu) && len >= 128 
+	if((g_cpuid.m_flags & CCpuID::ssefpu) && len >= 128 
 		&& !((DWORD)src&15) && !((DWORD)dst&15))
 	{
 		__asm
@@ -396,7 +396,7 @@ void memcpy_accel(void* dst, const void* src, size_t len)
 			sfence
 		}
 	}
-	else if((g_cpuid.m_flags & CCpuID::flag_t::mmx) && len >= 64
+	else if((g_cpuid.m_flags & CCpuID::mmx) && len >= 64
 		&& !((DWORD)src&7) && !((DWORD)dst&7))
 	{
 		__asm 

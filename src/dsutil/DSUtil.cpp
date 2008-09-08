@@ -561,7 +561,7 @@ void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
 	{
 		bool fFound = false;
 
-		for(int i = 0; !fFound && i < types.GetCount(); i += 2)
+		for(int i = 0; !fFound && i < (int)types.GetCount(); i += 2)
 		{
 			if(types[i] == pmt->majortype && types[i+1] == pmt->subtype)
 				fFound = true;
@@ -879,14 +879,14 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 				if(afi.dwCaps&AVIFILECAPS_ALLKEYFRAMES)
 				{
 					kfs.SetSize(si.dwLength);
-					for(int kf = 0; kf < si.dwLength; kf++) kfs[kf] = kf;
+					for(int kf = 0; kf < (int)si.dwLength; kf++) kfs[kf] = kf;
 				}
 				else
 				{
 					for(int kf = 0; ; kf++)
 					{
 						kf = pavi->FindSample(kf, FIND_KEY|FIND_NEXT);
-						if(kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= kf) break;
+						if(kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= (UINT)kf) break;
 						kfs.Add(kf);
 					}
 
@@ -1104,15 +1104,15 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 	BYTE* seqhdr_ext = NULL;
 
 	BYTE* seqhdr_end = seqhdr + 11;
-	if(seqhdr_end - seqhdr > len) return false;
+	if(seqhdr_end - seqhdr > (long)len) return false;
 	if(*seqhdr_end & 0x02) seqhdr_end += 64;
-	if(seqhdr_end - seqhdr > len) return false;
+	if(seqhdr_end - seqhdr > (long)len) return false;
 	if(*seqhdr_end & 0x01) seqhdr_end += 64;
-	if(seqhdr_end - seqhdr > len) return false;
+	if(seqhdr_end - seqhdr > (long)len) return false;
 	seqhdr_end++;
-	if(seqhdr_end - seqhdr > len) return false;
+	if(seqhdr_end - seqhdr > (long)len) return false;
 	if(len - (seqhdr_end - seqhdr) > 4 && *(DWORD*)seqhdr_end == 0xb5010000) {seqhdr_ext = seqhdr_end; seqhdr_end += 10;}
-	if(seqhdr_end - seqhdr > len) return false;
+	if(seqhdr_end - seqhdr > (long)len) return false;
 
 	len = seqhdr_end - seqhdr;
 	
@@ -2005,9 +2005,9 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 CString ISO6391ToLanguage(LPCSTR code)
 {
 	CHAR tmp[2+1];
-	strncpy(tmp, code, 2);
+	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
-	_strlwr(tmp);
+	_strlwr_s(tmp);
 	for(int i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6391, tmp))
 		{
@@ -2022,9 +2022,9 @@ CString ISO6391ToLanguage(LPCSTR code)
 CString ISO6392ToLanguage(LPCSTR code)
 {
 	CHAR tmp[3+1];
-	strncpy(tmp, code, 3);
+	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
-	_strlwr(tmp);
+	_strlwr_s(tmp);
 	for(int i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
@@ -2041,9 +2041,9 @@ CString ISO6392ToLanguage(LPCSTR code)
 LCID ISO6392ToLcid(LPCSTR code)
 {
 	CHAR tmp[3+1];
-	strncpy(tmp, code, 3);
+	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
-	_strlwr(tmp);
+	_strlwr_s(tmp);
 	for(int i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
@@ -2057,9 +2057,9 @@ LCID ISO6392ToLcid(LPCSTR code)
 CString ISO6391To6392(LPCSTR code)
 {
 	CHAR tmp[2+1];
-	strncpy(tmp, code, 2);
+	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
-	_strlwr(tmp);
+	_strlwr_s(tmp);
 	for(int i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6391, tmp))
 			return CString(CStringA(s_isolangs[i].iso6392));
@@ -2069,9 +2069,9 @@ CString ISO6391To6392(LPCSTR code)
 CString ISO6392To6391(LPCSTR code)
 {
 	CHAR tmp[3+1];
-	strncpy(tmp, code, 3);
+	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
-	_strlwr(tmp);
+	_strlwr_s(tmp);
 	for(int i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
 			return CString(CStringA(s_isolangs[i].iso6391));
@@ -2346,7 +2346,7 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 {
 	CString		strTemp;
 	LONGLONG	llTotalMs =  ConvertToMilliseconds (rtVal);
-	int			lHour	  = llTotalMs  / (1000*60*60);
+	int			lHour	  = (int)(llTotalMs  / (1000*60*60));
 	int			lMinute	  = (llTotalMs / (1000*60)) % 60;
 	int			lSecond	  = (llTotalMs /  1000) % 60;
 	int			lMillisec = llTotalMs  %  1000;
