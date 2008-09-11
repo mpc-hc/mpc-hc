@@ -3007,7 +3007,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 
 CString& operator <<= (CString& style, STSStyle& s)
 {
-	style.Format(_T("%d,%d,%d,%d,%d,%d,%f,%f,%f,%f,0x%06x,0x%06x,0x%06x,0x%06x,0x%02x,0x%02x,0x%02x,0x%02x,%d,%s,%f,%f,%f,%f,%d,%d,%d,%d,%d,%f,%f,%f,%f,%d"),
+	style.Format(_T("%d;%d;%d;%d;%d;%d;%f;%f;%f;%f;0x%06x;0x%06x;0x%06x;0x%06x;0x%02x;0x%02x;0x%02x;0x%02x;%d;%s;%f;%f;%f;%f;%d;%d;%d;%d;%d;%f;%f;%f;%f;%d"),
 		s.marginRect.left, s.marginRect.right, s.marginRect.top, s.marginRect.bottom,
 		s.scrAlignment, s.borderStyle, 
 		s.outlineWidthX, s.outlineWidthY, s.shadowDepthX, s.shadowDepthY,
@@ -3031,18 +3031,21 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 	try 
 	{
 		CStringW str = TToW(style);
-		s.marginRect.left = GetInt(str); s.marginRect.right = GetInt(str); s.marginRect.top = GetInt(str); s.marginRect.bottom = GetInt(str);
-		s.scrAlignment = GetInt(str); s.borderStyle = GetInt(str);
-		s.outlineWidthX = GetFloat(str); s.outlineWidthY = GetFloat(str); s.shadowDepthX = GetFloat(str); s.shadowDepthY = GetFloat(str);
-		for(int i = 0; i < 4; i++) s.colors[i] = (COLORREF)GetInt(str);
-		for(int i = 0; i < 4; i++) s.alpha[i] = GetInt(str);
-		s.charSet = GetInt(str);
-		s.fontName = WToT(GetStr(str)); s.fontSize = GetFloat(str); 
-		s.fontScaleX = GetFloat(str); s.fontScaleY = GetFloat(str);
-		s.fontSpacing = GetFloat(str); s.fontWeight = GetInt(str);
-		s.fItalic = !!GetInt(str); s.fUnderline = !!GetInt(str); s.fStrikeOut = !!GetInt(str); s.fBlur = GetInt(str); s.fGaussianBlur = GetFloat(str);
-		s.fontAngleZ = GetFloat(str); s.fontAngleX = GetFloat(str); s.fontAngleY = GetFloat(str);
-		s.relativeTo = GetInt(str);
+		if(str.Find(';')>=0)
+		{
+			s.marginRect.left = GetInt(str,';'); s.marginRect.right = GetInt(str,';'); s.marginRect.top = GetInt(str,';'); s.marginRect.bottom = GetInt(str,';');
+			s.scrAlignment = GetInt(str,';'); s.borderStyle = GetInt(str,';');
+			s.outlineWidthX = GetFloat(str,';'); s.outlineWidthY = GetFloat(str,';'); s.shadowDepthX = GetFloat(str,';'); s.shadowDepthY = GetFloat(str,';');
+			for(int i = 0; i < 4; i++) s.colors[i] = (COLORREF)GetInt(str,';');
+			for(int i = 0; i < 4; i++) s.alpha[i] = GetInt(str,';');
+			s.charSet = GetInt(str,';');
+			s.fontName = WToT(GetStr(str,';')); s.fontSize = GetFloat(str,';'); 
+			s.fontScaleX = GetFloat(str,';'); s.fontScaleY = GetFloat(str,';');
+			s.fontSpacing = GetFloat(str,';'); s.fontWeight = GetInt(str,';');
+			s.fItalic = !!GetInt(str,';'); s.fUnderline = !!GetInt(str,';'); s.fStrikeOut = !!GetInt(str,';'); s.fBlur = GetInt(str,';'); s.fGaussianBlur = GetFloat(str,';');
+			s.fontAngleZ = GetFloat(str,';'); s.fontAngleX = GetFloat(str,';'); s.fontAngleY = GetFloat(str,';');
+			s.relativeTo = GetInt(str,';');
+		}
 	}
 	catch(...)
 	{
