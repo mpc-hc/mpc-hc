@@ -78,7 +78,7 @@ protected:
 	// === Persistants parameters (registry)
 	int										m_nThreadNumber;
 	int										m_nDiscardMode;
-	int										m_nErrorResilience;
+	int										m_nErrorRecognition;
 	int										m_nIDCTAlgo;
 	bool									m_bDXVACompatible;
 	int										m_nCompatibilityMode;
@@ -179,8 +179,8 @@ public:
 	STDMETHODIMP_(int) GetThreadNumber();
 	STDMETHOD(SetDiscardMode(int nValue));
 	STDMETHOD_(int, GetDiscardMode());
-	STDMETHOD(SetErrorResilience(int nValue));
-	STDMETHOD_(int, GetErrorResilience());
+	STDMETHOD(SetErrorRecognition(int nValue));
+	STDMETHOD_(int, GetErrorRecognition());
 	STDMETHOD(SetIDCTAlgo(int nValue));
 	STDMETHOD_(int, GetIDCTAlgo());
 	STDMETHOD_(GUID*, GetDXVADecoderGuid());

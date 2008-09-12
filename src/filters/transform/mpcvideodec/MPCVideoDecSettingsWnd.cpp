@@ -114,14 +114,14 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
 	#endif
 	
-	// Error resilience
+	// Error recognition
 	nPosY += VERTICAL_SPACING;
-	m_txtErrorResilience.Create (ResStr (IDS_VDF_ERROR_RESILIENCE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
-	m_cbErrorResilience.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DISCARD_MODE);
-	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_CAREFUL));
-	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_COMPLIANT));
-	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_AGGRESSIVE));
-	m_cbErrorResilience.AddString (ResStr (IDS_VDF_ERR_VERYAGGRESSIVE));
+	m_txtErrorRecognition.Create (ResStr (IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbErrorRecognition.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DISCARD_MODE);
+	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_CAREFUL));
+	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_COMPLIANT));
+	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_AGGRESSIVE));
+	m_cbErrorRecognition.AddString (ResStr (IDS_VDF_ERR_VERYAGGRESSIVE));
 
 	// IDCT Algo
 	nPosY += VERTICAL_SPACING;
@@ -180,7 +180,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
 		#endif
-		m_cbErrorResilience.SetCurSel	(m_pMDF->GetErrorResilience()-1);
+		m_cbErrorRecognition.SetCurSel	(m_pMDF->GetErrorRecognition()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 
 		m_cbARMode.SetCheck(m_pMDF->GetARMode());
@@ -199,13 +199,13 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 	OnDeactivate();
 
 	#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
-	if(m_pMDF && m_cbErrorResilience.m_hWnd)
+	if(m_pMDF && m_cbErrorRecognition.m_hWnd)
 	{
 		#if defined(REGISTER_FILTER) | INTERNAL_DECODER_H264
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 		#endif
-		m_pMDF->SetErrorResilience  (m_cbErrorResilience.GetCurSel()+1);
+		m_pMDF->SetErrorRecognition  (m_cbErrorRecognition.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
 		
 		m_pMDF->SetARMode(m_cbARMode.GetCheck());

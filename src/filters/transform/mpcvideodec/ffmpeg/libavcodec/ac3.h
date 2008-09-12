@@ -24,8 +24,8 @@
  * Common code between the AC-3 encoder and decoder.
  */
 
-#ifndef FFMPEG_AC3_H
-#define FFMPEG_AC3_H
+#ifndef AVCODEC_AC3_H
+#define AVCODEC_AC3_H
 
 #include "ac3tab.h"
 
@@ -69,6 +69,46 @@ typedef struct AC3BitAllocParameters {
     int slow_gain, slow_decay, fast_decay, db_per_bit, floor;
     int cpl_fast_leak, cpl_slow_leak;
 } AC3BitAllocParameters;
+
+/**
+ * @struct AC3HeaderInfo
+ * Coded AC-3 header values up to the lfeon element, plus derived values.
+ */
+typedef struct {
+    /** @defgroup coded Coded elements
+     * @{
+     */
+    uint16_t sync_word;
+    uint16_t crc1;
+    uint8_t sr_code;
+    uint8_t bitstream_id;
+    uint8_t channel_mode;
+    uint8_t lfe_on;
+    uint8_t frame_type;
+    int substreamid;                        ///< substream identification
+    int center_mix_level;                   ///< Center mix level index
+    int surround_mix_level;                 ///< Surround mix level index
+    uint16_t channel_map;
+    int num_blocks;                         ///< number of audio blocks
+    /** @} */
+
+    /** @defgroup derived Derived values
+     * @{
+     */
+    uint8_t sr_shift;
+    uint16_t sample_rate;
+    uint32_t bit_rate;
+    uint8_t channels;
+    uint16_t frame_size;
+    /** @} */
+} AC3HeaderInfo;
+
+typedef enum {
+    EAC3_FRAME_TYPE_INDEPENDENT = 0,
+    EAC3_FRAME_TYPE_DEPENDENT,
+    EAC3_FRAME_TYPE_AC3_CONVERT,
+    EAC3_FRAME_TYPE_RESERVED
+} EAC3FrameType;
 
 void ac3_common_init(void);
 
@@ -135,4 +175,11 @@ void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
                                int snr_offset, int floor,
                                const uint8_t *bap_tab, uint8_t *bap);
 
-#endif /* FFMPEG_AC3_H */
+void ac3_parametric_bit_allocation(AC3BitAllocParameters *s, uint8_t *bap,
+                                   int8_t *exp, int start, int end,
+                                   int snr_offset, int fast_gain, int is_lfe,
+                                   int dba_mode, int dba_nsegs,
+                                   uint8_t *dba_offsets, uint8_t *dba_lengths,
+                                   uint8_t *dba_values);
+
+#endif /* AVCODEC_AC3_H */

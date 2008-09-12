@@ -398,7 +398,7 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     
     s->flags2 = CODEC_FLAG2_FASTPSKIP;
     s->error_concealment= 3;
-    s->error_resilience= 1;
+    s->error_recognition= 1;
     s->workaround_bugs= FF_BUG_AUTODETECT;
     s->thread_count=1;
     s->profile= FF_PROFILE_UNKNOWN;
@@ -706,8 +706,6 @@ int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
         return 8;
     case SAMPLE_FMT_S16:
         return 16;
-    case SAMPLE_FMT_S24:
-        return 24;
     case SAMPLE_FMT_S32:
     case SAMPLE_FMT_FLT:
         return 32;
@@ -854,7 +852,7 @@ int av_parse_video_frame_rate(AVRational *frame_rate, const char *arg)
     }
     else {
         /* Finally we give up and parse it as double */
-        AVRational time_base = av_d2q(strtod(arg, 0), DEFAULT_FRAME_RATE_BASE);
+        AVRational time_base = av_d2q(strtod(arg, 0), 1001000);
         frame_rate->den = time_base.den;
         frame_rate->num = time_base.num;
     }
@@ -862,6 +860,19 @@ int av_parse_video_frame_rate(AVRational *frame_rate, const char *arg)
         return -1;
     else
         return 0;
+}
+
+void av_log_missing_feature(void *avc, const char *feature, int want_sample)
+{
+    av_log(avc, AV_LOG_WARNING, "%s not implemented. Update your FFmpeg "
+            "version to the newest one from SVN. If the problem still "
+            "occurs, it means that your file has a feature which has not "
+            "been implemented.", feature);
+    if(want_sample)
+        av_log(avc, AV_LOG_WARNING, " If you want to help, upload a sample "
+                "of this file to ftp://upload.mplayerhq.hu/MPlayer/incoming/ "
+                "and contact the FFmpeg-devel mailing list.");
+    av_log(avc, AV_LOG_WARNING, "\n");
 }
 
 //===> Modify for MPC-HC

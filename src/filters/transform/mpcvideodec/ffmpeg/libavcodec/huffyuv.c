@@ -434,7 +434,7 @@ s->bgr32=1;
 //if(avctx->extradata)
 //  printf("extradata:%X, extradata_size:%d\n", *(uint32_t*)avctx->extradata, avctx->extradata_size);
     if(avctx->extradata_size){
-        if((avctx->bits_per_sample&7) && avctx->bits_per_sample != 12)
+        if((avctx->bits_per_coded_sample&7) && avctx->bits_per_coded_sample != 12)
             s->version=1; // do such files exist at all?
         else
             s->version=2;
@@ -449,7 +449,7 @@ s->bgr32=1;
         s->predictor= method&63;
         s->bitstream_bpp= ((uint8_t*)avctx->extradata)[1];
         if(s->bitstream_bpp==0)
-            s->bitstream_bpp= avctx->bits_per_sample&~7;
+            s->bitstream_bpp= avctx->bits_per_coded_sample&~7;
         interlace= (((uint8_t*)avctx->extradata)[2] & 0x30) >> 4;
         s->interlaced= (interlace==1) ? 1 : (interlace==2) ? 0 : s->interlaced;
         s->context= ((uint8_t*)avctx->extradata)[2] & 0x40 ? 1 : 0;
@@ -457,7 +457,7 @@ s->bgr32=1;
         if(read_huffman_tables(s, ((uint8_t*)avctx->extradata)+4, avctx->extradata_size) < 0)
             return -1;
     }else{
-        switch(avctx->bits_per_sample&7){
+        switch(avctx->bits_per_coded_sample&7){
         case 1:
             s->predictor= LEFT;
             s->decorrelate= 0;
@@ -468,7 +468,7 @@ s->bgr32=1;
             break;
         case 3:
             s->predictor= PLANE;
-            s->decorrelate= avctx->bits_per_sample >= 24;
+            s->decorrelate= avctx->bits_per_coded_sample >= 24;
             break;
         case 4:
             s->predictor= MEDIAN;
@@ -479,7 +479,7 @@ s->bgr32=1;
             s->decorrelate= 0;
             break;
         }
-        s->bitstream_bpp= avctx->bits_per_sample & ~7;
+        s->bitstream_bpp= avctx->bits_per_coded_sample & ~7;
         s->context= 0;
 
         if(read_old_huffman_tables(s) < 0)
@@ -511,7 +511,7 @@ s->bgr32=1;
 
     alloc_temp(s);
 
-//    av_log(NULL, AV_LOG_DEBUG, "pred:%d bpp:%d hbpp:%d il:%d\n", s->predictor, s->bitstream_bpp, avctx->bits_per_sample, s->interlaced);
+//    av_log(NULL, AV_LOG_DEBUG, "pred:%d bpp:%d hbpp:%d il:%d\n", s->predictor, s->bitstream_bpp, avctx->bits_per_coded_sample, s->interlaced);
 
     return 0;
 }

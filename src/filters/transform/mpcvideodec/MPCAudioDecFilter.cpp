@@ -212,7 +212,7 @@ HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			m_pAVCtx->channels		= wfex->nChannels;
 
 			m_pAVCtx->bit_rate			= wfex->nAvgBytesPerSec*8;
-			m_pAVCtx->bits_per_sample	= wfex->wBitsPerSample;
+			m_pAVCtx->bits_per_coded_sample	= wfex->wBitsPerSample;
 			m_pAVCtx->block_align		= wfex->nBlockAlign;
 
 			/*

@@ -53,8 +53,8 @@ interface IMPCVideoDecFilter : public IUnknown
 	STDMETHOD(SetDiscardMode(int nValue)) = 0;
 	STDMETHOD_(int, GetDiscardMode()) = 0;
 
-	STDMETHOD(SetErrorResilience(int nValue)) = 0;
-	STDMETHOD_(int, GetErrorResilience()) = 0;
+	STDMETHOD(SetErrorRecognition(int nValue)) = 0;
+	STDMETHOD_(int, GetErrorRecognition()) = 0;
 
 	STDMETHOD(SetIDCTAlgo(int nValue)) = 0;
 	STDMETHOD_(int, GetIDCTAlgo()) = 0;

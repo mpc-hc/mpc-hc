@@ -25,6 +25,29 @@
  * MDCT/IMDCT transforms.
  */
 
+// Generate a Kaiser-Bessel Derived Window.
+#define BESSEL_I0_ITER 50 // default: 50 iterations of Bessel I0 approximation
+void ff_kbd_window_init(float *window, float alpha, int n)
+{
+   int i, j;
+   double sum = 0.0, bessel, tmp;
+   double local_window[n];
+   double alpha2 = (alpha * M_PI / n) * (alpha * M_PI / n);
+
+   for (i = 0; i < n; i++) {
+       tmp = i * (n - i) * alpha2;
+       bessel = 1.0;
+       for (j = BESSEL_I0_ITER; j > 0; j--)
+           bessel = bessel * tmp / (j * j) + 1;
+       sum += bessel;
+       local_window[i] = sum;
+   }
+
+   sum++;
+   for (i = 0; i < n; i++)
+       window[i] = sqrt(local_window[i] / sum);
+}
+
 DECLARE_ALIGNED(16, float, ff_sine_128 [ 128]);
 DECLARE_ALIGNED(16, float, ff_sine_256 [ 256]);
 DECLARE_ALIGNED(16, float, ff_sine_512 [ 512]);
@@ -36,10 +59,9 @@ float *ff_sine_windows[5] = {
 
 // Generate a sine window.
 void ff_sine_window_init(float *window, int n) {
-    float alpha = M_PI / (2.0 * n);
     int i;
     for(i = 0; i < n; i++)
-        window[i] = sin((i + 0.5) * alpha);
+        window[i] = sinf((i + 0.5) * (M_PI / (2.0 * n)));
 }
 
 /**

@@ -7170,21 +7170,12 @@ static inline int decode_seq_parameter_set(H264Context *h){
     sps->profile_idc= profile_idc;
     sps->level_idc= level_idc;
 
-    // ==> Start patch MPC Fidelity Range Extensions stuff
-    sps->chroma_format_idc = 1;
-    sps->bit_depth_luma   = 8;  // bit_depth_luma_minus8
-    sps->bit_depth_chroma = 8;  // bit_depth_chroma_minus8
-    sps->residual_colour_transform_flag = 0;
-    // <== End patch MPC
-
     if(sps->profile_idc >= 100){ //high profile
         sps->chroma_format_idc= get_ue_golomb(&s->gb);
-    // ==> Start patch MPC
         if(sps->chroma_format_idc == 3)
-            sps->residual_colour_transform_flag = get_bits1(&s->gb);  //residual_color_transform_flag
-        sps->bit_depth_luma  = get_ue_golomb(&s->gb) + 8;  //bit_depth_luma_minus8
-        sps->bit_depth_chroma = get_ue_golomb(&s->gb) + 8;  //bit_depth_chroma_minus8
-    // <== End patch MPC
+            get_bits1(&s->gb);  //residual_color_transform_flag
+        get_ue_golomb(&s->gb);  //bit_depth_luma_minus8
+        get_ue_golomb(&s->gb);  //bit_depth_chroma_minus8
         sps->transform_bypass = get_bits1(&s->gb);
         decode_scaling_matrices(h, sps, NULL, 1, sps->scaling_matrix4, sps->scaling_matrix8);
     }else{
@@ -7257,7 +7248,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
         if(sps->crop_left || sps->crop_top){
             av_log(h->s.avctx, AV_LOG_ERROR, "insane cropping not completely supported, this could look slightly wrong ...\n");
         }
-        if(sps->crop_right >= 8 || sps->crop_bottom >= (8>> !h->sps.frame_mbs_only_flag)){
+        if(sps->crop_right >= 8 || sps->crop_bottom >= (8>> !sps->frame_mbs_only_flag)){
             av_log(h->s.avctx, AV_LOG_ERROR, "brainfart cropping not supported, this could look slightly wrong ...\n");
         }
     }else{
@@ -7341,10 +7332,10 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
         case 3:
         case 4:
         case 5:
-            // ==> Start patch MPC
-            pps->slice_group_change_direction_flag=get_bits1(&s->gb);        //    |1  |u(1)    |
-            pps->slice_group_change_rate_minus1=get_ue_golomb(&s->gb);        //      |1  |ue(v)   |
-            // <== End patch MPC
+#if 0
+|   slice_group_change_direction_flag               |1  |u(1)    |
+|   slice_group_change_rate_minus1                  |1  |ue(v)   |
+#endif
             break;
         case 6:
 #if 0
@@ -7433,7 +7424,7 @@ static void execute_decode_slices(H264Context *h, int context_count){
     } else {
         for(i = 1; i < context_count; i++) {
             hx = h->thread_context[i];
-            hx->s.error_resilience = avctx->error_resilience;
+            hx->s.error_recognition = avctx->error_recognition;
             hx->s.error_count = 0;
         }
 
@@ -7893,5 +7884,3 @@ AVCodec h264_decoder = {
 };
 
 #include "svq3.c"
-
-#include "h264_dxva.c"

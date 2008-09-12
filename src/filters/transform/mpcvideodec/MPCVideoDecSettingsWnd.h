@@ -36,8 +36,8 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CComboBox	m_cbThreadNumber;
 	CStatic		m_txtDiscardMode;
 	CComboBox	m_cbDiscardMode;
-	CStatic		m_txtErrorResilience;
-	CComboBox	m_cbErrorResilience;
+	CStatic		m_txtErrorRecognition;
+	CComboBox	m_cbErrorRecognition;
 	CStatic		m_txtIDCTAlgo;
 	CComboBox	m_cbIDCTAlgo;
 	
@@ -54,7 +54,7 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 		IDC_PP_THREAD_NUMBER = 10000,
 		IDC_PP_ENABLE_DEBLOCKING,
 		IDC_PP_DISCARD_MODE,
-		IDC_PP_ERROR_RESILIENCE,
+		IDC_PP_ERROR_RECOGNITION,
 		IDC_PP_AR,
 	};
 

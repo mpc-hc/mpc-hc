@@ -51,7 +51,7 @@ void ff_acelp_interpolate(
 {
     int n, i;
 
-    assert(pitch_delay_frac >= 0 && pitch_delay_frac < precision);
+    //assert(pitch_delay_frac >= 0 && pitch_delay_frac < precision);
 
     for(n=0; n<length; n++)
     {

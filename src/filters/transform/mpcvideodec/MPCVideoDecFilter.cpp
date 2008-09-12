@@ -470,7 +470,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_nThreadNumber			= m_pCpuId->GetProcessorNumber();
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
-	m_nErrorResilience		= FF_ER_CAREFUL;
+	m_nErrorRecognition		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
 	m_bDXVACompatible		= true;
 	m_nCompatibilityMode	= 0;
@@ -497,7 +497,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		DWORD dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ThreadNumber"), dw)) m_nThreadNumber = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) m_nDiscardMode = dw;
-		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorResilience"), dw)) m_nErrorResilience = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorRecognition"), dw)) m_nErrorRecognition = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
@@ -888,7 +888,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->codec_tag				= ffCodecs[nNewCodec].fourcc;
 			m_pAVCtx->workaround_bugs		= m_nWorkaroundBug;
 			m_pAVCtx->error_concealment		= m_nErrorConcealment;
-			m_pAVCtx->error_resilience		= m_nErrorResilience;
+			m_pAVCtx->error_recognition		= m_nErrorRecognition;
 			m_pAVCtx->idct_algo				= m_nIDCTAlgo;
 			m_pAVCtx->skip_loop_filter		= (AVDiscard)m_nDiscardMode;
 			m_pAVCtx->dsp_mask				= FF_MM_FORCE | m_pCpuId->GetFeatures();
@@ -1689,7 +1689,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 	{
 		key.SetDWORDValue(_T("ThreadNumber"), m_nThreadNumber);
 		key.SetDWORDValue(_T("DiscardMode"), m_nDiscardMode);
-		key.SetDWORDValue(_T("ErrorResilience"), m_nErrorResilience);
+		key.SetDWORDValue(_T("ErrorRecognition"), m_nErrorRecognition);
 		key.SetDWORDValue(_T("IDCTAlgo"), m_nIDCTAlgo);
 		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
 		key.SetDWORDValue(_T("ARMode"), m_nARMode);
@@ -1719,16 +1719,16 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetDiscardMode()
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nDiscardMode;
 }
-STDMETHODIMP CMPCVideoDecFilter::SetErrorResilience(int nValue)
+STDMETHODIMP CMPCVideoDecFilter::SetErrorRecognition(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	m_nErrorResilience = nValue;
+	m_nErrorRecognition = nValue;
 	return S_OK;
 }
-STDMETHODIMP_(int) CMPCVideoDecFilter::GetErrorResilience()
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetErrorRecognition()
 {
 	CAutoLock cAutoLock(&m_csProps);
-	return m_nErrorResilience;
+	return m_nErrorRecognition;
 }
 STDMETHODIMP CMPCVideoDecFilter::SetIDCTAlgo(int nValue)
 {
