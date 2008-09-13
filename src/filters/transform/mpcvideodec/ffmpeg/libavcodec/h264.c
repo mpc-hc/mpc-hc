@@ -7884,3 +7884,4 @@ AVCodec h264_decoder = {
 };
 
 #include "svq3.c"
+#include "h264_dxva.c"

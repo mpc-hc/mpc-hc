@@ -4326,3 +4326,5 @@ AVCodec wmv3_decoder = {
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 9"),
 };
+
+#include "vc1_dxva.c"
