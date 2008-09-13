@@ -1065,7 +1065,9 @@ static int decode_entry_point(AVCodecContext *avctx, GetBitContext *gb)
     blink = get_bits1(gb); // broken link
     clentry = get_bits1(gb); // closed entry
     v->panscanflag = get_bits1(gb);
-    refdist = get_bits1(gb); // refdist flag
+    // ==> Start patch MPC
+    v->refdist = get_bits1(gb); // refdist flag
+    // <== End patch MPC
     v->s.loop_filter = get_bits1(gb);
     v->fastuvmc = get_bits1(gb);
     v->extended_mv = get_bits1(gb);
@@ -1095,12 +1097,14 @@ static int decode_entry_point(AVCodecContext *avctx, GetBitContext *gb)
         skip_bits(gb, 3); // UV range, ignored for now
     }
 
+    // ==> Start patch MPC
     av_log(avctx, AV_LOG_DEBUG, "Entry point info:\n"
         "BrokenLink=%i, ClosedEntry=%i, PanscanFlag=%i\n"
         "RefDist=%i, Postproc=%i, FastUVMC=%i, ExtMV=%i\n"
         "DQuant=%i, VSTransform=%i, Overlap=%i, Qmode=%i\n",
-        blink, clentry, v->panscanflag, refdist, v->s.loop_filter,
+        blink, clentry, v->panscanflag, v->refdist, v->s.loop_filter,
         v->fastuvmc, v->extended_mv, v->dquant, v->vstransform, v->overlap, v->quantizer_mode);
+    // <== End patch MPC
 
     return 0;
 }
