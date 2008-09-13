@@ -603,7 +603,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	if(h.acmod == 2) h.dsurmod = BitRead(2);
 	h.lfeon = BitRead(1);
 
-	if(h.bsid >= 12 || h.fscod == 3 || h.frmsizecod >= 38)	// TODO : for Eac3 h.bsid = 16 !
+	if(h.bsid >= 17 || h.fscod == 3 || h.frmsizecod >= 48)
 		return(false);
 
 	if(!pmt) return(true);
@@ -626,7 +626,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	default: break;
 	}
 
-	static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640};
+	static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
 
 	wfe.nAvgBytesPerSec = rate[h.frmsizecod>>1] * 1000 / 8;
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
