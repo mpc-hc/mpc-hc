@@ -1716,6 +1716,10 @@
 					RelativePath=".\res\shaders\wave.psh"
 					>
 				</File>
+				<File
+					RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="x64"

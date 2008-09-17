@@ -17,6 +17,8 @@ v1.x.x.x - unreleased
  CHANGED: Replaced command line switches /unregvid and /unregaud with a new switch /unregall. That cleans up  all file associations, including image/playlist formats.
  CHANGED: Change in VideoDecoder Settings for rev.681(read AR from stream)
  CHANGED: Open DVD detect and open Blu Ray main movie
+ CHANGED: Eac3 support in Mpeg splitter
+ CHANGED: YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
  FIXED  : Chapter message improperly displayed in status bar (for file only)
  FIXED  : Crash with CoreAVC when changing "prefered decoder" setting during playback
  FIXED  : Missing checkmarks on "tearing test" and "display stats" options (bug #2010857)

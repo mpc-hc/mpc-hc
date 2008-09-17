@@ -2035,6 +2035,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		shaders[_T("spotlight")] = IDF_SHADER_SPOTLIGHT;
 		shaders[_T("wave")] = IDF_SHADER_WAVE;
 		shaders[_T("denoise")] = IDF_SHADER_DENOISE;
+		shaders[_T("YV12 Chroma Upsampling")] = IDF_SHADER_YV12CHROMAUP;
 
 		int iShader = 0;
 
