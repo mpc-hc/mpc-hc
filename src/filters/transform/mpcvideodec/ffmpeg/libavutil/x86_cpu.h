@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_X86CPU_H
-#define FFMPEG_X86CPU_H
+#ifndef AVUTIL_X86_CPU_H
+#define AVUTIL_X86_CPU_H
 
 #ifdef __GNUC__
 #include <stdint.h>
@@ -45,7 +45,7 @@ typedef int64_t x86_reg;
 #    define REGd    rdx
 #    define REGSP   rsp
 
-#else
+#elif ARCH_X86_32
 
 #    define REG_a "eax"
 #    define REG_b "ebx"
@@ -78,4 +78,4 @@ typedef int32_t x86_reg;
 #    define BROKEN_RELOCATIONS 1
 #endif
 
-#endif /* FFMPEG_X86CPU_H */
+#endif /* AVUTIL_X86_CPU_H */

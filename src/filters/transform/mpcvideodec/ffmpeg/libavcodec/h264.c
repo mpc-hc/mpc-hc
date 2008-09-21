@@ -894,34 +894,39 @@ static inline void pred_pskip_motion(H264Context * const h, int * const mx, int 
     return;
 }
 
+static int get_scale_factor(H264Context * const h, int poc, int poc1, int i){
+    int poc0 = h->ref_list[0][i].poc;
+    int td = av_clip(poc1 - poc0, -128, 127);
+    if(td == 0 || h->ref_list[0][i].long_ref){
+        return 256;
+    }else{
+        int tb = av_clip(poc - poc0, -128, 127);
+        int tx = (16384 + (FFABS(td) >> 1)) / td;
+        return av_clip((tb*tx + 32) >> 6, -1024, 1023);
+    }
+}
+
 static inline void direct_dist_scale_factor(H264Context * const h){
     MpegEncContext * const s = &h->s;
     const int poc = h->s.current_picture_ptr->field_poc[ s->picture_structure == PICT_BOTTOM_FIELD ];
     const int poc1 = h->ref_list[1][0].poc;
-    int i;
-    for(i=0; i<h->ref_count[0]; i++){
-        int poc0 = h->ref_list[0][i].poc;
-        int td = av_clip(poc1 - poc0, -128, 127);
-        if(td == 0 || h->ref_list[0][i].long_ref){
-            h->dist_scale_factor[i] = 256;
-        }else{
-            int tb = av_clip(poc - poc0, -128, 127);
-            int tx = (16384 + (FFABS(td) >> 1)) / td;
-            h->dist_scale_factor[i] = av_clip((tb*tx + 32) >> 6, -1024, 1023);
-        }
+    int i, field;
+    for(field=0; field<2; field++){
+        const int poc  = h->s.current_picture_ptr->field_poc[field];
+        const int poc1 = h->ref_list[1][0].field_poc[field];
+        for(i=0; i < 2*h->ref_count[0]; i++)
+            h->dist_scale_factor_field[field][i^field] = get_scale_factor(h, poc, poc1, i+16);
     }
-    if(FRAME_MBAFF){
-        for(i=0; i<h->ref_count[0]; i++){
-            h->dist_scale_factor_field[2*i] =
-            h->dist_scale_factor_field[2*i+1] = h->dist_scale_factor[i];
-        }
+
+    for(i=0; i<h->ref_count[0]; i++){
+        h->dist_scale_factor[i] = get_scale_factor(h, poc, poc1, i);
     }
 }
 static inline void direct_ref_list_init(H264Context * const h){
     MpegEncContext * const s = &h->s;
     Picture * const ref1 = &h->ref_list[1][0];
     Picture * const cur = s->current_picture_ptr;
-    int list, i, j;
+    int list, i, j, field, rfield;
     int sidx= s->picture_structure&1;
     int ref1sidx= ref1->reference&1;
     for(list=0; list<2; list++){
@@ -936,6 +941,23 @@ static inline void direct_ref_list_init(H264Context * const h){
     if(cur->pict_type != FF_B_TYPE || h->direct_spatial_mv_pred)
         return;
     for(list=0; list<2; list++){
+        for(field=0; field<2; field++){
+            for(i=0; i<ref1->ref_count[field][list]; i++){
+                for(rfield=0; rfield<2; rfield++){
+                    int poc = ref1->ref_poc[field][list][i];
+                    if((poc&3) == 3)
+                        poc= (poc&~3) + rfield + 1;
+
+                    h->map_col_to_list0_field[field][list][2*i+rfield] = 0; /* bogus; fills in for missing frames */
+                    for(j=16; j<16+2*h->ref_count[list]; j++)
+                        if(4*h->ref_list[list][j].frame_num + (h->ref_list[list][j].reference&3) == poc){
+                            h->map_col_to_list0_field[field][list][2*i+rfield] = j-16;
+                            break;
+                        }
+                }
+            }
+        }
+
         for(i=0; i<ref1->ref_count[ref1sidx][list]; i++){
             int poc = ref1->ref_poc[ref1sidx][list][i];
             if(((poc&3) == 3) != (s->picture_structure == PICT_FRAME))
@@ -946,15 +968,6 @@ static inline void direct_ref_list_init(H264Context * const h){
                     h->map_col_to_list0[list][i] = j;
                     break;
                 }
-        }
-    }
-    if(FRAME_MBAFF){
-        for(list=0; list<2; list++){
-            for(i=0; i<ref1->ref_count[ref1sidx][list]; i++){
-                j = h->map_col_to_list0[list][i];
-                h->map_col_to_list0_field[list][2*i] = 2*j;
-                h->map_col_to_list0_field[list][2*i+1] = 2*j+1;
-            }
         }
     }
 }
@@ -1170,9 +1183,9 @@ single_col:
         const int *dist_scale_factor = h->dist_scale_factor;
 
         if(FRAME_MBAFF && IS_INTERLACED(*mb_type)){
-            map_col_to_list0[0] = h->map_col_to_list0_field[0];
-            map_col_to_list0[1] = h->map_col_to_list0_field[1];
-            dist_scale_factor = h->dist_scale_factor_field;
+            map_col_to_list0[0] = h->map_col_to_list0_field[s->mb_y&1][0];
+            map_col_to_list0[1] = h->map_col_to_list0_field[s->mb_y&1][1];
+            dist_scale_factor   =h->dist_scale_factor_field[s->mb_y&1];
         }
         if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col[0])){
             /* FIXME assumes direct_8x8_inference == 1 */
@@ -2389,7 +2402,6 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple){
                     fill_rectangle(ref, 4, 4, 8, (16+*ref)^(s->mb_y&1), 1);
                 }else{
                     for(i=0; i<16; i+=4){
-                        //FIXME can refs be smaller than 8x8 when !direct_8x8_inference ?
                         int ref = h->ref_cache[list][scan8[i]];
                         if(ref >= 0)
                             fill_rectangle(&h->ref_cache[list][scan8[i]], 2, 2, 8, (16+ref)^(s->mb_y&1), 1);
@@ -2857,9 +2869,6 @@ static int decode_ref_pic_list_reordering(H264Context *h){
         }
     }
 
-    if(h->slice_type_nos==FF_B_TYPE && !h->direct_spatial_mv_pred)
-        direct_dist_scale_factor(h);
-    direct_ref_list_init(h);
     return 0;
 }
 
@@ -2873,10 +2882,12 @@ static void fill_mbaff_ref_list(H264Context *h){
             for(j=0; j<3; j++)
                 field[0].linesize[j] <<= 1;
             field[0].reference = PICT_TOP_FIELD;
+            field[0].poc= field[0].field_poc[0];
             field[1] = field[0];
             for(j=0; j<3; j++)
                 field[1].data[j] += frame->linesize[j];
             field[1].reference = PICT_BOTTOM_FIELD;
+            field[1].poc= field[1].field_poc[1];
 
             h->luma_weight[list][16+2*i] = h->luma_weight[list][16+2*i+1] = h->luma_weight[list][i];
             h->luma_offset[list][16+2*i] = h->luma_offset[list][16+2*i+1] = h->luma_offset[list][i];
@@ -3899,6 +3910,10 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
     if(FRAME_MBAFF)
         fill_mbaff_ref_list(h);
+
+    if(h->slice_type_nos==FF_B_TYPE && !h->direct_spatial_mv_pred)
+        direct_dist_scale_factor(h);
+    direct_ref_list_init(h);
 
     if( h->slice_type_nos != FF_I_TYPE && h->pps.cabac ){
         tmp = get_ue_golomb(&s->gb);
@@ -7121,9 +7136,6 @@ static void decode_scaling_matrices(H264Context *h, SPS *sps, PPS *pps, int is_s
             decode_scaling_list(h,scaling_matrix8[0],64,default_scaling8[0],fallback[2]);  // Intra, Y
             decode_scaling_list(h,scaling_matrix8[1],64,default_scaling8[1],fallback[3]);  // Inter, Y
         }
-    } else if(fallback_sps) {
-        memcpy(scaling_matrix4, sps->scaling_matrix4, 6*16*sizeof(uint8_t));
-        memcpy(scaling_matrix8, sps->scaling_matrix8, 2*64*sizeof(uint8_t));
     }
 }
 
@@ -7188,7 +7200,6 @@ static inline int decode_seq_parameter_set(H264Context *h){
         sps->transform_bypass = get_bits1(&s->gb);
         decode_scaling_matrices(h, sps, NULL, 1, sps->scaling_matrix4, sps->scaling_matrix8);
     }else{
-        sps->scaling_matrix_present = 0;
         sps->chroma_format_idc= 1;
     }
 
@@ -7245,9 +7256,6 @@ static inline int decode_seq_parameter_set(H264Context *h){
     if(sps->mb_aff)
         av_log(h->s.avctx, AV_LOG_ERROR, "MBAFF support not included; enable it at compile-time.\n");
 #endif
-    if(!sps->direct_8x8_inference_flag && sps->mb_aff)
-        av_log(h->s.avctx, AV_LOG_ERROR, "MBAFF + !direct_8x8_inference is not implemented\n");
-
     sps->crop= get_bits1(&s->gb);
     if(sps->crop){
         sps->crop_left  = get_ue_golomb(&s->gb);
@@ -7375,8 +7383,8 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
 
     pps->transform_8x8_mode= 0;
     h->dequant_coeff_pps= -1; //contents of sps/pps can change even if id doesn't, so reinit
-    memset(pps->scaling_matrix4, 16, 6*16*sizeof(uint8_t));
-    memset(pps->scaling_matrix8, 16, 2*64*sizeof(uint8_t));
+    memcpy(pps->scaling_matrix4, h->sps_buffers[pps->sps_id]->scaling_matrix4, sizeof(pps->scaling_matrix4));
+    memcpy(pps->scaling_matrix8, h->sps_buffers[pps->sps_id]->scaling_matrix8, sizeof(pps->scaling_matrix8));
 
     if(get_bits_count(&s->gb) < bit_length){
         pps->transform_8x8_mode= get_bits1(&s->gb);

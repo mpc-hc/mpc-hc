@@ -27,8 +27,8 @@
  * @author Michael Niedermayer <michaelni@gmx.at> and Alex Beregszaszi
  */
 
-#ifndef FFMPEG_GOLOMB_H
-#define FFMPEG_GOLOMB_H
+#ifndef AVCODEC_GOLOMB_H
+#define AVCODEC_GOLOMB_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -249,7 +249,7 @@ static inline int get_ur_golomb_jpegls(GetBitContext *gb, int k, int limit, int 
 
     log= av_log2(buf);
 
-    if(log > 31-11){
+    if(log - k >= 32-MIN_CACHE_BITS && 32-log < limit){
         buf >>= log - k;
         buf += (30-log)<<k;
         LAST_SKIP_BITS(re, gb, 32 + k - log);
@@ -501,4 +501,4 @@ static inline void set_sr_golomb_flac(PutBitContext *pb, int i, int k, int limit
 }
 #endif
 
-#endif /* FFMPEG_GOLOMB_H */
+#endif /* AVCODEC_GOLOMB_H */
