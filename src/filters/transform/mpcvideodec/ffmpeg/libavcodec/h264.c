@@ -938,6 +938,7 @@ static inline void direct_ref_list_init(H264Context * const h){
         memcpy(cur->ref_count[0], cur->ref_count[1], sizeof(cur->ref_count[0]));
         memcpy(cur->ref_poc  [0], cur->ref_poc  [1], sizeof(cur->ref_poc  [0]));
     }
+    cur->mbaff= FRAME_MBAFF;
     if(cur->pict_type != FF_B_TYPE || h->direct_spatial_mv_pred)
         return;
     for(list=0; list<2; list++){
@@ -987,14 +988,12 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
 #define MB_TYPE_16x16_OR_INTRA (MB_TYPE_16x16|MB_TYPE_INTRA4x4|MB_TYPE_INTRA16x16|MB_TYPE_INTRA_PCM)
 
     if(IS_INTERLACED(h->ref_list[1][0].mb_type[mb_xy])){ // AFL/AFR/FR/FL -> AFL/FL
-        if(h->ref_list[1][0].reference == PICT_FRAME){   // AFL/AFR/FR/FL -> AFL
-            if(!IS_INTERLACED(*mb_type)){                //     AFR/FR    -> AFL
-                int cur_poc = s->current_picture_ptr->poc;
-                int *col_poc = h->ref_list[1]->field_poc;
-                int col_parity = FFABS(col_poc[0] - cur_poc) >= FFABS(col_poc[1] - cur_poc);
-                mb_xy= s->mb_x + ((s->mb_y&~1) + col_parity)*s->mb_stride;
-                b8_stride = 0;
-            }
+        if(!IS_INTERLACED(*mb_type)){                    //     AFR/FR    -> AFL/FL
+            int cur_poc = s->current_picture_ptr->poc;
+            int *col_poc = h->ref_list[1]->field_poc;
+            int col_parity = FFABS(col_poc[0] - cur_poc) >= FFABS(col_poc[1] - cur_poc);
+            mb_xy= s->mb_x + ((s->mb_y&~1) + col_parity)*s->mb_stride;
+            b8_stride = 0;
         }else if(!(s->picture_structure & h->ref_list[1][0].reference)){// FL -> FL & differ parity
             int fieldoff= 2*(h->ref_list[1][0].reference)-3;
             mb_xy += s->mb_stride*fieldoff;
@@ -1181,16 +1180,20 @@ single_col:
     }else{ /* direct temporal mv pred */
         const int *map_col_to_list0[2] = {h->map_col_to_list0[0], h->map_col_to_list0[1]};
         const int *dist_scale_factor = h->dist_scale_factor;
+        int ref_shift= 1;
 
         if(FRAME_MBAFF && IS_INTERLACED(*mb_type)){
             map_col_to_list0[0] = h->map_col_to_list0_field[s->mb_y&1][0];
             map_col_to_list0[1] = h->map_col_to_list0_field[s->mb_y&1][1];
             dist_scale_factor   =h->dist_scale_factor_field[s->mb_y&1];
+            ref_shift--;
         }
+        if(h->ref_list[1][0].mbaff && IS_INTERLACED(mb_type_col[0]))
+            ref_shift++;
+
         if(IS_INTERLACED(*mb_type) != IS_INTERLACED(mb_type_col[0])){
             /* FIXME assumes direct_8x8_inference == 1 */
             int y_shift  = 2*!IS_INTERLACED(*mb_type);
-            int ref_shift= FRAME_MBAFF ? y_shift : 1;
 
             for(i8=0; i8<4; i8++){
                 const int x8 = i8&1;
@@ -1241,8 +1244,8 @@ single_col:
             if(IS_INTRA(mb_type_col[0])){
                 ref=mv0=mv1=0;
             }else{
-                const int ref0 = l1ref0[0] >= 0 ? map_col_to_list0[0][l1ref0[0]]
-                                                : map_col_to_list0[1][l1ref1[0]];
+                const int ref0 = l1ref0[0] >= 0 ? map_col_to_list0[0][(l1ref0[0]*2)>>ref_shift]
+                                                : map_col_to_list0[1][(l1ref1[0]*2)>>ref_shift];
                 const int scale = dist_scale_factor[ref0];
                 const int16_t *mv_col = l1ref0[0] >= 0 ? l1mv0[0] : l1mv1[0];
                 int mv_l0[2];
@@ -1273,11 +1276,11 @@ single_col:
                     continue;
                 }
 
-                ref0 = l1ref0[x8 + y8*b8_stride];
+                ref0 = (l1ref0[x8 + y8*b8_stride]*2)>>ref_shift;
                 if(ref0 >= 0)
                     ref0 = map_col_to_list0[0][ref0];
                 else{
-                    ref0 = map_col_to_list0[1][l1ref1[x8 + y8*b8_stride]];
+                    ref0 = map_col_to_list0[1][(l1ref1[x8 + y8*b8_stride]*2)>>ref_shift];
                     l1mv= l1mv1;
                 }
                 scale = dist_scale_factor[ref0];
@@ -7738,9 +7741,10 @@ static int decode_frame(AVCodecContext *avctx,
         h->got_avcC = 1;
     }
 
-    if(avctx->frame_number==0 && !h->is_avc && s->avctx->extradata_size){
+    if(!h->got_avcC && !h->is_avc && s->avctx->extradata_size){
         if(decode_nal_units(h, s->avctx->extradata, s->avctx->extradata_size) < 0)
             return -1;
+        h->got_avcC = 1;
         s->picture_number++;
     }
 
@@ -7796,7 +7800,7 @@ static int decode_frame(AVCodecContext *avctx,
         } else {
             cur->interlaced_frame = FIELD_OR_MBAFF_PICTURE;
             /* Derive top_field_first from field pocs. */
-            cur->top_field_first = cur->field_poc[0] <= cur->field_poc[1];
+            cur->top_field_first = cur->field_poc[0] < cur->field_poc[1];
 
         //FIXME do something with unavailable reference frames
 
