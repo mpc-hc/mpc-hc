@@ -480,7 +480,7 @@ typedef struct H264Context{
     H264mb *blocks[2];
 
     /* ffdshow custom stuff */
-    int first_I_frame_detected;
+    int first_I_slice_detected;
 
     // ==> Start patch MPC
     int sp_for_switch_flag;

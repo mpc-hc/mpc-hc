@@ -73,6 +73,13 @@ static void apply_window(float *tgt, const float *m1, const float *m2, int n)
         *tgt++ = *m1++ * *m2++;
 }
 
+static void convolve(float *tgt, const float *src, int len, int n)
+{
+    for (; n >= 0; n--)
+        tgt[n] = scalar_product_float(src, src - n, len);
+
+}
+
 static void decode(RA288Context *ractx, float gain, int cb_coef)
 {
     int i, j;
@@ -83,12 +90,6 @@ static void decode(RA288Context *ractx, float gain, int cb_coef)
 
     memmove(ractx->sp_hist + 70, ractx->sp_hist + 75, 36*sizeof(*block));
 
-    for (i=0; i < 5; i++) {
-        block[i] = 0.;
-        for (j=0; j < 36; j++)
-            block[i] -= block[i-1-j]*ractx->sp_lpc[j];
-    }
-
     /* block 46 of G.728 spec */
     sum = 32.;
     for (i=0; i < 10; i++)
@@ -98,12 +99,13 @@ static void decode(RA288Context *ractx, float gain, int cb_coef)
     sum = av_clipf(sum, 0, 60);
 
     /* block 48 of G.728 spec */
-    sumsum = exp(sum * 0.1151292546497) * gain; /* pow(10.0,sum/20)*gain */
+    /* exp(sum * 0.1151292546497) == pow(10.0,sum/20) */
+    sumsum = exp(sum * 0.1151292546497) * gain * (1.0/(1<<23));
 
     for (i=0; i < 5; i++)
-        buffer[i] = codetable[cb_coef][i] * sumsum * (1./2048.);
+        buffer[i] = codetable[cb_coef][i] * sumsum;
 
-    sum = scalar_product_float(buffer, buffer, 5) / 5;
+    sum = scalar_product_float(buffer, buffer, 5) * ((1<<24)/5.);
 
     sum = FFMAX(sum, 1);
 
@@ -112,20 +114,15 @@ static void decode(RA288Context *ractx, float gain, int cb_coef)
 
     gain_block[9] = 10 * log10(sum) - 32;
 
-    for (i=1; i < 5; i++)
-        for (j=i-1; j >= 0; j--)
-            buffer[i] -= ractx->sp_lpc[i-j-1] * buffer[j];
+    for (i=0; i < 5; i++) {
+        block[i] = buffer[i];
+        for (j=0; j < 36; j++)
+            block[i] -= block[i-1-j]*ractx->sp_lpc[j];
+    }
 
     /* output */
     for (i=0; i < 5; i++)
-        block[i] = av_clipf(block[i] + buffer[i], -4095, 4095);
-}
-
-static void convolve(float *tgt, const float *src, int len, int n)
-{
-    for (; n >= 0; n--)
-        tgt[n] = scalar_product_float(src, src - n, len);
-
+        block[i] = av_clipf(block[i], -4095./4096., 4095./4096.);
 }
 
 /**
@@ -223,7 +220,7 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
         decode(ractx, gain, cb_coef);
 
         for (j=0; j < 5; j++)
-            *(out++) = (1/4096.) * ractx->sp_hist[70 + 36 + j];
+            *(out++) = ractx->sp_hist[70 + 36 + j];
 
         if ((i & 7) == 3)
             backward_filter(ractx);

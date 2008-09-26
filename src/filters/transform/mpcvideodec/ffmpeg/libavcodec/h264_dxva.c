@@ -312,8 +312,8 @@ int decode_slice_header_noexecute (H264Context *h)
 
     // ffdshow custom code
     if (s->pict_type == FF_I_TYPE){
-        h->first_I_frame_detected = 1;
-    } else if (s->pict_type == FF_P_TYPE && !h->first_I_frame_detected) {
+        h->first_I_slice_detected = 1;
+    } else if (s->pict_type == FF_P_TYPE && !h->first_I_slice_detected) {
         av_log(h->s.avctx, AV_LOG_ERROR,
                "P picture before first I picture, skipping\n");
         return -1;

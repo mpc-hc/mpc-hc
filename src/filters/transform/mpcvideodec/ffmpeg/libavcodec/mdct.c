@@ -31,9 +31,13 @@ void ff_kbd_window_init(float *window, float alpha, int n)
 {
    int i, j;
    double sum = 0.0, bessel, tmp;
-   double local_window[n];
    double alpha2 = (alpha * M_PI / n) * (alpha * M_PI / n);
 
+#if __STDC_VERSION__ >= 199901L
+   double local_window[n];
+#else
+   double *local_window = _alloca(n * sizeof(double));
+#endif
    for (i = 0; i < n; i++) {
        tmp = i * (n - i) * alpha2;
        bessel = 1.0;

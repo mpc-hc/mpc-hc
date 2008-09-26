@@ -22,7 +22,9 @@
 #ifndef AVCODEC_LPC_H
 #define AVCODEC_LPC_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "dsputil.h"
 
 #define ORDER_METHOD_EST     0

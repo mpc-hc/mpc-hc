@@ -1008,7 +1008,7 @@ static inline void pred_direct_motion(H264Context * const h, int *mb_type){
             int col_parity = FFABS(col_poc[0] - cur_poc) >= FFABS(col_poc[1] - cur_poc);
             mb_xy= s->mb_x + ((s->mb_y&~1) + col_parity)*s->mb_stride;
             b8_stride = 0;
-        }else if(!(s->picture_structure & h->ref_list[1][0].reference)){// FL -> FL & differ parity
+        }else if(!(s->picture_structure & h->ref_list[1][0].reference) && !h->ref_list[1][0].mbaff){// FL -> FL & differ parity
             int fieldoff= 2*(h->ref_list[1][0].reference)-3;
             mb_xy += s->mb_stride*fieldoff;
         }
@@ -1971,12 +1971,6 @@ static void free_tables(H264Context *h){
     av_freep(&h->mb2b_xy);
     av_freep(&h->mb2b8_xy);
 
-    for(i = 0; i < MAX_SPS_COUNT; i++)
-        av_freep(h->sps_buffers + i);
-
-    for(i = 0; i < MAX_PPS_COUNT; i++)
-        av_freep(h->pps_buffers + i);
-
     for(i = 0; i < h->s.avctx->thread_count; i++) {
         hx = h->thread_context[i];
         if(!hx) continue;
@@ -2334,7 +2328,7 @@ static inline void xchg_mb_border(H264Context *h, uint8_t *src_y, uint8_t *src_c
         deblock_top  = h->slice_table[mb_xy] == h->slice_table[h->top_mb_xy];
     } else {
         deblock_left = (s->mb_x > 0);
-        deblock_top =  (s->mb_y > 0);
+        deblock_top =  (s->mb_y > !!MB_FIELD);
     }
 
     src_y  -=   linesize + 1;
@@ -3073,6 +3067,7 @@ static void flush_dpb(AVCodecContext *avctx){
         h->s.current_picture_ptr->reference= 0;
     h->s.first_field= 0;
     ff_mpeg_flush(avctx);
+    h->first_I_slice_detected = 0; // ffdshow custom code
 }
 
 /**
@@ -3662,8 +3657,8 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
     // ffdshow custom code
     if (s->pict_type == FF_I_TYPE){
-        h->first_I_frame_detected = 1;
-    } else if (s->pict_type == FF_P_TYPE && !h->first_I_frame_detected) {
+        h->first_I_slice_detected = 1;
+    } else if (s->pict_type == FF_P_TYPE && !h->first_I_slice_detected) {
         av_log(h->s.avctx, AV_LOG_ERROR,
                "P picture before first I picture, skipping\n");
         return -1;
@@ -3913,6 +3908,15 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(h->slice_type_nos!=FF_I_TYPE && decode_ref_pic_list_reordering(h) < 0)
         return -1;
 
+    if(h->slice_type_nos!=FF_I_TYPE){
+        s->last_picture_ptr= &h->ref_list[0][0];
+        copy_picture(&s->last_picture, s->last_picture_ptr);
+    }
+    if(h->slice_type_nos==FF_B_TYPE){
+        s->next_picture_ptr= &h->ref_list[1][0];
+        copy_picture(&s->next_picture, s->next_picture_ptr);
+    }
+
     if(   (h->pps.weighted_pred          && h->slice_type_nos == FF_P_TYPE )
        ||  (h->pps.weighted_bipred_idc==1 && h->slice_type_nos== FF_B_TYPE ) )
         pred_weight_table(h);
@@ -4024,11 +4028,11 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->emu_edge_height= (FRAME_MBAFF || FIELD_PICTURE) ? 0 : h->emu_edge_width;
 
     if(s->avctx->debug&FF_DEBUG_PICT_INFO){
-        av_log(h->s.avctx, AV_LOG_DEBUG, "slice:%d %s mb:%d %c pps:%u frame:%d poc:%d/%d ref:%d/%d qp:%d loop:%d:%d:%d weight:%d%s %s\n",
+        av_log(h->s.avctx, AV_LOG_DEBUG, "slice:%d %s mb:%d %c%s%s pps:%u frame:%d poc:%d/%d ref:%d/%d qp:%d loop:%d:%d:%d weight:%d%s %s\n",
                h->slice_num,
                (s->picture_structure==PICT_FRAME ? "F" : s->picture_structure==PICT_TOP_FIELD ? "T" : "B"),
                first_mb_in_slice,
-               av_get_pict_type_char(h->slice_type),
+               av_get_pict_type_char(h->slice_type), h->slice_type_fixed ? " fix" : "", h->nal_unit_type == NAL_IDR_SLICE ? " IDR" : "",
                pps_id, h->frame_num,
                s->current_picture_ptr->field_poc[0], s->current_picture_ptr->field_poc[1],
                h->ref_count[0], h->ref_count[1],
@@ -6371,8 +6375,10 @@ static void filter_mb( H264Context *h, int mb_x, int mb_y, uint8_t *img_y, uint8
                 if( IS_INTRA( s->current_picture.mb_type[mbn_xy] ) )
                     bS[i] = 4;
                 else if( h->non_zero_count_cache[12+8*(i>>1)] != 0 ||
-                         /* FIXME: with 8x8dct + cavlc, should check cbp instead of nnz */
-                         h->non_zero_count[mbn_xy][MB_FIELD ? i&3 : (i>>2)+(mb_y&1)*2] )
+                         ((!h->pps.cabac && IS_8x8DCT(s->current_picture.mb_type[mbn_xy])) ?
+                            (h->cbp_table[mbn_xy] & ((MB_FIELD ? (i&2) : (mb_y&1)) ? 8 : 2))
+                                                                       :
+                            h->non_zero_count[mbn_xy][MB_FIELD ? i&3 : (i>>2)+(mb_y&1)*2]))
                     bS[i] = 2;
                 else
                     bS[i] = 1;
