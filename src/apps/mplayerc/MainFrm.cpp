@@ -1945,6 +1945,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 					if (!AfxGetAppSettings().NewDvd (llDVDGuid) && AfxGetAppSettings().fRememberDVDPos)
 					{
 						DVD_POSITION*	DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+
 						hr = pDVDC->PlayAtTimeInTitle (DvdPos->lTitle, &DvdPos->Timecode, DVD_CMD_FLAG_Flush, &pCmd);
 						if (pCmd) pCmd->Release();
 					}
@@ -1952,7 +1953,13 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				Domain = _T("First Play"); break;
 			case DVD_DOMAIN_VideoManagerMenu: Domain = _T("Video Manager Menu"); break;
 			case DVD_DOMAIN_VideoTitleSetMenu: Domain = _T("Video Title Set Menu"); break;
-			case DVD_DOMAIN_Title: Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle); break;
+			case DVD_DOMAIN_Title: 
+				Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle); 
+				DVD_POSITION*	DvdPos;
+				DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+				if (DvdPos) 
+					DvdPos->lTitle = m_iDVDTitle;
+				break;
 			case DVD_DOMAIN_Stop: Domain = ResStr(IDS_AG_STOP); break;
 			default: Domain = _T("-"); break;
 			}

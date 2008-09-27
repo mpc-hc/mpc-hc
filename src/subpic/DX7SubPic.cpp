@@ -270,8 +270,8 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	if(m_fPow2Textures)
 	{
 		ddsd.dwWidth = ddsd.dwHeight = 1;
-		while(ddsd.dwWidth < m_maxsize.cx) ddsd.dwWidth <<= 1;
-		while(ddsd.dwHeight < m_maxsize.cy) ddsd.dwHeight <<= 1;
+		while(ddsd.dwWidth < (DWORD)m_maxsize.cx) ddsd.dwWidth <<= 1;
+		while(ddsd.dwHeight < (DWORD)m_maxsize.cy) ddsd.dwHeight <<= 1;
 	}
 
 
