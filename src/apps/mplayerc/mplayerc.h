@@ -375,7 +375,6 @@ class CMPlayerCApp : public CWinApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
 	HINSTANCE				m_hD3DX9Dll;
 	int						m_nDXSdkRelease;
-
 public:
 	CMPlayerCApp();
 
@@ -619,6 +618,8 @@ public:
 		int				nCurrentDvdPosition;
 		FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 		int				nCurrentFilePosition;
+
+		__int64			ConvertTimeToMSec(CString& time);
 
 		void			CreateCommands();
 	public:

@@ -2135,6 +2135,35 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 	}
 }
 
+__int64 CMPlayerCApp::Settings::ConvertTimeToMSec(CString& time)
+{
+	__int64 Sec = 0;
+	__int64 mSec = 0;
+	__int64 mult = 1;
+
+	int pos = time.GetLength() - 1;
+	if (pos < 3) return 0;
+
+	while (pos >= 0) {
+		TCHAR ch = time[pos];
+		if (ch == '.') {
+			mSec = Sec * 1000 / mult;
+			Sec = 0;
+			mult = 1;
+		} else if (ch == ':') {
+			mult = mult * 6 / 10;
+		} else if (ch >= '0' && ch <= '9') {
+			Sec += (ch - '0') * mult;
+			mult *= 10;
+		} else {
+			mSec = Sec = 0;
+			break;
+		}
+		pos--;
+	}
+	return Sec*1000 + mSec;
+}
+
 void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 {
 	nCLSwitches = 0;
@@ -2186,7 +2215,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("unregvid")) nCLSwitches |= CLSW_UNREGEXT; /* keep for compatibility with old versions */
 			else if(sw == _T("unregaud")) nCLSwitches |= CLSW_UNREGEXT; /* keep for compatibility with old versions */
 			else if(sw == _T("start") && pos) {rtStart = 10000i64*_tcstol(cmdln.GetNext(pos), NULL, 10); nCLSwitches |= CLSW_STARTVALID;}
-			else if(sw == _T("startpos") && pos) {/* TODO: mm:ss. */;}
+			else if(sw == _T("startpos") && pos) {rtStart = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos)); nCLSwitches |= CLSW_STARTVALID;}
 			else if(sw == _T("nofocus")) nCLSwitches |= CLSW_NOFOCUS;
 			else if(sw == _T("close")) nCLSwitches |= CLSW_CLOSE;
 			else if(sw == _T("standby")) nCLSwitches |= CLSW_STANDBY;
