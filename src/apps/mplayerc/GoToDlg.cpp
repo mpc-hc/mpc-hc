@@ -41,7 +41,7 @@ CGoToDlg::CGoToDlg(int time, float fps, CWnd* pParent /*=NULL*/)
 	if(m_fps == 0)
 	{
 		CString str = AfxGetApp()->GetProfileString(ResStr(IDS_R_SETTINGS), _T("fps"), _T("0"));
-		if(_stscanf(str, _T("%f"), &m_fps) != 1) m_fps = 0;
+		if(_stscanf_s(str, _T("%f"), &m_fps) != 1) m_fps = 0;
 	}
 }
 
@@ -166,7 +166,7 @@ void CGoToDlg::OnBnClickedOk2()
 			frame = _tcstol(szStart, (TCHAR**)&szStart, 10);
 
 			mc.GetMatch(1, &szStart, &szEnd);
-			if(_stscanf(szStart, _T("%f"), &fps) != 1) fps = 0;
+			if(_stscanf_s(szStart, _T("%f"), &fps) != 1) fps = 0;
 			else AfxGetApp()->WriteProfileString(ResStr(IDS_R_SETTINGS), _T("fps"), szStart);
 		}
 		else

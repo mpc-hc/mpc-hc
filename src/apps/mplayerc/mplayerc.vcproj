@@ -463,6 +463,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Ifo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\ShuttlePN31\Common\Interface.c"
 				>
 			</File>
@@ -949,6 +953,10 @@
 			</File>
 			<File
 				RelativePath="GoToDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Ifo.h"
 				>
 			</File>
 			<File

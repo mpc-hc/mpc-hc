@@ -646,7 +646,7 @@ void CPlayerCaptureDialog::UpdateMediaTypes()
 	if(!fps.IsEmpty())
 	{
 		float ffps;
-		_stscanf(fps, _T("%f"), &ffps);
+		_stscanf_s(fps, _T("%f"), &ffps);
 		if(ffps > 0) m_vidfps = ffps;
 	}
 

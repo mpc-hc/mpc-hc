@@ -32,7 +32,7 @@
 #include <psapi.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include "Ifo.h"
 
 /////////
 
@@ -113,7 +113,7 @@ HICON LoadIcon(CString fn, bool fSmall)
 		if(i < 0) break;
 		
 		int id = 0;
-		if(_stscanf(icon.Mid(i+1), _T("%d"), &id) != 1)
+		if(_stscanf_s(icon.Mid(i+1), _T("%d"), &id) != 1)
 			break;
 
 		icon = icon.Left(i);
@@ -606,16 +606,52 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 
 	return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
 }
+
+WCHAR			g_strVideoTS[MAX_PATH] = L"";
+WCHAR			g_strFakeVideoTS[MAX_PATH] = L"";
+LPCTSTR			g_VideoTSFile = L"MPC_video_ts.ifo";
+
+BOOL CreateFakeVideoTS(LPCWSTR p1)
+{
+	BOOL		bRet = FALSE;
+    WCHAR		szTempName[MAX_PATH];  
+	CIfo		Ifo;
+
+    if (GetTempPathW(MAX_PATH, szTempName) && 
+		wcsncat_s (szTempName, MAX_PATH, g_VideoTSFile, wcslen(g_VideoTSFile)) == 0 &&
+		Ifo.OpenFile (p1) &&
+		Ifo.RemoveUOPs()  &&
+		Ifo.SaveFile (szTempName))
+    {
+		wcsncpy (g_strVideoTS, p1, MAX_PATH);
+		wcsncpy_s (g_strFakeVideoTS, MAX_PATH, szTempName, MAX_PATH);
+		bRet = true;
+	}
+
+	return bRet;
+}
+
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
-	//CStringW fn(p1);
-	//fn.MakeLower();
-	//int i = fn.Find(L".part");
-	//if(i > 0 && i == fn.GetLength() - 5)
-		p3 |= FILE_SHARE_WRITE;
+	HANDLE	hFile = INVALID_HANDLE_VALUE;
+	int		nLen  = wcslen(p1);
 
-	return Real_CreateFileW(p1, p2, p3, p4, p5, p6, p7);
+	p3 |= FILE_SHARE_WRITE;
+
+	if (nLen>=12 && _wcsicmp (p1 + nLen-12, L"video_ts.ifo") == 0)
+	{
+		if (_wcsicmp (p1, g_strVideoTS) == 0 || CreateFakeVideoTS(p1))
+		{
+			hFile = Real_CreateFileW(g_strFakeVideoTS, p2, p3, p4, p5, p6, p7);
+		}
+	}
+	
+	if (hFile == INVALID_HANDLE_VALUE)
+		hFile = Real_CreateFileW(p1, p2, p3, p4, p5, p6, p7);
+
+	return hFile;
 }
+
 
 MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
 {
@@ -803,7 +839,7 @@ BOOL CMPlayerCApp::InitInstance()
 	{
 		CMediaFormats& mf = m_s.Formats;
 
-		for(int i = 0; i < mf.GetCount(); i++)
+		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
 			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) continue;
@@ -827,7 +863,7 @@ BOOL CMPlayerCApp::InitInstance()
 	{
 		CMediaFormats& mf = m_s.Formats;
 
-		for(int i = 0; i < mf.GetCount(); i++)
+		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
@@ -1265,8 +1301,7 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_SUB_DELAY_UP,				  VK_F2, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_105));
 	ADDCMD((ID_FILE_SAVE_THUMBNAILS,			  0, FVIRTKEY|FNOINVERT,				IDS_FILE_SAVE_THUMBNAILS));
 
-	nCurrentDvdPosition		= -1;
-	nCurrentFilePosition	= -1;
+	ResetPositions();
 
 #undef ADDCMD
 }
@@ -1283,6 +1318,12 @@ bool CMPlayerCApp::Settings::IsD3DFullscreen()
 		return true;
 	else
 		return fD3DFullscreen;
+}
+
+void CMPlayerCApp::Settings::ResetPositions()
+{
+	nCurrentDvdPosition		= -1;
+	nCurrentFilePosition	= -1;
 }
 
 
@@ -1357,7 +1398,7 @@ void CMPlayerCApp::Settings::DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int 
 
 	for (int i=0; i<nBufSize; i++)
 	{
-		_stscanf (strVal+(i*2), _T("%02x"), &lRes);
+		_stscanf_s (strVal+(i*2), _T("%02x"), &lRes);
 		pBuffer[i] = (BYTE)lRes;
 	}
 }
@@ -1696,7 +1737,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			{
 				str.ReleaseBuffer(len);
 				int ver[4];
-				_stscanf(str, _T("%d.%d.%d.%d"), ver+0, ver+1, ver+2, ver+3);
+				_stscanf_s(str, _T("%d.%d.%d.%d"), ver+0, ver+1, ver+2, ver+3);
 				iDXVer = ver[1];
 			}
 		}
@@ -1743,7 +1784,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		//Multi-monitor code
 		f_hmonitor = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), _T(""));
 		// Prevent Minimize when in FullScreen mode on non default monitor
-		m_fPreventMinimize = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
+		m_fPreventMinimize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
 
 
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENRES), &ptr, &len))
@@ -1825,7 +1866,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		fAudioNormalize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIONORMALIZE), FALSE);
 		fAudioNormalizeRecover = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIONORMALIZERECOVER), TRUE);
-		AudioBoost = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIOBOOST), 1);
+		AudioBoost = (float)pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIOBOOST), 1);
 
 		{
 			for(int i = 0; ; i++)
@@ -1926,7 +1967,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			int cmd, fVirt, key, repcnt, mouse, appcmd;
 			TCHAR buff[128];
 			int n;
-			if(5 > (n = _stscanf(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, &repcnt, &mouse, &appcmd)))
+			if(5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, &repcnt, &mouse, &appcmd)))
 				break;
 			if(POSITION pos = wmcmds.Find(cmd))
 			{
@@ -2081,10 +2122,10 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fD3DFullscreen			= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_D3DFULLSCREEN), FALSE);
 		fMonitorAutoRefreshRate	= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_MONITOR_AUTOREFRESHRATE), FALSE);
 
-		dBrightness		= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_BRIGHTNESS),	_T("1")));
-		dContrast		= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_CONTRAST),		_T("1")));
-		dHue			= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_HUE),			_T("0")));
-		dSaturation		= _tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION),	_T("1")));
+		dBrightness		= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_BRIGHTNESS),	_T("1")));
+		dContrast		= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_CONTRAST),		_T("1")));
+		dHue			= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_HUE),			_T("0")));
+		dSaturation		= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION),	_T("1")));
 		strShaderList	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), _T(""));
 		iEvrBuffers		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), 5);
 		fShowOSD		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
@@ -2164,6 +2205,28 @@ __int64 CMPlayerCApp::Settings::ConvertTimeToMSec(CString& time)
 	return Sec*1000 + mSec;
 }
 
+void CMPlayerCApp::Settings::ExtractDVDStartPos(CString& strParam)
+{
+	int i = 0, j = 0;
+	for(CString token = strParam.Tokenize(_T("#"), i); 
+		j < 3 && !token.IsEmpty(); 
+		token = strParam.Tokenize(_T("#"), i), j++)
+	{
+		switch (j)
+		{
+		case 0 :
+			lDVDTitle = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
+			break;
+		case 1 :
+			if (token.Find(':') >0)
+				_stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
+			else
+				lDVDChapter = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
+			break;
+		}
+	}
+}
+
 void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 {
 	nCLSwitches = 0;
@@ -2173,6 +2236,9 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	slFilters.RemoveAll();
 	rtStart = 0;
 	rtShift = 0;
+	lDVDTitle = 0;
+	lDVDChapter = 0;
+	memset (&DVDPosition, 0, sizeof(DVDPosition));
 	iAdminOption=0;
 	fixedWindowSize.SetSize(0, 0);
 	iMonitor = 0;
@@ -2207,6 +2273,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("sub") && pos) slSubs.AddTail(cmdln.GetNext(pos));
 			else if(sw == _T("filter") && pos) slFilters.AddTail(cmdln.GetNext(pos));
 			else if(sw == _T("dvd")) nCLSwitches |= CLSW_DVD;
+			else if(sw == _T("dvdpos")) ExtractDVDStartPos(cmdln.GetNext(pos));
 			else if(sw == _T("cd")) nCLSwitches |= CLSW_CD;
 			else if(sw == _T("add")) nCLSwitches |= CLSW_ADD;
 			else if(sw == _T("regvid")) nCLSwitches |= CLSW_REGEXTVID;

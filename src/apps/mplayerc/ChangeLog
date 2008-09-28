@@ -6,6 +6,7 @@ v1.x.x.x - unreleased
  NEW    : Pixel shader to convert BT601 -> BT701 (request #1911511)
  NEW    : Recursively adding directories to the Playlist (feature request #2013805), add as New Menu item
  NEW    : Support for M2TS presentation graphics streams (only for EVR Custom and VMR9 Renderless)
+ NEW    : Command lines "/startpos hh:mm:ss.ff", "/dvdpos title#chapter" and "/dvdpos title#hh:mm:ss.ff" to start playback to position
  CHANGED: Add VIRTKEY for "Save Thumbnails" (request #1964399)
  CHANGED: Store the settings for the internal DXVA/FFmpeg decoders in a different value than the other internal decoders. This makes the settings better interchangeable with old MPC builds. Also gives more room in the bitvector for adding more (FFmpeg based) decoders in the future.
  CHANGED: PAR correction option (for anamorphic video)in VSFilter and RealText support 
@@ -19,6 +20,8 @@ v1.x.x.x - unreleased
  CHANGED: Open DVD detect and open Blu Ray main movie
  CHANGED: Eac3 support in Mpeg splitter
  CHANGED: YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
+ CHANGED: Number of file and DVD position increase from 5 to 20 (req #1819709)
+ CHANGED: Bypass of UOPs for DVD (req #1811508). This feature didn't works for x64 build
  FIXED  : Chapter message improperly displayed in status bar (for file only)
  FIXED  : Crash with CoreAVC when changing "prefered decoder" setting during playback
  FIXED  : Missing checkmarks on "tearing test" and "display stats" options (bug #2010857)
@@ -31,6 +34,7 @@ v1.x.x.x - unreleased
  FIXED  : shortcuts label in "Option / Key" dialog box is now localized
  FIXED  : MPC-HC file association cleanup bug (rev.731), these commands are not working: mplayerc /unregvid, mplayerc /unregaud 
  FIXED  : Freeze when play Mpeg2 or XVid file
+ FIXED  : Remember position not working with some DVDs
 
 v1.1.604.0 - 28 June 2008
 ======================

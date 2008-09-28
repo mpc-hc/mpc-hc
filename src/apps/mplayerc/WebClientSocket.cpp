@@ -329,7 +329,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
 			{
 				int h, m, s, ms = 0;
 				TCHAR c;
-				if(_stscanf(arg, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms) >= 5)
+				if(_stscanf_s(arg, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms) >= 5)
 				{
 					REFERENCE_TIME rtPos = 10000i64*(((h*60+m)*60+s)*1000+ms);
 					m_pMainFrame->SeekTo(rtPos);
@@ -343,7 +343,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
 			else if(arg == CMD_SETPOS && m_request.Lookup(_T("percent"), arg))
 			{
 				float percent = 0;
-				if(_stscanf(arg, _T("%f"), &percent) == 1)
+				if(_stscanf_s(arg, _T("%f"), &percent) == 1)
 					m_pMainFrame->SeekTo((REFERENCE_TIME)(percent / 100 * m_pMainFrame->GetDur()));
 			}
 			else if(arg == CMD_SETVOLUME && m_request.Lookup(_T("volume"), arg))
@@ -739,7 +739,7 @@ bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
 		return false;
 
 	DWORD key = 0;
-	if(1 != _stscanf(id, _T("%x"), &key) || key == 0)
+	if(1 != _stscanf_s(id, _T("%x"), &key) || key == 0)
 		return false;
 
 	CAutoLock cAutoLock(&CDSMResource::m_csResources);

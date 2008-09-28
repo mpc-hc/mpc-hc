@@ -79,7 +79,7 @@ typedef struct // _VMR9ProcAmpControlRange
 	float StepSize;
 } 	COLORPROPERTY_RANGE;
 
-#define MAX_DVD_POSITION		5
+#define MAX_DVD_POSITION		20
 typedef struct
 {
 	ULONGLONG			llDVDGuid;
@@ -87,7 +87,7 @@ typedef struct
 	DVD_HMSF_TIMECODE	Timecode;
 } DVD_POSITION;
 
-#define MAX_FILE_POSITION		5
+#define MAX_FILE_POSITION		20
 typedef struct
 {
 	CString				strFile;
@@ -434,9 +434,15 @@ public:
 	public:
 		// cmdline params
 		int nCLSwitches;
-		CAtlList<CString> slFiles, slDubs, slSubs, slFilters;
-		__int64 rtShift;
-		__int64 rtStart;
+		CAtlList<CString>	slFiles, slDubs, slSubs, slFilters;
+		
+		// Initial position (used by command line flags)
+		__int64				rtShift;
+		__int64				rtStart;
+		ULONG				lDVDTitle;
+		ULONG				lDVDChapter;
+		DVD_HMSF_TIMECODE	DVDPosition;
+
 		CSize fixedWindowSize;
 		bool HasFixedWindowSize() {return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;}
 		// int iFixedWidth, iFixedHeight;
@@ -605,6 +611,7 @@ public:
 		HWND			hMasterWnd;
 
 		bool			IsD3DFullscreen();
+		void			ResetPositions();
 		DVD_POSITION*	CurrentDVDPosition();
 		bool			NewDvd(ULONGLONG llDVDGuid);
 		FILE_POSITION*	CurrentFilePosition();
@@ -620,6 +627,7 @@ public:
 		int				nCurrentFilePosition;
 
 		__int64			ConvertTimeToMSec(CString& time);
+		void			ExtractDVDStartPos(CString& strParam);
 
 		void			CreateCommands();
 	public:

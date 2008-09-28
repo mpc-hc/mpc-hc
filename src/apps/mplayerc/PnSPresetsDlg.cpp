@@ -87,7 +87,7 @@ void CPnSPresetsDlg::StringToParams(CString str, CString& label, double& PosX, d
 		else
 		{
 			float f = 0;
-			if(_stscanf(token, _T("%f"), &f) != 1) continue;
+			if(_stscanf_s(token, _T("%f"), &f) != 1) continue;
 
 			switch(j)
 			{

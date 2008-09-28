@@ -1780,6 +1780,7 @@ bool CMainFrame::DoAfterPlaybackEvent()
 #include <comdef.h>
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
+	AppSettings& s = AfxGetAppSettings();
     HRESULT hr = S_OK;
 
 	LONG evCode; LONG_PTR evParam1, evParam2;
@@ -1799,8 +1800,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         if(EC_COMPLETE == evCode)
         {
-			AppSettings& s = AfxGetAppSettings();
-
 			FILE_POSITION*	FilePosition = s.CurrentFilePosition();
 			if (FilePosition) FilePosition->llPosition = 0;
 
@@ -1859,7 +1858,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 					if(s.fRewind)
 					{
-						AfxGetAppSettings().nCLSwitches |= CLSW_OPEN; // HACK
+						s.nCLSwitches |= CLSW_OPEN; // HACK
 						PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
 					}
 					else
@@ -1908,7 +1907,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 		else if(EC_DVD_TITLE_CHANGE == evCode)
 		{
 			// Casimir666 : Mémoriser le chapitre en cours
-			DVD_POSITION*	DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+			DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 			if (DvdPos) DvdPos->lTitle = (DWORD)evParam1;
 
 			if(m_iPlaybackMode == PM_FILE)
@@ -1936,18 +1935,32 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			switch(m_iDVDDomain)
 			{
 			case DVD_DOMAIN_FirstPlay: 
-				IDvdCmd*	pCmd;
 				ULONGLONG	llDVDGuid;
 
-				// Casimir666 : Au lancement de positionner a la dernière position lue
 				if (pDVDI && SUCCEEDED (pDVDI->GetDiscID (NULL, &llDVDGuid)))
 				{
-					if (!AfxGetAppSettings().NewDvd (llDVDGuid) && AfxGetAppSettings().fRememberDVDPos)
+					if (s.lDVDTitle != 0)
 					{
-						DVD_POSITION*	DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+						// Set command line position
+						pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						if (s.lDVDChapter != 0)
+							pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						else
+							pDVDC->PlayAtTimeInTitle (s.lDVDTitle, &s.DVDPosition, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 
-						hr = pDVDC->PlayAtTimeInTitle (DvdPos->lTitle, &DvdPos->Timecode, DVD_CMD_FLAG_Flush, &pCmd);
-						if (pCmd) pCmd->Release();
+						s.lDVDTitle   = 0;
+						s.lDVDChapter = 0;
+					}
+					else if (!s.NewDvd (llDVDGuid) && s.fRememberDVDPos)
+					{
+						// Set last remembered position (if founded...)
+						DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
+
+						pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						if (SUCCEEDED (hr = pDVDC->PlayAtTimeInTitle (DvdPos->lTitle, &DvdPos->Timecode, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL)))
+						{
+							m_iDVDTitle = DvdPos->lTitle;
+						}
 					}
 				}
 				Domain = _T("First Play"); break;
@@ -1956,7 +1969,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			case DVD_DOMAIN_Title: 
 				Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle); 
 				DVD_POSITION*	DvdPos;
-				DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+				DvdPos = s.CurrentDVDPosition();
 				if (DvdPos) 
 					DvdPos->lTitle = m_iDVDTitle;
 				break;
@@ -1990,7 +2003,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
 			// Casimir666 : Mémoriser le timecode courant dans le chapitre
-			DVD_POSITION*	DvdPos = AfxGetAppSettings().CurrentDVDPosition();
+			DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 			if (DvdPos) 
 				memcpy (&DvdPos->Timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
 
@@ -2036,7 +2049,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			CSize size(evParam1);
 			m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
-			if(AfxGetAppSettings().fRememberZoomLevel
+			if(s.fRememberZoomLevel
 			&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
 			{
 				ZoomVideoWindow();
@@ -2047,10 +2060,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			}
 
 			if(m_iMediaLoadState == MLS_LOADED
-			&& !m_fAudioOnly && (AfxGetAppSettings().nCLSwitches&CLSW_FULLSCREEN))
+			&& !m_fAudioOnly && (s.nCLSwitches&CLSW_FULLSCREEN))
 			{
 				PostMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
-				AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+				s.nCLSwitches &= ~CLSW_FULLSCREEN;
 			}
 		}
 		else if(EC_LENGTH_CHANGED == evCode)
@@ -4934,7 +4947,7 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
 	for(CString token = str.Tokenize(_T(","), i); !token.IsEmpty(); token = str.Tokenize(_T(","), i), j++)
 	{
 		float f = 0;
-		if(_stscanf(token, _T("%f"), &f) != 1) continue;
+		if(_stscanf_s(token, _T("%f"), &f) != 1) continue;
 
 		switch(j)
 		{
@@ -6537,7 +6550,7 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 			s2 = s1.Tokenize(_T(";"), i), j++)
 		{
 			if(j == 0) ; // desc
-			else if(j == 1) _stscanf(s2, _T("%I64d"), &rtStart); // pos
+			else if(j == 1) _stscanf_s(s2, _T("%I64d"), &rtStart); // pos
 			else fns.AddTail(s2); // subs
 		}
 
@@ -7734,7 +7747,7 @@ void CMainFrame::SetupChapters()
 
 					int h, m, s, ms;
 					WCHAR wc;
-					if(7 != swscanf(CStringW(var), L"%d%c%d%c%d%c%d", &h, &wc, &m, &wc, &s, &wc, &ms)) 
+					if(7 != swscanf_s(CStringW(var), L"%d%c%d%c%d%c%d", &h, &wc, &m, &wc, &s, &wc, &ms)) 
 						break;
 
 					CStringW name;
@@ -8666,6 +8679,7 @@ void CMainFrame::CloseMediaPrivate()
 	m_closingmsg = ResStr(IDS_CONTROLS_CLOSED);
 
 	AfxGetAppSettings().nCLSwitches &= CLSW_OPEN|CLSW_PLAY|CLSW_AFTERPLAYBACK_MASK|CLSW_NOFOCUS;
+	AfxGetAppSettings().ResetPositions();
 
 	SetState (MLS_CLOSED);
 }
@@ -9539,7 +9553,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 		if(!sl.IsEmpty())
 		{
 			REFERENCE_TIME rt = 0;
-			if(1 == _stscanf(sl.GetHead(), _T("%I64d"), &rt) && rt > 0)
+			if(1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0)
 			{
 				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
 				str.Format(_T("%s\t[%02d:%02d:%02d]"), CString(str), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
@@ -11282,7 +11296,6 @@ LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
 {
 	HWND checkbox;
-	TCHAR strFolderPath[MAX_PATH];
 	
 	//Initialization callback message
 	if(uMsg==BFFM_INITIALIZED)
