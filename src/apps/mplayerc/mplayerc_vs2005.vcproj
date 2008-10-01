@@ -615,6 +615,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\pngdib.c"
+				>
+			</File>
+			<File
 				RelativePath="PnSPresetsDlg.cpp"
 				>
 			</File>
@@ -1085,6 +1089,10 @@
 			</File>
 			<File
 				RelativePath="Playlist.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pngdib.h"
 				>
 			</File>
 			<File

@@ -3862,6 +3862,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 }
 
 #include "jpeg.h"
+#include "pngdib.h"
 
 void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 {
@@ -3893,6 +3894,43 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 		else
 		{
 			AfxMessageBox(ResStr(IDS_MAINFRM_53), MB_OK);
+		}
+	}
+	else if(ext == _T(".png"))
+	{
+		DWORD bmpsize = size;
+		LPBITMAPINFOHEADER pdib;
+		LPBITMAPFILEHEADER pbmfh;
+		void *pbits;
+		PNGDIB *pngdib;
+		int ret;
+
+		BITMAPINFO* bi = (BITMAPINFO*)pData;
+
+		BITMAPFILEHEADER bfh;
+		bfh.bfType = 'MB';
+		bfh.bfOffBits = sizeof(bfh) + sizeof(bi->bmiHeader);
+		bfh.bfSize = sizeof(bfh) + size;
+		bfh.bfReserved1 = bfh.bfReserved2 = 0;
+
+		if(bi->bmiHeader.biBitCount <= 8)
+		{
+			if(bi->bmiHeader.biClrUsed) bfh.bfOffBits += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
+			else bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * sizeof(bi->bmiColors[0]);
+		}
+		pbmfh = (LPBITMAPFILEHEADER)&bfh;
+		pbits = &pData[pbmfh->bfOffBits-sizeof(bfh)];
+		pdib = (LPBITMAPINFOHEADER)pData;
+		pngdib = pngdib_d2p_init();
+		pngdib_d2p_set_dib(pngdib,pdib,bmpsize,pbits,0);
+		pngdib_d2p_set_png_filename(pngdib, fn);
+		pngdib_d2p_set_gamma_label(pngdib, 1, PNGDIB_DEFAULT_FILE_GAMMA);
+		ret = pngdib_d2p_run(pngdib);
+		pngdib_done(pngdib);
+		if(ret) {
+			CString err_str;
+			err_str.Format(_T("%s\n%s (%d)"), IDS_MAINFRM_53, pngdib_get_error_msg(pngdib), ret);
+			AfxMessageBox(err_str, MB_OK);
 		}
 	}
 	else if(ext == _T(".jpg"))
@@ -4254,15 +4292,17 @@ void CMainFrame::OnFileSaveImage()
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg||"), this, 0);
+		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), this, 0);
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
-
+	else if(s.SnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
+	
 	if(fd.DoModal() != IDOK) return;
 
 	if(fd.m_pOFN->nFilterIndex == 1) s.SnapShotExt = _T(".bmp");
-	else if(fd.m_pOFN->nFilterIndex = 2) s.SnapShotExt = _T(".jpg");
+	else if(fd.m_pOFN->nFilterIndex == 2) s.SnapShotExt = _T(".jpg");
+	else if(fd.m_pOFN->nFilterIndex = 3) s.SnapShotExt = _T(".png");
 
 	CPath pdst(fd.GetPathName());
 	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst = CPath((LPCTSTR)pdst + s.SnapShotExt);
@@ -4308,15 +4348,17 @@ void CMainFrame::OnFileSaveThumbnails()
 	CSaveThumbnailsDialog fd(
 		s.ThumbRows, s.ThumbCols, s.ThumbWidth,
 		0, (LPCTSTR)psrc, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg||"), this);
+		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), this);
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
+	else if(s.SnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
 
 	if(fd.DoModal() != IDOK) return;
 
 	if(fd.m_pOFN->nFilterIndex == 1) s.SnapShotExt = _T(".bmp");
-	else if(fd.m_pOFN->nFilterIndex = 2) s.SnapShotExt = _T(".jpg");
+	else if(fd.m_pOFN->nFilterIndex == 2) s.SnapShotExt = _T(".jpg");
+	else if(fd.m_pOFN->nFilterIndex = 3) s.SnapShotExt = _T(".png");
 
 	s.ThumbRows = fd.m_rows;
 	s.ThumbCols = fd.m_cols;
