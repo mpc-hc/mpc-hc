@@ -56,7 +56,9 @@ public:
 	virtual ~CPPageFormats();
 
 	static bool IsRegistered(CString ext, CString strProgID);
-	static bool RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister);
+	static bool RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister, int iconIndex);
+
+	static void RebuildIconsCache();
 
 	enum {COL_CATEGORY, COL_ENGINE};
 	CPlayerListCtrl m_list;

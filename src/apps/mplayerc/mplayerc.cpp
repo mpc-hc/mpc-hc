@@ -851,10 +851,11 @@ BOOL CMPlayerCApp::InitInstance()
 			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j))
 			{
 				if(((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly) || ((m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly)) {
-					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), true);
+					CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), true, mf[i].GetIconIndex());
 				}
 			}
 		}
+		CPPageFormats::RebuildIconsCache();
 
 		return FALSE;
 	}
@@ -869,9 +870,10 @@ BOOL CMPlayerCApp::InitInstance()
 			CString str = mf[i].GetExtsWithPeriod();
 			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j))
 			{
-				CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), false);
+				CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), false, mf[i].GetIconIndex());
 			}
 		}
+		CPPageFormats::RebuildIconsCache();
 
 		return FALSE;
 	}
