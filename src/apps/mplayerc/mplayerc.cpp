@@ -855,7 +855,7 @@ BOOL CMPlayerCApp::InitInstance()
 				}
 			}
 		}
-		CPPageFormats::RebuildIconsCache();
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 
 		return FALSE;
 	}
@@ -873,7 +873,7 @@ BOOL CMPlayerCApp::InitInstance()
 				CPPageFormats::RegisterExt(ext, mf[i].GetProgId(), mf[i].GetLabel(), false, mf[i].GetIconIndex());
 			}
 		}
-		CPPageFormats::RebuildIconsCache();
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 
 		return FALSE;
 	}

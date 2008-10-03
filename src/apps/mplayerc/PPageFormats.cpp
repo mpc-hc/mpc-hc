@@ -297,89 +297,6 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	return(true);
 }
 
-void CPPageFormats::RebuildIconsCache() // source get from TSVN Windows client ...
-{
-	const int BUFFER_SIZE = 1024;
-	TCHAR *buf = NULL;
-	HKEY hRegKey = 0;
-	DWORD dwRegValue;
-	DWORD dwRegValueTemp;
-	DWORD dwSize;
-	DWORD_PTR dwResult;
-	LONG lRegResult;
-	std::wstring sRegValueName;
-	std::wstring sDefaultIconSize;
-	int iDefaultIconSize;
-	bool bResult = false;
-
-	lRegResult = RegOpenKeyEx(HKEY_CURRENT_USER, _T("Control Panel\\Desktop\\WindowMetrics"),
-		0, KEY_READ | KEY_WRITE, &hRegKey);
-	if (lRegResult != ERROR_SUCCESS)
-		goto Cleanup;
-
-	buf = new TCHAR[BUFFER_SIZE];
-	if(buf == NULL)
-		goto Cleanup;
-
-	// we're going to change the Shell Icon Size value
-	sRegValueName = _T("Shell Icon Size");
-
-	// Read registry value
-	dwSize = BUFFER_SIZE;
-	lRegResult = RegQueryValueEx(hRegKey, sRegValueName.c_str(), NULL, NULL, 
-		(LPBYTE) buf, &dwSize);
-	if (lRegResult != ERROR_FILE_NOT_FOUND)
-	{
-		// If registry key doesn't exist create it using system current setting
-		iDefaultIconSize = ::GetSystemMetrics(SM_CXICON);
-		if (0 == iDefaultIconSize)
-			iDefaultIconSize = 32;
-		_sntprintf_s(buf, BUFFER_SIZE, BUFFER_SIZE, _T("%d"), iDefaultIconSize); 
-	}
-	else if (lRegResult != ERROR_SUCCESS)
-		goto Cleanup;
-
-	// Change registry value
-	dwRegValue = _ttoi(buf);
-	dwRegValueTemp = dwRegValue-1;
-
-	dwSize = _sntprintf_s(buf, BUFFER_SIZE, BUFFER_SIZE, _T("%d"), dwRegValueTemp) + sizeof(TCHAR); 
-	lRegResult = RegSetValueEx(hRegKey, sRegValueName.c_str(), 0, REG_SZ, 
-		(LPBYTE) buf, dwSize); 
-	if (lRegResult != ERROR_SUCCESS)
-		goto Cleanup;
-
-
-	// Update all windows
-	SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, 
-		0, SMTO_ABORTIFHUNG, 5000, &dwResult);
-
-	// Reset registry value
-	dwSize = _sntprintf_s(buf, BUFFER_SIZE, BUFFER_SIZE, _T("%d"), dwRegValue) + sizeof(TCHAR); 
-	lRegResult = RegSetValueEx(hRegKey, sRegValueName.c_str(), 0, REG_SZ, 
-		(LPBYTE) buf, dwSize); 
-	if(lRegResult != ERROR_SUCCESS)
-		goto Cleanup;
-
-	// Update all windows
-	SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, 
-		0, SMTO_ABORTIFHUNG, 5000, &dwResult);
-
-	bResult = true;
-
-Cleanup:
-	if (hRegKey != 0)
-	{
-		RegCloseKey(hRegKey);
-	}
-	if (buf != NULL)
-	{
-		delete buf;
-	}
-
-	//return bResult;
-}
-
 static struct {LPCSTR verb, cmd; UINT action;} handlers[] =
 {
 	{"VideoFiles", " %1", IDS_AUTOPLAY_PLAYVIDEO},
@@ -846,7 +763,7 @@ BOOL CPPageFormats::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 	s.Formats.SetRtspHandler(m_iRtspHandler==0?RealMedia:m_iRtspHandler==1?QuickTime:DirectShow, !!m_fRtspFileExtFirst);
 
-	RebuildIconsCache();
+	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 	
 	return __super::OnApply();
 }
