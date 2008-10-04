@@ -763,7 +763,7 @@ BOOL CPPageFormats::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 	s.Formats.SetRtspHandler(m_iRtspHandler==0?RealMedia:m_iRtspHandler==1?QuickTime:DirectShow, !!m_fRtspFileExtFirst);
 
-	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
+	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	
 	return __super::OnApply();
 }
