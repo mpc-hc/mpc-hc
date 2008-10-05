@@ -351,11 +351,11 @@ static int vorbis_parse_setup_hdr_codebooks(vorbis_context *vc) {
         if (codebook_setup->lookup_type==1) {
             uint_fast16_t i, j, k;
             uint_fast16_t codebook_lookup_values=ff_vorbis_nth_root(entries, codebook_setup->dimensions);
-			#if __STDC_VERSION__ >= 199901L
+            #if __STDC_VERSION__ >= 199901L
             uint_fast16_t codebook_multiplicands[codebook_lookup_values];
-			#else
-			uint_fast16_t *codebook_multiplicands=(uint_fast16_t *)alloca(codebook_lookup_values*sizeof(uint_fast16_t));
-			#endif
+            #else
+            uint_fast16_t *codebook_multiplicands=(uint_fast16_t *)alloca(codebook_lookup_values*sizeof(uint_fast16_t));
+            #endif
 
             float codebook_minimum_value=vorbisfloat2float(get_bits_long(gb, 32));
             float codebook_delta_value=vorbisfloat2float(get_bits_long(gb, 32));
@@ -1154,6 +1154,7 @@ static av_cold int vorbis_decode_init(AVCodecContext *avccontext) {
     hdr_type=get_bits(gb, 8);
     if (hdr_type!=5) {
         av_log(avccontext, AV_LOG_ERROR, "Third header is not the setup header.\n");
+        vorbis_free(vc);
         return -1;
     }
     if (vorbis_parse_setup_hdr(vc)) {
@@ -1298,8 +1299,8 @@ static uint_fast8_t vorbis_floor1_decode(vorbis_context *vc, vorbis_floor_data *
     int floor1_flag[vf->x_list_dim];
     #else
     uint_fast16_t *floor1_Y=(uint_fast16_t *)alloca((vf->x_list_dim)*sizeof(uint_fast16_t));
-	uint_fast16_t *floor1_Y_final=(uint_fast16_t *)alloca((vf->x_list_dim)*sizeof(uint_fast16_t));
-	int *floor1_flag=(int *)alloca((vf->x_list_dim)*sizeof(int));
+    uint_fast16_t *floor1_Y_final=(uint_fast16_t *)alloca((vf->x_list_dim)*sizeof(uint_fast16_t));
+    int *floor1_flag=(int *)alloca((vf->x_list_dim)*sizeof(int));
     #endif
     uint_fast8_t class_;
     uint_fast8_t cdim;
@@ -1630,13 +1631,13 @@ static int vorbis_parse_audio_packet(vorbis_context *vc) {
     uint_fast8_t mode_number;
     uint_fast8_t blockflag;
     uint_fast16_t blocksize;
-    int_fast32_t i,j,dir;
+    int_fast32_t i,j;
     #if __STDC_VERSION__ >= 199901L
     uint_fast8_t no_residue[vc->audio_channels];
     uint_fast8_t do_not_decode[vc->audio_channels];
     #else
     uint_fast8_t *no_residue=(uint_fast8_t *)alloca((vc->audio_channels)*sizeof(uint_fast8_t));
-	uint_fast8_t *do_not_decode=(uint_fast8_t *)alloca((vc->audio_channels)*sizeof(uint_fast8_t));
+    uint_fast8_t *do_not_decode=(uint_fast8_t *)alloca((vc->audio_channels)*sizeof(uint_fast8_t));
     #endif
     vorbis_mapping *mapping;
     float *ch_res_ptr=vc->channel_residues;
@@ -1644,7 +1645,7 @@ static int vorbis_parse_audio_packet(vorbis_context *vc) {
     #if __STDC_VERSION__ >= 199901L
     uint_fast8_t res_chan[vc->audio_channels];
     #else
-	uint_fast8_t *res_chan=(uint_fast8_t *)alloca((vc->audio_channels)*sizeof(uint_fast8_t));
+    uint_fast8_t *res_chan=(uint_fast8_t *)alloca((vc->audio_channels)*sizeof(uint_fast8_t));
     #endif
     uint_fast8_t res_num=0;
     int_fast16_t retlen=0;
@@ -1731,28 +1732,26 @@ static int vorbis_parse_audio_packet(vorbis_context *vc) {
         vc->dsp.vorbis_inverse_coupling(mag, ang, blocksize/2);
     }
 
-// Dotproduct
+// Dotproduct, MDCT
 
-    for(j=0, ch_floor_ptr=vc->channel_floors;j<vc->audio_channels;++j,ch_floor_ptr+=blocksize/2) {
+    for(j=vc->audio_channels-1;j>=0;j--) {
+        ch_floor_ptr=vc->channel_floors+j*blocksize/2;
         ch_res_ptr=vc->channel_residues+res_chan[j]*blocksize/2;
         vc->dsp.vector_fmul(ch_floor_ptr, ch_res_ptr, blocksize/2);
+        ff_imdct_half(&vc->mdct[blockflag], ch_res_ptr, ch_floor_ptr);
     }
 
-// MDCT, overlap/add, save data for next overlapping  FPMATH
+// Overlap/add, save data for next overlapping  FPMATH
 
     retlen = (blocksize + vc->blocksize[previous_window])/4;
-    dir = retlen <= blocksize/2; // pick an order so that ret[] can reuse floors[] without stepping on any data we need
-    for(j=dir?0:vc->audio_channels-1; (unsigned)j<vc->audio_channels; j+=dir*2-1) {
+    for(j=0;j<vc->audio_channels;j++) {
         uint_fast16_t bs0=vc->blocksize[0];
         uint_fast16_t bs1=vc->blocksize[1];
         float *residue=vc->channel_residues+res_chan[j]*blocksize/2;
-        float *floor=vc->channel_floors+j*blocksize/2;
         float *saved=vc->saved+j*bs1/4;
         float *ret=vc->channel_floors+j*retlen;
         float *buf=residue;
         const float *win=vc->win[blockflag&previous_window];
-
-        ff_imdct_half(&vc->mdct[blockflag], buf, floor);
 
         if(blockflag == previous_window) {
             vc->dsp.vector_fmul_window(ret, saved, buf, win, fadd_bias, blocksize/4);

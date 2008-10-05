@@ -27,8 +27,8 @@
  * absolutely necessary to call emms_c() between dsp & float/double code
  */
 
-#ifndef FFMPEG_DSPUTIL_H
-#define FFMPEG_DSPUTIL_H
+#ifndef AVCODEC_DSPUTIL_H
+#define AVCODEC_DSPUTIL_H
 
 #include "avcodec.h"
 
@@ -85,6 +85,9 @@ extern uint8_t ff_cropTbl[256 + 2 * MAX_NEG_CROP];
 void ff_vp3_idct_c(DCTELEM *block/* align 16*/);
 void ff_vp3_idct_put_c(uint8_t *dest/*align 8*/, int line_size, DCTELEM *block/*align 16*/);
 void ff_vp3_idct_add_c(uint8_t *dest/*align 8*/, int line_size, DCTELEM *block/*align 16*/);
+
+void ff_vp3_v_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
+void ff_vp3_h_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
 
 /* 1/2^n downscaling functions from imgconvert.c */
 void ff_img_copy_plane(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
@@ -347,6 +350,9 @@ typedef struct DSPContext {
 
     void (*x8_v_loop_filter)(uint8_t *src, int stride, int qscale);
     void (*x8_h_loop_filter)(uint8_t *src, int stride, int qscale);
+
+    void (*vp3_v_loop_filter)(uint8_t *src, int stride, int *bounding_values);
+    void (*vp3_h_loop_filter)(uint8_t *src, int stride, int *bounding_values);
 
 #ifdef CONFIG_VORBIS_DECODER
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
@@ -729,4 +735,4 @@ static inline void copy_block17(uint8_t *dst, uint8_t *src, int dstStride, int s
     }
 }
 
-#endif /* FFMPEG_DSPUTIL_H */
+#endif /* AVCODEC_DSPUTIL_H */

@@ -24,8 +24,8 @@
  * Constants for DV codec.
  */
 
-#ifndef FFMPEG_DVDATA_H
-#define FFMPEG_DVDATA_H
+#ifndef AVCODEC_DVDATA_H
+#define AVCODEC_DVDATA_H
 
 #include "libavutil/rational.h"
 #include "avcodec.h"
@@ -47,13 +47,13 @@ typedef struct DVprofile {
     int              height;              /* picture height in pixels */
     int              width;               /* picture width in pixels */
     AVRational       sar[2];              /* sample aspect ratios for 4:3 and 16:9 */
-    const uint16_t  *video_place;         /* positions of all DV macro blocks */
+    const uint16_t  *video_place;         /* positions of all DV macroblocks */
     enum PixelFormat pix_fmt;             /* picture pixel format */
     int              bpm;                 /* blocks per macroblock */
     const uint8_t   *block_sizes;         /* AC block sizes, in bits */
     int              audio_stride;        /* size of audio_shuffle table */
-    int              audio_min_samples[3];/* min ammount of audio samples */
-                                          /* for 48Khz, 44.1Khz and 32Khz */
+    int              audio_min_samples[3];/* min amount of audio samples */
+                                          /* for 48kHz, 44.1kHz and 32kHz */
     int              audio_samples_dist[5];/* how many samples are supposed to be */
                                          /* in each frame in a 5 frames window */
     const uint8_t  (*audio_shuffle)[9];  /* PCM shuffling table */
@@ -2739,4 +2739,4 @@ static inline int dv_write_ssyb_id(uint8_t syb_num, uint8_t fr, uint8_t* buf)
     return 3;
 }
 
-#endif /* FFMPEG_DVDATA_H */
+#endif /* AVCODEC_DVDATA_H */

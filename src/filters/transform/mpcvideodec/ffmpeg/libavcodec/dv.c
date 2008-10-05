@@ -268,7 +268,7 @@ static inline int put_bits_left(PutBitContext* s)
     return (s->buf_end - s->buf) * 8 - put_bits_count(s);
 }
 
-/* decode ac coefs */
+/* decode ac coefficients */
 static void dv_decode_ac(GetBitContext *gb, BlockInfo *mb, DCTELEM *block)
 {
     int last_index = gb->size_in_bits;
@@ -645,7 +645,7 @@ static av_always_inline void dv_set_class_number(DCTELEM* blk, EncBlockInfo* bi,
        method suggested in SMPTE 314M Table 22, and an improved
        method. The SMPTE method is very conservative; it assigns class
        3 (i.e. severe quantization) to any block where the largest AC
-       component is greater than 36. ffmpeg's DV encoder tracks AC bit
+       component is greater than 36. FFmpeg's DV encoder tracks AC bit
        consumption precisely, so there is no need to bias most blocks
        towards strongly lossy compression. Instead, we assign class 2
        to most blocks, and use class 3 only when strictly necessary
@@ -653,7 +653,7 @@ static av_always_inline void dv_set_class_number(DCTELEM* blk, EncBlockInfo* bi,
 
 #if 0 /* SMPTE spec method */
     static const int classes[] = {12, 24, 36, 0xffff};
-#else /* improved ffmpeg method */
+#else /* improved FFmpeg method */
     static const int classes[] = {-1, -1, 255, 0xffff};
 #endif
     int max=classes[0];
@@ -993,8 +993,8 @@ static int dvvideo_decode_frame(AVCodecContext *avctx,
     s->picture.pict_type = FF_I_TYPE;
     avctx->pix_fmt = s->sys->pix_fmt;
     //avctx->time_base = (AVRational){s->sys->frame_rate_base, s->sys->frame_rate};
-	avctx->time_base.num = s->sys->frame_rate_base;
-	avctx->time_base.den = s->sys->frame_rate;
+    avctx->time_base.num = s->sys->frame_rate_base;
+    avctx->time_base.den = s->sys->frame_rate;
     avcodec_set_dimensions(avctx, s->sys->width, s->sys->height);
     if(avctx->get_buffer(avctx, &s->picture) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");

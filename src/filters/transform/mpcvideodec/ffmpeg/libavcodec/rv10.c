@@ -275,7 +275,7 @@ static int rv10_decode_picture_header(MpegEncContext *s)
         }
     }
     /* if multiple packets per frame are sent, the position at which
-       to display the macro blocks is coded here */
+       to display the macroblocks is coded here */
 
     mb_xy= s->mb_x + s->mb_y*s->mb_width;
     if(show_bits(&s->gb, 12)==0 || (mb_xy && mb_xy < s->mb_num)){

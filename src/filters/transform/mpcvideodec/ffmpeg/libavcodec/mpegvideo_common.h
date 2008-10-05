@@ -27,16 +27,14 @@
  * The simplest mpeg encoder (well, it was the simplest!).
  */
 
-#ifndef FFMPEG_MPEGVIDEO_COMMON_H
-#define FFMPEG_MPEGVIDEO_COMMON_H
+#ifndef AVCODEC_MPEGVIDEO_COMMON_H
+#define AVCODEC_MPEGVIDEO_COMMON_H
 
 #include "avcodec.h"
 #include "dsputil.h"
 #include "mpegvideo.h"
 #include "msmpeg4.h"
 #include <limits.h>
-
-void copy_picture(Picture *dst, Picture *src);
 
 /**
  * allocates a Picture
@@ -893,4 +891,4 @@ static inline void MPV_motion(MpegEncContext *s,
         MPV_motion_internal(s, dest_y, dest_cb, dest_cr, dir,
                             ref_picture, pix_op, qpix_op, 0);
 }
-#endif /* FFMPEG_MPEGVIDEO_COMMON_H */
+#endif /* AVCODEC_MPEGVIDEO_COMMON_H */

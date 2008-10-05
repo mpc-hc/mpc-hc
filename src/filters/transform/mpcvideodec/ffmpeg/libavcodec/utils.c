@@ -83,7 +83,7 @@ void av_free_static(void)
 }
 
 /* encoder management */
-AVCodec *first_avcodec = NULL;
+static AVCodec *first_avcodec = NULL;
 
 AVCodec *av_codec_next(AVCodec *c){
     if(c) return c->next;
@@ -169,6 +169,8 @@ void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
 
     *width = ALIGN(*width , w_align);
     *height= ALIGN(*height, h_align);
+    if(s->codec_id == CODEC_ID_H264)
+        *height+=2; // some of the optimized chroma MC reads one line too much
 }
 
 int avcodec_check_dimensions(void *av_log_ctx, unsigned int w, unsigned int h){
@@ -228,6 +230,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
         int size[4] = {0};
         int tmpsize;
         AVPicture picture;
+        int stride_align[4];
 
         avcodec_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift, &v_chroma_shift);
 
@@ -237,12 +240,22 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
             w+= EDGE_WIDTH*2;
             h+= EDGE_WIDTH*2;
         }
-        avcodec_align_dimensions(s, &w, &h);
 
         ff_fill_linesize(&picture, s->pix_fmt, w);
 
-        for (i=0; i<4; i++)
-            picture.linesize[i] = ALIGN(picture.linesize[i], STRIDE_ALIGN);
+        for (i=0; i<4; i++){
+//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes
+//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the
+//picture size unneccessarily in some cases. The solution here is not
+//pretty and better ideas are welcome!
+#ifdef HAVE_MMX
+            if(s->codec_id == CODEC_ID_SVQ1)
+                stride_align[i]= 16;
+            else
+#endif
+            stride_align[i] = STRIDE_ALIGN;
+            picture.linesize[i] = ALIGN(picture.linesize[i], stride_align[i]);
+        }
 
         tmpsize = ff_fill_pointer(&picture, NULL, s->pix_fmt, h);
 
@@ -268,7 +281,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
             if((s->flags&CODEC_FLAG_EMU_EDGE) || (s->pix_fmt == PIX_FMT_PAL8) || !size[2])
                 buf->data[i] = buf->base[i];
             else
-                buf->data[i] = buf->base[i] + ALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), STRIDE_ALIGN);
+                buf->data[i] = buf->base[i] + ALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), stride_align[i]);
         }
         buf->width  = s->width;
         buf->height = s->height;
