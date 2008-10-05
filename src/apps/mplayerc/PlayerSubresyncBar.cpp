@@ -241,7 +241,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
 		for(int i = 0, j = m_sts.GetCount(); i < j; i++) 
 		{
 			int vobid, cellid, forced, spnum, c;
-			if(_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced, &c, &spnum) != 7) continue;
+			if(_stscanf(m_sts.GetStr(i), _T("%d%c%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced, &c, &spnum) != 7) continue;
             sp[spnum].start = m_sts[i].start;
 			sp[spnum].stop = m_sts[i].end;
 			sp[spnum].fValid = true;
@@ -428,7 +428,7 @@ void CPlayerSubresyncBar::UpdateStrings()
 		for(int i = 0, j = m_sts.GetCount(); i < j; i++)
 		{
 			int vobid, cellid, forced, c;
-			if(_stscanf_s(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced) != 5) continue;
+			if(_stscanf(m_sts.GetStr(i), _T("%d%c%d%c%d"), &vobid, &c, &cellid, &c, &forced) != 5) continue;
 			if(vobid < 0) str = _T("-");
 			else str.Format(_T("%d"), vobid);
 			m_list.SetItemText(i, COL_VOBID, str);
@@ -577,7 +577,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 	str.Trim();
 	if(str.GetLength() > 0 && str[0] == '-') sign = -1;
 
-	int n = _stscanf_s(str, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms);
+	int n = _stscanf(str, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms);
 
 	h = abs(h);
 

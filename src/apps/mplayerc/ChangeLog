@@ -4,6 +4,7 @@ v1.x.x.x - unreleased
  NEW	: creation of minidump when mpc crash
  NEW    : Simplified Chinese translation
  NEW    : Pixel shader to convert BT601 -> BT701 (request #1911511)
+ NEW    : YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
  NEW    : Recursively adding directories to the Playlist (feature request #2013805), add as New Menu item
  NEW    : Support for M2TS presentation graphics streams (only for EVR Custom and VMR9 Renderless)
  NEW    : Command lines "/startpos hh:mm:ss.ff", "/dvdpos title#chapter" and "/dvdpos title#hh:mm:ss.ff" to start playback to position
@@ -19,7 +20,6 @@ v1.x.x.x - unreleased
  CHANGED: Change in VideoDecoder Settings for rev.681(read AR from stream)
  CHANGED: Open DVD detect and open Blu Ray main movie
  CHANGED: Eac3 support in Mpeg splitter
- CHANGED: YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
  CHANGED: Number of file and DVD position increase from 5 to 20 (req #1819709)
  CHANGED: Bypass of UOPs for DVD (req #1811508). This feature didn't works for x64 build
  CHANGED: LibPNG updated to release 1.2.32 (fix memory leaks)

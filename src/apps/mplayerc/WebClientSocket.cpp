@@ -329,7 +329,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
 			{
 				int h, m, s, ms = 0;
 				TCHAR c;
-				if(_stscanf_s(arg, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms) >= 5)
+				if(_stscanf(arg, _T("%d%c%d%c%d%c%d"), &h, &c, &m, &c, &s, &c, &ms) >= 5)
 				{
 					REFERENCE_TIME rtPos = 10000i64*(((h*60+m)*60+s)*1000+ms);
 					m_pMainFrame->SeekTo(rtPos);

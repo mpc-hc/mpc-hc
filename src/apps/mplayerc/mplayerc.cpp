@@ -607,7 +607,6 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 	return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
 }
 
-WCHAR			g_strVideoTS[MAX_PATH] = L"";
 WCHAR			g_strFakeVideoTS[MAX_PATH] = L"";
 LPCTSTR			g_VideoTSFile = L"MPC_video_ts.ifo";
 
@@ -623,7 +622,6 @@ BOOL CreateFakeVideoTS(LPCWSTR p1)
 		Ifo.RemoveUOPs()  &&
 		Ifo.SaveFile (szTempName))
     {
-		wcsncpy (g_strVideoTS, p1, MAX_PATH);
 		wcsncpy_s (g_strFakeVideoTS, MAX_PATH, szTempName, MAX_PATH);
 		bRet = true;
 	}
@@ -640,7 +638,7 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 
 	if (nLen>=12 && _wcsicmp (p1 + nLen-12, L"video_ts.ifo") == 0)
 	{
-		if (_wcsicmp (p1, g_strVideoTS) == 0 || CreateFakeVideoTS(p1))
+		if (CreateFakeVideoTS(p1))
 		{
 			hFile = Real_CreateFileW(g_strFakeVideoTS, p2, p3, p4, p5, p6, p7);
 		}
@@ -1969,7 +1967,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			int cmd, fVirt, key, repcnt, mouse, appcmd;
 			TCHAR buff[128];
 			int n;
-			if(5 > (n = _stscanf(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, &repcnt, &mouse, &appcmd)))
+			if(5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, countof(buff), &repcnt, &mouse, &appcmd)))
 				break;
 			if(POSITION pos = wmcmds.Find(cmd))
 			{

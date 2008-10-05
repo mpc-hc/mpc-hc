@@ -163,7 +163,7 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title)
 
 bool CIfo::IsVTS()
 {
-	if (m_dwSize>12 && !strncmp ((char*)m_pBuffer, "DVDVIDEO-VTS", 12)) 
+	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VTS", 12)!=0)) 
 		return false;
 
 	return true;
@@ -172,7 +172,7 @@ bool CIfo::IsVTS()
 
 bool CIfo::IsVMG()
 {
-	if (m_dwSize>12 && !strncmp ((char*)m_pBuffer, "DVDVIDEO-VMG", 12))
+	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VMG", 12)!=0))
 		return false;
 
 	return true;
@@ -193,10 +193,10 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 		ReadFile (hFile, m_pBuffer, dwSize, &m_dwSize, NULL);
 		CloseHandle (hFile);
 
-		if (IsVTS())
-			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
-		else if (IsVMG())
+		if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer)!=0))
 			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VTSM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
+		else if (IsVMG() && (OFF_VMGM_PGCI_UT(m_pBuffer)!=0))
+			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
 
 		bRet = (m_pPGCI != NULL);
 	}

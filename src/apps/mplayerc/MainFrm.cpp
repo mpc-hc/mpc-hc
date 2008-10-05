@@ -1169,6 +1169,26 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 */
 
 	GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
+	if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow())
+	{
+		MONITORINFO		MonitorInfo;
+		HMONITOR		hMonitor;
+		ZeroMemory (&MonitorInfo, sizeof(MonitorInfo));
+		MonitorInfo.cbSize	= sizeof(MonitorInfo);
+		hMonitor			= MonitorFromWindow (m_pFullscreenWnd->m_hWnd, 0);
+		if (GetMonitorInfo (hMonitor, &MonitorInfo))
+		{
+			CRect MonitorRect = CRect (MonitorInfo.rcMonitor);
+			m_fullWndSize.cx	= MonitorRect.Width();
+			m_fullWndSize.cy	= MonitorRect.Height();
+			m_pFullscreenWnd->SetWindowPos (NULL, 
+											MonitorRect.left, 
+											MonitorRect.top, 
+											MonitorRect.Width(), 
+											MonitorRect.Height(), SWP_NOZORDER);
+			MoveVideoWindow();
+		}
+	}
 }
 
 #include <psapi.h>
