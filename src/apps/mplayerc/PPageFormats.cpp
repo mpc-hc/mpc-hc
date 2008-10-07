@@ -40,6 +40,8 @@ CString			g_strRegisteredKey	   = _T("Software\\Clients\\Media\\Media Player Cla
 int	f_setContextFiles = 0;
 int	f_getContextFiles = 0;
 
+int	f_setAssociatedWithIcon = 0;
+
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
 CPPageFormats::CPPageFormats()
 	: CPPageBase(CPPageFormats::IDD, CPPageFormats::IDD)
@@ -78,6 +80,7 @@ void CPPageFormats::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK5, m_fRtspFileExtFirst);
 	DDX_Control(pDX, IDC_CHECK6, m_fContextDir);
 	DDX_Control(pDX, IDC_CHECK7, m_fContextFiles);
+	DDX_Control(pDX, IDC_CHECK8, m_fAssociatedWithIcons);
 }
 
 int CPPageFormats::GetChecked(int iItem)
@@ -266,30 +269,38 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	if(ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey + _T("\\FileAssociations"))) return(false);
 	if(ERROR_SUCCESS != key.SetStringValue(ext, strProgID)) return(false);
 
-	CString AppIcon = _T("");
-	TCHAR buff[MAX_PATH];
+	if(f_setAssociatedWithIcon)
+	{
+		CString AppIcon = _T("");
+		TCHAR buff[MAX_PATH];
 
-	CString mpciconlib = GetProgramDir() + _T("\\mpciconlib.dll");
-	CString m_typeicon;
-	if(FileExists(mpciconlib)) m_typeicon = mpciconlib;
-	
-	if(!m_typeicon.IsEmpty())
-	{
-		if(ExtractIcon(AfxGetApp()->m_hInstance,(LPCWSTR)m_typeicon, iconIndex))
-		{
-			m_typeicon = "\""+mpciconlib+"\"";
-			AppIcon.Format(_T("%s,%d"), m_typeicon, iconIndex);
-		}
-	}
+		CString mpciconlib = GetProgramDir() + _T("\\mpciconlib.dll");
+		CString m_typeicon;
+		if(FileExists(mpciconlib)) m_typeicon = mpciconlib;
 		
-	if((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH)))
-	{
-		AppIcon = buff;
-		AppIcon = "\""+AppIcon+"\"";
-		AppIcon += _T(",0");
+		if(!m_typeicon.IsEmpty())
+		{
+			if(ExtractIcon(AfxGetApp()->m_hInstance,(LPCWSTR)m_typeicon, iconIndex))
+			{
+				m_typeicon = "\""+mpciconlib+"\"";
+				AppIcon.Format(_T("%s,%d"), m_typeicon, iconIndex);
+			}
+		}
+			
+		if((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH)))
+		{
+			AppIcon = buff;
+			AppIcon = "\""+AppIcon+"\"";
+			AppIcon += _T(",0");
+		}
+		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) return(false);
+		if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, AppIcon))) return(false);
 	}
-	if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) return(false);
-	if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, AppIcon))) return(false);
+	else
+	{
+		key.Attach(HKEY_CLASSES_ROOT);
+		key.RecurseDeleteKey(strProgID + _T("\\DefaultIcon"));
+	}
 
 	if(fRegister != IsRegistered(ext, strProgID))
 		SetFileAssociation (ext, strProgID, fRegister);
@@ -529,6 +540,7 @@ BOOL CPPageFormats::OnInitDialog()
 			fContextDir = (strCommand.CompareNoCase(CString(buff)) == 0);
 	}
 	m_fContextDir.SetCheck(fContextDir);
+	m_fAssociatedWithIcons.SetCheck(s.fAssociatedWithIcons);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -711,6 +723,7 @@ BOOL CPPageFormats::OnApply()
 	}
 
 	f_setContextFiles = m_fContextFiles.GetCheck();
+	f_setAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 	
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
@@ -762,6 +775,7 @@ BOOL CPPageFormats::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 	s.Formats.SetRtspHandler(m_iRtspHandler==0?RealMedia:m_iRtspHandler==1?QuickTime:DirectShow, !!m_fRtspFileExtFirst);
+	s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	

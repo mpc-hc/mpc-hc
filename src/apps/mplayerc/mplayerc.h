@@ -489,6 +489,7 @@ public:
 		bool fReportFailedPins;
 
 		CStringW f_hmonitor;
+		bool fAssociatedWithIcons;
 
 		bool fAllowMultipleInst;
 		int iTitleBarTextStyle;

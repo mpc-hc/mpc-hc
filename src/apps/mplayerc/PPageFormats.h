@@ -95,4 +95,5 @@ public:
 	afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
 	CButton m_fContextDir;
 	CButton m_fContextFiles;
+	CButton m_fAssociatedWithIcons;
 };

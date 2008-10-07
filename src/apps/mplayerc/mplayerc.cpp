@@ -1502,6 +1502,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), CString(f_hmonitor));
 		// Prevent Minimize when in FullScreen mode on non default monitor
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), m_fPreventMinimize);
+		// Associated types with icon or not...
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), fAssociatedWithIcons);
 
 		// CASIMIR666 : nouveau settings
 		CString		strTemp;
@@ -1785,7 +1787,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		f_hmonitor = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_FULLSCREENMONITOR), _T(""));
 		// Prevent Minimize when in FullScreen mode on non default monitor
 		m_fPreventMinimize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
-
+		// Associated types with icon or not...
+		fAssociatedWithIcons = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), 0);
 
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENRES), &ptr, &len))
 		{

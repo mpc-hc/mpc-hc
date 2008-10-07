@@ -380,9 +380,11 @@ BEGIN
     PUSHBUTTON      "&Modifier",IDC_BUTTON5,196,217,63,14,NOT WS_VISIBLE
     PUSHBUTTON      "&Tout",IDC_BUTTON1,248,219,33,14
     GROUPBOX        "Lecture automatique (XP uniquement)",IDC_STATIC1,6,209,151,28
-    GROUPBOX        "Menu contextuel de l'explorateur",IDC_STATIC,6,156,283,23
-    CONTROL         "Répertoire",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,165,65,10
-    CONTROL         "Fichier(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,116,165,65,10
+    GROUPBOX        "Menu contextuel de l'explorateur",IDC_STATIC,6,156,176,23
+    CONTROL         "Répertoire",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,165,83,10
+    CONTROL         "Fichier(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,165,76,10
+    GROUPBOX        "Association",IDC_STATIC,185,156,104,23 // TODO
+    CONTROL         "With icons",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,192,165,86,10 // TODO    
 END
 
 IDD_PPAGETWEAKS DIALOGEX 0, 0, 296, 241
