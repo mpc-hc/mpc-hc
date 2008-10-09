@@ -607,23 +607,24 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 	return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
 }
 
-WCHAR			g_strFakeVideoTS[MAX_PATH] = L"";
-LPCTSTR			g_VideoTSFile = L"MPC_video_ts.ifo";
-
-BOOL CreateFakeVideoTS(LPCWSTR p1)
+BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
 	BOOL		bRet = FALSE;
-    WCHAR		szTempName[MAX_PATH];  
+    WCHAR		szTempPath[MAX_PATH];
+	WCHAR		strFileName[MAX_PATH];
+	WCHAR		strExt[10];
 	CIfo		Ifo;
 
-    if (GetTempPathW(MAX_PATH, szTempName) && 
-		wcsncat_s (szTempName, MAX_PATH, g_VideoTSFile, wcslen(g_VideoTSFile)) == 0 &&
-		Ifo.OpenFile (p1) &&
+	if (!GetTempPathW(MAX_PATH, szTempPath)) return FALSE;
+
+	_wsplitpath_s (strIFOPath, NULL, 0, NULL, 0, strFileName, countof(strFileName), strExt, countof(strExt));
+	_snwprintf_s  (strFakeFile, nFakeFileSize, _TRUNCATE, L"%sMPC%s%s", szTempPath, strFileName, strExt);
+
+	if (Ifo.OpenFile (strIFOPath) &&
 		Ifo.RemoveUOPs()  &&
-		Ifo.SaveFile (szTempName))
+		Ifo.SaveFile (strFakeFile))
     {
-		wcsncpy_s (g_strFakeVideoTS, MAX_PATH, szTempName, MAX_PATH);
-		bRet = true;
+		bRet = TRUE;
 	}
 
 	return bRet;
@@ -632,15 +633,16 @@ BOOL CreateFakeVideoTS(LPCWSTR p1)
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
 	HANDLE	hFile = INVALID_HANDLE_VALUE;
+	WCHAR	strFakeFile[MAX_PATH];
 	int		nLen  = wcslen(p1);
 
 	p3 |= FILE_SHARE_WRITE;
 
-	if (nLen>=12 && _wcsicmp (p1 + nLen-12, L"video_ts.ifo") == 0)
+	if (nLen>=4 && _wcsicmp (p1 + nLen-4, L".ifo") == 0)
 	{
-		if (CreateFakeVideoTS(p1))
+		if (CreateFakeVideoTS(p1, strFakeFile, countof(strFakeFile)))
 		{
-			hFile = Real_CreateFileW(g_strFakeVideoTS, p2, p3, p4, p5, p6, p7);
+			hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
 		}
 	}
 	
