@@ -138,6 +138,14 @@ void CIfo::RemovePgciUOPs (uint8_t *ptr)
 	}
 }
 
+CIfo::pgc_t* CIfo::GetFirstPGC()
+{
+	if (m_pBuffer)
+		return (pgc_t*) (m_pBuffer + 0x0400);
+	else
+		return NULL;
+}
+
 CIfo::pgc_t* CIfo::GetPGCI(const int title)
 {
 	CIfo::pgci_sub_t *pgci_sub;
@@ -208,10 +216,12 @@ bool CIfo::RemoveUOPs()
 {
 	if (m_pPGCI)
 	{
+		pgc_t* pgc	= GetFirstPGC();		
+		
+		if (pgc) pgc->prohibited_ops = 0;
+
 		for (int i=0; i<be2me_16(m_pPGCI->num); i++)
 		{
-			pgc_t* pgc;
-
 			if (pgc = GetPGCI(i))
 				RemovePgciUOPs ((uint8_t*)pgc);
 		}

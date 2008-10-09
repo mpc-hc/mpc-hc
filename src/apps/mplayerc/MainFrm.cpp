@@ -1961,6 +1961,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				{
 					if (s.lDVDTitle != 0)
 					{
+						s.NewDvd (llDVDGuid);
 						// Set command line position
 						pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 						if (s.lDVDChapter != 0)
@@ -1968,6 +1969,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						else
 							pDVDC->PlayAtTimeInTitle (s.lDVDTitle, &s.DVDPosition, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 
+						m_iDVDTitle	  = s.lDVDTitle;
 						s.lDVDTitle   = 0;
 						s.lDVDChapter = 0;
 					}

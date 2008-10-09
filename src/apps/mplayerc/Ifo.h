@@ -195,6 +195,7 @@ private :
 	bool		IsVTS();
 	bool		IsVMG();
 
+	pgc_t*		GetFirstPGC();
 	pgc_t*		GetPGCI(const int title);
 	int			GetMiscPGCI (ifo_hdr_t *hdr, int title, uint8_t **ptr);
 	void		RemovePgciUOPs (uint8_t *ptr);
