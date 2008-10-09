@@ -89,12 +89,14 @@ unsigned __int32 get4bytes (const BYTE* buf)
 
 // VTS files
 #define OFF_VTSM_PGCI_UT(buf)        get4bytes (buf + 208)
+#define OFF_VTS_PGCIT(buf)           get4bytes (buf + 204)
 
 
 CIfo::CIfo()
 {
 	m_pBuffer	= NULL;
 	m_pPGCI		= NULL;
+	m_pPGCIT	= NULL;
 	m_dwSize	= 0;
 }
 
@@ -146,20 +148,20 @@ CIfo::pgc_t* CIfo::GetFirstPGC()
 		return NULL;
 }
 
-CIfo::pgc_t* CIfo::GetPGCI(const int title)
+CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 {
 	CIfo::pgci_sub_t *pgci_sub;
 	uint8_t *ptr;
 
-	ptr = (uint8_t *) m_pPGCI;
+	ptr = (uint8_t *) hdr;
 	ptr += IFO_HDR_LEN;
 
 	pgci_sub = (pgci_sub_t *) ptr + title;
 
-	ptr = (uint8_t *) m_pPGCI + be2me_32 (pgci_sub->start);
+	ptr = (uint8_t *) hdr + be2me_32 (pgci_sub->start);
 
 	/* jdw */
-	if ( ptr >= ( (uint8_t *) m_pPGCI + be2me_32 ( m_pPGCI->len )))
+	if ( ptr >= ( (uint8_t *) hdr + be2me_32 ( hdr->len )))
 	{
 		return NULL ;
 	}
@@ -202,7 +204,10 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 		CloseHandle (hFile);
 
 		if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer)!=0))
-			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VTSM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
+		{
+			m_pPGCI  = (ifo_hdr_t*)(m_pBuffer + OFF_VTSM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
+			m_pPGCIT = (ifo_hdr_t*)(m_pBuffer + OFF_VTS_PGCIT(m_pBuffer)    * DVD_VIDEO_LB_LEN);			
+		}
 		else if (IsVMG() && (OFF_VMGM_PGCI_UT(m_pBuffer)!=0))
 			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
 
@@ -214,16 +219,25 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 
 bool CIfo::RemoveUOPs()
 {
+	pgc_t*	pgc;
+
 	if (m_pPGCI)
 	{
-		pgc_t* pgc	= GetFirstPGC();		
-		
-		if (pgc) pgc->prohibited_ops = 0;
+		pgc	= GetFirstPGC();
+		pgc->prohibited_ops = 0;
 
 		for (int i=0; i<be2me_16(m_pPGCI->num); i++)
 		{
-			if (pgc = GetPGCI(i))
+			if (pgc = GetPGCI(i, m_pPGCI))
 				RemovePgciUOPs ((uint8_t*)pgc);
+		}
+	}
+	if (m_pPGCIT)
+	{
+		for (int i=0; i<be2me_16(m_pPGCIT->num); i++)
+		{
+			if (pgc = GetPGCI(i, m_pPGCIT))
+				pgc->prohibited_ops = 0;
 		}
 	}
 	return true;

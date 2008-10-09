@@ -191,12 +191,13 @@ private :
 	DWORD			m_dwSize;
 
 	ifo_hdr_t*	m_pPGCI;
+	ifo_hdr_t*	m_pPGCIT;
 
 	bool		IsVTS();
 	bool		IsVMG();
 
 	pgc_t*		GetFirstPGC();
-	pgc_t*		GetPGCI(const int title);
+	pgc_t*		GetPGCI(const int title, const ifo_hdr_t* hdr);
 	int			GetMiscPGCI (ifo_hdr_t *hdr, int title, uint8_t **ptr);
 	void		RemovePgciUOPs (uint8_t *ptr);
 };
