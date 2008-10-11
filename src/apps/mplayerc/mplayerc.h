@@ -490,6 +490,7 @@ public:
 
 		CStringW f_hmonitor;
 		bool fAssociatedWithIcons;
+		CStringW f_lastOpenDir;
 
 		bool fAllowMultipleInst;
 		int iTitleBarTextStyle;

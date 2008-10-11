@@ -1506,6 +1506,9 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), m_fPreventMinimize);
 		// Associated types with icon or not...
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), fAssociatedWithIcons);
+		// Last Open Dir
+		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), _T("LastOpenDir"), f_lastOpenDir);
+
 
 		// CASIMIR666 : nouveau settings
 		CString		strTemp;
@@ -1791,6 +1794,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		m_fPreventMinimize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
 		// Associated types with icon or not...
 		fAssociatedWithIcons = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), 0);
+		// Last Open Dir
+		f_lastOpenDir = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), _T("LastOpenDir"), _T("C:\\"));
 
 		if(pApp->GetProfileBinary(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_FULLSCREENRES), &ptr, &len))
 		{

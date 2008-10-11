@@ -11319,6 +11319,7 @@ void CMainFrame::SendPlaylistToApi()
 
 WNDPROC CBProc;
 bool m_incl_subdir;
+CString f_lastOpenDir;
 
 void SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 {
@@ -11364,7 +11365,7 @@ int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM 
 	//Initialization callback message
 	if(uMsg==BFFM_INITIALIZED)
 	{
-		//SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)_T("C:\\"));
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)f_lastOpenDir);
 		
 		RECT ListViewRect;
 		RECT Dialog;
@@ -11387,16 +11388,16 @@ int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM 
 		GetClientRect(hwnd,&ClientArea);
 
 		GetWindowRect(ListView,&ListViewRect);
-		MoveWindow(ListView, ListViewRect.left-Dialog.left, ListViewRect.top-Dialog.top-20, ListViewRect.right-ListViewRect.left+50, ListViewRect.bottom-ListViewRect.top+70, TRUE);
+		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
 		GetWindowRect(ListView,&ListViewRect);
 
 		GetWindowRect(id_ok,&ButtonRect);
-		MoveWindow(id_ok, ButtonRect.left-Dialog.left+50, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
 
 		GetWindowRect(id_cancel,&ButtonRect);
-		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+50, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
+		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
 
-		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
+		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left-3), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
 		SetFont(checkbox,_T("Tahoma"),13);
 
 #ifdef _WIN64
@@ -11440,9 +11441,13 @@ void CMainFrame::OnFileOpendirectory()
 {
 	if(m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar)) return;
 
+	AppSettings& s = AfxGetAppSettings();
+
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().Formats.GetFilter(filter, mask);
+	s.Formats.GetFilter(filter, mask);
+
+	f_lastOpenDir = s.f_lastOpenDir;
 
 	TCHAR path[MAX_PATH];
 	m_incl_subdir = TRUE;
@@ -11466,6 +11471,7 @@ void CMainFrame::OnFileOpendirectory()
 		CString _path = path;
 		_path.Replace('/', '\\');
 		if(_path[_path.GetLength()-1] != '\\') _path += '\\';
+		s.f_lastOpenDir = _path;
 
 		CAtlList<CString> sl;
 		sl.AddTail(_path);
