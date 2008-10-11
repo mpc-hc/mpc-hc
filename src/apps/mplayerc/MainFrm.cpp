@@ -1967,7 +1967,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						if (s.lDVDChapter != 0)
 							pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 						else
-							pDVDC->PlayAtTimeInTitle (s.lDVDTitle, &s.DVDPosition, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 
 						m_iDVDTitle	  = s.lDVDTitle;
 						s.lDVDTitle   = 0;
@@ -1979,7 +1979,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 
 						pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-						if (SUCCEEDED (hr = pDVDC->PlayAtTimeInTitle (DvdPos->lTitle, &DvdPos->Timecode, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL)))
+						if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode, DVD_CMD_FLAG_Flush, NULL)))
 						{
 							m_iDVDTitle = DvdPos->lTitle;
 						}
