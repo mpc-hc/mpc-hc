@@ -2,7 +2,7 @@ v1.x.x.x - unreleased
 ======================
  NEW	: support Multi-Monitor configuration, select Monitor for full-screen playback
  NEW	: creation of minidump when mpc crash
- NEW    : Simplified Chinese translation
+ NEW    : Simplified Chinese & Traditional Chinese translations
  NEW    : Pixel shader to convert BT601 -> BT701 (request #1911511)
  NEW    : YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
  NEW    : Recursively adding directories to the Playlist (feature request #2013805), add as New Menu item
