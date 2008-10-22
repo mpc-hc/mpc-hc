@@ -573,7 +573,7 @@ int avcodec_decode_audio(AVCodecContext *avctx, int16_t *samples,
 
 int avcodec_close(AVCodecContext *avctx)
 {
-    /* ffdshow custom coment out */
+    /* ffdshow custom comment out */
     //entangled_thread_counter++;
     //if(entangled_thread_counter != 1){
     //    av_log(avctx, AV_LOG_ERROR, "insufficient thread locking around avcodec_open/close()\n");
@@ -581,6 +581,8 @@ int avcodec_close(AVCodecContext *avctx)
     //    return -1;
     //}
 
+    //if (ENABLE_THREADS && avctx->thread_opaque)
+    //    avcodec_thread_free(avctx);
     if (avctx->codec->close)
         avctx->codec->close(avctx);
     avcodec_default_free_buffers(avctx);
@@ -605,6 +607,8 @@ AVCodec *avcodec_find_encoder(enum CodecID id)
 AVCodec *avcodec_find_encoder_by_name(const char *name)
 {
     AVCodec *p;
+    if (!name)
+        return NULL;
     p = first_avcodec;
     while (p) {
         if (p->encode != NULL && strcmp(name,p->name) == 0)
@@ -629,6 +633,8 @@ AVCodec *avcodec_find_decoder(enum CodecID id)
 AVCodec *avcodec_find_decoder_by_name(const char *name)
 {
     AVCodec *p;
+    if (!name)
+        return NULL;
     p = first_avcodec;
     while (p) {
         if (p->decode != NULL && strcmp(name,p->name) == 0)

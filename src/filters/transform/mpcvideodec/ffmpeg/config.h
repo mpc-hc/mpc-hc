@@ -22,10 +22,12 @@
 #define HAVE_LRINTF 1
 #define SIMPLE_IDCT 1
 #define HAVE_W32THREADS 1
-#define HAVE_THREADS 1
 #define HAVE_MEMALIGN 1
 
 #define ASMALIGN(ZEROBITS) ".align 1<<" #ZEROBITS "\n\t"
+
+#define HAVE_THREADS 1
+#define ENABLE_THREADS 1
 
 #define HAVE_BSWAP 1
 #define ENABLE_BSWAP 1

@@ -23,14 +23,15 @@
  * common internal and external API header
  */
 
-#ifndef FFMPEG_COMMON_H
-#define FFMPEG_COMMON_H
+#ifndef AVUTIL_COMMON_H
+#define AVUTIL_COMMON_H
 
 #include <inttypes.h>
 
 #ifdef HAVE_AV_CONFIG_H
 /* only include the following when compiling package */
 #    include "config.h"
+
 #    include <stdlib.h>
 #    include <stdio.h>
 #    include <stdint.h>
@@ -132,6 +133,7 @@
 #define FFMIN3(a,b,c) FFMIN(FFMIN(a,b),c)
 
 #define FFSWAP(type,a,b) do{type SWAP_tmp= b; b= a; a= SWAP_tmp;}while(0)
+#define FF_ARRAY_ELEMS(a) (sizeof(a) / sizeof((a)[0]))
 
 /* misc math functions */
 extern const uint8_t ff_log2_tab[256];
@@ -169,7 +171,7 @@ static inline av_const int mid_pred(int a, int b, int c)
 {
 #ifdef HAVE_CMOV
     int i=b;
-    asm volatile(
+    __asm__ volatile(
         "cmp    %2, %1 \n\t"
         "cmovg  %1, %0 \n\t"
         "cmovg  %2, %1 \n\t"
@@ -339,23 +341,13 @@ static inline av_pure int ff_get_fourcc(const char *s){
 /*
 #if defined(ARCH_X86)
 #define AV_READ_TIME read_time
-#if defined(ARCH_X86_64)
 static inline uint64_t read_time(void)
 {
-    uint64_t a, d;
-    asm volatile("rdtsc\n\t"
+    uint32_t a, d;
+    __asm__ volatile("rdtsc\n\t"
                  : "=a" (a), "=d" (d));
-    return (d << 32) | (a & 0xffffffff);
+    return ((uint64_t)d << 32) + a;
 }
-#elif defined(ARCH_X86_32)
-static inline long long read_time(void)
-{
-    long long l;
-    asm volatile("rdtsc\n\t"
-                 : "=A" (l));
-    return l;
-}
-#endif
 #elif defined(HAVE_GETHRTIME)
 #define AV_READ_TIME gethrtime
 #endif
@@ -377,4 +369,4 @@ static inline long long read_time(void)
 
 #endif /* HAVE_AV_CONFIG_H */
 
-#endif /* FFMPEG_COMMON_H */
+#endif /* AVUTIL_COMMON_H */

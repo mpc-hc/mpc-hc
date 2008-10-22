@@ -138,6 +138,14 @@ static const int16_t MACEtab4[][2] = {
     { 14576,  32767}, { 15226,  32767}, { 15906,  32767}, { 16615,  32767}
 };
 
+static const struct {
+    const int16_t *tab1; const int16_t *tab2; int stride;
+} tabs[] = {
+    {MACEtab1, &MACEtab2[0][0], 4},
+    {MACEtab3, &MACEtab4[0][0], 2},
+    {MACEtab1, &MACEtab2[0][0], 4}
+};
+
 #define QT_8S_2_16S(x) (((x) & 0xFF00) | (((x) >> 8) & 0xFF))
 
 typedef struct ChannelData {
@@ -162,37 +170,39 @@ static inline int16_t mace_broken_clip_int16(int n)
         return n;
 }
 
-static void chomp3(ChannelData *chd, int16_t *output, uint8_t val,
-                   const int16_t tab1[],
-                   const int16_t *tab2, int tab2_stride,
-                   uint32_t numChannels)
+static int16_t read_table(ChannelData *chd, uint8_t val, int tab_idx)
 {
     int16_t current;
 
-    if (val < tab2_stride)
-        current = tab2[((chd->index & 0x7f0) >> 4)*tab2_stride + val];
+    if (val < tabs[tab_idx].stride)
+        current = tabs[tab_idx].tab2[((chd->index & 0x7f0) >> 4) * tabs[tab_idx].stride + val];
     else
-        current = - 1 - tab2[((chd->index & 0x7f0) >> 4)*tab2_stride + 2*tab2_stride-val-1];
+        current = - 1 - tabs[tab_idx].tab2[((chd->index & 0x7f0) >> 4)*tabs[tab_idx].stride + 2*tabs[tab_idx].stride-val-1];
+
+    if (( chd->index += tabs[tab_idx].tab1[val]-(chd->index >> 5) ) < 0)
+      chd->index = 0;
+
+    return current;
+}
+
+static void chomp3(ChannelData *chd, int16_t *output, uint8_t val,
+                   int tab_idx,
+                   uint32_t numChannels)
+{
+
+    int16_t current = read_table(chd, val, tab_idx);
 
     current = mace_broken_clip_int16(current + chd->level);
 
     chd->level = current - (current >> 3);
     *output = QT_8S_2_16S(current);
-    if (( chd->index += tab1[val]-(chd->index >> 5) ) < 0)
-        chd->index = 0;
 }
 
 static void chomp6(ChannelData *chd, int16_t *output, uint8_t val,
-                   const int16_t tab1[],
-                   const int16_t *tab2, int tab2_stride,
+                   int tab_idx,
                    uint32_t numChannels)
 {
-    int16_t current;
-
-    if (val < tab2_stride)
-        current = tab2[((chd->index & 0x7f0) >> 4)*tab2_stride + val];
-    else
-        current =  - 1 - tab2[((chd->index & 0x7f0) >> 4)*tab2_stride + 2*tab2_stride-val-1];
+    int16_t current = read_table(chd, val, tab_idx);
 
     if ((chd->previous ^ current) >= 0) {
         chd->factor = FFMIN(chd->factor + 506, 32767);
@@ -214,9 +224,6 @@ static void chomp6(ChannelData *chd, int16_t *output, uint8_t val,
                                       ((chd->prev2-current) >> 2));
     chd->prev2 = chd->previous;
     chd->previous = current;
-
-    if ((chd->index += tab1[val] - (chd->index >> 5)) < 0)
-        chd->index = 0;
 }
 
 static av_cold int mace_decode_init(AVCodecContext * avctx)
@@ -227,15 +234,16 @@ static av_cold int mace_decode_init(AVCodecContext * avctx)
     return 0;
 }
 
-static int mace3_decode_frame(AVCodecContext *avctx,
+static int mace_decode_frame(AVCodecContext *avctx,
                               void *data, int *data_size,
                               const uint8_t *buf, int buf_size)
 {
     int16_t *samples = data;
     MACEContext *ctx = avctx->priv_data;
-    int i, j, k;
+    int i, j, k, l;
+    int is_mace3 = (avctx->codec_id == CODEC_ID_MACE3);
 
-    if (*data_size < 2 * 3 * buf_size) {
+    if (*data_size < (3 * buf_size << (2-is_mace3))) {
         av_log(avctx, AV_LOG_ERROR, "Output buffer too small!\n");
         return -1;
     }
@@ -243,58 +251,28 @@ static int mace3_decode_frame(AVCodecContext *avctx,
     for(i = 0; i < avctx->channels; i++) {
         int16_t *output = samples + i;
 
-        for (j=0; j < buf_size / 2 / avctx->channels; j++)
-            for (k=0; k < 2; k++) {
-                uint8_t pkt = buf[i*2 + j*2*avctx->channels + k];
-                chomp3(&ctx->chd[i], output, pkt       &7, MACEtab1, MACEtab2,
-                       4, avctx->channels);
-                output += avctx->channels;
-                chomp3(&ctx->chd[i], output,(pkt >> 3) &3, MACEtab3, MACEtab4,
-                       2, avctx->channels);
-                output += avctx->channels;
-                chomp3(&ctx->chd[i], output, pkt >> 5    , MACEtab1, MACEtab2,
-                       4, avctx->channels);
-                output += avctx->channels;
+        for (j=0; j < buf_size / (avctx->channels << is_mace3); j++)
+            for (k=0; k < (1 << is_mace3); k++) {
+                uint8_t pkt = buf[(i << is_mace3) +
+                                  (j*avctx->channels << is_mace3) + k];
+
+                uint8_t val[2][3] = {{pkt >> 5, (pkt >> 3) & 3, pkt & 7 },
+                                     {pkt & 7 , (pkt >> 3) & 3, pkt >> 5}};
+
+                for (l=0; l < 3; l++) {
+                    if (is_mace3)
+                        chomp3(&ctx->chd[i], output, val[1][l], l,
+                               avctx->channels);
+                    else
+                        chomp6(&ctx->chd[i], output, val[0][l], l,
+                               avctx->channels);
+
+                    output += avctx->channels << (1-is_mace3);
+                }
             }
     }
 
-    *data_size = 2 * 3 * buf_size;
-
-    return buf_size;
-}
-
-static int mace6_decode_frame(AVCodecContext *avctx,
-                              void *data, int *data_size,
-                              const uint8_t *buf, int buf_size)
-{
-    int16_t *samples = data;
-    MACEContext *ctx = avctx->priv_data;
-    int i, j;
-
-    if (*data_size < 2 * 6 * buf_size) {
-        av_log(avctx, AV_LOG_ERROR, "Output buffer too small!\n");
-        return -1;
-    }
-
-    for(i = 0; i < avctx->channels; i++) {
-        int16_t *output = samples + i;
-
-        for (j = 0; j < buf_size / avctx->channels; j++) {
-            uint8_t pkt = buf[i + j*avctx->channels];
-
-            chomp6(&ctx->chd[i], output, pkt >> 5     , MACEtab1, MACEtab2,
-                   4, avctx->channels);
-            output += avctx->channels << 1;
-            chomp6(&ctx->chd[i], output,(pkt >> 3) & 3, MACEtab3, MACEtab4,
-                   2, avctx->channels);
-            output += avctx->channels << 1;
-            chomp6(&ctx->chd[i], output, pkt       & 7, MACEtab1, MACEtab2,
-                   4, avctx->channels);
-            output += avctx->channels << 1;
-        }
-    }
-
-    *data_size = 2 * 6 * buf_size;
+    *data_size = 3 * buf_size << (2-is_mace3);
 
     return buf_size;
 }
@@ -307,7 +285,7 @@ AVCodec mace3_decoder = {
     mace_decode_init,
     NULL,
     NULL,
-    mace3_decode_frame,
+    mace_decode_frame,
     /*.capabilities = */0,
     /*.next = */NULL,
     /*.flush = */NULL,
@@ -324,7 +302,7 @@ AVCodec mace6_decoder = {
     mace_decode_init,
     NULL,
     NULL,
-    mace6_decode_frame,
+    mace_decode_frame,
     /*.capabilities = */0,
     /*.next = */NULL,
     /*.flush = */NULL,

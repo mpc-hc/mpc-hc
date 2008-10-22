@@ -23,8 +23,8 @@
  * bitstream api header.
  */
 
-#ifndef FFMPEG_BITSTREAM_H
-#define FFMPEG_BITSTREAM_H
+#ifndef AVCODEC_BITSTREAM_H
+#define AVCODEC_BITSTREAM_H
 
 #ifdef __GNUC__
 #include <stdint.h>
@@ -53,14 +53,14 @@ extern const uint8_t ff_reverse[256];
 #if defined(ARCH_X86)
 // avoid +32 for shift optimization (gcc should do that ...)
 static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
-    asm ("sarl %1, %0\n\t"
+    __asm__ ("sarl %1, %0\n\t"
          : "+r" (a)
          : "ic" ((uint8_t)(-s))
     );
     return a;
 }
 static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
-    asm ("shrl %1, %0\n\t"
+    __asm__ ("shrl %1, %0\n\t"
          : "+r" (a)
          : "ic" ((uint8_t)(-s))
     );
@@ -130,7 +130,7 @@ static inline void flush_put_bits(PutBitContext *s)
         *s->buf_ptr++=s->bit_buf;
         s->bit_buf>>=8;
 #else
-        *s->buf_ptr++=s->bit_buf >> 24;
+        *s->buf_ptr++=(uint8_t)(s->bit_buf >> 24);
         s->bit_buf<<=8;
 #endif
         s->bit_left+=8;
@@ -226,7 +226,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
 {
 #    ifdef ALIGNED_BITSTREAM_WRITER
 #        if defined(ARCH_X86)
-    asm volatile(
+    __asm__ volatile(
         "movl %0, %%ecx                 \n\t"
         "xorl %%eax, %%eax              \n\t"
         "shrdl %%cl, %1, %%eax          \n\t"
@@ -257,7 +257,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
 #        endif
 #    else //ALIGNED_BITSTREAM_WRITER
 #        if defined(ARCH_X86)
-    asm volatile(
+    __asm__ volatile(
         "movl $7, %%ecx                 \n\t"
         "andl %0, %%ecx                 \n\t"
         "addl %3, %%ecx                 \n\t"
@@ -534,7 +534,7 @@ static inline void skip_bits_long(GetBitContext *s, int n){
 
 #if defined(ARCH_X86)
 #   define SKIP_CACHE(name, gb, num)\
-        asm(\
+        __asm__(\
             "shldl %2, %1, %0          \n\t"\
             "shll %2, %1               \n\t"\
             : "+r" (name##_cache0), "+r" (name##_cache1)\
@@ -936,4 +936,4 @@ static inline int decode210(GetBitContext *gb){
         return 2 - get_bits1(gb);
 }
 
-#endif /* FFMPEG_BITSTREAM_H */
+#endif /* AVCODEC_BITSTREAM_H */

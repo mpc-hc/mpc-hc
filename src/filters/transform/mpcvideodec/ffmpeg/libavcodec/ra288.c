@@ -172,7 +172,11 @@ static void backward_filter(float *hist, float *rec, const float *window,
                             float *lpc, const float *tab,
                             int order, int n, int non_rec, int move_size)
 {
+    #if __STDC_VERSION__ >= 199901L
     float temp[order+1];
+    #else
+    float *temp = _alloca((order + 1) * sizeof(float));
+    #endif
 
     do_hybrid_window(order, n, non_rec, temp, hist, rec, window);
 

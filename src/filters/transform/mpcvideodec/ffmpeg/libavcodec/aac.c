@@ -403,7 +403,7 @@ static av_cold int aac_decode_init(AVCodecContext * avccontext) {
         ff_aac_pow2sf_tab[i] = pow(2, (i - 200)/4.);
 #endif /* CONFIG_HARDCODED_TABLES */
 
-    INIT_VLC_STATIC(&vlc_scalefactors, 7, sizeof(ff_aac_scalefactor_code)/sizeof(ff_aac_scalefactor_code[0]),
+    INIT_VLC_STATIC(&vlc_scalefactors,7,FF_ARRAY_ELEMS(ff_aac_scalefactor_code),
         ff_aac_scalefactor_bits, sizeof(ff_aac_scalefactor_bits[0]), sizeof(ff_aac_scalefactor_bits[0]),
         ff_aac_scalefactor_code, sizeof(ff_aac_scalefactor_code[0]), sizeof(ff_aac_scalefactor_code[0]),
         352);
@@ -967,7 +967,7 @@ static int decode_cce(AACContext * ac, GetBitContext * gb, ChannelElement * che)
             if (coup->ch_select[c] == 3)
                 num_gain++;
         } else
-            coup->ch_select[c] = 1;
+            coup->ch_select[c] = 2;
     }
     coup->coupling_point += get_bits1(gb);
 
@@ -992,7 +992,7 @@ static int decode_cce(AACContext * ac, GetBitContext * gb, ChannelElement * che)
         if (c) {
             cge = coup->coupling_point == AFTER_IMDCT ? 1 : get_bits1(gb);
             gain = cge ? get_vlc2(gb, vlc_scalefactors.table, 7, 3) - 60: 0;
-            gain_cache = pow(scale, gain);
+            gain_cache = pow(scale, -gain);
         }
         for (g = 0; g < sce->ics.num_window_groups; g++) {
             for (sfb = 0; sfb < sce->ics.max_sfb; sfb++, idx++) {
@@ -1001,12 +1001,12 @@ static int decode_cce(AACContext * ac, GetBitContext * gb, ChannelElement * che)
                         int t = get_vlc2(gb, vlc_scalefactors.table, 7, 3) - 60;
                         if (t) {
                             int s = 1;
+                            t = gain += t;
                             if (sign) {
                                 s  -= 2 * (t & 0x1);
                                 t >>= 1;
                             }
-                            gain += t;
-                            gain_cache = pow(scale, gain) * s;
+                            gain_cache = pow(scale, -t) * s;
                         }
                     }
                     coup->gain[c][idx] = gain_cache;
@@ -1247,11 +1247,11 @@ static void imdct_and_windowing(AACContext * ac, SingleChannelElement * sce) {
  *
  * @param   index   index into coupling gain array
  */
-static void apply_dependent_coupling(AACContext * ac, SingleChannelElement * sce, ChannelElement * cc, int index) {
-    IndividualChannelStream * ics = &cc->ch[0].ics;
+static void apply_dependent_coupling(AACContext * ac, SingleChannelElement * target, ChannelElement * cce, int index) {
+    IndividualChannelStream * ics = &cce->ch[0].ics;
     const uint16_t * offsets = ics->swb_offset;
-    float * dest = sce->coeffs;
-    const float * src = cc->ch[0].coeffs;
+    float * dest = target->coeffs;
+    const float * src = cce->ch[0].coeffs;
     int g, i, group, k, idx = 0;
     if(ac->m4ac.object_type == AOT_AAC_LTP) {
         av_log(ac->avccontext, AV_LOG_ERROR,
@@ -1260,11 +1260,11 @@ static void apply_dependent_coupling(AACContext * ac, SingleChannelElement * sce
     }
     for (g = 0; g < ics->num_window_groups; g++) {
         for (i = 0; i < ics->max_sfb; i++, idx++) {
-            if (cc->ch[0].band_type[idx] != ZERO_BT) {
+            if (cce->ch[0].band_type[idx] != ZERO_BT) {
                 for (group = 0; group < ics->group_len[g]; group++) {
                     for (k = offsets[i]; k < offsets[i+1]; k++) {
                         // XXX dsputil-ize
-                        dest[group*128+k] += cc->coup.gain[index][idx] * src[group*128+k];
+                        dest[group*128+k] += cce->coup.gain[index][idx] * src[group*128+k];
                     }
                 }
             }
@@ -1279,10 +1279,10 @@ static void apply_dependent_coupling(AACContext * ac, SingleChannelElement * sce
  *
  * @param   index   index into coupling gain array
  */
-static void apply_independent_coupling(AACContext * ac, SingleChannelElement * sce, ChannelElement * cc, int index) {
+static void apply_independent_coupling(AACContext * ac, SingleChannelElement * target, ChannelElement * cce, int index) {
     int i;
     for (i = 0; i < 1024; i++)
-        sce->ret[i] += cc->coup.gain[index][0] * (cc->ch[0].ret[i] - ac->add_bias);
+        target->ret[i] += cce->coup.gain[index][0] * (cce->ch[0].ret[i] - ac->add_bias);
 }
 
 /**
@@ -1292,25 +1292,30 @@ static void apply_independent_coupling(AACContext * ac, SingleChannelElement * s
  * @param   apply_coupling_method   pointer to (in)dependent coupling function
  */
 static void apply_channel_coupling(AACContext * ac, ChannelElement * cc,
-        void (*apply_coupling_method)(AACContext * ac, SingleChannelElement * sce, ChannelElement * cc, int index))
+        enum RawDataBlockType type, int elem_id, enum CouplingPoint coupling_point,
+        void (*apply_coupling_method)(AACContext * ac, SingleChannelElement * target, ChannelElement * cce, int index))
 {
-    int c;
-    int index = 0;
-    ChannelCoupling * coup = &cc->coup;
-    for (c = 0; c <= coup->num_coupled; c++) {
-        if (ac->che[coup->type[c]][coup->id_select[c]]) {
-            if (coup->ch_select[c] != 2) {
-                apply_coupling_method(ac, &ac->che[coup->type[c]][coup->id_select[c]]->ch[0], cc, index);
-                if (coup->ch_select[c] != 0)
-                    index++;
+    int i, c;
+
+    for (i = 0; i < MAX_ELEM_ID; i++) {
+        ChannelElement *cce = ac->che[TYPE_CCE][i];
+        int index = 0;
+
+        if (cce && cce->coup.coupling_point == coupling_point) {
+            ChannelCoupling * coup = &cce->coup;
+
+            for (c = 0; c <= coup->num_coupled; c++) {
+                if (coup->type[c] == type && coup->id_select[c] == elem_id) {
+                    if (coup->ch_select[c] != 1) {
+                        apply_coupling_method(ac, &cc->ch[0], cce, index);
+                        if (coup->ch_select[c] != 0)
+                            index++;
+                    }
+                    if (coup->ch_select[c] != 2)
+                        apply_coupling_method(ac, &cc->ch[1], cce, index++);
+                } else
+                    index += 1 + (coup->ch_select[c] == 3);
             }
-            if (coup->ch_select[c] != 1)
-                apply_coupling_method(ac, &ac->che[coup->type[c]][coup->id_select[c]]->ch[1], cc, index++);
-        } else {
-            av_log(ac->avccontext, AV_LOG_ERROR,
-                   "coupling target %sE[%d] not available\n",
-                   coup->type[c] == TYPE_CPE ? "CP" : "SC", coup->id_select[c]);
-            break;
         }
     }
 }
@@ -1320,23 +1325,24 @@ static void apply_channel_coupling(AACContext * ac, ChannelElement * cc,
  */
 static void spectral_to_sample(AACContext * ac) {
     int i, type;
-    for (i = 0; i < MAX_ELEM_ID; i++) {
-        for(type = 0; type < 4; type++) {
+    for(type = 3; type >= 0; type--) {
+        for (i = 0; i < MAX_ELEM_ID; i++) {
             ChannelElement *che = ac->che[type][i];
             if(che) {
-                if(che->coup.coupling_point == BEFORE_TNS)
-                    apply_channel_coupling(ac, che, apply_dependent_coupling);
+                if(type <= TYPE_CPE)
+                    apply_channel_coupling(ac, che, type, i, BEFORE_TNS, apply_dependent_coupling);
                 if(che->ch[0].tns.present)
                     apply_tns(che->ch[0].coeffs, &che->ch[0].tns, &che->ch[0].ics, 1);
                 if(che->ch[1].tns.present)
                     apply_tns(che->ch[1].coeffs, &che->ch[1].tns, &che->ch[1].ics, 1);
-                if(che->coup.coupling_point == BETWEEN_TNS_AND_IMDCT)
-                    apply_channel_coupling(ac, che, apply_dependent_coupling);
-                imdct_and_windowing(ac, &che->ch[0]);
+                if(type <= TYPE_CPE)
+                    apply_channel_coupling(ac, che, type, i, BETWEEN_TNS_AND_IMDCT, apply_dependent_coupling);
+                if(type != TYPE_CCE || che->coup.coupling_point == AFTER_IMDCT)
+                    imdct_and_windowing(ac, &che->ch[0]);
                 if(type == TYPE_CPE)
                     imdct_and_windowing(ac, &che->ch[1]);
-                if(che->coup.coupling_point == AFTER_IMDCT)
-                    apply_channel_coupling(ac, che, apply_independent_coupling);
+                if(type <= TYPE_CCE)
+                    apply_channel_coupling(ac, che, type, i, AFTER_IMDCT, apply_independent_coupling);
             }
         }
     }
@@ -1461,10 +1467,10 @@ AVCodec aac_decoder = {
     CODEC_TYPE_AUDIO,
     CODEC_ID_AAC,
     sizeof(AACContext),
-    aac_decode_init,
-    NULL,
-    aac_decode_close,
-    aac_decode_frame,
+    /*.init = */aac_decode_init,
+    /*.encode = */NULL,
+    /*.close = */aac_decode_close,
+    /*.decode = */aac_decode_frame,
     /*.capabilities = */0,
     /*.next = */NULL,
     /*.flush = */NULL,

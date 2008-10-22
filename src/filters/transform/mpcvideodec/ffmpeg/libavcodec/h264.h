@@ -493,6 +493,8 @@ typedef struct H264Context{
 
     int mb_xy;
 
+    uint32_t svq3_watermark_key;
+    
     /* experimental */
     int phaze;
     int todecode;
