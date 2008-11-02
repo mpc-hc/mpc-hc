@@ -173,6 +173,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	DXVA_Slice_H264_Short*		pSliceShort	= NULL;
 	UINT						nSlices	= 0;
 	int							nSurfaceIndex;
+	int							nFieldType;
+	int							nSliceType;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 
 
@@ -203,7 +205,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// Parse ffmpeg context and fill m_DXVAPicParams structure
-	CHECK_HR (FFH264BuildPicParams (&m_DXVAPicParams, &m_DXVAScalingMatrix, m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor()));
+	CHECK_HR (FFH264BuildPicParams (&m_DXVAPicParams, &m_DXVAScalingMatrix, &nFieldType, &nSliceType, m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor()));
 	// Wait I frame after a flush
 	if (m_bFlushed && !m_DXVAPicParams.IntraPicFlag)
 		return S_FALSE;
@@ -234,6 +236,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		pSliceShort[0].SliceBytesInBuffer = nSize;
 		CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (DXVA_Slice_H264_Short), pSliceShort));
 		break;
+//	case 0x8086 : // Intel (hum... seen this number somewhere...)!
 	default :
 		// The NVIDIA way (the compliant way ??), one DXVA_Slice_H264_Short structure for each slice
 		CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (DXVA_Slice_H264_Short)*nSlices, pSliceShort));
@@ -253,7 +256,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 //	DisplayStatus();
 #endif
 
-	bool bAdded		= AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop, m_DXVAPicParams.field_pic_flag);
+	bool bAdded		= AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop,
+								  (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
 
 	if (bAdded) hr = DisplayNextFrame();
 

@@ -37,6 +37,24 @@ typedef enum
 	VC1_VLD
 } DXVAMode;
 
+typedef enum
+{
+	PICT_TOP_FIELD     = 1,
+	PICT_BOTTOM_FIELD  = 2,
+	PICT_FRAME         = 3
+} FF_FIELD_TYPE;
+
+typedef enum
+{
+	I_TYPE  = 1, ///< Intra
+	P_TYPE  = 2, ///< Predicted
+	B_TYPE  = 3, ///< Bi-dir predicted
+	S_TYPE  = 4, ///< S(GMC)-VOP MPEG4
+	SI_TYPE = 5, ///< Switching Intra
+	SP_TYPE = 6, ///< Switching Predicted
+	BI_TYPE = 7
+} FF_SLICE_TYPE;
+
 typedef struct
 {
 	bool						bRefPicture;	// True if reference picture
@@ -45,6 +63,8 @@ typedef struct
 	CComPtr<IMediaSample>		pSample;		// Only for DXVA2 !
 	REFERENCE_TIME				rtStart;
 	REFERENCE_TIME				rtStop;
+	FF_FIELD_TYPE				n1FieldType;	// Top or bottom for the 1st field
+	FF_SLICE_TYPE				nSliceType;
 } PICTURE_STORE;
 
 
@@ -93,7 +113,7 @@ protected :
 	HRESULT					QueryStatus(PVOID LPDXVAStatus, UINT nSize);
 
 	// === Picture store functions
-	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField);
+	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);
 	void					UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
@@ -126,4 +146,5 @@ private :
 	void					Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber);
 	void					FreePictureSlot (int nSurfaceIndex);
 	int						FindOldestFrame();
+	void					SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* pMS);
 };

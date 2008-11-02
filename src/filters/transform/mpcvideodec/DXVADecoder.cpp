@@ -22,6 +22,7 @@
 
 #include "stdafx.h"
 #include <dxva2api.h>
+#include <moreuuids.h>
 #include "DXVADecoderH264.h"
 #include "DXVADecoderVC1.h"
 #include "MPCVideoDecFilter.h"
@@ -161,9 +162,9 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 {
 	CDXVADecoder*		pDecoder = NULL;
 
-	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F))
+	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
 		pDecoder	= new CDXVADecoderH264 (pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
-	else if (*guidDecoder == DXVA2_ModeVC1_D)
+	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
 		pDecoder	= new CDXVADecoderVC1 (pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
@@ -176,9 +177,9 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 {
 	CDXVADecoder*		pDecoder = NULL;
 
-	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F))
+	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
 		pDecoder	= new CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber);
-	else if (*guidDecoder == DXVA2_ModeVC1_D)
+	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
 		pDecoder	= new CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
@@ -458,12 +459,14 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 }
 
 // === Picture store functions
-bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField)
+bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, 
+							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType)
 {
-	if (bIsField && (m_nFieldSurface == -1))
+	if ((nFieldType != PICT_FRAME)  && (m_nFieldSurface == -1))
 	{
 		m_nFieldSurface = nSurfaceIndex;
 		m_pFieldSample	= pSample;
+		m_pPictureStore[nSurfaceIndex].n1FieldType = nFieldType;
 		return false;
 	}
 	else
@@ -477,7 +480,11 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 		m_pPictureStore[nSurfaceIndex].pSample			= pSample;
 		m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
 		m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
-		
+		m_pPictureStore[nSurfaceIndex].nSliceType		= nSliceType;
+
+		if (nFieldType == PICT_FRAME)
+			m_pPictureStore[nSurfaceIndex].n1FieldType = PICT_FRAME;
+
 		m_nFieldSurface	= -1;
 		m_nWaitingPics++;
 		return true;
@@ -523,6 +530,44 @@ int CDXVADecoder::FindOldestFrame()
 	return nPos;
 }
 
+void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* pMS)
+{
+	if(CComQIPtr<IMediaSample2> pMS2 = pMS)
+	{
+		AM_SAMPLE2_PROPERTIES props;
+		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
+		{
+			props.dwTypeSpecificFlags &= ~0x7f;
+
+			if(pPicture->n1FieldType == PICT_FRAME)
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
+			else
+			{
+				if(pPicture->n1FieldType == PICT_TOP_FIELD)
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
+				//if(m_fb.flags & PIC_FLAG_REPEAT_FIRST_FIELD)
+				//	props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_REPEAT_FIELD;
+			}
+
+			switch (pPicture->nSliceType)
+			{
+			case I_TYPE :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
+				break;
+			case P_TYPE :
+			case SP_TYPE :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
+				break;
+			default :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_B_SAMPLE;
+				break;
+			}
+
+			pMS2->SetProperties(sizeof(props), (BYTE*)&props);
+		}
+	}
+}
+
 
 HRESULT CDXVADecoder::DisplayNextFrame()
 {
@@ -540,11 +585,13 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 			case ENGINE_DXVA1 :
 				// For DXVA1, query a media sample at the last time (only one in the allocator)
 				hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
+				SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], pSampleToDeliver);
 				if (SUCCEEDED (hr)) hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
 				break;
 			case ENGINE_DXVA2 :
 				// For DXVA2 media sample is in the picture store
 				m_pPictureStore[nPicIndex].pSample->SetTime (&m_pPictureStore[nPicIndex].rtStart, &m_pPictureStore[nPicIndex].rtStop);
+				SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], m_pPictureStore[nPicIndex].pSample);
 				hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
 				break;
 			}

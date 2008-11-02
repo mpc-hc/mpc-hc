@@ -505,6 +505,8 @@ typedef struct H264Context{
 
     // ==> Start patch MPC
     int sp_for_switch_flag;
+	int slice_qs_delta;
+	int slice_qp_delta;
     // <== End patch MPC
 }H264Context;
 

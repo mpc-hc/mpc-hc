@@ -29,6 +29,12 @@ extern "C"
 	#include "FfmpegContext.h"
 }
 
+#if 0
+	#define TRACE_VC1		TRACE
+#else
+	#define TRACE_VC1(...)
+#endif
+
 #define VC1_NO_REF			0xFFFF
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
@@ -81,11 +87,12 @@ void CDXVADecoderVC1::Init()
 HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop)
 {
 	HRESULT						hr;
-	int							nPictType;
 	int							nSurfaceIndex;
 	CComPtr<IMediaSample>		pSampleToDeliver;
+	int							nFieldType;
+	int							nSliceType;
 
-	nPictType = FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), pDataIn, nSize);
+	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize);
 
 	// Wait I frame after a flush
 	if (m_bFlushed && ! m_PictureParams.bPicIntra)
@@ -100,7 +107,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	CHECK_HR (BeginFrame(nSurfaceIndex, pSampleToDeliver));
 
-	TRACE ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nPictType), rtStart, nSurfaceIndex);
+	TRACE_VC1 ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
 
 	m_PictureParams.wDecodedPictureIndex			= nSurfaceIndex;
 	m_PictureParams.wDeblockedPictureIndex			= m_PictureParams.wDecodedPictureIndex;
@@ -116,7 +123,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.wBackwardRefPictureIndex	= (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : VC1_NO_REF;
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
-	TRACE("CDXVADecoderVC1 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
+	TRACE_VC1("CDXVADecoderVC1 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
 
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
@@ -161,7 +168,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 		}
 	}
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, false);
+	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
 	m_bFlushed = false;
 
 	return DisplayNextFrame();
@@ -297,7 +304,7 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 	{
 		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
-		TRACE ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
+		TRACE_VC1 ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
 			Status.StatusReportFeedbackNumber,
 			Status.bBufType,
 			Status.bStatus,

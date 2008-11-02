@@ -93,16 +93,16 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 DXVA_PARAMS		DXVA_H264 =
 {
 	16,		// PicEntryNumber
-	2,		// ConfigBitstreamRawMin
-	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
+	1,		// ConfigBitstreamRawMin
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
 DXVA_PARAMS		DXVA_H264_VISTA =
 {
 	22,		// PicEntryNumber
-	2,		// ConfigBitstreamRawMin
-	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &GUID_NULL },
+	1,		// ConfigBitstreamRawMin
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
@@ -205,6 +205,7 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_pavc, CODEC_ID_H264, MAKEFOURCC('p','a','v','c'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_AVC1, CODEC_ID_H264, MAKEFOURCC('A','V','C','1'),	&DXVA_H264 },
 	{ &MEDIASUBTYPE_avc1, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'),	&DXVA_H264 },
+	{ &MEDIASUBTYPE_H264_bis, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'),	&DXVA_H264 },
 
 	// SVQ3
 	{ &MEDIASUBTYPE_SVQ3, CODEC_ID_SVQ3, MAKEFOURCC('S','V','Q','3'),	NULL },
@@ -359,6 +360,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_pavc   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AVC1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_avc1   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H264_bis },
 
 	// SVQ3
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ3   },
@@ -1082,15 +1084,16 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	{
 		ReconnectOutput (m_nWidth, m_nHeight);
 	}
-	else if ( (direction==PINDIR_OUTPUT) && IsDXVASupported() )		 
+	else if (direction==PINDIR_OUTPUT)		 
 	{
+		if (IsDXVASupported())
+		{
+			if (m_nDXVAMode == MODE_DXVA1)
+				m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!
+			else if (SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&	SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
+				m_nDXVAMode  = MODE_DXVA2;
+		}
 
-		if (m_nDXVAMode == MODE_DXVA1)
-			m_pDXVADecoder->ConfigureDXVA1();	// TODO : check errors!
-		else if (SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&	SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
-			m_nDXVAMode  = MODE_DXVA2;
-
-		// TODO :
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
 		if((ClsidSourceFilter == __uuidof(CMpegSourceFilter)) || (ClsidSourceFilter == __uuidof(CMpegSplitterFilter)))
 			m_bReorderBFrame = false;
@@ -1219,6 +1222,104 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 	return hr;
 }
 
+/*
+void CMPCVideoDecFilter::FindStartCodeVC1 (BYTE** pDataIn, int& nSize)
+{
+	DWORD		dw			= 0;
+	long		lStart		= -1;
+
+	*pDataIn = NULL;
+	nSize	 = 0;
+	for (int i=0; i<m_nFFSize; i++)
+	{
+		dw = (dw<<8) + m_pFFBuffer[i];
+		if (dw == 0x0000010D ||									// Frame start code
+			(dw == 0x0000010F && m_nDXVAMode == MODE_SOFTWARE))	// Sequence start code
+		{
+			if (lStart == -1)
+				lStart = i-3;
+			else
+			{
+				nSize	 = i - lStart  - 3;
+				*pDataIn = m_pFFBuffer + lStart;
+				return;
+			}
+		}
+	}
+}
+
+void CMPCVideoDecFilter::FindStartCodeH264 (BYTE** pDataIn, int& nSize)
+{
+	DWORD		dw			= 0;
+	long		lStart		= -1;
+
+	*pDataIn = NULL;
+	nSize	 = 0;
+	for (int i=0; i<m_nFFSize; i++)
+	{
+		dw = (dw<<8) + m_pFFBuffer[i];
+		if ((dw & 0xffffff1f)  == 0x00000109)
+		{
+			if (lStart == -1)
+				lStart = i-4;
+			else
+			{
+				nSize	 = i - lStart  - 4;
+				*pDataIn = m_pFFBuffer + lStart;
+				return;
+			}
+		}
+	}
+
+	//DWORD		dw			= 0;
+	//long		lStart		= -1;
+
+	//*pDataIn = NULL;
+	//nSize	 = 0;
+	//for (int i=0; i<m_nFFSize; i++)
+	//{
+	//	dw = (dw<<8) + m_pFFBuffer[i];
+	//	if (dw == 0x00000001)
+	//	{
+	//		if (lStart == -1)
+	//			lStart = i-3;
+	//		else
+	//		{
+	//			nSize	 = i - lStart  - 3;
+	//			*pDataIn = m_pFFBuffer + lStart;
+	//			return;
+	//		}
+	//	}
+	//}	
+
+	//DWORD		dw = 0;
+
+	//// Get last 3 bytes in buffer (if startcode is between 2 packets)
+	//for (int i=max (0, m_nFFSize-3); i<max (0, m_nFFSize); i++)
+	//	dw = (dw<<8) + m_pFFBuffer[i];
+
+	//for (int i=0; i<nSize; i++)
+	//{
+	//	dw = (dw<<8) + pDataIn[i];
+	//	if (dw == 0x00000001)
+	//		return i-3;
+	//}
+	//return -5;
+}
+
+void CMPCVideoDecFilter::AppendBuffer (BYTE* pDataIn, int nSize)
+{
+	if (m_nFFSize+nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize)
+	{
+		m_nFFBufferSize = m_nFFSize+nSize+FF_INPUT_BUFFER_PADDING_SIZE;
+		m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+	}
+
+	memcpy(m_pFFBuffer+m_nFFSize, pDataIn, nSize);
+
+	m_nFFSize += nSize;
+}
+*/
 
 HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
@@ -1226,8 +1327,8 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	HRESULT			hr;
 	BYTE*			pDataIn;
 	int				nSize;
-	REFERENCE_TIME	rtStart;
-	REFERENCE_TIME	rtStop;
+	REFERENCE_TIME	rtStart = _I64_MIN;
+	REFERENCE_TIME	rtStop  = _I64_MIN;
 
 	if(FAILED(hr = pIn->GetPointer(&pDataIn)))
 		return hr;

@@ -3945,7 +3945,10 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     }
 
     h->last_qscale_diff = 0;
-    tmp = h->pps.init_qp + get_se_golomb(&s->gb);
+    // ==> Start patch MPC
+	h->slice_qp_delta = get_se_golomb(&s->gb);
+    tmp = h->pps.init_qp + h->slice_qp_delta;
+    // <== End patch MPC
     if(tmp>51){
         av_log(s->avctx, AV_LOG_ERROR, "QP %u out of range\n", tmp);
         return -1;
@@ -3958,7 +3961,9 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
         get_bits1(&s->gb); /* sp_for_switch_flag */
     }
     if(h->slice_type==FF_SP_TYPE || h->slice_type == FF_SI_TYPE){
-        get_se_golomb(&s->gb); /* slice_qs_delta */
+    // ==> Start patch MPC
+        h->slice_qs_delta = get_se_golomb(&s->gb); /* slice_qs_delta */
+    // <== End patch MPC
     }
 
     h->deblocking_filter = 1;
