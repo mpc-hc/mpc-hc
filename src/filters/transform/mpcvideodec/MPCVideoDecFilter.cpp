@@ -93,7 +93,7 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 DXVA_PARAMS		DXVA_H264 =
 {
 	16,		// PicEntryNumber
-	1,		// ConfigBitstreamRawMin
+	2,		// ConfigBitstreamRawMin
 	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
@@ -101,7 +101,7 @@ DXVA_PARAMS		DXVA_H264 =
 DXVA_PARAMS		DXVA_H264_VISTA =
 {
 	22,		// PicEntryNumber
-	1,		// ConfigBitstreamRawMin
+	2,		// ConfigBitstreamRawMin
 	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
