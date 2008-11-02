@@ -290,7 +290,7 @@ static int decode_frame(AVCodecContext *avctx,
         break;
     case 5:
         /* Virtually the same as version 4, but is for RGB24 */
-        avctx->pix_fmt = PIX_FMT_BGR24;
+        avctx->pix_fmt = PIX_FMT_RGB24; /* ffdshow custom code */
         planes = 3;
         f->reference = 1;
         f->buffer_hints = FF_BUFFER_HINTS_VALID |

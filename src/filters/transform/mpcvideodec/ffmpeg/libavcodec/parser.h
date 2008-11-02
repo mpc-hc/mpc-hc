@@ -20,8 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_PARSER_H
-#define FFMPEG_PARSER_H
+#ifndef AVCODEC_PARSER_H
+#define AVCODEC_PARSER_H
 
 #include "avcodec.h"
 
@@ -34,7 +34,8 @@ typedef struct ParseContext{
     int frame_start_found;
     int overread;               ///< the number of bytes which where irreversibly read from the next frame
     int overread_index;         ///< the index into ParseContext.buffer of the overread bytes
-    int64_t rtStart;
+    uint64_t state64;           ///< contains the last 8 bytes in MSB order
+    int64_t rtStart;            /* ffdshow custom code */
 } ParseContext;
 
 struct MpegEncContext;
@@ -67,4 +68,4 @@ void ff_parse1_close(AVCodecParserContext *s);
  */
 void ff_fetch_timestamp(AVCodecParserContext *s, int off, int remove);
 
-#endif /* FFMPEG_PARSER_H */
+#endif /* AVCODEC_PARSER_H */

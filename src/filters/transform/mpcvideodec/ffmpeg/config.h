@@ -204,15 +204,17 @@
 #define ENABLE_WMV2_ENCODER 0
 #define ENABLE_AC3_ENCODER 0
 
-
 #define CONFIG_MPEGAUDIO_HP 1
 #define ENABLE_MPEGAUDIO_HP 1
 
 
-// LibAVFormat
-#define CONFIG_DEMUXERS 1
-#define CONFIG_AC3_DEMUXER 1
-
-
+#define HAVE_6REGS 1
 #define HAVE_7REGS 1
 #define HAVE_EBX_AVAILABLE 1
+
+#ifdef ARCH_X86_64
+	#define ENABLE_CMOV 1
+	#define HAVE_CMOV 1
+	#define ENABLE_FAST_CMOV 1
+	#define HAVE_FAST_CMOV 1
+#endif
