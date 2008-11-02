@@ -466,7 +466,9 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 	{
 		m_nFieldSurface = nSurfaceIndex;
 		m_pFieldSample	= pSample;
-		m_pPictureStore[nSurfaceIndex].n1FieldType = nFieldType;
+		m_pPictureStore[nSurfaceIndex].n1FieldType	= nFieldType;
+		m_pPictureStore[nSurfaceIndex].rtStart		= rtStart;
+		m_pPictureStore[nSurfaceIndex].rtStop		= rtStop;
 		return false;
 	}
 	else
@@ -478,9 +480,13 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 		m_pPictureStore[nSurfaceIndex].bInUse			= true;
 		m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
 		m_pPictureStore[nSurfaceIndex].pSample			= pSample;
-		m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
-		m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
 		m_pPictureStore[nSurfaceIndex].nSliceType		= nSliceType;
+
+		if (rtStart != _I64_MIN)
+		{
+			m_pPictureStore[nSurfaceIndex].rtStart		= rtStart;
+			m_pPictureStore[nSurfaceIndex].rtStop		= rtStop;
+		}
 
 		if (nFieldType == PICT_FRAME)
 			m_pPictureStore[nSurfaceIndex].n1FieldType = PICT_FRAME;

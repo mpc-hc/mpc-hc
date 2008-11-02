@@ -1337,7 +1337,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	hr			= pIn->GetTime(&rtStart, &rtStop);
 	m_rtStart	= rtStart;
 
-	if (rtStop <= rtStart)
+	if ((rtStart != _I64_MIN) && rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
 	
 //	DumpBuffer (pDataIn, nSize);
