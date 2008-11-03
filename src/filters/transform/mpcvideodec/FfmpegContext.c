@@ -84,7 +84,7 @@ void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSiz
 }
 
 
-int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor)
 {
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
 	SPS*			cur_sps;
@@ -100,8 +100,22 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	{
 		// Check max num reference frame according to the level
 		#define MAX_DPB_41 12288 // value for level 4.1
-		if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
-			return 2;	// Too much ref frames
+		
+		switch (nPCIVendor)
+		{
+		case 4318 :
+			// nVidia cards support level 5.1 with updated drivers. 11 refs as absolute max
+			if (cur_sps->ref_frame_count > 11)
+				return 2;	// Too much ref frames
+
+			break;
+			
+		default :
+			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
+				return 2;	// Too much ref frames
+
+			break;
+		}
 	
 	}
 		
