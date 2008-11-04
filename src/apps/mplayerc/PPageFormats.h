@@ -45,7 +45,7 @@ private:
 	void AddAutoPlayToRegistry(autoplay_t ap, bool fRegister);
 	bool IsAutoPlayRegistered(autoplay_t ap);
 
-	void SetListItemState(int nItem, CString strProgID);
+	void SetListItemState(int nItem);
 	static CComPtr<IApplicationAssociationRegistration>	m_pAAR;
 	static BOOL SetFileAssociation(CString strExt, CString extfile, bool fRegister);
 	static CString GetOpenCommand();
@@ -55,8 +55,8 @@ public:
 	CPPageFormats();
 	virtual ~CPPageFormats();
 
-	static bool IsRegistered(CString ext, CString strProgID);
-	static bool RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister, int iconIndex);
+	static bool IsRegistered(CString ext);
+	static bool RegisterExt(CString ext, CString strLabel, bool fRegister);
 
 	enum {COL_CATEGORY, COL_ENGINE};
 	CPlayerListCtrl m_list;

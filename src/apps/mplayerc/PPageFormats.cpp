@@ -128,9 +128,10 @@ CString CPPageFormats::GetOpenCommand()
 	return _T("\"") + path + _T("\" \"%1\"");
 }
 
-bool CPPageFormats::IsRegistered(CString ext, CString strProgID)
+bool CPPageFormats::IsRegistered(CString ext)
 {
 	BOOL	bIsDefault = FALSE;
+	CString strProgID = _T("mplayerc") + ext;
 
 	if (m_pAAR == NULL)
 	{
@@ -217,14 +218,35 @@ int FileExists(const TCHAR *fileName)
 	return true;
 }
 
-bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel, bool fRegister, int iconIndex)
+typedef int (*GetIconIndexFunc)(CString);
+
+int GetIconIndex(CString ext)
+{ 
+	int iconindex = -1;
+	GetIconIndexFunc _getIconIndexFunc;
+	HINSTANCE mpciconlib = LoadLibrary(_T("mpciconlib.dll"));
+	if(mpciconlib)
+	{
+		_getIconIndexFunc = (GetIconIndexFunc) GetProcAddress(mpciconlib, "get_icon_index");
+		if(_getIconIndexFunc)
+		{
+			iconindex = _getIconIndexFunc(ext);
+		}
+		FreeLibrary(mpciconlib);
+	}
+  
+	return iconindex;
+}
+
+bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 {
 	CRegKey		key;
 	bool		bSetValue;
+	CString strProgID = _T("mplayerc") + ext;
 
 	if(!fRegister)
 	{
-		if(fRegister != IsRegistered(ext, strProgID))
+		if(fRegister != IsRegistered(ext))
 			SetFileAssociation (ext, strProgID, fRegister);
 		key.Attach(HKEY_CLASSES_ROOT);
 		key.RecurseDeleteKey(strProgID);
@@ -273,26 +295,30 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 	{
 		CString AppIcon = _T("");
 		TCHAR buff[MAX_PATH];
-
-		CString mpciconlib = GetProgramDir() + _T("\\mpciconlib.dll");
-		CString m_typeicon;
-		if(FileExists(mpciconlib)) m_typeicon = mpciconlib;
 		
-		if(!m_typeicon.IsEmpty())
+		CString mpciconlib = GetProgramDir() + _T("\\mpciconlib.dll");
+
+		if(FileExists(mpciconlib))
 		{
-			if(ExtractIcon(AfxGetApp()->m_hInstance,(LPCWSTR)m_typeicon, iconIndex))
+			int icon_index = GetIconIndex(ext);
+			CString m_typeicon = mpciconlib;
+
+			/* icon_index value -1 means no icon was found in the iconlib for the file extension */
+			if((icon_index >= 0) && ExtractIcon(AfxGetApp()->m_hInstance,(LPCWSTR)m_typeicon, icon_index))
 			{
 				m_typeicon = "\""+mpciconlib+"\"";
-				AppIcon.Format(_T("%s,%d"), m_typeicon, iconIndex);
+				AppIcon.Format(_T("%s,%d"), m_typeicon, icon_index);
 			}
-		}
-			
+		}		
+
+		/* no icon was found for the file extension, so use MPC's icon */
 		if((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH)))
 		{
 			AppIcon = buff;
 			AppIcon = "\""+AppIcon+"\"";
 			AppIcon += _T(",0");
 		}
+		
 		if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) return(false);
 		if(bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, AppIcon))) return(false);
 	}
@@ -302,7 +328,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strProgID, CString strLabel
 		key.RecurseDeleteKey(strProgID + _T("\\DefaultIcon"));
 	}
 
-	if(fRegister != IsRegistered(ext, strProgID))
+	if(fRegister != IsRegistered(ext))
 		SetFileAssociation (ext, strProgID, fRegister);
 
 	return(true);
@@ -396,7 +422,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	return(true);
 }
 
-void CPPageFormats::SetListItemState(int nItem, CString strProgID)
+void CPPageFormats::SetListItemState(int nItem)
 {
 	if(nItem < 0) return;
 
@@ -408,7 +434,7 @@ void CPPageFormats::SetListItemState(int nItem, CString strProgID)
 	int cnt = 0;
 
 	POSITION pos = exts.GetHeadPosition();
-	while(pos) if(IsRegistered(exts.GetNext(pos), strProgID)) cnt++;
+	while(pos) if(IsRegistered(exts.GetNext(pos))) cnt++;
 
 	SetChecked(nItem, cnt == 0 ? 0 : cnt == exts.GetCount() ? 1 : 2);
 }
@@ -450,7 +476,6 @@ BOOL CPPageFormats::OnInitDialog()
 		CString label;
 		label.Format (_T("%s (%s)"), mf[i].GetLabel(), mf[i].GetExts());
 		// HACK: sorry, mpc is just not an image viewer :)
-		//if(!label.CompareNoCase(_T("Image file"))) continue;
 		if(!label.CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 		int iItem = m_list.InsertItem(i, label);
 		m_list.SetItemData(iItem, i);
@@ -481,7 +506,7 @@ BOOL CPPageFormats::OnInitDialog()
 
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
-		SetListItemState(i,  mf[m_list.GetItemData(i)].GetProgId());
+		SetListItemState(i);
 	}
 	m_fContextFiles.SetCheck(f_setContextFiles);
 
@@ -735,7 +760,7 @@ BOOL CPPageFormats::OnApply()
 
 		POSITION pos = exts.GetHeadPosition();
 		while(pos)
-			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetProgId(), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked, mf[(int)m_list.GetItemData(i)].GetIconIndex());
+			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
 	}
 	
 	CRegKey	key;
@@ -765,7 +790,7 @@ BOOL CPPageFormats::OnApply()
 	}
 
 	{
-		SetListItemState(m_list.GetSelectionMark(), mf[m_list.GetItemData(m_list.GetSelectionMark())].GetProgId());
+		SetListItemState(m_list.GetSelectionMark());
 	}
 
 	AddAutoPlayToRegistry(AP_VIDEO, !!m_apvideo.GetCheck());
@@ -959,7 +984,7 @@ void CPPageFormats::OnBnVistaModify()
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
 	for(int i = 0; i < m_list.GetItemCount(); i++)
 	{
-		SetListItemState(i,  mf[m_list.GetItemData(i)].GetProgId());
+		SetListItemState(i);
 	}
 }
 
@@ -971,7 +996,7 @@ void CPPageFormats::OnBnClickedButton12()
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
 	mf[i].RestoreDefaultExts();
 	m_exts = mf[i].GetExtsWithPeriod();
-	SetListItemState(m_list.GetSelectionMark(), mf[i].GetProgId());
+	SetListItemState(m_list.GetSelectionMark());
 	UpdateData(FALSE);
     
 	SetModified();
@@ -986,7 +1011,7 @@ void CPPageFormats::OnBnClickedButton11()
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
 	mf[i].SetExts(m_exts);
 	m_exts = mf[i].GetExtsWithPeriod();
-	SetListItemState(m_list.GetSelectionMark(), mf[i].GetProgId());
+	SetListItemState(m_list.GetSelectionMark());
 	UpdateData(FALSE);
     
 	SetModified();
