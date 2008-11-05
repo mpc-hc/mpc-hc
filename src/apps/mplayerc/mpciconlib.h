@@ -27,21 +27,22 @@
 #define IDI_FLAC_ICON                       19
 #define IDI_ALAC_ICON                       20
 #define IDI_PLS_ICON                       	21
-//#define IDI_DVDF_ICON                       22
-//#define IDI_DVDA_ICON                       23
-//#define IDI_D2V_ICON                       	24
-//#define IDI_MID_ICON                       	25
-//#define IDI_AIFF_ICON                       26
-//#define IDI_AU_ICON                       	27
-//#define IDI_IVF_ICON                       	28
-//#define IDI_FLIC_ICON                       29
-//#define IDI_BIK_ICON                       	30
-//#define IDI_RATDVD_ICON                     31
-//#define IDI_ROQ_ICON                       	32
-//#define IDI_RT_ICON                       	33
-//#define IDI_DRC_ICON                       	34
-//#define IDI_DSM_ICON                       	35
-//#define IDI_SWF_ICON                       	36
+#define IDI_D2V_ICON                       	22
+#define IDI_MID_ICON                       	23
+#define IDI_AIFF_ICON                       24
+#define IDI_AU_ICON                       	25
+#define IDI_IVF_ICON                       	26
+#define IDI_FLIC_ICON                       27
+#define IDI_BIK_ICON                       	28
+#define IDI_RATDVD_ICON                     29
+#define IDI_ROQ_ICON                       	30
+#define IDI_RT_ICON                       	31
+#define IDI_DRC_ICON                       	32
+#define IDI_DSM_ICON                       	33
+#define IDI_SWF_ICON                       	34
+#define IDI_OTHER_ICON                      35
+#define IDI_DVDF_ICON                       36
+#define IDI_DVDA_ICON                       37
 
 
 // Next default values for new objects
