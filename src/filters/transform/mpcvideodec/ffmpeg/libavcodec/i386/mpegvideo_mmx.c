@@ -477,7 +477,7 @@ __asm__ volatile(
 
 void MPV_common_init_mmx(MpegEncContext *s)
 {
-    if (mm_flags & MM_MMX) {
+    if (mm_flags & FF_MM_MMX) {
         s->dct_unquantize_h263_intra = dct_unquantize_h263_intra_mmx;
         s->dct_unquantize_h263_inter = dct_unquantize_h263_inter_mmx;
         s->dct_unquantize_mpeg1_intra = dct_unquantize_mpeg1_intra_mmx;

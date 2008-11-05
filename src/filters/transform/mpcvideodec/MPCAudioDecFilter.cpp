@@ -349,14 +349,13 @@ CMediaType CMPCAudioDecFilter::CreateMediaType(SampleFormat sf, DWORD nSamplesPe
 	{
 	default:
 	case SAMPLE_FMT_S16: wfe->wBitsPerSample = 16; break;
-	case SAMPLE_FMT_S24: wfe->wBitsPerSample = 24; break;
 	case SAMPLE_FMT_S32: case SAMPLE_FMT_FLT: wfe->wBitsPerSample = 32; break;
 	}
 	wfe->nBlockAlign = wfe->nChannels*wfe->wBitsPerSample/8;
 	wfe->nAvgBytesPerSec = wfe->nSamplesPerSec*wfe->nBlockAlign;
 
-	// FIXME: 24/32 bit only seems to work with WAVE_FORMAT_EXTENSIBLE
-	if(dwChannelMask == 0 && (sf == SAMPLE_FMT_S24 || sf == SAMPLE_FMT_S32))
+	// FIXME: 32 bit only seems to work with WAVE_FORMAT_EXTENSIBLE
+	if(dwChannelMask == 0 && (sf == SAMPLE_FMT_S32))
 		dwChannelMask = nChannels == 2 ? (SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT) : SPEAKER_FRONT_CENTER;
 
 	if(dwChannelMask)

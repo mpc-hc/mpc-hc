@@ -358,6 +358,9 @@ typedef struct DSPContext {
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
 #endif
+#ifdef AC3_DECODER
+	  void (*ac3_downmix)(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len);
+#endif
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
@@ -365,6 +368,10 @@ typedef struct DSPContext {
     void (*vector_fmul_add_add)(float *dst, const float *src0, const float *src1, const float *src2, int src3, int len, int step);
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vector_fmul_window)(float *dst, const float *src0, const float *src1, const float *win, float add_bias, int len);
+#if 0
+    /* assume len is a multiple of 8, and arrays are 16-byte aligned */
+    void (*int32_to_float_fmul_scalar)(float *dst, const int *src, float mul, int len);
+#endif
 
 #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
     /* C version: convert floats from the range [384.0,386.0] to ints in [-32768,32767]
@@ -496,15 +503,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
 #undef emms_c
 
-#define MM_MMX    0x0001 /* standard MMX */
-#define MM_3DNOW  0x0004 /* AMD 3DNOW */
-#define MM_MMXEXT 0x0002 /* SSE integer functions or AMD MMX ext */
-#define MM_SSE    0x0008 /* SSE functions */
-#define MM_SSE2   0x0010 /* PIV SSE2 functions */
-#define MM_3DNOWEXT  0x0020 /* AMD 3DNowExt */
-#define MM_SSE3   0x0040 /* Prescott SSE3 functions */
-#define MM_SSSE3  0x0080 /* Conroe SSSE3 functions */
-
 extern int mm_flags;
 
 void add_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size);
@@ -523,7 +521,7 @@ static inline void emms(void)
 
 #define emms_c() \
 {\
-    if (mm_flags & MM_MMX)\
+    if (mm_flags & FF_MM_MMX)\
         emms();\
 }
 

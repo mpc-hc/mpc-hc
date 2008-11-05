@@ -95,15 +95,15 @@ char		szFeatures[256];
 	if(nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);
-		if(nBuff[3] & 1<<23)	m_nCPUFeatures|=FF_MM_MMX;
-		if(nBuff[3] & 1<<25)	m_nCPUFeatures|=FF_MM_SSE;
-		if(nBuff[3] & 1<<26)	m_nCPUFeatures|=FF_MM_SSE2;
-		if(nBuff[2] & 1<<0)		m_nCPUFeatures|=FF_MM_SSE3;
+		if(nBuff[3] & 1<<23)	m_nCPUFeatures|=MPC_MM_MMX;
+		if(nBuff[3] & 1<<25)	m_nCPUFeatures|=MPC_MM_SSE;
+		if(nBuff[3] & 1<<26)	m_nCPUFeatures|=MPC_MM_SSE2;
+		if(nBuff[2] & 1<<0)		m_nCPUFeatures|=MPC_MM_SSE3;
 
 		// Intel specific:
 		if(m_nType == PROCESSOR_INTEL)
 		{
-			if(nBuff[2] & 1<<9)	m_nCPUFeatures|=FF_MM_SSSE3;
+			if(nBuff[2] & 1<<9)	m_nCPUFeatures|=MPC_MM_SSSE3;
 		//	if(nBuff[2] & 1<<7) strcat(szFeatures, "EST ");
 		}
 
@@ -119,9 +119,9 @@ char		szFeatures[256];
 		if(nHighestFeatureEx >= 0x80000001)
 		{
 			__cpuid(nBuff, 0x80000001);
-			if(nBuff[3] & 1<<31)	m_nCPUFeatures|=FF_MM_3DNOW;
+			if(nBuff[3] & 1<<31)	m_nCPUFeatures|=MPC_MM_3DNOW;
 		//	if(nBuff[3] & 1<<30)	strcat(szFeatures, "Ex3DNow! ");
-			if(nBuff[3] & 1<<22)	m_nCPUFeatures|=FF_MM_MMXEXT;
+			if(nBuff[3] & 1<<22)	m_nCPUFeatures|=MPC_MM_MMXEXT;
 		}
 
 		// Get level 1 cache size
@@ -171,10 +171,10 @@ char		szFeatures[256];
 	nHighestFeatureEx = (unsigned)nBuff[0];
 
 	m_nDSPFlags = 0;
-	if (m_CPUInfo[3] & CPUID_MMX)    m_nDSPFlags|=FF_MM_MMX;
-	if (m_CPUInfo[3] & CPUID_SSE)    m_nDSPFlags|=FF_MM_SSE;
-	if (m_CPUInfo[3] & CPUID_SSE2)   m_nDSPFlags|=FF_MM_SSE2;
-	if (m_CPUInfo[2] & CPUID_SSE3)   m_nDSPFlags|=FF_MM_SSE3;
+	if (m_CPUInfo[3] & CPUID_MMX)    m_nDSPFlags|=MPC_MM_MMX;
+	if (m_CPUInfo[3] & CPUID_SSE)    m_nDSPFlags|=MPC_MM_SSE;
+	if (m_CPUInfo[3] & CPUID_SSE2)   m_nDSPFlags|=MPC_MM_SSE2;
+	if (m_CPUInfo[2] & CPUID_SSE3)   m_nDSPFlags|=MPC_MM_SSE3;
 
 	switch (m_nType)
 	{
@@ -182,12 +182,12 @@ char		szFeatures[256];
 		__cpuid(m_CPUAMDInfo, 0x80000000);
 		if(nHighestFeatureEx >= 0x80000001)
 		{
-			if (m_CPUAMDInfo[3] & CPUID_MMXEXT) m_nDSPFlags|=FF_MM_MMXEXT;
-			if (m_CPUAMDInfo[3] & CPUID_3DNOW)  m_nDSPFlags|=FF_MM_3DNOW;
+			if (m_CPUAMDInfo[3] & CPUID_MMXEXT) m_nDSPFlags|=MPC_MM_MMXEXT;
+			if (m_CPUAMDInfo[3] & CPUID_3DNOW)  m_nDSPFlags|=MPC_MM_3DNOW;
 		}
 		break;
 	case PROCESSOR_INTEL :
-		if(m_CPUInfo[2] & CPUID_SSSE3)	m_nDSPFlags|=FF_MM_SSSE3;
+		if(m_CPUInfo[2] & CPUID_SSSE3)	m_nDSPFlags|=MPC_MM_SSSE3;
 		break;
 	}
 	*/
