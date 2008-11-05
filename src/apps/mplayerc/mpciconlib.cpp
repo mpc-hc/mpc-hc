@@ -23,6 +23,7 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".alac")) == 0)   iconindex = IDI_ALAC_ICON;
 	else if(ext.CompareNoCase(_T(".amr")) == 0)    iconindex = IDI_OTHER_ICON;
 	else if(ext.CompareNoCase(_T(".amv")) == 0)    iconindex = IDI_OTHER_ICON;
+	else if(ext.CompareNoCase(_T(".ape")) == 0)    iconindex = IDI_NONE;
 	else if(ext.CompareNoCase(_T(".asf")) == 0)    iconindex = IDI_WMV_ICON;
 	else if(ext.CompareNoCase(_T(".asx")) == 0)    iconindex = IDI_PLS_ICON;
 	else if(ext.CompareNoCase(_T(".au")) == 0)     iconindex = IDI_AU_ICON;
@@ -78,6 +79,7 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".pls")) == 0)    iconindex = IDI_PLS_ICON;
 	else if(ext.CompareNoCase(_T(".pva")) == 0)    iconindex = IDI_MPG_ICON;
 	else if(ext.CompareNoCase(_T(".pss")) == 0)    iconindex = IDI_MPG_ICON;
+	else if(ext.CompareNoCase(_T(".qt")) == 0)     iconindex = IDI_MOV_ICON;
 	else if(ext.CompareNoCase(_T(".ra")) == 0)     iconindex = IDI_RA_ICON;
 	else if(ext.CompareNoCase(_T(".ram")) == 0)    iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".ratdvd")) == 0) iconindex = IDI_RATDVD_ICON;
@@ -85,9 +87,9 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".rmi")) == 0)    iconindex = IDI_MID_ICON;
 	else if(ext.CompareNoCase(_T(".rmm")) == 0)    iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".rmvb")) == 0)   iconindex = IDI_RM_ICON;
-	else if(ext.CompareNoCase(_T(".rpm")) == 0)    iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".roq")) == 0)    iconindex = IDI_ROQ_ICON;
 	else if(ext.CompareNoCase(_T(".rp")) == 0)     iconindex = IDI_RT_ICON;
+	else if(ext.CompareNoCase(_T(".rpm")) == 0)    iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".rt")) == 0)     iconindex = IDI_RT_ICON;
 	else if(ext.CompareNoCase(_T(".smi")) == 0)    iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".smil")) == 0)   iconindex = IDI_RM_ICON;
@@ -99,12 +101,13 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".vob")) == 0)    iconindex = IDI_DVDF_ICON;
 	else if(ext.CompareNoCase(_T(".vp6")) == 0)    iconindex = IDI_OTHER_ICON;
 	else if(ext.CompareNoCase(_T(".wav")) == 0)    iconindex = IDI_WAV_ICON;
+	else if(ext.CompareNoCase(_T(".wax")) == 0)    iconindex = IDI_PLS_ICON;
 	else if(ext.CompareNoCase(_T(".wm")) == 0)     iconindex = IDI_WMV_ICON;
 	else if(ext.CompareNoCase(_T(".wma")) == 0)    iconindex = IDI_WMA_ICON;
 	else if(ext.CompareNoCase(_T(".wmp")) == 0)    iconindex = IDI_WMV_ICON;
 	else if(ext.CompareNoCase(_T(".wmv")) == 0)    iconindex = IDI_WMV_ICON;
-	else if(ext.CompareNoCase(_T(".wax")) == 0)    iconindex = IDI_PLS_ICON;
 	else if(ext.CompareNoCase(_T(".wmx")) == 0)    iconindex = IDI_PLS_ICON;
+	else if(ext.CompareNoCase(_T(".wv")) == 0)     iconindex = IDI_NONE;
 	else if(ext.CompareNoCase(_T(".wvx")) == 0)    iconindex = IDI_PLS_ICON;
 
 	return iconindex;
