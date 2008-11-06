@@ -1,5 +1,4 @@
 #include "mpciconlib.h"
-#define _AFXDLL
 #include <afx.h>
 
 int main()
