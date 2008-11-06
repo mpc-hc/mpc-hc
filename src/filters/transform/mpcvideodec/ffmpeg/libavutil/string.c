@@ -38,7 +38,7 @@ int av_strstart(const char *str, const char *pfx, const char **ptr)
 
 int av_stristart(const char *str, const char *pfx, const char **ptr)
 {
-    while (*pfx && toupper((unsigned)*pfx) == toupper((unsigned)*str)) {
+    while (*pfx && _toupper((unsigned)*pfx) == _toupper((unsigned)*str)) {
         pfx++;
         str++;
     }
