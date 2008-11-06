@@ -532,12 +532,15 @@ void CMPCVideoDecFilter::DetectVideoCard()
 	IDirect3D9* pD3D9;
 	m_nPCIVendor = 0;
 	m_nPCIDevice = 0;
+	m_VideoDriverVersion.HighPart = 0;
+	m_VideoDriverVersion.LowPart = 0;
 
 	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) {
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 		if (pD3D9->GetAdapterIdentifier(0, 0, &adapterIdentifier) == S_OK) {
 			m_nPCIVendor = adapterIdentifier.VendorId;
 			m_nPCIDevice = adapterIdentifier.DeviceId;
+			m_VideoDriverVersion = adapterIdentifier.DriverVersion;
 			m_strDeviceDescription = adapterIdentifier.Description;
 			m_strDeviceDescription.AppendFormat (_T(" (%d)"), m_nPCIVendor);
 		}
@@ -914,7 +917,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if (ffCodecs[m_nCodecNb].nFFCodec == CODEC_ID_H264)
 			{
 				int		nCompat;
-				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor);
+				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
 				switch (nCompat)
 				{
 				case 1 :	// SAR not supported

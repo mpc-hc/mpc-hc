@@ -84,11 +84,13 @@ void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSiz
 }
 
 
-int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor)
+int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, LARGE_INTEGER VideoDriverVersion)
 {
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
 	SPS*			cur_sps;
 	PPS*			cur_pps;
+
+	int supportLevel51 = 0;
 
 	if (pBuffer != NULL)
 		av_h264_decode_frame (pAVCtx, pBuffer, nSize);
@@ -98,23 +100,45 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 	if (cur_sps != NULL)
 	{
-		// Check max num reference frame according to the level
-		#define MAX_DPB_41 12288 // value for level 4.1
 		
-		switch (nPCIVendor)
-		{
-		case 4318 :
-			// nVidia cards support level 5.1 with updated drivers. 11 refs as absolute max
+		if (nPCIVendor == 4318) {
+			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista
+			// vA.B.C.D
+			int A, B, C, D;
+			if (IsVista()) {
+				A = 7; B = 15; C = 11; D = 7800;
+			} else {
+				A = 6; B = 14; C = 11; D = 7800;
+			}
+
+			if (HIWORD(VideoDriverVersion.HighPart) > A) {
+				supportLevel51 = 1;
+			} else if (HIWORD(VideoDriverVersion.HighPart) == A) {
+				if (LOWORD(VideoDriverVersion.HighPart) > B) {
+					supportLevel51 = 1;
+				} else if (LOWORD(VideoDriverVersion.HighPart) == B) {
+					if (HIWORD(VideoDriverVersion.LowPart) > C) {
+						supportLevel51 = 1;
+					} else if (HIWORD(VideoDriverVersion.LowPart) == C) {
+						if (LOWORD(VideoDriverVersion.LowPart) >= D) {
+							supportLevel51 = 1;
+						}
+					}
+				}
+			}
+		}
+
+		// Check max num reference frame according to the level
+		#define MAX_DPB_41 12288 // DPB value for level 4.1
+
+		if (supportLevel51 == 1) {
+			// 11 refs as absolute max
 			if (cur_sps->ref_frame_count > 11)
 				return 2;	// Too much ref frames
-
-			break;
-			
-		default :
-			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5)))) // level 4.1 with 11 refs as absolute max
+		} else {
+			// level 4.1 with 11 refs as absolute max
+			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5))))
 				return 2;	// Too much ref frames
-
-			break;
 		}
 	
 	}
