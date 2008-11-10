@@ -4670,8 +4670,9 @@ void CMainFrame::OnViewTearingTest()
 
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (TRUE);
-	pCmdUI->SetCheck (AfxGetMyApp()->m_fDisplayStats);
+	AppSettings& s = AfxGetAppSettings();
+	pCmdUI->Enable (s.fShowOSD);
+	pCmdUI->SetCheck (s.fShowOSD && (AfxGetMyApp()->m_fDisplayStats));
 }
 
 void CMainFrame::OnViewDisplayStats()
@@ -4681,7 +4682,8 @@ void CMainFrame::OnViewDisplayStats()
 
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (m_iMediaLoadState != MLS_CLOSED);
+	AppSettings& s = AfxGetAppSettings();
+	pCmdUI->Enable (s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
 	pCmdUI->SetCheck (m_bRemainingTime);
 }
 
