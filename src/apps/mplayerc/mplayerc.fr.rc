@@ -756,7 +756,7 @@ BEGIN
     GROUPBOX        """Réglages VMR7/9 (sans rendu)"" && EVR Custom Pres.",IDC_STATIC,105,53,183,94
     LTEXT           "Retailler:",IDC_STATIC,111,83,27,8
     COMBOBOX        IDC_DX9RESIZER_COMBO,151,81,128,49,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "DirectShow Audio",IDC_STATIC,5,148,283,28
+    GROUPBOX        "Sortie Audio",IDC_STATIC,5,148,283,28
     COMBOBOX        IDC_COMBO1,14,158,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Verrouiller Tampon",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,129,70,10
     LTEXT           "* Pas de sauvegarde d'imagettes",IDC_STATIC,13,206,158,8
@@ -770,7 +770,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,99,161,10
     COMBOBOX        IDC_EVR_BUFFERS,241,127,35,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "EVR Tampons:",IDC_EVR_BUFFERS_TXT,191,130,42,8
-    GROUPBOX        "Full Screen Monitor",IDC_STATIC,5,176,283,27
+    GROUPBOX        "Mode d'affichage plein écran",IDC_STATIC,5,176,283,27
     COMBOBOX        IDC_COMBO2,13,185,266,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
@@ -800,7 +800,7 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,19,282,1
     CONTROL         "Activer la compression",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,25,87,10
     CONTROL         "Imprimer les informations de débogage",IDC_CHECK2,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,67,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,51,150,10
     CONTROL         "Servir les pages depuis :",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,75,10
     EDITTEXT        IDC_EDIT2,7,85,183,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Parcourir...",IDC_BUTTON1,194,85,45,14
@@ -2654,9 +2654,9 @@ BEGIN
     IDS_AG_FULLSCREEN       "Plein écran"
     IDS_MPLAYERC_39         "Plein écran (même réso.)"
     IDS_AG_ZOOM_AUTO_FIT    "Zoom Auto"
-    IDS_AG_VIDFRM_HALF      "VidFrm Half"
-    IDS_AG_VIDFRM_NORMAL    "VidFrm Normal"
-    IDS_AG_VIDFRM_DOUBLE    "VidFrm Double"
+	IDS_AG_VIDFRM_HALF      "Fenêtre vidéo : Moitié"
+    IDS_AG_VIDFRM_NORMAL    "Fenêtre vidéo : Originale"
+    IDS_AG_VIDFRM_DOUBLE    "Fenêtre vidéo : Double"
     IDS_AG_ALWAYS_ON_TOP    "Always On Top"
     IDS_AG_PNS_INC_SIZE     "Panoramique Taille +"
     IDS_AG_PNS_INC_WIDTH    "Panoramique Largeur +"
@@ -3038,7 +3038,7 @@ BEGIN
 	IDS_AG_TOGGLE_INFO		"Afficher la zone d'information"
 	IDS_AG_TOGGLE_STATS		"Afficher les statistiques"
 	IDS_AG_TOGGLE_STATUS	"Afficher le statut"
-	IDS_AG_TOGGLE_SUBRESYNC	"Toggle Subresync Bar"
+	IDS_AG_TOGGLE_SUBRESYNC	"Resynchronisation des sous-titres"
 	IDS_AG_TOGGLE_PLAYLIST	"Afficher la liste de lecture"
 	IDS_AG_TOGGLE_CAPTURE	"Afficher la barre de capture"
 	IDS_AG_TOGGLE_SHADER	"Afficher l'éditeur de Pixels Shaders"

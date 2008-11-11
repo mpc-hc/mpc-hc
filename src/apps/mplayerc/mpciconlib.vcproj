@@ -99,7 +99,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release Unicode|x64"
-			ConfigurationType="1"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			UseOfMFC="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -130,6 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				ModuleDefinitionFile=".\mpciconlib.def"
 			/>
 			<Tool
