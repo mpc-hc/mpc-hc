@@ -321,6 +321,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				case 5:
 					m_pFile->BitRead(24);
 				case 4:
+					{
 					#ifdef NOVIDEOTWEAK
 					m_pFile->BitRead(8);
 					#else					
@@ -365,8 +366,16 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					#endif
 
 					mt.subtype = FOURCCMap(bih->biCompression = '4VLF');
-
+					}
 					break;
+
+				//case 7 :	// H264
+				//	int		nPacketType;
+				//	int		nTime;
+				//	
+				//	nPacketType = m_pFile->BitRead(8);	// 0 : seq, 1 : NALU, 2 : end of seq
+				//	nTime		= m_pFile->BitRead(24);
+				//	break;
 				}
 			}
 		}

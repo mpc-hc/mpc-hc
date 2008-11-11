@@ -168,7 +168,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 		}
 	}
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
+	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, 
+				m_PictureParams.bPicStructure != PICT_FRAME,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
 	m_bFlushed = false;
 
 	return DisplayNextFrame();

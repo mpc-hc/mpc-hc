@@ -450,6 +450,77 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	LOG_TOFILE (_T("picture.log"), strRes);
 }
 
+static void LogH264SliceLong (DXVA_Slice_H264_Long* pSlice)
+{
+	static bool	bFirstSlice = true;
+	CString		strRes;
+	int			i;
+
+	if (bFirstSlice)
+	{
+		LOG_TOFILE (_T("slicelong.log"), _T("BSNALunitDataLocation, SliceBytesInBuffer, wBadSliceChopping,") \
+									     _T("first_mb_in_slice, NumMbsForSlice, BitOffsetToSliceData, slice_type,luma_log2_weight_denom,chroma_log2_weight_denom,") \
+									     _T("num_ref_idx_l0_active_minus1,num_ref_idx_l1_active_minus1,slice_alpha_c0_offset_div2,slice_beta_offset_div2,") \
+									     _T("Reserved8Bits,slice_qs_delta,slice_qp_delta,redundant_pic_cnt,direct_spatial_mv_pred_flag,cabac_init_idc,") \
+									     _T("disable_deblocking_filter_idc,slice_id,") \
+_T("RP[0][0],RP[0][1],RP[0][2],RP[0][3],RP[0][4],RP[0][5],RP[0][6],RP[0][7],RP[0][8],RP[0][9],RP[0][10],RP[0][11],RP[0][12],RP[0][13],RP[0][14],RP[0][15],RP[0][16],RP[0][17],RP[0][18],RP[0][19],RP[0][20],RP[0][21],RP[0][22],RP[0][23],RP[0][24],RP[0][25],RP[0][26],RP[0][27],RP[0][28],RP[0][29],RP[0][30],RP[0][31],RP[1][0],RP[1][1],RP[1][2],RP[1][3],RP[1][4],RP[1][5],RP[1][6],RP[1][7],RP[1][8],RP[1][9],RP[1][10],RP[1][11],RP[1][12],RP[1][13],RP[1][14],RP[1][15],RP[1][16],RP[1][17],RP[1][18],RP[1][19],RP[1][20],RP[1][21],RP[1][22],RP[1][23],RP[1][24],RP[1][25],RP[1][26],RP[1][27],RP[1][28],RP[1][29],RP[1][30],RP[1][31],") \
+_T("W[0][0][0][0],W[0][0][0][1],W[0][0][1][0],W[0][0][1][1],W[0][0][2][0],W[0][0][2][1],W[0][1][0][0],W[0][1][0][1],W[0][1][1][0],W[0][1][1][1],W[0][1][2][0],W[0][1][2][1],W[0][2][0][0],W[0][2][0][1],W[0][2][1][0],W[0][2][1][1],W[0][2][2][0],W[0][2][2][1],W[0][3][0][0],W[0][3][0][1],W[0][3][1][0],W[0][3][1][1],W[0][3][2][0],W[0][3][2][1],W[0][4][0][0],W[0][4][0][1],W[0][4][1][0],W[0][4][1][1],W[0][4][2][0],W[0][4][2][1],W[0][5][0][0],W[0][5][0][1],W[0][5][1][0],W[0][5][1][1],W[0][5][2][0],W[0][5][2][1],W[0][6][0][0],W[0][6][0][1],W[0][6][1][0],W[0][6][1][1],W[0][6][2][0],W[0][6][2][1],W[0][7][0][0],W[0][7][0][1],W[0][7][1][0],W[0][7][1][1],W[0][7][2][0],W[0][7][2][1],W[0][8][0][0],W[0][8][0][1],W[0][8][1][0],W[0][8][1][1],W[0][8][2][0],W[0][8][2][1],W[0][9][0][0],W[0][9][0][1],W[0][9][1][0],W[0][9][1][1],W[0][9][2][0],W[0][9][2][1],W[0][10][0][0],W[0][10][0][1],W[0][10][1][0],W[0][10][1][1],W[0][10][2][0],W[0][10][2][1],W[0][11][0][0],W[0][11][0][1],W[0][11][1][0],W[0][11][1][1],W[0][11][2][0],W[0][11][2][1],W[0][12][0][0],W[0][12][0][1],W[0][12][1][0],W[0][12][1][1],W[0][12][2][0],W[0][12][2][1],W[0][13][0][0],W[0][13][0][1],W[0][13][1][0],W[0][13][1][1],W[0][13][2][0],W[0][13][2][1],W[0][14][0][0],W[0][14][0][1],W[0][14][1][0],W[0][14][1][1],W[0][14][2][0],W[0][14][2][1],W[0][15][0][0],W[0][15][0][1],W[0][15][1][0],W[0][15][1][1],W[0][15][2][0],W[0][15][2][1],W[0][16][0][0],W[0][16][0][1],W[0][16][1][0],W[0][16][1][1],W[0][16][2][0],W[0][16][2][1],W[0][17][0][0],W[0][17][0][1],W[0][17][1][0],W[0][17][1][1],W[0][17][2][0],W[0][17][2][1],W[0][18][0][0],W[0][18][0][1],W[0][18][1][0],W[0][18][1][1],W[0][18][2][0],W[0][18][2][1],W[0][19][0][0],W[0][19][0][1],W[0][19][1][0],W[0][19][1][1],W[0][19][2][0],W[0][19][2][1],W[0][20][0][0],W[0][20][0][1],W[0][20][1][0],W[0][20][1][1],W[0][20][2][0],W[0][20][2][1],W[0][21][0][0],W[0][21][0][1],W[0][21][1][0],W[0][21][1][1],W[0][21][2][0],W[0][21][2][1],W[0][22][0][0],W[0][22][0][1],W[0][22][1][0],W[0][22][1][1],W[0][22][2][0],W[0][22][2][1],W[0][23][0][0],W[0][23][0][1],W[0][23][1][0],W[0][23][1][1],W[0][23][2][0],W[0][23][2][1],W[0][24][0][0],W[0][24][0][1],W[0][24][1][0],W[0][24][1][1],W[0][24][2][0],W[0][24][2][1],W[0][25][0][0],W[0][25][0][1],W[0][25][1][0],W[0][25][1][1],W[0][25][2][0],W[0][25][2][1],W[0][26][0][0],W[0][26][0][1],W[0][26][1][0],W[0][26][1][1],W[0][26][2][0],W[0][26][2][1],W[0][27][0][0],W[0][27][0][1],W[0][27][1][0],W[0][27][1][1],W[0][27][2][0],W[0][27][2][1],W[0][28][0][0],W[0][28][0][1],W[0][28][1][0],W[0][28][1][1],W[0][28][2][0],W[0][28][2][1],W[0][29][0][0],W[0][29][0][1],W[0][29][1][0],W[0][29][1][1],W[0][29][2][0],W[0][29][2][1],W[0][30][0][0],W[0][30][0][1],W[0][30][1][0],W[0][30][1][1],W[0][30][2][0],W[0][30][2][1],W[0][31][0][0],W[0][31][0][1],W[0][31][1][0],W[0][31][1][1],W[0][31][2][0],W[0][31][2][1],W[1][0][0][0],W[1][0][0][1],W[1][0][1][0],W[1][0][1][1],W[1][0][2][0],W[1][0][2][1],W[1][1][0][0],W[1][1][0][1],W[1][1][1][0],W[1][1][1][1],W[1][1][2][0],W[1][1][2][1],W[1][2][0][0],W[1][2][0][1],W[1][2][1][0],W[1][2][1][1],W[1][2][2][0],W[1][2][2][1],W[1][3][0][0],W[1][3][0][1],W[1][3][1][0],W[1][3][1][1],W[1][3][2][0],W[1][3][2][1],W[1][4][0][0],W[1][4][0][1],W[1][4][1][0],W[1][4][1][1],W[1][4][2][0],W[1][4][2][1],W[1][5][0][0],W[1][5][0][1],W[1][5][1][0],W[1][5][1][1],W[1][5][2][0],W[1][5][2][1],W[1][6][0][0],W[1][6][0][1],W[1][6][1][0],W[1][6][1][1],W[1][6][2][0],W[1][6][2][1],W[1][7][0][0],W[1][7][0][1],W[1][7][1][0],W[1][7][1][1],W[1][7][2][0],W[1][7][2][1],W[1][8][0][0],W[1][8][0][1],W[1][8][1][0],W[1][8][1][1],W[1][8][2][0],W[1][8][2][1],W[1][9][0][0],W[1][9][0][1],W[1][9][1][0],W[1][9][1][1],W[1][9][2][0],W[1][9][2][1],W[1][10][0][0],W[1][10][0][1],W[1][10][1][0],W[1][10][1][1],W[1][10][2][0],W[1][10][2][1],W[1][11][0][0],W[1][11][0][1],W[1][11][1][0],W[1][11][1][1],W[1][11][2][0],W[1][11][2][1],W[1][12][0][0],W[1][12][0][1],W[1][12][1][0],W[1][12][1][1],W[1][12][2][0],W[1][12][2][1],W[1][13][0][0],W[1][13][0][1],W[1][13][1][0],W[1][13][1][1],W[1][13][2][0],W[1][13][2][1],W[1][14][0][0],W[1][14][0][1],W[1][14][1][0],W[1][14][1][1],W[1][14][2][0],W[1][14][2][1],W[1][15][0][0],W[1][15][0][1],W[1][15][1][0],W[1][15][1][1],W[1][15][2][0],W[1][15][2][1],W[1][16][0][0],W[1][16][0][1],W[1][16][1][0],W[1][16][1][1],W[1][16][2][0],W[1][16][2][1],W[1][17][0][0],W[1][17][0][1],W[1][17][1][0],W[1][17][1][1],W[1][17][2][0],W[1][17][2][1],W[1][18][0][0],W[1][18][0][1],W[1][18][1][0],W[1][18][1][1],W[1][18][2][0],W[1][18][2][1],W[1][19][0][0],W[1][19][0][1],W[1][19][1][0],W[1][19][1][1],W[1][19][2][0],W[1][19][2][1],W[1][20][0][0],W[1][20][0][1],W[1][20][1][0],W[1][20][1][1],W[1][20][2][0],W[1][20][2][1],W[1][21][0][0],W[1][21][0][1],W[1][21][1][0],W[1][21][1][1],W[1][21][2][0],W[1][21][2][1],W[1][22][0][0],W[1][22][0][1],W[1][22][1][0],W[1][22][1][1],W[1][22][2][0],W[1][22][2][1],W[1][23][0][0],W[1][23][0][1],W[1][23][1][0],W[1][23][1][1],W[1][23][2][0],W[1][23][2][1],W[1][24][0][0],W[1][24][0][1],W[1][24][1][0],W[1][24][1][1],W[1][24][2][0],W[1][24][2][1],W[1][25][0][0],W[1][25][0][1],W[1][25][1][0],W[1][25][1][1],W[1][25][2][0],W[1][25][2][1],W[1][26][0][0],W[1][26][0][1],W[1][26][1][0],W[1][26][1][1],W[1][26][2][0],W[1][26][2][1],W[1][27][0][0],W[1][27][0][1],W[1][27][1][0],W[1][27][1][1],W[1][27][2][0],W[1][27][2][1],W[1][28][0][0],W[1][28][0][1],W[1][28][1][0],W[1][28][1][1],W[1][28][2][0],W[1][28][2][1],W[1][29][0][0],W[1][29][0][1],W[1][29][1][0],W[1][29][1][1],W[1][29][2][0],W[1][29][2][1],W[1][30][0][0],W[1][30][0][1],W[1][30][1][0],W[1][30][1][1],W[1][30][2][0],W[1][30][2][1],W[1][31][0][0],W[1][31][0][1],W[1][31][1][0],W[1][31][1][1],W[1][31][2][0],W[1][31][2][1]") );
+	}
+	bFirstSlice = false;
+
+	strRes.AppendFormat(_T("%d,"), pSlice->BSNALunitDataLocation);
+	strRes.AppendFormat(_T("%d,"), pSlice->SliceBytesInBuffer);
+	strRes.AppendFormat(_T("%d,"), pSlice->wBadSliceChopping);
+
+	strRes.AppendFormat(_T("%d,"), pSlice->first_mb_in_slice);
+	strRes.AppendFormat(_T("%d,"), pSlice->NumMbsForSlice);
+
+	strRes.AppendFormat(_T("%d,"), pSlice->BitOffsetToSliceData);
+
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_type);
+	strRes.AppendFormat(_T("%d,"), pSlice->luma_log2_weight_denom);
+	strRes.AppendFormat(_T("%d,"), pSlice->chroma_log2_weight_denom);
+	strRes.AppendFormat(_T("%d,"), pSlice->num_ref_idx_l0_active_minus1);
+	strRes.AppendFormat(_T("%d,"), pSlice->num_ref_idx_l1_active_minus1);
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_alpha_c0_offset_div2);
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_beta_offset_div2);
+	strRes.AppendFormat(_T("%d,"), pSlice->Reserved8Bits);
+
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_qs_delta);
+
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_qp_delta);
+	strRes.AppendFormat(_T("%d,"), pSlice->redundant_pic_cnt);
+	strRes.AppendFormat(_T("%d,"), pSlice->direct_spatial_mv_pred_flag);
+	strRes.AppendFormat(_T("%d,"), pSlice->cabac_init_idc);
+	strRes.AppendFormat(_T("%d,"), pSlice->disable_deblocking_filter_idc);
+	strRes.AppendFormat(_T("%d,"), pSlice->slice_id);
+
+	for (int i=0; i<2; i++)		/* L0 & L1 */
+	{
+		for (int j=0; j<32; j++)
+		{
+			strRes.AppendFormat(_T("%d,"), pSlice->RefPicList[i][j].AssociatedFlag);
+			strRes.AppendFormat(_T("%d,"), pSlice->RefPicList[i][j].bPicEntry);
+			strRes.AppendFormat(_T("%d,"), pSlice->RefPicList[i][j].Index7Bits);
+		}
+	}
+
+	for (int a=0; a<2; a++)		/* L0 & L1; Y, Cb, Cr */
+	{
+		for (int b=0; b<32; b++)
+		{
+			for (int c=0; c<3; c++)
+			{
+				for (int d=0; d<2; d++)
+				{
+					strRes.AppendFormat(_T("%d,"), pSlice->Weights[a][b][c][d]);
+				}
+			}
+		}
+	}
+
+	LOG_TOFILE (_T("slicelong.log"), strRes);
+}
 
 static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 {
@@ -884,6 +955,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 #ifdef _DEBUG
 	::DeleteFile (LOG_FILE);
 	::DeleteFile (_T("picture.log"));
+	::DeleteFile (_T("slicelong.log"));
 #endif
 }
 
@@ -1014,10 +1086,20 @@ public :
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_SliceControlBufferType)
 				{
-					DXVA_Slice_H264_Short*	pSlice = (DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
-					LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
-					LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
-					LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+					if (pExecuteParams->pCompressedBuffers[i].DataSize == sizeof(DXVA_Slice_H264_Short))
+					{
+						DXVA_Slice_H264_Short*	pSlice = (DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
+						LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
+						LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
+						LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+					}
+					else if (pExecuteParams->pCompressedBuffers[i].DataSize == sizeof(DXVA_Slice_H264_Long))
+					{
+#if defined(_DEBUG)
+						DXVA_Slice_H264_Long*	pSlice = (DXVA_Slice_H264_Long*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
+						LogH264SliceLong (pSlice);
+#endif
+					}
 				}
 
 #if defined(LOG_MATRIX) && defined(_DEBUG)
@@ -1301,6 +1383,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 #ifdef _DEBUG
 	::DeleteFile (LOG_FILE);
 	::DeleteFile (_T("picture.log"));
+	::DeleteFile (_T("slicelong.log"));
 #endif
 
 	if (pIDirectXVideoDecoderService)

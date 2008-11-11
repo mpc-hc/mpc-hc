@@ -226,6 +226,15 @@ static int init_poc_noframe(H264Context *h){
         field_poc[1]= poc;
     }
 
+	if (!h->sps.pic_struct_present_flag)
+	{
+		if (field_poc[0] != field_poc[1])
+			/* Derive top_field_first from field pocs. */
+			s->picture_structure = (field_poc[0] < field_poc[1])?PICT_TOP_FIELD:PICT_BOTTOM_FIELD;
+		else
+			/* Most likely progressive */
+			s->picture_structure = PICT_FRAME;
+	}
     //if(s->picture_structure != PICT_BOTTOM_FIELD) {
     //    s->current_picture_ptr->field_poc[0]= field_poc[0];
     //    s->current_picture_ptr->poc = field_poc[0];
@@ -647,8 +656,8 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             //    context_count++;
             break;
         case NAL_SEI:
-            //init_get_bits(&s->gb, ptr, bit_length);
-            //decode_sei(h);
+            init_get_bits(&s->gb, ptr, bit_length);
+            decode_sei(h);
             break;
         case NAL_SPS:
             init_get_bits(&s->gb, ptr, bit_length);

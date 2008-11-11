@@ -188,6 +188,28 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	if (cur_sps && cur_pps)
 	{
 		*nFieldType = h->s.picture_structure;
+		if (h->sps.pic_struct_present_flag)
+		{
+            switch (h->sei_pic_struct)
+            {
+            case SEI_PIC_STRUCT_TOP_FIELD:
+            case SEI_PIC_STRUCT_TOP_BOTTOM:
+            case SEI_PIC_STRUCT_TOP_BOTTOM_TOP:
+				*nFieldType = PICT_TOP_FIELD;
+                break;
+            case SEI_PIC_STRUCT_BOTTOM_FIELD:
+            case SEI_PIC_STRUCT_BOTTOM_TOP:
+            case SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM:
+				*nFieldType = PICT_BOTTOM_FIELD;
+                break;
+            case SEI_PIC_STRUCT_FRAME_DOUBLING:
+            case SEI_PIC_STRUCT_FRAME_TRIPLING:
+            case SEI_PIC_STRUCT_FRAME:
+				*nFieldType = PICT_FRAME;
+                break;
+			}
+		}
+
 		*nSliceType = h->slice_type;
 
 		if (cur_sps->mb_width==0 || cur_sps->mb_height==0) return VFW_E_INVALID_FILE_FORMAT;
@@ -352,8 +374,8 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	//				TODO section 3.2.20.6
 	//pPicParams->bPicDeblocked		= 
-	//pPicParams->bPicDeblockConfined
 	//pPicParams->wBitstreamFcodes
+	pPicParams->bPicStructure		= vc1->s.picture_structure;
 
 	*nFieldType = vc1->s.picture_structure;
 	*nSliceType = vc1->s.pict_type;
@@ -365,14 +387,13 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 {
 	if (pAVCtx->codec_id == CODEC_ID_H264)
 	{
-		// Simple way to detect interlaced streams ?
 		H264Context*	h		= (H264Context*) pAVCtx->priv_data;
 		SPS*			cur_sps = h->sps_buffers[0];
 
-		if (cur_sps && cur_sps->mb_height>0)
-			return (nHeight / (cur_sps->mb_height*16)) == 2;
+		if (cur_sps && !cur_sps->frame_mbs_only_flag)
+			return 1;
 		else
-			return 0;	// Don't know... suppose it's progressive...
+			return 0;
 	}
 	else if (pAVCtx->codec_id == CODEC_ID_VC1)
 	{
@@ -382,3 +403,4 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 
 	return 0;
 }
+

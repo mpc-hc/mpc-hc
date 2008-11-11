@@ -33,9 +33,7 @@
 #ifndef AVCODEC_SVQ1_H
 #define AVCODEC_SVQ1_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #define SVQ1_BLOCK_SKIP         0
 #define SVQ1_BLOCK_INTER        1

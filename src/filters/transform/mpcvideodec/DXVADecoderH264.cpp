@@ -196,6 +196,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
+		case NALU_TYPE_SEI :
 			FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength());			
 			break;
 		}
@@ -257,7 +258,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 #endif
 
 	bool bAdded		= AddToStore (nSurfaceIndex, pSampleToDeliver, Nalu.IsRefFrame(), rtStart, rtStop,
-								  (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
+								  m_DXVAPicParams.field_pic_flag, (FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
 
 	if (bAdded) hr = DisplayNextFrame();
 

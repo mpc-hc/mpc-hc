@@ -460,9 +460,10 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 
 // === Picture store functions
 bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, 
-							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType)
+							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, 
+							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType)
 {
-	if ((nFieldType != PICT_FRAME)  && (m_nFieldSurface == -1))
+	if (bIsField && (m_nFieldSurface == -1))
 	{
 		m_nFieldSurface = nSurfaceIndex;
 		m_pFieldSample	= pSample;
@@ -482,15 +483,13 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 		m_pPictureStore[nSurfaceIndex].pSample			= pSample;
 		m_pPictureStore[nSurfaceIndex].nSliceType		= nSliceType;
 
-		if (rtStart != _I64_MIN)
+		if (!bIsField)
 		{
 			m_pPictureStore[nSurfaceIndex].rtStart		= rtStart;
 			m_pPictureStore[nSurfaceIndex].rtStop		= rtStop;
+			m_pPictureStore[nSurfaceIndex].n1FieldType	= nFieldType;
 		}
-
-		if (nFieldType == PICT_FRAME)
-			m_pPictureStore[nSurfaceIndex].n1FieldType = PICT_FRAME;
-
+	
 		m_nFieldSurface	= -1;
 		m_nWaitingPics++;
 		return true;
@@ -541,7 +540,7 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 	if(CComQIPtr<IMediaSample2> pMS2 = pMS)
 	{
 		AM_SAMPLE2_PROPERTIES props;
-		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
+		if(m_pFilter->IsVideoInterlaced() && SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
 		{
 			props.dwTypeSpecificFlags &= ~0x7f;
 

@@ -113,7 +113,7 @@ protected :
 	HRESULT					QueryStatus(PVOID LPDXVAStatus, UINT nSize);
 
 	// === Picture store functions
-	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);
+	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);
 	void					UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
