@@ -383,8 +383,8 @@ BEGIN
     GROUPBOX        "Menu contextuel de l'explorateur",IDC_STATIC,6,156,176,23
     CONTROL         "Répertoire",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,165,83,10
     CONTROL         "Fichier(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,165,76,10
-    GROUPBOX        "Association",IDC_STATIC,185,156,104,23 // TODO
-    CONTROL         "With icons",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,192,165,86,10 // TODO    
+    GROUPBOX        "Association",IDC_STATIC,185,156,104,23
+    CONTROL         "Utiliser les icones de MPC",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,192,165,95,10
 END
 
 IDD_PPAGETWEAKS DIALOGEX 0, 0, 296, 241
@@ -3045,21 +3045,21 @@ BEGIN
 	IDS_AG_ZOOM_50			"Zoom 50%"
 	IDS_AG_ZOOM_100			"Zoom 100%"
 	IDS_AG_ZOOM_200			"Zoom 200%"
-	IDS_AG_NEXT_AR_PRESET	"Next AR Preset" // TODO
-	IDS_AG_VIDFRM_STRETCH	"VidFrm Stretch" // TODO
-	IDS_AG_VIDFRM_INSIDE	"VidFrm Inside" // TODO
-	IDS_AG_VIDFRM_OUTSIDE	"VidFrm Outside" // TODO
-	IDS_AG_PNS_RESET		"PnS Reset" // TODO
+	IDS_AG_NEXT_AR_PRESET	"Réglage panoramique suivant"
+	IDS_AG_VIDFRM_STRETCH	"Ajuster à la fenêtre"
+	IDS_AG_VIDFRM_INSIDE	"Ajuster à l'intérieur de la fenêtre"
+	IDS_AG_VIDFRM_OUTSIDE	"Ajuster à l'extérieur de la fenêtre"
+	IDS_AG_PNS_RESET		"Rétablir le panoramique"
 END
 
 STRINGTABLE 
 BEGIN
-	IDS_AG_PNS_ROTATEX_P	"PnS Rotate X+" // TODO
-	IDS_AG_PNS_ROTATEX_M	"PnS Rotate X-" // TODO
-	IDS_AG_PNS_ROTATEY_P	"PnS Rotate Y+" // TODO
-	IDS_AG_PNS_ROTATEY_M	"PnS Rotate Y-" // TODO
-	IDS_AG_PNS_ROTATEZ_P	"PnS Rotate Z+" // TODO
-	IDS_AG_PNS_ROTATEZ_M	"PnS Rotate Z-" // TODO
+	IDS_AG_PNS_ROTATEX_P	"Rotation panoramique X+"
+	IDS_AG_PNS_ROTATEX_M	"Rotation panoramique X-"
+	IDS_AG_PNS_ROTATEY_P	"Rotation panoramique Y+"
+	IDS_AG_PNS_ROTATEY_M	"Rotation panoramique Y-"
+	IDS_AG_PNS_ROTATEZ_P	"Rotation panoramique Z+"
+	IDS_AG_PNS_ROTATEZ_M	"Rotation panoramique Z-"
 	IDS_AG_TEARING_TEST		"Afficher le test de Tearing"
 	IDS_AT_TOGGLE_SHADER	"Activer les Pixels Shaders"
 END
