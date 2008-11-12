@@ -4671,8 +4671,10 @@ void CMainFrame::OnViewTearingTest()
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	pCmdUI->Enable (s.fShowOSD);
-	pCmdUI->SetCheck (s.fShowOSD && (AfxGetMyApp()->m_fDisplayStats));
+	bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck (supported && (AfxGetMyApp()->m_fDisplayStats));
 }
 
 void CMainFrame::OnViewDisplayStats()
