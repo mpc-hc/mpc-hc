@@ -1400,7 +1400,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	int						h = abs(vih2->bmiHeader.biHeight);
 
 	m_NativeVideoSize = CSize(w, h);
-	hr = AllocSurfaces();
+	hr = AllocSurfaces(D3DFMT_X8R8G8B8);
 
 	CAutoLock lock(this);
 	RemoveAllSamples();

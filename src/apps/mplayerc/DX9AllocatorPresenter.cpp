@@ -419,7 +419,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 	return S_OK;
 } 
 
-HRESULT CDX9AllocatorPresenter::AllocSurfaces()
+HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
 {
     CAutoLock cAutoLock(this);
 
@@ -443,7 +443,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 		{
 			if(FAILED(hr = m_pD3DDev->CreateTexture(
 				m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, 
-				D3DUSAGE_RENDERTARGET, /*D3DFMT_X8R8G8B8*/D3DFMT_A8R8G8B8, 
+				D3DUSAGE_RENDERTARGET, Format/*D3DFMT_X8R8G8B8 D3DFMT_A8R8G8B8*/, 
 				D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL)))
 				return hr;
 

@@ -3061,6 +3061,9 @@ BEGIN
 	IDS_AG_PNS_ROTATEZ_M	"Rotation panoramique Z-"
 	IDS_AG_TEARING_TEST		"Afficher le test de Tearing"
 	IDS_AT_TOGGLE_SHADER	"Activer les Pixels Shaders"
+	IDS_SCALE_16_9			"Affichage 16:9 TV,%.3f,%.3f,%.3f,%.3f"
+	IDS_SCALE_WIDESCREEN	"Zoom écran large,%.3f,%.3f,%.3f,%.3f"
+	IDS_SCALE_ULTRAWIDE		"Zoom écran ultra-large,%.3f,%.3f,%.3f,%.3f"
 END
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////

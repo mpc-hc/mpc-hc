@@ -1959,11 +1959,11 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			double _235p1 = 2.35/1.0;
 
 			CString str;
-			str.Format(_T("Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"), 0.5, 0.5, _4p3/_4p3, _16p9/_4p3);
+			str.Format(ResStr(IDS_SCALE_16_9), 0.5, 0.5, _4p3/_4p3, _16p9/_4p3);
 			m_pnspresets.Add(str);
-			str.Format(_T("Zoom To Widescreen,%.3f,%.3f,%.3f,%.3f"), 0.5, 0.5, _16p9/_4p3, _16p9/_4p3);
+			str.Format(ResStr(IDS_SCALE_WIDESCREEN), 0.5, 0.5, _16p9/_4p3, _16p9/_4p3);
 			m_pnspresets.Add(str);
-			str.Format(_T("Zoom To Ultra-Widescreen,%.3f,%.3f,%.3f,%.3f"), 0.5, 0.5, _235p1/_4p3, _235p1/_4p3);
+			str.Format(ResStr(IDS_SCALE_ULTRAWIDE), 0.5, 0.5, _235p1/_4p3, _235p1/_4p3);
 			m_pnspresets.Add(str);
 		}
 

@@ -57,7 +57,7 @@ namespace DSObjects
 		CAutoPtr<CPixelShaderCompiler>		m_pPSC;
 
 		virtual HRESULT CreateDevice();
-		virtual HRESULT AllocSurfaces();
+		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
 		virtual void DeleteSurfaces();
 
 		UINT GetAdapter(IDirect3D9 *pD3D);
