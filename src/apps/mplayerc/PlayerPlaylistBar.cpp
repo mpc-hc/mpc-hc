@@ -234,8 +234,8 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 					for(int i = 0; i < mf.GetCount(); i++)
 					{
 						CMediaFormatCategory& mfc = mf.GetAt(i);
-						/* image and playlist files are skipped when playing the contents of an entire directory */
-						if((mfc.FindExt(ext)) && (mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE)) != 0) && (mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE)) != 0))
+						/* playlist files are skipped when playing the contents of an entire directory */
+						if((mfc.FindExt(ext)) && (mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE)) != 0))
 						{
 							sl.AddTail(path);
 							break;

@@ -841,7 +841,6 @@ BOOL CMPlayerCApp::InitInstance()
 
 		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
-			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
 			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) continue;
 				
 			bool fAudioOnly = mf[i].IsAudioOnly();

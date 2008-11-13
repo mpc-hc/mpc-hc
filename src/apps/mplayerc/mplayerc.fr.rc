@@ -2591,7 +2591,6 @@ BEGIN
     IDS_MEDIAFORMATS_28     "Fichier Flash Video"
     IDS_MEDIAFORMATS_29     "Fichier Shockwave Flash"
     IDS_MEDIAFORMATS_30     "Fichier Quicktime"
-    IDS_AG_IMAGE_FILE       "Fichier Image"
     IDS_AG_PLAYLIST_FILE    "Fichier Playlist"
     IDS_AG_OTHER            "Autres "
     IDS_MEDIAFORMATS_34     "Fichiers multimedia (tous types)|"

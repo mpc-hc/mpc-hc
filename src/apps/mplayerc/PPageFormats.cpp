@@ -475,8 +475,7 @@ BOOL CPPageFormats::OnInitDialog()
 	{
 		CString label;
 		label.Format (_T("%s (%s)"), mf[i].GetLabel(), mf[i].GetExts());
-		// HACK: sorry, mpc is just not an image viewer :)
-		if(!label.CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) continue;
+
 		int iItem = m_list.InsertItem(i, label);
 		m_list.SetItemData(iItem, i);
 		engine_t e = mf[i].GetEngineType();
@@ -937,8 +936,7 @@ void CPPageFormats::OnBnClickedButton14()
 
 	for(int i = 0, j = m_list.GetItemCount(); i < j; i++)
 	{
-		if((!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(ResStr(IDS_AG_IMAGE_FILE))) || 
-		   (!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))))
+		if(!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE)))
 		{
 			SetChecked(i, 0);	
 			continue;
