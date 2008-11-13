@@ -225,10 +225,13 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		{
 			UNREFERENCED_PARAMETER(at);
 			AudioTag at;
+			name = L"Audio";
+
 			if(ReadTag(at))
 			{
+				int dataSize = t.DataSize - 1;
+
 				fTypeFlagsAudio = false;
-				name = L"Audio";
 
 				mt.majortype = MEDIATYPE_Audio;
 				mt.formattype = FORMAT_WaveFormatEx;
@@ -267,6 +270,43 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				case 6 :	// FLV_CODECID_NELLYMOSER
 					mt.subtype = FOURCCMap(MAKEFOURCC('N','E','L','L'));
 					break;
+				case 10: { // FLV_CODECID_AAC
+					if (dataSize < 1 || m_pFile->BitRead(8) != 0) { // packet type 0 == aac header
+						fTypeFlagsAudio = true;
+						break;
+					}
+
+					const int sampleRates[16] = {
+						96000, 88200, 64000, 48000, 44100, 32000, 24000,
+						22050, 16000, 12000, 11025, 8000, 7350
+					};
+					const int channels[8] = {
+						0, 1, 2, 3, 4, 5, 6, 8
+					};
+
+					__int64 configOffset = m_pFile->GetPos();
+					UINT32 configSize = dataSize - 1;
+					if (configSize < 2) break;
+
+					// Might break depending on the AAC profile, see ff_mpeg4audio_get_config in ffmpeg's mpeg4audio.c
+					m_pFile->BitRead(5);
+					int iSampleRate = m_pFile->BitRead(4);
+					int iChannels = m_pFile->BitRead(4);
+					if (iSampleRate > 12 || iChannels > 7) break;
+
+					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + configSize);
+					memset(wfe, 0, mt.FormatLength());
+					wfe->nSamplesPerSec = sampleRates[iSampleRate];
+					wfe->wBitsPerSample = 16;
+					wfe->nChannels = channels[iChannels];
+					wfe->cbSize = configSize;
+
+					m_pFile->Seek(configOffset);
+					m_pFile->ByteRead((BYTE*)(wfe+1), configSize);
+
+					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
+				}
+				
 				}
 			}
 		}
@@ -276,6 +316,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			VideoTag vt;
 			if(ReadTag(vt) && vt.FrameType == 1)
 			{
+				int dataSize = t.DataSize - 1;
+
 				fTypeFlagsVideo = false;
 				name = L"Video";
 
@@ -290,7 +332,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				switch(vt.CodecID)
 				{
-				case 2: 
+				case 2:   // H.263
 					if(m_pFile->BitRead(17) != 1) break;
 
 					m_pFile->BitRead(13); // Version (5), TemporalReference (8)
@@ -318,10 +360,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					break;
 
-				case 5:
+				case 5:  // VP6 with alpha
 					m_pFile->BitRead(24);
-				case 4:
-					{
+				case 4: { // VP6
 					#ifdef NOVIDEOTWEAK
 					m_pFile->BitRead(8);
 					#else					
@@ -330,9 +371,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					#endif
 				
 					if (m_pFile->BitRead(1)) {
-					// Delta (inter) frame
-					fTypeFlagsVideo = true;
-					break;
+						// Delta (inter) frame
+						fTypeFlagsVideo = true;
+						break;
 					}
 					m_pFile->BitRead(6);
 					bool fSeparatedCoeff = !!m_pFile->BitRead(1);
@@ -340,7 +381,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					int filterHeader = m_pFile->BitRead(2);
 					m_pFile->BitRead(1);
 					if (fSeparatedCoeff || !filterHeader) {
-					m_pFile->BitRead(16);
+						m_pFile->BitRead(16);
 					}
 
 					h = m_pFile->BitRead(8) * 16;
@@ -349,8 +390,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					ary = m_pFile->BitRead(8) * 16;
 					arx = m_pFile->BitRead(8) * 16;
 
-					if(arx && arx != w || ary && ary != h)
-					{
+					if(arx && arx != w || ary && ary != h) {
 						VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER2));
 						memset(vih2, 0, sizeof(VIDEOINFOHEADER2));
 						vih2->dwPictAspectRatioX = arx;
@@ -366,16 +406,104 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					#endif
 
 					mt.subtype = FOURCCMap(bih->biCompression = '4VLF');
-					}
-					break;
 
-				//case 7 :	// H264
-				//	int		nPacketType;
-				//	int		nTime;
-				//	
-				//	nPacketType = m_pFile->BitRead(8);	// 0 : seq, 1 : NALU, 2 : end of seq
-				//	nTime		= m_pFile->BitRead(24);
-				//	break;
+					break;
+				}
+				case 7: { // H.264
+					if (dataSize < 4 || m_pFile->BitRead(8) != 0) { // packet type 0 == avc header
+						fTypeFlagsVideo = true;
+						break;
+					}
+					m_pFile->BitRead(24); // composition time
+
+					__int64 headerOffset = m_pFile->GetPos();
+					UINT32 headerSize = dataSize - 4;
+					BYTE *headerData = new BYTE[headerSize];
+
+					m_pFile->ByteRead(headerData, headerSize);
+
+					m_pFile->Seek(headerOffset + 9);
+
+					mt.formattype = FORMAT_MPEG2Video;
+					MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + headerSize);
+					memset(vih, 0, mt.FormatLength());
+					vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
+					vih->hdr.bmiHeader.biPlanes = 1;
+					vih->hdr.bmiHeader.biBitCount = 24;
+					vih->dwFlags = (headerData[4] & 0x03) + 1; // nal length size
+
+					vih->dwProfile = (BYTE)m_pFile->BitRead(8);
+					m_pFile->BitRead(8);
+					vih->dwLevel = (BYTE)m_pFile->BitRead(8);
+					m_pFile->UExpGolombRead(); // seq_parameter_set_id
+					if(vih->dwProfile >= 100) { // high profile
+						if(m_pFile->UExpGolombRead() == 3) // chroma_format_idc
+							m_pFile->BitRead(1); // residue_transform_flag
+						m_pFile->UExpGolombRead(); // bit_depth_luma_minus8
+						m_pFile->UExpGolombRead(); // bit_depth_chroma_minus8
+						m_pFile->BitRead(1); // qpprime_y_zero_transform_bypass_flag
+						if(m_pFile->BitRead(1)) // seq_scaling_matrix_present_flag
+							for(int i = 0; i < 8; i++)
+								if(m_pFile->BitRead(1)) // seq_scaling_list_present_flag
+									for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j)
+										next = (next + m_pFile->SExpGolombRead() + 256) & 255;
+					}
+					m_pFile->UExpGolombRead(); // log2_max_frame_num_minus4
+					UINT64 pic_order_cnt_type = m_pFile->UExpGolombRead();
+					if(pic_order_cnt_type == 0) {
+						m_pFile->UExpGolombRead(); // log2_max_pic_order_cnt_lsb_minus4
+					}
+					else if(pic_order_cnt_type == 1) {
+						m_pFile->BitRead(1); // delta_pic_order_always_zero_flag
+						m_pFile->SExpGolombRead(); // offset_for_non_ref_pic
+						m_pFile->SExpGolombRead(); // offset_for_top_to_bottom_field
+						UINT64 num_ref_frames_in_pic_order_cnt_cycle = m_pFile->UExpGolombRead();
+						for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++)
+							m_pFile->SExpGolombRead(); // offset_for_ref_frame[i]
+					}
+					m_pFile->UExpGolombRead(); // num_ref_frames
+					m_pFile->BitRead(1); // gaps_in_frame_num_value_allowed_flag
+					UINT64 pic_width_in_mbs_minus1 = m_pFile->UExpGolombRead();
+					UINT64 pic_height_in_map_units_minus1 = m_pFile->UExpGolombRead();
+					BYTE frame_mbs_only_flag = (BYTE)m_pFile->BitRead(1);
+					vih->hdr.bmiHeader.biWidth = vih->hdr.dwPictAspectRatioX = (LONG)((pic_width_in_mbs_minus1 + 1) * 16);
+					vih->hdr.bmiHeader.biHeight = vih->hdr.dwPictAspectRatioY = (LONG)((2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16);
+
+					BYTE* src = (BYTE*)headerData + 5;
+					BYTE* dst = (BYTE*)vih->dwSequenceHeader;
+					BYTE* src_end = (BYTE*)headerData + headerSize;
+					BYTE* dst_end = (BYTE*)vih->dwSequenceHeader + headerSize;
+					int spsCount = *(src++) & 0x1F;
+					int ppsCount = -1;
+
+					vih->cbSequenceHeader = 0;
+
+					while (src < src_end - 1) {
+						if (spsCount == 0 && ppsCount == -1) {
+							ppsCount = *(src++);
+							continue;
+						}
+
+						if (spsCount > 0) spsCount--;
+						else if (ppsCount > 0) ppsCount--;
+						else break;
+
+						int len = ((src[0] << 8) | src[1]) + 2;
+						if(src + len > src_end || dst + len > dst_end) {ASSERT(0); break;}
+						memcpy(dst, src, len);
+						src += len; 
+						dst += len;
+						vih->cbSequenceHeader += len;
+					}
+
+					delete[] headerData;
+
+					mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = '1CVA');
+
+					break;
+				}
+				default:
+					fTypeFlagsVideo = true;
 				}
 			}
 		}
@@ -501,22 +629,35 @@ bool CFLVSplitterFilter::DemuxLoop()
 	{
 		if(!ReadTag(t)) break;
 
-		UINT64 next = m_pFile->GetPos() + t.DataSize;
+		__int64 next = m_pFile->GetPos() + t.DataSize;
 
 		if((t.DataSize > 0) && (t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt)))
 		{
-			p.Attach(new Packet());
-			p->TrackNumber = t.TagType;
-			p->rtStart = 10000i64 * t.TimeStamp; 
-			p->rtStop = p->rtStart + 1;
-			p->bSyncPoint = t.TagType == 9 ? vt.FrameType == 1 : true;
+			UINT32 tsOffset = 0;
+			if(t.TagType == 9 && vt.FrameType == 5) goto NextTag; // video info/command frame
 			if(t.TagType == 9 && vt.CodecID == 4) m_pFile->BitRead(8);
 			if(t.TagType == 9 && vt.CodecID == 5) m_pFile->BitRead(32);
-			p->SetCount(next - m_pFile->GetPos());
+			if(t.TagType == 9 && vt.CodecID == 7) {
+				if (m_pFile->BitRead(8) != 1) goto NextTag;
+				// Tag timestamps specify decode time, this is the display time offset
+				tsOffset = m_pFile->BitRead(24);
+			}
+			if(t.TagType == 8 && at.SoundFormat == 10) {
+				if (m_pFile->BitRead(8) != 1) goto NextTag;
+			}
+			__int64 dataSize = next - m_pFile->GetPos();
+			if (dataSize <= 0) goto NextTag;
+			p.Attach(new Packet());
+			p->TrackNumber = t.TagType;
+			p->rtStart = 10000i64 * (t.TimeStamp + tsOffset); 
+			p->rtStop = p->rtStart + 1;
+			p->bSyncPoint = t.TagType == 9 ? vt.FrameType == 1 : true;
+			p->SetCount(dataSize);
 			m_pFile->ByteRead(p->GetData(), p->GetCount());
-			hr = DeliverPacket(p); 
+			hr = DeliverPacket(p);
 		}
 
+NextTag:
 		m_pFile->Seek(next);
 	}
 
