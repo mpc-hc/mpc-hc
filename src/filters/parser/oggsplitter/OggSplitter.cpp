@@ -222,7 +222,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					pOggPin->AddComment(p+6, page.GetCount()-6-1);
 				}
 			}
-			else if(!(type&1) && !(type&0x80) && nWaitForMore == 0)
+			else if(!(type&1) && nWaitForMore == 0)
 			{
 				break;
 			}
