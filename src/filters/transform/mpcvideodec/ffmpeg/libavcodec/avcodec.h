@@ -43,7 +43,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR  2
+#define LIBAVCODEC_VERSION_MINOR  3
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -1120,7 +1120,7 @@ typedef struct AVCodecContext {
      * - encoding: Set by libavcodec, user can override.
      * - decoding: Set by libavcodec, user can override.
      */
-    int (*execute)(struct AVCodecContext *c, int (*func)(struct AVCodecContext *c2, void *arg), void **arg2, int *ret, int count);
+    int (*execute)(struct AVCodecContext *c, int (*func)(struct AVCodecContext *c2, void *arg), void *arg2, int *ret, int count, int size);
 
     /**
      * thread opaque
@@ -1483,8 +1483,8 @@ enum PixelFormat avcodec_default_get_format(struct AVCodecContext *s, const enum
 
 FF_EXPORT int avcodec_thread_init(AVCodecContext *s, int thread_count);
 FF_EXPORT void avcodec_thread_free(AVCodecContext *s);
-int avcodec_thread_execute(AVCodecContext *s, int (*func)(AVCodecContext *c2, void *arg2),void **arg, int *ret, int count);
-int avcodec_default_execute(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2),void **arg, int *ret, int count);
+int avcodec_thread_execute(AVCodecContext *s, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
+int avcodec_default_execute(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
 //FIXME func typedef
 
 /**
