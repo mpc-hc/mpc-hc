@@ -7521,7 +7521,7 @@ static void execute_decode_slices(H264Context *h, int context_count){
         if(avctx->thread_count > 1 && h->pps.cabac && !(FIELD_OR_MBAFF_PICTURE)) {
             decode_slice2(avctx, h);
         } else {
-            decode_slice(avctx, h);
+            decode_slice(avctx, &h);
         }
     } else {
         for(i = 1; i < context_count; i++) {
