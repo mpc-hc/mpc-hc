@@ -146,34 +146,42 @@ bool CFLVSplitterFilter::Sync(__int64& pos)
 {
 	m_pFile->Seek(pos);
 
-	while(m_pFile->GetRemaining() >= 11)
+	while(m_pFile->GetRemaining() >= 15)
 	{
-		int limit = m_pFile->GetRemaining();
+		__int64 limit = m_pFile->GetRemaining();
+		while (true) {
+			BYTE b = m_pFile->BitRead(8);
+			if (b == 8 || b == 9) break;
+			if (--limit < 15) return false;
+		}
 
-		BYTE b;
-		do {b = m_pFile->BitRead(8);}
-		while(b != 8 && b != 9 && limit-- > 0);
+		pos = m_pFile->GetPos() - 5;
+		m_pFile->Seek(pos);
 
-		pos = m_pFile->GetPos();
-
-		UINT32 DataSize = (UINT32)m_pFile->BitRead(24);
-		UINT32 TimeStamp = (UINT32)m_pFile->BitRead(24);
-		UINT32 Reserved = (UINT32)m_pFile->BitRead(32);
-
-		__int64 next = m_pFile->GetPos() + DataSize;
-		
-		if(next <= m_pFile->GetLength())
-		{
-			m_pFile->Seek(next);
-
-			if(next == m_pFile->GetLength() || m_pFile->BitRead(32) == DataSize + 11)
-			{
-				m_pFile->Seek(pos -= 5);
+		Tag ct;
+		if (ReadTag(ct)) {
+			__int64 next = m_pFile->GetPos() + ct.DataSize;
+			if(next == m_pFile->GetLength() - 4) {
+				m_pFile->Seek(pos);
 				return true;
+			}
+			else if (next <= m_pFile->GetLength() - 19) {
+				m_pFile->Seek(next);
+				Tag nt;
+				if (ReadTag(nt) && (nt.TagType == 8 || nt.TagType == 9 || nt.TagType == 18)) {
+					if ((nt.PreviousTagSize == ct.DataSize + 11) ||
+						(m_IgnorePrevSizes &&
+						 nt.TimeStamp >= ct.TimeStamp &&
+						 nt.TimeStamp - ct.TimeStamp <= 1000))
+					{
+						m_pFile->Seek(pos);
+						return true;
+					}
+				}
 			}
 		}
 
-		m_pFile->Seek(pos);
+		m_pFile->Seek(pos + 5);
 	}
 
 	return false;
@@ -209,6 +217,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	AudioTag at;
 	VideoTag vt;
 
+	UINT32 prevTagSize = 0;
+	m_IgnorePrevSizes = false;
+
 	m_pFile->Seek(m_DataOffset);
 
 	for(int i = 0; ReadTag(t) && (fTypeFlagsVideo || fTypeFlagsAudio) && i < 100; i++)
@@ -220,6 +231,11 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		CMediaType mt;
 		mt.SetSampleSize(1);
 		mt.subtype = GUID_NULL;
+
+		if (i != 0 && t.PreviousTagSize != prevTagSize) {
+			m_IgnorePrevSizes = true;
+		}
+		prevTagSize = t.DataSize + 11;
 
 		if(t.TagType == 8 && t.DataSize != 0 && fTypeFlagsAudio)
 		{
@@ -276,11 +292,11 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						break;
 					}
 
-					const int sampleRates[16] = {
+					const int sampleRates[] = {
 						96000, 88200, 64000, 48000, 44100, 32000, 24000,
 						22050, 16000, 12000, 11025, 8000, 7350
 					};
-					const int channels[8] = {
+					const int channels[] = {
 						0, 1, 2, 3, 4, 5, 6, 8
 					};
 
@@ -521,7 +537,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	if(m_pFile->IsRandomAccess())
 	{
-		__int64 pos = max(m_DataOffset, m_pFile->GetLength() - 65536);
+		__int64 pos = max(m_DataOffset, m_pFile->GetLength() - 256 * 1024);
 
 		if(Sync(pos))
 		{
@@ -555,62 +571,119 @@ bool CFLVSplitterFilter::DemuxInit()
 
 void CFLVSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-	if(!m_rtDuration || rt <= 0)
-	{
+	if(!m_rtDuration || rt <= 0) {
 		m_pFile->Seek(m_DataOffset);
 	}
-	else
+	else if (!m_IgnorePrevSizes) {
+		NormalSeek(rt);
+	}
+	else {
+		AlternateSeek(rt);
+	}
+}
+
+void CFLVSplitterFilter::NormalSeek(REFERENCE_TIME rt)
+{
+	bool fAudio = !!GetOutputPin(8);
+	bool fVideo = !!GetOutputPin(9);
+
+	__int64 pos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
+
+	if(!Sync(pos))
 	{
-		bool fAudio = !!GetOutputPin(8);
-		bool fVideo = !!GetOutputPin(9);
+		ASSERT(0);
+		m_pFile->Seek(m_DataOffset);
+		return;
+	}
 
-		__int64 pos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
+	Tag t;
+	AudioTag at;
+	VideoTag vt;
 
-		if(!Sync(pos))
+	while(ReadTag(t))
+	{
+		if(10000i64 * t.TimeStamp >= rt)
 		{
-			ASSERT(0);
-			m_pFile->Seek(m_DataOffset);
+			m_pFile->Seek(m_pFile->GetPos() - 15);
+			break;
+		}
+
+		m_pFile->Seek(m_pFile->GetPos() + t.DataSize);
+	}
+
+	while(m_pFile->GetPos() >= m_DataOffset && (fAudio || fVideo) && ReadTag(t))
+	{
+		UINT64 prev = m_pFile->GetPos() - 15 - t.PreviousTagSize - 4;
+
+		if(10000i64 * t.TimeStamp <= rt)
+		{
+			if(t.TagType == 8 && ReadTag(at))
+			{
+				fAudio = false;
+			}
+			else if(t.TagType == 9 && ReadTag(vt) && vt.FrameType == 1)
+			{
+				fVideo = false;
+			}
+		}
+
+		m_pFile->Seek(prev);
+	}
+
+	if(fAudio || fVideo)
+	{
+		ASSERT(0);
+		m_pFile->Seek(m_DataOffset);
+	}
+}
+
+void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
+{
+	bool hasAudio = !!GetOutputPin(8);
+	bool hasVideo = !!GetOutputPin(9);
+
+	__int64 estimPos = m_DataOffset + 1.0 * rt / m_rtDuration * (m_pFile->GetLength() - m_DataOffset);
+	__int64 seekBack = 256 * 1024;
+
+	while (true) {
+		bool foundAudio = false;
+		bool foundVideo = false;
+		__int64 bestPos;
+
+		estimPos = max(estimPos - seekBack, m_DataOffset);
+		seekBack *= 2;
+
+		if (Sync(estimPos)) {
+			Tag t;
+			AudioTag at;
+			VideoTag vt;
+
+			while (ReadTag(t) && t.TimeStamp * 10000i64 < rt) {
+				__int64 cur = m_pFile->GetPos() - 15;
+				__int64 next = cur + 15 + t.DataSize;
+
+				if (hasAudio && t.TagType == 8 && ReadTag(at)) {
+					foundAudio = true;
+					if (!hasVideo) bestPos = cur;
+				}
+				else if (hasVideo && t.TagType == 9 && ReadTag(vt) && vt.FrameType == 1) {
+					foundVideo = true;
+					bestPos = cur;
+				}
+
+				m_pFile->Seek(next);
+			}
+		}
+
+		if ((hasAudio && !foundAudio) || (hasVideo && !foundVideo)) {
+			if (estimPos == m_DataOffset) {
+				m_pFile->Seek(m_DataOffset);
+				return;
+			}
+		}
+		else {
+			m_pFile->Seek(bestPos);
 			return;
-		}
-
-		Tag t;
-		AudioTag at;
-		VideoTag vt;
-
-		while(ReadTag(t))
-		{
-			if(10000i64 * t.TimeStamp >= rt)
-			{
-				m_pFile->Seek(m_pFile->GetPos() - 15);
-				break;
-			}
-
-			m_pFile->Seek(m_pFile->GetPos() + t.DataSize);
-		}
-
-		while(m_pFile->GetPos() >= m_DataOffset && (fAudio || fVideo) && ReadTag(t))
-		{
-			UINT64 prev = m_pFile->GetPos() - 15 - t.PreviousTagSize - 4;
-
-			if(10000i64 * t.TimeStamp <= rt)
-			{
-				if(t.TagType == 8 && ReadTag(at))
-				{
-					fAudio = false;
-				}
-				else if(t.TagType == 9 && ReadTag(vt) && vt.FrameType == 1)
-				{
-					fVideo = false;
-				}
-			}
-
-			m_pFile->Seek(prev);
-		}
-
-		if(fAudio || fVideo)
-		{
-			ASSERT(0);
-			m_pFile->Seek(m_DataOffset);
 		}
 	}
 }

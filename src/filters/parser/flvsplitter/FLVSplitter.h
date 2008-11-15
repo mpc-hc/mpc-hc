@@ -28,6 +28,7 @@
 class CFLVSplitterFilter : public CBaseSplitterFilter
 {
 	UINT32 m_DataOffset;
+	bool m_IgnorePrevSizes;
 
 	bool Sync(__int64& pos);
 
@@ -67,6 +68,9 @@ class CFLVSplitterFilter : public CBaseSplitterFilter
 	};
 
 	bool ReadTag(VideoTag& vt);
+
+	void NormalSeek(REFERENCE_TIME rt);
+	void AlternateSeek(REFERENCE_TIME rt);
 
 protected:
 	CAutoPtr<CBaseSplitterFileEx> m_pFile;
