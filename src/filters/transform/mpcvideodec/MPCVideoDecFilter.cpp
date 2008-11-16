@@ -491,7 +491,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
 	m_nARMode				= 0;
-	m_sar					= 0;
+	m_sar.SetSize(0,0);
 	
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
@@ -1352,29 +1352,17 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
 
-	if((m_nARMode) && (m_pAVCtx))
-	{
-		if((m_pAVCtx->sample_aspect_ratio.num>1) && (m_pAVCtx->sample_aspect_ratio.num>1))
-		{
-			double SAR = ((double)m_pAVCtx->sample_aspect_ratio.num/(double)m_pAVCtx->sample_aspect_ratio.den);
-			if(m_sar != SAR)
-			{
-				m_sar = SAR;
-				double DAR = SAR * m_nWidth/m_nHeight;
-				CSize aspect(0,0);
-				aspect.cy = m_nHeight;
-				aspect.cx = (int)m_nHeight*DAR;
-	
-				int lnko = 0;
-				do
-				{
-					lnko = LNKO(aspect.cx, aspect.cy);
-					if(lnko > 1) aspect.cx /= lnko, aspect.cy /= lnko;
-				}
-				while(lnko > 1);
-				if(aspect.cx != aspect.cy) SetAspect(aspect);
-			}
-		}
+	if((m_nARMode) && (m_pAVCtx)) 
+	{ 
+		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 
+		if(m_sar != SAR) 
+		{ 
+			m_sar = SAR; 
+			CSize aspect(m_nWidth * SAR.cx, m_nHeight * SAR.cy); 
+			int lnko = LNKO(aspect.cx, aspect.cy); 
+			if(lnko > 1) aspect.cx /= lnko, aspect.cy /= lnko; 
+			SetAspect(aspect); 
+		} 
 	}
 
 	switch (m_nDXVAMode)

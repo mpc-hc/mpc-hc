@@ -104,7 +104,7 @@ protected:
 	
 	bool									m_bUseDXVA;
 	bool									m_bUseFFmpeg;				
-	double									m_sar;					// aspect ratio
+	CSize 								m_sar;
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
