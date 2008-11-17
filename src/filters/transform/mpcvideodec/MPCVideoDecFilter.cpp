@@ -491,7 +491,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
 	m_nARMode				= 0;
-	m_sar.SetSize(0,0);
+	m_sar.SetSize(1,1);
 	
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Video Decoder"), KEY_READ))
@@ -1352,7 +1352,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
 
-	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>1) && (m_pAVCtx->sample_aspect_ratio.den>1)))
+	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>0) && (m_pAVCtx->sample_aspect_ratio.den>0)))
 	{ 
 		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 
 		if(m_sar != SAR) 
