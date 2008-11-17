@@ -1352,7 +1352,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
 
-	if((m_nARMode) && (m_pAVCtx)) 
+	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>1) && (m_pAVCtx->sample_aspect_ratio.den>1)))
 	{ 
 		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 
 		if(m_sar != SAR) 
