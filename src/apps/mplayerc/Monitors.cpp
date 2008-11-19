@@ -30,7 +30,9 @@
 
 CMonitors::CMonitors()
 {
-	m_MonitorArray.SetSize( GetMonitorCount() );
+	// WARNING : GetSystemMetrics(SM_CMONITORS) return only visible display monitors, and  EnumDisplayMonitors
+	// enumerate visible and pseudo invisible monitors !!!
+//	m_MonitorArray.SetSize( GetMonitorCount() );
 
 	ADDMONITOR addMonitor;
 	addMonitor.pMonitors = &m_MonitorArray;
@@ -55,7 +57,7 @@ BOOL CALLBACK CMonitors::AddMonitorsCallBack( HMONITOR hMonitor, HDC hdcMonitor,
 	CMonitor* pMonitor = new CMonitor;
 	pMonitor->Attach( hMonitor );
 
-	pAddMonitor->pMonitors->SetAt( pAddMonitor->currentIndex, pMonitor );
+	pAddMonitor->pMonitors->Add( pMonitor );
 	pAddMonitor->currentIndex++;
 
 	return TRUE;
