@@ -1524,85 +1524,6 @@ static inline int get_chroma_qp(H264Context *h, int t, int qscale){
     return h->pps.chroma_qp_table[t][qscale];
 }
 
-//FIXME need to check that this does not overflow signed 32 bit for low qp, I am not sure, it's very close
-//FIXME check that gcc inlines this (and optimizes intra & separate_dc stuff away)
-static inline int quantize_c(DCTELEM *block, uint8_t *scantable, int qscale, int intra, int separate_dc){
-    int i;
-    const int * const quant_table= quant_coeff[qscale];
-    const int bias= intra ? (1<<QUANT_SHIFT)/3 : (1<<QUANT_SHIFT)/6;
-    const unsigned int threshold1= (1<<QUANT_SHIFT) - bias - 1;
-    const unsigned int threshold2= (threshold1<<1);
-    int last_non_zero;
-
-    if(separate_dc){
-        if(qscale<=18){
-            //avoid overflows
-            const int dc_bias= intra ? (1<<(QUANT_SHIFT-2))/3 : (1<<(QUANT_SHIFT-2))/6;
-            const unsigned int dc_threshold1= (1<<(QUANT_SHIFT-2)) - dc_bias - 1;
-            const unsigned int dc_threshold2= (dc_threshold1<<1);
-
-            int level= block[0]*quant_coeff[qscale+18][0];
-            if(((unsigned)(level+dc_threshold1))>dc_threshold2){
-                if(level>0){
-                    level= (dc_bias + level)>>(QUANT_SHIFT-2);
-                    block[0]= level;
-                }else{
-                    level= (dc_bias - level)>>(QUANT_SHIFT-2);
-                    block[0]= -level;
-                }
-//                last_non_zero = i;
-            }else{
-                block[0]=0;
-            }
-        }else{
-            const int dc_bias= intra ? (1<<(QUANT_SHIFT+1))/3 : (1<<(QUANT_SHIFT+1))/6;
-            const unsigned int dc_threshold1= (1<<(QUANT_SHIFT+1)) - dc_bias - 1;
-            const unsigned int dc_threshold2= (dc_threshold1<<1);
-
-            int level= block[0]*quant_table[0];
-            if(((unsigned)(level+dc_threshold1))>dc_threshold2){
-                if(level>0){
-                    level= (dc_bias + level)>>(QUANT_SHIFT+1);
-                    block[0]= level;
-                }else{
-                    level= (dc_bias - level)>>(QUANT_SHIFT+1);
-                    block[0]= -level;
-                }
-//                last_non_zero = i;
-            }else{
-                block[0]=0;
-            }
-        }
-        last_non_zero= 0;
-        i=1;
-    }else{
-        last_non_zero= -1;
-        i=0;
-    }
-
-    for(; i<16; i++){
-        const int j= scantable[i];
-        int level= block[j]*quant_table[j];
-
-//        if(   bias+level >= (1<<(QMAT_SHIFT - 3))
-//           || bias-level >= (1<<(QMAT_SHIFT - 3))){
-        if(((unsigned)(level+threshold1))>threshold2){
-            if(level>0){
-                level= (bias + level)>>QUANT_SHIFT;
-                block[j]= level;
-            }else{
-                level= (bias - level)>>QUANT_SHIFT;
-                block[j]= -level;
-            }
-            last_non_zero = i;
-        }else{
-            block[j]=0;
-        }
-    }
-
-    return last_non_zero;
-}
-
 static inline void mc_dir_part(H264Context *h, Picture *pic, int n, int square, int chroma_height, int delta, int list,
                            uint8_t *dest_y, uint8_t *dest_cb, uint8_t *dest_cr,
                            int src_x_offset, int src_y_offset,
@@ -3608,7 +3529,6 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     unsigned int first_mb_in_slice;
     unsigned int pps_id;
     int num_ref_idx_active_override_flag;
-    static const uint8_t slice_type_map[5]= {FF_P_TYPE, FF_B_TYPE, FF_I_TYPE, FF_SP_TYPE, FF_SI_TYPE};
     unsigned int slice_type, tmp, i, j;
     int default_ref_list_done = 0;
     int last_pic_structure;
@@ -3642,7 +3562,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     }else
         h->slice_type_fixed=0;
 
-    slice_type= slice_type_map[ slice_type ];
+    slice_type= golomb_to_pict_type[ slice_type ];
     if (slice_type == FF_I_TYPE
         || (h0->current_slice != 0 && slice_type == h0->last_slice_type) ) {
         default_ref_list_done = 1;
