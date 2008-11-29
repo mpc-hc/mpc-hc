@@ -158,10 +158,6 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	if (DxvaGui != NULL)
 	{
 		CString DXVAMode = GetDXVAMode (DxvaGui);
-#if defined(REGISTER_FILTER) | INCLUDE_MPC_VIDEO_DECODER
-		if(!DXVAMode.CompareNoCase(_T("Not using DXVA"))){} 
-		else m_cbARMode.ShowWindow (SW_HIDE);
-#endif
 		m_edtDXVAMode.SetWindowText (/*GetDXVAMode (DxvaGui)*/DXVAMode);
 	}
 	else

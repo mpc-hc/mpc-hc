@@ -32,7 +32,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
 		{
 			Tag oTag;
 			if (!ExtractTag(p_szFile, oTag))
-				break;
+				return false;
 
 			if (oTag.m_bComment)
 				continue;
@@ -125,7 +125,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
 		{
 			Tag oTextTag;
 			if (!ExtractTextTag(p_szFile, oTextTag))
-				break;
+				return false;
 
 			listTags.push_back(oTextTag);
 		}
@@ -269,8 +269,7 @@ bool CRealTextParser::ExtractTag(wstring& p_rszLine, Tag& p_rTag)
 bool CRealTextParser::ExtractTextTag(wstring& p_rszLine, Tag& p_rTag)
 {
 	p_rTag.m_bText = true;
-	ExtractString(p_rszLine, p_rTag.m_szName);
-	return true;
+	return ExtractString(p_rszLine, p_rTag.m_szName);
 }
 
 bool CRealTextParser::ExtractString(wstring& p_rszLine, wstring& p_rszString)
@@ -307,7 +306,7 @@ bool CRealTextParser::SkipSpaces(wstring& p_rszLine, unsigned int& p_riPos)
 		++p_riPos;
 	}
 
-	return true;
+	return p_rszLine.length() > p_riPos;
 }
 
 bool CRealTextParser::GetString(wstring& p_rszLine, unsigned int& p_riPos, wstring& p_rszString, const wstring& p_crszEndChars)
@@ -318,7 +317,7 @@ bool CRealTextParser::GetString(wstring& p_rszLine, unsigned int& p_riPos, wstri
 		++p_riPos;
 	}
 
-	return true;
+	return p_rszLine.length() > p_riPos;
 }
 
 bool CRealTextParser::GetAttributes(wstring& p_rszLine, unsigned int& p_riPos, map<wstring, wstring>& p_rmapAttributes)
@@ -326,7 +325,7 @@ bool CRealTextParser::GetAttributes(wstring& p_rszLine, unsigned int& p_riPos, m
 	if (!SkipSpaces(p_rszLine, p_riPos))
 		return false;
 
-	while (p_rszLine.at(p_riPos) != '/' && p_rszLine.at(p_riPos) != '>')
+	while (p_riPos>p_rszLine.length() && p_rszLine.at(p_riPos) != '/' && p_rszLine.at(p_riPos) != '>')
 	{
 		wstring szName;
 		if (!GetString(p_rszLine, p_riPos, szName, L"\r\n\t ="))
@@ -388,7 +387,7 @@ bool CRealTextParser::GetAttributes(wstring& p_rszLine, unsigned int& p_riPos, m
 			return false;
 	}
 
-	return true;
+	return p_rszLine.length() > p_riPos;
 }
 
 int CRealTextParser::GetTimecode(const wstring& p_crszTimecode)

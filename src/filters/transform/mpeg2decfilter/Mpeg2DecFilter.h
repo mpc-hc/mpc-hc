@@ -92,7 +92,7 @@ class CMpeg2DecFilter
 protected:
 	void InputTypeChanged();
 	HRESULT Transform(IMediaSample* pIn);
-	HRESULT IsVideoInterlaced();
+	bool IsVideoInterlaced();
 
 public:
 	CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr);

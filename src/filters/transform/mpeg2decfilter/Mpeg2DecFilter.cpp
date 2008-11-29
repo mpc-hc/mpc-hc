@@ -511,7 +511,7 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 	return S_OK;
 }
 
-HRESULT CMpeg2DecFilter::IsVideoInterlaced()
+bool CMpeg2DecFilter::IsVideoInterlaced()
 {
 	return IsInterlacedEnabled();
 }

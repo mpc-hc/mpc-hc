@@ -138,7 +138,7 @@ protected:
 	void				CalcAvgTimePerFrame();
 	void				DetectVideoCard();
 
-
+	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 	//void				FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
 	//void				FindStartCodeH264 (BYTE** pDataIn, int& nSize);
@@ -159,7 +159,7 @@ public:
 
 	DECLARE_IUNKNOWN
     STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void** ppv);
-	virtual HRESULT			IsVideoInterlaced();
+	virtual bool			IsVideoInterlaced();
 	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary);
 	CTransformOutputPin*	GetOutputPin() { return m_pOutput; }
 
@@ -213,6 +213,7 @@ public:
 	bool			IsDXVASupported();
 	bool			ReorderBFrame() { return m_bReorderBFrame; };
 	int				GetPCIVendor()  { return m_nPCIVendor; };
+	void			UpdateAspectRatio();
 
 	// === DXVA1 functions
 	DDPIXELFORMAT*	GetPixelFormat() { return &m_PixelFormat; }

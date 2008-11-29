@@ -257,8 +257,14 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 {
 	HRESULT					hr;
 	CComPtr<IMediaSample>	pNewSample;
+	bool bAttach;
 
-	hr = m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
+	// FIXME : A/R temporary disable (crash in DXVA1)
+	if (m_nEngine != ENGINE_DXVA1)
+		m_pFilter->UpdateAspectRatio();
+	bAttach = m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded()) == S_OK;
+	hr		= m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
+
 	if (SUCCEEDED (hr))
 	{
 		pNewSample->SetTime(&rtStart, &rtStop);
@@ -540,7 +546,7 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 	if(CComQIPtr<IMediaSample2> pMS2 = pMS)
 	{
 		AM_SAMPLE2_PROPERTIES props;
-		if(m_pFilter->IsVideoInterlaced() && SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
+		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
 		{
 			props.dwTypeSpecificFlags &= ~0x7f;
 

@@ -490,7 +490,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nVideoOutputCount		= 0;
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
-	m_nARMode				= 0;
+	m_nARMode				= 1;
 	m_sar.SetSize(1,1);
 	
 	CRegKey key;
@@ -568,9 +568,11 @@ inline int LNKO(int a, int b)
 	return(a);
 }
 
-HRESULT CMPCVideoDecFilter::IsVideoInterlaced()
+bool CMPCVideoDecFilter::IsVideoInterlaced()
 {
-	return FFIsInterlaced(m_pAVCtx, PictHeightRounded());
+	// NOT A BUG : always tell DirectShow it's interlaced (progressive flags set in 
+	// SetTypeSpecificFlags function)
+	return true;
 };
 
 
@@ -1154,6 +1156,22 @@ HRESULT CMPCVideoDecFilter::BreakConnect(PIN_DIRECTION dir)
 	return __super::BreakConnect (dir);
 }
 
+void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
+{
+	if(CComQIPtr<IMediaSample2> pMS2 = pMS)
+	{
+		AM_SAMPLE2_PROPERTIES props;
+		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
+		{
+			props.dwTypeSpecificFlags &= ~0x7f;
+			props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
+
+			// TODO : manage interleaved flags!
+
+			pMS2->SetProperties(sizeof(props), (BYTE*)&props);
+		}
+	}
+}
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
@@ -1191,6 +1209,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		CComPtr<IMediaSample>	pOut;
 		BYTE*					pDataOut = NULL;
 
+		UpdateAspectRatio();
 		if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
 			return hr;
 	
@@ -1216,6 +1235,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		rtLast = rtStart;
 #endif
 
+		SetTypeSpecificFlags (pOut);
 		hr = m_pOutput->Deliver(pOut);
 
 		nSize	-= used_bytes;
@@ -1352,19 +1372,6 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//fwrite (strMsg, strlen(strMsg), 1, hFile);
 	//fclose (hFile);
 
-	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>0) && (m_pAVCtx->sample_aspect_ratio.den>0)))
-	{ 
-		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 
-		if(m_sar != SAR) 
-		{ 
-			m_sar = SAR; 
-			CSize aspect(m_nWidth * SAR.cx, m_nHeight * SAR.cy); 
-			int lnko = LNKO(aspect.cx, aspect.cy); 
-			if(lnko > 1) aspect.cx /= lnko, aspect.cy /= lnko; 
-			SetAspect(aspect); 
-		} 
-	}
-
 	switch (m_nDXVAMode)
 	{
 	case MODE_SOFTWARE :
@@ -1382,6 +1389,24 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	return hr;
 }
+
+
+void CMPCVideoDecFilter::UpdateAspectRatio()
+{
+	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>0) && (m_pAVCtx->sample_aspect_ratio.den>0)))
+	{ 
+		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 
+		if(m_sar != SAR) 
+		{ 
+			m_sar = SAR; 
+			CSize aspect(m_nWidth * SAR.cx, m_nHeight * SAR.cy); 
+			int lnko = LNKO(aspect.cx, aspect.cy); 
+			if(lnko > 1) aspect.cx /= lnko, aspect.cy /= lnko; 
+			SetAspect(aspect); 
+		} 
+	}
+}
+
 
 void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 {

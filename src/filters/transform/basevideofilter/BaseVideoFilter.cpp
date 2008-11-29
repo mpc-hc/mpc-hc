@@ -135,7 +135,7 @@ HRESULT CBaseVideoFilter::GetDeliveryBuffer(int w, int h, IMediaSample** ppOut)
 	return S_OK;
 }
 
-HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h)
+HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample)
 {
 	CMediaType& mt = m_pOutput->CurrentMediaType();
 
@@ -189,27 +189,32 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h)
 		ASSERT(SUCCEEDED(hr)); // should better not fail, after all "mt" is the current media type, just with a different resolution
 HRESULT hr1 = 0, hr2 = 0;
 		CComPtr<IMediaSample> pOut;
-		if(SUCCEEDED(hr1 = m_pOutput->GetConnected()->ReceiveConnection(m_pOutput, &mt))
-		&& SUCCEEDED(hr2 = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0)))
+		if(SUCCEEDED(hr1 = m_pOutput->GetConnected()->ReceiveConnection(m_pOutput, &mt)))
 		{
-			AM_MEDIA_TYPE* pmt;
-			if(SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt)
+			if (bSendSample)
 			{
-				CMediaType mt = *pmt;
-				m_pOutput->SetMediaType(&mt);
-				DeleteMediaType(pmt);
+				if (SUCCEEDED(hr2 = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0)))
+				{
+					AM_MEDIA_TYPE* pmt;
+					if(SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt)
+					{
+						CMediaType mt = *pmt;
+						m_pOutput->SetMediaType(&mt);
+						DeleteMediaType(pmt);
+					}
+					else // stupid overlay mixer won't let us know the new pitch...
+					{
+						long size = pOut->GetSize();
+						bmi->biWidth = size / bmi->biHeight * 8 / bmi->biBitCount;
+					}
+				}
+				else
+				{
+					m_w = w_org;
+					m_h = h_org;
+					return E_FAIL;
+				}
 			}
-			else // stupid overlay mixer won't let us know the new pitch...
-			{
-				long size = pOut->GetSize();
-				bmi->biWidth = size / bmi->biHeight * 8 / bmi->biBitCount;
-			}
-		}
-		else
-		{
-			m_w = w_org;
-			m_h = h_org;
-			return E_FAIL;
 		}
 
 		m_wout = m_w;

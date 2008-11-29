@@ -46,20 +46,20 @@ protected:
 
 	int m_w, m_h, m_arx, m_ary;
 
-	HRESULT ReconnectOutput(int w, int h);
 	HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 
 	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary) {}
 	virtual HRESULT Transform(IMediaSample* pIn) = 0;
-	virtual HRESULT IsVideoInterlaced() {return false;}
+	virtual bool IsVideoInterlaced() {return false;}
 	virtual void GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 
 public:
 	CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers = 1);
 	virtual ~CBaseVideoFilter();
 
+	HRESULT ReconnectOutput(int w, int h, bool bSendSample = true);
 	int GetPinCount();
 	CBasePin* GetPin(int n);
 
