@@ -2987,7 +2987,7 @@ BEGIN
     IDS_VDF_ERR_VERYAGGRESSIVE  "Très aggréssive"
     IDS_VDF_IDCT_ALGO			"Algorithme IDCT"
     IDS_VDF_IDCT_AUTO           "Automatique"
-    IDS_VDF_AR_MODE				"Lire le format image dans le fichier"
+    IDS_VDF_AR_MODE				"Lire le ratio d'affichage dans le fichier"
 END
 
 STRINGTABLE 

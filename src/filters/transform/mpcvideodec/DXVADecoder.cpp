@@ -563,6 +563,7 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 			switch (pPicture->nSliceType)
 			{
 			case I_TYPE :
+			case SI_TYPE :
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
 				break;
 			case P_TYPE :

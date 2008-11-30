@@ -957,10 +957,10 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] =
 
 VIDEO_OUTPUT_FORMATS SoftwareFormats[] =
 {
-	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},	// Software
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},	// Software
+	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
-	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'}
+	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'}
 };
 
 
@@ -1164,9 +1164,29 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
 		{
 			props.dwTypeSpecificFlags &= ~0x7f;
-			props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
 
-			// TODO : manage interleaved flags!
+			if(!m_pFrame->interlaced_frame)
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
+			else
+			{
+				if(m_pFrame->top_field_first)
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
+			}
+
+			switch (m_pFrame->pict_type)
+			{
+			case FF_I_TYPE :
+			case FF_SI_TYPE :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
+				break;
+			case FF_P_TYPE :
+			case FF_SP_TYPE :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
+				break;
+			default :
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_B_SAMPLE;
+				break;
+			}
 
 			pMS2->SetProperties(sizeof(props), (BYTE*)&props);
 		}
