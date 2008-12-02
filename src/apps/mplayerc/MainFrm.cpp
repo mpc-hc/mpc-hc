@@ -10784,7 +10784,36 @@ bool CMainFrame::CreateFullScreenWindow()
 
 	ZeroMemory (&MonitorInfo, sizeof(MonitorInfo));
 	MonitorInfo.cbSize	= sizeof(MonitorInfo);
-	hMonitor			= MonitorFromWindow (m_hWnd, 0);
+
+	CMonitors monitors;
+	CString str;
+	CMonitor monitor;
+	AppSettings& s = AfxGetAppSettings();
+	if(!s.iMonitor)
+	{
+		if(s.f_hmonitor == _T("Current"))
+		{
+			hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+		}
+		else
+		{
+			for ( int i = 0; i < monitors.GetCount(); i++ )
+			{
+				monitor = monitors.GetMonitor( i );
+				monitor.GetName(str);
+				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
+				{
+					hMonitor = monitor.operator HMONITOR();
+					break;
+				}
+			}
+			if(!hMonitor) hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+		}
+	}
+	else
+	{
+		hMonitor = MonitorFromWindow (m_hWnd, 0);
+	}
 	if (GetMonitorInfo (hMonitor, &MonitorInfo))
 	{
 		MonitorRect = CRect (MonitorInfo.rcMonitor);
@@ -10795,6 +10824,15 @@ bool CMainFrame::CreateFullScreenWindow()
 
 		m_pFullscreenWnd->CreateEx (WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), NULL, NULL, NULL);
 //		SetWindowLong(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);	// TODO : still freezing sometimes...
+		
+		CRect r;
+		GetWindowRect(r);
+
+		int x = MonitorRect.left + (MonitorRect.Width()/2)-(r.Width()/2);
+		int y = MonitorRect.top + (MonitorRect.Height()/2)-(r.Height()/2);
+		int w = r.Width();
+		int h = r.Height();
+		MoveWindow(x, y, w, h);
 	}
 
 	return m_pFullscreenWnd->IsWindow();
