@@ -111,6 +111,8 @@ public:
 	STDMETHODIMP_(REFERENCE_TIME) GetTime() {return(m_rt);}
 };
 
+bool m_PlayListBarVisible = false;
+
 //
 
 #define SaveMediaState \
@@ -6960,6 +6962,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	if(!m_fFullScreen)
 	{
+		m_PlayListBarVisible = m_wndPlaylistBar.IsVisible();
+		if(m_PlayListBarVisible) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
+		
 		GetWindowRect(&m_lastWindowRect);
 
 		dispmode& dm = AfxGetAppSettings().dmFullscreenRes;
@@ -6969,11 +6974,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			GetCurDispMode(m_dmBeforeFullscreen);
 			SetDispMode(dm);
 		}
-		/*
-		MONITORINFO mi;
-		mi.cbSize = sizeof(MONITORINFO);
-		GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
-		*/
 		CString str;
 		CMonitor monitor;
 		
@@ -7013,6 +7013,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION) | WS_THICKFRAME;
 		r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
+
+		ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
 
 	m_lastMouseMove.x = m_lastMouseMove.y = -1;
