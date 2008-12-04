@@ -2516,6 +2516,7 @@ BEGIN
     IDS_CONTROLS_CLOSING    "Fermeture..."
     IDS_CONTROLS_PLAYING    "Lecture"
     IDS_CONTROLS_PAUSED     "En pause"
+    IDS_PLAYLIST_HIDEFS		"Hide on FullScreen"//TODO
 END
 
 STRINGTABLE 

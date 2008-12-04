@@ -6963,7 +6963,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	if(!m_fFullScreen)
 	{
 		m_PlayListBarVisible = m_wndPlaylistBar.IsVisible();
-		if(m_PlayListBarVisible) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
+		if((AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		
 		GetWindowRect(&m_lastWindowRect);
 
@@ -7014,7 +7014,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
 
-		ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
+		if(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
 
 	m_lastMouseMove.x = m_lastMouseMove.y = -1;
