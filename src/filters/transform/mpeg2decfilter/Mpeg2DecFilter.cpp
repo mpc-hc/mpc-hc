@@ -94,15 +94,30 @@ STDAPI DllUnregisterServer()
 
 #include <detours\detours.h>
 
-DETOUR_TRAMPOLINE(BOOL WINAPI Real_IsDebuggerPresent(), IsDebuggerPresent);
+BOOL (__stdcall * Real_IsDebuggerPresent)(void)
+    = IsDebuggerPresent;
+
+LONG (__stdcall * Real_ChangeDisplaySettingsExA)(LPCSTR a0,
+                                                 LPDEVMODEA a1,
+                                                 HWND a2,
+                                                 DWORD a3,
+                                                 LPVOID a4)
+    = ChangeDisplaySettingsExA;
+
+LONG (__stdcall * Real_ChangeDisplaySettingsExW)(LPCWSTR a0,
+                                                 LPDEVMODEW a1,
+                                                 HWND a2,
+                                                 DWORD a3,
+                                                 LPVOID a4)
+    = ChangeDisplaySettingsExW;
+
+
 BOOL WINAPI Mine_IsDebuggerPresent()
 {
 	TRACE(_T("Oops, somebody was trying to be naughty! (called IsDebuggerPresent)\n")); 
 	return FALSE;
 }
 
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
 LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 {
 	if(dwFlags&CDS_VIDEOPARAMETERS)
@@ -148,10 +163,21 @@ class CMpeg2DecFilterApp : public CFilterApp
 public:
 	BOOL InitInstance()
 	{
+		long		lError;
+
 		if(!__super::InitInstance()) return FALSE;
-		DetourFunctionWithTrampoline((PBYTE)Real_IsDebuggerPresent, (PBYTE)Mine_IsDebuggerPresent);
-		DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExA, (PBYTE)Mine_ChangeDisplaySettingsExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExW, (PBYTE)Mine_ChangeDisplaySettingsExW);
+
+		DetourRestoreAfterWith();
+		DetourTransactionBegin();
+		DetourUpdateThread(GetCurrentThread());
+
+		DetourAttach(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent);
+		DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA);
+		DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
+
+		lError = DetourTransactionCommit();
+		ASSERT (lError == NOERROR);
+
 		return TRUE;
 	}
 };

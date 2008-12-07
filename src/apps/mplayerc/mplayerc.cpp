@@ -452,10 +452,8 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 
 #include <winddk\ntddcdvd.h>
 
-#ifdef _WIN64
-//#include "detours.h"
-//#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
-#define DetourFunctionWithTrampoline(a,b) /**/
+#include <detours\detours.h>
+
 BOOL (__stdcall * Real_IsDebuggerPresent)(void)
     = IsDebuggerPresent;
 
@@ -506,16 +504,16 @@ MMRESULT  (__stdcall * Real_mixerSetControlDetails)( HMIXEROBJ hmxobj,
 																	DWORD fdwDetails)
 	= mixerSetControlDetails;
 
-#else
-#include <detours\detours.h>
-DETOUR_TRAMPOLINE(BOOL WINAPI Real_IsDebuggerPresent(), IsDebuggerPresent);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam), ChangeDisplaySettingsExW);
-DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileA);
-DETOUR_TRAMPOLINE(HANDLE WINAPI Real_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7), CreateFileW);
-DETOUR_TRAMPOLINE(MMRESULT WINAPI Real_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails), mixerSetControlDetails);
-DETOUR_TRAMPOLINE(BOOL WINAPI Real_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID lpInBuffer, DWORD nInBufferSize, LPVOID lpOutBuffer, DWORD nOutBufferSize, LPDWORD lpBytesReturned, LPOVERLAPPED lpOverlapped), DeviceIoControl);
-#endif
+
+typedef NTSTATUS (WINAPI *FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
+static FUNC_NTQUERYINFORMATIONPROCESS		Real_NtQueryInformationProcess = NULL;
+/*
+NTSTATUS (* Real_NtQueryInformationProcess) (HANDLE				ProcessHandle, 
+											 PROCESSINFOCLASS	ProcessInformationClass, 
+											 PVOID				ProcessInformation, 
+											 ULONG				ProcessInformationLength, 
+											 PULONG				ReturnLength)
+	= NULL;*/
 
 
 BOOL WINAPI Mine_IsDebuggerPresent()
@@ -525,8 +523,6 @@ BOOL WINAPI Mine_IsDebuggerPresent()
 }
 
 
-typedef NTSTATUS (WINAPI *FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
-static FUNC_NTQUERYINFORMATIONPROCESS		Real_NtQueryInformationProcess;
 NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength)
 {
 	NTSTATUS		nRet;
@@ -740,27 +736,35 @@ public:
 
 BOOL CMPlayerCApp::InitInstance()
 {
-	//ssftest s;
+	long		lError;
 
-#ifdef _WIN64
-//    DetourTransactionBegin();
-//    DetourUpdateThread(GetCurrentThread());
+	DetourRestoreAfterWith();
+    DetourTransactionBegin();
+    DetourUpdateThread(GetCurrentThread());
+
+	DetourAttach(&(PVOID&)Real_IsDebuggerPresent, (PVOID)Mine_IsDebuggerPresent);
+	DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExA, (PVOID)Mine_ChangeDisplaySettingsExA);
+	DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
+	DetourAttach(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA);
+	DetourAttach(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
+	DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
+	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
+
+#ifndef _DEBUG
+	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
+	if (hNTDLL)
+	{
+		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
+
+		if (Real_NtQueryInformationProcess)
+			DetourAttach(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
+	}
 #endif
-
-	DetourFunctionWithTrampoline((PBYTE)Real_IsDebuggerPresent, (PBYTE)Mine_IsDebuggerPresent);
-	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExA, (PBYTE)Mine_ChangeDisplaySettingsExA);
-	DetourFunctionWithTrampoline((PBYTE)Real_ChangeDisplaySettingsExW, (PBYTE)Mine_ChangeDisplaySettingsExW);
-	DetourFunctionWithTrampoline((PBYTE)Real_CreateFileA, (PBYTE)Mine_CreateFileA);
-	DetourFunctionWithTrampoline((PBYTE)Real_CreateFileW, (PBYTE)Mine_CreateFileW);
-	DetourFunctionWithTrampoline((PBYTE)Real_mixerSetControlDetails, (PBYTE)Mine_mixerSetControlDetails);
-	DetourFunctionWithTrampoline((PBYTE)Real_DeviceIoControl, (PBYTE)Mine_DeviceIoControl);
-	DetourFunctionWithTrampoline((PBYTE)Real_NtQueryInformationProcess, (PBYTE)Mine_NtQueryInformationProcess);
 
 	CFilterMapper2::Init();
 
-#ifdef _WIN64
-//    DetourTransactionCommit();
-#endif
+    lError = DetourTransactionCommit();
+	ASSERT (lError == NOERROR);
 
 	HRESULT hr;
     if(FAILED(hr = OleInitialize(0)))

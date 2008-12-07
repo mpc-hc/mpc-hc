@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib  detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
@@ -187,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssRU.lib dsutilRU.lib strmbaseRU.lib basevideofilterRU.lib Winmm.lib"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssRU.lib dsutilRU.lib strmbaseRU.lib basevideofilterRU.lib Winmm.lib detours.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"

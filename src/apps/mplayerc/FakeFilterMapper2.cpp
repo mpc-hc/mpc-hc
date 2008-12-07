@@ -30,10 +30,8 @@
 #include <qedit.h>
 
 
-#ifdef _WIN64		// TODOX64
-//#include "detours.h"
-//#define DetourFunctionWithTrampoline(a,b) DetourAttach((PVOID*)a,(PVOID)b)
-#define DetourFunctionWithTrampoline(a,b) /**/
+#include <detours\detours.h>
+
 HRESULT (__stdcall * Real_CoCreateInstance)(CONST IID& a0,
                                             LPUNKNOWN a1,
                                             DWORD a2,
@@ -225,40 +223,7 @@ LONG (WINAPI * Real_RegSetValueW)(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWO
 LONG (WINAPI * Real_RegSetValueA)(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
 	  = RegSetValueA;
 
-#else /* _WIN64 */
 
-#include <detours\detours.h>
-
-DETOUR_TRAMPOLINE(HRESULT WINAPI Real_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter, IN DWORD dwClsContext, IN REFIID riid, OUT LPVOID FAR* ppv), CoCreateInstance);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCloseKey(HKEY a0), RegCloseKey);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegFlushKey(HKEY a0), RegFlushKey);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCreateKeyA(HKEY a0, LPCSTR a1, PHKEY a2), RegCreateKeyA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCreateKeyW(HKEY a0, LPCWSTR a1, PHKEY a2), RegCreateKeyW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCreateKeyExA(HKEY a0, LPCSTR a1, DWORD a2, LPSTR a3, DWORD a4, REGSAM a5, LPSECURITY_ATTRIBUTES a6, PHKEY a7, LPDWORD a8), RegCreateKeyExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegCreateKeyExW(HKEY a0, LPCWSTR a1, DWORD a2, LPWSTR a3, DWORD a4, REGSAM a5, LPSECURITY_ATTRIBUTES a6, PHKEY a7, LPDWORD a8), RegCreateKeyExW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegDeleteKeyA(HKEY a0, LPCSTR a1), RegDeleteKeyA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegDeleteKeyW(HKEY a0, LPCWSTR a1), RegDeleteKeyW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegDeleteValueA(HKEY a0, LPCSTR a1), RegDeleteValueA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegDeleteValueW(HKEY a0, LPCWSTR a1), RegDeleteValueW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegEnumKeyExA(HKEY a0, DWORD a1, LPSTR a2, LPDWORD a3, LPDWORD a4, LPSTR a5, LPDWORD a6, struct _FILETIME* a7), RegEnumKeyExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegEnumKeyExW(HKEY a0, DWORD a1, LPWSTR a2, LPDWORD a3, LPDWORD a4, LPWSTR a5, LPDWORD a6, struct _FILETIME* a7), RegEnumKeyExW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegEnumValueA(HKEY a0, DWORD a1, LPSTR a2, LPDWORD a3, LPDWORD a4, LPDWORD a5, LPBYTE a6, LPDWORD a7), RegEnumValueA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegEnumValueW(HKEY a0, DWORD a1, LPWSTR a2, LPDWORD a3, LPDWORD a4, LPDWORD a5, LPBYTE a6, LPDWORD a7), RegEnumValueW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegOpenKeyA(HKEY a0, LPCSTR a1, PHKEY a2), RegOpenKeyA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegOpenKeyW(HKEY a0, LPCWSTR a1, PHKEY a2), RegOpenKeyW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegOpenKeyExA(HKEY a0, LPCSTR a1, DWORD a2, REGSAM a3, PHKEY a4), RegOpenKeyExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegOpenKeyExW(HKEY a0, LPCWSTR a1, DWORD a2, REGSAM a3, PHKEY a4), RegOpenKeyExW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryInfoKeyA(HKEY a0, LPSTR a1, LPDWORD a2, LPDWORD a3, LPDWORD a4, LPDWORD a5, LPDWORD a6, LPDWORD a7, LPDWORD a8, LPDWORD a9, LPDWORD a10, struct _FILETIME* a11), RegQueryInfoKeyA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryInfoKeyW(HKEY a0, LPWSTR a1, LPDWORD a2, LPDWORD a3, LPDWORD a4, LPDWORD a5, LPDWORD a6, LPDWORD a7, LPDWORD a8, LPDWORD a9, LPDWORD a10, struct _FILETIME* a11), RegQueryInfoKeyW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryValueA(HKEY a0, LPCSTR a1, LPSTR a2, PLONG a3), RegQueryValueA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryValueW(HKEY a0, LPCWSTR a1, LPWSTR a2, PLONG a3), RegQueryValueW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryValueExA(HKEY a0, LPCSTR a1, LPDWORD a2, LPDWORD a3, LPBYTE a4, LPDWORD a5), RegQueryValueExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegQueryValueExW(HKEY a0, LPCWSTR a1, LPDWORD a2, LPDWORD a3, LPBYTE a4, LPDWORD a5), RegQueryValueExW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueA(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4), RegSetValueA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueW(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4), RegSetValueW);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExA(HKEY a0, LPCSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExA);
-DETOUR_TRAMPOLINE(LONG WINAPI Real_RegSetValueExW(HKEY a0, LPCWSTR a1, DWORD a2, DWORD a3, BYTE* a4, DWORD a5), RegSetValueExW);
-#endif /* _WIN64 */
 
 HRESULT WINAPI Mine_CoCreateInstance(IN REFCLSID rclsid, IN LPUNKNOWN pUnkOuter,
                     IN DWORD dwClsContext, IN REFIID riid, OUT LPVOID FAR* ppv)
@@ -479,35 +444,35 @@ void CFilterMapper2::Init()
 {
 	if(!fInitialized)
 	{
-		DetourFunctionWithTrampoline((PBYTE)Real_CoCreateInstance, (PBYTE)Mine_CoCreateInstance);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegCloseKey, (PBYTE)Mine_RegCloseKey);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegFlushKey, (PBYTE)Mine_RegFlushKey);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegCreateKeyA, (PBYTE)Mine_RegCreateKeyA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegCreateKeyW, (PBYTE)Mine_RegCreateKeyW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegCreateKeyExA, (PBYTE)Mine_RegCreateKeyExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegCreateKeyExW, (PBYTE)Mine_RegCreateKeyExW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegDeleteKeyA, (PBYTE)Mine_RegDeleteKeyA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegDeleteKeyW, (PBYTE)Mine_RegDeleteKeyW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegDeleteValueA, (PBYTE)Mine_RegDeleteValueA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegDeleteValueW, (PBYTE)Mine_RegDeleteValueW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegEnumKeyExA, (PBYTE)Mine_RegEnumKeyExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegEnumKeyExW, (PBYTE)Mine_RegEnumKeyExW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegEnumValueA, (PBYTE)Mine_RegEnumValueA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegEnumValueW, (PBYTE)Mine_RegEnumValueW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegOpenKeyA, (PBYTE)Mine_RegOpenKeyA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegOpenKeyW, (PBYTE)Mine_RegOpenKeyW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegOpenKeyExA, (PBYTE)Mine_RegOpenKeyExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegOpenKeyExW, (PBYTE)Mine_RegOpenKeyExW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryInfoKeyA, (PBYTE)Mine_RegQueryInfoKeyA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryInfoKeyW, (PBYTE)Mine_RegQueryInfoKeyW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryValueA, (PBYTE)Mine_RegQueryValueA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryValueW, (PBYTE)Mine_RegQueryValueW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryValueExA, (PBYTE)Mine_RegQueryValueExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegQueryValueExW, (PBYTE)Mine_RegQueryValueExW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegSetValueA, (PBYTE)Mine_RegSetValueA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegSetValueW, (PBYTE)Mine_RegSetValueW);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegSetValueExA, (PBYTE)Mine_RegSetValueExA);
-		DetourFunctionWithTrampoline((PBYTE)Real_RegSetValueExW, (PBYTE)Mine_RegSetValueExW);
+		DetourAttach(&(PVOID&)Real_CoCreateInstance, (PVOID)Mine_CoCreateInstance);
+		DetourAttach(&(PVOID&)Real_RegCloseKey, (PVOID)Mine_RegCloseKey);
+		DetourAttach(&(PVOID&)Real_RegFlushKey, (PVOID)Mine_RegFlushKey);
+		DetourAttach(&(PVOID&)Real_RegCreateKeyA, (PVOID)Mine_RegCreateKeyA);
+		DetourAttach(&(PVOID&)Real_RegCreateKeyW, (PVOID)Mine_RegCreateKeyW);
+		DetourAttach(&(PVOID&)Real_RegCreateKeyExA, (PVOID)Mine_RegCreateKeyExA);
+		DetourAttach(&(PVOID&)Real_RegCreateKeyExW, (PVOID)Mine_RegCreateKeyExW);
+		DetourAttach(&(PVOID&)Real_RegDeleteKeyA, (PVOID)Mine_RegDeleteKeyA);
+		DetourAttach(&(PVOID&)Real_RegDeleteKeyW, (PVOID)Mine_RegDeleteKeyW);
+		DetourAttach(&(PVOID&)Real_RegDeleteValueA, (PVOID)Mine_RegDeleteValueA);
+		DetourAttach(&(PVOID&)Real_RegDeleteValueW, (PVOID)Mine_RegDeleteValueW);
+		DetourAttach(&(PVOID&)Real_RegEnumKeyExA, (PVOID)Mine_RegEnumKeyExA);
+		DetourAttach(&(PVOID&)Real_RegEnumKeyExW, (PVOID)Mine_RegEnumKeyExW);
+		DetourAttach(&(PVOID&)Real_RegEnumValueA, (PVOID)Mine_RegEnumValueA);
+		DetourAttach(&(PVOID&)Real_RegEnumValueW, (PVOID)Mine_RegEnumValueW);
+		DetourAttach(&(PVOID&)Real_RegOpenKeyA, (PVOID)Mine_RegOpenKeyA);
+		DetourAttach(&(PVOID&)Real_RegOpenKeyW, (PVOID)Mine_RegOpenKeyW);
+		DetourAttach(&(PVOID&)Real_RegOpenKeyExA, (PVOID)Mine_RegOpenKeyExA);
+		DetourAttach(&(PVOID&)Real_RegOpenKeyExW, (PVOID)Mine_RegOpenKeyExW);
+		DetourAttach(&(PVOID&)Real_RegQueryInfoKeyA, (PVOID)Mine_RegQueryInfoKeyA);
+		DetourAttach(&(PVOID&)Real_RegQueryInfoKeyW, (PVOID)Mine_RegQueryInfoKeyW);
+		DetourAttach(&(PVOID&)Real_RegQueryValueA, (PVOID)Mine_RegQueryValueA);
+		DetourAttach(&(PVOID&)Real_RegQueryValueW, (PVOID)Mine_RegQueryValueW);
+		DetourAttach(&(PVOID&)Real_RegQueryValueExA, (PVOID)Mine_RegQueryValueExA);
+		DetourAttach(&(PVOID&)Real_RegQueryValueExW, (PVOID)Mine_RegQueryValueExW);
+		DetourAttach(&(PVOID&)Real_RegSetValueA, (PVOID)Mine_RegSetValueA);
+		DetourAttach(&(PVOID&)Real_RegSetValueW, (PVOID)Mine_RegSetValueW);
+		DetourAttach(&(PVOID&)Real_RegSetValueExA, (PVOID)Mine_RegSetValueExA);
+		DetourAttach(&(PVOID&)Real_RegSetValueExW, (PVOID)Mine_RegSetValueExW);
 
 		fInitialized = true;
 	}

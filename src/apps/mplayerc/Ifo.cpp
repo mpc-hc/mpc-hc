@@ -70,12 +70,7 @@
 #define IFO_HDR_LEN			   8
 #define LU_SUB_LEN			   8
 
-#ifdef _WIN64
-	// TODO : remove this when trampoline available in x64...
-	#define Real_CreateFileW	CreateFileW
-#else
-	extern HANDLE WINAPI Real_CreateFileW(LPCWSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
-#endif
+extern HANDLE (__stdcall * Real_CreateFileW)(LPCWSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
 
 
 unsigned __int32 get4bytes (const BYTE* buf)
