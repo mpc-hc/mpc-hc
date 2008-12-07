@@ -132,6 +132,10 @@ public:
 class COggTheoraOutputPin : public COggSplitterOutputPin
 {
 	CAutoPtrList<OggPacket> m_initpackets;
+	LONGLONG				m_KfgShift;
+	int						m_nIndexOffset;
+	int						m_nFpsNum;
+	int						m_nFpsDenum;
 
 	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len);
 	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);

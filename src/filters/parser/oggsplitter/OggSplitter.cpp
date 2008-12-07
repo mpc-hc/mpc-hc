@@ -30,6 +30,11 @@
 #define MAKE24BITS(x)		(x[0]<<16 | x[1]<<8  | x[2])
 #define MAKE16BITS(x)		(x[0]<<8  | x[1])
 
+# define TH_VERSION_CHECK(version_major,version_minor,version_subminor,_maj,_min,_sub) \
+ (version_major>(_maj)||version_major==(_maj)&& \
+ (version_minor>(_min)||version_minor==(_min)&& \
+ version_subminor>=(_sub)))
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
@@ -686,9 +691,9 @@ if(abs(rtLast - m_rtLast) == GetRefTime(1)) m_rtLast = rtLast; // FIXME
 				if(S_OK == UnpackPacket(p, pData + i, j-i))
 				{
 //if(p->TrackNumber == 1)
-TRACE(_T("[%d]: %d, %I64d -> %I64d (skip=%d, disc=%d, sync=%d)\n"), 
-		(int)p->TrackNumber, p->GetCount(), p->rtStart, p->rtStop,
-		(int)m_fSkip, (int)p->bDiscontinuity, (int)p->bSyncPoint);
+//TRACE(_T("[%d]: %d, %I64d -> %I64d (skip=%d, disc=%d, sync=%d)\n"), 
+//		(int)p->TrackNumber, p->GetCount(), p->rtStart, p->rtStop,
+//		(int)m_fSkip, (int)p->bDiscontinuity, (int)p->bSyncPoint);
 
 					if(p->rtStart <= p->rtStop && p->rtStop <= p->rtStart + 10000000i64*60)
 					{
@@ -1087,11 +1092,17 @@ COggTheoraOutputPin::COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pF
 	vih->hdr.bmiHeader.biCompression = 'OEHT';
 	vih->hdr.bmiHeader.biPlanes		 = 1;
 	vih->hdr.bmiHeader.biBitCount	 = 24;
-	DWORD fps_num = (p[22]<<24)|(p[23]<<16)|(p[24]<<8)|p[25];
-	DWORD fps_denum = (p[26]<<24)|(p[27]<<16)|(p[28]<<8)|p[29];
-	if(fps_num) vih->hdr.AvgTimePerFrame = (REFERENCE_TIME)(10000000.0 * fps_denum / fps_num);
+	m_nFpsNum	= (p[22]<<24)|(p[23]<<16)|(p[24]<<8)|p[25];
+	m_nFpsDenum	= (p[26]<<24)|(p[27]<<16)|(p[28]<<8)|p[29];
+	if(m_nFpsNum) vih->hdr.AvgTimePerFrame = (REFERENCE_TIME)(10000000.0 * m_nFpsDenum / m_nFpsNum);
 	vih->hdr.dwPictAspectRatioX = (p[14]<<16)|(p[15]<<8)|p[16];
 	vih->hdr.dwPictAspectRatioY = (p[17]<<16)|(p[18]<<8)|p[19];
+	
+	m_KfgShift					= ((p[40]<<8+p[41]) &0x3E0) >> 5;
+	m_nIndexOffset	= TH_VERSION_CHECK(p[7],p[8],p[9],3,2,1);
+	
+	if (m_KfgShift == 0) m_KfgShift = 6;	// Is it really default value ?
+
 	mt.bFixedSizeSamples = 0;
 	m_mts.Add(mt);
 }
@@ -1123,9 +1134,19 @@ HRESULT COggTheoraOutputPin::UnpackInitPage(OggPage& page)
 
 REFERENCE_TIME COggTheoraOutputPin::GetRefTime(__int64 granule_position)
 {
+    LONGLONG	iframe;
+    LONGLONG	pframe;
+
+    iframe=granule_position>>m_KfgShift;
+    pframe=granule_position-(iframe<<m_KfgShift);
+    /*3.2.0 streams store the frame index in the granule position.
+      3.2.1 and later store the frame count.
+      We return the index, so adjust the value if we have a 3.2.1 or later
+       stream.*/
+
 	REFERENCE_TIME rt = 0;
 	if(m_mt.majortype == MEDIATYPE_Video)
-		rt = granule_position * ((MPEG2VIDEOINFO*)m_mt.Format())->hdr.AvgTimePerFrame;
+		rt = (iframe+pframe-m_nIndexOffset) * ((MPEG2VIDEOINFO*)m_mt.Format())->hdr.AvgTimePerFrame;
 	return rt;
 }
 
