@@ -3,6 +3,8 @@ v1.x.x.x - unreleased
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen mode in options, if monitor is not specified on the command line.
  CHANGED: Auto-hide playlist on fullscreen(feature request #2219561) 
  CHANGED: Detours library updated to v2.1
+ CHANGED: Support for AC3 in MP4 splitter
+ CHANGED: Support for EAc3 in Matroska splitter
  FIXED  : Support for Theora stream in Ogg internal splitter
 
 v1.2.908.0 - 30.Nobember 2008

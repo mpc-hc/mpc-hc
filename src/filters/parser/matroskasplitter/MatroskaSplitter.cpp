@@ -386,6 +386,7 @@ avcsuccess:
 					id2ft["A_MPEG/L2"] = WAVE_FORMAT_MPEG;
 					id2ft["A_AC3"] = WAVE_FORMAT_DOLBY_AC3;
 					id2ft["A_DTS"] = WAVE_FORMAT_DVD_DTS;
+					id2ft["A_EAC3"] = WAVE_FORMAT_DOLBY_AC3;
 					id2ft["A_PCM/INT/LIT"] = WAVE_FORMAT_PCM;
 					id2ft["A_PCM/FLOAT/IEEE"] = WAVE_FORMAT_IEEE_FLOAT;
 					id2ft["A_AAC"] = -WAVE_FORMAT_AAC;

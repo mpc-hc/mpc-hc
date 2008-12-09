@@ -268,6 +268,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_WAVE = AP4_ATOM_TYPE('w','a','v','e');
 const AP4_Atom::Type AP4_ATOM_TYPE_CMOV = AP4_ATOM_TYPE('c','m','o','v');
 const AP4_Atom::Type AP4_ATOM_TYPE_DCOM = AP4_ATOM_TYPE('d','c','o','m');
 const AP4_Atom::Type AP4_ATOM_TYPE_CMVD = AP4_ATOM_TYPE('c','m','v','d');
+const AP4_Atom::Type AP4_ATOM_TYPE__AC3 = AP4_ATOM_TYPE('a','c','-','3');
 
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector

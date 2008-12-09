@@ -393,6 +393,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 
 	  case AP4_ATOM_TYPE_SAMR:
 	  case AP4_ATOM_TYPE__MP3:
+	  case AP4_ATOM_TYPE__AC3:
 	  case AP4_ATOM_TYPE_IMA4:
 	  case AP4_ATOM_TYPE_QDMC:
 	  case AP4_ATOM_TYPE_QDM2:

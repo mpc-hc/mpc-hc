@@ -473,6 +473,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					{
 						type = 0x0055;
 					}
+					else if(type == AP4_ATOM_TYPE__AC3)
+					{
+						type = 0x2000;
+					}
 					else
 					{
 						type = 
