@@ -132,6 +132,8 @@ class AP4_AudioSampleEntry : public AP4_MpegSampleEntry
                          AP4_Size          size,
                          AP4_ByteStream&   stream,
                          AP4_AtomFactory&  atom_factory);
+    AP4_AudioSampleEntry(AP4_Atom::Type    format,
+                         AP4_Size          size);
     
     // accessors
     AP4_UI32 GetSampleRate()   { return m_SampleRate>>16; }
@@ -367,6 +369,21 @@ protected:
 
     // members
 	AP4_Tx3gDescription m_Description;
+};
+
+/*----------------------------------------------------------------------
+|       AP4_AC3SampleEntry
++---------------------------------------------------------------------*/
+class AP4_AC3SampleEntry : public AP4_AudioSampleEntry
+{
+ public:
+    // constructors
+    AP4_AC3SampleEntry(AP4_Size         size,
+                        AP4_ByteStream&  stream,
+                        AP4_AtomFactory& atom_factory);
+
+	AP4_Result ReadFields(AP4_ByteStream& stream);
+	AP4_Size   GetFieldsSize();
 };
 
 #endif // _AP4_SAMPLE_ENTRY_H_
