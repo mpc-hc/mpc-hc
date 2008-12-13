@@ -3016,7 +3016,6 @@ void CMainFrame::OnStreamAudio(UINT nID)
 void CMainFrame::OnStreamSub(UINT nID)
 {
 	nID -= ID_STREAM_SUB_NEXT;
-
 	if(m_iMediaLoadState != MLS_LOADED) return;
 
 	int cnt = 0;
@@ -4178,8 +4177,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 			DWORD yf = y&0xff;
 			DWORD yi = y>>8;
 
-			DWORD* s0 = (DWORD*)(src + yi*sp);
-			DWORD* s1 = (DWORD*)(src + yi*sp + sp);
+			DWORD* s0 = (DWORD*)(src + (int)yi*sp);
+			DWORD* s1 = (DWORD*)(src + (int)yi*sp + sp);
 			DWORD* d = (DWORD*)dst;
 
 			for(DWORD w = r.right - r.left, x = 0, xd = (sw<<8)/w; w > 0; x += xd, w--)

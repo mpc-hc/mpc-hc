@@ -763,8 +763,10 @@ BOOL CMPlayerCApp::InitInstance()
 
 	CFilterMapper2::Init();
 
+#if !defined(_DEBUG) || !defined(_WIN64)
     lError = DetourTransactionCommit();
 	ASSERT (lError == NOERROR);
+#endif
 
 	HRESULT hr;
     if(FAILED(hr = OleInitialize(0)))
@@ -954,22 +956,68 @@ BOOL CMPlayerCApp::InitInstance()
 	m_s.PN31Client.Connect();
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
-
-	if (m_s.fGlobalMedia)
-	{
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PLAY_PAUSE,    0, VK_MEDIA_PLAY_PAUSE);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_STOP,          0, VK_MEDIA_STOP);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_NEXTTRACK,     0, VK_MEDIA_NEXT_TRACK);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_MEDIA_PREVIOUSTRACK, 0, VK_MEDIA_PREV_TRACK);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_UP,           0, VK_VOLUME_UP);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_DOWN,         0, VK_VOLUME_DOWN);
-		RegisterHotKey(m_pMainWnd->m_hWnd, APPCOMMAND_VOLUME_MUTE,         0, VK_VOLUME_MUTE);
-	}
+	RegisterHotkeys();
 
 	pFrame->SetFocus();
 
 	return TRUE;
 }
+
+void CMPlayerCApp::RegisterHotkeys()
+{
+	if (m_s.fGlobalMedia)
+	{
+		POSITION pos = m_s.wmcmds.GetHeadPosition();
+
+		while(pos)
+		{
+			wmcmd& wc = m_s.wmcmds.GetNext(pos);
+			if (wc.appcmd != 0) 
+				RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand (wc.appcmd));
+		}
+	}
+}
+
+void CMPlayerCApp::UnregisterHotkeys()
+{
+	if (m_s.fGlobalMedia)
+	{
+		POSITION pos = m_s.wmcmds.GetHeadPosition();
+
+		while(pos)
+		{
+			wmcmd& wc = m_s.wmcmds.GetNext(pos);
+			if (wc.appcmd != 0) 
+				UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
+		}
+	}
+}
+
+UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
+{
+	switch (nAppCommand)
+	{
+		case APPCOMMAND_BROWSER_BACKWARD	: return VK_BROWSER_BACK;
+		case APPCOMMAND_BROWSER_FORWARD		: return VK_BROWSER_FORWARD;
+		case APPCOMMAND_BROWSER_REFRESH		: return VK_BROWSER_REFRESH;
+		case APPCOMMAND_BROWSER_STOP		: return VK_BROWSER_STOP;
+		case APPCOMMAND_BROWSER_SEARCH		: return VK_BROWSER_SEARCH;
+		case APPCOMMAND_BROWSER_FAVORITES	: return VK_BROWSER_FAVORITES;
+		case APPCOMMAND_BROWSER_HOME		: return VK_BROWSER_HOME;
+		case APPCOMMAND_VOLUME_MUTE			: return VK_VOLUME_MUTE;
+		case APPCOMMAND_VOLUME_DOWN			: return VK_VOLUME_DOWN;
+		case APPCOMMAND_VOLUME_UP			: return VK_VOLUME_UP;
+		case APPCOMMAND_MEDIA_NEXTTRACK		: return VK_MEDIA_NEXT_TRACK;
+		case APPCOMMAND_MEDIA_PREVIOUSTRACK	: return VK_MEDIA_PREV_TRACK;
+		case APPCOMMAND_MEDIA_STOP			: return VK_MEDIA_STOP;
+		case APPCOMMAND_MEDIA_PLAY_PAUSE	: return VK_MEDIA_PLAY_PAUSE;
+		case APPCOMMAND_LAUNCH_MAIL			: return VK_LAUNCH_MAIL;
+		case APPCOMMAND_LAUNCH_MEDIA_SELECT	: return VK_LAUNCH_MEDIA_SELECT;
+		case APPCOMMAND_LAUNCH_APP1			: return VK_LAUNCH_APP1;
+		case APPCOMMAND_LAUNCH_APP2			: return VK_LAUNCH_APP2;
+	}
+
+	return 0;}
 
 int CMPlayerCApp::ExitInstance()
 {

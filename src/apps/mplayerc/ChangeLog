@@ -5,7 +5,9 @@ v1.x.x.x - unreleased
  CHANGED: Detours library updated to v2.1
  CHANGED: Support for AC3 in MP4 splitter
  CHANGED: Support for EAc3 in Matroska splitter
+ CHANGED: Hotkeys added to support more remote control keys
  FIXED  : Support for Theora stream in Ogg internal splitter
+ FIXED  : Save thumbnails crash in x64
 
 v1.2.908.0 - 30.Nobember 2008
 ======================

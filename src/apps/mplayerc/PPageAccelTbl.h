@@ -53,7 +53,7 @@ public:
 	static CString MakeMouseButtonLabel(UINT mouse);
 	static CString MakeAppCommandLabel(UINT id);
 
-	enum {APPCOMMAND_LAST=APPCOMMAND_MEDIA_CHANNEL_DOWN};
+	enum {APPCOMMAND_LAST=APPCOMMAND_DWM_FLIP3D};
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEACCELTBL };

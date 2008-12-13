@@ -568,6 +568,8 @@ CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
 	case APPCOMMAND_MEDIA_REWIND: str = _T("MEDIA_REWIND"); break;
 	case APPCOMMAND_MEDIA_CHANNEL_UP: str = _T("MEDIA_CHANNEL_UP"); break;
 	case APPCOMMAND_MEDIA_CHANNEL_DOWN: str = _T("MEDIA_CHANNEL_DOWN"); break;
+	case APPCOMMAND_DELETE: str = _T("DELETE"); break;
+	case APPCOMMAND_DWM_FLIP3D: str = _T("DWM_FLIP3D"); break;
 	}
 
 	return str;
@@ -658,6 +660,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 
 BOOL CPPageAccelTbl::OnApply()
 {
+	AfxGetMyApp()->UnregisterHotkeys();
 	UpdateData();
 
 	AppSettings& s = AfxGetAppSettings();
@@ -681,6 +684,8 @@ BOOL CPPageAccelTbl::OnApply()
 	s.UIceAddr = m_UIceAddr;
 	if(s.fUIce) s.UIceClient.Connect(m_UIceAddr);
 	s.fGlobalMedia = !!m_fGlobalMedia;
+
+	AfxGetMyApp()->RegisterHotkeys();
 
 	return __super::OnApply();
 }

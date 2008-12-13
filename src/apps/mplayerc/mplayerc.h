@@ -370,6 +370,7 @@ class CMPlayerCApp : public CWinApp
 	CAtlList<CString> m_cmdln;
 	void PreProcessCommandLine();
 	void SendCommandLine(HWND hWnd);
+	UINT GetVKFromAppCommand(UINT nAppCommand);
 
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
@@ -405,6 +406,8 @@ public:
 	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
 	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
+	void						RegisterHotkeys();
+	void						UnregisterHotkeys();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMPlayerCApp)
