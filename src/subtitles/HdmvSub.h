@@ -159,7 +159,7 @@ private :
 	int								m_nColorNumber;
 
 
-	int					ParsePresentationSegment(CGolombBuffer* pGBuffer);
+	int					ParsePresentationSegment(CGolombBuffer* pGBuffer, REFERENCE_TIME rtStart);
 	void				ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
 	void				ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
 

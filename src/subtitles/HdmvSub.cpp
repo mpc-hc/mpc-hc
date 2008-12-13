@@ -150,7 +150,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 				case PRESENTATION_SEG :
 					TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n", ReftimeToString(rtStart), m_nSegSize);
 					
-					if (ParsePresentationSegment(&SegmentBuffer) > 0)
+					if (ParsePresentationSegment(&SegmentBuffer, rtStart) > 0)
 					{
 						m_pCurrentObject->m_rtStart	= rtStart;
 						m_pCurrentObject->m_rtStop	= rtStart + 1;
@@ -185,7 +185,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 	return hr;
 }
 
-int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
+int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer, REFERENCE_TIME rtStart)
 {
 	COMPOSITION_DESCRIPTOR	CompositionDescriptor;
 	BYTE					nObjectNumber;
@@ -200,7 +200,12 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 
 	if (nObjectNumber > 0)
 	{
-		delete m_pCurrentObject;
+		if (m_pCurrentObject)
+		{
+			m_pCurrentObject->m_rtStop = rtStart;
+			m_pObjects.AddTail (m_pCurrentObject);
+		}
+
 		m_pCurrentObject = new CompositionObject();
 		ParseCompositionObject (pGBuffer, m_pCurrentObject);
 	}
