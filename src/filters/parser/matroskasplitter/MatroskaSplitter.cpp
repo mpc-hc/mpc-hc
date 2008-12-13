@@ -305,6 +305,33 @@ avcsuccess:
 					if(MakeMPEG2MediaType(mt, seqhdr, len, w, h))
 						mts.Add(mt);
 				}
+				else if(CodecID == "V_THEORA")
+				{
+					BYTE* thdr = pTE->CodecPrivate.GetData() + 3;
+
+					mt.majortype		= MEDIATYPE_Video;
+					mt.subtype			= FOURCCMap('OEHT');
+					mt.formattype		= FORMAT_MPEG2_VIDEO;
+					MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(sizeof(MPEG2VIDEOINFO) + pTE->CodecPrivate.GetCount());
+					memset(mt.Format(), 0, mt.FormatLength());
+					vih->hdr.bmiHeader.biSize		 = sizeof(vih->hdr.bmiHeader);
+					vih->hdr.bmiHeader.biWidth		 = *(WORD*)&thdr[10] >> 4;
+					vih->hdr.bmiHeader.biHeight		 = *(WORD*)&thdr[12] >> 4;
+					vih->hdr.bmiHeader.biCompression = 'OEHT';
+					vih->hdr.bmiHeader.biPlanes		 = 1;
+					vih->hdr.bmiHeader.biBitCount	 = 24;
+					int nFpsNum	= (thdr[22]<<24)|(thdr[23]<<16)|(thdr[24]<<8)|thdr[25];
+					int nFpsDenum	= (thdr[26]<<24)|(thdr[27]<<16)|(thdr[28]<<8)|thdr[29];
+					if(nFpsNum) vih->hdr.AvgTimePerFrame = (REFERENCE_TIME)(10000000.0 * nFpsDenum / nFpsNum);
+					vih->hdr.dwPictAspectRatioX = (thdr[14]<<16)|(thdr[15]<<8)|thdr[16];
+					vih->hdr.dwPictAspectRatioY = (thdr[17]<<16)|(thdr[18]<<8)|thdr[19];
+					mt.bFixedSizeSamples = 0;
+
+					vih->cbSequenceHeader = pTE->CodecPrivate.GetCount();
+					memcpy (&vih->dwSequenceHeader, pTE->CodecPrivate.GetData(), vih->cbSequenceHeader);
+
+					mts.Add(mt);
+				}
 /*
 				else if(CodecID == "V_DSHOW/MPEG1VIDEO") // V_MPEG1
 				{
