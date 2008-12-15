@@ -1228,7 +1228,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		BitByteAlign();
 
-		dwStartCode = 0xFFFFFFFF;
+		dwStartCode = BitRead(32, true);
 		while(GetPos() < endpos+4 && (dwStartCode != 0x00000001) && (dwStartCode & 0xFFFFFF00) != 0x00000100)		    
 		{
 			BitRead(8);
