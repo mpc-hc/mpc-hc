@@ -43,8 +43,8 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR  3
-#define LIBAVCODEC_VERSION_MICRO  0
+#define LIBAVCODEC_VERSION_MINOR  6
+#define LIBAVCODEC_VERSION_MICRO  3
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -1399,7 +1399,12 @@ unsigned avcodec_version(void);
  */
 FF_EXPORT void avcodec_init(void);
 
-void register_avcodec(AVCodec *format);
+/**
+ * Register the codec \p codec and initialize libavcodec.
+ *
+ * @see avcodec_init()
+ */
+void register_avcodec(AVCodec *codec);
 
 /**
  * Finds a registered encoder with a matching codec ID.
@@ -1623,6 +1628,16 @@ int avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
 
 FF_EXPORT int avcodec_close(AVCodecContext *avctx);
 
+/**
+ * Register all the codecs, parsers and bitstream filters which were enabled at
+ * configuration time. If you do not call this function you can select exactly
+ * which formats you want to support, by using the individual registration
+ * functions.
+ *
+ * @see register_avcodec
+ * @see av_register_codec_parser
+ * @see av_register_bitstream_filter
+ */
 FF_EXPORT void avcodec_register_all(void);
 
 /**
@@ -1745,7 +1760,7 @@ int av_picture_crop(AVPicture *dst, const AVPicture *src,
 int av_picture_pad(AVPicture *dst, const AVPicture *src, int height, int width, int pix_fmt,
             int padtop, int padbottom, int padleft, int padright, int *color);
 
-extern unsigned int av_xiphlacing(unsigned char *s, unsigned int v);
+unsigned int av_xiphlacing(unsigned char *s, unsigned int v);
 
 /**
  * Logs a generic warning message about a missing feature.

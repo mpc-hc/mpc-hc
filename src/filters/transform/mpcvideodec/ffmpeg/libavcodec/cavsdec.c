@@ -113,11 +113,11 @@ static inline int get_ue_code(GetBitContext *gb, int order) {
  * @param stride line stride in frame buffer
  */
 static int decode_residual_block(AVSContext *h, GetBitContext *gb,
-                                 const dec_2dvlc_t *r, int esc_golomb_order,
+                                 const struct dec_2dvlc *r, int esc_golomb_order,
                                  int qp, uint8_t *dst, int stride) {
     int i, level_code, esc_code, level, run, mask;
-    DCTELEM level_buf[64];
-    uint8_t run_buf[64];
+    DCTELEM level_buf[65];
+    uint8_t run_buf[65];
     DCTELEM *block = h->block;
 
     for(i=0;i<65;i++) {
@@ -702,5 +702,5 @@ AVCodec cavs_decoder = {
     /*.flush=*/cavs_flush,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"Chinese AVS video (AVS1-P2, JiZhun profile)",
+    /*.long_name= */NULL_IF_CONFIG_SMALL("Chinese AVS video (AVS1-P2, JiZhun profile)"),
 };

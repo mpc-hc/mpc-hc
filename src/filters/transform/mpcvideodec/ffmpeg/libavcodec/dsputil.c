@@ -2559,6 +2559,23 @@ void ff_put_vc1_mspel_mc00_c(uint8_t *dst, uint8_t *src, int stride, int rnd) {
 
 void ff_intrax8dsp_init(DSPContext* c, AVCodecContext *avctx);
 
+#if defined(CONFIG_RV40_DECODER)
+static void put_rv40_qpel16_mc33_c(uint8_t *dst, uint8_t *src, int stride){
+    put_pixels16_xy2_c(dst, src, stride, 16);
+}
+static void avg_rv40_qpel16_mc33_c(uint8_t *dst, uint8_t *src, int stride){
+    avg_pixels16_xy2_c(dst, src, stride, 16);
+}
+static void put_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride){
+    put_pixels8_xy2_c(dst, src, stride, 8);
+}
+static void avg_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride){
+    avg_pixels8_xy2_c(dst, src, stride, 8);
+}
+
+void ff_rv40dsp_init(DSPContext* c, AVCodecContext *avctx);
+#endif /* CONFIG_RV40_DECODER */
+
 static void wmv2_mspel8_v_lowpass(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int w){
     uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
     int i;
@@ -3103,6 +3120,11 @@ void ff_block_permute(DCTELEM *block, uint8_t *permutation, const uint8_t *scant
     }
 }
 
+static void clear_block_c(DCTELEM *block)
+{
+    memset(block, 0, sizeof(DCTELEM)*64);
+}
+
 /**
  * memset(blocks, 0, sizeof(DCTELEM)*6*64)
  */
@@ -3417,7 +3439,8 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 
     ff_check_alignment();
 
-/* lowres is not an available option in MPCVideoDecFilter
+		/* lowres is not an available option in MPCVideoDecFilter */
+		#if 0
     if(avctx->lowres==1){
         if(avctx->idct_algo==FF_IDCT_INT || avctx->idct_algo==FF_IDCT_AUTO || !ENABLE_H264_DECODER){
             c->idct_put= ff_jref_idct4_put;
@@ -3439,7 +3462,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
         c->idct    = j_rev_dct1;
         c->idct_permutation_type= FF_NO_IDCT_PERM;
     }else{
-*/
+		#endif
         if(avctx->idct_algo==FF_IDCT_INT){
             c->idct_put= ff_jref_idct_put;
             c->idct_add= ff_jref_idct_add;
@@ -3456,22 +3479,23 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
             c->idct_add= ff_wmv2_idct_add_c;
             c->idct    = ff_wmv2_idct_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-/* FAAN IDCT is not an available option in MPCVideoDecFilter
+				/* FAAN IDCT is not an available option in MPCVideoDecFilter */
+				#if 0
         }else if(avctx->idct_algo==FF_IDCT_FAAN){
             c->idct_put= ff_faanidct_put;
             c->idct_add= ff_faanidct_add;
             c->idct    = ff_faanidct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-*/
+				#endif
         }else{ //accurate/default
             c->idct_put= ff_simple_idct_put;
             c->idct_add= ff_simple_idct_add;
             c->idct    = ff_simple_idct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
         }
-/*
+		#if 0
     }
-*/
+		#endif
 
     if (ENABLE_H264_DECODER) {
         c->h264_idct_add= ff_h264_idct_add_c;
@@ -3494,6 +3518,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #endif
     c->gmc1 = gmc1_c;
     c->gmc = ff_gmc_c;
+    c->clear_block = clear_block_c;
     c->clear_blocks = clear_blocks_c;
 #if 0
     c->pix_sum = pix_sum_c;
@@ -3634,6 +3659,13 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #endif
 #if defined(CONFIG_WMV2_DECODER) || defined(CONFIG_VC1_DECODER) || defined(CONFIG_WMV3_DECODER)
     ff_intrax8dsp_init(c,avctx);
+#endif
+#if defined(CONFIG_RV40_DECODER)
+    ff_rv40dsp_init(c,avctx);
+    c->put_rv40_qpel_pixels_tab[0][15] = put_rv40_qpel16_mc33_c;
+    c->avg_rv40_qpel_pixels_tab[0][15] = avg_rv40_qpel16_mc33_c;
+    c->put_rv40_qpel_pixels_tab[1][15] = put_rv40_qpel8_mc33_c;
+    c->avg_rv40_qpel_pixels_tab[1][15] = avg_rv40_qpel8_mc33_c;
 #endif
 
     c->put_mspel_pixels_tab[0]= put_mspel8_mc00_c;

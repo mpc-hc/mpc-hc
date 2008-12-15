@@ -106,7 +106,7 @@ static void fill_caches(H264Context *h, int mb_type, int for_deblock){
     const int mb_xy= h->mb_xy;
     int topleft_xy, top_xy, topright_xy, left_xy[2];
     int topleft_type, top_type, topright_type, left_type[2];
-    int * left_block;
+    const int * left_block;
     int topleft_partition= -1;
     int i;
 
@@ -3625,6 +3625,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
         if(h != h0)
             return -1;   // width / height changed during parallelized decoding
         free_tables(h);
+        flush_dpb(s->avctx);
         MPV_common_end(s);
     }
     if (!s->context_initialized) {
@@ -6114,7 +6115,7 @@ static void filter_mb_fast( H264Context *h, int mb_x, int mb_y, uint8_t *img_y, 
     mb_xy = h->mb_xy;
 
     if(mb_x==0 || mb_y==mb_y_firstrow || !s->dsp.h264_loop_filter_strength || h->pps.chroma_qp_diff ||
-1 ||
+        !(s->flags2 & CODEC_FLAG2_FAST) || //FIXME filter_mb_fast is broken, thus hasto be, but should not under CODEC_FLAG2_FAST
        (h->deblocking_filter == 2 && (h->slice_table[mb_xy] != h->slice_table[h->top_mb_xy] ||
                                       h->slice_table[mb_xy] != h->slice_table[mb_xy - 1]))) {
         filter_mb(h, mb_x, mb_y, img_y, img_cb, img_cr, linesize, uvlinesize);
@@ -6893,7 +6894,7 @@ static int decode_slice2(struct AVCodecContext *avctx, void *arg){
     return 0;
 }
 
-static int decode_picture_timing(H264Context *h){
+static int av_noinline decode_picture_timing(H264Context *h){
     MpegEncContext * const s = &h->s;
     if(h->sps.nal_hrd_parameters_present_flag || h->sps.vcl_hrd_parameters_present_flag){
         skip_bits(&s->gb, h->sps.cpb_removal_delay_length); /* cpb_removal_delay */
@@ -7002,10 +7003,16 @@ static int decode_sei(H264Context *h){
     return 0;
 }
 
-static inline void decode_hrd_parameters(H264Context *h, SPS *sps){
+static inline int decode_hrd_parameters(H264Context *h, SPS *sps){
     MpegEncContext * const s = &h->s;
     int cpb_count, i;
     cpb_count = get_ue_golomb(&s->gb) + 1;
+
+    if(cpb_count > 32U){
+        av_log(h->s.avctx, AV_LOG_ERROR, "cpb_count %d invalid\n", cpb_count);
+        return -1;
+    }
+
     get_bits(&s->gb, 4); /* bit_rate_scale */
     get_bits(&s->gb, 4); /* cpb_size_scale */
     for(i=0; i<cpb_count; i++){
@@ -7017,6 +7024,7 @@ static inline void decode_hrd_parameters(H264Context *h, SPS *sps){
     sps->cpb_removal_delay_length = get_bits(&s->gb, 5) + 1;
     sps->dpb_output_delay_length = get_bits(&s->gb, 5) + 1;
     sps->time_offset_length = get_bits(&s->gb, 5);
+    return 0;
 }
 
 static inline int decode_vui_parameters(H264Context *h, SPS *sps){
@@ -7071,31 +7079,30 @@ static inline int decode_vui_parameters(H264Context *h, SPS *sps){
 
     sps->nal_hrd_parameters_present_flag = get_bits1(&s->gb);
     if(sps->nal_hrd_parameters_present_flag)
-        decode_hrd_parameters(h, sps);
+        if(decode_hrd_parameters(h, sps) < 0)
+            return -1;
     sps->vcl_hrd_parameters_present_flag = get_bits1(&s->gb);
     if(sps->vcl_hrd_parameters_present_flag)
-        decode_hrd_parameters(h, sps);
+        if(decode_hrd_parameters(h, sps) < 0)
+            return -1;
     if(sps->nal_hrd_parameters_present_flag || sps->vcl_hrd_parameters_present_flag)
         get_bits1(&s->gb);     /* low_delay_hrd_flag */
     sps->pic_struct_present_flag = get_bits1(&s->gb);
 
     sps->bitstream_restriction_flag = get_bits1(&s->gb);
     if(sps->bitstream_restriction_flag){
-        unsigned int num_reorder_frames;
         get_bits1(&s->gb);     /* motion_vectors_over_pic_boundaries_flag */
         get_ue_golomb(&s->gb); /* max_bytes_per_pic_denom */
         get_ue_golomb(&s->gb); /* max_bits_per_mb_denom */
         get_ue_golomb(&s->gb); /* log2_max_mv_length_horizontal */
         get_ue_golomb(&s->gb); /* log2_max_mv_length_vertical */
-        num_reorder_frames= get_ue_golomb(&s->gb);
+        sps->num_reorder_frames= get_ue_golomb(&s->gb);
         get_ue_golomb(&s->gb); /*max_dec_frame_buffering*/
 
-        if(num_reorder_frames > 16 /*max_dec_frame_buffering || max_dec_frame_buffering > 16*/){
-            av_log(h->s.avctx, AV_LOG_ERROR, "illegal num_reorder_frames %d\n", num_reorder_frames);
+        if(sps->num_reorder_frames > 16U /*max_dec_frame_buffering || max_dec_frame_buffering > 16*/){
+            av_log(h->s.avctx, AV_LOG_ERROR, "illegal num_reorder_frames %d\n", sps->num_reorder_frames);
             return -1;
         }
-
-        sps->num_reorder_frames= num_reorder_frames;
     }
 
     return 0;
@@ -7145,30 +7152,10 @@ static void decode_scaling_matrices(H264Context *h, SPS *sps, PPS *pps, int is_s
     }
 }
 
-/**
- * Returns and optionally allocates SPS / PPS structures in the supplied array 'vec'
- */
-static void *
-alloc_parameter_set(H264Context *h, void **vec, const unsigned int id, const unsigned int max,
-                    const size_t size, const char *name)
-{
-    if(id>=max) {
-        av_log(h->s.avctx, AV_LOG_ERROR, "%s_id (%d) out of range\n", name, id);
-        return NULL;
-    }
-
-    if(!vec[id]) {
-        vec[id] = av_mallocz(size);
-        if(vec[id] == NULL)
-            av_log(h->s.avctx, AV_LOG_ERROR, "cannot allocate memory for %s\n", name);
-    }
-    return vec[id];
-}
-
 static inline int decode_seq_parameter_set(H264Context *h){
     MpegEncContext * const s = &h->s;
     int profile_idc, level_idc;
-    unsigned int sps_id, tmp, mb_width, mb_height;
+    unsigned int sps_id;
     int i;
     SPS *sps;
 
@@ -7181,7 +7168,11 @@ static inline int decode_seq_parameter_set(H264Context *h){
     level_idc= get_bits(&s->gb, 8);
     sps_id= get_ue_golomb(&s->gb);
 
-    sps = alloc_parameter_set(h, (void **)h->sps_buffers, sps_id, MAX_SPS_COUNT, sizeof(SPS), "sps");
+    if(sps_id >= MAX_SPS_COUNT) {
+        av_log(h->s.avctx, AV_LOG_ERROR, "sps_id (%d) out of range\n", sps_id);
+        return -1;
+    }
+    sps= av_mallocz(sizeof(SPS));
     if(sps == NULL)
         return -1;
 
@@ -7222,37 +7213,33 @@ static inline int decode_seq_parameter_set(H264Context *h){
         sps->delta_pic_order_always_zero_flag= get_bits1(&s->gb);
         sps->offset_for_non_ref_pic= get_se_golomb(&s->gb);
         sps->offset_for_top_to_bottom_field= get_se_golomb(&s->gb);
-        tmp= get_ue_golomb(&s->gb);
+        sps->poc_cycle_length                = get_ue_golomb(&s->gb);
 
-        if(tmp >= FF_ARRAY_ELEMS(sps->offset_for_ref_frame)){
-            av_log(h->s.avctx, AV_LOG_ERROR, "poc_cycle_length overflow %u\n", tmp);
-            return -1;
+        if((unsigned)sps->poc_cycle_length >= FF_ARRAY_ELEMS(sps->offset_for_ref_frame)){
+            av_log(h->s.avctx, AV_LOG_ERROR, "poc_cycle_length overflow %u\n", sps->poc_cycle_length);
+            goto fail;
         }
-        sps->poc_cycle_length= tmp;
 
         for(i=0; i<sps->poc_cycle_length; i++)
             sps->offset_for_ref_frame[i]= get_se_golomb(&s->gb);
     }else if(sps->poc_type != 2){
         av_log(h->s.avctx, AV_LOG_ERROR, "illegal POC type %d\n", sps->poc_type);
-        return -1;
+        goto fail;
     }
 
-    tmp= get_ue_golomb(&s->gb);
-    if(tmp > MAX_PICTURE_COUNT-2 || tmp >= 32){
+    sps->ref_frame_count= get_ue_golomb(&s->gb);
+    if(sps->ref_frame_count > MAX_PICTURE_COUNT-2 || sps->ref_frame_count >= 32U){
         av_log(h->s.avctx, AV_LOG_ERROR, "too many reference frames\n");
-        return -1;
+        goto fail;
     }
-    sps->ref_frame_count= tmp;
     sps->gaps_in_frame_num_allowed_flag= get_bits1(&s->gb);
-    mb_width= get_ue_golomb(&s->gb) + 1;
-    mb_height= get_ue_golomb(&s->gb) + 1;
-    if(mb_width >= INT_MAX/16 || mb_height >= INT_MAX/16 ||
-       avcodec_check_dimensions(NULL, 16*mb_width, 16*mb_height)){
+    sps->mb_width = get_ue_golomb(&s->gb) + 1;
+    sps->mb_height= get_ue_golomb(&s->gb) + 1;
+    if((unsigned)sps->mb_width >= INT_MAX/16 || (unsigned)sps->mb_height >= INT_MAX/16 ||
+       avcodec_check_dimensions(NULL, 16*sps->mb_width, 16*sps->mb_height)){
         av_log(h->s.avctx, AV_LOG_ERROR, "mb_width/height overflow\n");
-        return -1;
+        goto fail;
     }
-    sps->mb_width = mb_width;
-    sps->mb_height= mb_height;
 
     sps->frame_mbs_only_flag= get_bits1(&s->gb);
     if(!sps->frame_mbs_only_flag)
@@ -7307,7 +7294,12 @@ static inline int decode_seq_parameter_set(H264Context *h){
                #endif
                );
     }
+    av_free(h->sps_buffers[sps_id]);
+    h->sps_buffers[sps_id]= sps;
     return 0;
+fail:
+    av_free(sps);
+    return -1;
 }
 
 static void
@@ -7320,19 +7312,22 @@ build_qp_table(PPS *pps, int t, int index)
 
 static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
     MpegEncContext * const s = &h->s;
-    unsigned int tmp, pps_id= get_ue_golomb(&s->gb);
+    unsigned int pps_id= get_ue_golomb(&s->gb);
     PPS *pps;
 
-    pps = alloc_parameter_set(h, (void **)h->pps_buffers, pps_id, MAX_PPS_COUNT, sizeof(PPS), "pps");
-    if(pps == NULL)
-        return -1;
-
-    tmp= get_ue_golomb(&s->gb);
-    if(tmp>=MAX_SPS_COUNT || h->sps_buffers[tmp] == NULL){
-        av_log(h->s.avctx, AV_LOG_ERROR, "sps_id out of range\n");
+    if(pps_id >= MAX_PPS_COUNT) {
+        av_log(h->s.avctx, AV_LOG_ERROR, "pps_id (%d) out of range\n", pps_id);
         return -1;
     }
-    pps->sps_id= tmp;
+
+    pps= av_mallocz(sizeof(PPS));
+    if(pps == NULL)
+        return -1;
+    pps->sps_id= get_ue_golomb(&s->gb);
+    if((unsigned)pps->sps_id>=MAX_SPS_COUNT || h->sps_buffers[pps->sps_id] == NULL){
+        av_log(h->s.avctx, AV_LOG_ERROR, "sps_id out of range\n");
+        goto fail;
+    }
 
     pps->cabac= get_bits1(&s->gb);
     pps->pic_order_present= get_bits1(&s->gb);
@@ -7378,8 +7373,7 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
     pps->ref_count[1]= get_ue_golomb(&s->gb) + 1;
     if(pps->ref_count[0]-1 > 32-1 || pps->ref_count[1]-1 > 32-1){
         av_log(h->s.avctx, AV_LOG_ERROR, "reference overflow (pps)\n");
-        pps->ref_count[0]= pps->ref_count[1]= 1;
-        return -1;
+        goto fail;
     }
 
     pps->weighted_pred= get_bits1(&s->gb);
@@ -7424,7 +7418,12 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
                );
     }
 
+    av_free(h->pps_buffers[pps_id]);
+    h->pps_buffers[pps_id]= pps;
     return 0;
+fail:
+    av_free(pps);
+    return -1;
 }
 
 /**

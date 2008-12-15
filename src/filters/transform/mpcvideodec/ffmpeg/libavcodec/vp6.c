@@ -40,13 +40,13 @@
 #include <malloc.h>
 #endif
 
-static void vp6_parse_coeff(vp56_context_t *s);
-static void vp6_parse_coeff_huffman(vp56_context_t *s);
+static void vp6_parse_coeff(VP56Context *s);
+static void vp6_parse_coeff_huffman(VP56Context *s);
 
-static int vp6_parse_header(vp56_context_t *s, const uint8_t *buf, int buf_size,
+static int vp6_parse_header(VP56Context *s, const uint8_t *buf, int buf_size,
                             int *golden_frame)
 {
-    vp56_range_coder_t *c = &s->c;
+    VP56RangeCoder *c = &s->c;
     int parse_filter_info = 0;
     int coeff_offset = 0;
     int vrt_shift = 0;
@@ -78,7 +78,8 @@ static int vp6_parse_header(vp56_context_t *s, const uint8_t *buf, int buf_size,
         /* buf[4] is number of displayed macroblock rows */
         /* buf[5] is number of displayed macroblock cols */
 
-        if (16*cols != s->avctx->coded_width ||
+        if (!s->macroblocks || /* first frame */
+            16*cols != s->avctx->coded_width ||
             16*rows != s->avctx->coded_height) {
             avcodec_set_dimensions(s->avctx, 16*cols, 16*rows);
             if (s->avctx->extradata_size == 1) {
@@ -154,7 +155,7 @@ static int vp6_parse_header(vp56_context_t *s, const uint8_t *buf, int buf_size,
     return res;
 }
 
-static void vp6_coeff_order_table_init(vp56_context_t *s)
+static void vp6_coeff_order_table_init(VP56Context *s)
 {
     int i, pos, idx = 1;
 
@@ -165,9 +166,9 @@ static void vp6_coeff_order_table_init(vp56_context_t *s)
                 s->modelp->coeff_index_to_pos[idx++] = pos;
 }
 
-static void vp6_default_models_init(vp56_context_t *s)
+static void vp6_default_models_init(VP56Context *s)
 {
-    vp56_model_t *model = s->modelp;
+    VP56Model *model = s->modelp;
 
     model->vector_dct[0] = 0xA2;
     model->vector_dct[1] = 0xA4;
@@ -183,10 +184,10 @@ static void vp6_default_models_init(vp56_context_t *s)
     vp6_coeff_order_table_init(s);
 }
 
-static void vp6_parse_vector_models(vp56_context_t *s)
+static void vp6_parse_vector_models(VP56Context *s)
 {
-    vp56_range_coder_t *c = &s->c;
-    vp56_model_t *model = s->modelp;
+    VP56RangeCoder *c = &s->c;
+    VP56Model *model = s->modelp;
     int comp, node;
 
     for (comp=0; comp<2; comp++) {
@@ -214,7 +215,7 @@ static int vp6_huff_cmp(const void *va, const void *vb)
     return (a->count - b->count)*16 + (b->sym - a->sym);
 }
 
-static void vp6_build_huff_tree(vp56_context_t *s, uint8_t coeff_model[],
+static void vp6_build_huff_tree(VP56Context *s, uint8_t coeff_model[],
                                 const uint8_t *map, unsigned size, VLC *vlc)
 {
     #if __STDC_VERSION__ >= 199901L
@@ -238,10 +239,10 @@ static void vp6_build_huff_tree(vp56_context_t *s, uint8_t coeff_model[],
                        FF_HUFFMAN_FLAG_HNODE_FIRST);
 }
 
-static void vp6_parse_coeff_models(vp56_context_t *s)
+static void vp6_parse_coeff_models(VP56Context *s)
 {
-    vp56_range_coder_t *c = &s->c;
-    vp56_model_t *model = s->modelp;
+    VP56RangeCoder *c = &s->c;
+    VP56Model *model = s->modelp;
     int def_prob[11];
     int node, cg, ctx, pos;
     int ct;    /* code type */
@@ -303,13 +304,13 @@ static void vp6_parse_coeff_models(vp56_context_t *s)
     }
 }
 
-static void vp6_parse_vector_adjustment(vp56_context_t *s, vp56_mv_t *vect)
+static void vp6_parse_vector_adjustment(VP56Context *s, VP56mv *vect)
 {
-    vp56_range_coder_t *c = &s->c;
-    vp56_model_t *model = s->modelp;
+    VP56RangeCoder *c = &s->c;
+    VP56Model *model = s->modelp;
     int comp;
 
-    vect->x=0;vect->y=0; // = (vp56_mv_t) {0,0};
+    vect->x=0;vect->y=0;
     if (s->vector_candidate_pos < 2)
         *vect = s->vector_candidate[0];
 
@@ -345,7 +346,7 @@ static void vp6_parse_vector_adjustment(vp56_context_t *s, vp56_mv_t *vect)
  * Read number of consecutive blocks with null DC or AC.
  * This value is < 74.
  */
-static unsigned vp6_get_nb_null(vp56_context_t *s)
+static unsigned vp6_get_nb_null(VP56Context *s)
 {
     unsigned val = get_bits(&s->gb, 2);
     if (val == 2)
@@ -357,9 +358,9 @@ static unsigned vp6_get_nb_null(vp56_context_t *s)
     return val;
 }
 
-static void vp6_parse_coeff_huffman(vp56_context_t *s)
+static void vp6_parse_coeff_huffman(VP56Context *s)
 {
-    vp56_model_t *model = s->modelp;
+    VP56Model *model = s->modelp;
     uint8_t *permute = s->scantable.permutated;
     VLC *vlc_coeff;
     int coeff, sign, coeff_idx;
@@ -412,10 +413,10 @@ static void vp6_parse_coeff_huffman(vp56_context_t *s)
     }
 }
 
-static void vp6_parse_coeff(vp56_context_t *s)
+static void vp6_parse_coeff(VP56Context *s)
 {
-    vp56_range_coder_t *c = s->ccp;
-    vp56_model_t *model = s->modelp;
+    VP56RangeCoder *c = s->ccp;
+    VP56Model *model = s->modelp;
     uint8_t *permute = s->scantable.permutated;
     uint8_t *model1, *model2, *model3;
     int coeff, sign, coeff_idx;
@@ -529,7 +530,7 @@ static void vp6_filter_hv4(uint8_t *dst, uint8_t *src, int stride,
     }
 }
 
-static void vp6_filter_diag2(vp56_context_t *s, uint8_t *dst, uint8_t *src,
+static void vp6_filter_diag2(VP56Context *s, uint8_t *dst, uint8_t *src,
                              int stride, int h_weight, int v_weight)
 {
     uint8_t *tmp = s->edge_emu_buffer+16;
@@ -570,9 +571,9 @@ static void vp6_filter_diag4(uint8_t *dst, uint8_t *src, int stride,
     }
 }
 
-static void vp6_filter(vp56_context_t *s, uint8_t *dst, uint8_t *src,
+static void vp6_filter(VP56Context *s, uint8_t *dst, uint8_t *src,
                        int offset1, int offset2, int stride,
-                       vp56_mv_t mv, int mask, int select, int luma)
+                       VP56mv mv, int mask, int select, int luma)
 {
     int filter4 = 0;
     int x8 = mv.x & mask;
@@ -622,7 +623,7 @@ static void vp6_filter(vp56_context_t *s, uint8_t *dst, uint8_t *src,
 
 static av_cold int vp6_decode_init(AVCodecContext *avctx)
 {
-    vp56_context_t *s = avctx->priv_data;
+    VP56Context *s = avctx->priv_data;
 
     vp56_init(avctx, avctx->codec->id == CODEC_ID_VP6,
                      avctx->codec->id == CODEC_ID_VP6A);
@@ -642,7 +643,7 @@ AVCodec vp6_decoder = {
     "vp6",
     CODEC_TYPE_VIDEO,
     CODEC_ID_VP6,
-    sizeof(vp56_context_t),
+    sizeof(VP56Context),
     vp6_decode_init,
     NULL,
     vp56_free,
@@ -660,7 +661,7 @@ AVCodec vp6f_decoder = {
     "vp6f",
     CODEC_TYPE_VIDEO,
     CODEC_ID_VP6F,
-    sizeof(vp56_context_t),
+    sizeof(VP56Context),
     vp6_decode_init,
     NULL,
     vp56_free,
@@ -678,7 +679,7 @@ AVCodec vp6a_decoder = {
     "vp6a",
     CODEC_TYPE_VIDEO,
     CODEC_ID_VP6A,
-    sizeof(vp56_context_t),
+    sizeof(VP56Context),
     vp6_decode_init,
     NULL,
     vp56_free,

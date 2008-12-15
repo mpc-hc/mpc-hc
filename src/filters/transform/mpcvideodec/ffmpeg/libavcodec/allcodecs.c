@@ -33,13 +33,6 @@
           extern AVCodecParser x##_parser; \
           av_register_codec_parser(&x##_parser); }
 
-/**
- * Register all the codecs which were enabled at configuration time. 
- * If you do not call this function you can select exactly which formats
- * you want to support, by using the individual registration functions.
- *
- * @see register_avcodec
- */
 void avcodec_register_all(void)
 {
 	static int initialized;
