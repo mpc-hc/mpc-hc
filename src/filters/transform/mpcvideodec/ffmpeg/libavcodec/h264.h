@@ -531,6 +531,8 @@ typedef struct H264Context{
      * pic_struct in picture timing SEI message
      */
     SEI_PicStructType sei_pic_struct;
+
+    int is_complex;
     
     /* experimental */
     int phaze;
