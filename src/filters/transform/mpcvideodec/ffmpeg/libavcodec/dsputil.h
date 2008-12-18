@@ -60,6 +60,10 @@ void ff_h264_idct8_dc_add_c(uint8_t *dst, DCTELEM *block, int stride);
 void ff_h264_idct_dc_add_c(uint8_t *dst, DCTELEM *block, int stride);
 void ff_h264_lowres_idct_add_c(uint8_t *dst, int stride, DCTELEM *block);
 void ff_h264_lowres_idct_put_c(uint8_t *dst, int stride, DCTELEM *block);
+void ff_h264_idct_add16_c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
+void ff_h264_idct_add16intra_c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
+void ff_h264_idct8_add4_c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
+void ff_h264_idct_add8_c(uint8_t **dest, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
 
 void ff_vector_fmul_add_add_c(float *dst, const float *src0, const float *src1,
                               const float *src2, int src3, int blocksize, int step);
@@ -359,9 +363,6 @@ typedef struct DSPContext {
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
 #endif
-#ifdef AC3_DECODER
-	  void (*ac3_downmix)(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len);
-#endif
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
@@ -438,6 +439,10 @@ typedef struct DSPContext {
     void (*h264_idct_dc_add)(uint8_t *dst/*align 4*/, DCTELEM *block/*align 16*/, int stride);
     void (*h264_idct8_dc_add)(uint8_t *dst/*align 8*/, DCTELEM *block/*align 16*/, int stride);
     void (*h264_dct)(DCTELEM block[4][4]);
+    void (*h264_idct_add16)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
+    void (*h264_idct8_add4)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
+    void (*h264_idct_add8)(uint8_t **dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
+    void (*h264_idct_add16intra)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
 
     void (*prefetch)(void *mem, int stride, int h);
 
