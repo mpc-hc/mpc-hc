@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
+#include "..\..\..\..\include\Version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -73,8 +74,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,714,0
- PRODUCTVERSION 1,1,714,0
+ FILEVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
+ PRODUCTVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -92,12 +93,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
-            VALUE "FileVersion", "1, 1, 714, 0"
+            VALUE "FileVersion", "1, 2, 0, 0"
             VALUE "InternalName", "VSFilter"
             VALUE "LegalCopyright", "Copyright (C) 2001-2008 Gabest"
             VALUE "OriginalFilename", "VSFilter.dll"
             VALUE "ProductName", "VSFilter"
-            VALUE "ProductVersion", "1, 1, 714, 0"
+            VALUE "ProductVersion", "1, 2, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
