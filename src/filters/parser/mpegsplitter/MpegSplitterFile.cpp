@@ -153,18 +153,18 @@ HRESULT CMpegSplitterFile::Init()
 //#ifndef DEBUG
 	if(m_streams[video].GetCount())
 	{
-		if (m_bIsHdmv)
+		if (m_streams[subpic].GetCount())
+		{
+			stream s;
+			s.mt.majortype = MEDIATYPE_Video;
+			s.mt.subtype = MEDIASUBTYPE_DVD_SUBPICTURE;
+			s.mt.formattype = FORMAT_None;
+			m_streams[subpic].Insert(s);
+		}
+		else
 		{
 			// Add fake stream for "No subtitle"
 			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
-		}
-		else if (m_streams[subpic].GetCount())
-		{
-		stream s;
-		s.mt.majortype = MEDIATYPE_Video;
-		s.mt.subtype = MEDIASUBTYPE_DVD_SUBPICTURE;
-		s.mt.formattype = FORMAT_None;
-		m_streams[subpic].Insert(s);
 		}
 	}
 //#endif

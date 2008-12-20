@@ -150,20 +150,17 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 				case PRESENTATION_SEG :
 					TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n", ReftimeToString(rtStart), m_nSegSize);
 					
-					if (ParsePresentationSegment(&SegmentBuffer, rtStart) > 0)
+					if (m_pCurrentObject)
+					{
+						m_pCurrentObject->m_rtStop = rtStart;
+						TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
+						m_pCurrentObject = NULL;
+					}
+
+					if (ParsePresentationSegment(&SegmentBuffer) > 0)
 					{
 						m_pCurrentObject->m_rtStart	= rtStart;
-						m_pCurrentObject->m_rtStop	= rtStart + 1;
-					}
-					else
-					{
-						if (m_pCurrentObject)
-						{
-							m_pCurrentObject->m_rtStop = rtStart;
-							m_pObjects.AddTail (m_pCurrentObject);
-							TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
-							m_pCurrentObject = NULL;
-						}
+						m_pCurrentObject->m_rtStop	= _I64_MAX;
 					}
 					break;
 				case WINDOW_DEF :
@@ -185,7 +182,7 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 	return hr;
 }
 
-int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer, REFERENCE_TIME rtStart)
+int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 {
 	COMPOSITION_DESCRIPTOR	CompositionDescriptor;
 	BYTE					nObjectNumber;
@@ -200,12 +197,7 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer, REFERENCE_TIME r
 
 	if (nObjectNumber > 0)
 	{
-		if (m_pCurrentObject)
-		{
-			m_pCurrentObject->m_rtStop = rtStart;
-			m_pObjects.AddTail (m_pCurrentObject);
-		}
-
+		ASSERT (m_pCurrentObject == NULL);
 		m_pCurrentObject = new CompositionObject();
 		ParseCompositionObject (pGBuffer, m_pCurrentObject);
 	}
@@ -252,6 +244,12 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
 		}
 		else
 			m_pCurrentObject->AppendRLEData (pGBuffer->GetBufferPos(), nUnitSize-4);
+
+		if (m_pCurrentObject->IsRLEComplete())
+		{
+			m_pObjects.AddTail (m_pCurrentObject);
+			TRACE_HDMVSUB ("CHdmvSub:HDMV : %S added\n", ReftimeToString (m_pCurrentObject->m_rtStart));
+		}
 	}
 }
 
@@ -286,6 +284,20 @@ void CHdmvSub::ParseCompositionDescriptor(CGolombBuffer* pGBuffer, COMPOSITION_D
 {
 	pCompositionDescriptor->nNumber	= pGBuffer->ReadShort();
 	pCompositionDescriptor->bState	= pGBuffer->ReadByte();
+}
+
+
+HRESULT CHdmvSub::UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop)
+{
+	CompositionObject*	pObject = FindObject (rtStart);
+
+	if (pObject && pObject->m_rtStart == rtStart && pObject->m_rtStop != _I64_MAX)
+	{
+		*rtStop = pObject->m_rtStop;
+		return S_OK;
+	}
+
+	return S_FALSE;
 }
 
 void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
@@ -329,7 +341,6 @@ HRESULT CHdmvSub::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& Vide
 	ASSERT (FALSE);
 	return E_INVALIDARG;
 }
-
 
 void CHdmvSub::Reset()
 {

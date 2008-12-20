@@ -77,7 +77,7 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedHdmvSubtitle::GetStop(POSITION pos, doubl
 
 STDMETHODIMP_(bool) CRenderedHdmvSubtitle::IsAnimated(POSITION pos)
 {
-	return(true);
+	return(false);
 }
 
 STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
@@ -93,6 +93,12 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (POSITION pos, SIZE& MaxTextu
 	CAutoLock cAutoLock(&m_csCritSec);
 	return m_HdmvSub.GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
 };
+
+STDMETHODIMP CRenderedHdmvSubtitle::UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop)
+{
+	CAutoLock cAutoLock(&m_csCritSec);
+	return m_HdmvSub.UpdateStop (rtStart, rtStop);
+}
 
 // IPersist
 

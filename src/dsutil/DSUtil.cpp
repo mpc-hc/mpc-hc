@@ -2353,7 +2353,7 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 	int			lSecond	  = (llTotalMs /  1000) % 60;
 	int			lMillisec = llTotalMs  %  1000;
 
-	strTemp.Format (_T("%02d:%02d:%02d:%02d"), lHour, lMinute, lSecond, lMillisec);
+	strTemp.Format (_T("%02d:%02d:%02d,%03d"), lHour, lMinute, lSecond, lMillisec);
 	return strTemp;
 }
 

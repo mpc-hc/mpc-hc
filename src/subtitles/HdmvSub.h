@@ -103,7 +103,7 @@ public:
 		void				SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize);
 		void				AppendRLEData(BYTE* pBuffer, int nSize);
 		int					GetRLEDataSize()  { return m_nRLEDataSize; };
-		bool				IsRLEUncomplete() { return m_nRLEPos != 0; };
+		bool				IsRLEComplete() { return m_nRLEPos >= m_nRLEDataSize; };
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 		void				SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD);
@@ -138,6 +138,9 @@ public:
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
 		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME; 
 	};
+	
+	HRESULT UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop);
+
 
 	void			Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
 	HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
@@ -159,7 +162,7 @@ private :
 	int								m_nColorNumber;
 
 
-	int					ParsePresentationSegment(CGolombBuffer* pGBuffer, REFERENCE_TIME rtStart);
+	int					ParsePresentationSegment(CGolombBuffer* pGBuffer);
 	void				ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize);
 	void				ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize);
 
@@ -168,6 +171,5 @@ private :
 	void				ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
 	void				AllocSegment(int nSize);
-
 	CompositionObject*	FindObject(REFERENCE_TIME rt);
 };

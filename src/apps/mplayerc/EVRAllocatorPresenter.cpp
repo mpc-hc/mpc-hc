@@ -886,7 +886,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 	hr = pfMFCreateVideoMediaType  (VideoFormat, &m_pMediaType);
 
 	if (VideoFormat->videoInfo.FramesPerSecond.Numerator != 0)
-		m_rtTimePerFrame = (10000000I64*VideoFormat->videoInfo.FramesPerSecond.Denominator)/VideoFormat->videoInfo.FramesPerSecond.Numerator;
+		m_rtTimePerFrame = (20000000I64*VideoFormat->videoInfo.FramesPerSecond.Denominator)/VideoFormat->videoInfo.FramesPerSecond.Numerator;
 
 	m_AspectRatio.cx	= VideoFormat->videoInfo.PixelAspectRatio.Numerator;
 	m_AspectRatio.cy	= VideoFormat->videoInfo.PixelAspectRatio.Denominator;

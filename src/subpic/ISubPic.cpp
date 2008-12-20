@@ -266,6 +266,11 @@ STDMETHODIMP ISubPicProviderImpl::Unlock()
 	return m_pLock ? m_pLock->Unlock(), S_OK : E_FAIL;
 }
 
+STDMETHODIMP ISubPicProviderImpl::UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop)
+{
+	return S_FALSE;	// No rtStop update by default!
+}
+
 //
 // ISubPicQueueImpl
 //
@@ -360,7 +365,11 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 	&& SUCCEEDED(pSubPic->Lock(spd)))
 	{
 		CRect r(0,0,0,0);
-		hr = pSubPicProvider->Render(spd, (rtStart+rtStop)/2, fps, r);
+
+		if (rtStop == _I64_MAX)
+			hr = pSubPicProvider->Render(spd, rtStart, fps, r);
+		else
+			hr = pSubPicProvider->Render(spd, (rtStart+rtStop)/2, fps, r);
 
 		pSubPic->SetStart(rtStart);
 		pSubPic->SetStop(rtStop);
@@ -503,6 +512,17 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 	CAutoLock cQueueLock(&m_csQueueLock);
 
 	REFERENCE_TIME rtNow = m_rtNow;
+
+	if (GetCount() > 0 && GetHead()->GetStop() == _I64_MAX)
+	{
+		CComPtr<ISubPicProvider> pSubPicProvider;
+		if(SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider)
+		{
+			REFERENCE_TIME		rtStop;
+			if (pSubPicProvider->UpdateStop(GetHead()->GetStart(), &rtStop) == S_OK)
+				GetHead()->SetStop(rtStop);
+		}		
+	}
 
 	if(rtNow < m_rtQueueStart)
 	{
@@ -660,6 +680,18 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 
 		pSubPic = m_pSubPic;
 	}
+
+	if (pSubPic->GetStop() == _I64_MAX)
+	{
+		CComPtr<ISubPicProvider> pSubPicProvider;
+		if(SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider)
+		{
+			REFERENCE_TIME		rtStop;
+			if (pSubPicProvider->UpdateStop(pSubPic->GetStart(), &rtStop) == S_OK)
+				pSubPic->SetStop(rtStop);
+		}		
+	}
+
 
 	if(pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop())
 	{

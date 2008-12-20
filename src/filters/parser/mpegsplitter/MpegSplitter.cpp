@@ -478,7 +478,9 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 				if(FAILED(hr = RenameOutputPin(from, to, &to.mt)))
 					return hr;
 
-				if(const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid))
+				// Don't rename other pin for Hdmv!
+				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid);
+				if(p!=NULL && !m_ClipInfo.IsHdmv())
 				{
 					for(int k = 0; k < countof(m_pFile->m_streams); k++)
 					{
