@@ -162,21 +162,6 @@ SRCS_C+=\
 #		$(LAVU_DIR)/random.c \
 #		$(LAVU_DIR)/string.c
 
-#SRCS_C+=\
-#		$(LAVF_DIR)/allformats.c \
-#		$(LAVF_DIR)/avio.c \
-#		$(LAVF_DIR)/aviobuf.c \
-#		$(LAVF_DIR)/avisynth.c \
-#		$(LAVF_DIR)/cutils.c \
-#		$(LAVF_DIR)/file.c \
-#		$(LAVF_DIR)/matroska.c \
-#		$(LAVF_DIR)/matroskadec.c \
-#		$(LAVF_DIR)/mpeg.c \
-#		$(LAVF_DIR)/mpegts.c \
-#		$(LAVF_DIR)/raw.c \
-#		$(LAVF_DIR)/riff.c \
-#		$(LAVF_DIR)/utils.c \
-
 SRCS_C+=\
     $(LAVC_DIR)/i386/cpuid.c \
 		$(LAVC_DIR)/i386/dsputil_mmx.c \
@@ -196,9 +181,14 @@ SRCS_C+=\
 #		$(LAVC_DIR)/i386/fft_3dn2.c \
 #		$(LAVC_DIR)/i386/fft_sse.c
 
-#SRCS_YASM=\
-#      $(LAVC_DIR)/i386/dsputil_yasm.asm \
+ifneq ($(64BIT),yes)
+SRCS_YASM=\
+      $(LAVC_DIR)/i386/dsputil_yasm.asm \
+      $(LAVC_DIR)/i386/h264_deblock_sse2.asm
+
+#SRCS_YASM+=\
 #      $(LAVC_DIR)/i386/fft_mmx.asm
+endif
 
 
 ifeq ($(64BIT),yes)

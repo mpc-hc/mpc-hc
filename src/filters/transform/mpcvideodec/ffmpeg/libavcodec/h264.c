@@ -1406,7 +1406,7 @@ static const uint8_t *decode_nal(H264Context *h, const uint8_t *src, int *dst_le
     }
 
     bufidx = h->nal_unit_type == NAL_DPC ? 1 : 0; // use second escape buffer for inter data
-    h->rbsp_buffer[bufidx]= av_fast_realloc(h->rbsp_buffer[bufidx], &h->rbsp_buffer_size[bufidx], length);
+    h->rbsp_buffer[bufidx]= av_fast_realloc(h->rbsp_buffer[bufidx], &h->rbsp_buffer_size[bufidx], length+FF_INPUT_BUFFER_PADDING_SIZE);
     dst= h->rbsp_buffer[bufidx];
 
     if (dst == NULL){
@@ -1429,6 +1429,8 @@ static const uint8_t *decode_nal(H264Context *h, const uint8_t *src, int *dst_le
 
         dst[di++]= src[si++];
     }
+
+    memset(dst+di, 0, FF_INPUT_BUFFER_PADDING_SIZE);
 
     *dst_length= di;
     *consumed= si + 1;//+1 for the header
@@ -1541,9 +1543,6 @@ static inline void mc_dir_part(H264Context *h, Picture *pic, int n, int square, 
     const int full_my= my>>2;
     const int pic_width  = 16*s->mb_width;
     const int pic_height = 16*s->mb_height >> MB_FIELD;
-
-    if(!pic->data[0]) //FIXME this is unacceptable, some sensible error concealment must be done for missing reference frames
-        return;
 
     if(mx&7) extra_width -= 3;
     if(my&7) extra_height -= 3;
@@ -2057,6 +2056,8 @@ static av_cold void common_init(H264Context *h){
     h->dequant_coeff_pps= -1;
     s->unrestricted_mv=1;
     s->decode=1; //FIXME
+
+    dsputil_init(&s->dsp, s->avctx); // needed so that idct permutation is known early
 
     memset(h->pps.scaling_matrix4, 16, 6*16*sizeof(uint8_t));
     memset(h->pps.scaling_matrix8, 16, 2*64*sizeof(uint8_t));
@@ -4959,26 +4960,20 @@ static int decode_cabac_mb_cbp_chroma( H264Context *h) {
     return 1 + get_cabac_noinline( &h->cabac, &h->cabac_state[77 + ctx] );
 }
 static int decode_cabac_mb_dqp( H264Context *h) {
-    int   ctx = 0;
+    int   ctx= h->last_qscale_diff != 0;
     int   val = 0;
 
-    if( h->last_qscale_diff != 0 )
-        ctx++;
-
     while( get_cabac_noinline( &h->cabac, &h->cabac_state[60 + ctx] ) ) {
-        if( ctx < 2 )
-            ctx = 2;
-        else
-            ctx = 3;
+        ctx= 2+(ctx>>1);
         val++;
         if(val > 102) //prevent infinite loop
             return INT_MIN;
     }
 
     if( val&0x01 )
-        return (val + 1)/2;
+        return   (val + 1)>>1 ;
     else
-        return -(val + 1)/2;
+        return -((val + 1)>>1);
 }
 static int decode_cabac_p_mb_sub_type( H264Context *h ) {
     if( get_cabac( &h->cabac, &h->cabac_state[21] ) )
@@ -5035,8 +5030,7 @@ static int decode_cabac_mb_ref( H264Context *h, int list, int n ) {
         else
             ctx = 5;
         if(ref >= 32 /*h->ref_list[list]*/){
-            av_log(h->s.avctx, AV_LOG_ERROR, "overflow in decode_cabac_mb_ref\n");
-            return 0; //FIXME we should return -1 and check the return everywhere
+            return -1;
         }
     }
     return ref;
@@ -5046,14 +5040,8 @@ static int decode_cabac_mb_mvd( H264Context *h, int list, int n, int l ) {
     int amvd = abs( h->mvd_cache[list][scan8[n] - 1][l] ) +
                abs( h->mvd_cache[list][scan8[n] - 8][l] );
     int ctxbase = (l == 0) ? 40 : 47;
-    int ctx, mvd;
-
-    if( amvd < 3 )
-        ctx = 0;
-    else if( amvd > 32 )
-        ctx = 2;
-    else
-        ctx = 1;
+    int mvd;
+    int ctx = (amvd>2) + (amvd>32);
 
     if(!get_cabac(&h->cabac, &h->cabac_state[ctxbase+ctx]))
         return 0;
@@ -5097,14 +5085,9 @@ static av_always_inline int get_cabac_cbf_ctx( H264Context *h, int cat, int idx,
             nzb = (h-> top_cbp>>(6+idx))&0x01;
         }
     } else {
-        if( cat == 4 ) {
-            nza = h->non_zero_count_cache[scan8[16+idx] - 1];
-            nzb = h->non_zero_count_cache[scan8[16+idx] - 8];
-        } else {
-            assert(cat == 1 || cat == 2);
-            nza = h->non_zero_count_cache[scan8[idx] - 1];
-            nzb = h->non_zero_count_cache[scan8[idx] - 8];
-        }
+        assert(cat == 1 || cat == 2 || cat == 4);
+        nza = h->non_zero_count_cache[scan8[idx] - 1];
+        nzb = h->non_zero_count_cache[scan8[idx] - 8];
     }
 
     if( nza > 0 )
@@ -5186,19 +5169,15 @@ static av_always_inline void decode_cabac_residual_internal( H264Context *h, DCT
      *      1-> AC 16x16  n = luma4x4idx
      *      2-> Luma4x4   n = luma4x4idx
      *      3-> DC Chroma n = iCbCr
-     *      4-> AC Chroma n = 4 * iCbCr + chroma4x4idx
+     *      4-> AC Chroma n = 16 + 4 * iCbCr + chroma4x4idx
      *      5-> Luma8x8   n = 4 * luma8x8idx
      */
 
     /* read coded block flag */
     if( is_dc || cat != 5 ) {
         if( get_cabac( CC, &h->cabac_state[85 + get_cabac_cbf_ctx( h, cat, n, is_dc ) ] ) == 0 ) {
-            if( !is_dc ) {
-                if( cat == 4 )
-                    h->non_zero_count_cache[scan8[16+n]] = 0;
-                else
-                    h->non_zero_count_cache[scan8[n]] = 0;
-            }
+            if( !is_dc )
+                h->non_zero_count_cache[scan8[n]] = 0;
 
 #ifdef CABAC_ON_STACK
             h->cabac.range     = cc.range     ;
@@ -5253,10 +5232,8 @@ static av_always_inline void decode_cabac_residual_internal( H264Context *h, DCT
     } else {
         if( cat == 5 )
             fill_rectangle(&h->non_zero_count_cache[scan8[n]], 2, 2, 8, coeff_count, 1);
-        else if( cat == 4 )
-            h->non_zero_count_cache[scan8[16+n]] = coeff_count;
         else {
-            assert( cat == 1 || cat == 2 );
+            assert( cat == 1 || cat == 2 || cat == 4 );
             h->non_zero_count_cache[scan8[n]] = coeff_count;
         }
     }
@@ -5550,9 +5527,13 @@ decode_intra_mb:
                 for( i = 0; i < 4; i++ ) {
                     if(IS_DIRECT(h->sub_mb_type[i])) continue;
                     if(IS_DIR(h->sub_mb_type[i], 0, list)){
-                        if( h->ref_count[list] > 1 )
+                        if( h->ref_count[list] > 1 ){
                             ref[list][i] = decode_cabac_mb_ref( h, list, 4*i );
-                        else
+                            if(ref[list][i] >= (unsigned)h->ref_count[list]){
+                                av_log(s->avctx, AV_LOG_ERROR, "Reference %d >= %d\n", ref[list][i], h->ref_count[list]);
+                                return -1;
+                            }
+                        }else
                             ref[list][i] = 0;
                     } else {
                         ref[list][i] = -1;
@@ -5635,7 +5616,15 @@ decode_intra_mb:
         if(IS_16X16(mb_type)){
             for(list=0; list<h->list_count; list++){
                 if(IS_DIR(mb_type, 0, list)){
-                        const int ref = h->ref_count[list] > 1 ? decode_cabac_mb_ref( h, list, 0 ) : 0;
+                    int ref;
+                    if(h->ref_count[list] > 1){
+                        ref= decode_cabac_mb_ref(h, list, 0);
+                        if(ref >= (unsigned)h->ref_count[list]){
+                            av_log(s->avctx, AV_LOG_ERROR, "Reference %d >= %d\n", ref, h->ref_count[list]);
+                            return -1;
+                        }
+                    }else
+                        ref=0;
                         fill_rectangle(&h->ref_cache[list][ scan8[0] ], 4, 4, 8, ref, 1);
                 }else
                     fill_rectangle(&h->ref_cache[list][ scan8[0] ], 4, 4, 8, (uint8_t)LIST_NOT_USED, 1); //FIXME factorize and the other fill_rect below too
@@ -5658,7 +5647,15 @@ decode_intra_mb:
             for(list=0; list<h->list_count; list++){
                     for(i=0; i<2; i++){
                         if(IS_DIR(mb_type, i, list)){
-                            const int ref= h->ref_count[list] > 1 ? decode_cabac_mb_ref( h, list, 8*i ) : 0;
+                            int ref;
+                            if(h->ref_count[list] > 1){
+                                ref= decode_cabac_mb_ref( h, list, 8*i );
+                                if(ref >= (unsigned)h->ref_count[list]){
+                                    av_log(s->avctx, AV_LOG_ERROR, "Reference %d >= %d\n", ref, h->ref_count[list]);
+                                    return -1;
+                                }
+                            }else
+                                ref=0;
                             fill_rectangle(&h->ref_cache[list][ scan8[0] + 16*i ], 4, 2, 8, ref, 1);
                         }else
                             fill_rectangle(&h->ref_cache[list][ scan8[0] + 16*i ], 4, 2, 8, (LIST_NOT_USED&0xFF), 1);
@@ -5685,7 +5682,15 @@ decode_intra_mb:
             for(list=0; list<h->list_count; list++){
                     for(i=0; i<2; i++){
                         if(IS_DIR(mb_type, i, list)){ //FIXME optimize
-                            const int ref= h->ref_count[list] > 1 ? decode_cabac_mb_ref( h, list, 4*i ) : 0;
+                            int ref;
+                            if(h->ref_count[list] > 1){
+                                ref= decode_cabac_mb_ref( h, list, 4*i );
+                                if(ref >= (unsigned)h->ref_count[list]){
+                                    av_log(s->avctx, AV_LOG_ERROR, "Reference %d >= %d\n", ref, h->ref_count[list]);
+                                    return -1;
+                                }
+                            }else
+                                ref=0;
                             fill_rectangle(&h->ref_cache[list][ scan8[0] + 2*i ], 2, 4, 8, ref, 1);
                         }else
                             fill_rectangle(&h->ref_cache[list][ scan8[0] + 2*i ], 2, 4, 8, (LIST_NOT_USED&0xFF), 1);
@@ -5810,7 +5815,7 @@ decode_intra_mb:
                 for( i = 0; i < 4; i++ ) {
                     const int index = 16 + 4 * c + i;
                     //av_log( s->avctx, AV_LOG_ERROR, "INTRA C%d-AC %d\n",c, index - 16 );
-                    decode_cabac_residual(h, h->mb + 16*index, 4, index - 16, scan + 1, qmul, 15);
+                    decode_cabac_residual(h, h->mb + 16*index, 4, index, scan + 1, qmul, 15);
                 }
             }
         } else {
@@ -5846,57 +5851,13 @@ static void filter_mb_edgev( H264Context *h, uint8_t *pix, int stride, int16_t b
 
     if( bS[0] < 4 ) {
         int8_t tc[4];
-        for(i=0; i<4; i++)
-            tc[i] = bS[i] ? (tc0_table+52)[index_a][bS[i] - 1] : -1;
+        tc[0] = (tc0_table+52)[index_a][bS[0]];
+        tc[1] = (tc0_table+52)[index_a][bS[1]];
+        tc[2] = (tc0_table+52)[index_a][bS[2]];
+        tc[3] = (tc0_table+52)[index_a][bS[3]];
         h->s.dsp.h264_h_loop_filter_luma(pix, stride, alpha, beta, tc);
     } else {
-        /* 16px edge length, because bS=4 is triggered by being at
-         * the edge of an intra MB, so all 4 bS are the same */
-            for( d = 0; d < 16; d++ ) {
-                const int p0 = pix[-1];
-                const int p1 = pix[-2];
-                const int p2 = pix[-3];
-
-                const int q0 = pix[0];
-                const int q1 = pix[1];
-                const int q2 = pix[2];
-
-                if( FFABS( p0 - q0 ) < alpha &&
-                    FFABS( p1 - p0 ) < beta &&
-                    FFABS( q1 - q0 ) < beta ) {
-
-                    if(FFABS( p0 - q0 ) < (( alpha >> 2 ) + 2 )){
-                        if( FFABS( p2 - p0 ) < beta)
-                        {
-                            const int p3 = pix[-4];
-                            /* p0', p1', p2' */
-                            pix[-1] = ( p2 + 2*p1 + 2*p0 + 2*q0 + q1 + 4 ) >> 3;
-                            pix[-2] = ( p2 + p1 + p0 + q0 + 2 ) >> 2;
-                            pix[-3] = ( 2*p3 + 3*p2 + p1 + p0 + q0 + 4 ) >> 3;
-                        } else {
-                            /* p0' */
-                            pix[-1] = ( 2*p1 + p0 + q1 + 2 ) >> 2;
-                        }
-                        if( FFABS( q2 - q0 ) < beta)
-                        {
-                            const int q3 = pix[3];
-                            /* q0', q1', q2' */
-                            pix[0] = ( p1 + 2*p0 + 2*q0 + 2*q1 + q2 + 4 ) >> 3;
-                            pix[1] = ( p0 + q0 + q1 + q2 + 2 ) >> 2;
-                            pix[2] = ( 2*q3 + 3*q2 + q1 + q0 + p0 + 4 ) >> 3;
-                        } else {
-                            /* q0' */
-                            pix[0] = ( 2*q1 + q0 + p1 + 2 ) >> 2;
-                        }
-                    }else{
-                        /* p0', q0' */
-                        pix[-1] = ( 2*p1 + p0 + q1 + 2 ) >> 2;
-                        pix[ 0] = ( 2*q1 + q0 + p1 + 2 ) >> 2;
-                    }
-                    tprintf(h->s.avctx, "filter_mb_edgev i:%d d:%d\n# bS:4 -> [%02x, %02x, %02x, %02x, %02x, %02x] =>[%02x, %02x, %02x, %02x]\n", i, d, p2, p1, p0, q0, q1, q2, pix[-2], pix[-1], pix[0], pix[1]);
-                }
-                pix += stride;
-            }
+        h->s.dsp.h264_h_loop_filter_luma_intra(pix, stride, alpha, beta);
     }
 }
 static void filter_mb_edgecv( H264Context *h, uint8_t *pix, int stride, int16_t bS[4], int qp ) {
@@ -5907,8 +5868,10 @@ static void filter_mb_edgecv( H264Context *h, uint8_t *pix, int stride, int16_t 
 
     if( bS[0] < 4 ) {
         int8_t tc[4];
-        for(i=0; i<4; i++)
-            tc[i] = bS[i] ? (tc0_table+52)[index_a][bS[i] - 1] + 1 : 0;
+        tc[0] = (tc0_table+52)[index_a][bS[0]]+1;
+        tc[1] = (tc0_table+52)[index_a][bS[1]]+1;
+        tc[2] = (tc0_table+52)[index_a][bS[2]]+1;
+        tc[3] = (tc0_table+52)[index_a][bS[3]]+1;
         h->s.dsp.h264_h_loop_filter_chroma(pix, stride, alpha, beta, tc);
     } else {
         h->s.dsp.h264_h_loop_filter_chroma_intra(pix, stride, alpha, beta);
@@ -5939,7 +5902,7 @@ static void filter_mb_mbaff_edgev( H264Context *h, uint8_t *pix, int stride, int
         beta  = (beta_table+52)[qp[qp_index] + h->slice_beta_offset];
 
         if( bS[bS_index] < 4 ) {
-            const int tc0 = (tc0_table+52)[index_a][bS[bS_index] - 1];
+            const int tc0 = (tc0_table+52)[index_a][bS[bS_index]];
             const int p0 = pix[-1];
             const int p1 = pix[-2];
             const int p2 = pix[-3];
@@ -6033,7 +5996,7 @@ static void filter_mb_mbaff_edgecv( H264Context *h, uint8_t *pix, int stride, in
         beta  = (beta_table+52)[qp[qp_index] + h->slice_beta_offset];
 
         if( bS[bS_index] < 4 ) {
-            const int tc = (tc0_table+52)[index_a][bS[bS_index] - 1] + 1;
+            const int tc = (tc0_table+52)[index_a][bS[bS_index]] + 1;
             const int p0 = pix[-1];
             const int p1 = pix[-2];
             const int q0 = pix[0];
@@ -6075,54 +6038,13 @@ static void filter_mb_edgeh( H264Context *h, uint8_t *pix, int stride, int16_t b
 
     if( bS[0] < 4 ) {
         int8_t tc[4];
-        for(i=0; i<4; i++)
-            tc[i] = bS[i] ? (tc0_table+52)[index_a][bS[i] - 1] : -1;
+        tc[0] = (tc0_table+52)[index_a][bS[0]];
+        tc[1] = (tc0_table+52)[index_a][bS[1]];
+        tc[2] = (tc0_table+52)[index_a][bS[2]];
+        tc[3] = (tc0_table+52)[index_a][bS[3]];
         h->s.dsp.h264_v_loop_filter_luma(pix, stride, alpha, beta, tc);
     } else {
-        /* 16px edge length, see filter_mb_edgev */
-            for( d = 0; d < 16; d++ ) {
-                const int p0 = pix[-1*pix_next];
-                const int p1 = pix[-2*pix_next];
-                const int p2 = pix[-3*pix_next];
-                const int q0 = pix[0];
-                const int q1 = pix[1*pix_next];
-                const int q2 = pix[2*pix_next];
-
-                if( FFABS( p0 - q0 ) < alpha &&
-                    FFABS( p1 - p0 ) < beta &&
-                    FFABS( q1 - q0 ) < beta ) {
-
-                    const int p3 = pix[-4*pix_next];
-                    const int q3 = pix[ 3*pix_next];
-
-                    if(FFABS( p0 - q0 ) < (( alpha >> 2 ) + 2 )){
-                        if( FFABS( p2 - p0 ) < beta) {
-                            /* p0', p1', p2' */
-                            pix[-1*pix_next] = ( p2 + 2*p1 + 2*p0 + 2*q0 + q1 + 4 ) >> 3;
-                            pix[-2*pix_next] = ( p2 + p1 + p0 + q0 + 2 ) >> 2;
-                            pix[-3*pix_next] = ( 2*p3 + 3*p2 + p1 + p0 + q0 + 4 ) >> 3;
-                        } else {
-                            /* p0' */
-                            pix[-1*pix_next] = ( 2*p1 + p0 + q1 + 2 ) >> 2;
-                        }
-                        if( FFABS( q2 - q0 ) < beta) {
-                            /* q0', q1', q2' */
-                            pix[0*pix_next] = ( p1 + 2*p0 + 2*q0 + 2*q1 + q2 + 4 ) >> 3;
-                            pix[1*pix_next] = ( p0 + q0 + q1 + q2 + 2 ) >> 2;
-                            pix[2*pix_next] = ( 2*q3 + 3*q2 + q1 + q0 + p0 + 4 ) >> 3;
-                        } else {
-                            /* q0' */
-                            pix[0*pix_next] = ( 2*q1 + q0 + p1 + 2 ) >> 2;
-                        }
-                    }else{
-                        /* p0', q0' */
-                        pix[-1*pix_next] = ( 2*p1 + p0 + q1 + 2 ) >> 2;
-                        pix[ 0*pix_next] = ( 2*q1 + q0 + p1 + 2 ) >> 2;
-                    }
-                    tprintf(h->s.avctx, "filter_mb_edgeh i:%d d:%d, qp:%d, indexA:%d, alpha:%d, beta:%d\n# bS:%d -> [%02x, %02x, %02x, %02x, %02x, %02x] =>[%02x, %02x, %02x, %02x]\n", i, d, qp, index_a, alpha, beta, bS[i], p2, p1, p0, q0, q1, q2, pix[-2*pix_next], pix[-pix_next], pix[0], pix[pix_next]);
-                }
-                pix++;
-            }
+        h->s.dsp.h264_v_loop_filter_luma_intra(pix, stride, alpha, beta);
     }
 }
 
@@ -6134,8 +6056,10 @@ static void filter_mb_edgech( H264Context *h, uint8_t *pix, int stride, int16_t 
 
     if( bS[0] < 4 ) {
         int8_t tc[4];
-        for(i=0; i<4; i++)
-            tc[i] = bS[i] ? (tc0_table+52)[index_a][bS[i] - 1] + 1 : 0;
+        tc[0] = (tc0_table+52)[index_a][bS[0]]+1;
+        tc[1] = (tc0_table+52)[index_a][bS[1]]+1;
+        tc[2] = (tc0_table+52)[index_a][bS[2]]+1;
+        tc[3] = (tc0_table+52)[index_a][bS[3]]+1;
         h->s.dsp.h264_v_loop_filter_chroma(pix, stride, alpha, beta, tc);
     } else {
         h->s.dsp.h264_v_loop_filter_chroma_intra(pix, stride, alpha, beta);

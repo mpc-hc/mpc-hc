@@ -1807,7 +1807,7 @@ static void ff_idct_xvid_mmx2_add(uint8_t *dest, int line_size, DCTELEM *block)
     add_pixels_clamped_mmx(block, dest, line_size);
 }
 
-/* disable audio related ASM stuff for 64-bit builds */
+/* disable audio related ASM and YASM based ASM for 64-bit builds */
 #ifndef ARCH_X86_64
 
 static void vorbis_inverse_coupling_3dnow(float *mag, float *ang, int blocksize)
@@ -2330,6 +2330,17 @@ static void float_to_int16_sse2(int16_t *dst, const float *src, long len){
 void ff_float_to_int16_interleave6_sse(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dnow(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dn2(int16_t *dst, const float **src, int len);
+void ff_x264_deblock_v_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
+void ff_x264_deblock_h_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
+void ff_x264_deblock_v8_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
+void ff_x264_deblock_h_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
+static void ff_x264_deblock_v_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta)
+{
+    ff_x264_deblock_v8_luma_intra_mmxext(pix+0, stride, alpha, beta);
+    ff_x264_deblock_v8_luma_intra_mmxext(pix+8, stride, alpha, beta);
+}
+void ff_x264_deblock_v_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
+void ff_x264_deblock_h_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
 #else
 #define ff_float_to_int16_interleave6_sse(a,b,c)   float_to_int16_interleave_misc_sse(a,b,c,6)
 #define ff_float_to_int16_interleave6_3dnow(a,b,c) float_to_int16_interleave_misc_3dnow(a,b,c,6)
@@ -2782,6 +2793,24 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #endif
         }
 #endif
+
+/* disable YASM based ASM for 64-bit builds */
+#ifndef ARCH_X86_64
+#if defined(CONFIG_GPL) && defined(HAVE_YASM)
+        if( mm_flags&FF_MM_MMXEXT ){
+#ifndef ARCH_X86_64
+            c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;
+            c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_mmxext;
+#endif
+            if( mm_flags&FF_MM_SSE2 ){
+                c->h264_v_loop_filter_luma = ff_x264_deblock_v_luma_sse2;
+                c->h264_h_loop_filter_luma = ff_x264_deblock_h_luma_sse2;
+                c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_sse2;
+                c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_sse2;
+            }
+        }
+#endif
+#endif /* ARCH_X86_64 */
 
 #endif /*GCC420_OR_NEWER*/
 
