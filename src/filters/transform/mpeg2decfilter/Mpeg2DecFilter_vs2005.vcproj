@@ -57,11 +57,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib  detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -82,9 +84,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -124,6 +123,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -142,9 +143,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -188,11 +186,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssRU.lib dsutilRU.lib strmbaseRU.lib basevideofilterRU.lib Winmm.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssRU.lib dsutilRU.lib strmbaseRU.lib basevideofilterRU.lib Winmm.lib detours.lib"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -212,9 +212,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -255,6 +252,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -273,9 +273,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

@@ -801,10 +801,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\inttypes.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mathops.h"
 				>
 			</File>
