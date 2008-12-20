@@ -285,6 +285,17 @@
 			Filter="c"
 			>
 			<File
+				RelativePath=".\bitrate.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\bitwise.c"
 				>
 			</File>
@@ -295,6 +306,17 @@
 			<File
 				RelativePath=".\codebook.c"
 				>
+			</File>
+			<File
+				RelativePath=".\envelope.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\floor0.c"
@@ -313,11 +335,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\lookup.c"
+				>
+			</File>
+			<File
+				RelativePath=".\lpc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\lsp.c"
+				>
+			</File>
+			<File
 				RelativePath=".\mapping0.c"
 				>
 			</File>
 			<File
 				RelativePath=".\mdct.c"
+				>
+			</File>
+			<File
+				RelativePath=".\psy.c"
 				>
 			</File>
 			<File
@@ -330,6 +368,10 @@
 			</File>
 			<File
 				RelativePath=".\sharedbook.c"
+				>
+			</File>
+			<File
+				RelativePath=".\smallft.c"
 				>
 			</File>
 			<File
@@ -350,6 +392,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\bitrate.h"
+				>
+			</File>
+			<File
 				RelativePath=".\block.h"
 				>
 			</File>
@@ -366,11 +412,39 @@
 				>
 			</File>
 			<File
+				RelativePath=".\envelope.h"
+				>
+			</File>
+			<File
+				RelativePath=".\highlevel.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ivorbiscodec.h"
 				>
 			</File>
 			<File
+				RelativePath=".\lookup.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lookup_data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lpc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lsp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\lsp_lookup.h"
+				>
+			</File>
+			<File
+				RelativePath=".\masking.h"
 				>
 			</File>
 			<File
@@ -398,7 +472,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\psy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\registry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\scales.h"
+				>
+			</File>
+			<File
+				RelativePath=".\smallft.h"
 				>
 			</File>
 			<File

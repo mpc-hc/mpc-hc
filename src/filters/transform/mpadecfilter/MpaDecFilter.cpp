@@ -897,12 +897,12 @@ HRESULT CMpaDecFilter::ProcessVorbis()
 	op.b_o_s = 0;
 	op.packetno = m_vorbis.packetno++;
 
-	if(vorbis_synthesis(&m_vorbis.vb, &op, 1) == 0)
+	if(vorbis_synthesis(&m_vorbis.vb, &op) == 0)
 	{
 		vorbis_synthesis_blockin(&m_vorbis.vd, &m_vorbis.vb);
 
 		int samples;
-		ogg_int32_t** pcm;
+		float** pcm;
 
 		while((samples = vorbis_synthesis_pcmout(&m_vorbis.vd, &pcm)) > 0)
 		{
@@ -914,9 +914,10 @@ HRESULT CMpaDecFilter::ProcessVorbis()
 
 			for(int j = 0, ch = scmap.nChannels; j < ch; j++)
 			{
-				int* src = pcm[scmap.ch[j]];
+				float* src = pcm[scmap.ch[j]];
 				for(int i = 0; i < samples; i++)
-					dst[j + i*ch] = (float)max(min(src[i], 1<<24), -1<<24) / (1<<24);
+					dst[j + i*ch] = src[i];
+				//	dst[j + i*ch] = (float)max(min(src[i], 1<<24), -1<<24) / (1<<24);
 			}
 
 			if(S_OK != (hr = Deliver(pBuff, m_vorbis.vi.rate, scmap.nChannels, scmap.dwChannelMask)))

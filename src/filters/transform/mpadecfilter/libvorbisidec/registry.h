@@ -1,17 +1,17 @@
 /********************************************************************
  *                                                                  *
- * THIS FILE IS PART OF THE OggVorbis 'TREMOR' CODEC SOURCE CODE.   *
- *                                                                  *
+ * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
  * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis 'TREMOR' SOURCE CODE IS (C) COPYRIGHT 1994-2002    *
- * BY THE Xiph.Org FOUNDATION http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: registry for time, floor, res backends and channel mappings
+ last mod: $Id: registry.h 13293 2007-07-24 00:09:47Z xiphmont $
 
  ********************************************************************/
 
@@ -25,16 +25,8 @@
 #define VI_RESB 3
 #define VI_MAPB 1
 
-#include "backends.h"
-
-#if defined(_WIN32) && defined(VORBISDLL_IMPORT)
-# define EXTERN __declspec(dllimport) extern
-#else
-# define EXTERN extern
-#endif
-
-EXTERN vorbis_func_floor     *_floor_P[];
-EXTERN vorbis_func_residue   *_residue_P[];
-EXTERN vorbis_func_mapping   *_mapping_P[];
+extern vorbis_func_floor     *_floor_P[];
+extern vorbis_func_residue   *_residue_P[];
+extern vorbis_func_mapping   *_mapping_P[];
 
 #endif

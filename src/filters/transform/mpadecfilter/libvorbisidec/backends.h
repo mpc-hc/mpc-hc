@@ -1,17 +1,18 @@
 /********************************************************************
  *                                                                  *
- * THIS FILE IS PART OF THE OggVorbis 'TREMOR' CODEC SOURCE CODE.   *
- *                                                                  *
+ * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
  * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis 'TREMOR' SOURCE CODE IS (C) COPYRIGHT 1994-2002    *
- * BY THE Xiph.Org FOUNDATION http://www.xiph.org/                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
- function: backend and mapping structures
+ function: libvorbis backend and mapping structures; needed for 
+           static mode headers
+ last mod: $Id: backends.h 13293 2007-07-24 00:09:47Z xiphmont $
 
  ********************************************************************/
 
@@ -25,21 +26,16 @@
 #include "codec_internal.h"
 
 /* this would all be simpler/shorter with templates, but.... */
-/* Transform backend generic *************************************/
-
-/* only mdct right now.  Flesh it out more if we ever transcend mdct
-   in the transform domain */
-
 /* Floor backend generic *****************************************/
 typedef struct{
+  void                   (*pack)  (vorbis_info_floor *,oggpack_buffer *);
   vorbis_info_floor     *(*unpack)(vorbis_info *,oggpack_buffer *);
-  vorbis_look_floor     *(*look)  (vorbis_dsp_state *,vorbis_info_mode *,
-				   vorbis_info_floor *);
+  vorbis_look_floor     *(*look)  (vorbis_dsp_state *,vorbis_info_floor *);
   void (*free_info) (vorbis_info_floor *);
   void (*free_look) (vorbis_look_floor *);
   void *(*inverse1)  (struct vorbis_block *,vorbis_look_floor *);
   int   (*inverse2)  (struct vorbis_block *,vorbis_look_floor *,
-		     void *buffer,ogg_int32_t *);
+		     void *buffer,float *);
 } vorbis_func_floor;
 
 typedef struct{
@@ -53,7 +49,11 @@ typedef struct{
   int   numbooks; /* <= 16 */
   int   books[16];
 
+  float lessthan;     /* encode-only config setting hacks for libvorbis */
+  float greaterthan;  /* encode-only config setting hacks for libvorbis */
+
 } vorbis_info_floor0;
+
 
 #define VIF_POSIT 63
 #define VIF_CLASS 16
@@ -71,17 +71,34 @@ typedef struct{
   int   mult;                      /* 1 2 3 or 4 */ 
   int   postlist[VIF_POSIT+2];    /* first two implicit */ 
 
+
+  /* encode side analysis parameters */
+  float maxover;     
+  float maxunder;  
+  float maxerr;    
+
+  float twofitweight;  
+  float twofitatten;
+
+  int   n;
+
 } vorbis_info_floor1;
 
 /* Residue backend generic *****************************************/
 typedef struct{
+  void                 (*pack)  (vorbis_info_residue *,oggpack_buffer *);
   vorbis_info_residue *(*unpack)(vorbis_info *,oggpack_buffer *);
-  vorbis_look_residue *(*look)  (vorbis_dsp_state *,vorbis_info_mode *,
+  vorbis_look_residue *(*look)  (vorbis_dsp_state *,
 				 vorbis_info_residue *);
   void (*free_info)    (vorbis_info_residue *);
   void (*free_look)    (vorbis_look_residue *);
+  long **(*class)      (struct vorbis_block *,vorbis_look_residue *,
+			float **,int *,int);
+  int  (*forward)      (oggpack_buffer *,struct vorbis_block *,
+			vorbis_look_residue *,
+			float **,float **,int *,int,long **);
   int  (*inverse)      (struct vorbis_block *,vorbis_look_residue *,
-			ogg_int32_t **,int *,int);
+			float **,int *,int);
 } vorbis_func_residue;
 
 typedef struct vorbis_info_residue0{
@@ -95,16 +112,20 @@ typedef struct vorbis_info_residue0{
   int    groupbook;        /* huffbook for partitioning */
   int    secondstages[64]; /* expanded out to pointers in lookup */
   int    booklist[256];    /* list of second stage books */
+
+  float  classmetric1[64];  
+  float  classmetric2[64];  
+
 } vorbis_info_residue0;
 
 /* Mapping backend generic *****************************************/
 typedef struct{
+  void                 (*pack)  (vorbis_info *,vorbis_info_mapping *,
+				 oggpack_buffer *);
   vorbis_info_mapping *(*unpack)(vorbis_info *,oggpack_buffer *);
-  vorbis_look_mapping *(*look)  (vorbis_dsp_state *,vorbis_info_mode *,
-				 vorbis_info_mapping *);
   void (*free_info)    (vorbis_info_mapping *);
-  void (*free_look)    (vorbis_look_mapping *);
-  int  (*inverse)      (struct vorbis_block *vb,vorbis_look_mapping *);
+  int  (*forward)      (struct vorbis_block *vb);
+  int  (*inverse)      (struct vorbis_block *vb,vorbis_info_mapping *);
 } vorbis_func_mapping;
 
 typedef struct vorbis_info_mapping0{
@@ -114,17 +135,12 @@ typedef struct vorbis_info_mapping0{
   int   floorsubmap[16];   /* [mux] submap to floors */
   int   residuesubmap[16]; /* [mux] submap to residue */
 
-  int   psy[2]; /* by blocktype; impulse/padding for short,
-                   transition/normal for long */
-
   int   coupling_steps;
   int   coupling_mag[256];
   int   coupling_ang[256];
+
 } vorbis_info_mapping0;
 
 #endif
-
-
-
 
 
