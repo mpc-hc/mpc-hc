@@ -1844,7 +1844,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		// Prevent Minimize when in FullScreen mode on non default monitor
 		m_fPreventMinimize = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_MPC_PREVENT_MINIMIZE), 0);
 		// Associated types with icon or not...
-		fAssociatedWithIcons = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), 0);
+		fAssociatedWithIcons = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("AssociatedWithIcon"), 1);
 		// Last Open Dir
 		f_lastOpenDir = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), _T("LastOpenDir"), _T("C:\\"));
 
