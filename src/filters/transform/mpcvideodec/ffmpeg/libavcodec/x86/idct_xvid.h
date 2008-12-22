@@ -1,6 +1,5 @@
 /*
- * vp3dsp MMX function declarations
- * Copyright (c) 2007 Aurelien Jacobs <aurel@gnuage.org>
+ * XVID MPEG-4 VIDEO CODEC
  *
  * This file is part of FFmpeg.
  *
@@ -19,17 +18,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_I386_VP3DSP_MMX_H
-#define AVCODEC_I386_VP3DSP_MMX_H
+/*!
+ * @file idct_xvid.h
+ * header for Xvid IDCT functions
+ */
 
+#ifndef AVCODEC_X86_IDCT_XVID_H
+#define AVCODEC_X86_IDCT_XVID_H
+
+#ifdef __GNUC__
 #include <stdint.h>
-#include "libavcodec/dsputil.h"
+#endif
 
-void ff_vp3_idct_mmx(int16_t *data);
-void ff_vp3_idct_put_mmx(uint8_t *dest, int line_size, DCTELEM *block);
-void ff_vp3_idct_add_mmx(uint8_t *dest, int line_size, DCTELEM *block);
+void ff_idct_xvid_mmx(short *block);
+void ff_idct_xvid_mmx2(short *block);
+void ff_idct_xvid_sse2(short *block);
+void ff_idct_xvid_sse2_put(uint8_t *dest, int line_size, short *block);
+void ff_idct_xvid_sse2_add(uint8_t *dest, int line_size, short *block);
 
-void ff_vp3_v_loop_filter_mmx2(uint8_t *src, int stride, int *bounding_values);
-void ff_vp3_h_loop_filter_mmx2(uint8_t *src, int stride, int *bounding_values);
-
-#endif /* AVCODEC_I386_VP3DSP_MMX_H */
+#endif /* AVCODEC_X86_IDCT_XVID_H */

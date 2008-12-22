@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_I386_DSPUTIL_MMX_H
-#define AVCODEC_I386_DSPUTIL_MMX_H
+#ifndef AVCODEC_X86_DSPUTIL_MMX_H
+#define AVCODEC_X86_DSPUTIL_MMX_H
 
 #include <stdint.h>
 #include "libavcodec/dsputil.h"
@@ -149,4 +149,4 @@ extern const double ff_pd_2[2];
     "pcmpeqd %%" #regd ", %%" #regd " \n\t" \
     "psrlw $15, %%" #regd ::)
 
-#endif /* AVCODEC_I386_DSPUTIL_MMX_H */
+#endif /* AVCODEC_X86_DSPUTIL_MMX_H */

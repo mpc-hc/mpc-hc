@@ -163,31 +163,31 @@ SRCS_C+=\
 #		$(LAVU_DIR)/string.c
 
 SRCS_C+=\
-    $(LAVC_DIR)/i386/cpuid.c \
-		$(LAVC_DIR)/i386/dsputil_mmx.c \
-		$(LAVC_DIR)/i386/idct_mmx.c \
-		$(LAVC_DIR)/i386/idct_mmx_xvid.c \
-		$(LAVC_DIR)/i386/idct_sse2_xvid.c \
-		$(LAVC_DIR)/i386/mpegvideo_mmx.c \
-		$(LAVC_DIR)/i386/simple_idct_mmx.c \
-		$(LAVC_DIR)/i386/vc1dsp_mmx.c \
-		$(LAVC_DIR)/i386/vp3dsp_mmx.c \
-		$(LAVC_DIR)/i386/vp3dsp_sse2.c
+    $(LAVC_DIR)/x86/cpuid.c \
+		$(LAVC_DIR)/x86/dsputil_mmx.c \
+		$(LAVC_DIR)/x86/idct_mmx.c \
+		$(LAVC_DIR)/x86/idct_mmx_xvid.c \
+		$(LAVC_DIR)/x86/idct_sse2_xvid.c \
+		$(LAVC_DIR)/x86/mpegvideo_mmx.c \
+		$(LAVC_DIR)/x86/simple_idct_mmx.c \
+		$(LAVC_DIR)/x86/vc1dsp_mmx.c \
+		$(LAVC_DIR)/x86/vp3dsp_mmx.c \
+		$(LAVC_DIR)/x86/vp3dsp_sse2.c
 		
 #SRCS_C+=\
-#		$(LAVC_DIR)/i386/cavsdsp_mmx.c \
-#		$(LAVC_DIR)/i386/fdct_mmx.c \
-#		$(LAVC_DIR)/i386/fft_3dn.c \
-#		$(LAVC_DIR)/i386/fft_3dn2.c \
-#		$(LAVC_DIR)/i386/fft_sse.c
+#		$(LAVC_DIR)/x86/cavsdsp_mmx.c \
+#		$(LAVC_DIR)/x86/fdct_mmx.c \
+#		$(LAVC_DIR)/x86/fft_3dn.c \
+#		$(LAVC_DIR)/x86/fft_3dn2.c \
+#		$(LAVC_DIR)/x86/fft_sse.c
 
 ifneq ($(64BIT),yes)
 SRCS_YASM=\
-      $(LAVC_DIR)/i386/dsputil_yasm.asm \
-      $(LAVC_DIR)/i386/h264_deblock_sse2.asm
+      $(LAVC_DIR)/x86/dsputil_yasm.asm \
+      $(LAVC_DIR)/x86/h264_deblock_sse2.asm
 
 #SRCS_YASM+=\
-#      $(LAVC_DIR)/i386/fft_mmx.asm
+#      $(LAVC_DIR)/x86/fft_mmx.asm
 endif
 
 
@@ -210,7 +210,7 @@ OPTFLAGS+= -fno-math-errno
 .all: $(SLIB)
 
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/i386/*.o $(LAVC_DIR)/amr_float/*.o $(LAVF_DIR)/*.o $(LAVF_DIR)/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/i386/*.d $(LAVC_DIR)/amr_float/*.d $(ZLIB_DIR)/*.d
+	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amr_float/*.o $(LAVF_DIR)/*.o $(LAVF_DIR)/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amr_float/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

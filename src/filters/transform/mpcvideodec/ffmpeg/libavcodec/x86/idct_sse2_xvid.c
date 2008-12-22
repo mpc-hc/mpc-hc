@@ -38,8 +38,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "libavcodec/dsputil.h"
-#include "libavcodec/i386/idct_xvid.h"
+#include "../dsputil.h"
+#include "idct_xvid.h"
 
 /*!
  * @file idct_sse2_xvid.c

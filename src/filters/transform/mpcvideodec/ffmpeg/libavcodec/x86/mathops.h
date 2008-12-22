@@ -1,6 +1,6 @@
 /*
- * vp3dsp SSE2 function declarations
- * Copyright (c) 2007 Aurelien Jacobs <aurel@gnuage.org>
+ * simple math operations
+ * Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at> et al
  *
  * This file is part of FFmpeg.
  *
@@ -19,13 +19,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_I386_VP3DSP_SSE2_H
-#define AVCODEC_I386_VP3DSP_SSE2_H
+#ifndef AVCODEC_X86_MATHOPS_H
+#define AVCODEC_X86_MATHOPS_H
 
-#include "libavcodec/dsputil.h"
+#define MULL(ra, rb, shift) \
+        ({ int rt, dummy; __asm__ (\
+            "imull %3               \n\t"\
+            "shrdl %4, %%edx, %%eax \n\t"\
+            : "=a"(rt), "=d"(dummy)\
+            : "a" ((int)ra), "rm" ((int)rb), "i"(shift));\
+         rt; })
 
-void ff_vp3_idct_sse2(int16_t *input_data);
-void ff_vp3_idct_put_sse2(uint8_t *dest, int line_size, DCTELEM *block);
-void ff_vp3_idct_add_sse2(uint8_t *dest, int line_size, DCTELEM *block);
+#define MULH(ra, rb) \
+    ({ int rt, dummy;\
+     __asm__ ("imull %3\n\t" : "=d"(rt), "=a"(dummy): "a" ((int)ra), "rm" ((int)rb));\
+     rt; })
 
-#endif /* AVCODEC_I386_VP3DSP_SSE2_H */
+#define MUL64(ra, rb) \
+    ({ int64_t rt;\
+     __asm__ ("imull %2\n\t" : "=A"(rt) : "a" ((int)ra), "g" ((int)rb));\
+     rt; })
+
+#endif /* AVCODEC_X86_MATHOPS_H */

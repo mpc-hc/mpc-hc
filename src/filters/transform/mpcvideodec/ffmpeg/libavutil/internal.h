@@ -35,9 +35,18 @@
 #endif
 #include <stddef.h>
 #include <assert.h>
+#include "common.h"
+
+#ifndef attribute_align_arg
+#if AV_GCC_VERSION_AT_LEAST(4,2)
+#    define attribute_align_arg __attribute__((force_align_arg_pointer))
+#else
+#    define attribute_align_arg
+#endif
+#endif
 
 #ifndef attribute_used
-#if defined(__GNUC__) && (__GNUC__ > 3 || __GNUC__ == 3 && __GNUC_MINOR__ > 0)
+#if AV_GCC_VERSION_AT_LEAST(3,1)
 #    define attribute_used __attribute__((used))
 #else
 #    define attribute_used
