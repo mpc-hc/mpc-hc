@@ -138,9 +138,6 @@ public:
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
 		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME; 
 	};
-	
-	HRESULT UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop);
-
 
 	void			Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);
 	HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
@@ -171,5 +168,6 @@ private :
 	void				ParseCompositionObject(CGolombBuffer* pGBuffer, CompositionObject* pCompositionObject);
 
 	void				AllocSegment(int nSize);
+
 	CompositionObject*	FindObject(REFERENCE_TIME rt);
 };

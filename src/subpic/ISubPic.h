@@ -210,7 +210,6 @@ interface ISubPicProvider : public IUnknown
 
 	STDMETHOD_(REFERENCE_TIME, GetStart) (POSITION pos, double fps) PURE;
 	STDMETHOD_(REFERENCE_TIME, GetStop) (POSITION pos, double fps) PURE;
-	STDMETHOD (UpdateStop)(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop) PURE;
 
 	STDMETHOD_(bool, IsAnimated) (POSITION pos) PURE;
 
@@ -240,7 +239,6 @@ public:
 
 	STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
 	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
-	STDMETHODIMP UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop);
 
 	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
 	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };

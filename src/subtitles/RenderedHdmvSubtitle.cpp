@@ -94,12 +94,6 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (POSITION pos, SIZE& MaxTextu
 	return m_HdmvSub.GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
 };
 
-STDMETHODIMP CRenderedHdmvSubtitle::UpdateStop(REFERENCE_TIME rtStart, REFERENCE_TIME* rtStop)
-{
-	CAutoLock cAutoLock(&m_csCritSec);
-	return m_HdmvSub.UpdateStop (rtStart, rtStop);
-}
-
 // IPersist
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetClassID(CLSID* pClassID)

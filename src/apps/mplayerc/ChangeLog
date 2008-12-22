@@ -11,6 +11,7 @@ v1.x.x.x - unreleased
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
+ FIXED  : Audio change on M2TS files reset the selected subtitle
 
 v1.2.908.0 - 30.Nobember 2008
 ======================
