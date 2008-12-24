@@ -101,6 +101,9 @@ static const int left_block_options[4][8]={
     {0,2,0,2,7,10,7,10}
 };
 
+#define LEVEL_TAB_BITS 8
+static int8_t cavlc_level_tab[7][1<<LEVEL_TAB_BITS][2];
+
 static void fill_caches(H264Context *h, int mb_type, int for_deblock){
     MpegEncContext * const s = &h->s;
     const int mb_xy= h->mb_xy;
@@ -870,8 +873,8 @@ static inline void pred_pskip_motion(H264Context * const h, int * const mx, int 
     tprintf(h->s.avctx, "pred_pskip: (%d) (%d) at %2d %2d\n", top_ref, left_ref, h->s.mb_x, h->s.mb_y);
 
     if(top_ref == PART_NOT_AVAILABLE || left_ref == PART_NOT_AVAILABLE
-       || (top_ref == 0  && *(uint32_t*)h->mv_cache[0][ scan8[0] - 8 ] == 0)
-       || (left_ref == 0 && *(uint32_t*)h->mv_cache[0][ scan8[0] - 1 ] == 0)){
+       || !( top_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 8 ])
+       || !(left_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 1 ])){
 
         *mx = *my = 0;
         return;
@@ -1375,9 +1378,26 @@ static const uint8_t *decode_nal(H264Context *h, const uint8_t *src, int *dst_le
     for(i=0; i<length; i++)
         printf("%2X ", src[i]);
 #endif
+
+#ifdef HAVE_FAST_UNALIGNED
+# ifdef HAVE_FAST_64BIT
+#   define RS 7
+    for(i=0; i+1<length; i+=9){
+        if(!((~*(uint64_t*)(src+i) & (*(uint64_t*)(src+i) - 0x0100010001000101ULL)) & 0x8000800080008080ULL))
+# else
+#   define RS 3
+    for(i=0; i+1<length; i+=5){
+        if(!((~*(uint32_t*)(src+i) & (*(uint32_t*)(src+i) - 0x01000101U)) & 0x80008080U))
+# endif
+            continue;
+        if(i>0 && !src[i]) i--;
+        while(src[i]) i++;
+#else
+#   define RS 0
     for(i=0; i+1<length; i+=2){
         if(src[i]) continue;
         if(i>0 && src[i-1]==0) i--;
+#endif
         if(i+2<length && src[i+1]==0 && src[i+2]<=3){
             if(src[i+2]!=3){
                 /* startcode, so we must be past the end */
@@ -1385,6 +1405,7 @@ static const uint8_t *decode_nal(H264Context *h, const uint8_t *src, int *dst_le
             }
             break;
         }
+        i-= RS;
     }
 
     if(i>=length-1){ //no escaped 0
@@ -1402,21 +1423,28 @@ static const uint8_t *decode_nal(H264Context *h, const uint8_t *src, int *dst_le
     }
 
 //printf("decoding esc\n");
-    si=di=0;
-    while(si<length){
+    memcpy(dst, src, i);
+    si=di=i;
+    while(si+2<length){
         //remove escapes (very rare 1:2^22)
-        if(si+2<length && src[si]==0 && src[si+1]==0 && src[si+2]<=3){
+        if(src[si+2]>3){
+            dst[di++]= src[si++];
+            dst[di++]= src[si++];
+        }else if(src[si]==0 && src[si+1]==0){
             if(src[si+2]==3){ //escape
                 dst[di++]= 0;
                 dst[di++]= 0;
                 si+=3;
                 continue;
             }else //next start code
-                break;
+                goto nsc;
         }
 
         dst[di++]= src[si++];
     }
+    while(si<length)
+        dst[di++]= src[si++];
+nsc:
 
     memset(dst+di, 0, FF_INPUT_BUFFER_PADDING_SIZE);
 
@@ -1794,6 +1822,31 @@ static void hl_motion(H264Context *h, uint8_t *dest_y, uint8_t *dest_cb, uint8_t
     prefetch_motion(h, 1);
 }
 
+static av_cold void init_cavlc_level_tab(void){
+    int suffix_length, mask;
+    unsigned int i;
+
+    for(suffix_length=0; suffix_length<7; suffix_length++){
+        for(i=0; i<(1<<LEVEL_TAB_BITS); i++){
+            int prefix= LEVEL_TAB_BITS - av_log2(2*i);
+            int level_code= (prefix<<suffix_length) + (i>>(LEVEL_TAB_BITS-prefix-1-suffix_length)) - (1<<suffix_length);
+
+            mask= -(level_code&1);
+            level_code= (((2+level_code)>>1) ^ mask) - mask;
+            if(prefix + 1 + suffix_length <= LEVEL_TAB_BITS){
+                cavlc_level_tab[suffix_length][i][0]= level_code;
+                cavlc_level_tab[suffix_length][i][1]= prefix + 1 + suffix_length;
+            }else if(prefix + 1 <= LEVEL_TAB_BITS){
+                cavlc_level_tab[suffix_length][i][0]= prefix+100;
+                cavlc_level_tab[suffix_length][i][1]= prefix + 1;
+            }else{
+                cavlc_level_tab[suffix_length][i][0]= LEVEL_TAB_BITS+100;
+                cavlc_level_tab[suffix_length][i][1]= LEVEL_TAB_BITS;
+            }
+        }
+    }
+}
+
 static av_cold void decode_init_vlc(void){
     static int done = 0;
 
@@ -1860,6 +1913,8 @@ static av_cold void decode_init_vlc(void){
                  &run_len [6][0], 1, 1,
                  &run_bits[6][0], 1, 1,
                  INIT_VLC_USE_NEW_STATIC);
+
+        init_cavlc_level_tab();
     }
 }
 
@@ -2527,7 +2582,7 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple){
             }
         }
     }
-    if(h->cbp || IS_INTRA(mb_type))
+    if((s->avctx->thread_count < 2) && (h->cbp || IS_INTRA(mb_type))) /* ffdshow custom code */
         s->dsp.clear_blocks(h->mb);
 
     if(h->deblocking_filter) {
@@ -2737,7 +2792,7 @@ static int decode_ref_pic_list_reordering(H264Context *h){
             int pred= h->curr_pic_num;
 
             for(index=0; ; index++){
-                unsigned int reordering_of_pic_nums_idc= get_ue_golomb(&s->gb);
+                unsigned int reordering_of_pic_nums_idc= get_ue_golomb_31(&s->gb);
                 unsigned int pic_id;
                 int i;
                 Picture *ref = NULL;
@@ -3304,7 +3359,7 @@ static int decode_ref_pic_marking(H264Context *h, GetBitContext *gb){
     }else{
         if(get_bits1(gb)){ // adaptive_ref_pic_marking_mode_flag
             for(i= 0; i<MAX_MMCO_COUNT; i++) {
-                MMCOOpcode opcode= get_ue_golomb(gb);
+                MMCOOpcode opcode= get_ue_golomb_31(gb);
 
                 h->mmco[i].opcode= opcode;
                 if(opcode==MMCO_SHORT2UNUSED || opcode==MMCO_SHORT2LONG){
@@ -3315,7 +3370,7 @@ static int decode_ref_pic_marking(H264Context *h, GetBitContext *gb){
                     }*/
                 }
                 if(opcode==MMCO_SHORT2LONG || opcode==MMCO_LONG2UNUSED || opcode==MMCO_LONG || opcode==MMCO_SET_MAX_LONG){
-                    unsigned int long_arg= get_ue_golomb(gb);
+                    unsigned int long_arg= get_ue_golomb_31(gb);
                     if(long_arg >= 32 || (long_arg >= 16 && !(opcode == MMCO_LONG2UNUSED && FIELD_PICTURE))){
                         av_log(h->s.avctx, AV_LOG_ERROR, "illegal long ref in memory management control operation %d\n", opcode);
                         return -1;
@@ -3582,7 +3637,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             s->current_picture_ptr= NULL;
     }
 
-    slice_type= get_ue_golomb(&s->gb);
+    slice_type= get_ue_golomb_31(&s->gb);
     if(slice_type > 9){
         av_log(h->s.avctx, AV_LOG_ERROR, "slice type too large (%d) at %d %d\n", h->slice_type, s->mb_x, s->mb_y);
         return -1;
@@ -3691,7 +3746,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             s->avctx->sample_aspect_ratio.den = 1;
 
         if(h->sps.timing_info_present_flag){
-        		#if __STDC_VERSION__ >= 199901L
+            #if __STDC_VERSION__ >= 199901L
             s->avctx->time_base= (AVRational){h->sps.num_units_in_tick * 2, h->sps.time_scale};
             #else
             s->avctx->time_base.num = h->sps.num_units_in_tick * 2;
@@ -3890,7 +3945,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     direct_ref_list_init(h);
 
     if( h->slice_type_nos != FF_I_TYPE && h->pps.cabac ){
-        tmp = get_ue_golomb(&s->gb);
+        tmp = get_ue_golomb_31(&s->gb);
         if(tmp > 2){
             av_log(s->avctx, AV_LOG_ERROR, "cabac_init_idc overflow\n");
             return -1;
@@ -3924,7 +3979,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     h->slice_alpha_c0_offset = 0;
     h->slice_beta_offset = 0;
     if( h->pps.deblocking_filter_parameters_present ) {
-        tmp= get_ue_golomb(&s->gb);
+        tmp= get_ue_golomb_31(&s->gb);
         if(tmp > 2){
             av_log(s->avctx, AV_LOG_ERROR, "deblocking_filter_idc %u out of range\n", tmp);
             return -1;
@@ -4090,50 +4145,74 @@ static int decode_residual(H264Context *h, GetBitContext *gb, DCTELEM *block, in
     level[2] = 1-((i&1)<<1);
 
     if(trailing_ones<total_coeff) {
-        int level_code, mask;
+        int mask, prefix;
         int suffix_length = total_coeff > 10 && trailing_ones < 3;
-        int prefix= get_level_prefix(gb);
+        int bitsi= show_bits(gb, LEVEL_TAB_BITS);
+        int level_code= cavlc_level_tab[suffix_length][bitsi][0];
 
-        //first coefficient has suffix_length equal to 0 or 1
-        if(prefix<14){ //FIXME try to build a large unified VLC table for all this
-            if(suffix_length)
-                level_code= (prefix<<suffix_length) + get_bits(gb, suffix_length); //part
-            else
-                level_code= (prefix<<suffix_length); //part
-        }else if(prefix==14){
-            if(suffix_length)
-                level_code= (prefix<<suffix_length) + get_bits(gb, suffix_length); //part
-            else
-                level_code= prefix + get_bits(gb, 4); //part
-        }else{
-            level_code= (15<<suffix_length) + get_bits(gb, prefix-3); //part
-            if(suffix_length==0) level_code+=15; //FIXME doesn't make (much)sense
-            if(prefix>=16)
-                level_code += (1<<(prefix-3))-4096;
-        }
+        skip_bits(gb, cavlc_level_tab[suffix_length][bitsi][1]);
+        if(level_code >= 100){
+            prefix= level_code - 100;
+            if(prefix == LEVEL_TAB_BITS)
+                prefix += get_level_prefix(gb);
 
-        if(trailing_ones < 3) level_code += 2;
-
-        suffix_length = 1;
-        if(level_code > 5)
-            suffix_length++;
-        mask= -(level_code&1);
-        level[trailing_ones]= (((2+level_code)>>1) ^ mask) - mask;
-
-        //remaining coefficients have suffix_length > 0
-        for(i=trailing_ones+1;i<total_coeff;i++) {
-            static const int suffix_limit[7] = {0,5,11,23,47,95,INT_MAX };
-            prefix = get_level_prefix(gb);
-            if(prefix<15){
-                level_code = (prefix<<suffix_length) + get_bits(gb, suffix_length);
+            //first coefficient has suffix_length equal to 0 or 1
+            if(prefix<14){ //FIXME try to build a large unified VLC table for all this
+                if(suffix_length)
+                    level_code= (prefix<<suffix_length) + get_bits(gb, suffix_length); //part
+                else
+                    level_code= (prefix<<suffix_length); //part
+            }else if(prefix==14){
+                if(suffix_length)
+                    level_code= (prefix<<suffix_length) + get_bits(gb, suffix_length); //part
+                else
+                    level_code= prefix + get_bits(gb, 4); //part
             }else{
-                level_code = (15<<suffix_length) + get_bits(gb, prefix-3);
+                level_code= (15<<suffix_length) + get_bits(gb, prefix-3); //part
+                if(suffix_length==0) level_code+=15; //FIXME doesn't make (much)sense
                 if(prefix>=16)
                     level_code += (1<<(prefix-3))-4096;
             }
+
+            if(trailing_ones < 3) level_code += 2;
+
+            suffix_length = 2;
             mask= -(level_code&1);
-            level[i]= (((2+level_code)>>1) ^ mask) - mask;
-            if(level_code > suffix_limit[suffix_length])
+            level[trailing_ones]= (((2+level_code)>>1) ^ mask) - mask;
+        }else{
+            if(trailing_ones < 3) level_code += (level_code>>31)|1;
+
+            suffix_length = 1;
+            if(level_code + 3U > 6U)
+                suffix_length++;
+            level[trailing_ones]= level_code;
+        }
+
+        //remaining coefficients have suffix_length > 0
+        for(i=trailing_ones+1;i<total_coeff;i++) {
+            static const unsigned int suffix_limit[7] = {0,3,6,12,24,48,INT_MAX };
+            int bitsi= show_bits(gb, LEVEL_TAB_BITS);
+            level_code= cavlc_level_tab[suffix_length][bitsi][0];
+
+            skip_bits(gb, cavlc_level_tab[suffix_length][bitsi][1]);
+            if(level_code >= 100){
+                prefix= level_code - 100;
+                if(prefix == LEVEL_TAB_BITS){
+                    prefix += get_level_prefix(gb);
+                }
+                if(prefix<15){
+                    level_code = (prefix<<suffix_length) + get_bits(gb, suffix_length);
+                }else{
+                    level_code = (15<<suffix_length) + get_bits(gb, prefix-3);
+                    if(prefix>=16)
+                        level_code += (1<<(prefix-3))-4096;
+                }
+                mask= -(level_code&1);
+                level_code= (((2+level_code)>>1) ^ mask) - mask;
+            }
+            level[i]= level_code;
+
+            if(suffix_limit[suffix_length] + level_code > 2U*suffix_limit[suffix_length])
                 suffix_length++;
         }
     }
@@ -4255,6 +4334,11 @@ static int decode_mb_cavlc(H264Context *h){
     int dct8x8_allowed= h->pps.transform_8x8_mode;
 
     mb_xy = h->mb_xy = s->mb_x + s->mb_y*s->mb_stride;
+
+    /* ffdshow custom code */
+    if(s->avctx->thread_count > 1) {
+    	s->dsp.clear_blocks(h->mb);
+    }
 
     tprintf(s->avctx, "pic:%d mb:%d/%d\n", h->frame_num, s->mb_x, s->mb_y);
     cbp = 0; /* avoid warning. FIXME: find a solution without slowing
@@ -4380,7 +4464,7 @@ decode_intra_mb:
                 return -1;
         }
         if(CHROMA){
-            pred_mode= check_intra_pred_mode(h, get_ue_golomb(&s->gb));
+            pred_mode= check_intra_pred_mode(h, get_ue_golomb_31(&s->gb));
             if(pred_mode < 0)
                 return -1;
             h->chroma_pred_mode= pred_mode;
@@ -4390,7 +4474,7 @@ decode_intra_mb:
 
         if(h->slice_type_nos == FF_B_TYPE){
             for(i=0; i<4; i++){
-                h->sub_mb_type[i]= get_ue_golomb(&s->gb);
+                h->sub_mb_type[i]= get_ue_golomb_31(&s->gb);
                 if(h->sub_mb_type[i] >=13){
                     av_log(h->s.avctx, AV_LOG_ERROR, "B sub_mb_type %u out of range at %d %d\n", h->sub_mb_type[i], s->mb_x, s->mb_y);
                     return -1;
@@ -4409,7 +4493,7 @@ decode_intra_mb:
         }else{
             assert(h->slice_type_nos == FF_P_TYPE); //FIXME SP correct ?
             for(i=0; i<4; i++){
-                h->sub_mb_type[i]= get_ue_golomb(&s->gb);
+                h->sub_mb_type[i]= get_ue_golomb_31(&s->gb);
                 if(h->sub_mb_type[i] >=4){
                     av_log(h->s.avctx, AV_LOG_ERROR, "P sub_mb_type %u out of range at %d %d\n", h->sub_mb_type[i], s->mb_x, s->mb_y);
                     return -1;
@@ -4424,10 +4508,17 @@ decode_intra_mb:
             for(i=0; i<4; i++){
                 if(IS_DIRECT(h->sub_mb_type[i])) continue;
                 if(IS_DIR(h->sub_mb_type[i], 0, list)){
-                    unsigned int tmp = get_te0_golomb(&s->gb, ref_count); //FIXME init to 0 before and skip?
-                    if(tmp>=ref_count){
-                        av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", tmp);
-                        return -1;
+                    unsigned int tmp;
+                    if(ref_count == 1){
+                        tmp= 0;
+                    }else if(ref_count == 2){
+                        tmp= get_bits1(&s->gb)^1;
+                    }else{
+                        tmp= get_ue_golomb_31(&s->gb);
+                        if(tmp>=ref_count){
+                            av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", tmp);
+                            return -1;
+                        }
                     }
                     ref[list][i]= tmp;
                 }else{
@@ -4493,10 +4584,16 @@ decode_intra_mb:
             for(list=0; list<h->list_count; list++){
                     unsigned int val;
                     if(IS_DIR(mb_type, 0, list)){
-                        val= get_te0_golomb(&s->gb, h->ref_count[list]);
-                        if(val >= h->ref_count[list]){
-                            av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
-                            return -1;
+                        if(h->ref_count[list]==1){
+                            val= 0;
+                        }else if(h->ref_count[list]==2){
+                            val= get_bits1(&s->gb)^1;
+                        }else{
+                            val= get_ue_golomb_31(&s->gb);
+                            if(val >= h->ref_count[list]){
+                                av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
+                                return -1;
+                            }
                         }
                     }else
                         val= LIST_NOT_USED&0xFF;
@@ -4521,10 +4618,16 @@ decode_intra_mb:
                     for(i=0; i<2; i++){
                         unsigned int val;
                         if(IS_DIR(mb_type, i, list)){
-                            val= get_te0_golomb(&s->gb, h->ref_count[list]);
-                            if(val >= h->ref_count[list]){
-                                av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
-                                return -1;
+                            if(h->ref_count[list] == 1){
+                                val= 0;
+                            }else if(h->ref_count[list] == 2){
+                                val= get_bits1(&s->gb)^1;
+                            }else{
+                                val= get_ue_golomb_31(&s->gb);
+                                if(val >= h->ref_count[list]){
+                                    av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
+                                    return -1;
+                                }
                             }
                         }else
                             val= LIST_NOT_USED&0xFF;
@@ -4552,10 +4655,16 @@ decode_intra_mb:
                     for(i=0; i<2; i++){
                         unsigned int val;
                         if(IS_DIR(mb_type, i, list)){ //FIXME optimize
-                            val= get_te0_golomb(&s->gb, h->ref_count[list]);
-                            if(val >= h->ref_count[list]){
-                                av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
-                                return -1;
+                            if(h->ref_count[list]==1){
+                                val= 0;
+                            }else if(h->ref_count[list]==2){
+                                val= get_bits1(&s->gb)^1;
+                            }else{
+                                val= get_ue_golomb_31(&s->gb);
+                                if(val >= h->ref_count[list]){
+                                    av_log(h->s.avctx, AV_LOG_ERROR, "ref %u overflow\n", val);
+                                    return -1;
+                                }
                             }
                         }else
                             val= LIST_NOT_USED&0xFF;
@@ -5309,6 +5418,11 @@ static int decode_mb_cabac(H264Context *h) {
     int dct8x8_allowed= h->pps.transform_8x8_mode;
 
     mb_xy = h->mb_xy = s->mb_x + s->mb_y*s->mb_stride;
+
+    /* ffdshow custom code */
+    if(s->avctx->thread_count > 1) {
+    	s->dsp.clear_blocks(h->mb);
+    }
 
     tprintf(s->avctx, "pic:%d mb:%d/%d\n", h->frame_num, s->mb_x, s->mb_y);
     if( h->slice_type_nos != FF_I_TYPE ) {
@@ -6943,7 +7057,7 @@ static int decode_sei(H264Context *h){
 static inline int decode_hrd_parameters(H264Context *h, SPS *sps){
     MpegEncContext * const s = &h->s;
     int cpb_count, i;
-    cpb_count = get_ue_golomb(&s->gb) + 1;
+    cpb_count = get_ue_golomb_31(&s->gb) + 1;
 
     if(cpb_count > 32U){
         av_log(h->s.avctx, AV_LOG_ERROR, "cpb_count %d invalid\n", cpb_count);
@@ -7103,7 +7217,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
     get_bits1(&s->gb);   //constraint_set3_flag
     get_bits(&s->gb, 4); // reserved
     level_idc= get_bits(&s->gb, 8);
-    sps_id= get_ue_golomb(&s->gb);
+    sps_id= get_ue_golomb_31(&s->gb);
 
     if(sps_id >= MAX_SPS_COUNT) {
         av_log(h->s.avctx, AV_LOG_ERROR, "sps_id (%d) out of range\n", sps_id);
@@ -7128,7 +7242,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
     // <== End patch MPC
 
     if(sps->profile_idc >= 100){ //high profile
-        sps->chroma_format_idc= get_ue_golomb(&s->gb);
+        sps->chroma_format_idc= get_ue_golomb_31(&s->gb);
     // ==> Start patch MPC
         if(sps->chroma_format_idc == 3)
             sps->residual_colour_transform_flag = get_bits1(&s->gb);  //residual_color_transform_flag
@@ -7142,7 +7256,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
     }
 
     sps->log2_max_frame_num= get_ue_golomb(&s->gb) + 4;
-    sps->poc_type= get_ue_golomb(&s->gb);
+    sps->poc_type= get_ue_golomb_31(&s->gb);
 
     if(sps->poc_type == 0){ //FIXME #define
         sps->log2_max_poc_lsb= get_ue_golomb(&s->gb) + 4;
@@ -7164,7 +7278,7 @@ static inline int decode_seq_parameter_set(H264Context *h){
         goto fail;
     }
 
-    sps->ref_frame_count= get_ue_golomb(&s->gb);
+    sps->ref_frame_count= get_ue_golomb_31(&s->gb);
     if(sps->ref_frame_count > MAX_PICTURE_COUNT-2 || sps->ref_frame_count >= 32U){
         av_log(h->s.avctx, AV_LOG_ERROR, "too many reference frames\n");
         goto fail;
@@ -7260,7 +7374,7 @@ static inline int decode_picture_parameter_set(H264Context *h, int bit_length){
     pps= av_mallocz(sizeof(PPS));
     if(pps == NULL)
         return -1;
-    pps->sps_id= get_ue_golomb(&s->gb);
+    pps->sps_id= get_ue_golomb_31(&s->gb);
     if((unsigned)pps->sps_id>=MAX_SPS_COUNT || h->sps_buffers[pps->sps_id] == NULL){
         av_log(h->s.avctx, AV_LOG_ERROR, "sps_id out of range\n");
         goto fail;

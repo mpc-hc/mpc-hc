@@ -39,6 +39,8 @@ extern "C" {
 #endif
 #include "bitstream.h"
 
+#define FFMIN(a,b) ((a) > (b) ? (b) : (a))
+
 #define INVALID_VLC           0x80000000
 
 extern const uint8_t ff_golomb_vlc_len[512];
@@ -49,6 +51,7 @@ extern const uint8_t ff_ue_golomb_len[256];
 extern const uint8_t ff_interleaved_golomb_vlc_len[256];
 extern const uint8_t ff_interleaved_ue_golomb_vlc_code[256];
 extern const  int8_t ff_interleaved_se_golomb_vlc_code[256];
+extern const uint8_t ff_interleaved_dirac_golomb_vlc_code[256];
 
 
  /**
@@ -59,17 +62,18 @@ static inline int get_ue_golomb(GetBitContext *gb){
     int log;
 
     OPEN_READER(re, gb);
-#if defined(__INTEL_COMPILER) || defined(DEBUG)
-  # ifdef ALT_BITSTREAM_READER_LE
+    /* ffdshow custom code */
+    #if defined(__INTEL_COMPILER) || defined(DEBUG)
+    	#ifdef ALT_BITSTREAM_READER_LE
     re_cache= AV_RL32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
-  # else
+    	#else
     re_cache= AV_RB32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
-  # endif
-#else
+    	#endif
+    #else
     // ICL9.1-Release and MSVC8-DEBUG build can't process this macro properly.
-	UPDATE_CACHE(re, gb);
-#endif
-	buf=GET_CACHE(re, gb);
+    UPDATE_CACHE(re, gb);
+    #endif
+    buf=GET_CACHE(re, gb);
 
     if(buf >= (1<<27)){
         buf >>= 32 - 9;
@@ -88,9 +92,35 @@ static inline int get_ue_golomb(GetBitContext *gb){
     }
 }
 
+ /**
+ * read unsigned exp golomb code, constraint to a max of 31
+ */
+static inline int get_ue_golomb_31(GetBitContext *gb){
+    unsigned int buf;
+
+    OPEN_READER(re, gb);
+    /* ffdshow custom code */
+    #if defined(__INTEL_COMPILER) || defined(DEBUG)
+    	#ifdef ALT_BITSTREAM_READER_LE
+    re_cache= AV_RL32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
+    	#else
+    re_cache= AV_RB32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
+    	#endif
+    #else
+    // ICL9.1-Release and MSVC8-DEBUG build can't process this macro properly.
+    UPDATE_CACHE(re, gb);
+    #endif
+    buf=GET_CACHE(re, gb);
+
+    buf >>= 32 - 9;
+    LAST_SKIP_BITS(re, gb, ff_golomb_vlc_len[buf]);
+    CLOSE_READER(re, gb);
+
+    return ff_ue_golomb_vlc_code[buf];
+}
+
 static inline int svq3_get_ue_golomb(GetBitContext *gb){
     uint32_t buf;
-    int log;
 
     OPEN_READER(re, gb);
     UPDATE_CACHE(re, gb);
@@ -103,21 +133,24 @@ static inline int svq3_get_ue_golomb(GetBitContext *gb){
 
         return ff_interleaved_ue_golomb_vlc_code[buf];
     }else{
-        LAST_SKIP_BITS(re, gb, 8);
-        UPDATE_CACHE(re, gb);
-        buf |= 1 | (GET_CACHE(re, gb) >> 8);
+        int ret = 1;
 
-        if((buf & 0xAAAAAAAA) == 0)
-            return INVALID_VLC;
+        while (1) {
+            buf >>= 32 - 8;
+            LAST_SKIP_BITS(re, gb, FFMIN(ff_interleaved_golomb_vlc_len[buf], 8));
 
-        for(log=31; (buf & 0x80000000) == 0; log--){
-            buf = (buf << 2) - ((buf << log) >> (log - 1)) + (buf >> 30);
+            if (ff_interleaved_golomb_vlc_len[buf] != 9){
+                ret <<= (ff_interleaved_golomb_vlc_len[buf] - 1) >> 1;
+                ret |= ff_interleaved_dirac_golomb_vlc_code[buf];
+                break;
+            }
+            ret = (ret << 4) | ff_interleaved_dirac_golomb_vlc_code[buf];
+            UPDATE_CACHE(re, gb);
+            buf = GET_CACHE(re, gb);
         }
 
-        LAST_SKIP_BITS(re, gb, 63 - 2*log - 8);
         CLOSE_READER(re, gb);
-
-        return ((buf << log) >> log) - 1;
+        return ret - 1;
     }
 }
 
