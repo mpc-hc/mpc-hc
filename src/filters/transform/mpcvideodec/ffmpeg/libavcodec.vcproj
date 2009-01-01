@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="libavcodec"
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -361,6 +361,30 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\libavcodec\aac_ac3_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3dec_data.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3tab.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\allcodecs.c"
 				>
 			</File>
@@ -381,6 +405,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\eac3dec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\error_resilience.c"
 				>
 			</File>
@@ -389,7 +417,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\faandct.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\faandct.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\faanidct.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\fft.c"
 				>
 			</File>
 			<File
@@ -509,11 +549,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mdct.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mjpeg.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mjpegdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mlp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mlp_parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mlpdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpc_helper.c"
 				>
 			</File>
 			<File
@@ -545,7 +605,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\nellymoser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\nellymoserdec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\parser.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ratecontrol.c"
 				>
 			</File>
 			<File
@@ -702,6 +774,30 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\libavcodec\aac_ac3_parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3_parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3dec.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3dec_data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ac3tab.h"
+				>
+			</File>
+			<File
 				RelativePath=".\array_allocator.h"
 				>
 			</File>
@@ -814,6 +910,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mlp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mlp_parser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg12.h"
 				>
 			</File>
@@ -850,11 +954,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\nellymoser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\parser.h"
 				>
 			</File>
 			<File
 				RelativePath=".\PODtypes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\ratecontrol.h"
 				>
 			</File>
 			<File
@@ -1034,6 +1146,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\lfg.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\lfg.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\log.c"
 				>
 			</File>
@@ -1055,6 +1175,14 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\mathematics.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\md5.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\md5.h"
 				>
 			</File>
 			<File

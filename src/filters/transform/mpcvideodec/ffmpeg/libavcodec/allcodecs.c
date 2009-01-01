@@ -110,6 +110,10 @@ void avcodec_register_all(void)
 //REGISTER_DECODER  (zmbv);
 
   /* audio codecs */
+  REGISTER_DECODER	(ac3);
+  REGISTER_DECODER	(eac3);
+  REGISTER_DECODER	(mlp);
+  REGISTER_DECODER 	(nellymoser);
 //REGISTER_DECODER    (atrac3);
 //REGISTER_DECODER    (amr_nb);
 //REGISTER_DECODER    (cook);
@@ -154,7 +158,7 @@ void avcodec_register_all(void)
 
 /* parsers */
 //REGISTER_PARSER  (AAC, aac);
-//REGISTER_PARSER  (AC3, ac3);
+  REGISTER_PARSER  (AC3, ac3);
 //REGISTER_PARSER  (CAVSVIDEO, cavsvideo);
 //REGISTER_PARSER  (DCA, dca);
 //REGISTER_PARSER  (DVBSUB, dvbsub);
@@ -163,7 +167,7 @@ void avcodec_register_all(void)
 //REGISTER_PARSER  (H263, h263);
 //REGISTER_PARSER  (H264, h264);
 //REGISTER_PARSER  (MJPEG, mjpeg);
-//REGISTER_PARSER  (MLP, mlp);
+  REGISTER_PARSER  (MLP, mlp);
 //REGISTER_PARSER  (MPEG4VIDEO, mpeg4video);
 //REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
 //REGISTER_PARSER  (MPEGVIDEO, mpegvideo);

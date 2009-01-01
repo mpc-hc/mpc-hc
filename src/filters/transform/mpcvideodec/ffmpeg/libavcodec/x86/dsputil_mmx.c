@@ -2334,11 +2334,13 @@ void ff_x264_deblock_v_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, 
 void ff_x264_deblock_h_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
 void ff_x264_deblock_v8_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
 void ff_x264_deblock_h_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
+#ifdef ARCH_X86_32
 static void ff_x264_deblock_v_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta)
 {
     ff_x264_deblock_v8_luma_intra_mmxext(pix+0, stride, alpha, beta);
     ff_x264_deblock_v8_luma_intra_mmxext(pix+8, stride, alpha, beta);
 }
+#endif
 void ff_x264_deblock_v_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
 void ff_x264_deblock_h_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
 #else
@@ -2438,6 +2440,17 @@ static void float_to_int16_interleave_3dn2(int16_t *dst, const float **src, long
 }
 #endif /* ARCH_X86_64 */
 
+
+#if 0 /* disable snow */
+void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width);
+void ff_snow_horizontal_compose97i_mmx(IDWTELEM *b, int width);
+void ff_snow_vertical_compose97i_sse2(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
+void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
+void ff_snow_inner_add_yblock_sse2(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
+                                   int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
+void ff_snow_inner_add_yblock_mmx(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
+                                  int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
+#endif
 
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 {
@@ -2545,12 +2558,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
         c->gmc= gmc_mmx;
 
-#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER) || defined(CONDIG_PNG_DECODER)
         c->add_bytes= add_bytes_mmx;
-#endif
-#ifdef CONFIG_PNG_DECODER
         c->add_bytes_l2= add_bytes_l2_mmx;
-#endif
 
         c->draw_edges = draw_edges_mmx;
 
@@ -2683,9 +2692,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             if (ENABLE_VC1_DECODER || ENABLE_WMV3_DECODER)
                 ff_vc1dsp_init_mmx(c, avctx);
 
-#ifdef CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_mmx2;
-#endif
         } else if (mm_flags & FF_MM_3DNOW) {
             c->prefetch = prefetch_3dnow;
 
@@ -2788,9 +2795,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_ssse3_rnd;
             c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
-#ifdef CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
-#endif
         }
 #endif
 
@@ -2798,83 +2803,102 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #ifndef ARCH_X86_64
 #if defined(CONFIG_GPL) && defined(HAVE_YASM)
         if( mm_flags&FF_MM_MMXEXT ){
-#ifndef ARCH_X86_64
+#ifdef ARCH_X86_32
             c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;
             c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_mmxext;
 #endif
+#if defined(ARCH_X86_64) || !defined(__ICC) || __ICC > 1100
             if( mm_flags&FF_MM_SSE2 ){
                 c->h264_v_loop_filter_luma = ff_x264_deblock_v_luma_sse2;
                 c->h264_h_loop_filter_luma = ff_x264_deblock_h_luma_sse2;
                 c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_sse2;
                 c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_sse2;
             }
+#endif
         }
 #endif
 #endif /* ARCH_X86_64 */
+
+#ifdef CONFIG_SNOW_DECODER
+        if(mm_flags & FF_MM_SSE2 & 0){
+            c->horizontal_compose97i = ff_snow_horizontal_compose97i_sse2;
+#ifdef HAVE_7REGS
+            c->vertical_compose97i = ff_snow_vertical_compose97i_sse2;
+#endif
+            c->inner_add_yblock = ff_snow_inner_add_yblock_sse2;
+        }
+        else{
+            if(mm_flags & FF_MM_MMXEXT){
+            c->horizontal_compose97i = ff_snow_horizontal_compose97i_mmx;
+#ifdef HAVE_7REGS
+            c->vertical_compose97i = ff_snow_vertical_compose97i_mmx;
+#endif
+            }
+            c->inner_add_yblock = ff_snow_inner_add_yblock_mmx;
+        }
+#endif
 
 #endif /*GCC420_OR_NEWER*/
 
 /* disable audio related ASM for 64-bit builds */
 #ifndef ARCH_X86_64
         if(mm_flags & FF_MM_3DNOW){
-            #ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
-            #endif
             c->vector_fmul = vector_fmul_3dnow;
-            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER) || defined(CONFIG_VORBIS_DECODER)
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
-                #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
                 c->float_to_int16 = float_to_int16_3dnow;
-                #endif
-                #ifdef CONFIG_VORBIS_DECODER
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
-                #endif
             }
-            #endif
         }
         if(mm_flags & FF_MM_3DNOWEXT){
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
             c->vector_fmul_window = vector_fmul_window_3dnow2;
-            #ifdef CONFIG_VORBIS_DECODER
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16_interleave = float_to_int16_interleave_3dn2;
             }
-            #endif
         }
         if(mm_flags & FF_MM_SSE){
-            #ifdef CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
-            #endif
-            #if ENABLE_AC3_DECODER
             c->ac3_downmix = ac3_downmix_sse;
-            #endif
             c->vector_fmul = vector_fmul_sse;
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add_add = vector_fmul_add_add_sse;
             c->vector_fmul_window = vector_fmul_window_sse;
-            #if ENABLE_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse;
-            #endif
-            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             c->float_to_int16 = float_to_int16_sse;
-            #endif
-            #ifdef CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
-            #endif
         }
         if(mm_flags & FF_MM_3DNOW)
             c->vector_fmul_add_add = vector_fmul_add_add_3dnow; // faster than sse
         if(mm_flags & FF_MM_SSE2){
-            #if ENABLE_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse2;
-            #endif
-            #if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
             c->float_to_int16 = float_to_int16_sse2;
-            #endif
-            #ifdef CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
-            #endif
         }
 #endif /* ARCH_X86_64 */
     }
+
+    if (ENABLE_ENCODERS)
+        dsputilenc_init_mmx(c, avctx);
+}
+
+const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
+{
+    if (c->idct_put==ff_idct_xvid_mmx_put)
+        return "Xvid (ff_idct_xvid_mmx)";
+    if (c->idct_put==ff_idct_xvid_mmx2_put)
+        return "Xvid (ff_idct_xvid_mmx2)";
+    if (c->idct_put==ff_idct_xvid_sse2_put)
+        return "Xvid (ff_idct_xvid_sse2)";
+    if (c->idct_put==ff_simple_idct_put_mmx)
+        return "Simple MMX (ff_simple_idct_mmx)";
+    if (c->idct_put==ff_libmpeg2mmx2_idct_put)
+        return "libmpeg2 (ff_libmpeg2mmx2_idct)";
+    if (c->idct_put==ff_libmpeg2mmx_idct_put)
+        return "libmpeg2 (ff_libmpeg2mmx_idct)";
+    if (c->idct_put==ff_vp3_idct_put_sse2)
+        return "VP3 (ff_vp3_idct_sse2)";
+    if (c->idct_put==ff_vp3_idct_put_mmx)
+        return "VP3 (ff_vp3_idct_mmx)";
+    return NULL;
 }

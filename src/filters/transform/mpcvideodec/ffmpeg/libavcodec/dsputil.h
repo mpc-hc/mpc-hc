@@ -162,6 +162,11 @@ static void a(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
 // although currently h<4 is not used as functions with width <8 are neither used nor implemented
 typedef int (*me_cmp_func)(void /*MpegEncContext*/ *s, uint8_t *blk1/*align width (8 or 16)*/, uint8_t *blk2/*align 1*/, int line_size, int h)/* __attribute__ ((const))*/;
 
+#if 0 // disable snow
+// for snow slices
+typedef struct slice_buffer_s slice_buffer;
+#endif
+
 /**
  * Scantable.
  */
@@ -183,17 +188,13 @@ void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize,
 typedef struct DSPContext {
     /* pixel ops : interface with DCT */
     void (*get_pixels)(DCTELEM *block/*align 16*/, const uint8_t *pixels/*align 8*/, int line_size);
-#if 0
     void (*diff_pixels)(DCTELEM *block/*align 16*/, const uint8_t *s1/*align 8*/, const uint8_t *s2/*align 8*/, int stride);
-#endif
     void (*put_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*put_signed_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels_clamped)(const DCTELEM *block/*align 16*/, uint8_t *pixels/*align 8*/, int line_size);
     void (*add_pixels8)(uint8_t *pixels, DCTELEM *block, int line_size);
     void (*add_pixels4)(uint8_t *pixels, DCTELEM *block, int line_size);
-#if 0
     int (*sum_abs_dctelem)(DCTELEM *block/*align 16*/);
-#endif
     /**
      * translational global motion compensation.
      */
@@ -205,13 +206,36 @@ typedef struct DSPContext {
                     int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height);
     void (*clear_block)(DCTELEM *block/*align 16*/);
     void (*clear_blocks)(DCTELEM *blocks/*align 16*/);
-#if 0
     int (*pix_sum)(uint8_t * pix, int line_size);
     int (*pix_norm1)(uint8_t * pix, int line_size);
-#endif
 // 16x16 8x8 4x4 2x2 16x8 8x4 4x2 8x16 4x8 2x4
 
     me_cmp_func sad[5]; /* identical to pix_absAxA except additional void * */
+    me_cmp_func sse[5];
+    me_cmp_func hadamard8_diff[5];
+    me_cmp_func dct_sad[5];
+    me_cmp_func quant_psnr[5];
+    me_cmp_func bit[5];
+    me_cmp_func rd[5];
+    me_cmp_func vsad[5];
+    me_cmp_func vsse[5];
+    me_cmp_func nsse[5];
+#if 0 // disable snow
+    me_cmp_func w53[5];
+    me_cmp_func w97[5];
+#endif
+    me_cmp_func dct_max[5];
+    me_cmp_func dct264_sad[5];
+
+    me_cmp_func me_pre_cmp[5];
+    me_cmp_func me_cmp[5];
+    me_cmp_func me_sub_cmp[5];
+    me_cmp_func mb_cmp[5];
+    me_cmp_func ildct_cmp[5]; //only width 16 used
+    me_cmp_func frame_skip_cmp[5]; //only width 8 used
+
+    int (*ssd_int8_vs_int16)(const int8_t *pix1, const int16_t *pix2,
+                             int size);
 
     /**
      * Halfpel motion compensation with rounding (a+b+1)>>1.
@@ -300,7 +324,6 @@ typedef struct DSPContext {
     h264_biweight_func biweight_h264_pixels_tab[10];
 
     /* AVS specific */
-#if ENABLE_CAVS_DECODER
     qpel_mc_func put_cavs_qpel_pixels_tab[2][16];
     qpel_mc_func avg_cavs_qpel_pixels_tab[2][16];
     void (*cavs_filter_lv)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
@@ -308,33 +331,20 @@ typedef struct DSPContext {
     void (*cavs_filter_cv)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
     void (*cavs_filter_ch)(uint8_t *pix, int stride, int alpha, int beta, int tc, int bs1, int bs2);
     void (*cavs_idct8_add)(uint8_t *dst, DCTELEM *block, int stride);
-#endif
 
-#if 0
     me_cmp_func pix_abs[2][4];
-#endif
 
     /* huffyuv specific */
-#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER) || defined(CONDIG_PNG_DECODER)
     void (*add_bytes)(uint8_t *dst/*align 16*/, uint8_t *src/*align 16*/, int w);
-#endif
-#ifdef CONFIG_PNG_DECODER
     void (*add_bytes_l2)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 16*/, int w);
-#endif
-#if defined(CONFIG_HUFFYUV_DECODER) || defined(CONFIG_FFVHUFF_DECODER)
     void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/,int w);
-#endif
     /**
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
      */
-#if 0
     void (*sub_hfyu_median_prediction)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w, int *left, int *left_top);
-#endif
     /* this might write to dst[w] */
-#ifdef CONFIG_PNG_DECODER
     void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
-#endif
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
 
     void (*h264_v_loop_filter_luma)(uint8_t *pix/*align 16*/, int stride, int alpha, int beta, int8_t *tc0);
@@ -361,10 +371,9 @@ typedef struct DSPContext {
     void (*vp3_v_loop_filter)(uint8_t *src, int stride, int *bounding_values);
     void (*vp3_h_loop_filter)(uint8_t *src, int stride, int *bounding_values);
 
-#ifdef CONFIG_VORBIS_DECODER
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
-#endif
+    void (*ac3_downmix)(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len);
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
@@ -372,17 +381,13 @@ typedef struct DSPContext {
     void (*vector_fmul_add_add)(float *dst, const float *src0, const float *src1, const float *src2, int src3, int len, int step);
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vector_fmul_window)(float *dst, const float *src0, const float *src1, const float *win, float add_bias, int len);
-#if 0
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*int32_to_float_fmul_scalar)(float *dst, const int *src, float mul, int len);
-#endif
 
-#if defined(CONFIG_IMC_DECODER) || defined(CONFIG_NELLYMOSER_DECODER)
     /* C version: convert floats from the range [384.0,386.0] to ints in [-32768,32767]
      * simd versions: convert floats from [-32768.0,32767.0] without rescaling and arrays are 16byte aligned */
     void (*float_to_int16)(int16_t *dst, const float *src, long len);
     void (*float_to_int16_interleave)(int16_t *dst, const float **src, long len, int channels);
-#endif
 
     /* (I)DCT */
     void (*fdct)(DCTELEM *block/* align 16*/);
@@ -425,10 +430,8 @@ typedef struct DSPContext {
 #define FF_PARTTRANS_IDCT_PERM 5
 #define FF_SSE2_IDCT_PERM 6
 
-#if 0
     int (*try_8x8basis)(int16_t rem[64], int16_t weight[64], int16_t basis[64], int scale);
     void (*add_8x8basis)(int16_t rem[64], int16_t basis[64], int scale);
-#endif
 #define BASIS_SHIFT 16
 #define RECON_SHIFT 6
 
@@ -449,6 +452,13 @@ typedef struct DSPContext {
     void (*h264_idct8_add4)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
     void (*h264_idct_add8)(uint8_t **dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
     void (*h264_idct_add16intra)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
+
+#if 0 // disable snow
+    /* snow wavelet */
+    void (*vertical_compose97i)(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
+    void (*horizontal_compose97i)(IDWTELEM *b, int width);
+    void (*inner_add_yblock)(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h, int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
+#endif
 
     void (*prefetch)(void *mem, int stride, int h);
 
@@ -471,6 +481,15 @@ typedef struct DSPContext {
     void (*x8_setup_spatial_compensation)(uint8_t *src, uint8_t *dst, int linesize,
            int * range, int * sum,  int edges);
 
+    /* rv30 functions */
+    qpel_mc_func put_rv30_tpel_pixels_tab[4][16];
+    qpel_mc_func avg_rv30_tpel_pixels_tab[4][16];
+
+    /* rv40 functions */
+    qpel_mc_func put_rv40_qpel_pixels_tab[4][16];
+    qpel_mc_func avg_rv40_qpel_pixels_tab[4][16];
+    h264_chroma_mc_func put_rv40_chroma_pixels_tab[3];
+    h264_chroma_mc_func avg_rv40_chroma_pixels_tab[3];
 } DSPContext;
 
 void dsputil_static_init(void);
@@ -484,6 +503,8 @@ int ff_check_alignment(void);
  */
 void ff_block_permute(DCTELEM *block, uint8_t *permutation, const uint8_t *scantable, int last);
 
+void ff_set_cmp(DSPContext* c, me_cmp_func *cmp, int type);
+
 #define         BYTE_VEC32(c)   ((c)*0x01010101UL)
 
 static inline uint32_t rnd_avg32(uint32_t a, uint32_t b)
@@ -494,6 +515,32 @@ static inline uint32_t rnd_avg32(uint32_t a, uint32_t b)
 static inline uint32_t no_rnd_avg32(uint32_t a, uint32_t b)
 {
     return (a & b) + (((a ^ b) & ~BYTE_VEC32(0x01)) >> 1);
+}
+
+static inline int get_penalty_factor(int lambda, int lambda2, int type){
+    switch(type&0xFF){
+    default:
+    case FF_CMP_SAD:
+        return lambda>>FF_LAMBDA_SHIFT;
+    case FF_CMP_DCT:
+        return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
+#if 0 // disable snow
+    case FF_CMP_W53:
+        return (4*lambda)>>(FF_LAMBDA_SHIFT);
+    case FF_CMP_W97:
+        return (2*lambda)>>(FF_LAMBDA_SHIFT);
+#endif
+    case FF_CMP_SATD:
+    case FF_CMP_DCT264:
+        return (2*lambda)>>FF_LAMBDA_SHIFT;
+    case FF_CMP_RD:
+    case FF_CMP_PSNR:
+    case FF_CMP_SSE:
+    case FF_CMP_NSSE:
+        return lambda2>>FF_LAMBDA_SHIFT;
+    case FF_CMP_BIT:
+        return 1;
+    }
 }
 
 /**
@@ -624,6 +671,14 @@ static inline void ff_imdct_half(MDCTContext *s, FFTSample *output, const FFTSam
 }
 
 /**
+ * Generate a Kaiser-Bessel Derived Window.
+ * @param   window  pointer to half window
+ * @param   alpha   determines window shape
+ * @param   n       size of half window
+ */
+void ff_kbd_window_init(float *window, float alpha, int n);
+
+/**
  * Generate a sine window.
  * @param   window  pointer to half window
  * @param   n       size of half window
@@ -744,5 +799,7 @@ static inline void copy_block17(uint8_t *dst, uint8_t *src, int dstStride, int s
         src+=srcStride;
     }
 }
+
+const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
 
 #endif /* AVCODEC_DSPUTIL_H */

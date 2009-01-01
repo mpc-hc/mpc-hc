@@ -22,6 +22,10 @@
 #ifndef AVUTIL_LFG_H
 #define AVUTIL_LFG_H
 
+#ifdef HAVE_AV_CONFIG_H
+#include "libavutil/common.h"
+#endif
+
 typedef struct {
     unsigned int state[64];
     int index;

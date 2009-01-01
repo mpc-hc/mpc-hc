@@ -30,6 +30,7 @@
 
 #include "dsputil.h"
 #include "bitstream.h"
+#include "ratecontrol.h"
 #include "parser.h"
 #include "mpeg12data.h"
 #include "rl.h"
@@ -448,6 +449,7 @@ typedef struct MpegEncContext {
     int64_t total_bits;
     int frame_bits;                ///< bits used for the current frame
     int next_lambda;               ///< next lambda used for retrying to encode a frame
+    RateControlContext rc_context; ///< contains stuff only accessed in ratecontrol.c
 
     /* statistics, used for 2-pass encoding */
     int mv_bits;
@@ -663,6 +665,9 @@ typedef struct MpegEncContext {
                            DCTELEM *block/*align 16*/, int n, int qscale);
     void (*dct_unquantize_inter)(struct MpegEncContext *s, // unquantizer to use (mpeg4 can use both)
                            DCTELEM *block/*align 16*/, int n, int qscale);
+    int (*dct_quantize)(struct MpegEncContext *s, DCTELEM *block/*align 16*/, int n, int qscale, int *overflow);
+    int (*fast_dct_quantize)(struct MpegEncContext *s, DCTELEM *block/*align 16*/, int n, int qscale, int *overflow);
+    void (*denoise_dct)(struct MpegEncContext *s, DCTELEM *block);
 } MpegEncContext;
 
 
@@ -682,6 +687,7 @@ void ff_mpeg_flush(AVCodecContext *avctx);
 void ff_print_debug_info(MpegEncContext *s, AVFrame *pict);
 void ff_write_quant_matrix(PutBitContext *pb, uint16_t *matrix);
 int ff_find_unused_picture(MpegEncContext *s, int shared);
+void ff_denoise_dct(MpegEncContext *s, DCTELEM *block);
 void ff_update_duplicate_context(MpegEncContext *dst, MpegEncContext *src);
 const uint8_t *ff_find_start_code(const uint8_t *p, const uint8_t *end, uint32_t *state);
 

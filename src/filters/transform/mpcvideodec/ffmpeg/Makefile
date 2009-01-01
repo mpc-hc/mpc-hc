@@ -58,7 +58,25 @@ SRCS_C=\
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
 		$(LAVC_DIR)/wmv2dec.c \
-		$(LAVC_DIR)/xiph.c	
+		$(LAVC_DIR)/xiph.c	\
+		$(LAVC_DIR)/aac_ac3_parser.c \
+		$(LAVC_DIR)/ac3.c \
+		$(LAVC_DIR)/ac3_parser.c \
+		$(LAVC_DIR)/ac3dec.c \
+		$(LAVC_DIR)/ac3dec_data.c \
+		$(LAVC_DIR)/ac3tab.c \
+		$(LAVC_DIR)/eac3dec.c \
+		$(LAVC_DIR)/faandct.c \
+		$(LAVC_DIR)/faanidct.c \
+		$(LAVC_DIR)/fft.c \
+		$(LAVC_DIR)/mdct.c \
+		$(LAVC_DIR)/mpc_helper.c \
+		$(LAVC_DIR)/mlp.c \
+		$(LAVC_DIR)/mlp_parser.c \
+		$(LAVC_DIR)/mlpdec.c \
+		$(LAVC_DIR)/nellymoser.c \
+		$(LAVC_DIR)/nellymoserdec.c \
+		$(LAVC_DIR)/ratecontrol.c
 
 #SRCS_C+=\
 #		$(LAVC_DIR)/8bps.c \
@@ -155,7 +173,10 @@ SRCS_C+=\
 		$(LAVU_DIR)/log.c \
 		$(LAVU_DIR)/mathematics.c \
 		$(LAVU_DIR)/mem.c \
-		$(LAVU_DIR)/rational.c
+		$(LAVU_DIR)/rational.c \
+		$(LAVU_DIR)/random.c \
+		$(LAVU_DIR)/lfg.c \
+		$(LAVU_DIR)/md5.c
 
 #SRCS_C+=\
 #		$(LAVU_DIR)/lzo.c \
@@ -173,17 +194,18 @@ SRCS_C+=\
 		$(LAVC_DIR)/x86/vc1dsp_mmx.c \
 		$(LAVC_DIR)/x86/vp3dsp_mmx.c \
 		$(LAVC_DIR)/x86/vp3dsp_sse2.c
-		
-#SRCS_C+=\
-#		$(LAVC_DIR)/x86/cavsdsp_mmx.c \
-#		$(LAVC_DIR)/x86/fdct_mmx.c \
-#		$(LAVC_DIR)/x86/fft_3dn.c \
-#		$(LAVC_DIR)/x86/fft_3dn2.c \
-#		$(LAVC_DIR)/x86/fft_sse.c
+
+ifneq ($(64BIT),yes)
+SRCS_C+=\
+      $(LAVC_DIR)/x86/fft_3dn.c \
+      $(LAVC_DIR)/x86/fft_3dn2.c \
+      $(LAVC_DIR)/x86/fft_sse.c
+endif
 
 ifneq ($(64BIT),yes)
 SRCS_YASM=\
       $(LAVC_DIR)/x86/dsputil_yasm.asm \
+      $(LAVC_DIR)/x86/fft_mmx.asm \
       $(LAVC_DIR)/x86/h264_deblock_sse2.asm
 
 #SRCS_YASM+=\

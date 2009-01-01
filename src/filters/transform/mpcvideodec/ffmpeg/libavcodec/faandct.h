@@ -1,5 +1,6 @@
 /*
- * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ * Floating point AAN DCT
+ * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
  *
  * This file is part of FFmpeg.
  *
@@ -18,21 +19,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVUTIL_MD5_H
-#define AVUTIL_MD5_H
+/**
+ * @file faandct.h
+ * @brief
+ *     Floating point AAN DCT
+ * @author Michael Niedermayer <michaelni@gmx.at>
+ */
 
-#ifdef __GNUC__
-#include <stdint.h>
-#endif
+#ifndef AVCODEC_FAANDCT_H
+#define AVCODEC_FAANDCT_H
 
-extern const int av_md5_size;
+#include "dsputil.h"
 
-struct AVMD5;
+#define FAAN_POSTSCALE
 
-void av_md5_init(struct AVMD5 *ctx);
-void av_md5_update(struct AVMD5 *ctx, const uint8_t *src, const int len);
-void av_md5_final(struct AVMD5 *ctx, uint8_t *dst);
-void av_md5_sum(uint8_t *dst, const uint8_t *src, const int len);
+void ff_faandct(DCTELEM * data);
+void ff_faandct248(DCTELEM * data);
 
-#endif /* AVUTIL_MD5_H */
-
+#endif /* AVCODEC_FAANDCT_H */
