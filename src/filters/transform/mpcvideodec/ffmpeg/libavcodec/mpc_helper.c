@@ -34,6 +34,7 @@ int FFGetChannelMap(struct AVCodecContext * avctx)
 	switch (avctx->codec_id)
 	{
 	case CODEC_ID_EAC3 :
+	case CODEC_ID_AC3  :
 		{
 			AC3DecodeContext *s = avctx->priv_data;
 

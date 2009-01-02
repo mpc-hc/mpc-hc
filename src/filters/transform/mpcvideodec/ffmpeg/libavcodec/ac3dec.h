@@ -106,7 +106,7 @@ typedef struct {
     int num_spx_subbands;                   ///< number of spectral extension subbands
     int num_spx_bands;                      ///< number of spectral extension bands     (nspxbnds)
     uint8_t spx_band_struct[SPX_MAX_BANDS]; ///< spectral extension band structure      (spxbndstrc)
-    int spx_band_sizes[SPX_MAX_BANDS];      ///< number of bins in each band            (spxbndsztab)
+    uint8_t spx_band_sizes[SPX_MAX_BANDS];  ///< number of bins in each band            (spxbndsztab)
     int first_spx_coords[AC3_MAX_CHANNELS]; ///< first spx coordinates states           (firstspxcos)
     int spx_noise_blend[AC3_MAX_CHANNELS][SPX_MAX_BANDS];   ///< spx noise blending factor  (nblendfact)
     int spx_signal_blend[AC3_MAX_CHANNELS][SPX_MAX_BANDS];  ///< spx signal blending factor (sblendfact)
