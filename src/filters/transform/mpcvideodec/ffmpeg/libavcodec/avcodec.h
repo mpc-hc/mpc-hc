@@ -2646,6 +2646,8 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
 
 
 /* Media Player Classic - Homecinema specifis functions */
-FF_EXPORT int FFGetChannelMap(struct AVCodecContext* avctx);
+FF_EXPORT int    FFGetChannelMap(struct AVCodecContext* avctx);
+FF_EXPORT void*  FF_aligned_malloc(size_t size, size_t alignment);
+FF_EXPORT void   FF_aligned_free(void* mem_ptr);
 
 #endif /* AVCODEC_AVCODEC_H */
