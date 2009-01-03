@@ -21,7 +21,7 @@
 
 #pragma once
 
-enum SampleFormat {SF_PCM16, SF_PCM24, SF_PCM32, SF_FLOAT32};
+enum MPCSampleFormat {SF_PCM16, SF_PCM24, SF_PCM32, SF_FLOAT32};
 enum {AAC_ASIS, AAC_STEREO};
 
 [uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C")]
@@ -29,8 +29,8 @@ interface IMpaDecFilter : public IUnknown
 {
 	enum enctype {ac3, dts, aac, etlast};
 
-	STDMETHOD(SetSampleFormat(SampleFormat sf)) = 0;
-	STDMETHOD_(SampleFormat, GetSampleFormat()) = 0;
+	STDMETHOD(SetSampleFormat(MPCSampleFormat sf)) = 0;
+	STDMETHOD_(MPCSampleFormat, GetSampleFormat()) = 0;
 	STDMETHOD(SetNormalize(bool fNormalize)) = 0;
 	STDMETHOD_(bool, GetNormalize()) = 0;
 	STDMETHOD(SetSpeakerConfig(enctype et, int sc)) = 0; // sign of sc tells if spdif is active

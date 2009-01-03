@@ -2340,6 +2340,7 @@ void DumpBuffer(BYTE* pBuffer, int nSize)
 			strMsg.AppendFormat (L"%02x ", pBuffer[nSize - j]);
 		}
 	}
+	strMsg.AppendFormat(L"\n");
 
 	TRACE (strMsg);
 }

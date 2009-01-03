@@ -66,6 +66,9 @@ s_filters[] =
 #if INTERNAL_SOURCEFILTER_FLIC
 	{_T("FLI/FLC"), 0, SRC_FLIC, IDS_SRC_FLIC, NULL},
 #endif
+#if INTERNAL_SOURCEFILTER_FLAC
+	{_T("Flac"), 0, SRC_FLAC, IDS_SRC_FLAC, NULL},
+#endif
 #if INTERNAL_SOURCEFILTER_FLV
 	{_T("FLV"), 0, SRC_FLV, IDS_SRC_FLV, NULL},
 #endif
@@ -115,6 +118,12 @@ s_filters[] =
 #endif
 #if INTERNAL_DECODER_VORBIS
 	{_T("Vorbis"), 1, TRA_VORBIS, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+#endif
+#if INTERNAL_DECODER_FLAC
+	{_T("FLAC"), 1, TRA_FLAC, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+#endif
+#if INTERNAL_DECODER_NELLYMOSER
+	{_T("Nellymoser"), 1, TRA_NELLY, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
 #endif
 #if INTERNAL_DECODER_REALAUDIO
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},

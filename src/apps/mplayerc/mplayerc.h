@@ -207,8 +207,9 @@ enum
 	SRC_DSM       = SRC_MPA<<1,
 	SRC_SUBS      = SRC_DSM<<1,
 	SRC_MP4       = SRC_SUBS<<1,
-	SRC_FLV       = SRC_MP4<<1,
-	SRC_LAST      = SRC_FLV<<1
+	SRC_FLV       = SRC_MP4<<1,	
+	SRC_FLAC      = SRC_FLV<<1,
+	SRC_LAST      = SRC_FLAC<<1
 };
 
 enum
@@ -225,7 +226,9 @@ enum
 	TRA_PS2AUD = TRA_AAC<<1,
 	TRA_DIRAC  = TRA_PS2AUD<<1,
 	TRA_VORBIS = TRA_DIRAC<<1,
-	TRA_LAST   = TRA_VORBIS<<1
+	TRA_FLAC   = TRA_VORBIS<<1,
+	TRA_NELLY  = TRA_FLAC<<1,
+	TRA_LAST   = TRA_NELLY<<1
 };
 
 enum

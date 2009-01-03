@@ -246,7 +246,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CMenu m_filters, m_subtitles, m_audios;
 	CAutoPtrArray<CMenu> m_filterpopups;
 	CMenu m_navaudio, m_navsubtitle, m_navangle;
-	CMenu m_navchapters, m_navtitles;
+	CMenu m_navchapters;
 	CMenu m_favorites;
 	CMenu m_shaders;
 

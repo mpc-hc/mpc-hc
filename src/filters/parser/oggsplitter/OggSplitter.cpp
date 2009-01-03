@@ -1094,7 +1094,11 @@ COggTheoraOutputPin::COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pF
 	vih->hdr.bmiHeader.biBitCount	 = 24;
 	m_nFpsNum	= (p[22]<<24)|(p[23]<<16)|(p[24]<<8)|p[25];
 	m_nFpsDenum	= (p[26]<<24)|(p[27]<<16)|(p[28]<<8)|p[29];
-	if(m_nFpsNum) vih->hdr.AvgTimePerFrame = (REFERENCE_TIME)(10000000.0 * m_nFpsDenum / m_nFpsNum);
+	if(m_nFpsNum) 
+	{
+		m_rtAvgTimePerFrame = (REFERENCE_TIME)(10000000.0 * m_nFpsDenum / m_nFpsNum);
+		vih->hdr.AvgTimePerFrame = m_rtAvgTimePerFrame;
+	}
 	vih->hdr.dwPictAspectRatioX = (p[14]<<16)|(p[15]<<8)|p[16];
 	vih->hdr.dwPictAspectRatioY = (p[17]<<16)|(p[18]<<8)|p[19];
 	
@@ -1145,8 +1149,7 @@ REFERENCE_TIME COggTheoraOutputPin::GetRefTime(__int64 granule_position)
        stream.*/
 
 	REFERENCE_TIME rt = 0;
-	if(m_mt.majortype == MEDIATYPE_Video)
-		rt = (iframe+pframe-m_nIndexOffset) * ((MPEG2VIDEOINFO*)m_mt.Format())->hdr.AvgTimePerFrame;
+	rt = (iframe+pframe-m_nIndexOffset) * m_rtAvgTimePerFrame;
 	return rt;
 }
 

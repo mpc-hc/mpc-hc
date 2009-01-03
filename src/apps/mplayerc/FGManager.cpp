@@ -1309,6 +1309,16 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 
+#if INTERNAL_SOURCEFILTER_FLAC
+	if(src & SRC_FLAC)
+	{
+		pFGF = new CFGFilterInternal<CFlacSource>();
+		pFGF->m_chkbytes.AddTail(_T("0,4,,664C6143"));
+		pFGF->m_extensions.AddTail(_T(".flac"));
+		m_source.AddTail(pFGF);
+	}
+#endif
+
 #if INTERNAL_SOURCEFILTER_CDDA
 	if(src & SRC_CDDA)
 	{
@@ -1757,6 +1767,22 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		(tra & TRA_VORBIS) ? ResStr(IDS_FGMANAGER_11) : L"Vorbis Audio Decoder (low merit)",
 		(tra & TRA_VORBIS) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_Vorbis2);
+	m_transform.AddTail(pFGF);
+#endif
+
+#if INTERNAL_DECODER_FLAC
+	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+		(tra & TRA_FLAC) ? L"Flac Audio Decoder" : L"Flac Audio Decoder (low merit)",		// TODO : put in resource !
+		(tra & TRA_FLAC) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_FLAC_FRAMED);
+	m_transform.AddTail(pFGF);
+#endif
+
+#if INTERNAL_DECODER_NELLYMOSER
+	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+		(tra & TRA_NELLY) ? L"Nellymoser Audio Decoder" : L"Nellymoser Audio Decoder (low merit)",		// TODO : put in resource !
+		(tra & TRA_NELLY) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NELLYMOSER);
 	m_transform.AddTail(pFGF);
 #endif
 

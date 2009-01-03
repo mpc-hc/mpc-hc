@@ -136,6 +136,7 @@ class COggTheoraOutputPin : public COggSplitterOutputPin
 	int						m_nIndexOffset;
 	int						m_nFpsNum;
 	int						m_nFpsDenum;
+	REFERENCE_TIME			m_rtAvgTimePerFrame;
 
 	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len);
 	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);

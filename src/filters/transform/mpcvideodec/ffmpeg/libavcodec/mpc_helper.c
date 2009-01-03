@@ -51,6 +51,11 @@ int FFGetChannelMap(struct AVCodecContext * avctx)
 			}
 		}
 		break;
+	case CODEC_ID_MLP  :
+		{
+			//MLPDecodeContext *s = avctx->priv_data;
+			return 18;
+		}
 	default :
 		return 2;
 	}

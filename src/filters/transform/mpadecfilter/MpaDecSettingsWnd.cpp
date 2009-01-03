@@ -206,7 +206,7 @@ bool CMpaDecSettingsWnd::OnApply()
 
 	if(m_pMDF)
 	{
-		m_pMDF->SetSampleFormat((SampleFormat)m_outputformat);
+		m_pMDF->SetSampleFormat((MPCSampleFormat)m_outputformat);
 		m_pMDF->SetSpeakerConfig(IMpaDecFilter::ac3, m_ac3spkcfg);
 		m_pMDF->SetDynamicRangeControl(IMpaDecFilter::ac3, m_ac3drc);
 		m_pMDF->SetSpeakerConfig(IMpaDecFilter::dts, m_dtsspkcfg);

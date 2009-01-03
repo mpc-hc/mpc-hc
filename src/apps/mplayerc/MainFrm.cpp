@@ -10942,15 +10942,28 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 
 	AfxGetMyApp()->SetLanguage (nID - ID_LANGUAGE_ENGLISH);
 	
+	m_opencds.DestroyMenu();
+	m_filters.DestroyMenu();
+	m_subtitles.DestroyMenu();
+	m_audios.DestroyMenu();
+	m_navaudio.DestroyMenu();
+	m_navsubtitle.DestroyMenu();
+	m_navangle.DestroyMenu();
+	m_navchapters.DestroyMenu();
+	m_favorites.DestroyMenu();
+	m_shaders.DestroyMenu();
+
+	m_popup.DestroyMenu();
 	m_popup.LoadMenu(IDR_POPUP);
+	m_popupmain.DestroyMenu();
 	m_popupmain.LoadMenu(IDR_POPUPMAIN);
 
 	OldMenu = GetMenu();
 	DefaultMenu.LoadMenu(IDR_MAINFRAME);
 
 	SetMenu(&DefaultMenu);
+	m_hMenuDefault = DefaultMenu;
 	DefaultMenu.Detach();
-
 	// TODO : destroy old menu ???
 //	OldMenu->DestroyMenu();
 }

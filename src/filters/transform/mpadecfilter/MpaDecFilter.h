@@ -32,6 +32,13 @@
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 
+enum AC3StreamType
+{
+	Regular_AC3,	// Standard AC3
+	EAC3,			// Dolby Digital +
+	MLP				// Dobly True HD
+};
+
 struct aac_state_t
 {
 	void* h; // NeAACDecHandle h;
@@ -69,6 +76,18 @@ struct vorbis_state_t
 	bool init(const CMediaType& mt);
 };
 
+struct flac_state_t
+{
+	void*				pDecoder;
+	HRESULT				hr;
+};
+
+struct AVCodec;
+struct AVCodecContext;
+struct AVFrame;
+struct AVCodecParserContext;
+
+
 [uuid("3D446B6F-71DE-4437-BE15-8CE47174340F")]
 class CMpaDecFilter 
 	: public CTransformFilter
@@ -78,14 +97,22 @@ class CMpaDecFilter
 protected:
 	CCritSec m_csReceive;
 
-	a52_state_t* m_a52_state;
-	dts_state_t* m_dts_state;
-	aac_state_t m_aac_state;
-	mad_stream m_stream;
-	mad_frame m_frame;
-	mad_synth m_synth;
-	ps2_state_t m_ps2_state;
-	vorbis_state_t m_vorbis;
+	a52_state_t*			m_a52_state;
+	dts_state_t*			m_dts_state;
+	aac_state_t				m_aac_state;
+	mad_stream				m_stream;
+	mad_frame				m_frame;
+	mad_synth				m_synth;
+	ps2_state_t				m_ps2_state;
+	vorbis_state_t			m_vorbis;
+	flac_state_t			m_flac;
+	AC3StreamType			m_AC3StreamType;
+
+	// === FFMpeg variables
+	AVCodec*				m_pAVCodec;
+	AVCodecContext*			m_pAVCtx;
+	AVCodecParserContext*	m_pParser;
+	BYTE*					m_pPCMData;
 
 	CAtlArray<BYTE> m_buff;
 	REFERENCE_TIME m_rtStart;
@@ -96,23 +123,33 @@ protected:
 	HRESULT ProcessLPCM();
 	HRESULT ProcessHdmvLPCM();
 	HRESULT ProcessAC3();
+	HRESULT ProcessA52(BYTE* p, int buffsize, int& size);
 	HRESULT ProcessDTS();
 	HRESULT ProcessAAC();
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
 	HRESULT ProcessVorbis();
+	HRESULT ProcessFlac();
 	HRESULT ProcessMPA();
+	HRESULT ProcessFfmpeg(int nCodecId);
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
 	HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 	HRESULT Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type);
 	HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
-	CMediaType CreateMediaType(SampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
+	CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 	CMediaType CreateMediaTypeSPDIF();
+
+	void	FlacInitDecoder();
+	void	flac_stream_finish();
+
+	bool	InitFfmpeg(int nCodecId);
+	void	ffmpeg_stream_finish();
+	HRESULT DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
 
 protected:
 	CCritSec m_csProps;
-	SampleFormat m_iSampleFormat;
+	MPCSampleFormat m_iSampleFormat;
 	bool m_fNormalize;
 	int m_iSpeakerConfig[etlast];
 	bool m_fDynamicRangeControl[etlast];
@@ -146,8 +183,8 @@ public:
 
 	// IMpaDecFilter
 
-	STDMETHODIMP SetSampleFormat(SampleFormat sf);
-	STDMETHODIMP_(SampleFormat) GetSampleFormat();
+	STDMETHODIMP SetSampleFormat(MPCSampleFormat sf);
+	STDMETHODIMP_(MPCSampleFormat) GetSampleFormat();
 	STDMETHODIMP SetNormalize(bool fNormalize);
 	STDMETHODIMP_(bool) GetNormalize();
 	STDMETHODIMP SetSpeakerConfig(enctype et, int sc);
@@ -156,6 +193,9 @@ public:
 	STDMETHODIMP_(bool) GetDynamicRangeControl(enctype et);
 	STDMETHODIMP SetBoost(float boost);
 	STDMETHODIMP_(float) GetBoost();
+
+	void	FlacFillBuffer(BYTE buffer[], size_t *bytes);
+	void	FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);
 };
 
 class CMpaDecInputPin : public CDeCSSInputPin
