@@ -43,8 +43,8 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR  6
-#define LIBAVCODEC_VERSION_MICRO  3
+#define LIBAVCODEC_VERSION_MINOR  9
+#define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -2425,47 +2425,6 @@ FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
 int avcodec_parse_frame(AVCodecContext *avctx, uint8_t **pdata,
                         int *data_size_ptr,
                         uint8_t *buf, int buf_size);
-
-/**
- * Encodes an audio frame from \p samples into \p buf.
- * The avcodec_encode_audio() function encodes an audio frame from the input
- * buffer \p samples. To encode it, it makes use of the audio codec which was
- * coupled with \p avctx using avcodec_open(). The resulting encoded frame is
- * stored in output buffer \p buf.
- *
- * @note The output buffer should be at least \c FF_MIN_BUFFER_SIZE bytes large.
- *
- * @param avctx the codec context
- * @param[out] buf the output buffer
- * @param[in] buf_size the output buffer size
- * @param[in] samples the input buffer containing the samples
- * The number of samples read from this buffer is frame_size*channels,
- * both of which are defined in \p avctx.
- * For PCM audio the number of samples read from \p samples is equal to
- * \p buf_size * input_sample_size / output_sample_size.
- * @return On error a negative value is returned, on success zero or the number
- * of bytes used to encode the data read from the input buffer.
- */
-int avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
-                         const short *samples);
-
-/**
- * Encodes a video frame from \p pict into \p buf.
- * The avcodec_encode_video() function encodes a video frame from the input
- * \p pict. To encode it, it makes use of the video codec which was coupled with
- * \p avctx using avcodec_open(). The resulting encoded bytes representing the
- * frame are stored in the output buffer \p buf. The input picture should be
- * stored using a specific format, namely \c avctx.pix_fmt.
- *
- * @param avctx the codec context
- * @param[out] buf the output buffer for the bitstream of encoded frame
- * @param[in] buf_size the size of the output buffer in bytes
- * @param[in] pict the input picture to encode
- * @return On error a negative value is returned, on success zero or the number
- * of bytes used from the input buffer.
- */
-int avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf, int buf_size,
-                         const AVFrame *pict);
 
 FF_EXPORT int avcodec_close(AVCodecContext *avctx);
 

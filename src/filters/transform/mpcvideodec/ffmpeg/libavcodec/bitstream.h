@@ -194,6 +194,14 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
 #ifdef BITSTREAM_WRITER_LE
     bit_buf |= value << (32 - bit_left);
     if (n >= bit_left) {
+#ifndef HAVE_FAST_UNALIGNED
+        if (3 & (intptr_t) s->buf_ptr) {
+            s->buf_ptr[0] = bit_buf      ;
+            s->buf_ptr[1] = bit_buf >>  8;
+            s->buf_ptr[2] = bit_buf >> 16;
+            s->buf_ptr[3] = bit_buf >> 24;
+        } else
+#endif
         *(uint32_t *)s->buf_ptr = le2me_32(bit_buf);
         s->buf_ptr+=4;
         bit_buf = (bit_left==32)?0:value >> bit_left;
@@ -207,6 +215,14 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
     } else {
         bit_buf<<=bit_left;
         bit_buf |= value >> (n - bit_left);
+#ifndef HAVE_FAST_UNALIGNED
+        if (3 & (intptr_t) s->buf_ptr) {
+            s->buf_ptr[0] = bit_buf >> 24;
+            s->buf_ptr[1] = bit_buf >> 16;
+            s->buf_ptr[2] = bit_buf >>  8;
+            s->buf_ptr[3] = bit_buf      ;
+        } else
+#endif
         *(uint32_t *)s->buf_ptr = be2me_32(bit_buf);
         //printf("bitbuf = %08x\n", bit_buf);
         s->buf_ptr+=4;

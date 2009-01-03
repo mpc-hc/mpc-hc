@@ -262,6 +262,9 @@ typedef struct H264mb {
     unsigned int sub_mb_type[4];
 
     DCTELEM mb[16*24];
+    unsigned int top_samples_available,left_samples_available;
+    int16_t mvd_cache[2][5*8][2];
+    uint8_t direct_cache[5*8];
 } H264mb;
 
 

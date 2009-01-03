@@ -80,13 +80,7 @@ SRCS_C=\
 
 #SRCS_C+=\
 #		$(LAVC_DIR)/8bps.c \
-#		$(LAVC_DIR)/aac_ac3_parser.c \
-#		$(LAVC_DIR)/aac_parser.c \
 #		$(LAVC_DIR)/aasc.c \
-#		$(LAVC_DIR)/ac3.c \
-#		$(LAVC_DIR)/ac3_parser.c \
-#		$(LAVC_DIR)/ac3enc.c \
-#		$(LAVC_DIR)/ac3tab.c \
 #		$(LAVC_DIR)/adpcm.c \
 #		$(LAVC_DIR)/libamr.c \
 #		$(LAVC_DIR)/amr_float/interf_dec.c \
@@ -104,8 +98,6 @@ SRCS_C=\
 #		$(LAVC_DIR)/cyuv.c \
 #		$(LAVC_DIR)/dv.c \
 #		$(LAVC_DIR)/eval.c \
-#		$(LAVC_DIR)/faanidct.c \
-#		$(LAVC_DIR)/fft.c \
 #		$(LAVC_DIR)/ffv1.c \
 #		$(LAVC_DIR)/flac.c \
 #		$(LAVC_DIR)/fraps.c \
@@ -137,7 +129,6 @@ SRCS_C=\
 #		$(LAVC_DIR)/mpegvideo_parser.c \
 #		$(LAVC_DIR)/msrle.c \
 #		$(LAVC_DIR)/msvideo1.c \
-#		$(LAVC_DIR)/nellymoserdec.c \
 #		$(LAVC_DIR)/opt.c \
 #		$(LAVC_DIR)/pcm.c \
 #		$(LAVC_DIR)/png.c \
@@ -180,7 +171,6 @@ SRCS_C+=\
 
 #SRCS_C+=\
 #		$(LAVU_DIR)/lzo.c \
-#		$(LAVU_DIR)/random.c \
 #		$(LAVU_DIR)/string.c
 
 SRCS_C+=\
@@ -206,10 +196,9 @@ ifneq ($(64BIT),yes)
 SRCS_YASM=\
       $(LAVC_DIR)/x86/dsputil_yasm.asm \
       $(LAVC_DIR)/x86/fft_mmx.asm \
-      $(LAVC_DIR)/x86/h264_deblock_sse2.asm
-
-#SRCS_YASM+=\
-#      $(LAVC_DIR)/x86/fft_mmx.asm
+      $(LAVC_DIR)/x86/h264_deblock_sse2.asm \
+      $(LAVC_DIR)/x86/h264_idct_sse2.asm \
+      $(LAVC_DIR)/x86/x86util.asm
 endif
 
 
