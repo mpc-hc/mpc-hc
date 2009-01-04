@@ -2392,6 +2392,7 @@ BEGIN
     IDS_SRC_CDXA            "6.4.0.1"
     IDS_SRC_VTS             "6.4.0.0\nOpen VTS_xx_0.ifo to load VTS_xx_x.vob files in one piece"
     IDS_SRC_FLIC            "6.4.0.0"
+    IDS_SRC_FLAC            "1.2.1.0"
     IDS_SRC_D2V             "6.4.0.0"
     IDS_SRC_DTSAC3          "6.4.0.1"
     IDS_SRC_SHOUTCAST       "6.4.0.1"
