@@ -49,3 +49,5 @@
 #include "..\..\..\DSUtil\vd.h"
 
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
+
+#define EVO_SUPPORT		0

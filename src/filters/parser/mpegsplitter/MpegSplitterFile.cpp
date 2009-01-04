@@ -209,8 +209,11 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 
 			rtpos = GetPos()-4;
 
+#if (EVO_SUPPORT == 0)
 			if(b >= 0xbd && b < 0xf0)
-//			if((b >= 0xbd && b < 0xf0) || (b == 0xfd))		TODO EVO SUPPORT
+#else
+			if((b >= 0xbd && b < 0xf0) || (b == 0xfd))
+#endif
 			{
 				peshdr h;
 				if(!Read(h, b) || !h.len) continue;
@@ -292,8 +295,11 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop)
 				pssyshdr h;
 				if(!Read(h)) continue;
 			}
+#if (EVO_SUPPORT == 0)
 			else if(b >= 0xbd && b < 0xf0) // pes packet
-//			else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet	TODO EVO SUPPORT
+#else
+			else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet
+#endif
 			{
 				peshdr h;
 				if(!Read(h, b)) continue;
@@ -498,12 +504,14 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 			}
 		}
-		//else if (pesid == 0xfd)		TODO EVO SUPPORT
-		//{
-		//	CMpegSplitterFile::vc1hdr h;
-		//	if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
-		//		type = video;
-		//}
+#if (EVO_SUPPORT != 0)
+		else if (pesid == 0xfd)		// TODO EVO SUPPORT
+		{
+			CMpegSplitterFile::vc1hdr h;
+			if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
+				type = video;
+		}
+#endif
 		else
 		{
 			BYTE b = (BYTE)BitRead(8, true);
@@ -587,20 +595,22 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = subpic;
 				}
 			}
-			//else if(b >= 0xc0 && b < 0xc8) // dolby digital +		TODO EVO SUPPORT
-			//{
-			//	s.ps1id = (BYTE)BitRead(8);
-			//	s.pid = (WORD)((BitRead(8) << 8) | BitRead(16)); // pid = 0x9000 | track id
+#if (EVO_SUPPORT != 0)
+			else if(b >= 0xc0 && b < 0xc8) // dolby digital +
+			{
+				s.ps1id = (BYTE)BitRead(8);
+				s.pid = (WORD)((BitRead(8) << 8) | BitRead(16)); // pid = 0x9000 | track id
 
-			//	w = (WORD)BitRead(16, true);
+				w = (WORD)BitRead(16, true);
 
-			//	if(w == 0x0b77)
-			//	{
-			//		CMpegSplitterFile::ac3hdr h;
-			//		if(!m_streams[audio].Find(s) && Read(h, len, &s.mt))
-			//			type = audio;
-			//	}
-			//}
+				if(w == 0x0b77)
+				{
+					CMpegSplitterFile::ac3hdr h;
+					if(!m_streams[audio].Find(s) && Read(h, len, &s.mt))
+						type = audio;
+				}
+			}
+#endif
 		}
 	}
 	else if(pesid == 0xbe) // padding

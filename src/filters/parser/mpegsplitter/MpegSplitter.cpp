@@ -164,8 +164,11 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 			CMpegSplitterFile::pssyshdr h;
 			if(!m_pFile->Read(h)) return S_FALSE;
 		}
+#if (EVO_SUPPORT == 0)
 		else if(b >= 0xbd && b < 0xf0) // pes packet
-//		else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet	TODO EVO SUPPORT
+#else
+		else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet
+#endif
 		{
 			CMpegSplitterFile::peshdr h;
 			if(!m_pFile->Read(h, b) || !h.len) return S_FALSE;
@@ -839,13 +842,34 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = m_p->GetData();
 		BYTE* end = start + m_p->GetCount();
 
-		while(start <= end-4 && *(DWORD*)start != 0x0D010000) start++;
+		bool		bSeqFound = false;
+		while(start <= end-4)
+		{
+			if (*(DWORD*)start == 0x0D010000)
+			{
+				bSeqFound = true;
+				break;
+			}
+			else if (*(DWORD*)start == 0x0F010000)
+				break;
+			start++;
+		}
 
 		while(start <= end-4)
 		{
 			BYTE* next = start+1;
 
-			while(next <= end-4 && *(DWORD*)next != 0x0D010000) next++;
+			while(next <= end-4)
+			{
+				if (*(DWORD*)next == 0x0D010000)
+				{
+					if (bSeqFound) break;
+					bSeqFound = true;
+				}
+				else if (*(DWORD*)next == 0x0F010000)
+					break;
+				next++;
+			}
 
 			if(next >= end-4) break;
 
@@ -870,6 +894,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			if(m_p->pmt) DeleteMediaType(m_p->pmt); m_p->pmt = p->pmt; p->pmt = NULL;
 
 			start = next;
+			bSeqFound = (*(DWORD*)start == 0x0D010000);
 		}
 
 		if(start > m_p->GetData())
