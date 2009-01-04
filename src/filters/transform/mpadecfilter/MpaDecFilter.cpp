@@ -37,7 +37,9 @@
 #include "faad2\include\neaacdec.h"
 #include "FLAC\stream_decoder.h"
 
-#define INT24_MAX				0x7FFFFF
+#define INT24_MAX					0x7FFFFF
+#define EAC3_FRAME_TYPE_RESERVED	3
+#define AC3_HEADER_SIZE				7
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 {
@@ -485,16 +487,16 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 
 HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size)
 {
-	int framesize, flags, sample_rate, bit_rate;
+	int flags, sample_rate, bit_rate;
 
-	size = 0;
-	if((framesize = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0)
+	if((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0)
 	{
-		bool fEnoughData = framesize <= buffsize;
+//			TRACE(_T("ac3: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d\n"), size, flags, sample_rate, bit_rate);
+
+		bool fEnoughData = size <= buffsize;
 
 		if(fEnoughData)
 		{
-			size = framesize;
 			int iSpeakerConfig = GetSpeakerConfig(ac3);
 
 			if(iSpeakerConfig < 0)
@@ -546,12 +548,110 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size)
 							return hr;
 					}
 				}
-			}			
+			}
 		}
+		else
+			return S_FALSE;
 	}
 
 	return S_OK;
 }
+
+#if 0	// Old AC3 ! (to remove later...)
+
+HRESULT CMpaDecFilter::ProcessAC3()
+{
+	BYTE* p = m_buff.GetData();
+	BYTE* base = p;
+	BYTE* end = p + m_buff.GetCount();
+
+	while(end - p >= 7)
+	{
+		int size = 0, flags, sample_rate, bit_rate;
+
+		if((size = a52_syncinfo(p, &flags, &sample_rate, &bit_rate)) > 0)
+		{
+//			TRACE(_T("ac3: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d\n"), size, flags, sample_rate, bit_rate);
+
+			bool fEnoughData = p + size <= end;
+
+			if(fEnoughData)
+			{
+				int iSpeakerConfig = GetSpeakerConfig(ac3);
+
+				if(iSpeakerConfig < 0)
+				{
+					HRESULT hr;
+					if(S_OK != (hr = Deliver(p, size, bit_rate, 0x0001)))
+						return hr;
+				}
+				else
+				{
+					flags = iSpeakerConfig&(A52_CHANNEL_MASK|A52_LFE);
+					flags |= A52_ADJUST_LEVEL;
+
+					sample_t level = 1, gain = 1, bias = 0;
+					level *= gain;
+
+					if(a52_frame(m_a52_state, p, &flags, &level, bias) == 0)
+					{
+						if(GetDynamicRangeControl(ac3))
+							a52_dynrng(m_a52_state, NULL, NULL);
+
+						int scmapidx = min(flags&A52_CHANNEL_MASK, countof(s_scmap_ac3)/2);
+                        scmap_t& scmap = s_scmap_ac3[scmapidx + ((flags&A52_LFE)?(countof(s_scmap_ac3)/2):0)];
+
+						CAtlArray<float> pBuff;
+						pBuff.SetCount(6*256*scmap.nChannels);
+						float* p = pBuff.GetData();
+
+						int i = 0;
+
+						for(; i < 6 && a52_block(m_a52_state) == 0; i++)
+						{
+							sample_t* samples = a52_samples(m_a52_state);
+
+							for(int j = 0; j < 256; j++, samples++)
+							{
+								for(int ch = 0; ch < scmap.nChannels; ch++)
+								{
+									ASSERT(scmap.ch[ch] != -1);
+									*p++ = (float)(*(samples + 256*scmap.ch[ch]) / level);
+								}
+							}
+						}
+
+						if(i == 6)
+						{
+							HRESULT hr;
+							if(S_OK != (hr = Deliver(pBuff, sample_rate, scmap.nChannels, scmap.dwChannelMask)))
+								return hr;
+						}
+					}
+				}
+
+				p += size;
+			}
+
+			memmove(base, p, end - p);
+			end = base + (end - p);
+			p = base;
+
+			if(!fEnoughData)
+				break;
+		}
+		else
+		{
+			p++;
+		}
+	}
+
+	m_buff.SetCount(end - p);
+
+	return S_OK;
+}
+
+#else
 
 bool bInMLPFrame = false;
 HRESULT CMpaDecFilter::ProcessAC3()
@@ -571,11 +671,13 @@ HRESULT CMpaDecFilter::ProcessAC3()
 			{
 				m_AC3StreamType = Regular_AC3;
 				if (FAILED (hr = ProcessA52 (p, end-p, size))) return hr;
+				if (hr == S_FALSE) break;
 			}
 			else if (bsid <= 16)
 			{
-				m_AC3StreamType = EAC3;
 				DeliverFfmpeg(CODEC_ID_EAC3, p, end-p, size);
+				if (size > 0)
+					m_AC3StreamType = EAC3;
 			}
 			else
 			{
@@ -635,6 +737,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMpaDecFilter::ProcessFfmpeg(int nCodecId)
 {
