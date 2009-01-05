@@ -27,6 +27,7 @@
 #include <moreuuids.h>
 #include "flacsource.h"
 #include "..\..\..\DSUtil\DSUtil.h"
+#include "..\..\..\DSUtil\GolombBuffer.h"
 
 #ifdef REGISTER_FILTER
 
@@ -146,33 +147,70 @@ CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 	unsigned char locBuff[64];
 	m_file.Read((char*)&locBuff, 64);
-	const unsigned char FLAC_CHANNEL_MASK	= 14;	//00001110
-	const unsigned char FLAC_BPS_START_MASK = 1;	//00000001
-	const unsigned char FLAC_BPS_END_MASK	= 240;  //11110000
 
-	m_nChannels			 = (((locBuff[20]) & FLAC_CHANNEL_MASK) >> 1) + 1;
-	m_nSamplesPerSec	 = (charArrToULong(&locBuff[18])) >> 12;
-	m_wBitsPerSample	 =	(((locBuff[20] & FLAC_BPS_START_MASK) << 4)	| ((locBuff[21] & FLAC_BPS_END_MASK) >> 4)) + 1;	
-	__int64 mTotalNumSamples = (((__int64)(locBuff[21] % 16)) << 32) + ((__int64)(charArrToULong(&locBuff[22])));
+	// === Read Metadata info
+	CGolombBuffer	Buffer (locBuff, countof(locBuff));
 
-	m_nAvgBytesPerSec	= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;
+	Buffer.ReadDword();		// fLaC
+	Buffer.BitRead(1);		// Last-metadata-block flag
 	
-	m_nMaxFrameSize		= locBuff[15]<<16 | locBuff[16]<<8 | locBuff[17];
-	m_nBytesPerFrame	= m_nMaxFrameSize;	// TODO <==
-	m_AvgTimePerFrame	= 10000000i64 * m_nBytesPerFrame / m_nAvgBytesPerSec;
+	if (Buffer.BitRead(7) != 0)		// Should be a STREAMINFO block
+	{
+		if(phr) *phr = VFW_E_INVALID_FILE_FORMAT;
+		return;
+	}
 
-/*	
-//m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate];
-	m_nBytesPerFrame;
-	m_AvgTimePerFrame;
-*/
+	m_nFileOffset			= Buffer.BitRead(24) + locStart;		// Length (in bytes) of metadata to follow
+	m_nMinBlocksize			= Buffer.ReadShort();
+	m_nMaxBlocksize			= Buffer.ReadShort();
+	m_nMinFrameSize			= (int)Buffer.BitRead(24);
+	m_nMaxFrameSize			= (int)Buffer.BitRead(24);
+	m_nSamplesPerSec		= (int)Buffer.BitRead(20);
+	m_nChannels				= (int)Buffer.BitRead(3) + 1;
+	m_wBitsPerSample		= (WORD)Buffer.BitRead(5) + 1;
+	m_i64TotalNumSamples	= Buffer.BitRead(36);
+	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;	
+	
+	// === Init members from base classes
+	m_rtDuration			= (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;
+	m_rtStop				= m_rtDuration;
 
-	m_rtDuration = (mTotalNumSamples * UNITS) / m_nSamplesPerSec;
-	m_rtStop	 = m_rtDuration;
+	GetFileSizeEx (m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
+	m_AvgTimePerFrame	= (m_nMaxFrameSize + m_nMinFrameSize) * m_rtDuration / 2 / m_llFileSize;
+	m_nTotalFrame		= 0;
+
+	m_nFrameBufferSize	= m_nMaxFrameSize;
+	m_pFrameBuffer		= new BYTE[m_nFrameBufferSize];
+	Buffer.Reset(m_pFrameBuffer, m_nFrameBufferSize);
+
+	int		nFrameNumber;
+	int		nOffset;
+
+	// Find first frame
+	m_file.Seek (m_nFileOffset, CFile::begin);
+	m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
+	if (FindFrameStart (&Buffer, nFrameNumber, nOffset) && (nFrameNumber == 0))
+	{
+		m_nFileOffset += nOffset;
+	}
+
+	// Find last frame
+	m_file.Seek (-m_nMaxFrameSize, CFile::end);
+	m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
+	Buffer.Reset();
+	if (FindFrameStart (&Buffer, m_nTotalFrame, nOffset))
+	{
+		m_AvgTimePerFrame = m_rtDuration / m_nTotalFrame;
+	}
+
+	m_nCurFrame		= -1;
+	m_llCurPos		= 0;
+	ASSERT (m_nTotalFrame != 0);
 }
 
 CFlacStream::~CFlacStream()
 {
+	delete[] m_pFrameBuffer;
 }
 
 unsigned long CFlacStream::charArrToULong(unsigned char* inCharArray)
@@ -187,6 +225,161 @@ unsigned long CFlacStream::charArrToULong(unsigned char* inCharArray)
 	return locVal;
 }
 
+
+bool CFlacStream::ReadUTF8Uint32(CGolombBuffer* pBuffer, int& val)
+{
+	int v = 0;
+	int x;
+	unsigned i;
+
+	x = pBuffer->ReadByte();
+	if (pBuffer->IsEOF()) return false;
+
+	if(!(x & 0x80)) { /* 0xxxxxxx */
+		v = x;
+		i = 0;
+	}
+	else if(x & 0xC0 && !(x & 0x20)) { /* 110xxxxx */
+		v = x & 0x1F;
+		i = 1;
+	}
+	else if(x & 0xE0 && !(x & 0x10)) { /* 1110xxxx */
+		v = x & 0x0F;
+		i = 2;
+	}
+	else if(x & 0xF0 && !(x & 0x08)) { /* 11110xxx */
+		v = x & 0x07;
+		i = 3;
+	}
+	else if(x & 0xF8 && !(x & 0x04)) { /* 111110xx */
+		v = x & 0x03;
+		i = 4;
+	}
+	else if(x & 0xFC && !(x & 0x02)) { /* 1111110x */
+		v = x & 0x01;
+		i = 5;
+	}
+	else {
+		val = 0xffffffff;
+		return true;
+	}
+	for( ; i; i--) {
+		x = pBuffer->ReadByte();
+		if (pBuffer->IsEOF()) return false;
+
+		if(!(x & 0x80) || (x & 0x40)) { /* 10xxxxxx */
+			val = 0xffffffff;
+			return true;
+		}
+		v <<= 6;
+		v |= (x & 0x3F);
+	}
+	
+	val = v;
+	return true;
+}
+
+bool CFlacStream::FindFrameStart (CGolombBuffer* pBuffer, int& nFrameNumber, int& nOffset)
+{
+	int		nPos = 0;
+	int		nPrevFrame[3]  = { -1, -1, -1};
+	int		nPrevOffset[3];
+
+	while (!pBuffer->IsEOF() & (nPos<3))
+	{
+		if ( pBuffer->BitRead (8) == 0xFF && 
+			(pBuffer->BitRead (8, true) & 0xFE) == 0xF8)	// Frame header sync word
+		{
+			nPrevOffset[nPos] = pBuffer->GetPos()-1;
+			bool	bBlockingStrategy = !!(pBuffer->BitRead (8) & 1);
+			int		nBlockSize		  = pBuffer->BitRead (4);
+			int		nSampleRate		  = pBuffer->BitRead (4);
+			int		nChannelAssign	  = pBuffer->BitRead (4);
+			int		nSampleSize		  = pBuffer->BitRead (3);
+
+
+			if (pBuffer->BitRead (1) != 0) continue;	// Mandatory value !
+			if (nSampleRate == 15) continue;
+
+			if (bBlockingStrategy || (m_nMinBlocksize != m_nMaxBlocksize))
+			{
+//				ASSERT (FALSE);	// TODO !
+			}
+			else
+			{
+				if (ReadUTF8Uint32 (pBuffer, nPrevFrame[nPos]))
+				{
+					if (nPrevFrame[nPos] == -1) continue;
+					if ( (nPrevFrame[0]+1 == nPrevFrame[1]) )
+					{
+						nFrameNumber = nPrevFrame[0];
+						nOffset		 = nPrevOffset[0];
+						return true;
+					}
+					else if (nPrevFrame[0]+1 == nPrevFrame[2])
+					{
+						nFrameNumber = nPrevFrame[0];
+						nOffset		 = nPrevOffset[0] + nPrevOffset[1];
+						return true;
+					}
+					else if (nPrevFrame[1]+1 == nPrevFrame[2])
+					{
+						nFrameNumber = nPrevFrame[1];
+						nOffset		 = nPrevOffset[1];
+						return true;
+					}
+				}
+			}
+			nPos++;
+		}
+	}
+
+	return false;
+}
+
+
+bool CFlacStream::FindNextFrameStart (CGolombBuffer* pBuffer, int nFrameNumber, int& nOffset)
+{
+	int		nCurFrame;
+
+	// Buffer should be on a sync word already!
+	ASSERT ((pBuffer->BitRead(16, true) & 0xFFFE) == 0xFFF8);
+
+	pBuffer->BitRead (8);
+	while (!pBuffer->IsEOF())
+	{
+		if ( pBuffer->BitRead (8) == 0xFF && 
+			(pBuffer->BitRead (8, true) & 0xFE) == 0xF8)	// Frame header sync word
+		{
+			int		nCurOffset		  = pBuffer->GetPos()-1;
+			bool	bBlockingStrategy = !!(pBuffer->BitRead (8) & 1);
+			int		nBlockSize		  = pBuffer->BitRead (4);
+			int		nSampleRate		  = pBuffer->BitRead (4);
+			int		nChannelAssign	  = pBuffer->BitRead (4);
+			int		nSampleSize		  = pBuffer->BitRead (3);
+
+
+			if (pBuffer->BitRead (1) != 0) continue;	// Mandatory value !
+			if (nSampleRate == 15) continue;
+
+//			if (bBlockingStrategy || (m_nMinBlocksize != m_nMaxBlocksize))
+			if (!bBlockingStrategy)
+			{
+				if (ReadUTF8Uint32 (pBuffer, nCurFrame))
+				{
+					if (nCurFrame == nFrameNumber+1)
+					{
+						nOffset		 = nCurOffset;
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
     ASSERT(pAlloc);
@@ -195,7 +388,7 @@ HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
     HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = 1;
-	pProperties->cbBuffer = m_nMaxFrameSize;
+	pProperties->cbBuffer = m_nMaxFrameSize + 4;	// <= Need 4 more bytes to check sync word!
 
     ALLOCATOR_PROPERTIES Actual;
     if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
@@ -208,19 +401,49 @@ HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
 
 HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
 {
-	BYTE* pOutOrg = pOut;
+	CGolombBuffer	Buffer(pOut, len);
+	LONGLONG		llPos;
+	int				nNumber, nOffset;
 
-	const GUID* majortype = &m_mt.majortype;
-	const GUID* subtype = &m_mt.subtype;
+	if (nFrame > m_nTotalFrame)
+		return S_FALSE;
 
-	if(*majortype == MEDIATYPE_Audio)
+	// Find frame position
+	llPos = m_nFileOffset + nFrame * (m_nMaxFrameSize + m_nMinFrameSize) / 2;
+	while (m_nCurFrame==-1 || nFrame != m_nCurFrame)
 	{
-		m_file.Seek(m_nFileOffset + nFrame*m_nBytesPerFrame, CFile::begin);
-		if(m_file.Read(pOut, m_nBytesPerFrame) < m_nBytesPerFrame) return S_FALSE;
-		pOut += m_nBytesPerFrame;
+		m_file.Seek (llPos, CFile::begin);
+		m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
+		Buffer.Reset(m_pFrameBuffer, m_nFrameBufferSize);
+
+		nNumber = 0;
+		if (FindFrameStart (&Buffer, nNumber, nOffset) && (nNumber == nFrame))
+		{
+			m_nCurFrame = nNumber;
+			m_llCurPos	= llPos + nOffset;
+		}
+		else
+		{
+			if (nNumber > nFrame)
+				llPos = min (0, llPos - (nNumber - nFrame) * m_nMinFrameSize);
+			else
+				llPos += m_nMaxFrameSize;
+		}
+		Buffer.Reset();
 	}
 
-	len = pOut - pOutOrg;
+	// Read frame
+	m_file.Seek (m_llCurPos, CFile::begin);
+	m_file.Read((char*)pOut, len);
+	Buffer.Reset(pOut, len);
+	if (FindNextFrameStart (&Buffer, nFrame, nOffset))
+	{
+		m_nCurFrame++;
+		m_llCurPos	+= nOffset;
+		len			 = nOffset;
+	}
+
+	TRACE (" Fill buffer N° %04d - %06d    %02x %02x %02x %02x %02x\n", m_nCurFrame, nOffset, pOut[0], pOut[1], pOut[2], pOut[3], pOut[4]);
 
 	return S_OK;
 }

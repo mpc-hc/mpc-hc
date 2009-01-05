@@ -34,16 +34,41 @@ public:
 	virtual ~CFlacSource();
 };
 
+
+class CGolombBuffer;
+
 class CFlacStream : public CBaseStream
 {
 	CFile m_file;
-	int m_nFileOffset, m_nBytesPerFrame, m_nAvgBytesPerSec, m_nSamplesPerSec, m_nChannels, m_nMaxFrameSize;
-	GUID m_subtype;
-	WORD m_wFormatTag;
-	BYTE m_streamid;
-	WORD m_wBitsPerSample;
+
+	SHORT		m_nMinBlocksize;
+	SHORT		m_nMaxBlocksize;
+	int			m_nMinFrameSize;
+	int			m_nMaxFrameSize;
+	int			m_nSamplesPerSec;
+	int			m_nChannels;
+	WORD		m_wBitsPerSample;
+	__int64		m_i64TotalNumSamples;
+	int			m_nAvgBytesPerSec;
+
+	int			m_nFileOffset;			// Position of first frame in file
+	GUID		m_subtype;
+	WORD		m_wFormatTag;
+	BYTE		m_streamid;
+
+	BYTE*		m_pFrameBuffer;
+	int			m_nFrameBufferSize;
+	ULONGLONG	m_llCurPos;				// Position of current frame in file
+	int			m_nCurFrame;			// Number of current frame
+
+	ULONGLONG	m_llFileSize;			// Size of the file	
+	int			m_nTotalFrame;			// Number of frames in file
 
 	unsigned long charArrToULong(unsigned char* inCharArray);
+
+	bool		FindFrameStart(CGolombBuffer* pBuffer, int& nFrameNumber, int& nOffset);
+	bool		FindNextFrameStart(CGolombBuffer* pBuffer, int nFrameNumber, int& nOffset);
+	bool		ReadUTF8Uint32(CGolombBuffer* pBuffer, int& val);
 
 public:
     CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
