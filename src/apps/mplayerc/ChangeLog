@@ -18,6 +18,8 @@ v1.x.x.x - unreleased
  FIXED  : Audio change on M2TS files reset the selected subtitle
  FIXED  : Switch to "Minimal view" reset main menu language to English
  FIXED  : Bug in Mpeg splitter for VC1
+ FIXED  : Maximum texture resolution to "Desktop" not working with Haali renderer (Bug #2456735)
+
 
 v1.2.908.0 - 30.November 2008
 ======================

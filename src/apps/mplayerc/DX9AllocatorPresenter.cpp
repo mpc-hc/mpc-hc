@@ -2268,6 +2268,7 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 
 CDXRAllocatorPresenter::CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr)
 	: ISubPicAllocatorPresenterImpl(hWnd, hr)
+	, m_ScreenSize(0, 0)
 {
 	if(FAILED(hr)) return;
 
@@ -2319,9 +2320,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	CSize size;
 	switch(AfxGetAppSettings().nSPCMaxRes)
 	{
-	// TODO: m_ScreenSize ? 
-	// case 0: default: size = m_ScreenSize; break;
-	default: 
+	case 0: default: size = m_ScreenSize; break;
 	case 1: size.SetSize(1024, 768); break;
 	case 2: size.SetSize(800, 600); break;
 	case 3: size.SetSize(640, 480); break;
@@ -2381,6 +2380,11 @@ STDMETHODIMP CDXRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 	if(FAILED(pSR->SetCallback(m_pSRCB))) {m_pDXR = NULL; return E_FAIL;}
 
 	(*ppRenderer = this)->AddRef();
+
+	MONITORINFO mi;
+	mi.cbSize = sizeof(MONITORINFO);
+	if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi))
+		m_ScreenSize.SetSize(mi.rcMonitor.right-mi.rcMonitor.left, mi.rcMonitor.bottom-mi.rcMonitor.top);
 
 	return S_OK;
 }
