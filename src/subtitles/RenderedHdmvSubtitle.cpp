@@ -105,7 +105,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetClassID(CLSID* pClassID)
 
 STDMETHODIMP_(int) CRenderedHdmvSubtitle::GetStreamCount()
 {
-	return (1);
+	return (0);
 }
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
