@@ -38,12 +38,17 @@ public:
 	inline SHORT	ReadShort() { return (SHORT)BitRead (16); };
 	inline DWORD	ReadDword() { return (DWORD)BitRead (32); };
 	void			ReadBuffer(BYTE* pDest, int nSize);
+	
+	void			Reset();
+	void			Reset(BYTE* pNewBuffer, int nNewSize);
 
 	void			SetSize(int nValue) { m_nSize = nValue; };
 	int				GetSize()			{ return m_nSize; };
 	bool			IsEOF()				{ return m_nBitPos >= m_nSize; };
 	INT64			GetPos();
 	BYTE*			GetBufferPos()		{ return m_pBuffer + m_nBitPos; };
+
+	void			SkipBytes(int nCount);
 
 private :
 	BYTE*		m_pBuffer;

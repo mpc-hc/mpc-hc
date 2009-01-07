@@ -22,9 +22,7 @@
 #ifndef AVCODEC_MLP_H
 #define AVCODEC_MLP_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #include "avcodec.h"
 
@@ -39,7 +37,7 @@
 /** Maximum number of substreams that can be decoded. This could also be set
  *  higher, but I haven't seen any examples with more than two.
  */
-#define MAX_SUBSTREAMS      3 /* ffdshow custom value */
+#define MAX_SUBSTREAMS      2
 
 /** maximum sample frequency seen in files */
 #define MAX_SAMPLERATE      192000
