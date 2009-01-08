@@ -52,9 +52,6 @@ class CFlacStream : public CBaseStream
 	int			m_nAvgBytesPerSec;
 
 	int			m_nFileOffset;			// Position of first frame in file
-	GUID		m_subtype;
-	WORD		m_wFormatTag;
-	BYTE		m_streamid;
 
 	BYTE*		m_pFrameBuffer;
 	int			m_nFrameBufferSize;
@@ -64,7 +61,6 @@ class CFlacStream : public CBaseStream
 	ULONGLONG	m_llFileSize;			// Size of the file	
 	int			m_nTotalFrame;			// Number of frames in file
 
-	unsigned long charArrToULong(unsigned char* inCharArray);
 
 	bool		FindFrameStart(CGolombBuffer* pBuffer, int& nFrameNumber, int& nOffset);
 	bool		FindNextFrameStart(CGolombBuffer* pBuffer, int nFrameNumber, int& nOffset);
