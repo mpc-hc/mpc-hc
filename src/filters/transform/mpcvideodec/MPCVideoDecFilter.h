@@ -101,10 +101,13 @@ protected:
 	int										m_nFFBufferSize;
 	int										m_nWidth;				// Frame width give to input pin
 	int										m_nHeight;				// Frame height give to input pin
+
+	REFERENCE_TIME							m_rtLastStart;			// Last rtStart given by parser
+	int										m_nCountEstimated;		// Number of rtStart estimated since last rtStart received
 	
 	bool									m_bUseDXVA;
 	bool									m_bUseFFmpeg;				
-	CSize 								m_sar;
+	CSize 									m_sar;
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;

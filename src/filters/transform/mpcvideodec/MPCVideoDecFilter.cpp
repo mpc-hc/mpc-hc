@@ -53,6 +53,8 @@ extern "C"
 #define MAX_SUPPORTED_MODE			5
 #define MPCVD_CAPTION				_T("MPC Video decoder")
 
+#define ROUND_FRAMERATE(var,FrameRate)	if (labs ((long)(var - FrameRate)) < FrameRate*1/100) var = FrameRate;
+
 typedef struct
 {
 	const int			PicEntryNumber;
@@ -466,6 +468,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
 	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6;
+	m_rtLastStart			= 0;
+	m_nCountEstimated		= 0;
 
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
@@ -535,9 +539,11 @@ void CMPCVideoDecFilter::DetectVideoCard()
 	m_VideoDriverVersion.HighPart = 0;
 	m_VideoDriverVersion.LowPart = 0;
 
-	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) {
+	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) 
+	{
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-		if (pD3D9->GetAdapterIdentifier(0, 0, &adapterIdentifier) == S_OK) {
+		if (pD3D9->GetAdapterIdentifier(0, 0, &adapterIdentifier) == S_OK) 
+		{
 			m_nPCIVendor = adapterIdentifier.VendorId;
 			m_nPCIDevice = adapterIdentifier.DeviceId;
 			m_VideoDriverVersion = adapterIdentifier.DriverVersion;
@@ -779,10 +785,8 @@ void CMPCVideoDecFilter::CalcAvgTimePerFrame()
 void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
 {
 #ifdef _DEBUG
-	//AVCodecContext*	m_pAVCtx = (AVCodecContext*) par;
-
 	char		Msg [500];
-	vsnprintf (Msg, sizeof(Msg), fmt, valist);
+	vsnprintf_s (Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
 //	TRACE("AVLIB : %s", Msg);
 #endif
 }
@@ -1104,7 +1108,9 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			m_bReorderBFrame = false;
 	}
 
-	if ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE))
+	// Cannot use YUY2 if horizontal or vertical resolution is not even
+	if ( ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE)) ||
+		 ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2) && (m_pAVCtx->width&1 || m_pAVCtx->height&1)) )
 		return VFW_E_INVALIDMEDIATYPE;
 
 	return __super::CompleteConnect (direction, pReceivePin);
@@ -1139,6 +1145,8 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	CAutoLock cAutoLock(&m_csReceive);
 	m_nPosB = 1;
 	memset (&m_BFrames, 0, sizeof(m_BFrames));
+	m_rtLastStart		= 0;
+	m_nCountEstimated	= 0;
 
 	if (m_pDXVADecoder)
 		m_pDXVADecoder->Flush();
@@ -1378,10 +1386,29 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	nSize		= pIn->GetActualDataLength();
 	hr			= pIn->GetTime(&rtStart, &rtStop);
-	m_rtStart	= rtStart;
 
-	if ((rtStart != _I64_MIN) && rtStop <= rtStart)
+	if (rtStart != _I64_MIN)
+	{
+		// Estimate rtStart/rtStop if not set by parser (EVO support)
+		if (m_nCountEstimated > 0)
+		{
+			m_rtAvrTimePerFrame = (rtStart - m_rtLastStart) / m_nCountEstimated;
+
+			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 417083);	// 23.97 fps
+			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 333667);	// 29.97 fps
+			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 400000);	// 25.00 fps
+		}
+		m_rtLastStart		= rtStart;
+		m_nCountEstimated	= 0;
+	}
+	else
+	{
+		m_nCountEstimated++;
+		rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
+	}
+	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
+	m_rtStart	= rtStart;
 	
 //	DumpBuffer (pDataIn, nSize);
 //	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);
