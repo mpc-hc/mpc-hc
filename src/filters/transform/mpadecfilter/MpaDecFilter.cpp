@@ -221,8 +221,19 @@ s_scmap_hdmv[] =
 	{6, { 0, 1, 2, 5, 3, 4,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/2+LFe		FL, FR, FC, BL, BR, LFe
 	{8, { 0, 1, 2, 3, 6, 4, 5,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
 	{8, { 0, 1, 2, 7, 3, 6, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
+},
+s_scmap_lpcm[] =
+{
+//    FL  FR  FC  LFe BL  BR  FLC FRC
+	{1, { 0,-1,-1,-1,-1,-1,-1,-1 }, 0},		// Mono			M1, 0
+	{2, { 0, 1,-1,-1,-1,-1,-1,-1 }, 0},		// Stereo		FL, FR
+	{3, { 0, 1, 2,-1,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER},															// 3/0			FL, FR, FC
+	{4, { 0, 1, 2, 3,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY},										// 3/1			FL, FR, FC, Surround
+	{5, { 0, 1, 2, 3, 4,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},						// 3/2			FL, FR, FC, BL, BR
+	{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},// 3/2+LFe		FL, FR, FC, BL, BR, LFe
+	{7, { 0, 1, 2, 3, 4, 5, 6,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_CENTER},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
+	{8, { 0, 1, 2, 3, 4, 5, 6, 7 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
 };
-
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
 	: CTransformFilter(NAME("CMpaDecFilter"), lpunk, __uuidof(this))
@@ -410,23 +421,58 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 
-	ASSERT(wfein->nChannels == 2);
-	ASSERT(wfein->wBitsPerSample == 16);
+	if (wfein->nChannels < 1 || wfein->nChannels > 8)
+		return ERROR_NOT_SUPPORTED;
 
-	BYTE* pDataIn = m_buff.GetData();
-	int len = m_buff.GetCount() & ~(wfein->nChannels*wfein->wBitsPerSample/8-1);
+	BYTE*			pDataIn	= m_buff.GetData();
+	int BytesPerSample = wfein->nChannels*((wfein->wBitsPerSample + 7)&(~7));		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
+	int				len		= (m_buff.GetCount() / BytesPerSample) * BytesPerSample;
+	scmap_t*		remap	= &s_scmap_lpcm [wfein->nChannels];
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(len*8/wfein->wBitsPerSample);
 
-	float* pDataOut = pBuff.GetData();
-	for(int i = 0; i < len; i += 2, pDataIn += 2, pDataOut++)
-		*pDataOut = (float)(short)((pDataIn[0]<<8)|pDataIn[1]) / 0x8000; // FIXME: care about 20/24 bps too
+	float*	pDataOut = pBuff.GetData();
 
-	memmove(m_buff.GetData(), pDataIn, m_buff.GetCount() - len);
+	switch (wfein->wBitsPerSample)
+	{
+	case 16 :
+		for (int i=0; i<len/wfein->nChannels/2; i++)
+		{
+			for(int j = 0; j < wfein->nChannels; j++)
+			{
+				int		nRemap = remap->ch[j];
+				*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / SHRT_MAX;
+				pDataOut++;
+			}
+			pDataIn += remap->nChannels*2;
+		}
+		break;
+
+	case 24 :
+	case 20 :
+		long		lSample;
+
+		for (int i=0; i<len/wfein->nChannels/3; i++)
+		{
+			for(int j = 0; j < wfein->nChannels; j++)
+			{
+				BYTE		nRemap = remap->ch[j];
+
+				lSample = (long)pDataIn[nRemap*3]<<24 | (long)pDataIn[nRemap*3+1]<<16 | (long)pDataIn[nRemap*3+2]<<8;
+				*pDataOut = (float)(long)lSample / 0x80000000;
+
+				pDataOut++;
+			}
+			pDataIn += remap->nChannels*3;
+		}
+		break;
+	}
+
+	memmove(m_buff.GetData(), pDataIn, m_buff.GetCount() - len );
 	m_buff.SetCount(m_buff.GetCount() - len);
 
-	return Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels);
+	return Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, remap->dwChannelMask);
 }
 
 
@@ -435,7 +481,8 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 	WAVEFORMATEX_HDMV_LPCM* wfein = (WAVEFORMATEX_HDMV_LPCM*)m_pInput->CurrentMediaType().Format();
 
 	BYTE*			pDataIn	= m_buff.GetData();
-	int				len		= (m_buff.GetCount()) & ~(wfein->nChannels*wfein->wBitsPerSample/8-1);
+	int BytesPerSample = wfein->nChannels*((wfein->wBitsPerSample + 7)&(~7));		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
+	int				len		= (m_buff.GetCount() / BytesPerSample) * BytesPerSample;
 	scmap_t*		remap	= &s_scmap_hdmv [wfein->channel_conf];
 
 	CAtlArray<float> pBuff;

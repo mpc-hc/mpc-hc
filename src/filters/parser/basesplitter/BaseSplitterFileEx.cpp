@@ -744,7 +744,7 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 	h.channels = BitRead(3);
 	h.drc = (BYTE)BitRead(8);
 
-	if(h.channels > 2 || h.reserved1 || h.reserved2)
+	if(h.quantwordlen == 3 || h.reserved1 || h.reserved2)
 		return(false);
 
 	if(!pmt) return(true);
@@ -755,8 +755,16 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 	wfe.nChannels = h.channels+1;
 	static int freq[] = {48000, 96000, 44100, 32000};
 	wfe.nSamplesPerSec = freq[h.freq];
-	wfe.wBitsPerSample = 16;
-	wfe.nBlockAlign = wfe.nChannels*wfe.wBitsPerSample>>3;
+	switch (h.quantwordlen)
+	{
+	case 0:
+		wfe.wBitsPerSample = 16;
+	case 1:
+		wfe.wBitsPerSample = 20;
+	case 2:
+		wfe.wBitsPerSample = 24;
+	}
+	wfe.nBlockAlign = wfe.nChannels*((wfe.wBitsPerSample + 7)>>3);
 	wfe.nAvgBytesPerSec = wfe.nBlockAlign*wfe.nSamplesPerSec;
 
 	pmt->majortype = MEDIATYPE_Audio;
