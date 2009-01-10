@@ -466,7 +466,8 @@ STDMETHODIMP CFGManager::EnumFilters(IEnumFilters** ppEnum)
 {
 	if(!m_pUnkInner) return E_UNEXPECTED;
 
-	CAutoLock cAutoLock(this);
+	// Not locking here fixes a deadlock involving ReClock
+	//CAutoLock cAutoLock(this); 
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->EnumFilters(ppEnum);
 }
