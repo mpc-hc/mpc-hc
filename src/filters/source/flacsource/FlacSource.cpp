@@ -347,7 +347,12 @@ bool CFlacStream::FindNextFrameStart (CGolombBuffer* pBuffer, int nFrameNumber, 
 			{
 				if (ReadUTF8Uint32 (pBuffer, nCurFrame))
 				{
-					if (nCurFrame == nFrameNumber+1)
+					if (nCurFrame == -1)
+					{
+						// Possible start of SyncWord here ! one step back
+						pBuffer->SkipBytes(-1);
+					}
+					else if (nCurFrame == nFrameNumber+1)
 					{
 						nOffset		 = nCurOffset;
 						return true;
