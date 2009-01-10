@@ -23,7 +23,7 @@
 
 #include <atlcoll.h>
 
-#define DEFAULT_CACHE_LENGTH 2048
+#define DEFAULT_CACHE_LENGTH 64*1024	// Beliyaal: Changed the default cache length to allow Bluray playback over network
 
 class CBaseSplitterFile
 {

@@ -28,8 +28,8 @@
 
 #pragma warning(disable: 4355)
 
-#define MINPACKETS 10
-#define MINPACKETSIZE 100*1024
+#define MINPACKETS 100			// Beliyaal: Changed the min number of packets to allow Bluray playback over network
+#define MINPACKETSIZE 256*1024	// Beliyaal: Changed the min packet size to allow Bluray playback over network
 #define MAXPACKETS 10000
 #define MAXPACKETSIZE 1024*1024*5
 
