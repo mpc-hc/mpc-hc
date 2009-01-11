@@ -355,9 +355,9 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	pPicParams->bBidirectionalAveragingMode	= ((vc1->profile == PROFILE_ADVANCED)<<3) | (1 << 7);
 
 	// Section 3.2.20.3
-	pPicParams->bPicSpatialResid8	= (vc1->panscanflag   << 7) | (vc1->refdist  << 6) |
-									  (vc1->s.loop_filter << 5) | (vc1->fastuvmc << 4) | 
-									  (vc1->extended_mv   << 3) | (vc1->dquant   << 1) | 
+	pPicParams->bPicSpatialResid8	= (vc1->panscanflag   << 7) | (vc1->refdist_flag << 6) |
+									  (vc1->s.loop_filter << 5) | (vc1->fastuvmc     << 4) | 
+									  (vc1->extended_mv   << 3) | (vc1->dquant       << 1) | 
 									  (vc1->vstransform);
 
 	// Section 3.2.20.4
