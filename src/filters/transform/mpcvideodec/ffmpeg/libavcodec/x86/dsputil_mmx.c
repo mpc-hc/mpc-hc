@@ -1599,7 +1599,7 @@ QPEL_2TAP(avg_,  8, 3dnow)
 
 
 #if 0
-static void just_return() { return; }
+static void just_return(void) { return; }
 #endif
 
 static void gmc_mmx(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int oy,
@@ -2441,17 +2441,6 @@ static void float_to_int16_interleave_3dn2(int16_t *dst, const float **src, long
 #endif /* ARCH_X86_64 */
 
 
-#if 0 /* disable snow */
-void ff_snow_horizontal_compose97i_sse2(IDWTELEM *b, int width);
-void ff_snow_horizontal_compose97i_mmx(IDWTELEM *b, int width);
-void ff_snow_vertical_compose97i_sse2(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-void ff_snow_vertical_compose97i_mmx(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-void ff_snow_inner_add_yblock_sse2(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
-                                   int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-void ff_snow_inner_add_yblock_mmx(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
-                                  int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-#endif
-
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 {
     mm_flags = mm_support();
@@ -2745,7 +2734,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                 ff_cavsdsp_init_3dnow(c, avctx);
         }
 
-#if GCC420_OR_NEWER
+#if AV_GCC_VERSION_AT_LEAST(4,2)
 #define H264_QPEL_FUNCS(x, y, CPU)\
             c->put_h264_qpel_pixels_tab[0][x+y*4] = put_h264_qpel16_mc##x##y##_##CPU;\
             c->put_h264_qpel_pixels_tab[1][x+y*4] = put_h264_qpel8_mc##x##y##_##CPU;\
@@ -2822,26 +2811,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #endif
 #endif /* ARCH_X86_64 */
 
-#ifdef CONFIG_SNOW_DECODER
-        if(mm_flags & FF_MM_SSE2 & 0){
-            c->horizontal_compose97i = ff_snow_horizontal_compose97i_sse2;
-#ifdef HAVE_7REGS
-            c->vertical_compose97i = ff_snow_vertical_compose97i_sse2;
-#endif
-            c->inner_add_yblock = ff_snow_inner_add_yblock_sse2;
-        }
-        else{
-            if(mm_flags & FF_MM_MMXEXT){
-            c->horizontal_compose97i = ff_snow_horizontal_compose97i_mmx;
-#ifdef HAVE_7REGS
-            c->vertical_compose97i = ff_snow_vertical_compose97i_mmx;
-#endif
-            }
-            c->inner_add_yblock = ff_snow_inner_add_yblock_mmx;
-        }
-#endif
-
-#endif /*GCC420_OR_NEWER*/
+#endif /* AV_GCC_VERSION_AT_LEAST(4,2) */
 
 /* disable audio related ASM for 64-bit builds */
 #ifndef ARCH_X86_64

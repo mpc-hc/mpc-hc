@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_AVUTIL_H
-#define FFMPEG_AVUTIL_H
+#ifndef AVUTIL_AVUTIL_H
+#define AVUTIL_AVUTIL_H
 
 /**
  * @file avutil.h
@@ -35,7 +35,7 @@
 #define AV_VERSION(a, b, c) AV_VERSION_DOT(a, b, c)
 
 #define LIBAVUTIL_VERSION_MAJOR 49
-#define LIBAVUTIL_VERSION_MINOR  9
+#define LIBAVUTIL_VERSION_MINOR 12
 #define LIBAVUTIL_VERSION_MICRO  0
 
 #define LIBAVUTIL_VERSION_INT   AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
@@ -81,4 +81,4 @@
 #define PIX_FMT_ABGR PIX_FMT_RGB32_1
 #define PIX_FMT_GRAY16 PIX_FMT_GRAY16LE
 
-#endif /* FFMPEG_AVUTIL_H */
+#endif /* AVUTIL_AVUTIL_H */

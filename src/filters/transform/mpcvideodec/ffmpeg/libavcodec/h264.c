@@ -2355,7 +2355,8 @@ static av_always_inline void hl_decode_mb_internal(H264Context *h, int simple){
     int i;
     int *block_offset = &h->block_offset[0];
     const int transform_bypass = !simple && (s->qscale == 0 && h->sps.transform_bypass);
-    const int is_h264 = simple || s->codec_id == CODEC_ID_H264;
+    /* is_h264 should always be true if SVQ3 is disabled. */
+    const int is_h264 = !ENABLE_SVQ3_DECODER || simple || s->codec_id == CODEC_ID_H264;
     void (*idct_add)(uint8_t *dst, DCTELEM *block, int stride);
     void (*idct_dc_add)(uint8_t *dst, DCTELEM *block, int stride);
 
@@ -7653,8 +7654,9 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
                && (avctx->skip_frame < AVDISCARD_NONREF || hx->nal_ref_idc)
                && (avctx->skip_frame < AVDISCARD_BIDIR  || hx->slice_type_nos!=FF_B_TYPE)
                && (avctx->skip_frame < AVDISCARD_NONKEY || hx->slice_type_nos==FF_I_TYPE)
-               && avctx->skip_frame < AVDISCARD_ALL)
-                context_count++;
+               && avctx->skip_frame < AVDISCARD_ALL){
+                    context_count++;
+            }
             break;
         case NAL_DPA:
             init_get_bits(&hx->s.gb, ptr, bit_length);

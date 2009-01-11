@@ -48,8 +48,6 @@
     #define DECLARE_ASM_CONST(n,t,v)    static const t v
 #endif
 
-#define GCC420_OR_NEWER AV_GCC_VERSION_AT_LEAST(4,2)
-
 #ifndef attribute_align_arg
 #if AV_GCC_VERSION_AT_LEAST(4,2)
 #    define attribute_align_arg __attribute__((force_align_arg_pointer))
@@ -64,7 +62,7 @@
     #define av_malloc_attrib
 #endif
 
-#if AV_GCC_VERSION_AT_LEAST(4,3)
+#if (!defined(__ICC) || __ICC > 1100) && AV_GCC_VERSION_AT_LEAST(4,3)
     #define av_alloc_size(n) __attribute__((alloc_size(n)))
 #else
     #define av_alloc_size(n)

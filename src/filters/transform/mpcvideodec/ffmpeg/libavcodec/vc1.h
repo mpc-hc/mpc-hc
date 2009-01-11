@@ -180,9 +180,7 @@ typedef struct VC1Context{
     int interlace;        ///< Progressive/interlaced (RPTFTM syntax element)
     int tfcntrflag;       ///< TFCNTR present
     int panscanflag;      ///< NUMPANSCANWIN, TOPLEFT{X,Y}, BOTRIGHT{X,Y} present
-    // ==> Start patch MPC
-    int refdist;          ///< refdist flag
-    // <== End patch MPC
+    int refdist_flag;     ///< REFDIST syntax element present in II, IP, PI or PP field picture headers
     int extended_dmv;     ///< Additional extended dmv range at P/B frame-level
     int color_prim;       ///< 8bits, chroma coordinates of the color primaries
     int transfer_char;    ///< 8bits, Opto-electronic transfer characteristics

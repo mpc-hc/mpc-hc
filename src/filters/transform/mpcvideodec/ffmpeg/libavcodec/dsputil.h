@@ -162,10 +162,9 @@ static void a(uint8_t *block, const uint8_t *pixels, int line_size, int h){\
 // although currently h<4 is not used as functions with width <8 are neither used nor implemented
 typedef int (*me_cmp_func)(void /*MpegEncContext*/ *s, uint8_t *blk1/*align width (8 or 16)*/, uint8_t *blk2/*align 1*/, int line_size, int h)/* __attribute__ ((const))*/;
 
-#if 0 // disable snow
+
 // for snow slices
 typedef struct slice_buffer_s slice_buffer;
-#endif
 
 /**
  * Scantable.
@@ -220,10 +219,8 @@ typedef struct DSPContext {
     me_cmp_func vsad[5];
     me_cmp_func vsse[5];
     me_cmp_func nsse[5];
-#if 0 // disable snow
     me_cmp_func w53[5];
     me_cmp_func w97[5];
-#endif
     me_cmp_func dct_max[5];
     me_cmp_func dct264_sad[5];
 
@@ -453,12 +450,10 @@ typedef struct DSPContext {
     void (*h264_idct_add8)(uint8_t **dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
     void (*h264_idct_add16intra)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
 
-#if 0 // disable snow
     /* snow wavelet */
     void (*vertical_compose97i)(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
     void (*horizontal_compose97i)(IDWTELEM *b, int width);
     void (*inner_add_yblock)(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h, int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
-#endif
 
     void (*prefetch)(void *mem, int stride, int h);
 
@@ -524,12 +519,10 @@ static inline int get_penalty_factor(int lambda, int lambda2, int type){
         return lambda>>FF_LAMBDA_SHIFT;
     case FF_CMP_DCT:
         return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
-#if 0 // disable snow
     case FF_CMP_W53:
         return (4*lambda)>>(FF_LAMBDA_SHIFT);
     case FF_CMP_W97:
         return (2*lambda)>>(FF_LAMBDA_SHIFT);
-#endif
     case FF_CMP_SATD:
     case FF_CMP_DCT264:
         return (2*lambda)>>FF_LAMBDA_SHIFT;
@@ -689,7 +682,8 @@ extern float ff_sine_256 [ 256];
 extern float ff_sine_512 [ 512];
 extern float ff_sine_1024[1024];
 extern float ff_sine_2048[2048];
-extern float *ff_sine_windows[5];
+extern float ff_sine_4096[4096];
+extern float *ff_sine_windows[6];
 
 int ff_mdct_init(MDCTContext *s, int nbits, int inverse);
 void ff_imdct_calc_c(MDCTContext *s, FFTSample *output, const FFTSample *input);

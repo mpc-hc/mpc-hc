@@ -1152,6 +1152,18 @@ static void quant_matrix_rebuild(uint16_t *matrix, const uint8_t *old_perm,
     }
 }
 
+static enum PixelFormat mpeg_get_pixelformat(AVCodecContext *avctx){
+    Mpeg1Context *s1 = avctx->priv_data;
+    MpegEncContext *s = &s1->mpeg_enc_ctx;
+
+        if(s->chroma_format <  2)
+            return PIX_FMT_YUV420P;
+        else if(s->chroma_format == 2)
+            return PIX_FMT_YUV422P;
+        else
+            return PIX_FMT_YUV444P;
+}
+
 /* Call this function when we know all parameters.
  * It may be called in different places for MPEG-1 and MPEG-2. */
 static int mpeg_decode_postinit(AVCodecContext *avctx){
@@ -1230,15 +1242,7 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
             }
         }//MPEG-2
 
-            if(s->chroma_format <  2){
-                avctx->pix_fmt = PIX_FMT_YUV420P;
-            }else
-            if(s->chroma_format == 2){
-                avctx->pix_fmt = PIX_FMT_YUV422P;
-            }else
-            if(s->chroma_format >  2){
-                avctx->pix_fmt = PIX_FMT_YUV444P;
-            }
+        avctx->pix_fmt = mpeg_get_pixelformat(avctx);
 
         /* Quantization matrices may need reordering
          * if DCT permutation is changed. */
@@ -1992,7 +1996,7 @@ static int vcr2_init_sequence(AVCodecContext *avctx)
     avctx->has_b_frames= 0; //true?
     s->low_delay= 1;
 
-    avctx->pix_fmt = PIX_FMT_YUV420P;
+    avctx->pix_fmt = mpeg_get_pixelformat(avctx);
 
     if (MPV_common_init(s) < 0)
         return -1;
@@ -2048,8 +2052,13 @@ static void mpeg_decode_user_data(AVCodecContext *avctx,
                 return;
             avctx->dtg_active_format = p[0] & 0x0f;
         }
-    } else if (avctx->handle_user_data)
-        avctx->handle_user_data(avctx,buf,buf_size);
+    }
+    /* ffdshow custom code */
+    else if (avctx->handle_user_data) {
+        uint32_t state;
+        uint8_t *user_data_end = ff_find_start_code(buf, buf + buf_size, &state);
+        avctx->handle_user_data(avctx, buf, user_data_end - buf);
+    }
 }
 
 static void mpeg_decode_gop(AVCodecContext *avctx,

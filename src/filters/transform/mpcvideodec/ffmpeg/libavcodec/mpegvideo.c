@@ -271,6 +271,7 @@ static int init_duplicate_context(MpegEncContext *s, MpegEncContext *base){
 
      //FIXME should be linesize instead of s->width*2 but that is not known before get_buffer()
     CHECKED_ALLOCZ(s->me.scratchpad,  (s->width+64)*4*16*2*sizeof(uint8_t))
+    s->me.temp=         s->me.scratchpad;
     s->rd_scratchpad=   s->me.scratchpad;
     s->b_scratchpad=    s->me.scratchpad;
     s->obmc_scratchpad= s->me.scratchpad + 16;
@@ -297,6 +298,7 @@ static void free_duplicate_context(MpegEncContext *s){
 
     av_freep(&s->allocated_edge_emu_buffer); s->edge_emu_buffer= NULL;
     av_freep(&s->me.scratchpad);
+    s->me.temp=
     s->rd_scratchpad=
     s->b_scratchpad=
     s->obmc_scratchpad= NULL;
@@ -313,6 +315,7 @@ static void backup_duplicate_context(MpegEncContext *bak, MpegEncContext *src){
     COPY(allocated_edge_emu_buffer);
     COPY(edge_emu_buffer);
     COPY(me.scratchpad);
+    COPY(me.temp);
     COPY(rd_scratchpad);
     COPY(b_scratchpad);
     COPY(obmc_scratchpad);
@@ -927,7 +930,11 @@ void MPV_frame_end(MpegEncContext *s)
     int i;
     /* draw edge for correct motion prediction if outside */
 
-    if(s->unrestricted_mv && s->current_picture.reference && !s->intra_only && !(s->flags&CODEC_FLAG_EMU_EDGE)) {
+    if(1
+       && s->unrestricted_mv
+       && s->current_picture.reference
+       && !s->intra_only
+       && !(s->flags&CODEC_FLAG_EMU_EDGE)) {
             s->dsp.draw_edges(s->current_picture.data[0], s->linesize  , s->h_edge_pos   , s->v_edge_pos   , EDGE_WIDTH  );
             s->dsp.draw_edges(s->current_picture.data[1], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
             s->dsp.draw_edges(s->current_picture.data[2], s->uvlinesize, s->h_edge_pos>>1, s->v_edge_pos>>1, EDGE_WIDTH/2);
