@@ -877,6 +877,10 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
         return 0;
 
     length = (AV_RB16(buf) & 0xfff) * 2;
+	// ==> Start patch : prevent crash on seek
+    if (length < 4)
+        return 0;
+	// <== End patch
 
     if (length > buf_size)
         return -1;

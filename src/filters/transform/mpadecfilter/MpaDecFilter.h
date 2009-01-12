@@ -32,12 +32,6 @@
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 
-enum AC3StreamType
-{
-	Regular_AC3,	// Standard AC3
-	EAC3,			// Dolby Digital +
-	MLP				// Dobly True HD
-};
 
 struct aac_state_t
 {
@@ -106,7 +100,7 @@ protected:
 	ps2_state_t				m_ps2_state;
 	vorbis_state_t			m_vorbis;
 	flac_state_t			m_flac;
-	AC3StreamType			m_AC3StreamType;
+	DolbyDigitalMode		m_DolbyDigitalMode;
 
 	// === FFMpeg variables
 	AVCodec*				m_pAVCodec;
@@ -123,7 +117,7 @@ protected:
 	HRESULT ProcessLPCM();
 	HRESULT ProcessHdmvLPCM();
 	HRESULT ProcessAC3();
-	HRESULT ProcessA52(BYTE* p, int buffsize, int& size);
+	HRESULT ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData);
 	HRESULT ProcessDTS();
 	HRESULT ProcessAAC();
 	HRESULT ProcessPS2PCM();
@@ -146,6 +140,7 @@ protected:
 	bool	InitFfmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
+	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 protected:
 	CCritSec m_csProps;
@@ -193,6 +188,7 @@ public:
 	STDMETHODIMP_(bool) GetDynamicRangeControl(enctype et);
 	STDMETHODIMP SetBoost(float boost);
 	STDMETHODIMP_(float) GetBoost();
+	STDMETHODIMP_(DolbyDigitalMode) GetDolbyDigitalMode();
 
 	void	FlacFillBuffer(BYTE buffer[], size_t *bytes);
 	void	FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);

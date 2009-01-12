@@ -1148,6 +1148,9 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	m_rtLastStart		= 0;
 	m_nCountEstimated	= 0;
 
+	if (m_pAVCtx)
+		avcodec_flush_buffers (m_pAVCtx);
+
 	if (m_pDXVADecoder)
 		m_pDXVADecoder->Flush();
 	return __super::NewSegment (rtStart, rtStop, dRate);

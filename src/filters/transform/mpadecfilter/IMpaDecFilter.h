@@ -24,6 +24,15 @@
 enum MPCSampleFormat {SF_PCM16, SF_PCM24, SF_PCM32, SF_FLOAT32};
 enum {AAC_ASIS, AAC_STEREO};
 
+enum DolbyDigitalMode
+{
+	DD_Unknown,
+	DD_AC3,			// Standard AC3
+	DD_EAC3,		// Dolby Digital +
+	DD_TRUEHD		// Dobly True HD
+};
+
+
 [uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C")]
 interface IMpaDecFilter : public IUnknown
 {
@@ -39,4 +48,5 @@ interface IMpaDecFilter : public IUnknown
 	STDMETHOD_(bool, GetDynamicRangeControl(enctype et)) = 0;
 	STDMETHOD(SetBoost(float boost)) = 0;
 	STDMETHOD_(float, GetBoost()) = 0;
+	STDMETHOD_(DolbyDigitalMode, GetDolbyDigitalMode()) = 0;
 };

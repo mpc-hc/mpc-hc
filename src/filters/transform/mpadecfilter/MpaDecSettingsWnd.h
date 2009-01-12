@@ -36,6 +36,7 @@ class CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 	int m_dtsspkcfg;
 	bool m_dtsdrc;
 	bool m_aacdownmix;
+	DolbyDigitalMode m_ddmode;
 
 	enum 
 	{
@@ -76,6 +77,7 @@ public:
 	bool OnActivate();
 	void OnDeactivate();
 	bool OnApply();
+	LPCTSTR GetDolbyMode (DolbyDigitalMode ddmode);
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
 	static CSize GetWindowSize() {return CSize(320, 240);}

@@ -255,7 +255,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_fDynamicRangeControl[ac3] = false;
 	m_fDynamicRangeControl[dts] = false;
 	m_fDynamicRangeControl[aac] = false;
-	m_AC3StreamType				= Regular_AC3;
+	m_DolbyDigitalMode			= DD_Unknown;
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
 	m_pParser					= NULL;
@@ -329,7 +329,9 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	m_buff.RemoveAll();
 	m_sample_max = 0.1f;
 	m_ps2_state.sync = false;
-	m_AC3StreamType = Regular_AC3;
+	m_DolbyDigitalMode = DD_Unknown;
+	if (m_pAVCtx)
+		avcodec_flush_buffers (m_pAVCtx);
 	if (m_flac.pDecoder)
 		FLAC__stream_decoder_flush((FLAC__StreamDecoder*) m_flac.pDecoder);
 	return __super::NewSegment(tStart, tStop, dRate);
@@ -356,6 +358,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		m_aac_state.init(mt);
 
 		m_vorbis.init(mt);
+		m_DolbyDigitalMode = DD_Unknown;
 	}
 
 	BYTE* pDataIn = NULL;
@@ -532,7 +535,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 }
 
 
-HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size)
+HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData)
 {
 	int flags, sample_rate, bit_rate;
 
@@ -540,7 +543,7 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size)
 	{
 //			TRACE(_T("ac3: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d\n"), size, flags, sample_rate, bit_rate);
 
-		bool fEnoughData = size <= buffsize;
+		fEnoughData = size <= buffsize;
 
 		if(fEnoughData)
 		{
@@ -597,8 +600,6 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size)
 				}
 			}
 		}
-		else
-			return S_FALSE;
 	}
 
 	return S_OK;
@@ -700,7 +701,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 
 #else
 
-bool bInMLPFrame = false;
 HRESULT CMpaDecFilter::ProcessAC3()
 {
 	HRESULT hr;
@@ -708,23 +708,24 @@ HRESULT CMpaDecFilter::ProcessAC3()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(end - p >= 7)
+	while(end - p >= AC3_HEADER_SIZE)
 	{
 		int		size = 0;
-		if (m_AC3StreamType != MLP && (*((__int16*)p) == 0x770b))	/* AC3-EAC3 syncword */
+		bool	fEnoughData = true;
+
+		if (m_DolbyDigitalMode != DD_TRUEHD && (*((__int16*)p) == 0x770b))	/* AC3-EAC3 syncword */
 		{
 			BYTE	bsid = p[5] >> 3;
-			if ((m_AC3StreamType != EAC3) && bsid <= 12)
+			if ((m_DolbyDigitalMode != DD_EAC3) && bsid <= 12)
 			{
-				m_AC3StreamType = Regular_AC3;
-				if (FAILED (hr = ProcessA52 (p, end-p, size))) return hr;
-				if (hr == S_FALSE) break;
+				m_DolbyDigitalMode = DD_AC3;
+				if (FAILED (hr = ProcessA52 (p, end-p, size, fEnoughData))) return hr;
 			}
 			else if (bsid <= 16)
 			{
 				DeliverFfmpeg(CODEC_ID_EAC3, p, end-p, size);
 				if (size > 0)
-					m_AC3StreamType = EAC3;
+					m_DolbyDigitalMode = DD_EAC3;
 			}
 			else
 			{
@@ -732,37 +733,16 @@ HRESULT CMpaDecFilter::ProcessAC3()
 				continue;
 			}
 		}
-#if 0 // MLP disabled !
 		else if ( (*((__int32*)(p+4)) == 0xba6f72f8) ||				// True HD major sync frame
-			 (*((__int32*)(p+4)) == 0xbb6f72f8) || bInMLPFrame )	// MLP
+			 (*((__int32*)(p+4)) == 0xbb6f72f8) || m_DolbyDigitalMode == DD_TRUEHD )	// MLP
 		{
 			int		nMLPLength=0;
 			int		nMLPChunk;
 
-			m_AC3StreamType = MLP;
-			do
-			{
-				nMLPChunk	= ((p[nMLPLength+0]<<8|p[nMLPLength+1]) & 0xfff)*2;
-
-				if (nMLPLength+nMLPChunk > end-p)
-				{
-					bInMLPFrame = true;
-					break;
-				}
-
-				DeliverFfmpeg(CODEC_ID_MLP, p+nMLPLength, nMLPChunk, size);
-
-				bInMLPFrame = false;
-				nMLPLength += nMLPChunk;
-			} while ( (*((__int16*)(p+nMLPLength)) != 0x770b) &&
-					  (*((__int32*)(p+nMLPLength+4)) != 0xba6f72f8) &&
-					  (*((__int32*)(p+nMLPLength+4)) != 0xbb6f72f8) &&
-					  nMLPChunk>0 );
-
-			size = nMLPLength;
-			// TODO : not tested!
+			m_DolbyDigitalMode = DD_TRUEHD;
+			DeliverFfmpeg(CODEC_ID_MLP, p, end-p, size);
+			if (size<0) size = end-p;
 		}
-#endif
 		else
 		{
 			p++;
@@ -770,14 +750,17 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		}
 
 		// Update buffer position
-		ASSERT (size <= end-p);
-		if (size <= 0) break;
-		p += size;
+		if (fEnoughData)
+		{
+			ASSERT (size <= end-p);
+			if (size <= 0) break;
+			p += size;
+		}
 		memmove(base, p, end - p);
 		end = base + (end - p);
 		p = base;
-
-		if (bInMLPFrame) break;
+		if(!fEnoughData)
+			break;
 	}
 
 	m_buff.SetCount(end - p);
@@ -1755,6 +1738,12 @@ STDMETHODIMP_(float) CMpaDecFilter::GetBoost()
 	return m_boost;
 }
 
+STDMETHODIMP_(DolbyDigitalMode) CMpaDecFilter::GetDolbyDigitalMode()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_DolbyDigitalMode;
+}
+
 // ISpecifyPropertyPages2
 
 STDMETHODIMP CMpaDecFilter::GetPages(CAUUID* pPages)
@@ -1975,7 +1964,7 @@ FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decod
 
 	pThis->FlacFillBuffer (buffer, bytes);
 
-	return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
+	return (*bytes == 0) ?  FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM : FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
 
 FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
@@ -2224,6 +2213,9 @@ bool CMpaDecFilter::InitFfmpeg(int nCodecId)
 
 	avcodec_init();
 	avcodec_register_all();
+#ifdef _DEBUG
+	av_log_set_callback(LogLibAVCodec);
+#endif
 
 	if (m_pAVCodec) ffmpeg_stream_finish();
 
@@ -2249,7 +2241,7 @@ bool CMpaDecFilter::InitFfmpeg(int nCodecId)
 			int iSpeakerConfig = GetSpeakerConfig(ac3);
 			if (iSpeakerConfig >= 0)
 			{
-				scmap_t& scmap				= s_scmap_ac3[iSpeakerConfig];
+				scmap_t& scmap				= s_scmap_ac3[iSpeakerConfig&A52_CHANNEL_MASK+ ((iSpeakerConfig&A52_LFE)?(countof(s_scmap_ac3)/2):0)];
 				m_pAVCtx->request_channels	= scmap.nChannels;
 			}
 		}
@@ -2258,6 +2250,13 @@ bool CMpaDecFilter::InitFfmpeg(int nCodecId)
 	if (!bRet) ffmpeg_stream_finish();
 
 	return bRet;
+}
+
+void CMpaDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_list valist)
+{
+	char		Msg [500];
+	vsnprintf_s (Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
+	TRACE("AVLIB : %s", Msg);
 }
 
 void CMpaDecFilter::ffmpeg_stream_finish()

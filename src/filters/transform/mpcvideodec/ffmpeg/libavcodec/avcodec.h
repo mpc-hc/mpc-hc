@@ -2445,7 +2445,7 @@ FF_EXPORT void avcodec_register_all(void);
 /**
  * Flush buffers, should be called when seeking or when switching to a different stream.
  */
-void avcodec_flush_buffers(AVCodecContext *avctx);
+FF_EXPORT void avcodec_flush_buffers(AVCodecContext *avctx);
 
 void avcodec_default_free_buffers(AVCodecContext *s);
 

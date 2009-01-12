@@ -56,6 +56,7 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
 	m_dtsspkcfg = m_pMDF->GetSpeakerConfig(IMpaDecFilter::dts);
 	m_dtsdrc = m_pMDF->GetDynamicRangeControl(IMpaDecFilter::dts);
 	m_aacdownmix = !!m_pMDF->GetSpeakerConfig(IMpaDecFilter::aac);
+	m_ddmode = m_pMDF->GetDolbyDigitalMode();
 
 	return true;
 }
@@ -63,6 +64,21 @@ bool CMpaDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>
 void CMpaDecSettingsWnd::OnDisconnect()
 {
 	m_pMDF.Release();
+}
+
+LPCTSTR CMpaDecSettingsWnd::GetDolbyMode (DolbyDigitalMode ddmode)
+{
+	switch (ddmode)
+	{
+	case DD_AC3 :
+		return _T(" (AC3)");
+	case DD_EAC3 :
+		return _T(" (Dolby Digital+)");
+	case DD_TRUEHD :
+		return _T(" (Dolby True HD)");
+	default :
+		return _T("");
+	}
 }
 
 bool CMpaDecSettingsWnd::OnActivate()
@@ -90,7 +106,9 @@ bool CMpaDecSettingsWnd::OnActivate()
 
 	p.y += 30;
 
-	m_ac3spkcfg_static.Create(ResStr(IDS_MPADECSETTINGSWND_1), dwStyle, CRect(p, CSize(120, m_fontheight)), this);
+	CString	strSpeak;
+	strSpeak.Format (_T("%s%s"), ResStr(IDS_MPADECSETTINGSWND_1), GetDolbyMode(m_ddmode));
+	m_ac3spkcfg_static.Create(ResStr(IDS_MPADECSETTINGSWND_1) + GetDolbyMode(m_ddmode), dwStyle, CRect(p, CSize(220, m_fontheight)), this);
 
 	p.y += m_fontheight + 5;
 
