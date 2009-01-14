@@ -209,7 +209,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),  _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
 		ADDFMT((ResStr(IDS_AG_RATDVD_FILE),   _T("ratdvd"), false, _T("ratdvd media file")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_21),  _T("roq"), false));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),  _T("rm ram rpm rmm"), false, _T("RealPlayer or Real Alternative"), RealMedia));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),  _T("rm ram rpm rmm rmvb"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),  _T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),  _T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),  _T("drc"), false));
@@ -221,7 +221,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),  _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov qt amr 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));
 		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
-		ADDFMT((ResStr(IDS_AG_OTHER),		  _T("divx vp6 rmvb amv")));
+		ADDFMT((ResStr(IDS_AG_OTHER),		  _T("divx vp6 amv")));
 #undef ADDFMT
 
 		m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
