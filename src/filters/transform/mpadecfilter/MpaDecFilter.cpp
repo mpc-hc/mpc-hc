@@ -230,9 +230,9 @@ s_scmap_lpcm[] =
 	{3, { 0, 1, 2,-1,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER},															// 3/0			FL, FR, FC
 	{4, { 0, 1, 2, 3,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY},										// 3/1			FL, FR, FC, Surround
 	{5, { 0, 1, 2, 3, 4,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},						// 3/2			FL, FR, FC, BL, BR
-	{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},// 3/2+LFe		FL, FR, FC, BL, BR, LFe
+	{6, { 0, 1, 2, 3, 4, 5,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/2+LFe		FL, FR, FC, BL, BR, LFe
 	{7, { 0, 1, 2, 3, 4, 5, 6,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_CENTER},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
-	{8, { 0, 1, 2, 3, 4, 5, 6, 7 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
+	{8, { 0, 1, 2, 3, 6, 7, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
 };
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
@@ -397,7 +397,11 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 		hr = ProcessLPCM();
 	else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
+	{
+		if (pIn->IsSyncPoint())
+			m_buff.RemoveAll();
 		hr = ProcessHdmvLPCM();
+	}
 	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3)
 		hr = ProcessAC3();
 	else if(subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)
@@ -420,6 +424,15 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	return hr;
 }
 
+typedef unsigned char uint8;
+typedef signed char int8;
+
+typedef unsigned short uint16;
+typedef short int16;
+
+typedef unsigned long uint32;
+typedef long int32;
+
 HRESULT CMpaDecFilter::ProcessLPCM()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
@@ -427,47 +440,156 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 	if (wfein->nChannels < 1 || wfein->nChannels > 8)
 		return ERROR_NOT_SUPPORTED;
 
+	scmap_t*		remap	= &s_scmap_lpcm [wfein->nChannels-1];
+	int				nChannels = wfein->nChannels;
+
 	BYTE*			pDataIn	= m_buff.GetData();
-	int BytesPerSample = wfein->nChannels*((wfein->wBitsPerSample + 7)&(~7));		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
-	int				len		= (m_buff.GetCount() / BytesPerSample) * BytesPerSample;
-	scmap_t*		remap	= &s_scmap_lpcm [wfein->nChannels];
+	int BytesPerDoubleSample = (wfein->wBitsPerSample * 2)/8;
+	int BytesPerDoubleChannelSample = BytesPerDoubleSample * nChannels;
+	int				nInBytes = m_buff.GetCount();
+	int				len		= (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
 
 	CAtlArray<float> pBuff;
-	pBuff.SetCount(len*8/wfein->wBitsPerSample);
+	pBuff.SetCount((len/BytesPerDoubleSample) * 2);
 
 	float*	pDataOut = pBuff.GetData();
 
 	switch (wfein->wBitsPerSample)
 	{
 	case 16 :
-		for (int i=0; i<len/wfein->nChannels/2; i++)
 		{
-			for(int j = 0; j < wfein->nChannels; j++)
+			long nSamples = len/(BytesPerDoubleChannelSample);
+			int16 Temp[2][8];
+			for (int i=0; i<nSamples; i++)
 			{
-				int		nRemap = remap->ch[j];
-				*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / SHRT_MAX;
-				pDataOut++;
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint16 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
+					Temp[0][j] = Part1;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint16 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					int16 Part1 = (All & 0xFF) << 8 | (All & 0xFF00) >> 8;
+					Temp[1][j] = Part1;
+				}
+				
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[0][nRemap]) / float(SHRT_MAX);
+					++pDataOut;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[1][nRemap]) / float(SHRT_MAX);
+					++pDataOut;
+				}
 			}
-			pDataIn += remap->nChannels*2;
 		}
 		break;
 
 	case 24 :
-	case 20 :
-		long		lSample;
-
-		for (int i=0; i<len/wfein->nChannels/3; i++)
 		{
-			for(int j = 0; j < wfein->nChannels; j++)
+			long nSamples = len/(BytesPerDoubleChannelSample);
+			int32 Temp[2][8];
+			for (int i=0; i<nSamples; i++)
 			{
-				BYTE		nRemap = remap->ch[j];
+				// Start by upper 16 bits
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+					Temp[0][j] = Part1;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+					Temp[1][j] = Part1;
+				}
 
-				lSample = (long)pDataIn[nRemap*3]<<24 | (long)pDataIn[nRemap*3+1]<<16 | (long)pDataIn[nRemap*3+2]<<8;
-				*pDataOut = (float)(long)lSample / 0x80000000;
-
-				pDataOut++;
+				// Continue with lower bits
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint8 *)pDataIn);
+					pDataIn += 1;
+					Temp[0][j] = int32(Temp[0][j] | (All << 8)) >> 8;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint8 *)pDataIn);
+					pDataIn += 1;
+					Temp[1][j] = int32(Temp[1][j] | (All << 8)) >> 8;
+				}
+				
+				// Convert into float
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[0][nRemap]) / float(1<<23);
+					++pDataOut;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[1][nRemap]) / float(1<<23);
+					++pDataOut;
+				}
 			}
-			pDataIn += remap->nChannels*3;
+		}
+		break;
+	case 20 :
+		{
+			long nSamples = len/(BytesPerDoubleChannelSample);
+			int32 Temp[2][8];
+			for (int i=0; i<nSamples; i++)
+			{
+				// Start by upper 16 bits
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+					Temp[0][j] = Part1;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint16 *)pDataIn);
+					pDataIn += 2;
+					uint32 Part1 = (All & 0xFF) << 24 | (All & 0xFF00) << 8;
+					Temp[1][j] = Part1;
+				}
+
+				// Continue with lower bits
+				for(int j = 0; j < nChannels; j++)
+				{
+					uint32 All = *((uint8 *)pDataIn);
+					pDataIn += 1;
+					Temp[0][j] = int32(Temp[0][j] | ((All&0xf0) << 8)) >> 8;
+					Temp[1][j] = int32(Temp[1][j] | ((All&0x0f) << 12)) >> 8;
+				}
+				
+				// Convert into float
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[0][nRemap]) / float(1<<23);
+					++pDataOut;
+				}
+				for(int j = 0; j < nChannels; j++)
+				{
+					int		nRemap = remap->ch[j];
+					*pDataOut = float(Temp[1][nRemap]) / float(1<<23);
+					++pDataOut;
+				}
+			}
 		}
 		break;
 	}
@@ -484,12 +606,13 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
 	WAVEFORMATEX_HDMV_LPCM* wfein = (WAVEFORMATEX_HDMV_LPCM*)m_pInput->CurrentMediaType().Format();
 
 	BYTE*			pDataIn	= m_buff.GetData();
-	int BytesPerSample = wfein->nChannels*((wfein->wBitsPerSample + 7)&(~7));		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
+	int BytesPerChannelSample = (((wfein->wBitsPerSample + 7)&(~7))) / 8;
+	int BytesPerSample = wfein->nChannels*BytesPerChannelSample;		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
 	int				len		= (m_buff.GetCount() / BytesPerSample) * BytesPerSample;
 	scmap_t*		remap	= &s_scmap_hdmv [wfein->channel_conf];
 
 	CAtlArray<float> pBuff;
-	pBuff.SetCount(len*8/wfein->wBitsPerSample);
+	pBuff.SetCount(len/BytesPerChannelSample);
 
 	float*	pDataOut = pBuff.GetData();
 
@@ -1528,7 +1651,7 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 	if(mtIn->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 	{
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
-		if(wfe->nChannels != 2 || wfe->wBitsPerSample != 16) // TODO: remove this limitation
+		if(wfe->nChannels < 1 || wfe->nChannels > 8 || (wfe->wBitsPerSample != 16 && wfe->wBitsPerSample != 20 && wfe->wBitsPerSample != 24))
 			return VFW_E_TYPE_NOT_ACCEPTED;
 	}
 	else if(mtIn->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)

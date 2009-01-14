@@ -409,7 +409,8 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 	{
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
-		for(int i = 0, bps = (wfe->wBitsPerSample + 7)/8; i < DataSize; i += bps)
+		// This code is probably totally broken for anything but 16 bits
+		for(int i = 0, bps = wfe->wBitsPerSample/8; i < DataSize; i += bps)
 			for(int j = bps-1; j >= 0; j--)
 				pBitStream->BitWrite(pData[i+j], 8);
 

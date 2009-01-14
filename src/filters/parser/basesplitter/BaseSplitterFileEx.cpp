@@ -759,13 +759,16 @@ bool CBaseSplitterFileEx::Read(lpcmhdr& h, CMediaType* pmt)
 	{
 	case 0:
 		wfe.wBitsPerSample = 16;
+		break;
 	case 1:
 		wfe.wBitsPerSample = 20;
+		break;
 	case 2:
 		wfe.wBitsPerSample = 24;
+		break;
 	}
-	wfe.nBlockAlign = wfe.nChannels*((wfe.wBitsPerSample + 7)>>3);
-	wfe.nAvgBytesPerSec = wfe.nBlockAlign*wfe.nSamplesPerSec;
+	wfe.nBlockAlign = (wfe.nChannels*2*wfe.wBitsPerSample) / 8;
+	wfe.nAvgBytesPerSec = (wfe.nBlockAlign*wfe.nSamplesPerSec) / 2;
 
 	pmt->majortype = MEDIATYPE_Audio;
 	pmt->subtype = MEDIASUBTYPE_DVD_LPCM_AUDIO;
