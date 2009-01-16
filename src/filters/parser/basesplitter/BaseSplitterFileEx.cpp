@@ -628,7 +628,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 
 	static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
 
-	wfe.nAvgBytesPerSec = rate[h.frmsizecod>>1] * 1000 / 8;
+	wfe.nAvgBytesPerSec = (rate[h.frmsizecod>>1] * 1000) / 8;
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
 
 	pmt->majortype = MEDIATYPE_Audio;
@@ -659,6 +659,18 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	h.sfreq = BitRead(4);
 	h.rate = BitRead(5);
 
+    h.downmix = BitRead(1);
+    h.dynrange = BitRead(1);
+    h.timestamp = BitRead(1);
+    h.aux_data = BitRead(1);
+    h.hdcd = BitRead(1);
+    h.ext_descr = BitRead(3);
+    h.ext_coding = BitRead(1);
+    h.aspf = BitRead(1);
+    h.lfe = BitRead(2);
+    h.predictor_history = BitRead(1);
+
+
 	if(!pmt) return(true);
 
 	WAVEFORMATEX wfe;
@@ -666,7 +678,13 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	wfe.wFormatTag = WAVE_FORMAT_DVD_DTS;
 
 	static int channels[] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
-	if(h.amode < countof(channels)) wfe.nChannels = channels[h.amode];
+
+	if(h.amode < countof(channels)) 
+	{
+		wfe.nChannels = channels[h.amode];
+		if (h.lfe > 0)
+			++wfe.nChannels;
+	}
 
 	static int freq[] = {0,8000,16000,32000,0,0,11025,22050,44100,0,0,12000,24000,48000,0,0};
 	wfe.nSamplesPerSec = freq[h.sfreq];
@@ -678,8 +696,8 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 		960000,1024000,1152000,1280000,1344000,1408000,1411200,1472000,
 		1509750,1920000,2048000,3072000,3840000,0,0,0
 	};
-	
-	wfe.nAvgBytesPerSec = rate[h.rate] * 1000 / 8;
+
+	wfe.nAvgBytesPerSec = (rate[h.rate] + 4) / 8;
 	wfe.nBlockAlign = h.framebytes;
 
 	pmt->majortype = MEDIATYPE_Audio;

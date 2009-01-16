@@ -173,6 +173,18 @@ public:
 		BYTE amode:6;
 		BYTE sfreq:4;
 		BYTE rate:5;
+
+		BYTE downmix:1;
+		BYTE dynrange:1;
+		BYTE timestamp:1;
+		BYTE aux_data:1;
+		BYTE hdcd:1;
+		BYTE ext_descr:3;
+		BYTE ext_coding:1;
+		BYTE aspf:1;
+		BYTE lfe:2;
+		BYTE predictor_history:1;
+
 	};
 
 	class lpcmhdr
