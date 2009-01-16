@@ -139,5 +139,5 @@ public:
 	CAtlMap<WORD, program> m_programs;
 
 	void UpdatePrograms(const trhdr& h);
-	const program* FindProgram(WORD pid);
+	const program* FindProgram(WORD pid, int &iStream);
 };

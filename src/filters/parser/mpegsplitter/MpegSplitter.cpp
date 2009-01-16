@@ -482,7 +482,8 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 					return hr;
 
 				// Don't rename other pin for Hdmv!
-				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid);
+				int iProgram;
+				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram);
 				if(p!=NULL && !m_ClipInfo.IsHdmv())
 				{
 					for(int k = 0; k < countof(m_pFile->m_streams); k++)
@@ -516,6 +517,346 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 
 	return S_FALSE;
 }
+
+template <typename t_CType>
+t_CType GetFormatHelper(t_CType &_pInfo, const CMediaType *_pFormat)
+{
+	ASSERT(_pFormat->cbFormat >= sizeof(*_pInfo));
+	_pInfo = (t_CType)_pFormat->pbFormat;
+	return _pInfo;
+}
+
+static int GetHighestBitSet32(unsigned long _Value)
+{
+	unsigned long Ret;
+	unsigned char bNonZero = _BitScanReverse(&Ret, _Value);
+	if (bNonZero)
+		return Ret;
+	else
+		return -1;
+}
+
+CString FormatBitrate(double _Bitrate)
+{
+	CString Temp;
+	if (_Bitrate > 20000000) // More than 2 mbit
+		Temp.Format(L"%.2f mbit/s", double(_Bitrate)/1000000.0);
+	else
+		Temp.Format(L"%.1f kbit/s", double(_Bitrate)/1000.0);
+
+	return Temp;
+}
+
+CString FormatString(const wchar_t *pszFormat, ... )
+{
+	CString Temp;
+	ATLASSERT( AtlIsValidString( pszFormat ) );
+
+	va_list argList;
+	va_start( argList, pszFormat );
+	Temp.FormatV( pszFormat, argList );
+	va_end( argList );
+
+	return Temp;
+}
+
+CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentationDesc)
+{
+	CString MajorType;
+	CAtlList<CString> Infos;
+	if (_pMediaType->majortype == MEDIATYPE_Video)
+	{
+		MajorType = "Video";
+
+		const VIDEOINFOHEADER *pVideoInfo = NULL;
+		const VIDEOINFOHEADER2 *pVideoInfo2 = NULL;
+		if (_pMediaType->formattype == FORMAT_MPEGVideo)
+		{
+			Infos.AddTail(L"MPEG");
+			const MPEG1VIDEOINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
+
+			pVideoInfo = &pInfo->hdr;
+
+		}
+		else if (_pMediaType->formattype == FORMAT_MPEG2_VIDEO)
+		{
+			const MPEG2VIDEOINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
+
+			pVideoInfo2 = &pInfo->hdr;
+
+			bool bIsAVC = false;
+			if (pInfo->hdr.bmiHeader.biCompression == '1CVA')
+			{
+				bIsAVC = true;
+				Infos.AddTail(L"AVC (H.264)");
+			}
+			else if (pInfo->hdr.bmiHeader.biCompression == 0)
+				Infos.AddTail(L"MPEG2");
+			else
+			{
+				WCHAR Temp[5];
+				memset(Temp, 0, sizeof(Temp));
+				Temp[0] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
+				Temp[1] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
+				Temp[2] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
+				Temp[3] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
+				Infos.AddTail(Temp);
+			}
+
+			switch (pInfo->dwProfile)
+			{
+			case AM_MPEG2Profile_Simple: Infos.AddTail(L"Simple Profile"); break;
+			case AM_MPEG2Profile_Main: Infos.AddTail(L"Main Profile"); break;
+			case AM_MPEG2Profile_SNRScalable: Infos.AddTail(L"SNR Scalable Profile"); break;
+			case AM_MPEG2Profile_SpatiallyScalable: Infos.AddTail(L"Spatially Scalable Profile"); break;
+			case AM_MPEG2Profile_High: Infos.AddTail(L"High Profile"); break;
+			default:
+				if (pInfo->dwProfile)
+				{
+					if (bIsAVC)
+					{
+						switch (pInfo->dwProfile)
+						{
+						case 66: Infos.AddTail(L"Baseline Profile"); break;
+						case 77: Infos.AddTail(L"Main Profile"); break;
+						case 88: Infos.AddTail(L"Extended Profile"); break;
+						case 100: Infos.AddTail(L"High Profile"); break;
+						case 110: Infos.AddTail(L"High 10 Profile"); break;
+						case 122: Infos.AddTail(L"High 4:2:2 Profile"); break;
+						case 244: Infos.AddTail(L"High 4:4:4 Profile"); break;
+						case 44: Infos.AddTail(L"CAVLC Profile"); break;
+						default:Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile)); break;
+						}
+					}
+					else
+						Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
+				}
+				break;
+			}
+
+			switch (pInfo->dwLevel)
+			{
+			case AM_MPEG2Level_Low: Infos.AddTail(L"Low Level"); break;
+			case AM_MPEG2Level_Main: Infos.AddTail(L"Main Level"); break;
+			case AM_MPEG2Level_High1440: Infos.AddTail(L"High1440 Level"); break;
+			case AM_MPEG2Level_High: Infos.AddTail(L"High Level"); break;
+			default:
+				if (pInfo->dwLevel)
+				{
+					if (bIsAVC)
+						Infos.AddTail(FormatString(L"Level %1.1f", double(pInfo->dwLevel)/10.0));
+					else
+						Infos.AddTail(FormatString(L"Level %d", pInfo->dwLevel));
+				}
+				break;
+			}
+		}
+		else if (_pMediaType->formattype == FORMAT_VIDEOINFO2)
+		{
+			const VIDEOINFOHEADER2 *pInfo = GetFormatHelper(pInfo, _pMediaType);
+
+			pVideoInfo2 = pInfo;
+			bool bIsVC1 = false;
+
+			DWORD CodecType = pInfo->bmiHeader.biCompression;
+			if (CodecType == '1CVW')
+			{
+				bIsVC1 = true;
+				Infos.AddTail(L"VC-1");
+			}
+			else if (CodecType)
+			{
+				WCHAR Temp[5];
+				memset(Temp, 0, sizeof(Temp));
+				Temp[0] = (CodecType >> 0) & 0xFF;
+				Temp[1] = (CodecType >> 0) & 0xFF;
+				Temp[2] = (CodecType >> 0) & 0xFF;
+				Temp[3] = (CodecType >> 0) & 0xFF;
+				Infos.AddTail(Temp);
+			}
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_DVD_SUBPICTURE)
+		{
+			Infos.AddTail(L"DVD Sub Picture");
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_SVCD_SUBPICTURE)
+		{
+			Infos.AddTail(L"SVCD Sub Picture");
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_CVD_SUBPICTURE)
+		{
+			Infos.AddTail(L"CVD Sub Picture");
+		}
+
+		if (pVideoInfo2)
+		{
+			if (pVideoInfo2->bmiHeader.biWidth && pVideoInfo2->bmiHeader.biHeight)
+				Infos.AddTail(FormatString(L"%dx%d", pVideoInfo2->bmiHeader.biWidth, pVideoInfo2->bmiHeader.biHeight));
+			if (pVideoInfo2->AvgTimePerFrame)
+				Infos.AddTail(FormatString(L"%.2f fps", 10000000.0/double(pVideoInfo2->AvgTimePerFrame)));
+			if (pVideoInfo2->dwBitRate)
+				Infos.AddTail(FormatBitrate(pVideoInfo2->dwBitRate));
+		}
+		else if (pVideoInfo)
+		{
+			if (pVideoInfo->bmiHeader.biWidth && pVideoInfo->bmiHeader.biHeight)
+				Infos.AddTail(FormatString(L"%dx%d", pVideoInfo->bmiHeader.biWidth, pVideoInfo->bmiHeader.biHeight));
+			if (pVideoInfo->AvgTimePerFrame)
+				Infos.AddTail(FormatString(L"%.2f fps", 10000000.0/double(pVideoInfo->AvgTimePerFrame)));
+			if (pVideoInfo->dwBitRate)
+				Infos.AddTail(FormatBitrate(pVideoInfo->dwBitRate));
+		}
+		
+	}
+	else if (_pMediaType->majortype == MEDIATYPE_Audio)
+	{
+		MajorType = "Audio";
+		if (_pMediaType->formattype == FORMAT_WaveFormatEx)
+		{
+			const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
+			if (_pMediaType->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
+			{
+				Infos.AddTail(L"DVD LPCM");
+			}
+			else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
+			{
+				const WAVEFORMATEX_HDMV_LPCM *pInfo = GetFormatHelper(pInfo, _pMediaType);
+				Infos.AddTail(L"HDMW LPCM");
+			}
+			else
+			{
+				switch (pInfo->wFormatTag)
+				{
+				case WAVE_FORMAT_PS2_PCM:
+					{
+						Infos.AddTail(L"PS2 PCM");
+					}
+					break;
+				case WAVE_FORMAT_PS2_ADPCM:
+					{
+						Infos.AddTail(L"PS2 ADPCM");
+					}
+					break;
+				case WAVE_FORMAT_DVD_DTS:
+					{
+						if (_pPresentationDesc)
+							Infos.AddTail(_pPresentationDesc);
+						else
+							Infos.AddTail(L"DTS");
+					}
+					break;
+				case WAVE_FORMAT_DOLBY_AC3:
+					{
+						if (_pPresentationDesc)
+							Infos.AddTail(_pPresentationDesc);
+						else
+							Infos.AddTail(L"Dolby Digital");
+					}
+					break;
+				case WAVE_FORMAT_AAC:
+					{
+						Infos.AddTail(L"AAC");
+					}
+					break;
+				case WAVE_FORMAT_MP3:
+					{
+						Infos.AddTail(L"MP3");
+					}
+					break;
+				case WAVE_FORMAT_MPEG:
+					{
+						const MPEG1WAVEFORMAT* pInfo = GetFormatHelper(pInfo, _pMediaType);
+
+						int layer = GetHighestBitSet32(pInfo->fwHeadLayer) + 1;
+						Infos.AddTail(FormatString(L"MPEG1 - Layer %d", layer));
+					}
+					break;
+				}
+			}
+
+			if (pInfo->nSamplesPerSec)
+				Infos.AddTail(FormatString(L"%d kHz", pInfo->nSamplesPerSec));
+			if (pInfo->nChannels)
+				Infos.AddTail(FormatString(L"%d chn", pInfo->nChannels));
+			if (pInfo->wBitsPerSample)
+				Infos.AddTail(FormatString(L"%d bit", pInfo->wBitsPerSample));
+			if (pInfo->nAvgBytesPerSec)
+				Infos.AddTail(FormatBitrate(pInfo->nAvgBytesPerSec * 8));
+
+		}
+	}
+	else if (_pMediaType->majortype == MEDIATYPE_Subtitle)
+	{
+		MajorType = "Subtitle";
+		if (_pMediaType->subtype == MEDIASUBTYPE_HDMVSUB)
+		{
+			Infos.AddTail(L"HDMV Subtitle");
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_PS2_SUB)
+		{
+			Infos.AddTail(L"PS2 Subtitle");
+		}
+		if (_pMediaType->cbFormat == sizeof(SUBTITLEINFO))
+		{
+			const SUBTITLEINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
+			CString name = ISO6392ToLanguage(pInfo->IsoLang);
+			if (!name.IsEmpty())
+				Infos.AddTail(name);
+			if (pInfo->TrackName[0])
+				Infos.AddTail(pInfo->TrackName);
+		}
+	}
+
+	if (!Infos.IsEmpty())
+	{
+		CString Ret;
+
+		Ret += MajorType; 
+
+		Ret += " - ";
+//		Ret += L" (";
+		bool bFirst = true;
+		for(POSITION pos = Infos.GetHeadPosition(); pos; Infos.GetNext(pos))
+		{
+			CString& String = Infos.GetAt(pos);
+			if (bFirst)
+				Ret += String;
+			else
+				Ret += L", " + String;
+			bFirst = false;
+		}
+//		Ret += L")";
+		return Ret;
+	}
+	return CString();
+}
+
+const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
+{
+	switch (_Type)
+	{
+	case VIDEO_STREAM_MPEG1: return L"MPEG";
+	case VIDEO_STREAM_MPEG2: return L"MPEG 2";
+	case AUDIO_STREAM_MPEG1: return L"MPEG";
+	case AUDIO_STREAM_MPEG2: return L"MPEG 2 Audio";
+	case VIDEO_STREAM_H264: return L"H264";
+	case AUDIO_STREAM_LPCM: return L"LPCM";
+	case AUDIO_STREAM_AC3: return L"Dolby Digital";
+	case AUDIO_STREAM_DTS: return L"DTS";
+	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby Digital True HD";
+	case AUDIO_STREAM_AC3_PLUS: return L"Dobly Digital+";
+	case AUDIO_STREAM_DTS_HD: return L"DTS HD";
+	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS HD Master";
+	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";
+	case INTERACTIVE_GRAPHICS_STREAM: return L"Interactive Graphics Stream";
+	case SUBTITLE_STREAM: return L"Subtitle Stream";
+	case SECONDARY_AUDIO_AC3_PLUS: return L"Secondary Dolby Digital+";
+	case SECONDARY_AUDIO_DTS_HD: return L"Secondary DTS HD";
+	case VIDEO_STREAM_VC1: return L"VC1 Video";
+	}
+	return NULL;
+}
+
 
 STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
@@ -560,7 +901,22 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					*plcid	= LCID_NOSUBTITLES;
 				}
 				else
-					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+				{
+					int iProgram;
+					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram);
+					const wchar_t *pStreamName = NULL;
+					if (pProgram)
+						pStreamName = StreamTypeToName(pProgram->stream_type[iProgram]);
+
+					CString FormatDesc = GetMediaTypeDesc(&s.mt, pStreamName);
+
+					if (!FormatDesc.IsEmpty())
+						str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+					else if (pStreamName)
+						str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+					else
+						str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+				}
 
 				*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));
 				if(*ppszName == NULL) return E_OUTOFMEMORY;

@@ -468,21 +468,14 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						type = video;
 				}
 
-				const program* pProgram = FindProgram (s.pid);
+				int iProgram;
+				const program* pProgram = FindProgram (s.pid, iProgram);
 				if((type == unknown) && (pProgram != NULL))
 				{
 					ElementaryStreamTypes	StreamType = INVALID;
 					
 					Seek(pos);
-					for (int i=0; i<16; i++)
-					{
-						if (pProgram->pid[i] == s.pid)
-						{
-							StreamType = pProgram->stream_type[i];
-							break;
-						}
-					}
-
+					StreamType = pProgram->stream_type[iProgram];
 
 					switch (StreamType)
 					{
@@ -730,14 +723,21 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 	}
 }
 
-const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid)
+const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &iStream)
 {
+	iStream = -1;
 	POSITION pos = m_programs.GetStartPosition();
 	while(pos)
 	{
 		const program* p = &m_programs.GetNextValue(pos);
 		for(int i = 0; i < countof(p->pid); i++)
-			if(p->pid[i] == pid) return p;
+		{
+			if(p->pid[i] == pid) 
+			{
+				iStream = i;
+				return p;
+			}
+		}
 	}
 
 	return NULL;
