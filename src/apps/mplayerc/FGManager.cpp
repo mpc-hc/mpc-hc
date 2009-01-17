@@ -2195,6 +2195,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	CMPCVideoDecFilter::FFmpegFilters = s.FFmpegFilters;
 	CMPCVideoDecFilter::DXVAFilters = s.DXVAFilters;
 
+	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
+	if((!AfxGetMyApp()->IsVista()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))
+	{
+		CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
+	}
+
 	// Blocked filters
 
 	// "Subtitle Mixer" makes an access violation around the 

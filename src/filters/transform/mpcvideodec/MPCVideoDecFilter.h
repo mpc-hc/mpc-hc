@@ -157,6 +157,8 @@ public:
 	static UINT								FFmpegFilters;
 	static UINT								DXVAFilters;
 
+	static bool								m_ref_frame_count_check_skip;
+
 	CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMPCVideoDecFilter();
 

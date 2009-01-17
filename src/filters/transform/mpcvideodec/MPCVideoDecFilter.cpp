@@ -432,6 +432,7 @@ const int CMPCVideoDecFilter::sudPinTypesInCount = 115; //countof(CMPCVideoDecFi
 
 UINT       CMPCVideoDecFilter::FFmpegFilters = 0xFFFFFFFF;
 UINT       CMPCVideoDecFilter::DXVAFilters = 0xFFFFFFFF;
+bool	   CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;	
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
@@ -924,6 +925,10 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			{
 				int		nCompat;
 				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
+				#ifndef REGISTER_FILTER
+					if(m_ref_frame_count_check_skip) nCompat = 0;
+				#endif
+
 				switch (nCompat)
 				{
 				case 1 :	// SAR not supported
