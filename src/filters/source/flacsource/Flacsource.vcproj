@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="flacsource"
 	ProjectGUID="{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
 	RootNamespace="flacsource"
@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
 			<Tool
@@ -57,7 +57,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libflacD.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -102,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG"
 				DebugInformationFormat="3"
 			/>
@@ -117,7 +119,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libflacD.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -159,7 +163,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				DisableSpecificWarnings="4244"
 			/>
@@ -174,7 +178,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libflac.lib "
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -219,7 +225,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 			/>
 			<Tool
@@ -233,7 +239,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libflac.lib "
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -275,8 +283,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -290,7 +298,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="dsutilDU.lib strmbaseDU.lib basesourceDU.lib Winmm.lib"
+				AdditionalDependencies="dsutilDU.lib strmbaseDU.lib basesourceDU.lib Winmm.lib  LibFlacD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -348,8 +356,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -363,7 +371,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilDU.lib strmbaseDU.lib basesourceDU.lib Winmm.lib"
+				AdditionalDependencies="dsutilDU.lib strmbaseDU.lib basesourceDU.lib Winmm.lib LibFlacD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -418,8 +426,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -432,7 +440,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib"
+				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib  libflac.lib"
+				ShowProgress="0"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
@@ -490,8 +499,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				AdditionalIncludeDirectories="..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -504,7 +513,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib"
+				AdditionalDependencies="dsutilRU.lib strmbaseRU.lib basesourceRU.lib Winmm.lib  libflac.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"

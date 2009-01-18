@@ -27,7 +27,9 @@
 #include <moreuuids.h>
 #include "flacsource.h"
 #include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\GolombBuffer.h"
+#include "FLAC\stream_decoder.h"
+
+#define _DECODER_			(FLAC__StreamDecoder*)m_pDecoder
 
 #ifdef REGISTER_FILTER
 
@@ -85,7 +87,16 @@ CFilterApp theApp;
 #endif
 
 
-#define FLAC_FRAME_HEADER_SIZE			15
+// Declaration for Flac callbacks
+static FLAC__StreamDecoderReadStatus	StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data);
+static FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data);
+static FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data);
+static FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data);
+static FLAC__bool						StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_data);
+static FLAC__StreamDecoderWriteStatus	StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data);
+static void								StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
+static void								StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);
+
 
 //
 // CFlacSource
@@ -104,266 +115,55 @@ CFlacSource::~CFlacSource()
 
 CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr) 
 	: CBaseStream(NAME("CFlacStream"), pParent, phr)
-	, m_nFileOffset(0)
+	, m_bIsEOF (false)
 {
 	CAutoLock		cAutoLock(&m_cSharedState);
 	CString			fn(wfn);
-	int				nFrameNumber;
-	int				nOffset;
-	unsigned char	locBuff[64];
+	CFileException	ex;
+	HRESULT			hr = E_FAIL;
 
-	if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyWrite))
+	do
 	{
-		if(phr) *phr = E_FAIL;
-		return;
-	}
-
-	//CT> Added header check (for FLAC files with ID3 v1/2 tags in them)
-	//    We'll look in the first 128kb of the file
-	unsigned long locStart = 0;
-	int locHeaderFound = 0;
-	for(int j = 0; !locHeaderFound && j < 128; j++)	
-	{
-		unsigned char locTempBuf[1024]={0,};
-		m_file.Read((char*)&locTempBuf, sizeof(locTempBuf));
-		unsigned char* locPtr = locTempBuf;
-		for(int i = 0; i < 1023; i++) 
+		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyWrite, &ex))
 		{
-			if(locPtr[i]=='f' && locPtr[i+1]=='L' && locPtr[i+2]=='a' && locPtr[i+3]=='C')
-			{
-				locHeaderFound = 1;
-				locStart = i + (j * 1024);
-				break;
-			}
+			hr	= AmHresultFromWin32 (ex.m_lOsError);
+			break;
 		}
-	}
-	if(!locHeaderFound)
-	{
-		if(phr) *phr = E_FAIL;
-		return;
-	}
+
+		m_pDecoder = FLAC__stream_decoder_new();
+		if (!m_pDecoder) break;
+
+		if (FLAC__STREAM_DECODER_INIT_STATUS_OK != FLAC__stream_decoder_init_stream (_DECODER_, 
+																					 StreamDecoderRead, 
+																					 StreamDecoderSeek, 
+																					 StreamDecoderTell,
+																					 StreamDecoderLength, 
+																					 StreamDecoderEof, 
+																					 StreamDecoderWrite,
+																					 StreamDecoderMetadata,
+																					 StreamDecoderError,
+																					 this))
+		{
+			break;
+		}
 
 
-	// === Read Metadata info
-	m_file.Seek (locStart, CFile::begin);
-	m_file.Read((char*)&locBuff, 64);
-	CGolombBuffer	Buffer (locBuff, countof(locBuff));
+		if (!FLAC__stream_decoder_process_until_end_of_metadata (_DECODER_) ||
+			!FLAC__stream_decoder_seek_absolute (_DECODER_, 0))
+			break;
 
-	Buffer.ReadDword();		// fLaC
-	Buffer.BitRead(1);		// Last-metadata-block flag
-	
-	if (Buffer.BitRead(7) != 0)		// Should be a STREAMINFO block
-	{
-		if(phr) *phr = VFW_E_INVALID_FILE_FORMAT;
-		return;
-	}
+		FLAC__stream_decoder_get_decode_position(_DECODER_, &m_llOffset);
 
-	m_nFileOffset			= Buffer.BitRead(24) + locStart;		// Length (in bytes) of metadata to follow
-	m_nMinBlocksize			= Buffer.ReadShort();
-	m_nMaxBlocksize			= Buffer.ReadShort();
-	m_nMinFrameSize			= (int)Buffer.BitRead(24);
-	m_nMaxFrameSize			= (int)Buffer.BitRead(24);
-	m_nSamplesPerSec		= (int)Buffer.BitRead(20);
-	m_nChannels				= (int)Buffer.BitRead(3)  + 1;
-	m_wBitsPerSample		= (WORD)Buffer.BitRead(5) + 1;
-	m_i64TotalNumSamples	= Buffer.BitRead(36);
-	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;	
-	
-	// === Init members from base classes
-	m_rtDuration			= (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;
-	m_rtStop				= m_rtDuration;
+		hr = S_OK;
+	} while (false);
 
-	GetFileSizeEx (m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
-	m_AvgTimePerFrame	= (m_nMaxFrameSize + m_nMinFrameSize) * m_rtDuration / 2 / m_llFileSize;
-	m_nTotalFrame		= 0;
-
-	m_nFrameBufferSize	= m_nMaxFrameSize*2;
-	m_pFrameBuffer		= new BYTE[m_nFrameBufferSize];
-	Buffer.Reset(m_pFrameBuffer, m_nFrameBufferSize);
-
-	// Find first frame
-	m_file.Seek (m_nFileOffset, CFile::begin);
-	m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
-	if (FindFrameStart (&Buffer, nFrameNumber, nOffset) && (nFrameNumber == 0))
-	{
-		m_nFileOffset += nOffset;
-	}
-
-	// Find last frame
-	m_file.Seek (-m_nMaxFrameSize, CFile::end);
-	m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
-	Buffer.Reset();
-	if (FindFrameStart (&Buffer, m_nTotalFrame, nOffset))
-	{
-		m_AvgTimePerFrame = m_rtDuration / m_nTotalFrame;
-	}
-
-	m_nCurFrame	= -1;
-	m_llCurPos	= 0;
-	ASSERT (m_nTotalFrame != 0);
+	if(phr) *phr = hr;
 }
 
 CFlacStream::~CFlacStream()
 {
-	delete[] m_pFrameBuffer;
 }
 
-
-bool CFlacStream::ReadUTF8Uint32(CGolombBuffer* pBuffer, int& val)
-{
-	int v = 0;
-	int x;
-	unsigned i;
-
-	x = pBuffer->ReadByte();
-	if (pBuffer->IsEOF()) return false;
-
-	if(!(x & 0x80)) { /* 0xxxxxxx */
-		v = x;
-		i = 0;
-	}
-	else if(x & 0xC0 && !(x & 0x20)) { /* 110xxxxx */
-		v = x & 0x1F;
-		i = 1;
-	}
-	else if(x & 0xE0 && !(x & 0x10)) { /* 1110xxxx */
-		v = x & 0x0F;
-		i = 2;
-	}
-	else if(x & 0xF0 && !(x & 0x08)) { /* 11110xxx */
-		v = x & 0x07;
-		i = 3;
-	}
-	else if(x & 0xF8 && !(x & 0x04)) { /* 111110xx */
-		v = x & 0x03;
-		i = 4;
-	}
-	else if(x & 0xFC && !(x & 0x02)) { /* 1111110x */
-		v = x & 0x01;
-		i = 5;
-	}
-	else {
-		val = 0xffffffff;
-		return true;
-	}
-	for( ; i; i--) {
-		x = pBuffer->ReadByte();
-		if (pBuffer->IsEOF()) return false;
-
-		if(!(x & 0x80) || (x & 0x40)) { /* 10xxxxxx */
-			val = 0xffffffff;
-			return true;
-		}
-		v <<= 6;
-		v |= (x & 0x3F);
-	}
-	
-	val = v;
-	return true;
-}
-
-bool CFlacStream::FindFrameStart (CGolombBuffer* pBuffer, int& nFrameNumber, int& nOffset)
-{
-	int		nPos = 0;
-	int		nPrevFrame[3]  = { -1, -1, -1};
-	int		nPrevOffset[3];
-
-	while (!pBuffer->IsEOF() & (nPos<3))
-	{
-		if ( pBuffer->BitRead (8) == 0xFF && 
-			(pBuffer->BitRead (8, true) & 0xFE) == 0xF8)	// Frame header sync word
-		{
-			nPrevOffset[nPos] = pBuffer->GetPos()-1;
-			bool	bBlockingStrategy = !!(pBuffer->BitRead (8) & 1);
-			int		nBlockSize		  = pBuffer->BitRead (4);
-			int		nSampleRate		  = pBuffer->BitRead (4);
-			int		nChannelAssign	  = pBuffer->BitRead (4);
-			int		nSampleSize		  = pBuffer->BitRead (3);
-
-
-			if (pBuffer->BitRead (1) != 0) continue;	// Mandatory value !
-			if (nSampleRate == 15) continue;
-
-			if (!bBlockingStrategy)
-			{
-				if (ReadUTF8Uint32 (pBuffer, nPrevFrame[nPos]))
-				{
-					if (nPrevFrame[nPos] == -1) continue;
-					if ( (nPrevFrame[0]+1 == nPrevFrame[1]) )
-					{
-						nFrameNumber = nPrevFrame[0];
-						nOffset		 = nPrevOffset[0];
-						return true;
-					}
-					else if (nPrevFrame[0]+1 == nPrevFrame[2])
-					{
-						nFrameNumber = nPrevFrame[0];
-						nOffset		 = nPrevOffset[0];
-						return true;
-					}
-					else if (nPrevFrame[1]+1 == nPrevFrame[2])
-					{
-						nFrameNumber = nPrevFrame[1];
-						nOffset		 = nPrevOffset[1];
-						return true;
-					}
-				}
-			}
-			nPos++;
-		}
-	}
-
-	return false;
-}
-
-
-bool CFlacStream::FindNextFrameStart (CGolombBuffer* pBuffer, int nFrameNumber, int& nOffset)
-{
-	int		nCurFrame;
-
-	// Buffer should be on a sync word already!
-	ASSERT ((pBuffer->BitRead(16, true) & 0xFFFE) == 0xFFF8);
-	if ((pBuffer->BitRead(16, true) & 0xFFFE) != 0xFFF8)
-		return false;
-
-	pBuffer->BitRead (8);
-	while (!pBuffer->IsEOF())
-	{
-		if ( pBuffer->BitRead (8) == 0xFF && 
-			(pBuffer->BitRead (8, true) & 0xFE) == 0xF8)	// Frame header sync word
-		{
-			int		nCurOffset		  = pBuffer->GetPos()-1;
-			bool	bBlockingStrategy = !!(pBuffer->BitRead (8) & 1);
-			int		nBlockSize		  = pBuffer->BitRead (4);
-			int		nSampleRate		  = pBuffer->BitRead (4);
-			int		nChannelAssign	  = pBuffer->BitRead (4);
-			int		nSampleSize		  = pBuffer->BitRead (3);
-
-
-			if (pBuffer->BitRead (1) != 0) continue;	// Mandatory value !
-			if (nSampleRate == 15) continue;
-
-			if (!bBlockingStrategy)
-			{
-				if (ReadUTF8Uint32 (pBuffer, nCurFrame))
-				{
-					if (nCurFrame == -1)
-					{
-						// Possible start of SyncWord here ! one step back
-						pBuffer->SkipBytes(-1);
-					}
-					else if (nCurFrame == nFrameNumber+1)
-					{
-						nOffset		 = nCurOffset;
-						return true;
-					}
-				}
-			}
-		}
-	}
-
-	return false;
-}
 
 HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
@@ -373,7 +173,7 @@ HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
     HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = 1;
-	pProperties->cbBuffer = m_nMaxFrameSize + FLAC_FRAME_HEADER_SIZE;	// <= Need more bytes to check sync word!
+	pProperties->cbBuffer = m_nMaxFrameSize;
 
     ALLOCATOR_PROPERTIES Actual;
     if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
@@ -386,61 +186,35 @@ HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
 
 HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
 {
-	CGolombBuffer	Buffer(pOut, len);
-	LONGLONG		llPos;
-	int				nNumber;
-	int				nOffset = 0;
+	FLAC__uint64	llCurPos;
+	FLAC__uint64	llNextPos;
 
-	if (nFrame > m_nTotalFrame)
-		return S_FALSE;
-
-	// Find frame position
-	llPos = m_nFileOffset + nFrame * (m_llFileSize - m_nFileOffset) / m_nTotalFrame;
-	while (m_nCurFrame==-1 || nFrame != m_nCurFrame)
+	if (m_bDiscontinuity)
 	{
-		m_file.Seek (llPos, CFile::begin);
-		m_file.Read((char*)m_pFrameBuffer, m_nFrameBufferSize);
-		Buffer.Reset(m_pFrameBuffer, m_nFrameBufferSize);
-
-		nNumber = 0;
-		if (FindFrameStart (&Buffer, nNumber, nOffset) && (nNumber <= nFrame))
-		{
-			m_nCurFrame = nNumber;
-			m_llCurPos	= llPos + nOffset;
-			break;
-		}
-		else
-		{
-			if (nNumber != 0)
-				llPos = max (0, llPos - (nNumber - nFrame) * m_nMaxFrameSize);
-			else
-				llPos = max (0, llPos - m_nMaxFrameSize);
-		}
+		FLAC__stream_decoder_seek_absolute (_DECODER_, m_rtPosition * m_i64TotalNumSamples / m_rtDuration);
 	}
 
-	// Fill the buffer with one frame
-	do
-	{
-		m_file.Seek (m_llCurPos, CFile::begin);
-		m_file.Read((char*)pOut, len);
-		Buffer.Reset(pOut, len);
-		if (FindNextFrameStart (&Buffer, m_nCurFrame, nOffset))
-		{
-			m_nCurFrame++;
-			m_llCurPos	+= nOffset;
-		}
-		else
-		{
-			ASSERT (FALSE);
-			return E_FAIL;
-		}
-	} while (m_nCurFrame < nFrame);
+	FLAC__stream_decoder_get_decode_position(_DECODER_, &llCurPos);
+	
+	FLAC__stream_decoder_skip_single_frame (_DECODER_);
+	if (m_bIsEOF) 
+		return S_FALSE;
+	FLAC__stream_decoder_get_decode_position(_DECODER_, &llNextPos);
 
-	len	= nOffset;
-	TRACE (" Fill buffer N° %04d (%04d) - %06d    %02x %02x %02x %02x %02x\n", m_nCurFrame, nFrame, nOffset, pOut[0], pOut[1], pOut[2], pOut[3], pOut[4]);
+	FLAC__uint64	llCurFile = m_file.GetPosition();
+	len = llNextPos - llCurPos;
+	ASSERT (len > 0);
+	if (len <= 0) return S_FALSE;
+
+	m_file.Seek (llCurPos, CFile::begin);
+	m_file.Read (pOut, len);
+	m_file.Seek (llCurFile, CFile::begin);
+
+	m_AvgTimePerFrame = m_rtDuration * len / (m_llFileSize-m_llOffset);
 
 	return S_OK;
 }
+
 
 
 HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
@@ -481,4 +255,87 @@ HRESULT CFlacStream::CheckMediaType(const CMediaType* pmt)
 		return S_OK;
 	else
 		return E_INVALIDARG;
+}
+
+
+void CFlacStream::UpdateFromMetadata (void* pBuffer)
+{
+	const FLAC__StreamMetadata* pMetadata = (const FLAC__StreamMetadata*) pBuffer;
+
+	m_nMaxFrameSize			= pMetadata->data.stream_info.max_framesize;
+	m_nSamplesPerSec		= pMetadata->data.stream_info.sample_rate;
+	m_nChannels				= pMetadata->data.stream_info.channels;
+	m_wBitsPerSample		= pMetadata->data.stream_info.bits_per_sample;
+	m_i64TotalNumSamples	= pMetadata->data.stream_info.total_samples;
+	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;	
+
+	// === Init members from base classes
+	GetFileSizeEx (m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
+	m_rtDuration			= (m_i64TotalNumSamples * UNITS) / m_nSamplesPerSec;
+	m_rtStop				= m_rtDuration;
+	m_AvgTimePerFrame		= (m_nMaxFrameSize + pMetadata->data.stream_info.min_framesize) * m_rtDuration / 2 / m_llFileSize;
+}
+
+
+FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+	UINT			nRead;
+
+	 nRead				= pThis->GetFile()->Read (buffer, *bytes);
+	 pThis->m_bIsEOF	= (nRead != *bytes);
+	 *bytes				= nRead;
+
+	return (*bytes == 0) ?  FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM : FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
+}
+
+FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+	
+	pThis->m_bIsEOF	= false;
+	pThis->GetFile()->Seek (absolute_byte_offset, CFile::begin);
+	return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
+}
+
+FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+	*absolute_byte_offset = pThis->GetFile()->GetPosition();
+	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
+}
+
+FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+	return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
+}
+
+FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+
+	return pThis->m_bIsEOF;
+}
+
+
+FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+
+
+	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
+}
+
+void StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data)
+{
+}
+
+
+void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
+{
+	CFlacStream*	pThis = (CFlacStream*) client_data;
+
+	if (pThis)
+		pThis->UpdateFromMetadata ((void*)metadata);
 }
