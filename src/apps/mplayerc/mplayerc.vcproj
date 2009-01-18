@@ -1280,6 +1280,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Struct.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SubtitleDlDlg.h"
 				>
 			</File>

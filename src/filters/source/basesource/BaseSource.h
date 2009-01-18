@@ -72,12 +72,14 @@ public:
 
 	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 	{
+		size_t		nCount;
 		if(!ppszFileName) return E_POINTER;
 		
-		if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+		nCount = m_fn.GetLength()+1;
+		if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc(nCount*sizeof(WCHAR))))
 			return E_OUTOFMEMORY;
 
-		wcscpy(*ppszFileName, m_fn);
+		wcscpy_s(*ppszFileName, nCount, m_fn);
 
 		return S_OK;
 	}
