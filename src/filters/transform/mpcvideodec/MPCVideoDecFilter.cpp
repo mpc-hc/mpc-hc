@@ -926,7 +926,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				int		nCompat;
 				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
 				#ifndef REGISTER_FILTER
-					if(m_ref_frame_count_check_skip) nCompat = 0;
+					if((nCompat == 2) && (m_ref_frame_count_check_skip)) nCompat = 0;
 				#endif
 
 				switch (nCompat)
