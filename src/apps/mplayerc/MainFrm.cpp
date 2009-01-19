@@ -1966,10 +1966,14 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						s.NewDvd (llDVDGuid);
 						// Set command line position
 						pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-						if (s.lDVDChapter != 0)
+						if (s.lDVDChapter > 1)
 							pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 						else
-							pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						{
+							// Trick : skip trailers with somes DVDs
+							pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Flush, NULL);
+						}
 
 						m_iDVDTitle	  = s.lDVDTitle;
 						s.lDVDTitle   = 0;
@@ -1981,6 +1985,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 
 						pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+						pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 						if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode, DVD_CMD_FLAG_Flush, NULL)))
 						{
 							m_iDVDTitle = DvdPos->lTitle;
