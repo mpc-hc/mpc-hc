@@ -10074,6 +10074,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 	{
 		__int64 start, stop;
 		m_wndSeekBar.GetRange(start, stop);
+		if(rtPos>stop) rtPos = stop;
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
