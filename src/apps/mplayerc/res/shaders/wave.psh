@@ -1,20 +1,12 @@
 sampler s0 : register(s0);
 float4 p0 : register(c0);
-float4 p1 : register(c1);
 
 #define width (p0[0])
 #define height (p0[1])
-#define counter (p0[2])
 #define clock (p0[3])
-#define one_over_width (p1[0])
-#define one_over_height (p1[1])
-
-#define PI acos(-1)
 
 float4 main(float2 tex : TEXCOORD0) : COLOR
 {
-	// don't look at this for too long, you'll get dizzy :)
-	
 	float4 c0 = 0;
 	
 	tex.x += sin(tex.x+clock/0.3)/20;
