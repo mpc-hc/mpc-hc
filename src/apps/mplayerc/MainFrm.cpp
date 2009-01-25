@@ -2892,7 +2892,7 @@ void CMainFrame::OnFilePostOpenmedia()
 	m_nCurSubtitle		= -1;
 	m_lSubtitleShift	= 0;
 	if(m_pCAP) m_pCAP->SetSubtitleDelay(0);
-	SetState (MLS_LOADED);
+	SetLoadState (MLS_LOADED);
 
 	// IMPORTANT: must not call any windowing msgs before
 	// this point, it will deadlock when OpenMediaPrivate is
@@ -5183,8 +5183,7 @@ void CMainFrame::OnPlayPlay()
 
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
-	m_Lcd.SetPlayState(CMPC_Lcd::PS_PLAY);
-	SendAPICommand (CMD_PLAYMODE, L"%d", PS_PLAY);
+	SetPlayState (PS_PLAY);
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -5213,8 +5212,7 @@ void CMainFrame::OnPlayPauseI()
 
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
-	m_Lcd.SetPlayState(CMPC_Lcd::PS_PAUSE);
-	SendAPICommand (CMD_PLAYMODE, L"%d", PS_PAUSE);
+	SetPlayState (PS_PAUSE);
 }
 
 void CMainFrame::OnPlayPause()
@@ -5315,8 +5313,7 @@ void CMainFrame::OnPlayStop()
 	}
 
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
-	m_Lcd.SetPlayState(CMPC_Lcd::PS_STOP);
-	SendAPICommand (CMD_PLAYMODE, L"%d", PS_STOP);
+	SetPlayState (PS_STOP);
 }
 
 void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
@@ -8517,7 +8514,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		}
 	}
 
-	SetState (MLS_LOADING);
+	SetLoadState (MLS_LOADING);
 
 	// FIXME: Don't show "Closed" initially
 	PostMessage(WM_KICKIDLE);
@@ -8692,7 +8689,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 void CMainFrame::CloseMediaPrivate()
 {
-	SetState (MLS_CLOSING);
+	SetLoadState (MLS_CLOSING);
 
     OnPlayStop(); // SendMessage(WM_COMMAND, ID_PLAY_STOP);
 
@@ -8755,7 +8752,7 @@ void CMainFrame::CloseMediaPrivate()
 	AfxGetAppSettings().nCLSwitches &= CLSW_OPEN|CLSW_PLAY|CLSW_AFTERPLAYBACK_MASK|CLSW_NOFOCUS;
 	AfxGetAppSettings().ResetPositions();
 
-	SetState (MLS_CLOSED);
+	SetLoadState (MLS_CLOSED);
 }
 
 // msn
@@ -10703,7 +10700,7 @@ void CMainFrame::CloseMedia()
 
 	m_closingmsg.Empty();
 
-	SetState (MLS_CLOSING);
+	SetLoadState (MLS_CLOSING);
 
 	OnFilePostClosemedia();
 
@@ -10773,12 +10770,20 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 
 
 // ==== Added by CASIMIR666
-void CMainFrame::SetState(MPC_LOADSTATE iState)
+void CMainFrame::SetLoadState(MPC_LOADSTATE iState)
 {
 	m_iMediaLoadState	= iState;
 	SendAPICommand (CMD_STATE, L"%d", m_iMediaLoadState);
 }
 
+void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
+{
+	m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
+	SendAPICommand (CMD_PLAYMODE, L"%d", iState);
+
+	// Prevent sleep when playing
+	SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
+}
 
 bool CMainFrame::CreateFullScreenWindow()
 {

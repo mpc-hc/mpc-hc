@@ -722,7 +722,8 @@ public:
 	CString				m_strTitle;
 	bool				m_bToggleShader;
 
-	void		SetState(MPC_LOADSTATE iState);
+	void		SetLoadState(MPC_LOADSTATE iState);
+	void		SetPlayState(MPC_PLAYSTATE iState);
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
