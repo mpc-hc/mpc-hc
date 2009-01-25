@@ -651,11 +651,11 @@ bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
 		int iProgram0;
 		const CMpegSplitterFile::CClipInfo *pClipInfo0;
 		const CMpegSplitterFile::program * pProgram0 = m_pFile->FindProgram(pid, iProgram0, pClipInfo0);
-		int StreamType0 = pProgram0 ? pProgram0->streams[iProgram0].type : 0;
+		int StreamType0 = pClipInfo0 ? pClipInfo0->m_Type : pProgram0 ? pProgram0->streams[iProgram0].type : 0;
 		int iProgram1;
 		const CMpegSplitterFile::CClipInfo *pClipInfo1;
 		const CMpegSplitterFile::program * pProgram1 = m_pFile->FindProgram(_Other.pid, iProgram1, pClipInfo1);
-		int StreamType1 = pProgram1 ? pProgram1->streams[iProgram1].type : 0;
+		int StreamType1 = pClipInfo1 ? pClipInfo1->m_Type : pProgram1 ? pProgram1->streams[iProgram1].type : 0;
 		
 		if (mt.formattype == FORMAT_WaveFormatEx && _Other.mt.formattype != FORMAT_WaveFormatEx)
 			return true;
@@ -700,11 +700,13 @@ const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
 	return NULL;
 }
 
-CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile::CClipInfo *pClipInfo)
+CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile::CClipInfo *pClipInfo, int _PresentationType)
 {
 	const WCHAR *pPresentationDesc = NULL;
 	if (pClipInfo)
 		pPresentationDesc = StreamTypeToName(pClipInfo->m_Type);
+	else
+		pPresentationDesc = StreamTypeToName((ElementaryStreamTypes)_PresentationType);
 	CString MajorType;
 	CAtlList<CString> Infos;
 	if (_pMediaType->majortype == MEDIATYPE_Video)
@@ -1058,10 +1060,10 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					const CMpegSplitterFile::CClipInfo *pClipInfo;
 					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 					const wchar_t *pStreamName = NULL;
-					if (pProgram)
-						pStreamName = StreamTypeToName(pProgram->streams[iProgram].type);
+					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+					pStreamName = StreamTypeToName((ElementaryStreamTypes)StreamType);
 
-					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo);
+					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType);
 
 					if (!FormatDesc.IsEmpty())
 						str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id); // TODO: make this nicer
