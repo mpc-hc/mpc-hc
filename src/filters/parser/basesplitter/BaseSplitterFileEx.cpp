@@ -811,7 +811,7 @@ bool CBaseSplitterFileEx::Read(dvdspuhdr& h, CMediaType* pmt)
 	return(true);
 }
 
-bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, char* language_code)
+bool CBaseSplitterFileEx::Read(hdmvsubhdr& h, CMediaType* pmt, const char* language_code)
 {
 	memset(&h, 0, sizeof(h));
 

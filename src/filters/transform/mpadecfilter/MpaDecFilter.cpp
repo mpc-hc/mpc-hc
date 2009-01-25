@@ -41,6 +41,17 @@
 #define EAC3_FRAME_TYPE_RESERVED	3
 #define AC3_HEADER_SIZE				7
 
+
+typedef unsigned char uint8;
+typedef signed char int8;
+
+typedef unsigned short uint16;
+typedef short int16;
+
+typedef unsigned long uint32;
+typedef long int32;
+
+
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_MP3},
@@ -398,9 +409,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessLPCM();
 	else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 	{
-		if (pIn->IsSyncPoint())
-			m_buff.RemoveAll();
-		hr = ProcessHdmvLPCM();
+		hr = ProcessHdmvLPCM(pIn->IsSyncPoint());
 	}
 	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 || subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3)
 		hr = ProcessAC3();
@@ -423,15 +432,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	return hr;
 }
-
-typedef unsigned char uint8;
-typedef signed char int8;
-
-typedef unsigned short uint16;
-typedef short int16;
-
-typedef unsigned long uint32;
-typedef long int32;
 
 HRESULT CMpaDecFilter::ProcessLPCM()
 {
@@ -601,14 +601,19 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 }
 
 
-HRESULT CMpaDecFilter::ProcessHdmvLPCM() // Blu ray LPCM
+HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 {
 	WAVEFORMATEX_HDMV_LPCM* wfein = (WAVEFORMATEX_HDMV_LPCM*)m_pInput->CurrentMediaType().Format();
 
 	BYTE*			pDataIn	= m_buff.GetData();
 	int BytesPerChannelSample = (((wfein->wBitsPerSample + 7)&(~7))) / 8;
 	int BytesPerSample = wfein->nChannels*BytesPerChannelSample;		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
-	int				len		= (m_buff.GetCount() / BytesPerSample) * BytesPerSample;
+	int				oldlen = m_buff.GetCount();
+	int				len		= (oldlen / BytesPerSample) * BytesPerSample;
+	if (bAlignOldBuffer)
+	{
+		m_buff.SetCount(len);
+	}
 	scmap_t*		remap	= &s_scmap_hdmv [wfein->channel_conf];
 
 	CAtlArray<float> pBuff;

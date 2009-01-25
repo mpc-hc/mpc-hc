@@ -277,7 +277,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv()));
+	m_pFile.Attach(new CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_fn));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -483,7 +483,8 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 
 				// Don't rename other pin for Hdmv!
 				int iProgram;
-				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram);
+				const CMpegSplitterFile::CClipInfo *pClipInfo;
+				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
 				if(p!=NULL && !m_ClipInfo.IsHdmv())
 				{
 					for(int k = 0; k < countof(m_pFile->m_streams); k++)
@@ -496,9 +497,9 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 							CMpegSplitterFile::stream& from = m_pFile->m_streams[k].GetNext(pos);
 							if(!GetOutputPin(from)) continue;
 
-							for(int l = 0; l < countof(p->pid); l++)
+							for(int l = 0; l < countof(p->streams); l++)
 							{
-								if(const CMpegSplitterFile::stream* s = m_pFile->m_streams[k].FindStream(p->pid[l]))
+								if(const CMpegSplitterFile::stream* s = m_pFile->m_streams[k].FindStream(p->streams[l].pid))
 								{
 									if(from != *s) hr = RenameOutputPin(from, *s, &s->mt);
 									break;
@@ -560,13 +561,162 @@ CString FormatString(const wchar_t *pszFormat, ... )
 	return Temp;
 }
 
-CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentationDesc)
+int GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
 {
+	if (_pMediaType->formattype == FORMAT_WaveFormatEx)
+	{
+		int Ret = 0;
+
+		const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
+		int TypePriority = 0;
+		if (_pMediaType->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
+		{
+			TypePriority = 15;
+			
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
+		{
+			TypePriority = 16;
+		}
+		else
+		{
+			if (_PresentationFormat == AUDIO_STREAM_DTS_HD_MASTER_AUDIO)
+				TypePriority = 14;
+			else if (_PresentationFormat == AUDIO_STREAM_DTS_HD)
+				TypePriority = 11;
+			else if (_PresentationFormat == AUDIO_STREAM_AC3_TRUE_HD)
+				TypePriority = 13;
+			else if (_PresentationFormat == AUDIO_STREAM_AC3_PLUS)
+				TypePriority = 10;
+			else
+			{
+				switch (pInfo->wFormatTag)
+				{
+				case WAVE_FORMAT_PS2_PCM:
+					{
+						TypePriority = 12;
+					}
+					break;
+				case WAVE_FORMAT_PS2_ADPCM:
+					{
+						TypePriority = 4;
+					}
+					break;
+				case WAVE_FORMAT_DVD_DTS:
+					{
+						TypePriority = 9;
+					}
+					break;
+				case WAVE_FORMAT_DOLBY_AC3:
+					{
+						TypePriority = 8;
+					}
+					break;
+				case WAVE_FORMAT_AAC:
+					{
+						TypePriority = 7;
+					}
+					break;
+				case WAVE_FORMAT_MP3:
+					{
+						TypePriority = 6;
+					}
+					break;
+				case WAVE_FORMAT_MPEG:
+					{
+						TypePriority = 5;
+					}
+					break;
+				}
+			}
+		}
+
+		Ret += TypePriority * 100000000;
+
+		Ret += pInfo->nChannels * 1000000;
+		Ret += pInfo->nSamplesPerSec * 10;
+		Ret += pInfo->wBitsPerSample / 4;
+
+		return Ret;
+	}
+
+	return 0;
+}
+
+bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
+{
+
+	if (mt.majortype == MEDIATYPE_Audio && _Other.mt.majortype == MEDIATYPE_Audio)
+	{
+		int iProgram0;
+		const CMpegSplitterFile::CClipInfo *pClipInfo0;
+		const CMpegSplitterFile::program * pProgram0 = m_pFile->FindProgram(pid, iProgram0, pClipInfo0);
+		int StreamType0 = pProgram0 ? pProgram0->streams[iProgram0].type : 0;
+		int iProgram1;
+		const CMpegSplitterFile::CClipInfo *pClipInfo1;
+		const CMpegSplitterFile::program * pProgram1 = m_pFile->FindProgram(_Other.pid, iProgram1, pClipInfo1);
+		int StreamType1 = pProgram1 ? pProgram1->streams[iProgram1].type : 0;
+		
+		if (mt.formattype == FORMAT_WaveFormatEx && _Other.mt.formattype != FORMAT_WaveFormatEx)
+			return true;
+		if (mt.formattype != FORMAT_WaveFormatEx && _Other.mt.formattype == FORMAT_WaveFormatEx)
+			return false;
+
+		int Quality0 = GetMediaTypeQuality(&mt, StreamType0);
+		int Quality1 = GetMediaTypeQuality(&_Other.mt, StreamType1);
+		if (Quality0 > Quality1)
+			return true;
+		if (Quality0 < Quality1)
+			return false;
+	}
+	DWORD DefaultFirst = *this;
+	DWORD DefaultSecond = _Other;
+	return DefaultFirst < DefaultSecond;
+}
+
+const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
+{
+	switch (_Type)
+	{
+	case VIDEO_STREAM_MPEG1: return L"MPEG";
+	case VIDEO_STREAM_MPEG2: return L"MPEG 2";
+	case AUDIO_STREAM_MPEG1: return L"MPEG";
+	case AUDIO_STREAM_MPEG2: return L"MPEG 2 Audio";
+	case VIDEO_STREAM_H264: return L"H264";
+	case AUDIO_STREAM_LPCM: return L"LPCM";
+	case AUDIO_STREAM_AC3: return L"Dolby Digital";
+	case AUDIO_STREAM_DTS: return L"DTS";
+	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby Digital True HD";
+	case AUDIO_STREAM_AC3_PLUS: return L"Dobly Digital+";
+	case AUDIO_STREAM_DTS_HD: return L"DTS HD";
+	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS HD Master";
+	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";
+	case INTERACTIVE_GRAPHICS_STREAM: return L"Interactive Graphics Stream";
+	case SUBTITLE_STREAM: return L"Subtitle Stream";
+	case SECONDARY_AUDIO_AC3_PLUS: return L"Secondary Dolby Digital+";
+	case SECONDARY_AUDIO_DTS_HD: return L"Secondary DTS HD";
+	case VIDEO_STREAM_VC1: return L"VC1 Video";
+	}
+	return NULL;
+}
+
+CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile::CClipInfo *pClipInfo)
+{
+	const WCHAR *pPresentationDesc = NULL;
+	if (pClipInfo)
+		pPresentationDesc = StreamTypeToName(pClipInfo->m_Type);
 	CString MajorType;
 	CAtlList<CString> Infos;
 	if (_pMediaType->majortype == MEDIATYPE_Video)
 	{
 		MajorType = "Video";
+
+		if (pClipInfo)
+		{
+			CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+			if (!name.IsEmpty())
+				Infos.AddTail(name);
+		}
 
 		const VIDEOINFOHEADER *pVideoInfo = NULL;
 		const VIDEOINFOHEADER2 *pVideoInfo2 = NULL;
@@ -711,6 +861,12 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentat
 	else if (_pMediaType->majortype == MEDIATYPE_Audio)
 	{
 		MajorType = "Audio";
+		if (pClipInfo)
+		{
+			CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+			if (!name.IsEmpty())
+				Infos.AddTail(name);
+		}
 		if (_pMediaType->formattype == FORMAT_WaveFormatEx)
 		{
 			const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
@@ -739,16 +895,16 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentat
 					break;
 				case WAVE_FORMAT_DVD_DTS:
 					{
-						if (_pPresentationDesc)
-							Infos.AddTail(_pPresentationDesc);
+						if (pPresentationDesc)
+							Infos.AddTail(pPresentationDesc);
 						else
 							Infos.AddTail(L"DTS");
 					}
 					break;
 				case WAVE_FORMAT_DOLBY_AC3:
 					{
-						if (_pPresentationDesc)
-							Infos.AddTail(_pPresentationDesc);
+						if (pPresentationDesc)
+							Infos.AddTail(pPresentationDesc);
 						else
 							Infos.AddTail(L"Dolby Digital");
 					}
@@ -774,7 +930,19 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentat
 				}
 			}
 
-			if (pInfo->nSamplesPerSec)
+			if (pClipInfo && (pClipInfo->m_SampleRate == BDVM_SampleRate_48_192 || pClipInfo->m_SampleRate == BDVM_SampleRate_48_96))
+			{
+				switch (pClipInfo->m_SampleRate)
+				{
+				case BDVM_SampleRate_48_192:
+					Infos.AddTail(FormatString(L"192(48) kHz"));
+					break;
+				case BDVM_SampleRate_48_96:
+					Infos.AddTail(FormatString(L"96(48) kHz"));
+					break;
+				}
+			}
+			else if (pInfo->nSamplesPerSec)
 				Infos.AddTail(FormatString(L"%d kHz", pInfo->nSamplesPerSec));
 			if (pInfo->nChannels)
 				Infos.AddTail(FormatString(L"%d chn", pInfo->nChannels));
@@ -800,10 +968,19 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentat
 		{
 			const SUBTITLEINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
 			CString name = ISO6392ToLanguage(pInfo->IsoLang);
-			if (!name.IsEmpty())
-				Infos.AddTail(name);
 			if (pInfo->TrackName[0])
-				Infos.AddTail(pInfo->TrackName);
+				Infos.AddHead(pInfo->TrackName);
+			if (!name.IsEmpty())
+				Infos.AddHead(name);
+		}
+		else
+		{
+			if (pClipInfo)
+			{
+				CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+				if (!name.IsEmpty())
+					Infos.AddHead(name);
+			}
 		}
 	}
 
@@ -831,31 +1008,6 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const WCHAR *_pPresentat
 	return CString();
 }
 
-const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
-{
-	switch (_Type)
-	{
-	case VIDEO_STREAM_MPEG1: return L"MPEG";
-	case VIDEO_STREAM_MPEG2: return L"MPEG 2";
-	case AUDIO_STREAM_MPEG1: return L"MPEG";
-	case AUDIO_STREAM_MPEG2: return L"MPEG 2 Audio";
-	case VIDEO_STREAM_H264: return L"H264";
-	case AUDIO_STREAM_LPCM: return L"LPCM";
-	case AUDIO_STREAM_AC3: return L"Dolby Digital";
-	case AUDIO_STREAM_DTS: return L"DTS";
-	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby Digital True HD";
-	case AUDIO_STREAM_AC3_PLUS: return L"Dobly Digital+";
-	case AUDIO_STREAM_DTS_HD: return L"DTS HD";
-	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS HD Master";
-	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";
-	case INTERACTIVE_GRAPHICS_STREAM: return L"Interactive Graphics Stream";
-	case SUBTITLE_STREAM: return L"Subtitle Stream";
-	case SECONDARY_AUDIO_AC3_PLUS: return L"Secondary Dolby Digital+";
-	case SECONDARY_AUDIO_DTS_HD: return L"Secondary DTS HD";
-	case VIDEO_STREAM_VC1: return L"VC1 Video";
-	}
-	return NULL;
-}
 
 
 STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
@@ -903,12 +1055,13 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 				else
 				{
 					int iProgram;
-					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram);
+					const CMpegSplitterFile::CClipInfo *pClipInfo;
+					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 					const wchar_t *pStreamName = NULL;
 					if (pProgram)
-						pStreamName = StreamTypeToName(pProgram->stream_type[iProgram]);
+						pStreamName = StreamTypeToName(pProgram->streams[iProgram].type);
 
-					CString FormatDesc = GetMediaTypeDesc(&s.mt, pStreamName);
+					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo);
 
 					if (!FormatDesc.IsEmpty())
 						str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id); // TODO: make this nicer
@@ -1259,6 +1412,43 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
+	}
+	else if (m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS) // DTS HD MA data is causing trouble, lets just remove it
+	{
+		BYTE* start = p->GetData();
+		BYTE* end = start + p->GetCount();
+		if (end - start < 4)
+			return S_OK;  // Should be invalid packet
+
+		BYTE* hdr = start;
+
+		int Type;
+		  // 16 bits big endian bitstream
+		  if      (hdr[0] == 0x7f && hdr[1] == 0xfe &&
+				   hdr[2] == 0x80 && hdr[3] == 0x01)
+			Type = 16 + 32;
+
+		  // 16 bits low endian bitstream
+		  else if (hdr[0] == 0xfe && hdr[1] == 0x7f &&
+				   hdr[2] == 0x01 && hdr[3] == 0x80)
+			Type = 16;
+
+		  // 14 bits big endian bitstream
+		  else if (hdr[0] == 0x1f && hdr[1] == 0xff &&
+				   hdr[2] == 0xe8 && hdr[3] == 0x00 &&
+				   hdr[4] == 0x07 && (hdr[5] & 0xf0) == 0xf0)
+			Type = 14 + 32;
+
+		  // 14 bits low endian bitstream
+		  else if (hdr[0] == 0xff && hdr[1] == 0x1f &&
+				   hdr[2] == 0x00 && hdr[3] == 0xe8 &&
+				  (hdr[4] & 0xf0) == 0xf0 && hdr[5] == 0x07)
+			Type = 14;
+
+		  // no sync
+		  else
+			  return S_OK;
+
 	}
 	else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 	{

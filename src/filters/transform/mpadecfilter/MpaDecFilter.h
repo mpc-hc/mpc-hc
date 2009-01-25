@@ -115,7 +115,7 @@ protected:
 	float m_sample_max;
 
 	HRESULT ProcessLPCM();
-	HRESULT ProcessHdmvLPCM();
+	HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
 	HRESULT ProcessAC3();
 	HRESULT ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData);
 	HRESULT ProcessDTS();

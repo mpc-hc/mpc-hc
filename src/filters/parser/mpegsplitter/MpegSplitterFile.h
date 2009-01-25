@@ -50,6 +50,55 @@ enum ElementaryStreamTypes
     VIDEO_STREAM_VC1					= 0xea
 };
 
+enum BDVM_VideoFormat
+{
+    BDVM_VideoFormat_Unknown = 0,
+    BDVM_VideoFormat_480i = 1,
+    BDVM_VideoFormat_576i = 2,
+    BDVM_VideoFormat_480p = 3,
+    BDVM_VideoFormat_1080i = 4,
+    BDVM_VideoFormat_720p = 5,
+    BDVM_VideoFormat_1080p = 6,
+    BDVM_VideoFormat_576p = 7,
+};
+
+enum BDVM_FrameRate
+{
+    BDVM_FrameRate_Unknown = 0,
+    BDVM_FrameRate_23_976 = 1,
+    BDVM_FrameRate_24 = 2,
+    BDVM_FrameRate_25 = 3,
+    BDVM_FrameRate_29_97 = 4,
+    BDVM_FrameRate_50 = 6,
+    BDVM_FrameRate_59_94 = 7
+};
+
+enum BDVM_AspectRatio
+{
+    BDVM_AspectRatio_Unknown = 0,
+    BDVM_AspectRatio_4_3 = 2,
+    BDVM_AspectRatio_16_9 = 3,
+    BDVM_AspectRatio_2_21 = 4
+};
+
+enum BDVM_ChannelLayout
+{
+    BDVM_ChannelLayout_Unknown = 0,
+    BDVM_ChannelLayout_MONO = 1,
+    BDVM_ChannelLayout_STEREO = 3,
+    BDVM_ChannelLayout_MULTI = 6,
+    BDVM_ChannelLayout_COMBO = 12
+};
+
+enum BDVM_SampleRate : byte
+{
+    BDVM_SampleRate_Unknown = 0,
+    BDVM_SampleRate_48 = 1,
+    BDVM_SampleRate_96 = 4,
+    BDVM_SampleRate_192 = 5,
+    BDVM_SampleRate_48_192 = 12,
+    BDVM_SampleRate_48_96 = 14
+};
 
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
@@ -63,7 +112,8 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	void OnComplete();
 
 public:
-	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv);
+	const CString &m_FileName;
+	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, const CString &_FileName);
 
 	REFERENCE_TIME NextPTS(DWORD TrackNum);
 
@@ -77,9 +127,11 @@ public:
 
 	struct stream
 	{
+		CMpegSplitterFile *m_pFile;
 		CMediaType mt;
 		WORD pid;
 		BYTE pesid, ps1id;
+		bool operator < (const stream &_Other) const;
 		struct stream() {pid = pesid = ps1id = 0;}
 		operator DWORD() const {return pid ? pid : ((pesid<<8)|ps1id);}
 		bool operator == (const struct stream& s) const {return (DWORD)*this == (DWORD)s;}
@@ -90,8 +142,9 @@ public:
 	class CStreamList : public CAtlList<stream>
 	{
 	public:
-		void Insert(stream& s)
+		void Insert(stream& s, CMpegSplitterFile *_pFile)
 		{
+			s.m_pFile = _pFile;
 			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos))
 			{
 				stream& s2 = GetAt(pos);
@@ -125,19 +178,48 @@ public:
 
 	HRESULT SearchStreams(__int64 start, __int64 stop);
 	DWORD AddStream(WORD pid, BYTE pesid, DWORD len);
-	void  AddHdmvPGStream(WORD pid, char* language_code);
+	void  AddHdmvPGStream(WORD pid, const char* language_code);
 	CAtlList<stream>* GetMasterStream();
 
 	struct program
 	{
 		WORD					program_number;
-		WORD					pid[16];
-		ElementaryStreamTypes	stream_type[16];
+		struct stream
+		{
+			WORD					pid;
+			ElementaryStreamTypes	type;
+
+		};
+		stream streams[64];
 		struct program() {memset(this, 0, sizeof(*this));}
 	};
 
 	CAtlMap<WORD, program> m_programs;
 
+	class CClipInfo
+	{
+	public:
+		CClipInfo()
+		{
+			memset(this, 0, sizeof(*this));
+		}
+		WORD m_PID;
+		ElementaryStreamTypes m_Type;
+		char m_Language[4];
+		// Valid for video types
+		BDVM_VideoFormat		m_VideoFormat;
+		BDVM_FrameRate			m_FrameRate;
+		BDVM_AspectRatio		m_AspectRatio;
+		// Valid for audio types
+		BDVM_ChannelLayout		m_ChannelLayout;
+		BDVM_SampleRate			m_SampleRate;
+	};
+	CAtlMap<WORD, CClipInfo> m_ClipInfo;
+	CString m_LastClipInfoFile;
+	void ReadClipInfo();
+
 	void UpdatePrograms(const trhdr& h);
-	const program* FindProgram(WORD pid, int &iStream);
+	const program* FindProgram(WORD pid, int &iStream, const CClipInfo * &_pClipInfo);
+
+	
 };

@@ -1148,16 +1148,19 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 {
 	CheckPointer(pszFileName, E_POINTER);
 
+	m_fn = pszFileName;
 	HRESULT hr = E_FAIL;
 	CComPtr<IAsyncReader> pAsyncReader = (IAsyncReader*)new CAsyncFileReader(CString(pszFileName), hr);
 	if(FAILED(hr)
 	|| FAILED(hr = DeleteOutputs())
 	|| FAILED(hr = CreateOutputs(pAsyncReader)))
+	{
+		m_fn = "";
 		return hr;
+	}
 
 	ChapSort();
 
-	m_fn = pszFileName;
 	m_pSyncReader = pAsyncReader;
 
 	return S_OK;

@@ -29,13 +29,14 @@
 #define MEGABYTE 1024*1024
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, const CString &_FileName)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
+	, m_FileName(_FileName)
 
 {
 	if(SUCCEEDED(hr)) hr = Init();
@@ -81,7 +82,7 @@ HRESULT CMpegSplitterFile::Init()
 				if(Read(h)) 
 				{
 					m_type = ps;
-					m_rate = h.bitrate/8;
+					m_rate = int(h.bitrate/8);
 					break;
 				}
 			}
@@ -142,7 +143,7 @@ HRESULT CMpegSplitterFile::Init()
 		return E_FAIL;
 
 	int indicated_rate = m_rate;
-	int detected_rate = 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin);
+	int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin));
 	// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 	// (update: also allowing +/-50k/s)
 	if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
@@ -153,13 +154,26 @@ HRESULT CMpegSplitterFile::Init()
 //#ifndef DEBUG
 	if(m_streams[video].GetCount())
 	{
-		if (m_streams[subpic].GetCount())
+		ReadClipInfo();
+		if (!m_ClipInfo.IsEmpty())
+		{
+			POSITION Pos = m_ClipInfo.GetStartPosition();
+			while (Pos)
+			{
+				const CClipInfo *pInfo = &m_ClipInfo.GetNext(Pos)->m_value;
+				if (pInfo->m_Type == PRESENTATION_GRAPHICS_STREAM)
+				{
+					AddHdmvPGStream(pInfo->m_PID, pInfo->m_Language);
+				}
+			}
+		}
+		else if (m_streams[subpic].GetCount())
 		{
 			stream s;
 			s.mt.majortype = MEDIATYPE_Video;
 			s.mt.subtype = MEDIASUBTYPE_DVD_SUBPICTURE;
 			s.mt.formattype = FORMAT_None;
-			m_streams[subpic].Insert(s);
+			m_streams[subpic].Insert(s, this);
 		}
 		else
 		{
@@ -181,7 +195,7 @@ void CMpegSplitterFile::OnComplete()
 	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength())))
 	{
 		int indicated_rate = m_rate;
-		int detected_rate = m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0;
+		int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
 		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 		// (update: also allowing +/-50k/s)
 		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
@@ -242,7 +256,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 				peshdr h2;
 				if(NextMpegStartCode(b, 4) && Read(h2, b)) // pes packet
 				{
-					if(h2.fpts && AddStream(h.pid, b, h.bytes - (GetPos() - rtpos)) == TrackNum)
+					if(h2.fpts && AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - rtpos)) == TrackNum))
 					{
 						ASSERT(h2.pts >= m_rtMin && h2.pts <= m_rtMax);
 						rt = h2.pts;
@@ -355,7 +369,7 @@ m_rate = rate;
 					b = 0;
 				}
 
-				AddStream(h.pid, b, h.bytes - (GetPos() - pos));
+				AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - pos)));
 			}
 
 			Seek(h.next);
@@ -469,28 +483,29 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 
 				int iProgram;
-				const program* pProgram = FindProgram (s.pid, iProgram);
+				const CMpegSplitterFile::CClipInfo *pClipInfo;
+				const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
 				if((type == unknown) && (pProgram != NULL))
 				{
 					ElementaryStreamTypes	StreamType = INVALID;
 					
 					Seek(pos);
-					StreamType = pProgram->stream_type[iProgram];
+					StreamType = pProgram->streams[iProgram].type;
 
 					switch (StreamType)
 					{
 					case AUDIO_STREAM_LPCM :
 						{
-						CMpegSplitterFile::hdmvlpcmhdr h;
-						if(!m_streams[audio].Find(s) && Read(h, &s.mt))
-							type = audio;
+							CMpegSplitterFile::hdmvlpcmhdr h;
+							if(!m_streams[audio].Find(s) && Read(h, &s.mt))
+								type = audio;
 						}
 						break;
 					case PRESENTATION_GRAPHICS_STREAM :
 						{
-						CMpegSplitterFile::hdmvsubhdr h;
-						if(!m_streams[subpic].Find(s) && Read(h, &s.mt))
-							type = subpic;
+							CMpegSplitterFile::hdmvsubhdr h;
+							if(!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_Language : NULL))
+								type = subpic;
 						}
 						break;
 					}
@@ -623,14 +638,14 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			}
 		}
 
-		m_streams[type].Insert(s);
+		m_streams[type].Insert(s, this);
 	}
 
 	return s;
 }
 
 
-void CMpegSplitterFile::AddHdmvPGStream(WORD pid, char* language_code)
+void CMpegSplitterFile::AddHdmvPGStream(WORD pid, const char* language_code)
 {
 	stream s;
 
@@ -640,7 +655,7 @@ void CMpegSplitterFile::AddHdmvPGStream(WORD pid, char* language_code)
 	CMpegSplitterFile::hdmvsubhdr h;
 	if(!m_streams[subpic].Find(s) && Read(h, &s.mt, language_code))
 	{
-		m_streams[subpic].Insert(s);
+		m_streams[subpic].Insert(s, this);
 	}
 }
 
@@ -659,6 +674,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 {
 	CAutoLock cAutoLock(&m_csProps);
 
+	bool bChanged = false;
 	if(h.pid == 0)
 	{
 		trsechdr h2;
@@ -675,6 +691,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD pid = (WORD)BitRead(13);
 				if(program_number != 0)
 				{
+					bChanged = true;
 					m_programs[pid].program_number = program_number;
 					newprograms[program_number] = true;
 				}
@@ -697,7 +714,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 		trsechdr h2;
 		if(Read(h2) && h2.table_id == 2)
 		{
-			memset(pPair->m_value.pid, 0, sizeof(pPair->m_value.pid));
+			memset(pPair->m_value.streams, 0, sizeof(pPair->m_value.streams));
 
 			int len = h2.section_length;
 			len -= 5+4;
@@ -707,7 +724,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			WORD program_info_length = (WORD)BitRead(12);
 			len -= 4+program_info_length;
 			while(program_info_length-- > 0) BitRead(8);
-			for(int i = 0; i < countof(pPair->m_value.pid) && len >= 5; i++)
+			for(int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++)
 			{
 				BYTE stream_type = (BYTE)BitRead(8);
 				BYTE reserved1 = (BYTE)BitRead(3);
@@ -716,23 +733,188 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD ES_info_length = (WORD)BitRead(12);
 				len -= 5+ES_info_length;
 				while(ES_info_length-- > 0) BitRead(8);
-				pPair->m_value.pid[i]			= pid;
-				pPair->m_value.stream_type[i]	= (ElementaryStreamTypes)stream_type;
+				pPair->m_value.streams[i].pid			= pid;
+				pPair->m_value.streams[i].type	= (ElementaryStreamTypes)stream_type;
+				bChanged = true;
 			}
 		}
 	}
+
+	if (bChanged)
+		ReadClipInfo();
 }
 
-const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &iStream)
+
+typedef unsigned char uint8;
+typedef signed char int8;
+
+typedef unsigned short uint16;
+typedef short int16;
+
+typedef unsigned long uint32;
+typedef long int32;
+
+
+uint32 SwapLE(const uint32 &_Value)
 {
+	return (_Value & 0xFF) << 24 | ((_Value>>8) & 0xFF) << 16 | ((_Value>>16) & 0xFF) << 8 | ((_Value>>24) & 0xFF) << 0;
+}
+
+uint16 SwapLE(const uint16 &_Value)
+{
+	return (_Value & 0xFF) << 8 | ((_Value>>8) & 0xFF) << 0;
+}
+
+void CMpegSplitterFile::ReadClipInfo()
+{
+	if (m_LastClipInfoFile == m_FileName)
+		return;
+
+	m_ClipInfo.RemoveAll();
+	m_LastClipInfoFile = m_FileName;
+	LPCWSTR pFileName = m_FileName.GetString();
+	LPWSTR pFind = PathFindFileName(pFileName);
+	CString FileName;
+	if (pFind)
+		FileName = pFind;
+	PathRemoveExtension(FileName.GetBuffer());
+	FileName.ReleaseBuffer();
+	CString FullPathName;
+	LPWSTR pFilePart;
+	CString Path = m_FileName + L"..\\..\\..\\CLIPINF\\" + FileName + L".clpi";
+	GetFullPathNameW(Path, 2048, FullPathName.GetBufferSetLength(2048), &pFilePart);
+
+	try
+	{
+		CFile File;
+		if (!File.Open(FullPathName, CFile::modeRead | CFile::modeNoTruncate | CFile::shareDenyNone))
+			return;
+
+		CAtlArray<BYTE> FileData;
+		size_t Length = size_t(File.GetLength());
+		FileData.SetCount(Length);
+		File.Read(FileData.GetData(), Length);
+
+		BYTE *pOriginalData = FileData.GetData();
+		BYTE *pData = pOriginalData;
+
+		char TempType[9] = {0};
+		memcpy(TempType, pData, 8);
+		pData += 8;
+
+		if (strcmp(TempType, "HDMV0100") != 0 && strcmp(TempType, "HDMV0200") != 0)
+			return; // Not supported
+
+		pData += 4;
+		uint32 iClip = SwapLE(*((uint32 *)pData));
+		pData += 8;
+		uint32 ClipLength = SwapLE(*((uint32 *)(pOriginalData + iClip)));
+
+		BYTE *pClipData = pOriginalData + iClip + 4;
+
+		pClipData += 8;
+
+		int nStreams = *pClipData;
+		pClipData += 2;
+
+        for (int i = 0; i < nStreams; ++i)
+        {
+            uint16 PID = SwapLE(*((uint16 *)pClipData));
+			pClipData += 2;
+
+			uint8 StreamDataSize = *pClipData ;
+			pClipData += 1;
+			BYTE *pNextStream = pClipData + StreamDataSize;
+
+			int iStream = 0;
+			CClipInfo &ClipInfo = m_ClipInfo[PID];
+
+			uint8 StreamType = *pClipData;
+			pClipData += 1;
+
+			ClipInfo.m_PID = PID;
+			ClipInfo.m_Type = (ElementaryStreamTypes)StreamType;
+			 
+			switch (StreamType)
+			{
+				case VIDEO_STREAM_MPEG1:
+				case VIDEO_STREAM_MPEG2:
+				case VIDEO_STREAM_H264:
+				case VIDEO_STREAM_VC1:
+				{
+					uint8 Temp = *pClipData; 
+					++pClipData;
+					BDVM_VideoFormat VideoFormat = (BDVM_VideoFormat)(Temp >> 4);
+					BDVM_FrameRate FrameRate = (BDVM_FrameRate)(Temp & 0xf);
+					Temp = *pClipData; 
+					++pClipData;
+					BDVM_AspectRatio AspectRatio = (BDVM_AspectRatio)(Temp >> 4);
+
+					ClipInfo.m_VideoFormat = VideoFormat;
+					ClipInfo.m_FrameRate = FrameRate;
+					ClipInfo.m_AspectRatio = AspectRatio;
+				}
+				break;
+
+				case AUDIO_STREAM_MPEG1:
+				case AUDIO_STREAM_MPEG2:
+				case AUDIO_STREAM_LPCM:
+				case AUDIO_STREAM_AC3:
+				case AUDIO_STREAM_DTS:
+				case AUDIO_STREAM_AC3_TRUE_HD:
+				case AUDIO_STREAM_AC3_PLUS:
+				case AUDIO_STREAM_DTS_HD:
+				case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
+				case SECONDARY_AUDIO_AC3_PLUS:
+				case SECONDARY_AUDIO_DTS_HD:
+				{
+					uint8 Temp = *pClipData; 
+					++pClipData;
+					BDVM_ChannelLayout ChannelLayout = (BDVM_ChannelLayout)(Temp >> 4);
+					BDVM_SampleRate SampleRate = (BDVM_SampleRate)(Temp & 0xF);
+
+					memcpy(ClipInfo.m_Language, pClipData, 3);
+					ClipInfo.m_ChannelLayout = ChannelLayout;
+					ClipInfo.m_SampleRate = SampleRate;
+				}
+				break;
+
+				case PRESENTATION_GRAPHICS_STREAM:
+				case INTERACTIVE_GRAPHICS_STREAM:
+				{
+					memcpy(ClipInfo.m_Language, pClipData, 3);
+				}
+				break;
+
+				case SUBTITLE_STREAM:
+				{
+					memcpy(ClipInfo.m_Language, pClipData, 3);
+				}
+				break;
+			}
+			pClipData = pNextStream;
+		}
+	}
+	catch (CFileException)
+	{
+	}
+}
+
+const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &iStream, const CClipInfo * &_pClipInfo)
+{
+	CAtlMap<WORD, CClipInfo>::CPair* pPair = m_ClipInfo.Lookup(pid);
+	if (pPair)
+		_pClipInfo = &pPair->m_value;
+	else
+		_pClipInfo = NULL;
 	iStream = -1;
 	POSITION pos = m_programs.GetStartPosition();
 	while(pos)
 	{
-		const program* p = &m_programs.GetNextValue(pos);
-		for(int i = 0; i < countof(p->pid); i++)
+		program* p = &m_programs.GetNextValue(pos);
+		for(int i = 0; i < countof(p->streams); i++)
 		{
-			if(p->pid[i] == pid) 
+			if(p->streams[i].pid == pid) 
 			{
 				iStream = i;
 				return p;
