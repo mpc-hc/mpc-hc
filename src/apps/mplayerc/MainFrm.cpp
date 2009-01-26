@@ -138,6 +138,8 @@ bool m_PlayListBarVisible = false;
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
 
+bool m_Change_Monitor = false;
+
 /*
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -7031,12 +7033,15 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
-
+	
 	// try disable shader when move from one monitor to other ...
-
-	if((!m_bToggleShader) && (monitors.GetCount()>0))
+	if(m_fFullScreen)
 	{
-		if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+		m_Change_Monitor = (hm != hm_cur) ? true : false;
+		if((m_Change_Monitor) && (!m_bToggleShader))
+		{
+			if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+		}
 	}
 
 	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
@@ -7066,7 +7071,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	MoveVideoWindow();
 
-	if((!m_bToggleShader) && (monitors.GetCount()>0)) // Enabled shader ...
+	if((m_Change_Monitor) && (!m_bToggleShader)) // Enabled shader ...
 	{
 		SetShaders();
 	}
