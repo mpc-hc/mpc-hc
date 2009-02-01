@@ -29,14 +29,14 @@
 #define MEGABYTE 1024*1024
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, const CString &_FileName)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
 	, m_rtMin(0), m_rtMax(0)
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
-	, m_FileName(_FileName)
+	, m_ClipInfo(ClipInfo)
 
 {
 	if(SUCCEEDED(hr)) hr = Init();
@@ -154,20 +154,7 @@ HRESULT CMpegSplitterFile::Init()
 //#ifndef DEBUG
 	if(m_streams[video].GetCount())
 	{
-		ReadClipInfo();
-		if (!m_ClipInfo.IsEmpty())
-		{
-			POSITION Pos = m_ClipInfo.GetStartPosition();
-			while (Pos)
-			{
-				const CClipInfo *pInfo = &m_ClipInfo.GetNext(Pos)->m_value;
-				if (pInfo->m_Type == PRESENTATION_GRAPHICS_STREAM)
-				{
-					AddHdmvPGStream(pInfo->m_PID, pInfo->m_Language);
-				}
-			}
-		}
-		else if (m_streams[subpic].GetCount())
+		if (m_streams[subpic].GetCount())
 		{
 			stream s;
 			s.mt.majortype = MEDIATYPE_Video;
@@ -483,7 +470,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 
 				int iProgram;
-				const CMpegSplitterFile::CClipInfo *pClipInfo;
+				const CHdmvClipInfo::Stream *pClipInfo;
 				const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
 				if((type == unknown) && (pProgram != NULL))
 				{
@@ -504,7 +491,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 					case PRESENTATION_GRAPHICS_STREAM :
 						{
 							CMpegSplitterFile::hdmvsubhdr h;
-							if(!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_Language : NULL))
+							if(!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_LanguageCode : NULL))
 								type = subpic;
 						}
 						break;
@@ -674,7 +661,6 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 {
 	CAutoLock cAutoLock(&m_csProps);
 
-	bool bChanged = false;
 	if(h.pid == 0)
 	{
 		trsechdr h2;
@@ -691,7 +677,6 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD pid = (WORD)BitRead(13);
 				if(program_number != 0)
 				{
-					bChanged = true;
 					m_programs[pid].program_number = program_number;
 					newprograms[program_number] = true;
 				}
@@ -735,24 +720,10 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				while(ES_info_length-- > 0) BitRead(8);
 				pPair->m_value.streams[i].pid			= pid;
 				pPair->m_value.streams[i].type	= (ElementaryStreamTypes)stream_type;
-				bChanged = true;
 			}
 		}
 	}
-
-	if (bChanged)
-		ReadClipInfo();
 }
-
-
-typedef unsigned char uint8;
-typedef signed char int8;
-
-typedef unsigned short uint16;
-typedef short int16;
-
-typedef unsigned long uint32;
-typedef long int32;
 
 
 uint32 SwapLE(const uint32 &_Value)
@@ -765,148 +736,10 @@ uint16 SwapLE(const uint16 &_Value)
 	return (_Value & 0xFF) << 8 | ((_Value>>8) & 0xFF) << 0;
 }
 
-void CMpegSplitterFile::ReadClipInfo()
+const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo)
 {
-	if (m_LastClipInfoFile == m_FileName)
-		return;
+	_pClipInfo = m_ClipInfo.FindStream(pid);
 
-	m_ClipInfo.RemoveAll();
-	m_LastClipInfoFile = m_FileName;
-	LPCWSTR pFileName = m_FileName.GetString();
-	LPWSTR pFind = PathFindFileName(pFileName);
-	CString FileName;
-	if (pFind)
-		FileName = pFind;
-	PathRemoveExtension(FileName.GetBuffer());
-	FileName.ReleaseBuffer();
-	CString FullPathName;
-	LPWSTR pFilePart;
-	CString Path = m_FileName + L"..\\..\\..\\CLIPINF\\" + FileName + L".clpi";
-	GetFullPathNameW(Path, 2048, FullPathName.GetBufferSetLength(2048), &pFilePart);
-
-	try
-	{
-		CFile File;
-		if (!File.Open(FullPathName, CFile::modeRead | CFile::modeNoTruncate | CFile::shareDenyNone))
-			return;
-
-		CAtlArray<BYTE> FileData;
-		size_t Length = size_t(File.GetLength());
-		FileData.SetCount(Length);
-		File.Read(FileData.GetData(), Length);
-
-		BYTE *pOriginalData = FileData.GetData();
-		BYTE *pData = pOriginalData;
-
-		char TempType[9] = {0};
-		memcpy(TempType, pData, 8);
-		pData += 8;
-
-		if (strcmp(TempType, "HDMV0100") != 0 && strcmp(TempType, "HDMV0200") != 0)
-			return; // Not supported
-
-		pData += 4;
-		uint32 iClip = SwapLE(*((uint32 *)pData));
-		pData += 8;
-		uint32 ClipLength = SwapLE(*((uint32 *)(pOriginalData + iClip)));
-
-		BYTE *pClipData = pOriginalData + iClip + 4;
-
-		pClipData += 8;
-
-		int nStreams = *pClipData;
-		pClipData += 2;
-
-        for (int i = 0; i < nStreams; ++i)
-        {
-            uint16 PID = SwapLE(*((uint16 *)pClipData));
-			pClipData += 2;
-
-			uint8 StreamDataSize = *pClipData ;
-			pClipData += 1;
-			BYTE *pNextStream = pClipData + StreamDataSize;
-
-			int iStream = 0;
-			CClipInfo &ClipInfo = m_ClipInfo[PID];
-
-			uint8 StreamType = *pClipData;
-			pClipData += 1;
-
-			ClipInfo.m_PID = PID;
-			ClipInfo.m_Type = (ElementaryStreamTypes)StreamType;
-			 
-			switch (StreamType)
-			{
-				case VIDEO_STREAM_MPEG1:
-				case VIDEO_STREAM_MPEG2:
-				case VIDEO_STREAM_H264:
-				case VIDEO_STREAM_VC1:
-				{
-					uint8 Temp = *pClipData; 
-					++pClipData;
-					BDVM_VideoFormat VideoFormat = (BDVM_VideoFormat)(Temp >> 4);
-					BDVM_FrameRate FrameRate = (BDVM_FrameRate)(Temp & 0xf);
-					Temp = *pClipData; 
-					++pClipData;
-					BDVM_AspectRatio AspectRatio = (BDVM_AspectRatio)(Temp >> 4);
-
-					ClipInfo.m_VideoFormat = VideoFormat;
-					ClipInfo.m_FrameRate = FrameRate;
-					ClipInfo.m_AspectRatio = AspectRatio;
-				}
-				break;
-
-				case AUDIO_STREAM_MPEG1:
-				case AUDIO_STREAM_MPEG2:
-				case AUDIO_STREAM_LPCM:
-				case AUDIO_STREAM_AC3:
-				case AUDIO_STREAM_DTS:
-				case AUDIO_STREAM_AC3_TRUE_HD:
-				case AUDIO_STREAM_AC3_PLUS:
-				case AUDIO_STREAM_DTS_HD:
-				case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
-				case SECONDARY_AUDIO_AC3_PLUS:
-				case SECONDARY_AUDIO_DTS_HD:
-				{
-					uint8 Temp = *pClipData; 
-					++pClipData;
-					BDVM_ChannelLayout ChannelLayout = (BDVM_ChannelLayout)(Temp >> 4);
-					BDVM_SampleRate SampleRate = (BDVM_SampleRate)(Temp & 0xF);
-
-					memcpy(ClipInfo.m_Language, pClipData, 3);
-					ClipInfo.m_ChannelLayout = ChannelLayout;
-					ClipInfo.m_SampleRate = SampleRate;
-				}
-				break;
-
-				case PRESENTATION_GRAPHICS_STREAM:
-				case INTERACTIVE_GRAPHICS_STREAM:
-				{
-					memcpy(ClipInfo.m_Language, pClipData, 3);
-				}
-				break;
-
-				case SUBTITLE_STREAM:
-				{
-					memcpy(ClipInfo.m_Language, pClipData, 3);
-				}
-				break;
-			}
-			pClipData = pNextStream;
-		}
-	}
-	catch (CFileException)
-	{
-	}
-}
-
-const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &iStream, const CClipInfo * &_pClipInfo)
-{
-	CAtlMap<WORD, CClipInfo>::CPair* pPair = m_ClipInfo.Lookup(pid);
-	if (pPair)
-		_pClipInfo = &pPair->m_value;
-	else
-		_pClipInfo = NULL;
 	iStream = -1;
 	POSITION pos = m_programs.GetStartPosition();
 	while(pos)

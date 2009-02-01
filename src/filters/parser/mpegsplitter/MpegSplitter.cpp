@@ -134,7 +134,10 @@ STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
 		{
 			CString		strClipInfo;
-			strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			if (Drive[0])
+				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			else
+				strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
 			m_ClipInfo.ReadInfo (strClipInfo);
 		}
 	}
@@ -230,7 +233,8 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
 				p->rtStop = p->rtStart+1;
 				p->SetCount(h.bytes - (size_t)(m_pFile->GetPos() - pos));
-				m_pFile->ByteRead(p->GetData(), h.bytes - (m_pFile->GetPos() - pos));
+				int nBytes = int(h.bytes - (m_pFile->GetPos() - pos));
+				m_pFile->ByteRead(p->GetData(), nBytes);
 
 				hr = DeliverPacket(p);
 			}
@@ -277,7 +281,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_fn));
+	m_pFile.Attach(new CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -287,9 +291,9 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++)
 		{
 			CHdmvClipInfo::Stream*		stream = m_ClipInfo.GetStreamByIndex (i);
-			if (stream->stream_coding_type == 0x90)
+			if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM)
 			{
-				m_pFile->AddHdmvPGStream (stream->stream_PID, stream->language_code);
+				m_pFile->AddHdmvPGStream (stream->m_PID, stream->m_LanguageCode);
 			}
 		}
 	}
@@ -483,7 +487,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 
 				// Don't rename other pin for Hdmv!
 				int iProgram;
-				const CMpegSplitterFile::CClipInfo *pClipInfo;
+				const CHdmvClipInfo::Stream *pClipInfo;
 				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
 				if(p!=NULL && !m_ClipInfo.IsHdmv())
 				{
@@ -649,11 +653,11 @@ bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
 	if (mt.majortype == MEDIATYPE_Audio && _Other.mt.majortype == MEDIATYPE_Audio)
 	{
 		int iProgram0;
-		const CMpegSplitterFile::CClipInfo *pClipInfo0;
+		const CHdmvClipInfo::Stream *pClipInfo0;
 		const CMpegSplitterFile::program * pProgram0 = m_pFile->FindProgram(pid, iProgram0, pClipInfo0);
 		int StreamType0 = pClipInfo0 ? pClipInfo0->m_Type : pProgram0 ? pProgram0->streams[iProgram0].type : 0;
 		int iProgram1;
-		const CMpegSplitterFile::CClipInfo *pClipInfo1;
+		const CHdmvClipInfo::Stream *pClipInfo1;
 		const CMpegSplitterFile::program * pProgram1 = m_pFile->FindProgram(_Other.pid, iProgram1, pClipInfo1);
 		int StreamType1 = pClipInfo1 ? pClipInfo1->m_Type : pProgram1 ? pProgram1->streams[iProgram1].type : 0;
 		
@@ -700,7 +704,7 @@ const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
 	return NULL;
 }
 
-CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile::CClipInfo *pClipInfo, int _PresentationType)
+CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Stream *pClipInfo, int _PresentationType)
 {
 	const WCHAR *pPresentationDesc = NULL;
 	if (pClipInfo)
@@ -715,7 +719,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 
 		if (pClipInfo)
 		{
-			CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+			CString name = ISO6392ToLanguage(pClipInfo->m_LanguageCode);
 			if (!name.IsEmpty())
 				Infos.AddTail(name);
 		}
@@ -845,7 +849,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 			if (pVideoInfo2->bmiHeader.biWidth && pVideoInfo2->bmiHeader.biHeight)
 				Infos.AddTail(FormatString(L"%dx%d", pVideoInfo2->bmiHeader.biWidth, pVideoInfo2->bmiHeader.biHeight));
 			if (pVideoInfo2->AvgTimePerFrame)
-				Infos.AddTail(FormatString(L"%.2f fps", 10000000.0/double(pVideoInfo2->AvgTimePerFrame)));
+				Infos.AddTail(FormatString(L"%.3f fps", 10000000.0/double(pVideoInfo2->AvgTimePerFrame)));
 			if (pVideoInfo2->dwBitRate)
 				Infos.AddTail(FormatBitrate(pVideoInfo2->dwBitRate));
 		}
@@ -854,7 +858,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 			if (pVideoInfo->bmiHeader.biWidth && pVideoInfo->bmiHeader.biHeight)
 				Infos.AddTail(FormatString(L"%dx%d", pVideoInfo->bmiHeader.biWidth, pVideoInfo->bmiHeader.biHeight));
 			if (pVideoInfo->AvgTimePerFrame)
-				Infos.AddTail(FormatString(L"%.2f fps", 10000000.0/double(pVideoInfo->AvgTimePerFrame)));
+				Infos.AddTail(FormatString(L"%.3f fps", 10000000.0/double(pVideoInfo->AvgTimePerFrame)));
 			if (pVideoInfo->dwBitRate)
 				Infos.AddTail(FormatBitrate(pVideoInfo->dwBitRate));
 		}
@@ -865,7 +869,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 		MajorType = "Audio";
 		if (pClipInfo)
 		{
-			CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+			CString name = ISO6392ToLanguage(pClipInfo->m_LanguageCode);
 			if (!name.IsEmpty())
 				Infos.AddTail(name);
 		}
@@ -945,7 +949,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 				}
 			}
 			else if (pInfo->nSamplesPerSec)
-				Infos.AddTail(FormatString(L"%d kHz", pInfo->nSamplesPerSec));
+				Infos.AddTail(FormatString(L"%.1f kHz", double(pInfo->nSamplesPerSec)/1000.0));
 			if (pInfo->nChannels)
 				Infos.AddTail(FormatString(L"%d chn", pInfo->nChannels));
 			if (pInfo->wBitsPerSample)
@@ -958,14 +962,17 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 	else if (_pMediaType->majortype == MEDIATYPE_Subtitle)
 	{
 		MajorType = "Subtitle";
-		if (_pMediaType->subtype == MEDIASUBTYPE_HDMVSUB)
+/*		if (_pMediaType->subtype == MEDIASUBTYPE_HDMVSUB)
 		{
-			Infos.AddTail(L"HDMV Subtitle");
+			Infos.AddTail(L"HDMV");
 		}
 		else if (_pMediaType->subtype == MEDIASUBTYPE_PS2_SUB)
 		{
-			Infos.AddTail(L"PS2 Subtitle");
-		}
+			Infos.AddTail(L"PS2");
+		}*/
+		if (pPresentationDesc)
+			Infos.AddTail(pPresentationDesc);
+
 		if (_pMediaType->cbFormat == sizeof(SUBTITLEINFO))
 		{
 			const SUBTITLEINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
@@ -979,7 +986,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CMpegSplitterFile:
 		{
 			if (pClipInfo)
 			{
-				CString name = ISO6392ToLanguage(pClipInfo->m_Language);
+				CString name = ISO6392ToLanguage(pClipInfo->m_LanguageCode);
 				if (!name.IsEmpty())
 					Infos.AddHead(name);
 			}
@@ -1030,7 +1037,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 			if(ppmt) *ppmt = CreateMediaType(&s.mt);
 			if(pdwFlags) *pdwFlags = GetOutputPin(s) ? (AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE) : 0;
-			if(plcid) *plcid = pStream ? pStream->lcid : 0;
+			if(plcid) *plcid = pStream ? pStream->m_LCID : 0;
 			if(pdwGroup) *pdwGroup = i;
 			if(ppObject) *ppObject = NULL;
 			if(ppUnk) *ppUnk = NULL;
@@ -1042,14 +1049,21 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 				CStringW str;
 
-				if (pStream)
+/*				if (pStream)
 				{
 					CString lang;
-					int len = GetLocaleInfo(pStream->lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-					lang.ReleaseBufferSetLength(max(len-1, 0));
-					str.Format (L"%s (%s - %s)", name, lang, pStream->Format());
+					if (pStream->m_LCID == 0)
+					{
+					}
+					else
+					{
+						int len = GetLocaleInfo(pStream->m_LCID, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+						lang.ReleaseBufferSetLength(max(len-1, 0));
+						str.Format (L"%s (%s - %s)", name, lang, pStream->Format());
+					}
 				}
-				else if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID)
+				else */
+				if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID)
 				{
 					str		= _T("No subtitles");
 					*plcid	= LCID_NOSUBTITLES;
@@ -1057,7 +1071,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 				else
 				{
 					int iProgram;
-					const CMpegSplitterFile::CClipInfo *pClipInfo;
+					const CHdmvClipInfo::Stream *pClipInfo;
 					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 					const wchar_t *pStreamName = NULL;
 					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
@@ -1151,8 +1165,12 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		m_rtPrev = p->rtStart;
 	}
 
-	if (p->pmt && p->pmt->subtype != m_mt.subtype)
-		SetMediaType ((CMediaType*)p->pmt);
+	
+	if (p->pmt)
+	{
+		if (*((CMediaType *)p->pmt) != m_mt)
+			SetMediaType ((CMediaType*)p->pmt);
+	}
 
 
 	if(m_mt.subtype == MEDIASUBTYPE_AAC) // special code for aac, the currently available decoders only like whole frame samples
@@ -1417,12 +1435,14 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	}
 	else if (m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS) // DTS HD MA data is causing trouble, lets just remove it
 	{
+#if 1
 		BYTE* start = p->GetData();
 		BYTE* end = start + p->GetCount();
 		if (end - start < 4)
 			return S_OK;  // Should be invalid packet
 
 		BYTE* hdr = start;
+
 
 		int Type;
 		  // 16 bits big endian bitstream
@@ -1449,7 +1469,11 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 		  // no sync
 		  else
+		  {
 			  return S_OK;
+		  }
+
+#endif
 
 	}
 	else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)

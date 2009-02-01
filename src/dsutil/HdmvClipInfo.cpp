@@ -27,7 +27,6 @@ extern LCID    ISO6392ToLcid(LPCSTR code);
 
 CHdmvClipInfo::CHdmvClipInfo(void)
 {
-	m_nStreamNumber	= 0;
 	m_hFile			= INVALID_HANDLE_VALUE;
 	m_bIsHdmv		= false;
 }
@@ -43,7 +42,7 @@ SHORT CHdmvClipInfo::ReadShort()
 	return ReadByte()<<8 | ReadByte();
 }
 
-SHORT CHdmvClipInfo::ReadByte()
+BYTE CHdmvClipInfo::ReadByte()
 {
 	BYTE	bVal;
 	DWORD	dwRead;
@@ -64,13 +63,13 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 	BYTE		number_of_streams_in_ps;
 	DWORD		dwPos;
 
-	m_nStreamNumber = 0;
-	memset (&m_Stream, 0, sizeof(m_Stream));
+	m_Streams.RemoveAll();
 	SetFilePointer (m_hFile, ProgramInfo_start_address, NULL, FILE_BEGIN);
 
 	ReadDword();	//length
 	ReadByte();		//reserved_for_word_align
 	number_of_program_sequences		= (BYTE)ReadByte();
+	int iStream = 0;
 	for (int i=0; i<number_of_program_sequences; i++)
 	{     
 		ReadDword();	//SPN_program_sequence_start
@@ -80,47 +79,73 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 	
 		for (int stream_index=0; stream_index<number_of_streams_in_ps; stream_index++)
 		{ 
-			m_Stream[m_nStreamNumber].stream_PID			= ReadShort();	// stream_PID
+			m_Streams.SetCount(iStream + 1);
+			m_Streams[iStream].m_PID			= ReadShort();	// stream_PID
 			
 			// == StreamCodingInfo
 			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + 1;
 			dwPos += ReadByte();	// length
-			m_Stream[m_nStreamNumber].stream_coding_type	= (BYTE)ReadByte();
+			m_Streams[iStream].m_Type	= (ElementaryStreamTypes)ReadByte();
 			
-			switch (m_Stream[m_nStreamNumber].stream_coding_type)
+			switch (m_Streams[iStream].m_Type)
 			{
-			case 0x02 :	// Video streams
-			case 0x1B :
-			case 0xEA :
+			case VIDEO_STREAM_MPEG1:
+			case VIDEO_STREAM_MPEG2:
+			case VIDEO_STREAM_H264:
+			case VIDEO_STREAM_VC1:
+				{
+					uint8 Temp = ReadByte(); 
+					BDVM_VideoFormat VideoFormat = (BDVM_VideoFormat)(Temp >> 4);
+					BDVM_FrameRate FrameRate = (BDVM_FrameRate)(Temp & 0xf);
+					Temp = ReadByte(); 
+					BDVM_AspectRatio AspectRatio = (BDVM_AspectRatio)(Temp >> 4);
+
+					m_Streams[iStream].m_VideoFormat = VideoFormat;
+					m_Streams[iStream].m_FrameRate = FrameRate;
+					m_Streams[iStream].m_AspectRatio = AspectRatio;
+				}
 				break;
-			case 0x80 :	// Audio streams
-			case 0x81 :
-			case 0x82 :
-			case 0x83 :
-			case 0x84 :
-			case 0x85 :
-			case 0x86 :
-			case 0xA1 :
-			case 0xA2 :
-				ReadByte();
-				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
-				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
+			case AUDIO_STREAM_MPEG1:
+			case AUDIO_STREAM_MPEG2:
+			case AUDIO_STREAM_LPCM:
+			case AUDIO_STREAM_AC3:
+			case AUDIO_STREAM_DTS:
+			case AUDIO_STREAM_AC3_TRUE_HD:
+			case AUDIO_STREAM_AC3_PLUS:
+			case AUDIO_STREAM_DTS_HD:
+			case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
+			case SECONDARY_AUDIO_AC3_PLUS:
+			case SECONDARY_AUDIO_DTS_HD:
+				{
+					uint8 Temp = ReadByte(); 
+					BDVM_ChannelLayout ChannelLayout = (BDVM_ChannelLayout)(Temp >> 4);
+					BDVM_SampleRate SampleRate = (BDVM_SampleRate)(Temp & 0xF);
+
+					ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+					m_Streams[iStream].m_LCID = ISO6392ToLcid (m_Streams[iStream].m_LanguageCode);
+					m_Streams[iStream].m_ChannelLayout = ChannelLayout;
+					m_Streams[iStream].m_SampleRate = SampleRate;
+				}
 				break;
-			case 0x90 :	// Presentation Graphics stream 
-			case 0x91 :	// Interactive Graphics stream
-				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
-				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
+			case PRESENTATION_GRAPHICS_STREAM:
+			case INTERACTIVE_GRAPHICS_STREAM:
+				{
+					ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+					m_Streams[iStream].m_LCID = ISO6392ToLcid (m_Streams[iStream].m_LanguageCode);
+				}
 				break;
-			case 0x92 :	// Text subtitle stream 
-				ReadByte();
-				ReadBuffer((BYTE*)m_Stream[m_nStreamNumber].language_code, 3);
-				m_Stream[m_nStreamNumber].lcid = ISO6392ToLcid (m_Stream[m_nStreamNumber].language_code);
+			case SUBTITLE_STREAM:
+				{
+					ReadByte(); // Should this really be here?
+					ReadBuffer((BYTE*)m_Streams[iStream].m_LanguageCode, 3);
+					m_Streams[iStream].m_LCID = ISO6392ToLcid (m_Streams[iStream].m_LanguageCode);
+				}
 				break;
 			default :
 				break;
 			}
 
-			m_nStreamNumber++;
+			iStream++;
 			SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
 		}   
 	}  
@@ -160,10 +185,11 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 
 CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(SHORT wPID)
 {
-	for (int i=0; i<m_nStreamNumber; i++)
+	int nStreams = int(m_Streams.GetCount());
+	for (int i=0; i<nStreams; i++)
 	{
-		if (m_Stream[i].stream_PID == wPID)
-			return &m_Stream[i];
+		if (m_Streams[i].m_PID == wPID)
+			return &m_Streams[i];
 	}
 
 	return NULL;
@@ -171,37 +197,43 @@ CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(SHORT wPID)
 
 LPCTSTR CHdmvClipInfo::Stream::Format()
 {
-	switch (stream_coding_type)
+	switch (m_Type)
 	{
-	case 0x02 :
+	case VIDEO_STREAM_MPEG1:
+		return _T("Mpeg1");
+	case VIDEO_STREAM_MPEG2:
 		return _T("Mpeg2");
-	case 0x1B :
+	case VIDEO_STREAM_H264:
 		return _T("H264");
-	case 0xEA :
+	case VIDEO_STREAM_VC1:
 		return _T("VC1");
-	case 0x80 :
+	case AUDIO_STREAM_MPEG1:
+		return _T("MPEG1");
+	case AUDIO_STREAM_MPEG2:
+		return _T("MPEG2");
+	case AUDIO_STREAM_LPCM:
 		return _T("LPCM");
-	case 0x81 :
+	case AUDIO_STREAM_AC3:
 		return _T("AC3");
-	case 0x82 :
+	case AUDIO_STREAM_DTS:
 		return _T("DTS");
-	case 0x83 :
+	case AUDIO_STREAM_AC3_TRUE_HD:
 		return _T("MLP");
-	case 0x84 :
+	case AUDIO_STREAM_AC3_PLUS:
 		return _T("DD+");
-	case 0x85 :
+	case AUDIO_STREAM_DTS_HD:
 		return _T("DTS-HD");
-	case 0x86 :
+	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO:
 		return _T("DTS-HD XLL");
-	case 0xA1 :
-		return _T("DD+");
-	case 0xA2 :
-		return _T("DTS-HD");
-	case 0x90 :
+	case SECONDARY_AUDIO_AC3_PLUS:
+		return _T("Sec DD+");
+	case SECONDARY_AUDIO_DTS_HD:
+		return _T("Sec DTS-HD");
+	case PRESENTATION_GRAPHICS_STREAM :
 		return _T("PG");
-	case 0x91 :
+	case INTERACTIVE_GRAPHICS_STREAM :
 		return _T("IG");
-	case 0x92 :
+	case SUBTITLE_STREAM :
 		return _T("Text");
 	default :
 		return _T("Unknown");
