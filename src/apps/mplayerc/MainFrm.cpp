@@ -7043,6 +7043,13 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
 		}
 	}
+	else
+	{
+		if((m_Change_Monitor) && (!m_bToggleShader))
+		{
+			if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+		}
+	}
 
 	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
 
