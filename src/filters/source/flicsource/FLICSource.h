@@ -128,6 +128,7 @@ private:
 	int m_nLastFrameNum;
 	DWORD m_pPalette[256];
 	CAutoVectorPtr<BYTE> m_pFrameBuffer;
+	int					 m_nBufferSize;
 
 	void SeekToNearestKeyFrame(int nFrame);
 	void ExtractFrame(int nFrame);

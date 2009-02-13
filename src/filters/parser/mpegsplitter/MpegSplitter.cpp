@@ -690,8 +690,8 @@ const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
 	case AUDIO_STREAM_LPCM: return L"LPCM";
 	case AUDIO_STREAM_AC3: return L"Dolby Digital";
 	case AUDIO_STREAM_DTS: return L"DTS";
-	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby Digital True HD";
-	case AUDIO_STREAM_AC3_PLUS: return L"Dobly Digital+";
+	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby TrueHD";
+	case AUDIO_STREAM_AC3_PLUS: return L"Dolby Digital+";
 	case AUDIO_STREAM_DTS_HD: return L"DTS HD";
 	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS HD Master";
 	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";

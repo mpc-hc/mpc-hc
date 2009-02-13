@@ -241,7 +241,8 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 
 	m_nLastFrameNum = -1;
 	memset(m_pPalette, 0, sizeof(m_pPalette));
-	if(!m_pFrameBuffer.Allocate(m_hdr.x*m_hdr.y*32>>3))
+	m_nBufferSize = m_hdr.x*m_hdr.y*32>>3;
+	if(!m_pFrameBuffer.Allocate(m_nBufferSize))
 	{
 		if(phr) *phr = E_OUTOFMEMORY;
 		return;
@@ -356,7 +357,7 @@ HRESULT CFLICStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
     HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = 1;
-	pProperties->cbBuffer = m_hdr.x*m_hdr.y*32>>3;
+	pProperties->cbBuffer = m_nBufferSize;
 
     ALLOCATOR_PROPERTIES Actual;
     if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
@@ -475,7 +476,7 @@ HRESULT CFLICStream::GetMediaType(int iPosition, CMediaType* pmt)
 	vih->bmiHeader.biPlanes = 1;
 	vih->bmiHeader.biBitCount = 32;
 	vih->bmiHeader.biCompression = BI_RGB;
-	vih->bmiHeader.biSizeImage = m_hdr.x*m_hdr.y*32>>3;
+	vih->bmiHeader.biSizeImage = m_nBufferSize;
 
 	pmt->SetSampleSize(vih->bmiHeader.biSizeImage);
 
@@ -564,12 +565,12 @@ void CFLICStream::ExtractFrame(int nFrame)
 
 void CFLICStream::_blackchunk()
 {
-	memset(m_pFrameBuffer, 0, m_hdr.x*m_hdr.y*32>>3);
+	memset(m_pFrameBuffer, 0, m_nBufferSize);
 }
 
 void CFLICStream::_copychunk()
 {
-	m_flic.Read(m_pFrameBuffer, m_hdr.x*m_hdr.y*32>>3);
+	m_flic.Read(m_pFrameBuffer, m_nBufferSize);
 }
 
 bool CFLICStream::_colorchunk(bool f64)
@@ -730,7 +731,7 @@ void CFLICStream::_deltachunk()
 				if(count >= 0)
 				{
 					// Fix vulnerability : http://www.team509.com/modules.php?name=News&file=article&sid=38
-					if ( m_hdr.x*m_hdr.y*32>>3 - (long)(m_pFrameBuffer - ptr) < (count << 1))
+					if ((count << 1) + (long)(ptr - m_pFrameBuffer) < m_nBufferSize)
 						m_flic.Read(ptr, count << 1);
 					else
 						ASSERT(FALSE);

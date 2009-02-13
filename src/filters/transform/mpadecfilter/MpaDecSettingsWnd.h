@@ -80,7 +80,7 @@ public:
 	LPCTSTR GetDolbyMode (DolbyDigitalMode ddmode);
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(320, 240);}
+	static CSize GetWindowSize() {return CSize(320, 320);}
 
 	DECLARE_MESSAGE_MAP()
 };
