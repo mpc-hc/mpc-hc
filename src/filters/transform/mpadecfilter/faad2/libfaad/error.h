@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: error.h,v 1.25 2007/10/11 18:41:50 menno Exp $
+** $Id: error.h,v 1.27 2008/09/19 23:31:40 menno Exp $
 **/
 
 #ifndef __ERROR_H__
@@ -37,7 +35,7 @@
 extern "C" {
 #endif
 
-#define NUM_ERROR_MESSAGES 33
+#define NUM_ERROR_MESSAGES 34
 extern char *err_msg[];
 
 #ifdef __cplusplus

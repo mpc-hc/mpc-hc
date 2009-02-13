@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: sbr_dec.c,v 1.42 2007/10/11 18:41:51 menno Exp $
+** $Id: sbr_dec.c,v 1.44 2009/01/26 22:32:31 menno Exp $
 **/
 
 
@@ -639,7 +637,7 @@ uint8_t sbrDecodeSingleFramePS(sbr_info *sbr, real_t *left_channel, real_t *righ
     sbr->ret += sbr_process_channel(sbr, left_channel, X_left, 0, dont_process, downSampledSBR);
 
     /* copy some extra data for PS */
-    for (l = 32; l < 38; l++)
+    for (l = sbr->numTimeSlotsRate; l < sbr->numTimeSlotsRate + 6; l++)
     {
         for (k = 0; k < 5; k++)
         {

@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: specrec.h,v 1.31 2007/10/11 18:41:52 menno Exp $
+** $Id: specrec.h,v 1.33 2009/01/26 23:51:15 menno Exp $
 **/
 
 #ifndef __SPECREC_H__
@@ -39,10 +37,10 @@ extern "C" {
 
 #include "syntax.h"
 
-uint8_t window_grouping_info(NeAACDecHandle hDecoder, ic_stream *ics);
-uint8_t reconstruct_channel_pair(NeAACDecHandle hDecoder, ic_stream *ics1, ic_stream *ics2,
+uint8_t window_grouping_info(NeAACDecStruct *hDecoder, ic_stream *ics);
+uint8_t reconstruct_channel_pair(NeAACDecStruct *hDecoder, ic_stream *ics1, ic_stream *ics2,
                                  element *cpe, int16_t *spec_data1, int16_t *spec_data2);
-uint8_t reconstruct_single_channel(NeAACDecHandle hDecoder, ic_stream *ics, element *sce,
+uint8_t reconstruct_single_channel(NeAACDecStruct *hDecoder, ic_stream *ics, element *sce,
                                 int16_t *spec_data);
 
 #ifdef __cplusplus

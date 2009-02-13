@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: sbr_e_nf.c,v 1.20 2007/10/11 18:41:51 menno Exp $
+** $Id: sbr_e_nf.c,v 1.22 2008/03/23 23:03:29 menno Exp $
 **/
 
 #include "common.h"
@@ -236,7 +234,7 @@ static const real_t Q_div_tab_right[31][13] = {
 
 /* calculates 1/(1+Q) */
 /* [0..1] */
-real_t calc_Q_div(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
+static real_t calc_Q_div(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
 {
     if (sbr->bs_coupling)
     {
@@ -355,7 +353,7 @@ static const real_t Q_div2_tab_right[31][13] = {
 
 /* calculates Q/(1+Q) */
 /* [0..1] */
-real_t calc_Q_div2(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
+static real_t calc_Q_div2(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
 {
     if (sbr->bs_coupling)
     {

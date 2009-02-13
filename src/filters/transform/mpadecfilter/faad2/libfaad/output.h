@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: output.h,v 1.24 2007/10/11 18:41:51 menno Exp $
+** $Id: output.h,v 1.26 2009/01/26 23:51:15 menno Exp $
 **/
 
 #ifndef __OUTPUT_H__
@@ -37,7 +35,7 @@
 extern "C" {
 #endif
 
-void* output_to_PCM(NeAACDecHandle hDecoder,
+void* output_to_PCM(NeAACDecStruct *hDecoder,
                     real_t **input,
                     void *samplebuffer,
                     uint8_t channels,

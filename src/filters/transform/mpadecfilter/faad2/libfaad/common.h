@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: common.h,v 1.71 2007/10/11 18:41:50 menno Exp $
+** $Id: common.h,v 1.77 2009/02/05 00:51:03 menno Exp $
 **/
 
 #ifndef __COMMON_H__
@@ -40,6 +38,8 @@ extern "C" {
 #ifdef HAVE_CONFIG_H
 #  include "../config.h"
 #endif
+
+#include "neaacdec.h"
 
 #if 1
 #define INLINE __inline
@@ -174,10 +174,10 @@ typedef unsigned __int64 uint64_t;
 typedef unsigned __int32 uint32_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int8 uint8_t;
-typedef __int64 int64_t;
-typedef __int32 int32_t;
-typedef __int16 int16_t;
-typedef __int8  int8_t;
+typedef signed __int64 int64_t;
+typedef signed __int32 int32_t;
+typedef signed __int16 int16_t;
+typedef signed __int8  int8_t;
 typedef float float32_t;
 
 
@@ -216,17 +216,17 @@ typedef float float32_t;
 /* we need these... */
 #ifndef __TCS__
 typedef unsigned long long uint64_t;
-typedef long long int64_t;
+typedef signed long long int64_t;
 #else
 typedef unsigned long uint64_t;
-typedef long int64_t;
+typedef signed long int64_t;
 #endif
 typedef unsigned long uint32_t;
 typedef unsigned short uint16_t;
 typedef unsigned char uint8_t;
-typedef long int32_t;
-typedef short int16_t;
-typedef char int8_t;
+typedef signed long int32_t;
+typedef signed short int16_t;
+typedef signed char int8_t;
 # endif
 #endif
 #if HAVE_UNISTD_H
@@ -407,8 +407,6 @@ typedef real_t complex_t[2];
 /* common functions */
 uint8_t cpu_has_sse(void);
 uint32_t ne_rng(uint32_t *__r1, uint32_t *__r2);
-uint32_t ones32(uint32_t x);
-uint32_t floor_log2(uint32_t x);
 uint32_t wl_min_lzc(uint32_t x);
 #ifdef FIXED_POINT
 #define LOG2_MIN_INF REAL_CONST(-10000)

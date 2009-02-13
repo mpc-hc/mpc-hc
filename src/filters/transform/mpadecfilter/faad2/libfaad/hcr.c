@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: hcr.c,v 1.23 2007/10/11 18:41:50 menno Exp $
+** $Id: hcr.c,v 1.26 2009/01/26 23:51:15 menno Exp $
 **/
 
 #include "common.h"
@@ -175,7 +173,7 @@ static void concat_bits(bits_t *b, bits_t *a)
     b->len += a->len;
 }
      
-uint8_t is_good_cb(uint8_t this_CB, uint8_t this_sec_CB)
+static uint8_t is_good_cb(uint8_t this_CB, uint8_t this_sec_CB)
 {
     /* only want spectral data CB's */
     if ((this_sec_CB > ZERO_HCB && this_sec_CB <= ESC_HCB) || (this_sec_CB >= VCB11_FIRST && this_sec_CB <= VCB11_LAST))
@@ -193,7 +191,7 @@ uint8_t is_good_cb(uint8_t this_CB, uint8_t this_sec_CB)
     return 0;
 }
                     
-void read_segment(bits_t *segment, uint8_t segwidth, bitfile *ld)
+static void read_segment(bits_t *segment, uint8_t segwidth, bitfile *ld)
 {
     segment->len = segwidth;
 
@@ -208,7 +206,7 @@ void read_segment(bits_t *segment, uint8_t segwidth, bitfile *ld)
     }    
 }
 
-void fill_in_codeword(codeword_t *codeword, uint16_t index, uint16_t sp, uint8_t cb)
+static void fill_in_codeword(codeword_t *codeword, uint16_t index, uint16_t sp, uint8_t cb)
 {
     codeword[index].sp_offset = sp;
     codeword[index].cb = cb;
@@ -216,7 +214,7 @@ void fill_in_codeword(codeword_t *codeword, uint16_t index, uint16_t sp, uint8_t
     codeword[index].bits.len = 0;
 }
 
-uint8_t reordered_spectral_data(NeAACDecHandle hDecoder, ic_stream *ics, 
+uint8_t reordered_spectral_data(NeAACDecStruct *hDecoder, ic_stream *ics, 
                                 bitfile *ld, int16_t *spectral_data)
 {   
     uint16_t PCWs_done;

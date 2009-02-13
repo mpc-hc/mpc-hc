@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: filtbank.c,v 1.44 2007/10/11 18:41:50 menno Exp $
+** $Id: filtbank.c,v 1.46 2009/01/26 23:51:15 menno Exp $
 **/
 
 #include "common.h"
@@ -42,7 +40,6 @@
 #endif
 
 #include "filtbank.h"
-#include "decoder.h"
 #include "syntax.h"
 #include "kbd_win.h"
 #include "sine_win.h"

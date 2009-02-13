@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: sbr_syntax.c,v 1.37 2007/10/11 18:41:52 menno Exp $
+** $Id: sbr_syntax.c,v 1.39 2009/01/26 22:32:31 menno Exp $
 **/
 
 #include "common.h"
@@ -859,7 +857,7 @@ static uint16_t sbr_extension(bitfile *ld, sbr_info *sbr,
     case EXTENSION_ID_PS:
         if (!sbr->ps)
         {
-            sbr->ps = ps_init(get_sr_index(sbr->sample_rate));
+            sbr->ps = ps_init(get_sr_index(sbr->sample_rate), sbr->numTimeSlotsRate);
         }
         if (sbr->psResetFlag)
         {

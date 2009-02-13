@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: mp4.h,v 1.24 2007/10/11 18:41:51 menno Exp $
+** $Id: mp4.h,v 1.28 2009/02/05 00:51:03 menno Exp $
 **/
 
 #ifndef __MP4_H__
@@ -37,16 +35,16 @@
 extern "C" {
 #endif
 
-#include "decoder.h"
-
-int8_t NEAACDECAPI NeAACDecAudioSpecificConfig(uint8_t *pBuffer,
-                                               uint32_t buffer_size,
-                                               mp4AudioSpecificConfig *mp4ASC);
+#include "neaacdec.h"
 
 int8_t AudioSpecificConfig2(uint8_t *pBuffer,
                             uint32_t buffer_size,
                             mp4AudioSpecificConfig *mp4ASC,
-                            program_config *pce);
+                            program_config *pce, uint8_t short_form);
+ 
+int8_t AudioSpecificConfigFromBitfile(bitfile *ld,
+                                      mp4AudioSpecificConfig *mp4ASC,
+                                      program_config *pce, uint32_t bsize, uint8_t short_form);
 
 #ifdef __cplusplus
 }

@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: common.c,v 1.25 2007/10/11 18:41:50 menno Exp $
+** $Id: common.c,v 1.27 2008/03/23 23:03:28 menno Exp $
 **/
 
 /* just some common functions that could be used anywhere */
@@ -246,7 +244,7 @@ uint32_t ne_rng(uint32_t *__r1, uint32_t *__r2)
     return (*__r1 = (t3 >> 1) | t1 ) ^ (*__r2 = (t4 + t4) | t2 );
 }
 
-uint32_t ones32(uint32_t x)
+static uint32_t ones32(uint32_t x)
 {
     x -= ((x >> 1) & 0x55555555);
     x = (((x >> 2) & 0x33333333) + (x & 0x33333333));
@@ -257,7 +255,7 @@ uint32_t ones32(uint32_t x)
     return (x & 0x0000003f);
 }
 
-uint32_t floor_log2(uint32_t x)
+static uint32_t floor_log2(uint32_t x)
 {
 #if 1
     x |= (x >> 1);

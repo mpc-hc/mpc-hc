@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: syntax.h,v 1.57 2007/10/11 18:41:52 menno Exp $
+** $Id: syntax.h,v 1.60 2009/01/26 23:51:17 menno Exp $
 **/
 
 #ifndef __SYNTAX_H__
@@ -37,7 +35,6 @@
 extern "C" {
 #endif
 
-#include "decoder.h"
 #include "bits.h"
 
 #define MAIN       1
@@ -54,6 +51,7 @@ extern "C" {
 #define RAW        0
 #define ADIF       1
 #define ADTS       2
+#define LATM       3
 
 /* SBR signalling */
 #define NO_SBR           0
@@ -115,14 +113,15 @@ int8_t GASpecificConfig(bitfile *ld, mp4AudioSpecificConfig *mp4ASC,
 
 uint8_t adts_frame(adts_header *adts, bitfile *ld);
 void get_adif_header(adif_header *adif, bitfile *ld);
-void raw_data_block(NeAACDecHandle hDecoder, NeAACDecFrameInfo *hInfo,
+void raw_data_block(NeAACDecStruct *hDecoder, NeAACDecFrameInfo *hInfo,
                     bitfile *ld, program_config *pce, drc_info *drc);
-uint8_t reordered_spectral_data(NeAACDecHandle hDecoder, ic_stream *ics, bitfile *ld,
+uint8_t reordered_spectral_data(NeAACDecStruct *hDecoder, ic_stream *ics, bitfile *ld,
                                 int16_t *spectral_data);
 #ifdef DRM
-void DRM_aac_scalable_main_element(NeAACDecHandle hDecoder, NeAACDecFrameInfo *hInfo,
+void DRM_aac_scalable_main_element(NeAACDecStruct *hDecoder, NeAACDecFrameInfo *hInfo,
                                    bitfile *ld, program_config *pce, drc_info *drc);
 #endif
+uint32_t faad_latm_frame(latm_header *latm, bitfile *ld);
 
 #ifdef __cplusplus
 }

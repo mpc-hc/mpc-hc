@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: structs.h,v 1.45 2007/10/11 18:41:52 menno Exp $
+** $Id: structs.h,v 1.49 2009/01/26 23:51:15 menno Exp $
 **/
 
 #ifndef __STRUCTS_H__
@@ -314,71 +312,28 @@ typedef struct
     ic_stream ics2;
 } element; /* syntax element (SCE, CPE, LFE) */
 
-typedef struct mp4AudioSpecificConfig
-{
-    /* Audio Specific Info */
-    /*uint8_t*/ unsigned char objectTypeIndex;
-    /*uint8_t*/ unsigned char samplingFrequencyIndex;
-    /*uint32_t*/ unsigned long samplingFrequency;
-    /*uint8_t*/ unsigned char channelsConfiguration;
-
-    /* GA Specific Info */
-    /*uint8_t*/ unsigned char frameLengthFlag;
-    /*uint8_t*/ unsigned char dependsOnCoreCoder;
-    /*uint16_t*/ unsigned short coreCoderDelay;
-    /*uint8_t*/ unsigned char extensionFlag;
-    /*uint8_t*/ unsigned char aacSectionDataResilienceFlag;
-    /*uint8_t*/ unsigned char aacScalefactorDataResilienceFlag;
-    /*uint8_t*/ unsigned char aacSpectralDataResilienceFlag;
-    /*uint8_t*/ unsigned char epConfig;
-
-    /*uint8_t*/ char sbr_present_flag;
-    /*uint8_t*/ char forceUpSampling;
-    /*uint8_t*/ char downSampledSBR;
-} mp4AudioSpecificConfig;
-
-typedef struct NeAACDecConfiguration
-{
-    /*uint8_t*/ unsigned char defObjectType;
-    /*uint32_t*/ unsigned long defSampleRate;
-    /*uint8_t*/ unsigned char outputFormat;
-    /*uint8_t*/ unsigned char downMatrix;
-    /*uint8_t*/ unsigned char useOldADTSFormat;
-    /*uint8_t*/ unsigned char dontUpSampleImplicitSBR;
-} NeAACDecConfiguration, *NeAACDecConfigurationPtr;
-
-typedef struct NeAACDecFrameInfo
-{
-    /*uint32_t*/ unsigned long bytesconsumed;
-    /*uint32_t*/ unsigned long samples;
-    /*uint8_t*/ unsigned char channels;
-    /*uint8_t*/ unsigned char error;
-    /*uint32_t*/ unsigned long samplerate;
-
-    /* SBR: 0: off, 1: on; normal, 2: on; downsampled */
-    /*uint8_t*/ unsigned char sbr;
-
-    /* MPEG-4 ObjectType */
-    /*uint8_t*/ unsigned char object_type;
-
-    /* AAC header type; MP4 will be signalled as RAW also */
-    /*uint8_t*/ unsigned char header_type;
-
-    /* multichannel configuration */
-    /*uint8_t*/ unsigned char num_front_channels;
-    /*uint8_t*/ unsigned char num_side_channels;
-    /*uint8_t*/ unsigned char num_back_channels;
-    /*uint8_t*/ unsigned char num_lfe_channels;
-    /*uint8_t*/ unsigned char channel_position[MAX_CHANNELS];
-
-    /* PS: 0: off, 1: on */
-    /*uint8_t*/ unsigned char ps;
-} NeAACDecFrameInfo;
+#define MAX_ASC_BYTES 64
+typedef struct {
+    int inited;
+    int version, versionA;
+    int framelen_type;
+    int useSameStreamMux;
+    int allStreamsSameTimeFraming;
+    int numSubFrames;
+    int numPrograms;
+    int numLayers;
+    int otherDataPresent;
+    uint32_t otherDataLenBits;
+    uint32_t frameLength;
+    uint8_t ASC[MAX_ASC_BYTES];
+    uint32_t ASCbits;
+} latm_header;
 
 typedef struct
 {
     uint8_t adts_header_present;
     uint8_t adif_header_present;
+    uint8_t latm_header_present;
     uint8_t sf_index;
     uint8_t object_type;
     uint8_t channelConfiguration;
@@ -478,8 +433,9 @@ typedef struct
     int64_t scalefac_cycles;
     int64_t requant_cycles;
 #endif
+	latm_header latm_config;
 	const unsigned char *cmes;
-} NeAACDecStruct, *NeAACDecHandle;
+} NeAACDecStruct;
 
 
 
