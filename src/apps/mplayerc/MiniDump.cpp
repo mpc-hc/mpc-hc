@@ -21,25 +21,15 @@
  */
 
 #include "StdAfx.h"
+#include "MiniDump.h"
 #include "resource.h"
 #include "DbgHelp.h"
 
 #include "Version.h"
-#include "UserConfig.h"
 
-class CMiniDump
-{
-public:
-	CMiniDump();
 
-private :
-	static LONG WINAPI		UnhandledExceptionFilter(_EXCEPTION_POINTERS *lpTopLevelExceptionFilter);
-	static BOOL				PreventSetUnhandledExceptionFilter();
-};
-
-#ifdef ENABLE_MINIDUMP
 CMiniDump	_Singleton;
-#endif
+bool		CMiniDump::m_bEnableMiniDump	= false;
 
 
 typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
@@ -97,6 +87,8 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter(_EXCEPTION_POINTERS *lpTopLevelE
 	HMODULE		hDll		= NULL;
 	TCHAR		szResult[800];
 	TCHAR		szDbgHelpPath[_MAX_PATH];
+
+	if (!m_bEnableMiniDump) return 0;
 
 	// firstly see if dbghelp.dll is around and has the function we need
 	// look next to the EXE first, as the one in System32 might be old 

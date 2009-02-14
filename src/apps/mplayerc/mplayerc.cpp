@@ -33,6 +33,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "Ifo.h"
+#include "MiniDump.h"
 
 /////////
 
@@ -2372,6 +2373,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 				}
 			}
 			else if(sw == _T("monitor") && pos) {iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10); nCLSwitches |= CLSW_MONITOR;}
+			else if(sw == _T("minidump")) { CMiniDump::Enable(); }
 			else nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 		}
 		else

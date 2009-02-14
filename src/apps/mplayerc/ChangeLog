@@ -14,6 +14,7 @@ v1.x.x.x - unreleased
  CHANGED: LibVorbis updated to v1.2.0
  CHANGED: Improved streaming performances
  CHANGED: Prevent display or computer to sleep during playback
+ CHANGED: Faad library updated to rev 2.2.7
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
