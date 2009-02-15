@@ -528,7 +528,7 @@ BOOL CPPageFormats::OnInitDialog()
 	CreateToolTip();
 
 
-	if (AfxGetMyApp()->IsVista() && !IsUserAnAdmin())
+	if (AfxGetMyApp()->IsVistaOrAbove() && !IsUserAnAdmin())
 	{
 		GetDlgItem(IDC_BUTTON1)->ShowWindow (SW_HIDE);
 		GetDlgItem(IDC_BUTTON3)->ShowWindow (SW_HIDE);

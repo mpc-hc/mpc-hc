@@ -245,7 +245,7 @@ BOOL CPPageOutput::OnInitDialog()
 	}
 
 	// YUV mixing is not compatible with Vista
-	if (AfxGetMyApp()->IsVista())
+	if (AfxGetMyApp()->IsVistaOrAbove())
 	{
 		GetDlgItem(IDC_DSVMR9YUVMIXER)->ShowWindow (SW_HIDE);
 	}

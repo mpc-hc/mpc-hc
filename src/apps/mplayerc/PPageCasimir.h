@@ -51,7 +51,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
 	virtual BOOL OnApply();
-	bool IsVista();
+	bool IsVistaOrAbove();
 
 	DECLARE_MESSAGE_MAP()
 
