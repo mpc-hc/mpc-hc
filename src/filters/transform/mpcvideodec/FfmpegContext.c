@@ -337,7 +337,6 @@ void FF264BuildSliceLong(DXVA_Slice_H264_Long* pSlice, struct AVCodecContext* pA
 
 HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize)
 {
-	int				refpic;
 	VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
 
 	if (pBuffer)
@@ -345,14 +344,14 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 		av_vc1_decode_frame (pAVCtx, pBuffer, nSize);
 	}
 
-	refpic = ((vc1->s.pict_type != FF_B_TYPE) || (vc1->s.pict_type != FF_BI_TYPE));
-
 	pPicParams->bPicIntra				= (vc1->s.pict_type == FF_I_TYPE);
 	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == FF_B_TYPE);
 
-	//   Ok     Todo    Todo    Todo    Ok
-	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA		| Section 3.2.5
-	pPicParams->bBidirectionalAveragingMode	= ((vc1->profile == PROFILE_ADVANCED)<<3) | (1 << 7);
+	// Init    Init    Init    Todo      
+	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
+	pPicParams->bBidirectionalAveragingMode	= (pPicParams->bBidirectionalAveragingMode & 0xE0) |	// init in SetExtraData
+											  ((vc1->lumshift!=0 || vc1->lumscale!=32) ? 0x10 : 0)| // iINSO
+											  ((vc1->profile == PROFILE_ADVANCED)	 <<3 );			// iWMVA
 
 	// Section 3.2.20.3
 	pPicParams->bPicSpatialResid8	= (vc1->panscanflag   << 7) | (vc1->refdist_flag << 6) |
@@ -368,19 +367,63 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	// Section 3.2.20.2
 	pPicParams->bPicDeblockConfined	= (vc1->postprocflag << 7) | (vc1->broadcast  << 6) |
 									  (vc1->interlace    << 5) | (vc1->tfcntrflag << 4) | 
-									  (vc1->finterpflag  << 3) | (refpic		  << 2) |
+									  (vc1->finterpflag  << 3) | // (refpic << 2) set in DecodeFrame !
 									  (vc1->psf << 1)		   | vc1->extended_dmv;
 
 
 	//				TODO section 3.2.20.6
-	//pPicParams->bPicDeblocked		= 
-	//pPicParams->wBitstreamFcodes
 	pPicParams->bPicStructure		= vc1->s.picture_structure;
 
+	// Cf page 17 : 2 for interlaced, 0 for progressive
+	pPicParams->bPicExtrapolation = (vc1->s.picture_structure == PICT_FRAME) ? 1 : 2;
+
+	pPicParams->wBitstreamPCEelements	= vc1->lumshift;
+	pPicParams->wBitstreamFcodes		= vc1->lumscale;
+
+	// Section 3.2.16
 	*nFieldType = vc1->s.picture_structure;
 	*nSliceType = vc1->s.pict_type;
 
+	// TODO : not finish...
+	pPicParams->bMVprecisionAndChromaRelation = ((vc1->mv_mode == MV_PMODE_1MV_HPEL_BILIN) << 3) |		// 0 for non-bilinear luma motion, 1 for bilinear
+												(1 << 2) |		// 0 for WMV8, 1 for WMV9 motion
+												(0 << 1) |		// 1 for WMV8 quarter sample luma motion
+												(0);			// 0 for quarter sample chroma motion, 1 for half sample chroma
+
+	// Cf §7.1.1.25 in VC1 specification, §3.2.14.3 in DXVA spec
+	pPicParams->bRcontrol	= vc1->rnd;
+
+	/*
+	// TODO : find files with de-ringing  ...
+	pPicParams->bPicDeblocked	= ((vc1->postproc & 0x01) ? 0x02 : 0) |	// In loop de-blocking
+								  ((vc1->postproc & 0x02) ? 0x08 : 0);	// Out of loop de-ringing
+	*/
+
 	return S_OK;
+}
+
+unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
+{
+	VC1Context*		vc1 = NULL;
+	H264Context*	h	= NULL;
+
+	switch (pAVCtx->codec_id)
+	{
+	case CODEC_ID_VC1 :
+		vc1 = (VC1Context*) pAVCtx->priv_data;
+		return vc1->s.mb_num;
+	case CODEC_ID_H264 :
+		h	= (H264Context*) pAVCtx->priv_data;
+		return h->s.mb_num;
+	}
+
+	return 0;
+}
+
+int FFIsSkipped(struct AVCodecContext* pAVCtx)
+{
+	VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
+	return vc1->p_frame_skipped;
 }
 
 int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)

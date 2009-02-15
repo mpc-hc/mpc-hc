@@ -90,12 +90,12 @@ public :
 	HRESULT					ConfigureDXVA1();
 	
 	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* guidDecoder, int nPicEntryNumber);
-	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber);
+	static CDXVADecoder*	CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
 
 
 protected :
 	CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
-	CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber);
+	CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
 
 	CMPCVideoDecFilter*				m_pFilter;
 	bool							m_bFlushed;
@@ -111,6 +111,8 @@ protected :
 	HRESULT					BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
 	HRESULT					EndFrame(int nSurfaceIndex);
 	HRESULT					QueryStatus(PVOID LPDXVAStatus, UINT nSize);
+	BYTE					GetConfigIntraResidUnsigned();
+	BYTE					GetConfigResidDiffAccelerator();
 
 	// === Picture store functions
 	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);
@@ -137,6 +139,7 @@ private :
 
 	// === DXVA2 variables
 	CComPtr<IDirectXVideoDecoder>	m_pDirectXVideoDec;
+	DXVA2_ConfigPictureDecode		m_DXVA2Config;
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
 
 	PICTURE_STORE*					m_pPictureStore;		// Store reference picture, and delayed B-frames

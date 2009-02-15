@@ -28,6 +28,11 @@
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"
 
+extern "C"
+{
+	#include "FfmpegContext.h"
+}
+
 #define MAX_RETRY_ON_PENDING		50
 #define DO_DXVA_PENDING_LOOP(x)		nTry = 0; \
 									while (FAILED(hr = x) && nTry<MAX_RETRY_ON_PENDING) \
@@ -51,10 +56,11 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 }
 
 
-CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber)	
+CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)	
 {
-	m_nEngine		= ENGINE_DXVA2;
+	m_nEngine			= ENGINE_DXVA2;
 	m_pDirectXVideoDec	= pDirectXVideoDec;
+	memcpy (&m_DXVA2Config, pDXVA2Config, sizeof(DXVA2_ConfigPictureDecode));
 
 	Init (pFilter, nMode, nPicEntryNumber);
 };
@@ -173,14 +179,14 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 }
 
 
-CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber)
+CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 {
 	CDXVADecoder*		pDecoder = NULL;
 
 	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
-		pDecoder	= new CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber);
+		pDecoder	= new CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
 	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
-		pDecoder	= new CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber);
+		pDecoder	= new CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
 
@@ -191,8 +197,12 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 
 HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize)
 {
-	HRESULT						hr = E_INVALIDARG;
-	BYTE*						pDXVABuffer;
+	HRESULT			hr			= E_INVALIDARG;
+	DWORD			dwNumMBs	= 0;
+	BYTE*			pDXVABuffer;
+
+	if (CompressedBufferType != DXVA2_PictureParametersBufferType && CompressedBufferType != DXVA2_InverseQuantizationMatrixBufferType)
+		dwNumMBs = FFGetMBNumber (m_pFilter->GetAVCtx());
 
 	switch (m_nEngine)
 	{
@@ -218,7 +228,7 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwTypeIndex		= dwTypeIndex;
 			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwBufferIndex		= m_dwBufferIndex;
 			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwDataSize		= nSize;
-			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwNumMBsInBuffer	= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
+			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwNumMBsInBuffer	= dwNumMBs;
 
 			m_dwNumBuffersInfo++;
 		}
@@ -238,7 +248,7 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
 			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
-			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= (CompressedBufferType == DXVA2_SliceControlBufferType) || (CompressedBufferType == DXVA2_BitStreamDateBufferType);
+			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= dwNumMBs;
 			m_ExecuteParams.NumCompBuffers++;
 
 		}
@@ -680,4 +690,30 @@ void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
 	m_pPictureStore[nSurfaceIndex].pSample		= NULL;
 	m_nWaitingPics--;
+}
+
+
+BYTE CDXVADecoder::GetConfigResidDiffAccelerator()
+{
+	switch (m_nEngine)
+	{
+	case ENGINE_DXVA1 :
+		return m_DXVA1Config.bConfigResidDiffAccelerator;
+	case ENGINE_DXVA2 :
+		return m_DXVA2Config.ConfigResidDiffAccelerator;
+	}
+	return 0;
+}
+
+
+BYTE CDXVADecoder::GetConfigIntraResidUnsigned()
+{
+	switch (m_nEngine)
+	{
+	case ENGINE_DXVA1 :
+		return m_DXVA1Config.bConfigIntraResidUnsigned;
+	case ENGINE_DXVA2 :
+		return m_DXVA2Config.ConfigIntraResidUnsigned;
+	}
+	return 0;
 }

@@ -22,6 +22,7 @@
 #include "StdAfx.h"
 #include "OggSplitter.h"
 #include "..\..\..\DSUtil\DSUtil.h"
+#include "..\..\..\DSUtil\GolombBuffer.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -225,6 +226,27 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					dynamic_cast<COggSplitterOutputPin*>(GetOutputPin(page.m_hdr.bitstream_serial_number)))
 				{
 					pOggPin->AddComment(p+6, page.GetCount()-6-1);
+				}
+			}
+			else if(type == 0x7F && page.GetCount()>12 && *(long*)(p+8) == 0x43614C66)	// Flac
+			{
+				// Ogg Flac : method 1
+				CAutoPtr<CBaseSplitterOutputPin> pPinOut;
+				name.Format(L"Flac %d", i);
+				pPinOut.Attach(new COggFlacOutputPin(p+12, page.GetCount()-14, name, this, this, &hr));
+				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
+			}
+			else if (*(long*)(p-1) == 0x43614C66)
+			{
+				//bFlac = true;
+				//nWaitForMore++;
+				if (m_pFile->Read(page))
+				{
+					CAutoPtr<CBaseSplitterOutputPin> pPinOut;
+					name.Format(L"Flac %d", i);
+					p = page.GetData();
+					pPinOut.Attach(new COggFlacOutputPin(p, page.GetCount(), name, this, this, &hr));
+					AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 				}
 			}
 			else if(!(type&1) && nWaitForMore == 0)
@@ -891,6 +913,106 @@ HRESULT COggVorbisOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_
 	return hr;
 }
 
+//
+// COggFlacOutputPin
+//
+
+COggFlacOutputPin::COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+	: COggSplitterOutputPin(pName, pFilter, pLock, phr)
+{
+	CGolombBuffer	Buffer(h, nCount);
+
+	Buffer.BitRead(1);		// Last-metadata-block flag
+
+	if (Buffer.BitRead(7) != 0)		// Should be a STREAMINFO block
+	{
+		if(phr) *phr = VFW_E_INVALID_FILE_FORMAT;
+		return;
+	}
+
+	Buffer.BitRead(24);		// Length (in bytes) of metadata to follow
+	Buffer.ReadShort();		// m_nMinBlocksize
+	Buffer.ReadShort();		// m_nMaxBlocksize
+	Buffer.BitRead(24);		// m_nMinFrameSize
+	Buffer.BitRead(24);		// m_nMaxFrameSize
+	m_nSamplesPerSec		= (int)Buffer.BitRead(20);
+	m_nChannels				= (int)Buffer.BitRead(3)  + 1;
+	m_wBitsPerSample		= (WORD)Buffer.BitRead(5) + 1;
+	Buffer.BitRead(36);		// m_i64TotalNumSamples
+	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;	
+
+	CMediaType mt;
+
+	mt.majortype			= MEDIATYPE_Audio;
+	mt.subtype				= MEDIASUBTYPE_FLAC_FRAMED;
+	mt.formattype			= FORMAT_WaveFormatEx;
+	WAVEFORMATEX* wfe		= (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX));
+	memset(wfe, 0, sizeof(WAVEFORMATEX));
+	wfe->cbSize = sizeof(WAVEFORMATEX);
+	wfe->wFormatTag			= WAVE_FORMAT_FLAC;
+	wfe->nSamplesPerSec		= m_nSamplesPerSec;
+	wfe->nAvgBytesPerSec	= m_nAvgBytesPerSec;
+	wfe->nChannels			= m_nChannels;
+	wfe->nBlockAlign		= 1;
+	wfe->wBitsPerSample		= m_wBitsPerSample;
+
+	m_mts.InsertAt(0, mt);
+	*phr = S_OK;
+}
+
+
+REFERENCE_TIME COggFlacOutputPin::GetRefTime(__int64 granule_position)
+{
+	REFERENCE_TIME rt = (granule_position * UNITS) / m_nSamplesPerSec;
+	return rt;
+}
+
+HRESULT COggFlacOutputPin::UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len)
+{
+	if (pData[0] != 0xFF || (pData[1] & 0xFE) != 0xF8)
+	{
+		return S_FALSE;
+	}
+
+	p->bSyncPoint = TRUE;
+	p->rtStart = m_rtLast;
+	p->rtStop = m_rtLast+1;		// TODO : find packet duration !
+	p->SetData(pData, len);
+
+	return S_OK;
+}
+
+HRESULT COggFlacOutputPin::DeliverPacket(CAutoPtr<OggPacket> p)
+{
+	if(p->GetCount() > 0 && (p->GetAt(0)&1))
+		return S_OK;
+
+	return __super::DeliverPacket(p);
+}
+
+HRESULT COggFlacOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
+{
+	HRESULT hr = __super::DeliverNewSegment(tStart, tStop, dRate);
+
+	m_lastblocksize = 0;
+
+	if(m_mt.subtype == MEDIASUBTYPE_FLAC_FRAMED)
+	{
+		POSITION pos = m_initpackets.GetHeadPosition();
+		while(pos)
+		{
+			Packet* pi = m_initpackets.GetNext(pos);
+			CAutoPtr<OggPacket> p(new OggPacket());
+			p->TrackNumber = pi->TrackNumber;
+			p->bDiscontinuity = p->bSyncPoint = FALSE;//TRUE;
+			p->rtStart = p->rtStop = 0;
+			p->Copy(*pi);
+			__super::DeliverPacket(p);
+		}
+	}
+
+	return hr;
+}
 //
 // COggDirectShowOutputPin
 //

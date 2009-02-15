@@ -307,6 +307,10 @@ typedef struct VC1Context{
     int x8_type;
 
     uint32_t *cbp_base, *cbp;
+
+    // ==> Start patch MPC
+    int allow_interlaced;
+    // <== End patch MPC
 } VC1Context;
 
 #endif /* AVCODEC_VC1_H */

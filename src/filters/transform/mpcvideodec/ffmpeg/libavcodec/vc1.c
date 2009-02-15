@@ -1332,7 +1332,9 @@ static int vc1_parse_frame_header_adv(VC1Context *v, GetBitContext* gb)
 
     if(v->interlace){
         v->fcm = decode012(gb);
-        if(v->fcm) return -1; // interlaced frames/fields are not implemented
+		// ==> Start patch MPC
+        if(v->fcm && !v->allow_interlaced) return -1; // interlaced frames/fields are not implemented
+		// <== End patch MPC
     }
     switch(get_unary(gb, 0, 4)) {
     case 0:

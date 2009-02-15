@@ -90,6 +90,30 @@ public:
 	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
 };
 
+class COggFlacOutputPin : public COggSplitterOutputPin
+{
+	CAutoPtrList<OggPacket> m_initpackets;
+
+	int			m_nSamplesPerSec;
+	int			m_nChannels;
+	WORD		m_wBitsPerSample;
+	int			m_nAvgBytesPerSec;
+
+	DWORD m_blocksize[2], m_lastblocksize;
+	CAtlArray<bool> m_blockflags;
+
+	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len);
+	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);
+
+	HRESULT DeliverPacket(CAutoPtr<OggPacket> p);
+    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+
+public:
+	COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+
+	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
+};
+
 class COggDirectShowOutputPin : public COggSplitterOutputPin
 {
 	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len);

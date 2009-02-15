@@ -52,8 +52,8 @@ CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerat
 }
 
 
-CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber)
-			   : CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber)
+CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
+			   : CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
 {
 	Init();
 }
@@ -93,6 +93,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	int							nSliceType;
 
 	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize);
+	if (FFIsSkipped (m_pFilter->GetAVCtx()))
+		return S_OK;
 
 	// Wait I frame after a flush
 	if (m_bFlushed && ! m_PictureParams.bPicIntra)
@@ -109,8 +111,8 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 
 	TRACE_VC1 ("=> %s   %I64d  Surf=%d\n", GetFFMpegPictureType(nSliceType), rtStart, nSurfaceIndex);
 
-	m_PictureParams.wDecodedPictureIndex			= nSurfaceIndex;
-	m_PictureParams.wDeblockedPictureIndex			= m_PictureParams.wDecodedPictureIndex;
+	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
+	m_PictureParams.wDeblockedPictureIndex	= m_PictureParams.wDecodedPictureIndex;
 
 	// Manage reference picture list
 	if (!m_PictureParams.bPicBackwardPrediction)
@@ -121,6 +123,10 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	}
 	m_PictureParams.wForwardRefPictureIndex		= (m_PictureParams.bPicIntra == 0)				? m_wRefPictureIndex[0] : VC1_NO_REF;
 	m_PictureParams.wBackwardRefPictureIndex	= (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : VC1_NO_REF;
+
+	m_PictureParams.bPic4MVallowed				= (m_PictureParams.wBackwardRefPictureIndex == VC1_NO_REF && m_PictureParams.bPicStructure == 3) ? 1 : 0;
+	m_PictureParams.bPicDeblockConfined		   |= (m_PictureParams.wBackwardRefPictureIndex == VC1_NO_REF) ? 0x04 : 0;
+
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
 	TRACE_VC1("CDXVADecoderVC1 : Decode frame %i\n", m_PictureParams.bPicScanMethod);
@@ -128,12 +134,13 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
-	CHECK_HR (Execute());
+//	CHECK_HR (Execute());
 
 
 	// Send bitstream to accelerator
-	m_SliceInfo.wQuantizerScaleCode	= 1;		// TODO : 1->31 ???
 	CHECK_HR (AddExecuteBuffer (DXVA2_BitStreamDateBufferType, nSize, pDataIn, &nSize));
+
+	m_SliceInfo.wQuantizerScaleCode	= 1;		// TODO : 1->31 ???
 	m_SliceInfo.dwSliceBitsInBuffer	= nSize * 8;
 	CHECK_HR (AddExecuteBuffer (DXVA2_SliceControlBufferType, sizeof (m_SliceInfo), &m_SliceInfo));
 
@@ -169,7 +176,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	}
 
 	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, 
-				m_PictureParams.bPicStructure != PICT_FRAME,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
+				false,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
 	m_bFlushed = false;
 
 	return DisplayNextFrame();
@@ -195,14 +202,16 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 	m_PictureParams.bPicExtrapolation				= 0;
 
 	m_PictureParams.bPicDeblocked					= 2;	// TODO ???
-	m_PictureParams.bPic4MVallowed					= 0;	// TODO
 	m_PictureParams.bPicOBMC						= 0;
 	m_PictureParams.bPicBinPB						= 0;	// TODO
 	m_PictureParams.bMV_RPS							= 0;	// TODO
 
 	m_PictureParams.bReservedBits					= 0;
-	m_PictureParams.wBitstreamFcodes				= 32;	// TODO
 
+	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
+	m_PictureParams.bBidirectionalAveragingMode	= (1 << 7) |
+												  (GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
+												  (GetConfigResidDiffAccelerator()  <<5);	// iOHIT
 }
 
 

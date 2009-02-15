@@ -27,18 +27,9 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
     //AVFrame *pict = data;
     uint8_t *buf2 = NULL;
 
-    /* no supplementary picture */
-    //if (buf_size == 0) {
-    //    /* special case for last picture */
-    //    if (s->low_delay==0 && s->next_picture_ptr) {
-    //        *pict= *(AVFrame*)s->next_picture_ptr;
-    //        s->next_picture_ptr= NULL;
-
-    //        *data_size = sizeof(AVFrame);
-    //    }
-
-    //    return 0;
-    //}
+	v->allow_interlaced = 1;
+	v->lumshift			= 0;
+	v->lumscale			= 32;
 
     /* We need to set current_picture_ptr before reading the header,
      * otherwise we cannot store anything in there. */
