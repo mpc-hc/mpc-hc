@@ -10848,7 +10848,7 @@ bool CMainFrame::CreateFullScreenWindow()
 
 		m_pFullscreenWnd->CreateEx (WS_EX_TOPMOST | WS_EX_TOOLWINDOW, _T(""), ResStr(IDS_MAINFRM_136), dwStyle, MonitorRect.left, MonitorRect.top, MonitorRect.Width(), MonitorRect.Height(), NULL, NULL, NULL);
 //		SetWindowLong(m_pFullscreenWnd->m_hWnd, GWL_EXSTYLE, WS_EX_TOPMOST);	// TODO : still freezing sometimes...
-		
+		/*
 		CRect r;
 		GetWindowRect(r);
 
@@ -10857,6 +10857,7 @@ bool CMainFrame::CreateFullScreenWindow()
 		int w = r.Width();
 		int h = r.Height();
 		MoveWindow(x, y, w, h);
+		*/
 	}
 
 	return m_pFullscreenWnd->IsWindow();
