@@ -10081,9 +10081,10 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 	AppSettings &s = AfxGetAppSettings();
 	if(m_iPlaybackMode != PM_CAPTURE)
 	{
-		__int64 start, stop;
+		__int64 start, stop, rtDuration;
 		m_wndSeekBar.GetRange(start, stop);
-		if(rtPos>stop) rtPos = stop;
+		pMS->GetDuration(&rtDuration);
+		if(rtPos>rtDuration) rtPos = rtDuration;
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
