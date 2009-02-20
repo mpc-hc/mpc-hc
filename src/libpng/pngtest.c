@@ -1216,7 +1216,7 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
       for (y = 0; y < height; y++)
       {
 #ifndef SINGLE_ROWBUF_ALLOC
-         png_debug2(0, "\nAllocating row buffer (pass %d, y = %ld)...", pass, y);
+         png_debug2(0, "Allocating row buffer (pass %d, y = %ld)...", pass, y);
          row_buf = (png_bytep)png_malloc(read_ptr,
             png_get_rowbytes(read_ptr, read_info_ptr));
          png_debug2(0, "0x%08lx (%ld bytes)", (unsigned long)row_buf,
@@ -1685,4 +1685,4 @@ main(int argc, char *argv[])
 }
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_34 your_png_h_is_not_version_1_2_34;
+typedef version_1_2_35 your_png_h_is_not_version_1_2_35;
