@@ -98,6 +98,6 @@ private :
 	CMPCVideoDecFilter*		m_pVideoDecFilter;
 
 	IDirect3DSurface9**		m_ppRTSurfaceArray;
-	UINT					cSurfaceArray;
+	UINT					m_nSurfaceArrayCount;
 
 };

@@ -135,7 +135,7 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
         // Free the old resources.
         Free();
 
-		cSurfaceArray = m_lCount;
+		m_nSurfaceArrayCount = m_lCount;
 
         // Allocate a new array of pointers.
         m_ppRTSurfaceArray = new IDirect3DSurface9*[m_lCount];
@@ -186,7 +186,6 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
 
             // Add to the sample list.
             m_lFree.Add(pSample);
-//			m_FreeSurface.AddHead (m_lAllocated);
         }
 
 		hr = m_pVideoDecFilter->CreateDXVA2Decoder (m_lCount, m_ppRTSurfaceArray);
@@ -217,7 +216,7 @@ void CVideoDecDXVAAllocator::Free()
 
     if (m_ppRTSurfaceArray)
     {
-        for (long i = 0; i < m_lAllocated; i++)
+        for (long i = 0; i < m_nSurfaceArrayCount; i++)
         {
             if (m_ppRTSurfaceArray[i] != NULL)
 				m_ppRTSurfaceArray[i]->Release();
@@ -226,31 +225,7 @@ void CVideoDecDXVAAllocator::Free()
         delete [] m_ppRTSurfaceArray;
 		m_ppRTSurfaceArray = NULL;
     }
-    m_lAllocated = 0;
+    m_lAllocated		 = 0;
+	m_nSurfaceArrayCount = 0;
 }
 
-
-//HRESULT CVideoDecDXVAAllocator::GetBuffer(__deref_out IMediaSample **ppBuffer,
-//                                  __in_opt REFERENCE_TIME *pStartTime,
-//                                  __in_opt REFERENCE_TIME *pEndTime,
-//                                  DWORD dwFlags)
-//{
-//	HRESULT		hr = __super::GetBuffer (ppBuffer, pStartTime, pEndTime, dwFlags);
-//
-//	if (SUCCEEDED (hr))
-//	{
-//		int	nSurfaceId	= m_FreeSurface.RemoveHead();
-//		((CDXVA2Sample*)*ppBuffer)->SetSurface (nSurfaceId, m_ppRTSurfaceArray[nSurfaceId]);
-//	}
-//
-//	return hr;
-//
-//}
-//
-//STDMETHODIMP CVideoDecDXVAAllocator::ReleaseBuffer(IMediaSample * pSample)
-//{
-//	int			nSurfaceId	= ((CDXVA2Sample*)pSample)->GetDXSurfaceId();
-//	m_FreeSurface.AddTail (nSurfaceId);
-//
-//	return __super::ReleaseBuffer (pSample);
-//}
