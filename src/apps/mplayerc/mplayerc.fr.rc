@@ -1615,6 +1615,7 @@ BEGIN
         MENUITEM "Temps restant\tCtrl+I",       ID_VIEW_REMAINING_TIME
         POPUP "&Language"
         BEGIN
+            MENUITEM "Belarusian",					 ID_LANGUAGE_BELARUSIAN
 			MENUITEM "Chinese (simplified)",	   ID_LANGUAGE_CHINESE_SIMPLIFIED
             MENUITEM "Chinese (traditional)",      ID_LANGUAGE_CHINESE_TRADITIONAL
             MENUITEM "Czech",                      ID_LANGUAGE_CZECH

@@ -1,8 +1,8 @@
 v1.x.x.x - unreleased
  NEW    : Support for Flac audio streams
  NEW    : Support for Dolby Digital+ (Eac3) and Dolby true HD (MLP)
- NEW    : Support for EVO files
  NEW    : Nellymoser audio decoder
+ NEW    : Belarusian translation
  CHANGED: Add support of interlaced flags in software mode for MPCVideoDecoder filter
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen mode in options, if monitor is not specified on the command line.
  CHANGED: Auto-hide playlist on fullscreen(feature request #2219561) 
@@ -15,6 +15,7 @@ v1.x.x.x - unreleased
  CHANGED: Improved streaming performances
  CHANGED: Prevent display or computer to sleep during playback
  CHANGED: Faad library updated to rev 2.2.7
+ CHANGED: LibPNG updated to release 1.2.35 (fix security bug)
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
@@ -25,6 +26,7 @@ v1.x.x.x - unreleased
  FIXED  : Better synchronization with EVR custom to improve playback smoothness
  FIXED  : 24 bits LPCM not properly play 
  FIXED  : Possible deadlock with Reclock
+ FIXED  : memory leak in DXVA decoder (when opening new file)
 
 
 v1.2.908.0 - 30.November 2008
