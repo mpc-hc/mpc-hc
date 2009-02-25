@@ -2123,7 +2123,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
 		shaders[_T("16-235 -> 0-255  [SD]")] = IDF_SHADER_LEVELS2;
-		shaders[_T("BT.601 -> BT.701")] = IDF_SHADER_BT601_BT701;
+		shaders[_T("BT.601 -> BT.709")] = IDF_SHADER_BT601_BT709;
 		shaders[_T("contour")] = IDF_SHADER_CONTOUR;
 		shaders[_T("deinterlace (blend)")] = IDF_SHADER_DEINTERLACE;
 		shaders[_T("edge sharpen")] = IDF_SHADER_EDGE_SHARPEN;
