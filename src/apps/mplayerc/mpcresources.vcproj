@@ -2565,20 +2565,6 @@
 						Name="VCResourceCompilerTool"
 					/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode Belarusian|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode Belarusian|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\mplayerc.cz.rc"
@@ -6101,6 +6087,26 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\res\shaders\BT601BT701.psh"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\denoise.psh"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\levels.psh"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\levels2.psh"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

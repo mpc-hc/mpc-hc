@@ -1729,6 +1729,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\SharpenComplex2.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\sphere.psh"
 					>
 				</File>

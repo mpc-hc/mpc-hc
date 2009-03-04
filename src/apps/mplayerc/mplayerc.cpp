@@ -2135,6 +2135,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		shaders[_T("procamp")] = IDF_SHADER_PROCAMP;
 		shaders[_T("sharpen")] = IDF_SHADER_SHARPEN;
 		shaders[_T("sharpen complex")] = IDF_SHADER_SHARPEN_COMPLEX;
+		shaders[_T("sharpen complex 2")] = IDF_SHADER_SHARPEN_COMPLEX2;
 		shaders[_T("sphere")] = IDF_SHADER_SPHERE;
 		shaders[_T("spotlight")] = IDF_SHADER_SPOTLIGHT;
 		shaders[_T("wave")] = IDF_SHADER_WAVE;
@@ -2175,7 +2176,20 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			{
 				Shader s;
 				s.label = pPair->m_key;
-				s.target = _T("ps_2_0");
+
+				// Select minimum version for each shader!
+				switch (pPair->m_value)
+				{
+				case IDF_SHADER_DENOISE :
+					s.target = _T("ps_3_0");
+					break;
+				case IDF_SHADER_SHARPEN_COMPLEX2 :
+					s.target = _T("ps_2_a");
+					break;
+				default :
+					s.target = _T("ps_2_0");
+					break;
+				}
 				s.srcdata = CString(srcdata);
 				m_shaders.AddTail(s);
 			}
