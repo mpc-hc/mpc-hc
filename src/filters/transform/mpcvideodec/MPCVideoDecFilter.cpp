@@ -58,7 +58,7 @@ extern "C"
 typedef struct
 {
 	const int			PicEntryNumber;
-	const UINT			ConfigBitstreamRawMin;
+	const UINT			PreferedConfigBitstream;
 	const GUID*			Decoder[MAX_SUPPORTED_MODE];
 	const WORD			RestrictedMode[MAX_SUPPORTED_MODE];
 } DXVA_PARAMS;
@@ -86,7 +86,7 @@ typedef struct
 DXVA_PARAMS		DXVA_Mpeg2 =
 {
 	14,		// PicEntryNumber
-	1,		// ConfigBitstreamRawMin
+	1,		// PreferedConfigBitstream
 	{ &DXVA_ModeMPEG2_A,			&DXVA_ModeMPEG2_C,				&GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_MPEG2_A,  DXVA_RESTRICTED_MODE_MPEG2_C,	 0 }
 };
@@ -95,16 +95,16 @@ DXVA_PARAMS		DXVA_Mpeg2 =
 DXVA_PARAMS		DXVA_H264 =
 {
 	16,		// PicEntryNumber
-	2,		// ConfigBitstreamRawMin
-	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
+	2,		// PreferedConfigBitstream
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &DXVA_Intel_H264_ClearVideo, &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
 DXVA_PARAMS		DXVA_H264_VISTA =
 {
 	22,		// PicEntryNumber
-	2,		// ConfigBitstreamRawMin
-	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, /*&DXVA_Intel_H264_ClearVideo,*/ &GUID_NULL },
+	2,		// PreferedConfigBitstream
+	{ &DXVA2_ModeH264_E, &DXVA2_ModeH264_F, &DXVA_Intel_H264_ClearVideo, &GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_H264_E,	 0}
 };
 
@@ -112,7 +112,7 @@ DXVA_PARAMS		DXVA_H264_VISTA =
 DXVA_PARAMS		DXVA_VC1 =
 {
 	14,		// PicEntryNumber
-	1,		// ConfigBitstreamRawMin
+	1,		// PreferedConfigBitstream
 	{ &DXVA2_ModeVC1_D,				&GUID_NULL },
 	{ DXVA_RESTRICTED_MODE_VC1_D,	 0}
 };
@@ -1488,14 +1488,14 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderMode(const GUID& mode)
 	return false;
 }
 
-BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config)
+BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered)
 {
 	bool	bRet = false;
 
 	// TODO : not finished
-	bRet = ((config.ConfigBitstreamRaw >= ffCodecs[m_nCodecNb].DXVAModes->ConfigBitstreamRawMin) && 
-			(nD3DFormat				   == MAKEFOURCC('N', 'V', '1', '2')) );
+	bRet = (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2'));
 
+	bIsPrefered = (config.ConfigBitstreamRaw == ffCodecs[m_nCodecNb].DXVAModes->PreferedConfigBitstream);
 	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);
 	return bRet;
 }
@@ -1508,6 +1508,7 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
     HRESULT hr = S_OK;
     UINT cFormats = 0;
     UINT cConfigurations = 0;
+	bool bIsPrefered = false;
 
     D3DFORMAT                   *pFormats = NULL;           // size = cFormats
     DXVA2_ConfigPictureDecode   *pConfig = NULL;            // size = cConfigurations
@@ -1538,12 +1539,16 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
             // Find a supported configuration.
             for (UINT iConfig = 0; iConfig < cConfigurations; iConfig++)
             {
-                if (IsSupportedDecoderConfig(pFormats[iFormat], pConfig[iConfig]))
+                if (IsSupportedDecoderConfig(pFormats[iFormat], pConfig[iConfig], bIsPrefered))
                 {
                     // This configuration is good.
-                    *pbFoundDXVA2Configuration = TRUE;
-                    *pSelectedConfig = pConfig[iConfig];
-                    break;
+					if (bIsPrefered || !*pbFoundDXVA2Configuration)
+					{
+						*pbFoundDXVA2Configuration = TRUE;
+						*pSelectedConfig = pConfig[iConfig];
+					}
+                    
+					if (bIsPrefered) break;
                 }
             }
 

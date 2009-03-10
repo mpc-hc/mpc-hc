@@ -549,6 +549,9 @@ typedef struct H264Context{
     int sp_for_switch_flag;
     int slice_qs_delta;
     int slice_qp_delta;
+	unsigned int first_mb_in_slice;
+	int bit_offset_to_slice_data;
+	int raw_slice_type;
     // <== End patch MPC
 }H264Context;
 

@@ -103,16 +103,17 @@ protected :
 
 
 	// === DXVA functions
-	HRESULT					AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
-	HRESULT					GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver);
-	HRESULT					Execute();
-	DWORD					GetDXVA1CompressedType (DWORD dwDXVA2CompressedType);
-	HRESULT					FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferIndex);
-	HRESULT					BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
-	HRESULT					EndFrame(int nSurfaceIndex);
-	HRESULT					QueryStatus(PVOID LPDXVAStatus, UINT nSize);
-	BYTE					GetConfigIntraResidUnsigned();
-	BYTE					GetConfigResidDiffAccelerator();
+	HRESULT						AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
+	HRESULT						GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver);
+	HRESULT						Execute();
+	DWORD						GetDXVA1CompressedType (DWORD dwDXVA2CompressedType);
+	HRESULT						FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferIndex);
+	HRESULT						BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliver);
+	HRESULT						EndFrame(int nSurfaceIndex);
+	HRESULT						QueryStatus(PVOID LPDXVAStatus, UINT nSize);
+	BYTE						GetConfigIntraResidUnsigned();
+	BYTE						GetConfigResidDiffAccelerator();
+	DXVA_ConfigPictureDecode*	GetDXVA1Config() { return &m_DXVA1Config; };
 
 	// === Picture store functions
 	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);

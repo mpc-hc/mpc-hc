@@ -65,6 +65,11 @@ public :
 
 	int			GetDataLength()	{ return m_nCurPos - m_nNALDataPos; };
 	BYTE*		GetDataBuffer() { return m_pBuffer + m_nNALDataPos; };
+	int			GetRoundedDataLength()
+	{
+		int		nSize = m_nCurPos - m_nNALDataPos;
+		return nSize + 128 - (nSize %128);
+	}
 
 	int			GetLength()		{ return m_nCurPos - m_nNALStartPos; };
 	BYTE*		GetNALBuffer()	{ return m_pBuffer + m_nNALStartPos; };

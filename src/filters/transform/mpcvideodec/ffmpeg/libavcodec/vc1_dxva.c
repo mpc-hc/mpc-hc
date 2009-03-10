@@ -44,7 +44,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
         buf2 = av_mallocz(buf_size + FF_INPUT_BUFFER_PADDING_SIZE);
 
         if(IS_MARKER(AV_RB32(buf))){ /* frame starts with marker and needs to be parsed */
-            uint8_t *start, *end, *next;
+            const uint8_t *start, *end, *next;
             int size;
 
             next = buf;
@@ -68,11 +68,12 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
                 }
             }
         }else if(v->interlace && ((buf[0] & 0xC0) == 0xC0)){ /* WVC1 interlaced stores both fields divided by marker */
-            uint8_t *divider;
+            const uint8_t *divider;
 
             divider = find_next_marker(buf, buf + buf_size);
             if((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD){
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
+				av_free(buf2);
                 return -1;
             }
 

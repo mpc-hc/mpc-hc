@@ -204,7 +204,7 @@ public:
 
 
 	// === DXVA common functions
-	BOOL			IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config);
+	BOOL			IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);
 	BOOL			IsSupportedDecoderMode(const GUID& mode);
 	void			BuildDXVAOutputFormat();
 	int				GetPicEntryNumber();
@@ -230,12 +230,13 @@ public:
 
 
 	// === DXVA2 functions
-	void			FillInVideoDescription(DXVA2_VideoDesc *pDesc);
-	HRESULT			ConfigureDXVA2(IPin *pPin);
-	HRESULT			SetEVRForDXVA2(IPin *pPin);
-	HRESULT			FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
+	void						FillInVideoDescription(DXVA2_VideoDesc *pDesc);
+	DXVA2_ConfigPictureDecode*	GetDXVA2Config() { return &m_DXVA2Config; };
+	HRESULT						ConfigureDXVA2(IPin *pPin);
+	HRESULT						SetEVRForDXVA2(IPin *pPin);
+	HRESULT						FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
 												  const GUID& guidDecoder, 
 												  DXVA2_ConfigPictureDecode *pSelectedConfig,
 											      BOOL *pbFoundDXVA2Configuration);
-	HRESULT			CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
+	HRESULT						CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
 };
