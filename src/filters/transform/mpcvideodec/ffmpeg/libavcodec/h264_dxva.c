@@ -458,8 +458,9 @@ int decode_slice_header_noexecute (H264Context *h){
         /*slice_group_change_cycle=*/ get_bits(&s->gb, av_log2 ((h->sps.mb_width * h->sps.mb_height) / (h->pps.slice_group_change_rate_minus1+1)));
 	}
 
-	// TODO : entropy_coding_mode not managed!
-	align_get_bits( &s->gb );
+	// If entropy_coding_mode, align to 8 bits
+	if (h->pps.cabac) align_get_bits( &s->gb );
+
 	h->bit_offset_to_slice_data = s->gb.index;
 	// <== End patch MPC
 

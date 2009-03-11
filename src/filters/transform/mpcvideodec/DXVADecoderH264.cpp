@@ -176,14 +176,15 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	HRESULT						hr			= S_FALSE;
 	CH264Nalu					Nalu;
 	DXVA_Slice_H264_Short*		pSliceShort	= NULL;
-	DXVA_Slice_H264_Long*		pSliceLong = NULL; 
-	UINT						nSlices	= 0;
+	DXVA_Slice_H264_Long*		pSliceLong	= NULL; 
+	UINT						nSlices		= 0;
 	int							nSurfaceIndex;
 	int							nFieldType;
 	int							nSliceType;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 	CComQIPtr<IMPCDXVA2Sample>	pDXVA2Sample;
-	int							nDXIndex = 0;
+	int							nDXIndex	= 0;
+	UINT						nNalOffset	= 0;
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
 
@@ -193,34 +194,32 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		{
 		case NALU_TYPE_SLICE:
 		case NALU_TYPE_IDR:
+				FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength());			
 				if(m_bUseLongSlice) 
 				{
-					FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength());			
 					if((nSlices%10) == 0) 
 						pSliceLong = (DXVA_Slice_H264_Long *)realloc(pSliceLong,  (nSlices+10)*sizeof(DXVA_Slice_H264_Long)); 
 				
-					if (m_pFilter->GetPCIVendor() == 0x8086)
-						pSliceLong[nSlices].BSNALunitDataLocation = 0;
-					else
-						pSliceLong[nSlices].BSNALunitDataLocation = (UINT) (Nalu.GetDataBuffer() - pDataIn);
-
-					pSliceLong[nSlices].SliceBytesInBuffer	= Nalu.GetRoundedDataLength();
-					pSliceLong[nSlices].wBadSliceChopping = 0;
-					pSliceLong[nSlices].slice_id		  = nSlices;
+					pSliceLong[nSlices].BSNALunitDataLocation	= nNalOffset;
+					pSliceLong[nSlices].SliceBytesInBuffer		= Nalu.GetDataLength()+3; //.GetRoundedDataLength();
+					pSliceLong[nSlices].wBadSliceChopping		= 0;
+					pSliceLong[nSlices].slice_id				= nSlices;
 					FF264BuildSliceLong(&m_DXVAPicParams, &pSliceLong[nSlices], m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor());
 					nSlices++; 
-					break;
 				}
 				else 
 				{
 					if((nSlices%10) == 0)  
 						pSliceShort	= (DXVA_Slice_H264_Short*)realloc(pSliceShort, (nSlices+10)*sizeof(DXVA_Slice_H264_Short));
-					pSliceShort[nSlices].BSNALunitDataLocation = (UINT) (Nalu.GetDataBuffer() - pDataIn);
-					pSliceShort[nSlices].SliceBytesInBuffer	= Nalu.GetRoundedDataLength();
-					pSliceShort[nSlices].wBadSliceChopping = 0;
+
+					pSliceShort[nSlices].BSNALunitDataLocation	= nNalOffset;
+					pSliceShort[nSlices].SliceBytesInBuffer		= Nalu.GetDataLength()+3;
+					pSliceShort[nSlices].wBadSliceChopping		= 0;
 					
 					nSlices++;
 				}
+				nNalOffset += (UINT)(Nalu.GetDataLength() + 3);
+				break;
 
 		case NALU_TYPE_PPS :
 		case NALU_TYPE_SPS :
