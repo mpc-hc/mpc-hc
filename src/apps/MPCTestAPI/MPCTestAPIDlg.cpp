@@ -152,7 +152,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
 	// TODO: Add extra initialization here
-	m_strMPCPath = _T("..\\mplayerc\\Debug Unicode\\mplayerc.exe");
+	m_strMPCPath = _T("..\\mplayerc\\Release Unicode\\mplayerc.exe");
 	UpdateData(FALSE);
 	
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -315,6 +315,27 @@ void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
 		break;
 	case 15 :
 		Senddata (CMD_SETSUBTITLETRACK, m_txtCommand);
+		break;
+	case 16 :
+		Senddata (CMD_TOGGLEFULLSCREEN, m_txtCommand);
+		break;
+	case 17 :
+		Senddata (CMD_JUMPFORWARDMED, m_txtCommand);
+		break;
+	case 18 :
+		Senddata (CMD_JUMPBACKWARDMED, m_txtCommand);
+		break;
+	case 19 :
+		Senddata (CMD_INCREASEVOLUME, m_txtCommand);
+		break;
+	case 20 :
+		Senddata (CMD_DECREASEVOLUME, m_txtCommand);
+		break;
+	case 21 :
+		Senddata (CMD_SHADER_TOGGLE, m_txtCommand);
+		break;
+	case 22 :
+		Senddata (CMD_CLOSEAPP, m_txtCommand);
 		break;
 	}
 }

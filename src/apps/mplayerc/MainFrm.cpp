@@ -11078,6 +11078,27 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 	case CMD_GETPLAYLIST :
 		SendPlaylistToApi();
 		break;
+	case CMD_JUMPFORWARDMED :
+		OnPlaySeek(ID_PLAY_SEEKFORWARDMED);
+		break;
+	case CMD_JUMPBACKWARDMED :
+		OnPlaySeek(ID_PLAY_SEEKBACKWARDMED);
+		break;
+	case CMD_TOGGLEFULLSCREEN :
+		OnViewFullscreen();
+		break;
+	case CMD_INCREASEVOLUME :
+		m_wndToolBar.m_volctrl.IncreaseVolume();
+		break;
+	case CMD_DECREASEVOLUME :
+		m_wndToolBar.m_volctrl.DecreaseVolume();
+		break;
+	case CMD_SHADER_TOGGLE :
+		OnShaderToggle();
+		break;
+	case CMD_CLOSEAPP :
+		PostMessage(WM_CLOSE);
+		break;
 	}
 }
 

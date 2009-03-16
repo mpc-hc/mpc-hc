@@ -181,4 +181,25 @@ typedef enum MPCAPI_COMMAND
 	// Ask for the current playlist
 	// return a CMD_PLAYLIST
 	CMD_GETPLAYLIST				= 0xA0003003,
+
+	// Toggle FullScreen
+	CMD_TOGGLEFULLSCREEN		= 0xA0004000,
+
+	// Jump forward(medium)
+	CMD_JUMPFORWARDMED			= 0xA0004001,
+
+	// Jump backward(medium)
+	CMD_JUMPBACKWARDMED			= 0xA0004002,
+
+	// Increase Volume
+	CMD_INCREASEVOLUME			= 0xA0004003,
+
+	// Decrease volume
+	CMD_DECREASEVOLUME			= 0xA0004004,
+
+	// Shader toggle
+	CMD_SHADER_TOGGLE			= 0xA0004005,
+
+	// Close App
+	CMD_CLOSEAPP				= 0xA0004006,
 };
