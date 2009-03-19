@@ -3421,6 +3421,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
 	s.ParseCommandLine(cmdln);
 
+	if(s.nCLSwitches&CLSW_SLAVE)
+	{
+		SendAPICommand (CMD_CONNECT, L"%d", GetSafeHwnd());
+	}
+
 	POSITION pos = s.slFilters.GetHeadPosition();
 	while(pos)
 	{
@@ -4273,7 +4278,8 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
 	CTime t = CTime::GetCurrentTime();
 	CString fn;
-	fn.Format(_T("%s%s%s"), prefix, t.Format(_T("%Y%m%d%H%M%S")), AfxGetAppSettings().SnapShotExt);
+	//fn.Format(_T("%s%s%s"), prefix, t.Format(_T("%Y%m%d%H%M%S")), AfxGetAppSettings().SnapShotExt);
+	fn.Format(_T("%s_%s%s"), prefix, t.Format(_T("%Y.%m.%d.%H_%M_%S")), AfxGetAppSettings().SnapShotExt);
 	return fn;
 }
 
@@ -4318,7 +4324,20 @@ void CMainFrame::OnFileSaveImage()
 	}
 
 	CPath psrc(s.SnapShotPath);
-	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
+	//psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
+
+	CStringW prefix = _T("snapshot");
+	if(m_iPlaybackMode == PM_FILE)
+	{
+		CPath path(m_wndPlaylistBar.GetCur());
+		path.StripPath();
+		prefix.Format(_T("%s_snapshot"), path);
+	}
+	else if(m_iPlaybackMode == PM_DVD)
+	{
+		prefix = _T("snapshot_dvd");
+	}
+	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
@@ -4352,8 +4371,21 @@ void CMainFrame::OnFileSaveImageAuto()
 		return;
 	}
 
+	CStringW prefix = _T("snapshot");
+	if(m_iPlaybackMode == PM_FILE)
+	{
+		CPath path(m_wndPlaylistBar.GetCur());
+		path.StripPath();
+		prefix = (LPCTSTR)path;
+	}
+	else if(m_iPlaybackMode == PM_DVD)
+	{
+		prefix = _T("snapshot_dvd");
+	}
+
 	CString fn;
-	fn.Format(_T("%s\\%s"), AfxGetAppSettings().SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
+	//fn.Format(_T("%s\\%s"), AfxGetAppSettings().SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
+	fn.Format(_T("%s\\%s"), AfxGetAppSettings().SnapShotPath, MakeSnapshotFileName(prefix));
 	SaveImage(fn);
 }
 
@@ -4373,7 +4405,15 @@ void CMainFrame::OnFileSaveThumbnails()
 	}
 
 	CPath psrc(s.SnapShotPath);
-	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("thumbs")));
+	CStringW prefix = _T("thumbs");
+	if(m_iPlaybackMode == PM_FILE)
+	{
+		CPath path(m_wndPlaylistBar.GetCur());
+		path.StripPath();
+		prefix.Format(_T("%s_thumbs"), path);
+	}
+	//psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("thumbs")));
+	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
 
 	CSaveThumbnailsDialog fd(
 		s.ThumbRows, s.ThumbCols, s.ThumbWidth,
