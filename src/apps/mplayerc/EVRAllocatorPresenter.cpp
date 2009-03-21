@@ -346,7 +346,7 @@ private :
 	void									RemoveAllSamples();
 	HRESULT									GetFreeSample(IMFSample** ppSample);
 	HRESULT									GetScheduledSample(IMFSample** ppSample);
-	void									MoveToFreeList(IMFSample* pSample);
+	void									MoveToFreeList(IMFSample* pSample, bool bTail);
 	void									MoveToScheduledList(IMFSample* pSample);
 	void									FlushSamples();
 
@@ -1043,7 +1043,7 @@ HRESULT CEVRAllocatorPresenter::GetImageFromMixer()
 
 		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) 
 		{
-			MoveToFreeList (pSample);
+			MoveToFreeList (pSample, false);
 			break;
 		}
 
@@ -1536,7 +1536,7 @@ void CEVRAllocatorPresenter::RenderThread()
 						}
 					}
 
-					MoveToFreeList(pMFSample);
+					MoveToFreeList(pMFSample, true);
 					CheckWaitingSampleFromMixer();
 				}
 			}
@@ -1602,10 +1602,13 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample)
 }
 
 
-void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample)
+void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
 {
 	CAutoLock lock(this);
-	m_FreeSamples.AddTail (pSample);
+	if (bTail)
+		m_FreeSamples.AddTail (pSample);
+	else
+		m_FreeSamples.AddHead(pSample);
 }
 
 
@@ -1626,7 +1629,7 @@ void CEVRAllocatorPresenter::FlushSamples()
 		CComPtr<IMFSample>		pMFSample;
 
 		pMFSample = m_ScheduledSamples.RemoveHead();
-		MoveToFreeList (pMFSample);
+		MoveToFreeList (pMFSample, true);
 
 		WaitForSingleObject (m_hSemPicture, 0);
 	}

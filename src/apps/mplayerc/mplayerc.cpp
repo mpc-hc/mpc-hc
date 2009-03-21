@@ -371,24 +371,33 @@ bool CMPlayerCApp::IsIniValid()
 	return CFileGetStatus(GetIniPath(), fs) && fs.m_size > 0;
 }
 
-bool CMPlayerCApp::GetAppDataPath(CString& path)
+bool CMPlayerCApp::GetAppSavePath(CString& path)
 {
 	path.Empty();
 
-	CRegKey key;
-	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ))
+	if(IsIniValid()) // If settings ini file found, store stuff in the same folder as the exe file
 	{
-		ULONG len = MAX_PATH;
-		if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(MAX_PATH), &len))
-			path.ReleaseBufferSetLength(len);
+		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+		path.ReleaseBuffer();
+		path = path.Left(path.ReverseFind('\\'));
 	}
+	else
+	{
+		CRegKey key;
+		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ))
+		{
+			ULONG len = MAX_PATH;
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(MAX_PATH), &len))
+				path.ReleaseBufferSetLength(len);
+		}
 
-	if(path.IsEmpty())
-		return(false);
+		if(path.IsEmpty())
+			return(false);
 
-	CPath p;
-	p.Combine(path, _T("Media Player Classic"));
-	path = (LPCTSTR)p;
+		CPath p;
+		p.Combine(path, _T("Media Player Classic"));
+		path = (LPCTSTR)p;
+	}
 
 	return(true);
 }
@@ -801,12 +810,17 @@ BOOL CMPlayerCApp::InitInstance()
 
 	PreProcessCommandLine();
 
-	if(IsIniValid()) StoreSettingsToIni();
-	else StoreSettingsToRegistry();
+	if(IsIniValid())
+		StoreSettingsToIni();
+	else
+	{
+		StoreSettingsToRegistry();
 
-	CString AppDataPath;
-	if(GetAppDataPath(AppDataPath))
-		CreateDirectory(AppDataPath, NULL);
+		// Only create a folder when using registry to store settings
+		CString AppSavePath;
+		if(GetAppSavePath(AppSavePath))
+			CreateDirectory(AppSavePath, NULL);
+	}
 
 	m_s.ParseCommandLine(m_cmdln);
 

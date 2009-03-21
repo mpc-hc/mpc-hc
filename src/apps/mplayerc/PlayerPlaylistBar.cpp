@@ -691,7 +691,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 void CPlayerPlaylistBar::LoadPlaylist()
 {
 	CString base;
-	if(AfxGetMyApp()->GetAppDataPath(base))
+	if(AfxGetMyApp()->GetAppSavePath(base))
 	{
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
@@ -711,7 +711,7 @@ void CPlayerPlaylistBar::LoadPlaylist()
 void CPlayerPlaylistBar::SavePlaylist()
 {
 	CString base;
-	if(AfxGetMyApp()->GetAppDataPath(base))
+	if(AfxGetMyApp()->GetAppSavePath(base))
 	{
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));

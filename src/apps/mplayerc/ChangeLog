@@ -17,6 +17,8 @@ v1.x.x.x - unreleased
  CHANGED: Prevent display or computer to sleep during playback
  CHANGED: Faad library updated to rev 2.2.7
  CHANGED: LibPNG updated to release 1.2.35 (fix security bug)
+ CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
+ CHANGED: frame by frame modify to support step frame back functionality (except for VMR9) 
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)

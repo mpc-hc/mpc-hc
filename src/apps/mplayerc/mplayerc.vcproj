@@ -972,6 +972,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\internal_filter_config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IPinHook.h"
 				>
 			</File>

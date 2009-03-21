@@ -389,7 +389,7 @@ public:
 	CString GetIniPath();
 	bool IsIniValid();
 
-	bool GetAppDataPath(CString& path);
+	bool GetAppSavePath(CString& path);
 
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	bool		m_fTearingTest;

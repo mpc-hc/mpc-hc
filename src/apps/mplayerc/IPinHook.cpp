@@ -26,6 +26,7 @@
 #include <d3dx9.h>
 #include <dxva.h>
 #include <dxva2api.h>
+#include <moreuuids.h>
 
 #include "IPinHook.h"
 #include "DX9AllocatorPresenter.h"
@@ -299,19 +300,17 @@ static void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	int		nCount	= _vsctprintf(fmt, args) + 1;
-	if(TCHAR* buff = new TCHAR[nCount])
+//	int		nCount	= _vsctprintf(fmt, args) + 1;
+	TCHAR	buff[800];
+	FILE*	f;
+	_vstprintf_s(buff, countof(buff), fmt, args);
+	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0)
 	{
-		FILE*	f;
-		_vstprintf_s(buff, nCount, fmt, args);
-		if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0)
-		{
-			fseek(f, 0, 2);
-			_ftprintf(f, _T("%s\n"), buff);
-			fclose(f);
-		}
-		delete [] buff;
+		fseek(f, 0, 2);
+		_ftprintf(f, _T("%s\n"), buff);
+		fclose(f);
 	}
+
 	va_end(args);
 }
 static void LOGPF(LPCTSTR prefix, const DDPIXELFORMAT* p, int n)
@@ -871,7 +870,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 				((BYTE*)lpPrivateInputData)[3]);
 	}
 	LOG(_T("[in] cbPrivateInputData = %08x"), cbPrivateInputData);
-	LOG(_T("[in] lpPrivateOutputData = %08"), lpPrivateOutputData);
+	LOG(_T("[in] lpPrivateOutputData = %08x"), lpPrivateOutputData);
 	LOG(_T("[in] cbPrivateOutputData = %08x"), cbPrivateOutputData);
 	LOG(_T("[in] dwNumBuffers = %08x"), dwNumBuffers);
 	if(pamvaBufferInfo)
@@ -891,7 +890,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 	{
 		if (pamvaBufferInfo[i].dwTypeIndex == DXVA_PICTURE_DECODE_BUFFER)
 		{
-			if (g_guidDXVADecoder == DXVA2_ModeH264_E)
+			if (g_guidDXVADecoder == DXVA2_ModeH264_E || g_guidDXVADecoder == DXVA_Intel_H264_ClearVideo)
 				LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
 			else if (g_guidDXVADecoder == DXVA2_ModeVC1_D)
 				LogDXVA_PictureParameters((DXVA_PictureParameters*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
@@ -1112,7 +1111,7 @@ public :
 
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_PictureParametersBufferType)
 				{
-					if (g_guidDXVADecoder == DXVA2_ModeH264_E)
+					if (g_guidDXVADecoder == DXVA2_ModeH264_E || g_guidDXVADecoder == DXVA_Intel_H264_ClearVideo)
 						LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
 					else if (g_guidDXVADecoder == DXVA2_ModeVC1_D)
 						LogDXVA_PictureParameters((DXVA_PictureParameters*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
@@ -1128,10 +1127,13 @@ public :
 					}
 					else if (pExecuteParams->pCompressedBuffers[i].DataSize % sizeof(DXVA_Slice_H264_Short) == 0)
 					{
-						DXVA_Slice_H264_Short*	pSlice = (DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
-						LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
-						LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
-						LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+						for (WORD j=0; j<pExecuteParams->pCompressedBuffers[i].DataSize / sizeof(DXVA_Slice_H264_Short); j++)
+						{
+							DXVA_Slice_H264_Short*	pSlice = &(((DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType])[j]);
+							LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
+							LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
+							LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+						}
 					}
 				}
 #endif
@@ -1362,7 +1364,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 	else
 	{
 #ifdef _DEBUG
-		if ((Guid == DXVA2_ModeH264_E) || (Guid == DXVA2_ModeVC1_D))
+		if ((Guid == DXVA2_ModeH264_E) || (Guid == DXVA2_ModeVC1_D) || (Guid == DXVA_Intel_H264_ClearVideo))
 		{
 			*ppDecode	= new CFakeDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();

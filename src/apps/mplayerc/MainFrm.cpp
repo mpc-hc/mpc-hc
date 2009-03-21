@@ -5394,6 +5394,7 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 void CMainFrame::OnPlayFramestep(UINT nID)
 {
 	REFERENCE_TIME rt;
+	AppSettings& s = AfxGetAppSettings();
 
 	if(pFS && m_fQuicktimeGraph)
 	{
@@ -5402,8 +5403,11 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
 		pFS->Step(nID == ID_PLAY_FRAMESTEP ? 1 : -1, NULL);
 	}
-	else if(pFS && nID == ID_PLAY_FRAMESTEP)
+	else if(pFS && nID == ID_PLAY_FRAMESTEP &&
+		    (s.iDSVideoRendererType == VIDRNDT_DS_VMR9WINDOWED || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS))
 	{
+		// To support framestep back support, function "Step" should not be used. Only VMR9 continue
+		// to use it, because the framestep back functionnality is not supported.
 		if(GetMediaState() != State_Paused && !queueu_ffdshow_support)
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
@@ -5426,6 +5430,39 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 		pMS->SetPositions(&rt, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
 		pMS->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
 	}
+	else if (s.iDSVideoRendererType != VIDRNDT_DS_VMR9WINDOWED && s.iDSVideoRendererType != VIDRNDT_DS_VMR9RENDERLESS)
+	{
+		if(GetMediaState() != State_Paused)
+			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+
+		REFERENCE_TIME		rtAvgTime;
+		BeginEnumFilters(pGB, pEF, pBF)
+		{
+			BeginEnumPins(pBF, pEP, pPin)
+			{
+				AM_MEDIA_TYPE mt;
+				pPin->ConnectionMediaType(&mt);
+
+				if(mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo)
+				{
+					rtAvgTime = ((VIDEOINFOHEADER*)mt.pbFormat)->AvgTimePerFrame;
+				}
+				else if(mt.majortype == MEDIATYPE_Video && mt.formattype == FORMAT_VideoInfo2)
+				{
+					rtAvgTime = ((VIDEOINFOHEADER2*)mt.pbFormat)->AvgTimePerFrame;
+				}
+			}
+			EndEnumPins
+		}
+		EndEnumFilters
+
+		pMS->GetCurrentPosition(&rt);
+		if(nID == ID_PLAY_FRAMESTEP)
+			rt += rtAvgTime;
+		else if(nID == ID_PLAY_FRAMESTEPCANCEL)
+			rt -= rtAvgTime;
+		pMS->SetPositions(&rt, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+	}
 }
 
 void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
@@ -5439,7 +5476,7 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 	{
 		REFTIME AvgTimePerFrame = 0;
         if(S_OK == pMS->IsFormatSupported(&TIME_FORMAT_FRAME)
-		|| pCmdUI->m_nID == ID_PLAY_FRAMESTEP && pFS && pFS->CanStep(0, NULL) == S_OK
+		|| pCmdUI->m_nID == ID_PLAY_FRAMESTEP || pCmdUI->m_nID == ID_PLAY_FRAMESTEPCANCEL && pFS && pFS->CanStep(0, NULL) == S_OK
 		|| m_fQuicktimeGraph && pFS)
 		{
 			fEnable = true;
