@@ -154,7 +154,7 @@ HRESULT CMpegSplitterFile::Init()
 //#ifndef DEBUG
 	if(m_streams[video].GetCount())
 	{
-		if (m_streams[subpic].GetCount())
+		if (!m_bIsHdmv && m_streams[subpic].GetCount())
 		{
 			stream s;
 			s.mt.majortype = MEDIATYPE_Video;
@@ -492,7 +492,10 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						{
 							CMpegSplitterFile::hdmvsubhdr h;
 							if(!m_streams[subpic].Find(s) && Read(h, &s.mt, pClipInfo ? pClipInfo->m_LanguageCode : NULL))
+							{
+								m_bIsHdmv = true;
 								type = subpic;
+							}
 						}
 						break;
 					}
