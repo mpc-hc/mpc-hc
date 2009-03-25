@@ -3057,6 +3057,10 @@ BEGIN
 	IDS_AG_VIDFRM_INSIDE	"Ajuster à l'intérieur de la fenêtre"
 	IDS_AG_VIDFRM_OUTSIDE	"Ajuster à l'extérieur de la fenêtre"
 	IDS_AG_PNS_RESET		"Rétablir le panoramique"
+	IDS_AG_TOGGLE_EDITLISTEDITOR "Afficher la fenêtre EDL"
+	IDS_AG_EDL_IN			"EDL fixer le point d'entrée"
+	IDS_AG_EDL_OUT			"EDL fixer le point de sortie"
+	IDS_AG_EDO_NEW_CLIP		"EDL nouveau clip"
 END
 
 STRINGTABLE 
