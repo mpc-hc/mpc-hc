@@ -385,6 +385,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_FAVORITES_DEVICE_START, ID_FAVORITES_DEVICE_END, OnFavoritesDevice)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_FAVORITES_DEVICE_START, ID_FAVORITES_DEVICE_END, OnUpdateFavoritesDevice)
 
+	ON_COMMAND(ID_RECENT_FILES_CLEAR, OnRecentFileClear)
+	ON_UPDATE_COMMAND_UI(ID_RECENT_FILES_CLEAR, OnUpdateRecentFileClear)
+	ON_COMMAND_RANGE(ID_RECENT_FILE_START, ID_RECENT_FILE_END, OnRecentFile)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_RECENT_FILE_START, ID_RECENT_FILE_END, OnUpdateRecentFile)
+
 	ON_COMMAND(ID_HELP_HOMEPAGE, OnHelpHomepage)
 	ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
 	ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
@@ -2464,6 +2469,11 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
 		}
+		if(str == ResStr(IDS_RECENT_FILES_POPUP))
+		{
+			SetupRecentFilesSubMenu();
+			pSubMenu = &m_recentfiles;
+		}
 
 		if(pSubMenu)
 		{
@@ -2499,6 +2509,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		transl[ResStr(IDS_AG_PANSCAN)] = IDS_PANSCAN_POPUP;
 		transl[ResStr(IDS_AG_ASPECT_RATIO)] = IDS_ASPECTRATIO_POPUP;
 		transl[_T("Zoom")] = IDS_ZOOM_POPUP;
+		//transl[ResStr(IDS_RECENT_FILES_POPUP)] = IDS_RECENT_FILES_POPUP;
 	}
 
 	MENUITEMINFO mii;
@@ -2591,6 +2602,11 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
 		}
+		else if(str == ResStr(IDS_RECENT_FILES_POPUP))
+		{
+			SetupRecentFilesSubMenu();
+			pSubMenu = &m_recentfiles;
+		}
 		else if(str == ResStr(IDS_SHADER_POPUP))
 		{
 			SetupShadersSubMenu();
@@ -2614,6 +2630,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		UINT nID = pPopupMenu->GetMenuItemID(i);
 		if(nID == ID_SEPARATOR || nID == -1
 		|| nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
+		|| nID >= ID_RECENT_FILE_START && nID <= ID_RECENT_FILE_END
 		|| nID >= ID_NAVIGATE_CHAP_SUBITEM_START && nID <= ID_NAVIGATE_CHAP_SUBITEM_END)
 			continue;
 
@@ -2969,6 +2986,7 @@ void CMainFrame::OnFilePostClosemedia()
 	SetupNavAngleSubMenu();
 	SetupNavChaptersSubMenu();
 	SetupFavoritesSubMenu();
+	SetupRecentFilesSubMenu();
 
 	SendNowPlayingToMSN();
 }
@@ -6682,6 +6700,24 @@ void CMainFrame::OnUpdateFavoritesOrganize(CCmdUI* pCmdUI)
 	// TODO: Add your command update UI handler code here
 }
 
+void CMainFrame::OnRecentFileClear()
+{
+	if(IDYES != AfxMessageBox(ResStr(IDS_RECENT_FILES_QUESTION), MB_YESNO))
+		return;
+
+	AppSettings& s = AfxGetAppSettings();
+
+	for(int i = 0; i < s.MRU.GetSize(); i++) s.MRU[i] = _T("");
+	for(int i = 0; i < s.MRUDub.GetSize(); i++) s.MRUDub[i] = _T("");
+	s.MRU.WriteList();
+	s.MRUDub.WriteList();
+}
+
+void CMainFrame::OnUpdateRecentFileClear(CCmdUI* pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+}
+
 void CMainFrame::OnFavoritesFile(UINT nID)
 {
 	nID -= ID_FAVORITES_FILE_START;
@@ -6712,6 +6748,22 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_FAVORITES_FILE_START;
+}
+
+void CMainFrame::OnRecentFile(UINT nID)
+{
+	nID -= ID_RECENT_FILE_START;
+	CString str;
+	m_recentfiles.GetMenuString(nID+2, str, MF_BYPOSITION);
+	CAtlList<CString> fns;
+	fns.AddTail(str);
+	m_wndPlaylistBar.Open(fns, false);
+	OpenCurPlaylistItem(0);
+}
+
+void CMainFrame::OnUpdateRecentFile(CCmdUI* pCmdUI)
+{
+	UINT nID = pCmdUI->m_nID - ID_RECENT_FILE_START;
 }
 
 void CMainFrame::OnFavoritesDVD(UINT nID)
@@ -9677,6 +9729,43 @@ void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 	}
 }
 
+void CMainFrame::SetupRecentFilesSubMenu()
+{
+	CMenu* pSub = &m_recentfiles;
+
+	if(!IsMenu(pSub->m_hMenu)) pSub->CreatePopupMenu();
+	else while(pSub->RemoveMenu(0, MF_BYPOSITION));
+
+	UINT id = ID_RECENT_FILE_START;
+	CRecentFileList& MRU = AfxGetAppSettings().MRU;
+	MRU.ReadList();
+
+	int mru_count=0;
+	for(int i = 0; i < MRU.GetSize();i++)
+	{
+		if(!MRU[i].IsEmpty()) 
+		{
+			mru_count++;
+			break;
+		}
+	}
+	if(mru_count)
+	{
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_RECENT_FILES_CLEAR, ResStr(IDS_RECENT_FILES_CLEAR));
+		pSub->AppendMenu(MF_SEPARATOR|MF_ENABLED);
+	}
+
+	for(int i = 0; i < MRU.GetSize();i++)
+	{
+		UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
+		if(!MRU[i].IsEmpty())
+		{
+			pSub->AppendMenu(flags, id, MRU[i]);
+		}
+		id++;
+	}
+}
+
 void CMainFrame::SetupFavoritesSubMenu()
 {
 	CMenu* pSub = &m_favorites;
@@ -11052,6 +11141,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	m_navchapters.DestroyMenu();
 	m_favorites.DestroyMenu();
 	m_shaders.DestroyMenu();
+	m_recentfiles.DestroyMenu();
 
 	m_popup.DestroyMenu();
 	m_popup.LoadMenu(IDR_POPUP);

@@ -2262,7 +2262,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		// TODO: sort shaders by label
 
 		m_shadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
-
 		fInitialized = true;
 	}
 }

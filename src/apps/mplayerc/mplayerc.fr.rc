@@ -1558,6 +1558,7 @@ BEGIN
         MENUITEM "Ouvrir un &périphérique...\tCtrl+V", ID_FILE_OPENDEVICE
     	MENUITEM "Ouvrir un répertoire...",           ID_FILE_OPENDIRECTORY
         MENUITEM "O&uvrir le disque",           ID_FILE_OPENDISC32774
+    	MENUITEM "Recent Files"				ID_RECENT_FILES //TODO
         MENUITEM "&Fermer",                     ID_FILE_CLOSEPLAYLIST
         MENUITEM SEPARATOR
         MENUITEM "&Enregistrer sous...",        ID_FILE_SAVE_COPY
@@ -1881,6 +1882,7 @@ BEGIN
             MENUITEM "Ouvrir un &périphérique...\tCtrl+V", ID_FILE_OPENDEVICE
     		MENUITEM "Ouvrir un répertoire...",           ID_FILE_OPENDIRECTORY
             MENUITEM "O&uvrir le disque",           65535
+    		MENUITEM "Recent Files"				ID_RECENT_FILES //TODO
             MENUITEM "&Fermer",                     ID_FILE_CLOSEPLAYLIST
             MENUITEM SEPARATOR
             MENUITEM "&Enregistrer sous...",        ID_FILE_SAVE_COPY
@@ -2519,6 +2521,9 @@ BEGIN
     IDS_CONTROLS_PLAYING    "Lecture"
     IDS_CONTROLS_PAUSED     "En pause"
     IDS_PLAYLIST_HIDEFS		"Hide on FullScreen"//TODO
+    IDS_RECENT_FILES_POPUP	"Recent Files"//TODO
+    IDS_RECENT_FILES_QUESTION	"Are you sure that you want to delete recent files list ?"//TODO
+    IDS_RECENT_FILES_CLEAR	"Clear list"//TODO
 END
 
 STRINGTABLE 

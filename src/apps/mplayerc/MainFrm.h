@@ -236,6 +236,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	void SetupNavChaptersSubMenu();
 	void SetupFavoritesSubMenu();
 	void SetupShadersSubMenu();
+	void SetupRecentFilesSubMenu();
 
 	IBaseFilter* FindSourceSelectableFilter();
 	void SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGroup);
@@ -249,6 +250,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CMenu m_navchapters;
 	CMenu m_favorites;
 	CMenu m_shaders;
+	CMenu m_recentfiles;
 
 	CInterfaceArray<IUnknown, &IID_IUnknown> m_pparray;
 	CInterfaceArray<IAMStreamSelect> m_ssarray;
@@ -695,6 +697,11 @@ public:
 	afx_msg void OnUpdateFavoritesDVD(CCmdUI* pCmdUI);
 	afx_msg void OnFavoritesDevice(UINT nID);
 	afx_msg void OnUpdateFavoritesDevice(CCmdUI* pCmdUI);
+	afx_msg void OnRecentFileClear();
+	afx_msg void OnUpdateRecentFileClear(CCmdUI* pCmdUI);
+	afx_msg void OnRecentFile(UINT nID);
+	afx_msg void OnUpdateRecentFile(CCmdUI* pCmdUI);
+
 
 	afx_msg void OnHelpHomepage();
 	afx_msg void OnHelpDocumentation();
