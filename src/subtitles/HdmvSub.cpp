@@ -24,8 +24,6 @@
 #include "HdmvSub.h"
 #include "..\DSUtil\GolombBuffer.h"
 
-#define INDEX_TRANSPARENT	0xFF
-
 #if (0)		// Set to 1 to activate HDMV subtitles traces
 	#define TRACE_HDMVSUB		TRACE
 #else
@@ -438,12 +436,12 @@ void CHdmvSub::CompositionObject::Render(SubPicDesc& spd)
 					{
 						nCount		= bSwitch & 0x3F;
 						if (nCount > 0)
-							nPaletteIndex	= INDEX_TRANSPARENT;
+							nPaletteIndex	= 0;
 					}
 					else
 					{
 						nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
-						nPaletteIndex	= INDEX_TRANSPARENT;
+						nPaletteIndex	= 0;
 					}
 				}
 				else
