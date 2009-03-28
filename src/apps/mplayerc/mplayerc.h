@@ -604,6 +604,7 @@ public:
 		bool			fD3DFullscreen;
 		bool			fMonitorAutoRefreshRate;
 		bool			fLastFullScreen;
+		bool			fEnableEDLEditor;
 		float			dBrightness;
 		float			dContrast;
 		float			dHue;

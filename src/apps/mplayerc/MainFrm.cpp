@@ -271,6 +271,13 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SUBRESYNC, OnUpdateViewSubresync)
 	ON_COMMAND(ID_VIEW_PLAYLIST, OnViewPlaylist)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PLAYLIST, OnUpdateViewPlaylist)
+	ON_COMMAND(ID_VIEW_EDITLISTEDITOR, OnViewEditListEditor)
+	ON_COMMAND(ID_EDL_IN, OnEDLIn)
+	ON_UPDATE_COMMAND_UI(ID_EDL_IN, OnUpdateEDLIn)
+	ON_COMMAND(ID_EDL_OUT, OnEDLOut)
+	ON_UPDATE_COMMAND_UI(ID_EDL_OUT, OnUpdateEDLOut)
+	ON_COMMAND(ID_EDL_NEWCLIP, OnEDLNewClip)
+	ON_UPDATE_COMMAND_UI(ID_EDL_NEWCLIP, OnUpdateEDLNewClip)
 	ON_COMMAND(ID_VIEW_CAPTURE, OnViewCapture)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTURE, OnUpdateViewCapture)
 	ON_COMMAND(ID_VIEW_SHADEREDITOR, OnViewShaderEditor)
@@ -433,7 +440,9 @@ CMainFrame::CMainFrame() :
 	m_bRemainingTime(false),
 	m_nCurSubtitle(-1),
 	m_lSubtitleShift(0),
-	m_bToggleShader(false)
+	m_bToggleShader(false),
+	m_nStepForwardCount(0),
+	m_rtStepForwardStart(0)
 {
 	m_Lcd.SetVolumeRange(1, 100);
 }
@@ -502,6 +511,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndPlaylistBar.SetHeight(100);
 	LoadControlBar(&m_wndPlaylistBar, AFX_IDW_DOCKBAR_BOTTOM);
 	m_wndPlaylistBar.LoadPlaylist();
+
+	m_wndEditListEditor.Create(this);
+	m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	m_wndEditListEditor.EnableDocking(CBRS_ALIGN_ANY);
+	LoadControlBar(&m_wndEditListEditor, AFX_IDW_DOCKBAR_RIGHT);
+	m_wndEditListEditor.SetHeight(100);
 
 	m_wndCaptureBar.Create(this);
 	m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
@@ -1825,6 +1840,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			}
 		}
 
+		if (!m_fFrameSteppingActive) m_nStepForwardCount = 0;
+
 		hr = pME->FreeEventParams(evCode, evParam1, evParam2);
 
         if(EC_COMPLETE == evCode)
@@ -1918,6 +1935,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 		{
 			if(m_fFrameSteppingActive)
 			{
+				m_nStepForwardCount++;
 				m_fFrameSteppingActive = false;
 				pBA->put_Volume(m_VolumeBeforeFrameStepping);
 			}
@@ -2956,6 +2974,9 @@ void CMainFrame::OnFilePostClosemedia()
 	m_wndStatsBar.RemoveAllLines();		
 	m_wndStatusBar.Clear();
 	m_wndStatusBar.ShowTimer(false);
+
+	if (AfxGetAppSettings().fEnableEDLEditor)
+		m_wndEditListEditor.CloseFile();
 
 	if(IsWindow(m_wndSubresyncBar.m_hWnd))
 	{
@@ -4880,6 +4901,65 @@ void CMainFrame::OnUpdateViewPlaylist(CCmdUI* pCmdUI)
 		|| m_iMediaLoadState == MLS_LOADED /*&& (m_iPlaybackMode == PM_FILE || m_iPlaybackMode == PM_CAPTURE)*/);
 }
 
+void CMainFrame::OnViewEditListEditor()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	if (s.fEnableEDLEditor || (AfxMessageBox(_T("Do you want to activate EDL editor?"), MB_YESNO) == IDYES))
+	{
+		s.fEnableEDLEditor = true;
+		ShowControlBar(&m_wndEditListEditor, !m_wndEditListEditor.IsWindowVisible(), TRUE);
+	}
+}
+
+void CMainFrame::OnEDLIn()
+{
+	if(AfxGetAppSettings().fEnableEDLEditor && (m_iMediaLoadState == MLS_LOADED) && (m_iPlaybackMode == PM_FILE))
+	{
+		REFERENCE_TIME		rt;
+
+		pMS->GetCurrentPosition(&rt);
+		m_wndEditListEditor.SetIn(rt);
+	}
+}
+
+void CMainFrame::OnUpdateEDLIn(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+}
+
+void CMainFrame::OnEDLOut()
+{
+	if(AfxGetAppSettings().fEnableEDLEditor && (m_iMediaLoadState == MLS_LOADED) && (m_iPlaybackMode == PM_FILE))
+	{
+		REFERENCE_TIME		rt;
+
+		pMS->GetCurrentPosition(&rt);
+		m_wndEditListEditor.SetOut(rt);
+	}
+}
+
+void CMainFrame::OnUpdateEDLOut(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+}
+
+void CMainFrame::OnEDLNewClip()
+{
+	if(AfxGetAppSettings().fEnableEDLEditor && (m_iMediaLoadState == MLS_LOADED) && (m_iPlaybackMode == PM_FILE))
+	{
+		REFERENCE_TIME		rt;
+
+		pMS->GetCurrentPosition(&rt);
+		m_wndEditListEditor.NewClip(rt);
+	}
+}
+
+void CMainFrame::OnUpdateEDLNewClip(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+}
+
 void CMainFrame::OnViewCapture()
 {
 	ShowControlBar(&m_wndCaptureBar, !m_wndCaptureBar.IsWindowVisible(), TRUE);
@@ -5421,13 +5501,15 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
 		pFS->Step(nID == ID_PLAY_FRAMESTEP ? 1 : -1, NULL);
 	}
-	else if(pFS && nID == ID_PLAY_FRAMESTEP &&
-		    (s.iDSVideoRendererType == VIDRNDT_DS_VMR9WINDOWED || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS))
+	else if(pFS && nID == ID_PLAY_FRAMESTEP)
 	{
-		// To support framestep back support, function "Step" should not be used. Only VMR9 continue
-		// to use it, because the framestep back functionnality is not supported.
 		if(GetMediaState() != State_Paused && !queueu_ffdshow_support)
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+
+		// To support framestep back, store the initial position when
+		// stepping forward
+		if (m_nStepForwardCount == 0)
+			pMS->GetCurrentPosition(&m_rtStepForwardStart);
 
 		m_fFrameSteppingActive = true;
 
@@ -5448,7 +5530,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 		pMS->SetPositions(&rt, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
 		pMS->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
 	}
-	else if (s.iDSVideoRendererType != VIDRNDT_DS_VMR9WINDOWED && s.iDSVideoRendererType != VIDRNDT_DS_VMR9RENDERLESS)
+	else //if (s.iDSVideoRendererType != VIDRNDT_DS_VMR9WINDOWED && s.iDSVideoRendererType != VIDRNDT_DS_VMR9RENDERLESS)
 	{
 		if(GetMediaState() != State_Paused)
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -5474,7 +5556,15 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 		}
 		EndEnumFilters
 
-		pMS->GetCurrentPosition(&rt);
+		// Exit of framestep forward : calculate the initial position
+		if (m_nStepForwardCount != 0)
+		{
+			pFS->CancelStep();
+			rt = m_rtStepForwardStart + m_nStepForwardCount*rtAvgTime;
+			m_nStepForwardCount = 0;
+		}
+		else
+			pMS->GetCurrentPosition(&rt);
 		if(nID == ID_PLAY_FRAMESTEP)
 			rt += rtAvgTime;
 		else if(nID == ID_PLAY_FRAMESTEPCANCEL)
@@ -8737,6 +8827,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		OpenSetupWindowTitle(pOMD->title);
 
+		if (s.fEnableEDLEditor)
+			m_wndEditListEditor.OpenFile(pOMD->title);
+
 		if(::GetCurrentThreadId() == AfxGetApp()->m_nThreadID)
 		{
 			OnFilePostOpenmedia();
@@ -10244,6 +10337,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 
 	if(rtPos < 0) rtPos = 0;
 
+	m_nStepForwardCount = 0;
 	AppSettings &s = AfxGetAppSettings();
 	if(m_iPlaybackMode != PM_CAPTURE)
 	{

@@ -419,6 +419,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EditListEditor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\EVRAllocatorPresenter.cpp"
 				>
 			</File>
@@ -913,6 +917,10 @@
 			</File>
 			<File
 				RelativePath="DX9AllocatorPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EditListEditor.h"
 				>
 			</File>
 			<File

@@ -37,6 +37,8 @@
 
 /////////
 
+#define IDS_RS_ENABLEEDLEDITOR				_T("EnableEDLEditor")
+
 void CorrectComboListWidth(CComboBox& box, CFont* pWndFont)
 {
 	int cnt = box.GetCount();
@@ -1369,6 +1371,11 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_SUB_DELAY_UP,				  VK_F2, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_105));
 	ADDCMD((ID_FILE_SAVE_THUMBNAILS,			  0, FVIRTKEY|FNOINVERT,				IDS_FILE_SAVE_THUMBNAILS));
 
+	ADDCMD((ID_VIEW_EDITLISTEDITOR,				  0, FVIRTKEY|FNOINVERT,				IDS_AG_TOGGLE_EDITLISTEDITOR));
+	ADDCMD((ID_EDL_IN,							  0, FVIRTKEY|FNOINVERT,				IDS_AG_EDL_IN));
+	ADDCMD((ID_EDL_OUT,							  0, FVIRTKEY|FNOINVERT,				IDS_AG_EDL_OUT));
+	ADDCMD((ID_EDL_NEWCLIP,						  0, FVIRTKEY|FNOINVERT,				IDS_AG_EDO_NEW_CLIP));
+
 	ResetPositions();
 
 #undef ADDCMD
@@ -1593,6 +1600,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), strShaderList);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), iEvrBuffers);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), (int)fShowOSD);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_LANGUAGE), (int)iLanguage);
 
 
@@ -2220,6 +2228,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		strShaderList	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), _T(""));
 		iEvrBuffers		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), 5);
 		fShowOSD		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
+		fEnableEDLEditor= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), IDS_RS_ENABLEEDLEDITOR, FALSE);
 
 		// Position de lecture des derniers DVD's
 		fRememberDVDPos		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DVDPOS), 0);

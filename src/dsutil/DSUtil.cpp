@@ -2358,6 +2358,21 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 	return strTemp;
 }
 
+REFERENCE_TIME StringToReftime(LPCTSTR strVal)
+{
+	REFERENCE_TIME	rt			= 0;
+	int				lHour		= 0;
+	int				lMinute		= 0;
+	int				lSecond		= 0;
+	int				lMillisec	= 0;
+
+	if (_stscanf_s (strVal, _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4)
+	{
+		rt = ( (((lHour*24)+lMinute)*60 + lSecond) * MILLISECONDS + lMillisec ) * (UNITS/MILLISECONDS);
+	}
+
+	return rt;
+}
 
 const double Rec601_Kr = 0.299;
 const double Rec601_Kb = 0.114;

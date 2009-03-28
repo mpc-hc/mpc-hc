@@ -34,6 +34,7 @@
 #include "PlayerPlaylistBar.h"
 #include "PlayerCaptureBar.h"
 #include "PlayerShaderEditorBar.h"
+#include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
 #include "OpenCapDeviceDlg.h"
@@ -273,6 +274,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CComPtr<ISubClock> m_pSubClock;
 
 	int m_fFrameSteppingActive;
+	int m_nStepForwardCount;
+	REFERENCE_TIME m_rtStepForwardStart;
 	int m_VolumeBeforeFrameStepping;
 
 	bool m_fEndOfStream;
@@ -452,6 +455,7 @@ protected:  // control bar embedded members
 	CPlayerPlaylistBar m_wndPlaylistBar;
 	CPlayerCaptureBar m_wndCaptureBar;
 	CPlayerShaderEditorBar m_wndShaderEditorBar;
+	CEditListEditor m_wndEditListEditor;
 	CList<CSizingControlBar*> m_dockingbars;
 
 	CFileDropTarget m_fileDropTarget;
@@ -591,6 +595,13 @@ public:
 	afx_msg void OnUpdateViewSubresync(CCmdUI* pCmdUI);
 	afx_msg void OnViewPlaylist();
 	afx_msg void OnUpdateViewPlaylist(CCmdUI* pCmdUI);
+	afx_msg void OnViewEditListEditor();
+	afx_msg void OnEDLIn();
+	afx_msg void OnUpdateEDLIn(CCmdUI* pCmdUI);
+	afx_msg void OnEDLOut();
+	afx_msg void OnUpdateEDLOut(CCmdUI* pCmdUI);
+	afx_msg void OnEDLNewClip();
+	afx_msg void OnUpdateEDLNewClip(CCmdUI* pCmdUI);
 	afx_msg void OnViewCapture();
 	afx_msg void OnUpdateViewCapture(CCmdUI* pCmdUI);
 	afx_msg void OnViewShaderEditor();
