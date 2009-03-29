@@ -33,22 +33,32 @@
 
 CHdmvSub::CHdmvSub(void)
 {
-	m_nColorNumber		= 0;
+	m_nColorNumber				= 0;
 
-	m_nCurSegment		= NO_SEGMENT;
-	m_pSegBuffer		= NULL;
-	m_nTotalSegBuffer	= 0;
-	m_nSegBufferPos		= 0;
-	m_nSegSize			= 0;
-	m_pCurrentObject	= NULL;
+	m_nCurSegment				= NO_SEGMENT;
+	m_pSegBuffer				= NULL;
+	m_nTotalSegBuffer			= 0;
+	m_nSegBufferPos				= 0;
+	m_nSegSize					= 0;
+	m_pCurrentObject			= NULL;
+	m_pDefaultPalette			= NULL;
+	m_nDefaultPaletteNbEntry	= 0;
 
 	memset (&m_VideoDescriptor, 0, sizeof(VIDEO_DESCRIPTOR));
 }
 
 CHdmvSub::~CHdmvSub()
 {
-	m_pObjects.RemoveAll();
+	CompositionObject*	pObject;
+	while (m_pObjects.GetCount()>0)
+	{
+		pObject = m_pObjects.RemoveHead();
+		delete pObject;
+	}
+
 	delete[] m_pSegBuffer;
+	delete[] m_pDefaultPalette;
+	delete m_pCurrentObject;
 }
 
 
@@ -214,6 +224,14 @@ void CHdmvSub::ParsePalette(CGolombBuffer* pGBuffer, USHORT nSize)		// #497
 	nNbEntry = (nSize-2) / sizeof(HDMV_PALETTE);
 	HDMV_PALETTE*	pPalette = (HDMV_PALETTE*)pGBuffer->GetBufferPos();
 
+	if (m_pDefaultPalette == NULL || m_nDefaultPaletteNbEntry != nNbEntry)
+	{
+		delete[] m_pDefaultPalette;
+		m_pDefaultPalette		 = new HDMV_PALETTE[nNbEntry];
+		m_nDefaultPaletteNbEntry = nNbEntry;
+	}
+	memcpy (m_pDefaultPalette, pPalette, nNbEntry*sizeof(HDMV_PALETTE));
+
 	if (m_pCurrentObject)
 		m_pCurrentObject->SetPalette (nNbEntry, pPalette, m_VideoDescriptor.nVideoWidth>720);
 }
@@ -224,7 +242,7 @@ void CHdmvSub::ParseObject(CGolombBuffer* pGBuffer, USHORT nUnitSize)	// #498
 	BYTE	m_sequence_desc;
 
 	ASSERT (m_pCurrentObject != NULL);
-	if (m_pCurrentObject && m_pCurrentObject->m_object_id_ref == object_id)
+	if (m_pCurrentObject)// && m_pCurrentObject->m_object_id_ref == object_id)
 	{
 		m_pCurrentObject->m_version_number	= pGBuffer->ReadByte();
 		m_sequence_desc						= pGBuffer->ReadByte();
@@ -287,6 +305,9 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
 	if (pObject && spd.w >= pObject->m_width && spd.h >= pObject->m_height)
 	{
+		if (!pObject->HavePalette())
+			pObject->SetPalette (m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth>720);
+
 		TRACE_HDMVSUB ("CHdmvSub:Render	    size=%ld,  ObjRes=%dx%d,  SPDRes=%dx%d\n", pObject->GetRLEDataSize(), 
 					   pObject->m_width, pObject->m_height, spd.w, spd.h);
 		pObject->Render(spd);

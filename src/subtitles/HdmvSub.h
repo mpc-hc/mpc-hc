@@ -107,6 +107,7 @@ public:
 		void				Render(SubPicDesc& spd);
 		void				WriteSeg (SubPicDesc& spd, SHORT nX, SHORT nY, SHORT nCount, SHORT nPaletteIndex);
 		void				SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool bIsHD);
+		bool				HavePalette() { return m_nColorNumber>0; };
 
 	private :
 		CHdmvSub*	m_pSub;
@@ -155,6 +156,9 @@ private :
 
 	CompositionObject*				m_pCurrentObject;
 	CAtlList<CompositionObject*>	m_pObjects;
+
+	HDMV_PALETTE*					m_pDefaultPalette;
+	int								m_nDefaultPaletteNbEntry;
 
 	int								m_nColorNumber;
 
