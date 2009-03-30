@@ -453,10 +453,11 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 		av_vc1_decode_frame (pAVCtx, pBuffer, nSize);
 	}
 
-	if (vc1->interlace)
-		*nFieldType = (vc1->tff ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD);
-	else
+	// WARNING : vc1->interlace is not reliable (always set for progressive video on HD-DVD material)
+	if (vc1->fcm == 0)
 		*nFieldType = PICT_FRAME;
+	else	// fcm : 2 or 3 frame or field interlaced
+		*nFieldType = (vc1->tff ? PICT_TOP_FIELD : PICT_BOTTOM_FIELD);
 
 	pPicParams->bPicIntra				= (vc1->s.pict_type == FF_I_TYPE);
 	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == FF_B_TYPE);
