@@ -519,7 +519,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);
 
-	DetectVideoCard();
+	DetectVideoCard(NULL);
 
 #ifdef _DEBUG
 	// Check codec definition table
@@ -531,8 +531,24 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #endif
 }
 
+UINT CMPCVideoDecFilter::GetAdapter(IDirect3D9* pD3D, HWND hWnd)
+{
+	if(hWnd == NULL || pD3D == NULL)
+		return D3DADAPTER_DEFAULT;
 
-void CMPCVideoDecFilter::DetectVideoCard()
+	HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+	if(hMonitor == NULL) return D3DADAPTER_DEFAULT;
+
+	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
+	{
+		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
+		if(hAdpMon == hMonitor) return adp;
+	}
+
+	return D3DADAPTER_DEFAULT;
+}
+
+void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 {
 	IDirect3D9* pD3D9;
 	m_nPCIVendor = 0;
@@ -543,7 +559,7 @@ void CMPCVideoDecFilter::DetectVideoCard()
 	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) 
 	{
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-		if (pD3D9->GetAdapterIdentifier(0, 0, &adapterIdentifier) == S_OK) 
+		if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, hWnd), 0, &adapterIdentifier) == S_OK) 
 		{
 			m_nPCIVendor = adapterIdentifier.VendorId;
 			m_nPCIDevice = adapterIdentifier.DeviceId;
@@ -1674,6 +1690,7 @@ HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin *pPin)
 
     CComPtr<IMFGetService>						pGetService;
     CComPtr<IDirectXVideoMemoryConfiguration>	pVideoConfig;
+	CComPtr<IMFVideoDisplayControl>				pVdc;
 
     // Query the pin for IMFGetService.
     hr = pPin->QueryInterface(__uuidof(IMFGetService), (void**)&pGetService);
@@ -1685,6 +1702,15 @@ HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin *pPin)
             MR_VIDEO_ACCELERATION_SERVICE,
             __uuidof(IDirectXVideoMemoryConfiguration),
             (void**)&pVideoConfig);
+
+		if (SUCCEEDED (pGetService->GetService(MR_VIDEO_RENDER_SERVICE, __uuidof(IMFVideoDisplayControl), (void**)&pVdc)))
+		{
+			HWND	hWnd;
+			if (SUCCEEDED (pVdc->GetVideoWindow(&hWnd)))
+			{
+				DetectVideoCard(hWnd);
+			}
+		}
     }
 
     // Notify the EVR. 

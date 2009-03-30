@@ -139,7 +139,8 @@ protected:
 	bool				IsMultiThreadSupported(int nCodec);
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
-	void				DetectVideoCard();
+	void				DetectVideoCard(HWND hWnd);
+	UINT				GetAdapter(IDirect3D9* pD3D, HWND hWnd);
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
