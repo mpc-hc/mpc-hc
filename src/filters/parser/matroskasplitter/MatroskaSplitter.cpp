@@ -420,6 +420,8 @@ avcsuccess:
 					id2ft["A_FLAC"] = -WAVE_FORMAT_FLAC;
 					id2ft["A_WAVPACK4"] = -WAVE_FORMAT_WAVPACK4;
 					id2ft["A_TTA1"] = WAVE_FORMAT_TTA1;
+					id2ft["A_TRUEHD"] = WAVE_FORMAT_DOLBY_AC3;
+					id2ft["A_MLP"] = WAVE_FORMAT_DOLBY_AC3;
 				}
 
 				int wFormatTag;
