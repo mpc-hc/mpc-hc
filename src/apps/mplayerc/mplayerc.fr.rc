@@ -1745,6 +1745,41 @@ IDR_POPUP MENU
 BEGIN
     POPUP ""
     BEGIN
+	    POPUP "&Fichier"
+	    BEGIN
+	        MENUITEM "Ouvrir &rapidement...\tCtrl+Q", ID_FILE_OPENQUICK
+	        MENUITEM SEPARATOR
+	        MENUITEM "&Ouvrir un fichier...\tCtrl+O", ID_FILE_OPENMEDIA
+	        MENUITEM "Lancer un &DVD...\tCtrl+D",   ID_FILE_OPENDVD
+	        MENUITEM "Ouvrir un &périphérique...\tCtrl+V", ID_FILE_OPENDEVICE
+	    	MENUITEM "Ouvrir un répertoire...",           ID_FILE_OPENDIRECTORY
+	        MENUITEM "O&uvrir le disque",           ID_FILE_OPENDISC32774
+	    	MENUITEM "Recent Files"				ID_RECENT_FILES //TODO
+	        MENUITEM "&Fermer",                     ID_FILE_CLOSEPLAYLIST
+	        MENUITEM SEPARATOR
+	        MENUITEM "&Enregistrer sous...",        ID_FILE_SAVE_COPY
+	        MENUITEM "Enregistrer l'&image...",     ID_FILE_SAVE_IMAGE
+	        MENUITEM "Enregistrer les miniatures...", ID_FILE_SAVE_THUMBNAILS
+	        MENUITEM SEPARATOR
+	        MENUITEM "&Charger des sous-titres...\tCtrl+L", ID_FILE_LOAD_SUBTITLE
+	        MENUITEM "Enregistrer les sous-titres...\tCtrl+S", ID_FILE_SAVE_SUBTITLE
+	        POPUP "Base de données"
+	        BEGIN
+	            MENUITEM "Rechercher...",               ID_FILE_ISDB_SEARCH
+	            MENUITEM "Envoyer...",                  ID_FILE_ISDB_UPLOAD
+	            MENUITEM "Télécharger...",              ID_FILE_ISDB_DOWNLOAD
+	        END
+	        MENUITEM SEPARATOR
+	        MENUITEM "&Propriétés",                 ID_FILE_PROPERTIES
+	        MENUITEM SEPARATOR
+	        POPUP "Outils"
+	        BEGIN
+	            MENUITEM "Co&nvertisseur DSM...",       ID_FILE_CONVERT
+	        END
+	        MENUITEM SEPARATOR
+	        MENUITEM "&Quitter\tAlt+X",             ID_FILE_EXIT
+	    END
+		MENUITEM SEPARATOR
         MENUITEM "&Lecture/Pause",								   ID_PLAY_PLAYPAUSE
         MENUITEM "&Arrêt",										   ID_PLAY_STOP
         MENUITEM SEPARATOR
