@@ -53,7 +53,7 @@ typedef struct RTL_DRIVE_LETTER_CURDIR {        // Size = 0x10
     UNICODE_STRING  DosPath;
 } RTL_DRIVE_LETTER_CURDIR, *PRTL_DRIVE_LETTER_CURDIR;
 
-typedef struct _RTL_USER_PROCESS_PARAMETERS {   // Size = 0x290
+typedef struct _RTL_USER_PROCESS_PARAMETERS_MPC {   // Size = 0x290
     ULONG           AllocationSize;
     ULONG           Size;
     ULONG           Flags;
@@ -83,7 +83,7 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {   // Size = 0x290
     UNICODE_STRING  ShellInfo;
     UNICODE_STRING  RuntimeInfo;
     RTL_DRIVE_LETTER_CURDIR DLCurrentDirectory[0x20];
-} RTL_USER_PROCESS_PARAMETERS, *PRTL_USER_PROCESS_PARAMETERS;
+} RTL_USER_PROCESS_PARAMETERS_MPC, *PRTL_USER_PROCESS_PARAMETERS_MPC;
 
 typedef struct _LDR_MODULE {
         LIST_ENTRY     InLoadOrderModuleList;
@@ -101,7 +101,7 @@ typedef struct _LDR_MODULE {
         ULONG          TimeDateStamp;
 } LDR_MODULE, *PLDR_MODULE;
 
-typedef struct _PEB_LDR_DATA {                          // Size = 0x24
+typedef struct _PEB_LDR_DATA_MPC {                          // Size = 0x24
     ULONG           Length;                             // 00
     BOOLEAN         Initialized;                        // 04
     PVOID           SsHandle;                           // 08
@@ -109,7 +109,7 @@ typedef struct _PEB_LDR_DATA {                          // Size = 0x24
     LIST_ENTRY      InMemoryOrderModuleList;            // 14
     LIST_ENTRY      InInitializationOrderModuleList;    // 1C
 //  void *          EntryInProgress;                    // 24
-} PEB_LDR_DATA, *PPEB_LDR_DATA;
+} PEB_LDR_DATA_MPC, *PPEB_LDR_DATA_MPC;
 
 typedef struct _PEB_FREE_BLOCK {  // Size = 8
 struct _PEB_FREE_BLOCK *Next;
@@ -149,8 +149,8 @@ typedef struct _PEB_NT {                                        // Size = 0x1E8
   BOOLEAN                      SpareBool;                       //003 Allocation size
   HANDLE                       Mutant;                          //004
   HINSTANCE                    ImageBaseAddress;                //008 Instance
-  PPEB_LDR_DATA                LdrData;                         //00C
-  PRTL_USER_PROCESS_PARAMETERS ProcessParameters;               //010
+  PPEB_LDR_DATA_MPC                LdrData;                         //00C
+  PRTL_USER_PROCESS_PARAMETERS_MPC ProcessParameters;               //010
   ULONG                        SubSystemData;                   //014
   HANDLE                       ProcessHeap;                     //018
   KSPIN_LOCK                   FastPebLock;                     //01C
