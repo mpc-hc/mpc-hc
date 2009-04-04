@@ -811,7 +811,7 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 void CMPCVideoDecFilter::OnGetBuffer(AVFrame *pic)
 {
 	// Callback from FFMpeg to store Ref Time in frame (needed to have correct rtStart after avcodec_decode_video calls)
-	pic->rtStart	= m_rtStart;
+//	pic->rtStart	= m_rtStart;
 }
 
 STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -1238,6 +1238,9 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		m_nPosB						= 1-m_nPosB;
 	}
 
+   m_pAVCtx->reordered_opaque  = rtStart;
+   m_pAVCtx->reordered_opaque2 = rtStop;
+
 	while (nSize > 0)
 	{
 		if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize)
@@ -1265,8 +1268,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if(FAILED(hr = GetDeliveryBuffer(m_pAVCtx->width, m_pAVCtx->height, &pOut)) || FAILED(hr = pOut->GetPointer(&pDataOut)))
 			return hr;
 	
-		rtStart = m_pFrame->rtStart;
-		rtStop  = m_pFrame->rtStart + m_rtAvrTimePerFrame;
+		rtStart = m_pFrame->reordered_opaque;
+		rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
 
 		// Re-order B-frames if needed
 		if (m_pAVCtx->has_b_frames && m_bReorderBFrame)
@@ -1432,7 +1435,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	}
 	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
-	m_rtStart	= rtStart;
+//	m_rtStart	= rtStart;
 	
 //	DumpBuffer (pDataIn, nSize);
 //	TRACE ("Receive : %10I64d - %10I64d   (%10I64d)  Size=%d\n", rtStart, rtStop, rtStop - rtStart, nSize);

@@ -92,7 +92,7 @@ protected:
 	int										m_nCodecNb;
 	int										m_nWorkaroundBug;
 	int										m_nErrorConcealment;
-	REFERENCE_TIME							m_rtStart;				// Ref. time for last decoded frame (use for Ffmpeg callback)
+//	REFERENCE_TIME							m_rtStart;				// Ref. time for last decoded frame (use for Ffmpeg callback)
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
 	bool									m_bReorderBFrame;
 	B_FRAME									m_BFrames[2];
