@@ -24,10 +24,12 @@
  * Various WMA tables.
  */
 
-#ifndef FFMPEG_WMADATA_H
-#define FFMPEG_WMADATA_H
+#ifndef AVCODEC_WMADATA_H
+#define AVCODEC_WMADATA_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "wma.h"
 
 static const uint16_t wma_critical_freqs[25] = {
@@ -1438,4 +1440,4 @@ static const CoefVLCTable coef_vlcs[6] = {
     },
 };
 
-#endif /* FFMPEG_WMADATA_H */
+#endif /* AVCODEC_WMADATA_H */

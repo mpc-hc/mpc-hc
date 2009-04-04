@@ -20,9 +20,11 @@
 
 /**
  * @file mathematics.c
- * Miscellaneous math routines and tables.
+ * miscellaneous math routines and tables
  */
 
+#include <assert.h>
+#include "avutil.h"
 #include "common.h"
 #include "mathematics.h"
 
@@ -48,7 +50,7 @@ const uint8_t ff_log2_tab[256]={
         7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
 };
 
-int64_t ff_gcd(int64_t a, int64_t b){
-    if(b) return ff_gcd(b, a%b);
+int64_t av_gcd(int64_t a, int64_t b){
+    if(b) return av_gcd(b, a%b);
     else  return a;
 }

@@ -1,6 +1,6 @@
 /*
  * PCM codecs
- * Copyright (c) 2001 Fabrice Bellard.
+ * Copyright (c) 2001 Fabrice Bellard
  *
  * This file is part of FFmpeg.
  *
@@ -76,7 +76,7 @@ typedef struct PCMDecode {
     short table[256];
 } PCMDecode;
 
-static int pcm_decode_init(AVCodecContext * avctx)
+static av_cold int pcm_decode_init(AVCodecContext * avctx)
 {
     PCMDecode *s = avctx->priv_data;
     int i;
@@ -93,6 +93,8 @@ static int pcm_decode_init(AVCodecContext * avctx)
     default:
         break;
     }
+
+    avctx->sample_fmt = SAMPLE_FMT_S16;
     return 0;
 }
 
@@ -101,14 +103,17 @@ static int pcm_decode_frame(AVCodecContext *avctx,
                             const uint8_t *buf, int buf_size)
 {
     PCMDecode *s = avctx->priv_data;
-    int n;
+    int sample_size, n;
     short *samples;
     const uint8_t *src;
 
     samples = data;
     src = buf;
+    
+    sample_size = av_get_bits_per_sample(avctx->codec_id)/8;
 
-    n= av_get_bits_per_sample(avctx->codec_id)/8;
+    n = avctx->channels * sample_size;
+
     if(n && buf_size % n){
         av_log(avctx, AV_LOG_ERROR, "invalid PCM packet\n");
         return -1;
@@ -117,10 +122,11 @@ static int pcm_decode_frame(AVCodecContext *avctx,
     buf_size= FFMIN(buf_size, *data_size/2);
     *data_size=0;
 
+    n = buf_size/sample_size;
+
     switch(avctx->codec->id) {
     case CODEC_ID_PCM_ALAW:
     case CODEC_ID_PCM_MULAW:
-        n = buf_size;
         for(;n>0;n--) {
             *samples++ = s->table[*src++];
         }
@@ -132,7 +138,8 @@ static int pcm_decode_frame(AVCodecContext *avctx,
     return src - buf;
 }
 
-#define PCM_CODEC(id, name, long_name_)         \
+#if __STDC_VERSION__ >= 199901L
+#define PCM_DECODER(id,sample_fmt_,name,long_name_)         \
 AVCodec name ## _decoder = {                    \
     #name,                                      \
     CODEC_TYPE_AUDIO,                           \
@@ -147,10 +154,31 @@ AVCodec name ## _decoder = {                    \
     /*.flush = */NULL,                          \
     /*.supported_framerates = */NULL,           \
     /*.pix_fmts = */NULL,                       \
-    /*.long_name = */long_name_,                \
+    /*.long_name = */NULL_IF_CONFIG_SMALL(long_name_), \
+    /*.sample_fmts = */(enum SampleFormat[]){sample_fmt_,SAMPLE_FMT_NONE}, \
 }
+#else
+#define PCM_DECODER(id,sample_fmt_,name,long_name_)         \
+AVCodec name ## _decoder = {                    \
+    #name,                                      \
+    CODEC_TYPE_AUDIO,                           \
+    id,                                         \
+    sizeof(PCMDecode),                          \
+    pcm_decode_init,                            \
+    NULL,                                       \
+    NULL,                                       \
+    pcm_decode_frame,                           \
+    /*.capabilities = */0,                      \
+    /*.next = */NULL,                           \
+    /*.flush = */NULL,                          \
+    /*.supported_framerates = */NULL,           \
+    /*.pix_fmts = */NULL,                       \
+    /*.long_name = */NULL_IF_CONFIG_SMALL(long_name_), \
+    /*.sample_fmts = */NULL, \
+}
+#endif
 
-PCM_CODEC  (CODEC_ID_PCM_ALAW, pcm_alaw, "A-law PCM");
-PCM_CODEC  (CODEC_ID_PCM_MULAW, pcm_mulaw, "mu-law PCM");
+PCM_DECODER(CODEC_ID_PCM_ALAW,  SAMPLE_FMT_S16, pcm_alaw,  "A-law PCM" );
+PCM_DECODER(CODEC_ID_PCM_MULAW, SAMPLE_FMT_S16, pcm_mulaw, "mu-law PCM");
 
 #undef PCM_CODEC

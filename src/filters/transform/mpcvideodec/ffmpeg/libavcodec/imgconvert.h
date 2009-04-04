@@ -21,16 +21,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_IMGCONVERT_H
-#define FFMPEG_IMGCONVERT_H
+#ifndef AVCODEC_IMGCONVERT_H
+#define AVCODEC_IMGCONVERT_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "avcodec.h"
 
-int ff_fill_linesize(AVPicture *picture, int pix_fmt, int width);
+int ff_fill_linesize(AVPicture *picture, enum PixelFormat pix_fmt, int width);
 
-int ff_fill_pointer(AVPicture *picture, uint8_t *ptr, int pix_fmt, int height);
+int ff_fill_pointer(AVPicture *picture, uint8_t *ptr, enum PixelFormat pix_fmt, int height);
 
 int ff_get_plane_bytewidth(enum PixelFormat pix_fmt, int width, int plane);
 
-#endif /* FFMPEG_IMGCONVERT_H */
+int ff_set_systematic_pal(uint32_t pal[256], enum PixelFormat pix_fmt);
+
+#endif /* AVCODEC_IMGCONVERT_H */

@@ -21,7 +21,7 @@
  */
 
 /**
- * @file error_resilience.c
+ * @file libavcodec/error_resilience.c
  * Error resilience / concealment.
  */
 
@@ -312,11 +312,11 @@ static void v_block_filter(MpegEncContext *s, uint8_t *dst, int w, int h, int st
 }
 
 static void guess_mv(MpegEncContext *s){
-	#if __STDC_VERSION__ >= 199901L
-	uint8_t fixed[s->mb_stride * s->mb_height];
-	#else
-	uint8_t *fixed=_alloca(sizeof(uint8_t)*(s->mb_stride * s->mb_height));
-	#endif
+    #if __STDC_VERSION__ >= 199901L
+    uint8_t fixed[s->mb_stride * s->mb_height];
+    #else
+    uint8_t *fixed=_alloca(sizeof(uint8_t)*(s->mb_stride * s->mb_height));
+    #endif
 #define MV_FROZEN    3
 #define MV_CHANGED   2
 #define MV_UNCHANGED 1

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_AVSTRING_H
-#define FFMPEG_AVSTRING_H
+#ifndef AVUTIL_AVSTRING_H
+#define AVUTIL_AVSTRING_H
 
 #include <stddef.h>
 
@@ -29,7 +29,7 @@
  *
  * @param str input string
  * @param pfx prefix to test
- * @param ptr updated after the prefix in str in there is a match
+ * @param ptr updated if the prefix is matched inside str
  * @return non-zero if the prefix matches, zero otherwise
  */
 int av_strstart(const char *str, const char *pfx, const char **ptr);
@@ -41,14 +41,14 @@ int av_strstart(const char *str, const char *pfx, const char **ptr);
  *
  * @param str input string
  * @param pfx prefix to test
- * @param ptr updated after the prefix in str in there is a match
+ * @param ptr updated if the prefix is matched inside str
  * @return non-zero if the prefix matches, zero otherwise
  */
 int av_stristart(const char *str, const char *pfx, const char **ptr);
 
 /**
  * Copy the string src to dst, but no more than size - 1 bytes, and
- * null terminate dst.
+ * null-terminate dst.
  *
  * This function is the same as BSD strlcpy().
  *
@@ -61,7 +61,7 @@ size_t av_strlcpy(char *dst, const char *src, size_t size);
 
 /**
  * Append the string src to the string dst, but to a total length of
- * no more than size - 1 bytes, and null terminate dst.
+ * no more than size - 1 bytes, and null-terminate dst.
  *
  * This function is similar to BSD strlcat(), but differs when
  * size <= strlen(dst).
@@ -87,4 +87,4 @@ size_t av_strlcat(char *dst, const char *src, size_t size);
  */
 size_t av_strlcatf(char *dst, size_t size, const char *fmt, ...);
 
-#endif /* FFMPEG_AVSTRING_H */
+#endif /* AVUTIL_AVSTRING_H */

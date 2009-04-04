@@ -38,6 +38,7 @@ int FFGetChannelMap(struct AVCodecContext * avctx)
 		{
 			AC3DecodeContext *s = avctx->priv_data;
 
+			// Mapping index for s_scmap_ac3
 			switch (s->channel_mode)
 			{
 			case AC3_CHMODE_DUALMONO: return 0;
@@ -53,8 +54,11 @@ int FFGetChannelMap(struct AVCodecContext * avctx)
 		break;
 	case CODEC_ID_MLP  :
 		{
-			//MLPDecodeContext *s = avctx->priv_data;
-			return 18;
+			// Mapping index for s_scmap_lpcm
+			if (avctx->channels<=8)
+				return avctx->channels-1;
+			else
+				return -1;
 		}
 	default :
 		return 2;

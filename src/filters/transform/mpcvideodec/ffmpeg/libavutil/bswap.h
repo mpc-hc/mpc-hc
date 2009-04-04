@@ -32,7 +32,7 @@
 #include "config.h"
 #include "common.h"
 
-#if defined(ARCH_X86)
+#if ARCH_X86
 #   include "x86/bswap.h"
 #endif
 
@@ -73,8 +73,8 @@ static inline uint64_t av_const bswap_64(uint64_t x)
 }
 #endif
 
-// be2me ... BigEndian to MachineEndian
-// le2me ... LittleEndian to MachineEndian
+// be2me ... big-endian to machine-endian
+// le2me ... little-endian to machine-endian
 
 #ifdef WORDS_BIGENDIAN
 #define be2me_16(x) (x)

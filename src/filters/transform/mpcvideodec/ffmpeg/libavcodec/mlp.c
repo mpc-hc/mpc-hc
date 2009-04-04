@@ -19,7 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 
 #include "libavutil/crc.h"
 #include "libavutil/intreadwrite.h"
@@ -46,7 +48,7 @@ static AVCRC crc_63[1024];
 static AVCRC crc_1D[1024];
 static AVCRC crc_2D[1024];
 
-void av_cold ff_mlp_init_crc()
+av_cold void ff_mlp_init_crc(void)
 {
     if (!crc_init) {
         av_crc_init(crc_63, 0,  8,   0x63, sizeof(crc_63));

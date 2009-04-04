@@ -25,6 +25,7 @@
 #include "ra288.h"
 #include "lpc.h"
 #include "celp_math.h"
+#include "celp_filters.h"
 
 #ifndef __GNUC__
 #include <malloc.h>
@@ -72,7 +73,7 @@ static void convolve(float *tgt, const float *src, int len, int n)
 
 static void decode(RA288Context *ractx, float gain, int cb_coef)
 {
-    int i, j;
+    int i;
     double sumsum;
     float sum, buffer[5];
     float *block = ractx->sp_hist + 70 + 36; // current block
@@ -104,11 +105,7 @@ static void decode(RA288Context *ractx, float gain, int cb_coef)
 
     gain_block[9] = 10 * log10(sum) - 32;
 
-    for (i=0; i < 5; i++) {
-        block[i] = buffer[i];
-        for (j=0; j < 36; j++)
-            block[i] -= block[i-1-j]*ractx->sp_lpc[j];
-    }
+    ff_celp_lp_synthesis_filterf(block, ractx->sp_lpc, buffer, 5, 36);
 
     /* output */
     for (i=0; i < 5; i++)

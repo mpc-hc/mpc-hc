@@ -55,6 +55,7 @@ SRCS_C=\
 		$(LAVC_DIR)/vp56.c \
 		$(LAVC_DIR)/vp56data.c \
 		$(LAVC_DIR)/vp6.c \
+		$(LAVC_DIR)/vp6dsp.c \
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
 		$(LAVC_DIR)/wmv2dec.c \
@@ -76,6 +77,7 @@ SRCS_C=\
 		$(LAVC_DIR)/mlpdec.c \
 		$(LAVC_DIR)/nellymoser.c \
 		$(LAVC_DIR)/nellymoserdec.c \
+		$(LAVC_DIR)/options.c \
 		$(LAVC_DIR)/ratecontrol.c
 
 #SRCS_C+=\
@@ -164,6 +166,7 @@ SRCS_C+=\
 		$(LAVU_DIR)/log.c \
 		$(LAVU_DIR)/mathematics.c \
 		$(LAVU_DIR)/mem.c \
+		$(LAVU_DIR)/random_seed.c \
 		$(LAVU_DIR)/rational.c \
 		$(LAVU_DIR)/random.c \
 		$(LAVU_DIR)/lfg.c \
@@ -176,6 +179,7 @@ SRCS_C+=\
 SRCS_C+=\
     $(LAVC_DIR)/x86/cpuid.c \
 		$(LAVC_DIR)/x86/dsputil_mmx.c \
+		$(LAVC_DIR)/x86/fdct_mmx.c \
 		$(LAVC_DIR)/x86/idct_mmx.c \
 		$(LAVC_DIR)/x86/idct_mmx_xvid.c \
 		$(LAVC_DIR)/x86/idct_sse2_xvid.c \
@@ -183,7 +187,9 @@ SRCS_C+=\
 		$(LAVC_DIR)/x86/simple_idct_mmx.c \
 		$(LAVC_DIR)/x86/vc1dsp_mmx.c \
 		$(LAVC_DIR)/x86/vp3dsp_mmx.c \
-		$(LAVC_DIR)/x86/vp3dsp_sse2.c
+        $(LAVC_DIR)/x86/vp3dsp_sse2.c \
+        $(LAVC_DIR)/x86/vp6dsp_mmx.c \
+        $(LAVC_DIR)/x86/vp6dsp_sse2.c
 
 ifneq ($(64BIT),yes)
 SRCS_C+=\

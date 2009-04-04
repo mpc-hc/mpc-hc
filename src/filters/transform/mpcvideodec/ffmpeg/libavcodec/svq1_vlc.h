@@ -18,10 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_SVQ1_VLC_H
-#define FFMPEG_SVQ1_VLC_H
+#ifndef AVCODEC_SVQ1_VLC_H
+#define AVCODEC_SVQ1_VLC_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 
 /* values in this table range from 0..3; adjust retrieved value by +0 */
 const uint8_t ff_svq1_block_type_vlc[4][2] = {
@@ -280,4 +282,4 @@ const uint16_t ff_svq1_inter_mean_vlc[512][2] = {
     { 0x3, 22 },  { 0x2, 22 },  { 0x1, 22 },  { 0x0, 22 }
 };
 
-#endif /* FFMPEG_SVQ1_VLC_H */
+#endif /* AVCODEC_SVQ1_VLC_H */

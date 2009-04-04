@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002 The FFmpeg Project.
+ * Copyright (c) 2002 The FFmpeg Project
  *
  * This file is part of FFmpeg.
  *
@@ -21,6 +21,7 @@
 #include "avcodec.h"
 #include "dsputil.h"
 #include "mpegvideo.h"
+#include "mathops.h"
 #include "msmpeg4.h"
 #include "msmpeg4data.h"
 #include "intrax8.h"
@@ -496,5 +497,5 @@ AVCodec wmv2_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Windows Media Video 8",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
 };

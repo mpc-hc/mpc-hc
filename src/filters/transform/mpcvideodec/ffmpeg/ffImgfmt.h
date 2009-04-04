@@ -2,8 +2,16 @@
 #define _FFIMGFMT_H_
 
 //================================ ffdshow ==================================
-#define ODD2EVEN(x) x&1?x+1:x
-
+// the RGB related values in this enum refers to the "memory byte order" (byte order as stored in memory).
+// under x86 architecture (little endians), the byte order is stored reversed (comparing to the write order),
+// this means RGB will be stored in the memory as BGR.
+// When working with DirectShow in the Red-Green-Blue colorspace, DirectShow always
+// expects RGB at the "memory byte order", so RGB should be selected.
+// When working with files, we are interested in the "write order", which is the opposite
+// of the "memory byte order" (under x86), so you should select the opposite from the
+// destination byte order for the file.
+// (e.g. PNG images uses RGB order, so select BGR order
+// BMP image uses BGR order, so select RGB order)
 enum
 {
  FF_CSP_NULL       =     0,
@@ -36,7 +44,7 @@ enum
  FF_CSP_NV12       =1U<<22
 };
 
-#define FF_CSPS_NUM 23
+#define FF_CSPS_NUM 24
 
 #define FF_CSPS_MASK            ((2<<FF_CSPS_NUM)-1)
 #define FF_CSPS_MASK_YUV_PLANAR (FF_CSP_420P|FF_CSP_422P|FF_CSP_444P|FF_CSP_411P|FF_CSP_410P)
@@ -94,52 +102,87 @@ static __inline int csp_xvid4_2ffdshow(int csp)
 
 //================================= libavcodec ===================================
 
+/**
+ * Pixel format. Notes:
+ *
+ * PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA
+ * color is put together as:
+ *  (A << 24) | (R << 16) | (G << 8) | B
+ * This is stored as BGRA on little-endian CPU architectures and ARGB on
+ * big-endian CPUs.
+ *
+ * When the pixel format is palettized RGB (PIX_FMT_PAL8), the palettized
+ * image data is stored in AVFrame.data[0]. The palette is transported in
+ * AVFrame.data[1], is 1024 bytes long (256 4-byte entries) and is
+ * formatted the same as in PIX_FMT_RGB32 described above (i.e., it is
+ * also endian-specific). Note also that the individual RGB palette
+ * components stored in AVFrame.data[1] should be in the range 0..255.
+ * This is important as many custom PAL8 video codecs that were designed
+ * to run on the IBM VGA graphics adapter use 6-bit palette components.
+ *
+ * For all the 8bit per pixel formats, an RGB32 palette is in data[1] like
+ * for pal8. This palette is filled in automatically by the function
+ * allocating the picture.
+ *
+ * Note, make sure that all newly added big endian formats have pix_fmt&1==1
+ *       and that all newly added little endian formats have pix_fmt&1==0
+ *       this allows simpler detection of big vs little endian.
+ */
 enum PixelFormat {
     PIX_FMT_NONE= -1,
-    PIX_FMT_YUV420P,   ///< Planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
-    PIX_FMT_YUYV422,   ///< Packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr
-    PIX_FMT_RGB24,     ///< Packed RGB 8:8:8, 24bpp, RGBRGB...
-    PIX_FMT_BGR24,     ///< Packed RGB 8:8:8, 24bpp, BGRBGR...
-    PIX_FMT_YUV422P,   ///< Planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples)
-    PIX_FMT_YUV444P,   ///< Planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples)
-    PIX_FMT_RGB32,     ///< Packed RGB 8:8:8, 32bpp, (msb)8A 8R 8G 8B(lsb), in cpu endianness
-    PIX_FMT_YUV410P,   ///< Planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples)
-    PIX_FMT_YUV411P,   ///< Planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples)
-    PIX_FMT_RGB565,    ///< Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), in cpu endianness
-    PIX_FMT_RGB555,    ///< Packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), in cpu endianness most significant bit to 0
+    PIX_FMT_YUV420P,   ///< planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
+    PIX_FMT_YUYV422,   ///< packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr
+    PIX_FMT_RGB24,     ///< packed RGB 8:8:8, 24bpp, RGBRGB...
+    PIX_FMT_BGR24,     ///< packed RGB 8:8:8, 24bpp, BGRBGR...
+    PIX_FMT_YUV422P,   ///< planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples)
+    PIX_FMT_YUV444P,   ///< planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples)
+    PIX_FMT_RGB32,     ///< packed RGB 8:8:8, 32bpp, (msb)8A 8R 8G 8B(lsb), in CPU endianness
+    PIX_FMT_YUV410P,   ///< planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples)
+    PIX_FMT_YUV411P,   ///< planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples)
+    PIX_FMT_RGB565,    ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), in CPU endianness
+    PIX_FMT_RGB555,    ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), in CPU endianness, most significant bit to 0
     PIX_FMT_GRAY8,     ///<        Y        ,  8bpp
     PIX_FMT_MONOWHITE, ///<        Y        ,  1bpp, 0 is white, 1 is black
     PIX_FMT_MONOBLACK, ///<        Y        ,  1bpp, 0 is black, 1 is white
     PIX_FMT_PAL8,      ///< 8 bit with PIX_FMT_RGB32 palette
-    PIX_FMT_YUVJ420P,  ///< Planar YUV 4:2:0, 12bpp, full scale (jpeg)
-    PIX_FMT_YUVJ422P,  ///< Planar YUV 4:2:2, 16bpp, full scale (jpeg)
-    PIX_FMT_YUVJ444P,  ///< Planar YUV 4:4:4, 24bpp, full scale (jpeg)
-    PIX_FMT_XVMC_MPEG2_MC,///< XVideo Motion Acceleration via common packet passing(xvmc_render.h)
+    PIX_FMT_YUVJ420P,  ///< planar YUV 4:2:0, 12bpp, full scale (JPEG)
+    PIX_FMT_YUVJ422P,  ///< planar YUV 4:2:2, 16bpp, full scale (JPEG)
+    PIX_FMT_YUVJ444P,  ///< planar YUV 4:4:4, 24bpp, full scale (JPEG)
+    PIX_FMT_XVMC_MPEG2_MC,///< XVideo Motion Acceleration via common packet passing
     PIX_FMT_XVMC_MPEG2_IDCT,
-    PIX_FMT_UYVY422,   ///< Packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1
-    PIX_FMT_UYYVYY411, ///< Packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3
-    PIX_FMT_BGR32,     ///< Packed RGB 8:8:8, 32bpp, (msb)8A 8B 8G 8R(lsb), in cpu endianness
-    PIX_FMT_BGR565,    ///< Packed RGB 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), in cpu endianness
-    PIX_FMT_BGR555,    ///< Packed RGB 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), in cpu endianness most significant bit to 1
-    PIX_FMT_BGR8,      ///< Packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb)
-    PIX_FMT_BGR4,      ///< Packed RGB 1:2:1,  4bpp, (msb)1B 2G 1R(lsb)
-    PIX_FMT_BGR4_BYTE, ///< Packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb)
-    PIX_FMT_RGB8,      ///< Packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb)
-    PIX_FMT_RGB4,      ///< Packed RGB 1:2:1,  4bpp, (msb)2R 3G 3B(lsb)
-    PIX_FMT_RGB4_BYTE, ///< Packed RGB 1:2:1,  8bpp, (msb)2R 3G 3B(lsb)
-    PIX_FMT_NV12,      ///< Planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 for UV
+    PIX_FMT_UYVY422,   ///< packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1
+    PIX_FMT_UYYVYY411, ///< packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3
+    PIX_FMT_BGR32,     ///< packed RGB 8:8:8, 32bpp, (msb)8A 8B 8G 8R(lsb), in CPU endianness
+    PIX_FMT_BGR565,    ///< packed RGB 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), in CPU endianness
+    PIX_FMT_BGR555,    ///< packed RGB 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), in CPU endianness, most significant bit to 1
+    PIX_FMT_BGR8,      ///< packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb)
+    PIX_FMT_BGR4,      ///< packed RGB 1:2:1,  4bpp, (msb)1B 2G 1R(lsb)
+    PIX_FMT_BGR4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb)
+    PIX_FMT_RGB8,      ///< packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb)
+    PIX_FMT_RGB4,      ///< packed RGB 1:2:1,  4bpp, (msb)1R 2G 1B(lsb)
+    PIX_FMT_RGB4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb)
+    PIX_FMT_NV12,      ///< planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 for UV
     PIX_FMT_NV21,      ///< as above, but U and V bytes are swapped
 
-    PIX_FMT_RGB32_1,   ///< Packed RGB 8:8:8, 32bpp, (msb)8R 8G 8B 8A(lsb), in cpu endianness
-    PIX_FMT_BGR32_1,   ///< Packed RGB 8:8:8, 32bpp, (msb)8B 8G 8R 8A(lsb), in cpu endianness
+    PIX_FMT_RGB32_1,   ///< packed RGB 8:8:8, 32bpp, (msb)8R 8G 8B 8A(lsb), in CPU endianness
+    PIX_FMT_BGR32_1,   ///< packed RGB 8:8:8, 32bpp, (msb)8B 8G 8R 8A(lsb), in CPU endianness
 
     PIX_FMT_GRAY16BE,  ///<        Y        , 16bpp, big-endian
     PIX_FMT_GRAY16LE,  ///<        Y        , 16bpp, little-endian
-    PIX_FMT_YUV440P,   ///< Planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
-    PIX_FMT_YUVJ440P,  ///< Planar YUV 4:4:0 full scale (jpeg)
-    PIX_FMT_YUVA420P,  ///< Planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+    PIX_FMT_YUV440P,   ///< planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
+    PIX_FMT_YUVJ440P,  ///< planar YUV 4:4:0 full scale (JPEG)
+    PIX_FMT_YUVA420P,  ///< planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+    PIX_FMT_RGB48BE,   ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, big-endian
+    PIX_FMT_RGB48LE,   ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, little-endian
     PIX_FMT_NB,        ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
 };
+
+#define PIX_FMT_RGBA PIX_FMT_BGR32
+#define PIX_FMT_BGRA PIX_FMT_RGB32
+#define PIX_FMT_ARGB PIX_FMT_BGR32_1
+#define PIX_FMT_ABGR PIX_FMT_RGB32_1
+#define PIX_FMT_GRAY16 PIX_FMT_GRAY16LE
+#define PIX_FMT_RGB48 PIX_FMT_RGB48LE
 
 static __inline int csp_lavc2ffdshow(enum PixelFormat pix_fmt)
 {
@@ -296,6 +339,8 @@ static __inline int csp_mplayercsp2Bpp(int mplayercsp)
   }
 }
 
+// libmplayer refers to the write order, FF_CSP_ enum refers to the "memory byte order", 
+// which under x86 is reversed, see the comment above the FF_CSP_ enum definition.
 static __inline int csp_ffdshow2mplayer(int csp)
 {
  switch (csp&FF_CSPS_MASK)
@@ -319,15 +364,15 @@ static __inline int csp_ffdshow2mplayer(int csp)
    case FF_CSP_ABGR :return IMGFMT_RGB32;
    case FF_CSP_RGBA :return IMGFMT_RGB32;
 
-   case FF_CSP_RGB15:return IMGFMT_BGR15;
-   case FF_CSP_RGB16:return IMGFMT_BGR16;
-   case FF_CSP_RGB24:return IMGFMT_BGR24;
-   case FF_CSP_RGB32:return IMGFMT_BGR32;
+   case FF_CSP_RGB15:return IMGFMT_BGR15; // see the comment above
+   case FF_CSP_RGB16:return IMGFMT_BGR16; // see the comment above
+   case FF_CSP_RGB24:return IMGFMT_BGR24; // see the comment above
+   case FF_CSP_RGB32:return IMGFMT_BGR32; // see the comment above
 
-   case FF_CSP_BGR15:return IMGFMT_RGB15;
-   case FF_CSP_BGR16:return IMGFMT_RGB16;
-   case FF_CSP_BGR24:return IMGFMT_RGB24;
-   case FF_CSP_BGR32:return IMGFMT_RGB32;
+   case FF_CSP_BGR15:return IMGFMT_RGB15; // see the comment above
+   case FF_CSP_BGR16:return IMGFMT_RGB16; // see the comment above
+   case FF_CSP_BGR24:return IMGFMT_RGB24; // see the comment above
+   case FF_CSP_BGR32:return IMGFMT_RGB32; // see the comment above
 
    case FF_CSP_Y800 :return IMGFMT_Y800;
    case FF_CSP_NV12 :return csp&FF_CSP_FLAGS_YUV_ORDER?IMGFMT_NV12:IMGFMT_NV21;
@@ -420,7 +465,7 @@ private:
    int csp;
   public:
    TsortFc(int Icsp):csp(Icsp) {}
-   bool operator ()(const TcspInfo* csp1,const TcspInfo* csp2);
+   bool operator ()(const TcspInfo* &csp1,const TcspInfo* &csp2);
   };
 public:
  void sort(int csp);
@@ -466,6 +511,10 @@ static __inline int csp_isYUV(int x)
 {
  return csp_isYUVpacked(x)|csp_isYUVplanar(x);
 }
+static __inline int csp_isYUV_NV(int x)
+{
+ return csp_isYUVpacked(x)|csp_isYUVplanar(x)|(x & FF_CSP_NV12);
+}
 static __inline int csp_isRGB_RGB(int x)
 {
  return x&FF_CSPS_MASK&FF_CSPS_MASK_RGB;
@@ -484,7 +533,7 @@ static __inline int csp_isPAL(int x)
 }
 static __inline int csp_supXvid(int x)
 {
- return (x&FF_CSPS_MASK)&(FF_CSP_RGB24|FF_CSP_420P|FF_CSP_YUY2|FF_CSP_UYVY|FF_CSP_YVYU|FF_CSP_VYUY|FF_CSP_RGB15|FF_CSP_RGB16|FF_CSP_RGB32|FF_CSP_ABGR|FF_CSP_RGBA);
+ return (x&FF_CSPS_MASK)&(FF_CSP_RGB24|FF_CSP_420P|FF_CSP_YUY2|FF_CSP_UYVY|FF_CSP_YVYU|FF_CSP_VYUY|FF_CSP_RGB15|FF_CSP_RGB16|FF_CSP_RGB32|FF_CSP_ABGR|FF_CSP_RGBA|FF_CSP_BGR24);
 }
 
 bool csp_inFOURCCmask(int x,FOURCC fcc);
@@ -495,12 +544,16 @@ extern int csp_bestMatch(int inCSP,int wantedCSPS,int *rank=NULL);
 
 static __inline void csp_yuv_adj_to_plane(int &csp,const TcspInfo *cspInfo,unsigned int dy,unsigned char *data[4],stride_t stride[4])
 {
- if (csp_isYUVplanar(csp) && (csp&FF_CSP_FLAGS_YUV_ADJ))
-  {
-   csp&=~FF_CSP_FLAGS_YUV_ADJ;
-   data[2]=data[0]+stride[0]*(dy>>cspInfo->shiftY[0]);stride[1]=stride[0]>>cspInfo->shiftX[1];
-   data[1]=data[2]+stride[1]*(dy>>cspInfo->shiftY[1]);stride[2]=stride[0]>>cspInfo->shiftX[2];
-  }
+    if (csp_isYUVplanar(csp) && (csp & FF_CSP_FLAGS_YUV_ADJ)) {
+        csp&=~FF_CSP_FLAGS_YUV_ADJ;
+        data[2]=data[0]+stride[0]*(dy>>cspInfo->shiftY[0]);stride[1]=stride[0]>>cspInfo->shiftX[1];
+        data[1]=data[2]+stride[1]*(dy>>cspInfo->shiftY[1]);stride[2]=stride[0]>>cspInfo->shiftX[2];
+    } else if ((csp & FF_CSP_NV12) && (csp & FF_CSP_FLAGS_YUV_ADJ)) {
+        csp&=~FF_CSP_FLAGS_YUV_ADJ;
+        data[1] = data[0] + stride[0] *dy;
+        stride[1] = stride[0];
+    }
+ 
 }
 static __inline void csp_yuv_order(int &csp,unsigned char *data[4],stride_t stride[4])
 {

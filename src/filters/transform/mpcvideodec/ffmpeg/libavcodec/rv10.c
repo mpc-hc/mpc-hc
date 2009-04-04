@@ -1,6 +1,6 @@
 /*
  * RV10 codec
- * Copyright (c) 2000,2001 Fabrice Bellard.
+ * Copyright (c) 2000,2001 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer
  *
  * This file is part of FFmpeg.
@@ -21,7 +21,7 @@
  */
 
 /**
- * @file rv10.c
+ * @file libavcodec/rv10.c
  * RV10 codec.
  */
 
@@ -469,6 +469,9 @@ static av_cold int rv10_decode_init(AVCodecContext *avctx)
 
     if (avctx->sub_id == 0x10000000) {
         s->rv10_version= 0;
+        s->low_delay=1;
+    } else if (avctx->sub_id == 0x10001000) {
+        s->rv10_version= 3;
         s->low_delay=1;
     } else if (avctx->sub_id == 0x10002000) {
         s->rv10_version= 3;

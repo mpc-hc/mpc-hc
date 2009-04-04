@@ -19,14 +19,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_FAANIDCT_H
-#define FFMPEG_FAANIDCT_H
+#ifndef AVCODEC_FAANIDCT_H
+#define AVCODEC_FAANIDCT_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 #include "dsputil.h"
 
 void ff_faanidct(DCTELEM block[64]);
 void ff_faanidct_add(uint8_t *dest, int line_size, DCTELEM block[64]);
 void ff_faanidct_put(uint8_t *dest, int line_size, DCTELEM block[64]);
 
-#endif /* FFMPEG_FAANIDCT_H */
+#endif /* AVCODEC_FAANIDCT_H */

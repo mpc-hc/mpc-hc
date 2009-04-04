@@ -28,7 +28,7 @@
 
 #define REGISTER_DECODER(x) { \
           extern AVCodec x##_decoder; \
-          register_avcodec(&x##_decoder); }
+          avcodec_register(&x##_decoder); }
 #define REGISTER_PARSER(X,x) { \
           extern AVCodecParser x##_parser; \
           av_register_codec_parser(&x##_parser); }

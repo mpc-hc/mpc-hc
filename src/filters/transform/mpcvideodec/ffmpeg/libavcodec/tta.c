@@ -120,8 +120,8 @@ static int tta_decode_init(AVCodecContext * avctx)
 
     memset(s,0,sizeof(TTAstate));
     s->iso_buffers_end = s->isobuffers + ISO_BUFFERS_SIZE;
-    s->maxvalue = (1UL << avctx->bits_per_sample) - 1;
-    s->pcm_buffer_size = PCM_BUFFER_LENGTH * (avctx->bits_per_sample>>3) * avctx->channels;
+    s->maxvalue = (1UL << avctx->bits_per_coded_sample) - 1;
+    s->pcm_buffer_size = PCM_BUFFER_LENGTH * (avctx->bits_per_coded_sample>>3) * avctx->channels;
     s->FRAMELEN=(int) (FRAME_TIME * avctx->sample_rate);
     init_buffer_read(s);
 
@@ -415,7 +415,7 @@ static int tta_decode_frame(AVCodecContext *avctx,
 				framelen = lastlen;
 			else*/ s->framelen = s->FRAMELEN;
 
-			decoder_init(s->tta, avctx->channels, avctx->bits_per_sample>>3);
+			decoder_init(s->tta, avctx->channels, avctx->bits_per_coded_sample>>3);
 			s->data_pos++; s->data_cur = 0;
 		}
 
@@ -488,7 +488,7 @@ static int tta_decode_frame(AVCodecContext *avctx,
 		hybrid_filter(fst, &value);
 
 		// decompress stage 2: fixed order 1 prediction
-		switch (avctx->bits_per_sample>>3) {
+		switch (avctx->bits_per_coded_sample>>3) {
 		case 1: value += PREDICTOR1(*last, 4); break;	// bps 8
 		case 2: value += PREDICTOR1(*last, 5); break;	// bps 16
 		case 3: value += PREDICTOR1(*last, 5); break;	// bps 24
@@ -497,7 +497,7 @@ static int tta_decode_frame(AVCodecContext *avctx,
 		// check for errors
 		if (FFABS(value) > s->maxvalue) {
 			unsigned int tail =
-				s->pcm_buffer_size / ((avctx->bits_per_sample>>3)* avctx->channels) - res;
+				s->pcm_buffer_size / ((avctx->bits_per_coded_sample>>3)* avctx->channels) - res;
 			memset(data, 0, s->pcm_buffer_size);
 			s->data_cur += tail; res += tail;
 			break;
@@ -512,15 +512,15 @@ static int tta_decode_frame(AVCodecContext *avctx,
 				for (*prev += *r/2; r >= s->cache; r--)
 					*r = *(r + 1) - *r;
 				for (r = s->cache; r < prev; r++)
-					WRITE_BUFFER(r, (avctx->bits_per_sample>>3), p)
+					WRITE_BUFFER(r, (avctx->bits_per_coded_sample>>3), p)
 			}
-			WRITE_BUFFER(prev, (avctx->bits_per_sample>>3), p)
+			WRITE_BUFFER(prev, (avctx->bits_per_coded_sample>>3), p)
 			prev = s->cache;
 			s->data_cur++; res++;
 			dec = s->tta;
 		}
         }
-    *data_size=res*avctx->channels*(avctx->bits_per_sample>>3);
+    *data_size=res*avctx->channels*(avctx->bits_per_coded_sample>>3);
     return s->readsize; //buf_size-s->srcsize;
 }
 

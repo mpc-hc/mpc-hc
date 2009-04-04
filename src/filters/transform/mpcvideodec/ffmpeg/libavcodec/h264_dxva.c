@@ -95,15 +95,6 @@ int decode_slice_header_noexecute (H264Context *h){
         return -1;
     }
 
-    // ffdshow custom code
-    if (s->pict_type == FF_I_TYPE){
-        h->first_I_slice_detected = 1;
-    } else if (s->pict_type == FF_P_TYPE && !h->first_I_slice_detected) {
-        av_log(h->s.avctx, AV_LOG_ERROR,
-               "P picture before first I picture, skipping\n");
-        return -1;
-    }
-
     pps_id= get_ue_golomb(&s->gb);
     if(pps_id>=MAX_PPS_COUNT){
         av_log(h->s.avctx, AV_LOG_ERROR, "pps_id out of range\n");
@@ -208,6 +199,30 @@ int decode_slice_header_noexecute (H264Context *h){
     }
     h->mb_field_decoding_flag= s->picture_structure != PICT_FRAME;
 
+    /* ffdshow custom code begin */
+    //
+    // Workaround Haali's media splitter (http://forum.doom9.org/showthread.php?p=1226434#post1226434)
+    //
+    // Disallow unpaired field referencing just after seeking.
+    // This rule is applied only if h->has_to_drop_first_non_ref == 3.
+    // This is wrong because an unpaired field is allowed to be a reference field.
+    // And that's why this is optional and tried to be minimized.
+    if (h->has_to_drop_first_non_ref == 1 && s->dropable){
+        if (FIELD_PICTURE){
+            h->has_to_drop_first_non_ref = 2;
+        }else{
+            h->has_to_drop_first_non_ref = 0;
+        }
+    } else if (h->has_to_drop_first_non_ref == 2){
+        if (FIELD_PICTURE && !s->dropable)
+            h->has_to_drop_first_non_ref = 3;
+        else if (!FIELD_PICTURE)
+            h->has_to_drop_first_non_ref = 0;
+    } else if (h->has_to_drop_first_non_ref == 3){
+        h->has_to_drop_first_non_ref = 0;
+    }
+    /* ffdshow custom code end */
+
 	// ==> Start patch MPC DXVA
 	if (!s->current_picture_ptr)
 		MPV_frame_start(s, s->avctx);
@@ -216,7 +231,8 @@ int decode_slice_header_noexecute (H264Context *h){
         while(h->frame_num !=  h->prev_frame_num &&
               h->frame_num != (h->prev_frame_num+1)%(1<<h->sps.log2_max_frame_num)){
             av_log(NULL, AV_LOG_DEBUG, "Frame num gap %d %d\n", h->frame_num, h->prev_frame_num);
-            frame_start(h);
+            if (frame_start(h) < 0)
+                return -1;
             h->prev_frame_num++;
             h->prev_frame_num %= 1<<h->sps.log2_max_frame_num;
             s->current_picture_ptr->frame_num= h->prev_frame_num;
@@ -239,9 +255,10 @@ int decode_slice_header_noexecute (H264Context *h){
                 s0->first_field = FIELD_PICTURE;
 
             } else {
-                if (h->nal_ref_idc &&
+                if ((h->nal_ref_idc &&
                         s0->current_picture_ptr->reference &&
-                        s0->current_picture_ptr->frame_num != h->frame_num) {
+                        s0->current_picture_ptr->frame_num != h->frame_num) ||
+                        h->has_to_drop_first_non_ref == 3) { /* ffdshow custom code */
                     /*
                      * This and previous field were reference, but had
                      * different frame_nums. Consider this field first in
@@ -367,8 +384,13 @@ int decode_slice_header_noexecute (H264Context *h){
         pred_weight_table(h);
     else if(h->pps.weighted_bipred_idc==2 && h->slice_type_nos== FF_B_TYPE)
         implicit_weight_table(h);
-    else
+    else {
         h->use_weight = 0;
+        for (i = 0; i < 2; i++) {
+            h->luma_weight_flag[i]   = 0;
+            h->chroma_weight_flag[i] = 0;
+        }
+    }
 
     if(h->nal_ref_idc)
         decode_ref_pic_marking(h0, &s->gb);
@@ -568,25 +590,30 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
 
         hx = h->thread_context[context_count];
 
-        ptr= decode_nal(hx, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
+        ptr= ff_h264_decode_nal(hx, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
         if (ptr==NULL || dst_length < 0){
             return -1;
         }
         while(ptr[dst_length - 1] == 0 && dst_length > 0)
             dst_length--;
-        bit_length= !dst_length ? 0 : (8*dst_length - decode_rbsp_trailing(h, ptr + dst_length - 1));
+        bit_length= !dst_length ? 0 : (8*dst_length - ff_h264_decode_rbsp_trailing(h, ptr + dst_length - 1));
 
         if(s->avctx->debug&FF_DEBUG_STARTCODE){
             av_log(h->s.avctx, AV_LOG_DEBUG, "NAL %d at %d/%d length %d\n", hx->nal_unit_type, buf_index, buf_size, dst_length);
         }
 
         if (h->is_avc && (nalsize != consumed)){
-            av_log(h->s.avctx, AV_LOG_ERROR, "AVC: Consumed only %d bytes instead of %d\n", consumed, nalsize);
+            int i, debug_level = AV_LOG_DEBUG;
+            for (i = consumed; i < nalsize; i++)
+                if (buf[buf_index+i])
+                    debug_level = AV_LOG_ERROR;
+            av_log(h->s.avctx, debug_level, "AVC: Consumed only %d bytes instead of %d\n", consumed, nalsize);
             consumed= nalsize;
         }
 
         buf_index += consumed;
 
+		/* ffdshow custom code */
         if(  (s->hurry_up == 1 && h->nal_ref_idc  == 0) //FIXME do not discard SEI id
            ||(avctx->skip_frame >= AVDISCARD_NONREF && h->nal_ref_idc  == 0))
             continue;
@@ -652,11 +679,11 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             break;
         case NAL_SEI:
             init_get_bits(&s->gb, ptr, bit_length);
-            decode_sei(h);
+            ff_h264_decode_sei(h);
             break;
         case NAL_SPS:
             init_get_bits(&s->gb, ptr, bit_length);
-            decode_seq_parameter_set(h);
+            ff_h264_decode_seq_parameter_set(h);
 
             if(s->flags& CODEC_FLAG_LOW_DELAY)
                 s->low_delay=1;
@@ -667,7 +694,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         case NAL_PPS:
             init_get_bits(&s->gb, ptr, bit_length);
 
-            decode_picture_parameter_set(h, bit_length);
+            ff_h264_decode_picture_parameter_set(h, bit_length);
 
             break;
         case NAL_AUD:
@@ -689,11 +716,11 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         }
 
         if (err < 0)
-            av_log(h->s.avctx, AV_LOG_ERROR, "decode_slice_header_noexecute error\n");
+            av_log(h->s.avctx, AV_LOG_ERROR, "decode_slice_header error\n");
         else if(err == 1) {
             /* Slice could not be decoded in parallel mode, copy down
              * NAL unit stuff to context 0 and restart. Note that
-             * rbsp_buffer is not transfered, but since we no longer
+             * rbsp_buffer is not transferred, but since we no longer
              * run in parallel mode this should not be an issue. */
             h->nal_unit_type = hx->nal_unit_type;
             h->nal_ref_idc   = hx->nal_ref_idc;
@@ -844,24 +871,19 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
 
             /* Signal interlacing information externally. */
             /* Prioritize picture timing SEI information over used decoding process if it exists. */
+            if (h->sei_ct_type)
+                cur->interlaced_frame = (h->sei_ct_type & (1<<1)) != 0;
+            else
+                cur->interlaced_frame = FIELD_OR_MBAFF_PICTURE;
+
             if(h->sps.pic_struct_present_flag){
                 switch (h->sei_pic_struct)
                 {
-                case SEI_PIC_STRUCT_FRAME:
-                    cur->interlaced_frame = 0;
-                    break;
-                case SEI_PIC_STRUCT_TOP_FIELD:
-                case SEI_PIC_STRUCT_BOTTOM_FIELD:
-                case SEI_PIC_STRUCT_TOP_BOTTOM:
-                case SEI_PIC_STRUCT_BOTTOM_TOP:
-                    cur->interlaced_frame = 1;
-                    break;
                 case SEI_PIC_STRUCT_TOP_BOTTOM_TOP:
                 case SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM:
                     // Signal the possibility of telecined film externally (pic_struct 5,6)
                     // From these hints, let the applications decide if they apply deinterlacing.
                     cur->repeat_pict = 1;
-                    cur->interlaced_frame = FIELD_OR_MBAFF_PICTURE;
                     break;
                 case SEI_PIC_STRUCT_FRAME_DOUBLING:
                     // Force progressive here, as doubling interlaced frame is a bad idea.

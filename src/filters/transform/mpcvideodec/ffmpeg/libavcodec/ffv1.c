@@ -25,12 +25,12 @@
  * FF Video Codec 1 (an experimental lossless codec)
  */
 
-#include "common.h"
 #include "avcodec.h"
 #include "bitstream.h"
 #include "dsputil.h"
 #include "rangecoder.h"
 #include "golomb.h"
+#include "mathops.h"
 
 #ifndef __GNUC__
 #include <malloc.h>
@@ -355,6 +355,192 @@ static inline int get_vlc_symbol(GetBitContext *gb, VlcState * const state, int 
     return ret;
 }
 
+#if CONFIG_FFV1_ENCODER
+static inline int encode_line(FFV1Context *s, int w, int_fast16_t *sample[2], int plane_index, int bits){
+    PlaneContext * const p= &s->plane[plane_index];
+    RangeCoder * const c= &s->c;
+    int x;
+    int run_index= s->run_index;
+    int run_count=0;
+    int run_mode=0;
+
+    if(s->ac){
+        if(c->bytestream_end - c->bytestream < w*20){
+            av_log(s->avctx, AV_LOG_ERROR, "encoded frame too large\n");
+            return -1;
+        }
+    }else{
+        if(s->pb.buf_end - s->pb.buf - (put_bits_count(&s->pb)>>3) < w*4){
+            av_log(s->avctx, AV_LOG_ERROR, "encoded frame too large\n");
+            return -1;
+        }
+    }
+
+    for(x=0; x<w; x++){
+        int diff, context;
+
+        context= get_context(s, sample[0]+x, sample[1]+x, sample[2]+x);
+        diff= sample[0][x] - predict(sample[0]+x, sample[1]+x);
+
+        if(context < 0){
+            context = -context;
+            diff= -diff;
+        }
+
+        diff= fold(diff, bits);
+
+        if(s->ac){
+            put_symbol(c, p->state[context], diff, 1);
+        }else{
+            if(context == 0) run_mode=1;
+
+            if(run_mode){
+
+                if(diff){
+                    while(run_count >= 1<<ff_log2_run[run_index]){
+                        run_count -= 1<<ff_log2_run[run_index];
+                        run_index++;
+                        put_bits(&s->pb, 1, 1);
+                    }
+
+                    put_bits(&s->pb, 1 + ff_log2_run[run_index], run_count);
+                    if(run_index) run_index--;
+                    run_count=0;
+                    run_mode=0;
+                    if(diff>0) diff--;
+                }else{
+                    run_count++;
+                }
+            }
+
+//            printf("count:%d index:%d, mode:%d, x:%d y:%d pos:%d\n", run_count, run_index, run_mode, x, y, (int)put_bits_count(&s->pb));
+
+            if(run_mode == 0)
+                put_vlc_symbol(&s->pb, &p->vlc_state[context], diff, bits);
+        }
+    }
+    if(run_mode){
+        while(run_count >= 1<<ff_log2_run[run_index]){
+            run_count -= 1<<ff_log2_run[run_index];
+            run_index++;
+            put_bits(&s->pb, 1, 1);
+        }
+
+        if(run_count)
+            put_bits(&s->pb, 1, 1);
+    }
+    s->run_index= run_index;
+
+    return 0;
+}
+
+static void encode_plane(FFV1Context *s, uint8_t *src, int w, int h, int stride, int plane_index){
+    int x,y,i;
+    const int ring_size= s->avctx->context_model ? 3 : 2;
+#if __STDC_VERSION__ >= 199901L
+    int_fast16_t sample_buffer[ring_size][w+6], *sample[ring_size];
+#else
+    int_fast16_t **sample_buffer = _alloca(ring_size * (w+6) * sizeof(int_fast16_t));
+    int_fast16_t **sample = _alloca(ring_size * sizeof(int_fast16_t *));
+#endif
+    s->run_index=0;
+
+    memset(sample_buffer, 0, sizeof(sample_buffer));
+
+    for(y=0; y<h; y++){
+        for(i=0; i<ring_size; i++)
+            sample[i]= sample_buffer[(h+i-y)%ring_size]+3;
+
+        sample[0][-1]= sample[1][0  ];  // FIXME MSVC build crashes for obvious reason
+        sample[1][ w]= sample[1][w-1];
+//{START_TIMER
+        for(x=0; x<w; x++){
+            sample[0][x]= src[x + stride*y];
+        }
+        encode_line(s, w, sample, plane_index, 8);
+//STOP_TIMER("encode line")}
+    }
+}
+
+static void encode_rgb_frame(FFV1Context *s, uint32_t *src, int w, int h, int stride){
+    int x, y, p, i;
+    const int ring_size= s->avctx->context_model ? 3 : 2;
+#if __STDC_VERSION__ >= 199901L
+    int_fast16_t sample_buffer[3][ring_size][w+6], *sample[3][ring_size];
+#else
+    int_fast16_t ***sample_buffer = _alloca(3 * ring_size * (w+6) * sizeof(int_fast16_t));
+    int_fast16_t ***sample = _alloca(3 * ring_size * sizeof(int_fast16_t*));
+#endif
+    s->run_index=0;
+
+    memset(sample_buffer, 0, sizeof(sample_buffer));
+
+    for(y=0; y<h; y++){
+        for(i=0; i<ring_size; i++)
+            for(p=0; p<3; p++)
+                sample[p][i]= sample_buffer[p][(h+i-y)%ring_size]+3;
+
+        for(x=0; x<w; x++){
+            int v= src[x + stride*y];
+            int b= v&0xFF;
+            int g= (v>>8)&0xFF;
+            int r= (v>>16)&0xFF;
+
+            b -= g;
+            r -= g;
+            g += (b + r)>>2;
+            b += 0x100;
+            r += 0x100;
+
+//            assert(g>=0 && b>=0 && r>=0);
+//            assert(g<256 && b<512 && r<512);
+            sample[0][0][x]= g;
+            sample[1][0][x]= b;
+            sample[2][0][x]= r;
+        }
+        for(p=0; p<3; p++){
+            sample[p][0][-1]= sample[p][1][0  ];
+            sample[p][1][ w]= sample[p][1][w-1];
+            encode_line(s, w, sample[p], FFMIN(p, 1), 9);
+        }
+    }
+}
+
+static void write_quant_table(RangeCoder *c, int16_t *quant_table){
+    int last=0;
+    int i;
+    uint8_t state[CONTEXT_SIZE];
+    memset(state, 128, sizeof(state));
+
+    for(i=1; i<128 ; i++){
+        if(quant_table[i] != quant_table[i-1]){
+            put_symbol(c, state, i-last-1, 0);
+            last= i;
+        }
+    }
+    put_symbol(c, state, i-last-1, 0);
+}
+
+static void write_header(FFV1Context *f){
+    uint8_t state[CONTEXT_SIZE];
+    int i;
+    RangeCoder * const c= &f->c;
+
+    memset(state, 128, sizeof(state));
+
+    put_symbol(c, state, f->version, 0);
+    put_symbol(c, state, f->avctx->coder_type, 0);
+    put_symbol(c, state, f->colorspace, 0); //YUV cs type
+    put_rac(c, state, 1); //chroma planes
+        put_symbol(c, state, f->chroma_h_shift, 0);
+        put_symbol(c, state, f->chroma_v_shift, 0);
+    put_rac(c, state, 0); //no transparency plane
+
+    for(i=0; i<5; i++)
+        write_quant_table(c, f->quant_table[i]);
+}
+#endif /* CONFIG_FFV1_ENCODER */
+
 static av_cold int common_init(AVCodecContext *avctx){
     FFV1Context *s = avctx->priv_data;
     int width, height;
@@ -371,6 +557,73 @@ static av_cold int common_init(AVCodecContext *avctx){
 
     return 0;
 }
+
+#if CONFIG_FFV1_ENCODER
+static av_cold int encode_init(AVCodecContext *avctx)
+{
+    FFV1Context *s = avctx->priv_data;
+    int i;
+
+    common_init(avctx);
+
+    s->version=0;
+    s->ac= avctx->coder_type;
+
+    s->plane_count=2;
+    for(i=0; i<256; i++){
+        s->quant_table[0][i]=           quant11[i];
+        s->quant_table[1][i]=        11*quant11[i];
+        if(avctx->context_model==0){
+            s->quant_table[2][i]=     11*11*quant11[i];
+            s->quant_table[3][i]=
+            s->quant_table[4][i]=0;
+        }else{
+            s->quant_table[2][i]=     11*11*quant5 [i];
+            s->quant_table[3][i]=   5*11*11*quant5 [i];
+            s->quant_table[4][i]= 5*5*11*11*quant5 [i];
+        }
+    }
+
+    for(i=0; i<s->plane_count; i++){
+        PlaneContext * const p= &s->plane[i];
+
+        if(avctx->context_model==0){
+            p->context_count= (11*11*11+1)/2;
+        }else{
+            p->context_count= (11*11*5*5*5+1)/2;
+        }
+
+        if(s->ac){
+            if(!p->state) p->state= av_malloc(CONTEXT_SIZE*p->context_count*sizeof(uint8_t));
+        }else{
+            if(!p->vlc_state) p->vlc_state= av_malloc(p->context_count*sizeof(VlcState));
+        }
+    }
+
+    avctx->coded_frame= &s->picture;
+    switch(avctx->pix_fmt){
+    case PIX_FMT_YUV444P:
+    case PIX_FMT_YUV422P:
+    case PIX_FMT_YUV420P:
+    case PIX_FMT_YUV411P:
+    case PIX_FMT_YUV410P:
+        s->colorspace= 0;
+        break;
+    case PIX_FMT_RGB32:
+        s->colorspace= 1;
+        break;
+    default:
+        av_log(avctx, AV_LOG_ERROR, "format not supported\n");
+        return -1;
+    }
+    avcodec_get_chroma_sub_sample(avctx->pix_fmt, &s->chroma_h_shift, &s->chroma_v_shift);
+
+    s->picture_number=0;
+
+    return 0;
+}
+#endif /* CONFIG_FFV1_ENCODER */
+
 
 static void clear_state(FFV1Context *f){
     int i, j;
@@ -393,6 +646,64 @@ static void clear_state(FFV1Context *f){
         }
     }
 }
+
+#if CONFIG_FFV1_ENCODER
+static int encode_frame(AVCodecContext *avctx, unsigned char *buf, int buf_size, void *data){
+    FFV1Context *f = avctx->priv_data;
+    RangeCoder * const c= &f->c;
+    AVFrame *pict = data;
+    const int width= f->width;
+    const int height= f->height;
+    AVFrame * const p= &f->picture;
+    int used_count= 0;
+    uint8_t keystate=128;
+
+    ff_init_range_encoder(c, buf, buf_size);
+//    ff_init_cabac_states(c, ff_h264_lps_range, ff_h264_mps_state, ff_h264_lps_state, 64);
+    ff_build_rac_states(c, 0.05*(1LL<<32), 256-8);
+
+    *p = *pict;
+    p->pict_type= FF_I_TYPE;
+
+    if(avctx->gop_size==0 || f->picture_number % avctx->gop_size == 0){
+        put_rac(c, &keystate, 1);
+        p->key_frame= 1;
+        write_header(f);
+        clear_state(f);
+    }else{
+        put_rac(c, &keystate, 0);
+        p->key_frame= 0;
+    }
+
+    if(!f->ac){
+        used_count += ff_rac_terminate(c);
+//printf("pos=%d\n", used_count);
+        init_put_bits(&f->pb, buf + used_count, buf_size - used_count);
+    }
+
+    if(f->colorspace==0){
+        const int chroma_width = -((-width )>>f->chroma_h_shift);
+        const int chroma_height= -((-height)>>f->chroma_v_shift);
+
+        encode_plane(f, p->data[0], width, height, p->linesize[0], 0);
+
+        encode_plane(f, p->data[1], chroma_width, chroma_height, p->linesize[1], 1);
+        encode_plane(f, p->data[2], chroma_width, chroma_height, p->linesize[2], 1);
+    }else{
+        encode_rgb_frame(f, (uint32_t*)(p->data[0]), width, height, p->linesize[0]/4);
+    }
+    emms_c();
+
+    f->picture_number++;
+
+    if(f->ac){
+        return ff_rac_terminate(c);
+    }else{
+        flush_put_bits(&f->pb); //nicer padding FIXME
+        return used_count + (put_bits_count(&f->pb)+7)/8;
+    }
+}
+#endif /* CONFIG_FFV1_ENCODER */
 
 static av_cold int common_end(AVCodecContext *avctx){
     FFV1Context *s = avctx->priv_data;
@@ -739,3 +1050,26 @@ AVCodec ffv1_decoder = {
     /*.pix_fmts = */NULL,
     /*.long_name= */NULL_IF_CONFIG_SMALL("FFmpeg codec #1"),
 };
+
+#if CONFIG_FFV1_ENCODER
+AVCodec ffv1_encoder = {
+    "ffv1",
+    CODEC_TYPE_VIDEO,
+    CODEC_ID_FFV1,
+    sizeof(FFV1Context),
+    encode_init,
+    encode_frame,
+    common_end,
+    /*.decode = */NULL,
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+#if __STDC_VERSION__ >= 199901L
+    .pix_fmts= (enum PixelFormat[]){PIX_FMT_YUV420P, PIX_FMT_YUV444P, PIX_FMT_YUV422P, PIX_FMT_YUV411P, PIX_FMT_YUV410P, PIX_FMT_RGB32, PIX_FMT_NONE},
+#else
+    /*.pix_fmts = */NULL,
+#endif
+    /*.long_name= */NULL_IF_CONFIG_SMALL("FFmpeg codec #1"),
+};
+#endif

@@ -60,32 +60,3 @@ int ff_h263_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size){
 
     return END_NOT_FOUND;
 }
-
-static int h263_parse(AVCodecParserContext *s,
-                           AVCodecContext *avctx,
-                           const uint8_t **poutbuf, int *poutbuf_size,
-                           const uint8_t *buf, int buf_size)
-{
-    ParseContext *pc = s->priv_data;
-    int next;
-
-    next= ff_h263_find_frame_end(pc, buf, buf_size);
-
-    if (ff_combine_frame(pc, next, &buf, &buf_size) < 0) {
-        *poutbuf = NULL;
-        *poutbuf_size = 0;
-        return buf_size;
-    }
-
-    *poutbuf = buf;
-    *poutbuf_size = buf_size;
-    return next;
-}
-
-AVCodecParser h263_parser = {
-    { CODEC_ID_H263 },
-    sizeof(ParseContext),
-    NULL,
-    h263_parse,
-    ff_parse_close,
-};

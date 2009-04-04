@@ -19,7 +19,7 @@
  */
 
 /**
- * @file vp3.c
+ * @file libavcodec/vp3.c
  * On2 VP3 Video Decoder
  *
  * VP3 Video Decoder by Mike Melanson (mike at multimedia.cx)
@@ -61,6 +61,8 @@ typedef struct Vp3Fragment {
     int8_t motion_x;
     int8_t motion_y;
 } Vp3Fragment;
+
+#define _ilog(i) av_log2(2*(i)) /* ffdshow custom code */
 
 #define SB_NOT_CODED        0
 #define SB_PARTIALLY_CODED  1
@@ -230,6 +232,12 @@ typedef struct Vp3DecodeContext {
 
     uint8_t filter_limit_values[64];
     DECLARE_ALIGNED_8(int, bounding_values_array[256+2]);
+
+    /* ffdshow custom stuffs (begin) */
+    int fps_numerator,fps_denumerator;
+    int64_t granulepos;
+    int keyframe_granule_shift,keyframe_frequency_force;
+    /* ffdshow custom stuffs (end) */
 } Vp3DecodeContext;
 
 /************************************************************************
@@ -741,6 +749,8 @@ static int unpack_modes(Vp3DecodeContext *s, GetBitContext *gb)
 
         /* is it a custom coding scheme? */
         if (scheme == 0) {
+            for (i = 0; i < 8; i++)
+                custom_mode_alphabet[i] = MODE_INTER_NO_MV;
             for (i = 0; i < 8; i++)
                 custom_mode_alphabet[get_bits(gb, 3)] = i;
         }
@@ -1739,6 +1749,19 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+/* ffdshow custom code (begin) */
+static int64_t theora_granule_frame(Vp3DecodeContext *s,int64_t granulepos) 	 
+{ 	 
+    if(granulepos>=0){
+        int64_t iframe=granulepos>>s->keyframe_granule_shift;
+        int64_t pframe=granulepos-(iframe<<s->keyframe_granule_shift);
+        return iframe+pframe;
+    }else{
+        return -1;
+    }
+}
+/* ffdshow custom code (end) */
+
 /*
  * This is the ffmpeg/libavcodec API frame decode function.
  */
@@ -1877,6 +1900,28 @@ static int vp3_decode_frame(AVCodecContext *avctx,
 
     apply_loop_filter(s);
 
+    /* ffdshow custom code (begin) */
+    if (s->theora && s->fps_numerator){
+        if (avctx->granulepos>-1){
+            s->granulepos=avctx->granulepos;
+        }else{
+            if (s->granulepos==-1)
+                s->granulepos=0;
+            else
+                if (s->keyframe){
+                    long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
+                    s->granulepos>>=s->keyframe_granule_shift;
+                    s->granulepos+=frames+1;
+                    s->granulepos<<=s->keyframe_granule_shift;
+                }else{
+                    s->granulepos++;
+                }
+        }
+        s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * s->fps_denumerator / s->fps_numerator;
+        s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
+    }
+    /* ffdshow custom code (end) */
+
     *data_size=sizeof(AVFrame);
     *(AVFrame*)data= s->current_frame;
 
@@ -1958,16 +2003,18 @@ static int read_huffman_tree(AVCodecContext *avctx, GetBitContext *gb)
         }
         s->huff_code_size++;
         s->hbits <<= 1;
-        read_huffman_tree(avctx, gb);
+        if (read_huffman_tree(avctx, gb))
+            return -1;
         s->hbits |= 1;
-        read_huffman_tree(avctx, gb);
+        if (read_huffman_tree(avctx, gb))
+            return -1;
         s->hbits >>= 1;
         s->huff_code_size--;
     }
     return 0;
 }
 
-#ifdef CONFIG_THEORA_DECODER
+#if CONFIG_THEORA_DECODER
 static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
 {
     Vp3DecodeContext *s = avctx->priv_data;
@@ -2010,13 +2057,15 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
         skip_bits(gb, 8); /* offset y */
     }
 
-    skip_bits(gb, 32); /* fps numerator */
-    skip_bits(gb, 32); /* fps denumerator */
-    skip_bits(gb, 24); /* aspect numerator */
-    skip_bits(gb, 24); /* aspect denumerator */
+    /* ffdshow custom code (begin) */
+    s->fps_numerator=get_bits(gb, 32); /* fps numerator */
+    s->fps_denumerator=get_bits(gb, 32); /* fps denumerator */
+    avctx->sample_aspect_ratio.num = get_bits(gb, 24); /* aspect numerator */
+    avctx->sample_aspect_ratio.den = get_bits(gb, 24); /* aspect denumerator */
+    /* ffdshow custom code (end) */
 
     if (s->theora < 0x030200)
-        skip_bits(gb, 5); /* keyframe frequency force */
+        s->keyframe_frequency_force=1<<get_bits(gb, 5); /* keyframe frequency force */ /* ffdshow custom code */
     skip_bits(gb, 8); /* colorspace */
     if (s->theora >= 0x030400)
         skip_bits(gb, 2); /* pixel format: 420,res,422,444 */
@@ -2026,11 +2075,12 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
 
     if (s->theora >= 0x030200)
     {
-        skip_bits(gb, 5); /* keyframe frequency force */
+        s->keyframe_frequency_force=1<<get_bits(gb, 5); /* keyframe frequency force */ /* ffdshow custom code */
 
         if (s->theora < 0x030400)
             skip_bits(gb, 5); /* spare bits */
     }
+    s->keyframe_granule_shift=_ilog(s->keyframe_frequency_force-1); // ffdshow custom code
 
 //    align_get_bits(gb);
 
@@ -2136,9 +2186,11 @@ static int theora_decode_tables(AVCodecContext *avctx, GetBitContext *gb)
         s->huff_code_size = 1;
         if (!get_bits1(gb)) {
             s->hbits = 0;
-            read_huffman_tree(avctx, gb);
+            if(read_huffman_tree(avctx, gb))
+                return -1;
             s->hbits = 1;
-            read_huffman_tree(avctx, gb);
+            if(read_huffman_tree(avctx, gb))
+                return -1;
         }
     }
 
@@ -2147,7 +2199,7 @@ static int theora_decode_tables(AVCodecContext *avctx, GetBitContext *gb)
     return 0;
 }
 
-static int theora_decode_init(AVCodecContext *avctx)
+static av_cold int theora_decode_init(AVCodecContext *avctx)
 {
     Vp3DecodeContext *s = avctx->priv_data;
     GetBitContext gb;
@@ -2194,7 +2246,8 @@ static int theora_decode_init(AVCodecContext *avctx)
 //            theora_decode_comments(avctx, gb);
             break;
         case 0x82:
-            theora_decode_tables(avctx, &gb);
+            if (theora_decode_tables(avctx, &gb))
+                return -1;
             break;
         default:
             av_log(avctx, AV_LOG_ERROR, "Unknown Theora config packet: %d\n", ptype&~0x80);
@@ -2207,6 +2260,7 @@ static int theora_decode_init(AVCodecContext *avctx)
   }
 
     vp3_decode_init(avctx);
+    s->granulepos=-1; /* ffdshow custom code */
     return 0;
 }
 

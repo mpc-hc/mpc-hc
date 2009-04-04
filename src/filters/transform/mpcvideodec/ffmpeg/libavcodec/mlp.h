@@ -22,7 +22,9 @@
 #ifndef AVCODEC_MLP_H
 #define AVCODEC_MLP_H
 
+#ifdef __GNUC__
 #include <stdint.h>
+#endif
 
 #include "avcodec.h"
 
@@ -34,10 +36,10 @@
  */
 #define MAX_MATRICES        15
 
-/** Maximum number of substreams that can be decoded. This could also be set
- *  higher, but I haven't seen any examples with more than two.
+/** Maximum number of substreams that can be decoded.
+ *  MLP's limit is 2. TrueHD supports at least up to 3.
  */
-#define MAX_SUBSTREAMS      3 /* mpc-hc custom value */
+#define MAX_SUBSTREAMS      3
 
 /** maximum sample frequency seen in files */
 #define MAX_SAMPLERATE      192000
@@ -50,11 +52,9 @@
 /** number of allowed filters */
 #define NUM_FILTERS         2
 
-/** The maximum number of taps in either the IIR or FIR filter;
- *  I believe MLP actually specifies the maximum order for IIR filters as four,
- *  and that the sum of the orders of both filters must be <= 8.
-*/
-#define MAX_FILTER_ORDER    8
+/** The maximum number of taps in IIR and FIR filters. */
+#define MAX_FIR_ORDER       8
+#define MAX_IIR_ORDER       4
 
 /** Code that signals end of a stream. */
 #define END_OF_STREAM       0xd234d234
@@ -67,8 +67,8 @@ typedef struct {
     uint8_t     order; ///< number of taps in filter
     uint8_t     shift; ///< Right shift to apply to output of filter.
 
-    int32_t     coeff[MAX_FILTER_ORDER];
-    int32_t     state[MAX_FILTER_ORDER];
+    int32_t     coeff[MAX_FIR_ORDER];
+    int32_t     state[MAX_FIR_ORDER];
 } FilterParams;
 
 /** sample data coding information */
@@ -106,7 +106,7 @@ uint8_t ff_mlp_restart_checksum(const uint8_t *buf, unsigned int bit_size);
  */
 uint8_t ff_mlp_calculate_parity(const uint8_t *buf, unsigned int buf_size);
 
-void ff_mlp_init_crc();
+void ff_mlp_init_crc(void);
 
 /** XOR four bytes into one. */
 static inline uint8_t xor_32_to_8(uint32_t value)

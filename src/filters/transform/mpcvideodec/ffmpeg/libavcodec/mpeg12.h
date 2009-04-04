@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef FFMPEG_MPEG12_H
-#define FFMPEG_MPEG12_H
+#ifndef AVCODEC_MPEG12_H
+#define AVCODEC_MPEG12_H
 
 #include "mpegvideo.h"
 
@@ -56,4 +56,6 @@ static inline int decode_dc(GetBitContext *gb, int component)
     return diff;
 }
 
-#endif /* FFMPEG_MPEG12_H */
+extern inline int ff_mpeg1_decode_block_intra(MpegEncContext *s, DCTELEM *block, int n);
+
+#endif /* AVCODEC_MPEG12_H */

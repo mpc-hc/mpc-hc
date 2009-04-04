@@ -19,34 +19,31 @@
  */
 
 /**
- * @file common.h
+ * @file libavutil/common.h
  * common internal and external API header
  */
 
 #ifndef AVUTIL_COMMON_H
 #define AVUTIL_COMMON_H
 
+#include <ctype.h>
+#include <errno.h>
 #include <inttypes.h>
-
-#ifdef HAVE_AV_CONFIG_H
-/* only include the following when compiling package */
-#    include "config.h"
-
-#    include <stdlib.h>
-#    include <stdio.h>
-#    include <stdint.h>
-#    include <string.h>
-#    include <ctype.h>
-#    include <limits.h>
-#    include <errno.h>
-#    include <math.h>
-#endif /* HAVE_AV_CONFIG_H */
+#include <limits.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #if defined(_MSC_VER) & !defined(__cplusplus)
 #    define inline __inline
 #endif
 
-#define AV_GCC_VERSION_AT_LEAST(x,y) (defined(__GNUC__) && (__GNUC__ > x || __GNUC__ == x && __GNUC_MINOR__ >= y))
+#ifdef __GNUC__
+#    define AV_GCC_VERSION_AT_LEAST(x,y) (__GNUC__ > x || __GNUC__ == x && __GNUC_MINOR__ >= y)
+#else
+#    define AV_GCC_VERSION_AT_LEAST(x,y) 0
+#endif
 
 #ifndef av_always_inline
 #if AV_GCC_VERSION_AT_LEAST(3,1)
@@ -81,16 +78,20 @@
 #endif
 
 #ifndef av_cold
-#if AV_GCC_VERSION_AT_LEAST(4,3)
+#if (!defined(__ICC) || __ICC > 1100) && AV_GCC_VERSION_AT_LEAST(4,3)
 #    define av_cold __attribute__((cold))
 #else
 #    define av_cold
 #endif
 #endif
 
-#ifdef HAVE_AV_CONFIG_H
-#    include "internal.h"
-#endif /* HAVE_AV_CONFIG_H */
+#ifndef av_flatten
+#if AV_GCC_VERSION_AT_LEAST(4,1)
+#    define av_flatten __attribute__((flatten))
+#else
+#    define av_flatten
+#endif
+#endif
 
 #ifndef attribute_deprecated
 #if AV_GCC_VERSION_AT_LEAST(3,1)
@@ -108,21 +109,17 @@
 #endif
 #endif
 
-/* Suppress restrict if it was not defined in config.h.  */
-#ifndef restrict
-#    define restrict
+#ifndef av_uninit
+#if defined(__GNUC__) && !defined(__ICC)
+#    define av_uninit(x) x=x
+#else
+#    define av_uninit(x) x
 #endif
-
-#ifndef INT64_C
-#define INT64_C(c)     (c ## LL)
-#define UINT64_C(c)    (c ## ULL)
 #endif
 
 #ifdef HAVE_AV_CONFIG_H
 
-#include "mem.h"
-
-//rounded divison & shift
+//rounded division & shift
 #define RSHIFT(a,b) ((a) > 0 ? ((a) + ((1<<(b))>>1))>>(b) : ((a) + ((1<<(b))>>1)-1)>>(b))
 /* assume b>0 */
 #define ROUNDED_DIV(a,b) (((a)>0 ? (a) + ((b)>>1) : (a) - ((b)>>1))/(b))
@@ -168,49 +165,8 @@ static inline av_const int av_log2_16bit(unsigned int v)
     return n;
 }
 
-/* median of 3 */
-static inline av_const int mid_pred(int a, int b, int c)
-{
-#ifdef HAVE_CMOV
-    int i=b;
-    __asm__ volatile(
-        "cmp    %2, %1 \n\t"
-        "cmovg  %1, %0 \n\t"
-        "cmovg  %2, %1 \n\t"
-        "cmp    %3, %1 \n\t"
-        "cmovl  %3, %1 \n\t"
-        "cmp    %1, %0 \n\t"
-        "cmovg  %1, %0 \n\t"
-        :"+&r"(i), "+&r"(a)
-        :"r"(b), "r"(c)
-    );
-    return i;
-#elif 0
-    int t= (a-b)&((a-b)>>31);
-    a-=t;
-    b+=t;
-    b-= (b-c)&((b-c)>>31);
-    b+= (a-b)&((a-b)>>31);
-
-    return b;
-#else
-    if(a>b){
-        if(c>b){
-            if(c>a) b=a;
-            else    b=c;
-        }
-    }else{
-        if(b>c){
-            if(c>a) b=c;
-            else    b=a;
-        }
-    }
-    return b;
-#endif
-}
-
 /**
- * clip a signed integer value into the amin-amax range
+ * Clips a signed integer value into the amin-amax range.
  * @param a value to clip
  * @param amin minimum value of the clip range
  * @param amax maximum value of the clip range
@@ -224,7 +180,7 @@ static inline av_const int av_clip(int a, int amin, int amax)
 }
 
 /**
- * clip a signed integer value into the 0-255 range
+ * Clips a signed integer value into the 0-255 range.
  * @param a value to clip
  * @return clipped value
  */
@@ -235,7 +191,7 @@ static inline av_const uint8_t av_clip_uint8(int a)
 }
 
 /**
- * clip a signed integer value into the -32768,32767 range
+ * Clips a signed integer value into the -32768,32767 range.
  * @param a value to clip
  * @return clipped value
  */
@@ -246,7 +202,7 @@ static inline av_const int16_t av_clip_int16(int a)
 }
 
 /**
- * clip a float value into the amin-amax range
+ * Clips a float value into the amin-amax range.
  * @param a value to clip
  * @param amin minimum value of the clip range
  * @param amax maximum value of the clip range
@@ -259,26 +215,12 @@ static inline av_const float av_clipf(float a, float amin, float amax)
     else               return a;
 }
 
-/* math */
-int64_t av_const ff_gcd(int64_t a, int64_t b);
-
-/**
- * converts fourcc string to int
- */
-static inline av_pure int ff_get_fourcc(const char *s){
-#ifdef HAVE_AV_CONFIG_H
-    assert( strlen(s)==4 );
-#endif
-
-    return (s[0]) + (s[1]<<8) + (s[2]<<16) + (s[3]<<24);
-}
-
 #define MKTAG(a,b,c,d) (a | (b << 8) | (c << 16) | (d << 24))
 #define MKBETAG(a,b,c,d) (d | (c << 8) | (b << 16) | (a << 24))
 
 /*!
  * \def GET_UTF8(val, GET_BYTE, ERROR)
- * converts a UTF-8 character (up to 4 bytes long) to its 32-bit UCS-4 encoded form
+ * Converts a UTF-8 character (up to 4 bytes long) to its 32-bit UCS-4 encoded form
  * \param val is the output and should be of type uint32_t. It holds the converted
  * UCS-4 character and should be a left value.
  * \param GET_BYTE gets UTF-8 encoded bytes from any proper source. It can be
@@ -306,19 +248,19 @@ static inline av_pure int ff_get_fourcc(const char *s){
 
 /*!
  * \def PUT_UTF8(val, tmp, PUT_BYTE)
- * converts a 32-bit unicode character to its UTF-8 encoded form (up to 4 bytes long).
- * \param val is an input only argument and should be of type uint32_t. It holds
- * a ucs4 encoded unicode character that is to be converted to UTF-8. If
- * val is given as a function it's executed only once.
+ * Converts a 32-bit Unicode character to its UTF-8 encoded form (up to 4 bytes long).
+ * \param val is an input-only argument and should be of type uint32_t. It holds
+ * a UCS-4 encoded Unicode character that is to be converted to UTF-8. If
+ * val is given as a function it is executed only once.
  * \param tmp is a temporary variable and should be of type uint8_t. It
  * represents an intermediate value during conversion that is to be
- * outputted by PUT_BYTE.
+ * output by PUT_BYTE.
  * \param PUT_BYTE writes the converted UTF-8 bytes to any proper destination.
  * It could be a function or a statement, and uses tmp as the input byte.
  * For example, PUT_BYTE could be "*output++ = tmp;" PUT_BYTE will be
  * executed up to 4 times for values in the valid UTF-8 range and up to
  * 7 times in the general case, depending on the length of the converted
- * unicode character.
+ * Unicode character.
  */
 #define PUT_UTF8(val, tmp, PUT_BYTE)\
     {\
@@ -340,35 +282,45 @@ static inline av_pure int ff_get_fourcc(const char *s){
         }\
     }
 
-/*
-#if defined(ARCH_X86)
-#define AV_READ_TIME read_time
-static inline uint64_t read_time(void)
-{
-    uint32_t a, d;
-    __asm__ volatile("rdtsc\n\t"
-                 : "=a" (a), "=d" (d));
-    return ((uint64_t)d << 32) + a;
-}
-#elif defined(HAVE_GETHRTIME)
-#define AV_READ_TIME gethrtime
-#endif
-*/
-
-#define START_TIMER
-#define STOP_TIMER(id) {}
-
-/**
- * Returns NULL if CONFIG_SMALL is defined otherwise the argument
- * without modifications, used to disable the definition of strings
- * (for example AVCodec long_names).
- */
-#ifdef CONFIG_SMALL
-#   define NULL_IF_CONFIG_SMALL(x) NULL
-#else
-#   define NULL_IF_CONFIG_SMALL(x) x
-#endif
+#include "mem.h"
 
 #endif /* HAVE_AV_CONFIG_H */
+
+#ifdef HAVE_AV_CONFIG_H
+#    include "config.h"
+#    include "internal.h"
+#endif /* HAVE_AV_CONFIG_H */
+
+/* Suppress restrict if it was not defined in config.h.  */
+#ifndef restrict
+#    define restrict
+#endif
+
+/* custom code */
+#ifndef EMULATE_INTTYPES
+#   include <inttypes.h>
+#else
+    typedef signed char  int8_t;
+    typedef signed short int16_t;
+    typedef signed int   int32_t;
+    typedef unsigned char  uint8_t;
+    typedef unsigned short uint16_t;
+    typedef unsigned int   uint32_t;
+#endif /* EMULATE_INTTYPES */
+
+#ifdef EMULATE_FAST_INT
+typedef signed char int_fast8_t;
+typedef signed int  int_fast16_t;
+typedef signed int  int_fast32_t;
+typedef unsigned char uint_fast8_t;
+typedef unsigned int  uint_fast16_t;
+typedef unsigned int  uint_fast32_t;
+typedef uint64_t uint_fast64_t;
+#endif
+
+#ifndef INT64_C
+#define INT64_C(c)     (c ## LL)
+#define UINT64_C(c)    (c ## ULL)
+#endif
 
 #endif /* AVUTIL_COMMON_H */

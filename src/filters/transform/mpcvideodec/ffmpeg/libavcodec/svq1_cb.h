@@ -28,11 +28,13 @@
  * svq1 code books.
  */
 
-#ifndef FFMPEG_SVQ1_CB_H
-#define FFMPEG_SVQ1_CB_H
+#ifndef AVCODEC_SVQ1_CB_H
+#define AVCODEC_SVQ1_CB_H
 
+#ifdef __GNUC__
 #include <stdint.h>
 #include <stdlib.h>
+#endif
 
 /* 6x16-entry codebook for inter-coded 4x2 vectors */
 static const int8_t svq1_inter_codebook_4x2[768] = {
@@ -1520,4 +1522,4 @@ const int8_t* const ff_svq1_intra_codebooks[6] = {
     NULL, NULL,
 };
 
-#endif /* FFMPEG_SVQ1_CB_H */
+#endif /* AVCODEC_SVQ1_CB_H */

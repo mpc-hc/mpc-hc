@@ -42,19 +42,13 @@ int mm_support(void)
     int rval = 0;
     int eax, ebx, ecx, edx;
     int max_std_level, max_ext_level, std_caps=0, ext_caps=0;
-    x86_reg a, c;
 
-#ifdef ARCH_X86_64
-#define PUSHF "pushfq\n\t"
-#define POPF "popfq\n\t"
-#else
-#define PUSHF "pushfl\n\t"
-#define POPF "popfl\n\t"
-#endif
+#if ARCH_X86_32
+    x86_reg a, c;
     __asm__ volatile (
         /* See if CPUID instruction is supported ... */
         /* ... Get copies of EFLAGS into eax and ecx */
-        PUSHF
+        "pushfl\n\t"
         "pop %0\n\t"
         "mov %0, %1\n\t"
 
@@ -62,10 +56,10 @@ int mm_support(void)
         /*     to the EFLAGS reg */
         "xor $0x200000, %0\n\t"
         "push %0\n\t"
-        POPF
+        "popfl\n\t"
 
         /* ... Get the (hopefully modified) EFLAGS */
-        PUSHF
+        "pushfl\n\t"
         "pop %0\n\t"
         : "=a" (a), "=c" (c)
         :
@@ -74,6 +68,7 @@ int mm_support(void)
 
     if (a == c)
         return 0; /* CPUID not supported */
+#endif
 
     cpuid(0, max_std_level, ebx, ecx, edx);
 
@@ -83,14 +78,18 @@ int mm_support(void)
             rval |= FF_MM_MMX;
         if (std_caps & (1<<25))
             rval |= FF_MM_MMXEXT
-#ifdef HAVE_SSE
+#if HAVE_SSE
                   | FF_MM_SSE;
         if (std_caps & (1<<26))
             rval |= FF_MM_SSE2;
         if (ecx & 1)
             rval |= FF_MM_SSE3;
         if (ecx & 0x00000200 )
-            rval |= FF_MM_SSSE3
+            rval |= FF_MM_SSSE3;
+        if (ecx & 0x00080000 )
+            rval |= FF_MM_SSE4;
+        if (ecx & 0x00100000 )
+            rval |= FF_MM_SSE42;
 #endif
                   ;
     }
@@ -110,13 +109,15 @@ int mm_support(void)
     }
 
 #if 0
-    av_log(NULL, AV_LOG_DEBUG, "%s%s%s%s%s%s%s%s\n",
+    av_log(NULL, AV_LOG_DEBUG, "%s%s%s%s%s%s%s%s%s%s\n",
         (rval&FF_MM_MMX) ? "MMX ":"",
         (rval&FF_MM_MMXEXT) ? "MMX2 ":"",
         (rval&FF_MM_SSE) ? "SSE ":"",
         (rval&FF_MM_SSE2) ? "SSE2 ":"",
         (rval&FF_MM_SSE3) ? "SSE3 ":"",
         (rval&FF_MM_SSSE3) ? "SSSE3 ":"",
+        (rval&FF_MM_SSE4) ? "SSE4.1 ":"",
+        (rval&FF_MM_SSE42) ? "SSE4.2 ":"",
         (rval&FF_MM_3DNOW) ? "3DNow ":"",
         (rval&FF_MM_3DNOWEXT) ? "3DNowExt ":"");
 #endif

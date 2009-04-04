@@ -35,6 +35,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 
 #define PALETTE_COUNT 256
@@ -343,5 +344,5 @@ AVCodec msvideo1_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name= */"Microsoft Video 1",
+    /*.long_name= */NULL_IF_CONFIG_SMALL("Microsoft Video 1"),
 };

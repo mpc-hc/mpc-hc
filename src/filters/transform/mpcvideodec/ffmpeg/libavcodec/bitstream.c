@@ -1,6 +1,6 @@
 /*
  * Common bit i/o utils
- * Copyright (c) 2000, 2001 Fabrice Bellard.
+ * Copyright (c) 2000, 2001 Fabrice Bellard
  * Copyright (c) 2002-2004 Michael Niedermayer <michaelni@gmx.at>
  *
  * alternative bitstream reader & writer by Michael Niedermayer <michaelni@gmx.at>
@@ -23,7 +23,7 @@
  */
 
 /**
- * @file bitstream.c
+ * @file libavcodec/bitstream.c
  * bitstream api.
  */
 
@@ -82,8 +82,8 @@ void ff_copy_bits(PutBitContext *pb, const uint8_t *src, int length)
 
     if(length==0) return;
 
-    if(ENABLE_SMALL || words < 16 || put_bits_count(pb)&7){
-        for(i=0; i<words; i++) put_bits(pb, 16, be2me_16(srcw[i]));
+    if(CONFIG_SMALL || words < 16 || put_bits_count(pb)&7){
+        for(i=0; i<words; i++) put_bits(pb, 16, AV_RB16(&srcw[i]));
     }else{
         for(i=0; put_bits_count(pb)&31; i++)
             put_bits(pb, 8, src[i]);
@@ -92,7 +92,7 @@ void ff_copy_bits(PutBitContext *pb, const uint8_t *src, int length)
         skip_put_bytes(pb, 2*words-i);
     }
 
-    put_bits(pb, bits, be2me_16(srcw[words])>>(16-bits));
+    put_bits(pb, bits, AV_RB16(&srcw[words])>>(16-bits));
 }
 
 /* VLC decoding */

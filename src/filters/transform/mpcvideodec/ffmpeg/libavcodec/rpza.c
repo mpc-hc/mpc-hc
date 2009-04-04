@@ -39,6 +39,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 
 typedef struct RpzaContext {
@@ -287,5 +288,5 @@ AVCodec rpza_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"QuickTime video (RPZA)",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("QuickTime video (RPZA)"),
 };

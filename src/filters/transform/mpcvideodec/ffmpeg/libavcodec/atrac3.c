@@ -21,7 +21,7 @@
  */
 
 /**
- * @file atrac3.c
+ * @file libavcodec/atrac3.c
  * Atrac 3 compatible decoder.
  * This decoder handles Sony's ATRAC3 data.
  *
@@ -42,6 +42,10 @@
 #include "bytestream.h"
 
 #include "atrac3data.h"
+
+#if _MSC_VER<1400
+#define powf pow
+#endif
 
 #define JOINT_STEREO    0x12
 #define STEREO          0x2
@@ -230,7 +234,7 @@ static int decode_bytes(const uint8_t* inbuffer, uint8_t* out, int bytes){
     const uint32_t* buf;
     uint32_t* obuf = (uint32_t*) out;
 
-    off = (int)((long)inbuffer & 3);
+    off = (intptr_t)inbuffer & 3;
     buf = (const uint32_t*) (inbuffer - off);
     c = be2me_32((0x537F6103 >> (off*8)) | (0x537F6103 << (32-(off*8))));
     bytes += 3 + off;
@@ -244,7 +248,7 @@ static int decode_bytes(const uint8_t* inbuffer, uint8_t* out, int bytes){
 }
 
 
-static void init_atrac3_transforms(ATRAC3Context *q) {
+static av_cold void init_atrac3_transforms(ATRAC3Context *q) {
     float enc_window[256];
     float s;
     int i;
@@ -275,7 +279,7 @@ static void init_atrac3_transforms(ATRAC3Context *q) {
  * Atrac3 uninit, free all allocated memory
  */
 
-static int atrac3_decode_close(AVCodecContext *avctx)
+static av_cold int atrac3_decode_close(AVCodecContext *avctx)
 {
     ATRAC3Context *q = avctx->priv_data;
 
@@ -905,13 +909,13 @@ static int atrac3_decode_frame(AVCodecContext *avctx,
     if (q->channels == 1) {
         /* mono */
         for (i = 0; i<1024; i++)
-            samples[i] = av_clip_int16((int)(q->outSamples[i] + 0.5));
+            samples[i] = av_clip_int16(round(q->outSamples[i]));
         *data_size = 1024 * sizeof(int16_t);
     } else {
         /* stereo */
         for (i = 0; i < 1024; i++) {
-            samples[i*2] = av_clip_int16((int)(q->outSamples[i] + 0.5));
-            samples[i*2+1] = av_clip_int16((int)(q->outSamples[1024+i] + 0.5));
+            samples[i*2] = av_clip_int16(round(q->outSamples[i]));
+            samples[i*2+1] = av_clip_int16(round(q->outSamples[1024+i]));
         }
         *data_size = 2048 * sizeof(int16_t);
     }
@@ -926,7 +930,7 @@ static int atrac3_decode_frame(AVCodecContext *avctx,
  * @param avctx     pointer to the AVCodecContext
  */
 
-static int atrac3_decode_init(AVCodecContext *avctx)
+static av_cold int atrac3_decode_init(AVCodecContext *avctx)
 {
     int i;
     const uint8_t *edata_ptr = avctx->extradata;
@@ -1032,20 +1036,14 @@ static int atrac3_decode_init(AVCodecContext *avctx)
     /* Generate the scale factors. */
     for (i=0 ; i<64 ; i++)
         SFTable[i] = pow(2.0, (i - 15) / 3.0);
-    #ifdef __GNUC__
+
     /* Generate gain tables. */
     for (i=0 ; i<16 ; i++)
         gain_tab1[i] = powf (2.0, (4 - i));
 
     for (i=-15 ; i<16 ; i++)
-        gain_tab2[i+15] = powf(2.0, i * -0.125);
-    #else
-    for (i=0 ; i<16 ; i++)
-        gain_tab1[i] = pow(2.0, (4 - i));
+        gain_tab2[i+15] = powf (2.0, i * -0.125);
 
-    for (i=-15 ; i<16 ; i++)
-        gain_tab2[i+15] = pow(2.0, i * -0.125);
-    #endif
     /* init the joint-stereo decoding data */
     q->weighting_delay[0] = 0;
     q->weighting_delay[1] = 7;
