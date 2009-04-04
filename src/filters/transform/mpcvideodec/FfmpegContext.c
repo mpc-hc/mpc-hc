@@ -236,7 +236,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->num_ref_frames					= cur_sps->ref_frame_count;		// num_ref_frames;
 		pDXVAPicParams->field_pic_flag					= field_pic_flag;
 		pDXVAPicParams->MbaffFrameFlag					= (h->sps.mb_aff && (field_pic_flag==0));
-		pDXVAPicParams->residual_colour_transform_flag	= cur_sps->residual_colour_transform_flag;
+		pDXVAPicParams->residual_colour_transform_flag	= cur_sps->residual_color_transform_flag;
 		pDXVAPicParams->sp_for_switch_flag				= h->sp_for_switch_flag;
 		pDXVAPicParams->chroma_format_idc				= cur_sps->chroma_format_idc;
 		pDXVAPicParams->RefPicFlag						= (h->nal_ref_idc != 0);
