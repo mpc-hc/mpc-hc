@@ -241,7 +241,7 @@ s_scmap_hdmv[] =
 	{8, { 0, 1, 2, 3, 6, 4, 5,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},	// 3/4			FL, FR, FC, BL, Bls, Brs, BR
 	{8, { 0, 1, 2, 7, 3, 6, 4, 5 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT|SPEAKER_SIDE_LEFT|SPEAKER_SIDE_RIGHT},// 3/4+LFe		FL, FR, FC, BL, Bls, Brs, BR, LFe
 },
-s_scmap_lpcm[] =
+m_scmap_default[] =
 {
 //    FL  FR  FC  LFe BL  BR  FLC FRC
 	{1, { 0,-1,-1,-1,-1,-1,-1,-1 }, 0},		// Mono			M1, 0
@@ -451,7 +451,7 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 	if (wfein->nChannels < 1 || wfein->nChannels > 8)
 		return ERROR_NOT_SUPPORTED;
 
-	scmap_t*		remap	= &s_scmap_lpcm [wfein->nChannels-1];
+	scmap_t*		remap	= &m_scmap_default [wfein->nChannels-1];
 	int				nChannels = wfein->nChannels;
 
 	BYTE*			pDataIn	= m_buff.GetData();
@@ -2068,7 +2068,8 @@ void CMpaDecFilter::FlacDeliverBuffer  (unsigned blocksize, const __int32 * cons
 	pBuff.SetCount (blocksize * wfein->nChannels);
 	float*	pDataOut = pBuff.GetData();
 
-	// TODO : see Flac remap ?
+	scmap_t& scmap = m_scmap_default[wfein->nChannels-1];
+
 	switch (wfein->wBitsPerSample)
 	{
 	case 16 :
@@ -2096,7 +2097,7 @@ void CMpaDecFilter::FlacDeliverBuffer  (unsigned blocksize, const __int32 * cons
 		break;
 	}
 
-	m_flac.hr = Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, 0);
+	m_flac.hr = Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, scmap.dwChannelMask);
 }
 
 
@@ -2298,50 +2299,43 @@ HRESULT CMpaDecFilter::DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 		int					nRemap;
 		float*				pDataOut;
                 
-		nRemap = FFGetChannelMap (m_pAVCtx);
-		iSpeakerConfig  = GetSpeakerConfig(ac3);
-		nRemap = min (nRemap, iSpeakerConfig);		// <== TODO : correct ??
+		scmap_t& scmap = m_scmap_default[m_pAVCtx->channels-1];
 
-		if (nRemap >=0)
+		switch (m_pAVCtx->sample_fmt)
 		{
-			scmap_t& scmap = s_scmap_ac3[nRemap];
+		case SAMPLE_FMT_S16 :
+			pBuff.SetCount (nPCMLength / 2);
+			pDataOut = pBuff.GetData();
 
-			switch (m_pAVCtx->sample_fmt)
+			for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
 			{
-			case SAMPLE_FMT_S16 :
-				pBuff.SetCount (nPCMLength / 2);
-				pDataOut = pBuff.GetData();
-
-				for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
+				for(int ch=0; ch<m_pAVCtx->channels; ch++)
 				{
-					for(int ch=0; ch<m_pAVCtx->channels; ch++)
-					{
-						*pDataOut = (float)((int16_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
-						pDataOut++;
-					}
+					*pDataOut = (float)((int16_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
+					pDataOut++;
 				}
-				break;
-
-			case SAMPLE_FMT_S32 :
-				pBuff.SetCount (nPCMLength / 4);
-				pDataOut = pBuff.GetData();
-
-				for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
-				{
-					for(int ch=0; ch<m_pAVCtx->channels; ch++)
-					{
-						*pDataOut = (float)((int32_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
-//						*pDataOut = (float)((int32_t*)m_pPCMData) [ch+i*m_pAVCtx->channels] / INT_MAX;
-						pDataOut++;
-					}
-				}
-				break;
-			default :
-				ASSERT(FALSE);
-				break;
 			}
-			hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap.nChannels, scmap.dwChannelMask);
+			break;
+
+		case SAMPLE_FMT_S32 :
+			pBuff.SetCount (nPCMLength / 4);
+			pDataOut = pBuff.GetData();
+
+			for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
+			{
+				for(int ch=0; ch<m_pAVCtx->channels; ch++)
+				{
+					*pDataOut = (float)((int32_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
+//						*pDataOut = (float)((int32_t*)m_pPCMData) [ch+i*m_pAVCtx->channels] / INT_MAX;
+					pDataOut++;
+				}
+			}
+			break;
+		default :
+			ASSERT(FALSE);
+			break;
 		}
+		hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap.nChannels, scmap.dwChannelMask);
 	}
 
 	return hr;
@@ -2379,13 +2373,6 @@ bool CMpaDecFilter::InitFfmpeg(int nCodecId)
 		{
 			m_pPCMData	= (BYTE*)FF_aligned_malloc (AVCODEC_MAX_AUDIO_FRAME_SIZE+FF_INPUT_BUFFER_PADDING_SIZE, 64);
 			bRet		= true;
-
-			int iSpeakerConfig = GetSpeakerConfig(ac3);
-			if (iSpeakerConfig >= 0)
-			{
-				scmap_t& scmap				= s_scmap_ac3[iSpeakerConfig&A52_CHANNEL_MASK+ ((iSpeakerConfig&A52_LFE)?(countof(s_scmap_ac3)/2):0)];
-				m_pAVCtx->request_channels	= scmap.nChannels;
-			}
 		}
 	}
 
