@@ -2384,9 +2384,17 @@ COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb)
   double gp = Y - 2*(Cb-128)*(1.0-Rec601_Kb)*Rec601_Kb/Rec601_Kg - 2*(Cr-128)*(1.0-Rec601_Kr)*Rec601_Kr/Rec601_Kg;
   double bp = Y + 2*(Cb-128)*(1.0-Rec601_Kb);
 
-//  R = fabs(rp); G = fabs(gp); B = fabs(bp);
-
   return RGB (fabs(rp), fabs(gp), fabs(bp));
+}
+
+DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
+{
+
+  double rp = Y + 2*(Cr-128)*(1.0-Rec601_Kr);
+  double gp = Y - 2*(Cb-128)*(1.0-Rec601_Kb)*Rec601_Kb/Rec601_Kg - 2*(Cr-128)*(1.0-Rec601_Kr)*Rec601_Kr/Rec601_Kg;
+  double bp = Y + 2*(Cb-128)*(1.0-Rec601_Kb);
+
+  return D3DCOLOR_ARGB(A, (BYTE)fabs(rp), (BYTE)fabs(gp), (BYTE)fabs(bp));
 }
 
 
@@ -2400,7 +2408,15 @@ COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb)
   double gp = Y - 2*(Cb-128)*(1.0-Rec709_Kb)*Rec709_Kb/Rec709_Kg - 2*(Cr-128)*(1.0-Rec709_Kr)*Rec709_Kr/Rec709_Kg;
   double bp = Y + 2*(Cb-128)*(1.0-Rec709_Kb);
 
-//  R = fabs(rp); G = fabs(gp); B = fabs(bp);
-
   return RGB (fabs(rp), fabs(gp), fabs(bp));
+}
+
+DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
+{
+
+  double rp = Y + 2*(Cr-128)*(1.0-Rec709_Kr);
+  double gp = Y - 2*(Cb-128)*(1.0-Rec709_Kb)*Rec709_Kb/Rec709_Kg - 2*(Cr-128)*(1.0-Rec709_Kr)*Rec709_Kr/Rec709_Kg;
+  double bp = Y + 2*(Cb-128)*(1.0-Rec709_Kb);
+
+  return D3DCOLOR_ARGB (A, (BYTE)fabs(rp), (BYTE)fabs(gp), (BYTE)fabs(bp));
 }

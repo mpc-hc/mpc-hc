@@ -124,6 +124,8 @@ extern CString ReftimeToString(const REFERENCE_TIME& rtVal);
 REFERENCE_TIME StringToReftime(LPCTSTR strVal);
 extern COLORREF YCrCbToRGB_Rec601(BYTE Y, BYTE Cr, BYTE Cb);
 extern COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb);
+extern DWORD	YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
+extern DWORD	YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 
 class CPinInfo : public PIN_INFO
 {

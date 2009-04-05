@@ -115,7 +115,7 @@ public:
 		int			m_nRLEDataSize;
 		int			m_nRLEPos;
 		int			m_nColorNumber;
-		long		m_Colors[256];
+		DWORD		m_Colors[256];
 	};
 
 	CHdmvSub();

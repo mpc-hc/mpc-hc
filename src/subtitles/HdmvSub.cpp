@@ -381,7 +381,7 @@ CHdmvSub::CompositionObject::CompositionObject()
 	m_nRLEDataSize	= 0;
 	m_nRLEPos		= 0;
 	m_nColorNumber	= 0;
-	memset (m_Colors, 0, sizeof(m_Colors));
+	memsetd (m_Colors, 0xFF000000, sizeof(m_Colors));
 }
 
 CHdmvSub::CompositionObject::~CompositionObject()
@@ -396,11 +396,9 @@ void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalet
 	for (int i=0; i<m_nColorNumber; i++)
 	{
 		if (bIsHD)
-			m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24| 
-					YCrCbToRGB_Rec709 (pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
 		else
-			m_Colors[pPalette[i].entry_id] = pPalette[i].T<<24| 
-					YCrCbToRGB_Rec601 (pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
 //		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
 	}
 }
@@ -482,7 +480,7 @@ void CHdmvSub::CompositionObject::Render(SubPicDesc& spd)
 
 			if (nCount>0)
 			{
-				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex], 0xFFFFFFFF);
+				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
 				nX += nCount;
 			}
 			else
