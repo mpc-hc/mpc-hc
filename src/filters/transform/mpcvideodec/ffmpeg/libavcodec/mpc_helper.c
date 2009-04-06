@@ -48,7 +48,7 @@ int FFGetChannelMap(struct AVCodecContext * avctx)
 			case AC3_CHMODE_2F1R	: return 4;
 			case AC3_CHMODE_3F1R	: return 5;
 			case AC3_CHMODE_2F2R	: return 6;
-			case AC3_CHMODE_3F2R	: return 7;
+			case AC3_CHMODE_3F2R	: return (s->lfe_on ? 8 : 7);
 			}
 		}
 		break;
