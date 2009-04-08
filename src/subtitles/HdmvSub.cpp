@@ -395,10 +395,13 @@ void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalet
 
 	for (int i=0; i<m_nColorNumber; i++)
 	{
-		if (bIsHD)
-			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
-		else
-			m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
+		{
+			if (bIsHD)
+				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+			else
+				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (255-pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+		}
 //		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
 	}
 }
