@@ -50,6 +50,7 @@ CVMROSD::CVMROSD(void)
 	m_bCursorMoving		= false;
 	m_pMFVMB		= NULL;
 	m_pVMB			= NULL;
+	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 }
 
 CVMROSD::~CVMROSD(void)
@@ -75,12 +76,14 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
 
 void CVMROSD::UpdateBitmap()
 {
+	CAutoLock Lock(&m_Lock);
 	CRect				rc;
 	CWindowDC			dc (m_pWnd);
 
 	CalcRect();
 
 	m_MemDC.DeleteDC();
+	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
 	if (m_MemDC.CreateCompatibleDC (&dc))
 	{
@@ -215,6 +218,8 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 
 void CVMROSD::DrawMessage()
 {
+	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0)
+		return;
  	if (m_nMessagePos != OSD_NOMESSAGE)
 	{
 		CRect		rectText (0,0,0,0);
@@ -239,6 +244,9 @@ void CVMROSD::DrawMessage()
 
 void CVMROSD::Invalidate()
 {
+	CAutoLock Lock(&m_Lock);
+	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0)
+		return;
 	memsetd(m_BitmapInfo.bmBits, 0xff000000, m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8));
 	
 	if (m_bSeekBarVisible) DrawSlider(&m_rectSeekBar, m_llSeekMin, m_llSeekMax, m_llSeekPos);
@@ -284,6 +292,12 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 		else if (m_bSeekBarVisible && !m_rectSeekBar.PtInRect(point))
 		{
 			m_bSeekBarVisible = false;
+			// Add new timer for removing any messages
+			if (m_pWnd)
+			{
+				KillTimer(m_pWnd->m_hWnd, (long)this);
+				SetTimer(m_pWnd->m_hWnd, (long)this, 1000, (TIMERPROC)TimerFunc);
+			}
 			Invalidate();
 		}
 		else
@@ -356,10 +370,14 @@ void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 	{
 		pVMROSD->ClearMessage();
 	}
+	KillTimer(hWnd, nIDEvent);
 }
 
 void CVMROSD::ClearMessage()
 {
+	CAutoLock Lock(&m_Lock);
+	if (m_bSeekBarVisible)
+		return;
 	if (m_pVMB) 
 	{
 		DWORD dwBackup				= (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);

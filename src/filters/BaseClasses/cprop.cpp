@@ -136,7 +136,7 @@ INT_PTR CALLBACK CBasePropertyPage::DialogProc(HWND hwnd,
 
         case WM_INITDIALOG:
 
-            SetWindowLongPtr(hwnd, DWLP_USER, lParam);
+            _SetWindowLongPtr(hwnd, DWLP_USER, lParam);
 
             // This pointer may be NULL when calculating size
 
@@ -149,7 +149,7 @@ INT_PTR CALLBACK CBasePropertyPage::DialogProc(HWND hwnd,
 
     // This pointer may be NULL when calculating size
 
-    pPropertyPage = (CBasePropertyPage *) GetWindowLongPtr(hwnd, DWLP_USER);
+    pPropertyPage = _GetWindowLongPtr<CBasePropertyPage*>(hwnd, DWLP_USER);
     if (pPropertyPage == NULL) {
         return (LRESULT) 1;
     }
@@ -363,7 +363,8 @@ INT_PTR CBasePropertyPage::OnReceiveMessage(HWND hwnd,UINT uMsg,WPARAM wParam,LP
 
     CBasePropertyPage *pPropertyPage;
     {
-        pPropertyPage = (CBasePropertyPage *) GetWindowLongPtr(hwnd, DWLP_USER);
+        pPropertyPage = _GetWindowLongPtr<CBasePropertyPage*>(hwnd, DWLP_USER);
+
         if (pPropertyPage->m_hwnd == NULL) {
             return 0;
         }

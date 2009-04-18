@@ -172,7 +172,7 @@ void CUDPStream::Append(BYTE* buff, int len)
 		if(m_drop) return;
 	}
 
-	m_packets.AddTail(new packet_t(buff, m_len, m_len + len));
+	m_packets.AddTail(DNew packet_t(buff, m_len, m_len + len));
 	m_len += len;
 }
 
@@ -442,6 +442,6 @@ CUDPStream::packet_t::packet_t(BYTE* p, __int64 start, __int64 end)
 	, m_end(end)
 {
 	int size = end - start;
-	m_buff = new BYTE[size];
+	m_buff = DNew BYTE[size];
 	memcpy(m_buff, p, size);
 }

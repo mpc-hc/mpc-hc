@@ -89,7 +89,7 @@ HRESULT CNutSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new CNutFile(pAsyncReader, hr));
+	m_pFile.Attach(DNew CNutFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -152,7 +152,7 @@ HRESULT CNutSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		if(mts.GetCount() > 0)
 		{
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
 			AddOutputPin((DWORD)sh->stream_id, pPinOut);
 		}
 	}
@@ -242,7 +242,7 @@ bool CNutSplitterFilter::DemuxLoop()
 
 TRACE(_T("[%I64d]: %I64d:%I64d\n"), stream_id, sh->msb_timestamp, lsb_timestamp);
 
-				CAutoPtr<Packet> p(new Packet());
+				CAutoPtr<Packet> p(DNew Packet());
 				p->TrackNumber = (DWORD)stream_id;
 				p->bSyncPoint = fKeyFrame;
 				p->rtStart = 10000i64 * ((sh->msb_timestamp << sh->msb_timestamp_shift) + lsb_timestamp) 

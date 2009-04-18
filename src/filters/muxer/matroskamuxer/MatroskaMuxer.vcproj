@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="MatroskaMuxer"
 	ProjectGUID="{67827491-8162-4039-9132-F934ABC836A0}"
 	RootNamespace="MatroskaMuxer"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
@@ -102,6 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
@@ -159,6 +161,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4244"
@@ -219,6 +222,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 			/>

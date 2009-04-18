@@ -284,7 +284,7 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	if(FAILED(pDD->CreateSurface(&ddsd, &pSurface, NULL)))
 		return(false);
 
-	if(!(*ppSubPic = new CDX7SubPic(m_pD3DDev, pSurface)))
+	if(!(*ppSubPic = DNew CDX7SubPic(m_pD3DDev, pSurface)))
 		return(false);
 
 	(*ppSubPic)->AddRef();

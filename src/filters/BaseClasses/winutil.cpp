@@ -425,7 +425,8 @@ LRESULT CALLBACK WndProc(HWND hwnd,         // Window handle
     // structure.  IF we get any messages before WM_NCCREATE we will
     // pass them to DefWindowProc.
 
-    CBaseWindow *pBaseWindow = (CBaseWindow *)GetWindowLongPtr(hwnd,0);
+    CBaseWindow *pBaseWindow = _GetWindowLongPtr<CBaseWindow*>(hwnd,0);
+
     if (pBaseWindow == NULL) {
 
         // Get the structure pointer from the create struct.
@@ -451,7 +452,10 @@ LRESULT CALLBACK WndProc(HWND hwnd,         // Window handle
 #ifdef DEBUG
         SetLastError(0);  // because of the way SetWindowLong works
 #endif
-        LONG_PTR rc = SetWindowLongPtr(hwnd, (DWORD) 0, (LONG_PTR) pBaseWindow);
+
+        LONG_PTR rc = _SetWindowLongPtr(hwnd, (DWORD) 0, pBaseWindow);
+
+
 #ifdef DEBUG
         if (0 == rc) {
             // SetWindowLong MIGHT have failed.  (Read the docs which admit

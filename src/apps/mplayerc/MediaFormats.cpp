@@ -220,7 +220,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),  _T("flv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),  _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));
-		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
+		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl bdmv")));
 		ADDFMT((ResStr(IDS_AG_OTHER),		  _T("divx vp6 rmvb amv tta amr")));
 #undef ADDFMT
 

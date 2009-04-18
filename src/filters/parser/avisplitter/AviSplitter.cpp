@@ -140,7 +140,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 	m_tFrame.Free();
 
-	m_pFile.Attach(new CAviFile(pAsyncReader, hr));
+	m_pFile.Attach(DNew CAviFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 
 	bool fShiftDown = !!(::GetKeyState(VK_SHIFT)&0x8000);
@@ -305,7 +305,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		HRESULT hr;
 
-		CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CAviSplitterOutputPin(mts, name, this, this, &hr));
+		CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CAviSplitterOutputPin(mts, name, this, this, &hr));
 		AddOutputPin(i, pPinOut);
 	}
 
@@ -325,7 +325,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 	}
 
-	m_tFrame.Attach(new DWORD[m_pFile->m_avih.dwStreams]);
+	m_tFrame.Attach(DNew DWORD[m_pFile->m_avih.dwStreams]);
 
 	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
 }
@@ -553,7 +553,7 @@ bool CAviSplitterFilter::DemuxLoop()
 				size = s->cs[f].orgsize;
 			}
 
-			CAutoPtr<Packet> p(new Packet());
+			CAutoPtr<Packet> p(DNew Packet());
 
 			p->TrackNumber = minTrack;
 			p->bSyncPoint = (BOOL)s->cs[f].fKeyFrame;

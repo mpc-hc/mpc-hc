@@ -159,6 +159,7 @@ enum
 	VIDRNDT_DS_NULL_UNCOMP,
 	VIDRNDT_DS_EVR,
 	VIDRNDT_DS_EVR_CUSTOM,
+	VIDRNDT_DS_MADVR
 };
 
 enum
@@ -393,7 +394,7 @@ public:
 
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	bool		m_fTearingTest;
-	bool		m_fDisplayStats;
+	int			m_fDisplayStats;
 	LONGLONG	m_PerfFrequency;
 	CString		m_strVersion;
 	CString		m_strD3DX9Version;
@@ -471,11 +472,78 @@ public:
 
 		CAutoPtrList<FilterOverride> filters;
 
+		class CRendererSettingsShared
+		{
+		public:
+			CRendererSettingsShared()
+			{
+				SetDefault();
+			}
+			bool fVMR9AlterativeVSync;
+			int iVMR9VSyncOffset;
+			bool iVMR9VSyncAccurate;
+			bool iVMR9FullscreenGUISupport;
+			bool iVMR9VSync;
+			bool iVMRDisableDesktopComposition;
+			int iVMRFlushGPUBeforeVSync;
+			int iVMRFlushGPUAfterPresent;
+			int iVMRFlushGPUWait;
+
+			void SetDefault()
+			{
+				fVMR9AlterativeVSync = 0;
+				iVMR9VSyncOffset = 0;
+				iVMR9VSyncAccurate = 1;
+				iVMR9FullscreenGUISupport = 0;
+				iVMR9VSync = 1;
+				iVMRDisableDesktopComposition = 0;
+				iVMRFlushGPUBeforeVSync = 1;
+				iVMRFlushGPUAfterPresent = 1;
+				iVMRFlushGPUWait = 0;
+			}
+			void SetOptimal()
+			{
+				fVMR9AlterativeVSync = 1;
+				iVMR9VSyncAccurate = 1;
+				iVMR9VSync = 1;
+				iVMRDisableDesktopComposition = 1;
+				iVMRFlushGPUBeforeVSync = 1;
+				iVMRFlushGPUAfterPresent = 1;
+				iVMRFlushGPUWait = 0;
+			}
+		};
+		class CRendererSettingsEVR : public CRendererSettingsShared
+		{
+		public:
+			bool iEVRHighColorResolution;
+			bool iEVREnableFrameTimeCorrection;
+			int iEVROutputRange;
+
+			CRendererSettingsEVR()
+			{
+				SetDefault();
+			}
+			void SetDefault()
+			{
+				CRendererSettingsShared::SetDefault();
+				iEVRHighColorResolution = 0;
+				iEVREnableFrameTimeCorrection = 0;
+				iEVROutputRange = 0;
+			}
+			void SetOptimal()
+			{
+				CRendererSettingsShared::SetOptimal();
+				iEVRHighColorResolution = 0;
+			}
+		};
+
+		CRendererSettingsEVR m_RenderSettings;
+
 		int iDSVideoRendererType;
 		int iRMVideoRendererType;
 		int iQTVideoRendererType;
 		int iAPSurfaceUsage;
-		bool fVMRSyncFix;
+//		bool fVMRSyncFix;
 		int iDX9Resizer;
 		bool fVMR9MixerMode;
 		bool fVMR9MixerYUV;
@@ -528,6 +596,7 @@ public:
 		int nSPCMaxRes;
 		int nSubDelayInterval;
 		bool fSPCPow2Tex;
+		bool fSPCDisableAnim;
 		bool fEnableSubtitles;
 
 		bool fDisabeXPToolbars;
@@ -596,9 +665,15 @@ public:
 
 		CString ISDb;
 
-		struct Shader {CString label, target, srcdata;};
+		struct Shader 
+		{
+			CString label;
+			CString target;
+			CString srcdata;
+		};
 		CAtlList<Shader> m_shaders;
 		CString m_shadercombine;
+		CString m_shadercombineScreenSpace;
 
 		// === CASIMIR666 : nouveau settings
 		bool			fD3DFullscreen;
@@ -610,6 +685,7 @@ public:
 		float			dHue;
 		float			dSaturation;
 		CString			strShaderList;
+		CString			strShaderListScreenSpace;
 
 		bool			fRememberDVDPos;
 		bool			fRememberFilePos;

@@ -76,8 +76,8 @@ private:
 +---------------------------------------------------------------------*/
 AP4_Movie::AP4_Movie(AP4_UI32 time_scale)
 {
-    m_MoovAtom = new AP4_MoovAtom();
-    m_MvhdAtom = new AP4_MvhdAtom(0, 0, 
+    m_MoovAtom = DNew AP4_MoovAtom();
+    m_MvhdAtom = DNew AP4_MvhdAtom(0, 0, 
                                   time_scale, 
                                   0, 
                                   0x00010000,
@@ -108,7 +108,7 @@ AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& mdat) :
     trak_atoms = &moov->GetTrakAtoms();
     AP4_List<AP4_TrakAtom>::Item* item = trak_atoms->FirstItem();
     while (item) {
-        AP4_Track* track = new AP4_Track(*item->GetData(), 
+        AP4_Track* track = DNew AP4_Track(*item->GetData(), 
                                          mdat,
                                          time_scale);
         m_Tracks.Add(track);

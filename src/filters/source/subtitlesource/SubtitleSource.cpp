@@ -173,7 +173,7 @@ STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* p
 		return VFW_E_ALREADY_CONNECTED;
 
 	HRESULT hr = S_OK;
-	if(!(new CSubtitleStream(pszFileName, this, &hr)))
+	if(!(DNew CSubtitleStream(pszFileName, this, &hr)))
 		return E_OUTOFMEMORY;
 
 	if(FAILED(hr))

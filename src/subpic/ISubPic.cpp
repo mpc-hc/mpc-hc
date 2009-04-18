@@ -30,6 +30,7 @@
 ISubPicImpl::ISubPicImpl() 
 	: CUnknown(NAME("ISubPicImpl"), NULL)
 	, m_rtStart(0), m_rtStop(0)
+	, m_rtSegmentStart(0), m_rtSegmentStop(0)
 	, m_rcDirty(0, 0, 0, 0), m_maxsize(0, 0), m_size(0, 0), m_vidrect(0, 0, 0, 0)
 	, m_VirtualTextureSize(0, 0), m_VirtualTextureTopLeft (0, 0)
 {
@@ -54,6 +55,32 @@ STDMETHODIMP_(REFERENCE_TIME) ISubPicImpl::GetStop()
 	return(m_rtStop);
 }
 
+STDMETHODIMP_(REFERENCE_TIME) ISubPicImpl::GetSegmentStart()
+{
+	if (m_rtSegmentStart)
+		return(m_rtSegmentStart);
+	return(m_rtStart);
+}
+
+STDMETHODIMP_(REFERENCE_TIME) ISubPicImpl::GetSegmentStop()
+{
+	if (m_rtSegmentStop)
+		return(m_rtSegmentStop);
+	return(m_rtStop);
+}
+
+STDMETHODIMP_(void) ISubPicImpl::SetSegmentStart(REFERENCE_TIME rtStart)
+{
+	m_rtSegmentStart = rtStart;
+}
+
+STDMETHODIMP_(void) ISubPicImpl::SetSegmentStop(REFERENCE_TIME rtStop)
+{
+	m_rtSegmentStop = rtStop;
+}
+
+
+
 STDMETHODIMP_(void) ISubPicImpl::SetStart(REFERENCE_TIME rtStart)
 {
 	m_rtStart = rtStart;
@@ -71,6 +98,8 @@ STDMETHODIMP ISubPicImpl::CopyTo(ISubPic* pSubPic)
 
 	pSubPic->SetStart(m_rtStart);
 	pSubPic->SetStop(m_rtStop);
+	pSubPic->SetSegmentStart(m_rtSegmentStart);
+	pSubPic->SetSegmentStop(m_rtSegmentStop);
 	pSubPic->SetDirtyRect(m_rcDirty);
 	pSubPic->SetSize(m_size, m_vidrect);
 	pSubPic->SetVirtualTextureSize(m_VirtualTextureSize, m_VirtualTextureTopLeft);
@@ -274,6 +303,7 @@ ISubPicQueueImpl::ISubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr)
 	: CUnknown(NAME("ISubPicQueueImpl"), NULL)
 	, m_pAllocator(pAllocator)
 	, m_rtNow(0)
+	, m_rtNowLast(0)
 	, m_fps(25.0)
 {
 	if(phr) *phr = S_OK;
@@ -341,7 +371,7 @@ STDMETHODIMP ISubPicQueueImpl::SetTime(REFERENCE_TIME rtNow)
 
 // private
 
-HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps)
+HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps, BOOL bIsAnimated)
 {
 	HRESULT hr = E_FAIL;
 
@@ -360,7 +390,7 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 	&& SUCCEEDED(pSubPic->Lock(spd)))
 	{
 		CRect r(0,0,0,0);
-		hr = pSubPicProvider->Render(spd, (rtStart+rtStop)/2, fps, r);
+		hr = pSubPicProvider->Render(spd, bIsAnimated ? rtStart : ((rtStart+rtStop)/2), fps, r);
 
 		pSubPic->SetStart(rtStart);
 		pSubPic->SetStop(rtStop);
@@ -377,10 +407,12 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 // CSubPicQueue
 //
 
-CSubPicQueue::CSubPicQueue(int nMaxSubPic, ISubPicAllocator* pAllocator, HRESULT* phr) 
+CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr) 
 	: ISubPicQueueImpl(pAllocator, phr)
 	, m_nMaxSubPic(nMaxSubPic)
-	, m_rtQueueStart(0)
+	, m_bDisableAnim(bDisableAnim)
+	,m_rtQueueMin(0)
+	,m_rtQueueMax(0)
 {
 	if(phr && FAILED(*phr))
 		return;
@@ -433,43 +465,87 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate)
 
 		m_rtInvalidate = rtInvalidate;
 		m_fBreakBuffering = true;
+#if DSubPicTraceLevel > 0
+		TRACE(_T("Invalidate: %f\n"), double(rtInvalidate) / 10000000.0);
+#endif
+
 		SetEvent(m_ThreadEvents[EVENT_TIME]);
 	}
 
 	return S_OK;
 }
 
-STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic)
+STDMETHODIMP_(bool) CSubPicQueue::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic> &ppSubPic)
 {
-	if(!ppSubPic)
-		return(false);
-
-	*ppSubPic = NULL;
 
 	CAutoLock cQueueLock(&m_csQueueLock);
 
-	POSITION pos = GetHeadPosition();
+	REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
+	POSITION pos = m_Queue.GetHeadPosition();
+#if DSubPicTraceLevel > 2
+	TRACE("Find: ");
+#endif
 	while(pos)
 	{
-		CComPtr<ISubPic> pSubPic = GetNext(pos);
-		if(pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop())
+		CComPtr<ISubPic> pSubPic = m_Queue.GetNext(pos);
+		REFERENCE_TIME rtStart = pSubPic->GetStart();
+		REFERENCE_TIME rtStop = pSubPic->GetStop();
+		REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
+		if(rtNow >= rtStart && rtNow < rtSegmentStop)
 		{
-			*ppSubPic = pSubPic.Detach();
-			break;
+			REFERENCE_TIME Diff = rtNow - rtStop;
+			if (Diff < rtBestStop)
+			{
+				rtBestStop = Diff;
+//				TRACE("   %f->%f", double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
+				ppSubPic = pSubPic;
+			}
+#if DSubPicTraceLevel > 2
+			else
+				TRACE("   !%f->%f", double(Diff) / 10000000.0, double(rtStop) / 10000000.0);
+#endif
 		}
+#if DSubPicTraceLevel > 2
+		else
+			TRACE("   !!%f->%f", double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0);
+#endif
+
+	}
+#if DSubPicTraceLevel > 2
+	TRACE("\n");
+#endif
+	if (!ppSubPic)
+	{
+#if DSubPicTraceLevel > 1
+		TRACE("NO Display: %f\n", double(rtNow) / 10000000.0);
+#endif
+	}
+	else
+	{
+#if DSubPicTraceLevel > 0
+		REFERENCE_TIME rtStart = (ppSubPic)->GetStart();
+		REFERENCE_TIME rtSegmentStop = (ppSubPic)->GetSegmentStop();
+		CRect r;
+		(ppSubPic)->GetDirtyRect(&r);
+		TRACE("Display: %f->%f   %f    %dx%d\n", double(rtStart) / 10000000.0, double(rtSegmentStop) / 10000000.0, double(rtNow) / 10000000.0, r.Width(), r.Height());
+#endif
 	}
 
-	return(!!*ppSubPic);
+	return(!!ppSubPic);
 }
 
 STDMETHODIMP CSubPicQueue::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	CAutoLock cQueueLock(&m_csQueueLock);
 
-	nSubPics = GetCount();
+	nSubPics = m_Queue.GetCount();
 	rtNow = m_rtNow;
-	rtStart = m_rtQueueStart;
-	rtStop = GetCount() > 0 ? GetTail()->GetStop() : rtStart;
+	rtStart = m_rtQueueMin;
+	if (rtStart == 0x7fffffffffffffffi64)
+		rtStart = 0;
+	rtStop = m_rtQueueMax;
+	if (rtStop == 0xffffffffffffffffi64)
+		rtStop = 0;
 
 	return S_OK;
 }
@@ -480,12 +556,12 @@ STDMETHODIMP CSubPicQueue::GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERE
 
 	rtStart = rtStop = -1;
 
-	if(nSubPic >= 0 && nSubPic < (int)GetCount())
+	if(nSubPic >= 0 && nSubPic < (int)m_Queue.GetCount())
 	{
-		if(POSITION pos = FindIndex(nSubPic))
+		if(POSITION pos = m_Queue.FindIndex(nSubPic))
 		{
-			rtStart = GetAt(pos)->GetStart();
-			rtStop = GetAt(pos)->GetStop();
+			rtStart = m_Queue.GetAt(pos)->GetStart();
+			rtStop = m_Queue.GetAt(pos)->GetStop();
 		}
 	}
 	else
@@ -503,41 +579,114 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 	CAutoLock cQueueLock(&m_csQueueLock);
 
 	REFERENCE_TIME rtNow = m_rtNow;
+	REFERENCE_TIME rtNowCompare = rtNow;
 
-	if(rtNow < m_rtQueueStart)
+	if (rtNow < m_rtNowLast)
 	{
-		RemoveAll();
+		m_Queue.RemoveAll();
+		m_rtNowLast = rtNow;
 	}
 	else
 	{
-		while(GetCount() > 0 && rtNow >= GetHead()->GetStop())
-			RemoveHead();
+		m_rtNowLast = rtNow;
+
+		m_rtQueueMin = 0x7fffffffffffffffi64;
+		m_rtQueueMax = 0xffffffffffffffffi64;
+
+		REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
+		POSITION SavePos = 0;
+		{
+			POSITION Iter = m_Queue.GetHeadPosition();
+			while(Iter)
+			{
+				POSITION ThisPos = Iter;
+				ISubPic *pSubPic = m_Queue.GetNext(Iter);
+				REFERENCE_TIME rtStart = pSubPic->GetStart();
+				REFERENCE_TIME rtStop = pSubPic->GetStop();
+				REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
+				if(rtNow >= rtStart && rtNow < rtSegmentStop)
+				{
+					REFERENCE_TIME Diff = rtNow - rtStop;
+					if (Diff < rtBestStop)
+					{
+						rtBestStop = Diff;
+						SavePos = ThisPos;
+					}
+				}
+			}
+		}
+
+	#if DSubPicTraceLevel > 3
+		if (SavePos)
+		{
+			ISubPic *pSubPic = GetAt(SavePos);
+			REFERENCE_TIME rtStart = pSubPic->GetStart();
+			REFERENCE_TIME rtStop = pSubPic->GetStop();
+			TRACE("Save: %f->%f\n", double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+		}
+	#endif
+		{
+			POSITION Iter = m_Queue.GetHeadPosition();
+			while(Iter)
+			{
+				POSITION ThisPos = Iter;
+				ISubPic *pSubPic = m_Queue.GetNext(Iter);
+
+				REFERENCE_TIME rtStart = pSubPic->GetStart();
+				REFERENCE_TIME rtStop = pSubPic->GetStop();
+
+				if (rtStop <= rtNowCompare && ThisPos != SavePos)
+				{
+	#if DSubPicTraceLevel > 0
+					TRACE("Remove: %f->%f\n", double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+	#endif
+					m_Queue.RemoveAt(ThisPos);
+					continue;
+				}
+				if (rtStop > rtNow)
+					rtNow = rtStop;
+				m_rtQueueMin = min(m_rtQueueMin, rtStart);
+				m_rtQueueMax = max(m_rtQueueMax, rtStop);
+			}
+		}
 	}
 
-	m_rtQueueStart = rtNow;
-
-	if(GetCount() > 0)
-		rtNow = GetTail()->GetStop();
-
 	return(rtNow);
+}
+
+int CSubPicQueue::GetQueueCount()
+{
+	CAutoLock cQueueLock(&m_csQueueLock);
+
+	return m_Queue.GetCount();
 }
 
 void CSubPicQueue::AppendQueue(ISubPic* pSubPic)
 {
 	CAutoLock cQueueLock(&m_csQueueLock);
 
-	AddTail(pSubPic);
+	m_Queue.AddTail(pSubPic);
 }
 
 // overrides
 
 DWORD CSubPicQueue::ThreadProc()
 {	
-	SetThreadPriority(m_hThread, THREAD_PRIORITY_LOWEST/*THREAD_PRIORITY_BELOW_NORMAL*/);
+	BOOL bDisableAnim = m_bDisableAnim;
+	SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL/*THREAD_PRIORITY_BELOW_NORMAL*/);
 
-	while((WaitForMultipleObjects(EVENT_COUNT, m_ThreadEvents, FALSE, INFINITE) - WAIT_OBJECT_0) == EVENT_TIME)
+	bool bAgain = true;
+	while(1)
 	{
+		DWORD Ret = WaitForMultipleObjects(EVENT_COUNT, m_ThreadEvents, FALSE, bAgain ? 0 : INFINITE);
+		bAgain = false;
+
+		if (Ret == WAIT_TIMEOUT)
+			;
+		else if ((Ret - WAIT_OBJECT_0) != EVENT_TIME)
+			break;
 		double fps = m_fps;
+		REFERENCE_TIME rtTimePerFrame = 10000000.0/fps;
 		REFERENCE_TIME rtNow = UpdateQueue();
 
 		int nMaxSubPic = m_nMaxSubPic;
@@ -547,7 +696,7 @@ DWORD CSubPicQueue::ThreadProc()
 		&& SUCCEEDED(pSubPicProvider->Lock()))
 		{
 			for(POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps); 
-				pos && !m_fBreakBuffering && GetCount() < (size_t)nMaxSubPic; 
+				pos && !m_fBreakBuffering && GetQueueCount() < (size_t)nMaxSubPic; 
 				pos = pSubPicProvider->GetNext(pos))
 			{
 				REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
@@ -564,33 +713,72 @@ DWORD CSubPicQueue::ThreadProc()
 
 				if(rtNow < rtStop)
 				{
-					SIZE	MaxTextureSize, VirtualSize;
-					POINT	VirtualTopLeft;
-					HRESULT	hr2;
-					if (SUCCEEDED (hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft)))
-						m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+					REFERENCE_TIME rtCurrent = max(rtNow, rtStart);
+					bool bIsAnimated = pSubPicProvider->IsAnimated(pos) && !bDisableAnim;
+					while (rtCurrent < rtStop)
+					{
+						
+						SIZE	MaxTextureSize, VirtualSize;
+						POINT	VirtualTopLeft;
+						HRESULT	hr2;
+						if (SUCCEEDED (hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft)))
+							m_pAllocator->SetMaxTextureSize(MaxTextureSize);
 
-					CComPtr<ISubPic> pStatic;
-					if(FAILED(m_pAllocator->GetStatic(&pStatic)))
-						break;
+						CComPtr<ISubPic> pStatic;
+						if(FAILED(m_pAllocator->GetStatic(&pStatic)))
+							break;
 
-					HRESULT hr = RenderTo(pStatic, rtStart, rtStop, fps);
+						HRESULT hr;
+						if (bIsAnimated)
+						{
+							if (rtCurrent < m_rtNow + rtTimePerFrame)
+								rtCurrent = min(m_rtNow + rtTimePerFrame, rtStop-1);
 
-					if(FAILED(hr))
-						break;
+							REFERENCE_TIME rtEndThis = min(rtCurrent + rtTimePerFrame, rtStop);
+							hr = RenderTo(pStatic, rtCurrent, rtEndThis, fps, bIsAnimated);
+							pStatic->SetSegmentStart(rtStart);
+							pStatic->SetSegmentStop(rtStop);
+#if DSubPicTraceLevel > 0
+							CRect r;
+							pStatic->GetDirtyRect(&r);
+							TRACE("Render: %f->%f    %f->%f      %dx%d\n", double(rtCurrent) / 10000000.0, double(rtEndThis) / 10000000.0, double(rtStart) / 10000000.0, double(rtStop) / 10000000.0, r.Width(), r.Height());
+#endif
+							rtCurrent = rtEndThis;
 
-					if(S_OK != hr) // subpic was probably empty
-						continue;
 
-					CComPtr<ISubPic> pDynamic;
-					if(FAILED(m_pAllocator->AllocDynamic(&pDynamic))
-					|| FAILED(pStatic->CopyTo(pDynamic)))
-						break;
+						}
+						else
+						{
+							hr = RenderTo(pStatic, rtStart, rtStop, fps, bIsAnimated);
+							rtCurrent = rtStop;
+						}			
+#if DSubPicTraceLevel > 0
+						if (m_rtNow > rtCurrent)
+						{
+							TRACE("BEHIND\n");
+						}
+#endif
 
-					if (SUCCEEDED (hr2))
-						pDynamic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
+						if(FAILED(hr))
+							break;
 
-					AppendQueue(pDynamic);
+						if(S_OK != hr) // subpic was probably empty
+							continue;
+
+						CComPtr<ISubPic> pDynamic;
+						if(FAILED(m_pAllocator->AllocDynamic(&pDynamic))
+						|| FAILED(pStatic->CopyTo(pDynamic)))
+							break;
+
+						if (SUCCEEDED (hr2))
+							pDynamic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
+
+						AppendQueue(pDynamic);
+						bAgain = true;
+
+						if (GetQueueCount() >= (size_t)nMaxSubPic)
+							break;
+					}
 				}
 			}
 
@@ -599,15 +787,40 @@ DWORD CSubPicQueue::ThreadProc()
 
 		if(m_fBreakBuffering)
 		{
+			bAgain = true;
 			CAutoLock cQueueLock(&m_csQueueLock);
 
 			REFERENCE_TIME rtInvalidate = m_rtInvalidate;
 
+			POSITION Iter = m_Queue.GetHeadPosition();
+			while(Iter)
+			{
+				POSITION ThisPos = Iter;
+				ISubPic *pSubPic = m_Queue.GetNext(Iter);
+
+				REFERENCE_TIME rtStart = pSubPic->GetStart();
+				REFERENCE_TIME rtStop = pSubPic->GetStop();
+
+				if (rtStop > rtInvalidate)
+				{
+#if DSubPicTraceLevel >= 0
+					TRACE(_T("Removed subtitle because of invalidation: %f->%f\n"), double(rtStart) / 10000000.0, double(rtStop) / 10000000.0);
+#endif
+					m_Queue.RemoveAt(ThisPos);
+					continue;
+				}
+			}
+
+/*
 			while(GetCount() && GetTail()->GetStop() > rtInvalidate)
 			{
 				if(GetTail()->GetStart() < rtInvalidate) GetTail()->SetStop(rtInvalidate);
-				else RemoveTail();
+				else 
+				{
+					RemoveTail();
+				}
 			}
+			*/
 
 			m_fBreakBuffering = false;
 		}
@@ -640,12 +853,8 @@ STDMETHODIMP CSubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 	return S_OK;
 }
 
-STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic)
+STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic> &ppSubPic)
 {
-	if(!ppSubPic)
-		return(false);
-
-	*ppSubPic = NULL;
 
 	CComPtr<ISubPic> pSubPic;
 
@@ -663,7 +872,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 
 	if(pSubPic->GetStart() <= rtNow && rtNow < pSubPic->GetStop())
 	{
-		(*ppSubPic = pSubPic)->AddRef();
+		ppSubPic = pSubPic;
 	}
 	else
 	{
@@ -696,14 +905,14 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 					{
 						CComPtr<ISubPic> pStatic;
 						if(SUCCEEDED(m_pAllocator->GetStatic(&pStatic))
-						&& SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps))
+						&& SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps, false))
 						&& SUCCEEDED(pStatic->CopyTo(pSubPic)))
-							(*ppSubPic = pSubPic)->AddRef();
+							ppSubPic = pSubPic;
 					}
 					else
 					{
-						if(SUCCEEDED(RenderTo(m_pSubPic, rtStart, rtStop, fps)))
-							(*ppSubPic = pSubPic)->AddRef();
+						if(SUCCEEDED(RenderTo(m_pSubPic, rtStart, rtStop, fps, false)))
+							ppSubPic = pSubPic;
 					}
 					if (SUCCEEDED(hr2))
 						pSubPic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
@@ -712,16 +921,16 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, ISu
 
 			pSubPicProvider->Unlock();
 
-			if(*ppSubPic)
+			if(ppSubPic)
 			{
 				CAutoLock cAutoLock(&m_csLock);
 
-				m_pSubPic = *ppSubPic;
+				m_pSubPic = ppSubPic;
 			}
 		}
 	}
 
-	return(!!*ppSubPic);
+	return(!!ppSubPic);
 }
 
 STDMETHODIMP CSubPicQueueNoThread::GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
@@ -759,7 +968,7 @@ STDMETHODIMP CSubPicQueueNoThread::GetStats(int nSubPic, REFERENCE_TIME& rtStart
 // ISubPicAllocatorPresenterImpl
 //
 
-ISubPicAllocatorPresenterImpl::ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr)
+ISubPicAllocatorPresenterImpl::ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString *_pError)
 	: CUnknown(NAME("ISubPicAllocatorPresenterImpl"), NULL)
 	, m_hWnd(hWnd)
 	, m_NativeVideoSize(0, 0), m_AspectRatio(0, 0)
@@ -767,7 +976,13 @@ ISubPicAllocatorPresenterImpl::ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
 	, m_fps(25.0)
 	, m_lSubtitleDelay(0)
 {
-    if(!IsWindow(m_hWnd)) {hr = E_INVALIDARG; return;}
+    if(!IsWindow(m_hWnd)) 
+	{
+		hr = E_INVALIDARG; 
+		if (_pError)
+			*_pError += "Invalid window handle in ISubPicAllocatorPresenterImpl\n";
+		return;
+	}
 	GetWindowRect(m_hWnd, &m_WindowRect);
 	SetVideoAngle(Vector(), false);
 	hr = S_OK;
@@ -779,15 +994,17 @@ ISubPicAllocatorPresenterImpl::~ISubPicAllocatorPresenterImpl()
 
 STDMETHODIMP ISubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
+
 	return 
 		QI(ISubPicAllocatorPresenter)
+		QI(ISubPicAllocatorPresenter2)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 void ISubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarget)
 {
 	CComPtr<ISubPic> pSubPic;
-	if(m_pSubPicQueue->LookupSubPic(m_rtNow, &pSubPic))
+	if(m_pSubPicQueue->LookupSubPic(m_rtNow, pSubPic))
 	{
 		CRect rcSource, rcDest;
 		if (SUCCEEDED (pSubPic->GetSourceAndDest(&size, rcSource, rcDest)))

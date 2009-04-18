@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="liba52"
 	ProjectGUID="{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 	RootNamespace="liba52"
@@ -169,6 +169,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"

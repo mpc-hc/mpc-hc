@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="DSMSplitter"
 	ProjectGUID="{1E91F58C-0BAE-4021-8087-D1864D8EC066}"
 	RootNamespace="DSMSplitter"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
@@ -102,6 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
@@ -159,6 +161,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4244"
@@ -219,6 +222,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 			/>

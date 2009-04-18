@@ -44,7 +44,7 @@ IBitStream* CBaseMuxerOutputPin::GetBitStream()
 	{
 		if(CComQIPtr<IStream> pStream = GetConnected())
 		{
-			m_pBitStream = new CBitStream(pStream, true);
+			m_pBitStream = DNew CBitStream(pStream, true);
 		}
 	}
 
@@ -203,7 +203,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 	if(!pBitStream) return;
 
 	const BYTE* pData = pPacket->pData.GetData();
-	const int DataSize = pPacket->pData.GetCount();
+	const int DataSize = int(pPacket->pData.GetCount());
 
 	if(mt.subtype == MEDIASUBTYPE_AAC && mt.formattype == FORMAT_WaveFormatEx)
 	{

@@ -50,7 +50,7 @@ AP4_IkmsAtom::AP4_IkmsAtom(AP4_Size size, AP4_ByteStream& stream) :
 {
     AP4_Size string_size = size-AP4_FULL_ATOM_HEADER_SIZE;
     if (string_size) {
-        char* str = new char[string_size];
+        char* str = DNew char[string_size];
         stream.Read(str, string_size);
         str[string_size-1] = '\0'; // force null-termination
         m_KmsUri = str;
@@ -64,7 +64,7 @@ AP4_IkmsAtom::AP4_IkmsAtom(AP4_Size size, AP4_ByteStream& stream) :
 AP4_Atom* 
 AP4_IkmsAtom::Clone()
 {
-    return new AP4_IkmsAtom(m_KmsUri.c_str());
+    return DNew AP4_IkmsAtom(m_KmsUri.c_str());
 }
 
 /*----------------------------------------------------------------------

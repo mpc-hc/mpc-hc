@@ -69,12 +69,18 @@ interface ISubPic : public IUnknown
 	STDMETHOD (AlphaBlt) (RECT* pSrc, RECT* pDst, SubPicDesc* pTarget = NULL /*[in]*/) PURE;
 	STDMETHOD (GetSourceAndDest) (SIZE* pSize /*[in]*/, RECT* pRcSource /*[out]*/, RECT* pRcDest /*[out]*/) PURE;
 	STDMETHOD (SetVirtualTextureSize) (const SIZE pSize, const POINT pTopLeft) PURE;
+
+	STDMETHOD_(REFERENCE_TIME, GetSegmentStart) () PURE;
+	STDMETHOD_(REFERENCE_TIME, GetSegmentStop) () PURE;
+	STDMETHOD_(void, SetSegmentStart) (REFERENCE_TIME rtStart) PURE;
+	STDMETHOD_(void, SetSegmentStop) (REFERENCE_TIME rtStop) PURE;
 };
 
 class ISubPicImpl : public CUnknown, public ISubPic
 {
 protected:
 	REFERENCE_TIME m_rtStart, m_rtStop;
+	REFERENCE_TIME m_rtSegmentStart, m_rtSegmentStop;
 	CRect	m_rcDirty;
 	CSize	m_maxsize;
 	CSize	m_size;
@@ -142,6 +148,12 @@ public:
 
 	STDMETHODIMP SetVirtualTextureSize (const SIZE pSize, const POINT pTopLeft);
 	STDMETHODIMP GetSourceAndDest(SIZE* pSize, RECT* pRcSource, RECT* pRcDest);
+
+	STDMETHODIMP_(REFERENCE_TIME) GetSegmentStart();
+	STDMETHODIMP_(REFERENCE_TIME) GetSegmentStop();
+	STDMETHODIMP_(void) SetSegmentStart(REFERENCE_TIME rtStart);
+	STDMETHODIMP_(void) SetSegmentStop(REFERENCE_TIME rtStop);
+
 };
 
 //
@@ -258,7 +270,7 @@ interface ISubPicQueue : public IUnknown
 	STDMETHOD (SetTime) (REFERENCE_TIME rtNow /*[in]*/) PURE;
 
 	STDMETHOD (Invalidate) (REFERENCE_TIME rtInvalidate = -1) PURE;
-	STDMETHOD_(bool, LookupSubPic) (REFERENCE_TIME rtNow /*[in]*/, ISubPic** ppSubPic /*[out]*/) PURE;
+	STDMETHOD_(bool, LookupSubPic) (REFERENCE_TIME rtNow /*[in]*/, CComPtr<ISubPic> &pSubPic /*[out]*/) PURE;
 
 	STDMETHOD (GetStats) (int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
 	STDMETHOD (GetStats) (int nSubPic /*[in]*/, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop /*[out]*/) PURE;
@@ -272,10 +284,11 @@ class ISubPicQueueImpl : public CUnknown, public ISubPicQueue
 protected:
 	double m_fps;
 	REFERENCE_TIME m_rtNow;
+	REFERENCE_TIME m_rtNowLast;
 
 	CComPtr<ISubPicAllocator> m_pAllocator;
 
-	HRESULT RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps);
+	HRESULT RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double fps, BOOL bIsAnimated);
 
 public:
 	ISubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr);
@@ -300,15 +313,21 @@ public:
 */
 };
 
-class CSubPicQueue : public ISubPicQueueImpl, private CInterfaceList<ISubPic>, private CAMThread
+class CSubPicQueue : public ISubPicQueueImpl, private CAMThread
 {
 	int m_nMaxSubPic;
+	BOOL m_bDisableAnim;
+
+	CInterfaceList<ISubPic> m_Queue;
 
 	CCritSec m_csQueueLock; // for protecting CInterfaceList<ISubPic>
 	REFERENCE_TIME UpdateQueue();
 	void AppendQueue(ISubPic* pSubPic);
+	int GetQueueCount();
 
-	REFERENCE_TIME m_rtQueueStart, m_rtInvalidate;
+	REFERENCE_TIME m_rtQueueMin;
+	REFERENCE_TIME m_rtQueueMax;
+	REFERENCE_TIME m_rtInvalidate;
 
 	// CAMThread
 
@@ -318,7 +337,7 @@ class CSubPicQueue : public ISubPicQueueImpl, private CInterfaceList<ISubPic>, p
     DWORD ThreadProc();
 
 public:
-	CSubPicQueue(int nMaxSubPic, ISubPicAllocator* pAllocator, HRESULT* phr);
+	CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr);
 	virtual ~CSubPicQueue();
 
 	// ISubPicQueue
@@ -327,7 +346,7 @@ public:
 	STDMETHODIMP SetTime(REFERENCE_TIME rtNow);
 
 	STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
-	STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic);
+	STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic> &pSubPic);
 
 	STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 	STDMETHODIMP GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
@@ -345,7 +364,7 @@ public:
 	// ISubPicQueue
 
 	STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1);
-	STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic);
+	STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic> &pSubPic);
 
 	STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 	STDMETHODIMP GetStats(int nSubPic, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
@@ -378,10 +397,16 @@ interface ISubPicAllocatorPresenter : public IUnknown
 	STDMETHOD (SetPixelShader) (LPCSTR pSrcData, LPCSTR pTarget) PURE;
 };
 
+[uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F")]
+interface ISubPicAllocatorPresenter2 : public ISubPicAllocatorPresenter
+{
+	STDMETHOD (SetPixelShader2) (LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
+};
+
 class ISubPicAllocatorPresenterImpl 
 	: public CUnknown
 	, public CCritSec
-	, public ISubPicAllocatorPresenter
+	, public ISubPicAllocatorPresenter2
 {
 protected:
 	HWND m_hWnd;
@@ -405,7 +430,7 @@ protected:
 	void Transform(CRect r, Vector v[4]);
 
 public:
-	ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr);
+	ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT& hr, CString *_pError);
 	virtual ~ISubPicAllocatorPresenterImpl();
 
 	DECLARE_IUNKNOWN;
@@ -431,6 +456,12 @@ public:
 
 	STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
 	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {return E_NOTIMPL;}
+	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) 
+	{
+		if (!bScreenSpace)
+			return SetPixelShader(pSrcData, pTarget);
+		return E_NOTIMPL;
+	}
 };
 
 //

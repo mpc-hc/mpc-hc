@@ -62,7 +62,7 @@ AP4_SchmAtom::AP4_SchmAtom(AP4_Size size, AP4_ByteStream& stream) :
     if (m_Flags & 1) {
         int str_size = size-(AP4_FULL_ATOM_HEADER_SIZE+8);
         if (str_size > 0) {
-            char* str = new char[str_size];
+            char* str = DNew char[str_size];
             stream.Read(str, str_size);
             str[str_size-1] = '\0'; // force null-termination
             m_SchemeUri = str;

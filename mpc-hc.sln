@@ -239,8 +239,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPCVideoDec", "src\filters\transform\mpcvideodec\MPCVideoDec.vcproj", "{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{54DDA60F-E528-4D07-A152-960A1E818680} = {54DDA60F-E528-4D07-A152-960A1E818680}
+		{5CAF881C-9349-4EE2-9697-982C10795033} = {5CAF881C-9349-4EE2-9697-982C10795033}
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49} = {2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F} = {438286B7-A9F4-411D-BCC5-948C40E37D8F}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec.vcproj", "{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -333,12 +335,13 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\filters\transform\mpadecfilter\libflac\src\libFLAC\libflac.vcproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flacsource", "src\filters\source\flacsource\Flacsource.vcproj", "{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4CEFBC84-C215-11DB-8314-0800200C9A66} = {4CEFBC84-C215-11DB-8314-0800200C9A66}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec_gcc.vcproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug Unicode|x64 = Debug Unicode|x64
@@ -839,6 +842,11 @@ Global
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release Unicode|x64.Build.0 = Release Unicode lib|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|Win32.ActiveCfg = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|x64.ActiveCfg = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|Win32.ActiveCfg = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|Win32.Build.0 = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -881,6 +889,7 @@ Global
 		{5CAF881C-9349-4EE2-9697-982C10795033} = {69C0E434-3B73-400A-A1B7-A887C10BECCA}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {69C0E434-3B73-400A-A1B7-A887C10BECCA}
 		{4CEFBC84-C215-11DB-8314-0800200C9A66} = {69C0E434-3B73-400A-A1B7-A887C10BECCA}
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F} = {69C0E434-3B73-400A-A1B7-A887C10BECCA}
 		{9F31D122-E84D-485A-A58D-09DAD01A56CE} = {4909B0ED-CC22-4509-ACD0-FB60C4FC73ED}
 		{543D40E9-8CA6-4E4B-9936-90CBA562B268} = {4909B0ED-CC22-4509-ACD0-FB60C4FC73ED}
 		{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95} = {4909B0ED-CC22-4509-ACD0-FB60C4FC73ED}
@@ -915,5 +924,9 @@ Global
 		{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{61E6EB4D-2F1A-443B-94B0-E8200B26E99F} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

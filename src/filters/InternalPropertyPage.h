@@ -98,7 +98,7 @@ class CInternalPropertyPageTempl : public CInternalPropertyPage
 {
 	virtual CInternalPropertyPageWnd* GetWindow()
 	{
-		return new WndClass();
+		return DNew WndClass();
 	}
 
 	virtual LPCTSTR GetWindowTitle()

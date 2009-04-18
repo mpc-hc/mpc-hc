@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="wavdest"
 	ProjectGUID="{EB202B68-8029-4985-B914-E94B44D2E230}"
 	RootNamespace="wavdest"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
 			<Tool
@@ -101,6 +102,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
 			/>
@@ -157,6 +159,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4244"
 			/>
@@ -216,6 +219,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 			/>
 			<Tool

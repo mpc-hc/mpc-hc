@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="mpciconlib"
 	ProjectGUID="{86251DC4-9298-424C-AE6C-07844F79C0B5}"
 	RootNamespace="mpciconlib"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -71,6 +72,8 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -135,6 +138,8 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				ModuleDefinitionFile=".\mpciconlib.def"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"

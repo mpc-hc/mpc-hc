@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="RealMediaSplitter"
 	ProjectGUID="{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 	RootNamespace="RealMediaSplitter"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
@@ -104,6 +105,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
@@ -163,6 +165,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4244"
@@ -225,6 +228,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 			/>

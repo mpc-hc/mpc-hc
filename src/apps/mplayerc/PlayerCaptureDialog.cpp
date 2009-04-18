@@ -260,7 +260,7 @@ static void SetupMediaTypes(CComPtr<IAMStreamConfig> pAMSC, CFormatArray<T>& tfa
 						{
 							int extra = mt.cbFormat - sizeof(VIDEOINFOHEADER);
 							int bmiHeaderSize = sizeof(vih->bmiHeader) + extra;
-							BYTE* pbmiHeader = new BYTE[bmiHeaderSize];
+							BYTE* pbmiHeader = DNew BYTE[bmiHeaderSize];
 							memcpy(pbmiHeader, &vih->bmiHeader, bmiHeaderSize);
 							mt.ReallocFormatBuffer(FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader) + bmiHeaderSize);
 							VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
@@ -827,11 +827,11 @@ void CPlayerCaptureDialog::UpdateMuxer()
 
 	if(m_muxtype == 0) m_pMux.CoCreateInstance(CLSID_AviDest);
 	else if(m_muxtype == 1) m_pMux.CoCreateInstance(CLSID_OggMux);
-	else if(m_muxtype == 2) m_pMux = new CMatroskaMuxerFilter(NULL, &hr);
-	else if(m_muxtype == 3) m_pMux = new CDSMMuxerFilter(NULL, &hr);
+	else if(m_muxtype == 2) m_pMux = DNew CMatroskaMuxerFilter(NULL, &hr);
+	else if(m_muxtype == 3) m_pMux = DNew CDSMMuxerFilter(NULL, &hr);
 	else return;
 
-	if(m_fSepAudio) m_pAudMux = new CWavDestFilter(NULL, &hr);
+	if(m_fSepAudio) m_pAudMux = DNew CWavDestFilter(NULL, &hr);
 }
 
 void CPlayerCaptureDialog::UpdateOutputControls()
@@ -1558,11 +1558,11 @@ void CPlayerCaptureDialog::OnRecord()
 			}
 		}
 
-		m_pVidBuffer = m_fVidOutput && m_nVidBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? new CBufferFilter(NULL, NULL) : NULL;
+		m_pVidBuffer = m_fVidOutput && m_nVidBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DNew CBufferFilter(NULL, NULL) : NULL;
 		if(CComQIPtr<IBufferFilter> pVB = m_pVidBuffer)
 			{pVB->SetBuffers(m_nVidBuffers); pVB->SetPriority(THREAD_PRIORITY_NORMAL);}
 
-		m_pAudBuffer = m_fAudOutput && m_nAudBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? new CBufferFilter(NULL, NULL) : NULL;
+		m_pAudBuffer = m_fAudOutput && m_nAudBuffers > 0 && m_muxtype != 2 && m_muxtype != 3 ? DNew CBufferFilter(NULL, NULL) : NULL;
 		if(CComQIPtr<IBufferFilter> pAB = m_pAudBuffer)
 			{pAB->SetBuffers(m_nAudBuffers); pAB->SetPriority(THREAD_PRIORITY_ABOVE_NORMAL);}
 

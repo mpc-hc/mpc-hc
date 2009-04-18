@@ -139,7 +139,7 @@ STDMETHODIMP CVTSReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 
 CVTSStream::CVTSStream() : m_off(0)
 {
-	m_vob.Attach(new CVobFile());
+	m_vob.Attach(DNew CVobFile());
 }
 
 CVTSStream::~CVTSStream()

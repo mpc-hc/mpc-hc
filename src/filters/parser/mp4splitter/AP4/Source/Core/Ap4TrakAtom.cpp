@@ -64,7 +64,7 @@ AP4_TrakAtom::AP4_TrakAtom(AP4_SampleTable* sample_table,
     AP4_Result result;
 
     // create a tkhd atom
-    m_TkhdAtom = new AP4_TkhdAtom(creation_time, 
+    m_TkhdAtom = DNew AP4_TkhdAtom(creation_time, 
                                   modification_time, 
                                   track_id,
                                   track_duration, 
@@ -75,38 +75,38 @@ AP4_TrakAtom::AP4_TrakAtom(AP4_SampleTable* sample_table,
     // create an edts
 
     // create a mdia atom
-    AP4_ContainerAtom* mdia = new AP4_ContainerAtom(AP4_ATOM_TYPE_MDIA);
+    AP4_ContainerAtom* mdia = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_MDIA);
 
     // create a hdlr atom for the mdia atom
-    m_HdlrAtom = new AP4_HdlrAtom(hdlr_type, hdlr_name);
+    m_HdlrAtom = DNew AP4_HdlrAtom(hdlr_type, hdlr_name);
 
     // create a minf atom 
-    AP4_ContainerAtom* minf = new AP4_ContainerAtom(AP4_ATOM_TYPE_MINF);
+    AP4_ContainerAtom* minf = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_MINF);
 
     // create a media header atom for minf (vmhd, smhd, hmhd or nmhd)
     AP4_Atom* minf_header;
     switch (hdlr_type) {
         case AP4_HANDLER_TYPE_VIDE:
-            minf_header = new AP4_VmhdAtom(0, 0, 0, 0);
+            minf_header = DNew AP4_VmhdAtom(0, 0, 0, 0);
             break;
 
         case AP4_HANDLER_TYPE_SOUN:
-            minf_header = new AP4_SmhdAtom(0);
+            minf_header = DNew AP4_SmhdAtom(0);
             break;
 
         default:
-            minf_header = new AP4_NmhdAtom();
+            minf_header = DNew AP4_NmhdAtom();
             break;
     }
 
     // create a dinf atom for minf
-    AP4_ContainerAtom* dinf = new AP4_ContainerAtom(AP4_ATOM_TYPE_DINF);
+    AP4_ContainerAtom* dinf = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_DINF);
 
     // create a url atom as a ref for dref
-    AP4_Atom* url = new AP4_UrlAtom(); // local ref
+    AP4_Atom* url = DNew AP4_UrlAtom(); // local ref
 
     // create a dref atom for dinf
-    AP4_DrefAtom* dref = new AP4_DrefAtom(&url, 1);
+    AP4_DrefAtom* dref = DNew AP4_DrefAtom(&url, 1);
 
     // create a stbl atom for minf
     AP4_ContainerAtom* stbl;
@@ -122,7 +122,7 @@ AP4_TrakAtom::AP4_TrakAtom(AP4_SampleTable* sample_table,
     if (stbl) minf->AddChild(stbl);
 
     // create a mdhd atom for the mdia atom
-    AP4_MdhdAtom* mdhd = new AP4_MdhdAtom(creation_time,
+    AP4_MdhdAtom* mdhd = DNew AP4_MdhdAtom(creation_time,
                                           modification_time,
                                           media_time_scale,
                                           media_duration,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="mplayerc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mplayerc"
@@ -27,6 +27,7 @@
 			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -50,8 +51,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 			/>
@@ -76,6 +79,7 @@
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
+				LargeAddressAware="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="1"
 				SupportUnloadOfDelayLoadedDLL="true"
@@ -137,8 +141,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 			/>
@@ -222,8 +228,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				ShowIncludes="false"
@@ -306,8 +314,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
 				DebugInformationFormat="3"
@@ -417,6 +427,14 @@
 			<File
 				RelativePath="DX9AllocatorPresenter.cpp"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WholeProgramOptimization="true"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\EditListEditor.cpp"
@@ -425,6 +443,14 @@
 			<File
 				RelativePath=".\EVRAllocatorPresenter.cpp"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WholeProgramOptimization="true"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\FakeFilterMapper2.cpp"
@@ -473,6 +499,38 @@
 			<File
 				RelativePath="..\ShuttlePN31\Common\Interface.c"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\IPinHook.cpp"
@@ -497,6 +555,42 @@
 			<File
 				RelativePath=".\libpng.c"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\LineNumberEdit.cpp"
@@ -625,6 +719,42 @@
 			<File
 				RelativePath=".\pngdib.c"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						WarningLevel="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="PnSPresetsDlg.cpp"
@@ -853,6 +983,38 @@
 			<File
 				RelativePath=".\WebServer.cpp"
 				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\WebServerSocket.cpp"
@@ -1795,7 +1957,19 @@
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\res\shaders\BT601BT709.psh"
+			>
+		</File>
+		<File
 			RelativePath=".\ChangeLog"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\levels2.psh"
+			>
+		</File>
+		<File
+			RelativePath=".\res\shaders\levels3.psh"
 			>
 		</File>
 		<File

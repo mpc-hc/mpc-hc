@@ -119,7 +119,7 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	HRESULT hr = E_FAIL;
 
 	m_pFile.Free();
-	m_pFile.Attach(new CBaseSplitterFile(pAsyncReader, hr));
+	m_pFile.Attach(DNew CBaseSplitterFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -182,7 +182,7 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		memcpy(&p[3], (LPCSTR)hdr, hdr.GetLength());
 		mts.Add(mt);
 
-		CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Output", this, this, &hr));
+		CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Output", this, this, &hr));
 		EXECUTE_ASSERT(SUCCEEDED(AddOutputPin(0, pPinOut)));
 
 		CAtlArray<SegmentItemEx> subs;
@@ -232,7 +232,7 @@ bool CSSFSplitterFilter::DemuxLoop()
 		si.pDef->Dump(s);
 		CStringA& str = UTF16To8(s.GetString());
 
-		CAutoPtr<Packet> p(new Packet());
+		CAutoPtr<Packet> p(DNew Packet());
 
 		p->TrackNumber = 0;
 		p->bSyncPoint = TRUE; // TODO

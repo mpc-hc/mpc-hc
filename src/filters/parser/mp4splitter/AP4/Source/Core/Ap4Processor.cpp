@@ -99,8 +99,8 @@ AP4_Processor::Process(AP4_ByteStream&  input,
     // build an array of track sample cursors
     AP4_List<AP4_TrakAtom>& trak_atoms = moov->GetTrakAtoms();
     AP4_Cardinal track_count = trak_atoms.ItemCount();
-    AP4_SampleCursor* cursors = new AP4_SampleCursor[track_count];
-    TrackHandler** handlers = new TrackHandler*[track_count];
+    AP4_SampleCursor* cursors = DNew AP4_SampleCursor[track_count];
+    TrackHandler** handlers = DNew TrackHandler*[track_count];
     AP4_List<AP4_TrakAtom>::Item* item = trak_atoms.FirstItem();
     unsigned int index = 0;
     while (item) {
@@ -110,7 +110,7 @@ AP4_Processor::Process(AP4_ByteStream&  input,
         if (stbl == NULL) continue;
         handlers[index] = CreateTrackHandler(item->GetData());
         cursors[index].m_Locator.m_TrakIndex = index;
-        cursors[index].m_Locator.m_SampleTable = new AP4_AtomSampleTable(stbl, input);
+        cursors[index].m_Locator.m_SampleTable = DNew AP4_AtomSampleTable(stbl, input);
         cursors[index].m_Locator.m_SampleIndex = 0;
         cursors[index].m_Locator.m_SampleTable->GetSample(0, cursors[index].m_Locator.m_Sample);
         cursors[index].m_Locator.m_Chunk = 1;

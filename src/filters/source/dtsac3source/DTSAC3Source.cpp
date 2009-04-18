@@ -143,7 +143,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 	CString fn(wfn);
 
-	if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyWrite))
+	if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone))
 	{
 		if(phr) *phr = E_FAIL;
 		return;

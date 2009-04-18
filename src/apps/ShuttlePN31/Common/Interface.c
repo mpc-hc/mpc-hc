@@ -1,4 +1,5 @@
 #include <stdio.h> /* for NULL */
+#include <memory.h>
 #include "Interface.h"
 
 PN31_KEYCODE	g_PN31Keyboard[] = {

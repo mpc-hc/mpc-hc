@@ -236,7 +236,7 @@ HRESULT CBaseSplitterOutputPin::SetName(LPCWSTR pName)
 {
 	CheckPointer(pName, E_POINTER);
 	if(m_pName) delete [] m_pName;
-	m_pName = new WCHAR[wcslen(pName)+1];
+	m_pName = DNew WCHAR[wcslen(pName)+1];
 	CheckPointer(m_pName, E_OUTOFMEMORY);
 	wcscpy(m_pName, pName);
 	return S_OK;
@@ -596,7 +596,7 @@ void CBaseSplitterOutputPin::MakeISCRHappy()
 
 		if(GetCLSID(pBF) == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) // ISCR
 		{
-			CAutoPtr<Packet> p(new Packet());
+			CAutoPtr<Packet> p(DNew Packet());
 			p->TrackNumber = (DWORD)-1;
 			p->rtStart = -1; p->rtStop = 0;
 			p->bSyncPoint = FALSE;
@@ -706,7 +706,7 @@ CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT*
 {
 	if(phr) *phr = S_OK;
 
-	m_pInput.Attach(new CBaseSplitterInputPin(NAME("CBaseSplitterInputPin"), this, this, phr));
+	m_pInput.Attach(DNew CBaseSplitterInputPin(NAME("CBaseSplitterInputPin"), this, this, phr));
 }
 
 CBaseSplitterFilter::~CBaseSplitterFilter()
@@ -1150,7 +1150,7 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 
 	m_fn = pszFileName;
 	HRESULT hr = E_FAIL;
-	CComPtr<IAsyncReader> pAsyncReader = (IAsyncReader*)new CAsyncFileReader(CString(pszFileName), hr);
+	CComPtr<IAsyncReader> pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(CString(pszFileName), hr);
 	if(FAILED(hr)
 	|| FAILED(hr = DeleteOutputs())
 	|| FAILED(hr = CreateOutputs(pAsyncReader)))

@@ -208,7 +208,7 @@ namespace ssf
 	{
 		if(fCopy)
 		{
-			m_pBytes = new BYTE[len];
+			m_pBytes = DNew BYTE[len];
 			if(m_pBytes) memcpy(m_pBytes, pBytes, len);
 			m_fFree = true;
 		}

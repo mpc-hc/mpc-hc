@@ -34,7 +34,7 @@ namespace ssf
 
 		if(DWORD nNumPairs = GetKerningPairs(hDC, 0, NULL))
 		{
-			KERNINGPAIR* kp = new KERNINGPAIR[nNumPairs];
+			KERNINGPAIR* kp = DNew KERNINGPAIR[nNumPairs];
 			GetKerningPairs(hDC, nNumPairs, kp);
 			for(DWORD i = 0; i < nNumPairs; i++) 
 				m_kerning[(kp[i].wFirst<<16)|kp[i].wSecond] = kp[i].iKernAmount;

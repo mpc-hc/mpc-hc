@@ -75,6 +75,7 @@ private :
 	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
 	CWnd*				m_pWnd;
 
+	CCritSec	m_Lock;
 	CDC			m_MemDC;
 	VMR9AlphaBitmap		m_VMR9AlphaBitmap;
 	MFVideoAlphaBitmap	m_MFVideoAlphaBitmap;

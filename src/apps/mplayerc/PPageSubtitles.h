@@ -47,6 +47,7 @@ public:
 	CSpinButtonCtrl m_nSPCSizeCtrl;
 	CComboBox m_spmaxres;
 	BOOL m_fSPCPow2Tex;
+	BOOL m_fSPCDisableAnim;
 	int m_nSubDelayInterval;
 
 // Dialog Data

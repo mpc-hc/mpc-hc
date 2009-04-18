@@ -79,24 +79,24 @@ AP4_DescriptorFactory::CreateDescriptorFromStream(AP4_ByteStream&  stream,
     // create the descriptor
     switch (tag) {
       case AP4_DESCRIPTOR_TAG_ES:
-        descriptor = new AP4_EsDescriptor(stream, header_size, payload_size);
+        descriptor = DNew AP4_EsDescriptor(stream, header_size, payload_size);
         break;
 
       case AP4_DESCRIPTOR_TAG_DECODER_CONFIG:
-        descriptor = new AP4_DecoderConfigDescriptor(stream, header_size, payload_size);
+        descriptor = DNew AP4_DecoderConfigDescriptor(stream, header_size, payload_size);
         break;
 
 	  case AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO:
-	    descriptor = new AP4_DecoderSpecificInfoDescriptor(stream, header_size, payload_size);
+	    descriptor = DNew AP4_DecoderSpecificInfoDescriptor(stream, header_size, payload_size);
 		break;
           
       case AP4_DESCRIPTOR_TAG_SL_CONFIG:
         if (payload_size != 1) return AP4_ERROR_INVALID_FORMAT;
-        descriptor = new AP4_SLConfigDescriptor(header_size);
+        descriptor = DNew AP4_SLConfigDescriptor(header_size);
         break;
 
       default:
-        descriptor = new AP4_UnknownDescriptor(stream, tag, header_size, payload_size);
+        descriptor = DNew AP4_UnknownDescriptor(stream, tag, header_size, payload_size);
         break;
     }
 

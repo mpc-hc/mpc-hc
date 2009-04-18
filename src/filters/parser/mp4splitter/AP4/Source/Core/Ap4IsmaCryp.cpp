@@ -89,7 +89,7 @@ AP4_EncaSampleEntry::ToSampleDescription()
     schi = static_cast<AP4_ContainerAtom*>(FindChild("sinf/schi"));
 
     // create the sample description
-    return new AP4_IsmaCrypSampleDescription(
+    return DNew AP4_IsmaCrypSampleDescription(
         original_sample_description,
         frma?frma->GetOriginalFormat():AP4_ATOM_TYPE_MP4A,
         schm->GetSchemeType(),
@@ -148,7 +148,7 @@ AP4_EncvSampleEntry::ToSampleDescription()
     schi = static_cast<AP4_ContainerAtom*>(FindChild("sinf/schi"));
 
     // create the sample description
-    return new AP4_IsmaCrypSampleDescription(
+    return DNew AP4_IsmaCrypSampleDescription(
         original_sample_description,
         frma?frma->GetOriginalFormat():AP4_ATOM_TYPE_MP4V,
         schm->GetSchemeType(),
@@ -174,7 +174,7 @@ AP4_IsmaCrypSampleDescription::AP4_IsmaCrypSampleDescription(
     m_SchemeVersion(scheme_version),
     m_SchemeUri(scheme_uri)
 {
-    m_SchemeInfo = new AP4_IsmaCrypSchemeInfo(schi);
+    m_SchemeInfo = DNew AP4_IsmaCrypSchemeInfo(schi);
 }
 
 /*----------------------------------------------------------------------
@@ -238,7 +238,7 @@ AP4_IsmaCipher::AP4_IsmaCipher(const AP4_UI08* key,
     }
     
     // create a cipher
-    m_Cipher = new AP4_StreamCipher(key, salt_128);
+    m_Cipher = DNew AP4_StreamCipher(key, salt_128);
 }
 
 /*----------------------------------------------------------------------
@@ -372,7 +372,7 @@ AP4_IsmaTrackDecrypter::AP4_IsmaTrackDecrypter(
     m_CipherParams = (AP4_IsfmAtom*)sample_description->GetSchemeInfo()->GetSchiAtom().FindChild("iSFM");
     
     // instantiate the cipher
-    m_Cipher = new AP4_IsmaCipher(key, salt, 
+    m_Cipher = DNew AP4_IsmaCipher(key, salt, 
                                   m_CipherParams->GetIvLength(),
                                   m_CipherParams->GetKeyIndicatorLength(),
                                   m_CipherParams->GetSelectiveEncryption());
@@ -450,7 +450,7 @@ AP4_IsmaDecryptingProcessor::CreateTrackHandler(AP4_TrakAtom* trak)
             const AP4_UI08* key;
             const AP4_UI08* salt;
             if (AP4_SUCCEEDED(m_KeyMap.GetKey(trak->GetId(), key, salt))) {
-                return new AP4_IsmaTrackDecrypter(key, salt, ismacryp_desc, entry);
+                return DNew AP4_IsmaTrackDecrypter(key, salt, ismacryp_desc, entry);
             }
         }
     }
@@ -501,7 +501,7 @@ AP4_IsmaTrackEncrypter::AP4_IsmaTrackEncrypter(
     m_ByteOffset(0)
 {
     // instantiate the cipher (fixed params for now)
-    m_Cipher = new AP4_IsmaCipher(key, salt, 4, 0, false);
+    m_Cipher = DNew AP4_IsmaCipher(key, salt, 4, 0, false);
 }
 
 /*----------------------------------------------------------------------
@@ -528,18 +528,18 @@ AP4_Result
 AP4_IsmaTrackEncrypter::ProcessTrack()
 {
     // sinf container
-    AP4_ContainerAtom* sinf = new AP4_ContainerAtom(AP4_ATOM_TYPE_SINF);
+    AP4_ContainerAtom* sinf = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_SINF);
 
     // original format
-    AP4_FrmaAtom* frma = new AP4_FrmaAtom(m_SampleEntry->GetType());
+    AP4_FrmaAtom* frma = DNew AP4_FrmaAtom(m_SampleEntry->GetType());
     
     // scheme
-    AP4_SchmAtom* schm = new AP4_SchmAtom(AP4_ISMACRYP_SCHEME_TYPE_IAEC, 1);
+    AP4_SchmAtom* schm = DNew AP4_SchmAtom(AP4_ISMACRYP_SCHEME_TYPE_IAEC, 1);
     
     // scheme info
-    AP4_ContainerAtom* schi = new AP4_ContainerAtom(AP4_ATOM_TYPE_SCHI);
-    AP4_IkmsAtom* ikms      = new AP4_IkmsAtom(m_KmsUri.c_str());
-    AP4_IsfmAtom* isfm      = new AP4_IsfmAtom(false, 0, 4);
+    AP4_ContainerAtom* schi = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_SCHI);
+    AP4_IkmsAtom* ikms      = DNew AP4_IkmsAtom(m_KmsUri.c_str());
+    AP4_IsfmAtom* isfm      = DNew AP4_IsfmAtom(false, 0, 4);
 
     // populate the schi container
     schi->AddChild(ikms);
@@ -615,7 +615,7 @@ AP4_IsmaEncryptingProcessor::CreateTrackHandler(AP4_TrakAtom* trak)
                 break;
         }
         if (format) {
-            return new AP4_IsmaTrackEncrypter(m_KmsUri.c_str(), 
+            return DNew AP4_IsmaTrackEncrypter(m_KmsUri.c_str(), 
                                               key, 
                                               salt, 
                                               entry,
@@ -649,7 +649,7 @@ AP4_IsmaKeyMap::SetKey(AP4_UI32 track_id, const AP4_UI08* key, const AP4_UI08* s
 {
     KeyEntry* entry = GetEntry(track_id);
     if (entry == NULL) {
-        m_KeyEntries.Add(new KeyEntry(track_id, key, salt));
+        m_KeyEntries.Add(DNew KeyEntry(track_id, key, salt));
     } else {
         entry->SetKey(key, salt);
     }

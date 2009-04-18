@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="libvorbisidec"
 	ProjectGUID="{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}"
 	RootNamespace="libvorbisidec"
@@ -43,11 +43,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
 				AssemblerOutput="0"
+				WarningLevel="1"
 				CompileAs="0"
 			/>
 			<Tool
@@ -114,6 +116,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
 				AssemblerOutput="0"
+				WarningLevel="1"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -177,6 +180,7 @@
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
+				WarningLevel="1"
 				CompileAs="0"
 				DisableSpecificWarnings="4244"
 			/>
@@ -243,6 +247,7 @@
 				PreprocessorDefinitions="_WIN64;_LIB;NDEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
+				WarningLevel="1"
 				CompileAs="0"
 			/>
 			<Tool
@@ -287,13 +292,6 @@
 			<File
 				RelativePath=".\bitrate.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\bitwise.c"
@@ -310,13 +308,6 @@
 			<File
 				RelativePath=".\envelope.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\floor0.c"

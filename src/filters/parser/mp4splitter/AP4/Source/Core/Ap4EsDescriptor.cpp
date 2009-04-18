@@ -73,7 +73,7 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream,
         unsigned char url_length;
         stream.ReadUI08(url_length);
         if (url_length) {
-            char* url = new char[url_length+1];
+            char* url = DNew char[url_length+1];
             if (url) {
                 stream.Read(url, url_length, NULL);
                 url[url_length] = '\0';
@@ -91,7 +91,7 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream,
     // read other descriptors
     AP4_Offset offset;
     stream.Tell(offset);
-    AP4_SubStream* substream = new AP4_SubStream(stream, offset, 
+    AP4_SubStream* substream = DNew AP4_SubStream(stream, offset, 
                                                  payload_size-(offset-start));
     AP4_Descriptor* descriptor = NULL;
     while (AP4_DescriptorFactory::CreateDescriptorFromStream(*substream, 

@@ -3,7 +3,7 @@ LAVU_DIR=libavutil
 LAVF_DIR=libavformat
 PNG_DIR =../../../../libpng
 ifeq ($(64BIT),yes)
-	ZLIB_DIR=../../../../../../zlib
+	ZLIB_DIR=../../../../zlib
 else
 	ZLIB_DIR=../../../../zlib
 endif
@@ -210,7 +210,7 @@ endif
 
 ifeq ($(64BIT),yes)
 	CFLAGS+=-DARCH_X86_64
-	SLIB=../../../../../../../lib64/libavcodec_gcc.lib
+	SLIB=../../../../../lib64/libavcodec_gcc.lib
 else
 	CFLAGS+=-DARCH_X86_32
 	SLIB=../../../../../lib/libavcodec_gcc.lib

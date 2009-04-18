@@ -210,7 +210,7 @@ STDMETHODIMP CBaseMuxerInputPin::Receive(IMediaSample* pSample)
 	HRESULT hr = __super::Receive(pSample);
 	if(FAILED(hr)) return hr;
 
-	CAutoPtr<MuxerPacket> pPacket(new MuxerPacket(this));
+	CAutoPtr<MuxerPacket> pPacket(DNew MuxerPacket(this));
 
 	long len = pSample->GetActualDataLength();
 
@@ -268,7 +268,7 @@ STDMETHODIMP CBaseMuxerInputPin::EndOfStream()
 
 	ASSERT(!m_fEOS);
 
-	CAutoPtr<MuxerPacket> pPacket(new MuxerPacket(this));
+	CAutoPtr<MuxerPacket> pPacket(DNew MuxerPacket(this));
 	pPacket->flags |= MuxerPacket::eos;
 	PushPacket(pPacket);
 

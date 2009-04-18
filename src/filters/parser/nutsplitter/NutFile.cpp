@@ -39,7 +39,7 @@ HRESULT CNutFile::Init()
 		}
 		else if(id == NUTS)
 		{
-			CAutoPtr<stream_header> sh(new stream_header());
+			CAutoPtr<stream_header> sh(DNew stream_header());
 			Read(*sh);
 			if(sh->stream_class == SC_VIDEO) Read(sh->vsh);
 			else if(sh->stream_class == SC_AUDIO) Read(sh->ash);
@@ -130,7 +130,7 @@ void CNutFile::Read(stream_header& sh)
     sh.reserved = BitRead(6);
 	while(1)
 	{
-		CAutoPtr<codec_specific> p(new codec_specific());
+		CAutoPtr<codec_specific> p(DNew codec_specific());
 		Read(p->type);
 		if(p->type == 0) break;
 		Read(p->data);

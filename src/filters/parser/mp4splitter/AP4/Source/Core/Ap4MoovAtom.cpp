@@ -121,7 +121,7 @@ AP4_MoovAtom::AP4_MoovAtom(AP4_Size         size,
 
 				if(dst)
 				{
-					AP4_ByteStream* s = new AP4_MemoryByteStream(dst, d_stream.total_out);
+					AP4_ByteStream* s = DNew AP4_MemoryByteStream(dst, d_stream.total_out);
 					ReadChildren(atom_factory, *s, d_stream.total_out);
 					s->Release();
 					free(dst);

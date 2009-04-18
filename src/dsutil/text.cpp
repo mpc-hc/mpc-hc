@@ -79,10 +79,10 @@ DWORD CharSetToCodePage(DWORD dwCharSet)
 
 CStringA ConvertMBCS(CStringA str, DWORD SrcCharSet, DWORD DstCharSet)
 {
-	WCHAR* utf16 = new WCHAR[str.GetLength()+1];
+	WCHAR* utf16 = DNew WCHAR[str.GetLength()+1];
 	memset(utf16, 0, (str.GetLength()+1)*sizeof(WCHAR));
 
-	CHAR* mbcs = new CHAR[str.GetLength()*6+1];
+	CHAR* mbcs = DNew CHAR[str.GetLength()*6+1];
 	memset(mbcs, 0, str.GetLength()*6+1);
 
 	int len = MultiByteToWideChar(

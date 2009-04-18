@@ -190,7 +190,7 @@ AP4_SampleEntry::OnChildChanged(AP4_Atom*)
 AP4_SampleDescription*
 AP4_SampleEntry::ToSampleDescription()
 {
-    return new AP4_UnknownSampleDescription(this);
+    return DNew AP4_UnknownSampleDescription(this);
 }
 
 /*----------------------------------------------------------------------
@@ -200,7 +200,7 @@ AP4_MpegSampleEntry::AP4_MpegSampleEntry(AP4_Atom::Type    format,
                                          AP4_EsDescriptor* descriptor) :
     AP4_SampleEntry(format)
 {
-    if (descriptor) AddChild(new AP4_EsdsAtom(descriptor));
+    if (descriptor) AddChild(DNew AP4_EsdsAtom(descriptor));
 }
 
 /*----------------------------------------------------------------------
@@ -289,7 +289,7 @@ AP4_Mp4sSampleEntry::ToSampleDescription()
     }
 
     // create a sample description
-    return new AP4_MpegSystemSampleDescription(
+    return DNew AP4_MpegSystemSampleDescription(
         dc_desc->GetStreamType(),
         dc_desc->GetObjectTypeIndication(),
         dsi,
@@ -523,7 +523,7 @@ AP4_AudioSampleEntry::ToSampleDescription()
     }
 
     // create a sample description
-    return new AP4_MpegAudioSampleDescription(
+    return DNew AP4_MpegAudioSampleDescription(
         dc_desc->GetObjectTypeIndication(),
         m_SampleRate>>16,
         m_SampleSize,
@@ -755,7 +755,7 @@ AP4_VisualSampleEntry::ToSampleDescription()
     }
 
     // create a sample description
-    return new AP4_MpegVideoSampleDescription(
+    return DNew AP4_MpegVideoSampleDescription(
         dc_desc->GetObjectTypeIndication(),
         m_Width,
         m_Height,
@@ -834,7 +834,7 @@ AP4_RtpHintSampleEntry::AP4_RtpHintSampleEntry(AP4_UI16 hint_track_version,
     m_MaxPacketSize(max_packet_size)
 {
     // build an atom for timescale
-    AddChild(new AP4_TimsAtom(timescale));
+    AddChild(DNew AP4_TimsAtom(timescale));
 }
 
 /*----------------------------------------------------------------------

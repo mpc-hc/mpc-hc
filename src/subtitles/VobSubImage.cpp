@@ -47,10 +47,10 @@ bool CVobSubImage::Alloc(int w, int h)
 	{
 		Free();
 
-		lpTemp1 = new RGBQUAD[w*h];
+		lpTemp1 = DNew RGBQUAD[w*h];
 		if(!lpTemp1) return(false);
 
-		lpTemp2 = new RGBQUAD[(w+2)*(h+2)];
+		lpTemp2 = DNew RGBQUAD[(w+2)*(h+2)];
 		if(!lpTemp2) {delete [] lpTemp1; lpTemp1 = NULL; return(false);}
 
 		org.cx = w; 
@@ -328,7 +328,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 	CAutoVectorPtr<BYTE> p;
 	if(!p.Allocate(len)) return NULL;
 
-	CAutoPtrList<COutline>* ol = new CAutoPtrList<COutline>();
+	CAutoPtrList<COutline>* ol = DNew CAutoPtrList<COutline>();
 	if(!ol) return NULL;
 
 	BYTE* cp = p;
@@ -365,7 +365,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
 		int ox = x, oy = y, odir = dir;
 
-		CAutoPtr<COutline> o(new COutline);
+		CAutoPtr<COutline> o(DNew COutline);
 		if(!o) break;
 
 		do
@@ -461,7 +461,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
 static bool FitLine(COutline& o, int& start, int& end)
 {
-	int len = o.pa.GetCount();
+	int len = int(o.pa.GetCount());
 	if(len < 7) return(false); // small segments should be handled with beziers...
 
 	for(start = 0; start < len && !o.da[start]; start++);
@@ -540,7 +540,7 @@ static bool FitLine(COutline& o, int& start, int& end)
 
 static int CalcPossibleCurveDegree(COutline& o)
 {
-	int len2 = o.da.GetCount();
+	int len2 = int(o.da.GetCount());
 
 	CUIntArray la;
 
@@ -753,7 +753,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 {
 	ret.RemoveAll();
 
-	int len = o.pa.GetCount();
+	int len = int(o.pa.GetCount());
 	
 	int cur = (start)%len, first = -1, last = -1;
 	int curDir = 0, lastDir = 0;
@@ -804,7 +804,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 
 void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
 {
-	int len = o.pa.GetCount();
+	int len = int(o.pa.GetCount());
 	if(len < 4) return;
 
 	CAtlArray<UINT> la, sa, ea;
@@ -863,7 +863,7 @@ void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
 
 void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints)
 {
-	int i, len = o.pa.GetCount();
+	int i, len = int(o.pa.GetCount());
 	if(len < 3) return;
 
 	int nLeftTurns = 0, nRightTurns = 0;
@@ -1069,7 +1069,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 			pathTypes.Add(PT_MOVETO);
 			pathPoints.Add(o.pa[0]);
 
-			for(int i = 1, len = o.pa.GetCount(); i < len; i++)
+			for(int i = 1, len = int(o.pa.GetCount()); i < len; i++)
 			{
 				pathTypes.Add(PT_LINETO);
 				pathPoints.Add(o.pa[i]);
@@ -1093,7 +1093,7 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool fSmooth, int scale)
 
 	BYTE lastType = 0;
 
-	int nPoints = pathTypes.GetCount();
+	int nPoints = int(pathTypes.GetCount());
 
 	for(int i = 0; i < nPoints; i++)
 	{
@@ -1150,7 +1150,7 @@ void CVobSubImage::Scale2x()
 	int w = rect.Width(), h = rect.Height();
 
 	DWORD* src = (DWORD*)lpPixels;
-	DWORD* dst = new DWORD[w*h];
+	DWORD* dst = DNew DWORD[w*h];
 
 	for(int y = 0; y < h; y++)
 	{

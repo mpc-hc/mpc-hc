@@ -76,7 +76,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
 	m_pFilter			= pFilter;
 	m_nMode				= nMode;
 	m_nPicEntryNumber	= nPicEntryNumber;
-	m_pPictureStore		= new PICTURE_STORE[nPicEntryNumber];
+	m_pPictureStore		= DNew PICTURE_STORE[nPicEntryNumber];
 	m_dwNumBuffersInfo	= 0;
 
 	memset (&m_DXVA1Config, 0, sizeof(m_DXVA1Config));
@@ -94,7 +94,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
 // === Public functions
 void CDXVADecoder::AllocExecuteParams (int nSize)
 {
-	m_ExecuteParams.pCompressedBuffers	= new DXVA2_DecodeBufferDesc[nSize];
+	m_ExecuteParams.pCompressedBuffers	= DNew DXVA2_DecodeBufferDesc[nSize];
 
 	for (int i=0; i<nSize; i++)
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
@@ -169,9 +169,9 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 	CDXVADecoder*		pDecoder = NULL;
 
 	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
-		pDecoder	= new CDXVADecoderH264 (pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
+		pDecoder	= DNew CDXVADecoderH264 (pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
 	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
-		pDecoder	= new CDXVADecoderVC1 (pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
+		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
 
@@ -184,9 +184,9 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 	CDXVADecoder*		pDecoder = NULL;
 
 	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
-		pDecoder	= new CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
+		pDecoder	= DNew CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
 	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
-		pDecoder	= new CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
+		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
 
@@ -619,7 +619,7 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 			}
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && 0
 			static REFERENCE_TIME	rtLast = 0;
 			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d)  {Delta prev = %10I64d}   Ind = %d\n", 
 						m_pPictureStore[nPicIndex].rtStart, 

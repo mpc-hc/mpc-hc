@@ -668,7 +668,7 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
 static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 {
-	STSStyle* ret = new STSStyle();
+	STSStyle* ret = DNew STSStyle();
 	if(!ret) return(NULL);
 
 	for(int i = 0, len = str.GetLength(); i < len; i++)
@@ -1275,7 +1275,7 @@ static bool LoadFont(CString& font)
 		if(!CFileGetStatus(fn, fs))
 		{
 			CFile f;
-			if(f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary|CFile::shareDenyWrite))
+			if(f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary|CFile::shareDenyNone))
 			{
 				f.Write(pData, datalen);
 				f.Close();
@@ -1395,7 +1395,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		}
 		else if(entry == L"style")
 		{
-			STSStyle* style = new STSStyle;
+			STSStyle* style = DNew STSStyle;
 			if(!style) return(false);
 
 			try 
@@ -1563,7 +1563,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 		else if(entry == L"style")
 		{
-			STSStyle* style = new STSStyle;
+			STSStyle* style = DNew STSStyle;
 			if(!style) return(false);
 
 			try 
@@ -1867,7 +1867,7 @@ bool CSimpleTextSubtitle::CopyStyles(const CSTSStyleMap& styles, bool fAppend)
 		STSStyle* val;
 		styles.GetNextAssoc(pos, key, val);
 
-		STSStyle* s = new STSStyle;
+		STSStyle* s = DNew STSStyle;
 		if(!s) return(false);
 
 		*s = *val;
@@ -2046,7 +2046,7 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 
 	if(!m_styles.Lookup(def, ret))
 	{
-		STSStyle* style = new STSStyle();
+		STSStyle* style = DNew STSStyle();
 		style->charSet = CharSet;
 		AddStyle(def, style);
 		m_styles.Lookup(def, ret);

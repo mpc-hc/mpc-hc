@@ -194,7 +194,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	HRESULT hr = E_FAIL;
 
 	m_pFile.Free();
-	m_pFile.Attach(new CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false));
+	m_pFile.Attach(DNew CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -434,7 +434,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 					__int64 headerOffset = m_pFile->GetPos();
 					UINT32 headerSize = dataSize - 4;
-					BYTE *headerData = new BYTE[headerSize];
+					BYTE *headerData = DNew BYTE[headerSize];
 
 					m_pFile->ByteRead(headerData, headerSize);
 
@@ -528,7 +528,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		{
 			CAtlArray<CMediaType> mts;
 			mts.Add(mt);
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, name, this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, name, this, this, &hr));
 			EXECUTE_ASSERT(SUCCEEDED(AddOutputPin(t.TagType, pPinOut)));
 		}
 
@@ -720,7 +720,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 			}
 			__int64 dataSize = next - m_pFile->GetPos();
 			if (dataSize <= 0) goto NextTag;
-			p.Attach(new Packet());
+			p.Attach(DNew Packet());
 			p->TrackNumber = t.TagType;
 			p->rtStart = 10000i64 * (t.TimeStamp + tsOffset); 
 			p->rtStop = p->rtStart + 1;

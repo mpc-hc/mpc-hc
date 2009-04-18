@@ -88,7 +88,7 @@ public:
 		CheckPointer(ppBF, E_POINTER);
 
 		HRESULT hr = S_OK;
-		CComPtr<IBaseFilter> pBF = new T(NULL, &hr);
+		CComPtr<IBaseFilter> pBF = DNew T(NULL, &hr);
 		if(FAILED(hr)) return hr;
 
 		*ppBF = pBF.Detach();

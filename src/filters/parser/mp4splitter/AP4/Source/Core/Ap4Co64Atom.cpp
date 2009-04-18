@@ -41,7 +41,7 @@ AP4_Co64Atom::AP4_Co64Atom(AP4_UI64* entries, AP4_UI32 entry_count) :
 AP4_Atom(AP4_ATOM_TYPE_CO64,  
          AP4_FULL_ATOM_HEADER_SIZE+4+entry_count*8, 
          true),
-         m_Entries(new AP4_UI64[entry_count]),
+         m_Entries(DNew AP4_UI64[entry_count]),
          m_EntryCount(entry_count)
 {
     memcpy(m_Entries, entries, m_EntryCount*8);
@@ -57,7 +57,7 @@ AP4_Co64Atom::AP4_Co64Atom(AP4_Size size, AP4_ByteStream& stream) :
     if (m_EntryCount > (size-AP4_FULL_ATOM_HEADER_SIZE-4)/8) {
         m_EntryCount = (size-AP4_FULL_ATOM_HEADER_SIZE-4)/8;
     }
-    m_Entries = new AP4_UI64[m_EntryCount];
+    m_Entries = DNew AP4_UI64[m_EntryCount];
     for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
         stream.ReadUI64(m_Entries[i]);
     }

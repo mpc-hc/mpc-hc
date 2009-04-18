@@ -43,7 +43,7 @@ void dts_bitstream_init (dts_state_t * state, uint8_t * buf, int word_mode,
     state->current_word = 0;
     state->word_mode = word_mode;
     state->bigendian_mode = bigendian_mode;
-    bitstream_get (state, align * 8);
+    bitstream_get (state, (uint32_t)(align * 8));
 }
 
 static inline void bitstream_fill_current (dts_state_t * state)

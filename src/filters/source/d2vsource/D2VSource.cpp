@@ -101,7 +101,7 @@ CD2VStream::CD2VStream(const WCHAR* fn, CSource* pParent, HRESULT* phr)
 {
 	CAutoLock cAutoLock(&m_cSharedState);
 
-	m_pDecoder.Attach(new CMPEG2Dec());
+	m_pDecoder.Attach(DNew CMPEG2Dec());
 	if(!m_pDecoder)
 	{
 		if(phr) *phr = E_OUTOFMEMORY;

@@ -110,10 +110,10 @@ CDeCSSFilter::CDeCSSFilter(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	if(phr) *phr = S_OK;
 
-	if(!(m_pInput = new CKsPSInputPin(NAME("CKsPSInputPin"), this, phr, L"In"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pInput = DNew CKsPSInputPin(NAME("CKsPSInputPin"), this, phr, L"In"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pOutput = new CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr))  {delete m_pInput, m_pInput = NULL; return;}
 }
 

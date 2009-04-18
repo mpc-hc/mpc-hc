@@ -214,7 +214,7 @@ s_scmap_dts[2*10] =
 	{4, {0, 1, 3, 2,-1,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_CENTER}, // DTS_2F1R|DTS_LFE
 	{5, {1, 2, 0, 4, 3,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_CENTER}, // DTS_3F1R|DTS_LFE
 	{5, {0, 1, 4, 2, 3,-1,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_2F2R|DTS_LFE
-	{6, {1, 2, 0, 5, 3, 4,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_3F2R|DTS_LFE
+	{6, {1, 2, 5, 0, 3, 4,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT}, // DTS_3F2R|DTS_LFE
 },
 s_scmap_vorbis[6] = 
 {
@@ -277,10 +277,10 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	if(phr) *phr = S_OK;
 
-	if(!(m_pInput = new CMpaDecInputPin(this, phr, L"In"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pInput = DNew CMpaDecInputPin(this, phr, L"In"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pOutput = new CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr))  {delete m_pInput, m_pInput = NULL; return;}
 
 	m_iSpeakerConfig[ac3] = A52_STEREO;
@@ -1234,7 +1234,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 		{
 			if(m_ps2_state.sync)
 			{
-				double* tmp = new double[samples*channels];
+				double* tmp = DNew double[samples*channels];
 
 				for(int channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
 					for(int i = 0; i < wfe->dwInterleave; i += 16, k += 28)
@@ -1924,7 +1924,7 @@ STDMETHODIMP CMpaDecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
 
 	if(guid == __uuidof(CMpaDecSettingsWnd))
 	{
-		(*ppPage = new CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
+		(*ppPage = DNew CInternalPropertyPageTempl<CMpaDecSettingsWnd>(NULL, &hr))->AddRef();
 	}
 
 	return *ppPage ? S_OK : E_FAIL;

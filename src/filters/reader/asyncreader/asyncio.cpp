@@ -161,7 +161,7 @@ CAsyncIo::Request(
         }
     }
 
-    CAsyncRequest* pRequest = new CAsyncRequest;
+    CAsyncRequest* pRequest = DNew CAsyncRequest;
 
     HRESULT hr = pRequest->Request(
                             this,

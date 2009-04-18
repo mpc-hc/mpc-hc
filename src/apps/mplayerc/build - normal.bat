@@ -1,0 +1,3 @@
+
+call build.bat
+pause

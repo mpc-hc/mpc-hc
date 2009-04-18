@@ -40,11 +40,12 @@ CPPageOutput::CPPageOutput()
 	, m_iQTVideoRendererType(0)
 	, m_iAPSurfaceUsage(0)
 	, m_iAudioRendererType(0)
-	, m_fVMRSyncFix(FALSE)
+//	, m_fVMRSyncFix(FALSE)
 	, m_iDX9Resizer(0)
 	, m_fVMR9MixerMode(FALSE)
 	, m_fVMR9MixerYUV(FALSE)
-	, m_iEvrBuffers(5)
+	, m_fVMR9AlterativeVSync(FALSE)
+	, m_iEvrBuffers(L"5")
 {
 }
 
@@ -62,12 +63,14 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_DX_SURFACE, m_iAPSurfaceUsage);
 	DDX_CBIndex(pDX, IDC_COMBO1, m_iAudioRendererType);
 	DDX_Control(pDX, IDC_COMBO1, m_iAudioRendererTypeCtrl);
-	DDX_Check(pDX, IDC_CHECK1, m_fVMRSyncFix);
+//	DDX_Check(pDX, IDC_CHECK1, m_fVMRSyncFix);
 	DDX_CBIndex(pDX, IDC_DX9RESIZER_COMBO, m_iDX9Resizer);
 	DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
 	DDX_Check(pDX, IDC_DSVMR9YUVMIXER, m_fVMR9MixerYUV);
+	DDX_Check(pDX, IDC_DSVMR9ALTERNATIVEVSYNC, m_fVMR9AlterativeVSync);
 	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
-	DDX_CBIndex(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
+	
+	DDX_CBString(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
 
 	DDX_CBIndex(pDX, IDC_COMBO2, m_iMonitorType);
 	DDX_Control(pDX, IDC_COMBO2, m_iMonitorTypeCtrl);
@@ -76,7 +79,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_DSVMR9YUVMIXER, OnUpdateMixerYUV)	
 	ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
-	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_EVR_CUSTOM, &CPPageOutput::OnDSRendererChange)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_DSMADVR, &CPPageOutput::OnDSRendererChange)
 	ON_BN_CLICKED(IDC_FULLSCREEN_MONITOR_CHECK, OnFullscreenCheck)
 END_MESSAGE_MAP()
 
@@ -103,12 +106,13 @@ BOOL CPPageOutput::OnInitDialog()
 	m_iRMVideoRendererType	= s.iRMVideoRendererType;
 	m_iQTVideoRendererType	= s.iQTVideoRendererType;
 	m_iAPSurfaceUsage		= s.iAPSurfaceUsage;
-	m_fVMRSyncFix			= s.fVMRSyncFix;
+//	m_fVMRSyncFix			= s.fVMRSyncFix;
 	m_iDX9Resizer			= s.iDX9Resizer;
 	m_fVMR9MixerMode		= s.fVMR9MixerMode;
 	m_fVMR9MixerYUV			= s.fVMR9MixerYUV;
+	m_fVMR9AlterativeVSync	= s.m_RenderSettings.fVMR9AlterativeVSync;
 	m_fD3DFullscreen		= s.fD3DFullscreen;
-	m_iEvrBuffers			= s.iEvrBuffers-3;
+	m_iEvrBuffers.Format(L"%d", s.iEvrBuffers);
 
 	// Multi-Monitor code
 	CString str;
@@ -244,6 +248,11 @@ BOOL CPPageOutput::OnInitDialog()
 		DisableRadioButton(IDC_DSDXR, IDC_DSSYSDEF);
 	}
 
+	if(!IsCLSIDRegistered(CLSID_madVR))
+	{
+		DisableRadioButton(IDC_DSMADVR, IDC_DSSYSDEF);
+	}
+
 	// YUV mixing is not compatible with Vista
 	if (AfxGetMyApp()->IsVistaOrAbove())
 	{
@@ -268,13 +277,22 @@ BOOL CPPageOutput::OnApply()
 	s.iRMVideoRendererType		= m_iRMVideoRendererType;
 	s.iQTVideoRendererType		= m_iQTVideoRendererType;
 	s.iAPSurfaceUsage			= m_iAPSurfaceUsage;
-	s.fVMRSyncFix				= !!m_fVMRSyncFix;
+//	s.fVMRSyncFix				= !!m_fVMRSyncFix;
 	s.AudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
 	s.iDX9Resizer				= m_iDX9Resizer;
 	s.fVMR9MixerMode			= !!m_fVMR9MixerMode;
 	s.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
+	s.m_RenderSettings.fVMR9AlterativeVSync		= m_fVMR9AlterativeVSync != 0;
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
-	s.iEvrBuffers				= m_iEvrBuffers+3;
+
+	if (!m_iEvrBuffers.IsEmpty())
+	{
+		int Temp = 5;
+		swscanf(m_iEvrBuffers.GetBuffer(), L"%d", &Temp);
+		s.iEvrBuffers = Temp;
+	}
+	else
+		s.iEvrBuffers = 5;
 
 	s.f_hmonitor = m_MonitorDisplayNames[m_iMonitorType];
 
@@ -297,7 +315,8 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(FALSE);
 	GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(FALSE);
 	GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(FALSE);
-	GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
+	GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(FALSE);
+//	GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
 	GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 	GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 
@@ -306,10 +325,12 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	case 6 :	// VMR9 renderless
 		GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
 		GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
+		GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);		
 	case 11 :	// EVR custom presenter
 		GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
-		GetDlgItem(IDC_CHECK1)->EnableWindow(TRUE);		// Lock back buffer
+//		GetDlgItem(IDC_CHECK1)->EnableWindow(TRUE);		// Lock back buffer
+		GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);		
 
 		// Force 3D surface with EVR Custom
 		if (nIDbutton - IDC_DSSYSDEF == 11)

@@ -300,13 +300,13 @@ bool CJpegEncoder::Encode(const BYTE* dib)
 
 	m_w = bi->bmiHeader.biWidth;
 	m_h = abs(bi->bmiHeader.biHeight);
-	m_p = new BYTE[m_w*m_h*4];
+	m_p = DNew BYTE[m_w*m_h*4];
 
 	const BYTE* src = dib + sizeof(bi->bmiHeader);
 	if(bi->bmiHeader.biBitCount <= 8)
 	{
 		if(bi->bmiHeader.biClrUsed) src += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-		else src += (1 << bi->bmiHeader.biBitCount) * sizeof(bi->bmiColors[0]);
+		else src += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
 	}
 
 	int srcpitch = m_w*(bpp>>3);

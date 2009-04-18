@@ -42,7 +42,7 @@ private:
 	CPPageFileInfoRes m_res;
 
 public:
-	CPPageFileInfoSheet(CString fn, CMainFrame* pParentWnd);
+	CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd);
 	virtual ~CPPageFileInfoSheet();
 
 protected:

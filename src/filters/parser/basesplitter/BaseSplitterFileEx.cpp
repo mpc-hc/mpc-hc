@@ -346,7 +346,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		pmt->subtype = MEDIASUBTYPE_MPEG1Payload;
 		pmt->formattype = FORMAT_MPEGVideo;
 		int len = FIELD_OFFSET(MPEG1VIDEOINFO, bSequenceHeader) + shlen + shextlen;
-		MPEG1VIDEOINFO* vi = (MPEG1VIDEOINFO*)new BYTE[len];
+		MPEG1VIDEOINFO* vi = (MPEG1VIDEOINFO*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->hdr.dwBitRate = h.bitrate;
 		vi->hdr.AvgTimePerFrame = h.ifps;
@@ -368,7 +368,7 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 		pmt->subtype = MEDIASUBTYPE_MPEG2_VIDEO;
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + shlen + shextlen;
-		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->hdr.dwBitRate = h.bitrate;
 		vi->hdr.AvgTimePerFrame = h.ifps;
@@ -475,7 +475,7 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	/*int*/ len = h.layer == 3 
 		? sizeof(WAVEFORMATEX/*MPEGLAYER3WAVEFORMAT*/) // no need to overcomplicate this...
 		: sizeof(MPEG1WAVEFORMAT);
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)new BYTE[len];
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[len];
 	memset(wfe, 0, len);
 	wfe->cbSize = len - sizeof(WAVEFORMATEX);
 
@@ -559,7 +559,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 
 	if(!pmt) return(true);
 
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)new BYTE[sizeof(WAVEFORMATEX)+5];
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)+5];
 	memset(wfe, 0, sizeof(WAVEFORMATEX)+5);
 	wfe->wFormatTag = WAVE_FORMAT_AAC;
 	wfe->nChannels = h.channels <= 6 ? h.channels : 2;
@@ -1284,7 +1284,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 //pmt->subtype = MEDIASUBTYPE_H264;		// TODO : put MEDIASUBTYPE_H264 to support Windows 7 decoder !
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extra;
-		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
 		memset(vi, 0, len);
 		// vi->hdr.dwBitRate = ;
 		vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
@@ -1416,7 +1416,7 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 		//pmt->subtype = FOURCCMap('1CVW');
 		//pmt->formattype = FORMAT_MPEG2_VIDEO;
 		//int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extralen + 1;
-		//MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];
+		//MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
 		//memset(vi, 0, len);
 		//// vi->hdr.dwBitRate = ;
 		//vi->hdr.AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
@@ -1441,7 +1441,7 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 		pmt->subtype = FOURCCMap('1CVW');
 		pmt->formattype = FORMAT_VIDEOINFO2;
 		int len = sizeof(VIDEOINFOHEADER2) + extralen + 1;
-		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)new BYTE[len];
+		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
 		vi->dwPictAspectRatioX = h.width;

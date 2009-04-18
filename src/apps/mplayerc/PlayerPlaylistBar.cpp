@@ -316,6 +316,11 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 		ParseMPCPlayList(fns.GetHead());
 		return;
 	}
+	else if(ct == "application/x-bdmv-playlist")
+	{
+		ParseBDMVPlayList(fns.GetHead());
+		return;
+	}
 
 	AddItem(fns, subs);
 }
@@ -330,6 +335,22 @@ static CString CombinePath(CPath p, CString fn)
 	if(fn.Find(':') >= 0 || fn.Find(_T("\\")) == 0) return fn;
 	p.Append(CPath(fn));
 	return (LPCTSTR)p;
+}
+
+bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
+{
+	CHdmvClipInfo ClipInfo;
+	CAtlList<CString>	MainPlaylist;
+
+	CPath Path(fn);
+	Path.RemoveFileSpec();
+
+	if (SUCCEEDED (ClipInfo.FindMainMovie (Path + L"\\", MainPlaylist)))
+	{
+		Append(MainPlaylist, MainPlaylist.GetCount()>1, NULL);
+	}
+
+	return m_pl.GetCount() > 0;
 }
 
 bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
@@ -653,7 +674,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 	if(fn.Find(_T("video_ts.ifo")) >= 0
 	|| fn.Find(_T(".ratdvd")) >= 0)
 	{
-		if(OpenDVDData* p = new OpenDVDData())
+		if(OpenDVDData* p = DNew OpenDVDData())
 		{
 			p->path = pli.m_fns.GetHead(); 
 			p->subs.AddTailList(&pli.m_subs);
@@ -663,7 +684,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 
 	if(pli.m_type == CPlaylistItem::device)
 	{
-		if(OpenDeviceData* p = new OpenDeviceData())
+		if(OpenDeviceData* p = DNew OpenDeviceData())
 		{
 			POSITION pos = pli.m_fns.GetHeadPosition();
 			for(int i = 0; i < countof(p->DisplayName) && pos; i++)
@@ -676,7 +697,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 	}
 	else
 	{
-		if(OpenFileData* p = new OpenFileData())
+		if(OpenFileData* p = DNew OpenFileData())
 		{
 			p->fns.AddTailList(&pli.m_fns);
 			p->subs.AddTailList(&pli.m_subs);

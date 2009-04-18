@@ -76,7 +76,7 @@ CPPageSheet::~CPPageSheet()
 
 CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 {
-	return new CTreePropSheetTreeCtrl();
+	return DNew CTreePropSheetTreeCtrl();
 }
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)

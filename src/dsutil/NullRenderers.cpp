@@ -155,6 +155,6 @@ HRESULT CNullTextRenderer::CTextInputPin::CheckMediaType(const CMediaType* pmt)
 CNullTextRenderer::CNullTextRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseFilter(NAME("CNullTextRenderer"), pUnk, this, __uuidof(this), phr) 
 {
-	m_pInput.Attach(new CTextInputPin(this, this, phr));
+	m_pInput.Attach(DNew CTextInputPin(this, this, phr));
 }
 #pragma warning (default : 4355)

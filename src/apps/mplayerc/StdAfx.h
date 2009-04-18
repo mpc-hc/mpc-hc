@@ -30,6 +30,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+#include "..\..\DSUtil\SharedInclude.h"
 
 // VS2005 changed result of OnNCHitTest
 #if _MSC_VER >= 1400
@@ -75,6 +76,8 @@
 
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
+
+
 
 //#define BCM_SETSHIELD				0x0000160C		// Shield style for button (elevated privilege)
 

@@ -118,7 +118,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 	}
 
 	CFile f;
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 	{
 		Log(LOG_ERROR, _T("Cannot open ifo"));
 		return(false);
@@ -901,7 +901,7 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 	DWORD chksum = 0, chunklen, version;
 	__int64 voblen;
 
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 	f.Read(&version, sizeof(version));
 	if(version == 1)
@@ -920,7 +920,7 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 		return(false);
 	}
 
-	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 	DWORD dw, chksum2 = 0;
 	while(f.Read(&dw, sizeof(dw)) == sizeof(dw)) chksum2 += dw;
@@ -946,7 +946,7 @@ bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
 	DWORD chksum = 0, chunklen = chunks.GetCount();
 	__int64 voblen = m_vob.GetLength();
 
-	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 	DWORD dw;
 	while(f.Read(&dw, sizeof(dw)) == sizeof(dw)) chksum += dw;

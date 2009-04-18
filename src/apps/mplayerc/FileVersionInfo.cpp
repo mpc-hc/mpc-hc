@@ -17,12 +17,6 @@
 #include "stdafx.h"
 #include "FileVersionInfo.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 //-------------------------------------------------------------------
 // CFileVersionInfo
 //-------------------------------------------------------------------
@@ -84,7 +78,7 @@ BOOL CFileVersionInfo::Create(LPCTSTR lpszFileName)
 	if (!dwFileVersionInfoSize)
 		return FALSE;
 
-	LPVOID	lpData = (LPVOID)new BYTE[dwFileVersionInfoSize];
+	LPVOID	lpData = (LPVOID)DNew BYTE[dwFileVersionInfoSize];
 	if (!lpData)
 		return FALSE;
 

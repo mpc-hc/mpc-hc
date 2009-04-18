@@ -48,6 +48,8 @@ private:
 	void ParsePlayList(CString fn, CAtlList<CString>* subs);
 	void ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs);
 
+	bool ParseBDMVPlayList(CString fn);
+
 	bool ParseMPCPlayList(CString fn);
 	bool SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRemovePath);
 

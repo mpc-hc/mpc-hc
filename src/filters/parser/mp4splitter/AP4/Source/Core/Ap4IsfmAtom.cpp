@@ -64,7 +64,7 @@ AP4_IsfmAtom::AP4_IsfmAtom(AP4_Size size, AP4_ByteStream& stream) :
 AP4_Atom* 
 AP4_IsfmAtom::Clone()
 {
-    return new AP4_IsfmAtom(m_SelectiveEncryption, 
+    return DNew AP4_IsfmAtom(m_SelectiveEncryption, 
                             m_KeyIndicatorLength, 
                             m_IvLength);
 }

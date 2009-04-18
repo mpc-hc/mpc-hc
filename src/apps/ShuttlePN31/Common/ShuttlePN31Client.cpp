@@ -45,7 +45,7 @@ CMultiSz::CMultiSz(const CMultiSz& other)
 
 BYTE* CMultiSz::Realloc (BYTE* pBuff, DWORD nNewSize)
 {
-	BYTE*	pNewBuff = new BYTE [nNewSize];
+	BYTE*	pNewBuff = DNew BYTE [nNewSize];
 	memset (pNewBuff, 0, nNewSize);
 	if (pBuff) memcpy (pNewBuff, pBuff, min (m_MultiSzLen, nNewSize));
 	return pNewBuff;
@@ -412,7 +412,7 @@ CMultiSz CShuttlePN31Client::GetLowerFilters(HDEVINFO hDev, SP_DEVINFO_DATA* pDe
 	if (BufferSize != 0)
 	{
 		// we allocate the proper buffer
-		Buffer = new BYTE [BufferSize];
+		Buffer = DNew BYTE [BufferSize];
 
 		// we get the content of the buffer
 

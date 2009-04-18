@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
 			<Tool

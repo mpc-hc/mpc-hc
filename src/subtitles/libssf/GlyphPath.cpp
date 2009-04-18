@@ -108,15 +108,15 @@ namespace ssf
 				{
 					CPoint next = k < end ? src.points[k+1] : src.points[start];
 
-					for(int l = k-1; prev == cur; l--)
+					for(int l = int(k-1); prev == cur; l--)
 					{
-						if(l < (int)start) l = end;
+						if(l < (int)start) l = int(end);
 						prev = src.points[l];
 					}
 
-					for(int l = k+1; next == cur; l++)
+					for(int l = int(k+1); next == cur; l++)
 					{
-						if(l > (int)end) l = start;
+						if(l > (int)end) l = int(start);
 						next = src.points[l];
 					}
 

@@ -30,16 +30,16 @@
 // CPPageFileInfoSheet
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
-CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pParentWnd)
+CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWnd* pParentWnd)
 	: CPropertySheet(ResStr(IDS_PROPSHEET_PROPERTIES), pParentWnd, 0)
-	, m_clip(fn, pParentWnd->pGB)
-	, m_details(fn, pParentWnd->pGB, pParentWnd->m_pCAP)
-	, m_res(fn, pParentWnd->pGB)
+	, m_clip(fn, pMainFrame->pGB)
+	, m_details(fn, pMainFrame->pGB, pMainFrame->m_pCAP)
+	, m_res(fn, pMainFrame->pGB)
 {
 	AddPage(&m_clip);
 	AddPage(&m_details);
 
-	BeginEnumFilters(pParentWnd->pGB, pEF, pBF)
+	BeginEnumFilters(pMainFrame->pGB, pEF, pBF)
 	{
 		if(CComQIPtr<IDSMResourceBag> pRB = pBF)
 		if(pRB && pRB->ResGetCount() > 0)

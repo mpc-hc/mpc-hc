@@ -58,11 +58,11 @@ void CPlayerInfoBar::SetLine(CString label, CString info)
 		}
 	}
 
-	CAutoPtr<CStatusLabel> l(new CStatusLabel(true, false));
+	CAutoPtr<CStatusLabel> l(DNew CStatusLabel(true, false));
 	l->Create(label, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|SS_OWNERDRAW, CRect(0,0,0,0), this);
 	m_label.Add(l);
 
-	CAutoPtr<CStatusLabel> i(new CStatusLabel(false, true));
+	CAutoPtr<CStatusLabel> i(DNew CStatusLabel(false, true));
 	i->Create(info, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|SS_OWNERDRAW, CRect(0,0,0,0), this);
 	m_info.Add(i);
 

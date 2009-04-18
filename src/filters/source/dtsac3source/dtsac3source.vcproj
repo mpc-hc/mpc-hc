@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="dtsac3source"
 	ProjectGUID="{30D48874-899F-41C6-9B26-A40C96C91102}"
 	RootNamespace="dtsac3source"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
@@ -102,6 +103,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG"
 				DebugInformationFormat="3"
@@ -159,6 +161,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				DisableSpecificWarnings="4244"
@@ -219,6 +222,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 			/>

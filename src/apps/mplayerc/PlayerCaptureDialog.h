@@ -64,7 +64,7 @@ public:
 
 		if(fCreate)
 		{
-			CAutoPtr<CFormat<T> > pf(new CFormat<T>(name));
+			CAutoPtr<CFormat<T> > pf(DNew CFormat<T>(name));
 			CFormat<T>* tmp = pf;
 			Add(pf);
 			return(tmp);
@@ -126,7 +126,7 @@ public:
 		CFormat<T>* pf = Find(MakeFormatName(pmt), true);
 		if(!pf) {DeleteMediaType(pmt); return(false);}
 
-		CAutoPtr<CFormatElem<T> > pfe(new CFormatElem<T>());
+		CAutoPtr<CFormatElem<T> > pfe(DNew CFormatElem<T>());
 		pfe->mt = *pmt;
 		pfe->caps = caps;
 		pf->Add(pfe);

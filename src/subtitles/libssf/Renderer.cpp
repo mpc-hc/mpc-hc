@@ -194,7 +194,7 @@ namespace ssf
 
 			for(LPCWSTR c = t.str; *c; c++)
 			{
-				CAutoPtr<Glyph> g(new Glyph());
+				CAutoPtr<Glyph> g(DNew Glyph());
 
 				g->c = *c;
 				g->style = t.style;
@@ -260,7 +260,7 @@ namespace ssf
 		while(pos)
 		{
 			CAutoPtr<Glyph> g = glyphs.GetNext(pos);
-			if(!row) row.Attach(new Row());
+			if(!row) row.Attach(DNew Row());
 			WCHAR c = g->c;
 			row->AddTail(g);
 			if(c == Text::LSEP || !pos) rows.AddTail(row);
@@ -336,7 +336,7 @@ namespace ssf
 
 					if(brpos && abs(width) > maxwidth && g->c != Text::SP)
 					{
-						row.Attach(new Row());
+						row.Attach(DNew Row());
 						POSITION next = brpos;
 						r->GetNext(next);
 						do {row->AddHead(r->GetPrev(brpos));} while(brpos);
@@ -468,7 +468,7 @@ namespace ssf
 
 		// align rows and calc glyph positions
 
-		rs = new RenderedSubtitle(spdrc, clip);
+		rs = DNew RenderedSubtitle(spdrc, clip);
 
 		CPoint p = GetAlignPoint(style.placement, scale, frame, size);
 		CPoint org = GetAlignPoint(style.placement, scale, frame);
@@ -770,7 +770,7 @@ namespace ssf
 			return NULL;
 		}
 
-		pFW = new FontWrapper(hDC, hFont, key);
+		pFW = DNew FontWrapper(hDC, hFont, key);
 
 		Add(key, pFW, false);
 
@@ -795,7 +795,7 @@ namespace ssf
 		CloseFigure(hDC);
 		if(!EndPath(hDC)) {AbortPath(hDC); ASSERT(0); return NULL;}
 
-		path = new GlyphPath();
+		path = DNew GlyphPath();
 
 		int count = GetPath(hDC, NULL, NULL, 0);
 

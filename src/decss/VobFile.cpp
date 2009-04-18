@@ -190,12 +190,12 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 	switch(KeyType)
 	{
 		case DvdChallengeKey: 
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_CHALLENGE_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
 			key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
 			Reverse(key->KeyData, pKeyData, 10);
 			break;
 		case DvdBusKey2:
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_BUS_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_BUS_KEY_LENGTH]);
 			key->KeyLength = DVD_BUS_KEY_LENGTH;
 			Reverse(key->KeyData, pKeyData, 5);
 			break;
@@ -221,22 +221,22 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 	switch(KeyType)
 	{
 		case DvdChallengeKey: 
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_CHALLENGE_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_CHALLENGE_KEY_LENGTH]);
 			key->KeyLength = DVD_CHALLENGE_KEY_LENGTH;
 			key->Parameters.TitleOffset.QuadPart = 0;
 			break;
 		case DvdBusKey1:
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_BUS_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_BUS_KEY_LENGTH]);
 			key->KeyLength = DVD_BUS_KEY_LENGTH;
 			key->Parameters.TitleOffset.QuadPart = 0;
 			break;
 		case DvdDiskKey:
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_DISK_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_DISK_KEY_LENGTH]);
 			key->KeyLength = DVD_DISK_KEY_LENGTH;
 			key->Parameters.TitleOffset.QuadPart = 0;
 			break;
 		case DvdTitleKey:
-			key.Attach((DVD_COPY_PROTECT_KEY*)new BYTE[DVD_TITLE_KEY_LENGTH]);
+			key.Attach((DVD_COPY_PROTECT_KEY*)DNew BYTE[DVD_TITLE_KEY_LENGTH]);
 			key->KeyLength = DVD_TITLE_KEY_LENGTH;
 			key->Parameters.TitleOffset.QuadPart = 2048i64*lba;
 			break;
@@ -304,7 +304,7 @@ bool CLBAFile::Open(LPCTSTR path)
 {
 	Close();
 
-	return(!!CFile::Open(path, modeRead|typeBinary|shareDenyWrite|osSequentialScan));
+	return(!!CFile::Open(path, modeRead|typeBinary|shareDenyNone|osSequentialScan));
 }
 
 void CLBAFile::Close()
@@ -366,7 +366,7 @@ bool CVobFile::HasTitleKey(BYTE* key)
 bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 {
 	CFile f;
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 
 	char hdr[13];

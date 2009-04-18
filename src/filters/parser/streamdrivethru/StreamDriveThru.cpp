@@ -79,8 +79,8 @@ CStreamDriveThruFilter::CStreamDriveThruFilter(LPUNKNOWN pUnk, HRESULT* phr)
 {
 	if(phr) *phr = S_OK;
 
-	m_pInput = new CStreamDriveThruInputPin(NAME("CStreamDriveThruInputPin"), this, &m_csLock, phr);
-	m_pOutput = new CStreamDriveThruOutputPin(NAME("CStreamDriveThruOutputPin"), this, &m_csLock, phr);
+	m_pInput = DNew CStreamDriveThruInputPin(NAME("CStreamDriveThruInputPin"), this, &m_csLock, phr);
+	m_pOutput = DNew CStreamDriveThruOutputPin(NAME("CStreamDriveThruOutputPin"), this, &m_csLock, phr);
 
 	CAMThread::Create();
 }

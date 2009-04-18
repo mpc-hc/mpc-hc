@@ -271,7 +271,7 @@ bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 
 void CWebServer::OnAccept(CWebServerSocket* pServer)
 {
-	CAutoPtr<CWebClientSocket> p(new CWebClientSocket(this, m_pMainFrame));
+	CAutoPtr<CWebClientSocket> p(DNew CWebClientSocket(this, m_pMainFrame));
 	if(pServer->Accept(*p))
 	{
 		CString name;
@@ -581,7 +581,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 		FreeEnvironmentStrings((LPTSTR)lpvEnv);
 	}
 
-	TCHAR* cmdln = new TCHAR[32768];
+	TCHAR* cmdln = DNew TCHAR[32768];
 	_sntprintf(cmdln, 32768, _T("\"%s\" \"%s\""), cgi, path);
 
 	if(hChildStdinRd && hChildStdoutWr)

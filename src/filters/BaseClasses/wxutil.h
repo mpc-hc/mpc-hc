@@ -196,7 +196,13 @@ public:
     // accessor thread calls this when done with thread (having told thread
     // to exit)
     void Close() {
+
+        // Disable warning: Conversion from LONG to PVOID of greater size
+#pragma warning(push)
+#pragma warning(disable: 4312)
         HANDLE hThread = (HANDLE)InterlockedExchangePointer(&m_hThread, 0);
+#pragma warning(pop)
+
         if (hThread) {
             WaitForSingleObject(hThread, INFINITE);
             CloseHandle(hThread);

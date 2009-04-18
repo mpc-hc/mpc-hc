@@ -81,10 +81,10 @@ CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	do
 	{
-		if(!(m_pInput = new CTransformInputPin(NAME("Transform input pin"), this, &hr, L"In"))) hr = E_OUTOFMEMORY;
+		if(!(m_pInput = DNew CTransformInputPin(NAME("Transform input pin"), this, &hr, L"In"))) hr = E_OUTOFMEMORY;
 		if(FAILED(hr)) break;
 
-		if(!(m_pOutput = new CBufferFilterOutputPin(this, &hr))) hr = E_OUTOFMEMORY;
+		if(!(m_pOutput = DNew CBufferFilterOutputPin(this, &hr))) hr = E_OUTOFMEMORY;
 		if(FAILED(hr)) {delete m_pInput, m_pInput = NULL; break;}
 	}
 	while(false);
@@ -299,7 +299,7 @@ HRESULT CBufferFilterOutputPin::Active()
 	{
 		HRESULT hr = NOERROR;
 
-		m_pOutputQueue.Attach(new CBufferFilterOutputQueue(m_Connected, &hr));
+		m_pOutputQueue.Attach(DNew CBufferFilterOutputQueue(m_Connected, &hr));
 		if(!m_pOutputQueue) hr = E_OUTOFMEMORY;
 
 		if(FAILED(hr))

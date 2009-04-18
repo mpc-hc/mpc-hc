@@ -22,13 +22,6 @@
 #include "TreePropSheet.h"
 #include "PropPageFrameDefault.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-
 
 namespace TreePropSheet
 {
@@ -253,13 +246,13 @@ CString CTreePropSheet::GenerateEmptyPageMessage(LPCTSTR lpszEmptyPageMessage, L
 
 CTreeCtrl* CTreePropSheet::CreatePageTreeObject()
 {
-	return new CTreeCtrl;
+	return DNew CTreeCtrl;
 }
 
 
 CPropPageFrame* CTreePropSheet::CreatePageFrame()
 {
-	return new CPropPageFrameDefault;
+	return DNew CPropPageFrameDefault;
 }
 
 

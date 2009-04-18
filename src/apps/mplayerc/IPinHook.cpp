@@ -280,7 +280,7 @@ static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
 	va_list args;
 	va_start(args, fmt);
 	int		nCount	= _vsctprintf(fmt, args) + 1;
-	if(TCHAR* buff = new TCHAR[nCount])
+	if(TCHAR* buff = DNew TCHAR[nCount])
 	{
 		FILE*	f;
 		_vstprintf_s(buff, nCount, fmt, args);
@@ -1366,7 +1366,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 #ifdef _DEBUG
 		if ((Guid == DXVA2_ModeH264_E) || (Guid == DXVA2_ModeVC1_D) || (Guid == DXVA_Intel_H264_ClearVideo))
 		{
-			*ppDecode	= new CFakeDirectXVideoDecoder (NULL, *ppDecode);
+			*ppDecode	= DNew CFakeDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();
 		}
 

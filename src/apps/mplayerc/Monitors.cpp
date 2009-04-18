@@ -54,7 +54,7 @@ BOOL CALLBACK CMonitors::AddMonitorsCallBack( HMONITOR hMonitor, HDC hdcMonitor,
 {
 	LPADDMONITOR pAddMonitor = (LPADDMONITOR)dwData;
 
-	CMonitor* pMonitor = new CMonitor;
+	CMonitor* pMonitor = DNew CMonitor;
 	pMonitor->Attach( hMonitor );
 
 	pAddMonitor->pMonitors->Add( pMonitor );

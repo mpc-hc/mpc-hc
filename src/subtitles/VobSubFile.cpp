@@ -659,7 +659,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 bool CVobSubFile::ReadSub(CString fn)
 {
 	CFile f;
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 
 	m_sub.SetLength(f.GetLength());
@@ -788,7 +788,7 @@ bool CVobSubFile::ReadRar(CString fn)
 bool CVobSubFile::ReadIfo(CString fn)
 {
 	CFile f;
-	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyWrite))
+	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);
 
 	/* PGC1 */
@@ -1042,7 +1042,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
         packetsize = (buff[buff[0x16] + 0x18] << 8) + buff[buff[0x16] + 0x19];
 		datasize = (buff[buff[0x16] + 0x1a] << 8) + buff[buff[0x16] + 0x1b];
 
-		ret = new BYTE[packetsize];
+		ret = DNew BYTE[packetsize];
 		if(!ret) break;
 
 		int i = 0, sizeleft = packetsize;
@@ -2226,7 +2226,7 @@ void CVobSubStream::Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData
 	CVobSubImage vsi;
 	vsi.GetPacketInfo(pData, (pData[0]<<8)|pData[1], (pData[2]<<8)|pData[3]);
 
-	CAutoPtr<SubPic> p(new SubPic());
+	CAutoPtr<SubPic> p(DNew SubPic());
 	p->tStart = tStart;
 	p->tStop = vsi.delay > 0 ? (tStart + 10000i64*vsi.delay) : tStop;
 	p->pData.SetCount(len);

@@ -31,7 +31,7 @@ CBaseMuxerFilter::CBaseMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& cl
 	, m_rtCurrent(0)
 {
 	if(phr) *phr = S_OK;
-	m_pOutput.Attach(new CBaseMuxerOutputPin(L"Output", this, this, phr));
+	m_pOutput.Attach(DNew CBaseMuxerOutputPin(L"Output", this, this, phr));
 	AddInput();
 }
 
@@ -91,7 +91,7 @@ HRESULT CBaseMuxerFilter::CreateInput(CStringW name, CBaseMuxerInputPin** ppPin)
 {
 	CheckPointer(ppPin, E_POINTER);
 	HRESULT hr = S_OK;
-	*ppPin = new CBaseMuxerInputPin(name, this, this, &hr);
+	*ppPin = DNew CBaseMuxerInputPin(name, this, this, &hr);
 	return hr;
 }
 
@@ -99,7 +99,7 @@ HRESULT CBaseMuxerFilter::CreateRawOutput(CStringW name, CBaseMuxerRawOutputPin*
 {
 	CheckPointer(ppPin, E_POINTER);
 	HRESULT hr = S_OK;
-	*ppPin = new CBaseMuxerRawOutputPin(name, this, this, &hr);
+	*ppPin = DNew CBaseMuxerRawOutputPin(name, this, this, &hr);
 	return hr;
 }
 
@@ -253,7 +253,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
 {
 	REFERENCE_TIME rtMin = _I64_MAX;
 	CBaseMuxerInputPin* pPinMin = NULL;
-	int i = m_pActivePins.GetCount();
+	int i = int(m_pActivePins.GetCount());
 
 	POSITION pos = m_pActivePins.GetHeadPosition();
 	while(pos)
@@ -300,7 +300,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerFilter::GetPacket()
 
 int CBaseMuxerFilter::GetPinCount()
 {
-	return m_pInputs.GetCount() + (m_pOutput ? 1 : 0) + m_pRawOutputs.GetCount();
+	return int(m_pInputs.GetCount()) + (m_pOutput ? 1 : 0) + int(m_pRawOutputs.GetCount());
 }
 
 CBasePin* CBaseMuxerFilter::GetPin(int n)
@@ -313,7 +313,7 @@ CBasePin* CBaseMuxerFilter::GetPin(int n)
 			return m_pInputs.GetAt(pos);
 	}
 
-	n -= m_pInputs.GetCount();
+	n -= int(m_pInputs.GetCount());
 
 	if(n == 0 && m_pOutput)
 	{
@@ -328,7 +328,7 @@ CBasePin* CBaseMuxerFilter::GetPin(int n)
 			return m_pRawOutputs.GetAt(pos);
 	}
 
-	n -= m_pRawOutputs.GetCount();
+	n -= int(m_pRawOutputs.GetCount());
 
 	return NULL;
 }

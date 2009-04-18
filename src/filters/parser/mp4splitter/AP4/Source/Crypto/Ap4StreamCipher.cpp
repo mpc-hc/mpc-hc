@@ -63,7 +63,7 @@ AP4_StreamCipher::Reset(const AP4_UI08* key, const AP4_UI08* salt)
         }
         
         // (re)create one
-        m_BlockCipher = new AP4_AesBlockCipher(key);
+        m_BlockCipher = DNew AP4_AesBlockCipher(key);
     }
 
     // reset the stream offset

@@ -200,7 +200,7 @@
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib;;$(MINGW32)\lib;$(MINGW32_GCCLIB)"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
 				TargetMachine="1"
@@ -270,7 +270,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\lib64;$(MINGW64)\lib;$(MINGW64_GCCLIB)"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
@@ -322,6 +322,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
@@ -336,6 +337,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodecD.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
@@ -383,6 +385,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
 				PreprocessorDefinitions="_WIN64;_DEBUG;"
 				DebugInformationFormat="3"
@@ -398,6 +401,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodecD.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
@@ -442,6 +446,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 			/>
@@ -456,9 +461,10 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib;$(MINGW32)\lib;$(MINGW32_GCCLIB)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -503,6 +509,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 			/>
@@ -517,9 +524,10 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
+				LinkLibraryDependencies="true"
+				AdditionalDependencies="libavcodec_gcc.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\lib64;$(MINGW64_GCCLIB);$(MINGW64)\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -565,11 +573,68 @@
 				RelativePath=".\FfmpegContext.c"
 				>
 				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
+						WarningLevel="1"
 						CompileAs="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode lib|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode lib|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode lib|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode lib|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="1"
 					/>
 				</FileConfiguration>
 			</File>

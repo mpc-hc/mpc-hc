@@ -49,6 +49,16 @@ BEGIN_MESSAGE_MAP(CFullscreenWnd, CWnd)
 END_MESSAGE_MAP()
 
 
+LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_COMMAND :
+		m_pMainFrame->PostMessage(message, wParam, lParam);
+		break;
+	}
+	return CWnd::WindowProc(message, wParam, lParam);
+}
 
 BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 {

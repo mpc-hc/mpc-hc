@@ -207,7 +207,7 @@ namespace ssf
 		if(m_type2def.Lookup(type, pRetDef))
 			return *pRetDef;
 
-		pRetDef = new Definition(m_pnf, L"");
+		pRetDef = DNew Definition(m_pnf, L"");
 		pRetDef->m_priority = PLow;
 		pRetDef->m_type = type;
 		m_type2def[type] = pRetDef;

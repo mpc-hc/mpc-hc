@@ -3145,7 +3145,7 @@ static int vc1_decode_p_mb(VC1Context *v)
     int first_block = 1;
     int dst_idx, off;
     int skipped, fourmv;
-    int block_cbp = 0, pat;
+    int block_cbp = 0, pat = 0;
     int apply_loop_filter;
 
     mquant = v->pq; /* Loosy initialization */

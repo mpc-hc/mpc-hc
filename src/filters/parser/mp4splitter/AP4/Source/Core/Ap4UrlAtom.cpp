@@ -53,7 +53,7 @@ AP4_UrlAtom::AP4_UrlAtom(AP4_Size size, AP4_ByteStream& stream) :
         // not self contained
         AP4_Size str_size = size-AP4_FULL_ATOM_HEADER_SIZE;
         if (str_size > 0) {
-            char* str = new char[str_size];
+            char* str = DNew char[str_size];
             stream.Read(str, str_size);
             str[str_size-1] = '\0'; // force null-termination
             m_Url = str;

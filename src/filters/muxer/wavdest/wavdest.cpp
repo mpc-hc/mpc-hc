@@ -80,7 +80,7 @@ CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
 {
     if(SUCCEEDED(*phr))
     {
-        if(CWavDestOutputPin* pOut = new CWavDestOutputPin(this, phr))
+        if(CWavDestOutputPin* pOut = DNew CWavDestOutputPin(this, phr))
         {
             if(SUCCEEDED(*phr)) m_pOutput = pOut;
             else delete pOut;
@@ -91,7 +91,7 @@ CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
 			return;
         }
 
-		if(CTransformInputPin* pIn = new CTransformInputPin(NAME("Transform input pin"), this, phr, L"In"))
+		if(CTransformInputPin* pIn = DNew CTransformInputPin(NAME("Transform input pin"), this, phr, L"In"))
         {
             if(SUCCEEDED(*phr)) m_pInput = pIn;
             else delete pIn;

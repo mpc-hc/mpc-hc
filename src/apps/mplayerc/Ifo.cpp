@@ -194,7 +194,7 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		DWORD		dwSize = GetFileSize (hFile, NULL);
-		m_pBuffer = new BYTE [dwSize];
+		m_pBuffer = DNew BYTE [dwSize];
 		ReadFile (hFile, m_pBuffer, dwSize, &m_dwSize, NULL);
 		CloseHandle (hFile);
 

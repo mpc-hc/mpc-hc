@@ -37,6 +37,7 @@ CPPageSubtitles::CPPageSubtitles()
 	, m_nVerPos(0)
 	, m_nSPCSize(0)
 	, m_fSPCPow2Tex(FALSE)
+	, m_fSPCDisableAnim(FALSE)
 	, m_nSubDelayInterval(0)
 {
 }
@@ -59,6 +60,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
 	DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
 	DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
+	DDX_Check(pDX, IDC_CHECK_SPCDISABLEANIM, m_fSPCDisableAnim);	
 	DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
 }
 
@@ -78,6 +80,48 @@ END_MESSAGE_MAP()
 
 // CPPageSubtitles message handlers
 
+int TranslateResIn(int _In)
+{
+	switch (_In)
+	{
+	case 0:
+		return 0;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+		return _In + 4;
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+		return _In - 5;
+	}
+	return _In;
+}
+
+int TranslateResOut(int _In)
+{
+	switch (_In)
+	{
+	case 0:
+		return 0;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		return _In + 5;
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+		return _In - 4;
+	}
+	return _In;
+}
+
 BOOL CPPageSubtitles::OnInitDialog()
 {
 	__super::OnInitDialog();
@@ -90,15 +134,20 @@ BOOL CPPageSubtitles::OnInitDialog()
 	m_nVerPos = s.nVerPos;
 	m_nVerPosCtrl.SetRange(110,-10);
 	m_nSPCSize = s.nSPCSize;
-	m_nSPCSizeCtrl.SetRange(0, 10);
+	m_nSPCSizeCtrl.SetRange(0, 60);
 	m_spmaxres.AddString(_T("Desktop"));
+	m_spmaxres.AddString(_T("2560x1600"));
+	m_spmaxres.AddString(_T("1920x1080"));
+	m_spmaxres.AddString(_T("1320x900"));
+	m_spmaxres.AddString(_T("1280x720"));
 	m_spmaxres.AddString(_T("1024x768"));
 	m_spmaxres.AddString(_T("800x600"));
 	m_spmaxres.AddString(_T("640x480"));
 	m_spmaxres.AddString(_T("512x384"));
 	m_spmaxres.AddString(_T("384x288"));
-	m_spmaxres.SetCurSel(s.nSPCMaxRes);
+	m_spmaxres.SetCurSel(TranslateResIn(s.nSPCMaxRes));
 	m_fSPCPow2Tex = s.fSPCPow2Tex;
+	m_fSPCDisableAnim = s.fSPCDisableAnim;
 	m_nSubDelayInterval = s.nSubDelayInterval;
 
 	UpdateData(FALSE);
@@ -120,16 +169,18 @@ BOOL CPPageSubtitles::OnApply()
 	|| s.nVerPos != m_nVerPos
 	|| s.nSPCSize != m_nSPCSize
 	|| s.nSubDelayInterval != m_nSubDelayInterval
-	|| s.nSPCMaxRes != m_spmaxres.GetCurSel()
-	|| s.fSPCPow2Tex != !!m_fSPCPow2Tex)
+	|| s.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
+	|| s.fSPCPow2Tex != !!m_fSPCPow2Tex
+	|| s.fSPCDisableAnim != !!m_fSPCDisableAnim)
 	{
 		s.fOverridePlacement = !!m_fOverridePlacement;
 		s.nHorPos = m_nHorPos;
 		s.nVerPos = m_nVerPos;
 		s.nSPCSize = m_nSPCSize;
 		s.nSubDelayInterval = m_nSubDelayInterval;
-		s.nSPCMaxRes = m_spmaxres.GetCurSel();
+		s.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
 		s.fSPCPow2Tex = !!m_fSPCPow2Tex;
+		s.fSPCDisableAnim = !!m_fSPCDisableAnim;
 
 		if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame())
 			pFrame->UpdateSubtitle(true);

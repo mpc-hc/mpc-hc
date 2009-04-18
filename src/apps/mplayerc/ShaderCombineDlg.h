@@ -31,9 +31,10 @@
 class CShaderCombineDlg : public CResizableDialog
 {
 	CAtlList<CString>& m_labels;
+	bool m_bScreenSpace;
 
 public:
-	CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent = NULL);   // standard constructor
+	CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent, bool bScreenSpace);   // standard constructor
 	virtual ~CShaderCombineDlg();
 
 // Dialog Data

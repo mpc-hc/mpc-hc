@@ -38,10 +38,10 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
 {
 	if(phr) *phr = S_OK;
 
-	if(!(m_pInput = new CBaseVideoInputPin(NAME("CBaseVideoInputPin"), this, phr, L"Video"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pInput = DNew CBaseVideoInputPin(NAME("CBaseVideoInputPin"), this, phr, L"Video"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pOutput = new CBaseVideoOutputPin(NAME("CBaseVideoOutputPin"), this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pOutput = DNew CBaseVideoOutputPin(NAME("CBaseVideoOutputPin"), this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr))  {delete m_pInput, m_pInput = NULL; return;}
 
 	m_wout = m_win = m_w = 0;
@@ -643,7 +643,7 @@ STDMETHODIMP CBaseVideoInputPin::GetAllocator(IMemAllocator** ppAllocator)
     if(m_pAllocator == NULL)
 	{
 		HRESULT hr = S_OK;
-        m_pAllocator = new CBaseVideoInputAllocator(&hr);
+        m_pAllocator = DNew CBaseVideoInputAllocator(&hr);
         m_pAllocator->AddRef();
     }
 

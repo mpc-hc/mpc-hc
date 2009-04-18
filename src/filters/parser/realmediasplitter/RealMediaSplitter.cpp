@@ -202,7 +202,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new CRMFile(pAsyncReader, hr));
+	m_pFile.Attach(DNew CRMFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -450,7 +450,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		HRESULT hr;
 
-		CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
+		CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
 		if(SUCCEEDED(AddOutputPin((DWORD)pmp->stream, pPinOut)))
 		{
 			if(!m_rtStop)
@@ -476,7 +476,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		HRESULT hr;
 
-		CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
+		CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CRealMediaSplitterOutputPin(mts, name, this, this, &hr));
 		AddOutputPin((DWORD)~stream, pPinOut);
 	}
 
@@ -527,7 +527,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 
 				if(mph.stream == stream && (mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG) && tLastStart != mph.tStart)
 				{
-					CAutoPtr<IndexRecord> pir(new IndexRecord());
+					CAutoPtr<IndexRecord> pir(DNew IndexRecord);
 					pir->tStart = mph.tStart;
 					pir->ptrFilePos = (UINT32)filepos;
 					pir->packet = nPacket;
@@ -657,7 +657,7 @@ bool CRealMediaSplitterFilter::DemuxLoop()
 	{
 		CRMFile::subtitle& s = m_pFile->m_subs.GetNext(pos);
 
-		CAutoPtr<Packet> p(new Packet);
+		CAutoPtr<Packet> p(DNew Packet);
 
 		p->TrackNumber = ~stream;
 		p->bSyncPoint = TRUE;
@@ -693,7 +693,7 @@ bool CRealMediaSplitterFilter::DemuxLoop()
 			if(S_OK != (hr = m_pFile->Read(mph)))
 				break;
 
-			CAutoPtr<Packet> p(new Packet);
+			CAutoPtr<Packet> p(DNew Packet);
 			p->TrackNumber = mph.stream;
 			p->bSyncPoint = !!(mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG);
 			p->rtStart = 10000i64*(mph.tStart);
@@ -768,7 +768,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
 		return S_OK;
 	}
 
-	CAutoPtr<Packet> p(new Packet());
+	CAutoPtr<Packet> p(DNew Packet());
 
 	p->TrackNumber = -1;
 	p->bDiscontinuity = m_segments.fDiscontinuity;
@@ -896,7 +896,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
             int len2 = min(len - (pIn - pInOrg), packetlen - packetoffset);
 
-			CAutoPtr<segment> s(new segment);
+			CAutoPtr<segment> s(DNew segment);
 			s->offset = packetoffset;
 			s->data.SetCount(len2);
 			memcpy(s->data.GetData(), pIn, len2);
@@ -944,7 +944,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		{
 			WORD size = sizes.GetNext(pos);
 
-			CAutoPtr<Packet> p(new Packet);
+			CAutoPtr<Packet> p(DNew Packet);
 			p->bDiscontinuity = bDiscontinuity;
 			p->bSyncPoint = true;
 			p->rtStart = rtStart;
@@ -1108,7 +1108,7 @@ HRESULT CRMFile::Init()
 				break;
 			case 'MDPR':
 				{
-				CAutoPtr<MediaProperies> mp(new MediaProperies);
+				CAutoPtr<MediaProperies> mp(DNew MediaProperies);
 				if(S_OK != (hr = Read(mp->stream))) return hr;
 				if(S_OK != (hr = Read(mp->maxBitRate))) return hr;
 				if(S_OK != (hr = Read(mp->avgBitRate))) return hr;
@@ -1133,7 +1133,7 @@ HRESULT CRMFile::Init()
 				}
 			case 'DATA':
 				{
-				CAutoPtr<DataChunk> dc(new DataChunk);
+				CAutoPtr<DataChunk> dc(DNew DataChunk);
 				if(S_OK != (hr = Read(dc->nPackets))) return hr;
 				if(S_OK != (hr = Read(dc->ptrNext))) return hr;
 				dc->pos = GetPos();
@@ -1154,7 +1154,7 @@ HRESULT CRMFile::Init()
 					if(S_OK != (hr = Read(object_version))) return hr;
 					if(object_version == 0)
 					{
-						CAutoPtr<IndexRecord> ir(new IndexRecord);
+						CAutoPtr<IndexRecord> ir(DNew IndexRecord);
 						if(S_OK != (hr = Read(ir->tStart))) return hr;
 						if(S_OK != (hr = Read(ir->ptrFilePos))) return hr;
 						if(S_OK != (hr = Read(ir->packet))) return hr;
@@ -1483,7 +1483,7 @@ HRESULT CRealVideoDecoder::InitRV(const CMediaType* pmt)
 	if(rvi.fcc2 <= '03VR' && rvi.type2 >= 0x20200002)
 	{
 		int nWidthHeight = (1+((rvi.type1>>16)&7));
-		UINT32* pWH = new UINT32[nWidthHeight*2];
+		UINT32* pWH = DNew UINT32[nWidthHeight*2];
 		pWH[0] = rvi.w; pWH[1] = rvi.h;
 		for(int i = 2; i < nWidthHeight*2; i++)
 			pWH[i] = rvi.morewh[i-2]*4;

@@ -408,7 +408,7 @@ AP4_AtomParent::FindChild(const char* path,
             if (auto_create && (index == 0)) {
                 AP4_ContainerAtom* container = dynamic_cast<AP4_ContainerAtom*>(parent);
                 if (parent) {
-                    atom = new AP4_ContainerAtom(type, false);
+                    atom = DNew AP4_ContainerAtom(type, false);
                     container->AddChild(atom);
                 } else {
                     return NULL;

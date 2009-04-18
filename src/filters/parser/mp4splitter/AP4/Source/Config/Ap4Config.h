@@ -67,5 +67,6 @@
 #define AP4_DEBUG
 #endif
 #endif
-
+#include "../../../../../../DSUtil/SharedInclude.h"
+#include <Afx.h>
 #endif // _AP4_CONFIG_H_

@@ -43,7 +43,7 @@ COpenFileDlg::COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection, LP
 	m_fAllowDirSelection = fAllowDirSelection;
 	m_pOFN->lpstrInitialDir = lpszFileName;
 
-	m_buff = new TCHAR[10000];
+	m_buff = DNew TCHAR[10000];
 	m_buff[0] = 0;
 	m_pOFN->lpstrFile = m_buff;
 	m_pOFN->nMaxFile = 10000;

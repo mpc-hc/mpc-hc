@@ -61,7 +61,7 @@ AP4_RtpSampleData::AP4_RtpSampleData(AP4_ByteStream& stream, AP4_Size size)
 
     // packets
     for (AP4_UI16 i=0; i<packet_count; i++) {
-        AP4_RtpPacket* packet = new AP4_RtpPacket(stream);
+        AP4_RtpPacket* packet = DNew AP4_RtpPacket(stream);
         m_Packets.Add(packet);
     }
 
@@ -106,7 +106,7 @@ AP4_RtpSampleData::ToByteStream()
     AP4_Size size = GetSize();
 
     // create a memory stream
-    AP4_MemoryByteStream* stream = new AP4_MemoryByteStream(size);
+    AP4_MemoryByteStream* stream = DNew AP4_MemoryByteStream(size);
 
     // write in it
     AP4_Result result = stream->WriteUI16(static_cast<AP4_UI16>(m_Packets.ItemCount()));
@@ -619,16 +619,16 @@ AP4_RtpConstructorFactory::CreateConstructorFromStream(AP4_ByteStream& stream,
 
     switch(type) {
         case AP4_RTP_CONSTRUCTOR_TYPE_NOOP:
-            constructor = new AP4_NoopRtpConstructor(stream);
+            constructor = DNew AP4_NoopRtpConstructor(stream);
             break;
         case AP4_RTP_CONSTRUCTOR_TYPE_IMMEDIATE:
-            constructor = new AP4_ImmediateRtpConstructor(stream);
+            constructor = DNew AP4_ImmediateRtpConstructor(stream);
             break;
         case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE:
-            constructor = new AP4_SampleRtpConstructor(stream);
+            constructor = DNew AP4_SampleRtpConstructor(stream);
             break;
         case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE_DESC:
-            constructor = new AP4_SampleDescRtpConstructor(stream);
+            constructor = DNew AP4_SampleDescRtpConstructor(stream);
             break;
         default:
             return AP4_ERROR_INVALID_RTP_CONSTRUCTOR_TYPE;

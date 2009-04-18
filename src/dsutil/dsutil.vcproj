@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="dsutil"
 	ProjectGUID="{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 	RootNamespace="dsutil"
@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
 			/>
@@ -103,6 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
 				Detect64BitPortabilityProblems="false"
@@ -531,6 +533,10 @@
 			</File>
 			<File
 				RelativePath=".\NullRenderers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedInclude.h"
 				>
 			</File>
 			<File

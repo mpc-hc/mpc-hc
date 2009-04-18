@@ -57,12 +57,6 @@
 #include "stdafx.h"
 #include "sizecbar.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 /////////////////////////////////////////////////////////////////////////
 // CSizingControlBar
 
@@ -165,7 +159,7 @@ void CSizingControlBar::EnableDocking(DWORD dwDockStyle)
 
     m_dwDockStyle = dwDockStyle;
     if (m_pDockContext == NULL)
-        m_pDockContext = new CSCBDockContext(this);
+        m_pDockContext = DNew CSCBDockContext(this);
 
     // permanently wire the bar's owner to its current parent
     if (m_hWndOwner == NULL)

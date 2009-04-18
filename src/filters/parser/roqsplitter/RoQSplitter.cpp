@@ -183,7 +183,7 @@ HRESULT CRoQSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				mts.Add(mt);
 
-				CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
+				CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
 				AddOutputPin(0, pPinOut);
 			}
 
@@ -218,7 +218,7 @@ HRESULT CRoQSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				mt.lSampleSize = 1;
 				mts.Add(mt);
 
-				CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Audio", this, this, &hr));
+				CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Audio", this, this, &hr));
 				AddOutputPin(1, pPinOut);
 			}
 
@@ -275,7 +275,7 @@ bool CRoQSplitterFilter::DemuxLoop()
 	{
 		pos += sizeof(rc);
 
-		CAutoPtr<Packet> p(new Packet());
+		CAutoPtr<Packet> p(DNew Packet());
 
 		if(rc.id == 0x1002 || rc.id == 0x1011 || rc.id == 0x1020 || rc.id == 0x1021)
 		{
@@ -823,10 +823,10 @@ HRESULT CRoQVideoDecoder::StartStreaming()
 
 	int size = bih.biWidth*bih.biHeight;
 
-	m_y[0] = new BYTE[size*3/2];
+	m_y[0] = DNew BYTE[size*3/2];
 	m_u[0] = m_y[0] + size;
 	m_v[0] = m_y[0] + size*5/4;
-	m_y[1] = new BYTE[size*3/2];
+	m_y[1] = DNew BYTE[size*3/2];
 	m_u[1] = m_y[1] + size;
 	m_v[1] = m_y[1] + size*5/4;
 

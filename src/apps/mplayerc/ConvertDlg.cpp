@@ -94,7 +94,7 @@ void CConvertDlg::AddFile(CString fn)
 		UpdateData(FALSE);
 	}
 
-	CTreeItemFile* t = new CTreeItemFile(fn, pBF, m_tree, NULL);
+	CTreeItemFile* t = DNew CTreeItemFile(fn, pBF, m_tree, NULL);
 
 	AddFilter(*t, pBF);
 
@@ -195,11 +195,11 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
 
 		if(pBF == m_pMux)
 		{
-			t = new CTreeItemPin(pPin, m_tree, hTIParent);
+			t = DNew CTreeItemPin(pPin, m_tree, hTIParent);
 		}
 		else
 		{
-			t = new CTreeItemFilter(pBF, m_tree, hTIParent);
+			t = DNew CTreeItemFilter(pBF, m_tree, hTIParent);
 			AddFilter(*t, pBF);
 		}
 	}
@@ -233,7 +233,7 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
 		}
 	}
 
-	CTreeItem* t2 = new CTreeItemResourceFolder(m_tree, hTIParent);
+	CTreeItem* t2 = DNew CTreeItemResourceFolder(m_tree, hTIParent);
 	if(CComQIPtr<IDSMResourceBag> pRB = pBFParent)
 	{
 		for(DWORD i = 0, cnt = pRB->ResGetCount(); i < cnt; i++)
@@ -246,7 +246,7 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
 
 			if(len > 0)
 			{
-				m_pTIs.AddTail(new CTreeItemResource(CDSMResource(name, desc, mime, pData, len), m_tree, *t2));
+				m_pTIs.AddTail(DNew CTreeItemResource(CDSMResource(name, desc, mime, pData, len), m_tree, *t2));
 			}
 
 			CoTaskMemFree(pData);
@@ -254,7 +254,7 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
 	}
 	m_tree.Expand(*t2, TVE_EXPAND);
 
-	CTreeItem* t3 = new CTreeItemChapterFolder(m_tree, hTIParent);
+	CTreeItem* t3 = DNew CTreeItemChapterFolder(m_tree, hTIParent);
 	if(CComQIPtr<IDSMChapterBag> pCB = pBFParent)
 	{
 		for(DWORD i = 0, cnt = pCB->ChapGetCount(); i < cnt; i++)
@@ -264,7 +264,7 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
 			if(FAILED(pCB->ChapGet(i, &rt, &name)))
 				continue;
 
-			m_pTIs.AddTail(new CTreeItemChapter(CDSMChapter(rt, name), m_tree, *t3));
+			m_pTIs.AddTail(DNew CTreeItemChapter(CDSMChapter(rt, name), m_tree, *t3));
 		}
 	}
 	m_tree.Expand(*t3, TVE_EXPAND);
@@ -537,7 +537,7 @@ void CConvertDlg::ShowResourceFolderPopup(HTREEITEM hTI, CPoint p)
 					&& ERROR_SUCCESS == key.QueryStringValue(_T("Content Type"), mime, &len))
 						res.mime = mime;
 
-					CTreeItemResource* t = new CTreeItemResource(res, m_tree, hTI);
+					CTreeItemResource* t = DNew CTreeItemResource(res, m_tree, hTI);
 					m_pTIs.AddTail(t);
 
 					if(EditResource(t))
@@ -698,7 +698,7 @@ void CConvertDlg::ShowChapterFolderPopup(HTREEITEM hTI, CPoint p)
 	case 1:
 		{
 			CDSMChapter chap;
-			CTreeItemChapter* t = new CTreeItemChapter(CDSMChapter(0, L""), m_tree, hTI);
+			CTreeItemChapter* t = DNew CTreeItemChapter(CDSMChapter(0, L""), m_tree, hTI);
 			m_pTIs.AddTail(t);
 			if(!EditChapter(t)) 
 				DeleteItem(*t);
@@ -803,9 +803,9 @@ BOOL CConvertDlg::OnInitDialog()
 	m_nIDEventStatus = SetTimer(1, 1000, NULL);
 
 	HRESULT hr;
-	m_pMux = new CDSMMuxerFilter(NULL, &hr, false, false);
+	m_pMux = DNew CDSMMuxerFilter(NULL, &hr, false, false);
 
-	m_pGB = new CFGManagerMuxer(_T("CFGManagerMuxer"), NULL);
+	m_pGB = DNew CFGManagerMuxer(_T("CFGManagerMuxer"), NULL);
 	m_pGB->AddToROT();
 
 	if(FAILED(m_pGB->AddFilter(m_pMux, L"Mux"))

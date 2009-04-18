@@ -85,7 +85,7 @@ CAsyncOutputPin::InitAllocator(IMemAllocator **ppAlloc)
     CMemAllocator *pMemObject = NULL;
 
     /* Create a default memory allocator */
-    pMemObject = new CMemAllocator(NAME("Base memory allocator"),NULL, &hr);
+    pMemObject = DNew CMemAllocator(NAME("Base memory allocator"),NULL, &hr);
     if (pMemObject == NULL) {
     	return E_OUTOFMEMORY;
     }

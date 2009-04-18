@@ -121,7 +121,7 @@ namespace ssf
 		{
 			SegmentItem& si = sis.GetNext(pos);
 
-			CAutoPtr<Subtitle> s(new Subtitle(this));
+			CAutoPtr<Subtitle> s(DNew Subtitle(this));
 
 			if(s->Parse(si.pDef, si.start, si.stop, at))
 			{

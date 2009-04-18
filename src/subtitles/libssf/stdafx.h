@@ -25,6 +25,7 @@
 //
 
 #pragma once
+#include "..\..\DSUtil\SharedInclude.h"
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.

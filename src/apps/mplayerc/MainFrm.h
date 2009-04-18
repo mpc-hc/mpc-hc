@@ -197,6 +197,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CComPtr<IAMDroppedFrames> pAMDF;
 
 	CComPtr<ISubPicAllocatorPresenter> m_pCAP;
+	CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
 
 	void SetBalance(int balance);
 
@@ -360,6 +361,8 @@ protected:
 	void SendNowPlayingToMSN();
 	void SendNowPlayingTomIRC();
 
+	CWnd *GetModalParent();
+
 	void OpenCreateGraphObject(OpenMediaData* pOMD);
 	void OpenFile(OpenFileData* pOFD);
 	void OpenDVD(OpenDVDData* pODD);
@@ -413,6 +416,7 @@ public:
 
 	// shaders
 	CAtlList<CString> m_shaderlabels;
+	CAtlList<CString> m_shaderlabelsScreenSpace;
 	void SetShaders();
 	void UpdateShaders(CString label);
 
@@ -640,8 +644,46 @@ public:
 	afx_msg void OnViewTearingTest();
 	afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
 	afx_msg void OnViewDisplayStats();
+	afx_msg void OnViewDisplayStatsSC();
+	afx_msg void OnUpdateViewVSync(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewVSyncOffset(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewFlushGPU(CCmdUI* pCmdUI);
+
+	afx_msg void OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI);
+
+	afx_msg void OnUpdateViewEVROutputRange(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewHighColorResolution(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI);
+	afx_msg void OnViewVSync();
+	afx_msg void OnViewVSyncAccurate();
+	afx_msg void OnViewEVROutputRange_0_255();
+	afx_msg void OnViewEVROutputRange_16_235();
+
+	afx_msg void OnViewFlushGPUBeforeVSync();
+	afx_msg void OnViewFlushGPUAfterVSync();
+	afx_msg void OnViewFlushGPUWait();
+
+	afx_msg void OnViewD3DFullScreen();
+	afx_msg void OnViewDisableDesktopComposition();
+	afx_msg void OnViewAlternativeVSync();
+	afx_msg void OnViewResetDefault();
+	afx_msg void OnViewResetOptimal();
+
+	afx_msg void OnViewFullscreenGUISupport();
+	afx_msg void OnViewHighColorResolution();
+	afx_msg void OnViewEnableFrameTimeCorrection();
+	afx_msg void OnViewVSyncOffsetIncrease();
+	afx_msg void OnViewVSyncOffsetDecrease();
 	afx_msg void OnUpdateShaderToggle(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateShaderToggleScreenSpace(CCmdUI* pCmdUI);
 	afx_msg void OnShaderToggle();
+	afx_msg void OnShaderToggleScreenSpace();
 	afx_msg void OnUpdateViewRemainingTime(CCmdUI* pCmdUI);
 	afx_msg void OnViewRemainingTime();
 	afx_msg void OnD3DFullscreenToggle();
@@ -739,6 +781,8 @@ public:
 	__int64				m_rtCurSubPos;
 	CString				m_strTitle;
 	bool				m_bToggleShader;
+	bool				m_bToggleShaderScreenSpace;
+	bool				m_bInOptions;
 
 	void		SetLoadState(MPC_LOADSTATE iState);
 	void		SetPlayState(MPC_PLAYSTATE iState);

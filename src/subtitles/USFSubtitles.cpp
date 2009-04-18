@@ -271,7 +271,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 				1;
 		}
 
-		STSStyle* stss = new STSStyle;
+		STSStyle* stss = DNew STSStyle;
 		if(!stss) continue;
 
 		if(!s->pal.horizontal_margin.IsEmpty())
@@ -418,7 +418,7 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
 
 					if(name == L"style")
 					{
-						CAutoPtr<style_t> s(new style_t);
+						CAutoPtr<style_t> s(DNew style_t);
 						if(s)
 						{
 							ParseStyle(pGrandChild, s);
@@ -445,7 +445,7 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
 
 					if(name == L"effect")
 					{
-						CAutoPtr<effect_t> e(new effect_t);
+						CAutoPtr<effect_t> e(DNew effect_t);
 						if(e)
 						{
 							ParseEffect(pGrandChild, e);
@@ -625,7 +625,7 @@ void CUSFSubtitles::ParseEffect(CComPtr<IXMLDOMNode> pNode, effect_t* e)
 
 			if(name == L"keyframe")
 			{
-				CAutoPtr<keyframe_t> k(new keyframe_t);
+				CAutoPtr<keyframe_t> k(DNew keyframe_t);
 				if(k)
 				{
 					ParseKeyframe(pChild, k);
@@ -671,7 +671,7 @@ void CUSFSubtitles::ParseSubtitle(CComPtr<IXMLDOMNode> pNode, int start, int sto
 
 	if(name == L"text" || name == L"karaoke")
 	{
-		CAutoPtr<text_t> t(new text_t);
+		CAutoPtr<text_t> t(DNew text_t);
 		if(t)
 		{
 			t->start = start;

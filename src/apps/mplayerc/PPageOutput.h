@@ -51,12 +51,13 @@ public:
 	int m_iAPSurfaceUsage;
 	int m_iAudioRendererType;
 	CComboBox m_iAudioRendererTypeCtrl;
-	BOOL m_fVMRSyncFix;
+//	BOOL m_fVMRSyncFix;
 	int m_iDX9Resizer;
 	BOOL m_fVMR9MixerMode;
 	BOOL m_fVMR9MixerYUV;
 	BOOL m_fD3DFullscreen;
-	int m_iEvrBuffers;
+	BOOL m_fVMR9AlterativeVSync;
+	CString m_iEvrBuffers;
 
 	int m_iMonitorType;
 	CComboBox m_iMonitorTypeCtrl;

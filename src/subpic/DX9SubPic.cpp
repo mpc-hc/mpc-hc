@@ -28,8 +28,8 @@
 // CDX9SubPic
 //
 
-CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface)
-	: m_pSurface(pSurface)
+CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator)
+	: m_pSurface(pSurface), m_pAllocator(pAllocator)
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
@@ -39,6 +39,29 @@ CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface)
 		m_rcDirty.SetRect(0, 0, d3dsd.Width, d3dsd.Height);
 	}
 }
+
+CDX9SubPic::~CDX9SubPic()
+{
+	{
+		CAutoLock Lock(&CDX9SubPicAllocator::ms_SurfaceQueueLock);
+		// Add surface to cache
+		if (m_pAllocator)
+		{
+			for (POSITION pos = m_pAllocator->m_AllocatedSurfaces.GetHeadPosition(); pos; )
+			{
+				POSITION ThisPos = pos;
+				CDX9SubPic *pSubPic = m_pAllocator->m_AllocatedSurfaces.GetNext(pos);
+				if (pSubPic == this)
+				{
+					m_pAllocator->m_AllocatedSurfaces.RemoveAt(ThisPos);
+					break;
+				}
+			}
+			m_pAllocator->m_FreeSurfaces.AddTail(m_pSurface);
+		}
+	}
+}
+
 
 // ISubPic
 
@@ -85,7 +108,7 @@ STDMETHODIMP CDX9SubPic::CopyTo(ISubPic* pSubPic)
 		return E_FAIL;
 
 	hr = pD3DDev->UpdateTexture((IDirect3DTexture9*)GetObject(), (IDirect3DTexture9*)pSubPic->GetObject());
-	ASSERT (SUCCEEDED (hr));
+//	ASSERT (SUCCEEDED (hr));
 
 	return SUCCEEDED(hr) ? S_OK : E_FAIL;
 }
@@ -150,7 +173,7 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 
 	D3DLOCKED_RECT LockedRect;
 	ZeroMemory(&LockedRect, sizeof(LockedRect));
-	if(FAILED(m_pSurface->LockRect(&LockedRect, NULL, 0)))
+	if(FAILED(m_pSurface->LockRect(&LockedRect, NULL, D3DLOCK_NO_DIRTY_UPDATE|D3DLOCK_NOSYSLOCK)))
 		return E_FAIL;
 
 	spd.type = 0;
@@ -184,6 +207,10 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 	{
 		m_rcDirty = CRect(CPoint(0, 0), m_size);
 	}
+
+	CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
+	if (pTexture)
+		pTexture->AddDirtyRect(&m_rcDirty);
 
 	return S_OK;
 }
@@ -274,13 +301,13 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
         hr = pD3DDev->SetPixelShader(NULL);
 
-		if(FAILED(hr = pD3DDev->BeginScene()))
-			break;
+//		if(FAILED(hr = pD3DDev->BeginScene()))
+//			break;
 
         hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
-		hr = pD3DDev->EndScene();
+//		hr = pD3DDev->EndScene();
 
         //
 
@@ -310,10 +337,42 @@ CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize
 	m_maxsize = maxsize;
 }
 
+CCritSec CDX9SubPicAllocator::ms_SurfaceQueueLock;
+
+
+CDX9SubPicAllocator::~CDX9SubPicAllocator()
+{
+	ClearCache();
+}
+
+
+void CDX9SubPicAllocator::GetStats(int &_nFree, int &_nAlloc)
+{
+	CAutoLock Lock(&ms_SurfaceQueueLock);
+	_nFree = m_FreeSurfaces.GetCount();
+	_nAlloc = m_AllocatedSurfaces.GetCount();
+}
+
+void CDX9SubPicAllocator::ClearCache()
+{
+	{
+		// Clear the allocator of any remaining subpics
+		CAutoLock Lock(&ms_SurfaceQueueLock);
+		for (POSITION pos = m_AllocatedSurfaces.GetHeadPosition(); pos; )
+		{
+			CDX9SubPic *pSubPic = m_AllocatedSurfaces.GetNext(pos);
+			pSubPic->m_pAllocator = NULL;
+		}
+		m_AllocatedSurfaces.RemoveAll();
+		m_FreeSurfaces.RemoveAll();
+	}
+}
+
 // ISubPicAllocator
 
 STDMETHODIMP CDX9SubPicAllocator::ChangeDevice(IUnknown* pDev)
 {
+	ClearCache();
 	CComQIPtr<IDirect3DDevice9> pD3DDev = pDev;
 	if(!pD3DDev) return E_NOINTERFACE;
 
@@ -325,6 +384,7 @@ STDMETHODIMP CDX9SubPicAllocator::ChangeDevice(IUnknown* pDev)
 
 STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
 {
+	ClearCache();
 	m_maxsize	= MaxTextureSize;
 	SetCurSize(MaxTextureSize);
 	return S_OK;
@@ -352,18 +412,37 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 		while(Width < m_maxsize.cx) Width <<= 1;
 		while(Height < m_maxsize.cy) Height <<= 1;
 	}
+	if (!fStatic)
+	{
+		CAutoLock cAutoLock(&ms_SurfaceQueueLock);
+		POSITION FreeSurf = m_FreeSurfaces.GetHeadPosition();
+		if (FreeSurf)
+		{
+			pSurface = m_FreeSurfaces.GetHead();
+			m_FreeSurfaces.RemoveHead();
+		}
+	}
 
-	CComPtr<IDirect3DTexture9> pTexture;
-	if(FAILED(m_pD3DDev->CreateTexture(Width, Height, 1, 0, D3DFMT_A8R8G8B8, fStatic?D3DPOOL_SYSTEMMEM:D3DPOOL_DEFAULT, &pTexture, NULL)))
-		return(false);
+	if (!pSurface)
+	{
+		CComPtr<IDirect3DTexture9> pTexture;
+		if(FAILED(m_pD3DDev->CreateTexture(Width, Height, 1, 0, D3DFMT_A8R8G8B8, fStatic?D3DPOOL_SYSTEMMEM:D3DPOOL_DEFAULT, &pTexture, NULL)))
+			return(false);
 
-	if(FAILED(pTexture->GetSurfaceLevel(0, &pSurface)))
-		return(false);
+		if(FAILED(pTexture->GetSurfaceLevel(0, &pSurface)))
+			return(false);
+	}
 
-	if(!(*ppSubPic = new CDX9SubPic(pSurface)))
+	if(!(*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this)))
 		return(false);
 
 	(*ppSubPic)->AddRef();
+
+	if (!fStatic)
+	{
+		CAutoLock cAutoLock(&ms_SurfaceQueueLock);
+		m_AllocatedSurfaces.AddHead((CDX9SubPic *)*ppSubPic);
+	}
 
 	return(true);
 }

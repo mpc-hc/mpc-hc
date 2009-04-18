@@ -92,7 +92,7 @@ BOOL CSaveDlg::OnInitDialog()
 	if(!pReader && m_in.Mid(m_in.ReverseFind('.')+1).MakeLower() == _T("cda"))
 	{
 		hr = S_OK;
-		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)new CCDDAReader(NULL, &hr);
+		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CCDDAReader(NULL, &hr);
 		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL)))
 			pReader.Release();
 	}
@@ -102,7 +102,7 @@ BOOL CSaveDlg::OnInitDialog()
 	if(!pReader)
 	{
 		hr = S_OK;
-		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)new CCDXAReader(NULL, &hr);
+		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CCDXAReader(NULL, &hr);
 		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL)))
 			pReader.Release();
 	}
@@ -112,7 +112,7 @@ BOOL CSaveDlg::OnInitDialog()
 	if(!pReader /*&& ext == _T("ifo")*/)
 	{
 		hr = S_OK;
-		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)new CVTSReader(NULL, &hr);
+		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CVTSReader(NULL, &hr);
 		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL)))
 			pReader.Release();
 		else
@@ -156,7 +156,7 @@ BOOL CSaveDlg::OnInitDialog()
 		return FALSE;
 	}
 
-	CComQIPtr<IBaseFilter> pMid = new CStreamDriveThruFilter(NULL, &hr);
+	CComQIPtr<IBaseFilter> pMid = DNew CStreamDriveThruFilter(NULL, &hr);
 	if(FAILED(pGB->AddFilter(pMid, L"StreamDriveThru")))
 	{
 		m_report.SetWindowText(_T("Error"));

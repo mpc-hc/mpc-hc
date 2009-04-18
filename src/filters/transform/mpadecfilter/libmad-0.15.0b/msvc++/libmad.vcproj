@@ -43,11 +43,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="FPM_DEFAULT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libmad.pch"
 				AssemblerOutput="0"
+				WarningLevel="1"
 				CompileAs="0"
 			/>
 			<Tool
@@ -114,6 +116,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug\libmad.pch"
 				AssemblerOutput="0"
+				WarningLevel="1"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
@@ -177,6 +180,7 @@
 				PreprocessorDefinitions="NDEBUG;FPM_INTEL;WIN32;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libmad.pch"
+				WarningLevel="1"
 				CompileAs="0"
 				DisableSpecificWarnings="4244"
 			/>
@@ -243,6 +247,7 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG;FPM_INTEL;FPM_64BIT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libmad.pch"
+				WarningLevel="1"
 				CompileAs="0"
 			/>
 			<Tool

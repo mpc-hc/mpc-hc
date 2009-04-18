@@ -51,7 +51,7 @@ AP4_DataBuffer::AP4_DataBuffer(AP4_Size buffer_size) :
     m_BufferSize(buffer_size),
     m_DataSize(0)
 {
-    m_Buffer = new AP4_Byte[buffer_size];
+    m_Buffer = DNew AP4_Byte[buffer_size];
 }
 
 /*----------------------------------------------------------------------
@@ -63,7 +63,7 @@ AP4_DataBuffer::AP4_DataBuffer(const AP4_DataBuffer& other) :
     m_BufferSize(other.m_DataSize),
     m_DataSize(other.m_DataSize)
 {
-    m_Buffer = new AP4_Byte[m_BufferSize];
+    m_Buffer = DNew AP4_Byte[m_BufferSize];
     memcpy(m_Buffer, other.m_Buffer, m_BufferSize);
 }
 
@@ -159,7 +159,7 @@ AP4_DataBuffer::ReallocateBuffer(AP4_Size size)
     if (m_DataSize > size) return AP4_FAILURE;
 
     // allocate a new buffer
-    AP4_Byte* new_buffer = new AP4_Byte[size];
+    AP4_Byte* new_buffer = DNew AP4_Byte[size];
 
     // copy the contents of the previous buffer ,is any
 	if (m_Buffer && m_DataSize) {

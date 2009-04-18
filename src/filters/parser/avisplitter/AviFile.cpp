@@ -188,7 +188,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				if(S_OK != Read(m_avih, 8)) return E_FAIL;
 				break;
 			case FCC('strh'):
-				if(!strm) strm.Attach(new strm_t());
+				if(!strm) strm.Attach(DNew strm_t());
 				strm->strh.fcc = FCC('strh');
 				strm->strh.cb = size;
 				if(S_OK != Read(strm->strh, 8)) return E_FAIL;
@@ -204,7 +204,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				if(S_OK != ByteRead((BYTE*)strm->strn.GetBufferSetLength(size), size)) return E_FAIL;
 				break;
 			case FCC('strf'):
-				if(!strm) strm.Attach(new strm_t());
+				if(!strm) strm.Attach(DNew strm_t());
 				strm->strf.SetCount(size);
 				if(S_OK != ByteRead(strm->strf.GetData(), size)) return E_FAIL;
 				if (m_isamv)
@@ -226,7 +226,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 
 				break;
 			case FCC('indx'):
-				if(!strm) strm.Attach(new strm_t());
+				if(!strm) strm.Attach(DNew strm_t());
 				ASSERT(strm->indx == NULL);
 				AVISUPERINDEX*	pSuperIndex;
 				if (size < MAXDWORD-8)
@@ -234,7 +234,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 					// Fix buffer overrun vulnerability : http://www.vulnhunt.com/advisories/CAL-20070912-1_Multiple_vendor_produce_handling_AVI_file_vulnerabilities.txt
 					TRY
 					{
-						pSuperIndex = (AVISUPERINDEX*)new unsigned char [(size_t)(size + 8)];
+						pSuperIndex = (AVISUPERINDEX*)DNew unsigned char [(size_t)(size + 8)];
 					}
 					CATCH (CMemoryException, e)
 					{
@@ -259,7 +259,7 @@ HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 				break;
 			case FCC('idx1'):
 				ASSERT(m_idx1 == NULL);
-				m_idx1.Attach((AVIOLDINDEX*)new BYTE[size + 8]);
+				m_idx1.Attach((AVIOLDINDEX*)DNew BYTE[size + 8]);
 				m_idx1->fcc = FCC('idx1');
 				m_idx1->cb = size;
 				if(S_OK != ByteRead((BYTE*)(AVIOLDINDEX*)m_idx1 + 8, size)) return E_FAIL;
@@ -345,7 +345,7 @@ HRESULT CAviFile::BuildIndex()
 			{
 				Seek(idx->aIndex[j].qwOffset);
 
-				CAutoPtr<AVISTDINDEX> p((AVISTDINDEX*)new BYTE[idx->aIndex[j].dwSize]);
+				CAutoPtr<AVISTDINDEX> p((AVISTDINDEX*)DNew BYTE[idx->aIndex[j].dwSize]);
 				if(!p || S_OK != ByteRead((BYTE*)(AVISTDINDEX*)p, idx->aIndex[j].dwSize)) 
 				{
 					EmptyIndex();
@@ -461,8 +461,8 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 	for(int i = 0; i < (int)m_avih.dwStreams; i++)
 		m_strms[i]->cs2.SetCount(m_strms[i]->cs.GetCount());
 
-	DWORD* curchunks = new DWORD[m_avih.dwStreams];
-	UINT64* cursizes = new UINT64[m_avih.dwStreams];
+	DWORD* curchunks = DNew DWORD[m_avih.dwStreams];
+	UINT64* cursizes = DNew UINT64[m_avih.dwStreams];
 
 	memset(curchunks, 0, sizeof(DWORD)*m_avih.dwStreams);
 	memset(cursizes, 0, sizeof(UINT64)*m_avih.dwStreams);

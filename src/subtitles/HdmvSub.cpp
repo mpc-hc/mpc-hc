@@ -67,7 +67,7 @@ void CHdmvSub::AllocSegment(int nSize)
 	if (nSize > m_nTotalSegBuffer)
 	{
 		delete[] m_pSegBuffer;
-		m_pSegBuffer		= new BYTE[nSize];
+		m_pSegBuffer		= DNew BYTE[nSize];
 		m_nTotalSegBuffer	= nSize;
 	}
 	m_nSegBufferPos	 = 0;
@@ -207,7 +207,7 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 	if (nObjectNumber > 0)
 	{
 		delete m_pCurrentObject;
-		m_pCurrentObject = new CompositionObject();
+		m_pCurrentObject = DNew CompositionObject();
 		ParseCompositionObject (pGBuffer, m_pCurrentObject);
 	}
 
@@ -410,7 +410,7 @@ void CHdmvSub::CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalet
 void CHdmvSub::CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
 {
 	delete[] m_pRLEData;
-	m_pRLEData		= new BYTE[nTotalSize];
+	m_pRLEData		= DNew BYTE[nTotalSize];
 	m_nRLEDataSize	= nTotalSize;
 	m_nRLEPos		= nSize;
 

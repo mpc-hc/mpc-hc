@@ -140,7 +140,7 @@ inline
 AP4_Result
 AP4_List<T>::Add(T* data)
 {
-    return Add(new Item(data));
+    return Add(DNew Item(data));
 }
 
 /*----------------------------------------------------------------------
@@ -225,7 +225,7 @@ template <typename T>
 AP4_Result
 AP4_List<T>::Insert(Item* where, T* data)
 {
-    Item* item = new Item(data);
+    Item* item = DNew Item(data);
 
     if (where == NULL) {
         // insert as the head

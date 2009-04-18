@@ -27,9 +27,10 @@
 
 // CShaderCombineDlg dialog
 
-CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent /*=NULL*/)
+CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent , bool bScreenSpace)
 	: CResizableDialog(CShaderCombineDlg::IDD, pParent)
 	, m_labels(labels)
+	, m_bScreenSpace(bScreenSpace)
 {
 }
 
@@ -69,7 +70,11 @@ BOOL CShaderCombineDlg::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	CString str = s.m_shadercombine.Trim();
+	CString str;
+	if (m_bScreenSpace)
+		str = s.m_shadercombineScreenSpace.Trim();
+	else
+		str = s.m_shadercombine.Trim();
 
 	CAtlList<CString> sl;
 	if(!str.IsEmpty()) Explode(str, sl, '|');
@@ -99,7 +104,10 @@ void CShaderCombineDlg::OnOK()
 		m_labels.AddTail(label);
 	}
 
-	AfxGetAppSettings().m_shadercombine = Implode(sl, '|');
+	if (m_bScreenSpace)
+		AfxGetAppSettings().m_shadercombineScreenSpace = Implode(sl, '|');
+	else
+		AfxGetAppSettings().m_shadercombine = Implode(sl, '|');
 
 	__super::OnOK();
 }

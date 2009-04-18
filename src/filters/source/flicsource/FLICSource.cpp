@@ -118,7 +118,7 @@ STDMETHODIMP CFLICSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 		return VFW_E_ALREADY_CONNECTED;
 
 	HRESULT hr = S_OK;
-	if(!(new CFLICStream(pszFileName, this, &hr)))
+	if(!(DNew CFLICStream(pszFileName, this, &hr)))
 		return E_OUTOFMEMORY;
 
 	if(FAILED(hr))
@@ -159,7 +159,7 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 
 	CString fn(wfn);
 
-	if(!m_flic.Open(fn, CFile::modeRead|CFile::shareDenyWrite))
+	if(!m_flic.Open(fn, CFile::modeRead|CFile::shareDenyNone))
 	{
 		if(phr) *phr = E_FAIL;
 		return;

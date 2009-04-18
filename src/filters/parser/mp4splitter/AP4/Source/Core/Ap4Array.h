@@ -89,7 +89,7 @@ AP4_Array<T>::EnsureCapacity(AP4_Cardinal count)
     }
 
     // (re)allocate the items
-    T* new_items = new T[new_count];
+    T* new_items = DNew T[new_count];
     if (new_items == NULL) {
         return AP4_ERROR_OUT_OF_MEMORY;
     }

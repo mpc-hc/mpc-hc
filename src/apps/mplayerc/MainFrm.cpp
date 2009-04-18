@@ -140,13 +140,6 @@ bool m_PlayListBarVisible = false;
 
 bool m_Change_Monitor = false;
 
-/*
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-*/
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -319,8 +312,52 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAYSTATS, OnUpdateViewDisplayStats)
 	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStats)
+	ON_COMMAND(ID_VIEW_DISPLAYSTATS_SC, OnViewDisplayStatsSC)	
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREENGUISUPPORT, OnUpdateViewFullscreenGUISupport)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_HIGHCOLORRESOLUTION, OnUpdateViewHighColorResolution)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnUpdateViewEnableFrameTimeCorrection)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNC, OnUpdateViewVSync)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET, OnUpdateViewVSyncOffset)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCACCURATE, OnUpdateViewVSyncAccurate)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_0_255, OnUpdateViewEVROutputRange)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_16_235, OnUpdateViewEVROutputRange)
+
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FLUSHGPU_BEFOREVSYNC, OnUpdateViewFlushGPU)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FLUSHGPU_AFTERPRESENT, OnUpdateViewFlushGPU)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FLUSHGPU_WAIT, OnUpdateViewFlushGPU)
+
+	ON_UPDATE_COMMAND_UI(ID_VIEW_D3DFULLSCREEN, OnUpdateViewD3DFullscreen)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_DISABLEDESKTOPCOMPOSITION, OnUpdateViewDisableDesktopComposition)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_ALTERNATIVEVSYNC, OnUpdateViewAlternativeVSync)
+
+
+	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_INCREASE, OnUpdateViewVSyncOffsetIncrease)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_DECREASE, OnUpdateViewVSyncOffsetDecrease)
+	ON_COMMAND(ID_VIEW_FULLSCREENGUISUPPORT, OnViewFullscreenGUISupport)
+	ON_COMMAND(ID_VIEW_HIGHCOLORRESOLUTION, OnViewHighColorResolution)
+	ON_COMMAND(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnViewEnableFrameTimeCorrection)
+	ON_COMMAND(ID_VIEW_VSYNC, OnViewVSync)
+	ON_COMMAND(ID_VIEW_VSYNCACCURATE, OnViewVSyncAccurate)
+
+	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_0_255, OnViewEVROutputRange_0_255)
+	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_16_235, OnViewEVROutputRange_16_235)
+
+	ON_COMMAND(ID_VIEW_FLUSHGPU_BEFOREVSYNC, OnViewFlushGPUBeforeVSync)
+	ON_COMMAND(ID_VIEW_FLUSHGPU_AFTERPRESENT, OnViewFlushGPUAfterVSync)
+	ON_COMMAND(ID_VIEW_FLUSHGPU_WAIT, OnViewFlushGPUWait)
+
+	ON_COMMAND(ID_VIEW_D3DFULLSCREEN, OnViewD3DFullScreen)
+	ON_COMMAND(ID_VIEW_DISABLEDESKTOPCOMPOSITION, OnViewDisableDesktopComposition)
+	ON_COMMAND(ID_VIEW_ALTERNATIVEVSYNC, OnViewAlternativeVSync)
+	ON_COMMAND(ID_VIEW_RESET_DEFAULT, OnViewResetDefault)
+	ON_COMMAND(ID_VIEW_RESET_OPTIMAL, OnViewResetOptimal)
+
+	ON_COMMAND(ID_VIEW_VSYNCOFFSET_INCREASE, OnViewVSyncOffsetIncrease)
+	ON_COMMAND(ID_VIEW_VSYNCOFFSET_DECREASE, OnViewVSyncOffsetDecrease)
 	ON_UPDATE_COMMAND_UI(ID_SHADER_TOGGLE, OnUpdateShaderToggle)
 	ON_COMMAND(ID_SHADER_TOGGLE, OnShaderToggle)
+	ON_UPDATE_COMMAND_UI(ID_SHADER_TOGGLESCREENSPACE, OnUpdateShaderToggleScreenSpace)
+	ON_COMMAND(ID_SHADER_TOGGLESCREENSPACE, OnShaderToggleScreenSpace)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_REMAINING_TIME, OnUpdateViewRemainingTime)
 	ON_COMMAND(ID_VIEW_REMAINING_TIME, OnViewRemainingTime)
 	ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
@@ -442,7 +479,9 @@ CMainFrame::CMainFrame() :
 	m_lSubtitleShift(0),
 	m_bToggleShader(false),
 	m_nStepForwardCount(0),
-	m_rtStepForwardStart(0)
+	m_rtStepForwardStart(0),
+	m_bToggleShaderScreenSpace(false),
+	m_bInOptions(false)
 {
 	m_Lcd.SetVolumeRange(1, 100);
 }
@@ -483,7 +522,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	m_pFullscreenWnd	= new CFullscreenWnd(this);
+	m_pFullscreenWnd	= DNew CFullscreenWnd(this);
 
 	m_bars.AddTail(&m_wndSeekBar);
 	m_bars.AddTail(&m_wndToolBar);
@@ -551,16 +590,30 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		StartWebServer(s.nWebServerPort);
 
 	// Casimir666 : rechargement des Shaders
-	CString		strList = AfxGetAppSettings().strShaderList;
-	CString		strRes;
-	int			curPos= 0;
-	
-	strRes = strList.Tokenize (_T("|"), curPos);
-	while (strRes != _T(""))
 	{
-		m_shaderlabels.AddTail (strRes);
-		strRes = strList.Tokenize(_T("|"),curPos);
-	};	
+		CString		strList = AfxGetAppSettings().strShaderList;
+		CString		strRes;
+		int			curPos= 0;
+		
+		strRes = strList.Tokenize (_T("|"), curPos);
+		while (strRes != _T(""))
+		{
+			m_shaderlabels.AddTail (strRes);
+			strRes = strList.Tokenize(_T("|"),curPos);
+		}
+	}	
+	{
+		CString		strList = AfxGetAppSettings().strShaderListScreenSpace;
+		CString		strRes;
+		int			curPos= 0;
+		
+		strRes = strList.Tokenize (_T("|"), curPos);
+		while (strRes != _T(""))
+		{
+			m_shaderlabelsScreenSpace.AddTail (strRes);
+			strRes = strList.Tokenize(_T("|"),curPos);
+		}
+	}	
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
@@ -599,16 +652,30 @@ void CMainFrame::OnDestroy()
 void CMainFrame::OnClose()
 {
 	// Casimir666 : sauvegarde de la liste des shaders
-	POSITION	pos;
-	CString		strList = "";
-		
-	pos = m_shaderlabels.GetHeadPosition();
-	while(pos)
 	{
-		strList += m_shaderlabels.GetAt (pos) + "|";
-		m_dockingbars.GetNext(pos);
+		POSITION	pos;
+		CString		strList = "";
+			
+		pos = m_shaderlabels.GetHeadPosition();
+		while(pos)
+		{
+			strList += m_shaderlabels.GetAt (pos) + "|";
+			m_dockingbars.GetNext(pos);
+		}
+		AfxGetAppSettings().strShaderList = strList;
 	}
-	AfxGetAppSettings().strShaderList = strList;
+	{
+		POSITION	pos;
+		CString		strList = "";
+			
+		pos = m_shaderlabelsScreenSpace.GetHeadPosition();
+		while(pos)
+		{
+			strList += m_shaderlabelsScreenSpace.GetAt (pos) + "|";
+			m_dockingbars.GetNext(pos);
+		}
+		AfxGetAppSettings().strShaderListScreenSpace = strList;
+	}
 
 	m_wndPlaylistBar.SavePlaylist();
 
@@ -810,7 +877,7 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 			POINT p;
 			GetCursorPos(&p);
 			SetForegroundWindow();
-			m_popupmain.GetSubMenu(0)->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, p.x, p.y, this);
+			m_popupmain.GetSubMenu(0)->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, p.x, p.y, GetModalParent());
 			PostMessage(WM_NULL);
 			break; 
 		}
@@ -1447,7 +1514,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 		m_wndSubresyncBar.SetTime(pos);
 
-		if(m_pCAP && GetMediaState() == State_Paused) m_pCAP->Paint(true);
+		if(m_pCAP && GetMediaState() == State_Paused) 
+			m_pCAP->Paint(false);
 	}
 	else if(nIDEvent == TIMER_FULLSCREENCONTROLBARHIDER)
 	{
@@ -1477,7 +1545,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 		if (m_pFullscreenWnd->IsWindow())
 		{
 			TRACE ("==> HIDE!\n");
-			m_pFullscreenWnd->ShowCursor(false);
+			if (!m_bInOptions)
+				m_pFullscreenWnd->ShowCursor(false);
 			KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 		}
 		else
@@ -2189,7 +2258,9 @@ BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
 
 	CRect r;
 	if (m_pFullscreenWnd->IsWindow())
+	{
 		m_pFullscreenWnd->GetClientRect(r);
+	}
 	else
 	{
 		m_wndView.GetClientRect(r);
@@ -2726,6 +2797,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 	KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 	m_fHideCursor = false;
 
+	CWnd *pModalParent = GetModalParent();
 	CPoint point;
 	GetCursorPos(&point);
 
@@ -2736,7 +2808,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
 void CMainFrame::OnMenuPlayerShort()
 {
-	if(IsCaptionMenuHidden())
+	if(IsCaptionMenuHidden() || m_pFullscreenWnd->IsWindow())
 	{
 		OnMenu(m_popupmain.GetSubMenu(0));
 	}
@@ -3358,10 +3430,9 @@ void CMainFrame::OnFileOpenQuick()
 	CString filter;
 	CAtlArray<CString> mask;
 	AfxGetAppSettings().Formats.GetFilter(filter, mask);
-
 	COpenFileDlg fd(mask, true, NULL, NULL, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY, 
-		filter, this);
+		filter, GetModalParent());
 	if(fd.DoModal() != IDOK) return;
 
 	CAtlList<CString> fns;
@@ -3525,7 +3596,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 		fSetForegroundWindow = true;
 
-		CAutoPtr<OpenDVDData> p(new OpenDVDData());
+		CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 		if(p) {p->path = s.slFiles.GetHead(); p->subs.AddTailList(&s.slSubs);}
 		OpenMedia(p);
 	}
@@ -3625,7 +3696,7 @@ void CMainFrame::OnFileOpendvd()
 
 	ShowWindow(SW_SHOW);
 
-	CAutoPtr<OpenDVDData> p(new OpenDVDData());
+	CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 	if(p)
 	{
         AppSettings& s = AfxGetAppSettings();
@@ -3668,7 +3739,7 @@ void CMainFrame::OnFileOpendvd()
 		}
 		else
 		{
-			CAutoPtr<OpenDVDData> p(new OpenDVDData());
+			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			p->path = path;
 			p->path.Replace('/', '\\');
 			if(p->path[p->path.GetLength()-1] != '\\') p->path += '\\';
@@ -3693,7 +3764,7 @@ void CMainFrame::OnFileOpendevice()
 
 	m_wndPlaylistBar.Empty();
 
-	CAutoPtr<OpenDeviceData> p(new OpenDeviceData());
+	CAutoPtr<OpenDeviceData> p(DNew OpenDeviceData());
 	if(p) {p->DisplayName[0] = capdlg.m_vidstr; p->DisplayName[1] = capdlg.m_audstr;}
 	OpenMedia(p);
 }
@@ -3791,7 +3862,7 @@ void CMainFrame::OnFileSaveAs()
 
 	CFileDialog fd(FALSE, 0, out, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-		ResStr(IDS_MAINFRM_48), this, 0); 
+		ResStr(IDS_MAINFRM_48), GetModalParent(), 0); 
 	if(fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) return;
 
 	CPath p(fd.GetPathName());
@@ -3865,7 +3936,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			hr = m_pCAP->GetDIB(NULL, (DWORD*)&size);
 			if(FAILED(hr)) {errmsg.Format(ResStr(IDS_MAINFRM_49), hr); break;}
 
-			if(!(*ppData = new BYTE[size])) return false;
+			if(!(*ppData = DNew BYTE[size])) return false;
 
 			hr = m_pCAP->GetDIB(*ppData, (DWORD*)&size);
 //			if(FAILED(hr)) {errmsg.Format(_T("GetDIB failed, hr = %08x"), hr); break;}
@@ -3895,7 +3966,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			if(FAILED(hr) || dwSize == 0) {errmsg.Format(ResStr(IDS_MAINFRM_51), hr); break;}
 
 			size = (long)dwSize+sizeof(BITMAPINFOHEADER);
-			if(!(*ppData = new BYTE[size])) return false;
+			if(!(*ppData = DNew BYTE[size])) return false;
 			memcpy_s (*ppData, size, &bih, sizeof(BITMAPINFOHEADER));
 			memcpy_s (*ppData+sizeof(BITMAPINFOHEADER), size-sizeof(BITMAPINFOHEADER), pDib, dwSize);
 			CoTaskMemFree (pDib);
@@ -3905,7 +3976,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			hr = pBV->GetCurrentImage(&size, NULL);
 			if(FAILED(hr) || size == 0) {errmsg.Format(ResStr(IDS_MAINFRM_51), hr); break;}
 
-			if(!(*ppData = new BYTE[size])) return false;
+			if(!(*ppData = DNew BYTE[size])) return false;
 
 			hr = pBV->GetCurrentImage(&size, (long*)*ppData);
 			if(FAILED(hr)) {errmsg.Format(ResStr(IDS_MAINFRM_51), hr); break;}
@@ -3957,7 +4028,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 			if(bi->bmiHeader.biBitCount <= 8)
 			{
 				if(bi->bmiHeader.biClrUsed) bfh.bfOffBits += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-				else bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * sizeof(bi->bmiColors[0]);
+				else bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
 			}
 
 			fwrite(&bfh, 1, sizeof(bfh), f);
@@ -3990,7 +4061,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 		if(bi->bmiHeader.biBitCount <= 8)
 		{
 			if(bi->bmiHeader.biClrUsed) bfh.bfOffBits += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-			else bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * sizeof(bi->bmiColors[0]);
+			else bfh.bfOffBits += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
 		}
 		pbmfh = (LPBITMAPFILEHEADER)&bfh;
 		pbits = &pData[pbmfh->bfOffBits-sizeof(bfh)];
@@ -4183,7 +4254,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 		CRenderedTextSubtitle rts(&csSubLock);
 		rts.CreateDefaultStyle(0);
 		rts.m_dstScreenSize.SetSize(width, height);
-		STSStyle* style = new STSStyle();
+		STSStyle* style = DNew STSStyle();
 		style->marginRect.SetRectEmpty();
 		rts.AddStyle(_T("thumbs"), style);
 
@@ -4266,7 +4337,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 		CRenderedTextSubtitle rts(&csSubLock);
 		rts.CreateDefaultStyle(0);
 		rts.m_dstScreenSize.SetSize(width, height);
-		STSStyle* style = new STSStyle();
+		STSStyle* style = DNew STSStyle();
 		style->marginRect.SetRect(margin*2, margin*2, margin*2, height-infoheight-margin);
 		rts.AddStyle(_T("thumbs"), style);
 
@@ -4380,7 +4451,7 @@ void CMainFrame::OnFileSaveImage()
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), this, 0);
+		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent(), 0);
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
@@ -4457,7 +4528,7 @@ void CMainFrame::OnFileSaveThumbnails()
 	CSaveThumbnailsDialog fd(
 		s.ThumbRows, s.ThumbCols, s.ThumbWidth,
 		0, (LPCTSTR)psrc, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), this);
+		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent());
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
@@ -4517,7 +4588,7 @@ void CMainFrame::OnFileLoadsubtitle()
 
 	CFileDialog fd(TRUE, NULL, NULL, 
 		OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY, 
-		szFilter, this, 0);
+		szFilter, GetModalParent(), 0);
 
 	if(fd.DoModal() != IDOK) return;
 
@@ -4551,7 +4622,7 @@ void CMainFrame::OnFileSavesubtitle()
 
 				CFileDialog fd(FALSE, NULL, NULL, 
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-					_T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), this, 0);
+					_T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
 		
 				if(fd.DoModal() == IDOK)
 				{
@@ -4574,7 +4645,7 @@ void CMainFrame::OnFileSavesubtitle()
 				filter += _T("Advanced Sub Station Alpha (*.ass)|*.ass|");
 				filter += _T("|");
 
-				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, NULL, filter, this);
+				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, NULL, filter, GetModalParent());
 		
 				if(fd.DoModal() == IDOK)
 				{
@@ -4683,7 +4754,7 @@ void CMainFrame::OnFileISDBDownload()
 			else if(param == "" && value == "end") break;
 		}
 
-		CSubtitleDlDlg dlg(movies, this);
+		CSubtitleDlDlg dlg(movies, GetModalParent());
 		if(IDOK == dlg.DoModal())
 		{
 			if(dlg.m_fReplaceSubs)
@@ -4702,7 +4773,7 @@ void CMainFrame::OnFileISDBDownload()
 
 				if(OpenUrl(is, CString(url+args), str))
 				{
-					CAutoPtr<CRenderedTextSubtitle> pRTS(new CRenderedTextSubtitle(&m_csSubLock));
+					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock));
 					if(pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(s.name)) && pRTS->GetStreamCount() > 0)
 					{
 						CComPtr<ISubStream> pSubStream = pRTS.Detach();
@@ -4730,7 +4801,7 @@ void CMainFrame::OnUpdateFileISDBDownload(CCmdUI *pCmdUI)
 
 void CMainFrame::OnFileProperties()
 {
-	CPPageFileInfoSheet m_fileinfo(m_wndPlaylistBar.GetCur(), this);
+	CPPageFileInfoSheet m_fileinfo(m_wndPlaylistBar.GetCur(), this, GetModalParent());
 	m_fileinfo.DoModal();
 }
 
@@ -4769,6 +4840,313 @@ void CMainFrame::OnViewDisplayStats()
 	AfxGetMyApp()->m_fDisplayStats = ! AfxGetMyApp()->m_fDisplayStats;
 }
 
+void CMainFrame::OnViewDisplayStatsSC()
+{
+	++AfxGetMyApp()->m_fDisplayStats;
+	if (AfxGetMyApp()->m_fDisplayStats > 3)
+		AfxGetMyApp()->m_fDisplayStats = 0;
+}
+
+void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck (!supported || (s.m_RenderSettings.iVMR9VSync));
+}
+
+void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+
+	pCmdUI->Enable (false);
+	CString Temp;
+	Temp.Format(L"%d", s.m_RenderSettings.iVMR9VSyncOffset);
+	pCmdUI->SetText(Temp);
+}
+
+void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.iVMR9VSyncAccurate);
+}
+
+void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+
+	if (pCmdUI->m_nID == ID_VIEW_EVROUTPUTRANGE_0_255)
+		pCmdUI->SetCheck(s.m_RenderSettings.iEVROutputRange == 0);
+	else if (pCmdUI->m_nID == ID_VIEW_EVROUTPUTRANGE_16_235)
+		pCmdUI->SetCheck(s.m_RenderSettings.iEVROutputRange == 1);
+}
+
+
+void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+
+	if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_BEFOREVSYNC)
+		pCmdUI->SetCheck(s.m_RenderSettings.iVMRFlushGPUBeforeVSync != 0);
+	else if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_AFTERPRESENT)
+		pCmdUI->SetCheck(s.m_RenderSettings.iVMRFlushGPUAfterPresent != 0);
+	else if (pCmdUI->m_nID == ID_VIEW_FLUSHGPU_WAIT)
+		pCmdUI->SetCheck(s.m_RenderSettings.iVMRFlushGPUWait != 0);
+	
+}
+
+void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.fD3DFullscreen);
+}
+
+void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.iVMRDisableDesktopComposition);
+}
+
+void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.fVMR9AlterativeVSync);
+}
+
+
+void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.iVMR9FullscreenGUISupport);
+}
+
+void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.iEVRHighColorResolution);
+}
+
+void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.iEVREnableFrameTimeCorrection);
+}
+
+void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+
+	pCmdUI->Enable (supported);
+}
+
+void CMainFrame::OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+
+	pCmdUI->Enable (supported);
+}
+
+void CMainFrame::OnViewVSync()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMR9VSync = !s.m_RenderSettings.iVMR9VSync;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"VSync: %s", s.m_RenderSettings.iVMR9VSync? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewVSyncAccurate()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMR9VSyncAccurate = !s.m_RenderSettings.iVMR9VSyncAccurate;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Accurate VSync: %s", s.m_RenderSettings.iVMR9VSyncAccurate? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewEVROutputRange_0_255()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iEVROutputRange = 0;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Output Range: 0 - 255");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewEVROutputRange_16_235()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iEVROutputRange = 1;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Output Range: 16 - 235");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewFlushGPUBeforeVSync()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMRFlushGPUBeforeVSync = !s.m_RenderSettings.iVMRFlushGPUBeforeVSync;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Flush GPU before VSync: %s", s.m_RenderSettings.iVMRFlushGPUBeforeVSync? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewFlushGPUAfterVSync()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMRFlushGPUAfterPresent = !s.m_RenderSettings.iVMRFlushGPUAfterPresent;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Flush GPU after Present: %s", s.m_RenderSettings.iVMRFlushGPUAfterPresent? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewFlushGPUWait()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMRFlushGPUWait = !s.m_RenderSettings.iVMRFlushGPUWait;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Wait for GPU Flush: %s", s.m_RenderSettings.iVMRFlushGPUWait? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewD3DFullScreen()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.fD3DFullscreen = !s.fD3DFullscreen;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"D3D Fullscreen (Requires restart): %s", s.fD3DFullscreen? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewDisableDesktopComposition()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMRDisableDesktopComposition = !s.m_RenderSettings.iVMRDisableDesktopComposition;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Disable desktop composition: %s", s.m_RenderSettings.iVMRDisableDesktopComposition? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewAlternativeVSync()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.fVMR9AlterativeVSync = !s.m_RenderSettings.fVMR9AlterativeVSync;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Alternative VSync: %s", s.m_RenderSettings.fVMR9AlterativeVSync? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewResetDefault()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.SetDefault();
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Renderer settings reset to default");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewResetOptimal()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.SetOptimal();
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Renderer settings reset to optimal");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewFullscreenGUISupport()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iVMR9FullscreenGUISupport = !s.m_RenderSettings.iVMR9FullscreenGUISupport;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"D3D Fullscreen GUI Support: %s", s.m_RenderSettings.iVMR9FullscreenGUISupport? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewHighColorResolution()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iEVRHighColorResolution = !s.m_RenderSettings.iEVRHighColorResolution;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"10 bit RGB: %s", s.m_RenderSettings.iEVRHighColorResolution? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewEnableFrameTimeCorrection()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.iEVREnableFrameTimeCorrection = !s.m_RenderSettings.iEVREnableFrameTimeCorrection;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Frame Time Correction: %s", s.m_RenderSettings.iEVREnableFrameTimeCorrection? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewVSyncOffsetIncrease()
+{
+	AppSettings& s = AfxGetAppSettings();
+	++s.m_RenderSettings.iVMR9VSyncOffset;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewVSyncOffsetDecrease()
+{
+	AppSettings& s = AfxGetAppSettings();
+	--s.m_RenderSettings.iVMR9VSyncOffset;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -4788,20 +5166,44 @@ void CMainFrame::OnUpdateShaderToggle(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck (m_bToggleShader);
 }
 
+void CMainFrame::OnUpdateShaderToggleScreenSpace(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable (TRUE);
+	pCmdUI->SetCheck (m_bToggleShaderScreenSpace);
+}
+
 void CMainFrame::OnShaderToggle()
 {
-	if (m_bToggleShader)
+	m_bToggleShader = !m_bToggleShader;
+	if (!m_bToggleShader)
 	{
 		SetShaders();
 		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_65));
 	}
 	else
 	{
-		if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+		if (m_pCAP) 
+			m_pCAP->SetPixelShader(NULL, NULL);
 		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_66));
 	}
 
-	m_bToggleShader = !m_bToggleShader;
+}
+
+void CMainFrame::OnShaderToggleScreenSpace()
+{
+	m_bToggleShaderScreenSpace = !m_bToggleShaderScreenSpace;
+	if (!m_bToggleShaderScreenSpace)
+	{
+		SetShaders();
+		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_PPONSCR));
+	}
+	else
+	{
+		if (m_pCAP2) 
+			m_pCAP2->SetPixelShader2(NULL, NULL, true);
+		m_OSD.DisplayMessage (OSD_TOPRIGHT, ResStr(IDS_MAINFRM_PPOFFSCR));
+	}
+
 }
 
 void CMainFrame::OnD3DFullscreenToggle()
@@ -5945,7 +6347,7 @@ void CMainFrame::OnPlayFilters(UINT nID)
 
 	CComPtr<IUnknown> pUnk = m_pparray[nID - ID_FILTERS_SUBITEM_START];
 
-	CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
+	CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), GetModalParent());
 
 	if(CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk)
 	{
@@ -5955,7 +6357,7 @@ void CMainFrame::OnPlayFilters(UINT nID)
 	if(CComQIPtr<IBaseFilter> pBF = pUnk)
 	{
 		HRESULT hr;
-		CComPtr<IPropertyPage> pPP = new CInternalPropertyPageTempl<CPinInfoWnd>(NULL, &hr);
+		CComPtr<IPropertyPage> pPP = DNew CInternalPropertyPageTempl<CPinInfoWnd>(NULL, &hr);
 		ps.AddPage(pPP, pBF);
 	}
 
@@ -5971,9 +6373,21 @@ void CMainFrame::OnUpdatePlayFilters(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!m_fCapturing);
 }
 
+enum
+{
+	ID_SHADERS_OFF = ID_SHADERS_START,
+	ID_SHADERS_COMBINE, 
+	ID_SHADERS_EDIT, 
+	ID_SHADERS_STARTSCR,
+	ID_SHADERS_OFFSCR = ID_SHADERS_STARTSCR, 
+	ID_SHADERS_COMBINESCR, 
+	ID_SHADERS_ENDSCR, 
+	ID_SHADERS_DYNAMIC = ID_SHADERS_ENDSCR, 
+};
+
 void CMainFrame::OnPlayShaders(UINT nID)
 {
-	if(nID == ID_SHADERS_START+2)
+	if(nID == ID_SHADERS_EDIT)
 	{
 		ShowControlBar(&m_wndShaderEditorBar, TRUE, TRUE);
 		return;
@@ -5981,16 +6395,25 @@ void CMainFrame::OnPlayShaders(UINT nID)
 
 	if(!m_pCAP) return;
 
-	if(nID == ID_SHADERS_START)
+	if(nID == ID_SHADERS_OFF)
 	{
 		m_shaderlabels.RemoveAll();
 	}
-	else if(nID == ID_SHADERS_START+1)
+	else if(nID == ID_SHADERS_OFFSCR)
 	{
-		if(IDOK != CShaderCombineDlg(m_shaderlabels, this).DoModal())
+		m_shaderlabelsScreenSpace.RemoveAll();
+	}
+	else if(nID == ID_SHADERS_COMBINE)
+	{
+		if(IDOK != CShaderCombineDlg(m_shaderlabels, GetModalParent(), false).DoModal())
 			return;
 	}
-	else if(nID >= ID_SHADERS_START+3)
+	else if(nID == ID_SHADERS_COMBINESCR)
+	{
+		if(IDOK != CShaderCombineDlg(m_shaderlabelsScreenSpace, GetModalParent(), true).DoModal())
+			return;
+	}
+	else if(nID >= ID_SHADERS_DYNAMIC)
 	{
 		MENUITEMINFO mii;
 		memset(&mii, 0, sizeof(mii));
@@ -6009,17 +6432,28 @@ void CMainFrame::OnUpdatePlayShaders(CCmdUI* pCmdUI)
 {
 	if(pCmdUI->m_nID >= ID_SHADERS_START)
 	{
-		pCmdUI->Enable(!!m_pCAP);
+		if (pCmdUI->m_nID >= ID_SHADERS_STARTSCR && pCmdUI->m_nID < ID_SHADERS_ENDSCR )
+			pCmdUI->Enable(!!m_pCAP2);
+		else
+			pCmdUI->Enable(!!m_pCAP);
 
-		if(pCmdUI->m_nID == ID_SHADERS_START)
+		if(pCmdUI->m_nID == ID_SHADERS_OFF)
 		{
 			pCmdUI->SetRadio(m_shaderlabels.IsEmpty());
 		}
-		else if(pCmdUI->m_nID == ID_SHADERS_START+1)
+		else if(pCmdUI->m_nID == ID_SHADERS_OFFSCR)
+		{
+			pCmdUI->SetRadio(m_shaderlabelsScreenSpace.IsEmpty());
+		}
+		else if(pCmdUI->m_nID == ID_SHADERS_COMBINE)
 		{
 			pCmdUI->SetRadio(m_shaderlabels.GetCount() > 1);
 		}
-		else if(pCmdUI->m_nID == ID_SHADERS_START+2)
+		else if(pCmdUI->m_nID == ID_SHADERS_COMBINESCR)
+		{
+			pCmdUI->SetRadio(m_shaderlabelsScreenSpace.GetCount() > 0);
+		}
+		else if(pCmdUI->m_nID == ID_SHADERS_EDIT)
 		{
 			pCmdUI->Enable(TRUE);
 		}
@@ -6120,13 +6554,13 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
 						STSStyle* val;
 						pRTS->m_styles.GetNextAssoc(pos, key, val);
 
-						CAutoPtr<CPPageSubStyle> page(new CPPageSubStyle());
+						CAutoPtr<CPPageSubStyle> page(DNew CPPageSubStyle());
 						page->InitStyle(key, *val);
 						pages.Add(page);
 						styles.Add(val);
 					}
 
-					CPropertySheet dlg(_T("Styles..."), this);
+					CPropertySheet dlg(_T("Styles..."), GetModalParent());
 					for(int i = 0; i < (int)pages.GetCount(); i++) 
 						dlg.AddPage(pages[i]);
 
@@ -6888,7 +7322,7 @@ void CMainFrame::OnFavoritesDVD(UINT nID)
 		CComPtr<IDvdState> pDvdState;
 		HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
 
-		CAutoPtr<OpenDVDData> p(new OpenDVDData());
+		CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 		if(p) {p->path = fn; p->pDvdState = pDvdState;}
 		OpenMedia(p);
 	}
@@ -7259,8 +7693,15 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		m_Change_Monitor = (hm != hm_cur) ? true : false;
 		if((m_Change_Monitor) && (!m_bToggleShader))
 		{
-			if (m_pCAP) m_pCAP->SetPixelShader(NULL, NULL);
+			if (m_pCAP) 
+				m_pCAP->SetPixelShader(NULL, NULL);
 		}
+		if((m_Change_Monitor) && (!m_bToggleShaderScreenSpace))
+		{
+			if (m_pCAP2) 
+				m_pCAP2->SetPixelShader2(NULL, NULL, 1);
+		}
+
 	}
 	else
 	{
@@ -7297,7 +7738,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	MoveVideoWindow();
 
-	if((m_Change_Monitor) && (!m_bToggleShader)) // Enabled shader ...
+	if((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) // Enabled shader ...
 	{
 		SetShaders();
 	}
@@ -7537,7 +7978,8 @@ double CMainFrame::GetZoomAutoFitScale()
 
 void CMainFrame::RepaintVideo()
 {
-	if(m_pCAP) m_pCAP->Paint(false);
+	if(m_pCAP) 
+		m_pCAP->Paint(false);
 }
 
 void CMainFrame::SetShaders()
@@ -7556,36 +7998,61 @@ void CMainFrame::SetShaders()
 	}
 
 	m_pCAP->SetPixelShader(NULL, NULL);
+	if (m_pCAP2)
+		m_pCAP2->SetPixelShader2(NULL, NULL, true);
 
-	CAtlList<CString> labels;
-
-	pos = m_shaderlabels.GetHeadPosition();
-	while(pos)
+	for (int i = 0; i < 2; ++i)
 	{
-		const AppSettings::Shader* pShader = NULL;
-		if(s2s.Lookup(m_shaderlabels.GetNext(pos), pShader))
+		if (i == 0 && m_bToggleShader)
+			continue;
+		if (i == 1 && m_bToggleShaderScreenSpace)
+			continue;
+		CAtlList<CString> labels;
+
+		CAtlList<CString> *pLabels;
+		if (i == 0)
+			pLabels = &m_shaderlabels;
+		else
 		{
-			CStringA target = pShader->target;
-			CStringA srcdata = pShader->srcdata;
-
-			HRESULT hr = m_pCAP->SetPixelShader(srcdata, target);
-
-			if(FAILED(hr))
-			{
-				m_pCAP->SetPixelShader(NULL, NULL);
-				SendStatusMessage(ResStr(IDS_MAINFRM_73) + pShader->label, 3000);
-				return;
-			}
-
-			labels.AddTail(pShader->label);
+			if (!m_pCAP2)
+				break;
+			pLabels = &m_shaderlabelsScreenSpace;
 		}
-	}
 
-	if(m_iMediaLoadState == MLS_LOADED)
-	{
-		CString str = Implode(labels, '|');
-		str.Replace(_T("|"), _T(", "));
-		SendStatusMessage(ResStr(IDS_AG_SHADER) + str, 3000);
+		pos = pLabels->GetHeadPosition();
+		while(pos)
+		{
+			const AppSettings::Shader* pShader = NULL;
+			if(s2s.Lookup(pLabels->GetNext(pos), pShader))
+			{
+				CStringA target = pShader->target;
+				CStringA srcdata = pShader->srcdata;
+
+				HRESULT hr;
+				if (i == 0)
+					hr = m_pCAP->SetPixelShader(srcdata, target);
+				else
+					hr = m_pCAP2->SetPixelShader2(srcdata, target, true);
+
+				if(FAILED(hr))
+				{
+					m_pCAP->SetPixelShader(NULL, NULL);
+					if (m_pCAP2)
+						m_pCAP2->SetPixelShader2(NULL, NULL, true);
+					SendStatusMessage(ResStr(IDS_MAINFRM_73) + pShader->label, 3000);
+					return;
+				}
+
+				labels.AddTail(pShader->label);
+			}
+		}
+
+		if(m_iMediaLoadState == MLS_LOADED)
+		{
+			CString str = Implode(labels, '|');
+			str.Replace(_T("|"), _T(", "));
+			SendStatusMessage(ResStr(IDS_AG_SHADER) + str, 3000);
+		}
 	}
 }
 
@@ -7699,7 +8166,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	// CASIMIR666 todo
-	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)) )
+	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)))
 	{
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;
@@ -7749,7 +8216,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 			//if (!IsRealEngineCompatible(p->fns.GetHead()))
 			//	throw ResStr(IDS_REALVIDEO_INCOMPATIBLE);
 
-			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CRealMediaGraph(m_pVideoWnd->m_hWnd, hr)))
+			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CRealMediaGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
 
 			if(SUCCEEDED(hr) && !!(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
@@ -7757,7 +8224,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		}
 		else if(engine == ShockWave)
 		{
-			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CShockwaveGraph(m_pVideoWnd->m_hWnd, hr)))
+			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CShockwaveGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
 
 			if(FAILED(hr) || !(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
@@ -7770,7 +8237,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 #ifdef _WIN64	// TODOX64
 			MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
 #else
-			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)new CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr)))
+			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CQuicktimeGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
 
 			if(SUCCEEDED(hr) && !!(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
@@ -7782,16 +8249,16 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 		if(!m_fCustomGraph)
 		{
-			pGB = new CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, m_pVideoWnd->m_hWnd);
+			pGB = DNew CFGManagerPlayer(_T("CFGManagerPlayer"), NULL, m_pVideoWnd->m_hWnd);
 		}
 	}
 	else if(OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD))
 	{
-		pGB = new CFGManagerDVD(_T("CFGManagerDVD"), NULL, m_pVideoWnd->m_hWnd);
+		pGB = DNew CFGManagerDVD(_T("CFGManagerDVD"), NULL, m_pVideoWnd->m_hWnd);
 	}
 	else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD))
 	{
-		pGB = new CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
+		pGB = DNew CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
 	}
 
 	if(!pGB)
@@ -7818,12 +8285,21 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		throw _T("Could not set target window for graph notification");
 	}
 
-	m_pProv = (IUnknown*)new CKeyProvider();
+	m_pProv = (IUnknown*)DNew CKeyProvider();
 	
 	if(CComQIPtr<IObjectWithSite> pObjectWithSite = pGB)
 		pObjectWithSite->SetSite(m_pProv);
 
-	m_pCB = new CDSMChapterBag(NULL, NULL);
+	m_pCB = DNew CDSMChapterBag(NULL, NULL);
+}
+
+CWnd *CMainFrame::GetModalParent()
+{
+	AppSettings& s = AfxGetAppSettings();
+	CWnd *pParentWnd = this;
+	if (m_pFullscreenWnd->IsWindow() && s.m_RenderSettings.iVMR9FullscreenGUISupport)
+		pParentWnd = m_pFullscreenWnd;
+	return pParentWnd;
 }
 
 void CMainFrame::OpenFile(OpenFileData* pOFD)
@@ -7859,7 +8335,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 				if(s.fReportFailedPins)
 				{
 					CComQIPtr<IGraphBuilderDeadEnd> pGBDE = pGB;
-					if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, this).DoModal();
+					if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
 				}
 
 				CString err;
@@ -7904,7 +8380,7 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 	if(s.fReportFailedPins)
 	{
 		CComQIPtr<IGraphBuilderDeadEnd> pGBDE = pGB;
-		if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, this).DoModal();
+		if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
 	}
 
 	if(!(pAMOP = pGB))
@@ -8078,7 +8554,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 	if(s.fReportFailedPins)
 	{
 		CComQIPtr<IGraphBuilderDeadEnd> pGBDE = pGB;
-		if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, this).DoModal();
+		if(pGBDE && pGBDE->GetCount()) CMediaTypesDlg(pGBDE, GetModalParent()).DoModal();
 	}
 
 	BeginEnumFilters(pGB, pEF, pBF)
@@ -8299,11 +8775,11 @@ void CMainFrame::OpenCustomizeGraph()
 		{
 			if(CComQIPtr<IDirectVobSub2> pDVS2 = pBF)
 			{
-//				pDVS2->AdviseSubClock(m_pSubClock = new CSubClock);
+//				pDVS2->AdviseSubClock(m_pSubClock = DNew CSubClock);
 //				break;
 
 				// TODO: test multiple dvobsub instances with one clock
-				if(!m_pSubClock) m_pSubClock = new CSubClock;
+				if(!m_pSubClock) m_pSubClock = DNew CSubClock;
 				pDVS2->AdviseSubClock(m_pSubClock);
 			}
 		}
@@ -8773,7 +9249,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p)) OpenCapture(p);
 		else throw _T("Can't open, invalid input parameters");
 
+		m_pCAP2 = NULL;
+		m_pCAP = NULL;
+
 		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
+		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
@@ -8944,6 +9424,7 @@ void CMainFrame::CloseMediaPrivate()
 //	if(pVW) pVW->put_MessageDrain((OAHWND)NULL), pVW->put_Owner((OAHWND)NULL);
 
 	m_pCAP	 = NULL; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
+	m_pCAP2  = NULL;
 	m_pMC	 = NULL;
 	m_pMFVDC = NULL;
 	m_OSD.Stop();
@@ -9195,7 +9676,7 @@ void CMainFrame::SetupFiltersSubMenu()
 				continue;
 			}
 
-			CAutoPtr<CMenu> pSubSub(new CMenu);
+			CAutoPtr<CMenu> pSubSub(DNew CMenu);
 			pSubSub->CreatePopupMenu();
 
 			int nPPages = 0;
@@ -9970,6 +10451,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 	}
 }
 
+
 void CMainFrame::SetupShadersSubMenu()
 {
 	CMenu* pSub = &m_shaders;
@@ -9979,16 +10461,21 @@ void CMainFrame::SetupShadersSubMenu()
 
 	CWinApp* pApp = AfxGetApp();
 
-	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_START, ResStr(IDS_SHADER_OFF));
+	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_OFF, ResStr(IDS_SHADER_OFF));
 
-	UINT id = ID_SHADERS_START+1;
 
 	if(POSITION pos = AfxGetAppSettings().m_shaders.GetHeadPosition())
 	{
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SHADER_COMBINE));
-		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SHADER_EDIT));
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_COMBINE, ResStr(IDS_SHADER_COMBINE));
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_EDIT, ResStr(IDS_SHADER_EDIT));
 		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADER_TOGGLE, ResStr(IDS_SHADER_TOGGLE));
 		pSub->AppendMenu(MF_SEPARATOR);
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_OFFSCR, ResStr(IDS_SHADER_OFFSCREENSPACE));
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_COMBINESCR, ResStr(IDS_SHADER_COMBINESCREENSPACE));
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADER_TOGGLESCREENSPACE, ResStr(IDS_SHADER_TOGGLESCREENSPACE));
+		pSub->AppendMenu(MF_SEPARATOR);
+
+		UINT id = ID_SHADERS_DYNAMIC;
 
 		MENUITEMINFO mii;
 		memset(&mii, 0, sizeof(mii));
@@ -10085,7 +10572,7 @@ void CMainFrame::AddTextPassThruFilter()
 			|| mt.majortype != MEDIATYPE_Text && mt.majortype != MEDIATYPE_Subtitle)
 				continue;
 
-			CComQIPtr<IBaseFilter> pTPTF = new CTextPassThruFilter(this);
+			CComQIPtr<IBaseFilter> pTPTF = DNew CTextPassThruFilter(this);
 			CStringW name;
 			name.Format(L"TextPassThru%08x", pTPTF);
 			if(FAILED(pGB->AddFilter(pTPTF, name)))
@@ -10116,14 +10603,14 @@ bool CMainFrame::LoadSubtitle(CString fn)
 	{
 		if(!pSubStream)
 		{
-			CAutoPtr<CVobSubFile> pVSF(new CVobSubFile(&m_csSubLock));
+			CAutoPtr<CVobSubFile> pVSF(DNew CVobSubFile(&m_csSubLock));
 			if(CString(CPath(fn).GetExtension()).MakeLower() == _T(".idx") && pVSF && pVSF->Open(fn) && pVSF->GetStreamCount() > 0)
 				pSubStream = pVSF.Detach();
 		}
 
 		if(!pSubStream)
 		{
-			CAutoPtr<CRenderedTextSubtitle> pRTS(new CRenderedTextSubtitle(&m_csSubLock));
+			CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock));
 			if(pRTS && pRTS->Open(fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0)
 				pSubStream = pRTS.Detach();
 		}
@@ -10668,8 +11155,10 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 		if(fVidPrev)
 		{
 			m_pCAP = NULL;
+			m_pCAP2 = NULL;
 			pGB->Render(pVidPrevPin);
 			pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
+			pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
 		}
 
 		if(fVidCap)
@@ -10811,10 +11300,12 @@ void CMainFrame::ShowOptions(int idPage)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), pGB, this, idPage);
+	CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), pGB, GetModalParent(), idPage);
 
+	m_bInOptions = true;
 	if(options.DoModal() == IDOK)
 	{
+		m_bInOptions = false;
 		if(!m_fFullScreen)
 			SetAlwaysOnTop(s.iOnTop);
 
@@ -10822,12 +11313,13 @@ void CMainFrame::ShowOptions(int idPage)
 
 		s.UpdateData(true);
 	}
+	m_bInOptions = false;
 }
 
 void CMainFrame::StartWebServer(int nPort)
 {
 	if(!m_pWebServer)
-		m_pWebServer.Attach(new CWebServer(this, nPort));
+		m_pWebServer.Attach(DNew CWebServer(this, nPort));
 }
 
 void CMainFrame::StopWebServer()

@@ -124,7 +124,7 @@ CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 	do
 	{
-		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyWrite, &ex))
+		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex))
 		{
 			hr	= AmHresultFromWin32 (ex.m_lOsError);
 			break;

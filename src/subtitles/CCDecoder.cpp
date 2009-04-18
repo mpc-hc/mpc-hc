@@ -337,8 +337,8 @@ void CCDecoder::ExtractCC(BYTE* buff, int len, __int64 time)
 			{
 				nBytes = (nBytes+1)&~1;
 
-				BYTE* pData1 = new BYTE[nBytes];
-				BYTE* pData2 = new BYTE[nBytes];
+				BYTE* pData1 = DNew BYTE[nBytes];
+				BYTE* pData2 = DNew BYTE[nBytes];
 
 				if(pData1 && pData2)
 				{

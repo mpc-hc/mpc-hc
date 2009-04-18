@@ -62,8 +62,8 @@ class CMpeg2DecFilter
 			rtStart = rtStop = 0;
 			flags = 0;
 		}
-        ~framebuf() {free();}
-		void alloc(int w, int h, int pitch)
+        ~framebuf() {Free();}
+		void Alloc(int w, int h, int pitch)
 		{
 			this->w = w; this->h = h; this->pitch = pitch;
 			int size = pitch*h;
@@ -76,7 +76,7 @@ class CMpeg2DecFilter
 			buf[2] = p; p += (size/4 + 31) & ~31;
 			buf[5] = p; p += (size/4 + 31) & ~31;
 		}
-		void free()
+		void Free()
 		{
 			if(buf_base) _aligned_free(buf_base); 
 			buf_base = NULL;

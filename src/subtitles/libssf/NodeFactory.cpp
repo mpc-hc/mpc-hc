@@ -90,7 +90,7 @@ namespace ssf
 	{
 		CStringW name = GenName();
 
-		Reference* pRef = new Reference(this, name);
+		Reference* pRef = DNew Reference(this, name);
 
 		m_nodes.SetAt(name, pRef);
 		m_newnodes.AddTail(name);
@@ -132,7 +132,7 @@ namespace ssf
 
 		if(!pDef)
 		{
-			pDef = new Definition(this, name);
+			pDef = DNew Definition(this, name);
 
 			m_nodes.SetAt(name, pDef);
 			m_newnodes.AddTail(name);

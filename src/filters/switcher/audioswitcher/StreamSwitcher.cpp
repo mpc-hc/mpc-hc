@@ -492,7 +492,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 
 				if(!pinName.IsEmpty()) fileName += L" / " + pinName;
 
-				WCHAR* pName = new WCHAR[fileName.GetLength()+1];
+				WCHAR* pName = DNew WCHAR[fileName.GetLength()+1];
 				if(pName)
 				{
 					wcscpy(pName, fileName);
@@ -830,7 +830,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, 
 		{
 			HRESULT hr = S_OK;
 			m_pStreamSwitcherPassThru = (IUnknown*)(INonDelegatingUnknown*)
-				new CStreamSwitcherPassThru(GetOwner(), &hr, (CStreamSwitcherFilter*)m_pFilter);
+				DNew CStreamSwitcherPassThru(GetOwner(), &hr, (CStreamSwitcherFilter*)m_pFilter);
 
 			if(!m_pStreamSwitcherPassThru) return E_OUTOFMEMORY;
             if(FAILED(hr)) return hr;
@@ -1019,11 +1019,11 @@ CStreamSwitcherFilter::CStreamSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr, cons
 		CAutoPtr<CStreamSwitcherOutputPin> pOutput;
 
 		hr = S_OK;
-        pInput.Attach(new CStreamSwitcherInputPin(this, &hr, L"Channel 1"));
+        pInput.Attach(DNew CStreamSwitcherInputPin(this, &hr, L"Channel 1"));
 		if(!pInput || FAILED(hr)) break;
 
 		hr = S_OK;
-		pOutput.Attach(new CStreamSwitcherOutputPin(this, &hr));
+		pOutput.Attach(DNew CStreamSwitcherOutputPin(this, &hr));
         if(!pOutput || FAILED(hr)) break;
 
 		CAutoLock cAutoLock(&m_csPins);
@@ -1142,7 +1142,7 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 			name.Format(L"Channel %d", ++m_PinVersion);
 
 			HRESULT hr = S_OK;
-			CStreamSwitcherInputPin* pPin = new CStreamSwitcherInputPin(this, &hr, name);
+			CStreamSwitcherInputPin* pPin = DNew CStreamSwitcherInputPin(this, &hr, name);
 			if(!pPin || FAILED(hr)) return E_FAIL;
 			m_pInputs.AddTail(pPin);
 		}

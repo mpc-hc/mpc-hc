@@ -82,7 +82,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     stream.ReadUI32(m_AverageBitrate);
 
     // read other descriptors
-    AP4_SubStream* substream = new AP4_SubStream(stream, start+13, payload_size-13);
+    AP4_SubStream* substream = DNew AP4_SubStream(stream, start+13, payload_size-13);
     AP4_Descriptor* descriptor = NULL;
     while (AP4_DescriptorFactory::CreateDescriptorFromStream(*substream, 
                                                              descriptor) 

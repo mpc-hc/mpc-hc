@@ -24,9 +24,9 @@
 #pragma once
 
 #define VMRBITMAP_UPDATE            0x80000000
-#define MAX_PICTURE_SLOTS			(20+2)				// Last 2 for pixels shader!
+#define MAX_PICTURE_SLOTS			(60+2)				// Last 2 for pixels shader!
 
-#define NB_JITTER					125
+#define NB_JITTER					126
 
 
 namespace DSObjects
@@ -35,12 +35,39 @@ namespace DSObjects
 	class CDX9AllocatorPresenter
 		: public ISubPicAllocatorPresenterImpl
 	{
+	public:
+		CCritSec				m_VMR9AlphaBitmapLock;
+		void					UpdateAlphaBitmap();
 	protected:
 		CSize	m_ScreenSize;
 		UINT	m_RefreshRate;
-		bool	m_fVMRSyncFix;
+//		bool	m_fVMRSyncFix;
+		bool	m_bAlternativeVSync;
+		bool	m_bHighColorResolution;
+		bool	m_bCompositionEnabled;
+		bool	m_bIsEVR;
+		int		m_OrderedPaint;
+		int		m_VSyncMode;
+		bool	m_bDesktopCompositionDisabled;
+		bool	m_bIsFullscreen;
 
+		CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
+
+		HRESULT (__stdcall * m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
+		HRESULT (__stdcall * m_pDwmEnableComposition)(UINT uCompositionAction);
+
+		HMODULE m_hDWMAPI;
+
+		HRESULT (__stdcall * m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
+		HMODULE m_hD3D9;
+
+		CCritSec					m_RenderLock;
+		CComPtr<IDirectDraw>		m_pDirectDraw;
+
+		CComPtr<IDirect3D9Ex>			m_pD3DEx;
 		CComPtr<IDirect3D9>			m_pD3D;
+		CComPtr<IDirect3DDevice9Ex>		m_pD3DDevEx;
+		CString m_D3DDevExError;
 		CComPtr<IDirect3DDevice9>		m_pD3DDev;
 		CComPtr<IDirect3DTexture9>		m_pVideoTexture[MAX_PICTURE_SLOTS];
 		CComPtr<IDirect3DSurface9>		m_pVideoSurface[MAX_PICTURE_SLOTS];
@@ -48,23 +75,62 @@ namespace DSObjects
 		CComPtr<IDirect3DSurface9>		m_pOSDSurface;
 		CComPtr<ID3DXLine>			m_pLine;
 		CComPtr<ID3DXFont>			m_pFont;
-		CInterfaceList<IDirect3DPixelShader9>	m_pPixelShaders;
+		CComPtr<ID3DXSprite>		m_pSprite;
+		class CExternalPixelShader
+		{
+		public:
+			CComPtr<IDirect3DPixelShader9> m_pPixelShader;
+			CStringA m_SourceData;
+			CStringA m_SourceTarget;
+			HRESULT Compile(CPixelShaderCompiler *pCompiler)
+			{
+				HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
+				if(FAILED(hr)) 
+					return hr;
+
+				return S_OK;
+			}
+		};
+		CAtlList<CExternalPixelShader>	m_pPixelShaders;
+		CAtlList<CExternalPixelShader>	m_pPixelShadersScreenSpace;
 		CComPtr<IDirect3DPixelShader9>		m_pResizerPixelShader[3]; // bl, bc1, bc2
-		CComPtr<IDirect3DTexture9>		m_pResizerBicubic1stPass;
+		CComPtr<IDirect3DTexture9>		m_pScreenSizeTemporaryTexture[2];
+		D3DFORMAT						m_SurfaceType;
+		D3DFORMAT						m_BackbufferType;
+		D3DFORMAT						m_DisplayType;
 		D3DTEXTUREFILTERTYPE			m_filter;
 		D3DCAPS9				m_caps;
 
 		CAutoPtr<CPixelShaderCompiler>		m_pPSC;
 
-		virtual HRESULT CreateDevice();
+		bool SettingsNeedResetDevice();
+
+		virtual HRESULT CreateDevice(CString &_Error);
+//		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A2B10G10R10);
 		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
 		virtual void DeleteSurfaces();
+
+		// Thread stuff
+		HANDLE			m_hEvtQuit;			// Stop rendering thread event
+		HANDLE			m_hVSyncThread;
+		static DWORD WINAPI VSyncThreadStatic(LPVOID lpParam);
+		void VSyncThread();
+		void StartWorkerThreads();
+		void StopWorkerThreads();
 
 		UINT GetAdapter(IDirect3D9 *pD3D);
 
 		float m_bicubicA;
-		HRESULT InitResizers(float bicubicA);
+		HRESULT InitResizers(float bicubicA, bool bNeedScreenSizeTexture);
 
+		bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
+		bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure);
+		bool WaitForVBlank(bool &_Waited);
+		int GetVBlackPos();
+		void CalculateJitter(LONGLONG PerformanceCounter);
+		virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter){}
+
+		HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
 		HRESULT TextureCopy(CComPtr<IDirect3DTexture9> pTexture);
 		HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter);
 		HRESULT TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4]);
@@ -101,30 +167,128 @@ namespace DSObjects
 										LPD3DXFONT*		ppFont);
 
 
+		void				DrawText(const RECT &rc, const CString &strText, int _Priority);
 		void				DrawStats();
 		HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-		virtual void			OnResetDevice() {};
+		virtual void		OnResetDevice() {};
+		virtual bool		ResetDevice();
+
+		double GetFrameTime();
+		double GetFrameRate();
+
 
 		int						m_nTearingPos;
 		VMR9AlphaBitmap			m_VMR9AlphaBitmap;
+		CAutoVectorPtr<BYTE>	m_VMR9AlphaBitmapData;
+		CRect					m_VMR9AlphaBitmapRect;
+		int						m_VMR9AlphaBitmapWidthBytes;
+
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
 		D3DXCreateLinePtr		m_pD3DXCreateLine;
 		D3DXCreateFontPtr		m_pD3DXCreateFont;
+		HRESULT (__stdcall *m_pD3DXCreateSprite)(LPDIRECT3DDEVICE9 pDevice, LPD3DXSPRITE * ppSprite);
+
+
 
 		int						m_nNbDXSurface;					// Total number of DX Surfaces
+		int						m_nVMR9Surfaces;					// Total number of DX Surfaces
+		int						m_iVMR9Surface;
 		int						m_nCurSurface;					// Surface currently displayed
 		long					m_nUsedBuffer;
+		bool					m_bNeedPendingResetDevice;
+		bool					m_bPendingResetDevice;
 
 		double					m_fAvrFps;						// Estimate the real FPS
+		double					m_fJitterStdDev;				// Estimate the Jitter std dev
+		double					m_fJitterMean;
+		double					m_fSyncOffsetStdDev;
+		double					m_fSyncOffsetAvr;
+		double					m_DetectedRefreshRate;
+		double GetRefreshRate()
+		{
+			if (m_DetectedRefreshRate)
+				return m_DetectedRefreshRate;
+			else 
+				return m_RefreshRate;
+		}
+
+		CCritSec				m_RefreshRateLock;
+		double					m_DetectedRefreshTime;
+		double					m_DetectedRefreshTimePrim;
+		double					m_DetectedScanlineTime;
+		double					m_DetectedScanlineTimePrim;
+		double					m_DetectedScanlinesPerFrame;
+		double					m_ldDetectedRefreshRateList[100];
+		double					m_ldDetectedScanlineRateList[100];
+		int						m_DetectedRefreshRatePos;
+		bool					m_bSyncStatsAvailable;						
 		LONGLONG				m_pllJitter [NB_JITTER];		// Jitter buffer for stats
+		LONGLONG				m_pllSyncOffset [NB_JITTER];		// Jitter buffer for stats
 		LONGLONG				m_llLastPerf;
+		LONGLONG				m_JitterStdDev;
+		LONGLONG				m_MaxJitter;
+		LONGLONG				m_MinJitter;
+		LONGLONG				m_MaxSyncOffset;
+		LONGLONG				m_MinSyncOffset;
 		int						m_nNextJitter;
+		int						m_nNextSyncOffset;
 		REFERENCE_TIME			m_rtTimePerFrame;
+		double					m_DetectedFrameRate;
+		double					m_DetectedFrameTime;
+		double					m_DetectedFrameTimeStdDev;
+		bool					m_DetectedLock;
+		LONGLONG				m_DetectedFrameTimeHistory[60];
+		double					m_DetectedFrameTimeHistoryHisotry[500];
+		int						m_DetectedFrameTimePos;
+		int						m_bInterlaced;
+
+		double					m_TextScale;
+
+		int						m_VBlankEndWait;
+		int						m_VBlankStartWait;
+		LONGLONG				m_VBlankWaitTime;
+		int						m_VBlankMin;
+		int						m_VBlankMinCalc;
+		int						m_VBlankMax;
+		int						m_VBlankEndPresent;
+		LONGLONG				m_VBlankStartMeasureTime;
+		int						m_VBlankStartMeasure;
+
+		LONGLONG				m_PresentWaitTime;
+		LONGLONG				m_PresentWaitTimeMin;
+		LONGLONG				m_PresentWaitTimeMax;
+
+		LONGLONG				m_PaintTime;
+		LONGLONG				m_PaintTimeMin;
+		LONGLONG				m_PaintTimeMax;
+
+		LONGLONG				m_WaitForGPUTime;
+
+		LONGLONG				m_RasterStatusWaitTime;
+		LONGLONG				m_RasterStatusWaitTimeMin;
+		LONGLONG				m_RasterStatusWaitTimeMax;
+		LONGLONG				m_RasterStatusWaitTimeMaxCalc;
+
+		double					m_ClockDiffCalc;
+		double					m_ClockDiffPrim;
+		double					m_ClockDiff;
+
+		double					m_TimeChangeHisotry[100];
+		double					m_ClockChangeHisotry[100];
+		int						m_ClockTimeChangeHistoryPos;
+		double					m_ModeratedTimeSpeed;
+		double					m_ModeratedTimeSpeedPrim;
+		double					m_ModeratedTimeSpeedDiff;
+
+		bool					m_bCorrectedFrameTime;
+		int						m_FrameTimeCorrection;
+		LONGLONG				m_LastFrameDuration;
+		LONGLONG				m_LastSampleTime;
 
 		CString					m_strStatsMsg[10];
 
 	public:
-		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr);
+		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsEVR, CString &_Error);
 		~CDX9AllocatorPresenter();
 
 		// ISubPicAllocatorPresenter
@@ -132,6 +296,7 @@ namespace DSObjects
 		STDMETHODIMP_(bool) Paint(bool fAll);
 		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
 		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
+		STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 	};
 
 	class CVMR9AllocatorPresenter
@@ -144,14 +309,14 @@ namespace DSObjects
 		CComPtr<IVMRSurfaceAllocatorNotify9> m_pIVMRSurfAllocNotify;
 		CInterfaceArray<IDirect3DSurface9> m_pSurfaces;
 
-		HRESULT CreateDevice();
+		HRESULT CreateDevice(CString &_Error);
 		void DeleteSurfaces();
 
 		bool m_fUseInternalTimer;
 		REFERENCE_TIME m_rtPrevStart;
 
 	public:
-		CVMR9AllocatorPresenter(HWND hWnd, HRESULT& hr);
+		CVMR9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 
 		DECLARE_IUNKNOWN
 		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -202,7 +367,7 @@ namespace DSObjects
 		void DeleteSurfaces();
 
 	public:
-		CRM9AllocatorPresenter(HWND hWnd, HRESULT& hr);
+		CRM9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 
 		DECLARE_IUNKNOWN
 		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -227,7 +392,7 @@ namespace DSObjects
 		 void DeleteSurfaces();
 
 	public:
-		CQT9AllocatorPresenter(HWND hWnd, HRESULT& hr);
+		CQT9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 
 		DECLARE_IUNKNOWN
 		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -293,7 +458,7 @@ namespace DSObjects
 		CSize	m_ScreenSize;
 
 	public:
-		CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr);
+		CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 		virtual ~CDXRAllocatorPresenter();
 
 		DECLARE_IUNKNOWN

@@ -47,6 +47,7 @@
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
+				WarningLevel="2"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -113,6 +114,7 @@
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
+				WarningLevel="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -171,10 +173,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=""
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_DEBUG;WIN32;_LIB"
 				PrecompiledHeaderFile=".\Debug\libfaad.pch"
+				WarningLevel="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -240,6 +243,7 @@
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG"
 				PrecompiledHeaderFile=".\Debug\libfaad.pch"
+				WarningLevel="2"
 				DebugInformationFormat="3"
 			/>
 			<Tool

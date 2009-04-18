@@ -104,7 +104,7 @@ struct GaussianKernel {
 	{
 		width = (int)(sigma*3 + 0.5) | 1; // binary-or with 1 to make sure the number is odd
 		if (width < 3) width = 3;
-		kernel = new int[width];
+		kernel = DNew int[width];
 		kernel[width/2] = (int)(NormalDist(sigma, 0) * 255);
 		divisor = kernel[width/2];
 		for (int x = width/2-1; x >= 0; x--) {

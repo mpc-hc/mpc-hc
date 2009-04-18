@@ -119,14 +119,14 @@ HRESULT CDiracSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_pFile.Free();
 
-    m_pFile.Attach(new CDiracSplitterFile(pAsyncReader, hr));
+    m_pFile.Attach(DNew CDiracSplitterFile(pAsyncReader, hr));
     if(!m_pFile) return E_OUTOFMEMORY;
     if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
     CAtlArray<CMediaType> mts;
     mts.Add(m_pFile->GetMediaType());
 
-    CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
+    CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, L"Video", this, this, &hr));
     AddOutputPin(0, pPinOut);
 
     m_rtNewStart = m_rtCurrent = 0;
@@ -209,7 +209,7 @@ bool CDiracSplitterFilter::DemuxLoop()
 
         if(isFrameStartCode(code))
         {
-            CAutoPtr<Packet> p(new Packet());
+            CAutoPtr<Packet> p(DNew Packet());
             p->SetCount(size);
             memcpy(p->GetData(), pBuff, size);
 
@@ -328,7 +328,7 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
                 int wc = decoder->src_params.chroma_width;
                 int hc = decoder->src_params.chroma_height; 
                 delete [] m_pYUV[0]; m_pYUV[0] = NULL;
-                m_pYUV[0] = new BYTE[w*h + wc*hc*2 + w/2*h/2];
+                m_pYUV[0] = DNew BYTE[w*h + wc*hc*2 + w/2*h/2];
                 m_pYUV[1] = m_pYUV[0] + w*h;
                 m_pYUV[2] = m_pYUV[1] + wc*hc;
                 m_pYUV[3] = m_pYUV[2] + wc*hc;

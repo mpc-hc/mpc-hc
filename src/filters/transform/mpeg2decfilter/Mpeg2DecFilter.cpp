@@ -199,16 +199,16 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	if(FAILED(*phr)) return;
 
-	if(!(m_pInput = new CMpeg2DecInputPin(this, phr, L"Video"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pInput = DNew CMpeg2DecInputPin(this, phr, L"Video"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-//	if(!(m_pOutput = new CMpeg2DecOutputPin(this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
+//	if(!(m_pOutput = DNew CMpeg2DecOutputPin(this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
 //	if(FAILED(*phr)) return;
 
-	if(!(m_pSubpicInput = new CSubpicInputPin(this, phr))) *phr = E_OUTOFMEMORY;
+	if(!(m_pSubpicInput = DNew CSubpicInputPin(this, phr))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pClosedCaptionOutput = new CClosedCaptionOutputPin(this, m_pLock, phr))) *phr = E_OUTOFMEMORY;
+	if(!(m_pClosedCaptionOutput = DNew CClosedCaptionOutputPin(this, m_pLock, phr))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
 	SetDeinterlaceMethod(DIAuto);
@@ -508,7 +508,7 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 					int pitch = (m_dec->m_info.m_sequence->width + 31) & ~31;
 
 					if(m_fb.w != w || m_fb.h != h || m_fb.pitch != pitch)
-						m_fb.alloc(w, h, pitch);
+						m_fb.Alloc(w, h, pitch);
 
 					// start - end
 
@@ -880,7 +880,7 @@ HRESULT CMpeg2DecFilter::StartStreaming()
 	HRESULT hr = __super::StartStreaming();
 	if(FAILED(hr)) return hr;
 
-	m_dec.Attach(new CMpeg2Dec());
+	m_dec.Attach(DNew CMpeg2Dec());
 	if(!m_dec) return E_OUTOFMEMORY;
 
 	InputTypeChanged();
@@ -934,7 +934,7 @@ STDMETHODIMP CMpeg2DecFilter::CreatePage(const GUID& guid, IPropertyPage** ppPag
 
 	if(guid == __uuidof(CMpeg2DecSettingsWnd))
 	{
-		(*ppPage = new CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(NULL, &hr))->AddRef();
+		(*ppPage = DNew CInternalPropertyPageTempl<CMpeg2DecSettingsWnd>(NULL, &hr))->AddRef();
 	}
 
 	return *ppPage ? S_OK : E_FAIL;
@@ -1366,7 +1366,7 @@ HRESULT CMpeg2DecOutputPin::Active()
 	{
 		HRESULT hr = NOERROR;
 
-		m_pOutputQueue.Attach(new COutputQueue(m_Connected, &hr));
+		m_pOutputQueue.Attach(DNew COutputQueue(m_Connected, &hr));
 		if(!m_pOutputQueue) hr = E_OUTOFMEMORY;
 
 		if(FAILED(hr))
@@ -1561,9 +1561,9 @@ HRESULT CSubpicInputPin::Transform(IMediaSample* pSample)
 
 		CAutoPtr<spu> p;
 
-		if(m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE) p.Attach(new dvdspu());
-		else if(m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE) p.Attach(new cvdspu());
-		else if(m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE) p.Attach(new svcdspu());
+		if(m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE) p.Attach(DNew dvdspu());
+		else if(m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE) p.Attach(DNew cvdspu());
+		else if(m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE) p.Attach(DNew svcdspu());
 		else return E_FAIL;
 
 		p->m_rtStart = rtStart;
@@ -1641,14 +1641,14 @@ STDMETHODIMP CSubpicInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceDat
 					{
 						fRefresh = true;
 						sp->m_psphli.Free();
-						sp->m_psphli.Attach(new AM_PROPERTY_SPHLI());
+						sp->m_psphli.Attach(DNew AM_PROPERTY_SPHLI);
 						memcpy((AM_PROPERTY_SPHLI*)sp->m_psphli, pSPHLI, sizeof(AM_PROPERTY_SPHLI));
 					}
 				}
 
 				if(!fRefresh) // save it for later, a subpic might be late for this hli
 				{
-					m_sphli.Attach(new AM_PROPERTY_SPHLI());
+					m_sphli.Attach(DNew AM_PROPERTY_SPHLI);
 					memcpy((AM_PROPERTY_SPHLI*)m_sphli, pSPHLI, sizeof(AM_PROPERTY_SPHLI));
 				}
 			}

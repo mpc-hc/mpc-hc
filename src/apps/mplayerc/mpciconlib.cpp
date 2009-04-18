@@ -51,6 +51,7 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".m2ts")) == 0)   iconindex = IDI_MPG_ICON;
 	else if(ext.CompareNoCase(_T(".m2v")) == 0)    iconindex = IDI_MPG_ICON;
 	else if(ext.CompareNoCase(_T(".m3u")) == 0)    iconindex = IDI_PLS_ICON;
+	else if(ext.CompareNoCase(_T(".bdmv")) == 0)   iconindex = IDI_PLS_ICON;
 	else if(ext.CompareNoCase(_T(".m4a")) == 0)    iconindex = IDI_AAC_ICON;
 	else if(ext.CompareNoCase(_T(".m4b")) == 0)    iconindex = IDI_AAC_ICON;
 	else if(ext.CompareNoCase(_T(".m4v")) == 0)    iconindex = IDI_MP4_ICON;

@@ -123,6 +123,27 @@ typedef struct {
 #ifndef DWLP_USER
   #define DWLP_USER       DWLP_DLGPROC + sizeof(DLGPROC)
 #endif
+
+
+#pragma warning(push)
+#pragma warning(disable: 4312 4244)
+// _GetWindowLongPtr
+// Templated version of GetWindowLongPtr, to suppress spurious compiler warning.
+template <class T>
+T _GetWindowLongPtr(HWND hwnd, int nIndex)
+{
+    return (T)GetWindowLongPtr(hwnd, nIndex);
+}
+
+// _SetWindowLongPtr
+// Templated version of SetWindowLongPtr, to suppress spurious compiler warning.
+template <class T>
+LONG_PTR _SetWindowLongPtr(HWND hwnd, int nIndex, T p)
+{
+    return SetWindowLongPtr(hwnd, nIndex, (LONG_PTR)p);
+}
+#pragma warning(pop)
+
 ///////////////////////////////////////////////////////////////////////////
 // End Platform SDK definitions
 ///////////////////////////////////////////////////////////////////////////
@@ -170,6 +191,8 @@ typedef struct {
 #include <strmctl.h>    // IAMStreamControl support
 #include <edevdefs.h>   // External device control interface defines
 #include <audevcod.h>   // audio filter device error event codes
+
+
 
 #else
     #ifdef DEBUG

@@ -491,7 +491,7 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 	//
 	// Create the imagelist	with the merged drag images
 	//
-	CImageList* pCompleteImageList = new CImageList;
+	CImageList* pCompleteImageList = DNew CImageList;
 	
 	pCompleteImageList->Create(cCompleteRect.Width(), 
 					cCompleteRect.Height(),
@@ -566,7 +566,7 @@ CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 		: (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
 		: ES_CENTER;
 
-	CEdit* pEdit = new CInPlaceEdit(nItem, nCol, GetItemText(nItem, nCol));
+	CEdit* pEdit = DNew CInPlaceEdit(nItem, nCol, GetItemText(nItem, nCol));
 	pEdit->Create(dwStyle, rect, this, IDC_EDIT1);
 
 	m_fInPlaceDirty = false;
@@ -582,7 +582,7 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 
 	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|WS_VSCROLL/*|WS_HSCROLL*/
 		|CBS_DROPDOWNLIST|CBS_DISABLENOSCROLL/*|CBS_NOINTEGRALHEIGHT*/;
-	CComboBox* pComboBox = new CInPlaceComboBox(nItem, nCol, lstItems, nSel);
+	CComboBox* pComboBox = DNew CInPlaceComboBox(nItem, nCol, lstItems, nSel);
 	pComboBox->Create(dwStyle, rect, this, IDC_COMBO1);
 
 	CorrectComboListWidth(*pComboBox, GetFont());
@@ -603,7 +603,7 @@ CListBox* CPlayerListCtrl::ShowInPlaceListBox(int nItem, int nCol, CAtlList<CStr
 		return(NULL);
 
 	DWORD dwStyle = WS_BORDER|WS_CHILD|WS_VISIBLE|WS_VSCROLL/*|WS_HSCROLL*/|LBS_NOTIFY;
-	CListBox* pListBox = new CInPlaceListBox(nItem, nCol, lstItems, nSel);
+	CListBox* pListBox = DNew CInPlaceListBox(nItem, nCol, lstItems, nSel);
 	pListBox->Create(dwStyle, rect, this, IDC_LIST1);
 
 	CRect ir;

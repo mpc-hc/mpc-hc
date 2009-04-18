@@ -38,7 +38,8 @@ TEST_END:
 	}
 }
 
-
+#pragma warning(disable:4799)	// no EMMS
+#pragma warning(disable:4731)	// ebp modified
 // idct
 extern "C" void __fastcall MMX_IDCT(short *block);
 extern "C" void __fastcall SSEMMX_IDCT(short *block);
@@ -3780,7 +3781,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		BufferOp = (PBufferOp) GetProcAddress(hLibrary, "BufferOp");
 
 	for (i=0; i<MAX_FILE_NUMBER; i++)
-		Infilename[i] = new char[_MAX_PATH];
+		Infilename[i] = DNew char[_MAX_PATH];
 
 	if(1 != fscanf(out->VF_File, "%d", &File_Limit))
 		return 0;
@@ -3848,11 +3849,11 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 
 	for (i=0; i<8; i++)
 	{
-		p_block[i] = (short *)new BYTE[sizeof(short)*64 + 64];
+		p_block[i] = (short *)DNew BYTE[sizeof(short)*64 + 64];
 		block[i]   = (short *)((long)p_block[i] + 64 - (long)p_block[i]%64);
 	}
 
-	p_fTempArray = (void *)new BYTE[sizeof(float)*128 + 64];
+	p_fTempArray = (void *)DNew BYTE[sizeof(float)*128 + 64];
 	fTempArray = (void *)((long)p_fTempArray + 64 - (long)p_fTempArray%64);
 
 	for (i=0; i<3; i++)
@@ -3862,9 +3863,9 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		else
 			size = Chroma_Width * Chroma_Height;
 
-		backward_reference_frame[i] = new unsigned char[size];
-		forward_reference_frame[i] = new unsigned char[size];
-		auxframe[i] = new unsigned char[size];
+		backward_reference_frame[i] = DNew unsigned char[size];
+		forward_reference_frame[i] = DNew unsigned char[size];
+		auxframe[i] = DNew unsigned char[size];
 	}
 
 	if(1 != sscanf(myfgets(buffer, sizeof(buffer), out->VF_File), "YUVRGB_Scale=%d\n", &i))
@@ -3903,7 +3904,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 		LumGainMask = ((__int64)i<<48) + ((__int64)i<<32) + ((__int64)i<<16) + (__int64)i;
 		LumOffsetMask = ((__int64)j<<48) + ((__int64)j<<32) + ((__int64)j<<16) + (__int64)j;
 
-		lum = new unsigned char[Coded_Picture_Width * Coded_Picture_Height];
+		lum = DNew unsigned char[Coded_Picture_Width * Coded_Picture_Height];
 	}
 
 	if(6 != sscanf(myfgets(buffer, sizeof(buffer), out->VF_File), "Picture_Size=%d,%d,%d,%d,%d,%d\n", 
@@ -3943,11 +3944,11 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 	HALF_WIDTH_D8 = (Coded_Picture_Width>>1) - 8;
 	DOUBLE_WIDTH = Coded_Picture_Width<<1;
 
-	u422 = new unsigned char[Coded_Picture_Width * Coded_Picture_Height / 2];
-	v422 = new unsigned char[Coded_Picture_Width * Coded_Picture_Height / 2];
-	u444 = new unsigned char[Coded_Picture_Width * Coded_Picture_Height];
-	v444 = new unsigned char[Coded_Picture_Width * Coded_Picture_Height];
-	dstFrame = new unsigned char[Clip_Width * Clip_Height * 4];  // max value (super set)
+	u422 = DNew unsigned char[Coded_Picture_Width * Coded_Picture_Height / 2];
+	v422 = DNew unsigned char[Coded_Picture_Width * Coded_Picture_Height / 2];
+	u444 = DNew unsigned char[Coded_Picture_Width * Coded_Picture_Height];
+	v444 = DNew unsigned char[Coded_Picture_Width * Coded_Picture_Height];
+	dstFrame = DNew unsigned char[Clip_Width * Clip_Height * 4];  // max value (super set)
 
 	if(1 != sscanf(myfgets(buffer, sizeof(buffer), out->VF_File), "Field_Operation=%d\n", &FO_Flag))
 		return 0;

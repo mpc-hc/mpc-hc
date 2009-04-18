@@ -32,7 +32,7 @@ CTextFile::CTextFile(enc e)
 
 bool CTextFile::Open(LPCTSTR lpszFileName)
 {
-	if(!__super::Open(lpszFileName, modeRead|typeBinary|shareDenyWrite))
+	if(!__super::Open(lpszFileName, modeRead|typeBinary|shareDenyNone))
 		return(false);
 
 	m_encoding = m_defaultencoding;
@@ -71,7 +71,7 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
 	if(m_encoding == m_defaultencoding)
 	{
 		__super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
-		if(!__super::Open(lpszFileName, modeRead|typeText|shareDenyWrite))
+		if(!__super::Open(lpszFileName, modeRead|typeText|shareDenyNone))
 			return(false);
 	}
 

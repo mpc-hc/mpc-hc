@@ -59,7 +59,7 @@ AP4_HdlrAtom::AP4_HdlrAtom(AP4_Size size, AP4_ByteStream& stream) :
     // read the name unless it is empty
     int name_size = size-(AP4_FULL_ATOM_HEADER_SIZE+20);
     if (name_size > 0) {
-        char* name = new char[name_size+1];
+        char* name = DNew char[name_size+1];
         stream.Read(name, name_size);
         name[name_size] = '\0'; // force a null termination
         m_HandlerName = name;

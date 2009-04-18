@@ -184,7 +184,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 			if(GetOutputPin(TrackNumber))
 			{
-				CAutoPtr<Packet> p(new Packet());
+				CAutoPtr<Packet> p(DNew Packet());
 				p->TrackNumber = TrackNumber;
 				p->bSyncPoint = !!h.fpts;
 				p->bAppendable = !h.fpts;
@@ -226,7 +226,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 			if(GetOutputPin(TrackNumber))
 			{
-				CAutoPtr<Packet> p(new Packet());
+				CAutoPtr<Packet> p(DNew Packet());
 				p->TrackNumber = TrackNumber;
 				p->bSyncPoint = !!h2.fpts;
 				p->bAppendable = !h2.fpts;
@@ -254,7 +254,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 		if(GetOutputPin(TrackNumber))
 		{
-			CAutoPtr<Packet> p(new Packet());
+			CAutoPtr<Packet> p(DNew Packet());
 			p->TrackNumber = TrackNumber;
 			p->bSyncPoint = !!h.fpts;
 			p->bAppendable = !h.fpts;
@@ -281,7 +281,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -314,7 +314,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 
 			HRESULT hr;
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(new CMpegSplitterOutputPin(mts, name, this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, name, this, this, &hr));
 			if (i == CMpegSplitterFile::subpic)
 				((CMpegSplitterOutputPin*)pPinOut.m_p)->SetMaxShift (_I64_MAX);
 			if(S_OK == AddOutputPin(s, pPinOut))
@@ -565,11 +565,11 @@ CString FormatString(const wchar_t *pszFormat, ... )
 	return Temp;
 }
 
-int GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
+LONGLONG GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
 {
 	if (_pMediaType->formattype == FORMAT_WaveFormatEx)
 	{
-		int Ret = 0;
+		__int64 Ret = 0;
 
 		const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
 		int TypePriority = 0;
@@ -635,11 +635,12 @@ int GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
 			}
 		}
 
-		Ret += TypePriority * 100000000;
+		Ret += __int64(TypePriority) * 100000000i64 * 1000000000i64;
 
-		Ret += pInfo->nChannels * 1000000;
-		Ret += pInfo->nSamplesPerSec * 10;
-		Ret += pInfo->wBitsPerSample / 4;
+		Ret += __int64(pInfo->nChannels) * 1000000i64 * 1000000000i64;
+		Ret += __int64(pInfo->nSamplesPerSec) * 10i64  * 1000000000i64;
+		Ret += __int64(pInfo->wBitsPerSample)  * 10000000i64;
+		Ret += __int64(pInfo->nAvgBytesPerSec);
 
 		return Ret;
 	}
@@ -666,8 +667,8 @@ bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
 		if (mt.formattype != FORMAT_WaveFormatEx && _Other.mt.formattype == FORMAT_WaveFormatEx)
 			return false;
 
-		int Quality0 = GetMediaTypeQuality(&mt, StreamType0);
-		int Quality1 = GetMediaTypeQuality(&_Other.mt, StreamType1);
+		LONGLONG Quality0 = GetMediaTypeQuality(&mt, StreamType0);
+		LONGLONG Quality1 = GetMediaTypeQuality(&_Other.mt, StreamType1);
 		if (Quality0 > Quality1)
 			return true;
 		if (Quality0 < Quality1)
@@ -1225,7 +1226,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				break;
 			}
 
-			CAutoPtr<Packet> p(new Packet());
+			CAutoPtr<Packet> p(DNew Packet());
 			p->TrackNumber = m_p->TrackNumber;
 			p->bDiscontinuity |= m_p->bDiscontinuity; m_p->bDiscontinuity = false;
 			p->bSyncPoint = m_p->rtStart != Packet::INVALID_TIME;
@@ -1255,7 +1256,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	{
 		if(!m_p)
 		{
-			m_p.Attach(new Packet());
+			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;
 			m_p->bDiscontinuity = p->bDiscontinuity; p->bDiscontinuity = FALSE;
 			m_p->bSyncPoint = p->bSyncPoint; p->bSyncPoint = FALSE;
@@ -1293,7 +1294,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 					((Nalu.GetDataLength() <<  8) & 0x00ff0000) |
 					((Nalu.GetDataLength() << 24) & 0xff000000);
 
-				CAutoPtr<Packet> p3(new Packet());
+				CAutoPtr<Packet> p3(DNew Packet());
 				
 				//p2->SetData(start, next - start);
 				p3->SetCount (Nalu.GetDataLength()+sizeof(dwNalLength));
@@ -1358,7 +1359,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	{
 		if(!m_p)
 		{
-			m_p.Attach(new Packet());
+			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;
 			m_p->bDiscontinuity = p->bDiscontinuity; p->bDiscontinuity = FALSE;
 			m_p->bSyncPoint = p->bSyncPoint; p->bSyncPoint = FALSE;
@@ -1405,7 +1406,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			int size = next - start - 4;
 
 
-			CAutoPtr<Packet> p2(new Packet());
+			CAutoPtr<Packet> p2(DNew Packet());
 			p2->TrackNumber = m_p->TrackNumber;
 			p2->bDiscontinuity = m_p->bDiscontinuity; m_p->bDiscontinuity = FALSE;
 			p2->bSyncPoint = m_p->bSyncPoint; m_p->bSyncPoint = FALSE;

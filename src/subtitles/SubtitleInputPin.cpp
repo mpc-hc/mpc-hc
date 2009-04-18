@@ -72,7 +72,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 {
 	if(m_mt.majortype == MEDIATYPE_Text)
 	{
-		if(!(m_pSubStream = new CRenderedTextSubtitle(m_pSubLock))) return E_FAIL;
+		if(!(m_pSubStream = DNew CRenderedTextSubtitle(m_pSubLock))) return E_FAIL;
 		CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 		pRTS->m_name = CString(GetPinName(pReceivePin)) + _T(" (embeded)");
 		pRTS->m_dstScreenSize = CSize(384, 288);
@@ -94,7 +94,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 		|| m_mt.subtype == MEDIASUBTYPE_ASS 
 		|| m_mt.subtype == MEDIASUBTYPE_ASS2)
 		{
-			if(!(m_pSubStream = new CRenderedTextSubtitle(m_pSubLock))) return E_FAIL;
+			if(!(m_pSubStream = DNew CRenderedTextSubtitle(m_pSubLock))) return E_FAIL;
 			CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 			pRTS->m_name = name;
 			pRTS->m_lcid = lcid;
@@ -120,19 +120,19 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 		}
 		else if(m_mt.subtype == MEDIASUBTYPE_SSF)
 		{
-			if(!(m_pSubStream = new ssf::CRenderer(m_pSubLock))) return E_FAIL;
+			if(!(m_pSubStream = DNew ssf::CRenderer(m_pSubLock))) return E_FAIL;
 			ssf::CRenderer* pSSF = (ssf::CRenderer*)(ISubStream*)m_pSubStream;
 			pSSF->Open(ssf::MemoryInputStream(m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset, false, false), name);
 		}
 		else if(m_mt.subtype == MEDIASUBTYPE_VOBSUB)
 		{
-			if(!(m_pSubStream = new CVobSubStream(m_pSubLock))) return E_FAIL;
+			if(!(m_pSubStream = DNew CVobSubStream(m_pSubLock))) return E_FAIL;
 			CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
 			pVSS->Open(name, m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset);
 		}
 		else if (m_mt.subtype == MEDIASUBTYPE_HDMVSUB)
 		{
-			if(!(m_pSubStream = new CRenderedHdmvSubtitle(m_pSubLock))) return E_FAIL;
+			if(!(m_pSubStream = DNew CRenderedHdmvSubtitle(m_pSubLock))) return E_FAIL;
 		}
 	}
 

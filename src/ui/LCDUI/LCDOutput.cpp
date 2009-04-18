@@ -10,6 +10,8 @@
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
+#include "../../DSUtil/SharedInclude.h"
+#include <Afx.h>
 #include "LCDOutput.h"
 
 #pragma comment(lib, "lgLcd.lib")
@@ -41,7 +43,7 @@ CLCDOutput::CLCDOutput()
                         LGLCD_DEVICE_FAMILY_SPEAKERS_Z10;
     m_dwDeviceFamiliesSupportedReserved1 = 0; 
 
-    m_pLastBitmap = new lgLcdBitmap160x43x1;
+    m_pLastBitmap = DNew lgLcdBitmap160x43x1;
     ClearBitmap(m_pLastBitmap);
     // Allow the first update to go through
     m_bPriorityHasChanged = TRUE;

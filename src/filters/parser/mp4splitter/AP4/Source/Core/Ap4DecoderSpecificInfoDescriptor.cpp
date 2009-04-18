@@ -85,7 +85,7 @@ AP4_DecoderSpecificInfoDescriptor::WriteFields(AP4_ByteStream& stream)
 AP4_Result
 AP4_DecoderSpecificInfoDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
-    char* info = new char[m_Info.GetDataSize()*3+1];
+    char* info = DNew char[m_Info.GetDataSize()*3+1];
     for (unsigned int i=0; i<m_Info.GetDataSize(); i++) {
 		AP4_StringFormat(&info[i*3], 3, "%02x ", m_Info.UseData()[i]);
 	}

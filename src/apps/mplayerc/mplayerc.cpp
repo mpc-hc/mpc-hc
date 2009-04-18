@@ -35,6 +35,7 @@
 #include "Ifo.h"
 #include "MiniDump.h"
 
+#pragma comment(lib, "winmm.lib")
 /////////
 
 #define IDS_RS_ENABLEEDLEDITOR				_T("EnableEDLEditor")
@@ -702,7 +703,7 @@ public:
 		spd.pitch = spd.w*spd.bpp>>3;
 		spd.type = MSP_RGB32;
 		spd.vidrect = CRect(0, 0, spd.w, spd.h);
-		spd.bits = new BYTE[spd.pitch*spd.h];
+		spd.bits = DNew BYTE[spd.pitch*spd.h];
 
 		CCritSec csLock;
 /*
@@ -955,7 +956,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	AfxEnableControlContainer();
 
-	CMainFrame* pFrame = new CMainFrame;
+	CMainFrame* pFrame = DNew CMainFrame;
 	m_pMainWnd = pFrame;
 	pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW|FWS_ADDTOTITLE, NULL, NULL);
 	pFrame->SetDefaultWindowRect((m_s.nCLSwitches&CLSW_MONITOR)?m_s.iMonitor:0);
@@ -1361,12 +1362,18 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_VIEW_TEARING_TEST,				'T', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_TEARING_TEST));
 	ADDCMD((ID_VIEW_REMAINING_TIME,				'I', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_MPLAYERC_98));
 	ADDCMD((ID_SHADER_TOGGLE,					'P', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AT_TOGGLE_SHADER));
+	ADDCMD((ID_SHADER_TOGGLESCREENSPACE,		'P', FVIRTKEY|FCONTROL|FALT|FNOINVERT,	IDS_AT_TOGGLE_SHADERSCREENSPACE));
 	ADDCMD((ID_D3DFULLSCREEN_TOGGLE,			'F', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_MPLAYERC_99));
 	ADDCMD((ID_GOTO_PREV_SUB,					'Y', FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_100, APPCOMMAND_BROWSER_BACKWARD));
 	ADDCMD((ID_GOTO_NEXT_SUB,					'U', FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_101,  APPCOMMAND_BROWSER_FORWARD));
 	ADDCMD((ID_SHIFT_SUB_DOWN,				VK_NEXT, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_102));
 	ADDCMD((ID_SHIFT_SUB_UP,			   VK_PRIOR, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_103));
-	ADDCMD((ID_VIEW_DISPLAYSTATS,				'J', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_DISPLAY_STATS));
+	ADDCMD((ID_VIEW_DISPLAYSTATS_SC,				'J', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_DISPLAY_STATS));
+	ADDCMD((ID_VIEW_VSYNC,						'V', FVIRTKEY|FNOINVERT,				IDS_AG_VSYNC));
+	ADDCMD((ID_VIEW_ENABLEFRAMETIMECORRECTION,  'C', FVIRTKEY|FNOINVERT,				IDS_AG_ENABLEFRAMETIMECORRECTION));
+	ADDCMD((ID_VIEW_VSYNCACCURATE,				'V', FVIRTKEY|FCONTROL|FALT|FNOINVERT,			IDS_AG_VSYNCACCURATE));
+	ADDCMD((ID_VIEW_VSYNCOFFSET_DECREASE,    VK_UP, FVIRTKEY|FCONTROL|FALT|FNOINVERT,	IDS_AG_VSYNCOFFSET_DECREASE));
+	ADDCMD((ID_VIEW_VSYNCOFFSET_INCREASE,	VK_DOWN, FVIRTKEY|FCONTROL|FALT|FNOINVERT,	IDS_AG_VSYNCOFFSET_INCREASE));
 	ADDCMD((ID_SUB_DELAY_DOWN,				  VK_F1, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_104));
 	ADDCMD((ID_SUB_DELAY_UP,				  VK_F2, FVIRTKEY|FNOINVERT,				IDS_MPLAYERC_105));
 	ADDCMD((ID_FILE_SAVE_THUMBNAILS,			  0, FVIRTKEY|FNOINVERT,				IDS_FILE_SAVE_THUMBNAILS));
@@ -1538,10 +1545,25 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_RMVIDEORENDERERTYPE), iRMVideoRendererType);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_QTVIDEORENDERERTYPE), iQTVideoRendererType);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_APSURACEFUSAGE), iAPSurfaceUsage);
-		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMRSYNCFIX), fVMRSyncFix);
+//		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMRSYNCFIX), fVMRSyncFix);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DX9_RESIZER), iDX9Resizer);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMR9MIXERMODE), fVMR9MixerMode);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMR9MIXERYUV), fVMR9MixerYUV);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRAlternateVSync"), m_RenderSettings.fVMR9AlterativeVSync);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSyncOffset"), m_RenderSettings.iVMR9VSyncOffset);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSyncAccurate2"), m_RenderSettings.iVMR9VSyncAccurate);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFullscreenGUISupport"), m_RenderSettings.iVMR9FullscreenGUISupport);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSync"), m_RenderSettings.iVMR9VSync);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRDisableDesktopComposition"), m_RenderSettings.iVMRDisableDesktopComposition);
+
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("EVROutputRange"), m_RenderSettings.iEVROutputRange);		
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("EVRHighColorRes"), m_RenderSettings.iEVRHighColorResolution);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("EVREnableFrameTimeCorrection"), m_RenderSettings.iEVREnableFrameTimeCorrection);
+
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUBeforeVSync"), m_RenderSettings.iVMRFlushGPUBeforeVSync);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUAfterPresent"), m_RenderSettings.iVMRFlushGPUAfterPresent);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUWait"), m_RenderSettings.iVMRFlushGPUWait);
+		
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIORENDERERTYPE), CString(AudioRendererDisplayName));
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADAUDIO), fAutoloadAudio);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADSUBTITLES), fAutoloadSubtitles);
@@ -1562,6 +1584,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SPCMAXRES), nSPCMaxRes);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SUBDELAYINTERVAL), nSubDelayInterval);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_POW2TEX), fSPCPow2Tex);
+		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("SPCDisabeAnim"), fSPCDisableAnim);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLESUBTITLES), fEnableSubtitles);		
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLEAUDIOSWITCHER), fEnableAudioSwitcher);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLEAUDIOTIMESHIFT), fAudioTimeShift);
@@ -1598,6 +1621,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION), strTemp);
 		
 		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), strShaderList);
+		pApp->WriteProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLISTSCREENSPACE), strShaderListScreenSpace);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), iEvrBuffers);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), (int)fShowOSD);
 		pApp->WriteProfileInt(ResStr(IDS_R_SETTINGS), IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
@@ -1775,6 +1799,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(_T("Shaders"), NULL, NULL);
 		pApp->WriteProfileInt(_T("Shaders"), _T("Initialized"), 1);
 		pApp->WriteProfileString(_T("Shaders"), _T("Combine"), m_shadercombine);
+		pApp->WriteProfileString(_T("Shaders"), _T("CombineScreenSpace"), m_shadercombineScreenSpace);
+		
 
 		pos = m_shaders.GetHeadPosition();
 		for(int i = 0; pos; i++)
@@ -1844,10 +1870,26 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		iRMVideoRendererType = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_RMVIDEORENDERERTYPE), VIDRNDT_RM_DEFAULT);
 		iQTVideoRendererType = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_QTVIDEORENDERERTYPE), VIDRNDT_QT_DEFAULT);
 		iAPSurfaceUsage = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_APSURACEFUSAGE), (IsVistaOrAbove() ? VIDRNDT_AP_TEXTURE3D : VIDRNDT_AP_TEXTURE2D));
-		fVMRSyncFix = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMRSYNCFIX), FALSE);
+//		fVMRSyncFix = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMRSYNCFIX), FALSE);
 		iDX9Resizer = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_DX9_RESIZER), 1);
 		fVMR9MixerMode = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMR9MIXERMODE), TRUE);
 		fVMR9MixerYUV = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_VMR9MIXERYUV), FALSE);
+		CRendererSettingsEVR DefaultSettings;
+		m_RenderSettings.fVMR9AlterativeVSync = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRAlternateVSync"), DefaultSettings.fVMR9AlterativeVSync);
+		m_RenderSettings.iVMR9VSyncOffset = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSyncOffset"), DefaultSettings.iVMR9VSyncOffset);
+		m_RenderSettings.iVMR9VSyncAccurate = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSyncAccurate2"), DefaultSettings.iVMR9VSyncAccurate);
+		m_RenderSettings.iVMR9FullscreenGUISupport = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFullscreenGUISupport"), DefaultSettings.iVMR9FullscreenGUISupport);
+		m_RenderSettings.iEVRHighColorResolution = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("EVRHighColorRes"), DefaultSettings.iEVRHighColorResolution);
+		m_RenderSettings.iEVREnableFrameTimeCorrection = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("EVREnableFrameTimeCorrection"), DefaultSettings.iEVREnableFrameTimeCorrection);
+		m_RenderSettings.iVMR9VSync = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRVSync"), DefaultSettings.iVMR9VSync);
+		m_RenderSettings.iVMRDisableDesktopComposition = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRDisableDesktopComposition"), DefaultSettings.iVMRDisableDesktopComposition);
+		
+		m_RenderSettings.iEVROutputRange = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("EVROutputRange"), DefaultSettings.iEVROutputRange);
+
+		m_RenderSettings.iVMRFlushGPUBeforeVSync = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUBeforeVSync"), DefaultSettings.iVMRFlushGPUBeforeVSync);
+		m_RenderSettings.iVMRFlushGPUAfterPresent = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUAfterPresent"), DefaultSettings.iVMRFlushGPUAfterPresent);
+		m_RenderSettings.iVMRFlushGPUWait = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("VMRFlushGPUWait"), DefaultSettings.iVMRFlushGPUWait);
+
 		AudioRendererDisplayName = pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUDIORENDERERTYPE), _T(""));
 		fAutoloadAudio = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADAUDIO), TRUE);
 		fAutoloadSubtitles = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_AUTOLOADSUBTITLES), IsVistaOrAbove() || !IsVSFilterInstalled() );
@@ -1912,6 +1954,15 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		nSPCMaxRes = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SPCMAXRES), 2);
 		nSubDelayInterval = pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SUBDELAYINTERVAL), 500);
 		fSPCPow2Tex = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_POW2TEX), TRUE);
+		
+		bool bDisableAnim = false;
+		SYSTEM_INFO SysInfo;
+		GetSystemInfo(&SysInfo);
+		if (SysInfo.dwNumberOfProcessors < 3)
+			bDisableAnim = true;
+		
+
+		fSPCDisableAnim = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("SPCDisabeAnim"), bDisableAnim);
 		fEnableSubtitles = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLESUBTITLES), TRUE);
 		fEnableAudioSwitcher = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLEAUDIOSWITCHER), TRUE);
 		fAudioTimeShift = !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_ENABLEAUDIOTIMESHIFT), 0);
@@ -1958,7 +2009,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 				CString key;
 				key.Format(_T("%s\\%04d"), ResStr(IDS_R_FILTERS), i);
 
-				CAutoPtr<FilterOverride> f(new FilterOverride);
+				CAutoPtr<FilterOverride> f(DNew FilterOverride);
 
 				f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), 0);
 
@@ -2145,6 +2196,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		shaders[_T("16-235 -> 0-255  [SD][HD]")] = IDF_SHADER_LEVELS;
 		shaders[_T("16-235 -> 0-255  [SD]")] = IDF_SHADER_LEVELS2;
+		shaders[_T("0-255 -> 16-235")] = IDF_SHADER_LEVELS3;
 		shaders[_T("BT.601 -> BT.709")] = IDF_SHADER_BT601_BT709;
 		shaders[_T("contour")] = IDF_SHADER_CONTOUR;
 		shaders[_T("deinterlace (blend)")] = IDF_SHADER_DEINTERLACE;
@@ -2226,6 +2278,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		dHue			= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_HUE),			_T("0")));
 		dSaturation		= (float)_tstof(pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_COLOR_SATURATION),	_T("1")));
 		strShaderList	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLIST), _T(""));
+		strShaderListScreenSpace	= pApp->GetProfileString(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHADERLISTSCREENSPACE), _T(""));
 		iEvrBuffers		= pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_EVR_BUFFERS), 5);
 		fShowOSD		= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), ResStr(IDS_RS_SHOWOSD), 1);
 		fEnableEDLEditor= !!pApp->GetProfileInt(ResStr(IDS_R_SETTINGS), IDS_RS_ENABLEEDLEDITOR, FALSE);
@@ -2271,6 +2324,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		// TODO: sort shaders by label
 
 		m_shadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
+		m_shadercombineScreenSpace = pApp->GetProfileString(_T("Shaders"), _T("CombineScreenSpace"), _T(""));
+
 		fInitialized = true;
 	}
 }
@@ -2502,7 +2557,7 @@ void CMPlayerCApp::Settings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 
 	// fully qualify the path name
 	TCHAR szTemp[1024];
-	if(fURL) _tcscpy(szTemp, lpszPathName);
+	if(fURL) _tcscpy_s(szTemp, lpszPathName);
 	else AfxFullPath(szTemp, lpszPathName);
 
 	// update the MRU list, if an existing MRU string matches file name
@@ -2815,6 +2870,7 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
 		else if(ext == _T(".m3u")) ct = _T("audio/x-mpegurl");
 		else if(ext == _T(".qtl")) ct = _T("application/x-quicktimeplayer");
 		else if(ext == _T(".mpcpl")) ct = _T("application/x-mpc-playlist");
+		else if(ext == _T(".bdmv")) ct = _T("application/x-bdmv-playlist");
 
 		if(FILE* f = _tfopen(fn, _T("rb")))
 		{
@@ -2843,18 +2899,18 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
 		if(ct == _T("video/x-ms-asf"))
 		{
 			// ...://..."/>
-			re.Attach(new CAtlRegExpT());
+			re.Attach(DNew CAtlRegExpT());
 			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[a-zA-Z]+://[^\n\">]*}"), FALSE))
 				res.AddTail(re);
 			// Ref#n= ...://...\n
-			re.Attach(new CAtlRegExpT());
+			re.Attach(DNew CAtlRegExpT());
 			if(re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE))
 				res.AddTail(re);
 		}
 		else if(ct == _T("audio/x-scpls"))
 		{
 			// File1=...\n
-			re.Attach(new CAtlRegExp<>());
+			re.Attach(DNew CAtlRegExp<>());
 			if(re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE))
 				res.AddTail(re);
 		}
@@ -2862,14 +2918,14 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
 		{
 			// #comment
 			// ...
-			re.Attach(new CAtlRegExp<>());
+			re.Attach(DNew CAtlRegExp<>());
 			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[^#][^\n]+}"), FALSE))
 				res.AddTail(re);
 		}
 		else if(ct == _T("audio/x-pn-realaudio"))
 		{
 			// rtsp://...
-			re.Attach(new CAtlRegExp<>());
+			re.Attach(DNew CAtlRegExp<>());
 			if(re && REPARSE_ERROR_OK == re->Parse(_T("{rtsp://[^\n]+}"), FALSE))
 				res.AddTail(re);
 		}
@@ -2891,8 +2947,7 @@ LONGLONG CMPlayerCApp::GetPerfCounter()
 	if (m_PerfFrequency != 0)
 	{
 		QueryPerformanceCounter ((LARGE_INTEGER*)&i64Ticks100ns);
-		i64Ticks100ns	= i64Ticks100ns * 10000000;
-		i64Ticks100ns	= i64Ticks100ns / m_PerfFrequency;
+		i64Ticks100ns	= LONGLONG((double(i64Ticks100ns) * 10000000) / double(m_PerfFrequency) + 0.5);
 
 		return i64Ticks100ns;
 	}

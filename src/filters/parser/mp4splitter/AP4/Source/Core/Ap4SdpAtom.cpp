@@ -54,7 +54,7 @@ AP4_SdpAtom::AP4_SdpAtom(AP4_Size size, AP4_ByteStream& stream) :
     // sdptext
     AP4_Size str_size = size-AP4_ATOM_HEADER_SIZE;
     if (str_size > 0) {
-        char* str = new char[str_size+1];
+        char* str = DNew char[str_size+1];
         stream.Read(str, str_size);
         str[str_size] = '\0'; // force null-termination
         m_SdpText = str;

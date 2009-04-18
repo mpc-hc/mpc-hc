@@ -224,7 +224,7 @@ namespace ssf
 
 		// Initialize scanline list.
 
-		mpScanBuffer = new unsigned int[mHeight];
+		mpScanBuffer = DNew unsigned int[mHeight];
 		memset(mpScanBuffer, 0, mHeight*sizeof(unsigned int));
 
 		// Scan convert the outline.  Yuck, Bezier curves....
@@ -248,7 +248,7 @@ namespace ssf
 			{
 			case PT_MOVETO:
 				if(lastmoveto >= 0 && firstp != lastp) _EvaluateLine(lastp, firstp);
-				lastmoveto = i;
+				lastmoveto = int(i);
 				fFirstSet = false;
 				lastp = pt[i];
 				break;
@@ -495,7 +495,7 @@ namespace ssf
 		mOverlayWidth = ((width + ((1<<FONT_AA)-1)) >> FONT_AA) + 1;
 		mOverlayHeight = ((height + ((1<<FONT_AA)-1)) >> FONT_AA) + 1;
 
-		mpOverlayBuffer = new BYTE[4 * mOverlayWidth * mOverlayHeight];
+		mpOverlayBuffer = DNew BYTE[4 * mOverlayWidth * mOverlayHeight];
 		memset(mpOverlayBuffer, 0, 4 * mOverlayWidth * mOverlayHeight);
 
 		Array<Span>* pOutline[2] = {&mOutline, &mWideOutline};
@@ -562,7 +562,7 @@ namespace ssf
 		int w = mOverlayWidth;
 		int h = mOverlayHeight;
 		int pitch = w*4;
-		BYTE* q0 = new BYTE[w*h];
+		BYTE* q0 = DNew BYTE[w*h];
 
 		for(int pass = 0, limit = (int)(n + 0.5); pass < n; pass++)
 		{

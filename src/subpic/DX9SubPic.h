@@ -25,6 +25,7 @@
 
 // CDX9SubPic
 
+class CDX9SubPicAllocator;
 class CDX9SubPic : public ISubPicImpl
 {
 	CComPtr<IDirect3DSurface9> m_pSurface;
@@ -33,7 +34,9 @@ protected:
 	STDMETHODIMP_(void*) GetObject(); // returns IDirect3DTexture9*
 
 public:
-	CDX9SubPic(IDirect3DSurface9* pSurface);
+	CDX9SubPicAllocator *m_pAllocator;
+	CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator);
+	~CDX9SubPic();
 
 	// ISubPic
 	STDMETHODIMP GetDesc(SubPicDesc& spd);
@@ -51,10 +54,19 @@ class CDX9SubPicAllocator : public ISubPicAllocatorImpl, public CCritSec
 	CComPtr<IDirect3DDevice9> m_pD3DDev;
 	CSize m_maxsize;
 
+
 	bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
 public:
+	static CCritSec ms_SurfaceQueueLock;
+	CAtlList<CComPtr<IDirect3DSurface9> > m_FreeSurfaces;
+	CAtlList<CDX9SubPic *> m_AllocatedSurfaces;
+
+	void GetStats(int &_nFree, int &_nAlloc);
+
 	CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures);
+	~CDX9SubPicAllocator();
+	void ClearCache();
 
 	// ISubPicAllocator
 	STDMETHODIMP ChangeDevice(IUnknown* pDev);

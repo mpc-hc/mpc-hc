@@ -123,7 +123,7 @@ public:
 
 	HRESULT			ParseSample (IMediaSample* pSample);
 
-	int				GetActiveObjects()  { return m_pObjects.GetCount(); };
+	int				GetActiveObjects()  { return (int)m_pObjects.GetCount(); };
 
 	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps);
 	POSITION		GetNext(POSITION pos) { m_pObjects.GetNext(pos); return pos; };

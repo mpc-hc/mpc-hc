@@ -44,16 +44,16 @@ AP4_Result
 AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
 {
     // create the stbl container
-    stbl = new AP4_ContainerAtom(AP4_ATOM_TYPE_STBL);
+    stbl = DNew AP4_ContainerAtom(AP4_ATOM_TYPE_STBL);
 
     // create the stsd atom
-    AP4_StsdAtom* stsd = new AP4_StsdAtom(this);
+    AP4_StsdAtom* stsd = DNew AP4_StsdAtom(this);
 
     // create the stsz atom
-    AP4_StszAtom* stsz = new AP4_StszAtom();
+    AP4_StszAtom* stsz = DNew AP4_StszAtom();
 
     // create the stsc atom
-    AP4_StscAtom* stsc = new AP4_StscAtom();
+    AP4_StscAtom* stsc = DNew AP4_StscAtom();
 
     // start chunk table
     AP4_Cardinal        samples_in_chunk = 0;
@@ -95,11 +95,11 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
     }
 
     // create the stco atom
-    AP4_StcoAtom* stco = new AP4_StcoAtom(&chunk_offsets[0], 
+    AP4_StcoAtom* stco = DNew AP4_StcoAtom(&chunk_offsets[0], 
                                           chunk_offsets.ItemCount());
 
     // create the stts atom (for now, we assume sample of equal duration)
-    AP4_SttsAtom* stts = new AP4_SttsAtom();
+    AP4_SttsAtom* stts = DNew AP4_SttsAtom();
     stts->AddEntry(sample_count, 1000); // FIXME
 
     // attach the children of stbl

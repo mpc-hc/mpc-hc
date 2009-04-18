@@ -36,7 +36,7 @@ CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
 	, m_hBreakEvent(NULL)
 	, m_lOsError(0)
 {
-	hr = Open(fn, modeRead|shareDenyWrite|typeBinary|osSequentialScan) ? S_OK : E_FAIL;
+	hr = Open(fn, modeRead|shareDenyNone|typeBinary|osSequentialScan) ? S_OK : E_FAIL;
 	if(SUCCEEDED(hr)) m_len = GetLength();
 }
 
@@ -80,7 +80,7 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
 			Sleep(1);
 			CString fn = m_strFileName;
 			try {Close();} catch(CFileException* e) {e->Delete();}
-			try {Open(fn, modeRead|shareDenyWrite|typeBinary|osSequentialScan);} catch(CFileException* e) {e->Delete();}
+			try {Open(fn, modeRead|shareDenyNone|typeBinary|osSequentialScan);} catch(CFileException* e) {e->Delete();}
 			m_strFileName = fn;
 		}
 	}

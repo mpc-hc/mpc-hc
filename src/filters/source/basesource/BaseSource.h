@@ -59,7 +59,7 @@ public:
 			return VFW_E_ALREADY_CONNECTED;
 
 		HRESULT hr = S_OK;
-		if(!(new TStream(pszFileName, this, &hr)))
+		if(!(DNew TStream(pszFileName, this, &hr)))
 			return E_OUTOFMEMORY;
 
 		if(FAILED(hr))

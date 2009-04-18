@@ -259,7 +259,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		m_chunkdist.SetCount(w);
 		memset(m_chunkdist.GetData(), 0, sizeof(int)*w);
 
-		DWORD* curchunks = new DWORD[pAF->m_avih.dwStreams];
+		DWORD* curchunks = DNew DWORD[pAF->m_avih.dwStreams];
 		memset(curchunks, 0, sizeof(DWORD)*pAF->m_avih.dwStreams);
 
 		CAviFile::strm_t::chunk2 cs2last = {-1, 0};

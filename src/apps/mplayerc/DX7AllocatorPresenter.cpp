@@ -193,9 +193,9 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 	*ppAP = NULL;
 
 	HRESULT hr;
-	if(clsid == CLSID_VMR7AllocatorPresenter && !(*ppAP = new CVMR7AllocatorPresenter(hWnd, hr))
-	|| clsid == CLSID_RM7AllocatorPresenter && !(*ppAP = new CRM7AllocatorPresenter(hWnd, hr))
-	|| clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = new CQT7AllocatorPresenter(hWnd, hr)))
+	if(clsid == CLSID_VMR7AllocatorPresenter && !(*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr))
+	|| clsid == CLSID_RM7AllocatorPresenter && !(*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr))
+	|| clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr)))
 		return E_OUTOFMEMORY;
 
 	if(*ppAP == NULL)
@@ -289,7 +289,7 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice7> pD3DDev, CComPtr<IDirectDraw
 //
 
 CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr) 
-	: ISubPicAllocatorPresenterImpl(hWnd, hr)
+	: ISubPicAllocatorPresenterImpl(hWnd, hr, NULL)
 	, m_ScreenSize(0, 0)
 {
 	if(FAILED(hr)) return;
@@ -373,6 +373,10 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
 	case 3: size.SetSize(640, 480); break;
 	case 4: size.SetSize(512, 384); break;
 	case 5: size.SetSize(384, 288); break;
+	case 6: size.SetSize(2560, 1600); break;
+	case 7: size.SetSize(1920, 1080); break;
+	case 8: size.SetSize(1320, 900); break;
+	case 9: size.SetSize(1280, 720); break;
 	}
 
 	if(m_pAllocator)
@@ -381,15 +385,15 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
 	}
 	else
 	{
-		m_pAllocator = new CDX7SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX7SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
 		if(!m_pAllocator || FAILED(hr))
 			return E_FAIL;
 	}
 
 	hr = S_OK;
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
-		? (ISubPicQueue*)new CSubPicQueue(AfxGetAppSettings().nSPCSize, m_pAllocator, &hr)
-		: (ISubPicQueue*)new CSubPicQueueNoThread(m_pAllocator, &hr);
+		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, AfxGetAppSettings().fSPCDisableAnim, m_pAllocator, &hr)
+		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
 	if(!m_pSubPicQueue || FAILED(hr))
 		return E_FAIL;
 

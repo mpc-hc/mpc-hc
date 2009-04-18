@@ -10,6 +10,8 @@
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
+#include "../../DSUtil/SharedInclude.h"
+#include <Afx.h>
 #include "LCDGfx.h"
 
 
@@ -64,7 +66,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
     }
     
     int nBMISize = sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD);
-    m_pBitmapInfo = (BITMAPINFO *) new BYTE [nBMISize];
+    m_pBitmapInfo = (BITMAPINFO *) DNew BYTE [nBMISize];
     if(NULL == m_pBitmapInfo)
     {
         LCDUITRACE(_T("CLCDGfx::Initialize(): failed to allocate bitmap info.\n"));
@@ -104,7 +106,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
         return E_FAIL;
     }
     
-    m_pLCDScreen = new lgLcdBitmap160x43x1;
+    m_pLCDScreen = DNew lgLcdBitmap160x43x1;
     if(NULL == m_pLCDScreen)
     {
         LCDUITRACE(_T("CLCDGfx::Initialize(): failed to allocate the lcd screen structure.\n"));

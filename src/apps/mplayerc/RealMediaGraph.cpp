@@ -101,7 +101,7 @@ bool CRealMediaPlayer::Init()
 
 		if(!dllpaths.IsEmpty())
 		{
-			char* s = new char[dllpaths.GetLength()+1];
+			char* s = DNew char[dllpaths.GetLength()+1];
 			strcpy(s, CStringA(dllpaths));
 			for(int i = 0, j = strlen(s); i < j; i++) {if(s[i] == '|') s[i] = '\0';}
 			m_fpSetDLLAccessPath(s);
@@ -521,7 +521,7 @@ bool CRealMediaPlayerWindowless::CreateSite(IRMASite** ppSite)
 	CRealMediaWindowlessSite* pWMWlS;
 
     CComPtr<IRMASiteWindowless> pSiteWindowless;
-	pSiteWindowless = (IRMASiteWindowless*)(pWMWlS = new CRealMediaWindowlessSite(hr, m_pPlayer, NULL, NULL));
+	pSiteWindowless = (IRMASiteWindowless*)(pWMWlS = DNew CRealMediaWindowlessSite(hr, m_pPlayer, NULL, NULL));
     if(FAILED(hr))
 		return(false);
 
@@ -557,8 +557,8 @@ CRealMediaGraph::CRealMediaGraph(HWND hWndParent, HRESULT& hr)
 	hr = S_OK;
 
 	m_pRMP = AfxGetAppSettings().iRMVideoRendererType == VIDRNDT_RM_DEFAULT
-		? (CRealMediaPlayer*)new CRealMediaPlayerWindowed(hWndParent, this)
-		: (CRealMediaPlayer*)new CRealMediaPlayerWindowless(hWndParent, this);
+		? (CRealMediaPlayer*)DNew CRealMediaPlayerWindowed(hWndParent, this)
+		: (CRealMediaPlayer*)DNew CRealMediaPlayerWindowless(hWndParent, this);
 
 	if(!m_pRMP)
 	{

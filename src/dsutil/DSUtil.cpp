@@ -1166,7 +1166,7 @@ unsigned __int64 GetFileVersion(LPCTSTR fn)
 	
 	if(len)
 	{
-		TCHAR* b1 = new TCHAR[len];
+		TCHAR* b1 = DNew TCHAR[len];
 		if(b1)
 		{
             UINT uLen;

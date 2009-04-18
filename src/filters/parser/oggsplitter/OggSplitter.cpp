@@ -152,7 +152,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
-	m_pFile.Attach(new COggFile(pAsyncReader, hr));
+	m_pFile.Attach(DNew COggFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
 
@@ -182,7 +182,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				{
 					name.Format(L"Theora %d", i);
 					CAutoPtr<CBaseSplitterOutputPin> pPinOut;
-					pPinOut.Attach(new COggTheoraOutputPin(page.GetData(), name, this, this, &hr));
+					pPinOut.Attach(DNew COggTheoraOutputPin(page.GetData(), name, this, this, &hr));
 					AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 					nWaitForMore++;
 				}
@@ -194,28 +194,28 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				if(!memcmp(p, "vorbis", 6))
 				{
 					name.Format(L"Vorbis %d", i);
-					pPinOut.Attach(new COggVorbisOutputPin((OggVorbisIdHeader*)(p+6), name, this, this, &hr));
+					pPinOut.Attach(DNew COggVorbisOutputPin((OggVorbisIdHeader*)(p+6), name, this, this, &hr));
 					nWaitForMore++;
 				}
 				else if(!memcmp(p, "video", 5))
 				{
 					name.Format(L"Video %d", i);
-					pPinOut.Attach(new COggVideoOutputPin((OggStreamHeader*)p, name, this, this, &hr));
+					pPinOut.Attach(DNew COggVideoOutputPin((OggStreamHeader*)p, name, this, this, &hr));
 				}
 				else if(!memcmp(p, "audio", 5))
 				{
 					name.Format(L"Audio %d", i);
-					pPinOut.Attach(new COggAudioOutputPin((OggStreamHeader*)p, name, this, this, &hr));
+					pPinOut.Attach(DNew COggAudioOutputPin((OggStreamHeader*)p, name, this, this, &hr));
 				}
 				else if(!memcmp(p, "text", 4))
 				{
 					name.Format(L"Text %d", i);
-					pPinOut.Attach(new COggTextOutputPin((OggStreamHeader*)p, name, this, this, &hr));
+					pPinOut.Attach(DNew COggTextOutputPin((OggStreamHeader*)p, name, this, this, &hr));
 				}
 				else if(!memcmp(p, "Direct Show Samples embedded in Ogg", 35))
 				{
 					name.Format(L"DirectShow %d", i);
-					pPinOut.Attach(new COggDirectShowOutputPin((AM_MEDIA_TYPE*)(p+35+sizeof(GUID)), name, this, this, &hr));
+					pPinOut.Attach(DNew COggDirectShowOutputPin((AM_MEDIA_TYPE*)(p+35+sizeof(GUID)), name, this, this, &hr));
 				}
 
 				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
@@ -233,7 +233,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				// Ogg Flac : method 1
 				CAutoPtr<CBaseSplitterOutputPin> pPinOut;
 				name.Format(L"Flac %d", i);
-				pPinOut.Attach(new COggFlacOutputPin(p+12, page.GetCount()-14, name, this, this, &hr));
+				pPinOut.Attach(DNew COggFlacOutputPin(p+12, page.GetCount()-14, name, this, this, &hr));
 				AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 			}
 			else if (*(long*)(p-1) == 0x43614C66)
@@ -245,7 +245,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					CAutoPtr<CBaseSplitterOutputPin> pPinOut;
 					name.Format(L"Flac %d", i);
 					p = page.GetData();
-					pPinOut.Attach(new COggFlacOutputPin(p, page.GetCount(), name, this, this, &hr));
+					pPinOut.Attach(DNew COggFlacOutputPin(p, page.GetCount(), name, this, this, &hr));
 					AddOutputPin(page.m_hdr.bitstream_serial_number, pPinOut);
 				}
 			}
@@ -594,7 +594,7 @@ void COggSplitterOutputPin::AddComment(BYTE* p, int len)
 		Explode(str, sl, '=', 2);
 		if(sl.GetCount() == 2)
 		{
-			CAutoPtr<CComment> p(new CComment(UTF8To16(sl.GetHead()), UTF8To16(sl.GetTail())));
+			CAutoPtr<CComment> p(DNew CComment(UTF8To16(sl.GetHead()), UTF8To16(sl.GetTail())));
 
 			if(p->m_key == L"LANGUAGE")
 			{
@@ -694,7 +694,7 @@ HRESULT COggSplitterOutputPin::UnpackPage(OggPage& page)
 			}
 			else
 			{
-				CAutoPtr<OggPacket> p(new OggPacket());
+				CAutoPtr<OggPacket> p(DNew OggPacket());
 
 				if(last == pos && page.m_hdr.granule_position != -1)
 				{
@@ -901,7 +901,7 @@ HRESULT COggVorbisOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_
 		while(pos)
 		{
 			Packet* pi = m_initpackets.GetNext(pos);
-			CAutoPtr<OggPacket> p(new OggPacket());
+			CAutoPtr<OggPacket> p(DNew OggPacket());
 			p->TrackNumber = pi->TrackNumber;
 			p->bDiscontinuity = p->bSyncPoint = FALSE;//TRUE;
 			p->rtStart = p->rtStop = 0;
@@ -1002,7 +1002,7 @@ HRESULT COggFlacOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TI
 		while(pos)
 		{
 			Packet* pi = m_initpackets.GetNext(pos);
-			CAutoPtr<OggPacket> p(new OggPacket());
+			CAutoPtr<OggPacket> p(DNew OggPacket());
 			p->TrackNumber = pi->TrackNumber;
 			p->bDiscontinuity = p->bSyncPoint = FALSE;//TRUE;
 			p->rtStart = p->rtStop = 0;
@@ -1224,7 +1224,7 @@ COggTheoraOutputPin::COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pF
 	vih->hdr.dwPictAspectRatioX = (p[14]<<16)|(p[15]<<8)|p[16];
 	vih->hdr.dwPictAspectRatioY = (p[17]<<16)|(p[18]<<8)|p[19];
 	
-	m_KfgShift					= ((p[40]<<8+p[41]) &0x3E0) >> 5;
+	m_KfgShift					= (((p[40]<<8)+p[41]) &0x3E0) >> 5;
 	m_nIndexOffset	= TH_VERSION_CHECK(p[7],p[8],p[9],3,2,1);
 	
 	if (m_KfgShift == 0) m_KfgShift = 6;	// Is it really default value ?
