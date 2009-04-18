@@ -1281,6 +1281,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		pmt->majortype = MEDIATYPE_Video;
 		pmt->subtype = FOURCCMap('1CVA');
+//pmt->subtype = MEDIASUBTYPE_H264;		// TODO : put MEDIASUBTYPE_H264 to support Windows 7 decoder !
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extra;
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)new BYTE[len];

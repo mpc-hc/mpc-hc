@@ -301,7 +301,7 @@ static void LOG(LPCTSTR fmt, ...)
 	va_list args;
 	va_start(args, fmt);
 //	int		nCount	= _vsctprintf(fmt, args) + 1;
-	TCHAR	buff[800];
+	TCHAR	buff[3000];
 	FILE*	f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
 	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0)
@@ -1156,9 +1156,9 @@ public :
 				}
 #endif
 
+#if defined(LOG_BITSTREAM) && defined(_DEBUG)
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
 				{
-#if defined(LOG_BITSTREAM) && defined(_DEBUG)
 					char		strFile[MAX_PATH];
 					static	int	nNb = 1;
 					sprintf (strFile, "BitStream%d.bin", nNb++);
@@ -1171,8 +1171,8 @@ public :
 								hFile);
 						fclose (hFile);
 					}
-#endif
 				}
+#endif
 			}
 
 			HRESULT		hr = m_pDec->Execute (pExecuteParams);

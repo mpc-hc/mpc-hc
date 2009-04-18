@@ -44,7 +44,12 @@ EOF
 
     "--updatemingw" )
       updatemingw="true"
+	  compilewmingw="true"
       ;;
+	  
+	"--compilemingw" )
+	  compilewmingw="true"
+	  ;;
 
   esac
 done
@@ -58,7 +63,7 @@ if [[ $updatemingw == "true" ]]; then
 	svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/trunk .
 fi
 
-if [[ $updatemingw == "true" ]]; then
+if [[ $compilewmingw == "true" ]]; then
 	echo "Compiling Ming64 crt and headers.." && cd $BD/mingw/build-$HST
 	../mingw-w64-crt/configure --prefix=$PF --with-sysroot=$PF --host=$TGT || exit 1
 	# export CFLAGS="-fno-leading-underscore -mno-cygwin"

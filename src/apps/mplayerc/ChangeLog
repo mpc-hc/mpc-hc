@@ -31,6 +31,7 @@ v1.x.x.x - unreleased
  FIXED  : Possible deadlock with Reclock
  FIXED  : memory leak in DXVA decoder (when opening new file)
  FIXED  : Support of framestep backward, even if the codec didn't support it natively (bug #2600542)
+ FIXED  : DXVA decoder support multiple graphics cards (PCI vendor id detection on the fly) 
 
 
 v1.2.908.0 - 30.November 2008

@@ -205,6 +205,10 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 					pSliceLong[nSlices].wBadSliceChopping		= 0;
 					pSliceLong[nSlices].slice_id				= nSlices;
 					FF264BuildSliceLong(&m_DXVAPicParams, &pSliceLong[nSlices], m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor());
+
+					if (nSlices>0)
+						pSliceLong[nSlices-1].NumMbsForSlice = pSliceLong[nSlices].NumMbsForSlice = pSliceLong[nSlices].first_mb_in_slice - pSliceLong[nSlices-1].first_mb_in_slice;
+
 					nSlices++; 
 				}
 				else 

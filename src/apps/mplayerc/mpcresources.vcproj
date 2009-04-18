@@ -5878,6 +5878,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\shaders\denoise.psh"
+					>
+				</File>
+				<File
 					RelativePath=".\res\shaders\EdgeSharpen.psh"
 					>
 				</File>
@@ -5899,6 +5903,14 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\letterbox.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\levels.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\levels2.psh"
 					>
 				</File>
 				<File
@@ -5931,6 +5943,10 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\wave.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
 					>
 				</File>
 			</Filter>
@@ -6087,26 +6103,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\res\shaders\BT601BT701.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\denoise.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\levels.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\levels2.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
