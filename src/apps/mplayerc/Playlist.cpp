@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "playlist.h"
-
+#include "SettingsDefines.h"
 
 //
 // CPlaylistItem
@@ -270,7 +270,7 @@ POSITION CPlaylist::Shuffle()
 
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 {
-	if(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), FALSE) && GetCount() > 2)
+	if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE) && GetCount() > 2)
 	{
 		pos = Shuffle();
 	}

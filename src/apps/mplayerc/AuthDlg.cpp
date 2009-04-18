@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "AuthDlg.h"
+#include "SettingsDefines.h"
 
 
 // CAuthDlg dialog
@@ -75,7 +76,7 @@ BOOL CAuthDlg::OnInitDialog()
 
 	if(pApp->m_pszRegistryKey)
 	{
-		CRegKey hSecKey(pApp->GetSectionKey(ResStr(IDS_R_LOGINS)));
+		CRegKey hSecKey(pApp->GetSectionKey(IDS_R_LOGINS));
 		if(hSecKey)
 		{
 			int i = 0;
@@ -104,7 +105,7 @@ BOOL CAuthDlg::OnInitDialog()
 		buff.Allocate(32767/sizeof(TCHAR));
 
 		DWORD len = GetPrivateProfileSection(
-			ResStr(IDS_R_LOGINS), buff, 32767/sizeof(TCHAR), pApp->m_pszProfileName);
+			IDS_R_LOGINS, buff, 32767/sizeof(TCHAR), pApp->m_pszProfileName);
 
 		TCHAR* p = buff;
 		while(*p && len > 0)
@@ -135,7 +136,7 @@ void CAuthDlg::OnBnClickedOk()
 	if(!m_username.IsEmpty())
 	{
 		CWinApp* pApp = AfxGetApp();
-		pApp->WriteProfileString(ResStr(IDS_R_LOGINS), m_username, m_remember ? DEncrypt(m_password) : _T(""));
+		pApp->WriteProfileString(IDS_R_LOGINS, m_username, m_remember ? DEncrypt(m_password) : _T(""));
 	}
 
 	OnOK();

@@ -31,7 +31,7 @@
 #include "..\..\DSUtil\DSUtil.h"
 #include "SaveTextFileDialog.h"
 #include ".\playerplaylistbar.h"
-
+#include "SettingsDefines.h"
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)
 CPlayerPlaylistBar::CPlayerPlaylistBar()
@@ -717,7 +717,7 @@ void CPlayerPlaylistBar::LoadPlaylist()
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
-		if(!AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("RememberPlaylistItems"), TRUE))
+		if(!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
 		{
 			DeleteFile(p);
 		}
@@ -737,7 +737,7 @@ void CPlayerPlaylistBar::SavePlaylist()
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
-		if(!AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("RememberPlaylistItems"), TRUE))
+		if(!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
 		{
 			DeleteFile(p);
 		}
@@ -1237,10 +1237,10 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 	m.AppendMenu(MF_STRING|(!m_pl.GetCount()?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_RANDOMIZE, ResStr(IDS_PLAYLIST_RANDOMIZE));
 	m.AppendMenu(MF_STRING|(!m_pl.GetCount()?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_SORTBYID, ResStr(IDS_PLAYLIST_RESTORE));
 	m.AppendMenu(MF_SEPARATOR);
-	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), FALSE)?MF_CHECKED:0), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
-	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("RememberPlaylistItems"), TRUE)?MF_CHECKED:0), M_REMEMBERPLAYLIST, ResStr(IDS_PLAYLIST_REMEBERITEMS));
+	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE)?MF_CHECKED:0), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
+	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE)?MF_CHECKED:0), M_REMEMBERPLAYLIST, ResStr(IDS_PLAYLIST_REMEBERITEMS));
 	m.AppendMenu(MF_SEPARATOR);
-	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("HidePlaylistFullScreen"), FALSE)?MF_CHECKED:0), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));	
+	m.AppendMenu(MF_STRING|MF_ENABLED|(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)?MF_CHECKED:0), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));	
 
 	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
 
@@ -1434,16 +1434,16 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 		}
 		break;
 	case M_REMEMBERPLAYLIST:
-		AfxGetApp()->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("RememberPlaylistItems"), 
-			!AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("RememberPlaylistItems"), TRUE));
+		AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), 
+			!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE));
 		break;
 	case M_SHUFFLE:
-		AfxGetApp()->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), 
-			!AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("ShufflePlaylistItems"), FALSE));
+		AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), 
+			!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE));
 		break;
 	case M_HIDEFULLSCREEN:
-		AfxGetApp()->WriteProfileInt(ResStr(IDS_R_SETTINGS), _T("HidePlaylistFullScreen"), 
-			!AfxGetApp()->GetProfileInt(ResStr(IDS_R_SETTINGS), _T("HidePlaylistFullScreen"), FALSE));
+		AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), 
+			!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE));
 		break;
 	default:
 		break;
