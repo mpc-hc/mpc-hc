@@ -37,7 +37,8 @@ extern "C" {
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
-#include "bitstream.h"
+#include "get_bits.h"
+#include "put_bits.h"
 
 #define FFMIN(a,b) ((a) > (b) ? (b) : (a))
 

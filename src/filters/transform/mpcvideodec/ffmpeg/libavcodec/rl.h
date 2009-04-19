@@ -20,7 +20,7 @@
  */
 
 /**
- * @file rl.h
+ * @file libavcodec/rl.h
  * rl header.
  */
 
@@ -30,7 +30,7 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
-#include "bitstream.h"
+#include "get_bits.h"
 
 /* run length table */
 #define MAX_RUN    64

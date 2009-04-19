@@ -20,14 +20,14 @@
  */
 
 /**
- * @file cabac.c
+ * @file libavcodec/cabac.c
  * Context Adaptive Binary Arithmetic Coder.
  */
 
 #include <string.h>
 
 #include "libavutil/common.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "cabac.h"
 
 static const uint8_t lps_range[64][4]= {

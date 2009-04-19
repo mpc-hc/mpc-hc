@@ -38,7 +38,7 @@
 #include "dsputil.h"
 
 #define ALT_BITSTREAM_READER_LE
-#include "bitstream.h"
+#include "get_bits.h"
 
 #ifndef M_SQRT1_2
 #define M_SQRT1_2 0.7071067812

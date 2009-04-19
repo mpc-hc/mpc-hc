@@ -21,7 +21,7 @@
 #ifndef AVCODEC_UNARY_H
 #define AVCODEC_UNARY_H
 
-#include "bitstream.h"
+#include "get_bits.h"
 
 /**
  * Get unary code of limited length
@@ -46,6 +46,11 @@ static inline int get_unary(GetBitContext *gb, int stop, int len)
 static inline int get_unary_0_33(GetBitContext *gb)
 {
     return get_unary(gb, 0, 33);
+}
+
+static inline int get_unary_0_9(GetBitContext *gb)
+{
+    return get_unary(gb, 0, 9);
 }
 
 #endif /* AVCODEC_UNARY_H */

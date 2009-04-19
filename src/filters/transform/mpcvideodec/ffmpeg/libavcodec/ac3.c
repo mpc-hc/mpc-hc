@@ -20,13 +20,13 @@
  */
 
 /**
- * @file ac3.c
+ * @file libavcodec/ac3.c
  * Common code between the AC-3 encoder and decoder.
  */
 
 #include "avcodec.h"
 #include "ac3.h"
-#include "bitstream.h"
+#include "get_bits.h"
 
 static uint8_t band_start_tab[51];
 static uint8_t bin_to_band_tab[253];

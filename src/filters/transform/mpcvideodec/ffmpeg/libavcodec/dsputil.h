@@ -312,9 +312,10 @@ typedef struct DSPContext {
      * h264 Chroma MC
      */
     h264_chroma_mc_func put_h264_chroma_pixels_tab[3];
-    /* This is really one func used in VC-1 decoding */
-    h264_chroma_mc_func put_no_rnd_h264_chroma_pixels_tab[3];
     h264_chroma_mc_func avg_h264_chroma_pixels_tab[3];
+    /* This is really one func used in VC-1 decoding */
+    h264_chroma_mc_func put_no_rnd_vc1_chroma_pixels_tab[3];
+    h264_chroma_mc_func avg_no_rnd_vc1_chroma_pixels_tab[3];
 
     qpel_mc_func put_h264_qpel_pixels_tab[4][16];
     qpel_mc_func avg_h264_qpel_pixels_tab[4][16];
@@ -475,10 +476,17 @@ typedef struct DSPContext {
     void (*vc1_inv_trans_4x4)(uint8_t *dest, int line_size, DCTELEM *block);
     void (*vc1_v_overlap)(uint8_t* src, int stride);
     void (*vc1_h_overlap)(uint8_t* src, int stride);
+    void (*vc1_v_loop_filter4)(uint8_t *src, int stride, int pq);
+    void (*vc1_h_loop_filter4)(uint8_t *src, int stride, int pq);
+    void (*vc1_v_loop_filter8)(uint8_t *src, int stride, int pq);
+    void (*vc1_h_loop_filter8)(uint8_t *src, int stride, int pq);
+    void (*vc1_v_loop_filter16)(uint8_t *src, int stride, int pq);
+    void (*vc1_h_loop_filter16)(uint8_t *src, int stride, int pq);
     /* put 8x8 block with bicubic interpolation and quarterpel precision
      * last argument is actually round value instead of height
      */
     op_pixels_func put_vc1_mspel_pixels_tab[16];
+    op_pixels_func avg_vc1_mspel_pixels_tab[16];
 
     /* intrax8 functions */
     void (*x8_spatial_compensation[12])(uint8_t *src , uint8_t *dst, int linesize);
@@ -770,7 +778,7 @@ static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int st
 }
 
 
-static inline void copy_block2(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block2(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)
@@ -781,7 +789,7 @@ static inline void copy_block2(uint8_t *dst, uint8_t *src, int dstStride, int sr
     }
 }
 
-static inline void copy_block4(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block4(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)
@@ -792,7 +800,7 @@ static inline void copy_block4(uint8_t *dst, uint8_t *src, int dstStride, int sr
     }
 }
 
-static inline void copy_block8(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block8(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)
@@ -804,7 +812,7 @@ static inline void copy_block8(uint8_t *dst, uint8_t *src, int dstStride, int sr
     }
 }
 
-static inline void copy_block9(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block9(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)
@@ -817,7 +825,7 @@ static inline void copy_block9(uint8_t *dst, uint8_t *src, int dstStride, int sr
     }
 }
 
-static inline void copy_block16(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block16(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)
@@ -831,7 +839,7 @@ static inline void copy_block16(uint8_t *dst, uint8_t *src, int dstStride, int s
     }
 }
 
-static inline void copy_block17(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int h)
+static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
     for(i=0; i<h; i++)

@@ -20,12 +20,12 @@
  */
 
 /**
- * @file indeo2.c
+ * @file libavcodec/indeo2.c
  * Intel Indeo 2 decoder.
  */
 #define ALT_BITSTREAM_READER_LE
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "indeo2data.h"
 
 typedef struct Ir2Context{

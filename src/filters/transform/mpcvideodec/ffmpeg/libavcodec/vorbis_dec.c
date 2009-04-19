@@ -1,5 +1,5 @@
 /**
- * @file vorbis_dec.c
+ * @file libavcodec/vorbis_dec.c
  * Vorbis I decoder
  * @author Denes Balatoni  ( dbalatoni programozo hu )
 
@@ -28,7 +28,7 @@
 
 #define ALT_BITSTREAM_READER_LE
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "dsputil.h"
 
 #include "vorbis.h"

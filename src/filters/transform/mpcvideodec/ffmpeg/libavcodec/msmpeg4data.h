@@ -23,7 +23,7 @@
  */
 
 /**
- * @file msmpeg4data.h
+ * @file libavcodec/msmpeg4data.h
  * MSMPEG4 data tables.
  */
 
@@ -31,7 +31,7 @@
 #define AVCODEC_MSMPEG4DATA_H
 
 #include "libavutil/common.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "rl.h"
 
 /* motion vector table */

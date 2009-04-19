@@ -23,7 +23,7 @@
  */
 
 /**
- * @file mpegvideo_common.h
+ * @file libavcodec/mpegvideo_common.h
  * The simplest mpeg encoder (well, it was the simplest!).
  */
 
@@ -315,7 +315,8 @@ if(s->quarter_sample)
                s->codec_id == CODEC_ID_MPEG1VIDEO){
                 av_log(s->avctx,AV_LOG_DEBUG,
                         "MPEG motion vector out of boundary\n");
-                return ;
+                if(!s->chroma_y_shift)
+                    return;
             }
             ff_emulated_edge_mc(s->edge_emu_buffer, ptr_y, s->linesize,
                                 17, 17+field_based,

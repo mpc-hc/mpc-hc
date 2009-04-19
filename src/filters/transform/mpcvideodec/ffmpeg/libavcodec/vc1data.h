@@ -21,7 +21,7 @@
  */
 
 /**
- * @file vc1data.h
+ * @file libavcodec/vc1data.h
  * VC-1 tables.
  */
 
@@ -32,7 +32,7 @@
 #include <stdint.h>
 #endif
 #include "libavutil/rational.h"
-#include "bitstream.h"
+#include "get_bits.h"
 
 /** Table for conversion between TTBLK and TTMB */
 extern const int ff_vc1_ttblk_to_tt[3][8];

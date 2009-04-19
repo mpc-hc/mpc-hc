@@ -4,6 +4,7 @@ v1.x.x.x - unreleased
  NEW    : Nellymoser audio decoder
  NEW    : Belarusian translation
  NEW    : New shader "Sharpen Complex 2" (required hardware compatible with pixel shader 2.A)
+ NEW    : Support for madVR video renderer (http://madshi.net/madVR.zip)
  CHANGED: Add support of interlaced flags in software mode for MPCVideoDecoder filter
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen mode in options, if monitor is not specified on the command line.
  CHANGED: Auto-hide playlist on fullscreen(feature request #2219561) 

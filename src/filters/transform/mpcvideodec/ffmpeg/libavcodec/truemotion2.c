@@ -25,7 +25,7 @@
  */
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "dsputil.h"
 
 #define TM2_ESCAPE 0x80000000
@@ -886,5 +886,5 @@ AVCodec truemotion2_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Duck TrueMotion 2.0",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Duck TrueMotion 2.0"),
 };

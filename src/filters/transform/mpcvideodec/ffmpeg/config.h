@@ -1,5 +1,5 @@
-#if defined(__GNUC__)
-/* used for inline assembly stuff with GCC syntax */
+#ifdef __GNUC__
+	#define HAVE_INLINE_ASM 1
   #define HAVE_MMX 1
   #define HAVE_SSE 1
   #define HAVE_SSSE3 1
@@ -36,7 +36,7 @@
 #define HAVE_FAST_UNALIGNED 1
 
 #ifndef __GNUC__
-//  #define EMULATE_FAST_INT
+  #define EMULATE_FAST_INT
 #endif
 
 #define HAVE_BSWAP 1

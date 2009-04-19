@@ -1,5 +1,5 @@
 /**
- * @file vp56.h
+ * @file libavcodec/vp56.h
  * VP5 and VP6 compatible video decoder (common features)
  *
  * Copyright (C) 2006  Aurelien Jacobs <aurel@gnuage.org>
@@ -26,7 +26,7 @@
 
 #include "vp56data.h"
 #include "dsputil.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "bytestream.h"
 
 

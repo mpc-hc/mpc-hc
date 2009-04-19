@@ -21,12 +21,13 @@
  */
 
 /**
- * @file ffv1.c
+ * @file libavcodec/ffv1.c
  * FF Video Codec 1 (an experimental lossless codec)
  */
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
+#include "put_bits.h"
 #include "dsputil.h"
 #include "rangecoder.h"
 #include "golomb.h"

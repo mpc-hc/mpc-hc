@@ -25,7 +25,7 @@
  */
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 
 
 typedef struct WNV1Context{
@@ -134,7 +134,7 @@ static av_cold int decode_init(AVCodecContext *avctx){
     if(!code_vlc.table){
         init_vlc(&code_vlc, CODE_VLC_BITS, 16,
                     &code_tab[0][1], 4, 2,
-                    &code_tab[0][0], 4, 2, 1);
+                    &code_tab[0][0], 4, 2, INIT_VLC_USE_STATIC);
     }
 
     return 0;

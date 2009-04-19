@@ -310,7 +310,7 @@ static av_always_inline av_const double round(double x)
 #ifndef roundf
 static av_always_inline av_const float roundf(float x)
 {
-	return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
+    return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
 }
 #endif
 

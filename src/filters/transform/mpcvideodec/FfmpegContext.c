@@ -24,7 +24,6 @@
 
 
 #define HAVE_AV_CONFIG_H
-#define CONFIG_H264_PARSER
 #define H264_MERGE_TESTING
 
 #include <windows.h>

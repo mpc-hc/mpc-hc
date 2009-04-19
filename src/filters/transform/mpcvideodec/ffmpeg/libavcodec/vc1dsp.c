@@ -20,7 +20,7 @@
  */
 
 /**
-* @file vc1dsp.c
+* @file libavcodec/vc1dsp.c
  * VC-1 and WMV3 decoder
  *
  */
@@ -78,6 +78,103 @@ static void vc1_h_overlap_c(uint8_t* src, int stride)
     }
 }
 
+/**
+ * VC-1 in-loop deblocking filter for one line
+ * @param src source block type
+ * @param stride block stride
+ * @param pq block quantizer
+ * @return whether other 3 pairs should be filtered or not
+ * @see 8.6
+ */
+static av_always_inline int vc1_filter_line(uint8_t* src, int stride, int pq){
+    uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
+
+    int a0 = (2*(src[-2*stride] - src[ 1*stride]) - 5*(src[-1*stride] - src[ 0*stride]) + 4) >> 3;
+    int a0_sign = a0 >> 31;        /* Store sign */
+    a0 = (a0 ^ a0_sign) - a0_sign; /* a0 = FFABS(a0); */
+    if(a0 < pq){
+        int a1 = FFABS((2*(src[-4*stride] - src[-1*stride]) - 5*(src[-3*stride] - src[-2*stride]) + 4) >> 3);
+        int a2 = FFABS((2*(src[ 0*stride] - src[ 3*stride]) - 5*(src[ 1*stride] - src[ 2*stride]) + 4) >> 3);
+        if(a1 < a0 || a2 < a0){
+            int clip = src[-1*stride] - src[ 0*stride];
+            int clip_sign = clip >> 31;
+            clip = ((clip ^ clip_sign) - clip_sign)>>1;
+            if(clip){
+                int a3 = FFMIN(a1, a2);
+                int d = 5 * (a3 - a0);
+                int d_sign = (d >> 31);
+                d = ((d ^ d_sign) - d_sign) >> 3;
+                d_sign ^= a0_sign;
+
+                if( d_sign ^ clip_sign )
+                    d = 0;
+                else{
+                    d = FFMIN(d, clip);
+                    d = (d ^ d_sign) - d_sign;          /* Restore sign */
+                    src[-1*stride] = cm[src[-1*stride] - d];
+                    src[ 0*stride] = cm[src[ 0*stride] + d];
+                }
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/**
+ * VC-1 in-loop deblocking filter
+ * @param src source block type
+ * @param step distance between horizontally adjacent elements
+ * @param stride distance between vertically adjacent elements
+ * @param len edge length to filter (4 or 8 pixels)
+ * @param pq block quantizer
+ * @see 8.6
+ */
+static inline void vc1_loop_filter(uint8_t* src, int step, int stride, int len, int pq)
+{
+    int i;
+    int filt3;
+
+    for(i = 0; i < len; i += 4){
+        filt3 = vc1_filter_line(src + 2*step, stride, pq);
+        if(filt3){
+            vc1_filter_line(src + 0*step, stride, pq);
+            vc1_filter_line(src + 1*step, stride, pq);
+            vc1_filter_line(src + 3*step, stride, pq);
+        }
+        src += step * 4;
+    }
+}
+
+static void vc1_v_loop_filter4_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, 1, stride, 4, pq);
+}
+
+static void vc1_h_loop_filter4_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, stride, 1, 4, pq);
+}
+
+static void vc1_v_loop_filter8_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, 1, stride, 8, pq);
+}
+
+static void vc1_h_loop_filter8_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, stride, 1, 8, pq);
+}
+
+static void vc1_v_loop_filter16_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, 1, stride, 16, pq);
+}
+
+static void vc1_h_loop_filter16_c(uint8_t *src, int stride, int pq)
+{
+    vc1_loop_filter(src, stride, 1, 16, pq);
+}
 
 /** Do inverse transform on 8x8 block
 */
@@ -348,69 +445,80 @@ static av_always_inline int vc1_mspel_filter(const uint8_t *src, int stride, int
 
 /** Function used to do motion compensation with bicubic interpolation
  */
-static void vc1_mspel_mc(uint8_t *dst, const uint8_t *src, int stride, int hmode, int vmode, int rnd)
-{
-    int     i, j;
-
-    if (vmode) { /* Horizontal filter to apply */
-        int r;
-
-        if (hmode) { /* Vertical filter to apply, output to tmp */
-            static const int shift_value[] = { 0, 5, 1, 5 };
-            int              shift = (shift_value[hmode]+shift_value[vmode])>>1;
-            int16_t          tmp[11*8], *tptr = tmp;
-
-            r = (1<<(shift-1)) + rnd-1;
-
-            src -= 1;
-            for(j = 0; j < 8; j++) {
-                for(i = 0; i < 11; i++)
-                    tptr[i] = (vc1_mspel_ver_filter_16bits(src + i, stride, vmode)+r)>>shift;
-                src += stride;
-                tptr += 11;
-            }
-
-            r = 64-rnd;
-            tptr = tmp+1;
-            for(j = 0; j < 8; j++) {
-                for(i = 0; i < 8; i++)
-                    dst[i] = av_clip_uint8((vc1_mspel_hor_filter_16bits(tptr + i, 1, hmode)+r)>>7);
-                dst += stride;
-                tptr += 11;
-            }
-
-            return;
-        }
-        else { /* No horizontal filter, output 8 lines to dst */
-            r = 1-rnd;
-
-            for(j = 0; j < 8; j++) {
-                for(i = 0; i < 8; i++)
-                    dst[i] = av_clip_uint8(vc1_mspel_filter(src + i, stride, vmode, r));
-                src += stride;
-                dst += stride;
-            }
-            return;
-        }
-    }
-
-    /* Horizontal mode with no vertical mode */
-    for(j = 0; j < 8; j++) {
-        for(i = 0; i < 8; i++)
-            dst[i] = av_clip_uint8(vc1_mspel_filter(src + i, 1, hmode, rnd));
-        dst += stride;
-        src += stride;
-    }
+#define VC1_MSPEL_MC(OP, OPNAME)\
+static void OPNAME ## vc1_mspel_mc(uint8_t *dst, const uint8_t *src, int stride, int hmode, int vmode, int rnd)\
+{\
+    int     i, j;\
+\
+    if (vmode) { /* Horizontal filter to apply */\
+        int r;\
+\
+        if (hmode) { /* Vertical filter to apply, output to tmp */\
+            static const int shift_value[] = { 0, 5, 1, 5 };\
+            int              shift = (shift_value[hmode]+shift_value[vmode])>>1;\
+            int16_t          tmp[11*8], *tptr = tmp;\
+\
+            r = (1<<(shift-1)) + rnd-1;\
+\
+            src -= 1;\
+            for(j = 0; j < 8; j++) {\
+                for(i = 0; i < 11; i++)\
+                    tptr[i] = (vc1_mspel_ver_filter_16bits(src + i, stride, vmode)+r)>>shift;\
+                src += stride;\
+                tptr += 11;\
+            }\
+\
+            r = 64-rnd;\
+            tptr = tmp+1;\
+            for(j = 0; j < 8; j++) {\
+                for(i = 0; i < 8; i++)\
+                    OP(dst[i], (vc1_mspel_hor_filter_16bits(tptr + i, 1, hmode)+r)>>7);\
+                dst += stride;\
+                tptr += 11;\
+            }\
+\
+            return;\
+        }\
+        else { /* No horizontal filter, output 8 lines to dst */\
+            r = 1-rnd;\
+\
+            for(j = 0; j < 8; j++) {\
+                for(i = 0; i < 8; i++)\
+                    OP(dst[i], vc1_mspel_filter(src + i, stride, vmode, r));\
+                src += stride;\
+                dst += stride;\
+            }\
+            return;\
+        }\
+    }\
+\
+    /* Horizontal mode with no vertical mode */\
+    for(j = 0; j < 8; j++) {\
+        for(i = 0; i < 8; i++)\
+            OP(dst[i], vc1_mspel_filter(src + i, 1, hmode, rnd));\
+        dst += stride;\
+        src += stride;\
+    }\
 }
+
+#define op_put(a, b) a = av_clip_uint8(b)
+#define op_avg(a, b) a = (a + av_clip_uint8(b) + 1) >> 1
+
+VC1_MSPEL_MC(op_put, put_)
+VC1_MSPEL_MC(op_avg, avg_)
 
 /* pixel functions - really are entry points to vc1_mspel_mc */
 
 /* this one is defined in dsputil.c */
 void ff_put_vc1_mspel_mc00_c(uint8_t *dst, const uint8_t *src, int stride, int rnd);
+void ff_avg_vc1_mspel_mc00_c(uint8_t *dst, const uint8_t *src, int stride, int rnd);
 
 #define PUT_VC1_MSPEL(a, b)\
 static void put_vc1_mspel_mc ## a ## b ##_c(uint8_t *dst, const uint8_t *src, int stride, int rnd) { \
-     vc1_mspel_mc(dst, src, stride, a, b, rnd);                         \
+     put_vc1_mspel_mc(dst, src, stride, a, b, rnd);                         \
+}\
+static void avg_vc1_mspel_mc ## a ## b ##_c(uint8_t *dst, const uint8_t *src, int stride, int rnd) { \
+     avg_vc1_mspel_mc(dst, src, stride, a, b, rnd);                         \
 }
 
 PUT_VC1_MSPEL(1, 0)
@@ -439,6 +547,12 @@ void ff_vc1dsp_init(DSPContext* dsp, AVCodecContext *avctx) {
     dsp->vc1_inv_trans_4x4 = vc1_inv_trans_4x4_c;
     dsp->vc1_h_overlap = vc1_h_overlap_c;
     dsp->vc1_v_overlap = vc1_v_overlap_c;
+    dsp->vc1_v_loop_filter4 = vc1_v_loop_filter4_c;
+    dsp->vc1_h_loop_filter4 = vc1_h_loop_filter4_c;
+    dsp->vc1_v_loop_filter8 = vc1_v_loop_filter8_c;
+    dsp->vc1_h_loop_filter8 = vc1_h_loop_filter8_c;
+    dsp->vc1_v_loop_filter16 = vc1_v_loop_filter16_c;
+    dsp->vc1_h_loop_filter16 = vc1_h_loop_filter16_c;
 
     dsp->put_vc1_mspel_pixels_tab[ 0] = ff_put_vc1_mspel_mc00_c;
     dsp->put_vc1_mspel_pixels_tab[ 1] = put_vc1_mspel_mc10_c;
@@ -456,4 +570,21 @@ void ff_vc1dsp_init(DSPContext* dsp, AVCodecContext *avctx) {
     dsp->put_vc1_mspel_pixels_tab[13] = put_vc1_mspel_mc13_c;
     dsp->put_vc1_mspel_pixels_tab[14] = put_vc1_mspel_mc23_c;
     dsp->put_vc1_mspel_pixels_tab[15] = put_vc1_mspel_mc33_c;
+
+    dsp->avg_vc1_mspel_pixels_tab[ 0] = ff_avg_vc1_mspel_mc00_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 1] = avg_vc1_mspel_mc10_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 2] = avg_vc1_mspel_mc20_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 3] = avg_vc1_mspel_mc30_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 4] = avg_vc1_mspel_mc01_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 5] = avg_vc1_mspel_mc11_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 6] = avg_vc1_mspel_mc21_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 7] = avg_vc1_mspel_mc31_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 8] = avg_vc1_mspel_mc02_c;
+    dsp->avg_vc1_mspel_pixels_tab[ 9] = avg_vc1_mspel_mc12_c;
+    dsp->avg_vc1_mspel_pixels_tab[10] = avg_vc1_mspel_mc22_c;
+    dsp->avg_vc1_mspel_pixels_tab[11] = avg_vc1_mspel_mc32_c;
+    dsp->avg_vc1_mspel_pixels_tab[12] = avg_vc1_mspel_mc03_c;
+    dsp->avg_vc1_mspel_pixels_tab[13] = avg_vc1_mspel_mc13_c;
+    dsp->avg_vc1_mspel_pixels_tab[14] = avg_vc1_mspel_mc23_c;
+    dsp->avg_vc1_mspel_pixels_tab[15] = avg_vc1_mspel_mc33_c;
 }

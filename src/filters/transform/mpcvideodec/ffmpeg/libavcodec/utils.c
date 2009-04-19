@@ -75,6 +75,17 @@ void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
     return ptr;
 }
 
+void av_fast_malloc(void *ptr, unsigned int *size, unsigned int min_size)
+{
+    void **p = ptr;
+    if (min_size < *size)
+        return;
+    *size= FFMAX(17*min_size/16 + 32, min_size);
+    av_free(*p);
+    *p = av_malloc(*size);
+    if (!*p) *size = 0;
+}
+
 /* ffdshow custom code (begin) */
 static unsigned int last_static = 0;
 static void** array_static = NULL;
@@ -145,6 +156,8 @@ void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
     case PIX_FMT_YUVA420P:
         w_align= 16; //FIXME check for non mpeg style codecs and use less alignment
         h_align= 16;
+        if(s->codec_id == CODEC_ID_MPEG2VIDEO)
+            h_align= 32; // interlaced is rounded up to 2 MBs
         break;
     case PIX_FMT_YUV411P:
     case PIX_FMT_UYYVYY411:

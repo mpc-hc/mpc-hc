@@ -892,10 +892,15 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		{
 			int		nMLPLength=0;
 			int		nMLPChunk;
+			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
 			m_DolbyDigitalMode = DD_TRUEHD;
-			DeliverFfmpeg(CODEC_ID_MLP, p, end-p, size);
-			if (size<0) size = end-p;
+
+			if (nLenght >= 4)
+			{
+				DeliverFfmpeg(CODEC_ID_MLP, p, end-p, size);
+				if (size<0) size = end-p;
+			}
 		}
 		else
 		{

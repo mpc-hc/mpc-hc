@@ -21,7 +21,7 @@
  */
 
 /**
- * @file fraps.c
+ * @file libavcodec/fraps.c
  * Lossless Fraps 'FPS1' decoder
  * @author Roine Gustafsson <roine at users sf net>
  * @author Konstantin Shishkov
@@ -32,7 +32,7 @@
  */
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "huffman.h"
 #include "bytestream.h"
 #include "dsputil.h"
@@ -238,7 +238,7 @@ static int decode_frame(AVCodecContext *avctx,
             for(y=0; y<avctx->height; y++)
                 memcpy(&f->data[0][ (avctx->height-y)*f->linesize[0] ],
                        &buf[y*avctx->width*3],
-                       f->linesize[0]);
+                       3*avctx->width);
         }
         break;
 

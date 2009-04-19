@@ -30,7 +30,7 @@
 
 #include "avcodec.h"
 #include "libavutil/intreadwrite.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "libavutil/crc.h"
 #include "parser.h"
 #include "mlp_parser.h"
@@ -119,6 +119,9 @@ typedef struct SubStream {
 typedef struct MLPDecodeContext {
     AVCodecContext *avctx;
 
+    //! Current access unit being read has a major sync.
+    int         is_major_sync_unit;
+
     //! Set if a valid major sync block has been read. Otherwise no decoding is possible.
     uint8_t     params_valid;
 
@@ -136,6 +139,9 @@ typedef struct MLPDecodeContext {
     SubStream   substream[MAX_SUBSTREAMS];
 
     ChannelParams channel_params[MAX_CHANNELS];
+
+    int         matrix_changed;
+    int         filter_changed[MAX_CHANNELS][NUM_FILTERS];
 
     int8_t      noise_buffer[MAX_BLOCKSIZE_POW2];
     int8_t      bypassed_lsbs[MAX_BLOCKSIZE][MAX_CHANNELS];
@@ -442,6 +448,8 @@ static int read_filter_params(MLPDecodeContext *m, GetBitContext *gbp,
     // Filter is 0 for FIR, 1 for IIR.
     assert(filter < 2);
 
+    m->filter_changed[channel][filter]++;
+
     order = get_bits(gbp, 4);
     if (order > max_order) {
         av_log(m->avctx, AV_LOG_ERROR,
@@ -503,6 +511,7 @@ static int read_matrix_params(MLPDecodeContext *m, SubStream *s, GetBitContext *
     unsigned int mat, ch;
 
     s->num_primitive_matrices = get_bits(gbp, 4);
+    m->matrix_changed++;
 
     for (mat = 0; mat < s->num_primitive_matrices; mat++) {
         int frac_bits, max_chan;
@@ -510,7 +519,7 @@ static int read_matrix_params(MLPDecodeContext *m, SubStream *s, GetBitContext *
         frac_bits             = get_bits(gbp, 4);
         s->lsb_bypass   [mat] = get_bits1(gbp);
 
-        if (s->matrix_out_ch[mat] > s->max_channel) {
+        if (s->matrix_out_ch[mat] > s->max_matrix_channel) {
             av_log(m->avctx, AV_LOG_ERROR,
                     "Invalid channel %d specified as output from matrix.\n",
                     s->matrix_out_ch[mat]);
@@ -919,9 +928,11 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
 
     init_get_bits(&gb, (buf + 4), (length - 4) * 8);
 
+    m->is_major_sync_unit = 0;
     if (show_bits_long(&gb, 31) == (0xf8726fba >> 1)) {
         if (read_major_sync(m, &gb) < 0)
             goto error;
+        m->is_major_sync_unit = 1;
         header_size += 28;
     }
 
@@ -935,10 +946,10 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
     substream_start = 0;
 
     for (substr = 0; substr < m->num_substreams; substr++) {
-        int extraword_present, checkdata_present, end;
+        int extraword_present, checkdata_present, end, nonrestart_substr;
 
         extraword_present = get_bits1(&gb);
-        skip_bits1(&gb);
+        nonrestart_substr = get_bits1(&gb);
         checkdata_present = get_bits1(&gb);
         skip_bits1(&gb);
 
@@ -947,8 +958,19 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
         substr_header_size += 2;
 
         if (extraword_present) {
+            /* FFDShow modification: garbled sound if enabled
+            if (m->avctx->codec_id == CODEC_ID_MLP) {
+                av_log(m->avctx, AV_LOG_ERROR, "There must be no extraword for MLP.\n");
+                goto error;
+            }
+            */
             skip_bits(&gb, 16);
             substr_header_size += 2;
+        }
+
+        if (!(nonrestart_substr ^ m->is_major_sync_unit)) {
+            av_log(m->avctx, AV_LOG_ERROR, "Invalid nonrestart_substr.\n");
+            goto error;
         }
 
         if (end + header_size + substr_header_size > length) {
@@ -990,8 +1012,13 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
         SubStream *s = &m->substream[substr];
         init_get_bits(&gb, buf, substream_data_len[substr] * 8);
 
+        m->matrix_changed = 0;
+        memset(m->filter_changed, 0, sizeof(m->filter_changed));
+
         s->blockpos = 0;
         do {
+            unsigned int ch;
+
             if (get_bits1(&gb)) {
                 if (get_bits1(&gb)) {
                     /* A restart header should be present. */
@@ -1007,6 +1034,17 @@ static int read_access_unit(AVCodecContext *avctx, void* data, int *data_size,
                 if (read_decoding_params(m, &gb, substr) < 0)
                     goto next_substr;
             }
+
+            if (m->matrix_changed > 1) {
+                av_log(m->avctx, AV_LOG_ERROR, "Matrices may change only once per access unit.\n");
+                goto next_substr;
+            }
+            for (ch = 0; ch < s->max_channel; ch++)
+                if (m->filter_changed[ch][FIR] > 1 ||
+                    m->filter_changed[ch][IIR] > 1) {
+                    av_log(m->avctx, AV_LOG_ERROR, "Filters may change only once per access unit.\n");
+                    goto next_substr;
+                }
 
             if (!s->restart_seen) {
                 goto next_substr;

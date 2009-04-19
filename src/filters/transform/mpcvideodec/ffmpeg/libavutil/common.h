@@ -308,6 +308,9 @@ static inline av_const float av_clipf(float a, float amin, float amax)
     typedef unsigned int   uint32_t;
 #endif /* EMULATE_INTTYPES */
 
+// ==> Start patch MPC
+#ifdef __GNUC__
+// <== End patch MPC
 #ifdef EMULATE_FAST_INT
 typedef signed char int_fast8_t;
 typedef signed int  int_fast16_t;
@@ -317,6 +320,9 @@ typedef unsigned int  uint_fast16_t;
 typedef unsigned int  uint_fast32_t;
 typedef uint64_t uint_fast64_t;
 #endif
+// ==> Start patch MPC
+#endif
+// <== End patch MPC
 
 #ifndef INT64_C
 #define INT64_C(c)     (c ## LL)

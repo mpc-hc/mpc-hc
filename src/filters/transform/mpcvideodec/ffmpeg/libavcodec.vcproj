@@ -859,6 +859,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\get_bits.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\golomb.h"
 				>
 			</File>
@@ -976,6 +980,10 @@
 			</File>
 			<File
 				RelativePath=".\PODtypes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\put_bits.h"
 				>
 			</File>
 			<File

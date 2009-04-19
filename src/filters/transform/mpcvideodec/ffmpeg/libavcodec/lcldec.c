@@ -20,7 +20,7 @@
  */
 
 /**
- * @file lcldec.c
+ * @file libavcodec/lcldec.c
  * LCL (LossLess Codec Library) Video Codec
  * Decoder for MSZH and ZLIB codecs
  * Experimental encoder for ZLIB RGB24
@@ -42,7 +42,7 @@
 #include <stdlib.h>
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "lcl.h"
 
 #if CONFIG_ZLIB

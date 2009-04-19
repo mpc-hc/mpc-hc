@@ -20,12 +20,12 @@
  */
 
 /**
- * @file loco.c
+ * @file libavcodec/loco.c
  * LOCO codec.
  */
 
 #include "avcodec.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "golomb.h"
 #include "mathops.h"
 

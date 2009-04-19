@@ -29,7 +29,7 @@
 #endif
 
 #include "libavutil/crc.h"
-#include "bitstream.h"
+#include "get_bits.h"
 #include "parser.h"
 #include "mlp_parser.h"
 #include "mlp.h"

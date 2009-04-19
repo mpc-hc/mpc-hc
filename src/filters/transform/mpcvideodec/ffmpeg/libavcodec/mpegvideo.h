@@ -29,7 +29,8 @@
 #define AVCODEC_MPEGVIDEO_H
 
 #include "dsputil.h"
-#include "bitstream.h"
+#include "get_bits.h"
+#include "put_bits.h"
 #include "ratecontrol.h"
 #include "parser.h"
 #include "mpeg12data.h"

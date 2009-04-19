@@ -1107,7 +1107,7 @@ typedef struct Mpeg1Context {
     int slice_count;
     int swap_uv;//indicate VCR2
     int save_aspect_info;
-    int save_width, save_height;
+    int save_width, save_height, save_progressive_seq;
     AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
 
 } Mpeg1Context;
@@ -1243,6 +1243,7 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
         s1->save_width != s->width ||
         s1->save_height != s->height ||
         s1->save_aspect_info != s->aspect_ratio_info||
+        s1->save_progressive_seq != s->progressive_sequence ||
         0)
     {
 
@@ -1261,6 +1262,7 @@ static int mpeg_decode_postinit(AVCodecContext *avctx){
         s1->save_aspect_info = s->aspect_ratio_info;
         s1->save_width = s->width;
         s1->save_height = s->height;
+        s1->save_progressive_seq = s->progressive_sequence;
 
         /* low_delay may be forced, in this case we will have B-frames
          * that behave like P-frames. */
@@ -2222,6 +2224,9 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
                     pc->state=-1;
                     return i-3;
                 }
+            }
+            if(s && state == PICTURE_START_CODE){
+                ff_fetch_timestamp(s, i-4, 1);
             }
         }
     }
