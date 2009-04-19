@@ -1822,7 +1822,8 @@ static bool SetShutdownPrivilege()
 {
    HANDLE hToken; 
    TOKEN_PRIVILEGES tkp; 
- 
+
+   SetThreadExecutionState (ES_CONTINUOUS);
    // Get a token for this process. 
  
    if(!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))

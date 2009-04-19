@@ -316,7 +316,7 @@ void CMPlayerCApp::ShowCmdlnSwitches()
 	{
 		CAtlList<CString> sl;
 		for(int i = 0; i < __argc; i++) sl.AddTail(__targv[i]);
-		s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + "\n\n";
+		s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + _T("\n\n");
 	}
 
 	s += ResStr (IDS_USAGE);
@@ -1160,7 +1160,7 @@ void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
 	while(pos)
 	{
 		wmcmd wc = s.wmcmds.GetNext(pos);
-		CStringA name = CString(wc.GetName());
+		CStringA name = TToA(wc.GetName());
 		name.Replace(' ', '_');
 		if((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt%wc.rmrepcnt) == 0)
 		&& (!name.CompareNoCase(cmd) || !wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, NULL, 10)))
@@ -2727,7 +2727,7 @@ bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAt
 	return fns.GetCount() > 0;
 }
 
-CString GetContentType(CString fn, CAtlList<CString>* redir)
+CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 {
 	CUrl url;
 	CString ct, body;
@@ -2938,7 +2938,7 @@ CString GetContentType(CString fn, CAtlList<CString>* redir)
 		}
 	}
 
-	return ct;
+	return TToA(ct);
 }
 
 

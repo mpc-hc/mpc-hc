@@ -1961,6 +1961,10 @@
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\AUTHORS"
+			>
+		</File>
+		<File
 			RelativePath=".\res\shaders\BT601BT709.psh"
 			>
 		</File>
