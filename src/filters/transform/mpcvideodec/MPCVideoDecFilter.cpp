@@ -601,8 +601,17 @@ bool CMPCVideoDecFilter::IsVideoInterlaced()
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
 {
-	w = PictWidthRounded();
-	h = PictHeightRounded();
+	if (m_nDXVAMode == MODE_SOFTWARE)
+	{
+		w = m_nWidth;
+		h = m_nHeight;
+	}
+	else
+	{
+		// DXVA surface are multiple of 16 pixels!
+		w = PictWidthRounded();
+		h = PictHeightRounded();
+	}
 }
 
 int CMPCVideoDecFilter::PictWidth()
