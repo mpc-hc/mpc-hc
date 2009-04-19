@@ -22,7 +22,6 @@
 
 #include "stdafx.h"
 
-#include "stdafx.h"
 #include "mplayerc.h"
 #include <atlbase.h>
 #include <atlcoll.h>
