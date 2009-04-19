@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "Nut Splitter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "Nut Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2006-2007 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "NutSplitter.ax"
             VALUE "ProductName", "Nut Splitter"
             VALUE "ProductVersion", "1, 1, 0, 0"

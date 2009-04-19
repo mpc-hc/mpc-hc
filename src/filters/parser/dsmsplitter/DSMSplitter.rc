@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "DSM Splitter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "DSM Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2007"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "DSMSplitter.ax"
             VALUE "ProductName", "DSM Splitter"
             VALUE "ProductVersion", "1, 1, 0, 0"

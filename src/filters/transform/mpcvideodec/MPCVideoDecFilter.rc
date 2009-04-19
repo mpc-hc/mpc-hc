@@ -82,7 +82,7 @@ BEGIN
             VALUE "FileDescription", "H.264/VC-1 DXVA video decoder"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MPCVideoDec Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2007-2008 Casimir666"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "MPCVideoDecFilter.ax"
             VALUE "ProductName", "MPCVideoDec Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

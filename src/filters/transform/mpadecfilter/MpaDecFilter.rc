@@ -75,7 +75,7 @@ BEGIN
             VALUE "FileDescription", "Mpeg Audio Decoder for DirectShow, based on libmad"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MpaDecFilter Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "MpaDecFilter.ax"
             VALUE "ProductName", "MpaDecFilter Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

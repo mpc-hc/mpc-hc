@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "DTS/AC3 Source Filter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "DTS/AC3 Source Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2007 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "DTSAC3Source.ax"
             VALUE "ProductName", "DTS/AC3 Sorce Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

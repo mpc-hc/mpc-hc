@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "D2V Source Filter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "D2V Source Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2007"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "D2VSource.ax"
             VALUE "ProductName", "D2V Source Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

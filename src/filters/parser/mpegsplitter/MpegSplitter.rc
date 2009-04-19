@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "Mpeg Splitter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "Mpeg Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2008 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
             VALUE "OriginalFilename", "MpegSplitter.ax"
             VALUE "ProductName", "Mpeg Splitter"
             VALUE "ProductVersion", "1, 1, 0, 0"
