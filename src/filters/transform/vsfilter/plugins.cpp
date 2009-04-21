@@ -80,7 +80,7 @@ public:
 		}
 
 		CComPtr<ISubPic> pSubPic;
-		if(!m_pSubPicQueue->LookupSubPic(rt, &pSubPic))
+		if(!m_pSubPicQueue->LookupSubPic(rt, pSubPic))
 			return(false);
 
 		CRect r;

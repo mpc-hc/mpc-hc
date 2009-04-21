@@ -256,7 +256,7 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 		if(m_pSubPicQueue)
 		{
 			CComPtr<ISubPic> pSubPic;
-			if(SUCCEEDED(m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), &pSubPic)) && pSubPic)
+			if(SUCCEEDED(m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), pSubPic)) && pSubPic)
 			{
 				CRect r;
 				pSubPic->GetDirtyRect(r);
@@ -536,7 +536,7 @@ void CDirectVobSubFilter::InitSubPicQueue()
 
 	HRESULT hr = S_OK;
 	m_pSubPicQueue = m_fDoPreBuffering 
-		? (ISubPicQueue*)new CSubPicQueue(10, pSubPicAllocator, &hr)
+		? (ISubPicQueue*)new CSubPicQueue(10, false, pSubPicAllocator, &hr)
 		: (ISubPicQueue*)new CSubPicQueueNoThread(pSubPicAllocator, &hr);
 
 	if(FAILED(hr)) m_pSubPicQueue = NULL;

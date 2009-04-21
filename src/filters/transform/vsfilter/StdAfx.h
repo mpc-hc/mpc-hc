@@ -39,6 +39,8 @@
 #undef WINVER
 #define WINVER 0x0501	// <= Force WINVER 0x0501 with Visual Studio 2008 (fix compilation error)
 
+#include "..\..\..\DSUtil\SharedInclude.h"
+
 #include <afxwin.h>
 #include <afxdisp.h>
 
