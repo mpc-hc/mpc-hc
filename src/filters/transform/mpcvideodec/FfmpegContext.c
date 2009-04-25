@@ -133,9 +133,19 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		#define MAX_DPB_41 12288 // DPB value for level 4.1
 
 		if (supportLevel51 == 1) {
-			// 11 refs as absolute max, but for Nvidia - 16
-			if (cur_sps->ref_frame_count > 16/*11*/)
-				return 2;	// Too much ref frames
+			// 11 refs as absolute max, but for Nvidia(Vista, HD) - 16
+			if(IsVista()) {
+				if(nWidth>1279) {
+					if (cur_sps->ref_frame_count > 16)
+						return 2;	// Too much ref frames					
+				} else {
+					if (cur_sps->ref_frame_count > 11)
+						return 2;	// Too much ref frames
+				}
+			} else {
+				if (cur_sps->ref_frame_count > 11)
+					return 2;	// Too much ref frames
+			}
 		} else {
 			// level 4.1 with 11 refs as absolute max
 			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5))))
