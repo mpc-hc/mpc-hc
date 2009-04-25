@@ -383,7 +383,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 	}
 	else
 	{
-		_Error += L"No D3DX9 dll found. To enable stats, shaders and complex resizers, please make sure to install the latest DirectX SDK Redistributable.\n";
+		_Error += L"No D3DX9 dll found. To enable stats, shaders and complex resizers, please make sure to install the latest DirectX End-User Runtime.\n";
 	}
 
 	m_pDwmIsCompositionEnabled = NULL;
