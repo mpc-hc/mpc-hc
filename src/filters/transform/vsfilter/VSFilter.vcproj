@@ -12,6 +12,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -21,7 +24,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
 			<Tool
@@ -38,14 +40,11 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)/$(ProjectName).tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,20 +60,18 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
-				GenerateManifest="false"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -93,12 +90,13 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Win32"
+			Name="Debug Unicode|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -114,13 +112,13 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)/$(ProjectName).tlb"
+				TargetEnvironment="3"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				PreprocessorDefinitions="WIN64;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -135,21 +133,18 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="strmbaseD.lib dsutilD.lib subtitlesD.lib subpicD.lib basevideofilterD.lib  Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
-				GenerateManifest="false"
+				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -172,8 +167,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
-			UseOfATL="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
 			<Tool
@@ -195,9 +188,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -212,23 +203,20 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
-				Version=""
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
-				GenerateManifest="false"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -244,17 +232,16 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
+			Name="Release Unicode|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
-			UseOfATL="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -270,13 +257,13 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)/$(ProjectName).tlb"
+				TargetEnvironment="3"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;WINVER=0x0500;_WIN32_WINNT=0x501;ISOLATION_AWARE_ENABLED;"
-				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\$(OutDir)/$(ProjectName).pch"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				PreprocessorDefinitions="WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -291,23 +278,20 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="delayimp.lib strmbaseR.lib dsutilR.lib subtitlesR.lib subpicR.lib basevideofilterR.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
-				Version=""
-				AdditionalLibraryDirectories="..\..\..\..\lib"
-				GenerateManifest="false"
+				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -323,8 +307,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
-				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 	</Configurations>
@@ -362,38 +344,6 @@
 			<File
 				RelativePath=".\StdAfx.cpp"
 				>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\StdAfx.h"
