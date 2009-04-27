@@ -613,11 +613,20 @@ void CDX9AllocatorPresenter::VSyncThread()
 							AverageScanline += m_ldDetectedScanlineRateList[i];
 						}
 
-						Average /= double(nPos);
-						AverageScanline /= double(nPos);
+						if (nPos)
+						{
+							Average /= double(nPos);
+							AverageScanline /= double(nPos);
+						}
+						else
+						{
+							Average = 0;
+							AverageScanline = 0;
+						}
 
 						double ThisValue = Average;
 
+						if (Average > 0.0 && AverageScanline > 0.0)
 						{
 							CAutoLock Lock(&m_RefreshRateLock);							
 							++m_DetectedRefreshRatePos;
@@ -627,7 +636,10 @@ void CDX9AllocatorPresenter::VSyncThread()
 								m_DetectedRefreshTimePrim = 0;
 							}
 							ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
-							m_DetectedRefreshRate = 1.0/m_DetectedRefreshTime;
+							if (m_DetectedRefreshTime > 0.0)
+								m_DetectedRefreshRate = 1.0/m_DetectedRefreshTime;
+							else
+								m_DetectedRefreshRate = 0.0;
 
 							if (m_DetectedScanlineTime == 0 || m_DetectedScanlineTime / AverageScanline > 1.01 || m_DetectedScanlineTime / AverageScanline < 0.99)
 							{
@@ -635,7 +647,10 @@ void CDX9AllocatorPresenter::VSyncThread()
 								m_DetectedScanlineTimePrim = 0;
 							}
 							ModerateFloat(m_DetectedScanlineTime, AverageScanline, m_DetectedScanlineTimePrim, 1.5);
-							m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
+							if (m_DetectedScanlineTime > 0.0)
+								m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
+							else
+								m_DetectedScanlinesPerFrame = 0;
 						}
 						//TRACE("Refresh: %f\n", RefreshRate);
 					}

@@ -709,7 +709,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
 
 	// Bufferize frame only with 3D texture!
 	if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-		m_nNbDXSurface	= max (min (s.iEvrBuffers, MAX_PICTURE_SLOTS-2), 1);
+		m_nNbDXSurface	= max (min (s.iEvrBuffers, MAX_PICTURE_SLOTS-2), 4);
 	else
 		m_nNbDXSurface = 1;
 
@@ -2459,7 +2459,14 @@ void CEVRAllocatorPresenter::RenderThread()
 								DetectedScanlineTime = m_DetectedScanlineTime;
 							}
 
-							if (s.m_RenderSettings.iVMR9VSync && DetectedRefreshTime && DetectedRefreshRatePos > 20)
+							if (DetectedRefreshRatePos < 20 || !DetectedRefreshTime || !DetectedScanlinesPerFrame)
+							{
+								DetectedRefreshTime = 1.0/m_RefreshRate;
+								DetectedScanlinesPerFrame = m_ScreenSize.cy;
+								DetectedScanlineTime = DetectedRefreshTime / double(m_ScreenSize.cy);
+							}
+
+							if (s.m_RenderSettings.iVMR9VSync)
 							{
 								bVSyncCorrection = true;
 								double TargetVSyncPos = GetVBlackPos();

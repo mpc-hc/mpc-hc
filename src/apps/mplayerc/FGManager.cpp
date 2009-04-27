@@ -2411,7 +2411,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_DXR)
 		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_DXRAllocatorPresenter, L"Haali's Video Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_MADVR)
-		m_transform.AddTail(new CFGFilterVideoRenderer(m_hWnd, CLSID_madVR, L"Madshi Video Renderer", m_vrmerit));
+		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVR, L"Madshi Video Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_NULL_COMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullVideoRenderer>(L"Null Video Renderer (Any)", MERIT64_ABOVE_DSHOW+2);
