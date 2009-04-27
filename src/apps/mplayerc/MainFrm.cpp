@@ -1860,13 +1860,13 @@ bool CMainFrame::DoAfterPlaybackEvent()
 	if(s.nCLSwitches&CLSW_STANDBY)
 	{
 		SetShutdownPrivilege();
-		SetSystemPowerState(TRUE, TRUE);
+		SetSystemPowerState(TRUE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
 	}
 	else if(s.nCLSwitches&CLSW_HIBERNATE)
 	{
 		SetShutdownPrivilege();
-		SetSystemPowerState(FALSE, TRUE);
+		SetSystemPowerState(FALSE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
 	}
 	else if(s.nCLSwitches&CLSW_SHUTDOWN)
