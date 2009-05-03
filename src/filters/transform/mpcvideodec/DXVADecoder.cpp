@@ -272,7 +272,7 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 	// FIXME : A/R temporary disable (crash in DXVA1)
 	if (m_nEngine != ENGINE_DXVA1)
 		m_pFilter->UpdateAspectRatio();
-	bAttach = m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded()) == S_OK;
+	bAttach = m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight()) == S_OK;
 	hr		= m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
 
 	if (SUCCEEDED (hr))

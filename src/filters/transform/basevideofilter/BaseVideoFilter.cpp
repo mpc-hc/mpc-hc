@@ -135,7 +135,7 @@ HRESULT CBaseVideoFilter::GetDeliveryBuffer(int w, int h, IMediaSample** ppOut)
 	return S_OK;
 }
 
-HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample)
+HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int realWidth, int realHeight)
 {
 	CMediaType& mt = m_pOutput->CurrentMediaType();
 
@@ -165,8 +165,16 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample)
 		if(mt.formattype == FORMAT_VideoInfo)
 		{
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.Format();
-			SetRect(&vih->rcSource, 0, 0, m_w, m_h);
-			SetRect(&vih->rcTarget, 0, 0, m_w, m_h);
+			if (realWidth != -1 && realHeight != -1)
+			{
+				SetRect(&vih->rcSource, 0, 0, realWidth, realHeight);
+				SetRect(&vih->rcTarget, 0, 0, realWidth, realHeight);
+			}
+			else
+			{
+				SetRect(&vih->rcSource, 0, 0, m_w, m_h);
+				SetRect(&vih->rcTarget, 0, 0, m_w, m_h);
+			}
 			bmi = &vih->bmiHeader;
 			bmi->biXPelsPerMeter = m_w * m_ary;
 			bmi->biYPelsPerMeter = m_h * m_arx;
@@ -174,8 +182,16 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample)
 		else if(mt.formattype == FORMAT_VideoInfo2)
 		{
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)mt.Format();
-			SetRect(&vih->rcSource, 0, 0, m_w, m_h);
-			SetRect(&vih->rcTarget, 0, 0, m_w, m_h);
+			if (realWidth != -1 && realHeight != -1)
+			{
+				SetRect(&vih->rcSource, 0, 0, realWidth, realHeight);
+				SetRect(&vih->rcTarget, 0, 0, realWidth, realHeight);
+			}
+			else
+			{
+				SetRect(&vih->rcSource, 0, 0, m_w, m_h);
+				SetRect(&vih->rcTarget, 0, 0, m_w, m_h);
+			}
 			bmi = &vih->bmiHeader;
 			vih->dwPictAspectRatioX = m_arx;
 			vih->dwPictAspectRatioY = m_ary;
