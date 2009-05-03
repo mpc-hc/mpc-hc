@@ -41,6 +41,7 @@ namespace DSObjects
 	protected:
 		CSize	m_ScreenSize;
 		UINT	m_RefreshRate;
+
 //		bool	m_fVMRSyncFix;
 		bool	m_bAlternativeVSync;
 		bool	m_bHighColorResolution;
@@ -67,6 +68,28 @@ namespace DSObjects
 		CComPtr<IDirect3D9Ex>			m_pD3DEx;
 		CComPtr<IDirect3D9>			m_pD3D;
 		CComPtr<IDirect3DDevice9Ex>		m_pD3DDevEx;
+
+		void LockD3DDevice()
+		{
+			if (m_pD3DDev)
+			{
+				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + 4);
+
+				if (pCritSec->DebugInfo->CriticalSection == pCritSec)
+					EnterCriticalSection(pCritSec);
+			}
+		}
+
+		void UnlockD3DDevice()
+		{
+			if (m_pD3DDev)
+			{
+				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + 4);
+
+				if (pCritSec->DebugInfo->CriticalSection == pCritSec)
+					LeaveCriticalSection(pCritSec);
+			}
+		}
 		CString m_D3DDevExError;
 		CComPtr<IDirect3DDevice9>		m_pD3DDev;
 		CComPtr<IDirect3DTexture9>		m_pVideoTexture[MAX_PICTURE_SLOTS];
@@ -124,8 +147,8 @@ namespace DSObjects
 		HRESULT InitResizers(float bicubicA, bool bNeedScreenSizeTexture);
 
 		bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
-		bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure);
-		bool WaitForVBlank(bool &_Waited);
+		bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock);
+		bool WaitForVBlank(bool &_Waited, bool &_bTakenLock);
 		int GetVBlackPos();
 		void CalculateJitter(LONGLONG PerformanceCounter);
 		virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter){}
@@ -204,13 +227,6 @@ namespace DSObjects
 		double					m_fSyncOffsetStdDev;
 		double					m_fSyncOffsetAvr;
 		double					m_DetectedRefreshRate;
-		double GetRefreshRate()
-		{
-			if (m_DetectedRefreshRate)
-				return m_DetectedRefreshRate;
-			else 
-				return m_RefreshRate;
-		}
 
 		CCritSec				m_RefreshRateLock;
 		double					m_DetectedRefreshTime;
@@ -218,6 +234,21 @@ namespace DSObjects
 		double					m_DetectedScanlineTime;
 		double					m_DetectedScanlineTimePrim;
 		double					m_DetectedScanlinesPerFrame;
+
+		double GetRefreshRate()
+		{
+			if (m_DetectedRefreshRate)
+				return m_DetectedRefreshRate;
+			return m_RefreshRate;
+		}
+
+		LONG GetScanLines()
+		{
+			if (m_DetectedRefreshRate)
+				return m_DetectedScanlinesPerFrame;
+			return m_ScreenSize.cy;
+		}
+
 		double					m_ldDetectedRefreshRateList[100];
 		double					m_ldDetectedScanlineRateList[100];
 		int						m_DetectedRefreshRatePos;
@@ -247,6 +278,7 @@ namespace DSObjects
 		int						m_VBlankEndWait;
 		int						m_VBlankStartWait;
 		LONGLONG				m_VBlankWaitTime;
+		LONGLONG				m_VBlankLockTime;
 		int						m_VBlankMin;
 		int						m_VBlankMinCalc;
 		int						m_VBlankMax;

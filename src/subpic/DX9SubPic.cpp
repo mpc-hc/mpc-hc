@@ -166,6 +166,7 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 
 STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 {
+
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
 	if(FAILED(m_pSurface->GetDesc(&d3dsd)))

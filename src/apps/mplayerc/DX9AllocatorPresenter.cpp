@@ -57,6 +57,40 @@ bool queueu_ffdshow_support = false;
 
 CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module)
 {
+
+	switch (_Error)
+	{
+	case D3DERR_WRONGTEXTUREFORMAT               : return "D3DERR_WRONGTEXTUREFORMAT";
+	case D3DERR_UNSUPPORTEDCOLOROPERATION        : return "D3DERR_UNSUPPORTEDCOLOROPERATION";
+	case D3DERR_UNSUPPORTEDCOLORARG              : return "D3DERR_UNSUPPORTEDCOLORARG";
+	case D3DERR_UNSUPPORTEDALPHAOPERATION        : return "D3DERR_UNSUPPORTEDALPHAOPERATION";
+	case D3DERR_UNSUPPORTEDALPHAARG              : return "D3DERR_UNSUPPORTEDALPHAARG";
+	case D3DERR_TOOMANYOPERATIONS                : return "D3DERR_TOOMANYOPERATIONS";
+	case D3DERR_CONFLICTINGTEXTUREFILTER         : return "D3DERR_CONFLICTINGTEXTUREFILTER";
+	case D3DERR_UNSUPPORTEDFACTORVALUE           : return "D3DERR_UNSUPPORTEDFACTORVALUE";
+	case D3DERR_CONFLICTINGRENDERSTATE           : return "D3DERR_CONFLICTINGRENDERSTATE";
+	case D3DERR_UNSUPPORTEDTEXTUREFILTER         : return "D3DERR_UNSUPPORTEDTEXTUREFILTER";
+	case D3DERR_CONFLICTINGTEXTUREPALETTE        : return "D3DERR_CONFLICTINGTEXTUREPALETTE";
+	case D3DERR_DRIVERINTERNALERROR              : return "D3DERR_DRIVERINTERNALERROR";
+	case D3DERR_NOTFOUND                         : return "D3DERR_NOTFOUND";
+	case D3DERR_MOREDATA                         : return "D3DERR_MOREDATA";
+	case D3DERR_DEVICELOST                       : return "D3DERR_DEVICELOST";
+	case D3DERR_DEVICENOTRESET                   : return "D3DERR_DEVICENOTRESET";
+	case D3DERR_NOTAVAILABLE                     : return "D3DERR_NOTAVAILABLE";
+	case D3DERR_OUTOFVIDEOMEMORY                 : return "D3DERR_OUTOFVIDEOMEMORY";
+	case D3DERR_INVALIDDEVICE                    : return "D3DERR_INVALIDDEVICE";
+	case D3DERR_INVALIDCALL                      : return "D3DERR_INVALIDCALL";
+	case D3DERR_DRIVERINVALIDCALL                : return "D3DERR_DRIVERINVALIDCALL";
+	case D3DERR_WASSTILLDRAWING                  : return "D3DERR_WASSTILLDRAWING";
+	case D3DOK_NOAUTOGEN                         : return "D3DOK_NOAUTOGEN";
+	case D3DERR_DEVICEREMOVED                    : return "D3DERR_DEVICEREMOVED";
+	case S_NOT_RESIDENT                          : return "S_NOT_RESIDENT";
+	case S_RESIDENT_IN_SHARED_MEMORY             : return "S_RESIDENT_IN_SHARED_MEMORY";
+	case S_PRESENT_MODE_CHANGED                  : return "S_PRESENT_MODE_CHANGED";
+	case S_PRESENT_OCCLUDED                      : return "S_PRESENT_OCCLUDED";
+	case D3DERR_DEVICEHUNG                       : return "D3DERR_DEVICEHUNG";
+	}
+
 	CString errmsg;
 	LPVOID lpMsgBuf;
 	if(FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_FROM_HMODULE,
@@ -403,27 +437,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 	else
 		m_pDirect3DCreate9Ex = NULL;
 
-	if (m_pDirect3DCreate9Ex)
-	{
-		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-		if(!m_pD3DEx) 
-		{
-			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-		}
-	}
-	if(!m_pD3DEx) 
-	{
-		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-		if(!m_pD3D) 
-		{
-			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
-		}
-		if(!m_pD3D) {hr = E_FAIL; return;}
-	}
-	else
-		m_pD3D = m_pD3DEx;
-
-
 	m_DetectedFrameRate = 0.0;
 	m_DetectedFrameTime = 0.0;
 	m_DetectedFrameTimeStdDev = 0.0;
@@ -482,8 +495,8 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     m_pD3DDev	= NULL;
 	m_pD3DDevEx = NULL;
 	m_pPSC.Free();
-	m_pD3D.Detach();
-	m_pD3DEx.Detach();
+	m_pD3D = NULL;
+	m_pD3DEx = NULL;
 	if (m_hDWMAPI)
 	{
 		FreeLibrary(m_hDWMAPI);
@@ -561,14 +574,15 @@ void CDX9AllocatorPresenter::VSyncThread()
 						ScanLineMiddle += m_ScreenSize.cy;
 
 					int ScanlineStart = ScanLine;
-					WaitForVBlankRange(ScanlineStart, 5, true, true, false);
+					bool bTakenLock;
+					WaitForVBlankRange(ScanlineStart, 5, true, true, false, bTakenLock);
 					LONGLONG TimeStart = pApp->GetPerfCounter();
 
-					WaitForVBlankRange(ScanLineMiddle, 5, true, true, false);
+					WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, bTakenLock);
 					LONGLONG TimeMiddle = pApp->GetPerfCounter();
 
 					int ScanlineEnd = ScanLine;
-					WaitForVBlankRange(ScanlineEnd, 5, true, true, false);
+					WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
 					LONGLONG TimeEnd = pApp->GetPerfCounter();
 
 					double nSeconds = double(TimeEnd - TimeStart) / 10000000.0;
@@ -762,6 +776,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_VBlankMax = 0;
 	m_VBlankStartWait = 0;
 	m_VBlankWaitTime = 0;
+	m_VBlankLockTime = 0;
 	m_PresentWaitTime = 0;
 	m_PresentWaitTimeMin = 3000000000;
 	m_PresentWaitTimeMax = 0;
@@ -813,6 +828,33 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		CExternalPixelShader &Shader = m_pPixelShaders.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
+
+	m_pD3DEx = NULL;
+	m_pD3D = NULL;
+
+	if (m_pDirect3DCreate9Ex)
+	{
+		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+		if(!m_pD3DEx) 
+		{
+			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
+		}
+	}
+	if(!m_pD3DEx) 
+	{
+		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
+		if(!m_pD3D) 
+		{
+			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
+		}
+		if(!m_pD3D) 
+		{
+			_Error += L"Failed to create D3D9\n";
+			return E_UNEXPECTED;
+		}
+	}
+	else
+		m_pD3D = m_pD3DEx;
 
 
 	D3DDISPLAYMODE d3ddm;
@@ -1774,7 +1816,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 	return true;
 }
 
-bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSize, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure)
+bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSize, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock)
 {
 	if (_bMeasure)
 		m_RasterStatusWaitTimeMaxCalc = 0;
@@ -1846,11 +1888,19 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 			}
 		}
 	}
-	int MinRange = max(min(int(0.0015 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy/3), 5); // 1.5 ms or max 33 % of Time
+	double RefreshRate = GetRefreshRate();
+	LONG ScanLines = GetScanLines();
+	int MinRange = max(min(int(0.0015 * double(ScanLines) * RefreshRate + 0.5), ScanLines/3), 5); // 1.5 ms or max 33 % of Time
 	int NoSleepStart = _RasterStart - MinRange;
 	int NoSleepRange = MinRange;
 	if (NoSleepStart < 0)
 		NoSleepStart += m_ScreenSize.cy;
+
+	int MinRange2 = max(min(int(0.0050 * double(ScanLines) * RefreshRate + 0.5), ScanLines/3), 5); // 5 ms or max 33 % of Time
+	int D3DDevLockStart = _RasterStart - MinRange2;
+	int D3DDevLockRange = MinRange2;
+	if (D3DDevLockStart < 0)
+		D3DDevLockStart += m_ScreenSize.cy;
 
 	int ScanLineDiff = ScanLine - _RasterStart;
 	if (ScanLineDiff > m_ScreenSize.cy / 2)
@@ -1858,7 +1908,25 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 	else if (ScanLineDiff < -m_ScreenSize.cy / 2)
 		ScanLineDiff += m_ScreenSize.cy;
 	int LastLineDiff = ScanLineDiff;
-	int LastLineDiffSleep = long(ScanLine) - NoSleepStart;
+
+
+	int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
+	if (ScanLineDiffSleep > m_ScreenSize.cy / 2)
+		ScanLineDiffSleep -= m_ScreenSize.cy;
+	else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2)
+		ScanLineDiffSleep += m_ScreenSize.cy;
+	int LastLineDiffSleep = ScanLineDiffSleep;
+
+
+	int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
+	if (ScanLineDiffLock > m_ScreenSize.cy / 2)
+		ScanLineDiffLock -= m_ScreenSize.cy;
+	else if (ScanLineDiffLock < -m_ScreenSize.cy / 2)
+		ScanLineDiffLock += m_ScreenSize.cy;
+	int LastLineDiffLock = ScanLineDiffLock;
+
+	LONGLONG llPerfLock;
+
 	while (1)
 	{
 		if (!GetVBlank(ScanLine, InVBlank, _bMeasure))
@@ -1874,6 +1942,24 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 		LastLineDiff = ScanLineDiff;
 
 		bWaited = true;
+
+		int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
+		if (ScanLineDiffLock > m_ScreenSize.cy / 2)
+			ScanLineDiffLock -= m_ScreenSize.cy;
+		else if (ScanLineDiffLock < -m_ScreenSize.cy / 2)
+			ScanLineDiffLock += m_ScreenSize.cy;
+
+		if (((ScanLineDiffLock >= 0 && ScanLineDiffLock <= D3DDevLockRange) || (LastLineDiffLock < 0 && ScanLineDiffLock > 0)))
+		{
+			if (!_bTakenLock && _bMeasure)
+			{
+				_bTakenLock = true;
+				llPerfLock = AfxGetMyApp()->GetPerfCounter();
+				LockD3DDevice();
+			}
+		}
+		LastLineDiffLock = ScanLineDiffLock;
+
 
 		int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
 		if (ScanLineDiffSleep > m_ScreenSize.cy / 2)
@@ -1893,6 +1979,13 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 	{
 		m_VBlankEndWait = ScanLine;
 		m_VBlankWaitTime = AfxGetMyApp()->GetPerfCounter() - llPerf;
+
+		if (_bTakenLock)
+		{
+			m_VBlankLockTime = AfxGetMyApp()->GetPerfCounter() - llPerfLock;
+		}
+		else
+			m_VBlankLockTime = 0;
 
 		m_RasterStatusWaitTime = m_RasterStatusWaitTimeMaxCalc;
 		m_RasterStatusWaitTimeMin = min(m_RasterStatusWaitTimeMin, m_RasterStatusWaitTime);
@@ -1929,13 +2022,14 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 }
 
 
-bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited)
+bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited, bool &_bTakenLock)
 {
 	AppSettings& s = AfxGetAppSettings();
 	if (!s.m_RenderSettings.iVMR9VSync)
 	{
 		_Waited = true;
 		m_VBlankWaitTime = 0;
+		m_VBlankLockTime = 0;
 		m_VBlankEndWait = 0;
 		m_VBlankStartWait = 0;
 		return true;
@@ -1950,19 +2044,19 @@ bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited)
 	{
 		if (m_bAlternativeVSync)
 		{
-			_Waited = WaitForVBlankRange(WaitFor, 0, false, true, true);
+			_Waited = WaitForVBlankRange(WaitFor, 0, false, true, true, _bTakenLock);
 			return false;
 		}
 		else
 		{
-			_Waited = WaitForVBlankRange(WaitFor, 0, false, s.m_RenderSettings.iVMR9VSyncAccurate, true);
+			_Waited = WaitForVBlankRange(WaitFor, 0, false, s.m_RenderSettings.iVMR9VSyncAccurate, true, _bTakenLock);
 			return true;
 		}
 	}
 	else
 	{
 		// Instead we wait for VBlack after the present, this seems to fix the stuttering problem. It's also possible to fix by removing the Sleep above, but that isn't an option.
-		WaitForVBlankRange(WaitFor, 0, false, s.m_RenderSettings.iVMR9VSyncAccurate, true);
+		WaitForVBlankRange(WaitFor, 0, false, s.m_RenderSettings.iVMR9VSyncAccurate, true, _bTakenLock);
 
 		return false;
 	}
@@ -2336,10 +2430,11 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	bool bWaited = false;
+	bool bTakenLock = false;
 	if (fAll)
 	{
 		// Only sync to refresh when redrawing all
-		bool bTest = WaitForVBlank(bWaited);
+		bool bTest = WaitForVBlank(bWaited, bTakenLock);
 		ASSERT(bTest == bDoVSyncInPresent);
 		if (!bDoVSyncInPresent)
 		{
@@ -2388,7 +2483,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			{
 				if (!s.m_RenderSettings.iVMRFlushGPUWait)
 					break;
-				if (pApp->GetPerfCounter() - FlushStartTime > 10000)
+				if (pApp->GetPerfCounter() - FlushStartTime > 100000)
 					break; // timeout after 10 ms
 			}
 		}
@@ -2431,6 +2526,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			CalculateJitter(Time);
 		OnVBlankFinished(fAll, Time);
 	}
+
+	if (bTakenLock)
+		UnlockD3DDevice();
+
 	
 /*	if (!bWaited)
 	{
@@ -2446,7 +2545,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}*/
 	bool fResetDevice = false;
 
-	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET
+		|| hr == S_PRESENT_MODE_CHANGED)
 	{
 		fResetDevice = true;
 	}
@@ -2712,9 +2812,9 @@ void CDX9AllocatorPresenter::DrawStats()
 		if (bDetailedStats > 1)
 		{
 			if (m_VBlankEndPresent == -100000)
-				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Offset %4d   Max %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin);
+				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), (double(m_VBlankLockTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin);
 			else
-				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Offset %4d   Max %4d   EndPresent %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin, m_VBlankEndPresent);
+				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), (double(m_VBlankLockTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin, m_VBlankEndPresent);
 		}
 		else
 		{

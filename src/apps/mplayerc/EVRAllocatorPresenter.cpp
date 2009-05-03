@@ -1532,9 +1532,11 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 		Buffer.pSample	= pSample;
 		pSample->GetUINT32 (GUID_SURFACE_INDEX, &dwSurface);
 
-		llClockBefore = AfxGetMyApp()->GetPerfCounter();
-		hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
-		llClockAfter = AfxGetMyApp()->GetPerfCounter();
+		{
+			llClockBefore = AfxGetMyApp()->GetPerfCounter();
+			hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
+			llClockAfter = AfxGetMyApp()->GetPerfCounter();
+		}
 
 		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) 
 		{
