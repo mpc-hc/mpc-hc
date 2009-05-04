@@ -237,9 +237,9 @@ struct MYD3DVERTEX<0>
 #pragma pack(pop)
 
 template<int texcoords>
-static void AdjustQuad(MYD3DVERTEX<texcoords>* v, float dx, float dy)
+static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 {
-	float offset = 0.5f;
+	double offset = 0.5;
 
 	for(int i = 0; i < 4; i++)
 	{
@@ -1509,11 +1509,11 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	float w = (float)desc.Width;
-	float h = (float)desc.Height;
+	double w = (double)desc.Width;
+	double h = (double)desc.Height;
 
-	float dx = 1.0f/w;
-	float dy = 1.0f/h;
+	double dx = 1.0f/w;
+	double dy = 1.0f/h;
 
 	MYD3DVERTEX<2> v[] =
 	{
@@ -1554,20 +1554,22 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	float dx = 1.0f/desc.Width;
+	double dx0 = 0.98/desc.Width;
+	double dy0 = 0.98/desc.Height;
 
-	float w = (float)desc.Width;
-	float h = (float)desc.Height;
+	double w = (double)desc.Width;
+	double h = (double)desc.Height;
 
 	CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
 	if(!m_pScreenSizeTemporaryTexture[0] || FAILED(m_pScreenSizeTemporaryTexture[0]->GetLevelDesc(0, &desc)))
 		return TextureResizeBicubic1pass(pTexture, dst);
 
-	float dy = 1.0f/desc.Height;
+	double dx1 = 0.98/desc.Width;
+	double dy1 = 0.98/desc.Height;
 
-	float dw = (float)dst1.Width() / desc.Width;
-	float dh = (float)dst1.Height() / desc.Height;
+	double dw = (double)dst1.Width() / desc.Width;
+	double dh = (double)dst1.Height() / desc.Height;
 
 //	ASSERT(dst1.Height() == desc.Height);
 
@@ -1577,23 +1579,23 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 
 	MYD3DVERTEX<5> vx[] =
 	{
-		{(float)dst1.left, (float)dst1.top, 0.5f, 2.0f, 0-dx, 0,  0, 0,  0+dx, 0,  0+dx*2, 0,  0, 0},
-		{(float)dst1.right, (float)dst1.top, 0.5f, 2.0f,  1-dx, 0,  1, 0,  1+dx, 0,  1+dx*2, 0,  w, 0},
-		{(float)dst1.left, (float)dst1.bottom, 0.5f, 2.0f,  0-dx, 1,  0, 1,  0+dx, 1,  0+dx*2, 1,  0, 0},
-		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f,  1-dx, 1,  1, 1,  1+dx, 1,  1+dx*2, 1,  w, 0},
+		{(float)dst1.left, (float)dst1.top, 0.5f, 2.0f, 0-dx0, 0,  0, 0,  0+dx0, 0,  0+dx0*2, 0,  0, 0},
+		{(float)dst1.right, (float)dst1.top, 0.5f, 2.0f,  1-dx0, 0,  1, 0,  1+dx0, 0,  1+dx0*2, 0,  w, 0},
+		{(float)dst1.left, (float)dst1.bottom, 0.5f, 2.0f,  0-dx0, 1,  0, 1,  0+dx0, 1,  0+dx0*2, 1,  0, 0},
+		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f,  1-dx0, 1,  1, 1,  1+dx0, 1,  1+dx0*2, 1,  w, 0},
 	};
 
-	AdjustQuad(vx, dx, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
+	AdjustQuad(vx, dx0, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
 
 	MYD3DVERTEX<5> vy[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  0, 0-dy,  0, 0,  0, 0+dy,  0, 0+dy*2,  0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  dw, 0-dy,  dw, 0,  dw, 0+dy,  dw, 0+dy*2,  0, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  0, dh-dy,  0, dh,  0, dh+dy,  0, dh+dy*2,  h, 0},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  dw, dh-dy,  dw, dh,  dw, dh+dy,  dw, dh+dy*2,  h, 0},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z,  0, 0-dy1,  0, 0,  0, 0+dy1,  0, 0+dy1*2,  0, 0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z,  dw, 0-dy1,  dw, 0,  dw, 0+dy1,  dw, 0+dy1*2,  0, 0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z,  0, dh-dy1,  0, dh,  0, dh+dy1,  0, dh+dy1*2,  h, 0},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z,  dw, dh-dy1,  dw, dh,  dw, dh+dy1,  dw, dh+dy1*2,  h, 0},
 	};
 
-	AdjustQuad(vy, 0, dy);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
+	AdjustQuad(vy, 0, dy1);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[2]);
 
