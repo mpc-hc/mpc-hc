@@ -73,10 +73,14 @@ namespace DSObjects
 		{
 			if (m_pD3DDev)
 			{
-				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + 4);
+				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + sizeof(size_t));
 
-				if (pCritSec->DebugInfo->CriticalSection == pCritSec)
-					EnterCriticalSection(pCritSec);
+				if (!IsBadReadPtr(pCritSec, sizeof(*pCritSec)) && !IsBadWritePtr(pCritSec, sizeof(*pCritSec))
+					&& !IsBadReadPtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo))) && !IsBadWritePtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo))))			
+				{
+					if (pCritSec->DebugInfo->CriticalSection == pCritSec)
+						EnterCriticalSection(pCritSec);
+				}
 			}
 		}
 
@@ -84,10 +88,14 @@ namespace DSObjects
 		{
 			if (m_pD3DDev)
 			{
-				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + 4);
+				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + sizeof(size_t));
 
-				if (pCritSec->DebugInfo->CriticalSection == pCritSec)
-					LeaveCriticalSection(pCritSec);
+				if (!IsBadReadPtr(pCritSec, sizeof(*pCritSec)) && !IsBadWritePtr(pCritSec, sizeof(*pCritSec))
+					&& !IsBadReadPtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo))) && !IsBadWritePtr(pCritSec->DebugInfo, sizeof(*(pCritSec->DebugInfo))))			
+				{
+					if (pCritSec->DebugInfo->CriticalSection == pCritSec)
+						LeaveCriticalSection(pCritSec);
+				}
 			}
 		}
 		CString m_D3DDevExError;
