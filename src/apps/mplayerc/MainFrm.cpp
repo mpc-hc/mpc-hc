@@ -2962,14 +2962,6 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 		}
 
 		OAFilterState fs = GetMediaState();
-		/*
-		pCmdUI->SetText(
-			!msg.IsEmpty() ? msg : 
-			fs == State_Stopped ? ResStr(IDS_CONTROLS_STOPPED) :
-			(fs == State_Paused || m_fFrameSteppingActive) ? ResStr(IDS_CONTROLS_PAUSED) :
-			fs == State_Running ? ResStr(IDS_CONTROLS_PLAYING) :
-			_T(""));
-		*/
 		CString UI_Text = 
 			!msg.IsEmpty() ? msg : 
 			fs == State_Stopped ? ResStr(IDS_CONTROLS_STOPPED) :
@@ -2979,16 +2971,8 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 		if((!m_fAudioOnly) && (fs == State_Running))
 		{
 			CString DXVA_Text = GetDXVADecoderDescription();
-			if((_T("Not using DXVA")==DXVA_Text) || (_T("Unknown")==DXVA_Text))
-			{
-				DXVA_Text = _T("Not using");
-			}
-			else
-			{
-				DXVA_Text = _T("On");
-			}
-			UI_Text+=_T(", DXVA : ");
-			UI_Text+=DXVA_Text;
+			if(!(_T("Not using DXVA")==DXVA_Text) || (_T("Unknown")==DXVA_Text))
+				UI_Text += _T(" [DXVA]");
 		}
 		pCmdUI->SetText(UI_Text);
 	}
