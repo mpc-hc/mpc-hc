@@ -514,7 +514,9 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	pmt->subtype = *fmts[iPosition/2].subtype;
 
 	int w = m_win, h = m_hin, arx = m_arxin, ary = m_aryin;
-	GetOutputSize(w, h, arx, ary);
+	int RealWidth = -1;
+	int RealHeight = -1;
+	GetOutputSize(w, h, arx, ary, RealWidth, RealHeight);
 
 	BITMAPINFOHEADER bihOut;
 	memset(&bihOut, 0, sizeof(bihOut));
@@ -562,14 +564,19 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
 	if (vih && vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0))
 	{
-		memcpy (&vih->rcSource, &vihInput->rcSource, sizeof(RECT));
-		memcpy (&vih->rcTarget, &vihInput->rcTarget, sizeof(RECT));
+		vih->rcSource = vihInput->rcSource;
+		vih->rcTarget = vihInput->rcTarget;
 	}
 	else
 	{
 		vih->rcSource.right  = vih->rcTarget.right  = m_win;
 		vih->rcSource.bottom = vih->rcTarget.bottom = m_hin;
 	}
+
+	if (RealWidth != -1 && vih->rcSource.right > RealWidth)
+		vih->rcSource.right = RealWidth;
+	if (RealHeight != -1 && vih->rcSource.bottom > RealHeight)
+		vih->rcSource.bottom = RealHeight;
 
 	return S_OK;
 }
@@ -584,7 +591,9 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 		m_hin = m_h;
 		m_arxin = m_arx;
 		m_aryin = m_ary;
-		GetOutputSize(m_w, m_h, m_arx, m_ary);
+		int RealWidth;
+		int RealHeight;
+		GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight);
 
 		DWORD a = m_arx, b = m_ary;
 		while(a) {int tmp = a; a = b % tmp; b = tmp;}

@@ -599,8 +599,14 @@ bool CMPCVideoDecFilter::IsVideoInterlaced()
 };
 
 
-void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
+void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
 {
+#if 1
+	RealWidth = m_nWidth;
+	RealHeight = m_nHeight;
+	w = PictWidthRounded();
+	h = PictHeightRounded();
+#else
 	if (m_nDXVAMode == MODE_SOFTWARE)
 	{
 		w = m_nWidth;
@@ -612,6 +618,7 @@ void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
 		w = PictWidthRounded();
 		h = PictHeightRounded();
 	}
+#endif
 }
 
 int CMPCVideoDecFilter::PictWidth()
