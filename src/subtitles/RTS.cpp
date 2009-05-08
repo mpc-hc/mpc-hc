@@ -2605,6 +2605,7 @@ STDMETHODIMP_(int) CRenderedTextSubtitle::GetStreamCount()
 
 STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 {
+	USES_CONVERSION;
 	if(iStream != 0) return E_INVALIDARG;
 
 	if(ppName)
@@ -2613,11 +2614,13 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 			return E_OUTOFMEMORY;
 
 		wcscpy(*ppName, CStringW(m_name));
-	}
 
-	if(pLCID)
-	{
-		*pLCID = 0; // TODO
+		if(pLCID)
+		{
+			*pLCID = ISO6391ToLcid (W2A(*ppName));
+			if (*pLCID == 0)
+				*pLCID = ISO6392ToLcid (W2A(*ppName));
+		}
 	}
 
 	return S_OK;

@@ -2038,6 +2038,22 @@ CString ISO6392ToLanguage(LPCSTR code)
 	return _T("");
 }
 
+LCID ISO6391ToLcid(LPCSTR code)
+{
+	CHAR tmp[3+1];
+	strncpy_s(tmp, code, 3);
+	tmp[3] = 0;
+	_strlwr_s(tmp);
+	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	{
+		if(!strcmp(s_isolangs[i].iso6391, code))
+		{
+			return s_isolangs[i].lcid;
+		}
+	}
+	return 0;
+}
+
 LCID ISO6392ToLcid(LPCSTR code)
 {
 	CHAR tmp[3+1];
