@@ -1470,6 +1470,15 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	case MODE_DXVA1 :
 	case MODE_DXVA2 :
 		CheckPointer (m_pDXVADecoder, E_UNEXPECTED);
+		UpdateAspectRatio();
+
+		// Change aspect ratio for DXVA1
+		if ((m_nDXVAMode == MODE_DXVA1) &&
+			ReconnectOutput(PictWidthRounded(), PictHeightRounded(), true, PictWidth(), PictHeight()) == S_OK)
+		{
+			m_pDXVADecoder->ConfigureDXVA1();
+		}
+
 		hr = m_pDXVADecoder->DecodeFrame (pDataIn, nSize, rtStart, rtStop);
 		break;
 	default :
@@ -1849,6 +1858,8 @@ WORD CMPCVideoDecFilter::GetDXVA1RestrictedMode()
 
 HRESULT CMPCVideoDecFilter::CreateDXVA1Decoder(IAMVideoAccelerator*  pAMVideoAccelerator, const GUID* pDecoderGuid, DWORD dwSurfaceCount)
 {
+	if (m_pDXVADecoder && m_DXVADecoderGUID	== *pDecoderGuid) 
+		return S_OK;
 	SAFE_DELETE (m_pDXVADecoder);
 
 	if (!m_bUseDXVA) return E_FAIL;

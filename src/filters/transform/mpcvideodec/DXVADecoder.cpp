@@ -267,12 +267,13 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 {
 	HRESULT					hr;
 	CComPtr<IMediaSample>	pNewSample;
-	bool bAttach;
 
-	// FIXME : A/R temporary disable (crash in DXVA1)
-	if (m_nEngine != ENGINE_DXVA1)
+	// Change aspect ratio for DXVA2
+	if (m_nEngine == ENGINE_DXVA2)
+	{
 		m_pFilter->UpdateAspectRatio();
-	bAttach = m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight()) == S_OK;
+		m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight());
+	}
 	hr		= m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
 
 	if (SUCCEEDED (hr))
