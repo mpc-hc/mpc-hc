@@ -51,6 +51,8 @@ namespace DSObjects
 		int		m_VSyncMode;
 		bool	m_bDesktopCompositionDisabled;
 		bool	m_bIsFullscreen;
+		bool	m_bNeedCheckSample;
+		DWORD	m_MainThreadId;
 
 		CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
 
@@ -163,10 +165,10 @@ namespace DSObjects
 
 		HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
 		HRESULT TextureCopy(CComPtr<IDirect3DTexture9> pTexture);
-		HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter);
-		HRESULT TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4]);
-		HRESULT TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4]);
-		HRESULT TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4]);
+		HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
+		HRESULT TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
+		HRESULT TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
+		HRESULT TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
 
 		// Casimir666
 		typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(

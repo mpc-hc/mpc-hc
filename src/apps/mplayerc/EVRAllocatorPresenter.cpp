@@ -1560,7 +1560,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 		{
 			m_fps = (float)(10000000.0 / nsDuration);
 //			m_fps = 10000000.0 / (double)(m_rtTimePerFrame);
-			m_pSubPicQueue->SetFPS(23.976);
+			m_pSubPicQueue->SetFPS(m_fps);
 		}
 
 		if (AfxGetMyApp()->m_fTearingTest)

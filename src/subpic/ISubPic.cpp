@@ -1038,7 +1038,7 @@ STDMETHODIMP_(SIZE) ISubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
 	CSize VideoSize(m_NativeVideoSize);
 
 	if(fCorrectAR && m_AspectRatio.cx > 0 && m_AspectRatio.cy > 0)
-		VideoSize.cx = VideoSize.cy*m_AspectRatio.cx/m_AspectRatio.cy;
+		VideoSize.cx = (LONGLONG(VideoSize.cy)*LONGLONG(m_AspectRatio.cx))/LONGLONG(m_AspectRatio.cy);
 
 	return(VideoSize);
 }

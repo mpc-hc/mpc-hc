@@ -389,6 +389,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 
 {
 
+	m_MainThreadId = 0;
+	m_bNeedCheckSample = true;
 	m_pDirectDraw = NULL;
 	m_hVSyncThread = INVALID_HANDLE_VALUE;
 	m_hEvtQuit = INVALID_HANDLE_VALUE;
@@ -1428,7 +1430,7 @@ HRESULT CDX9AllocatorPresenter::DrawRect(DWORD _Color, DWORD _Alpha, const CRect
 	return ::DrawRect(m_pD3DDev, v);
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter)
+HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
 {
 	HRESULT hr;
 
@@ -1441,13 +1443,15 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
 
 	float dx = 0.98f/w;
 	float dy = 0.98f/h;
+	float dx2 = 1.0/w;
+	float dy2 = 1.0/h;
 
 	MYD3DVERTEX<1> v[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  1, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  0, 1},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  1, 1},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  SrcRect.left * dx2, SrcRect.top * dy2},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  SrcRect.right * dx2, SrcRect.top * dy2},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  SrcRect.left * dx2, SrcRect.bottom * dy2},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  SrcRect.right * dx2, SrcRect.bottom * dy2},
 	};
 
 	AdjustQuad(v, dx, dy);
@@ -1461,7 +1465,7 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
 	return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4])
+HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
 {
 	HRESULT hr;
 
@@ -1474,13 +1478,19 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 
 	float dx = 0.98f/w;
 	float dy = 0.98f/h;
+	float dx2 = 1.0f/w;
+	float dy2 = 1.0f/h;
+	float tx0 = SrcRect.left * dx2;
+	float tx1 = SrcRect.right * dx2;
+	float ty0 = SrcRect.top * dy2;
+	float ty1 = SrcRect.bottom * dy2;
 
 	MYD3DVERTEX<5> v[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  0, 0,  0+dx, 0,  0, 0+dy,  0+dx, 0+dy,  0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  1, 0,  1+dx, 0,  1, 0+dy,  1+dx, 0+dy,  w, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  0, 1,  0+dx, 1,  0, 1+dy,  0+dx, 1+dy,  0, h},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  1, 1,  1+dx, 1,  1, 1+dy,  1+dx, 1+dy,  w, h},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0,  tx0+dx, ty0,  tx0, ty0+dy,  tx0+dx, ty0+dy,  0, 0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0,  tx1+dx, ty0,  tx1, ty0+dy,  tx1+dx, ty0+dy,  w, 0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1,  tx0+dx, ty1,  tx0, ty1+dy,  tx0+dx, ty1+dy,  0, h},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1,  tx1+dx, ty1,  tx1, ty1+dy,  tx1+dx, ty1+dy,  w, h},
 	};
 
 	AdjustQuad(v, dx, dy);
@@ -1501,7 +1511,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 	return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4])
+HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
 {
 	HRESULT hr;
 
@@ -1512,15 +1522,25 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	double w = (double)desc.Width;
 	double h = (double)desc.Height;
 
+	double sw = SrcRect.Width();
+	double sh = SrcRect.Height();
+
 	double dx = 1.0f/w;
 	double dy = 1.0f/h;
 
+	float dx2 = 1.0f/w;
+	float dy2 = 1.0f/h;
+	float tx0 = SrcRect.left * dx2;
+	float tx1 = SrcRect.right * dx2;
+	float ty0 = SrcRect.top * dy2;
+	float ty1 = SrcRect.bottom * dy2;
+
 	MYD3DVERTEX<2> v[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  0, 0, 0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  1, 0, w, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  0, 1, 0, h},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  1, 1, w, h},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0,  0,  0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0, sw,  0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1,  0, sh},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1, sw, sh},
 	};
 
 	AdjustQuad(v, dx, dy);
@@ -1539,60 +1559,69 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4])
+HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
 {
-	// return TextureResizeBicubic1pass(pTexture, dst);
+	// Always use 1 pass because 2 pass can cause artifacts because of different resolution textures in the different passes.
+	return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
 	HRESULT hr;
 
 	// rotated?
 	if(dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
 	|| dst[0].y != dst[1].y || dst[0].x != dst[2].x || dst[2].y != dst[3].y || dst[1].x != dst[3].x)
-		return TextureResizeBicubic1pass(pTexture, dst);
+		return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
 	D3DSURFACE_DESC desc;
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	double dx0 = 0.98/desc.Width;
-	double dy0 = 0.98/desc.Height;
+	double dx0 = 1.0/desc.Width;
+	double dy0 = 1.0/desc.Height;
 
-	double w = (double)desc.Width;
-	double h = (double)desc.Height;
+	CSize SrcTextSize = CSize(desc.Width, desc.Height);
+	double w = (double)SrcRect.Width();
+	double h = (double)SrcRect.Height();
 
 	CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
 	if(!m_pScreenSizeTemporaryTexture[0] || FAILED(m_pScreenSizeTemporaryTexture[0]->GetLevelDesc(0, &desc)))
-		return TextureResizeBicubic1pass(pTexture, dst);
+		return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
-	double dx1 = 0.98/desc.Width;
-	double dy1 = 0.98/desc.Height;
+	double dx1 = 1.0/desc.Width;
+	double dy1 = 1.0/desc.Height;
 
 	double dw = (double)dst1.Width() / desc.Width;
 	double dh = (double)dst1.Height() / desc.Height;
+
+	float dx2 = 1.0f/SrcTextSize.cx;
+	float dy2 = 1.0f/SrcTextSize.cy;
+	float tx0 = SrcRect.left * dx2;
+	float tx1 = SrcRect.right * dx2;
+	float ty0 = SrcRect.top * dy2;
+	float ty1 = SrcRect.bottom * dy2;
 
 //	ASSERT(dst1.Height() == desc.Height);
 
 	if(dst1.Width() > (int)desc.Width || dst1.Height() > (int)desc.Height)
 	// if(dst1.Width() != desc.Width || dst1.Height() != desc.Height)
-		return TextureResizeBicubic1pass(pTexture, dst);
+		return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
 	MYD3DVERTEX<5> vx[] =
 	{
-		{(float)dst1.left, (float)dst1.top, 0.5f, 2.0f, 0-dx0, 0,  0, 0,  0+dx0, 0,  0+dx0*2, 0,  0, 0},
-		{(float)dst1.right, (float)dst1.top, 0.5f, 2.0f,  1-dx0, 0,  1, 0,  1+dx0, 0,  1+dx0*2, 0,  w, 0},
-		{(float)dst1.left, (float)dst1.bottom, 0.5f, 2.0f,  0-dx0, 1,  0, 1,  0+dx0, 1,  0+dx0*2, 1,  0, 0},
-		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f,  1-dx0, 1,  1, 1,  1+dx0, 1,  1+dx0*2, 1,  w, 0},
+		{(float)dst1.left, (float)dst1.top,		0.5f, 2.0f, tx0-dx0, ty0,  tx0, ty0,  tx0+dx0, ty0,  tx0+dx0*2, ty0,  0, 0},
+		{(float)dst1.right, (float)dst1.top,	0.5f, 2.0f, tx1-dx0, ty0,  tx1, ty0,  tx1+dx0, ty0,  tx1+dx0*2, ty0,  w, 0},
+		{(float)dst1.left, (float)dst1.bottom,	0.5f, 2.0f, tx0-dx0, ty1,  tx0, ty1,  tx0+dx0, ty1,  tx0+dx0*2, ty1,  0, 0},
+		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1-dx0, ty1,  tx1, ty1,  tx1+dx0, ty1,  tx1+dx0*2, ty1,  w, 0},
 	};
 
 	AdjustQuad(vx, dx0, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
 
 	MYD3DVERTEX<5> vy[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z,  0, 0-dy1,  0, 0,  0, 0+dy1,  0, 0+dy1*2,  0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z,  dw, 0-dy1,  dw, 0,  dw, 0+dy1,  dw, 0+dy1*2,  0, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z,  0, dh-dy1,  0, dh,  0, dh+dy1,  0, dh+dy1*2,  h, 0},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z,  dw, dh-dy1,  dw, dh,  dw, dh+dy1,  dw, dh+dy1*2,  h, 0},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z,	0,	0-dy1,	0,	0,	0,	0+dy1,	0,	0+dy1*2,	0,	0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z,	dw,	0-dy1,	dw,	0,	dw,	0+dy1,	dw,	0+dy1*2,	0,	0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z,	0,	dh-dy1,	0,	dh,	0,	dh+dy1,	0,	dh+dy1*2,	h,	0},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z,	dw,	dh-dy1,	dw,	dh,	dw,	dh+dy1,	dw, dh+dy1*2,	h,	0},
 	};
 
 	AdjustQuad(vy, 0, dy1);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
@@ -2167,18 +2196,29 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 					if(diff >= 10*60*CLOCKS_PER_SEC) start = stop; // reset after 10 min (ps float has its limits in both range and accuracy)
 
+					int src = m_nCurSurface, dst = m_nNbDXSurface;
+
+					D3DSURFACE_DESC desc;
+					m_pVideoTexture[src]->GetLevelDesc(0, &desc);
+
+#if 1
+					float fConstData[][4] = 
+					{
+						{(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
+						{1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
+					};
+#else
 					float fConstData[][4] = 
 					{
 						{(float)m_NativeVideoSize.cx, (float)m_NativeVideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
 						{1.0f / m_NativeVideoSize.cx, 1.0f / m_NativeVideoSize.cy, 0, 0},
 					};
+#endif
 
 					hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
 					CComPtr<IDirect3DSurface9> pRT;
 					hr = m_pD3DDev->GetRenderTarget(0, &pRT);
-
-					int src = m_nCurSurface, dst = m_nNbDXSurface;
 
 					POSITION pos = m_pPixelShaders.GetHeadPosition();
 					while(pos)
@@ -2239,15 +2279,15 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 				if(iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr))
 				{
-					hr = TextureResize(pVideoTexture, dst, iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR);
+					hr = TextureResize(pVideoTexture, dst, iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR, rSrcVid);
 				}
 				else if(iDX9Resizer == 2)
 				{
-					hr = TextureResizeBilinear(pVideoTexture, dst);
+					hr = TextureResizeBilinear(pVideoTexture, dst, rSrcVid);
 				}
 				else if(iDX9Resizer >= 3)
 				{
-					hr = TextureResizeBicubic2pass(pVideoTexture, dst);
+					hr = TextureResizeBicubic2pass(pVideoTexture, dst, rSrcVid);
 				}
 
 				if (bScreenSpacePixelShaders)
@@ -2545,7 +2585,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			OnVBlankFinished(fAll);
 		}
 	}*/
-	bool fResetDevice = false;
+	bool fResetDevice = m_bPendingResetDevice;
 
 	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET
 		|| hr == S_PRESENT_MODE_CHANGED)
@@ -2584,7 +2624,13 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		}
 		else
 		{
-			ResetDevice();
+			if (m_MainThreadId && m_MainThreadId == GetCurrentThreadId())
+			{
+				m_bPendingResetDevice = false;
+				ResetDevice();
+			}
+			else
+				m_bPendingResetDevice = true;
 		}
 	}
 
@@ -2880,6 +2926,22 @@ void CDX9AllocatorPresenter::DrawStats()
 			strText.Format(L"Video size   : %d x %d  (AR = %d x %d)", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
 			DrawText(rc, strText, 1);
 			OffsetRect (&rc, 0, TextHeight);
+			if (m_pVideoTexture[0] || m_pVideoSurface[0])
+			{
+				D3DSURFACE_DESC desc;
+				if (m_pVideoTexture[0])
+					m_pVideoTexture[0]->GetLevelDesc(0, &desc);
+				else if (m_pVideoSurface[0])
+					m_pVideoSurface[0]->GetDesc(&desc);
+
+				if (desc.Width != m_NativeVideoSize.cx || desc.Height != m_NativeVideoSize.cy)
+				{
+					strText.Format(L"Texture size : %d x %d", desc.Width, desc.Height);
+					DrawText(rc, strText, 1);
+					OffsetRect (&rc, 0, TextHeight);
+				}
+			}
+
 
 			strText.Format(L"%-13s: %s", GetDXVAVersion(), GetDXVADecoderDescription());
 			DrawText(rc, strText, 1);
@@ -3522,6 +3584,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	m_pSurfaces.SetCount(*lpNumBuffers);
 
 	m_NativeVideoSize = m_AspectRatio = CSize(w, h);
+	m_bNeedCheckSample = true;
 	int arx = lpAllocInfo->szAspectRatio.cx, ary = lpAllocInfo->szAspectRatio.cy;
 	if(arx > 0 && ary > 0) m_AspectRatio.SetSize(arx, ary);
 
@@ -3616,8 +3679,11 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 {
 	CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
 
-	if (m_rtTimePerFrame == 0)
+	m_MainThreadId = GetCurrentThreadId();
+
+	if (m_rtTimePerFrame == 0 || m_bNeedCheckSample)
 	{
+		m_bNeedCheckSample = false;
 		CComPtr<IBaseFilter>	pVMR9;
 		CComPtr<IPin>			pPin;
 		CMediaType				mt;
@@ -3630,6 +3696,64 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		}
 		// If framerate not set by Video Decoder choose 23.97...
 		if (m_rtTimePerFrame == 0) m_rtTimePerFrame = 417166;
+
+		CSize NativeVideoSize = m_NativeVideoSize;
+		CSize AspectRatio = m_AspectRatio;
+		if (mt.formattype==FORMAT_VideoInfo)
+		{
+			VIDEOINFOHEADER *vh = (VIDEOINFOHEADER*)mt.pbFormat;
+
+			NativeVideoSize = CSize(vh->bmiHeader.biWidth, vh->bmiHeader.biHeight);
+			if (vh->rcTarget.right - vh->rcTarget.left > 0)
+				NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
+			if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
+				NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
+		}
+		else if (mt.formattype==FORMAT_VideoInfo2)
+		{
+			VIDEOINFOHEADER2 *vh = (VIDEOINFOHEADER2*)mt.pbFormat;
+
+			if (vh->dwPictAspectRatioX && vh->dwPictAspectRatioY)
+				AspectRatio = CSize(vh->dwPictAspectRatioX, vh->dwPictAspectRatioY);
+
+			NativeVideoSize = CSize(vh->bmiHeader.biWidth, vh->bmiHeader.biHeight);
+			if (vh->rcTarget.right - vh->rcTarget.left > 0)
+				NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
+			if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
+				NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
+		}
+		else if (mt.formattype==FORMAT_MPEGVideo)
+		{
+			MPEG1VIDEOINFO *vh = (MPEG1VIDEOINFO*)mt.pbFormat;
+
+			NativeVideoSize = CSize(vh->hdr.bmiHeader.biWidth, vh->hdr.bmiHeader.biHeight);
+			if (vh->hdr.rcTarget.right - vh->hdr.rcTarget.left > 0)
+				NativeVideoSize.cx = vh->hdr.rcTarget.right - vh->hdr.rcTarget.left;
+			if (vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top > 0)
+				NativeVideoSize.cy = vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top;
+		}
+		else if (mt.formattype==FORMAT_MPEG2Video)
+		{
+			MPEG2VIDEOINFO *vh = (MPEG2VIDEOINFO*)mt.pbFormat;
+
+			if (vh->hdr.dwPictAspectRatioX && vh->hdr.dwPictAspectRatioY)
+				AspectRatio = CSize(vh->hdr.dwPictAspectRatioX, vh->hdr.dwPictAspectRatioY);
+
+			NativeVideoSize = CSize(vh->hdr.bmiHeader.biWidth, vh->hdr.bmiHeader.biHeight);
+			if (vh->hdr.rcTarget.right - vh->hdr.rcTarget.left > 0)
+				NativeVideoSize.cx = vh->hdr.rcTarget.right - vh->hdr.rcTarget.left;
+			if (vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top > 0)
+				NativeVideoSize.cy = vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top;
+		}
+		m_fps = 10000000.0 / m_rtTimePerFrame;
+
+		if (m_NativeVideoSize != NativeVideoSize || m_AspectRatio != AspectRatio)
+		{
+			m_NativeVideoSize = NativeVideoSize;
+			m_AspectRatio = AspectRatio;
+			AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
+		}
+
 	}
 
     HRESULT hr;
