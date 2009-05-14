@@ -85,7 +85,7 @@ BEGIN
             VALUE "FileDescription", "Media Player Classic - Homecinema"
             VALUE "FileVersion", "1, 1, 0, 2"
             VALUE "InternalName", "mpc-hc"
-            VALUE "LegalCopyright", "2002-2008 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/AUTHORS?revision=HEAD"
+            VALUE "LegalCopyright", "2002-2009 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/AUTHORS?revision=HEAD"
             VALUE "OriginalFilename", "mplayerc.exe"
             VALUE "ProductName", "Media Player Classic - Homecinema"
             VALUE "ProductVersion", "1, 1, 0, 2"
