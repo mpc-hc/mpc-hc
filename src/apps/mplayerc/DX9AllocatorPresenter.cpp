@@ -2638,7 +2638,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		--m_OrderedPaint;
 	else
 	{
-		TRACE("UNORDERED PAINT!!!!!!\n");
+		if (m_bIsEVR)
+			TRACE("UNORDERED PAINT!!!!!!\n");
 	}
 	return(true);
 }
@@ -3510,7 +3511,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 					DWORD dwPrefs;
 					pMC->GetMixingPrefs(&dwPrefs);  
 					dwPrefs &= ~MixerPref9_RenderTargetMask; 
-					dwPrefs |= MixerPref9_RenderTargetYUV;
+					dwPrefs |= MixerPref9_RenderTargetYUV | MixerPref9_NonSquareMixing;
 					pMC->SetMixingPrefs(dwPrefs);
 				}
 			}
