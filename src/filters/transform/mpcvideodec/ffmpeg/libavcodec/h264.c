@@ -7282,7 +7282,7 @@ static inline int decode_vui_parameters(H264Context *h, SPS *sps){
     }
 
     if(get_bits1(&s->gb)){      /* chroma_location_info_present_flag */
-        get_ue_golomb(&s->gb);  /* chroma_sample_location_type_top_field */
+        s->avctx->chroma_sample_location = get_ue_golomb(&s->gb)+1;  /* chroma_sample_location_type_top_field */
         get_ue_golomb(&s->gb);  /* chroma_sample_location_type_bottom_field */
     }
 
@@ -7399,6 +7399,7 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
     memset(sps->scaling_matrix4, 16, sizeof(sps->scaling_matrix4));
     memset(sps->scaling_matrix8, 16, sizeof(sps->scaling_matrix8));
     sps->scaling_matrix_present = 0;
+	sps->matrix_coefficients = 2;
 
     // ==> Start patch MPC Fidelity Range Extensions stuff
     sps->chroma_format_idc = 1;
@@ -7409,12 +7410,10 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
 
     if(sps->profile_idc >= 100){ //high profile
         sps->chroma_format_idc= get_ue_golomb_31(&s->gb);
-    // ==> Start patch MPC
         if(sps->chroma_format_idc == 3)
-            sps->residual_color_transform_flag = get_bits1(&s->gb);  //residual_color_transform_flag
-        sps->bit_depth_luma  = get_ue_golomb(&s->gb) + 8;  //bit_depth_luma_minus8
-        sps->bit_depth_chroma = get_ue_golomb(&s->gb) + 8;  //bit_depth_chroma_minus8
-    // <== End patch MPC
+            sps->residual_color_transform_flag = get_bits1(&s->gb);
+        sps->bit_depth_luma   = get_ue_golomb(&s->gb) + 8;
+        sps->bit_depth_chroma = get_ue_golomb(&s->gb) + 8;
         sps->transform_bypass = get_bits1(&s->gb);
         decode_scaling_matrices(h, sps, NULL, 1, sps->scaling_matrix4, sps->scaling_matrix8);
     }else{

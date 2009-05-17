@@ -58,7 +58,7 @@ bool CDVDSession::BeginSession()
 		if(!DeviceIoControl(m_hDrive, IOCTL_DVD_END_SESSION, &m_session, sizeof(m_session), NULL, 0, &BytesReturned, NULL)
 		|| !DeviceIoControl(m_hDrive, IOCTL_DVD_START_SESSION, NULL, 0, &m_session, sizeof(m_session), &BytesReturned, NULL))
 		{
-			CloseHandle(m_hDrive);
+			Close();
 			DWORD err = GetLastError();
 			return(false);
 		}

@@ -20,7 +20,7 @@
  */
 
 /**
- * @file sp5xdec.c
+ * @file libavcodec/sp5xdec.c
  * Sunplus JPEG decoder (SP5X).
  */
 
@@ -38,7 +38,7 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     MJpegDecodeContext *s = avctx->priv_data;
 #endif
     const int qscale = 5;
-    const uint8_t *buf_ptr, *buf_end;
+    const uint8_t *buf_ptr;
     uint8_t *recoded;
     int i = 0, j = 0;
 
@@ -46,7 +46,6 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
         return -1;
 
     buf_ptr = buf;
-    buf_end = buf + buf_size;
 
 #if 1
     recoded = av_mallocz(buf_size + 1024);
@@ -202,7 +201,7 @@ AVCodec sp5x_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"Sunplus JPEG (SP5X)"
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Sunplus JPEG (SP5X)"),
 };
 
 AVCodec amv_decoder = {
@@ -219,5 +218,5 @@ AVCodec amv_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */"AMV Video",
+    /*.long_name = */NULL_IF_CONFIG_SMALL("AMV Video"),
 };

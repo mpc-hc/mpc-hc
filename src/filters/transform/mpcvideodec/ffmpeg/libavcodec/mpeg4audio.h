@@ -25,6 +25,8 @@
 #ifdef __GNUC__
 #include <stdint.h>
 #endif
+#include "get_bits.h"
+#include "put_bits.h"
 
 typedef struct {
     int object_type;
@@ -35,6 +37,7 @@ typedef struct {
     int ext_object_type;
     int ext_sampling_index;
     int ext_sample_rate;
+    int ext_chan_config;
 } MPEG4AudioConfig;
 
 extern const int ff_mpeg4audio_sample_rates[16];
@@ -90,5 +93,10 @@ enum AudioObjectType {
     AOT_SMR_SIMPLE,            ///< N                       Symbolic Music Representation Simple
     AOT_SMR_MAIN,              ///< N                       Symbolic Music Representation Main
 };
+
+#define MAX_PCE_SIZE 304 ///<Maximum size of a PCE including the 3-bit ID_PCE
+                         ///<marker and the comment
+
+int ff_copy_pce_data(PutBitContext *pb, GetBitContext *gb);
 
 #endif /* AVCODEC_MPEG4AUDIO_H */

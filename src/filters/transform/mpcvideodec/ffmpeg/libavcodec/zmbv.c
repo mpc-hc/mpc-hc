@@ -20,7 +20,7 @@
  */
 
 /**
- * @file zmbv.c
+ * @file libavcodec/zmbv.c
  * Zip Motion Blocks Video decoder
  */
 
@@ -597,7 +597,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 
     c->avctx = avctx;
 
-    c->pic.data[0] = NULL;
     c->width = avctx->width;
     c->height = avctx->height;
 
@@ -609,7 +608,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
     // Needed if zlib unused or init aborted before inflateInit
     memset(&(c->zstream), 0, sizeof(z_stream));
 
-    avctx->pix_fmt = PIX_FMT_BGR24;
+    avctx->pix_fmt = PIX_FMT_BGR24; /* ffdshow custom code */
     c->decomp_size = (avctx->width + 255) * 4 * (avctx->height + 64);
 
     /* Allocate decompression buffer */

@@ -75,6 +75,7 @@ SRCS_C=\
 		$(LAVC_DIR)/mlp.c \
 		$(LAVC_DIR)/mlp_parser.c \
 		$(LAVC_DIR)/mlpdec.c \
+		$(LAVC_DIR)/mlpdsp.c \
 		$(LAVC_DIR)/nellymoser.c \
 		$(LAVC_DIR)/nellymoserdec.c \
 		$(LAVC_DIR)/options.c \

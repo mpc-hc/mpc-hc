@@ -396,7 +396,7 @@ AVEvalExpr * ff_parse(const char *s, const char * const *const_name,
 #if __STDC_VERSION__ >= 199901L
     char w[strlen(s) + 1];
 #else
-    char *w=(char *)alloca(strlen(s));
+    char *w=(char *)alloca(strlen(s) + 1);
 #endif
     char *wp=w;
 

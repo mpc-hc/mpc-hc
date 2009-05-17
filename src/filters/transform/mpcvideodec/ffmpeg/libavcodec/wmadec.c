@@ -20,7 +20,7 @@
  */
 
 /**
- * @file wmadec.c
+ * @file libavcodec/wmadec.c
  * WMA compatible decoder.
  * This decoder handles Microsoft Windows Media Audio data, versions 1 & 2.
  * WMA v1 is identified by audio format 0x160 in Microsoft media files
@@ -683,9 +683,8 @@ static int wma_decode_block(WMACodecContext *s)
 
 next:
     for(ch = 0; ch < s->nb_channels; ch++) {
-        int n4, index, n;
+        int n4, index;
 
-        n = s->block_len;
         n4 = s->block_len / 2;
         if(s->channel_coded[ch]){
             ff_imdct_calc(&s->mdct_ctx[bsize], s->output, s->coefs[ch]);

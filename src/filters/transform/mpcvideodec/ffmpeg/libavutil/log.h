@@ -107,9 +107,11 @@ void av_log(void*, int level, const char *fmt, ...) __attribute__ ((__format__ (
 void av_log(void*, int level, const char *fmt, ...);
 #endif
 
+// ==> Start patch MPC
 #ifdef __cplusplus
 extern "C" {
 #endif
+// <== End patch MPC
 
 void av_vlog(void*, int level, const char *fmt, va_list);
 int av_log_get_level(void);
@@ -117,8 +119,10 @@ void av_log_set_level(int);
 void av_log_set_callback(void (*)(void*, int, const char*, va_list));
 void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
 
+// ==> Start patch MPC
 #ifdef __cplusplus
 }
 #endif
+// <== End patch MPC
 
 #endif /* AVUTIL_LOG_H */

@@ -262,7 +262,6 @@ static int init_block_mapping(Vp3DecodeContext *s)
     int right_edge = 0;
     int bottom_edge = 0;
     int superblock_row_inc = 0;
-    int *hilbert = NULL;
     int mapping_index = 0;
 
     int current_macroblock;
@@ -374,7 +373,6 @@ static int init_block_mapping(Vp3DecodeContext *s)
     current_height = 0;
     superblock_row_inc = s->macroblock_width -
         (s->y_superblock_width * 2 - s->macroblock_width);
-    hilbert = hilbert_walk_mb;
     mapping_index = 0;
     current_macroblock = -1;
     for (i = 0; i < s->u_superblock_start; i++) {
@@ -1595,6 +1593,7 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
     s->width = (avctx->width + 15) & 0xFFFFFFF0;
     s->height = (avctx->height + 15) & 0xFFFFFFF0;
     avctx->pix_fmt = PIX_FMT_YUV420P;
+    avctx->chroma_sample_location = AVCHROMA_LOC_CENTER;
     //if(avctx->idct_algo==FF_IDCT_AUTO)
         avctx->idct_algo=FF_IDCT_VP3;
     dsputil_init(&s->dsp, avctx);
@@ -2234,7 +2233,7 @@ static av_cold int theora_decode_init(AVCodecContext *avctx)
      }
 
     // FIXME: Check for this as well.
-    skip_bits(&gb, 6*8); /* "theora" */
+    skip_bits_long(&gb, 6*8); /* "theora" */
 
     switch(ptype)
     {

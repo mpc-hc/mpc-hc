@@ -131,6 +131,7 @@ static const struct {
     { "mono",        1,  CH_LAYOUT_MONO },
     { "stereo",      2,  CH_LAYOUT_STEREO },
     { "surround",    3,  CH_LAYOUT_SURROUND },
+    { "4.0",         4,  CH_LAYOUT_4POINT0 },
     { "quad",        4,  CH_LAYOUT_QUAD },
     { "5.0",         5,  CH_LAYOUT_5POINT0 },
     { "5.0",         5,  CH_LAYOUT_5POINT0_BACK },
@@ -173,6 +174,15 @@ void avcodec_get_channel_layout_string(char *buf, int buf_size, int nb_channels,
         }
         av_strlcat(buf, ")", buf_size);
     }
+}
+
+int avcodec_channel_layout_num_channels(int64_t channel_layout)
+{
+    int count;
+    uint64_t x = channel_layout;
+    for (count = 0; x; count++)
+        x &= x-1; // unset lowest set bit
+    return count;
 }
 
 struct AVAudioConvert {

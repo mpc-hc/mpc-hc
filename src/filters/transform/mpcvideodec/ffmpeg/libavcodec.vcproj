@@ -574,6 +574,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mlpdsp.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpc_helper.c"
 				>
 			</File>

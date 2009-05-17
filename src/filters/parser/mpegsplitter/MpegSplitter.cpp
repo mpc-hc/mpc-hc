@@ -694,7 +694,7 @@ const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
 	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby TrueHD";
 	case AUDIO_STREAM_AC3_PLUS: return L"Dolby Digital+";
 	case AUDIO_STREAM_DTS_HD: return L"DTS HD";
-	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS HD Master";
+	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS-HD Master Audio";
 	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";
 	case INTERACTIVE_GRAPHICS_STREAM: return L"Interactive Graphics Stream";
 	case SUBTITLE_STREAM: return L"Subtitle Stream";
@@ -884,7 +884,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 			{
 				const WAVEFORMATEX_HDMV_LPCM *pInfo = GetFormatHelper(pInfo, _pMediaType);
-				Infos.AddTail(L"HDMW LPCM");
+				Infos.AddTail(L"HDMV LPCM");
 			}
 			else
 			{

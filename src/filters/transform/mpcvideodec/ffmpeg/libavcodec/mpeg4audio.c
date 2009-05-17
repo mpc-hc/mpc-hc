@@ -1,6 +1,7 @@
 /*
  * MPEG-4 Audio common code
  * Copyright (c) 2008 Baptiste Coudurier <baptiste.coudurier@free.fr>
+ * Copyright (c) 2009 Alex Converse <alex.converse@gmail.com>
  *
  * This file is part of FFmpeg.
  *
@@ -20,6 +21,7 @@
  */
 
 #include "get_bits.h"
+#include "put_bits.h"
 #include "mpeg4audio.h"
 
 const int ff_mpeg4audio_sample_rates[16] = {
@@ -61,6 +63,8 @@ int ff_mpeg4audio_get_config(MPEG4AudioConfig *c, const uint8_t *buf, int buf_si
         c->sbr = 1;
         c->ext_sample_rate = get_sample_rate(&gb, &c->ext_sampling_index);
         c->object_type = get_object_type(&gb);
+        if (c->object_type == AOT_ER_BSAC)
+            c->ext_chan_config = get_bits(&gb, 4);
     } else {
         c->ext_object_type = 0;
         c->ext_sample_rate = 0;
@@ -81,4 +85,44 @@ int ff_mpeg4audio_get_config(MPEG4AudioConfig *c, const uint8_t *buf, int buf_si
         }
     }
     return specific_config_bitindex;
+}
+
+static av_always_inline unsigned int copy_bits(PutBitContext *pb,
+                                               GetBitContext *gb,
+                                               int bits)
+{
+    unsigned int el = get_bits(gb, bits);
+    put_bits(pb, bits, el);
+    return el;
+}
+
+int ff_copy_pce_data(PutBitContext *pb, GetBitContext *gb)
+{
+    int five_bit_ch, four_bit_ch, comment_size, bits;
+    int offset = put_bits_count(pb);
+
+    copy_bits(pb, gb, 10);                  //Tag, Object Type, Frequency
+    five_bit_ch  = copy_bits(pb, gb, 4);    //Front
+    five_bit_ch += copy_bits(pb, gb, 4);    //Side
+    five_bit_ch += copy_bits(pb, gb, 4);    //Back
+    four_bit_ch  = copy_bits(pb, gb, 2);    //LFE
+    four_bit_ch += copy_bits(pb, gb, 3);    //Data
+    five_bit_ch += copy_bits(pb, gb, 4);    //Coupling
+    if (copy_bits(pb, gb, 1))               //Mono Mixdown
+        copy_bits(pb, gb, 4);
+    if (copy_bits(pb, gb, 1))               //Stereo Mixdown
+        copy_bits(pb, gb, 4);
+    if (copy_bits(pb, gb, 1))               //Matrix Mixdown
+        copy_bits(pb, gb, 3);
+    for (bits = five_bit_ch*5+four_bit_ch*4; bits > 16; bits -= 16)
+        copy_bits(pb, gb, 16);
+    if (bits)
+        copy_bits(pb, gb, bits);
+    align_put_bits(pb);
+    align_get_bits(gb);
+    comment_size = copy_bits(pb, gb, 8);
+    for (; comment_size > 0; comment_size--)
+        copy_bits(pb, gb, 8);
+
+    return put_bits_count(pb) - offset;
 }
