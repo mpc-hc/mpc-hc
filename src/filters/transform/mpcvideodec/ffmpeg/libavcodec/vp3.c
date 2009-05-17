@@ -1899,27 +1899,29 @@ static int vp3_decode_frame(AVCodecContext *avctx,
 
     apply_loop_filter(s);
 
+	// ==> Start patch MPC
     /* ffdshow custom code (begin) */
-    if (s->theora && s->fps_numerator){
-        if (avctx->granulepos>-1){
-            s->granulepos=avctx->granulepos;
-        }else{
-            if (s->granulepos==-1)
-                s->granulepos=0;
-            else
-                if (s->keyframe){
-                    long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
-                    s->granulepos>>=s->keyframe_granule_shift;
-                    s->granulepos+=frames+1;
-                    s->granulepos<<=s->keyframe_granule_shift;
-                }else{
-                    s->granulepos++;
-                }
-        }
-        s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * s->fps_denumerator / s->fps_numerator;
-        s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
-    }
+    //if (s->theora && s->fps_numerator){
+    //    if (avctx->granulepos>-1){
+    //        s->granulepos=avctx->granulepos;
+    //    }else{
+    //        if (s->granulepos==-1)
+    //            s->granulepos=0;
+    //        else
+    //            if (s->keyframe){
+    //                long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
+    //                s->granulepos>>=s->keyframe_granule_shift;
+    //                s->granulepos+=frames+1;
+    //                s->granulepos<<=s->keyframe_granule_shift;
+    //            }else{
+    //                s->granulepos++;
+    //            }
+    //    }
+    //    s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * s->fps_denumerator / s->fps_numerator;
+    //    s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
+    //}
     /* ffdshow custom code (end) */
+	// <== End patch MPC
 
     *data_size=sizeof(AVFrame);
     *(AVFrame*)data= s->current_frame;
