@@ -3504,16 +3504,19 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 			if(FAILED(hr = pConfig->SetNumberOfStreams(1)))
 				break;
 
-			if(s.fVMR9MixerYUV && !AfxGetMyApp()->IsVistaOrAbove())
+			if(CComQIPtr<IVMRMixerControl9> pMC = pBF)
 			{
-				if(CComQIPtr<IVMRMixerControl9> pMC = pBF)
+				DWORD dwPrefs;
+				pMC->GetMixingPrefs(&dwPrefs);  
+
+				// See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
+				dwPrefs |= MixerPref9_NonSquareMixing;
+				if(s.fVMR9MixerYUV && !AfxGetMyApp()->IsVistaOrAbove())
 				{
-					DWORD dwPrefs;
-					pMC->GetMixingPrefs(&dwPrefs);  
 					dwPrefs &= ~MixerPref9_RenderTargetMask; 
-					dwPrefs |= MixerPref9_RenderTargetYUV | MixerPref9_NonSquareMixing;
-					pMC->SetMixingPrefs(dwPrefs);
+					dwPrefs |= MixerPref9_RenderTargetYUV;
 				}
+				pMC->SetMixingPrefs(dwPrefs);		
 			}
 		}
 
