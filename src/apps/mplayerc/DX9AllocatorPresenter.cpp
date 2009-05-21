@@ -246,7 +246,7 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 		v[i].x -= offset;
 		v[i].y -= offset;
 		
-		for(int j = 0; j < texcoords-1; j++)
+		for(int j = 0; j < max(texcoords-1, 1); j++)
 		{
 			v[i].t[j].u -= offset*dx;
 			v[i].t[j].v -= offset*dy;
@@ -1441,8 +1441,8 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx = 0.98f/w;
-	float dy = 0.98f/h;
+	float dx = 1.0f/w;
+	float dy = 1.0f/h;
 	float dx2 = 1.0/w;
 	float dy2 = 1.0/h;
 
@@ -1454,7 +1454,7 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
 		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  SrcRect.right * dx2, SrcRect.bottom * dy2},
 	};
 
-	AdjustQuad(v, dx, dy);
+	AdjustQuad(v, 0, 0);
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
@@ -1476,30 +1476,27 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
 
-	float dx = 0.98f/w;
-	float dy = 0.98f/h;
-	float dx2 = 1.0f/w;
-	float dy2 = 1.0f/h;
-	float tx0 = SrcRect.left * dx2;
-	float tx1 = SrcRect.right * dx2;
-	float ty0 = SrcRect.top * dy2;
-	float ty1 = SrcRect.bottom * dy2;
+	float dx = 1.0f/w;
+	float dy = 1.0f/h;
+	float tx0 = SrcRect.left * dx;
+	float tx1 = SrcRect.right * dx;
+	float ty0 = SrcRect.top * dy;
+	float ty1 = SrcRect.bottom * dy;
 
-	MYD3DVERTEX<5> v[] =
+	MYD3DVERTEX<1> v[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0,  tx0+dx, ty0,  tx0, ty0+dy,  tx0+dx, ty0+dy,  0, 0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0,  tx1+dx, ty0,  tx1, ty0+dy,  tx1+dx, ty0+dy,  w, 0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1,  tx0+dx, ty1,  tx0, ty1+dy,  tx0+dx, ty1+dy,  0, h},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1,  tx1+dx, ty1,  tx1, ty1+dy,  tx1+dx, ty1+dy,  w, h},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1},
 	};
 
 	AdjustQuad(v, dx, dy);
 
-	hr = m_pD3DDev->SetTexture(0, pTexture);
-	hr = m_pD3DDev->SetTexture(1, pTexture);
-	hr = m_pD3DDev->SetTexture(2, pTexture);
-	hr = m_pD3DDev->SetTexture(3, pTexture);
+	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
+	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
+	hr = m_pD3DDev->SetTexture(0, pTexture);
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[0]);
 
 	hr = TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
@@ -1535,19 +1532,19 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	float ty0 = SrcRect.top * dy2;
 	float ty1 = SrcRect.bottom * dy2;
 
-	MYD3DVERTEX<2> v[] =
+	MYD3DVERTEX<1> v[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0,  0,  0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0, sw,  0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1,  0, sh},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1, sw, sh},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1},
 	};
 
 	AdjustQuad(v, dx, dy);
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
-	float fConstData[][4] = {{w, h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}};
+	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
 	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[1]);
@@ -2279,7 +2276,10 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 				if(iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr))
 				{
-					hr = TextureResize(pVideoTexture, dst, iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR, rSrcVid);
+					D3DTEXTUREFILTERTYPE Filter = iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR;
+					if (rSrcVid.Size() == rDstVid.Size())
+						Filter = D3DTEXF_POINT;
+					hr = TextureResize(pVideoTexture, dst, Filter, rSrcVid);
 				}
 				else if(iDX9Resizer == 2)
 				{

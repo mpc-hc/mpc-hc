@@ -5,10 +5,11 @@ sampler s2 : register(s2);
 sampler s3 : register(s3);
 sampler s4 : register(s4);
 
-float4 p0  : register(c0);
+float4 dxdy05  : register(c0);
 float2 dxdy : register(c1);
 float2 dx : register(c2);
 float2 dy : register(c3);
+float2 TexSize : register(c4);
 
 #define	A _The_Value_Of_A_Is_Set_Here_
 
@@ -27,11 +28,15 @@ struct PS_INPUT
 
 float4 main_bilinear(PS_INPUT input) : COLOR
 {
-	float2 dd = frac(input.t4);
+    float2 inputt0 = input.t0;
+    float2 PixelPos = inputt0 * TexSize;
+	float2 ExactPixel = floor(PixelPos);
+	float2 dd = PixelPos - ExactPixel;
+	float2 samplePos = ExactPixel*dxdy + dxdy05;
 
 	float4 c = lerp(
-		lerp(tex2D(s0, input.t0), tex2D(s1, input.t1), dd.x),
-		lerp(tex2D(s2, input.t2), tex2D(s3, input.t3), dd.x),
+		lerp(tex2D(s0, samplePos), tex2D(s0, samplePos + dx), dd.x),
+		lerp(tex2D(s0, samplePos + dy), tex2D(s0, samplePos + dxdy), dd.x),
 		dd.y);
 		
 	return c;
@@ -78,9 +83,12 @@ float4 SampleY(float4 tx, float4 ty, float2 t0)
 
 float4 main_bicubic1pass(PS_INPUT input) : COLOR
 {
-	float2 dd = frac(input.t1);
-	return SampleY(taps(dd.x), taps(dd.y), input.t0);
-	// return SampleY(tex1D(s1, dd.x), tex1D(s1, dd.y), input.t0);	
+    float2 inputt0 = input.t0;
+    float2 PixelPos = inputt0 * TexSize;
+	float2 ExactPixel = floor(PixelPos);
+	float2 dd = PixelPos - ExactPixel;
+	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	return SampleY(taps(dd.x), taps(dd.y), samplePos);
 }
 
 float4 Sample(float4 t, PS_INPUT input)
