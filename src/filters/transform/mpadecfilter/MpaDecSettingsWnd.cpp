@@ -73,7 +73,7 @@ LPCTSTR CMpaDecSettingsWnd::GetDolbyMode (DolbyDigitalMode ddmode)
 	case DD_AC3 :
 		return _T(" (AC3)");
 	case DD_EAC3 :
-		return _T(" (Dolby Digital+)");
+		return _T(" (Dolby Digital Plus)");
 	case DD_TRUEHD :
 		return _T(" (Dolby True HD)");
 	default :
