@@ -575,21 +575,21 @@ LONGLONG GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFor
 		int TypePriority = 0;
 		if (_pMediaType->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 		{
-			TypePriority = 15;
+			TypePriority = 12;
 			
 		}
 		else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 		{
-			TypePriority = 16;
+			TypePriority = 12;
 		}
 		else
 		{
 			if (_PresentationFormat == AUDIO_STREAM_DTS_HD_MASTER_AUDIO)
-				TypePriority = 14;
+				TypePriority = 12;
 			else if (_PresentationFormat == AUDIO_STREAM_DTS_HD)
 				TypePriority = 11;
 			else if (_PresentationFormat == AUDIO_STREAM_AC3_TRUE_HD)
-				TypePriority = 13;
+				TypePriority = 12;
 			else if (_PresentationFormat == AUDIO_STREAM_AC3_PLUS)
 				TypePriority = 10;
 			else
@@ -1439,7 +1439,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 #if 1
 		BYTE* start = p->GetData();
 		BYTE* end = start + p->GetCount();
-		if (end - start < 4)
+		if (end - start < 4 && !p->pmt)
 			return S_OK;  // Should be invalid packet
 
 		BYTE* hdr = start;
@@ -1469,7 +1469,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			Type = 14;
 
 		  // no sync
-		  else
+		  else if (!p->pmt)
 		  {
 			  return S_OK;
 		  }
