@@ -3511,6 +3511,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
 				// See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
 				dwPrefs |= MixerPref9_NonSquareMixing;
+				dwPrefs |= MixerPref9_NoDecimation;
 				if(s.fVMR9MixerYUV && !AfxGetMyApp()->IsVistaOrAbove())
 				{
 					dwPrefs &= ~MixerPref9_RenderTargetMask; 
@@ -3543,7 +3544,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 STDMETHODIMP_(void) CVMR9AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
 {
 	__super::SetTime(rtNow);
-	m_fUseInternalTimer = false;
+	//m_fUseInternalTimer = false;
 }
 
 // IVMRSurfaceAllocator9
@@ -3697,66 +3698,54 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 			SUCCEEDED (pPin->ConnectionMediaType(&mt)) )
 		{
 			ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
+
+			CSize NativeVideoSize = m_NativeVideoSize;
+			CSize AspectRatio = m_AspectRatio;
+			if (mt.formattype==FORMAT_VideoInfo || mt.formattype==FORMAT_MPEGVideo)
+			{
+				VIDEOINFOHEADER *vh = (VIDEOINFOHEADER*)mt.pbFormat;
+
+				NativeVideoSize = CSize(vh->bmiHeader.biWidth, abs(vh->bmiHeader.biHeight));
+				if (vh->rcTarget.right - vh->rcTarget.left > 0)
+					NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
+				else if (vh->rcSource.right - vh->rcSource.left > 0)
+					NativeVideoSize.cx = vh->rcSource.right - vh->rcSource.left;
+
+				if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
+					NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
+				else if (vh->rcSource.bottom - vh->rcSource.top > 0)
+					NativeVideoSize.cy = vh->rcSource.bottom - vh->rcSource.top;
+			}
+			else if (mt.formattype==FORMAT_VideoInfo2 || mt.formattype==FORMAT_MPEG2Video)
+			{
+				VIDEOINFOHEADER2 *vh = (VIDEOINFOHEADER2*)mt.pbFormat;
+
+				if (vh->dwPictAspectRatioX && vh->dwPictAspectRatioY)
+					AspectRatio = CSize(vh->dwPictAspectRatioX, vh->dwPictAspectRatioY);
+
+				NativeVideoSize = CSize(vh->bmiHeader.biWidth, abs(vh->bmiHeader.biHeight));
+				if (vh->rcTarget.right - vh->rcTarget.left > 0)
+					NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
+				else if (vh->rcSource.right - vh->rcSource.left > 0)
+					NativeVideoSize.cx = vh->rcSource.right - vh->rcSource.left;
+
+				if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
+					NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
+				else if (vh->rcSource.bottom - vh->rcSource.top > 0)
+					NativeVideoSize.cy = vh->rcSource.bottom - vh->rcSource.top;
+			}
+			if (m_NativeVideoSize != NativeVideoSize || m_AspectRatio != AspectRatio)
+			{
+				m_NativeVideoSize = NativeVideoSize;
+				m_AspectRatio = AspectRatio;
+				AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
+			}
 		}
 		// If framerate not set by Video Decoder choose 23.97...
 		if (m_rtTimePerFrame == 0) m_rtTimePerFrame = 417166;
 
-		CSize NativeVideoSize = m_NativeVideoSize;
-		CSize AspectRatio = m_AspectRatio;
-		if (mt.formattype==FORMAT_VideoInfo)
-		{
-			VIDEOINFOHEADER *vh = (VIDEOINFOHEADER*)mt.pbFormat;
-
-			NativeVideoSize = CSize(vh->bmiHeader.biWidth, vh->bmiHeader.biHeight);
-			if (vh->rcTarget.right - vh->rcTarget.left > 0)
-				NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
-			if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
-				NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
-		}
-		else if (mt.formattype==FORMAT_VideoInfo2)
-		{
-			VIDEOINFOHEADER2 *vh = (VIDEOINFOHEADER2*)mt.pbFormat;
-
-			if (vh->dwPictAspectRatioX && vh->dwPictAspectRatioY)
-				AspectRatio = CSize(vh->dwPictAspectRatioX, vh->dwPictAspectRatioY);
-
-			NativeVideoSize = CSize(vh->bmiHeader.biWidth, vh->bmiHeader.biHeight);
-			if (vh->rcTarget.right - vh->rcTarget.left > 0)
-				NativeVideoSize.cx = vh->rcTarget.right - vh->rcTarget.left;
-			if (vh->rcTarget.bottom - vh->rcTarget.top > 0)
-				NativeVideoSize.cy = vh->rcTarget.bottom - vh->rcTarget.top;
-		}
-		else if (mt.formattype==FORMAT_MPEGVideo)
-		{
-			MPEG1VIDEOINFO *vh = (MPEG1VIDEOINFO*)mt.pbFormat;
-
-			NativeVideoSize = CSize(vh->hdr.bmiHeader.biWidth, vh->hdr.bmiHeader.biHeight);
-			if (vh->hdr.rcTarget.right - vh->hdr.rcTarget.left > 0)
-				NativeVideoSize.cx = vh->hdr.rcTarget.right - vh->hdr.rcTarget.left;
-			if (vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top > 0)
-				NativeVideoSize.cy = vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top;
-		}
-		else if (mt.formattype==FORMAT_MPEG2Video)
-		{
-			MPEG2VIDEOINFO *vh = (MPEG2VIDEOINFO*)mt.pbFormat;
-
-			if (vh->hdr.dwPictAspectRatioX && vh->hdr.dwPictAspectRatioY)
-				AspectRatio = CSize(vh->hdr.dwPictAspectRatioX, vh->hdr.dwPictAspectRatioY);
-
-			NativeVideoSize = CSize(vh->hdr.bmiHeader.biWidth, vh->hdr.bmiHeader.biHeight);
-			if (vh->hdr.rcTarget.right - vh->hdr.rcTarget.left > 0)
-				NativeVideoSize.cx = vh->hdr.rcTarget.right - vh->hdr.rcTarget.left;
-			if (vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top > 0)
-				NativeVideoSize.cy = vh->hdr.rcTarget.bottom - vh->hdr.rcTarget.top;
-		}
 		m_fps = 10000000.0 / m_rtTimePerFrame;
 
-		if (m_NativeVideoSize != NativeVideoSize || m_AspectRatio != AspectRatio)
-		{
-			m_NativeVideoSize = NativeVideoSize;
-			m_AspectRatio = AspectRatio;
-			AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
-		}
 
 	}
 
@@ -3788,7 +3777,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		{
 			m_pSubPicQueue->SetFPS(m_fps);
 
-			if(m_fUseInternalTimer)
+			if(m_fUseInternalTimer && !g_bExternalSubtitleTime)
 			{
 				__super::SetTime(g_tSegmentStart + g_tSampleStart);
 			}

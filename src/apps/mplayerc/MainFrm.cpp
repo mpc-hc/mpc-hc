@@ -1412,6 +1412,9 @@ LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
 	return fRet;
 }
 
+bool g_bNoDuration = false;
+bool g_bExternalSubtitleTime = false;
+
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == TIMER_STREAMPOSPOLLER && m_iMediaLoadState == MLS_LOADED)
@@ -1445,6 +1448,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 			if(m_rtDurationOverride >= 0) rtDur = m_rtDurationOverride;
 
+			g_bNoDuration = rtDur <= 0;
 			m_wndSeekBar.Enable(rtDur > 0);
 			m_wndSeekBar.SetRange(0, rtDur);
 			m_wndSeekBar.SetPos(rtNow);
@@ -1463,6 +1467,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 			if(m_rtDurationOverride >= 0) rtDur = m_rtDurationOverride;
             
+			g_bNoDuration = rtDur <= 0;
 			m_wndSeekBar.Enable(false);
 			m_wndSeekBar.SetRange(0, rtDur);
 			m_wndSeekBar.SetPos(rtNow);
@@ -1481,7 +1486,32 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 */
 		}
 
-		if(m_pCAP && m_iPlaybackMode != PM_FILE) m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
+		if(m_pCAP && m_iPlaybackMode != PM_FILE) 
+		{
+			g_bExternalSubtitleTime = true;
+			if (pDVDI)
+			{
+				DVD_PLAYBACK_LOCATION2 Location;
+				if (pDVDI->GetCurrentLocation(&Location) == S_OK)
+				{
+					double fps = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
+						: Location.TimeCodeFlags == DVD_TC_FLAG_30fps ? 30.0
+						: Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 29.97
+						: 25.0;
+
+					LONGLONG rtTimeCode = HMSF2RT(Location.TimeCode, fps);
+					m_pCAP->SetTime(rtTimeCode);
+				}
+				else
+					m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
+			}
+			else
+			{
+				m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
+			}
+		}
+		else
+			g_bExternalSubtitleTime = false;
 	}
 	else if(nIDEvent == TIMER_STREAMPOSPOLLER2 && m_iMediaLoadState == MLS_LOADED)
 	{
@@ -2122,6 +2152,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			if(SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags)))
 				rtDur = HMSF2RT(tcDur, fps);
 
+			g_bNoDuration = rtDur <= 0;
 			m_wndSeekBar.Enable(rtDur > 0);
 			m_wndSeekBar.SetRange(0, rtDur);
 			m_OSD.SetRange (0, rtDur);

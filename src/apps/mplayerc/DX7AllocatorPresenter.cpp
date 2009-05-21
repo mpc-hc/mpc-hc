@@ -714,7 +714,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 STDMETHODIMP_(void) CVMR7AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
 {
 	__super::SetTime(rtNow);
-	m_fUseInternalTimer = false;
+//	m_fUseInternalTimer = false;
 }
 
 // IVMRSurfaceAllocator
@@ -816,6 +816,9 @@ STDMETHODIMP CVMR7AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 	return S_OK;
 }
 
+extern bool g_bNoDuration;
+extern bool g_bExternalSubtitleTime;
+
 STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo)
 {
 	if(!lpPresInfo || !lpPresInfo->lpSurf)
@@ -834,7 +837,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESEN
 		{
 			m_pSubPicQueue->SetFPS(m_fps);
 
-			if(m_fUseInternalTimer)
+			if(m_fUseInternalTimer && !g_bExternalSubtitleTime)
 			{
 				__super::SetTime(g_tSegmentStart + g_tSampleStart);
 			}

@@ -628,7 +628,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
 	m_ModeratedTimeLast = -1;
 	m_ModeratedClockLast = -1;
 
-
 	m_bNeedPendingResetDevice = true;
 
 	if (FAILED (hr)) 
@@ -963,6 +962,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockSetRate(MFTIME hnsSystemTime, float 
 	return E_NOTIMPL;
 }
 
+
 // IBaseFilter delegate
 bool CEVRAllocatorPresenter::GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue)
 {
@@ -971,7 +971,7 @@ bool CEVRAllocatorPresenter::GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *S
 	if (m_bSignaledStarvation)
 	{
 		int nSamples = max(m_nNbDXSurface / 2, 1);
-		if (m_ScheduledSamples.GetCount() < nSamples || m_LastSampleOffset < -m_rtTimePerFrame*2)
+		if ((m_ScheduledSamples.GetCount() < nSamples || m_LastSampleOffset < -m_rtTimePerFrame*2) && !g_bNoDuration)
 		{			
 			*State = (FILTER_STATE)Paused;
 			_ReturnValue = VFW_S_STATE_INTERMEDIATE;
@@ -1555,14 +1555,6 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 		REFERENCE_TIME				nsDuration;
 		pSample->GetSampleDuration (&nsDuration);
 
-		// Update internal subtitle clock
-		if(m_fUseInternalTimer && m_pSubPicQueue)
-		{
-			m_fps = (float)(10000000.0 / nsDuration);
-//			m_fps = 10000000.0 / (double)(m_rtTimePerFrame);
-			m_pSubPicQueue->SetFPS(m_fps);
-		}
-
 		if (AfxGetMyApp()->m_fTearingTest)
 		{
 			RECT		rcTearing;
@@ -2025,6 +2017,14 @@ void CEVRAllocatorPresenter::GetMixerThread()
 					// If framerate not set by Video Decoder choose 23.97...
 					if (m_rtTimePerFrame == 0) 
 						m_rtTimePerFrame = 417166;
+
+					// Update internal subtitle clock
+					if(m_fUseInternalTimer && m_pSubPicQueue)
+					{
+						m_fps = (float)(10000000.0 / m_rtTimePerFrame);
+						m_pSubPicQueue->SetFPS(m_fps);
+					}
+
 				}
 
 			}
@@ -2386,8 +2386,11 @@ void CEVRAllocatorPresenter::RenderThread()
 					m_pCurrentDisplaydSample = pMFSample;
 
 					bool bValidSampleTime = true;
-					if (pMFSample->GetSampleTime (&nsSampleTime) != S_OK || nsSampleTime == 0)
+					HRESULT hGetSampleTime = pMFSample->GetSampleTime (&nsSampleTime);
+					if (hGetSampleTime != S_OK || nsSampleTime == 0)
+					{
 						bValidSampleTime = false;
+					}
 					// We assume that all samples have the same duration
 					LONGLONG SampleDuration = 0; 
 					pMFSample->GetSampleDuration(&SampleDuration);
@@ -2408,7 +2411,8 @@ void CEVRAllocatorPresenter::RenderThread()
 					{
 						pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
 						++m_OrderedPaint;
-						__super::SetTime (g_tSegmentStart + nsSampleTime);
+						if (!g_bExternalSubtitleTime)
+							__super::SetTime (g_tSegmentStart + nsSampleTime);
 						Paint(true);
 						m_nDroppedUpdate = 0;
 						CompleteFrameStep (false);
@@ -2416,8 +2420,8 @@ void CEVRAllocatorPresenter::RenderThread()
 					}
 					else if ((m_nRenderState == Started))
 					{
-						// Calculate wake up timer
 						LONGLONG CurrentCounter = AfxGetMyApp()->GetPerfCounter();
+						// Calculate wake up timer
 						if (!m_bSignaledStarvation)
 						{
 							llClockTime = GetClockTime(CurrentCounter);
@@ -2434,7 +2438,8 @@ void CEVRAllocatorPresenter::RenderThread()
 							bStepForward = true;
 							pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
 							++m_OrderedPaint;
-							__super::SetTime (g_tSegmentStart + nsSampleTime);
+							if (!g_bExternalSubtitleTime)
+								__super::SetTime (g_tSegmentStart + nsSampleTime);
 							Paint(true);
 						}
 						else
@@ -2561,7 +2566,9 @@ void CEVRAllocatorPresenter::RenderThread()
 								m_LastPredictedSync = VSyncOffset0;
 
 								++m_OrderedPaint;
-								__super::SetTime (g_tSegmentStart + nsSampleTime);
+
+								if (!g_bExternalSubtitleTime)
+									__super::SetTime (g_tSegmentStart + nsSampleTime);
 								Paint(true);
 								//m_pSink->Notify(EC_SCRUB_TIME, LODWORD(nsSampleTime), HIDWORD(nsSampleTime));
 								
@@ -2651,7 +2658,7 @@ void CEVRAllocatorPresenter::RenderThread()
 				}
 				else if (m_bLastSampleOffsetValid && m_LastSampleOffset < -10000000) // Only starve if we are 1 seconds behind
 				{
-					if (m_nRenderState == Started)
+					if (m_nRenderState == Started && !g_bNoDuration)
 					{
 						m_pSink->Notify(EC_STARVATION, 0, 0);
 						m_bSignaledStarvation = true;
