@@ -974,7 +974,7 @@ ISubPicAllocatorPresenterImpl::ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
 	, m_NativeVideoSize(0, 0), m_AspectRatio(0, 0)
 	, m_VideoRect(0, 0, 0, 0), m_WindowRect(0, 0, 0, 0)
 	, m_fps(25.0)
-	, m_lSubtitleDelay(0)
+	, m_rtSubtitleDelay(0)
 {
     if(!IsWindow(m_hWnd)) 
 	{
@@ -1078,7 +1078,7 @@ STDMETHODIMP_(void) ISubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 	if(m_rtNow <= rtNow && rtNow <= m_rtNow + 1000000)
 		return;
 */
-	m_rtNow = rtNow - m_lSubtitleDelay;
+	m_rtNow = rtNow - m_rtSubtitleDelay;
 
 	if(m_pSubPicQueue)
 	{
@@ -1088,12 +1088,12 @@ STDMETHODIMP_(void) ISubPicAllocatorPresenterImpl::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP_(void) ISubPicAllocatorPresenterImpl::SetSubtitleDelay(int delay_ms)
 {
-	m_lSubtitleDelay = delay_ms*10000;
+	m_rtSubtitleDelay = delay_ms*10000i64;
 }
 
 STDMETHODIMP_(int) ISubPicAllocatorPresenterImpl::GetSubtitleDelay()
 {
-	return (m_lSubtitleDelay/10000);
+	return (m_rtSubtitleDelay/10000);
 }
 
 STDMETHODIMP_(double) ISubPicAllocatorPresenterImpl::GetFPS()
