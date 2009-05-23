@@ -3030,6 +3030,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.tc.dll");
 	case 15 :	// Belarusian
 		return _T("mpcresources.by.dll");
+	case 16 :	// Sweedish
+		return _T("mpcresources.sv.dll");
 	}
 	return NULL;
 }
