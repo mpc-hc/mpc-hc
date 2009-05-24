@@ -29,7 +29,8 @@ enum DolbyDigitalMode
 	DD_Unknown,
 	DD_AC3,			// Standard AC3
 	DD_EAC3,		// Dolby Digital +
-	DD_TRUEHD		// Dobly True HD
+	DD_TRUEHD,		// Dolby True HD
+	DD_MLP			// Meridian Lossless Packing
 };
 
 

@@ -867,7 +867,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		int		size = 0;
 		bool	fEnoughData = true;
 
-		if (m_DolbyDigitalMode != DD_TRUEHD && (*((__int16*)p) == 0x770b))	/* AC3-EAC3 syncword */
+		if (m_DolbyDigitalMode != DD_TRUEHD && m_DolbyDigitalMode != DD_MLP && (*((__int16*)p) == 0x770b))	/* AC3-EAC3 syncword */
 		{
 			BYTE	bsid = p[5] >> 3;
 			if ((m_DolbyDigitalMode != DD_EAC3) && bsid <= 12)
@@ -887,14 +887,29 @@ HRESULT CMpaDecFilter::ProcessAC3()
 				continue;
 			}
 		}
-		else if ( (*((__int32*)(p+4)) == 0xba6f72f8) ||				// True HD major sync frame
-			 (*((__int32*)(p+4)) == 0xbb6f72f8) || m_DolbyDigitalMode == DD_TRUEHD )	// MLP
+		else if ( (*((__int32*)(p+4)) == 0xba6f72f8) ||	// True HD major sync frame
+				   m_DolbyDigitalMode == DD_TRUEHD )
 		{
 			int		nMLPLength=0;
 			int		nMLPChunk;
 			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
 			m_DolbyDigitalMode = DD_TRUEHD;
+
+			if (nLenght >= 4)
+			{
+				DeliverFfmpeg(CODEC_ID_TRUEHD, p, end-p, size);
+				if (size<0) size = end-p;
+			}
+		}
+		else if ( (*((__int32*)(p+4)) == 0xbb6f72f8) || 
+				   m_DolbyDigitalMode == DD_MLP )		// MLP
+		{
+			int		nMLPLength=0;
+			int		nMLPChunk;
+			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
+
+			m_DolbyDigitalMode = DD_MLP;
 
 			if (nLenght >= 4)
 			{
@@ -907,6 +922,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 			p++;
 			continue;
 		}
+		
 
 		// Update buffer position
 		if (fEnoughData)

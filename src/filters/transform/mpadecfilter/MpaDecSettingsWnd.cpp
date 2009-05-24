@@ -76,6 +76,8 @@ LPCTSTR CMpaDecSettingsWnd::GetDolbyMode (DolbyDigitalMode ddmode)
 		return _T(" (Dolby Digital Plus)");
 	case DD_TRUEHD :
 		return _T(" (Dolby True HD)");
+	case DD_MLP	:
+		return _T(" (MLP)");
 	default :
 		return _T("");
 	}
