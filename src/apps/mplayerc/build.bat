@@ -60,6 +60,8 @@ devenv mpcresources.sln %BUILDTYPE% "Release Unicode Ukrainian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Belarusian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 mkdir Build_x86
 xcopy "Release Unicode\*.dll" ".\Build_x86\" /y 
@@ -103,6 +105,8 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Ukrainian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Belarusian|x64"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 mkdir Build_x64
