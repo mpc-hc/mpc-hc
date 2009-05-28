@@ -302,7 +302,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 	if(SUCCEEDED(pFD.CoCreateInstance(CLSID_FilterMapper2))
 	&& SUCCEEDED(pFD->ParseFilterData(p, len, (BYTE**)&ptr)))
 	{
-		REGFILTER2* prf = (REGFILTER2*)*(DWORD*)ptr; // this is f*cked up
+		REGFILTER2* prf = (REGFILTER2*)*(WPARAM*)ptr; // this is f*cked up
 
 		m_merit.mid = prf->dwMerit;
 

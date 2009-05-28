@@ -399,9 +399,9 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 		BITMAPINFOHEADER* bih = &vih.bmiHeader;
 
 		sl.AddTail(_T("VIDEOINFOHEADER:"));
-		str.Format(_T("rcSource: (%d,%d)-(%d,%d)"), vih.rcSource);
+		str.Format(_T("rcSource: (%d,%d)-(%d,%d)"), vih.rcSource.left, vih.rcSource.top, vih.rcSource.right, vih.rcSource.bottom);
 		sl.AddTail(str);
-		str.Format(_T("rcTarget: (%d,%d)-(%d,%d)"), vih.rcTarget);
+		str.Format(_T("rcTarget: (%d,%d)-(%d,%d)"), vih.rcTarget.left, vih.rcTarget.top, vih.rcTarget.right, vih.rcTarget.bottom);
 		sl.AddTail(str);
 		str.Format(_T("dwBitRate: %d"), vih.dwBitRate);
 		sl.AddTail(str);
