@@ -101,6 +101,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbThreadNumber.AddString (_T("4"));
 	m_cbThreadNumber.AddString (_T("5"));
 	m_cbThreadNumber.AddString (_T("6"));
+	m_cbThreadNumber.AddString (_T("7"));
+	m_cbThreadNumber.AddString (_T("8"));
 
 	// H264 deblocking mode
 	nPosY += VERTICAL_SPACING;
