@@ -191,7 +191,7 @@ HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 
 	if (m_bDiscontinuity)
 	{
-		FLAC__stream_decoder_seek_absolute (_DECODER_, m_rtPosition * m_i64TotalNumSamples / m_rtDuration);
+		FLAC__stream_decoder_seek_absolute (_DECODER_, (m_rtPosition * m_i64TotalNumSamples) / m_rtDuration);
 	}
 
 	FLAC__stream_decoder_get_decode_position(_DECODER_, &llCurPos);
@@ -308,7 +308,15 @@ FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decod
 FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
 {
 	CFlacStream*	pThis = (CFlacStream*) client_data;
-	return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
+	CFile*			pFile = pThis->GetFile();
+
+	if (pFile == NULL)
+		return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
+	else
+	{
+		*stream_length = pFile->GetLength();
+		return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
+	}
 }
 
 FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_data)
