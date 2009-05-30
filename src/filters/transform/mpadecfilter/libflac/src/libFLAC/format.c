@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -39,10 +39,6 @@
 #include "FLAC/assert.h"
 #include "FLAC/format.h"
 #include "private/format.h"
-
-#ifndef FLaC__INLINE
-#define FLaC__INLINE
-#endif
 
 #ifdef min
 #undef min
@@ -223,6 +219,16 @@ FLAC_API FLAC__bool FLAC__format_sample_rate_is_valid(unsigned sample_rate)
 		return true;
 }
 
+FLAC_API FLAC__bool FLAC__format_blocksize_is_subset(unsigned blocksize, unsigned sample_rate)
+{
+	if(blocksize > 16384)
+		return false;
+	else if(sample_rate <= 48000 && blocksize > 4608)
+		return false;
+	else
+		return true;
+}
+
 FLAC_API FLAC__bool FLAC__format_sample_rate_is_subset(unsigned sample_rate)
 {
 	if(
@@ -313,7 +319,7 @@ FLAC_API unsigned FLAC__format_seektable_sort(FLAC__StreamMetadata_SeekTable *se
  * and a more clear explanation at the end of this section:
  *   http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
  */
-static FLaC__INLINE unsigned utf8len_(const FLAC__byte *utf8)
+static unsigned utf8len_(const FLAC__byte *utf8)
 {
 	FLAC__ASSERT(0 != utf8);
 	if ((utf8[0] & 0x80) == 0) {

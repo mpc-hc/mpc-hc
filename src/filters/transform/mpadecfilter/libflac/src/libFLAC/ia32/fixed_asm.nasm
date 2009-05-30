@@ -1,7 +1,7 @@
 ;  vim:filetype=nasm ts=8
 
 ;  libFLAC - Free Lossless Audio Codec library
-;  Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+;  Copyright (C) 2001,2002,2003,2004,2005,2006,2007,2008,2009  Josh Coalson
 ;
 ;  Redistribution and use in source and binary forms, with or without
 ;  modification, are permitted provided that the following conditions

@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -36,13 +36,16 @@
 #include <stdlib.h> /* for malloc() */
 #include <string.h> /* for memcpy(), memset() */
 #ifdef _MSC_VER
-#include <winsock.h> /* for ntohl() */
+# include <winsock.h> /* for ntohl() */
+# if _MSC_VER >= 1310
+#  include <winsock2.h> /* for ntohl(), sometimes it is not in winsock.h */
+# endif
 #elif defined FLAC__SYS_DARWIN
-#include <machine/endian.h> /* for ntohl() */
+# include <machine/endian.h> /* for ntohl() */
 #elif defined __MINGW32__
-#include <winsock.h> /* for ntohl() */
+# include <winsock.h> /* for ntohl() */
 #else
-#include <netinet/in.h> /* for ntohl() */
+# include <netinet/in.h> /* for ntohl() */
 #endif
 #if 0 /* UNUSED */
 #include "private/bitmath.h"

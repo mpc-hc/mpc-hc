@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+ * Copyright (C) 2001,2002,2003,2004,2005,2006,2007,2008,2009  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -1265,16 +1265,21 @@ FLAC_API FLAC__bool FLAC__metadata_object_vorbiscomment_replace_comment(FLAC__St
 
 		field_name_length = eq-entry.entry;
 
-		if((i = vorbiscomment_find_entry_from_(object, 0, (const char *)entry.entry, field_name_length)) >= 0) {
+		i = vorbiscomment_find_entry_from_(object, 0, (const char *)entry.entry, field_name_length);
+		if(i >= 0) {
 			unsigned index = (unsigned)i;
 			if(!FLAC__metadata_object_vorbiscomment_set_comment(object, index, entry, copy))
 				return false;
-			if(all && (index+1 < object->data.vorbis_comment.num_comments)) {
-				for(i = vorbiscomment_find_entry_from_(object, index+1, (const char *)entry.entry, field_name_length); i >= 0; ) {
-					if(!FLAC__metadata_object_vorbiscomment_delete_comment(object, (unsigned)i))
+			entry = object->data.vorbis_comment.comments[index];
+			index++; /* skip over replaced comment */
+			if(all && index < object->data.vorbis_comment.num_comments) {
+				i = vorbiscomment_find_entry_from_(object, index, (const char *)entry.entry, field_name_length);
+				while(i >= 0) {
+					index = (unsigned)i;
+					if(!FLAC__metadata_object_vorbiscomment_delete_comment(object, index))
 						return false;
-					if((unsigned)i < object->data.vorbis_comment.num_comments)
-						i = vorbiscomment_find_entry_from_(object, (unsigned)i, (const char *)entry.entry, field_name_length);
+					if(index < object->data.vorbis_comment.num_comments)
+						i = vorbiscomment_find_entry_from_(object, index, (const char *)entry.entry, field_name_length);
 					else
 						i = -1;
 				}

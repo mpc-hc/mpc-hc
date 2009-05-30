@@ -8,10 +8,6 @@
 #include "private/md5.h"
 #include "share/alloc.h"
 
-#ifndef FLaC__INLINE
-#define FLaC__INLINE
-#endif
-
 /*
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.  This code was

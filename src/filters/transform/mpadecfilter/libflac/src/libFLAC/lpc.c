@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007  Josh Coalson
+ * Copyright (C) 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -42,15 +42,15 @@
 #include <stdio.h>
 #endif
 
+/* OPT: #undef'ing this may improve the speed on some architectures */
+#define FLAC__LPC_UNROLLED_FILTER_LOOPS
+
 #ifndef FLAC__INTEGER_ONLY_LIBRARY
 
 #ifndef M_LN2
 /* math.h in VC++ doesn't seem to have this (how Microsoft is that?) */
 #define M_LN2 0.69314718055994530942
 #endif
-
-/* OPT: #undef'ing this may improve the speed on some architectures */
-#define FLAC__LPC_UNROLLED_FILTER_LOOPS
 
 
 void FLAC__lpc_window_data(const FLAC__int32 in[], const FLAC__real window[], FLAC__real out[], unsigned data_len)
