@@ -129,8 +129,8 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	p.y += 5;
 
-	m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(80 + 200/2 - 55, 0), CSize(50, 20)), this, IDC_PP_BUTTON1);
-	m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(80 + 200/2 + 5, 0), CSize(50, 20)), this, IDC_PP_BUTTON2);
+	m_procamp_tv2pc.Create(_T("TV->PC"), dwStyle, CRect(p + CPoint(50 + 200/2 - 55, 0), CSize(80, 20)), this, IDC_PP_BUTTON1);
+	m_procamp_reset.Create(ResStr(IDS_MPEG2_RESET), dwStyle, CRect(p + CPoint(80 + 200/2 + 5, 0), CSize(80, 20)), this, IDC_PP_BUTTON2);
 
 	p.y += 30;
 
@@ -139,7 +139,7 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	m_note_static.Create(
 		ResStr(IDS_MPEG2DECSETTINGSWND_7) +
 		ResStr(IDS_MPEG2DECSETTINGSWND_8),
-		dwStyle, CRect(p, CSize(320, m_fontheight * 3)), this);
+		dwStyle, CRect(p, CSize(320, m_fontheight * 4)), this);
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
 		pWnd->SetFont(&m_font, FALSE);
