@@ -632,6 +632,8 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn))
 		return E_FAIL;
 
+	_tremove(fn);
+
 	_tcscat(fn, _T(".ssa"));
 
 	if(!sts.SaveAs(fn, EXTSSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead))
@@ -678,6 +680,8 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 	TCHAR path[MAX_PATH], fn[MAX_PATH];
 	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn))
 		return E_FAIL;
+
+	_tremove(fn);
 
 	_tcscat(fn, _T(".ass"));
 
