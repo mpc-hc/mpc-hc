@@ -108,6 +108,7 @@ public:
 	DWORD AddStream(WORD pid, BYTE pesid, DWORD len);
 	void  AddHdmvPGStream(WORD pid, const char* language_code);
 	CAtlList<stream>* GetMasterStream();
+	bool IsHdmv() { return m_bIsHdmv; };
 
 	struct program
 	{

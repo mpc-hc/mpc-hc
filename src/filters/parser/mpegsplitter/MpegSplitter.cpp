@@ -489,7 +489,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 				int iProgram;
 				const CHdmvClipInfo::Stream *pClipInfo;
 				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
-				if(p!=NULL && !m_ClipInfo.IsHdmv())
+				if(p!=NULL && !m_ClipInfo.IsHdmv() && !m_pFile->IsHdmv())
 				{
 					for(int k = 0; k < countof(m_pFile->m_streams); k++)
 					{
