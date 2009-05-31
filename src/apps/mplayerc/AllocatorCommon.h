@@ -128,7 +128,7 @@ namespace DSObjects
 		};
 		CAtlList<CExternalPixelShader>	m_pPixelShaders;
 		CAtlList<CExternalPixelShader>	m_pPixelShadersScreenSpace;
-		CComPtr<IDirect3DPixelShader9>		m_pResizerPixelShader[3]; // bl, bc1, bc2
+		CComPtr<IDirect3DPixelShader9>		m_pResizerPixelShader[4]; // bl, bc1, bc2_1, bc2_2
 		CComPtr<IDirect3DTexture9>		m_pScreenSizeTemporaryTexture[2];
 		D3DFORMAT						m_SurfaceType;
 		D3DFORMAT						m_BackbufferType;

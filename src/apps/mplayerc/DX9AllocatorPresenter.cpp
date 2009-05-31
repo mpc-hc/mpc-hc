@@ -818,6 +818,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_pResizerPixelShader[0] = 0;
 	m_pResizerPixelShader[1] = 0;
 	m_pResizerPixelShader[2] = 0;
+	m_pResizerPixelShader[3] = 0;
 
 	POSITION pos = m_pPixelShadersScreenSpace.GetHeadPosition();
 	while(pos)
@@ -1300,6 +1301,8 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA, bool bNeedScreenSiz
 				break;
 			if (!m_pResizerPixelShader[2])
 				break;
+			if (!m_pResizerPixelShader[3])
+				break;
 			if (m_bicubicA != bicubicA)
 				break;
 			if (!m_pScreenSizeTemporaryTexture[0])
@@ -1346,15 +1349,41 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA, bool bNeedScreenSiz
 	A.Format("(%f)", bicubicA);
 	str.Replace("_The_Value_Of_A_Is_Set_Here_", A);
 
-	LPCSTR pEntries[] = {"main_bilinear", "main_bicubic1pass", "main_bicubic2pass"};
+	LPCSTR pEntries[] = {"main_bilinear", "main_bicubic1pass", "main_bicubic2pass_pass1", "main_bicubic2pass_pass2"};
 
 	ASSERT(countof(pEntries) == countof(m_pResizerPixelShader));
 
 	for(int i = 0; i < countof(pEntries); i++)
 	{
-		hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i]);
-		ASSERT (SUCCEEDED (hr));
-		if(FAILED(hr)) return hr;
+		CString ErrorMessage;
+		CString DissAssembly;
+		hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i], &DissAssembly, &ErrorMessage);
+		if(FAILED(hr)) 
+		{
+			TRACE("%ws", ErrorMessage.GetString());
+			ASSERT (0);
+			return hr;
+		}
+/*
+		if (i == 2 || i == 3)
+		{
+			const wchar_t *pStr = DissAssembly.GetString();
+			TRACE("DisAsm: %s\n", pEntries[i]);
+			const wchar_t *pStrStart = pStr;
+			while (*pStr)
+			{
+				while (*pStr && *pStr != '\n')
+					++pStr;
+				if (*pStr == '\n')
+					++pStr;
+				if (*pStr == '\r')
+					++pStr;
+				CString Test(pStrStart, pStr - pStrStart);
+				TRACE("%ws", Test.GetString());
+				pStrStart = pStr;
+			}
+		}
+*/
 	}
 
 	if(m_bicubicA || bNeedScreenSizeTexture)
@@ -1479,10 +1508,10 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 
 	float dx = 1.0f/w;
 	float dy = 1.0f/h;
-	float tx0 = SrcRect.left * dx;
-	float tx1 = SrcRect.right * dx;
-	float ty0 = SrcRect.top * dy;
-	float ty1 = SrcRect.bottom * dy;
+	float tx0 = SrcRect.left;
+	float tx1 = SrcRect.right;
+	float ty0 = SrcRect.top;
+	float ty1 = SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] =
 	{
@@ -1492,7 +1521,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1},
 	};
 
-	AdjustQuad(v, dx, dy);
+	AdjustQuad(v, 1.0, 1.0);
 
 	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
 	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
@@ -1528,10 +1557,10 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 
 	float dx2 = 1.0f/w;
 	float dy2 = 1.0f/h;
-	float tx0 = SrcRect.left * dx2;
-	float tx1 = SrcRect.right * dx2;
-	float ty0 = SrcRect.top * dy2;
-	float ty1 = SrcRect.bottom * dy2;
+	float tx0 = SrcRect.left;
+	float tx1 = SrcRect.right;
+	float ty0 = SrcRect.top;
+	float ty1 = SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] =
 	{
@@ -1541,7 +1570,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 		{dst[3].x, dst[3].y, dst[3].z, 1.0f/dst[3].z,  tx1, ty1},
 	};
 
-	AdjustQuad(v, dx, dy);
+	AdjustQuad(v, 1.0, 1.0);
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
@@ -1559,7 +1588,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 
 HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
 {
-	// Always use 1 pass because 2 pass can cause artifacts because of different resolution textures in the different passes.
+	// The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
 	return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
 	HRESULT hr;
@@ -1573,6 +1602,9 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
+	float Tex0_Width = desc.Width;
+	float Tex0_Height = desc.Height;
+
 	double dx0 = 1.0/desc.Width;
 	double dy0 = 1.0/desc.Height;
 
@@ -1585,6 +1617,9 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	if(!m_pScreenSizeTemporaryTexture[0] || FAILED(m_pScreenSizeTemporaryTexture[0]->GetLevelDesc(0, &desc)))
 		return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
+	float Tex1_Width = desc.Width;
+	float Tex1_Height = desc.Height;
+
 	double dx1 = 1.0/desc.Width;
 	double dy1 = 1.0/desc.Height;
 
@@ -1593,10 +1628,15 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 
 	float dx2 = 1.0f/SrcTextSize.cx;
 	float dy2 = 1.0f/SrcTextSize.cy;
-	float tx0 = SrcRect.left * dx2;
-	float tx1 = SrcRect.right * dx2;
-	float ty0 = SrcRect.top * dy2;
-	float ty1 = SrcRect.bottom * dy2;
+	float tx0 = SrcRect.left;
+	float tx1 = SrcRect.right;
+	float ty0 = SrcRect.top;
+	float ty1 = SrcRect.bottom;
+
+	float tx0_2 = 0;
+	float tx1_2 = dst1.Width();
+	float ty0_2 = 0;
+	float ty1_2 = h;
 
 //	ASSERT(dst1.Height() == desc.Height);
 
@@ -1604,32 +1644,34 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 	// if(dst1.Width() != desc.Width || dst1.Height() != desc.Height)
 		return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
-	MYD3DVERTEX<5> vx[] =
+	MYD3DVERTEX<1> vx[] =
 	{
-		{(float)dst1.left, (float)dst1.top,		0.5f, 2.0f, tx0-dx0, ty0,  tx0, ty0,  tx0+dx0, ty0,  tx0+dx0*2, ty0,  0, 0},
-		{(float)dst1.right, (float)dst1.top,	0.5f, 2.0f, tx1-dx0, ty0,  tx1, ty0,  tx1+dx0, ty0,  tx1+dx0*2, ty0,  w, 0},
-		{(float)dst1.left, (float)dst1.bottom,	0.5f, 2.0f, tx0-dx0, ty1,  tx0, ty1,  tx0+dx0, ty1,  tx0+dx0*2, ty1,  0, 0},
-		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1-dx0, ty1,  tx1, ty1,  tx1+dx0, ty1,  tx1+dx0*2, ty1,  w, 0},
+		{(float)dst1.left, (float)dst1.top,		0.5f, 2.0f, tx0, ty0},
+		{(float)dst1.right, (float)dst1.top,	0.5f, 2.0f, tx1, ty0},
+		{(float)dst1.left, (float)dst1.bottom,	0.5f, 2.0f, tx0, ty1},
+		{(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1, ty1},
 	};
 
-	AdjustQuad(vx, dx0, 0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
+	AdjustQuad(vx, 1.0, 0.0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
 
-	MYD3DVERTEX<5> vy[] =
+	MYD3DVERTEX<1> vy[] =
 	{
-		{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z,	0,	0-dy1,	0,	0,	0,	0+dy1,	0,	0+dy1*2,	0,	0},
-		{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z,	dw,	0-dy1,	dw,	0,	dw,	0+dy1,	dw,	0+dy1*2,	0,	0},
-		{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z,	0,	dh-dy1,	0,	dh,	0,	dh+dy1,	0,	dh+dy1*2,	h,	0},
-		{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z,	dw,	dh-dy1,	dw,	dh,	dw,	dh+dy1,	dw, dh+dy1*2,	h,	0},
+		{dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z, tx0_2, ty0_2},
+		{dst[1].x, dst[1].y, dst[1].z, 1.0/dst[1].z, tx1_2, ty0_2},
+		{dst[2].x, dst[2].y, dst[2].z, 1.0/dst[2].z, tx0_2, ty1_2},
+		{dst[3].x, dst[3].y, dst[3].z, 1.0/dst[3].z, tx1_2, ty1_2},
 	};
 
-	AdjustQuad(vy, 0, dy1);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
+
+	AdjustQuad(vy, 0.0, 1.0);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[2]);
+	{
+		float fConstData[][4] = {{0.5f / Tex0_Width, 0.5f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 1.0f / Tex0_Height, 0, 0}, {1.0f / Tex0_Width, 0, 0, 0}, {0, 1.0f / Tex0_Height, 0, 0}, {Tex0_Width, Tex0_Height, 0, 0}};
+		hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	}
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
-	hr = m_pD3DDev->SetTexture(1, pTexture);
-	hr = m_pD3DDev->SetTexture(2, pTexture);
-	hr = m_pD3DDev->SetTexture(3, pTexture);
 
 	CComPtr<IDirect3DSurface9> pRTOld;
 	hr = m_pD3DDev->GetRenderTarget(0, &pRTOld);
@@ -1640,10 +1682,13 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
 
 	hr = TextureBlt(m_pD3DDev, vx, D3DTEXF_POINT);
 
+	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[3]);
+	{
+		float fConstData[][4] = {{0.5f / Tex1_Width, 0.5f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 1.0f / Tex1_Height, 0, 0}, {1.0f / Tex1_Width, 0, 0, 0}, {0, 1.0f / Tex1_Height, 0, 0}, {Tex1_Width, Tex1_Height, 0, 0}};
+		hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	}
+
 	hr = m_pD3DDev->SetTexture(0, m_pScreenSizeTemporaryTexture[0]);
-	hr = m_pD3DDev->SetTexture(1, m_pScreenSizeTemporaryTexture[0]);
-	hr = m_pD3DDev->SetTexture(2, m_pScreenSizeTemporaryTexture[0]);
-	hr = m_pD3DDev->SetTexture(3, m_pScreenSizeTemporaryTexture[0]);
 
 	hr = m_pD3DDev->SetRenderTarget(0, pRTOld);
 
@@ -2275,7 +2320,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 					}
 				}
 
-				if(iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr))
+//				if((iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr)))
+				if(iDX9Resizer == 0 || iDX9Resizer == 1)
 				{
 					D3DTEXTUREFILTERTYPE Filter = iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR;
 					if (rSrcVid.Size() == rDstVid.Size())
@@ -2422,6 +2468,14 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
 	if (pApp->m_fDisplayStats)
 		DrawStats();
+
+	{
+		CString Temp;
+		Temp.Format(L"GPU %7.3f ms", (double(m_WaitForGPUTime)/10000.0));
+
+		TRACE("%ws\n", Temp.GetString());
+	}
+
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 
 	m_pD3DDev->EndScene();

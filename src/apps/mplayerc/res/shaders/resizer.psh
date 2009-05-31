@@ -9,7 +9,6 @@ float4 dxdy05  : register(c0);
 float2 dxdy : register(c1);
 float2 dx : register(c2);
 float2 dy : register(c3);
-float2 TexSize : register(c4);
 
 #define	A _The_Value_Of_A_Is_Set_Here_
 
@@ -28,10 +27,9 @@ struct PS_INPUT
 
 float4 main_bilinear(PS_INPUT input) : COLOR
 {
-    float2 inputt0 = input.t0;
-    float2 PixelPos = inputt0 * TexSize;
-	float2 ExactPixel = floor(PixelPos);
-	float2 dd = PixelPos - ExactPixel;
+    float2 PixelPos = input.t0;
+	float2 dd = frac(PixelPos);
+	float2 ExactPixel = PixelPos - dd;
 	float2 samplePos = ExactPixel*dxdy + dxdy05;
 
 	float4 c = lerp(
@@ -83,31 +81,43 @@ float4 SampleY(float4 tx, float4 ty, float2 t0)
 
 float4 main_bicubic1pass(PS_INPUT input) : COLOR
 {
-    float2 inputt0 = input.t0;
-    float2 PixelPos = inputt0 * TexSize;
-	float2 ExactPixel = floor(PixelPos);
-	float2 dd = PixelPos - ExactPixel;
+    float2 PixelPos = input.t0;
+	float2 dd = frac(PixelPos);
+	float2 ExactPixel = PixelPos - dd;
 	float2 samplePos = ExactPixel*dxdy + dxdy05;
 	return SampleY(taps(dd.x), taps(dd.y), samplePos);
 }
 
-float4 Sample(float4 t, PS_INPUT input)
+float4 Sample(float4 t, float2 samplePos, float2 sampleD)
 {
 	return
 		mul(t, 
 			float4x4(
-				tex2D(s0, input.t0),
-				tex2D(s1, input.t1),
-				tex2D(s2, input.t2),
-				tex2D(s3, input.t3)
+				tex2D(s0, samplePos - sampleD),
+				tex2D(s0, samplePos),
+				tex2D(s0, samplePos + sampleD),
+				tex2D(s0, samplePos + sampleD + sampleD)
 			)
 		);
 }
 
-float4 main_bicubic2pass(PS_INPUT input) : COLOR
+float4 main_bicubic2pass_pass1(PS_INPUT input) : COLOR
 {
-	float2 dd = frac(input.t4);
-	return Sample(taps(dd.x), input);
-	// return Sample(tex1D(s4, dd.x), input);	
+    float2 PixelPos = input.t0;
+	float2 dd = frac(PixelPos);
+	float2 ExactPixel = PixelPos - dd;
+	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	
+	return Sample(taps(dd.x), samplePos, dx);
+}
+
+float4 main_bicubic2pass_pass2(PS_INPUT input) : COLOR
+{
+    float2 PixelPos = input.t0;
+	float2 dd = frac(PixelPos);
+	float2 ExactPixel = PixelPos - dd;
+	float2 samplePos = ExactPixel*dxdy + dxdy05;
+	
+	return Sample(taps(dd.y), samplePos, dy);
 }
 

@@ -658,7 +658,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 				*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / SHRT_MAX;
 				pDataOut++;
 			}
-			pDataIn += remap->nChannels*2;
+			pDataIn += wfein->nChannels*2;
 		}
 		break;
 
@@ -677,7 +677,7 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 
 				pDataOut++;
 			}
-			pDataIn += remap->nChannels*3;
+			pDataIn += wfein->nChannels*3;
 		}
 		break;
 	}
