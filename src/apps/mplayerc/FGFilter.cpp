@@ -451,6 +451,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 	if(m_clsid == CLSID_VMR7AllocatorPresenter 
 	|| m_clsid == CLSID_VMR9AllocatorPresenter 
 	|| m_clsid == CLSID_DXRAllocatorPresenter
+	|| m_clsid == CLSID_madVRAllocatorPresenter
 	|| m_clsid == CLSID_EVRAllocatorPresenter)
 	{
 		if(SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
