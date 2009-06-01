@@ -1434,11 +1434,11 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
    {
       info_ptr->row_pointers = (png_bytepp)png_malloc(png_ptr,
          info_ptr->height * png_sizeof(png_bytep));
+      png_memset(info_ptr->row_pointers, 0, info_ptr->height
+         * png_sizeof(png_bytep));
 #ifdef PNG_FREE_ME_SUPPORTED
       info_ptr->free_me |= PNG_FREE_ROWS;
 #endif
-      png_memset(info_ptr->row_pointers, 0, info_ptr->height
-         * png_sizeof(png_bytep));
       for (row = 0; row < (int)info_ptr->height; row++)
          info_ptr->row_pointers[row] = (png_bytep)png_malloc(png_ptr,
             png_get_rowbytes(png_ptr, info_ptr));

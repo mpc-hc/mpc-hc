@@ -1,7 +1,7 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.2.35 [February 14, 2009]
+ * Last changed in libpng 1.2.36 [May 7, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -108,7 +108,7 @@ png_set_cHRM_fixed(png_structp png_ptr, png_infop info_ptr,
 void PNGAPI
 png_set_gAMA(png_structp png_ptr, png_infop info_ptr, double file_gamma)
 {
-   double gamma;
+   double png_gamma;
    png_debug1(1, "in %s storage function", "gAMA");
    if (png_ptr == NULL || info_ptr == NULL)
       return;
@@ -117,16 +117,16 @@ png_set_gAMA(png_structp png_ptr, png_infop info_ptr, double file_gamma)
    if (file_gamma > 21474.83)
    {
       png_warning(png_ptr, "Limiting gamma to 21474.83");
-      gamma=21474.83;
+      png_gamma=21474.83;
    }
    else
-      gamma = file_gamma;
-   info_ptr->gamma = (float)gamma;
+      png_gamma = file_gamma;
+   info_ptr->gamma = (float)png_gamma;
 #ifdef PNG_FIXED_POINT_SUPPORTED
-   info_ptr->int_gamma = (int)(gamma*100000.+.5);
+   info_ptr->int_gamma = (int)(png_gamma*100000.+.5);
 #endif
    info_ptr->valid |= PNG_INFO_gAMA;
-   if (gamma == 0.0)
+   if (png_gamma == 0.0)
       png_warning(png_ptr, "Setting gamma=0");
 }
 #endif
@@ -134,7 +134,7 @@ void PNGAPI
 png_set_gAMA_fixed(png_structp png_ptr, png_infop info_ptr, png_fixed_point
    int_gamma)
 {
-   png_fixed_point gamma;
+   png_fixed_point png_gamma;
 
    png_debug1(1, "in %s storage function", "gAMA");
    if (png_ptr == NULL || info_ptr == NULL)
@@ -143,26 +143,26 @@ png_set_gAMA_fixed(png_structp png_ptr, png_infop info_ptr, png_fixed_point
    if (int_gamma > (png_fixed_point) PNG_UINT_31_MAX)
    {
      png_warning(png_ptr, "Limiting gamma to 21474.83");
-     gamma=PNG_UINT_31_MAX;
+     png_gamma=PNG_UINT_31_MAX;
    }
    else
    {
      if (int_gamma < 0)
      {
        png_warning(png_ptr, "Setting negative gamma to zero");
-       gamma = 0;
+       png_gamma = 0;
      }
      else
-       gamma = int_gamma;
+       png_gamma = int_gamma;
    }
 #ifdef PNG_FLOATING_POINT_SUPPORTED
-   info_ptr->gamma = (float)(gamma/100000.);
+   info_ptr->gamma = (float)(png_gamma/100000.);
 #endif
 #ifdef PNG_FIXED_POINT_SUPPORTED
-   info_ptr->int_gamma = gamma;
+   info_ptr->int_gamma = png_gamma;
 #endif
    info_ptr->valid |= PNG_INFO_gAMA;
-   if (gamma == 0)
+   if (png_gamma == 0)
       png_warning(png_ptr, "Setting gamma=0");
 }
 #endif
@@ -383,10 +383,6 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
       return;
    }
 
-#ifdef PNG_FREE_ME_SUPPORTED
-   info_ptr->free_me |= PNG_FREE_PCAL;
-#endif
-
    png_memset(info_ptr->pcal_params, 0, (nparams + 1) * png_sizeof(png_charp));
 
    for (i = 0; i < nparams; i++)
@@ -404,6 +400,9 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    }
 
    info_ptr->valid |= PNG_INFO_pCAL;
+#ifdef PNG_FREE_ME_SUPPORTED
+   info_ptr->free_me |= PNG_FREE_PCAL;
+#endif
 }
 #endif
 
@@ -961,7 +960,6 @@ png_set_sPLT(png_structp png_ptr,
 
     png_memcpy(np, info_ptr->splt_palettes,
            info_ptr->splt_palettes_num * png_sizeof(png_sPLT_t));
-
     png_free(png_ptr, info_ptr->splt_palettes);
     info_ptr->splt_palettes=NULL;
 

@@ -425,6 +425,7 @@ png_destroy_struct_2(png_voidp struct_ptr, png_free_ptr free_fn,
    need to allocate exactly 64K, so whatever you call here must
    have the ability to do that. */
 
+
 png_voidp PNGAPI
 png_malloc(png_structp png_ptr, png_uint_32 size)
 {

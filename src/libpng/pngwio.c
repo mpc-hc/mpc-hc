@@ -1,7 +1,7 @@
 
 /* pngwio.c - functions for data output
  *
- * Last changed in libpng 1.2.35 [February 14, 2009]
+ * Last changed in libpng 1.2.36 [May 7, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -137,8 +137,7 @@ png_default_flush(png_structp png_ptr)
    if (png_ptr == NULL) return;
 #if !defined(_WIN32_WCE)
    io_ptr = (png_FILE_p)CVT_PTR((png_ptr->io_ptr));
-   if (io_ptr != NULL && fileno(io_ptr) != -1)
-      fflush(io_ptr);
+   fflush(io_ptr);
 #endif
 }
 #endif
@@ -156,7 +155,9 @@ png_default_flush(png_structp png_ptr)
                    data to be written, and a 32-bit unsigned int that is
                    the number of bytes to be written.  The new write
                    function should call png_error(png_ptr, "Error msg")
-                   to exit and output any fatal error messages.
+                   to exit and output any fatal error messages.  May be
+                   NULL, in which case libpng's default function will
+                   be used.
    flush_data_fn - pointer to a new flush function that takes as its
                    arguments a pointer to a png_struct.  After a call to
                    the flush function, there should be no data in any buffers
@@ -165,7 +166,11 @@ png_default_flush(png_structp png_ptr)
                    supplied although it doesn't have to do anything.  If
                    PNG_WRITE_FLUSH_SUPPORTED is not defined at libpng compile
                    time, output_flush_fn will be ignored, although it must be
-                   supplied for compatibility. */
+                   supplied for compatibility.  May be NULL, in which case
+                   libpng's default function will be used, if
+                   PNG_WRITE_FLUSH_SUPPORTED is defined.  This is not
+                   a good idea if io_ptr does not point to a standard
+                   *FILE structure. */
 void PNGAPI
 png_set_write_fn(png_structp png_ptr, png_voidp io_ptr,
    png_rw_ptr write_data_fn, png_flush_ptr output_flush_fn)

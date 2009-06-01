@@ -1,9 +1,9 @@
 
 /* pngtest.c - a simple test program to test libpng
  *
- * Last changed in libpng 1.2.32 [September 18, 2008]
+ * Last changed in libpng 1.2.36 [May 7, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -362,12 +362,8 @@ pngtest_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
 static void
 pngtest_flush(png_structp png_ptr)
 {
-#if !defined(_WIN32_WCE)
-   png_FILE_p io_ptr;
-   io_ptr = (png_FILE_p)CVT_PTR((png_ptr->io_ptr));
-   if (io_ptr != NULL)
-      fflush(io_ptr);
-#endif
+   /* Do nothing; fflush() is said to be just a waste of energy. */
+   png_ptr = png_ptr;  /* stifle compiler warning */
 }
 #endif
 
@@ -611,7 +607,7 @@ static int read_user_chunk_callback(png_struct *png_ptr,
    png_unknown_chunkp chunk)
 {
   png_uint_32
-    *user_chunk_data;
+    *my_user_chunk_data;
 
   /* Return one of the following: */
      /* return (-n);  chunk had an error */
@@ -634,8 +630,8 @@ static int read_user_chunk_callback(png_struct *png_ptr,
          return (-1); /* Error return */
        if (chunk->data[0] != 0 && chunk->data[0] != 1)
           return (-1);  /* Invalid mode */
-       user_chunk_data=(png_uint_32 *) png_get_user_chunk_ptr(png_ptr);
-       user_chunk_data[0]=chunk->data[0]+1;
+       my_user_chunk_data=(png_uint_32 *) png_get_user_chunk_ptr(png_ptr);
+       my_user_chunk_data[0]=chunk->data[0]+1;
        return (1);
      }
   if (chunk->name[0] != 118 || chunk->name[1] != 112 ||    /* v  p */
@@ -647,11 +643,11 @@ static int read_user_chunk_callback(png_struct *png_ptr,
   if (chunk->size != 9)
     return (-1); /* Error return */
 
-  user_chunk_data=(png_uint_32 *) png_get_user_chunk_ptr(png_ptr);
+  my_user_chunk_data=(png_uint_32 *) png_get_user_chunk_ptr(png_ptr);
 
-  user_chunk_data[1]=png_get_uint_31(png_ptr, chunk->data);
-  user_chunk_data[2]=png_get_uint_31(png_ptr, chunk->data + 4);
-  user_chunk_data[3]=(png_uint_32)chunk->data[8];
+  my_user_chunk_data[1]=png_get_uint_31(png_ptr, chunk->data);
+  my_user_chunk_data[2]=png_get_uint_31(png_ptr, chunk->data + 4);
+  my_user_chunk_data[3]=(png_uint_32)chunk->data[8];
 
   return (1);
 
@@ -1161,7 +1157,7 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
        ster_chunk_data[1];
 
      if (verbose)
-        fprintf(STDERR, "stereo mode = %lu\n",
+        fprintf(STDERR, "\n stereo mode = %lu\n",
           (unsigned long)(user_chunk_data[0] - 1));
      ster_chunk_data[0]=(unsigned char)(user_chunk_data[0] - 1);
      png_write_chunk(write_ptr, png_sTER, ster_chunk_data, 1);
@@ -1174,7 +1170,7 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
        vpag_chunk_data[9];
 
      if (verbose)
-        fprintf(STDERR, "vpAg = %lu x %lu, units=%lu\n",
+        fprintf(STDERR, " vpAg = %lu x %lu, units = %lu\n",
           (unsigned long)user_chunk_data[1],
           (unsigned long)user_chunk_data[2],
           (unsigned long)user_chunk_data[3]);
@@ -1318,7 +1314,7 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
       png_uint_32 iwidth, iheight;
       iwidth = png_get_image_width(write_ptr, write_info_ptr);
       iheight = png_get_image_height(write_ptr, write_info_ptr);
-      fprintf(STDERR, "Image width = %lu, height = %lu\n",
+      fprintf(STDERR, "\n Image width = %lu, height = %lu\n",
          (unsigned long)iwidth, (unsigned long)iheight);
    }
 #endif
@@ -1439,7 +1435,7 @@ main(int argc, char *argv[])
    int multiple = 0;
    int ierror = 0;
 
-   fprintf(STDERR, "Testing libpng version %s\n", PNG_LIBPNG_VER_STRING);
+   fprintf(STDERR, "\n Testing libpng version %s\n", PNG_LIBPNG_VER_STRING);
    fprintf(STDERR, "   with zlib   version %s\n", ZLIB_VERSION);
    fprintf(STDERR, "%s", png_get_copyright(NULL));
    /* Show the version of libpng used in building the library */
@@ -1527,7 +1523,7 @@ main(int argc, char *argv[])
          int k;
 #endif
          int kerror;
-         fprintf(STDERR, "Testing %s:", argv[i]);
+         fprintf(STDERR, "\n Testing %s:", argv[i]);
          kerror = test_one_file(argv[i], outname);
          if (kerror == 0)
          {
@@ -1597,7 +1593,7 @@ main(int argc, char *argv[])
          if (i == 1) status_dots_requested = 1;
          else if (verbose == 0)status_dots_requested = 0;
          if (i == 0 || verbose == 1 || ierror != 0)
-            fprintf(STDERR, "Testing %s:", inname);
+            fprintf(STDERR, "\n Testing %s:", inname);
          kerror = test_one_file(inname, outname);
          if (kerror == 0)
          {
@@ -1628,7 +1624,7 @@ main(int argc, char *argv[])
          else
          {
             if (verbose == 0 && i != 2)
-               fprintf(STDERR, "Testing %s:", inname);
+               fprintf(STDERR, "\n Testing %s:", inname);
             fprintf(STDERR, " FAIL\n");
             ierror += kerror;
          }
@@ -1678,11 +1674,11 @@ main(int argc, char *argv[])
 #endif
 
    if (ierror == 0)
-      fprintf(STDERR, "libpng passes test\n");
+      fprintf(STDERR, " libpng passes test\n");
    else
-      fprintf(STDERR, "libpng FAILS test\n");
+      fprintf(STDERR, " libpng FAILS test\n");
    return (int)(ierror != 0);
 }
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_35 your_png_h_is_not_version_1_2_35;
+typedef version_1_2_36 your_png_h_is_not_version_1_2_36;

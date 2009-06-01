@@ -1,9 +1,9 @@
 
 /* pngrio.c - functions for data input
  *
- * Last changed in libpng 1.2.30 [August 15, 2008]
+ * Last changed in libpng 1.2.36 [May 7, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -132,7 +132,9 @@ png_default_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
                   a location where input data can be stored, and a 32-bit
                   unsigned int that is the number of bytes to be read.
                   To exit and output any fatal error messages the new write
-                  function should call png_error(png_ptr, "Error msg"). */
+                  function should call png_error(png_ptr, "Error msg").
+                  May be NULL, in which case libpng's default function will
+                  be used. */
 void PNGAPI
 png_set_read_fn(png_structp png_ptr, png_voidp io_ptr,
    png_rw_ptr read_data_fn)
