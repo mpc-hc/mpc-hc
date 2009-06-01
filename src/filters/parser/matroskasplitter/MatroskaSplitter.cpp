@@ -665,8 +665,11 @@ void CMatroskaSplitterFilter::SetupChapters(LPCSTR lng, ChapterAtom* parent, int
 	POSITION pos = parent->ChapterAtoms.GetHeadPosition();
 	while(pos)
 	{
-		// ca == caroot->ChapterAtoms.GetNext(pos) ?
-		if(ChapterAtom* ca = m_pFile->m_segment.FindChapterAtom(parent->ChapterAtoms.GetNext(pos)->ChapterUID))
+		// ChapUID zero not allow by Matroska specs
+		UINT64			ChapUID = parent->ChapterAtoms.GetNext(pos)->ChapterUID;
+		ChapterAtom*	ca		= (ChapUID == 0) ? NULL : m_pFile->m_segment.FindChapterAtom(ChapUID);
+
+		if(ca)
 		{
 			CStringW name, first;
 
