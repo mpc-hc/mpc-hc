@@ -401,7 +401,8 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
         atom = DNew AP4_AudioSampleEntry(type, size, stream, *this);
         break;
 
-	  case AP4_ATOM_TYPE__AC3:
+	  case AP4_ATOM_TYPE__AC3: // AC3-in-MP4 from ISO Standard
+	  case AP4_ATOM_TYPE_SAC3: // AC3-in-MP4 from Nero Stuff >.<
         atom = DNew AP4_AC3SampleEntry(size, stream, *this);
         break;
 

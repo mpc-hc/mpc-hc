@@ -269,6 +269,11 @@ const AP4_Atom::Type AP4_ATOM_TYPE_CMOV = AP4_ATOM_TYPE('c','m','o','v');
 const AP4_Atom::Type AP4_ATOM_TYPE_DCOM = AP4_ATOM_TYPE('d','c','o','m');
 const AP4_Atom::Type AP4_ATOM_TYPE_CMVD = AP4_ATOM_TYPE('c','m','v','d');
 const AP4_Atom::Type AP4_ATOM_TYPE__AC3 = AP4_ATOM_TYPE('a','c','-','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_SAC3 = AP4_ATOM_TYPE('s','a','c','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_EAC3 = AP4_ATOM_TYPE('e','c','-','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_DTSC = AP4_ATOM_TYPE('d','t','s','c');
+const AP4_Atom::Type AP4_ATOM_TYPE_DTSH = AP4_ATOM_TYPE('d','t','s','h');
+const AP4_Atom::Type AP4_ATOM_TYPE_DTSL = AP4_ATOM_TYPE('d','t','s','l');
 
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector
