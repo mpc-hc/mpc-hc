@@ -441,9 +441,27 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 };
 const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::sudPinTypesOut);
 
+
+BOOL CALLBACK EnumFindProcessWnd (HWND hwnd, LPARAM lParam)
+{
+	DWORD	procid = 0;
+	TCHAR	WindowClass [40];
+	GetWindowThreadProcessId (hwnd, &procid);
+	GetClassName (hwnd, WindowClass, countof(WindowClass));
+	
+	if (procid == GetCurrentProcessId() && _tcscmp (WindowClass, _T("MediaPlayerClassicW")) == 0)
+	{
+		HWND*		pWnd = (HWND*) lParam;
+		*pWnd = hwnd;
+		return FALSE;
+	}
+	return TRUE;
+}
+
 CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
 	: CBaseVideoFilter(NAME("MPC - Video decoder"), lpunk, phr, __uuidof(this))
 {
+	HWND		hWnd = NULL;
 	for (int i=0; i<countof(ffCodecs); i++)
 	{
 		if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
@@ -519,7 +537,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);
 
-	DetectVideoCard(NULL);
+	EnumWindows(EnumFindProcessWnd, (LPARAM)&hWnd);
+	DetectVideoCard(hWnd);
 
 #ifdef _DEBUG
 	// Check codec definition table
@@ -820,7 +839,7 @@ void CMPCVideoDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 #ifdef _DEBUG
 	char		Msg [500];
 	vsnprintf_s (Msg, sizeof(Msg), _TRUNCATE, fmt, valist);
-//	TRACE("AVLIB : %s", Msg);
+	TRACE("AVLIB : %s", Msg);
 #endif
 }
 
@@ -1247,16 +1266,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 	int				got_picture;
 	int				used_bytes;
 
-	if (m_pAVCtx->has_b_frames)
-	{
-		m_BFrames[m_nPosB].rtStart	= rtStart;
-		m_BFrames[m_nPosB].rtStop	= rtStop;
-		m_nPosB						= 1-m_nPosB;
-	}
-
-   m_pAVCtx->reordered_opaque  = rtStart;
-   m_pAVCtx->reordered_opaque2 = rtStop;
-
 	while (nSize > 0)
 	{
 		if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize)
@@ -1286,23 +1295,17 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 	
 		rtStart = m_pFrame->reordered_opaque;
 		rtStop  = m_pFrame->reordered_opaque + m_rtAvrTimePerFrame;
-
-		// Re-order B-frames if needed
-		if (m_pAVCtx->has_b_frames && m_bReorderBFrame)
-		{
-			rtStart	= m_BFrames [m_nPosB].rtStart;
-			rtStop	= m_BFrames [m_nPosB].rtStop;
-		}
+		ReorderBFrames(rtStart, rtStop);
 
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
 		CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && 0
 		static REFERENCE_TIME	rtLast = 0;
-		//TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop, 
-		//			rtStop - rtStart, rtStart - rtLast);
+		TRACE ("Deliver : %10I64d - %10I64d   (%10I64d)  {%10I64d}\n", rtStart, rtStop, 
+					rtStop - rtStart, rtStart - rtLast);
 		rtLast = rtStart;
 #endif
 
@@ -1430,27 +1433,39 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	nSize		= pIn->GetActualDataLength();
 	hr			= pIn->GetTime(&rtStart, &rtStop);
 
-	if (rtStart != _I64_MIN)
-	{
-		// Estimate rtStart/rtStop if not set by parser (EVO support)
-		if (m_nCountEstimated > 0)
-		{
-			m_rtAvrTimePerFrame = (rtStart - m_rtLastStart) / m_nCountEstimated;
+	// FIXE THIS PART TO EVO_SUPPORT (insure m_rtAvrTimePerFrame is not estimated if not needed!!)
+	//if (rtStart != _I64_MIN)
+	//{
+	//	// Estimate rtStart/rtStop if not set by parser (EVO support)
+	//	if (m_nCountEstimated > 0)
+	//	{
+	//		m_rtAvrTimePerFrame = (rtStart - m_rtLastStart) / m_nCountEstimated;
 
-			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 417083);	// 23.97 fps
-			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 333667);	// 29.97 fps
-			ROUND_FRAMERATE (m_rtAvrTimePerFrame, 400000);	// 25.00 fps
-		}
-		m_rtLastStart		= rtStart;
-		m_nCountEstimated	= 0;
-	}
-	else
-	{
-		m_nCountEstimated++;
-		rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
-	}
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 417083);	// 23.97 fps
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 333667);	// 29.97 fps
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 400000);	// 25.00 fps
+	//	}
+	//	m_rtLastStart		= rtStart;
+	//	m_nCountEstimated	= 0;
+	//}
+	//else
+	//{
+	//	m_nCountEstimated++;
+	//	rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
+	//}
 	if (rtStop <= rtStart)
 		rtStop = rtStart + m_rtAvrTimePerFrame;
+
+	m_pAVCtx->reordered_opaque  = rtStart;
+	m_pAVCtx->reordered_opaque2 = rtStop;
+
+	if (m_pAVCtx->has_b_frames)
+	{
+		m_BFrames[m_nPosB].rtStart	= rtStart;
+		m_BFrames[m_nPosB].rtStop	= rtStop;
+		m_nPosB						= 1-m_nPosB;
+	}
+
 //	m_rtStart	= rtStart;
 	
 //	DumpBuffer (pDataIn, nSize);
@@ -1506,6 +1521,15 @@ void CMPCVideoDecFilter::UpdateAspectRatio()
 	}
 }
 
+void CMPCVideoDecFilter::ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
+{
+	// Re-order B-frames if needed
+	if (m_pAVCtx->has_b_frames && m_bReorderBFrame)
+	{
+		rtStart	= m_BFrames [m_nPosB].rtStart;
+		rtStop	= m_BFrames [m_nPosB].rtStop;
+	}
+}
 
 void CMPCVideoDecFilter::FillInVideoDescription(DXVA2_VideoDesc *pDesc)
 {

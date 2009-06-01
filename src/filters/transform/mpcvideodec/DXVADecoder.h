@@ -65,6 +65,7 @@ typedef struct
 	REFERENCE_TIME				rtStop;
 	FF_FIELD_TYPE				n1FieldType;	// Top or bottom for the 1st field
 	FF_SLICE_TYPE				nSliceType;
+	int							nCodecSpecific;
 } PICTURE_STORE;
 
 
@@ -101,6 +102,9 @@ protected :
 	bool							m_bFlushed;
 	int								m_nMaxWaiting;
 
+	PICTURE_STORE*					m_pPictureStore;		// Store reference picture, and delayed B-frames
+	int								m_nPicEntryNumber;		// Total number of picture in store
+	int								m_nWaitingPics;			// Number of picture not yet displayed
 
 	// === DXVA functions
 	HRESULT						AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, void* pBuffer, UINT* pRealSize = NULL);
@@ -116,11 +120,12 @@ protected :
 	DXVA_ConfigPictureDecode*	GetDXVA1Config() { return &m_DXVA1Config; };
 
 	// === Picture store functions
-	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType);
+	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific);
 	void					UpdateStore (int nSurfaceIndex, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	void					RemoveRefFrame (int nSurfaceIndex);
 	HRESULT					DisplayNextFrame();
 	HRESULT					GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppSampleToDeliver, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+	virtual int				FindOldestFrame();
 
 private :
 	DXVAMode						m_nMode;
@@ -143,12 +148,7 @@ private :
 	DXVA2_ConfigPictureDecode		m_DXVA2Config;
 	DXVA2_DecodeExecuteParams		m_ExecuteParams;
 
-	PICTURE_STORE*					m_pPictureStore;		// Store reference picture, and delayed B-frames
-	int								m_nPicEntryNumber;		// Total number of picture in store
-	int								m_nWaitingPics;			// Number of picture not yet displayed
-
 	void					Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEntryNumber);
 	void					FreePictureSlot (int nSurfaceIndex);
-	int						FindOldestFrame();
 	void					SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* pMS);
 };

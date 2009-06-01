@@ -20,6 +20,7 @@ v1.x.x.x - unreleased
  CHANGED: LibPNG updated to release 1.2.35 (fix security bug)
  CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
  CHANGED: frame by frame modify to support step frame back functionality (except for VMR9) 
+ CHANGED: support for AC3 in MP4 files created by Nero Digital
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
@@ -34,6 +35,8 @@ v1.x.x.x - unreleased
  FIXED  : Support of framestep backward, even if the codec didn't support it natively (bug #2600542)
  FIXED  : DXVA decoder support multiple graphics cards (PCI vendor id detection on the fly) 
  FIXED  : Incorrect aspect ratio for some H264 files with DXVA1 decoder (extended SAR)
+ FIXED  : H264 files with 16 reference frames freeze during playback (bug #2795785 and #2784256)
+ FIXED  : AVI with H264 not decoded properly (bug #2794854)
 
 
 v1.2.908.0 - 30.November 2008

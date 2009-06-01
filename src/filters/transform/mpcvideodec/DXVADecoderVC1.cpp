@@ -153,7 +153,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 #endif
 
 	// Re-order B frames
-	if (m_pFilter->ReorderBFrame())
+	if (m_pFilter->IsReorderBFrame())
 	{
 		if (m_PictureParams.bPicBackwardPrediction == 1)
 		{
@@ -176,7 +176,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	}
 
 	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, 
-				false,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType);
+				false,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, 0);
 	m_bFlushed = false;
 
 	return DisplayNextFrame();

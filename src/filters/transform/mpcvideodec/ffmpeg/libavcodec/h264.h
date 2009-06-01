@@ -593,6 +593,7 @@ typedef struct H264Context{
 	unsigned int first_mb_in_slice;
 	int bit_offset_to_slice_data;
 	int raw_slice_type;
+	int64_t outputed_rtstart;
     // <== End patch MPC
 }H264Context;
 

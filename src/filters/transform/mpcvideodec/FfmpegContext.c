@@ -78,10 +78,17 @@ char* GetFFMpegPictureType(int nType)
 }
 
 
-void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize)
+void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
 {
 	if (pBuffer != NULL)
+	{
+		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
 		av_h264_decode_frame (pAVCtx, pBuffer, nSize);
+
+		if (h->s.current_picture_ptr  && pFramePOC) *pFramePOC = h->s.current_picture_ptr->field_poc[0];
+		if (pOutPOC)	 *pOutPOC		= h->outputed_poc;
+		if (pOutrtStart) *pOutrtStart	= h->outputed_rtstart;
+	}
 }
 
 

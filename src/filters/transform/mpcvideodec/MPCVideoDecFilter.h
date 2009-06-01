@@ -205,29 +205,31 @@ public:
 
 
 	// === DXVA common functions
-	BOOL			IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);
-	BOOL			IsSupportedDecoderMode(const GUID& mode);
-	void			BuildDXVAOutputFormat();
-	int				GetPicEntryNumber();
-	int				PictWidth();
-	int				PictHeight();
-	int				PictWidthRounded();
-	int				PictHeightRounded();
-	bool			UseDXVA2()	{ return (m_nDXVAMode == MODE_DXVA2); };
-	void			FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
-	AVCodecContext*	GetAVCtx()		 { return m_pAVCtx; };
-	bool			IsDXVASupported();
-	bool			ReorderBFrame() { return m_bReorderBFrame; };
-	int				GetPCIVendor()  { return m_nPCIVendor; };
-	void			UpdateAspectRatio();
+	BOOL						IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);
+	BOOL						IsSupportedDecoderMode(const GUID& mode);
+	void						BuildDXVAOutputFormat();
+	int							GetPicEntryNumber();
+	int							PictWidth();
+	int							PictHeight();
+	int							PictWidthRounded();
+	int							PictHeightRounded();
+	inline bool					UseDXVA2()	{ return (m_nDXVAMode == MODE_DXVA2); };
+	void						FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
+	inline AVCodecContext*		GetAVCtx()		 { return m_pAVCtx; };
+	bool						IsDXVASupported();
+	inline bool					IsReorderBFrame() { return m_bReorderBFrame; };
+	inline int					GetPCIVendor()  { return m_nPCIVendor; };
+	inline REFERENCE_TIME		GetAvrTimePerFrame() { return m_rtAvrTimePerFrame; };
+	void						UpdateAspectRatio();
+	void						ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 	// === DXVA1 functions
-	DDPIXELFORMAT*	GetPixelFormat() { return &m_PixelFormat; }
-	HRESULT			FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat);
-	HRESULT			CheckDXVA1Decoder(const GUID *pGuid);
-	void			SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat);
-	WORD			GetDXVA1RestrictedMode();
-	HRESULT			CreateDXVA1Decoder(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* pDecoderGuid, DWORD dwSurfaceCount);
+	DDPIXELFORMAT*				GetPixelFormat() { return &m_PixelFormat; }
+	HRESULT						FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat);
+	HRESULT						CheckDXVA1Decoder(const GUID *pGuid);
+	void						SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat);
+	WORD						GetDXVA1RestrictedMode();
+	HRESULT						CreateDXVA1Decoder(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* pDecoderGuid, DWORD dwSurfaceCount);
 
 
 	// === DXVA2 functions

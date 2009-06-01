@@ -969,16 +969,18 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
                 for(i=out_idx; h->delayed_pic[i]; i++)
                     h->delayed_pic[i] = h->delayed_pic[i+1];
             }
+			// ==> Start patch MPC DXVA
             if(!out_of_order && pics > s->avctx->has_b_frames){
-				// ==> Start patch MPC DXVA
                 //*data_size = sizeof(AVFrame);
 
                 h->outputed_poc = out->poc;
+				h->outputed_rtstart = out->reordered_opaque;
                 //*pict= *(AVFrame*)out;
-				// <== End patch MPC DXVA
             }else{
+				h->outputed_poc = -1;
                 av_log(avctx, AV_LOG_DEBUG, "no picture\n");
             }
+			// <== End patch MPC DXVA
         }
     }
 

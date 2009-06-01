@@ -121,6 +121,7 @@ void CDXVADecoder::Flush()
 		m_pPictureStore[i].bInUse		= false;
 		m_pPictureStore[i].bDisplayed	= false;
 		m_pPictureStore[i].pSample		= NULL;
+		m_pPictureStore[i].nCodecSpecific = -1;
 	}
 
 	m_nWaitingPics	= 0;
@@ -478,20 +479,23 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 // === Picture store functions
 bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, 
 							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, 
-							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType)
+							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
 {
 	if (bIsField && (m_nFieldSurface == -1))
 	{
 		m_nFieldSurface = nSurfaceIndex;
 		m_pFieldSample	= pSample;
-		m_pPictureStore[nSurfaceIndex].n1FieldType	= nFieldType;
-		m_pPictureStore[nSurfaceIndex].rtStart		= rtStart;
-		m_pPictureStore[nSurfaceIndex].rtStop		= rtStop;
+		m_pPictureStore[nSurfaceIndex].n1FieldType		= nFieldType;
+		m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
+		m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
+		m_pPictureStore[nSurfaceIndex].nCodecSpecific	= nCodecSpecific;
 		return false;
 	}
 	else
 	{
-	//	TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d\n", rtStart, rtStop, nSurfaceIndex);
+		//TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d  Codec=%d\n", rtStart, rtStop, nSurfaceIndex, nCodecSpecific);
+		ASSERT (m_pPictureStore[nSurfaceIndex].pSample == NULL);
+		ASSERT (!m_pPictureStore[nSurfaceIndex].bInUse);
 		ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && (m_pPictureStore[nSurfaceIndex].pSample == NULL));
 
 		m_pPictureStore[nSurfaceIndex].bRefPicture		= bRefPicture;
@@ -502,9 +506,10 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 
 		if (!bIsField)
 		{
-			m_pPictureStore[nSurfaceIndex].rtStart		= rtStart;
-			m_pPictureStore[nSurfaceIndex].rtStop		= rtStop;
-			m_pPictureStore[nSurfaceIndex].n1FieldType	= nFieldType;
+			m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
+			m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
+			m_pPictureStore[nSurfaceIndex].n1FieldType		= nFieldType;
+			m_pPictureStore[nSurfaceIndex].nCodecSpecific	= nCodecSpecific;
 		}
 	
 		m_nFieldSurface	= -1;
@@ -622,11 +627,13 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 
 #if defined(_DEBUG) && 0
 			static REFERENCE_TIME	rtLast = 0;
-			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d)  {Delta prev = %10I64d}   Ind = %d\n", 
+			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %d  Codec=%d  Ref=%d\n", 
 						m_pPictureStore[nPicIndex].rtStart, 
 						m_pPictureStore[nPicIndex].rtStop, 
 						m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 
-						m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex);
+						m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex,
+						m_pPictureStore[nPicIndex].nCodecSpecific,
+						m_pPictureStore[nPicIndex].bRefPicture);
 			rtLast = m_pPictureStore[nPicIndex].rtStart;
 #endif
 		}
