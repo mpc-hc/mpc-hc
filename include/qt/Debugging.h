@@ -117,7 +117,7 @@ extern "C" {
 /*
  * define DEBUGLEVEL
  */
-#if DEBUG
+#if _DEBUG
     #if PRODUCTION
      #define DEBUGLEVEL DEBUG_LEVEL_PRODUCTION
   #elif PERFORMANCE
@@ -364,7 +364,7 @@ extern "C" {
  */
 
 #ifndef DEBUGGER
-  #if DEBUG
+  #if _DEBUG
       #define DEBUGGER()                                                      \
           SafeDebugger()
  #else
@@ -373,7 +373,7 @@ extern "C" {
 #endif
 
 #ifndef DEBUGSTR
-    #if DEBUG
+    #if _DEBUG
       #define DEBUGSTR(str)                                                       \
           SafeDebugStr(str)
   #else
@@ -450,7 +450,7 @@ extern "C" {
  *  prevent conflicts with developer code.
  */
 
-#if DEBUG
+#if _DEBUG
     #define DPRINTF(x)   dprintf x
 #else
     #define DPRINTF(x)  { }
