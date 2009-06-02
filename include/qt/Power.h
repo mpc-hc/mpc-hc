@@ -3,10 +3,9 @@
  
      Contains:   Power Manager Interfaces.
  
-     Version:    Technology: Mac OS 9
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1990-2001 by Apple Computer, Inc.  All rights reserved
+     Copyright:  (c) 2007 (c) 1990-2001 by Apple Computer, Inc.  All rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -61,312 +60,256 @@ extern "C" {
 #endif
 
 enum {
-                                                                /* Bit positions for ModemByte */
-    modemOnBit                  = 0,
-    ringWakeUpBit               = 2,
-    modemInstalledBit           = 3,
-    ringDetectBit               = 4,
-    modemOnHookBit              = 5
+                                        /* Bit positions for ModemByte */
+  modemOnBit                    = 0,
+  ringWakeUpBit                 = 2,
+  modemInstalledBit             = 3,
+  ringDetectBit                 = 4,
+  modemOnHookBit                = 5
 };
 
 enum {
-                                                                /* masks for ModemByte */
-    modemOnMask                 = 0x01,
-    ringWakeUpMask              = 0x04,
-    modemInstalledMask          = 0x08,
-    ringDetectMask              = 0x10,
-    modemOnHookMask             = 0x20
+                                        /* masks for ModemByte */
+  modemOnMask                   = 0x01,
+  ringWakeUpMask                = 0x04,
+  modemInstalledMask            = 0x08,
+  ringDetectMask                = 0x10,
+  modemOnHookMask               = 0x20
 };
 
 enum {
-                                                                /* bit positions for BatteryByte */
-    chargerConnBit              = 0,
-    hiChargeBit                 = 1,
-    chargeOverFlowBit           = 2,
-    batteryDeadBit              = 3,
-    batteryLowBit               = 4,
-    connChangedBit              = 5
+                                        /* bit positions for BatteryByte */
+  chargerConnBit                = 0,
+  hiChargeBit                   = 1,
+  chargeOverFlowBit             = 2,
+  batteryDeadBit                = 3,
+  batteryLowBit                 = 4,
+  connChangedBit                = 5
 };
 
 enum {
-                                                                /* masks for BatteryByte */
-    chargerConnMask             = 0x01,
-    hiChargeMask                = 0x02,
-    chargeOverFlowMask          = 0x04,
-    batteryDeadMask             = 0x08,
-    batteryLowMask              = 0x10,
-    connChangedMask             = 0x20
+                                        /* masks for BatteryByte */
+  chargerConnMask               = 0x01,
+  hiChargeMask                  = 0x02,
+  chargeOverFlowMask            = 0x04,
+  batteryDeadMask               = 0x08,
+  batteryLowMask                = 0x10,
+  connChangedMask               = 0x20
 };
 
 enum {
-                                                                /* bit positions for SoundMixerByte */
-    MediaBaySndEnBit            = 0,
-    PCISndEnBit                 = 1,
-    ZVSndEnBit                  = 2,
-    PCCardSndEnBit              = 3
+                                        /* bit positions for SoundMixerByte */
+  MediaBaySndEnBit              = 0,
+  PCISndEnBit                   = 1,
+  ZVSndEnBit                    = 2,
+  PCCardSndEnBit                = 3
 };
 
 enum {
-                                                                /* masks for SoundMixerByte */
-    MediaBaySndEnMask           = 0x01,
-    PCISndEnMask                = 0x02,
-    ZVSndEnMask                 = 0x04,
-    PCCardSndEnMask             = 0x08
+                                        /* masks for SoundMixerByte */
+  MediaBaySndEnMask             = 0x01,
+  PCISndEnMask                  = 0x02,
+  ZVSndEnMask                   = 0x04,
+  PCCardSndEnMask               = 0x08
 };
 
 enum {
-                                                                /* commands to SleepQRec sleepQProc */
-    kSleepRequest               = 1,
-    kSleepDemand                = 2,
-    kSleepWakeUp                = 3,
-    kSleepRevoke                = 4,
-    kSleepUnlock                = 4,
-    kSleepDeny                  = 5,
-    kSleepNow                   = 6,
-    kDozeDemand                 = 7,
-    kDozeWakeUp                 = 8,
-    kDozeRequest                = 9,                            /* additional messages for Power Mgr 2.0*/
-    kEnterStandby               = 10,
-    kEnterRun                   = 11,
-    kSuspendRequest             = 12,
-    kSuspendDemand              = 13,
-    kSuspendRevoke              = 14,
-    kSuspendWakeUp              = 15,
-    kGetPowerLevel              = 16,
-    kSetPowerLevel              = 17,
-    kDeviceInitiatedWake        = 18,
-    kWakeToDoze                 = 19,
-    kDozeToFullWakeUp           = 20,
-    kGetPowerInfo               = 21,
-    kGetWakeOnNetInfo           = 22
+                                        /* commands to SleepQRec sleepQProc */
+  kSleepRequest                 = 1,
+  kSleepDemand                  = 2,
+  kSleepWakeUp                  = 3,
+  kSleepRevoke                  = 4,
+  kSleepUnlock                  = 4,
+  kSleepDeny                    = 5,    /* A non-zero value clients can use to deny requests*/
+  kSleepNow                     = 6,
+  kDozeDemand                   = 7,
+  kDozeWakeUp                   = 8,
+  kDozeRequest                  = 9,    /* additional messages for Power Mgr 2.0*/
+  kEnterStandby                 = 10,   /* Idle Queue Only*/
+  kEnterRun                     = 11,   /* Idle Queue Only*/
+  kSuspendRequest               = 12,
+  kSuspendDemand                = 13,
+  kSuspendRevoke                = 14,
+  kSuspendWakeUp                = 15,
+  kGetPowerLevel                = 16,
+  kSetPowerLevel                = 17,
+  kDeviceInitiatedWake          = 18,
+  kWakeToDoze                   = 19,
+  kDozeToFullWakeUp             = 20,
+  kGetPowerInfo                 = 21,
+  kGetWakeOnNetInfo             = 22,
+  kSuspendWakeToDoze            = 23,
+  kEnterIdle                    = 24,   /* Idle Queue Only*/
+  kStillIdle                    = 25,   /* Idle Queue Only*/
+  kExitIdle                     = 26    /* Idle Queue Only*/
 };
 
 enum {
-                                                                /* depreciated commands to SleepQRec sleepQProc */
-    sleepRequest                = kSleepRequest,
-    sleepDemand                 = kSleepDemand,
-    sleepWakeUp                 = kSleepWakeUp,
-    sleepRevoke                 = kSleepRevoke,
-    sleepUnlock                 = kSleepUnlock,
-    sleepDeny                   = kSleepDeny,
-    sleepNow                    = kSleepNow,
-    dozeDemand                  = kDozeDemand,
-    dozeWakeUp                  = kDozeWakeUp,
-    dozeRequest                 = kDozeRequest,
-    enterStandby                = kEnterStandby,
-    enterRun                    = kEnterRun,
-    suspendRequestMsg           = kSuspendRequest,
-    suspendDemandMsg            = kSuspendDemand,
-    suspendRevokeMsg            = kSuspendRevoke,
-    suspendWakeUpMsg            = kSuspendWakeUp,
-    getPowerLevel               = kGetPowerLevel,
-    setPowerLevel               = kSetPowerLevel
+                                        /* depreciated commands to SleepQRec sleepQProc */
+  sleepRequest                  = kSleepRequest,
+  sleepDemand                   = kSleepDemand,
+  sleepWakeUp                   = kSleepWakeUp,
+  sleepRevoke                   = kSleepRevoke,
+  sleepUnlock                   = kSleepUnlock,
+  sleepDeny                     = kSleepDeny,
+  sleepNow                      = kSleepNow,
+  dozeDemand                    = kDozeDemand,
+  dozeWakeUp                    = kDozeWakeUp,
+  dozeRequest                   = kDozeRequest,
+  enterStandby                  = kEnterStandby,
+  enterRun                      = kEnterRun,
+  suspendRequestMsg             = kSuspendRequest,
+  suspendDemandMsg              = kSuspendDemand,
+  suspendRevokeMsg              = kSuspendRevoke,
+  suspendWakeUpMsg              = kSuspendWakeUp,
+  getPowerLevel                 = kGetPowerLevel,
+  setPowerLevel                 = kSetPowerLevel
 };
 
 /* Power Handler func messages */
 typedef UInt32                          PowerLevel;
 /* Power levels corresponding to PCI Bus Power Management Interface Spec (PMIS) */
 enum {
-    kPMDevicePowerLevel_On      = 0,                            /* fully-powered 'On' state (D0 state)    */
-    kPMDevicePowerLevel_D1      = 1,                            /* not used by Apple system SW         */
-    kPMDevicePowerLevel_D2      = 2,                            /* not used by Apple system SW         */
-    kPMDevicePowerLevel_Off     = 3                             /* main PCI bus power 'Off', but PCI standby power available (D3cold state) */
+  kPMDevicePowerLevel_On        = 0,    /* fully-powered 'On' state (D0 state)    */
+  kPMDevicePowerLevel_D1        = 1,    /* not used by Apple system SW         */
+  kPMDevicePowerLevel_D2        = 2,    /* not used by Apple system SW         */
+  kPMDevicePowerLevel_Off       = 3     /* main PCI bus power 'Off', but PCI standby power available (D3cold state) */
 };
 
 /* PowerHandlerProc definition */
 typedef CALLBACK_API( OSStatus , PowerHandlerProcPtr )(UInt32 message, void *param, UInt32 refCon, RegEntryID *regEntryID);
 typedef STACK_UPP_TYPE(PowerHandlerProcPtr)                     PowerHandlerUPP;
-#if OPAQUE_UPP_TYPES
 #if CALL_NOT_IN_CARBON
-    EXTERN_API(PowerHandlerUPP)
-    NewPowerHandlerUPP             (PowerHandlerProcPtr     userRoutine);
+/*
+ *  NewPowerHandlerUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( PowerHandlerUPP )
+NewPowerHandlerUPP(PowerHandlerProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppPowerHandlerProcInfo = 0x00003FF0 };  /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(PowerHandlerUPP) NewPowerHandlerUPP(PowerHandlerProcPtr userRoutine) { return (PowerHandlerUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPowerHandlerProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewPowerHandlerUPP(userRoutine) (PowerHandlerUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPowerHandlerProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
 
-    EXTERN_API(void)
-    DisposePowerHandlerUPP         (PowerHandlerUPP         userUPP);
+/*
+ *  DisposePowerHandlerUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( void )
+DisposePowerHandlerUPP(PowerHandlerUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposePowerHandlerUPP(PowerHandlerUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposePowerHandlerUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
 
-    EXTERN_API(OSStatus)
-    InvokePowerHandlerUPP          (UInt32                  message,
-                                    void *                  param,
-                                    UInt32                  refCon,
-                                    RegEntryID *            regEntryID,
-                                    PowerHandlerUPP         userUPP);
+/*
+ *  InvokePowerHandlerUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( OSStatus )
+InvokePowerHandlerUPP(
+  UInt32           message,
+  void *           param,
+  UInt32           refCon,
+  RegEntryID *     regEntryID,
+  PowerHandlerUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSStatus) InvokePowerHandlerUPP(UInt32 message, void * param, UInt32 refCon, RegEntryID * regEntryID, PowerHandlerUPP userUPP) { return (OSStatus)CALL_FOUR_PARAMETER_UPP(userUPP, uppPowerHandlerProcInfo, message, param, refCon, regEntryID); }
+  #else
+    #define InvokePowerHandlerUPP(message, param, refCon, regEntryID, userUPP) (OSStatus)CALL_FOUR_PARAMETER_UPP((userUPP), uppPowerHandlerProcInfo, (message), (param), (refCon), (regEntryID))
+  #endif
+#endif
 
 #endif  /* CALL_NOT_IN_CARBON */
 
-#else
-    enum { uppPowerHandlerProcInfo = 0x00003FF0 };                  /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    #define NewPowerHandlerUPP(userRoutine)                         (PowerHandlerUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPowerHandlerProcInfo, GetCurrentArchitecture())
-    #define DisposePowerHandlerUPP(userUPP)                         DisposeRoutineDescriptor(userUPP)
-    #define InvokePowerHandlerUPP(message, param, refCon, regEntryID, userUPP)  (OSStatus)CALL_FOUR_PARAMETER_UPP((userUPP), uppPowerHandlerProcInfo, (message), (param), (refCon), (regEntryID))
-#endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewPowerHandlerProc(userRoutine)                        NewPowerHandlerUPP(userRoutine)
-#define CallPowerHandlerProc(userRoutine, message, param, refCon, regEntryID) InvokePowerHandlerUPP(message, param, refCon, regEntryID, userRoutine)
-/* DriverPowerCapabilities struct */
-/*
-   The DriverPowerCapabilities structure is used only by PPC native drivers (ndrv).
-   A native driver will export this structure like it currently does now when
-   exporting a DriverDescription structure (e.g. TheDriverDescription).
-   The well-defined export that will be exported must be called: TheDriverPowerCapabilities
-   IMPORTANT NOTE:  ALL native drivers that match to their respective PCI
-                    slot devices MUST signify to the Power Manager that
-                    they can recover their device functionality after
-                    waking from Sleep with PCI bus power removed.
-                    If ANY PCI slot driver has not been updated and fails
-                    to indicate to the Power Manager that it can recover
-                    after PCI bus power is restored, then PCI bus power
-                    will NOT be removed during Sleep.  Without the ability
-                    to remove PCI bus power, the ability to switch the main
-                    power supply on some CPUs to a very-low power state
-                    will be unavailable to the System.
-   The PowerCapsFlags are used to determine:
-    - if a PCI slot device can recover from PCI power removal during Sleep.
-      Drivers should set the 'kDevicePowerCanBeRemovedForSleep' bit if true.
-        ***  ALL PCI slot device drivers must set this bit in order    ***
-        ***  that PCI bus power is allowed to be removed during Sleep. ***
-    - if the driver overrides the device's PCI Config space for determining
-      how much Standby (e.g. 3.3V Aux pin) power is used during Sleep.
-      Drivers should set the 'kDriverSpecifiesStandbyPower' bit only if the
-      device's PCI Config values are known to be corrupted or do not specify
-      the Standby power consumed during D3cold.
-        If 'kDriverSpecifiesStandbyPower' bit is set:
-          - the 'kDeviceCanGeneratePMEDuringSleep' bit should be set if
-            the PCI slot device is able to use standby (3.3V Aux) power
-            to assert the PME signal during Sleep..
-          - the 'powerCapsStandbyPowerMilliWatts' field is used to specify
-            how much Standby power is needed.  This value is only used
-            if both the 'kDriverSpecifiesStandbyPower' and
-            'kDeviceCanGeneratePMEDuringSleep' bits are set.
-    - the method of support chosen by the driver for implementing the Power
-      handler mechanism:
-        If 'kDriverPowerMgtAware' is set, then the driver supports the Power
-        Handler mechanism which exists in the new Power Manager (v2.0 and later).
-        If 'kDriverPowerMgtUnderExpertControl' is set, then the Power Manager
-        will assume that the driver's Expert/Manager will communicate with the
-        driver's Power handler and the 'kDriverHasPowerHandlerExport bit'
-        will be ignored.
-        If 'kDriverHasPowerHandlerExport' is set, then the driver must export
-        a well-defined Power handler entry point called:
-            DoDriverPowerManagement
-        If this bit is not set and the 'kDriverPowerMgtAware' is set, then the
-        device must support Power handling within its DoDriverIO entry point.
-        Drivers that implement a DoDriverIO entry point will receive
-        IO Control and Status selectors that are defined in Devices.h.
-        Drivers that elect to export a "DoDriverPowerManagement" entry point should
-        set up the entry point as follows:
-            OSStatus
-            DoDriverPowerManagement( UInt32             message,
-                                     PowerLevel             *powerLevel,
-                                     UInt32                 refCon,
-                                     RegEntryIDPtr      regEntryID);
-        "DoDriverPowerManagement" entry points have the same parameters and expected
-        behavior as a Power handler that has been explicitly registered via the
-        Driver Services API "AddDevicePowerHandler"; the difference is that,
-        during system startup, the Power Manager will automatically register the
-        "DoDriverPowerManagement" entry point found within each driver.
-*/
-
-/* Used in DriverPowerCapabilities*/
-typedef UInt32                          PowerCapsVersion;
-enum {
-    kVersionOnePowerCapabilities = 1
-};
-
-typedef OptionBits                      PowerCapsFlags;
-enum {
-    kDevicePowerCanBeRemovedForSleep = 0x00000001,              /* only remove PCI power when every device has this bit set */
-    kDriverSpecifiesStandbyPower = 0x00000002,                  /* set when driver overrides PCI device Config values */
-    kDeviceCanGeneratePMEDuringSleep = 0x00000004,              /* 3.3V standby power can be used to assert the PME# */
-    kDriverPowerMgtAware        = 0x00000008,                   /* new Power handler mechanism is supported */
-    kDriverPowerMgtUnderExpertControl = 0x00000010,             /* Expert or Manager will call the driver's Power handler */
-    kDriverHasPowerHandlerExport = 0x00000020                   /* Type of Power handler entry point: only set this bit if the */
-};
-
-/*  driver exports a "DevicePowerManagement" entry point */
-/*
-   A device reliability issue arises when a device is subjected to shortened power
-   cycling intervals.  The new Power Manager allows a device to specify a minimum
-   value (in seconds) that a device must be powered on before being powered off.
-   The system has a default value of around 5 minutes (300 seconds).  If 5 minutes
-   is sufficient for a device, then use the following constant within DriverPowerCapabilities.
-*/
-enum {
-    kUseDefaultWakeTime         = 0                             /* used when the system's default is sufficient */
-};
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewPowerHandlerProc(userRoutine)                    NewPowerHandlerUPP(userRoutine)
+    #define CallPowerHandlerProc(userRoutine, message, param, refCon, regEntryID) InvokePowerHandlerUPP(message, param, refCon, regEntryID, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
 
 /*
-   This structure describes a device's power capabilities as well as general Power Management support.
-    Note: powerCapsMinimumWakeTimeSeconds can be specified as kUseDefaultWakeTime
-    if the system's default time interval - 5 minutes - is sufficient.
+   Use kIdleQueueDeviceType as the deviceType argument to AddDevicePowerHandler() to get the
+   handler into the idle queue instead of the device sleep queue.
 */
-
-struct DriverPowerCapabilities {
-    PowerCapsVersion                powerCapsVersion;           /* Version of this data structure */
-    PowerCapsFlags                  powerCapsFlags;             /* Power Management support characteristics */
-    UInt32                          powerCapsStandbyPowerMilliWatts; /* Power consumed during PCI bus sleep, 0 if none */
-    UInt32                          powerCapsMinimumWakeTimeSeconds; /* Safe time interval between removing and */
-                                                                /*   restoring power to this device */
-};
-typedef struct DriverPowerCapabilities  DriverPowerCapabilities;
-typedef DriverPowerCapabilities *       DriverPowerCapabilitiesPtr;
+#define kIdleQueueDeviceType    "idle-queue"
 /* PCI power management support*/
+
 enum {
-    kUseDefaultMinimumWakeTime  = 0,                            /* Defaults to 5 minutes*/
-    kPowerSummaryVersion        = 1,                            /* Version of PowerSummary structure.*/
-    kDevicePowerInfoVersion     = 1                             /* Version of DevicePowerInfo structure.*/
+  kUseDefaultMinimumWakeTime    = 0,    /* Defaults to 5 minutes*/
+  kPowerSummaryVersion          = 1,    /* Version of PowerSummary structure.*/
+  kDevicePowerInfoVersion       = 1     /* Version of DevicePowerInfo structure.*/
 };
 
 enum {
-                                                                /* PowerSummary flags*/
-    kPCIPowerOffAllowed         = (1L << 0)                     /* PCI power off is allowed.*/
+                                        /* PowerSummary flags*/
+  kPCIPowerOffAllowed           = (1L << 0) /* PCI power off is allowed.*/
 };
 
 enum {
-                                                                /* DevicePowerInfo flags*/
-    kDevicePCIPowerOffAllowed   = (1L << 0),                    /* PCI power off is allowed for device.*/
-    kDeviceSupportsPMIS         = (1L << 1),                    /* Device supports Power Mgt Interface Spec.*/
-    kDeviceCanAssertPMEDuringSleep = (1L << 2),                 /* Device can assert PME# during sleep.*/
-    kDeviceUsesCommonLogicPower = (1L << 3),                    /* Device uses common-logic power*/
-    kDeviceDriverPresent        = (1L << 4),                    /* Driver present for device.*/
-    kDeviceDriverSupportsPowerMgt = (1L << 5)                   /* Driver installed a power handler.*/
+                                        /* DevicePowerInfo flags*/
+  kDevicePCIPowerOffAllowed     = (1L << 0), /* PCI power off is allowed for device.*/
+  kDeviceSupportsPMIS           = (1L << 1), /* Device supports Power Mgt Interface Spec.*/
+  kDeviceCanAssertPMEDuringSleep = (1L << 2), /* Device can assert PME# during sleep.*/
+  kDeviceUsesCommonLogicPower   = (1L << 3), /* Device uses common-logic power*/
+  kDeviceDriverPresent          = (1L << 4), /* Driver present for device.*/
+  kDeviceDriverSupportsPowerMgt = (1L << 5) /* Driver installed a power handler.*/
 };
-
 
 struct DevicePowerInfo {
-    UInt32                          version;                    /* Version of this structure.*/
-    RegEntryID                      regID;                      /* RegEntryID for device.*/
-    OptionBits                      flags;                      /* Flags*/
-    UInt32                          minimumWakeTime;            /* Minimum seconds before sleeping again.*/
-    UInt32                          sleepPowerNeeded;           /* Milliwatts needed in the sleep state.*/
+  UInt32              version;                /* Version of this structure.*/
+  RegEntryID          regID;                  /* RegEntryID for device.*/
+  OptionBits          flags;                  /* Flags*/
+  UInt32              minimumWakeTime;        /* Minimum seconds before sleeping again.*/
+  UInt32              sleepPowerNeeded;       /* Milliwatts needed in the sleep state.*/
 };
 typedef struct DevicePowerInfo          DevicePowerInfo;
-
 struct PowerSummary {
-    UInt32                          version;                    /* Version of this structure.*/
-    OptionBits                      flags;                      /* Flags*/
-    UInt32                          sleepPowerAvailable;        /* Milliwatts available during sleep.*/
-    UInt32                          sleepPowerNeeded;           /* Milliwatts needed during sleep.*/
-    UInt32                          minimumWakeTime;            /* Minimum seconds before sleeping again.*/
-    ItemCount                       deviceCount;                /* Number of device power info records.*/
-    DevicePowerInfo                 devices[1];                 /* Array of device power info records.*/
+  UInt32              version;                /* Version of this structure.*/
+  OptionBits          flags;                  /* Flags*/
+  UInt32              sleepPowerAvailable;    /* Milliwatts available during sleep.*/
+  UInt32              sleepPowerNeeded;       /* Milliwatts needed during sleep.*/
+  UInt32              minimumWakeTime;        /* Minimum seconds before sleeping again.*/
+  ItemCount           deviceCount;            /* Number of device power info records.*/
+  DevicePowerInfo     devices[1];             /* Array of device power info records.*/
 };
 typedef struct PowerSummary             PowerSummary;
 enum {
-                                                                /* SleepQRec.sleepQFlags */
-    noCalls                     = 1,
-    noRequest                   = 2,
-    slpQType                    = 16,
-    sleepQType                  = 16
+                                        /* SleepQRec.sleepQFlags */
+  noCalls                       = 1,
+  noRequest                     = 2,
+  slpQType                      = 16,
+  sleepQType                    = 16
 };
 
 /* Power Mgt Apple Event types and errors */
 enum {
-                                                                /* power mgt class*/
-    kAEMacPowerMgtEvt           = FOUR_CHAR_CODE('pmgt'),       /* event ids*/
-    kAEMacToWake                = FOUR_CHAR_CODE('wake'),
-    kAEMacLowPowerSaveData      = FOUR_CHAR_CODE('pmsd'),
-    kAEMacEmergencySleep        = FOUR_CHAR_CODE('emsl'),
-    kAEMacEmergencyShutdown     = FOUR_CHAR_CODE('emsd')
+                                        /* power mgt class*/
+  kAEMacPowerMgtEvt             = FOUR_CHAR_CODE('pmgt'), /* event ids*/
+  kAEMacToWake                  = FOUR_CHAR_CODE('wake'),
+  kAEMacLowPowerSaveData        = FOUR_CHAR_CODE('pmsd'),
+  kAEMacEmergencySleep          = FOUR_CHAR_CODE('emsl'),
+  kAEMacEmergencyShutdown       = FOUR_CHAR_CODE('emsd')
 };
 
 
@@ -376,137 +319,144 @@ enum {
    woke the machine.
 */
 enum {
-    kDeviceDidNotWakeMachine    = 0,                            /* device did NOT wake machine*/
-    kDeviceRequestsFullWake     = 1,                            /* device did wake machine and requests full wakeup*/
-    kDeviceRequestsWakeToDoze   = 2                             /* device did wake machine and requests partial wakeup*/
+  kDeviceDidNotWakeMachine      = 0,    /* device did NOT wake machine*/
+  kDeviceRequestsFullWake       = 1,    /* device did wake machine and requests full wakeup*/
+  kDeviceRequestsWakeToDoze     = 2     /* device did wake machine and requests partial wakeup*/
 };
 
 /* bits in bitfield returned by PMFeatures */
 enum {
-    hasWakeupTimer              = 0,                            /* 1=wakeup timer is supported                    */
-    hasSharedModemPort          = 1,                            /* 1=modem port shared by SCC and internal modem       */
-    hasProcessorCycling         = 2,                            /* 1=processor cycling is supported                */
-    mustProcessorCycle          = 3,                            /* 1=processor cycling should not be turned off          */
-    hasReducedSpeed             = 4,                            /* 1=processor can be started up at reduced speed        */
-    dynamicSpeedChange          = 5,                            /* 1=processor speed can be switched dynamically       */
-    hasSCSIDiskMode             = 6,                            /* 1=SCSI Disk Mode is supported                 */
-    canGetBatteryTime           = 7,                            /* 1=battery time can be calculated                */
-    canWakeupOnRing             = 8,                            /* 1=can wakeup when the modem detects a ring          */
-    hasDimmingSupport           = 9,                            /* 1=has dimming support built in (DPMS standby by default)   */
-    hasStartupTimer             = 10,                           /* 1=startup timer is supported                    */
-    hasChargeNotification       = 11,                           /* 1=client can determine of charge connect status change notifications available */
-    hasDimSuspendSupport        = 12                            /* 1=supports dimming LCD and CRT to DPMS suspend state     */
-};
-
-/* more bits in bitfield returned by PMFeatures to be merged with above when time */
-enum {
-    hasWakeOnNetActivity        = 13,                           /* 1=hardware supports wake on network activity          */
-    hasWakeOnLid                = 14,                           /* 1=hardware can wake when opened                   */
-    canPowerOffPCIBus           = 15,                           /* 1=hardware can power off PCI bus during sleep if cards allow */
-    hasDeepSleep                = 16,                           /* 1=hardware supports deep sleep (hibernation) mode   */
-    hasSleep                    = 17                            /* 1=hardware supports normal (PowerBook-like) sleep   */
+  hasWakeupTimer                = 0,    /* 1=wakeup timer is supported                    */
+  hasSharedModemPort            = 1,    /* 1=modem port shared by SCC and internal modem       */
+  hasProcessorCycling           = 2,    /* 1=processor cycling is supported                */
+  mustProcessorCycle            = 3,    /* 1=processor cycling should not be turned off          */
+  hasReducedSpeed               = 4,    /* 1=processor can be started up at reduced speed        */
+  dynamicSpeedChange            = 5,    /* 1=processor speed can be switched dynamically       */
+  hasSCSIDiskMode               = 6,    /* 1=SCSI Disk Mode is supported                 */
+  canGetBatteryTime             = 7,    /* 1=battery time can be calculated                */
+  canWakeupOnRing               = 8,    /* 1=can wakeup when the modem detects a ring          */
+  hasDimmingSupport             = 9,    /* 1=has dimming support built in (DPMS standby by default)   */
+  hasStartupTimer               = 10,   /* 1=startup timer is supported                    */
+  hasChargeNotification         = 11,   /* 1=client can determine of charge connect status change notifications available */
+  hasDimSuspendSupport          = 12,   /* 1=supports dimming LCD and CRT to DPMS suspend state     */
+  hasWakeOnNetActivity          = 13,   /* 1=hardware supports wake on network activity          */
+  hasWakeOnLid                  = 14,   /* 1=hardware can wake when opened                   */
+  canPowerOffPCIBus             = 15,   /* 1=hardware can power off PCI bus during sleep if cards allow */
+  hasDeepSleep                  = 16,   /* 1=hardware supports deep sleep (hibernation) mode   */
+  hasSleep                      = 17,   /* 1=hardware supports normal (PowerBook-like) sleep   */
+  supportsServerModeAPIs        = 18,   /* 1=hardware supports server mode API routines          */
+  supportsUPSIntegration        = 19,   /* 1=hardware support UPS integration and reporting      */
+  hasAggressiveIdling           = 20,   /* 1=Power Manager only resets OverallAct on UsrActvity     */
+  supportsIdleQueue             = 21    /* 1=Power Manager supports the idle queue              */
 };
 
 /* bits in bitfield returned by GetIntModemInfo and set by SetIntModemState */
 enum {
-    hasInternalModem            = 0,                            /* 1=internal modem installed               */
-    intModemRingDetect          = 1,                            /* 1=internal modem has detected a ring          */
-    intModemOffHook             = 2,                            /* 1=internal modem is off hook               */
-    intModemRingWakeEnb         = 3,                            /* 1=wakeup on ring is enabled                 */
-    extModemSelected            = 4,                            /* 1=external modem selected             */
-    modemSetBit                 = 15                            /* 1=set bit, 0=clear bit (SetIntModemState)   */
+  hasInternalModem              = 0,    /* 1=internal modem installed               */
+  intModemRingDetect            = 1,    /* 1=internal modem has detected a ring          */
+  intModemOffHook               = 2,    /* 1=internal modem is off hook               */
+  intModemRingWakeEnb           = 3,    /* 1=wakeup on ring is enabled                 */
+  extModemSelected              = 4,    /* 1=external modem selected             */
+  modemSetBit                   = 15    /* 1=set bit, 0=clear bit (SetIntModemState)   */
 };
 
 /* bits in BatteryInfo.flags                                    */
 /* ("chargerConnected" doesn't mean the charger is plugged in)  */
 enum {
-    batteryInstalled            = 7,                            /* 1=battery is currently connected             */
-    batteryCharging             = 6,                            /* 1=battery is being charged               */
-    chargerConnected            = 5                             /* 1=charger is connected to the PowerBook         */
+  batteryInstalled              = 7,    /* 1=battery is currently connected             */
+  batteryCharging               = 6,    /* 1=battery is being charged               */
+  chargerConnected              = 5,    /* 1=charger is connected to the PowerBook         */
+  upsConnected                  = 4,    /* 1=there is a UPS connected               */
+  upsIsPowerSource              = 3     /* 1=UPS is source of power                */
 };
 
 enum {
-    HDPwrQType                  = 0x4844,                       /* 'HD' hard disk spindown queue element type     */
-    PMgrStateQType              = 0x504D                        /* 'PM' Power Manager state queue element type       */
+  HDPwrQType                    = 0x4844, /* 'HD' hard disk spindown queue element type     */
+  PMgrStateQType                = 0x504D /* 'PM' Power Manager state queue element type       */
 };
 
 /* client notification bits in PMgrQueueElement.pmNotifyBits */
 enum {
-    pmSleepTimeoutChanged       = 0,
-    pmSleepEnableChanged        = 1,
-    pmHardDiskTimeoutChanged    = 2,
-    pmHardDiskSpindownChanged   = 3,
-    pmDimmingTimeoutChanged     = 4,
-    pmDimmingEnableChanged      = 5,
-    pmDiskModeAddressChanged    = 6,
-    pmProcessorCyclingChanged   = 7,
-    pmProcessorSpeedChanged     = 8,
-    pmWakeupTimerChanged        = 9,
-    pmStartupTimerChanged       = 10,
-    pmHardDiskPowerRemovedbyUser = 11,
-    pmChargeStatusChanged       = 12,
-    pmPowerLevelChanged         = 13,
-    pmWakeOnNetActivityChanged  = 14
+  pmSleepTimeoutChanged         = 0,
+  pmSleepEnableChanged          = 1,
+  pmHardDiskTimeoutChanged      = 2,
+  pmHardDiskSpindownChanged     = 3,
+  pmDimmingTimeoutChanged       = 4,
+  pmDimmingEnableChanged        = 5,
+  pmDiskModeAddressChanged      = 6,
+  pmProcessorCyclingChanged     = 7,
+  pmProcessorSpeedChanged       = 8,
+  pmWakeupTimerChanged          = 9,
+  pmStartupTimerChanged         = 10,
+  pmHardDiskPowerRemovedbyUser  = 11,
+  pmChargeStatusChanged         = 12,
+  pmPowerLevelChanged           = 13,
+  pmWakeOnNetActivityChanged    = 14
 };
 
 enum {
-    pmSleepTimeoutChangedMask   = (1 << pmSleepTimeoutChanged),
-    pmSleepEnableChangedMask    = (1 << pmSleepEnableChanged),
-    pmHardDiskTimeoutChangedMask = (1 << pmHardDiskTimeoutChanged),
-    pmHardDiskSpindownChangedMask = (1 << pmHardDiskSpindownChanged),
-    pmDimmingTimeoutChangedMask = (1 << pmDimmingTimeoutChanged),
-    pmDimmingEnableChangedMask  = (1 << pmDimmingEnableChanged),
-    pmDiskModeAddressChangedMask = (1 << pmDiskModeAddressChanged),
-    pmProcessorCyclingChangedMask = (1 << pmProcessorCyclingChanged),
-    pmProcessorSpeedChangedMask = (1 << pmProcessorSpeedChanged),
-    pmWakeupTimerChangedMask    = (1 << pmWakeupTimerChanged),
-    pmStartupTimerChangedMask   = (1 << pmStartupTimerChanged),
-    pmHardDiskPowerRemovedbyUserMask = (1 << pmHardDiskPowerRemovedbyUser),
-    pmChargeStatusChangedMask   = (1 << pmChargeStatusChanged),
-    pmPowerLevelChangedMask     = (1 << pmPowerLevelChanged),
-    pmWakeOnNetActivityChangedMask = (1 << pmWakeOnNetActivityChanged)
+  pmSleepTimeoutChangedMask     = (1 << pmSleepTimeoutChanged),
+  pmSleepEnableChangedMask      = (1 << pmSleepEnableChanged),
+  pmHardDiskTimeoutChangedMask  = (1 << pmHardDiskTimeoutChanged),
+  pmHardDiskSpindownChangedMask = (1 << pmHardDiskSpindownChanged),
+  pmDimmingTimeoutChangedMask   = (1 << pmDimmingTimeoutChanged),
+  pmDimmingEnableChangedMask    = (1 << pmDimmingEnableChanged),
+  pmDiskModeAddressChangedMask  = (1 << pmDiskModeAddressChanged),
+  pmProcessorCyclingChangedMask = (1 << pmProcessorCyclingChanged),
+  pmProcessorSpeedChangedMask   = (1 << pmProcessorSpeedChanged),
+  pmWakeupTimerChangedMask      = (1 << pmWakeupTimerChanged),
+  pmStartupTimerChangedMask     = (1 << pmStartupTimerChanged),
+  pmHardDiskPowerRemovedbyUserMask = (1 << pmHardDiskPowerRemovedbyUser),
+  pmChargeStatusChangedMask     = (1 << pmChargeStatusChanged),
+  pmPowerLevelChangedMask       = (1 << pmPowerLevelChanged),
+  pmWakeOnNetActivityChangedMask = (1 << pmWakeOnNetActivityChanged)
 };
 
 /* System Activity Selectors */
+/* Notes:  The IdleActivity selector is not available unless the hasAggressiveIdling PMFeatures bit is set. */
+/*         Use IdleActivity where you used to use OverallAct if necessary.  OverallAct will only            */
+/*         delay power cycling if it's enabled, and will delay sleep by a small amount when                 */
+/*         hasAggressiveIdling is set.  Don't use IdleActivity unless hasAggressiveIdling is set; when      */
+/*         hasAggressiveIdling is not set, the use of IdleActivity is undefined, and well do different      */
+/*         things depending on which Power Manager is currently running.                                    */
 enum {
-    OverallAct                  = 0,                            /* general type of activity                */
-    UsrActivity                 = 1,                            /* user specific type of activity           */
-    NetActivity                 = 2,                            /* network specific activity             */
-    HDActivity                  = 3                             /* Hard Drive activity                    */
+  OverallAct                    = 0,    /* Delays idle sleep by small amount                 */
+  UsrActivity                   = 1,    /* Delays idle sleep and dimming by timeout time          */
+  NetActivity                   = 2,    /* Delays idle sleep and power cycling by small amount         */
+  HDActivity                    = 3,    /* Delays hard drive spindown and idle sleep by small amount  */
+  IdleActivity                  = 4     /* Delays idle sleep by timeout time                 */
 };
 
 /* Storage Media sleep mode defines */
 enum {
-    kMediaModeOn                = 0,                            /* Media active (Drive spinning and at full power)    */
-    kMediaModeStandBy           = 1,                            /* Media standby (not implemented)    */
-    kMediaModeSuspend           = 2,                            /* Media Idle (not implemented)   */
-    kMediaModeOff               = 3                             /* Media Sleep (Drive not spinning and at min power, max recovery time)   */
+  kMediaModeOn                  = 0,    /* Media active (Drive spinning and at full power)    */
+  kMediaModeStandBy             = 1,    /* Media standby (not implemented)    */
+  kMediaModeSuspend             = 2,    /* Media Idle (not implemented)   */
+  kMediaModeOff                 = 3     /* Media Sleep (Drive not spinning and at min power, max recovery time)   */
 };
 
 enum {
-    kMediaPowerCSCode           = 70
+  kMediaPowerCSCode             = 70
 };
 
 
 /* definitions for HDQueueElement.hdFlags   */
 enum {
-    kHDQueuePostBit             = 0,                            /* 1 = call this routine on the second pass     */
-    kHDQueuePostMask            = (1 << kHDQueuePostBit)
+  kHDQueuePostBit               = 0,    /* 1 = call this routine on the second pass     */
+  kHDQueuePostMask              = (1 << kHDQueuePostBit)
 };
 
-
 struct ActivityInfo {
-    short                           ActivityType;               /* Type of activity to be fetched.  Same as UpdateSystemActivity Selectors */
-    unsigned long                   ActivityTime;               /* Time of last activity (in ticks) of specified type. */
+  short               ActivityType;           /* Type of activity to be fetched.  Same as UpdateSystemActivity Selectors */
+  unsigned long       ActivityTime;           /* Time of last activity (in ticks) of specified type. */
 };
 typedef struct ActivityInfo             ActivityInfo;
 /* information returned by GetScaledBatteryInfo */
-
 struct BatteryInfo {
-    UInt8                           flags;                      /* misc flags (see below)                  */
-    UInt8                           warningLevel;               /* scaled warning level (0-255)               */
-    UInt8                           reserved;                   /* reserved for internal use             */
-    UInt8                           batteryLevel;               /* scaled battery level (0-255)               */
+  UInt8               flags;                  /* misc flags (see below)                  */
+  UInt8               warningLevel;           /* scaled warning level (0-255)               */
+  UInt8               reserved;               /* reserved for internal use             */
+  UInt8               batteryLevel;           /* scaled battery level (0-255)               */
 };
 typedef struct BatteryInfo              BatteryInfo;
 
@@ -518,614 +468,1472 @@ typedef struct SleepQRec                SleepQRec;
 typedef SleepQRec *                     SleepQRecPtr;
 typedef struct HDQueueElement           HDQueueElement;
 typedef struct PMgrQueueElement         PMgrQueueElement;
-typedef CALLBACK_API( long , SleepQProcPtr )(long message, SleepQRecPtr qRecPtr);
-/*
-    WARNING: SleepQProcPtr uses register based parameters under classic 68k
-             and cannot be written in a high-level language without 
-             the help of mixed mode or assembly glue.
-*/
-typedef CALLBACK_API( void , HDSpindownProcPtr )(HDQueueElement *theElement);
+typedef CALLBACK_API_REGISTER68K( long , SleepQProcPtr, (long message, SleepQRecPtr qRecPtr) );
+typedef CALLBACK_API( void , HDSpindownProcPtr )(HDQueueElement * theElement);
 typedef CALLBACK_API( void , PMgrStateChangeProcPtr )(PMgrQueueElement *theElement, long stateBits);
 typedef REGISTER_UPP_TYPE(SleepQProcPtr)                        SleepQUPP;
 typedef STACK_UPP_TYPE(HDSpindownProcPtr)                       HDSpindownUPP;
 typedef STACK_UPP_TYPE(PMgrStateChangeProcPtr)                  PMgrStateChangeUPP;
-
 struct SleepQRec {
-    SleepQRecPtr                    sleepQLink;                 /* pointer to next queue element          */
-    short                           sleepQType;                 /* queue element type (must be SleepQType)       */
-    SleepQUPP                       sleepQProc;                 /* pointer to sleep universal proc ptr         */
-    short                           sleepQFlags;                /* flags                       */
+  SleepQRecPtr        sleepQLink;             /* pointer to next queue element          */
+  short               sleepQType;             /* queue element type (must be SleepQType)       */
+  SleepQUPP           sleepQProc;             /* pointer to sleep universal proc ptr         */
+  short               sleepQFlags;            /* flags                       */
 };
-
 
 struct HDQueueElement {
-    struct HDQueueElement *         hdQLink;                    /* pointer to next queue element          */
-    short                           hdQType;                    /* queue element type (must be HDPwrQType)       */
-    short                           hdFlags;                    /* miscellaneous flags                   */
-    HDSpindownUPP                   hdProc;                     /* pointer to routine to call           */
-    long                            hdUser;                     /* user-defined (variable storage, etc.)   */
+  struct HDQueueElement * hdQLink;            /* pointer to next queue element          */
+  short               hdQType;                /* queue element type (must be HDPwrQType)       */
+  short               hdFlags;                /* miscellaneous flags                   */
+  HDSpindownUPP       hdProc;                 /* pointer to routine to call           */
+  long                hdUser;                 /* user-defined (variable storage, etc.)   */
 };
-
 
 struct PMgrQueueElement {
-    struct PMgrQueueElement *       pmQLink;                    /* pointer to next queue element          */
-    short                           pmQType;                    /* queue element type (must be PMgrStateQType)    */
-    short                           pmFlags;                    /* miscellaneous flags                   */
-    long                            pmNotifyBits;               /* bitmap of which changes to be notified for */
-    PMgrStateChangeUPP              pmProc;                     /* pointer to routine to call           */
-    long                            pmUser;                     /* user-defined (variable storage, etc.)   */
+  struct PMgrQueueElement * pmQLink;          /* pointer to next queue element          */
+  short               pmQType;                /* queue element type (must be PMgrStateQType)    */
+  short               pmFlags;                /* miscellaneous flags                   */
+  long                pmNotifyBits;           /* bitmap of which changes to be notified for */
+  PMgrStateChangeUPP  pmProc;                 /* pointer to routine to call           */
+  long                pmUser;                 /* user-defined (variable storage, etc.)   */
 };
-
 
 
 struct BatteryTimeRec {
-    unsigned long                   expectedBatteryTime;        /* estimated battery time remaining (seconds) */
-    unsigned long                   minimumBatteryTime;         /* minimum battery time remaining (seconds)     */
-    unsigned long                   maximumBatteryTime;         /* maximum battery time remaining (seconds)     */
-    unsigned long                   timeUntilCharged;           /* time until battery is fully charged (seconds)*/
+  unsigned long       expectedBatteryTime;    /* estimated battery time remaining (seconds) */
+  unsigned long       minimumBatteryTime;     /* minimum battery time remaining (seconds)     */
+  unsigned long       maximumBatteryTime;     /* maximum battery time remaining (seconds)     */
+  unsigned long       timeUntilCharged;       /* time until battery is fully charged (seconds)*/
 };
 typedef struct BatteryTimeRec           BatteryTimeRec;
 
-
 struct WakeupTime {
-    unsigned long                   wakeTime;                   /* wakeup time (same format as current time)   */
-    Boolean                         wakeEnabled;                /* 1=enable wakeup timer, 0=disable wakeup timer  */
-    SInt8                           filler;
+  unsigned long       wakeTime;               /* wakeup time (same format as current time)   */
+  Boolean             wakeEnabled;            /* 1=enable wakeup timer, 0=disable wakeup timer  */
+  SInt8               filler;
 };
 typedef struct WakeupTime               WakeupTime;
 
-
 struct StartupTime {
-    unsigned long                   startTime;                  /* startup time (same format as current time)     */
-    Boolean                         startEnabled;               /* 1=enable startup timer, 0=disable startup timer    */
-    SInt8                           filler;
+  unsigned long       startTime;              /* startup time (same format as current time)     */
+  Boolean             startEnabled;           /* 1=enable startup timer, 0=disable startup timer    */
+  SInt8               filler;
 };
 typedef struct StartupTime              StartupTime;
 /* PowerSource version*/
 enum {
-    kVersionOnePowerSource      = 1
+  kVersionOnePowerSource        = 1,
+  kVersionTwoPowerSource        = 2,
+  kCurrentPowerSourceVersion    = kVersionTwoPowerSource
 };
 
 /* PowerSourceAttrs bits*/
 
 enum {
-    bSourceIsBattery            = 0,                            /* power source is battery*/
-    bSourceIsAC                 = 1,                            /* power source is AC*/
-    bSourceCanBeCharged         = 2,                            /* power source can be charged*/
-    bSourceIsUPS                = 3,                            /* power source is UPS. NOTE: software should set bSourceIsBattery and bSourceIsAC also, as appropriate*/
-    kSourceIsBatteryMask        = (1 << bSourceIsBattery),
-    kSourceIsACMask             = (1 << bSourceIsAC),
-    kSourceCanBeChargedMask     = (1 << bSourceCanBeCharged),
-    kSourceIsUPSMask            = (1 << bSourceIsUPS)
+  bSourceIsBattery              = 0,    /* power source is battery*/
+  bSourceIsAC                   = 1,    /* power source is AC*/
+  bSourceCanBeCharged           = 2,    /* power source can be charged*/
+  bSourceIsUPS                  = 3,    /* power source is UPS. NOTE: software should set bSourceIsBattery and bSourceIsAC also, as appropriate*/
+  bSourceProvidesWarnLevels     = 4,    /* power source provides low power and dead battery warning levels*/
+  kSourceIsBatteryMask          = (1 << bSourceIsBattery),
+  kSourceIsACMask               = (1 << bSourceIsAC),
+  kSourceCanBeChargedMask       = (1 << bSourceCanBeCharged),
+  kSourceIsUPSMask              = (1 << bSourceIsUPS),
+  kSourceProvidesWarnLevelsMask = (1 << bSourceProvidesWarnLevels)
 };
 
 /* PowerSourceFlags bits*/
 
 enum {
-    bSourceIsAvailable          = 0,                            /* power source is installed*/
-    bSourceIsCharging           = 1,                            /* power source being charged*/
-    bChargerIsAttached          = 2,                            /* a charger is connected*/
-    kSourceIsAvailableMask      = (1 << bSourceIsAvailable),
-    kSourceIsChargingMask       = (1 << bSourceIsCharging),
-    kChargerIsAttachedMask      = (1 << bChargerIsAttached)
+  bSourceIsAvailable            = 0,    /* power source is installed*/
+  bSourceIsCharging             = 1,    /* power source being charged*/
+  bChargerIsAttached            = 2,    /* a charger is connected*/
+  kSourceIsAvailableMask        = (1 << bSourceIsAvailable),
+  kSourceIsChargingMask         = (1 << bSourceIsCharging),
+  kChargerIsAttachedMask        = (1 << bChargerIsAttached)
 };
 
 /* Power Capacity Types*/
 
 enum {
-    kCapacityIsActual           = 0,                            /* current capacity is expessed as actual capacity in same units as max*/
-    kCapacityIsPercentOfMax     = 1                             /* current capacity is expressed as a percentage of maximumCapacity*/
+  kCapacityIsActual             = 0,    /* current capacity is expessed as actual capacity in same units as max*/
+  kCapacityIsPercentOfMax       = 1     /* current capacity is expressed as a percentage of maximumCapacity*/
 };
 
 /* Net Activity Wake Options*/
 enum {
-    kConfigSupportsWakeOnNetBit = 0,
-    kWakeOnNetAdminAccessesBit  = 1,
-    kWakeOnAllNetAccessesBit    = 2,
-    kUnmountServersBeforeSleepingBit = 3,
-    kConfigSupportsWakeOnNetMask = (1 << kConfigSupportsWakeOnNetBit),
-    kWakeOnNetAdminAccessesMask = (1 << kWakeOnNetAdminAccessesBit),
-    kWakeOnAllNetAccessesMask   = (1 << kWakeOnAllNetAccessesBit),
-    kUnmountServersBeforeSleepingMask = (1 << kUnmountServersBeforeSleepingBit)
+  kConfigSupportsWakeOnNetBit   = 0,
+  kWakeOnNetAdminAccessesBit    = 1,
+  kWakeOnAllNetAccessesBit      = 2,
+  kUnmountServersBeforeSleepingBit = 3,
+  kConfigSupportsWakeOnNetMask  = (1 << kConfigSupportsWakeOnNetBit),
+  kWakeOnNetAdminAccessesMask   = (1 << kWakeOnNetAdminAccessesBit),
+  kWakeOnAllNetAccessesMask     = (1 << kWakeOnAllNetAccessesBit),
+  kUnmountServersBeforeSleepingMask = (1 << kUnmountServersBeforeSleepingBit)
 };
 
 /* Power Source capacity usage types*/
 enum {
-    kCurrentCapacityIsActualValue = 0,                          /* currentCapacity is a real value in same units as maxCapacity*/
-    kCurrentCapacityIsPercentOfMax = 1                          /* currentCapacity is expressed as a percentage of maxCapacity.*/
+  kCurrentCapacityIsActualValue = 0,    /* currentCapacity is a real value in same units as maxCapacity*/
+  kCurrentCapacityIsPercentOfMax = 1    /* currentCapacity is expressed as a percentage of maxCapacity.*/
 };
 
 
 typedef SInt16                          PowerSourceID;
-
 struct PowerSourceParamBlock {
-    PowerSourceID                   sourceID;                   /* unique id assigned by Power Mgr*/
-    UInt16                          sourceCapacityUsage;        /* how currentCapacity is used*/
-    UInt32                          sourceVersion;              /* version of this record*/
-    OptionBits                      sourceAttr;                 /* attribute flags (see below)*/
-    OptionBits                      sourceState;                /* state flags (see below)*/
-    UInt32                          currentCapacity;            /* current capacity, in*/
-                                                                /*   milliwatts*/
-    UInt32                          maxCapacity;                /* full capacity, in milliwatts*/
-    UInt32                          timeRemaining;              /* time left to deplete, */
-                                                                /*   in milliwatt-hours*/
-    UInt32                          timeToFullCharge;           /* time to charge, */
-                                                                /*   in milliwatt-hours*/
-    UInt32                          voltage;                    /* voltage in millivolts*/
-    SInt32                          current;                    /* current in milliamperes */
-                                                                /*  (negative if consuming, */
-                                                                /*   positive if charging)*/
+  PowerSourceID       sourceID;               /* unique id assigned by Power Mgr*/
+  UInt16              sourceCapacityUsage;    /* how currentCapacity is used*/
+  UInt32              sourceVersion;          /* version of this record*/
+  OptionBits          sourceAttr;             /* attribute flags (see below)*/
+  OptionBits          sourceState;            /* state flags (see below)*/
+  UInt32              currentCapacity;        /* current capacity, in*/
+                                              /*   milliwatts or %*/
+  UInt32              maxCapacity;            /* full capacity, in milliwatts*/
+  UInt32              timeRemaining;          /* time left to deplete, */
+                                              /*   in milliwatt-hours*/
+  UInt32              timeToFullCharge;       /* time to charge, */
+                                              /*   in milliwatt-hours*/
+  UInt32              voltage;                /* voltage in millivolts*/
+  SInt32              current;                /* current in milliamperes */
+                                              /*  (negative if consuming, */
+                                              /*   positive if charging)*/
+  UInt32              lowWarnLevel;           /* low warning level in milliwatts (or % if sourceCapacityUsage is %)*/
+  UInt32              deadWarnLevel;          /* dead warning level in milliwatts (or % if sourceCapacityUsage is %)*/
+  UInt32              reserved[16];           /* for future expansion*/
 };
 typedef struct PowerSourceParamBlock    PowerSourceParamBlock;
 typedef PowerSourceParamBlock *         PowerSourceParamBlockPtr;
+/*
+ *  DisableWUTime()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-DisableWUTime                   (void);
+DisableWUTime(void);
 
+
+/*
+ *  SetWUTime()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-SetWUTime                       (long                   wuTime);
+SetWUTime(long wuTime);
 
+
+/*
+ *  GetWUTime()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-GetWUTime                       (long *                 wuTime,
-                                 Byte *                 wuFlag);
+GetWUTime(
+  long *  wuTime,
+  Byte *  wuFlag);
 
+
+/*
+ *  BatteryStatus()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-BatteryStatus                   (Byte *                 status,
-                                 Byte *                 power);
+BatteryStatus(
+  Byte *  status,
+  Byte *  power);
 
+
+/*
+ *  ModemStatus()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-ModemStatus                     (Byte *                 status);
+ModemStatus(Byte * status);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 IdleUpdate
-                                                                                            #endif
+
+/*
+ *  IdleUpdate()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IdleUpdate
+#endif
 EXTERN_API( long )
-IdleUpdate                      (void)                                                      ONEWORDINLINE(0xA285);
+IdleUpdate(void)                                              ONEWORDINLINE(0xA285);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetCPUSpeed
-                                                                                            #endif
+
+/*
+ *  GetCPUSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetCPUSpeed
+#endif
 EXTERN_API( long )
-GetCPUSpeed                     (void)                                                      TWOWORDINLINE(0x70FF, 0xA485);
+GetCPUSpeed(void)                                             TWOWORDINLINE(0x70FF, 0xA485);
 
-EXTERN_API( void )
-EnableIdle                      (void)                                                      TWOWORDINLINE(0x7000, 0xA485);
 
+/*
+ *  EnableIdle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-DisableIdle                     (void)                                                      TWOWORDINLINE(0x7001, 0xA485);
+EnableIdle(void)                                              TWOWORDINLINE(0x7000, 0xA485);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SleepQInstall(__A0)
-                                                                                            #endif
-EXTERN_API( void )
-SleepQInstall                   (SleepQRecPtr           qRecPtr)                            ONEWORDINLINE(0xA28A);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SleepQRemove(__A0)
-                                                                                            #endif
+/*
+ *  DisableIdle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-SleepQRemove                    (SleepQRecPtr           qRecPtr)                            ONEWORDINLINE(0xA48A);
+DisableIdle(void)                                             TWOWORDINLINE(0x7001, 0xA485);
 
-EXTERN_API( void )
-AOn                             (void)                                                      TWOWORDINLINE(0x7004, 0xA685);
 
+/*
+ *  SleepQInstall()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SleepQInstall(__A0)
+#endif
 EXTERN_API( void )
-AOnIgnoreModem                  (void)                                                      TWOWORDINLINE(0x7005, 0xA685);
+SleepQInstall(SleepQRecPtr qRecPtr)                           ONEWORDINLINE(0xA28A);
 
-EXTERN_API( void )
-BOn                             (void)                                                      TWOWORDINLINE(0x7000, 0xA685);
 
+/*
+ *  SleepQRemove()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SleepQRemove(__A0)
+#endif
 EXTERN_API( void )
-AOff                            (void)                                                      TWOWORDINLINE(0x7084, 0xA685);
+SleepQRemove(SleepQRecPtr qRecPtr)                            ONEWORDINLINE(0xA48A);
 
+
+/*
+ *  AOn()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-BOff                            (void)                                                      TWOWORDINLINE(0x7080, 0xA685);
+AOn(void)                                                     TWOWORDINLINE(0x7004, 0xA685);
+
+
+/*
+ *  AOnIgnoreModem()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( void )
+AOnIgnoreModem(void)                                          TWOWORDINLINE(0x7005, 0xA685);
+
+
+/*
+ *  BOn()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( void )
+BOn(void)                                                     TWOWORDINLINE(0x7000, 0xA685);
+
+
+/*
+ *  AOff()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( void )
+AOff(void)                                                    TWOWORDINLINE(0x7084, 0xA685);
+
+
+/*
+ *  BOff()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( void )
+BOff(void)                                                    TWOWORDINLINE(0x7080, 0xA685);
+
 
 
 /* Public Power Management API  */
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 PMSelectorCount
-                                                                                            #endif
+/*
+ *  PMSelectorCount()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 PMSelectorCount
+#endif
 EXTERN_API( short )
-PMSelectorCount                 (void)                                                      TWOWORDINLINE(0x7000, 0xA09E);
+PMSelectorCount(void)                                         TWOWORDINLINE(0x7000, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 PMFeatures
-                                                                                            #endif
+
+/*
+ *  PMFeatures()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 PMFeatures
+#endif
 EXTERN_API( UInt32 )
-PMFeatures                      (void)                                                      TWOWORDINLINE(0x7001, 0xA09E);
+PMFeatures(void)                                              TWOWORDINLINE(0x7001, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetSleepTimeout
-                                                                                            #endif
+
+/*
+ *  GetSleepTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetSleepTimeout
+#endif
 EXTERN_API( UInt8 )
-GetSleepTimeout                 (void)                                                      TWOWORDINLINE(0x7002, 0xA09E);
+GetSleepTimeout(void)                                         TWOWORDINLINE(0x7002, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetSleepTimeout(__D0)
-                                                                                            #endif
+
+/*
+ *  SetSleepTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetSleepTimeout(__D0)
+#endif
 EXTERN_API( void )
-SetSleepTimeout                 (UInt8                  timeout)                            FOURWORDINLINE(0x4840, 0x303C, 0x0003, 0xA09E);
+SetSleepTimeout(UInt8 timeout)                                FOURWORDINLINE(0x4840, 0x303C, 0x0003, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetHardDiskTimeout
-                                                                                            #endif
+
+/*
+ *  GetHardDiskTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetHardDiskTimeout
+#endif
 EXTERN_API( UInt8 )
-GetHardDiskTimeout              (void)                                                      TWOWORDINLINE(0x7004, 0xA09E);
+GetHardDiskTimeout(void)                                      TWOWORDINLINE(0x7004, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetHardDiskTimeout(__D0)
-                                                                                            #endif
+
+/*
+ *  SetHardDiskTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetHardDiskTimeout(__D0)
+#endif
 EXTERN_API( void )
-SetHardDiskTimeout              (UInt8                  timeout)                            FOURWORDINLINE(0x4840, 0x303C, 0x0005, 0xA09E);
+SetHardDiskTimeout(UInt8 timeout)                             FOURWORDINLINE(0x4840, 0x303C, 0x0005, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 HardDiskPowered
-                                                                                            #endif
+
+/*
+ *  HardDiskPowered()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 HardDiskPowered
+#endif
 EXTERN_API( Boolean )
-HardDiskPowered                 (void)                                                      TWOWORDINLINE(0x7006, 0xA09E);
+HardDiskPowered(void)                                         TWOWORDINLINE(0x7006, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SpinDownHardDisk
-                                                                                            #endif
+
+/*
+ *  SpinDownHardDisk()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SpinDownHardDisk
+#endif
 EXTERN_API( void )
-SpinDownHardDisk                (void)                                                      TWOWORDINLINE(0x7007, 0xA09E);
+SpinDownHardDisk(void)                                        TWOWORDINLINE(0x7007, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 IsSpindownDisabled
-                                                                                            #endif
+
+/*
+ *  IsSpindownDisabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IsSpindownDisabled
+#endif
 EXTERN_API( Boolean )
-IsSpindownDisabled              (void)                                                      TWOWORDINLINE(0x7008, 0xA09E);
+IsSpindownDisabled(void)                                      TWOWORDINLINE(0x7008, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetSpindownDisable(__D0)
-                                                                                            #endif
+
+/*
+ *  SetSpindownDisable()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetSpindownDisable(__D0)
+#endif
 EXTERN_API( void )
-SetSpindownDisable              (Boolean                setDisable)                         FOURWORDINLINE(0x4840, 0x303C, 0x0009, 0xA09E);
+SetSpindownDisable(Boolean setDisable)                        FOURWORDINLINE(0x4840, 0x303C, 0x0009, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 HardDiskQInstall(__A0)
-                                                                                            #endif
+
+/*
+ *  HardDiskQInstall()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 HardDiskQInstall(__A0)
+#endif
 EXTERN_API( OSErr )
-HardDiskQInstall                (HDQueueElement *       theElement)                         TWOWORDINLINE(0x700A, 0xA09E);
+HardDiskQInstall(HDQueueElement * theElement)                 TWOWORDINLINE(0x700A, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 HardDiskQRemove(__A0)
-                                                                                            #endif
+
+/*
+ *  HardDiskQRemove()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 HardDiskQRemove(__A0)
+#endif
 EXTERN_API( OSErr )
-HardDiskQRemove                 (HDQueueElement *       theElement)                         TWOWORDINLINE(0x700B, 0xA09E);
+HardDiskQRemove(HDQueueElement * theElement)                  TWOWORDINLINE(0x700B, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter GetScaledBatteryInfo(__D0, __A0)
-                                                                                            #endif
+
+/*
+ *  GetScaledBatteryInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter GetScaledBatteryInfo(__D0, __A0)
+#endif
 EXTERN_API( void )
-GetScaledBatteryInfo            (short                  whichBattery,
-                                 BatteryInfo *          theInfo)                            FIVEWORDINLINE(0x4840, 0x303C, 0x000C, 0xA09E, 0x2080);
+GetScaledBatteryInfo(
+  short          whichBattery,
+  BatteryInfo *  theInfo)                                     FIVEWORDINLINE(0x4840, 0x303C, 0x000C, 0xA09E, 0x2080);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter AutoSleepControl(__D0)
-                                                                                            #endif
+
+/*
+ *  AutoSleepControl()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter AutoSleepControl(__D0)
+#endif
 EXTERN_API( void )
-AutoSleepControl                (Boolean                enableSleep)                        FOURWORDINLINE(0x4840, 0x303C, 0x000D, 0xA09E);
+AutoSleepControl(Boolean enableSleep)                         FOURWORDINLINE(0x4840, 0x303C, 0x000D, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetIntModemInfo
-                                                                                            #endif
+
+/*
+ *  GetIntModemInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetIntModemInfo
+#endif
 EXTERN_API( UInt32 )
-GetIntModemInfo                 (void)                                                      TWOWORDINLINE(0x700E, 0xA09E);
+GetIntModemInfo(void)                                         TWOWORDINLINE(0x700E, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetIntModemState(__D0)
-                                                                                            #endif
+
+/*
+ *  SetIntModemState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetIntModemState(__D0)
+#endif
 EXTERN_API( void )
-SetIntModemState                (short                  theState)                           FOURWORDINLINE(0x4840, 0x303C, 0x000F, 0xA09E);
+SetIntModemState(short theState)                              FOURWORDINLINE(0x4840, 0x303C, 0x000F, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 MaximumProcessorSpeed
-                                                                                            #endif
+
+/*
+ *  MaximumProcessorSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 MaximumProcessorSpeed
+#endif
 EXTERN_API( short )
-MaximumProcessorSpeed           (void)                                                      TWOWORDINLINE(0x7010, 0xA09E);
+MaximumProcessorSpeed(void)                                   TWOWORDINLINE(0x7010, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 CurrentProcessorSpeed
-                                                                                            #endif
+
+/*
+ *  MinimumProcessorSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.1 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 MinimumProcessorSpeed
+#endif
 EXTERN_API( short )
-CurrentProcessorSpeed           (void)                                                      TWOWORDINLINE(0x7011, 0xA09E);
+MinimumProcessorSpeed(void)                                   TWOWORDINLINE(0x7036, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 FullProcessorSpeed
-                                                                                            #endif
+
+/*
+ *  CurrentProcessorSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 CurrentProcessorSpeed
+#endif
+EXTERN_API( short )
+CurrentProcessorSpeed(void)                                   TWOWORDINLINE(0x7011, 0xA09E);
+
+
+/*
+ *  FullProcessorSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 FullProcessorSpeed
+#endif
 EXTERN_API( Boolean )
-FullProcessorSpeed              (void)                                                      TWOWORDINLINE(0x7012, 0xA09E);
+FullProcessorSpeed(void)                                      TWOWORDINLINE(0x7012, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 SetProcessorSpeed(__D0)
-                                                                                            #endif
+
+/*
+ *  SetProcessorSpeed()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 SetProcessorSpeed(__D0)
+#endif
 EXTERN_API( Boolean )
-SetProcessorSpeed               (Boolean                fullSpeed)                          FOURWORDINLINE(0x4840, 0x303C, 0x0013, 0xA09E);
+SetProcessorSpeed(Boolean fullSpeed)                          FOURWORDINLINE(0x4840, 0x303C, 0x0013, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetSCSIDiskModeAddress
-                                                                                            #endif
+
+/*
+ *  GetSCSIDiskModeAddress()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetSCSIDiskModeAddress
+#endif
 EXTERN_API( short )
-GetSCSIDiskModeAddress          (void)                                                      TWOWORDINLINE(0x7014, 0xA09E);
+GetSCSIDiskModeAddress(void)                                  TWOWORDINLINE(0x7014, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetSCSIDiskModeAddress(__D0)
-                                                                                            #endif
+
+/*
+ *  SetSCSIDiskModeAddress()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetSCSIDiskModeAddress(__D0)
+#endif
 EXTERN_API( void )
-SetSCSIDiskModeAddress          (short                  scsiAddress)                        FOURWORDINLINE(0x4840, 0x303C, 0x0015, 0xA09E);
+SetSCSIDiskModeAddress(short scsiAddress)                     FOURWORDINLINE(0x4840, 0x303C, 0x0015, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter GetWakeupTimer(__A0)
-                                                                                            #endif
+
+/*
+ *  GetWakeupTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter GetWakeupTimer(__A0)
+#endif
 EXTERN_API( void )
-GetWakeupTimer                  (WakeupTime *           theTime)                            TWOWORDINLINE(0x7016, 0xA09E);
+GetWakeupTimer(WakeupTime * theTime)                          TWOWORDINLINE(0x7016, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetWakeupTimer(__A0)
-                                                                                            #endif
+
+/*
+ *  SetWakeupTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetWakeupTimer(__A0)
+#endif
 EXTERN_API( void )
-SetWakeupTimer                  (WakeupTime *           theTime)                            TWOWORDINLINE(0x7017, 0xA09E);
+SetWakeupTimer(WakeupTime * theTime)                          TWOWORDINLINE(0x7017, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 IsProcessorCyclingEnabled
-                                                                                            #endif
+
+/*
+ *  IsProcessorCyclingEnabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IsProcessorCyclingEnabled
+#endif
 EXTERN_API( Boolean )
-IsProcessorCyclingEnabled       (void)                                                      TWOWORDINLINE(0x7018, 0xA09E);
+IsProcessorCyclingEnabled(void)                               TWOWORDINLINE(0x7018, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter EnableProcessorCycling(__D0)
-                                                                                            #endif
+
+/*
+ *  EnableProcessorCycling()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter EnableProcessorCycling(__D0)
+#endif
 EXTERN_API( void )
-EnableProcessorCycling          (Boolean                enable)                             FOURWORDINLINE(0x4840, 0x303C, 0x0019, 0xA09E);
+EnableProcessorCycling(Boolean enable)                        FOURWORDINLINE(0x4840, 0x303C, 0x0019, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 BatteryCount
-                                                                                            #endif
+
+/*
+ *  BatteryCount()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 BatteryCount
+#endif
 EXTERN_API( short )
-BatteryCount                    (void)                                                      TWOWORDINLINE(0x701A, 0xA09E);
+BatteryCount(void)                                            TWOWORDINLINE(0x701A, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetBatteryVoltage(__D0)
-                                                                                            #endif
+
+/*
+ *  GetBatteryVoltage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetBatteryVoltage(__D0)
+#endif
 EXTERN_API( Fixed )
-GetBatteryVoltage               (short                  whichBattery)                       FOURWORDINLINE(0x4840, 0x303C, 0x001B, 0xA09E);
+GetBatteryVoltage(short whichBattery)                         FOURWORDINLINE(0x4840, 0x303C, 0x001B, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter GetBatteryTimes(__D0, __A0)
-                                                                                            #endif
+
+/*
+ *  GetBatteryTimes()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter GetBatteryTimes(__D0, __A0)
+#endif
 EXTERN_API( void )
-GetBatteryTimes                 (short                  whichBattery,
-                                 BatteryTimeRec *       theTimes)                           FOURWORDINLINE(0x4840, 0x303C, 0x001C, 0xA09E);
+GetBatteryTimes(
+  short             whichBattery,
+  BatteryTimeRec *  theTimes)                                 FOURWORDINLINE(0x4840, 0x303C, 0x001C, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetDimmingTimeout
-                                                                                            #endif
+
+/*
+ *  GetDimmingTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetDimmingTimeout
+#endif
 EXTERN_API( UInt8 )
-GetDimmingTimeout               (void)                                                      TWOWORDINLINE(0x701D, 0xA09E);
+GetDimmingTimeout(void)                                       TWOWORDINLINE(0x701D, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetDimmingTimeout(__D0)
-                                                                                            #endif
+
+/*
+ *  SetDimmingTimeout()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetDimmingTimeout(__D0)
+#endif
 EXTERN_API( void )
-SetDimmingTimeout               (UInt8                  timeout)                            FOURWORDINLINE(0x4840, 0x303C, 0x001E, 0xA09E);
+SetDimmingTimeout(UInt8 timeout)                              FOURWORDINLINE(0x4840, 0x303C, 0x001E, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter DimmingControl(__D0)
-                                                                                            #endif
+
+/*
+ *  DimmingControl()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter DimmingControl(__D0)
+#endif
 EXTERN_API( void )
-DimmingControl                  (Boolean                enableSleep)                        FOURWORDINLINE(0x4840, 0x303C, 0x001F, 0xA09E);
+DimmingControl(Boolean enableSleep)                           FOURWORDINLINE(0x4840, 0x303C, 0x001F, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 IsDimmingControlDisabled
-                                                                                            #endif
+
+/*
+ *  IsDimmingControlDisabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IsDimmingControlDisabled
+#endif
 EXTERN_API( Boolean )
-IsDimmingControlDisabled        (void)                                                      TWOWORDINLINE(0x7020, 0xA09E);
+IsDimmingControlDisabled(void)                                TWOWORDINLINE(0x7020, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 IsAutoSlpControlDisabled
-                                                                                            #endif
+
+/*
+ *  IsAutoSlpControlDisabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IsAutoSlpControlDisabled
+#endif
 EXTERN_API( Boolean )
-IsAutoSlpControlDisabled        (void)                                                      TWOWORDINLINE(0x7021, 0xA09E);
+IsAutoSlpControlDisabled(void)                                TWOWORDINLINE(0x7021, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 PMgrStateQInstall(__A0)
-                                                                                            #endif
+
+/*
+ *  PMgrStateQInstall()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 PMgrStateQInstall(__A0)
+#endif
 EXTERN_API( OSErr )
-PMgrStateQInstall               (PMgrQueueElement *     theElement)                         TWOWORDINLINE(0x7022, 0xA09E);
+PMgrStateQInstall(PMgrQueueElement * theElement)              TWOWORDINLINE(0x7022, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 PMgrStateQRemove(__A0)
-                                                                                            #endif
+
+/*
+ *  PMgrStateQRemove()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 PMgrStateQRemove(__A0)
+#endif
 EXTERN_API( OSErr )
-PMgrStateQRemove                (PMgrQueueElement *     theElement)                         TWOWORDINLINE(0x7023, 0xA09E);
+PMgrStateQRemove(PMgrQueueElement * theElement)               TWOWORDINLINE(0x7023, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 UpdateSystemActivity(__D0)
-                                                                                            #endif
+
+/*
+ *  UpdateSystemActivity()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 UpdateSystemActivity(__D0)
+#endif
 EXTERN_API( OSErr )
-UpdateSystemActivity            (UInt8                  activity)                           FOURWORDINLINE(0x4840, 0x303C, 0x0024, 0xA09E);
+UpdateSystemActivity(UInt8 activity)                          FOURWORDINLINE(0x4840, 0x303C, 0x0024, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 DelaySystemIdle
-                                                                                            #endif
+
+/*
+ *  DelaySystemIdle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 DelaySystemIdle
+#endif
 EXTERN_API( OSErr )
-DelaySystemIdle                 (void)                                                      TWOWORDINLINE(0x7025, 0xA09E);
+DelaySystemIdle(void)                                         TWOWORDINLINE(0x7025, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetStartupTimer(__A0)
-                                                                                            #endif
+
+/*
+ *  GetStartupTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetStartupTimer(__A0)
+#endif
 EXTERN_API( OSErr )
-GetStartupTimer                 (StartupTime *          theTime)                            TWOWORDINLINE(0x7026, 0xA09E);
+GetStartupTimer(StartupTime * theTime)                        TWOWORDINLINE(0x7026, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 SetStartupTimer(__A0)
-                                                                                            #endif
+
+/*
+ *  SetStartupTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 SetStartupTimer(__A0)
+#endif
 EXTERN_API( OSErr )
-SetStartupTimer                 (StartupTime *          theTime)                            TWOWORDINLINE(0x7027, 0xA09E);
+SetStartupTimer(StartupTime * theTime)                        TWOWORDINLINE(0x7027, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetLastActivity(__A0)
-                                                                                            #endif
+
+/*
+ *  GetLastActivity()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetLastActivity(__A0)
+#endif
 EXTERN_API( OSErr )
-GetLastActivity                 (ActivityInfo *         theActivity)                        TWOWORDINLINE(0x7028, 0xA09E);
+GetLastActivity(ActivityInfo * theActivity)                   TWOWORDINLINE(0x7028, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetSoundMixerState(__A0)
-                                                                                            #endif
+
+/*
+ *  GetSoundMixerState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetSoundMixerState(__A0)
+#endif
 EXTERN_API( OSErr )
-GetSoundMixerState              (SoundMixerByte *       theSoundMixerByte)                  TWOWORDINLINE(0x7029, 0xA09E);
+GetSoundMixerState(SoundMixerByte * theSoundMixerByte)        TWOWORDINLINE(0x7029, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 SetSoundMixerState(__A0)
-                                                                                            #endif
+
+/*
+ *  SetSoundMixerState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 SetSoundMixerState(__A0)
+#endif
 EXTERN_API( OSErr )
-SetSoundMixerState              (SoundMixerByte *       theSoundMixerByte)                  TWOWORDINLINE(0x702A, 0xA09E);
+SetSoundMixerState(SoundMixerByte * theSoundMixerByte)        TWOWORDINLINE(0x702A, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetDimSuspendState
-                                                                                            #endif
+
+/*
+ *  GetDimSuspendState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetDimSuspendState
+#endif
 EXTERN_API( Boolean )
-GetDimSuspendState              (void)                                                      TWOWORDINLINE(0x702B, 0xA09E);
+GetDimSuspendState(void)                                      TWOWORDINLINE(0x702B, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetDimSuspendState(__D0)
-                                                                                            #endif
+
+/*
+ *  SetDimSuspendState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetDimSuspendState(__D0)
+#endif
 EXTERN_API( void )
-SetDimSuspendState              (Boolean                dimSuspendState)                    FOURWORDINLINE(0x4840, 0x303C, 0x002C, 0xA09E);
+SetDimSuspendState(Boolean dimSuspendState)                   FOURWORDINLINE(0x4840, 0x303C, 0x002C, 0xA09E);
+
 
 #if CALL_NOT_IN_CARBON
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetCoreProcessorTemperature(__A0)
-                                                                                            #endif
+/*
+ *  GetCoreProcessorTemperature()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetCoreProcessorTemperature(__A0)
+#endif
 EXTERN_API( SInt32 )
-GetCoreProcessorTemperature     (MPCpuID                inCpuID)                            TWOWORDINLINE(0x702D, 0xA09E);
+GetCoreProcessorTemperature(MPCpuID inCpuID)                  TWOWORDINLINE(0x702D, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 GetWakeOnNetworkOptions
-                                                                                            #endif
+
+/*
+ *  GetWakeOnNetworkOptions()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 GetWakeOnNetworkOptions
+#endif
 EXTERN_API( OptionBits )
-GetWakeOnNetworkOptions         (void)                                                      TWOWORDINLINE(0x702E, 0xA09E);
+GetWakeOnNetworkOptions(void)                                 TWOWORDINLINE(0x702E, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter SetWakeOnNetworkOptions(__A0)
-                                                                                            #endif
+
+/*
+ *  SetWakeOnNetworkOptions()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter SetWakeOnNetworkOptions(__A0)
+#endif
 EXTERN_API( void )
-SetWakeOnNetworkOptions         (OptionBits             inOptions)                          TWOWORDINLINE(0x702F, 0xA09E);
+SetWakeOnNetworkOptions(OptionBits inOptions)                 TWOWORDINLINE(0x702F, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 AddPowerSource(__A0)
-                                                                                            #endif
+
+/*
+ *  AddPowerSource()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 AddPowerSource(__A0)
+#endif
 EXTERN_API( OSStatus )
-AddPowerSource                  (PowerSourceParamBlock * ioPowerSource)                     TWOWORDINLINE(0x7030, 0xA09E);
+AddPowerSource(PowerSourceParamBlock * ioPowerSource)         TWOWORDINLINE(0x7030, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 RemovePowerSource(__D0)
-                                                                                            #endif
+
+/*
+ *  RemovePowerSource()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 RemovePowerSource(__D0)
+#endif
 EXTERN_API( OSStatus )
-RemovePowerSource               (PowerSourceID          inSourceID)                         FOURWORDINLINE(0x4840, 0x303C, 0x0031, 0xA09E);
+RemovePowerSource(PowerSourceID inSourceID)                   FOURWORDINLINE(0x4840, 0x303C, 0x0031, 0xA09E);
 
-                                                                                            #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-                                                                                            #pragma parameter __D0 UpdatePowerSource(__A0)
-                                                                                            #endif
+
+/*
+ *  UpdatePowerSource()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 UpdatePowerSource(__A0)
+#endif
 EXTERN_API( OSStatus )
-UpdatePowerSource               (PowerSourceParamBlock * ioSource)                          TWOWORDINLINE(0x7032, 0xA09E);
+UpdatePowerSource(PowerSourceParamBlock * ioSource)           TWOWORDINLINE(0x7032, 0xA09E);
 
+
+/*
+ *  IsServerModeEnabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 IsServerModeEnabled
+#endif
 EXTERN_API( Boolean )
-IsServerModeEnabled             (void)                                                      TWOWORDINLINE(0x7033, 0xA09E);
+IsServerModeEnabled(void)                                     TWOWORDINLINE(0x7033, 0xA09E);
 
+
+/*
+ *  EnableServerMode()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter EnableServerMode(__D0)
+#endif
 EXTERN_API( void )
-EnableServerMode                (Boolean                inEnable)                           FOURWORDINLINE(0x4840, 0x303C, 0x0034, 0xA09E);
+EnableServerMode(Boolean inEnable)                            FOURWORDINLINE(0x4840, 0x303C, 0x0034, 0xA09E);
+
+
+/* 
+   NumBatteriesInstalled is different from BatteryCount in that it
+   indicates how many batteries are actually available at the time
+   it is called (including UPS batteries). BatteryCount shows a 
+   static number of batteries a machine is capable of holding which does NOT
+   include UPS batteries. So, while a desktop might show a BatteryCount
+   of zero, its NumBatteriesInstalled value might be 1 or more if a UPS
+   is attached. 
+*/
+/*
+ *  NumBatteriesInstalled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in PowerMgrLib 2.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 NumBatteriesInstalled
+#endif
+EXTERN_API( UInt32 )
+NumBatteriesInstalled(void)                                   TWOWORDINLINE(0x7035, 0xA09E);
+
 
 /* Power Handler Management */
+/*
+ *  IsPCIPowerOffDisabled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( Boolean )
-IsPCIPowerOffDisabled           (void);
+IsPCIPowerOffDisabled(void);
 
+
+/*
+ *  EnablePCIPowerOff()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-EnablePCIPowerOff               (Boolean                inEnable);
+EnablePCIPowerOff(Boolean inEnable);
 
-EXTERN_API_C( OSStatus )
-AddDevicePowerHandler           (RegEntryIDPtr          regEntryID,
-                                 PowerHandlerProcPtr    handler,
-                                 UInt32                 refCon,
-                                 char *                 deviceType);
 
+/*
+ *  AddDevicePowerHandler()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( OSStatus )
-RemoveDevicePowerHandler        (RegEntryIDPtr          regEntryID);
+AddDevicePowerHandler(
+  RegEntryIDPtr         regEntryID,
+  PowerHandlerProcPtr   handler,
+  UInt32                refCon,
+  char *                deviceType);
 
-EXTERN_API_C( OSStatus )
-RemoveDevicePowerHandlerForProc (PowerHandlerProcPtr    proc);
 
+/*
+ *  RemoveDevicePowerHandler()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( OSStatus )
-GetDevicePowerLevel             (RegEntryIDPtr          regEntryID,
-                                 PowerLevel *           devicePowerLevel);
+RemoveDevicePowerHandler(RegEntryIDPtr regEntryID);
 
+
+/*
+ *  RemoveDevicePowerHandlerForProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( OSStatus )
-SetDevicePowerLevel             (RegEntryIDPtr          regEntryID,
-                                 PowerLevel             devicePowerLevel);
+RemoveDevicePowerHandlerForProc(PowerHandlerProcPtr proc);
+
+
+/*
+ *  GetDevicePowerLevel()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( OSStatus )
+GetDevicePowerLevel(
+  RegEntryIDPtr   regEntryID,
+  PowerLevel *    devicePowerLevel);
+
+
+/*
+ *  SetDevicePowerLevel()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( OSStatus )
+SetDevicePowerLevel(
+  RegEntryIDPtr   regEntryID,
+  PowerLevel      devicePowerLevel);
+
 
 
 #endif  /* CALL_NOT_IN_CARBON */
 
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(SleepQUPP)
-    NewSleepQUPP                   (SleepQProcPtr           userRoutine);
-
-    EXTERN_API(HDSpindownUPP)
-    NewHDSpindownUPP               (HDSpindownProcPtr       userRoutine);
-
-    EXTERN_API(PMgrStateChangeUPP)
-    NewPMgrStateChangeUPP          (PMgrStateChangeProcPtr  userRoutine);
-
-    EXTERN_API(void)
-    DisposeSleepQUPP               (SleepQUPP               userUPP);
-
-    EXTERN_API(void)
-    DisposeHDSpindownUPP           (HDSpindownUPP           userUPP);
-
-    EXTERN_API(void)
-    DisposePMgrStateChangeUPP      (PMgrStateChangeUPP      userUPP);
-
-    EXTERN_API(long)
-    InvokeSleepQUPP                (long                    message,
-                                    SleepQRecPtr            qRecPtr,
-                                    SleepQUPP               userUPP);
-
-    EXTERN_API(void)
-    InvokeHDSpindownUPP            (HDQueueElement *        theElement,
-                                    HDSpindownUPP           userUPP);
-
-    EXTERN_API(void)
-    InvokePMgrStateChangeUPP       (PMgrQueueElement *      theElement,
-                                    long                    stateBits,
-                                    PMgrStateChangeUPP      userUPP);
-
-#else
-    enum { uppSleepQProcInfo = 0x00131832 };                        /* register 4_bytes:D0 Func(4_bytes:D0, 4_bytes:A0) */
-    enum { uppHDSpindownProcInfo = 0x000000C0 };                    /* pascal no_return_value Func(4_bytes) */
-    enum { uppPMgrStateChangeProcInfo = 0x000003C0 };               /* pascal no_return_value Func(4_bytes, 4_bytes) */
-    #define NewSleepQUPP(userRoutine)                               (SleepQUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppSleepQProcInfo, GetCurrentArchitecture())
-    #define NewHDSpindownUPP(userRoutine)                           (HDSpindownUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppHDSpindownProcInfo, GetCurrentArchitecture())
-    #define NewPMgrStateChangeUPP(userRoutine)                      (PMgrStateChangeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPMgrStateChangeProcInfo, GetCurrentArchitecture())
-    #define DisposeSleepQUPP(userUPP)                               DisposeRoutineDescriptor(userUPP)
-    #define DisposeHDSpindownUPP(userUPP)                           DisposeRoutineDescriptor(userUPP)
-    #define DisposePMgrStateChangeUPP(userUPP)                      DisposeRoutineDescriptor(userUPP)
-    #if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
-    #pragma parameter __D0 InvokeSleepQUPP(__D0, __A0, __A1)
-    long InvokeSleepQUPP(long message, SleepQRecPtr qRecPtr, SleepQUPP userUPP) = 0x4E91;
-    #else
-        #define InvokeSleepQUPP(message, qRecPtr, userUPP)              (long)CALL_TWO_PARAMETER_UPP((userUPP), uppSleepQProcInfo, (message), (qRecPtr))
-    #endif
-    #define InvokeHDSpindownUPP(theElement, userUPP)                CALL_ONE_PARAMETER_UPP((userUPP), uppHDSpindownProcInfo, (theElement))
-    #define InvokePMgrStateChangeUPP(theElement, stateBits, userUPP)  CALL_TWO_PARAMETER_UPP((userUPP), uppPMgrStateChangeProcInfo, (theElement), (stateBits))
+/*
+ *  NewSleepQUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( SleepQUPP )
+NewSleepQUPP(SleepQProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppSleepQProcInfo = 0x00131832 };  /* register 4_bytes:D0 Func(4_bytes:D0, 4_bytes:A0) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(SleepQUPP) NewSleepQUPP(SleepQProcPtr userRoutine) { return (SleepQUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppSleepQProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewSleepQUPP(userRoutine) (SleepQUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppSleepQProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewSleepQProc(userRoutine)                              NewSleepQUPP(userRoutine)
-#define NewHDSpindownProc(userRoutine)                          NewHDSpindownUPP(userRoutine)
-#define NewPMgrStateChangeProc(userRoutine)                     NewPMgrStateChangeUPP(userRoutine)
-#define CallSleepQProc(userRoutine, message, qRecPtr)           InvokeSleepQUPP(message, qRecPtr, userRoutine)
-#define CallHDSpindownProc(userRoutine, theElement)             InvokeHDSpindownUPP(theElement, userRoutine)
-#define CallPMgrStateChangeProc(userRoutine, theElement, stateBits) InvokePMgrStateChangeUPP(theElement, stateBits, userRoutine)
+
+/*
+ *  NewHDSpindownUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( HDSpindownUPP )
+NewHDSpindownUPP(HDSpindownProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppHDSpindownProcInfo = 0x000000C0 };  /* pascal no_return_value Func(4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(HDSpindownUPP) NewHDSpindownUPP(HDSpindownProcPtr userRoutine) { return (HDSpindownUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppHDSpindownProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewHDSpindownUPP(userRoutine) (HDSpindownUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppHDSpindownProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  NewPMgrStateChangeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( PMgrStateChangeUPP )
+NewPMgrStateChangeUPP(PMgrStateChangeProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppPMgrStateChangeProcInfo = 0x000003C0 };  /* pascal no_return_value Func(4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(PMgrStateChangeUPP) NewPMgrStateChangeUPP(PMgrStateChangeProcPtr userRoutine) { return (PMgrStateChangeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPMgrStateChangeProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewPMgrStateChangeUPP(userRoutine) (PMgrStateChangeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppPMgrStateChangeProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  DisposeSleepQUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeSleepQUPP(SleepQUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeSleepQUPP(SleepQUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeSleepQUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeHDSpindownUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeHDSpindownUPP(HDSpindownUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeHDSpindownUPP(HDSpindownUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeHDSpindownUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposePMgrStateChangeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposePMgrStateChangeUPP(PMgrStateChangeUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposePMgrStateChangeUPP(PMgrStateChangeUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposePMgrStateChangeUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeSleepQUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 InvokeSleepQUPP(__D0, __A0, __A1)
+#endif
+EXTERN_API_C( long )
+InvokeSleepQUPP(
+  long          message,
+  SleepQRecPtr  qRecPtr,
+  SleepQUPP     userUPP)                                      ONEWORDINLINE(0x4E91);
+#if !OPAQUE_UPP_TYPES && (!TARGET_OS_MAC || !TARGET_CPU_68K || TARGET_RT_MAC_CFM)
+  #ifdef __cplusplus
+      inline DEFINE_API_C(long) InvokeSleepQUPP(long message, SleepQRecPtr qRecPtr, SleepQUPP userUPP) { return (long)CALL_TWO_PARAMETER_UPP(userUPP, uppSleepQProcInfo, message, qRecPtr); }
+  #else
+    #define InvokeSleepQUPP(message, qRecPtr, userUPP) (long)CALL_TWO_PARAMETER_UPP((userUPP), uppSleepQProcInfo, (message), (qRecPtr))
+  #endif
+#endif
+
+/*
+ *  InvokeHDSpindownUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+InvokeHDSpindownUPP(
+  HDQueueElement *  theElement,
+  HDSpindownUPP     userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) InvokeHDSpindownUPP(HDQueueElement * theElement, HDSpindownUPP userUPP) { CALL_ONE_PARAMETER_UPP(userUPP, uppHDSpindownProcInfo, theElement); }
+  #else
+    #define InvokeHDSpindownUPP(theElement, userUPP) CALL_ONE_PARAMETER_UPP((userUPP), uppHDSpindownProcInfo, (theElement))
+  #endif
+#endif
+
+/*
+ *  InvokePMgrStateChangeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+InvokePMgrStateChangeUPP(
+  PMgrQueueElement *  theElement,
+  long                stateBits,
+  PMgrStateChangeUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) InvokePMgrStateChangeUPP(PMgrQueueElement * theElement, long stateBits, PMgrStateChangeUPP userUPP) { CALL_TWO_PARAMETER_UPP(userUPP, uppPMgrStateChangeProcInfo, theElement, stateBits); }
+  #else
+    #define InvokePMgrStateChangeUPP(theElement, stateBits, userUPP) CALL_TWO_PARAMETER_UPP((userUPP), uppPMgrStateChangeProcInfo, (theElement), (stateBits))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewSleepQProc(userRoutine)                          NewSleepQUPP(userRoutine)
+    #define NewHDSpindownProc(userRoutine)                      NewHDSpindownUPP(userRoutine)
+    #define NewPMgrStateChangeProc(userRoutine)                 NewPMgrStateChangeUPP(userRoutine)
+    #define CallSleepQProc(userRoutine, message, qRecPtr)       InvokeSleepQUPP(message, qRecPtr, userRoutine)
+    #define CallHDSpindownProc(userRoutine, theElement)         InvokeHDSpindownUPP(theElement, userRoutine)
+    #define CallPMgrStateChangeProc(userRoutine, theElement, stateBits) InvokePMgrStateChangeUPP(theElement, stateBits, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
 
 
 #if PRAGMA_STRUCT_ALIGN

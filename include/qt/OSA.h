@@ -3,10 +3,9 @@
  
      Contains:   Open Scripting Architecture Client Interfaces.
  
-     Version:    Technology: AppleScript 1.4
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1992-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1992-2000 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -21,6 +20,10 @@
 #include "MacErrors.h"
 #endif
 
+#ifndef __COMPONENTS__
+#include "Components.h"
+#endif
+
 #ifndef __APPLEEVENTS__
 #include "AppleEvents.h"
 #endif
@@ -29,12 +32,8 @@
 #include "AEObjects.h"
 #endif
 
-#ifndef __COMPONENTS__
-#include "Components.h"
-#endif
-
-#ifndef __MACERRORS__
-#include "MacErrors.h"
+#ifndef __AEINTERACTION__
+#include "AEInteraction.h"
 #endif
 
 
@@ -68,18 +67,18 @@ extern "C" {
         support the OSA interface defined here. */
 /* 0x6f736120 */
 enum {
-    kOSAComponentType           = FOUR_CHAR_CODE('osa ')
+  kOSAComponentType             = FOUR_CHAR_CODE('osa ')
 };
 
 /* 0x73637074 */
 enum {
-    kOSAGenericScriptingComponentSubtype = FOUR_CHAR_CODE('scpt')
+  kOSAGenericScriptingComponentSubtype = FOUR_CHAR_CODE('scpt')
 };
 
 /*  Type of script document files.  */
 /* 0x6f736173 */
 enum {
-    kOSAFileType                = FOUR_CHAR_CODE('osas')
+  kOSAFileType                  = FOUR_CHAR_CODE('osas')
 };
 
 /*
@@ -88,42 +87,42 @@ enum {
     */
 /* 0x61736372 */
 enum {
-    kOSASuite                   = FOUR_CHAR_CODE('ascr')
+  kOSASuite                     = FOUR_CHAR_CODE('ascr')
 };
 
 /* 0x72656364 */
 enum {
-    kOSARecordedText            = FOUR_CHAR_CODE('recd')
+  kOSARecordedText              = FOUR_CHAR_CODE('recd')
 };
 
 /* Selector returns boolean */
 /* 0x6d6f6469 */
 enum {
-    kOSAScriptIsModified        = FOUR_CHAR_CODE('modi')
+  kOSAScriptIsModified          = FOUR_CHAR_CODE('modi')
 };
 
 /* Selector returns boolean */
 /* 0x63736372 */
 enum {
-    kOSAScriptIsTypeCompiledScript = FOUR_CHAR_CODE('cscr')
+  kOSAScriptIsTypeCompiledScript = FOUR_CHAR_CODE('cscr')
 };
 
 /* Selector returns boolean */
 /* 0x76616c75 */
 enum {
-    kOSAScriptIsTypeScriptValue = FOUR_CHAR_CODE('valu')
+  kOSAScriptIsTypeScriptValue   = FOUR_CHAR_CODE('valu')
 };
 
 /* Selector returns boolean */
 /* 0x636e7478 */
 enum {
-    kOSAScriptIsTypeScriptContext = FOUR_CHAR_CODE('cntx')
+  kOSAScriptIsTypeScriptContext = FOUR_CHAR_CODE('cntx')
 };
 
 /* Selector returns a DescType which may be passed to OSACoerceToDesc */
 /* 0x62657374 */
 enum {
-    kOSAScriptBestType          = FOUR_CHAR_CODE('best')
+  kOSAScriptBestType            = FOUR_CHAR_CODE('best')
 };
 
 /*
@@ -133,16 +132,16 @@ enum {
     */
 /* 0x67737263 */
 enum {
-    kOSACanGetSource            = FOUR_CHAR_CODE('gsrc')
+  kOSACanGetSource              = FOUR_CHAR_CODE('gsrc')
 };
 
 
 enum {
-    typeOSADialectInfo          = FOUR_CHAR_CODE('difo'),       /*  0x6469666f   */
-    keyOSADialectName           = FOUR_CHAR_CODE('dnam'),       /*  0x646e616d   */
-    keyOSADialectCode           = FOUR_CHAR_CODE('dcod'),       /*  0x64636f64   */
-    keyOSADialectLangCode       = FOUR_CHAR_CODE('dlcd'),       /*  0x646c6364   */
-    keyOSADialectScriptCode     = FOUR_CHAR_CODE('dscd')        /*  0x64736364   */
+  typeOSADialectInfo            = FOUR_CHAR_CODE('difo'), /*  0x6469666f   */
+  keyOSADialectName             = FOUR_CHAR_CODE('dnam'), /*  0x646e616d   */
+  keyOSADialectCode             = FOUR_CHAR_CODE('dcod'), /*  0x64636f64   */
+  keyOSADialectLangCode         = FOUR_CHAR_CODE('dlcd'), /*  0x646c6364   */
+  keyOSADialectScriptCode       = FOUR_CHAR_CODE('dscd') /*  0x64736364   */
 };
 
 typedef ComponentResult                 OSAError;
@@ -153,13 +152,13 @@ typedef unsigned long                   OSAID;
         various scripting systems.
     */
 enum {
-    kOSANullScript              = 0L
+  kOSANullScript                = 0L
 };
 
 /* No -script constant. */
 enum {
-    kOSANullMode                = 0,                            /* sounds better */
-    kOSAModeNull                = 0                             /* tastes consistent */
+  kOSANullMode                  = 0,    /* sounds better */
+  kOSAModeNull                  = 0     /* tastes consistent */
 };
 
 /*
@@ -170,55 +169,141 @@ typedef CALLBACK_API( OSErr , OSACreateAppleEventProcPtr )(AEEventClass theAEEve
 typedef CALLBACK_API( OSErr , OSASendProcPtr )(const AppleEvent *theAppleEvent, AppleEvent *reply, AESendMode sendMode, AESendPriority sendPriority, long timeOutInTicks, AEIdleUPP idleProc, AEFilterUPP filterProc, long refCon);
 typedef STACK_UPP_TYPE(OSACreateAppleEventProcPtr)              OSACreateAppleEventUPP;
 typedef STACK_UPP_TYPE(OSASendProcPtr)                          OSASendUPP;
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(OSACreateAppleEventUPP)
-    NewOSACreateAppleEventUPP      (OSACreateAppleEventProcPtr userRoutine);
-
-    EXTERN_API(OSASendUPP)
-    NewOSASendUPP                  (OSASendProcPtr          userRoutine);
-
-    EXTERN_API(void)
-    DisposeOSACreateAppleEventUPP    (OSACreateAppleEventUPP userUPP);
-
-    EXTERN_API(void)
-    DisposeOSASendUPP              (OSASendUPP              userUPP);
-
-    EXTERN_API(OSErr)
-    InvokeOSACreateAppleEventUPP    (AEEventClass           theAEEventClass,
-                                    AEEventID               theAEEventID,
-                                    const AEAddressDesc *   target,
-                                    short                   returnID,
-                                    long                    transactionID,
-                                    AppleEvent *            result,
-                                    long                    refCon,
-                                    OSACreateAppleEventUPP  userUPP);
-
-    EXTERN_API(OSErr)
-    InvokeOSASendUPP               (const AppleEvent *      theAppleEvent,
-                                    AppleEvent *            reply,
-                                    AESendMode              sendMode,
-                                    AESendPriority          sendPriority,
-                                    long                    timeOutInTicks,
-                                    AEIdleUPP               idleProc,
-                                    AEFilterUPP             filterProc,
-                                    long                    refCon,
-                                    OSASendUPP              userUPP);
-
-#else
-    enum { uppOSACreateAppleEventProcInfo = 0x000FEFE0 };           /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    enum { uppOSASendProcInfo = 0x003FEFE0 };                       /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    #define NewOSACreateAppleEventUPP(userRoutine)                  (OSACreateAppleEventUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSACreateAppleEventProcInfo, GetCurrentArchitecture())
-    #define NewOSASendUPP(userRoutine)                              (OSASendUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSASendProcInfo, GetCurrentArchitecture())
-    #define DisposeOSACreateAppleEventUPP(userUPP)                  DisposeRoutineDescriptor(userUPP)
-    #define DisposeOSASendUPP(userUPP)                              DisposeRoutineDescriptor(userUPP)
-    #define InvokeOSACreateAppleEventUPP(theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon, userUPP)  (OSErr)CALL_SEVEN_PARAMETER_UPP((userUPP), uppOSACreateAppleEventProcInfo, (theAEEventClass), (theAEEventID), (target), (returnID), (transactionID), (result), (refCon))
-    #define InvokeOSASendUPP(theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon, userUPP)  (OSErr)CALL_EIGHT_PARAMETER_UPP((userUPP), uppOSASendProcInfo, (theAppleEvent), (reply), (sendMode), (sendPriority), (timeOutInTicks), (idleProc), (filterProc), (refCon))
+/*
+ *  NewOSACreateAppleEventUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSACreateAppleEventUPP )
+NewOSACreateAppleEventUPP(OSACreateAppleEventProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppOSACreateAppleEventProcInfo = 0x000FEFE0 };  /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(OSACreateAppleEventUPP) NewOSACreateAppleEventUPP(OSACreateAppleEventProcPtr userRoutine) { return (OSACreateAppleEventUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSACreateAppleEventProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewOSACreateAppleEventUPP(userRoutine) (OSACreateAppleEventUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSACreateAppleEventProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewOSACreateAppleEventProc(userRoutine)                 NewOSACreateAppleEventUPP(userRoutine)
-#define NewOSASendProc(userRoutine)                             NewOSASendUPP(userRoutine)
-#define CallOSACreateAppleEventProc(userRoutine, theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon) InvokeOSACreateAppleEventUPP(theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon, userRoutine)
-#define CallOSASendProc(userRoutine, theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon) InvokeOSASendUPP(theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon, userRoutine)
+
+/*
+ *  NewOSASendUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSASendUPP )
+NewOSASendUPP(OSASendProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppOSASendProcInfo = 0x003FEFE0 };  /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(OSASendUPP) NewOSASendUPP(OSASendProcPtr userRoutine) { return (OSASendUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSASendProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewOSASendUPP(userRoutine) (OSASendUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSASendProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  DisposeOSACreateAppleEventUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeOSACreateAppleEventUPP(OSACreateAppleEventUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeOSACreateAppleEventUPP(OSACreateAppleEventUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeOSACreateAppleEventUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeOSASendUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeOSASendUPP(OSASendUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeOSASendUPP(OSASendUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeOSASendUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeOSACreateAppleEventUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSErr )
+InvokeOSACreateAppleEventUPP(
+  AEEventClass            theAEEventClass,
+  AEEventID               theAEEventID,
+  const AEAddressDesc *   target,
+  short                   returnID,
+  long                    transactionID,
+  AppleEvent *            result,
+  long                    refCon,
+  OSACreateAppleEventUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSErr) InvokeOSACreateAppleEventUPP(AEEventClass theAEEventClass, AEEventID theAEEventID, const AEAddressDesc * target, short returnID, long transactionID, AppleEvent * result, long refCon, OSACreateAppleEventUPP userUPP) { return (OSErr)CALL_SEVEN_PARAMETER_UPP(userUPP, uppOSACreateAppleEventProcInfo, theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon); }
+  #else
+    #define InvokeOSACreateAppleEventUPP(theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon, userUPP) (OSErr)CALL_SEVEN_PARAMETER_UPP((userUPP), uppOSACreateAppleEventProcInfo, (theAEEventClass), (theAEEventID), (target), (returnID), (transactionID), (result), (refCon))
+  #endif
+#endif
+
+/*
+ *  InvokeOSASendUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSErr )
+InvokeOSASendUPP(
+  const AppleEvent *  theAppleEvent,
+  AppleEvent *        reply,
+  AESendMode          sendMode,
+  AESendPriority      sendPriority,
+  long                timeOutInTicks,
+  AEIdleUPP           idleProc,
+  AEFilterUPP         filterProc,
+  long                refCon,
+  OSASendUPP          userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSErr) InvokeOSASendUPP(const AppleEvent * theAppleEvent, AppleEvent * reply, AESendMode sendMode, AESendPriority sendPriority, long timeOutInTicks, AEIdleUPP idleProc, AEFilterUPP filterProc, long refCon, OSASendUPP userUPP) { return (OSErr)CALL_EIGHT_PARAMETER_UPP(userUPP, uppOSASendProcInfo, theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon); }
+  #else
+    #define InvokeOSASendUPP(theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon, userUPP) (OSErr)CALL_EIGHT_PARAMETER_UPP((userUPP), uppOSASendProcInfo, (theAppleEvent), (reply), (sendMode), (sendPriority), (timeOutInTicks), (idleProc), (filterProc), (refCon))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewOSACreateAppleEventProc(userRoutine)             NewOSACreateAppleEventUPP(userRoutine)
+    #define NewOSASendProc(userRoutine)                         NewOSASendUPP(userRoutine)
+    #define CallOSACreateAppleEventProc(userRoutine, theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon) InvokeOSACreateAppleEventUPP(theAEEventClass, theAEEventID, target, returnID, transactionID, result, refCon, userRoutine)
+    #define CallOSASendProc(userRoutine, theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon) InvokeOSASendUPP(theAppleEvent, reply, sendMode, sendPriority, timeOutInTicks, idleProc, filterProc, refCon, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
 /**************************************************************************
     OSA Interface Descriptions
 **************************************************************************
@@ -232,91 +317,91 @@ typedef STACK_UPP_TYPE(OSASendProcPtr)                          OSASendUPP;
 **************************************************************************/
 /* OSA Component Flags: */
 enum {
-    kOSASupportsCompiling       = 0x0002,
-    kOSASupportsGetSource       = 0x0004,
-    kOSASupportsAECoercion      = 0x0008,
-    kOSASupportsAESending       = 0x0010,
-    kOSASupportsRecording       = 0x0020,
-    kOSASupportsConvenience     = 0x0040,
-    kOSASupportsDialects        = 0x0080,
-    kOSASupportsEventHandling   = 0x0100
+  kOSASupportsCompiling         = 0x0002,
+  kOSASupportsGetSource         = 0x0004,
+  kOSASupportsAECoercion        = 0x0008,
+  kOSASupportsAESending         = 0x0010,
+  kOSASupportsRecording         = 0x0020,
+  kOSASupportsConvenience       = 0x0040,
+  kOSASupportsDialects          = 0x0080,
+  kOSASupportsEventHandling     = 0x0100
 };
 
 /* Component Selectors: */
 enum {
-    kOSASelectLoad              = 0x0001,
-    kOSASelectStore             = 0x0002,
-    kOSASelectExecute           = 0x0003,
-    kOSASelectDisplay           = 0x0004,
-    kOSASelectScriptError       = 0x0005,
-    kOSASelectDispose           = 0x0006,
-    kOSASelectSetScriptInfo     = 0x0007,
-    kOSASelectGetScriptInfo     = 0x0008,
-    kOSASelectSetActiveProc     = 0x0009,
-    kOSASelectGetActiveProc     = 0x000A
+  kOSASelectLoad                = 0x0001,
+  kOSASelectStore               = 0x0002,
+  kOSASelectExecute             = 0x0003,
+  kOSASelectDisplay             = 0x0004,
+  kOSASelectScriptError         = 0x0005,
+  kOSASelectDispose             = 0x0006,
+  kOSASelectSetScriptInfo       = 0x0007,
+  kOSASelectGetScriptInfo       = 0x0008,
+  kOSASelectSetActiveProc       = 0x0009,
+  kOSASelectGetActiveProc       = 0x000A
 };
 
 /* Compiling: */
 enum {
-    kOSASelectScriptingComponentName = 0x0102,
-    kOSASelectCompile           = 0x0103,
-    kOSASelectCopyID            = 0x0104
+  kOSASelectScriptingComponentName = 0x0102,
+  kOSASelectCompile             = 0x0103,
+  kOSASelectCopyID              = 0x0104
 };
 
 /* GetSource: */
 enum {
-    kOSASelectGetSource         = 0x0201
+  kOSASelectGetSource           = 0x0201
 };
 
 /* AECoercion: */
 enum {
-    kOSASelectCoerceFromDesc    = 0x0301,
-    kOSASelectCoerceToDesc      = 0x0302
+  kOSASelectCoerceFromDesc      = 0x0301,
+  kOSASelectCoerceToDesc        = 0x0302
 };
 
 /* AESending: */
 enum {
-    kOSASelectSetSendProc       = 0x0401,
-    kOSASelectGetSendProc       = 0x0402,
-    kOSASelectSetCreateProc     = 0x0403,
-    kOSASelectGetCreateProc     = 0x0404,
-    kOSASelectSetDefaultTarget  = 0x0405
+  kOSASelectSetSendProc         = 0x0401,
+  kOSASelectGetSendProc         = 0x0402,
+  kOSASelectSetCreateProc       = 0x0403,
+  kOSASelectGetCreateProc       = 0x0404,
+  kOSASelectSetDefaultTarget    = 0x0405
 };
 
 /* Recording: */
 enum {
-    kOSASelectStartRecording    = 0x0501,
-    kOSASelectStopRecording     = 0x0502
+  kOSASelectStartRecording      = 0x0501,
+  kOSASelectStopRecording       = 0x0502
 };
 
 /* Convenience: */
 enum {
-    kOSASelectLoadExecute       = 0x0601,
-    kOSASelectCompileExecute    = 0x0602,
-    kOSASelectDoScript          = 0x0603
+  kOSASelectLoadExecute         = 0x0601,
+  kOSASelectCompileExecute      = 0x0602,
+  kOSASelectDoScript            = 0x0603
 };
 
 /* Dialects: */
 enum {
-    kOSASelectSetCurrentDialect = 0x0701,
-    kOSASelectGetCurrentDialect = 0x0702,
-    kOSASelectAvailableDialects = 0x0703,
-    kOSASelectGetDialectInfo    = 0x0704,
-    kOSASelectAvailableDialectCodeList = 0x0705
+  kOSASelectSetCurrentDialect   = 0x0701,
+  kOSASelectGetCurrentDialect   = 0x0702,
+  kOSASelectAvailableDialects   = 0x0703,
+  kOSASelectGetDialectInfo      = 0x0704,
+  kOSASelectAvailableDialectCodeList = 0x0705
 };
 
 /* Event Handling: */
 enum {
-    kOSASelectSetResumeDispatchProc = 0x0801,
-    kOSASelectGetResumeDispatchProc = 0x0802,
-    kOSASelectExecuteEvent      = 0x0803,
-    kOSASelectDoEvent           = 0x0804,
-    kOSASelectMakeContext       = 0x0805
+  kOSASelectSetResumeDispatchProc = 0x0801,
+  kOSASelectGetResumeDispatchProc = 0x0802,
+  kOSASelectExecuteEvent        = 0x0803,
+  kOSASelectDoEvent             = 0x0804,
+  kOSASelectMakeContext         = 0x0805
 };
 
 /* scripting component specific selectors are added beginning with this value  */
 enum {
-    kOSASelectComponentSpecificStart = 0x1001
+  kOSASelectComponentSpecificStart = 0x1001
 };
 
 
@@ -336,7 +421,7 @@ enum {
         implementation may not be viewed.
     */
 enum {
-    kOSAModePreventGetSource    = 0x00000001
+  kOSAModePreventGetSource      = 0x00000001
 };
 
 /*
@@ -347,10 +432,10 @@ enum {
         corresponding AESend mode supplied.
     */
 enum {
-    kOSAModeNeverInteract       = kAENeverInteract,
-    kOSAModeCanInteract         = kAECanInteract,
-    kOSAModeAlwaysInteract      = kAEAlwaysInteract,
-    kOSAModeDontReconnect       = kAEDontReconnect
+  kOSAModeNeverInteract         = kAENeverInteract,
+  kOSAModeCanInteract           = kAECanInteract,
+  kOSAModeAlwaysInteract        = kAEAlwaysInteract,
+  kOSAModeDontReconnect         = kAEDontReconnect
 };
 
 /*
@@ -365,7 +450,7 @@ enum {
         without kAECanSwitchLayer.
     */
 enum {
-    kOSAModeCantSwitchLayer     = 0x00000040
+  kOSAModeCantSwitchLayer       = 0x00000040
 };
 
 /*
@@ -379,7 +464,7 @@ enum {
         cause AESend to be called without kAEDontRecord.
     */
 enum {
-    kOSAModeDoRecord            = 0x00001000
+  kOSAModeDoRecord              = 0x00001000
 };
 
 /*
@@ -390,7 +475,7 @@ enum {
         constant expressions).
     */
 enum {
-    kOSAModeCompileIntoContext  = 0x00000002
+  kOSAModeCompileIntoContext    = 0x00000002
 };
 
 /*
@@ -403,7 +488,7 @@ enum {
         in a null context.
     */
 enum {
-    kOSAModeAugmentContext      = 0x00000004
+  kOSAModeAugmentContext        = 0x00000004
 };
 
 /*
@@ -413,7 +498,7 @@ enum {
         off of string values, long lists may have elipses, etc.
     */
 enum {
-    kOSAModeDisplayForHumans    = 0x00000008
+  kOSAModeDisplayForHumans      = 0x00000008
 };
 
 /*
@@ -423,7 +508,7 @@ enum {
         will be kOSANullScript.
     */
 enum {
-    kOSAModeDontStoreParent     = 0x00010000
+  kOSAModeDontStoreParent       = 0x00010000
 };
 
 /*
@@ -435,7 +520,7 @@ enum {
         root of the lookup/resolution process.
     */
 enum {
-    kOSAModeDispatchToDirectObject = 0x00020000
+  kOSAModeDispatchToDirectObject = 0x00020000
 };
 
 /*
@@ -443,7 +528,7 @@ enum {
         components do not have to get the data of object specifier arguments.
     */
 enum {
-    kOSAModeDontGetDataForArguments = 0x00040000
+  kOSAModeDontGetDataForArguments = 0x00040000
 };
 
 /**************************************************************************
@@ -459,7 +544,7 @@ enum {
 
 /* Resource type for scripts */
 enum {
-    kOSAScriptResourceType      = kOSAGenericScriptingComponentSubtype
+  kOSAScriptResourceType        = kOSAGenericScriptingComponentSubtype
 };
 
 /*
@@ -467,14 +552,24 @@ enum {
         data descriptors.
     */
 enum {
-    typeOSAGenericStorage       = kOSAScriptResourceType
+  typeOSAGenericStorage         = kOSAScriptResourceType
 };
 
+/*
+ *  OSALoad()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSALoad                         (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         scriptData,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptID)                  FIVEWORDINLINE(0x2F3C, 0x000C, 0x0001, 0x7000, 0xA82A);
+OSALoad(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      scriptData,
+  long                modeFlags,
+  OSAID *             resultingScriptID)                      FIVEWORDINLINE(0x2F3C, 0x000C, 0x0001, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectLoad, 12);
@@ -490,12 +585,22 @@ OSALoad                         (ComponentInstance      scriptingComponent,
         ModeFlags:
             kOSAModePreventGetSource
     */
+/*
+ *  OSAStore()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAStore                        (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID,
-                                 DescType               desiredType,
-                                 long                   modeFlags,
-                                 AEDesc *               resultingScriptData)                FIVEWORDINLINE(0x2F3C, 0x0010, 0x0002, 0x7000, 0xA82A);
+OSAStore(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID,
+  DescType            desiredType,
+  long                modeFlags,
+  AEDesc *            resultingScriptData)                    FIVEWORDINLINE(0x2F3C, 0x0010, 0x0002, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectStore, 16);
@@ -511,12 +616,22 @@ OSAStore                        (ComponentInstance      scriptingComponent,
             kOSAModeDontStoreParent
     */
 /* Executing Scripts: */
+/*
+ *  OSAExecute()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAExecute                      (ComponentInstance      scriptingComponent,
-                                 OSAID                  compiledScriptID,
-                                 OSAID                  contextID,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptValueID)             FIVEWORDINLINE(0x2F3C, 0x0010, 0x0003, 0x7000, 0xA82A);
+OSAExecute(
+  ComponentInstance   scriptingComponent,
+  OSAID               compiledScriptID,
+  OSAID               contextID,
+  long                modeFlags,
+  OSAID *             resultingScriptValueID)                 FIVEWORDINLINE(0x2F3C, 0x0010, 0x0003, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectExecute, 16);
@@ -544,12 +659,22 @@ OSAExecute                      (ComponentInstance      scriptingComponent,
             kOSAModeDoRecord
     */
 /* Displaying results: */
+/*
+ *  OSADisplay()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSADisplay                      (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptValueID,
-                                 DescType               desiredType,
-                                 long                   modeFlags,
-                                 AEDesc *               resultingText)                      FIVEWORDINLINE(0x2F3C, 0x0010, 0x0004, 0x7000, 0xA82A);
+OSADisplay(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptValueID,
+  DescType            desiredType,
+  long                modeFlags,
+  AEDesc *            resultingText)                          FIVEWORDINLINE(0x2F3C, 0x0010, 0x0004, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectDisplay, 16);
@@ -572,11 +697,21 @@ OSADisplay                      (ComponentInstance      scriptingComponent,
             kOSAModeDisplayForHumans
     */
 /* Getting Error Information: */
+/*
+ *  OSAScriptError()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAScriptError                  (ComponentInstance      scriptingComponent,
-                                 OSType                 selector,
-                                 DescType               desiredType,
-                                 AEDesc *               resultingErrorDescription)          FIVEWORDINLINE(0x2F3C, 0x000C, 0x0005, 0x7000, 0xA82A);
+OSAScriptError(
+  ComponentInstance   scriptingComponent,
+  OSType              selector,
+  DescType            desiredType,
+  AEDesc *            resultingErrorDescription)              FIVEWORDINLINE(0x2F3C, 0x000C, 0x0005, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectScriptError, 12);
@@ -601,7 +736,7 @@ OSAScriptError                  (ComponentInstance      scriptingComponent,
             typeShortInteger
     */
 enum {
-    kOSAErrorNumber             = keyErrorNumber
+  kOSAErrorNumber               = keyErrorNumber
 };
 
 /*
@@ -614,7 +749,7 @@ enum {
             typeChar                    error message string
     */
 enum {
-    kOSAErrorMessage            = keyErrorString
+  kOSAErrorMessage              = keyErrorString
 };
 
 /*
@@ -628,7 +763,7 @@ enum {
     */
 /*  0x65727262  */
 enum {
-    kOSAErrorBriefMessage       = FOUR_CHAR_CODE('errb')
+  kOSAErrorBriefMessage         = FOUR_CHAR_CODE('errb')
 };
 
 /*
@@ -641,7 +776,7 @@ enum {
     */
 /*  0x65726170  */
 enum {
-    kOSAErrorApp                = FOUR_CHAR_CODE('erap')
+  kOSAErrorApp                  = FOUR_CHAR_CODE('erap')
 };
 
 /*
@@ -653,7 +788,7 @@ enum {
     */
 /*  0x70746c72   */
 enum {
-    kOSAErrorPartialResult      = FOUR_CHAR_CODE('ptlr')
+  kOSAErrorPartialResult        = FOUR_CHAR_CODE('ptlr')
 };
 
 /*
@@ -665,7 +800,7 @@ enum {
     */
 /*  0x65726f62   */
 enum {
-    kOSAErrorOffendingObject    = FOUR_CHAR_CODE('erob')
+  kOSAErrorOffendingObject      = FOUR_CHAR_CODE('erob')
 };
 
 /*
@@ -674,7 +809,7 @@ enum {
     */
 /*  0x65727274   */
 enum {
-    kOSAErrorExpectedType       = FOUR_CHAR_CODE('errt')
+  kOSAErrorExpectedType         = FOUR_CHAR_CODE('errt')
 };
 
 /*
@@ -685,7 +820,7 @@ enum {
     */
 /*  0x65726e67  */
 enum {
-    kOSAErrorRange              = FOUR_CHAR_CODE('erng')
+  kOSAErrorRange                = FOUR_CHAR_CODE('erng')
 };
 
 /*
@@ -694,25 +829,35 @@ enum {
     */
 /*  0x65726e67   */
 enum {
-    typeOSAErrorRange           = FOUR_CHAR_CODE('erng')
+  typeOSAErrorRange             = FOUR_CHAR_CODE('erng')
 };
 
 /* Field of a typeOSAErrorRange record of typeShortInteger */
 /*  0x73726373    */
 enum {
-    keyOSASourceStart           = FOUR_CHAR_CODE('srcs')
+  keyOSASourceStart             = FOUR_CHAR_CODE('srcs')
 };
 
 /* Field of a typeOSAErrorRange record of typeShortInteger */
 /*  0x73726365   */
 enum {
-    keyOSASourceEnd             = FOUR_CHAR_CODE('srce')
+  keyOSASourceEnd               = FOUR_CHAR_CODE('srce')
 };
 
 /* Disposing Script IDs: */
+/*
+ *  OSADispose()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSADispose                      (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID)                           FIVEWORDINLINE(0x2F3C, 0x0004, 0x0006, 0x7000, 0xA82A);
+OSADispose(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID)                               FIVEWORDINLINE(0x2F3C, 0x0004, 0x0006, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectDispose, 4);
@@ -724,11 +869,21 @@ OSADispose                      (ComponentInstance      scriptingComponent,
             errOSAInvalidID
     */
 /* Getting and Setting Script Information: */
+/*
+ *  OSASetScriptInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetScriptInfo                (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID,
-                                 OSType                 selector,
-                                 long                   value)                              FIVEWORDINLINE(0x2F3C, 0x000C, 0x0007, 0x7000, 0xA82A);
+OSASetScriptInfo(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID,
+  OSType              selector,
+  long                value)                                  FIVEWORDINLINE(0x2F3C, 0x000C, 0x0007, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetScriptInfo, 12);
@@ -740,11 +895,21 @@ OSASetScriptInfo                (ComponentInstance      scriptingComponent,
             errOSABadSelector:      selector not supported by scripting component
                                     or selector not for this scriptID
     */
+/*
+ *  OSAGetScriptInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetScriptInfo                (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID,
-                                 OSType                 selector,
-                                 long *                 result)                             FIVEWORDINLINE(0x2F3C, 0x000C, 0x0008, 0x7000, 0xA82A);
+OSAGetScriptInfo(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID,
+  OSType              selector,
+  long *              result)                                 FIVEWORDINLINE(0x2F3C, 0x000C, 0x0008, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetScriptInfo, 12);
@@ -763,30 +928,83 @@ OSAGetScriptInfo                (ComponentInstance      scriptingComponent,
 */
 typedef CALLBACK_API( OSErr , OSAActiveProcPtr )(long refCon);
 typedef STACK_UPP_TYPE(OSAActiveProcPtr)                        OSAActiveUPP;
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(OSAActiveUPP)
-    NewOSAActiveUPP                (OSAActiveProcPtr        userRoutine);
-
-    EXTERN_API(void)
-    DisposeOSAActiveUPP            (OSAActiveUPP            userUPP);
-
-    EXTERN_API(OSErr)
-    InvokeOSAActiveUPP             (long                    refCon,
-                                    OSAActiveUPP            userUPP);
-
-#else
-    enum { uppOSAActiveProcInfo = 0x000000E0 };                     /* pascal 2_bytes Func(4_bytes) */
-    #define NewOSAActiveUPP(userRoutine)                            (OSAActiveUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSAActiveProcInfo, GetCurrentArchitecture())
-    #define DisposeOSAActiveUPP(userUPP)                            DisposeRoutineDescriptor(userUPP)
-    #define InvokeOSAActiveUPP(refCon, userUPP)                     (OSErr)CALL_ONE_PARAMETER_UPP((userUPP), uppOSAActiveProcInfo, (refCon))
+/*
+ *  NewOSAActiveUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSAActiveUPP )
+NewOSAActiveUPP(OSAActiveProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppOSAActiveProcInfo = 0x000000E0 };  /* pascal 2_bytes Func(4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(OSAActiveUPP) NewOSAActiveUPP(OSAActiveProcPtr userRoutine) { return (OSAActiveUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSAActiveProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewOSAActiveUPP(userRoutine) (OSAActiveUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppOSAActiveProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewOSAActiveProc(userRoutine)                           NewOSAActiveUPP(userRoutine)
-#define CallOSAActiveProc(userRoutine, refCon)                  InvokeOSAActiveUPP(refCon, userRoutine)
+
+/*
+ *  DisposeOSAActiveUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeOSAActiveUPP(OSAActiveUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeOSAActiveUPP(OSAActiveUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeOSAActiveUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeOSAActiveUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSErr )
+InvokeOSAActiveUPP(
+  long          refCon,
+  OSAActiveUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSErr) InvokeOSAActiveUPP(long refCon, OSAActiveUPP userUPP) { return (OSErr)CALL_ONE_PARAMETER_UPP(userUPP, uppOSAActiveProcInfo, refCon); }
+  #else
+    #define InvokeOSAActiveUPP(refCon, userUPP) (OSErr)CALL_ONE_PARAMETER_UPP((userUPP), uppOSAActiveProcInfo, (refCon))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewOSAActiveProc(userRoutine)                       NewOSAActiveUPP(userRoutine)
+    #define CallOSAActiveProc(userRoutine, refCon)              InvokeOSAActiveUPP(refCon, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
+/*
+ *  OSASetActiveProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetActiveProc                (ComponentInstance      scriptingComponent,
-                                 OSAActiveUPP           activeProc,
-                                 long                   refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0009, 0x7000, 0xA82A);
+OSASetActiveProc(
+  ComponentInstance   scriptingComponent,
+  OSAActiveUPP        activeProc,
+  long                refCon)                                 FIVEWORDINLINE(0x2F3C, 0x0008, 0x0009, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetActiveProc, 8);
@@ -796,10 +1014,20 @@ OSASetActiveProc                (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAGetActiveProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetActiveProc                (ComponentInstance      scriptingComponent,
-                                 OSAActiveUPP *         activeProc,
-                                 long *                 refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x000A, 0x7000, 0xA82A);
+OSAGetActiveProc(
+  ComponentInstance   scriptingComponent,
+  OSAActiveUPP *      activeProc,
+  long *              refCon)                                 FIVEWORDINLINE(0x2F3C, 0x0008, 0x000A, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetActiveProc, 8);
@@ -814,9 +1042,19 @@ OSAGetActiveProc                (ComponentInstance      scriptingComponent,
     Scripting components that support the Compiling interface have the 
     kOSASupportsCompiling bit set in it's ComponentDescription.
 **************************************************************************/
+/*
+ *  OSAScriptingComponentName()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAScriptingComponentName       (ComponentInstance      scriptingComponent,
-                                 AEDesc *               resultingScriptingComponentName)    FIVEWORDINLINE(0x2F3C, 0x0004, 0x0102, 0x7000, 0xA82A);
+OSAScriptingComponentName(
+  ComponentInstance   scriptingComponent,
+  AEDesc *            resultingScriptingComponentName)        FIVEWORDINLINE(0x2F3C, 0x0004, 0x0102, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectScriptingComponentName, 4);
@@ -830,11 +1068,21 @@ OSAScriptingComponentName       (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSACompile()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSACompile                      (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         sourceData,
-                                 long                   modeFlags,
-                                 OSAID *                previousAndResultingScriptID)       FIVEWORDINLINE(0x2F3C, 0x000C, 0x0103, 0x7000, 0xA82A);
+OSACompile(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      sourceData,
+  long                modeFlags,
+  OSAID *             previousAndResultingScriptID)           FIVEWORDINLINE(0x2F3C, 0x000C, 0x0103, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectCompile, 12);
@@ -864,10 +1112,20 @@ OSACompile                      (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSACopyID()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSACopyID                       (ComponentInstance      scriptingComponent,
-                                 OSAID                  fromID,
-                                 OSAID *                toID)                               FIVEWORDINLINE(0x2F3C, 0x0008, 0x0104, 0x7000, 0xA82A);
+OSACopyID(
+  ComponentInstance   scriptingComponent,
+  OSAID               fromID,
+  OSAID *             toID)                                   FIVEWORDINLINE(0x2F3C, 0x0008, 0x0104, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectCopyID, 8);
@@ -884,13 +1142,23 @@ OSACopyID                       (ComponentInstance      scriptingComponent,
     OSA Optional GetSource Interface
 **************************************************************************
     Scripting components that support the GetSource interface have the 
-    kOSASupportsGetSource bit set in it's ComponentDescription.
+    kOSASupportsGetSource bit set in their ComponentDescription.
 **************************************************************************/
+/*
+ *  OSAGetSource()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetSource                    (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID,
-                                 DescType               desiredType,
-                                 AEDesc *               resultingSourceData)                FIVEWORDINLINE(0x2F3C, 0x000C, 0x0201, 0x7000, 0xA82A);
+OSAGetSource(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID,
+  DescType            desiredType,
+  AEDesc *            resultingSourceData)                    FIVEWORDINLINE(0x2F3C, 0x000C, 0x0201, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetSource, 12);
@@ -907,13 +1175,23 @@ OSAGetSource                    (ComponentInstance      scriptingComponent,
     OSA Optional AECoercion Interface
 **************************************************************************
     Scripting components that support the AECoercion interface have the 
-    kOSASupportsAECoercion bit set in it's ComponentDescription.
+    kOSASupportsAECoercion bit set in their ComponentDescription.
 **************************************************************************/
+/*
+ *  OSACoerceFromDesc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSACoerceFromDesc               (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         scriptData,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptID)                  FIVEWORDINLINE(0x2F3C, 0x000C, 0x0301, 0x7000, 0xA82A);
+OSACoerceFromDesc(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      scriptData,
+  long                modeFlags,
+  OSAID *             resultingScriptID)                      FIVEWORDINLINE(0x2F3C, 0x000C, 0x0301, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectCoerceFromDesc, 12);
@@ -936,12 +1214,22 @@ OSACoerceFromDesc               (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSACoerceToDesc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSACoerceToDesc                 (ComponentInstance      scriptingComponent,
-                                 OSAID                  scriptID,
-                                 DescType               desiredType,
-                                 long                   modeFlags,
-                                 AEDesc *               result)                             FIVEWORDINLINE(0x2F3C, 0x0010, 0x0302, 0x7000, 0xA82A);
+OSACoerceToDesc(
+  ComponentInstance   scriptingComponent,
+  OSAID               scriptID,
+  DescType            desiredType,
+  long                modeFlags,
+  AEDesc *            result)                                 FIVEWORDINLINE(0x2F3C, 0x0010, 0x0302, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectCoerceToDesc, 16);
@@ -964,10 +1252,20 @@ OSACoerceToDesc                 (ComponentInstance      scriptingComponent,
     Scripting systems will supply default values for these procedures if they
     are not set by the client:
 */
+/*
+ *  OSASetSendProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetSendProc                  (ComponentInstance      scriptingComponent,
-                                 OSASendUPP             sendProc,
-                                 long                   refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0401, 0x7000, 0xA82A);
+OSASetSendProc(
+  ComponentInstance   scriptingComponent,
+  OSASendUPP          sendProc,
+  long                refCon)                                 FIVEWORDINLINE(0x2F3C, 0x0008, 0x0401, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetSendProc, 8);
@@ -977,10 +1275,20 @@ OSASetSendProc                  (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAGetSendProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetSendProc                  (ComponentInstance      scriptingComponent,
-                                 OSASendUPP *           sendProc,
-                                 long *                 refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0402, 0x7000, 0xA82A);
+OSAGetSendProc(
+  ComponentInstance   scriptingComponent,
+  OSASendUPP *        sendProc,
+  long *              refCon)                                 FIVEWORDINLINE(0x2F3C, 0x0008, 0x0402, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetSendProc, 8);
@@ -989,10 +1297,20 @@ OSAGetSendProc                  (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSASetCreateProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetCreateProc                (ComponentInstance      scriptingComponent,
-                                 OSACreateAppleEventUPP  createProc,
-                                 long                   refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0403, 0x7000, 0xA82A);
+OSASetCreateProc(
+  ComponentInstance        scriptingComponent,
+  OSACreateAppleEventUPP   createProc,
+  long                     refCon)                            FIVEWORDINLINE(0x2F3C, 0x0008, 0x0403, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetCreateProc, 8);
@@ -1002,10 +1320,20 @@ OSASetCreateProc                (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAGetCreateProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetCreateProc                (ComponentInstance      scriptingComponent,
-                                 OSACreateAppleEventUPP * createProc,
-                                 long *                 refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0404, 0x7000, 0xA82A);
+OSAGetCreateProc(
+  ComponentInstance         scriptingComponent,
+  OSACreateAppleEventUPP *  createProc,
+  long *                    refCon)                           FIVEWORDINLINE(0x2F3C, 0x0008, 0x0404, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetCreateProc, 8);
@@ -1014,9 +1342,19 @@ OSAGetCreateProc                (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSASetDefaultTarget()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetDefaultTarget             (ComponentInstance      scriptingComponent,
-                                 const AEAddressDesc *  target)                             FIVEWORDINLINE(0x2F3C, 0x0004, 0x0405, 0x7000, 0xA82A);
+OSASetDefaultTarget(
+  ComponentInstance      scriptingComponent,
+  const AEAddressDesc *  target)                              FIVEWORDINLINE(0x2F3C, 0x0004, 0x0405, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetDefaultTarget, 4);
@@ -1036,9 +1374,19 @@ OSASetDefaultTarget             (ComponentInstance      scriptingComponent,
     Scripting components that support the Recording interface have the 
     kOSASupportsRecording bit set in their ComponentDescription.
 **************************************************************************/
+/*
+ *  OSAStartRecording()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAStartRecording               (ComponentInstance      scriptingComponent,
-                                 OSAID *                compiledScriptToModifyID)           FIVEWORDINLINE(0x2F3C, 0x0004, 0x0501, 0x7000, 0xA82A);
+OSAStartRecording(
+  ComponentInstance   scriptingComponent,
+  OSAID *             compiledScriptToModifyID)               FIVEWORDINLINE(0x2F3C, 0x0004, 0x0501, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectStartRecording, 4);
@@ -1054,9 +1402,19 @@ OSAStartRecording               (ComponentInstance      scriptingComponent,
             errOSAInvalidID
             errOSARecordingIsAlreadyOn
     */
+/*
+ *  OSAStopRecording()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAStopRecording                (ComponentInstance      scriptingComponent,
-                                 OSAID                  compiledScriptID)                   FIVEWORDINLINE(0x2F3C, 0x0004, 0x0502, 0x7000, 0xA82A);
+OSAStopRecording(
+  ComponentInstance   scriptingComponent,
+  OSAID               compiledScriptID)                       FIVEWORDINLINE(0x2F3C, 0x0004, 0x0502, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectStopRecording, 4);
@@ -1074,12 +1432,22 @@ OSAStopRecording                (ComponentInstance      scriptingComponent,
     Scripting components that support the Convenience interface have the 
     kOSASupportsConvenience bit set in their ComponentDescription.
 **************************************************************************/
+/*
+ *  OSALoadExecute()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSALoadExecute                  (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         scriptData,
-                                 OSAID                  contextID,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptValueID)             FIVEWORDINLINE(0x2F3C, 0x0010, 0x0601, 0x7000, 0xA82A);
+OSALoadExecute(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      scriptData,
+  OSAID               contextID,
+  long                modeFlags,
+  OSAID *             resultingScriptValueID)                 FIVEWORDINLINE(0x2F3C, 0x0010, 0x0601, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectLoadExecute, 16);
@@ -1105,12 +1473,22 @@ OSALoadExecute                  (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSACompileExecute()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSACompileExecute               (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         sourceData,
-                                 OSAID                  contextID,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptValueID)             FIVEWORDINLINE(0x2F3C, 0x0010, 0x0602, 0x7000, 0xA82A);
+OSACompileExecute(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      sourceData,
+  OSAID               contextID,
+  long                modeFlags,
+  OSAID *             resultingScriptValueID)                 FIVEWORDINLINE(0x2F3C, 0x0010, 0x0602, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectCompileExecute, 16);
@@ -1135,13 +1513,23 @@ OSACompileExecute               (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSADoScript()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSADoScript                     (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         sourceData,
-                                 OSAID                  contextID,
-                                 DescType               desiredType,
-                                 long                   modeFlags,
-                                 AEDesc *               resultingText)                      FIVEWORDINLINE(0x2F3C, 0x0014, 0x0603, 0x7000, 0xA82A);
+OSADoScript(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      sourceData,
+  OSAID               contextID,
+  DescType            desiredType,
+  long                modeFlags,
+  AEDesc *            resultingText)                          FIVEWORDINLINE(0x2F3C, 0x0014, 0x0603, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectDoScript, 20);
@@ -1183,9 +1571,19 @@ OSADoScript                     (ComponentInstance      scriptingComponent,
     to dynamically switch between those dialects.  Although this interface is
     specified, the particular dialect codes are scripting component dependent.
 */
+/*
+ *  OSASetCurrentDialect()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetCurrentDialect            (ComponentInstance      scriptingComponent,
-                                 short                  dialectCode)                        FIVEWORDINLINE(0x2F3C, 0x0002, 0x0701, 0x7000, 0xA82A);
+OSASetCurrentDialect(
+  ComponentInstance   scriptingComponent,
+  short               dialectCode)                            FIVEWORDINLINE(0x2F3C, 0x0002, 0x0701, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetCurrentDialect, 2);
@@ -1195,9 +1593,19 @@ OSASetCurrentDialect            (ComponentInstance      scriptingComponent,
             errOSASystemError
             errOSANoSuchDialect:    invalid dialectCode
     */
+/*
+ *  OSAGetCurrentDialect()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetCurrentDialect            (ComponentInstance      scriptingComponent,
-                                 short *                resultingDialectCode)               FIVEWORDINLINE(0x2F3C, 0x0004, 0x0702, 0x7000, 0xA82A);
+OSAGetCurrentDialect(
+  ComponentInstance   scriptingComponent,
+  short *             resultingDialectCode)                   FIVEWORDINLINE(0x2F3C, 0x0004, 0x0702, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetCurrentDialect, 4);
@@ -1206,9 +1614,19 @@ OSAGetCurrentDialect            (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAAvailableDialects()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAAvailableDialects            (ComponentInstance      scriptingComponent,
-                                 AEDesc *               resultingDialectInfoList)           FIVEWORDINLINE(0x2F3C, 0x0004, 0x0703, 0x7000, 0xA82A);
+OSAAvailableDialects(
+  ComponentInstance   scriptingComponent,
+  AEDesc *            resultingDialectInfoList)               FIVEWORDINLINE(0x2F3C, 0x0004, 0x0703, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectAvailableDialects, 4);
@@ -1222,11 +1640,21 @@ OSAAvailableDialects            (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAGetDialectInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetDialectInfo               (ComponentInstance      scriptingComponent,
-                                 short                  dialectCode,
-                                 OSType                 selector,
-                                 AEDesc *               resultingDialectInfo)               FIVEWORDINLINE(0x2F3C, 0x000A, 0x0704, 0x7000, 0xA82A);
+OSAGetDialectInfo(
+  ComponentInstance   scriptingComponent,
+  short               dialectCode,
+  OSType              selector,
+  AEDesc *            resultingDialectInfo)                   FIVEWORDINLINE(0x2F3C, 0x000A, 0x0704, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetDialectInfo, 10);
@@ -1242,9 +1670,19 @@ OSAGetDialectInfo               (ComponentInstance      scriptingComponent,
             errOSABadSelector
             errOSANoSuchDialect:    invalid dialectCode
     */
+/*
+ *  OSAAvailableDialectCodeList()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAAvailableDialectCodeList     (ComponentInstance      scriptingComponent,
-                                 AEDesc *               resultingDialectCodeList)           FIVEWORDINLINE(0x2F3C, 0x0004, 0x0705, 0x7000, 0xA82A);
+OSAAvailableDialectCodeList(
+  ComponentInstance   scriptingComponent,
+  AEDesc *            resultingDialectCodeList)               FIVEWORDINLINE(0x2F3C, 0x0004, 0x0705, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectAvailableDialectCodeList, 4);
@@ -1274,10 +1712,20 @@ OSAAvailableDialectCodeList     (ComponentInstance      scriptingComponent,
     Scripting components that support the Event Handling interface have the 
     kOSASupportsEventHandling bit set in their ComponentDescription.
 **************************************************************************/
+/*
+ *  OSASetResumeDispatchProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSASetResumeDispatchProc        (ComponentInstance      scriptingComponent,
-                                 AEEventHandlerUPP      resumeDispatchProc,
-                                 long                   refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0801, 0x7000, 0xA82A);
+OSASetResumeDispatchProc(
+  ComponentInstance   scriptingComponent,
+  AEEventHandlerUPP   resumeDispatchProc,
+  long                refCon)                                 FIVEWORDINLINE(0x2F3C, 0x0008, 0x0801, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectSetResumeDispatchProc, 8);
@@ -1294,7 +1742,7 @@ OSASetResumeDispatchProc        (ComponentInstance      scriptingComponent,
             errOSASystemError
     */
 enum {
-    kOSAUseStandardDispatch     = kAEUseStandardDispatch
+  kOSAUseStandardDispatch       = kAEUseStandardDispatch
 };
 
 /*
@@ -1308,7 +1756,7 @@ enum {
                 Pascal.
     */
 enum {
-    kOSANoDispatch              = kAENoDispatch
+  kOSANoDispatch                = kAENoDispatch
 };
 
 /*
@@ -1321,7 +1769,7 @@ enum {
                 Pascal.
     */
 enum {
-    kOSADontUsePhac             = 0x0001
+  kOSADontUsePhac               = 0x0001
 };
 
 /*
@@ -1333,10 +1781,20 @@ enum {
         direct parameter, and call OSAExecuteEvent or OSADoEvent.  Failure to
         bypass the phac handler would result in an infinite loop.
     */
+/*
+ *  OSAGetResumeDispatchProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAGetResumeDispatchProc        (ComponentInstance      scriptingComponent,
-                                 AEEventHandlerUPP *    resumeDispatchProc,
-                                 long *                 refCon)                             FIVEWORDINLINE(0x2F3C, 0x0008, 0x0802, 0x7000, 0xA82A);
+OSAGetResumeDispatchProc(
+  ComponentInstance    scriptingComponent,
+  AEEventHandlerUPP *  resumeDispatchProc,
+  long *               refCon)                                FIVEWORDINLINE(0x2F3C, 0x0008, 0x0802, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectGetResumeDispatchProc, 8);
@@ -1347,12 +1805,22 @@ OSAGetResumeDispatchProc        (ComponentInstance      scriptingComponent,
             badComponentInstance    invalid scripting component instance
             errOSASystemError
     */
+/*
+ *  OSAExecuteEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAExecuteEvent                 (ComponentInstance      scriptingComponent,
-                                 const AppleEvent *     theAppleEvent,
-                                 OSAID                  contextID,
-                                 long                   modeFlags,
-                                 OSAID *                resultingScriptValueID)             FIVEWORDINLINE(0x2F3C, 0x0010, 0x0803, 0x7000, 0xA82A);
+OSAExecuteEvent(
+  ComponentInstance   scriptingComponent,
+  const AppleEvent *  theAppleEvent,
+  OSAID               contextID,
+  long                modeFlags,
+  OSAID *             resultingScriptValueID)                 FIVEWORDINLINE(0x2F3C, 0x0010, 0x0803, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectExecuteEvent, 16);
@@ -1380,12 +1848,22 @@ OSAExecuteEvent                 (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSADoEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSADoEvent                      (ComponentInstance      scriptingComponent,
-                                 const AppleEvent *     theAppleEvent,
-                                 OSAID                  contextID,
-                                 long                   modeFlags,
-                                 AppleEvent *           reply)                              FIVEWORDINLINE(0x2F3C, 0x0010, 0x0804, 0x7000, 0xA82A);
+OSADoEvent(
+  ComponentInstance   scriptingComponent,
+  const AppleEvent *  theAppleEvent,
+  OSAID               contextID,
+  long                modeFlags,
+  AppleEvent *        reply)                                  FIVEWORDINLINE(0x2F3C, 0x0010, 0x0804, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectDoEvent, 16);
@@ -1417,11 +1895,21 @@ OSADoEvent                      (ComponentInstance      scriptingComponent,
             kOSAModeDontReconnect
             kOSAModeDoRecord
     */
+/*
+ *  OSAMakeContext()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-OSAMakeContext                  (ComponentInstance      scriptingComponent,
-                                 const AEDesc *         contextName,
-                                 OSAID                  parentContext,
-                                 OSAID *                resultingContextID)                 FIVEWORDINLINE(0x2F3C, 0x000C, 0x0805, 0x7000, 0xA82A);
+OSAMakeContext(
+  ComponentInstance   scriptingComponent,
+  const AEDesc *      contextName,
+  OSAID               parentContext,
+  OSAID *             resultingContextID)                     FIVEWORDINLINE(0x2F3C, 0x000C, 0x0805, 0x7000, 0xA82A);
+
 
 /*
         OSAComponentFunctionInline(kOSASelectMakeContext, 12);

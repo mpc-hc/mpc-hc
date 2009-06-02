@@ -3,10 +3,9 @@
  
      Contains:   AppleScript Specific Interfaces.
  
-     Version:    Technology: AppleScript 1.1
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1992-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1992-2000 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -19,10 +18,6 @@
 
 #ifndef __MACERRORS__
 #include "MacErrors.h"
-#endif
-
-#ifndef __APPLEEVENTS__
-#include "AppleEvents.h"
 #endif
 
 #ifndef __OSA__
@@ -64,9 +59,9 @@ extern "C" {
     Open Scripting Architecture type.
 */
 enum {
-    typeAppleScript             = FOUR_CHAR_CODE('ascr'),
-    kAppleScriptSubtype         = typeAppleScript,
-    typeASStorage               = typeAppleScript
+  typeAppleScript               = FOUR_CHAR_CODE('ascr'),
+  kAppleScriptSubtype           = typeAppleScript,
+  typeASStorage                 = typeAppleScript
 };
 
 /**************************************************************************
@@ -74,10 +69,10 @@ enum {
 **************************************************************************/
 
 enum {
-    kASSelectInit               = 0x1001,
-    kASSelectSetSourceStyles    = 0x1002,
-    kASSelectGetSourceStyles    = 0x1003,
-    kASSelectGetSourceStyleNames = 0x1004
+  kASSelectInit                 = 0x1001,
+  kASSelectSetSourceStyles      = 0x1002,
+  kASSelectGetSourceStyles      = 0x1003,
+  kASSelectGetSourceStyleNames  = 0x1004
 };
 
 
@@ -85,7 +80,7 @@ enum {
     OSAGetScriptInfo Selectors
 **************************************************************************/
 enum {
-    kASHasOpenHandler           = FOUR_CHAR_CODE('hsod')
+  kASHasOpenHandler             = FOUR_CHAR_CODE('hsod')
 };
 
 /*
@@ -98,15 +93,25 @@ enum {
 /**************************************************************************
     Initialization
 **************************************************************************/
+/*
+ *  ASInit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-ASInit                          (ComponentInstance      scriptingComponent,
-                                 long                   modeFlags,
-                                 long                   minStackSize,
-                                 long                   preferredStackSize,
-                                 long                   maxStackSize,
-                                 long                   minHeapSize,
-                                 long                   preferredHeapSize,
-                                 long                   maxHeapSize)                        FIVEWORDINLINE(0x2F3C, 0x001C, 0x1001, 0x7000, 0xA82A);
+ASInit(
+  ComponentInstance   scriptingComponent,
+  long                modeFlags,
+  long                minStackSize,
+  long                preferredStackSize,
+  long                maxStackSize,
+  long                minHeapSize,
+  long                preferredHeapSize,
+  long                maxHeapSize)                            FIVEWORDINLINE(0x2F3C, 0x001C, 0x1001, 0x7000, 0xA82A);
+
 
 /*
         ComponentCallNow(kASSelectInit, 28);
@@ -124,39 +129,69 @@ ASInit                          (ComponentInstance      scriptingComponent,
     of ASInit's parameters are zero:
 */
 enum {
-    kASDefaultMinStackSize      = 4 * 1024,
-    kASDefaultPreferredStackSize = 16 * 1024,
-    kASDefaultMaxStackSize      = 16 * 1024,
-    kASDefaultMinHeapSize       = 4 * 1024,
-    kASDefaultPreferredHeapSize = 16 * 1024,
-    kASDefaultMaxHeapSize       = 32L * 1024 * 1024
+  kASDefaultMinStackSize        = 4 * 1024,
+  kASDefaultPreferredStackSize  = 16 * 1024,
+  kASDefaultMaxStackSize        = 16 * 1024,
+  kASDefaultMinHeapSize         = 4 * 1024,
+  kASDefaultPreferredHeapSize   = 16 * 1024,
+  kASDefaultMaxHeapSize         = 32L * 1024 * 1024
 };
 
 /**************************************************************************
     Source Styles
 **************************************************************************/
+/*
+ *  ASSetSourceStyles()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-ASSetSourceStyles               (ComponentInstance      scriptingComponent,
-                                 STHandle               sourceStyles)                       FIVEWORDINLINE(0x2F3C, 0x0004, 0x1002, 0x7000, 0xA82A);
+ASSetSourceStyles(
+  ComponentInstance   scriptingComponent,
+  STHandle            sourceStyles)                           FIVEWORDINLINE(0x2F3C, 0x0004, 0x1002, 0x7000, 0xA82A);
+
 
 /*
         ComponentCallNow(kASSelectSetSourceStyles, 4);
         Errors:
         errOSASystemError       operation failed
     */
+/*
+ *  ASGetSourceStyles()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-ASGetSourceStyles               (ComponentInstance      scriptingComponent,
-                                 STHandle *             resultingSourceStyles)              FIVEWORDINLINE(0x2F3C, 0x0004, 0x1003, 0x7000, 0xA82A);
+ASGetSourceStyles(
+  ComponentInstance   scriptingComponent,
+  STHandle *          resultingSourceStyles)                  FIVEWORDINLINE(0x2F3C, 0x0004, 0x1003, 0x7000, 0xA82A);
+
 
 /*
         ComponentCallNow(kASSelectGetSourceStyles, 4);
         Errors:
         errOSASystemError       operation failed
     */
+/*
+ *  ASGetSourceStyleNames()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in AppleScriptLib 1.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSAError )
-ASGetSourceStyleNames           (ComponentInstance      scriptingComponent,
-                                 long                   modeFlags,
-                                 AEDescList *           resultingSourceStyleNamesList)      FIVEWORDINLINE(0x2F3C, 0x0008, 0x1004, 0x7000, 0xA82A);
+ASGetSourceStyleNames(
+  ComponentInstance   scriptingComponent,
+  long                modeFlags,
+  AEDescList *        resultingSourceStyleNamesList)          FIVEWORDINLINE(0x2F3C, 0x0008, 0x1004, 0x7000, 0xA82A);
+
 
 /*
         ComponentCallNow(kASSelectGetSourceStyleNames, 8);
@@ -173,15 +208,15 @@ ASGetSourceStyleNames           (ComponentInstance      scriptingComponent,
     accessed through following index constants:
 */
 enum {
-    kASSourceStyleUncompiledText = 0,
-    kASSourceStyleNormalText    = 1,
-    kASSourceStyleLanguageKeyword = 2,
-    kASSourceStyleApplicationKeyword = 3,
-    kASSourceStyleComment       = 4,
-    kASSourceStyleLiteral       = 5,
-    kASSourceStyleUserSymbol    = 6,
-    kASSourceStyleObjectSpecifier = 7,
-    kASNumberOfSourceStyles     = 8
+  kASSourceStyleUncompiledText  = 0,
+  kASSourceStyleNormalText      = 1,
+  kASSourceStyleLanguageKeyword = 2,
+  kASSourceStyleApplicationKeyword = 3,
+  kASSourceStyleComment         = 4,
+  kASSourceStyleLiteral         = 5,
+  kASSourceStyleUserSymbol      = 6,
+  kASSourceStyleObjectSpecifier = 7,
+  kASNumberOfSourceStyles       = 8
 };
 
 

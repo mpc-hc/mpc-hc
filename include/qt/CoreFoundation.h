@@ -3,10 +3,9 @@
  
      Contains:   CoreFoundation master header
  
-     Version:    Technology: Mac OS X
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1999-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1999-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -14,6 +13,7 @@
                      http://developer.apple.com/bugreporter/
  
 */
+
 #ifndef __COREFOUNDATION__
 #define __COREFOUNDATION__
 
@@ -81,12 +81,28 @@
 #include "CFTimeZone.h"
 #endif
 
+#ifndef __CFTREE__
+#include "CFTree.h"
+#endif
+
 #ifndef __CFURL__
 #include "CFURL.h"
 #endif
 
 #ifndef __CFURLACCESS__
 #include "CFURLAccess.h"
+#endif
+
+#ifndef __CFUUID__
+#include "CFUUID.h"
+#endif
+
+#ifndef __CFXMLNODE__
+#include "CFXMLNode.h"
+#endif
+
+#ifndef __CFXMLPARSER__
+#include "CFXMLParser.h"
 #endif
 
 

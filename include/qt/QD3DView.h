@@ -4,9 +4,9 @@
      Contains:   View types and routines
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1998 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -45,14 +45,6 @@ extern "C" {
 #pragma import on
 #endif
 
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=power
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
-#endif
-
 #if PRAGMA_ENUM_ALWAYSINT
     #if defined(__fourbyteints__) && !__fourbyteints__ 
         #define __QD3DVIEW__RESTORE_TWOBYTEINTS
@@ -73,12 +65,11 @@ extern "C" {
  **                     View Type Definitions                                **
  **                                                                          **
  *****************************************************************************/
-
 enum TQ3ViewStatus {
-    kQ3ViewStatusDone           = 0,
-    kQ3ViewStatusRetraverse     = 1,
-    kQ3ViewStatusError          = 2,
-    kQ3ViewStatusCancelled      = 3
+  kQ3ViewStatusDone             = 0,
+  kQ3ViewStatusRetraverse       = 1,
+  kQ3ViewStatusError            = 2,
+  kQ3ViewStatusCancelled        = 3
 };
 typedef enum TQ3ViewStatus TQ3ViewStatus;
 
@@ -105,40 +96,124 @@ typedef enum TQ3ViewStatus TQ3ViewStatus;
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3View_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ViewObject )
-Q3View_New                      (void);
+Q3View_New(void);
 
+
+/*
+ *  Q3View_Cancel()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_Cancel                   (TQ3ViewObject          view);
+Q3View_Cancel(TQ3ViewObject view);
+
 
 /******************************************************************************
  **                                                                          **
  **                     View Rendering routines                              **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_SetRendererByType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetRendererByType        (TQ3ViewObject          view,
-                                 TQ3ObjectType          theType);
+Q3View_SetRendererByType(
+  TQ3ViewObject   view,
+  TQ3ObjectType   theType);
 
+
+/*
+ *  Q3View_SetRenderer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetRenderer              (TQ3ViewObject          view,
-                                 TQ3RendererObject      renderer);
+Q3View_SetRenderer(
+  TQ3ViewObject       view,
+  TQ3RendererObject   renderer);
 
+
+/*
+ *  Q3View_GetRenderer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetRenderer              (TQ3ViewObject          view,
-                                 TQ3RendererObject *    renderer);
+Q3View_GetRenderer(
+  TQ3ViewObject        view,
+  TQ3RendererObject *  renderer);
 
+
+/*
+ *  Q3View_StartRendering()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_StartRendering           (TQ3ViewObject          view);
+Q3View_StartRendering(TQ3ViewObject view);
 
+
+/*
+ *  Q3View_EndRendering()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ViewStatus )
-Q3View_EndRendering             (TQ3ViewObject          view);
+Q3View_EndRendering(TQ3ViewObject view);
 
-EXTERN_API_C( TQ3Status )
-Q3View_Flush                    (TQ3ViewObject          view);
 
+/*
+ *  Q3View_Flush()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_Sync                     (TQ3ViewObject          view);
+Q3View_Flush(TQ3ViewObject view);
+
+
+/*
+ *  Q3View_Sync()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_Sync(TQ3ViewObject view);
+
 
 
 /******************************************************************************
@@ -146,28 +221,87 @@ Q3View_Sync                     (TQ3ViewObject          view);
  **                     View/Bounds/Pick routines                            **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_StartBoundingBox()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_StartBoundingBox         (TQ3ViewObject          view,
-                                 TQ3ComputeBounds       computeBounds);
+Q3View_StartBoundingBox(
+  TQ3ViewObject      view,
+  TQ3ComputeBounds   computeBounds);
 
+
+/*
+ *  Q3View_EndBoundingBox()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ViewStatus )
-Q3View_EndBoundingBox           (TQ3ViewObject          view,
-                                 TQ3BoundingBox *       result);
+Q3View_EndBoundingBox(
+  TQ3ViewObject     view,
+  TQ3BoundingBox *  result);
 
+
+/*
+ *  Q3View_StartBoundingSphere()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_StartBoundingSphere      (TQ3ViewObject          view,
-                                 TQ3ComputeBounds       computeBounds);
+Q3View_StartBoundingSphere(
+  TQ3ViewObject      view,
+  TQ3ComputeBounds   computeBounds);
 
+
+/*
+ *  Q3View_EndBoundingSphere()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ViewStatus )
-Q3View_EndBoundingSphere        (TQ3ViewObject          view,
-                                 TQ3BoundingSphere *    result);
+Q3View_EndBoundingSphere(
+  TQ3ViewObject        view,
+  TQ3BoundingSphere *  result);
 
+
+/*
+ *  Q3View_StartPicking()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_StartPicking             (TQ3ViewObject          view,
-                                 TQ3PickObject          pick);
+Q3View_StartPicking(
+  TQ3ViewObject   view,
+  TQ3PickObject   pick);
 
+
+/*
+ *  Q3View_EndPicking()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ViewStatus )
-Q3View_EndPicking               (TQ3ViewObject          view);
+Q3View_EndPicking(TQ3ViewObject view);
+
 
 
 /******************************************************************************
@@ -175,13 +309,33 @@ Q3View_EndPicking               (TQ3ViewObject          view);
  **                         View/Camera routines                             **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_GetCamera()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetCamera                (TQ3ViewObject          view,
-                                 TQ3CameraObject *      camera);
+Q3View_GetCamera(
+  TQ3ViewObject      view,
+  TQ3CameraObject *  camera);
 
+
+/*
+ *  Q3View_SetCamera()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetCamera                (TQ3ViewObject          view,
-                                 TQ3CameraObject        camera);
+Q3View_SetCamera(
+  TQ3ViewObject     view,
+  TQ3CameraObject   camera);
+
 
 
 /******************************************************************************
@@ -189,13 +343,33 @@ Q3View_SetCamera                (TQ3ViewObject          view,
  **                         View/Lights routines                             **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_SetLightGroup()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetLightGroup            (TQ3ViewObject          view,
-                                 TQ3GroupObject         lightGroup);
+Q3View_SetLightGroup(
+  TQ3ViewObject    view,
+  TQ3GroupObject   lightGroup);
 
+
+/*
+ *  Q3View_GetLightGroup()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetLightGroup            (TQ3ViewObject          view,
-                                 TQ3GroupObject *       lightGroup);
+Q3View_GetLightGroup(
+  TQ3ViewObject     view,
+  TQ3GroupObject *  lightGroup);
+
 
 
 /******************************************************************************
@@ -248,15 +422,35 @@ Q3View_GetLightGroup            (TQ3ViewObject          view,
 typedef CALLBACK_API_C( TQ3Status , TQ3ViewIdleMethod )(TQ3ViewObject view, const void *idlerData);
 typedef CALLBACK_API_C( TQ3Status , TQ3ViewIdleProgressMethod )(TQ3ViewObject view, const void *idlerData, unsigned long current, unsigned long completed);
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3View_SetIdleMethod()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetIdleMethod            (TQ3ViewObject          view,
-                                 TQ3ViewIdleMethod      idleMethod,
-                                 const void *           idleData);
+Q3View_SetIdleMethod(
+  TQ3ViewObject       view,
+  TQ3ViewIdleMethod   idleMethod,
+  const void *        idleData);
 
+
+/*
+ *  Q3View_SetIdleProgressMethod()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetIdleProgressMethod    (TQ3ViewObject          view,
-                                 TQ3ViewIdleProgressMethod  idleMethod,
-                                 const void *           idleData);
+Q3View_SetIdleProgressMethod(
+  TQ3ViewObject               view,
+  TQ3ViewIdleProgressMethod   idleMethod,
+  const void *                idleData);
+
 
 
 /******************************************************************************
@@ -286,10 +480,20 @@ Q3View_SetIdleProgressMethod    (TQ3ViewObject          view,
 
 typedef CALLBACK_API_C( void , TQ3ViewEndFrameMethod )(TQ3ViewObject view, void *endFrameData);
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3View_SetEndFrameMethod()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetEndFrameMethod        (TQ3ViewObject          view,
-                                 TQ3ViewEndFrameMethod  endFrame,
-                                 void *                 endFrameData);
+Q3View_SetEndFrameMethod(
+  TQ3ViewObject           view,
+  TQ3ViewEndFrameMethod   endFrame,
+  void *                  endFrameData);
+
 
 
 /******************************************************************************
@@ -297,21 +501,67 @@ Q3View_SetEndFrameMethod        (TQ3ViewObject          view,
  **                         Push/Pop routines                                **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3Push_Submit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Push_Submit                   (TQ3ViewObject          view);
+Q3Push_Submit(TQ3ViewObject view);
 
+
+/*
+ *  Q3Pop_Submit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Pop_Submit                    (TQ3ViewObject          view);
+Q3Pop_Submit(TQ3ViewObject view);
 
+
+/*
+ *  Q3Push_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StateOperatorObject )
-Q3Push_New                      (void);
+Q3Push_New(void);
 
+
+/*
+ *  Q3Pop_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StateOperatorObject )
-Q3Pop_New                       (void);
+Q3Pop_New(void);
 
+
+/*
+ *  Q3StateOperator_Submit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3StateOperator_Submit          (TQ3StateOperatorObject  stateOperator,
-                                 TQ3ViewObject          view);
+Q3StateOperator_Submit(
+  TQ3StateOperatorObject   stateOperator,
+  TQ3ViewObject            view);
+
 
 
 /******************************************************************************
@@ -326,9 +576,19 @@ Q3StateOperator_Submit          (TQ3StateOperatorObject  stateOperator,
  **     may override this routine however to do the checking.                **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_IsBoundingBoxVisible()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Boolean )
-Q3View_IsBoundingBoxVisible     (TQ3ViewObject          view,
-                                 const TQ3BoundingBox * bbox);
+Q3View_IsBoundingBoxVisible(
+  TQ3ViewObject           view,
+  const TQ3BoundingBox *  bbox);
+
 
 
 /******************************************************************************
@@ -337,9 +597,19 @@ Q3View_IsBoundingBoxVisible     (TQ3ViewObject          view,
  **     boxes.                                                               **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_AllowAllGroupCulling()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_AllowAllGroupCulling     (TQ3ViewObject          view,
-                                 TQ3Boolean             allowCulling);
+Q3View_AllowAllGroupCulling(
+  TQ3ViewObject   view,
+  TQ3Boolean      allowCulling);
+
 
 
 
@@ -348,13 +618,33 @@ Q3View_AllowAllGroupCulling     (TQ3ViewObject          view,
  **                         DrawContext routines                             **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_SetDrawContext()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetDrawContext           (TQ3ViewObject          view,
-                                 TQ3DrawContextObject   drawContext);
+Q3View_SetDrawContext(
+  TQ3ViewObject          view,
+  TQ3DrawContextObject   drawContext);
 
+
+/*
+ *  Q3View_GetDrawContext()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetDrawContext           (TQ3ViewObject          view,
-                                 TQ3DrawContextObject * drawContext);
+Q3View_GetDrawContext(
+  TQ3ViewObject           view,
+  TQ3DrawContextObject *  drawContext);
+
 
 
 /******************************************************************************
@@ -371,17 +661,47 @@ Q3View_GetDrawContext           (TQ3ViewObject          view,
  **                         Transform routines                               **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_GetLocalToWorldMatrixState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetLocalToWorldMatrixState (TQ3ViewObject        view,
-                                 TQ3Matrix4x4 *         matrix);
+Q3View_GetLocalToWorldMatrixState(
+  TQ3ViewObject   view,
+  TQ3Matrix4x4 *  matrix);
 
-EXTERN_API_C( TQ3Status )
-Q3View_GetWorldToFrustumMatrixState (TQ3ViewObject      view,
-                                 TQ3Matrix4x4 *         matrix);
 
+/*
+ *  Q3View_GetWorldToFrustumMatrixState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetFrustumToWindowMatrixState (TQ3ViewObject     view,
-                                 TQ3Matrix4x4 *         matrix);
+Q3View_GetWorldToFrustumMatrixState(
+  TQ3ViewObject   view,
+  TQ3Matrix4x4 *  matrix);
+
+
+/*
+ *  Q3View_GetFrustumToWindowMatrixState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_GetFrustumToWindowMatrixState(
+  TQ3ViewObject   view,
+  TQ3Matrix4x4 *  matrix);
+
 
 
 /******************************************************************************
@@ -389,45 +709,145 @@ Q3View_GetFrustumToWindowMatrixState (TQ3ViewObject     view,
  **                         Style state routines                             **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_GetBackfacingStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetBackfacingStyleState  (TQ3ViewObject          view,
-                                 TQ3BackfacingStyle *   backfacingStyle);
+Q3View_GetBackfacingStyleState(
+  TQ3ViewObject         view,
+  TQ3BackfacingStyle *  backfacingStyle);
 
-EXTERN_API_C( TQ3Status )
-Q3View_GetInterpolationStyleState (TQ3ViewObject        view,
-                                 TQ3InterpolationStyle * interpolationType);
 
+/*
+ *  Q3View_GetInterpolationStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetFillStyleState        (TQ3ViewObject          view,
-                                 TQ3FillStyle *         fillStyle);
+Q3View_GetInterpolationStyleState(
+  TQ3ViewObject            view,
+  TQ3InterpolationStyle *  interpolationType);
 
-EXTERN_API_C( TQ3Status )
-Q3View_GetHighlightStyleState   (TQ3ViewObject          view,
-                                 TQ3AttributeSet *      highlightStyle);
 
+/*
+ *  Q3View_GetFillStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetSubdivisionStyleState (TQ3ViewObject          view,
-                                 TQ3SubdivisionStyleData * subdivisionStyle);
+Q3View_GetFillStyleState(
+  TQ3ViewObject   view,
+  TQ3FillStyle *  fillStyle);
 
-EXTERN_API_C( TQ3Status )
-Q3View_GetOrientationStyleState (TQ3ViewObject          view,
-                                 TQ3OrientationStyle *  fontFacingDirectionStyle);
 
+/*
+ *  Q3View_GetHighlightStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetReceiveShadowsStyleState (TQ3ViewObject       view,
-                                 TQ3Boolean *           receives);
+Q3View_GetHighlightStyleState(
+  TQ3ViewObject      view,
+  TQ3AttributeSet *  highlightStyle);
 
-EXTERN_API_C( TQ3Status )
-Q3View_GetPickIDStyleState      (TQ3ViewObject          view,
-                                 unsigned long *        pickIDStyle);
 
+/*
+ *  Q3View_GetSubdivisionStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetPickPartsStyleState   (TQ3ViewObject          view,
-                                 TQ3PickParts *         pickPartsStyle);
+Q3View_GetSubdivisionStyleState(
+  TQ3ViewObject              view,
+  TQ3SubdivisionStyleData *  subdivisionStyle);
 
+
+/*
+ *  Q3View_GetOrientationStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetAntiAliasStyleState   (TQ3ViewObject          view,
-                                 TQ3AntiAliasStyleData * antiAliasData);
+Q3View_GetOrientationStyleState(
+  TQ3ViewObject          view,
+  TQ3OrientationStyle *  fontFacingDirectionStyle);
+
+
+/*
+ *  Q3View_GetReceiveShadowsStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_GetReceiveShadowsStyleState(
+  TQ3ViewObject   view,
+  TQ3Boolean *    receives);
+
+
+/*
+ *  Q3View_GetPickIDStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_GetPickIDStyleState(
+  TQ3ViewObject    view,
+  unsigned long *  pickIDStyle);
+
+
+/*
+ *  Q3View_GetPickPartsStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_GetPickPartsStyleState(
+  TQ3ViewObject   view,
+  TQ3PickParts *  pickPartsStyle);
+
+
+/*
+ *  Q3View_GetAntiAliasStyleState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3View_GetAntiAliasStyleState(
+  TQ3ViewObject            view,
+  TQ3AntiAliasStyleData *  antiAliasData);
+
 
 
 /******************************************************************************
@@ -435,23 +855,63 @@ Q3View_GetAntiAliasStyleState   (TQ3ViewObject          view,
  **                     Attribute state routines                             **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3View_GetDefaultAttributeSet()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetDefaultAttributeSet   (TQ3ViewObject          view,
-                                 TQ3AttributeSet *      attributeSet);
+Q3View_GetDefaultAttributeSet(
+  TQ3ViewObject      view,
+  TQ3AttributeSet *  attributeSet);
 
+
+/*
+ *  Q3View_SetDefaultAttributeSet()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_SetDefaultAttributeSet   (TQ3ViewObject          view,
-                                 TQ3AttributeSet        attributeSet);
+Q3View_SetDefaultAttributeSet(
+  TQ3ViewObject     view,
+  TQ3AttributeSet   attributeSet);
 
 
+
+/*
+ *  Q3View_GetAttributeSetState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetAttributeSetState     (TQ3ViewObject          view,
-                                 TQ3AttributeSet *      attributeSet);
+Q3View_GetAttributeSetState(
+  TQ3ViewObject      view,
+  TQ3AttributeSet *  attributeSet);
 
+
+/*
+ *  Q3View_GetAttributeState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3View_GetAttributeState        (TQ3ViewObject          view,
-                                 TQ3AttributeType       attributeType,
-                                 void *                 data);
+Q3View_GetAttributeState(
+  TQ3ViewObject      view,
+  TQ3AttributeType   attributeType,
+  void *             data);
+
 
 
 
@@ -467,14 +927,6 @@ Q3View_GetAttributeState        (TQ3ViewObject          view,
     #pragma option enum=reset
 #elif defined(__QD3DVIEW__RESTORE_PACKED_ENUMS)
     #pragma options(pack_enums)
-#endif
-
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack()
 #endif
 
 #ifdef PRAGMA_IMPORT_OFF

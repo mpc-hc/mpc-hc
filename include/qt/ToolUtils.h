@@ -3,10 +3,9 @@
  
      Contains:   Toolbox Utilities Interfaces.
  
-     Version:    Technology: System 7.5
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1990-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1990-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -21,27 +20,13 @@
 #include "MacTypes.h"
 #endif
 
-#ifndef __OSUTILS__
-#include "OSUtils.h"
-#endif
-
-
 #ifndef __FIXMATH__
 #include "FixMath.h"
-#endif
-
-#ifndef __ICONS__
-#include "Icons.h"
-#endif
-
-#ifndef __QUICKDRAW__
-#include "Quickdraw.h"
 #endif
 
 #ifndef __TEXTUTILS__
 #include "TextUtils.h"
 #endif
-
 
 
 
@@ -99,49 +84,137 @@ extern "C" {
 ------------------------------------------------------------------------------------
 */
 
+/*
+ *  BitTst()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( Boolean )
-BitTst                          (const void *           bytePtr,
-                                 long                   bitNum)                             ONEWORDINLINE(0xA85D);
+BitTst(
+  const void *  bytePtr,
+  long          bitNum)                                       ONEWORDINLINE(0xA85D);
 
+
+/*
+ *  BitSet()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-BitSet                          (void *                 bytePtr,
-                                 long                   bitNum)                             ONEWORDINLINE(0xA85E);
+BitSet(
+  void *  bytePtr,
+  long    bitNum)                                             ONEWORDINLINE(0xA85E);
 
+
+/*
+ *  BitClr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-BitClr                          (void *                 bytePtr,
-                                 long                   bitNum)                             ONEWORDINLINE(0xA85F);
+BitClr(
+  void *  bytePtr,
+  long    bitNum)                                             ONEWORDINLINE(0xA85F);
 
-EXTERN_API( long )
-BitAnd                          (long                   value1,
-                                 long                   value2)                             ONEWORDINLINE(0xA858);
 
+/*
+ *  BitAnd()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( long )
-BitOr                           (long                   value1,
-                                 long                   value2)                             ONEWORDINLINE(0xA85B);
+BitAnd(
+  long   value1,
+  long   value2)                                              ONEWORDINLINE(0xA858);
 
-EXTERN_API( long )
-BitXor                          (long                   value1,
-                                 long                   value2)                             ONEWORDINLINE(0xA859);
 
+/*
+ *  BitOr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( long )
-BitNot                          (long                   value)                              ONEWORDINLINE(0xA85A);
+BitOr(
+  long   value1,
+  long   value2)                                              ONEWORDINLINE(0xA85B);
 
+
+/*
+ *  BitXor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( long )
-BitShift                        (long                   value,
-                                 short                  count)                              ONEWORDINLINE(0xA85C);
+BitXor(
+  long   value1,
+  long   value2)                                              ONEWORDINLINE(0xA859);
+
+
+/*
+ *  BitNot()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( long )
+BitNot(long value)                                            ONEWORDINLINE(0xA85A);
+
+
+/*
+ *  BitShift()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( long )
+BitShift(
+  long    value,
+  short   count)                                              ONEWORDINLINE(0xA85C);
+
 
 #if TARGET_CPU_68K
-
 struct Int64Bit {
-    SInt32                          hiLong;
-    UInt32                          loLong;
+  SInt32              hiLong;
+  UInt32              loLong;
 };
 typedef struct Int64Bit                 Int64Bit;
 #if CALL_NOT_IN_CARBON
+/*
+ *  LongMul()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( void )
-LongMul                         (long                   a,
-                                 long                   b,
-                                 Int64Bit *             result)                             ONEWORDINLINE(0xA867);
+LongMul(
+  long        a,
+  long        b,
+  Int64Bit *  result)                                         ONEWORDINLINE(0xA867);
+
 
 #else
     #define LongMul(a, b, result) ((void) WideMultiply((a), (b), (wide*)(result)))

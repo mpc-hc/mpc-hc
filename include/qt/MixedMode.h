@@ -3,10 +3,9 @@
  
      Contains:   Mixed Mode Manager Interfaces.
  
-     Version:    Technology: Mac OS 8
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1992-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1992-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -47,92 +46,97 @@ extern "C" {
 /* Mixed Mode constants */
 /* Current Routine Descriptor Version */
 enum {
-    kRoutineDescriptorVersion   = 7
+  kRoutineDescriptorVersion     = 7
 };
 
 /* MixedModeMagic Magic Cookie/Trap number */
 enum {
-    _MixedModeMagic             = 0xAAFE
+  _MixedModeMagic               = 0xAAFE
 };
 
 /* MixedModeState Version for CFM68K Mixed Mode */
 enum {
-    kCurrentMixedModeStateRecord = 1
+  kCurrentMixedModeStateRecord  = 1
 };
 
 /* Calling Conventions */
 typedef unsigned short                  CallingConventionType;
 enum {
-    kPascalStackBased           = 0,
-    kCStackBased                = 1,
-    kRegisterBased              = 2,
-    kD0DispatchedPascalStackBased = 8,
-    kD1DispatchedPascalStackBased = 12,
-    kD0DispatchedCStackBased    = 9,
-    kStackDispatchedPascalStackBased = 14,
-    kThinkCStackBased           = 5
+  kPascalStackBased             = 0,
+  kCStackBased                  = 1,
+  kRegisterBased                = 2,
+  kD0DispatchedPascalStackBased = 8,
+  kD1DispatchedPascalStackBased = 12,
+  kD0DispatchedCStackBased      = 9,
+  kStackDispatchedPascalStackBased = 14,
+  kThinkCStackBased             = 5
 };
 
 /* ISA Types */
 typedef SInt8                           ISAType;
 enum {
-    kM68kISA                    = 0,
-    kPowerPCISA                 = 1
+  kM68kISA                      = 0,
+  kPowerPCISA                   = 1
 };
 
 /* RTA Types */
 typedef SInt8                           RTAType;
 enum {
-    kOld68kRTA                  = 0 << 4,
-    kPowerPCRTA                 = 0 << 4,
-    kCFM68kRTA                  = 1 << 4
+  kOld68kRTA                    = 0 << 4,
+  kPowerPCRTA                   = 0 << 4,
+  kCFM68kRTA                    = 1 << 4
 };
 
 
-#if TARGET_CPU_PPC
-    #define     GetCurrentISA()     ((ISAType) kPowerPCISA)
-    #define     GetCurrentRTA()     ((RTAType) kPowerPCRTA)
-#elif TARGET_CPU_68K
-   #define     GetCurrentISA()     ((ISAType) kM68kISA)
-   #if TARGET_RT_MAC_CFM
-      #define GetCurrentRTA()     ((RTAType) kCFM68kRTA)
- #else
-      #define GetCurrentRTA()     ((RTAType) kOld68kRTA)
- #endif
+#if TARGET_OS_MAC
+ #if TARGET_CPU_PPC
+     #define     GetCurrentISA()     ((ISAType) kPowerPCISA)
+        #define     GetCurrentRTA()     ((RTAType) kPowerPCRTA)
+    #elif TARGET_CPU_68K
+       #define     GetCurrentISA()     ((ISAType) kM68kISA)
+       #if TARGET_RT_MAC_CFM
+          #define GetCurrentRTA()     ((RTAType) kCFM68kRTA)
+     #else
+          #define GetCurrentRTA()     ((RTAType) kOld68kRTA)
+     #endif
+
+   #endif
+ #define     GetCurrentArchitecture()    (GetCurrentISA() | GetCurrentRTA())
+#else
+  #define     GetCurrentArchitecture()    0
 #endif
-#define      GetCurrentArchitecture()    (GetCurrentISA() | GetCurrentRTA())
 
 /* Constants for specifing 68k registers */
 enum {
-    kRegisterD0                 = 0,
-    kRegisterD1                 = 1,
-    kRegisterD2                 = 2,
-    kRegisterD3                 = 3,
-    kRegisterD4                 = 8,
-    kRegisterD5                 = 9,
-    kRegisterD6                 = 10,
-    kRegisterD7                 = 11,
-    kRegisterA0                 = 4,
-    kRegisterA1                 = 5,
-    kRegisterA2                 = 6,
-    kRegisterA3                 = 7,
-    kRegisterA4                 = 12,
-    kRegisterA5                 = 13,
-    kRegisterA6                 = 14,                           /* A7 is the same as the PowerPC SP */
-    kCCRegisterCBit             = 16,
-    kCCRegisterVBit             = 17,
-    kCCRegisterZBit             = 18,
-    kCCRegisterNBit             = 19,
-    kCCRegisterXBit             = 20
+  kRegisterD0                   = 0,
+  kRegisterD1                   = 1,
+  kRegisterD2                   = 2,
+  kRegisterD3                   = 3,
+  kRegisterD4                   = 8,
+  kRegisterD5                   = 9,
+  kRegisterD6                   = 10,
+  kRegisterD7                   = 11,
+  kRegisterA0                   = 4,
+  kRegisterA1                   = 5,
+  kRegisterA2                   = 6,
+  kRegisterA3                   = 7,
+  kRegisterA4                   = 12,
+  kRegisterA5                   = 13,
+  kRegisterA6                   = 14,   /* A7 is the same as the PowerPC SP */
+  kCCRegisterCBit               = 16,
+  kCCRegisterVBit               = 17,
+  kCCRegisterZBit               = 18,
+  kCCRegisterNBit               = 19,
+  kCCRegisterXBit               = 20
 };
 
 typedef unsigned short                  registerSelectorType;
 /* SizeCodes we use everywhere */
 enum {
-    kNoByteCode                 = 0,
-    kOneByteCode                = 1,
-    kTwoByteCode                = 2,
-    kFourByteCode               = 3
+  kNoByteCode                   = 0,
+  kOneByteCode                  = 1,
+  kTwoByteCode                  = 2,
+  kFourByteCode                 = 3
 };
 
 /* Mixed Mode Routine Records */
@@ -140,79 +144,75 @@ typedef unsigned long                   ProcInfoType;
 /* Routine Flag Bits */
 typedef unsigned short                  RoutineFlagsType;
 enum {
-    kProcDescriptorIsAbsolute   = 0x00,
-    kProcDescriptorIsRelative   = 0x01
+  kProcDescriptorIsAbsolute     = 0x00,
+  kProcDescriptorIsRelative     = 0x01
 };
 
 enum {
-    kFragmentIsPrepared         = 0x00,
-    kFragmentNeedsPreparing     = 0x02
+  kFragmentIsPrepared           = 0x00,
+  kFragmentNeedsPreparing       = 0x02
 };
 
 enum {
-    kUseCurrentISA              = 0x00,
-    kUseNativeISA               = 0x04
+  kUseCurrentISA                = 0x00,
+  kUseNativeISA                 = 0x04
 };
 
 enum {
-    kPassSelector               = 0x00,
-    kDontPassSelector           = 0x08
+  kPassSelector                 = 0x00,
+  kDontPassSelector             = 0x08
 };
 
 enum {
-    kRoutineIsNotDispatchedDefaultRoutine = 0x00,
-    kRoutineIsDispatchedDefaultRoutine = 0x10
+  kRoutineIsNotDispatchedDefaultRoutine = 0x00,
+  kRoutineIsDispatchedDefaultRoutine = 0x10
 };
 
 enum {
-    kProcDescriptorIsProcPtr    = 0x00,
-    kProcDescriptorIsIndex      = 0x20
+  kProcDescriptorIsProcPtr      = 0x00,
+  kProcDescriptorIsIndex        = 0x20
 };
-
 
 struct RoutineRecord {
-    ProcInfoType                    procInfo;                   /* calling conventions */
-    SInt8                           reserved1;                  /* Must be 0 */
-    ISAType                         ISA;                        /* Instruction Set Architecture */
-    RoutineFlagsType                routineFlags;               /* Flags for each routine */
-    ProcPtr                         procDescriptor;             /* Where is the thing we're calling? */
-    UInt32                          reserved2;                  /* Must be 0 */
-    UInt32                          selector;                   /* For dispatched routines, the selector */
+  ProcInfoType        procInfo;               /* calling conventions */
+  SInt8               reserved1;              /* Must be 0 */
+  ISAType             ISA;                    /* Instruction Set Architecture */
+  RoutineFlagsType    routineFlags;           /* Flags for each routine */
+  ProcPtr             procDescriptor;         /* Where is the thing we're calling? */
+  UInt32              reserved2;              /* Must be 0 */
+  UInt32              selector;               /* For dispatched routines, the selector */
 };
 typedef struct RoutineRecord            RoutineRecord;
 typedef RoutineRecord *                 RoutineRecordPtr;
 typedef RoutineRecordPtr *              RoutineRecordHandle;
 /* Mixed Mode Routine Descriptors */
 /* Definitions of the Routine Descriptor Flag Bits */
-
 typedef UInt8                           RDFlagsType;
 enum {
-    kSelectorsAreNotIndexable   = 0x00,
-    kSelectorsAreIndexable      = 0x01
+  kSelectorsAreNotIndexable     = 0x00,
+  kSelectorsAreIndexable        = 0x01
 };
 
 /* Routine Descriptor Structure */
-
 struct RoutineDescriptor {
-    UInt16                          goMixedModeTrap;            /* Our A-Trap */
-    SInt8                           version;                    /* Current Routine Descriptor version */
-    RDFlagsType                     routineDescriptorFlags;     /* Routine Descriptor Flags */
-    UInt32                          reserved1;                  /* Unused, must be zero */
-    UInt8                           reserved2;                  /* Unused, must be zero */
-    UInt8                           selectorInfo;               /* If a dispatched routine, calling convention, else 0 */
-    UInt16                          routineCount;               /* Number of routines in this RD */
-    RoutineRecord                   routineRecords[1];          /* The individual routines */
+  UInt16              goMixedModeTrap;        /* Our A-Trap */
+  SInt8               version;                /* Current Routine Descriptor version */
+  RDFlagsType         routineDescriptorFlags; /* Routine Descriptor Flags */
+  UInt32              reserved1;              /* Unused, must be zero */
+  UInt8               reserved2;              /* Unused, must be zero */
+  UInt8               selectorInfo;           /* If a dispatched routine, calling convention, else 0 */
+  UInt16              routineCount;           /* Number of routines in this RD */
+  RoutineRecord       routineRecords[1];      /* The individual routines */
 };
 typedef struct RoutineDescriptor        RoutineDescriptor;
 typedef RoutineDescriptor *             RoutineDescriptorPtr;
 typedef RoutineDescriptorPtr *          RoutineDescriptorHandle;
 /* 68K MixedModeStateRecord */
-
 struct MixedModeStateRecord {
-    UInt32                          state1;
-    UInt32                          state2;
-    UInt32                          state3;
-    UInt32                          state4;
+  UInt32              state1;
+  UInt32              state2;
+  UInt32              state3;
+  UInt32              state4;
 };
 typedef struct MixedModeStateRecord     MixedModeStateRecord;
 #if CALL_NOT_IN_CARBON
@@ -282,54 +282,54 @@ typedef struct MixedModeStateRecord     MixedModeStateRecord;
 
 /* Mixed Mode ProcInfos */
 enum {
-                                                                /* Calling Convention Offsets */
-    kCallingConventionWidth     = 4,
-    kCallingConventionPhase     = 0,
-    kCallingConventionMask      = 0x0F,                         /* Result Offsets */
-    kResultSizeWidth            = 2,
-    kResultSizePhase            = kCallingConventionWidth,
-    kResultSizeMask             = 0x30,                         /* Parameter offsets & widths */
-    kStackParameterWidth        = 2,
-    kStackParameterPhase        = (kCallingConventionWidth + kResultSizeWidth),
-    kStackParameterMask         = (long)0xFFFFFFC0,             /* Register Result Location offsets & widths */
-    kRegisterResultLocationWidth = 5,
-    kRegisterResultLocationPhase = (kCallingConventionWidth + kResultSizeWidth), /* Register Parameter offsets & widths */
-    kRegisterParameterWidth     = 5,
-    kRegisterParameterPhase     = (kCallingConventionWidth + kResultSizeWidth + kRegisterResultLocationWidth),
-    kRegisterParameterMask      = 0x7FFFF800,
-    kRegisterParameterSizePhase = 0,
-    kRegisterParameterSizeWidth = 2,
-    kRegisterParameterWhichPhase = kRegisterParameterSizeWidth,
-    kRegisterParameterWhichWidth = 3,                           /* Dispatched Stack Routine Selector offsets & widths */
-    kDispatchedSelectorSizeWidth = 2,
-    kDispatchedSelectorSizePhase = (kCallingConventionWidth + kResultSizeWidth), /* Dispatched Stack Routine Parameter offsets */
-    kDispatchedParameterPhase   = (kCallingConventionWidth + kResultSizeWidth + kDispatchedSelectorSizeWidth), /* Special Case offsets & widths */
-    kSpecialCaseSelectorWidth   = 6,
-    kSpecialCaseSelectorPhase   = kCallingConventionWidth,
-    kSpecialCaseSelectorMask    = 0x03F0
+                                        /* Calling Convention Offsets */
+  kCallingConventionWidth       = 4,
+  kCallingConventionPhase       = 0,
+  kCallingConventionMask        = 0x0F, /* Result Offsets */
+  kResultSizeWidth              = 2,
+  kResultSizePhase              = kCallingConventionWidth,
+  kResultSizeMask               = 0x30, /* Parameter offsets & widths */
+  kStackParameterWidth          = 2,
+  kStackParameterPhase          = (kCallingConventionWidth + kResultSizeWidth),
+  kStackParameterMask           = (long)0xFFFFFFC0, /* Register Result Location offsets & widths */
+  kRegisterResultLocationWidth  = 5,
+  kRegisterResultLocationPhase  = (kCallingConventionWidth + kResultSizeWidth), /* Register Parameter offsets & widths */
+  kRegisterParameterWidth       = 5,
+  kRegisterParameterPhase       = (kCallingConventionWidth + kResultSizeWidth + kRegisterResultLocationWidth),
+  kRegisterParameterMask        = 0x7FFFF800,
+  kRegisterParameterSizePhase   = 0,
+  kRegisterParameterSizeWidth   = 2,
+  kRegisterParameterWhichPhase  = kRegisterParameterSizeWidth,
+  kRegisterParameterWhichWidth  = 3,    /* Dispatched Stack Routine Selector offsets & widths */
+  kDispatchedSelectorSizeWidth  = 2,
+  kDispatchedSelectorSizePhase  = (kCallingConventionWidth + kResultSizeWidth), /* Dispatched Stack Routine Parameter offsets */
+  kDispatchedParameterPhase     = (kCallingConventionWidth + kResultSizeWidth + kDispatchedSelectorSizeWidth), /* Special Case offsets & widths */
+  kSpecialCaseSelectorWidth     = 6,
+  kSpecialCaseSelectorPhase     = kCallingConventionWidth,
+  kSpecialCaseSelectorMask      = 0x03F0
 };
 
 enum {
-    kSpecialCase                = 0x000F                        /* (CallingConventionType) */
+  kSpecialCase                  = 0x000F /* (CallingConventionType) */
 };
 
 enum {
-                                                                /* all of the special cases enumerated.  The selector field is 6 bits wide */
-    kSpecialCaseHighHook        = 0,
-    kSpecialCaseCaretHook       = 0,                            /* same as kSpecialCaseHighHook */
-    kSpecialCaseEOLHook         = 1,
-    kSpecialCaseWidthHook       = 2,
-    kSpecialCaseTextWidthHook   = 2,                            /* same as kSpecialCaseWidthHook */
-    kSpecialCaseNWidthHook      = 3,
-    kSpecialCaseDrawHook        = 4,
-    kSpecialCaseHitTestHook     = 5,
-    kSpecialCaseTEFindWord      = 6,
-    kSpecialCaseProtocolHandler = 7,
-    kSpecialCaseSocketListener  = 8,
-    kSpecialCaseTERecalc        = 9,
-    kSpecialCaseTEDoText        = 10,
-    kSpecialCaseGNEFilterProc   = 11,
-    kSpecialCaseMBarHook        = 12
+                                        /* all of the special cases enumerated.  The selector field is 6 bits wide */
+  kSpecialCaseHighHook          = 0,
+  kSpecialCaseCaretHook         = 0,    /* same as kSpecialCaseHighHook */
+  kSpecialCaseEOLHook           = 1,
+  kSpecialCaseWidthHook         = 2,
+  kSpecialCaseTextWidthHook     = 2,    /* same as kSpecialCaseWidthHook */
+  kSpecialCaseNWidthHook        = 3,
+  kSpecialCaseDrawHook          = 4,
+  kSpecialCaseHitTestHook       = 5,
+  kSpecialCaseTEFindWord        = 6,
+  kSpecialCaseProtocolHandler   = 7,
+  kSpecialCaseSocketListener    = 8,
+  kSpecialCaseTERecalc          = 9,
+  kSpecialCaseTEDoText          = 10,
+  kSpecialCaseGNEFilterProc     = 11,
+  kSpecialCaseMBarHook          = 12
 };
 
 
@@ -375,29 +375,79 @@ enum {
     and classic routine.
 */
 
-#if TARGET_OS_MAC && TARGET_RT_MAC_CFM
 #if CALL_NOT_IN_CARBON
-EXTERN_API( UniversalProcPtr )
-NewRoutineDescriptor            (ProcPtr                theProc,
-                                 ProcInfoType           theProcInfo,
-                                 ISAType                theISA);
+/*
+ *  NewRoutineDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later or as macro/inline
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UniversalProcPtr )
+NewRoutineDescriptor(
+  ProcPtr        theProc,
+  ProcInfoType   theProcInfo,
+  ISAType        theISA);
+#if !TARGET_OS_MAC || !TARGET_RT_MAC_CFM
+  #ifdef __cplusplus
+    inline DEFINE_API_C(UniversalProcPtr ) NewRoutineDescriptor(ProcPtr theProc, ProcInfoType , ISAType ) { return (UniversalProcPtr)theProc; }
+  #else
+    #define NewRoutineDescriptor(theProc, theProcInfo, theISA) ((UniversalProcPtr)theProc)
+  #endif
+#endif
 
-EXTERN_API( void )
-DisposeRoutineDescriptor        (UniversalProcPtr       theProcPtr);
 
-EXTERN_API( UniversalProcPtr )
-NewFatRoutineDescriptor         (ProcPtr                theM68kProc,
-                                 ProcPtr                thePowerPCProc,
-                                 ProcInfoType           theProcInfo);
 
+   #if TARGET_OS_MAC && TARGET_RT_MAC_CFM
+     #define NewRoutineDescriptor(theProc, procInfo, isa) ((UniversalProcPtr) theProc)
+  #endif
+ 
+
+/*
+ *  DisposeRoutineDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later or as macro/inline
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( void )
+DisposeRoutineDescriptor(UniversalProcPtr theUPP);
+#if !TARGET_OS_MAC || !TARGET_RT_MAC_CFM
+  #ifdef __cplusplus
+    inline DEFINE_API_C(void) DisposeRoutineDescriptor(UniversalProcPtr ) {}
+  #else
+    #define DisposeRoutineDescriptor(theUPP)
+  #endif
+#endif
+
+
+
+   #if TARGET_OS_MAC && TARGET_RT_MAC_CFM
+     #define DisposeRoutineDescriptor(upp)
+  #endif
+ 
 #endif  /* CALL_NOT_IN_CARBON */
 
-#else
-#define DisposeRoutineDescriptor(theProcPtr)
-#define NewRoutineDescriptor(theProc, theProcInfo, theISA) ((UniversalProcPtr)theProc)
-/* Note that the call to NewFatRoutineDescriptor is undefined. */
-#endif  /* TARGET_OS_MAC && TARGET_RT_MAC_CFM */
+#if CALL_NOT_IN_CARBON
+/*
+ *  NewFatRoutineDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( UniversalProcPtr )
+NewFatRoutineDescriptor(
+  ProcPtr        theM68kProc,
+  ProcPtr        thePowerPCProc,
+  ProcInfoType   theProcInfo);
 
+
+
+#endif  /* CALL_NOT_IN_CARBON */
 
 #if TARGET_CPU_68K && !TARGET_RT_MAC_CFM
 /*
@@ -405,18 +455,47 @@ NewFatRoutineDescriptor         (ProcPtr                theM68kProc,
     want to load and use CFM based code.
 */
 #if CALL_NOT_IN_CARBON
+/*
+ *  NewRoutineDescriptorTrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( UniversalProcPtr )
-NewRoutineDescriptorTrap        (ProcPtr                theProc,
-                                 ProcInfoType           theProcInfo,
-                                 ISAType                theISA)                             TWOWORDINLINE(0x7000, 0xAA59);
+NewRoutineDescriptorTrap(
+  ProcPtr        theProc,
+  ProcInfoType   theProcInfo,
+  ISAType        theISA)                                      TWOWORDINLINE(0x7000, 0xAA59);
 
+
+/*
+ *  DisposeRoutineDescriptorTrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( void )
-DisposeRoutineDescriptorTrap    (UniversalProcPtr       theProcPtr)                         TWOWORDINLINE(0x7001, 0xAA59);
+DisposeRoutineDescriptorTrap(UniversalProcPtr theProcPtr)     TWOWORDINLINE(0x7001, 0xAA59);
 
+
+/*
+ *  NewFatRoutineDescriptorTrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( UniversalProcPtr )
-NewFatRoutineDescriptorTrap     (ProcPtr                theM68kProc,
-                                 ProcPtr                thePowerPCProc,
-                                 ProcInfoType           theProcInfo)                        TWOWORDINLINE(0x7002, 0xAA59);
+NewFatRoutineDescriptorTrap(
+  ProcPtr        theM68kProc,
+  ProcPtr        thePowerPCProc,
+  ProcInfoType   theProcInfo)                                 TWOWORDINLINE(0x7002, 0xAA59);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -429,15 +508,35 @@ NewFatRoutineDescriptorTrap     (ProcPtr                theM68kProc,
     linker errors.
 */
 #if CALL_NOT_IN_CARBON
+/*
+ *  CallUniversalProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( long )
-CallUniversalProc               (UniversalProcPtr       theProcPtr,
-                                 ProcInfoType           procInfo,
-                                 ...);
+CallUniversalProc(
+  UniversalProcPtr   theProcPtr,
+  ProcInfoType       procInfo,
+  ...);
 
+
+/*
+ *  CallOSTrapUniversalProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( long )
-CallOSTrapUniversalProc         (UniversalProcPtr       theProcPtr,
-                                 ProcInfoType           procInfo,
-                                 ...);
+CallOSTrapUniversalProc(
+  UniversalProcPtr   theProcPtr,
+  ProcInfoType       procInfo,
+  ...);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -445,13 +544,33 @@ CallOSTrapUniversalProc         (UniversalProcPtr       theProcPtr,
 
 #if TARGET_CPU_68K
 #if CALL_NOT_IN_CARBON
+/*
+ *  SaveMixedModeState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( OSErr )
-SaveMixedModeState              (MixedModeStateRecord * stateStorage,
-                                 UInt32                 stateVersion)                       TWOWORDINLINE(0x7003, 0xAA59);
+SaveMixedModeState(
+  MixedModeStateRecord *  stateStorage,
+  UInt32                  stateVersion)                       TWOWORDINLINE(0x7003, 0xAA59);
 
+
+/*
+ *  RestoreMixedModeState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( OSErr )
-RestoreMixedModeState           (MixedModeStateRecord * stateStorage,
-                                 UInt32                 stateVersion)                       TWOWORDINLINE(0x7004, 0xAA59);
+RestoreMixedModeState(
+  MixedModeStateRecord *  stateStorage,
+  UInt32                  stateVersion)                       TWOWORDINLINE(0x7004, 0xAA59);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -464,7 +583,7 @@ RestoreMixedModeState           (MixedModeStateRecord * stateStorage,
  *  
  *  uppModalFilterProcInfo = kPascalStackBased
  *       | RESULT_SIZE(SIZE_CODE(sizeof(Boolean)))
- *       | STACK_ROUTINE_PARAMETER(1, SIZE_CODE(sizeof(DialogPtr)))
+ *       | STACK_ROUTINE_PARAMETER(1, SIZE_CODE(sizeof(DialogRef)))
  *       | STACK_ROUTINE_PARAMETER(2, SIZE_CODE(sizeof(EventRecord*)))
  *       | STACK_ROUTINE_PARAMETER(3, SIZE_CODE(sizeof(short*))),
  *

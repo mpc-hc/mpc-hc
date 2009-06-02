@@ -3,10 +3,9 @@
  
      Contains:   Set up for compiler independent conditionals
  
-     Version:    Technology: Universal Interface Files 3.3
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1993-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1993-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -20,15 +19,20 @@
 /****************************************************************************************************
     UNIVERSAL_INTERFACES_VERSION
     
-        0x0330 => version 3.3
-        0x0320 => version 3.2
-        0x0310 => version 3.1
-        0x0301 => version 3.0.1
-        0x0300 => version 3.0
-        0x0210 => version 2.1
+        0x0400 --> version 4.0 (Mac OS X only)
+        0x0335 --> version 3.4 
+        0x0331 --> version 3.3.1
+        0x0330 --> version 3.3
+        0x0320 --> version 3.2
+        0x0310 --> version 3.1
+        0x0301 --> version 3.0.1
+        0x0300 --> version 3.0
+        0x0210 --> version 2.1
         This conditional did not exist prior to version 2.1
 ****************************************************************************************************/
-#define UNIVERSAL_INTERFACES_VERSION 0x0330
+#define UNIVERSAL_INTERFACES_VERSION 0x0340
+#define UNIVERSAL_INTERFACES_SEED_VERSION 22
+
 
 /****************************************************************************************************
 
@@ -101,9 +105,10 @@
     TYPE_*
     These conditionals specify whether the compiler supports particular types.
 
-        TYPE_LONGLONG           - Compiler supports "long long" 64-bit integers
-        TYPE_BOOL               - Compiler supports "bool"
-        TYPE_EXTENDED           - Compiler supports "extended" 80/96 bit floating point
+        TYPE_LONGLONG               - Compiler supports "long long" 64-bit integers
+        TYPE_BOOL                   - Compiler supports "bool"
+        TYPE_EXTENDED               - Compiler supports "extended" 80/96 bit floating point
+        TYPE_LONGDOUBLE_IS_DOUBLE   - Compiler implements "long double" same as "double"
 
 
     FUNCTION_*
@@ -170,6 +175,7 @@
       #define SLASH_INCLUDES_UNSUPPORTED      1
   #endif
  #define TYPE_EXTENDED               0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   0
   
    #define FUNCTION_PASCAL             1
   #define FUNCTION_DECLSPEC           0
@@ -227,6 +233,7 @@
     
    #define TYPE_LONGLONG               0
   #define TYPE_EXTENDED               1
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   0
   #if (__SC__  > 0x0810)
      #if __option(bool)
          #define TYPE_BOOL           1
@@ -261,11 +268,12 @@
       #define TARGET_RT_LITTLE_ENDIAN     0
       #define TARGET_RT_BIG_ENDIAN        1
       #if powerc
-         #define TARGET_CPU_PPC          1
-          #define TARGET_CPU_68K          0
-          #define TARGET_RT_MAC_CFM       1
-          #define TARGET_RT_MAC_MACHO     0
-          #define TARGET_RT_MAC_68881     0
+         #define TARGET_CPU_PPC              1
+          #define TARGET_CPU_68K              0
+          #define TARGET_RT_MAC_CFM           1
+          #define TARGET_RT_MAC_MACHO         0
+          #define TARGET_RT_MAC_68881         0
+          #define TYPE_LONGDOUBLE_IS_DOUBLE   1
       #else
           #define TARGET_CPU_PPC          0
           #define TARGET_CPU_68K          1
@@ -279,6 +287,11 @@
                 #define TARGET_RT_MAC_68881 1
           #else
               #define TARGET_RT_MAC_68881 0
+          #endif
+         #if __option(IEEEdoubles)
+              #define TYPE_LONGDOUBLE_IS_DOUBLE   0
+          #else
+              #define TYPE_LONGDOUBLE_IS_DOUBLE   1
           #endif
      #endif
      #define PRAGMA_ONCE                 1
@@ -301,10 +314,10 @@
      #if TARGET_CPU_68K && !TARGET_RT_MAC_CFM
            #define FUNCTION_PASCAL         1
       #else
-          #define FUNCTION_PASCAL         0
+          #define FUNCTION_PASCAL         1
       #endif
      #if (__MWERKS__ >= 0x2000)
-         #define FUNCTION_DECLSPEC       0
+         #define FUNCTION_DECLSPEC       1
       #else
           #define FUNCTION_DECLSPEC       0
       #endif
@@ -323,6 +336,7 @@
       #define TARGET_OS_UNIX              0
       #define TARGET_RT_LITTLE_ENDIAN     1
       #define TARGET_RT_BIG_ENDIAN        0
+      #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
       #define PRAGMA_ONCE                 1
       #define PRAGMA_IMPORT               0
       #define PRAGMA_STRUCT_ALIGN         0
@@ -339,6 +353,7 @@
      #ifndef FUNCTION_WIN32CC                    /* allow calling convention to be overriddden */
            #define FUNCTION_WIN32CC        1   
        #endif
+     #define TYPE_LONGDOUBLE_IS_DOUBLE   1
 
 
    #elif (__MWERKS__ >= 0x1900) && __MIPS__
@@ -370,6 +385,7 @@
         #define FUNCTION_PASCAL             0
       #define FUNCTION_DECLSPEC           0
       #define FUNCTION_WIN32CC            0           
+       #define TYPE_LONGDOUBLE_IS_DOUBLE   1
 
 
    #elif (__MWERKS__ >= 0x2110) && __MACH__
@@ -401,10 +417,11 @@
       #define PRAGMA_ENUM_ALWAYSINT       1
       #define PRAGMA_ENUM_OPTIONS         0
       #define FOUR_CHAR_CODE(x)           (x)
-        #define FUNCTION_PASCAL             0
-      #define FUNCTION_DECLSPEC           0
+        #define FUNCTION_PASCAL             1
+      #define FUNCTION_DECLSPEC           1
       #define FUNCTION_WIN32CC            0           
-   #else   
+       #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #else   
        #error unknown Metrowerks compiler
  #endif
 
@@ -482,6 +499,7 @@
   #endif
  #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
   
    #define FUNCTION_PASCAL             0
   #define FUNCTION_DECLSPEC           0
@@ -524,6 +542,7 @@
    #define TYPE_EXTENDED               1
   #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
   
    #define FUNCTION_PASCAL             1
   #define FUNCTION_DECLSPEC           0
@@ -562,6 +581,7 @@
    #define TYPE_EXTENDED               0
   #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
   
    #define FUNCTION_PASCAL             0
   #define FUNCTION_DECLSPEC           0
@@ -605,6 +625,7 @@
   #define TYPE_EXTENDED               1
   #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   0
 
  #define FUNCTION_PASCAL             1
   #define FUNCTION_DECLSPEC           0
@@ -623,12 +644,17 @@
       #define TARGET_CPU_MIPS         0
       #define TARGET_CPU_SPARC        0   
        #define TARGET_CPU_ALPHA        0
-      #define TARGET_RT_MAC_CFM       0
-      #define TARGET_RT_MAC_MACHO     1
       #define TARGET_RT_MAC_68881     0
       #define TARGET_RT_LITTLE_ENDIAN 0
       #define TARGET_RT_BIG_ENDIAN    1
-  #elif defined(m68k)
+      #ifdef __MACH__
+            #define TARGET_RT_MAC_MACHO 1
+          #define TARGET_RT_MAC_CFM   0
+      #else
+          #define TARGET_RT_MAC_MACHO 0
+          #define TARGET_RT_MAC_CFM   1
+      #endif
+ #elif defined(m68k)
         #define TARGET_CPU_PPC          0
       #define TARGET_CPU_68K          1
       #define TARGET_CPU_X86          0
@@ -689,7 +715,8 @@
   #define PRAGMA_ENUM_OPTIONS         0
   #define FOUR_CHAR_CODE(x)           (x)
 
-   #define TYPE_EXTENDED               0
+   #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #define TYPE_EXTENDED               0
   #if __GNUC__ >= 2
       #define TYPE_LONGLONG           1
   #else
@@ -760,7 +787,8 @@
   #define PRAGMA_ENUM_OPTIONS         0
   #define FOUR_CHAR_CODE(x)           (x)
 
-   #define TYPE_EXTENDED               0
+   #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #define TYPE_EXTENDED               0
   #ifdef _LONG_LONG
       #define TYPE_LONGLONG           1
   #else
@@ -791,6 +819,7 @@
   #define TARGET_OS_UNIX              0
   #define TARGET_RT_LITTLE_ENDIAN     1
   #define TARGET_RT_BIG_ENDIAN        0
+  #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
   #define PRAGMA_IMPORT               0
   #define PRAGMA_STRUCT_ALIGN         0
   #define PRAGMA_ONCE                 0
@@ -801,6 +830,7 @@
   #define PRAGMA_ENUM_OPTIONS         0
   #define FOUR_CHAR_CODE(x)           (x)
     #define TYPE_EXTENDED               0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
   #define TYPE_LONGLONG               1
   #define TYPE_BOOL                   1
   #define FUNCTION_PASCAL             0
@@ -860,7 +890,8 @@
   #define PRAGMA_ENUM_OPTIONS         0
   #define FOUR_CHAR_CODE(x)           (x)
 
-   #define TYPE_EXTENDED               0
+   #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #define TYPE_EXTENDED               0
   #ifdef _LONG_LONG
       #define TYPE_LONGLONG           1
   #else
@@ -906,7 +937,8 @@
   #define PRAGMA_ENUM_OPTIONS         1
   #define FOUR_CHAR_CODE(x)           (x)
 
-   #define TYPE_EXTENDED               0
+   #define TYPE_LONGDOUBLE_IS_DOUBLE   0
+  #define TYPE_EXTENDED               0
   #ifdef _LONG_LONG
       #define TYPE_LONGLONG           1
   #else
@@ -947,7 +979,8 @@
       #define PRAGMA_ENUM_ALWAYSINT       0
       #define PRAGMA_ENUM_OPTIONS         0
       #define FOUR_CHAR_CODE(x)           (x)
-        #define TYPE_EXTENDED               0
+        #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+      #define TYPE_EXTENDED               0
       #define TYPE_LONGLONG               0
       #define TYPE_BOOL                   0
       #define FUNCTION_PASCAL             1
@@ -978,7 +1011,8 @@
       #define PRAGMA_ENUM_ALWAYSINT       0
       #define PRAGMA_ENUM_OPTIONS         0
       #define FOUR_CHAR_CODE(x)           (x)
-        #define TYPE_EXTENDED               0
+        #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+      #define TYPE_EXTENDED               0
       #define TYPE_LONGLONG               0
       #define TYPE_BOOL                   0
       #define FUNCTION_PASCAL             0
@@ -997,6 +1031,7 @@
       #define TARGET_OS_UNIX              0
       #define TARGET_RT_LITTLE_ENDIAN     1
       #define TARGET_RT_BIG_ENDIAN        0
+      #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
       #define PRAGMA_IMPORT               0
       #define PRAGMA_STRUCT_ALIGN         0
       #define PRAGMA_ONCE                 0
@@ -1006,12 +1041,15 @@
       #define PRAGMA_ENUM_ALWAYSINT       0
       #define PRAGMA_ENUM_OPTIONS         0
       #define FOUR_CHAR_CODE(x)           (x) 
-       #define TYPE_EXTENDED               0
+       #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+      #define TYPE_EXTENDED               0
       #define TYPE_LONGLONG               1   /* note: uses __int64 instead of long long */
       #define LONGLONG_TYPENAME           __int64
-        #define LONGLONG_SIGNED_MAX         (9223372036854775807i64)
+
+       #define LONGLONG_SIGNED_MAX         (9223372036854775807i64)
        #define LONGLONG_SIGNED_MIN         (-9223372036854775807i64 - 1)
       #define LONGLONG_UNSIGNED_MAX       (0xffffffffffffffffui64)
+
        #if defined(__cplusplus) && (_MSC_VER >= 1100)
          #define TYPE_BOOL               1
       #else
@@ -1042,6 +1080,7 @@
       #define TARGET_OS_UNIX              0
       #define TARGET_RT_LITTLE_ENDIAN     1
       #define TARGET_RT_BIG_ENDIAN        0
+      #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
       #define PRAGMA_IMPORT               0
       #define PRAGMA_STRUCT_ALIGN         0
       #define PRAGMA_ONCE                 0
@@ -1055,6 +1094,7 @@
                                     | (((unsigned long) ((x) & 0x00FF0000)) >> 8) \
                                     | (((unsigned long) ((x) & 0xFF000000)) >> 24)
      #define TYPE_EXTENDED               0
+      #define TYPE_LONGDOUBLE_IS_DOUBLE   1
       #define TYPE_LONGLONG               0
       #define TYPE_BOOL                   0
       #define FUNCTION_PASCAL             0
@@ -1073,6 +1113,7 @@
       #define TARGET_OS_UNIX              0
       #define TARGET_RT_LITTLE_ENDIAN     1
       #define TARGET_RT_BIG_ENDIAN        0
+      #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
       #define PRAGMA_IMPORT               0
       #define PRAGMA_STRUCT_ALIGN         0
       #define PRAGMA_ONCE                 0
@@ -1104,6 +1145,7 @@
       #define TARGET_OS_UNIX              0
       #define TARGET_RT_LITTLE_ENDIAN     1
       #define TARGET_RT_BIG_ENDIAN        0
+      #define __COREAUDIO_USE_FLAT_INCLUDES__ 1
       #define PRAGMA_IMPORT               0
       #define PRAGMA_STRUCT_ALIGN         0
       #define PRAGMA_ONCE                 0
@@ -1117,6 +1159,7 @@
                                     | (((unsigned long) ((x) & 0x00FF0000)) >> 8) \
                                     | (((unsigned long) ((x) & 0xFF000000)) >> 24)
      #define TYPE_EXTENDED               0
+      #define TYPE_LONGDOUBLE_IS_DOUBLE   1
       #define TYPE_LONGLONG               0
       #define TYPE_BOOL                   0
       #define FUNCTION_PASCAL             0
@@ -1163,6 +1206,7 @@
       #define TYPE_BOOL               0           
    #endif
  #define TYPE_EXTENDED               0
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
   #define FUNCTION_PASCAL             0
   #define FUNCTION_DECLSPEC           0   
    #define FUNCTION_WIN32CC            0   
@@ -1193,7 +1237,8 @@
   #define PRAGMA_ENUM_ALWAYSINT       0
   #define PRAGMA_ENUM_OPTIONS         0
   #define FOUR_CHAR_CODE(x)           (x)
-    #define TYPE_EXTENDED               0
+    #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #define TYPE_EXTENDED               0
   #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
   #define FUNCTION_PASCAL             0
@@ -1228,7 +1273,8 @@
                                  | (((unsigned long) ((x) & 0x0000FF00)) << 8) \
                                     | (((unsigned long) ((x) & 0x00FF0000)) >> 8) \
                                     | (((unsigned long) ((x) & 0xFF000000)) >> 24)
- #define TYPE_EXTENDED               0
+ #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #define TYPE_EXTENDED               0
   #define TYPE_LONGLONG               0
   #define TYPE_BOOL                   0
   #define FUNCTION_PASCAL             0
@@ -1385,7 +1431,10 @@
  #define FOUR_CHAR_CODE(x)           (x)
     #endif
 
-    #ifndef TYPE_EXTENDED
+    #ifndef TYPE_LONGDOUBLE_IS_DOUBLE
+  #define TYPE_LONGDOUBLE_IS_DOUBLE   1
+  #endif
+ #ifndef TYPE_EXTENDED
   #define TYPE_EXTENDED               0
   #endif
  #ifndef TYPE_LONGLONG
@@ -1404,7 +1453,6 @@
    #define FUNCTION_WIN32CC            0
   #endif
 #endif
-
 
 
 
@@ -1548,6 +1596,14 @@
     #define pascal
 #endif
 
+/* On classic 68k, some callbacks are register based.  The only way to */
+/* write them in C is to make a function with no parameters and a void */
+/* return.  Inside the function you manually get and set registers. */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+    #define CALLBACK_API_REGISTER68K(_type, _name, _params) CALLBACK_API(void, _name)()
+#else
+    #define CALLBACK_API_REGISTER68K(_type, _name, _params) CALLBACK_API(_type, _name)_params
+#endif
 /****************************************************************************************************
     
     Set up TARGET_API_*_* values
@@ -1555,8 +1611,13 @@
 ****************************************************************************************************/
 #if TARGET_OS_MAC
 #if !defined(TARGET_API_MAC_OS8) && !defined(TARGET_API_MAC_OSX) && !defined(TARGET_API_MAC_CARBON)
-/* No TARGET_API_MAC_* predefind on command line */
-#if defined(TARGET_CARBON) && TARGET_CARBON
+/* No TARGET_API_MAC_* predefined on command line */
+#if TARGET_RT_MAC_MACHO
+/* Looks like MachO style compiler */
+#define TARGET_API_MAC_OS8 0
+#define TARGET_API_MAC_CARBON 1
+#define TARGET_API_MAC_OSX 1
+#elif defined(TARGET_CARBON) && TARGET_CARBON
 /* grandfather in use of TARGET_CARBON */
 #define TARGET_API_MAC_OS8 0
 #define TARGET_API_MAC_CARBON 1
@@ -1566,11 +1627,6 @@
 #define TARGET_API_MAC_OS8 1
 #define TARGET_API_MAC_CARBON 0
 #define TARGET_API_MAC_OSX 0
-#elif TARGET_RT_MAC_MACHO
-/* Looks like MachO style PPC compiler */
-#define TARGET_API_MAC_OS8 0
-#define TARGET_API_MAC_CARBON 0
-#define TARGET_API_MAC_OSX 1
 #else
 /* 68k or some other compiler */
 #define TARGET_API_MAC_OS8 1
@@ -1583,13 +1639,13 @@
 #define TARGET_API_MAC_OS8 0
 #endif  /* !defined(TARGET_API_MAC_OS8) */
 
-#ifndef TARGET_API_MAC_CARBON
-#define TARGET_API_MAC_CARBON 0
-#endif  /* !defined(TARGET_API_MAC_CARBON) */
-
 #ifndef TARGET_API_MAC_OSX
-#define TARGET_API_MAC_OSX 0
+#define TARGET_API_MAC_OSX TARGET_RT_MAC_MACHO
 #endif  /* !defined(TARGET_API_MAC_OSX) */
+
+#ifndef TARGET_API_MAC_CARBON
+#define TARGET_API_MAC_CARBON TARGET_API_MAC_OSX
+#endif  /* !defined(TARGET_API_MAC_CARBON) */
 
 #endif  /* !defined(TARGET_API_MAC_OS8) && !defined(TARGET_API_MAC_OSX) && !defined(TARGET_API_MAC_CARBON) */
 
@@ -1635,7 +1691,7 @@
     CGLUESUPPORTED          - Clients can use all lowercase toolbox functions that take C strings instead of pascal strings
 
 ****************************************************************************************************/
-#if TARGET_API_MAC_OS8 || !TARGET_OS_MAC
+#if !TARGET_API_MAC_CARBON
 #define GENERATINGPOWERPC TARGET_CPU_PPC
 #define GENERATING68K TARGET_CPU_68K
 #define GENERATING68881 TARGET_RT_MAC_68881
@@ -1659,7 +1715,7 @@
 #define GENERATING68881         ..GENERATING68881_is_obsolete..
 #define GENERATINGCFM           ..GENERATINGCFM_is_obsolete..
 #define CFMSYSTEMCALLS          ..CFMSYSTEMCALLS_is_obsolete..
-#endif  /* TARGET_API_MAC_OS8 || !TARGET_OS_MAC */
+#endif  /* !TARGET_API_MAC_CARBON */
 
 
 

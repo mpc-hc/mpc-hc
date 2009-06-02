@@ -3,10 +3,9 @@
  
      Contains:   Text Services Managerfor TextEdit Interfaces.
  
-     Version:    Technology: System 7.5
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1991-2001 Apple Technology, Inc. All rights reserved.
+     Copyright:  (c) 2007 (c) 1991-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -23,10 +22,6 @@
 
 #ifndef __DIALOGS__
 #include "Dialogs.h"
-#endif
-
-#ifndef __APPLEEVENTS__
-#include "AppleEvents.h"
 #endif
 
 #ifndef __TEXTSERVICES__
@@ -59,15 +54,26 @@ extern "C" {
 
 /* signature, interface types*/
 enum {
-    kTSMTESignature             = FOUR_CHAR_CODE('tmTE'),
-    kTSMTEInterfaceType         = FOUR_CHAR_CODE('tmTE'),
-    kTSMTEDialog                = FOUR_CHAR_CODE('tmDI')
+  kTSMTESignature               = FOUR_CHAR_CODE('tmTE'),
+  kTSMTEInterfaceType           = FOUR_CHAR_CODE('tmTE')
 };
 
+/*
+    In Carbon, since DialogRef is opaque, the TSMDialogRecord is removed.
+    Only one kind of TSMTE dialog remains, with extended data managed by TSMTE.
+    Use kTSMTESignature for the dialog refCon, and use the accessors below,
+    i.e. GetTSMTEDialogTSMTERecHandle, to get at the old TSMDialogRecord info.
+*/
+#if CALL_NOT_IN_CARBON
+enum {
+  kTSMTEDialog                  = FOUR_CHAR_CODE('tmDI')
+};
+
+#endif  /* CALL_NOT_IN_CARBON */
 
 /* update flag for TSMTERec*/
 enum {
-    kTSMTEAutoScroll            = 1
+  kTSMTEAutoScroll              = 1
 };
 
 
@@ -80,93 +86,223 @@ typedef STACK_UPP_TYPE(TSMTEPostUpdateProcPtr)                  TSMTEPostUpdateU
 
 
 /* data types*/
-
 struct TSMTERec {
-    TEHandle                        textH;
-    TSMTEPreUpdateUPP               preUpdateProc;
-    TSMTEPostUpdateUPP              postUpdateProc;
-    long                            updateFlag;
-    long                            refCon;
+  TEHandle            textH;
+  TSMTEPreUpdateUPP   preUpdateProc;
+  TSMTEPostUpdateUPP  postUpdateProc;
+  long                updateFlag;
+  long                refCon;
 };
 typedef struct TSMTERec                 TSMTERec;
 typedef TSMTERec *                      TSMTERecPtr;
 typedef TSMTERecPtr *                   TSMTERecHandle;
 #if !OPAQUE_TOOLBOX_STRUCTS
-
 struct TSMDialogRecord {
-    DialogRecord                    fDialog;
-    TSMDocumentID                   fDocID;
-    TSMTERecHandle                  fTSMTERecH;
-    long                            fTSMTERsvd[3];              /* reserved*/
+  DialogRecord        fDialog;
+  TSMDocumentID       fDocID;
+  TSMTERecHandle      fTSMTERecH;
+  long                fTSMTERsvd[3];          /* reserved*/
 };
 typedef struct TSMDialogRecord          TSMDialogRecord;
-
 typedef TSMDialogRecord *               TSMDialogPtr;
 typedef TSMDialogPtr                    TSMDialogPeek;
 #endif  /* !OPAQUE_TOOLBOX_STRUCTS */
 
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(TSMTEPreUpdateUPP)
-    NewTSMTEPreUpdateUPP           (TSMTEPreUpdateProcPtr   userRoutine);
-
-    EXTERN_API(TSMTEPostUpdateUPP)
-    NewTSMTEPostUpdateUPP          (TSMTEPostUpdateProcPtr  userRoutine);
-
-    EXTERN_API(void)
-    DisposeTSMTEPreUpdateUPP       (TSMTEPreUpdateUPP       userUPP);
-
-    EXTERN_API(void)
-    DisposeTSMTEPostUpdateUPP      (TSMTEPostUpdateUPP      userUPP);
-
-    EXTERN_API(void)
-    InvokeTSMTEPreUpdateUPP        (TEHandle                textH,
-                                    long                    refCon,
-                                    TSMTEPreUpdateUPP       userUPP);
-
-    EXTERN_API(void)
-    InvokeTSMTEPostUpdateUPP       (TEHandle                textH,
-                                    long                    fixLen,
-                                    long                    inputAreaStart,
-                                    long                    inputAreaEnd,
-                                    long                    pinStart,
-                                    long                    pinEnd,
-                                    long                    refCon,
-                                    TSMTEPostUpdateUPP      userUPP);
-
-#else
-    enum { uppTSMTEPreUpdateProcInfo = 0x000003C0 };                /* pascal no_return_value Func(4_bytes, 4_bytes) */
-    enum { uppTSMTEPostUpdateProcInfo = 0x000FFFC0 };               /* pascal no_return_value Func(4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    #define NewTSMTEPreUpdateUPP(userRoutine)                       (TSMTEPreUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPreUpdateProcInfo, GetCurrentArchitecture())
-    #define NewTSMTEPostUpdateUPP(userRoutine)                      (TSMTEPostUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPostUpdateProcInfo, GetCurrentArchitecture())
-    #define DisposeTSMTEPreUpdateUPP(userUPP)                       DisposeRoutineDescriptor(userUPP)
-    #define DisposeTSMTEPostUpdateUPP(userUPP)                      DisposeRoutineDescriptor(userUPP)
-    #define InvokeTSMTEPreUpdateUPP(textH, refCon, userUPP)         CALL_TWO_PARAMETER_UPP((userUPP), uppTSMTEPreUpdateProcInfo, (textH), (refCon))
-    #define InvokeTSMTEPostUpdateUPP(textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon, userUPP)  CALL_SEVEN_PARAMETER_UPP((userUPP), uppTSMTEPostUpdateProcInfo, (textH), (fixLen), (inputAreaStart), (inputAreaEnd), (pinStart), (pinEnd), (refCon))
+/*
+ *  NewTSMTEPreUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( TSMTEPreUpdateUPP )
+NewTSMTEPreUpdateUPP(TSMTEPreUpdateProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppTSMTEPreUpdateProcInfo = 0x000003C0 };  /* pascal no_return_value Func(4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(TSMTEPreUpdateUPP) NewTSMTEPreUpdateUPP(TSMTEPreUpdateProcPtr userRoutine) { return (TSMTEPreUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPreUpdateProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewTSMTEPreUpdateUPP(userRoutine) (TSMTEPreUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPreUpdateProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewTSMTEPreUpdateProc(userRoutine)                      NewTSMTEPreUpdateUPP(userRoutine)
-#define NewTSMTEPostUpdateProc(userRoutine)                     NewTSMTEPostUpdateUPP(userRoutine)
-#define CallTSMTEPreUpdateProc(userRoutine, textH, refCon)      InvokeTSMTEPreUpdateUPP(textH, refCon, userRoutine)
-#define CallTSMTEPostUpdateProc(userRoutine, textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon) InvokeTSMTEPostUpdateUPP(textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon, userRoutine)
+
+/*
+ *  NewTSMTEPostUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( TSMTEPostUpdateUPP )
+NewTSMTEPostUpdateUPP(TSMTEPostUpdateProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppTSMTEPostUpdateProcInfo = 0x000FFFC0 };  /* pascal no_return_value Func(4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(TSMTEPostUpdateUPP) NewTSMTEPostUpdateUPP(TSMTEPostUpdateProcPtr userRoutine) { return (TSMTEPostUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPostUpdateProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewTSMTEPostUpdateUPP(userRoutine) (TSMTEPostUpdateUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppTSMTEPostUpdateProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  DisposeTSMTEPreUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeTSMTEPreUpdateUPP(TSMTEPreUpdateUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeTSMTEPreUpdateUPP(TSMTEPreUpdateUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeTSMTEPreUpdateUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeTSMTEPostUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeTSMTEPostUpdateUPP(TSMTEPostUpdateUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeTSMTEPostUpdateUPP(TSMTEPostUpdateUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeTSMTEPostUpdateUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeTSMTEPreUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+InvokeTSMTEPreUpdateUPP(
+  TEHandle           textH,
+  long               refCon,
+  TSMTEPreUpdateUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) InvokeTSMTEPreUpdateUPP(TEHandle textH, long refCon, TSMTEPreUpdateUPP userUPP) { CALL_TWO_PARAMETER_UPP(userUPP, uppTSMTEPreUpdateProcInfo, textH, refCon); }
+  #else
+    #define InvokeTSMTEPreUpdateUPP(textH, refCon, userUPP) CALL_TWO_PARAMETER_UPP((userUPP), uppTSMTEPreUpdateProcInfo, (textH), (refCon))
+  #endif
+#endif
+
+/*
+ *  InvokeTSMTEPostUpdateUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+InvokeTSMTEPostUpdateUPP(
+  TEHandle            textH,
+  long                fixLen,
+  long                inputAreaStart,
+  long                inputAreaEnd,
+  long                pinStart,
+  long                pinEnd,
+  long                refCon,
+  TSMTEPostUpdateUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) InvokeTSMTEPostUpdateUPP(TEHandle textH, long fixLen, long inputAreaStart, long inputAreaEnd, long pinStart, long pinEnd, long refCon, TSMTEPostUpdateUPP userUPP) { CALL_SEVEN_PARAMETER_UPP(userUPP, uppTSMTEPostUpdateProcInfo, textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon); }
+  #else
+    #define InvokeTSMTEPostUpdateUPP(textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon, userUPP) CALL_SEVEN_PARAMETER_UPP((userUPP), uppTSMTEPostUpdateProcInfo, (textH), (fixLen), (inputAreaStart), (inputAreaEnd), (pinStart), (pinEnd), (refCon))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewTSMTEPreUpdateProc(userRoutine)                  NewTSMTEPreUpdateUPP(userRoutine)
+    #define NewTSMTEPostUpdateProc(userRoutine)                 NewTSMTEPostUpdateUPP(userRoutine)
+    #define CallTSMTEPreUpdateProc(userRoutine, textH, refCon)  InvokeTSMTEPreUpdateUPP(textH, refCon, userRoutine)
+    #define CallTSMTEPostUpdateProc(userRoutine, textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon) InvokeTSMTEPostUpdateUPP(textH, fixLen, inputAreaStart, inputAreaEnd, pinStart, pinEnd, refCon, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
 #if ACCESSOR_CALLS_ARE_FUNCTIONS
+/*
+ *  IsTSMTEDialog()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CarbonAccessors.o 1.0.2 and later
+ *    CarbonLib:        in CarbonLib 1.0.2 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( Boolean )
-IsTSMTEDialog                   (DialogPtr              dialog);
+IsTSMTEDialog(DialogRef dialog);
+
 
 /* Getters */
+/*
+ *  GetTSMTEDialogDocumentID()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CarbonAccessors.o 1.0.2 and later
+ *    CarbonLib:        in CarbonLib 1.0.2 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( TSMDocumentID )
-GetTSMTEDialogDocumentID        (DialogPtr              dialog);
+GetTSMTEDialogDocumentID(DialogRef dialog);
 
+
+/*
+ *  GetTSMTEDialogTSMTERecHandle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CarbonAccessors.o 1.0.2 and later
+ *    CarbonLib:        in CarbonLib 1.0.2 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( TSMTERecHandle )
-GetTSMTEDialogTSMTERecHandle    (DialogPtr              dialog);
+GetTSMTEDialogTSMTERecHandle(DialogRef dialog);
+
 
 /* Setters */
+/*
+ *  SetTSMTEDialogDocumentID()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CarbonAccessors.o 1.0.2 and later
+ *    CarbonLib:        in CarbonLib 1.0.2 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-SetTSMTEDialogDocumentID        (DialogPtr              dialog,
-                                 TSMDocumentID          documentID);
+SetTSMTEDialogDocumentID(
+  DialogRef       dialog,
+  TSMDocumentID   documentID);
 
+
+/*
+ *  SetTSMTEDialogTSMTERecHandle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CarbonAccessors.o 1.0.2 and later
+ *    CarbonLib:        in CarbonLib 1.0.2 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-SetTSMTEDialogTSMTERecHandle    (DialogPtr              dialog,
-                                 TSMTERecHandle         tsmteRecHandle);
+SetTSMTEDialogTSMTERecHandle(
+  DialogRef        dialog,
+  TSMTERecHandle   tsmteRecHandle);
+
 
 #endif  /* ACCESSOR_CALLS_ARE_FUNCTIONS */
 

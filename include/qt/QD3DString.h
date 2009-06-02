@@ -4,9 +4,9 @@
      Contains:   Q3CString methods
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1999 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -65,8 +65,17 @@ extern "C" {
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3String_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3String_GetType                (TQ3StringObject        stringObj);
+Q3String_GetType(TQ3StringObject stringObj);
+
 
 
 /******************************************************************************
@@ -74,26 +83,74 @@ Q3String_GetType                (TQ3StringObject        stringObj);
  **                     C String Routines                                    **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3CString_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StringObject )
-Q3CString_New                   (const char *           str);
+Q3CString_New(const char * str);
 
-EXTERN_API_C( TQ3Status )
-Q3CString_GetLength             (TQ3StringObject        stringObj,
-                                 unsigned long *        length);
 
+/*
+ *  Q3CString_GetLength()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3CString_SetString             (TQ3StringObject        stringObj,
-                                 const char *           str);
+Q3CString_GetLength(
+  TQ3StringObject   stringObj,
+  unsigned long *   length);
+
+
+/*
+ *  Q3CString_SetString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3CString_SetString(
+  TQ3StringObject   stringObj,
+  const char *      str);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3CString_GetString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3CString_GetString             (TQ3StringObject        stringObj,
-                                 char **                str);
+Q3CString_GetString(
+  TQ3StringObject   stringObj,
+  char **           str);
 
+
+/*
+ *  Q3CString_EmptyData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3CString_EmptyData             (char **                str);
+Q3CString_EmptyData(char ** str);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 

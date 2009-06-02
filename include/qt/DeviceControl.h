@@ -3,10 +3,9 @@
  
      Contains:   Component API for doing AVC transactions.
  
-     Version:    Technology: xxx put version here xxx
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1999-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1999-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -50,19 +49,27 @@ extern "C" {
 #endif
 
 typedef CALLBACK_API_C( UInt32 , DCResponseHandler )(UInt32 fwCommandObjectID, Ptr responseBuffer, UInt32 responseLength);
-
 struct DVCTransactionParams {
-    Ptr                             commandBufferPtr;
-    UInt32                          commandLength;
-    Ptr                             responseBufferPtr;
-    UInt32                          responseBufferSize;
-    DCResponseHandler *             responseHandler;
+  Ptr                 commandBufferPtr;
+  UInt32              commandLength;
+  Ptr                 responseBufferPtr;
+  UInt32              responseBufferSize;
+  DCResponseHandler * responseHandler;
 };
 typedef struct DVCTransactionParams     DVCTransactionParams;
-#if CALL_NOT_IN_CARBON
+/*
+ *  DeviceControlDoAVCTransaction()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in IDHLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.3 and later
+ *    Mac OS X:         not available
+ */
 EXTERN_API( ComponentResult )
-DeviceControlDoAVCTransaction   (ComponentInstance      instance,
-                                 DVCTransactionParams * params)                             FIVEWORDINLINE(0x2F3C, 0x0004, 0x0001, 0x7000, 0xA82A);
+DeviceControlDoAVCTransaction(
+  ComponentInstance       instance,
+  DVCTransactionParams *  params)                             FIVEWORDINLINE(0x2F3C, 0x0004, 0x0001, 0x7000, 0xA82A);
+
 
 
 
@@ -70,8 +77,6 @@ DeviceControlDoAVCTransaction   (ComponentInstance      instance,
 enum {
     kDeviceControlDoAVCTransactionSelect       = 0x0001
 };
-#endif  /* CALL_NOT_IN_CARBON */
-
 
 #if PRAGMA_STRUCT_ALIGN
     #pragma options align=reset

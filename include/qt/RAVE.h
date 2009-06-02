@@ -4,9 +4,9 @@
      Contains:   Interface for RAVE (Renderer Acceleration Virtual Engine)
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1999 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -142,88 +142,79 @@ extern "C" {
  * Platform dependent datatypes: TQAImagePixelType, TQADevice, TQAClip, and TQARect.
  *
  *****************************************************************************/
-
 enum TQAImagePixelType {
-    kQAPixel_Alpha1             = 0,                            /* 1 bit/pixel alpha */
-    kQAPixel_RGB16              = 1,                            /* 16 bits/pixel, R=14:10, G=9:5, B=4:0 */
-    kQAPixel_ARGB16             = 2,                            /* 16 bits/pixel, A=15, R=14:10, G=9:5, B=4:0 */
-    kQAPixel_RGB32              = 3,                            /* 32 bits/pixel, R=23:16, G=15:8, B=7:0 */
-    kQAPixel_ARGB32             = 4,                            /* 32 bits/pixel, A=31:24, R=23:16, G=15:8, B=7:0 */
-    kQAPixel_CL4                = 5,                            /* 4 bit color look up table, always big endian, ie high 4 bits effect left pixel */
-    kQAPixel_CL8                = 6,                            /* 8 bit color look up table */
-    kQAPixel_RGB16_565          = 7,                            /* Win32 ONLY  16 bits/pixel, no alpha, R:5, G:6, B:5 */
-    kQAPixel_RGB24              = 8,                            /* Win32 ONLY  24 bits/pixel, no alpha, R:8, G:8, B:8 */
-    kQAPixel_RGB8_332           = 9,                            /* 8 bits/pixel, R=7:5, G = 4:2, B = 1:0 */
-    kQAPixel_ARGB16_4444        = 10,                           /* 16 bits/pixel, A=15:12, R=11:8, G=7:4, B=3:0 */
-    kQAPixel_ACL16_88           = 11,                           /* 16 bits/pixel, A=15:8, CL=7:0, 8 bit alpha + 8 bit color lookup */
-    kQAPixel_I8                 = 12,                           /* 8 bits/pixel, I=7:0, intensity map (grayscale) */
-    kQAPixel_AI16_88            = 13,                           /* 16 bits/pixel, A=15:8, I=7:0, intensity map (grayscale) */
-    kQAPixel_YUVS               = 14,                           /* 16 bits/pixel, QD's kYUVSPixelFormat (4:2:2, YUYV ordering, unsigned UV) */
-    kQAPixel_YUVU               = 15,                           /* 16 bits/pixel, QD's kYUVUPixelFormat (4:2:2, YUYV ordering, signed UV) */
-    kQAPixel_YVYU422            = 16,                           /* 16 bits/pixel, QD's kYVYU422PixelFormat (4:2:2, YVYU ordering, unsigned UV) */
-    kQAPixel_UYVY422            = 17                            /* 16 bits/pixel, QD's kUYVY422PixelFormat (4:2:2, UYVY ordering, unsigned UV) */
+  kQAPixel_Alpha1               = 0,    /* 1 bit/pixel alpha */
+  kQAPixel_RGB16                = 1,    /* 16 bits/pixel, R=14:10, G=9:5, B=4:0 */
+  kQAPixel_ARGB16               = 2,    /* 16 bits/pixel, A=15, R=14:10, G=9:5, B=4:0 */
+  kQAPixel_RGB32                = 3,    /* 32 bits/pixel, R=23:16, G=15:8, B=7:0 */
+  kQAPixel_ARGB32               = 4,    /* 32 bits/pixel, A=31:24, R=23:16, G=15:8, B=7:0 */
+  kQAPixel_CL4                  = 5,    /* 4 bit color look up table, always big endian, ie high 4 bits effect left pixel */
+  kQAPixel_CL8                  = 6,    /* 8 bit color look up table */
+  kQAPixel_RGB16_565            = 7,    /* Win32 ONLY  16 bits/pixel, no alpha, R:5, G:6, B:5 */
+  kQAPixel_RGB24                = 8,    /* Win32 ONLY  24 bits/pixel, no alpha, R:8, G:8, B:8 */
+  kQAPixel_RGB8_332             = 9,    /* 8 bits/pixel, R=7:5, G = 4:2, B = 1:0 */
+  kQAPixel_ARGB16_4444          = 10,   /* 16 bits/pixel, A=15:12, R=11:8, G=7:4, B=3:0 */
+  kQAPixel_ACL16_88             = 11,   /* 16 bits/pixel, A=15:8, CL=7:0, 8 bit alpha + 8 bit color lookup */
+  kQAPixel_I8                   = 12,   /* 8 bits/pixel, I=7:0, intensity map (grayscale) */
+  kQAPixel_AI16_88              = 13,   /* 16 bits/pixel, A=15:8, I=7:0, intensity map (grayscale) */
+  kQAPixel_YUVS                 = 14,   /* 16 bits/pixel, QD's kYUVSPixelFormat (4:2:2, YUYV ordering, unsigned UV) */
+  kQAPixel_YUVU                 = 15,   /* 16 bits/pixel, QD's kYUVUPixelFormat (4:2:2, YUYV ordering, signed UV) */
+  kQAPixel_YVYU422              = 16,   /* 16 bits/pixel, QD's kYVYU422PixelFormat (4:2:2, YVYU ordering, unsigned UV) */
+  kQAPixel_UYVY422              = 17    /* 16 bits/pixel, QD's kUYVY422PixelFormat (4:2:2, UYVY ordering, unsigned UV) */
 };
 typedef enum TQAImagePixelType TQAImagePixelType;
 
-
 enum TQAColorTableType {
-    kQAColorTable_CL8_RGB32     = 0,                            /* 256 entry, 32 bit/pixel, R=23:16, G=15:8, B=7:0 */
-    kQAColorTable_CL4_RGB32     = 1                             /* 16 entry, 32 bit/pixel, R=23:16, G=15:8, B=7:0 */
+  kQAColorTable_CL8_RGB32       = 0,    /* 256 entry, 32 bit/pixel, R=23:16, G=15:8, B=7:0 */
+  kQAColorTable_CL4_RGB32       = 1     /* 16 entry, 32 bit/pixel, R=23:16, G=15:8, B=7:0 */
 };
 typedef enum TQAColorTableType TQAColorTableType;
 
 /* Selects target device type */
-
 enum TQADeviceType {
-    kQADeviceMemory             = 0,                            /* Memory draw context */
-    kQADeviceGDevice            = 1,                            /* Macintosh GDevice draw context */
-    kQADeviceWin32DC            = 2,                            /* Win32 DC */
-    kQADeviceDDSurface          = 3                             /* Win32 DirectDraw Surface */
+  kQADeviceMemory               = 0,    /* Memory draw context */
+  kQADeviceGDevice              = 1,    /* Macintosh GDevice draw context */
+  kQADeviceWin32DC              = 2,    /* Win32 DC */
+  kQADeviceDDSurface            = 3     /* Win32 DirectDraw Surface */
 };
 typedef enum TQADeviceType TQADeviceType;
 
 /* Generic memory pixmap device */
-
 struct TQADeviceMemory {
-    long                            rowBytes;                   /* Rowbytes */
-    TQAImagePixelType               pixelType;                  /* Depth, color space, etc. */
-    long                            width;                      /* Width in pixels */
-    long                            height;                     /* Height in pixels */
-    void *                          baseAddr;                   /* Base address of pixmap */
+  long                rowBytes;               /* Rowbytes */
+  TQAImagePixelType   pixelType;              /* Depth, color space, etc. */
+  long                width;                  /* Width in pixels */
+  long                height;                 /* Height in pixels */
+  void *              baseAddr;               /* Base address of pixmap */
 };
 typedef struct TQADeviceMemory          TQADeviceMemory;
 /* Offscreen Device */
-
 struct TQADeviceOffscreen {
-    TQAImagePixelType               pixelType;                  /* Depth, color space, etc. */
+  TQAImagePixelType   pixelType;              /* Depth, color space, etc. */
 };
 typedef struct TQADeviceOffscreen       TQADeviceOffscreen;
 /* Selects target clip type */
-
 enum TQAClipType {
-    kQAClipRgn                  = 0,                            /* Macintosh clipRgn with serial number */
-    kQAClipWin32Rgn             = 1                             /* Win32 clip region */
+  kQAClipRgn                    = 0,    /* Macintosh clipRgn with serial number */
+  kQAClipWin32Rgn               = 1     /* Win32 clip region */
 };
 typedef enum TQAClipType TQAClipType;
 
-
 struct TQARect {
-    long                            left;
-    long                            right;
-    long                            top;
-    long                            bottom;
+  long                left;
+  long                right;
+  long                top;
+  long                bottom;
 };
 typedef struct TQARect                  TQARect;
 #if TARGET_OS_MAC
-
 union TQAPlatformDevice {
-    TQADeviceMemory                 memoryDevice;
-    GDHandle                        gDevice;
+  TQADeviceMemory     memoryDevice;
+  GDHandle            gDevice;
 };
 typedef union TQAPlatformDevice         TQAPlatformDevice;
-
 union TQAPlatformClip {
-    RgnHandle                       clipRgn;
+  RgnHandle           clipRgn;
 };
 typedef union TQAPlatformClip           TQAPlatformClip;
 typedef CALLBACK_API( void , TQADrawNotificationProcPtr )(short left, short top, short right, short bottom, long refCon);
@@ -285,28 +276,24 @@ typedef long                            TQADrawNotificationProcRefNum;
 /*
      * Generic platform supports memory device only. TQARect is generic. TQAClip is ???.
      */
-
 union TQAPlatformDevice {
-    TQADeviceMemory                 memoryDevice;
+  TQADeviceMemory     memoryDevice;
 };
 typedef union TQAPlatformDevice         TQAPlatformDevice;
-
 union TQAPlatformClip {
-    void *                          region;                     /* ??? */
+  void *              region;                 /* ??? */
 };
 typedef union TQAPlatformClip           TQAPlatformClip;
 #endif  /*  */
 
-
 struct TQADevice {
-    TQADeviceType                   deviceType;
-    TQAPlatformDevice               device;
+  TQADeviceType       deviceType;
+  TQAPlatformDevice   device;
 };
 typedef struct TQADevice                TQADevice;
-
 struct TQAClip {
-    TQAClipType                     clipType;
-    TQAPlatformClip                 clip;
+  TQAClipType         clipType;
+  TQAPlatformClip     clip;
 };
 typedef struct TQAClip                  TQAClip;
 /******************************************************************************
@@ -326,48 +313,44 @@ typedef struct TQADrawPrivate TQADrawPrivate;
 /* An engine specific color table structure */
 typedef struct TQAColorTable TQAColorTable;
 /* A single triangle element for QADrawTriMesh */
-
 struct TQAIndexedTriangle {
-    unsigned long                   triangleFlags;              /* Triangle flags, see kQATriFlags_ */
-    unsigned long                   vertices[3];                /* Indices into a vertex array */
+  unsigned long       triangleFlags;          /* Triangle flags, see kQATriFlags_ */
+  unsigned long       vertices[3];            /* Indices into a vertex array */
 };
 typedef struct TQAIndexedTriangle       TQAIndexedTriangle;
 /* An image for use as texture or bitmap */
-
 struct TQAImage {
-    long                            width;                      /* Width of pixmap */
-    long                            height;                     /* Height of pixmap */
-    long                            rowBytes;                   /* Rowbytes of pixmap */
-    void *                          pixmap;                     /* Pixmap */
+  long                width;                  /* Width of pixmap */
+  long                height;                 /* Height of pixmap */
+  long                rowBytes;               /* Rowbytes of pixmap */
+  void *              pixmap;                 /* Pixmap */
 };
 typedef struct TQAImage                 TQAImage;
 /* a pixel buffer */
 
 typedef TQADeviceMemory                 TQAPixelBuffer;
 /* a zbuffer */
-
 struct TQAZBuffer {
-    long                            width;                      /* Width of pixmap */
-    long                            height;                     /* Height of pixmap */
-    long                            rowBytes;                   /* Rowbytes of pixmap */
-    void *                          zbuffer;                    /* pointer to the zbuffer data */
-    long                            zDepth;                     /* bit depth of zbuffer (16,24,32...) */
-    long                            isBigEndian;                /* true if zbuffer values are in big-endian format, false if little-endian */
+  long                width;                  /* Width of pixmap */
+  long                height;                 /* Height of pixmap */
+  long                rowBytes;               /* Rowbytes of pixmap */
+  void *              zbuffer;                /* pointer to the zbuffer data */
+  long                zDepth;                 /* bit depth of zbuffer (16,24,32...) */
+  long                isBigEndian;            /* true if zbuffer values are in big-endian format, false if little-endian */
 };
 typedef struct TQAZBuffer               TQAZBuffer;
 /* Standard error type */
-
 enum TQAError {
-    kQANoErr                    = 0,                            /* No error */
-    kQAError                    = 1,                            /* Generic error flag */
-    kQAOutOfMemory              = 2,                            /* Insufficient memory */
-    kQANotSupported             = 3,                            /* Requested feature is not supported */
-    kQAOutOfDate                = 4,                            /* A newer drawing engine was registered */
-    kQAParamErr                 = 5,                            /* Error in passed parameters */
-    kQAGestaltUnknown           = 6,                            /* Requested gestalt type isn't available */
-    kQADisplayModeUnsupported   = 7,                            /* Engine cannot render to the display in its current , */
-                                                                /* mode, but could if it were in some other mode */
-    kQAOutOfVideoMemory         = 8                             /* There is not enough VRAM to support the desired context dimensions */
+  kQANoErr                      = 0,    /* No error */
+  kQAError                      = 1,    /* Generic error flag */
+  kQAOutOfMemory                = 2,    /* Insufficient memory */
+  kQANotSupported               = 3,    /* Requested feature is not supported */
+  kQAOutOfDate                  = 4,    /* A newer drawing engine was registered */
+  kQAParamErr                   = 5,    /* Error in passed parameters */
+  kQAGestaltUnknown             = 6,    /* Requested gestalt type isn't available */
+  kQADisplayModeUnsupported     = 7,    /* Engine cannot render to the display in its current , */
+                                        /* mode, but could if it were in some other mode */
+  kQAOutOfVideoMemory           = 8     /* There is not enough VRAM to support the desired context dimensions */
 };
 typedef enum TQAError TQAError;
 
@@ -403,17 +386,16 @@ typedef unsigned char                   TQABoolean;
  * Drawing engines which perform front-to-back Z-sorted rendering should replace
  * the blending function shown above with the equivalent front-to-back formula.
  */
-
 struct TQAVGouraud {
-    float                           x;                          /* X pixel coordinate, 0.0 <= x < width */
-    float                           y;                          /* Y pixel coordinate, 0.0 <= y < height */
-    float                           z;                          /* Z coordinate, 0.0 <= z <= 1.0 */
-    float                           invW;                       /* 1 / w; required only when kQAPerspectiveZ_On is set */
+  float               x;                      /* X pixel coordinate, 0.0 <= x < width */
+  float               y;                      /* Y pixel coordinate, 0.0 <= y < height */
+  float               z;                      /* Z coordinate, 0.0 <= z <= 1.0 */
+  float               invW;                   /* 1 / w; required only when kQAPerspectiveZ_On is set */
 
-    float                           r;                          /* Red, 0.0 <= r <= 1.0 */
-    float                           g;                          /* Green, 0.0 <= g <= 1.0 */
-    float                           b;                          /* Blue, 0.0 <= b <= 1.0 */
-    float                           a;                          /* Alpha, 0.0 <= a <= 1.0, 1.0 is opaque */
+  float               r;                      /* Red, 0.0 <= r <= 1.0 */
+  float               g;                      /* Green, 0.0 <= g <= 1.0 */
+  float               b;                      /* Blue, 0.0 <= b <= 1.0 */
+  float               a;                      /* Alpha, 0.0 <= a <= 1.0, 1.0 is opaque */
 };
 typedef struct TQAVGouraud              TQAVGouraud;
 /*
@@ -450,36 +432,35 @@ typedef struct TQAVGouraud              TQAVGouraud;
  * After computation of texPix, transparency blending (as shown
  * above for TQAVGouraud) is performed.
  */
-
 struct TQAVTexture {
-    float                           x;                          /* X pixel coordinate, 0.0 <= x < width */
-    float                           y;                          /* Y pixel coordinate, 0.0 <= y < height */
-    float                           z;                          /* Z coordinate, 0.0 <= z <= 1.0 */
-    float                           invW;                       /* 1 / w (always required) */
+  float               x;                      /* X pixel coordinate, 0.0 <= x < width */
+  float               y;                      /* Y pixel coordinate, 0.0 <= y < height */
+  float               z;                      /* Z coordinate, 0.0 <= z <= 1.0 */
+  float               invW;                   /* 1 / w (always required) */
 
-                                                                /* rgb are used only when kQATextureOp_Decal is set. a is always required */
+                                              /* rgb are used only when kQATextureOp_Decal is set. a is always required */
 
-    float                           r;                          /* Red, 0.0 <= r <= 1.0 */
-    float                           g;                          /* Green, 0.0 <= g <= 1.0 */
-    float                           b;                          /* Blue, 0.0 <= b <= 1.0 */
-    float                           a;                          /* Alpha, 0.0 <= a <= 1.0, 1.0 is opaque */
+  float               r;                      /* Red, 0.0 <= r <= 1.0 */
+  float               g;                      /* Green, 0.0 <= g <= 1.0 */
+  float               b;                      /* Blue, 0.0 <= b <= 1.0 */
+  float               a;                      /* Alpha, 0.0 <= a <= 1.0, 1.0 is opaque */
 
-                                                                /* uOverW and vOverW are required by all modes */
+                                              /* uOverW and vOverW are required by all modes */
 
-    float                           uOverW;                     /* u / w */
-    float                           vOverW;                     /* v / w */
+  float               uOverW;                 /* u / w */
+  float               vOverW;                 /* v / w */
 
-                                                                /* kd_r/g/b are used only when kQATextureOp_Modulate is set */
+                                              /* kd_r/g/b are used only when kQATextureOp_Modulate is set */
 
-    float                           kd_r;                       /* Scale factor for texture red, 0.0 <= kd_r */
-    float                           kd_g;                       /* Scale factor for texture green, 0.0 <= kd_g */
-    float                           kd_b;                       /* Scale factor for texture blue, 0.0 <= kd_b */
+  float               kd_r;                   /* Scale factor for texture red, 0.0 <= kd_r */
+  float               kd_g;                   /* Scale factor for texture green, 0.0 <= kd_g */
+  float               kd_b;                   /* Scale factor for texture blue, 0.0 <= kd_b */
 
-                                                                /* ks_r/g/b are used only when kQATextureOp_Highlight is set */
+                                              /* ks_r/g/b are used only when kQATextureOp_Highlight is set */
 
-    float                           ks_r;                       /* Red specular highlight, 0.0 <= ks_r <= 1.0 */
-    float                           ks_g;                       /* Green specular highlight, 0.0 <= ks_g <= 1.0 */
-    float                           ks_b;                       /* Blue specular highlight, 0.0 <= ks_b <= 1.0 */
+  float               ks_r;                   /* Red specular highlight, 0.0 <= ks_r <= 1.0 */
+  float               ks_g;                   /* Green specular highlight, 0.0 <= ks_g <= 1.0 */
+  float               ks_b;                   /* Blue specular highlight, 0.0 <= ks_b <= 1.0 */
 };
 typedef struct TQAVTexture              TQAVTexture;
 /*
@@ -487,11 +468,10 @@ typedef struct TQAVTexture              TQAVTexture;
 *  for secondary textures.  This data is submitted with the
 *  QASubmitMultiTextureParams() call.
 */
-
 struct TQAVMultiTexture {
-    float                           invW;
-    float                           uOverW;
-    float                           vOverW;
+  float               invW;
+  float               uOverW;
+  float               vOverW;
 };
 typedef struct TQAVMultiTexture         TQAVMultiTexture;
 
@@ -594,262 +574,259 @@ typedef struct TQAVMultiTexture         TQAVMultiTexture;
  *
  *      kQATag_EngineSpecific_Minimum   Minimum tag value for drawing-engine specific variables
  */
-
 enum TQATagInt {
-    kQATag_ZFunction            = 0,
-    kQATag_Antialias            = 8,
-    kQATag_Blend                = 9,
-    kQATag_PerspectiveZ         = 10,
-    kQATag_TextureFilter        = 11,
-    kQATag_TextureOp            = 12,
-    kQATag_CSGTag               = 14,
-    kQATag_CSGEquation          = 15,
-    kQATag_BufferComposite      = 16,
-    kQATag_FogMode              = 17,
-    kQATag_ChannelMask          = 27,
-    kQATag_ZBufferMask          = 28,
-    kQATag_ZSortedHint          = 29,
-    kQATag_ChromakeyEnable      = 30,
-    kQATag_AlphaTestFunc        = 31,
-    kQATag_DontSwap             = 32,
-    kQATag_MultiTextureEnable   = 33,
-    kQATag_MultiTextureCurrent  = 34,
-    kQATag_MultiTextureOp       = 35,
-    kQATag_MultiTextureFilter   = 36,
-    kQATag_MultiTextureWrapU    = 37,
-    kQATag_MultiTextureWrapV    = 38,
-    kQATag_MultiTextureMagFilter = 39,
-    kQATag_MultiTextureMinFilter = 40,
-    kQATag_BitmapFilter         = 54,                           /* filter to use while scaling bitmaps, one of kQAFilter_xxx */
-    kQATag_DrawContextFilter    = 55,                           /* filter to use while scaling draw contexts, one of kQAFilter_xxx */
-    kQATagGL_DrawBuffer         = 100,
-    kQATagGL_TextureWrapU       = 101,
-    kQATagGL_TextureWrapV       = 102,
-    kQATagGL_TextureMagFilter   = 103,
-    kQATagGL_TextureMinFilter   = 104,
-    kQATagGL_ScissorXMin        = 105,
-    kQATagGL_ScissorYMin        = 106,
-    kQATagGL_ScissorXMax        = 107,
-    kQATagGL_ScissorYMax        = 108,
-    kQATagGL_BlendSrc           = 109,
-    kQATagGL_BlendDst           = 110,
-    kQATagGL_LinePattern        = 111,
-    kQATagGL_AreaPattern0       = 117,                          /* ...kQATagGL_AreaPattern1-30 */
-    kQATagGL_AreaPattern31      = 148,
-    kQATagGL_LinePatternFactor  = 149,                          /* equivalent to GL_LINE_STIPPLE_REPEAT */
-    kQATag_EngineSpecific_Minimum = 1000
+  kQATag_ZFunction              = 0,
+  kQATag_Antialias              = 8,
+  kQATag_Blend                  = 9,
+  kQATag_PerspectiveZ           = 10,
+  kQATag_TextureFilter          = 11,
+  kQATag_TextureOp              = 12,
+  kQATag_CSGTag                 = 14,
+  kQATag_CSGEquation            = 15,
+  kQATag_BufferComposite        = 16,
+  kQATag_FogMode                = 17,
+  kQATag_ChannelMask            = 27,
+  kQATag_ZBufferMask            = 28,
+  kQATag_ZSortedHint            = 29,
+  kQATag_ChromakeyEnable        = 30,
+  kQATag_AlphaTestFunc          = 31,
+  kQATag_DontSwap               = 32,
+  kQATag_MultiTextureEnable     = 33,
+  kQATag_MultiTextureCurrent    = 34,
+  kQATag_MultiTextureOp         = 35,
+  kQATag_MultiTextureFilter     = 36,
+  kQATag_MultiTextureWrapU      = 37,
+  kQATag_MultiTextureWrapV      = 38,
+  kQATag_MultiTextureMagFilter  = 39,
+  kQATag_MultiTextureMinFilter  = 40,
+  kQATag_BitmapFilter           = 54,   /* filter to use while scaling bitmaps, one of kQAFilter_xxx */
+  kQATag_DrawContextFilter      = 55,   /* filter to use while scaling draw contexts, one of kQAFilter_xxx */
+  kQATagGL_DrawBuffer           = 100,
+  kQATagGL_TextureWrapU         = 101,
+  kQATagGL_TextureWrapV         = 102,
+  kQATagGL_TextureMagFilter     = 103,
+  kQATagGL_TextureMinFilter     = 104,
+  kQATagGL_ScissorXMin          = 105,
+  kQATagGL_ScissorYMin          = 106,
+  kQATagGL_ScissorXMax          = 107,
+  kQATagGL_ScissorYMax          = 108,
+  kQATagGL_BlendSrc             = 109,
+  kQATagGL_BlendDst             = 110,
+  kQATagGL_LinePattern          = 111,
+  kQATagGL_AreaPattern0         = 117,  /* ...kQATagGL_AreaPattern1-30 */
+  kQATagGL_AreaPattern31        = 148,
+  kQATagGL_LinePatternFactor    = 149,  /* equivalent to GL_LINE_STIPPLE_REPEAT */
+  kQATag_EngineSpecific_Minimum = 1000
 };
 typedef enum TQATagInt TQATagInt;
 
-
 enum TQATagPtr {
-    kQATag_Texture              = 13,
-    kQATag_MultiTexture         = 26
+  kQATag_Texture                = 13,
+  kQATag_MultiTexture           = 26
 };
 typedef enum TQATagPtr TQATagPtr;
 
-
 enum TQATagFloat {
-    kQATag_ColorBG_a            = 1,
-    kQATag_ColorBG_r            = 2,
-    kQATag_ColorBG_g            = 3,
-    kQATag_ColorBG_b            = 4,
-    kQATag_Width                = 5,
-    kQATag_ZMinOffset           = 6,
-    kQATag_ZMinScale            = 7,
-    kQATag_FogColor_a           = 18,
-    kQATag_FogColor_r           = 19,
-    kQATag_FogColor_g           = 20,
-    kQATag_FogColor_b           = 21,
-    kQATag_FogStart             = 22,
-    kQATag_FogEnd               = 23,
-    kQATag_FogDensity           = 24,
-    kQATag_FogMaxDepth          = 25,
-    kQATag_MipmapBias           = 41,
-    kQATag_MultiTextureMipmapBias = 42,
-    kQATag_Chromakey_r          = 43,
-    kQATag_Chromakey_g          = 44,
-    kQATag_Chromakey_b          = 45,
-    kQATag_AlphaTestRef         = 46,
-    kQATag_MultiTextureBorder_a = 47,
-    kQATag_MultiTextureBorder_r = 48,
-    kQATag_MultiTextureBorder_g = 49,
-    kQATag_MultiTextureBorder_b = 50,
-    kQATag_MultiTextureFactor   = 51,
-    kQATag_BitmapScale_x        = 52,                           /* horizontal bitmap scale factor, default value is 1.0 */
-    kQATag_BitmapScale_y        = 53,                           /* vertical bitmap scale factor, default value is 1.0 */
-    kQATag_MultiTextureEnvColor_a = 56,
-    kQATag_MultiTextureEnvColor_r = 57,
-    kQATag_MultiTextureEnvColor_g = 58,
-    kQATag_MultiTextureEnvColor_b = 59,
-    kQATagGL_DepthBG            = 112,
-    kQATagGL_TextureBorder_a    = 113,
-    kQATagGL_TextureBorder_r    = 114,
-    kQATagGL_TextureBorder_g    = 115,
-    kQATagGL_TextureBorder_b    = 116,
-    kQATagGL_TextureEnvColor_a  = 150,
-    kQATagGL_TextureEnvColor_r  = 151,
-    kQATagGL_TextureEnvColor_g  = 152,
-    kQATagGL_TextureEnvColor_b  = 153
+  kQATag_ColorBG_a              = 1,
+  kQATag_ColorBG_r              = 2,
+  kQATag_ColorBG_g              = 3,
+  kQATag_ColorBG_b              = 4,
+  kQATag_Width                  = 5,
+  kQATag_ZMinOffset             = 6,
+  kQATag_ZMinScale              = 7,
+  kQATag_FogColor_a             = 18,
+  kQATag_FogColor_r             = 19,
+  kQATag_FogColor_g             = 20,
+  kQATag_FogColor_b             = 21,
+  kQATag_FogStart               = 22,
+  kQATag_FogEnd                 = 23,
+  kQATag_FogDensity             = 24,
+  kQATag_FogMaxDepth            = 25,
+  kQATag_MipmapBias             = 41,
+  kQATag_MultiTextureMipmapBias = 42,
+  kQATag_Chromakey_r            = 43,
+  kQATag_Chromakey_g            = 44,
+  kQATag_Chromakey_b            = 45,
+  kQATag_AlphaTestRef           = 46,
+  kQATag_MultiTextureBorder_a   = 47,
+  kQATag_MultiTextureBorder_r   = 48,
+  kQATag_MultiTextureBorder_g   = 49,
+  kQATag_MultiTextureBorder_b   = 50,
+  kQATag_MultiTextureFactor     = 51,
+  kQATag_BitmapScale_x          = 52,   /* horizontal bitmap scale factor, default value is 1.0 */
+  kQATag_BitmapScale_y          = 53,   /* vertical bitmap scale factor, default value is 1.0 */
+  kQATag_MultiTextureEnvColor_a = 56,
+  kQATag_MultiTextureEnvColor_r = 57,
+  kQATag_MultiTextureEnvColor_g = 58,
+  kQATag_MultiTextureEnvColor_b = 59,
+  kQATagGL_DepthBG              = 112,
+  kQATagGL_TextureBorder_a      = 113,
+  kQATagGL_TextureBorder_r      = 114,
+  kQATagGL_TextureBorder_g      = 115,
+  kQATagGL_TextureBorder_b      = 116,
+  kQATagGL_TextureEnvColor_a    = 150,
+  kQATagGL_TextureEnvColor_r    = 151,
+  kQATagGL_TextureEnvColor_g    = 152,
+  kQATagGL_TextureEnvColor_b    = 153
 };
 typedef enum TQATagFloat TQATagFloat;
 
 
 /* kQATag_ZFunction */
 enum {
-    kQAZFunction_None           = 0,                            /* Z is neither tested nor written (same as no Z buffer) */
-    kQAZFunction_LT             = 1,                            /* Znew < Zbuffer is visible */
-    kQAZFunction_EQ             = 2,                            /* Znew == Zbuffer is visible */
-    kQAZFunction_LE             = 3,                            /* Znew <= Zbuffer is visible */
-    kQAZFunction_GT             = 4,                            /* Znew > Zbuffer is visible */
-    kQAZFunction_NE             = 5,                            /* Znew != Zbuffer is visible */
-    kQAZFunction_GE             = 6,                            /* Znew >= Zbuffer is visible */
-    kQAZFunction_True           = 7,                            /* Znew is always visible */
-    kQAZFunction_False          = 8                             /* Znew is never visible */
+  kQAZFunction_None             = 0,    /* Z is neither tested nor written (same as no Z buffer) */
+  kQAZFunction_LT               = 1,    /* Znew < Zbuffer is visible */
+  kQAZFunction_EQ               = 2,    /* Znew == Zbuffer is visible */
+  kQAZFunction_LE               = 3,    /* Znew <= Zbuffer is visible */
+  kQAZFunction_GT               = 4,    /* Znew > Zbuffer is visible */
+  kQAZFunction_NE               = 5,    /* Znew != Zbuffer is visible */
+  kQAZFunction_GE               = 6,    /* Znew >= Zbuffer is visible */
+  kQAZFunction_True             = 7,    /* Znew is always visible */
+  kQAZFunction_False            = 8     /* Znew is never visible */
 };
 
 /* kQATag_Width */
 #define kQAMaxWidth 128.0
 /* kQATag_Antialias */
 enum {
-    kQAAntiAlias_Off            = 0,
-    kQAAntiAlias_Fast           = 1,
-    kQAAntiAlias_Mid            = 2,
-    kQAAntiAlias_Best           = 3
+  kQAAntiAlias_Off              = 0,
+  kQAAntiAlias_Fast             = 1,
+  kQAAntiAlias_Mid              = 2,
+  kQAAntiAlias_Best             = 3
 };
 
 /* kQATag_Blend */
 enum {
-    kQABlend_PreMultiply        = 0,
-    kQABlend_Interpolate        = 1,
-    kQABlend_OpenGL             = 2
+  kQABlend_PreMultiply          = 0,
+  kQABlend_Interpolate          = 1,
+  kQABlend_OpenGL               = 2
 };
 
 /* kQATag_BufferComposite */
 enum {
-    kQABufferComposite_None     = 0,                            /* Default: New pixels overwrite initial buffer contents */
-    kQABufferComposite_PreMultiply = 1,                         /* New pixels are blended with initial buffer contents via PreMultiply */
-    kQABufferComposite_Interpolate = 2                          /* New pixels are blended with initial buffer contents via Interpolate */
+  kQABufferComposite_None       = 0,    /* Default: New pixels overwrite initial buffer contents */
+  kQABufferComposite_PreMultiply = 1,   /* New pixels are blended with initial buffer contents via PreMultiply */
+  kQABufferComposite_Interpolate = 2    /* New pixels are blended with initial buffer contents via Interpolate */
 };
 
 /* kQATag_PerspectiveZ */
 enum {
-    kQAPerspectiveZ_Off         = 0,                            /* Use Z for hidden surface removal */
-    kQAPerspectiveZ_On          = 1                             /* Use InvW for hidden surface removal */
+  kQAPerspectiveZ_Off           = 0,    /* Use Z for hidden surface removal */
+  kQAPerspectiveZ_On            = 1     /* Use InvW for hidden surface removal */
 };
 
 /* kQATag_TextureFilter */
 enum {
-                                                                /* suggested meanings of these values */
-    kQATextureFilter_Fast       = 0,                            /* No filtering, pick nearest */
-    kQATextureFilter_Mid        = 1,                            /* Fastest method that does some filtering */
-    kQATextureFilter_Best       = 2                             /* Highest quality renderer can do */
+                                        /* suggested meanings of these values */
+  kQATextureFilter_Fast         = 0,    /* No filtering, pick nearest */
+  kQATextureFilter_Mid          = 1,    /* Fastest method that does some filtering */
+  kQATextureFilter_Best         = 2     /* Highest quality renderer can do */
 };
 
 /* filter tag values */
 enum {
-                                                                /* suggested meanings of these values */
-    kQAFilter_Fast              = 0,                            /* No filtering, pick nearest */
-    kQAFilter_Mid               = 1,                            /* Fastest method that does some filtering */
-    kQAFilter_Best              = 2                             /* Highest quality renderer can do */
+                                        /* suggested meanings of these values */
+  kQAFilter_Fast                = 0,    /* No filtering, pick nearest */
+  kQAFilter_Mid                 = 1,    /* Fastest method that does some filtering */
+  kQAFilter_Best                = 2     /* Highest quality renderer can do */
 };
 
 /* kQATag_TextureOp (mask of one or more) */
 enum {
-    kQATextureOp_None           = 0,                            /* Default texture mapping mode */
-    kQATextureOp_Modulate       = (1 << 0),                     /* Modulate texture color with kd_r/g/b */
-    kQATextureOp_Highlight      = (1 << 1),                     /* Add highlight value ks_r/g/b */
-    kQATextureOp_Decal          = (1 << 2),                     /* When texture alpha == 0, use rgb instead */
-    kQATextureOp_Shrink         = (1 << 3),                     /* This is a non-wrapping texture, so the ??? */
-    kQATextureOp_Blend          = (1 << 4)                      /* Same as GL_TEXTURE_ENV_MODE GL_BLEND */
+  kQATextureOp_None             = 0,    /* Default texture mapping mode */
+  kQATextureOp_Modulate         = (1 << 0), /* Modulate texture color with kd_r/g/b */
+  kQATextureOp_Highlight        = (1 << 1), /* Add highlight value ks_r/g/b */
+  kQATextureOp_Decal            = (1 << 2), /* When texture alpha == 0, use rgb instead */
+  kQATextureOp_Shrink           = (1 << 3), /* This is a non-wrapping texture, so the ??? */
+  kQATextureOp_Blend            = (1 << 4) /* Same as GL_TEXTURE_ENV_MODE GL_BLEND */
 };
 
 /* kQATag_MultiTextureOp */
 enum {
-    kQAMultiTexture_Add         = 0,                            /* texels are added to form final pixel */
-    kQAMultiTexture_Modulate    = 1,                            /* texels are multiplied to form final pixel */
-    kQAMultiTexture_BlendAlpha  = 2,                            /* texels are blended according to 2nd texel's alpha */
-    kQAMultiTexture_Fixed       = 3                             /* texels are blended by a fixed factor via kQATag_MultiTextureFactor  */
+  kQAMultiTexture_Add           = 0,    /* texels are added to form final pixel */
+  kQAMultiTexture_Modulate      = 1,    /* texels are multiplied to form final pixel */
+  kQAMultiTexture_BlendAlpha    = 2,    /* texels are blended according to 2nd texel's alpha */
+  kQAMultiTexture_Fixed         = 3     /* texels are blended by a fixed factor via kQATag_MultiTextureFactor  */
 };
 
 /* kQATag_CSGTag */
 #define kQACSGTag_None 0xffffffffUL
 enum {
-    kQACSGTag_0                 = 0,                            /* Submitted tris have CSG ID 0 */
-    kQACSGTag_1                 = 1,                            /* Submitted tris have CSG ID 1 */
-    kQACSGTag_2                 = 2,                            /* Submitted tris have CSG ID 2 */
-    kQACSGTag_3                 = 3,                            /* Submitted tris have CSG ID 3 */
-    kQACSGTag_4                 = 4                             /* Submitted tris have CSG ID 4 */
+  kQACSGTag_0                   = 0,    /* Submitted tris have CSG ID 0 */
+  kQACSGTag_1                   = 1,    /* Submitted tris have CSG ID 1 */
+  kQACSGTag_2                   = 2,    /* Submitted tris have CSG ID 2 */
+  kQACSGTag_3                   = 3,    /* Submitted tris have CSG ID 3 */
+  kQACSGTag_4                   = 4     /* Submitted tris have CSG ID 4 */
 };
 
 /* kQATagGL_TextureWrapU/V */
 enum {
-    kQAGL_Repeat                = 0,
-    kQAGL_Clamp                 = 1
+  kQAGL_Repeat                  = 0,
+  kQAGL_Clamp                   = 1
 };
 
 /* kQATagGL_BlendSrc */
 enum {
-    kQAGL_SourceBlend_XXX       = 0
+  kQAGL_SourceBlend_XXX         = 0
 };
 
 /* kQATagGL_BlendDst */
 enum {
-    kQAGL_DestBlend_XXX         = 0
+  kQAGL_DestBlend_XXX           = 0
 };
 
 /* kQATagGL_DrawBuffer (mask of one or more) */
 enum {
-    kQAGL_DrawBuffer_None       = 0,
-    kQAGL_DrawBuffer_FrontLeft  = (1 << 0),
-    kQAGL_DrawBuffer_FrontRight = (1 << 1),
-    kQAGL_DrawBuffer_BackLeft   = (1 << 2),
-    kQAGL_DrawBuffer_BackRight  = (1 << 3),
-    kQAGL_DrawBuffer_Front      = (kQAGL_DrawBuffer_FrontLeft | kQAGL_DrawBuffer_FrontRight),
-    kQAGL_DrawBuffer_Back       = (kQAGL_DrawBuffer_BackLeft | kQAGL_DrawBuffer_BackRight)
+  kQAGL_DrawBuffer_None         = 0,
+  kQAGL_DrawBuffer_FrontLeft    = (1 << 0),
+  kQAGL_DrawBuffer_FrontRight   = (1 << 1),
+  kQAGL_DrawBuffer_BackLeft     = (1 << 2),
+  kQAGL_DrawBuffer_BackRight    = (1 << 3),
+  kQAGL_DrawBuffer_Front        = (kQAGL_DrawBuffer_FrontLeft | kQAGL_DrawBuffer_FrontRight),
+  kQAGL_DrawBuffer_Back         = (kQAGL_DrawBuffer_BackLeft | kQAGL_DrawBuffer_BackRight)
 };
 
 /* kQATag_FogMode */
 enum {
-    kQAFogMode_None             = 0,                            /* no fog                     */
-    kQAFogMode_Alpha            = 1,                            /* fog value is alpha               */
-    kQAFogMode_Linear           = 2,                            /* fog = (end - z) / (end - start)         */
-    kQAFogMode_Exponential      = 3,                            /* fog = exp(-density * z)              */
-    kQAFogMode_ExponentialSquared = 4                           /* fog = exp(-density * z * density * z)  */
+  kQAFogMode_None               = 0,    /* no fog                     */
+  kQAFogMode_Alpha              = 1,    /* fog value is alpha               */
+  kQAFogMode_Linear             = 2,    /* fog = (end - z) / (end - start)         */
+  kQAFogMode_Exponential        = 3,    /* fog = exp(-density * z)              */
+  kQAFogMode_ExponentialSquared = 4     /* fog = exp(-density * z * density * z)  */
 };
 
 
 /* kQATag_ChannelMask */
 enum {
-    kQAChannelMask_r            = (1 << 0),
-    kQAChannelMask_g            = (1 << 1),
-    kQAChannelMask_b            = (1 << 2),
-    kQAChannelMask_a            = (1 << 3)
+  kQAChannelMask_r              = (1 << 0),
+  kQAChannelMask_g              = (1 << 1),
+  kQAChannelMask_b              = (1 << 2),
+  kQAChannelMask_a              = (1 << 3)
 };
 
 
 /* kQATag_ZBufferMask */
 enum {
-    kQAZBufferMask_Disable      = 0,
-    kQAZBufferMask_Enable       = 1
+  kQAZBufferMask_Disable        = 0,
+  kQAZBufferMask_Enable         = 1
 };
 
 /* kQATag_AlphaTestFunc */
 enum {
-    kQAAlphaTest_None           = 0,
-    kQAAlphaTest_LT             = 1,
-    kQAAlphaTest_EQ             = 2,
-    kQAAlphaTest_LE             = 3,
-    kQAAlphaTest_GT             = 4,
-    kQAAlphaTest_NE             = 5,
-    kQAAlphaTest_GE             = 6,
-    kQAAlphaTest_True           = 7
+  kQAAlphaTest_None             = 0,
+  kQAAlphaTest_LT               = 1,
+  kQAAlphaTest_EQ               = 2,
+  kQAAlphaTest_LE               = 3,
+  kQAAlphaTest_GT               = 4,
+  kQAAlphaTest_NE               = 5,
+  kQAAlphaTest_GE               = 6,
+  kQAAlphaTest_True             = 7
 };
 
 
 /* flags for QAAccess__xxx */
 enum {
-    kQANoCopyNeeded             = (1 << 0)
+  kQANoCopyNeeded               = (1 << 0)
 };
 
 
@@ -862,15 +839,14 @@ enum {
  * TQAVertexMode is a parameter to QADrawVGouraud() and QADrawVTexture() that specifies how
  * to interpret and draw the vertex array.
  */
-
 enum TQAVertexMode {
-    kQAVertexMode_Point         = 0,                            /* Draw nVertices points */
-    kQAVertexMode_Line          = 1,                            /* Draw nVertices/2 line segments */
-    kQAVertexMode_Polyline      = 2,                            /* Draw nVertices-1 connected line segments */
-    kQAVertexMode_Tri           = 3,                            /* Draw nVertices/3 triangles */
-    kQAVertexMode_Strip         = 4,                            /* Draw nVertices-2 triangles as a strip */
-    kQAVertexMode_Fan           = 5,                            /* Draw nVertices-2 triangles as a fan from v0 */
-    kQAVertexMode_NumModes      = 6
+  kQAVertexMode_Point           = 0,    /* Draw nVertices points */
+  kQAVertexMode_Line            = 1,    /* Draw nVertices/2 line segments */
+  kQAVertexMode_Polyline        = 2,    /* Draw nVertices-1 connected line segments */
+  kQAVertexMode_Tri             = 3,    /* Draw nVertices/3 triangles */
+  kQAVertexMode_Strip           = 4,    /* Draw nVertices-2 triangles as a strip */
+  kQAVertexMode_Fan             = 5,    /* Draw nVertices-2 triangles as a fan from v0 */
+  kQAVertexMode_NumModes        = 6
 };
 typedef enum TQAVertexMode TQAVertexMode;
 
@@ -878,27 +854,26 @@ typedef enum TQAVertexMode TQAVertexMode;
  * TQAGestaltSelector is a parameter to QAEngineGestalt(). It selects which gestalt
  * parameter will be copied into 'response'.
  */
-
 enum TQAGestaltSelector {
-    kQAGestalt_OptionalFeatures = 0,                            /* Mask of one or more kQAOptional_xxx */
-    kQAGestalt_FastFeatures     = 1,                            /* Mask of one or more kQAFast_xxx */
-    kQAGestalt_VendorID         = 2,                            /* Vendor ID */
-    kQAGestalt_EngineID         = 3,                            /* Engine ID */
-    kQAGestalt_Revision         = 4,                            /* Revision number of this engine */
-    kQAGestalt_ASCIINameLength  = 5,                            /* strlen (asciiName) */
-    kQAGestalt_ASCIIName        = 6,                            /* Causes strcpy (response, asciiName) */
-    kQAGestalt_TextureMemory    = 7,                            /* amount of texture RAM currently available */
-    kQAGestalt_FastTextureMemory = 8,                           /* amount of texture RAM currently available */
-    kQAGestalt_DrawContextPixelTypesAllowed = 9,                /* returns all the draw context pixel types supported by the RAVE engine */
-    kQAGestalt_DrawContextPixelTypesPreferred = 10,             /* returns all the draw context pixel types that are preferred by the RAVE engine. */
-    kQAGestalt_TexturePixelTypesAllowed = 11,                   /* returns all the texture pixel types that are supported by the RAVE engine */
-    kQAGestalt_TexturePixelTypesPreferred = 12,                 /* returns all the texture pixel types that are preferred by the RAVE engine.*/
-    kQAGestalt_BitmapPixelTypesAllowed = 13,                    /* returns all the bitmap pixel types that are supported by the RAVE engine. */
-    kQAGestalt_BitmapPixelTypesPreferred = 14,                  /* returns all the bitmap pixel types that are preferred by the RAVE engine. */
-    kQAGestalt_OptionalFeatures2 = 15,                          /* Mask of one or more kQAOptional2_xxx */
-    kQAGestalt_MultiTextureMax  = 16,                           /* max number of multi textures supported by this engine */
-    kQAGestalt_NumSelectors     = 17,
-    kQAGestalt_EngineSpecific_Minimum = 1000                    /* all gestalts here and above are for engine specific purposes */
+  kQAGestalt_OptionalFeatures   = 0,    /* Mask of one or more kQAOptional_xxx */
+  kQAGestalt_FastFeatures       = 1,    /* Mask of one or more kQAFast_xxx */
+  kQAGestalt_VendorID           = 2,    /* Vendor ID */
+  kQAGestalt_EngineID           = 3,    /* Engine ID */
+  kQAGestalt_Revision           = 4,    /* Revision number of this engine */
+  kQAGestalt_ASCIINameLength    = 5,    /* strlen (asciiName) */
+  kQAGestalt_ASCIIName          = 6,    /* Causes strcpy (response, asciiName) */
+  kQAGestalt_TextureMemory      = 7,    /* amount of texture RAM currently available */
+  kQAGestalt_FastTextureMemory  = 8,    /* amount of texture RAM currently available */
+  kQAGestalt_DrawContextPixelTypesAllowed = 9, /* returns all the draw context pixel types supported by the RAVE engine */
+  kQAGestalt_DrawContextPixelTypesPreferred = 10, /* returns all the draw context pixel types that are preferred by the RAVE engine. */
+  kQAGestalt_TexturePixelTypesAllowed = 11, /* returns all the texture pixel types that are supported by the RAVE engine */
+  kQAGestalt_TexturePixelTypesPreferred = 12, /* returns all the texture pixel types that are preferred by the RAVE engine.*/
+  kQAGestalt_BitmapPixelTypesAllowed = 13, /* returns all the bitmap pixel types that are supported by the RAVE engine. */
+  kQAGestalt_BitmapPixelTypesPreferred = 14, /* returns all the bitmap pixel types that are preferred by the RAVE engine. */
+  kQAGestalt_OptionalFeatures2  = 15,   /* Mask of one or more kQAOptional2_xxx */
+  kQAGestalt_MultiTextureMax    = 16,   /* max number of multi textures supported by this engine */
+  kQAGestalt_NumSelectors       = 17,
+  kQAGestalt_EngineSpecific_Minimum = 1000 /* all gestalts here and above are for engine specific purposes */
 };
 typedef enum TQAGestaltSelector TQAGestaltSelector;
 
@@ -906,26 +881,24 @@ typedef enum TQAGestaltSelector TQAGestaltSelector;
  * TQAMethodSelector is a parameter to QASetNoticeMethod to select the notice method
  */
 #if RAVE_OBSOLETE
-
 enum TQAMethodSelector {
-    kQAMethod_RenderCompletion  = 0,                            /* Called when rendering has completed and buffers swapped */
-    kQAMethod_DisplayModeChanged = 1,                           /* Called when a display mode has changed */
-    kQAMethod_ReloadTextures    = 2,                            /* Called when texture memory has been invalidated */
-    kQAMethod_BufferInitialize  = 3,                            /* Called when a buffer needs to be initialized */
-    kQAMethod_BufferComposite   = 4,                            /* Called when rendering is finished and its safe to composite */
-    kQAMethod_NumSelectors      = 5
+  kQAMethod_RenderCompletion    = 0,    /* Called when rendering has completed and buffers swapped */
+  kQAMethod_DisplayModeChanged  = 1,    /* Called when a display mode has changed */
+  kQAMethod_ReloadTextures      = 2,    /* Called when texture memory has been invalidated */
+  kQAMethod_BufferInitialize    = 3,    /* Called when a buffer needs to be initialized */
+  kQAMethod_BufferComposite     = 4,    /* Called when rendering is finished and its safe to composite */
+  kQAMethod_NumSelectors        = 5
 };
 typedef enum TQAMethodSelector TQAMethodSelector;
 
 #else
-
 enum TQAMethodSelector {
-    kQAMethod_RenderCompletion  = 0,                            /* Called when rendering has completed and buffers swapped */
-    kQAMethod_DisplayModeChanged = 1,                           /* Called when a display mode has changed */
-    kQAMethod_ReloadTextures    = 2,                            /* Called when texture memory has been invalidated */
-    kQAMethod_ImageBufferInitialize = 3,                        /* Called when a buffer needs to be initialized */
-    kQAMethod_ImageBuffer2DComposite = 4,                       /* Called when rendering is finished and its safe to composite */
-    kQAMethod_NumSelectors      = 5
+  kQAMethod_RenderCompletion    = 0,    /* Called when rendering has completed and buffers swapped */
+  kQAMethod_DisplayModeChanged  = 1,    /* Called when a display mode has changed */
+  kQAMethod_ReloadTextures      = 2,    /* Called when texture memory has been invalidated */
+  kQAMethod_ImageBufferInitialize = 3,  /* Called when a buffer needs to be initialized */
+  kQAMethod_ImageBuffer2DComposite = 4, /* Called when rendering is finished and its safe to composite */
+  kQAMethod_NumSelectors        = 5
 };
 typedef enum TQAMethodSelector TQAMethodSelector;
 
@@ -936,55 +909,55 @@ typedef enum TQAMethodSelector TQAMethodSelector;
  * to QADrawTriGouraud() and QADrawTriTexture().
  */
 enum {
-    kQATriFlags_None            = 0,                            /* No flags (triangle is front-facing or don't care) */
-    kQATriFlags_Backfacing      = (1 << 0)                      /* Triangle is back-facing */
+  kQATriFlags_None              = 0,    /* No flags (triangle is front-facing or don't care) */
+  kQATriFlags_Backfacing        = (1 << 0) /* Triangle is back-facing */
 };
 
 /*
  * kQATexture_xxx are ORed together to generate the 'flags' parameter to QATextureNew().
  */
 enum {
-    kQATexture_None             = 0,                            /* No flags */
-    kQATexture_Lock             = (1 << 0),                     /* Don't swap this texture out */
-    kQATexture_Mipmap           = (1 << 1),                     /* This texture is mipmapped */
-    kQATexture_NoCompression    = (1 << 2),                     /* Do not compress this texture */
-    kQATexture_HighCompression  = (1 << 3),                     /* Compress texture, even if it takes a while */
-    kQATexture_NonRelocatable   = (1 << 4),                     /* Image buffer in VRAM should be non-relocatable */
-    kQATexture_NoCopy           = (1 << 5),                     /* Don't copy image to VRAM when creating it */
-    kQATexture_FlipOrigin       = (1 << 6),                     /* The image(s) is(are) in a bottom-up format. (The image(s) is(are) flipped vertically.) */
-    kQATexture_PriorityBits     = (1 << 31) | (1 << 30) | (1 << 29) | (1 << 28) /* Texture priority: 4 upper bits for 16 levels of priority */
+  kQATexture_None               = 0,    /* No flags */
+  kQATexture_Lock               = (1 << 0), /* Don't swap this texture out */
+  kQATexture_Mipmap             = (1 << 1), /* This texture is mipmapped */
+  kQATexture_NoCompression      = (1 << 2), /* Do not compress this texture */
+  kQATexture_HighCompression    = (1 << 3), /* Compress texture, even if it takes a while */
+  kQATexture_NonRelocatable     = (1 << 4), /* Image buffer in VRAM should be non-relocatable */
+  kQATexture_NoCopy             = (1 << 5), /* Don't copy image to VRAM when creating it */
+  kQATexture_FlipOrigin         = (1 << 6), /* The image(s) is(are) in a bottom-up format. (The image(s) is(are) flipped vertically.) */
+  kQATexture_PriorityBits       = (1 << 31) | (1 << 30) | (1 << 29) | (1 << 28) /* Texture priority: 4 upper bits for 16 levels of priority */
 };
 
 /*
  * kQABitmap_xxx are ORed together to generate the 'flags' parameter to QABitmapNew().
  */
 enum {
-    kQABitmap_None              = 0,                            /* No flags */
-    kQABitmap_Lock              = (1 << 1),                     /* Don't swap this bitmap out */
-    kQABitmap_NoCompression     = (1 << 2),                     /* Do not compress this bitmap */
-    kQABitmap_HighCompression   = (1 << 3),                     /* Compress bitmap, even if it takes a while */
-    kQABitmap_NonRelocatable    = (1 << 4),                     /* Image buffer in VRAM should be non-relocatable */
-    kQABitmap_NoCopy            = (1 << 5),                     /* Don't copy image to VRAM when creating it */
-    kQABitmap_FlipOrigin        = (1 << 6),                     /* The image is in a bottom-up format. (The image is flipped vertically.) */
-    kQABitmap_PriorityBits      = (1 << 31) | (1 << 30) | (1 << 29) | (1 << 28) /* Bitmap priority: 4 upper bits for 16 levels of priority */
+  kQABitmap_None                = 0,    /* No flags */
+  kQABitmap_Lock                = (1 << 1), /* Don't swap this bitmap out */
+  kQABitmap_NoCompression       = (1 << 2), /* Do not compress this bitmap */
+  kQABitmap_HighCompression     = (1 << 3), /* Compress bitmap, even if it takes a while */
+  kQABitmap_NonRelocatable      = (1 << 4), /* Image buffer in VRAM should be non-relocatable */
+  kQABitmap_NoCopy              = (1 << 5), /* Don't copy image to VRAM when creating it */
+  kQABitmap_FlipOrigin          = (1 << 6), /* The image is in a bottom-up format. (The image is flipped vertically.) */
+  kQABitmap_PriorityBits        = (1 << 31) | (1 << 30) | (1 << 29) | (1 << 28) /* Bitmap priority: 4 upper bits for 16 levels of priority */
 };
 
 /*
  * kQAContext_xxx are ORed together to generate the 'flags' parameter for QADrawContextNew().
  */
 enum {
-    kQAContext_None             = 0,                            /* No flags */
-    kQAContext_NoZBuffer        = (1 << 0),                     /* No hidden surface removal */
-    kQAContext_DeepZ            = (1 << 1),                     /* Hidden surface precision >= 24 bits */
-    kQAContext_DoubleBuffer     = (1 << 2),                     /* Double buffered window */
-    kQAContext_Cache            = (1 << 3),                     /* This is a cache context */
-    kQAContext_NoDither         = (1 << 4),                     /* No dithering, straight color banding */
-    kQAContext_Scale            = (1 << 5),                     /* The draw context is to be scaled.  The front buffer is a different size than the back buffer. */
-    kQAContext_NonRelocatable   = (1 << 6),                     /* The back buffer and the z buffer must not move in memory */
-    kQAContext_EngineSpecific1  = (1 << 28),                    /* engine specific flag # 1 */
-    kQAContext_EngineSpecific2  = (1 << 29),                    /* engine specific flag # 2 */
-    kQAContext_EngineSpecific3  = (1 << 30),                    /* engine specific flag # 3 */
-    kQAContext_EngineSpecific4  = (1 << 31)                     /* engine specific flag # 4 */
+  kQAContext_None               = 0,    /* No flags */
+  kQAContext_NoZBuffer          = (1 << 0), /* No hidden surface removal */
+  kQAContext_DeepZ              = (1 << 1), /* Hidden surface precision >= 24 bits */
+  kQAContext_DoubleBuffer       = (1 << 2), /* Double buffered window */
+  kQAContext_Cache              = (1 << 3), /* This is a cache context */
+  kQAContext_NoDither           = (1 << 4), /* No dithering, straight color banding */
+  kQAContext_Scale              = (1 << 5), /* The draw context is to be scaled.  The front buffer is a different size than the back buffer. */
+  kQAContext_NonRelocatable     = (1 << 6), /* The back buffer and the z buffer must not move in memory */
+  kQAContext_EngineSpecific1    = (1 << 28), /* engine specific flag # 1 */
+  kQAContext_EngineSpecific2    = (1 << 29), /* engine specific flag # 2 */
+  kQAContext_EngineSpecific3    = (1 << 30), /* engine specific flag # 3 */
+  kQAContext_EngineSpecific4    = (1 << 31) /* engine specific flag # 4 */
 };
 
 /*
@@ -992,38 +965,38 @@ enum {
  * from QAEngineGestalt().
  */
 enum {
-    kQAOptional_None            = 0,                            /* No optional features */
-    kQAOptional_DeepZ           = (1 << 0),                     /* Hidden surface precision >= 24 bits */
-    kQAOptional_Texture         = (1 << 1),                     /* Texture mapping */
-    kQAOptional_TextureHQ       = (1 << 2),                     /* High quality texture (tri-linear mip or better) */
-    kQAOptional_TextureColor    = (1 << 3),                     /* Full color modulation and highlight of textures */
-    kQAOptional_Blend           = (1 << 4),                     /* Transparency blending of RGB */
-    kQAOptional_BlendAlpha      = (1 << 5),                     /* Transparency blending includes alpha channel */
-    kQAOptional_Antialias       = (1 << 6),                     /* Antialiased rendering */
-    kQAOptional_ZSorted         = (1 << 7),                     /* Z sorted rendering (for transparency, etc.) */
-    kQAOptional_PerspectiveZ    = (1 << 8),                     /* Hidden surface removal using InvW instead of Z */
-    kQAOptional_OpenGL          = (1 << 9),                     /* Extended rasterization features for OpenGL(tm) */
-    kQAOptional_NoClear         = (1 << 10),                    /* This drawing engine doesn't clear before drawing */
-    kQAOptional_CSG             = (1 << 11),                    /* kQATag_CSGxxx are implemented */
-    kQAOptional_BoundToDevice   = (1 << 12),                    /* This engine is tightly bound to GDevice */
-    kQAOptional_CL4             = (1 << 13),                    /* This engine suports kQAPixel_CL4 */
-    kQAOptional_CL8             = (1 << 14),                    /* This engine suports kQAPixel_CL8 */
-    kQAOptional_BufferComposite = (1 << 15),                    /* This engine can composite with initial buffer contents */
-    kQAOptional_NoDither        = (1 << 16),                    /* This engine can draw with no dithering */
-    kQAOptional_FogAlpha        = (1 << 17),                    /* This engine suports alpha based fog */
-    kQAOptional_FogDepth        = (1 << 18),                    /* This engine suports depth based fog */
-    kQAOptional_MultiTextures   = (1 << 19),                    /* This bit set if engine supports texture compositing */
-    kQAOptional_MipmapBias      = (1 << 20),                    /* This bit is set if the engine supports mipmap selection bias */
-    kQAOptional_ChannelMask     = (1 << 21),
-    kQAOptional_ZBufferMask     = (1 << 22),
-    kQAOptional_AlphaTest       = (1 << 23),                    /* this engine supports alpha testing */
-    kQAOptional_AccessTexture   = (1 << 24),                    /* if engine supports access to texture */
-    kQAOptional_AccessBitmap    = (1 << 25),                    /* if engine supports access to bitmaps */
-    kQAOptional_AccessDrawBuffer = (1 << 26),                   /* if engine supports access to draw buffer */
-    kQAOptional_AccessZBuffer   = (1 << 27),                    /* if engine supports access to zbuffer */
-    kQAOptional_ClearDrawBuffer = (1 << 28),                    /* if engine supports QAClearDrawBuffer() */
-    kQAOptional_ClearZBuffer    = (1 << 29),                    /* if engine supports QAClearZBuffer() */
-    kQAOptional_OffscreenDrawContexts = (1 << 30)               /* if engine supports TQADeviceOffscreen */
+  kQAOptional_None              = 0,    /* No optional features */
+  kQAOptional_DeepZ             = (1 << 0), /* Hidden surface precision >= 24 bits */
+  kQAOptional_Texture           = (1 << 1), /* Texture mapping */
+  kQAOptional_TextureHQ         = (1 << 2), /* High quality texture (tri-linear mip or better) */
+  kQAOptional_TextureColor      = (1 << 3), /* Full color modulation and highlight of textures */
+  kQAOptional_Blend             = (1 << 4), /* Transparency blending of RGB */
+  kQAOptional_BlendAlpha        = (1 << 5), /* Transparency blending includes alpha channel */
+  kQAOptional_Antialias         = (1 << 6), /* Antialiased rendering */
+  kQAOptional_ZSorted           = (1 << 7), /* Z sorted rendering (for transparency, etc.) */
+  kQAOptional_PerspectiveZ      = (1 << 8), /* Hidden surface removal using InvW instead of Z */
+  kQAOptional_OpenGL            = (1 << 9), /* Extended rasterization features for OpenGL(tm) */
+  kQAOptional_NoClear           = (1 << 10), /* This drawing engine doesn't clear before drawing */
+  kQAOptional_CSG               = (1 << 11), /* kQATag_CSGxxx are implemented */
+  kQAOptional_BoundToDevice     = (1 << 12), /* This engine is tightly bound to GDevice */
+  kQAOptional_CL4               = (1 << 13), /* This engine suports kQAPixel_CL4 */
+  kQAOptional_CL8               = (1 << 14), /* This engine suports kQAPixel_CL8 */
+  kQAOptional_BufferComposite   = (1 << 15), /* This engine can composite with initial buffer contents */
+  kQAOptional_NoDither          = (1 << 16), /* This engine can draw with no dithering */
+  kQAOptional_FogAlpha          = (1 << 17), /* This engine suports alpha based fog */
+  kQAOptional_FogDepth          = (1 << 18), /* This engine suports depth based fog */
+  kQAOptional_MultiTextures     = (1 << 19), /* This bit set if engine supports texture compositing */
+  kQAOptional_MipmapBias        = (1 << 20), /* This bit is set if the engine supports mipmap selection bias */
+  kQAOptional_ChannelMask       = (1 << 21),
+  kQAOptional_ZBufferMask       = (1 << 22),
+  kQAOptional_AlphaTest         = (1 << 23), /* this engine supports alpha testing */
+  kQAOptional_AccessTexture     = (1 << 24), /* if engine supports access to texture */
+  kQAOptional_AccessBitmap      = (1 << 25), /* if engine supports access to bitmaps */
+  kQAOptional_AccessDrawBuffer  = (1 << 26), /* if engine supports access to draw buffer */
+  kQAOptional_AccessZBuffer     = (1 << 27), /* if engine supports access to zbuffer */
+  kQAOptional_ClearDrawBuffer   = (1 << 28), /* if engine supports QAClearDrawBuffer() */
+  kQAOptional_ClearZBuffer      = (1 << 29), /* if engine supports QAClearZBuffer() */
+  kQAOptional_OffscreenDrawContexts = (1 << 30) /* if engine supports TQADeviceOffscreen */
 };
 
 /*
@@ -1031,19 +1004,19 @@ enum {
  * from QAEngineGestalt().
  */
 enum {
-    kQAOptional2_None           = 0,
-    kQAOptional2_TextureDrawContexts = (1 << 1),                /* if engine supports QATextureNewFromDrawContext() */
-    kQAOptional2_BitmapDrawContexts = (1 << 2),                 /* if engine supports QABitmapNewFromDrawContext() */
-    kQAOptional2_Busy           = (1 << 3),                     /* if engine supports QABusy() */
-    kQAOptional2_SwapBuffers    = (1 << 4),                     /* if engine supports QASwapBuffers() */
-    kQAOptional2_Chromakey      = (1 << 5),                     /* if engine supports chromakeying via kQATag_Chromakey_xxx */
-    kQAOptional2_NonRelocatable = (1 << 6),                     /* if engine supports nonrelocatable texture & bitmap image buffers in VRAM */
-    kQAOptional2_NoCopy         = (1 << 7),                     /* if engine supports ability to not copy texture & bitmap image to VRAM */
-    kQAOptional2_PriorityBits   = (1 << 8),                     /* if engine supports texture & bitmap priority levels */
-    kQAOptional2_FlipOrigin     = (1 << 9),                     /* if engine supports textures & bitmaps that are vertically flipped */
-    kQAOptional2_BitmapScale    = (1 << 10),                    /* if engine supports scaled bitmap drawing */
-    kQAOptional2_DrawContextScale = (1 << 11),                  /* if engine supports scaled draw contexts */
-    kQAOptional2_DrawContextNonRelocatable = (1 << 12)          /* if engine supports draw contexts with non relocatable buffers */
+  kQAOptional2_None             = 0,
+  kQAOptional2_TextureDrawContexts = (1 << 1), /* if engine supports QATextureNewFromDrawContext() */
+  kQAOptional2_BitmapDrawContexts = (1 << 2), /* if engine supports QABitmapNewFromDrawContext() */
+  kQAOptional2_Busy             = (1 << 3), /* if engine supports QABusy() */
+  kQAOptional2_SwapBuffers      = (1 << 4), /* if engine supports QASwapBuffers() */
+  kQAOptional2_Chromakey        = (1 << 5), /* if engine supports chromakeying via kQATag_Chromakey_xxx */
+  kQAOptional2_NonRelocatable   = (1 << 6), /* if engine supports nonrelocatable texture & bitmap image buffers in VRAM */
+  kQAOptional2_NoCopy           = (1 << 7), /* if engine supports ability to not copy texture & bitmap image to VRAM */
+  kQAOptional2_PriorityBits     = (1 << 8), /* if engine supports texture & bitmap priority levels */
+  kQAOptional2_FlipOrigin       = (1 << 9), /* if engine supports textures & bitmaps that are vertically flipped */
+  kQAOptional2_BitmapScale      = (1 << 10), /* if engine supports scaled bitmap drawing */
+  kQAOptional2_DrawContextScale = (1 << 11), /* if engine supports scaled draw contexts */
+  kQAOptional2_DrawContextNonRelocatable = (1 << 12) /* if engine supports draw contexts with non relocatable buffers */
 };
 
 
@@ -1052,21 +1025,21 @@ enum {
  * from QAEngineGestalt().
  */
 enum {
-    kQAFast_None                = 0,                            /* No accelerated features */
-    kQAFast_Line                = (1 << 0),                     /* Line drawing */
-    kQAFast_Gouraud             = (1 << 1),                     /* Gouraud shaded triangles */
-    kQAFast_Texture             = (1 << 2),                     /* Texture mapped triangles */
-    kQAFast_TextureHQ           = (1 << 3),                     /* High quality texture (tri-linear mip or better) */
-    kQAFast_Blend               = (1 << 4),                     /* Transparency blending */
-    kQAFast_Antialiasing        = (1 << 5),                     /* Antialiased rendering */
-    kQAFast_ZSorted             = (1 << 6),                     /* Z sorted rendering of non-opaque objects */
-    kQAFast_CL4                 = (1 << 7),                     /* This engine accelerates kQAPixel_CL4 */
-    kQAFast_CL8                 = (1 << 8),                     /* This engine accelerates kQAPixel_CL8 */
-    kQAFast_FogAlpha            = (1 << 9),                     /* This engine accelerates alpha based fog */
-    kQAFast_FogDepth            = (1 << 10),                    /* This engine accelerates depth based fog */
-    kQAFast_MultiTextures       = (1 << 11),                    /* This engine accelerates texture compositing */
-    kQAFast_BitmapScale         = (1 << 12),                    /* This engine accelerates scaled bitmap drawing */
-    kQAFast_DrawContextScale    = (1 << 13)                     /* This engine accelerates scaled draw contexts */
+  kQAFast_None                  = 0,    /* No accelerated features */
+  kQAFast_Line                  = (1 << 0), /* Line drawing */
+  kQAFast_Gouraud               = (1 << 1), /* Gouraud shaded triangles */
+  kQAFast_Texture               = (1 << 2), /* Texture mapped triangles */
+  kQAFast_TextureHQ             = (1 << 3), /* High quality texture (tri-linear mip or better) */
+  kQAFast_Blend                 = (1 << 4), /* Transparency blending */
+  kQAFast_Antialiasing          = (1 << 5), /* Antialiased rendering */
+  kQAFast_ZSorted               = (1 << 6), /* Z sorted rendering of non-opaque objects */
+  kQAFast_CL4                   = (1 << 7), /* This engine accelerates kQAPixel_CL4 */
+  kQAFast_CL8                   = (1 << 8), /* This engine accelerates kQAPixel_CL8 */
+  kQAFast_FogAlpha              = (1 << 9), /* This engine accelerates alpha based fog */
+  kQAFast_FogDepth              = (1 << 10), /* This engine accelerates depth based fog */
+  kQAFast_MultiTextures         = (1 << 11), /* This engine accelerates texture compositing */
+  kQAFast_BitmapScale           = (1 << 12), /* This engine accelerates scaled bitmap drawing */
+  kQAFast_DrawContextScale      = (1 << 13) /* This engine accelerates scaled draw contexts */
 };
 
 
@@ -1248,13 +1221,12 @@ enum {
  * TQAVersion sets the TQADrawContext 'version' field. It is set by
  * the manager to indicate the version of the TQADrawContext structure.
  *******************************************************************/
-
 enum TQAVersion {
-    kQAVersion_Prerelease       = 0,
-    kQAVersion_1_0              = 1,
-    kQAVersion_1_0_5            = 2,                            /* Added tri mesh functions, color tables */
-    kQAVersion_1_5              = 3,                            /* Added call backs, texture compression, and new error return code */
-    kQAVersion_1_6              = 4                             /* Added QAAccess_xxx, fog, _Options2, Clear_xxx, etc. */
+  kQAVersion_Prerelease         = 0,
+  kQAVersion_1_0                = 1,
+  kQAVersion_1_0_5              = 2,    /* Added tri mesh functions, color tables */
+  kQAVersion_1_5                = 3,    /* Added call backs, texture compression, and new error return code */
+  kQAVersion_1_6                = 4     /* Added QAAccess_xxx, fog, _Options2, Clear_xxx, etc. */
 };
 typedef enum TQAVersion TQAVersion;
 
@@ -1276,10 +1248,9 @@ typedef struct TQADrawContext           TQADrawContext;
  ***********************************************************************************************/
 typedef CALLBACK_API_C( void , TQAStandardNoticeMethod )(const TQADrawContext *drawContext, void *refCon);
 typedef CALLBACK_API_C( void , TQABufferNoticeMethod )(const TQADrawContext *drawContext, const TQADevice *buffer, const TQARect *dirtyRect, void *refCon);
-
 union TQANoticeMethod {
-    TQAStandardNoticeMethod         standardNoticeMethod;       /* Used for non-buffer related methods */
-    TQABufferNoticeMethod           bufferNoticeMethod;         /* Used for buffer handling methods */
+  TQAStandardNoticeMethod  standardNoticeMethod; /* Used for non-buffer related methods */
+  TQABufferNoticeMethod  bufferNoticeMethod;  /* Used for buffer handling methods */
 };
 typedef union TQANoticeMethod           TQANoticeMethod;
 typedef CALLBACK_API_C( void , TQASetFloat )(TQADrawContext *drawContext, TQATagFloat tag, float newValue);
@@ -1301,9 +1272,9 @@ typedef CALLBACK_API_C( void , TQADrawVTexture )(const TQADrawContext *drawConte
 typedef CALLBACK_API_C( void , TQADrawBitmap )(const TQADrawContext *drawContext, const TQAVGouraud *v, TQABitmap *bitmap);
 typedef CALLBACK_API_C( void , TQARenderStart )(const TQADrawContext *drawContext, const TQARect *dirtyRect, const TQADrawContext *initialContext);
 typedef CALLBACK_API_C( TQAError , TQARenderEnd )(const TQADrawContext *drawContext, const TQARect *modifiedRect);
-typedef CALLBACK_API_C( TQAError , TQARenderAbort )(const TQADrawContext *drawContext);
-typedef CALLBACK_API_C( TQAError , TQAFlush )(const TQADrawContext *drawContext);
-typedef CALLBACK_API_C( TQAError , TQASync )(const TQADrawContext *drawContext);
+typedef CALLBACK_API_C( TQAError , TQARenderAbort )(const TQADrawContext * drawContext);
+typedef CALLBACK_API_C( TQAError , TQAFlush )(const TQADrawContext * drawContext);
+typedef CALLBACK_API_C( TQAError , TQASync )(const TQADrawContext * drawContext);
 typedef CALLBACK_API_C( TQAError , TQASetNoticeMethod )(const TQADrawContext *drawContext, TQAMethodSelector method, TQANoticeMethod completionCallBack, void *refCon);
 typedef CALLBACK_API_C( TQAError , TQAGetNoticeMethod )(const TQADrawContext *drawContext, TQAMethodSelector method, TQANoticeMethod *completionCallBack, void **refCon);
 typedef CALLBACK_API_C( void , TQASubmitMultiTextureParams )(const TQADrawContext *drawContext, unsigned long nParams, const TQAVMultiTexture *params);
@@ -1315,7 +1286,7 @@ typedef CALLBACK_API_C( TQAError , TQAClearDrawBuffer )(const TQADrawContext *dr
 typedef CALLBACK_API_C( TQAError , TQAClearZBuffer )(const TQADrawContext *drawContext, const TQARect *rect, const TQADrawContext *initialContext);
 typedef CALLBACK_API_C( TQAError , TQATextureNewFromDrawContext )(const TQADrawContext *drawContext, unsigned long flags, TQATexture **newTexture);
 typedef CALLBACK_API_C( TQAError , TQABitmapNewFromDrawContext )(const TQADrawContext *drawContext, unsigned long flags, TQABitmap **newBitmap);
-typedef CALLBACK_API_C( TQABoolean , TQABusy )(const TQADrawContext *drawContext);
+typedef CALLBACK_API_C( TQABoolean , TQABusy )(const TQADrawContext * drawContext);
 typedef CALLBACK_API_C( TQAError , TQASwapBuffers )(const TQADrawContext *drawContext, const TQARect *dirtyRect);
 /************************************************************************************************
  *
@@ -1323,45 +1294,44 @@ typedef CALLBACK_API_C( TQAError , TQASwapBuffers )(const TQADrawContext *drawCo
  * drawing engine.
  *
  ***********************************************************************************************/
-
 struct TQADrawContext {
-    TQADrawPrivate *                drawPrivate;                /* Engine's private data for this context */
-    TQAVersion                      version;                    /* Version number */
-    TQASetFloat                     setFloat;                   /* Method: Set a float state variable */
-    TQASetInt                       setInt;                     /* Method: Set an unsigned long state variable */
-    TQASetPtr                       setPtr;                     /* Method: Set an unsigned long state variable */
-    TQAGetFloat                     getFloat;                   /* Method: Get a float state variable */
-    TQAGetInt                       getInt;                     /* Method: Get an unsigned long state variable */
-    TQAGetPtr                       getPtr;                     /* Method: Get an pointer state variable */
-    TQADrawPoint                    drawPoint;                  /* Method: Draw a point */
-    TQADrawLine                     drawLine;                   /* Method: Draw a line */
-    TQADrawTriGouraud               drawTriGouraud;             /* Method: Draw a Gouraud shaded triangle */
-    TQADrawTriTexture               drawTriTexture;             /* Method: Draw a texture mapped triangle */
-    TQADrawVGouraud                 drawVGouraud;               /* Method: Draw Gouraud vertices */
-    TQADrawVTexture                 drawVTexture;               /* Method: Draw texture vertices */
-    TQADrawBitmap                   drawBitmap;                 /* Method: Draw a bitmap */
-    TQARenderStart                  renderStart;                /* Method: Initialize for rendering */
-    TQARenderEnd                    renderEnd;                  /* Method: Complete rendering and display */
-    TQARenderAbort                  renderAbort;                /* Method: Abort any outstanding rendering (blocking) */
-    TQAFlush                        flush;                      /* Method: Start render of any queued commands (non-blocking) */
-    TQASync                         sync;                       /* Method: Wait for completion of all rendering (blocking) */
-    TQASubmitVerticesGouraud        submitVerticesGouraud;      /* Method: Submit Gouraud vertices for trimesh */
-    TQASubmitVerticesTexture        submitVerticesTexture;      /* Method: Submit Texture vertices for trimesh */
-    TQADrawTriMeshGouraud           drawTriMeshGouraud;         /* Method: Draw a Gouraud triangle mesh */
-    TQADrawTriMeshTexture           drawTriMeshTexture;         /* Method: Draw a Texture triangle mesh */
-    TQASetNoticeMethod              setNoticeMethod;            /* Method: Set a notice method */
-    TQAGetNoticeMethod              getNoticeMethod;            /* Method: Get a notice method */
-    TQASubmitMultiTextureParams     submitMultiTextureParams;   /* Method: Submit Secondary texture params */
-    TQAAccessDrawBuffer             accessDrawBuffer;
-    TQAAccessDrawBufferEnd          accessDrawBufferEnd;
-    TQAAccessZBuffer                accessZBuffer;
-    TQAAccessZBufferEnd             accessZBufferEnd;
-    TQAClearDrawBuffer              clearDrawBuffer;
-    TQAClearZBuffer                 clearZBuffer;
-    TQATextureNewFromDrawContext    textureFromContext;
-    TQABitmapNewFromDrawContext     bitmapFromContext;
-    TQABusy                         busy;
-    TQASwapBuffers                  swapBuffers;
+  TQADrawPrivate *    drawPrivate;            /* Engine's private data for this context */
+  TQAVersion          version;                /* Version number */
+  TQASetFloat         setFloat;               /* Method: Set a float state variable */
+  TQASetInt           setInt;                 /* Method: Set an unsigned long state variable */
+  TQASetPtr           setPtr;                 /* Method: Set an unsigned long state variable */
+  TQAGetFloat         getFloat;               /* Method: Get a float state variable */
+  TQAGetInt           getInt;                 /* Method: Get an unsigned long state variable */
+  TQAGetPtr           getPtr;                 /* Method: Get an pointer state variable */
+  TQADrawPoint        drawPoint;              /* Method: Draw a point */
+  TQADrawLine         drawLine;               /* Method: Draw a line */
+  TQADrawTriGouraud   drawTriGouraud;         /* Method: Draw a Gouraud shaded triangle */
+  TQADrawTriTexture   drawTriTexture;         /* Method: Draw a texture mapped triangle */
+  TQADrawVGouraud     drawVGouraud;           /* Method: Draw Gouraud vertices */
+  TQADrawVTexture     drawVTexture;           /* Method: Draw texture vertices */
+  TQADrawBitmap       drawBitmap;             /* Method: Draw a bitmap */
+  TQARenderStart      renderStart;            /* Method: Initialize for rendering */
+  TQARenderEnd        renderEnd;              /* Method: Complete rendering and display */
+  TQARenderAbort      renderAbort;            /* Method: Abort any outstanding rendering (blocking) */
+  TQAFlush            flush;                  /* Method: Start render of any queued commands (non-blocking) */
+  TQASync             sync;                   /* Method: Wait for completion of all rendering (blocking) */
+  TQASubmitVerticesGouraud  submitVerticesGouraud; /* Method: Submit Gouraud vertices for trimesh */
+  TQASubmitVerticesTexture  submitVerticesTexture; /* Method: Submit Texture vertices for trimesh */
+  TQADrawTriMeshGouraud  drawTriMeshGouraud;  /* Method: Draw a Gouraud triangle mesh */
+  TQADrawTriMeshTexture  drawTriMeshTexture;  /* Method: Draw a Texture triangle mesh */
+  TQASetNoticeMethod  setNoticeMethod;        /* Method: Set a notice method */
+  TQAGetNoticeMethod  getNoticeMethod;        /* Method: Get a notice method */
+  TQASubmitMultiTextureParams  submitMultiTextureParams; /* Method: Submit Secondary texture params */
+  TQAAccessDrawBuffer  accessDrawBuffer;
+  TQAAccessDrawBufferEnd  accessDrawBufferEnd;
+  TQAAccessZBuffer    accessZBuffer;
+  TQAAccessZBufferEnd  accessZBufferEnd;
+  TQAClearDrawBuffer  clearDrawBuffer;
+  TQAClearZBuffer     clearZBuffer;
+  TQATextureNewFromDrawContext  textureFromContext;
+  TQABitmapNewFromDrawContext  bitmapFromContext;
+  TQABusy             busy;
+  TQASwapBuffers      swapBuffers;
 };
 
 /************************************************************************************************
@@ -1370,115 +1340,333 @@ struct TQADrawContext {
  *
  ***********************************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  QADrawContextNew()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QADrawContextNew                (const TQADevice *      device,
-                                 const TQARect *        rect,
-                                 const TQAClip *        clip,
-                                 const TQAEngine *      engine,
-                                 unsigned long          flags,
-                                 TQADrawContext **      newDrawContext);
+QADrawContextNew(
+  const TQADevice *  device,
+  const TQARect *    rect,
+  const TQAClip *    clip,
+  const TQAEngine *  engine,
+  unsigned long      flags,
+  TQADrawContext **  newDrawContext);
 
+
+/*
+ *  QADrawContextDelete()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-QADrawContextDelete             (TQADrawContext *       drawContext);
+QADrawContextDelete(TQADrawContext * drawContext);
 
+
+/*
+ *  QAColorTableNew()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAColorTableNew                 (const TQAEngine *      engine,
-                                 TQAColorTableType      tableType,
-                                 void *                 pixelData,
-                                 long                   transparentIndexFlag,
-                                 TQAColorTable **       newTable);
+QAColorTableNew(
+  const TQAEngine *   engine,
+  TQAColorTableType   tableType,
+  void *              pixelData,
+  long                transparentIndexFlag,
+  TQAColorTable **    newTable);
 
+
+/*
+ *  QAColorTableDelete()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-QAColorTableDelete              (const TQAEngine *      engine,
-                                 TQAColorTable *        colorTable);
+QAColorTableDelete(
+  const TQAEngine *  engine,
+  TQAColorTable *    colorTable);
 
+
+/*
+ *  QATextureNew()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QATextureNew                    (const TQAEngine *      engine,
-                                 unsigned long          flags,
-                                 TQAImagePixelType      pixelType,
-                                 const TQAImage         images[],
-                                 TQATexture **          newTexture);
+QATextureNew(
+  const TQAEngine *   engine,
+  unsigned long       flags,
+  TQAImagePixelType   pixelType,
+  const TQAImage      images[],
+  TQATexture **       newTexture);
 
+
+/*
+ *  QATextureDetach()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QATextureDetach                 (const TQAEngine *      engine,
-                                 TQATexture *           texture);
+QATextureDetach(
+  const TQAEngine *  engine,
+  TQATexture *       texture);
 
+
+/*
+ *  QATextureDelete()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-QATextureDelete                 (const TQAEngine *      engine,
-                                 TQATexture *           texture);
+QATextureDelete(
+  const TQAEngine *  engine,
+  TQATexture *       texture);
 
+
+/*
+ *  QATextureBindColorTable()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QATextureBindColorTable         (const TQAEngine *      engine,
-                                 TQATexture *           texture,
-                                 TQAColorTable *        colorTable);
+QATextureBindColorTable(
+  const TQAEngine *  engine,
+  TQATexture *       texture,
+  TQAColorTable *    colorTable);
 
+
+/*
+ *  QABitmapNew()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QABitmapNew                     (const TQAEngine *      engine,
-                                 unsigned long          flags,
-                                 TQAImagePixelType      pixelType,
-                                 const TQAImage *       image,
-                                 TQABitmap **           newBitmap);
+QABitmapNew(
+  const TQAEngine *   engine,
+  unsigned long       flags,
+  TQAImagePixelType   pixelType,
+  const TQAImage *    image,
+  TQABitmap **        newBitmap);
 
+
+/*
+ *  QABitmapDetach()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QABitmapDetach                  (const TQAEngine *      engine,
-                                 TQABitmap *            bitmap);
+QABitmapDetach(
+  const TQAEngine *  engine,
+  TQABitmap *        bitmap);
 
+
+/*
+ *  QABitmapDelete()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-QABitmapDelete                  (const TQAEngine *      engine,
-                                 TQABitmap *            bitmap);
+QABitmapDelete(
+  const TQAEngine *  engine,
+  TQABitmap *        bitmap);
 
+
+/*
+ *  QABitmapBindColorTable()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QABitmapBindColorTable          (const TQAEngine *      engine,
-                                 TQABitmap *            bitmap,
-                                 TQAColorTable *        colorTable);
+QABitmapBindColorTable(
+  const TQAEngine *  engine,
+  TQABitmap *        bitmap,
+  TQAColorTable *    colorTable);
 
-EXTERN_API_C( TQAEngine *)
-QADeviceGetFirstEngine          (const TQADevice *      device);
 
-EXTERN_API_C( TQAEngine *)
-QADeviceGetNextEngine           (const TQADevice *      device,
-                                 const TQAEngine *      currentEngine);
+/*
+ *  QADeviceGetFirstEngine()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQAEngine * )
+QADeviceGetFirstEngine(const TQADevice * device);
 
+
+/*
+ *  QADeviceGetNextEngine()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQAEngine * )
+QADeviceGetNextEngine(
+  const TQADevice *  device,
+  const TQAEngine *  currentEngine);
+
+
+/*
+ *  QAEngineCheckDevice()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAEngineCheckDevice             (const TQAEngine *      engine,
-                                 const TQADevice *      device);
+QAEngineCheckDevice(
+  const TQAEngine *  engine,
+  const TQADevice *  device);
 
+
+/*
+ *  QAEngineGestalt()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAEngineGestalt                 (const TQAEngine *      engine,
-                                 TQAGestaltSelector     selector,
-                                 void *                 response);
+QAEngineGestalt(
+  const TQAEngine *    engine,
+  TQAGestaltSelector   selector,
+  void *               response);
 
+
+/*
+ *  QAEngineEnable()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAEngineEnable                  (long                   vendorID,
-                                 long                   engineID);
+QAEngineEnable(
+  long   vendorID,
+  long   engineID);
 
+
+/*
+ *  QAEngineDisable()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAEngineDisable                 (long                   vendorID,
-                                 long                   engineID);
+QAEngineDisable(
+  long   vendorID,
+  long   engineID);
 
 
+
+/*
+ *  QAAccessTexture()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAAccessTexture                 (const TQAEngine *      engine,
-                                 TQATexture *           texture,
-                                 long                   mipmapLevel,
-                                 long                   flags,
-                                 TQAPixelBuffer *       buffer);
+QAAccessTexture(
+  const TQAEngine *  engine,
+  TQATexture *       texture,
+  long               mipmapLevel,
+  long               flags,
+  TQAPixelBuffer *   buffer);
 
-EXTERN_API_C( TQAError )
-QAAccessTextureEnd              (const TQAEngine *      engine,
-                                 TQATexture *           texture,
-                                 const TQARect *        dirtyRect);
 
+/*
+ *  QAAccessTextureEnd()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAAccessBitmap                  (const TQAEngine *      engine,
-                                 TQABitmap *            bitmap,
-                                 long                   flags,
-                                 TQAPixelBuffer *       buffer);
+QAAccessTextureEnd(
+  const TQAEngine *  engine,
+  TQATexture *       texture,
+  const TQARect *    dirtyRect);
 
+
+/*
+ *  QAAccessBitmap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAAccessBitmapEnd               (const TQAEngine *      engine,
-                                 TQABitmap *            bitmap,
-                                 const TQARect *        dirtyRect);
+QAAccessBitmap(
+  const TQAEngine *  engine,
+  TQABitmap *        bitmap,
+  long               flags,
+  TQAPixelBuffer *   buffer);
+
+
+/*
+ *  QAAccessBitmapEnd()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQAError )
+QAAccessBitmapEnd(
+  const TQAEngine *  engine,
+  TQABitmap *        bitmap,
+  const TQARect *    dirtyRect);
+
 
 
 
@@ -1487,14 +1675,33 @@ QAAccessBitmapEnd               (const TQAEngine *      engine,
 
 #if TARGET_OS_MAC
 #if CALL_NOT_IN_CARBON
+/*
+ *  QARegisterDrawNotificationProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QARegisterDrawNotificationProc  (Rect *                 globalRect,
-                                 TQADrawNotificationProcPtr  proc,
-                                 long                   refCon,
-                                 TQADrawNotificationProcRefNum * refNum);
+QARegisterDrawNotificationProc(
+  Rect *                           globalRect,
+  TQADrawNotificationProcPtr       proc,
+  long                             refCon,
+  TQADrawNotificationProcRefNum *  refNum);
 
+
+/*
+ *  QAUnregisterDrawNotificationProc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQAError )
-QAUnregisterDrawNotificationProc (TQADrawNotificationProcRefNum  refNum);
+QAUnregisterDrawNotificationProc(TQADrawNotificationProcRefNum refNum);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 

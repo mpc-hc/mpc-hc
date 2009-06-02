@@ -3,10 +3,9 @@
  
      Contains:   Scrap Manager Interfaces.
  
-     Version:    Technology: Mac OS 9
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1985-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1985-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -25,6 +24,9 @@
 #include "MacErrors.h"
 #endif
 
+#ifndef __CFSTRING__
+#include "CFString.h"
+#endif
 
 
 
@@ -57,7 +59,7 @@ extern "C" {
     ________________________________________________________________
 */
 /*
-    While were in here mucking about, we defined a new type to
+    While we're in here mucking about, we defined a new type to
     to put some confusion to rest. The old calls, as well as the
     new calls, use the new type. Existing clients should be
     blissfully ignorant.
@@ -71,13 +73,13 @@ typedef FourCharCode                    ScrapFlavorType;
     flavor type constants! Apple triumphs again!
 */
 enum {
-    kScrapFlavorTypePicture     = FOUR_CHAR_CODE('PICT'),       /* contents of a PicHandle*/
-    kScrapFlavorTypeText        = FOUR_CHAR_CODE('TEXT'),       /* stream of characters*/
-    kScrapFlavorTypeTextStyle   = FOUR_CHAR_CODE('styl'),       /* see TEGetStyleScrapHandle*/
-    kScrapFlavorTypeMovie       = FOUR_CHAR_CODE('moov'),       /* reference to a movie*/
-    kScrapFlavorTypeSound       = FOUR_CHAR_CODE('snd '),       /* see SndRecord and SndPlay*/
-    kScrapFlavorTypeUnicode     = FOUR_CHAR_CODE('utxt'),       /* stream of UTF16 characters*/
-    kScrapFlavorTypeUnicodeStyle = FOUR_CHAR_CODE('ustl')       /* ATSUI defines; Textension uses*/
+  kScrapFlavorTypePicture       = FOUR_CHAR_CODE('PICT'), /* contents of a PicHandle*/
+  kScrapFlavorTypeText          = FOUR_CHAR_CODE('TEXT'), /* stream of characters*/
+  kScrapFlavorTypeTextStyle     = FOUR_CHAR_CODE('styl'), /* see TEGetStyleScrapHandle*/
+  kScrapFlavorTypeMovie         = FOUR_CHAR_CODE('moov'), /* reference to a movie*/
+  kScrapFlavorTypeSound         = FOUR_CHAR_CODE('snd '), /* see SndRecord and SndPlay*/
+  kScrapFlavorTypeUnicode       = FOUR_CHAR_CODE('utxt'), /* stream of UTF16 characters*/
+  kScrapFlavorTypeUnicodeStyle  = FOUR_CHAR_CODE('ustl') /* ATSUI defines; Textension uses*/
 };
 
 /*
@@ -88,11 +90,29 @@ enum {
     nothing when called under Mac OS X.
 */
 
+/*
+ *  LoadScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-LoadScrap                       (void)                                                      ONEWORDINLINE(0xA9FB);
+LoadScrap(void)                                               ONEWORDINLINE(0xA9FB);
 
+
+/*
+ *  UnloadScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-UnloadScrap                     (void)                                                      ONEWORDINLINE(0xA9FA);
+UnloadScrap(void)                                             ONEWORDINLINE(0xA9FA);
+
 
 #if CALL_NOT_IN_CARBON
 /*
@@ -104,38 +124,73 @@ UnloadScrap                     (void)                                          
     Inside Mac covers them in detail.
     ________________________________________________________________
 */
-
 struct ScrapStuff {
-    SInt32                          scrapSize;
-    Handle                          scrapHandle;
-    SInt16                          scrapCount;
-    SInt16                          scrapState;
-    StringPtr                       scrapName;
+  SInt32              scrapSize;
+  Handle              scrapHandle;
+  SInt16              scrapCount;
+  SInt16              scrapState;
+  StringPtr           scrapName;
 };
 typedef struct ScrapStuff               ScrapStuff;
-
 typedef ScrapStuff *                    PScrapStuff;
 typedef ScrapStuff *                    ScrapStuffPtr;
+#endif  /* CALL_NOT_IN_CARBON */
+
 #if CALL_NOT_IN_CARBON
+/*
+ *  InfoScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( ScrapStuffPtr )
-InfoScrap                       (void)                                                      ONEWORDINLINE(0xA9F9);
+InfoScrap(void)                                               ONEWORDINLINE(0xA9F9);
 
+
+/*
+ *  GetScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( long )
-GetScrap                        (Handle                 destination,
-                                 ScrapFlavorType        flavorType,
-                                 SInt32 *               offset)                             ONEWORDINLINE(0xA9FD);
+GetScrap(
+  Handle            destination,
+  ScrapFlavorType   flavorType,
+  SInt32 *          offset)                                   ONEWORDINLINE(0xA9FD);
 
+
+/*
+ *  ZeroScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( OSStatus )
-ZeroScrap                       (void)                                                      ONEWORDINLINE(0xA9FC);
+ZeroScrap(void)                                               ONEWORDINLINE(0xA9FC);
 
+
+/*
+ *  PutScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( OSStatus )
-PutScrap                        (SInt32                 sourceBufferByteCount,
-                                 ScrapFlavorType        flavorType,
-                                 const void *           sourceBuffer)                       ONEWORDINLINE(0xA9FE);
+PutScrap(
+  SInt32            sourceBufferByteCount,
+  ScrapFlavorType   flavorType,
+  const void *      sourceBuffer)                             ONEWORDINLINE(0xA9FE);
 
-#endif  /* CALL_NOT_IN_CARBON */
 
-#endif  /* CALL_NOT_IN_CARBON */
 
 /*
     ________________________________________________________________
@@ -153,8 +208,10 @@ PutScrap                        (SInt32                 sourceBufferByteCount,
     for the flavor data size.
 */
 
+#endif  /* CALL_NOT_IN_CARBON */
+
 enum {
-    kScrapFlavorSizeUnknown     = -1
+  kScrapFlavorSizeUnknown       = -1
 };
 
 /*
@@ -164,7 +221,7 @@ enum {
 */
 
 enum {
-    kScrapReservedFlavorType    = FOUR_CHAR_CODE('srft')
+  kScrapReservedFlavorType      = FOUR_CHAR_CODE('srft')
 };
 
 /*
@@ -183,9 +240,9 @@ enum {
     Most callers should not care about this bit.
 */
 enum {
-    kScrapFlavorMaskNone        = 0x00000000,
-    kScrapFlavorMaskSenderOnly  = 0x00000001,
-    kScrapFlavorMaskTranslated  = 0x00000002
+  kScrapFlavorMaskNone          = 0x00000000,
+  kScrapFlavorMaskSenderOnly    = 0x00000001,
+  kScrapFlavorMaskTranslated    = 0x00000002
 };
 
 typedef UInt32                          ScrapFlavorFlags;
@@ -193,24 +250,92 @@ typedef UInt32                          ScrapFlavorFlags;
     ScrapFlavorInfo describes a single flavor within
     a scrap.
 */
-
 struct ScrapFlavorInfo {
-    ScrapFlavorType                 flavorType;
-    ScrapFlavorFlags                flavorFlags;
+  ScrapFlavorType     flavorType;
+  ScrapFlavorFlags    flavorFlags;
 };
 typedef struct ScrapFlavorInfo          ScrapFlavorInfo;
-/*
-    Under a future version of Carbon, there may be multiple scraps.
-    We'll need ScrapRefs to tell them apart.
-*/
 typedef struct OpaqueScrapRef*          ScrapRef;
+/*
+    kScrapRefNone is guaranteed to be an invalid ScrapRef.  This 
+    is convenient when initializing application variables.
+*/
+#define kScrapRefNone                   ((ScrapRef)NULL)
+/*
+    Defined Apple scrap names for GetScrapByName
+    kScrapClipboardScrap    traditional clipboard scrap
+    kScrapFindScrap         compatible with Cocoa's global find scrap
+*/
+#define kScrapClipboardScrap            CFSTR("com.apple.scrap.clipboard")
+#define kScrapFindScrap                 CFSTR("com.apple.scrap.find")
+
+/*  Enumerated options to be passed to GetScrapByName*/
+
+enum {
+  kScrapGetNamedScrap           = 0,    /* get current named scrap without bumping*/
+  kScrapClearNamedScrap         = (1L << 0) /* acquire the named scrap, bumping and clearing*/
+};
+
+/*
+    GetScrapByName allows access to an indefinite number of public or private
+    scraps.  The constant kScrapClipboardScrap refers to the "current" scrap
+    we've all come to know and love.  kScrapFindScrap allows Carbon apps to
+    interact seamlessly with Cocoa's global find scrap.  Note that calling:
+
+        GetScrapByName( kScrapClipboardScrap, kScrapGetNamedScrap, &scrap );
+
+    is an exact match to the call:
+    
+        GetCurrentScrap( &scrap );
+
+    Additionally, a call to:
+
+        GetScrapByName( kScrapClipboardScrap, kScrapClearNamedScrap, &scrap );
+
+    is a replacement for the sequence:
+    
+        ClearCurrentScrap();
+        GetCurrentScrap( &scrap );
+
+    You can use this API to generate your own private scraps to use as a high
+    level interprocess communication between your main and helper apps.  The Java
+    naming convention is suggested for your scraps ( ie. com.joeco.scrap.secret ).
+    
+    CarbonLib does not support arbitrary named scraps; when calling this API on
+    CarbonLib, kScrapClipboardScrap is the only supported value for the name parameter.
+*/
+/*
+ *  GetScrapByName()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.5 and later
+ *    Mac OS X:         in version 10.1 and later
+ */
+EXTERN_API( OSStatus )
+GetScrapByName(
+  CFStringRef   name,
+  OptionBits    options,
+  ScrapRef *    scrap);
+
+
 /*
     GetCurrentScrap obtains a reference to the current scrap.
     The ScrapRef obtained via GetCurrentScrap will become
     invalid and unusable after the scrap is cleared.
 */
+
+/*
+ *  GetCurrentScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetCurrentScrap                 (ScrapRef *             scrap);
+GetCurrentScrap(ScrapRef * scrap);
+
 
 /*
     GetScrapFlavorFlags tells you [a] whether the scrap contains
@@ -220,10 +345,20 @@ GetCurrentScrap                 (ScrapRef *             scrap);
     menu, among other things.
 */
 
+/*
+ *  GetScrapFlavorFlags()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetScrapFlavorFlags             (ScrapRef               scrap,
-                                 ScrapFlavorType        flavorType,
-                                 ScrapFlavorFlags *     flavorFlags);
+GetScrapFlavorFlags(
+  ScrapRef            scrap,
+  ScrapFlavorType     flavorType,
+  ScrapFlavorFlags *  flavorFlags);
+
 
 /*
     GetScrapFlavorSize gets the size of the data of the specified
@@ -232,10 +367,20 @@ GetScrapFlavorFlags             (ScrapRef               scrap,
     to allocating memory and calling GetScrapFlavorData.
 */
 
+/*
+ *  GetScrapFlavorSize()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetScrapFlavorSize              (ScrapRef               scrap,
-                                 ScrapFlavorType        flavorType,
-                                 Size *                 byteCount);
+GetScrapFlavorSize(
+  ScrapRef          scrap,
+  ScrapFlavorType   flavorType,
+  Size *            byteCount);
+
 
 /*
     GetScrapFlavorData gets the data from the specified flavor in the
@@ -245,11 +390,21 @@ GetScrapFlavorSize              (ScrapRef               scrap,
     available (even if this is more than you requested).
 */
 
+/*
+ *  GetScrapFlavorData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetScrapFlavorData              (ScrapRef               scrap,
-                                 ScrapFlavorType        flavorType,
-                                 Size *                 byteCount,
-                                 void *                 destination);
+GetScrapFlavorData(
+  ScrapRef          scrap,
+  ScrapFlavorType   flavorType,
+  Size *            byteCount,
+  void *            destination);
+
 
 /*
     ClearCurrentScrap clears the current scrap. Call this
@@ -263,35 +418,84 @@ GetScrapFlavorData              (ScrapRef               scrap,
     to other functions.
 */
 
+/*
+ *  ClearCurrentScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-ClearCurrentScrap               (void);
+ClearCurrentScrap(void);
+
 
 /*
-    PutScrapFlavor is a lot like PutScrap, with two differences:
-    we added a ScrapRef parameter at the beginning and you can
-    "promise" various aspects of a flavor. If you pass a NIL
-    data pointer, this is a promise that in the future you
-    will provide data for this flavor. Provide the data
-    through a subsequent call to PutScrapFlavor, either later
-    in the same code flow or during a scrap promise keeper proc.
-    If you know how big the data is, you can pass the size as
-    well, and this may allow subsequent callers of GetScrapFlavorInfo
-    to avoid blocking. If you don't know the size, pass -1.
-    If you pass a 0 size, you are telling Scrap Manager not to
-    expect any data for this flavor. In this case, the flavor
-    data pointer is ignored. NOTE: the last time you can provide
-    scrap flavor data is when your scrap promise keeper gets
-    called. It is NOT possible to call PutScrapFlavor while
-    handling a suspend event; suspend events under Carbon
-    simply don't work the way they do under Mac OS 8.
+        ClearScrap will clear the scrap passed in and return the bumped
+        ScrapRef value. ClearScrap behaves similarly to GetScrapByName
+        when called with the kScrapClearNamedScrap option with the
+        benefit of not requiring a name in the event one is not available.
+        
+        CarbonLib does not support arbitrary named scraps; when calling this
+        API on CarbonLib, only clearing the current scrap is supported.
 */
-
+/*
+ *  ClearScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.5 and later
+ *    Mac OS X:         in version 10.1 and later
+ */
 EXTERN_API( OSStatus )
-PutScrapFlavor                  (ScrapRef               scrap,
-                                 ScrapFlavorType        flavorType,
-                                 ScrapFlavorFlags       flavorFlags,
-                                 Size                   flavorSize,
-                                 const void *           flavorData) /* can be NULL */;
+ClearScrap(ScrapRef * inOutScrap);
+
+
+
+/*
+        PutScrapFlavor is a lot like PutScrap, with two differences:
+        we added a ScrapRef parameter at the beginning and you can
+        "promise" various aspects of a flavor. If you pass a NIL
+        data pointer, this is a promise that in the future you
+        will provide data for this flavor. Provide the data
+        through a subsequent call to PutScrapFlavor, either later
+        in the same code flow or during a scrap promise keeper proc.
+        If you know how big the data is, you can pass the size as
+        well, and this may allow subsequent callers of GetScrapFlavorInfo
+        to avoid blocking. If you don't know the size, pass -1.
+        If you pass a 0 size, you are telling Scrap Manager not to
+        expect any data for this flavor. In this case, the flavor
+        data pointer is ignored. NOTE: the last time you can provide
+        scrap flavor data is when your scrap promise keeper gets
+        called. It is NOT possible to call PutScrapFlavor while
+        handling a suspend event; suspend events under Carbon
+        simply don't work the way they do under Mac OS 8.
+
+        The method for setting Scrap Manager promises differs from that for Drag Manger promises.
+        This chart describes the method for setting scrap promises via PutScrapFlavor().
+    
+        dataPtr         dataSize                                result
+     pointer value  actual data size    The data of size dataSize pointed to by dataPtr is added to the scrap.
+           0        actual data size    A promise for data of size dataSize is placed on the scrap.
+           0               -1           A promise for data of an undetermined size is placed on the scrap.
+        ignored             0           A flavor with no data expected is placed on the scrap.  This is not a promise.
+*/
+/*
+ *  PutScrapFlavor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( OSStatus )
+PutScrapFlavor(
+  ScrapRef           scrap,
+  ScrapFlavorType    flavorType,
+  ScrapFlavorFlags   flavorFlags,
+  Size               flavorSize,
+  const void *       flavorData);       /* can be NULL */
+
 
 /*
     ScrapPromiseKeeper is a function you write which is called by
@@ -302,28 +506,71 @@ PutScrapFlavor                  (ScrapRef               scrap,
 
 typedef CALLBACK_API( OSStatus , ScrapPromiseKeeperProcPtr )(ScrapRef scrap, ScrapFlavorType flavorType, void *userData);
 typedef STACK_UPP_TYPE(ScrapPromiseKeeperProcPtr)               ScrapPromiseKeeperUPP;
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(ScrapPromiseKeeperUPP)
-    NewScrapPromiseKeeperUPP       (ScrapPromiseKeeperProcPtr userRoutine);
-
-    EXTERN_API(void)
-    DisposeScrapPromiseKeeperUPP    (ScrapPromiseKeeperUPP  userUPP);
-
-    EXTERN_API(OSStatus)
-    InvokeScrapPromiseKeeperUPP    (ScrapRef                scrap,
-                                    ScrapFlavorType         flavorType,
-                                    void *                  userData,
-                                    ScrapPromiseKeeperUPP   userUPP);
-
-#else
-    enum { uppScrapPromiseKeeperProcInfo = 0x00000FF0 };            /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes) */
-    #define NewScrapPromiseKeeperUPP(userRoutine)                   (ScrapPromiseKeeperUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppScrapPromiseKeeperProcInfo, GetCurrentArchitecture())
-    #define DisposeScrapPromiseKeeperUPP(userUPP)                   DisposeRoutineDescriptor(userUPP)
-    #define InvokeScrapPromiseKeeperUPP(scrap, flavorType, userData, userUPP)  (OSStatus)CALL_THREE_PARAMETER_UPP((userUPP), uppScrapPromiseKeeperProcInfo, (scrap), (flavorType), (userData))
+/*
+ *  NewScrapPromiseKeeperUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( ScrapPromiseKeeperUPP )
+NewScrapPromiseKeeperUPP(ScrapPromiseKeeperProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppScrapPromiseKeeperProcInfo = 0x00000FF0 };  /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(ScrapPromiseKeeperUPP) NewScrapPromiseKeeperUPP(ScrapPromiseKeeperProcPtr userRoutine) { return (ScrapPromiseKeeperUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppScrapPromiseKeeperProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewScrapPromiseKeeperUPP(userRoutine) (ScrapPromiseKeeperUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppScrapPromiseKeeperProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewScrapPromiseKeeperProc(userRoutine)                  NewScrapPromiseKeeperUPP(userRoutine)
-#define CallScrapPromiseKeeperProc(userRoutine, scrap, flavorType, userData) InvokeScrapPromiseKeeperUPP(scrap, flavorType, userData, userRoutine)
+
+/*
+ *  DisposeScrapPromiseKeeperUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeScrapPromiseKeeperUPP(ScrapPromiseKeeperUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeScrapPromiseKeeperUPP(ScrapPromiseKeeperUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeScrapPromiseKeeperUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeScrapPromiseKeeperUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+InvokeScrapPromiseKeeperUPP(
+  ScrapRef               scrap,
+  ScrapFlavorType        flavorType,
+  void *                 userData,
+  ScrapPromiseKeeperUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSStatus) InvokeScrapPromiseKeeperUPP(ScrapRef scrap, ScrapFlavorType flavorType, void * userData, ScrapPromiseKeeperUPP userUPP) { return (OSStatus)CALL_THREE_PARAMETER_UPP(userUPP, uppScrapPromiseKeeperProcInfo, scrap, flavorType, userData); }
+  #else
+    #define InvokeScrapPromiseKeeperUPP(scrap, flavorType, userData, userUPP) (OSStatus)CALL_THREE_PARAMETER_UPP((userUPP), uppScrapPromiseKeeperProcInfo, (scrap), (flavorType), (userData))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewScrapPromiseKeeperProc(userRoutine)              NewScrapPromiseKeeperUPP(userRoutine)
+    #define CallScrapPromiseKeeperProc(userRoutine, scrap, flavorType, userData) InvokeScrapPromiseKeeperUPP(scrap, flavorType, userData, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
 /*
     SetScrapPromiseKeeper associates a ScrapPromiseKeeper with a
     scrap. You can remove a ScrapPromiseKeeper from a scrap by
@@ -335,19 +582,39 @@ typedef STACK_UPP_TYPE(ScrapPromiseKeeperProcPtr)               ScrapPromiseKeep
     ScrapPromiseKeeper could use in fabricating one or more
     promised flavors.
 */
+/*
+ *  SetScrapPromiseKeeper()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-SetScrapPromiseKeeper           (ScrapRef               scrap,
-                                 ScrapPromiseKeeperUPP  upp,
-                                 const void *           userData);
+SetScrapPromiseKeeper(
+  ScrapRef                scrap,
+  ScrapPromiseKeeperUPP   upp,
+  const void *            userData);
+
 
 /*
     GetScrapFlavorCount produces the number of
     items which can be obtained by GetScrapFlavorInfoList.
 */
 
+/*
+ *  GetScrapFlavorCount()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetScrapFlavorCount             (ScrapRef               scrap,
-                                 UInt32 *               infoCount);
+GetScrapFlavorCount(
+  ScrapRef   scrap,
+  UInt32 *   infoCount);
+
 
 /*
     GetScrapFlavorInfoList fills a list (array)
@@ -359,14 +626,24 @@ GetScrapFlavorCount             (ScrapRef               scrap,
     must provide the memory for the array.
 */
 
+/*
+ *  GetScrapFlavorInfoList()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-GetScrapFlavorInfoList          (ScrapRef               scrap,
-                                 UInt32 *               infoCount,
-                                 ScrapFlavorInfo        info[]);
+GetScrapFlavorInfoList(
+  ScrapRef          scrap,
+  UInt32 *          infoCount,
+  ScrapFlavorInfo   info[]);
+
 
 
 /*
-    CallInPromises forces all promises to be kept.
+    CallInScrapPromises forces all promises to be kept.
     If your application promises at least one flavor
     AND it does NOT adopt the new event model, you
     should call this function when your application
@@ -379,8 +656,17 @@ GetScrapFlavorInfoList          (ScrapRef               scrap,
     they already tried and failed.
 */
 
+/*
+ *  CallInScrapPromises()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-CallInScrapPromises             (void);
+CallInScrapPromises(void);
+
 
 
 #if PRAGMA_STRUCT_ALIGN

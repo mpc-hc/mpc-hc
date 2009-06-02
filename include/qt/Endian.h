@@ -1,12 +1,11 @@
 /*
      File:       Endian.h
  
-     Contains:   QuickTime Interfaces
+     Contains:   Endian swapping utilties
  
-     Version:    Technology: QuickTime 3.0
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1997-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1997-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -89,77 +88,293 @@ extern "C" {
          and are only listed here as function prototypes to document the macros
 */
 #if CALL_NOT_IN_CARBON
+/*
+ *  EndianS16_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_BtoN                  (SInt16                 value);
+EndianS16_BtoN(SInt16 value);
 
+
+/*
+ *  EndianS16_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_NtoB                  (SInt16                 value);
+EndianS16_NtoB(SInt16 value);
 
+
+/*
+ *  EndianS16_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_LtoN                  (SInt16                 value);
+EndianS16_LtoN(SInt16 value);
 
+
+/*
+ *  EndianS16_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_NtoL                  (SInt16                 value);
+EndianS16_NtoL(SInt16 value);
 
+
+/*
+ *  EndianS16_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_LtoB                  (SInt16                 value);
+EndianS16_LtoB(SInt16 value);
 
+
+/*
+ *  EndianS16_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt16 )
-EndianS16_BtoL                  (SInt16                 value);
+EndianS16_BtoL(SInt16 value);
 
+
+/*
+ *  EndianU16_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_BtoN                  (UInt16                 value);
+EndianU16_BtoN(UInt16 value);
 
+
+/*
+ *  EndianU16_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_NtoB                  (UInt16                 value);
+EndianU16_NtoB(UInt16 value);
 
+
+/*
+ *  EndianU16_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_LtoN                  (UInt16                 value);
+EndianU16_LtoN(UInt16 value);
 
+
+/*
+ *  EndianU16_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_NtoL                  (UInt16                 value);
+EndianU16_NtoL(UInt16 value);
 
+
+/*
+ *  EndianU16_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_LtoB                  (UInt16                 value);
+EndianU16_LtoB(UInt16 value);
 
+
+/*
+ *  EndianU16_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt16 )
-EndianU16_BtoL                  (UInt16                 value);
+EndianU16_BtoL(UInt16 value);
 
+
+/*
+ *  EndianS32_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_BtoN                  (SInt32                 value);
+EndianS32_BtoN(SInt32 value);
 
+
+/*
+ *  EndianS32_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_NtoB                  (SInt32                 value);
+EndianS32_NtoB(SInt32 value);
 
+
+/*
+ *  EndianS32_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_LtoN                  (SInt32                 value);
+EndianS32_LtoN(SInt32 value);
 
+
+/*
+ *  EndianS32_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_NtoL                  (SInt32                 value);
+EndianS32_NtoL(SInt32 value);
 
+
+/*
+ *  EndianS32_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_LtoB                  (SInt32                 value);
+EndianS32_LtoB(SInt32 value);
 
+
+/*
+ *  EndianS32_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt32 )
-EndianS32_BtoL                  (SInt32                 value);
+EndianS32_BtoL(SInt32 value);
 
-EXTERN_API_C( UInt32 )
-EndianU32_BtoN                  (UInt32                 value);
 
+/*
+ *  EndianU32_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt32 )
-EndianU32_NtoB                  (UInt32                 value);
+EndianU32_BtoN(UInt32 value);
 
-EXTERN_API_C( UInt32 )
-EndianU32_LtoN                  (UInt32                 value);
 
+/*
+ *  EndianU32_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt32 )
-EndianU32_NtoL                  (UInt32                 value);
+EndianU32_NtoB(UInt32 value);
 
-EXTERN_API_C( UInt32 )
-EndianU32_LtoB                  (UInt32                 value);
 
+/*
+ *  EndianU32_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt32 )
-EndianU32_BtoL                  (UInt32                 value);
+EndianU32_LtoN(UInt32 value);
+
+
+/*
+ *  EndianU32_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt32 )
+EndianU32_NtoL(UInt32 value);
+
+
+/*
+ *  EndianU32_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt32 )
+EndianU32_LtoB(UInt32 value);
+
+
+/*
+ *  EndianU32_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt32 )
+EndianU32_BtoL(UInt32 value);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -170,41 +385,149 @@ EndianU32_BtoL                  (UInt32                 value);
          support long long and one for other compilers.
 */
 #if CALL_NOT_IN_CARBON
+/*
+ *  EndianS64_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_BtoN                  (SInt64                 value);
+EndianS64_BtoN(SInt64 value);
 
+
+/*
+ *  EndianS64_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_NtoB                  (SInt64                 value);
+EndianS64_NtoB(SInt64 value);
 
+
+/*
+ *  EndianS64_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_LtoN                  (SInt64                 value);
+EndianS64_LtoN(SInt64 value);
 
+
+/*
+ *  EndianS64_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_NtoL                  (SInt64                 value);
+EndianS64_NtoL(SInt64 value);
 
+
+/*
+ *  EndianS64_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_LtoB                  (SInt64                 value);
+EndianS64_LtoB(SInt64 value);
 
+
+/*
+ *  EndianS64_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( SInt64 )
-EndianS64_BtoL                  (SInt64                 value);
+EndianS64_BtoL(SInt64 value);
 
-EXTERN_API_C( UInt64 )
-EndianU64_BtoN                  (UInt64                 value);
 
+/*
+ *  EndianU64_BtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt64 )
-EndianU64_NtoB                  (UInt64                 value);
+EndianU64_BtoN(UInt64 value);
 
-EXTERN_API_C( UInt64 )
-EndianU64_LtoN                  (UInt64                 value);
 
+/*
+ *  EndianU64_NtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt64 )
-EndianU64_NtoL                  (UInt64                 value);
+EndianU64_NtoB(UInt64 value);
 
-EXTERN_API_C( UInt64 )
-EndianU64_LtoB                  (UInt64                 value);
 
+/*
+ *  EndianU64_LtoN()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( UInt64 )
-EndianU64_BtoL                  (UInt64                 value);
+EndianU64_LtoN(UInt64 value);
+
+
+/*
+ *  EndianU64_NtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt64 )
+EndianU64_NtoL(UInt64 value);
+
+
+/*
+ *  EndianU64_LtoB()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt64 )
+EndianU64_LtoB(UInt64 value);
+
+
+/*
+ *  EndianU64_BtoL()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt64 )
+EndianU64_BtoL(UInt64 value);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -218,39 +541,32 @@ EndianU64_BtoL                  (UInt64                 value);
 */
 
 #if TARGET_RT_LITTLE_ENDIAN
-
 struct BigEndianLong {
-    long                            bigEndianValue;
+  long                bigEndianValue;
 };
 typedef struct BigEndianLong            BigEndianLong;
-
 struct BigEndianUnsignedLong {
-    unsigned long                   bigEndianValue;
+  unsigned long       bigEndianValue;
 };
 typedef struct BigEndianUnsignedLong    BigEndianUnsignedLong;
-
 struct BigEndianShort {
-    short                           bigEndianValue;
+  short               bigEndianValue;
 };
 typedef struct BigEndianShort           BigEndianShort;
-
 struct BigEndianUnsignedShort {
-    unsigned short                  bigEndianValue;
+  unsigned short      bigEndianValue;
 };
 typedef struct BigEndianUnsignedShort   BigEndianUnsignedShort;
-
 struct BigEndianFixed {
-    Fixed                           bigEndianValue;
+  Fixed               bigEndianValue;
 };
 typedef struct BigEndianFixed           BigEndianFixed;
-
 struct BigEndianUnsignedFixed {
-    UnsignedFixed                   bigEndianValue;
+  UnsignedFixed       bigEndianValue;
 };
 typedef struct BigEndianUnsignedFixed   BigEndianUnsignedFixed;
-
 struct BigEndianOSType {
-    OSType                          bigEndianValue;
+  OSType              bigEndianValue;
 };
 typedef struct BigEndianOSType          BigEndianOSType;
 #else
@@ -349,83 +665,118 @@ typedef OSType                          BigEndianOSType;
 
 
 
+/*
+    Implement low level *_Swap functions.
+    
+        extern UInt16 Endian16_Swap(UInt16 value);
+        extern UInt32 Endian32_Swap(UInt32 value);
+        extern UInt64 Endian64_Swap(UInt64 value);
+        
+    Note: Depending on the processor, you might want to implement
+          these as function calls instead of macros.
+    
+*/
+#if CALL_NOT_IN_CARBON
+/*
+ *  Endian16_Swap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 Endian16_Swap(__D0)
+#endif
+EXTERN_API( UInt16 )
+Endian16_Swap(UInt16 value)                                   ONEWORDINLINE(0xE158);
+
 
 /*
-    Implement low level Å_Swap functions.
-  
-       extern UInt16 Endian16_Swap(UInt16 value);
-     extern UInt32 Endian32_Swap(UInt32 value);
-     extern UInt64 Endian64_Swap(UInt64 value);
-     
-   Note: Depending on the processor, you might want to implement
-        these as function calls instead of macros.
-   
-*/
-#if TARGET_CPU_68K && TARGET_OS_MAC
-    #pragma parameter __D0 Endian16_Swap(__D0)
- pascal UInt16 Endian16_Swap(UInt16 value)
-      = { 0xE158 };
-  
-   #pragma parameter __D0 Endian32_Swap (__D0)
-    pascal UInt32 Endian32_Swap(UInt32 value)
-      = { 0xE158, 0x4840, 0xE158 };
-#else
-    #define Endian16_Swap(value)                 \
-         (((((UInt16)value)<<8) & 0xFF00)   | \
-          ((((UInt16)value)>>8) & 0x00FF))
-  
-   #define Endian32_Swap(value)                     \
-         (((((UInt32)value)<<24) & 0xFF000000)  | \
-          ((((UInt32)value)<< 8) & 0x00FF0000)  | \
-          ((((UInt32)value)>> 8) & 0x0000FF00)  | \
-          ((((UInt32)value)>>24) & 0x000000FF))
+ *  Endian32_Swap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+#if TARGET_OS_MAC && TARGET_CPU_68K && !TARGET_RT_MAC_CFM
+#pragma parameter __D0 Endian32_Swap(__D0)
 #endif
+EXTERN_API( UInt32 )
+Endian32_Swap(UInt32 value)                                   THREEWORDINLINE(0xE158, 0x4840, 0xE158);
 
+
+#endif  /* CALL_NOT_IN_CARBON */
+
+/* override with macros */
+#define Endian16_Swap(value)                 \
+        (((((UInt16)value)<<8) & 0xFF00)   | \
+         ((((UInt16)value)>>8) & 0x00FF))
+
+#define Endian32_Swap(value)                     \
+        (((((UInt32)value)<<24) & 0xFF000000)  | \
+         ((((UInt32)value)<< 8) & 0x00FF0000)  | \
+         ((((UInt32)value)>> 8) & 0x0000FF00)  | \
+         ((((UInt32)value)>>24) & 0x000000FF))
 
 #if TYPE_LONGLONG
- #if TARGET_OS_WIN32
+    #if TARGET_OS_WIN32
         /* the inline macros crash MSDEV's optimizer on Windows. */
         extern UInt64 Endian64_Swap(UInt64 value);
- #elif defined(__MWERKS__) && (__MWERKS__ < 0x1800)
-     /* older Metrowerks compilers errored on LL suffix */
-      #define Endian64_Swap(value)                             \
-             (((((UInt64)value)<<56) & 0xFF00000000000000)  | \
-              ((((UInt64)value)<<40) & 0x00FF000000000000)  | \
-              ((((UInt64)value)<<24) & 0x0000FF0000000000)  | \
-              ((((UInt64)value)<< 8) & 0x000000FF00000000)  | \
-              ((((UInt64)value)>> 8) & 0x00000000FF000000)  | \
-              ((((UInt64)value)>>24) & 0x0000000000FF0000)  | \
-              ((((UInt64)value)>>40) & 0x000000000000FF00)  | \
-              ((((UInt64)value)>>56) & 0x00000000000000FF))
- #else
-      #define Endian64_Swap(value)                             \
-             (((((UInt64)value)<<56) & 0xFF00000000000000ULL)  | \
-               ((((UInt64)value)<<40) & 0x00FF000000000000ULL)  | \
-               ((((UInt64)value)<<24) & 0x0000FF0000000000ULL)  | \
-               ((((UInt64)value)<< 8) & 0x000000FF00000000ULL)  | \
-               ((((UInt64)value)>> 8) & 0x00000000FF000000ULL)  | \
-               ((((UInt64)value)>>24) & 0x0000000000FF0000ULL)  | \
-               ((((UInt64)value)>>40) & 0x000000000000FF00ULL)  | \
-               ((((UInt64)value)>>56) & 0x00000000000000FFULL))
-  #endif
+    #elif defined(__MWERKS__) && (__MWERKS__ < 0x1800)
+        /* older Metrowerks compilers errored on LL suffix */
+        #define Endian64_Swap(value)                             \
+                (((((UInt64)value)<<56) & 0xFF00000000000000)  | \
+                 ((((UInt64)value)<<40) & 0x00FF000000000000)  | \
+                 ((((UInt64)value)<<24) & 0x0000FF0000000000)  | \
+                 ((((UInt64)value)<< 8) & 0x000000FF00000000)  | \
+                 ((((UInt64)value)>> 8) & 0x00000000FF000000)  | \
+                 ((((UInt64)value)>>24) & 0x0000000000FF0000)  | \
+                 ((((UInt64)value)>>40) & 0x000000000000FF00)  | \
+                 ((((UInt64)value)>>56) & 0x00000000000000FF))
+    #else
+        #define Endian64_Swap(value)                                \
+                (((((UInt64)value)<<56) & 0xFF00000000000000ULL)  | \
+                 ((((UInt64)value)<<40) & 0x00FF000000000000ULL)  | \
+                 ((((UInt64)value)<<24) & 0x0000FF0000000000ULL)  | \
+                 ((((UInt64)value)<< 8) & 0x000000FF00000000ULL)  | \
+                 ((((UInt64)value)>> 8) & 0x00000000FF000000ULL)  | \
+                 ((((UInt64)value)>>24) & 0x0000000000FF0000ULL)  | \
+                 ((((UInt64)value)>>40) & 0x000000000000FF00ULL)  | \
+                 ((((UInt64)value)>>56) & 0x00000000000000FFULL))
+    #endif
 #else
-   /* 
-        Note: When using C compilers that don't support "long long",
-             Endian64_Swap must be implemented as glue. 
-  */
- #ifdef __cplusplus
-     inline static UInt64 Endian64_Swap(UInt64 value)
-       {
-          UInt64 temp;
-           ((UnsignedWide*)&temp)->lo = Endian32_Swap(((UnsignedWide*)&value)->hi);
-           ((UnsignedWide*)&temp)->hi = Endian32_Swap(((UnsignedWide*)&value)->lo);
-           return temp;
-       }
-  #else
-      extern UInt64 Endian64_Swap(UInt64 value);
- #endif
-#endif
+/* 
+    Note: When using compilers that don't support "long long",
+          Endian64_Swap must be implemented as glue. 
+*/
+#ifdef __cplusplus
+    inline static UInt64 Endian64_Swap(UInt64 value)
+    {
+        UInt64 temp;
+        ((UnsignedWide*)&temp)->lo = Endian32_Swap(((UnsignedWide*)&value)->hi);
+        ((UnsignedWide*)&temp)->hi = Endian32_Swap(((UnsignedWide*)&value)->lo);
+        return temp;
+    }
+#else
+#if CALL_NOT_IN_CARBON
+/*
+ *  Endian64_Swap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( UInt64 )
+Endian64_Swap(UInt64 value);
 
+
+#endif  /* CALL_NOT_IN_CARBON */
+
+#endif
+#endif  /* TYPE_LONGLONG */
 
 
 

@@ -1,12 +1,11 @@
 /*
      File:       AVLTree.h
  
-     Contains:   Prototypes for routines which create, destroy, allow for
+     Contains:   Interfaces for AVL balanced trees.
  
-     Version:    Technology: 
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1999-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1999-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -50,48 +49,62 @@ extern "C" {
 #endif
 
 
+/*
+ *  AVLTree
+ *  
+ *  Discussion:
+ *    Prototypes for routines which create, destroy, allow for
+ *    insertion, deleting, and iteration of routines in an AVL balanced
+ *    binary tree. 
+ *    
+ *    An AVL tree is a balanced, binary tree which is fairly fast for
+ *    finds and acceptably fast for insertion and deletion.  The tree
+ *    is kept balanced, so that the heights of any given node's left
+ *    and right branches never differ by more than 1, which keeps
+ *    performance from being too horribe in the degenerate case.
+ *    
+ *    
+ *    Very loosely based on some public domain source code for doing
+ *    avl trees and on the discussion in Sedgewick "Algorithms" book.
+ */
 typedef UInt16 AVLVisitStage;
 enum {
-    kAVLPreOrder                = 0,
-    kAVLInOrder                 = 1,
-    kAVLPostOrder               = 2
+  kAVLPreOrder                  = 0,
+  kAVLInOrder                   = 1,
+  kAVLPostOrder                 = 2
 };
 
 /* The order the tree is walked or disposed of. */
-
 typedef UInt16 AVLOrder;
 enum {
-    kLeftToRight                = 0,
-    kRightToLeft                = 1
+  kLeftToRight                  = 0,
+  kRightToLeft                  = 1
 };
 
 /* The type of the node being passed to a callback proc. */
-
 typedef UInt16 AVLNodeType;
 enum {
-    kAVLIsTree                  = 0,
-    kAVLIsLeftBranch            = 1,
-    kAVLIsRightBranch           = 2,
-    kAVLIsLeaf                  = 3,
-    kAVLNullNode                = 4
+  kAVLIsTree                    = 0,
+  kAVLIsLeftBranch              = 1,
+  kAVLIsRightBranch             = 2,
+  kAVLIsLeaf                    = 3,
+  kAVLNullNode                  = 4
 };
 
 enum {
-    errItemAlreadyInTree        = -960,
-    errNotValidTree             = -961,
-    errItemNotFoundInTree       = -962,
-    errCanNotInsertWhileWalkProcInProgress = -963,
-    errTreeIsLocked             = -964
+  errItemAlreadyInTree          = -960,
+  errNotValidTree               = -961,
+  errItemNotFoundInTree         = -962,
+  errCanNotInsertWhileWalkProcInProgress = -963,
+  errTreeIsLocked               = -964
 };
 
 /*  The structure of a tree.  It's opaque; don't assume it's 36 bytes in size.*/
-
 struct AVLTreeStruct {
-    OSType                          signature;
-    unsigned long                   privateStuff[8];
+  OSType              signature;
+  unsigned long       privateStuff[8];
 };
 typedef struct AVLTreeStruct            AVLTreeStruct;
-
 typedef AVLTreeStruct *                 AVLTreePtr;
 /*
     Every tree must have a function which compares the data for two items and returns < 0, 0, or >0
@@ -131,85 +144,257 @@ typedef STACK_UPP_TYPE(AVLCompareItemsProcPtr)                  AVLCompareItemsU
 typedef STACK_UPP_TYPE(AVLItemSizeProcPtr)                      AVLItemSizeUPP;
 typedef STACK_UPP_TYPE(AVLDisposeItemProcPtr)                   AVLDisposeItemUPP;
 typedef STACK_UPP_TYPE(AVLWalkProcPtr)                          AVLWalkUPP;
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(AVLCompareItemsUPP)
-    NewAVLCompareItemsUPP          (AVLCompareItemsProcPtr  userRoutine);
-
-    EXTERN_API(AVLItemSizeUPP)
-    NewAVLItemSizeUPP              (AVLItemSizeProcPtr      userRoutine);
-
-    EXTERN_API(AVLDisposeItemUPP)
-    NewAVLDisposeItemUPP           (AVLDisposeItemProcPtr   userRoutine);
-
-    EXTERN_API(AVLWalkUPP)
-    NewAVLWalkUPP                  (AVLWalkProcPtr          userRoutine);
-
-    EXTERN_API(void)
-    DisposeAVLCompareItemsUPP      (AVLCompareItemsUPP      userUPP);
-
-    EXTERN_API(void)
-    DisposeAVLItemSizeUPP          (AVLItemSizeUPP          userUPP);
-
-    EXTERN_API(void)
-    DisposeAVLDisposeItemUPP       (AVLDisposeItemUPP       userUPP);
-
-    EXTERN_API(void)
-    DisposeAVLWalkUPP              (AVLWalkUPP              userUPP);
-
-    EXTERN_API(SInt32)
-    InvokeAVLCompareItemsUPP       (AVLTreePtr              tree,
-                                    const void *            i1,
-                                    const void *            i2,
-                                    AVLNodeType             nd_typ,
-                                    AVLCompareItemsUPP      userUPP);
-
-    EXTERN_API(UInt32)
-    InvokeAVLItemSizeUPP           (AVLTreePtr              tree,
-                                    const void *            itemPtr,
-                                    AVLItemSizeUPP          userUPP);
-
-    EXTERN_API(void)
-    InvokeAVLDisposeItemUPP        (AVLTreePtr              tree,
-                                    const void *            dataP,
-                                    AVLDisposeItemUPP       userUPP);
-
-    EXTERN_API(OSErr)
-    InvokeAVLWalkUPP               (AVLTreePtr              tree,
-                                    const void *            dataP,
-                                    AVLVisitStage           visitStage,
-                                    AVLNodeType             node,
-                                    UInt32                  level,
-                                    SInt32                  balance,
-                                    void *                  refCon,
-                                    AVLWalkUPP              userUPP);
-
-#else
-    enum { uppAVLCompareItemsProcInfo = 0x00002FF0 };               /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes) */
-    enum { uppAVLItemSizeProcInfo = 0x000003F0 };                   /* pascal 4_bytes Func(4_bytes, 4_bytes) */
-    enum { uppAVLDisposeItemProcInfo = 0x000003C0 };                /* pascal no_return_value Func(4_bytes, 4_bytes) */
-    enum { uppAVLWalkProcInfo = 0x000FEBE0 };                       /* pascal 2_bytes Func(4_bytes, 4_bytes, 2_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    #define NewAVLCompareItemsUPP(userRoutine)                      (AVLCompareItemsUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLCompareItemsProcInfo, GetCurrentArchitecture())
-    #define NewAVLItemSizeUPP(userRoutine)                          (AVLItemSizeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLItemSizeProcInfo, GetCurrentArchitecture())
-    #define NewAVLDisposeItemUPP(userRoutine)                       (AVLDisposeItemUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLDisposeItemProcInfo, GetCurrentArchitecture())
-    #define NewAVLWalkUPP(userRoutine)                              (AVLWalkUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLWalkProcInfo, GetCurrentArchitecture())
-    #define DisposeAVLCompareItemsUPP(userUPP)                      DisposeRoutineDescriptor(userUPP)
-    #define DisposeAVLItemSizeUPP(userUPP)                          DisposeRoutineDescriptor(userUPP)
-    #define DisposeAVLDisposeItemUPP(userUPP)                       DisposeRoutineDescriptor(userUPP)
-    #define DisposeAVLWalkUPP(userUPP)                              DisposeRoutineDescriptor(userUPP)
-    #define InvokeAVLCompareItemsUPP(tree, i1, i2, nd_typ, userUPP)  (SInt32)CALL_FOUR_PARAMETER_UPP((userUPP), uppAVLCompareItemsProcInfo, (tree), (i1), (i2), (nd_typ))
-    #define InvokeAVLItemSizeUPP(tree, itemPtr, userUPP)            (UInt32)CALL_TWO_PARAMETER_UPP((userUPP), uppAVLItemSizeProcInfo, (tree), (itemPtr))
-    #define InvokeAVLDisposeItemUPP(tree, dataP, userUPP)           CALL_TWO_PARAMETER_UPP((userUPP), uppAVLDisposeItemProcInfo, (tree), (dataP))
-    #define InvokeAVLWalkUPP(tree, dataP, visitStage, node, level, balance, refCon, userUPP)  (OSErr)CALL_SEVEN_PARAMETER_UPP((userUPP), uppAVLWalkProcInfo, (tree), (dataP), (visitStage), (node), (level), (balance), (refCon))
+/*
+ *  NewAVLCompareItemsUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( AVLCompareItemsUPP )
+NewAVLCompareItemsUPP(AVLCompareItemsProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppAVLCompareItemsProcInfo = 0x00002FF0 };  /* pascal 4_bytes Func(4_bytes, 4_bytes, 4_bytes, 2_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(AVLCompareItemsUPP) NewAVLCompareItemsUPP(AVLCompareItemsProcPtr userRoutine) { return (AVLCompareItemsUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLCompareItemsProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewAVLCompareItemsUPP(userRoutine) (AVLCompareItemsUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLCompareItemsProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewAVLCompareItemsProc(userRoutine)                     NewAVLCompareItemsUPP(userRoutine)
-#define NewAVLItemSizeProc(userRoutine)                         NewAVLItemSizeUPP(userRoutine)
-#define NewAVLDisposeItemProc(userRoutine)                      NewAVLDisposeItemUPP(userRoutine)
-#define NewAVLWalkProc(userRoutine)                             NewAVLWalkUPP(userRoutine)
-#define CallAVLCompareItemsProc(userRoutine, tree, i1, i2, nd_typ) InvokeAVLCompareItemsUPP(tree, i1, i2, nd_typ, userRoutine)
-#define CallAVLItemSizeProc(userRoutine, tree, itemPtr)         InvokeAVLItemSizeUPP(tree, itemPtr, userRoutine)
-#define CallAVLDisposeItemProc(userRoutine, tree, dataP)        InvokeAVLDisposeItemUPP(tree, dataP, userRoutine)
-#define CallAVLWalkProc(userRoutine, tree, dataP, visitStage, node, level, balance, refCon) InvokeAVLWalkUPP(tree, dataP, visitStage, node, level, balance, refCon, userRoutine)
+
+/*
+ *  NewAVLItemSizeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( AVLItemSizeUPP )
+NewAVLItemSizeUPP(AVLItemSizeProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppAVLItemSizeProcInfo = 0x000003F0 };  /* pascal 4_bytes Func(4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(AVLItemSizeUPP) NewAVLItemSizeUPP(AVLItemSizeProcPtr userRoutine) { return (AVLItemSizeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLItemSizeProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewAVLItemSizeUPP(userRoutine) (AVLItemSizeUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLItemSizeProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  NewAVLDisposeItemUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( AVLDisposeItemUPP )
+NewAVLDisposeItemUPP(AVLDisposeItemProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppAVLDisposeItemProcInfo = 0x000003C0 };  /* pascal no_return_value Func(4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(AVLDisposeItemUPP) NewAVLDisposeItemUPP(AVLDisposeItemProcPtr userRoutine) { return (AVLDisposeItemUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLDisposeItemProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewAVLDisposeItemUPP(userRoutine) (AVLDisposeItemUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLDisposeItemProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  NewAVLWalkUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( AVLWalkUPP )
+NewAVLWalkUPP(AVLWalkProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppAVLWalkProcInfo = 0x000FEBE0 };  /* pascal 2_bytes Func(4_bytes, 4_bytes, 2_bytes, 2_bytes, 4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(AVLWalkUPP) NewAVLWalkUPP(AVLWalkProcPtr userRoutine) { return (AVLWalkUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLWalkProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewAVLWalkUPP(userRoutine) (AVLWalkUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppAVLWalkProcInfo, GetCurrentArchitecture())
+  #endif
+#endif
+
+/*
+ *  DisposeAVLCompareItemsUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeAVLCompareItemsUPP(AVLCompareItemsUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeAVLCompareItemsUPP(AVLCompareItemsUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeAVLCompareItemsUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeAVLItemSizeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeAVLItemSizeUPP(AVLItemSizeUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeAVLItemSizeUPP(AVLItemSizeUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeAVLItemSizeUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeAVLDisposeItemUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeAVLDisposeItemUPP(AVLDisposeItemUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeAVLDisposeItemUPP(AVLDisposeItemUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeAVLDisposeItemUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  DisposeAVLWalkUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeAVLWalkUPP(AVLWalkUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeAVLWalkUPP(AVLWalkUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeAVLWalkUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeAVLCompareItemsUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( SInt32 )
+InvokeAVLCompareItemsUPP(
+  AVLTreePtr          tree,
+  const void *        i1,
+  const void *        i2,
+  AVLNodeType         nd_typ,
+  AVLCompareItemsUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(SInt32) InvokeAVLCompareItemsUPP(AVLTreePtr tree, const void * i1, const void * i2, AVLNodeType nd_typ, AVLCompareItemsUPP userUPP) { return (SInt32)CALL_FOUR_PARAMETER_UPP(userUPP, uppAVLCompareItemsProcInfo, tree, i1, i2, nd_typ); }
+  #else
+    #define InvokeAVLCompareItemsUPP(tree, i1, i2, nd_typ, userUPP) (SInt32)CALL_FOUR_PARAMETER_UPP((userUPP), uppAVLCompareItemsProcInfo, (tree), (i1), (i2), (nd_typ))
+  #endif
+#endif
+
+/*
+ *  InvokeAVLItemSizeUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( UInt32 )
+InvokeAVLItemSizeUPP(
+  AVLTreePtr      tree,
+  const void *    itemPtr,
+  AVLItemSizeUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(UInt32) InvokeAVLItemSizeUPP(AVLTreePtr tree, const void * itemPtr, AVLItemSizeUPP userUPP) { return (UInt32)CALL_TWO_PARAMETER_UPP(userUPP, uppAVLItemSizeProcInfo, tree, itemPtr); }
+  #else
+    #define InvokeAVLItemSizeUPP(tree, itemPtr, userUPP) (UInt32)CALL_TWO_PARAMETER_UPP((userUPP), uppAVLItemSizeProcInfo, (tree), (itemPtr))
+  #endif
+#endif
+
+/*
+ *  InvokeAVLDisposeItemUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+InvokeAVLDisposeItemUPP(
+  AVLTreePtr         tree,
+  const void *       dataP,
+  AVLDisposeItemUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) InvokeAVLDisposeItemUPP(AVLTreePtr tree, const void * dataP, AVLDisposeItemUPP userUPP) { CALL_TWO_PARAMETER_UPP(userUPP, uppAVLDisposeItemProcInfo, tree, dataP); }
+  #else
+    #define InvokeAVLDisposeItemUPP(tree, dataP, userUPP) CALL_TWO_PARAMETER_UPP((userUPP), uppAVLDisposeItemProcInfo, (tree), (dataP))
+  #endif
+#endif
+
+/*
+ *  InvokeAVLWalkUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSErr )
+InvokeAVLWalkUPP(
+  AVLTreePtr     tree,
+  const void *   dataP,
+  AVLVisitStage  visitStage,
+  AVLNodeType    node,
+  UInt32         level,
+  SInt32         balance,
+  void *         refCon,
+  AVLWalkUPP     userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSErr) InvokeAVLWalkUPP(AVLTreePtr tree, const void * dataP, AVLVisitStage visitStage, AVLNodeType node, UInt32 level, SInt32 balance, void * refCon, AVLWalkUPP userUPP) { return (OSErr)CALL_SEVEN_PARAMETER_UPP(userUPP, uppAVLWalkProcInfo, tree, dataP, visitStage, node, level, balance, refCon); }
+  #else
+    #define InvokeAVLWalkUPP(tree, dataP, visitStage, node, level, balance, refCon, userUPP) (OSErr)CALL_SEVEN_PARAMETER_UPP((userUPP), uppAVLWalkProcInfo, (tree), (dataP), (visitStage), (node), (level), (balance), (refCon))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewAVLCompareItemsProc(userRoutine)                 NewAVLCompareItemsUPP(userRoutine)
+    #define NewAVLItemSizeProc(userRoutine)                     NewAVLItemSizeUPP(userRoutine)
+    #define NewAVLDisposeItemProc(userRoutine)                  NewAVLDisposeItemUPP(userRoutine)
+    #define NewAVLWalkProc(userRoutine)                         NewAVLWalkUPP(userRoutine)
+    #define CallAVLCompareItemsProc(userRoutine, tree, i1, i2, nd_typ) InvokeAVLCompareItemsUPP(tree, i1, i2, nd_typ, userRoutine)
+    #define CallAVLItemSizeProc(userRoutine, tree, itemPtr)     InvokeAVLItemSizeUPP(tree, itemPtr, userRoutine)
+    #define CallAVLDisposeItemProc(userRoutine, tree, dataP)    InvokeAVLDisposeItemUPP(tree, dataP, userRoutine)
+    #define CallAVLWalkProc(userRoutine, tree, dataP, visitStage, node, level, balance, refCon) InvokeAVLWalkUPP(tree, dataP, visitStage, node, level, balance, refCon, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
+
 /*
     Create an AVL tree.  The compareItemsProc and the sizeItemProc are required; disposeItemProc is
     optional and can be nil.  The refCon is stored with the list, and is passed back to the
@@ -217,22 +402,42 @@ typedef STACK_UPP_TYPE(AVLWalkProcPtr)                          AVLWalkUPP;
     nodes later added to the list with AVLInsert ) will be created in what is the current zone at the
     time AVLInit() is called.  Always call AVLDispose() to dispose of a list created with AVLInit().
 */
+/*
+ *  AVLInit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLInit                         (UInt32                 flags,
-                                 AVLCompareItemsUPP     compareItemsProc,
-                                 AVLItemSizeUPP         sizeItemProc,
-                                 AVLDisposeItemUPP      disposeItemProc,
-                                 void *                 refCon,
-                                 AVLTreePtr *           tree)                               THREEWORDINLINE(0x303C, 0x0C01, 0xAA80);
+AVLInit(
+  UInt32               flags,
+  AVLCompareItemsUPP   compareItemsProc,
+  AVLItemSizeUPP       sizeItemProc,
+  AVLDisposeItemUPP    disposeItemProc,
+  void *               refCon,
+  AVLTreePtr *         tree)                                  THREEWORDINLINE(0x303C, 0x0C01, 0xAA80);
+
 
 /*
     Dispose of an AVL tree.  This will dispose of each item in the tree in the order specified,
     call the tree's disposeProc proc for each item, and then dispose of the space allocated for
     the tree itself.
 */
+/*
+ *  AVLDispose()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLDispose                      (AVLTreePtr *           tree,
-                                 AVLOrder               order)                              THREEWORDINLINE(0x303C, 0x0302, 0xAA80);
+AVLDispose(
+  AVLTreePtr *  tree,
+  AVLOrder      order)                                        THREEWORDINLINE(0x303C, 0x0302, 0xAA80);
+
 
 /*
     Iterate across all of the items in the tree, in the order specified.  kLeftToRight is
@@ -255,16 +460,36 @@ AVLDispose                      (AVLTreePtr *           tree,
     into AVLInit(); use AVLGetRefCon() to get that refCon if you want it inside a walkProc.
     ( Most walkProcs will not care about the values for node type, level, or balance. )
 */
+/*
+ *  AVLWalk()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLWalk                         (AVLTreePtr             tree,
-                                 AVLWalkUPP             walkProc,
-                                 AVLOrder               order,
-                                 void *                 walkRefCon)                         THREEWORDINLINE(0x303C, 0x0703, 0xAA80);
+AVLWalk(
+  AVLTreePtr   tree,
+  AVLWalkUPP   walkProc,
+  AVLOrder     order,
+  void *       walkRefCon)                                    THREEWORDINLINE(0x303C, 0x0703, 0xAA80);
+
 
 /*  Return  the number of items in the given tree.*/
+/*
+ *  AVLCount()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLCount                        (AVLTreePtr             tree,
-                                 UInt32 *               count)                              THREEWORDINLINE(0x303C, 0x0804, 0xAA80);
+AVLCount(
+  AVLTreePtr   tree,
+  UInt32 *     count)                                         THREEWORDINLINE(0x303C, 0x0804, 0xAA80);
+
 
 /*
     Return the one-based index-th item from the tree by putting it's data at dataPtr
@@ -272,11 +497,21 @@ AVLCount                        (AVLTreePtr             tree,
     If index is out of range, return errItemNotFoundInTree.  ( Internally, this does
     an AVLWalk(), so the tree can not be modified while this call is in progress ).
 */
+/*
+ *  AVLGetIndItem()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLGetIndItem                   (AVLTreePtr             tree,
-                                 UInt32                 index,
-                                 void *                 dataPtr,
-                                 UInt32 *               itemSize)                           THREEWORDINLINE(0x303C, 0x0805, 0xAA80);
+AVLGetIndItem(
+  AVLTreePtr   tree,
+  UInt32       index,
+  void *       dataPtr,
+  UInt32 *     itemSize)                                      THREEWORDINLINE(0x303C, 0x0805, 0xAA80);
+
 
 /*
     Insert the given item into the tree.  This will call the tree's sizeItemProc
@@ -286,9 +521,19 @@ AVLGetIndItem                   (AVLTreePtr             tree,
     when asked to compare this item to an existing one ), then it will return
     errItemNotFoundInTree.
 */
+/*
+ *  AVLInsert()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLInsert                       (AVLTreePtr             tree,
-                                 const void *           data)                               THREEWORDINLINE(0x303C, 0x0406, 0xAA80);
+AVLInsert(
+  AVLTreePtr    tree,
+  const void *  data)                                         THREEWORDINLINE(0x303C, 0x0406, 0xAA80);
+
 
 /*
     Remove any item from the tree with the given key.  If dataPtr != nil, then
@@ -299,11 +544,21 @@ AVLInsert                       (AVLTreePtr             tree,
     the data at key with the node in the tree to be deleted.  If the item cannot
     be found in the tree, this will return errItemNotFoundInTree.
 */
+/*
+ *  AVLRemove()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLRemove                       (AVLTreePtr             tree,
-                                 const void *           key,
-                                 void *                 dataPtr,
-                                 UInt32 *               itemSize)                           THREEWORDINLINE(0x303C, 0x0807, 0xAA80);
+AVLRemove(
+  AVLTreePtr    tree,
+  const void *  key,
+  void *        dataPtr,
+  UInt32 *      itemSize)                                     THREEWORDINLINE(0x303C, 0x0807, 0xAA80);
+
 
 /*
     Find the item in the tree with the given key, and return it's data in
@@ -313,19 +568,39 @@ AVLRemove                       (AVLTreePtr             tree,
     at key with the node in the tree to be deleted.  If the item cannot
     be found in the tree, this will return errItemNotFoundInTree.
 */
+/*
+ *  AVLFind()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLFind                         (AVLTreePtr             tree,
-                                 const void *           key,
-                                 void *                 dataPtr,
-                                 UInt32 *               itemSize)                           THREEWORDINLINE(0x303C, 0x0808, 0xAA80);
+AVLFind(
+  AVLTreePtr    tree,
+  const void *  key,
+  void *        dataPtr,
+  UInt32 *      itemSize)                                     THREEWORDINLINE(0x303C, 0x0808, 0xAA80);
+
 
 /*
     Get the refCon for the given tree ( set in AVLInit ) and return it.
     If the given tree is invalid, then return nil.
 */
+/*
+ *  AVLGetRefcon()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 9.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-AVLGetRefcon                    (AVLTreePtr             tree,
-                                 void **                refCon)                             THREEWORDINLINE(0x303C, 0x0409, 0xAA80);
+AVLGetRefcon(
+  AVLTreePtr   tree,
+  void **      refCon)                                        THREEWORDINLINE(0x303C, 0x0409, 0xAA80);
+
 
 
 #if PRAGMA_STRUCT_ALIGN

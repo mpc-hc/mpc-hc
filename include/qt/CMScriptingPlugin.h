@@ -3,10 +3,9 @@
  
      Contains:   ColorSync Scripting Plugin API
  
-     Version:    Technology: ColorSync 2.5
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1998-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1998-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -14,19 +13,12 @@
                      http://developer.apple.com/bugreporter/
  
 */
-#ifndef __CMSCRIPTINGPLUGIN__
-#define __CMSCRIPTINGPLUGIN__
-
 #ifndef __FILES__
 #include "Files.h"
 #endif
 
 #ifndef __CMAPPLICATION__
 #include "CMApplication.h"
-#endif
-
-#ifndef __CODEFRAGMENTS__
-#include "CodeFragments.h"
 #endif
 
 
@@ -46,23 +38,15 @@ extern "C" {
 #pragma import on
 #endif
 
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=mac68k
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
-#endif
-
 enum {
-                                                                /* ColorSync Scripting AppleEvent Errors */
-    cmspInvalidImageFile        = -4220,                        /* Plugin cannot handle this image file type */
-    cmspInvalidImageSpace       = -4221,                        /* Plugin cannot create an image file of this colorspace */
-    cmspInvalidProfileEmbed     = -4222,                        /* Specific invalid profile errors */
-    cmspInvalidProfileSource    = -4223,
-    cmspInvalidProfileDest      = -4224,
-    cmspInvalidProfileProof     = -4225,
-    cmspInvalidProfileLink      = -4226
+                                        /* ColorSync Scripting AppleEvent Errors */
+  cmspInvalidImageFile          = -4220, /* Plugin cannot handle this image file type */
+  cmspInvalidImageSpace         = -4221, /* Plugin cannot create an image file of this colorspace */
+  cmspInvalidProfileEmbed       = -4222, /* Specific invalid profile errors */
+  cmspInvalidProfileSource      = -4223,
+  cmspInvalidProfileDest        = -4224,
+  cmspInvalidProfileProof       = -4225,
+  cmspInvalidProfileLink        = -4226
 };
 
 
@@ -71,12 +55,12 @@ enum {
 
 /**** matchFlags field  ****/
 enum {
-    cmspFavorEmbeddedMask       = 0x00000001                    /* if bit 0 is 0 then use srcProf profile, if 1 then use profile embedded in image if present*/
+  cmspFavorEmbeddedMask         = 0x00000001 /* if bit 0 is 0 then use srcProf profile, if 1 then use profile embedded in image if present*/
 };
 
 
 /**** scripting plugin entry points  ****/
-typedef CALLBACK_API_C( CMError , ValidateImageProcPtr )(const FSSpec *spec);
+typedef CALLBACK_API_C( CMError , ValidateImageProcPtr )(const FSSpec * spec);
 typedef CALLBACK_API_C( CMError , GetImageSpaceProcPtr )(const FSSpec *spec, OSType *space);
 typedef CALLBACK_API_C( CMError , ValidateSpaceProcPtr )(const FSSpec *spec, OSType *space);
 typedef CALLBACK_API_C( CMError , EmbedImageProcPtr )(const FSSpec *specFrom, const FSSpec *specInto, CMProfileRef embedProf, UInt32 embedFlags);
@@ -87,75 +71,166 @@ typedef CALLBACK_API_C( CMError , GetIndImageProfileProcPtr )(const FSSpec *spec
 typedef CALLBACK_API_C( CMError , SetIndImageProfileProcPtr )(const FSSpec *specFrom, const FSSpec *specInto, UInt32 index, CMProfileRef prof, UInt32 embedFlags);
 /**** CSScriptingLib API  ****/
 
+/*
+ *  CMValidImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMValidImage                    (const FSSpec *         spec);
+CMValidImage(const FSSpec * spec);
 
+
+/*
+ *  CMGetImageSpace()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMGetImageSpace                 (const FSSpec *         spec,
-                                 OSType *               space);
+CMGetImageSpace(
+  const FSSpec *  spec,
+  OSType *        space);
 
+
+/*
+ *  CMEmbedImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMEmbedImage                    (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl,
-                                 CMProfileRef           embProf);
+CMEmbedImage(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl,
+  CMProfileRef    embProf);
 
+
+/*
+ *  CMUnembedImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMUnembedImage                  (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl);
+CMUnembedImage(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl);
 
+
+/*
+ *  CMMatchImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMMatchImage                    (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl,
-                                 UInt32                 qual,
-                                 CMProfileRef           srcProf,
-                                 UInt32                 srcIntent,
-                                 CMProfileRef           dstProf);
+CMMatchImage(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl,
+  UInt32          qual,
+  CMProfileRef    srcProf,
+  UInt32          srcIntent,
+  CMProfileRef    dstProf);
 
+
+/*
+ *  CMProofImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMProofImage                    (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl,
-                                 UInt32                 qual,
-                                 CMProfileRef           srcProf,
-                                 UInt32                 srcIntent,
-                                 CMProfileRef           dstProf,
-                                 CMProfileRef           prfProf);
+CMProofImage(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl,
+  UInt32          qual,
+  CMProfileRef    srcProf,
+  UInt32          srcIntent,
+  CMProfileRef    dstProf,
+  CMProfileRef    prfProf);
 
+
+/*
+ *  CMLinkImage()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMLinkImage                     (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl,
-                                 UInt32                 qual,
-                                 CMProfileRef           lnkProf,
-                                 UInt32                 lnkIntent);
+CMLinkImage(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl,
+  UInt32          qual,
+  CMProfileRef    lnkProf,
+  UInt32          lnkIntent);
 
+
+/*
+ *  CMCountImageProfiles()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMCountImageProfiles            (const FSSpec *         spec,
-                                 UInt32 *               count);
+CMCountImageProfiles(
+  const FSSpec *  spec,
+  UInt32 *        count);
 
+
+/*
+ *  CMGetIndImageProfile()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMGetIndImageProfile            (const FSSpec *         spec,
-                                 UInt32                 index,
-                                 CMProfileRef *         prof);
+CMGetIndImageProfile(
+  const FSSpec *  spec,
+  UInt32          index,
+  CMProfileRef *  prof);
 
+
+/*
+ *  CMSetIndImageProfile()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in CSScriptingLib 2.6 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in 3.0 and later
+ */
 EXTERN_API_C( CMError )
-CMSetIndImageProfile            (const FSSpec *         specFrom,
-                                 const FSSpec *         specInto,
-                                 Boolean                repl,
-                                 UInt32                 index,
-                                 CMProfileRef           prof);
+CMSetIndImageProfile(
+  const FSSpec *  specFrom,
+  const FSSpec *  specInto,
+  Boolean         repl,
+  UInt32          index,
+  CMProfileRef    prof);
 
 
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack()
-#endif
 
 #ifdef PRAGMA_IMPORT_OFF
 #pragma import off
@@ -166,6 +241,3 @@ CMSetIndImageProfile            (const FSSpec *         specFrom,
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* __CMSCRIPTINGPLUGIN__ */
-

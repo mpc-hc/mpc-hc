@@ -3,10 +3,9 @@
  
      Contains:   Utilites for formatting numbers
  
-     Version:    Technology: 
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1996-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1996-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -69,95 +68,171 @@ extern "C" {
     StringToNum             
 
 */
-
 struct NumFormatString {
-    UInt8                           fLength;
-    UInt8                           fVersion;
-    char                            data[254];                  /* private data */
+  UInt8               fLength;
+  UInt8               fVersion;
+  char                data[254];              /* private data */
 };
 typedef struct NumFormatString          NumFormatString;
 typedef NumFormatString                 NumFormatStringRec;
-
 typedef short                           FormatStatus;
 enum {
-    fVNumber                    = 0                             /* first version of NumFormatString */
+  fVNumber                      = 0     /* first version of NumFormatString */
 };
 
 typedef SInt8                           FormatClass;
 enum {
-    fPositive                   = 0,
-    fNegative                   = 1,
-    fZero                       = 2
+  fPositive                     = 0,
+  fNegative                     = 1,
+  fZero                         = 2
 };
 
 typedef SInt8                           FormatResultType;
 enum {
-    fFormatOK                   = 0,
-    fBestGuess                  = 1,
-    fOutOfSynch                 = 2,
-    fSpuriousChars              = 3,
-    fMissingDelimiter           = 4,
-    fExtraDecimal               = 5,
-    fMissingLiteral             = 6,
-    fExtraExp                   = 7,
-    fFormatOverflow             = 8,
-    fFormStrIsNAN               = 9,
-    fBadPartsTable              = 10,
-    fExtraPercent               = 11,
-    fExtraSeparator             = 12,
-    fEmptyFormatString          = 13
+  fFormatOK                     = 0,
+  fBestGuess                    = 1,
+  fOutOfSynch                   = 2,
+  fSpuriousChars                = 3,
+  fMissingDelimiter             = 4,
+  fExtraDecimal                 = 5,
+  fMissingLiteral               = 6,
+  fExtraExp                     = 7,
+  fFormatOverflow               = 8,
+  fFormStrIsNAN                 = 9,
+  fBadPartsTable                = 10,
+  fExtraPercent                 = 11,
+  fExtraSeparator               = 12,
+  fEmptyFormatString            = 13
 };
 
-
 struct FVector {
-    short                           start;
-    short                           length;
+  short               start;
+  short               length;
 };
 typedef struct FVector                  FVector;
 /* index by [fPositive..fZero] */
-
 typedef FVector                         TripleInt[3];
 #if CALL_NOT_IN_CARBON
+/*
+ *  stringtonum()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-stringtonum                     (const char *           theString,
-                                 long *                 theNum);
+stringtonum(
+  const char *  theString,
+  long *        theNum);
 
+
+/*
+ *  numtostring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-numtostring                     (long                   theNum,
-                                 char *                 theString);
+numtostring(
+  long    theNum,
+  char *  theString);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
+/*
+ *  StringToNum()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-StringToNum                     (ConstStr255Param       theString,
-                                 long *                 theNum);
+StringToNum(
+  ConstStr255Param   theString,
+  long *             theNum);
 
+
+/*
+ *  NumToString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-NumToString                     (long                   theNum,
-                                 Str255                 theString);
+NumToString(
+  long     theNum,
+  Str255   theString);
 
-EXTERN_API( FormatStatus )
-ExtendedToString                (const extended80 *     x,
-                                 const NumFormatString * myCanonical,
-                                 const NumberParts *    partsTable,
-                                 Str255                 outString)                          FOURWORDINLINE(0x2F3C, 0x8210, 0xFFE8, 0xA8B5);
 
+/*
+ *  ExtendedToString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( FormatStatus )
-StringToExtended                (ConstStr255Param       source,
-                                 const NumFormatString * myCanonical,
-                                 const NumberParts *    partsTable,
-                                 extended80 *           x)                                  FOURWORDINLINE(0x2F3C, 0x8210, 0xFFE6, 0xA8B5);
+ExtendedToString(
+  const extended80 *       x,
+  const NumFormatString *  myCanonical,
+  const NumberParts *      partsTable,
+  Str255                   outString)                         FOURWORDINLINE(0x2F3C, 0x8210, 0xFFE8, 0xA8B5);
 
-EXTERN_API( FormatStatus )
-StringToFormatRec               (ConstStr255Param       inString,
-                                 const NumberParts *    partsTable,
-                                 NumFormatString *      outString)                          FOURWORDINLINE(0x2F3C, 0x820C, 0xFFEC, 0xA8B5);
 
+/*
+ *  StringToExtended()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( FormatStatus )
-FormatRecToString               (const NumFormatString * myCanonical,
-                                 const NumberParts *    partsTable,
-                                 Str255                 outString,
-                                 TripleInt              positions)                          FOURWORDINLINE(0x2F3C, 0x8210, 0xFFEA, 0xA8B5);
+StringToExtended(
+  ConstStr255Param         source,
+  const NumFormatString *  myCanonical,
+  const NumberParts *      partsTable,
+  extended80 *             x)                                 FOURWORDINLINE(0x2F3C, 0x8210, 0xFFE6, 0xA8B5);
+
+
+/*
+ *  StringToFormatRec()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( FormatStatus )
+StringToFormatRec(
+  ConstStr255Param     inString,
+  const NumberParts *  partsTable,
+  NumFormatString *    outString)                             FOURWORDINLINE(0x2F3C, 0x820C, 0xFFEC, 0xA8B5);
+
+
+/*
+ *  FormatRecToString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( FormatStatus )
+FormatRecToString(
+  const NumFormatString *  myCanonical,
+  const NumberParts *      partsTable,
+  Str255                   outString,
+  TripleInt                positions)                         FOURWORDINLINE(0x2F3C, 0x8210, 0xFFEA, 0xA8B5);
+
 
 
 #if OLDROUTINENAMES

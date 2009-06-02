@@ -3,10 +3,9 @@
  
      Contains:   Basic Macintosh data types.
  
-     Version:    Technology: Mac OS 9
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1985-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1985-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -20,6 +19,7 @@
 #ifndef __CONDITIONALMACROS__
 #include "ConditionalMacros.h"
 #endif
+
 
 
 
@@ -47,16 +47,17 @@ extern "C" {
 /********************************************************************************
 
     Special values in C
-    
+
         NULL        The C standard for an impossible pointer value
         nil         A carry over from pascal, NULL is prefered for C
-        
+
 *********************************************************************************/
 #ifndef NULL
-    /* Symantec C compilers (but not C++) want NULL and nil to be (void*)0  */
     #if !defined(__cplusplus) && (defined(__SC__) || defined(THINK_C))
+        /* Symantec C compilers (but not C++) want NULL and nil to be (void*)0  */
         #define NULL ((void *) 0)
     #else
+        /* in case int is 16-bits, make sure NULL is 32-bits */
         #define NULL 0L
     #endif
 #endif
@@ -64,7 +65,6 @@ extern "C" {
 #ifndef nil
     #define nil NULL
 #endif
-
 
 /********************************************************************************
 
@@ -87,29 +87,25 @@ typedef signed short                    SInt16;
 typedef unsigned long                   UInt32;
 typedef signed long                     SInt32;
 #if TARGET_RT_BIG_ENDIAN
-
 struct wide {
-    SInt32                          hi;
-    UInt32                          lo;
+  SInt32              hi;
+  UInt32              lo;
 };
 typedef struct wide                     wide;
-
 struct UnsignedWide {
-    UInt32                          hi;
-    UInt32                          lo;
+  UInt32              hi;
+  UInt32              lo;
 };
 typedef struct UnsignedWide             UnsignedWide;
 #else
-
 struct wide {
-    UInt32                          lo;
-    SInt32                          hi;
+  UInt32              lo;
+  SInt32              hi;
 };
 typedef struct wide                     wide;
-
 struct UnsignedWide {
-    UInt32                          lo;
-    UInt32                          hi;
+  UInt32              lo;
+  UInt32              hi;
 };
 typedef struct UnsignedWide             UnsignedWide;
 #endif  /* TARGET_RT_BIG_ENDIAN */
@@ -180,40 +176,23 @@ typedef ShortFixed *                    ShortFixedPtr;
 
 *********************************************************************************/
 typedef float               Float32;
-#if defined(__MWERKS__) || defined(THINK_C)
-    typedef short double    Float64;
-#else
-    typedef double          Float64;
-#endif
-#if TARGET_CPU_68K
-    #if TARGET_RT_MAC_68881
-        typedef long double Float96;        
-        struct Float80 {
-            SInt16  exp;
-            UInt16  man[4];
-        };
-        typedef struct Float80 Float80;
-    #else
-        typedef long double Float80;        
-        struct Float96 {
-            SInt16  exp[2];     /* the second 16-bits are undefined */
-            UInt16  man[4];
-        };
-        typedef struct Float96 Float96;
-    #endif
-#else
-    struct Float80 {
-        SInt16  exp;
-        UInt16  man[4];
-    };
-    typedef struct Float80 Float80;
-    
-    struct Float96 {
-        SInt16  exp[2];     /* the second 16-bits are undefined */
-        UInt16  man[4];
-    };
-    typedef struct Float96 Float96;
-#endif
+typedef double              Float64;
+struct Float80 {
+    SInt16  exp;
+    UInt16  man[4];
+};
+typedef struct Float80 Float80;
+
+struct Float96 {
+    SInt16  exp[2];     /* the second 16-bits are undefined */
+    UInt16  man[4];
+};
+typedef struct Float96 Float96;
+struct Float32Point {
+    Float32             x;
+    Float32             y;
+};
+typedef struct Float32Point Float32Point;
 
 /********************************************************************************
 
@@ -275,7 +254,6 @@ typedef FourCharCode                    OSType;
 typedef FourCharCode                    ResType;
 typedef OSType *                        OSTypePtr;
 typedef ResType *                       ResTypePtr;
-
 /********************************************************************************
 
     Boolean types and values
@@ -286,10 +264,10 @@ typedef ResType *                       ResTypePtr;
         
 *********************************************************************************/
 /*
-    The identifiers "true" and "false" are becoming keywords in C++
-    and work with the new built-in type "bool"
-    "Boolean" will remain an unsigned char for compatibility with source
-    code written before "bool" existed.
+        The identifiers "true" and "false" are becoming keywords in C++
+        and work with the new built-in type "bool"
+        "Boolean" will remain an unsigned char for compatibility with source
+        code written before "bool" existed.
     */
 #if !TYPE_BOOL
     #if TARGET_OS_WIN32
@@ -297,8 +275,8 @@ typedef ResType *                       ResTypePtr;
         #pragma warning (disable: 4237)
     #endif
 enum {
-    false                       = 0,
-    true                        = 1
+  false                         = 0,
+  true                          = 1
 };
 
     #if TARGET_OS_WIN32
@@ -322,7 +300,7 @@ typedef unsigned char                   Boolean;
 typedef CALLBACK_API_C( long , ProcPtr )();
 typedef CALLBACK_API( void , Register68kProcPtr )();
 #if TARGET_OS_MAC && TARGET_RT_MAC_CFM
-/*  Note that the RoutineDescriptor structure is defined in the MixedMode.h header */
+/*  The RoutineDescriptor structure is defined in MixedMode.h */
 typedef struct RoutineDescriptor *UniversalProcPtr;
 #else
 typedef ProcPtr                         UniversalProcPtr;
@@ -354,30 +332,53 @@ typedef UniversalProcPtr *              UniversalProcHandle;
         
 *********************************************************************************/
 enum {
-    noErr                       = 0
+  noErr                         = 0
 };
 
 enum {
-    kNilOptions                 = 0
+  kNilOptions                   = 0
 };
 
 #define kInvalidID   0
 enum {
-    kVariableLengthArray        = 1
+  kVariableLengthArray          = 1
 };
 
 enum {
-    kUnknownType                = 0x3F3F3F3F                    /* '????' QuickTime 3.0: default unknown ResType or OSType */
+  kUnknownType                  = 0x3F3F3F3F /* "????" QuickTime 3.0: default unknown ResType or OSType */
 };
 
 
 
 /********************************************************************************
 
-    String Types
+    String Types and Unicode Types
     
-        UniChar                 A single 16-bit Unicode character
-        UniCharCount            A count of Unicode characters in an array or buffer
+        UnicodeScalarValue,     A complete Unicode character in UTF-32 format, with
+        UTF32Char               values from 0 through 0x10FFFF (excluding the surrogate
+                                range 0xD800-0xDFFF and certain disallowed values).
+
+        UniChar,                A 16-bit Unicode code value in the default UTF-16 format.
+        UTF16Char               UnicodeScalarValues 0-0xFFFF are expressed in UTF-16
+                                format using a single UTF16Char with the same value.
+                                UnicodeScalarValues 0x10000-0x10FFFF are expressed in
+                                UTF-16 format using a pair of UTF16Chars - one in the
+                                high surrogate range (0xD800-0xDBFF) followed by one in
+                                the low surrogate range (0xDC00-0xDFFF). All of the
+                                characters defined in Unicode versions through 3.0 are
+                                in the range 0-0xFFFF and can be expressed using a single
+                                UTF16Char, thus the term "Unicode character" generally
+                                refers to a UniChar = UTF16Char.
+
+        UTF8Char                An 8-bit code value in UTF-8 format. UnicodeScalarValues
+                                0-0x7F are expressed in UTF-8 format using one UTF8Char
+                                with the same value. UnicodeScalarValues above 0x7F are
+                                expressed in UTF-8 format using 2-4 UTF8Chars, all with
+                                values in the range 0x80-0xF4 (UnicodeScalarValues
+                                0x100-0xFFFF use two or three UTF8Chars,
+                                UnicodeScalarValues 0x10000-0x10FFFF use four UTF8Chars).
+
+        UniCharCount            A count of UTF-16 code values in an array or buffer.
 
         StrNNN                  Pascal string holding up to NNN bytes
         StringPtr               Pointer to a pascal string
@@ -399,7 +400,11 @@ enum {
           
         
 *********************************************************************************/
+typedef UInt32                          UnicodeScalarValue;
+typedef UInt32                          UTF32Char;
 typedef UInt16                          UniChar;
+typedef UInt16                          UTF16Char;
+typedef UInt8                           UTF8Char;
 typedef UniChar *                       UniCharPtr;
 typedef UInt32                          UniCharCount;
 typedef UniCharCount *                  UniCharCountPtr;
@@ -463,7 +468,7 @@ inline unsigned char StrLength(ConstStr255Param string) { return (*string); }
     Quickdraw Types
     
         Point               2D Quickdraw coordinate, range: -32K to +32K
-        Rect                Rectangluar Quickdraw area
+        Rect                Rectangular Quickdraw area
         Style               Quickdraw font rendering styles
         StyleParameter      Style when used as a parameter (historical 68K convention)
         StyleField          Style when used as a field (historical 68K convention)
@@ -474,53 +479,73 @@ inline unsigned char StrLength(ConstStr255Param string) { return (*string); }
             used as fields in non-packed records or as parameters. 
         
 *********************************************************************************/
-
 struct Point {
-    short                           v;
-    short                           h;
+  short               v;
+  short               h;
 };
 typedef struct Point                    Point;
 typedef Point *                         PointPtr;
-
 struct Rect {
-    short                           top;
-    short                           left;
-    short                           bottom;
-    short                           right;
+  short               top;
+  short               left;
+  short               bottom;
+  short               right;
 };
 typedef struct Rect                     Rect;
 typedef Rect *                          RectPtr;
-
 struct FixedPoint {
-    Fixed                           x;
-    Fixed                           y;
+  Fixed               x;
+  Fixed               y;
 };
 typedef struct FixedPoint               FixedPoint;
-
 struct FixedRect {
-    Fixed                           left;
-    Fixed                           top;
-    Fixed                           right;
-    Fixed                           bottom;
+  Fixed               left;
+  Fixed               top;
+  Fixed               right;
+  Fixed               bottom;
 };
 typedef struct FixedRect                FixedRect;
 
 typedef short                           CharParameter;
 enum {
-    normal                      = 0,
-    bold                        = 1,
-    italic                      = 2,
-    underline                   = 4,
-    outline                     = 8,
-    shadow                      = 0x10,
-    condense                    = 0x20,
-    extend                      = 0x40
+  normal                        = 0,
+  bold                          = 1,
+  italic                        = 2,
+  underline                     = 4,
+  outline                       = 8,
+  shadow                        = 0x10,
+  condense                      = 0x20,
+  extend                        = 0x40
 };
 
 typedef unsigned char                   Style;
 typedef short                           StyleParameter;
 typedef Style                           StyleField;
 
+
+/********************************************************************************
+
+    QuickTime TimeBase types (previously in Movies.h)
+    
+        TimeValue           Count of units
+        TimeScale           Units per second
+        CompTimeValue       64-bit count of units (always a struct) 
+        TimeValue64         64-bit count of units (long long or struct) 
+        TimeBase            An opaque reference to a time base
+        TimeRecord          Package of TimeBase, duration, and scale
+        
+*********************************************************************************/
+typedef long                            TimeValue;
+typedef long                            TimeScale;
+typedef wide                            CompTimeValue;
+typedef SInt64                          TimeValue64;
+typedef struct TimeBaseRecord*          TimeBase;
+struct TimeRecord {
+  CompTimeValue       value;                  /* units (duration or absolute) */
+  TimeScale           scale;                  /* units per second */
+  TimeBase            base;                   /* refernce to the time base */
+};
+typedef struct TimeRecord               TimeRecord;
 
 /********************************************************************************
 
@@ -553,51 +578,47 @@ typedef Style                           StyleField;
         
 *********************************************************************************/
 #if TARGET_RT_BIG_ENDIAN
-
 struct NumVersion {
-                                                                /* Numeric version part of 'vers' resource */
-    UInt8                           majorRev;                   /*1st part of version number in BCD*/
-    UInt8                           minorAndBugRev;             /*2nd & 3rd part of version number share a byte*/
-    UInt8                           stage;                      /*stage code: dev, alpha, beta, final*/
-    UInt8                           nonRelRev;                  /*revision level of non-released version*/
+                                              /* Numeric version part of 'vers' resource */
+  UInt8               majorRev;               /*1st part of version number in BCD*/
+  UInt8               minorAndBugRev;         /*2nd & 3rd part of version number share a byte*/
+  UInt8               stage;                  /*stage code: dev, alpha, beta, final*/
+  UInt8               nonRelRev;              /*revision level of non-released version*/
 };
 typedef struct NumVersion               NumVersion;
 #else
-
 struct NumVersion {
-                                                                /* Numeric version part of 'vers' resource accessable in little endian format */
-    UInt8                           nonRelRev;                  /*revision level of non-released version*/
-    UInt8                           stage;                      /*stage code: dev, alpha, beta, final*/
-    UInt8                           minorAndBugRev;             /*2nd & 3rd part of version number share a byte*/
-    UInt8                           majorRev;                   /*1st part of version number in BCD*/
+                                              /* Numeric version part of 'vers' resource accessable in little endian format */
+  UInt8               nonRelRev;              /*revision level of non-released version*/
+  UInt8               stage;                  /*stage code: dev, alpha, beta, final*/
+  UInt8               minorAndBugRev;         /*2nd & 3rd part of version number share a byte*/
+  UInt8               majorRev;               /*1st part of version number in BCD*/
 };
 typedef struct NumVersion               NumVersion;
 #endif  /* TARGET_RT_BIG_ENDIAN */
 
 enum {
-                                                                /* Version Release Stage Codes */
-    developStage                = 0x20,
-    alphaStage                  = 0x40,
-    betaStage                   = 0x60,
-    finalStage                  = 0x80
+                                        /* Version Release Stage Codes */
+  developStage                  = 0x20,
+  alphaStage                    = 0x40,
+  betaStage                     = 0x60,
+  finalStage                    = 0x80
 };
 
-
 union NumVersionVariant {
-                                                                /* NumVersionVariant is a wrapper so NumVersion can be accessed as a 32-bit value */
-    NumVersion                      parts;
-    unsigned long                   whole;
+                                              /* NumVersionVariant is a wrapper so NumVersion can be accessed as a 32-bit value */
+  NumVersion          parts;
+  unsigned long       whole;
 };
 typedef union NumVersionVariant         NumVersionVariant;
 typedef NumVersionVariant *             NumVersionVariantPtr;
 typedef NumVersionVariantPtr *          NumVersionVariantHandle;
-
 struct VersRec {
-                                                                /* 'vers' resource format */
-    NumVersion                      numericVersion;             /*encoded version number*/
-    short                           countryCode;                /*country code from intl utilities*/
-    Str255                          shortVersion;               /*version number string - worst case*/
-    Str255                          reserved;                   /*longMessage string packed after shortVersion*/
+                                              /* 'vers' resource format */
+  NumVersion          numericVersion;         /*encoded version number*/
+  short               countryCode;            /*country code from intl utilities*/
+  Str255              shortVersion;           /*version number string - worst case*/
+  Str255              reserved;               /*longMessage string packed after shortVersion*/
 };
 typedef struct VersRec                  VersRec;
 typedef VersRec *                       VersRecPtr;
@@ -607,7 +628,6 @@ typedef VersRecPtr *                    VersRecHndl;
     Old names for types
         
 *********************************************************************************/
-
 typedef UInt8                           Byte;
 typedef SInt8                           SignedByte;
 typedef wide *                          WidePtr;
@@ -615,47 +635,118 @@ typedef UnsignedWide *                  UnsignedWidePtr;
 typedef Float80                         extended80;
 typedef Float96                         extended96;
 typedef SInt8                           VHSelect;
-
 /*********************************************************************************
 
     Debugger functions
     
 *********************************************************************************/
+/*
+ *  Debugger()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-Debugger                        (void)                                                      ONEWORDINLINE(0xA9FF);
+Debugger(void)                                                ONEWORDINLINE(0xA9FF);
 
+
+/*
+ *  DebugStr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-DebugStr                        (ConstStr255Param       debuggerMsg)                        ONEWORDINLINE(0xABFF);
+DebugStr(ConstStr255Param debuggerMsg)                        ONEWORDINLINE(0xABFF);
+
 
 #if TARGET_OS_MAC
 #if CALL_NOT_IN_CARBON
+/*
+ *  debugstr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-debugstr                        (const char *           debuggerMsg);
+debugstr(const char * debuggerMsg);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #if TARGET_CPU_PPC
 /* Only for Mac OS native drivers */
 #if CALL_NOT_IN_CARBON
+/*
+ *  SysDebug()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-SysDebug                        (void);
+SysDebug(void);
 
+
+/*
+ *  SysDebugStr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in DriverServicesLib 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-SysDebugStr                     (ConstStr255Param       str);
+SysDebugStr(ConstStr255Param str);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #endif  /* TARGET_CPU_PPC */
 
 /* SADE break points */
+/*
+ *  SysBreak()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-SysBreak                        (void)                                                      THREEWORDINLINE(0x303C, 0xFE16, 0xA9C9);
+SysBreak(void)                                                THREEWORDINLINE(0x303C, 0xFE16, 0xA9C9);
 
-EXTERN_API( void )
-SysBreakStr                     (ConstStr255Param       debuggerMsg)                        THREEWORDINLINE(0x303C, 0xFE15, 0xA9C9);
 
+/*
+ *  SysBreakStr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( void )
-SysBreakFunc                    (ConstStr255Param       debuggerMsg)                        THREEWORDINLINE(0x303C, 0xFE14, 0xA9C9);
+SysBreakStr(ConstStr255Param debuggerMsg)                     THREEWORDINLINE(0x303C, 0xFE15, 0xA9C9);
+
+
+/*
+ *  SysBreakFunc()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( void )
+SysBreakFunc(ConstStr255Param debuggerMsg)                    THREEWORDINLINE(0x303C, 0xFE14, 0xA9C9);
+
 
 /* old names for Debugger and DebugStr */
 #if OLDROUTINENAMES && TARGET_CPU_68K

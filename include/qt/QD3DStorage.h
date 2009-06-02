@@ -4,9 +4,9 @@
      Contains:   Abstraction to deal with various types of stream-based storage devices
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1999 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -82,12 +82,31 @@ extern "C" {
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3Storage_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3Storage_GetType               (TQ3StorageObject       storage);
+Q3Storage_GetType(TQ3StorageObject storage);
 
+
+/*
+ *  Q3Storage_GetSize()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Storage_GetSize               (TQ3StorageObject       storage,
-                                 unsigned long *        size);
+Q3Storage_GetSize(
+  TQ3StorageObject   storage,
+  unsigned long *    size);
+
 
 /* 
  *  Reads "dataSize" bytes starting at offset in storage, copying into data. 
@@ -95,12 +114,22 @@ Q3Storage_GetSize               (TQ3StorageObject       storage,
  *  
  *  You may assume if *sizeRead < dataSize, then EOF is at offset + *sizeRead
  */
+/*
+ *  Q3Storage_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Storage_GetData               (TQ3StorageObject       storage,
-                                 unsigned long          offset,
-                                 unsigned long          dataSize,
-                                 unsigned char *        data,
-                                 unsigned long *        sizeRead);
+Q3Storage_GetData(
+  TQ3StorageObject   storage,
+  unsigned long      offset,
+  unsigned long      dataSize,
+  unsigned char *    data,
+  unsigned long *    sizeRead);
+
 
 /* 
  *  Write "dataSize" bytes starting at offset in storage, copying from data. 
@@ -108,32 +137,71 @@ Q3Storage_GetData               (TQ3StorageObject       storage,
  *  
  *  You may assume if *sizeRead < dataSize, then EOF is at offset + *sizeWritten
  */
+/*
+ *  Q3Storage_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Storage_SetData               (TQ3StorageObject       storage,
-                                 unsigned long          offset,
-                                 unsigned long          dataSize,
-                                 const unsigned char *  data,
-                                 unsigned long *        sizeWritten);
+Q3Storage_SetData(
+  TQ3StorageObject       storage,
+  unsigned long          offset,
+  unsigned long          dataSize,
+  const unsigned char *  data,
+  unsigned long *        sizeWritten);
+
 
 /******************************************************************************
  **                                                                          **
  **                          Memory Storage Prototypes                       **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3MemoryStorage_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3MemoryStorage_GetType         (TQ3StorageObject       storage);
+Q3MemoryStorage_GetType(TQ3StorageObject storage);
+
 
 /*
  * These calls COPY the buffer into QD3D space
  */
+/*
+ *  Q3MemoryStorage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3MemoryStorage_New             (const unsigned char *  buffer,
-                                 unsigned long          validSize);
+Q3MemoryStorage_New(
+  const unsigned char *  buffer,
+  unsigned long          validSize);
 
+
+/*
+ *  Q3MemoryStorage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3MemoryStorage_Set             (TQ3StorageObject       storage,
-                                 const unsigned char *  buffer,
-                                 unsigned long          validSize);
+Q3MemoryStorage_Set(
+  TQ3StorageObject       storage,
+  const unsigned char *  buffer,
+  unsigned long          validSize);
+
 
 /*
  * These calls use the pointer given - you must dispose it when you're through
@@ -141,22 +209,52 @@ Q3MemoryStorage_Set             (TQ3StorageObject       storage,
 #endif  /* CALL_NOT_IN_CARBON */
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3MemoryStorage_NewBuffer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3MemoryStorage_NewBuffer       (unsigned char *        buffer,
-                                 unsigned long          validSize,
-                                 unsigned long          bufferSize);
+Q3MemoryStorage_NewBuffer(
+  unsigned char *  buffer,
+  unsigned long    validSize,
+  unsigned long    bufferSize);
 
-EXTERN_API_C( TQ3Status )
-Q3MemoryStorage_SetBuffer       (TQ3StorageObject       storage,
-                                 unsigned char *        buffer,
-                                 unsigned long          validSize,
-                                 unsigned long          bufferSize);
 
+/*
+ *  Q3MemoryStorage_SetBuffer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3MemoryStorage_GetBuffer       (TQ3StorageObject       storage,
-                                 unsigned char **       buffer,
-                                 unsigned long *        validSize,
-                                 unsigned long *        bufferSize);
+Q3MemoryStorage_SetBuffer(
+  TQ3StorageObject   storage,
+  unsigned char *    buffer,
+  unsigned long      validSize,
+  unsigned long      bufferSize);
+
+
+/*
+ *  Q3MemoryStorage_GetBuffer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3MemoryStorage_GetBuffer(
+  TQ3StorageObject   storage,
+  unsigned char **   buffer,
+  unsigned long *    validSize,
+  unsigned long *    bufferSize);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -168,39 +266,107 @@ Q3MemoryStorage_GetBuffer       (TQ3StorageObject       storage,
  *****************************************************************************/
 /* Handle Storage is a subclass of Memory Storage */
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3HandleStorage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3HandleStorage_New             (Handle                 handle,
-                                 unsigned long          validSize);
+Q3HandleStorage_New(
+  Handle          handle,
+  unsigned long   validSize);
 
-EXTERN_API_C( TQ3Status )
-Q3HandleStorage_Set             (TQ3StorageObject       storage,
-                                 Handle                 handle,
-                                 unsigned long          validSize);
 
+/*
+ *  Q3HandleStorage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3HandleStorage_Get             (TQ3StorageObject       storage,
-                                 Handle *               handle,
-                                 unsigned long *        validSize);
+Q3HandleStorage_Set(
+  TQ3StorageObject   storage,
+  Handle             handle,
+  unsigned long      validSize);
+
+
+/*
+ *  Q3HandleStorage_Get()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3HandleStorage_Get(
+  TQ3StorageObject   storage,
+  Handle *           handle,
+  unsigned long *    validSize);
+
 
 /******************************************************************************
  **                                                                          **
  **                             Macintosh Storage Prototypes                 **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3MacintoshStorage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3MacintoshStorage_New          (short                  fsRefNum);
+Q3MacintoshStorage_New(short fsRefNum);
+
 
 /* Note: This storage is assumed open */
+/*
+ *  Q3MacintoshStorage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3MacintoshStorage_Set          (TQ3StorageObject       storage,
-                                 short                  fsRefNum);
+Q3MacintoshStorage_Set(
+  TQ3StorageObject   storage,
+  short              fsRefNum);
 
+
+/*
+ *  Q3MacintoshStorage_Get()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3MacintoshStorage_Get          (TQ3StorageObject       storage,
-                                 short *                fsRefNum);
+Q3MacintoshStorage_Get(
+  TQ3StorageObject   storage,
+  short *            fsRefNum);
 
+
+/*
+ *  Q3MacintoshStorage_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3MacintoshStorage_GetType      (TQ3StorageObject       storage);
+Q3MacintoshStorage_GetType(TQ3StorageObject storage);
+
 
 
 /******************************************************************************
@@ -208,16 +374,45 @@ Q3MacintoshStorage_GetType      (TQ3StorageObject       storage);
  **                         Macintosh FSSpec Storage Prototypes              **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3FSSpecStorage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3FSSpecStorage_New             (const FSSpec *         fs);
+Q3FSSpecStorage_New(const FSSpec * fs);
 
-EXTERN_API_C( TQ3Status )
-Q3FSSpecStorage_Set             (TQ3StorageObject       storage,
-                                 const FSSpec *         fs);
 
+/*
+ *  Q3FSSpecStorage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3FSSpecStorage_Get             (TQ3StorageObject       storage,
-                                 FSSpec *               fs);
+Q3FSSpecStorage_Set(
+  TQ3StorageObject   storage,
+  const FSSpec *     fs);
+
+
+/*
+ *  Q3FSSpecStorage_Get()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3FSSpecStorage_Get(
+  TQ3StorageObject   storage,
+  FSSpec *           fs);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -230,16 +425,45 @@ Q3FSSpecStorage_Get             (TQ3StorageObject       storage,
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3Win32Storage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3Win32Storage_New              (HANDLE                 hFile);
+Q3Win32Storage_New(HANDLE hFile);
 
-EXTERN_API_C( TQ3Status )
-Q3Win32Storage_Set              (TQ3StorageObject       storage,
-                                 HANDLE                 hFile);
 
+/*
+ *  Q3Win32Storage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Win32Storage_Get              (TQ3StorageObject       storage,
-                                 HANDLE *               hFile);
+Q3Win32Storage_Set(
+  TQ3StorageObject   storage,
+  HANDLE             hFile);
+
+
+/*
+ *  Q3Win32Storage_Get()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3Win32Storage_Get(
+  TQ3StorageObject   storage,
+  HANDLE *           hFile);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -260,18 +484,47 @@ Q3Win32Storage_Get              (TQ3StorageObject       storage,
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3UnixPathStorage_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3StorageObject )
-Q3UnixPathStorage_New           (const char *           pathName);
+Q3UnixPathStorage_New(const char * pathName);
+
 
 /* C string */
+/*
+ *  Q3UnixPathStorage_Set()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3UnixPathStorage_Set           (TQ3StorageObject       storage,
-                                 const char *           pathName);
+Q3UnixPathStorage_Set(
+  TQ3StorageObject   storage,
+  const char *       pathName);
+
 
 /* C string */
+/*
+ *  Q3UnixPathStorage_Get()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3UnixPathStorage_Get           (TQ3StorageObject       storage,
-                                 char *                 pathName);
+Q3UnixPathStorage_Get(
+  TQ3StorageObject   storage,
+  char *             pathName);
+
 
 /* pathName is a buffer */
 

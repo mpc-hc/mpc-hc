@@ -3,10 +3,9 @@
  
      Contains:   QuickTime Interfaces.
  
-     Version:    Technology: QuickTime 6.0
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1990-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1990-2007 by Apple Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -52,38 +51,41 @@ extern "C" {
     #pragma pack(2)
 #endif
 
+/* QuickTime is not available to 64-bit clients */
+
+#if !__LP64__
+
 enum {
-    kQTSStreamMediaType         = FOUR_CHAR_CODE('strm')
+  kQTSStreamMediaType           = FOUR_CHAR_CODE('strm')
 };
 
-
 struct QTSSampleDescription {
-    long                            descSize;
-    long                            dataFormat;
-    long                            resvd1;                     /* set to 0*/
-    short                           resvd2;                     /* set to 0*/
-    short                           dataRefIndex;
-    UInt32                          version;
-    UInt32                          resvd3;                     /* set to 0*/
-    SInt32                          flags;
-                                                                /* qt atoms follow:*/
-                                                                /*      long size, long type, some data*/
-                                                                /*      repeat as necessary*/
+  long                descSize;
+  long                dataFormat;
+  long                resvd1;                 /* set to 0*/
+  short               resvd2;                 /* set to 0*/
+  short               dataRefIndex;
+  UInt32              version;
+  UInt32              resvd3;                 /* set to 0*/
+  SInt32              flags;
+                                              /* qt atoms follow:*/
+                                              /*      long size, long type, some data*/
+                                              /*      repeat as necessary*/
 };
 typedef struct QTSSampleDescription     QTSSampleDescription;
 typedef QTSSampleDescription *          QTSSampleDescriptionPtr;
 typedef QTSSampleDescriptionPtr *       QTSSampleDescriptionHandle;
 enum {
-    kQTSSampleDescriptionVersion1 = 1L
+  kQTSSampleDescriptionVersion1 = 1L
 };
 
 enum {
-    kQTSDefaultMediaTimeScale   = 600L
+  kQTSDefaultMediaTimeScale     = 600L
 };
 
 /* sample description flags*/
 enum {
-    kQTSSampleDescPassSampleDataAsHandleFlag = 0x00000001
+  kQTSSampleDescPassSampleDataAsHandleFlag = 0x00000001
 };
 
 
@@ -96,79 +98,120 @@ enum {
 /* all indexes start at 1 */
 
 enum {
-    kQTSMediaPresentationInfo   = FOUR_CHAR_CODE('pres'),       /* QTSMediaPresentationParams* */
-    kQTSMediaNotificationInfo   = FOUR_CHAR_CODE('noti'),       /* QTSMediaNotificationParams* */
-    kQTSMediaTotalDataRateInfo  = FOUR_CHAR_CODE('dtrt'),       /* UInt32*, bits/sec */
-    kQTSMediaLostPercentInfo    = FOUR_CHAR_CODE('lspc'),       /* Fixed* */
-    kQTSMediaNumStreamsInfo     = FOUR_CHAR_CODE('nstr'),       /* UInt32* */
-    kQTSMediaIndSampleDescriptionInfo = FOUR_CHAR_CODE('isdc')  /* QTSMediaIndSampleDescriptionParams* */
+  kQTSMediaPresentationInfo     = FOUR_CHAR_CODE('pres'), /* QTSMediaPresentationParams* */
+  kQTSMediaNotificationInfo     = FOUR_CHAR_CODE('noti'), /* QTSMediaNotificationParams* */
+  kQTSMediaTotalDataRateInfo    = FOUR_CHAR_CODE('dtrt'), /* UInt32*, bits/sec */
+  kQTSMediaLostPercentInfo      = FOUR_CHAR_CODE('lspc'), /* Fixed* */
+  kQTSMediaNumStreamsInfo       = FOUR_CHAR_CODE('nstr'), /* UInt32* */
+  kQTSMediaIndSampleDescriptionInfo = FOUR_CHAR_CODE('isdc') /* QTSMediaIndSampleDescriptionParams* */
 };
-
 
 
 struct QTSMediaPresentationParams {
-    QTSPresentation                 presentationID;
+  QTSPresentation     presentationID;
 };
 typedef struct QTSMediaPresentationParams QTSMediaPresentationParams;
-
 struct QTSMediaNotificationParams {
-    QTSNotificationUPP              notificationProc;
-    void *                          notificationRefCon;
-    SInt32                          flags;
+  QTSNotificationUPP  notificationProc;
+  void *              notificationRefCon;
+  SInt32              flags;
 };
 typedef struct QTSMediaNotificationParams QTSMediaNotificationParams;
-
 struct QTSMediaIndSampleDescriptionParams {
-    SInt32                          index;
-    OSType                          returnedMediaType;
-    SampleDescriptionHandle         returnedSampleDescription;
+  SInt32              index;
+  OSType              returnedMediaType;
+  SampleDescriptionHandle  returnedSampleDescription;
 };
 typedef struct QTSMediaIndSampleDescriptionParams QTSMediaIndSampleDescriptionParams;
 /*-----------------------------------------
     QTS Media Handler Selectors
 -----------------------------------------*/
 enum {
-    kQTSMediaSetInfoSelect      = 0x0100,
-    kQTSMediaGetInfoSelect      = 0x0101,
-    kQTSMediaSetIndStreamInfoSelect = 0x0102,
-    kQTSMediaGetIndStreamInfoSelect = 0x0103
+  kQTSMediaSetInfoSelect        = 0x0100,
+  kQTSMediaGetInfoSelect        = 0x0101,
+  kQTSMediaSetIndStreamInfoSelect = 0x0102,
+  kQTSMediaGetIndStreamInfoSelect = 0x0103
 };
 
 /*-----------------------------------------
     QTS Media Handler functions
 -----------------------------------------*/
+/*
+ *  QTSMediaSetInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in QTStreamLib 4.0 and later
+ *    CarbonLib:        in CarbonLib 1.1 and later
+ *    Mac OS X:         in version 10.0 and later
+ *    Windows:          in QTSClient.lib 4.0 and later
+ */
 EXTERN_API( ComponentResult )
-QTSMediaSetInfo                 (MediaHandler           mh,
-                                 OSType                 inSelector,
-                                 void *                 ioParams)                           FIVEWORDINLINE(0x2F3C, 0x0008, 0x0100, 0x7000, 0xA82A);
+QTSMediaSetInfo(
+  MediaHandler   mh,
+  OSType         inSelector,
+  void *         ioParams)                                    FIVEWORDINLINE(0x2F3C, 0x0008, 0x0100, 0x7000, 0xA82A);
 
-EXTERN_API( ComponentResult )
-QTSMediaGetInfo                 (MediaHandler           mh,
-                                 OSType                 inSelector,
-                                 void *                 ioParams)                           FIVEWORDINLINE(0x2F3C, 0x0008, 0x0101, 0x7000, 0xA82A);
 
+/*
+ *  QTSMediaGetInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in QTStreamLib 4.0 and later
+ *    CarbonLib:        in CarbonLib 1.1 and later
+ *    Mac OS X:         in version 10.0 and later
+ *    Windows:          in QTSClient.lib 4.0 and later
+ */
 EXTERN_API( ComponentResult )
-QTSMediaSetIndStreamInfo        (MediaHandler           mh,
-                                 SInt32                 inIndex,
-                                 OSType                 inSelector,
-                                 void *                 ioParams)                           FIVEWORDINLINE(0x2F3C, 0x000C, 0x0102, 0x7000, 0xA82A);
+QTSMediaGetInfo(
+  MediaHandler   mh,
+  OSType         inSelector,
+  void *         ioParams)                                    FIVEWORDINLINE(0x2F3C, 0x0008, 0x0101, 0x7000, 0xA82A);
 
+
+/*
+ *  QTSMediaSetIndStreamInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in QTStreamLib 4.0 and later
+ *    CarbonLib:        in CarbonLib 1.1 and later
+ *    Mac OS X:         in version 10.0 and later
+ *    Windows:          in QTSClient.lib 4.0 and later
+ */
 EXTERN_API( ComponentResult )
-QTSMediaGetIndStreamInfo        (MediaHandler           mh,
-                                 SInt32                 inIndex,
-                                 OSType                 inSelector,
-                                 void *                 ioParams)                           FIVEWORDINLINE(0x2F3C, 0x000C, 0x0103, 0x7000, 0xA82A);
+QTSMediaSetIndStreamInfo(
+  MediaHandler   mh,
+  SInt32         inIndex,
+  OSType         inSelector,
+  void *         ioParams)                                    FIVEWORDINLINE(0x2F3C, 0x000C, 0x0102, 0x7000, 0xA82A);
+
+
+/*
+ *  QTSMediaGetIndStreamInfo()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in QTStreamLib 4.0 and later
+ *    CarbonLib:        in CarbonLib 1.1 and later
+ *    Mac OS X:         in version 10.0 and later
+ *    Windows:          in QTSClient.lib 4.0 and later
+ */
+EXTERN_API( ComponentResult )
+QTSMediaGetIndStreamInfo(
+  MediaHandler   mh,
+  SInt32         inIndex,
+  OSType         inSelector,
+  void *         ioParams)                                    FIVEWORDINLINE(0x2F3C, 0x000C, 0x0103, 0x7000, 0xA82A);
+
 
 
 /*============================================================================
         Hint Media Handler
 ============================================================================*/
 enum {
-    kQTSHintMediaType           = FOUR_CHAR_CODE('hint')
+  kQTSHintMediaType             = FOUR_CHAR_CODE('hint')
 };
 
 enum {
-    kQTSHintTrackReference      = FOUR_CHAR_CODE('hint')
+  kQTSHintTrackReference        = FOUR_CHAR_CODE('hint')
 };
 
 
@@ -182,6 +225,9 @@ enum {
     uppQTSMediaSetIndStreamInfoProcInfo        = 0x00003FF0,
     uppQTSMediaGetIndStreamInfoProcInfo        = 0x00003FF0
 };
+
+#endif // !__LP64__
+
 
 #if PRAGMA_STRUCT_ALIGN
     #pragma options align=reset

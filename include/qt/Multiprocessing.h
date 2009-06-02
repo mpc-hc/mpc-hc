@@ -3,10 +3,9 @@
  
      Contains:   Multiprocessing interfaces
  
-     Version:    Technology: Multiprocessing API version 2.0, integrated nanokernel support
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 DayStar Digital, Inc.
+     Copyright:  (c) 2007 (c) 1996-2001 by Apple Computer, Inc. and (c) 1995-1997 DayStar Digital, Inc.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -14,6 +13,7 @@
                      http://developer.apple.com/bugreporter/
  
 */
+
 
 /*
    ===========================================================================================
@@ -29,16 +29,6 @@
 #ifndef __MACTYPES__
 #include "MacTypes.h"
 #endif
-
-#ifndef __CODEFRAGMENTS__
-#include "CodeFragments.h"
-#endif
-
-
-#ifndef __DRIVERSERVICES__
-#include "DriverServices.h"
-#endif
-
 
 
 
@@ -63,9 +53,10 @@ extern "C" {
     #pragma pack(2)
 #endif
 
+
 /*
    ===========================================================================================
-   This is the header file for version 2.0 of the Mac OS multiprocessing support.  This version
+   This is the header file for version 2.2 of the Mac OS multiprocessing support.  This version
    has been totally reimplemented and has significant new services.  The main goal of the
    reimplementation has been to transfer task management into the core operating system to provide
    much more reliable and more efficient operation, including on single processor machines.
@@ -203,21 +194,22 @@ extern "C" {
 
 
 #define MPCopyrightNotice   \
-    "Copyright © 1995-1999 Apple Computer, Inc.\n"
+    "Copyright © 1995-2000 Apple Computer, Inc.\n"
 #define MPLibraryName "MPLibrary"
 #define MPLibraryCName MPLibraryName
 #define MPLibraryPName "\p" MPLibraryName
-#define MP_API_Version "2.1"
+#define MP_API_Version "2.3"
 
 enum {
-    MPLibrary_MajorVersion      = 2,
-    MPLibrary_MinorVersion      = 1,
-    MPLibrary_Release           = 1,
-    MPLibrary_DevelopmentRevision = 1
+  MPLibrary_MajorVersion        = 2,    /* ! When these change be sure to update the build versions*/
+  MPLibrary_MinorVersion        = 3,    /* !  used in the startup check in MPInitializeAPI!*/
+  MPLibrary_Release             = 1,
+  MPLibrary_DevelopmentRevision = 1
 };
 
 
-typedef CFragContextID                  MPProcessID;
+
+typedef struct OpaqueMPProcessID*       MPProcessID;
 typedef struct OpaqueMPTaskID*          MPTaskID;
 typedef struct OpaqueMPQueueID*         MPQueueID;
 typedef struct OpaqueMPSemaphoreID*     MPSemaphoreID;
@@ -228,9 +220,31 @@ typedef struct OpaqueMPAddressSpaceID*  MPAddressSpaceID;
 typedef struct OpaqueMPNotificationID*  MPNotificationID;
 typedef struct OpaqueMPCoherenceID*     MPCoherenceID;
 typedef struct OpaqueMPCpuID*           MPCpuID;
+typedef struct OpaqueMPAreaID*          MPAreaID;
+typedef struct OpaqueMPConsoleID*       MPConsoleID;
 typedef struct OpaqueMPOpaqueID*        MPOpaqueID;
 enum {
-    kMPNoID                     = kInvalidID                    /* New code should use kInvalidID everywhere.*/
+                                        /* Values for MPOpaqueIDClass.*/
+  kOpaqueAnyID                  = 0,
+  kOpaqueProcessID              = 1,
+  kOpaqueTaskID                 = 2,
+  kOpaqueTimerID                = 3,
+  kOpaqueQueueID                = 4,
+  kOpaqueSemaphoreID            = 5,
+  kOpaqueCriticalRegionID       = 6,
+  kOpaqueCpuID                  = 7,
+  kOpaqueAddressSpaceID         = 8,
+  kOpaqueEventID                = 9,
+  kOpaqueCoherenceID            = 10,
+  kOpaqueAreaID                 = 11,
+  kOpaqueNotificationID         = 12,
+  kOpaqueConsoleID              = 13
+};
+
+typedef UInt32                          MPOpaqueIDClass;
+
+enum {
+  kMPNoID                       = kInvalidID /* New code should use kInvalidID everywhere.*/
 };
 
 
@@ -242,14 +256,52 @@ typedef UInt32                          MPTaskWeight;
 typedef UInt32                          MPEventFlags;
 typedef UInt32                          MPExceptionKind;
 typedef UInt32                          MPTaskStateKind;
-typedef UInt32                          MPDebuggerLevel;
+typedef UInt32                          MPPageSizeClass;
+
 enum {
-    kDurationImmediate          = 0L,
-    kDurationForever            = 0x7FFFFFFF,
-    kDurationMillisecond        = 1,
-    kDurationMicrosecond        = -1
+  kDurationImmediate            = 0L,
+  kDurationForever              = 0x7FFFFFFF,
+  kDurationMillisecond          = 1,
+  kDurationMicrosecond          = -1
 };
 
+
+/*
+   .
+   ===========================================================================================
+   Process/Processor Services
+   ==========================
+*/
+
+
+
+/*
+ *  MPProcessors()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( ItemCount )
+MPProcessors(void);
+
+
+/* The physical total.*/
+
+/*
+ *  MPProcessorsScheduled()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( ItemCount )
+MPProcessorsScheduled(void);
+
+
+/* Those currently in use.*/
 
 /*
    .
@@ -259,64 +311,146 @@ enum {
 */
 
 
-EXTERN_API_C( ItemCount )
-MPProcessors                    (void);
-
-/* The physical total.*/
-EXTERN_API_C( ItemCount )
-MPProcessorsScheduled           (void);
-
-/* Those currently in use.*/
-EXTERN_API_C( OSStatus )
-MPGetNextCpuID                  (MPCoherenceID          owningCoherenceID,
-                                 MPCpuID *              cpuID);
-
 
 enum {
-                                                                /* For MPCreateTask options*/
-    kMPCreateTaskTakesAllExceptionsMask = 1L << 1,
-    kMPCreateTaskValidOptionsMask = kMPCreateTaskTakesAllExceptionsMask
+                                        /* For MPCreateTask options*/
+  kMPCreateTaskSuspendedMask    = 1L << 0,
+  kMPCreateTaskTakesAllExceptionsMask = 1L << 1,
+  kMPCreateTaskNotDebuggableMask = 1L << 2,
+  kMPCreateTaskValidOptionsMask = kMPCreateTaskSuspendedMask | kMPCreateTaskTakesAllExceptionsMask | kMPCreateTaskNotDebuggableMask
 };
 
 
 /* -------------------------------------------------------------------------------------------*/
 
 
-typedef CALLBACK_API_C( OSStatus , TaskProc )(void *parameter);
-EXTERN_API_C( OSStatus )
-MPCreateTask                    (TaskProc               entryPoint,
-                                 void *                 parameter,
-                                 ByteCount              stackSize,
-                                 MPQueueID              notifyQueue,
-                                 void *                 terminationParameter1,
-                                 void *                 terminationParameter2,
-                                 MPTaskOptions          options,
-                                 MPTaskID *             task);
 
-EXTERN_API_C( OSStatus )
-MPTerminateTask                 (MPTaskID               task,
-                                 OSStatus               terminationStatus);
 
-EXTERN_API_C( OSStatus )
-MPSetTaskWeight                 (MPTaskID               task,
-                                 MPTaskWeight           weight);
+typedef CALLBACK_API_C( OSStatus , TaskProc )(void * parameter);
 
+/*
+ *  MPCreateTask()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPCreateTask(
+  TaskProc        entryPoint,
+  void *          parameter,
+  ByteCount       stackSize,
+  MPQueueID       notifyQueue,
+  void *          terminationParameter1,
+  void *          terminationParameter2,
+  MPTaskOptions   options,
+  MPTaskID *      task);
+
+
+
+
+/*
+ *  MPTerminateTask()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPTerminateTask(
+  MPTaskID   task,
+  OSStatus   terminationStatus);
+
+
+
+
+/*
+ *  MPSetTaskWeight()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetTaskWeight(
+  MPTaskID       task,
+  MPTaskWeight   weight);
+
+
+
+
+/*
+ *  MPTaskIsPreemptive()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( Boolean )
-MPTaskIsPreemptive              (MPTaskID               taskID);
+MPTaskIsPreemptive(MPTaskID taskID);
+
 
 /* May be kInvalidID.*/
-EXTERN_API_C( void )
-MPExit                          (OSStatus               status);
 
+/*
+ *  MPExit()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( void )
-MPYield                         (void);
+MPExit(OSStatus status);
 
+
+
+
+/*
+ *  MPYield()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+MPYield(void);
+
+
+
+
+/*
+ *  MPCurrentTaskID()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( MPTaskID )
-MPCurrentTaskID                 (void);
+MPCurrentTaskID(void);
 
+
+
+
+/*
+ *  MPSetTaskType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.3 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.1 and later
+ */
 EXTERN_API_C( OSStatus )
-MPGetNextTaskID                 (MPProcessID            owningProcessID,
-                                 MPTaskID *             taskID);
+MPSetTaskType(
+  MPTaskID   task,
+  OSType     taskType);
+
 
 
 /* -------------------------------------------------------------------------------------------*/
@@ -328,18 +462,62 @@ MPGetNextTaskID                 (MPProcessID            owningProcessID,
 */
 
 
-EXTERN_API_C( OSStatus )
-MPAllocateTaskStorageIndex      (TaskStorageIndex *     index);
 
+/*
+ *  MPAllocateTaskStorageIndex()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeallocateTaskStorageIndex    (TaskStorageIndex       index);
+MPAllocateTaskStorageIndex(TaskStorageIndex * index);
 
+
+
+
+/*
+ *  MPDeallocateTaskStorageIndex()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPSetTaskStorageValue           (TaskStorageIndex       index,
-                                 TaskStorageValue       value);
+MPDeallocateTaskStorageIndex(TaskStorageIndex index);
 
+
+
+
+/*
+ *  MPSetTaskStorageValue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetTaskStorageValue(
+  TaskStorageIndex   index,
+  TaskStorageValue   value);
+
+
+
+
+/*
+ *  MPGetTaskStorageValue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( TaskStorageValue )
-MPGetTaskStorageValue           (TaskStorageIndex       index);
+MPGetTaskStorageValue(TaskStorageIndex index);
+
 
 
 /*
@@ -350,47 +528,149 @@ MPGetTaskStorageValue           (TaskStorageIndex       index);
 */
 
 
-EXTERN_API_C( OSStatus )
-MPCreateQueue                   (MPQueueID *            queue);
 
+/*
+ *  MPCreateQueue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeleteQueue                   (MPQueueID              queue);
+MPCreateQueue(MPQueueID * queue);
 
-EXTERN_API_C( OSStatus )
-MPNotifyQueue                   (MPQueueID              queue,
-                                 void *                 param1,
-                                 void *                 param2,
-                                 void *                 param3);
 
-EXTERN_API_C( OSStatus )
-MPWaitOnQueue                   (MPQueueID              queue,
-                                 void **                param1,
-                                 void **                param2,
-                                 void **                param3,
-                                 Duration               timeout);
 
+
+/*
+ *  MPDeleteQueue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPSetQueueReserve               (MPQueueID              queue,
-                                 ItemCount              count);
+MPDeleteQueue(MPQueueID queue);
+
+
+
+
+/*
+ *  MPNotifyQueue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPNotifyQueue(
+  MPQueueID   queue,
+  void *      param1,
+  void *      param2,
+  void *      param3);
+
+
+
+
+/*
+ *  MPWaitOnQueue()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPWaitOnQueue(
+  MPQueueID   queue,
+  void **     param1,
+  void **     param2,
+  void **     param3,
+  Duration    timeout);
+
+
+
+
+/*
+ *  MPSetQueueReserve()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetQueueReserve(
+  MPQueueID   queue,
+  ItemCount   count);
+
 
 
 /* -------------------------------------------------------------------------------------------*/
 
 
-EXTERN_API_C( OSStatus )
-MPCreateSemaphore               (MPSemaphoreCount       maximumValue,
-                                 MPSemaphoreCount       initialValue,
-                                 MPSemaphoreID *        semaphore);
 
+/*
+ *  MPCreateSemaphore()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeleteSemaphore               (MPSemaphoreID          semaphore);
+MPCreateSemaphore(
+  MPSemaphoreCount   maximumValue,
+  MPSemaphoreCount   initialValue,
+  MPSemaphoreID *    semaphore);
 
-EXTERN_API_C( OSStatus )
-MPSignalSemaphore               (MPSemaphoreID          semaphore);
 
+
+
+/*
+ *  MPDeleteSemaphore()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPWaitOnSemaphore               (MPSemaphoreID          semaphore,
-                                 Duration               timeout);
+MPDeleteSemaphore(MPSemaphoreID semaphore);
+
+
+
+
+/*
+ *  MPSignalSemaphore()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSignalSemaphore(MPSemaphoreID semaphore);
+
+
+
+
+/*
+ *  MPWaitOnSemaphore()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPWaitOnSemaphore(
+  MPSemaphoreID   semaphore,
+  Duration        timeout);
+
 
 
 #define MPCreateBinarySemaphore(semaphore)  \
@@ -399,36 +679,123 @@ MPWaitOnSemaphore               (MPSemaphoreID          semaphore,
 /* -------------------------------------------------------------------------------------------*/
 
 
-EXTERN_API_C( OSStatus )
-MPCreateCriticalRegion          (MPCriticalRegionID *   criticalRegion);
 
+/*
+ *  MPCreateCriticalRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeleteCriticalRegion          (MPCriticalRegionID     criticalRegion);
+MPCreateCriticalRegion(MPCriticalRegionID * criticalRegion);
 
-EXTERN_API_C( OSStatus )
-MPEnterCriticalRegion           (MPCriticalRegionID     criticalRegion,
-                                 Duration               timeout);
 
+
+
+/*
+ *  MPDeleteCriticalRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPExitCriticalRegion            (MPCriticalRegionID     criticalRegion);
+MPDeleteCriticalRegion(MPCriticalRegionID criticalRegion);
+
+
+
+
+/*
+ *  MPEnterCriticalRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPEnterCriticalRegion(
+  MPCriticalRegionID   criticalRegion,
+  Duration             timeout);
+
+
+
+
+/*
+ *  MPExitCriticalRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPExitCriticalRegion(MPCriticalRegionID criticalRegion);
+
 
 
 /* -------------------------------------------------------------------------------------------*/
 
+
+/*
+ *  MPCreateEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-MPCreateEvent                   (MPEventID *            event);
+MPCreateEvent(MPEventID * event);
 
+
+
+/*
+ *  MPDeleteEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeleteEvent                   (MPEventID              event);
+MPDeleteEvent(MPEventID event);
 
+
+
+
+/*
+ *  MPSetEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPSetEvent                      (MPEventID              event,
-                                 MPEventFlags           flags);
+MPSetEvent(
+  MPEventID      event,
+  MPEventFlags   flags);
 
+
+
+/*
+ *  MPWaitForEvent()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSStatus )
-MPWaitForEvent                  (MPEventID              event,
-                                 MPEventFlags *         flags,
-                                 Duration               timeout);
+MPWaitForEvent(
+  MPEventID       event,
+  MPEventFlags *  flags,
+  Duration        timeout);
+
 
 /*
    .
@@ -439,27 +806,82 @@ MPWaitForEvent                  (MPEventID              event,
 
 
 
+/*
+ *  MPCreateNotification()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPCreateNotification            (MPNotificationID *     notificationID);
+MPCreateNotification(MPNotificationID * notificationID);
 
-/* -------------------------------------------------------------------------------------------*/
 
+
+
+/*
+ *  MPDeleteNotification()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPDeleteNotification            (MPNotificationID       notificationID);
+MPDeleteNotification(MPNotificationID notificationID);
 
-/* -------------------------------------------------------------------------------------------*/
 
+
+
+/*
+ *  MPModifyNotification()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPModifyNotification            (MPNotificationID       notificationID,
-                                 MPOpaqueID             anID,
-                                 void *                 notifyParam1,
-                                 void *                 notifyParam2,
-                                 void *                 notifyParam3);
+MPModifyNotification(
+  MPNotificationID   notificationID,
+  MPOpaqueID         anID,
+  void *             notifyParam1,
+  void *             notifyParam2,
+  void *             notifyParam3);
 
-/* -------------------------------------------------------------------------------------------*/
 
+
+
+/*
+ *  MPModifyNotificationParameters()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.3 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.1 and later
+ */
 EXTERN_API_C( OSStatus )
-MPCauseNotification             (MPNotificationID       notificationID);
+MPModifyNotificationParameters(
+  MPNotificationID   notificationID,
+  MPOpaqueIDClass    kind,
+  void *             notifyParam1,
+  void *             notifyParam2,
+  void *             notifyParam3);
+
+
+
+
+/*
+ *  MPCauseNotification()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPCauseNotification(MPNotificationID notificationID);
 
 
 
@@ -480,51 +902,164 @@ MPCauseNotification             (MPNotificationID       notificationID);
 #if 0
 /* For now these are taken from DriverServices, should be in a better place.*/
 #if CALL_NOT_IN_CARBON
+/*
+ *  UpTime()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( AbsoluteTime )
-UpTime                          (void);
+UpTime(void);
 
+
+/*
+ *  DurationToAbsolute()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( AbsoluteTime )
-DurationToAbsolute              (Duration               duration);
+DurationToAbsolute(Duration duration);
 
+
+/*
+ *  AbsoluteToDuration()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( Duration )
-AbsoluteToDuration              (AbsoluteTime           time);
+AbsoluteToDuration(AbsoluteTime time);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #endif  /* 0 */
 
+
 enum {
-                                                                /* For MPArmTimer options*/
-    kMPPreserveTimerIDMask      = 1L << 0,
-    kMPTimeIsDeltaMask          = 1L << 1,
-    kMPTimeIsDurationMask       = 1L << 2
+                                        /* For MPArmTimer options*/
+  kMPPreserveTimerIDMask        = 1L << 0,
+  kMPTimeIsDeltaMask            = 1L << 1,
+  kMPTimeIsDurationMask         = 1L << 2
 };
 
 
-EXTERN_API_C( OSStatus )
-MPDelayUntil                    (AbsoluteTime *         expirationTime);
 
+/*
+ *  MPDelayUntil()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPCreateTimer                   (MPTimerID *            timerID);
+MPDelayUntil(AbsoluteTime * expirationTime);
 
-EXTERN_API_C( OSStatus )
-MPDeleteTimer                   (MPTimerID              timerID);
 
-EXTERN_API_C( OSStatus )
-MPSetTimerNotify                (MPTimerID              timerID,
-                                 MPOpaqueID             anID,
-                                 void *                 notifyParam1,
-                                 void *                 notifyParam2,
-                                 void *                 notifyParam3);
 
-EXTERN_API_C( OSStatus )
-MPArmTimer                      (MPTimerID              timerID,
-                                 AbsoluteTime *         expirationTime,
-                                 OptionBits             options);
 
+#if CALL_NOT_IN_CARBON
+/*
+ *  MPDelayUntilSys()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( OSStatus )
+MPDelayUntilSys(AbsoluteTime * expirationTime);
+
+
+
+
+#endif  /* CALL_NOT_IN_CARBON */
+
+/*
+ *  MPCreateTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPCancelTimer                   (MPTimerID              timerID,
-                                 AbsoluteTime *         timeRemaining);
+MPCreateTimer(MPTimerID * timerID);
+
+
+
+
+/*
+ *  MPDeleteTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPDeleteTimer(MPTimerID timerID);
+
+
+
+
+/*
+ *  MPSetTimerNotify()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetTimerNotify(
+  MPTimerID    timerID,
+  MPOpaqueID   anID,
+  void *       notifyParam1,
+  void *       notifyParam2,
+  void *       notifyParam3);
+
+
+
+
+/*
+ *  MPArmTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPArmTimer(
+  MPTimerID       timerID,
+  AbsoluteTime *  expirationTime,
+  OptionBits      options);
+
+
+
+
+/*
+ *  MPCancelTimer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPCancelTimer(
+  MPTimerID       timerID,
+  AbsoluteTime *  timeRemaining);
+
 
 
 /*
@@ -536,69 +1071,149 @@ MPCancelTimer                   (MPTimerID              timerID,
 
 
 enum {
-                                                                /* Maximum allocation request size is 1GB.*/
-    kMPMaxAllocSize             = 1024L * 1024 * 1024
+                                        /* Maximum allocation request size is 1GB.*/
+  kMPMaxAllocSize               = 1024L * 1024 * 1024
 };
 
 enum {
-                                                                /* Values for the alignment parameter to MPAllocateAligned.*/
-    kMPAllocateDefaultAligned   = 0,
-    kMPAllocate8ByteAligned     = 3,
-    kMPAllocate16ByteAligned    = 4,
-    kMPAllocate32ByteAligned    = 5,
-    kMPAllocate1024ByteAligned  = 10,
-    kMPAllocate4096ByteAligned  = 12,
-    kMPAllocateMaxAlignment     = 16,                           /* Somewhat arbitrary limit on expectations.*/
-    kMPAllocateAltiVecAligned   = kMPAllocate16ByteAligned,     /* The P.C. name.*/
-    kMPAllocateVMXAligned       = kMPAllocateAltiVecAligned,    /* The older, common name.*/
-    kMPAllocateVMPageAligned    = 254,                          /* Pseudo value, converted at runtime.*/
-    kMPAllocateInterlockAligned = 255                           /* Pseudo value, converted at runtime.*/
+                                        /* Values for the alignment parameter to MPAllocateAligned.*/
+  kMPAllocateDefaultAligned     = 0,
+  kMPAllocate8ByteAligned       = 3,
+  kMPAllocate16ByteAligned      = 4,
+  kMPAllocate32ByteAligned      = 5,
+  kMPAllocate1024ByteAligned    = 10,
+  kMPAllocate4096ByteAligned    = 12,
+  kMPAllocateMaxAlignment       = 16,   /* Somewhat arbitrary limit on expectations.*/
+  kMPAllocateAltiVecAligned     = kMPAllocate16ByteAligned, /* The P.C. name.*/
+  kMPAllocateVMXAligned         = kMPAllocateAltiVecAligned, /* The older, common name.*/
+  kMPAllocateVMPageAligned      = 254,  /* Pseudo value, converted at runtime.*/
+  kMPAllocateInterlockAligned   = 255   /* Pseudo value, converted at runtime.*/
 };
 
+
+
 enum {
-                                                                /* Values for the options parameter to MPAllocateAligned.*/
-    kMPAllocateClearMask        = 0x0001,                       /* Zero the allocated block.*/
-    kMPAllocateGloballyMask     = 0x0002,                       /* Allocate from the globally visible pool.*/
-    kMPAllocateResidentMask     = 0x0004,                       /* Allocate from the RAM-resident pool.*/
-    kMPAllocateNoGrowthMask     = 0x0010                        /* Do not attempt to grow the pool.*/
+                                        /* Values for the options parameter to MPAllocateAligned.*/
+  kMPAllocateClearMask          = 0x0001, /* Zero the allocated block.*/
+  kMPAllocateGloballyMask       = 0x0002, /* Allocate from the globally visible pool.*/
+  kMPAllocateResidentMask       = 0x0004, /* Allocate from the RAM-resident pool.*/
+  kMPAllocateNoGrowthMask       = 0x0010, /* Do not attempt to grow the pool.*/
+  kMPAllocateNoCreateMask       = 0x0020 /* Do not attempt to create the pool if it doesn't exist yet.*/
 };
 
 
 /* -------------------------------------------------------------------------------------------*/
 
 
+
+/*
+ *  MPAllocateAligned()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( LogicalAddress )
-MPAllocateAligned               (ByteCount              size,
-                                 UInt8                  alignment,
-                                 OptionBits             options);
+MPAllocateAligned(
+  ByteCount    size,
+  UInt8        alignment,
+  OptionBits   options);
+
 
 /* ! MPAllocateAligned is new in version 2.0.*/
+
+/*
+ *  MPAllocate()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( LogicalAddress )
-MPAllocate                      (ByteCount              size);
+MPAllocate(ByteCount size);
+
 
 /* Use MPAllocateAligned instead.*/
-EXTERN_API_C( void )
-MPFree                          (LogicalAddress         object);
 
+/*
+ *  MPFree()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+MPFree(LogicalAddress object);
+
+
+
+
+/*
+ *  MPGetAllocatedBlockSize()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( ByteCount )
-MPGetAllocatedBlockSize         (LogicalAddress         object);
+MPGetAllocatedBlockSize(LogicalAddress object);
+
+
 
 /* -------------------------------------------------------------------------------------------*/
 
 
-EXTERN_API_C( void )
-MPBlockCopy                     (LogicalAddress         source,
-                                 LogicalAddress         destination,
-                                 ByteCount              size);
 
+/*
+ *  MPBlockCopy()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( void )
-MPBlockClear                    (LogicalAddress         address,
-                                 ByteCount              size);
+MPBlockCopy(
+  LogicalAddress   source,
+  LogicalAddress   destination,
+  ByteCount        size);
+
+
+
+
+/*
+ *  MPBlockClear()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+MPBlockClear(
+  LogicalAddress   address,
+  ByteCount        size);
+
 
 /* ! MPBlockClear is new in version 2.0.*/
+
+/*
+ *  MPDataToCode()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( void )
-MPDataToCode                    (LogicalAddress         address,
-                                 ByteCount              size);
+MPDataToCode(
+  LogicalAddress   address,
+  ByteCount        size);
+
 
 /* ! MPDataToCode is new in version 2.0.*/
 /*
@@ -644,66 +1259,73 @@ MPDataToCode                    (LogicalAddress         address,
         kMPTaskStateTaskInfo                -> MPTaskInfo
 */
 
-enum {
-                                                                /* Values for the TaskStateKind to MPExtractTaskState and MPSetTaskState.*/
-    kMPTaskStateRegisters       = 0,                            /* The task general registers.*/
-    kMPTaskStateFPU             = 1,                            /* The task floating point registers*/
-    kMPTaskStateVectors         = 2,                            /* The task vector registers*/
-    kMPTaskStateMachine         = 3,                            /* The task machine registers*/
-    kMPTaskState32BitMemoryException = 4                        /* The task memory exception information for 32-bit CPUs.*/
-};
-
-enum {
-    kMPTaskStateTaskInfo        = 5                             /* Static and dynamic information about the task.*/
-};
-
-enum {
-                                                                /* Option bits and numbers for MPDisposeTaskException.*/
-    kMPTaskPropagate            = 0,                            /* The exception is propagated.*/
-    kMPTaskResumeStep           = 1,                            /* The task is resumed and single step is enabled.*/
-    kMPTaskResumeBranch         = 2,                            /* The task is resumed and branch stepping is enabled.*/
-    kMPTaskResumeMask           = 0x0000,                       /* The task is resumed.*/
-    kMPTaskPropagateMask        = 1 << kMPTaskPropagate,        /* The exception is propagated.*/
-    kMPTaskResumeStepMask       = 1 << kMPTaskResumeStep,       /* The task is resumed and single step is enabled.*/
-    kMPTaskResumeBranchMask     = 1 << kMPTaskResumeBranch      /* The task is resumed and branch stepping is enabled.*/
-};
 
 
 enum {
-                                                                /* For kMPTaskStateTaskInfo, the task's runState*/
-    kMPTaskBlocked              = 0,                            /* Task is blocked (queued on resource)*/
-    kMPTaskReady                = 1,                            /* Task is runnable*/
-    kMPTaskRunning              = 2                             /* Task is running*/
+                                        /* Values for the TaskStateKind to MPExtractTaskState and MPSetTaskState.*/
+  kMPTaskStateRegisters         = 0,    /* The task general registers.*/
+  kMPTaskStateFPU               = 1,    /* The task floating point registers*/
+  kMPTaskStateVectors           = 2,    /* The task vector registers*/
+  kMPTaskStateMachine           = 3,    /* The task machine registers*/
+  kMPTaskState32BitMemoryException = 4, /* The task memory exception information for 32-bit CPUs.*/
+  kMPTaskStateTaskInfo          = 5     /* Static and dynamic information about the task.*/
+};
+
+
+
+enum {
+                                        /* Option bits and numbers for MPDisposeTaskException.*/
+  kMPTaskPropagate              = 0,    /* The exception is propagated.*/
+  kMPTaskResumeStep             = 1,    /* The task is resumed and single step is enabled.*/
+  kMPTaskResumeBranch           = 2,    /* The task is resumed and branch stepping is enabled.*/
+  kMPTaskResumeMask             = 0x0000, /* The task is resumed.*/
+  kMPTaskPropagateMask          = 1 << kMPTaskPropagate, /* The exception is propagated.*/
+  kMPTaskResumeStepMask         = 1 << kMPTaskResumeStep, /* The task is resumed and single step is enabled.*/
+  kMPTaskResumeBranchMask       = 1 << kMPTaskResumeBranch /* The task is resumed and branch stepping is enabled.*/
+};
+
+
+
+enum {
+                                        /* For kMPTaskStateTaskInfo, the task's runState*/
+  kMPTaskBlocked                = 0,    /* Task is blocked (queued on resource)*/
+  kMPTaskReady                  = 1,    /* Task is runnable*/
+  kMPTaskRunning                = 2     /* Task is running*/
 };
 
 enum {
-                                                                /* For kMPTaskStateTaskInfo, the version of the MPTaskInfo structure requested.*/
-    kMPTaskInfoVersion          = 2
+                                        /* For kMPTaskStateTaskInfo, the version of the MPTaskInfo structure requested.*/
+  kMPTaskInfoVersion            = 3
 };
-
 
 
 struct MPTaskInfo {
-    PBVersion                       version;                    /* Version of the data structure requested*/
+  PBVersion           version;                /* Version 3 of the data structure requested*/
 
-    OSType                          name;                       /* Task name*/
+  OSType              name;                   /* Task name*/
 
-    OSType                          queueName;                  /* Task's queue owner name*/
-    UInt16                          runState;                   /* Running, ready, blocked*/
-    UInt16                          lastCPU;                    /* Address of CPU where task previously ran*/
-    UInt32                          weight;                     /* Processing weight: 1 - 10,000*/
+  OSType              queueName;              /* Task's queue owner name*/
+  UInt16              runState;               /* Running, ready, blocked*/
+  UInt16              lastCPU;                /* Address of CPU where task previously ran*/
+  UInt32              weight;                 /* Processing weight: 1 - 10,000*/
 
-    MPProcessID                     processID;                  /* Owning process ID*/
+  MPProcessID         processID;              /* Owning process ID*/
 
-    AbsoluteTime                    cpuTime;                    /* Accumulated task time*/
-    AbsoluteTime                    schedTime;                  /* Time when last scheduled*/
-    AbsoluteTime                    creationTime;               /* Time when task created*/
+  AbsoluteTime        cpuTime;                /* Accumulated task time*/
+  AbsoluteTime        schedTime;              /* Time when last scheduled*/
+  AbsoluteTime        creationTime;           /* Time when task created*/
 
-    ItemCount                       codePageFaults;             /* Page faults from code execution*/
-    ItemCount                       dataPageFaults;             /* Page faults from data access*/
-    ItemCount                       preemptions;                /* Number of times task was preempted*/
+  ItemCount           codePageFaults;         /* Page faults from code execution*/
+  ItemCount           dataPageFaults;         /* Page faults from data access*/
+  ItemCount           preemptions;            /* Number of times task was preempted*/
 
-    MPCpuID                         cpuID;                      /* ID of CPU where task previously ran*/
+  MPCpuID             cpuID;                  /* ID of CPU where task previously ran.*/
+  MPOpaqueID          blockedObject;          /* ID of blocked object.*/
+  MPAddressSpaceID    spaceID;                /* Address space ID of this task.*/
+
+  LogicalAddress      stackBase;              /* Base of stack (lowest address).*/
+  LogicalAddress      stackLimit;             /* Stack limit (highest address).*/
+  LogicalAddress      stackCurr;              /* Current stack address.*/
 };
 typedef struct MPTaskInfo               MPTaskInfo;
 /*
@@ -714,39 +1336,129 @@ typedef struct MPTaskInfo               MPTaskInfo;
 */
 
 
+/* -------------------------------------------------------------------------------------------*/
+
+
+
+/*
+ *  MPSetExceptionHandler()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetExceptionHandler(
+  MPTaskID    task,
+  MPQueueID   exceptionQ);
+
+
+
+
+/*
+ *  MPDisposeTaskException()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPDisposeTaskException(
+  MPTaskID     task,
+  OptionBits   action);
+
+
+
+
+/*
+ *  MPExtractTaskState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPExtractTaskState(
+  MPTaskID          task,
+  MPTaskStateKind   kind,
+  void *            info);
+
+
+
+
+/*
+ *  MPSetTaskState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPSetTaskState(
+  MPTaskID          task,
+  MPTaskStateKind   kind,
+  void *            info);
+
+
+
+
+/*
+ *  MPThrowException()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSStatus )
+MPThrowException(
+  MPTaskID          task,
+  MPExceptionKind   kind);
+
+
 
 /* -------------------------------------------------------------------------------------------*/
 
-EXTERN_API_C( OSStatus )
-MPSetExceptionHandler           (MPTaskID               task,
-                                 MPQueueID              exceptionQ);
 
-EXTERN_API_C( OSStatus )
-MPDisposeTaskException          (MPTaskID               task,
-                                 OptionBits             action);
+typedef UInt32 MPDebuggerLevel;
+enum {
+  kMPLowLevelDebugger           = 0x00000000, /* MacsBug-like*/
+  kMPMidLevelDebugger           = 0x10000000, /* Jasik-like*/
+  kMPHighLevelDebugger          = 0x20000000 /* Metrowerks-like*/
+};
 
-EXTERN_API_C( OSStatus )
-MPExtractTaskState              (MPTaskID               task,
-                                 MPTaskStateKind        kind,
-                                 void *                 info);
 
-EXTERN_API_C( OSStatus )
-MPSetTaskState                  (MPTaskID               task,
-                                 MPTaskStateKind        kind,
-                                 void *                 info);
 
+/*
+ *  MPRegisterDebugger()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPThrowException                (MPTaskID               task,
-                                 MPExceptionKind        kind);
+MPRegisterDebugger(
+  MPQueueID         queue,
+  MPDebuggerLevel   level);
 
-/* -------------------------------------------------------------------------------------------*/
 
+
+
+/*
+ *  MPUnregisterDebugger()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( OSStatus )
-MPRegisterDebugger              (MPQueueID              queue,
-                                 MPDebuggerLevel        level);
-
-EXTERN_API_C( OSStatus )
-MPUnregisterDebugger            (MPQueueID              queue);
+MPUnregisterDebugger(MPQueueID queue);
 
 
 
@@ -757,19 +1469,34 @@ MPUnregisterDebugger            (MPQueueID              queue);
    ====================
 */
 
-typedef CALLBACK_API_C( void *, MPRemoteProcedure )(void *parameter);
+
+
+typedef CALLBACK_API_C( void *, MPRemoteProcedure )(void * parameter);
 
 typedef UInt8                           MPRemoteContext;
 enum {
-    kMPAnyRemoteContext         = 0,
-    kMPOwningProcessRemoteContext = 1
+  kMPAnyRemoteContext           = 0,
+  kMPOwningProcessRemoteContext = 1,
+  kMPInterruptRemoteContext     = 2,
+  kMPAsyncInterruptRemoteContext = 3
 };
 
 
-EXTERN_API_C( void *)
-MPRemoteCall                    (MPRemoteProcedure      remoteProc,
-                                 void *                 parameter,
-                                 MPRemoteContext        context);
+
+/*
+ *  MPRemoteCall()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 2.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void * )
+MPRemoteCall(
+  MPRemoteProcedure   remoteProc,
+  void *              parameter,
+  MPRemoteContext     context);
+
 
 /* ! MPRemoteCall is new in version 2.0.*/
 /*
@@ -836,12 +1563,22 @@ MPRemoteCall                    (MPRemoteProcedure      remoteProc,
 */
 
 
+/*
+ *  _MPIsFullyInitialized()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( Boolean )
-_MPIsFullyInitialized           (void);
+_MPIsFullyInitialized(void);
 
-typedef CALLBACK_API_C( Boolean , MPIsFullyInitializedProc )(void );
+
+typedef CALLBACK_API_C( Boolean , MPIsFullyInitializedProc )(void);
+#define kMPUnresolvedCFragSymbolAddress 0
 #define MPLibraryIsLoaded()     \
-            ( ( (UInt32)_MPIsFullyInitialized != (UInt32)kUnresolvedCFragSymbolAddress ) && \
+            ( ( (UInt32)_MPIsFullyInitialized != (UInt32)kMPUnresolvedCFragSymbolAddress ) &&   \
               ( _MPIsFullyInitialized () ) )
 /*
    .
@@ -851,12 +1588,22 @@ typedef CALLBACK_API_C( Boolean , MPIsFullyInitializedProc )(void );
 */
 
 
+/*
+ *  _MPLibraryVersion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( void )
-_MPLibraryVersion               (const char **          versionCString,
-                                 UInt32 *               major,
-                                 UInt32 *               minor,
-                                 UInt32 *               release,
-                                 UInt32 *               revision);
+_MPLibraryVersion(
+  const char **  versionCString,
+  UInt32 *       major,
+  UInt32 *       minor,
+  UInt32 *       release,
+  UInt32 *       revision);
+
 
 /*
    .
@@ -878,28 +1625,66 @@ _MPLibraryVersion               (const char **          versionCString,
 
 #if CALL_NOT_IN_CARBON
 #if CALL_NOT_IN_CARBON
+/*
+ *  _MPAllocateSys()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( LogicalAddress )
-_MPAllocateSys                  (ByteCount              size);
+_MPAllocateSys(ByteCount size);
+
 
 /* Use MPAllocateAligned instead.*/
-EXTERN_API_C( void *)
-_MPRPC                          (MPRemoteProcedure      remoteProc,
-                                 void *                 parameter);
+/*
+ *  _MPRPC()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( void * )
+_MPRPC(
+  MPRemoteProcedure   remoteProc,
+  void *              parameter);
+
 
 /* Use _MPRemoteCall instead.*/
+/*
+ *  _MPTaskIsToolboxSafe()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( Boolean )
-_MPTaskIsToolboxSafe            (MPTaskID               task);
+_MPTaskIsToolboxSafe(MPTaskID task);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #endif  /* CALL_NOT_IN_CARBON */
 
+/*
+ *  _MPLibraryIsCompatible()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibrary 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( Boolean )
-_MPLibraryIsCompatible          (const char *           versionCString,
-                                 UInt32                 major,
-                                 UInt32                 minor,
-                                 UInt32                 release,
-                                 UInt32                 revision);
+_MPLibraryIsCompatible(
+  const char *  versionCString,
+  UInt32        major,
+  UInt32        minor,
+  UInt32        release,
+  UInt32        revision);
+
 
 
 #define MPRPC                   _MPRPC
@@ -919,14 +1704,41 @@ _MPLibraryIsCompatible          (const char *           versionCString,
 
 #if MPIncludeDefunctServices
 #if CALL_NOT_IN_CARBON
+/*
+ *  _MPDebugStr()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibraryObsolete 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-_MPDebugStr                     (ConstStr255Param       msg);
+_MPDebugStr(ConstStr255Param msg);
 
+
+/*
+ *  _MPStatusPString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibraryObsolete 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( StringPtr )
-_MPStatusPString                (OSStatus               status);
+_MPStatusPString(OSStatus status);
 
-EXTERN_API_C( const char *)
-_MPStatusCString                (OSStatus               status);
+
+/*
+ *  _MPStatusCString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibraryObsolete 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( const char * )
+_MPStatusCString(OSStatus status);
+
 
 
 #endif  /* CALL_NOT_IN_CARBON */
@@ -934,12 +1746,29 @@ _MPStatusCString                (OSStatus               status);
 #include "stdarg.h"
 typedef CALLBACK_API_C( void , MPPrintfHandler )(MPTaskID taskID, const char *format, va_list args);
 #if CALL_NOT_IN_CARBON
+/*
+ *  _MPInitializePrintf()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibraryObsolete 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-_MPInitializePrintf             (MPPrintfHandler        pfn);
+_MPInitializePrintf(MPPrintfHandler pfn);
 
+
+/*
+ *  _MPPrintf()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in MPLibraryObsolete 1.0 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( void )
-_MPPrintf                       (const char *           format,
-                                 ...);
+_MPPrintf(const char * format, ...);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 

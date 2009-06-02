@@ -3,10 +3,9 @@
  
      Contains:   PEF Types and Macros
  
-     Version:    Technology: Master Interfaces
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1993-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1993-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -28,10 +27,6 @@
 
 #if PRAGMA_ONCE
 #pragma once
-#endif
-
-#ifdef __cplusplus
-extern "C" {
 #endif
 
 #if PRAGMA_IMPORT
@@ -113,30 +108,29 @@ extern "C" {
 
 
 
-
 struct PEFContainerHeader {
-    OSType                          tag1;                       /* Must contain 'Joy!'.*/
-    OSType                          tag2;                       /* Must contain 'peff'.  (Yes, with two 'f's.)*/
-    OSType                          architecture;               /* The ISA for code sections.  Constants in CodeFragments.h.*/
-    UInt32                          formatVersion;              /* The physical format version.*/
-    UInt32                          dateTimeStamp;              /* Macintosh format creation/modification stamp.*/
-    UInt32                          oldDefVersion;              /* Old definition version number for the code fragment.*/
-    UInt32                          oldImpVersion;              /* Old implementation version number for the code fragment.*/
-    UInt32                          currentVersion;             /* Current version number for the code fragment.*/
-    UInt16                          sectionCount;               /* Total number of section headers that follow.*/
-    UInt16                          instSectionCount;           /* Number of instantiated sections.*/
-    UInt32                          reservedA;                  /* Reserved, must be written as zero.*/
+  OSType              tag1;                   /* Must contain 'Joy!'.*/
+  OSType              tag2;                   /* Must contain 'peff'.  (Yes, with two 'f's.)*/
+  OSType              architecture;           /* The ISA for code sections.  Constants in CodeFragments.h.*/
+  UInt32              formatVersion;          /* The physical format version.*/
+  UInt32              dateTimeStamp;          /* Macintosh format creation/modification stamp.*/
+  UInt32              oldDefVersion;          /* Old definition version number for the code fragment.*/
+  UInt32              oldImpVersion;          /* Old implementation version number for the code fragment.*/
+  UInt32              currentVersion;         /* Current version number for the code fragment.*/
+  UInt16              sectionCount;           /* Total number of section headers that follow.*/
+  UInt16              instSectionCount;       /* Number of instantiated sections.*/
+  UInt32              reservedA;              /* Reserved, must be written as zero.*/
 };
 typedef struct PEFContainerHeader       PEFContainerHeader;
 enum {
-    kPEFTag1                    = FOUR_CHAR_CODE('Joy!'),       /* For non-Apple compilers: 0x4A6F7921.*/
-    kPEFTag2                    = FOUR_CHAR_CODE('peff'),       /* For non-Apple compilers: 0x70656666.*/
-    kPEFVersion                 = 0x00000001
+  kPEFTag1                      = FOUR_CHAR_CODE('Joy!'), /* For non-Apple compilers: 0x4A6F7921.*/
+  kPEFTag2                      = FOUR_CHAR_CODE('peff'), /* For non-Apple compilers: 0x70656666.*/
+  kPEFVersion                   = 0x00000001
 };
 
 
 enum {
-    kPEFFirstSectionHeaderOffset = sizeof(PEFContainerHeader)
+  kPEFFirstSectionHeaderOffset  = sizeof(PEFContainerHeader)
 };
 
 #define PEFFirstSectionNameOffset(container)    \
@@ -150,41 +144,40 @@ enum {
 
 
 
-
 struct PEFSectionHeader {
-    SInt32                          nameOffset;                 /* Offset of name within the section name table, -1 => none.*/
-    UInt32                          defaultAddress;             /* Default address, affects relocations.*/
-    UInt32                          totalLength;                /* Fully expanded size in bytes of the section contents.*/
-    UInt32                          unpackedLength;             /* Size in bytes of the "initialized" part of the contents.*/
-    UInt32                          containerLength;            /* Size in bytes of the raw data in the container.*/
-    UInt32                          containerOffset;            /* Offset of section's raw data.*/
-    UInt8                           sectionKind;                /* Kind of section contents/usage.*/
-    UInt8                           shareKind;                  /* Sharing level, if a writeable section.*/
-    UInt8                           alignment;                  /* Preferred alignment, expressed as log 2.*/
-    UInt8                           reservedA;                  /* Reserved, must be zero.*/
+  SInt32              nameOffset;             /* Offset of name within the section name table, -1 => none.*/
+  UInt32              defaultAddress;         /* Default address, affects relocations.*/
+  UInt32              totalLength;            /* Fully expanded size in bytes of the section contents.*/
+  UInt32              unpackedLength;         /* Size in bytes of the "initialized" part of the contents.*/
+  UInt32              containerLength;        /* Size in bytes of the raw data in the container.*/
+  UInt32              containerOffset;        /* Offset of section's raw data.*/
+  UInt8               sectionKind;            /* Kind of section contents/usage.*/
+  UInt8               shareKind;              /* Sharing level, if a writeable section.*/
+  UInt8               alignment;              /* Preferred alignment, expressed as log 2.*/
+  UInt8               reservedA;              /* Reserved, must be zero.*/
 };
 typedef struct PEFSectionHeader         PEFSectionHeader;
 enum {
-                                                                /* Values for the sectionKind field.*/
-                                                                /*    Section kind values for instantiated sections.*/
-    kPEFCodeSection             = 0,                            /* Code, presumed pure & position independent.*/
-    kPEFUnpackedDataSection     = 1,                            /* Unpacked writeable data.*/
-    kPEFPackedDataSection       = 2,                            /* Packed writeable data.*/
-    kPEFConstantSection         = 3,                            /* Read-only data.*/
-    kPEFExecDataSection         = 6,                            /* Intermixed code and writeable data.*/
-                                                                /* Section kind values for non-instantiated sections.*/
-    kPEFLoaderSection           = 4,                            /* Loader tables.*/
-    kPEFDebugSection            = 5,                            /* Reserved for future use.*/
-    kPEFExceptionSection        = 7,                            /* Reserved for future use.*/
-    kPEFTracebackSection        = 8                             /* Reserved for future use.*/
+                                        /* Values for the sectionKind field.*/
+                                        /*    Section kind values for instantiated sections.*/
+  kPEFCodeSection               = 0,    /* Code, presumed pure & position independent.*/
+  kPEFUnpackedDataSection       = 1,    /* Unpacked writeable data.*/
+  kPEFPackedDataSection         = 2,    /* Packed writeable data.*/
+  kPEFConstantSection           = 3,    /* Read-only data.*/
+  kPEFExecDataSection           = 6,    /* Intermixed code and writeable data.*/
+                                        /* Section kind values for non-instantiated sections.*/
+  kPEFLoaderSection             = 4,    /* Loader tables.*/
+  kPEFDebugSection              = 5,    /* Reserved for future use.*/
+  kPEFExceptionSection          = 7,    /* Reserved for future use.*/
+  kPEFTracebackSection          = 8     /* Reserved for future use.*/
 };
 
 
 enum {
-                                                                /* Values for the shareKind field.*/
-    kPEFProcessShare            = 1,                            /* Shared within a single process.*/
-    kPEFGlobalShare             = 4,                            /* Shared across the entire system.*/
-    kPEFProtectedShare          = 5                             /* Readable across the entire system, writeable only to privileged code.*/
+                                        /* Values for the shareKind field.*/
+  kPEFProcessShare              = 1,    /* Shared within a single process.*/
+  kPEFGlobalShare               = 4,    /* Shared across the entire system.*/
+  kPEFProtectedShare            = 5     /* Readable across the entire system, writeable only to privileged code.*/
 };
 
 
@@ -211,22 +204,22 @@ enum {
 
 
 enum {
-                                                                /* The packed data opcodes.*/
-    kPEFPkDataZero              = 0,                            /* Zero fill "count" bytes.*/
-    kPEFPkDataBlock             = 1,                            /* Block copy "count" bytes.*/
-    kPEFPkDataRepeat            = 2,                            /* Repeat "count" bytes "count2"+1 times.*/
-    kPEFPkDataRepeatBlock       = 3,                            /* Interleaved repeated and unique data.*/
-    kPEFPkDataRepeatZero        = 4                             /* Interleaved zero and unique data.*/
+                                        /* The packed data opcodes.*/
+  kPEFPkDataZero                = 0,    /* Zero fill "count" bytes.*/
+  kPEFPkDataBlock               = 1,    /* Block copy "count" bytes.*/
+  kPEFPkDataRepeat              = 2,    /* Repeat "count" bytes "count2"+1 times.*/
+  kPEFPkDataRepeatBlock         = 3,    /* Interleaved repeated and unique data.*/
+  kPEFPkDataRepeatZero          = 4     /* Interleaved zero and unique data.*/
 };
 
 
 enum {
-    kPEFPkDataOpcodeShift       = 5,
-    kPEFPkDataCount5Mask        = 0x1F,
-    kPEFPkDataMaxCount5         = 31,
-    kPEFPkDataVCountShift       = 7,
-    kPEFPkDataVCountMask        = 0x7F,
-    kPEFPkDataVCountEndMask     = 0x80
+  kPEFPkDataOpcodeShift         = 5,
+  kPEFPkDataCount5Mask          = 0x1F,
+  kPEFPkDataMaxCount5           = 31,
+  kPEFPkDataVCountShift         = 7,
+  kPEFPkDataVCountMask          = 0x7F,
+  kPEFPkDataVCountEndMask       = 0x80
 };
 
 
@@ -326,22 +319,21 @@ enum {
 
 
 
-
 struct PEFLoaderInfoHeader {
-    SInt32                          mainSection;                /* Section containing the main symbol, -1 => none.*/
-    UInt32                          mainOffset;                 /* Offset of main symbol.*/
-    SInt32                          initSection;                /* Section containing the init routine's TVector, -1 => none.*/
-    UInt32                          initOffset;                 /* Offset of the init routine's TVector.*/
-    SInt32                          termSection;                /* Section containing the term routine's TVector, -1 => none.*/
-    UInt32                          termOffset;                 /* Offset of the term routine's TVector.*/
-    UInt32                          importedLibraryCount;       /* Number of imported libraries.  ('l')*/
-    UInt32                          totalImportedSymbolCount;   /* Total number of imported symbols.  ('i')*/
-    UInt32                          relocSectionCount;          /* Number of sections with relocations.  ('r')*/
-    UInt32                          relocInstrOffset;           /* Offset of the relocation instructions.*/
-    UInt32                          loaderStringsOffset;        /* Offset of the loader string table.*/
-    UInt32                          exportHashOffset;           /* Offset of the export hash table.*/
-    UInt32                          exportHashTablePower;       /* Export hash table size as log 2.  (Log2('h'))*/
-    UInt32                          exportedSymbolCount;        /* Number of exported symbols.  ('e')*/
+  SInt32              mainSection;            /* Section containing the main symbol, -1 => none.*/
+  UInt32              mainOffset;             /* Offset of main symbol.*/
+  SInt32              initSection;            /* Section containing the init routine's TVector, -1 => none.*/
+  UInt32              initOffset;             /* Offset of the init routine's TVector.*/
+  SInt32              termSection;            /* Section containing the term routine's TVector, -1 => none.*/
+  UInt32              termOffset;             /* Offset of the term routine's TVector.*/
+  UInt32              importedLibraryCount;   /* Number of imported libraries.  ('l')*/
+  UInt32              totalImportedSymbolCount; /* Total number of imported symbols.  ('i')*/
+  UInt32              relocSectionCount;      /* Number of sections with relocations.  ('r')*/
+  UInt32              relocInstrOffset;       /* Offset of the relocation instructions.*/
+  UInt32              loaderStringsOffset;    /* Offset of the loader string table.*/
+  UInt32              exportHashOffset;       /* Offset of the export hash table.*/
+  UInt32              exportHashTablePower;   /* Export hash table size as log 2.  (Log2('h'))*/
+  UInt32              exportedSymbolCount;    /* Number of exported symbols.  ('e')*/
 };
 typedef struct PEFLoaderInfoHeader      PEFLoaderInfoHeader;
 
@@ -351,22 +343,21 @@ typedef struct PEFLoaderInfoHeader      PEFLoaderInfoHeader;
 /* ------------------ */
 
 
-
 struct PEFImportedLibrary {
-    UInt32                          nameOffset;                 /* Loader string table offset of library's name.*/
-    UInt32                          oldImpVersion;              /* Oldest compatible implementation version.*/
-    UInt32                          currentVersion;             /* Current version at build time.*/
-    UInt32                          importedSymbolCount;        /* Imported symbol count for this library.*/
-    UInt32                          firstImportedSymbol;        /* Index of first imported symbol from this library.*/
-    UInt8                           options;                    /* Option bits for this library.*/
-    UInt8                           reservedA;                  /* Reserved, must be zero.*/
-    UInt16                          reservedB;                  /* Reserved, must be zero.*/
+  UInt32              nameOffset;             /* Loader string table offset of library's name.*/
+  UInt32              oldImpVersion;          /* Oldest compatible implementation version.*/
+  UInt32              currentVersion;         /* Current version at build time.*/
+  UInt32              importedSymbolCount;    /* Imported symbol count for this library.*/
+  UInt32              firstImportedSymbol;    /* Index of first imported symbol from this library.*/
+  UInt8               options;                /* Option bits for this library.*/
+  UInt8               reservedA;              /* Reserved, must be zero.*/
+  UInt16              reservedB;              /* Reserved, must be zero.*/
 };
 typedef struct PEFImportedLibrary       PEFImportedLibrary;
 enum {
-                                                                /* Bits for the PEFImportedLibrary options field.*/
-    kPEFWeakImportLibMask       = 0x40,                         /* The imported library is allowed to be missing.*/
-    kPEFInitLibBeforeMask       = 0x80                          /* The imported library must be initialized first.*/
+                                        /* Bits for the PEFImportedLibrary options field.*/
+  kPEFWeakImportLibMask         = 0x40, /* The imported library is allowed to be missing.*/
+  kPEFInitLibBeforeMask         = 0x80  /* The imported library must be initialized first.*/
 };
 
 
@@ -390,15 +381,14 @@ enum {
 
 
 
-
 struct PEFImportedSymbol {
-    UInt32                          classAndName;
+  UInt32              classAndName;
 };
 typedef struct PEFImportedSymbol        PEFImportedSymbol;
 enum {
-    kPEFImpSymClassShift        = 24,
-    kPEFImpSymNameOffsetMask    = 0x00FFFFFF,
-    kPEFImpSymMaxNameOffset     = 0x00FFFFFF                    /* 16,777,215*/
+  kPEFImpSymClassShift          = 24,
+  kPEFImpSymNameOffsetMask      = 0x00FFFFFF,
+  kPEFImpSymMaxNameOffset       = 0x00FFFFFF /* 16,777,215*/
 };
 
 #define PEFImportedSymbolClass(classAndName)        ((UInt8) ((classAndName) >> kPEFImpSymClassShift))
@@ -408,14 +398,14 @@ enum {
             ( ( ((UInt32)(class)) << kPEFImpSymClassShift ) | ( (UInt32)(nameOffset) ) )
 
 enum {
-                                                                /* Imported and exported symbol classes.*/
-    kPEFCodeSymbol              = 0x00,
-    kPEFDataSymbol              = 0x01,
-    kPEFTVectorSymbol           = 0x02,
-    kPEFTOCSymbol               = 0x03,
-    kPEFGlueSymbol              = 0x04,
-    kPEFUndefinedSymbol         = 0x0F,
-    kPEFWeakImportSymMask       = 0x80
+                                        /* Imported and exported symbol classes.*/
+  kPEFCodeSymbol                = 0x00,
+  kPEFDataSymbol                = 0x01,
+  kPEFTVectorSymbol             = 0x02,
+  kPEFTOCSymbol                 = 0x03,
+  kPEFGlueSymbol                = 0x04,
+  kPEFUndefinedSymbol           = 0x0F,
+  kPEFWeakImportSymMask         = 0x80
 };
 
 
@@ -485,16 +475,15 @@ enum {
 
 
 
-
 struct PEFExportedSymbolHashSlot {
-    UInt32                          countAndStart;
+  UInt32              countAndStart;
 };
 typedef struct PEFExportedSymbolHashSlot PEFExportedSymbolHashSlot;
 enum {
-    kPEFHashSlotSymCountShift   = 18,
-    kPEFHashSlotFirstKeyMask    = 0x0003FFFF,
-    kPEFHashSlotMaxSymbolCount  = 0x00003FFF,                   /*  16,383*/
-    kPEFHashSlotMaxKeyIndex     = 0x0003FFFF                    /* 262,143*/
+  kPEFHashSlotSymCountShift     = 18,
+  kPEFHashSlotFirstKeyMask      = 0x0003FFFF,
+  kPEFHashSlotMaxSymbolCount    = 0x00003FFF, /*  16,383*/
+  kPEFHashSlotMaxKeyIndex       = 0x0003FFFF /* 262,143*/
 };
 
 #define PEFHashTableIndex(fullHashWord,hashTablePower)  \
@@ -514,24 +503,22 @@ enum {
 
 
 
-
 struct PEFSplitHashWord {
-    UInt16                          nameLength;
-    UInt16                          hashValue;
+  UInt16              nameLength;
+  UInt16              hashValue;
 };
 typedef struct PEFSplitHashWord         PEFSplitHashWord;
-
 struct PEFExportedSymbolKey {
-    union {
-        UInt32                          fullHashWord;
-        PEFSplitHashWord                splitHashWord;
-    }                                 u;
+  union {
+    UInt32              fullHashWord;
+    PEFSplitHashWord    splitHashWord;
+  }                       u;
 };
 typedef struct PEFExportedSymbolKey     PEFExportedSymbolKey;
 enum {
-    kPEFHashLengthShift         = 16,
-    kPEFHashValueMask           = 0x0000FFFF,
-    kPEFHashMaxLength           = 0x0000FFFF                    /* 65,535*/
+  kPEFHashLengthShift           = 16,
+  kPEFHashValueMask             = 0x0000FFFF,
+  kPEFHashMaxLength             = 0x0000FFFF /* 65,535*/
 };
 
 #define PEFHashNameLength(fullHashWord) ((UInt32) ((fullHashWord) >> kPEFHashLengthShift))
@@ -579,11 +566,10 @@ enum {
 
 
 
-
-struct PEFExportedSymbol {                                      /* ! This structure is 10 bytes long and arrays are packed.*/
-    UInt32                          classAndName;               /* A combination of class and name offset.*/
-    UInt32                          symbolValue;                /* Typically the symbol's offset within a section.*/
-    SInt16                          sectionIndex;               /* The index of the section, or pseudo-section, for the symbol.*/
+struct PEFExportedSymbol {                    /* ! This structure is 10 bytes long and arrays are packed.*/
+  UInt32              classAndName;           /* A combination of class and name offset.*/
+  UInt32              symbolValue;            /* Typically the symbol's offset within a section.*/
+  SInt16              sectionIndex;           /* The index of the section, or pseudo-section, for the symbol.*/
 };
 typedef struct PEFExportedSymbol        PEFExportedSymbol;
 
@@ -599,9 +585,9 @@ typedef struct PEFExportedSymbol        PEFExportedSymbol;
 
 
 enum {
-    kPEFExpSymClassShift        = 24,
-    kPEFExpSymNameOffsetMask    = 0x00FFFFFF,
-    kPEFExpSymMaxNameOffset     = 0x00FFFFFF                    /* 16,777,215*/
+  kPEFExpSymClassShift          = 24,
+  kPEFExpSymNameOffsetMask      = 0x00FFFFFF,
+  kPEFExpSymMaxNameOffset       = 0x00FFFFFF /* 16,777,215*/
 };
 
 #define PEFExportedSymbolClass(classAndName)        ((UInt8) ((classAndName) >> kPEFExpSymClassShift))
@@ -611,9 +597,9 @@ enum {
             ( ( ((UInt32)(class)) << kPEFExpSymClassShift ) | ( (UInt32)(nameOffset) ) )
 
 enum {
-                                                                /* Negative section indices indicate pseudo-sections.*/
-    kPEFAbsoluteExport          = -2,                           /* The symbol value is an absolute address.*/
-    kPEFReexportedImport        = -3                            /* The symbol value is the index of a reexported import.*/
+                                        /* Negative section indices indicate pseudo-sections.*/
+  kPEFAbsoluteExport            = -2,   /* The symbol value is an absolute address.*/
+  kPEFReexportedImport          = -3    /* The symbol value is the index of a reexported import.*/
 };
 
 
@@ -639,12 +625,11 @@ enum {
 
 
 typedef UInt16                          PEFRelocChunk;
-
 struct PEFLoaderRelocationHeader {
-    UInt16                          sectionIndex;               /* Index of the section to be fixed up.*/
-    UInt16                          reservedA;                  /* Reserved, must be zero.*/
-    UInt32                          relocCount;                 /* Number of 16 bit relocation chunks.*/
-    UInt32                          firstRelocOffset;           /* Offset of first relocation instruction.*/
+  UInt16              sectionIndex;           /* Index of the section to be fixed up.*/
+  UInt16              reservedA;              /* Reserved, must be zero.*/
+  UInt32              relocCount;             /* Number of 16 bit relocation chunks.*/
+  UInt32              firstRelocOffset;       /* Offset of first relocation instruction.*/
 };
 typedef struct PEFLoaderRelocationHeader PEFLoaderRelocationHeader;
 
@@ -684,7 +669,7 @@ typedef struct PEFLoaderRelocationHeader PEFLoaderRelocationHeader;
 
 
 enum {
-    kPEFRelocBasicOpcodeRange   = 128
+  kPEFRelocBasicOpcodeRange     = 128
 };
 
 #define PEFRelocBasicOpcode(firstChunk) (kPEFRelocBasicOpcodes[(firstChunk)>>9])
@@ -697,24 +682,24 @@ enum {
 /* bits of the relocation instruction.  Unused low order bits are set to zero.                  */
 
 enum {
-    kPEFRelocBySectDWithSkip    = 0x00,                         /* Binary: 00x_xxxx*/
-    kPEFRelocBySectC            = 0x20,                         /* Binary: 010_0000, group is "RelocRun"*/
-    kPEFRelocBySectD            = 0x21,                         /* Binary: 010_0001*/
-    kPEFRelocTVector12          = 0x22,                         /* Binary: 010_0010*/
-    kPEFRelocTVector8           = 0x23,                         /* Binary: 010_0011*/
-    kPEFRelocVTable8            = 0x24,                         /* Binary: 010_0100*/
-    kPEFRelocImportRun          = 0x25,                         /* Binary: 010_0101*/
-    kPEFRelocSmByImport         = 0x30,                         /* Binary: 011_0000, group is "RelocSmIndex"*/
-    kPEFRelocSmSetSectC         = 0x31,                         /* Binary: 011_0001*/
-    kPEFRelocSmSetSectD         = 0x32,                         /* Binary: 011_0010*/
-    kPEFRelocSmBySection        = 0x33,                         /* Binary: 011_0011*/
-    kPEFRelocIncrPosition       = 0x40,                         /* Binary: 100_0xxx*/
-    kPEFRelocSmRepeat           = 0x48,                         /* Binary: 100_1xxx*/
-    kPEFRelocSetPosition        = 0x50,                         /* Binary: 101_000x*/
-    kPEFRelocLgByImport         = 0x52,                         /* Binary: 101_001x*/
-    kPEFRelocLgRepeat           = 0x58,                         /* Binary: 101_100x*/
-    kPEFRelocLgSetOrBySection   = 0x5A,                         /* Binary: 101_101x*/
-    kPEFRelocUndefinedOpcode    = 0xFF                          /* Used in masking table for all undefined values.*/
+  kPEFRelocBySectDWithSkip      = 0x00, /* Binary: 00x_xxxx*/
+  kPEFRelocBySectC              = 0x20, /* Binary: 010_0000, group is "RelocRun"*/
+  kPEFRelocBySectD              = 0x21, /* Binary: 010_0001*/
+  kPEFRelocTVector12            = 0x22, /* Binary: 010_0010*/
+  kPEFRelocTVector8             = 0x23, /* Binary: 010_0011*/
+  kPEFRelocVTable8              = 0x24, /* Binary: 010_0100*/
+  kPEFRelocImportRun            = 0x25, /* Binary: 010_0101*/
+  kPEFRelocSmByImport           = 0x30, /* Binary: 011_0000, group is "RelocSmIndex"*/
+  kPEFRelocSmSetSectC           = 0x31, /* Binary: 011_0001*/
+  kPEFRelocSmSetSectD           = 0x32, /* Binary: 011_0010*/
+  kPEFRelocSmBySection          = 0x33, /* Binary: 011_0011*/
+  kPEFRelocIncrPosition         = 0x40, /* Binary: 100_0xxx*/
+  kPEFRelocSmRepeat             = 0x48, /* Binary: 100_1xxx*/
+  kPEFRelocSetPosition          = 0x50, /* Binary: 101_000x*/
+  kPEFRelocLgByImport           = 0x52, /* Binary: 101_001x*/
+  kPEFRelocLgRepeat             = 0x58, /* Binary: 101_100x*/
+  kPEFRelocLgSetOrBySection     = 0x5A, /* Binary: 101_101x*/
+  kPEFRelocUndefinedOpcode      = 0xFF  /* Used in masking table for all undefined values.*/
 };
 
 
@@ -726,9 +711,9 @@ enum {
 /* subopcode bits.                                                              */
 
 enum {
-    kPEFRelocLgBySectionSubopcode = 0x00,                       /* Binary: 0000*/
-    kPEFRelocLgSetSectCSubopcode = 0x01,                        /* Binary: 0001*/
-    kPEFRelocLgSetSectDSubopcode = 0x02                         /* Binary: 0010*/
+  kPEFRelocLgBySectionSubopcode = 0x00, /* Binary: 0000*/
+  kPEFRelocLgSetSectCSubopcode  = 0x01, /* Binary: 0001*/
+  kPEFRelocLgSetSectDSubopcode  = 0x02  /* Binary: 0010*/
 };
 
 #define PEFRelocLgSetOrBySubopcode(chunk) (((chunk) >> 6) & 0x0F)
@@ -792,13 +777,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocBySectDWithSkip Instruction */
-/* -------------------------------- */
+/* RelocBySectDWithSkip Instruction (DDAT) */
+/* --------------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocBySectDWithSkip" instruction has the following bit field layout.                   */
+/* The "RelocBySectDWithSkip" (DDAT) instruction has the following bit field layout.            */
 /*                                                                                              */
 /*                           1         1                                                        */
 /*       0 1 2             9 0         5                                                        */
@@ -810,8 +795,8 @@ enum {
 /* ! Note that the stored skip count and reloc count are the actual values!                     */
 
 enum {
-    kPEFRelocWithSkipMaxSkipCount = 255,
-    kPEFRelocWithSkipMaxRelocCount = 63
+  kPEFRelocWithSkipMaxSkipCount = 255,
+  kPEFRelocWithSkipMaxRelocCount = 63
 };
 
 #define PEFRelocWithSkipSkipCount(chunk)    PEFRelocField ( (chunk), 2, 8 )
@@ -823,15 +808,15 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocRun Group */
-/* -------------- */
+/* RelocRun Group (CODE, DATA, DESC, DSC2, VTBL, SYMR) */
+/* --------------------------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocRun" group includes the "RelocBySectC", "RelocBySectD", "RelocTVector12",          */
-/* "RelocTVector8", "RelocVTable8", and "RelocImportRun" instructions.  This group has the      */
-/* following bit field layout.                                                                  */
+/* The "RelocRun" group includes the "RelocBySectC" (CODE), "RelocBySectD" (DATA),              */
+/* "RelocTVector12" (DESC), "RelocTVector8" (DSC2), "RelocVTable8" (VTBL), and                  */
+/* "RelocImportRun" (SYMR) instructions.  This group has the following bit field layout.        */
 /*                                                                                              */
 /*                                     1                                                        */
 /*       0   2 3     6 7               5                                                        */
@@ -844,7 +829,7 @@ enum {
 /* ! actual value!                                                                              */
 
 enum {
-    kPEFRelocRunMaxRunLength    = 512
+  kPEFRelocRunMaxRunLength      = 512
 };
 
 #define PEFRelocRunSubopcode(chunk) PEFRelocField ( (chunk), 3, 4 )
@@ -863,27 +848,27 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocSmIndex Group */
-/* ------------------ */
+/* RelocSmIndex Group (SYMB, CDIS, DTIS, SECN) */
+/* ------------------------------------------- */
 
 
 
-/* ---------------------------------------------------------------------------------------- */
-/* The "RelocSmIndex" group includes the "RelocSmByImport", "RelocSmSetSectC",              */
-/* "RelocSmSetSectD" and "RelocSmBySection" instructions.  This group has the following bit */
-/* field layout.                                                                            */
-/*                                                                                          */
-/*                                     1                                                    */
-/*       0   2 3     6 7               5                                                    */
-/*      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                                                   */
-/*      |0 1 1| subop.| index           |                                                   */
-/*      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                                                   */
-/*      |  3  |<- 4 ->|<-- 9 bits ----->|                                                   */
-/*                                                                                          */
-/* ! Note that the stored index is the actual value!                                        */
+/* -------------------------------------------------------------------------------------------- */
+/* The "RelocSmIndex" group includes the "RelocSmByImport" (SYMB), "RelocSmSetSectC" (CDIS),    */
+/* "RelocSmSetSectD" (DTIS) and "RelocSmBySection" (SECN) instructions.  This group has the     */
+/* following bit field layout.                                                                  */
+/*                                                                                              */
+/*                                     1                                                        */
+/*       0   2 3     6 7               5                                                        */
+/*      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                                                       */
+/*      |0 1 1| subop.| index           |                                                       */
+/*      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                                                       */
+/*      |  3  |<- 4 ->|<-- 9 bits ----->|                                                       */
+/*                                                                                              */
+/* ! Note that the stored index is the actual value!                                            */
 
 enum {
-    kPEFRelocSmIndexMaxIndex    = 511
+  kPEFRelocSmIndexMaxIndex      = 511
 };
 
 #define PEFRelocSmIndexSubopcode(chunk) PEFRelocField ( (chunk), 3, 4 )
@@ -900,13 +885,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocIncrPosition Instruction */
-/* ----------------------------- */
+/* RelocIncrPosition Instruction (DELT) */
+/* ------------------------------------ */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocIncrPosition" instruction has the following bit field layout.                      */
+/* The "RelocIncrPosition" (DELT) instruction has the following bit field layout.               */
 /*                                                                                              */
 /*                                     1                                                        */
 /*       0     3 4                     5                                                        */
@@ -919,7 +904,7 @@ enum {
 /* ! actual value!                                                                              */
 
 enum {
-    kPEFRelocIncrPositionMaxOffset = 4096
+  kPEFRelocIncrPositionMaxOffset = 4096
 };
 
 #define PEFRelocIncrPositionOffset(chunk)   (PEFRelocField ( (chunk), 4, 12 ) + 1)
@@ -930,13 +915,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocSmRepeat Instruction */
-/* ------------------------- */
+/* RelocSmRepeat Instruction (RPT) */
+/* ------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocSmRepeat" instruction has the following bit field layout.                          */
+/* The "RelocSmRepeat" (RPT) instruction has the following bit field layout.                    */
 /*                                                                                              */
 /*                                     1                                                        */
 /*       0     3 4     7 8             5                                                        */
@@ -949,8 +934,8 @@ enum {
 /* ! macros deal with the actual values!                                                        */
 
 enum {
-    kPEFRelocSmRepeatMaxChunkCount = 16,
-    kPEFRelocSmRepeatMaxRepeatCount = 256
+  kPEFRelocSmRepeatMaxChunkCount = 16,
+  kPEFRelocSmRepeatMaxRepeatCount = 256
 };
 
 #define PEFRelocSmRepeatChunkCount(chunk)   (PEFRelocField ( (chunk), 4, 4 ) + 1)
@@ -962,13 +947,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocSetPosition Instruction */
-/* ---------------------------- */
+/* RelocSetPosition Instruction (LABS) */
+/* ----------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocSetPosition" instruction has the following bit field layout.                       */
+/* The "RelocSetPosition" (LABS) instruction has the following bit field layout.                */
 /*                                                                                              */
 /*                                     1                                   1                    */
 /*       0         5 6                 5     0                             5                    */
@@ -980,7 +965,7 @@ enum {
 /* ! Note that the stored offset is the actual value!                                           */
 
 enum {
-    kPEFRelocSetPosMaxOffset    = 0x03FFFFFF                    /* 67,108,863*/
+  kPEFRelocSetPosMaxOffset      = 0x03FFFFFF /* 67,108,863*/
 };
 
 #define PEFRelocSetPosOffsetHigh(chunk) PEFRelocField ( (chunk), 6, 10 )
@@ -996,13 +981,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocLgByImport Instruction */
-/* --------------------------- */
+/* RelocLgByImport Instruction (LSYM) */
+/* ---------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocLgByImport" instruction has the following bit field layout.                        */
+/* The "RelocLgByImport" (LSYM) instruction has the following bit field layout.                 */
 /*                                                                                              */
 /*                                     1                                   1                    */
 /*       0         5 6                 5     0                             5                    */
@@ -1014,7 +999,7 @@ enum {
 /* ! Note that the stored offset is the actual value!                                           */
 
 enum {
-    kPEFRelocLgByImportMaxIndex = 0x03FFFFFF                    /* 67,108,863*/
+  kPEFRelocLgByImportMaxIndex   = 0x03FFFFFF /* 67,108,863*/
 };
 
 #define PEFRelocLgByImportIndexHigh(chunk)  PEFRelocField ( (chunk), 6, 10 )
@@ -1030,13 +1015,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocLgRepeat Instruction */
-/* ------------------------- */
+/* RelocLgRepeat Instruction (LRPT) */
+/* -------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocLgRepeat" instruction has the following bit field layout.                          */
+/* The "RelocLgRepeat" (LRPT) instruction has the following bit field layout.                   */
 /*                                                                                              */
 /*                           1         1                                   1                    */
 /*       0         5 6     9 0         5     0                             5                    */
@@ -1049,8 +1034,8 @@ enum {
 /* ! the actual value!  The stored repeat count is the actual value!                            */
 
 enum {
-    kPEFRelocLgRepeatMaxChunkCount = 16,
-    kPEFRelocLgRepeatMaxRepeatCount = 0x003FFFFF                /* 4,194,303*/
+  kPEFRelocLgRepeatMaxChunkCount = 16,
+  kPEFRelocLgRepeatMaxRepeatCount = 0x003FFFFF /* 4,194,303*/
 };
 
 #define PEFRelocLgRepeatChunkCount(chunk)       (PEFRelocField ( (chunk), 6, 4 ) + 1)
@@ -1067,13 +1052,13 @@ enum {
 
 
 /* =========================================================================================== */
-/* RelocLgSetOrBySection Group */
-/* --------------------------- */
+/* RelocLgSetOrBySection Group (LSEC) */
+/* ---------------------------------- */
 
 
 
 /* -------------------------------------------------------------------------------------------- */
-/* The "RelocLgSetOrBySection" instruction is really a group including the "RelocLgBySection",  */
+/* The "RelocLgSetOrBySection" (LSEC) instruction is a group including the "RelocLgBySection",  */
 /* "RelocLgSetSectC" and "RelocLgSetSectD" instructions.  This group has the following bit      */
 /* field layout.                                                                                */
 /*                                                                                              */
@@ -1087,7 +1072,7 @@ enum {
 /* ! Note that the stored index is the actual value!                                            */
 
 enum {
-    kPEFRelocLgSetOrBySectionMaxIndex = 0x003FFFFF              /* 4,194,303*/
+  kPEFRelocLgSetOrBySectionMaxIndex = 0x003FFFFF /* 4,194,303*/
 };
 
 #define PEFRelocLgSetOrBySectionSubopcode(chunk)    PEFRelocField ( (chunk), 6, 4 )
@@ -1121,9 +1106,6 @@ enum {
 #pragma import reset
 #endif
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __PEFBINARYFORMAT__ */
 

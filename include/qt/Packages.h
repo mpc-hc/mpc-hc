@@ -4,9 +4,9 @@
      Contains:   Package Manager Interfaces.
  
      Version:    Technology: System 7.5
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1985-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1985-1993, 1995, 1997-1999 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -45,22 +45,40 @@ extern "C" {
 #endif
 
 enum {
-    listMgr                     = 0,                            /* list manager */
-    dskInit                     = 2,                            /* Disk Initializaton */
-    stdFile                     = 3,                            /* Standard File */
-    flPoint                     = 4,                            /* Floating-Point Arithmetic */
-    trFunc                      = 5,                            /* Transcendental Functions */
-    intUtil                     = 6,                            /* International Utilities */
-    bdConv                      = 7,                            /* Binary/Decimal Conversion */
-    editionMgr                  = 11                            /* Edition Manager */
+  listMgr                       = 0,    /* list manager */
+  dskInit                       = 2,    /* Disk Initializaton */
+  stdFile                       = 3,    /* Standard File */
+  flPoint                       = 4,    /* Floating-Point Arithmetic */
+  trFunc                        = 5,    /* Transcendental Functions */
+  intUtil                       = 6,    /* International Utilities */
+  bdConv                        = 7,    /* Binary/Decimal Conversion */
+  editionMgr                    = 11    /* Edition Manager */
 };
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  InitPack()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( void )
-InitPack                        (short                  packID)                             ONEWORDINLINE(0xA9E5);
+InitPack(short packID)                                        ONEWORDINLINE(0xA9E5);
 
+
+/*
+ *  InitAllPacks()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( void )
-InitAllPacks                    (void)                                                      ONEWORDINLINE(0xA9E6);
+InitAllPacks(void)                                            ONEWORDINLINE(0xA9E6);
+
 
 
 #endif  /* CALL_NOT_IN_CARBON */

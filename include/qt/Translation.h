@@ -3,10 +3,9 @@
  
      Contains:   Translation Manager (Macintosh Easy Open) Interfaces.
  
-     Version:    Technology: Macintosh Easy Open 1.1
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1991-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1991-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -59,10 +58,10 @@ extern "C" {
 /* enumerated types on how a document can be opened*/
 typedef short                           DocOpenMethod;
 enum {
-    domCannot                   = 0,
-    domNative                   = 1,
-    domTranslateFirst           = 2,
-    domWildcard                 = 3
+  domCannot                     = 0,
+  domNative                     = 1,
+  domTranslateFirst             = 2,
+  domWildcard                   = 3
 };
 
 /* 0L terminated array of OSTypes, or FileTypes*/
@@ -70,16 +69,15 @@ typedef OSType                          TypesBlock[64];
 typedef OSType *                        TypesBlockPtr;
 /* Progress dialog resource ID*/
 enum {
-    kTranslationScrapProgressDialogID = -16555
+  kTranslationScrapProgressDialogID = -16555
 };
 
 /* block of data that describes how to translate*/
-
 struct FileTranslationSpec {
-    OSType                          componentSignature;
-    const void *                    translationSystemInfo;
-    FileTypeSpec                    src;
-    FileTypeSpec                    dst;
+  OSType              componentSignature;
+  const void *        translationSystemInfo;
+  FileTypeSpec        src;
+  FileTypeSpec        dst;
 };
 typedef struct FileTranslationSpec      FileTranslationSpec;
 typedef FileTranslationSpec *           FileTranslationSpecArrayPtr;
@@ -97,10 +95,20 @@ typedef FileTranslationSpecArrayPtr *   FileTranslationSpecArrayHandle;
 * 
 *  Exit:    nativeTypes         zero terminated array of FileTypes that can be opened by app
 */
+/*
+ *  GetFileTypesThatAppCanNativelyOpen()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-GetFileTypesThatAppCanNativelyOpen (short               appVRefNumHint,
-                                 OSType                 appSignature,
-                                 FileType *             nativeTypes)                        TWOWORDINLINE(0x701C, 0xABFC);
+GetFileTypesThatAppCanNativelyOpen(
+  short       appVRefNumHint,
+  OSType      appSignature,
+  FileType *  nativeTypes)                                    TWOWORDINLINE(0x701C, 0xABFC);
+
 
 /*****************************************************************************************
 * 
@@ -117,11 +125,21 @@ GetFileTypesThatAppCanNativelyOpen (short               appVRefNumHint,
 *  Exit:    extendedTypeList        buffer filled in with file types that can be translated
 *           numberExtendedTypes     number of file types put in extendedTypeList
 */
+/*
+ *  ExtendFileTypeList()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-ExtendFileTypeList              (const FileType *       originalTypeList,
-                                 short                  numberOriginalTypes,
-                                 FileType *             extendedTypeList,
-                                 short *                numberExtendedTypes)                TWOWORDINLINE(0x7009, 0xABFC);
+ExtendFileTypeList(
+  const FileType *  originalTypeList,
+  short             numberOriginalTypes,
+  FileType *        extendedTypeList,
+  short *           numberExtendedTypes)                      TWOWORDINLINE(0x7009, 0xABFC);
+
 
 
 /*****************************************************************************************
@@ -144,14 +162,24 @@ ExtendFileTypeList              (const FileType *       originalTypeList,
 *           howToTranslate      if file can be translated, buffer filled in with how to translate
 *           returns             noErr, noPrefAppErr
 */
+/*
+ *  CanDocBeOpened()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CanDocBeOpened                  (const FSSpec *         targetDocument,
-                                 short                  appVRefNumHint,
-                                 OSType                 appSignature,
-                                 const FileType *       nativeTypes,
-                                 Boolean                onlyNative,
-                                 DocOpenMethod *        howToOpen,
-                                 FileTranslationSpec *  howToTranslate)                     TWOWORDINLINE(0x701E, 0xABFC);
+CanDocBeOpened(
+  const FSSpec *         targetDocument,
+  short                  appVRefNumHint,
+  OSType                 appSignature,
+  const FileType *       nativeTypes,
+  Boolean                onlyNative,
+  DocOpenMethod *        howToOpen,
+  FileTranslationSpec *  howToTranslate)                      TWOWORDINLINE(0x701E, 0xABFC);
+
 
 
 /*****************************************************************************************
@@ -167,11 +195,21 @@ CanDocBeOpened                  (const FSSpec *         targetDocument,
 *           resultBuffer
 *  Exit:    number of paths
 */
+/*
+ *  GetFileTranslationPaths()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-GetFileTranslationPaths         (FSSpec *               srcDocument,
-                                 FileType               dstDocType,
-                                 unsigned short         maxResultCount,
-                                 FileTranslationSpecArrayPtr  resultBuffer)                 TWOWORDINLINE(0x7038, 0xABFC);
+GetFileTranslationPaths(
+  const FSSpec *                srcDocument,
+  FileType                      dstDocType,
+  unsigned short                maxResultCount,
+  FileTranslationSpecArrayPtr   resultBuffer)                 TWOWORDINLINE(0x7038, 0xABFC);
+
 
 /*****************************************************************************************
 * 
@@ -192,12 +230,22 @@ GetFileTranslationPaths         (FSSpec *               srcDocument,
 *           howToTranslate      Translation specification
 *           returns             Any errors that might occur.
 */
+/*
+ *  GetPathFromTranslationDialog()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-GetPathFromTranslationDialog    (const FSSpec *         theDocument,
-                                 const FSSpec *         theApplication,
-                                 TypesBlockPtr          typeList,
-                                 DocOpenMethod *        howToOpen,
-                                 FileTranslationSpec *  howToTranslate)                     TWOWORDINLINE(0x7037, 0xABFC);
+GetPathFromTranslationDialog(
+  const FSSpec *         theDocument,
+  const FSSpec *         theApplication,
+  TypesBlockPtr          typeList,
+  DocOpenMethod *        howToOpen,
+  FileTranslationSpec *  howToTranslate)                      TWOWORDINLINE(0x7037, 0xABFC);
+
 
 
 /*****************************************************************************************
@@ -214,10 +262,20 @@ GetPathFromTranslationDialog    (const FSSpec *         theDocument,
 *           howToTranslate          pointer to info on how to translate
 *  Exit:    returns                 noErr, badTranslationSpecErr 
 */
+/*
+ *  TranslateFile()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-TranslateFile                   (const FSSpec *         sourceDocument,
-                                 const FSSpec *         destinationDocument,
-                                 const FileTranslationSpec * howToTranslate)                TWOWORDINLINE(0x700C, 0xABFC);
+TranslateFile(
+  const FSSpec *               sourceDocument,
+  const FSSpec *               destinationDocument,
+  const FileTranslationSpec *  howToTranslate)                TWOWORDINLINE(0x700C, 0xABFC);
+
 
 /*****************************************************************************************
 * 
@@ -234,11 +292,21 @@ TranslateFile                   (const FSSpec *         sourceDocument,
 *  Exit:    kindString      pascal string.  Ex: "\pSurfCalc spreadsheet"
 *           returns         noErr, or afpItemNoFound if kind could not be determined
 */
+/*
+ *  GetDocumentKindString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-GetDocumentKindString           (short                  docVRefNum,
-                                 OSType                 docType,
-                                 OSType                 docCreator,
-                                 Str63                  kindString)                         TWOWORDINLINE(0x7016, 0xABFC);
+GetDocumentKindString(
+  short    docVRefNum,
+  OSType   docType,
+  OSType   docCreator,
+  Str63    kindString)                                        TWOWORDINLINE(0x7016, 0xABFC);
+
 
 /*****************************************************************************************
 * 
@@ -251,9 +319,19 @@ GetDocumentKindString           (short                  docVRefNum,
 *  Exit:    extensionName       The name of the translation system
 *           returns             Any errors that might occur
 */
+/*
+ *  GetTranslationExtensionName()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-GetTranslationExtensionName     (const FileTranslationSpec * translationMethod,
-                                 Str31                  extensionName)                      TWOWORDINLINE(0x7036, 0xABFC);
+GetTranslationExtensionName(
+  const FileTranslationSpec *  translationMethod,
+  Str31                        extensionName)                 TWOWORDINLINE(0x7036, 0xABFC);
+
 
 
 /*****************************************************************************************
@@ -275,28 +353,70 @@ GetTranslationExtensionName     (const FileTranslationSpec * translationMethod,
 */
 typedef CALLBACK_API( OSErr , GetScrapDataProcPtr )(ScrapType requestedFormat, Handle dataH, void *srcDataGetterRefCon);
 typedef STACK_UPP_TYPE(GetScrapDataProcPtr)                     GetScrapDataUPP;
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(GetScrapDataUPP)
-    NewGetScrapDataUPP             (GetScrapDataProcPtr     userRoutine);
-
-    EXTERN_API(void)
-    DisposeGetScrapDataUPP         (GetScrapDataUPP         userUPP);
-
-    EXTERN_API(OSErr)
-    InvokeGetScrapDataUPP          (ScrapType               requestedFormat,
-                                    Handle                  dataH,
-                                    void *                  srcDataGetterRefCon,
-                                    GetScrapDataUPP         userUPP);
-
-#else
-    enum { uppGetScrapDataProcInfo = 0x00000FE0 };                  /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes) */
-    #define NewGetScrapDataUPP(userRoutine)                         (GetScrapDataUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppGetScrapDataProcInfo, GetCurrentArchitecture())
-    #define DisposeGetScrapDataUPP(userUPP)                         DisposeRoutineDescriptor(userUPP)
-    #define InvokeGetScrapDataUPP(requestedFormat, dataH, srcDataGetterRefCon, userUPP)  (OSErr)CALL_THREE_PARAMETER_UPP((userUPP), uppGetScrapDataProcInfo, (requestedFormat), (dataH), (srcDataGetterRefCon))
+/*
+ *  NewGetScrapDataUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( GetScrapDataUPP )
+NewGetScrapDataUPP(GetScrapDataProcPtr userRoutine);
+#if !OPAQUE_UPP_TYPES
+  enum { uppGetScrapDataProcInfo = 0x00000FE0 };  /* pascal 2_bytes Func(4_bytes, 4_bytes, 4_bytes) */
+  #ifdef __cplusplus
+    inline DEFINE_API_C(GetScrapDataUPP) NewGetScrapDataUPP(GetScrapDataProcPtr userRoutine) { return (GetScrapDataUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppGetScrapDataProcInfo, GetCurrentArchitecture()); }
+  #else
+    #define NewGetScrapDataUPP(userRoutine) (GetScrapDataUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppGetScrapDataProcInfo, GetCurrentArchitecture())
+  #endif
 #endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewGetScrapDataProc(userRoutine)                        NewGetScrapDataUPP(userRoutine)
-#define CallGetScrapDataProc(userRoutine, requestedFormat, dataH, srcDataGetterRefCon) InvokeGetScrapDataUPP(requestedFormat, dataH, srcDataGetterRefCon, userRoutine)
+
+/*
+ *  DisposeGetScrapDataUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( void )
+DisposeGetScrapDataUPP(GetScrapDataUPP userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(void) DisposeGetScrapDataUPP(GetScrapDataUPP userUPP) { DisposeRoutineDescriptor((UniversalProcPtr)userUPP); }
+  #else
+      #define DisposeGetScrapDataUPP(userUPP) DisposeRoutineDescriptor(userUPP)
+  #endif
+#endif
+
+/*
+ *  InvokeGetScrapDataUPP()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   available as macro/inline
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( OSErr )
+InvokeGetScrapDataUPP(
+  ScrapType        requestedFormat,
+  Handle           dataH,
+  void *           srcDataGetterRefCon,
+  GetScrapDataUPP  userUPP);
+#if !OPAQUE_UPP_TYPES
+  #ifdef __cplusplus
+      inline DEFINE_API_C(OSErr) InvokeGetScrapDataUPP(ScrapType requestedFormat, Handle dataH, void * srcDataGetterRefCon, GetScrapDataUPP userUPP) { return (OSErr)CALL_THREE_PARAMETER_UPP(userUPP, uppGetScrapDataProcInfo, requestedFormat, dataH, srcDataGetterRefCon); }
+  #else
+    #define InvokeGetScrapDataUPP(requestedFormat, dataH, srcDataGetterRefCon, userUPP) (OSErr)CALL_THREE_PARAMETER_UPP((userUPP), uppGetScrapDataProcInfo, (requestedFormat), (dataH), (srcDataGetterRefCon))
+  #endif
+#endif
+
+#if CALL_NOT_IN_CARBON || OLDROUTINENAMES
+    /* support for pre-Carbon UPP routines: New...Proc and Call...Proc */
+    #define NewGetScrapDataProc(userRoutine)                    NewGetScrapDataUPP(userRoutine)
+    #define CallGetScrapDataProc(userRoutine, requestedFormat, dataH, srcDataGetterRefCon) InvokeGetScrapDataUPP(requestedFormat, dataH, srcDataGetterRefCon, userRoutine)
+#endif /* CALL_NOT_IN_CARBON */
 
 typedef GetScrapDataUPP                 GetScrapData;
 /*****************************************************************************************
@@ -316,12 +436,22 @@ typedef GetScrapDataUPP                 GetScrapData;
 *           
 *  Exit:    dstData                     Handle is resized and filled with data in requested format
 */
+/*
+ *  TranslateScrap()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in Translation 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-TranslateScrap                  (GetScrapDataUPP        sourceDataGetter,
-                                 void *                 sourceDataGetterRefCon,
-                                 ScrapType              destinationFormat,
-                                 Handle                 destinationData,
-                                 short                  progressDialogID)                   TWOWORDINLINE(0x700E, 0xABFC);
+TranslateScrap(
+  GetScrapDataUPP   sourceDataGetter,
+  void *            sourceDataGetterRefCon,
+  ScrapType         destinationFormat,
+  Handle            destinationData,
+  short             progressDialogID)                         TWOWORDINLINE(0x700E, 0xABFC);
+
 
 
 

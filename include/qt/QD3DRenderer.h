@@ -4,9 +4,9 @@
      Contains:   Q3Renderer types and routines
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1999 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -92,26 +92,23 @@ extern "C" {
  *  If the application does not handle the event it must return kQ3False and 
  *  the dialog's event filter will pass the event to the system unhandled.   
  */
-typedef CALLBACK_API_C( TQ3Boolean , TQ3MacOSDialogEventHandler )(const EventRecord *event);
-
+typedef CALLBACK_API_C( TQ3Boolean , TQ3MacOSDialogEventHandler )(const EventRecord * event);
 struct TQ3DialogAnchor {
-    TQ3MacOSDialogEventHandler      clientEventHandler;
+  TQ3MacOSDialogEventHandler  clientEventHandler;
 };
 typedef struct TQ3DialogAnchor          TQ3DialogAnchor;
 #endif  /* TARGET_OS_MAC */
 
 #if TARGET_OS_WIN32
-
 struct TQ3DialogAnchor {
-    HWND                            ownerWindow;
+  HWND                ownerWindow;
 };
 typedef struct TQ3DialogAnchor          TQ3DialogAnchor;
 #endif  /* TARGET_OS_WIN32 */
 
 #if TARGET_OS_UNIX
-
 struct TQ3DialogAnchor {
-    void *                          notUsed;                    /* place holder */
+  void *              notUsed;                /* place holder */
 };
 typedef struct TQ3DialogAnchor          TQ3DialogAnchor;
 #endif  /* TARGET_OS_UNIX */
@@ -122,11 +119,29 @@ typedef struct TQ3DialogAnchor          TQ3DialogAnchor;
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3Renderer_NewFromType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3RendererObject )
-Q3Renderer_NewFromType          (TQ3ObjectType          rendererObjectType);
+Q3Renderer_NewFromType(TQ3ObjectType rendererObjectType);
 
+
+/*
+ *  Q3Renderer_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3Renderer_GetType              (TQ3RendererObject      renderer);
+Q3Renderer_GetType(TQ3RendererObject renderer);
+
 
 
 /* Q3Renderer_Flush has been replaced by Q3View_Flush */
@@ -139,8 +154,17 @@ Q3Renderer_GetType              (TQ3RendererObject      renderer);
  *      Determine if this renderer is intended to be used interactively.
  */
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3Renderer_IsInteractive()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Boolean )
-Q3Renderer_IsInteractive        (TQ3RendererObject      renderer);
+Q3Renderer_IsInteractive(TQ3RendererObject renderer);
+
 
 
 /*
@@ -164,13 +188,32 @@ Q3Renderer_IsInteractive        (TQ3RendererObject      renderer);
  *  dialog.
  *      
  */
+/*
+ *  Q3Renderer_HasModalConfigure()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Boolean )
-Q3Renderer_HasModalConfigure    (TQ3RendererObject      renderer);
+Q3Renderer_HasModalConfigure(TQ3RendererObject renderer);
 
+
+/*
+ *  Q3Renderer_ModalConfigure()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Renderer_ModalConfigure       (TQ3RendererObject      renderer,
-                                 TQ3DialogAnchor        dialogAnchor,
-                                 TQ3Boolean *           canceled);
+Q3Renderer_ModalConfigure(
+  TQ3RendererObject   renderer,
+  TQ3DialogAnchor     dialogAnchor,
+  TQ3Boolean *        canceled);
+
 
 /*
  *  Q3RendererClass_GetNickNameString
@@ -184,9 +227,19 @@ Q3Renderer_ModalConfigure       (TQ3RendererObject      renderer,
  *      try to get the name string before using the class name, since the
  *      class name is not localizable.
  */
+/*
+ *  Q3RendererClass_GetNickNameString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3RendererClass_GetNickNameString (TQ3ObjectType        rendererClassType,
-                                 TQ3ObjectClassNameString  rendererClassString);
+Q3RendererClass_GetNickNameString(
+  TQ3ObjectType              rendererClassType,
+  TQ3ObjectClassNameString   rendererClassString);
+
 
 
 /*
@@ -206,16 +259,36 @@ Q3RendererClass_GetNickNameString (TQ3ObjectType        rendererClassType,
  *      buffer or if dataBuffer is NULL the required size of dataBuffer
  * 
  */
+/*
+ *  Q3Renderer_GetConfigurationData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Renderer_GetConfigurationData (TQ3RendererObject      renderer,
-                                 unsigned char *        dataBuffer,
-                                 unsigned long          bufferSize,
-                                 unsigned long *        actualDataSize);
+Q3Renderer_GetConfigurationData(
+  TQ3RendererObject   renderer,
+  unsigned char *     dataBuffer,
+  unsigned long       bufferSize,
+  unsigned long *     actualDataSize);
 
+
+/*
+ *  Q3Renderer_SetConfigurationData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Renderer_SetConfigurationData (TQ3RendererObject      renderer,
-                                 unsigned char *        dataBuffer,
-                                 unsigned long          bufferSize);
+Q3Renderer_SetConfigurationData(
+  TQ3RendererObject   renderer,
+  unsigned char *     dataBuffer,
+  unsigned long       bufferSize);
+
 
 
 
@@ -236,73 +309,192 @@ Q3Renderer_SetConfigurationData (TQ3RendererObject      renderer,
 #define kQ3SolidGeometryObjD    3
 #define kQ3SolidGeometryObjE    4
 /* Possible CSG equations */
-
 enum TQ3CSGEquation {
-    kQ3CSGEquationAandB         = (long)0x88888888,
-    kQ3CSGEquationAandnotB      = 0x22222222,
-    kQ3CSGEquationAanBonCad     = 0x2F222F22,
-    kQ3CSGEquationnotAandB      = 0x44444444,
-    kQ3CSGEquationnAaBorCanB    = 0x74747474
+  kQ3CSGEquationAandB           = (long)0x88888888,
+  kQ3CSGEquationAandnotB        = 0x22222222,
+  kQ3CSGEquationAanBonCad       = 0x2F222F22,
+  kQ3CSGEquationnotAandB        = 0x44444444,
+  kQ3CSGEquationnAaBorCanB      = 0x74747474
 };
 typedef enum TQ3CSGEquation TQ3CSGEquation;
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3InteractiveRenderer_SetCSGEquation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_SetCSGEquation (TQ3RendererObject  renderer,
-                                 TQ3CSGEquation         equation);
+Q3InteractiveRenderer_SetCSGEquation(
+  TQ3RendererObject   renderer,
+  TQ3CSGEquation      equation);
 
-EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetCSGEquation (TQ3RendererObject  renderer,
-                                 TQ3CSGEquation *       equation);
 
+/*
+ *  Q3InteractiveRenderer_GetCSGEquation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_SetPreferences (TQ3RendererObject  renderer,
-                                 long                   vendorID,
-                                 long                   engineID);
+Q3InteractiveRenderer_GetCSGEquation(
+  TQ3RendererObject   renderer,
+  TQ3CSGEquation *    equation);
 
-EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetPreferences (TQ3RendererObject  renderer,
-                                 long *                 vendorID,
-                                 long *                 engineID);
 
+/*
+ *  Q3InteractiveRenderer_SetPreferences()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_SetDoubleBufferBypass (TQ3RendererObject  renderer,
-                                 TQ3Boolean             bypass);
+Q3InteractiveRenderer_SetPreferences(
+  TQ3RendererObject   renderer,
+  long                vendorID,
+  long                engineID);
 
-EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetDoubleBufferBypass (TQ3RendererObject  renderer,
-                                 TQ3Boolean *           bypass);
 
+/*
+ *  Q3InteractiveRenderer_GetPreferences()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_SetRAVEContextHints (TQ3RendererObject  renderer,
-                                 unsigned long          RAVEContextHints);
+Q3InteractiveRenderer_GetPreferences(
+  TQ3RendererObject   renderer,
+  long *              vendorID,
+  long *              engineID);
 
-EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetRAVEContextHints (TQ3RendererObject  renderer,
-                                 unsigned long *        RAVEContextHints);
 
+/*
+ *  Q3InteractiveRenderer_SetDoubleBufferBypass()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_SetRAVETextureFilter (TQ3RendererObject  renderer,
-                                 unsigned long          RAVEtextureFilterValue);
+Q3InteractiveRenderer_SetDoubleBufferBypass(
+  TQ3RendererObject   renderer,
+  TQ3Boolean          bypass);
 
-EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetRAVETextureFilter (TQ3RendererObject  renderer,
-                                 unsigned long *        RAVEtextureFilterValue);
 
+/*
+ *  Q3InteractiveRenderer_GetDoubleBufferBypass()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_CountRAVEDrawContexts (TQ3RendererObject  renderer,
-                                 unsigned long *        numRAVEContexts);
+Q3InteractiveRenderer_GetDoubleBufferBypass(
+  TQ3RendererObject   renderer,
+  TQ3Boolean *        bypass);
+
+
+/*
+ *  Q3InteractiveRenderer_SetRAVEContextHints()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3InteractiveRenderer_SetRAVEContextHints(
+  TQ3RendererObject   renderer,
+  unsigned long       RAVEContextHints);
+
+
+/*
+ *  Q3InteractiveRenderer_GetRAVEContextHints()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3InteractiveRenderer_GetRAVEContextHints(
+  TQ3RendererObject   renderer,
+  unsigned long *     RAVEContextHints);
+
+
+/*
+ *  Q3InteractiveRenderer_SetRAVETextureFilter()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3InteractiveRenderer_SetRAVETextureFilter(
+  TQ3RendererObject   renderer,
+  unsigned long       RAVEtextureFilterValue);
+
+
+/*
+ *  Q3InteractiveRenderer_GetRAVETextureFilter()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3InteractiveRenderer_GetRAVETextureFilter(
+  TQ3RendererObject   renderer,
+  unsigned long *     RAVEtextureFilterValue);
+
+
+/*
+ *  Q3InteractiveRenderer_CountRAVEDrawContexts()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3InteractiveRenderer_CountRAVEDrawContexts(
+  TQ3RendererObject   renderer,
+  unsigned long *     numRAVEContexts);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 typedef CALLBACK_API_C( void , TQ3RaveDestroyCallback )(TQ3RendererObject renderer);
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3InteractiveRenderer_GetRAVEDrawContexts()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3InteractiveRenderer_GetRAVEDrawContexts (TQ3RendererObject  renderer,
-                                 TQADrawContext **      raveDrawContextList,
-                                 TQAEngine **           raveDrawingEnginesList,
-                                 unsigned long *        numRAVEContexts,
-                                 TQ3RaveDestroyCallback  raveDestroyCallback);
+Q3InteractiveRenderer_GetRAVEDrawContexts(
+  TQ3RendererObject        renderer,
+  TQADrawContext **        raveDrawContextList,
+  TQAEngine **             raveDrawingEnginesList,
+  unsigned long *          numRAVEContexts,
+  TQ3RaveDestroyCallback   raveDestroyCallback);
+
 
 
 
@@ -329,16 +521,35 @@ Q3InteractiveRenderer_GetRAVEDrawContexts (TQ3RendererObject  renderer,
  *
  *  Returns kQ3Failure if rendering is cancelled.
  */
+/*
+ *  Q3XView_IdleProgress()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XView_IdleProgress            (TQ3ViewObject          view,
-                                 unsigned long          current,
-                                 unsigned long          completed);
+Q3XView_IdleProgress(
+  TQ3ViewObject   view,
+  unsigned long   current,
+  unsigned long   completed);
+
 
 /*
  *  Called by an asynchronous renderer when it completes a frame.
  */
+/*
+ *  Q3XView_EndFrame()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XView_EndFrame                (TQ3ViewObject          view);
+Q3XView_EndFrame(TQ3ViewObject view);
+
 
 
 /******************************************************************************
@@ -357,37 +568,56 @@ Q3XView_EndFrame                (TQ3ViewObject          view);
  *  For attributes of type kQ3AttributeType..., the internal data structure
  *  is identical to the data structure used in Q3AttributeSet_Add.
  */
-EXTERN_API_C( void *)
-Q3XAttributeSet_GetPointer      (TQ3AttributeSet        attributeSet,
-                                 TQ3AttributeType       attributeType);
+/*
+ *  Q3XAttributeSet_GetPointer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( void * )
+Q3XAttributeSet_GetPointer(
+  TQ3AttributeSet    attributeSet,
+  TQ3AttributeType   attributeType);
+
 
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 enum {
-    kQ3XAttributeMaskNone       = 0L,
-    kQ3XAttributeMaskSurfaceUV  = 1 << (kQ3AttributeTypeSurfaceUV - 1),
-    kQ3XAttributeMaskShadingUV  = 1 << (kQ3AttributeTypeShadingUV - 1),
-    kQ3XAttributeMaskNormal     = 1 << (kQ3AttributeTypeNormal - 1),
-    kQ3XAttributeMaskAmbientCoefficient = 1 << (kQ3AttributeTypeAmbientCoefficient - 1),
-    kQ3XAttributeMaskDiffuseColor = 1 << (kQ3AttributeTypeDiffuseColor - 1),
-    kQ3XAttributeMaskSpecularColor = 1 << (kQ3AttributeTypeSpecularColor - 1),
-    kQ3XAttributeMaskSpecularControl = 1 << (kQ3AttributeTypeSpecularControl - 1),
-    kQ3XAttributeMaskTransparencyColor = 1 << (kQ3AttributeTypeTransparencyColor - 1),
-    kQ3XAttributeMaskSurfaceTangent = 1 << (kQ3AttributeTypeSurfaceTangent - 1),
-    kQ3XAttributeMaskHighlightState = 1 << (kQ3AttributeTypeHighlightState - 1),
-    kQ3XAttributeMaskSurfaceShader = 1 << (kQ3AttributeTypeSurfaceShader - 1),
-    kQ3XAttributeMaskCustomAttribute = (long)0x80000000,
-    kQ3XAttributeMaskAll        = 0x800007FF,
-    kQ3XAttributeMaskInherited  = 0x03FF,
-    kQ3XAttributeMaskInterpolated = kQ3XAttributeMaskSurfaceUV | kQ3XAttributeMaskShadingUV | kQ3XAttributeMaskNormal | kQ3XAttributeMaskAmbientCoefficient | kQ3XAttributeMaskDiffuseColor | kQ3XAttributeMaskSpecularColor | kQ3XAttributeMaskSpecularControl | kQ3XAttributeMaskTransparencyColor | kQ3XAttributeMaskSurfaceTangent
+  kQ3XAttributeMaskNone         = 0L,
+  kQ3XAttributeMaskSurfaceUV    = 1 << (kQ3AttributeTypeSurfaceUV - 1),
+  kQ3XAttributeMaskShadingUV    = 1 << (kQ3AttributeTypeShadingUV - 1),
+  kQ3XAttributeMaskNormal       = 1 << (kQ3AttributeTypeNormal - 1),
+  kQ3XAttributeMaskAmbientCoefficient = 1 << (kQ3AttributeTypeAmbientCoefficient - 1),
+  kQ3XAttributeMaskDiffuseColor = 1 << (kQ3AttributeTypeDiffuseColor - 1),
+  kQ3XAttributeMaskSpecularColor = 1 << (kQ3AttributeTypeSpecularColor - 1),
+  kQ3XAttributeMaskSpecularControl = 1 << (kQ3AttributeTypeSpecularControl - 1),
+  kQ3XAttributeMaskTransparencyColor = 1 << (kQ3AttributeTypeTransparencyColor - 1),
+  kQ3XAttributeMaskSurfaceTangent = 1 << (kQ3AttributeTypeSurfaceTangent - 1),
+  kQ3XAttributeMaskHighlightState = 1 << (kQ3AttributeTypeHighlightState - 1),
+  kQ3XAttributeMaskSurfaceShader = 1 << (kQ3AttributeTypeSurfaceShader - 1),
+  kQ3XAttributeMaskCustomAttribute = (long)0x80000000,
+  kQ3XAttributeMaskAll          = 0x800007FF,
+  kQ3XAttributeMaskInherited    = 0x03FF,
+  kQ3XAttributeMaskInterpolated = kQ3XAttributeMaskSurfaceUV | kQ3XAttributeMaskShadingUV | kQ3XAttributeMaskNormal | kQ3XAttributeMaskAmbientCoefficient | kQ3XAttributeMaskDiffuseColor | kQ3XAttributeMaskSpecularColor | kQ3XAttributeMaskSpecularControl | kQ3XAttributeMaskTransparencyColor | kQ3XAttributeMaskSurfaceTangent
 };
 
 
 typedef unsigned long                   TQ3XAttributeMask;
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XAttributeSet_GetMask()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3XAttributeMask )
-Q3XAttributeSet_GetMask         (TQ3AttributeSet        attributeSet);
+Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet);
+
 
 
 /******************************************************************************
@@ -399,43 +629,71 @@ Q3XAttributeSet_GetMask         (TQ3AttributeSet        attributeSet);
 
 typedef struct OpaqueTQ3XDrawRegion*    TQ3XDrawRegion;
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XDrawContext_GetDrawRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawContext_GetDrawRegion    (TQ3DrawContextObject   drawContext,
-                                 TQ3XDrawRegion *       drawRegion);
+Q3XDrawContext_GetDrawRegion(
+  TQ3DrawContextObject   drawContext,
+  TQ3XDrawRegion *       drawRegion);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
-
 enum TQ3XDrawContextValidationMasks {
-    kQ3XDrawContextValidationClearFlags = 0x00000000,
-    kQ3XDrawContextValidationDoubleBuffer = 1 << 0,
-    kQ3XDrawContextValidationShader = 1 << 1,
-    kQ3XDrawContextValidationClearFunction = 1 << 2,
-    kQ3XDrawContextValidationActiveBuffer = 1 << 3,
-    kQ3XDrawContextValidationInternalOffScreen = 1 << 4,
-    kQ3XDrawContextValidationPane = 1 << 5,
-    kQ3XDrawContextValidationMask = 1 << 6,
-    kQ3XDrawContextValidationDevice = 1 << 7,
-    kQ3XDrawContextValidationWindow = 1 << 8,
-    kQ3XDrawContextValidationWindowSize = 1 << 9,
-    kQ3XDrawContextValidationWindowClip = 1 << 10,
-    kQ3XDrawContextValidationWindowPosition = 1 << 11,
-    kQ3XDrawContextValidationPlatformAttributes = 1 << 12,
-    kQ3XDrawContextValidationForegroundShader = 1 << 13,
-    kQ3XDrawContextValidationBackgroundShader = 1 << 14,
-    kQ3XDrawContextValidationColorPalette = 1 << 15,
-    kQ3XDrawContextValidationAll = (long)0xFFFFFFFF
+  kQ3XDrawContextValidationClearFlags = 0x00000000,
+  kQ3XDrawContextValidationDoubleBuffer = 1 << 0,
+  kQ3XDrawContextValidationShader = 1 << 1,
+  kQ3XDrawContextValidationClearFunction = 1 << 2,
+  kQ3XDrawContextValidationActiveBuffer = 1 << 3,
+  kQ3XDrawContextValidationInternalOffScreen = 1 << 4,
+  kQ3XDrawContextValidationPane = 1 << 5,
+  kQ3XDrawContextValidationMask = 1 << 6,
+  kQ3XDrawContextValidationDevice = 1 << 7,
+  kQ3XDrawContextValidationWindow = 1 << 8,
+  kQ3XDrawContextValidationWindowSize = 1 << 9,
+  kQ3XDrawContextValidationWindowClip = 1 << 10,
+  kQ3XDrawContextValidationWindowPosition = 1 << 11,
+  kQ3XDrawContextValidationPlatformAttributes = 1 << 12,
+  kQ3XDrawContextValidationForegroundShader = 1 << 13,
+  kQ3XDrawContextValidationBackgroundShader = 1 << 14,
+  kQ3XDrawContextValidationColorPalette = 1 << 15,
+  kQ3XDrawContextValidationAll  = (long)0xFFFFFFFF
 };
 typedef enum TQ3XDrawContextValidationMasks TQ3XDrawContextValidationMasks;
 
 typedef unsigned long                   TQ3XDrawContextValidation;
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XDrawContext_ClearValidationFlags()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawContext_ClearValidationFlags (TQ3DrawContextObject  drawContext);
+Q3XDrawContext_ClearValidationFlags(TQ3DrawContextObject drawContext);
 
+
+/*
+ *  Q3XDrawContext_GetValidationFlags()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawContext_GetValidationFlags (TQ3DrawContextObject  drawContext,
-                                 TQ3XDrawContextValidation * validationFlags);
+Q3XDrawContext_GetValidationFlags(
+  TQ3DrawContextObject         drawContext,
+  TQ3XDrawContextValidation *  validationFlags);
+
 
 
 /******************************************************************************
@@ -445,111 +703,206 @@ Q3XDrawContext_GetValidationFlags (TQ3DrawContextObject  drawContext,
  *****************************************************************************/
 #endif  /* CALL_NOT_IN_CARBON */
 
-
 enum TQ3XDevicePixelType {
-                                                                /* These do not indicate byte ordering   */
-    kQ3XDevicePixelTypeInvalid  = 0,                            /* Unknown, un-initialized type    */
-    kQ3XDevicePixelTypeRGB32    = 1,                            /* Alpha:8 (ignored), R:8, G:8, B:8 */
-    kQ3XDevicePixelTypeARGB32   = 2,                            /* Alpha:8, R:8, G:8, B:8           */
-    kQ3XDevicePixelTypeRGB24    = 3,                            /* 24 bits/pixel, R:8, G:8, B:8    */
-    kQ3XDevicePixelTypeRGB16    = 4,                            /* Alpha:1 (ignored), R:5, G:5, B:5 */
-    kQ3XDevicePixelTypeARGB16   = 5,                            /* Alpha:1, R:5, G:5, B:5           */
-    kQ3XDevicePixelTypeRGB16_565 = 6,                           /* 16 bits/pixel, R:5, G:6, B:5    */
-    kQ3XDevicePixelTypeIndexed8 = 7,                            /* 8-bit color table index          */
-    kQ3XDevicePixelTypeIndexed4 = 8,                            /* 4-bit color table index          */
-    kQ3XDevicePixelTypeIndexed2 = 9,                            /* 2-bit color table index          */
-    kQ3XDevicePixelTypeIndexed1 = 10                            /* 1-bit color table index          */
+                                        /* These do not indicate byte ordering   */
+  kQ3XDevicePixelTypeInvalid    = 0,    /* Unknown, un-initialized type    */
+  kQ3XDevicePixelTypeRGB32      = 1,    /* Alpha:8 (ignored), R:8, G:8, B:8 */
+  kQ3XDevicePixelTypeARGB32     = 2,    /* Alpha:8, R:8, G:8, B:8           */
+  kQ3XDevicePixelTypeRGB24      = 3,    /* 24 bits/pixel, R:8, G:8, B:8    */
+  kQ3XDevicePixelTypeRGB16      = 4,    /* Alpha:1 (ignored), R:5, G:5, B:5 */
+  kQ3XDevicePixelTypeARGB16     = 5,    /* Alpha:1, R:5, G:5, B:5           */
+  kQ3XDevicePixelTypeRGB16_565  = 6,    /* 16 bits/pixel, R:5, G:6, B:5    */
+  kQ3XDevicePixelTypeIndexed8   = 7,    /* 8-bit color table index          */
+  kQ3XDevicePixelTypeIndexed4   = 8,    /* 4-bit color table index          */
+  kQ3XDevicePixelTypeIndexed2   = 9,    /* 2-bit color table index          */
+  kQ3XDevicePixelTypeIndexed1   = 10    /* 1-bit color table index          */
 };
 typedef enum TQ3XDevicePixelType TQ3XDevicePixelType;
 
-
 enum TQ3XClipMaskState {
-    kQ3XClipMaskFullyExposed    = 0,
-    kQ3XClipMaskPartiallyExposed = 1,
-    kQ3XClipMaskNotExposed      = 2
+  kQ3XClipMaskFullyExposed      = 0,
+  kQ3XClipMaskPartiallyExposed  = 1,
+  kQ3XClipMaskNotExposed        = 2
 };
 typedef enum TQ3XClipMaskState TQ3XClipMaskState;
 
-
 struct TQ3XColorDescriptor {
-    unsigned long                   redShift;
-    unsigned long                   redMask;
-    unsigned long                   greenShift;
-    unsigned long                   greenMask;
-    unsigned long                   blueShift;
-    unsigned long                   blueMask;
-    unsigned long                   alphaShift;
-    unsigned long                   alphaMask;
+  unsigned long       redShift;
+  unsigned long       redMask;
+  unsigned long       greenShift;
+  unsigned long       greenMask;
+  unsigned long       blueShift;
+  unsigned long       blueMask;
+  unsigned long       alphaShift;
+  unsigned long       alphaMask;
 };
 typedef struct TQ3XColorDescriptor      TQ3XColorDescriptor;
-
 struct TQ3XDrawRegionDescriptor {
-    unsigned long                   width;
-    unsigned long                   height;
-    unsigned long                   rowBytes;
-    unsigned long                   pixelSize;
-    TQ3XDevicePixelType             pixelType;
-    TQ3XColorDescriptor             colorDescriptor;
-    TQ3Endian                       bitOrder;
-    TQ3Endian                       byteOrder;
-    TQ3Bitmap *                     clipMask;
+  unsigned long       width;
+  unsigned long       height;
+  unsigned long       rowBytes;
+  unsigned long       pixelSize;
+  TQ3XDevicePixelType  pixelType;
+  TQ3XColorDescriptor  colorDescriptor;
+  TQ3Endian           bitOrder;
+  TQ3Endian           byteOrder;
+  TQ3Bitmap *         clipMask;
 };
 typedef struct TQ3XDrawRegionDescriptor TQ3XDrawRegionDescriptor;
-
 enum TQ3XDrawRegionServicesMasks {
-    kQ3XDrawRegionServicesNoneFlag = 0L,
-    kQ3XDrawRegionServicesClearFlag = 1 << 0,
-    kQ3XDrawRegionServicesDontLockDDSurfaceFlag = 1 << 1
+  kQ3XDrawRegionServicesNoneFlag = 0L,
+  kQ3XDrawRegionServicesClearFlag = 1 << 0,
+  kQ3XDrawRegionServicesDontLockDDSurfaceFlag = 1 << 1
 };
 typedef enum TQ3XDrawRegionServicesMasks TQ3XDrawRegionServicesMasks;
 
 
 typedef unsigned long                   TQ3XDrawRegionServices;
-typedef CALLBACK_API_C( void , TQ3XDrawRegionRendererPrivateDeleteMethod )(void *rendererPrivate);
+typedef CALLBACK_API_C( void , TQ3XDrawRegionRendererPrivateDeleteMethod )(void * rendererPrivate);
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XDrawRegion_GetDeviceScaleX()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetDeviceScaleX   (TQ3XDrawRegion         drawRegion,
-                                 float *                deviceScaleX);
+Q3XDrawRegion_GetDeviceScaleX(
+  TQ3XDrawRegion   drawRegion,
+  float *          deviceScaleX);
 
+
+/*
+ *  Q3XDrawRegion_GetDeviceScaleY()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetDeviceScaleY   (TQ3XDrawRegion         drawRegion,
-                                 float *                deviceScaleY);
+Q3XDrawRegion_GetDeviceScaleY(
+  TQ3XDrawRegion   drawRegion,
+  float *          deviceScaleY);
 
 
+
+/*
+ *  Q3XDrawRegion_GetDeviceOffsetX()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetDeviceOffsetX  (TQ3XDrawRegion         drawRegion,
-                                 float *                deviceOffsetX);
+Q3XDrawRegion_GetDeviceOffsetX(
+  TQ3XDrawRegion   drawRegion,
+  float *          deviceOffsetX);
 
+
+/*
+ *  Q3XDrawRegion_GetDeviceOffsetY()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetDeviceOffsetY  (TQ3XDrawRegion         drawRegion,
-                                 float *                deviceOffsetX);
+Q3XDrawRegion_GetDeviceOffsetY(
+  TQ3XDrawRegion   drawRegion,
+  float *          deviceOffsetX);
 
 
+
+/*
+ *  Q3XDrawRegion_GetWindowScaleX()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetWindowScaleX   (TQ3XDrawRegion         drawRegion,
-                                 float *                windowScaleX);
+Q3XDrawRegion_GetWindowScaleX(
+  TQ3XDrawRegion   drawRegion,
+  float *          windowScaleX);
 
+
+/*
+ *  Q3XDrawRegion_GetWindowScaleY()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetWindowScaleY   (TQ3XDrawRegion         drawRegion,
-                                 float *                windowScaleY);
+Q3XDrawRegion_GetWindowScaleY(
+  TQ3XDrawRegion   drawRegion,
+  float *          windowScaleY);
 
 
+
+/*
+ *  Q3XDrawRegion_GetWindowOffsetX()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetWindowOffsetX  (TQ3XDrawRegion         drawRegion,
-                                 float *                windowOffsetX);
+Q3XDrawRegion_GetWindowOffsetX(
+  TQ3XDrawRegion   drawRegion,
+  float *          windowOffsetX);
 
+
+/*
+ *  Q3XDrawRegion_GetWindowOffsetY()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetWindowOffsetY  (TQ3XDrawRegion         drawRegion,
-                                 float *                windowOffsetY);
+Q3XDrawRegion_GetWindowOffsetY(
+  TQ3XDrawRegion   drawRegion,
+  float *          windowOffsetY);
 
+
+/*
+ *  Q3XDrawRegion_IsActive()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_IsActive          (TQ3XDrawRegion         drawRegion,
-                                 TQ3Boolean *           isActive);
+Q3XDrawRegion_IsActive(
+  TQ3XDrawRegion   drawRegion,
+  TQ3Boolean *     isActive);
 
 
+
+/*
+ *  Q3XDrawRegion_GetNextRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetNextRegion     (TQ3XDrawRegion         drawRegion,
-                                 TQ3XDrawRegion *       nextDrawRegion);
+Q3XDrawRegion_GetNextRegion(
+  TQ3XDrawRegion    drawRegion,
+  TQ3XDrawRegion *  nextDrawRegion);
+
 
 /* 
  *  One of the next two functions must be called before using a draw region 
@@ -558,72 +911,191 @@ Q3XDrawRegion_GetNextRegion     (TQ3XDrawRegion         drawRegion,
  *  Use this Start function if double buffering/image access services from the
  *  Draw Context are not needed, you may still request clear for example
  */
+/*
+ *  Q3XDrawRegion_Start()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_Start             (TQ3XDrawRegion         drawRegion,
-                                 TQ3XDrawRegionServices  services,
-                                 TQ3XDrawRegionDescriptor ** descriptor);
+Q3XDrawRegion_Start(
+  TQ3XDrawRegion               drawRegion,
+  TQ3XDrawRegionServices       services,
+  TQ3XDrawRegionDescriptor **  descriptor);
+
 
 /*
  *  Use this Start function if double buffering or image access services from 
  *  the Draw Context are needed.
  */
+/*
+ *  Q3XDrawRegion_StartAccessToImageBuffer()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_StartAccessToImageBuffer (TQ3XDrawRegion  drawRegion,
-                                 TQ3XDrawRegionServices  services,
-                                 TQ3XDrawRegionDescriptor ** descriptor,
-                                 void **                image);
+Q3XDrawRegion_StartAccessToImageBuffer(
+  TQ3XDrawRegion               drawRegion,
+  TQ3XDrawRegionServices       services,
+  TQ3XDrawRegionDescriptor **  descriptor,
+  void **                      image);
+
 
 /*
  *  This function is used to indicate that access to a DrawRegion is ended.
  */
+/*
+ *  Q3XDrawRegion_End()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_End               (TQ3XDrawRegion         drawRegion);
+Q3XDrawRegion_End(TQ3XDrawRegion drawRegion);
 
-EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetDeviceTransform (TQ3XDrawRegion        drawRegion,
-                                 TQ3Matrix4x4 **        deviceTransform);
 
+/*
+ *  Q3XDrawRegion_GetDeviceTransform()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetClipFlags      (TQ3XDrawRegion         drawRegion,
-                                 TQ3XClipMaskState *    clipMaskState);
+Q3XDrawRegion_GetDeviceTransform(
+  TQ3XDrawRegion   drawRegion,
+  TQ3Matrix4x4 **  deviceTransform);
 
+
+/*
+ *  Q3XDrawRegion_GetClipFlags()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetClipMask       (TQ3XDrawRegion         drawRegion,
-                                 TQ3Bitmap **           clipMask);
+Q3XDrawRegion_GetClipFlags(
+  TQ3XDrawRegion       drawRegion,
+  TQ3XClipMaskState *  clipMaskState);
+
+
+/*
+ *  Q3XDrawRegion_GetClipMask()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3XDrawRegion_GetClipMask(
+  TQ3XDrawRegion   drawRegion,
+  TQ3Bitmap **     clipMask);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #if TARGET_OS_MAC
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XDrawRegion_GetClipRegion()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetClipRegion     (TQ3XDrawRegion         drawRegion,
-                                 RgnHandle *            rgnHandle);
+Q3XDrawRegion_GetClipRegion(
+  TQ3XDrawRegion   drawRegion,
+  RgnHandle *      rgnHandle);
 
+
+/*
+ *  Q3XDrawRegion_GetGDHandle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetGDHandle       (TQ3XDrawRegion         drawRegion,
-                                 GDHandle *             gdHandle);
+Q3XDrawRegion_GetGDHandle(
+  TQ3XDrawRegion   drawRegion,
+  GDHandle *       gdHandle);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #endif  /* TARGET_OS_MAC */
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3XDrawRegion_GetRendererPrivate()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetRendererPrivate (TQ3XDrawRegion        drawRegion,
-                                 void **                rendererPrivate);
+Q3XDrawRegion_GetRendererPrivate(
+  TQ3XDrawRegion   drawRegion,
+  void **          rendererPrivate);
 
-EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_SetRendererPrivate (TQ3XDrawRegion        drawRegion,
-                                 const void *           rendererPrivate,
-                                 TQ3XDrawRegionRendererPrivateDeleteMethod  deleteMethod);
 
+/*
+ *  Q3XDrawRegion_SetRendererPrivate()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_SetUseDefaultRendererFlag (TQ3XDrawRegion  drawRegion,
-                                 TQ3Boolean             flag);
+Q3XDrawRegion_SetRendererPrivate(
+  TQ3XDrawRegion                              drawRegion,
+  const void *                                rendererPrivate,
+  TQ3XDrawRegionRendererPrivateDeleteMethod   deleteMethod);
 
+
+/*
+ *  Q3XDrawRegion_SetUseDefaultRendererFlag()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3XDrawRegion_GetUseDefaultRendererFlag (TQ3XDrawRegion  drawRegion,
-                                 TQ3Boolean *           useDefaultRenderingFlag);
+Q3XDrawRegion_SetUseDefaultRendererFlag(
+  TQ3XDrawRegion   drawRegion,
+  TQ3Boolean       flag);
+
+
+/*
+ *  Q3XDrawRegion_GetUseDefaultRendererFlag()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3XDrawRegion_GetUseDefaultRendererFlag(
+  TQ3XDrawRegion   drawRegion,
+  TQ3Boolean *     useDefaultRenderingFlag);
+
 
 
 
@@ -699,7 +1171,7 @@ Q3XDrawRegion_GetUseDefaultRendererFlag (TQ3XDrawRegion  drawRegion,
 #endif  /* CALL_NOT_IN_CARBON */
 
 enum {
-    kQ3XMethodTypeRendererIsInteractive = FOUR_CHAR_CODE('isin')
+  kQ3XMethodTypeRendererIsInteractive = FOUR_CHAR_CODE('isin')
 };
 
 
@@ -727,7 +1199,7 @@ enum {
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererModalConfigure = FOUR_CHAR_CODE('rdmc')
+  kQ3XMethodTypeRendererModalConfigure = FOUR_CHAR_CODE('rdmc')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererModalConfigureMethod )(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnchor, TQ3Boolean *canceled, void *rendererPrivate);
@@ -749,7 +1221,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererModalConfigureMethod )(TQ3Render
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererGetNickNameString = FOUR_CHAR_CODE('rdns')
+  kQ3XMethodTypeRendererGetNickNameString = FOUR_CHAR_CODE('rdns')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererGetNickNameStringMethod )(unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize);
@@ -773,7 +1245,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererGetNickNameStringMethod )(unsign
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererGetConfigurationData = FOUR_CHAR_CODE('rdgp')
+  kQ3XMethodTypeRendererGetConfigurationData = FOUR_CHAR_CODE('rdgp')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererGetConfigurationDataMethod )(TQ3RendererObject renderer, unsigned char *dataBuffer, unsigned long bufferSize, unsigned long *actualDataSize, void *rendererPrivate);
@@ -792,7 +1264,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererGetConfigurationDataMethod )(TQ3
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererSetConfigurationData = FOUR_CHAR_CODE('rdsp')
+  kQ3XMethodTypeRendererSetConfigurationData = FOUR_CHAR_CODE('rdsp')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererSetConfigurationDataMethod )(TQ3RendererObject renderer, unsigned char *dataBuffer, unsigned long bufferSize, void *rendererPrivate);
@@ -827,7 +1299,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererSetConfigurationDataMethod )(TQ3
  *  REQUIRED
  */
 enum {
-    kQ3XMethodTypeRendererStartFrame = FOUR_CHAR_CODE('rdcl')
+  kQ3XMethodTypeRendererStartFrame = FOUR_CHAR_CODE('rdcl')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererStartFrameMethod )(TQ3ViewObject view, void *rendererPrivate, TQ3DrawContextObject drawContext);
@@ -855,7 +1327,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererStartFrameMethod )(TQ3ViewObject
  *  REQUIRED
  */
 enum {
-    kQ3XMethodTypeRendererStartPass = FOUR_CHAR_CODE('rdst')
+  kQ3XMethodTypeRendererStartPass = FOUR_CHAR_CODE('rdst')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererStartPassMethod )(TQ3ViewObject view, void *rendererPrivate, TQ3CameraObject camera, TQ3GroupObject lightGroup);
@@ -892,7 +1364,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererStartPassMethod )(TQ3ViewObject 
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererFlushFrame = FOUR_CHAR_CODE('rdfl')
+  kQ3XMethodTypeRendererFlushFrame = FOUR_CHAR_CODE('rdfl')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererFlushFrameMethod )(TQ3ViewObject view, void *rendererPrivate, TQ3DrawContextObject drawContext);
@@ -934,7 +1406,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererFlushFrameMethod )(TQ3ViewObject
  *  REQUIRED
  */
 enum {
-    kQ3XMethodTypeRendererEndPass = FOUR_CHAR_CODE('rded')
+  kQ3XMethodTypeRendererEndPass = FOUR_CHAR_CODE('rded')
 };
 
 typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XRendererEndPassMethod )(TQ3ViewObject view, void *rendererPrivate);
@@ -964,7 +1436,7 @@ typedef CALLBACK_API_C( TQ3ViewStatus , TQ3XRendererEndPassMethod )(TQ3ViewObjec
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererEndFrame = FOUR_CHAR_CODE('rdsy')
+  kQ3XMethodTypeRendererEndFrame = FOUR_CHAR_CODE('rdsy')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererEndFrameMethod )(TQ3ViewObject view, void *rendererPrivate, TQ3DrawContextObject drawContext);
@@ -984,7 +1456,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererEndFrameMethod )(TQ3ViewObject v
  *  REQUIRED
  */
 enum {
-    kQ3XMethodTypeRendererCancel = FOUR_CHAR_CODE('rdab')
+  kQ3XMethodTypeRendererCancel  = FOUR_CHAR_CODE('rdab')
 };
 
 typedef CALLBACK_API_C( void , TQ3XRendererCancelMethod )(TQ3ViewObject view, void *rendererPrivate);
@@ -1062,12 +1534,12 @@ typedef CALLBACK_API_C( void , TQ3XRendererCancelMethod )(TQ3ViewObject view, vo
  *  
  */
 enum {
-    kQ3XMethodTypeRendererPush  = FOUR_CHAR_CODE('rdps')
+  kQ3XMethodTypeRendererPush    = FOUR_CHAR_CODE('rdps')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererPushMethod )(TQ3ViewObject view, void *rendererPrivate);
 enum {
-    kQ3XMethodTypeRendererPop   = FOUR_CHAR_CODE('rdpo')
+  kQ3XMethodTypeRendererPop     = FOUR_CHAR_CODE('rdpo')
 };
 
 typedef CALLBACK_API_C( TQ3Status , TQ3XRendererPopMethod )(TQ3ViewObject view, void *rendererPrivate);
@@ -1092,7 +1564,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererPopMethod )(TQ3ViewObject view, 
  *  
  */
 enum {
-    kQ3XMethodTypeRendererIsBoundingBoxVisible = FOUR_CHAR_CODE('rdbx')
+  kQ3XMethodTypeRendererIsBoundingBoxVisible = FOUR_CHAR_CODE('rdbx')
 };
 
 typedef CALLBACK_API_C( TQ3Boolean , TQ3XRendererIsBoundingBoxVisibleMethod )(TQ3ViewObject view, void *rendererPrivate, const TQ3BoundingBox *bBox);
@@ -1120,7 +1592,7 @@ typedef CALLBACK_API_C( TQ3Boolean , TQ3XRendererIsBoundingBoxVisibleMethod )(TQ
  *  REQUIRED
  */
 enum {
-    kQ3XMethodTypeRendererSubmitGeometryMetaHandler = FOUR_CHAR_CODE('rdgm')
+  kQ3XMethodTypeRendererSubmitGeometryMetaHandler = FOUR_CHAR_CODE('rdgm')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererSubmitGeometryMetaHandlerMethod )(TQ3ObjectType geometryType);
@@ -1142,7 +1614,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererSubmitGeometryMethod )(TQ3ViewOb
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererSubmitCameraMetaHandler = FOUR_CHAR_CODE('rdcm')
+  kQ3XMethodTypeRendererSubmitCameraMetaHandler = FOUR_CHAR_CODE('rdcm')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererSubmitCameraMetaHandlerMethod )(TQ3ObjectType cameraType);
@@ -1162,7 +1634,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererSubmitCameraMethod )(TQ3ViewObje
  *  OPTIONAL
  */
 enum {
-    kQ3XMethodTypeRendererSubmitLightMetaHandler = FOUR_CHAR_CODE('rdlg')
+  kQ3XMethodTypeRendererSubmitLightMetaHandler = FOUR_CHAR_CODE('rdlg')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererSubmitLightMetaHandlerMethod )(TQ3ObjectType lightType);
@@ -1188,7 +1660,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererSubmitLightMethod )(TQ3ViewObjec
  *  Style
  */
 enum {
-    kQ3XMethodTypeRendererUpdateStyleMetaHandler = FOUR_CHAR_CODE('rdyu')
+  kQ3XMethodTypeRendererUpdateStyleMetaHandler = FOUR_CHAR_CODE('rdyu')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererUpdateStyleMetaHandlerMethod )(TQ3ObjectType styleType);
@@ -1201,7 +1673,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererUpdateStyleMethod )(TQ3ViewObjec
  *  Attributes
  */
 enum {
-    kQ3XMethodTypeRendererUpdateAttributeMetaHandler = FOUR_CHAR_CODE('rdau')
+  kQ3XMethodTypeRendererUpdateAttributeMetaHandler = FOUR_CHAR_CODE('rdau')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererUpdateAttributeMetaHandlerMethod )(TQ3AttributeType attributeType);
@@ -1214,7 +1686,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererUpdateAttributeMethod )(TQ3ViewO
  *  Shaders
  */
 enum {
-    kQ3XMethodTypeRendererUpdateShaderMetaHandler = FOUR_CHAR_CODE('rdsu')
+  kQ3XMethodTypeRendererUpdateShaderMetaHandler = FOUR_CHAR_CODE('rdsu')
 };
 
 typedef CALLBACK_API_C( TQ3XFunctionPointer , TQ3XRendererUpdateShaderMetaHandlerMethod )(TQ3ObjectType shaderType);
@@ -1227,7 +1699,7 @@ typedef CALLBACK_API_C( TQ3Status , TQ3XRendererUpdateShaderMethod )(TQ3ViewObje
  *  Matrices
  */
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixMetaHandler = FOUR_CHAR_CODE('rdxu')
+  kQ3XMethodTypeRendererUpdateMatrixMetaHandler = FOUR_CHAR_CODE('rdxu')
 };
 
 typedef TQ3XMetaHandler                 TQ3XRendererUpdateMatrixMetaHandlerMethod;
@@ -1236,27 +1708,27 @@ typedef TQ3XMetaHandler                 TQ3XRendererUpdateMatrixMetaHandlerMetho
  *  of the form kQ3MethodTypeRendererUpdateMatrixFoo:
  */
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixLocalToWorld = FOUR_CHAR_CODE('ulwx')
+  kQ3XMethodTypeRendererUpdateMatrixLocalToWorld = FOUR_CHAR_CODE('ulwx')
 };
 
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse = FOUR_CHAR_CODE('ulwi')
+  kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse = FOUR_CHAR_CODE('ulwi')
 };
 
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose = FOUR_CHAR_CODE('ulwt')
+  kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose = FOUR_CHAR_CODE('ulwt')
 };
 
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixLocalToCamera = FOUR_CHAR_CODE('ulcx')
+  kQ3XMethodTypeRendererUpdateMatrixLocalToCamera = FOUR_CHAR_CODE('ulcx')
 };
 
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum = FOUR_CHAR_CODE('ulfx')
+  kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum = FOUR_CHAR_CODE('ulfx')
 };
 
 enum {
-    kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum = FOUR_CHAR_CODE('uwfx')
+  kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum = FOUR_CHAR_CODE('uwfx')
 };
 
 /*

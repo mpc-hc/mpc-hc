@@ -4,9 +4,9 @@
      Contains:   Generic light routines
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1998 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -64,21 +64,19 @@ extern "C" {
  **                         Enum Definitions                                 **
  **                                                                          **
  *****************************************************************************/
-
 enum TQ3AttenuationType {
-    kQ3AttenuationTypeNone      = 0,
-    kQ3AttenuationTypeInverseDistance = 1,
-    kQ3AttenuationTypeInverseDistanceSquared = 2
+  kQ3AttenuationTypeNone        = 0,
+  kQ3AttenuationTypeInverseDistance = 1,
+  kQ3AttenuationTypeInverseDistanceSquared = 2
 };
 typedef enum TQ3AttenuationType TQ3AttenuationType;
 
 
-
 enum TQ3FallOffType {
-    kQ3FallOffTypeNone          = 0,
-    kQ3FallOffTypeLinear        = 1,
-    kQ3FallOffTypeExponential   = 2,
-    kQ3FallOffTypeCosine        = 3
+  kQ3FallOffTypeNone            = 0,
+  kQ3FallOffTypeLinear          = 1,
+  kQ3FallOffTypeExponential     = 2,
+  kQ3FallOffTypeCosine          = 3
 };
 typedef enum TQ3FallOffType TQ3FallOffType;
 
@@ -88,38 +86,34 @@ typedef enum TQ3FallOffType TQ3FallOffType;
  **                         Data Structure Definitions                       **
  **                                                                          **
  *****************************************************************************/
-
 struct TQ3LightData {
-    TQ3Boolean                      isOn;
-    float                           brightness;
-    TQ3ColorRGB                     color;
+  TQ3Boolean          isOn;
+  float               brightness;
+  TQ3ColorRGB         color;
 };
 typedef struct TQ3LightData             TQ3LightData;
-
 struct TQ3DirectionalLightData {
-    TQ3LightData                    lightData;
-    TQ3Boolean                      castsShadows;
-    TQ3Vector3D                     direction;
+  TQ3LightData        lightData;
+  TQ3Boolean          castsShadows;
+  TQ3Vector3D         direction;
 };
 typedef struct TQ3DirectionalLightData  TQ3DirectionalLightData;
-
 struct TQ3PointLightData {
-    TQ3LightData                    lightData;
-    TQ3Boolean                      castsShadows;
-    TQ3AttenuationType              attenuation;
-    TQ3Point3D                      location;
+  TQ3LightData        lightData;
+  TQ3Boolean          castsShadows;
+  TQ3AttenuationType  attenuation;
+  TQ3Point3D          location;
 };
 typedef struct TQ3PointLightData        TQ3PointLightData;
-
 struct TQ3SpotLightData {
-    TQ3LightData                    lightData;
-    TQ3Boolean                      castsShadows;
-    TQ3AttenuationType              attenuation;
-    TQ3Point3D                      location;
-    TQ3Vector3D                     direction;
-    float                           hotAngle;
-    float                           outerAngle;
-    TQ3FallOffType                  fallOff;
+  TQ3LightData        lightData;
+  TQ3Boolean          castsShadows;
+  TQ3AttenuationType  attenuation;
+  TQ3Point3D          location;
+  TQ3Vector3D         direction;
+  float               hotAngle;
+  float               outerAngle;
+  TQ3FallOffType      fallOff;
 };
 typedef struct TQ3SpotLightData         TQ3SpotLightData;
 /******************************************************************************
@@ -128,40 +122,129 @@ typedef struct TQ3SpotLightData         TQ3SpotLightData;
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  Q3Light_GetType()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3ObjectType )
-Q3Light_GetType                 (TQ3LightObject         light);
+Q3Light_GetType(TQ3LightObject light);
 
-EXTERN_API_C( TQ3Status )
-Q3Light_GetState                (TQ3LightObject         light,
-                                 TQ3Boolean *           isOn);
 
+/*
+ *  Q3Light_GetState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Light_GetBrightness           (TQ3LightObject         light,
-                                 float *                brightness);
+Q3Light_GetState(
+  TQ3LightObject   light,
+  TQ3Boolean *     isOn);
 
-EXTERN_API_C( TQ3Status )
-Q3Light_GetColor                (TQ3LightObject         light,
-                                 TQ3ColorRGB *          color);
 
+/*
+ *  Q3Light_GetBrightness()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Light_SetState                (TQ3LightObject         light,
-                                 TQ3Boolean             isOn);
+Q3Light_GetBrightness(
+  TQ3LightObject   light,
+  float *          brightness);
 
-EXTERN_API_C( TQ3Status )
-Q3Light_SetBrightness           (TQ3LightObject         light,
-                                 float                  brightness);
 
+/*
+ *  Q3Light_GetColor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Light_SetColor                (TQ3LightObject         light,
-                                 const TQ3ColorRGB *    color);
+Q3Light_GetColor(
+  TQ3LightObject   light,
+  TQ3ColorRGB *    color);
 
-EXTERN_API_C( TQ3Status )
-Q3Light_GetData                 (TQ3LightObject         light,
-                                 TQ3LightData *         lightData);
 
+/*
+ *  Q3Light_SetState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3Light_SetData                 (TQ3LightObject         light,
-                                 const TQ3LightData *   lightData);
+Q3Light_SetState(
+  TQ3LightObject   light,
+  TQ3Boolean       isOn);
+
+
+/*
+ *  Q3Light_SetBrightness()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3Light_SetBrightness(
+  TQ3LightObject   light,
+  float            brightness);
+
+
+/*
+ *  Q3Light_SetColor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3Light_SetColor(
+  TQ3LightObject       light,
+  const TQ3ColorRGB *  color);
+
+
+/*
+ *  Q3Light_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3Light_GetData(
+  TQ3LightObject   light,
+  TQ3LightData *   lightData);
+
+
+/*
+ *  Q3Light_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3Light_SetData(
+  TQ3LightObject        light,
+  const TQ3LightData *  lightData);
+
 
 
 /******************************************************************************
@@ -174,16 +257,45 @@ Q3Light_SetData                 (TQ3LightObject         light,
  **                         Ambient Light                                    **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3AmbientLight_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3LightObject )
-Q3AmbientLight_New              (const TQ3LightData *   lightData);
+Q3AmbientLight_New(const TQ3LightData * lightData);
 
-EXTERN_API_C( TQ3Status )
-Q3AmbientLight_GetData          (TQ3LightObject         light,
-                                 TQ3LightData *         lightData);
 
+/*
+ *  Q3AmbientLight_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3AmbientLight_SetData          (TQ3LightObject         light,
-                                 const TQ3LightData *   lightData);
+Q3AmbientLight_GetData(
+  TQ3LightObject   light,
+  TQ3LightData *   lightData);
+
+
+/*
+ *  Q3AmbientLight_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3AmbientLight_SetData(
+  TQ3LightObject        light,
+  const TQ3LightData *  lightData);
+
 
 
 /******************************************************************************
@@ -191,32 +303,101 @@ Q3AmbientLight_SetData          (TQ3LightObject         light,
  **                     Directional Light                                    **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3DirectionalLight_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3LightObject )
-Q3DirectionalLight_New          (const TQ3DirectionalLightData * directionalLightData);
+Q3DirectionalLight_New(const TQ3DirectionalLightData * directionalLightData);
 
-EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_GetCastShadowsState (TQ3LightObject  light,
-                                 TQ3Boolean *           castsShadows);
 
+/*
+ *  Q3DirectionalLight_GetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_GetDirection (TQ3LightObject         light,
-                                 TQ3Vector3D *          direction);
+Q3DirectionalLight_GetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean *     castsShadows);
 
-EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_SetCastShadowsState (TQ3LightObject  light,
-                                 TQ3Boolean             castsShadows);
 
+/*
+ *  Q3DirectionalLight_GetDirection()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_SetDirection (TQ3LightObject         light,
-                                 const TQ3Vector3D *    direction);
+Q3DirectionalLight_GetDirection(
+  TQ3LightObject   light,
+  TQ3Vector3D *    direction);
 
-EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_GetData      (TQ3LightObject         light,
-                                 TQ3DirectionalLightData * directionalLightData);
 
+/*
+ *  Q3DirectionalLight_SetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3DirectionalLight_SetData      (TQ3LightObject         light,
-                                 const TQ3DirectionalLightData * directionalLightData);
+Q3DirectionalLight_SetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean       castsShadows);
+
+
+/*
+ *  Q3DirectionalLight_SetDirection()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3DirectionalLight_SetDirection(
+  TQ3LightObject       light,
+  const TQ3Vector3D *  direction);
+
+
+/*
+ *  Q3DirectionalLight_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3DirectionalLight_GetData(
+  TQ3LightObject             light,
+  TQ3DirectionalLightData *  directionalLightData);
+
+
+/*
+ *  Q3DirectionalLight_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3DirectionalLight_SetData(
+  TQ3LightObject                   light,
+  const TQ3DirectionalLightData *  directionalLightData);
+
 
 
 /******************************************************************************
@@ -224,40 +405,129 @@ Q3DirectionalLight_SetData      (TQ3LightObject         light,
  **                     Point Light                                          **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3PointLight_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3LightObject )
-Q3PointLight_New                (const TQ3PointLightData * pointLightData);
+Q3PointLight_New(const TQ3PointLightData * pointLightData);
 
-EXTERN_API_C( TQ3Status )
-Q3PointLight_GetCastShadowsState (TQ3LightObject        light,
-                                 TQ3Boolean *           castsShadows);
 
+/*
+ *  Q3PointLight_GetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3PointLight_GetAttenuation     (TQ3LightObject         light,
-                                 TQ3AttenuationType *   attenuation);
+Q3PointLight_GetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean *     castsShadows);
 
-EXTERN_API_C( TQ3Status )
-Q3PointLight_GetLocation        (TQ3LightObject         light,
-                                 TQ3Point3D *           location);
 
+/*
+ *  Q3PointLight_GetAttenuation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3PointLight_GetData            (TQ3LightObject         light,
-                                 TQ3PointLightData *    pointLightData);
+Q3PointLight_GetAttenuation(
+  TQ3LightObject        light,
+  TQ3AttenuationType *  attenuation);
 
-EXTERN_API_C( TQ3Status )
-Q3PointLight_SetCastShadowsState (TQ3LightObject        light,
-                                 TQ3Boolean             castsShadows);
 
+/*
+ *  Q3PointLight_GetLocation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3PointLight_SetAttenuation     (TQ3LightObject         light,
-                                 TQ3AttenuationType     attenuation);
+Q3PointLight_GetLocation(
+  TQ3LightObject   light,
+  TQ3Point3D *     location);
 
-EXTERN_API_C( TQ3Status )
-Q3PointLight_SetLocation        (TQ3LightObject         light,
-                                 const TQ3Point3D *     location);
 
+/*
+ *  Q3PointLight_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3PointLight_SetData            (TQ3LightObject         light,
-                                 const TQ3PointLightData * pointLightData);
+Q3PointLight_GetData(
+  TQ3LightObject       light,
+  TQ3PointLightData *  pointLightData);
+
+
+/*
+ *  Q3PointLight_SetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3PointLight_SetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean       castsShadows);
+
+
+/*
+ *  Q3PointLight_SetAttenuation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3PointLight_SetAttenuation(
+  TQ3LightObject       light,
+  TQ3AttenuationType   attenuation);
+
+
+/*
+ *  Q3PointLight_SetLocation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3PointLight_SetLocation(
+  TQ3LightObject      light,
+  const TQ3Point3D *  location);
+
+
+/*
+ *  Q3PointLight_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3PointLight_SetData(
+  TQ3LightObject             light,
+  const TQ3PointLightData *  pointLightData);
+
 
 
 /******************************************************************************
@@ -265,72 +535,241 @@ Q3PointLight_SetData            (TQ3LightObject         light,
  **                     Spot Light                                           **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  Q3SpotLight_New()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3LightObject )
-Q3SpotLight_New                 (const TQ3SpotLightData * spotLightData);
+Q3SpotLight_New(const TQ3SpotLightData * spotLightData);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetCastShadowsState (TQ3LightObject         light,
-                                 TQ3Boolean *           castsShadows);
 
+/*
+ *  Q3SpotLight_GetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetAttenuation      (TQ3LightObject         light,
-                                 TQ3AttenuationType *   attenuation);
+Q3SpotLight_GetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean *     castsShadows);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetLocation         (TQ3LightObject         light,
-                                 TQ3Point3D *           location);
 
+/*
+ *  Q3SpotLight_GetAttenuation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetDirection        (TQ3LightObject         light,
-                                 TQ3Vector3D *          direction);
+Q3SpotLight_GetAttenuation(
+  TQ3LightObject        light,
+  TQ3AttenuationType *  attenuation);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetHotAngle         (TQ3LightObject         light,
-                                 float *                hotAngle);
 
+/*
+ *  Q3SpotLight_GetLocation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetOuterAngle       (TQ3LightObject         light,
-                                 float *                outerAngle);
+Q3SpotLight_GetLocation(
+  TQ3LightObject   light,
+  TQ3Point3D *     location);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetFallOff          (TQ3LightObject         light,
-                                 TQ3FallOffType *       fallOff);
 
+/*
+ *  Q3SpotLight_GetDirection()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_GetData             (TQ3LightObject         light,
-                                 TQ3SpotLightData *     spotLightData);
+Q3SpotLight_GetDirection(
+  TQ3LightObject   light,
+  TQ3Vector3D *    direction);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetCastShadowsState (TQ3LightObject         light,
-                                 TQ3Boolean             castsShadows);
 
+/*
+ *  Q3SpotLight_GetHotAngle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetAttenuation      (TQ3LightObject         light,
-                                 TQ3AttenuationType     attenuation);
+Q3SpotLight_GetHotAngle(
+  TQ3LightObject   light,
+  float *          hotAngle);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetLocation         (TQ3LightObject         light,
-                                 const TQ3Point3D *     location);
 
+/*
+ *  Q3SpotLight_GetOuterAngle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetDirection        (TQ3LightObject         light,
-                                 const TQ3Vector3D *    direction);
+Q3SpotLight_GetOuterAngle(
+  TQ3LightObject   light,
+  float *          outerAngle);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetHotAngle         (TQ3LightObject         light,
-                                 float                  hotAngle);
 
+/*
+ *  Q3SpotLight_GetFallOff()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetOuterAngle       (TQ3LightObject         light,
-                                 float                  outerAngle);
+Q3SpotLight_GetFallOff(
+  TQ3LightObject    light,
+  TQ3FallOffType *  fallOff);
 
-EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetFallOff          (TQ3LightObject         light,
-                                 TQ3FallOffType         fallOff);
 
+/*
+ *  Q3SpotLight_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-Q3SpotLight_SetData             (TQ3LightObject         light,
-                                 const TQ3SpotLightData * spotLightData);
+Q3SpotLight_GetData(
+  TQ3LightObject      light,
+  TQ3SpotLightData *  spotLightData);
+
+
+/*
+ *  Q3SpotLight_SetCastShadowsState()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetCastShadowsState(
+  TQ3LightObject   light,
+  TQ3Boolean       castsShadows);
+
+
+/*
+ *  Q3SpotLight_SetAttenuation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetAttenuation(
+  TQ3LightObject       light,
+  TQ3AttenuationType   attenuation);
+
+
+/*
+ *  Q3SpotLight_SetLocation()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetLocation(
+  TQ3LightObject      light,
+  const TQ3Point3D *  location);
+
+
+/*
+ *  Q3SpotLight_SetDirection()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetDirection(
+  TQ3LightObject       light,
+  const TQ3Vector3D *  direction);
+
+
+/*
+ *  Q3SpotLight_SetHotAngle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetHotAngle(
+  TQ3LightObject   light,
+  float            hotAngle);
+
+
+/*
+ *  Q3SpotLight_SetOuterAngle()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetOuterAngle(
+  TQ3LightObject   light,
+  float            outerAngle);
+
+
+/*
+ *  Q3SpotLight_SetFallOff()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetFallOff(
+  TQ3LightObject   light,
+  TQ3FallOffType   fallOff);
+
+
+/*
+ *  Q3SpotLight_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+Q3SpotLight_SetData(
+  TQ3LightObject            light,
+  const TQ3SpotLightData *  spotLightData);
+
 
 
 

@@ -3,10 +3,9 @@
  
      Contains:   Public interfaces for String Comparison and related operations
  
-     Version:    Technology: Mac OS 8
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1985-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1985-2001 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -21,6 +20,10 @@
 #include "MacTypes.h"
 #endif
 
+#ifndef __MIXEDMODE__
+#include "MixedMode.h"
+#endif
+
 #ifndef __TEXTCOMMON__
 #include "TextCommon.h"
 #endif
@@ -28,7 +31,6 @@
 #ifndef __SCRIPT__
 #include "Script.h"
 #endif
-
 
 
 
@@ -42,14 +44,6 @@ extern "C" {
 
 #if PRAGMA_IMPORT
 #pragma import on
-#endif
-
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=mac68k
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
 #endif
 
 /*
@@ -84,158 +78,179 @@ extern "C" {
 */
 
 enum {
-                                                                /* Special language code values for Language Order*/
-    systemCurLang               = -2,                           /* current (itlbLang) lang for system script*/
-    systemDefLang               = -3,                           /* default (table) lang for system script*/
-    currentCurLang              = -4,                           /* current (itlbLang) lang for current script*/
-    currentDefLang              = -5,                           /* default lang for current script*/
-    scriptCurLang               = -6,                           /* current (itlbLang) lang for specified script*/
-    scriptDefLang               = -7                            /* default language for a specified script*/
+                                        /* Special language code values for Language Order*/
+  systemCurLang                 = -2,   /* current (itlbLang) lang for system script*/
+  systemDefLang                 = -3,   /* default (table) lang for system script*/
+  currentCurLang                = -4,   /* current (itlbLang) lang for current script*/
+  currentDefLang                = -5,   /* default lang for current script*/
+  scriptCurLang                 = -6,   /* current (itlbLang) lang for specified script*/
+  scriptDefLang                 = -7    /* default language for a specified script*/
 };
 
 /* obsolete names*/
 enum {
-    iuSystemCurLang             = systemCurLang,
-    iuSystemDefLang             = systemDefLang,
-    iuCurrentCurLang            = currentCurLang,
-    iuCurrentDefLang            = currentDefLang,
-    iuScriptCurLang             = scriptCurLang,
-    iuScriptDefLang             = scriptDefLang
+  iuSystemCurLang               = systemCurLang,
+  iuSystemDefLang               = systemDefLang,
+  iuCurrentCurLang              = currentCurLang,
+  iuCurrentDefLang              = currentDefLang,
+  iuScriptCurLang               = scriptCurLang,
+  iuScriptDefLang               = scriptDefLang
 };
 
 
-/*
- *  Type Select Utils - now public in Carbon
- */
-
-typedef SInt16 TSCode;
-enum {
-    tsPreviousSelectMode        = -1,
-    tsNormalSelectMode          = 0,
-    tsNextSelectMode            = 1
-};
-
-
-struct TypeSelectRecord {
-    unsigned long                   tsrLastKeyTime;
-    ScriptCode                      tsrScript;
-    Str63                           tsrKeyStrokes;
-};
-typedef struct TypeSelectRecord         TypeSelectRecord;
-typedef CALLBACK_API( Boolean , IndexToStringProcPtr )(short item, ScriptCode *itemsScript, StringPtr *itemsStringPtr, void *yourDataPtr);
-typedef STACK_UPP_TYPE(IndexToStringProcPtr)                    IndexToStringUPP;
-EXTERN_API( void )
-TypeSelectClear                 (TypeSelectRecord *     tsr)                                THREEWORDINLINE(0x3F3C, 0x0028, 0xA9ED);
-
-/*
-        Long ago the implementation of TypeSelectNewKey had a bug that
-        required the high word of D0 to be zero or the function did not work.
-        Although fixed now, we are continuing to clear the high word
-        just in case someone tries to run on an older system.
-    */
-EXTERN_API( Boolean )
-TypeSelectNewKey                (const EventRecord *    theEvent,
-                                 TypeSelectRecord *     tsr)                                FOURWORDINLINE(0x7000, 0x3F3C, 0x002A, 0xA9ED);
-
-EXTERN_API( short )
-TypeSelectFindItem              (const TypeSelectRecord * tsr,
-                                 short                  listSize,
-                                 TSCode                 selectMode,
-                                 IndexToStringUPP       getStringProc,
-                                 void *                 yourDataPtr)                        THREEWORDINLINE(0x3F3C, 0x002C, 0xA9ED);
-
-
-EXTERN_API( short )
-TypeSelectCompare               (const TypeSelectRecord * tsr,
-                                 ScriptCode             testStringScript,
-                                 StringPtr              testStringPtr)                      THREEWORDINLINE(0x3F3C, 0x002E, 0xA9ED);
-
-#if OPAQUE_UPP_TYPES
-    EXTERN_API(IndexToStringUPP)
-    NewIndexToStringUPP            (IndexToStringProcPtr    userRoutine);
-
-    EXTERN_API(void)
-    DisposeIndexToStringUPP        (IndexToStringUPP        userUPP);
-
-    EXTERN_API(Boolean)
-    InvokeIndexToStringUPP         (short                   item,
-                                    ScriptCode *            itemsScript,
-                                    StringPtr *             itemsStringPtr,
-                                    void *                  yourDataPtr,
-                                    IndexToStringUPP        userUPP);
-
-#else
-    enum { uppIndexToStringProcInfo = 0x00003F90 };                 /* pascal 1_byte Func(2_bytes, 4_bytes, 4_bytes, 4_bytes) */
-    #define NewIndexToStringUPP(userRoutine)                        (IndexToStringUPP)NewRoutineDescriptor((ProcPtr)(userRoutine), uppIndexToStringProcInfo, GetCurrentArchitecture())
-    #define DisposeIndexToStringUPP(userUPP)                        DisposeRoutineDescriptor(userUPP)
-    #define InvokeIndexToStringUPP(item, itemsScript, itemsStringPtr, yourDataPtr, userUPP)  (Boolean)CALL_FOUR_PARAMETER_UPP((userUPP), uppIndexToStringProcInfo, (item), (itemsScript), (itemsStringPtr), (yourDataPtr))
-#endif
-/* support for pre-Carbon UPP routines: NewXXXProc and CallXXXProc */
-#define NewIndexToStringProc(userRoutine)                       NewIndexToStringUPP(userRoutine)
-#define CallIndexToStringProc(userRoutine, item, itemsScript, itemsStringPtr, yourDataPtr) InvokeIndexToStringUPP(item, itemsScript, itemsStringPtr, yourDataPtr, userRoutine)
 /*
  *  These routines are available in Carbon with the new names.
+ */
+/*
+ *  [Mac]ReplaceText()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
  */
 #if TARGET_OS_MAC
     #define MacReplaceText ReplaceText
 #endif
 EXTERN_API( short )
-MacReplaceText                  (Handle                 baseText,
-                                 Handle                 substitutionText,
-                                 Str15                  key)                                FOURWORDINLINE(0x2F3C, 0x820C, 0xFFDC, 0xA8B5);
+MacReplaceText(
+  Handle   baseText,
+  Handle   substitutionText,
+  Str15    key)                                               FOURWORDINLINE(0x2F3C, 0x820C, 0xFFDC, 0xA8B5);
 
+
+/*
+ *  ScriptOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-ScriptOrder                     (ScriptCode             script1,
-                                 ScriptCode             script2)                            THREEWORDINLINE(0x3F3C, 0x001E, 0xA9ED);
+ScriptOrder(
+  ScriptCode   script1,
+  ScriptCode   script2)                                       THREEWORDINLINE(0x3F3C, 0x001E, 0xA9ED);
 
+
+/*
+ *  [Mac]CompareString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 #if TARGET_OS_MAC
     #define MacCompareString CompareString
 #endif
 EXTERN_API( short )
-MacCompareString                (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 Handle                 itl2Handle);
+MacCompareString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  Handle             itl2Handle);
 
-EXTERN_API( short )
-IdenticalString                 (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 Handle                 itl2Handle);
 
+/*
+ *  IdenticalString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-StringOrder                     (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 ScriptCode             aScript,
-                                 ScriptCode             bScript,
-                                 LangCode               aLang,
-                                 LangCode               bLang);
+IdenticalString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  Handle             itl2Handle);
 
-EXTERN_API( short )
-CompareText                     (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 Handle                 itl2Handle)                         THREEWORDINLINE(0x3F3C, 0x001A, 0xA9ED);
 
+/*
+ *  StringOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-IdenticalText                   (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 Handle                 itl2Handle)                         THREEWORDINLINE(0x3F3C, 0x001C, 0xA9ED);
+StringOrder(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  ScriptCode         aScript,
+  ScriptCode         bScript,
+  LangCode           aLang,
+  LangCode           bLang);
 
-EXTERN_API( short )
-TextOrder                       (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 ScriptCode             aScript,
-                                 ScriptCode             bScript,
-                                 LangCode               aLang,
-                                 LangCode               bLang)                              THREEWORDINLINE(0x3F3C, 0x0022, 0xA9ED);
 
+/*
+ *  CompareText()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-LanguageOrder                   (LangCode               language1,
-                                 LangCode               language2)                          THREEWORDINLINE(0x3F3C, 0x0020, 0xA9ED);
+CompareText(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  Handle        itl2Handle)                                   THREEWORDINLINE(0x3F3C, 0x001A, 0xA9ED);
+
+
+/*
+ *  IdenticalText()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( short )
+IdenticalText(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  Handle        itl2Handle)                                   THREEWORDINLINE(0x3F3C, 0x001C, 0xA9ED);
+
+
+/*
+ *  TextOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( short )
+TextOrder(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  ScriptCode    aScript,
+  ScriptCode    bScript,
+  LangCode      aLang,
+  LangCode      bLang)                                        THREEWORDINLINE(0x3F3C, 0x0022, 0xA9ED);
+
+
+/*
+ *  LanguageOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API( short )
+LanguageOrder(
+  LangCode   language1,
+  LangCode   language2)                                       THREEWORDINLINE(0x3F3C, 0x0020, 0xA9ED);
+
 
 
 /*
@@ -243,78 +258,198 @@ LanguageOrder                   (LangCode               language1,
  *  Macros are provided for C to allow source code use to the new names.
  */
 #if CALL_NOT_IN_CARBON
+/*
+ *  IUMagPString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUMagPString                    (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 Handle                 itl2Handle)                         THREEWORDINLINE(0x3F3C, 0x001A, 0xA9ED);
+IUMagPString(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  Handle        itl2Handle)                                   THREEWORDINLINE(0x3F3C, 0x001A, 0xA9ED);
 
-EXTERN_API( short )
-IUMagIDPString                  (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 Handle                 itl2Handle)                         THREEWORDINLINE(0x3F3C, 0x001C, 0xA9ED);
 
+/*
+ *  IUMagIDPString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUTextOrder                     (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen,
-                                 ScriptCode             aScript,
-                                 ScriptCode             bScript,
-                                 LangCode               aLang,
-                                 LangCode               bLang)                              THREEWORDINLINE(0x3F3C, 0x0022, 0xA9ED);
+IUMagIDPString(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  Handle        itl2Handle)                                   THREEWORDINLINE(0x3F3C, 0x001C, 0xA9ED);
 
-EXTERN_API( short )
-IULangOrder                     (LangCode               language1,
-                                 LangCode               language2)                          THREEWORDINLINE(0x3F3C, 0x0020, 0xA9ED);
 
+/*
+ *  IUTextOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUScriptOrder                   (ScriptCode             script1,
-                                 ScriptCode             script2)                            THREEWORDINLINE(0x3F3C, 0x001E, 0xA9ED);
+IUTextOrder(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen,
+  ScriptCode    aScript,
+  ScriptCode    bScript,
+  LangCode      aLang,
+  LangCode      bLang)                                        THREEWORDINLINE(0x3F3C, 0x0022, 0xA9ED);
 
-EXTERN_API( short )
-IUMagString                     (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen)                               THREEWORDINLINE(0x3F3C, 0x000A, 0xA9ED);
 
+/*
+ *  IULangOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUMagIDString                   (const void *           aPtr,
-                                 const void *           bPtr,
-                                 short                  aLen,
-                                 short                  bLen)                               THREEWORDINLINE(0x3F3C, 0x000C, 0xA9ED);
+IULangOrder(
+  LangCode   language1,
+  LangCode   language2)                                       THREEWORDINLINE(0x3F3C, 0x0020, 0xA9ED);
+
+
+/*
+ *  IUScriptOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( short )
+IUScriptOrder(
+  ScriptCode   script1,
+  ScriptCode   script2)                                       THREEWORDINLINE(0x3F3C, 0x001E, 0xA9ED);
+
+
+/*
+ *  IUMagString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( short )
+IUMagString(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen)                                         THREEWORDINLINE(0x3F3C, 0x000A, 0xA9ED);
+
+
+/*
+ *  IUMagIDString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( short )
+IUMagIDString(
+  const void *  aPtr,
+  const void *  bPtr,
+  short         aLen,
+  short         bLen)                                         THREEWORDINLINE(0x3F3C, 0x000C, 0xA9ED);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  IUCompPString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUCompPString                   (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 Handle                 itl2Handle);
+IUCompPString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  Handle             itl2Handle);
 
-EXTERN_API( short )
-IUEqualPString                  (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 Handle                 itl2Handle);
 
+/*
+ *  IUEqualPString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUStringOrder                   (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr,
-                                 ScriptCode             aScript,
-                                 ScriptCode             bScript,
-                                 LangCode               aLang,
-                                 LangCode               bLang);
+IUEqualPString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  Handle             itl2Handle);
 
-EXTERN_API( short )
-IUCompString                    (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr);
 
+/*
+ *  IUStringOrder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API( short )
-IUEqualString                   (ConstStr255Param       aStr,
-                                 ConstStr255Param       bStr);
+IUStringOrder(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr,
+  ScriptCode         aScript,
+  ScriptCode         bScript,
+  LangCode           aLang,
+  LangCode           bLang);
+
+
+/*
+ *  IUCompString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( short )
+IUCompString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr);
+
+
+/*
+ *  IUEqualString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API( short )
+IUEqualString(
+  ConstStr255Param   aStr,
+  ConstStr255Param   bStr);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
@@ -323,11 +458,6 @@ IUEqualString                   (ConstStr255Param       aStr,
     #define CompareString(aStr, bStr, itl2Handle) \
              IUCompPString(aStr, bStr, itl2Handle)
 #endif
-#ifdef MacCompareString
-#undef MacCompareString
-#endif
-#define MacCompareString(aStr, bStr, itl2Handle) \
-         IUCompPString(aStr, bStr, itl2Handle)
 #define CompareText(aPtr, bPtr, aLen, bLen, itl2Handle) \
          IUMagPString(aPtr, bPtr, aLen, bLen, itl2Handle)
 #define IdenticalString(aStr, bStr, itl2Handle) \
@@ -342,72 +472,154 @@ IUEqualString                   (ConstStr255Param       aStr,
          IULangOrder(language1, language2)
 #endif /* CALL_NOT_IN_CARBON */
 #if CALL_NOT_IN_CARBON
+/*
+ *  iucomppstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( short )
-iucomppstring                   (const char *           aStr,
-                                 const char *           bStr,
-                                 Handle                 intlHandle);
+iucomppstring(
+  const char *  aStr,
+  const char *  bStr,
+  Handle        intlHandle);
 
-EXTERN_API_C( short )
-iuequalpstring                  (const char *           aStr,
-                                 const char *           bStr,
-                                 Handle                 intlHandle);
 
+/*
+ *  iuequalpstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( short )
-iustringorder                   (const char *           aStr,
-                                 const char *           bStr,
-                                 ScriptCode             aScript,
-                                 ScriptCode             bScript,
-                                 LangCode               aLang,
-                                 LangCode               bLang);
+iuequalpstring(
+  const char *  aStr,
+  const char *  bStr,
+  Handle        intlHandle);
 
-EXTERN_API_C( short )
-iucompstring                    (const char *           aStr,
-                                 const char *           bStr);
 
+/*
+ *  iustringorder()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( short )
-iuequalstring                   (const char *           aStr,
-                                 const char *           bStr);
+iustringorder(
+  const char *  aStr,
+  const char *  bStr,
+  ScriptCode    aScript,
+  ScriptCode    bScript,
+  LangCode      aLang,
+  LangCode      bLang);
+
+
+/*
+ *  iucompstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( short )
+iucompstring(
+  const char *  aStr,
+  const char *  bStr);
+
+
+/*
+ *  iuequalstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( short )
+iuequalstring(
+  const char *  aStr,
+  const char *  bStr);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 
+/*
+ *  RelString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( short )
-RelString                       (ConstStr255Param       str1,
-                                 ConstStr255Param       str2,
-                                 Boolean                caseSensitive,
-                                 Boolean                diacSensitive);
+RelString(
+  ConstStr255Param   str1,
+  ConstStr255Param   str2,
+  Boolean            caseSensitive,
+  Boolean            diacSensitive);
 
+
+/*
+ *  EqualString()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( Boolean )
-EqualString                     (ConstStr255Param       str1,
-                                 ConstStr255Param       str2,
-                                 Boolean                caseSensitive,
-                                 Boolean                diacSensitive);
+EqualString(
+  ConstStr255Param   str1,
+  ConstStr255Param   str2,
+  Boolean            caseSensitive,
+  Boolean            diacSensitive);
 
+
+/*
+ *  relstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API_C( short )
-relstring                       (const char *           str1,
-                                 const char *           str2,
-                                 Boolean                caseSensitive,
-                                 Boolean                diacSensitive);
+relstring(
+  const char *  str1,
+  const char *  str2,
+  Boolean       caseSensitive,
+  Boolean       diacSensitive);
+
 
 #if CALL_NOT_IN_CARBON
+/*
+ *  equalstring()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in InterfaceLib 7.1 and later
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( Boolean )
-equalstring                     (const char *           str1,
-                                 const char *           str2,
-                                 Boolean                caseSensitive,
-                                 Boolean                diacSensitive);
+equalstring(
+  const char *  str1,
+  const char *  str2,
+  Boolean       caseSensitive,
+  Boolean       diacSensitive);
+
 
 #endif  /* CALL_NOT_IN_CARBON */
 
 
 
-
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack()
-#endif
 
 #ifdef PRAGMA_IMPORT_OFF
 #pragma import off

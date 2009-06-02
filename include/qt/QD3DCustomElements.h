@@ -4,9 +4,9 @@
      Contains:   Custom QuickTime Elements in QuickDraw 3D
  
      Version:    Technology: Quickdraw 3D 1.6
-                 Release:    QuickTime 6.0.2
+                 Release:    QuickTime 7.3
  
-     Copyright:  (c) 1995-2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  (c) 2007 (c) 1995-1998 by Apple Computer, Inc., all rights reserved.
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -78,16 +78,45 @@ extern "C" {
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  CENameElement_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CENameElement_SetData           (TQ3Object              object,
-                                 const char *           name);
+CENameElement_SetData(
+  TQ3Object     object,
+  const char *  name);
 
-EXTERN_API_C( TQ3Status )
-CENameElement_GetData           (TQ3Object              object,
-                                 char **                name);
 
+/*
+ *  CENameElement_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CENameElement_EmptyData         (char **                name);
+CENameElement_GetData(
+  TQ3Object   object,
+  char **     name);
+
+
+/*
+ *  CENameElement_EmptyData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+CENameElement_EmptyData(char ** name);
+
 
 
 /******************************************************************************
@@ -98,18 +127,16 @@ CENameElement_EmptyData         (char **                name);
 #define CEcUrlElementName       "Apple Computer, Inc.:URLElement"
 #endif  /* CALL_NOT_IN_CARBON */
 
-
 enum TCEUrlOptions {
-    kCEUrlOptionNone            = 0,
-    kCEUrlOptionUseMap          = 1
+  kCEUrlOptionNone              = 0,
+  kCEUrlOptionUseMap            = 1
 };
 typedef enum TCEUrlOptions TCEUrlOptions;
 
-
 struct TCEUrlData {
-    char *                          url;
-    char *                          description;
-    TCEUrlOptions                   options;
+  char *              url;
+  char *              description;
+  TCEUrlOptions       options;
 };
 typedef struct TCEUrlData               TCEUrlData;
 /******************************************************************************
@@ -118,16 +145,45 @@ typedef struct TCEUrlData               TCEUrlData;
  **                                                                          **
  *****************************************************************************/
 #if CALL_NOT_IN_CARBON
+/*
+ *  CEUrlElement_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CEUrlElement_SetData            (TQ3Object              object,
-                                 TCEUrlData *           urlData);
+CEUrlElement_SetData(
+  TQ3Object     object,
+  TCEUrlData *  urlData);
 
-EXTERN_API_C( TQ3Status )
-CEUrlElement_GetData            (TQ3Object              object,
-                                 TCEUrlData **          urlData);
 
+/*
+ *  CEUrlElement_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CEUrlElement_EmptyData          (TCEUrlData **          urlData);
+CEUrlElement_GetData(
+  TQ3Object      object,
+  TCEUrlData **  urlData);
+
+
+/*
+ *  CEUrlElement_EmptyData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+CEUrlElement_EmptyData(TCEUrlData ** urlData);
+
 
 /******************************************************************************
  **                                                                          **
@@ -141,16 +197,45 @@ CEUrlElement_EmptyData          (TCEUrlData **          urlData);
  **                     Wire Custom Element Functions                        **
  **                                                                          **
  *****************************************************************************/
+/*
+ *  CEWireElement_SetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CEWireElement_SetData           (TQ3Object              object,
-                                 QTAtomContainer        wireData);
+CEWireElement_SetData(
+  TQ3Object         object,
+  QTAtomContainer   wireData);
 
-EXTERN_API_C( TQ3Status )
-CEWireElement_GetData           (TQ3Object              object,
-                                 QTAtomContainer *      wireData);
 
+/*
+ *  CEWireElement_GetData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
 EXTERN_API_C( TQ3Status )
-CEWireElement_EmptyData         (QTAtomContainer *      wireData);
+CEWireElement_GetData(
+  TQ3Object          object,
+  QTAtomContainer *  wireData);
+
+
+/*
+ *  CEWireElement_EmptyData()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         not available
+ */
+EXTERN_API_C( TQ3Status )
+CEWireElement_EmptyData(QTAtomContainer * wireData);
+
 
 
 

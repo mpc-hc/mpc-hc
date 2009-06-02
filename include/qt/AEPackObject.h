@@ -3,10 +3,9 @@
  
      Contains:   AppleEvents object packing Interfaces.
  
-     Version:    Technology: System 7.5
-                 Release:    QuickTime 6.0.2
+     Version:    QuickTime 7.3
  
-     Copyright:  (c) 1991-2001 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c) 2007 (c) 1991-2001 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -36,55 +35,89 @@ extern "C" {
 #pragma import on
 #endif
 
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=mac68k
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
-#endif
-
 /* These are the object packing routines.  */
+/*
+ *  CreateOffsetDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in ObjectSupportLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CreateOffsetDescriptor          (long                   theOffset,
-                                 AEDesc *               theDescriptor);
+CreateOffsetDescriptor(
+  long      theOffset,
+  AEDesc *  theDescriptor);
 
+
+/*
+ *  CreateCompDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in ObjectSupportLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CreateCompDescriptor            (DescType               comparisonOperator,
-                                 AEDesc *               operand1,
-                                 AEDesc *               operand2,
-                                 Boolean                disposeInputs,
-                                 AEDesc *               theDescriptor);
+CreateCompDescriptor(
+  DescType   comparisonOperator,
+  AEDesc *   operand1,
+  AEDesc *   operand2,
+  Boolean    disposeInputs,
+  AEDesc *   theDescriptor);
 
+
+/*
+ *  CreateLogicalDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in ObjectSupportLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CreateLogicalDescriptor         (AEDescList *           theLogicalTerms,
-                                 DescType               theLogicOperator,
-                                 Boolean                disposeInputs,
-                                 AEDesc *               theDescriptor);
+CreateLogicalDescriptor(
+  AEDescList *  theLogicalTerms,
+  DescType      theLogicOperator,
+  Boolean       disposeInputs,
+  AEDesc *      theDescriptor);
 
 
+
+/*
+ *  CreateObjSpecifier()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in ObjectSupportLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CreateObjSpecifier              (DescType               desiredClass,
-                                 AEDesc *               theContainer,
-                                 DescType               keyForm,
-                                 AEDesc *               keyData,
-                                 Boolean                disposeInputs,
-                                 AEDesc *               objSpecifier);
+CreateObjSpecifier(
+  DescType   desiredClass,
+  AEDesc *   theContainer,
+  DescType   keyForm,
+  AEDesc *   keyData,
+  Boolean    disposeInputs,
+  AEDesc *   objSpecifier);
 
+
+/*
+ *  CreateRangeDescriptor()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   in ObjectSupportLib 1.0 and later
+ *    CarbonLib:        in CarbonLib 1.0 and later
+ *    Mac OS X:         in version 10.0 and later
+ */
 EXTERN_API( OSErr )
-CreateRangeDescriptor           (AEDesc *               rangeStart,
-                                 AEDesc *               rangeStop,
-                                 Boolean                disposeInputs,
-                                 AEDesc *               theDescriptor);
+CreateRangeDescriptor(
+  AEDesc *  rangeStart,
+  AEDesc *  rangeStop,
+  Boolean   disposeInputs,
+  AEDesc *  theDescriptor);
 
 
-#if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
-#elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
-#elif PRAGMA_STRUCT_PACK
-    #pragma pack()
-#endif
 
 #ifdef PRAGMA_IMPORT_OFF
 #pragma import off
