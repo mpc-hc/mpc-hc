@@ -2505,11 +2505,14 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		LONGLONG llPerf = pApp->GetPerfCounter();
 		BOOL Data;
 		//Sleep(5);
+		LONGLONG FlushStartTime = pApp->GetPerfCounter();
 		while(S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH ))
 		{
 			if (!s.m_RenderSettings.iVMRFlushGPUWait)
 				break;
 			Sleep(1);
+			if (pApp->GetPerfCounter() - FlushStartTime > 500000)
+				break; // timeout after 50 ms
 		}
 		if (s.m_RenderSettings.iVMRFlushGPUWait)
 			m_WaitForGPUTime = pApp->GetPerfCounter() - llPerf;
@@ -2580,8 +2583,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			{
 				if (!s.m_RenderSettings.iVMRFlushGPUWait)
 					break;
-				if (pApp->GetPerfCounter() - FlushStartTime > 100000)
-					break; // timeout after 10 ms
+				if (pApp->GetPerfCounter() - FlushStartTime > 500000)
+					break; // timeout after 50 ms
 			}
 		}
 
