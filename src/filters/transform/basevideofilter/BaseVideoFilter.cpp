@@ -31,6 +31,7 @@
 //
 // CBaseVideoFilter
 //
+bool f_need_set_aspect;
 
 CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, REFCLSID clsid, long cBuffers) 
 	: CTransformFilter(pName, lpunk, clsid)
@@ -50,6 +51,7 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
 	m_aryout = m_aryin = m_ary = 0;
 
 	m_update_aspect = false;
+	f_need_set_aspect = false;
 }
 
 CBaseVideoFilter::~CBaseVideoFilter()
@@ -58,13 +60,9 @@ CBaseVideoFilter::~CBaseVideoFilter()
 
 void CBaseVideoFilter::SetAspect(CSize aspect)
 {
+	f_need_set_aspect = true;
 	m_arx = aspect.cx;
 	m_ary = aspect.cy;
-}
-
-void CBaseVideoFilter::UpdateAspect()
-{
-	m_update_aspect = true;
 }
 
 int CBaseVideoFilter::GetPinCount()
@@ -618,6 +616,13 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 			m_hout = hout;
 			m_arxout = arxout;
 			m_aryout = aryout;
+		}
+		else if(f_need_set_aspect && (m_w != wout || m_h != hout))
+		{
+			CString debug_s;
+			debug_s.Format(_T("\nPINDIR_OUTPUT CHANGE; m_w = %d, wout = %d, m_h = %d, hout = %d\n"), m_w, wout, m_h, hout);
+			TRACE(debug_s);
+			m_update_aspect = true;
 		}
 	}
 

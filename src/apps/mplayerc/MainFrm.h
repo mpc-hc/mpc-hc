@@ -384,8 +384,6 @@ protected:
 
 	bool m_fOpeningAborted;
 
-	HMONITOR m_last_monitor;
-
 public:
 	void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
 	void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
@@ -509,7 +507,6 @@ public:
 	afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnResumeFromState(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnResetDevice(WPARAM wParam, LPARAM lParam);
 
 	BOOL OnButton(UINT id, UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

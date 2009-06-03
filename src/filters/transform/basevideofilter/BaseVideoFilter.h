@@ -72,7 +72,6 @@ public:
 	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
 
 	void SetAspect(CSize aspect);
-	void UpdateAspect();
 };
 
 class CBaseVideoInputAllocator : public CMemAllocator
