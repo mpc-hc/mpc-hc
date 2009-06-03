@@ -159,6 +159,7 @@ public:
 	static UINT								DXVAFilters;
 
 	static bool								m_ref_frame_count_check_skip;
+	static bool								m_update_aspect;
 
 	CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMPCVideoDecFilter();

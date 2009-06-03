@@ -2730,6 +2730,8 @@ bool CDX9AllocatorPresenter::ResetDevice()
 		return false;
 	}
 	OnResetDevice();
+
+	AfxGetApp()->m_pMainWnd->PostMessage(WM_RESETDEVICE);
 	return true;
 }
 

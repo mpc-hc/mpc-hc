@@ -432,7 +432,8 @@ const int CMPCVideoDecFilter::sudPinTypesInCount = 115; //countof(CMPCVideoDecFi
 
 UINT       CMPCVideoDecFilter::FFmpegFilters = 0xFFFFFFFF;
 UINT       CMPCVideoDecFilter::DXVAFilters = 0xFFFFFFFF;
-bool	   CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;	
+bool	   CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
+bool	   CMPCVideoDecFilter::m_update_aspect = false;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
 {
@@ -1507,6 +1508,12 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 void CMPCVideoDecFilter::UpdateAspectRatio()
 {
+	if(m_update_aspect)
+	{
+		UpdateAspect();
+		m_update_aspect = false;
+	}
+
 	if(((m_nARMode) && (m_pAVCtx)) && ((m_pAVCtx->sample_aspect_ratio.num>0) && (m_pAVCtx->sample_aspect_ratio.den>0)))
 	{ 
 		CSize SAR(m_pAVCtx->sample_aspect_ratio.num, m_pAVCtx->sample_aspect_ratio.den); 

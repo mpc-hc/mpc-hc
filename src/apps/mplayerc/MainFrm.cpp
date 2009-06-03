@@ -174,6 +174,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_MESSAGE(WM_GRAPHNOTIFY, OnGraphNotify)
 	ON_MESSAGE(WM_REARRANGERENDERLESS, OnRepaintRenderLess)
 	ON_MESSAGE(WM_RESUMEFROMSTATE, OnResumeFromState)
+	ON_MESSAGE(WM_RESETDEVICE, OnResetDevice)
 
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
@@ -621,6 +622,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
 	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+
+	m_last_monitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 	SendAPICommand (CMD_CONNECT, L"%d", GetSafeHwnd());
 
@@ -1118,6 +1121,13 @@ void CMainFrame::OnMove(int x, int y)
 	GetWindowPlacement(&wp);
 	if(!m_fFullScreen && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED)
 		GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
+
+	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+	if(m_last_monitor!=hm_cur)
+	{
+		m_last_monitor = hm_cur;
+		CMPCVideoDecFilter::m_update_aspect = true;
+	}
 }
 
 void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
@@ -2286,6 +2296,12 @@ LRESULT CMainFrame::OnResumeFromState(WPARAM wParam, LPARAM lParam)
 		return FALSE;
 	}
 
+	return TRUE;
+}
+
+LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
+{
+	CMPCVideoDecFilter::m_update_aspect = true;
 	return TRUE;
 }
 

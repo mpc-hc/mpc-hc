@@ -48,6 +48,8 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
 	m_hout = m_hin = m_h = 0;
 	m_arxout = m_arxin = m_arx = 0;
 	m_aryout = m_aryin = m_ary = 0;
+
+	m_update_aspect = false;
 }
 
 CBaseVideoFilter::~CBaseVideoFilter()
@@ -58,6 +60,11 @@ void CBaseVideoFilter::SetAspect(CSize aspect)
 {
 	m_arx = aspect.cx;
 	m_ary = aspect.cy;
+}
+
+void CBaseVideoFilter::UpdateAspect()
+{
+	m_update_aspect = true;
 }
 
 int CBaseVideoFilter::GetPinCount()
@@ -152,7 +159,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 
 	HRESULT hr = S_OK;
 
-	if(fForceReconnection || m_w != m_wout || m_h != m_hout || m_arx != m_arxout || m_ary != m_aryout)
+	if(m_update_aspect || fForceReconnection || m_w != m_wout || m_h != m_hout || m_arx != m_arxout || m_ary != m_aryout)
 	{
 		if(GetCLSID(m_pOutput->GetConnected()) == CLSID_VideoRenderer)
 		{
@@ -237,6 +244,8 @@ HRESULT hr1 = 0, hr2 = 0;
 		m_hout = m_h;
 		m_arxout = m_arx;
 		m_aryout = m_ary;
+
+		m_update_aspect = false;
 
 		// some renderers don't send this
 		NotifyEvent(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_w, m_h), 0);

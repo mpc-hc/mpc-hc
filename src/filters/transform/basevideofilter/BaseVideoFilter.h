@@ -45,6 +45,7 @@ protected:
 	CCritSec m_csReceive;
 
 	int m_w, m_h, m_arx, m_ary;
+	bool m_update_aspect;
 
 	HRESULT GetDeliveryBuffer(int w, int h, IMediaSample** ppOut);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
@@ -71,6 +72,7 @@ public:
 	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt);
 
 	void SetAspect(CSize aspect);
+	void UpdateAspect();
 };
 
 class CBaseVideoInputAllocator : public CMemAllocator
