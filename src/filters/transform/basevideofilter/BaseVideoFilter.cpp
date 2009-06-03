@@ -50,7 +50,6 @@ CBaseVideoFilter::CBaseVideoFilter(TCHAR* pName, LPUNKNOWN lpunk, HRESULT* phr, 
 	m_arxout = m_arxin = m_arx = 0;
 	m_aryout = m_aryin = m_ary = 0;
 
-	m_update_aspect = false;
 	f_need_set_aspect = false;
 }
 
@@ -144,6 +143,20 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 {
 	CMediaType& mt = m_pOutput->CurrentMediaType();
 
+	bool m_update_aspect = false;
+	if(f_need_set_aspect)
+	{
+		int wout = 0, hout = 0, arxout = 0, aryout = 0;
+		ExtractDim(&mt, wout, hout, arxout, aryout);
+		if(arxout != m_arx || aryout != m_ary)
+		{
+			CString debug_s;
+			debug_s.Format(_T("\nCBaseVideoFilter::ReconnectOutput; wout = %d, hout = %d, current = %dx%d, set = %dx%d\n"), wout, hout, arxout, aryout, m_arx, m_ary);
+			TRACE(debug_s);
+			m_update_aspect = true;
+		}
+	}
+
 	int w_org = m_w;
 	int h_org = m_h;
 
@@ -208,7 +221,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 
 		hr = m_pOutput->GetConnected()->QueryAccept(&mt);
 		ASSERT(SUCCEEDED(hr)); // should better not fail, after all "mt" is the current media type, just with a different resolution
-HRESULT hr1 = 0, hr2 = 0;
+		HRESULT hr1 = 0, hr2 = 0;
 		CComPtr<IMediaSample> pOut;
 		if(SUCCEEDED(hr1 = m_pOutput->GetConnected()->ReceiveConnection(m_pOutput, &mt)))
 		{
@@ -242,8 +255,6 @@ HRESULT hr1 = 0, hr2 = 0;
 		m_hout = m_h;
 		m_arxout = m_arx;
 		m_aryout = m_ary;
-
-		m_update_aspect = false;
 
 		// some renderers don't send this
 		NotifyEvent(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_w, m_h), 0);
@@ -616,13 +627,6 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 			m_hout = hout;
 			m_arxout = arxout;
 			m_aryout = aryout;
-		}
-		else if(f_need_set_aspect && (m_w != wout || m_h != hout))
-		{
-			CString debug_s;
-			debug_s.Format(_T("\nPINDIR_OUTPUT CHANGE; m_w = %d, wout = %d, m_h = %d, hout = %d\n"), m_w, wout, m_h, hout);
-			TRACE(debug_s);
-			m_update_aspect = true;
 		}
 	}
 
