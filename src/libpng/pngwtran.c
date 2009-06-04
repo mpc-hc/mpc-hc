@@ -1,9 +1,9 @@
 
 /* pngwtran.c - transforms the data in a row for PNG writers
  *
- * Last changed in libpng 1.2.9 April 14, 2006
+ * Last changed in libpng 1.2.37 [June 4, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  */
@@ -26,7 +26,7 @@ png_do_write_transformations(png_structp png_ptr)
 #if defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED)
    if (png_ptr->transformations & PNG_USER_TRANSFORM)
       if (png_ptr->write_user_transform_fn != NULL)
-        (*(png_ptr->write_user_transform_fn)) /* user write transform function */
+        (*(png_ptr->write_user_transform_fn)) /* User write transform function */
           (png_ptr,                    /* png_ptr */
            &(png_ptr->row_info),       /* row_info:     */
              /*  png_uint_32 width;          width of row */
@@ -248,7 +248,7 @@ png_do_shift(png_row_infop row_info, png_bytep row, png_color_8p bit_depth)
          channels++;
       }
 
-      /* with low row depths, could only be grayscale, so one channel */
+      /* With low row depths, could only be grayscale, so one channel */
       if (row_info->bit_depth < 8)
       {
          png_bytep bp = row;
@@ -439,7 +439,7 @@ png_do_write_invert_alpha(png_row_infop row_info, png_bytep row)
             png_uint_32 row_width = row_info->width;
             for (i = 0, sp = dp = row; i < row_width; i++)
             {
-               /* does nothing
+               /* Does nothing
                *(dp++) = *(sp++);
                *(dp++) = *(sp++);
                *(dp++) = *(sp++);
@@ -457,7 +457,7 @@ png_do_write_invert_alpha(png_row_infop row_info, png_bytep row)
 
             for (i = 0, sp = dp = row; i < row_width; i++)
             {
-               /* does nothing
+               /* Does nothing
                *(dp++) = *(sp++);
                *(dp++) = *(sp++);
                *(dp++) = *(sp++);
@@ -495,7 +495,7 @@ png_do_write_invert_alpha(png_row_infop row_info, png_bytep row)
 
             for (i = 0, sp = dp = row; i < row_width; i++)
             {
-               /* does nothing
+               /* Does nothing
                *(dp++) = *(sp++);
                *(dp++) = *(sp++);
                */
@@ -510,7 +510,7 @@ png_do_write_invert_alpha(png_row_infop row_info, png_bytep row)
 #endif
 
 #if defined(PNG_MNG_FEATURES_SUPPORTED)
-/* undoes intrapixel differencing  */
+/* Undoes intrapixel differencing  */
 void /* PRIVATE */
 png_do_write_intrapixel(png_row_infop row_info, png_bytep row)
 {

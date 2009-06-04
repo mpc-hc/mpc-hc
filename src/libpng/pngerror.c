@@ -1,7 +1,7 @@
 
 /* pngerror.c - stub functions for i/o and memory allocation
  *
- * Last changed in libpng 1.2.36 [May 7, 2009]
+ * Last changed in libpng 1.2.37 [June 4, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -234,9 +234,11 @@ png_default_error(png_structp png_ptr, png_const_charp error_message)
        fprintf(stderr, PNG_STRING_NEWLINE);
      }
      else
+     {
        fprintf(stderr, "libpng error: %s, offset=%d",
           error_message, offset);
        fprintf(stderr, PNG_STRING_NEWLINE);
+     }
    }
    else
 #endif
@@ -263,7 +265,7 @@ png_default_error(png_structp png_ptr, png_const_charp error_message)
    PNG_ABORT();
 #endif
 #ifdef PNG_NO_CONSOLE_IO
-   error_message = error_message; /* make compiler happy */
+   error_message = error_message; /* Make compiler happy */
 #endif
 }
 
@@ -309,9 +311,9 @@ png_default_warning(png_structp png_ptr, png_const_charp warning_message)
      fprintf(stderr, PNG_STRING_NEWLINE);
    }
 #else
-   warning_message = warning_message; /* make compiler happy */
+   warning_message = warning_message; /* Make compiler happy */
 #endif
-   png_ptr = png_ptr; /* make compiler happy */
+   png_ptr = png_ptr; /* Make compiler happy */
 }
 #endif /* PNG_NO_WARNINGS */
 

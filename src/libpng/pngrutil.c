@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.2.36 [May 7, 2009]
+ * Last changed in libpng 1.2.37 [June 4, 2009]
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -21,7 +21,7 @@
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
 #  if defined(WIN32_WCE_OLD)
-/* strtod() function is not supported on WindowsCE */
+/* The strtod() function is not supported on WindowsCE */
 __inline double png_strtod(png_structp png_ptr, PNG_CONST char *nptr, char **endptr)
 {
    double result = 0;
@@ -76,7 +76,8 @@ png_get_uint_32(png_bytep buf)
 
 /* Grab a signed 32-bit integer from a buffer in big-endian format.  The
  * data is stored in the PNG file in two's complement format, and it is
- * assumed that the machine format for signed integers is the same. */
+ * assumed that the machine format for signed integers is the same.
+ */
 png_int_32 PNGAPI
 png_get_int_32(png_bytep buf)
 {
@@ -108,21 +109,21 @@ png_read_chunk_header(png_structp png_ptr)
    png_byte buf[8];
    png_uint_32 length;
 
-   /* read the length and the chunk name */
+   /* Read the length and the chunk name */
    png_read_data(png_ptr, buf, 8);
    length = png_get_uint_31(png_ptr, buf);
 
-   /* put the chunk name into png_ptr->chunk_name */
+   /* Put the chunk name into png_ptr->chunk_name */
    png_memcpy(png_ptr->chunk_name, buf + 4, 4);
 
    png_debug2(0, "Reading %s chunk, length = %lu",
       png_ptr->chunk_name, length);
 
-   /* reset the crc and run it over the chunk name */
+   /* Reset the crc and run it over the chunk name */
    png_reset_crc(png_ptr);
    png_calculate_crc(png_ptr, png_ptr->chunk_name, 4);
 
-   /* check to see if chunk name is valid */
+   /* Check to see if chunk name is valid */
    png_check_chunk_name(png_ptr, png_ptr->chunk_name);
 
    return length;
@@ -132,15 +133,17 @@ png_read_chunk_header(png_structp png_ptr)
 void /* PRIVATE */
 png_crc_read(png_structp png_ptr, png_bytep buf, png_size_t length)
 {
-   if (png_ptr == NULL) return;
+   if (png_ptr == NULL)
+      return;
    png_read_data(png_ptr, buf, length);
    png_calculate_crc(png_ptr, buf, length);
 }
 
 /* Optionally skip data and then check the CRC.  Depending on whether we
-   are reading a ancillary or critical chunk, and how the program has set
-   things up, we may calculate the CRC on the data and print a message.
-   Returns '1' if there was a CRC error, '0' otherwise. */
+ * are reading a ancillary or critical chunk, and how the program has set
+ * things up, we may calculate the CRC on the data and print a message.
+ * Returns '1' if there was a CRC error, '0' otherwise.
+ */
 int /* PRIVATE */
 png_crc_finish(png_structp png_ptr, png_uint_32 skip)
 {
@@ -159,7 +162,7 @@ png_crc_finish(png_structp png_ptr, png_uint_32 skip)
    if (png_crc_error(png_ptr))
    {
       if (((png_ptr->chunk_name[0] & 0x20) &&                /* Ancillary */
-           !(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN)) ||
+          !(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN)) ||
           (!(png_ptr->chunk_name[0] & 0x20) &&             /* Critical  */
           (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_USE)))
       {
@@ -176,7 +179,8 @@ png_crc_finish(png_structp png_ptr, png_uint_32 skip)
 }
 
 /* Compare the CRC stored in the PNG file with that calculated by libpng from
-   the data it has read thus far. */
+ * the data it has read thus far.
+ */
 int /* PRIVATE */
 png_crc_error(png_structp png_ptr)
 {
@@ -331,14 +335,17 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
             png_snprintf(umsg, 52,
                 "Buffer error in compressed datastream in %s chunk",
                 png_ptr->chunk_name);
+
          else if (ret == Z_DATA_ERROR)
             png_snprintf(umsg, 52,
                 "Data error in compressed datastream in %s chunk",
                 png_ptr->chunk_name);
+
          else
             png_snprintf(umsg, 52,
                 "Incomplete compressed datastream in %s chunk",
                 png_ptr->chunk_name);
+
          png_warning(png_ptr, umsg);
 #else
          png_warning(png_ptr,
@@ -383,7 +390,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
 }
 #endif
 
-/* read and check the IDHR chunk */
+/* Read and check the IDHR chunk */
 void /* PRIVATE */
 png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -397,7 +404,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (png_ptr->mode & PNG_HAVE_IHDR)
       png_error(png_ptr, "Out of place IHDR");
 
-   /* check the length */
+   /* Check the length */
    if (length != 13)
       png_error(png_ptr, "Invalid IHDR chunk");
 
@@ -414,7 +421,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    filter_type = buf[11];
    interlace_type = buf[12];
 
-   /* set internal variables */
+   /* Set internal variables */
    png_ptr->width = width;
    png_ptr->height = height;
    png_ptr->bit_depth = (png_byte)bit_depth;
@@ -425,25 +432,28 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
    png_ptr->compression_type = (png_byte)compression_type;
 
-   /* find number of channels */
+   /* Find number of channels */
    switch (png_ptr->color_type)
    {
       case PNG_COLOR_TYPE_GRAY:
       case PNG_COLOR_TYPE_PALETTE:
          png_ptr->channels = 1;
          break;
+
       case PNG_COLOR_TYPE_RGB:
          png_ptr->channels = 3;
          break;
+
       case PNG_COLOR_TYPE_GRAY_ALPHA:
          png_ptr->channels = 2;
          break;
+
       case PNG_COLOR_TYPE_RGB_ALPHA:
          png_ptr->channels = 4;
          break;
    }
 
-   /* set up other useful info */
+   /* Set up other useful info */
    png_ptr->pixel_depth = (png_byte)(png_ptr->bit_depth *
    png_ptr->channels);
    png_ptr->rowbytes = PNG_ROWBYTES(png_ptr->pixel_depth, png_ptr->width);
@@ -454,7 +464,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       color_type, interlace_type, compression_type, filter_type);
 }
 
-/* read and check the palette */
+/* Read and check the palette */
 void /* PRIVATE */
 png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -468,12 +478,14 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    if (!(png_ptr->mode & PNG_HAVE_IHDR))
       png_error(png_ptr, "Missing IHDR before PLTE");
+
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
       png_warning(png_ptr, "Invalid PLTE after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
+
    else if (png_ptr->mode & PNG_HAVE_PLTE)
       png_error(png_ptr, "Duplicate PLTE chunk");
 
@@ -502,6 +514,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
          png_crc_finish(png_ptr, length);
          return;
       }
+
       else
       {
          png_error(png_ptr, "Invalid palette chunk");
@@ -526,7 +539,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_byte buf[3];
 
       png_crc_read(png_ptr, buf, 3);
-      /* don't depend upon png_color being any order */
+      /* Don't depend upon png_color being any order */
       palette[i].red = buf[0];
       palette[i].green = buf[1];
       palette[i].blue = buf[2];
@@ -534,9 +547,10 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
    /* If we actually NEED the PLTE chunk (ie for a paletted image), we do
-      whatever the normal CRC configuration tells us.  However, if we
-      have an RGB image, the PLTE can be considered ancillary, so
-      we will act as though it is. */
+    * whatever the normal CRC configuration tells us.  However, if we
+    * have an RGB image, the PLTE can be considered ancillary, so
+    * we will act as though it is.
+    */
 #if !defined(PNG_READ_OPT_PLTE_SUPPORTED)
    if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
 #endif
@@ -611,7 +625,7 @@ png_handle_IEND(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
    png_crc_finish(png_ptr, length);
 
-   info_ptr = info_ptr; /* quiet compiler warnings about unused info_ptr */
+   info_ptr = info_ptr; /* Quiet compiler warnings about unused info_ptr */
 }
 
 #if defined(PNG_READ_gAMA_SUPPORTED)
@@ -661,7 +675,7 @@ png_handle_gAMA(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
 
    igamma = (png_fixed_point)png_get_uint_32(buf);
-   /* check for zero gamma */
+   /* Check for zero gamma */
    if (igamma == 0)
       {
          png_warning(png_ptr,
@@ -925,7 +939,7 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
 
    intent = buf[0];
-   /* check for bad intent */
+   /* Check for bad intent */
    if (intent >= PNG_sRGB_INTENT_LAST)
    {
       png_warning(png_ptr, "Unknown sRGB intent");
@@ -1040,12 +1054,13 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_ptr->chunkdata[slength] = 0x00;
 
    for (profile = png_ptr->chunkdata; *profile; profile++)
-      /* empty loop to find end of name */ ;
+      /* Empty loop to find end of name */ ;
 
    ++profile;
 
-   /* there should be at least one zero (the compression type byte)
-      following the separator, and we should be on it  */
+   /* There should be at least one zero (the compression type byte)
+    * following the separator, and we should be on it
+    */
    if ( profile >= png_ptr->chunkdata + slength - 1)
    {
       png_free(png_ptr, png_ptr->chunkdata);
@@ -1054,7 +1069,7 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   /* compression_type should always be zero */
+   /* Compression_type should always be zero */
    compression_type = *profile++;
    if (compression_type)
    {
@@ -1152,10 +1167,10 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_ptr->chunkdata[slength] = 0x00;
 
    for (entry_start = (png_bytep)png_ptr->chunkdata; *entry_start; entry_start++)
-      /* empty loop to find end of name */ ;
+      /* Empty loop to find end of name */ ;
    ++entry_start;
 
-   /* a sample depth should follow the separator, and we should be on it  */
+   /* A sample depth should follow the separator, and we should be on it  */
    if (entry_start > (png_bytep)png_ptr->chunkdata + slength - 2)
    {
       png_free(png_ptr, png_ptr->chunkdata);
@@ -1168,7 +1183,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    entry_size = (new_palette.depth == 8 ? 6 : 10);
    data_length = (slength - (entry_start - (png_bytep)png_ptr->chunkdata));
 
-   /* integrity-check the data length */
+   /* Integrity-check the data length */
    if (data_length % entry_size)
    {
       png_free(png_ptr, png_ptr->chunkdata);
@@ -1236,7 +1251,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
 #endif
 
-   /* discard all chunk data except the name and stash that */
+   /* Discard all chunk data except the name and stash that */
    new_palette.name = png_ptr->chunkdata;
 
    png_set_sPLT(png_ptr, info_ptr, &new_palette, 1);
@@ -1572,7 +1587,7 @@ png_handle_oFFs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #if defined(PNG_READ_pCAL_SUPPORTED)
-/* read the pCAL chunk (described in the PNG Extensions document) */
+/* Read the pCAL chunk (described in the PNG Extensions document) */
 void /* PRIVATE */
 png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -1619,11 +1634,11 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   png_ptr->chunkdata[slength] = 0x00; /* null terminate the last string */
+   png_ptr->chunkdata[slength] = 0x00; /* Null terminate the last string */
 
    png_debug(3, "Finding end of pCAL purpose string");
    for (buf = png_ptr->chunkdata; *buf; buf++)
-      /* empty loop */ ;
+      /* Empty loop */ ;
 
    endptr = png_ptr->chunkdata + slength;
 
@@ -1706,7 +1721,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #if defined(PNG_READ_sCAL_SUPPORTED)
-/* read the sCAL chunk */
+/* Read the sCAL chunk */
 void /* PRIVATE */
 png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -1756,9 +1771,9 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   png_ptr->chunkdata[slength] = 0x00; /* null terminate the last string */
+   png_ptr->chunkdata[slength] = 0x00; /* Null terminate the last string */
 
-   ep = png_ptr->chunkdata + 1;        /* skip unit byte */
+   ep = png_ptr->chunkdata + 1;        /* Skip unit byte */
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
    width = png_strtod(png_ptr, ep, &vp);
@@ -1780,7 +1795,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
    for (ep = png_ptr->chunkdata; *ep; ep++)
-      /* empty loop */ ;
+      /* Empty loop */ ;
    ep++;
 
    if (png_ptr->chunkdata + slength < ep)
@@ -1944,7 +1959,7 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    key[slength] = 0x00;
 
    for (text = key; *text; text++)
-      /* empty loop to find end of key */ ;
+      /* Empty loop to find end of key */ ;
 
    if (text != key + slength)
       text++;
@@ -1979,7 +1994,7 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #if defined(PNG_READ_zTXt_SUPPORTED)
-/* note: this does not correctly handle chunks that are > 64K under DOS */
+/* Note: this does not correctly handle chunks that are > 64K under DOS */
 void /* PRIVATE */
 png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -2028,7 +2043,7 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_ptr->chunkdata[slength] = 0x00;
 
    for (text = png_ptr->chunkdata; *text; text++)
-      /* empty loop */ ;
+      /* Empty loop */ ;
 
    /* zTXt must have some text after the chunkdataword */
    if (text >= png_ptr->chunkdata + slength - 2)
@@ -2046,7 +2061,7 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
           png_warning(png_ptr, "Unknown compression type in zTXt chunk");
           comp_type = PNG_TEXT_COMPRESSION_zTXt;
        }
-       text++;        /* skip the compression_method byte */
+       text++;        /* Skip the compression_method byte */
    }
    prefix_len = text - png_ptr->chunkdata;
 
@@ -2083,7 +2098,7 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #if defined(PNG_READ_iTXt_SUPPORTED)
-/* note: this does not correctly handle chunks that are > 64K under DOS */
+/* Note: this does not correctly handle chunks that are > 64K under DOS */
 void /* PRIVATE */
 png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -2133,12 +2148,13 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_ptr->chunkdata[slength] = 0x00;
 
    for (lang = png_ptr->chunkdata; *lang; lang++)
-      /* empty loop */ ;
-   lang++;        /* skip NUL separator */
+      /* Empty loop */ ;
+   lang++;        /* Skip NUL separator */
 
    /* iTXt must have a language tag (possibly empty), two compression bytes,
-      translated keyword (possibly empty), and possibly some text after the
-      keyword */
+    * translated keyword (possibly empty), and possibly some text after the
+    * keyword
+    */
 
    if (lang >= png_ptr->chunkdata + slength - 3)
    {
@@ -2154,8 +2170,8 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
 
    for (lang_key = lang; *lang_key; lang_key++)
-      /* empty loop */ ;
-   lang_key++;        /* skip NUL separator */
+      /* Empty loop */ ;
+   lang_key++;        /* Skip NUL separator */
 
    if (lang_key >= png_ptr->chunkdata + slength)
    {
@@ -2166,8 +2182,8 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
 
    for (text = lang_key; *text; text++)
-      /* empty loop */ ;
-   text++;        /* skip NUL separator */
+      /* Empty loop */ ;
+   text++;        /* Skip NUL separator */
    if (text >= png_ptr->chunkdata + slength)
    {
       png_warning(png_ptr, "Malformed iTXt chunk");
@@ -2229,7 +2245,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #ifdef PNG_USE_LOCAL_ARRAYS
       PNG_CONST PNG_IDAT;
 #endif
-      if (png_memcmp(png_ptr->chunk_name, png_IDAT, 4))  /* not an IDAT */
+      if (png_memcmp(png_ptr->chunk_name, png_IDAT, 4))  /* Not an IDAT */
          png_ptr->mode |= PNG_AFTER_IDAT;
    }
 
@@ -2273,7 +2289,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #if defined(PNG_READ_USER_CHUNKS_SUPPORTED)
        if (png_ptr->read_user_chunk_fn != NULL)
        {
-          /* callback to user unknown chunk handler */
+          /* Callback to user unknown chunk handler */
           int ret;
           ret = (*(png_ptr->read_user_chunk_fn))
             (png_ptr, &png_ptr->unknown_chunk);
@@ -2302,7 +2318,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_crc_finish(png_ptr, skip);
 
 #if !defined(PNG_READ_USER_CHUNKS_SUPPORTED)
-   info_ptr = info_ptr; /* quiet compiler warnings about unused info_ptr */
+   info_ptr = info_ptr; /* Quiet compiler warnings about unused info_ptr */
 #endif
 }
 
@@ -2550,8 +2566,8 @@ png_do_read_interlace(png_structp png_ptr)
    int pass = png_ptr->pass;
    png_uint_32 transformations = png_ptr->transformations;
 #ifdef PNG_USE_LOCAL_ARRAYS
-   /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
-   /* offset to next interlace block */
+   /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
+   /* Offset to next interlace block */
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 #endif
 
@@ -2759,7 +2775,7 @@ png_do_read_interlace(png_structp png_ptr)
       row_info->rowbytes = PNG_ROWBYTES(row_info->pixel_depth, final_width);
    }
 #if !defined(PNG_READ_PACKSWAP_SUPPORTED)
-   transformations = transformations; /* silence compiler warning */
+   transformations = transformations; /* Silence compiler warning */
 #endif
 }
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
@@ -2843,7 +2859,7 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
             rp++;
          }
 
-         for (i = 0; i < istop; i++)   /* use leftover rp,pp */
+         for (i = 0; i < istop; i++)   /* Use leftover rp,pp */
          {
             int a, b, c, pa, pb, pc, p;
 
@@ -2887,23 +2903,24 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
    }
 }
 
+#ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
 void /* PRIVATE */
 png_read_finish_row(png_structp png_ptr)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
 #ifdef PNG_READ_INTERLACING_SUPPORTED
-   /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
+   /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* start of interlace block */
+   /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* offset to next interlace block */
+   /* Offset to next interlace block */
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* start of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* offset to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
 #endif
@@ -3018,24 +3035,25 @@ png_read_finish_row(png_structp png_ptr)
 
    png_ptr->mode |= PNG_AFTER_IDAT;
 }
+#endif /* PNG_NO_SEQUENTIAL_READ_SUPPORTED */
 
 void /* PRIVATE */
 png_read_start_row(png_structp png_ptr)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
 #ifdef PNG_READ_INTERLACING_SUPPORTED
-   /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
+   /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* start of interlace block */
+   /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* offset to next interlace block */
+   /* Offset to next interlace block */
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* start of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* offset to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 #endif
@@ -3172,11 +3190,13 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
      }
 #endif
 
-   /* align the width on the next larger 8 pixels.  Mainly used
-      for interlacing */
+   /* Align the width on the next larger 8 pixels.  Mainly used
+    * for interlacing
+    */
    row_bytes = ((png_ptr->width + 7) & ~((png_uint_32)7));
-   /* calculate the maximum bytes needed, adding a byte and a pixel
-      for safety's sake */
+   /* Calculate the maximum bytes needed, adding a byte and a pixel
+    * for safety's sake
+    */
    row_bytes = PNG_ROWBYTES(max_pixel_depth, row_bytes) +
       1 + ((max_pixel_depth + 7) >> 3);
 #ifdef PNG_MAX_MALLOC_64K
@@ -3187,29 +3207,30 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
    if (row_bytes + 64 > png_ptr->old_big_row_buf_size)
    {
      png_free(png_ptr, png_ptr->big_row_buf);
-      png_ptr->big_row_buf = (png_bytep)png_malloc(png_ptr, row_bytes + 64);
+     png_ptr->big_row_buf = (png_bytep)png_malloc(png_ptr, row_bytes + 64);
      if (png_ptr->interlaced)
-       png_memset(png_ptr->big_row_buf, 0, png_ptr->rowbytes + 64);
+       png_memset(png_ptr->big_row_buf, 0, row_bytes + 64);
      png_ptr->row_buf = png_ptr->big_row_buf + 32;
      png_ptr->old_big_row_buf_size = row_bytes + 64;
    }
 
 #ifdef PNG_MAX_MALLOC_64K
-   if ((png_uint_32)png_ptr->rowbytes + 1 > (png_uint_32)65536L)
+   if ((png_uint_32)row_bytes + 1 > (png_uint_32)65536L)
       png_error(png_ptr, "This image requires a row greater than 64KB");
 #endif
-   if ((png_uint_32)png_ptr->rowbytes > (png_uint_32)(PNG_SIZE_MAX - 1))
+   if ((png_uint_32)row_bytes > (png_uint_32)(PNG_SIZE_MAX - 1))
       png_error(png_ptr, "Row has too many bytes to allocate in memory.");
 
-   if (png_ptr->rowbytes+1 > png_ptr->old_prev_row_size)
+   if (row_bytes + 1 > png_ptr->old_prev_row_size)
    {
-     png_free(png_ptr, png_ptr->prev_row);
-     png_ptr->prev_row = (png_bytep)png_malloc(png_ptr, (png_uint_32)(
-        png_ptr->rowbytes + 1));
-     png_ptr->old_prev_row_size = png_ptr->rowbytes+1;
+      png_free(png_ptr, png_ptr->prev_row);
+      png_ptr->prev_row = (png_bytep)png_malloc(png_ptr, (png_uint_32)(
+        row_bytes + 1));
+      png_memset_check(png_ptr, png_ptr->prev_row, 0, row_bytes + 1);
+      png_ptr->old_prev_row_size = row_bytes + 1;
    }
 
-   png_memset_check(png_ptr, png_ptr->prev_row, 0, png_ptr->rowbytes + 1);
+   png_ptr->rowbytes = row_bytes;
 
    png_debug1(3, "width = %lu,", png_ptr->width);
    png_debug1(3, "height = %lu,", png_ptr->height);
