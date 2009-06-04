@@ -2667,10 +2667,13 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			fResetDevice = true;
 	}
 
-	D3DDEVICE_CREATION_PARAMETERS Parameters;
-	if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)) && m_pD3D->GetAdapterMonitor(Parameters.AdapterOrdinal) != m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)))
+	if(s.fResetDevice)
 	{
-		fResetDevice = true;
+		D3DDEVICE_CREATION_PARAMETERS Parameters;
+		if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)) && m_pD3D->GetAdapterMonitor(Parameters.AdapterOrdinal) != m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)))
+		{
+			fResetDevice = true;
+		}
 	}
 
 	if(fResetDevice)

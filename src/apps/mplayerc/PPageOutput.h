@@ -57,6 +57,7 @@ public:
 	BOOL m_fVMR9MixerYUV;
 	BOOL m_fD3DFullscreen;
 	BOOL m_fVMR9AlterativeVSync;
+	BOOL m_fResetDevice;
 	CString m_iEvrBuffers;
 
 	int m_iMonitorType;

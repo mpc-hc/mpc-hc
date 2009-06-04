@@ -472,6 +472,8 @@ public:
 
 		CAutoPtrList<FilterOverride> filters;
 
+		bool fResetDevice;
+
 		class CRendererSettingsShared
 		{
 		public:
