@@ -63,6 +63,7 @@ bool CPinInfoWnd::OnActivate()
 		CPinInfo pi;
 		if(FAILED(pPin->QueryPinInfo(&pi))) continue;
 		CString str = CString(pi.achName);
+		if(!str.Find(_T("Apple"))) str.Delete(0,1);
 		CString dir = _T("[?] ");
 		if(pi.dir == PINDIR_INPUT) dir = _T("[IN] ");
 		else if(pi.dir == PINDIR_OUTPUT) dir = _T("[OUT] ");
