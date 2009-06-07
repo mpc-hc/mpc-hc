@@ -40,7 +40,7 @@
 #include "vc1.h"
 
 
-int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size);
+int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size, int end_frame);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 
 
@@ -78,16 +78,20 @@ char* GetFFMpegPictureType(int nType)
 }
 
 
-void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
+void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, BOOL bEndFrame, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
 {
 	if (pBuffer != NULL)
 	{
 		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
-		av_h264_decode_frame (pAVCtx, pBuffer, nSize);
+		av_h264_decode_frame (pAVCtx, pBuffer, nSize, bEndFrame);
 
 		if (h->s.current_picture_ptr  && pFramePOC) *pFramePOC = h->s.current_picture_ptr->field_poc[0];
-		if (pOutPOC)	 *pOutPOC		= h->outputed_poc;
-		if (pOutrtStart) *pOutrtStart	= h->outputed_rtstart;
+
+		if (bEndFrame)
+		{
+			*pOutPOC		= h->outputed_poc;
+			*pOutrtStart	= h->outputed_rtstart;
+		}
 	}
 }
 
@@ -101,7 +105,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	int supportLevel51 = 0;
 
 	if (pBuffer != NULL)
-		av_h264_decode_frame (pAVCtx, pBuffer, nSize);
+		av_h264_decode_frame (pAVCtx, pBuffer, nSize, FALSE);
 
 	cur_sps		= pContext->sps_buffers[0];
 	cur_pps		= pContext->pps_buffers[0];
