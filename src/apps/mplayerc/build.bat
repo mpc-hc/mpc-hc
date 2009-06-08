@@ -48,6 +48,8 @@ devenv mpcresources.sln %BUILDTYPE% "Release Unicode Korean|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Polish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Unicode Portuguese|Win32"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Russian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Slovak|Win32"
@@ -93,6 +95,8 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Korean|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Polish|x64"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Unicode Portuguese|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Russian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
