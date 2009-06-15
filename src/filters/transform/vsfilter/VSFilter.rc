@@ -584,7 +584,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_RT_STYLE            "Style"
+    IDS_RT_STYLE            "Style2"
 END
 
 #endif    // English (U.S.) resources
