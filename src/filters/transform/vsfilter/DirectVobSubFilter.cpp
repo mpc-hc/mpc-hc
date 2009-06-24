@@ -1228,6 +1228,9 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 		_T("WM8EUTIL."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
 		_T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
 		_T("producer."), // this is real's producer
+		_T("GoogleDesktopIndex."), // Google Desktop
+		_T("GoogleDesktopDisplay."), // Google Desktop
+		_T("GoogleDesktopCrawl."), // Google Desktop
 	};
 
 	for(int i = 0; i < countof(blacklistedapps); i++)
