@@ -47,8 +47,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMpegSplitterFilter), L"MPC - Mpeg Splitter (Gabest)", MERIT_NORMAL+1 /*MERIT_NORMAL+1*/, countof(sudpPins), sudpPins},
-	{&__uuidof(CMpegSourceFilter), L"MPC - Mpeg Source (Gabest)", MERIT_DO_NOT_USE, 0, NULL},
+	{&__uuidof(CMpegSplitterFilter), L"MPC - Mpeg Splitter (Gabest)", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
+	{&__uuidof(CMpegSourceFilter), L"MPC - Mpeg Source (Gabest)", MERIT_UNLIKELY, 0, NULL},
 };
 
 CFactoryTemplate g_Templates[] =
