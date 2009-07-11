@@ -59,7 +59,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
                 case VC1_CODE_ENTRYPOINT: /* it should be before frame data */
                     buf_size2 = vc1_unescape_buffer(start + 4, size, buf2);
                     init_get_bits(&s->gb, buf2, buf_size2*8);
-                    decode_entry_point(avctx, &s->gb);
+                    vc1_decode_entry_point(avctx, v, &s->gb);
                     break;
                 case VC1_CODE_SLICE:
                     av_log(avctx, AV_LOG_ERROR, "Sliced decoding is not implemented (yet)\n");
