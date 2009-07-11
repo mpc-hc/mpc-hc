@@ -7,24 +7,19 @@
  * Copyright (c) 2007-2008 Bartlomiej Wolowiec <bartek.wolowiec@gmail.com>
  * Copyright (c) 2007 Justin Ruggles <justin.ruggles@gmail.com>
  *
- * Portions of this code are derived from liba52
- * http://liba52.sourceforge.net
- * Copyright (C) 2000-2003 Michel Lespinasse <walken@zoy.org>
- * Copyright (C) 1999-2000 Aaron Holtzman <aholtzma@ess.engr.uvic.ca>
- *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
+ * version 2.1 of the License, or (at your option) any later version.
  *
  * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
+ * You should have received a copy of the GNU Lesser General Public
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
@@ -198,8 +193,8 @@ static av_cold int ac3_decode_init(AVCodecContext *avctx)
 
     ac3_common_init();
     ac3_tables_init();
-    ff_mdct_init(&s->imdct_256, 8, 1);
-    ff_mdct_init(&s->imdct_512, 9, 1);
+    ff_mdct_init(&s->imdct_256, 8, 1, 1.0);
+    ff_mdct_init(&s->imdct_512, 9, 1, 1.0);
     ff_kbd_window_init(s->window, 5.0, 256);
     dsputil_init(&s->dsp, avctx);
     av_lfg_init(&s->dith_state, 0);
@@ -443,12 +438,12 @@ static void calc_transform_coeffs_cpl(AC3DecodeContext *s)
  * Grouped mantissas for 3-level 5-level and 11-level quantization
  */
 typedef struct {
-    int b1_mant[3];
-    int b2_mant[3];
-    int b4_mant[2];
-    int b1ptr;
-    int b2ptr;
-    int b4ptr;
+    int b1_mant[2];
+    int b2_mant[2];
+    int b4_mant;
+    int b1;
+    int b2;
+    int b4;
 } mant_groups;
 
 /**
@@ -457,73 +452,72 @@ typedef struct {
  */
 static void ac3_decode_transform_coeffs_ch(AC3DecodeContext *s, int ch_index, mant_groups *m)
 {
+    int start_freq = s->start_freq[ch_index];
+    int end_freq = s->end_freq[ch_index];
+    uint8_t *baps = s->bap[ch_index];
+    int8_t *exps = s->dexps[ch_index];
+    int *coeffs = s->fixed_coeffs[ch_index];
     GetBitContext *gbc = &s->gbc;
-    int i, gcode, tbap, start, end;
-    uint8_t *exps;
-    uint8_t *bap;
-    int *coeffs;
+    int freq;
 
-    exps = s->dexps[ch_index];
-    bap = s->bap[ch_index];
-    coeffs = s->fixed_coeffs[ch_index];
-    start = s->start_freq[ch_index];
-    end = s->end_freq[ch_index];
-
-    for (i = start; i < end; i++) {
-        tbap = bap[i];
-        switch (tbap) {
+    for(freq = start_freq; freq < end_freq; freq++){
+        int bap = baps[freq];
+        int mantissa;
+        switch(bap){
             case 0:
-                coeffs[i] = (av_lfg_get(&s->dith_state) & 0x7FFFFF) - 0x400000;
+                mantissa = (av_lfg_get(&s->dith_state) & 0x7FFFFF) - 0x400000;
                 break;
-
             case 1:
-                if(m->b1ptr > 2) {
-                    gcode = get_bits(gbc, 5);
-                    m->b1_mant[0] = b1_mantissas[gcode][0];
-                    m->b1_mant[1] = b1_mantissas[gcode][1];
-                    m->b1_mant[2] = b1_mantissas[gcode][2];
-                    m->b1ptr = 0;
+                if(m->b1){
+                    m->b1--;
+                    mantissa = m->b1_mant[m->b1];
                 }
-                coeffs[i] = m->b1_mant[m->b1ptr++];
+                else{
+                    int bits      = get_bits(gbc, 5);
+                    mantissa      = b1_mantissas[bits][0];
+                    m->b1_mant[1] = b1_mantissas[bits][1];
+                    m->b1_mant[0] = b1_mantissas[bits][2];
+                    m->b1         = 2;
+                }
                 break;
-
             case 2:
-                if(m->b2ptr > 2) {
-                    gcode = get_bits(gbc, 7);
-                    m->b2_mant[0] = b2_mantissas[gcode][0];
-                    m->b2_mant[1] = b2_mantissas[gcode][1];
-                    m->b2_mant[2] = b2_mantissas[gcode][2];
-                    m->b2ptr = 0;
+                if(m->b2){
+                    m->b2--;
+                    mantissa = m->b2_mant[m->b2];
                 }
-                coeffs[i] = m->b2_mant[m->b2ptr++];
+                else{
+                    int bits      = get_bits(gbc, 7);
+                    mantissa      = b2_mantissas[bits][0];
+                    m->b2_mant[1] = b2_mantissas[bits][1];
+                    m->b2_mant[0] = b2_mantissas[bits][2];
+                    m->b2         = 2;
+                }
                 break;
-
             case 3:
-                coeffs[i] = b3_mantissas[get_bits(gbc, 3)];
+                mantissa = b3_mantissas[get_bits(gbc, 3)];
                 break;
-
             case 4:
-                if(m->b4ptr > 1) {
-                    gcode = get_bits(gbc, 7);
-                    m->b4_mant[0] = b4_mantissas[gcode][0];
-                    m->b4_mant[1] = b4_mantissas[gcode][1];
-                    m->b4ptr = 0;
+                if(m->b4){
+                    m->b4 = 0;
+                    mantissa = m->b4_mant;
                 }
-                coeffs[i] = m->b4_mant[m->b4ptr++];
+                else{
+                    int bits   = get_bits(gbc, 7);
+                    mantissa   = b4_mantissas[bits][0];
+                    m->b4_mant = b4_mantissas[bits][1];
+                    m->b4      = 1;
+                }
                 break;
-
             case 5:
-                coeffs[i] = b5_mantissas[get_bits(gbc, 4)];
+                mantissa = b5_mantissas[get_bits(gbc, 4)];
                 break;
-
-            default: {
-                /* asymmetric dequantization */
-                int qlevel = quantization_tab[tbap];
-                coeffs[i] = get_sbits(gbc, qlevel) << (24 - qlevel);
+            default: /* 6 to 15 */
+                mantissa = get_bits(gbc, quantization_tab[bap]);
+                /* Shift mantissa and sign-extend it. */
+                mantissa = (mantissa << (32-quantization_tab[bap]))>>8;
                 break;
-            }
         }
-        coeffs[i] >>= exps[i];
+        coeffs[freq] = mantissa >> exps[freq];
     }
 }
 
@@ -586,7 +580,7 @@ static void decode_transform_coeffs(AC3DecodeContext *s, int blk)
     int got_cplchan = 0;
     mant_groups m;
 
-    m.b1ptr = m.b2ptr = m.b4ptr = 3;
+    m.b1 = m.b2 = m.b4 = 0;
 
     for (ch = 1; ch <= s->channels; ch++) {
         /* transform coefficients for full-bandwidth channel */
@@ -829,20 +823,17 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
 
     /* spectral extension strategy */
     if (s->eac3 && (!blk || get_bits1(gbc))) {
-        s->spx_in_use[blk] = get_bits1(gbc);
-        if (s->spx_in_use[blk]) {
+        s->spx_in_use = get_bits1(gbc);
+        if (s->spx_in_use) {
             int begf, endf;
             int spx_end_subband;
 
             /* determine which channels use spx */
             if (s->channel_mode == AC3_CHMODE_MONO) {
                 s->channel_in_spx[1] = 1;
-                s->spx_coords_exist[1] = 0;
             } else {
-                for (ch = 1; ch <= fbw_channels; ch++) {
+                for (ch = 1; ch <= fbw_channels; ch++)
                     s->channel_in_spx[ch] = get_bits1(gbc);
-                    s->spx_coords_exist[ch] = 0;
-                }
             }
 
             s->spx_copy_start_freq = get_bits(gbc, 2) * 12 + 25;
@@ -850,10 +841,18 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             endf = get_bits(gbc, 3);
             s->spx_start_subband = begf < 6 ? begf+2 : 2*begf-3;
             spx_end_subband      = endf < 4 ? endf+5 : 2*endf+3;
-            s->num_spx_subbands  = spx_end_subband - s->spx_start_subband;
+            if (s->spx_start_subband >= spx_end_subband) {
+                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension range (%d >= %d)\n",
+                       s->spx_start_subband, spx_end_subband);
+                return -1;
+            }
             s->spx_start_freq    = s->spx_start_subband * 12 + 25;
             s->spx_end_freq      = spx_end_subband      * 12 + 25;
-
+            if (s->spx_copy_start_freq >= s->spx_start_freq) {
+                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension copy start bin (%d >= %d)\n",
+                       s->spx_copy_start_freq, s->spx_start_freq);
+                return -1;
+            }
             decode_band_structure(gbc, blk, s->eac3, 0,
                                   s->spx_start_subband, spx_end_subband,
                                   ff_eac3_default_spx_band_struct,
@@ -865,44 +864,47 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
                 s->first_spx_coords[ch] = 1;
             }
         }
-    } else {
-        s->spx_in_use[blk] = blk ? s->spx_in_use[blk-1] : 0;
     }
 
     /* spectral extension coordinates */
-    if (s->spx_in_use[blk]) {
+    if (s->spx_in_use) {
         for (ch = 1; ch <= fbw_channels; ch++) {
             if (s->channel_in_spx[ch]) {
                 if (s->first_spx_coords[ch] || get_bits1(gbc)) {
-                    int bin, spx_blend;
+                    int bin;
+                    float spx_blend;
                     int master_spx_coord;
                     s->first_spx_coords[ch] = 0;
-                    s->spx_coords_exist[ch] = 1;
-                    spx_blend = get_bits(gbc, 5) << 18;
+                    spx_blend = get_bits(gbc, 5) / 32.0f;
                     master_spx_coord = get_bits(gbc, 2) * 3;
                     bin = s->spx_start_freq;
                     for (bnd = 0; bnd < s->num_spx_bands; bnd++) {
+                        int bandsize;
                         int spx_coord_exp, spx_coord_mant;
+                        float nratio, sblend, nblend, spx_coord;
 
                         /* calculate blending factors */
-                        int bandsize = s->spx_band_sizes[bnd];
-                        int nratio = (((bin + (bandsize >> 1)) << 23) / s->spx_end_freq) - spx_blend;
-                        nratio = av_clip(nratio, 0, INT24_MAX);
-                        s->spx_noise_blend [ch][bnd] = ff_sqrt((            nratio) << 8) * M_SQRT_POW2_15;
-                        s->spx_signal_blend[ch][bnd] = ff_sqrt((INT24_MAX - nratio) << 8) * M_SQRT_POW2_15;
+                        bandsize = s->spx_band_sizes[bnd];
+                        nratio = ((float)((bin + (bandsize >> 1))) / s->spx_end_freq) - spx_blend;
+                        nratio = av_clipf(nratio, 0.0f, 1.0f);
+                        nblend = sqrt(       nratio);
+                        sblend = sqrt(1.0f - nratio);
+                        nblend *= 1.73205077648f; // scale noise to give unity variance
                         bin += bandsize;
 
                         /* decode spx coordinates */
                         spx_coord_exp  = get_bits(gbc, 4);
                         spx_coord_mant = get_bits(gbc, 2);
                         if (spx_coord_exp == 15)
-                            s->spx_coords[ch][bnd] = spx_coord_mant << 26;
+                            spx_coord = spx_coord_mant / 4.0f;
                         else
-                            s->spx_coords[ch][bnd] = (spx_coord_mant + 4) << 25;
-                        s->spx_coords[ch][bnd] >>= (spx_coord_exp + master_spx_coord);
+                            spx_coord = (spx_coord_mant + 4) / 8.0f;
+                        spx_coord /= (float)(1 << (spx_coord_exp + master_spx_coord));
+
+                        /* multiply noise and signal blending factors by spx coordinate */
+                        s->spx_noise_blend [ch][bnd] = nblend * spx_coord * 32.0f;
+                        s->spx_signal_blend[ch][bnd] = sblend * spx_coord * 32.0f;
                     }
-                } else {
-                    s->spx_coords_exist[ch] = 0;
                 }
             } else {
                 s->first_spx_coords[ch] = 1;
@@ -927,7 +929,7 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             /* check for enhanced coupling */
             if (s->eac3 && get_bits1(gbc)) {
                 /* TODO: parse enhanced coupling strategy info */
-                ff_log_missing_feature(s->avctx, "Enhanced coupling", 1);
+                av_log_missing_feature(s->avctx, "Enhanced coupling", 1);
                 return -1;
             }
 
@@ -946,13 +948,10 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
 
             /* coupling frequency range */
             cpl_start_subband = get_bits(gbc, 4);
-            if (s->spx_in_use[blk]) {
-                cpl_end_subband = s->spx_start_subband - 1;
-            } else {
-                cpl_end_subband   = get_bits(gbc, 4) + 3;
-            }
-            if (cpl_start_subband > cpl_end_subband) {
-                av_log(s->avctx, AV_LOG_ERROR, "invalid coupling range (%d > %d)\n",
+            cpl_end_subband = s->spx_in_use ? s->spx_start_subband - 1 :
+                                              get_bits(gbc, 4) + 3;
+            if (cpl_start_subband >= cpl_end_subband) {
+                av_log(s->avctx, AV_LOG_ERROR, "invalid coupling range (%d >= %d)\n",
                        cpl_start_subband, cpl_end_subband);
                 return -1;
             }
@@ -1023,13 +1022,10 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     if (channel_mode == AC3_CHMODE_STEREO) {
         if ((s->eac3 && !blk) || get_bits1(gbc)) {
             s->num_rematrixing_bands = 4;
-            if (cpl_in_use) {
-                if (s->start_freq[CPL_CH] <= 61)
-                    s->num_rematrixing_bands -= 1 + (s->start_freq[CPL_CH] == 37);
-            } else if (s->spx_in_use[blk]) {
-                if (s->spx_start_freq <= 61)
-                    s->num_rematrixing_bands -= 1 + (s->spx_start_freq <= 37) +
-                                                    (s->spx_start_freq <= 25);
+            if (cpl_in_use && s->start_freq[CPL_CH] <= 61) {
+                s->num_rematrixing_bands -= 1 + (s->start_freq[CPL_CH] == 37);
+            } else if (s->spx_in_use && s->spx_start_freq <= 61) {
+                s->num_rematrixing_bands -= 1;
             }
             for(bnd=0; bnd<s->num_rematrixing_bands; bnd++)
                 s->rematrixing_flags[bnd] = get_bits1(gbc);
@@ -1098,7 +1094,7 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             s->bit_alloc_params.fast_decay = ff_ac3_fast_decay_tab[get_bits(gbc, 2)] >> s->bit_alloc_params.sr_shift;
             s->bit_alloc_params.slow_gain  = ff_ac3_slow_gain_tab[get_bits(gbc, 2)];
             s->bit_alloc_params.db_per_bit = ff_ac3_db_per_bit_tab[get_bits(gbc, 2)];
-            s->bit_alloc_params.floor      = ff_ac3_floor_tab[get_bits(gbc, 3)];
+            s->bit_alloc_params.floor  = ff_ac3_floor_tab[get_bits(gbc, 3)];
             for(ch=!cpl_in_use; ch<=s->channels; ch++)
                 bit_alloc_stages[ch] = FFMAX(bit_alloc_stages[ch], 2);
         } else if (!blk) {
@@ -1257,8 +1253,6 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     if(s->channel_mode == AC3_CHMODE_STEREO)
         do_rematrixing(s);
 
-    ff_eac3_apply_spectral_extension(s);
-
     /* apply scaling to coefficients (headroom, dynrng) */
     for(ch=1; ch<=s->channels; ch++) {
         float gain = s->mul_bias / 4194304.0f;
@@ -1269,6 +1263,10 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
         }
         s->dsp.int32_to_float_fmul_scalar(s->transform_coeffs[ch], s->fixed_coeffs[ch], gain, 256);
     }
+
+    /* apply spectral extension to high frequency bins */
+    if (s->spx_in_use)
+        ff_eac3_apply_spectral_extension(s);
 
     /* downmix and MDCT. order depends on whether block switching is used for
        any channel in this block. this is because coefficients for the long

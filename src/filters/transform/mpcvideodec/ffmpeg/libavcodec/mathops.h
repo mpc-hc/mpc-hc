@@ -25,9 +25,7 @@
 #include "libavutil/common.h"
 
 #if   ARCH_X86
-
-#include "x86/mathops.h"
-
+#   include "x86/mathops.h"
 #endif
 
 /* generic implementation */

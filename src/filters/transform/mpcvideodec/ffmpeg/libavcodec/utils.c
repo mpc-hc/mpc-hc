@@ -60,6 +60,8 @@ const uint8_t ff_reverse[256]={
 };
 
 //static int volatile entangled_thread_counter=0; /* ffdshow custom comment out */
+int (*ff_lockmgr_cb)(void **mutex, enum AVLockOp op);
+static void *codec_mutex;
 
 void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
 {
@@ -135,8 +137,6 @@ typedef struct InternalBuffer{
 
 #define INTERNAL_BUFFER_SIZE 32
 
-#define ALIGN(x, a) (((x)+(a)-1)&~((a)-1))
-
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
     int w_align= 1;
     int h_align= 1;
@@ -187,8 +187,8 @@ void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
         break;
     }
 
-    *width = ALIGN(*width , w_align);
-    *height= ALIGN(*height, h_align);
+    *width = FFALIGN(*width , w_align);
+    *height= FFALIGN(*height, h_align);
     if(s->codec_id == CODEC_ID_H264)
         *height+=2; // some of the optimized chroma MC reads one line too much
 }
@@ -311,7 +311,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
             if((s->flags&CODEC_FLAG_EMU_EDGE) || !size[2])
                 buf->data[i] = buf->base[i];
             else
-                buf->data[i] = buf->base[i] + ALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), stride_align[i]);
+                buf->data[i] = buf->base[i] + FFALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), stride_align[i]);
         }
         if(size[1] && !size[2])
             ff_set_systematic_pal((uint32_t*)buf->data[1], s->pix_fmt);
@@ -437,6 +437,12 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
 {
     int ret= -1;
 
+    /* If there is a user-supplied mutex locking routine, call it. */
+    if (ff_lockmgr_cb) {
+        if ((*ff_lockmgr_cb)(&codec_mutex, AV_LOCK_OBTAIN))
+            return -1;
+    }
+
     /* ffdshow custom comment out */
     //entangled_thread_counter++;
     //if(entangled_thread_counter != 1){
@@ -482,6 +488,11 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
     ret=0;
 end:
     //entangled_thread_counter--; /* ffdshow custom comment out */
+
+    /* Release any user-supplied mutex. */
+    if (ff_lockmgr_cb) {
+        (*ff_lockmgr_cb)(&codec_mutex, AV_LOCK_RELEASE);
+    }
     return ret;
 }
 
@@ -572,6 +583,12 @@ int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *sa
 
 int avcodec_close(AVCodecContext *avctx)
 {
+    /* If there is a user-supplied mutex locking routine, call it. */
+    if (ff_lockmgr_cb) {
+        if ((*ff_lockmgr_cb)(&codec_mutex, AV_LOCK_OBTAIN))
+            return -1;
+    }
+
     /* ffdshow custom comment out */
     //entangled_thread_counter++;
     //if(entangled_thread_counter != 1){
@@ -588,6 +605,11 @@ int avcodec_close(AVCodecContext *avctx)
     av_freep(&avctx->priv_data);
     avctx->codec = NULL;
     //entangled_thread_counter--; /* ffdshow custom comment out */
+
+    /* Release any user-supplied mutex. */
+    if (ff_lockmgr_cb) {
+        (*ff_lockmgr_cb)(&codec_mutex, AV_LOCK_RELEASE);
+    }
     return 0;
 }
 
@@ -755,25 +777,23 @@ unsigned int av_xiphlacing(unsigned char *s, unsigned int v)
     return n;
 }
 
-// ==> Start patch MPC
-void ff_log_ask_for_sample(void *avc, const char *msg)
-{
-    if (msg)
-        av_log(avc, AV_LOG_WARNING, "%s ", msg);
-    av_log(avc, AV_LOG_WARNING, "If you want to help, upload a sample "
-            "of this file to ftp://upload.ffmpeg.org/MPlayer/incoming/ "
-            "and contact the ffmpeg-devel mailing list.\n");
-}
-// <== End patch MPC
-
-void ff_log_missing_feature(void *avc, const char *feature, int want_sample)
+void av_log_missing_feature(void *avc, const char *feature, int want_sample)
 {
     av_log(avc, AV_LOG_WARNING, "%s not implemented. Update your FFmpeg "
             "version to the newest one from SVN. If the problem still "
             "occurs, it means that your file has a feature which has not "
             "been implemented.", feature);
     if(want_sample)
-        ff_log_ask_for_sample(avc, NULL);
+        av_log_ask_for_sample(avc, NULL);
     else
         av_log(avc, AV_LOG_WARNING, "\n");
+}
+
+void av_log_ask_for_sample(void *avc, const char *msg)
+{
+    if (msg)
+        av_log(avc, AV_LOG_WARNING, "%s ", msg);
+    av_log(avc, AV_LOG_WARNING, "If you want to help, upload a sample "
+            "of this file to ftp://upload.ffmpeg.org/MPlayer/incoming/ "
+            "and contact the ffmpeg-devel mailing list.\n");
 }

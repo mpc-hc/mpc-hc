@@ -690,6 +690,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vc1dec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\vc1_dxva.c"
 				>
 				<FileConfiguration

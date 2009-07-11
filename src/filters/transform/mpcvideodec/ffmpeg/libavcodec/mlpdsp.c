@@ -19,13 +19,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#include "libavcodec/mlp.h"
 #include "dsputil.h"
 
-static void ff_mlp_filter_channel(int32_t *firbuf, const int32_t *fircoeff, int firorder,
-                                  int32_t *iirbuf, const int32_t *iircoeff, int iirorder,
+static void ff_mlp_filter_channel(int32_t *state, const int32_t *coeff,
+                                  int firorder, int iirorder,
                                   unsigned int filter_shift, int32_t mask, int blocksize,
                                   int32_t *sample_buffer)
 {
+    int32_t *firbuf = state;
+    int32_t *iirbuf = state + MAX_BLOCKSIZE + MAX_FIR_ORDER;
+    const int32_t *fircoeff = coeff;
+    const int32_t *iircoeff = coeff + MAX_FIR_ORDER;
     int i;
 
     for (i = 0; i < blocksize; i++) {
@@ -46,11 +51,17 @@ static void ff_mlp_filter_channel(int32_t *firbuf, const int32_t *fircoeff, int 
         *--iirbuf = result - accum;
 
         *sample_buffer = result;
-        sample_buffer += 8;
+        sample_buffer += MAX_CHANNELS;
     }
 }
+
+void ff_mlp_init_x86(DSPContext* c, AVCodecContext *avctx);
 
 void ff_mlp_init(DSPContext* c, AVCodecContext *avctx)
 {
     c->mlp_filter_channel = ff_mlp_filter_channel;
+#if HAVE_MMX
+    if (ARCH_X86)
+        ff_mlp_init_x86(c, avctx);
+#endif
 }

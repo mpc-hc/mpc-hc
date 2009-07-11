@@ -65,6 +65,7 @@ SRCS_C=\
 		$(LAVC_DIR)/svq1dec.c \
 		$(LAVC_DIR)/utils.c \
 		$(LAVC_DIR)/vc1.c \
+		$(LAVC_DIR)/vc1dec.c \
 		$(LAVC_DIR)/vc1_parser.c \
 		$(LAVC_DIR)/vc1data.c \
 		$(LAVC_DIR)/vc1dsp.c \
@@ -100,6 +101,7 @@ SRCS_C+=\
 		$(LAVC_DIR)/x86/idct_mmx.c \
 		$(LAVC_DIR)/x86/idct_mmx_xvid.c \
 		$(LAVC_DIR)/x86/idct_sse2_xvid.c \
+		$(LAVC_DIR)/x86/mlpdsp.c \
 		$(LAVC_DIR)/x86/mpegvideo_mmx.c \
 		$(LAVC_DIR)/x86/simple_idct_mmx.c \
 		$(LAVC_DIR)/x86/vc1dsp_mmx.c \
