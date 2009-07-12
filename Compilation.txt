@@ -1,0 +1,64 @@
+### Requirements for 32-bit build ###
+
+* TortoiseSVN
+http://tortoisesvn.net/downloads
+
+* Visual Studio 2008 SP1
+http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
+
+* DirectX SDK (latest version)
+http://msdn.microsoft.com/en-us/directx/aa937788.aspx
+
+* Some additional headers/libs from DirectX SDK August 2007.
+These can be found in "DirectXSDKAugust2007.zip".
+
+* ATL Server Library and Tools
+http://www.codeplex.com/AtlServer/Release/ProjectReleases.aspx?ReleaseId=3754
+
+* MinGW32
+
+* YASM
+
+
+TIP: An easy to use custom installer for MinGW32 can be downloaded here:
+http://www.zshare.net/download/60972544b5065b47/
+This installer also includes YASM. It also adds the CC  environment variable, and updates the PATH environment variable.
+
+
+### Additional requirements for 64-bit build ###
+
+* MinGW64
+http://sourceforge.net/projects/mingw-w64/files/
+
+
+### Windows Environment variables ###
+
+* Add an environment variable called "CC" and give it the value "gcc" (both without quotes).
+* Add the path of the MinGW32 bin directory to the PATH environment variable.
+* Add the path of the MinGW64 bin directory to the PATH environment variable.
+
+
+### How to checkout the source code from the SVN repository ###
+
+This assumes you have TortoiseSVN installed.
+1) Create an empty directory where you want to store the source files.
+2) Right-click on that directory and choose "SVN checkout".
+3) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc mpc-hc in "URL of Repository" and press OK.
+4) Wait for the source tree to be downloaded.
+
+
+### Configuring Visual Studio ###
+
+You need to add the locations of the DirectX SDK and ATL server files to the settings in Visual Studio.
+
+1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
+2) Add the location of the Include directory of the latest DirectX SDK.
+3) Add the location of the Include directory of the August 2007 DirectX SDK files.
+4) Add the location of the Include directory of the ATL server files.
+5) Repeat the step 2-4 for the x64 platform.
+6) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
+7) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
+8) Add the location of the Lib\x86 directory of the August 2007 DirectX SDK files to the Win32 platform.
+9) Add the location of the Lib\x64 directory of the August 2007 DirectX SDK files to the x64 platform.
+
+
