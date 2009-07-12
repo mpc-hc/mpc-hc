@@ -31,6 +31,15 @@ This installer also includes YASM. It also adds the CC  environment variable, an
 http://sourceforge.net/projects/mingw-w64/files/
 
 
+### Lib files ###
+
+* Copy these two files from the MinGW32 lib directory to the lib directory of the source code:
+libgcc.a libmingwex.a
+
+* Copy these two files from the MinGW64 lib directory to the lib64 directory of the source code:
+libgcc.a libmingwex.a
+
+
 ### Windows Environment variables ###
 
 * Add an environment variable called "CC" and give it the value "gcc" (both without quotes).
