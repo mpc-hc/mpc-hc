@@ -439,7 +439,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		{
 			COggSplitterOutputPin* pPin = dynamic_cast<COggSplitterOutputPin*>((CBaseSplitterOutputPin*)m_pOutputs.GetNext(pos));
 
-			if(!dynamic_cast<COggVideoOutputPin*>(pPin))
+			if(!dynamic_cast<COggVideoOutputPin*>(pPin) && !dynamic_cast<COggTheoraOutputPin*>(pPin))
 				continue;
 
 			bool fKeyFrameFound = false, fSkipKeyFrame = true;
