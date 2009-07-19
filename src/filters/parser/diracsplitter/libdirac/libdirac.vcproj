@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libdirac"
 	ProjectGUID="{12BE3440-A1F3-4C48-A229-30CB619EA276}"
 	RootNamespace="libdirac"
@@ -23,6 +23,7 @@
 			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
+			UseOfMFC="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -84,6 +85,7 @@
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
+			UseOfMFC="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -143,6 +145,7 @@
 			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
+			UseOfMFC="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -203,6 +206,7 @@
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
+			UseOfMFC="1"
 			CharacterSet="2"
 			>
 			<Tool

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="NutSplitter"
 	ProjectGUID="{E776D3C2-5BFA-41B9-B998-A35B549AF737}"
 	RootNamespace="NutSplitter"

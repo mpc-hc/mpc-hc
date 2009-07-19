@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="RoQSplitter"
 	ProjectGUID="{23E1898F-8262-435C-8848-D4D8824E6D71}"
 	RootNamespace="RoQSplitter"

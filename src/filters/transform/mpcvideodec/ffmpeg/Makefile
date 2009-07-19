@@ -1,6 +1,5 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
-LAVF_DIR=libavformat
 PNG_DIR =../../../../libpng
 ifeq ($(64BIT),yes)
 	ZLIB_DIR=../../../../zlib
@@ -8,7 +7,7 @@ else
 	ZLIB_DIR=../../../../zlib
 endif
 
-CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LAVF_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
+CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I../codecs -I../imgFilters -I$(ZLIB_DIR) -I$(PNG_DIR) \
 		-DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
 
 SRCS_C=\

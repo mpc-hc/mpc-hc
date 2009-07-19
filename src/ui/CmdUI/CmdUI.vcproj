@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="CmdUI"
 	ProjectGUID="{03208025-D5C2-426A-B0FA-251D4338F30C}"
 	RootNamespace="CmdUI"

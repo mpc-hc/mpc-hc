@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="ResizableLib"
 	ProjectGUID="{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 	RootNamespace="ResizableLib"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MpaSplitter"
 	ProjectGUID="{C0F7A036-FC2D-40DF-9852-C37518DB6B3E}"
 	RootNamespace="MpaSplitter"

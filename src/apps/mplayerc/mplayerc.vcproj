@@ -77,7 +77,7 @@
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd"
 				IgnoreDefaultLibraryNames="MSVCRT"
-				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
+				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="1"
@@ -167,7 +167,7 @@
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd;..\..\..\lib64\detours"
 				IgnoreDefaultLibraryNames=""
-				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
+				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -256,7 +256,7 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
-				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
+				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -340,7 +340,7 @@
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd;..\..\..\lib64\detours"
 				IgnoreDefaultLibraryNames="MSVCRTD;"
-				DelayLoadDLLs="d3d9.dll;msimg32.dll;gdiplus.dll;psapi.dll"
+				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -432,7 +432,7 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						WholeProgramOptimization="true"
+						WholeProgramOptimization="false"
 					/>
 				</FileConfiguration>
 			</File>
@@ -448,7 +448,31 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						WholeProgramOptimization="true"
+						WholeProgramOptimization="false"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WholeProgramOptimization="false"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WholeProgramOptimization="false"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WholeProgramOptimization="false"
 					/>
 				</FileConfiguration>
 			</File>

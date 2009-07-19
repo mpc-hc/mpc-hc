@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="asyncreader"
 	ProjectGUID="{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
 	RootNamespace="asyncreader"
@@ -23,6 +23,7 @@
 			Name="Debug Unicode|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -80,6 +81,7 @@
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -137,6 +139,7 @@
 			Name="Release Unicode|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -195,6 +198,7 @@
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool

@@ -1,71 +1,69 @@
-ifeq ($(FFMPEG_PREFIX),)
-    YASM=yasm.exe
-else
-    YASM=yasm
-endif
-
-ifeq ($(64BIT),yes)
-FFMPEG_PREFIX=x86_64-pc-mingw32-
-endif
-
-ifeq ($(64BIT),yes)
-	TARGET_OS=x86_64-pc-mingw32
-else
-	TARGET_OS=i686-pc-mingw32
-endif
-
 all:.all
 
-OUTPUTFLAG=-MMD -o\
+#64BIT=yes
+#DEBUG=yes
+
+#if all FFMPEG_PREFIX is set, assume cross-compilation
+ifeq ($(FFMPEG_PREFIX),)
+  YASM=yasm.exe
+else
+  YASM=yasm
+endif
+
+ifeq ($(64BIT),yes)
+    FFMPEG_PREFIX=x86_64-pc-mingw32-
+endif
+
+ifeq ($(64BIT),yes)
+    TARGET_OS=x86_64-pc-mingw32
+    CFLAGS+=-DWIN64 -D_WIN64
+    OPTFLAGS+=-O2 -m64
+else
+    TARGET_OS=i686-pc-mingw32
+    CFLAGS+=-DWIN32 -D_WIN32
+    OPTFLAGS+=-O3 -march=i686 -mmmx
+endif
 
 CFLAGS+=-mno-cygwin -mdll -mthreads -pipe
-CFLAGS+=-DNDEBUG -UDEBUG
-
-ifeq ($(64BIT),yes)
-	CFLAGS+=-DWIN64 -D_WIN64
-else
-	CFLAGS+=-DWIN32 -D_WIN32
-endif
-
-ifeq ($(64BIT),yes)
-	CFLAGS+=-msse2
-else
-	CFLAGS+=-mmmx
-endif
+OPTFLAGS+=-fno-common -fno-tree-vectorize
 
 ifeq ($(SSE),yes)
-	CFLAGS+=-msse -mfpmath=sse
+    OPTFLAGS+=-msse -mfpmath=sse
 endif
 ifeq ($(SSE2),yes)
-	CFLAGS+=-msse2
+    OPTFLAGS+=-msse2
 endif
 
-OPTFLAGS=-O3 -fomit-frame-pointer
-ifeq ($(64BIT),yes)
-	OPTFLAGS+=-m64 -fno-leading-underscore
+ifeq ($(DEBUG),yes)
+    CFLAGS+=-DDEBUG -D_DEBUG -g 
+    YASMFLAGS+=-g cv8
 else
-	OPTFLAGS+=-march=i686
+    CFLAGS+=-DNDEBUG -UDEBUG
+    OPTFLAGS+=-fomit-frame-pointer
+    LDFLAGS+=--strip-all
+endif
+
+ifeq ($(UNICODE),yes)
+    CFLAGS+=-DUNICODE -D_UNICODE
+endif
+
+ifeq ($(FORCECPP),1)
+    CFLAGS+=-x c++
 endif
 
 CPPFLAGS+=-fno-rtti
 
+ifeq ($(EXCEPTIONS),1)
+    CPPFLAGS+=-fexceptions
+else
+    CPPFLAGS+=-fno-exceptions
+endif
+
+OUTPUTFLAG=-MMD -o\
+
 GCCDEF=$(DEF)
 
-ifeq ($(UNICODE),yes)
-	CFLAGS+=-DUNICODE -D_UNICODE
-endif
-
 OBJS+=$(SRCS:.cpp=.o) $(SRCS_C:.c=.o) $(SRCS_YASM:.asm=.o) $(RESSRC:.rc=.res.o)
-
-ifeq ($(FORCECPP),1)
-	CFLAGS+=-x c++
-endif
-
-ifeq ($(EXCEPTIONS),1)
-	CPPFLAGS+=-fexceptions
-else
-	CPPFLAGS+=-fno-exceptions
-endif
 
 .c.o:
 	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
@@ -75,9 +73,9 @@ endif
 
 %.o: %.asm
 ifeq ($(64BIT),yes)
-	$(YASM) -f win64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
 else
-	$(YASM) -f win32 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
 endif
 
 %.res.o: %.rc

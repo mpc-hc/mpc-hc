@@ -7,7 +7,9 @@
 #endif
 
 #if defined(__INTEL_COMPILER)
-  #if __INTEL_COMPILER  >= 1000
+  #if __INTEL_COMPILER  >= 1100
+    #define COMPILER "icl 11"
+  #elif __INTEL_COMPILER  >= 1000
     #define COMPILER "icl 10"
   #elif __INTEL_COMPILER  >= 900
     #define COMPILER "icl 9"
@@ -24,7 +26,7 @@
   #elif _MSC_VER>=1300
     #define COMPILER "msvc 2003"
   #else
-# error This version of Microsoft Visual C++ is not supported.
+#define COMPILER "unknown and not supported"
   #endif
 #elif defined(__GNUC__)
   #ifdef __SSE__
@@ -38,9 +40,9 @@
     #define COMPILER_SSE ""
     #define COMPILER_SSE2 ""
   #endif
-  #define COMPILER "gcc "STRINGIFY(__GNUC__)"."STRINGIFY(__GNUC_MINOR__)"."STRINGIFY(__GNUC_PATCHLEVEL__) COMPILER_SSE COMPILER_SSE2
+  #define COMPILER "MinGW GCC "STRINGIFY(__GNUC__)"."STRINGIFY(__GNUC_MINOR__)"."STRINGIFY(__GNUC_PATCHLEVEL__) COMPILER_SSE COMPILER_SSE2
 #else
-  #define COMPILER "unknown"
+  #define COMPILER "unknown and not supported"
 #endif
 
 #ifdef _WIN64

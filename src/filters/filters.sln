@@ -231,11 +231,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flacsource", "source\flacso
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "transform\mpadecfilter\libflac\src\libFLAC\libflac.vcproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "transform\mpcvideodec\ffmpeg\libavcodec_gcc.vcproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
 		Debug Unicode lib|x64 = Debug Unicode lib|x64
@@ -1286,15 +1284,12 @@ Global
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Debug|x64.ActiveCfg = Debug|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Debug|x64.Build.0 = Debug|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode lib|Win32.ActiveCfg = Release|Win32
-		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode lib|Win32.Build.0 = Release|Win32
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode lib|x64.ActiveCfg = Release|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode lib|x64.Build.0 = Release|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode|Win32.ActiveCfg = Release|Win32
-		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode|Win32.Build.0 = Release|Win32
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode|x64.ActiveCfg = Release|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release Unicode|x64.Build.0 = Release|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release|Win32.ActiveCfg = Release|Win32
-		{5CAF881C-9349-4EE2-9697-982C10795033}.Release|Win32.Build.0 = Release|Win32
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release|x64.ActiveCfg = Release|x64
 		{5CAF881C-9349-4EE2-9697-982C10795033}.Release|x64.Build.0 = Release|x64
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Debug Unicode lib|Win32.ActiveCfg = Debug Unicode lib|Win32
@@ -1319,7 +1314,8 @@ Global
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release|Win32.ActiveCfg = Release Unicode|x64
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release|x64.ActiveCfg = Release Unicode|x64
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34}.Release|x64.Build.0 = Release Unicode|x64
-		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode lib|Win32.ActiveCfg = Debug|x64
+		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode lib|Win32.ActiveCfg = Debug|Win32
+		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode lib|Win32.Build.0 = Debug|Win32
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode lib|x64.ActiveCfg = Debug|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode lib|x64.Build.0 = Debug|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug Unicode|Win32.ActiveCfg = Debug|Win32
@@ -1330,7 +1326,8 @@ Global
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug|Win32.Build.0 = Debug|Win32
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug|x64.ActiveCfg = Debug|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Debug|x64.Build.0 = Debug|x64
-		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode lib|Win32.ActiveCfg = Release|x64
+		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode lib|Win32.ActiveCfg = Release|Win32
+		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode lib|Win32.Build.0 = Release|Win32
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode lib|x64.ActiveCfg = Release|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode lib|x64.Build.0 = Release|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release Unicode|Win32.ActiveCfg = Release|Win32
@@ -1341,8 +1338,34 @@ Global
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release|Win32.Build.0 = Release|Win32
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release|x64.ActiveCfg = Release|x64
 		{4CEFBC84-C215-11DB-8314-0800200C9A66}.Release|x64.Build.0 = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode lib|Win32.ActiveCfg = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode lib|x64.ActiveCfg = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode lib|x64.Build.0 = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|Win32.ActiveCfg = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|x64.ActiveCfg = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|x64.Build.0 = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug|Win32.Build.0 = Debug|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug|x64.ActiveCfg = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug|x64.Build.0 = Debug|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|Win32.ActiveCfg = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|Win32.Build.0 = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|x64.ActiveCfg = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|x64.Build.0 = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|Win32.ActiveCfg = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|Win32.Build.0 = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|x64.ActiveCfg = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|x64.Build.0 = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release|Win32.ActiveCfg = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release|Win32.Build.0 = Release|Win32
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release|x64.ActiveCfg = Release|x64
+		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

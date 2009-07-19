@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="RealMediaSplitter"
 	ProjectGUID="{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 	RootNamespace="RealMediaSplitter"
