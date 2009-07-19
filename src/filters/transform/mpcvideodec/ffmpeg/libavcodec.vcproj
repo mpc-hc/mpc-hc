@@ -414,10 +414,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\eval.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\faandct.c"
 				>
 			</File>
@@ -530,14 +526,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\jfdctfst.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\jfdctint.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\jpegls.c"
 				>
 			</File>
@@ -582,23 +570,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mpeg12.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpeg12data.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpegvideo.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpegvideo_parser.c"
 				>
 			</File>
 			<File
@@ -623,10 +599,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\parser.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\ratecontrol.c"
 				>
 			</File>
 			<File
@@ -943,15 +915,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mpeg12.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mpeg12data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\mpeg12decdata.h"
 				>
 			</File>
 			<File
@@ -1076,46 +1040,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\xiph.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="amr"
-			>
-			<File
-				RelativePath=".\libavcodec\amr_float\interf_dec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\interf_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\interf_enc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\interf_rom.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\rom_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\sp_dec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\sp_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\sp_enc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amr_float\typedef.h"
 				>
 			</File>
 		</Filter>
