@@ -26,7 +26,7 @@
 class CNullRenderer : public CBaseRenderer
 {
 protected:
-	HRESULT DoRenderSample(IMediaSample* pSample) {return S_OK;}
+	virtual HRESULT DoRenderSample(IMediaSample* pSample) {return S_OK;}
 
 public:
 	CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
@@ -50,6 +50,7 @@ protected:
 
 public:
 	CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
+	virtual HRESULT DoRenderSample(IMediaSample* pSample);
 };
 
 [uuid("0C38BDFD-8C17-4E00-A344-F89397D3E22A")]
