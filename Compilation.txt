@@ -43,8 +43,10 @@ libgcc.a libmingwex.a
 ### Windows Environment variables ###
 
 * Add an environment variable called "CC" and give it the value "gcc" (both without quotes).
-* Add the path of the MinGW32 bin directory to the PATH environment variable.
-* Add the path of the MinGW64 bin directory to the PATH environment variable.
+* Add an environment variable called "MINGW32" and set it with the path of the MinGW32 bin directory
+	Ex : MINGW32 = c:\MinGW32\bin
+* Add an environment variable called "MINGW64" and set it with the path of the MinGW64 bin directory
+	Ex : MINGW64 = c:\MinGW64\bin
 
 
 ### How to checkout the source code from the SVN repository ###

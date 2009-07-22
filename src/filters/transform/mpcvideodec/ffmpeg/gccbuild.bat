@@ -1,9 +1,15 @@
 @echo off
-if NOT "x%CC%" == "x" goto VarOk
+if NOT "x%MINGW32%" == "x" goto Var1Ok
+echo "ERROR : please define MINGW32 (and/or MSYS) environment variable(s)"
+exit 1005
+
+:Var1Ok
+if NOT "x%CC%" == "x" goto Var2Ok
 echo "ERROR : please define CC environment variable"
 exit 1005
 
-:VarOk
+:Var2Ok
+set PATH=%MINGW32%;%YASM%;%PATH%
 
 IF "%1%"=="rebuild" goto DoClean
 IF "%1%"=="clean" goto OnlyClean
