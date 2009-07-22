@@ -514,6 +514,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
 	m_nARMode				= 1;
+	m_nPosB					= 1;
 	m_sar.SetSize(1,1);
 	
 	CRegKey key;
