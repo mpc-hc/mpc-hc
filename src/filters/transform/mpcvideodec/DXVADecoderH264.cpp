@@ -88,8 +88,6 @@ CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IDirectXVideoDe
 
 CDXVADecoderH264::~CDXVADecoderH264()
 {
-	if(m_pSliceLong)  free(m_pSliceLong); 
-	if(m_pSliceShort) free(m_pSliceShort); 
 }
 
 void CDXVADecoderH264::Init()
@@ -118,8 +116,6 @@ void CDXVADecoderH264::Init()
 
 	m_nCurRefFrame		= 0;
 	m_nNALLength		= 4;
-	m_pSliceShort		= NULL;
-	m_pSliceLong		= NULL; 
 	m_nMaxSlices		= 0;
 
 	switch (GetMode())
@@ -195,6 +191,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	UINT						nNalOffset	= 0;
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
+	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, true,&nFramePOC, &m_nOutPOC, &m_rtOutStart);			
 
 	while (Nalu.ReadNext())
 	{
@@ -202,20 +199,13 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 		{
 		case NALU_TYPE_SLICE:
 		case NALU_TYPE_IDR:
-				FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength(), Nalu.IsEOF(),&nFramePOC, &m_nOutPOC, &m_rtOutStart);			
 				if(m_bUseLongSlice) 
 				{
-					if(nSlices >= m_nMaxSlices)
-					{
-						m_nMaxSlices += 10;
-						m_pSliceLong  = (DXVA_Slice_H264_Long *)realloc(m_pSliceLong,  m_nMaxSlices*sizeof(DXVA_Slice_H264_Long)); 
-					}
-				
 					m_pSliceLong[nSlices].BSNALunitDataLocation	= nNalOffset;
 					m_pSliceLong[nSlices].SliceBytesInBuffer	= Nalu.GetDataLength()+3; //.GetRoundedDataLength();
 					m_pSliceLong[nSlices].wBadSliceChopping		= 0;
 					m_pSliceLong[nSlices].slice_id				= nSlices;
-					FF264BuildSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx(), m_pFilter->GetPCIVendor());
+					FF264UpdateRefFrameSliceLong(&m_DXVAPicParams, &m_pSliceLong[nSlices], m_pFilter->GetAVCtx());
 
 					if (nSlices>0)
 						m_pSliceLong[nSlices-1].NumMbsForSlice = m_pSliceLong[nSlices].NumMbsForSlice = m_pSliceLong[nSlices].first_mb_in_slice - m_pSliceLong[nSlices-1].first_mb_in_slice;
@@ -224,12 +214,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 				}
 				else 
 				{
-					if(nSlices >= m_nMaxSlices)
-					{
-						m_nMaxSlices += 10;
-						m_pSliceShort	= (DXVA_Slice_H264_Short*)realloc(m_pSliceShort, m_nMaxSlices*sizeof(DXVA_Slice_H264_Short));
-					}
-
 					m_pSliceShort[nSlices].BSNALunitDataLocation	= nNalOffset;
 					m_pSliceShort[nSlices].SliceBytesInBuffer		= Nalu.GetDataLength()+3;
 					m_pSliceShort[nSlices].wBadSliceChopping		= 0;
@@ -237,13 +221,8 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 					nSlices++;
 				}
 				nNalOffset += (UINT)(Nalu.GetDataLength() + 3);
+				if (nSlices > MAX_SLICES) break;
 				break;
-
-		case NALU_TYPE_PPS :
-		case NALU_TYPE_SPS :
-		case NALU_TYPE_SEI :
-			FFH264DecodeBuffer (m_pFilter->GetAVCtx(), Nalu.GetNALBuffer(), Nalu.GetLength(), Nalu.IsEOF(), &nFramePOC, &m_nOutPOC, &m_rtOutStart);
-			break;
 		}
 	}
 	if (nSlices == 0) return S_FALSE;
@@ -333,6 +312,7 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
 	FFH264DecodeBuffer (pAVCtx, pDataIn, nSize, FALSE, NULL, NULL, NULL);
+	FFH264SetDxvaSliceLong (pAVCtx, m_pSliceLong);
 }
 
 

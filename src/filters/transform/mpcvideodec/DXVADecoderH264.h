@@ -28,10 +28,7 @@
 #include "H264QuantizationMatrix.h"
 
 
-class CNalu
-{
-};
-
+#define MAX_SLICES 16		// Also define in ffmpeg!
 
 class CDXVADecoderH264 : public CDXVADecoder
 {
@@ -52,8 +49,8 @@ private:
 
 	DXVA_PicParams_H264		m_DXVAPicParams;
 	DXVA_Qmatrix_H264		m_DXVAScalingMatrix;
-	DXVA_Slice_H264_Short*	m_pSliceShort;
-	DXVA_Slice_H264_Long*	m_pSliceLong; 
+	DXVA_Slice_H264_Short	m_pSliceShort[MAX_SLICES];
+	DXVA_Slice_H264_Long	m_pSliceLong[MAX_SLICES]; 
 	UINT					m_nMaxSlices;
 	UINT					m_nCurRefFrame;		// First free RefFrameList position
 	int						m_nNALLength;

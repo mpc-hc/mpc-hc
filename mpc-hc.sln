@@ -341,6 +341,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flacsource", "src\filters\s
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec_gcc.vcproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "How to compile", "How to compile", "{DB0928C2-517C-4C17-9AA7-8213368C57E3}"
+	ProjectSection(SolutionItems) = preProject
+		Compilation.txt = Compilation.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

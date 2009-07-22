@@ -66,6 +66,7 @@ typedef struct
 	FF_FIELD_TYPE				n1FieldType;	// Top or bottom for the 1st field
 	FF_SLICE_TYPE				nSliceType;
 	int							nCodecSpecific;
+	DWORD						dwDisplayCount;
 } PICTURE_STORE;
 
 
@@ -142,6 +143,7 @@ private :
 	DXVA_ConfigPictureDecode		m_DXVA1Config;
 	AMVACompBufferInfo				m_ComBufferInfo[COMP_BUFFER_COUNT];
 	DWORD							m_dwBufferIndex;
+	DWORD							m_dwDisplayCount;
 
 	// === DXVA2 variables
 	CComPtr<IDirectXVideoDecoder>	m_pDirectXVideoDec;
