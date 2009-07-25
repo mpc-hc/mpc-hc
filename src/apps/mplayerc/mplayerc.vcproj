@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -142,7 +142,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -229,7 +229,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -315,7 +315,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\zlib;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"

@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
 			<Tool
@@ -106,7 +106,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
 			/>
@@ -166,7 +166,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4244"
 			/>
@@ -229,7 +229,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 			/>
 			<Tool
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 			/>
 			<Tool
@@ -362,7 +362,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DebugInformationFormat="3"
 			/>
@@ -434,7 +434,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 			/>
 			<Tool
@@ -506,7 +506,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 			/>
 			<Tool

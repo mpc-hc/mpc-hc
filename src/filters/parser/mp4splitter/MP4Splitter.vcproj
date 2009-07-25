@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				DisableSpecificWarnings="4812"
 			/>
@@ -105,7 +105,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4812"
@@ -164,7 +164,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4812;4244"
 			/>
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				DisableSpecificWarnings="4812"
 			/>
@@ -283,7 +283,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DisableSpecificWarnings="4812"
 			/>
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4812"
@@ -434,7 +434,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				DisableSpecificWarnings="4812"
 			/>
@@ -508,7 +508,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include"
+				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				DisableSpecificWarnings="4812"
 			/>

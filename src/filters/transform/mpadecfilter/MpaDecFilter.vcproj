@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL"
 				DebugInformationFormat="3"
 			/>
@@ -186,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
@@ -258,7 +258,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL"
 			/>
 			<Tool
@@ -328,7 +328,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;FLAC__NO_DLL"
 			/>
 			<Tool
@@ -390,7 +390,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;FLAC__NO_DLL"
 				DebugInformationFormat="3"
 			/>
@@ -450,7 +450,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;FLAC__NO_DLL"
 				DisableSpecificWarnings="4244"
 			/>
@@ -513,7 +513,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil"
+				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;FLAC__NO_DLL"
 			/>
 			<Tool

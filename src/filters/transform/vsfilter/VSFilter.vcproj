@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 			/>
 			<Tool
@@ -61,7 +61,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN64;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 				DebugInformationFormat="3"
 			/>
@@ -134,7 +134,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
@@ -187,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 			/>
 			<Tool
@@ -204,7 +204,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				OutputFile="..\..\..\..\bin\x86\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
@@ -261,7 +261,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 				Detect64BitPortabilityProblems="false"
 			/>
@@ -279,7 +279,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				OutputFile="..\..\..\..\bin\x64\$(ProjectName).dll"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
