@@ -1,5 +1,6 @@
-;the revision number - 2009-07-21 11:41
-#define MyAppExeNumber "1.2.1175.0"
+;the revision number - 2009-07-22 13:36
+
+#include "../include/Version.h"
 
 #define MyAppName "Media Player Classic - Home Cinema x64"
 #define MyAppVerName "Media Player Classic - Home Cinema v."
@@ -14,7 +15,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 AppName={#MyAppName}
-AppVerName={#MyAppVerName}{#MyAppExeNumber}
+AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
@@ -22,8 +23,8 @@ DefaultDirName={pf64}\MPC HomeCinema (x64)
 DefaultGroupName={#MyAppName}
 LicenseFile=..\COPYING
 OutputDir=Installer
-OutputBaseFilename=MPC-HomeCinema.{#MyAppExeNumber}.(x64)
-VersionInfoVersion={#MyAppExeNumber}
+OutputBaseFilename=MPC-HomeCinema.{#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}.(x64)
+VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 Compression=lzma/ultra64
 SolidCompression=yes
@@ -33,28 +34,28 @@ ArchitecturesInstallIn64BitMode=x64
 ShowUndisplayableLanguages=true
 
 [Files]
-Source: ..\src\apps\mplayerc\Build_x64\mplayerc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\Build_x64\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mplayerc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
 ;Source: ..\src\apps\mplayerc\Build_x64\d3dx9_41.dll;       DestDir: {app}; Flags: ignoreversion 64bit
 
 [Run]

@@ -1,6 +1,6 @@
-;the revision number - 2009-07-21 11:44
+;the revision number - 2009-07-22 13:36
 
-#define MyAppExeNumber "1.2.1175.0"
+#include "../include/Version.h"
 
 #define MyAppName "Media Player Classic - Home Cinema"
 #define MyAppVerName "Media Player Classic - Home Cinema v."
@@ -16,7 +16,7 @@
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 
 AppName={#MyAppName}
-AppVerName={#MyAppVerName}{#MyAppExeNumber}
+AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
@@ -24,8 +24,8 @@ DefaultDirName={pf}\MPC HomeCinema
 DefaultGroupName={#MyAppName}
 LicenseFile=..\COPYING
 OutputDir=Installer
-OutputBaseFilename=MPC-HomeCinema.{#MyAppExeNumber}.(x86)
-VersionInfoVersion={#MyAppExeNumber}
+OutputBaseFilename=MPC-HomeCinema.{#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}.(x86)
+VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 AllowNoIcons=yes
 Compression=lzma/ultra64
@@ -33,28 +33,28 @@ SolidCompression=yes
 ShowUndisplayableLanguages=true
 
 [Files]
-Source: ..\src\apps\mplayerc\Build_x86\mplayerc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\AUTHORS; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\ChangeLog; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Build_x86\COPYING; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mplayerc.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion
+Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 ;Source: ..\src\apps\mplayerc\Build_x86\d3dx9_41.dll;       DestDir: {app}; Flags: ignoreversion
 
 [Run]
