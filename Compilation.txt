@@ -1,4 +1,4 @@
-### Requirements for 32-bit and 64 bit builds ###
+### Requirements for 32-bit and 64-bit builds ###
 
 * TortoiseSVN
 http://tortoisesvn.net/downloads
@@ -62,8 +62,8 @@ You need to add the locations of the DirectX SDK and ATL server files to the set
 1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
 2) Add the location of the Include directory of the latest DirectX SDK.
 3) Add the location of the Include directory of the ATL server files.
-4) Repeat the step 2-4 for the x64 platform.
+4) Repeat the step 2-3 for the x64 platform.
 5) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
 6) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
-7) Add the location of the Lib\x86 directory of the August 2007 DirectX SDK files to the Win32 platform.
-8) Add the location of the Lib\x64 directory of the August 2007 DirectX SDK files to the x64 platform.
+7) For Win32 add the locations of executable files c:\MinGW32\bin directory and c:\MinGW32\Msys\bin.
+8) For Win64 add the locations of executable files c:\MinGW64\bin directory.
