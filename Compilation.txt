@@ -1,4 +1,4 @@
-### Requirements for 32-bit build ###
+### Requirements for 32-bit and 64 bit builds ###
 
 * TortoiseSVN
 http://tortoisesvn.net/downloads
@@ -8,9 +8,6 @@ http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
 
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx
-
-* Some additional headers/libs from DirectX SDK August 2007.
-These can be found in "DirectXSDKAugust2007.zip".
 
 * ATL Server Library and Tools
 http://www.codeplex.com/AtlServer/Release/ProjectReleases.aspx?ReleaseId=3754
@@ -64,12 +61,9 @@ You need to add the locations of the DirectX SDK and ATL server files to the set
 
 1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
 2) Add the location of the Include directory of the latest DirectX SDK.
-3) Add the location of the Include directory of the August 2007 DirectX SDK files.
-4) Add the location of the Include directory of the ATL server files.
-5) Repeat the step 2-4 for the x64 platform.
-6) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
-7) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
-8) Add the location of the Lib\x86 directory of the August 2007 DirectX SDK files to the Win32 platform.
-9) Add the location of the Lib\x64 directory of the August 2007 DirectX SDK files to the x64 platform.
-
-
+3) Add the location of the Include directory of the ATL server files.
+4) Repeat the step 2-4 for the x64 platform.
+5) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
+6) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
+7) Add the location of the Lib\x86 directory of the August 2007 DirectX SDK files to the Win32 platform.
+8) Add the location of the Lib\x64 directory of the August 2007 DirectX SDK files to the x64 platform.
