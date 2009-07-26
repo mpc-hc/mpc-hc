@@ -823,7 +823,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -840,7 +839,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
