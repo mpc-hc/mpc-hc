@@ -55,6 +55,43 @@ const byte ZZ_SCAN8[64] =
    58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
 };
 
+static UINT g_UsedForReferenceFlags[] =
+{
+	0x00000000,
+	0x00000001,
+	0x00000003,
+	0x00000007,
+	0x0000000F,
+	0x0000001F,
+	0x0000003F,
+	0x0000007F,
+	0x000000FF,
+	0x000001FF,
+	0x000003FF,
+	0x000007FF,
+	0x00000FFF,
+	0x00001FFF,
+	0x00003FFF,
+	0x00007FFF,
+	0x0000FFFF,
+	0x0001FFFF,
+	0x0003FFFF,
+	0x0007FFFF,
+	0x000FFFFF,
+	0x001FFFFF,
+	0x003FFFFF,
+	0x007FFFFF,
+	0x00FFFFFF,
+	0x01FFFFFF,
+	0x03FFFFFF,
+	0x07FFFFFF,
+	0x0FFFFFFF,
+	0x1FFFFFFF,
+	0x3FFFFFFF,
+	0x7FFFFFFF,
+	0xFFFFFFFF,
+};
+
 int IsVista()
 {
 	OSVERSIONINFO osver;
@@ -330,6 +367,83 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	}
 
 	return hr;
+}
+
+
+void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
+{
+	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
+
+	pDXVAPicParams->CurrPic.Index7Bits	= nIndex;
+	h->s.current_picture_ptr->opaque			= (void*)nIndex;
+}
+
+
+void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
+{
+	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
+	int				i;
+	Picture*		pic;
+	UCHAR			AssociatedFlag;
+
+	for(i=0; i<16; i++)
+	{
+        if (i < h->short_ref_count)
+		{
+			// Short list reference frames
+            pic				= h->short_ref[h->short_ref_count - i - 1];
+			AssociatedFlag	= 0;
+		}
+        else if (i >= h->short_ref_count && i < h->long_ref_count)
+		{
+			// Long list reference frames
+            pic			= h->short_ref[h->short_ref_count + h->long_ref_count - i - 1];
+			AssociatedFlag	= 1;
+		}
+		else
+			pic = NULL;
+
+
+		if (pic != NULL)
+		{
+			pDXVAPicParams->FrameNumList[i]					= pic->frame_num;
+			pDXVAPicParams->FieldOrderCntList[i][0]			= pic->field_poc [0];
+			pDXVAPicParams->FieldOrderCntList[i][1]			= pic->field_poc [1];
+			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
+			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->opaque;
+        }
+		else
+		{
+			pDXVAPicParams->FrameNumList[i]					= 0;
+			pDXVAPicParams->FieldOrderCntList[i][0]			= 0;
+			pDXVAPicParams->FieldOrderCntList[i][1]			= 0;
+			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= 1;
+			pDXVAPicParams->RefFrameList[i].Index7Bits		= 127;
+		}
+	}
+
+	// TODO : voir pour entrelacé
+	pDXVAPicParams->UsedForReferenceFlags	= g_UsedForReferenceFlags [h->short_ref_count*2];
+}
+
+BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)
+{
+	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
+	int				i;
+
+	for (i=0; i<h->short_ref_count; i++)
+	{
+		if ((int)h->short_ref[i]->opaque == nFrameNum)
+			return TRUE;
+	}
+
+	for (i=0; i<h->long_ref_count; i++)
+	{
+		if ((int)h->long_ref[i]->opaque == nFrameNum)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 

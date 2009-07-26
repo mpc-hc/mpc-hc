@@ -64,5 +64,5 @@ private:
 
 	// DXVA functions
 	void					ClearRefFramesList();
-	void					UpdateRefFramesList (int nFrameNum, bool bRefFrame, bool bAdded, int nDXIndex);
+	void					ClearUnusedRefFrames();
 };
