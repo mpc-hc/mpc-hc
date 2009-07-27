@@ -21,7 +21,7 @@
  */
 
 /**
- * @file simple_idct.c
+ * @file libavcodec/simple_idct.c
  * simpleidct in C.
  */
 
@@ -66,7 +66,7 @@ static inline void idctRowCondDC (DCTELEM * row)
 #endif
 
 #if HAVE_FAST_64BIT
-#ifdef WORDS_BIGENDIAN
+#if HAVE_BIGENDIAN
 #define ROW0_MASK 0xffff000000000000LL
 #else
 #define ROW0_MASK 0xffffLL

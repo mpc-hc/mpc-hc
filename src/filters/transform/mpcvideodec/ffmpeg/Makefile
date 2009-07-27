@@ -23,6 +23,7 @@ SRCS_C=\
 		$(LAVC_DIR)/CompilatorVersion.c\
 		$(LAVC_DIR)/dsputil.c \
 		$(LAVC_DIR)/eac3dec.c \
+		$(LAVC_DIR)/eac3dec_data.c \
 		$(LAVC_DIR)/error_resilience.c \
 		$(LAVC_DIR)/faandct.c \
 		$(LAVC_DIR)/faanidct.c \

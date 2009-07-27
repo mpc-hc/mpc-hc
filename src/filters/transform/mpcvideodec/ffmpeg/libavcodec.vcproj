@@ -410,6 +410,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\eac3dec_data.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\error_resilience.c"
 				>
 			</File>
@@ -820,6 +824,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\dsputil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\eac3dec_data.h"
 				>
 			</File>
 			<File
