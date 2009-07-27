@@ -22,9 +22,7 @@
 #ifndef AVCODEC_AC3DEC_DATA_H
 #define AVCODEC_AC3DEC_DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 extern const uint8_t ff_ac3_ungroup_3_in_5_bits_tab[32][3];
 extern const uint8_t ff_ac3_rematrix_band_tab[5];

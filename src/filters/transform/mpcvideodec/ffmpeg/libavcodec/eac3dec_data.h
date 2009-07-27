@@ -22,9 +22,7 @@
 #ifndef AVCODEC_EAC3DEC_DATA_H
 #define AVCODEC_EAC3DEC_DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 extern const uint8_t ff_eac3_bits_vs_hebap[20];
 extern const int16_t ff_eac3_gaq_remap_1[12];
