@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
+CC=x86_64-w64-mingw32-gcc
 HST=i686-pc-mingw32
-TGT=x86_64-pc-mingw32
+TGT=x86_64-w64-mingw32
 RT=root-$HST
 PF=`pwd`/$RT
 BD=`pwd`/build
@@ -61,6 +62,8 @@ done
 if [[ $updatemingw == "true" ]]; then
 	echo "Downloading Ming64 crt and headers.." && cd $BD/mingw
 	svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/trunk .
+	dest=$PF/$TGT/include
+	[ -d $dest ] && echo $dest already exists || ( cp -prf mingw-w64-headers/include $dest && find $dest -name ".svn" | xargs rm -rf )
 fi
 
 if [[ $compilewmingw == "true" ]]; then
@@ -68,14 +71,14 @@ if [[ $compilewmingw == "true" ]]; then
 	../mingw-w64-crt/configure --prefix=$PF --with-sysroot=$PF --host=$TGT || exit 1
 	# export CFLAGS="-fno-leading-underscore -mno-cygwin"
 	make CFLAGS="-fno-leading-underscore -mno-cygwin" -s && make install || exit 1
-	cp /mingw/lib/gcc/x86_64-pc-mingw32/4.4.0/libgcc.a $BD/../../../../../../lib64/libgcc.a
-	cp $PF/x86_64-pc-mingw32/lib/libmingwex.a $BD/../../../../../../lib64/libmingwex.a
+	cp /mingw/lib/gcc/x86_64-w64-mingw32/4.4.0/libgcc.a $BD/../../../../../../lib64/libgcc.a
+	cp $PF/x86_64-w64-mingw32/lib/libmingwex.a $BD/../../../../../../lib64/libmingwex.a
 fi
 
 
-echo "Downloading ffmpeg for Mpc-hc" && cd $BD/ffmpeg
-svn -q co https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk/src/filters/transform/mpcvideodec/ffmpeg .
-
-echo "Compiling ffmpeg for Mpc-hc..."
-cd $BD/ffmpeg
-make 64BIT=yes
+#echo "Downloading ffmpeg for Mpc-hc" && cd $BD/ffmpeg
+#svn -q co https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk/src/filters/transform/mpcvideodec/ffmpeg .
+#
+#echo "Compiling ffmpeg for Mpc-hc..."
+#cd $BD/ffmpeg
+#make 64BIT=yes

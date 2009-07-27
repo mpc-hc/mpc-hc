@@ -52,17 +52,18 @@ private:
 	DXVA_Slice_H264_Short	m_pSliceShort[MAX_SLICES];
 	DXVA_Slice_H264_Long	m_pSliceLong[MAX_SLICES]; 
 	UINT					m_nMaxSlices;
-	UINT					m_nCurRefFrame;		// First free RefFrameList position
 	int						m_nNALLength;
 	bool					m_bUseLongSlice;
 	int						m_nOutPOC;
 	REFERENCE_TIME			m_rtOutStart;
+	REFERENCE_TIME			m_rtLastFrameDisplayed;
 
 	// Private functions
 	void					Init();
 	HRESULT					DisplayStatus();
 
 	// DXVA functions
+	void					RemoveUndisplayedFrame(int nPOC);
 	void					ClearRefFramesList();
 	void					ClearUnusedRefFrames();
 };

@@ -370,4 +370,6 @@ public:
 	bool Read(pvahdr& h, bool fSync = true);
 	bool Read(avchdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(vc1hdr& h, int len, CMediaType* pmt = NULL);
+
+	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };

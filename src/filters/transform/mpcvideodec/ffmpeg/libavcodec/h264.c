@@ -1365,10 +1365,17 @@ const uint8_t *ff_h264_decode_nal(H264Context *h, const uint8_t *src, int *dst_l
     int i, si, di;
     uint8_t *dst;
     int bufidx;
+	int nal_ref_idc;
 
 //    src[0]&0x80;                //forbidden bit
-    h->nal_ref_idc= src[0]>>5;
+	// ==> Start patch MPC
+	// Fix artifacts on h264 with filler data after slices
+    nal_ref_idc= src[0]>>5;
     h->nal_unit_type= src[0]&0x1F;
+
+	if (h->nal_unit_type!=NAL_FILLER_DATA)
+		h->nal_ref_idc = nal_ref_idc;
+	// <== End patch MPC
 
     src++; length--;
 #if 0

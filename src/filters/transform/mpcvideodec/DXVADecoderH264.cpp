@@ -78,7 +78,6 @@ void CDXVADecoderH264::Init()
 	}
 
 
-	m_nCurRefFrame		= 0;
 	m_nNALLength		= 4;
 	m_nMaxSlices		= 0;
 
@@ -178,6 +177,7 @@ void CDXVADecoderH264::Flush()
 	ClearRefFramesList();
 	m_DXVAPicParams.UsedForReferenceFlags	= 0;
 	m_nOutPOC								= -1;
+	m_rtLastFrameDisplayed					= 0;
 
 	__super::Flush();
 }
@@ -195,9 +195,11 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	CComQIPtr<IMPCDXVA2Sample>	pDXVA2Sample;
 	int							nDXIndex	= 0;
 	UINT						nNalOffset	= 0;
+	int							nOutPOC;
+	REFERENCE_TIME				rtOutStart;
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
-	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, true,&nFramePOC, &m_nOutPOC, &m_rtOutStart);			
+	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, true,&nFramePOC, &nOutPOC, &rtOutStart);			
 
 	while (Nalu.ReadNext())
 	{
@@ -223,6 +225,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	}
 	if (nSlices == 0) return S_FALSE;
 
+	RemoveUndisplayedFrame (nFramePOC);
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// If parsing fail (probably no PPS/SPS), continue anyway it may arrived later (happen on truncated streams)
@@ -277,13 +280,33 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	FFH264UpdateRefFramesList (&m_DXVAPicParams, m_pFilter->GetAVCtx());
 	ClearUnusedRefFrames();
 
-	if (bAdded) hr = DisplayNextFrame();
+	if (bAdded) 
+	{
+		hr				= DisplayNextFrame();
+		m_nOutPOC		= nOutPOC;
+		m_rtOutStart	= rtOutStart;
+	}
 	m_bFlushed		= false;
 	return hr;
 }
 
+void CDXVADecoderH264::RemoveUndisplayedFrame(int nPOC)
+{
+	// Find frame with given POC, and free the slot
+	for (int i=0; i<m_nPicEntryNumber; i++)
+	{
+		if (m_pPictureStore[i].bInUse && m_pPictureStore[i].nCodecSpecific == nPOC)
+		{
+			m_pPictureStore[i].bDisplayed = true;
+			RemoveRefFrame (i);
+			return;
+		}
+	}
+}
+
 void CDXVADecoderH264::ClearUnusedRefFrames()
 {
+	// Remove old reference frames (not anymore a short or long ref frame)
 	for (int i=0; i<m_nPicEntryNumber; i++)
 	{
 		if (m_pPictureStore[i].bRefPicture && m_pPictureStore[i].bDisplayed)
@@ -305,22 +328,14 @@ void CDXVADecoderH264::ClearRefFramesList()
 {
 	int		i;
 
-	for (i=0; i<m_DXVAPicParams.num_ref_frames; i++)
+	for (int i=0; i<m_nPicEntryNumber; i++)
 	{
-		if (m_DXVAPicParams.RefFrameList[i].bPicEntry != 255)
-			RemoveRefFrame (m_DXVAPicParams.RefFrameList[i].Index7Bits);
-
-		m_DXVAPicParams.RefFrameList[i].AssociatedFlag	= 1;
-		m_DXVAPicParams.RefFrameList[i].bPicEntry		= 255;
-		m_DXVAPicParams.RefFrameList[i].Index7Bits		= 127;
-		
-		m_DXVAPicParams.FieldOrderCntList[i][0]			= 0;
-		m_DXVAPicParams.FieldOrderCntList[i][1]			= 0;
-
-		m_DXVAPicParams.FrameNumList[i]					= 0;
+		if (m_pPictureStore[i].bInUse)
+		{
+			m_pPictureStore[i].bDisplayed = true;
+			RemoveRefFrame (i);
+		}
 	}
-
-	m_nCurRefFrame = 0;
 }
 
 
@@ -351,8 +366,14 @@ int CDXVADecoderH264::FindOldestFrame()
 		{
 			if (m_pPictureStore[i].nCodecSpecific == m_nOutPOC)
 			{
+				if (m_rtOutStart == _I64_MIN)
+				{
+					// If start time not set (no PTS for example), guess presentation time!
+					m_rtOutStart = m_rtLastFrameDisplayed + m_pFilter->GetAvrTimePerFrame();
+				}
 				m_pPictureStore[i].rtStart	= m_rtOutStart;
 				m_pPictureStore[i].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame();
+				m_rtLastFrameDisplayed		= m_rtOutStart;
 				m_pFilter->ReorderBFrames (m_pPictureStore[i].rtStart, m_pPictureStore[i].rtStop);
 				return i;
 			}
