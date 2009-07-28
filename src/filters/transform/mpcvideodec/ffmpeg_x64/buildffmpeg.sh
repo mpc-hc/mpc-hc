@@ -71,7 +71,7 @@ if [[ $compilewmingw == "true" ]]; then
 	../mingw-w64-crt/configure --prefix=$PF --with-sysroot=$PF --host=$TGT || exit 1
 	# export CFLAGS="-fno-leading-underscore -mno-cygwin"
 	make CFLAGS="-fno-leading-underscore -mno-cygwin" -s && make install || exit 1
-	cp /mingw/lib/gcc/x86_64-w64-mingw32/4.4.0/libgcc.a $BD/../../../../../../lib64/libgcc.a
+	cp /mingw/lib/gcc/x86_64-w64-mingw32/4.5.0/libgcc.a $BD/../../../../../../lib64/libgcc.a
 	cp $PF/x86_64-w64-mingw32/lib/libmingwex.a $BD/../../../../../../lib64/libmingwex.a
 fi
 

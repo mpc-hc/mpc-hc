@@ -9,7 +9,7 @@ echo "ERROR : please define CC environment variable"
 exit 1005
 
 :Var2Ok
-set PATH=%MINGW32%;%YASM%;%PATH%
+set PATH=%MSYS%\bin;%MINGW32%\bin;%YASM%;%PATH%
 
 IF "%1%"=="rebuild" goto DoClean
 IF "%1%"=="clean" goto OnlyClean

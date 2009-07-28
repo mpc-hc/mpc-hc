@@ -9,6 +9,9 @@ http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 
+* Microsoft Windows SDK for Vista
+http://www.microsoft.com/downloads/details.aspx?FamilyID=4377F86D-C913-4B5C-B87E-EF72E5B4E065&displaylang=en
+
 * ATL Server Library and Tools
 http://www.codeplex.com/AtlServer/Release/ProjectReleases.aspx?ReleaseId=3754
 
@@ -30,20 +33,20 @@ http://sourceforge.net/projects/mingw-w64/files/
 
 ### Lib files ###
 
-* Copy these two files from the MinGW32 lib directory to the lib directory of the source code:
+* x86 - Copy these two files from the MinGW32 lib directory to the lib directory of the source code:
 libgcc.a libmingwex.a
 
-* Copy these two files from the MinGW64 lib directory to the lib64 directory of the source code:
-libgcc.a libmingwex.a
-
+* x64 - use buildffmpeg.sh, run from Msys
 
 ### Windows Environment variables ###
 
 * Add an environment variable called "CC" and give it the value "gcc" (both without quotes).
-* Add an environment variable called "MINGW32" and set it with the path of the MinGW32 bin directory
-	Ex : MINGW32 = c:\MinGW32\bin
-* Add an environment variable called "MINGW64" and set it with the path of the MinGW64 bin directory
-	Ex : MINGW64 = c:\MinGW64\bin
+* Add an environment variable called "MSYS" and set it with the path of the MSYS root directory
+	Ex : MSYS = c:\MSYS\
+* Add an environment variable called "MINGW32" and set it with the path of the MinGW32 root directory
+	Ex : MINGW32 = c:\MinGW32\
+* Add an environment variable called "MINGW64" and set it with the path of the MinGW64 root directory
+	Ex : MINGW64 = c:\MinGW64\
 
 
 ### How to checkout the source code from the SVN repository ###
@@ -65,5 +68,3 @@ You need to add the locations of the DirectX SDK and ATL server files to the set
 4) Repeat the step 2-3 for the x64 platform.
 5) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
 6) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
-7) For Win32 add the locations of executable files c:\MinGW32\bin directory and c:\MinGW32\Msys\bin.
-8) For Win64 add the locations of executable files c:\MinGW64\bin directory.
