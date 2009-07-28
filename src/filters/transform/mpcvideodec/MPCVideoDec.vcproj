@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -200,7 +200,7 @@
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib;;$(MINGW32)\lib;$(MINGW32_GCCLIB)"
+				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
 				TargetMachine="1"
@@ -270,7 +270,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="decssRU.lib dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64;$(MINGW64)\lib;$(MINGW64_GCCLIB)"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
@@ -464,7 +464,7 @@
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib;$(MINGW32)\lib;$(MINGW32_GCCLIB)"
+				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -527,7 +527,7 @@
 				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64;$(MINGW64_GCCLIB);$(MINGW64)\lib"
+				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"

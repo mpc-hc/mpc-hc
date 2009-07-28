@@ -3,8 +3,6 @@
 IF "%VS90COMNTOOLS%"=="" goto BadPaths
 IF "%MINGW32%"=="" goto BadPaths
 IF "%MINGW64%"=="" goto BadPaths
-IF "%MINGW32_GCCLIB%"=="" goto BadPaths
-IF "%MINGW64_GCCLIB%"=="" goto BadPaths
 goto GoodPaths
 
 :BadPaths
@@ -12,8 +10,6 @@ echo "Not all build dependencies found. To build you need:"
 echo "* Visual Studio 2008 installed"
 echo "* MinGW 32 bit build environment with coreMSYS pointed to in MINGW32 env var"
 echo "* MinGW 64 bit build environment with coreMSYS pointed to in MINGW64 env var"
-echo "* MinGW 32 bit gcc library directory pointed to in MINGW32_GCCLIB env var"
-echo "* MinGW 64 bit gcc library directory pointed to in MINGW64_GCCLIB env var"
 pause
 goto EndGood
 
