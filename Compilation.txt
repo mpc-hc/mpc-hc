@@ -12,15 +12,19 @@ http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 * Microsoft Windows SDK for Vista
 http://www.microsoft.com/downloads/details.aspx?FamilyID=4377F86D-C913-4B5C-B87E-EF72E5B4E065&displaylang=en
 
-
 * MinGW32
+http://sourceforge.net/projects/mingw/
 
 * YASM
+http://www.tortall.net/projects/yasm/wiki/Download
 
 
-TIP: An easy to use custom installer for MinGW32 can be downloaded here:
-http://www.zshare.net/download/60972544b5065b47/
-This installer also includes YASM. It also adds the CC  environment variable, and updates the PATH environment variable.
+TIP:
+An easy to use custom installer for MinGW32 can be downloaded here:
+http://ul.to/huezwv
+
+This installer includes a full MinGW32 environment, including MSYS and YASM.
+It also automatically adds the required CC/MING32/MSYS environment variables, so there is no need to create them manually.
 
 
 ### Additional requirements for 64-bit build ###
@@ -31,10 +35,12 @@ http://sourceforge.net/projects/mingw-w64/files/
 
 ### Lib files ###
 
-* x86 - Copy these two files from the MinGW32 lib directory to the lib directory of the source code:
-libgcc.a libmingwex.a
+* x86: Copy the following two files from the MinGW32 lib directory to the lib directory of the source code:
+libgcc.a
+libmingwex.a
 
-* x64 - use buildffmpeg.sh, run from Msys
+* x64: use the script buildffmpeg.sh, run it from MSYS bash.
+
 
 ### Windows Environment variables ###
 
@@ -58,7 +64,7 @@ This assumes you have TortoiseSVN installed.
 
 ### Configuring Visual Studio ###
 
-You need to add the locations of the DirectX SDK and ATL server files to the settings in Visual Studio.
+You need to add the locations of the DirectX SDK directories to the settings in Visual Studio. This is usually already done automatically by the DirectX SDK installer.
 
 1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
 2) Add the location of the Include directory of the latest DirectX SDK.
