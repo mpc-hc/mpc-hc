@@ -12,8 +12,6 @@ http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 * Microsoft Windows SDK for Vista
 http://www.microsoft.com/downloads/details.aspx?FamilyID=4377F86D-C913-4B5C-B87E-EF72E5B4E065&displaylang=en
 
-* ATL Server Library and Tools
-http://www.codeplex.com/AtlServer/Release/ProjectReleases.aspx?ReleaseId=3754
 
 * MinGW32
 
@@ -64,7 +62,6 @@ You need to add the locations of the DirectX SDK and ATL server files to the set
 
 1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
 2) Add the location of the Include directory of the latest DirectX SDK.
-3) Add the location of the Include directory of the ATL server files.
-4) Repeat the step 2-3 for the x64 platform.
-5) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
-6) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
+3) Repeat the step 2 for the x64 platform.
+4) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
+5) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
