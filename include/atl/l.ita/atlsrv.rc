@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>Richiesta non valida</title></head><body>Richiesta non valida</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>Autorizzazione richiesta</title></head><body>Autorizzazione richiesta</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>Non consentito</title></head><body>Non consentito</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>Non trovato</title></head><body>Non trovato</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>Errore del server</title></head><body>Errore del server</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>Non implementato</title></head><body>Non implementato</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>Gateway non valido</title></head><body>Gateway non valido</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>Servizio non disponibile</title></head><body>Servizio non disponibile</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile caricare il file SRF.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Il file SRF richiesto è stato caricato ma non elaborato correttamente.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile creare un oggetto di sistema Windows.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Operazione di lettura file non riuscita.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile aprire il file specificato.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>LoadLibrary non riuscito.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile recuperare l'interfaccia del gestore delle richieste.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Memoria del server esaurita.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Errore imprevisto del server.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Errore imprevisto del server durante il tentativo di analizzare il file SRF richiesto.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile caricare il file SRF richiesto. Il file potrebbe essere danneggiato o mancante sul server Web.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Impossibile trovare nella DLL del gestore specificata uno dei gestori denominati in un tag di gestione per il file SRF richiesto.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Questo file SRF contiene un tag di gestione che non può essere analizzato correttamente dal processore dei file SRF o non contiene affatto un tag di gestione. Cercare nel file SRF richiesto la sintassi appropriata.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Il file SRF richiesto non contiene un tag di gestione.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Rilevato un tag di sostituzione nel file SRF richiesto con un nome di sostituzione troppo lungo. Il nome di sostituzione deve contenere un numero di caratteri inferiore o uguale alla costante ATL_MAX_METHOD_NAME definita in atlstencil.h</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Rilevato nel file SRF richiesto un tag di sostituzione che utilizza la sintassi id.tagname con un nome di gestore troppo lungo. Un nome di gestore deve contenere un numero di caratteri inferiore o uguale alla costante ATL_MAX_METHOD_NAME definita in atlstencil.h</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>Tentativo di rappresentare il client eseguendo la richiesta non riuscito.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>Errore del server</title></head><body><H1>Errore del server</H1><P>L'estensione ISAPI utilizzata per soddisfare questa richiesta non è riuscita a eseguire il caricamento correttamente. Errore sconosciuto.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "Creazione heap richiesta non riuscita"
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "Inizializzazione thread di lavoro non riuscita"
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "Inizializzazione sezione critica non riuscita"
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "Inizializzazione pool di thread non riuscita"
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "Inizializzazione cache DLL non riuscita"
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "Inizializzazione cache pagina non riuscita"
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "Inizializzazione cache file SRF non riuscita"
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "Inizializzazione servizio di stato sessione non riuscita"
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Inizializzazione cache dati BLOB non riuscita"
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "Inizializzazione cache file non riuscita"
+
+    IDS_PERFMON_CACHE               "Server ATL:Cache"
+    IDS_PERFMON_CACHE_HELP          "Informazioni sulla cache del server ATL"
+    IDS_PERFMON_HITCOUNT            "Passaggi cache"
+    IDS_PERFMON_HITCOUNT_HELP       "Numero di riscontri cache"
+    IDS_PERFMON_MISSCOUNT           "Conteggio mancati riscontri cache"
+    IDS_PERFMON_MISSCOUNT_HELP      "Numero di mancati riscontri cache"
+    IDS_PERFMON_CURRENTALLOCATIONS  "Allocazioni correnti cache"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "Memoria corrente allocata per la cache"
+    IDS_PERFMON_MAXALLOCATIONS      "Numero massimo allocazioni cache"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "Quantità massima di memoria allocata per la cache"
+    IDS_PERFMON_CURRENTENTRIES      "Voci correnti cache"
+    IDS_PERFMON_CURRENTENTRIES_HELP "Numero corrente di voci della cache"
+    IDS_PERFMON_MAXENTRIES          "Numero massimo voci cache"
+    IDS_PERFMON_MAXENTRIES_HELP     "Numero massimo di voci della cache"
+    IDS_PERFMON_HITCOUNTRATE        "Frequenza passaggi cache"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "Numero di passaggi al secondo"
+	IDS_PERFMON_REQUEST				"Server ATL:Richiesta"
+	IDS_PERFMON_REQUEST_HELP		"Statistica sulle richieste pervenute al server"
+	IDS_PERFMON_REQUEST_TOTAL		"Richieste totali al server"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"Numero totale di richieste"
+	IDS_PERFMON_REQUEST_FAILED		"Richieste al server non riuscite"
+	IDS_PERFMON_REQUEST_FAILED_HELP	"Numero di richieste non riuscite"
+	IDS_PERFMON_REQUEST_RATE		"Richieste al server /sec"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"Numero di richieste al secondo"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "Tempo medio di risposta"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "Tempo medio impiegato per la gestione di una richiesta"
+	IDS_PERFMON_REQUEST_CURR_WAITING "Richieste correnti in coda"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "Numero corrente di richieste in attesa di essere gestite"
+	IDS_PERFMON_REQUEST_MAX_WAITING "Numero massimo di richieste in coda"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "Numero massimo di richieste in attesa di essere gestite"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "Thread attivi"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "Numero di thread che gestiscono attivamente le richieste"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{codepage 0}}<h1><font color=#ff0000> Durante l'analisi di un file SRF, si è verificato il seguente errore:</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>Tipo di errore</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>Numero della riga</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>Testo dell'errore</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>Output file SRF:\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} senza {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} senza {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} senza {{endwhile}}" 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} senza {{while}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} senza {{if}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} senza {{if}} o {{else}}"
+	
+	IDS_STENCIL_INVALID_HANDLER           "Tag di gestione non valido"
+	IDS_STENCIL_NULLPARAM                 "Parametro NULL in ParseReplacements"
+	IDS_STENCIL_INVALIDSTRING             "Stringa vuota o negativa passata a ParseReplacements"
+	IDS_STENCIL_EMBEDDED_NULL             "Carattere null incorporato in file SRF"
+	IDS_STENCIL_UNMATCHED_TAG_START       "{{ non corrispondenti"
+	IDS_STENCIL_MISMATCHED_TAG_START      "{{ non corrispondenti"
+	IDS_STENCIL_BAD_PARAMETER             "Parametro non valido"
+	IDS_STENCIL_METHODNAME_TOO_LONG       "Nome metodo troppo lungo"
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "Nome gestore troppo lungo"
+	IDS_STENCIL_INVALID_SUBHANDLER        "Tag di gestione secondaria non valida"
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "Sostituzione non risolta: '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "Impossibile aprire il file incluso"
+	IDS_STENCIL_INCLUDE_INVALID           "Il file incluso non è un file su disco"
+	
+	IDS_STENCIL_MLANG_COCREATE            "Impossibile creare CMultiLanguage"
+	IDS_STENCIL_MLANG_LCID                "Errore durante la ricerca di lcid"
+	IDS_STENCIL_MLANG_GETLOCALE           "GetLocaleInfo non riuscito"
+	IDS_STENCIL_MLANG_GETCHARSET          "GetCharsetInfo non riuscito"
+	
+	IDS_STENCIL_OUTOFMEMORY               "Memoria insufficiente"
+	IDS_STENCIL_UNEXPECTED                "Errore imprevisto"
+END
+
+#endif

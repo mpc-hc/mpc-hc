@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>错误的请求</title></head><body>错误的请求</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>要求身份验证</title></head><body>要求身份验证</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>禁止</title></head><body>禁止</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>未找到</title></head><body>未找到</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>服务器错误</title></head><body>服务器错误</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>未实现</title></head><body>未实现</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>错误的网关</title></head><body>错误的网关</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>服务不可用</title></head><body>服务不可用</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>Server Error</title></head><body><H1>服务器错误</H1><P>无法加载 SRF 文件。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>所请求的 SRF 已加载，但无法对其进行正确处理。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>无法创建 Windows 系统对象。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>文件读操作失败。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>指定文件无法打开。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>LoadLibrary 失败。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>检索请求处理程序接口失败。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>服务器内存不足。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>服务器遇到意外错误。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>服务器在试图分析所请求的模板时遇到意外错误。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>服务器未能加载所请求的模板。该模板文件可能已损坏或不在该 Web 服务器上。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>在指定处理程序 .dll 中未找到在所请求模板的处理程序标记中命名的某个处理程序。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>该模板包含一个无法被模板处理器正确处理的处理程序标记，或者该模板根本没有包含处理程序标记。请查看所请求的模板，了解正确的模板语法。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>所请求的模板没有包含有处理程序标记。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>在所请求的模板中发现一个替换标记，该替换标记的替换名称过长。替换名称的最大长度必须小于或等于 atlstencil.h 中定义的常数 ATL_MAX_METHOD_NAME</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>在所请求的模板中发现一个使用 id.tagname 语法的替换标记。处理程序名称的最大长度必须小于或等于 atlstencil.h 中定义的常数 ATL_MAX_METHOD_NAME</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>模拟客户端提出请求的尝试失败。</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>服务器错误</title></head><body><H1>服务器错误</H1><P>由于发生未知错误，用于处理该请求的 ISAPI 扩展无法正确加载。</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "请求堆创建失败"
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "辅助线程初始化失败"
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "临界区初始化失败"
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "线程池初始化失败"
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "DLL 缓存初始化失败"
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "Page 缓存初始化失败"
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "模板缓存初始化失败"
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "会话状态服务初始化失败"
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Blob 缓存初始化失败"
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "文件缓存初始化失败"
+
+    IDS_PERFMON_CACHE               "ATL Server:缓存"
+    IDS_PERFMON_CACHE_HELP          "ATL Server 缓存的相关信息"
+    IDS_PERFMON_HITCOUNT            "缓存命中数"
+    IDS_PERFMON_HITCOUNT_HELP       "命中缓存的数目"
+    IDS_PERFMON_MISSCOUNT           "缓存未命中数"
+    IDS_PERFMON_MISSCOUNT_HELP      "未命中缓存的数目"
+    IDS_PERFMON_CURRENTALLOCATIONS  "缓存当前分配额"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "分配给缓存的当前内存大小"
+    IDS_PERFMON_MAXALLOCATIONS      "缓存最大分配额"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "分配给缓存的最大内存大小"
+    IDS_PERFMON_CURRENTENTRIES      "当前缓存项数"
+    IDS_PERFMON_CURRENTENTRIES_HELP "当前缓存项的数目"
+    IDS_PERFMON_MAXENTRIES          "缓存最大项数"
+    IDS_PERFMON_MAXENTRIES_HELP     "缓存项的最大数目"
+    IDS_PERFMON_HITCOUNTRATE        "缓存命中率"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "每秒命中缓存的次数"
+	IDS_PERFMON_REQUEST				"ATL Server:请求"
+	IDS_PERFMON_REQUEST_HELP		"关于进入该服务器的请求的统计信息"
+	IDS_PERFMON_REQUEST_TOTAL		"服务器请求总数"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"请求的总数"
+	IDS_PERFMON_REQUEST_FAILED		"服务器请求失败数"
+	IDS_PERFMON_REQUEST_FAILED_HELP	"失败的请求的数目"
+	IDS_PERFMON_REQUEST_RATE		"服务器请求/秒"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"每秒请求的数目"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "平均响应时间"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "处理请求所需的平均时间"
+	IDS_PERFMON_REQUEST_CURR_WAITING "当前队列中的请求数"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "当前等待处理的请求数目"
+	IDS_PERFMON_REQUEST_MAX_WAITING "队列中请求的最大数目"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "等待处理的请求的最大数目"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "活动线程数"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "正在处理请求的活动线程数"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{codepage 0}}<h1><font color=#ff0000>在试图分析模板文件时，发生如下错误：</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>错误类型</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>行号</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>错误文本</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>模板输出为：\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} 缺少 {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} 缺少 {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} 缺少 {{endwhile}}" 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} 缺少 {{while}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} 缺少 {{if}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} 缺少 {{if}} or {{else}}"
+	
+	IDS_STENCIL_INVALID_HANDLER           "无效的处理程序标记"
+	IDS_STENCIL_NULLPARAM                 "ParseReplacements 为 Null 参数"
+	IDS_STENCIL_INVALIDSTRING             "传递给 ParseReplacements 的字符串为空或者为负"
+	IDS_STENCIL_EMBEDDED_NULL             "嵌入在模板中的空字符"
+	IDS_STENCIL_UNMATCHED_TAG_START       "不匹配 {{"
+	IDS_STENCIL_MISMATCHED_TAG_START      "匹配错误 {{"
+	IDS_STENCIL_BAD_PARAMETER             "错误的参数"
+	IDS_STENCIL_METHODNAME_TOO_LONG       "方法名称过长"
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "处理程序名称过长"
+	IDS_STENCIL_INVALID_SUBHANDLER        "无效的子处理程序标记"
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "无法解析的替换 : '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "无法打开被包含文件"
+	IDS_STENCIL_INCLUDE_INVALID           "被包含文件不是磁盘文件"
+	
+	IDS_STENCIL_MLANG_COCREATE            "无法创建 CMultiLanguage"
+	IDS_STENCIL_MLANG_LCID                "获取 lcid 错误"
+	IDS_STENCIL_MLANG_GETLOCALE           "GetLocaleInfo 失败"
+	IDS_STENCIL_MLANG_GETCHARSET          "GetCharsetInfo 失败"
+	
+	IDS_STENCIL_OUTOFMEMORY               "内存不足"
+	IDS_STENCIL_UNEXPECTED                "异常错误"
+END
+
+#endif

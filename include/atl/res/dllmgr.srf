@@ -1,0 +1,29 @@
+<!--
+   This is a part of the Active Template Library.
+   Copyright (C) Microsoft Corporation
+   All rights reserved.
+  
+   This source code is only intended as a supplement to the
+   Active Template Library Reference and related
+   electronic documentation provided with the library.
+   See these sources for detailed information regarding the
+   Active Template Library product.
+-->
+
+<html>
+<body bgcolor={{GetBodyColor}}>
+<H1 align=left> ATL Server DLL Cache Manager </H1>
+
+Current DLL Cache Entries: {{GetNumEntries}}<p>
+
+<table border=1>
+<tr bgcolor={{GetTRColor}}><th>DLL Path</th><th>Ref Count</th></tr>
+
+{{while EnumEntries}}
+<tr bgcolor={{GetTRColor}}><td align=center>{{GetDllName}}</td><td align=center>{{GetDllReferences}}</tr>
+{{endwhile}}
+
+</table>
+
+</body>
+</html>

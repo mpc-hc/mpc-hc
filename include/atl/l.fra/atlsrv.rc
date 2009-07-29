@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>Demande incorrecte</title></head><body>Demande incorrecte</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>Autorisation requise</title></head><body>Une autorisation est requise</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>Interdit</title></head><body>Interdit</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>Introuvable</title></head><body>Introuvable</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>Erreur serveur</title></head><body>Erreur serveur</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>Non implémenté</title></head><body>Non implémenté</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>Passerelle incorrecte</title></head><body>Passerelle incorrecte</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>Service non disponible</title></head><body>Service non disponible</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Impossible de charger le fichier SRF.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le fichier SRF requis a été chargé mais n'a pas pu être traité correctement.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Un objet système Windows n'a pas pu être créé.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Une opération de lecture de fichier a échoué.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le fichier spécifié n'a pas pu être ouvert.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Échec de LoadLibrary.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Échec de la récupération de l'interface du gestionnaire des demandes.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>La mémoire du serveur est saturée.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le serveur a rencontré une erreur inattendue.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le serveur a rencontré une erreur inattendue lors de l'analyse du stencil requis.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le serveur n'a pas pu charger le stencil requis. Le fichier stencil est peut-être endommagé ou manquant sur ce serveur Web.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Un gestionnaire spécifié dans une balise de gestionnaire pour le stencil requis n'a pas pu être trouvé dans le fichier .dll de gestionnaire spécifié.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Soit ce stencil contient une balise de gestionnaire qui n'a pas pu être analysée correctement par le processeur de stencil, soit il ne contient aucune balise de gestionnaire. Vérifiez la syntaxe correcte à utiliser pour le stencil requis.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le stencil requis ne contient aucune balise de gestionnaire.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le stencil requis contient une balise de remplacement dans laquelle un nom de remplacement est trop long. La longueur maximale du nom de remplacement doit être inférieure ou égale à la valeur de la constante ATL_MAX_METHOD_NAME définie dans atlstencil.h</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Le stencil requis contient une balise de remplacement, utilisant la syntaxe id.nombalise, dans laquelle un nom de gestionnaire est trop long. La longueur maximale du nom d'un gestionnaire doit être inférieure ou égale à la valeur de la constante ATL_MAX_METHOD_NAME définie dans atlstencil.h</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>Impossible d'emprunter l'identité du client qui a émis la demande.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>Erreur serveur</title></head><body><H1>Erreur serveur</H1><P>L'extension ISAPI utilisée pour traiter cette demande n'a pas pu être chargée en raison d'une erreur inconnue.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "Échec de la création du segment de mémoire demandée"
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "Échec de l'initialisation de la thread de traitement"
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "Échec de l'initialisation de la section critique"
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "Échec de l'initialisation du pool de threads"
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "Échec de l'initialisation du cache de DLL"
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "Échec de l'initialisation du cache de page"
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "Échec de l'initialisation du cache du stencil"
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "Échec de l'initialisation du service d'état de session"
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Échec de l'initialisation du cache BLOB"
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "Échec de l'initialisation du cache du fichier"
+
+    IDS_PERFMON_CACHE               "Serveur ATL : Cache"
+    IDS_PERFMON_CACHE_HELP          "Information sur le cache du serveur ATL"
+    IDS_PERFMON_HITCOUNT            "Accès cache avec résultat"
+    IDS_PERFMON_HITCOUNT_HELP       "Nombre des accès cache avec résultat"
+    IDS_PERFMON_MISSCOUNT           "Accès cache sans résultat"
+    IDS_PERFMON_MISSCOUNT_HELP      "Nombre des accès cache sans résultat"
+    IDS_PERFMON_CURRENTALLOCATIONS  "Allocations cache actuelles"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "Mémoire actuellement allouée au cache"
+    IDS_PERFMON_MAXALLOCATIONS      "Allocations cache maximales"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "Mémoire maximale allouée au cache"
+    IDS_PERFMON_CURRENTENTRIES      "Entrées cache actuelles"
+    IDS_PERFMON_CURRENTENTRIES_HELP "Nombre actuel d'entrées du cache"
+    IDS_PERFMON_MAXENTRIES          "Entrées cache maximales"
+    IDS_PERFMON_MAXENTRIES_HELP     "Nombre maximal d'entrées du cache"
+    IDS_PERFMON_HITCOUNTRATE        "Taux d'accès au cache"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "Nombre d'accès par seconde"
+	IDS_PERFMON_REQUEST				"Serveur ATL : Demande"
+	IDS_PERFMON_REQUEST_HELP		"Statistiques sur les demandes serveur entrantes"
+	IDS_PERFMON_REQUEST_TOTAL		"Total des demandes serveur"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"Nombre total des demandes"
+	IDS_PERFMON_REQUEST_FAILED		"Demandes serveur échouées"
+	IDS_PERFMON_REQUEST_FAILED_HELP	"Nombre de demandes ayant échoué"
+	IDS_PERFMON_REQUEST_RATE		"Demandes serveur/s"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"Nombre de demandes par seconde"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "Temps de réponse moyen"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "Durée moyenne du traitement d'une demande"
+	IDS_PERFMON_REQUEST_CURR_WAITING "Demandes actuelles en attente"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "Nombre de demandes actuellement en attente d'être traitées"
+	IDS_PERFMON_REQUEST_MAX_WAITING "Demandes maximales en attente"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "Nombre maximal de demandes en attente d'être traitées"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "Threads actives"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "Nombre de threads qui traitent activement des demandes"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{codepage 0}}<h1><font color=#ff0000> Lors de la tentative d'analyse d'un fichier stencil, les erreurs suivantes se sont produites :</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>Type d'erreur</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>Numéro de ligne</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>Texte de l'erreur</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>La sortie du stencil est la suivante :\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} sans {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} sans {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} sans {{endwhile}}" 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} sans {{while}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} sans {{if}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} sans {{if}} ou {{else}}"
+	
+	IDS_STENCIL_INVALID_HANDLER           "Balise de gestionnaire non valide"
+	IDS_STENCIL_NULLPARAM                 "Paramètre NULL à ParseReplacements"
+	IDS_STENCIL_INVALIDSTRING             "Chaîne vide ou négative passée à ParseReplacements"
+	IDS_STENCIL_EMBEDDED_NULL             "Caractère null incorporé dans le stencil"
+	IDS_STENCIL_UNMATCHED_TAG_START       "{{ non apparié"
+	IDS_STENCIL_MISMATCHED_TAG_START      "{{ incompatible"
+	IDS_STENCIL_BAD_PARAMETER             "Paramètre incorrect"
+	IDS_STENCIL_METHODNAME_TOO_LONG       "Nom de méthode trop long"
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "Nom de gestionnaire trop long"
+	IDS_STENCIL_INVALID_SUBHANDLER        "Balise de sous-gestionnaire non valide"
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "Remplacement non résolu : '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "Impossible d'ouvrir le fichier inclus"
+	IDS_STENCIL_INCLUDE_INVALID           "Le fichier inclus n'est pas un fichier disque"
+	
+	IDS_STENCIL_MLANG_COCREATE            "Impossible de créer CMultiLanguage"
+	IDS_STENCIL_MLANG_LCID                "Erreur lors de l'obtention du lcid"
+	IDS_STENCIL_MLANG_GETLOCALE           "Échec de GetLocaleInfo"
+	IDS_STENCIL_MLANG_GETCHARSET          "Échec de GetCharsetInfo"
+	
+	IDS_STENCIL_OUTOFMEMORY               "Mémoire insuffisante"
+	IDS_STENCIL_UNEXPECTED                "Erreur inattendue"
+END
+
+#endif

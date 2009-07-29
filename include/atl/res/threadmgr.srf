@@ -1,0 +1,24 @@
+<!--
+   This is a part of the Active Template Library.
+   Copyright (C) Microsoft Corporation
+   All rights reserved.
+  
+   This source code is only intended as a supplement to the
+   Active Template Library Reference and related
+   electronic documentation provided with the library.
+   See these sources for detailed information regarding the
+   Active Template Library product.
+-->
+<html>
+	<body bgcolor="{{GetBodyColor}}">
+		<H1 align="left">
+			ATL Server Thread Pool Management
+		</H1>
+		This server's thread pool is currently using {{GetSize}} threads.<p>
+			<form method="post">
+				<input type="hidden" name="Handler" value="ThreadMgrSrf"> <input type="hidden" name="Method" value="ExecuteCommand">
+				<input type="hidden" name="command" value="0"> Enter a new thread pool size: <input type="text" name="DynValue">
+				<input type="submit" value="Change Thread Pool">
+			</form>
+	</body>
+</html>

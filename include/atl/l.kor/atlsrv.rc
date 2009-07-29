@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>잘못된 요청</title></head><body>잘못된 요청입니다.</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>인증 필요</title></head><body>인증이 필요합니다.</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>금지됨</title></head><body>금지되었습니다.</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>찾을 수 없음</title></head><body>찾을 수 없습니다.</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>서버 오류</title></head><body>서버 오류</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>구현 안됨</title></head><body>구현되지 않았습니다.</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>잘못된 게이트웨이</title></head><body>잘못된 게이트웨이입니다.</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>서비스를 사용할 수 없음</title></head><body>서비스를 사용할 수 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>SRF 파일을 로드할 수 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 SRF 파일을 로드했지만 처리할 수 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>Windows 시스템 개체를 만들 수 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>파일 읽기 작업을 수행하지 못했습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>지정한 파일을 열 수 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>LoadLibrary 호출이 실패했습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 처리기 인터페이스를 가져오지 못했습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>서버의 메모리가 부족합니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>서버에서 예기치 않은 오류가 발생했습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 스텐실을 구문 분석하는 동안 서버에서 예기치 않은 오류가 발생했습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 스텐실을 서버에서 로드하지 못했습니다. 스텐실 파일이 손상되었거나 웹 서버에 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>지정한 처리기 .dll에 요청한 스텐실의 처리기 태그에 명명된 처리기 중 하나가 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>이 스텐실에는 처리기 태그가 없거나 스텐실 프로세서에서 제대로 처리할 수 있는 처리기 태그가 없습니다. 요청한 스텐실을 확인하여 스텐실 구문이 올바른지 검토해 보십시오.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>서버 오류</title></head><body><H1>서버 오류Server Error</H1><P>요청한 스텐실에 처리기 태그가 없습니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 스텐실의 대체 태그 이름이 너무 깁니다. 이 경우 바꿀 이름의 최대 길이는 atlstencil.h에 정의된 ATL_MAX_METHOD_NAME 상수보다 작거나 같아야 합니다.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>요청한 스텐실의 id.tagname을 사용하는 대체 태그의 처리기 이름이 너무 깁니다. 이 경우 처리기 이름의 최대 길이는 atlstencil.h에 정의된 ATL_MAX_METHOD_NAME 상수보다 작거나 같아야 합니다.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>클라이언트를 가장했기 때문에 요청하지 못했습니다.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>서버 오류</title></head><body><H1>서버 오류</H1><P>알 수 없는 오류로 인해 이 요청을 처리하는 데 사용된 ISAPI 익스텐션을 제대로 로드하지 못했습니다.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "요청 힙을 작성하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "작업자 스레드를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "임계 섹션을 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "스레드 풀을 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "DLL 캐시를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "페이지 캐시를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "스텐실 캐시를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "세션 상태 서비스를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Blob 캐시를 초기화하지 못했습니다."
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "파일 캐시를 초기화하지 못했습니다."
+
+    IDS_PERFMON_CACHE               "ATL 서버:캐시"
+    IDS_PERFMON_CACHE_HELP          "ATL 서버 캐시에 대한 정보"
+    IDS_PERFMON_HITCOUNT            "캐시 적중 횟수"
+    IDS_PERFMON_HITCOUNT_HELP       "캐시 적중 횟수"
+    IDS_PERFMON_MISSCOUNT           "캐시 적중 실패 횟수"
+    IDS_PERFMON_MISSCOUNT_HELP      "캐시 적중 실패 횟수"
+    IDS_PERFMON_CURRENTALLOCATIONS  "현재 캐시 할당량"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "캐시로 할당된 현재 메모리 양"
+    IDS_PERFMON_MAXALLOCATIONS      "최대 캐시 할당량"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "캐시로 할당된 최대 메모리 양"
+    IDS_PERFMON_CURRENTENTRIES      "현재 캐시 엔트리"
+    IDS_PERFMON_CURRENTENTRIES_HELP "현재 캐시 엔트리 수"
+    IDS_PERFMON_MAXENTRIES          "최대 캐시 엔트리"
+    IDS_PERFMON_MAXENTRIES_HELP     "최대 캐시 엔트리 수"
+    IDS_PERFMON_HITCOUNTRATE        "캐시 적중률"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "초 당 적중 횟수"
+	IDS_PERFMON_REQUEST				"ATL 서버:요청"
+	IDS_PERFMON_REQUEST_HELP		"서버에 전달되는 요청에 대한 통계"
+	IDS_PERFMON_REQUEST_TOTAL		"서버 총 요청 수"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"총 요청 수"
+	IDS_PERFMON_REQUEST_FAILED		"서버 실패 요청 수"
+	IDS_PERFMON_REQUEST_FAILED_HELP	"실패한 요청 수"
+	IDS_PERFMON_REQUEST_RATE		"서버 요청 수/초"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"초 당 요청 수"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "평균 응답 시간"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "요청 처리 평균 소요 시간"
+	IDS_PERFMON_REQUEST_CURR_WAITING "대기열에 있는 현재 요청"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "처리 대기 중인 현재 요청 수"
+	IDS_PERFMON_REQUEST_MAX_WAITING "최대 대기 요청 수"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "처리 대기 가능한 최대 요청 수"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "활성 스레드"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "요청을 대화형으로 처리하는 스레드 수"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{코드 페이지 0}}<h1><font color=#ff0000> 스텐실 파일을 구문 분석하는 동안 다음 오류가 발생했습니다.</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>오류 형식</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>줄 번호</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>오류 텍스트</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>스텐실 출력은 다음과 같습니다.\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} 문에 {{endif}}가 없습니다."
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} 문에 {{endif}}가 없습니다."
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} 문에 {{endwhile}}이 없습니다." 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} 문에 {{while}}이 없습니다"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} 문에 {{if}}가 없습니다."
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} 문에 {{if}} 또는 {{else}}가 없습니다."
+	
+	IDS_STENCIL_INVALID_HANDLER           "처리기 태그가 잘못되었습니다."
+	IDS_STENCIL_NULLPARAM                 "ParseReplacements에 대한 매개 변수가 NULL입니다."
+	IDS_STENCIL_INVALIDSTRING             "비어 있거나 음수인 문자열이 ParseReplacements에 전달되었습니다."
+	IDS_STENCIL_EMBEDDED_NULL             "스텐실에 포함된 null 문자가 있습니다."
+	IDS_STENCIL_UNMATCHED_TAG_START       "{{가 일치하지 않습니다."
+	IDS_STENCIL_MISMATCHED_TAG_START      "{{가 일치하지 않습니다."
+	IDS_STENCIL_BAD_PARAMETER             "매개 변수가 잘못되었습니다."
+	IDS_STENCIL_METHODNAME_TOO_LONG       "메서드 이름이 너무 깁니다."
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "처리기 이름이 너무 깁니다."
+	IDS_STENCIL_INVALID_SUBHANDLER        "하위 처리기 태그가 잘못되었습니다."
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "대체 문을 확인할 수 없습니다: '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "포함된 파일을 열 수 없습니다."
+	IDS_STENCIL_INCLUDE_INVALID           "포함된 파일이 디스크 파일이 아닙니다."
+	
+	IDS_STENCIL_MLANG_COCREATE            "CMultiLanguage를 만들 수 없습니다."
+	IDS_STENCIL_MLANG_LCID                "lcid를 가져오는 동안 오류가 발생했습니다."
+	IDS_STENCIL_MLANG_GETLOCALE           "GetLocaleInfo가 실패했습니다."
+	IDS_STENCIL_MLANG_GETCHARSET          "GetCharsetInfo가 실패했습니다."
+	
+	IDS_STENCIL_OUTOFMEMORY               "메모리가 부족합니다."
+	IDS_STENCIL_UNEXPECTED                "예기치 않은 오류입니다."
+END
+
+#endif

@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>Solicitud incorrecta</title></head><body>Solicitud incorrecta</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>Autorización requerida</title></head><body>Se necesita autorización</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>Prohibido</title></head><body>Prohibido</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>No se encontró</title></head><body>No se encontró</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>Error del servidor</title></head><body>Error del servidor</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>No implementado</title></head><body>No implementado</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>Puerta de enlace no válida</title></head><body>Puerta de enlace no válida</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>Servicio no disponible</title></head><body>Servicio no disponible</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>No se puede cargar el archivo SRF.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>El archivo SRF solicitado se cargó pero no se pudo procesar correctamente.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>No se puede crear un objeto del sistema Windows.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error en la operación de lectura de archivo.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>Error en el servidor</title></head><body><H1>Error en el servidor</H1><P>No se puede abrir el archivo especificado.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error de LoadLibrary.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error al recuperar la interfaz del controlador de solicitudes.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>El servidor no tiene suficiente memoria.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>El servidor detectó un error inesperado.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>El servidor detectó un error inesperado al intentar analizar el cliché solicitado.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error del servidor al cargar el cliché solicitado. Es posible que el archivo de cliché esté dañado o no se encuentre en este servidor Web.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>No se encontró uno de los controladores nombrado en una etiqueta de controlador para el cliché solicitado en el archivo DLL del controlador especificado.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Este cliché contiene una etiqueta de controlador que el procesador de cliché no puede analizar correctamente o bien no contiene ninguna etiqueta de controlador. Compruebe que la sintaxis del cliché solicitado sea correcta.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>El cliché solicitado no contiene una etiqueta de controlador.</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Se encontró una etiqueta de reemplazo en el cliché solicitado con un nombre de reemplazo demasiado largo. La longitud máxima del nombre de reemplazo debe ser inferior o igual a la constante ATL_MAX_METHOD_NAME definida en atlstencil.h</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Se encontró una etiqueta de reemplazo que utiliza la sintaxis id.tagname en el cliché seleccionado con un nombre de controlador demasiado largo. La longitud máxima del nombre del controlador debe ser inferior o igual a la constante ATL_MAX_METHOD_NAME definida en atlstencil.h</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error al intentar identificar al cliente que realiza la solicitud.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>Error del servidor</title></head><body><H1>Error del servidor</H1><P>Error desconocido de la extensión ISAPI utilizada para dar servicio a esta solicitud al realizar la carga.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "Error al crear el montón de solicitudes"
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "Error al inicializar el subproceso de trabajo"
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "Error al inicializar la sección crítica"
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "Error al inicializar el grupo de subprocesos"
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "Error al inicializar la caché de archivos DLL"
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "Error al inicializar la caché de páginas"
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "Error al inicializar la caché de clichés"
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "Error al inicializar el servicio de estado de sesión"
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Error al inicializar la caché de objetos binarios"
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "Error al inicializar la caché de archivos"
+
+    IDS_PERFMON_CACHE               "Servidor ATL:caché"
+    IDS_PERFMON_CACHE_HELP          "Información sobre la caché del servidor ATL"
+    IDS_PERFMON_HITCOUNT            "Recuento de visitas de caché"
+    IDS_PERFMON_HITCOUNT_HELP       "Número de visitas de caché"
+    IDS_PERFMON_MISSCOUNT           "Recuento de errores de caché"
+    IDS_PERFMON_MISSCOUNT_HELP      "Número de errores de caché"
+    IDS_PERFMON_CURRENTALLOCATIONS  "Asignaciones actuales de caché"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "Memoria actual asignada a caché"
+    IDS_PERFMON_MAXALLOCATIONS      "Asignaciones máximas de caché"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "Memoria máxima asignada a caché"
+    IDS_PERFMON_CURRENTENTRIES      "Entradas actuales de caché"
+    IDS_PERFMON_CURRENTENTRIES_HELP "Número actual de entradas de caché"
+    IDS_PERFMON_MAXENTRIES          "Entradas máximas de caché"
+    IDS_PERFMON_MAXENTRIES_HELP     "Número máximo de entradas de caché"
+    IDS_PERFMON_HITCOUNTRATE        "Velocidad de recuento de visitas de caché"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "Número de recuentos de visitas por segundo"
+	IDS_PERFMON_REQUEST				"Servidor ATL:solicitud"
+	IDS_PERFMON_REQUEST_HELP		"Estadísticas de las solicitudes que entran en el servidor"
+	IDS_PERFMON_REQUEST_TOTAL		"Solicitudes totales del servidor"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"Número total de solicitudes"
+	IDS_PERFMON_REQUEST_FAILED		"Solicitudes no procesadas del servidor"
+	IDS_PERFMON_REQUEST_FAILED_HELP	"Número de solitudes no procesadas"
+	IDS_PERFMON_REQUEST_RATE		"Solicitudes del servidor /seg"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"Número de solicitudes por segundo"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "Tiempo medio de respuesta"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "Tiempo medio empleado en administrar una solicitud"
+	IDS_PERFMON_REQUEST_CURR_WAITING "Solicitudes en cola actuales"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "Número actual de solicitudes en espera de administración"
+	IDS_PERFMON_REQUEST_MAX_WAITING "Solicitudes máximas en cola"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "Número máximo de solicitudes en espera de administración"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "Subprocesos activos"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "Número de subprocesos que administran solicitudes activamente"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{codepage 0}}<h1><font color=#ff0000> Errores al analizar un archivo de clichés:</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>Tipo de error</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>Número de línea</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>Texto del error</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>Resultados de cliché:\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} sin {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} sin {{endif}}"
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} sin {{endwhile}}" 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} sin {{while}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} sin {{if}}"
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} sin {{if}} o {{else}}"
+	
+	IDS_STENCIL_INVALID_HANDLER           "Etiqueta de controlador no válida"
+	IDS_STENCIL_NULLPARAM                 "Parámetro NULL para ParseReplacements"
+	IDS_STENCIL_INVALIDSTRING             "Se pasó una cadena vacía o negativa a ParseReplacements"
+	IDS_STENCIL_EMBEDDED_NULL             "Carácter null incrustado en el cliché"
+	IDS_STENCIL_UNMATCHED_TAG_START       "Las llaves {{ no coinciden"
+	IDS_STENCIL_MISMATCHED_TAG_START      "Diferente número de llaves {{"
+	IDS_STENCIL_BAD_PARAMETER             "Parámetro erróneo"
+	IDS_STENCIL_METHODNAME_TOO_LONG       "Nombre de método demasiado largo"
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "Nombre de controlador demasiado largo"
+	IDS_STENCIL_INVALID_SUBHANDLER        "Etiqueta de controlador secundario no válida"
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "Reemplazo no resuelto: '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "No se puede abrir el archivo incluido"
+	IDS_STENCIL_INCLUDE_INVALID           "El archivo incluido no es un archivo de disco"
+	
+	IDS_STENCIL_MLANG_COCREATE            "No se puede crear CMultiLanguage"
+	IDS_STENCIL_MLANG_LCID                "Error al obtener el identificador LCID"
+	IDS_STENCIL_MLANG_GETLOCALE           "Error en GetLocaleInfo"
+	IDS_STENCIL_MLANG_GETCHARSET          "Error en GetCharsetInfo"
+	
+	IDS_STENCIL_OUTOFMEMORY               "Memoria insuficiente"
+	IDS_STENCIL_UNEXPECTED                "Error inesperado"
+END
+
+#endif

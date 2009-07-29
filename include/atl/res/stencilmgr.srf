@@ -1,0 +1,69 @@
+<!--
+   This is a part of the Active Template Library.
+   Copyright (C) Microsoft Corporation
+   All rights reserved.
+  
+   This source code is only intended as a supplement to the
+   Active Template Library Reference and related
+   electronic documentation provided with the library.
+   See these sources for detailed information regarding the
+   Active Template Library product.
+-->
+<html>
+	<body bgcolor="{{GetBodyColor}}">
+		<H1 align="left">
+			ATL Server Stencil Cache Management
+		</H1>
+		<table border="1" width="50%">
+			<tr bgcolor="{{GetTRColor}}">
+				<th align="center">
+					Value</th><th align="center">Quantity</th></tr>
+			{{while GetNextStencilCacheStats}}
+			<tr bgcolor="{{GetTRColor}}">
+				<td>{{GetCacheValue}}</td>
+				<td>{{GetCacheQuantity}}</td>
+			</tr>
+			{{endwhile}}
+		</table>
+		<form method="post">
+			<input type="hidden" name="Handler" value="StencilMgrSrf"> <input type="hidden" name="Method" value="ExecuteCommand">
+			<select name="command" onchange="HandleFormOnChange(this);">
+				<option value="0">Clear All Statistics</option>
+				<option value="1">Remove Stencil</option>
+				<option value="2">Remove All Stencils</option>
+				<option value="3">Set default Lifespan</option>
+			</select>
+			<br>
+			<span id="DynValueCap"></span><input type="text" name="DynValue" style="visibility=hidden">
+			<br>
+			<input type="submit" value="Execute Command">
+		</form>
+		<script language="JavaScript">
+function HandleFormOnChange(select_object)
+{
+
+	//alert(select_object.form.elements["StencilName"].type);
+
+	if (select_object.value==1)
+	{
+		select_object.form.elements["DynValue"].style.visibility="visible";
+		window.document.all["DynValueCap"].innerHTML = "Stencil Name:&nbsp;";
+
+	}
+	else if (select_object.value==3)
+	{
+		select_object.form.elements["DynValue"].style.visibility="visible";
+		window.document.all["DynValueCap"].innerHTML = "New Lifetime:&nbsp;";
+	}
+	else
+	{
+		select_object.form.elements["DynValue"].style.visibility="hidden";
+		window.document.all["DynValueCap"].innerHTML="";
+	}
+}
+
+
+
+		</script>
+	</body>
+</html>

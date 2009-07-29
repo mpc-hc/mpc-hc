@@ -1,0 +1,146 @@
+// This is a part of the Active Template Library.
+// Copyright (C) Microsoft Corporation
+// All rights reserved.
+//
+// This source code is only intended as a supplement to the
+// Active Template Library Reference and related
+// electronic documentation provided with the library.
+// See these sources for detailed information regarding the
+// Active Template Library product.
+
+#include <winresrc.h>
+#include "atlsrvres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ATLSRV_BAD_REQUEST  "<html><head><title>不適切な要求</title></head><body>不適切な要求</body></html>"
+    IDS_ATLSRV_AUTH_REQUIRED 
+                            "<html><head><title>認証が必要です</title></head><body>認証が必要です</body></html>"
+    IDS_ATLSRV_FORBIDDEN    "<html><head><title>権限なし/title></head><body>権限なし</body></html>"
+    IDS_ATLSRV_NOT_FOUND    "<html><head><title>見つかりません</title></head><body>見つかりません</body></html>"
+    IDS_ATLSRV_SERVER_ERROR "<html><head><title>サーバー エラー</title></head><body>サーバー エラー</body></html>"
+    IDS_ATLSRV_NOT_IMPLEMENTED 
+                            "<html><head><title>実装されていません</title></head><body>実装されていません</body></html>"
+    IDS_ATLSRV_BAD_GATEWAY  "<html><head><title>不適切なゲートウェイ</title></head><body>不適切なゲートウェイ</body></html>"
+    IDS_ATLSRV_SERVICE_NOT_AVAILABLE 
+                            "<html><head><title>サービスが使用できません</title></head><body>サービスが使用できません</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADSRF "<html><head><title>サーバー エラー</title></head><body><H1>Server Error</H1><P>SRF ファイルを読み込めませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HNDLFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>要求された SRF ファイルは読み込めましたが、正常にプロセスできませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_SYSOBJFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>Windows システム オブジェクトを作成できませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_READFILEFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>ファイルの読み取り操作ができませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADFILEFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>指定されたファイルを開くことができませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LOADLIB "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>LoadLibrary が失敗しました。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERIF "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>ハンドラ要求 インターフェイスを取得できませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_OUTOFMEM "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>サーバーのメモリが不足しています。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_UNEXPECTED "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>サーバーに予期しないエラーが発生しました。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILPARSEFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>要求されたステンシルを解析中に、サーバーに予期しないエラーが発生しました。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_STENCILLOADFAIL "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>サーバー は要求されたステンシルを読み込めませんでした。ステンシル ファイルが壊れているか、この Web サーバーにない可能性があります。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_HANDLERNOTFOUND "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>要求されたステンシルのハンドラ タグで名前指定されたハンドラの 1 つが指定されたハンドラ .dll に見つかりませんでした。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_BADHANDLERTAG "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>このステンシルは、ステンシル プロセッサによって適切に解析できないハンドラ タグを含んでいるか、またはハンドラ タグを何も持っていません。要求したステンシルのステンシル構文が適切であるかどうか知らべてください。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_NOHANDLERTAG "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>要求されたステンシルはハンドラ タグを持っていません。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGMETHODNAME "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>要求されたステンシルで置換タグが見つかりましたが、置換名が長すぎます。置換名の最大限の長さは、atlstencil.h で定義された ATL_MAX_METHOD_NAME 定数 と同じかそれより短くなくてはなりません。</body></html>"
+	IDS_ATLSRV_SERVER_ERROR_LONGHANDLERNAME "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>ID.tagname 構文を使用する置換タグが、要求されたステンシルで見つかりましたが、このタグのハンドラ名は長すぎます。ハンドラ名の最大限の長さは、atlstencil.h で定義された ATL_MAX_METHOD_NAME 定数と同じかそれより短くなくてはなりません。</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_IMPERSONATIONFAILED "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>An attempt to impersonate the client making the request failed.</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_ISAPISTARTUPFAILED "<html><head><title>サーバー エラー</title></head><body><H1>サーバー エラー</H1><P>この要求に答えるために使用される ISAPI 拡張子は、予期しないエラーのため正常に読み込みができませんでした。</body></html>"	
+	IDS_ATLSRV_SERVER_ERROR_SOAPNOSOAPACTION "<html><head><title>Server Error</title></head><body><H1>Server Error</H1><P>SOAP request did not provide SOAPACTION header.</body></html>"
+
+    IDS_ATLSRV_CRITICAL_HEAPCREATEFAILED "ヒープの作成要求ができませんでした。"
+    IDS_ATLSRV_CRITICAL_WORKERINITFAILED "ワーカー スレッドの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_CRITSECINITFAILED "クリティカルなセクションの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_THREADPOOLFAILED "スレッド プールの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_DLLCACHEFAILED "DLL キャッシュの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_PAGECACHEFAILED "ページ キャッシュの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_STENCILCACHEFAILED "ステンシル キャッシュの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_SESSIONSTATEFAILED "セッション状態サービスの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_BLOBCACHEFAILED "Blob キャッシュの初期化ができませんでした。"
+    IDS_ATLSRV_CRITICAL_FILECACHEFAILED "ファイル キャッシュの初期化ができませんでした。"
+
+    IDS_PERFMON_CACHE               "ATL サーバー : キャッシュ"
+    IDS_PERFMON_CACHE_HELP          "ATL サーバー キャッシュの情報"
+    IDS_PERFMON_HITCOUNT            "キャッシュのヒット カウント"
+    IDS_PERFMON_HITCOUNT_HELP       "キャッシュ ヒットの回数"
+    IDS_PERFMON_MISSCOUNT           "キャッシュのミス カウント"
+    IDS_PERFMON_MISSCOUNT_HELP      "キャッシュのミス カウントの回数"
+    IDS_PERFMON_CURRENTALLOCATIONS  "キャッシュの現在の割り当て"
+    IDS_PERFMON_CURRENTALLOCATIONS_HELP "キャッシュに現在割り当てられているメモリ"
+    IDS_PERFMON_MAXALLOCATIONS      "キャッシュの最大の割り当て"
+    IDS_PERFMON_MAXALLOCATIONS_HELP "キャッシュに割り当てられた最大メモリ"
+    IDS_PERFMON_CURRENTENTRIES      "現在のキャッシュ エントリ"
+    IDS_PERFMON_CURRENTENTRIES_HELP "現在のキャッシュ エントリの数"
+    IDS_PERFMON_MAXENTRIES          "最大のキャッシュ エントリ"
+    IDS_PERFMON_MAXENTRIES_HELP     "キャッシュ エントリの最大数"
+    IDS_PERFMON_HITCOUNTRATE        "キャッシュのヒット カウント率"
+    IDS_PERFMON_HITCOUNTRATE_HELP   "毎秒のヒット カウント数"
+	IDS_PERFMON_REQUEST				"ATL サーバー : 要求"
+	IDS_PERFMON_REQUEST_HELP		"サーバーに入ってくる要求の統計"
+	IDS_PERFMON_REQUEST_TOTAL		"サーバー要求の総数"
+	IDS_PERFMON_REQUEST_TOTAL_HELP 	"要求の総数"
+	IDS_PERFMON_REQUEST_FAILED		"サーバーが応じられなかった要求 "
+	IDS_PERFMON_REQUEST_FAILED_HELP	"応じられなかった要求数"
+	IDS_PERFMON_REQUEST_RATE		"サーバー要求 /sec"
+	IDS_PERFMON_REQUEST_RATE_HELP 	"毎秒の要求数"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME "平均の応対時間"
+	IDS_PERFMON_REQUEST_AVG_RESPONSE_TIME_HELP "要求の処理にかかった平均時間"
+	IDS_PERFMON_REQUEST_CURR_WAITING "現在キューにある要求"
+	IDS_PERFMON_REQUEST_CURR_WAITING_HELP "現在応対を待っている要求数"
+	IDS_PERFMON_REQUEST_MAX_WAITING "キューにある要求の最大数"
+	IDS_PERFMON_REQUEST_MAX_WAITING_HELP "応対を待っている要求の最大数"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS "アクティブ スレッド"
+	IDS_PERFMON_REQUEST_ACTIVE_THREADS_HELP "要求を現在処理中のスレッド数"
+END
+
+
+#ifndef ATL_NO_DEFAULT_STENCIL_RESOURCE
+dllmgr.srf		 		HTML	 "res\\dllmgr.srf"
+stencilmgr.srf	 		HTML	 "res\\stencilmgr.srf"
+threadmgr.srf		 	HTML	 "res\\threadmgr.srf"
+#endif
+
+
+//
+// Stencil parse error support
+//
+#ifdef ATL_DEBUG_STENCILS
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+	IDS_STENCIL_ERROR_STENCIL
+"{{codepage 0}}<h1><font color=#ff0000> ステンシル ファイルを解析中に次のエラーが発生しました :</font></h1>\r\n{{while GetNextError}}<table border=1 width=50%>\r\n<tr><td width=25%>エラーの種類</td><td>{{GetErrorText}}</td></tr>\r\n<tr><td>行ナンバ</td><td>{{GetErrorLineNumber}}</td></tr>\r\n<tr><td>エラー テキスト</td><td><pre>{{GetErrorLine}}</pre></td></tr>\r\n</table>\r\n{{endwhile}}<br>ステンシル出力は次のようになっています :\r\n<hr>"
+
+	IDS_STENCIL_UNCLOSEDBLOCK_IF          "{{if}} に {{endif}} が欠けています"
+	IDS_STENCIL_UNCLOSEDBLOCK_ELSE        "{{else}} に {{endif}} が欠けています"
+	IDS_STENCIL_UNCLOSEDBLOCK_WHILE       "{{while}} に {{endwhile}} が欠けています" 
+	IDS_STENCIL_UNOPENEDBLOCK_ENDWHILE    "{{endwhile}} に {{while}} が欠けています"
+	IDS_STENCIL_UNOPENEDBLOCK_ELSE        "{{else}} に {{if}} が欠けています"
+	IDS_STENCIL_UNOPENEDBLOCK_ENDIF       "{{endif}} に {{if}} or {{else}} が欠けています"
+	
+	IDS_STENCIL_INVALID_HANDLER           "無効なハンドラ タグ"
+	IDS_STENCIL_NULLPARAM                 "ParseReplacements への NULL パラメータ"
+	IDS_STENCIL_INVALIDSTRING             "ParseReplacements に空、または負の文字列が渡されました"
+	IDS_STENCIL_EMBEDDED_NULL             "ステンシルに 埋め込みの null 文字があります"
+	IDS_STENCIL_UNMATCHED_TAG_START       "一致しません {{"
+	IDS_STENCIL_MISMATCHED_TAG_START      "一致しません {{"
+	IDS_STENCIL_BAD_PARAMETER             "不適切なパラメータです"
+	IDS_STENCIL_METHODNAME_TOO_LONG       "メソッド名が長すぎます"
+	IDS_STENCIL_HANDLERNAME_TOO_LONG      "ハンドラ名が長すぎます"
+	IDS_STENCIL_INVALID_SUBHANDLER        "サブハンドラ タグが無効です"
+	IDS_STENCIL_UNRESOLVED_REPLACEMENT    "置換を解決できません : '%s'"
+	
+	IDS_STENCIL_INCLUDE_ERROR             "添付ファイルを開けません"
+	IDS_STENCIL_INCLUDE_INVALID           "添付ファイルはディスク ファイルではありません"
+	
+	IDS_STENCIL_MLANG_COCREATE            "CMultiLanguage を作成できませんでした"
+	IDS_STENCIL_MLANG_LCID                "lcid 取得のエラーです"
+	IDS_STENCIL_MLANG_GETLOCALE           "GetLocaleInfo ができませんでした"
+	IDS_STENCIL_MLANG_GETCHARSET          "GetCharsetInfo ができませんでした"
+	
+	IDS_STENCIL_OUTOFMEMORY               "メモリがありません"
+	IDS_STENCIL_UNEXPECTED                "予期しないエラーです"
+END
+
+#endif
