@@ -1,11 +1,14 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.2.37 [June 4, 2009]
- * For conditions of distribution and use, see copyright notice in png.h
+ * Last changed in libpng 1.2.38 [July 16, 2009]
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ *
+ * This code is released under the libpng license.
+ * For conditions of distribution and use, see the disclaimer
+ * and license in png.h
  *
  * The functions here are used during reads to store data from the file
  * into the info struct, and during writes to store application data
@@ -243,7 +246,7 @@ png_set_IHDR(png_structp png_ptr, png_infop info_ptr,
 
    /* Check other values */
    if (bit_depth != 1 && bit_depth != 2 && bit_depth != 4 &&
-      bit_depth != 8 && bit_depth != 16)
+       bit_depth != 8 && bit_depth != 16)
       png_error(png_ptr, "Invalid bit depth in IHDR");
 
    if (color_type < 0 || color_type == 1 ||
@@ -354,7 +357,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    info_ptr->pcal_purpose = (png_charp)png_malloc_warn(png_ptr, length);
    if (info_ptr->pcal_purpose == NULL)
    {
-       png_warning(png_ptr, "Insufficient memory for pCAL purpose.");
+      png_warning(png_ptr, "Insufficient memory for pCAL purpose.");
       return;
    }
    png_memcpy(info_ptr->pcal_purpose, purpose, (png_size_t)length);
@@ -371,7 +374,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    info_ptr->pcal_units = (png_charp)png_malloc_warn(png_ptr, length);
    if (info_ptr->pcal_units == NULL)
    {
-       png_warning(png_ptr, "Insufficient memory for pCAL units.");
+      png_warning(png_ptr, "Insufficient memory for pCAL units.");
       return;
    }
    png_memcpy(info_ptr->pcal_units, units, (png_size_t)length);
@@ -380,7 +383,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
       (png_uint_32)((nparams + 1) * png_sizeof(png_charp)));
    if (info_ptr->pcal_params == NULL)
    {
-       png_warning(png_ptr, "Insufficient memory for pCAL params.");
+      png_warning(png_ptr, "Insufficient memory for pCAL params.");
       return;
    }
 
@@ -394,8 +397,8 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
       info_ptr->pcal_params[i] = (png_charp)png_malloc_warn(png_ptr, length);
       if (info_ptr->pcal_params[i] == NULL)
       {
-          png_warning(png_ptr, "Insufficient memory for pCAL parameter.");
-          return;
+         png_warning(png_ptr, "Insufficient memory for pCAL parameter.");
+         return;
       }
       png_memcpy(info_ptr->pcal_params[i], params[i], (png_size_t)length);
    }
@@ -1013,7 +1016,7 @@ png_set_unknown_chunks(png_structp png_ptr,
    int i;
 
    if (png_ptr == NULL || info_ptr == NULL || num_unknowns == 0)
-       return;
+      return;
 
    np = (png_unknown_chunkp)png_malloc_warn(png_ptr,
        (png_uint_32)((info_ptr->unknown_chunks_num + num_unknowns) *
@@ -1035,8 +1038,8 @@ png_set_unknown_chunks(png_structp png_ptr,
       png_unknown_chunkp to = np + info_ptr->unknown_chunks_num + i;
       png_unknown_chunkp from = unknowns + i;
 
-      png_memcpy((png_charp)to->name, 
-                 (png_charp)from->name, 
+      png_memcpy((png_charp)to->name,
+                 (png_charp)from->name,
                  png_sizeof(from->name));
       to->name[png_sizeof(to->name)-1] = '\0';
       to->size = from->size;

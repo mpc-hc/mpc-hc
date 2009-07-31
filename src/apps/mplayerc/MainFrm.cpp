@@ -7420,6 +7420,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 	AppSettings& s = AfxGetAppSettings();
 
 	{
+		boolean m_center = true;
+		
 		CRect r1, r2;
 		GetClientRect(&r1);
 		m_wndView.GetClientRect(&r2);
@@ -7456,6 +7458,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		{
 			w = s.rcLastWindowPos.Width();
 			h = s.rcLastWindowPos.Height();
+			m_center = false;
 		}
 
 		HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
@@ -7482,11 +7485,15 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 //			y = r.CenterPoint().y - h/2;
 			x = r.TopLeft().x;
 			y = r.TopLeft().y;
+			m_center = false;
 		}
 
 		UINT lastWindowType = s.lastWindowType;
 
 		MoveWindow(x, y, w, h);
+
+		// Center main window ...
+		if(m_center) CenterWindow();
 
 		if(s.fRememberWindowSize && s.fRememberWindowPos)
 		{

@@ -2,10 +2,13 @@
 /* png.c - location for general purpose libpng functions
  *
  * Last changed in libpng 1.2.37 [June 4, 2009]
- * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ *
+ * This code is released under the libpng license.
+ * For conditions of distribution and use, see the disclaimer
+ * and license in png.h
  */
 
 #define PNG_INTERNAL
@@ -13,7 +16,7 @@
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_37 Your_png_h_is_not_version_1_2_37;
+typedef version_1_2_38 Your_png_h_is_not_version_1_2_38;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -602,7 +605,7 @@ png_info_destroy(png_structp png_ptr, png_infop info_ptr)
 
    png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
 
-#if defined(PNG_UNKNOWN_CHUNKS_SUPPORTED)
+#if defined(PNG_HANDLE_AS_UNKNOWN_SUPPORTED)
    if (png_ptr->num_chunk_list)
    {
       png_free(png_ptr, png_ptr->chunk_list);
@@ -702,7 +705,7 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    png_ptr = png_ptr;  /* Silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.37 - June 4, 2009\n\
+   return ((png_charp) "\n libpng version 1.2.38 - July 16, 2009\n\
    Copyright (c) 1998-2009 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");

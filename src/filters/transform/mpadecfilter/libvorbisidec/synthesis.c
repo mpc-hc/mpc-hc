@@ -5,19 +5,19 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2009             *
  * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: single-block PCM synthesis
- last mod: $Id: synthesis.c 13293 2007-07-24 00:09:47Z xiphmont $
+ last mod: $Id: synthesis.c 16227 2009-07-08 06:58:46Z xiphmont $
 
  ********************************************************************/
 
 #include <stdio.h>
 #include <ogg/ogg.h>
-#include "ivorbiscodec.h"
+#include "vorbis/codec.h"
 #include "codec_internal.h"
 #include "registry.h"
 #include "misc.h"
@@ -30,7 +30,7 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
   codec_setup_info     *ci=vi->codec_setup;
   oggpack_buffer       *opb=&vb->opb;
   int                   type,mode,i;
- 
+
   /* first things first.  Make sure decode is ready */
   _vorbis_block_ripcord(vb);
   oggpack_readinit(opb,op->packet,op->bytes);
@@ -44,7 +44,7 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
   /* read our mode and pre/post windowsize */
   mode=oggpack_read(opb,b->modebits);
   if(mode==-1)return(OV_EBADPACKET);
-  
+
   vb->mode=mode;
   vb->W=ci->mode_param[mode]->blockflag;
   if(vb->W){
@@ -58,7 +58,7 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
     vb->lW=0;
     vb->nW=0;
   }
-  
+
   /* more setup */
   vb->granulepos=op->granulepos;
   vb->sequence=op->packetno;
@@ -74,7 +74,7 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
   type=ci->map_type[ci->mode_param[mode]->mapping];
 
   return(_mapping_P[type]->inverse(vb,ci->map_param[ci->mode_param[mode]->
-						   mapping]));
+                                                   mapping]));
 }
 
 /* used to track pcm position without actually performing decode.
@@ -86,7 +86,7 @@ int vorbis_synthesis_trackonly(vorbis_block *vb,ogg_packet *op){
   codec_setup_info     *ci=vi->codec_setup;
   oggpack_buffer       *opb=&vb->opb;
   int                   mode;
- 
+
   /* first things first.  Make sure decode is ready */
   _vorbis_block_ripcord(vb);
   oggpack_readinit(opb,op->packet,op->bytes);
@@ -100,7 +100,7 @@ int vorbis_synthesis_trackonly(vorbis_block *vb,ogg_packet *op){
   /* read our mode and pre/post windowsize */
   mode=oggpack_read(opb,b->modebits);
   if(mode==-1)return(OV_EBADPACKET);
-  
+
   vb->mode=mode;
   vb->W=ci->mode_param[mode]->blockflag;
   if(vb->W){
@@ -111,7 +111,7 @@ int vorbis_synthesis_trackonly(vorbis_block *vb,ogg_packet *op){
     vb->lW=0;
     vb->nW=0;
   }
-  
+
   /* more setup */
   vb->granulepos=op->granulepos;
   vb->sequence=op->packetno;
@@ -128,7 +128,7 @@ long vorbis_packet_blocksize(vorbis_info *vi,ogg_packet *op){
   codec_setup_info     *ci=vi->codec_setup;
   oggpack_buffer       opb;
   int                  mode;
- 
+
   oggpack_readinit(&opb,op->packet,op->bytes);
 
   /* Check the packet type */
@@ -155,7 +155,7 @@ long vorbis_packet_blocksize(vorbis_info *vi,ogg_packet *op){
 int vorbis_synthesis_halfrate(vorbis_info *vi,int flag){
   /* set / clear half-sample-rate mode */
   codec_setup_info     *ci=vi->codec_setup;
-  
+
   /* right now, our MDCT can't handle < 64 sample windows. */
   if(ci->blocksizes[0]<=64 && flag)return -1;
   ci->halfrate_flag=(flag?1:0);
@@ -166,5 +166,3 @@ int vorbis_synthesis_halfrate_p(vorbis_info *vi){
   codec_setup_info     *ci=vi->codec_setup;
   return ci->halfrate_flag;
 }
-
-

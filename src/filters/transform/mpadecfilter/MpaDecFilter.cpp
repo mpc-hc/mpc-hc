@@ -314,6 +314,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
+	/*
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")))
 	{
@@ -327,6 +328,7 @@ CMpaDecFilter::~CMpaDecFilter()
 		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
 		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
 	}
+	*/
 }
 
 STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -1779,7 +1781,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
 	if(iPosition < 0) return E_INVALIDARG;
 	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
-	
+
 	CMediaType mt = m_pInput->CurrentMediaType();
 	const GUID& subtype = mt.subtype;
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
@@ -1920,6 +1922,25 @@ STDMETHODIMP_(DolbyDigitalMode) CMpaDecFilter::GetDolbyDigitalMode()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_DolbyDigitalMode;
+}
+
+STDMETHODIMP CMpaDecFilter::SaveSettings()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")))
+	{
+		key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
+		key.SetDWORDValue(_T("Normalize"), m_fNormalize);
+		key.SetDWORDValue(_T("Boost"), *(DWORD*)&m_boost);
+		key.SetDWORDValue(_T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
+		key.SetDWORDValue(_T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
+		key.SetDWORDValue(_T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
+		key.SetDWORDValue(_T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
+		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
+	}
+	return S_OK;
 }
 
 // ISpecifyPropertyPages2

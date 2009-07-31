@@ -27,7 +27,8 @@
 #include "a52dec-0.7.4\include\a52.h"
 #include "dtsdec-0.0.1\include\dts.h"
 //#include "faad2\include\neaacdec.h" // conflicts with dxtrans.h
-#include "libvorbisidec\ivorbiscodec.h"
+//#include "libvorbisidec\ivorbiscodec.h"
+#include "libvorbisidec\vorbis/codec.h"
 #include "..\..\..\decss\DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
@@ -189,6 +190,8 @@ public:
 	STDMETHODIMP SetBoost(float boost);
 	STDMETHODIMP_(float) GetBoost();
 	STDMETHODIMP_(DolbyDigitalMode) GetDolbyDigitalMode();
+
+	STDMETHODIMP SaveSettings();
 
 	void	FlacFillBuffer(BYTE buffer[], size_t *bytes);
 	void	FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);

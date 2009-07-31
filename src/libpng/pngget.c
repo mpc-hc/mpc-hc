@@ -2,10 +2,14 @@
 /* pngget.c - retrieval of values from info struct
  *
  * Last changed in libpng 1.2.37 [June 4, 2009]
- * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ *
+ * This code is released under the libpng license.
+ * For conditions of distribution and use, see the disclaimer
+ * and license in png.h
+ *
  */
 
 #define PNG_INTERNAL
@@ -934,6 +938,6 @@ png_get_user_height_max (png_structp png_ptr)
     return (png_ptr? png_ptr->user_height_max : 0);
 }
 #endif /* ?PNG_SET_USER_LIMITS_SUPPORTED */
- 
+
 
 #endif /* PNG_READ_SUPPORTED || PNG_WRITE_SUPPORTED */

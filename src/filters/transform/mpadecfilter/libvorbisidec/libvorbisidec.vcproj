@@ -354,7 +354,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res012.c"
+				RelativePath=".\res0.c"
 				>
 			</File>
 			<File
@@ -387,19 +387,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\block.h"
-				>
-			</File>
-			<File
 				RelativePath=".\codebook.h"
 				>
 			</File>
 			<File
-				RelativePath=".\codec_internal.h"
+				RelativePath=".\vorbis\codec.h"
 				>
 			</File>
 			<File
-				RelativePath=".\config_types.h"
+				RelativePath=".\codec_internal.h"
 				>
 			</File>
 			<File
@@ -408,10 +404,6 @@
 			</File>
 			<File
 				RelativePath=".\highlevel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ivorbiscodec.h"
 				>
 			</File>
 			<File
@@ -431,10 +423,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\lsp_lookup.h"
-				>
-			</File>
-			<File
 				RelativePath=".\masking.h"
 				>
 			</File>
@@ -443,23 +431,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\mdct_lookup.h"
-				>
-			</File>
-			<File
 				RelativePath=".\misc.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ogg.h"
-				>
-			</File>
-			<File
 				RelativePath=".\os.h"
-				>
-			</File>
-			<File
-				RelativePath=".\os_types.h"
 				>
 			</File>
 			<File
@@ -480,10 +456,6 @@
 			</File>
 			<File
 				RelativePath=".\window.h"
-				>
-			</File>
-			<File
-				RelativePath=".\window_lookup.h"
 				>
 			</File>
 		</Filter>

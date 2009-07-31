@@ -13,11 +13,12 @@ v1.x.x.x - unreleased
  CHANGED: Support for EAc3 in Matroska splitter
  CHANGED: Hotkeys added to support more remote control keys
  CHANGED: Support for Theora in Matroska internal splitter
- CHANGED: LibVorbis updated to v1.2.0
+ CHANGED: LibVorbis updated to v1.2.3
+ CHANGED: LibOgg updated to v1.1.4
  CHANGED: Improved streaming performances
  CHANGED: Prevent display or computer to sleep during playback
  CHANGED: Faad library updated to rev 2.2.7
- CHANGED: LibPNG updated to release 1.2.35 (fix security bug)
+ CHANGED: LibPNG updated to release 1.2.38 (fix security bug)
  CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
  CHANGED: frame by frame modify to support step frame back functionality (except for VMR9) 
  CHANGED: support for AC3 in MP4 files created by Nero Digital

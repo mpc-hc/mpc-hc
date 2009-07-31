@@ -18,7 +18,7 @@
 #ifndef _V_SMFT_H_
 #define _V_SMFT_H_
 
-#include "ivorbiscodec.h"
+#include "vorbis/codec.h"
 
 typedef struct {
   int n;

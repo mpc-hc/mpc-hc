@@ -1,11 +1,14 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * Last changed in libpng 1.2.36 [June 4, 2009]
- * For conditions of distribution and use, see copyright notice in png.h
+ * Last changed in libpng 1.2.37 [June 4, 2009]
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ *
+ * This code is released under the libpng license.
+ * For conditions of distribution and use, see the disclaimer
+ * and license in png.h
  */
 
 #define PNG_INTERNAL
@@ -988,7 +991,7 @@ png_write_cHRM(png_structp png_ptr, double white_x, double white_y,
 #endif
    {
       /* Each value is saved in 1/100,000ths */
-    
+
       png_save_uint_32(buf, int_white_x);
       png_save_uint_32(buf + 4, int_white_y);
 

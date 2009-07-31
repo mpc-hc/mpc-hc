@@ -7,13 +7,13 @@
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2007             *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2009             *
  * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
  function: #ifdef jail to whip a few platforms into the UNIX ideal.
- last mod: $Id$
+ last mod: $Id: os.h 16227 2009-07-08 06:58:46Z xiphmont $
 
  ********************************************************************/
 
@@ -47,7 +47,7 @@
 
 #if defined(_WIN32) && !defined(__SYMBIAN32__)
 #  include <malloc.h>
-#  define rint(x)   (floor((x)+0.5f)) 
+#  define rint(x)   (floor((x)+0.5f))
 #  define NO_FLOAT_MATH_LIB
 #  define FAST_HYPOT(a, b) sqrt((a)*(a) + (b)*(b))
 #endif
@@ -96,10 +96,10 @@ static inline void vorbis_fpu_setround(vorbis_fpu_control *fpu){
   ogg_int16_t ret;
   ogg_int16_t temp;
   __asm__ __volatile__("fnstcw %0\n\t"
-	  "movw %0,%%dx\n\t"
-	  "orw $62463,%%dx\n\t"
-	  "movw %%dx,%1\n\t"
-	  "fldcw %1\n\t":"=m"(ret):"m"(temp): "dx");
+          "movw %0,%%dx\n\t"
+          "andw $62463,%%dx\n\t"
+          "movw %%dx,%1\n\t"
+          "fldcw %1\n\t":"=m"(ret):"m"(temp): "dx");
   *fpu=ret;
 }
 
@@ -120,18 +120,18 @@ static inline int vorbis_ftoi(double f){  /* yes, double!  Otherwise,
 
 /* MSVC inline assembly. 32 bit only; inline ASM isn't implemented in the
  * 64 bit compiler */
-#if defined(_MSC_VER) && !defined(_WIN64)
+#if defined(_MSC_VER) && !defined(_WIN64) && !defined(_WIN32_WCE)
 #  define VORBIS_FPU_CONTROL
 
 typedef ogg_int16_t vorbis_fpu_control;
 
 static __inline int vorbis_ftoi(double f){
-	int i;
-	__asm{
-		fld f
-		fistp i
-	}
-	return i;
+        int i;
+        __asm{
+                fld f
+                fistp i
+        }
+        return i;
 }
 
 static __inline void vorbis_fpu_setround(vorbis_fpu_control *fpu){

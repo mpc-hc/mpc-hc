@@ -50,4 +50,6 @@ interface IMpaDecFilter : public IUnknown
 	STDMETHOD(SetBoost(float boost)) = 0;
 	STDMETHOD_(float, GetBoost()) = 0;
 	STDMETHOD_(DolbyDigitalMode, GetDolbyDigitalMode()) = 0;
+
+	STDMETHOD(SaveSettings()) = 0;
 };

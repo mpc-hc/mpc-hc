@@ -232,6 +232,8 @@ bool CMpaDecSettingsWnd::OnApply()
 		m_pMDF->SetSpeakerConfig(IMpaDecFilter::dts, m_dtsspkcfg);
 		m_pMDF->SetDynamicRangeControl(IMpaDecFilter::dts, m_dtsdrc);
 		m_pMDF->SetSpeakerConfig(IMpaDecFilter::aac, m_aacdownmix);
+
+		m_pMDF->SaveSettings();
 	}
 
 	return true;

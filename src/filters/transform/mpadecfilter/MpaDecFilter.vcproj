@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib  libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
+				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib  libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
+				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -200,7 +200,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
+				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -272,7 +272,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
+				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpaDecFilter.def"

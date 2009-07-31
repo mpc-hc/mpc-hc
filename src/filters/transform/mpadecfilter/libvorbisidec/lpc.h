@@ -11,19 +11,19 @@
  ********************************************************************
 
   function: LPC low level routines
-  last mod: $Id: lpc.h 13293 2007-07-24 00:09:47Z xiphmont $
+  last mod: $Id: lpc.h 16037 2009-05-26 21:10:58Z xiphmont $
 
  ********************************************************************/
 
 #ifndef _V_LPC_H_
 #define _V_LPC_H_
 
-#include "ivorbiscodec.h"
+#include "vorbis/codec.h"
 
 /* simple linear scale LPC code */
 extern float vorbis_lpc_from_data(float *data,float *lpc,int n,int m);
 
 extern void vorbis_lpc_predict(float *coeff,float *prime,int m,
-			       float *data,long n);
+                               float *data,long n);
 
 #endif
