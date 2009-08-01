@@ -9,8 +9,11 @@ http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 
-* Microsoft Windows SDK for Vista
-http://www.microsoft.com/downloads/details.aspx?FamilyID=4377F86D-C913-4B5C-B87E-EF72E5B4E065&displaylang=en
+* Microsoft Windows SDK 2008
+http://www.microsoft.com/downloads/details.aspx?FamilyID=e6e1c3df-a74f-4207-8586-711ebe331cdc&displaylang=en
+
+* Visual Studio 2008 Service Pack 1 ATL Security Update
+http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
 
 * MinGW32
 http://sourceforge.net/projects/mingw/
