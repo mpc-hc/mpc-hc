@@ -858,7 +858,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
 }
 
 
-int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size, int end_frame){
+int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_size){
     H264Context *h = avctx->priv_data;
     MpegEncContext *s = &h->s;
 //    AVFrame *pict = data;
@@ -935,8 +935,6 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, uint8_t *buf, int buf_siz
 
 	// ==> Start patch MPC DXVA
 	buf_index=decode_nal_units_noexecute(h, buf, buf_size);
-	//if(end_frame == 0)
-	//	return -1;
 	// <== End patch MPC DXVA
     if(buf_index < 0)
         return -1;

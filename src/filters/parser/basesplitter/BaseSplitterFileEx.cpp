@@ -27,7 +27,7 @@
 #include <initguid.h>
 #include <moreuuids.h>
 
-#define MAX_SPS				64			// Max size for a SPS packet
+#define MAX_SPS			256			// Max size for a SPS packet
 
 //
 // CBaseSplitterFileEx

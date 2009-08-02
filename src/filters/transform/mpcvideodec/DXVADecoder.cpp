@@ -709,6 +709,7 @@ void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 	m_pPictureStore[nSurfaceIndex].bInUse		= false;
 	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
 	m_pPictureStore[nSurfaceIndex].pSample		= NULL;
+	m_pPictureStore[nSurfaceIndex].nCodecSpecific = -1;
 	m_nWaitingPics--;
 }
 

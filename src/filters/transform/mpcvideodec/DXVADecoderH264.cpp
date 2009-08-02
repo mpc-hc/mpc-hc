@@ -199,7 +199,7 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	REFERENCE_TIME				rtOutStart;
 
 	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength); 
-	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, true,&nFramePOC, &nOutPOC, &rtOutStart);			
+	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart);			
 
 	while (Nalu.ReadNext())
 	{
@@ -225,7 +225,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	}
 	if (nSlices == 0) return S_FALSE;
 
-	RemoveUndisplayedFrame (nFramePOC);
 	m_nMaxWaiting	= min (max (m_DXVAPicParams.num_ref_frames, 3), 8);
 
 	// If parsing fail (probably no PPS/SPS), continue anyway it may arrived later (happen on truncated streams)
@@ -283,8 +282,12 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	if (bAdded) 
 	{
 		hr				= DisplayNextFrame();
-		m_nOutPOC		= nOutPOC;
-		m_rtOutStart	= rtOutStart;
+
+		if (nOutPOC != -1)
+		{
+			m_nOutPOC		= nOutPOC;
+			m_rtOutStart	= rtOutStart;
+		}
 	}
 	m_bFlushed		= false;
 	return hr;
@@ -319,7 +322,7 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 {
 	AVCodecContext*		pAVCtx = m_pFilter->GetAVCtx();
 	m_nNALLength	= pAVCtx->nal_length_size;
-	FFH264DecodeBuffer (pAVCtx, pDataIn, nSize, FALSE, NULL, NULL, NULL);
+	FFH264DecodeBuffer (pAVCtx, pDataIn, nSize, NULL, NULL, NULL);
 	FFH264SetDxvaSliceLong (pAVCtx, m_pSliceLong);
 }
 
@@ -360,25 +363,33 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 
 int CDXVADecoderH264::FindOldestFrame()
 {
+	int				nPos  = -1;
+	REFERENCE_TIME	rtPos = _I64_MAX;
+
 	for (int i=0; i<m_nPicEntryNumber; i++)
 	{
 		if (m_pPictureStore[i].bInUse && !m_pPictureStore[i].bDisplayed)
 		{
-			if (m_pPictureStore[i].nCodecSpecific == m_nOutPOC)
+			if (m_pPictureStore[i].nCodecSpecific == m_nOutPOC && m_pPictureStore[i].rtStart < rtPos)
 			{
-				if (m_rtOutStart == _I64_MIN)
-				{
-					// If start time not set (no PTS for example), guess presentation time!
-					m_rtOutStart = m_rtLastFrameDisplayed + m_pFilter->GetAvrTimePerFrame();
-				}
-				m_pPictureStore[i].rtStart	= m_rtOutStart;
-				m_pPictureStore[i].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame();
-				m_rtLastFrameDisplayed		= m_rtOutStart;
-				m_pFilter->ReorderBFrames (m_pPictureStore[i].rtStart, m_pPictureStore[i].rtStop);
-				return i;
+				nPos  = i;
+				rtPos = m_pPictureStore[i].rtStart;
 			}
 		}
 	}
 
-	return -1;
+	if (nPos != -1)
+	{
+		if (m_rtOutStart == _I64_MIN)
+		{
+			// If start time not set (no PTS for example), guess presentation time!
+			m_rtOutStart = m_rtLastFrameDisplayed + m_pFilter->GetAvrTimePerFrame();
+		}
+		m_pPictureStore[nPos].rtStart	= m_rtOutStart;
+		m_pPictureStore[nPos].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame();
+		m_rtLastFrameDisplayed			= m_rtOutStart;
+		m_pFilter->ReorderBFrames (m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
+	}
+
+	return nPos;
 }
