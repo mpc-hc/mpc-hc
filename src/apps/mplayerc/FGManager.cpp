@@ -1628,8 +1628,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 	m_transform.AddTail(pFGF);
 #endif
-	
-	
+
 	// Transform filters
 
 #if INTERNAL_DECODER_MPEG1
@@ -2206,6 +2205,11 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	// "Subtitle Mixer" makes an access violation around the 
 	// 11-12th media type when enumerating them on its output.
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{00A95963-3BE5-48C0-AD9F-3356D67EA09D}")), MERIT64_DO_NOT_USE));
+
+	// DiracSplitter.ax is crashing MPC-HC when opening invalid files...
+	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{09E7F58E-71A1-419D-B0A0-E524AE1454A9}")), MERIT64_DO_NOT_USE));
+	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{5899CFB9-948F-4869-A999-5544ECB38BA5}")), MERIT64_DO_NOT_USE));
+	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{F78CF248-180E-4713-B107-B13F7B5C31E1}")), MERIT64_DO_NOT_USE));
 
 	// ISCR suxx
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}")), MERIT64_DO_NOT_USE));
