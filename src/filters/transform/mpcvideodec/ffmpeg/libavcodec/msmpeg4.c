@@ -73,7 +73,6 @@ static int msmpeg4v34_decode_mb(MpegEncContext *s, DCTELEM block[6][64]);
 extern const uint8_t wmv3_dc_scale_table[32];
 
 #ifdef DEBUG
-int intra_count = 0;
 int frame_count = 0;
 #endif
 
@@ -109,7 +108,7 @@ static av_cold void common_init(MpegEncContext * s)
         s->y_dc_scale_table= wmv1_y_dc_scale_table;
         s->c_dc_scale_table= wmv1_c_dc_scale_table;
         break;
-#if CONFIG_WMV3_DECODER || CONFIG_VC1_DECODER
+#if CONFIG_VC1_DECODER
     case 6:
         s->y_dc_scale_table= wmv3_dc_scale_table;
         s->c_dc_scale_table= wmv3_dc_scale_table;
@@ -363,11 +362,6 @@ void msmpeg4_encode_picture_header(MpegEncContext * s, int picture_number)
 
     s->esc3_level_length= 0;
     s->esc3_run_length= 0;
-
-#ifdef DEBUG
-    intra_count = 0;
-    av_log(s->avctx, AV_LOG_DEBUG, "*****frame %d:\n", frame_count++);
-#endif
 }
 
 void msmpeg4_encode_ext_header(MpegEncContext * s)
@@ -1327,9 +1321,6 @@ return -1;
     s->esc3_level_length= 0;
     s->esc3_run_length= 0;
 
-#ifdef DEBUG
-    av_log(s->avctx, AV_LOG_DEBUG, "*****frame %d:\n", frame_count++);
-#endif
     return 0;
 }
 

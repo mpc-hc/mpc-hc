@@ -3309,6 +3309,7 @@ AVCodec vc1_decoder = {
     /*.long_name = */NULL_IF_CONFIG_SMALL("SMPTE VC-1"),
 };
 
+#if CONFIG_WMV3_DECODER
 AVCodec wmv3_decoder = {
     "wmv3",
     CODEC_TYPE_VIDEO,
@@ -3325,5 +3326,6 @@ AVCodec wmv3_decoder = {
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 9"),
 };
+#endif
 
 #include "vc1_dxva.c"
