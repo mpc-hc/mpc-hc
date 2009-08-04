@@ -21,7 +21,7 @@
  *
  */
 
-// TODOX64 : put Mpeg2DecFilterRU.lib d2vsourceRU.lib libpngR.lib back when internal filter upgraded!
+// TODOX64 : put Mpeg2DecFilterRU.lib d2vsourceRU.lib back when internal filter upgraded!
 // TODOX64 : put d2vsourceDU.lib Mpeg2DecFilterDU.lib back when internal filter upgraded!
 
 #include "stdafx.h"
@@ -4432,8 +4432,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
 	CTime t = CTime::GetCurrentTime();
 	CString fn;
-	//fn.Format(_T("%s%s%s"), prefix, t.Format(_T("%Y%m%d%H%M%S")), AfxGetAppSettings().SnapShotExt);
-	fn.Format(_T("%s_%s%s"), prefix, t.Format(_T("%Y.%m.%d.%H_%M_%S")), AfxGetAppSettings().SnapShotExt);
+	fn.Format(_T("%s_%s%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().SnapShotExt);
 	return fn;
 }
 
@@ -4508,7 +4507,7 @@ void CMainFrame::OnFileSaveImage()
 	else if(fd.m_pOFN->nFilterIndex = 3) s.SnapShotExt = _T(".png");
 
 	CPath pdst(fd.GetPathName());
-	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst = CPath((LPCTSTR)pdst + s.SnapShotExt);
+	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst.RenameExtension(s.SnapShotExt);
 	CString path = (LPCTSTR)pdst;
 	pdst.RemoveFileSpec();
 	s.SnapShotPath = (LPCTSTR)pdst;
@@ -4538,7 +4537,6 @@ void CMainFrame::OnFileSaveImageAuto()
 	}
 
 	CString fn;
-	//fn.Format(_T("%s\\%s"), AfxGetAppSettings().SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
 	fn.Format(_T("%s\\%s"), AfxGetAppSettings().SnapShotPath, MakeSnapshotFileName(prefix));
 	SaveImage(fn);
 }
@@ -4566,7 +4564,6 @@ void CMainFrame::OnFileSaveThumbnails()
 		path.StripPath();
 		prefix.Format(_T("%s_thumbs"), path);
 	}
-	//psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("thumbs")));
 	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
 
 	CSaveThumbnailsDialog fd(
@@ -4589,7 +4586,7 @@ void CMainFrame::OnFileSaveThumbnails()
 	s.ThumbWidth = fd.m_width;
 
 	CPath pdst(fd.GetPathName());
-	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst = CPath((LPCTSTR)pdst + s.SnapShotExt);
+	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst.RenameExtension(s.SnapShotExt);
 	CString path = (LPCTSTR)pdst;
 	pdst.RemoveFileSpec();
 	s.SnapShotPath = (LPCTSTR)pdst;
