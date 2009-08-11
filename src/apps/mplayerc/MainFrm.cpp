@@ -4432,7 +4432,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
 	CTime t = CTime::GetCurrentTime();
 	CString fn;
-	fn.Format(_T("%s_%s%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().SnapShotExt);
+	fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().SnapShotExt);
 	return fn;
 }
 
@@ -4467,6 +4467,27 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 	return result;
 }
 
+CString CMainFrame::GetVidPos()
+{
+	CString posstr = _T("");
+	if((m_iPlaybackMode == PM_FILE) || (m_iPlaybackMode == PM_DVD))
+	{
+		__int64 start, stop, pos;
+		m_wndSeekBar.GetRange(start, stop);
+		pos = m_wndSeekBar.GetPosReal();
+
+		DVD_HMSF_TIMECODE tcNow = RT2HMSF(pos);
+		DVD_HMSF_TIMECODE tcDur = RT2HMSF(stop);
+
+		if(tcDur.bHours > 0 || (pos >= stop && tcNow.bHours > 0)) 
+			posstr.Format(_T("%02d.%02d.%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+		else 
+			posstr.Format(_T("%02d.%02d"), tcNow.bMinutes, tcNow.bSeconds);
+	}
+
+	return posstr;
+}
+
 void CMainFrame::OnFileSaveImage()
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -4477,18 +4498,18 @@ void CMainFrame::OnFileSaveImage()
 	}
 
 	CPath psrc(s.SnapShotPath);
-	//psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(_T("snapshot")));
 
 	CStringW prefix = _T("snapshot");
 	if(m_iPlaybackMode == PM_FILE)
 	{
 		CPath path(m_wndPlaylistBar.GetCur());
 		path.StripPath();
-		prefix.Format(_T("%s_snapshot"), path);
+		prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
 	}
 	else if(m_iPlaybackMode == PM_DVD)
 	{
 		prefix = _T("snapshot_dvd");
+		prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
 	}
 	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
 
@@ -4529,11 +4550,11 @@ void CMainFrame::OnFileSaveImageAuto()
 	{
 		CPath path(m_wndPlaylistBar.GetCur());
 		path.StripPath();
-		prefix = (LPCTSTR)path;
+		prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
 	}
 	else if(m_iPlaybackMode == PM_DVD)
 	{
-		prefix = _T("snapshot_dvd");
+		prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
 	}
 
 	CString fn;
