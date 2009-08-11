@@ -115,6 +115,9 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pTrackEntryMap.RemoveAll();
 	m_pOrderedTrackArray.RemoveAll();
 
+	CAtlArray<CMatroskaSplitterOutputPin*> pinOut;
+	CAtlArray<TrackEntry*> pinOutTE;
+
 	m_pFile.Attach(DNew CMatroskaFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
@@ -133,6 +136,8 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		while(pos2)
 		{
 			TrackEntry* pTE = pT->TrackEntries.GetNext(pos2);
+
+			bool isSub = false;
 
 			if(!pTE->Expand(pTE->CodecPrivate, ContentEncoding::TracksPrivateData))
 				continue;
@@ -547,6 +552,7 @@ avcsuccess:
 					mt.subtype = MEDIASUBTYPE_NULL;
 					mt.formattype = FORMAT_None;
 					mts.Add(mt);
+					isSub = true;
 				}
 				else
 				{
@@ -567,8 +573,10 @@ avcsuccess:
 						CodecID == "S_VOBSUB" ? MEDIASUBTYPE_VOBSUB :
 						MEDIASUBTYPE_NULL;
 
-					if(mt.subtype != MEDIASUBTYPE_NULL)
+					if(mt.subtype != MEDIASUBTYPE_NULL) {
 						mts.Add(mt);
+						isSub = true;
+					}
 				}
 			}
 
@@ -587,13 +595,30 @@ avcsuccess:
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr));
 			if(!pTE->Name.IsEmpty()) pPinOut->SetProperty(L"NAME", pTE->Name);
 			if(pTE->Language.GetLength() == 3) pPinOut->SetProperty(L"LANG", CStringW(CString(pTE->Language)));
-			AddOutputPin((DWORD)pTE->TrackNumber, pPinOut);
+				
+			if (!isSub) {
+				pinOut.InsertAt((iVideo+iAudio-3),DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr),1);
+				pinOutTE.InsertAt((iVideo+iAudio-3),pTE,1);
+			} else {
+				pinOut.Add(DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr));
+				pinOutTE.Add(pTE);
+			}
 
-			m_pTrackEntryMap[(DWORD)pTE->TrackNumber] = pTE;				
-			m_pOrderedTrackArray.Add(pTE);
 		}
 	}
 
+	for(int i = 0; i < pinOut.GetCount(); i++) {
+
+		CAutoPtr<CBaseSplitterOutputPin> pPinOut;
+		pPinOut.Attach(pinOut[i]);
+		TrackEntry* pTE = pinOutTE[i];
+		
+		AddOutputPin((DWORD)pTE->TrackNumber, pPinOut);
+		m_pTrackEntryMap[(DWORD)pTE->TrackNumber] = pTE;
+		m_pOrderedTrackArray.Add(pTE);
+	}
+	
+	
 	Info& info = m_pFile->m_segment.SegmentInfo;
 
 	if(m_pFile->IsRandomAccess())
