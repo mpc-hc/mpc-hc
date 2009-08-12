@@ -825,6 +825,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PPageFileMediaInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="PPageFormats.cpp"
 				>
 			</File>
@@ -1347,6 +1351,10 @@
 			</File>
 			<File
 				RelativePath="PPageFileInfoSheet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PPageFileMediaInfo.h"
 				>
 			</File>
 			<File

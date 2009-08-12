@@ -26,6 +26,8 @@
 #include "MainFrm.h"
 #include "PPageFileInfoSheet.h"
 
+#include <MediaInfoDLL.h>
+using namespace MediaInfoDLL;
 
 // CPPageFileInfoSheet
 
@@ -35,6 +37,8 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	, m_clip(fn, pMainFrame->pGB)
 	, m_details(fn, pMainFrame->pGB, pMainFrame->m_pCAP)
 	, m_res(fn, pMainFrame->pGB)
+	, m_mi(fn)
+	, m_fn(fn)
 {
 	AddPage(&m_clip);
 	AddPage(&m_details);
@@ -49,6 +53,11 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 		}
 	}
 	EndEnumFilters
+
+	MediaInfo MI;
+	CString mi_text = MI.Option(_T("Info_Version"), _T("")).c_str();
+	MI.Close();
+	if(mi_text.Find(_T("Unable to load"))<0) AddPage(&m_mi);
 }
 
 CPPageFileInfoSheet::~CPPageFileInfoSheet()
@@ -57,6 +66,7 @@ CPPageFileInfoSheet::~CPPageFileInfoSheet()
 
 
 BEGIN_MESSAGE_MAP(CPPageFileInfoSheet, CPropertySheet)
+	ON_BN_CLICKED(IDC_BUTTON_MI, OnSaveAs)
 END_MESSAGE_MAP()
 
 // CPPageFileInfoSheet message handlers
@@ -64,7 +74,13 @@ END_MESSAGE_MAP()
 BOOL CPPageFileInfoSheet::OnInitDialog()
 {
 	BOOL fRet = __super::OnInitDialog();
-	
+
+	m_fn.TrimRight('/');
+	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
+	if(i >= 0 && i < m_fn.GetLength()-1)
+		m_fn = m_fn.Mid(i+1);
+	m_fn = _T("MI_")+m_fn+_T(".txt");
+
 	GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
 	GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
 	GetDlgItem(IDOK)->SetWindowText(ResStr(IDS_AG_CLOSE));
@@ -74,5 +90,31 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 	ScreenToClient(r);
 	GetDlgItem(IDOK)->MoveWindow(r);
 
+	r.MoveToX(5);
+	r.right += 10;
+	m_Button_MI.Create(ResStr(IDS_AG_SAVE_AS), WS_CHILD|BS_PUSHBUTTON|WS_VISIBLE, r, this, IDC_BUTTON_MI);
+	m_Button_MI.SetFont(GetFont());
+	m_Button_MI.ShowWindow(SW_HIDE);
+
 	return fRet;
 }
+
+void CPPageFileInfoSheet::OnSaveAs()
+{
+	CFileDialog filedlg (FALSE, _T("*.txt"), m_fn,
+		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+		_T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), NULL);
+
+	if (filedlg.DoModal() == IDOK) // user has chosen a file, so
+	{ 
+		_TCHAR bom = (_TCHAR)0xFEFF;
+		CFile mFile;
+		if(mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite))
+		{
+			mFile.Write(&bom, sizeof(_TCHAR));
+			mFile.Write(LPCTSTR(m_mi.MI_Text), m_mi.MI_Text.GetLength()*sizeof(_TCHAR));
+			mFile.Close();
+		}
+	}
+}
+
