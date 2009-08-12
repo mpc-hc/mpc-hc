@@ -188,7 +188,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 						return 2;	// Too much ref frames
 				}
 			} else {
-				if (cur_sps->ref_frame_count > 11)
+				if (cur_sps->ref_frame_count > 14)
 					return 2;	// Too much ref frames
 			}
 		} else {
@@ -372,7 +372,9 @@ void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, s
 	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
 
 	pDXVAPicParams->CurrPic.Index7Bits	= nIndex;
-	h->s.current_picture_ptr->opaque			= (void*)nIndex;
+
+	if (h->s.current_picture_ptr)
+		h->s.current_picture_ptr->opaque = (void*)nIndex;
 }
 
 
