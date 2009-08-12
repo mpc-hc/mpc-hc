@@ -2401,6 +2401,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	fixedWindowSize.SetSize(0, 0);
 	iMonitor = 0;
 	hMasterWnd = 0;
+	sPnSPreset.Empty();
 
 	if(launchfullscreen) nCLSwitches |= CLSW_FULLSCREEN;
 
@@ -2469,6 +2470,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			}
 			else if(sw == _T("monitor") && pos) {iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10); nCLSwitches |= CLSW_MONITOR;}
 			else if(sw == _T("minidump")) { CMiniDump::Enable(); }
+			else if(sw == _T("pns")) sPnSPreset = cmdln.GetNext(pos);
 			else nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 		}
 		else

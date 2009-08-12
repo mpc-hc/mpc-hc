@@ -2218,13 +2218,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			{
 				MoveVideoWindow();
 			}
-
-			if(m_iMediaLoadState == MLS_LOADED
-			&& !m_fAudioOnly && (s.nCLSwitches&CLSW_FULLSCREEN))
-			{
-				PostMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
-				s.nCLSwitches &= ~CLSW_FULLSCREEN;
-			}
 		}
 		else if(EC_LENGTH_CHANGED == evCode)
 		{
@@ -2464,6 +2457,13 @@ BOOL CMainFrame::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
 
 void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 {
+	// Waffs : ignore mousemoves when entering fullscreen
+	if (m_lastMouseMove.x == -1 && m_lastMouseMove.y == -1) 
+	{
+		m_lastMouseMove.x = point.x;
+		m_lastMouseMove.y = point.y;
+	}
+
 	if (!m_OSD.OnMouseMove (nFlags, point))
 	{
 		if(m_iPlaybackMode == PM_DVD)
@@ -3065,10 +3065,17 @@ void CMainFrame::OnFilePostOpenmedia()
 		}
 	}
 
-	if(!m_fAudioOnly && (AfxGetAppSettings().nCLSwitches&CLSW_FULLSCREEN))
-	{
-		SendMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
-		AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+	// Waffs : PnS command line
+	if(!AfxGetAppSettings().sPnSPreset.IsEmpty())
+ 	{
+		for(int i = 0; i < AfxGetAppSettings().m_pnspresets.GetCount(); i++)
+		{
+			int j = 0;
+			CString str = AfxGetAppSettings().m_pnspresets[i];
+			CString label = str.Tokenize(_T(","), j);
+			if(AfxGetAppSettings().sPnSPreset == label) OnViewPanNScanPresets(i+ID_PANNSCAN_PRESETS_START);
+		}
+		AfxGetAppSettings().sPnSPreset.Empty();
 	}
 
 	SendNowPlayingToMSN();
@@ -7512,6 +7519,14 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 		// Center main window ...
 		if(m_center) CenterWindow();
+		
+		// Waffs : fullscreen command line
+		if (s.nCLSwitches&CLSW_FULLSCREEN)
+		{
+			ToggleFullscreen(true, true);
+			SetCursor(NULL);
+			AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+		}
 
 		if(s.fRememberWindowSize && s.fRememberWindowPos)
 		{

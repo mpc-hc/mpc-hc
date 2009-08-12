@@ -455,6 +455,8 @@ public:
 		// int iFixedWidth, iFixedHeight;
 		int iMonitor;
 
+		CString sPnSPreset;
+
 		void ParseCommandLine(CAtlList<CString>& cmdln);
 
 		bool fXpOrBetter;
