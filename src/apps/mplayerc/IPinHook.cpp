@@ -349,10 +349,10 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 
 	if (bFirst)
 	{
-		LOG_TOFILE (_T("picture.log"), _T("wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.AssociatedFlag,CurrPic.bPicEntry,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.AssociatedFlag[0],RFL.bPicEntry[0],RFL.Index7Bits[0],") \
-									   _T("RFL.AssociatedFlag[1],RFL.bPicEntry[1],RFL.Index7Bits[1],RFL.AssociatedFlag[2],RFL.bPicEntry[2],RFL.Index7Bits[2],RFL.AssociatedFlag[3],RFL.bPicEntry[3],RFL.Index7Bits[3],RFL.AssociatedFlag[4],RFL.bPicEntry[4],RFL.Index7Bits[4],RFL.AssociatedFlag[5],RFL.bPicEntry[5],RFL.Index7Bits[5],") \
-									   _T("RFL.AssociatedFlag[6],RFL.bPicEntry[6],RFL.Index7Bits[6],RFL.AssociatedFlag[7],RFL.bPicEntry[7],RFL.Index7Bits[7],RFL.AssociatedFlag[8],RFL.bPicEntry[8],RFL.Index7Bits[8],RFL.AssociatedFlag[9],RFL.bPicEntry[9],RFL.Index7Bits[9],RFL.AssociatedFlag[10],RFL.bPicEntry[10],RFL.Index7Bits[10],") \
-									   _T("RFL.AssociatedFlag[11],RFL.bPicEntry[11],RFL.Index7Bits[11],RFL.AssociatedFlag[12],RFL.bPicEntry[12],RFL.Index7Bits[12],RFL.AssociatedFlag[13],RFL.bPicEntry[13],RFL.Index7Bits[13],RFL.AssociatedFlag[14],RFL.bPicEntry[14],RFL.Index7Bits[14],RFL.AssociatedFlag[15],RFL.bPicEntry[15],RFL.Index7Bits[15],") \
+		LOG_TOFILE (_T("picture.log"), _T("RefPicFlag,wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.Index7Bits[0],") \
+									   _T("RFL.Index7Bits[1],RFL.Index7Bits[2],RFL.Index7Bits[3],RFL.Index7Bits[4],RFL.Index7Bits[5],") \
+									   _T("RFL.Index7Bits[6],RFL.Index7Bits[7],RFL.Index7Bits[8],RFL.Index7Bits[9],RFL.Index7Bits[10],") \
+									   _T("RFL.Index7Bits[11],RFL.Index7Bits[12],RFL.Index7Bits[13],RFL.Index7Bits[14],RFL.Index7Bits[15],") \
 									   _T("CurrFieldOrderCnt[0], CurrFieldOrderCnt[1],FieldOrderCntList[0][0], FieldOrderCntList[0][1],FieldOrderCntList[1][0], FieldOrderCntList[1][1],FieldOrderCntList[2][0], FieldOrderCntList[2][1],FieldOrderCntList[3][0], FieldOrderCntList[3][1],FieldOrderCntList[4][0], FieldOrderCntList[4][1],FieldOrderCntList[5][0],") \
 									   _T("FieldOrderCntList[5][1],FieldOrderCntList[6][0], FieldOrderCntList[6][1],FieldOrderCntList[7][0], FieldOrderCntList[7][1],FieldOrderCntList[8][0], FieldOrderCntList[8][1],FieldOrderCntList[9][0], FieldOrderCntList[9][1],FieldOrderCntList[10][0], FieldOrderCntList[10][1],FieldOrderCntList[11][0],")\
 									   _T("FieldOrderCntList[11][1],FieldOrderCntList[12][0], FieldOrderCntList[12][1],FieldOrderCntList[13][0], FieldOrderCntList[13][1],FieldOrderCntList[14][0], FieldOrderCntList[14][1],FieldOrderCntList[15][0], FieldOrderCntList[15][1],pic_init_qs_minus26,chroma_qp_index_offset,second_chroma_qp_index_offset,")\
@@ -363,12 +363,13 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	}
 	bFirst = false;
 
+	strRes.AppendFormat(_T("%d,"), pPic->RefPicFlag);
 	strRes.AppendFormat(_T("%d,"), pPic->wFrameWidthInMbsMinus1);
 	strRes.AppendFormat(_T("%d,"), pPic->wFrameHeightInMbsMinus1);
 
 	//			DXVA_PicEntry_H264  CurrPic)); /* flag is bot field flag */
-	strRes.AppendFormat(_T("%d,"), pPic->CurrPic.AssociatedFlag);
-	strRes.AppendFormat(_T("%d,"), pPic->CurrPic.bPicEntry);
+//	strRes.AppendFormat(_T("%d,"), pPic->CurrPic.AssociatedFlag);
+//	strRes.AppendFormat(_T("%d,"), pPic->CurrPic.bPicEntry);
 	strRes.AppendFormat(_T("%d,"), pPic->CurrPic.Index7Bits);
 
 
@@ -382,8 +383,8 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 
 	for (i =0; i<16; i++)
 	{
-		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].AssociatedFlag);
-		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].bPicEntry);
+//		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].AssociatedFlag);
+//		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].bPicEntry);
 		strRes.AppendFormat(_T("%d,"), pPic->RefFrameList[i].Index7Bits);
 	}
 
@@ -451,6 +452,31 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	//}
 
 	LOG_TOFILE (_T("picture.log"), strRes);
+}
+
+static void LogH264SliceShort (DXVA_Slice_H264_Short* pSlice, int nCount)
+{
+	CString		strRes;
+	static bool	bFirstSlice = true;
+
+	if (bFirstSlice)
+	{
+		strRes = _T("nCnt, BSNALunitDataLocation, SliceBytesInBuffer, wBadSliceChopping");
+		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		strRes = "";
+		bFirstSlice = false;
+	}
+
+	for (int i=0; i<nCount; i++)
+	{
+		strRes.AppendFormat(_T("%d,"), i);
+		strRes.AppendFormat(_T("%d,"), pSlice[i].BSNALunitDataLocation);
+		strRes.AppendFormat(_T("%d,"), pSlice[i].SliceBytesInBuffer);
+		strRes.AppendFormat(_T("%d"), pSlice[i].wBadSliceChopping);
+
+		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		strRes = "";
+	}
 }
 
 static void LogH264SliceLong (DXVA_Slice_H264_Long* pSlice, int nCount)
@@ -895,6 +921,16 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 			else if (g_guidDXVADecoder == DXVA2_ModeVC1_D)
 				LogDXVA_PictureParameters((DXVA_PictureParameters*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
 		}
+		else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_SLICE_CONTROL_BUFFER && (pamvaBufferInfo[i].dwDataSize % sizeof(DXVA_Slice_H264_Short)) == 0)
+		{
+			for (WORD j=0; j<pamvaBufferInfo[i].dwDataSize / sizeof(DXVA_Slice_H264_Short); j++)
+			{
+				DXVA_Slice_H264_Short*	pSlice = &(((DXVA_Slice_H264_Short*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex])[j]);
+				LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
+				LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
+				LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
+			}
+		}
 		else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER)
 		{
 #if defined(LOG_BITSTREAM) && defined(_DEBUG)
@@ -989,6 +1025,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 	::DeleteFile (LOG_FILE);
 	::DeleteFile (_T("picture.log"));
 	::DeleteFile (_T("slicelong.log"));
+	::DeleteFile (_T("sliceshort.log"));
 #endif
 }
 
@@ -1127,13 +1164,8 @@ public :
 					}
 					else if (pExecuteParams->pCompressedBuffers[i].DataSize % sizeof(DXVA_Slice_H264_Short) == 0)
 					{
-						for (WORD j=0; j<pExecuteParams->pCompressedBuffers[i].DataSize / sizeof(DXVA_Slice_H264_Short); j++)
-						{
-							DXVA_Slice_H264_Short*	pSlice = &(((DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType])[j]);
-							LOG(_T("	- BSNALunitDataLocation  %d"), pSlice->BSNALunitDataLocation);
-							LOG(_T("	- SliceBytesInBuffer     %d"), pSlice->SliceBytesInBuffer);
-							LOG(_T("	- wBadSliceChopping      %d"), pSlice->wBadSliceChopping);
-						}
+						DXVA_Slice_H264_Short*	pSlice = (DXVA_Slice_H264_Short*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType];
+						LogH264SliceShort (pSlice, pExecuteParams->pCompressedBuffers[i].DataSize / sizeof(DXVA_Slice_H264_Short));
 					}
 				}
 #endif

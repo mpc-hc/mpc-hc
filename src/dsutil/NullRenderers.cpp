@@ -127,8 +127,11 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer,
 	}
 
 	// Initialize Device Manager with DX surface
-	hr = m_pD3DDeviceManager->ResetDevice (m_pD3DDev, m_nResetTocken);
-	hr = m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
+	if (m_pD3DDev)
+	{
+		hr = m_pD3DDeviceManager->ResetDevice (m_pD3DDev, m_nResetTocken);
+		hr = m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
+	}
 }
 
 
