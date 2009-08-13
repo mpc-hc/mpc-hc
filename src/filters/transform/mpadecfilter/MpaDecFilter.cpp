@@ -1734,6 +1734,11 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 	{
 		return S_OK;
 	}
+	else if(mtIn->subtype == MEDIASUBTYPE_AAC)
+	{
+		// Reject invalid AAC stream on connection
+		if (!m_aac_state.init(*mtIn)) return VFW_E_TYPE_NOT_ACCEPTED;
+	}
 
 	for(int i = 0; i < countof(sudPinTypesIn); i++)
 	{
