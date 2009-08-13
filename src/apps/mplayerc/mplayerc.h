@@ -563,6 +563,7 @@ public:
 		CStringW AudioRendererDisplayName;
 		bool fAutoloadAudio;
 		bool fAutoloadSubtitles;
+		bool fBlockVSFilter;
 		bool fEnableWorkerThreadForOpening;
 		bool fReportFailedPins;
 
