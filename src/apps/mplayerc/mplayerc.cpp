@@ -2332,6 +2332,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		m_shadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
 		m_shadercombineScreenSpace = pApp->GetProfileString(_T("Shaders"), _T("CombineScreenSpace"), _T(""));
 
+		if(launchfullscreen) nCLSwitches |= CLSW_FULLSCREEN;
+
 		fInitialized = true;
 	}
 }
@@ -2404,8 +2406,6 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	iMonitor = 0;
 	hMasterWnd = 0;
 	sPnSPreset.Empty();
-
-	if(launchfullscreen) nCLSwitches |= CLSW_FULLSCREEN;
 
 	POSITION pos = cmdln.GetHeadPosition();
 	while(pos)
