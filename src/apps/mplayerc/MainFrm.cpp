@@ -7521,7 +7521,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		if(m_center) CenterWindow();
 		
 		// Waffs : fullscreen command line
-		if((s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
+		if(!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
 		{
 			ToggleFullscreen(true, true);
 			SetCursor(NULL);
