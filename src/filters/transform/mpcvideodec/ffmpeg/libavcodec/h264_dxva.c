@@ -756,6 +756,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             hx->s.data_partitioning = 0;
 
 			// ==> Start patch MPC DXVA
+			hx->ref_pic_flag = (h->nal_ref_idc != 0);
             if((err = decode_slice_header_noexecute(hx)))
                break;
 			// <== End patch MPC DXVA

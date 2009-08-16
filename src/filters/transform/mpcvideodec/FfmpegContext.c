@@ -293,7 +293,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->residual_colour_transform_flag	= cur_sps->residual_color_transform_flag;
 		pDXVAPicParams->sp_for_switch_flag				= h->sp_for_switch_flag;
 		pDXVAPicParams->chroma_format_idc				= cur_sps->chroma_format_idc;
-		pDXVAPicParams->RefPicFlag						= (h->nal_ref_idc != 0);
+		pDXVAPicParams->RefPicFlag						= h->ref_pic_flag;
 		pDXVAPicParams->constrained_intra_pred_flag		= cur_pps->constrained_intra_pred;
 		pDXVAPicParams->weighted_pred_flag				= cur_pps->weighted_pred;
 		pDXVAPicParams->weighted_bipred_idc				= cur_pps->weighted_bipred_idc;
@@ -384,7 +384,9 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 	int				i;
 	Picture*		pic;
 	UCHAR			AssociatedFlag;
+	int				nUseRefIndex;
 
+	nUseRefIndex = h->short_ref_count*2;
 	for(i=0; i<16; i++)
 	{
         if (i < h->short_ref_count)
@@ -406,8 +408,14 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		if (pic != NULL)
 		{
 			pDXVAPicParams->FrameNumList[i]					= pic->frame_num;
-			pDXVAPicParams->FieldOrderCntList[i][0]			= pic->field_poc [0];
-			pDXVAPicParams->FieldOrderCntList[i][1]			= pic->field_poc [1];
+			pDXVAPicParams->FieldOrderCntList[i][0]			= pic->field_poc [0]!=INT_MAX ? pic->field_poc [0] : 0;
+			if (pic->field_poc [1] == INT_MAX)
+			{
+				pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
+				nUseRefIndex--;
+			}
+			else
+				pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc [1];
 			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
 			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->opaque;
         }
@@ -421,8 +429,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		}
 	}
 
-	// TODO : voir pour entrelacé
-	pDXVAPicParams->UsedForReferenceFlags	= g_UsedForReferenceFlags [h->short_ref_count*2];
+	pDXVAPicParams->UsedForReferenceFlags	= g_UsedForReferenceFlags [nUseRefIndex];
 }
 
 BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)

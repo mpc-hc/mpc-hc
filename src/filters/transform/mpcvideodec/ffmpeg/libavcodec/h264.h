@@ -603,6 +603,7 @@ typedef struct H264Context{
 	int raw_slice_type;
 	int64_t outputed_rtstart;
 	void*	dxva_slice_long;
+	int ref_pic_flag;
     // <== End patch MPC
 }H264Context;
 
