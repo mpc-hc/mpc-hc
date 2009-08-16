@@ -997,8 +997,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			}
 			
 			// Force single thread for DXVA !
-			if (IsDXVASupported())
-				avcodec_thread_init(m_pAVCtx, 1);
+			//if (IsDXVASupported())
+			//	avcodec_thread_init(m_pAVCtx, 1);
 
 			BuildDXVAOutputFormat();
 		}

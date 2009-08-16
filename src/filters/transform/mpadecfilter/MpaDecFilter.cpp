@@ -1556,6 +1556,7 @@ ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
 HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 {
 	HRESULT hr;
+	bool padded = false;
 
 	CMediaType mt = CreateMediaTypeSPDIF();
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
@@ -1564,6 +1565,8 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	while(length < size+sizeof(WORD)*4) length += 0x800;
 	int size2 = 1i64 * wfe->nBlockAlign * wfe->nSamplesPerSec * size*8 / bit_rate;
 	while(length < size2) length += 0x800;
+	if(length > size2)
+		padded = true;
 
 	if(FAILED(hr = ReconnectOutput(length / wfe->nBlockAlign, mt)))
 		return hr;
@@ -1573,9 +1576,27 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	if(FAILED(GetDeliveryBuffer(&pOut, &pDataOut)))
 		return E_FAIL;
 
-//	REFERENCE_TIME rtDur = 10000000i64 * size*8 / bit_rate;
-	size_t blocks = (size + length - 1) / length;
-	REFERENCE_TIME rtDur = 10000000i64 * blocks * length*8 / bit_rate;
+	WORD* pDataOutW = (WORD*)pDataOut;
+	pDataOutW[0] = 0xf872;
+	pDataOutW[1] = 0x4e1f;
+	pDataOutW[2] = type;
+		
+	REFERENCE_TIME rtDur;
+
+	if(!padded)
+	{
+		rtDur = 10000000i64 * size*8 / bit_rate;
+		pDataOutW[3] = size*8;
+		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
+	}
+
+	else
+	{
+		const size_t blocks = (size + length - 1) / length;
+		rtDur = 10000000i64 * blocks * length*8 / bit_rate;
+		pDataOutW[3] = length*8;
+		_swab((char*)pBuff, (char*)&pDataOutW[4], length);
+	}
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
 	m_rtStart += rtDur;
 
@@ -1597,13 +1618,6 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 
 	pOut->SetActualDataLength(length);
 
-	WORD* pDataOutW = (WORD*)pDataOut;
-	pDataOutW[0] = 0xf872;
-	pDataOutW[1] = 0x4e1f;
-	pDataOutW[2] = type;
-	pDataOutW[3] = length*8;	
-	_swab((char*)pBuff, (char*)&pDataOutW[4], length);
-	
 	return m_pOutput->Deliver(pOut);
 }
 

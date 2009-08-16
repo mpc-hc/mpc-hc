@@ -799,10 +799,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\bitstream.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\bytestream.h"
 				>
 			</File>
