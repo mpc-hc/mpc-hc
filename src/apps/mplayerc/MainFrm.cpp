@@ -4248,6 +4248,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 	spd.h = height;
 	spd.bpp = 32;
 	spd.pitch = -width*4;
+	spd.vidrect = CRect(0, 0, width, height);
 	spd.bits = (BYTE*)(bih + 1) + (width*4)*(height-1);
 
 	{
