@@ -69,7 +69,7 @@ Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filen
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
-Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
+Name: br; MessagesFile: Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarus.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
@@ -92,6 +92,7 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 
 [CustomMessages]
 en.Save_set_mpc=To save the old program settings
+br.Save_set_mpc=Para salvar as configuracoes antigas do programa
 cz.Save_set_mpc=Ulozit stare nastaveni programu
 fi.Save_set_mpc=Tallenna vanhan ohjelman asetuksia
 fr.Save_set_mpc=Sauver l'ancien programme de reglages
@@ -100,7 +101,7 @@ hu.Save_set_mpc=To save the old program settings
 it.Save_set_mpc=Salvare il vecchio impostazioni del programma
 no.Save_set_mpc=Lagre den gamle programmet innstillinger
 pl.Save_set_mpc=Zachowac stare nastrajania programu
-pt.Save_set_mpc=Salve o programa antigo configuracoes
+pt.Save_set_mpc=Para salvar as configuracoes antigas do programa
 ru.Save_set_mpc=Сохранить старые настройки программы
 es.Save_set_mpc=Salvar el viejo programa de configuracion
 
