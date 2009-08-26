@@ -1875,7 +1875,7 @@
 				Name="shaders"
 				>
 				<File
-					RelativePath=".\res\shaders\BT601BT701.psh"
+					RelativePath=".\res\shaders\BT601BT709.psh"
 					>
 				</File>
 				<File
@@ -1916,6 +1916,14 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\levels.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\levels2.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\levels3.psh"
 					>
 				</File>
 				<File
@@ -1997,19 +2005,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\res\shaders\BT601BT709.psh"
-			>
-		</File>
-		<File
 			RelativePath=".\ChangeLog"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\levels2.psh"
-			>
-		</File>
-		<File
-			RelativePath=".\res\shaders\levels3.psh"
 			>
 		</File>
 		<File
