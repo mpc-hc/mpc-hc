@@ -1,10 +1,17 @@
 v1.x.x.x - unreleased
+======================
+
+
+v1.3.1249.0 - 26 august 2009
+======================
  NEW    : Support for Flac audio streams
  NEW    : Support for Dolby Digital+ (Eac3) and Dolby true HD (MLP)
  NEW    : Nellymoser audio decoder
- NEW    : Belarusian translation
+ NEW    : Belarusian, Brazilian and Sweedish translation
  NEW    : New shader "Sharpen Complex 2" (required hardware compatible with pixel shader 2.A)
  NEW    : Support for madVR video renderer (http://madshi.net/madVR.zip)
+ NEW    : Additional information on video using MediaInfo (DLL can be download from http://mediainfo.sourceforge.net and placed in mpc-hc directory)
+ NEW    : Internal DXVA decoder support for H264 with Intel G45 (thanks for people who help me at Intel Corp.)
  CHANGED: Add support of interlaced flags in software mode for MPCVideoDecoder filter
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen mode in options, if monitor is not specified on the command line.
  CHANGED: Auto-hide playlist on fullscreen(feature request #2219561) 
@@ -22,6 +29,7 @@ v1.x.x.x - unreleased
  CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
  CHANGED: frame by frame modify to support step frame back functionality (except for VMR9) 
  CHANGED: support for AC3 in MP4 files created by Nero Digital
+ CHANGED: EVR custom and VMR9 renderless revamped (Beliyaal), better synchronisation, remove tearing in windowed mode, support for dialog box in DirectX exclusive mode, ...
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
@@ -32,12 +40,15 @@ v1.x.x.x - unreleased
  FIXED  : Better synchronization with EVR custom to improve playback smoothness
  FIXED  : 24 bits LPCM not properly play 
  FIXED  : Possible deadlock with Reclock
- FIXED  : memory leak in DXVA decoder (when opening new file)
  FIXED  : Support of framestep backward, even if the codec didn't support it natively (bug #2600542)
  FIXED  : DXVA decoder support multiple graphics cards (PCI vendor id detection on the fly) 
  FIXED  : Incorrect aspect ratio for some H264 files with DXVA1 decoder (extended SAR)
  FIXED  : H264 files with 16 reference frames freeze during playback (bug #2795785 and #2784256)
  FIXED  : AVI with H264 not decoded properly (bug #2794854)
+ FIXED  : Revamped DXVA h264 decoder based on new insights, fixing black screen, macroblock, support for AVI, ...
+ FIXED  : Incorrect playback for padded DTS
+ FIXED  : Hang when moving player between monitors 
+ 
 
 
 v1.2.908.0 - 30.November 2008
