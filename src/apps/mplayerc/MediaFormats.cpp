@@ -222,7 +222,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("Monkey's Audio file"),    _T("ape apl"), true));
 		ADDFMT((_T("True Audio file"),        _T("tta"), true));
 		ADDFMT((_T("AMR Audio file"),         _T("amr"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),  _T("flv")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),  _T("flv iflv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_29),  _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));
 		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl bdmv")));

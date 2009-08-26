@@ -927,7 +927,14 @@ BOOL CMPlayerCApp::InitInstance()
 	&& (!(m_s.fAllowMultipleInst || (m_s.nCLSwitches&CLSW_NEW) || m_cmdln.IsEmpty())
 		|| (m_s.nCLSwitches&CLSW_ADD)))
 	{
-		if(HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL))
+		int wait_count = 0;
+		HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
+		while(!hWnd && (wait_count++<200))
+		{
+			Sleep(100);
+			hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
+		}
+		if(hWnd && (wait_count<200))
 		{
 			SetForegroundWindow(hWnd);
 
@@ -937,7 +944,7 @@ BOOL CMPlayerCApp::InitInstance()
 			SendCommandLine(hWnd);
 
 			return FALSE;
-		}
+		} 
 	}
 
 	if(!__super::InitInstance())
