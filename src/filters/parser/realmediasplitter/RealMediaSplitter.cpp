@@ -1455,6 +1455,7 @@ CRealVideoDecoder::CRealVideoDecoder(LPUNKNOWN lpunk, HRESULT* phr)
 	: CBaseVideoFilter(NAME("CRealVideoDecoder"), lpunk, phr, __uuidof(this))
 	, m_hDrvDll(NULL)
 	, m_dwCookie(0)
+	, m_lastBuffSizeDim(0)
 {
 }
 
@@ -1542,11 +1543,48 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 		return S_OK;
 	}
 
-	hr = RVTransform(pDataIn, (BYTE*)m_pI420, &transform_in, &transform_out, m_dwCookie);
 
 	unsigned int tmp1, tmp2;
 	bool interlaced = false, tmp3, tmp4;
 	::GetDimensions_X10(pDataIn, &tmp1, &tmp2, &interlaced, &tmp3, &tmp4);
+
+    int size =  tmp1*tmp2; 
+    if( m_lastBuffSizeDim < size  )
+	{ 
+            m_pI420.Free(); 
+            m_pI420Tmp.Free(); 
+
+            m_lastBuffSizeDim = size; 
+            ATLTRACE("resize out put buff %d" ,size); 
+            if ( m_pI420.Allocate(size*3/2) )
+			{ 
+                    ATLTRACE(" m_pI420.Allocated 1" ); 
+                    memset(m_pI420, 0, size); 
+                    ATLTRACE(" m_pI420.Allocated 2" ); 
+                    memset(m_pI420 + size, 0x80, size/2); 
+                    ATLTRACE(" m_pI420.Allocated 3" ); 
+            }
+			else
+			{ 
+                    ATLTRACE(" m_pI420.Allocate fail %d" ,size*3/2); 
+                    return S_OK; 
+            } 
+            if( m_pI420Tmp.Allocate(size*3/2) )
+			{ 
+                    ATLTRACE(" m_pI420Tmp.Allocated 1" ); 
+                    memset(m_pI420Tmp, 0, size); 
+                    ATLTRACE(" m_pI420Tmp.Allocated 2" ); 
+                    memset(m_pI420Tmp + size, 0x80, size/2); 
+                    ATLTRACE(" m_pI420Tmp.Allocated 3" ); 
+            }
+			else
+			{ 
+                    ATLTRACE(" m_pI420Tmp.Allocate fail %d" ,size*3/2); 
+                    return S_OK; 
+            } 
+    } 
+
+	hr = RVTransform(pDataIn, (BYTE*)m_pI420, &transform_in, &transform_out, m_dwCookie);
 
 	m_timestamp = transform_in.timestamp;
 
@@ -1788,6 +1826,7 @@ HRESULT CRealVideoDecoder::StartStreaming()
 		return E_FAIL;
 
 	int size = m_w*m_h;
+	m_lastBuffSizeDim = size;
 	m_pI420.Allocate(size*3/2);
 	memset(m_pI420, 0, size);
 	memset(m_pI420 + size, 0x80, size/2);

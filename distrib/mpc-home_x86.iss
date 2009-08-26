@@ -5,8 +5,8 @@
 #define MyAppName "Media Player Classic - Home Cinema"
 #define MyAppVerName "Media Player Classic - Home Cinema v."
 #define MyAppURL "http://mpc-hc.sourceforge.net/"
-#define MyAppExeName "mplayerc.exe"
-#define MyAppININame "\mplayerc.ini"
+#define MyAppExeName "mpc-hc.exe"
+#define MyAppININame "\mpc-hc.ini"
 #define MyDateTimeString GetDateTimeString('yyyymmddhhnnss', '', '');
 
 [Setup]
@@ -33,7 +33,7 @@ SolidCompression=yes
 ShowUndisplayableLanguages=true
 
 [Files]
-Source: ..\src\apps\mplayerc\Release Unicode\mplayerc.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion
@@ -164,4 +164,6 @@ begin
 		SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\' + '{#MyAppININame}'))
 		else
 		RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+    // rename binary from previous installer
+    renamefile (ExpandConstant('{app}\' + 'mplayerc.exe'), ExpandConstant('{app}\' + 'mplayerc.exe.bak'));
 end;

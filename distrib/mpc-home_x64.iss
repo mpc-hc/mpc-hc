@@ -5,8 +5,8 @@
 #define MyAppName "Media Player Classic - Home Cinema x64"
 #define MyAppVerName "Media Player Classic - Home Cinema v."
 #define MyAppURL "http://mpc-hc.sourceforge.net/"
-#define MyAppExeName "mplayerc64.exe"
-#define MyAppININame "\mplayerc64.ini"
+#define MyAppExeName "mpc-hc64.exe"
+#define MyAppININame "\mpc-hc64.ini"
 #define MyDateTimeString GetDateTimeString('yyyymmddhhnnss', '', '');
 
 [Setup]
@@ -34,7 +34,7 @@ ArchitecturesInstallIn64BitMode=x64
 ShowUndisplayableLanguages=true
 
 [Files]
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mplayerc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion 64bit
@@ -68,10 +68,9 @@ Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
 Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: quicklaunchicon
 
-
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
-Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
+Name: br; MessagesFile: Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarus.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
@@ -94,6 +93,7 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 
 [CustomMessages]
 en.Save_set_mpc=To save the old program settings
+br.Save_set_mpc=Para salvar as configuracoes antigas do programa
 cz.Save_set_mpc=Ulozit stare nastaveni programu
 fi.Save_set_mpc=Tallenna vanhan ohjelman asetuksia
 fr.Save_set_mpc=Sauver l'ancien programme de reglages
@@ -102,7 +102,7 @@ hu.Save_set_mpc=To save the old program settings
 it.Save_set_mpc=Salvare il vecchio impostazioni del programma
 no.Save_set_mpc=Lagre den gamle programmet innstillinger
 pl.Save_set_mpc=Zachowac stare nastrajania programu
-pt.Save_set_mpc=Salve o programa antigo configuracoes
+pt.Save_set_mpc=Para salvar as configuracoes antigas do programa
 ru.Save_set_mpc=Сохранить старые настройки программы
 es.Save_set_mpc=Salvar el viejo programa de configuracion
 
@@ -125,6 +125,7 @@ sk.langid=00000012
 tc.langid=00000014
 tr.langid=00000004
 ua.langid=00000010
+
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
@@ -152,6 +153,7 @@ begin
     begin
         if IsTaskSelected('uninstallable_set') = False then
         begin
+
             BackupRegistry();
             renamefile (ExpandConstant('{app}\' + '{#MyAppININame}'), ExpandConstant('{app}\' + '{#MyAppININame}' + '{#MyDateTimeString}' + '.bak'));
             RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\');
@@ -163,4 +165,6 @@ begin
 		SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\' + '{#MyAppININame}'))
 		else
 		RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+    // rename binary from previous installer
+    renamefile (ExpandConstant('{app}\' + 'mplayerc64.exe'), ExpandConstant('{app}\' + 'mplayerc64.exe.bak'));
 end;

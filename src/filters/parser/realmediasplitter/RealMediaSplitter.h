@@ -230,6 +230,7 @@ class CRealVideoDecoder : public CBaseVideoFilter
 
 	HMODULE m_hDrvDll;
 	DWORD m_dwCookie;
+	int m_lastBuffSizeDim;
 
 	HRESULT InitRV(const CMediaType* pmt);
 	void FreeRV();
