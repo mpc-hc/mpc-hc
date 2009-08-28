@@ -618,7 +618,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			m_shaderlabelsScreenSpace.AddTail (strRes);
 			strRes = strList.Tokenize(_T("|"),curPos);
 		}
-	}	
+	}
+
+	m_bToggleShader = AfxGetAppSettings().m_bToggleShader;
+	m_bToggleShaderScreenSpace = AfxGetAppSettings().m_bToggleShaderScreenSpace;
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
@@ -681,6 +684,9 @@ void CMainFrame::OnClose()
 		}
 		AfxGetAppSettings().strShaderListScreenSpace = strList;
 	}
+
+	AfxGetAppSettings().m_bToggleShader = m_bToggleShader;
+	AfxGetAppSettings().m_bToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
 
 	m_wndPlaylistBar.SavePlaylist();
 

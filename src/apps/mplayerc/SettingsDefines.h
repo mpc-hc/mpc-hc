@@ -189,3 +189,6 @@
 #define IDS_RS_MPC_PREVENT_MINIMIZE			_T("PreventMinimize")
 #define IDS_RS_LAST_OPEN_DIR				_T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON			_T("AssociatedWithIcon")
+
+#define	IDS_RS_TOGGLESHADER					_T("ToggleShader")
+#define	IDS_RS_TOGGLESHADERSSCREENSPACE		_T("ToggleShaderScreenSpace")

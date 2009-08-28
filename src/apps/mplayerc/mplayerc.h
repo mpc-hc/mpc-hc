@@ -691,6 +691,8 @@ public:
 		float			dSaturation;
 		CString			strShaderList;
 		CString			strShaderListScreenSpace;
+		bool			m_bToggleShader;
+		bool			m_bToggleShaderScreenSpace;
 
 		bool			fRememberDVDPos;
 		bool			fRememberFilePos;
