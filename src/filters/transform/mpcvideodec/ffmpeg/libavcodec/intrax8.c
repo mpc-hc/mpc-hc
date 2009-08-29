@@ -27,6 +27,7 @@
 #include "msmpeg4data.h"
 #include "intrax8huf.h"
 #include "intrax8.h"
+#include <windows.h> // MPC-HC Patch
 
 #define MAX_TABLE_DEPTH(table_bits, max_bits) ((max_bits+table_bits-1)/table_bits)
 
@@ -41,6 +42,12 @@
 static VLC j_ac_vlc[2][2][8];  //[quant<13],[intra/inter],[select]
 static VLC j_dc_vlc[2][8];     //[quant], [select]
 static VLC j_orient_vlc[2][4]; //[quant], [select]
+
+// MPC-HC Patch Begin
+static CRITICAL_SECTION s_cs;
+static BOOL s_csInited = FALSE;
+static int s_num_memory_refs = 0;
+// MPC-HC Patch End
 
 static av_cold void x8_vlc_init(void){
     int i;
@@ -666,6 +673,18 @@ static void x8_init_block_index(MpegEncContext *s){ //FIXME maybe merge with ff_
  */
 av_cold void ff_intrax8_common_init(IntraX8Context * w, MpegEncContext * const s){
 
+	// MPC-HC Patch Begin
+	if (!s_csInited)
+	{
+		InitializeCriticalSection(&s_cs);
+		s_csInited = TRUE;
+	}
+
+	EnterCriticalSection(&s_cs);
+	s_num_memory_refs++;
+	LeaveCriticalSection(&s_cs);
+	// MPC-HC Patch End
+
     w->s=s;
     x8_vlc_init();
     assert(s->mb_width>0);
@@ -683,6 +702,41 @@ av_cold void ff_intrax8_common_init(IntraX8Context * w, MpegEncContext * const s
 av_cold void ff_intrax8_common_end(IntraX8Context * w)
 {
     av_freep(&w->prediction_table);
+
+	// MPC-HC Patch Begin
+	EnterCriticalSection( &s_cs );
+	s_num_memory_refs--;
+	LeaveCriticalSection( &s_cs );
+
+	if ((s_num_memory_refs == 0) && s_csInited)
+	{
+		int i;
+
+		DeleteCriticalSection( &s_cs );
+		s_csInited = FALSE;
+
+		// x8_vlc_init
+		// free ac tables
+		for (i = 0; i < 8; i++) {
+			free_vlc( &j_ac_vlc[0][0][i] );
+			free_vlc( &j_ac_vlc[0][1][i] );
+			free_vlc( &j_ac_vlc[1][0][i] );
+			free_vlc( &j_ac_vlc[1][1][i] );
+		}
+		// free dc tables
+		for (i = 0; i < 8; i++) {
+			free_vlc( &j_dc_vlc[0][i] );
+			free_vlc( &j_dc_vlc[1][i] );
+		}
+		// free orient tables
+		for (i = 0; i < 2; i++) {
+			free_vlc( &j_orient_vlc[0][i] );
+		}
+		for (i = 0; i < 4; i++) {
+			free_vlc( &j_orient_vlc[1][i] );
+		}
+	}
+	// MPC-HC Patch End
 }
 
 /**
