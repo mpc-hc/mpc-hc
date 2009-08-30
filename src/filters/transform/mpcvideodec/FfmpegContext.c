@@ -648,3 +648,14 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 	return 0;
 }
 
+void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount)
+{
+	if (pAVCtx->thread_count > 1)
+	{
+		avcodec_thread_free (pAVCtx);
+		pAVCtx->thread_count = 1;
+	}
+
+	if (nThreadCount > 1)
+		avcodec_thread_init(pAVCtx, nThreadCount);
+}

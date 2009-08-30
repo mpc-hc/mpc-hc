@@ -44,9 +44,7 @@ static VLC j_dc_vlc[2][8];     //[quant], [select]
 static VLC j_orient_vlc[2][4]; //[quant], [select]
 
 // MPC-HC Patch Begin
-static CRITICAL_SECTION s_cs;
-static BOOL s_csInited = FALSE;
-static int s_num_memory_refs = 0;
+static long s_num_memory_refs = 0;
 // MPC-HC Patch End
 
 static av_cold void x8_vlc_init(void){
@@ -674,15 +672,7 @@ static void x8_init_block_index(MpegEncContext *s){ //FIXME maybe merge with ff_
 av_cold void ff_intrax8_common_init(IntraX8Context * w, MpegEncContext * const s){
 
 	// MPC-HC Patch Begin
-	if (!s_csInited)
-	{
-		InitializeCriticalSection(&s_cs);
-		s_csInited = TRUE;
-	}
-
-	EnterCriticalSection(&s_cs);
-	s_num_memory_refs++;
-	LeaveCriticalSection(&s_cs);
+	InterlockedIncrement(&s_num_memory_refs);
 	// MPC-HC Patch End
 
     w->s=s;
@@ -704,16 +694,9 @@ av_cold void ff_intrax8_common_end(IntraX8Context * w)
     av_freep(&w->prediction_table);
 
 	// MPC-HC Patch Begin
-	EnterCriticalSection( &s_cs );
-	s_num_memory_refs--;
-	LeaveCriticalSection( &s_cs );
-
-	if ((s_num_memory_refs == 0) && s_csInited)
+	if (InterlockedDecrement(&s_num_memory_refs) == 0)
 	{
 		int i;
-
-		DeleteCriticalSection( &s_cs );
-		s_csInited = FALSE;
 
 		// x8_vlc_init
 		// free ac tables

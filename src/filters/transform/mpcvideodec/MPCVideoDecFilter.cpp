@@ -788,8 +788,8 @@ void CMPCVideoDecFilter::Cleanup()
 		if (m_pAVCtx->slice_offset)			av_free(m_pAVCtx->slice_offset);
 		if (m_pAVCtx->codec)				avcodec_close(m_pAVCtx);
 
-		if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
-			avcodec_thread_free (m_pAVCtx);
+		// Free thread resource if necessary
+		FFSetThreadNumber (m_pAVCtx, 0);
 
 		av_free(m_pAVCtx);
 	}
@@ -902,7 +902,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
 			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec))
-				avcodec_thread_init(m_pAVCtx, m_nThreadNumber);
+				FFSetThreadNumber(m_pAVCtx, m_nThreadNumber);
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
@@ -998,7 +998,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			
 			// Force single thread for DXVA !
 			if (IsDXVASupported())
-				avcodec_thread_init(m_pAVCtx, 1);
+				FFSetThreadNumber(m_pAVCtx, 1);
 
 			BuildDXVAOutputFormat();
 		}
