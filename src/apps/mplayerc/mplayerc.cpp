@@ -239,6 +239,7 @@ public:
 	CString m_strBuildNumber;
 	CString m_MPCCompiler;
 	CString m_FfmpegCompiler;
+	afx_msg void OnHomepage(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
@@ -265,6 +266,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
 		// No message handlers
 	//}}AFX_MSG_MAP
+	ON_NOTIFY(NM_CLICK, IDC_SOURCEFORGE_LINK, &CAboutDlg::OnHomepage)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3175,4 +3177,10 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
 
 	if (bWaitProcess)
 		WaitForSingleObject(execinfo.hProcess, INFINITE);
+}
+
+void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/about-homepage.html"), NULL, NULL, SW_SHOWDEFAULT);	
+	*pResult = 0;
 }
