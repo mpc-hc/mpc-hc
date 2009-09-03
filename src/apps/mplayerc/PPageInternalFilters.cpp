@@ -125,6 +125,9 @@ s_filters[] =
 #if INTERNAL_DECODER_NELLYMOSER
 	{_T("Nellymoser"), 1, TRA_NELLY, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
 #endif
+#if INTERNAL_DECODER_AMR
+	{_T("AMR"), 1, TRA_AMR, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+#endif
 #if INTERNAL_DECODER_REALAUDIO
 	{_T("RealAudio"), 1, TRA_RA, IDS_TRA_RA, NULL},
 #endif
