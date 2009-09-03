@@ -97,6 +97,9 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_MPEG2_PACK,			&MEDIASUBTYPE_mp4a},
 	{&MEDIATYPE_MPEG2_PES,			&MEDIASUBTYPE_mp4a},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_mp4a},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_AMR},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SAMR},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_SAWB},
 	{&MEDIATYPE_DVD_ENCRYPTED_PACK, &MEDIASUBTYPE_PS2_PCM},
 	{&MEDIATYPE_MPEG2_PACK,			&MEDIASUBTYPE_PS2_PCM},
 	{&MEDIATYPE_MPEG2_PES,			&MEDIASUBTYPE_PS2_PCM},
@@ -417,7 +420,15 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		m_rtStart = rtStart;
 	}
 
-	if(SUCCEEDED(hr) && abs((int)(m_rtStart - rtStart)) > 1000000) // +-100ms jitter is allowed for now
+	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
+
+	BOOL bNoJitterControl = false;
+	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR || subtype == MEDIASUBTYPE_SAWB)
+	{
+		bNoJitterControl = true;
+	}
+
+	if(SUCCEEDED(hr) && abs((int)(m_rtStart - rtStart)) > 1000000 && !bNoJitterControl) // +-100ms jitter is allowed for now
 	{
 		m_buff.RemoveAll();
 		m_rtStart = rtStart;
@@ -428,14 +439,14 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
 
-	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
-
-	if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
+	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR)
+		hr = ProcessFfmpeg(CODEC_ID_AMR_NB);
+	else if(subtype == MEDIASUBTYPE_SAWB)
+		hr = ProcessFfmpeg(CODEC_ID_AMR_WB);
+	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 		hr = ProcessLPCM();
 	else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
-	{
 		hr = ProcessHdmvLPCM(pIn->IsSyncPoint());
-	}
 	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 		    subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
 			subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
@@ -2443,9 +2454,15 @@ bool CMpaDecFilter::InitFfmpeg(int nCodecId)
 
 	if (m_pAVCodec) ffmpeg_stream_finish();
 
-	m_pAVCodec						= avcodec_find_decoder((CodecID)nCodecId);
+	m_pAVCodec					= avcodec_find_decoder((CodecID)nCodecId);
 	if (m_pAVCodec)
 	{
+		if (nCodecId==CODEC_ID_AMR_NB || nCodecId== CODEC_ID_AMR_WB) 
+		{
+			wfein->nChannels = 1;
+			wfein->nSamplesPerSec = 8000;
+		}
+
 		m_pAVCtx						= avcodec_alloc_context();
 		m_pAVCtx->sample_rate			= wfein->nSamplesPerSec;
 		m_pAVCtx->channels				= wfein->nChannels;

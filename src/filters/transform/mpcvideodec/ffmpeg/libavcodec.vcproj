@@ -402,6 +402,46 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\amrwb\dec_acelp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_dtx.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_gain.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_if.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_lpc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_main.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_rom.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_util.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\decoder.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\decoder.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\dsputil.c"
 				>
 			</File>
@@ -411,6 +451,46 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\eac3dec_data.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_acelp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_dtx.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_gain.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_if.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_lpc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_main.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_rom.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_util.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\encoder.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\encoder.c"
 				>
 			</File>
 			<File
@@ -518,7 +598,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\amrwb\if_rom.c"
+				>
+			</File>
+			<File
 				RelativePath="libavcodec\imgconvert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\interf_dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\interf_enc.c"
 				>
 			</File>
 			<File
@@ -539,6 +631,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\jrevdct.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\libamr.c"
 				>
 			</File>
 			<File
@@ -611,6 +707,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\sp5xdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\sp_dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\sp_enc.c"
 				>
 			</File>
 			<File
@@ -819,11 +923,75 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\amrwb\dec.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_acelp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_dtx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_gain.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_if.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_lpc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_main.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\dec_util.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\dsputil.h"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\eac3dec_data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_acelp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_dtx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_gain.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_if.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_lpc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_main.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\enc_util.h"
 				>
 			</File>
 			<File
@@ -884,6 +1052,22 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\huffman.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\if_rom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\interf_dec.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\interf_enc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\interf_rom.h"
 				>
 			</File>
 			<File
@@ -975,11 +1159,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\amrnb\rom_dec.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\rom_enc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\simple_idct.h"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\sp5x.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\sp_dec.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\sp_enc.h"
 				>
 			</File>
 			<File
@@ -996,6 +1196,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\swscale.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrwb\typedef.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\amrnb\typedef.h"
 				>
 			</File>
 			<File

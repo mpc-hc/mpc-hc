@@ -1661,6 +1661,14 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_MPEG1Packet);
 	m_transform.AddTail(pFGF);
 
+	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+		(tra & TRA_MPA) ? L"AMR Audio Decoder" : L"AMR Audio Decoder (low merit)",
+		(tra & TRA_MPA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SAMR);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_AMR);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_SAWB);
+	m_transform.AddTail(pFGF);
+
 	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
 		(tra & TRA_MPA) ? ResStr(IDS_FGMANAGER_3) : L"MPEG-2 Audio Decoder (low merit)",
 		(tra & TRA_MPA) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);

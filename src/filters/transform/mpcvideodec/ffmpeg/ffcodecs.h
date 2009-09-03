@@ -135,7 +135,8 @@
  CODEC_OP(CODEC_ID_WAVPACK           ,150,"Wavpack") \
  CODEC_OP(CODEC_ID_PCM_ZORK          ,151,"PCM Zork") \
  CODEC_OP(CODEC_ID_SHORTEN           ,152,"Shorten") \
- CODEC_OP(CODEC_ID_TRUEHD            ,153,"truehd") \
+ CODEC_OP(CODEC_ID_AMR_WB            ,153,"amrwb") \
+ CODEC_OP(CODEC_ID_TRUEHD            ,154,"truehd") \
 \
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \

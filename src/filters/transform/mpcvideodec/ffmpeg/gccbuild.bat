@@ -4,11 +4,12 @@ echo "ERROR : please define MINGW32 (and/or MSYS) environment variable(s)"
 exit 1005
 
 :Var1Ok
-if NOT "x%CC%" == "x" goto Var2Ok
-echo "ERROR : please define CC environment variable"
-exit 1005
+rem if NOT "x%CC%" == "x" goto Var2Ok
+rem echo "ERROR : please define CC environment variable"
+rem exit 1005
 
 :Var2Ok
+set CC=gcc.exe
 set PATH=%MSYS%\bin;%MINGW32%\bin;%YASM%;%PATH%
 
 IF "%1%"=="rebuild" goto DoClean

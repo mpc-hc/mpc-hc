@@ -43,6 +43,20 @@ SRCS_C=\
 		$(LAVC_DIR)/jpegls.c \
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
+		$(LAVC_DIR)/libamr.c \
+		$(LAVC_DIR)/amrnb/interf_dec.c \
+		$(LAVC_DIR)/amrnb/sp_dec.c \
+		$(LAVC_DIR)/amrnb/interf_enc.c\
+		$(LAVC_DIR)/amrnb/sp_enc.c \
+		$(LAVC_DIR)/amrwb/dec_if.c\
+		$(LAVC_DIR)/amrwb/if_rom.c\
+		$(LAVC_DIR)/amrwb/dec_rom.c\
+		$(LAVC_DIR)/amrwb/dec_gain.c\
+		$(LAVC_DIR)/amrwb/dec_main.c\
+		$(LAVC_DIR)/amrwb/dec_dtx.c\
+		$(LAVC_DIR)/amrwb/dec_lpc.c\
+		$(LAVC_DIR)/amrwb/dec_util.c\
+		$(LAVC_DIR)/amrwb/dec_acelp.c\
 		$(LAVC_DIR)/mdct.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
@@ -146,7 +160,7 @@ OPTFLAGS+= -fno-math-errno
 .all: $(SLIB)
 
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amr_float/*.o $(LAVF_DIR)/*.o $(LAVF_DIR)/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amr_float/*.d $(ZLIB_DIR)/*.d
+	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amrnb/*.o $(LAVC_DIR)/amrwb/*.o $(LAVF_DIR)/*.o $(LAVF_DIR)/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amr_float/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

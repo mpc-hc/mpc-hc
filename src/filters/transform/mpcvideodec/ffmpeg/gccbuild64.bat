@@ -4,11 +4,12 @@ echo "ERROR : please define MINGW64 (and/or MSYS) environment variable(s)"
 exit 1005
 
 :Var1Ok
-if NOT "x%CC%" == "x" goto Var2Ok
-echo "ERROR : please define CC environment variable"
-exit 1005
+rem if NOT "x%CC%" == "x" goto Var2Ok
+rem echo "ERROR : please define CC environment variable"
+rem exit 1005
 
 :Var2Ok
+set CC=gcc.exe
 set PATH=%MSYS%\bin;%YASM%;%MINGW64%\bin;%PATH%
 IF EXIST "%MINGW32%\bin\mingw32-make.exe" copy /y "%MINGW32%\bin\mingw32-make.exe" "%MINGW32%\bin\make.exe" >nul
 IF EXIST "%MINGW64%\x86_64-w64-mingw32\bin\ar.exe" copy /y "%MINGW64%\x86_64-w64-mingw32\bin\ar.exe" "%MINGW64%\bin\x86_64-w64-mingw32-ar.exe" >nul

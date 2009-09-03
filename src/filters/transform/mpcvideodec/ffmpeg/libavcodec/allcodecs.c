@@ -169,7 +169,8 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (ADPCM_YAMAHA, adpcm_yamaha);
     
     /* external libraries */
-    //REGISTER_DECODER (LIBAMR_NB, libamr_nb);
+    REGISTER_DECODER (LIBAMR_NB, libamr_nb);
+		REGISTER_DECODER (LIBAMR_WB, libamr_wb);
 
     /* parsers */
     //REGISTER_PARSER  (AAC, aac);
