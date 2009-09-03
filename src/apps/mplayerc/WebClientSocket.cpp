@@ -667,7 +667,23 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 	CString title;
 	m_pMainFrame->GetWindowText(title);
 
-	CString status = m_pMainFrame->GetStatusMessage();
+	CString status;// = m_pMainFrame->GetStatusMessage();
+	OAFilterState fs = m_pMainFrame->GetMediaState();
+	switch (fs)
+	{
+		case State_Stopped:
+			status = ResStr(IDS_CONTROLS_STOPPED);
+			break;
+		case State_Paused:
+			status = ResStr(IDS_CONTROLS_PAUSED);
+			break;
+		case State_Running:
+			status = ResStr(IDS_CONTROLS_PLAYING);
+			break;
+		default:
+			status = _T("n/a");
+			break;
+	}
 
 	int pos = (int)(m_pMainFrame->GetPos()/10000);
 	int dur = (int)(m_pMainFrame->GetDur()/10000);
