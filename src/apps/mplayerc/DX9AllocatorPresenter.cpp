@@ -1503,15 +1503,13 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	float w = (float)desc.Width;
-	float h = (float)desc.Height;
-
-	float dx = 1.0f/w;
-	float dy = 1.0f/h;
-	float tx0 = SrcRect.left;
-	float tx1 = SrcRect.right;
-	float ty0 = SrcRect.top;
-	float ty1 = SrcRect.bottom;
+	// make const to give compiler a chance of optimising, also float faster than double and converted to float to sent to PS anyway
+	const float dx = 1.0f/(float)desc.Width;
+	const float dy = 1.0f/(float)desc.Height;
+	const float tx0 = SrcRect.left;
+	const float tx1 = SrcRect.right;
+	const float ty0 = SrcRect.top;
+	const float ty1 = SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] =
 	{
@@ -1523,7 +1521,9 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
 
 	AdjustQuad(v, 1.0, 1.0);
 
-	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
+	hr = m_pD3DDev->SetTexture(0, pTexture);
+
+	float fConstData[][4] = {{dx*0.5f, dy*0.5f, 0, 0}, {dx, dy, 0, 0}, {dx, 0, 0, 0}, {0, dy, 0, 0}};
 	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
@@ -1546,21 +1546,13 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
 		return E_FAIL;
 
-	double w = (double)desc.Width;
-	double h = (double)desc.Height;
-
-	double sw = SrcRect.Width();
-	double sh = SrcRect.Height();
-
-	double dx = 1.0f/w;
-	double dy = 1.0f/h;
-
-	float dx2 = 1.0f/w;
-	float dy2 = 1.0f/h;
-	float tx0 = SrcRect.left;
-	float tx1 = SrcRect.right;
-	float ty0 = SrcRect.top;
-	float ty1 = SrcRect.bottom;
+	// make const to give compiler a chance of optimising, also float faster than double and converted to float to sent to PS anyway
+	const float dx = 1.0f/(float)desc.Width;
+	const float dy = 1.0f/(float)desc.Height;
+	const float tx0 = SrcRect.left;
+	const float tx1 = SrcRect.right;
+	const float ty0 = SrcRect.top;
+	const float ty1 = SrcRect.bottom;
 
 	MYD3DVERTEX<1> v[] =
 	{
@@ -1574,7 +1566,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
-	float fConstData[][4] = {{0.5f / w, 0.5f / h, 0, 0}, {1.0f / w, 1.0f / h, 0, 0}, {1.0f / w, 0, 0, 0}, {0, 1.0f / h, 0, 0}, {w, h, 0, 0}};
+	float fConstData[][4] = {{dx*0.5f, dy*0.5f, 0, 0}, {dx, dy, 0, 0}, {dx, 0, 0, 0}, {0, dy, 0, 0}};
 	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShader[1]);
@@ -2318,24 +2310,26 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 							bScreenSpacePixelShaders = false;
 						hr = m_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET, 0, 1.0f, 0);
 					}
-				}
+				}				
 
-//				if((iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr)))
-				if(iDX9Resizer == 0 || iDX9Resizer == 1)
+				if(rSrcVid.Size() != rDstVid.Size())
 				{
-					D3DTEXTUREFILTERTYPE Filter = iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR;
-					if (rSrcVid.Size() == rDstVid.Size())
-						Filter = D3DTEXF_POINT;
-					hr = TextureResize(pVideoTexture, dst, Filter, rSrcVid);
+//					if((iDX9Resizer == 0 || iDX9Resizer == 1 || rSrcVid.Size() == rDstVid.Size() || FAILED(hr)))
+					if(iDX9Resizer == 0 || iDX9Resizer == 1)
+					{
+						D3DTEXTUREFILTERTYPE Filter = iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR;
+						hr = TextureResize(pVideoTexture, dst, Filter, rSrcVid);
+					}
+					else if(iDX9Resizer == 2)
+					{
+						hr = TextureResizeBilinear(pVideoTexture, dst, rSrcVid);
+					}
+					else if(iDX9Resizer >= 3)
+					{
+						hr = TextureResizeBicubic2pass(pVideoTexture, dst, rSrcVid);
+					}
 				}
-				else if(iDX9Resizer == 2)
-				{
-					hr = TextureResizeBilinear(pVideoTexture, dst, rSrcVid);
-				}
-				else if(iDX9Resizer >= 3)
-				{
-					hr = TextureResizeBicubic2pass(pVideoTexture, dst, rSrcVid);
-				}
+				else hr = TextureResize(pVideoTexture, dst, D3DTEXF_POINT, rSrcVid);
 
 				if (bScreenSpacePixelShaders)
 				{
