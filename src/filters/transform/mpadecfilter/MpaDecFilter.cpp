@@ -425,6 +425,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	BOOL bNoJitterControl = false;
 	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR || subtype == MEDIASUBTYPE_SAWB)
 	{
+		//The reason I add this to disable Jitter control for AMR audio stream
+		//is because it seems a lot AMR audio stream haven't report correct output sample rate (my guess)
+		//so if there is jitter control, audio and video will be going very faster than it should (result)
+		//therefor I disable jitter control.
+		//but this is NOT a PERFECT solution. hope more input from other brilliant developers
+		//discuss is welcome  -- tomasen@gmail.com
 		bNoJitterControl = true;
 	}
 
