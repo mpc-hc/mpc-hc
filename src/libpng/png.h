@@ -1,6 +1,6 @@
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.2.38 - July 16, 2009
+ * libpng version 1.2.40 - September 10, 2009
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -10,7 +10,7 @@
  * Authors and maintainers:
  *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.2.38 - July 16, 2009: Glenn
+ *  libpng versions 0.97, January 1998, through 1.2.40 - September 10, 2009: Glenn
  *  See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -237,6 +237,14 @@
  *    1.2.38rc01-03           13    10238  12.so.0.38[.0]
  *    1.0.47                  10    10047  10.so.0.47[.0]
  *    1.2.38                  13    10238  12.so.0.38[.0]
+ *    1.2.39beta01-05         13    10239  12.so.0.39[.0]
+ *    1.2.39rc01              13    10239  12.so.0.39[.0]
+ *    1.0.48                  10    10048  10.so.0.48[.0]
+ *    1.2.39                  13    10239  12.so.0.39[.0]
+ *    1.2.40beta01            13    10240  12.so.0.40[.0]
+ *    1.2.40rc01              13    10240  12.so.0.40[.0]
+ *    1.0.49                  10    10049  10.so.0.49[.0]
+ *    1.2.40                  13    10240  12.so.0.40[.0]
  *
  *    Henceforth the source version will match the shared-library major
  *    and minor numbers; the shared-library major version number will be
@@ -268,7 +276,7 @@
  *
  * This code is released under the libpng license.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.2.38, July 16, 2009, are
+ * libpng versions 1.2.6, August 15, 2004, through 1.2.40, September 10, 2009, are
  * Copyright (c) 2004, 2006-2009 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
@@ -380,13 +388,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    July 16, 2009
+ *    September 10, 2009
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.2.38 are Y2K compliant.  It is my belief that earlier
+ *    upward through 1.2.40 are Y2K compliant.  It is my belief that earlier
  *    versions were also Y2K compliant.
  *
  *    Libpng only has three year fields.  One is a 2-byte unsigned integer
@@ -442,9 +450,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.38"
+#define PNG_LIBPNG_VER_STRING "1.2.40"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.38 - July 16, 2009\n"
+   " libpng version 1.2.40 - September 10, 2009\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -452,7 +460,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 38
+#define PNG_LIBPNG_VER_RELEASE 40
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero:
  */
@@ -482,14 +490,14 @@
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release
  */
-#define PNG_LIBPNG_VER 10238 /* 1.2.38 */
+#define PNG_LIBPNG_VER 10240 /* 1.2.40 */
 
 #ifndef PNG_VERSION_INFO_ONLY
-/* include the compression library's header */
+/* Include the compression library's header */
 #include "zlib.h"
 #endif
 
-/* include all user configurable info, including optional assembler routines */
+/* Include all user configurable info, including optional assembler routines */
 #include "pngconf.h"
 
 /*
@@ -571,7 +579,7 @@ extern "C" {
  */
 #ifdef PNG_USE_GLOBAL_ARRAYS
 PNG_EXPORT_VAR (PNG_CONST char) png_libpng_ver[18];
-  /* need room for 99.99.99beta99z */
+  /* Need room for 99.99.99beta99z */
 #else
 #define png_libpng_ver png_get_header_ver(NULL)
 #endif
@@ -781,7 +789,7 @@ typedef png_unknown_chunk FAR * FAR * png_unknown_chunkpp;
  */
 typedef struct png_info_struct
 {
-   /* the following are necessary for every PNG file */
+   /* The following are necessary for every PNG file */
    png_uint_32 width;       /* width of image in pixels (from IHDR) */
    png_uint_32 height;      /* height of image in pixels (from IHDR) */
    png_uint_32 valid;       /* valid chunk data (see PNG_INFO_ below) */
@@ -1186,10 +1194,10 @@ typedef void (PNGAPI *png_unknown_chunk_ptr) PNGARG((png_structp));
 #define PNG_TRANSFORM_SWAP_ALPHA     0x0100    /* read and write */
 #define PNG_TRANSFORM_SWAP_ENDIAN    0x0200    /* read and write */
 #define PNG_TRANSFORM_INVERT_ALPHA   0x0400    /* read and write */
-#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* WRITE only, deprecated */
+#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* write only, deprecated */
 /* Added to libpng-1.2.34 */
-#define PNG_TRANSFORM_STRIP_FILLER_BEFORE 0x0800  /* WRITE only */
-#define PNG_TRANSFORM_STRIP_FILLER_AFTER  0x1000  /* WRITE only */
+#define PNG_TRANSFORM_STRIP_FILLER_BEFORE 0x0800  /* write only */
+#define PNG_TRANSFORM_STRIP_FILLER_AFTER  0x1000  /* write only */
 
 /* Flags for MNG supported features */
 #define PNG_FLAG_MNG_EMPTY_PLTE     0x01
@@ -1430,7 +1438,7 @@ struct png_struct_def
 #if defined(PNG_MNG_FEATURES_SUPPORTED) || \
     defined(PNG_READ_EMPTY_PLTE_SUPPORTED) || \
     defined(PNG_WRITE_EMPTY_PLTE_SUPPORTED)
-/* changed from png_byte to png_uint_32 at version 1.2.0 */
+/* Changed from png_byte to png_uint_32 at version 1.2.0 */
 #ifdef PNG_1_0_X
    png_byte mng_features_permitted;
 #else
@@ -1509,7 +1517,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_38;
+typedef png_structp version_1_2_40;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2086,7 +2094,7 @@ extern PNG_EXPORT(png_voidp,png_get_progressive_ptr)
 extern PNG_EXPORT(void,png_process_data) PNGARG((png_structp png_ptr,
    png_infop info_ptr, png_bytep buffer, png_size_t buffer_size));
 
-/* function that combines rows.  Not very much different than the
+/* Function that combines rows.  Not very much different than the
  * png_combine_row() call.  Is this even used?????
  */
 extern PNG_EXPORT(void,png_progressive_combine_row) PNGARG((png_structp png_ptr,
@@ -2992,7 +3000,7 @@ extern PNG_EXPORT(void,png_save_uint_16)
 
 /* Variables declared in png.c - only it needs to define PNG_NO_EXTERN */
 #if !defined(PNG_NO_EXTERN) || defined(PNG_ALWAYS_EXTERN)
-/* place to hold the signature string for a PNG file. */
+/* Place to hold the signature string for a PNG file. */
 #ifdef PNG_USE_GLOBAL_ARRAYS
    PNG_EXPORT_VAR (PNG_CONST png_byte FARDATA) png_sig[8];
 #else
@@ -3695,6 +3703,14 @@ PNG_EXTERN int png_check_cHRM_fixed  PNGARG((png_structp png_ptr,
    png_fixed_point int_red_x, png_fixed_point int_red_y, png_fixed_point
    int_green_x, png_fixed_point int_green_y, png_fixed_point int_blue_x,
    png_fixed_point int_blue_y));
+#endif
+
+#if defined(PNG_cHRM_SUPPORTED)
+#if !defined(PNG_NO_CHECK_cHRM)
+/* Added at libpng version 1.2.34 */
+PNG_EXTERN void png_64bit_product (long v1, long v2, unsigned long *hi_product,
+   unsigned long *lo_product);
+#endif
 #endif
 
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */

@@ -1,7 +1,7 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * Last changed in libpng 1.2.37 [June 4, 2009]
+ * Last changed in libpng 1.2.40 [September 10, 2009]
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -102,6 +102,7 @@ png_write_chunk_start(png_structp png_ptr, png_bytep chunk_name,
 
    png_debug2(0, "Writing %s chunk, length = %lu", chunk_name,
       (unsigned long)length);
+
    if (png_ptr == NULL)
       return;
 
@@ -398,6 +399,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    png_byte buf[13]; /* Buffer to store the IHDR info */
 
    png_debug(1, "in png_write_IHDR");
+
    /* Check that we have valid input data from the application info */
    switch (color_type)
    {
@@ -575,6 +577,7 @@ png_write_PLTE(png_structp png_ptr, png_colorp palette, png_uint_32 num_pal)
    png_byte buf[3];
 
    png_debug(1, "in png_write_PLTE");
+
    if ((
 #if defined(PNG_MNG_FEATURES_SUPPORTED)
         !(png_ptr->mng_features_permitted & PNG_FLAG_MNG_EMPTY_PLTE) &&
@@ -634,6 +637,7 @@ png_write_IDAT(png_structp png_ptr, png_bytep data, png_size_t length)
 #ifdef PNG_USE_LOCAL_ARRAYS
    PNG_IDAT;
 #endif
+
    png_debug(1, "in png_write_IDAT");
 
    /* Optimize the CMF field in the zlib stream. */
@@ -688,7 +692,9 @@ png_write_IEND(png_structp png_ptr)
 #ifdef PNG_USE_LOCAL_ARRAYS
    PNG_IEND;
 #endif
+
    png_debug(1, "in png_write_IEND");
+
    png_write_chunk(png_ptr, (png_bytep)png_IEND, png_bytep_NULL,
      (png_size_t)0);
    png_ptr->mode |= PNG_HAVE_IEND;
@@ -707,6 +713,7 @@ png_write_gAMA(png_structp png_ptr, double file_gamma)
    png_byte buf[4];
 
    png_debug(1, "in png_write_gAMA");
+
    /* file_gamma is saved in 1/100,000ths */
    igamma = (png_uint_32)(file_gamma * 100000.0 + 0.5);
    png_save_uint_32(buf, igamma);
@@ -723,6 +730,7 @@ png_write_gAMA_fixed(png_structp png_ptr, png_fixed_point file_gamma)
    png_byte buf[4];
 
    png_debug(1, "in png_write_gAMA");
+
    /* file_gamma is saved in 1/100,000ths */
    png_save_uint_32(buf, (png_uint_32)file_gamma);
    png_write_chunk(png_ptr, (png_bytep)png_gAMA, buf, (png_size_t)4);
@@ -741,6 +749,7 @@ png_write_sRGB(png_structp png_ptr, int srgb_intent)
    png_byte buf[1];
 
    png_debug(1, "in png_write_sRGB");
+
    if (srgb_intent >= PNG_sRGB_INTENT_LAST)
          png_warning(png_ptr,
             "Invalid sRGB rendering intent specified");
@@ -787,6 +796,14 @@ png_write_iCCP(png_structp png_ptr, png_charp name, int compression_type,
           ((*( (png_bytep)profile + 1))<<16) |
           ((*( (png_bytep)profile + 2))<< 8) |
           ((*( (png_bytep)profile + 3))    );
+
+   if (embedded_profile_len < 0)
+   {
+      png_warning(png_ptr,
+        "Embedded profile length in iCCP chunk is negative");
+      png_free(png_ptr, new_name);
+      return;
+   }
 
    if (profile_len < embedded_profile_len)
    {
@@ -841,6 +858,7 @@ png_write_sPLT(png_structp png_ptr, png_sPLT_tp spalette)
 #endif
 
    png_debug(1, "in png_write_sPLT");
+
    if ((name_len = png_check_keyword(png_ptr,spalette->name, &new_name))==0)
       return;
 
@@ -914,6 +932,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
    png_size_t size;
 
    png_debug(1, "in png_write_sBIT");
+
    /* Make sure we don't depend upon the order of PNG_COLOR_8 */
    if (color_type & PNG_COLOR_MASK_COLOR)
    {
@@ -1021,6 +1040,7 @@ png_write_cHRM_fixed(png_structp png_ptr, png_fixed_point white_x,
    png_byte buf[32];
 
    png_debug(1, "in png_write_cHRM");
+
    /* Each value is saved in 1/100,000ths */
 #if !defined(PNG_NO_CHECK_cHRM)
    if (png_check_cHRM_fixed(png_ptr, white_x, white_y, red_x, red_y,
@@ -1057,6 +1077,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
    png_byte buf[6];
 
    png_debug(1, "in png_write_tRNS");
+
    if (color_type == PNG_COLOR_TYPE_PALETTE)
    {
       if (num_trans <= 0 || num_trans > (int)png_ptr->num_palette)
@@ -1112,6 +1133,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
    png_byte buf[6];
 
    png_debug(1, "in png_write_bKGD");
+
    if (color_type == PNG_COLOR_TYPE_PALETTE)
    {
       if (
@@ -1166,6 +1188,7 @@ png_write_hIST(png_structp png_ptr, png_uint_16p hist, int num_hist)
    png_byte buf[3];
 
    png_debug(1, "in png_write_hIST");
+
    if (num_hist > (int)png_ptr->num_palette)
    {
       png_debug2(3, "num_hist = %d, num_palette = %d", num_hist,
@@ -1206,6 +1229,7 @@ png_check_keyword(png_structp png_ptr, png_charp key, png_charpp new_key)
    int kwarn=0;
 
    png_debug(1, "in png_check_keyword");
+
    *new_key = NULL;
 
    if (key == NULL || (key_len = png_strlen(key)) == 0)
@@ -1329,6 +1353,7 @@ png_write_tEXt(png_structp png_ptr, png_charp key, png_charp text,
    png_charp new_key;
 
    png_debug(1, "in png_write_tEXt");
+
    if ((key_len = png_check_keyword(png_ptr, key, &new_key))==0)
       return;
 
@@ -1517,6 +1542,7 @@ png_write_oFFs(png_structp png_ptr, png_int_32 x_offset, png_int_32 y_offset,
    png_byte buf[9];
 
    png_debug(1, "in png_write_oFFs");
+
    if (unit_type >= PNG_OFFSET_LAST)
       png_warning(png_ptr, "Unrecognized unit type for oFFs chunk");
 
@@ -1543,6 +1569,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
    int i;
 
    png_debug1(1, "in png_write_pCAL (%d parameters)", nparams);
+
    if (type >= PNG_EQUATION_LAST)
       png_warning(png_ptr, "Unrecognized equation type for pCAL chunk");
 
@@ -1676,6 +1703,7 @@ png_write_pHYs(png_structp png_ptr, png_uint_32 x_pixels_per_unit,
    png_byte buf[9];
 
    png_debug(1, "in png_write_pHYs");
+
    if (unit_type >= PNG_RESOLUTION_LAST)
       png_warning(png_ptr, "Unrecognized unit type for pHYs chunk");
 
@@ -1700,6 +1728,7 @@ png_write_tIME(png_structp png_ptr, png_timep mod_time)
    png_byte buf[7];
 
    png_debug(1, "in png_write_tIME");
+
    if (mod_time->month  > 12 || mod_time->month  < 1 ||
        mod_time->day    > 31 || mod_time->day    < 1 ||
        mod_time->hour   > 23 || mod_time->second > 60)
@@ -1744,6 +1773,7 @@ png_write_start_row(png_structp png_ptr)
    png_size_t buf_size;
 
    png_debug(1, "in png_write_start_row");
+
    buf_size = (png_size_t)(PNG_ROWBYTES(
       png_ptr->usr_channels*png_ptr->usr_bit_depth, png_ptr->width) + 1);
 
@@ -1844,6 +1874,7 @@ png_write_finish_row(png_structp png_ptr)
    int ret;
 
    png_debug(1, "in png_write_finish_row");
+
    /* Next row */
    png_ptr->row_number++;
 
@@ -1953,6 +1984,7 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
 #endif
 
    png_debug(1, "in png_do_write_interlace");
+
    /* We don't have to do anything on the last pass (6) */
 #if defined(PNG_USELESS_TESTS_SUPPORTED)
    if (row != NULL && row_info != NULL && pass < 6)
@@ -2119,11 +2151,12 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
    png_uint_32 mins, bpp;
    png_byte filter_to_do = png_ptr->do_filter;
    png_uint_32 row_bytes = row_info->rowbytes;
-#if defined(PNG_WRITE_WEIGHTED_FILTER_SUPPORTED)
+#ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
    int num_p_filters = (int)png_ptr->num_prev_filters;
-#endif
+#endif 
 
    png_debug(1, "in png_write_find_filter");
+
    /* Find out how many bytes offset each pixel is */
    bpp = (row_info->pixel_depth + 7) >> 3;
 
@@ -2733,6 +2766,7 @@ void /* PRIVATE */
 png_write_filtered_row(png_structp png_ptr, png_bytep filtered_row)
 {
    png_debug(1, "in png_write_filtered_row");
+
    png_debug1(2, "filter = %d", filtered_row[0]);
    /* Set up the zlib input buffer */
 

@@ -1,7 +1,7 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.2.37 [June 4, 2009]
+ * Last changed in libpng 1.2.39 [August 13, 2009]
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -16,7 +16,7 @@
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_38 Your_png_h_is_not_version_1_2_38;
+typedef version_1_2_40 Your_png_h_is_not_version_1_2_40;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -148,7 +148,7 @@ png_check_sig(png_bytep sig, int num)
 #ifdef PNG_1_0_X
 voidpf PNGAPI
 #else
-voidpf /* private */
+voidpf /* PRIVATE */
 #endif
 png_zalloc(voidpf png_ptr, uInt items, uInt size)
 {
@@ -192,7 +192,7 @@ png_zalloc(voidpf png_ptr, uInt items, uInt size)
 #ifdef PNG_1_0_X
 void PNGAPI
 #else
-void /* private */
+void /* PRIVATE */
 #endif
 png_zfree(voidpf png_ptr, voidpf ptr)
 {
@@ -705,7 +705,7 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    png_ptr = png_ptr;  /* Silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.38 - July 16, 2009\n\
+   return ((png_charp) "\n libpng version 1.2.40 - September 10, 2009\n\
    Copyright (c) 1998-2009 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");
@@ -828,7 +828,8 @@ png_convert_size(size_t size)
  *    A and D, and X || Y is (X << 16) + Y.
 */
 
-void png_64bit_product (long v1, long v2, unsigned long *hi_product,
+void /* PRIVATE */
+png_64bit_product (long v1, long v2, unsigned long *hi_product,
    unsigned long *lo_product)
 {
    int a, b, c, d;
@@ -852,7 +853,7 @@ void png_64bit_product (long v1, long v2, unsigned long *hi_product,
    *lo_product = (unsigned long)lo;
 }
 
-int /* private */
+int /* PRIVATE */
 png_check_cHRM_fixed(png_structp png_ptr,
    png_fixed_point white_x, png_fixed_point white_y, png_fixed_point red_x,
    png_fixed_point red_y, png_fixed_point green_x, png_fixed_point green_y,
