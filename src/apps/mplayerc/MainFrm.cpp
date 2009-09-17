@@ -2177,6 +2177,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 			m_wndSeekBar.SetPos(rtNow);
 			m_OSD.SetPos(rtNow);
+			m_Lcd.SetMediaPos(rtNow);
 
 			if(m_pSubClock) m_pSubClock->SetTime(rtNow);
 		}
