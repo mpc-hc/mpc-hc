@@ -42,6 +42,7 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".flic")) == 0)   iconindex = IDI_FLIC_ICON;
 	else if(ext.CompareNoCase(_T(".flv")) == 0)    iconindex = IDI_FLV_ICON;
 	else if(ext.CompareNoCase(_T(".iflv")) == 0)   iconindex = IDI_FLV_ICON;
+	else if(ext.CompareNoCase(_T(".f4v")) == 0)   iconindex = IDI_FLV_ICON;
 	else if(ext.CompareNoCase(_T(".hdmov")) == 0)  iconindex = IDI_MP4_ICON;
 	else if(ext.CompareNoCase(_T(".ifo")) == 0)    iconindex = IDI_DVDF_ICON;
 	else if(ext.CompareNoCase(_T(".ivf")) == 0)    iconindex = IDI_IVF_ICON;
