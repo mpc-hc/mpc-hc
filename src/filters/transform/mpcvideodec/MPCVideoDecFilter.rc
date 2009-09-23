@@ -78,7 +78,7 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/project/showfiles.php?group_id=170561"
-            VALUE "CompanyName", "MPC HomeCinema"
+            VALUE "CompanyName", "MPC Home Cinema"
             VALUE "FileDescription", "H.264/VC-1 DXVA video decoder"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MPCVideoDec Filter"

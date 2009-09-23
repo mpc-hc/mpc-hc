@@ -3084,7 +3084,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 			bNoChange = true;
 			// This message should stay in english!
 			MessageBox (NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."), 
-							  _T("Media Player Classic - Homecinema"), MB_OK);
+							  _T("Media Player Classic - Home Cinema"), MB_OK);
 		}
 	}
 
