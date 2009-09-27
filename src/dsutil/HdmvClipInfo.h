@@ -150,6 +150,7 @@ public:
 	};
 
 	CHdmvClipInfo(void);
+	~CHdmvClipInfo();
 
 	HRESULT		ReadInfo(LPCTSTR strFile);
 	Stream*		FindStream(SHORT wPID);
@@ -176,4 +177,5 @@ private :
 	void		ReadBuffer(BYTE* pBuff, int nLen);
 
 	HRESULT		ReadProgramInfo();
+	HRESULT		CloseFile(HRESULT hr);
 };

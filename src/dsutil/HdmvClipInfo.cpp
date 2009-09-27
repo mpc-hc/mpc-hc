@@ -32,6 +32,20 @@ CHdmvClipInfo::CHdmvClipInfo(void)
 	m_bIsHdmv		= false;
 }
 
+CHdmvClipInfo::~CHdmvClipInfo()
+{
+	CloseFile(S_OK);
+}
+
+HRESULT CHdmvClipInfo::CloseFile(HRESULT hr)
+{
+	if (m_hFile != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(m_hFile);
+		m_hFile = INVALID_HANDLE_VALUE;
+	}
+	return hr;
+}
 
 DWORD CHdmvClipInfo::ReadDword()
 {
@@ -165,10 +179,10 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 	if(m_hFile != INVALID_HANDLE_VALUE)
 	{
 		ReadBuffer(Buff, 4);
-		if (memcmp (Buff, "HDMV", 4)) return VFW_E_INVALID_FILE_FORMAT;
+		if (memcmp (Buff, "HDMV", 4)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 
 		ReadBuffer(Buff, 4);
-		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return VFW_E_INVALID_FILE_FORMAT;
+		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return CloseFile (VFW_E_INVALID_FILE_FORMAT);
 
 		SequenceInfo_start_address	= ReadDword();
 		ProgramInfo_start_address	= ReadDword();
@@ -177,8 +191,7 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 
 		m_bIsHdmv = true;
 
-		CloseHandle (m_hFile);
-		return S_OK;
+		return CloseFile(S_OK);
 	}
 	
 	return AmHresultFromWin32(GetLastError());
@@ -261,10 +274,10 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 	if(m_hFile != INVALID_HANDLE_VALUE)
 	{
 		ReadBuffer(Buff, 4);
-		if (memcmp (Buff, "MPLS", 4)) return VFW_E_INVALID_FILE_FORMAT;
+		if (memcmp (Buff, "MPLS", 4)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 
 		ReadBuffer(Buff, 4);
-		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return VFW_E_INVALID_FILE_FORMAT;
+		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 
 		dwPos = ReadDword();
 		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
@@ -285,7 +298,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 			Item.m_strFileName.Format(_T("%s\\STREAM\\%c%c%c%c%c.M2TS"), Path, Buff[0], Buff[1], Buff[2], Buff[3], Buff[4]);
 
 			ReadBuffer(Buff, 4);
-			if (memcmp (Buff, "M2TS", 4)) return VFW_E_INVALID_FILE_FORMAT;
+			if (memcmp (Buff, "M2TS", 4)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 			ReadBuffer(Buff, 3);
 
 			dwTemp	= ReadDword();
@@ -303,7 +316,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 			//TRACE ("File : %S, Duration : %S, Total duration  : %S\n", strTemp, ReftimeToString (rtOut - rtIn), ReftimeToString (rtDuration));
 		}
 
-		CloseHandle (m_hFile);
+		CloseFile (S_OK);
 		return bDuplicate ? S_FALSE : S_OK;
 	}
 
