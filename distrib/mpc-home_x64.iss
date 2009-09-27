@@ -1,4 +1,4 @@
-;the revision number - 2009-07-22 13:36
+ï»¿;the revision number - 2009-07-22 13:36
 
 #include "../include/Version.h"
 
@@ -92,19 +92,25 @@ Name: tr; MessagesFile: Languages\Turkish.isl
 Name: ua; MessagesFile: Languages\Ukrainian.isl
 
 [CustomMessages]
-en.Save_set_mpc=To save the old program settings
-br.Save_set_mpc=Para salvar as configuracoes antigas do programa
-cz.Save_set_mpc=Ulozit stare nastaveni programu
-fi.Save_set_mpc=Tallenna vanhan ohjelman asetuksia
-fr.Save_set_mpc=Sauver l'ancien programme de reglages
-de.Save_set_mpc=Alte Abstimmungen des Programms zu behalten
-hu.Save_set_mpc=To save the old program settings
-it.Save_set_mpc=Salvare il vecchio impostazioni del programma
-no.Save_set_mpc=Lagre den gamle programmet innstillinger
-pl.Save_set_mpc=Zachowac stare nastrajania programu
-pt.Save_set_mpc=Para salvar as configuracoes antigas do programa
-ru.Save_set_mpc=Ñîõğàíèòü ñòàğûå íàñòğîéêè ïğîãğàììû
-es.Save_set_mpc=Salvar el viejo programa de configuracion
+en.Save_set_mpc=Keep previous settings
+br.Save_set_mpc=Manter ajustes anteriores
+by.Save_set_mpc=Keep previous settings
+cz.Save_set_mpc=Zachovat pÅ¯vodnÃ­ nastavenÃ­
+de.Save_set_mpc=Die vorherigen Einstellungen behalten
+es.Save_set_mpc=Keep previous settings
+fr.Save_set_mpc=Conserver les rÃ©glages prÃ©cÃ©dents
+hu.Save_set_mpc=Keep previous settings
+it.Save_set_mpc=Mantieni le impostazioni precedenti
+kr.Save_set_mpc=ì´ì „ ì„¤ì • ìœ ì§€
+pl.Save_set_mpc=Zachowaj poprzednie ustawienia
+pt.Save_set_mpc=Keep previous settings
+ru.Save_set_mpc=Keep previous settings
+sc.Save_set_mpc=ä¿æŒå½“å‰é…ç½®
+se.Save_set_mpc=Keep previous settings
+sk.Save_set_mpc=ZachovaÅ¥ predchÃ¡dzajÃºce nastavenia
+tc.Save_set_mpc=ä¿ç•™å…ˆå‰çš„è¨­å®š
+tr.Save_set_mpc=Ã–nceki ayarlarÄ± kullan
+ua.Save_set_mpc=Keep previous settings
 
 en.langid=00000000
 br.langid=00000017
@@ -168,3 +174,4 @@ begin
     // rename binary from previous installer
     renamefile (ExpandConstant('{app}\' + 'mplayerc64.exe'), ExpandConstant('{app}\' + 'mplayerc64.exe.bak'));
 end;
+
