@@ -40,9 +40,10 @@
 
 #include "../dsputil.h"
 #include "idct_xvid.h"
+#include "dsputil_mmx.h"
 
 /*!
- * @file idct_sse2_xvid.c
+ * @file libavcodec/x86/idct_sse2_xvid.c
  * @brief SSE2 idct compatible with xvidmmx
  */
 

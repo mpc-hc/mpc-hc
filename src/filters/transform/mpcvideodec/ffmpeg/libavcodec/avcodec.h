@@ -44,7 +44,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 32
+#define LIBAVCODEC_VERSION_MINOR 35
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -60,8 +60,6 @@
 #define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
 #define AV_TIME_BASE            1000000
 static const AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
-
-/* codec ids can be found in ffcodecs.h */
 
 enum CodecType {
     CODEC_TYPE_UNKNOWN = -1,
@@ -128,6 +126,7 @@ enum SampleFormat {
 #define CH_LAYOUT_5POINT1           (CH_LAYOUT_5POINT0|CH_LOW_FREQUENCY)
 #define CH_LAYOUT_5POINT0_BACK      (CH_LAYOUT_SURROUND|CH_BACK_LEFT|CH_BACK_RIGHT)
 #define CH_LAYOUT_5POINT1_BACK      (CH_LAYOUT_5POINT0_BACK|CH_LOW_FREQUENCY)
+#define CH_LAYOUT_7POINT0           (CH_LAYOUT_5POINT0|CH_BACK_LEFT|CH_BACK_RIGHT)
 #define CH_LAYOUT_7POINT1           (CH_LAYOUT_5POINT1|CH_BACK_LEFT|CH_BACK_RIGHT)
 #define CH_LAYOUT_7POINT1_WIDE      (CH_LAYOUT_5POINT1_BACK|\
                                           CH_FRONT_LEFT_OF_CENTER|CH_FRONT_RIGHT_OF_CENTER)
@@ -357,9 +356,13 @@ typedef struct RcOverride{
  */
 #define CODEC_CAP_HWACCEL_VDPAU    0x0080
 /**
+ * Codec can output multiple frames per AVPacket
+ */
+#define CODEC_CAP_SUBFRAMES        0x0100
+/**
  * Codec supports frame-based multithreading.
  */
-#define CODEC_CAP_FRAME_THREADS    0x0100
+#define CODEC_CAP_FRAME_THREADS    0x0200
 
 //The following defines may change, don't expect compatibility if you use them.
 #define MB_TYPE_INTRA4x4   0x0001
@@ -2882,15 +2885,6 @@ int av_picture_pad(AVPicture *dst, const AVPicture *src, int height, int width, 
 
 unsigned int av_xiphlacing(unsigned char *s, unsigned int v);
 
-/**
- * ffdshow custom stuff
- *
- * @param[out] recovery_frame_cnt. Valid only if GDR.
- * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
- */
-int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
-                         const uint8_t *buf, int buf_size, int *recovery_frame_cnt);
-
 /* error handling */
 #if EINVAL > 0
 #define AVERROR(e) (-(e)) /**< Returns a negative error code from a POSIX error code, to return from library functions. */
@@ -2959,6 +2953,15 @@ enum AVLockOp {
  *           lockmgr callback may also be invoked.
  */
 int av_lockmgr_register(int (*cb)(void **mutex, enum AVLockOp op));
+
+/**
+ * ffdshow custom stuff
+ *
+ * @param[out] recovery_frame_cnt. Valid only if GDR.
+ * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
+ */
+int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
+                         const uint8_t *buf, int buf_size, int *recovery_frame_cnt);
 
 /* Media Player Classic - Homecinema specific functions */
 FF_EXPORT int    FFGetChannelMap(struct AVCodecContext* avctx);

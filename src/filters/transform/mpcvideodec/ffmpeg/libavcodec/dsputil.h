@@ -66,8 +66,6 @@ void ff_h264_idct_add16intra_c(uint8_t *dst, const int *blockoffset, DCTELEM *bl
 void ff_h264_idct8_add4_c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
 void ff_h264_idct_add8_c(uint8_t **dest, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
 
-void ff_vector_fmul_add_add_c(float *dst, const float *src0, const float *src1,
-                              const float *src2, int src3, int blocksize, int step);
 void ff_vector_fmul_window_c(float *dst, const float *src0, const float *src1,
                              const float *win, float add_bias, int len);
 void ff_float_to_int16_c(int16_t *dst, const float *src, long len);
@@ -385,7 +383,7 @@ typedef struct DSPContext {
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
     /* assume len is a multiple of 8, and src arrays are 16-byte aligned */
-    void (*vector_fmul_add_add)(float *dst, const float *src0, const float *src1, const float *src2, int src3, int len, int step);
+    void (*vector_fmul_add)(float *dst, const float *src0, const float *src1, const float *src2, int len);
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vector_fmul_window)(float *dst, const float *src0, const float *src1, const float *win, float add_bias, int len);
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
@@ -459,11 +457,6 @@ typedef struct DSPContext {
     void (*h264_idct8_add4)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
     void (*h264_idct_add8)(uint8_t **dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
     void (*h264_idct_add16intra)(uint8_t *dst/*align 16*/, const int *blockoffset, DCTELEM *block/*align 16*/, int stride, const uint8_t nnzc[6*8]);
-
-    /* snow wavelet */
-    void (*vertical_compose97i)(IDWTELEM *b0, IDWTELEM *b1, IDWTELEM *b2, IDWTELEM *b3, IDWTELEM *b4, IDWTELEM *b5, int width);
-    void (*horizontal_compose97i)(IDWTELEM *b, int width);
-    void (*inner_add_yblock)(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h, int src_x, int src_y, int src_stride, slice_buffer * sb, int add, uint8_t * dst8);
 
     void (*prefetch)(void *mem, int stride, int h);
 
@@ -573,20 +566,16 @@ static inline int get_penalty_factor(int lambda, int lambda2, int type){
 /* should be defined by architectures supporting
    one or more MultiMedia extension */
 int mm_support(void);
+extern int mm_flags;
 
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
 #define DECLARE_ALIGNED_16(t, v) DECLARE_ALIGNED(16, t, v)
+#define DECLARE_ALIGNED_8(t, v)  DECLARE_ALIGNED(8, t, v)
 
 #if HAVE_MMX
 
 #undef emms_c
-
-extern int mm_flags;
-
-void add_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size);
-void put_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size);
-void put_signed_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size);
 
 static inline void emms(void)
 {
@@ -604,17 +593,11 @@ static inline void emms(void)
         emms();\
 }
 
-void dsputil_init_pix_mmx(DSPContext* c, AVCodecContext *avctx);
-
 #else
 
 #define mm_flags 0
 #define mm_support() 0
 
-#endif
-
-#ifndef DECLARE_ALIGNED_8
-#   define DECLARE_ALIGNED_8(t, v) DECLARE_ALIGNED(8, t, v)
 #endif
 
 #ifndef STRIDE_ALIGN
@@ -632,8 +615,6 @@ void get_psnr(uint8_t *orig_image[3], uint8_t *coded_image[3],
    FFTSample type */
 typedef float FFTSample;
 
-struct MDCTContext;
-
 typedef struct FFTComplex {
     FFTSample re, im;
 } FFTComplex;
@@ -645,13 +626,23 @@ typedef struct FFTContext {
     FFTComplex *exptab;
     FFTComplex *exptab1; /* only used by SSE code */
     FFTComplex *tmp_buf;
+    int mdct_size; /* size of MDCT (i.e. number of input data * 2) */
+    int mdct_bits; /* n = 2^nbits */
+    /* pre/post rotation tables */
+    FFTSample *tcos;
+    FFTSample *tsin;
     void (*fft_permute)(struct FFTContext *s, FFTComplex *z);
     void (*fft_calc)(struct FFTContext *s, FFTComplex *z);
-    void (*imdct_calc)(struct MDCTContext *s, FFTSample *output, const FFTSample *input);
-    void (*imdct_half)(struct MDCTContext *s, FFTSample *output, const FFTSample *input);
+    void (*imdct_calc)(struct FFTContext *s, FFTSample *output, const FFTSample *input);
+    void (*imdct_half)(struct FFTContext *s, FFTSample *output, const FFTSample *input);
+    void (*mdct_calc)(struct FFTContext *s, FFTSample *output, const FFTSample *input);
+    int split_radix;
+    int permutation;
+#define FF_MDCT_PERM_NONE       0
+#define FF_MDCT_PERM_INTERLEAVE 1
 } FFTContext;
 
-extern FFTSample* ff_cos_tabs[13];
+extern FFTSample* const ff_cos_tabs[13];
 
 /**
  * Sets up a complex FFT.
@@ -660,12 +651,7 @@ extern FFTSample* ff_cos_tabs[13];
  */
 int ff_fft_init(FFTContext *s, int nbits, int inverse);
 void ff_fft_permute_c(FFTContext *s, FFTComplex *z);
-void ff_fft_permute_sse(FFTContext *s, FFTComplex *z);
 void ff_fft_calc_c(FFTContext *s, FFTComplex *z);
-void ff_fft_calc_sse(FFTContext *s, FFTComplex *z);
-void ff_fft_calc_3dn(FFTContext *s, FFTComplex *z);
-void ff_fft_calc_3dn2(FFTContext *s, FFTComplex *z);
-void ff_fft_calc_altivec(FFTContext *s, FFTComplex *z);
 
 /**
  * Do the permutation needed BEFORE calling ff_fft_calc().
@@ -686,22 +672,19 @@ void ff_fft_end(FFTContext *s);
 
 /* MDCT computation */
 
-typedef struct MDCTContext {
-    int n;  /* size of MDCT (i.e. number of input data * 2) */
-    int nbits; /* n = 2^nbits */
-    /* pre/post rotation tables */
-    FFTSample *tcos;
-    FFTSample *tsin;
-    FFTContext fft;
-} MDCTContext;
-
-static inline void ff_imdct_calc(MDCTContext *s, FFTSample *output, const FFTSample *input)
+static inline void ff_imdct_calc(FFTContext *s, FFTSample *output, const FFTSample *input)
 {
-    s->fft.imdct_calc(s, output, input);
+    s->imdct_calc(s, output, input);
 }
-static inline void ff_imdct_half(MDCTContext *s, FFTSample *output, const FFTSample *input)
+static inline void ff_imdct_half(FFTContext *s, FFTSample *output, const FFTSample *input)
 {
-    s->fft.imdct_half(s, output, input);
+    s->imdct_half(s, output, input);
+}
+
+static inline void ff_mdct_calc(FFTContext *s, FFTSample *output,
+                                const FFTSample *input)
+{
+    s->mdct_calc(s, output, input);
 }
 
 /**
@@ -718,25 +701,21 @@ void ff_kbd_window_init(float *window, float alpha, int n);
  * @param   n       size of half window
  */
 void ff_sine_window_init(float *window, int n);
+extern float ff_sine_32  [  32];
+extern float ff_sine_64  [  64];
 extern float ff_sine_128 [ 128];
 extern float ff_sine_256 [ 256];
 extern float ff_sine_512 [ 512];
 extern float ff_sine_1024[1024];
 extern float ff_sine_2048[2048];
 extern float ff_sine_4096[4096];
-extern float *ff_sine_windows[6];
+extern float * const ff_sine_windows[13];
 
-int ff_mdct_init(MDCTContext *s, int nbits, int inverse, double scale);
-void ff_imdct_calc_c(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_half_c(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_calc_3dn(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_half_3dn(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_calc_3dn2(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_half_3dn2(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_calc_sse(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_imdct_half_sse(MDCTContext *s, FFTSample *output, const FFTSample *input);
-void ff_mdct_calc(MDCTContext *s, FFTSample *out, const FFTSample *input);
-void ff_mdct_end(MDCTContext *s);
+int ff_mdct_init(FFTContext *s, int nbits, int inverse, double scale);
+void ff_imdct_calc_c(FFTContext *s, FFTSample *output, const FFTSample *input);
+void ff_imdct_half_c(FFTContext *s, FFTSample *output, const FFTSample *input);
+void ff_mdct_calc_c(FFTContext *s, FFTSample *output, const FFTSample *input);
+void ff_mdct_end(FFTContext *s);
 
 /* Real Discrete Fourier Transform */
 

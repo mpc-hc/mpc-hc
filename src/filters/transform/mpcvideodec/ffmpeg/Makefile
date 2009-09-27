@@ -126,6 +126,7 @@ SRCS_C+=\
 
 ifneq ($(64BIT),yes)
 SRCS_C+=\
+      $(LAVC_DIR)/x86/fft.c \
       $(LAVC_DIR)/x86/fft_3dn.c \
       $(LAVC_DIR)/x86/fft_3dn2.c \
       $(LAVC_DIR)/x86/fft_sse.c

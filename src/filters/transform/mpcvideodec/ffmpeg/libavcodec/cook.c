@@ -135,7 +135,7 @@ typedef struct cook {
     AVLFG               random_state;
 
     /* transform data */
-    MDCTContext         mdct_ctx;
+    FFTContext          mdct_ctx;
     float*              mlt_window;
 
     /* VLC data */
@@ -226,7 +226,7 @@ static av_cold int init_cook_mlt(COOKContext *q) {
         q->mlt_window[j] *= sqrt(2.0 / q->samples_per_channel);
 
     /* Initialize the MDCT. */
-    if (ff_mdct_init(&q->mdct_ctx, av_log2(mlt_size)+1, 1)) {
+    if (ff_mdct_init(&q->mdct_ctx, av_log2(mlt_size)+1, 1, 1.0)) {
       av_free(q->mlt_window);
       return -1;
     }
@@ -1080,9 +1080,10 @@ static av_cold int cook_decode_init(AVCodecContext *avctx)
                 av_log(avctx,AV_LOG_DEBUG,"MONO\n");
                 break;
             case STEREO:
-                if (q->nb_channels != 1)
+                if (q->nb_channels != 1) {
                     q->subpacket[s].bits_per_subpdiv = 1;
-                q->subpacket[s].num_channels = 2;
+                    q->subpacket[s].num_channels = 2;
+                }
                 av_log(avctx,AV_LOG_DEBUG,"STEREO\n");
                 break;
             case JOINT_STEREO:

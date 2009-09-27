@@ -27,7 +27,6 @@
 #include "msmpeg4data.h"
 #include "intrax8huf.h"
 #include "intrax8.h"
-#include <windows.h> // MPC-HC Patch
 
 #define MAX_TABLE_DEPTH(table_bits, max_bits) ((max_bits+table_bits-1)/table_bits)
 
@@ -43,19 +42,32 @@ static VLC j_ac_vlc[2][2][8];  //[quant<13],[intra/inter],[select]
 static VLC j_dc_vlc[2][8];     //[quant], [select]
 static VLC j_orient_vlc[2][4]; //[quant], [select]
 
-// MPC-HC Patch Begin
-static long s_num_memory_refs = 0;
-// MPC-HC Patch End
-
 static av_cold void x8_vlc_init(void){
     int i;
+    int offset = 0;
+    int sizeidx = 0;
+    static const uint16_t sizes[8*4 + 8*2 + 2 + 4] = {
+        576, 548, 582, 618, 546, 616, 560, 642,
+        584, 582, 704, 664, 512, 544, 656, 640,
+        512, 648, 582, 566, 532, 614, 596, 648,
+        586, 552, 584, 590, 544, 578, 584, 624,
+
+        528, 528, 526, 528, 536, 528, 526, 544,
+        544, 512, 512, 528, 528, 544, 512, 544,
+
+        128, 128, 128, 128, 128, 128};
+
+    static VLC_TYPE table[28150][2];
 
 #define  init_ac_vlc(dst,src) \
+    dst.table = &table[offset]; \
+    dst.table_allocated = sizes[sizeidx]; \
+    offset += sizes[sizeidx++]; \
        init_vlc(&dst, \
               AC_VLC_BITS,77, \
               &src[1],4,2, \
               &src[0],4,2, \
-              INIT_VLC_USE_STATIC)
+              INIT_VLC_USE_NEW_STATIC)
 //set ac tables
     for(i=0;i<8;i++){
         init_ac_vlc( j_ac_vlc[0][0][i], x8_ac0_highquant_table[i][0] );
@@ -67,11 +79,14 @@ static av_cold void x8_vlc_init(void){
 
 //set dc tables
 #define init_dc_vlc(dst,src) \
+    dst.table = &table[offset]; \
+    dst.table_allocated = sizes[sizeidx]; \
+    offset += sizes[sizeidx++]; \
         init_vlc(&dst, \
         DC_VLC_BITS,34, \
         &src[1],4,2, \
         &src[0],4,2, \
-        INIT_VLC_USE_STATIC);
+        INIT_VLC_USE_NEW_STATIC);
     for(i=0;i<8;i++){
         init_dc_vlc( j_dc_vlc[0][i], x8_dc_highquant_table[i][0]);
         init_dc_vlc( j_dc_vlc[1][i], x8_dc_lowquant_table [i][0]);
@@ -80,17 +95,22 @@ static av_cold void x8_vlc_init(void){
 
 //set orient tables
 #define init_or_vlc(dst,src) \
+    dst.table = &table[offset]; \
+    dst.table_allocated = sizes[sizeidx]; \
+    offset += sizes[sizeidx++]; \
     init_vlc(&dst, \
     OR_VLC_BITS,12, \
     &src[1],4,2, \
     &src[0],4,2, \
-    INIT_VLC_USE_STATIC);
+    INIT_VLC_USE_NEW_STATIC);
     for(i=0;i<2;i++){
         init_or_vlc( j_orient_vlc[0][i], x8_orient_highquant_table[i][0]);
     }
     for(i=0;i<4;i++){
         init_or_vlc( j_orient_vlc[1][i], x8_orient_lowquant_table [i][0])
     }
+    if (offset != sizeof(table)/sizeof(VLC_TYPE)/2)
+        av_log(NULL, AV_LOG_ERROR, "table size %i does not match needed %i\n", (int)(sizeof(table)/sizeof(VLC_TYPE)/2), offset);
 }
 #undef init_or_vlc
 
@@ -671,10 +691,6 @@ static void x8_init_block_index(MpegEncContext *s){ //FIXME maybe merge with ff_
  */
 av_cold void ff_intrax8_common_init(IntraX8Context * w, MpegEncContext * const s){
 
-	// MPC-HC Patch Begin
-	InterlockedIncrement(&s_num_memory_refs);
-	// MPC-HC Patch End
-
     w->s=s;
     x8_vlc_init();
     assert(s->mb_width>0);
@@ -692,34 +708,6 @@ av_cold void ff_intrax8_common_init(IntraX8Context * w, MpegEncContext * const s
 av_cold void ff_intrax8_common_end(IntraX8Context * w)
 {
     av_freep(&w->prediction_table);
-
-	// MPC-HC Patch Begin
-	if (InterlockedDecrement(&s_num_memory_refs) == 0)
-	{
-		int i;
-
-		// x8_vlc_init
-		// free ac tables
-		for (i = 0; i < 8; i++) {
-			free_vlc( &j_ac_vlc[0][0][i] );
-			free_vlc( &j_ac_vlc[0][1][i] );
-			free_vlc( &j_ac_vlc[1][0][i] );
-			free_vlc( &j_ac_vlc[1][1][i] );
-		}
-		// free dc tables
-		for (i = 0; i < 8; i++) {
-			free_vlc( &j_dc_vlc[0][i] );
-			free_vlc( &j_dc_vlc[1][i] );
-		}
-		// free orient tables
-		for (i = 0; i < 2; i++) {
-			free_vlc( &j_orient_vlc[0][i] );
-		}
-		for (i = 0; i < 4; i++) {
-			free_vlc( &j_orient_vlc[1][i] );
-		}
-	}
-	// MPC-HC Patch End
 }
 
 /**

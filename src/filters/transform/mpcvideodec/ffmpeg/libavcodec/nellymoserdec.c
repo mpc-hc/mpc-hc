@@ -54,7 +54,7 @@ typedef struct NellyMoserDecodeContext {
     int             add_bias;
     float           scale_bias;
     DSPContext      dsp;
-    MDCTContext     imdct_ctx;
+    FFTContext      imdct_ctx;
     DECLARE_ALIGNED_16(float,imdct_out[NELLY_BUF_LEN * 2]);
 } NellyMoserDecodeContext;
 

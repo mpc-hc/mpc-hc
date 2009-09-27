@@ -468,21 +468,21 @@ int attribute_align_arg avcodec_open(AVCodecContext *avctx, AVCodec *codec)
     else if(avctx->width && avctx->height)
         avcodec_set_dimensions(avctx, avctx->width, avctx->height);
 
-    if((avctx->coded_width||avctx->coded_height) && avcodec_check_dimensions(avctx,avctx->coded_width,avctx->coded_height)){
-        av_freep(&avctx->priv_data);
+#define SANE_NB_CHANNELS 128U
+    if (((avctx->coded_width || avctx->coded_height)
+        && avcodec_check_dimensions(avctx, avctx->coded_width, avctx->coded_height))
+        || avctx->channels > SANE_NB_CHANNELS) {
         ret = AVERROR(EINVAL);
-        goto end;
+        goto free_and_end;
     }
 
     avctx->codec = codec;
-    avctx->codec_id = codec->id;
+    avctx->codec_id = codec->id; /* ffdshow custom code */
     avctx->frame_number = 0;
     if(avctx->codec->init){
         ret = avctx->codec->init(avctx);
         if (ret < 0) {
-            av_freep(&avctx->priv_data);
-            avctx->codec= NULL;
-            goto end;
+            goto free_and_end;
         }
     }
     ret=0;
@@ -494,6 +494,10 @@ end:
         (*ff_lockmgr_cb)(&codec_mutex, AV_LOCK_RELEASE);
     }
     return ret;
+free_and_end:
+    av_freep(&avctx->priv_data);
+    avctx->codec= NULL;
+    goto end;
 }
 
 int attribute_align_arg avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
