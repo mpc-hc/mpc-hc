@@ -3792,14 +3792,16 @@ void CMainFrame::OnFileOpendvd()
 	if(iil = SHBrowseForFolder(&bi))
 	{
 		CHdmvClipInfo		ClipInfo;
-		CAtlList<CString>	MainPlaylist;
+		CString				strPlaylistFile;
+		CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
 		SHGetPathFromIDList(iil, path);
 		s.sDVDPath = path;
 
-		if (SUCCEEDED (ClipInfo.FindMainMovie (path, MainPlaylist)))
+		if (SUCCEEDED (ClipInfo.FindMainMovie (path, strPlaylistFile, MainPlaylist)))
 		{
-			m_wndPlaylistBar.Open(MainPlaylist, MainPlaylist.GetCount()>1);
-			OpenCurPlaylistItem();
+			CAutoPtr<OpenFileData> p(DNew OpenFileData());
+			p->fns.AddTail(strPlaylistFile);
+			OpenMedia(p);
 		}
 		else
 		{

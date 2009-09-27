@@ -339,15 +339,19 @@ static CString CombinePath(CPath p, CString fn)
 
 bool CPlayerPlaylistBar::ParseBDMVPlayList(CString fn)
 {
-	CHdmvClipInfo ClipInfo;
-	CAtlList<CString>	MainPlaylist;
+	CHdmvClipInfo		ClipInfo;
+	CString				strPlaylistFile;
+	CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
 
 	CPath Path(fn);
 	Path.RemoveFileSpec();
+	Path.RemoveFileSpec();
 
-	if (SUCCEEDED (ClipInfo.FindMainMovie (Path + L"\\", MainPlaylist)))
+	if (SUCCEEDED (ClipInfo.FindMainMovie (Path + L"\\", strPlaylistFile, MainPlaylist)))
 	{
-		Append(MainPlaylist, MainPlaylist.GetCount()>1, NULL);
+		CAtlList<CString>		strFiles;
+		strFiles.AddHead (strPlaylistFile);
+		Append(strFiles, MainPlaylist.GetCount()>1, NULL);
 	}
 
 	return m_pl.GetCount() > 0;

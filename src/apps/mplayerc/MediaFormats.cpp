@@ -188,7 +188,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),   _T("wma"), true));
 		ADDFMT((ResStr(IDS_AG_VIDEO_FILE),    _T("avi")));
 		ADDFMT((ResStr(IDS_AG_AUDIO_FILE),    _T("wav"), true));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),   _T("mpg mpeg mpe m1v m2v mpv2 mp2v ts tp tpr pva m2ts m2t mts evo m2p")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),   _T("mpg mpeg mpe m1v m2v mpv2 mp2v ts tp tpr pva m2ts m2t mts evo m2p mpls")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_5),   _T("mpa mp2 m1a m2a"), true));
 		ADDFMT((ResStr(IDS_AG_DVD_FILE),      _T("vob ifo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_7),   _T("ac3 dts"), true));

@@ -94,7 +94,7 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 [CustomMessages]
 en.Save_set_mpc=Keep previous settings
 br.Save_set_mpc=Manter ajustes anteriores
-by.Save_set_mpc=Keep previous settings
+by.Save_set_mpc=Захаваць папярэднiя налады
 cz.Save_set_mpc=Zachovat původní nastavení
 de.Save_set_mpc=Die vorherigen Einstellungen behalten
 es.Save_set_mpc=Keep previous settings
@@ -174,4 +174,5 @@ begin
     // rename binary from previous installer
     renamefile (ExpandConstant('{app}\' + 'mplayerc64.exe'), ExpandConstant('{app}\' + 'mplayerc64.exe.bak'));
 end;
+
 

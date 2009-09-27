@@ -36,6 +36,7 @@
 CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen, bool fRandomAccess, bool fStreaming)
 	: CBaseSplitterFile(pReader, hr, cachelen, fRandomAccess, fStreaming)
 	, m_tslen(0)
+	,m_rtPTSOffset(0)
 {
 }
 
@@ -206,7 +207,7 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		h.pts |= BitRead(3) << 30; MARKER; // 32..30
 		h.pts |= BitRead(15) << 15; MARKER; // 29..15
 		h.pts |= BitRead(15); MARKER; // 14..0
-		h.pts = 10000*h.pts/90;
+		h.pts = 10000*h.pts/90 + m_rtPTSOffset;
 	}
 
 	if(h.fdts)
@@ -217,7 +218,7 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 		h.dts |= BitRead(3) << 30; MARKER; // 32..30
 		h.dts |= BitRead(15) << 15; MARKER; // 29..15
 		h.dts |= BitRead(15); MARKER; // 14..0
-		h.dts = 10000*h.dts/90;
+		h.dts = 10000*h.dts/90 + m_rtPTSOffset;
 	}
 
 	// skip to the end of header
@@ -1088,7 +1089,7 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 
 	if(h.streamid == 1 && h.fpts)
 	{
-		h.pts = 10000*BitRead(32)/90;
+		h.pts = 10000*BitRead(32)/90 + m_rtPTSOffset;
 	}
 	else if(h.streamid == 2 && (h.fpts || (BitRead(32, true)&0xffffffe0) == 0x000001c0))
 	{

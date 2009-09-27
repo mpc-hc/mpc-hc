@@ -177,7 +177,12 @@ AVCodec libamr_nb_decoder = {
     NULL,
     amr_nb_decode_close,
     amr_nb_decode_frame,
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
 };
 
 static av_cold int amr_nb_encode_init(AVCodecContext *avctx)
@@ -251,8 +256,10 @@ AVCodec libamr_nb_encoder = {
     amr_nb_encode_frame,
     amr_nb_encode_close,
     NULL,
-    .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
+#ifdef __GNUC__
+	.sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
     .long_name = NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
+#endif
 };
 
 #endif
@@ -372,8 +379,10 @@ AVCodec libamr_wb_encoder = {
     amr_wb_encode_frame,
     amr_wb_encode_close,
     NULL,
+#ifdef __GNUC__
     .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
     .long_name = NULL_IF_CONFIG_SMALL("libamr-wb Adaptive Multi-Rate (AMR) Wide-Band"),
+#endif
 };
 
 #endif
@@ -440,7 +449,12 @@ AVCodec libamr_wb_decoder = {
     NULL,
     amr_wb_decode_close,
     amr_wb_decode_frame,
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-wb Adaptive Multi-Rate (AMR) Wide-Band"),
+    /*.capabilities = */0,
+    /*.next = */NULL,
+    /*.flush = */NULL,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("libamr-wb Adaptive Multi-Rate (AMR) Wide-Band"),
 };
 
 #endif //CONFIG_LIBAMR_WB

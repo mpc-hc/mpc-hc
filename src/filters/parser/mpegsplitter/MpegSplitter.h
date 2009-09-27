@@ -34,10 +34,12 @@ class CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
 protected:
 	CAutoPtr<CMpegSplitterFile> m_pFile;
 	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
+	void	ReadClipInfo(LPCOLESTR pszFileName);
 
 	bool DemuxInit();
 	void DemuxSeek(REFERENCE_TIME rt);
 	bool DemuxLoop();
+	bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& files);
 
 	HRESULT DemuxNextPacket(REFERENCE_TIME rtStartOffset);
 

@@ -31,39 +31,50 @@ CMultiFiles::CMultiFiles()
 		   : m_hFile(INVALID_HANDLE_VALUE)
 		   , m_llTotalLength(0)
 		   , m_nCurPart(-1)
+		   , m_pCurrentPTSOffset(NULL)
 {
 }
 
-
-BOOL CMultiFiles::Open(LPCTSTR lpszFileName, UINT nOpenFlags)
+void CMultiFiles::Reset()
 {
 	m_strFiles.RemoveAll();
 	m_FilesSize.RemoveAll();
+	m_rtPtsOffsets.RemoveAll();
+	m_llTotalLength = 0;
+}
+
+BOOL CMultiFiles::Open(LPCTSTR lpszFileName, UINT nOpenFlags)
+{
+	Reset();
 	m_strFiles.Add (lpszFileName);
 
 	return OpenPart(0);
 }
 
-BOOL CMultiFiles::OpenFiles(CAtlList<CString>& files, UINT nOpenFlags)
+BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT nOpenFlags)
 {
-	POSITION		pos = files.GetTailPosition();
+	POSITION		pos = files.GetHeadPosition();
 	LARGE_INTEGER	llSize;
+	int				nPos  = 0;
+	REFERENCE_TIME	rtDur = 0;
 
-	m_llTotalLength = 0;
-	m_strFiles.RemoveAll();
-	m_FilesSize.RemoveAll();
+	Reset();
 	while(pos)
 	{
-		CStringW& s = files.GetPrev(pos);
-		m_strFiles.InsertAt(0, s);
-		if (!OpenPart(0)) return false;
+		CHdmvClipInfo::PlaylistItem& s = files.GetNext(pos);
+		m_strFiles.Add(s.m_strFileName);
+		if (!OpenPart(nPos)) return false;
 
 		llSize.QuadPart = 0;
 		GetFileSizeEx (m_hFile, &llSize);
 		m_llTotalLength += llSize.QuadPart;
-		m_FilesSize.InsertAt (0, llSize.QuadPart);
-		ClosePart();
+		m_FilesSize.Add (llSize.QuadPart);
+		m_rtPtsOffsets.Add (rtDur);
+		rtDur += s.Duration();
+		nPos++;
 	}
+
+	if (files.GetCount() > 1) ClosePart();
 	
 	return TRUE;
 }
@@ -152,9 +163,7 @@ UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 void CMultiFiles::Close()
 {
 	ClosePart();
-	m_strFiles.RemoveAll();
-	m_FilesSize.RemoveAll();
-	m_llTotalLength	= 0;
+	Reset();
 }
 
 CMultiFiles::~CMultiFiles()
@@ -176,7 +185,10 @@ BOOL CMultiFiles::OpenPart(int nPart)
 		m_hFile		= CreateFile (fn, GENERIC_READ, FILE_SHARE_DELETE|FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
 		if (m_hFile != INVALID_HANDLE_VALUE)
+		{
 			m_nCurPart	= nPart;
+			if (m_pCurrentPTSOffset != NULL) *m_pCurrentPTSOffset = m_rtPtsOffsets[nPart];
+		}
 
 		return (m_hFile != INVALID_HANDLE_VALUE);
 	}

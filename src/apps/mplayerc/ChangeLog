@@ -1,5 +1,6 @@
 v1.x.x.x - unreleased
 ======================
+ NEW    : Seamless playback support for multi files BRD
  CHANGED: LibPNG updated to release 1.2.4
  FIXED  : Name of MPC HC in title bar (Bug #2826963)
 

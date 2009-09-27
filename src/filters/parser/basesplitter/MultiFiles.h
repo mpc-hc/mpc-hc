@@ -24,6 +24,7 @@
 
 //#include <atlbase.h>
 #include <atlcoll.h>
+#include "..\..\..\DSUtil\DSUtil.h"
 
 class CMultiFiles : public CObject
 {
@@ -70,7 +71,7 @@ public:
 
 // Operations
 	virtual BOOL Open(LPCTSTR lpszFileName, UINT nOpenFlags);
-	virtual BOOL OpenFiles(CAtlList<CString>& files, UINT nOpenFlags);
+	virtual BOOL OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT nOpenFlags);
 
 
 	virtual ULONGLONG Seek(LONGLONG lOff, UINT nFrom);
@@ -84,13 +85,16 @@ public:
 	virtual ~CMultiFiles();
 
 protected:
-	CAtlArray<CString>		m_strFiles;
-	CAtlArray<ULONGLONG>	m_FilesSize;
-	HANDLE					m_hFile;
-	int						m_nCurPart;
-	ULONGLONG				m_llTotalLength;
+	REFERENCE_TIME*				m_pCurrentPTSOffset;
+	CAtlArray<CString>			m_strFiles;
+	CAtlArray<ULONGLONG>		m_FilesSize;
+	CAtlArray<REFERENCE_TIME>	m_rtPtsOffsets;
+	HANDLE						m_hFile;
+	int							m_nCurPart;
+	ULONGLONG					m_llTotalLength;
 
-	BOOL					OpenPart(int nPart);
-	void					ClosePart();
-	ULONGLONG				GetAbsolutePosition(LONGLONG lOff, UINT nFrom);
+	BOOL						OpenPart(int nPart);
+	void						ClosePart();
+	ULONGLONG					GetAbsolutePosition(LONGLONG lOff, UINT nFrom);
+	void						Reset();
 };

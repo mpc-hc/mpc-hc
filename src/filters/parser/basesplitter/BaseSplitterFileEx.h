@@ -27,6 +27,9 @@ class CBaseSplitterFileEx : public CBaseSplitterFile
 {
 	int m_tslen; // transport stream packet length (188 or 192 bytes, auto-detected)
 
+protected :
+	REFERENCE_TIME m_rtPTSOffset;
+
 public:
 	CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int cachelen = DEFAULT_CACHE_LENGTH, bool fRandomAccess = true, bool fStreaming = false);
 	virtual ~CBaseSplitterFileEx();

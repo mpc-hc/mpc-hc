@@ -267,6 +267,7 @@ protected:
 	virtual bool DemuxInit() = 0;
 	virtual void DemuxSeek(REFERENCE_TIME rt) = 0;
 	virtual bool DemuxLoop() = 0;
+	virtual bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items) { return false; };
 
 public:
 	CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid);
