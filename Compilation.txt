@@ -74,3 +74,4 @@ You need to add the locations of the DirectX SDK directories to the settings in 
 3) Repeat the step 2 for the x64 platform.
 4) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
 5) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
+ 
