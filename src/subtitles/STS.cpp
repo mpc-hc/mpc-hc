@@ -2919,7 +2919,7 @@ void STSStyle::SetDefault()
 	fBlur = 0;
 	fGaussianBlur = 0;
 	fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
-	relativeTo = 1;
+	relativeTo = 2;
 }
 
 bool STSStyle::operator == (STSStyle& s)
