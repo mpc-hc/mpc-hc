@@ -22,9 +22,7 @@
 #ifndef AVCODEC_FAANIDCT_H
 #define AVCODEC_FAANIDCT_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "dsputil.h"
 
 void ff_faanidct(DCTELEM block[64]);

@@ -31,9 +31,7 @@
 #endif
 
 #include <limits.h>
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include <stddef.h>
 #include <assert.h>
 #include "config.h"

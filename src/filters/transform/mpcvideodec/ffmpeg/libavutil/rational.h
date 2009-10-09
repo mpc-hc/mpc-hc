@@ -28,9 +28,7 @@
 #ifndef AVUTIL_RATIONAL_H
 #define AVUTIL_RATIONAL_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "common.h"
 
 /**

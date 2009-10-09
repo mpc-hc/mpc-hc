@@ -21,9 +21,7 @@
 #ifndef AVUTIL_CRC_H
 #define AVUTIL_CRC_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include <stddef.h>
 #include "common.h"
 

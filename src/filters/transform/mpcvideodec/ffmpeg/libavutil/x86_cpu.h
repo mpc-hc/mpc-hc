@@ -21,9 +21,7 @@
 #ifndef AVUTIL_X86_CPU_H
 #define AVUTIL_X86_CPU_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "config.h"
 
 #if ARCH_X86_64

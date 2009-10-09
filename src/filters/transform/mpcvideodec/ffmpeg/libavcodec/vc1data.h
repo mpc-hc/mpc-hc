@@ -28,9 +28,7 @@
 #ifndef AVCODEC_VC1DATA_H
 #define AVCODEC_VC1DATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "libavutil/rational.h"
 #include "get_bits.h"
 

@@ -28,10 +28,8 @@
  * ratecontrol header.
  */
 
-#ifdef __GNUC__
 #include <stdio.h>
 #include <stdint.h>
-#endif
 #include "eval.h"
 
 typedef struct Predictor{

@@ -22,9 +22,7 @@
 #ifndef AVCODEC_VC1ACDATA_H
 #define AVCODEC_VC1ACDATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #define AC_MODES 8
 

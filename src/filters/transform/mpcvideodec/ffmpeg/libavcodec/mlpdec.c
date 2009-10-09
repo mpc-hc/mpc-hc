@@ -24,9 +24,7 @@
  * MLP decoder
  */
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #include "avcodec.h"
 #include "dsputil.h"

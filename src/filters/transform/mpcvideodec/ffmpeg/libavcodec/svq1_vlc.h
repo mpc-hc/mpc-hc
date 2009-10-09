@@ -21,9 +21,7 @@
 #ifndef AVCODEC_SVQ1_VLC_H
 #define AVCODEC_SVQ1_VLC_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 /* values in this table range from 0..3; adjust retrieved value by +0 */
 const uint8_t ff_svq1_block_type_vlc[4][2] = {

@@ -22,10 +22,7 @@
 #ifndef AVCODEC_MLP_H
 #define AVCODEC_MLP_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
-
 #include "avcodec.h"
 
 /** Last possible matrix channel for each codec */

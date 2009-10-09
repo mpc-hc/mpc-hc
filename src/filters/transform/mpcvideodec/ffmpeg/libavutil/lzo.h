@@ -22,9 +22,7 @@
 #ifndef AVUTIL_LZO_H
 #define AVUTIL_LZO_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 /** \defgroup errflags Error flags returned by av_lzo1x_decode
   * \{ */

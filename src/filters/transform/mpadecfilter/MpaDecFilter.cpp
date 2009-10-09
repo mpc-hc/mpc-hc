@@ -2138,7 +2138,6 @@ bool vorbis_state_t::init(const CMediaType& mt)
 	return true;
 }
 
-
 #pragma region Flac callback
 
 void CMpaDecFilter::FlacFillBuffer(BYTE buffer[], size_t *bytes)
@@ -2258,12 +2257,9 @@ void CMpaDecFilter::flac_stream_finish()
 	}
 }
 
-
 #pragma endregion
 
 #pragma region Ffmpeg decoder
-
-
 
 // Version 1 : using av_parser_parse !
 #if 0
@@ -2431,7 +2427,6 @@ HRESULT CMpaDecFilter::DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 				for(int ch=0; ch<m_pAVCtx->channels; ch++)
 				{
 					*pDataOut = (float)((int32_t*)m_pPCMData) [scmap->ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
-//						*pDataOut = (float)((int32_t*)m_pPCMData) [ch+i*m_pAVCtx->channels] / INT_MAX;
 					pDataOut++;
 				}
 			}

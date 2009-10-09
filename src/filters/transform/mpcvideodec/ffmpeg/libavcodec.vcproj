@@ -1079,6 +1079,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\include\inttypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mathops.h"
 				>
 			</File>
@@ -1180,6 +1184,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\amrnb\sp_enc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\include\stdint.h"
 				>
 			</File>
 			<File

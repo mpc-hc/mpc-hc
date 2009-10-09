@@ -24,9 +24,7 @@
  * MLP parser
  */
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 #include "libavutil/crc.h"
 #include "get_bits.h"

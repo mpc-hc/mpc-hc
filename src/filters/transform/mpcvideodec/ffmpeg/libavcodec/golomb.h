@@ -34,9 +34,7 @@
 extern "C" {
 #endif
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "get_bits.h"
 #include "put_bits.h"
 

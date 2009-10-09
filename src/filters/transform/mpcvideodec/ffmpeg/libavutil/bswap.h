@@ -26,9 +26,7 @@
 #ifndef AVUTIL_BSWAP_H
 #define AVUTIL_BSWAP_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "config.h"
 #include "common.h"
 

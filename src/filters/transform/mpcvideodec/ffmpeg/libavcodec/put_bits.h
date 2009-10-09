@@ -26,9 +26,7 @@
 #ifndef AVCODEC_PUT_BITS_H
 #define AVCODEC_PUT_BITS_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include <stdlib.h>
 #include <assert.h>
 #include "libavutil/bswap.h"

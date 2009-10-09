@@ -23,9 +23,7 @@
 #ifndef AVCODEC_AAC_AC3_PARSER_H
 #define AVCODEC_AAC_AC3_PARSER_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "avcodec.h"
 #include "parser.h"
 

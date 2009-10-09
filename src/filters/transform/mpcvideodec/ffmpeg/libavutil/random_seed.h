@@ -21,11 +21,8 @@
 #ifndef AVUTIL_RANDOM_SEED_H
 #define AVUTIL_RANDOM_SEED_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#else
-#include "inttypes.h"
-#endif
+#include <inttypes.h>
 
 /**
  * Gets a seed to use in conjunction with random functions.

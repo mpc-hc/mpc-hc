@@ -21,9 +21,7 @@
 #ifndef AVUTIL_MATHEMATICS_H
 #define AVUTIL_MATHEMATICS_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include <math.h>
 #include "common.h"
 #include "rational.h"
