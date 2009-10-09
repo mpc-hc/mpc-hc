@@ -33,7 +33,7 @@
 #include <Endpointvolume.h>
 
 
-#include "SoundTouch.h"
+#include "SoundTouch\Include\SoundTouch.h"
 
 [uuid("601D2A2B-9CDE-40bd-8650-0485E3522727")]
 class CMpcAudioRenderer : public CBaseRenderer
@@ -73,6 +73,8 @@ private:
 	HRESULT					CreateDSBuffer();
 	HRESULT					GetReferenceClockInterface(REFIID riid, void **ppv);
 	HRESULT					WriteSampleToDSBuffer(IMediaSample *pMediaSample, bool *looped);
+ HRESULT     GetDefaultAudioDevice(IAudioClient **ppAudioClient);
+ HRESULT     InitDevice(IAudioClient *pAudioClient, WAVEFORMATEX *pWaveFormatEx, IAudioRenderClient **ppRenderClient);
 
 	LPDIRECTSOUND8			m_pDS;
 	LPDIRECTSOUNDBUFFER		m_pDSBuffer;
@@ -81,7 +83,18 @@ private:
 	int						m_nDSBufSize;
 	CBaseReferenceClock*	m_pReferenceClock;
 	double					m_dRate;
+ soundtouch::SoundTouch*	m_pSoundTouch;
 
-	soundtouch::SoundTouch*	m_pSoundTouch;
+ // WASAPI
+ HRESULT	DoRenderSampleWasapi(IMediaSample *pMediaSample);
+
+ bool               useWASAPI;
+ IAudioClient       *pAudioClient;
+ IAudioRenderClient *pRenderClient;
+ //HANDLE             hEvent;
+ UINT32             bufferFrameCount;
+ REFERENCE_TIME     hnsRequestedDuration;
+ HANDLE             hTask;
+
 };
 

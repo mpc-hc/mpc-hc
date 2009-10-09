@@ -55,6 +55,7 @@ Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.tc.dll; DestDir: {
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\bin\x64\D3DX9_42.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
 ;Source: ..\src\apps\mplayerc\Build_x64\d3dx9_41.dll;       DestDir: {app}; Flags: ignoreversion 64bit
 
@@ -102,11 +103,11 @@ fr.Save_set_mpc=Conserver les réglages précédents
 hu.Save_set_mpc=Keep previous settings
 it.Save_set_mpc=Mantieni le impostazioni precedenti
 kr.Save_set_mpc=이전 설정 유지
-pl.Save_set_mpc=Zachowaj poprzednie ustawienia
+pl.Save_set_mpc=Zachowaj bieżące ustawienia programu
 pt.Save_set_mpc=Keep previous settings
-ru.Save_set_mpc=Keep previous settings
+ru.Save_set_mpc=Сохранять предыдущие настройки
 sc.Save_set_mpc=保持当前配置
-se.Save_set_mpc=Keep previous settings
+se.Save_set_mpc=Behåll tidigare inställningar
 sk.Save_set_mpc=Zachovať predchádzajúce nastavenia
 tc.Save_set_mpc=保留先前的設定
 tr.Save_set_mpc=Önceki ayarları kullan
