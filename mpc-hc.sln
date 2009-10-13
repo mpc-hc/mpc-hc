@@ -405,10 +405,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpcAudioRendererFilter", "src\filters\renderer\MpcAudioRenderer\MpcAudioRendererFilter.vcproj", "{D0620EF4-1313-40D5-9069-A82F6FE26994}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug Unicode|x64 = Debug Unicode|x64
@@ -919,11 +915,9 @@ Global
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|Win32.ActiveCfg = Debug Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|Win32.Build.0 = Debug Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|x64.ActiveCfg = Debug Unicode lib|x64
-		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|x64.Build.0 = Debug Unicode lib|x64
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|Win32.ActiveCfg = Release Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
-		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|x64.Build.0 = Release Unicode lib|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1003,5 +997,9 @@ Global
 		{61E6EB4D-2F1A-443B-94B0-E8200B26E99F} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{D0620EF4-1313-40D5-9069-A82F6FE26994} = {C0038E92-68BF-4491-B5AA-BEE9857A49F8}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

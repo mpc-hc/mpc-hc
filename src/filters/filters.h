@@ -51,5 +51,7 @@
 #include ".\parser\MP4Splitter\MP4Splitter.h"
 #include ".\parser\FLVSplitter\FLVSplitter.h"
 #include ".\parser\SSFSplitter\SSFSplitter.h"
-#include ".\renderer\MpcAudioRenderer\MpcAudioRenderer.h"
 
+#ifndef _WIN64
+#include ".\renderer\MpcAudioRenderer\MpcAudioRenderer.h"
+#endif
