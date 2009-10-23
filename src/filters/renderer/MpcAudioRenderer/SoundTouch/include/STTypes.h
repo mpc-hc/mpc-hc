@@ -87,7 +87,7 @@ namespace soundtouch
  
  #endif
 
-    #if (WIN32 || __i386__ || __x86_64__)
+    #if defined(WIN32) || defined(__i386__) || defined(__x86_64__)
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 
@@ -129,7 +129,7 @@ namespace soundtouch
 
         #ifdef ALLOW_X86_OPTIMIZATIONS
                 // Allow 3DNow! and SSE optimizations
-            #if WIN32
+            #if defined(WIN32)
                 #define ALLOW_3DNOW     1
             #endif
 

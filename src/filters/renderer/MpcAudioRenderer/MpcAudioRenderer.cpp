@@ -517,7 +517,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 	hr = m_pGraph->QueryInterface (__uuidof(IVideoWindow), (void**) &pVideoWindow);
 	if (SUCCEEDED (hr))
 	{
-		pVideoWindow->get_Owner((long*)&hWnd);
+		pVideoWindow->get_Owner((OAHWND*)&hWnd);
 		SAFE_RELEASE (pVideoWindow);
 	}
 	if (!hWnd) 

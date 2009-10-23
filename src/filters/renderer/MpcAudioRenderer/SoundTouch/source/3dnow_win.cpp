@@ -66,13 +66,15 @@
 #include "cpu_detect.h"
 #include "STTypes.h"
 
-#ifndef WIN32
-#error "wrong platform - this source code file is exclusively for Win32 platform"
-#endif
 
 using namespace soundtouch;
 
 #ifdef ALLOW_3DNOW
+
+#ifndef WIN32
+#error "wrong platform - this source code file is exclusively for Win32 platform"
+#endif
+
 // 3DNow! routines available only with float sample type    
 
 //////////////////////////////////////////////////////////////////////////////
