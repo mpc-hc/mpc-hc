@@ -557,7 +557,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -565,7 +564,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -613,7 +611,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -621,7 +618,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode lib|x64"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -726,6 +722,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
+				RelativePath=".\attributes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\DSUtil\csimd.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IMpeg2DecFilter.h"
 				>
 			</File>
@@ -743,6 +747,18 @@
 			</File>
 			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\DSUtil\simd.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\DSUtil\simd_common.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\DSUtil\simd_instructions.h"
 				>
 			</File>
 			<File

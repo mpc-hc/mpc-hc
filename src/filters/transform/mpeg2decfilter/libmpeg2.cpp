@@ -1957,9 +1957,6 @@ CMpeg2Decoder::CMpeg2Decoder()
 
 	m_mpeg1 = 0;
 
-//	//
-/**/
-#ifndef _WIN64
 	if(g_cpuid.m_flags&CCpuID::sse2)
 	{
 		m_idct_init = mpeg2_idct_init_sse2;
@@ -1967,6 +1964,7 @@ CMpeg2Decoder::CMpeg2Decoder()
 		m_idct_add = mpeg2_idct_add_sse2;
 		m_mc = &mpeg2_mc_sse2;
 	}
+#ifndef _WIN64
 	else if(g_cpuid.m_flags&CCpuID::mmx)
 	{
 		m_idct_init = mpeg2_idct_init_mmx;
