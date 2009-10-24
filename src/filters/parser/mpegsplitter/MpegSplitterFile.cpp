@@ -479,7 +479,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
 				if((type == unknown) && (pProgram != NULL))
 				{
-					ElementaryStreamTypes	StreamType = INVALID;
+					PES_STREAM_TYPE	StreamType = INVALID;
 					
 					Seek(pos);
 					StreamType = pProgram->streams[iProgram].type;
@@ -727,7 +727,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				len -= 5+ES_info_length;
 				while(ES_info_length-- > 0) BitRead(8);
 				pPair->m_value.streams[i].pid			= pid;
-				pPair->m_value.streams[i].type	= (ElementaryStreamTypes)stream_type;
+				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 			}
 		}
 	}

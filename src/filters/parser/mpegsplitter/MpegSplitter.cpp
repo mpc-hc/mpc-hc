@@ -689,7 +689,7 @@ bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
 	return DefaultFirst < DefaultSecond;
 }
 
-const wchar_t *StreamTypeToName(ElementaryStreamTypes _Type)
+const wchar_t *StreamTypeToName(PES_STREAM_TYPE _Type)
 {
 	switch (_Type)
 	{
@@ -721,7 +721,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 	if (pClipInfo)
 		pPresentationDesc = StreamTypeToName(pClipInfo->m_Type);
 	else
-		pPresentationDesc = StreamTypeToName((ElementaryStreamTypes)_PresentationType);
+		pPresentationDesc = StreamTypeToName((PES_STREAM_TYPE)_PresentationType);
 	CString MajorType;
 	CAtlList<CString> Infos;
 	if (_pMediaType->majortype == MEDIATYPE_Video)
@@ -1086,7 +1086,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 					const wchar_t *pStreamName = NULL;
 					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
-					pStreamName = StreamTypeToName((ElementaryStreamTypes)StreamType);
+					pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
 					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType);
 

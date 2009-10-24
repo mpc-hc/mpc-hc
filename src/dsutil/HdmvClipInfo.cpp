@@ -100,7 +100,7 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 			// == StreamCodingInfo
 			dwPos  = SetFilePointer(m_hFile, 0, NULL, FILE_CURRENT) + 1;
 			dwPos += ReadByte();	// length
-			m_Streams[iStream].m_Type	= (ElementaryStreamTypes)ReadByte();
+			m_Streams[iStream].m_Type	= (PES_STREAM_TYPE)ReadByte();
 			
 			switch (m_Streams[iStream].m_Type)
 			{

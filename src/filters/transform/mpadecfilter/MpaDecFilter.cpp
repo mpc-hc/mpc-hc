@@ -1823,6 +1823,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	CMediaType mt = m_pInput->CurrentMediaType();
 	const GUID& subtype = mt.subtype;
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
+	if (wfe == NULL) return E_INVALIDARG;
 
 	if(GetSpeakerConfig(ac3) < 0 && (subtype == MEDIASUBTYPE_DOLBY_AC3 || 
 									 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||

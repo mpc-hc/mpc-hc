@@ -115,8 +115,8 @@ public:
 		WORD					program_number;
 		struct stream
 		{
-			WORD					pid;
-			ElementaryStreamTypes	type;
+			WORD				pid;
+			PES_STREAM_TYPE		type;
 
 		};
 		stream streams[64];

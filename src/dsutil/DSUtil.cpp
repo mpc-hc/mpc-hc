@@ -339,6 +339,32 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
 	return NULL;
 }
 
+IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pRequestedMT)
+{
+	PIN_DIRECTION	pindir;
+	BeginEnumPins(pBF, pEP, pPin)
+	{
+		CComPtr<IPin>		pFellow;
+
+		if (SUCCEEDED (pPin->QueryDirection(&pindir)) &&
+			pindir == direction &&
+			pPin->ConnectedTo(&pFellow) == VFW_E_NOT_CONNECTED)
+		{
+			BeginEnumMediaTypes(pPin, pEM, pmt)
+			{
+				if (pmt->majortype == pRequestedMT->majortype && pmt->subtype == pRequestedMT->subtype)
+				{
+					return (pPin);
+				}
+			}
+			EndEnumMediaTypes(pmt)
+		}
+	}
+	EndEnumPins
+	return NULL;
+}
+
+
 CStringW GetFilterName(IBaseFilter* pBF)
 {
 	CStringW name;
