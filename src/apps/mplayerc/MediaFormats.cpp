@@ -203,7 +203,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_AG_FLIC_FILE),     _T("fli flc flic")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),  _T("d2v")));
 		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),    _T("mp4 m4v mp4v mpv4 hdmov 3gp 3gpp")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true, _T(""), QuickTime));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_17),  _T("mkv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_18),  _T("mka"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),  _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
