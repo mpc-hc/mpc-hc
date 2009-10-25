@@ -60,7 +60,7 @@ void CDXVADecoderH264::Init()
 	memset (&m_pSliceShort,	    0, sizeof (DXVA_Slice_H264_Short)*MAX_SLICES);
 	
 	m_DXVAPicParams.MbsConsecutiveFlag					= 1;
-	if(m_pFilter->GetPCIVendor() == 0x8086) 
+	if(m_pFilter->GetPCIVendor() == PCIV_Intel) 
 		m_DXVAPicParams.Reserved16Bits					= 0x534c;
 	else
 		m_DXVAPicParams.Reserved16Bits					= 0;
