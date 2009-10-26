@@ -22,7 +22,6 @@
 
 #include "stdafx.h"
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 #include <malloc.h>
 #include "libmpeg2.h"
