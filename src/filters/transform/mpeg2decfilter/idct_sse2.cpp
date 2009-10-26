@@ -52,7 +52,8 @@ static __align16(const int16_t,M128_tab_i_17[])={22725, 29692, 22725, 12299, 227
 static __align16(const int16_t,M128_tab_i_26[])={21407, 27969, 21407, 11585, 21407, -11585, 21407, -27969, 21407, 11585, -21407, -27969, -21407, 27969, 21407, -11585, 29692, 25172, 25172, -5906, 16819, -29692, 5906, -16819, 16819, 5906, -29692, -16819, 5906, 25172, 25172, -29692};
 static __align16(const int16_t,M128_tab_i_35[])={19266, 25172, 19266, 10426, 19266, -10426, 19266, -25172, 19266, 10426, -19266, -25172, -19266, 25172, 19266, -10426, 26722, 22654, 22654, -5315, 15137, -26722, 5315, -15137, 15137, 5315, -26722, -15137, 5315, 22654, 22654, -26722};
 
-#ifdef _WIN64		// Temporary patch : full intrinsic version didn't works in Win32 (to be fixed later...)
+//#ifdef _WIN64		// Temporary patch : full intrinsic version didn't works in Win32 (to be fixed later...) 
+#if 1				// (Spec-Chum: Works now, will keep intel code in place though...)
 
 static __forceinline void DCT_8_INV_ROW(const uint8_t * const ecx,const uint8_t * const esi,__m128i &xmm0,__m128i &xmm1,__m128i &xmm2,__m128i &xmm3,__m128i &xmm4,__m128i &xmm5,__m128i &xmm6,__m128i &xmm7)
 {
@@ -188,14 +189,15 @@ static __forceinline void DCT_8_INV_COL_8(__m128i &src0,__m128i &src1,__m128i &s
 
 static __forceinline void idct_M128ASM(__m128i &src0,__m128i &src1,__m128i &src2,__m128i &src3,__m128i &src4,__m128i &src5,__m128i &src6,__m128i &src7)
 {
-     src0=_mm_srai_epi16(src0,4);
+     /*src0=_mm_srai_epi16(src0,4);
      src1=_mm_srai_epi16(src1,4);
      src2=_mm_srai_epi16(src2,4);
      src3=_mm_srai_epi16(src3,4);
      src4=_mm_srai_epi16(src4,4);
      src5=_mm_srai_epi16(src5,4);
      src6=_mm_srai_epi16(src6,4);
-     src7=_mm_srai_epi16(src7,4);
+     src7=_mm_srai_epi16(src7,4); // No idea why they needed to be shifted?  ...and it makes the picture all green...*/
+
 __m128i xmm0,xmm1,xmm2,xmm3,xmm4,xmm5,xmm6,xmm7;
      movdqa (xmm0, src0);
      uint8_t *esi=(uint8_t*)M128_tab_i_04;
