@@ -51,6 +51,8 @@
 #include "AllocatorCommon.h"
 
 #define FRAMERATE_MAX_DELTA			3000
+//#pragma optimize("", off)
+//#pragma inline_depth(0)
 
 CCritSec g_ffdshowReceive;
 bool queueu_ffdshow_support = false;
@@ -514,6 +516,223 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 
 void ModerateFloat(double& Value, double Target, double& ValuePrim, double ChangeSpeed);
 
+class CRandom31
+{
+public:
+
+	CRandom31()
+	{
+		m_Seed = 12164;
+	}
+
+	void f_SetSeed(int32 _Seed)
+	{
+		m_Seed = _Seed;
+	}
+	int32 f_GetSeed()
+	{
+		return m_Seed;
+	}
+	/* 
+	Park and Miller's psuedo-random number generator.
+	*/
+	int32 m_Seed;
+	int32 f_Get()
+	{
+		static const int32 A = 16807;
+		static const int32 M = 2147483647;   // 2^31 - 1
+		static const int32 q = M / A;       // M / A
+		static const int32 r = M % A;         // M % A
+		m_Seed = A * (m_Seed % q) - r * (m_Seed / q);
+		if (m_Seed < 0) 
+			m_Seed += M;
+		return m_Seed;
+	}
+
+	static int32 fs_Max()
+	{
+		return 2147483646;
+	}
+
+	double f_GetFloat()
+	{
+		return double(f_Get()) * (1.0 / double(fs_Max()));
+	}
+};
+
+class CVSyncEstimation
+{
+private:
+	class CHistoryEntry
+	{
+	public:
+		CHistoryEntry()
+		{
+			m_Time = 0;
+			m_ScanLine = -1;
+		}
+		LONGLONG m_Time;
+		int m_ScanLine;
+	};
+
+	class CSolution
+	{
+	public:
+		CSolution()
+		{
+			m_ScanLines = 1000;
+			m_ScanLinesPerSecond = m_ScanLines * 100;
+		}
+		int m_ScanLines;
+		double m_ScanLinesPerSecond;
+		double m_SqrSum;
+
+		void f_Mutate(double _Amount, CRandom31 &_Random, int _MinScans)
+		{
+			int ToDo = _Random.f_Get() % 10;
+			if (ToDo == 0)
+				m_ScanLines = m_ScanLines / 2;
+			else if (ToDo == 1)
+				m_ScanLines = m_ScanLines * 2;
+
+			m_ScanLines = m_ScanLines * (1.0 + (_Random.f_GetFloat() * _Amount) - _Amount * 0.5);
+			m_ScanLines = max(m_ScanLines, _MinScans);
+
+			if (ToDo == 2)
+				m_ScanLinesPerSecond /= (_Random.f_Get() % 4) + 1;
+			else if (ToDo == 3)
+				m_ScanLinesPerSecond *= (_Random.f_Get() % 4) + 1;
+
+			m_ScanLinesPerSecond *= 1.0 + (_Random.f_GetFloat() * _Amount) - _Amount * 0.5;
+		}
+
+		void f_SpawnInto(CSolution &_Other, CRandom31 &_Random, int _MinScans)
+		{
+			_Other = *this;
+			_Other.f_Mutate(_Random.f_GetFloat() * 0.1, _Random, _MinScans);
+		}
+
+		static int fs_Compare(const void *_pFirst, const void *_pSecond)
+		{
+			const CSolution *pFirst = (const CSolution *)_pFirst;
+			const CSolution *pSecond = (const CSolution *)_pSecond;
+			if (pFirst->m_SqrSum < pSecond->m_SqrSum)
+				return -1;
+			else if (pFirst->m_SqrSum > pSecond->m_SqrSum)
+				return 1;
+			return 0;
+		}
+
+		
+	};
+
+	enum
+	{
+		ENumHistory = 128
+	};
+
+	CHistoryEntry m_History[ENumHistory];
+	int m_iHistory;
+	CSolution m_OldSolutions[2];
+
+	CRandom31 m_Random;
+
+
+	double fp_GetSquareSum(double _ScansPerSecond, double _ScanLines)
+	{
+		double SquareSum = 0;
+		int nHistory = min(m_nHistory, ENumHistory);
+		int iHistory = m_iHistory - nHistory;
+		if (iHistory < 0)
+			iHistory += ENumHistory;
+		for (int i = 1; i < nHistory; ++i)
+		{
+			int iHistory0 = iHistory + i - 1;
+			int iHistory1 = iHistory + i;
+			if (iHistory0 < 0)
+				iHistory0 += ENumHistory;
+			iHistory0 = iHistory0 % ENumHistory;
+			iHistory1 = iHistory1 % ENumHistory;
+			ASSERT(m_History[iHistory0].m_Time != 0);
+			ASSERT(m_History[iHistory1].m_Time != 0);
+
+			double DeltaTime = (m_History[iHistory1].m_Time - m_History[iHistory0].m_Time)/10000000.0;
+			double PredictedScanLine = m_History[iHistory0].m_ScanLine + DeltaTime * _ScansPerSecond;
+			PredictedScanLine = fmod(PredictedScanLine, _ScanLines);
+			double Delta = (m_History[iHistory1].m_ScanLine - PredictedScanLine);
+			double DeltaSqr = Delta * Delta;
+			SquareSum += DeltaSqr;
+		}
+		return SquareSum;
+	}
+
+	int m_nHistory;
+public:
+
+	CVSyncEstimation()
+	{
+		m_iHistory = 0;
+		m_nHistory = 0;
+	}
+
+	void f_AddSample(int _ScanLine, LONGLONG _Time)
+	{
+		m_History[m_iHistory].m_ScanLine = _ScanLine;
+		m_History[m_iHistory].m_Time = _Time;
+		++m_nHistory;
+		m_iHistory = (m_iHistory + 1) % ENumHistory;
+	}
+
+	void f_GetEstimation(double &_RefreshRate, int &_ScanLines, int _ScreenSizeY, int _WindowsRefreshRate)
+	{
+		_RefreshRate = 0;
+		_ScanLines = 0;
+
+		int iHistory = m_iHistory;
+		// We have a full history
+		if (m_nHistory > 10)
+		{
+			for (int l = 0; l < 5; ++l)
+			{
+				const int nSol = 3+5+5+3;
+				CSolution Solutions[nSol];
+
+				Solutions[0] = m_OldSolutions[0];
+				Solutions[1] = m_OldSolutions[1];
+				Solutions[2].m_ScanLines = _ScreenSizeY;
+				Solutions[2].m_ScanLinesPerSecond = _ScreenSizeY * _WindowsRefreshRate;
+
+				int iStart = 3;
+				for (int i = iStart; i < iStart + 5; ++i)
+					Solutions[0].f_SpawnInto(Solutions[i], m_Random, _ScreenSizeY);
+				iStart += 5;
+				for (int i = iStart; i < iStart + 5; ++i)
+					Solutions[1].f_SpawnInto(Solutions[i], m_Random, _ScreenSizeY);
+				iStart += 5;
+				for (int i = iStart; i < iStart + 3; ++i)
+					Solutions[2].f_SpawnInto(Solutions[i], m_Random, _ScreenSizeY);
+
+				int Start = 2;
+				if (l == 0)
+					Start = 0;
+				for (int i = Start; i < nSol; ++i)
+					Solutions[i].m_SqrSum = fp_GetSquareSum(Solutions[i].m_ScanLinesPerSecond, Solutions[i].m_ScanLines);
+
+				qsort(Solutions, nSol, sizeof(Solutions[0]), &CSolution::fs_Compare);
+				for (int i = 0; i < 2; ++i)
+					m_OldSolutions[i] = Solutions[i];
+			}
+
+			_ScanLines = m_OldSolutions[0].m_ScanLines + 0.5;
+			_RefreshRate = 1.0 / (m_OldSolutions[0].m_ScanLines / m_OldSolutions[0].m_ScanLinesPerSecond);
+		}
+		else
+		{
+			m_OldSolutions[0].m_ScanLines = _ScreenSizeY;
+			m_OldSolutions[1].m_ScanLines = _ScreenSizeY;
+		}
+	}
+};
 
 void CDX9AllocatorPresenter::VSyncThread()
 {
@@ -538,10 +757,11 @@ void CDX9AllocatorPresenter::VSyncThread()
 	CMPlayerCApp *pApp = (CMPlayerCApp*)AfxGetApp();
 	AppSettings& s = AfxGetAppSettings();
 
+	CVSyncEstimation Estimation;
+
 	while (!bQuit)
 	{
-
-		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 1);
+		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 10 + rand() % 90);
 		switch (dwObject)
 		{
 		case WAIT_OBJECT_0 :
@@ -552,124 +772,35 @@ void CDX9AllocatorPresenter::VSyncThread()
 				// Do our stuff
 				if (m_pD3DDev && s.m_RenderSettings.iVMR9VSync)
 				{
-
-					int VSyncPos = GetVBlackPos();
-					int WaitRange = max(m_ScreenSize.cy / 40, 5);
-					int MinRange = max(min(int(0.003 * double(m_ScreenSize.cy) * double(m_RefreshRate) + 0.5), m_ScreenSize.cy/3), 5); // 1.8  ms or max 33 % of Time
-
-					VSyncPos += MinRange + WaitRange;
-
-					VSyncPos = VSyncPos % m_ScreenSize.cy;
-					if (VSyncPos < 0)
-						VSyncPos += m_ScreenSize.cy;
-
-					int ScanLine = 0; 
-					int bInVBlank = 0;
-					int StartScanLine = ScanLine;
-					int LastPos = ScanLine;
-					ScanLine = (VSyncPos + 1) % m_ScreenSize.cy;
-					if (ScanLine < 0)
-						ScanLine += m_ScreenSize.cy;
-					int FirstScanLine = ScanLine;
-					int ScanLineMiddle = ScanLine + m_ScreenSize.cy/2;
-					ScanLineMiddle = ScanLineMiddle % m_ScreenSize.cy;
-					if (ScanLineMiddle < 0)
-						ScanLineMiddle += m_ScreenSize.cy;
-
-					int ScanlineStart = ScanLine;
-					bool bTakenLock;
-					WaitForVBlankRange(ScanlineStart, 5, true, true, false, bTakenLock);
-					LONGLONG TimeStart = pApp->GetPerfCounter();
-
-					WaitForVBlankRange(ScanLineMiddle, 5, true, true, false, bTakenLock);
-					LONGLONG TimeMiddle = pApp->GetPerfCounter();
-
-					int ScanlineEnd = ScanLine;
-					WaitForVBlankRange(ScanlineEnd, 5, true, true, false, bTakenLock);
-					LONGLONG TimeEnd = pApp->GetPerfCounter();
-
-					double nSeconds = double(TimeEnd - TimeStart) / 10000000.0;
-					LONGLONG DiffMiddle = TimeMiddle - TimeStart;
-					LONGLONG DiffEnd = TimeEnd - TimeMiddle;
-					double DiffDiff;
-					if (DiffEnd > DiffMiddle)
-						DiffDiff = double(DiffEnd) / double(DiffMiddle);
-					else
-						DiffDiff = double(DiffMiddle) / double(DiffEnd);
-					if (nSeconds > 0.003 && DiffDiff < 1.3)
+					if (m_WaitForVBlankLock.TryLock())
 					{
-						double ScanLineSeconds;
-						double nScanLines;
-						if (ScanLineMiddle > ScanlineEnd)
+						m_WaitForVBlankLock.Unlock();
+						int ScanLine;
+						int bInVBlank;
+						GetVBlank(ScanLine, bInVBlank, false);
+						int NewScanline;
+						while (1)
 						{
-							 ScanLineSeconds = double(TimeMiddle - TimeStart) / 10000000.0;
-							 nScanLines = ScanLineMiddle - ScanlineStart;
-						}
-						else
-						{
-							 ScanLineSeconds = double(TimeEnd - TimeMiddle) / 10000000.0;
-							 nScanLines = ScanlineEnd - ScanLineMiddle;
-						}
-
-						double ScanLineTime = ScanLineSeconds / nScanLines;
-
-						int iPos = m_DetectedRefreshRatePos	% 100;
-						m_ldDetectedScanlineRateList[iPos] = ScanLineTime;
-						if (m_DetectedScanlineTime && ScanlineStart != ScanlineEnd)
-						{
-							int Diff = ScanlineEnd - ScanlineStart;
-							nSeconds -= double(Diff) * m_DetectedScanlineTime;
-						}
-						m_ldDetectedRefreshRateList[iPos] = nSeconds;
-						double Average = 0;
-						double AverageScanline = 0;
-						int nPos = min(iPos + 1, 100);
-						for (int i = 0; i < nPos; ++i)
-						{
-							Average += m_ldDetectedRefreshRateList[i];
-							AverageScanline += m_ldDetectedScanlineRateList[i];
-						}
-
-						if (nPos)
-						{
-							Average /= double(nPos);
-							AverageScanline /= double(nPos);
-						}
-						else
-						{
-							Average = 0;
-							AverageScanline = 0;
-						}
-
-						double ThisValue = Average;
-
-						if (Average > 0.0 && AverageScanline > 0.0)
-						{
-							CAutoLock Lock(&m_RefreshRateLock);							
-							++m_DetectedRefreshRatePos;
-							if (m_DetectedRefreshTime == 0 || m_DetectedRefreshTime / ThisValue > 1.01 || m_DetectedRefreshTime / ThisValue < 0.99)
+							GetVBlank(NewScanline, bInVBlank, false);
+							if (bInVBlank)
+								break;
+							if (NewScanline != ScanLine)
 							{
-								m_DetectedRefreshTime = ThisValue;
-								m_DetectedRefreshTimePrim = 0;
-							}
-							ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
-							if (m_DetectedRefreshTime > 0.0)
-								m_DetectedRefreshRate = 1.0/m_DetectedRefreshTime;
-							else
-								m_DetectedRefreshRate = 0.0;
+								{
+									LONGLONG Time = AfxGetMyApp()->GetPerfCounter();
+									Estimation.f_AddSample(ScanLine, Time);
+									int ScanLines;
+									double RefreshRate;
+									
+									
+									Estimation.f_GetEstimation(RefreshRate, ScanLines, GetMaxScanLines(), m_RefreshRate);
+									m_DetectedScanlinesPerFrame = ScanLines;
+									m_DetectedRefreshRate = RefreshRate;
 
-							if (m_DetectedScanlineTime == 0 || m_DetectedScanlineTime / AverageScanline > 1.01 || m_DetectedScanlineTime / AverageScanline < 0.99)
-							{
-								m_DetectedScanlineTime = AverageScanline;
-								m_DetectedScanlineTimePrim = 0;
+								}
+								break;
 							}
-							ModerateFloat(m_DetectedScanlineTime, AverageScanline, m_DetectedScanlineTimePrim, 1.5);
-							if (m_DetectedScanlineTime > 0.0)
-								m_DetectedScanlinesPerFrame = m_DetectedRefreshTime / m_DetectedScanlineTime;
-							else
-								m_DetectedScanlinesPerFrame = 0;
 						}
-						//TRACE("Refresh: %f\n", RefreshRate);
 					}
 				}
 				else
@@ -1864,12 +1995,16 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 		m_VBlankMax = max(m_VBlankMax, ScanLine);
 		if (ScanLine != 0 && !_bInVBlank)
 			m_VBlankMinCalc = min(m_VBlankMinCalc, ScanLine);
-		m_VBlankMin = m_VBlankMax - m_ScreenSize.cy;
+		m_VBlankMin = m_VBlankMinCalc;
 	}
 	if (_bInVBlank)
-		_ScanLine = 0;
+		_ScanLine = GetVisibleScanLines();
 	else if (m_VBlankMin != 300000)
+	{
 		_ScanLine = ScanLine - m_VBlankMin;
+		if (_ScanLine < 0)
+			_ScanLine += GetVisibleScanLines();
+	}
 	else
 		_ScanLine = ScanLine;
 
@@ -1901,6 +2036,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 	{
 		bOneWait = false;
 		// If we are already in the wanted interval we need to wait until we aren't, this improves sync when for example you are playing 23.976 Hz material on a 24 Hz refresh rate
+		LockD3DDevice();
 		int nInVBlank = 0;
 		while (1)
 		{
@@ -1924,14 +2060,16 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 				break;
 			}
 		}
+		UnlockD3DDevice();
 	}
+	int VisibleScanLines = GetVisibleScanLines();
 	if (_bWaitIfInside)
 	{
 		int ScanLineDiff = long(ScanLine) - _RasterStart;
-		if (ScanLineDiff > m_ScreenSize.cy / 2)
-			ScanLineDiff -= m_ScreenSize.cy;
-		else if (ScanLineDiff < -m_ScreenSize.cy / 2)
-			ScanLineDiff += m_ScreenSize.cy;
+		if (ScanLineDiff > VisibleScanLines / 2)
+			ScanLineDiff -= VisibleScanLines;
+		else if (ScanLineDiff < -VisibleScanLines / 2)
+			ScanLineDiff += VisibleScanLines;
 
 		if (ScanLineDiff >= 0 && ScanLineDiff <= _RasterSize)
 		{
@@ -1943,10 +2081,10 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 				if (!GetVBlank(ScanLine, InVBlank, _bMeasure))
 					break;
 				int ScanLineDiff = long(ScanLine) - _RasterStart;
-				if (ScanLineDiff > m_ScreenSize.cy / 2)
-					ScanLineDiff -= m_ScreenSize.cy;
-				else if (ScanLineDiff < -m_ScreenSize.cy / 2)
-					ScanLineDiff += m_ScreenSize.cy;
+				if (ScanLineDiff > VisibleScanLines / 2)
+					ScanLineDiff -= VisibleScanLines;
+				else if (ScanLineDiff < -VisibleScanLines / 2)
+					ScanLineDiff += VisibleScanLines;
 				if (!(ScanLineDiff >= 0 && ScanLineDiff <= _RasterSize) || (LastLineDiff < 0 && ScanLineDiff > 0))
 					break;
 				LastLineDiff = ScanLineDiff;
@@ -1960,35 +2098,35 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 	int NoSleepStart = _RasterStart - MinRange;
 	int NoSleepRange = MinRange;
 	if (NoSleepStart < 0)
-		NoSleepStart += m_ScreenSize.cy;
+		NoSleepStart += VisibleScanLines;
 
 	int MinRange2 = max(min(int(0.0050 * double(ScanLines) * RefreshRate + 0.5), ScanLines/3), 5); // 5 ms or max 33 % of Time
 	int D3DDevLockStart = _RasterStart - MinRange2;
 	int D3DDevLockRange = MinRange2;
 	if (D3DDevLockStart < 0)
-		D3DDevLockStart += m_ScreenSize.cy;
+		D3DDevLockStart += VisibleScanLines;
 
 	int ScanLineDiff = ScanLine - _RasterStart;
-	if (ScanLineDiff > m_ScreenSize.cy / 2)
-		ScanLineDiff -= m_ScreenSize.cy;
-	else if (ScanLineDiff < -m_ScreenSize.cy / 2)
-		ScanLineDiff += m_ScreenSize.cy;
+	if (ScanLineDiff > VisibleScanLines / 2)
+		ScanLineDiff -= VisibleScanLines;
+	else if (ScanLineDiff < -VisibleScanLines / 2)
+		ScanLineDiff += VisibleScanLines;
 	int LastLineDiff = ScanLineDiff;
 
 
 	int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
-	if (ScanLineDiffSleep > m_ScreenSize.cy / 2)
-		ScanLineDiffSleep -= m_ScreenSize.cy;
-	else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2)
-		ScanLineDiffSleep += m_ScreenSize.cy;
+	if (ScanLineDiffSleep > VisibleScanLines / 2)
+		ScanLineDiffSleep -= VisibleScanLines;
+	else if (ScanLineDiffSleep < -VisibleScanLines / 2)
+		ScanLineDiffSleep += VisibleScanLines;
 	int LastLineDiffSleep = ScanLineDiffSleep;
 
 
 	int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
-	if (ScanLineDiffLock > m_ScreenSize.cy / 2)
-		ScanLineDiffLock -= m_ScreenSize.cy;
-	else if (ScanLineDiffLock < -m_ScreenSize.cy / 2)
-		ScanLineDiffLock += m_ScreenSize.cy;
+	if (ScanLineDiffLock > VisibleScanLines / 2)
+		ScanLineDiffLock -= VisibleScanLines;
+	else if (ScanLineDiffLock < -VisibleScanLines / 2)
+		ScanLineDiffLock += VisibleScanLines;
 	int LastLineDiffLock = ScanLineDiffLock;
 
 	LONGLONG llPerfLock;
@@ -1998,10 +2136,10 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 		if (!GetVBlank(ScanLine, InVBlank, _bMeasure))
 			break;
 		int ScanLineDiff = long(ScanLine) - _RasterStart;
-		if (ScanLineDiff > m_ScreenSize.cy / 2)
-			ScanLineDiff -= m_ScreenSize.cy;
-		else if (ScanLineDiff < -m_ScreenSize.cy / 2)
-			ScanLineDiff += m_ScreenSize.cy;
+		if (ScanLineDiff > VisibleScanLines / 2)
+			ScanLineDiff -= VisibleScanLines;
+		else if (ScanLineDiff < -VisibleScanLines / 2)
+			ScanLineDiff += VisibleScanLines;
 		if ((ScanLineDiff >= 0 && ScanLineDiff <= _RasterSize) || (LastLineDiff < 0 && ScanLineDiff > 0))
 			break;
 
@@ -2010,10 +2148,10 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 		bWaited = true;
 
 		int ScanLineDiffLock = long(ScanLine) - D3DDevLockStart;
-		if (ScanLineDiffLock > m_ScreenSize.cy / 2)
-			ScanLineDiffLock -= m_ScreenSize.cy;
-		else if (ScanLineDiffLock < -m_ScreenSize.cy / 2)
-			ScanLineDiffLock += m_ScreenSize.cy;
+		if (ScanLineDiffLock > VisibleScanLines / 2)
+			ScanLineDiffLock -= VisibleScanLines;
+		else if (ScanLineDiffLock < -VisibleScanLines / 2)
+			ScanLineDiffLock += VisibleScanLines;
 
 		if (((ScanLineDiffLock >= 0 && ScanLineDiffLock <= D3DDevLockRange) || (LastLineDiffLock < 0 && ScanLineDiffLock > 0)))
 		{
@@ -2026,17 +2164,29 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 		}
 		LastLineDiffLock = ScanLineDiffLock;
 
-
 		int ScanLineDiffSleep = long(ScanLine) - NoSleepStart;
-		if (ScanLineDiffSleep > m_ScreenSize.cy / 2)
-			ScanLineDiffSleep -= m_ScreenSize.cy;
-		else if (ScanLineDiffSleep < -m_ScreenSize.cy / 2)
-			ScanLineDiffSleep += m_ScreenSize.cy;
+		if (ScanLineDiffSleep > VisibleScanLines / 2)
+			ScanLineDiffSleep -= VisibleScanLines;
+		else if (ScanLineDiffSleep < -VisibleScanLines / 2)
+			ScanLineDiffSleep += VisibleScanLines;
+
+		if (!_bMeasure)
+		{
+			if (m_WaitForVBlankLock.TryLock())
+			{
+				m_WaitForVBlankLock.Unlock();
+			}
+			else
+				Sleep(2);
+		}
 
 		if (!((ScanLineDiffSleep >= 0 && ScanLineDiffSleep <= NoSleepRange) || (LastLineDiffSleep < 0 && ScanLineDiffSleep > 0)) || !_bNeedAccurate)
 		{
+			if (_bMeasure)
+				m_VBlankLastSleep = ScanLine;
 			//TRACE("%d\n", RasterStatus.ScanLine);
-			Sleep(1); // Don't sleep for the last 1.5 ms scan lines, so we get maximum precision
+	//		if (!_bMeasure)
+				Sleep(1); // Don't sleep for the last 1.5 ms scan lines, so we get maximum precision
 		}
 		LastLineDiffSleep = ScanLineDiffSleep;
 	}
@@ -2066,7 +2216,8 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 	AppSettings& s = AfxGetAppSettings();
 	BOOL bCompositionEnabled = m_bCompositionEnabled;
 
-	int WaitRange = max(m_ScreenSize.cy / 40, 5);
+	int VisibleScanLines = GetVisibleScanLines();
+	int WaitRange = max(VisibleScanLines / 40, 5);
 	if (!bCompositionEnabled)
 	{
 		if (m_bAlternativeVSync)
@@ -2075,14 +2226,14 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 		}
 		else
 		{
-			int MinRange = max(min(int(0.005 * double(m_ScreenSize.cy) * GetRefreshRate() + 0.5), m_ScreenSize.cy/3), 5); // 5  ms or max 33 % of Time
-			int WaitFor = m_ScreenSize.cy - (MinRange + WaitRange);
+			int MinRange = max(min(int(0.005 * double(VisibleScanLines) * GetRefreshRate() + 0.5), VisibleScanLines/3), 5); // 5  ms or max 33 % of Time
+			int WaitFor = VisibleScanLines - (MinRange + WaitRange);
 			return WaitFor;
 		}
 	}
 	else
 	{
-		int WaitFor = m_ScreenSize.cy / 2;
+		int WaitFor = VisibleScanLines / 2;
 		return WaitFor;
 	}
 }
@@ -2097,6 +2248,7 @@ bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited, bool &_bTakenLock)
 		m_VBlankWaitTime = 0;
 		m_VBlankLockTime = 0;
 		m_VBlankEndWait = 0;
+		m_VBlankLastSleep = 0;
 		m_VBlankStartWait = 0;
 		return true;
 	}
@@ -2201,6 +2353,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	CRect rDstPri(m_WindowRect);
 
 	m_pD3DDev->BeginScene();
+
+	CComPtr<IDirect3DQuery9> pEventQuery;
+	m_pD3DDev->CreateQuery(D3DQUERYTYPE_OCCLUSION, &pEventQuery);
+
+	if (pEventQuery)
+		pEventQuery->Issue(D3DISSUE_BEGIN);
 
 	CComPtr<IDirect3DSurface9> pBackBuffer;
 	m_pD3DDev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
@@ -2488,22 +2646,28 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		PresentWaitTime = pApp->GetPerfCounter() - llPerf;
 	}*/
 
-	CComPtr<IDirect3DQuery9> pEventQuery;
+	if (!pEventQuery)
+		m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
 
-	m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
 	if (pEventQuery)
 		pEventQuery->Issue(D3DISSUE_END);
 
 	if (s.m_RenderSettings.iVMRFlushGPUBeforeVSync && pEventQuery)
 	{
 		LONGLONG llPerf = pApp->GetPerfCounter();
-		BOOL Data;
+		DWORD Data;
 		//Sleep(5);
 		LONGLONG FlushStartTime = pApp->GetPerfCounter();
+		int32 MinTimes = 10;
 		while(S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH ))
 		{
 			if (!s.m_RenderSettings.iVMRFlushGPUWait)
-				break;
+			{
+				if (--MinTimes == 0)
+					break;
+				else
+					continue;
+			}
 			Sleep(1);
 			if (pApp->GetPerfCounter() - FlushStartTime > 500000)
 				break; // timeout after 50 ms
@@ -2565,10 +2729,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 				hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
 		}
 		// Issue an End event
+		m_pD3DDev->BeginScene();
+		m_pD3DDev->EndScene();
 		if (pEventQuery)
 			pEventQuery->Issue(D3DISSUE_END);
 
-		BOOL Data;
+		DWORD Data;
 
 		if (s.m_RenderSettings.iVMRFlushGPUAfterPresent && pEventQuery)
 		{
@@ -2640,7 +2806,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	bool fResetDevice = m_bPendingResetDevice;
 
 	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET
-		|| hr == S_PRESENT_MODE_CHANGED)
+		|| hr == S_PRESENT_MODE_CHANGED || hr == E_FAIL)
 	{
 		fResetDevice = true;
 	}
@@ -2918,7 +3084,7 @@ void CDX9AllocatorPresenter::DrawStats()
 			if (m_VBlankEndPresent == -100000)
 				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), (double(m_VBlankLockTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin);
 			else
-				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), (double(m_VBlankLockTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin, m_VBlankEndPresent);
+				strText.Format(L"VBlank Wait  : Start %4d   End %4d   Wait %7.3f ms   Lock %7.3f ms   Offset %4d   Max %4d   EndPresent %4d   LastSleep %4d", m_VBlankStartWait, m_VBlankEndWait, (double(m_VBlankWaitTime)/10000.0), (double(m_VBlankLockTime)/10000.0), m_VBlankMin, m_VBlankMax - m_VBlankMin, m_VBlankEndPresent, m_VBlankLastSleep);
 		}
 		else
 		{
