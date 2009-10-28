@@ -1597,7 +1597,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, nSPCMaxRes);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, nSubDelayInterval);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, fSPCPow2Tex);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SPCDisabeAnim"), fSPCDisableAnim);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SPCDisableAnim"), fSPCDisableAnim);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, fEnableSubtitles);		
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
@@ -1769,7 +1769,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_UICEADDR, UIceAddr);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GLOBALMEDIA, fGlobalMedia);
 
-		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEXPTOOLBARS, fDisabeXPToolbars);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEXPTOOLBARS, fDisableXPToolbars);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEWMASFREADER, fUseWMASFReader);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTS, nJumpDistS);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTM, nJumpDistM);
@@ -1980,7 +1980,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			bDisableAnim = true;
 		
 
-		fSPCDisableAnim = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCDisabeAnim"), bDisableAnim);
+		fSPCDisableAnim = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCDisableAnim"), bDisableAnim);
 		fEnableSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, TRUE);
 		fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
 		fAudioTimeShift = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, 0);
@@ -2148,7 +2148,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 //		fPN31Client = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PN31, 0);
 		fGlobalMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GLOBALMEDIA, 0);
 
-		fDisabeXPToolbars = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEXPTOOLBARS, 0);
+		fDisableXPToolbars = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEXPTOOLBARS, 0);
 		fUseWMASFReader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEWMASFREADER, FALSE);
 		nJumpDistS = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTS, 1000);
 		nJumpDistM = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_JUMPDISTM, 5000);
