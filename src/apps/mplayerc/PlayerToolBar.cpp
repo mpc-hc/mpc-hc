@@ -77,7 +77,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
 	m_volctrl.Create(this);
 
-	if(AfxGetAppSettings().fDisabeXPToolbars)
+	if(AfxGetAppSettings().fDisableXPToolbars)
 	{
 		if(HMODULE h = LoadLibrary(_T("uxtheme.dll")))
 		{

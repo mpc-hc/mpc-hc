@@ -31,7 +31,7 @@
 IMPLEMENT_DYNAMIC(CPPageTweaks, CPPageBase)
 CPPageTweaks::CPPageTweaks()
 	: CPPageBase(CPPageTweaks::IDD, CPPageTweaks::IDD)
-	, m_fDisabeXPToolbars(FALSE)
+	, m_fDisableXPToolbars(FALSE)
 	, m_fUseWMASFReader(FALSE)
 	, m_nJumpDistS(0)
 	, m_nJumpDistM(0)
@@ -53,8 +53,8 @@ CPPageTweaks::~CPPageTweaks()
 void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Check(pDX, IDC_CHECK3, m_fDisabeXPToolbars);
-	DDX_Control(pDX, IDC_CHECK3, m_fDisabeXPToolbarsCtrl);
+	DDX_Check(pDX, IDC_CHECK3, m_fDisableXPToolbars);
+	DDX_Control(pDX, IDC_CHECK3, m_fDisableXPToolbarsCtrl);
 	DDX_Check(pDX, IDC_CHECK2, m_fUseWMASFReader);
 	DDX_Control(pDX, IDC_CHECK2, m_fUseWMASFReaderCtrl);
 	DDX_Text(pDX, IDC_EDIT1, m_nJumpDistS);
@@ -73,7 +73,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_fDisabeXPToolbars = s.fDisabeXPToolbars;
+	m_fDisableXPToolbars = s.fDisableXPToolbars;
 	m_fUseWMASFReader = s.fUseWMASFReader;
 	m_nJumpDistS = s.nJumpDistS;
 	m_nJumpDistM = s.nJumpDistM;
@@ -96,7 +96,7 @@ BOOL CPPageTweaks::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.fDisabeXPToolbars = !!m_fDisabeXPToolbars;
+	s.fDisableXPToolbars = !!m_fDisableXPToolbars;
 	s.fUseWMASFReader = !!m_fUseWMASFReader;
 	s.nJumpDistS = m_nJumpDistS;
 	s.nJumpDistM = m_nJumpDistM;

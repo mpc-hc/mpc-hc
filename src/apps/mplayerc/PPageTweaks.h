@@ -40,8 +40,8 @@ public:
 	CPPageTweaks();
 	virtual ~CPPageTweaks();
 
-	BOOL m_fDisabeXPToolbars;
-	CButton m_fDisabeXPToolbarsCtrl;
+	BOOL m_fDisableXPToolbars;
+	CButton m_fDisableXPToolbarsCtrl;
 	BOOL m_fUseWMASFReader;
 	CButton m_fUseWMASFReaderCtrl;
 

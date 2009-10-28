@@ -605,7 +605,7 @@ public:
 		bool fSPCDisableAnim;
 		bool fEnableSubtitles;
 
-		bool fDisabeXPToolbars;
+		bool fDisableXPToolbars;
 		bool fUseWMASFReader;
 		int nJumpDistS;
 		int nJumpDistM;

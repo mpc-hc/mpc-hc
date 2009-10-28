@@ -135,7 +135,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 
 	if (m_pAAR == NULL)
 	{
-		// Default manager (requiered at least Vista)
+		// Default manager (requires at least Vista)
 		HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
 									NULL,
 									CLSCTX_INPROC,
