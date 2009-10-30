@@ -218,8 +218,9 @@ void CPnSPresetsDlg::OnBnClickedButton1() // set
 {
 	int i = m_list.GetCurSel();
 	UpdateData();
-	if(m_label.Remove(',') > 0)
-		UpdateData(FALSE);
+	/*if(m_label.Remove(',') > 0)
+		UpdateData(FALSE);*/
+	m_label.Replace(',', '.');	// Replace any ',' with '.' as ',' is used as tokeniser
 	m_pnspresets[i] = ParamsToString(m_label, m_PosX, m_PosY, m_ZoomX, m_ZoomY);
 	m_list.DeleteString(i);
 	m_list.InsertString(i, m_label);
@@ -228,9 +229,9 @@ void CPnSPresetsDlg::OnBnClickedButton1() // set
 
 void CPnSPresetsDlg::OnUpdateButton1(CCmdUI* pCmdUI)
 {
-	UpdateData();
+	UpdateData();	
 	pCmdUI->Enable(m_list.GetCurSel() >= 0
-		&& !m_label.IsEmpty() && m_label.Find(',') < 0
+		&& !m_label.IsEmpty() // && m_label.Find(',') < 0
 		&& m_PosX >= 0 && m_PosX <= 1
 		&& m_PosY >= 0 && m_PosY <= 1
 		&& m_ZoomX >= 0.2 && m_ZoomX <= 3.0
