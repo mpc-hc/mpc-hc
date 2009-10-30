@@ -73,13 +73,13 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 		{
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pbFormat;
 			if(vih->AvgTimePerFrame) rate.Format(_T("%0.2ffps "), 10000000.0f / vih->AvgTimePerFrame);
-			if(vih->dwBitRate) rate.Format(_T("%s%dKbps"), CString(rate), vih->dwBitRate/1000);
+			if(vih->dwBitRate) rate.Format(_T("%s%dkbps"), CString(rate), vih->dwBitRate/1000);
 		}
 		else if(formattype == FORMAT_VideoInfo2 || formattype == FORMAT_MPEG2_VIDEO || formattype == FORMAT_DiracVideoInfo)
 		{
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)pbFormat;
 			if(vih->AvgTimePerFrame) rate.Format(_T("%0.2ffps "), 10000000.0f / vih->AvgTimePerFrame);
-			if(vih->dwBitRate) rate.Format(_T("%s%dKbps"), CString(rate), vih->dwBitRate/1000);
+			if(vih->dwBitRate) rate.Format(_T("%s%dkbps"), CString(rate), vih->dwBitRate/1000);
 		}
 
 		rate.Trim();
@@ -107,7 +107,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 				if(wfe->nChannels == 1) dim.Format(_T("%s mono"), CString(dim));
 				else if(wfe->nChannels == 2) dim.Format(_T("%s stereo"), CString(dim));
 				else dim.Format(_T("%s %dch"), CString(dim), wfe->nChannels);
-				if(wfe->nAvgBytesPerSec) rate.Format(_T("%dKbps"), wfe->nAvgBytesPerSec*8/1000);
+				if(wfe->nAvgBytesPerSec) rate.Format(_T("%dkbps"), wfe->nAvgBytesPerSec*8/1000);
 			}
 		}
 		else if(formattype == FORMAT_VorbisFormat)
@@ -119,7 +119,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			if(vf->nChannels == 1) dim.Format(_T("%s mono"), CString(dim));
 			else if(vf->nChannels == 2) dim.Format(_T("%s stereo"), CString(dim));
 			else dim.Format(_T("%s %dch"), CString(dim), vf->nChannels);
-			if(vf->nAvgBitsPerSec) rate.Format(_T("%dKbps"), vf->nAvgBitsPerSec/1000);
+			if(vf->nAvgBitsPerSec) rate.Format(_T("%dkbps"), vf->nAvgBitsPerSec/1000);
 		}
 		else if(formattype == FORMAT_VorbisFormat2)
 		{
