@@ -8326,15 +8326,15 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		}
 		else if(engine == ShockWave)
 		{
+#ifdef _WIN64	// No flash on x64
+				MessageBox(ResStr(IDS_MAINFRM_76), _T(""), MB_OK);
+#else
 			if(!(pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CShockwaveGraph(m_pVideoWnd->m_hWnd, hr)))
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
 
 			if(FAILED(hr) || !(pGB = CComQIPtr<IGraphBuilder>(pUnk)))
-#ifdef _WIN64	// No flash on x64
-				MessageBox(ResStr(IDS_MAINFRM_76), _T(""), MB_OK);
-#else
 				throw ResStr(IDS_MAINFRM_77);
-				m_fShockwaveGraph = true;
+			m_fShockwaveGraph = true;
 #endif
 		}
 		else if(engine == QuickTime)
