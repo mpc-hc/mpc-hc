@@ -273,7 +273,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
+				AdditionalDependencies="libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib Avrt.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
