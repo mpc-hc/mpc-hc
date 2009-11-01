@@ -1297,7 +1297,8 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if ((GetMediaState() == State_Running) && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER)))
+	// Only stop screensaver if video playing; allow for audio only
+	if ((GetMediaState() == State_Running && !m_fAudioOnly) && (((nID & 0xFFF0) == SC_SCREENSAVE) || ((nID & 0xFFF0) == SC_MONITORPOWER)))
 	{
 		TRACE(_T("SC_SCREENSAVE, nID = %d, lParam = %d\n"), nID, lParam);
 		return;
@@ -1830,25 +1831,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			}
 
 			m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_SUBTITLES), Subtitles);
-		}
-
-		if(GetMediaState() == State_Running)
-		{
-			UINT fSaverActive = 0;
-			if(SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, (PVOID)&fSaverActive, 0))
-			{
-				SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, 0, 0, SPIF_SENDWININICHANGE); // this might not be needed at all...
-				SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fSaverActive, 0, SPIF_SENDWININICHANGE);
-			}
-
-			fSaverActive = 0;
-			if(SystemParametersInfo(SPI_GETPOWEROFFACTIVE, 0, (PVOID)&fSaverActive, 0))
-			{
-				SystemParametersInfo(SPI_SETPOWEROFFACTIVE, 0, 0, SPIF_SENDWININICHANGE); // this might not be needed at all...
-				SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fSaverActive, 0, SPIF_SENDWININICHANGE);
-			}
-			// prevent screensaver activate, monitor sleep/turn off after playback
-			SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_AWAYMODE_REQUIRED/* | ES_CONTINUOUS*/);
 		}
 	}
 	else if(nIDEvent == TIMER_STATUSERASER)
@@ -11649,8 +11631,11 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 	m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
 	SendAPICommand (CMD_PLAYMODE, L"%d", iState);
 
-	// Prevent sleep when playing
-	SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
+	// Prevent sleep when playing audio and/or video, but allow screensaver when only audio
+	if(!m_fAudioOnly)
+		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
+	else
+		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
 }
 
 bool CMainFrame::CreateFullScreenWindow()
