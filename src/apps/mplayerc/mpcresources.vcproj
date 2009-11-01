@@ -2534,6 +2534,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="1"
@@ -2910,6 +2911,7 @@
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
+						Culture="1046"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2917,6 +2919,7 @@
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
+						Culture="1046"
 					/>
 				</FileConfiguration>
 			</File>
