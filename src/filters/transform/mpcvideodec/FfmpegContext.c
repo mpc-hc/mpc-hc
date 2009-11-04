@@ -55,43 +55,6 @@ const byte ZZ_SCAN8[64] =
    58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
 };
 
-static UINT g_UsedForReferenceFlags[] =
-{
-	0x00000000,
-	0x00000001,
-	0x00000003,
-	0x00000007,
-	0x0000000F,
-	0x0000001F,
-	0x0000003F,
-	0x0000007F,
-	0x000000FF,
-	0x000001FF,
-	0x000003FF,
-	0x000007FF,
-	0x00000FFF,
-	0x00001FFF,
-	0x00003FFF,
-	0x00007FFF,
-	0x0000FFFF,
-	0x0001FFFF,
-	0x0003FFFF,
-	0x0007FFFF,
-	0x000FFFFF,
-	0x001FFFFF,
-	0x003FFFFF,
-	0x007FFFFF,
-	0x00FFFFFF,
-	0x01FFFFFF,
-	0x03FFFFFF,
-	0x07FFFFFF,
-	0x0FFFFFFF,
-	0x1FFFFFFF,
-	0x3FFFFFFF,
-	0x7FFFFFFF,
-	0xFFFFFFFF,
-};
-
 int IsVista()
 {
 	OSVERSIONINFO osver;
@@ -383,12 +346,11 @@ void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, s
 void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
 {
 	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
+	UINT			nUsedForReferenceFlags = 0;
 	int				i;
 	Picture*		pic;
 	UCHAR			AssociatedFlag;
-	int				nUseRefIndex;
 
-	nUseRefIndex = h->short_ref_count*2;
 	for(i=0; i<16; i++)
 	{
         if (i < h->short_ref_count)
@@ -410,14 +372,25 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		if (pic != NULL)
 		{
 			pDXVAPicParams->FrameNumList[i]					= pic->frame_num;
-			pDXVAPicParams->FieldOrderCntList[i][0]			= pic->field_poc [0]!=INT_MAX ? pic->field_poc [0] : 0;
-			if (pic->field_poc [1] == INT_MAX)
+
+			if (pic->field_poc[0] != INT_MAX)
 			{
-				pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
-				nUseRefIndex--;
+				pDXVAPicParams->FieldOrderCntList[i][0]		= pic->field_poc [0];
+				nUsedForReferenceFlags					   |= 1<<(i*2);
 			}
 			else
+				pDXVAPicParams->FieldOrderCntList[i][0]		= 0;
+
+			if (pic->field_poc[1] != INT_MAX)
+			{
 				pDXVAPicParams->FieldOrderCntList[i][1]		= pic->field_poc [1];
+				nUsedForReferenceFlags					   |= 2<<(i*2);
+			}
+			else
+			{
+				pDXVAPicParams->FieldOrderCntList[i][1]		= 0;
+			}
+
 			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
 			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->opaque;
         }
@@ -431,7 +404,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		}
 	}
 
-	pDXVAPicParams->UsedForReferenceFlags	= g_UsedForReferenceFlags [nUseRefIndex];
+	pDXVAPicParams->UsedForReferenceFlags	= nUsedForReferenceFlags;
 }
 
 BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)

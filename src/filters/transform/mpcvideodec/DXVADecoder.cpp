@@ -596,6 +596,7 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 			pMS2->SetProperties(sizeof(props), (BYTE*)&props);
 		}
 	}
+	pMS->SetTime(&pPicture->rtStart, &pPicture->rtStop);
 }
 
 
