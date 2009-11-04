@@ -173,7 +173,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 				}
 			}
 		}
-		else if (nPCIVendor = PCIV_S3_Graphics)
+		else if (nPCIVendor == PCIV_S3_Graphics)
 			supportLevel51 = 1;
 
 		// Check max num reference frame according to the level
