@@ -1446,7 +1446,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	}
 	else if (m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS) // DTS HD MA data is causing trouble, lets just remove it
 	{
-#if 1
+#if 0
 		BYTE* start = p->GetData();
 		BYTE* end = start + p->GetCount();
 		if (end - start < 4 && !p->pmt)
