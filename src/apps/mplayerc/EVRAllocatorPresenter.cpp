@@ -52,10 +52,8 @@
 
 #if (0)		// Set to 1 to activate EVR traces
 	#define TRACE_EVR		TRACE
-	#define TRACE_EVR2		TRACE
 #else
 	#define TRACE_EVR
-	#define TRACE_EVR2		TRACE
 #endif
 
 typedef enum 
@@ -699,7 +697,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
 	if (SUCCEEDED (m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
 		SUCCEEDED (m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService)))
 	{
-		TRACE_EVR ("DXVA2 : device handle = 0x%08x", hDevice);
+		TRACE_EVR ("EVR: DXVA2 : device handle = 0x%08x", hDevice);
 		HookDirectXVideoDecoderService (pDecoderService);
 
 		m_pD3DManager->CloseDeviceHandle (hDevice);
@@ -784,7 +782,7 @@ void CEVRAllocatorPresenter::StartWorkerThreads()
 		SetThreadPriority(m_hGetMixerThread, THREAD_PRIORITY_HIGHEST);
 
 		m_nRenderState		= Stopped;
-		TRACE_EVR ("Worker threads started...\n");
+		TRACE_EVR ("EVR: Worker threads started...\n");
 	}
 }
 
@@ -816,7 +814,7 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 		m_bEvtQuit = false;
 
 
-		TRACE_EVR ("Worker threads stopped...\n");
+		TRACE_EVR ("EVR: Worker threads stopped...\n");
 	}
 	m_nRenderState = Shutdown;
 }
@@ -917,7 +915,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLON
 {
 	m_nRenderState		= Started;
 
-	TRACE_EVR ("OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
+	TRACE_EVR ("EVR: OnClockStart  hnsSystemTime = %I64d,   llClockStartOffset = %I64d\n", hnsSystemTime, llClockStartOffset);
 	m_ModeratedTimeLast = -1;
 	m_ModeratedClockLast = -1;
 
@@ -926,7 +924,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLON
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 {
-	TRACE_EVR ("OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("EVR: OnClockStop  hnsSystemTime = %I64d\n", hnsSystemTime);
 	m_nRenderState		= Stopped;
 
 	m_ModeratedClockLast = -1;
@@ -936,7 +934,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockStop(MFTIME hnsSystemTime)
 
 STDMETHODIMP CEVRAllocatorPresenter::OnClockPause(MFTIME hnsSystemTime)
 {
-	TRACE_EVR ("OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("EVR: OnClockPause  hnsSystemTime = %I64d\n", hnsSystemTime);
 	if (!m_bSignaledStarvation)
 		m_nRenderState		= Paused;
 	m_ModeratedTimeLast = -1;
@@ -950,7 +948,7 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(MFTIME hnsSystemTime)
 
 	m_ModeratedTimeLast = -1;
 	m_ModeratedClockLast = -1;
-	TRACE_EVR ("OnClockRestart  hnsSystemTime = %I64d\n", hnsSystemTime);
+	TRACE_EVR ("EVR: OnClockRestart  hnsSystemTime = %I64d\n", hnsSystemTime);
 
 	return S_OK;
 }
@@ -1134,27 +1132,27 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 	{
 	case MFVP_MESSAGE_BEGINSTREAMING :			// The EVR switched from stopped to paused. The presenter should allocate resources
 		ResetStats();		
-		TRACE_EVR ("MFVP_MESSAGE_BEGINSTREAMING\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_BEGINSTREAMING\n");
 		break;
 
 	case MFVP_MESSAGE_CANCELSTEP :				// Cancels a frame step
-		TRACE_EVR ("MFVP_MESSAGE_CANCELSTEP\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_CANCELSTEP\n");
 		CompleteFrameStep (true);
 		break;
 
 	case MFVP_MESSAGE_ENDOFSTREAM :				// All input streams have ended. 
-		TRACE_EVR ("MFVP_MESSAGE_ENDOFSTREAM\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_ENDOFSTREAM\n");
 		m_bPendingMediaFinished = true;
 		break;
 
 	case MFVP_MESSAGE_ENDSTREAMING :			// The EVR switched from running or paused to stopped. The presenter should free resources
-		TRACE_EVR ("MFVP_MESSAGE_ENDSTREAMING\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_ENDSTREAMING\n");
 		break;
 
 	case MFVP_MESSAGE_FLUSH :					// The presenter should discard any pending samples
 		SetEvent(m_hEvtFlush);
 		m_bEvtFlush = true;
-		TRACE_EVR ("MFVP_MESSAGE_FLUSH\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_FLUSH\n");
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
 		break;
 
@@ -1175,7 +1173,7 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 		break;
 
 	case MFVP_MESSAGE_STEP :					// Requests a frame step.
-		TRACE_EVR ("MFVP_MESSAGE_STEP\n");
+		TRACE_EVR ("EVR: MFVP_MESSAGE_STEP\n");
 		m_nStepCount = ulParam;
 		hr = S_OK;
 		break;
@@ -1470,7 +1468,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 	{
         // Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
-		TRACE("Valid mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
+		TRACE_EVR("EVR: Valid mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 	}
 
 	for (int i = 0; i < nValidTypes; ++i)
@@ -1479,7 +1477,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 		pType = ValidMixerTypes[i];
 
 		
-		TRACE("Trying mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
+		TRACE_EVR("EVR: Trying mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 
         // Step 5. Try to set the media type on ourselves.
 		hr = SetMediaType(pType);
@@ -1572,7 +1570,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 		}	
 
 		LONGLONG TimePerFrame = m_rtTimePerFrame;
-		TRACE_EVR ("Get from Mixer : %d  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, nsSampleTime/TimePerFrame);
+		TRACE_EVR ("EVR: Get from Mixer : %d  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, TimePerFrame!=0?nsSampleTime/TimePerFrame:0);
 
 		MoveToScheduledList (pSample, false);
 		bDoneSomething = true;
@@ -1609,7 +1607,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 	HRESULT						hr;
 	DWORD						dwObjects = 1;
 
-	TRACE_EVR ("EVR : CEVRAllocatorPresenter::InitServicePointers\n");
+	TRACE_EVR ("EVR: CEVRAllocatorPresenter::InitServicePointers\n");
 	hr = pLookup->LookupService (MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE,
 								  __uuidof (IMFTransform), (void**)&m_pMixer, &dwObjects);
 
@@ -1626,7 +1624,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTop
 
 STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 {
-	TRACE_EVR ("EVR : CEVRAllocatorPresenter::ReleaseServicePointers\n");
+	TRACE_EVR ("EVR: CEVRAllocatorPresenter::ReleaseServicePointers\n");
 	StopWorkerThreads();
 	m_pMixer	= NULL;
 	m_pSink		= NULL;
@@ -2136,7 +2134,7 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 	if ((fabs(Diff) > 50000.0 || bReset))
 	{
 
-//		TRACE("Reset clock at diff: %f ms\n", (m_ModeratedTime - Target) /10000.0);
+//		TRACE_EVR("EVR: Reset clock at diff: %f ms\n", (m_ModeratedTime - Target) /10000.0);
 		if (State == MFCLOCK_STATE_RUNNING)
 		{
 			if (bReset)
@@ -2252,7 +2250,7 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
 		LONGLONG SyncOffset = nsSampleTime - llClockTime;
 
 		m_pllSyncOffset[m_nNextSyncOffset] = SyncOffset;
-//		TRACE("SyncOffset(%d, %d): %8I64d     %8I64d     %8I64d \n", m_nCurSurface, m_VSyncMode, m_LastPredictedSync, -SyncOffset, m_LastPredictedSync - (-SyncOffset));
+//		TRACE_EVR("EVR: SyncOffset(%d, %d): %8I64d     %8I64d     %8I64d \n", m_nCurSurface, m_VSyncMode, m_LastPredictedSync, -SyncOffset, m_LastPredictedSync - (-SyncOffset));
 
 		m_MaxSyncOffset = MINLONG64;
 		m_MinSyncOffset = MAXLONG64;
@@ -2318,7 +2316,7 @@ void CEVRAllocatorPresenter::RenderThread()
 		else if (m_bEvtQuit)
 			dwObject = WAIT_OBJECT_0;*/
 //		if (NextSleepTime)
-//			TRACE("Sleep: %7.3f\n", double(AfxGetMyApp()->GetPerfCounter()-llPerf) / 10000.0);
+//			TRACE_EVR("EVR: Sleep: %7.3f\n", double(AfxGetMyApp()->GetPerfCounter()-llPerf) / 10000.0);
 		if (NextSleepTime > 1)
 			NextSleepTime = 0;
 		else if (NextSleepTime == 0)
@@ -2333,7 +2331,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			FlushSamples();
 			m_bEvtFlush = false;
 			ResetEvent(m_hEvtFlush);
-			TRACE_EVR ("Flush done!\n");
+			TRACE_EVR ("EVR: Flush done!\n");
 			break;
 
 		case WAIT_TIMEOUT :
@@ -2373,7 +2371,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			// Discard timer events if playback stop
 //			if ((dwObject == WAIT_OBJECT_0 + 3) && (m_nRenderState != Started)) continue;
 
-//			TRACE_EVR ("RenderThread ==>> Waiting buffer\n");
+//			TRACE_EVR ("EVR: RenderThread ==>> Waiting buffer\n");
 			
 //			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
 			{
@@ -2395,14 +2393,14 @@ void CEVRAllocatorPresenter::RenderThread()
 					LONGLONG SampleDuration = 0; 
 					pMFSample->GetSampleDuration(&SampleDuration);
 
-//					TRACE_EVR ("RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
+//					TRACE_EVR ("EVR: RenderThread ==>> Presenting surface %d  (%I64d)\n", m_nCurSurface, nsSampleTime);
 
 					bool bStepForward = false;
 
 					if (m_nStepCount < 0)
 					{
 						// Drop frame
-						TRACE_EVR ("Dropped frame\n");
+						TRACE_EVR ("EVR: Dropped frame\n");
 						m_pcFrames++;
 						bStepForward = true;
 						m_nStepCount = 0;
@@ -2501,13 +2499,13 @@ void CEVRAllocatorPresenter::RenderThread()
 								SyncOffset = (nsSampleTime - ClockTimeAtNextVSync);
 
 //								if (SyncOffset < 0)
-//									TRACE("SyncOffset(%d): %I64d     %I64d     %I64d\n", m_nCurSurface, SyncOffset, TimePerFrame, VSyncTime);
+//									TRACE_EVR("EVR: SyncOffset(%d): %I64d     %I64d     %I64d\n", m_nCurSurface, SyncOffset, TimePerFrame, VSyncTime);
 							}
 							else
 								SyncOffset = (nsSampleTime - llClockTime);
 							
 							//LONGLONG SyncOffset = nsSampleTime - llClockTime;
-							TRACE_EVR ("SyncOffset: %I64d SampleFrame: %I64d ClockFrame: %I64d\n", SyncOffset, nsSampleTime/TimePerFrame, llClockTime /TimePerFrame);
+							TRACE_EVR ("EVR: SyncOffset: %I64d SampleFrame: %I64d ClockFrame: %I64d\n", SyncOffset, TimePerFrame!=0 ? nsSampleTime/TimePerFrame : 0, TimePerFrame!=0 ? llClockTime /TimePerFrame : 0);
 							if (SampleDuration > 1 && !m_DetectedLock)
 								TimePerFrame = SampleDuration;
 
@@ -2536,7 +2534,7 @@ void CEVRAllocatorPresenter::RenderThread()
 							if ((SyncOffset < -(TimePerFrame + TimePerFrameMargin0 - TimePerFrameMargin1)) && nSamplesLeft > 0) // Only drop if we have something else to display at once
 							{
 								// Drop frame
-								TRACE_EVR ("Dropped frame\n");
+								TRACE_EVR ("EVR: Dropped frame\n");
 								m_pcFrames++;
 								bStepForward = true;
 								++m_nDroppedUpdate;
@@ -2557,7 +2555,7 @@ void CEVRAllocatorPresenter::RenderThread()
 								}
 
 								// Paint and prepare for next frame
-								TRACE_EVR ("Normalframe\n");
+								TRACE_EVR ("EVR: Normalframe\n");
 								m_nDroppedUpdate = 0;
 								bStepForward = true;
 								pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
@@ -2590,7 +2588,7 @@ void CEVRAllocatorPresenter::RenderThread()
 								if (NextSleepTime < 0)
 									NextSleepTime = 0;
 								NextSleepTime = 1;
-								//TRACE_EVR ("Delay\n");
+								//TRACE_EVR ("EVR: Delay\n");
 							}
 
 							if (bDoVSyncCorrection)
@@ -2613,7 +2611,7 @@ void CEVRAllocatorPresenter::RenderThread()
 								//VSyncOffsetMin; = (((VSyncOffsetMin) % VSyncTime) + VSyncTime) % VSyncTime;
 								//VSyncOffsetMax = (((VSyncOffsetMax) % VSyncTime) + VSyncTime) % VSyncTime;
 
-//								TRACE("SyncOffset(%d, %d): %8I64d     %8I64d     %8I64d     %8I64d\n", m_nCurSurface, m_VSyncMode,VSyncOffset0, VSyncOffsetMin, VSyncOffsetMax, VSyncOffsetMax - VSyncOffsetMin);
+//								TRACE_EVR("EVR: SyncOffset(%d, %d): %8I64d     %8I64d     %8I64d     %8I64d\n", m_nCurSurface, m_VSyncMode,VSyncOffset0, VSyncOffsetMin, VSyncOffsetMax, VSyncOffsetMax - VSyncOffsetMin);
 
 								if (m_VSyncMode == 0)
 								{
@@ -2668,7 +2666,7 @@ void CEVRAllocatorPresenter::RenderThread()
 			}
 //			else
 //			{				
-//				TRACE_EVR ("RenderThread ==>> Flush before rendering frame!\n");
+//				TRACE_EVR ("EVR: RenderThread ==>> Flush before rendering frame!\n");
 //			}
 
 			break;
@@ -2965,7 +2963,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 			}
 		}
 
-//		TRACE("Time: %f %f %f\n", Time / 10000000.0, SetDuration / 10000000.0, m_DetectedFrameRate);
+//		TRACE_EVR("EVR: Time: %f %f %f\n", Time / 10000000.0, SetDuration / 10000000.0, m_DetectedFrameRate);
 		if (!m_bCorrectedFrameTime && m_FrameTimeCorrection)
 			--m_FrameTimeCorrection;
 
@@ -2983,7 +2981,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 				pSample->SetSampleTime(Time);
 				pSample->SetSampleDuration(Duration);
 				m_bCorrectedFrameTime = true;
-				TRACE("Corrected invalid sample time\n");
+				TRACE_EVR("EVR: Corrected invalid sample time\n");
 			}
 		}
 		if (Time+Duration*10 < m_LastScheduledSampleTime)
@@ -2999,7 +2997,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 		pSample->GetSampleDuration(&SetDuration);
 		if (SetDuration != LastDuration)
 		{
-			TRACE("Old duration: %I64d New duration: %I64d\n", LastDuration, SetDuration);
+			TRACE_EVR("EVR: Old duration: %I64d New duration: %I64d\n", LastDuration, SetDuration);
 		}
 		LastDuration = SetDuration;
 #endif
