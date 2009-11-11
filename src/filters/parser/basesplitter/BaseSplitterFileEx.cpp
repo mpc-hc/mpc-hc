@@ -1631,6 +1631,26 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
+{
+	__int64 endpos = GetPos() + len; // - sequence header length
+	__int64 extrapos = 0, extralen = 0;
+	int		nFrameRateNum = 0, nFrameRateDen = 1;
+
+	if ((BitRead(32, true) & 0xFFFFFF00) == 0x20000f00)
+	{
+		static const SUBTITLEINFO SubFormat = { 0, "", L"" };
+
+		pmt->majortype		= MEDIATYPE_Subtitle;
+		pmt->subtype		= MEDIASUBTYPE_DVB_SUBTITLES;
+		pmt->formattype		= FORMAT_None;
+		pmt->SetFormat ((BYTE*)&SubFormat, sizeof(SUBTITLEINFO));
+
+		return true;
+	}
+
+	return false;
+}
 
 /*
 

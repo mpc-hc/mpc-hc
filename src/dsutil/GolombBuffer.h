@@ -44,6 +44,7 @@ public:
 
 	void			SetSize(int nValue) { m_nSize = nValue; };
 	int				GetSize()			{ return m_nSize; };
+	int				RemainingSize()		{ return m_nSize - m_nBitPos; };
 	bool			IsEOF()				{ return m_nBitPos >= m_nSize; };
 	INT64			GetPos();
 	BYTE*			GetBufferPos()		{ return m_pBuffer + m_nBitPos; };

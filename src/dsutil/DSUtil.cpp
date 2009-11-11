@@ -2464,3 +2464,45 @@ DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
 
   return D3DCOLOR_ARGB (A, (BYTE)fabs(rp), (BYTE)fabs(gp), (BYTE)fabs(bp));
 }
+
+
+void TraceFilterInfo(IBaseFilter* pBF)
+{
+	FILTER_INFO		Info;
+	if (SUCCEEDED (pBF->QueryFilterInfo(&Info)))
+	{
+		TRACE (" === Filter info : %S\n", Info.achName);
+		BeginEnumPins(pBF, pEnum, pPin)
+		{
+			TracePinInfo(pPin);
+		}
+
+		EndEnumPins
+		Info.pGraph->Release();
+	}
+}
+
+
+void TracePinInfo(IPin* pPin)
+{
+	PIN_INFO		PinInfo;
+	FILTER_INFO		ConnectedFilterInfo;
+	PIN_INFO		ConnectedInfo;
+	CComPtr<IPin>	pConnected;
+	memset (&ConnectedInfo, 0, sizeof(ConnectedInfo));
+	memset (&ConnectedFilterInfo, 0, sizeof(ConnectedFilterInfo));
+	if (SUCCEEDED (pPin->ConnectedTo  (&pConnected)))
+	{
+		pConnected->QueryPinInfo (&ConnectedInfo);
+		ConnectedInfo.pFilter->QueryFilterInfo(&ConnectedFilterInfo);
+		ConnectedInfo.pFilter->Release();
+		ConnectedFilterInfo.pGraph->Release();
+	}
+	pPin->QueryPinInfo (&PinInfo);
+	TRACE("		%S (%S) -> %S (Filter %S)\n", 
+		  PinInfo.achName, 
+		  PinInfo.dir == PINDIR_OUTPUT ? _T("Out") : _T("In"),
+		  ConnectedInfo.achName,
+		  ConnectedFilterInfo.achName);
+	PinInfo.pFilter->Release();
+}

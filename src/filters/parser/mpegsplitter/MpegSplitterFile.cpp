@@ -156,16 +156,17 @@ HRESULT CMpegSplitterFile::Init()
 		m_rate = detected_rate;
 	else ; // TODO: in this case disable seeking, or try doing something less drastical...
 
-//#ifndef DEBUG
 	if(m_streams[video].GetCount())
 	{
 		if (!m_bIsHdmv && m_streams[subpic].GetCount())
 		{
+#ifndef DEBUG
 			stream s;
-			s.mt.majortype = MEDIATYPE_Video;
-			s.mt.subtype = MEDIASUBTYPE_DVD_SUBPICTURE;
-			s.mt.formattype = FORMAT_None;
+			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
+			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
+			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
 			m_streams[subpic].Insert(s, this);
+#endif
 		}
 		else
 		{
@@ -173,7 +174,6 @@ HRESULT CMpegSplitterFile::Init()
 			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
 		}
 	}
-//#endif
 
 	Seek(0);
 
@@ -472,6 +472,15 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 					CMpegSplitterFile::vc1hdr h;
 					if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
 						type = video;
+				}
+
+				// DVB subtitles
+				Seek(pos);				
+				if(type == unknown)
+				{
+					CMpegSplitterFile::dvbsub h;
+					if(!m_streams[video].Find(s) && Read(h, len, &s.mt))
+						type = subpic;
 				}
 
 				int iProgram;

@@ -26,12 +26,14 @@
 #include "Rasterizer.h"
 #include "..\SubPic\ISubPic.h"
 #include "HdmvSub.h"
+#include "BaseSub.h"
+
 
 [uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9")]
 class CRenderedHdmvSubtitle : public ISubPicProviderImpl, public ISubStream
 {
 public:
-	CRenderedHdmvSubtitle(CCritSec* pLock);
+	CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType);
 	~CRenderedHdmvSubtitle(void);
 
 	DECLARE_IUNKNOWN
@@ -64,6 +66,6 @@ private :
 	LCID			m_lcid;
 	REFERENCE_TIME	m_rtStart;
 
-	CHdmvSub		m_HdmvSub;
+	CBaseSub*		m_pSub;
 	CCritSec		m_csCritSec;
 };

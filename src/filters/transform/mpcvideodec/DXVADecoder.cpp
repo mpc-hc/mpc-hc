@@ -21,6 +21,7 @@
  */
 
 #include "stdafx.h"
+#include "..\..\..\DSUtil\DSUtil.h"
 #include <dxva2api.h>
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"

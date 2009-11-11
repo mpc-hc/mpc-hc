@@ -350,6 +350,10 @@ public:
 		unsigned int width, height;
 	};
 
+	struct dvbsub
+	{
+	};
+
 #pragma pack(pop)
 
 	bool Read(pshdr& h);
@@ -373,6 +377,7 @@ public:
 	bool Read(pvahdr& h, bool fSync = true);
 	bool Read(avchdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(vc1hdr& h, int len, CMediaType* pmt = NULL);
+	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };

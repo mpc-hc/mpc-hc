@@ -20,19 +20,11 @@
  *
  */
 
+#include "stdafx.h"
+#include "BaseSub.h"
 
-#pragma once
-#include "..\..\..\DSUtil\SharedInclude.h"
-
-#define WIN32_LEAN_AND_MEAN
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
-
-#ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN
-#endif
-
-#include <afx.h>
-#include <afxwin.h>         // MFC core and standard components
-#include <streams.h>
-#include <dvdmedia.h>
+CBaseSub::CBaseSub(SUBTITLE_TYPE nType)
+		: m_nType(nType)
+{
+}
 
