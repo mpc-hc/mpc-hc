@@ -72,10 +72,10 @@ const AMOVIESETUP_PIN sudpPins3[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CRoQSplitterFilter), L"MPC - RoQ Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(CRoQSourceFilter), L"MPC - RoQ Source", MERIT_NORMAL+1, 0, NULL},
-	{&__uuidof(CRoQVideoDecoder), L"MPC - RoQ Video Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2},
-	{&__uuidof(CRoQAudioDecoder), L"MPC - RoQ Audio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3},
+	{&__uuidof(CRoQSplitterFilter), L"MPC - RoQ Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CRoQSourceFilter), L"MPC - RoQ Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CRoQVideoDecoder), L"MPC - RoQ Video Decoder", MERIT_NORMAL, countof(sudpPins2), sudpPins2, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CRoQAudioDecoder), L"MPC - RoQ Audio Decoder", MERIT_NORMAL, countof(sudpPins3), sudpPins3, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] =

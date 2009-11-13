@@ -47,8 +47,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter (Gabest)", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source (Gabest)", MERIT_NORMAL, 0, NULL},
+	{&__uuidof(CFLVSplitterFilter), L"MPC - FLV Splitter (Gabest)", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CFLVSourceFilter), L"MPC - FLV Source (Gabest)", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] =

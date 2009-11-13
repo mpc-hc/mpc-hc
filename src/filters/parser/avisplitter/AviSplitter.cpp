@@ -41,8 +41,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CAviSplitterFilter), L"MPC - Avi Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(CAviSourceFilter), L"MPC - Avi Source", MERIT_NORMAL+1, 0, NULL},
+	{&__uuidof(CAviSplitterFilter), L"MPC - Avi Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CAviSourceFilter), L"MPC - Avi Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] =

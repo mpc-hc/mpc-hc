@@ -51,8 +51,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(COggSplitterFilter), L"MPC - Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(COggSourceFilter), L"MPC - Ogg Source", MERIT_NORMAL+1, 0, NULL},
+	{&__uuidof(COggSplitterFilter), L"MPC - Ogg Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(COggSourceFilter), L"MPC - Ogg Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] =

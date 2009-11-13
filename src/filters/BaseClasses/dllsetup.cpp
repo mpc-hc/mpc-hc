@@ -278,6 +278,8 @@ AMovieSetupRegisterFilter2( const AMOVIESETUP_FILTER * const psetupdata
     rf2.dwMerit = psetupdata->dwMerit;
     rf2.cPins = psetupdata->nPins;
     rf2.rgPins = psetupdata->lpPin;
+
+    const CLSID *filterCategory=&psetupdata->filterCategory;
     
     // register filter
     //
@@ -285,7 +287,7 @@ AMovieSetupRegisterFilter2( const AMOVIESETUP_FILTER * const psetupdata
     hr = pIFM2->RegisterFilter(*psetupdata->clsID
                              , psetupdata->strName
                              , 0 // moniker
-                             , 0 // &psetupdata->filterCategory // category albain FIXME
+                             ,filterCategory // category
                              , NULL // instance
                              , &rf2);
   }

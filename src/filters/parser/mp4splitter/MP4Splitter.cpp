@@ -53,10 +53,10 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMP4SplitterFilter), L"MPC - MP4 Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CMP4SourceFilter), L"MPC - MP4 Source", MERIT_NORMAL, 0, NULL},
-	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPC - MPEG4 Video Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins},
-	{&__uuidof(CMPEG4VideoSourceFilter), L"MPC - MPEG4 Video Source", MERIT_NORMAL, 0, NULL},	
+	{&__uuidof(CMP4SplitterFilter), L"MPC - MP4 Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMP4SourceFilter), L"MPC - MP4 Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMPEG4VideoSplitterFilter), L"MPC - MPEG4 Video Splitter", MERIT_NORMAL, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMPEG4VideoSourceFilter), L"MPC - MPEG4 Video Source", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory},	
 };
 
 CFactoryTemplate g_Templates[] =

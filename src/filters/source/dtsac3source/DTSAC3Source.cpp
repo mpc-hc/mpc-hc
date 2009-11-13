@@ -48,7 +48,7 @@ const AMOVIESETUP_FILTER sudFilter[] =
 #ifdef DDPLUS_ONLY
 	{&__uuidof(CDTSAC3Source), L"MPC - DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
 #else
-	{&__uuidof(CDTSAC3Source), L"MPC - DTS/AC3/DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CDTSAC3Source), L"MPC - DTS/AC3/DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 #endif
 };
 

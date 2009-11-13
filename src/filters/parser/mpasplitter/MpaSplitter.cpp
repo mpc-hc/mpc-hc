@@ -41,8 +41,8 @@ const AMOVIESETUP_PIN sudpPins[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CMpaSplitterFilter), L"MPC - Mpa Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins},
-	{&__uuidof(CMpaSourceFilter), L"MPC - Mpa Source", MERIT_NORMAL+1, 0, NULL},
+	{&__uuidof(CMpaSplitterFilter), L"MPC - Mpa Splitter", MERIT_NORMAL+1, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory},
+	{&__uuidof(CMpaSourceFilter), L"MPC - Mpa Source", MERIT_NORMAL+1, 0, NULL, CLSID_LegacyAmFilterCategory},
 };
 
 CFactoryTemplate g_Templates[] =

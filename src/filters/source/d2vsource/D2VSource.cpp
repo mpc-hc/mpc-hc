@@ -36,7 +36,7 @@ const AMOVIESETUP_PIN sudOpPin[] =
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CD2VSource), L"MPC - D2VSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
+	{&__uuidof(CD2VSource), L"MPC - D2VSource", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] =
