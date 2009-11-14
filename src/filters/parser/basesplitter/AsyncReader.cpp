@@ -113,6 +113,11 @@ STDMETHODIMP_(HANDLE) CAsyncFileReader::GetFileHandle()
 	return m_hFile;
 }
 
+STDMETHODIMP_(LPCTSTR) CAsyncFileReader::GetFileName()
+{
+	return m_nCurPart != -1 ? m_strFiles[m_nCurPart] : _T("");
+}
+
 //
 // CAsyncUrlReader
 //

@@ -36,6 +36,7 @@ interface ISyncReader : public IUnknown
 interface IFileHandle : public IUnknown
 {
 	STDMETHOD_(HANDLE, GetFileHandle)() = 0;
+	STDMETHOD_(LPCTSTR, GetFileName)() = 0;
 };
 
 class CAsyncFileReader : public CUnknown, public CMultiFiles, public IAsyncReader, public ISyncReader, public IFileHandle
@@ -73,6 +74,7 @@ public:
 	// IFileHandle
 
 	STDMETHODIMP_(HANDLE) GetFileHandle();
+	STDMETHODIMP_(LPCTSTR) GetFileName();
 
 };
 

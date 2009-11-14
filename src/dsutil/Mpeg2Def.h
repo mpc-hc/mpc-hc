@@ -148,3 +148,6 @@ enum MPEG2_DESCRIPTOR
 	DT_LOGICAL_CHANNEL			= 0x83,
 	DT_HD_SIMCAST_LOG_CHANNEL	= 0x88
 };
+
+
+extern const wchar_t *StreamTypeToName(PES_STREAM_TYPE _Type);

@@ -24,6 +24,7 @@
 #include <winddk\devioctl.h>
 #include <winddk\ntddcdrm.h>
 #include "DSUtil.h"
+#include "Mpeg2Def.h"
 #include <moreuuids.h>
 
 #include <initguid.h>
@@ -2505,4 +2506,31 @@ void TracePinInfo(IPin* pPin)
 		  ConnectedInfo.achName,
 		  ConnectedFilterInfo.achName);
 	PinInfo.pFilter->Release();
+}
+
+
+const wchar_t *StreamTypeToName(PES_STREAM_TYPE _Type)
+{
+	switch (_Type)
+	{
+	case VIDEO_STREAM_MPEG1: return L"MPEG";
+	case VIDEO_STREAM_MPEG2: return L"MPEG 2";
+	case AUDIO_STREAM_MPEG1: return L"MPEG";
+	case AUDIO_STREAM_MPEG2: return L"MPEG 2 Audio";
+	case VIDEO_STREAM_H264: return L"H264";
+	case AUDIO_STREAM_LPCM: return L"LPCM";
+	case AUDIO_STREAM_AC3: return L"Dolby Digital";
+	case AUDIO_STREAM_DTS: return L"DTS";
+	case AUDIO_STREAM_AC3_TRUE_HD: return L"Dolby TrueHD";
+	case AUDIO_STREAM_AC3_PLUS: return L"Dolby Digital Plus";
+	case AUDIO_STREAM_DTS_HD: return L"DTS-HD High Resolution Audio";
+	case AUDIO_STREAM_DTS_HD_MASTER_AUDIO: return L"DTS-HD Master Audio";
+	case PRESENTATION_GRAPHICS_STREAM: return L"Presentation Graphics Stream";
+	case INTERACTIVE_GRAPHICS_STREAM: return L"Interactive Graphics Stream";
+	case SUBTITLE_STREAM: return L"Subtitle Stream";
+	case SECONDARY_AUDIO_AC3_PLUS: return L"Secondary Dolby Digital Plus";
+	case SECONDARY_AUDIO_DTS_HD: return L"Secondary DTS HD High Resolution Audio";
+	case VIDEO_STREAM_VC1: return L"VC1 Video";
+	}
+	return NULL;
 }

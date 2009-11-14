@@ -1180,6 +1180,12 @@ STDMETHODIMP CBaseSplitterFilter::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TY
 	return S_OK;
 }
 
+LPCTSTR CBaseSplitterFilter::GetPartFilename()
+{
+	CComQIPtr<IFileHandle>	pFH = m_pSyncReader;
+	return pFH ? pFH->GetFileName() : m_fn;
+}
+
 // IMediaSeeking
 
 STDMETHODIMP CBaseSplitterFilter::GetCapabilities(DWORD* pCapabilities)
