@@ -178,6 +178,7 @@ public:
 		int								RegionCount;
 		DVB_REGION						Regions[MAX_REGIONS];
 		CAtlList<CompositionObject*>	Objects;
+		bool							Rendered;
 
 		DVB_PAGE()
 		{
@@ -185,6 +186,7 @@ public:
 			PageVersionNumber	= 0;
 			PageState			= 0;
 			RegionCount			= 0;
+			Rendered			= false;
 		}
 
 		~DVB_PAGE()
@@ -201,14 +203,17 @@ public:
 private:
 	static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 
-	DVB_SEGMENT_TYPE	m_nCurSegment;
-	CAtlArray<BYTE>		m_SegBuffer;
+	int					m_nBufferSize;
+	int					m_nBufferReadPos;
+	int					m_nBufferWritePos;
+	BYTE*				m_pBuffer;
 	CAtlList<DVB_PAGE*>	m_Pages;
 	CAutoPtr<DVB_PAGE>	m_pCurrentPage;
 	DVB_DISPLAY			m_Display;
+	REFERENCE_TIME		m_rtStart;
+	REFERENCE_TIME		m_rtStop;
 
-	void				AppendBuffer(BYTE* pData, int nSize);
-	void				ShrinkBuffer();
+	HRESULT				AddToBuffer(BYTE* pData, int nSize);
 	DVB_PAGE*			FindPage(REFERENCE_TIME rt);
 	DVB_REGION*			FindRegion(DVB_PAGE* pPage, BYTE bRegionId);
 	DVB_CLUT*			FindClut(DVB_PAGE* pPage, BYTE bClutId);

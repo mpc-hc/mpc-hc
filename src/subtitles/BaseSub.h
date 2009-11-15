@@ -38,6 +38,7 @@ public:
 	static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 
 	CBaseSub(SUBTITLE_TYPE nType);
+	virtual ~CBaseSub();
 
 	virtual HRESULT			ParseSample (IMediaSample* pSample) = NULL;
 	virtual void			Reset() = NULL;
