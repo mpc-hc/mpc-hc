@@ -199,7 +199,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	int bps = wfe->wBitsPerSample>>3;
 
 	int len = pIn->GetActualDataLength() / (bps*wfe->nChannels);
-	int lenout = len * wfeout->nSamplesPerSec / wfe->nSamplesPerSec;
+	int lenout = (UINT64)len * wfeout->nSamplesPerSec / wfe->nSamplesPerSec;
 
 	REFERENCE_TIME rtStart, rtStop;
 	if(SUCCEEDED(pIn->GetTime(&rtStart, &rtStop)))
