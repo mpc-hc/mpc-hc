@@ -238,7 +238,9 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	if(FAILED(hr = pIn->GetPointer(&pDataIn))) return hr;
 	if(FAILED(hr = pOut->GetPointer(&pDataOut))) return hr;
 
-	if(!pDataIn || !pDataOut || len <= 0 || lenout <= 0) return S_FALSE;
+	if(!pDataIn || !pDataOut || len < 0 || lenout < 0) return S_FALSE;
+	// len = 0 doesn't mean it's failed, return S_OK otherwise might skrew the sound
+	if(len == 0) {pOut->SetActualDataLength(0); return S_OK;}
 
 	memset(pDataOut, 0, pOut->GetSize());
 
