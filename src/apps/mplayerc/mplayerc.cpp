@@ -306,8 +306,6 @@ CMPlayerCApp::CMPlayerCApp()
 	m_ColorControl[2].dwProperty	= Hue;
 	m_ColorControl[3].dwSize		= sizeof (COLORPROPERTY_RANGE);
 	m_ColorControl[3].dwProperty	= Saturation;
-
-	QueryPerformanceFrequency ((LARGE_INTEGER*)&m_PerfFrequency);
 }
 
 void CMPlayerCApp::ShowCmdlnSwitches()
@@ -2966,15 +2964,20 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 
 LONGLONG CMPlayerCApp::GetPerfCounter()
 {
-	LONGLONG		i64Ticks100ns;
-	if (m_PerfFrequency != 0)
-	{
-		QueryPerformanceCounter ((LARGE_INTEGER*)&i64Ticks100ns);
-		i64Ticks100ns	= LONGLONG((double(i64Ticks100ns) * 10000000) / double(m_PerfFrequency) + 0.5);
+	LARGE_INTEGER		i64Ticks100ns;
+	LARGE_INTEGER		llPerfFrequency;
 
-		return i64Ticks100ns;
+	QueryPerformanceFrequency (&llPerfFrequency);
+	if (llPerfFrequency.QuadPart != 0)
+	{
+		QueryPerformanceCounter (&i64Ticks100ns);
+		return llMulDiv (i64Ticks100ns.QuadPart, 10000000, llPerfFrequency.QuadPart, 0);
 	}
-	return 0;
+	else
+	{
+		// ms to 100ns units
+		return timeGetTime() * 10000; 
+	}
 }
 
 COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)

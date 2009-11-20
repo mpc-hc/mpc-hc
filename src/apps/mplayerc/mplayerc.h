@@ -396,7 +396,6 @@ public:
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	bool		m_fTearingTest;
 	int			m_fDisplayStats;
-	LONGLONG	m_PerfFrequency;
 	CString		m_strVersion;
 	CString		m_strD3DX9Version;
 
