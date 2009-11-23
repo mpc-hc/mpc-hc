@@ -237,7 +237,7 @@ protected:
 	HRESULT RenameOutputPin(DWORD TrackNumSrc, DWORD TrackNumDst, const AM_MEDIA_TYPE* pmt);
 	virtual HRESULT DeleteOutputs();
 	virtual HRESULT CreateOutputs(IAsyncReader* pAsyncReader) = 0; // override this ...
-	virtual LPCTSTR GetPartFilename();
+	virtual LPCTSTR GetPartFilename(IAsyncReader* pAsyncReader);
 
 	LONGLONG m_nOpenProgress;
 	bool m_fAbort;

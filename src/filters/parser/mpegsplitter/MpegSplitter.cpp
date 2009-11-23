@@ -148,10 +148,7 @@ STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 {
 	HRESULT		hr;
 	
-	hr = __super::Load (pszFileName, pmt);
-	ReadClipInfo (GetPartFilename());
-
-	return hr;
+	return __super::Load (pszFileName, pmt);
 }
 
 
@@ -289,6 +286,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Free();
 
+	ReadClipInfo (GetPartFilename(pAsyncReader));
 	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
 	if(!m_pFile) return E_OUTOFMEMORY;
 	if(FAILED(hr)) {m_pFile.Free(); return hr;}
