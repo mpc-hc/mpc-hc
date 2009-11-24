@@ -32,9 +32,9 @@
 
 %ifdef OBJ_FORMAT_win32
 	%define FLAC__PUBLIC_NEEDS_UNDERSCORE
-	%idefine code_section section .text align=16 class=CODE use32
-	%idefine data_section section .data align=32 class=DATA use32
-	%idefine bss_section  section .bss  align=32 class=DATA use32
+	%idefine code_section section .text align=16 
+	%idefine data_section section .data align=32 
+	%idefine bss_section  section .bss  align=32 
 %elifdef OBJ_FORMAT_aout
 	%define FLAC__PUBLIC_NEEDS_UNDERSCORE
 	%idefine code_section section .text

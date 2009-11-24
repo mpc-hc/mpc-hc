@@ -126,6 +126,8 @@ ULONGLONG CMultiFiles::GetAbsolutePosition(LONGLONG lOff, UINT nFrom)
 		return llCurPos.QuadPart + lOff;
 	case end :
 		return m_llTotalLength - lOff;
+	default:
+		return 0;	// just used to quash "not all control paths return a value" warning
 	}
 }
 

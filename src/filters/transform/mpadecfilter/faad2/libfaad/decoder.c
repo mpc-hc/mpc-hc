@@ -217,7 +217,9 @@ static int latmCheck(latm_header *latm, bitfile *ld)
     while (ld->bytes_left)
     {
         bits = faad_latm_frame(latm, ld);
+#pragma warning(disable: 4146)
         if(bits==-1U)
+#pragma warning(default: 4146)
             bad++;
         else
         {
@@ -233,6 +235,7 @@ static int latmCheck(latm_header *latm, bitfile *ld)
 
     return (good>0);
 }
+
 
 
 long NEAACDECAPI NeAACDecInit(NeAACDecHandle hpDecoder,
