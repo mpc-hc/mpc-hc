@@ -24,7 +24,6 @@
 #include <atlbase.h>
 #include <ks.h>
 #include <ksmedia.h>
-#include <stdint.h>
 #include "libmpeg2.h"
 #include "Mpeg2DecFilter.h"
 

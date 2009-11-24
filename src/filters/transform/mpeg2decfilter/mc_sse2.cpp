@@ -140,8 +140,6 @@ static void MC_put_y_8_sse2(uint8_t* ecx, const uint8_t* edx, const int eax, int
                 const int edi= eax+eax;
         const int ebx= edi+eax;
                 __m128i xmm0;
-                //movhpd (xmm0,edx);
-                //movlpd (xmm0,edx+eax);
         movlpd (xmm0, edx);
 
         for (;esi;edx+=edi*2,ecx+=edi*2,esi-=4){
