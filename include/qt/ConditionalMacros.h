@@ -212,7 +212,7 @@
  #if TARGET_RT_MAC_CFM 
      #define PRAGMA_IMPORT           1
       #if (__SC__ <= 0x0810)
-         /* old versions of SC don't support Ò#pragma import resetÓ */
+         /* old versions of SC don't support ï£º#pragma import resetÎ£ */
           #define PRAGMA_IMPORT_OFF   1
       #endif
  #else
