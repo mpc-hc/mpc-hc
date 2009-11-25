@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="MpaDecFilter"
 	ProjectGUID="{4421516D-10A6-41C1-ADF3-099573BBB0C6}"
 	RootNamespace="MpaDecFilter"
@@ -465,7 +465,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib libdtsR.lib liba52R.lib libflac.lib"
+				AdditionalDependencies="libfaad2R.lib libmadR.lib libdcaR.lib liba52R.lib libflac.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
@@ -527,7 +527,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib libdtsR.lib liba52R.lib libflac.lib"
+				AdditionalDependencies="libfaad2R.lib libmadR.lib libdcaR.lib liba52R.lib libflac.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>

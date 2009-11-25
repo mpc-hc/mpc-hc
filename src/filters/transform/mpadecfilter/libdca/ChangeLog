@@ -1,0 +1,861 @@
+------------------------------------------------------------------------
+r70 | courmisch | 2007-04-08 09:09:37 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/COPYING
+   M /trunk/NEWS
+   M /trunk/include/audio_out.h
+   M /trunk/include/dca.h
+   M /trunk/include/dts.h
+   M /trunk/include/tendra.h
+   M /trunk/libao/audio_out.c
+   M /trunk/libao/audio_out_aif.c
+   M /trunk/libao/audio_out_al.c
+   M /trunk/libao/audio_out_float.c
+   M /trunk/libao/audio_out_internal.h
+   M /trunk/libao/audio_out_null.c
+   M /trunk/libao/audio_out_oss.c
+   M /trunk/libao/audio_out_solaris.c
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libao/audio_out_win.c
+   M /trunk/libao/convert2s16.c
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/bitstream.h
+   M /trunk/libdca/dca_internal.h
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/parse.c
+   M /trunk/libdca/tables.h
+   M /trunk/libdca/tables_adpcm.h
+   M /trunk/libdca/tables_fir.h
+   M /trunk/libdca/tables_huffman.h
+   M /trunk/libdca/tables_quantization.h
+   M /trunk/libdca/tables_vq.h
+   M /trunk/src/dcadec.c
+   M /trunk/src/extract_dca.c
+   M /trunk/src/gettimeofday.c
+   M /trunk/src/gettimeofday.h
+   M /trunk/test/compare.c
+
+Update News and FSF address
+
+------------------------------------------------------------------------
+r69 | courmisch | 2007-04-08 08:59:26 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/src
+
+Fix svn:ignore
+
+------------------------------------------------------------------------
+r68 | courmisch | 2007-04-08 08:56:38 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+
+Bump version
+
+------------------------------------------------------------------------
+r67 | courmisch | 2007-04-08 08:55:38 +0000 (Sun, 08 Apr 2007) | 3 lines
+Changed paths:
+   M /trunk/libdca/configure.incl
+
+Only use -prefer-non-pic optimization if --without-pic is used.
+Afterall, most Linux/*BSD distributions always want PIC.
+
+------------------------------------------------------------------------
+r66 | courmisch | 2007-04-08 08:23:47 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libao/Makefile.am
+   M /trunk/libdca/Makefile.am
+   M /trunk/src/Makefile.am
+
+Fix linking with -lm
+
+------------------------------------------------------------------------
+r65 | courmisch | 2007-04-08 07:48:54 +0000 (Sun, 08 Apr 2007) | 3 lines
+Changed paths:
+   M /trunk/Makefile.am
+   M /trunk/NEWS
+   M /trunk/configure.ac
+   D /trunk/debian
+
+Remove Debian packaging
+as I assume it will be migrated to pkg-multimedia repo
+
+------------------------------------------------------------------------
+r64 | courmisch | 2007-04-07 18:44:06 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/ChangeLog
+
+libdca-0.0.3 release
+
+------------------------------------------------------------------------
+r63 | courmisch | 2007-04-07 18:42:46 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/vc++/Makefile.am
+   A /trunk/vc++/dcadec.dsp (from /trunk/vc++/dtsdec.dsp:62)
+   A /trunk/vc++/dcadec.dsw (from /trunk/vc++/dtsdec.dsw:62)
+   D /trunk/vc++/dtsdec.dsp
+   D /trunk/vc++/dtsdec.dsw
+   A /trunk/vc++/libdca.dsp (from /trunk/vc++/libdts.dsp:62)
+   D /trunk/vc++/libdts.dsp
+
+Updat VC++ files
+
+------------------------------------------------------------------------
+r62 | courmisch | 2007-04-07 18:10:32 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/doc/libdca.txt
+   M /trunk/include/dca.h
+   M /trunk/include/dts.h
+   M /trunk/libdca/Makefile.am
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/bitstream.h
+   M /trunk/libdca/dca_internal.h
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/parse.c
+   M /trunk/libdca/tables.h
+   M /trunk/src/dcadec.c
+   M /trunk/test/globals
+
+Complete API renaming
+
+------------------------------------------------------------------------
+r61 | courmisch | 2007-04-07 18:00:02 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/dca.h
+   M /trunk/include/dts.h
+   M /trunk/libao/audio_out_aif.c
+   M /trunk/libao/audio_out_al.c
+   M /trunk/libao/audio_out_float.c
+   M /trunk/libao/audio_out_null.c
+   M /trunk/libao/audio_out_oss.c
+   M /trunk/libao/audio_out_peak.c
+   M /trunk/libao/audio_out_solaris.c
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libao/audio_out_win.c
+   M /trunk/libao/convert2s16.c
+   M /trunk/libdca/dca_internal.h
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/parse.c
+   M /trunk/src/dcadec.c
+
+Update name of all constants
+
+------------------------------------------------------------------------
+r60 | courmisch | 2007-04-07 17:49:34 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+
+Fix name
+
+------------------------------------------------------------------------
+r59 | courmisch | 2007-04-07 17:44:05 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libdca/Makefile.am
+
+Provide compat link for static linking
+
+------------------------------------------------------------------------
+r58 | courmisch | 2007-04-07 17:28:22 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/doc/libdca.txt
+   M /trunk/include/dca.h
+   M /trunk/include/dts.h
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/bitstream.h
+   M /trunk/libdca/dca_internal.h
+   M /trunk/libdca/parse.c
+   M /trunk/libdca/tables_huffman.h
+   M /trunk/src/dcadec.c
+
+Update state structure name while retaining API and ABI compatibility
+
+------------------------------------------------------------------------
+r57 | courmisch | 2007-04-07 12:43:16 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out.c
+   M /trunk/libao/audio_out_aif.c
+   M /trunk/libao/audio_out_al.c
+   M /trunk/libao/audio_out_float.c
+   M /trunk/libao/audio_out_null.c
+   M /trunk/libao/audio_out_oss.c
+   M /trunk/libao/audio_out_peak.c
+   M /trunk/libao/audio_out_solaris.c
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libao/audio_out_win.c
+   M /trunk/libao/convert2s16.c
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/parse.c
+   M /trunk/src/dcadec.c
+
+Use dca.h
+
+------------------------------------------------------------------------
+r56 | courmisch | 2007-04-07 12:43:09 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libdca/Makefile.am
+
+Fix build
+
+------------------------------------------------------------------------
+r55 | courmisch | 2007-04-07 12:38:32 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/Makefile.am
+   A /trunk/include/dca.h (from /trunk/include/dts.h:52)
+   M /trunk/include/dts.h
+
+Update public header file name and provide backward compatibility stub
+
+------------------------------------------------------------------------
+r54 | courmisch | 2007-04-07 12:34:33 +0000 (Sat, 07 Apr 2007) | 3 lines
+Changed paths:
+   M /trunk/src/Makefile.am
+   A /trunk/src/dcadec.1 (from /trunk/src/dtsdec.1:52)
+   D /trunk/src/dtsdec.1
+   A /trunk/src/extract_dca.1 (from /trunk/src/extract_dts.1:52)
+   D /trunk/src/extract_dts.1
+
+- Rename manpages and provide symlinks
+- Fix manpages referencing A52 instead of DTS
+
+------------------------------------------------------------------------
+r53 | courmisch | 2007-04-07 12:17:05 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libdca/Makefile.am
+
+Build fix
+
+------------------------------------------------------------------------
+r52 | courmisch | 2007-04-07 10:31:33 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/README
+
+Update README
+
+------------------------------------------------------------------------
+r51 | courmisch | 2007-04-07 10:30:09 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/dts.h
+   M /trunk/libao/audio_out_aif.c
+   M /trunk/libao/audio_out_al.c
+   M /trunk/libao/audio_out_float.c
+   M /trunk/libao/audio_out_internal.h
+   M /trunk/libao/audio_out_oss.c
+   M /trunk/libao/audio_out_peak.c
+   M /trunk/libao/audio_out_solaris.c
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libao/audio_out_win.c
+   M /trunk/libao/convert2s16.c
+   M /trunk/libdca/dca_internal.h
+   M /trunk/vc++/config.h
+
+Fix defines that were broken in previous commits
+
+------------------------------------------------------------------------
+r50 | courmisch | 2007-04-07 10:25:25 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+   M /trunk/libdca/configure.incl
+   M /trunk/src/Makefile.am
+   M /trunk/src/configure.incl
+   M /trunk/test/Makefile.am
+
+Update executables and CFLAGS name
+
+------------------------------------------------------------------------
+r49 | courmisch | 2007-04-07 10:11:08 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libdca/Makefile.am
+   M /trunk/libdca/bitstream.c
+   A /trunk/libdca/dca_internal.h (from /trunk/libdca/dts_internal.h:48)
+   M /trunk/libdca/downmix.c
+   D /trunk/libdca/dts_internal.h
+   M /trunk/libdca/parse.c
+   M /trunk/src/Makefile.am
+   A /trunk/src/dcadec.c (from /trunk/src/dtsdec.c:48)
+   D /trunk/src/dtsdec.c
+   A /trunk/src/extract_dca.c (from /trunk/src/extract_dts.c:48)
+   D /trunk/src/extract_dts.c
+
+Update internal file names
+
+------------------------------------------------------------------------
+r48 | courmisch | 2007-04-07 10:05:39 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/README
+   M /trunk/include/dts.h
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/bitstream.h
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/dts_internal.h
+   M /trunk/libdca/parse.c
+   M /trunk/libdca/tables.h
+   M /trunk/libdca/tables_adpcm.h
+   M /trunk/libdca/tables_fir.h
+   M /trunk/libdca/tables_huffman.h
+   M /trunk/libdca/tables_quantization.h
+   M /trunk/libdca/tables_vq.h
+   M /trunk/src/dtsdec.c
+   M /trunk/src/extract_dts.c
+   M /trunk/test/compare.c
+
+More name and URL updates
+
+------------------------------------------------------------------------
+r47 | courmisch | 2007-04-07 09:53:30 +0000 (Sat, 07 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/dts.h
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libdca/bitstream.c
+   M /trunk/libdca/bitstream.h
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/dts_internal.h
+   M /trunk/libdca/parse.c
+   M /trunk/libdca/tables.h
+   M /trunk/libdca/tables_adpcm.h
+   M /trunk/libdca/tables_fir.h
+   M /trunk/libdca/tables_huffman.h
+   M /trunk/libdca/tables_quantization.h
+   M /trunk/libdca/tables_vq.h
+   M /trunk/src/dtsdec.c
+   M /trunk/src/extract_dts.c
+   M /trunk/test/compare.c
+
+Update project name and URL
+
+------------------------------------------------------------------------
+r46 | courmisch | 2007-04-06 18:09:46 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+   M /trunk/libdca/Makefile.am
+   A /trunk/libdca/libdts.pc.in (from /trunk/libdca/libdca.pc.in:45)
+
+Provide correct libdts.pc
+
+------------------------------------------------------------------------
+r45 | courmisch | 2007-04-06 18:05:11 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/Makefile.am
+   M /trunk/configure.ac
+   D /trunk/doc/Makefile.am
+   A /trunk/doc/libdca.txt (from /trunk/doc/libdts.txt:43)
+   D /trunk/doc/libdts.txt
+   M /trunk/libdca
+   A /trunk/libdca/libdca.pc.in (from /trunk/libdca/libdts.pc.in:44)
+   D /trunk/libdca/libdts.pc.in
+   M /trunk/src/Makefile.am
+
+More renaming (partially brokn)
+
+------------------------------------------------------------------------
+r44 | courmisch | 2007-04-06 17:57:12 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/Makefile.am
+   M /trunk/configure.ac
+   A /trunk/libdca (from /trunk/libdts:43)
+   M /trunk/libdca/Makefile.am
+   D /trunk/libdts
+
+Change package name to libdca
+
+------------------------------------------------------------------------
+r43 | courmisch | 2007-04-06 17:52:37 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+   M /trunk/include/Makefile.am
+   M /trunk/libao/Makefile.am
+   M /trunk/libdts/Makefile.am
+   M /trunk/src/Makefile.am
+
+Use libtool
+
+------------------------------------------------------------------------
+r42 | courmisch | 2007-04-06 17:41:15 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/bootstrap
+
+Please welcome autoreconf
+
+------------------------------------------------------------------------
+r41 | courmisch | 2007-04-06 15:54:26 +0000 (Fri, 06 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+
+Fix CPU tuning flags (pointed out by M. Moriarty)
+
+------------------------------------------------------------------------
+r40 | courmisch | 2007-04-05 17:52:03 +0000 (Thu, 05 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/test/Makefile.am
+
+Mark scripts as such
+
+------------------------------------------------------------------------
+r39 | courmisch | 2007-04-05 17:51:49 +0000 (Thu, 05 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/NEWS
+   M /trunk/configure.ac
+
+News for libdca 0.0.3
+
+------------------------------------------------------------------------
+r38 | courmisch | 2007-04-05 17:47:53 +0000 (Thu, 05 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+   M /trunk/libao/Makefile.am
+   M /trunk/src/Makefile.am
+
+Automake fixes
+
+------------------------------------------------------------------------
+r37 | courmisch | 2007-04-05 17:46:34 +0000 (Thu, 05 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/test/regression
+
+Handle directories with white spaces properly
+
+------------------------------------------------------------------------
+r36 | courmisch | 2007-04-05 17:38:21 +0000 (Thu, 05 Apr 2007) | 3 lines
+Changed paths:
+   M /trunk/bootstrap
+   M /trunk/configure.ac
+
+- Bump version number to 0.0.3
+- Fix support for automake 1.10 and bump requirement to 1.7
+
+------------------------------------------------------------------------
+r35 | mru | 2006-10-29 23:53:41 +0000 (Sun, 29 Oct 2006) | 2 lines
+Changed paths:
+   M /trunk/src/dtsdec.c
+
+fix typo in -s option handling
+
+------------------------------------------------------------------------
+r34 | courmisch | 2006-09-30 13:02:49 +0000 (Sat, 30 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_wav.c
+
+Another incorrect type aliasing on big endian
+
+------------------------------------------------------------------------
+r33 | courmisch | 2006-09-30 12:53:39 +0000 (Sat, 30 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_wav.c
+
+Fix previous commit
+
+------------------------------------------------------------------------
+r32 | courmisch | 2006-09-25 15:40:08 +0000 (Mon, 25 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_wav.c
+
+Fix another aliasing bug
+
+------------------------------------------------------------------------
+r31 | courmisch | 2006-09-25 15:38:23 +0000 (Mon, 25 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/test/compile
+   M /trunk/test/globals
+   M /trunk/test/regression
+
+Add missing execute bit
+
+------------------------------------------------------------------------
+r30 | courmisch | 2006-09-25 15:32:48 +0000 (Mon, 25 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/libdts/bitstream.h
+
+Fix type-punning bug
+
+------------------------------------------------------------------------
+r29 | courmisch | 2006-09-25 15:11:17 +0000 (Mon, 25 Sep 2006) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_oss.c
+
+Merge FreeBSD-specific OSS patch from FreeBSD tree
+
+------------------------------------------------------------------------
+r28 | titer | 2004-07-23 12:20:07 +0000 (Fri, 23 Jul 2004) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+   M /trunk/test/Makefile.am
+
+ Added check for -lm
+
+------------------------------------------------------------------------
+r27 | gbazin | 2004-07-09 08:36:59 +0000 (Fri, 09 Jul 2004) | 1 line
+Changed paths:
+   M /trunk/libdts/parse.c
+   M /trunk/libdts/tables.h
+   M /trunk/libdts/tables_huffman.h
+
+* ALL: shut-up compiler warnings (patch by Michael Roitzsch <mroi at users dot sourceforge dot net>).
+------------------------------------------------------------------------
+r26 | sam | 2004-07-05 09:26:48 +0000 (Mon, 05 Jul 2004) | 4 lines
+Changed paths:
+   M /trunk/bootstrap
+   M /trunk/libdts/bitstream.c
+
+  * bootstrap:
+    + Run libtoolize before aclocal (when we eventually use libtool, of course).
+    + Support automake 1.8.
+
+------------------------------------------------------------------------
+r24 | gbazin | 2004-02-29 12:25:40 +0000 (Sun, 29 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/ChangeLog
+
+* ChangeLog: updated for the libdts-0.0.2 release.
+
+------------------------------------------------------------------------
+r23 | gbazin | 2004-02-29 12:04:29 +0000 (Sun, 29 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/AUTHORS
+   M /trunk/NEWS
+   M /trunk/configure.ac
+
+* ALL: release of libdts-0.0.2
+
+------------------------------------------------------------------------
+r22 | gbazin | 2004-02-29 11:43:19 +0000 (Sun, 29 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out.c
+   M /trunk/libao/audio_out_internal.h
+   M /trunk/libao/audio_out_wav.c
+   M /trunk/libao/convert2s16.c
+
+* libao/*: modified wav audio_out to output float multichannel wav files.
+
+------------------------------------------------------------------------
+r21 | gbazin | 2004-02-25 20:44:33 +0000 (Wed, 25 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/vc++/inttypes.h
+   M /trunk/vc++/libao.dsp
+
+* vc++/inttypes.h, vc++/libao.dsp: msvc fixes, courtesy of John Adcock.
+
+------------------------------------------------------------------------
+r20 | gbazin | 2004-02-25 13:53:52 +0000 (Wed, 25 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/libdts/dts_internal.h
+   M /trunk/vc++/libdts.dsp
+
+* libdts/dts_internal.h: removed unused prototypes.
+* vc++/libdts.dsp: include the right files (not tested).
+
+------------------------------------------------------------------------
+r19 | sam | 2004-02-25 13:03:33 +0000 (Wed, 25 Feb 2004) | 5 lines
+Changed paths:
+   M /trunk/bootstrap
+   M /trunk/configure.ac
+   M /trunk/debian/rules
+   M /trunk/libdts/Makefile.am
+   M /trunk/src/Makefile.am
+
+  * configure.ac libdts/Makefile.am:
+    + On non-MS systems, build libdts_pic.a in addition to libdts.a.
+  * bootstrap:
+    + Disabled libtool until we build a real shared library.
+
+------------------------------------------------------------------------
+r18 | sam | 2004-02-24 19:39:03 +0000 (Tue, 24 Feb 2004) | 7 lines
+Changed paths:
+   M /trunk/ChangeLog
+   M /trunk/debian/changelog
+   M /trunk/libdts/Makefile.am
+
+  * libdts/Makefile.am:
+    + Added missing tables_vq.h to the distributed files.
+  * debian/changelog:
+    + First Debian upload.
+  * ChangeLog:
+    + Generated a changelog using svn log -v.
+
+------------------------------------------------------------------------
+r17 | sam | 2004-02-24 19:30:41 +0000 (Tue, 24 Feb 2004) | 5 lines
+Changed paths:
+   M /trunk
+   M /trunk/Makefile.am
+   M /trunk/debian/Makefile.am
+   D /trunk/debian/dirs
+   M /trunk/debian/rules
+   M /trunk/include/Makefile.am
+
+  * include/Makefile.am:
+    + Install dts.h directly into /usr/include.
+  * debian/rules:
+    + Updated accordingly.
+
+------------------------------------------------------------------------
+r16 | sam | 2004-02-24 19:17:59 +0000 (Tue, 24 Feb 2004) | 13 lines
+Changed paths:
+   M /trunk
+   D /trunk/INSTALL
+   M /trunk/Makefile.am
+   M /trunk/README
+   M /trunk/bootstrap
+   A /trunk/configure.ac (from /trunk/configure.in:14)
+   D /trunk/configure.in
+   M /trunk/include
+   D /trunk/include/config.h.in
+
+  * configure.ac:
+    + Renamed configure.in into configure.ac.
+    + Renamed package to libdts (was dtsdec).
+    + Put config.h into . instead of include/.
+  * bootstrap:
+    + Imported libdvdcss's bootstrap script (handles multiple automake
+      installations).
+  * Makefile.am:
+    + Split SUBDIRS into SUBDIRS and DIST_SUBDIRS.
+  * README:
+    + Merged INSTALL into README.
+    + Fixed a couple of URLs.
+
+------------------------------------------------------------------------
+r15 | sam | 2004-02-24 19:16:03 +0000 (Tue, 24 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/libdts/bitstream.c
+
+  * bitstream.c:
+    + Minor 64 bit fix.
+
+------------------------------------------------------------------------
+r14 | sam | 2004-02-24 17:15:46 +0000 (Tue, 24 Feb 2004) | 10 lines
+Changed paths:
+   M /trunk/bootstrap
+   M /trunk/configure.in
+   M /trunk/include
+   M /trunk/libdts/Makefile.am
+   M /trunk/src/Makefile.am
+
+  * bootstrap:
+    + Abort if any of the autotools fails.
+    + Check for libtoolize's real name (can be glibtoolize under OS X).
+    + Move ltmain.sh to autotools/ if libtoolize created it in '.'.
+    + Call autoconf before autoheader and automake to avoid unnecessary calls
+      to automake during the make process.
+  * configure.in:
+    + Use AM_CONFIG_HEADER instead of AC_CONFIG_HEADERS.
+    + Substitute LIBAO_LIBS and LIBDTS_LIBS so that automake does not fail.
+
+------------------------------------------------------------------------
+r13 | sam | 2004-02-24 16:49:27 +0000 (Tue, 24 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/Makefile.am
+   M /trunk/configure.in
+   A /trunk/debian
+   A /trunk/debian/Makefile.am
+   A /trunk/debian/changelog
+   A /trunk/debian/compat
+   A /trunk/debian/control
+   A /trunk/debian/copyright
+   A /trunk/debian/dirs
+   A /trunk/debian/rules
+
+  * debian/*:
+    + Added Debian packaging information.
+
+------------------------------------------------------------------------
+r12 | gbazin | 2004-02-23 22:37:39 +0000 (Mon, 23 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/src/dtsdec.c
+
+* src/dtsdec.c: make sure we read enough data for dts_syncinfo().
+
+------------------------------------------------------------------------
+r11 | gbazin | 2004-02-13 17:57:21 +0000 (Fri, 13 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/ChangeLog
+   M /trunk/NEWS
+   M /trunk/TODO
+   M /trunk/configure.in
+   M /trunk/libdts/parse.c
+   M /trunk/libdts/tables_adpcm.h
+   M /trunk/libdts/tables_quantization.h
+   A /trunk/libdts/tables_vq.h
+
+* ALL: bumped version number to 0.0.2-svn
+* libdts/parse.c, libdts/tables_vq.h: added support for high frequencies VQ.
+
+------------------------------------------------------------------------
+r10 | gbazin | 2004-02-11 18:01:25 +0000 (Wed, 11 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/README
+   M /trunk/libdts/dts_internal.h
+
+* README: remove useless line.
+* libdts/dts_internal.h: fixed array size for high freq VQ.
+
+------------------------------------------------------------------------
+r9 | gbazin | 2004-02-11 17:58:49 +0000 (Wed, 11 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/test
+
+* test: forgot the svn:ignore property for this directory.
+
+------------------------------------------------------------------------
+r8 | gbazin | 2004-02-11 17:57:53 +0000 (Wed, 11 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk
+   M /trunk/autotools
+   M /trunk/doc
+   M /trunk/include
+   M /trunk/libao
+   M /trunk/libdts
+   M /trunk/src
+   M /trunk/vc++
+
+* ALL: added svn:ignore properties.
+
+------------------------------------------------------------------------
+r7 | bidon | 2004-02-08 20:49:14 +0000 (Sun, 08 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/ChangeLog
+   M /trunk/NEWS
+
+* ALL: 0.0.1 release
+
+------------------------------------------------------------------------
+r6 | bidon | 2004-02-08 19:54:41 +0000 (Sun, 08 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/ChangeLog
+   M /trunk/NEWS
+   M /trunk/README
+   M /trunk/TODO
+   M /trunk/configure.in
+   M /trunk/include/dts.h
+   M /trunk/libdts/bitstream.c
+   M /trunk/libdts/bitstream.h
+   M /trunk/libdts/downmix.c
+   M /trunk/libdts/dts_internal.h
+   M /trunk/libdts/parse.c
+   M /trunk/libdts/tables.h
+   M /trunk/libdts/tables_adpcm.h
+   M /trunk/libdts/tables_fir.h
+   M /trunk/libdts/tables_huffman.h
+   M /trunk/libdts/tables_quantization.h
+   M /trunk/src/dtsdec.c
+   M /trunk/src/extract_dts.c
+   M /trunk/test/compare.c
+
+* ALL: preparing for the first release.
+
+------------------------------------------------------------------------
+r5 | gbazin | 2004-02-08 18:52:52 +0000 (Sun, 08 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/libdts/downmix.c
+   M /trunk/libdts/parse.c
+
+* libdts/downmix.c: a few correction to the input/output downmixing table.
+
+------------------------------------------------------------------------
+r4 | gbazin | 2004-02-08 14:21:23 +0000 (Sun, 08 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/libdts/parse.c
+
+* libdts/parse.c: support for LFE channel.
+
+------------------------------------------------------------------------
+r3 | gbazin | 2004-02-08 01:50:58 +0000 (Sun, 08 Feb 2004) | 3 lines
+Changed paths:
+   M /trunk/libdts/dts_internal.h
+   M /trunk/libdts/parse.c
+
+* libdts/dts_internal.h: added debug flag and high freq VQ array.
+* libdts/parse.c: make sure the VQ encoded high frequencies are initialised to 0 (we can't decode them for now).
+
+------------------------------------------------------------------------
+r2 | gbazin | 2004-02-06 22:34:19 +0000 (Fri, 06 Feb 2004) | 2 lines
+Changed paths:
+   M /trunk/libdts/bitstream.h
+
+* libdts/bitstream.h: fixed stupid endianness mistake.
+
+------------------------------------------------------------------------
+r1 | gbazin | 2004-02-05 00:34:30 +0000 (Thu, 05 Feb 2004) | 2 lines
+Changed paths:
+   A /branches
+   A /tags
+   A /trunk
+   A /trunk/AUTHORS
+   A /trunk/COPYING
+   A /trunk/ChangeLog
+   A /trunk/INSTALL
+   A /trunk/Makefile.am
+   A /trunk/NEWS
+   A /trunk/README
+   A /trunk/TODO
+   A /trunk/acinclude.m4
+   A /trunk/autotools
+   A /trunk/autotools/Makefile.am
+   A /trunk/bootstrap
+   A /trunk/configure.in
+   A /trunk/doc
+   A /trunk/doc/Makefile.am
+   A /trunk/doc/libdts.txt
+   A /trunk/include
+   A /trunk/include/Makefile.am
+   A /trunk/include/audio_out.h
+   A /trunk/include/config.h.in
+   A /trunk/include/dts.h
+   A /trunk/include/tendra.h
+   A /trunk/libao
+   A /trunk/libao/Makefile.am
+   A /trunk/libao/audio_out.c
+   A /trunk/libao/audio_out_aif.c
+   A /trunk/libao/audio_out_al.c
+   A /trunk/libao/audio_out_float.c
+   A /trunk/libao/audio_out_internal.h
+   A /trunk/libao/audio_out_null.c
+   A /trunk/libao/audio_out_oss.c
+   A /trunk/libao/audio_out_peak.c
+   A /trunk/libao/audio_out_solaris.c
+   A /trunk/libao/audio_out_wav.c
+   A /trunk/libao/audio_out_win.c
+   A /trunk/libao/configure.incl
+   A /trunk/libao/convert2s16.c
+   A /trunk/libdts
+   A /trunk/libdts/Makefile.am
+   A /trunk/libdts/bitstream.c
+   A /trunk/libdts/bitstream.h
+   A /trunk/libdts/configure.incl
+   A /trunk/libdts/downmix.c
+   A /trunk/libdts/dts_internal.h
+   A /trunk/libdts/libdts.pc.in
+   A /trunk/libdts/parse.c
+   A /trunk/libdts/tables.h
+   A /trunk/libdts/tables_adpcm.h
+   A /trunk/libdts/tables_fir.h
+   A /trunk/libdts/tables_huffman.h
+   A /trunk/libdts/tables_quantization.h
+   A /trunk/src
+   A /trunk/src/Makefile.am
+   A /trunk/src/configure.incl
+   A /trunk/src/dtsdec.1
+   A /trunk/src/dtsdec.c
+   A /trunk/src/extract_dts.1
+   A /trunk/src/extract_dts.c
+   A /trunk/src/getopt.c
+   A /trunk/src/getopt.h
+   A /trunk/src/gettimeofday.c
+   A /trunk/src/gettimeofday.h
+   A /trunk/test
+   A /trunk/test/Makefile.am
+   A /trunk/test/compare.c
+   A /trunk/test/compile
+   A /trunk/test/globals
+   A /trunk/test/regression
+   A /trunk/test/tests
+   A /trunk/vc++
+   A /trunk/vc++/Makefile.am
+   A /trunk/vc++/config.h
+   A /trunk/vc++/dtsdec.dsp
+   A /trunk/vc++/dtsdec.dsw
+   A /trunk/vc++/inttypes.h
+   A /trunk/vc++/libao.dsp
+   A /trunk/vc++/libdts.dsp
+
+Inital import
+
+------------------------------------------------------------------------

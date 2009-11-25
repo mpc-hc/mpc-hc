@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "libmad-0.15.0b\msvc++\mad.h"
 #include "a52dec-0.7.4\include\a52.h"
-#include "dtsdec-0.0.1\include\dts.h"
+#include "libdca\include\dts.h"
 //#include "faad2\include\neaacdec.h" // conflicts with dxtrans.h
 //#include "libvorbisidec\ivorbiscodec.h"
 #include "libvorbisidec\vorbis/codec.h"
