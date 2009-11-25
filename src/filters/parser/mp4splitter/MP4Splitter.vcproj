@@ -179,6 +179,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 			/>
 			<Tool
@@ -240,6 +241,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 			/>
 			<Tool

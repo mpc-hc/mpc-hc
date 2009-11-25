@@ -19,7 +19,7 @@
 typedef LONG NTSTATUS, *PNTSTATUS;
 typedef LONG KPRIORITY;
 
-#define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)
+//#define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)
 
 typedef void (CALLBACK *PKNORMAL_ROUTINE)(PVOID, PVOID, PVOID);
 

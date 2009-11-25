@@ -194,6 +194,7 @@
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -259,6 +260,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
+				GenerateDebugInformation="false"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 			/>
@@ -446,6 +448,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="basevideofilterRU.lib idct_mmx.obj motion_comp_mmx.obj"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
@@ -508,6 +511,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="basevideofilterRU.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"

@@ -177,6 +177,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				OutputFile="..\..\lib\subtitlesRU.lib"
 			/>
 			<Tool
@@ -237,6 +238,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				OutputFile="..\..\lib64\subtitlesRU.lib"
 			/>
 			<Tool

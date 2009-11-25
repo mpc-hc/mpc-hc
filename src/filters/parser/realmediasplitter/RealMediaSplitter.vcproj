@@ -181,6 +181,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="basesplitterRU.lib basevideofilterRU.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
@@ -243,6 +244,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="basesplitterRU.lib basevideofilterRU.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"

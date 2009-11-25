@@ -179,6 +179,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
 				OutputFile="..\..\lib\$(ProjectName)RU.lib"
 			/>
@@ -240,6 +241,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
 				OutputFile="..\..\lib64\$(ProjectName)RU.lib"
 			/>

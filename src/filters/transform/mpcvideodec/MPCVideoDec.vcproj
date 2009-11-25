@@ -462,6 +462,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
@@ -525,6 +526,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
+				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
