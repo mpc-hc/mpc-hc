@@ -1,4 +1,4 @@
-LIBRARY      "DTSAC3Source.ax"
+LIBRARY      "flacsource.ax"
 
 EXPORTS
 	DllCanUnloadNow			PRIVATE

@@ -200,7 +200,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
+				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdcaR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -342,7 +342,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib libdtsD.lib liba52D.lib libflacD.lib"
+				AdditionalDependencies="libfaad2D.lib libmadD.lib libdcaD.lib liba52D.lib libflacD.lib"
 				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 			/>
@@ -405,7 +405,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2D.lib libmadD.lib libdtsD.lib liba52D.lib libflacD.lib"
+				AdditionalDependencies="libfaad2D.lib libmadD.lib libdcaD.lib liba52D.lib libflacD.lib"
 				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 			/>

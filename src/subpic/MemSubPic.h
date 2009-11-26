@@ -29,6 +29,7 @@ enum {MSP_RGB32,MSP_RGB24,MSP_RGB16,MSP_RGB15,MSP_YUY2,MSP_YV12,MSP_IYUV,MSP_AYU
 
 class CMemSubPic : public ISubPicImpl
 {
+#pragma warning(disable: 4799)
 	SubPicDesc m_spd;
 
 protected:
@@ -45,6 +46,7 @@ public:
 	STDMETHODIMP Lock(SubPicDesc& spd);
 	STDMETHODIMP Unlock(RECT* pDirtyRect);
 	STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget);
+#pragma warning(default: 4146)
 };
 
 // CMemSubPicAllocator

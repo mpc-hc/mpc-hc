@@ -1,4 +1,4 @@
-LIBRARY		"MpcAudioRenderer.ax"
+LIBRARY		"MpcAudioRendererFilter.ax"
 
 EXPORTS
 	DllCanUnloadNow			PRIVATE
