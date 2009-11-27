@@ -1,3 +1,4 @@
+#define WINVER			0x0600
 #define IDI_NONE         -1
 
 /* The values below correspond to the icon indexes.

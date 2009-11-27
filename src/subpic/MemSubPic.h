@@ -46,7 +46,6 @@ public:
 	STDMETHODIMP Lock(SubPicDesc& spd);
 	STDMETHODIMP Unlock(RECT* pDirtyRect);
 	STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget);
-#pragma warning(default: 4146)
 };
 
 // CMemSubPicAllocator

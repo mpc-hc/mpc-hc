@@ -68,7 +68,7 @@
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="false"
 				ModuleDefinitionFile=".\mpciconlib.def"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -136,6 +136,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				ModuleDefinitionFile=".\mpciconlib.def"
+				GenerateDebugInformation="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
