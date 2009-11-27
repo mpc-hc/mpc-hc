@@ -433,8 +433,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   }
 };
 
-// Workaround : graphedit crash when filter expose more than 115 input MediaTypes !
-const int CMPCVideoDecFilter::sudPinTypesInCount = 115; //countof(CMPCVideoDecFilter::sudPinTypesIn);
+const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
 
 UINT       CMPCVideoDecFilter::FFmpegFilters = 0xFFFFFFFF;
 UINT       CMPCVideoDecFilter::DXVAFilters = 0xFFFFFFFF;

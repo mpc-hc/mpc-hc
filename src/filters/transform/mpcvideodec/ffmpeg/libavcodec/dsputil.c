@@ -31,7 +31,7 @@
 #include "dsputil.h"
 #include "simple_idct.h"
 #include "faandct.h"
-#include "faanidct.h"
+//#include "faanidct.h"
 #include "mathops.h"
 #include "h263.h"
 
@@ -4243,11 +4243,11 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
             c->idct_add= ff_wmv2_idct_add_c;
             c->idct    = ff_wmv2_idct_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-        }else if(avctx->idct_algo==FF_IDCT_FAAN){
-            c->idct_put= ff_faanidct_put;
-            c->idct_add= ff_faanidct_add;
-            c->idct    = ff_faanidct;
-            c->idct_permutation_type= FF_NO_IDCT_PERM;
+//        }else if(avctx->idct_algo==FF_IDCT_FAAN){
+//            c->idct_put= ff_faanidct_put;
+//            c->idct_add= ff_faanidct_add;
+//            c->idct    = ff_faanidct;
+//            c->idct_permutation_type= FF_NO_IDCT_PERM;
         }else{ //accurate/default
             c->idct_put= ff_simple_idct_put;
             c->idct_add= ff_simple_idct_add;
@@ -4578,44 +4578,4 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     default:
         av_log(avctx, AV_LOG_ERROR, "Internal error, IDCT permutation not set\n");
     }
-}
-
-// avcodec_get_current_idct,avcodec_get_encoder_info by h.yamagata
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-const char* avcodec_get_current_idct(AVCodecContext *avctx)
-{
-    MpegEncContext *s = avctx->priv_data;
-    DSPContext *c = &s->dsp;
-
-    if (c->idct_put==ff_jref_idct_put)
-        return "Integer (ff_jref_idct)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct1)";
-    if (c->idct_put==ff_jref_idct1_put)
-        return "Integer (ff_jref_idct2)";
-    if (c->idct_put==ff_jref_idct4_put)
-        return "Integer (ff_jref_idct4)";
-    if (c->idct_put==ff_h264_lowres_idct_put_c)
-        return "H.264 (ff_h264_lowres_idct_c)";
-    if (c->idct_put==ff_vp3_idct_put_c)
-        return "VP3 (ff_vp3_idct_c)";
-    if (c->idct_put==ff_faanidct_put)
-        return "FAAN (ff_faanidct_put)";
-    if (c->idct_put==ff_simple_idct_put)
-        return "Simple IDCT (simple_idct)";
-#if HAVE_MMX
-    return avcodec_get_current_idct_mmx(avctx,c);
-#else
-	return "";
-#endif
-}
-
-// It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
-void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build)
-{
-    MpegEncContext *s = avctx->priv_data;
-    *xvid_build = s->xvid_build;
-    *divx_version = s->divx_version;
-    *divx_build = s->divx_build;
-    *lavc_build = s->lavc_build;
 }

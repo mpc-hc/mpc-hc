@@ -2426,8 +2426,7 @@ FF_EXPORT int avcodec_thread_init(AVCodecContext *s, int thread_count);
 FF_EXPORT void avcodec_thread_free(AVCodecContext *s);
 int avcodec_thread_execute(AVCodecContext *s, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
 int avcodec_default_execute(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
-const char* avcodec_get_current_idct(AVCodecContext *avctx);
-void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build);
+
 //FIXME func typedef
 
 /**

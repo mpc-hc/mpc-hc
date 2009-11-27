@@ -2,14 +2,11 @@ EXPORTS
   avcodec_init
   avcodec_register_all
   avcodec_find_decoder
-  avcodec_find_encoder
   avcodec_open
   avcodec_alloc_context
   avcodec_alloc_frame
   avcodec_decode_video
-  avcodec_encode_video
   avcodec_decode_audio2
-  avcodec_encode_audio
   avcodec_flush_buffers
   avcodec_close
   getVersion
