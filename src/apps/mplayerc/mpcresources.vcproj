@@ -68,11 +68,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -146,11 +147,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -224,11 +226,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -302,11 +305,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -380,11 +384,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -458,11 +463,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -536,11 +542,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -614,11 +621,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -692,11 +700,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -770,11 +779,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -848,11 +858,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -926,11 +937,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1004,11 +1016,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1082,11 +1095,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1160,11 +1174,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1238,11 +1253,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1316,11 +1332,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1394,11 +1411,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1472,11 +1490,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1550,11 +1569,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1628,11 +1648,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1706,11 +1727,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1784,11 +1806,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1862,11 +1885,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1940,11 +1964,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2018,11 +2043,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2096,11 +2122,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2174,11 +2201,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2252,11 +2280,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2330,11 +2359,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2408,11 +2438,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2486,11 +2517,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2564,11 +2596,12 @@
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2642,11 +2675,12 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

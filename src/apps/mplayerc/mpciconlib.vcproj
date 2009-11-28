@@ -48,6 +48,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;UNICODE"
+				BufferSecurityCheck="true"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -70,8 +71,11 @@
 				ModuleDefinitionFile=".\mpciconlib.def"
 				GenerateDebugInformation="false"
 				SubSystem="2"
+				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -122,6 +126,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -137,6 +142,9 @@
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				ModuleDefinitionFile=".\mpciconlib.def"
 				GenerateDebugInformation="false"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
