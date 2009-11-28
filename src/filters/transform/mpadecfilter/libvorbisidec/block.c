@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: PCM data vector blocking, windowing and dis/reassembly
- last mod: $Id: block.c 16227 2009-07-08 06:58:46Z xiphmont $
+ last mod: $Id: block.c 16330 2009-07-24 01:58:50Z xiphmont $
 
  Handle windowing, overlap-add, etc of the PCM vectors.  This is made
  more amusing by Vorbis' current two allowed block sizes.
@@ -232,15 +232,16 @@ static int _vds_shared_init(vorbis_dsp_state *v,vorbis_info *vi,int encp){
     v->analysisp=1;
   }else{
     /* finish the codebooks */
-    if(!ci->fullbooks){
+    if(!ci->fullbooks)
       ci->fullbooks=_ogg_calloc(ci->books,sizeof(*ci->fullbooks));
-      for(i=0;i<ci->books;i++){
-        if(vorbis_book_init_decode(ci->fullbooks+i,ci->book_param[i]))
-          return -1;
+    for(i=0;i<ci->books;i++){
+      if(ci->book_param[i]==NULL)
+        goto abort_books;
+      if(vorbis_book_init_decode(ci->fullbooks+i,ci->book_param[i]))
+        goto abort_books;
         /* decode codebooks are now standalone after init */
-        vorbis_staticbook_destroy(ci->book_param[i]);
-        ci->book_param[i]=NULL;
-      }
+      vorbis_staticbook_destroy(ci->book_param[i]);
+      ci->book_param[i]=NULL;
     }
   }
 
@@ -278,6 +279,15 @@ static int _vds_shared_init(vorbis_dsp_state *v,vorbis_info *vi,int encp){
       look(v,ci->residue_param[i]);
 
   return 0;
+ abort_books:
+  for(i=0;i<ci->books;i++){
+    if(ci->book_param[i]!=NULL){
+      vorbis_staticbook_destroy(ci->book_param[i]);
+      ci->book_param[i]=NULL;
+    }
+  }
+  vorbis_dsp_clear(v);
+  return -1;
 }
 
 /* arbitrary settings and spec-mandated numbers get filled in here */
