@@ -365,6 +365,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc
 		{431DD5B6-3F2F-47EE-A23F-514BC044B704} = {431DD5B6-3F2F-47EE-A23F-514BC044B704}
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F} = {438286B7-A9F4-411D-BCC5-948C40E37D8F}
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA} = {ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}
+		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1} = {FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}
 		{916D0FC1-1D86-487A-82DE-37FBEE43FB34} = {916D0FC1-1D86-487A-82DE-37FBEE43FB34}
 		{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E} = {F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}
 		{E776D3C2-5BFA-41B9-B998-A35B549AF737} = {E776D3C2-5BFA-41B9-B998-A35B549AF737}
@@ -405,10 +406,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\filters\transform\mpadecfilter\libdca\vc++\libdca.vcproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug Unicode|x64 = Debug Unicode|x64
@@ -909,9 +906,13 @@ Global
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|x64.ActiveCfg = Release|x64
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode|x64.Build.0 = Release|x64
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|Win32.ActiveCfg = Debug Unicode lib|Win32
+		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|Win32.Build.0 = Debug Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|x64.ActiveCfg = Debug Unicode lib|x64
+		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Debug Unicode|x64.Build.0 = Debug Unicode lib|x64
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|Win32.ActiveCfg = Release Unicode lib|Win32
+		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|Win32.Build.0 = Release Unicode lib|Win32
 		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|x64.ActiveCfg = Release Unicode lib|x64
+		{D0620EF4-1313-40D5-9069-A82F6FE26994}.Release Unicode|x64.Build.0 = Release Unicode lib|x64
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Debug Unicode|Win32.ActiveCfg = Debug|Win32
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Debug Unicode|Win32.Build.0 = Debug|Win32
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Debug Unicode|x64.ActiveCfg = Debug|x64
@@ -999,5 +1000,9 @@ Global
 		{61E6EB4D-2F1A-443B-94B0-E8200B26E99F} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{AB494732-EF6D-44D0-BCF8-80FF04858D10} = {2913B7E4-7A8B-43D5-A60B-345A0782816A}
 		{D0620EF4-1313-40D5-9069-A82F6FE26994} = {C0038E92-68BF-4491-B5AA-BEE9857A49F8}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
