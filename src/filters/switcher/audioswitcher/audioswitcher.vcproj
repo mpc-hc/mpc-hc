@@ -213,8 +213,9 @@
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -288,8 +289,9 @@
 				ModuleDefinitionFile="AudioSwitcher.def"
 				DelayLoadDLLs=""
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
