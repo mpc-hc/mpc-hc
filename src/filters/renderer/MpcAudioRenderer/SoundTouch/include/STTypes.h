@@ -115,7 +115,7 @@ namespace soundtouch
             #error "conflicting sample types defined"
         #endif // FLOAT_SAMPLES
 
-        #ifdef ALLOW_X86_OPTIMIZATIONS
+        #if defined ALLOW_X86_OPTIMIZATIONS && !defined(_WIN64)	// FIXME: Link error when enabled on x64 filters only
             // Allow MMX optimizations
             #define ALLOW_MMX   1
         #endif
