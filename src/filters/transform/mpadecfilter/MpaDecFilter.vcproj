@@ -272,7 +272,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdtsR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
+				AdditionalDependencies="filtersRU.lib libvorbisidecR.lib libfaad2R.lib libmadR.lib liba52R.lib libdcaR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpaDecFilter.def"
