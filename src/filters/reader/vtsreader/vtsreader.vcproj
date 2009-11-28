@@ -161,6 +161,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -222,6 +223,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -422,6 +424,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -440,8 +443,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="VTSReader.def"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -495,6 +499,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

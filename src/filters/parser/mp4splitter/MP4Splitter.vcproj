@@ -166,6 +166,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4812;4244"
 			/>
 			<Tool
@@ -228,6 +229,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4812"
 			/>
 			<Tool
@@ -438,6 +440,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4812"
 			/>
 			<Tool
@@ -456,8 +459,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -512,6 +516,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4812"
 			/>
 			<Tool
@@ -530,8 +535,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="$(ProjectName).def"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

@@ -163,6 +163,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -223,6 +224,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

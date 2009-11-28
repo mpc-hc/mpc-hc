@@ -46,6 +46,7 @@
 				AdditionalOptions=""
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
+				BufferSecurityCheck="true"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
 				WarningLevel="2"
 				DisableSpecificWarnings="4244"
@@ -113,6 +114,7 @@
 				AdditionalOptions=""
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
 				WarningLevel="2"
 			/>

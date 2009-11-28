@@ -173,6 +173,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DisableSpecificWarnings="4244"
@@ -235,6 +236,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>

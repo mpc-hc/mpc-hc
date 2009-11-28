@@ -184,6 +184,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 				CompileAs="2"
 			/>
 			<Tool
@@ -203,6 +204,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -256,6 +260,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -274,6 +279,9 @@
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -449,6 +457,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -513,6 +522,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include,ffmpeg,ffmpeg\libavcodec,ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

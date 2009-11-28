@@ -54,6 +54,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -81,8 +82,8 @@
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				LargeAddressAware="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="1"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				SupportUnloadOfDelayLoadedDLL="true"
 			/>
 			<Tool
@@ -145,6 +146,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
@@ -171,8 +173,8 @@
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				GenerateDebugInformation="false"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				SupportUnloadOfDelayLoadedDLL="true"
 				TargetMachine="17"
 			/>

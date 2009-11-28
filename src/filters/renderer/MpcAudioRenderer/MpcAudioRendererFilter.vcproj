@@ -189,6 +189,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -206,8 +207,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -261,6 +263,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -278,8 +281,9 @@
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				LargeAddressAware="2"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -453,6 +457,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -516,6 +521,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				BufferSecurityCheck="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

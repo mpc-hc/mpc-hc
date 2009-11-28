@@ -167,6 +167,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
 				DisableSpecificWarnings="4244;4800;4355"
@@ -229,6 +230,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;HAVE_MMX"
+				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
 			/>
