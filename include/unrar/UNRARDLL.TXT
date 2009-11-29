@@ -1,8 +1,8 @@
 
-    unRAR.dll Manual
+    UnRAR.dll Manual
     ~~~~~~~~~~~~~~~~
 
-    UNRAR.DLL is a 32-bit Windows dynamic-link library which provides
+    UnRAR.dll is a 32-bit Windows dynamic-link library which provides
  file extraction from RAR archives.
 
 
@@ -42,8 +42,22 @@ OpenMode
 
   Possible values
 
-  RAR_OM_LIST           Open archive for reading file headers only
-  RAR_OM_EXTRACT        Open archive for testing and extracting files
+  RAR_OM_LIST
+    Open archive for reading file headers only.
+
+  RAR_OM_EXTRACT
+    Open archive for testing and extracting files.
+
+  RAR_OM_LIST_INCSPLIT
+    Open archive for reading file headers only. If you open an archive
+    in such mode, RARReadHeader[Ex] will return all file headers,
+    including those with "file continued from previous volume" flag.
+    In case of RAR_OM_LIST such headers are automatically skipped.
+    So if you process RAR volumes in RAR_OM_LIST_INCSPLIT mode, you will
+    get several file header records for same file if file is split between
+    volumes. For such files only the last file header record will contain
+    the correct file CRC and if you wish to get the correct packed size,
+    you need to sum up packed sizes of all parts.
 
 OpenResult
   Output parameter.
@@ -54,6 +68,7 @@ OpenResult
   ERAR_NO_MEMORY        Not enough memory to initialize data structures
   ERAR_BAD_DATA         Archive header broken
   ERAR_BAD_ARCHIVE      File is not valid RAR archive
+  ERAR_UNKNOWN_FORMAT   Unknown encryption used for archive headers
   ERAR_EOPEN            File open error
 
 CmtBuf
@@ -230,8 +245,8 @@ Flags
        0 1 0    - dictionary size  256 Kb
        0 1 1    - dictionary size  512 Kb
        1 0 0    - dictionary size 1024 Kb
-       1 0 1    - reserved
-       1 1 0    - reserved
+       1 0 1    - dictionary size 2048 KB
+       1 1 0    - dictionary size 4096 KB
        1 1 1    - file is directory
 
   Other bits are reserved.
@@ -252,8 +267,9 @@ HostOS
   3 - Unix
 
 FileCRC
-  Output parameter which contains unpacked file CRC. It should not be
-  used for file parts which were split between volumes.
+  Output parameter which contains unpacked file CRC. In case of file parts
+  split between volumes only the last part contains the correct CRC
+  and it is accessible only in RAR_OM_LIST_INCSPLIT listing mode.
 
 FileTime
   Output parameter - contains date and time in standard MS DOS format.
@@ -388,14 +404,14 @@ Operation
 DestPath
   This parameter should point to a zero terminated string containing the 
   destination directory to which to extract files to. If DestPath is equal 
-  to NULL it means extract to the current directory. This parameter has 
+  to NULL, it means extract to the current directory. This parameter has 
   meaning only if DestName is NULL. 
 
 DestName
   This parameter should point to a string containing the full path and name
-  of the file to be extracted or NULL as default. If DestName is defined
-  (not NULL) it overrides the original file name saved in the archive and 
-  DestPath setting. 
+  to assign to extracted file or it can be NULL to use the default name.
+  If DestName is defined (not NULL), it overrides both the original file
+  name saved in the archive and path specigied in DestPath setting. 
 
   Both DestPath and DestName must be in OEM encoding. If necessary,
   use CharToOem to convert text to OEM before passing to this function.
@@ -413,10 +429,28 @@ Return values
   ERAR_EWRITE           Write error
 
 
+Note: if you wish to cancel extraction, return -1 when processing
+      UCM_PROCESSDATA callback message.
+
+
+====================================================================
+int PASCAL RARProcessFileW(HANDLE hArcData,
+                           int Operation,
+                           wchar_t *DestPath,
+                           wchar_t *DestName)
+====================================================================
+
+Description
+~~~~~~~~~~~
+  Unicode version of RARProcessFile. It uses Unicode DestPath
+  and DestName parameters, other parameters and return values
+  are the same as in RARProcessFile.
+
+
 ====================================================================
 void PASCAL RARSetCallback(HANDLE hArcData,
-            int PASCAL (*CallbackProc)(UINT msg,LONG UserData,LONG P1,LONG P2),
-            LONG UserData);
+            int PASCAL (*CallbackProc)(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2),
+            LPARAM UserData);
 ====================================================================
 
 Description
@@ -452,7 +486,7 @@ CallbackProc
       P2                   The function call mode:
 
         RAR_VOL_ASK          Required volume is absent. The function should
-                             prompt user and return a non-zero value
+                             prompt user and return a positive value
                              to retry or return -1 value to terminate 
                              operation. The function may also specify a new 
                              volume name, placing it to the address specified
@@ -461,13 +495,13 @@ CallbackProc
         RAR_VOL_NOTIFY       Required volume is successfully opened.
                              This is a notification call and volume name
                              modification is not allowed. The function should 
-                             return a non-zero value to continue or -1
+                             return a positive value to continue or -1
                              to terminate operation. 
 
     UCM_PROCESSDATA          Process unpacked data. It may be used to read
                              a file while it is being extracted or tested
                              without actual extracting file to disk.
-                             Return a non-zero value to continue process
+                             Return a positive value to continue process
                              or -1 to cancel the archive operation
 
       P1                   Address pointing to the unpacked data.
@@ -494,7 +528,7 @@ CallbackProc
 UserData
   User data passed to callback function.
 
-  Other functions of UNRAR.DLL should not be called from the callback
+  Other functions of UnRAR.dll should not be called from the callback
   function.
 
 Return values
@@ -549,7 +583,7 @@ void PASCAL RARGetDllVersion();
 
 Description
 ~~~~~~~~~~~
-  Returns unrar.dll version.
+  Returns API version.
 
 Parameters
 ~~~~~~~~~~
@@ -557,10 +591,16 @@ Parameters
 
 Return values
 ~~~~~~~~~~~~~
-  Returns an integer value denoting DLL version. It is increased in case
-of changes in DLL API. The current version value is defined in unrar.h
-as RAR_DLL_VERSION
+  Returns an integer value denoting UnRAR.dll API version, which is also
+defined in unrar.h as RAR_DLL_VERSION. API version number is incremented
+only in case of noticeable changes in UnRAR.dll API. Do not confuse it
+with version of UnRAR.dll stored in DLL resources, which is incremented
+with every DLL rebuild.
 
-  This function is absent in old versions of unrar.dll, so it may be wise
+  If RARGetDllVersion() returns a value lower than UnRAR.dll which your
+application was designed for, it may indicate that DLL version is too old
+and it will fail to provide all necessary functions to your application.
+
+  This function is absent in old versions of UnRAR.dll, so it is safer
 to use LoadLibrary and GetProcAddress to access this function.
 
