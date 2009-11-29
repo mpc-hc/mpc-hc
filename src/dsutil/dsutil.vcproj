@@ -281,7 +281,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -300,7 +300,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -310,7 +310,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -323,7 +323,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -342,7 +342,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
