@@ -15,15 +15,13 @@
 ;	along with this program; if not, write to the Free Software
 ;	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-	.486
-	.model	flat
-	.const
+	segment	.rdata, align=16
 
-	public _YUV_Y_table
-	public _YUV_U_table
-	public _YUV_V_table
-	public _YUV_clip_table
-	public _YUV_clip_table16
+	global _YUV_Y_table	
+	global _YUV_U_table	
+	global _YUV_V_table	
+	global _YUV_clip_table	
+	global _YUV_clip_table16	
 
 _YUV_Y_table	dd	1FED1FEDh, 1FEF1FEFh, 1FF01FF0h, 1FF11FF1h
 		dd	1FF21FF2h, 1FF31FF3h, 1FF41FF4h, 1FF61FF6h
