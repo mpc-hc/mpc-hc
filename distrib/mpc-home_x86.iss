@@ -1,4 +1,4 @@
-﻿;the revision number - 2009-07-22 13:36
+;the revision number - 2009-07-22 13:36
 
 #include "../include/Version.h"
 
@@ -174,6 +174,5 @@ begin
     // rename binary from previous installer
     renamefile (ExpandConstant('{app}\' + 'mplayerc.exe'), ExpandConstant('{app}\' + 'mplayerc.exe.bak'));
 end;
-
 
 

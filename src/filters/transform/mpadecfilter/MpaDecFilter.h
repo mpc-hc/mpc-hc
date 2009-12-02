@@ -23,8 +23,8 @@
 
 #include <atlcoll.h>
 #include <stdint.h>
-#include "libmad-0.15.0b\msvc++\mad.h"
-#include "a52dec-0.7.4\include\a52.h"
+#include "libmad\msvc++\mad.h"
+#include "a52dec\include\a52.h"
 #include "libdca\include\dts.h"
 //#include "faad2\include\neaacdec.h" // conflicts with dxtrans.h
 //#include "libvorbisidec\ivorbiscodec.h"
