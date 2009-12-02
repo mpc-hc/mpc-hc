@@ -95,7 +95,7 @@ BEGIN
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
             VALUE "FileVersion", "1, 2, 0, 0"
             VALUE "InternalName", "VSFilter"
-            VALUE "LegalCopyright", "Copyright (C) 2001-2008 Gabest"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2009 see AUTHORS file"
             VALUE "OriginalFilename", "VSFilter.dll"
             VALUE "ProductName", "VSFilter"
             VALUE "ProductVersion", "1, 2, 0, 0"
