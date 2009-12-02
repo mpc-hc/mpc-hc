@@ -36,10 +36,6 @@
 #include "ac3dec.h"
 #include "ac3dec_data.h"
 
-#if _MSC_VER<1400
-#define powf pow
-#endif
-
 /** Large enough for maximum possible frame size when the specification limit is ignored */
 #define AC3_FRAME_BUFFER_SIZE 32768
 
@@ -608,7 +604,6 @@ static void do_rematrixing(AC3DecodeContext *s)
 {
     int bnd, i;
     int end, bndend;
-    int tmp0, tmp1;
 
     end = FFMIN(s->end_freq[1], s->end_freq[2]);
 
@@ -616,10 +611,9 @@ static void do_rematrixing(AC3DecodeContext *s)
         if(s->rematrixing_flags[bnd]) {
             bndend = FFMIN(end, ff_ac3_rematrix_band_tab[bnd+1]);
             for(i=ff_ac3_rematrix_band_tab[bnd]; i<bndend; i++) {
-                tmp0 = s->fixed_coeffs[1][i];
-                tmp1 = s->fixed_coeffs[2][i];
-                s->fixed_coeffs[1][i] = tmp0 + tmp1;
-                s->fixed_coeffs[2][i] = tmp0 - tmp1;
+                int tmp0 = s->fixed_coeffs[1][i];
+                s->fixed_coeffs[1][i] += s->fixed_coeffs[2][i];
+                s->fixed_coeffs[2][i]  = tmp0 - s->fixed_coeffs[2][i];
             }
         }
     }
@@ -1028,8 +1022,8 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             for(bnd=0; bnd<s->num_rematrixing_bands; bnd++)
                 s->rematrixing_flags[bnd] = get_bits1(gbc);
         } else if (!blk) {
-            av_log(s->avctx, AV_LOG_ERROR, "new rematrixing strategy must be present in block 0\n");
-            return -1;
+            av_log(s->avctx, AV_LOG_WARNING, "Warning: new rematrixing strategy not present in block 0\n");
+            s->num_rematrixing_bands = 0;
         }
     }
 
@@ -1255,7 +1249,7 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     for(ch=1; ch<=s->channels; ch++) {
         float gain = s->mul_bias / 4194304.0f;
         if(s->channel_mode == AC3_CHMODE_DUALMONO) {
-            gain *= s->dynamic_range[ch-1];
+            gain *= s->dynamic_range[2-ch];
         } else {
             gain *= s->dynamic_range[0];
         }

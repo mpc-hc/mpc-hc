@@ -343,8 +343,10 @@ typedef struct DSPContext {
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
      */
-    void (*sub_hfyu_median_prediction)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w, int *left, int *left_top);
-    void (*add_hfyu_median_prediction)(uint8_t *dst, uint8_t *top, uint8_t *diff, int w, int *left, int *left_top);
+    void (*sub_hfyu_median_prediction)(uint8_t *dst, const uint8_t *src1, const uint8_t *src2, int w, int *left, int *left_top);
+    void (*add_hfyu_median_prediction)(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
+    int  (*add_hfyu_left_prediction)(uint8_t *dst, const uint8_t *src, int w, int left);
+    void (*add_hfyu_left_prediction_bgr32)(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue);
     /* this might write to dst[w] */
     void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
@@ -388,6 +390,49 @@ typedef struct DSPContext {
     void (*vector_fmul_window)(float *dst, const float *src0, const float *src1, const float *win, float add_bias, int len);
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*int32_to_float_fmul_scalar)(float *dst, const int *src, float mul, int len);
+    /**
+     * Multiply a vector of floats by a scalar float.  Source and
+     * destination vectors must overlap exactly or not at all.
+     * @param dst result vector, 16-byte aligned
+     * @param src input vector, 16-byte aligned
+     * @param mul scalar value
+     * @param len length of vector, multiple of 4
+     */
+    void (*vector_fmul_scalar)(float *dst, const float *src, float mul,
+                               int len);
+    /**
+     * Multiply a vector of floats by concatenated short vectors of
+     * floats and by a scalar float.  Source and destination vectors
+     * must overlap exactly or not at all.
+     * [0]: short vectors of length 2, 8-byte aligned
+     * [1]: short vectors of length 4, 16-byte aligned
+     * @param dst output vector, 16-byte aligned
+     * @param src input vector, 16-byte aligned
+     * @param sv  array of pointers to short vectors
+     * @param mul scalar value
+     * @param len number of elements in src and dst, multiple of 4
+     */
+    void (*vector_fmul_sv_scalar[2])(float *dst, const float *src,
+                                     const float **sv, float mul, int len);
+    /**
+     * Multiply short vectors of floats by a scalar float, store
+     * concatenated result.
+     * [0]: short vectors of length 2, 8-byte aligned
+     * [1]: short vectors of length 4, 16-byte aligned
+     * @param dst output vector, 16-byte aligned
+     * @param sv  array of pointers to short vectors
+     * @param mul scalar value
+     * @param len number of output elements, multiple of 4
+     */
+    void (*sv_fmul_scalar[2])(float *dst, const float **sv,
+                              float mul, int len);
+    /**
+     * Calculate the scalar product of two vectors of floats.
+     * @param v1  first vector, 16-byte aligned
+     * @param v2  second vector, 16-byte aligned
+     * @param len length of vectors, multiple of 4
+     */
+    void (*butterflies_float)(float *restrict v1, float *restrict v2, int len);
 
     /* C version: convert floats from the range [384.0,386.0] to ints in [-32768,32767]
      * simd versions: convert floats from [-32768.0,32767.0] without rescaling and arrays are 16byte aligned */
@@ -642,7 +687,52 @@ typedef struct FFTContext {
 #define FF_MDCT_PERM_INTERLEAVE 1
 } FFTContext;
 
-extern FFTSample* const ff_cos_tabs[13];
+#if CONFIG_HARDCODED_TABLES
+#define COSTABLE_CONST const
+#define SINTABLE_CONST const
+#else
+#define COSTABLE_CONST
+#define SINTABLE_CONST
+#endif
+
+#define COSTABLE(size) \
+    COSTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_cos_##size[size/2])
+#define SINTABLE(size) \
+    SINTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_sin_##size[size/2])
+extern COSTABLE(16);
+extern COSTABLE(32);
+extern COSTABLE(64);
+extern COSTABLE(128);
+extern COSTABLE(256);
+extern COSTABLE(512);
+extern COSTABLE(1024);
+extern COSTABLE(2048);
+extern COSTABLE(4096);
+extern COSTABLE(8192);
+extern COSTABLE(16384);
+extern COSTABLE(32768);
+extern COSTABLE(65536);
+extern COSTABLE_CONST FFTSample* const ff_cos_tabs[17];
+
+/**
+ * Initializes the cosine table in ff_cos_tabs[index]
+ * \param index index in ff_cos_tabs array of the table to initialize
+ */
+void ff_init_ff_cos_tabs(int index);
+
+extern SINTABLE(16);
+extern SINTABLE(32);
+extern SINTABLE(64);
+extern SINTABLE(128);
+extern SINTABLE(256);
+extern SINTABLE(512);
+extern SINTABLE(1024);
+extern SINTABLE(2048);
+extern SINTABLE(4096);
+extern SINTABLE(8192);
+extern SINTABLE(16384);
+extern SINTABLE(32768);
+extern SINTABLE(65536);
 
 /**
  * Sets up a complex FFT.
@@ -652,6 +742,8 @@ extern FFTSample* const ff_cos_tabs[13];
 int ff_fft_init(FFTContext *s, int nbits, int inverse);
 void ff_fft_permute_c(FFTContext *s, FFTComplex *z);
 void ff_fft_calc_c(FFTContext *s, FFTComplex *z);
+
+void ff_fft_init_mmx(FFTContext *s);
 
 /**
  * Do the permutation needed BEFORE calling ff_fft_calc().
@@ -732,8 +824,8 @@ typedef struct {
     int sign_convention;
 
     /* pre/post rotation tables */
-    FFTSample *tcos;
-    FFTSample *tsin;
+    const FFTSample *tcos;
+    SINTABLE_CONST FFTSample *tsin;
     FFTContext fft;
 } RDFTContext;
 

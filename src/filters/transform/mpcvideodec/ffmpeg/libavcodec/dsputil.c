@@ -3462,7 +3462,7 @@ static void diff_bytes_c(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
         dst[i+0] = src1[i+0]-src2[i+0];
 }
 
-static void add_hfyu_median_prediction_c(uint8_t *dst, uint8_t *src1, uint8_t *diff, int w, int *left, int *left_top){
+static void add_hfyu_median_prediction_c(uint8_t *dst, const uint8_t *src1, const uint8_t *diff, int w, int *left, int *left_top){
     int i;
     uint8_t l, lt;
 
@@ -3479,7 +3479,7 @@ static void add_hfyu_median_prediction_c(uint8_t *dst, uint8_t *src1, uint8_t *d
     *left_top= lt;
 }
 
-static void sub_hfyu_median_prediction_c(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w, int *left, int *left_top){
+static void sub_hfyu_median_prediction_c(uint8_t *dst, const uint8_t *src1, const uint8_t *src2, int w, int *left, int *left_top){
     int i;
     uint8_t l, lt;
 
@@ -3496,6 +3496,59 @@ static void sub_hfyu_median_prediction_c(uint8_t *dst, uint8_t *src1, uint8_t *s
     *left= l;
     *left_top= lt;
 }
+
+static int add_hfyu_left_prediction_c(uint8_t *dst, const uint8_t *src, int w, int acc){
+    int i;
+
+    for(i=0; i<w-1; i++){
+        acc+= src[i];
+        dst[i]= acc;
+        i++;
+        acc+= src[i];
+        dst[i]= acc;
+    }
+
+    for(; i<w; i++){
+        acc+= src[i];
+        dst[i]= acc;
+    }
+
+    return acc;
+}
+
+#if HAVE_BIGENDIAN
+#define B 3
+#define G 2
+#define R 1
+#else
+#define B 0
+#define G 1
+#define R 2
+#endif
+static void add_hfyu_left_prediction_bgr32_c(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue){
+    int i;
+    int r,g,b;
+    r= *red;
+    g= *green;
+    b= *blue;
+
+    for(i=0; i<w; i++){
+        b+= src[4*i+B];
+        g+= src[4*i+G];
+        r+= src[4*i+R];
+
+        dst[4*i+B]= b;
+        dst[4*i+G]= g;
+        dst[4*i+R]= r;
+    }
+
+    *red= r;
+    *green= g;
+    *blue= b;
+}
+#undef B
+#undef G
+#undef R
 
 #define BUTTERFLY2(o1,o2,i1,i2) \
 o1= (i1)+(i2);\
@@ -3975,6 +4028,71 @@ void ff_vector_fmul_window_c(float *dst, const float *src0, const float *src1, c
         float wj = win[j];
         dst[i] = s0*wj - s1*wi + add_bias;
         dst[j] = s0*wi + s1*wj + add_bias;
+    }
+}
+
+#if CONFIG_AAC_DECODER
+static void vector_fmul_scalar_c(float *dst, const float *src, float mul,
+                                 int len)
+{
+    int i;
+    for (i = 0; i < len; i++)
+        dst[i] = src[i] * mul;
+}
+
+static void vector_fmul_sv_scalar_2_c(float *dst, const float *src,
+                                      const float **sv, float mul, int len)
+{
+    int i;
+    for (i = 0; i < len; i += 2, sv++) {
+        dst[i  ] = src[i  ] * sv[0][0] * mul;
+        dst[i+1] = src[i+1] * sv[0][1] * mul;
+    }
+}
+
+static void vector_fmul_sv_scalar_4_c(float *dst, const float *src,
+                                      const float **sv, float mul, int len)
+{
+    int i;
+    for (i = 0; i < len; i += 4, sv++) {
+        dst[i  ] = src[i  ] * sv[0][0] * mul;
+        dst[i+1] = src[i+1] * sv[0][1] * mul;
+        dst[i+2] = src[i+2] * sv[0][2] * mul;
+        dst[i+3] = src[i+3] * sv[0][3] * mul;
+    }
+}
+
+static void sv_fmul_scalar_2_c(float *dst, const float **sv, float mul,
+                               int len)
+{
+    int i;
+    for (i = 0; i < len; i += 2, sv++) {
+        dst[i  ] = sv[0][0] * mul;
+        dst[i+1] = sv[0][1] * mul;
+    }
+}
+
+static void sv_fmul_scalar_4_c(float *dst, const float **sv, float mul,
+                               int len)
+{
+    int i;
+    for (i = 0; i < len; i += 4, sv++) {
+        dst[i  ] = sv[0][0] * mul;
+        dst[i+1] = sv[0][1] * mul;
+        dst[i+2] = sv[0][2] * mul;
+        dst[i+3] = sv[0][3] * mul;
+    }
+}
+#endif
+
+static void butterflies_float_c(float *restrict v1, float *restrict v2,
+                                int len)
+{
+    int i;
+    for (i = 0; i < len; i++) {
+        float t = v1[i] - v2[i];
+        v1[i] += v2[i];
+        v2[i] = t;
     }
 }
 
@@ -4480,8 +4598,12 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->add_bytes= add_bytes_c;
     c->add_bytes_l2= add_bytes_l2_c;
     c->diff_bytes= diff_bytes_c;
+#if CONFIG_HUFFYUV_DECODER
     c->add_hfyu_median_prediction= add_hfyu_median_prediction_c;
     c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_c;
+    c->add_hfyu_left_prediction  = add_hfyu_left_prediction_c;
+    c->add_hfyu_left_prediction_bgr32 = add_hfyu_left_prediction_bgr32_c;
+#endif
     c->bswap_buf= bswap_buf;
 #if CONFIG_PNG_DECODER
     c->add_png_paeth_prediction= ff_add_png_paeth_prediction;
@@ -4528,6 +4650,18 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_c;
     c->float_to_int16 = ff_float_to_int16_c;
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
+#if CONFIG_AAC_DECODER | CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
+    c->butterflies_float = butterflies_float_c;
+#endif
+#if CONFIG_AAC_DECODER
+    c->vector_fmul_scalar = vector_fmul_scalar_c;
+
+    c->vector_fmul_sv_scalar[0] = vector_fmul_sv_scalar_2_c;
+    c->vector_fmul_sv_scalar[1] = vector_fmul_sv_scalar_4_c;
+
+    c->sv_fmul_scalar[0] = sv_fmul_scalar_2_c;
+    c->sv_fmul_scalar[1] = sv_fmul_scalar_4_c;
+#endif
 
     c->shrink[0]= ff_img_copy_plane;
     c->shrink[1]= ff_shrink22;

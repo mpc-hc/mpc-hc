@@ -3037,8 +3037,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         }
 
         buf2 = av_mallocz(avctx->extradata_size + FF_INPUT_BUFFER_PADDING_SIZE);
-        // if(start[0]) /* ffdshow custom code (comment out this line) to support madshi's eac3to http://forum.doom9.org/showthread.php?p=1091626#post1091626*/
-         start++; // in WVC1 extradata first byte is its size
+        start = find_next_marker(start, end); // in WVC1 extradata first byte is its size, but can be 0 in mkv
         next = start;
         for(; next < end; start = next){
             next = find_next_marker(start + 4, end);
@@ -3177,6 +3176,8 @@ static int vc1_decode_frame(AVCodecContext *avctx,
 
             buf_size2 = vc1_unescape_buffer(buf, divider - buf, buf2);
             // TODO
+            if(!v->warn_interlaced++)
+                av_log(v->s.avctx, AV_LOG_ERROR, "Interlaced WVC1 support is not implemented\n");
             av_free(buf2);return -1;
         }else{
             buf_size2 = vc1_unescape_buffer(buf, buf_size, buf2);

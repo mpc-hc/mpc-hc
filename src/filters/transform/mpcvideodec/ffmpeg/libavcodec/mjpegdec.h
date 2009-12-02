@@ -100,8 +100,11 @@ typedef struct MJpegDecodeContext {
 
     int mjpb_skiptosod;
 
-	uint16_t RGBbuffer[32768][4];
     int cur_scan; /* current scan, used by JPEG-LS */
+    int flipped; /* true if picture is flipped */
+
+    uint16_t (*ljpeg_buffer)[4];
+    unsigned int ljpeg_buffer_size;
 } MJpegDecodeContext;
 
 int ff_mjpeg_decode_init(AVCodecContext *avctx);

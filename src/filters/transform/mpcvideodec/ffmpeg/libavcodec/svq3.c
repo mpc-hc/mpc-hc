@@ -1068,5 +1068,5 @@ AVCodec svq3_decoder = {
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 3"),
+    /*.long_name = */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 3 / Sorenson Video 3 / SVQ3"),
 };

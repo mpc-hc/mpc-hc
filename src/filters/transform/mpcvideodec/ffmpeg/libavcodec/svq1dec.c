@@ -844,5 +844,5 @@ AVCodec svq1_decoder = {
 #else
     /*.pix_fmts = */NULL,
 #endif
-    /*.long_name= */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1"),
+    /*.long_name= */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
 };
