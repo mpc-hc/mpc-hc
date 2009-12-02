@@ -110,6 +110,7 @@ void CGoToDlg::OnBnClickedOk1()
 	REParseError status = re.Parse(_T("{\\z}"), FALSE);
 	if(REPARSE_ERROR_OK == status)
 	{
+		m_timestr += 'A';	// HACK:  Without this the while loop below would keep going on X64 on release builds...
 		CAtlREMatchContext<> mc;
 		const CAtlREMatchContext<>::RECHAR* s = m_timestr.GetBuffer();
 		const CAtlREMatchContext<>::RECHAR* e = NULL;
