@@ -4549,6 +4549,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->avg_rv40_qpel_pixels_tab[1][15] = avg_rv40_qpel8_mc33_c;
 #endif
 
+#if CONFIG_WMV2_DECODER
     c->put_mspel_pixels_tab[0]= put_mspel8_mc00_c;
     c->put_mspel_pixels_tab[1]= put_mspel8_mc10_c;
     c->put_mspel_pixels_tab[2]= put_mspel8_mc20_c;
@@ -4557,7 +4558,9 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->put_mspel_pixels_tab[5]= put_mspel8_mc12_c;
     c->put_mspel_pixels_tab[6]= put_mspel8_mc22_c;
     c->put_mspel_pixels_tab[7]= put_mspel8_mc32_c;
+#endif
 
+#if CONFIG_ENCODERS
 #define SET_CMP_FUNC(name) \
     c->name[0]= name ## 16_c;\
     c->name[1]= name ## 8x8_c;
@@ -4594,6 +4597,7 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #endif
 
     c->ssd_int8_vs_int16 = ssd_int8_vs_int16_c;
+#endif /* CONFIG_ENCODERS */
 
     c->add_bytes= add_bytes_c;
     c->add_bytes_l2= add_bytes_l2_c;
@@ -4634,8 +4638,10 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 
     c->h261_loop_filter= h261_loop_filter_c;
 
+#if CONFIG_ENCODERS
     c->try_8x8basis= try_8x8basis_c;
     c->add_8x8basis= add_8x8basis_c;
+#endif
 
 #if CONFIG_VORBIS_DECODER
     c->vorbis_inverse_coupling = vorbis_inverse_coupling;
@@ -4643,13 +4649,25 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #if CONFIG_AC3_DECODER
     c->ac3_downmix = ff_ac3_downmix_c;
 #endif
+#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
     c->vector_fmul = vector_fmul_c;
+#endif
+#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
     c->vector_fmul_reverse = vector_fmul_reverse_c;
     c->vector_fmul_add = vector_fmul_add_c;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
     c->vector_fmul_window = ff_vector_fmul_window_c;
+#endif
+#if CONFIG_AC3_DECODER
     c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_c;
+#endif
+#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
     c->float_to_int16 = ff_float_to_int16_c;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
+#endif
 #if CONFIG_AAC_DECODER | CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
     c->butterflies_float = butterflies_float_c;
 #endif
@@ -4663,10 +4681,12 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->sv_fmul_scalar[1] = sv_fmul_scalar_4_c;
 #endif
 
+#if CONFIG_ENCODERS
     c->shrink[0]= ff_img_copy_plane;
     c->shrink[1]= ff_shrink22;
     c->shrink[2]= ff_shrink44;
     c->shrink[3]= ff_shrink88;
+#endif
 
     c->prefetch= just_return;
 

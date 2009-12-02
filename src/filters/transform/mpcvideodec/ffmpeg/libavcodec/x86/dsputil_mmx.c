@@ -2846,8 +2846,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_ssse3_rnd;
             c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
+#if CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
-#if HAVE_YASM && ARCH_X86_32
+#endif
+#if HAVE_YASM && ARCH_X86_32 && CONFIG_HUFFYUV_DECODER
             c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_ssse3;
             if (mm_flags & FF_MM_SSE4) // not really sse4, just slow on Conroe
                 c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_sse4;
@@ -2881,38 +2883,70 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #if CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
 #endif
+#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul = vector_fmul_3dnow;
+#endif
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16 = float_to_int16_3dnow;
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
+#endif
             }
         }
         if(mm_flags & FF_MM_3DNOWEXT){
+#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul_window = vector_fmul_window_3dnow2;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16_interleave = float_to_int16_interleave_3dn2;
             }
+#endif
         }
         if(mm_flags & FF_MM_SSE){
 #if CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
 #endif
+#if CONFIG_AC3_DECODER
             c->ac3_downmix = ac3_downmix_sse;
+#endif
+#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul = vector_fmul_sse;
+#endif
+#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add = vector_fmul_add_sse;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul_window = vector_fmul_window_sse;
+#endif
+#if CONFIG_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse;
+#endif
+#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
             c->float_to_int16 = float_to_int16_sse;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
+#endif
         }
-        if(mm_flags & FF_MM_3DNOW)
+#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
+        if(mm_flags & FF_MM_3DNOW)        	
             c->vector_fmul_add = vector_fmul_add_3dnow; // faster than sse
+#endif
         if(mm_flags & FF_MM_SSE2){
+#if CONFIG_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse2;
+#endif
+#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
             c->float_to_int16 = float_to_int16_sse2;
+#endif
+#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
+#endif
         }
 #endif /* ARCH_X86_32 */
     }
