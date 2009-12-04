@@ -1,7 +1,7 @@
 
 /* pngtrans.c - transforms the data in a row (used by both readers and writers)
  *
- * Last changed in libpng 1.2.36 [May 14, 2009]
+ * Last changed in libpng 1.2.41 [December 3, 2009]
  * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -12,6 +12,7 @@
  */
 
 #define PNG_INTERNAL
+#define PNG_NO_PEDANTIC_WARNINGS
 #include "png.h"
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
 
@@ -21,6 +22,7 @@ void PNGAPI
 png_set_bgr(png_structp png_ptr)
 {
    png_debug(1, "in png_set_bgr");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_BGR;
@@ -33,6 +35,7 @@ void PNGAPI
 png_set_swap(png_structp png_ptr)
 {
    png_debug(1, "in png_set_swap");
+
    if (png_ptr == NULL)
       return;
    if (png_ptr->bit_depth == 16)
@@ -46,6 +49,7 @@ void PNGAPI
 png_set_packing(png_structp png_ptr)
 {
    png_debug(1, "in png_set_packing");
+
    if (png_ptr == NULL)
       return;
    if (png_ptr->bit_depth < 8)
@@ -62,6 +66,7 @@ void PNGAPI
 png_set_packswap(png_structp png_ptr)
 {
    png_debug(1, "in png_set_packswap");
+
    if (png_ptr == NULL)
       return;
    if (png_ptr->bit_depth < 8)
@@ -74,6 +79,7 @@ void PNGAPI
 png_set_shift(png_structp png_ptr, png_color_8p true_bits)
 {
    png_debug(1, "in png_set_shift");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_SHIFT;
@@ -87,6 +93,7 @@ int PNGAPI
 png_set_interlace_handling(png_structp png_ptr)
 {
    png_debug(1, "in png_set_interlace handling");
+
    if (png_ptr && png_ptr->interlaced)
    {
       png_ptr->transformations |= PNG_INTERLACE;
@@ -107,10 +114,15 @@ void PNGAPI
 png_set_filler(png_structp png_ptr, png_uint_32 filler, int filler_loc)
 {
    png_debug(1, "in png_set_filler");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_FILLER;
+#ifdef PNG_LEGACY_SUPPORTED
    png_ptr->filler = (png_byte)filler;
+#else
+   png_ptr->filler = (png_uint_16)filler;
+#endif
    if (filler_loc == PNG_FILLER_AFTER)
       png_ptr->flags |= PNG_FLAG_FILLER_AFTER;
    else
@@ -135,12 +147,13 @@ png_set_filler(png_structp png_ptr, png_uint_32 filler, int filler_loc)
    }
 }
 
-#if !defined(PNG_1_0_X)
+#ifndef PNG_1_0_X
 /* Added to libpng-1.2.7 */
 void PNGAPI
 png_set_add_alpha(png_structp png_ptr, png_uint_32 filler, int filler_loc)
 {
    png_debug(1, "in png_set_add_alpha");
+
    if (png_ptr == NULL)
       return;
    png_set_filler(png_ptr, filler, filler_loc);
@@ -156,6 +169,7 @@ void PNGAPI
 png_set_swap_alpha(png_structp png_ptr)
 {
    png_debug(1, "in png_set_swap_alpha");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_SWAP_ALPHA;
@@ -168,6 +182,7 @@ void PNGAPI
 png_set_invert_alpha(png_structp png_ptr)
 {
    png_debug(1, "in png_set_invert_alpha");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_INVERT_ALPHA;
@@ -179,6 +194,7 @@ void PNGAPI
 png_set_invert_mono(png_structp png_ptr)
 {
    png_debug(1, "in png_set_invert_mono");
+
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_INVERT_MONO;
@@ -189,10 +205,11 @@ void /* PRIVATE */
 png_do_invert(png_row_infop row_info, png_bytep row)
 {
    png_debug(1, "in png_do_invert");
+
   /* This test removed from libpng version 1.0.13 and 1.2.0:
    *   if (row_info->bit_depth == 1 &&
    */
-#if defined(PNG_USELESS_TESTS_SUPPORTED)
+#ifdef PNG_USELESS_TESTS_SUPPORTED
    if (row == NULL || row_info == NULL)
      return;
 #endif
@@ -244,8 +261,9 @@ void /* PRIVATE */
 png_do_swap(png_row_infop row_info, png_bytep row)
 {
    png_debug(1, "in png_do_swap");
+
    if (
-#if defined(PNG_USELESS_TESTS_SUPPORTED)
+#ifdef PNG_USELESS_TESTS_SUPPORTED
        row != NULL && row_info != NULL &&
 #endif
        row_info->bit_depth == 16)
@@ -375,8 +393,9 @@ void /* PRIVATE */
 png_do_packswap(png_row_infop row_info, png_bytep row)
 {
    png_debug(1, "in png_do_packswap");
+
    if (
-#if defined(PNG_USELESS_TESTS_SUPPORTED)
+#ifdef PNG_USELESS_TESTS_SUPPORTED
        row != NULL && row_info != NULL &&
 #endif
        row_info->bit_depth < 8)
@@ -407,7 +426,8 @@ void /* PRIVATE */
 png_do_strip_filler(png_row_infop row_info, png_bytep row, png_uint_32 flags)
 {
    png_debug(1, "in png_do_strip_filler");
-#if defined(PNG_USELESS_TESTS_SUPPORTED)
+
+#ifdef PNG_USELESS_TESTS_SUPPORTED
    if (row != NULL && row_info != NULL)
 #endif
    {
@@ -565,8 +585,9 @@ void /* PRIVATE */
 png_do_bgr(png_row_infop row_info, png_bytep row)
 {
    png_debug(1, "in png_do_bgr");
+
    if (
-#if defined(PNG_USELESS_TESTS_SUPPORTED)
+#ifdef PNG_USELESS_TESTS_SUPPORTED
        row != NULL && row_info != NULL &&
 #endif
        (row_info->color_type & PNG_COLOR_MASK_COLOR))
@@ -644,9 +665,10 @@ png_set_user_transform_info(png_structp png_ptr, png_voidp
    user_transform_ptr, int user_transform_depth, int user_transform_channels)
 {
    png_debug(1, "in png_set_user_transform_info");
+
    if (png_ptr == NULL)
       return;
-#if defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
+#ifdef PNG_USER_TRANSFORM_PTR_SUPPORTED
    png_ptr->user_transform_ptr = user_transform_ptr;
    png_ptr->user_transform_depth = (png_byte)user_transform_depth;
    png_ptr->user_transform_channels = (png_byte)user_transform_channels;
@@ -668,7 +690,7 @@ png_get_user_transform_ptr(png_structp png_ptr)
 {
    if (png_ptr == NULL)
       return (NULL);
-#if defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
+#ifdef PNG_USER_TRANSFORM_PTR_SUPPORTED
    return ((png_voidp)png_ptr->user_transform_ptr);
 #else
    return (NULL);

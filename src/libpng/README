@@ -1,14 +1,14 @@
-README for libpng version 1.2.40 - September 10, 2009 (shared library 12.0)
+README for libpng version 1.2.41 - December 3, 2009 (shared library 12.0)
 See the note about version numbers near the top of png.h
 
 See INSTALL for instructions on how to install libpng.
 
 Libpng comes in several distribution formats.  Get libpng-*.tar.gz,
-libpng-*.tar.lzma, or libpng-*.tar.bz2 if you want UNIX-style line
+libpng-*.tar.xz, or libpng-*.tar.bz2 if you want UNIX-style line
 endings in the text files, or lpng*.7z or lpng*.zip if you want DOS-style
 line endings.  You can get UNIX-style line endings from the *.zip file
 by using "unzip -a" but there seems to be no simple way to recover
-UNIX-style line endings from the *.7z file.  The *.tar.lzma file is
+UNIX-style line endings from the *.7z file.  The *.tar.xz file is
 recommended for *NIX users instead.
 
 Version 0.89 was the first official release of libpng.  Don't let the
@@ -58,9 +58,9 @@ to set different actions based on whether the CRC error occurred in a
 critical or an ancillary chunk.
 
 The changes made to the library, and bugs fixed are based on discussions
-on the png-mng-implement mailing list
-and not on material submitted privately to Guy, Andreas, or Glenn.  They will
-forward any good suggestions to the list.
+on the png-mng-implement mailing list and not on material submitted
+privately to Guy, Andreas, or Glenn.  They will forward any good
+suggestions to the list.
 
 For a detailed description on using libpng, read libpng.txt.  For
 examples of libpng in a program, see example.c and pngtest.c.  For usage
@@ -105,7 +105,8 @@ Finally, if you get any warning messages when compiling libpng
 fix.  Please mention "libpng" somewhere in the subject line.  Thanks.
 
 This release was created and will be supported by myself (of course
-based in a large way on Guy's and Andreas' earlier work), and the PNG group.
+based in a large way on Guy's and Andreas' earlier work), and the PNG
+development group.
 
 Send comments/corrections/commendations to png-mng-implement at lists.sf.net
 (subscription required; visit 
@@ -113,15 +114,14 @@ https://lists.sourceforge.net/lists/listinfo/png-mng-implement
 to subscribe) or to glennrp at users.sourceforge.net
 
 You can't reach Guy, the original libpng author, at the addresses
-given in previous versions of this document.  He and Andreas will read mail
-addressed to the png-mng-implement list, however.
+given in previous versions of this document.  He and Andreas will
+read mail addressed to the png-mng-implement list, however.
 
 Please do not send general questions about PNG.  Send them to
 the (png-mng-misc at lists.sourceforge.net, subscription required, visit
-https://lists.sourceforge.net/lists/listinfo/png-mng-implement to subscribe)
-On the other hand,
-please do not send libpng questions to that address, send them to me
-or to the png-mng-implement list.  I'll
+https://lists.sourceforge.net/lists/listinfo/png-mng-misc to
+subscribe). On the other hand, please do not send libpng questions to
+that address, send them to me or to the png-mng-implement list.  I'll
 get them in the end anyway.  If you have a question about something
 in the PNG specification that is related to using libpng, send it
 to me.  Send me any questions that start with "I was using libpng,
@@ -175,34 +175,41 @@ Files in this distribution:
                             Greg Roelofs' "PNG: The Definitive Guide",
                             O'Reilly, 1999
        msvctest     =>  Builds and runs pngtest using a MSVC workspace
+       pngminim     =>  Simple pnm2pngm and png2pnmm programs
        pngminus     =>  Simple pnm2png and png2pnm programs
        pngsuite     =>  Test images
        visupng      =>  Contains a MSVC workspace for VisualPng
-      projects      =>  Contains project files and workspaces for building DLL
+      projects      =>  Contains project files and workspaces for
+                        building a DLL
        beos             =>  Contains a Beos workspace for building libpng
-       c5builder        =>  Contains a Borland workspace for building libpng
-                            and zlib
-       visualc6         =>  Contains a Microsoft Visual C++ (MSVC) workspace
-                            for building libpng and zlib
-       netware.txt      =>  Contains instructions for downloading a set of
-                            project files for building libpng and zlib on
-                            Netware.
-       wince.txt        =>  Contains instructions for downloading a Microsoft
-                            Visual C++ (Windows CD Toolkit) workspace for
-                            building libpng and zlib on WindowsCE
+       c5builder        =>  Contains a Borland workspace for building
+                            libpng and zlib
+       netware.txt      =>  Contains instructions for downloading a set
+                            of project files for building libpng and
+                            zlib on Netware.
+       visualc6         =>  Contains a Microsoft Visual C++ (MSVC)
+                            workspace for building libpng and zlib
+       wince.txt        =>  Contains instructions for downloading a
+                            Microsoft Visual C++ (Windows CD Toolkit)
+                            workspace for building libpng and zlib on
+                            WindowsCE
+       xcode            =>  Contains xcode project files
       scripts       =>  Directory containing scripts for building libpng:
        descrip.mms      =>  VMS makefile for MMS or MMK
-       makefile.std     =>  Generic UNIX makefile (cc, creates static libpng.a)
-       makefile.elf     =>  Linux/ELF makefile symbol versioning,
-                            gcc, creates libpng12.so.0.1.2.40)
-       makefile.linux   =>  Linux/ELF makefile
-                            (gcc, creates libpng12.so.0.1.2.40)
-       makefile.gcmmx   =>  Linux/ELF makefile
-                            (gcc, creates libpng12.so.0.1.2.40,
-                            uses assembler code tuned for Intel MMX platform)
-       makefile.gcc     =>  Generic makefile (gcc, creates static libpng.a)
-       makefile.knr     =>  Archaic UNIX Makefile that converts files with
-                            ansi2knr (Requires ansi2knr.c from
+       makefile.std     =>  Generic UNIX makefile (cc, creates static
+                            libpng.a)
+       makefile.elf     =>  Linux/ELF gcc makefile symbol versioning,
+                            creates libpng12.so.0.1.2.41)
+       makefile.linux   =>  Linux/ELF makefile (gcc, creates
+                            libpng12.so.0.1.2.41)
+       makefile.gcmmx   =>  Linux/ELF makefile (gcc, creates
+                            libpng12.so.0.1.2.41, previously
+                            used assembler code tuned for Intel MMX
+                            platform)
+       makefile.gcc     =>  Generic makefile (gcc, creates static
+                            libpng.a)
+       makefile.knr     =>  Archaic UNIX Makefile that converts files
+                            with ansi2knr (Requires ansi2knr.c from
                             ftp://ftp.cs.wisc.edu/ghost)
        makefile.aix     =>  AIX makefile
        makefile.cygwin  =>  Cygwin/gcc makefile
@@ -212,20 +219,21 @@ Files in this distribution:
        makefile.hpgcc   =>  HPUX makefile using gcc
        makefile.hpux    =>  HPUX (10.20 and 11.00) makefile
        makefile.hp64    =>  HPUX (10.20 and 11.00) makefile, 64 bit
-       makefile.ibmc    =>  IBM C/C++ version 3.x for Win32 and OS/2 (static)
+       makefile.ibmc    =>  IBM C/C++ version 3.x for Win32 and OS/2
+                            (static)
        makefile.intel   =>  Intel C/C++ version 4.0 and later
        libpng.icc       =>  Project file, IBM VisualAge/C++ 4.0 or later
-       makefile.netbsd  =>  NetBSD/cc makefile, PNGGCCRD, makes libpng.so.
-       makefile.ne12bsd  =>  NetBSD/cc makefile, PNGGCCRD, makes libpng12.so
+       makefile.netbsd  =>  NetBSD/cc makefile, makes libpng.so.
+       makefile.ne12bsd  =>  NetBSD/cc makefile, makes libpng12.so
        makefile.openbsd =>  OpenBSD makefile
        makefile.sgi     =>  Silicon Graphics IRIX (cc, creates static lib)
        makefile.sggcc   =>  Silicon Graphics
-                            (gcc, creates libpng12.so.0.1.2.40)
+                            (gcc, creates libpng12.so.0.1.2.41)
        makefile.sunos   =>  Sun makefile
        makefile.solaris =>  Solaris 2.X makefile
-                            (gcc, creates libpng12.so.0.1.2.40)
+                            (gcc, creates libpng12.so.0.1.2.41)
        makefile.so9     =>  Solaris 9 makefile
-                            (gcc, creates libpng12.so.0.1.2.40)
+                            (gcc, creates libpng12.so.0.1.2.41)
        makefile.32sunu  =>  Sun Ultra 32-bit makefile
        makefile.64sunu  =>  Sun Ultra 64-bit makefile
        makefile.sco     =>  For SCO OSr5  ELF and Unixware 7 with Native cc
@@ -243,8 +251,8 @@ Files in this distribution:
        makefile.dj2     =>  DJGPP 2 makefile
        makefile.msc     =>  Microsoft C makefile
        makefile.vcawin32=>  makefile for Microsoft Visual C++ 5.0 and
-                            later (uses assembler code tuned for Intel MMX
-                            platform)
+                            later (previously used assembler code tuned
+                            for Intel MMX platform)
        makefile.vcwin32 =>  makefile for Microsoft Visual C++ 4.0 and
                             later (does not use assembler code)
        makefile.os2     =>  OS/2 Makefile (gcc and emx, requires pngos2.def)
