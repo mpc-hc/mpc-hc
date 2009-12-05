@@ -171,6 +171,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_SYSCOMMAND()
 	ON_WM_ACTIVATEAPP()
 	ON_MESSAGE(WM_APPCOMMAND, OnAppCommand)
+	ON_WM_INPUT()
 	ON_MESSAGE(WM_HOTKEY, OnHotKey)
 
 	ON_WM_TIMER()
@@ -1403,6 +1404,65 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	return Default();
+}
+
+void CMainFrame::OnRawInput(UINT nInputcode, HRAWINPUT hRawInput)
+{
+	UINT		 dwSize		= 0;
+	BYTE*		 pRawBuffer	= NULL;
+	AppSettings& s			= AfxGetAppSettings();
+
+	// Support for MCE remote control
+	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+	if (dwSize > 0)
+	{
+		pRawBuffer = DNew BYTE[dwSize];
+		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1)
+		{
+			RAWINPUT*	raw = (RAWINPUT*) pRawBuffer;
+			if(raw->header.dwType == RIM_TYPEHID)
+			{
+				UINT	nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
+
+				switch (nMceCmd)
+				{
+				case MCE_DETAILS :
+				case MCE_GUIDE :
+				case MCE_TVJUMP :
+				case MCE_STANDBY :
+				case MCE_OEM1 :
+				case MCE_OEM2 :
+				case MCE_MYTV :
+				case MCE_MYVIDEOS :
+				case MCE_MYPICTURES :
+				case MCE_MYMUSIC :
+				case MCE_RECORDEDTV :
+				case MCE_DVDANGLE :
+				case MCE_DVDAUDIO :
+				case MCE_DVDMENU :
+				case MCE_DVDSUBTITLE :
+				case MCE_RED :
+				case MCE_GREEN :
+				case MCE_YELLOW :
+				case MCE_BLUE :
+				case MCE_MEDIA_NEXTTRACK :
+				case MCE_MEDIA_PREVIOUSTRACK :
+					POSITION pos = s.wmcmds.GetHeadPosition();
+					while(pos)
+					{
+						wmcmd& wc = s.wmcmds.GetNext(pos);
+						if(wc.appcmd == nMceCmd)
+						{
+							SendMessage(WM_COMMAND, wc.cmd);
+							break;
+						}
+					}
+					break;
+				}
+			}
+		}
+		delete pRawBuffer;
+	}
 }
 
 LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)

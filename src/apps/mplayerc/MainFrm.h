@@ -514,6 +514,8 @@ public:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
 	afx_msg LRESULT OnAppCommand(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnRawInput(UINT nInputcode, HRAWINPUT hRawInput);
+
 	afx_msg LRESULT OnHotKey(WPARAM wParam, LPARAM lParam);
 
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

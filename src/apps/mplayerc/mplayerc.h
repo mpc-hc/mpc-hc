@@ -188,6 +188,34 @@ enum
 	VIDRNDT_AP_TEXTURE3D,
 };
 
+
+// Enumeration for MCE remotecontrol (careful : add 0x010000 for all keys!)
+enum MCE_RAW_INPUT
+{
+	MCE_DETAILS				= 0x010209,
+	MCE_GUIDE				= 0x01008D,
+	MCE_TVJUMP				= 0x010025,
+	MCE_STANDBY				= 0x010082,
+	MCE_OEM1				= 0x010080,
+	MCE_OEM2				= 0x010081,
+	MCE_MYTV				= 0x010046,
+	MCE_MYVIDEOS			= 0x01004A,
+	MCE_MYPICTURES			= 0x010049,
+	MCE_MYMUSIC				= 0x010047,
+	MCE_RECORDEDTV			= 0x010048,
+	MCE_DVDANGLE			= 0x01004B,
+	MCE_DVDAUDIO			= 0x01004C,
+	MCE_DVDMENU				= 0x010024,
+	MCE_DVDSUBTITLE			= 0x01004D,
+    MCE_RED					= 0x01005B,
+    MCE_GREEN				= 0x01005C,
+    MCE_YELLOW				= 0x01005D,
+    MCE_BLUE				= 0x01005E,
+    MCE_MEDIA_NEXTTRACK		= 0x0100B5,
+    MCE_MEDIA_PREVIOUSTRACK	= 0x0100B6,
+};
+
+
 #define AUDRNDT_NULL_COMP _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP _T("Null Audio Renderer (Uncompressed)")
 

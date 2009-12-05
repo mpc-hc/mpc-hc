@@ -26,6 +26,91 @@
 #include "PPageAccelTbl.h"
 
 
+struct APP_COMMAND
+{
+	UINT		appcmd;
+	LPCTSTR		cmdname;
+};
+
+APP_COMMAND	g_CommandList[] = 
+{
+	{APPCOMMAND_BROWSER_BACKWARD,		_T("BROWSER_BACKWARD")},
+	{APPCOMMAND_BROWSER_FORWARD,		_T("BROWSER_FORWARD")},
+	{APPCOMMAND_BROWSER_REFRESH,		_T("BROWSER_REFRESH")},
+	{APPCOMMAND_BROWSER_STOP,			_T("BROWSER_STOP")},
+	{APPCOMMAND_BROWSER_SEARCH,			_T("BROWSER_SEARCH")},
+	{APPCOMMAND_BROWSER_FAVORITES,		_T("BROWSER_FAVORITES")},
+	{APPCOMMAND_BROWSER_HOME,			_T("BROWSER_HOME")},
+	{APPCOMMAND_VOLUME_MUTE,			_T("VOLUME_MUTE")},
+	{APPCOMMAND_VOLUME_DOWN,			_T("VOLUME_DOWN")},
+	{APPCOMMAND_VOLUME_UP,				_T("VOLUME_UP")},
+	{APPCOMMAND_MEDIA_NEXTTRACK,		_T("MEDIA_NEXTTRACK")},
+	{APPCOMMAND_MEDIA_PREVIOUSTRACK,	_T("MEDIA_PREVIOUSTRACK")},
+	{APPCOMMAND_MEDIA_STOP,				_T("MEDIA_STOP")},
+	{APPCOMMAND_MEDIA_PLAY_PAUSE,		_T("MEDIA_PLAY_PAUSE")},
+	{APPCOMMAND_LAUNCH_MAIL,			_T("LAUNCH_MAIL")},
+	{APPCOMMAND_LAUNCH_MEDIA_SELECT,	_T("LAUNCH_MEDIA_SELECT")},
+	{APPCOMMAND_LAUNCH_APP1,			_T("LAUNCH_APP1")},
+	{APPCOMMAND_LAUNCH_APP2,			_T("LAUNCH_APP2")},
+	{APPCOMMAND_BASS_DOWN,				_T("BASS_DOWN")},
+	{APPCOMMAND_BASS_BOOST,				_T("BASS_BOOST")},
+	{APPCOMMAND_BASS_UP,				_T("BASS_UP")},
+	{APPCOMMAND_TREBLE_DOWN,			_T("TREBLE_DOWN")},
+	{APPCOMMAND_TREBLE_UP,				_T("TREBLE_UP")},
+	{APPCOMMAND_MICROPHONE_VOLUME_MUTE, _T("MICROPHONE_VOLUME_MUTE")},
+	{APPCOMMAND_MICROPHONE_VOLUME_DOWN, _T("MICROPHONE_VOLUME_DOWN")},
+	{APPCOMMAND_MICROPHONE_VOLUME_UP,	_T("MICROPHONE_VOLUME_UP")},
+	{APPCOMMAND_HELP,					_T("HELP")},
+	{APPCOMMAND_FIND,					_T("FIND")},
+	{APPCOMMAND_NEW,					_T("NEW")},
+	{APPCOMMAND_OPEN,					_T("OPEN")},
+	{APPCOMMAND_CLOSE,					_T("CLOSE")},
+	{APPCOMMAND_SAVE,					_T("SAVE")},
+	{APPCOMMAND_PRINT,					_T("PRINT")},
+	{APPCOMMAND_UNDO,					_T("UNDO")},
+	{APPCOMMAND_REDO,					_T("REDO")},
+	{APPCOMMAND_COPY,					_T("COPY")},
+	{APPCOMMAND_CUT,					_T("CUT")},
+	{APPCOMMAND_PASTE,					_T("PASTE")},
+	{APPCOMMAND_REPLY_TO_MAIL,			_T("REPLY_TO_MAIL")},
+	{APPCOMMAND_FORWARD_MAIL,			_T("FORWARD_MAIL")},
+	{APPCOMMAND_SEND_MAIL,				_T("SEND_MAIL")},
+	{APPCOMMAND_SPELL_CHECK,			_T("SPELL_CHECK")},
+	{APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE, _T("DICTATE_OR_COMMAND_CONTROL_TOGGLE")},
+	{APPCOMMAND_MIC_ON_OFF_TOGGLE,		_T("MIC_ON_OFF_TOGGLE")},
+	{APPCOMMAND_CORRECTION_LIST,		_T("CORRECTION_LIST")},
+	{APPCOMMAND_MEDIA_PLAY,				_T("MEDIA_PLAY")},
+	{APPCOMMAND_MEDIA_PAUSE,			_T("MEDIA_PAUSE")},
+	{APPCOMMAND_MEDIA_RECORD,			_T("MEDIA_RECORD")},
+	{APPCOMMAND_MEDIA_FAST_FORWARD,		_T("MEDIA_FAST_FORWARD")},
+	{APPCOMMAND_MEDIA_REWIND,			_T("MEDIA_REWIND")},
+	{APPCOMMAND_MEDIA_CHANNEL_UP,		_T("MEDIA_CHANNEL_UP")},
+	{APPCOMMAND_MEDIA_CHANNEL_DOWN,		_T("MEDIA_CHANNEL_DOWN")},
+	{APPCOMMAND_DELETE,					_T("DELETE")},
+	{APPCOMMAND_DWM_FLIP3D,				_T("DWM_FLIP3D")},
+	{MCE_DETAILS,						_T("MCE_DETAILS")},
+	{MCE_GUIDE,							_T("MCE_GUIDE")},
+	{MCE_TVJUMP,						_T("MCE_TVJUMP")},
+	{MCE_STANDBY,						_T("MCE_STANDBY")},
+	{MCE_OEM1,							_T("MCE_OEM1")},
+	{MCE_OEM2,							_T("MCE_OEM2")},
+	{MCE_MYTV,							_T("MCE_MYTV")},
+	{MCE_MYVIDEOS,						_T("MCE_MYVIDEOS")},
+	{MCE_MYPICTURES,					_T("MCE_MYPICTURES")},
+	{MCE_MYMUSIC,						_T("MCE_MYMUSIC")},
+	{MCE_RECORDEDTV,					_T("MCE_RECORDEDTV")},
+	{MCE_DVDANGLE,						_T("MCE_DVDANGLE")},
+	{MCE_DVDAUDIO,						_T("MCE_DVDAUDIO")},
+	{MCE_DVDMENU,						_T("MCE_DVDMENU")},
+	{MCE_DVDSUBTITLE,					_T("MCE_DVDSUBTITLE")},
+	{MCE_RED,							_T("MCE_RED")},
+	{MCE_GREEN,							_T("MCE_GREEN")},
+	{MCE_YELLOW,						_T("MCE_YELLOW")},
+	{MCE_BLUE,							_T("MCE_BLUE")},
+	{MCE_MEDIA_NEXTTRACK,				_T("MCE_MEDIA_NEXTTRACK")},
+	{MCE_MEDIA_PREVIOUSTRACK,			_T("MCE_MEDIA_PREVIOUSTRACK")}
+};
+
 // CPPageAccelTbl dialog
 
 IMPLEMENT_DYNAMIC(CPPageAccelTbl, CPPageBase)
@@ -509,70 +594,12 @@ CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
 
 CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
 {
-	CString str;
-
-	ASSERT(id <= APPCOMMAND_LAST);
-
-	switch(id)
+	for (int i=0; i<countof(g_CommandList); i++)
 	{
-	default: str = _T(""); break;
-	case APPCOMMAND_BROWSER_BACKWARD: str = _T("BROWSER_BACKWARD"); break;
-	case APPCOMMAND_BROWSER_FORWARD: str = _T("BROWSER_FORWARD"); break;
-	case APPCOMMAND_BROWSER_REFRESH: str = _T("BROWSER_REFRESH"); break;
-	case APPCOMMAND_BROWSER_STOP: str = _T("BROWSER_STOP"); break;
-	case APPCOMMAND_BROWSER_SEARCH: str = _T("BROWSER_SEARCH"); break;
-	case APPCOMMAND_BROWSER_FAVORITES: str = _T("BROWSER_FAVORITES"); break;
-	case APPCOMMAND_BROWSER_HOME: str = _T("BROWSER_HOME"); break;
-	case APPCOMMAND_VOLUME_MUTE: str = _T("VOLUME_MUTE"); break;
-	case APPCOMMAND_VOLUME_DOWN: str = _T("VOLUME_DOWN"); break;
-	case APPCOMMAND_VOLUME_UP: str = _T("VOLUME_UP"); break;
-	case APPCOMMAND_MEDIA_NEXTTRACK: str = _T("MEDIA_NEXTTRACK"); break;
-	case APPCOMMAND_MEDIA_PREVIOUSTRACK: str = _T("MEDIA_PREVIOUSTRACK"); break;
-	case APPCOMMAND_MEDIA_STOP: str = _T("MEDIA_STOP"); break;
-	case APPCOMMAND_MEDIA_PLAY_PAUSE: str = _T("MEDIA_PLAY_PAUSE"); break;
-	case APPCOMMAND_LAUNCH_MAIL: str = _T("LAUNCH_MAIL"); break;
-	case APPCOMMAND_LAUNCH_MEDIA_SELECT: str = _T("LAUNCH_MEDIA_SELECT"); break;
-	case APPCOMMAND_LAUNCH_APP1: str = _T("LAUNCH_APP1"); break;
-	case APPCOMMAND_LAUNCH_APP2: str = _T("LAUNCH_APP2"); break;
-	case APPCOMMAND_BASS_DOWN: str = _T("BASS_DOWN"); break;
-	case APPCOMMAND_BASS_BOOST: str = _T("BASS_BOOST"); break;
-	case APPCOMMAND_BASS_UP: str = _T("BASS_UP"); break;
-	case APPCOMMAND_TREBLE_DOWN: str = _T("TREBLE_DOWN"); break;
-	case APPCOMMAND_TREBLE_UP: str = _T("TREBLE_UP"); break;
-	case APPCOMMAND_MICROPHONE_VOLUME_MUTE: str = _T("MICROPHONE_VOLUME_MUTE"); break;
-	case APPCOMMAND_MICROPHONE_VOLUME_DOWN: str = _T("MICROPHONE_VOLUME_DOWN"); break;
-	case APPCOMMAND_MICROPHONE_VOLUME_UP: str = _T("MICROPHONE_VOLUME_UP"); break;
-	case APPCOMMAND_HELP: str = _T("HELP"); break;
-	case APPCOMMAND_FIND: str = _T("FIND"); break;
-	case APPCOMMAND_NEW: str = _T("NEW"); break;
-	case APPCOMMAND_OPEN: str = _T("OPEN"); break;
-	case APPCOMMAND_CLOSE: str = _T("CLOSE"); break;
-	case APPCOMMAND_SAVE: str = _T("SAVE"); break;
-	case APPCOMMAND_PRINT: str = _T("PRINT"); break;
-	case APPCOMMAND_UNDO: str = _T("UNDO"); break;
-	case APPCOMMAND_REDO: str = _T("REDO"); break;
-	case APPCOMMAND_COPY: str = _T("COPY"); break;
-	case APPCOMMAND_CUT: str = _T("CUT"); break;
-	case APPCOMMAND_PASTE: str = _T("PASTE"); break;
-	case APPCOMMAND_REPLY_TO_MAIL: str = _T("REPLY_TO_MAIL"); break;
-	case APPCOMMAND_FORWARD_MAIL: str = _T("FORWARD_MAIL"); break;
-	case APPCOMMAND_SEND_MAIL: str = _T("SEND_MAIL"); break;
-	case APPCOMMAND_SPELL_CHECK: str = _T("SPELL_CHECK"); break;
-	case APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE: str = _T("DICTATE_OR_COMMAND_CONTROL_TOGGLE"); break;
-	case APPCOMMAND_MIC_ON_OFF_TOGGLE: str = _T("MIC_ON_OFF_TOGGLE"); break;
-	case APPCOMMAND_CORRECTION_LIST: str = _T("CORRECTION_LIST"); break;
-	case APPCOMMAND_MEDIA_PLAY: str = _T("MEDIA_PLAY"); break;
-	case APPCOMMAND_MEDIA_PAUSE: str = _T("MEDIA_PAUSE"); break;
-	case APPCOMMAND_MEDIA_RECORD: str = _T("MEDIA_RECORD"); break;
-	case APPCOMMAND_MEDIA_FAST_FORWARD: str = _T("MEDIA_FAST_FORWARD"); break;
-	case APPCOMMAND_MEDIA_REWIND: str = _T("MEDIA_REWIND"); break;
-	case APPCOMMAND_MEDIA_CHANNEL_UP: str = _T("MEDIA_CHANNEL_UP"); break;
-	case APPCOMMAND_MEDIA_CHANNEL_DOWN: str = _T("MEDIA_CHANNEL_DOWN"); break;
-	case APPCOMMAND_DELETE: str = _T("DELETE"); break;
-	case APPCOMMAND_DWM_FLIP3D: str = _T("DWM_FLIP3D"); break;
+		if (g_CommandList[i].appcmd == id)
+			return CString(g_CommandList[i].cmdname);
 	}
-
-	return str;
+	return CString("");
 }
 void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
 {
@@ -805,10 +832,10 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	else if(pItem->iSubItem == COL_APPCMD)
 	{
-		for(int i = 0; i <= APPCOMMAND_LAST; i++)
+		for(int i = 0; i < countof(g_CommandList); i++)
 		{
-			sl.AddTail(MakeAppCommandLabel(i));
-			if(wc.appcmd == i) nSel = i;
+			sl.AddTail(g_CommandList[i].cmdname);
+			if(wc.appcmd == g_CommandList[i].appcmd) nSel = i;
 		}
 
 		m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
@@ -877,9 +904,9 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(pItem->iSubItem == COL_APPCMD)
 	{
 		int i = pItem->lParam;
-		if(i >= 0 && i <= APPCOMMAND_LAST)
+		if(i >= 0 && i < countof(g_CommandList))
 		{
-			wc.appcmd = (WORD)i;
+			wc.appcmd = g_CommandList[i].appcmd;
 			m_list.SetItemText(pItem->iItem, COL_APPCMD, pItem->pszText);
 			*pResult = TRUE;
 		}
