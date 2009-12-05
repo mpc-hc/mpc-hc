@@ -1855,7 +1855,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				SystemParametersInfo(SPI_SETPOWEROFFACTIVE, fSaverActive, 0, SPIF_SENDWININICHANGE);
 			}
 			// prevent screensaver activate, monitor sleep/turn off after playback
-			SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_AWAYMODE_REQUIRED/* | ES_CONTINUOUS*/);
+			SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
 		}
 	}
 	else if(nIDEvent == TIMER_STATUSERASER)
@@ -11776,9 +11776,9 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 
 	// Prevent sleep when playing audio and/or video, but allow screensaver when only audio
 	if(!m_fAudioOnly)
-		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
+		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
 	else
-		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED : ES_CONTINUOUS);
+		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
 }
 
 bool CMainFrame::CreateFullScreenWindow()
