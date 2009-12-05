@@ -749,7 +749,8 @@ void CDX9AllocatorPresenter::VSyncThread()
 //		hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
 //	if (pfAvSetMmThreadPriority)			
 //		pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
-	Sleep(2000);
+
+//	Sleep(2000);	// Remove ugly patch : create a 2s delay on opening files with Win7!
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
