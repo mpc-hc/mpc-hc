@@ -235,6 +235,19 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				p->TrackNumber = TrackNumber;
 				p->bSyncPoint = !!h2.fpts;
 				p->bAppendable = !h2.fpts;
+
+if (h.fPCR)
+{
+	CRefTime		rtNow;
+	StreamTime(rtNow);
+//	m_pClock->GetTime(&rtNow);
+	TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
+}
+if (h2.fpts && h.pid == 241)
+{
+	TRACE ("Sub=%S\n", ReftimeToString(h2.pts - rtStartOffset));
+}
+
 				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
 				p->rtStop = p->rtStart+1;
 				p->SetCount(h.bytes - (size_t)(m_pFile->GetPos() - pos));

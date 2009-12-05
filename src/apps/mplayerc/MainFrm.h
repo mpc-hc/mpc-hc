@@ -108,6 +108,15 @@ public:
 	int vinput, vchannel, ainput;
 };
 
+class TunerScanData
+{
+public :
+	ULONG		FrequencyStart;
+	ULONG		FrequencyStop;
+	ULONG		Bandwidth;
+	HWND		Hwnd;
+};
+
 class CMainFrame;
 
 class CGraphThread : public CWinThread
@@ -124,11 +133,12 @@ public:
 	BOOL InitInstance();
 	int ExitInstance();
 
-	enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE};
+	enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE, TM_TUNER_SCAN};
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnExit(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnOpen(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnTunerScan(WPARAM wParam, LPARAM lParam);
 };
 /*
 class CKeyFrameFinderThread : public CWinThread, public CCritSec
@@ -357,6 +367,7 @@ protected:
 // Operations
 	bool OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD);
 	void CloseMediaPrivate();
+	void DoTunerScan(TunerScanData* pTSD);
 	
 	void SendNowPlayingToMSN();
 	void SendNowPlayingTomIRC();
@@ -367,6 +378,7 @@ protected:
 	void OpenFile(OpenFileData* pOFD);
 	void OpenDVD(OpenDVDData* pODD);
 	void OpenCapture(OpenDeviceData* pODD);
+	void OpenBDAGraph();
 	void OpenCustomizeGraph();
 	void OpenSetupVideo();
 	void OpenSetupAudio();
@@ -388,6 +400,8 @@ public:
 	void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
 	void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
 	void CloseMedia();
+	void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
+	void StopTunerScan();
 
 	void AddCurDevToPlaylist();
 
@@ -739,6 +753,8 @@ public:
 	afx_msg void OnNavigateChapters(UINT nID);
 	afx_msg void OnNavigateMenuItem(UINT nID);
 	afx_msg void OnUpdateNavigateMenuItem(CCmdUI* pCmdUI);
+	afx_msg void OnTunerScan();
+	afx_msg void OnUpdateTunerScan(CCmdUI* pCmdUI);
 
 	afx_msg void OnFavoritesAdd();
 	afx_msg void OnUpdateFavoritesAdd(CCmdUI* pCmdUI);
@@ -783,6 +799,7 @@ public:
 	bool				m_bToggleShader;
 	bool				m_bToggleShaderScreenSpace;
 	bool				m_bInOptions;
+	bool				m_bStopTunerScan;
 
 	void		SetLoadState(MPC_LOADSTATE iState);
 	void		SetPlayState(MPC_PLAYSTATE iState);

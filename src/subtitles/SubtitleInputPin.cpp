@@ -219,6 +219,14 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
+[uuid("D3D92BC3-713B-451B-9122-320095D51EA5")]
+interface IMpeg2DemultiplexerTesting : public IUnknown
+{
+	STDMETHOD(GetMpeg2StreamType)(ULONG* plType) = NULL;
+	STDMETHOD(toto)() = NULL;
+};
+
+
 STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 {
 	HRESULT hr;
@@ -383,6 +391,12 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 		}
 		else if (m_mt.subtype == MEDIASUBTYPE_HDMVSUB || m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES)
 		{
+//CComPtr<IReferenceClock>	pClock;
+//m_pFilter->GetSyncSource(&pClock);
+//CComPtr<IMpeg2DemultiplexerTesting>	 iTest;
+//pClock->QueryInterface(__uuidof(IMpeg2DemultiplexerTesting), (void**)&iTest);
+//ULONG ul;
+//iTest->GetMpeg2StreamType(&ul);
 			CAutoLock cAutoLock(m_pSubLock);
 			CRenderedHdmvSubtitle* pHdmvSubtitle = (CRenderedHdmvSubtitle*)(ISubStream*)m_pSubStream;
 			pHdmvSubtitle->ParseSample (pSample);

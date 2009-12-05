@@ -1276,6 +1276,7 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_NAVIGATE_SKIPBACK,		   VK_PRIOR, FVIRTKEY|FNOINVERT,				IDS_AG_PREVIOUS, APPCOMMAND_MEDIA_PREVIOUSTRACK, wmcmd::X1DOWN));
 	ADDCMD((ID_NAVIGATE_SKIPFORWARDPLITEM,  VK_NEXT, FVIRTKEY|FCONTROL|FNOINVERT,		IDS_MPLAYERC_33));
 	ADDCMD((ID_NAVIGATE_SKIPBACKPLITEM,	   VK_PRIOR, FVIRTKEY|FCONTROL|FNOINVERT,		IDS_MPLAYERC_34));
+	ADDCMD((ID_NAVIGATE_TUNERSCAN,	            'T', FVIRTKEY|FSHIFT|FNOINVERT,			IDS_NAVIGATE_TUNERSCAN));
 	ADDCMD((ID_VIEW_CAPTIONMENU,				'0', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_TOGGLE_CAPTION));
 	ADDCMD((ID_VIEW_SEEKER,						'1', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_TOGGLE_SEEKER));
 	ADDCMD((ID_VIEW_CONTROLS,					'2', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_TOGGLE_CONTROLS));
@@ -1641,6 +1642,30 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, (int)fEnableEDLEditor);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, (int)iLanguage);
 
+		// Save analog capture settings
+		pApp->WriteProfileInt   (IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, iDefaultCaptureDevice);
+		pApp->WriteProfileString(IDS_RS_CAPTURE, IDS_RS_VIDEO_DISP_NAME, strAnalogVideo);
+		pApp->WriteProfileString(IDS_RS_CAPTURE, IDS_RS_AUDIO_DISP_NAME, strAnalogAudio);
+		pApp->WriteProfileInt   (IDS_RS_CAPTURE, IDS_RS_COUNTRY,		 iAnalogCountry);
+
+		// Save digital capture settings (BDA)
+		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, BDANetworkProvider);
+		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, BDATuner);
+		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, BDAReceiver);
+		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, DVBLastChannel);
+
+		int			iChannel = 0;
+		POSITION	pos = DVBChannels.GetHeadPosition();
+		while (pos)
+		{
+			CString			strTemp;
+			CString			strChannel;
+			CDVBChannel&	Channel = DVBChannels.GetNext(pos);
+			strTemp.Format(_T("%d"), iChannel);
+			pApp->WriteProfileString(IDS_RS_DVB, strTemp, Channel.ToString());
+			iChannel++;
+		}
+
 
 		// Position de lecture des derniers DVD's
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, (int)fRememberDVDPos);
@@ -1742,7 +1767,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		pApp->WriteProfileString(IDS_R_COMMANDS, NULL, NULL);
-		POSITION pos = wmcmds.GetHeadPosition();
+		pos = wmcmds.GetHeadPosition();
 		for(int i = 0; pos; )
 		{
 			wmcmd& wc = wmcmds.GetNext(pos);
@@ -2302,6 +2327,29 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fShowOSD		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHOWOSD, 1);
 		fEnableEDLEditor= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEEDLEDITOR, FALSE);
 
+		// Save analog capture settings
+		iDefaultCaptureDevice = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DEFAULT_CAPTURE, 0);
+		strAnalogVideo		= pApp->GetProfileString(IDS_RS_CAPTURE, IDS_RS_VIDEO_DISP_NAME, _T(""));
+		strAnalogAudio		= pApp->GetProfileString(IDS_RS_CAPTURE, IDS_RS_AUDIO_DISP_NAME, _T(""));
+		iAnalogCountry		= pApp->GetProfileInt(IDS_RS_CAPTURE, IDS_RS_COUNTRY, 1);
+
+		BDANetworkProvider	= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, _T(""));
+		BDATuner			= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, _T(""));
+		BDAReceiver			= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, _T(""));
+		DVBLastChannel		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
+
+		for(int iChannel = 0; ; iChannel++)
+		{
+			CString		strTemp;
+			CString		strChannel;
+			CDVBChannel	Channel;
+			strTemp.Format(_T("%d"), iChannel);
+			strChannel = pApp->GetProfileString(IDS_RS_DVB, strTemp, _T(""));
+			if (strChannel.IsEmpty()) break;
+			Channel.FromString(strChannel);
+			DVBChannels.AddTail (Channel);
+		}
+
 		// Position de lecture des derniers DVD's
 		fRememberDVDPos		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
 		nCurrentDvdPosition = -1;
@@ -2551,6 +2599,22 @@ void CMPlayerCApp::Settings::AddFav(favtype ft, CString s)
 	sl.AddTail(s);
 	SetFav(ft, sl);
 }
+
+CDVBChannel* CMPlayerCApp::Settings::FindChannelByPref(int nPrefNumber)
+{
+	POSITION	pos = DVBChannels.GetHeadPosition();
+	while (pos)
+	{
+		CDVBChannel&	Channel = DVBChannels.GetNext (pos);
+		if (Channel.GetPrefNumber() == nPrefNumber)
+		{
+			return &Channel;
+		}
+	}
+
+	return NULL;
+}
+
 
 // CMPlayerCApp::Settings::CRecentFileAndURLList
 

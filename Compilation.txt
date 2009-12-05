@@ -77,9 +77,9 @@ You need to add the locations of the DirectX SDK directories to the settings in 
 5) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
  
  
-### Integration of Windows 7 SDK (non m ###
+### Integration of Windows 7 SDK (Optional) ###
 
-To build Mpc-hc with Windows 7 SDK f
+To build Mpc-hc with Windows 7 SDK follow thoses steps :
 
 1) Download and install Windows 7 SDK from Microsoft website (http://www.microsoft.com/downloads/details.aspx?FamilyID=71deb800-c591-4f97-a900-bea146e4fae1&displaylang=en)
 2) Open regional settings, and set it to English (see this link for explanations : http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx)

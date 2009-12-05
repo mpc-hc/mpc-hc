@@ -272,12 +272,13 @@ public:
 		BYTE discontinuity:1;
 		BYTE randomaccess:1;
 		BYTE priority:1;
-		BYTE PCR:1;
+		BYTE fPCR:1;
 		BYTE OPCR:1;
 		BYTE splicingpoint:1;
 		BYTE privatedata:1;
 		BYTE extension:1;
 		// TODO: add more fields here when the flags above are set (they aren't very interesting...)
+		__int64 PCR;
 
 		int bytes;
 		__int64 next;

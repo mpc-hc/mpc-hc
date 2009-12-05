@@ -34,6 +34,7 @@
 #include "MediaFormats.h"
 #include "fakefiltermapper2.h"
 #include "..\ShuttlePN31\Common\ShuttlePN31Client.h"
+#include "DVBChannel.h"
 
 #ifdef UNICODE
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
@@ -46,6 +47,10 @@ enum
 	WM_GRAPHNOTIFY = WM_APP+1,
 	WM_REARRANGERENDERLESS,
 	WM_RESUMEFROMSTATE,
+	WM_TUNER_SCAN_PROGRESS,
+	WM_TUNER_SCAN_END,
+	WM_TUNER_STATS,
+	WM_TUNER_NEW_CHANNEL
 };
 
 #define WM_MYMOUSELAST WM_XBUTTONDBLCLK
@@ -700,6 +705,18 @@ public:
 		int				iEvrBuffers;
 		int				iLanguage;
 
+		// BDA configuration
+		int				iDefaultCaptureDevice;		// Default capture device (analog=0, 1=digital)
+		CString			strAnalogVideo;
+		CString			strAnalogAudio;
+		int				iAnalogCountry;
+		CString			BDANetworkProvider;
+		CString			BDATuner;
+		CString			BDAReceiver;
+		int				DVBLastChannel;
+		CAtlList<CDVBChannel>	DVBChannels;
+
+
 		HWND			hMasterWnd;
 
 		bool			IsD3DFullscreen();
@@ -730,6 +747,8 @@ public:
 		void GetFav(favtype ft, CAtlList<CString>& sl);
 		void SetFav(favtype ft, CAtlList<CString>& sl);
 		void AddFav(favtype ft, CString s);
+		CDVBChannel* FindChannelByPref(int nPrefNumber);
+
 
 		bool m_fPreventMinimize;		
 	} m_s;

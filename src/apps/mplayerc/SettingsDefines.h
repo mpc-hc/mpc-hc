@@ -192,3 +192,16 @@
 
 #define	IDS_RS_TOGGLESHADER					_T("ToggleShader")
 #define	IDS_RS_TOGGLESHADERSSCREENSPACE		_T("ToggleShaderScreenSpace")
+
+#define IDS_RS_DEFAULT_CAPTURE				_T("DefaultCapture")
+#define IDS_RS_CAPTURE						_T("Capture")
+#define IDS_RS_VIDEO_DISP_NAME				_T("VidDispName")
+#define IDS_RS_AUDIO_DISP_NAME				_T("AudDispName")
+#define IDS_RS_COUNTRY						_T("Country")
+
+#define IDS_RS_DVB							_T("DVB configuration")
+#define	IDS_RS_BDA_NETWORKPROVIDER			_T("BDANetworkProvider")
+#define	IDS_RS_BDA_TUNER					_T("BDATuner")
+#define	IDS_RS_BDA_RECEIVER					_T("BDAReceiver")
+#define	IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
+

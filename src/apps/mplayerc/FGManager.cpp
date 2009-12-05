@@ -38,6 +38,7 @@
 #include <Vmr9.h>
 #include <evr.h>
 #include <evr9.h>
+#include <ksproxy.h>
 
 
 //
@@ -185,7 +186,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 
 		// exceptions first
 
-	if(ext == _T(".dvr-ms")) // doh, this is stupid 
+	if(ext == _T(".dvr-ms") || ext == _T(".wtv")) // doh, this is stupid 
 	{
 		fl.Insert(DNew CFGFilterRegistry(CLSID_StreamBufferSource, MERIT64_PREFERRED), 0);
 	}
@@ -494,7 +495,7 @@ STDMETHODIMP CFGManager::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const AM_MED
 	for(CComPtr<IBaseFilter> pBFUS = GetFilterFromPin(pPinOut); pBFUS; pBFUS = GetUpStreamFilter(pBFUS))
 	{
 		if(pBFUS == pBF) return VFW_E_CIRCULAR_GRAPH;
-        if(GetCLSID(pBFUS) == clsid) return VFW_E_CANNOT_CONNECT;
+        if(clsid!=CLSID_Proxy && GetCLSID(pBFUS) == clsid) return VFW_E_CANNOT_CONNECT;
 	}
 
 	return CComQIPtr<IFilterGraph2>(m_pUnkInner)->ConnectDirect(pPinOut, pPinIn, pmt);
@@ -530,6 +531,11 @@ STDMETHODIMP CFGManager::SetDefaultSyncSource()
 // IGraphBuilder
 
 STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
+{
+	return Connect(pPinOut, pPinIn, true);
+}
+
+HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 {
 	CAutoLock cAutoLock(this);
 
@@ -710,7 +716,8 @@ STDMETHODIMP CFGManager::Connect(IPin* pPinOut, IPin* pPinIn)
 			{
 				if(!IsStreamEnd(pBF)) fDeadEnd = false;
 
-				hr = ConnectFilter(pBF, pPinIn);
+				if (bContinueRender)
+					hr = ConnectFilter(pBF, pPinIn);
 
 				if(SUCCEEDED(hr))
 				{

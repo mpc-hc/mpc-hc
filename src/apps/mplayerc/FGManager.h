@@ -65,6 +65,7 @@ protected:
 
 	HRESULT EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl);
 	HRESULT AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrFilterName, IBaseFilter** ppBF);
+	HRESULT Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender);
 
 	// IFilterGraph
 

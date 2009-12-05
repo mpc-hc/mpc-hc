@@ -39,6 +39,7 @@
 #include "PPageSubDB.h"
 #include "PPageTweaks.h"
 #include "PPageCasimir.h"
+#include "PPageCapture.h"
 
 
 // CTreePropSheetTreeCtrl
@@ -82,6 +83,7 @@ private:
 	CPPageExternalFilters m_externalfilters;
 	CPPageTweaks m_tweaks;
 	CPPageCasimir m_casimir;
+	CPPageCapture m_tuner;
 
 	CTreeCtrl* CreatePageTreeObject();
 

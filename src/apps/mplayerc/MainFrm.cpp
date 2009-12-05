@@ -50,6 +50,7 @@
 #include "ConvertDlg.h"
 #include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
+#include "TunerScanDlg.h"
 
 #include <mtype.h>
 #include <Mpconfig.h>
@@ -66,6 +67,7 @@
 
 #include "..\..\DSUtil\DSUtil.h"
 #include "FGManager.h"
+#include "FGManagerBDA.h"
 
 #include "textpassthrufilter.h"
 #include "..\..\filters\filters.h"
@@ -422,6 +424,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_NAVIGATE_CHAP_SUBITEM_START, ID_NAVIGATE_CHAP_SUBITEM_END, OnNavigateChapters)
 	ON_COMMAND_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnNavigateMenuItem)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_MENU_LEFT, ID_NAVIGATE_MENU_LEAVE, OnUpdateNavigateMenuItem)
+	ON_COMMAND(ID_NAVIGATE_TUNERSCAN, OnTunerScan)
+	ON_UPDATE_COMMAND_UI(ID_NAVIGATE_TUNERSCAN, OnUpdateTunerScan)
 
 	ON_COMMAND(ID_FAVORITES_ADD, OnFavoritesAdd)
 	ON_UPDATE_COMMAND_UI(ID_FAVORITES_ADD, OnUpdateFavoritesAdd)
@@ -1468,6 +1472,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 		}
 		else if(m_iPlaybackMode == PM_CAPTURE)
 		{
+			pMS->GetCurrentPosition(&rtNow);
 			if(m_fCapturing && m_wndCaptureBar.m_capdlg.m_pMux)
 			{
 				CComQIPtr<IMediaSeeking> pMuxMS = m_wndCaptureBar.m_capdlg.m_pMux;
@@ -1516,7 +1521,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			}
 			else
 			{
-				m_pCAP->SetTime(/*rtNow*/m_wndSeekBar.GetPos());
+				// Set rtNow to support DVB subtitle
+				m_pCAP->SetTime(rtNow);
 			}
 		}
 		else
@@ -3818,11 +3824,13 @@ void CMainFrame::OnFileOpendvd()
 
 void CMainFrame::OnFileOpendevice()
 {
+	AppSettings& s = AfxGetAppSettings();
+
 	if(m_iMediaLoadState == MLS_LOADING) return;
 
-	COpenCapDeviceDlg capdlg;
-	if(capdlg.DoModal() != IDOK)
-		return;
+	//COpenCapDeviceDlg capdlg;
+	//if(capdlg.DoModal() != IDOK)
+	//	return;
 
 	SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 	SetForegroundWindow();
@@ -3832,7 +3840,7 @@ void CMainFrame::OnFileOpendevice()
 	m_wndPlaylistBar.Empty();
 
 	CAutoPtr<OpenDeviceData> p(DNew OpenDeviceData());
-	if(p) {p->DisplayName[0] = capdlg.m_vidstr; p->DisplayName[1] = capdlg.m_audstr;}
+	if(p) {p->DisplayName[0] = s.strAnalogVideo; p->DisplayName[1] = s.strAnalogAudio;}
 	OpenMedia(p);
 }
 
@@ -5794,6 +5802,12 @@ void CMainFrame::OnPlayPlay()
 		{			
 			pMC->Stop(); // audio preview won't be in sync if we run it from paused state
 			pMC->Run();
+			if (AfxGetAppSettings().iDefaultCaptureDevice == 1)
+			{
+				CComQIPtr<IBDATuner>	pTun = pGB;
+				if (pTun)
+					pTun->SetChannel (AfxGetAppSettings().DVBLastChannel);
+			}
 		}
 
 		SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
@@ -7016,7 +7030,7 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 {
 	nID -= ID_NAVIGATE_AUDIO_SUBITEM_START;
 
-	if(m_iPlaybackMode == PM_FILE)
+	if(m_iPlaybackMode == PM_FILE || (m_iPlaybackMode == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1))
 	{
 		OnNavStreamSelectSubMenu(nID, 1);
 	}
@@ -7028,7 +7042,7 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 
 void CMainFrame::OnNavigateSubpic(UINT nID)
 {
-	if(m_iPlaybackMode == PM_FILE)
+	if(m_iPlaybackMode == PM_FILE || (m_iPlaybackMode == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1))
 	{
 		OnNavStreamSelectSubMenu(nID - ID_NAVIGATE_SUBP_SUBITEM_START, 2);
 	}
@@ -7122,6 +7136,15 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			return;
 		}
 	}
+	else if(m_iPlaybackMode == PM_CAPTURE)
+	{
+		if (AfxGetAppSettings().iDefaultCaptureDevice == 1)
+		{
+			CComQIPtr<IBDATuner>	pTun = pGB;
+			if (pTun)
+				pTun->SetChannel (nID);
+		}
+	}
 }
 
 void CMainFrame::OnNavigateMenuItem(UINT nID)
@@ -7154,6 +7177,19 @@ void CMainFrame::OnUpdateNavigateMenuItem(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID - ID_NAVIGATE_MENU_LEFT;
 	pCmdUI->Enable((m_iMediaLoadState == MLS_LOADED) && ((m_iPlaybackMode == PM_DVD) || (m_iPlaybackMode == PM_FILE)));
+}
+
+void CMainFrame::OnTunerScan()
+{
+	CTunerScanDlg		Dlg;
+	Dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateTunerScan(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable((m_iMediaLoadState == MLS_LOADED) && 
+				   (AfxGetAppSettings().iDefaultCaptureDevice == 1) &&
+		           ((m_iPlaybackMode == PM_CAPTURE)));
 }
 
 // favorites
@@ -8364,7 +8400,10 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	}
 	else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD))
 	{
-		pGB = DNew CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
+		if (s.iDefaultCaptureDevice == 1)
+			pGB = DNew CFGManagerBDA(_T("CFGManagerBDA"), NULL, m_pVideoWnd->m_hWnd);
+		else
+			pGB = DNew CFGManagerCapture(_T("CFGManagerCapture"), NULL, m_pVideoWnd->m_hWnd);
 	}
 
 	if(!pGB)
@@ -8699,6 +8738,13 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 	m_iDVDDomain = DVD_DOMAIN_Stop;
 
 	m_iPlaybackMode = PM_DVD;
+}
+
+void CMainFrame::OpenBDAGraph()
+{
+	pGB->RenderFile (L"",L"");
+	AddTextPassThruFilter();
+	m_iPlaybackMode = PM_CAPTURE;
 }
 
 void CMainFrame::OpenCapture(OpenDeviceData* pODD)
@@ -9352,7 +9398,13 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) OpenFile(p);
 		else if(OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD.m_p)) OpenDVD(p);
-		else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p)) OpenCapture(p);
+		else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p))
+		{
+			if (s.iDefaultCaptureDevice == 1)
+				OpenBDAGraph();
+			else
+				OpenCapture(p);
+		}
 		else throw _T("Can't open, invalid input parameters");
 
 		m_pCAP2 = NULL;
@@ -9574,6 +9626,40 @@ void CMainFrame::CloseMediaPrivate()
 	AfxGetAppSettings().ResetPositions();
 
 	SetLoadState (MLS_CLOSED);
+}
+
+void CMainFrame::DoTunerScan(TunerScanData* pTSD)
+{
+	if(m_iPlaybackMode == PM_CAPTURE)
+	{
+		CComQIPtr<IBDATuner>	pTun = pGB;
+		if (pTun)
+		{
+			BOOLEAN				bPresent;
+			BOOLEAN				bLocked;
+			LONG				lStrength;
+			LONG				lQuality;
+			int					nProgress;
+			m_bStopTunerScan = false;
+			for(ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency<pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth)
+			{
+				pTun->SetFrequency (ulFrequency);
+				Sleep (200);
+				if (SUCCEEDED (pTun->GetStats (bPresent, bLocked, lStrength, lQuality)) && bPresent)
+				{
+					::SendMessage (pTSD->Hwnd, WM_TUNER_STATS, lStrength, lQuality);
+					pTun->Scan (ulFrequency, pTSD->Hwnd);
+				}
+
+				nProgress = MulDiv(ulFrequency-pTSD->FrequencyStart, 100, pTSD->FrequencyStop-pTSD->FrequencyStart);
+				::SendMessage (pTSD->Hwnd, WM_TUNER_SCAN_PROGRESS, nProgress,0);
+				::SendMessage (pTSD->Hwnd, WM_TUNER_STATS, lStrength, lQuality);
+				if (m_bStopTunerScan) break;
+			}
+
+			::SendMessage (pTSD->Hwnd, WM_TUNER_SCAN_END, 0, 0);
+		}
+	}
 }
 
 // msn
@@ -10017,7 +10103,7 @@ void CMainFrame::SetupNavAudioSubMenu()
 
 	UINT id = ID_NAVIGATE_AUDIO_SUBITEM_START;
 
-	if(m_iPlaybackMode == PM_FILE)
+	if(m_iPlaybackMode == PM_FILE || (m_iPlaybackMode == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1))
 	{
 		SetupNavStreamSelectSubMenu(pSub, id, 1);
 	}
@@ -10094,7 +10180,7 @@ void CMainFrame::SetupNavSubtitleSubMenu()
 
 	UINT id = ID_NAVIGATE_SUBP_SUBITEM_START;
 
-	if(m_iPlaybackMode == PM_FILE)
+	if(m_iPlaybackMode == PM_FILE || (m_iPlaybackMode == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1))
 	{
 		SetupNavStreamSelectSubMenu(pSub, id, 2);
 	}
@@ -10294,6 +10380,21 @@ void CMainFrame::SetupNavChaptersSubMenu()
 			pSub->AppendMenu(flags, id++, str);
 		}
 	}
+	else if(m_iPlaybackMode == PM_CAPTURE)
+	{
+		AppSettings& s = AfxGetAppSettings();
+
+		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		while (pos)
+		{
+			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
+			UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
+
+			if (Channel.GetPrefNumber() == s.DVBLastChannel)
+				flags |= MF_CHECKED;
+			pSub->AppendMenu(flags, ID_NAVIGATE_CHAP_SUBITEM_START + Channel.GetPrefNumber(), Channel.GetName());
+		}
+	}
 }
 
 IBaseFilter* CMainFrame::FindSourceSelectableFilter()
@@ -10313,6 +10414,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGr
 	UINT baseid = id;
 
 	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
+	if (!pSS) pSS = pGB;
 	if(!pSS) return;
 
 	DWORD cStreams;
@@ -10378,6 +10480,7 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu* pSub, UINT id, DWORD dwSelGr
 void CMainFrame::OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup)
 {
 	CComQIPtr<IAMStreamSelect> pSS = FindSourceSelectableFilter();
+	if (!pSS) pSS = pGB;
 	if(!pSS) return;
 
 	DWORD cStreams;
@@ -11590,6 +11693,19 @@ void CMainFrame::CloseMedia()
 		m_pFullscreenWnd->ShowWindow (SW_HIDE);
 }
 
+void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
+{
+	if(m_pGraphThread)
+		m_pGraphThread->PostThreadMessage(CGraphThread::TM_TUNER_SCAN, 0, (LPARAM)pTSD.Detach());
+	else
+		DoTunerScan(pTSD);
+}
+
+void CMainFrame::StopTunerScan()
+{
+	m_bStopTunerScan = true;
+}
+
 //
 // CGraphThread
 //
@@ -11612,6 +11728,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
 	ON_THREAD_MESSAGE(TM_EXIT, OnExit)
 	ON_THREAD_MESSAGE(TM_OPEN, OnOpen)
 	ON_THREAD_MESSAGE(TM_CLOSE, OnClose)
+	ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
 END_MESSAGE_MAP()
 
 void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
@@ -11635,7 +11752,14 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 	if(CAMEvent* e = (CAMEvent*)lParam) e->Set();
 }
 
-
+void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
+{
+	if(m_pMainFrame)
+	{
+		CAutoPtr<TunerScanData> pTSD((TunerScanData*)lParam);
+		m_pMainFrame->DoTunerScan(pTSD);
+	}
+}
 
 
 // ==== Added by CASIMIR666

@@ -1004,7 +1004,7 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 			h.discontinuity = BitRead(1);
 			h.randomaccess = BitRead(1);
 			h.priority = BitRead(1);
-			h.PCR = BitRead(1);
+			h.fPCR = BitRead(1);
 			h.OPCR = BitRead(1);
 			h.splicingpoint = BitRead(1);
 			h.privatedata = BitRead(1);
@@ -1012,12 +1012,12 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 			int i = 1;
 
-			if(h.PCR)
+			if(h.fPCR)
 			{
-				UINT64 PCR = BitRead(33);
+				h.PCR = BitRead(33);
 				BitRead(6);
 				UINT64 PCRExt = BitRead(9);
-				PCR = (PCR*300 + PCRExt) * 10 / 27;
+				h.PCR = (h.PCR*300 + PCRExt) * 10 / 27;
 				i += 6;
 			}
 

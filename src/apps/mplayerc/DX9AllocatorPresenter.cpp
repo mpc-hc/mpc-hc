@@ -2337,7 +2337,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 			--m_OrderedPaint;
 		else
 		{
-			TRACE("UNORDERED PAINT!!!!!!\n");
+//			TRACE("UNORDERED PAINT!!!!!!\n");
 		}
 
 
@@ -2565,7 +2565,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 							--m_OrderedPaint;
 						else
 						{
-							TRACE("UNORDERED PAINT!!!!!!\n");
+//							TRACE("UNORDERED PAINT!!!!!!\n");
 						}
 
 						return false;
@@ -2858,8 +2858,8 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		--m_OrderedPaint;
 	else
 	{
-		if (m_bIsEVR)
-			TRACE("UNORDERED PAINT!!!!!!\n");
+		//if (m_bIsEVR)
+		//	TRACE("UNORDERED PAINT!!!!!!\n");
 	}
 	return(true);
 }

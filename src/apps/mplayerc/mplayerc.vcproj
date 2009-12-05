@@ -79,7 +79,7 @@
 				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd;..\..\..\lib\dx"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
@@ -171,7 +171,7 @@
 				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd;..\..\..\lib64\detours;..\..\..\lib64\dx"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -425,6 +425,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DVBChannel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DX7AllocatorPresenter.cpp"
 				>
 			</File>
@@ -498,6 +502,10 @@
 			</File>
 			<File
 				RelativePath=".\FGManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FGManagerBDA.cpp"
 				>
 			</File>
 			<File
@@ -646,6 +654,10 @@
 			</File>
 			<File
 				RelativePath=".\Monitors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Mpeg2SectionData.cpp"
 				>
 			</File>
 			<File
@@ -798,6 +810,10 @@
 			</File>
 			<File
 				RelativePath="PPageBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PPageCapture.cpp"
 				>
 			</File>
 			<File
@@ -1001,6 +1017,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TunerScanDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VMROSD.cpp"
 				>
 			</File>
@@ -1106,6 +1126,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DVBChannel.h"
+				>
+			</File>
+			<File
 				RelativePath="DX7AllocatorPresenter.h"
 				>
 			</File>
@@ -1139,6 +1163,10 @@
 			</File>
 			<File
 				RelativePath=".\FGManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FGManagerBDA.h"
 				>
 			</File>
 			<File
@@ -1242,6 +1270,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mpeg2SectionData.h"
+				>
+			</File>
+			<File
 				RelativePath=".\mplayerc.h"
 				>
 			</File>
@@ -1327,6 +1359,10 @@
 			</File>
 			<File
 				RelativePath="PPageBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PPageCapture.h"
 				>
 			</File>
 			<File
@@ -1507,6 +1543,10 @@
 			</File>
 			<File
 				RelativePath="TextPassThruFilter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TunerScanDlg.h"
 				>
 			</File>
 			<File

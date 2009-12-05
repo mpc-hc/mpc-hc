@@ -164,56 +164,58 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
     if(FAILED(hr) || pData == NULL) return hr;
 	nSize = pSample->GetActualDataLength();
 
-	//if (*((LONG*)pData) == 0xBD010000)
-	//{
-	//	CGolombBuffer	gb (pData, nSize);
+	if (*((LONG*)pData) == 0xBD010000)
+	{
+		CGolombBuffer	gb (pData, nSize);
 
-	//	gb.SkipBytes(4);
-	//	WORD	wLength	= (WORD)gb.BitRead(16);
-	//	
-	//	if (gb.BitRead(2) != 2) return E_FAIL;		// type
+		gb.SkipBytes(4);
+		WORD	wLength	= (WORD)gb.BitRead(16);
+		
+		if (gb.BitRead(2) != 2) return E_FAIL;		// type
 
-	//	gb.BitRead(2);		// scrambling
-	//	gb.BitRead(1);		// priority
-	//	gb.BitRead(1);		// alignment
-	//	gb.BitRead(1);		// copyright
-	//	gb.BitRead(1);		// original
-	//	BYTE fpts = (BYTE)gb.BitRead(1);		// fpts
-	//	BYTE fdts = (BYTE)gb.BitRead(1);		// fdts
-	//	gb.BitRead(1);	// escr
-	//	gb.BitRead(1);	// esrate
-	//	gb.BitRead(1);	// dsmtrickmode
-	//	gb.BitRead(1);	// morecopyright
-	//	gb.BitRead(1);	// crc
-	//	gb.BitRead(1);	// extension
-	//	gb.BitRead(8);	// hdrlen
+		gb.BitRead(2);		// scrambling
+		gb.BitRead(1);		// priority
+		gb.BitRead(1);		// alignment
+		gb.BitRead(1);		// copyright
+		gb.BitRead(1);		// original
+		BYTE fpts = (BYTE)gb.BitRead(1);		// fpts
+		BYTE fdts = (BYTE)gb.BitRead(1);		// fdts
+		gb.BitRead(1);	// escr
+		gb.BitRead(1);	// esrate
+		gb.BitRead(1);	// dsmtrickmode
+		gb.BitRead(1);	// morecopyright
+		gb.BitRead(1);	// crc
+		gb.BitRead(1);	// extension
+		gb.BitRead(8);	// hdrlen
 
-	//	if(fpts)
-	//	{
-	//		BYTE b = (BYTE)gb.BitRead(4);
-	//		if(!(fdts && b == 3 || !fdts && b == 2)) {ASSERT(0); return(E_FAIL);}
+		if(fpts)
+		{
+			BYTE b = (BYTE)gb.BitRead(4);
+			if(!(fdts && b == 3 || !fdts && b == 2)) {ASSERT(0); return(E_FAIL);}
 
-	//		REFERENCE_TIME	pts = 0;
-	//		pts |= gb.BitRead(3) << 30; MARKER; // 32..30
-	//		pts |= gb.BitRead(15) << 15; MARKER; // 29..15
-	//		pts |= gb.BitRead(15); MARKER; // 14..0
-	//		pts = 10000*pts/90;
+			REFERENCE_TIME	pts = 0;
+			pts |= gb.BitRead(3) << 30; MARKER; // 32..30
+			pts |= gb.BitRead(15) << 15; MARKER; // 29..15
+			pts |= gb.BitRead(15); MARKER; // 14..0
+			pts = 10000*pts/90;
 
-	//		m_rtStart	= pts;
-	//		m_rtStop	= pts+1;
-	//	}
-	//	else
-	//	{
-	//		m_rtStart	= INVALID_TIME;
-	//		m_rtStop	= INVALID_TIME;
-	//	}
+			m_rtStart	= pts;
+			m_rtStop	= pts+1;
+		}
+		else
+		{
+			m_rtStart	= INVALID_TIME;
+			m_rtStop	= INVALID_TIME;
+		}
 
-	//	nSize -= 14;
-	//	pData += 14;
-	//}
-	//else
+		nSize -= 14;
+		pData += 14;
 		pSample->GetTime(&m_rtStart, &m_rtStop);
-
+		pSample->GetMediaTime(&m_rtStart, &m_rtStop);
+	}
+	else
+		if (SUCCEEDED (pSample->GetTime(&m_rtStart, &m_rtStop)))
+			pSample->SetTime(&m_rtStart, &m_rtStop);
 
 	//FILE* hFile = fopen ("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
 	//if(hFile != NULL)

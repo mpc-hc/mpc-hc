@@ -44,8 +44,6 @@ int					g_nDXVAVersion			= 0;
 IPinCVtbl*			g_pPinCVtbl				= NULL;
 IMemInputPinCVtbl*	g_pMemInputPinCVtbl		= NULL;
 
-static bool			bFirst					= true;
-
 /*
 typedef struct
 {
@@ -344,10 +342,11 @@ static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n)
 
 static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 {
-	CString		strRes;
-	int			i;
+	CString			strRes;
+	int				i;
+	static bool		bFirstParam	= true;
 
-	if (bFirst)
+	if (bFirstParam)
 	{
 		LOG_TOFILE (_T("picture.log"), _T("RefPicFlag,wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.Index7Bits[0],") \
 									   _T("RFL.Index7Bits[1],RFL.Index7Bits[2],RFL.Index7Bits[3],RFL.Index7Bits[4],RFL.Index7Bits[5],") \
@@ -361,7 +360,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 									   _T("num_slice_groups_minus1,slice_group_map_type,deblocking_filter_control_present_flag,redundant_pic_cnt_present_flag,Reserved8BitsB,slice_group_change_rate_minus1"));
 
 	}
-	bFirst = false;
+	bFirstParam = false;
 
 	strRes.AppendFormat(_T("%d,"), pPic->RefPicFlag);
 	strRes.AppendFormat(_T("%d,"), pPic->wFrameWidthInMbsMinus1);
@@ -583,11 +582,12 @@ static void LogH264SliceLong (DXVA_Slice_H264_Long* pSlice, int nCount)
 
 static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 {
+	static bool	bFirstPictureParam = true;
 	CString		strRes;
 
-	if (bFirst)
+	if (bFirstPictureParam)
 		LOG_TOFILE (_T("picture.log"), _T("wDecodedPictureIndex,wDeblockedPictureIndex,wForwardRefPictureIndex,wBackwardRefPictureIndex,wPicWidthInMBminus1,wPicHeightInMBminus1,bMacroblockWidthMinus1,bMacroblockHeightMinus1,bBlockWidthMinus1,bBlockHeightMinus1,bBPPminus1,bPicStructure,bSecondField,bPicIntra,bPicBackwardPrediction,bBidirectionalAveragingMode,bMVprecisionAndChromaRelation,bChromaFormat,bPicScanFixed,bPicScanMethod,bPicReadbackRequests,bRcontrol,bPicSpatialResid8,bPicOverflowBlocks,bPicExtrapolation,bPicDeblocked,bPicDeblockConfined,bPic4MVallowed,bPicOBMC,bPicBinPB,bMV_RPS,bReservedBits,wBitstreamFcodes,wBitstreamPCEelements,bBitstreamConcealmentNeed,bBitstreamConcealmentMethod"));
-	bFirst = false;
+	bFirstPictureParam = false;
 
 	strRes.Format (_T("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d"),
 		pPic->wDecodedPictureIndex,
@@ -629,12 +629,46 @@ static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 
 	LOG_TOFILE (_T("picture.log"), strRes);
 }
+
+void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
+{
+	CString		strRes;
+	static bool	bFirstBitstream = true;
+
+	if (bFirstBitstream)
+		LOG_TOFILE (_T("bitstream.log"), _T("Size,Start, Stop"));
+	bFirstBitstream = false;
+
+	strRes.Format (_T("%d, -"), nSize);
+
+	for (int i=0; i<20; i++)
+	{
+		if (i < nSize)
+			strRes.AppendFormat (_T(" %02x"), pBuffer[i]);
+		else
+			strRes.Append(_T(" --"));
+	}
+
+	strRes.Append (_T(", -"), nSize);
+	for (int i=0; i<20; i++)
+	{
+		if (nSize-i >= 0)
+			strRes.AppendFormat (_T(" %02x"), pBuffer[i]);
+		else
+			strRes.Append(_T(" --"));
+	}
+
+	LOG_TOFILE (_T("bitstream.log"), strRes);
+
+}
+
 #else
 inline static void LOG(...) { }
 inline static void LOGPF(LPCTSTR prefix, const DDPIXELFORMAT* p, int n) {}
 inline static void LOGUDI(LPCTSTR prefix, const AMVAUncompDataInfo* p, int n) {}
 inline static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic) {}
 inline static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic) {}
+inline static void LogDXVA_Bitstream(BYTE* pBuffer, int nSize) {}
 #endif
 
 
@@ -718,7 +752,6 @@ static HRESULT STDMETHODCALLTYPE GetCompBufferInfoMine(IAMVideoAcceleratorC * Th
 	{
 		g_guidDXVADecoder	= *pGuid;
 		g_nDXVAVersion		= 1;
-		bFirst				= true;
 		LOG(_T("[in] *pGuid = %s"), CStringFromGUID(*pGuid));
 
 		if(pdwNumTypesCompBuffers)
@@ -933,6 +966,8 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 		}
 		else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_BITSTREAM_DATA_BUFFER)
 		{
+
+			LogDXVA_Bitstream(g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex], pamvaBufferInfo[i].dwDataSize);
 #if defined(LOG_BITSTREAM) && defined(_DEBUG)
 			char		strFile[MAX_PATH];
 			static	int	nNb = 1;
@@ -991,7 +1026,6 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 
 	g_guidDXVADecoder	= GUID_NULL;
 	g_nDXVAVersion		= 0;
-	bFirst				= true;
 
 	if(GetVideoAcceleratorGUIDsOrg == NULL) GetVideoAcceleratorGUIDsOrg = pAMVideoAcceleratorC->lpVtbl->GetVideoAcceleratorGUIDs;
 	if(GetUncompFormatsSupportedOrg == NULL) GetUncompFormatsSupportedOrg = pAMVideoAcceleratorC->lpVtbl->GetUncompFormatsSupported;
@@ -1026,6 +1060,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 	::DeleteFile (_T("picture.log"));
 	::DeleteFile (_T("slicelong.log"));
 	::DeleteFile (_T("sliceshort.log"));
+	::DeleteFile (_T("bitstream.log"));
 #endif
 }
 
@@ -1188,9 +1223,11 @@ public :
 				}
 #endif
 
-#if defined(LOG_BITSTREAM) && defined(_DEBUG)
+#if defined(_DEBUG)
 				if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_BitStreamDateBufferType)
 				{
+					LogDXVA_Bitstream(m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType], pExecuteParams->pCompressedBuffers[i].DataSize);
+#if defined(LOG_BITSTREAM)
 					char		strFile[MAX_PATH];
 					static	int	nNb = 1;
 					sprintf (strFile, "BitStream%d.bin", nNb++);
@@ -1203,6 +1240,7 @@ public :
 								hFile);
 						fclose (hFile);
 					}
+#endif
 				}
 #endif
 			}
@@ -1396,7 +1434,10 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 	else
 	{
 #ifdef _DEBUG
-		if ((Guid == DXVA2_ModeH264_E) || (Guid == DXVA2_ModeVC1_D) || (Guid == DXVA_Intel_H264_ClearVideo))
+		if ((Guid == DXVA2_ModeH264_E) || 
+			(Guid == DXVA2_ModeVC1_D)  || 
+			(Guid == DXVA_Intel_H264_ClearVideo) ||
+			(Guid == DXVA2_ModeMPEG2_VLD))
 		{
 			*ppDecode	= DNew CFakeDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();

@@ -44,3 +44,15 @@ interface IGraphBuilderDeadEnd : public IUnknown
 	STDMETHOD_(size_t, GetCount)() = 0;
 	STDMETHOD(GetDeadEnd) (int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts) = 0;
 };
+
+
+// private use only
+[uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7")]
+interface IBDATuner : public IUnknown
+{
+	STDMETHOD(SetChannel)	(int nChannelPrefNumber) = 0;
+	STDMETHOD(SetAudio)		(int nAudioIndex) = 0;
+	STDMETHOD(SetFrequency)	(ULONG ulFrequency) = 0;
+	STDMETHOD(Scan)			(ULONG ulFrequency, HWND hWnd) = 0;
+	STDMETHOD(GetStats)		(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality) = 0;
+};
