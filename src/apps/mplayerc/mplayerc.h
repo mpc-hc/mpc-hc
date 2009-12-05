@@ -33,7 +33,6 @@
 #include "..\..\subtitles\STS.h"
 #include "MediaFormats.h"
 #include "fakefiltermapper2.h"
-#include "..\ShuttlePN31\Common\ShuttlePN31Client.h"
 #include "DVBChannel.h"
 
 #ifdef UNICODE
@@ -142,9 +141,7 @@ enum
 	CLSW_NOFOCUS=CLSW_STARTVALID<<1,
 	CLSW_FIXEDSIZE=CLSW_NOFOCUS<<1,
 	CLSW_MONITOR=CLSW_FIXEDSIZE<<1,
-	CLSW_INSTALLPN31=CLSW_MONITOR<<1,
-	CLSW_UNINSTALLPN31=CLSW_INSTALLPN31<<1,
-	CLSW_D3DFULLSCREEN=CLSW_UNINSTALLPN31<<1,
+	CLSW_D3DFULLSCREEN=CLSW_MONITOR<<1,
 	CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,
 	CLSW_SLAVE=CLSW_ADMINOPTION<<1,
 	CLSW_UNRECOGNIZEDSWITCH=CLSW_SLAVE<<1
@@ -673,9 +670,6 @@ public:
 		CString UIceAddr;
 		CUIceClient UIceClient;
 		bool fGlobalMedia;
-
-//		bool fPN31Client;
-		CShuttlePN31Client PN31Client;
 
 		CMediaFormats Formats;
 

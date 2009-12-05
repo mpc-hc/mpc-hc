@@ -43,7 +43,6 @@
 #define IDS_RS_GLOBALMEDIA					_T("UseGlobalMedia")
 #define IDS_RS_DXVAFILTERS					_T("DXVAFilters")
 #define IDS_RS_FFMPEGFILTERS				_T("FFmpegFilters")
-#define IDS_RS_PN31							_T("UsePN31")
 #define IDS_RS_TITLEBARTEXTSTYLE			_T("TitleBarTextStyle")
 #define IDS_RS_USEWMASFREADER				_T("UseWMASFReader")
 #define IDS_RS_CONTROLSTATE					_T("ControlState")

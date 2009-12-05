@@ -60,8 +60,6 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageCasimir, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
-	ON_BN_CLICKED(IDC_INSTALLPN31, &CPPageCasimir::OnBnClickedPn31)
-	ON_BN_CLICKED(IDC_UNINSTALLPN31, &CPPageCasimir::OnBnClickedUninstallpn31)
 END_MESSAGE_MAP()
 
 
@@ -124,9 +122,6 @@ BOOL CPPageCasimir::OnInitDialog()
 
 	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
 	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
-
-	GetDlgItem(IDC_INSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
-	GetDlgItem(IDC_UNINSTALLPN31)->SendMessage (BCM_SETSHIELD, 0, 1);
 
 	return TRUE;
 }
@@ -208,20 +203,3 @@ void CPPageCasimir::OnCancel()
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(s.dBrightness, s.dContrast, s.dHue, s.dSaturation);
 	__super::OnCancel();
 }
-
-void CPPageCasimir::OnBnClickedPn31()
-{
-	TCHAR			strApp [MAX_PATH];
-
-	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
-	::ShellExecute(0, AfxGetMyApp()->IsVistaOrAbove() ? _T("runas") : _T(""), strApp, _T("/installpn31") /*: _T("/uninstallpn31")*/, 0, SW_SHOWNORMAL);
-}
-
-void CPPageCasimir::OnBnClickedUninstallpn31()
-{
-	TCHAR			strApp [MAX_PATH];
-
-	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
-	::ShellExecute(0, AfxGetMyApp()->IsVistaOrAbove() ? _T("runas") : _T(""), strApp, _T("/uninstallpn31"), 0, SW_SHOWNORMAL);
-}
-

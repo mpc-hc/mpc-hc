@@ -67,6 +67,4 @@ public:
 	BOOL m_fRememberFilePos;
 	BOOL m_fShowOSD;
 	virtual void OnCancel();
-	afx_msg void OnBnClickedPn31();
-	afx_msg void OnBnClickedUninstallpn31();
 };

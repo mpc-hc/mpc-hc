@@ -828,24 +828,6 @@ BOOL CMPlayerCApp::InitInstance()
 
 	m_s.ParseCommandLine(m_cmdln);
 
-	if(m_s.nCLSwitches&CLSW_INSTALLPN31)
-	{
-		if (m_s.PN31Client.Install())
-			MessageBox(NULL,L"PN31 driver installed",L"MPC",MB_OK);
-		else
-			MessageBox(NULL,L"Cannot install PN31 driver: already installed",L"MPC",MB_ICONERROR);
-		return FALSE;
-	}
-
-	if(m_s.nCLSwitches&CLSW_UNINSTALLPN31)
-	{
-		if (m_s.PN31Client.Uninstall())
-			MessageBox(NULL,L"PN31 driver uninstalled",L"MPC",MB_OK);
-		else
-			MessageBox(NULL,L"Cannot uninstall PN31 driver",L"MPC",MB_ICONERROR);
-		return FALSE;
-	}
-
 	if(m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH))
 	{
 		m_s.UpdateData(false);
@@ -978,8 +960,6 @@ BOOL CMPlayerCApp::InitInstance()
 	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.WinLircAddr);
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
 	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
-	m_s.PN31Client.SetHWND(m_pMainWnd->m_hWnd);
-	m_s.PN31Client.Connect();
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 	RegisterHotkeys();
@@ -1801,7 +1781,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_WINLIRC, fWinLirc);
-//		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_PN31, fPN31Client);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_WINLIRCADDR, WinLircAddr);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_UICE, fUIce);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_UICEADDR, UIceAddr);
@@ -2183,7 +2162,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fWinLirc = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_WINLIRC, 0);
 		UIceAddr = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_UICEADDR, _T("127.0.0.1:1234"));
 		fUIce = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_UICE, 0);
-//		fPN31Client = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_PN31, 0);
 		fGlobalMedia = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_GLOBALMEDIA, 0);
 
 		fDisableXPToolbars = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DISABLEXPTOOLBARS, 0);
@@ -2526,8 +2504,6 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("hibernate")) nCLSwitches |= CLSW_HIBERNATE;
 			else if(sw == _T("shutdown")) nCLSwitches |= CLSW_SHUTDOWN;
 			else if(sw == _T("logoff")) nCLSwitches |= CLSW_LOGOFF;
-			else if(sw == _T("installpn31")) nCLSwitches |= CLSW_INSTALLPN31;
-			else if(sw == _T("uninstallpn31")) nCLSwitches |= CLSW_UNINSTALLPN31;
 			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
 			else if(sw == _T("adminoption")) { nCLSwitches |= CLSW_ADMINOPTION; iAdminOption = _ttoi (cmdln.GetNext(pos)); }
 			else if(sw == _T("slave"))

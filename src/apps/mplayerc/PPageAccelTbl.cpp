@@ -122,7 +122,6 @@ CPPageAccelTbl::CPPageAccelTbl()
 	, m_WinLircLink(_T("http://winlirc.sourceforge.net/"))
 	, m_fUIce(FALSE)
 	, m_UIceLink(_T("http://www.mediatexx.com/"))
-	, m_fPN31(FALSE)
 	, m_fGlobalMedia(FALSE)
 {
 }

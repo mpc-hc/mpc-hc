@@ -533,42 +533,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ShuttlePN31\Common\Interface.c"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\IPinHook.cpp"
 				>
 			</File>
@@ -961,10 +925,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ShuttlePN31\Common\ShuttlePN31Client.cpp"
-				>
-			</File>
-			<File
 				RelativePath="StaticLink.cpp"
 				>
 			</File>
@@ -1195,10 +1155,6 @@
 			</File>
 			<File
 				RelativePath=".\IGraphBuilder2.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ShuttlePN31\Common\Interface.h"
 				>
 			</File>
 			<File
@@ -1515,10 +1471,6 @@
 			</File>
 			<File
 				RelativePath="ShockwaveGraph.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ShuttlePN31\Common\ShuttlePN31Client.h"
 				>
 			</File>
 			<File
