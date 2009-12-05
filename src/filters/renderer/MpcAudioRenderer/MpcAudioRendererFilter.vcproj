@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MpcAudioRendererFilter"
 	ProjectGUID="{D0620EF4-1313-40D5-9069-A82F6FE26994}"
 	RootNamespace="MpcAudioRenderer"
@@ -206,7 +206,7 @@
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
@@ -281,7 +281,7 @@
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"

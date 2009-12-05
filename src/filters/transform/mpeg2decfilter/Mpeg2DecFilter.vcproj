@@ -195,7 +195,7 @@
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
@@ -263,7 +263,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
-				GenerateDebugInformation="false"
+				GenerateDebugInformation="true"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
