@@ -4539,7 +4539,7 @@ void CMainFrame::OnFileSaveImage()
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc, 
 		OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent(), 0);
+		_T("Bitmap (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent(), 0);
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
@@ -4614,7 +4614,7 @@ void CMainFrame::OnFileSaveThumbnails()
 	CSaveThumbnailsDialog fd(
 		s.ThumbRows, s.ThumbCols, s.ThumbWidth,
 		0, (LPCTSTR)psrc, 
-		_T("Bitmaps (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent());
+		_T("Bitmap (*.bmp)|*.bmp|Jpeg (*.jpg)|*.jpg|Png (*.png)|*.png||"), GetModalParent());
 
 	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
 	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
@@ -4723,12 +4723,12 @@ void CMainFrame::OnFileSavesubtitle()
 				CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
 
 				CString filter;
-				filter += _T("Subripper (*.srt)|*.srt|");
-				filter += _T("Microdvd (*.sub)|*.sub|");
-				filter += _T("Sami (*.smi)|*.smi|");
+				filter += _T("SubRip (*.srt)|*.srt|");
+				filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
+				filter += _T("MicroDVD (*.sub)|*.sub|");
 				filter += _T("Psb (*.psb)|*.psb|");
-				filter += _T("Sub Station Alpha (*.ssa)|*.ssa|");
-				filter += _T("Advanced Sub Station Alpha (*.ass)|*.ass|");
+				filter += _T("Sami (*.smi)|*.smi|");
+				filter += _T("SubStation Alpha (*.ssa)|*.ssa|");
 				filter += _T("|");
 
 				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, NULL, filter, GetModalParent());
