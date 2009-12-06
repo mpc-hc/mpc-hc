@@ -48,6 +48,7 @@ CPPagePlayer::CPPagePlayer()
 	, m_fHideCDROMsSubMenu(FALSE)
 	, m_priority(FALSE)
 	, m_launchfullscreen(FALSE)
+	, m_fShowOSD(FALSE)
 {
 }
 
@@ -75,6 +76,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK10, m_fHideCDROMsSubMenu);
 	DDX_Check(pDX, IDC_CHECK9, m_priority);
 	DDX_Check(pDX, IDC_CHECK11, m_launchfullscreen);
+	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
@@ -111,6 +113,7 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
 	m_priority = s.priority != NORMAL_PRIORITY_CLASS;
 	m_launchfullscreen = s.launchfullscreen;
+	m_fShowOSD = s.fShowOSD;
 
 	UpdateData(FALSE);
 
@@ -139,6 +142,7 @@ BOOL CPPagePlayer::OnApply()
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
 	s.priority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
 	s.launchfullscreen = !!m_launchfullscreen;
+	s.fShowOSD = !!m_fShowOSD;
 
 	if(!m_fKeepHistory)
 	{

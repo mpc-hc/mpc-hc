@@ -53,6 +53,7 @@ public:
 	BOOL m_fHideCDROMsSubMenu;
 	BOOL m_priority;
 	BOOL m_launchfullscreen;
+	BOOL m_fShowOSD;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYER };

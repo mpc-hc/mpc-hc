@@ -53,7 +53,6 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
 	DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
 	DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
-	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 }
 
 
