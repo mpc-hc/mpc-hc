@@ -1217,7 +1217,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	CFGFilter* pFGF;
+	bool		bOverrideBroadcom		   = false;
+	CFGFilter*	pFGF;
 	
 	UINT src = s.SrcFilters;
 	UINT tra = s.TraFilters;
@@ -2284,6 +2285,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	{
 		FilterOverride* fo = s.filters.GetPrev(pos);
 
+		if (!fo->fDisabled && fo->name == _T("Broadcom Video Decoder"))
+			bOverrideBroadcom = true;
+
 		if(fo->fDisabled || fo->type == FilterOverride::EXTERNAL && !CPath(MakeFullPath(fo->path)).FileExists()) 
 			continue;
 
@@ -2310,6 +2314,34 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 			pFGF->SetTypes(fo->guids);
 			m_override.AddTail(pFGF);
 		}
+	}
+
+	// Use Broadcom decoder if installed for VC1, H264 and Mpeg2
+	if (!bOverrideBroadcom)
+	{
+		pFGF = DNew CFGFilterRegistry(GUIDFromCString(_T("{2DE1D17E-46B1-42A8-9AEC-E20E80D9B1A9}")), MERIT64_ABOVE_DSHOW);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_X264);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_x264);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VSSH);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_vssh);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DAVC);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_davc);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_PAVC);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_pavc);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
+
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
+
+		pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
+		pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
+		pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
+		m_transform.AddHead(pFGF);
 	}
 }
 
