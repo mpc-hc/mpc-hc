@@ -25,7 +25,7 @@ http://www.tortall.net/projects/yasm/wiki/Download
 
 TIP:
 An easy to use custom installer for MinGW32 can be downloaded here:
-http://ul.to/huezwv
+http://sourceforge.net/projects/ffdshow-tryout/files/Tools/
 
 This installer includes a full MinGW32 environment, including MSYS and YASM.
 It also automatically adds the required CC/MING32/MSYS environment variables, so there is no need to create them manually.
