@@ -3599,7 +3599,10 @@ void CMainFrame::OnFileOpenmedia()
 	COpenDlg dlg;
 	if(dlg.DoModal() != IDOK || dlg.m_fns.GetCount() == 0) return;
 
-	SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+	if(!dlg.m_fAppendPlaylist)
+	{
+		SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+	}
 
 	ShowWindow(SW_SHOW);
 	SetForegroundWindow();
