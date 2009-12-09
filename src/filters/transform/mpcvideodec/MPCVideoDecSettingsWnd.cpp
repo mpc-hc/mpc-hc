@@ -130,7 +130,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_txtIDCTAlgo.Create (ResStr (IDS_VDF_IDCT_ALGO), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbIDCTAlgo.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DISCARD_MODE);
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_AUTO));
-	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_LIBMPG2));
+	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_LIBMPEG2));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE_MMX));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_XVID));
 	m_cbIDCTAlgo.AddString (ResStr (IDS_VDF_IDCT_SIMPLE));

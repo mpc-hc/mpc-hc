@@ -6483,6 +6483,7 @@ void CMainFrame::SetSubtitleDelay(int delay_ms)
 
 		CString		strSubDelay;
 		strSubDelay.Format (ResStr(IDS_MAINFRM_139), delay_ms);
+		SendStatusMessage(strSubDelay, 3000);
 		m_OSD.DisplayMessage (OSD_TOPLEFT, strSubDelay);
 	}
 }
@@ -11992,7 +11993,14 @@ afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 
 afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 {
-	if(m_pCAP) {
+	if(m_pCAP)
+	{
+        if (m_pSubStreams.IsEmpty())
+        {
+            SendStatusMessage(ResStr(IDS_SUBTITLES_ERROR), 3000);
+            return;
+        }
+
 		int newDelay;
 		int oldDelay = m_pCAP->GetSubtitleDelay();
 
