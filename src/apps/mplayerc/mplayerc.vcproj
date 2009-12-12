@@ -2004,10 +2004,6 @@
 			RelativePath=".\ChangeLog"
 			>
 		</File>
-		<File
-			RelativePath=".\res\PN31Snoop.sys"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global
