@@ -75,7 +75,6 @@ namespace DSObjects
 
 		void LockD3DDevice()
 		{
-			m_WaitForVBlankLock.Lock();
 			if (m_pD3DDev)
 			{
 				_RTL_CRITICAL_SECTION *pCritSec = (_RTL_CRITICAL_SECTION *)((size_t)m_pD3DDev.p + sizeof(size_t));
@@ -102,7 +101,6 @@ namespace DSObjects
 						LeaveCriticalSection(pCritSec);
 				}
 			}
-			m_WaitForVBlankLock.Unlock();
 		}
 		CString m_D3DDevExError;
 		CComPtr<IDirect3DDevice9>		m_pD3DDev;
@@ -163,19 +161,6 @@ namespace DSObjects
 		bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
 		bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock);
 		bool WaitForVBlank(bool &_Waited, bool &_bTakenLock);
-
-		int GetVisibleScanLines()
-		{
-			if (m_VBlankMin != 300000)
-				return m_VBlankMax ? m_VBlankMax - m_VBlankMin: m_ScreenSize.cy;
-			else
-				return m_VBlankMax ? m_VBlankMax : m_ScreenSize.cy;
-		}
-		int GetMaxScanLines()
-		{
-			return m_VBlankMax ? m_VBlankMax : m_ScreenSize.cy;
-		}
-
 		int GetVBlackPos();
 		void CalculateJitter(LONGLONG PerformanceCounter);
 		virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter){}
@@ -262,8 +247,6 @@ namespace DSObjects
 		double					m_DetectedScanlineTimePrim;
 		double					m_DetectedScanlinesPerFrame;
 
-		CCritSec				m_WaitForVBlankLock;
-
 		double GetRefreshRate()
 		{
 			if (m_DetectedRefreshRate)
@@ -275,7 +258,7 @@ namespace DSObjects
 		{
 			if (m_DetectedRefreshRate)
 				return m_DetectedScanlinesPerFrame;
-			return GetMaxScanLines();
+			return m_ScreenSize.cy;
 		}
 
 		double					m_ldDetectedRefreshRateList[100];
@@ -305,7 +288,6 @@ namespace DSObjects
 		double					m_TextScale;
 
 		int						m_VBlankEndWait;
-		int						m_VBlankLastSleep;
 		int						m_VBlankStartWait;
 		LONGLONG				m_VBlankWaitTime;
 		LONGLONG				m_VBlankLockTime;

@@ -2467,8 +2467,8 @@ void CEVRAllocatorPresenter::RenderThread()
 							if (DetectedRefreshRatePos < 20 || !DetectedRefreshTime || !DetectedScanlinesPerFrame)
 							{
 								DetectedRefreshTime = 1.0/m_RefreshRate;
-								DetectedScanlinesPerFrame = GetMaxScanLines();
-								DetectedScanlineTime = DetectedRefreshTime / double(DetectedScanlinesPerFrame);
+								DetectedScanlinesPerFrame = m_ScreenSize.cy;
+								DetectedScanlineTime = DetectedRefreshTime / double(m_ScreenSize.cy);
 							}
 
 							if (s.m_RenderSettings.iVMR9VSync)
