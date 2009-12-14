@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="MpcAudioRendererFilter"
 	ProjectGUID="{D0620EF4-1313-40D5-9069-A82F6FE26994}"
 	RootNamespace="MpcAudioRenderer"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
+				AdditionalDependencies="dsound.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib avrt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
@@ -277,7 +277,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libfaad2R.lib libmadR.lib liba52R.lib libdcaR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib Avrt.lib"
+				AdditionalDependencies="dsound.lib libfaad2R.lib libmadR.lib liba52R.lib libdcaR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib Avrt.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
