@@ -35,6 +35,14 @@
 
 #include "SoundTouch\Include\SoundTouch.h"
 
+// REFERENCE_TIME time units per second and per millisecond
+#define REFTIMES_PER_SEC  10000000
+#define REFTIMES_PER_MILLISEC  10000
+
+// if you get a compilation error on AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED,
+// uncomment the #define below
+#define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED      AUDCLNT_ERR(0x019)
+
 [uuid("601D2A2B-9CDE-40bd-8650-0485E3522727")]
 class CMpcAudioRenderer : public CBaseRenderer
 {
@@ -64,6 +72,7 @@ public:
 	STDMETHOD(Stop)				();
 	STDMETHOD(Pause)			();
 
+ // CMpcAudioRenderer
 private:
 
 	HRESULT					DoRenderSampleDirectSound(IMediaSample *pMediaSample);
@@ -73,10 +82,8 @@ private:
 	HRESULT					CreateDSBuffer();
 	HRESULT					GetReferenceClockInterface(REFIID riid, void **ppv);
 	HRESULT					WriteSampleToDSBuffer(IMediaSample *pMediaSample, bool *looped);
- HRESULT     GetDefaultAudioDevice(IAudioClient **ppAudioClient);
- HRESULT     InitDevice(IAudioClient *pAudioClient, WAVEFORMATEX *pWaveFormatEx, IAudioRenderClient **ppRenderClient);
 
-	LPDIRECTSOUND8			m_pDS;
+ LPDIRECTSOUND8			m_pDS;
 	LPDIRECTSOUNDBUFFER		m_pDSBuffer;
 	DWORD					m_dwDSWriteOff;
 	WAVEFORMATEX			*m_pWaveFileFormat;
@@ -85,16 +92,27 @@ private:
 	double					m_dRate;
  soundtouch::SoundTouch*	m_pSoundTouch;
 
- // WASAPI
- HRESULT	DoRenderSampleWasapi(IMediaSample *pMediaSample);
+ // CMpcAudioRenderer WASAPI methods
+ HRESULT     GetDefaultAudioDevice(IMMDevice **ppMMDevice);
+ HRESULT     CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient);
+ HRESULT     InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioClient *pAudioClient, IAudioRenderClient **ppRenderClient);
+ HRESULT     CheckAudioClient(WAVEFORMATEX *pWaveFormatEx);
+ bool        CheckFormatChanged(WAVEFORMATEX *pWaveFormatEx, WAVEFORMATEX **ppNewWaveFormatEx);
+ HRESULT	    DoRenderSampleWasapi(IMediaSample *pMediaSample);
+ HRESULT     GetBufferSize(WAVEFORMATEX *pWaveFormatEx, REFERENCE_TIME *pHnsBufferPeriod);
 
+ 
+ // WASAPI variables
  bool               useWASAPI;
+ IMMDevice          *pMMDevice;
  IAudioClient       *pAudioClient;
  IAudioRenderClient *pRenderClient;
- //HANDLE             hEvent;
- UINT32             bufferFrameCount;
- REFERENCE_TIME     hnsRequestedDuration;
+ UINT32             nFramesInBuffer;
+ REFERENCE_TIME     hnsPeriod, hnsActualDuration;
  HANDLE             hTask;
-
+ CCritSec           m_csCheck;
+ UINT32             bufferSize;
+ bool               isAudioClientStarted;
+ DWORD              lastBufferTime;
 };
 
