@@ -634,3 +634,14 @@ void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount)
 	if (nThreadCount > 1)
 		avcodec_thread_init(pAVCtx, nThreadCount);
 }
+
+#ifdef _WIN64
+
+// Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
+//          for standalone decoder without this dummy function !
+void DummyX64Link ()
+{
+	toupper('X');
+}
+
+#endif
