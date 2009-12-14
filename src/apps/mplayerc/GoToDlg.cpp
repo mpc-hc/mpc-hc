@@ -178,7 +178,7 @@ void CGoToDlg::OnBnClickedOk2()
 
 		if(fps == 0)
 		{
-			AfxMessageBox(_T("Error parsing entered frame-rate!"));
+			AfxMessageBox(_T("Error parsing entered frame rate!"));
 			return;
 		}
 
