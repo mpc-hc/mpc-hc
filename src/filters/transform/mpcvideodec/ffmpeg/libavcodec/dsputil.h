@@ -432,6 +432,13 @@ typedef struct DSPContext {
      * @param v2  second vector, 16-byte aligned
      * @param len length of vectors, multiple of 4
      */
+    float (*scalarproduct_float)(const float *v1, const float *v2, int len);
+    /**
+     * Calculate the sum and difference of two vectors of floats.
+     * @param v1  first input vector, sum output, 16-byte aligned
+     * @param v2  second input vector, difference output, 16-byte aligned
+     * @param len length of vectors, multiple of 4
+     */
     void (*butterflies_float)(float *restrict v1, float *restrict v2, int len);
 
     /* C version: convert floats from the range [384.0,386.0] to ints in [-32768,32767]

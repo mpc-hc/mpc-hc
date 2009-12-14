@@ -4096,6 +4096,17 @@ static void butterflies_float_c(float *restrict v1, float *restrict v2,
     }
 }
 
+static float scalarproduct_float_c(const float *v1, const float *v2, int len)
+{
+    float p = 0.0;
+    int i;
+
+    for (i = 0; i < len; i++)
+        p += v1[i] * v2[i];
+
+    return p;
+}
+
 static void int32_to_float_fmul_scalar_c(float *dst, const int *src, float mul, int len){
     int i;
     for(i=0; i<len; i++)
@@ -4560,11 +4571,11 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
     c->put_mspel_pixels_tab[7]= put_mspel8_mc32_c;
 #endif
 
-#if CONFIG_ENCODERS
 #define SET_CMP_FUNC(name) \
     c->name[0]= name ## 16_c;\
     c->name[1]= name ## 8x8_c;
 
+#if CONFIG_ENCODERS
     SET_CMP_FUNC(hadamard8_diff)
     c->hadamard8_diff[4]= hadamard8_intra16_c;
     c->hadamard8_diff[5]= hadamard8_intra8x8_c;
@@ -4573,7 +4584,9 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #if CONFIG_GPL
     SET_CMP_FUNC(dct264_sad)
 #endif
+#endif /* CONFIG_ENCODERS */
     c->sad[0]= pix_abs16_c;
+#if CONFIG_ENCODERS
     c->sad[1]= pix_abs8_c;
     c->sse[0]= sse16_c;
     c->sse[1]= sse8_c;
@@ -4667,6 +4680,9 @@ void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avctx)
 #endif
 #if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
+#endif
+#if CONFIG_AAC_DECODER
+    c->scalarproduct_float = scalarproduct_float_c;
 #endif
 #if CONFIG_AAC_DECODER | CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
     c->butterflies_float = butterflies_float_c;
