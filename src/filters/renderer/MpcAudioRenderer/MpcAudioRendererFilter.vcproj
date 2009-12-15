@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="dsound.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib Avrt.lib"
+				AdditionalDependencies="dsound.lib dsutilDU.lib strmbaseDU.lib Winmm.lib Avrt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				IgnoreAllDefaultLibraries="false"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib avrt.lib"
+				AdditionalDependencies="dsound.lib dsutilDU.lib strmbaseDU.lib Winmm.lib avrt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
@@ -202,7 +202,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib zlibR.lib Avrt.lib"
+				AdditionalDependencies="dsound.lib dsutilRU.lib strmbaseRU.lib Winmm.lib Avrt.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
@@ -277,7 +277,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib libfaad2R.lib libmadR.lib liba52R.lib libdcaR.lib libflac.lib decssRU.lib dsutilRU.lib strmbaseRU.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlibR.lib Avrt.lib"
+				AdditionalDependencies="dsound.lib dsutilRU.lib strmbaseRU.lib Winmm.lib Avrt.lib"
 				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
