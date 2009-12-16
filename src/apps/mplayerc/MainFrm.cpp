@@ -7725,6 +7725,8 @@ void CMainFrame::RestoreDefaultWindowRect()
 		}
 
 		MoveWindow(x, y, w, h);
+
+		if(!s.fRememberWindowPos) CenterWindow();
 	}
 }
 
