@@ -1,4 +1,4 @@
-;the revision number - 2009-07-22 13:36
+;the revision number - 2009-12-06 17:59
 
 #include "../include/Version.h"
 
@@ -32,6 +32,8 @@ AllowNoIcons=yes
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 ShowUndisplayableLanguages=true
+AppPublisher=mpc-hc@Sourceforge
+AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 
 [Files]
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
