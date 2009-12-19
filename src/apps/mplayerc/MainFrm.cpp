@@ -12727,7 +12727,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			buttons[0].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[0].iId = IDTB_BUTTON3;
 			buttons[0].iBitmap = 0;
-			lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[0].szTip)); 
+			lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[0].szTip)); 
 
 			// STOP
 			buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
@@ -12748,7 +12748,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			buttons[3].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[3].iId = IDTB_BUTTON4;
 			buttons[3].iBitmap = 4;
-			lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[3].szTip)); 
+			lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[3].szTip)); 
 
 			// FULLSCREEN
 			buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
@@ -12777,7 +12777,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	buttons[0].dwFlags = THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
-	lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[0].szTip)); 
+	lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[0].szTip)); 
 
 	buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[1].iId = IDTB_BUTTON1;
@@ -12793,7 +12793,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	buttons[3].dwFlags = THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
-	lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[3].szTip)); 
+	lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[3].szTip)); 
 
 	buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[4].dwFlags = THBF_ENABLED;
