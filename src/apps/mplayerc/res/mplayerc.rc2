@@ -57,6 +57,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 	IDF_LOGO7               FILE                    "res\\logo.7.png"
 #endif
 
+W7_TOOLBAR			PNG			"res\\Toolbarw7.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

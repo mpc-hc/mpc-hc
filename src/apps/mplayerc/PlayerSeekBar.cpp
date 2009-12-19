@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PlayerSeekBar.h"
+#include "MainFrm.h"
 
 
 // CPlayerSeekBar
@@ -107,7 +108,14 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 	m_posreal = pos;
 	CRect after = GetThumbRect();
 
-	if(before != after) InvalidateRect(before | after);
+	if(before != after) 
+	{
+		InvalidateRect(before | after);
+		
+		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+		if(pFrame->m_pTaskbarList)
+		pFrame->m_pTaskbarList->SetProgressValue ( pFrame->m_hWnd, pos, m_stop );
+	}
 }
 
 CRect CPlayerSeekBar::GetChannelRect()

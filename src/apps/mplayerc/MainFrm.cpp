@@ -89,11 +89,13 @@
 
 static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
+static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 
 #include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
+#include "CGdiPlusBitmap.h"
 
 DWORD last_run = 0;
 
@@ -159,6 +161,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
 	ON_REGISTERED_MESSAGE(s_uTaskbarRestart, OnTaskBarRestart)
 	ON_REGISTERED_MESSAGE(WM_NOTIFYICON, OnNotifyIcon)
+
+	ON_REGISTERED_MESSAGE(s_uTBBC, OnTaskBarThumbnailsCreate)
 
 	ON_WM_SETFOCUS()
 	ON_WM_GETMINMAXINFO()
@@ -911,6 +915,11 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+LRESULT CMainFrame::OnTaskBarThumbnailsCreate(WPARAM, LPARAM)
+{
+	return CreateThumbnailToolbar();
 }
 	
 void CMainFrame::ShowTrayIcon(bool fShow)
@@ -2947,6 +2956,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	if(m_iMediaLoadState == MLS_LOADING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_OPENING));
+		if(m_pTaskbarList) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else if(m_iMediaLoadState == MLS_LOADED)
 	{
@@ -3088,6 +3098,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	else if(m_iMediaLoadState == MLS_CLOSING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_CLOSING));
+		if(m_pTaskbarList) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else
 	{
@@ -11845,6 +11856,9 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
 	else
 		SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
+
+	// Set thumbnails button state
+	UpdateThumbarButton();
 }
 
 bool CMainFrame::CreateFullScreenWindow()
@@ -12642,4 +12656,237 @@ void CMainFrame::OnFileOpendirectory()
 			OpenCurPlaylistItem();
 		}
 	}
+}
+
+#define GetAValue(rgb) (rgb >> 24)
+
+HRESULT CMainFrame::CreateThumbnailToolbar()
+{
+	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
+	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
+	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;
+
+	if(m_pTaskbarList) m_pTaskbarList->Release();
+	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
+	if (SUCCEEDED(hr))
+	{
+		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+		Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
+
+		CGdiPlusBitmapResource* pBitmap = new CGdiPlusBitmapResource;
+		if (!pBitmap->Load(_T("W7_TOOLBAR"), _T("PNG")))
+		{
+			delete pBitmap;
+			Gdiplus::GdiplusShutdown(m_gdiplusToken);
+			m_pTaskbarList->Release();
+			return false;
+		}
+		unsigned long Color = 0xFFFFFFFF;
+		unsigned int A = GetAValue(Color);
+		unsigned int R = GetRValue(Color);
+		unsigned int G = GetGValue(Color);
+		unsigned int B = GetBValue(Color);
+		Gdiplus::Color co(A,R,G,B);
+		HBITMAP hB = 0;
+		pBitmap->m_pBitmap->GetHBITMAP(co,&hB);
+	
+		if (!hB)
+		{
+			m_pTaskbarList->Release();
+			delete pBitmap;
+			Gdiplus::GdiplusShutdown(m_gdiplusToken);
+			return false;
+		}
+	
+		// Check dimensions
+		BITMAP bi = {0};
+		GetObject((HANDLE)hB,sizeof(bi),&bi);
+		if (bi.bmHeight == 0)
+		{
+			DeleteObject(hB);
+			m_pTaskbarList->Release();
+			delete pBitmap;
+			Gdiplus::GdiplusShutdown(m_gdiplusToken);
+			return false;
+		}
+
+		int nI = bi.bmWidth/bi.bmHeight;
+		HIMAGELIST himl = ImageList_Create(bi.bmHeight,bi.bmHeight,ILC_COLOR32,nI,0);
+	
+		// Add the bitmap
+		ImageList_Add(himl,hB,0);
+		hr = m_pTaskbarList->ThumbBarSetImageList(m_hWnd,himl);
+		DeleteObject(hB);
+
+		if (SUCCEEDED(hr))
+		{
+			THUMBBUTTON buttons[5] = {};
+
+			// SEEK BACKWARD
+			buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+			buttons[0].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[0].iId = IDTB_BUTTON3;
+			buttons[0].iBitmap = 0;
+			lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[0].szTip)); 
+
+			// STOP
+			buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+			buttons[1].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[1].iId = IDTB_BUTTON1;
+			buttons[1].iBitmap = 1;
+			lstrcpyn(buttons[1].szTip, ResStr(IDS_AG_STOP), sizeof(buttons[1].szTip)); 
+
+			// PLAY/PAUSE
+			buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+			buttons[2].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[2].iId = IDTB_BUTTON2;
+			buttons[2].iBitmap = 3;
+			lstrcpyn(buttons[2].szTip, ResStr(IDS_AG_PLAYPAUSE), sizeof(buttons[2].szTip)); 
+
+			// SEEK FORWARD
+			buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+			buttons[3].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[3].iId = IDTB_BUTTON4;
+			buttons[3].iBitmap = 4;
+			lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[3].szTip)); 
+
+			// FULLSCREEN
+			buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+			buttons[4].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[4].iId = IDTB_BUTTON5;
+			buttons[4].iBitmap = 5;
+			lstrcpyn(buttons[4].szTip, ResStr(IDS_AG_FULLSCREEN), sizeof(buttons[4].szTip)); 
+
+			hr = m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+		}
+		ImageList_Destroy(himl);
+		delete pBitmap;
+		Gdiplus::GdiplusShutdown(m_gdiplusToken);
+	}
+
+	return hr;
+}
+
+HRESULT CMainFrame::UpdateThumbarButton()
+{
+	if(!m_pTaskbarList) return false;
+
+	THUMBBUTTON buttons[5] = {};
+
+	buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+	buttons[0].dwFlags = THBF_ENABLED;
+	buttons[0].iId = IDTB_BUTTON3;
+	buttons[0].iBitmap = 0;
+	lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[0].szTip)); 
+
+	buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+	buttons[1].iId = IDTB_BUTTON1;
+	buttons[1].iBitmap = 1;
+	lstrcpyn(buttons[1].szTip, ResStr(IDS_AG_STOP), sizeof(buttons[1].szTip)); 
+		
+	buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+	buttons[2].iId = IDTB_BUTTON2;
+	buttons[2].iBitmap = 3;
+	lstrcpyn(buttons[2].szTip, ResStr(IDS_AG_PLAYPAUSE), sizeof(buttons[2].szTip)); 
+
+	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+	buttons[3].dwFlags = THBF_ENABLED;
+	buttons[3].iId = IDTB_BUTTON4;
+	buttons[3].iBitmap = 4;
+	lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[3].szTip)); 
+
+	buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+	buttons[4].dwFlags = THBF_ENABLED;
+	buttons[4].iId = IDTB_BUTTON5;
+	buttons[4].iBitmap = 5;
+	lstrcpyn(buttons[4].szTip, ResStr(IDS_AG_FULLSCREEN), sizeof(buttons[4].szTip)); 
+
+	HICON hIcon;
+
+	if(m_iMediaLoadState == MLS_LOADED)
+	{
+		OAFilterState fs = GetMediaState();
+		if(fs == State_Running)
+		{
+			buttons[1].dwFlags = THBF_ENABLED;
+			buttons[2].dwFlags = THBF_ENABLED;
+			buttons[2].iBitmap = 2;
+			
+			hIcon = AfxGetApp()->LoadIcon(IDR_TB_PLAY);
+			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NORMAL);
+		}
+		else if(fs == State_Stopped)
+		{
+			buttons[0].dwFlags = THBF_DISABLED;
+			buttons[1].dwFlags = THBF_DISABLED;
+			buttons[2].dwFlags = THBF_ENABLED;
+			buttons[2].iBitmap = 3;
+			buttons[3].dwFlags = THBF_DISABLED;
+
+			hIcon = AfxGetApp()->LoadIcon(IDR_TB_STOP);
+			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+		}
+		else if(fs == State_Paused)
+		{
+			buttons[1].dwFlags = THBF_ENABLED;
+			buttons[2].dwFlags = THBF_ENABLED;
+			buttons[2].iBitmap = 3;
+
+			hIcon = AfxGetApp()->LoadIcon(IDR_TB_PAUSE);
+			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_PAUSED);
+		}
+		m_pTaskbarList->SetOverlayIcon (m_hWnd, hIcon, L"");
+		if (hIcon) DestroyIcon(hIcon);
+	}
+	else
+	{
+		buttons[0].dwFlags = THBF_DISABLED;
+		buttons[1].dwFlags = THBF_DISABLED;
+		buttons[2].dwFlags = THBF_DISABLED;
+		buttons[3].dwFlags = THBF_DISABLED;
+		buttons[4].dwFlags = THBF_DISABLED;
+
+		m_pTaskbarList->SetOverlayIcon (m_hWnd, NULL, L"");
+		m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+	}
+
+	HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+
+	return hr;
+}
+
+LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam)))
+	{
+		int const wmId = LOWORD(wParam);
+		switch(wmId)
+		{
+			case IDTB_BUTTON1:
+				SendMessage(WM_COMMAND, ID_PLAY_STOP);
+				break;
+			
+			case IDTB_BUTTON2:
+				SendMessage(WM_COMMAND, ID_PLAY_PLAYPAUSE);
+				break;
+
+			case IDTB_BUTTON3:
+				SendMessage(WM_COMMAND, ID_PLAY_SEEKBACKWARDMED);
+				break;
+			
+			case IDTB_BUTTON4:
+				SendMessage(WM_COMMAND, ID_PLAY_SEEKFORWARDMED);
+				break;
+			
+			case IDTB_BUTTON5:
+				SendMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
+				break;
+			
+			default: 
+				break; 
+		}
+		return 0;
+	}
+
+	return __super::WindowProc(message, wParam, lParam);
 }

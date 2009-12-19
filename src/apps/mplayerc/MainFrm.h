@@ -502,6 +502,7 @@ public:
 
 	afx_msg LRESULT OnTaskBarRestart(WPARAM, LPARAM);
 	afx_msg LRESULT OnNotifyIcon(WPARAM, LPARAM);
+	afx_msg LRESULT OnTaskBarThumbnailsCreate(WPARAM, LPARAM);
 
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
@@ -824,4 +825,14 @@ public:
 	afx_msg void OnFileOpendirectory();
 
 	CString GetVidPos();
+
+	ITaskbarList3* m_pTaskbarList;
+protected:
+	// GDI+
+	ULONG_PTR m_gdiplusToken;
+
+	HRESULT CreateThumbnailToolbar();
+	HRESULT UpdateThumbarButton();
+
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };

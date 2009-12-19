@@ -74,6 +74,9 @@
 #include "..\..\ui\ui.h"
 #include "..\..\DSUtil\DSUtil.h"
 
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib")
+
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
