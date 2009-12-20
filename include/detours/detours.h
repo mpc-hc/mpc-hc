@@ -2,7 +2,7 @@
 //
 //  Core Detours Functionality (detours.h of detours.lib)
 //
-//  Microsoft Research Detours Package, Express Version 2.1 Build_209.
+//  Microsoft Research Detours Package, Version 2.1.
 //
 //  Copyright (c) Microsoft Corporation.  All rights reserved.
 //
@@ -11,8 +11,16 @@
 #ifndef _DETOURS_H_
 #define _DETOURS_H_
 
+#define DETOURS_VERSION     20100   // 2.1.0
+
 //////////////////////////////////////////////////////////////////////////////
 //
+
+#if (_MSC_VER < 1299)
+typedef LONG LONG_PTR;
+typedef ULONG ULONG_PTR;
+#endif
+
 #ifndef __in_z
 #define __in_z
 #endif
@@ -61,7 +69,7 @@ extern "C" {
 /////////////////////////////////////////////////// Instruction Target Macros.
 //
 #define DETOUR_INSTRUCTION_TARGET_NONE          ((PVOID)0)
-#define DETOUR_INSTRUCTION_TARGET_DYNAMIC       ((PVOID)((LONG_PTR)-1))
+#define DETOUR_INSTRUCTION_TARGET_DYNAMIC       ((PVOID)(LONG_PTR)-1)
 #define DETOUR_SECTION_HEADER_SIGNATURE         0x00727444   // "Dtr\0"
 
 extern const GUID DETOUR_EXE_RESTORE_GUID;
@@ -164,9 +172,9 @@ typedef BOOL (CALLBACK *PF_DETOUR_BINARY_FILE_CALLBACK)(PVOID pContext,
                                                         PCHAR *ppszOutFile);
 
 typedef BOOL (CALLBACK *PF_DETOUR_BINARY_SYMBOL_CALLBACK)(PVOID pContext,
-                                                          ULONG_PTR nOrigOrdinal,
-                                                          ULONG_PTR nOrdinal,
-                                                          ULONG_PTR *pnOutOrdinal,
+                                                          ULONG nOrigOrdinal,
+                                                          ULONG nOrdinal,
+                                                          ULONG *pnOutOrdinal,
                                                           PCHAR pszOrigSymbol,
                                                           PCHAR pszSymbol,
                                                           PCHAR *ppszOutSymbol);
@@ -174,7 +182,7 @@ typedef BOOL (CALLBACK *PF_DETOUR_BINARY_SYMBOL_CALLBACK)(PVOID pContext,
 typedef BOOL (CALLBACK *PF_DETOUR_BINARY_COMMIT_CALLBACK)(PVOID pContext);
 
 typedef BOOL (CALLBACK *PF_DETOUR_ENUMERATE_EXPORT_CALLBACK)(PVOID pContext,
-                                                             ULONG_PTR nOrdinal,
+                                                             ULONG nOrdinal,
                                                              PCHAR pszName,
                                                              PVOID pCode);
 
@@ -339,8 +347,32 @@ HMODULE WINAPI DetourGetDetouredMarker();
 #ifdef __cplusplus
 #ifdef DETOURS_INTERNAL
 
+#ifndef __deref_out
+#define __deref_out
+#endif
+
+#ifndef __deref
+#define __deref
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 //
+#if (_MSC_VER < 1299)
+#include <imagehlp.h>
+typedef IMAGEHLP_MODULE IMAGEHLP_MODULE64;
+typedef PIMAGEHLP_MODULE PIMAGEHLP_MODULE64;
+typedef IMAGEHLP_SYMBOL SYMBOL_INFO;
+typedef PIMAGEHLP_SYMBOL PSYMBOL_INFO;
+
+static inline
+LONG InterlockedCompareExchange(LONG *ptr, LONG nval, LONG oval)
+{
+    return (LONG)::InterlockedCompareExchange((PVOID*)ptr, (PVOID)nval, (PVOID)oval);
+}
+#else
+#include <dbghelp.h>
+#endif
+
 #ifdef IMAGEAPI // defined by DBGHELP.H
 typedef LPAPI_VERSION (NTAPI *PF_ImagehlpApiVersionEx)(LPAPI_VERSION AppVersion);
 

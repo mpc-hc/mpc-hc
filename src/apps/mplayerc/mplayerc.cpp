@@ -764,10 +764,10 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
 	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
-#ifndef _DEBUG
+#ifndef _WIN64		// Cannot detour NtQueryInformationProcess with Win7 x64 : too few instructions...
 	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
 	if (hNTDLL)
-	{
+	{		
 		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
 
 		if (Real_NtQueryInformationProcess)
@@ -777,10 +777,8 @@ BOOL CMPlayerCApp::InitInstance()
 
 	CFilterMapper2::Init();
 
-#if !defined(_DEBUG) || !defined(_WIN64)
     lError = DetourTransactionCommit();
 	ASSERT (lError == NOERROR);
-#endif
 
 	HRESULT hr;
     if(FAILED(hr = OleInitialize(0)))
