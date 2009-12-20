@@ -12879,6 +12879,14 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			
 			case IDTB_BUTTON5:
+				WINDOWPLACEMENT wp;
+				GetWindowPlacement(&wp);
+				if(wp.showCmd == SW_SHOWMINIMIZED)
+				{
+					SendMessage(WM_SYSCOMMAND, SC_RESTORE, -1);
+				}
+				SetForegroundWindow();
+
 				SendMessage(WM_COMMAND, ID_VIEW_FULLSCREEN);
 				break;
 			
