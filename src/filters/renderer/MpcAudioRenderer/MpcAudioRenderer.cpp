@@ -22,7 +22,9 @@
 
 #include "stdafx.h"
 
+#ifdef REGISTER_FILTER
 #include <initguid.h>
+#endif
 #include <moreuuids.h>
 #include "..\..\..\DSUtil\DSUtil.h"
 #include <ks.h>
@@ -124,12 +126,24 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 , lastBufferTime (0)
 , hnsActualDuration (0)
 {
- TRACE(_T("CMpcAudioRenderer constructor"));
- if (!useWASAPI)
- {
-  m_pSoundTouch	= new soundtouch::SoundTouch();
-	 *phr = DirectSoundCreate8 (NULL, &m_pDS, NULL);
- }
+	HMODULE		hLib;
+
+	// Load Vista specifics DLLs
+	hLib = LoadLibrary (L"AVRT.dll");
+	if (hLib != NULL)
+	{
+		pfAvSetMmThreadCharacteristicsW		= (PTR_AvSetMmThreadCharacteristicsW)	GetProcAddress (hLib, "AvSetMmThreadCharacteristicsW");
+		pfAvRevertMmThreadCharacteristics	= (PTR_AvRevertMmThreadCharacteristics)	GetProcAddress (hLib, "AvRevertMmThreadCharacteristics");
+	}
+	else
+		useWASAPI = false;	// Wasapi not available below Vista
+
+	TRACE(_T("CMpcAudioRenderer constructor"));
+	if (!useWASAPI)
+	{
+		m_pSoundTouch	= new soundtouch::SoundTouch();
+		*phr = DirectSoundCreate8 (NULL, &m_pDS, NULL);
+	}
 }
 
 
@@ -140,9 +154,10 @@ CMpcAudioRenderer::~CMpcAudioRenderer()
 	SAFE_DELETE  (m_pSoundTouch);
 	SAFE_RELEASE (m_pDSBuffer);
 	SAFE_RELEASE (m_pDS);
- SAFE_RELEASE (pRenderClient);
- SAFE_RELEASE (pAudioClient);
- SAFE_RELEASE (pMMDevice);
+
+	SAFE_RELEASE (pRenderClient);
+	SAFE_RELEASE (pAudioClient);
+	SAFE_RELEASE (pMMDevice);
 	
 	if (m_pReferenceClock)
 	{
@@ -156,10 +171,10 @@ CMpcAudioRenderer::~CMpcAudioRenderer()
 		SAFE_DELETE_ARRAY(p);
 	}
 
- if (hTask != NULL)
- {
-  AvRevertMmThreadCharacteristics(hTask);
- }
+	if (hTask != NULL && pfAvRevertMmThreadCharacteristics != NULL)
+	{
+		pfAvRevertMmThreadCharacteristics(hTask);
+	}
 }
 
 
@@ -555,19 +570,23 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 	}
 
 	ATLASSERT(hWnd != NULL);
- if (!useWASAPI)
-	 hr = m_pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY);
- else if (hTask == NULL)
- {
-  // Ask MMCSS to temporarily boost the thread priority
-  // to reduce glitches while the low-latency stream plays.
-  DWORD taskIndex = 0;
-  hTask = AvSetMmThreadCharacteristics(TEXT("Pro Audio"), &taskIndex);
-  TRACE(_T("CMpcAudioRenderer::InitCoopLevel Putting thread in higher priority for Wasapi mode (lowest latency)"));
-  hr=GetLastError();
-  if (hTask == NULL)
-   return hr;
- }
+	if (!useWASAPI)
+		hr = m_pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY);
+	else if (hTask == NULL)
+	{
+		// Ask MMCSS to temporarily boost the thread priority
+		// to reduce glitches while the low-latency stream plays.
+		DWORD taskIndex = 0;
+
+		if (pfAvSetMmThreadCharacteristicsW)
+		{
+			hTask = pfAvSetMmThreadCharacteristicsW(TEXT("Pro Audio"), &taskIndex);
+			TRACE(_T("CMpcAudioRenderer::InitCoopLevel Putting thread in higher priority for Wasapi mode (lowest latency)"));
+			hr=GetLastError();
+			if (hTask == NULL)
+				return hr;
+		}
+	}
 
 	return hr;
 }

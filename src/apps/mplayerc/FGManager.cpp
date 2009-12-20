@@ -2495,6 +2495,12 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
+	else if(s.AudioRendererDisplayName == AUDRNDT_MPC)
+	{
+		pFGF = DNew CFGFilterInternal<CMpcAudioRenderer>(AUDRNDT_MPC, MERIT64_ABOVE_DSHOW+2);
+		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
+		m_transform.AddTail(pFGF);
+	}
 	else if(!s.AudioRendererDisplayName.IsEmpty())
 	{
 		pFGF = DNew CFGFilterRegistry(s.AudioRendererDisplayName, m_armerit);

@@ -225,6 +225,12 @@ BOOL CPPageOutput::OnInitDialog()
 	if(s.AudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0)
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 
+	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
+	m_iAudioRendererTypeCtrl.AddString(AUDRNDT_MPC);
+	if(s.AudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0)
+		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
+
+
 	CorrectComboListWidth(m_iAudioRendererTypeCtrl, GetFont());
 
 	UpdateData(FALSE);

@@ -1,4 +1,4 @@
-;the revision number - 2009-07-22 13:36
+;the revision number - 2009-12-06 17:59
 
 #include "../include/Version.h"
 
@@ -31,6 +31,8 @@ AllowNoIcons=yes
 Compression=lzma/ultra64
 SolidCompression=yes
 ShowUndisplayableLanguages=true
+AppPublisher=mpc-hc@Sourceforge
+AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 
 [Files]
 Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
