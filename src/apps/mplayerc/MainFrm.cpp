@@ -11643,7 +11643,11 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
 	if(!m_wndPlaylistBar.GetCur(pli)) return;
 
 	CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD(rtStart));
-	if(p) OpenMedia(p);
+	if(p) 
+	{
+		SHAddToRecentDocs(SHARD_PATH, m_wndPlaylistBar.GetCur());
+		OpenMedia(p);
+	}
 }
 
 void CMainFrame::AddCurDevToPlaylist()
