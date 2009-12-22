@@ -990,12 +990,12 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				{
 				case 1 :	// SAR not supported
 					 m_bDXVACompatible = false;
-					 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : SAR is not supported"), MPCVD_CAPTION, MB_OK);
+					 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : SAR is not supported"), MPCVD_CAPTION, MB_OK | MB_SETFOREGROUND); 
 					 if (m_nCompatibilityMode & 2) m_bDXVACompatible = true;
 					 break;
 				case 2 :	// Too much ref frames
 					 m_bDXVACompatible = false;
-					 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : too much ref frame"), MPCVD_CAPTION, MB_OK);
+					 if (m_nCompatibilityMode & 1) MessageBox (NULL, _T("DXVA : too many reference frames"), MPCVD_CAPTION, MB_OK | MB_SETFOREGROUND);
 					 if (m_nCompatibilityMode & 4) m_bDXVACompatible = true;
 					 break;
 				}
