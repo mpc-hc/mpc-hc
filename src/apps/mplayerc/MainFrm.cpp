@@ -495,7 +495,8 @@ CMainFrame::CMainFrame() :
 	m_nStepForwardCount(0),
 	m_rtStepForwardStart(0),
 	m_bToggleShaderScreenSpace(false),
-	m_bInOptions(false)
+	m_bInOptions(false),
+	m_pTaskbarList(NULL)
 {
 	m_Lcd.SetVolumeRange(1, 100);
 }
