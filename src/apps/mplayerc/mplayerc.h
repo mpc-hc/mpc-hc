@@ -775,6 +775,7 @@ public:
 
 
 		bool m_fPreventMinimize;		
+		bool m_fUseWin7TaskBar;
 	} m_s;
 
 public:

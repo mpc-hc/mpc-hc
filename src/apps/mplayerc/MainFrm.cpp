@@ -12663,6 +12663,8 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
+	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return false;
+
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
 	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;

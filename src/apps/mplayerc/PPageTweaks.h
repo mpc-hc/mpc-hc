@@ -56,6 +56,7 @@ public:
 	CStaticLink m_GTSdllLink;
 
 	BOOL m_fPreventMinimize;
+	BOOL m_fUseWin7TaskBar;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
