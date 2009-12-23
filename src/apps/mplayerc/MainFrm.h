@@ -827,12 +827,12 @@ public:
 	CString GetVidPos();
 
 	ITaskbarList3* m_pTaskbarList;
+	HRESULT CreateThumbnailToolbar();
+	HRESULT UpdateThumbarButton();
+
 protected:
 	// GDI+
 	ULONG_PTR m_gdiplusToken;
-
-	HRESULT CreateThumbnailToolbar();
-	HRESULT UpdateThumbarButton();
 
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };

@@ -2957,7 +2957,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	if(m_iMediaLoadState == MLS_LOADING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_OPENING));
-		if(m_pTaskbarList) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
+		if((AfxGetAppSettings().m_fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else if(m_iMediaLoadState == MLS_LOADED)
 	{
@@ -3099,7 +3099,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	else if(m_iMediaLoadState == MLS_CLOSING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_CLOSING));
-		if(m_pTaskbarList) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
+		if((AfxGetAppSettings().m_fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else
 	{
@@ -12664,13 +12664,12 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return false;
+	if((!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_pTaskbarList)) return false;
 
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
 	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;
 
-	if(m_pTaskbarList) m_pTaskbarList->Release();
 	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
 	if (SUCCEEDED(hr))
 	{
@@ -12774,6 +12773,37 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 HRESULT CMainFrame::UpdateThumbarButton()
 {
 	if(!m_pTaskbarList) return false;
+
+	if(!AfxGetAppSettings().m_fUseWin7TaskBar)
+	{
+		m_pTaskbarList->SetOverlayIcon (m_hWnd, NULL, L"");
+		m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+	
+		THUMBBUTTON buttons[5] = {};
+
+		buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+		buttons[0].dwFlags = THBF_HIDDEN;
+		buttons[0].iId = IDTB_BUTTON3;
+
+		buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+		buttons[1].dwFlags = THBF_HIDDEN;
+		buttons[1].iId = IDTB_BUTTON1;
+		
+		buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+		buttons[2].dwFlags = THBF_HIDDEN;
+		buttons[2].iId = IDTB_BUTTON2;
+
+		buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+		buttons[3].dwFlags = THBF_HIDDEN;
+		buttons[3].iId = IDTB_BUTTON4;
+
+		buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
+		buttons[4].dwFlags = THBF_HIDDEN;
+		buttons[4].iId = IDTB_BUTTON5;
+
+		HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+		return hr;
+	}
 
 	THUMBBUTTON buttons[5] = {};
 

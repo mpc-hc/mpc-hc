@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageTweaks.h"
+#include "MainFrm.h"
 
 
 // CPPageTweaks dialog
@@ -110,6 +111,10 @@ BOOL CPPageTweaks::OnApply()
 
 	s.m_fPreventMinimize = m_fPreventMinimize;
 	s.m_fUseWin7TaskBar = m_fUseWin7TaskBar;
+
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+	if(m_fUseWin7TaskBar) pFrame->CreateThumbnailToolbar();
+	pFrame->UpdateThumbarButton();
 
 	return __super::OnApply();
 }
