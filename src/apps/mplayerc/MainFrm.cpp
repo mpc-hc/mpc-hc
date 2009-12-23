@@ -12664,12 +12664,13 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if((!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_pTaskbarList)) return false;
+	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return false;
 
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
 	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;
 
+	if(m_pTaskbarList) m_pTaskbarList->Release();
 	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
 	if (SUCCEEDED(hr))
 	{
