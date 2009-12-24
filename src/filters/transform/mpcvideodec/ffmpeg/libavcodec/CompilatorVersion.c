@@ -18,9 +18,17 @@
 
 #ifdef _MSC_VER
 	#if (_MSC_VER == 1500)
-		char	FfmpegCompiler[] = "MSVS 2008";
+		#if (_MSC_FULL_VER >= 150030729)
+			char	FfmpegCompiler[] = "MSVS 2008 SP1";	
+		#else	
+			char	FfmpegCompiler[] = "MSVS 2008";
+		#endif
 	#elif (_MSC_VER == 1400)
-		char	FfmpegCompiler[] = "MSVS 2005";
+		#if (_MSC_FULL_VER >= 140050727)
+			char	FfmpegCompiler[] = "MSVS 2005 SP1";
+		#else
+			char	FfmpegCompiler[] = "MSVS 2005";
+		#endif
 	#elif (_MSC_VER == 1310)
 		char	FfmpegCompiler[] = "MSVS 2003";
 	#elif (_MSC_VER == 1300)

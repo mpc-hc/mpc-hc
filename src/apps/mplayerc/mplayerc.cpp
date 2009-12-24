@@ -222,9 +222,17 @@ public:
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 		#if (_MSC_VER == 1500)
-			m_MPCCompiler = _T("MSVS 2008");
+			#if (_MSC_FULL_VER >= 150030729)
+				m_MPCCompiler = _T("MSVS 2008 SP1");
+			#else
+				m_MPCCompiler = _T("MSVS 2008");
+			#endif
 		#elif (_MSC_VER == 1400)
-			m_MPCCompiler = _T("MSVS 2005");
+			#if (_MSC_FULL_VER >= 140050727)
+				m_MPCCompiler = _T("MSVS 2005 SP1");
+			#else
+				m_MPCCompiler = _T("MSVS 2005");
+			#endif
 		#elif (_MSC_VER == 1310)
 			m_MPCCompiler = _T("MSVS 2003");
 		#elif (_MSC_VER == 1300)
