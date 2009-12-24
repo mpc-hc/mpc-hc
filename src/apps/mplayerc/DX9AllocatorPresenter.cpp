@@ -1338,7 +1338,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 
 	hr = S_OK;
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
-		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, AfxGetAppSettings().fSPCDisableAnim, m_pAllocator, &hr)
+		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
 	if(!m_pSubPicQueue || FAILED(hr))
 	{
@@ -4552,7 +4552,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	HRESULT hr = S_OK;
 
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
-		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, AfxGetAppSettings().fSPCDisableAnim, m_pAllocator, &hr)
+		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
 	if(!m_pSubPicQueue || FAILED(hr))
 		return E_FAIL;
@@ -4738,7 +4738,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	HRESULT hr = S_OK;
 
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
-		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, AfxGetAppSettings().fSPCDisableAnim, m_pAllocator, &hr)
+		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
 	if(!m_pSubPicQueue || FAILED(hr))
 		return E_FAIL;

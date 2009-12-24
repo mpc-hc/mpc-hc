@@ -392,7 +392,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
 
 	hr = S_OK;
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
-		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, AfxGetAppSettings().fSPCDisableAnim, m_pAllocator, &hr)
+		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
 	if(!m_pSubPicQueue || FAILED(hr))
 		return E_FAIL;

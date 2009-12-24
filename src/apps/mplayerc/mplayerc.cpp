@@ -1587,7 +1587,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPCMAXRES, nSPCMaxRes);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, nSubDelayInterval);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, fSPCPow2Tex);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SPCDisableAnim"), fSPCDisableAnim);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), fSPCAllowAnimationWhenBuffering);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, fEnableSubtitles);		
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
@@ -1989,14 +1989,14 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		nSubDelayInterval = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, 500);
 		fSPCPow2Tex = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_POW2TEX, TRUE);
 		
-		bool bDisableAnim = false;
+		bool bAllowAnimationWhenBuffering = true;
 		SYSTEM_INFO SysInfo;
 		GetSystemInfo(&SysInfo);
 		if (SysInfo.dwNumberOfProcessors < 3)
-			bDisableAnim = true;
+			bAllowAnimationWhenBuffering = false;
 		
 
-		fSPCDisableAnim = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCDisableAnim"), bDisableAnim);
+		fSPCAllowAnimationWhenBuffering = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), bAllowAnimationWhenBuffering);
 		fEnableSubtitles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLESUBTITLES, TRUE);
 		fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
 		fAudioTimeShift = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, 0);

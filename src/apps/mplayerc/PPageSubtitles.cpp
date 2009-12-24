@@ -37,7 +37,7 @@ CPPageSubtitles::CPPageSubtitles()
 	, m_nVerPos(0)
 	, m_nSPCSize(0)
 	, m_fSPCPow2Tex(FALSE)
-	, m_fSPCDisableAnim(FALSE)
+	, m_fSPCAllowAnimationWhenBuffering(TRUE)
 	, m_nSubDelayInterval(0)
 {
 }
@@ -60,7 +60,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
 	DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
 	DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
-	DDX_Check(pDX, IDC_CHECK_SPCDISABLEANIM, m_fSPCDisableAnim);	
+	DDX_Check(pDX, IDC_CHECK_SPCANIMWITHBUFFER, m_fAllowAnimationWhenBuffering);	
 	DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
 }
 
@@ -147,7 +147,7 @@ BOOL CPPageSubtitles::OnInitDialog()
 	m_spmaxres.AddString(_T("384x288"));
 	m_spmaxres.SetCurSel(TranslateResIn(s.nSPCMaxRes));
 	m_fSPCPow2Tex = s.fSPCPow2Tex;
-	m_fSPCDisableAnim = s.fSPCDisableAnim;
+	m_fSPCAllowAnimationWhenBuffering = s.fSPCAllowAnimationWhenBuffering;
 	m_nSubDelayInterval = s.nSubDelayInterval;
 
 	UpdateData(FALSE);
@@ -171,7 +171,7 @@ BOOL CPPageSubtitles::OnApply()
 	|| s.nSubDelayInterval != m_nSubDelayInterval
 	|| s.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
 	|| s.fSPCPow2Tex != !!m_fSPCPow2Tex
-	|| s.fSPCDisableAnim != !!m_fSPCDisableAnim)
+	|| s.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering)
 	{
 		s.fOverridePlacement = !!m_fOverridePlacement;
 		s.nHorPos = m_nHorPos;
@@ -180,7 +180,7 @@ BOOL CPPageSubtitles::OnApply()
 		s.nSubDelayInterval = m_nSubDelayInterval;
 		s.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
 		s.fSPCPow2Tex = !!m_fSPCPow2Tex;
-		s.fSPCDisableAnim = !!m_fSPCDisableAnim;
+		s.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
 
 		if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame())
 			pFrame->UpdateSubtitle(true);

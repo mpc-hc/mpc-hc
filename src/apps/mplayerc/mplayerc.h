@@ -633,7 +633,7 @@ public:
 		int nSPCMaxRes;
 		int nSubDelayInterval;
 		bool fSPCPow2Tex;
-		bool fSPCDisableAnim;
+		bool fSPCAllowAnimationWhenBuffering;
 		bool fEnableSubtitles;
 
 		bool fDisableXPToolbars;
