@@ -1315,7 +1315,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 		{
 			CSaveTextFileDialog fd(
 				CTextFile::ASCII, NULL, NULL,
-				_T("Media Player Classic playlist (*.mpcpl)|*.mpcpl|Playlist (*.pls)|*.pls|WinAmp playlist (*.m3u)|*.m3u|Windows Media Playlist (*.asx)|*.asx||"), 
+				_T("Media Player Classic playlist (*.mpcpl)|*.mpcpl|Playlist (*.pls)|*.pls|Winamp playlist (*.m3u)|*.m3u|Windows Media playlist (*.asx)|*.asx||"), 
 				this);
 	
 			if(fd.DoModal() != IDOK)

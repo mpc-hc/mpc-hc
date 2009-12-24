@@ -18,13 +18,13 @@
 
 #ifdef _MSC_VER
 	#if (_MSC_VER == 1500)
-		char	FfmpegCompiler[] = "VS 2008";
+		char	FfmpegCompiler[] = "MSVS 2008";
 	#elif (_MSC_VER == 1400)
-		char	FfmpegCompiler[] = "VS 2005";
+		char	FfmpegCompiler[] = "MSVS 2005";
 	#elif (_MSC_VER == 1310)
-		char	FfmpegCompiler[] = "VS 2003";
+		char	FfmpegCompiler[] = "MSVS 2003";
 	#elif (_MSC_VER == 1300)
-		char	FfmpegCompiler[] = "VS 2002";
+		char	FfmpegCompiler[] = "MSVS 2002";
 	#endif
 
 	char* GetFfmpegCompiler()

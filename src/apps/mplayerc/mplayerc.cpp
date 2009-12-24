@@ -222,13 +222,13 @@ public:
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 		#if (_MSC_VER == 1500)
-			m_MPCCompiler = _T("VS 2008");
+			m_MPCCompiler = _T("MSVS 2008");
 		#elif (_MSC_VER == 1400)
-			m_MPCCompiler = _T("VS 2005");
+			m_MPCCompiler = _T("MSVS 2005");
 		#elif (_MSC_VER == 1310)
-			m_MPCCompiler = _T("VS 2003");
+			m_MPCCompiler = _T("MSVS 2003");
 		#elif (_MSC_VER == 1300)
-			m_MPCCompiler = _T("VS 2002");
+			m_MPCCompiler = _T("MSVS 2002");
 		#endif
 
 		m_FfmpegCompiler.Format (A2W(GetFfmpegCompiler()));
