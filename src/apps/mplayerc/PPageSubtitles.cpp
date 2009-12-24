@@ -60,7 +60,7 @@ void CPPageSubtitles::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_nHorPosEdit);
 	DDX_Control(pDX, IDC_EDIT3, m_nVerPosEdit);
 	DDX_Check(pDX, IDC_CHECK_SPCPOW2TEX, m_fSPCPow2Tex);
-	DDX_Check(pDX, IDC_CHECK_SPCANIMWITHBUFFER, m_fAllowAnimationWhenBuffering);	
+	DDX_Check(pDX, IDC_CHECK_SPCANIMWITHBUFFER, m_fSPCAllowAnimationWhenBuffering);	
 	DDX_Text(pDX, IDC_EDIT4, m_nSubDelayInterval);
 }
 
