@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mot_comp.h,v 1.18 2008/01/09 10:50:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: mot_comp.h,v 1.22 2008/08/27 00:17:11 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -53,19 +53,18 @@
 #include <libdirac_common/common.h>
 #include <libdirac_common/upconvert.h>
 #include <libdirac_common/motion.h>
-#include <libdirac_common/frame_buffer.h>
+#include <libdirac_common/picture_buffer.h>
 
 namespace dirac
 {
-    class FrameBuffer;
-    class Frame;
+    class PictureBuffer;
+    class Picture;
 
- 
-    //! Abstract Motion compensator class. 
+    //! Abstract Motion compensator class.
     /*!
-        Motion compensator class, for doing motion compensation with two 
+        Motion compensator class, for doing motion compensation with two
         references and overlapped blocks, using raised-cosine roll-off.
-        This is an abstract class. It must be sub-classed and the 
+        This is an abstract class. It must be sub-classed and the
         BlockPixelPred must be defined in the sub-classes.
     */
     class MotionCompensator
@@ -76,40 +75,40 @@ namespace dirac
         /*!
             Constructor initialises using codec parameters.
          */
-        MotionCompensator( const CodecParams &cp );
+        MotionCompensator( const PicturePredParams &ppp );
         //! Destructor
         virtual ~MotionCompensator();
 
-        //! Convenience function to perform motion compensation on a frame
+        //! Convenience function to perform motion compensation on a picture
         /*!
-            Static function that motion compensates a frame. It uses the
-            MV precision value in the CodecParams to instantiate the 
+            Static function that motion compensates a picture. It uses the
+            MV precision value in the PicturePredParams to instantiate the
             appropriate MotionCompensation sub-class.
-            \param    cp        Encoder/decoder parameters
+            \param    ppp        Picture prediction parameters
             \param    direction whether we're subtracting or adding
-            \param    buffer    the FrameBuffer object containing the frame and the reference frames
-            \param    fnum    number of frame in the frame buffer to be compensated
-    `       \param    mv_data    the motion vector data
+            \param    mv_data    the motion vector data
+            \param    in_pic     Pointer to picture being motion compensated
+            \param    refptr     Array of pointers to reference pictures.
          */
-        static void CompensateFrame ( const CodecParams &cp, 
-                                      const AddOrSub direction , 
-                                      FrameBuffer& buffer , 
-                                      const int fnum, 
-                                      const MvData& mv_data );
+        static void CompensatePicture ( const PicturePredParams &ppp,
+                                      const AddOrSub direction ,
+                                      const MvData& mv_data,
+                                      Picture* in_pic ,
+				      Picture* refptr[2]);
 
-        //! Compensate a frame
+        //! Compensate a picture
         /*!
-            Perform motion compensated addition/subtraction on a frame using 
+            Perform motion compensated addition/subtraction on a picture using
             parameters
             \param    direction whether we're subtracting or adding
-            \param    fnum    number of frame in the frame buffer to be compensated
-            \param    my_buffer    the FrameBuffer object containing the frame and the reference frames
     `       \param    mv_data    the motion vector data
+            \param    in_pic     Pointer to picture being motion compensated
+            \param    refsptr    Array of pointers to reference pictures.
          */
-        void CompensateFrame( const AddOrSub direction , 
-                              FrameBuffer& my_buffer , 
-                              int fnum , 
-                              const MvData& mv_data );
+        void CompensatePicture( const AddOrSub direction ,
+                              const MvData& mv_data,
+                              Picture* in_pic ,
+                              Picture* refsptr[2] );
 
     private:
         //private, body-less copy constructor: this class should not be copied
@@ -120,9 +119,8 @@ namespace dirac
         //functions
 
         //! Motion-compensate a component
-        void CompensateComponent( Frame& picframe , 
-                                  const Frame& ref1frame , 
-                                  const Frame& ref2frame ,
+        void CompensateComponent( Picture* pic ,
+                                  Picture* refsptr[2] ,
                                   const MvData& mv_data , const CompSort cs);
 
         //! Recalculate the weight matrix and store other key block related parameters.
@@ -135,10 +133,10 @@ namespace dirac
         void CalculateWeights(int xbsep, int ybsep, TwoDArray<ValueType>* wt_array);
 
         //! Calculates a weighting block.
-        /*! 
-            Params defines the block parameters so the relevant weighting 
-            arrays can be created.  FullX and FullY refer to whether the 
-            weight should be adjusted for the edge of an image.  eg. 1D 
+        /*!
+            Params defines the block parameters so the relevant weighting
+            arrays can be created.  FullX and FullY refer to whether the
+            weight should be adjusted for the edge of an image.  eg. 1D
             Weighting shapes in x direction
               FullX true        FullX false
                 ***           ********
@@ -154,23 +152,23 @@ namespace dirac
         //! Flips the values in an array in the y direction.
         void FlipY(const TwoDArray<ValueType>& Original, TwoDArray<ValueType>& Flipped);
 
-        virtual void CompensateBlock( TwoDArray<ValueType>& pic_data , 
-                              const ImageCoords& pos , 
+        virtual void CompensateBlock( TwoDArray<ValueType>& pic_data ,
+                              const ImageCoords& pos ,
                               const ImageCoords &orig_pic_size,
                               PredMode block_mode,
                               ValueType dc,
-                              const PicArray& ref1up_data , 
+                              const PicArray& ref1up_data ,
                               const MVector& mv1 ,
-                              const PicArray& ref2up_data , 
+                              const PicArray& ref2up_data ,
                               const MVector& mv2 ,
                               const TwoDArray<ValueType>& Weights );
         //! Predict pixels in a block. Pure virtual. SubClasses need to define it
-        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data ,
                               const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
-                              const PicArray& refup_data , 
+                              const PicArray& refup_data ,
                               const MVector& mv) = 0;
-     
+
         // Adjust the block value based on reference weights
         /*
         * Adjust the block value based on reference weights of each
@@ -180,38 +178,38 @@ namespace dirac
         *              mode is REF1AND2
         * block_mode  - Block prediction mode.
         *
-        * On return, val1_block will contain the weight reference weight 
+        * On return, val1_block will contain the weight reference weight
         * adjusted block values
         */
-        void AdjustBlockByRefWeights (TwoDArray<ValueType>& val1_block, 
-                                      TwoDArray<ValueType>& val2_block, 
+        void AdjustBlockByRefWeights (TwoDArray<ValueType>& val1_block,
+                                      TwoDArray<ValueType>& val2_block,
                                       PredMode block_mode);
-     
+
         // Adjust the block value based spatial weighting matrix
         /*
         * Adjust the block value based on spatial weighting matrix
         * val_block - Predicted block
-        * pos       - position of top lef corner of block in frame
+        * pos       - position of top lef corner of block in picture
         * wt_array  - spatial weighting matrix
         *
-        * On return, val_block will contain the spatial weight adjusted block 
+        * On return, val_block will contain the spatial weight adjusted block
         * values
         */
         void AdjustBlockBySpatialWeights (TwoDArray<ValueType>& val_block,
                                           const ImageCoords &pos,
                                           const TwoDArray<ValueType> &wt_array);
     protected:
-        //variables    
+        //variables
 
         //! The codec parameters
-        CodecParams m_cparams;
+        PicturePredParams m_predparams;
 
         //! The chroma format
         ChromaFormat m_cformat;
-        bool luma_or_chroma;    //true if we're doing luma, false if we're coding chroma  
-        
+        bool luma_or_chroma;    //true if we're doing luma, false if we're coding chroma
+
         // A marker saying whether we're doing MC addition or subtraction
-        AddOrSub m_add_or_sub;                    
+        AddOrSub m_add_or_sub;
 
         // Block information
         OLBParams m_bparams;
@@ -223,7 +221,7 @@ namespace dirac
         TwoDArray<ValueType>* m_sub_block_weights;
     };
 
-    //! Pixel precision Motion compensator class. 
+    //! Pixel precision Motion compensator class.
     class MotionCompensator_Pixel : public MotionCompensator
     {
 
@@ -232,18 +230,18 @@ namespace dirac
         /*!
             Constructor initialises using codec parameters.
          */
-        MotionCompensator_Pixel (const CodecParams &cp);
+        MotionCompensator_Pixel (const PicturePredParams &ppp);
 
     private:
-        //! Motion-compensate a block. 
-        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+        //! Motion-compensate a block.
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data ,
                               const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
-                              const PicArray& refup_data , 
+                              const PicArray& refup_data ,
                               const MVector& mv);
     };
 
-    //! Half Pixel precision Motion compensator class. 
+    //! Half Pixel precision Motion compensator class.
     class MotionCompensator_HalfPixel : public MotionCompensator
     {
     public:
@@ -251,17 +249,17 @@ namespace dirac
         /*!
             Constructor initialises using codec parameters.
          */
-        MotionCompensator_HalfPixel (const CodecParams &cp);
+        MotionCompensator_HalfPixel (const PicturePredParams &ppp);
     private:
-        //! Motion-compensate a block. 
-        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+        //! Motion-compensate a block.
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data ,
                               const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
-                              const PicArray& refup_data , 
+                              const PicArray& refup_data ,
                               const MVector& mv);
     };
 
-    //! Quarter Pixel precision Motion compensator class. 
+    //! Quarter Pixel precision Motion compensator class.
     class MotionCompensator_QuarterPixel : public MotionCompensator
     {
     public:
@@ -269,17 +267,17 @@ namespace dirac
         /*!
             Constructor initialises using codec parameters.
          */
-        MotionCompensator_QuarterPixel (const CodecParams &cp);
+        MotionCompensator_QuarterPixel (const PicturePredParams &ppp);
     private:
-        //! Motion-compensate a block. 
-        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+        //! Motion-compensate a block.
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data ,
                               const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
-                              const PicArray& refup_data , 
+                              const PicArray& refup_data ,
                               const MVector& mv);
     };
 
-    //! Eighth Pixel precision Motion compensator class. 
+    //! Eighth Pixel precision Motion compensator class.
     class MotionCompensator_EighthPixel : public MotionCompensator
     {
     public:
@@ -287,13 +285,13 @@ namespace dirac
         /*!
             Constructor initialises using codec parameters.
          */
-        MotionCompensator_EighthPixel (const CodecParams &cp);
+        MotionCompensator_EighthPixel (const PicturePredParams &ppp);
     private:
-        //! Motion-compensate a block. 
-        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data , 
+        //! Motion-compensate a block.
+        virtual void BlockPixelPred( TwoDArray<ValueType>& block_data ,
                               const ImageCoords& pos,
                               const ImageCoords &orig_pic_size,
-                              const PicArray& refup_data , 
+                              const PicArray& refup_data ,
                               const MVector& mv);
     };
 

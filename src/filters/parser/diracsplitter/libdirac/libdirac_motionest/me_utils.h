@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_utils.h,v 1.12 2006/04/20 10:41:58 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: me_utils.h,v 1.14 2008/08/14 00:58:24 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1-
 *
@@ -83,22 +83,22 @@ namespace dirac
         // ... and gets
 
         //! Return the x-position of the top-left block corner
-        const int Xp() const {return m_xp;}
+        int Xp() const {return m_xp;}
 
         //! Return the y-position of the top-left block corner
-        const int Yp() const {return m_yp;}
+        int Yp() const {return m_yp;}
 
         //! Return the block width
-        const int Xl() const {return m_xl;}
+        int Xl() const {return m_xl;}
 
         //! Return the block height
-        const int Yl() const {return m_yl;}
+        int Yl() const {return m_yl;}
 
         //! Return the block horizontal endpoint
-        const int Xend() const {return m_xend;}
+        int Xend() const {return m_xend;}
 
         //! Return the block vertical endpoint
-        const int Yend() const {return m_yend;}
+        int Yend() const {return m_yend;}
 
     private: 
 
@@ -205,13 +205,16 @@ namespace dirac
         */
         IntraBlockDiff( const PicArray& pic );
 
-        //! Do the difference, returning SAD
+        //! Do the difference, calculating the DC value and returning SAD
         /*!
-            Do the difference, returning SAD
+            Do the difference, calculating the DC value and returning SAD
             \param    dparams    block parameters
             \param    dc_val     DC value
         */        
         float Diff( const BlockDiffParams& dparams , ValueType& dc_val );
+
+        //! Calculate a DC value
+	ValueType CalcDC( const BlockDiffParams& dparams);
 
     private:
         //! Private, bodyless copy-constructor: class should not be copied

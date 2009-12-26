@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_byte_stats.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_byte_stats.h,v 1.5 2008/05/06 09:35:51 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,6 +43,9 @@
 
 // SYSTEM INCLUDES
 #include <map>                          // for byte-counts
+#include <climits>
+
+#include <libdirac_common/dirac_inttypes.h>
 
 namespace dirac
 {
@@ -90,17 +93,17 @@ namespace dirac
         /**
         * Gets number of bits for a particular stat-type
         */
-        int GetBitCount(const StatType& stat_type) const;
+        int64_t GetBitCount(const StatType& stat_type) const;
 
         /**
         * Gets number of bytes for a particular stat-type
         */
-        int GetByteCount(const StatType& stat_type) const;
+        int64_t GetByteCount(const StatType& stat_type) const;
       
         /**
         * Sets number of bytes for a particular stat-type
         */
-        void SetByteCount(const StatType& stat_type, int count);
+        void SetByteCount(const StatType& stat_type, int64_t count);
        
 
     private:
@@ -108,7 +111,7 @@ namespace dirac
         /**
         * Map of byte-counts
         */
-        std::map<StatType, int> m_byte_count;
+        std::map<StatType, int64_t> m_byte_count;
 
    };
 

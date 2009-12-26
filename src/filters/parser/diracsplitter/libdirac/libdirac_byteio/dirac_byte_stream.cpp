@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_byte_stream.cpp,v 1.5 2008/01/15 00:19:30 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_byte_stream.cpp,v 1.8 2008/08/14 00:51:08 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -20,7 +20,8 @@
 * Portions created by the Initial Developer are Copyright (C) 2004.
 * All Rights Reserved.
 *
-* Contributor(s): Andrew Kennedy
+* Contributor(s): Andrew Kennedy (Original Author)
+*                 Anuradha Suraparaju
 *
 * Alternatively, the contents of this file may be used under the terms of
 * the GNU General Public License Version 2 (the "GPL"), or the GNU Lesser
@@ -44,10 +45,8 @@ using namespace std;
 
 DiracByteStream::DiracByteStream():
 ByteIO(),
-mp_prev_parse_unit(NULL),
-mp_next_parse_unit(NULL)
+mp_prev_parse_unit(NULL)
 {
-
 }
 
 DiracByteStream::~DiracByteStream()
@@ -57,19 +56,19 @@ DiracByteStream::~DiracByteStream()
 
 //---------------decoding----------------------------------------------------
 
-void DiracByteStream::AddBytes(char* start, 
+void DiracByteStream::AddBytes(char* start,
                                int count)
 {
     // add to input stream
     string str(start, count);
     ByteIO::OutputBytes(str);
- 
+
 }
 
-DiracByteStats DiracByteStream::GetLastUnitStats() 
+DiracByteStats DiracByteStream::GetLastUnitStats()
 {
     DiracByteStats dirac_byte_stats;
-    
+
     if(m_parse_unit_list.empty())
         return dirac_byte_stats;
 
@@ -77,6 +76,12 @@ DiracByteStats DiracByteStream::GetLastUnitStats()
     p_parse_unit->CollateByteStats(dirac_byte_stats);
 
     return dirac_byte_stats;
+}
+
+void DiracByteStream::Reset(ParseUnitByteIO* p_curr_unit, int pos)
+{
+    delete p_curr_unit;
+    SeekGet(pos, ios_base::beg);
 }
 
 ParseUnitByteIO* DiracByteStream::GetNextParseUnit()
@@ -96,60 +101,43 @@ ParseUnitByteIO* DiracByteStream::GetNextParseUnit()
             return NULL;
     }
 
-    bool unit_found=false;
     ParseUnitByteIO* p_curr_unit=NULL;
-    try
-    {
 
-        while(!unit_found)
+    while(true)
+    {
+        pos  = GetReadBytePosition();
+
+        p_curr_unit = new ParseUnitByteIO(*this);
+        if (!p_curr_unit->Input())
         {
-            p_curr_unit=mp_next_parse_unit;
-            pos  = GetReadBytePosition();
+            Reset(p_curr_unit, pos);
+            return NULL;
+        }
 
-            if(!p_curr_unit)
-            {
-                p_curr_unit = new ParseUnitByteIO(*this);
-                p_curr_unit->Input();
-            }
+        // skip past current unit
+        if(!p_curr_unit->CanSkip())
+        {
+            Reset(p_curr_unit, pos);
+            return NULL;
+        }
 
-            // skip past current unit
-            if(!p_curr_unit->Skip())
-            {
-                // no unit specificed to skip to
-                unit_found=true;
-                mp_next_parse_unit=NULL;
-                break;
-            }
+        if (p_curr_unit->IsEndOfSequence())
+        {
+            break;
+        }
 
-            // create and read next unit in the stream
-            mp_next_parse_unit = new ParseUnitByteIO(*this);
-            mp_next_parse_unit->Input();
-
-            // look to see if next unit validates the current one
-            if(!p_curr_unit->IsValid(*mp_next_parse_unit))
-            {
-                // delete the unit - it's invalid
-                delete p_curr_unit;
-                // remove unwanted portion of bytes
-                RemoveRedundantBytes(pos);
-                // look for next potential parse-unit
-                continue;
-            }
-
-            unit_found=true;
-        } // while
-      
-    }// try
-    catch (DiracException& dirac_exception)
-    {
-        if (mp_next_parse_unit != NULL && p_curr_unit != mp_next_parse_unit)
-            delete mp_next_parse_unit;
-
-        mp_next_parse_unit = NULL;
-        delete p_curr_unit;
-        SeekGet(pos, ios_base::beg);
-        return NULL;
-    }
+        // look to see if next unit validates the current one
+        if(!p_curr_unit->IsValid())
+        {
+            // delete the unit - it's invalid
+            delete p_curr_unit;
+            // remove unwanted portion of bytes
+            RemoveRedundantBytes(pos);
+            // look for next potential parse-unit
+            continue;
+        }
+        break;
+    } // while
 
     // Remove all redundant bytes that are not part of a parse unit
     int remove_size = std::max (0, GetReadBytePosition()-p_curr_unit->GetSize());
@@ -170,7 +158,7 @@ DiracByteStats DiracByteStream::GetSequenceStats() const
 
 //---------------encoding-----------------------------------------------------
 
-void DiracByteStream::AddAccessUnit(AccessUnitByteIO *p_accessunit_byteio)
+void DiracByteStream::AddSequenceHeader(SequenceHeaderByteIO *p_seqheader_byteio)
 {
     // set previous parse-unit details
     ParseUnitByteIO *mp_previous_parse_unit=mp_prev_parse_unit;
@@ -179,19 +167,19 @@ void DiracByteStream::AddAccessUnit(AccessUnitByteIO *p_accessunit_byteio)
         mp_previous_parse_unit = m_parse_unit_list.back().second;
 
     // set adjacent parse-unit
-    p_accessunit_byteio->SetAdjacentParseUnits(mp_previous_parse_unit);
-    
+    p_seqheader_byteio->SetAdjacentParseUnits(mp_previous_parse_unit);
+
     // push onto to pending list
-    m_parse_unit_list.push(std::make_pair (PU_SEQ_HEADER, p_accessunit_byteio) );
+    m_parse_unit_list.push(std::make_pair (PU_SEQ_HEADER, p_seqheader_byteio) );
 
     // set previous parse-unit
-    mp_previous_parse_unit = p_accessunit_byteio;
+    mp_previous_parse_unit = p_seqheader_byteio;
 
     // save stats
-    p_accessunit_byteio->CollateByteStats(m_sequence_stats);
+    p_seqheader_byteio->CollateByteStats(m_sequence_stats);
 }
 
-void DiracByteStream::AddFrame(FrameByteIO *p_frame_byteio)
+void DiracByteStream::AddPicture(PictureByteIO *p_frame_byteio)
 {
     // set previous parse-unit details
     ParseUnitByteIO *mp_previous_parse_unit=mp_prev_parse_unit;
@@ -203,7 +191,7 @@ void DiracByteStream::AddFrame(FrameByteIO *p_frame_byteio)
     p_frame_byteio->SetAdjacentParseUnits(mp_previous_parse_unit);
 
      // push onto to pending list
-    m_parse_unit_list.push(std::make_pair(PU_FRAME, p_frame_byteio ) );
+    m_parse_unit_list.push(std::make_pair(PU_PICTURE, p_frame_byteio ) );
 
    // set previous parse-unit
     mp_previous_parse_unit = p_frame_byteio;
@@ -244,7 +232,7 @@ DiracByteStats DiracByteStream::EndSequence()
 
      // push onto to pending list
     m_parse_unit_list.push(std::make_pair(PU_END_OF_SEQUENCE, p_endofsequence_byteio) );
-    
+
     p_endofsequence_byteio->CollateByteStats(m_sequence_stats);
 
     // clear stats
@@ -255,7 +243,7 @@ DiracByteStats DiracByteStream::EndSequence()
     return seq_stats;
 }
 
-const string DiracByteStream::GetBytes() 
+const string DiracByteStream::GetBytes()
 {
     // take copy
     ParseUnitList parse_list = m_parse_unit_list;

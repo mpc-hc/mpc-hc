@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_decompress.h,v 1.10 2007/07/26 12:46:35 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: comp_decompress.h,v 1.14 2008/06/19 10:33:24 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -48,11 +48,11 @@
 
 namespace dirac
 {
-    //! Compress a frame component
+    //! Decompress a picture component
     /*!
-        This class compresses one of the three components (Y, U, or V) of a
-        frame according to a given set or parameters. CompCompressor is used
-        by FrameCompressor..
+        This class decompresses one of the three components (Y, U, or V) of a
+        picture according to a given set or parameters. CompDecompressor is used
+        by PictureCompressor..
     */
     class CompDecompressor
     {
@@ -62,19 +62,21 @@ namespace dirac
             Create and initialize a component decompressor with the given
             characteristics.
             \param  decp    decoding parameters
-            \param  fp      frame parameters
+            \param  fp      picture parameters
         */
-        CompDecompressor( DecoderParams& decp, const FrameParams& fp);
+        CompDecompressor( DecoderParams& decp, const PictureParams& fp);
 
-        //! Decompress a frame component
+        //! Decompress a picture component
         /*!
-            Decompress a PicArray containing a frame component (Y, U, or V).
+            Decompress a PicArray containing a picture component (Y, U, or V).
 
             \param p_component_byteio Bytestream of component data
-            \param  pic_data          contains the component data to be decompressed
+            \param coeff_data          contains the component data to be decompressed
+            \param bands               the subband metadata 
         */
         void Decompress(ComponentByteIO *p_component_byteio,
-                        PicArray& pic_data);
+                        CoeffArray& coeff_data,
+                        SubbandList& bands);
 
     private:
         //! Copy constructor is private and body-less
@@ -113,8 +115,12 @@ namespace dirac
         //! Copy of the decompression parameters provided to the constructor
         DecoderParams& m_decparams;
 
-        //! Reference to the frame parameters provided to the constructor
-        const FrameParams& m_fparams;
+        //! Reference to the picture parameters provided to the constructor
+        const PictureParams& m_pparams;
+
+        //! Reference to the picture sort
+        const PictureSort& m_psort;
+
 
     };
 

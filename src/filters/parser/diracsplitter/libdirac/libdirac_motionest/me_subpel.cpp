@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_subpel.cpp,v 1.14 2006/04/20 10:41:58 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: me_subpel.cpp,v 1.20 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -36,19 +36,19 @@
 * ***** END LICENSE BLOCK ***** */
 
 #include <libdirac_motionest/me_subpel.h>
-#include <libdirac_common/frame_buffer.h>
+#include <libdirac_encoder/enc_queue.h>
 using namespace dirac;
 
 #include <iostream>
 
 using std::vector;
 
-SubpelRefine::SubpelRefine(const EncoderParams& encp): 
+SubpelRefine::SubpelRefine(const EncoderParams& encp):
     m_encparams(encp),
     m_nshift(4)
 {
-    //define the relative coordinates of the four neighbours    
-    m_nshift[0].x = -1; 
+    //define the relative coordinates of the four neighbours
+    m_nshift[0].x = -1;
     m_nshift[0].y = 0;
 
     m_nshift[1].x = -1;
@@ -62,35 +62,39 @@ SubpelRefine::SubpelRefine(const EncoderParams& encp):
 
 }
 
-void SubpelRefine::DoSubpel(const FrameBuffer& my_buffer,int frame_num, MEData& me_data)
+void SubpelRefine::DoSubpel( EncQueue& my_buffer,int pic_num )
 {
+    m_predparams = &(my_buffer.GetPicture(pic_num).GetMEData().GetPicPredParams() );
+
     //main loop for the subpel refinement
     int ref1,ref2;
 
-    const FrameSort fsort = my_buffer.GetFrame(frame_num).GetFparams().FSort();
+    const PictureSort psort = my_buffer.GetPicture(pic_num).GetPparams().PicSort();
 
-    if (fsort.IsInter())
+    if (psort.IsInter())
     {
         // Get the references
-        const vector<int>& refs = my_buffer.GetFrame(frame_num).GetFparams().Refs();
+        const vector<int>& refs = my_buffer.GetPicture(pic_num).GetPparams().Refs();
 
         int num_refs = refs.size();
         ref1 = refs[0];
         if (num_refs>1)
             ref2 = refs[1];
-        else    
+        else
             ref2 = ref1;
 
-        const PicArray& pic_data = my_buffer.GetComponent(frame_num , Y_COMP);
-        const PicArray& refup1_data = my_buffer.GetUpComponent( ref1 , Y_COMP);
-        const PicArray& refup2_data = my_buffer.GetUpComponent( ref2 , Y_COMP);
+        const PicArray& pic_data = my_buffer.GetPicture(pic_num).DataForME(m_encparams.CombinedME());
+        const PicArray& refup1_data = my_buffer.GetPicture(ref1).UpDataForME(m_encparams.CombinedME());
+        const PicArray& refup2_data = my_buffer.GetPicture(ref2).UpDataForME(m_encparams.CombinedME());
+
+	MEData& me_data = my_buffer.GetPicture(pic_num).GetMEData();
 
         // Now match the pictures
         MatchPic( pic_data , refup1_data , me_data ,1 );
 
         if (ref1 != ref2 )
             MatchPic( pic_data , refup2_data , me_data ,2 );
-    
+
     }
 }
 
@@ -108,25 +112,23 @@ void SubpelRefine::MatchPic(const PicArray& pic_data , const PicArray& refup_dat
     TwoDArray<MvCostData>& pred_costs = me_data.PredCosts( ref_id );
 
     // Provide a block matching object to do the work
-    BlockMatcher my_bmatch( pic_data , refup_data , m_encparams.LumaBParams(2) ,
-                            m_encparams.MVPrecision() , mv_array , pred_costs );
+    BlockMatcher my_bmatch( pic_data , refup_data , m_predparams->LumaBParams(2) ,
+                            m_predparams->MVPrecision() , mv_array , pred_costs );
 
     // Do the work //
     /////////////////
 
     // Loop over all the blocks, doing the work
 
-    for (int yblock=0 ; yblock<m_encparams.YNumBlocks() ; ++yblock)
-    {
-        for (int xblock=0 ; xblock<m_encparams.XNumBlocks() ; ++xblock)
-        {    
+    for (int yblock=0 ; yblock<m_predparams->YNumBlocks() ; ++yblock){
+        for (int xblock=0 ; xblock<m_predparams->XNumBlocks() ; ++xblock){
             DoBlock(xblock , yblock , my_bmatch , me_data , ref_id );
-        }// xblock        
+        }// xblock
     }// yblock
 
 }
 
-void SubpelRefine::DoBlock(const int xblock , const int yblock , 
+void SubpelRefine::DoBlock(const int xblock , const int yblock ,
                            BlockMatcher& my_bmatch, MEData& me_data , const int ref_id )
 {
     // For each block, home into the sub-pixel vector
@@ -157,7 +159,7 @@ MVector SubpelRefine::GetPred(int xblock,int yblock,const MvArray& mvarray)
 
         }// i
     }
-    else 
+    else
     {
         for (int i=0 ; i<m_nshift.Length(); ++i )
         {

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdataelement_byteio.h,v 1.1 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: mvdataelement_byteio.h,v 1.2 2008/12/16 01:19:30 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -76,12 +76,6 @@ namespace dirac
         * Destructor
         */
         virtual ~MvDataElementByteIO();
-
-        /**
-        * Gathers byte stats on the motion vector data
-        *@param dirac_byte_stats Stat container
-        */
-//        void CollateByteStats(DiracByteStats& dirac_byte_stats);
 
         /**
         * Outputs motion vector data Dirac byte-format

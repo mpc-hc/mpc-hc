@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_compress.h,v 1.16 2008/01/22 07:38:37 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: comp_compress.h,v 1.19 2008/05/07 05:47:00 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -49,11 +49,11 @@ namespace dirac
 {
     class MEData;
           
-    //! Compress a frame component
+    //! Compress a picture component
     /*!
         This class compresses one of the three components (Y, U, or V) of a
-        frame according to a given set or parameters. CompCompressor is used
-        by FrameCompressor.
+        picture according to a given set or parameters. CompCompressor is used
+        by PictureCompressor.
     */
     class CompCompressor
     {
@@ -63,21 +63,23 @@ namespace dirac
             Create and initialize a component compressor with the given
             characteristics.
             \param  encp    encoding parameters
-            \param  fp      frame parameters
+            \param  fp      picture parameters
         */
-        CompCompressor( EncoderParams & encp, const FrameParams& fp);
+        CompCompressor( EncoderParams & encp, const PictureParams& fp);
 
-        //! Compress a frame component
+        //! Compress a picture component
         /*!
-            Compress a PicArray containing a frame component (Y, U, or V).
+            Compress a PicArray containing a picture component (Y, U, or V).
             \param  coeff_data      the component data to be compressed
             \param  bands           Subbands list
+            \param  csort           Chroma format
             \param  estimated_bits  the list of estimated number of bits in each subband
-            \return Frame-component in Dirac-bytestream format
+            \return Picture-component in Dirac-bytestream format
         */
         ComponentByteIO* Compress( CoeffArray& coeff_data ,
-                                   SubbandList& bands,
-                                   const OneDArray<unsigned int>& estimated_bits);
+                                 SubbandList& bands,
+                                 CompSort csort,
+                                 const OneDArray<unsigned int>& estimated_bits);
 
     private:
         //! Copy constructor is private and body-less. This class should not be copied.
@@ -95,13 +97,11 @@ namespace dirac
         // member variables
         EncoderParams& m_encparams;
 
-        const FrameParams& m_fparams;
+        const PictureParams& m_pparams;
 
-        const FrameSort& m_fsort;    
+        const PictureSort& m_psort;    
 
         const ChromaFormat& m_cformat;
-
-        CompSort m_csort;
 
         float m_lambda;
         

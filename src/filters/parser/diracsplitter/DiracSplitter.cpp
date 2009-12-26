@@ -343,16 +343,16 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
             TRACE(_T("STATE_SEQUENCE_END\n"));
             break;
 
-        case STATE_PICTURE_START:
-            TRACE(_T("STATE_PICTURE_START, frame_type=%d frame_num=%d\n"), decoder->frame_params.ftype, decoder->frame_params.fnum);
-            dirac_skip(decoder, (m_fDropFrames || decoder->frame_params.fnum * m_rtAvgTimePerFrame < m_tStart) && decoder->frame_params.rtype == NON_REFERENCE_FRAME ? 1 : 0);
-            if(m_fDropFrames && decoder->frame_params.rtype == NON_REFERENCE_FRAME) return S_OK;
-            break;
+//        case STATE_PICTURE_START:
+//            TRACE(_T("STATE_PICTURE_START, frame_type=%d frame_num=%d\n"), decoder->frame_params.ftype, decoder->frame_params.fnum);
+//            dirac_skip(decoder, (m_fDropFrames || decoder->frame_params.fnum * m_rtAvgTimePerFrame < m_tStart) && decoder->frame_params.rtype == NON_REFERENCE_FRAME ? 1 : 0);
+//            if(m_fDropFrames && decoder->frame_params.rtype == NON_REFERENCE_FRAME) return S_OK;
+//            break;
 
-        case STATE_PICTURE_AVAIL:
-            TRACE(_T("STATE_PICTURE_AVAIL, frame_type=%d frame_num=%d\n"), decoder->frame_params.ftype, decoder->frame_params.fnum);
-            hr = Deliver(pIn, decoder->frame_params.fnum * m_rtAvgTimePerFrame - m_tStart, (decoder->frame_params.fnum + 1) * m_rtAvgTimePerFrame - m_tStart);
-            break;
+//        case STATE_PICTURE_AVAIL:
+//            TRACE(_T("STATE_PICTURE_AVAIL, frame_type=%d frame_num=%d\n"), decoder->frame_params.ftype, decoder->frame_params.fnum);
+//            hr = Deliver(pIn, decoder->frame_params.fnum * m_rtAvgTimePerFrame - m_tStart, (decoder->frame_params.fnum + 1) * m_rtAvgTimePerFrame - m_tStart);
+//            break;
 
         case STATE_INVALID:
             TRACE(_T("STATE_INVALID\n"));

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: motion.h,v 1.21 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: motion.h,v 1.30 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -222,26 +222,19 @@ namespace dirac
         //! Constructor
         /*! 
             Constructor takes:
-            \param  xnumMB  the number of MBs horizontally
-            \param  ynumMB  the number of MBs vertically
-            \param  xnumblocks  the number of blocks horizontally
-            \param  ynumblocks  the number of blocks vertically
-            \param  num_refs  the number of references being used for the frame
+            \param  predparams   Picture prediction parameters
+            \param  num_refs     the number of references being used for the picture
         */
-        MvData( const int xnumMB, const int ynumMB , 
-                const int xnumblocks, const int ynumblocks ,  const int num_refs);
-
-        //! Constructor
-        /*! 
-            Constructor. Numbers of blocks derived from the number of MBs
-            \param  xnumMB  the number of MBs horizontally
-            \param  ynumMB  the number of MBs vertically
-            \param  num_refs  the number of references being used for the frame
-        */
-        MvData( const int xnumMB, const int ynumMB ,  const int num_refs);
+        MvData( const PicturePredParams& predparams ,  const int num_refs);
 
         //! Destructor
         ~MvData();
+
+         //! Return a reference to the local picture prediction params
+        PicturePredParams& GetPicPredParams(){return m_predparams;}
+
+        //! Return a reference to the local picture prediction params
+        const PicturePredParams& GetPicPredParams() const{return m_predparams;}
 
         //! Get the MVs for a reference
         MvArray& Vectors(const int ref_id){return *( m_vectors[ref_id] );}
@@ -269,12 +262,12 @@ namespace dirac
 
         //! Get the block prediction modes
         const TwoDArray<PredMode>& Mode() const {return m_modes;}
-     
-        //! Get the MB split level
-        TwoDArray<int>& MBSplit(){return m_mb_split;}
 
-        //! Get the MB split level
-        const TwoDArray<int>& MBSplit() const{return m_mb_split;}
+        //! Get the SB split level
+        TwoDArray<int>& SBSplit(){return m_sb_split;}
+
+        //! Get the SB split level
+        const TwoDArray<int>& SBSplit() const{return m_sb_split;}
 
         //! Get the global motion model parameters
         OneDArray<float>& GlobalMotionParameters(const int ref_id) { return *( m_gm_params[ref_id] ); }
@@ -282,10 +275,10 @@ namespace dirac
         //! Get the global motion model parameters
         const OneDArray<float>& GlobalMotionParameters(const int ref_id) const { return *( m_gm_params[ref_id] ); }
 
-        //! Return the number of reference frames
-        const unsigned int NumRefs()const {return m_num_refs;}
+    protected:
+        // A local copy of the picture prediction parameters
+	PicturePredParams m_predparams;
 
-    private:
         // Initialises the arrays of data
         void InitMvData();
 
@@ -301,14 +294,14 @@ namespace dirac
         // The DC values
         OneDArray< TwoDArray<ValueType>* > m_dc;
 
-        // The MB split levels
-        TwoDArray<int> m_mb_split;
+        // The SB split levels
+        TwoDArray<int> m_sb_split;
 
         // Global motion model parameters
         OneDArray< OneDArray<float>* > m_gm_params;
 
-        // Number of reference frames
-        const unsigned int m_num_refs;
+//        // Number of reference frames
+//        unsigned int m_num_refs;
     };
 
     //! Class for all the motion estimation data
@@ -324,26 +317,16 @@ namespace dirac
         //! Constructor
         /*! 
             Constructor takes:
-            \param  xnumMB  the number of MBs horizontally
-            \param  ynumMB  the number of MBs vertically
-            \param  xnumblocks  the number of blocks horizontally
-            \param  ynumblocks  the number of blocks vertically
-            \param  num_refs  the number of references being used for the frame
+	        \param predparams the picture prediction parameters
+            \param  num_refs  the number of references being used for the picture
         */
-        MEData( const int xnumMB, const int ynumMB , 
-                const int xnumblocks, const int ynumblocks , const int num_refs = 2);
-
-        //! Constructor
-        /*! 
-            Constructor. Numbers of blocks derived from the number of MBs
-            \param  xnumMB  the number of MBs horizontally
-            \param  ynumMB  the number of MBs vertically
-            \param  num_refs  the number of references being used for the frame
-        */
-        MEData( const int xnumMB, const int ynumMB , const int num_refs = 2);
+        MEData( const PicturePredParams& predparams , const int num_refs = 2);
 
         //! Destructor
         ~MEData();
+	
+	//! drop the data relating to one reference
+	void DropRef( int ref_index );
 
         //! Get the block cost structures for each reference
         TwoDArray<MvCostData>& PredCosts(const int ref_id){ return *( m_pred_costs[ref_id] ); }
@@ -363,11 +346,17 @@ namespace dirac
         //! Get the bipred costs
         const TwoDArray<MvCostData>& BiPredCosts() const { return m_bipred_costs; }
 
-        //! Get the MB costs
-        TwoDArray<float>& MBCosts(){ return m_MB_costs; }
+        //! Get the SB costs
+        TwoDArray<float>& SBCosts(){ return m_SB_costs; }
 
-        //! Get the MB costs
-        const TwoDArray<float>& MBCosts() const { return m_MB_costs; }
+        //! Get the SB costs
+        const TwoDArray<float>& SBCosts() const { return m_SB_costs; }
+
+	//! Get the proportion of intra blocks
+	float IntraBlockRatio() const {return m_intra_block_ratio; }
+
+	//! Set the intra block ratio
+	void SetIntraBlockRatio(const float r){ m_intra_block_ratio = r; }
 
         //! Set up the lambda map by detecting motion discontinuities 
         void SetLambdaMap( const int num_refs , const float lambda );
@@ -407,13 +396,16 @@ namespace dirac
         TwoDArray<MvCostData> m_bipred_costs;
 
         // The costs for each macroblock as a whole
-        TwoDArray<float> m_MB_costs;
+        TwoDArray<float> m_SB_costs;
 
         // A map of the lambda values to use
         TwoDArray<float> m_lambda_map;
 
         // Global motion inliers
         OneDArray< TwoDArray<int>* > m_inliers;
+
+	// Intra block ratio
+	float m_intra_block_ratio;
 
     };
 
@@ -444,7 +436,7 @@ namespace dirac
     inline int Norm1(const MVector& mv){//L^1 norm of a motion vector
         return abs(mv.x)+abs(mv.y);
     }
-
+    
     //! Return the mean of a set of unsigned integer values
     unsigned int GetUMean(std::vector<unsigned int>& values);
     

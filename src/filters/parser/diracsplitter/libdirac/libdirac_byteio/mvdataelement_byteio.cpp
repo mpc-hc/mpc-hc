@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdataelement_byteio.cpp,v 1.2 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: mvdataelement_byteio.cpp,v 1.2 2007/11/16 04:48:44 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

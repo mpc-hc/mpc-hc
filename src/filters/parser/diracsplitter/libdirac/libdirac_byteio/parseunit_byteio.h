@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.h,v 1.9 2008/01/16 02:42:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: parseunit_byteio.h,v 1.11 2008/05/02 05:57:19 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -21,6 +21,7 @@
 * All Rights Reserved.
 *
 * Contributor(s): Andrew Kennedy (Original Author)
+*                 Anuradha Suraparaju
 *
 * Alternatively, the contents of this file may be used under the terms of
 * the GNU General Public License Version 2 (the "GPL"), or the GNU Lesser
@@ -55,12 +56,12 @@ namespace dirac
     /* Types of parse-unit */
     typedef enum {
         PU_SEQ_HEADER=0,
-        PU_FRAME,
+        PU_PICTURE,
         PU_END_OF_SEQUENCE,
         PU_AUXILIARY_DATA,
         PU_PADDING_DATA,
-        PU_CORE_FRAME,
-        PU_LOW_DELAY_FRAME,
+        PU_CORE_PICTURE,
+        PU_LOW_DELAY_PICTURE,
         PU_UNDEFINED
     } ParseUnitType;
 
@@ -108,15 +109,14 @@ namespace dirac
 
         /**
         * Accesses validity of a unit by comparing it with an adjacent unit
-        *@param next_unit Next unit i stream after this one
         */
-        bool IsValid(const ParseUnitByteIO& next_unit);
+        bool IsValid();
 
         /**
-        * Skip past the entire parse-unit
+        * Can Skip past the entire parse-unit
         *@return <B>false</B> Nothing to skip to
         */
-        bool Skip();
+        bool CanSkip();
 
         /**
         * Gets string containing coded bytes
@@ -148,31 +148,6 @@ namespace dirac
         * Gets parse-unit type
         */
         virtual ParseUnitType GetType() const;
-
-    protected:
-
-        /**
-        * Calculates number of bytes to start of next unit
-        *@return Number of bytes to next unit
-        */
-        virtual int CalcNextUnitOffset();
-
-        /**
-        * Pure virtual method for calculating parse-code
-        *@return Char containing bit-set for parse-unit parameters
-        */
-        virtual unsigned char CalcParseCode() const { return 0;}    // encoding
-
-         /**
-        * Locates start of parse-unit
-        *@return <B>false</B> if not enough data
-        */
-        bool SyncToUnitStart();   // decoding
-
-        /**
-        * Get parse code
-        */
-        unsigned char GetParseCode() const { return m_parse_code;}
 
         /**
         * Returns true is parse unit is a Sequence Header
@@ -221,6 +196,31 @@ namespace dirac
         */
         bool IsUsingAC() const
         { return ((m_parse_code&0x48)==0x08); }
+
+    protected:
+
+        /**
+        * Calculates number of bytes to start of next unit
+        *@return Number of bytes to next unit
+        */
+        virtual int CalcNextUnitOffset();
+
+        /**
+        * Pure virtual method for calculating parse-code
+        *@return Char containing bit-set for parse-unit parameters
+        */
+        virtual unsigned char CalcParseCode() const { return 0;}    // encoding
+
+         /**
+        * Locates start of parse-unit
+        *@return <B>false</B> if not enough data
+        */
+        bool SyncToUnitStart();   // decoding
+
+        /**
+        * Get parse code
+        */
+        unsigned char GetParseCode() const { return m_parse_code;}
 
     private:
 

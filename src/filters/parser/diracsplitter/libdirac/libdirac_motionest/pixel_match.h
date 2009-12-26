@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pixel_match.h,v 1.6 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: pixel_match.h,v 1.11 2008/08/27 00:20:52 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -57,7 +57,7 @@
 #include <libdirac_motionest/block_match.h>
 namespace dirac
 {
-    class FrameBuffer;
+    class EncQueue;
     class MvData;
     class EncoderParams;
     class PicArray;
@@ -73,21 +73,22 @@ namespace dirac
         //! Do the actual search
         /* Do the searching.
 
-        \param  my_buffer  the buffer of pictures from which frames are taken
-        \param  frame_num  the number of the frame for which motion is to be estimated
+        \param  my_buffer  the buffer of pictures from which pictures are taken
+        \param  pic_num  the number of the picture for which motion is to be estimated
         \param  mv_data    class in which the measured motion vectors are stored, together with costs
         
         */
-        void DoSearch(const FrameBuffer& my_buffer, 
-                      int frame_num, 
-                      MEData& me_data);
+        void DoSearch( EncQueue& my_buffer, int pic_num ); 
 
     private:
 
         // Member variables
 
-        //! Local reference to the encoder 
+        //! Local reference to the encoder params 
         const EncoderParams& m_encparams;
+
+        //! Local reference to the picture pred params 
+        const PicturePredParams* m_predparams;
 
         // the depth of the hierarchical match 
         int m_depth;
@@ -101,11 +102,11 @@ namespace dirac
         // the search-range sizes for when hierarchical match fails
         int m_big_xr, m_big_yr;
         
-        // the temporal distances to the reference frames
+        // the temporal distances to the reference pictures
         int m_tdiff[2];
 
-        // the frame sort - I, L1 or L2
-        FrameSort m_fsort;
+        // the picture sort - I, L1 or L2
+        PictureSort m_psort;
 
         // list of candidate vectors for checking
         CandidateList m_cand_list;

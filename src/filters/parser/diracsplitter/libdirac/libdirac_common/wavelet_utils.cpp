@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: wavelet_utils.cpp,v 1.39 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: wavelet_utils.cpp,v 1.44 2008/10/20 04:21:02 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -37,17 +37,16 @@
 * or the LGPL.
 * ***** END LICENSE BLOCK ***** */
 
-
 #include <libdirac_common/wavelet_utils.h>
 #include <libdirac_common/common.h>
 #include <cstdlib>
+
 using namespace dirac;
 
 // Default constructor
 CodeBlock::CodeBlock()
 :
-    m_skipped( false )
-{
+    m_skipped( false ){
     Init( 0 , 0 , 0 , 0 );
 }
 
@@ -66,8 +65,7 @@ CodeBlock::CodeBlock( const int xstart ,
 void CodeBlock::Init( const int xstart ,
                       const int ystart ,
                       const int xend ,
-                      const int yend )
-{
+                      const int yend ){
     m_xstart = xstart;
     m_xend = xend;
     m_ystart = ystart;
@@ -79,8 +77,7 @@ void CodeBlock::Init( const int xstart ,
 
 
 // Default constructor
-Subband::Subband()
-{
+Subband::Subband(){
     // this space intentionally left blank
 }
 
@@ -92,8 +89,7 @@ Subband::Subband(int xpos,int ypos, int xlen, int ylen):
     m_yl( ylen ),
     m_wt( 1.0 ),
     m_code_block_array(),
-    m_skipped( false )
-{
+    m_skipped( false ){
     SetNumBlocks( 1 , 1 );
 }
 
@@ -117,8 +113,7 @@ void Subband::SetWt( const float w )
     m_wt = w;
 }
 
-void Subband::SetNumBlocks( const int ynum , const int xnum)
-{
+void Subband::SetNumBlocks( const int ynum , const int xnum){
     m_code_block_array.Resize( ynum , xnum );
 
     OneDArray<int> xbounds( xnum + 1 );
@@ -142,21 +137,18 @@ void Subband::SetNumBlocks( const int ynum , const int xnum)
 }
 
 //! Destructor
-Subband::~Subband()
-{}
+Subband::~Subband(){}
 
 //subband list methods
 
-void SubbandList::Init(const int depth,const int xlen,const int ylen)
-{
+void SubbandList::Init(const int depth,const int xlen,const int ylen){
     int xl=xlen;
     int yl=ylen;
 
     Clear();
     Subband* tmp;
 
-    for (int level = 1; level <= depth; ++level)
-    {
+    for (int level = 1; level <= depth; ++level){
         xl/=2;
         yl/=2;
         /* HH */
@@ -174,8 +166,7 @@ void SubbandList::Init(const int depth,const int xlen,const int ylen)
         AddBand( *tmp );
         delete tmp;
 
-        if (level == depth)
-        {
+        if (level == depth){
             /* LL */
             tmp=new Subband( 0 , 0 , xl , yl , level);
             AddBand( *tmp );
@@ -189,126 +180,31 @@ void SubbandList::Init(const int depth,const int xlen,const int ylen)
     (*this)(len-2).SetParent(0);
     (*this)(len-1).SetParent(0);
 
-    for (int level = 2; level <= depth; ++level)
-    {
+    for (int level = 2; level <= depth; ++level){
          //do parent-child relationship for other bands
-        (*this)( len-3*(level-1) ).AddChild( len-3*(level) );
         (*this)( len-3*(level) ).SetParent( len-3*(level-1) );
-
-        (*this)( len-3*(level-1)+1 ).AddChild( len-3*(level)+1 );
         (*this)(len-3*(level)+1).SetParent(len-3*(level-1)+1);
-
-        (*this)( len-3*(level-1)+2 ).AddChild( len-3*(level)+2 );
         (*this)(len-3*(level)+2).SetParent(len-3*(level-1)+2);
     }// level
 
 }
 
-//wavelet transform methods
-///////////////////////////
-
-//public methods
-
-WaveletTransform::WaveletTransform(int d, WltFilter f)
-  : m_depth(d),
-    m_filt_sort(f)
+void CoeffArray::SetBandWeights (const EncoderParams& encparams,
+                                 const PictureParams& pparams,
+                                 const CompSort csort,
+				 const float cpd_scale_factor)
 {
-    switch( m_filt_sort )
-    {
-
-    case DD9_7 :
-        m_vhfilter = new VHFilterDD9_7;
-        break;
-
-    case LEGALL5_3 :
-        m_vhfilter = new VHFilterLEGALL5_3;
-        break;
-
-    case DD13_7 :
-        m_vhfilter = new VHFilterDD13_7;
-        break;
-
-    case HAAR0 :
-        m_vhfilter = new VHFilterHAAR0;
-        break;
-
-    case HAAR1 :
-        m_vhfilter = new VHFilterHAAR1;
-        break;
-
-    default :
-        m_vhfilter = new VHFilterDAUB9_7;
-    }
-}
-
-//! Destructor
-WaveletTransform::~WaveletTransform()
-{
-    delete m_vhfilter;
-}
-
-void WaveletTransform::Transform(const Direction d, PicArray& pic_data, CoeffArray& coeff_data)
-{
-    int xl,yl;
-
-    if (d == FORWARD)
-    {
-        xl=pic_data.LengthX();
-        yl=pic_data.LengthY();
-
-        // First copy picture data into coeff_data
-        for ( int j=0; j<coeff_data.LengthY(); ++j)
-        {
-            for ( int i=0; i<coeff_data.LengthX(); ++i)
-            {
-                coeff_data[j][i] = CoeffType( pic_data[j][i] );
-            }// i
-        }// j
-
-
-        for (int l = 1; l <= m_depth; ++l , xl>>=1 , yl>>=1)
-        {
-            m_vhfilter->Split(0,0,xl,yl,coeff_data);
-        }
-
-        m_band_list.Init( m_depth , coeff_data.LengthX() , coeff_data.LengthY() );
-    }
-    else
-    {
-        xl = coeff_data.LengthX()/(1<<(m_depth-1));
-        yl = coeff_data.LengthY()/(1<<(m_depth-1));
-
-        for (int l = 1; l <= m_depth; ++l, xl<<=1 , yl<<=1 )
-        {
-            m_vhfilter->Synth(0,0,xl,yl,coeff_data);
-        }
-        //band list now inaccurate, so clear
-        m_band_list.Clear();
-
-         // Lastly, copy coeff_data back into picture data
-        for ( int j=0; j<coeff_data.LengthY(); ++j)
-        {
-            for ( int i=0; i<coeff_data.LengthX(); ++i)
-            {
-                pic_data[j][i] = ValueType( coeff_data[j][i] );
-            }// i
-        }// j
-    }
-}
-
-void WaveletTransform::SetBandWeights (const float cpd,
-                                       const FrameSort& fsort,
-                                       const ChromaFormat& cformat,
-                                       const CompSort csort,
-                                       const bool field_coding)
-{
+    const WltFilter wltfilter = encparams.TransformFilter();
+    const bool field_coding = encparams.FieldCoding();
+    const ChromaFormat cformat = pparams.CFormat();
+    const float cpd = encparams.CPD()*cpd_scale_factor;
+    const PictureSort psort = pparams.PicSort();
 
     int xlen, ylen, xl, yl, xp, yp;
     float xfreq, yfreq;
     float temp(0.0);
 
     // Compensate for chroma subsampling
-
     float chroma_xfac(1.0);
     float chroma_yfac(1.0);
 
@@ -343,11 +239,6 @@ void WaveletTransform::SetBandWeights (const float cpd,
             xfreq = cpd * ( float(xp) + (float(xl)/2.0) ) / float(xlen);
             yfreq = cpd * ( float(yp) + (float(yl)/2.0) ) / float(ylen);
 
-            if ( fsort.IsInter() )
-            {
-                xfreq /= 8.0;
-                yfreq /= 8.0;
-            }
             if(field_coding)
                 yfreq/=2.0;
 
@@ -355,10 +246,6 @@ void WaveletTransform::SetBandWeights (const float cpd,
 
             m_band_list(i).SetWt(temp);
         }// i
-
-        // Give more welly to DC in a completely unscientific manner ...
-        // (should really relate this to the frame rate)
-        m_band_list( m_band_list.Length() ).SetWt(m_band_list(m_band_list.Length() ).Wt()/6.0);
 
         // Make sure dc is always the lowest weight
         float min_weight=m_band_list(m_band_list.Length()).Wt();
@@ -397,31 +284,85 @@ void WaveletTransform::SetBandWeights (const float cpd,
 
     //Finally, adjust to compensate for the absence of scaling in the transform
     //Factor used to compensate:
-    double lfac = m_vhfilter->GetLowFactor();
-    double hfac = m_vhfilter->GetHighFactor();
+    double lfac;
+    double hfac;
+    int filt_shift;
+
+    switch (wltfilter){
+        case DD9_7 :
+            lfac = 1.218660804;;
+            hfac = 0.780720058;
+            filt_shift = 1;
+
+	    break;
+	
+	case LEGALL5_3 :
+            lfac = 1.179535649;
+            hfac = 0.81649658;
+	    filt_shift = 1;
+
+	    break;
+	
+        case DD13_7 :
+            lfac = 1.235705971;
+            hfac = 0.780719354;
+	    filt_shift = 1;
+
+	    break;
+	
+        case HAAR0 : 
+            lfac = 1.414213562;
+            hfac = 0.707106781;
+	    filt_shift = 0;
+ 
+	    break;
+	
+        case HAAR1 : 
+            lfac = 1.414213562;
+            hfac = 0.707106781;
+	    filt_shift = 1;
+
+	    break;
+	
+        case DAUB9_7 :
+            lfac = 1.149604398;
+            hfac = 0.869864452;
+	    filt_shift = 1;
+ 
+	    break;
+	
+        default:
+	    lfac = 1.0;
+	    hfac = 1.0;
+	    filt_shift = 0;
+
+    }
+
 
     int idx;
     int shift;
+    int depth = (m_band_list.Length()-1)/3;
 
     // Do the DC subband
     idx = m_band_list.Length();
-    double cf = (1<<(m_depth*m_vhfilter->GetShift())) / std::pow(lfac,2*m_depth ) ;
+    double cf = (1<<(depth*filt_shift)) / std::pow(lfac,2*depth ) ;
+
     m_band_list(idx).SetWt( m_band_list(idx).Wt()*cf);
 
     // Do the non-DC subbands
-    for (int level=1; level<=m_depth; level++)
+    for (int level=1; level<=depth; level++)
     {
-        shift = (m_depth-level+1)*m_vhfilter->GetShift();
+        shift = (depth-level+1)*filt_shift;
         for ( int orient=3;orient>=1; --orient )
         {
-            idx = 3*(m_depth-level)+orient;
+            idx = 3*(depth-level)+orient;
 
             // index into the subband list
-            idx = 3*(m_depth-level)+orient;
+            idx = 3*(depth-level)+orient;
 
             // Divide through by the weight for the LF subband that was decomposed
             // to create this level
-            cf = 1.0/ std::pow(lfac,2*(m_depth-level) );
+            cf = 1.0/ std::pow(lfac,2*(depth-level) );
 
             if ( m_band_list(idx).Xp() != 0 && m_band_list(idx).Yp() != 0)
                 // HH subband
@@ -440,11 +381,114 @@ void WaveletTransform::SetBandWeights (const float cpd,
 
 }
 
+// Returns a perceptual noise weighting based on extending CCIR 959 values
+// assuming a two-d isotropic response. Also has a fudge factor of 20% for chroma
+float CoeffArray::PerceptualWeight( const float xf ,
+                                     const float yf ,
+                                     const CompSort cs )
+{
+    double freq_sqd( xf*xf + yf*yf );
+
+    if ( cs != Y_COMP )
+        freq_sqd *= 1.2;
+
+    return 0.255 * std::pow( 1.0 + 0.2561*freq_sqd , 0.75) ;
+
+}
+
+
+
+//wavelet transform methods
+///////////////////////////
+
+//public methods
+
+WaveletTransform::WaveletTransform(int d, WltFilter f)
+  : m_depth(d),
+    m_filt_sort(f)
+{
+    switch( m_filt_sort ){
+
+    case DD9_7 :
+        m_vhfilter = new VHFilterDD9_7;
+        break;
+
+    case LEGALL5_3 :
+        m_vhfilter = new VHFilterLEGALL5_3;
+        break;
+
+    case DD13_7 :
+        m_vhfilter = new VHFilterDD13_7;
+        break;
+
+    case HAAR0 :
+        m_vhfilter = new VHFilterHAAR0;
+        break;
+
+    case HAAR1 :
+        m_vhfilter = new VHFilterHAAR1;
+        break;
+
+    default :
+        m_vhfilter = new VHFilterDAUB9_7;
+    }
+}
+
+//! Destructor
+WaveletTransform::~WaveletTransform(){ delete m_vhfilter; }
+
+void WaveletTransform::Transform(const Direction d, PicArray& pic_data, CoeffArray& coeff_data) {
+
+    int xl,yl;
+
+    SubbandList& bands = coeff_data.BandList();
+
+    if (d == FORWARD){
+        xl=coeff_data.LengthX();
+        yl=coeff_data.LengthY();
+
+        // First copy picture data into coeff_data and pad
+        for ( int j=0; j<pic_data.LengthY(); ++j){
+            for ( int i=0; i<pic_data.LengthX(); ++i)
+                coeff_data[j][i] = CoeffType( pic_data[j][i] );
+            for ( int i=pic_data.LengthX(); i<coeff_data.LengthX(); ++i)
+                coeff_data[j][i] = coeff_data[j][pic_data.LastX()];
+        }// j
+        for ( int j=pic_data.LengthY(); j<coeff_data.LengthY(); ++j){
+            for ( int i=0; i<coeff_data.LengthX(); ++i)
+                coeff_data[j][i] = coeff_data[pic_data.LastY()][i];
+        }
+
+        for (int l = 1; l <= m_depth; ++l , xl>>=1 , yl>>=1){
+            m_vhfilter->Split(0,0,xl,yl,coeff_data);
+        }
+
+        bands.Init( m_depth , coeff_data.LengthX() , coeff_data.LengthY() );
+    }
+    else{
+        xl = coeff_data.LengthX()/(1<<(m_depth-1));
+        yl = coeff_data.LengthY()/(1<<(m_depth-1));
+
+        for (int l = 1; l <= m_depth; ++l, xl<<=1 , yl<<=1 )
+            m_vhfilter->Synth(0,0,xl,yl,coeff_data);
+        
+        //band list now inaccurate, so clear
+        bands.Clear();
+
+         // Lastly, copy coeff_data back into picture data
+        for ( int j=0; j<pic_data.LengthY(); ++j){
+            for ( int i=0; i<pic_data.LengthX(); ++i){
+                pic_data[j][i] = ValueType( coeff_data[j][i] );
+            }// i
+        }// j
+    }
+}
+
 // Private functions //
 ///////////////////////
 // NOTEL MMX version is defined in wavelet_utils_mmx.cpp
 // the corresponding changes are made in wavelet_utils_mmx.cpp as well
-void WaveletTransform::VHFilter::Interleave( const int xp ,
+void VHFilter::Interleave( const int xp ,
                                              const int yp ,
                                              const int xl ,
                                              const int yl ,
@@ -479,13 +523,13 @@ void WaveletTransform::VHFilter::Interleave( const int xp ,
 }
 
 #if !defined(HAVE_MMX)
-void WaveletTransform::VHFilter::ShiftRowLeft(CoeffType *row, int length, int shift)
+void VHFilter::ShiftRowLeft(CoeffType *row, int length, int shift)
 {
     for (int i = 0; i < length; ++i)
         row[i] <<= shift;
 }
 
-void WaveletTransform::VHFilter::ShiftRowRight(CoeffType *row, int length, int shift)
+void VHFilter::ShiftRowRight(CoeffType *row, int length, int shift)
 {
     const CoeffType halfway( 1<<(shift-1) );
     for (int i = 0; i < length; ++i)
@@ -493,7 +537,7 @@ void WaveletTransform::VHFilter::ShiftRowRight(CoeffType *row, int length, int s
 }
 #endif
 
-void WaveletTransform::VHFilter::DeInterleave( const int xp ,
+void VHFilter::DeInterleave( const int xp ,
                                                const int yp ,
                                                const int xl ,
                                                const int yl ,
@@ -528,7 +572,7 @@ void WaveletTransform::VHFilter::DeInterleave( const int xp ,
 
 }
 
-void WaveletTransform::VHFilterDAUB9_7::Split (const int xp ,
+void VHFilterDAUB9_7::Split (const int xp ,
                                                const int yp ,
                                                const int xl ,
                                                const int yl ,
@@ -645,7 +689,7 @@ void WaveletTransform::VHFilterDAUB9_7::Split (const int xp ,
 
 }
 
-void WaveletTransform::VHFilterDAUB9_7::Synth (const int xp ,
+void VHFilterDAUB9_7::Synth (const int xp ,
                                                const int yp ,
                                                const int xl ,
                                                const int yl ,
@@ -758,7 +802,7 @@ void WaveletTransform::VHFilterDAUB9_7::Synth (const int xp ,
 #if !defined HAVE_MMX
 // NOTE: MMX version is defined in wavelet_utils_mmx.cpp
 // the corresponding changes are made in wavelet_utils_mmx.cpp as well
-void WaveletTransform::VHFilterLEGALL5_3::Split(const int xp ,
+void VHFilterLEGALL5_3::Split(const int xp ,
                                           const int yp ,
                                           const int xl ,
                                           const int yl ,
@@ -835,7 +879,7 @@ void WaveletTransform::VHFilterLEGALL5_3::Split(const int xp ,
 
 // NOTE: MMX version is defined in wavelet_utils_mmx.cpp
 // the corresponding changes are made in wavelet_utils_mmx.cpp as well
-void WaveletTransform::VHFilterLEGALL5_3::Synth(const int xp ,
+void VHFilterLEGALL5_3::Synth(const int xp ,
                                           const int yp ,
                                           const int xl ,
                                           const int yl ,
@@ -905,7 +949,7 @@ void WaveletTransform::VHFilterLEGALL5_3::Synth(const int xp ,
 }
 #endif
 
-void WaveletTransform::VHFilterDD9_7::Split(const int xp ,
+void VHFilterDD9_7::Split(const int xp ,
                                                 const int yp ,
                                                 const int xl ,
                                                 const int yl ,
@@ -1000,7 +1044,7 @@ void WaveletTransform::VHFilterDD9_7::Split(const int xp ,
 #if !defined(HAVE_MMX)
 // NOTE: MMX version is defined in wavelet_utils_mmx.cpp
 // the corresponding changes are made in wavelet_utils_mmx.cpp as well
-void WaveletTransform::VHFilterDD9_7::Synth(const int xp ,
+void VHFilterDD9_7::Synth(const int xp ,
                                                 const int yp ,
                                                 const int xl ,
                                                 const int yl ,
@@ -1089,7 +1133,7 @@ void WaveletTransform::VHFilterDD9_7::Synth(const int xp ,
 }
 #endif
 
-void WaveletTransform::VHFilterDD13_7::Split(const int xp ,
+void VHFilterDD13_7::Split(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1191,7 +1235,7 @@ void WaveletTransform::VHFilterDD13_7::Split(const int xp ,
 #if !defined(HAVE_MMX)
 // NOTE: MMX version is defined in wavelet_utils_mmx.cpp
 // the corresponding changes are made in wavelet_utils_mmx.cpp as well
-void WaveletTransform::VHFilterDD13_7::Synth(const int xp ,
+void VHFilterDD13_7::Synth(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1295,7 +1339,7 @@ void WaveletTransform::VHFilterDD13_7::Synth(const int xp ,
 }
 #endif
 
-void WaveletTransform::VHFilterHAAR0::Split(const int xp ,
+void VHFilterHAAR0::Split(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1333,7 +1377,7 @@ void WaveletTransform::VHFilterHAAR0::Split(const int xp ,
     DeInterleave( xp , yp , xl , yl , coeff_data );
 }
 
-void WaveletTransform::VHFilterHAAR0::Synth(const int xp ,
+void VHFilterHAAR0::Synth(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1366,7 +1410,7 @@ void WaveletTransform::VHFilterHAAR0::Synth(const int xp ,
     }
 }
 
-void WaveletTransform::VHFilterHAAR1::Split(const int xp ,
+void VHFilterHAAR1::Split(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1407,7 +1451,7 @@ void WaveletTransform::VHFilterHAAR1::Split(const int xp ,
     DeInterleave( xp , yp , xl , yl , coeff_data );
 }
 
-void WaveletTransform::VHFilterHAAR1::Synth(const int xp ,
+void VHFilterHAAR1::Synth(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1444,7 +1488,7 @@ void WaveletTransform::VHFilterHAAR1::Synth(const int xp ,
     }
 }
 
-void WaveletTransform::VHFilterHAAR2::Split(const int xp ,
+void VHFilterHAAR2::Split(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1485,7 +1529,7 @@ void WaveletTransform::VHFilterHAAR2::Split(const int xp ,
     DeInterleave( xp , yp , xl , yl , coeff_data );
 }
 
-void WaveletTransform::VHFilterHAAR2::Synth(const int xp ,
+void VHFilterHAAR2::Synth(const int xp ,
                                            const int yp ,
                                            const int xl ,
                                            const int yl ,
@@ -1523,17 +1567,4 @@ void WaveletTransform::VHFilterHAAR2::Synth(const int xp ,
 }
 
 
-// Returns a perceptual noise weighting based on extending CCIR 959 values
-// assuming a two-d isotropic response. Also has a fudge factor of 20% for chroma
-float WaveletTransform::PerceptualWeight( const float xf ,
-                                     const float yf ,
-                                     const CompSort cs )
-{
-    double freq_sqd( xf*xf + yf*yf );
 
-    if ( cs != Y_COMP )
-        freq_sqd *= 1.2;
-
-    return 0.255 * std::pow( 1.0 + 0.2561*freq_sqd , 0.75) ;
-
-}

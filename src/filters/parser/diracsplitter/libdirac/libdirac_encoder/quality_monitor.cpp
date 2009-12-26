@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quality_monitor.cpp,v 1.28 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: quality_monitor.cpp,v 1.33 2008/08/14 01:04:26 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,10 +43,10 @@ using std::log10;
 
 QualityMonitor::QualityMonitor(EncoderParams& encp) :
     m_encparams(encp),
-    m_quality_averageY(3),
-    m_quality_averageU(3),
-    m_quality_averageV(3),
-    m_frame_total(3)
+    m_mse_averageY(3),
+    m_mse_averageU(3),
+    m_mse_averageV(3),
+    m_picture_total(3)
 {
     ResetAll();
 }
@@ -59,33 +59,36 @@ void QualityMonitor::ResetAll()
 
     for (int i=0; i<3 ; ++i )
     {
-        m_quality_averageY[i] = 0.0;
-        m_quality_averageU[i] = 0.0;
-        m_quality_averageV[i] = 0.0;
-        m_frame_total[i] = 0;
+        m_mse_averageY[i] = 0.0;
+        m_mse_averageU[i] = 0.0;
+        m_mse_averageV[i] = 0.0;
+        m_picture_total[i] = 0;
     }// i
-    m_totalquality_averageY = 0.0;
-    m_totalquality_averageU = 0.0;
-    m_totalquality_averageV = 0.0;
-    m_allframe_total = 0;
+    m_totalmse_averageY = 0.0;
+    m_totalmse_averageU = 0.0;
+    m_totalmse_averageV = 0.0;
+    m_allpicture_total = 0;
 }
 
 void QualityMonitor::WriteLog()
 {
+    const double Ymax = double( (1<<m_encparams.LumaDepth())-1 );
+    const double UVmax = double( (1<<m_encparams.ChromaDepth())-1 );
+
     std::cout<<std::endl<<"Overall mean PSNR values";
     std::cout<<std::endl<<"------------------------";
     std::cout<<std::endl<<"Y: ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_totalquality_averageY/m_allframe_total<<std::endl;
+    std::cout<<10*std::log10(Ymax*Ymax/(m_totalmse_averageY/m_allpicture_total))<<std::endl;
     std::cout<<std::endl<<"U: ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_totalquality_averageU/m_allframe_total<<std::endl;
+    std::cout<<10*std::log10(UVmax*UVmax/(m_totalmse_averageU/m_allpicture_total))<<std::endl;
     std::cout<<std::endl<<"V: ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_totalquality_averageV/m_allframe_total<<std::endl;
+    std::cout<<10*std::log10(UVmax*UVmax/(m_totalmse_averageV/m_allpicture_total))<<std::endl;
 
 
-    std::cout<<std::endl<<"Mean PSNR values by frame type and component";
+    std::cout<<std::endl<<"Mean PSNR values by picture type and component";
     std::cout<<std::endl<<"--------------------------------------------";
     std::cout<<std::endl;
 
@@ -93,66 +96,66 @@ void QualityMonitor::WriteLog()
     std::cout<<std::endl<<"=================||===================================================";
     std::cout<<std::endl<<"           Intra ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageY[0]/m_frame_total[0]<<"     ||     ";
+    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[0]/m_picture_total[0]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageU[0]/m_frame_total[0]<<"     ||     ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[0]/m_picture_total[0]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageV[0]/m_frame_total[0]<<"     ||    ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[0]/m_picture_total[0]))<<"     ||    ";
     std::cout<<std::endl<<"-----------------||---------------------------------------------------";
     std::cout<<std::endl<<"       Inter Ref ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageY[1]/m_frame_total[1]<<"     ||     ";
+    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[1]/m_picture_total[1]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageU[1]/m_frame_total[1]<<"     ||     ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[1]/m_picture_total[1]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageV[1]/m_frame_total[1]<<"     ||    ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[1]/m_picture_total[1]))<<"     ||    ";
     std::cout<<std::endl<<"-----------------||---------------------------------------------------";
     std::cout<<std::endl<<"   Inter Non Ref ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageY[2]/m_frame_total[2]<<"     ||     ";
+    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[2]/m_picture_total[2]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageU[2]/m_frame_total[2]<<"     ||     ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[2]/m_picture_total[2]))<<"     ||     ";
     std::cout.width(5);std::cout.precision(4);
-    std::cout<<m_quality_averageV[2]/m_frame_total[2]<<"     ||     ";
+    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[2]/m_picture_total[2]))<<"     ||     ";
     std::cout<<std::endl<<"-----------------||---------------------------------------------------";
 }
 
-void QualityMonitor::UpdateModel(const Frame& ld_frame, const Frame& orig_frame )
+void QualityMonitor::UpdateModel(const EncPicture& enc_picture )
 {
-    const FrameSort& fsort = ld_frame.GetFparams().FSort();
-    int idx = fsort.IsIntra() ? 0 : (fsort.IsRef() ? 1 : 2);
+    const double Ymax = double( (1<<m_encparams.LumaDepth())-1 );
+    const double UVmax = double( (1<<m_encparams.ChromaDepth())-1 );
 
-    double fqualityY, fqualityU, fqualityV;
+    const PictureSort& psort = enc_picture.GetPparams().PicSort();
+    int idx = psort.IsIntra() ? 0 : (psort.IsRef() ? 1 : 2);
 
-    fqualityY = QualityVal( ld_frame.Ydata() , orig_frame.Ydata(),
-                            m_encparams.OrigXl(), m_encparams.OrigYl(),
-                            Y_COMP);
-    m_quality_averageY[idx] += fqualityY;
-    m_totalquality_averageY += fqualityY;
+    double fmseY, fmseU, fmseV;
 
-    fqualityU = QualityVal( ld_frame.Udata() , orig_frame.Udata(),
-                            m_encparams.OrigChromaXl(),
-                            m_encparams.OrigChromaYl(),
-                            U_COMP);
-    m_quality_averageU[idx] += fqualityU;
-    m_totalquality_averageU += fqualityU;
+    fmseY = QualityVal( enc_picture.Data(Y_COMP) , enc_picture.OrigData(Y_COMP),
+                            m_encparams.Xl(), m_encparams.Yl());
+    m_mse_averageY[idx] += fmseY;
+    m_totalmse_averageY += fmseY;
 
-    fqualityV = QualityVal( ld_frame.Vdata() , orig_frame.Vdata(),
-                            m_encparams.OrigChromaXl(),
-                            m_encparams.OrigChromaYl(),
-                            V_COMP);
-    m_quality_averageV[idx] += fqualityV;
-    m_totalquality_averageV += fqualityV;
+    fmseU = QualityVal( enc_picture.Data(U_COMP) , enc_picture.OrigData(U_COMP),
+                            m_encparams.ChromaXl(),
+                            m_encparams.ChromaYl());
+    m_mse_averageU[idx] += fmseU;
+    m_totalmse_averageU += fmseU;
 
-    m_frame_total[idx]++;
-    m_allframe_total++;
+    fmseV = QualityVal( enc_picture.Data(V_COMP) , enc_picture.OrigData(V_COMP),
+                            m_encparams.ChromaXl(),
+                            m_encparams.ChromaYl());
+    m_mse_averageV[idx] += fmseV;
+    m_totalmse_averageV += fmseV;
+
+    m_picture_total[idx]++;
+    m_allpicture_total++;
 
     if (m_encparams.Verbose() )
     {
         std::cout<<std::endl<< (!m_encparams.FieldCoding() ? "Frame" : "Field");
-        std::cout << " PSNR: Y="<<fqualityY;
-        std::cout<<", U="<<fqualityU;
-        std::cout<<", V="<<fqualityV;
+        std::cout << " PSNR: Y="<<10.0 * std::log10( Ymax*Ymax / fmseY );
+        std::cout<<", U="<<10.0 * std::log10( UVmax*UVmax / fmseU );
+        std::cout<<", V="<<10.0 * std::log10( UVmax*UVmax / fmseV );
     }
 
 }
@@ -160,8 +163,7 @@ void QualityMonitor::UpdateModel(const Frame& ld_frame, const Frame& orig_frame 
 
 double QualityMonitor::QualityVal(const PicArray& coded_data,
                                   const PicArray& orig_data,
-                                  const int xlen, const int ylen,
-                                  const CompSort cs)
+                                  const int xlen, const int ylen)
 {
     long double sum_sq_diff = 0.0;
     double diff;
@@ -175,12 +177,8 @@ double QualityMonitor::QualityVal(const PicArray& coded_data,
         }// i
     }// j
 
-    unsigned comp_depth = cs == Y_COMP ? m_encparams.LumaDepth() :
-                                         m_encparams.ChromaDepth();
-
-    const double max = double( (1<<comp_depth)-1 );
 
     sum_sq_diff /= xlen*ylen;
 
-    return static_cast<double> ( 10.0 * std::log10( max*max / sum_sq_diff ) );
+    return (double) sum_sq_diff;
 }

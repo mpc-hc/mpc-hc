@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pixel_match.cpp,v 1.12 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: pixel_match.cpp,v 1.20 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -39,7 +39,7 @@
 #include <libdirac_motionest/pixel_match.h>
 #include <libdirac_motionest/block_match.h>
 #include <libdirac_common/motion.h>
-#include <libdirac_common/frame_buffer.h>
+#include <libdirac_encoder/enc_queue.h>
 #include <libdirac_motionest/downconvert.h>
 #include <libdirac_motionest/me_mode_decn.h>
 #include <libdirac_motionest/me_subpel.h>
@@ -56,35 +56,36 @@ PixelMatcher::PixelMatcher( const EncoderParams& encp):
 {}
 
 
-void PixelMatcher::DoSearch(const FrameBuffer& my_buffer, int frame_num, MEData& me_data)
+void PixelMatcher::DoSearch( EncQueue& my_buffer, int pic_num )
 {
+    m_predparams = &(my_buffer.GetPicture(pic_num).GetMEData().GetPicPredParams() );
 
-     //does an initial search using hierarchical matching to get guide vectors    
+    //does an initial search using hierarchical matching to get guide vectors
 
-    // Frame numbers of references
+    // Picture numbers of references
     int ref1,ref2;
 
     // Use the luminance only for motion estimating
-    const PicArray& pic_data = my_buffer.GetComponent( frame_num , Y_COMP );
+    const PicArray& pic_data = my_buffer.GetPicture( pic_num ).DataForME(m_encparams.CombinedME());
 
-    const vector<int>& refs = my_buffer.GetFrame( frame_num ).GetFparams().Refs();
+    const vector<int>& refs = my_buffer.GetPicture( pic_num ).GetPparams().Refs();
     ref1 = refs[0];
 
     if (refs.size()>1)
         ref2 = refs[1];
-    else    
+    else
         ref2 = ref1;
 
     // Record temporal distances
-    m_tdiff[0] = std::abs( ref1 - frame_num );
-    m_tdiff[1] = std::abs( ref2 - frame_num );
+    m_tdiff[0] = std::abs( ref1 - pic_num );
+    m_tdiff[1] = std::abs( ref2 - pic_num );
 
     // Obtain C++ references to the reference picture luma components
-    const PicArray& ref1_data = my_buffer.GetComponent(ref1 , Y_COMP);
-    const PicArray& ref2_data = my_buffer.GetComponent(ref2 , Y_COMP);
+    const PicArray& ref1_data = my_buffer.GetPicture(ref1).DataForME(m_encparams.CombinedME());
+    const PicArray& ref2_data = my_buffer.GetPicture(ref2).DataForME(m_encparams.CombinedME());
 
-    // Determine the frame sort - this affects the motion estimation Lagrangian parameter
-    m_fsort = my_buffer.GetFrame(frame_num).GetFparams().FSort();
+    // Determine the picture sort - this affects the motion estimation Lagrangian parameter
+    m_psort = my_buffer.GetPicture(pic_num).GetPparams().PicSort();
 
 
     if ( m_encparams.FullSearch() == false )
@@ -114,23 +115,24 @@ void PixelMatcher::DoSearch(const FrameBuffer& my_buffer, int frame_num, MEData&
         m_level = m_depth;
 
         MatchPic( *(pic_down[m_depth]) , *(ref1_down[m_depth]) , *(me_data_set[m_depth]) ,
-                                     *(me_data_set[m_depth]) , 1 );    
+                                     *(me_data_set[m_depth]) , 1 );
         if ( ref1 != ref2 )
-            MatchPic( *(pic_down[m_depth]) , *(ref2_down[m_depth]) , *(me_data_set[m_depth]) , 
+            MatchPic( *(pic_down[m_depth]) , *(ref2_down[m_depth]) , *(me_data_set[m_depth]) ,
                                              *(me_data_set[m_depth]) , 2 );
 
          // Do the intervening levels - here we can have a genuine set of guide vectors
         for ( m_level=m_depth-1 ; m_level>=1 ; --m_level )
         {
-            MatchPic( *(pic_down[m_level]) , *(ref1_down[m_level]) , *(me_data_set[m_level]) , 
+            MatchPic( *(pic_down[m_level]) , *(ref1_down[m_level]) , *(me_data_set[m_level]) ,
                                          *(me_data_set[m_level+1]) , 1 );
             if (ref1!=ref2)
-                MatchPic( *(pic_down[m_level]) , *(ref2_down[m_level]) , *(me_data_set[m_level]) , 
-                                                 *(me_data_set[m_level+1]) , 2 );    
+                MatchPic( *(pic_down[m_level]) , *(ref2_down[m_level]) , *(me_data_set[m_level]) ,
+                                                 *(me_data_set[m_level+1]) , 2 );
         }// level
 
         // Finally, do the top level, with the pictures themselves
         m_level = 0;
+	MEData& me_data = my_buffer.GetPicture(pic_num).GetMEData();
         MatchPic( pic_data , ref1_data, me_data , *(me_data_set[1]) , 1 );
         if ( ref1 != ref2 )
             MatchPic( pic_data , ref2_data , me_data , *(me_data_set[1]) , 2 );
@@ -146,6 +148,7 @@ void PixelMatcher::DoSearch(const FrameBuffer& my_buffer, int frame_num, MEData&
     {
         m_depth = 0;
         m_level = 0;
+	MEData& me_data = my_buffer.GetPicture(pic_num).GetMEData();
         MatchPic( pic_data , ref1_data, me_data , me_data , 1 );
         if ( ref1 != ref2 )
             MatchPic( pic_data , ref2_data , me_data , me_data , 2 );
@@ -184,14 +187,18 @@ void PixelMatcher::MakeMEDataHierarchy(const OneDArray< PicArray*>& down_data,
 {
 
     int xnumblocks , ynumblocks;
-    const OLBParams bparams = m_encparams.LumaBParams(2);
+    const OLBParams bparams = m_predparams->LumaBParams(2);
 
-    // We might not have an integral number of Macroblocks and blocks in 
+    // We might not have an integral number of Macroblocks and blocks in
     // a picture. So we go start of with the number of macroblocks in the
     // full size picture and calculate the number of in the downsized pics
     // from this.
-    xnumblocks = m_encparams.XNumBlocks();
-    ynumblocks = m_encparams.YNumBlocks();
+    xnumblocks = m_predparams->XNumBlocks();
+    ynumblocks = m_predparams->YNumBlocks();
+
+    PicturePredParams predparams = *m_predparams;
+    predparams.SetXNumSB(0);
+    predparams.SetYNumSB(0);
     for (int i=1 ; i<=m_depth;++i)
     {
 
@@ -204,7 +211,10 @@ void PixelMatcher::MakeMEDataHierarchy(const OneDArray< PicArray*>& down_data,
         if (( down_data[i]->LengthY() )%bparams.Ybsep() != 0)
             ynumblocks++;
 
-        me_data_set[i] = new MEData( 0 , 0 , xnumblocks , ynumblocks, 2 );
+	predparams.SetXNumBlocks( xnumblocks );
+	predparams.SetYNumBlocks( ynumblocks );
+
+        me_data_set[i] = new MEData( predparams, 2 );
     }// i
 
 }
@@ -231,7 +241,7 @@ void PixelMatcher::TidyMEData( OneDArray< MEData*>& me_data_set )
 
 void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data , MEData& me_data ,
                             const MvData& guide_data, const int ref_id)
-{    
+{
 
     // Initialisation //
     ////////////////////
@@ -244,7 +254,7 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
     {
         m_cost_mean = 0.0;
         m_cost_mean_sq = 0.0;
-        
+
         m_xr = std::min( m_level+1, 5);
         m_yr = std::min( m_level+1, 5);
     }
@@ -255,47 +265,47 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
     }
 
     // Provide aliases for the appropriate motion vector data components
-    
+
     MvArray& mv_array = me_data.Vectors( ref_id );
     const MvArray& guide_array = guide_data.Vectors( ref_id );
     TwoDArray<MvCostData>& pred_costs = me_data.PredCosts( ref_id );
-    
+
     // Initialise the arrays
     for (int y=0; y<mv_array.LengthY(); ++y)
     {
         for (int x=0; x<mv_array.LengthX(); ++x)
         {
-    	    mv_array[y][x].x = 0;
-    	    mv_array[y][x].y = 0;
-    	    pred_costs[y][x].total = 10000000.0f;
-        }// x 
-    }// y 
+            mv_array[y][x].x = 0;
+            mv_array[y][x].y = 0;
+            pred_costs[y][x].total = 10000000.0f;
+        }// x
+    }// y
 
     // Provide a block matching object to do the work
-    BlockMatcher my_bmatch( pic_data , ref_data , 
-                            m_encparams.LumaBParams(2) , m_encparams.MVPrecision() ,
+    BlockMatcher my_bmatch( pic_data , ref_data ,
+                            m_predparams->LumaBParams(2) , m_predparams->MVPrecision() ,
                             mv_array , pred_costs );
 
     // Do the work - loop over all the blocks, finding the best match //
     ////////////////////////////////////////////////////////////////////
 
-    /*    
-    The idea is for each block construct a list of candidate vectors,which will 
+    /*
+    The idea is for each block construct a list of candidate vectors,which will
     be tested. This list is actually a list of lists, implemented as a C++
     vector of C++ vectors. This is so that FindBestMatch can shorten the
-    search process by looking at the beginning of each sublist and 
+    search process by looking at the beginning of each sublist and
     discarding that sub-list if it's too far off.
     */
 
     // Make a zero-based list that is always used
     m_cand_list.clear();
-    MVector zero_mv( 0 , 0 );    
+    MVector zero_mv( 0 , 0 );
 
     AddNewVlist( m_cand_list , zero_mv , m_xr , m_yr);
 
-    // Now loop over the blocks and find the best matches. 
+    // Now loop over the blocks and find the best matches.
     // The loop is unrolled because predictions are different at picture edges.
-    // The purpose of the loop is to create appropriate candidate lists, and then 
+    // The purpose of the loop is to create appropriate candidate lists, and then
     // call the DoBlock() function which does the actual work.
 
     // First do TL corner
@@ -312,7 +322,7 @@ void PixelMatcher::MatchPic(const PicArray& pic_data , const PicArray& ref_data 
         DoBlock(xpos, 0 , guide_array , my_bmatch);
     }// xpos
 
-    // All the remaining rows except the last 
+    // All the remaining rows except the last
     for ( int ypos=1 ; ypos<mv_array.LengthY() ; ++ypos )
     {
 
@@ -363,7 +373,7 @@ void PixelMatcher::DoBlock(const int xpos, const int ypos ,
     /////////////////////////////////
 
     block_match.FindBestMatchPel( xpos , ypos , m_cand_list, m_mv_prediction, 0 );
-    
+
     // Reset the lists ready for the next block (don't erase the first sublist as
     // this is a neighbourhood of zero, which we always look at)
     m_cand_list.erase( m_cand_list.begin()+1 , m_cand_list.end() );

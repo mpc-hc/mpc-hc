@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: motion_estimate.h,v 1.9 2005/09/27 13:07:00 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: motion_estimate.h,v 1.12 2008/08/14 00:51:09 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,7 +43,7 @@
 namespace dirac
 {
 
-    class FrameBuffer;
+    class EncQueue;
 
 
     //! Class to handle the whole motion estimation process. 
@@ -53,7 +53,7 @@ namespace dirac
      three stages. 
 
      First a pixel-accurate estimate is formed by looking at the current 
-     frame data and the data from the reference frame(s). Motion vectors
+     picture data and the data from the reference picture(s). Motion vectors
      are found for every block.
 
      Second, these pixel-accurate motion vectors are refined to sub-pixel
@@ -76,7 +76,7 @@ namespace dirac
         ~MotionEstimator(){}
 
         //! Do the motion estimation
-        void DoME(const FrameBuffer& my_buffer , int frame_num , MEData& me_data);
+        void DoME( EncQueue& my_buffer , int pic_num );
 
     private:
         //! Copy constructor: private, body-less - class should not be copied
@@ -86,10 +86,10 @@ namespace dirac
         MotionEstimator& operator=( const MotionEstimator& rhs );
 
         //! Go through all the intra blocks and extract the chroma dc values to be coded
-        void SetChromaDC(const FrameBuffer& my_buffer, int frame_num, MvData& mv_data);
+        void SetChromaDC( EncQueue& my_buffer, int pic_num);
 
         //! Called by previous fn for each component
-        void SetChromaDC(const PicArray& pic_data, MvData& mv_data,CompSort csort);        
+        void SetChromaDC(const PicArray& pic_data, MEData& me_data,CompSort csort);        
 
         //! Called by previous fn for each block
         ValueType GetChromaBlockDC(const PicArray& pic_data, int xloc,int yloc,int split);

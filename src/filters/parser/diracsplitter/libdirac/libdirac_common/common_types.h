@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common_types.h,v 1.15 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: common_types.h,v 1.21 2008/11/06 04:53:36 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -70,19 +70,28 @@ typedef enum
     filterNK
 } WltFilter;
 
+/*! Enumerated type that defines prefiltering types supported by the
+    encoder. */
+typedef enum
+{
+    NO_PF = 0,
+    DIAGLP,
+    RECTLP,
+    CWM
+} PrefilterType;
 
 static const int NUM_WLT_FILTERS = 8;
 
-/*! Types of frame */
+/*! Types of picture */
 typedef enum {
-        INTRA_FRAME=0,
-        INTER_FRAME
-    } FrameType;
+        INTRA_PICTURE=0,
+        INTER_PICTURE
+    } PictureType;
 
 /*! Types of referencing */
 typedef enum {
-        REFERENCE_FRAME=0,
-        NON_REFERENCE_FRAME
+        REFERENCE_PICTURE=0,
+        NON_REFERENCE_PICTURE
 }   ReferenceType;
 
 /*! Types for video-format */
@@ -104,6 +113,10 @@ typedef enum {
         VIDEO_FORMAT_HD_1080P50,
         VIDEO_FORMAT_DIGI_CINEMA_2K24,
         VIDEO_FORMAT_DIGI_CINEMA_4K24,
+        VIDEO_FORMAT_UHDTV_4K60,
+        VIDEO_FORMAT_UHDTV_4K50,
+        VIDEO_FORMAT_UHDTV_8K60,
+        VIDEO_FORMAT_UHDTV_8K50,
         VIDEO_FORMAT_UNDEFINED
 } VideoFormat;
 
@@ -133,7 +146,7 @@ typedef enum {
     TF_UNDEF
 } TransferFunction;
 
-/*! Types of Frame-rate */
+/*! Types of Picture-rate */
 typedef enum {
     FRAMERATE_CUSTOM=0,
     FRAMERATE_23p97_FPS,

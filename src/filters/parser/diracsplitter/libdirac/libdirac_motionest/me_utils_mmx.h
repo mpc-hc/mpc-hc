@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_utils_mmx.h,v 1.2 2005/10/07 10:17:44 asuraparaju Exp $
+* $Id: me_utils_mmx.h,v 1.3 2008/05/27 01:29:55 asuraparaju Exp $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -51,30 +51,30 @@ namespace dirac
     CalcValueType simple_block_diff_mmx_4(const BlockDiffParams& dparams, const MVector& mv, const PicArray& pic_data, const PicArray& ref_data, CalcValueType i_best_sum);
     CalcValueType simple_intra_block_diff_mmx_4 ( const BlockDiffParams& dparams, const PicArray& pic_data, ValueType &dc_val);
 
-	CalcValueType bchk_simple_block_diff_mmx_4 ( 
+    CalcValueType bchk_simple_block_diff_mmx_4 ( 
             const BlockDiffParams& dparams, const MVector& mv, 
             const PicArray& pic_data, const PicArray& ref_data,
-			CalcValueType i_best_sum);
+            CalcValueType i_best_sum);
 
     float simple_block_diff_up_mmx_4(
             const PicArray& pic_data, const PicArray& ref_data, 
             const ImageCoords& start_pos, const ImageCoords& end_pos, 
             const ImageCoords& ref_start, const ImageCoords& ref_stop,
-			const MVector& rmdr, float cost_so_far, 
-			float best_cost_so_far);
+            const MVector& rmdr, float cost_so_far, 
+            float best_cost_so_far);
 
 
-	void simple_biblock_diff_pic_mmx_4(
-		const PicArray& pic_data, const PicArray& ref_data,
-		TwoDArray<ValueType>& diff, 
+    void simple_biblock_diff_pic_mmx_4(
+        const PicArray& pic_data, const PicArray& ref_data,
+        TwoDArray<ValueType>& diff, 
         const ImageCoords& start_pos, const ImageCoords& end_pos, 
         const ImageCoords& ref_start, const ImageCoords& ref_stop,
-		const MVector& rmdr);
+        const MVector& rmdr);
 
     CalcValueType simple_biblock_diff_up_mmx_4(
             const TwoDArray<ValueType>& diff_data, const PicArray& ref_data, 
             const ImageCoords& ref_start, const ImageCoords& ref_stop,
-			const MVector& rmdr);
+            const MVector& rmdr);
 }
 
 #endif /* HAVE_MMX */

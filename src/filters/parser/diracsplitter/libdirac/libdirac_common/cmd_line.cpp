@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: cmd_line.cpp,v 1.7 2004/11/22 14:05:02 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: cmd_line.cpp,v 1.8 2008/03/14 08:17:36 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -35,6 +35,7 @@
 * or the LGPL.
 * ***** END LICENSE BLOCK ***** */
 
+#include <cstring>
 #include "cmd_line.h"
 using namespace dirac;
 

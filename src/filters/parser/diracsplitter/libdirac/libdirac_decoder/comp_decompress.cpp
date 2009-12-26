@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_decompress.cpp,v 1.28 2007/11/16 04:50:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: comp_decompress.cpp,v 1.32 2009/01/21 05:18:09 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -53,38 +53,28 @@ using namespace dirac;
 using std::vector;
 
 //Constructor
-CompDecompressor::CompDecompressor( DecoderParams& decp, const FrameParams& fp)
+CompDecompressor::CompDecompressor( DecoderParams& decp, const PictureParams& pp)
 :
     m_decparams(decp),
-    m_fparams(fp)
+    m_pparams(pp),
+    m_psort( pp.PicSort() )
 {}
 
 
 void CompDecompressor::Decompress(ComponentByteIO* p_component_byteio,
-                                  PicArray& pic_data )
+                                  CoeffArray& coeff_data,
+                                  SubbandList& bands)
 {
-    const FrameSort& fsort=m_fparams.FSort();
-    const int depth( m_decparams.TransformDepth() );
-
-    // The array holding the coefficients
-    CoeffArray coeff_data( pic_data.LengthY(), pic_data.LengthX() );
-
-    WaveletTransform wtransform( depth , m_decparams.TransformFilter() );
-    SubbandList& bands=wtransform.BandList();
-
-    // Initialise all the subbands
-    bands.Init(depth , coeff_data.LengthX() , coeff_data.LengthY());
 
     // Set up the code blocks
     SetupCodeBlocks( bands );
 
-    for ( int b=bands.Length() ; b>=1 ; --b )
-    {
+    for ( int b=bands.Length() ; b>=1 ; --b ){
         // Multiple quantiser are used only if
         // a. The global code_block_mode is QUANT_MULTIPLE
         //              and
         // b. More than one code block is present in the subband.
-        bands(b).SetUsingMultiQuants( 
+        bands(b).SetUsingMultiQuants(
                            m_decparams.SpatialPartition() &&
                            m_decparams.GetCodeBlockMode() == QUANT_MULTIPLE &&
                            (bands(b).GetCodeBlocks().LengthX() > 1 ||
@@ -94,53 +84,46 @@ void CompDecompressor::Decompress(ComponentByteIO* p_component_byteio,
         // Read the header data first
         SubbandByteIO subband_byteio(bands(b), *p_component_byteio);
         subband_byteio.Input();
-        //std::cout << "Subband Num=" << b << "Arithdata size=" << subband_byteio.GetBandDataLength() << std::endl;
 
-        if ( !bands(b).Skipped() )
-        {
-            if (m_fparams.UsingAC())
-            {
+        if ( !bands(b).Skipped() ){
+            if (m_pparams.UsingAC()){
                 // A pointer to the object(s) we'll be using for coding the bands
                 BandCodec* bdecoder;
-    
-                if ( b>=bands.Length()-3)
-                {
-                    if ( fsort.IsIntra() && b==bands.Length() )
-                        bdecoder=new IntraDCBandCodec(&subband_byteio, 
+
+                if ( b>=bands.Length()-3){
+                    if ( m_psort.IsIntra() && b==bands.Length() )
+                        bdecoder=new IntraDCBandCodec(&subband_byteio,
                                                        TOTAL_COEFF_CTXS ,bands);
                     else
-                        bdecoder=new LFBandCodec(&subband_byteio , TOTAL_COEFF_CTXS,
-                                             bands , b, fsort.IsIntra());
+                        bdecoder=new LFBandCodec(&subband_byteio ,
+                                                 TOTAL_COEFF_CTXS, bands ,
+                                                 b, m_psort.IsIntra());
                 }
                 else
                     bdecoder=new BandCodec( &subband_byteio , TOTAL_COEFF_CTXS ,
-                                            bands , b, fsort.IsIntra());
+                                            bands , b, m_psort.IsIntra());
 
                 bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
                 delete bdecoder;
             }
-            else
-            {
+            else{
                 // A pointer to the object(s) we'll be using for coding the bands
                 BandVLC* bdecoder;
-    
-                   if ( fsort.IsIntra() && b==bands.Length() )
+
+                   if ( m_psort.IsIntra() && b==bands.Length() )
                       bdecoder=new IntraDCBandVLC(&subband_byteio, bands);
                 else
-                    bdecoder=new BandVLC( &subband_byteio , bands ,
-                                          b, fsort.IsIntra());
+                    bdecoder=new BandVLC( &subband_byteio , 0, bands ,
+                                          b, m_psort.IsIntra());
 
                 bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
                 delete bdecoder;
             }
         }
-        else
-        {
+        else{
             SetToVal( coeff_data , bands(b) , 0 );
         }
     }
-    
-    wtransform.Transform(BACKWARD,pic_data, coeff_data);
 }
 
 void CompDecompressor::SetupCodeBlocks( SubbandList& bands )
@@ -168,8 +151,8 @@ void CompDecompressor::SetupCodeBlocks( SubbandList& bands )
     }// band_num
 }
 
-void CompDecompressor::SetToVal( CoeffArray& coeff_data , 
-                                 const Subband& node , 
+void CompDecompressor::SetToVal( CoeffArray& coeff_data ,
+                                 const Subband& node ,
                                  CoeffType val )
 {
 

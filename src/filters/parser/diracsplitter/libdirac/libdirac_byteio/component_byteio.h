@@ -53,7 +53,7 @@
 namespace dirac
 {
     /**
-    * Frame component in Dirac bytestream format
+    * Picture component in Dirac bytestream format
     */
     class ComponentByteIO : public ByteIO
     {
@@ -61,17 +61,17 @@ namespace dirac
 
         /**
         * Constructor
-        *@param cs Frame-component type
+        *@param cs Picture-component type
         *@param byteIO Input/output Byte stream
         */
-        ComponentByteIO(CompSort& cs,
+        ComponentByteIO(CompSort cs,
                         const ByteIO& byteIO);
 
         /**
         * Constructor
-        *@param cs Frame-component type
+        *@param cs Picture-component type
         */
-        ComponentByteIO(CompSort& cs);
+        ComponentByteIO(CompSort cs);
 
        /**
        * Destructor
@@ -96,7 +96,7 @@ namespace dirac
         bool Input();
 
         /**
-        * Outputs frame values to Dirac stream-format
+        * Outputs picture values to Dirac stream-format
         */
         void Output();
 
@@ -108,7 +108,7 @@ namespace dirac
    private:
       
        /**
-       * Frame component type
+       * Picture component type
        */
        CompSort m_compsort;
 

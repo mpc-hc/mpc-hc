@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: video_format_defaults.cpp,v 1.23 2008/01/16 16:09:01 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: video_format_defaults.cpp,v 1.36 2008/10/20 04:21:45 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -42,18 +42,18 @@
 
 using namespace dirac;
 
-namespace dirac 
+namespace dirac
 {
-void SetDefaultCodecParameters(CodecParams &cparams, 
-                               FrameType ftype,
+void SetDefaultCodecParameters(CodecParams &cparams,
+                               PictureType ptype,
                                unsigned int num_refs)
 {
     std::ostringstream errstr;
     // Transform parameters
     cparams.SetZeroTransform(false);
-    cparams.SetTransformDepth(5);
+    cparams.SetTransformDepth(4);
     WltFilter wf;
-    SetDefaultTransformFilter(ftype, wf);
+    SetDefaultTransformFilter(ptype, cparams.GetVideoFormat(), wf);
     cparams.SetTransformFilter(wf);
     cparams.SetCodeBlockMode(QUANT_SINGLE);
     cparams.SetSpatialPartition(false);
@@ -61,7 +61,7 @@ void SetDefaultCodecParameters(CodecParams &cparams,
     // Default is set to progressive specified irrespective
     // of whether the source material is interlaced or progressive.
     // Overridden from command line of encoder or in bytestream for decoder.
-    cparams.SetFieldCoding(false);
+    cparams.SetPictureCodingMode(0);
     cparams.SetTopFieldFirst(true);
     switch (cparams.GetVideoFormat())
     {
@@ -82,6 +82,10 @@ void SetDefaultCodecParameters(CodecParams &cparams,
     case VIDEO_FORMAT_HD_1080P50:
     case VIDEO_FORMAT_DIGI_CINEMA_2K24:
     case VIDEO_FORMAT_DIGI_CINEMA_4K24:
+    case VIDEO_FORMAT_UHDTV_4K60:
+    case VIDEO_FORMAT_UHDTV_4K50:
+    case VIDEO_FORMAT_UHDTV_8K60:
+    case VIDEO_FORMAT_UHDTV_8K50:
         cparams.SetSpatialPartition(true);
         break;
     default:
@@ -90,27 +94,28 @@ void SetDefaultCodecParameters(CodecParams &cparams,
         DIRAC_THROW_EXCEPTION(
             ERR_INVALID_VIDEO_FORMAT,
             errstr.str(),
-            SEVERITY_FRAME_ERROR);
+            SEVERITY_PICTURE_ERROR);
         break;
     }
 
-    if (ftype == INTER_FRAME)
+    if (ptype == INTER_PICTURE)
     {
         ASSERTM (num_refs > 0 && num_refs < 3, "Number of reference frames should be 1 or 2 fo INTER frames" );
         OLBParams bparams;
-        cparams.SetUsingGlobalMotion(false);
+	PicturePredParams& predparams = cparams.GetPicPredParams();
+        predparams.SetUsingGlobalMotion(false);
         SetDefaultBlockParameters(bparams, cparams.GetVideoFormat());
-        cparams.SetLumaBlockParams(bparams);
-        cparams.SetFieldCoding(false);
-        cparams.SetMVPrecision(MV_PRECISION_QUARTER_PIXEL);
+        predparams.SetLumaBlockParams(bparams);
+        predparams.SetMVPrecision(MV_PRECISION_HALF_PIXEL);
         // NOTE: FIXME - need to add global motion params here
-        cparams.SetFrameWeightsPrecision(1);
-        cparams.SetRef1Weight(1);
-        cparams.SetRef2Weight(1);
+        predparams.SetPictureWeightsPrecision(1);
+        predparams.SetRef1Weight(1);
+        predparams.SetRef2Weight(1);
+        cparams.SetPictureCodingMode(0);
     }
 }
 
-void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams) 
+void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
 {
     std::ostringstream errstr;
     sparams.SetVideoFormat(vf);
@@ -122,7 +127,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
     sparams.SetLeftOffset(0);
     sparams.SetTopOffset(0);
     sparams.SetColourSpecification(1);
-    
+
     switch (vf)
     {
     case VIDEO_FORMAT_CUSTOM:
@@ -283,13 +288,57 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetSignalRange(SIGNAL_RANGE_12BIT_VIDEO);
         sparams.SetColourSpecification(4);
         break;
-    default:
+    case VIDEO_FORMAT_UHDTV_4K60:
+    case VIDEO_FORMAT_UHDTV_4K50:
+        sparams.SetXl(3840);
+        sparams.SetYl(2160);
+        sparams.SetCFormat(format422);
+        sparams.SetSourceSampling(0);
+        switch (vf)
+        {
+        case VIDEO_FORMAT_UHDTV_4K60:
+            sparams.SetFrameRate(FRAMERATE_59p94_FPS);
+            break;
+        case VIDEO_FORMAT_UHDTV_4K50:
+            sparams.SetFrameRate(FRAMERATE_50_FPS);
+            break;
+        default:
+            break;
+        }
+        sparams.SetSignalRange(SIGNAL_RANGE_10BIT_VIDEO);
+        sparams.SetCleanWidth(3840);
+        sparams.SetCleanHeight(2160);
+        sparams.SetColourSpecification(3);
+        break;
+    case VIDEO_FORMAT_UHDTV_8K60:
+    case VIDEO_FORMAT_UHDTV_8K50:
+        sparams.SetXl(7680);
+        sparams.SetYl(4320);
+        sparams.SetCFormat(format422);
+        sparams.SetSourceSampling(0);
+        switch (vf)
+        {
+        case VIDEO_FORMAT_UHDTV_8K60:
+            sparams.SetFrameRate(FRAMERATE_59p94_FPS);
+            break;
+        case VIDEO_FORMAT_UHDTV_8K50:
+            sparams.SetFrameRate(FRAMERATE_50_FPS);
+            break;
+        default:
+            break;
+        }
+        sparams.SetSignalRange(SIGNAL_RANGE_10BIT_VIDEO);
+        sparams.SetCleanWidth(7680);
+        sparams.SetCleanHeight(4320);
+        sparams.SetColourSpecification(3);
+        break;
+   default:
         errstr << "Unsupported video format " << sparams.GetVideoFormat()
                << std::endl;
         DIRAC_THROW_EXCEPTION(
             ERR_INVALID_VIDEO_FORMAT,
             errstr.str(),
-            SEVERITY_FRAME_ERROR);
+            SEVERITY_PICTURE_ERROR);
         break;
     }
 }
@@ -297,8 +346,8 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
 void SetDefaultEncoderParameters(EncoderParams& encparams)
 {
     encparams.SetLossless(false);
-    encparams.SetQf(7.0f);
-    encparams.SetMVPrecision(MV_PRECISION_QUARTER_PIXEL);
+    encparams.SetQf(5.5f);
+    encparams.GetPicPredParams().SetMVPrecision(MV_PRECISION_HALF_PIXEL);
     encparams.SetUsingAC(true);
 
     switch (encparams.GetVideoFormat())
@@ -327,7 +376,14 @@ void SetDefaultEncoderParameters(EncoderParams& encparams)
         encparams.SetNumL1(7);
         encparams.SetCPD(32.0f);
         break;
-
+    case VIDEO_FORMAT_UHDTV_4K60:
+    case VIDEO_FORMAT_UHDTV_4K50:
+    case VIDEO_FORMAT_UHDTV_8K60:
+    case VIDEO_FORMAT_UHDTV_8K50:
+        encparams.SetL1Sep(6);
+        encparams.SetNumL1(7);
+        encparams.SetCPD(48.0f);
+        break;
     case VIDEO_FORMAT_CIF:
     default:
         encparams.SetL1Sep(3);
@@ -345,12 +401,6 @@ void SetDefaultBlockParameters(OLBParams& bparams,
     {
     case VIDEO_FORMAT_QCIF:
     case VIDEO_FORMAT_QSIF525:
-        bparams.SetXblen(8);
-        bparams.SetYblen(8);
-        bparams.SetXbsep(4);
-        bparams.SetYbsep(4);
-        break;
-
     case VIDEO_FORMAT_CUSTOM:
     case VIDEO_FORMAT_SIF525:
     case VIDEO_FORMAT_CIF:
@@ -383,7 +433,15 @@ void SetDefaultBlockParameters(OLBParams& bparams,
         bparams.SetXbsep(16);
         bparams.SetYbsep(16);
         break;
-
+    case VIDEO_FORMAT_UHDTV_4K60:
+    case VIDEO_FORMAT_UHDTV_4K50:
+    case VIDEO_FORMAT_UHDTV_8K60:
+    case VIDEO_FORMAT_UHDTV_8K50:
+        bparams.SetXblen(36);
+        bparams.SetYblen(36);
+        bparams.SetXbsep(24);
+        bparams.SetYbsep(24);
+        break;
     default:
         bparams.SetXblen(12);
         bparams.SetYblen(12);
@@ -399,23 +457,23 @@ void SetDefaultBlockParameters(OLBParams& bparams, int pidx)
     {
     case 0: // custom - so undefined values
         return;
-    case 1: 
+    case 1:
         bparams =  OLBParams(8, 8, 4, 4);
         break;
-    case 2: 
+    case 2:
         bparams =  OLBParams(12, 12, 8, 8);
         break;
-    case 3: 
+    case 3:
         bparams =  OLBParams(16, 16, 12, 12);
         break;
-    case 4: 
+    case 4:
         bparams =  OLBParams(24, 24, 16, 16);
         break;
     default:
         DIRAC_THROW_EXCEPTION(
             ERR_UNSUPPORTED_STREAM_DATA,
             "Block params index out of range [0-4]",
-            SEVERITY_FRAME_ERROR);
+            SEVERITY_PICTURE_ERROR);
         break;
     }
 }
@@ -435,15 +493,42 @@ unsigned int BlockParametersIndex (const OLBParams& bparams)
         return 3;
     else if (bparams == bparams_4)
         return 4;
-    else 
+    else
         return 0;
 }
 
-void SetDefaultTransformFilter(FrameType ftype, WltFilter &wf)
+void SetDefaultTransformFilter(const PictureType ptype, const VideoFormat video_format,
+                               WltFilter &wf)
 {
-    if (ftype == INTRA_FRAME)
-        wf = DD9_7;
-    else
-        wf = LEGALL5_3;
+    switch (video_format)
+    {
+    case VIDEO_FORMAT_QCIF:
+    case VIDEO_FORMAT_QSIF525:
+    case VIDEO_FORMAT_CUSTOM:
+    case VIDEO_FORMAT_SIF525:
+    case VIDEO_FORMAT_CIF:
+    case VIDEO_FORMAT_4SIF525:
+    case VIDEO_FORMAT_4CIF:
+    case VIDEO_FORMAT_SD_480I60:
+    case VIDEO_FORMAT_SD_576I50:
+    case VIDEO_FORMAT_HD_720P60:
+    case VIDEO_FORMAT_HD_720P50:
+    case VIDEO_FORMAT_HD_1080I60:
+    case VIDEO_FORMAT_HD_1080I50:
+    case VIDEO_FORMAT_HD_1080P60:
+    case VIDEO_FORMAT_HD_1080P50:
+    case VIDEO_FORMAT_DIGI_CINEMA_2K24:
+    case VIDEO_FORMAT_DIGI_CINEMA_4K24:
+    case VIDEO_FORMAT_UHDTV_4K60:
+    case VIDEO_FORMAT_UHDTV_4K50:
+    case VIDEO_FORMAT_UHDTV_8K60:
+    case VIDEO_FORMAT_UHDTV_8K50:
+    default:
+        if (ptype == INTRA_PICTURE)
+            wf = DD13_7;
+        else
+            wf = DD13_7;
+        break;
+    }
 }
 }

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quality_monitor.h,v 1.14 2007/09/03 11:31:43 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: quality_monitor.h,v 1.19 2008/08/14 02:30:50 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -39,7 +39,7 @@
 #define _QUALITY_MONITOR_H_
 
 #include <libdirac_common/common.h>
-#include <libdirac_common/frame.h>
+#include <libdirac_encoder/enc_picture.h>
 #include <libdirac_common/wavelet_utils.h>
 namespace dirac
 {
@@ -65,13 +65,12 @@ namespace dirac
         //                 and destructor                         //
         ////////////////////////////////////////////////////////////
 
-        //! Update the quality factors, returning true if we need to recode
+        //! Update the mse factors, returning true if we need to recode
         /*!
-            Update the quality factors, returning true if we need to recode
-            \param ld_frame the locally-decoded frame
-            \param orig_frame the original frame
+            Update the mse factors, returning true if we need to recode
+            \param enc_picture the picture being encoded
         */
-        void UpdateModel(const Frame& ld_frame, const Frame& orig_frame );
+        void UpdateModel(const EncPicture& enc_picture );
 
         //! Reset the quality factors (say if there's been a cut)
         void ResetAll();
@@ -87,8 +86,7 @@ namespace dirac
         double QualityVal( const PicArray& coded_data , 
                            const PicArray& orig_data,
                            const int xlen,
-                           const int ylen,
-                           const CompSort cs);
+                           const int ylen);
 
         //member variables//
         ////////////////////
@@ -96,29 +94,29 @@ namespace dirac
         //! A reference to the encoder parameters
         EncoderParams& m_encparams;
 
-        //! The overall average Y quality
-        long double m_totalquality_averageY;
+        //! The overall average Y mse
+        long double m_totalmse_averageY;
 
-        //! The overall average U quality
-        long double m_totalquality_averageU;
+        //! The overall average U mse
+        long double m_totalmse_averageU;
 
-        //! The overall average V quality
-        long double m_totalquality_averageV;
+        //! The overall average V mse
+        long double m_totalmse_averageV;
 
-        //! The total number of frames coded
-        int m_allframe_total;        
+        //! The total number of pictures coded
+        int m_allpicture_total;        
 
-        //! The average Y quality for the frame types
-        OneDArray<long double> m_quality_averageY;
+        //! The average Y mse for the picture types
+        OneDArray<long double> m_mse_averageY;
 
-        //! The average U quality for the frame types
-        OneDArray<long double> m_quality_averageU;
+        //! The average U mse for the picture types
+        OneDArray<long double> m_mse_averageU;
 
-        //! The average V quality for the frame types
-        OneDArray<long double> m_quality_averageV;
+        //! The average V mse for the picture types
+        OneDArray<long double> m_mse_averageV;
 
-        //! The number of frames of each type  
-        OneDArray<int> m_frame_total;
+        //! The number of pictures of each type  
+        OneDArray<int> m_picture_total;
     };
 
 } // namespace dirac

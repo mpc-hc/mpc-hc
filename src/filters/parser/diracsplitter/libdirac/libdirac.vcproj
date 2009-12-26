@@ -289,6 +289,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\bit_manager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_motionest\block_match.cpp"
 				>
 			</File>
@@ -361,27 +365,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_encoder\enc_picture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\enc_queue.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_byteio\endofsequence_byteio.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_common\frame.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_common\frame_buffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_byteio\frame_byteio.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_encoder\frame_compress.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_decoder\frame_decompress.cpp"
 				>
 			</File>
 			<File
@@ -441,7 +433,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\picture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_common\picture_buffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\picture_compress.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_decoder\picture_decompress.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_motionest\pixel_match.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\prefilter.cpp"
 				>
 			</File>
 			<File
@@ -547,7 +559,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\band_codec_template.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_common\band_vlc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_common\bit_manager.h"
 				>
 			</File>
 			<File
@@ -615,6 +635,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\dirac_inttypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_decoder\dirac_parser.h"
 				>
 			</File>
@@ -631,27 +655,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_encoder\enc_picture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\enc_queue.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_byteio\endofsequence_byteio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_common\frame.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_common\frame_buffer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_byteio\frame_byteio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_encoder\frame_compress.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libdirac_decoder\frame_decompress.h"
 				>
 			</File>
 			<File
@@ -711,7 +723,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libdirac_common\picture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_common\picture_buffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_byteio\picture_byteio.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\picture_compress.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_decoder\picture_decompress.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libdirac_motionest\pixel_match.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libdirac_encoder\prefilter.h"
 				>
 			</File>
 			<File

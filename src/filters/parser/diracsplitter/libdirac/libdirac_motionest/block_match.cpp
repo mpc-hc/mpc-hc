@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: block_match.cpp,v 1.19 2007/08/02 14:22:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: block_match.cpp,v 1.21 2008/10/29 02:46:22 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -250,9 +250,6 @@ void BlockMatcher::FindBestMatchPel(const int xpos , const int ypos ,
     //now test against the offsets in the MV list to get the lowest cost//
     //////////////////////////////////////////////////////////////////////     
 
-    // First test the first in each of the lists to choose which lists to pursue
-
-   
     float best_cost = m_cost_array[ypos][xpos].total;
 
     MVector best_mv = m_mv_array[ypos][xpos];
@@ -316,7 +313,7 @@ void BlockMatcher::FindBestMatchSubp( const int xpos, const int ypos,
                                                lambda,
                                                best_costs ,
                                                best_mv);
-        }// 
+        }//
     }// list_num
 
 
@@ -324,7 +321,7 @@ void BlockMatcher::FindBestMatchSubp( const int xpos, const int ypos,
     /////////////////////////////////////
 
      m_mv_array[ypos][xpos] = best_mv;
-     m_cost_array[ypos][xpos] = best_costs;   
+     m_cost_array[ypos][xpos] = best_costs;
 
 }
 void BlockMatcher::RefineMatchSubp(const int xpos, const int ypos,
@@ -335,7 +332,7 @@ void BlockMatcher::RefineMatchSubp(const int xpos, const int ypos,
     BlockDiffParams dparams;
     dparams.SetBlockLimits( m_bparams , m_pic_data , xpos , ypos);
 
-    m_cost_array[ypos][xpos].mvcost = GetVarUp( mv_prediction, 
+    m_cost_array[ypos][xpos].mvcost = GetVarUp( mv_prediction,
                                                 m_mv_array[ypos][xpos]<<m_precision );
     m_cost_array[ypos][xpos].SetTotal( lambda );
 
@@ -356,16 +353,16 @@ void BlockMatcher::RefineMatchSubp(const int xpos, const int ypos,
     pred_costs.mvcost = 0;
     pred_costs.SAD = m_subpeldiff[m_precision-1]->Diff( dparams, mv_prediction);
     pred_costs.total = pred_costs.SAD;
-    
+
     if (pred_costs.SAD<2*dparams.Xl()*dparams.Yl() )
     {
         m_mv_array[ypos][xpos] = mv_prediction;
         m_cost_array[ypos][xpos] = pred_costs;
-        return;   
+        return;
     }
 
-    // Now, let's see if we can do better than this 
- 
+    // Now, let's see if we can do better than this
+
     MvCostData cand_costs;
     MVector cand_mv, old_best_mv;
 

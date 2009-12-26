@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_encoder.h,v 1.19 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_encoder.h,v 1.28 2008/11/18 23:25:54 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -41,6 +41,7 @@
 #ifndef DIRAC_ENCODER_H
 #define DIRAC_ENCODER_H
 
+#include <libdirac_common/dirac_inttypes.h>
 #include <libdirac_common/dirac_types.h>
 
 /*! \file
@@ -62,7 +63,7 @@
 
  // Initialse the encoder context with the presets for SD576 - Standard
  // Definition Digital
- dirac_encoder_context_init (&enc_ctx, SD576);
+ dirac_encoder_context_init (&enc_ctx, VIDEO_FORMAT_SD576I50);
 
  // Override parameters if required
  // interlace : 1 - interlaced; 0 - progressive
@@ -85,9 +86,15 @@
  // Output buffer
 
  dirac_encoder_state_t state;
-
- while (read uncompressed frame data into buffer)
+ int go = 1;
+ do
  {
+    read uncompressed frame data into buffer
+    if (end of file)
+    {
+        // push end of sequence
+        dirac_encoder_end_sequence(encoder);
+    }
     // load one frame of data into encoder
      if (dirac_encoder_load(encoder, buffer, buffer_size) == 0)
     {
@@ -105,6 +112,12 @@
                  // Encoded frame stats available in enccoder->enc_fstats
                  break;
             case ENC_STATE_BUFFER:
+                break;
+            case ENC_STATE_EOS:
+                // Reached end of sequence
+                // End of sequence information is available in encoder->enc_buf
+                // Sequence statistics available in encoder->enc_seqstats;
+                go = 0; // exit from the encoding loop
                 break;
             case ENC_STATE_INVALID:
             default:
@@ -125,13 +138,7 @@
             }
         } while (state == ENC_STATE_AVAIL)
     }
- }
- // Retrieve end of sequence info
- encoder->enc_buf.buffer = video_buf;
- encoder->enc_buf.size = VIDEO_BUFFER_SIZE;
- dirac_encoder_end_sequence( encoder );
- // End of sequence info is availale in encoder->enc_buf
- // Sequence statistics available in encoder->enc_seqstats;
+ } while (go == 1);
 
  // Free the encoder resources
  dirac_encoder_close(encoder)
@@ -150,17 +157,21 @@ typedef enum
 { 
     ENC_STATE_INVALID = -1, 
     ENC_STATE_BUFFER, 
-    ENC_STATE_AVAIL
+    ENC_STATE_AVAIL,
+    ENC_STATE_EOS
 } dirac_encoder_state_t ;
+
+/*! Enumerated type that defines prefiltering types supported by the
+    encoder. */
+typedef PrefilterType dirac_prefilter_t;
 
 /*! Enumerated type that defines encoder presets that set the encoder and
     sequence paramters.  More presets may be added in future*/
 typedef VideoFormat dirac_encoder_presets_t;
 
-/*! Enumerated type that defined motion vector precisions supported by the
-    encoder. More mv precisions may be added in future.*/
+/*! Enumerated type that defines motion vector precisions supported by the
+    encoder.*/
 typedef MVPrecisionType dirac_mvprecision_t;
-
 /*! Structure that holds the encoder specific parameters */
 typedef struct 
 {
@@ -170,6 +181,8 @@ typedef struct
     float qf;
     /*! Full-search motion estimation */
     int full_search;
+    /*! Combined component motion estimation */
+    int combined_me;
     /*! x-range for full search ME */
     int x_range_me;
     /*! y-range for full search ME */
@@ -200,8 +213,10 @@ typedef struct
     unsigned int wlt_depth;
     /*! Spatial partitioning flag */
     unsigned int spatial_partition;
-    /*! Denoising flag */
-    unsigned int denoise;
+    /*! prefilter indicator */
+    dirac_prefilter_t prefilter;
+    /*! prefilter strength*/
+    unsigned int prefilter_strength;
     /*! Multiple quantisers flag */
     unsigned int multi_quants;
     /*! motion-vector pixel precision */
@@ -252,7 +267,7 @@ typedef struct
     int size;
 } dirac_enc_data_t;
 
-/*! Structure that holds the statistics about the encoded frame */
+/*! Structure that holds the statistics about the encoded picture */
 typedef struct
 {
     /*! Number of motion vector bits */
@@ -263,25 +278,25 @@ typedef struct
     unsigned int ucomp_bits;
     /*! Number of  used to encode v component */
     unsigned int vcomp_bits;
-    /*! Total number of bits used to encode frame */
-    unsigned int frame_bits;
-} dirac_enc_framestats_t;
+    /*! Total number of bits used to encode picture */
+    unsigned int pic_bits;
+} dirac_enc_picstats_t;
 
 /*! Structure that holds the statistics about the encoded sequence */
 typedef struct
 {
     /*! Number of motion vector bits */
-    unsigned int mv_bits;
+    int64_t mv_bits;
     /*! Total number of bits used to encode sequence */
-    unsigned int seq_bits;
+    int64_t seq_bits;
     /*! Number of  used to encode y component */
-    unsigned int ycomp_bits;
+    int64_t ycomp_bits;
     /*! Number of  used to encode u component */
-    unsigned int ucomp_bits;
+    int64_t ucomp_bits;
     /*! Number of  used to encode v component */
-    unsigned int vcomp_bits;
+    int64_t vcomp_bits;
     /*! Average bit rate for the sequence */
-    unsigned int bit_rate;
+    int64_t bit_rate;
 } dirac_enc_seqstats_t;
 
 /*! Structure that holds the motion vector information */
@@ -306,31 +321,31 @@ typedef struct
 typedef struct
 {
     /*! Frame type */
-    dirac_frame_type_t ftype;
+    dirac_picture_type_t ptype;
     /*! Reference type */
     dirac_reference_type_t rtype;
-    /*! Frame number */
-    int fnum;
-    /*! Number of reference frames */
+    /*! Picture number */
+    int pnum;
+    /*! Number of reference pictures */
     int num_refs;
-    /*! Array of Reference frame numbers */
+    /*! Array of Reference picture numbers */
     int refs[2];
     /*! Block separation in X direction */
     int xbsep;
     /*! Block separation in Y direction */
     int ybsep;
     /*! MacroBlock length in X direction */
-    int mb_xlen;
+    int sb_xlen;
     /*! MacroBlock length in Y direction */
-    int mb_ylen;
+    int sb_ylen;
     /*! Motion Vector array length in X direction */
     int mv_xlen;
     /*! Motion Vector array length in Y direction */
     int mv_ylen;
-    /*! Macro-block split mode array - mb_ylen*mb_xlen*/
-    int *mb_split_mode;
-    /*! Macro-block costs array - mb_ylen*mb_xlen*/
-    float *mb_costs;
+    /*! Macro-block split mode array - sb_ylen*sb_xlen*/
+    int *sb_split_mode;
+    /*! Macro-block costs array - sb_ylen*sb_xlen*/
+    float *sb_costs;
     /*! Block prediction mode - mv_xlen*mv_ylen */
     int *pred_mode;
     /*! Block intrac costs - mv_xlen*mv_ylen */
@@ -355,8 +370,8 @@ typedef struct
     /*! Encoder context */
     dirac_encoder_context_t enc_ctx;
 
-    /*! encoded frame avail flag */
-    int encoded_frame_avail;
+    /*! encoded picture available flag */
+    int encoded_picture_avail;
 
     /*! 
         encoded output. This buffer must be initialised by the user of the
@@ -364,19 +379,19 @@ typedef struct
     */
     dirac_enc_data_t enc_buf;
 
-    /*! encoded frame params */
-    dirac_frameparams_t enc_fparams;
+    /*! encoded picture params */
+    dirac_picparams_t enc_pparams;
 
-    /*! encoded frame stats */
-    dirac_enc_framestats_t enc_fstats;
+    /*! encoded picture stats */
+    dirac_enc_picstats_t enc_pstats;
 
-    /*! encoded frame stats */
+    /*! encoded sequence stats */
     dirac_enc_seqstats_t enc_seqstats;
 
     /*! end of sequence */
     int end_of_sequence;
 
-    /* locally decoded frame available flag. 
+    /* locally decoded frame (NB: not picture) available flag. 
        1 - locally decoded frame available in dec_buf. 
        0 - locally decoded frame not available.
     */
@@ -388,8 +403,8 @@ typedef struct
     */
     dirac_framebuf_t dec_buf;
 
-    /*! locally decoded frame params */
-    dirac_frameparams_t dec_fparams;
+    /*! locally decoded picture params */
+    dirac_picparams_t dec_pparams;
 
     /*! 
        instrumentation data buffer. This buffer is allocated and managed by 
@@ -414,6 +429,17 @@ typedef struct
 */
 extern DllExport dirac_encoder_t *dirac_encoder_init (const dirac_encoder_context_t *enc_ctx, int verbose);
 
+#if DIRAC_RESEARCH_VERSION_ATLEAST(1,0,2)
+/*!
+    Query the encoder for the reordering depth.
+    \param   encoder    Encoder Handle
+    \return  encoder    The number of pictures a realtime decoder must wait
+                        before outputting the first picture in display order;
+                        or -1 for failure.
+*/
+extern DllExport int dirac_encoder_pts_offset (const dirac_encoder_t *encoder);
+#endif
+
 /*!
     Load uncompressed data into the encoder. Expects one full frame of data
     \param   encoder         Encoder Handle
@@ -429,21 +455,19 @@ extern DllExport int dirac_encoder_load (dirac_encoder_t *encoder, unsigned char
     Retrieve an encoded frame from the encoder. Returns the state of the
     encoder. The encoder buffer enc_buf in the encodermust be
     set up with the buffer and buffer_size that will hold the encoded frame
-    \param   encoder         Encoder Handle
-    \return                  ENC_STATE_INVALID - unrecoverable error
-                             ENC_STATE_BUFFER - load data into encoder
-                             ENC_STATE_AVAIL - Encoded frame available
+    \param   encoder    Encoder Handle
+    \return             ENC_STATE_INVALID - unrecoverable error
+                        ENC_STATE_BUFFER  - load data into encoder
+                        ENC_STATE_AVAIL   - Encoded frame available
+                        ENC_STATE_EOS     - End of Sequence info available
 */
 extern DllExport dirac_encoder_state_t dirac_encoder_output (dirac_encoder_t *encoder);
 
 /*!
-    Retrieve end of sequence information from the encoder. The encoder buffer,
-    enc_buf, in the encodermust be set up with the buffer and 
-    buffer_size that will hold the end of sequence information.
+    Request the encoder to end the sequence.  
     \param   encoder         Encoder Handle
-    \return                  return status. >=0 - successful; -1 failed
 */
-extern DllExport int dirac_encoder_end_sequence (dirac_encoder_t *encoder);
+extern DllExport void dirac_encoder_end_sequence (dirac_encoder_t *encoder);
 
 /*!
     Free resources held by encoder

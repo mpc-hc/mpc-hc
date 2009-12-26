@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_cppparser.cpp,v 1.9 2007/11/16 04:50:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_cppparser.cpp,v 1.13 2008/05/02 06:05:04 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -39,19 +39,19 @@
 #include <sstream>
 #include <cstdio>
 #include <cstring>
-#include <libdirac_common/dirac_assertions.h> 
+#include <libdirac_common/dirac_assertions.h>
 #include <libdirac_decoder/dirac_cppparser.h>
 #include <libdirac_decoder/seq_decompress.h>
-#include <libdirac_common/frame.h> 
+#include <libdirac_common/picture.h>
 #include <libdirac_byteio/parseunit_byteio.h>
-#include <sstream> 
+#include <sstream>
 using namespace dirac;
 
 
 InputStreamBuffer::InputStreamBuffer()
 {
     m_chunk_buffer = new char[m_buffer_size];
-    
+
     setg (m_chunk_buffer,  //beginning of read area
           m_chunk_buffer,  //read position
           m_chunk_buffer); //end position
@@ -86,7 +86,7 @@ std::ios::pos_type InputStreamBuffer::Seek(std::ios::pos_type bytes, std::ios::s
     if (new_pos > egptr() || new_pos < eback())
         return -1;
 
-    setg(eback(), //start of read 
+    setg(eback(), //start of read
         new_pos, //current read position
         egptr()); //end of stream positon
 
@@ -95,7 +95,7 @@ std::ios::pos_type InputStreamBuffer::Seek(std::ios::pos_type bytes, std::ios::s
 
 void InputStreamBuffer::Copy(char *start, int bytes)
 {
-    //std::cerr << "eback=" << m_chunk_buffer - eback() 
+    //std::cerr << "eback=" << m_chunk_buffer - eback()
      //         << "gptr=" << gptr() -m_chunk_buffer
       //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
@@ -108,21 +108,21 @@ void InputStreamBuffer::Copy(char *start, int bytes)
         delete [] m_chunk_buffer;
         m_chunk_buffer = temp;
     }
-    //std::cerr << "eback=" << m_chunk_buffer - eback() 
+    //std::cerr << "eback=" << m_chunk_buffer - eback()
      //         << "gptr=" << gptr() -m_chunk_buffer
       //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
     memcpy (egptr(), start, bytes);
     setg(m_chunk_buffer, gptr(), egptr()+bytes);
 
-    //std::cerr << "eback=" << m_chunk_buffer - eback() 
+    //std::cerr << "eback=" << m_chunk_buffer - eback()
      //         << "gptr=" << gptr() -m_chunk_buffer
       //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 }
 
 void InputStreamBuffer::PurgeProcessedData()
 {
-    //std::cerr << "eback=" << m_chunk_buffer - eback() 
+    //std::cerr << "eback=" << m_chunk_buffer - eback()
      //         << "gptr=" << gptr() -m_chunk_buffer
       //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
@@ -131,7 +131,7 @@ void InputStreamBuffer::PurgeProcessedData()
         memmove (m_chunk_buffer, gptr(), egptr() - gptr());
         setg(m_chunk_buffer, m_chunk_buffer, m_chunk_buffer+(egptr() - gptr()));
     }
-    //std::cerr << "eback=" << m_chunk_buffer - eback() 
+    //std::cerr << "eback=" << m_chunk_buffer - eback()
      //         << "gptr=" << gptr() -m_chunk_buffer
       //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 }
@@ -142,16 +142,14 @@ InputStreamBuffer::~InputStreamBuffer()
 }
 
 
-DiracParser::DiracParser(bool verbose) : 
-    m_state(STATE_BUFFER), 
-    m_next_state(STATE_SEQUENCE), 
-    m_show_fnum(-1), 
-    m_decomp(0), 
-    m_skip(false), 
-    m_skip_type(FrameSort::IntraNonRefFrameSort()), 
+DiracParser::DiracParser(bool verbose) :
+    m_state(STATE_BUFFER),
+    m_next_state(STATE_SEQUENCE),
+    m_show_pnum(-1),
+    m_decomp(0),
     m_verbose(verbose)
 {
- 
+
 
 
 }
@@ -180,20 +178,20 @@ DecoderState DiracParser::Parse()
             if (!m_decomp)
                 return STATE_BUFFER;
 
-            // look to see if all frames have been processed
+            // look to see if all pictures have been processed
             if(m_decomp->Finished())
             {
                 // if so....delete
                 delete m_decomp;
                 m_decomp=NULL;
                 m_next_state = STATE_BUFFER;
+                return STATE_SEQUENCE_END;
             }
             else
-                // otherwise....get remaining frames from buffer
-                pu_type = PU_CORE_FRAME;
-            
+                // otherwise....get remaining pictures from buffer
+                pu_type = PU_CORE_PICTURE;
         }
-        
+
         // get next parse unit from stream
         if(m_next_state!=STATE_SEQUENCE_END)
         {
@@ -217,41 +215,43 @@ DecoderState DiracParser::Parse()
             m_decomp->NewAccessUnit(*p_parse_unit);
             break;
 
-        case PU_CORE_FRAME:
+        case PU_CORE_PICTURE:
             {
                if (!m_decomp)
                    continue;
-                
-               Frame &my_frame = m_decomp->DecompressNextFrame(p_parse_unit,
-                                                                    m_skip); 
-                
-                int framenum_decoded = my_frame.GetFparams().FrameNum();
-                if (framenum_decoded != m_show_fnum)
+
+               const Picture *my_picture = m_decomp->DecompressNextPicture(p_parse_unit);
+                if (my_picture)
                 {
-                    m_show_fnum = my_frame.GetFparams().FrameNum();
-                    if (m_verbose)
+                    int picturenum_decoded = my_picture->GetPparams().PictureNum();
+                    if (picturenum_decoded != m_show_pnum)
                     {
-                        std::cout << std::endl << "Frame " << m_show_fnum << " available";
+                        m_show_pnum = my_picture->GetPparams().PictureNum();
+                        if (m_verbose)
+                        {
+                            std::cout << std::endl;
+                            std::cout << "Picture ";
+                            std::cout<< m_show_pnum << " available";
+                        }
+                        m_state = STATE_PICTURE_AVAIL;
+                        return m_state;
                     }
-                    m_state = STATE_PICTURE_AVAIL;
-                    return m_state;
                 }
-                else
             break;
             }
         case PU_END_OF_SEQUENCE:
             m_next_state = STATE_SEQUENCE_END;
             break;
-        
+
         case PU_AUXILIARY_DATA:
         case PU_PADDING_DATA:
             if (m_verbose)
                 std::cerr << "Ignoring Auxiliary/Padding data" << std::endl;
             // Ignore auxiliary and padding data and continue parsing
             break;
-        case PU_LOW_DELAY_FRAME:
+        case PU_LOW_DELAY_PICTURE:
             if (m_verbose)
-                std::cerr << "Low delay frame decoding not yet supported" << std::endl;
+                std::cerr << "Low delay picture decoding not yet supported" << std::endl;
             return STATE_INVALID;
 
         default:
@@ -276,63 +276,12 @@ const ParseParams& DiracParser::GetParseParams() const
     return m_decomp->GetParseParams();
 }
 
-const FrameParams& DiracParser::GetNextFrameParams() const
+const PictureParams* DiracParser::GetNextPictureParams() const
 {
-    return m_decomp->GetNextFrameParams();
+    return m_decomp->GetNextPictureParams();
 }
 
-const Frame& DiracParser::GetNextFrame() const
+const Picture* DiracParser::GetNextPicture() const
 {
-    return m_decomp->GetNextFrame();
+    return m_decomp->GetNextPicture();
 }
-
-
-// NOTE - FIXME - Temporarily comment out skip
-void DiracParser::SetSkip(bool skip)
-{
-    if (!skip)
-        return;
-    /***
-    const FrameParams& fparams = m_decomp->GetNextFrameParams();
-    // FIXME: need to change this logic once bitstream is finalised. so that
-    // we skip to next RAP when an L1 frame is skipped
-    if (skip == false)
-    {
-        if (m_skip_type.IsNonRef())
-            m_skip = false;
-
-        else if (m_skip_type.IsRef() )
-        {
-            if (fparams.FSort().IsNonRef() || fparams.FSort().IsInterRef())
-                m_skip = true;
-            else
-            {
-                m_skip_type.SetInterNonRef();
-                m_skip = false;
-            }
-        }
-    }
-    else
-    {
-        m_skip = true;
-        if (m_skip_type.IsRef() != fparams.FSort().IsRef() ||
-            m_skip_type.IsIntra() != fparams.FSort().IsIntra())
-        {
-            if (!fparams.FSort().IsNonRef())
-            {
-                if (fparams.FSort().IsInter())
-                {
-                    m_skip_type.SetInterRef();
-                }
-                else
-                {
-                    m_skip_type.SetIntraRef();
-                }
-            }
-        }
-    }
-    ***/
-}
-
-
-

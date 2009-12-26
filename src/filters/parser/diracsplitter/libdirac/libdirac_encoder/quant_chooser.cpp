@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quant_chooser.cpp,v 1.14 2008/01/16 16:11:17 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: quant_chooser.cpp,v 1.20 2009/01/21 05:22:05 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -127,29 +127,21 @@ int QuantChooser::GetBestQuant( Subband& node )
 
     bit_sum = m_costs[m_min_idx].ENTROPY * node.Xl() * node.Yl();
 
-    node.SetQIndex( m_min_idx );
+    node.SetQuantIndex( m_min_idx );
 
     TwoDArray<CodeBlock>& block_list( node.GetCodeBlocks() );
 
     // Set the codeblock quantisers
     for (int j=0 ; j<block_list.LengthY() ; ++j )
-    {
         for (int i=0 ; i<block_list.LengthX() ; ++i )
-        {
-            block_list[j][i].SetQIndex( m_min_idx );
-        }// i
-    }// j        
-        
+            block_list[j][i].SetQuantIndex( m_min_idx );
+
     // Set the codeblock skip flags
     for (int j=0 ; j<block_list.LengthY() ; ++j )
-    {
         for (int i=0 ; i<block_list.LengthX() ; ++i )
-        {
             SetSkip( block_list[j][i], m_min_idx );
-        }// i
-    }// j        
-        
-        
+
+
     return static_cast<int>( bit_sum );
 
 }
@@ -357,13 +349,13 @@ void QuantChooser::SetSkip( CodeBlock& cblock , const int qidx)
 
 CoeffType QuantChooser::BlockAbsMax( const Subband& node )
 {
-    CoeffType val( 0 );
+    int val( 0 );
 
     for (int j=node.Yp() ; j<node.Yp()+node.Yl(); ++j)
     {
         for (int i=node.Xp() ; i<node.Xp()+node.Xl(); ++i)
         {    
-            val = std::max( val , m_coeff_data[j][i] );    
+            val = std::max( val , std::abs(m_coeff_data[j][i]) );
         }// i
     }// j
 

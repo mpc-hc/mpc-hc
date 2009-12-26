@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: me_mode_decn.h,v 1.12 2007/03/19 16:19:00 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: me_mode_decn.h,v 1.18 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -43,27 +43,27 @@
 
 namespace dirac
 {
-    class FrameBuffer;
+    class EncQueue;
 
-    //! Decides between macroblock and block prediction modes.
+    //! Decides between superblock and block prediction modes.
     /*!
-        Loops over all the macroblocks and decides on the best modes. A
-        macroblock is a square of 16 blocks. There are three possible
+        Loops over all the superblocks and decides on the best modes. A
+        superblock is a square of 16 blocks. There are three possible
         splitting levels: 
-            level 0 means the macroblock is considered as a single block; 
-            level 1 means the macroblock is considered as 4 larger blocks,
-            termed sub-macroblocks; 
-           level 0 means the macroblock is split right down to blocks. 
+            level 0 means the superblock is considered as a single block; 
+            level 1 means the superblock is considered as 4 larger blocks,
+            termed sub-superblocks; 
+           level 0 means the superblock is split right down to blocks. 
 
         In deciding which modes
         to adopt, the ModeDecider object calculates costs for all
         permutations, doing motion estimation for the level 1 and level 0
         modes as these have not been calculated before.
-        The process of decision for each is as follows. For each MB, we loop
+        The process of decision for each is as follows. For each SB, we loop
         over the levels, and call DoLevelDecn. DoLevelDecn does motion
         estimation if it's necessary. Then it assumes that we don't have a
         common block mode and calls DoUnitDecn which finds the best mode for
-        each unit in the MB at that level, individually. When we've got a
+        each unit in the SB at that level, individually. When we've got a
         best cost for that level we go up to the next one.
      */
     class ModeDecider
@@ -72,44 +72,42 @@ namespace dirac
     public:
         //! Constructor
         /*!
-            The constructor creates arrays for handling the motion vector data 
+            The constructor creates arrays for handling the motion vector data
             at splitting levels 0 and 1, as motion
             estimation must be performed for these levels.
          */
-        ModeDecider(const EncoderParams& encp );    
+        ModeDecider(const EncoderParams& encp );
 
         //! Destructor
         /*!
             The destructor destroys the classes created in the constructor
-         */    
+         */
         ~ModeDecider();
 
         //! Does the actual mode decision
         /*!
             Does the mode decision
             \param    my_buffer    the buffer of all the relevant frames
-            \param    frame_num    the frame number for which motion estimation is being done
-            \param    me_data    the motion vector data into which decisions will be written
+            \param    pic_num    the picture number for which motion estimation is being done
          */
-        void DoModeDecn( const FrameBuffer& my_buffer , int frame_num , MEData& me_data);
+        void DoModeDecn( EncQueue& my_buffer , int pic_num );
 
     private:
         ModeDecider( const ModeDecider& cpy );//private, body-less copy constructor: this class should not be copied
         ModeDecider& operator=( const ModeDecider& rhs );//private, body-less assignment=: this class should not be assigned
 
          //functions
-        void DoMBDecn();    //called by do_mode_decn for each MB
+        void DoSBDecn();    //called by do_mode_decn for each SB
 
         //! Make a mode decision given a particular level of decomposition
         void DoLevelDecn( int level );
 
-        //! Decide on a mode for a given prediction unit (block, sub-MB or MB)
+        //! Decide on a mode for a given prediction unit (block, sub-SB or SB)
         float DoUnitDecn( const int xpos , const int ypos , const int level );
 
         //! Do motion estimation for a prediction unit at a given level
         void DoME( const int xpos , const int ypos , const int level );
 
-     
         //! Return a measure of the cost of coding a given mode
         float ModeCost( const int xindex , const int yindex );
 
@@ -119,20 +117,33 @@ namespace dirac
         //! Get a measure of DC value variance
         float GetDCVar( const ValueType dc_val , const ValueType dc_pred);
 
-         // Member data
-        FrameSort fsort;
+        //! Go through all the intra blocks and extract the chroma dc values to be coded
+        void SetDC( EncQueue& my_buffer, int pic_num);
 
-        //! A local reference to the encoder params
-        const EncoderParams& m_encparams;
+        //! Called by previous fn for each component
+        void SetDC(const PicArray& pic_data, MEData& me_data,CompSort cs);
+
+        //! Called by previous fn for each block
+        ValueType GetBlockDC(const PicArray& pic_data, int xloc,int yloc,int split, CompSort cs);
+
+
+         // Member data
+        PictureSort m_psort;
+
+        //! A local reference to the encoder parameters
+	const EncoderParams& m_encparams;
+
+        //! A local pointer to the picture prediction params
+        const PicturePredParams* m_predparams;
 
         //! The Lagrangian parameter for motion estimation
         float m_lambda;
 
-        //! Correction factor for comparing SAD costs for different MB splittings
+        //! Correction factor for comparing SAD costs for different SB splittings
         OneDArray<float> m_level_factor;
 
 
-        //! Correction factor for comparing mode costs for different MB splittings
+        //! Correction factor for comparing mode costs for different SB splittings
         OneDArray<float> m_mode_factor;
 
         //! Motion vector data for each level of splitting
@@ -147,7 +158,7 @@ namespace dirac
         BiBlockDiff* m_bicheckdiff;
 
         //position variables, used in all the mode decisions
-        int m_xmb_loc,m_ymb_loc;    //coords of the current MB
+        int m_xsb_loc,m_ysb_loc;    //coords of the current SB
 
     };
 

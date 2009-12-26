@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: byteio.cpp,v 1.3 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: byteio.cpp,v 1.4 2008/03/14 08:17:36 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -258,17 +258,18 @@ int ByteIO::WriteNBits(unsigned int val)
     return nbits;
 }
 
-void ByteIO::WriteSint(const int val)
+void ByteIO::WriteSint(int val)
 {
+    unsigned int value = (val >= 0 ? val : -val);
     //output magnitude
-    WriteUint(abs(val));
+    WriteUint(value);
 
     //do sign
     if (val<0) WriteBit(1);
     else if (val>0) WriteBit(0);
 }
 
-void ByteIO::WriteUint(const unsigned int& value)
+void ByteIO::WriteUint(unsigned int value)
 {
     unsigned int val = value+1;
 

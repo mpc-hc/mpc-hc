@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mv_codec.h,v 1.22 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: mv_codec.h,v 1.25 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -76,8 +76,8 @@ namespace dirac
     
     private:
 
-        // Position of current MB
-        int m_mb_xp, m_mb_yp;
+        // Position of current SB
+        int m_sb_xp, m_sb_yp;
 
     private:
 
@@ -88,11 +88,11 @@ namespace dirac
         SplitModeCodec& operator=(const SplitModeCodec& rhs);
 
         // coding functions   
-        // Code the MB splitting mode
+        // Code the SB splitting mode
         void CodeVal(const MvData& in_data);
 
         // decoding functions
-        // Decode the MB splitting mode
+        // Decode the SB splitting mode
         void DecodeVal( MvData& out_data);
 
         void DoWorkCode( MvData& in_data );
@@ -120,32 +120,33 @@ namespace dirac
             Creates a MvDataCodec object to encode MV data, based on parameters
             \param    p_byteio   Input/output for the encoded bits
             \param    number_of_contexts the number of contexts used
-         */    
-        PredModeCodec(ByteIO* p_byteio, size_t number_of_contexts);
+            \param    num_refs   Number of references
+         */
+        PredModeCodec(ByteIO* p_byteio, size_t number_of_contexts, const int num_refs);
 
-       
-
-        //! Initialises the contexts    
+        //! Initialises the contexts
         void InitContexts();
-    
+
     private:
 
         // Position of current block
         int m_b_xp, m_b_yp;
-        // Position of current MB
-        int m_mb_xp, m_mb_yp;
-        // Position of top-left block of current MB
-        int m_mb_tlb_x, m_mb_tlb_y;
+        // Position of current SB
+        int m_sb_xp, m_sb_yp;
+        // Position of top-left block of current SB
+        int m_sb_tlb_x, m_sb_tlb_y;
+        // Number of reference pictures
+	int m_num_refs;
 
     private:
 
-        // functions   
+        // functions
         //! Private, bodyless copy constructor: class should not be copied
         PredModeCodec(const PredModeCodec& cpy);
         //! Private, bodyless copy operator=: class should not be assigned
         PredModeCodec& operator=(const PredModeCodec& rhs);
 
-        // coding functions   
+        // coding functions
         // Code the block prediction mode
         void CodeVal(const MvData& in_data);
 
@@ -156,12 +157,11 @@ namespace dirac
         void DoWorkCode( MvData& in_data );
         void DoWorkDecode(MvData& out_data);
 
-        // Context stuff   
+        // Context stuff
         void ResetAll();
 
         //prediction stuff
-        unsigned int Prediction(const TwoDArray<PredMode>& preddata,
-                                const unsigned int num_refs) const;
+        unsigned int Prediction(const TwoDArray<PredMode>& preddata) const;
 
     };
 
@@ -195,11 +195,11 @@ namespace dirac
         // Position of current block
         int m_b_xp, m_b_yp;
 
-        // Position of current MB
-        int m_mb_xp, m_mb_yp;
+        // Position of current SB
+        int m_sb_xp, m_sb_yp;
 
-        // Position of top-left block of current MB
-        int m_mb_tlb_x, m_mb_tlb_y;
+        // Position of top-left block of current SB
+        int m_sb_tlb_x, m_sb_tlb_y;
         
         // The identity of the reference (1 or 2)
         const int m_ref;
@@ -262,10 +262,10 @@ namespace dirac
         const CompSort m_csort;
         // Position of current block
         int m_b_xp, m_b_yp;
-        // Position of current MB
-        int m_mb_xp, m_mb_yp;
-        // Position of top-left block of current MB
-        int m_mb_tlb_x, m_mb_tlb_y;
+        // Position of current SB
+        int m_sb_xp, m_sb_yp;
+        // Position of top-left block of current SB
+        int m_sb_tlb_x, m_sb_tlb_y;
 
     private:
 

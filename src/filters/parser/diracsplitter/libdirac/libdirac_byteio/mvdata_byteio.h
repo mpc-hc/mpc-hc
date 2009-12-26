@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdata_byteio.h,v 1.2 2007/04/11 08:08:49 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: mvdata_byteio.h,v 1.5 2008/09/10 12:28:46 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -53,7 +53,6 @@
 
 namespace dirac
 {
-             
     /**
     * Represents compressed sequence-parameter data used in an AccessUnit
     */
@@ -63,20 +62,20 @@ namespace dirac
 
         /**
         * Constructor
-        *@param fparams    Frame Params
-        *@param c_params   Codec parameters
+        *@param pparams         Picture Params
+        *@param picpredparams   Picture prediction parameters
         */
-        MvDataByteIO(FrameParams& fparams,
-                        CodecParams& c_params);
+        MvDataByteIO(PictureParams& pparams,
+                        PicturePredParams& picpredparams);
 
         /**
         * Constructor
-        *@param byte_io    Input/Output Byte stream
-        *@param fparams    Frame Params
-        *@param c_params   Codec parameters
+        *@param byte_io         Input/Output Byte stream
+        *@param pparams         Picture Params
+        *@param picpredparams   Picture prediction parameters
         */
-        MvDataByteIO(ByteIO &byte_io, FrameParams& fparams,
-                        CodecParams& c_params);
+        MvDataByteIO(ByteIO &byte_io, PictureParams& pparams,
+                        PicturePredParams& picpredparams);
 
         /**
         * Destructor
@@ -109,7 +108,7 @@ namespace dirac
         * Return pointer to the superblock splitting modes ByteIO stream
         */
         MvDataElementByteIO*  SplitModeData() { return &m_splitmode_data; };
-        
+
         /**
         * Return pointer to the superblock splitting modes ByteIO stream
         */
@@ -119,7 +118,7 @@ namespace dirac
         * Return pointer to the block MVs reference 1 ByteIO stream
         */
         MvDataElementByteIO*  MV1HorizData() { return &m_mv1hblock_data; };
-        
+
         /**
         * Return pointer to the block MVs reference 1 ByteIO stream
         */
@@ -129,34 +128,34 @@ namespace dirac
         * Return pointer to the block MV reference 2 ByteIO stream
         */
         MvDataElementByteIO*  MV2HorizData() { return &m_mv2hblock_data; };
-                
+
         /**
         * Return pointer to the block MV reference 2 ByteIO stream
         */
         MvDataElementByteIO*  MV2VertData() { return &m_mv2vblock_data; };
-        
+
         /**
         * Return pointer to the block Y DC values ByteIO stream
         */
-        MvDataElementByteIO*  YDCData() { return &m_ydcblock_data; }; 
-        
+        MvDataElementByteIO*  YDCData() { return &m_ydcblock_data; };
+
         /**
         * Return pointer to the block U DC values ByteIO stream
         */
-        MvDataElementByteIO*  UDCData() { return &m_udcblock_data; }; 
-        
+        MvDataElementByteIO*  UDCData() { return &m_udcblock_data; };
+
         /**
         * Return pointer to the block V DC values ByteIO stream
         */
-        MvDataElementByteIO*  VDCData() { return &m_vdcblock_data; }; 
+        MvDataElementByteIO*  VDCData() { return &m_vdcblock_data; };
 
         /**
-        * Return the size 
+        * Return the size
         */
         int GetSize() const;
 
     protected:
-    
+
 
     private:
         /**
@@ -175,14 +174,14 @@ namespace dirac
         void InputGlobalMotionParams();
 
         /**
-        * Inputs frame prediction mode
+        * Inputs picture prediction mode
         */
         void InputFramePredictionMode();
 
         /**
-        * Inputs Frame Weights
+        * Inputs Picture Weights
         */
-        void InputFrameWeights();
+        void InputPictureWeights();
 
         /**
         * Outputs block parameters
@@ -200,70 +199,65 @@ namespace dirac
         void OutputGlobalMotionParams();
 
         /**
-        * Outputs frame prediction mode
+        * Outputs picture prediction mode
         */
         void OutputFramePredictionMode();
 
         /**
-        * Outputs Frame Weights
+        * Outputs Picture Weights
         */
-        void OutputFrameWeights();
+        void OutputPictureWeights();
 
         /**
         * Sequence paramters for intput/output
         */
-        FrameParams&   m_fparams;
+        PictureParams&   m_pparams;
 
         /**
         * Codec params - EncParams for Output and DecParams for input
         */
-        CodecParams& m_cparams;
-        
-        /**
-        * Default Codec params - EncParams for Output and DecParams for input
-        */
-        const CodecParams m_default_cparams;
+        PicturePredParams& m_picpredparams;
 
         /**
         * block data containing split modes
         */
         MvDataElementByteIO m_splitmode_data;
-        
+
         /**
         * block data containing prediction modes
         */
         MvDataElementByteIO m_predmode_data;
-        
+
         /**
         * block data containing horizontal MV components for reference 1
         */
         MvDataElementByteIO m_mv1hblock_data;
-        
+
         /**
         * block data containing vertical MV components for reference 1
         */
         MvDataElementByteIO m_mv1vblock_data;
-        
+
         /**
         * block data containing horizontal MV components for reference 2
         */
         MvDataElementByteIO m_mv2hblock_data;
-        
+
         /**
         * block data containing vertical MV components for reference 2
         */
         MvDataElementByteIO m_mv2vblock_data;
-                
+
         /**
         * block data containing Y DC data
         */
         MvDataElementByteIO m_ydcblock_data;
-        
+
         /**
         * block data containing U DC data
         */
         MvDataElementByteIO m_udcblock_data;
-        
+
         /**
         * block data containing V DC data
         */

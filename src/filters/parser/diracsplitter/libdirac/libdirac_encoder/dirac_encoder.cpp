@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_encoder.cpp,v 1.39 2008/01/15 04:36:24 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_encoder.cpp,v 1.57 2008/11/18 23:25:54 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -45,7 +45,7 @@
 #include <string>
 #include <libdirac_common/dirac_assertions.h>
 #include <libdirac_common/common.h>
-#include <libdirac_common/frame.h>
+#include <libdirac_common/picture.h>
 #include <libdirac_common/pic_io.h>
 #include <libdirac_encoder/dirac_encoder.h>
 #include <libdirac_encoder/seq_compress.h>
@@ -128,11 +128,11 @@ void copy_mv_cost (const TwoDArray<MvCostData> &pc, dirac_mv_cost_t *dpc)
 */
 void alloc_instr_data(dirac_instr_t *instr)
 {
-    instr->mb_split_mode = new int [instr->mb_ylen*instr->mb_xlen];
-    memset (instr->mb_split_mode, 0, sizeof(int)*instr->mb_ylen*instr->mb_xlen);
+    instr->sb_split_mode = new int [instr->sb_ylen*instr->sb_xlen];
+    memset (instr->sb_split_mode, 0, sizeof(int)*instr->sb_ylen*instr->sb_xlen);
 
-    instr->mb_costs = new float [instr->mb_ylen*instr->mb_xlen];
-    memset (instr->mb_costs, 0, sizeof(float)*instr->mb_ylen*instr->mb_xlen);
+    instr->sb_costs = new float [instr->sb_ylen*instr->sb_xlen];
+    memset (instr->sb_costs, 0, sizeof(float)*instr->sb_ylen*instr->sb_xlen);
 
     instr->pred_mode = new int [instr->mv_ylen * instr->mv_xlen];
     memset (instr->pred_mode, 0, sizeof(int)*instr->mv_ylen*instr->mv_xlen);
@@ -172,11 +172,11 @@ void alloc_instr_data(dirac_instr_t *instr)
 */
 void dealloc_instr_data(dirac_instr_t *instr)
 {
-    if (instr->mb_split_mode)
-        delete [] instr->mb_split_mode;
+    if (instr->sb_split_mode)
+        delete [] instr->sb_split_mode;
 
-    if (instr->mb_costs)
-        delete [] instr->mb_costs;
+    if (instr->sb_costs)
+        delete [] instr->sb_costs;
 
     if (instr->pred_mode)
         delete [] instr->pred_mode;
@@ -246,6 +246,15 @@ public:
     // Return the source parameters
     const SourceParams& GetSrcParams() const { return m_srcparams; }
 
+    // Return the pts offset
+    int GetPTSOffset() const { return m_seqcomp->PTSOffset(); }
+
+    // Signal End of Sequence
+    void SignalEOS() { m_eos_signalled = true; m_seqcomp->SignalEOS(); }
+
+    //  End of Sequence
+    bool EOS() { return m_eos_signalled == true; }
+
 private:
 
     // Set the encoder parameters
@@ -254,8 +263,8 @@ private:
     // Set the source parameters
     void SetSourceParams (const dirac_encoder_context_t *enc_ctx);
 
-    // Get the frame statistics
-    void GetFrameStats(dirac_encoder_t *encoder);
+    // Get the picture statistics
+    void GetPictureStats(dirac_encoder_t *encoder);
 
     // Get the seuqence statistics
     void GetSequenceStats(dirac_encoder_t *encoder,
@@ -263,38 +272,38 @@ private:
 
 private:
     // sequence compressor
-    SequenceCompressor *m_comp;
+    SequenceCompressor *m_seqcomp;
     // Source parameters
     SourceParams m_srcparams;
     // encoder parameters
     EncoderParams m_encparams;
-    // locally encoded frame in coded order
-    const Frame *m_enc_frame;
+    // locally encoded picture in coded order
+    const EncPicture *m_enc_picture;
     // locally encoded frame ME data
     const MEData *m_enc_medata;
-    // locally decoded frame number in display order
-    int m_decfnum;
-    //locally decoded frame type
-    FrameSort m_decfsort;
-    // locally decoded frame number in display order
-    int m_show_fnum;
+    // locally decoded picture number in display order
+    int m_decpnum;
+    //locally decoded picture type
+    PictureSort m_decpsort;
+    // locally decoded picture number in display order
+    int m_show_pnum;
     // total number of frames/fields loaded so far
     int m_num_loaded_pictures;
     // total number of frames/fields encoded so far
     int m_num_coded_pictures;
     // verbose flag
     bool m_verbose;
-    // input stream for uncompressed input frame
+    // input stream for uncompressed input pictures
     MemoryStreamInput *m_inp_ptr;
-    // output stream for locally decoded frame
+    // output stream for locally decoded pictures
     MemoryStreamOutput *m_out_ptr;
     // buffer to hold locally decoded frame. Set by SetDecodeBuffer
     unsigned char *m_dec_buf;
     // size of buffer to hold locally decoded data. Set by SetDecodeBuffer
     int m_dec_bufsize;
-    // Flag that determines if locally decoded frames are to be returned. Set
+    // Flag that determines if locally decoded pictures are to be returned. Set
     // in Constructor
-    bool m_return_decoded_frames;
+    bool m_return_decoded_pictures;
     // Flag that determines if instrumentation data is to be returned. Set
     // in Constructor
     bool m_return_instr_data;
@@ -309,11 +318,15 @@ private:
     // Total Number GOPs in the input sequence
     int m_gop_count;
 
-    // To count the number of frame for calculating the GOP bit rate
-    int m_frame_count;
+    // To count the number of pictures for calculating the GOP bit rate
+    int m_picture_count;
 
     // field 1 stats if interlaced
-    dirac_enc_framestats_t m_field1_stats;
+    dirac_enc_picstats_t m_field1_stats;
+
+    // End of sequence flag. Set to true when user app signals end of
+    // sequence
+    bool m_eos_signalled;
 
 };
 
@@ -328,19 +341,19 @@ void DiracEncoder::GetInstrumentationData (dirac_encoder_t *encoder)
     dirac_instr_t *instr = &encoder->instr;
     dirac_instr_t old_instr = *instr;
 
-    if (!m_return_instr_data)
+    if (!m_return_instr_data || m_enc_picture == NULL)
         return;
 
-    const FrameParams& fparams = m_enc_frame->GetFparams();
-    const FrameSort fsort = fparams.FSort();
+    const PictureParams& pparams = m_enc_picture->GetPparams();
+    const PictureSort psort = pparams.PicSort();
 
-    instr->fnum = fparams.FrameNum();
-    instr->ftype = fsort.IsIntra() ? INTRA_FRAME : INTER_FRAME;
-    instr->rtype = fsort.IsRef() ? REFERENCE_FRAME : NON_REFERENCE_FRAME;
+    instr->pnum = pparams.PictureNum();
+    instr->ptype = psort.IsIntra() ? INTRA_PICTURE : INTER_PICTURE;
+    instr->rtype = psort.IsRef() ? REFERENCE_PICTURE : NON_REFERENCE_PICTURE;
     instr->num_refs = 0;
     encoder->instr_data_avail = 1;
 
-    if (fsort.IsIntra())
+    if (psort.IsIntra())
     {
         // no MV data for Intra coded data
         return;
@@ -349,26 +362,26 @@ void DiracEncoder::GetInstrumentationData (dirac_encoder_t *encoder)
     TESTM (m_enc_medata != NULL, "ME data available");
 
     // Reference info
-    instr->num_refs = fparams.Refs().size();
+    instr->num_refs = pparams.Refs().size();
     ASSERTM (instr->num_refs <= 2, "Max # reference frames is 2");
 
     for (int i=0; i<instr->num_refs; ++i)
-        instr->refs[i] = fparams.Refs()[i];
+        instr->refs[i] = pparams.Refs()[i];
 
     // Block separation params
-    instr->ybsep = m_encparams.LumaBParams(2).Ybsep();
-    instr->xbsep = m_encparams.LumaBParams(2).Xbsep();
+    instr->ybsep = m_encparams.GetPicPredParams().LumaBParams(2).Ybsep();
+    instr->xbsep = m_encparams.GetPicPredParams().LumaBParams(2).Xbsep();
 
-    // Num macroblocks
-    instr->mb_ylen = m_enc_medata->MBSplit().LengthY();
-    instr->mb_xlen = m_enc_medata->MBSplit().LengthX();
+    // Num superblocks
+    instr->sb_ylen = m_enc_medata->SBSplit().LengthY();
+    instr->sb_xlen = m_enc_medata->SBSplit().LengthX();
 
     // Motion vector array dimensions
     instr->mv_ylen = m_enc_medata->Vectors(1).LengthY();
     instr->mv_xlen = m_enc_medata->Vectors(1).LengthX();
 
-    if (old_instr.mb_ylen != instr->mb_ylen ||
-        old_instr.mb_xlen != instr->mb_xlen ||
+    if (old_instr.sb_ylen != instr->sb_ylen ||
+        old_instr.sb_xlen != instr->sb_xlen ||
         old_instr.mv_ylen != instr->mv_ylen ||
         old_instr.mv_xlen != instr->mv_xlen)
     {
@@ -376,8 +389,8 @@ void DiracEncoder::GetInstrumentationData (dirac_encoder_t *encoder)
         alloc_instr_data(instr);
     }
 
-    copy_2dArray (m_enc_medata->MBSplit(), instr->mb_split_mode);
-    copy_2dArray (m_enc_medata->MBCosts(), instr->mb_costs);
+    copy_2dArray (m_enc_medata->SBSplit(), instr->sb_split_mode);
+    copy_2dArray (m_enc_medata->SBCosts(), instr->sb_costs);
     copy_2dArray (m_enc_medata->Mode(), instr->pred_mode);
     copy_2dArray (m_enc_medata->IntraCosts(), instr->intra_costs);
 
@@ -403,18 +416,19 @@ void DiracEncoder::GetInstrumentationData (dirac_encoder_t *encoder)
 DiracEncoder::DiracEncoder(const dirac_encoder_context_t *enc_ctx,
                            bool verbose) :
     m_srcparams(static_cast<VideoFormat>(enc_ctx->enc_params.video_format), true),
-    m_encparams(static_cast<VideoFormat>(enc_ctx->enc_params.video_format), INTER_FRAME, 2, true),
-    m_show_fnum(-1),
+    m_encparams(static_cast<VideoFormat>(enc_ctx->enc_params.video_format), INTER_PICTURE, 2, true),
+    m_show_pnum(-1),
     m_num_loaded_pictures(0),
     m_num_coded_pictures(0),
     m_verbose(verbose),
     m_dec_buf(0),
     m_dec_bufsize(0),
-    m_return_decoded_frames(enc_ctx->decode_flag > 0),
+    m_return_decoded_pictures(enc_ctx->decode_flag > 0),
     m_return_instr_data(enc_ctx->instr_flag > 0),
        m_gop_bits(0),
     m_gop_count(0),
-    m_frame_count(0)
+    m_picture_count(0),
+    m_eos_signalled(false)
 {
     // Setup source parameters
     SetSourceParams (enc_ctx);
@@ -430,11 +444,11 @@ DiracEncoder::DiracEncoder(const dirac_encoder_context_t *enc_ctx,
     // initialise the sequence compressor
     if (!m_encparams.FieldCoding())
     {
-        m_comp = new FrameSequenceCompressor (m_inp_ptr->GetStream(), m_encparams, m_dirac_byte_stream);
+        m_seqcomp = new FrameSequenceCompressor (m_inp_ptr->GetStream(), m_encparams, m_dirac_byte_stream);
     }
     else
     {
-        m_comp = new FieldSequenceCompressor (m_inp_ptr->GetStream(), m_encparams, m_dirac_byte_stream);
+        m_seqcomp = new FieldSequenceCompressor (m_inp_ptr->GetStream(), m_encparams, m_dirac_byte_stream);
     }
 }
 
@@ -442,12 +456,12 @@ void DiracEncoder::SetDecodeBuffer (unsigned char *buffer, int buffer_size)
 {
     m_dec_buf = buffer;
     m_dec_bufsize = buffer_size;
-    m_return_decoded_frames = true;
+    m_return_decoded_pictures = true;
 }
 
 DiracEncoder::~DiracEncoder()
 {
-    delete m_comp;
+    delete m_seqcomp;
     delete m_inp_ptr;
     delete m_out_ptr;
 }
@@ -457,6 +471,11 @@ void DiracEncoder::SetSourceParams (const dirac_encoder_context_t *enc_ctx)
     m_srcparams.SetCFormat( enc_ctx->src_params.chroma );
     m_srcparams.SetXl( enc_ctx->src_params.width );
     m_srcparams.SetYl( enc_ctx->src_params.height );
+
+    m_srcparams.SetCleanWidth( m_srcparams.Xl() );
+    m_srcparams.SetCleanHeight( m_srcparams.Yl() );
+    m_srcparams.SetLeftOffset( 0 );
+    m_srcparams.SetTopOffset( 0 );
 
     m_srcparams.SetSourceSampling( enc_ctx->src_params.source_sampling );
     if (m_srcparams.FrameRate().m_num != (unsigned int)enc_ctx->src_params.frame_rate.numerator ||
@@ -484,16 +503,16 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
     OLBParams bparams(12, 12, 8, 8);
 
     m_encparams.SetLocalDecode(enc_ctx->decode_flag);
-    m_encparams.SetOrigXl( enc_ctx->src_params.width );
-    m_encparams.SetOrigYl( enc_ctx->src_params.height );
-    m_encparams.SetOrigChromaXl( enc_ctx->src_params.chroma_width );
-    m_encparams.SetOrigChromaYl( enc_ctx->src_params.chroma_height );
+    m_encparams.SetXl( enc_ctx->src_params.width );
+    m_encparams.SetYl( enc_ctx->src_params.height );
+    m_encparams.SetChromaXl( enc_ctx->src_params.chroma_width );
+    m_encparams.SetChromaYl( enc_ctx->src_params.chroma_height );
 
     if (enc_ctx->enc_params.picture_coding_mode > 1)
     {
         std::ostringstream errstr;
 
-        errstr << "Picture coding mode " 
+        errstr << "Picture coding mode "
                << enc_ctx->enc_params.picture_coding_mode
                << " out of supported range [0-1]";
         DIRAC_THROW_EXCEPTION(
@@ -502,12 +521,12 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
             SEVERITY_TERMINATE);
     }
 
-    m_encparams.SetFieldCoding(enc_ctx->enc_params.picture_coding_mode == 1);
+    m_encparams.SetPictureCodingMode(enc_ctx->enc_params.picture_coding_mode);
     if (m_encparams.FieldCoding())
     {
         // Change coding dimensions to field dimensions
-        m_encparams.SetOrigYl( enc_ctx->src_params.height>>1 );
-        m_encparams.SetOrigChromaYl( enc_ctx->src_params.chroma_height >> 1);
+        m_encparams.SetYl( enc_ctx->src_params.height>>1 );
+        m_encparams.SetChromaYl( enc_ctx->src_params.chroma_height >> 1);
     }
 
     unsigned int luma_depth = static_cast<unsigned int> (
@@ -519,18 +538,20 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
     m_encparams.SetChromaDepth(chroma_depth);
 
     m_encparams.SetFullSearch(enc_ctx->enc_params.full_search);
+    m_encparams.SetCombinedME(enc_ctx->enc_params.combined_me);
     m_encparams.SetXRangeME(enc_ctx->enc_params.x_range_me);
     m_encparams.SetYRangeME(enc_ctx->enc_params.y_range_me);
+    m_encparams.SetCPD(enc_ctx->enc_params.cpd);
     m_encparams.SetQf(enc_ctx->enc_params.qf);
     m_encparams.SetTargetRate(enc_ctx->enc_params.trate);
     m_encparams.SetLossless(enc_ctx->enc_params.lossless);
     m_encparams.SetL1Sep(enc_ctx->enc_params.L1_sep);
     m_encparams.SetNumL1(enc_ctx->enc_params.num_L1);
-    m_encparams.SetCPD(enc_ctx->enc_params.cpd);
-    m_encparams.SetDenoise(enc_ctx->enc_params.denoise);
+    m_encparams.SetPrefilter(enc_ctx->enc_params.prefilter,
+                             enc_ctx->enc_params.prefilter_strength);
     m_encparams.SetUFactor(1.5f);
     m_encparams.SetVFactor(0.75f);
-    m_encparams.SetMVPrecision(enc_ctx->enc_params.mv_precision);
+    m_encparams.GetPicPredParams().SetMVPrecision(enc_ctx->enc_params.mv_precision);
     m_encparams.SetUsingAC(enc_ctx->enc_params.using_ac);
     bparams.SetYblen( enc_ctx->enc_params.yblen );
     bparams.SetXblen( enc_ctx->enc_params.xblen );
@@ -549,7 +570,7 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
         //have I-frame only coding
         m_encparams.SetL1Sep(0);
     }
-    m_encparams.SetBlockSizes( bparams , enc_ctx->src_params.chroma );
+    m_encparams.GetPicPredParams().SetBlockSizes( bparams , enc_ctx->src_params.chroma );
 
     // Set transforms parameters
     m_encparams.SetIntraTransformFilter(enc_ctx->enc_params.intra_wlt_filter);
@@ -563,9 +584,9 @@ void DiracEncoder::SetEncoderParams (const dirac_encoder_context_t *enc_ctx)
 
 bool DiracEncoder::LoadNextFrame (unsigned char *data, int size)
 {
-    TESTM (m_comp->Finished() != true, "Did not reach end of sequence");
+    TESTM (m_seqcomp->Finished() != true, "Did not reach end of sequence");
     m_inp_ptr->SetMembufReference(data, size);
-    if (m_comp->LoadNextFrame())
+    if (m_seqcomp->LoadNextFrame())
     {
         if (!m_encparams.FieldCoding())
             m_num_loaded_pictures++;
@@ -578,79 +599,88 @@ bool DiracEncoder::LoadNextFrame (unsigned char *data, int size)
 
 int DiracEncoder::CompressNextPicture ()
 {
-    TESTM (m_comp->Finished() != true, "Did not reach end of sequence");
+    TESTM (m_seqcomp->Finished() != true, "Did not reach end of sequence");
 
     if (!m_num_loaded_pictures)
         return 0;
 
-    Frame &myframe = m_comp->CompressNextFrame();
+    const EncPicture *mypicture = m_seqcomp->CompressNextPicture();
 
-    m_enc_frame = m_comp->GetFrameEncoded();
-    m_enc_medata = m_comp->GetMEData();
+    m_decpnum = -1;
 
-    m_decfnum = -1;
-    if (m_return_decoded_frames &&
-            myframe.GetFparams().FrameNum() != m_show_fnum)
-    {
-        int ret_val;
-        m_show_fnum = myframe.GetFparams().FrameNum();
-        TEST (! (m_return_decoded_frames && !m_dec_buf) );
-        if (m_return_decoded_frames && m_dec_buf)
-        {
-            // write locally decoded frame to decode buffer
-            m_out_ptr->SetMembufReference(m_dec_buf, m_dec_bufsize);
-            ret_val = m_out_ptr->GetStream()->WriteNextFrame(myframe);
+    if (mypicture){
+        m_enc_picture = m_seqcomp->GetPictureEncoded();
+	if (m_enc_picture->GetPparams().PicSort().IsIntra()==false)
+            m_enc_medata = &m_enc_picture->GetMEData();
+	else
+	    m_enc_medata = NULL;
 
-            if (ret_val)
+        if (m_return_decoded_pictures &&
+                mypicture->GetPparams().PictureNum() != m_show_pnum){
+            int ret_val;
+            m_show_pnum = mypicture->GetPparams().PictureNum();
+            TEST (! (m_return_decoded_pictures && !m_dec_buf) );
+            if (m_return_decoded_pictures && m_dec_buf)
             {
-                m_decfnum = m_show_fnum;
-                m_decfsort = myframe.GetFparams().FSort();
+                // write locally decoded picture to decode buffer
+                m_out_ptr->SetMembufReference(m_dec_buf, m_dec_bufsize);
+                ret_val = m_out_ptr->GetStream()->WriteToNextFrame(*mypicture);
+
+                if (ret_val)
+                {
+                    m_decpnum = m_show_pnum;
+                    m_decpsort = mypicture->GetPparams().PicSort();
+                }
             }
         }
+    }
+    else{
+        m_enc_picture = NULL;
+        m_enc_medata = NULL;
     }
 
     if(!m_dirac_byte_stream.IsUnitAvailable())
         return 0;
 
-
-    m_num_coded_pictures++;
-    TESTM (m_enc_frame != 0, "Encoder picture available");
-
+    if (mypicture){
+         m_num_coded_pictures++;
+         TESTM (m_enc_picture != 0, "Encoder picture available");
+    }
     return 1;
 }
 
-void DiracEncoder::GetFrameStats(dirac_encoder_t *encoder)
+void DiracEncoder::GetPictureStats(dirac_encoder_t *encoder)
 {
 
-    dirac_enc_framestats_t *fstats = &encoder->enc_fstats;
+    dirac_enc_picstats_t *pstats = &encoder->enc_pstats;
     DiracByteStats dirac_byte_stats = m_dirac_byte_stream.GetLastUnitStats();
 
-    fstats->mv_bits = dirac_byte_stats.GetBitCount(STAT_MV_BYTE_COUNT);
-  //  fstats->mv_hdr_bits = foutput.MVBytes() * 8;
+    pstats->mv_bits = dirac_byte_stats.GetBitCount(STAT_MV_BYTE_COUNT);
+  //  pstats->mv_hdr_bits = poutput.MVBytes() * 8;
 
-    fstats->ycomp_bits = dirac_byte_stats.GetBitCount(STAT_YCOMP_BYTE_COUNT);
-  //  fstats->ycomp_hdr_bits = foutput.ComponentHeadBytes( Y_COMP ) * 8;
+    pstats->ycomp_bits = dirac_byte_stats.GetBitCount(STAT_YCOMP_BYTE_COUNT);
+  //  pstats->ycomp_hdr_bits = poutput.ComponentHeadBytes( Y_COMP ) * 8;
 
-    fstats->ucomp_bits = dirac_byte_stats.GetBitCount(STAT_UCOMP_BYTE_COUNT);
-  //  fstats->ucomp_hdr_bits = foutput.ComponentHeadBytes( U_COMP ) * 8;
+    pstats->ucomp_bits = dirac_byte_stats.GetBitCount(STAT_UCOMP_BYTE_COUNT);
+  //  pstats->ucomp_hdr_bits = poutput.ComponentHeadBytes( U_COMP ) * 8;
 
-    fstats->vcomp_bits = dirac_byte_stats.GetBitCount(STAT_VCOMP_BYTE_COUNT);
-   // fstats->vcomp_hdr_bits = foutput.ComponentHeadBytes( V_COMP ) * 8;
+    pstats->vcomp_bits = dirac_byte_stats.GetBitCount(STAT_VCOMP_BYTE_COUNT);
+   // pstats->vcomp_hdr_bits = poutput.ComponentHeadBytes( V_COMP ) * 8;
 
-    fstats->frame_bits = dirac_byte_stats.GetBitCount(STAT_TOTAL_BYTE_COUNT);
-   // fstats->frame_hdr_bits = foutput.FrameHeadBytes() * 8;
+    pstats->pic_bits = dirac_byte_stats.GetBitCount(STAT_TOTAL_BYTE_COUNT);
+   // pstats->pic_hdr_bits = poutput.PictureHeadBytes() * 8;
 
     DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
     if (compressor->GetEncParams().Verbose())
     {
-        std::cout<<std::endl<<"Number of MV bits="<<fstats->mv_bits;
-        std::cout<<std::endl<<"Number of bits for Y="<<fstats->ycomp_bits;
-        std::cout<<std::endl<<"Number of bits for U="<<fstats->ucomp_bits;
-        std::cout<<std::endl<<"Number of bits for V="<<fstats->vcomp_bits;
+        std::cout<<std::endl<<"Number of MV bits="<<pstats->mv_bits;
+        std::cout<<std::endl<<"Number of bits for Y="<<pstats->ycomp_bits;
+        std::cout<<std::endl<<"Number of bits for U="<<pstats->ucomp_bits;
+        std::cout<<std::endl<<"Number of bits for V="<<pstats->vcomp_bits;
         if (m_encparams.FieldCoding())
-            std::cout<<std::endl<<"Total field bits="<<fstats->frame_bits;
+            std::cout<<std::endl<<"Total field bits="<<pstats->pic_bits;
         else
-            std::cout<<std::endl<<"Total frame bits="<<fstats->frame_bits;
+            std::cout<<std::endl<<"Total frame bits="<<pstats->pic_bits;
     }
 }
 
@@ -669,70 +699,83 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
             return -1;
         }
         memmove (encdata->buffer, output.c_str(),  output.size());
-        encoder->enc_fparams.fnum = m_enc_frame->GetFparams().FrameNum();
-        encoder->enc_fparams.ftype = m_enc_frame->GetFparams().FSort().IsIntra() ? INTRA_FRAME : INTER_FRAME;
-        encoder->enc_fparams.rtype = m_enc_frame->GetFparams().FSort().IsRef() ? REFERENCE_FRAME : NON_REFERENCE_FRAME;
-
-        // Get frame statistics
-        GetFrameStats (encoder);
-        if(m_encparams.Verbose() && encoder->enc_ctx.enc_params.picture_coding_mode==1)
+        if (m_enc_picture)
         {
-            if (encoder->enc_fparams.fnum%2 == 0)
-                m_field1_stats = encoder->enc_fstats;
-            else
+            // picture data
+            encoder->enc_pparams.pnum = m_enc_picture->GetPparams().PictureNum();
+            encoder->enc_pparams.ptype = m_enc_picture->GetPparams().PicSort().IsIntra() ? INTRA_PICTURE : INTER_PICTURE;
+            encoder->enc_pparams.rtype = m_enc_picture->GetPparams().PicSort().IsRef() ? REFERENCE_PICTURE : NON_REFERENCE_PICTURE;
+
+            // Get frame statistics
+            GetPictureStats (encoder);
+            if(m_encparams.Verbose() && encoder->enc_ctx.enc_params.picture_coding_mode==1)
             {
-                std::cout<<std::endl<<std::endl
-                         <<"Frame "<<encoder->enc_fparams.fnum/2;
-                std::cout<< " stats";
-                std::cout<<std::endl<< "Number of MV bits=";
-                std::cout<< m_field1_stats.mv_bits + encoder->enc_fstats.mv_bits;
-                std::cout<< std::endl << "Number of bits for Y=";
-                std::cout<< m_field1_stats.ycomp_bits + encoder->enc_fstats.ycomp_bits;
-                std::cout<< std::endl << "Number of bits for U=";
-                std::cout<< m_field1_stats.ucomp_bits + encoder->enc_fstats.ucomp_bits;
-                std::cout<< std::endl << "Number of bits for V=";
-                std::cout<< m_field1_stats.vcomp_bits + encoder->enc_fstats.vcomp_bits;
-                std::cout << std::endl << "Total frame bits=";
-                std::cout<< m_field1_stats.frame_bits + encoder->enc_fstats.frame_bits;
+                if (encoder->enc_pparams.pnum%2 == 0)
+                    m_field1_stats = encoder->enc_pstats;
+                else
+                {
+                    std::cout<<std::endl<<std::endl
+                             <<"Frame "<<encoder->enc_pparams.pnum/2;
+                    std::cout<< " stats";
+                    std::cout<<std::endl<< "Number of MV bits=";
+                    std::cout<< m_field1_stats.mv_bits + encoder->enc_pstats.mv_bits;
+                    std::cout<< std::endl << "Number of bits for Y=";
+                    std::cout<< m_field1_stats.ycomp_bits + encoder->enc_pstats.ycomp_bits;
+                    std::cout<< std::endl << "Number of bits for U=";
+                    std::cout<< m_field1_stats.ucomp_bits + encoder->enc_pstats.ucomp_bits;
+                    std::cout<< std::endl << "Number of bits for V=";
+                    std::cout<< m_field1_stats.vcomp_bits + encoder->enc_pstats.vcomp_bits;
+                    std::cout << std::endl << "Total frame bits=";
+                    std::cout<< m_field1_stats.pic_bits + encoder->enc_pstats.pic_bits;
+                }
             }
+           }
+        else
+        {
+            // Not picture data
+            encoder->enc_pparams.pnum = -1;
         }
         encdata->size = size;
 
         GetInstrumentationData(encoder);
-        encoder->encoded_frame_avail = 1;
+        encoder->encoded_picture_avail = 1;
     }
     else
     {
         encdata->size = 0;
     }
 
+    if (m_enc_picture)
+    {
        //Rate Control - work out bit rate to date and for current GOP
        // and keep track of frame numbers
     int interlace_factor = m_encparams.FieldCoding() ? 2 : 1;
     int num_L1 = encoder->enc_ctx.enc_params.num_L1;
     int L1_sep = encoder->enc_ctx.enc_params.L1_sep;
-    int GOP_Length = (num_L1+1)*L1_sep*interlace_factor;
+
+    // Length of the GOP in pictures - twice as many if fields
+    int GOP_pic_length = (num_L1+1)*L1_sep*interlace_factor;
 
     int offset;
     if (num_L1 == 0)
     {
-        GOP_Length = 10;
+        GOP_pic_length = 10;
         offset = 0;
     }
     else
         offset = std::max(L1_sep-1,0)*interlace_factor;
 
-    m_gop_bits += encoder->enc_fstats.frame_bits;
-    m_frame_count++;
+    m_gop_bits += encoder->enc_pstats.pic_bits;
+    m_picture_count++;
 
-    if ( (m_gop_count==0 && m_frame_count == GOP_Length-offset) || 
-         (m_gop_count>0 && m_frame_count == GOP_Length))
+    if ( (m_gop_count==0 && m_picture_count == GOP_pic_length-offset) ||
+         (m_gop_count>0 && m_picture_count == GOP_pic_length))
     {
         int denominator = encoder->enc_ctx.src_params.frame_rate.denominator;
         int numerator = encoder->enc_ctx.src_params.frame_rate.numerator;
         double frame_rate =  (double)numerator/(double)denominator;
 
-        double gop_duration = double(m_frame_count)/interlace_factor/frame_rate;
+        double gop_duration = double(m_picture_count)/interlace_factor/frame_rate;
         double bit_rate = double(m_gop_bits)/gop_duration;
 
         DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
@@ -744,9 +787,10 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
 
         m_gop_count++;
         m_gop_bits = 0;
-        m_frame_count = 0;
+        m_picture_count = 0;
     }
     //End of Rate Control
+    }
 
     m_dirac_byte_stream.Clear();
 
@@ -755,16 +799,16 @@ int DiracEncoder::GetEncodedData (dirac_encoder_t *encoder)
 
 int DiracEncoder::GetDecodedData (dirac_encoder_t *encoder)
 {
-    dirac_frameparams_t *fp = &encoder->dec_fparams;
+    dirac_picparams_t *pp = &encoder->dec_pparams;
 
-    int ret_stat = (m_decfnum != -1);
-    if (m_return_decoded_frames && m_decfnum != -1)
+    int ret_stat = (m_decpnum != -1);
+    if (m_return_decoded_pictures && m_decpnum != -1)
     {
-        fp->ftype = m_decfsort.IsIntra() ? INTRA_FRAME : INTER_FRAME;
-        fp->rtype = m_decfsort.IsRef() ? REFERENCE_FRAME : NON_REFERENCE_FRAME;
-        fp->fnum = m_decfnum;
+        pp->ptype = m_decpsort.IsIntra() ? INTRA_PICTURE : INTER_PICTURE;
+        pp->rtype = m_decpsort.IsRef() ? REFERENCE_PICTURE : NON_REFERENCE_PICTURE;
+        pp->pnum = m_decpnum;
         encoder->decoded_frame_avail = 1;
-        m_decfnum = -1;
+        m_decpnum = -1;
     }
     return ret_stat;
 }
@@ -780,7 +824,7 @@ void DiracEncoder::GetSequenceStats(dirac_encoder_t *encoder,
     sstats->ucomp_bits = dirac_seq_stats.GetBitCount(STAT_UCOMP_BYTE_COUNT);
     sstats->vcomp_bits = dirac_seq_stats.GetBitCount(STAT_VCOMP_BYTE_COUNT);
 
-    sstats->bit_rate = int((sstats->seq_bits *
+    sstats->bit_rate = int64_t((sstats->seq_bits *
                         (double)m_srcparams.FrameRate().m_num)/
                         (m_srcparams.FrameRate().m_denom * m_num_coded_pictures));
     if (encoder->enc_ctx.enc_params.picture_coding_mode==1)
@@ -801,7 +845,7 @@ void DiracEncoder::GetSequenceStats(dirac_encoder_t *encoder,
 int DiracEncoder::GetSequenceEnd (dirac_encoder_t *encoder)
 {
     dirac_enc_data_t *encdata = &encoder->enc_buf;
-    DiracByteStats dirac_seq_stats=m_comp->EndSequence();
+    DiracByteStats dirac_seq_stats=m_seqcomp->EndSequence();
     string output = m_dirac_byte_stream.GetBytes();
     int size = output.size();
     if (size > 0)
@@ -868,7 +912,6 @@ static bool InitialiseEncoder (const dirac_encoder_context_t *enc_ctx, bool verb
         if (encoder->enc_ctx.decode_flag)
         {
             int bufsize = (encoder->enc_ctx.src_params.width * encoder->enc_ctx.src_params.height)+ 2*(encoder->enc_ctx.src_params.chroma_width*encoder->enc_ctx.src_params.chroma_height);
-
             encoder->dec_buf.buf[0] = new unsigned char [bufsize];
             encoder->dec_buf.buf[1] = encoder->dec_buf.buf[0] +
                 (encoder->enc_ctx.src_params.width * encoder->enc_ctx.src_params.height);
@@ -924,7 +967,8 @@ static void SetEncoderParameters(dirac_encoder_context_t *enc_ctx,
 
     encparams.qf = default_enc_params.Qf();
     encparams.cpd = default_enc_params.CPD();
-    encparams.denoise = default_enc_params.Denoise();
+    encparams.prefilter = default_enc_params.Prefilter();
+    encparams.prefilter_strength = default_enc_params.PrefilterStrength();
     encparams.L1_sep = default_enc_params.L1Sep();
     encparams.lossless = default_enc_params.Lossless();
     encparams.using_ac = default_enc_params.UsingAC();
@@ -942,18 +986,21 @@ static void SetEncoderParameters(dirac_encoder_context_t *enc_ctx,
     encparams.ybsep = default_block_params.Ybsep();
 
     // set default MV parameters
-    encparams.mv_precision = default_enc_params.MVPrecision();
+    encparams.mv_precision = default_enc_params.GetPicPredParams().MVPrecision();
 
     // by default, use hierarchical, not full search
     encparams.full_search = 0;
     encparams.x_range_me = 32;
     encparams.y_range_me = 32;
 
+    // by default, don't use combined component motion estimation
+    encparams.combined_me = 0;
+
     // set default transform parameters
     WltFilter wf;
-    SetDefaultTransformFilter(INTRA_FRAME, wf);
+    SetDefaultTransformFilter(INTRA_PICTURE, video_format, wf);
     encparams.intra_wlt_filter = wf;
-    SetDefaultTransformFilter(INTER_FRAME, wf);
+    SetDefaultTransformFilter(INTER_PICTURE, video_format, wf);
     encparams.inter_wlt_filter = wf;
     encparams.wlt_depth = default_enc_params.TransformDepth();
     encparams.spatial_partition = default_enc_params.SpatialPartition();
@@ -991,11 +1038,31 @@ extern DllExport dirac_encoder_t *dirac_encoder_init (const dirac_encoder_contex
         return NULL;
     }
 
-    encoder->encoded_frame_avail = encoder->decoded_frame_avail = 0;
+    encoder->encoded_picture_avail = encoder->decoded_frame_avail = 0;
     encoder->instr_data_avail = 0;
 
     return encoder;
 }
+
+#if DIRAC_RESEARCH_VERSION_ATLEAST(1,0,2)
+extern DllExport int dirac_encoder_pts_offset (const dirac_encoder_t *encoder)
+{
+    TEST (encoder != NULL);
+    TEST (encoder->compressor != NULL);
+    DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
+    int ret;
+    try
+    {
+        ret = compressor->GetPTSOffset();
+    }
+    catch (...)
+    {
+        ret = -1;
+    }
+
+    return ret;
+}
+#endif
 
 extern DllExport int dirac_encoder_load (dirac_encoder_t *encoder, unsigned char *uncdata, int uncdata_size)
 {
@@ -1029,12 +1096,13 @@ extern DllExport dirac_encoder_state_t
     DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
     dirac_encoder_state_t ret_stat = ENC_STATE_BUFFER;
 
-    encoder->encoded_frame_avail = 0;
+    encoder->encoded_picture_avail = 0;
     encoder->decoded_frame_avail = 0;
     encoder->instr_data_avail = 0;
 
     try
     {
+        // Get the next compressed picture
         if (compressor->CompressNextPicture() != 0)
         {
             if (compressor->GetEncodedData (encoder) < 0)
@@ -1046,6 +1114,17 @@ extern DllExport dirac_encoder_state_t
                     ret_stat = ENC_STATE_AVAIL;
                 }
 
+            }
+        }
+        else
+        {
+            // check if EOS has been signalled by the user app
+            if (compressor->EOS())
+            {
+                compressor->GetSequenceEnd (encoder);
+                encoder->end_of_sequence = 1;
+                encoder->enc_pparams.pnum = -1;
+                ret_stat = ENC_STATE_EOS;
             }
         }
         if (encoder->enc_ctx.decode_flag)
@@ -1061,34 +1140,18 @@ extern DllExport dirac_encoder_state_t
     return ret_stat;
 }
 
-extern DllExport int dirac_encoder_end_sequence (dirac_encoder_t *encoder)
+extern DllExport void dirac_encoder_end_sequence (dirac_encoder_t *encoder)
 {
     TEST (encoder != NULL);
     TEST (encoder->compressor != NULL);
     DiracEncoder *compressor = (DiracEncoder *)encoder->compressor;
-    int ret_stat;
 
-    encoder->encoded_frame_avail = 0;
+    encoder->encoded_picture_avail = 0;
     encoder->decoded_frame_avail = 0;
     encoder->instr_data_avail = 0;
 
-    try
-    {
-        ret_stat = compressor->GetSequenceEnd (encoder);
-        encoder->end_of_sequence = 1;
+    compressor->SignalEOS();
 
-        if (compressor->GetDecodedData(encoder))
-        {
-            encoder->decoded_frame_avail = 1;
-        }
-    }
-    catch (...)
-    {
-        if (compressor->GetEncParams().Verbose())
-            std::cerr << "GetSequenceEnd failed..." << std::endl;
-        ret_stat = -1;
-    }
-    return ret_stat;
 }
 
 extern DllExport void dirac_encoder_close (dirac_encoder_t *encoder)

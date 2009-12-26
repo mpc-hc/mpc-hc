@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: rate_control.h,v 1.6 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: rate_control.h,v 1.7 2008/01/31 11:25:18 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -97,13 +97,13 @@ namespace dirac
 
 
         //! Calculate the Quality factor of the next frame to encode
-        void CalcNextQualFactor(const FrameParams& fparams, int num_bits);
+        void CalcNextQualFactor(const PictureParams& fparams, int num_bits);
 
         //! Calculate the Quality factor of the next I frame to encode
         void CalcNextIntraQualFactor();
 
         //! Use the long-term average intra quality factor
-        void SetCutFrameQualFactor();
+        void SetCutPictureQualFactor();
 
         //! Return I frame qf
         double IntraQualFactor() {return m_I_qf;}

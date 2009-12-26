@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: component_byteio.cpp,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: component_byteio.cpp,v 1.2 2008/04/29 08:51:52 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -40,24 +40,19 @@
 using namespace dirac;
 using namespace std;
 
-ComponentByteIO::ComponentByteIO(CompSort& cs,
+ComponentByteIO::ComponentByteIO(CompSort cs,
                                  const ByteIO& byteio):
 ByteIO(byteio),
 m_compsort(cs)
-{
-   
-}
+{}
 
-ComponentByteIO::ComponentByteIO(CompSort& cs):
+ComponentByteIO::ComponentByteIO(CompSort cs):
 ByteIO(),
 m_compsort(cs)
-{
-}
+{}
 
 ComponentByteIO::~ComponentByteIO()
-{
-   
-}
+{}
 
 //--------------public----------------------------------------------
 

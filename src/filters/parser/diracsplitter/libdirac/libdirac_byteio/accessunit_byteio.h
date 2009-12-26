@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: accessunit_byteio.h,v 1.5 2007/11/16 04:54:24 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: accessunit_byteio.h,v 1.7 2008/08/14 00:51:08 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -37,7 +37,7 @@
 * ***** END LICENSE BLOCK ***** */
 
 /**
-* Definition of class AccessUnitByteIO
+* Definition of class SequenceHeaderByteIO
 */
 #ifndef accessunit_byteio_h
 #define accessunit_byteio_h
@@ -53,17 +53,17 @@ namespace dirac
     /**
     * A random access point within a Dirac bytestream 
     */
-    class AccessUnitByteIO : public ParseUnitByteIO
+    class SequenceHeaderByteIO : public ParseUnitByteIO
     {
     public:
 
         /**
         * Constructor (encoding)
         *@param src_params Source parameters for current AccessUnit
-        *@param codec_params Coding parameters for current AccessUnit
+        *@param enc_params Encoder parameters for current AccessUnit
         */
-        AccessUnitByteIO( SourceParams& src_params,
-                          CodecParams& codec_params);
+        SequenceHeaderByteIO( SourceParams& src_params,
+                          EncoderParams& enc_params);
 
         /**
         * Constructor (decoding)
@@ -72,7 +72,7 @@ namespace dirac
         *@param src_params       Destination of source paramters data 
         *@param codec_params     Destination of coding paramters data 
         */
-        AccessUnitByteIO(const ParseUnitByteIO& parseunit_byteio,
+        SequenceHeaderByteIO(const ParseUnitByteIO& parseunit_byteio,
                          ParseParams& parse_params,
                          SourceParams& src_params,
                          CodecParams& codec_params);
@@ -80,7 +80,7 @@ namespace dirac
        /**
        * Destructor
        */
-        ~AccessUnitByteIO();
+        ~SequenceHeaderByteIO();
 
         /**
         * Parses data in Dirac-stream format (decoding)
@@ -139,6 +139,12 @@ namespace dirac
         * Output coding attributes for bytestream-compatible output (encoding)
         */
         void OutputCodingParams();
+
+        /**
+        * Current parse parameters
+        */
+        ParseParams m_parse_params;
+   
     
         /**
         * Parse-params byte input/output

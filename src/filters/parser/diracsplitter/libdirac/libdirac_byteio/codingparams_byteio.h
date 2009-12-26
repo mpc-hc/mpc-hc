@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: codingparams_byteio.h,v 1.3 2007/12/05 01:42:40 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: codingparams_byteio.h,v 1.3 2007/12/05 01:42:40 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

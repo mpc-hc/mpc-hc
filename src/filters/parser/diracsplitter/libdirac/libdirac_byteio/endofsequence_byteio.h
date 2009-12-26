@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: endofsequence_byteio.h,v 1.2 2007/03/29 16:43:38 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: endofsequence_byteio.h,v 1.3 2008/01/31 11:25:15 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -46,7 +46,7 @@
 #include <libdirac_byteio/parseunit_byteio.h>      // Parent class
 
 // DIRAC includes
-#include <libdirac_common/common.h>                // FrameType etc
+#include <libdirac_common/common.h>                // PictureType etc
 
 namespace dirac
 {
@@ -91,7 +91,7 @@ namespace dirac
    private:
       
         /**
-        * Calculates parse-code based on frame parameters
+        * Calculates parse-code based on picture parameters
         *@return Char bit-set 
         */
         unsigned char CalcParseCode() const;

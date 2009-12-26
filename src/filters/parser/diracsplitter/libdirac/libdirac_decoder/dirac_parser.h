@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_parser.h,v 1.6 2007/09/03 11:31:42 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_parser.h,v 1.8 2008/02/13 03:36:11 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -52,12 +52,12 @@
 
 \verbatim
  #include <libdirac_decoder/dirac_parser.h>\n
- Initialise the decodern
+ Initialise the decoder
 
- decoder_handle = dirac_decoder_init();
+ dirac_decoder_t *decoder_handle = dirac_decoder_init();
  do
  {
-     dirac_decoder_state_t state = dirac_parse (decoder);
+     dirac_decoder_state_t state = dirac_parse (decoder_handle);
      switch (state)
      {
      case STATE_BUFFER:
@@ -110,13 +110,13 @@ typedef struct
     dirac_parseparams_t parse_params;
     /*! source parameters */
     dirac_sourceparams_t src_params;
-    /*! frame parameters */
-    dirac_frameparams_t frame_params;
+    /*! frame (NOT picture) number */
+    unsigned int frame_num;
     /*! void pointer to internal parser */
     void *parser;
-    /*! frame buffer to hold luma and chroma data */
+    /*! frame (NOT picture) buffer to hold luma and chroma data */
     dirac_framebuf_t *fbuf;
-    /*! boolean flag that indicates if a decoded frame is available */
+    /*! boolean flag that indicates if a decoded frame (NOT picture) is available */
     int frame_avail;
     /*! verbose output */
     int verbose;
@@ -176,13 +176,6 @@ extern DllExport void dirac_buffer (dirac_decoder_t *decoder, unsigned char *sta
     \param id       User data
 */
 extern DllExport void dirac_set_buf (dirac_decoder_t *decoder, unsigned char *buf[3], void *id);
-
-/*!
-    Skip the next frame to be decoded
-    \param decoder  Decoder object
-    \param skip     Value 0 - decode next frame; 1 - skip next frame
-*/
-extern DllExport void dirac_skip(dirac_decoder_t *decoder, int skip);
 
 #ifdef __cplusplus
 }

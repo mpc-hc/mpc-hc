@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: motion_estimate.cpp,v 1.19 2007/04/03 13:02:38 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: motion_estimate.cpp,v 1.23 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -36,7 +36,7 @@
 * ***** END LICENSE BLOCK ***** */
 
 
-#include <libdirac_common/frame_buffer.h>
+#include <libdirac_encoder/enc_queue.h>
 #include <libdirac_motionest/motion_estimate.h>
 #include <libdirac_motionest/pixel_match.h>
 #include <libdirac_motionest/me_subpel.h>
@@ -50,23 +50,24 @@ MotionEstimator::MotionEstimator( const EncoderParams& encp ):
     m_encparams( encp )
 {}
 
-void MotionEstimator::DoME(const FrameBuffer& my_buffer, int frame_num, MEData& me_data)
+void MotionEstimator::DoME( EncQueue& my_buffer, int pic_num )
 {
+    MEData& me_data = my_buffer.GetPicture( pic_num ).GetMEData();
 
-    const FrameParams& fparams = my_buffer.GetFrame(frame_num).GetFparams();
+    const PictureParams& pparams = my_buffer.GetPicture(pic_num).GetPparams();
 
    // Step 1. 
    //Initial search gives vectors for each reference accurate to 1 pixel
 
     PixelMatcher pix_match( m_encparams );
-    pix_match.DoSearch( my_buffer , frame_num , me_data);
+    pix_match.DoSearch( my_buffer , pic_num );
 
     float lambda;
     // Get the references
-    const std::vector<int>& refs = my_buffer.GetFrame(frame_num).GetFparams().Refs();
+    const std::vector<int>& refs = my_buffer.GetPicture(pic_num).GetPparams().Refs();
 
     const int num_refs = refs.size();
-    if ( fparams.IsBFrame())
+    if ( pparams.IsBPicture())
         lambda = m_encparams.L2MELambda();
     else
         lambda = m_encparams.L1MELambda();
@@ -74,7 +75,7 @@ void MotionEstimator::DoME(const FrameBuffer& my_buffer, int frame_num, MEData& 
     // Set up the lambda to be used
     me_data.SetLambdaMap( num_refs , lambda );
 
-    MVPrecisionType orig_prec = m_encparams.MVPrecision();
+    MVPrecisionType orig_prec = m_encparams.GetPicPredParams().MVPrecision();
 
     // Step 2. 
     // Pixel accurate vectors are then refined to sub-pixel accuracy
@@ -82,7 +83,7 @@ void MotionEstimator::DoME(const FrameBuffer& my_buffer, int frame_num, MEData& 
     if (orig_prec != MV_PRECISION_PIXEL)
     {
         SubpelRefine pelrefine( m_encparams );
-        pelrefine.DoSubpel( my_buffer , frame_num , me_data );
+        pelrefine.DoSubpel( my_buffer , pic_num );
     }
     else
     {
@@ -104,15 +105,15 @@ void MotionEstimator::DoME(const FrameBuffer& my_buffer, int frame_num, MEData& 
                     mv_arr2[j][i] = mv_arr2[j][i] << 1;
             }
         }
-        m_encparams.SetMVPrecision(MV_PRECISION_HALF_PIXEL);
+        m_encparams.GetPicPredParams().SetMVPrecision(MV_PRECISION_HALF_PIXEL);
     }
 
     // Step3.
-    // We now have to decide how each macroblock should be split 
+    // We now have to decide how each superblock should be split 
     // and which references should be used, and so on.
 
     ModeDecider my_mode_dec( m_encparams );
-    my_mode_dec.DoModeDecn( my_buffer , frame_num , me_data );
+    my_mode_dec.DoModeDecn( my_buffer , pic_num );
     
     if (orig_prec ==  MV_PRECISION_PIXEL)
     {
@@ -135,14 +136,14 @@ void MotionEstimator::DoME(const FrameBuffer& my_buffer, int frame_num, MEData& 
                     mv_arr2[j][i] = mv_arr2[j][i]>>1;
             }
         }
-        m_encparams.SetMVPrecision(MV_PRECISION_PIXEL);
+        m_encparams.GetPicPredParams().SetMVPrecision(MV_PRECISION_PIXEL);
     }
 
     // Finally, although not strictly part of motion estimation,
     // we have to assign DC values for chroma components for
     // blocks we're decided are intra.
 
-    SetChromaDC( my_buffer , frame_num , me_data );
+    SetChromaDC( my_buffer , pic_num );
 
 //return false;
 }
@@ -151,7 +152,7 @@ ValueType MotionEstimator::GetChromaBlockDC(const PicArray& pic_data,
                                             int xunit , int yunit , int split)
 {
     BlockDiffParams dparams;
-    dparams.SetBlockLimits( m_encparams.ChromaBParams( split ) , 
+    dparams.SetBlockLimits( m_encparams.GetPicPredParams().ChromaBParams( split ) , 
                             pic_data, xunit , yunit);
 
     ValueType dc;
@@ -163,19 +164,19 @@ ValueType MotionEstimator::GetChromaBlockDC(const PicArray& pic_data,
     return dc;
 }
 
-void MotionEstimator::SetChromaDC( const PicArray& pic_data , MvData& mv_data , CompSort csort )
+void MotionEstimator::SetChromaDC( const PicArray& pic_data , MEData& me_data , CompSort csort )
 {
 
-    // Lower limit of block coords in MB
+    // Lower limit of block coords in SB
     int xtl,ytl;
-    // Upper limit of block coords in MB
+    // Upper limit of block coords in SB
     int xbr,ybr;
 
-    // Ditto, for subMBs    
-    int xsubMBtl,ysubMBtl;
-    int xsubMBbr,ysubMBbr;
+    // Ditto, for subSBs    
+    int xsubSBtl,ysubSBtl;
+    int xsubSBbr,ysubSBbr;
 
-    TwoDArray<ValueType>& dcarray = mv_data.DC( csort );
+    TwoDArray<ValueType>& dcarray = me_data.DC( csort );
 
     ValueType dc = 0;
 
@@ -188,30 +189,30 @@ void MotionEstimator::SetChromaDC( const PicArray& pic_data , MvData& mv_data , 
 
     int level;
 
-    for ( int ymb=0 ; ymb<mv_data.MBSplit().LengthY() ; ++ymb )
+    for ( int ysb=0 ; ysb<me_data.SBSplit().LengthY() ; ++ysb )
     {
-        for ( int xmb=0 ; xmb<mv_data.MBSplit().LengthX() ; ++xmb )
+        for ( int xsb=0 ; xsb<me_data.SBSplit().LengthX() ; ++xsb )
         {
 
-            level = mv_data.MBSplit()[ymb][xmb];
+            level = me_data.SBSplit()[ysb][xsb];
 
-            xtl = xmb<<2;
-            ytl = ymb<<2;            
+            xtl = xsb<<2;
+            ytl = ysb<<2;            
             xbr = xtl+4;
             ybr = ytl+4;
 
-            xsubMBtl = xmb<<1;
-            ysubMBtl = ymb<<1;
-            xsubMBbr = xsubMBtl+2;
-            ysubMBbr = ysubMBtl+2;
+            xsubSBtl = xsb<<1;
+            ysubSBtl = ysb<<1;
+            xsubSBbr = xsubSBtl+2;
+            ysubSBbr = ysubSBtl+2;
 
 
             for (int j = 0 ; j<(1<<level) ;++j)
             {
                  for (int i = 0 ; i<(1<<level) ;++i)
                  {
-                     xunit = ( xmb<<level ) + i;
-                     yunit = ( ymb<<level ) + j;
+                     xunit = ( xsb<<level ) + i;
+                     yunit = ( ysb<<level ) + j;
 
                      xstart = xunit<<( 2-level );
                      ystart = yunit<<( 2-level );
@@ -219,7 +220,7 @@ void MotionEstimator::SetChromaDC( const PicArray& pic_data , MvData& mv_data , 
                      xend = xstart + ( 1<<( 2-level ) );
                      yend = ystart + ( 1<<( 2-level ) );
 
-                     if ( mv_data.Mode()[ystart][xstart] == INTRA )
+                     if ( me_data.Mode()[ystart][xstart] == INTRA )
                          // Get the DC value for the unit
                          dc = GetChromaBlockDC( pic_data , xunit , yunit , level );
 
@@ -231,14 +232,16 @@ void MotionEstimator::SetChromaDC( const PicArray& pic_data , MvData& mv_data , 
                  }// i
              }// j
 
-        }// xmb
-    }// ymb
+        }// xsb
+    }// ysb
 }
 
-void MotionEstimator::SetChromaDC( const FrameBuffer& my_buffer , int frame_num , MvData& mv_data)
+void MotionEstimator::SetChromaDC( EncQueue& my_buffer , int pic_num )
 {
-
-    SetChromaDC( my_buffer.GetComponent( frame_num , U_COMP) , mv_data , U_COMP );
-    SetChromaDC( my_buffer.GetComponent( frame_num , V_COMP) , mv_data , V_COMP );
+    MEData& me_data = my_buffer.GetPicture(pic_num).GetMEData();  
+    SetChromaDC( my_buffer.GetPicture( pic_num ).OrigData(U_COMP) , me_data , U_COMP );
+    SetChromaDC( my_buffer.GetPicture( pic_num ).OrigData(V_COMP) , me_data , V_COMP );
 
 }
+
+

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: video_format_defaults.h,v 1.4 2007/09/28 15:46:08 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: video_format_defaults.h,v 1.7 2008/10/01 00:26:20 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -50,10 +50,10 @@ namespace dirac
     /**
     * Sets default codec parameters - common to encoder and decoder
     *@param cparams   Codec Params objects for setting defaults
-    *@param ftype     Frame type i,e, INTRA or INTER
+    *@param ptype     Picture type i,e, INTRA or INTER
     *@param num_refs  Number of reference frames
     */
-    void SetDefaultCodecParameters (CodecParams &cparams, FrameType ftype, unsigned int num_refs);
+    void SetDefaultCodecParameters (CodecParams &cparams, PictureType ptype, unsigned int num_refs);
     
     /**
     * Sets default encoder parameters
@@ -90,11 +90,13 @@ namespace dirac
     unsigned int BlockParametersIndex(const OLBParams& bparams);
     
     /**
-    * Sets the default Transform filter depending on frame type
-    *@param ftype    Frame type i.e. intra or inter
+    * Sets the default Transform filter depending on picture type
+    *@param ptype    Picture type i.e. intra or inter
+    *@param video_format The video format
     *@param wf       WltFilter object for getting the default wavelet filter
     */
-    void SetDefaultTransformFilter( FrameType ftype, WltFilter &wf);
+    void SetDefaultTransformFilter( const PictureType ptype, const VideoFormat video_format,
+                                    WltFilter &wf);
 } // namespace dirac
 
 #endif

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseunit_byteio.cpp,v 1.7 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: parseunit_byteio.cpp,v 1.10 2008/05/02 05:57:19 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -21,6 +21,7 @@
 * All Rights Reserved.
 *
 * Contributor(s): Andrew Kennedy (Original Author)
+*                 Anuradha Suraparaju
 *
 * Alternatively, the contents of this file may be used under the terms of
 * the GNU General Public License Version 2 (the "GPL"), or the GNU Lesser
@@ -59,7 +60,7 @@ ByteIO(),
 m_previous_parse_offset(0),
 m_next_parse_offset(0)
 {
-    
+
 }
 
 ParseUnitByteIO::ParseUnitByteIO(const ByteIO& byte_io):
@@ -67,7 +68,7 @@ ByteIO(byte_io),
 m_previous_parse_offset(0),
 m_next_parse_offset(0)
 {
-    
+
 }
 
 ParseUnitByteIO::ParseUnitByteIO(const ParseUnitByteIO& parseunit_byteio):
@@ -110,73 +111,82 @@ bool ParseUnitByteIO::Input()
     return true;
 }
 
-bool ParseUnitByteIO::IsValid(const ParseUnitByteIO& next_unit)
+bool ParseUnitByteIO::IsValid()
 {
-    // move back by size of next-unit
-    SeekGet(-(next_unit.GetPreviousParseOffset()+next_unit.GetSize()), ios_base::cur);
+    if (IsEndOfSequence())
+        return true;
+
+    // Skip past the end of current parse unit
+    SeekGet(m_next_parse_offset-GetSize(), ios_base::cur);
 
     // check the next series of bytes are the parse-info prefix
     string prefix = InputUnString(PU_PREFIX_SIZE);
 
-    bool is_valid = (prefix==PU_PREFIX);
-
-    if(is_valid)
+    if(prefix==PU_PREFIX)
     {
-        // move to start beginning of data in this unit
-        SeekGet(GetSize()-PU_PREFIX_SIZE, ios_base::cur);
+        unsigned char next_parse_code;
+
+        next_parse_code = InputUnByte();
+        // input next unit parse-offsets
+        int next_unit_next_parse_offset;
+        next_unit_next_parse_offset = ReadUintLit(PU_NEXT_PARSE_OFFSET_SIZE);
+
+        int next_unit_previous_parse_offset;
+        next_unit_previous_parse_offset = ReadUintLit(PU_PREVIOUS_PARSE_OFFSET_SIZE);
+        if (next_unit_previous_parse_offset == m_next_parse_offset)
+        {
+            SeekGet(-(m_next_parse_offset-GetSize()+PU_PARSEUNIT_SIZE), ios_base::cur);
+            return true;
+        }
+    }
+    SeekGet(-(m_next_parse_offset-GetSize()), ios_base::cur);
+    return false;
+}
+
+bool ParseUnitByteIO::CanSkip()
+{
+    if(m_next_parse_offset==0 || m_next_parse_offset == GetSize())
         return true;
+
+    // Skip past the end of current parse unit and past the header of the
+    // next unit
+    SeekGet(m_next_parse_offset-GetSize() + GetSize(), ios_base::cur);
+    if(GetReadBytePosition() >= 0)
+    {
+        SeekGet(-(m_next_parse_offset-GetSize() + GetSize()), ios_base::cur);
+           return true; // success
     }
 
-    // not a valid unit - move to start of entire unit
-    SeekGet(-PU_PREFIX_SIZE, ios_base::cur);
+    // end of stream reached
+    mp_stream->clear();
 
     return false;
 }
 
-bool ParseUnitByteIO::Skip()
-{
-    if(m_next_parse_offset==0)
-        return false;
-
-    //int curr_pos = GetReadBytePosition();
-    SeekGet(m_next_parse_offset-GetSize(), ios_base::cur);
-    if(GetReadBytePosition() >= 0)
-        return true; // success
-
-    // end of stream reached
-    mp_stream->clear();
-    
-   DIRAC_THROW_EXCEPTION(
-                    ERR_END_OF_STREAM,
-                    "End of stream",
-                    SEVERITY_NO_ERROR)
-
-}
-
-const string ParseUnitByteIO::GetBytes() 
+const string ParseUnitByteIO::GetBytes()
 {
     stringstream parse_string;
     parse_string << PU_PREFIX;
     parse_string << CalcParseCode();
-   
+
     //FIXME : Need to do this properly.
     // Write the parse offsets in Big Endian format
     for(int i=PU_NEXT_PARSE_OFFSET_SIZE-1; i >= 0; --i)
     {
-        unsigned char cp = (m_next_parse_offset>>(i*8)) & 0xff; 
+        unsigned char cp = (m_next_parse_offset>>(i*8)) & 0xff;
         parse_string << cp;
     }
 
     for(int i=PU_PREVIOUS_PARSE_OFFSET_SIZE-1; i >= 0; --i)
     {
-        unsigned char cp = (m_previous_parse_offset>>(i*8)) & 0xff; 
+        unsigned char cp = (m_previous_parse_offset>>(i*8)) & 0xff;
         parse_string << cp;
     }
 
     return parse_string.str() + ByteIO::GetBytes();
 }
 
- 
+
 int ParseUnitByteIO::GetSize() const
 {
     return PU_PARSEUNIT_SIZE;
@@ -201,7 +211,7 @@ void ParseUnitByteIO::SetAdjacentParseUnits(ParseUnitByteIO *p_prev_parseunit)
         return;
 
     // set previous parse offset
-    m_previous_parse_offset = p_prev_parseunit->m_next_parse_offset; 
+    m_previous_parse_offset = p_prev_parseunit->m_next_parse_offset;
 }
 
 
@@ -209,22 +219,22 @@ ParseUnitType ParseUnitByteIO::GetType() const
 {
     if(IsSeqHeader())
         return PU_SEQ_HEADER;
-    
+
     if(IsCoreSyntax())
-        return PU_CORE_FRAME;
+        return PU_CORE_PICTURE;
 
     if(IsLowDelay())
-        return PU_LOW_DELAY_FRAME;
+        return PU_LOW_DELAY_PICTURE;
 
     if(IsPicture())
-        return PU_FRAME;
+        return PU_PICTURE;
 
     if(IsEndOfSequence())
         return PU_END_OF_SEQUENCE;
 
     if(IsAuxiliaryData())
         return PU_AUXILIARY_DATA;
-    
+
     if(IsPaddingData())
         return PU_PADDING_DATA;
 
@@ -243,8 +253,8 @@ bool ParseUnitByteIO::SyncToUnitStart()
 {
      // locate parse-unit prefix
     string byte_buffer;
-    
-    while(CanRead()==true)
+
+    while(CanRead()==true && mp_stream->tellg() >= 0)
     {
         // ensure current buffer length
         if((int)byte_buffer.size() == PU_PREFIX_SIZE)
@@ -252,7 +262,7 @@ bool ParseUnitByteIO::SyncToUnitStart()
             byte_buffer.assign(byte_buffer.substr(1,PU_PREFIX_SIZE-1));
         }
         // read next byte
-        byte_buffer.push_back(InputUnByte()); 
+        byte_buffer.push_back(InputUnByte());
 
         //look to see if we have prefix
         if(byte_buffer==PU_PREFIX)
@@ -264,24 +274,16 @@ bool ParseUnitByteIO::SyncToUnitStart()
             if (cur_pos < 0) // past end of stream
             {
                 mp_stream->clear();
-              //  mp_stream->seekg(prev_pos-PU_PREFIX_SIZE, ios_base::beg);
-                cur_pos = mp_stream->tellg();
-
-                DIRAC_THROW_EXCEPTION(ERR_END_OF_STREAM,
-                                      "End of stream",
-                                      SEVERITY_NO_ERROR)
+                return false;
             }
             mp_stream->seekg(-(PU_PARSEUNIT_SIZE-PU_PREFIX_SIZE), ios_base::cur);
             return true;
         }
-        
+
     }
 
     // Clear the eof flag and throw an error.
     mp_stream->clear();
-    DIRAC_THROW_EXCEPTION(ERR_END_OF_STREAM,
-                          "End of stream",
-                          SEVERITY_NO_ERROR);
     return false;
 }
 

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: decoder_types.h,v 1.1 2004/08/11 14:16:58 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: decoder_types.h,v 1.2 2008/02/13 03:36:11 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -49,9 +49,7 @@ extern "C" {
 typedef enum { 
     STATE_BUFFER,         /* need more data input */
     STATE_SEQUENCE,       /* start of sequence detected */
-    STATE_PICTURE_START,  /* start of picture detected */
-    STATE_PICTURE_DECODE, /* decoding picture */
-    STATE_PICTURE_AVAIL,  /* decoded picture available */
+    STATE_PICTURE_AVAIL,  /* decoded frame available */
     STATE_SEQUENCE_END,   /* end of sequence detected */
     STATE_INVALID         /* invalid state. Stop further processing */ 
     } DecoderState;

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: pic_io.cpp,v 1.26 2007/09/26 12:18:43 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: pic_io.cpp,v 1.28 2008/06/19 10:17:17 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -44,7 +44,6 @@
 using namespace dirac;
 
 /*************************************Output***********************************/
-
 StreamPicOutput::~StreamPicOutput()
 {
 }
@@ -64,13 +63,13 @@ StreamFrameOutput::~StreamFrameOutput()
 {
 }
 
-bool StreamFrameOutput::WriteNextFrame( const Frame& myframe )
+bool StreamFrameOutput::WriteToNextFrame( const Picture& myframe )
 {
     bool ret_val;
 
-    ret_val=WriteFrameComponent(myframe.Ydata() , Y_COMP );
-    ret_val&=WriteFrameComponent( myframe.Udata() , U_COMP );
-    ret_val&=WriteFrameComponent( myframe.Vdata() , V_COMP );
+    ret_val=WriteFrameComponent(myframe.Data(Y_COMP), Y_COMP );
+    ret_val&=WriteFrameComponent( myframe.Data(U_COMP), U_COMP );
+    ret_val&=WriteFrameComponent( myframe.Data(V_COMP), V_COMP );
 
     return ret_val;
 }
@@ -137,13 +136,13 @@ StreamFieldOutput::~StreamFieldOutput()
         delete [] m_frame_store;
 }
 
-bool StreamFieldOutput::WriteNextFrame( const Frame& myframe )
+bool StreamFieldOutput::WriteToNextFrame( const Picture& myfield )
 {
     bool ret_val;
 
-    ret_val=WriteFieldComponent(myframe.Ydata() , myframe.GetFparams().FrameNum(), Y_COMP );
-    ret_val&=WriteFieldComponent(myframe.Udata() , myframe.GetFparams().FrameNum(), U_COMP );
-    ret_val&=WriteFieldComponent(myframe.Vdata() , myframe.GetFparams().FrameNum(), V_COMP );
+    ret_val=WriteFieldComponent(myfield.Data(Y_COMP) , myfield.GetPparams().PictureNum(), Y_COMP );
+    ret_val&=WriteFieldComponent(myfield.Data(U_COMP) , myfield.GetPparams().PictureNum(), U_COMP );
+    ret_val&=WriteFieldComponent(myfield.Data(V_COMP) , myfield.GetPparams().PictureNum(), V_COMP );
 
     return ret_val;
 }
@@ -300,6 +299,7 @@ FileStreamOutput::~FileStreamOutput()
     delete m_op_pic_str;
 }
 
+
 /**************************************Input***********************************/
 
 
@@ -343,39 +343,17 @@ void StreamFrameInput::Skip(const int num)
     m_ip_pic_ptr->seekg( num*num_bytes , std::ios::cur );
 }
 
-bool StreamFrameInput::ReadNextPicture(Frame& myframe)
+bool StreamFrameInput::ReadNextPicture(Picture& myframe)
 {
     //return value. Failure if one of the components can't be read,
     //success otherwise/.
 
     bool ret_val;
 
-    ret_val=ReadFrameComponent( myframe.Ydata() , Y_COMP);
-    ret_val&=ReadFrameComponent(myframe.Udata() , U_COMP);
-    ret_val&=ReadFrameComponent(myframe.Vdata() , V_COMP);
+    ret_val=ReadFrameComponent( myframe.Data(Y_COMP) , Y_COMP);
+    ret_val&=ReadFrameComponent(myframe.Data(U_COMP) , U_COMP);
+    ret_val&=ReadFrameComponent(myframe.Data(V_COMP) , V_COMP);
 
-    return ret_val;
-}
-
-bool StreamFrameInput::ReadNextFrame(FrameBuffer& my_fbuf, int fnum)
-{
-    //return value. Failure if one of the components can't be read,
-    //success otherwise/.
-
-    my_fbuf.SetFrameParams(fnum);
-    FrameParams& my_fp = my_fbuf.GetFParams();
-    my_fbuf.PushFrame(my_fp.FrameNum());
-    bool ret_val = false;
-    bool is_present;
-
-    Frame &myframe1 = my_fbuf.GetFrame(my_fp.FrameNum(), is_present);
-
-    if (is_present)
-    {
-        ret_val=ReadFrameComponent( myframe1.Ydata(), Y_COMP);
-        ret_val&=ReadFrameComponent(myframe1.Udata(), U_COMP);
-        ret_val&=ReadFrameComponent(myframe1.Vdata(), V_COMP);
-    }
     return ret_val;
 }
 
@@ -457,17 +435,19 @@ void StreamFieldInput::Skip(const int num)
     REPORTM (num && false, "StreamFieldInput::Skip - Reached unimplemented function");
 }
 
-bool StreamFieldInput::ReadNextPicture(Frame& myframe)
+bool StreamFieldInput::ReadNextPicture(Picture& mypic)
 {
+    // FIXME: this method is BROKEN!
+
     //return value. Failure if one of the components can't be read,
     //success otherwise/.
 
     bool ret_val;
 
-    bool is_field1 = (myframe.GetFparams().FrameNum()%2) == 0;
-    ret_val=ReadFieldComponent( is_field1, myframe.Ydata(), Y_COMP);
-    ret_val&=ReadFieldComponent(is_field1, myframe.Udata(), U_COMP);
-    ret_val&=ReadFieldComponent(is_field1, myframe.Vdata(), V_COMP);
+    bool is_field1 = ((mypic.GetPparams().PictureNum()%2) == 0);
+    ret_val=ReadFieldComponent( is_field1, mypic.Data(Y_COMP), Y_COMP);
+    ret_val&=ReadFieldComponent(is_field1, mypic.Data(U_COMP), U_COMP);
+    ret_val&=ReadFieldComponent(is_field1, mypic.Data(V_COMP), V_COMP);
 
     int picture_size = m_sparams.Xl()*m_sparams.Yl() +
                     2*m_sparams.ChromaWidth()*m_sparams.ChromaHeight();
@@ -481,27 +461,17 @@ bool StreamFieldInput::ReadNextPicture(Frame& myframe)
     return ret_val;
 }
 
-bool StreamFieldInput::ReadNextFrame(FrameBuffer& my_fbuf, int fnum)
+bool StreamFieldInput::ReadNextFrame(Picture& field1, Picture& field2)
 {
     //return value. Failure if one of the components can't be read,
     //success otherwise/.
 
-    my_fbuf.SetFrameParams(fnum);
-    FrameParams& my_fp = my_fbuf.GetFParams();
-    my_fbuf.PushFrame(my_fp.FrameNum());
     bool ret_val = false;
-    bool is_present;
 
-    Frame &myframe1 = my_fbuf.GetFrame(my_fp.FrameNum(), is_present);
-    if (is_present)
-    {
-        my_fbuf.SetFrameParams(fnum+1);
-        my_fbuf.PushFrame(my_fp.FrameNum());
-        Frame &myframe2 = my_fbuf.GetFrame(my_fp.FrameNum(), is_present);
-        ret_val=ReadFieldComponent( myframe1.Ydata(), myframe2.Ydata(), Y_COMP);
-        ret_val&=ReadFieldComponent(myframe1.Udata(), myframe2.Udata(), U_COMP);
-        ret_val&=ReadFieldComponent(myframe1.Vdata(), myframe2.Vdata(), V_COMP);
-    }
+    ret_val=ReadFieldComponent( field1.Data(Y_COMP), field2.Data(Y_COMP), Y_COMP);
+    ret_val&=ReadFieldComponent(field1.Data(U_COMP), field2.Data(U_COMP), U_COMP);
+    ret_val&=ReadFieldComponent(field1.Data(V_COMP), field2.Data(V_COMP), V_COMP);
+    
     return ret_val;
 }
 
@@ -645,13 +615,13 @@ bool StreamFieldInput::ReadFieldComponent(bool is_field1,
     return true;
 }
 
-MemoryStreamInput::MemoryStreamInput(SourceParams& sparams, bool interlace)
+MemoryStreamInput::MemoryStreamInput(SourceParams& sparams, bool field_input)
 {
     //picture input
     m_ip_pic_ptr =
         new std::istream(&m_membuf);
 
-    if (interlace)
+    if (field_input)
         m_inp_str = new StreamFieldInput(m_ip_pic_ptr, sparams);
     else
         m_inp_str = new StreamFrameInput(m_ip_pic_ptr, sparams);

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: transform_byteio.cpp,v 1.9 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: transform_byteio.cpp,v 1.10 2008/01/31 11:25:15 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -41,22 +41,22 @@
 
 using namespace dirac;
 
-TransformByteIO::TransformByteIO(FrameParams& fparams,
+TransformByteIO::TransformByteIO(PictureParams& fparams,
                                  CodecParams& cparams):
 ByteIO(),
 m_fparams(fparams),
 m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetFrameType(), fparams.Refs().size(), true)
+m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
 {
 }
 
 TransformByteIO::TransformByteIO(ByteIO &byte_io,
-                                 FrameParams& fparams,
+                                 PictureParams& fparams,
                                  CodecParams& cparams):
 ByteIO(byte_io),
 m_fparams(fparams),
 m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetFrameType(), fparams.Refs().size(), true)
+m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
 {
 }
 
@@ -93,7 +93,7 @@ const std::string TransformByteIO::GetBytes()
 void TransformByteIO::Output()
 {
     // Zero Transform flag - applies only to inter frames
-    if (m_fparams.FSort().IsInter())
+    if (m_fparams.PicSort().IsInter())
         WriteBit(false);
     // Wavelet index
     WriteUint(m_cparams.TransformFilter());
@@ -127,7 +127,7 @@ void TransformByteIO::Input()
 
     m_cparams.SetZeroTransform(false);
     // Zero transform flag - applies only for inter frames
-    if (m_fparams.FSort().IsInter())
+    if (m_fparams.PicSort().IsInter())
         m_cparams.SetZeroTransform(ReadBool());
 
     if (m_cparams.ZeroTransform())

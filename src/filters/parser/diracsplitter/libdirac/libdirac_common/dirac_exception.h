@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_exception.h,v 1.5 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_exception.h,v 1.6 2008/01/31 11:25:16 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -60,7 +60,7 @@ namespace dirac {
         ERR_END_OF_STREAM,
         ERR_INVALID_VIDEO_FORMAT,
         ERR_INVALID_CHROMA_FORMAT,
-        ERR_INVALID_FRAME_RATE,
+        ERR_INVALID_PICTURE_RATE,
         ERR_INVALID_SIGNAL_RANGE,
         ERR_INVALID_PIXEL_ASPECT_RATIO,
         ERR_INVALID_VIDEO_DEPTH,
@@ -75,7 +75,7 @@ namespace dirac {
     enum DiracSeverityCode {
         SEVERITY_NO_ERROR=0,
         SEVERITY_WARNING,
-        SEVERITY_FRAME_ERROR,
+        SEVERITY_PICTURE_ERROR,
         SEVERITY_ACCESSUNIT_ERROR,
         SEVERITY_SEQUENCE_ERROR,
         SEVERITY_TERMINATE

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: parseparams_byteio.h,v 1.2 2007/07/16 15:11:51 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: parseparams_byteio.h,v 1.4 2008/05/07 05:47:00 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -61,9 +61,13 @@ namespace dirac
 
         /**
         * Constructor
-        *@param stream_data Destination of data
+        *@param stream_data   Destination of data
+        *@param parse_params  Parse parameters
+        *@param enc_params    Encoder parameters
         */
-        ParseParamsByteIO(const ByteIO& stream_data);
+        ParseParamsByteIO(const ByteIO& stream_data,
+                          ParseParams &parse_params,
+                          EncoderParams &enc_params);
 
         /**
         * Constructor
@@ -95,12 +99,16 @@ namespace dirac
 
     protected:
     
+    private:
+        void CheckVersion();
+        void CheckProfile();
+        void CheckLevel();
 
     private:
         /**
         * Reference to parse parameters
         */
-        ParseParams m_parse_params;
+        ParseParams& m_parse_params;
     };
 
 

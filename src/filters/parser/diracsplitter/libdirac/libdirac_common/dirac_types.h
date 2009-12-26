@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_types.h,v 1.9 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_types.h,v 1.12 2008/11/18 23:25:54 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -56,10 +56,32 @@ extern "C" {
 #endif
 
 /*
+*   Major version corresponds to major version of the software.
+*   Minor version corresponds to minor version of the software. Bump
+*   this up by one whenever there are  major feature changes to the software.
+*   Patch version corresponds to changes in the API. It should be
+*   bumped up by 1 for every committed change to the API
+*/
+#define DIRAC_RESEARCH_MAJOR_VERSION 1   /* 0..255 */
+#define DIRAC_RESEARCH_MINOR_VERSION 0   /* 0..255 */
+#define DIRAC_RESEARCH_PATCH_VERSION 2   /* 0..255 */
+
+#define DIRAC_RESEARCH_VERSION(X, Y, Z)      \
+    (((X)<<16) + ((Y)<<8) + (Z))
+
+#define DIRAC_RESEARCH_CURVERSION                        \
+    DIRAC_RESEARCH_VERSION(DIRAC_RESEARCH_MAJOR_VERSION, \
+    DIRAC_RESEARCH_MINOR_VERSION,                        \
+    DIRAC_RESEARCH_PATCH_VERSION)
+
+#define DIRAC_RESEARCH_VERSION_ATLEAST(X, Y, Z) \
+    (DIRAC_RESEARCH_CURVERSION >= DIRAC_RESEARCH_VERSION(X, Y, Z))
+
+/*
 * Some basic enumeration types used by end user encoder and decoder ...//
 */
 typedef ChromaFormat dirac_chroma_t;
-typedef FrameType dirac_frame_type_t;
+typedef PictureType dirac_picture_type_t;
 typedef ReferenceType dirac_reference_type_t;
 typedef WltFilter dirac_wlt_filter_t;
 
@@ -147,19 +169,20 @@ typedef struct
 
 } dirac_sourceparams_t;
 
-/*! Structure that holds the frame parameters */
+/*! Structure that holds the picture parameters */
 typedef struct
 {
-    /*! frame type */
-    dirac_frame_type_t ftype;
+    /*! picture type */
+    dirac_picture_type_t ptype;
     /*! reference type */
     dirac_reference_type_t rtype;
-    /*! frame number in decoded order */
-    int fnum;
-} dirac_frameparams_t;
+    /*! picture number in decoded order */
+    int pnum;
+} dirac_picparams_t;
 
 
-/*! Structure that holds the frame buffers into which data is written */
+/*! Structure that holds the frame buffers into which data is written 
+(NB we have frame-oriented IO even though we code pictures)*/
 typedef struct
 {
     /*! buffers to hold the luma and chroma data */

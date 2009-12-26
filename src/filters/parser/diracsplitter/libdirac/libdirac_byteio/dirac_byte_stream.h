@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: dirac_byte_stream.h,v 1.1 2006/04/20 10:41:56 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: dirac_byte_stream.h,v 1.4 2008/08/14 00:51:08 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -20,7 +20,8 @@
 * Portions created by the Initial Developer are Copyright (C) 2004.
 * All Rights Reserved.
 *
-* Contributor(s): Andrew Kennedy
+* Contributor(s): Andrew Kennedy (Original Author)
+*                 Anuradha Suraparaju
 *
 * Alternatively, the contents of this file may be used under the terms of
 * the GNU General Public License Version 2 (the "GPL"), or the GNU Lesser
@@ -47,7 +48,7 @@
 //LOCAL INCLUDES
 #include "byteio.h"             // Parent class
 #include "accessunit_byteio.h"  // manages parse-unit types
-#include "frame_byteio.h"       // manages parse-unit types
+#include "picture_byteio.h"       // manages parse-unit types
 
 namespace dirac
 {
@@ -69,7 +70,7 @@ namespace dirac
         * Destructor
         */
         ~DiracByteStream();
-       
+
         /**
         * Adds Dirac-formatted bytes to internal-byte-stream for processing
         *@param start Start of char list
@@ -96,16 +97,15 @@ namespace dirac
 
         /**
         * Adds a random access point to the current Dirac byte stream
-        *@param p_accessunit_byteio Access-unit stream. This class is
-        * now responsible for deleting
+        *@param p_seqheader_byteio Sequence header data. 
         */
-        void AddAccessUnit(AccessUnitByteIO *p_accessunit_byteio);
+        void AddSequenceHeader(SequenceHeaderByteIO *p_seqheader_byteio);
 
         /**
-        * Adds a frame to the current Dirac byte stream
-        *@param p_frame_byteio Frame stream. This class is now responsible for deleting.
+        * Adds a picture to the current Dirac byte stream
+        *@param p_frame_byteio Picture stream. This class is now responsible for deleting.
         */
-        void AddFrame(FrameByteIO *p_frame_byteio);
+        void AddPicture(PictureByteIO *p_frame_byteio);
 
         /**
         * Clear parse-units
@@ -129,7 +129,11 @@ namespace dirac
         bool IsUnitAvailable() const;
 
         private:
-       
+
+        void Reset(ParseUnitByteIO* p_curr_unit, int pos);
+
+        private:
+
         /**
         * Parse-units in Dirac stream
         */
@@ -143,17 +147,10 @@ namespace dirac
         ParseUnitByteIO* mp_prev_parse_unit;
 
         /**
-        * Next parse-unit waiting to be processed
-        * A parse-unit can only be declared valid only if it has been validated
-        * against the next unit in the stream
-        */
-        ParseUnitByteIO* mp_next_parse_unit;
-
-        /**
         * Stats for current sequence
         */
         DiracByteStats      m_sequence_stats;
-        
+
     };
 
 } // namespace dirac

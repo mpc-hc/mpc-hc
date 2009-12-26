@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: upconvert.cpp,v 1.11 2007/11/22 15:19:28 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: upconvert.cpp,v 1.11 2007/11/22 15:19:28 tjdwave Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

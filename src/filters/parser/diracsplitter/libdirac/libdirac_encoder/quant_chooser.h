@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: quant_chooser.h,v 1.6 2008/01/16 16:11:17 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: quant_chooser.h,v 1.7 2008/05/27 01:29:54 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

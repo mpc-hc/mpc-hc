@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: motion.cpp,v 1.21 2007/07/30 18:40:01 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: motion.cpp,v 1.28 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -52,28 +52,15 @@ using namespace std;
 //Motion vector and Motion Estimation structures//
 //////////////////////////////////////////////////
 
-MvData::MvData( const int xnumMB, const int ynumMB , 
-                const int xnumblocks, const int ynumblocks , const int num_refs ):
+MvData::MvData( const PicturePredParams& predparams , const int num_refs ):
+    m_predparams( predparams ),
     m_vectors( Range(1 , num_refs) ),
     m_gm_vectors( Range(1 , num_refs) ),
-    m_modes( ynumblocks , xnumblocks ),
+    m_modes( predparams.YNumBlocks() , predparams.XNumBlocks() ),
     m_dc( 3 ),
-    m_mb_split( ynumMB , xnumMB ),
-    m_gm_params( Range(1 , num_refs) ),
-    m_num_refs(num_refs)
-{
-
-    InitMvData();
-}
-
-MvData::MvData( const int xnumMB , const int ynumMB , const int num_refs ):
-    m_vectors( Range(1 , num_refs) ),
-    m_gm_vectors( Range(1 , num_refs) ),
-    m_modes( 4*ynumMB , 4*xnumMB ),
-    m_dc( 3 ),
-    m_mb_split( ynumMB , xnumMB ),
-    m_gm_params( Range(1 , num_refs) ),
-    m_num_refs(num_refs)
+    m_sb_split( predparams.YNumSB() , predparams.XNumSB() ),
+    m_gm_params( Range(1 , num_refs) )//,
+//    m_num_refs(num_refs)
 {
     InitMvData();
 }
@@ -114,32 +101,17 @@ MvData::~MvData()
          delete m_dc[i];
 }
 
-
-
-MEData::MEData(const int xnumMB , const int ynumMB ,
-                const int xnumblocks , const int ynumblocks , const int num_refs ):
-     MvData( xnumMB , ynumMB , xnumblocks , ynumblocks , num_refs ),
+MEData::MEData(const PicturePredParams& predparams , const int num_refs ):
+     MvData( predparams , num_refs ),
      m_pred_costs( Range( 1 , num_refs ) ),
-     m_intra_costs( ynumblocks , xnumblocks, 0 ),
-     m_bipred_costs( ynumblocks , xnumblocks ),
-     m_MB_costs( ynumMB , xnumMB ),
-     m_lambda_map( ynumblocks , xnumblocks ),
-     m_inliers( Range( 1 , num_refs ) )
+     m_intra_costs( predparams.YNumBlocks() , predparams.XNumBlocks(), 0 ),
+     m_bipred_costs( predparams.YNumBlocks() , predparams.XNumBlocks() ),
+     m_SB_costs( predparams.YNumSB() , predparams.XNumSB() ),
+     m_lambda_map( predparams.YNumBlocks() , predparams.XNumBlocks() ),
+     m_inliers( Range( 1 , num_refs ) ),
+     m_intra_block_ratio(0.0)
 {
     InitMEData();
-}
-
-MEData::MEData( const int xnumMB , const int ynumMB ,  const int num_refs ):
-     MvData( xnumMB , ynumMB , num_refs ),
-     m_pred_costs( Range( 1 , num_refs ) ),
-     m_intra_costs( 4*ynumMB , 4*xnumMB, 0 ),
-     m_bipred_costs( 4*ynumMB , 4*xnumMB ),
-     m_MB_costs( ynumMB , xnumMB ),
-     m_lambda_map( 4*ynumMB , 4*xnumMB ),
-     m_inliers( Range( 1 , num_refs ) )
-{
-    InitMEData();
-
 }
 
 void MEData::InitMEData()
@@ -358,7 +330,6 @@ void MEData::FindTransitions( TwoDArray<bool>& trans_map , const int ref_num )
          }// i
      }// j
 
-     
 }
 
 
@@ -370,6 +341,35 @@ MEData::~MEData()
 
      for ( int i=m_inliers.First() ; i<=m_inliers.Last() ; ++i )
         delete m_inliers[i];
+}
+
+void MEData::DropRef( const int rindex ){
+
+    if (rindex==2){}
+    else if (rindex==1){
+       // Swap data for reference 1 and reference 2
+       // so that reference 2 becomes the new reference 1
+
+       MvArray* ptr = m_vectors[1];
+       m_vectors[1] = m_vectors[2];
+       m_vectors[2] = ptr;
+
+       ptr = m_gm_vectors[1];
+       m_gm_vectors[1] = m_gm_vectors[2];
+       m_gm_vectors[2] = ptr;
+
+       OneDArray<float>* ptr2 = m_gm_params[1];
+       m_gm_params[1] = m_gm_params[2];
+       m_gm_params[2] = ptr2;
+
+       TwoDArray<MvCostData>* ptr3 = m_pred_costs[1];
+       m_pred_costs[1] = m_pred_costs[2];
+       m_pred_costs[2] = ptr3;
+
+       TwoDArray<int>* ptr4 = m_inliers[1];
+       m_inliers[1] = m_inliers[2];
+       m_inliers[2] = ptr4;
+    }
 }
 
 namespace dirac
@@ -416,8 +416,8 @@ istream &operator>> (istream & stream, MEData & me_data)
     stream.ignore(1000, '\n');
     
     // input reference-independent information
-    stream >> me_data.MBSplit();
-    stream >> me_data.MBCosts();
+    stream >> me_data.SBSplit();
+    stream >> me_data.SBCosts();
     stream >> me_data.Mode();
     stream >> me_data.IntraCosts();
 
@@ -452,8 +452,8 @@ istream &operator>> (istream & stream, MEData & me_data)
 ostream &operator<< (ostream & stream, MEData & me_data)
 {
     // output reference-independent information
-    stream << endl << endl << me_data.MBSplit();
-    stream << endl << me_data.MBCosts();
+    stream << endl << endl << me_data.SBSplit();
+    stream << endl << me_data.SBCosts();
     stream << endl << me_data.Mode();
     stream << endl << me_data.IntraCosts() << endl;
 
@@ -696,20 +696,24 @@ unsigned int GetUMean(std::vector<unsigned int>& values)
 //! Return the mean of a set of signed integer values
 int GetSMean(std::vector<int>& values)
 {
+    if (values.size()==0)
+        return 0;
+
     int sum=0;
-    for (unsigned int I=0;I<values.size();++I)
-        sum+=values[I];
-    if ( sum>0 )
+    for (unsigned int i=0;i<values.size();++i)
+        sum+=values[i];
+    if ( sum>=0 )
     {
         sum+=(values.size()>>1);
         sum/=values.size();
     }
     else
     {
-        sum = -sum;
+        int old_sum = sum;
+        sum -= values.size()*old_sum;
         sum+=(values.size()>>1);
         sum/=values.size();
-        sum = -sum;
+        sum += old_sum;
     }
 
     return sum;

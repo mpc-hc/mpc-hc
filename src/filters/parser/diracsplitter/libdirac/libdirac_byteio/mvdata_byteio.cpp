@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: mvdata_byteio.cpp,v 1.11 2008/01/09 10:45:09 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: mvdata_byteio.cpp,v 1.13 2008/08/27 00:17:10 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -41,12 +41,11 @@
 
 using namespace dirac;
 
-MvDataByteIO::MvDataByteIO(FrameParams& fparams,
-                                 CodecParams& cparams):
+MvDataByteIO::MvDataByteIO(PictureParams& pparams,
+                                 PicturePredParams& picpredparams):
 ByteIO(),
-m_fparams(fparams),
-m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetFrameType(), fparams.Refs().size(), true),
+m_pparams(pparams),
+m_picpredparams(picpredparams),
 m_splitmode_data(),
 m_predmode_data(),
 m_mv1hblock_data(),
@@ -58,12 +57,11 @@ m_udcblock_data(),
 m_vdcblock_data()
 {}
 
-MvDataByteIO::MvDataByteIO(ByteIO &byte_io, FrameParams& fparams,
-                                 CodecParams& cparams):
+MvDataByteIO::MvDataByteIO(ByteIO &byte_io, PictureParams& pparams,
+                                 PicturePredParams& picpredparams):
 ByteIO(byte_io),
-m_fparams(fparams),
-m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetFrameType(), fparams.Refs().size(), true),
+m_pparams(pparams),
+m_picpredparams(picpredparams),
 m_splitmode_data(byte_io),
 m_predmode_data(byte_io),
 m_mv1hblock_data(byte_io),
@@ -87,8 +85,8 @@ void MvDataByteIO::CollateByteStats(DiracByteStats& dirac_byte_stats)
 
 int MvDataByteIO::GetSize() const
 {
-    if (m_fparams.NumRefs()==2)
-        return ByteIO::GetSize() + 
+    if (m_pparams.NumRefs()==2)
+        return ByteIO::GetSize() +
                m_splitmode_data.GetSize()+
                m_predmode_data.GetSize()+
                m_mv1hblock_data.GetSize()+
@@ -99,7 +97,7 @@ int MvDataByteIO::GetSize() const
                m_udcblock_data.GetSize()+
                m_vdcblock_data.GetSize();
     else
-        return ByteIO::GetSize() + 
+        return ByteIO::GetSize() +
                m_splitmode_data.GetSize()+
                m_predmode_data.GetSize()+
                m_mv1hblock_data.GetSize()+
@@ -112,8 +110,8 @@ int MvDataByteIO::GetSize() const
 const std::string MvDataByteIO::GetBytes()
 {
     //Output header and block data
-    if (m_fparams.NumRefs()==2 )
-        return ByteIO::GetBytes() + 
+    if (m_pparams.NumRefs()==2 )
+        return ByteIO::GetBytes() +
                m_splitmode_data.GetBytes()+
                m_predmode_data.GetBytes()+
                m_mv1hblock_data.GetBytes()+
@@ -124,7 +122,7 @@ const std::string MvDataByteIO::GetBytes()
                m_udcblock_data.GetBytes()+
                m_vdcblock_data.GetBytes();
     else
-        return ByteIO::GetBytes() + 
+        return ByteIO::GetBytes() +
                m_splitmode_data.GetBytes()+
                m_predmode_data.GetBytes()+
                m_mv1hblock_data.GetBytes()+
@@ -145,14 +143,14 @@ void MvDataByteIO::Input()
     // Input Motion Vector Precision
     InputMVPrecision();
 
-    // Input chroma 
+    // Input chroma
     InputGlobalMotionParams();
 
     // Input Picture Prediction mode
     InputFramePredictionMode();
 
-    // Input frame weights
-    InputFrameWeights();
+    // Input picture weights
+    InputPictureWeights();
 
     // Byte Alignment
     ByteAlignInput();
@@ -166,14 +164,14 @@ void MvDataByteIO::Output()
     // Output Motion Vector Precision
     OutputMVPrecision();
 
-    // output global motion 
+    // output global motion
     OutputGlobalMotionParams();
 
     // output picture prediction mode
     OutputFramePredictionMode();
 
-    // output frame weights
-    OutputFrameWeights();
+    // output picture weights
+    OutputPictureWeights();
 
     // Byte Align
     ByteAlignOutput();
@@ -183,9 +181,9 @@ void MvDataByteIO::Output()
 
 void MvDataByteIO::OutputBlockParams()
 {
-    const OLBParams& olb_params = m_cparams.LumaBParams(2);
+    const OLBParams& olb_params = m_picpredparams.LumaBParams(2);
 
-    // output custom block params flag 
+    // output custom block params flag
     unsigned int pidx = BlockParametersIndex(olb_params);
     WriteUint(pidx);
     if (pidx == 0) // custom block params
@@ -220,13 +218,13 @@ void MvDataByteIO::InputBlockParams()
     else
         SetDefaultBlockParameters (olb_params, p_idx);
 
-    m_cparams.SetLumaBlockParams(olb_params);
+    m_picpredparams.SetLumaBlockParams(olb_params);
 }
 
 void MvDataByteIO::OutputMVPrecision()
 {
     // Output Motion vector precision
-    WriteUint(m_cparams.MVPrecision());
+    WriteUint(m_picpredparams.MVPrecision());
 }
 
 void MvDataByteIO::InputMVPrecision()
@@ -237,9 +235,9 @@ void MvDataByteIO::InputMVPrecision()
         DIRAC_THROW_EXCEPTION(
                 ERR_INVALID_MOTION_VECTOR_PRECISION,
                 "Dirac does not recognise the specified MV precision",
-                SEVERITY_FRAME_ERROR)
+                SEVERITY_PICTURE_ERROR)
 
-    m_cparams.SetMVPrecision(mv_prec);
+    m_picpredparams.SetMVPrecision(mv_prec);
 }
 
 void MvDataByteIO::OutputGlobalMotionParams()
@@ -256,21 +254,21 @@ void MvDataByteIO::InputGlobalMotionParams()
     // Using Global motion flag
     if (ReadBool())
     {
-        m_cparams.SetUsingGlobalMotion(true);
- 
+        m_picpredparams.SetUsingGlobalMotion(true);
+
         // NOTE: FIXME - input actual global motion params in future
         DIRAC_THROW_EXCEPTION(
                     ERR_UNSUPPORTED_STREAM_DATA,
                     "Cannot handle global motion parameters",
-                    SEVERITY_FRAME_ERROR)
+                    SEVERITY_PICTURE_ERROR)
     }
     else
-        m_cparams.SetUsingGlobalMotion(false);
+        m_picpredparams.SetUsingGlobalMotion(false);
 }
 
 void MvDataByteIO::OutputFramePredictionMode()
 {
-    //  TODO: Output default frame prediction mode index until other
+    //  TODO: Output default picture prediction mode index until other
     //  modes are supported.
     WriteUint(0);
 }
@@ -285,27 +283,27 @@ void MvDataByteIO::InputFramePredictionMode()
         DIRAC_THROW_EXCEPTION(
             ERR_UNSUPPORTED_STREAM_DATA,
             "Non-default Picture Prediction Mode not supported",
-            SEVERITY_FRAME_ERROR);
+            SEVERITY_PICTURE_ERROR);
     }
 }
 
 
-void MvDataByteIO::OutputFrameWeights()
+void MvDataByteIO::OutputPictureWeights()
 {
     // Output default weights flags
-    if (m_cparams.FrameWeightsBits() != m_default_cparams.FrameWeightsBits() ||
-        m_cparams.Ref1Weight() !=  m_default_cparams.Ref1Weight() ||
-        (m_fparams.Refs().size() > 1 && m_cparams.Ref2Weight() !=  m_default_cparams.Ref2Weight()))
+    if (m_picpredparams.PictureWeightsBits() != 1 ||
+        m_picpredparams.Ref1Weight() !=  1 ||
+        (m_pparams.Refs().size() > 1 && m_picpredparams.Ref2Weight() != 1) )
     {
-           WriteBit(true);
+         WriteBit(true);
         // Output weight precision bits
-        WriteUint(m_cparams.FrameWeightsBits());
+        WriteUint(m_picpredparams.PictureWeightsBits());
         // Output Ref1 weight
-        WriteSint(m_cparams.Ref1Weight());
-        if (m_fparams.Refs().size() > 1)
+        WriteSint(m_picpredparams.Ref1Weight());
+        if (m_pparams.Refs().size() > 1)
         {
             // Output Ref1 weight
-            WriteSint(m_cparams.Ref2Weight());
+            WriteSint(m_picpredparams.Ref2Weight());
         }
     }
     else
@@ -314,21 +312,21 @@ void MvDataByteIO::OutputFrameWeights()
     }
 }
 
-void MvDataByteIO::InputFrameWeights()
+void MvDataByteIO::InputPictureWeights()
 {
     if (ReadBool())
     {
-        m_cparams.SetFrameWeightsPrecision(ReadUint());
-        m_cparams.SetRef1Weight(ReadSint());
-        if (m_fparams.Refs().size() > 1)
-            m_cparams.SetRef2Weight(ReadSint());
+        m_picpredparams.SetPictureWeightsPrecision(ReadUint());
+        m_picpredparams.SetRef1Weight(ReadSint());
+        if (m_pparams.Refs().size() > 1)
+            m_picpredparams.SetRef2Weight(ReadSint());
         else
-            m_cparams.SetRef2Weight(0);
+            m_picpredparams.SetRef2Weight(0);
     }
     else
     {
-        m_cparams.SetFrameWeightsPrecision(m_default_cparams.FrameWeightsBits());
-        m_cparams.SetRef1Weight(m_default_cparams.Ref1Weight());
-        m_cparams.SetRef2Weight(m_default_cparams.Ref2Weight());
+        m_picpredparams.SetPictureWeightsPrecision(1);
+        m_picpredparams.SetRef1Weight(1);
+        m_picpredparams.SetRef2Weight(1);
     }
 }

@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: common.h,v 1.70 2008/01/15 04:36:23 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: common.h,v 1.79 2008/10/01 01:26:47 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -59,7 +59,7 @@ namespace dirac
         decoder.  The main classes are the encoder and decoder parameters for
         controlling the encode and decode processes. These are passed
         throughout the codec.  There are also parameter classes for sequences
-        and frames.
+        and Pictures.
     */
 
 
@@ -160,10 +160,10 @@ namespace dirac
 
         // Macroblock contexts
 
-        MB_SPLIT_BIN1_CTX,  // bin 1, MB split mode vals
-        MB_SPLIT_BIN2_CTX,  // bin 2, MB split mode vals. Bin 3 not required
+        SB_SPLIT_BIN1_CTX,  // bin 1, SB split mode vals
+        SB_SPLIT_BIN2_CTX,  // bin 2, SB split mode vals. Bin 3 not required
 
-        MB_SPLIT_INFO_CTX,  // info context for MB split mode
+        SB_SPLIT_INFO_CTX,  // info context for SB split mode
 
         TOTAL_MV_CTXS       // The total number of motion vector contexts
     };
@@ -213,11 +213,22 @@ namespace dirac
 
     //Classes used throughout the codec//
     /////////////////////////////////////
-    //! Frame type Class
-    class FrameSort
+ 
+    //! Class defining a rational number
+    class Rational
     {
     public:
-        FrameSort() { fs = 0x00; } // default intra non-ref
+        //! Numerator
+        unsigned int m_num;
+        //! Denominator
+        unsigned int m_denom;
+    };
+
+   //! Picture type Class
+    class PictureSort
+    {
+    public:
+        PictureSort() { fs = 0x00; } // default intra non-ref
 
         void SetIntra() { fs &= 0xfe; }
         void SetInter() { fs |= 0x01; }
@@ -241,303 +252,36 @@ namespace dirac
 
         void Clear() { fs=0x00; }
 
-        static FrameSort IntraRefFrameSort()
+        static PictureSort IntraRefPictureSort()
         {
-            FrameSort fs;
+            PictureSort fs;
             fs.SetIntraRef();
             return fs;
         }
 
-        static FrameSort InterRefFrameSort()
+        static PictureSort InterRefPictureSort()
         {
-            FrameSort fs;
+            PictureSort fs;
             fs.SetInterRef();
             return fs;
         }
 
-        static FrameSort IntraNonRefFrameSort()
+        static PictureSort IntraNonRefPictureSort()
         {
-            FrameSort fs;
+            PictureSort fs;
             fs.SetIntraNonRef();
             return fs;
         }
 
-        static FrameSort InterNonRefFrameSort()
+        static PictureSort InterNonRefPictureSort()
         {
-            FrameSort fs;
+            PictureSort fs;
             fs.SetInterNonRef();
             return fs;
         }
 
     private:
         unsigned char fs;
-    };
-
-    //! A class for picture component data.
-    /*!
-        A class for encapsulating picture data, derived from TwoDArray.
-     */
-    class PicArray: public TwoDArray<ValueType>
-    {
-    public:
-        //! Default constructor
-        /*!
-            Default constructor creates an empty array.
-        */
-        PicArray(): TwoDArray<ValueType>(){}
-
-        //! Constructor.
-        /*!
-            Contructor creates a two-D array, with specified size and colour
-            format.
-        */
-        PicArray(int height, int width, CompSort cs=Y_COMP): 
-            TwoDArray<ValueType>(height, width), m_csort(cs){}
-
-        //copy constructor and assignment= derived by inheritance
-
-        //! Destructor
-        ~PicArray(){}
-
-        //! Return which component is stored
-        const CompSort& CSort() const {return m_csort;}
-        
-        //! Set the type of component being stored
-        void SetCSort(const CompSort cs){ m_csort = cs; }
-
-    private:
-
-        CompSort m_csort;
-    };
-
-    //! A class for picture component data.
-    /*!
-        A class for encapsulating coefficient data, derived from TwoDArray..
-     */
-    class CoeffArray: public TwoDArray<CoeffType>
-    {
-    public:
-        //! Default constructor
-        /*!
-            Default constructor creates an empty array.
-        */
-        CoeffArray(): TwoDArray<CoeffType>(){}
-
-        //! Constructor.
-        /*!
-            Contructor creates a two-D array, with specified size and colour
-            format.
-        */
-        CoeffArray(int height, int width, CompSort cs=Y_COMP): 
-            TwoDArray<CoeffType>(height, width), m_csort(cs){}
-
-        //copy constructor and assignment= derived by inheritance
-
-        //! Destructor
-        ~CoeffArray(){}
-        
-        //! Return which component is stored
-        const CompSort& CSort() const {return m_csort;}
-        
-        //! Set the type of component being stored
-        void SetCSort(const CompSort cs){ m_csort = cs; }
-        
-        private:
-
-        CompSort m_csort;
-
-    };
-
-
-    //! A structure for recording costs, particularly in quantisation.
-    class CostType
-    {
-    public:
-        //! The error (MSE or 4th power)
-        double Error;
-
-        //! The entropy in bits per symbol.
-        double ENTROPY;
-
-        //! The Lagrangian combination of MSE+lambda*entropy
-        double TOTAL;
-    };
-
-
-    //! A class used for correcting estimates of entropy.
-    /*!
-        A class used by the encoder for correcting estimates of entropy. Used
-        for selecting quantisers in subband coefficient coding. Factors can be
-        adjusted in the light of previous experience.
-     */
-    class EntropyCorrector
-    {
-    public:
-        //! Constructor.
-        /*!
-        Constructs arrays of correction factors of size.
-        \param    depth    the depth of the wavelet transform.
-        */
-        EntropyCorrector(int depth);
-
-        ////////////////////////////////////////////////////////////////////
-        //NB: Assume default copy constructor, assignment = and destructor//
-        ////////////////////////////////////////////////////////////////////
-
-        //! Returns the correction factor.
-        /*!
-        Returns the correction factor for the band given also the type of
-        frame and component.
-        */
-        float Factor(const int bandnum, const FrameSort fsort,const CompSort c) const;
-
-        //! Update the correction factors.
-        /*!
-        Update the factors for a given subband, component and frame type.
-        \param    bandnum    the number of the subband to update
-        \param    fsort      frame type
-        \param    c          component type
-        \param    est_bits    the number of bits it was estimated would be used
-        \param    actual_bits    the number of bits that actually were used
-         */
-        void Update(int bandnum, FrameSort fsort, CompSort c,int est_bits,int actual_bits);
-
-    private:
-        //! Initialises the correction factors
-        void Init();
-
-        TwoDArray<float> m_Yfctrs;
-        TwoDArray<float> m_Ufctrs;
-        TwoDArray<float> m_Vfctrs;
-    };
-
-    //! Parameters for overlapped block motion compensation
-    class OLBParams
-    {
-
-    public:
-
-        //! Default constructor does nothing
-        OLBParams(){}
-
-        //! Constructor
-        /*
-            Constructor rationalises proposed parameters to allow suitable
-            overlap and fit in with chroma format
-            \param    xblen    the horizontal block length
-            \param    yblen    the vertical block length
-            \param    xblen    the horizontal block separation
-            \param    yblen    the vertical block separation
-
-        */
-        OLBParams(const int xblen, const int yblen,
-                  const int xbsep, const int ybsep);
-
-        // Gets ...
-
-        //! Returns the horizontal block length
-        int Xblen() const {return m_xblen;}
-
-        //! Returns the vertical block length
-        int Yblen() const {return m_yblen;}
-
-        //! Returns the horizontal block separation
-        int Xbsep() const {return m_xbsep;}
-
-        //! Returns the vertical block separation
-        int Ybsep() const {return m_ybsep;}
-
-        //! The offset in the horizontal start of the block caused by overlap,=(XBLEN-XBSEP)/2
-        int Xoffset() const {return m_xoffset;}
-
-        //! The offset in the vertical start of the block caused by overlap,=(YBLEN-YBSEP)/2
-        int Yoffset() const {return m_yoffset;}
-
-        // ... and sets
-
-        //! Sets the block width
-        void SetXblen( int xblen ){ m_xblen = xblen; m_xoffset = (m_xblen-m_xbsep)/2;}
-
-        //! Sets the block height
-        void SetYblen( int yblen ){ m_yblen = yblen; m_yoffset = (m_yblen-m_ybsep)/2;}
-
-        //! Sets the block horizontal separation
-        void SetXbsep( int xbsep ){ m_xbsep = xbsep; m_xoffset = (m_xblen-m_xbsep)/2;}
-
-        //! Sets the block vertical separation
-        void SetYbsep( int ybsep ){ m_ybsep = ybsep; m_yoffset = (m_yblen-m_ybsep)/2;}
-
-        bool operator == (const OLBParams bparams) const;
-
-        // overloaded stream operators
-        friend std::ostream & operator<< (std::ostream &, OLBParams &);
-        friend std::istream & operator>> (std::istream &, OLBParams &);
-
-
-    private:
-
-        int m_xblen;
-        int m_yblen;
-        int m_xbsep;
-        int m_ybsep;
-        int m_xoffset;
-        int m_yoffset;
-    };
-
-    //! Class defining a rational number
-    class Rational
-    {
-    public:
-        //! Numerator
-        unsigned int m_num;
-        //! Denominator
-        unsigned int m_denom;
-    };
-
-    //! Parameters relating to the complexity of encoder/decoder
-    class ParseParams
-    {
-    public:
-        //! Default constructor
-        ParseParams();
-
-        // Gets
-
-        //! Get the major version
-        unsigned int MajorVersion() const { return m_major_ver; }
-
-        //! Get the minor version
-        unsigned int MinorVersion() const { return m_minor_ver; }
-
-        //! Get the Profile
-        unsigned int Profile() const { return m_profile; }
-
-        //! Get the Level
-        unsigned int Level() const { return m_level; }
-
-        // Sets
-
-        //! Set the major version
-        void SetMajorVersion(unsigned int major_ver) {m_major_ver = major_ver; }
-
-        //! Set the minor version
-        void SetMinorVersion(unsigned int minor_ver) { m_minor_ver = minor_ver; }
-
-        //! Set the Profile
-        void SetProfile(unsigned int level) { m_level = level; }
-
-        //! Set the Level
-        void SetLevel(unsigned int profile) { m_profile = profile; }
-
-    private:
-        //! Major Version
-        unsigned int m_major_ver;
-        //! Minor Version
-        unsigned int m_minor_ver;
-        //! Profile
-        unsigned int m_profile;
-        //! Level
-        unsigned int m_level;
     };
 
     //! Parameters relating to the source material being encoded/decoded
@@ -783,40 +527,33 @@ namespace dirac
         TransferFunction m_transfer_func;
     };
 
-    //! Parameters for initialising frame class objects
-    class FrameParams
+
+    //! Parameters for initialising picture class objects
+    class PictureParams
     {
 
     public:
         //! Default constructor
-        FrameParams();
+        PictureParams();
 
         //! Constructor
         /*!
-           Frame chroma format is set Frame sort defaults to I frame.
+           Picture chroma format is set Picture sort defaults to I picture.
         */
-        FrameParams(const ChromaFormat& cf, int orig_xlen, int orig_ylen,
-                    int dwt_xlen, int dwt_ylen,
-                    int c_dwt_xlen, int c_dwt_ylen,
+        PictureParams(const ChromaFormat& cf, int xlen, int ylen,
                     unsigned int luma_depth, unsigned int chroma_depth);
 
         //! Constructor
         /*!
-           Frame chroma format and frame sort are set.
+           Picture chroma format and picture sort are set.
         */
-        FrameParams(const ChromaFormat& cf, const FrameSort& fs);
+        PictureParams(const ChromaFormat& cf, const PictureSort& fs);
 
         //! Constructor
-        /*
-            All data is derived from the sequence parameters
+        /*! 
+           Constructor. Parameters are derived from the source parameters 
         */
-        FrameParams(const SourceParams& sparams);
-
-        //! Constructor
-        /*
-           All data is derived from the sequence parameters
-        */
-        FrameParams(const SourceParams& sparams, const FrameSort& fs);
+        PictureParams(const SourceParams& sparams);
 
         ////////////////////////////////////////////////////////////////////
         //NB: Assume default copy constructor, assignment = and destructor//
@@ -824,32 +561,20 @@ namespace dirac
 
         // Gets ...
 
-        //! Returns the chroma format of the frame
+        //! Returns the chroma format of the picture
         const ChromaFormat& CFormat() const{return m_cformat;}
 
-        //! Returns the luma width of the padded frame
-        int DwtXl() const{return m_dwt_xl;}
+        //! Returns the picture width
+        int Xl() const {return m_xl;}
 
-        //! Returns the luma height of the padded frame
-        int DwtYl() const{return m_dwt_yl;}
+        //! Returns the picture height
+        int Yl() const {return m_yl;}
 
-        //! Returns the chroma width of the padded frame
-        int DwtChromaXl() const{return m_dwt_chroma_xl;}
+        //! Returns the chroma width of the picture
+        int ChromaXl() const{return m_cxl;}
 
-        //! Returns the chroma height of the padded frame
-        int DwtChromaYl() const{return m_dwt_chroma_yl;}
-
-        //! Returns the original picture width
-        int OrigXl() const {return m_orig_xl;}
-
-        //! Returns the original picture height
-        int OrigYl() const {return m_orig_yl;}
-
-        //! Returns the original chroma width of the frame
-        int OrigChromaXl() const{return m_orig_cxl;}
-
-        //! Returns the original chroma height of the frame
-        int OrigChromaYl() const{return m_orig_cyl;}
+        //! Returns the chroma height of the picture
+        int ChromaYl() const{return m_cyl;}
 
         //! Returns the luma depth
         unsigned int LumaDepth() const { return m_luma_depth; }
@@ -857,37 +582,37 @@ namespace dirac
         //! Returns the chroma depth
         unsigned int ChromaDepth() const { return m_chroma_depth; }
 
-        //! Returns the type of the frame
-        const FrameSort& FSort() const {return m_fsort;}
+        //! Returns the type of the picture
+        const PictureSort& PicSort() const {return m_psort;}
 
-        //! Returns the number of the frame (in time order)
-        int FrameNum() const {return m_fnum;}
+        //! Returns the number of the picture (in time order)
+        int PictureNum() const {return m_fnum;}
 
-        //! Returns the retired reference frame number 
-        int RetiredFrameNum() const {return m_retd_fnum;}
+        //! Returns the retired reference picture number 
+        int RetiredPictureNum() const {return m_retd_fnum;}
 
-        //! Returns whether the frame is bi-directionally predicted by checking references
-        bool IsBFrame() const;
+        //! Returns whether the picture is bi-directionally predicted by checking references
+        bool IsBPicture() const;
 
-        //! Returns the number of frames after the current frame number after which the frame can be discarded
+        //! Returns the number of pictures after the current picture number after which the picture can be discarded
         int ExpiryTime() const {return m_expiry_time;}
 
-        //! Returns an indication of whether the frame has been output yet
+        //! Returns an indication of whether the picture has been output yet
         bool Output() const {return m_output;}
 
-        //! Returns a const C++ reference to the set of reference frame numbers (will be empty if the frame is an I frame)
+        //! Returns a const C++ reference to the set of reference picture numbers (will be empty if the picture is an I picture)
         const std::vector<int>& Refs() const {return m_refs;}
 
-        //! Returns non-const C++ referece to the vector of reference frames, to allow them to be set
+        //! Returns non-const C++ referece to the vector of reference pictures, to allow them to be set
         std::vector<int>& Refs(){return m_refs;}
 
-        //! Return the number of reference frames
+        //! Return the number of reference pictures
         unsigned int NumRefs()const {return m_refs.size();}
 
-        //! Returns type of frame (see enum)
-        FrameType GetFrameType () const { return m_frame_type; }
+        //! Returns type of picture (see enum)
+        PictureType GetPictureType () const { return m_picture_type; }
 
-        //! Returns reference frame type (see enum)
+        //! Returns reference picture type (see enum)
         ReferenceType GetReferenceType() const { return m_reference_type;}
 
         //! Returns true is entropy coding using Arithmetic coding
@@ -895,44 +620,32 @@ namespace dirac
 
         // ... Sets
 
-        //! Sets the type of frame
-        void SetFSort( const FrameSort& fs );
+        //! Sets the type of picture
+        void SetPicSort( const PictureSort& ps );
 
-        //! Sets the frame to be Intra/Inter
-        void SetFrameType(const FrameType ftype);
+        //! Sets the picture to be Intra/Inter
+        void SetPictureType(const PictureType ftype);
 
-        //! Sets the frame to be a reference or not
+        //! Sets the picture to be a reference or not
         void SetReferenceType(const ReferenceType rtype);
 
-        //! Sets the frame number
-        void SetFrameNum( const int fn ){ m_fnum=fn; }
+        //! Sets the picture number
+        void SetPictureNum( const int fn ){ m_fnum=fn; }
 
-        //! Sets how long the frame will stay in the buffer (encoder only)
+        //! Sets how long the picture will stay in the buffer (encoder only)
         void SetExpiryTime( const int expt ){ m_expiry_time=expt; }
 
-        //! Sets a flag to indicate that the frame has been output
+        //! Sets a flag to indicate that the picture has been output
         void SetAsOutput(){m_output=true;}
 
         //! Sets the chroma format
         void SetCFormat(ChromaFormat cf){ m_cformat = cf; }
 
-        //! Sets the padded frame luma length
-        void SetDwtXl(int xl){m_dwt_xl = xl; }
+        //! Sets the picture width
+        void SetXl(int xlen);
 
-        //! Sets the padded frame luma height
-        void SetDwtYl(int yl){m_dwt_yl = yl; }
-
-        //! Sets the original picture width
-        void SetOrigXl(int orig_xlen);
-
-        //! Sets the original picture height
-        void SetOrigYl(int orig_ylen);
-
-        //! Sets the chroma length
-        void SetDwtChromaXl(int xl){m_dwt_chroma_xl = xl; }
-
-        //! Sets the chroma height
-        void SetDwtChromaYl(int yl){m_dwt_chroma_yl = yl; }
+        //! Sets the picture height
+        void SetYl(int ylen);
 
         //! Set Luma Depth
         void SetLumaDepth(unsigned int luma_depth) { m_luma_depth = luma_depth; }
@@ -940,8 +653,8 @@ namespace dirac
         //! Set Chroma Depth
         void SetChromaDepth(unsigned int chroma_depth) { m_chroma_depth = chroma_depth; }
 
-        //! Sets the retired reference frame number 
-        void SetRetiredFrameNum(int retd_fnum) {m_retd_fnum = retd_fnum;}
+        //! Sets the retired reference picture number 
+        void SetRetiredPictureNum(int retd_fnum) {m_retd_fnum = retd_fnum;}
 
         //! Sets the arithmetic coding flag
         void SetUsingAC(bool using_ac) { m_using_ac = using_ac; }
@@ -951,53 +664,41 @@ namespace dirac
         //! The chroma format
         ChromaFormat m_cformat;
 
-        //! Padded Frame luma width for Discrete Wavelet Transform
-        int m_dwt_xl;
+        //! The picture sort
+        PictureSort m_psort;
 
-        //! Padded Frame luma height for Discrete Wavelet Transform
-        int m_dwt_yl;
-
-        //! The frame sort
-        FrameSort m_fsort;
-
-        //! The set of frame numbers of reference frames
+        //! The set of picture numbers of reference pictures
         std::vector<int> m_refs;
 
-        //! The number of frames, after the current frame number, after the (de)coding of which the frame can be deleted
+        //! The number of pictures, after the current picture number, after the (de)coding of which the picture can be deleted
         int m_expiry_time;
 
-        //! The frame number, in temporal order
+        //! The picture number, in temporal order
         int m_fnum;
 
-        //! Frame type
-        FrameType m_frame_type;
+        //! Picture type
+        PictureType m_picture_type;
 
         //! Reference type
         ReferenceType m_reference_type;
 
-        //! True if the frame has been output, false if not
+        //! True if the picture has been output, false if not
         bool m_output;
 
-        //! DWT Chroma length
-        int m_dwt_chroma_xl;
-
-        //! DWT Chroma height
-        int m_dwt_chroma_yl;
-
-        //! The frame number of the retired frame
+        //! The picture number of the retired picture
         mutable  int m_retd_fnum;
 
-        //! Orignal Frame luma width
-        int m_orig_xl;
+        //! Picture luma width
+        int m_xl;
 
-        //! Orignal Frame luma height
-        int m_orig_yl;
+        //! Picture luma height
+        int m_yl;
 
-        //! Orignal Frame chroma width
-        int m_orig_cxl;
+        //! Picture chroma width
+        int m_cxl;
 
-        //! Orignal Frame chroma height
-        int m_orig_cyl;
+        //! Picture chroma height
+        int m_cyl;
 
         //! Luma depth - number of bits required for lumz
         unsigned int m_luma_depth;
@@ -1007,6 +708,228 @@ namespace dirac
 
         //! arithmetic coding flag
         bool m_using_ac;
+    };
+
+
+    //! A class for picture component data.
+    /*!
+        A class for encapsulating picture data, derived from TwoDArray.
+     */
+    class PicArray: public TwoDArray<ValueType>
+    {
+    public:
+        //! Default constructor
+        /*!
+            Default constructor creates an empty array.
+        */
+        PicArray(): TwoDArray<ValueType>(){}
+
+        //! Constructor.
+        /*!
+            Contructor creates a two-D array, with specified size and colour
+            format.
+        */
+        PicArray(int height, int width, CompSort cs=Y_COMP): 
+            TwoDArray<ValueType>(height, width), m_csort(cs){}
+
+        //copy constructor and assignment= derived by inheritance
+
+        //! Destructor
+        ~PicArray(){}
+
+        //! Return which component is stored
+        const CompSort& CSort() const {return m_csort;}
+        
+        //! Set the type of component being stored
+        void SetCSort(const CompSort cs){ m_csort = cs; }
+
+    private:
+
+        CompSort m_csort;
+    };
+
+
+    //! A structure for recording costs, particularly in quantisation.
+    class CostType
+    {
+    public:
+        //! The error (MSE or 4th power)
+        double Error;
+
+        //! The entropy in bits per symbol.
+        double ENTROPY;
+
+        //! The Lagrangian combination of MSE+lambda*entropy
+        double TOTAL;
+    };
+
+
+    //! A class used for correcting estimates of entropy.
+    /*!
+        A class used by the encoder for correcting estimates of entropy. Used
+        for selecting quantisers in subband coefficient coding. Factors can be
+        adjusted in the light of previous experience.
+     */
+    class EntropyCorrector
+    {
+    public:
+        //! Constructor.
+        /*!
+        Constructs arrays of correction factors of size.
+        \param    depth    the depth of the wavelet transform.
+        */
+        EntropyCorrector(int depth);
+
+        ////////////////////////////////////////////////////////////////////
+        //NB: Assume default copy constructor, assignment = and destructor//
+        ////////////////////////////////////////////////////////////////////
+
+        //! Returns the correction factor.
+        /*!
+        Returns the correction factor for the band given also the type of
+        picture and component.
+        */
+        float Factor(const int bandnum, const PictureParams& pp,
+                     const CompSort c) const;
+
+        //! Update the correction factors.
+        /*!
+        Update the factors for a given subband, component and picture type.
+        \param    bandnum    the number of the subband to update
+        \param    pp         picture parameters
+        \param    c          component type
+        \param    est_bits    the number of bits it was estimated would be used
+        \param    actual_bits    the number of bits that actually were used
+         */
+        void Update(int bandnum, const PictureParams& pp, 
+                    CompSort c,int est_bits,int actual_bits);
+
+    private:
+        //! Initialises the correction factors
+        void Init();
+
+        TwoDArray<float> m_Yfctrs;
+        TwoDArray<float> m_Ufctrs;
+        TwoDArray<float> m_Vfctrs;
+    };
+
+    //! Parameters for overlapped block motion compensation
+    class OLBParams
+    {
+
+    public:
+
+        //! Default constructor does nothing
+        OLBParams(){}
+
+        //! Constructor
+        /*
+            Constructor rationalises proposed parameters to allow suitable
+            overlap and fit in with chroma format
+            \param    xblen    the horizontal block length
+            \param    yblen    the vertical block length
+            \param    xblen    the horizontal block separation
+            \param    yblen    the vertical block separation
+
+        */
+        OLBParams(const int xblen, const int yblen,
+                  const int xbsep, const int ybsep);
+
+        // Gets ...
+
+        //! Returns the horizontal block length
+        int Xblen() const {return m_xblen;}
+
+        //! Returns the vertical block length
+        int Yblen() const {return m_yblen;}
+
+        //! Returns the horizontal block separation
+        int Xbsep() const {return m_xbsep;}
+
+        //! Returns the vertical block separation
+        int Ybsep() const {return m_ybsep;}
+
+        //! The offset in the horizontal start of the block caused by overlap,=(XBLEN-XBSEP)/2
+        int Xoffset() const {return m_xoffset;}
+
+        //! The offset in the vertical start of the block caused by overlap,=(YBLEN-YBSEP)/2
+        int Yoffset() const {return m_yoffset;}
+
+        // ... and sets
+
+        //! Sets the block width
+        void SetXblen( int xblen ){ m_xblen = xblen; m_xoffset = (m_xblen-m_xbsep)/2;}
+
+        //! Sets the block height
+        void SetYblen( int yblen ){ m_yblen = yblen; m_yoffset = (m_yblen-m_ybsep)/2;}
+
+        //! Sets the block horizontal separation
+        void SetXbsep( int xbsep ){ m_xbsep = xbsep; m_xoffset = (m_xblen-m_xbsep)/2;}
+
+        //! Sets the block vertical separation
+        void SetYbsep( int ybsep ){ m_ybsep = ybsep; m_yoffset = (m_yblen-m_ybsep)/2;}
+
+        bool operator == (const OLBParams bparams) const;
+
+        // overloaded stream operators
+        friend std::ostream & operator<< (std::ostream &, OLBParams &);
+        friend std::istream & operator>> (std::istream &, OLBParams &);
+
+
+    private:
+
+        int m_xblen;
+        int m_yblen;
+        int m_xbsep;
+        int m_ybsep;
+        int m_xoffset;
+        int m_yoffset;
+    };
+
+    //! Parameters relating to the complexity of encoder/decoder
+    class ParseParams
+    {
+    public:
+        //! Default constructor
+        ParseParams();
+
+        // Gets
+
+        //! Get the major version
+        unsigned int MajorVersion() const { return m_major_ver; }
+
+        //! Get the minor version
+        unsigned int MinorVersion() const { return m_minor_ver; }
+
+        //! Get the Profile
+        unsigned int Profile() const { return m_profile; }
+
+        //! Get the Level
+        unsigned int Level() const { return m_level; }
+
+        // Sets
+
+        //! Set the major version
+        void SetMajorVersion(unsigned int major_ver) {m_major_ver = major_ver; }
+
+        //! Set the minor version
+        void SetMinorVersion(unsigned int minor_ver) { m_minor_ver = minor_ver; }
+
+        //! Set the Profile
+        void SetProfile(unsigned int profile) { m_profile = profile; }
+
+        //! Set the Level
+        void SetLevel(unsigned int level) { m_level = level; }
+
+    private:
+        //! Major Version
+        unsigned int m_major_ver;
+        //! Minor Version
+        unsigned int m_minor_ver;
+        //! Profile
+        unsigned int m_profile;
+        //! Level
+        unsigned int m_level;
     };
 
     //! Structure to hold code block sizes when spatial partitioning is used
@@ -1039,62 +962,45 @@ namespace dirac
         //! Number of Vertical code blocks
         unsigned int m_vblocks;
     };
-    //! Parameters common to coder and decoder operation
-    /*!
-        Parameters used throughout both the encoder and the decoder
-    */
-    class CodecParams
+
+    //! Structure to hold motion parameters when motion comp is used
+    class PicturePredParams
     {
     public:
+        PicturePredParams():
+	m_lbparams(3),
+        m_cbparams(3) {}
 
-        //! Default constructor
-        CodecParams (const VideoFormat& video_format = VIDEO_FORMAT_CUSTOM,
-                      FrameType ftype = INTRA_FRAME,
-                      unsigned int num_refs = 0,
-                      bool set_defaults=true);
+        //! Return the global motion flag used for encoding/decoding
+        bool UsingGlobalMotion() const { return m_use_global_motion; }
 
-        ////////////////////////////////////////////////////////////////////
-        //NB: Assume default copy constructor, assignment = and destructor//
-        ////////////////////////////////////////////////////////////////////
+        //! Return the number of picture weight precision bits
+        unsigned int PictureWeightsBits() const { return m_picture_weights_bits; }
 
-        // Gets ...
+        //! Return the Ref1 weight
+        int Ref1Weight() const { return m_ref1_weight; }
 
-        //! Return the number of macroblocks horizontally
-        int XNumMB() const {return m_x_num_mb;}
+        //! Return the Ref2 weight
+        int Ref2Weight() const { return m_ref2_weight; }
 
-        //! Return the number of macroblocks vertically
-        int YNumMB() const {return m_y_num_mb;}
+        bool CustomRefWeights()
+        {
+            return (m_picture_weights_bits != 1 ||
+                    m_ref1_weight != 1 ||
+                    m_ref2_weight != 1);
+        }
+
+        //! Return the number of superblocks horizontally
+        int XNumSB() const {return m_x_num_sb;}
+
+        //! Return the number of superblocks vertically
+        int YNumSB() const {return m_y_num_sb;}
 
         //! Return the number of blocks horizontally
         int XNumBlocks() const {return m_x_num_blocks;}
 
         //! Returns the number of blocks vertically
         int YNumBlocks() const {return m_y_num_blocks;}
-
-        //! Returns true if we're coding input as fields (independent of source format!)
-        bool FieldCoding() const {return m_field_coding;}
-
-        //! Returns true if the topmost field comes first in time when coding
-        bool TopFieldFirst() const {return m_topfieldfirst;}
-
-        //! Return the original frame/field luma width
-        int OrigXl() const {return m_orig_xl;}
-
-        //! Return the original frame/field luma height
-        int OrigYl() const {return m_orig_yl;}
-
-        //! Return the original frame/field chroma width
-        int OrigChromaXl() const {return m_orig_cxl;}
-
-        //! Return the original frame/field chroma height
-        int OrigChromaYl() const {return m_orig_cyl;}
-
-        //! Returns the luma depth
-        unsigned int LumaDepth() const { return m_luma_depth; }
-
-        //! Returns the chroma depth
-        unsigned int ChromaDepth() const { return m_chroma_depth; }
-
 
         //! Return the Luma block parameters for each macroblock splitting level
         const OLBParams& LumaBParams(int n) const {return m_lbparams[n];}
@@ -1105,51 +1011,11 @@ namespace dirac
         //! Return the number of accuracy bits used for motion vectors
         MVPrecisionType MVPrecision() const { return m_mv_precision; }
 
-        //! Return zero transform flag being used for frame (de)coding
-        bool ZeroTransform() const { return m_zero_transform; }
+        //! Set how many SBs there are horizontally
+        void SetXNumSB(const int xn){m_x_num_sb=xn;}
 
-        //! Return the wavelet filter currently being used for frame (de)coding
-        WltFilter TransformFilter() const { return m_wlt_filter; }
-
-        //! Return the transform depth being used for frame (de)coding
-        unsigned int TransformDepth() const { return m_wlt_depth; }
-
-        //! Return multiple quantisers flag being used for frame (de)coding
-        CodeBlockMode GetCodeBlockMode() const { return m_cb_mode; }
-
-        //! Return the spatial partitioning flag being used for frame (de)coding
-        bool SpatialPartition() const { return m_spatial_partition; }
-
-        //! Return the code blocks for a particular level
-        const CodeBlocks &GetCodeBlocks(unsigned int level) const;
-
-        //! Return the video format currently being used for frame (de)coding
-        VideoFormat GetVideoFormat() const { return m_video_format; }
-
-        //! Return the global motion flag used for encoding/decoding
-        bool UsingGlobalMotion() const { return m_use_global_motion; }
-
-        //! Return the number of frame weight precision bits
-        unsigned int FrameWeightsBits() const { return m_frame_weights_bits; }
-
-        //! Return the Ref1 weight
-        int Ref1Weight() const { return m_ref1_weight; }
-
-        //! Return the Ref2 weight
-        int Ref2Weight() const { return m_ref2_weight; }
-
-        bool CustomRefWeights()
-        {
-            return (m_frame_weights_bits != 1 ||
-                    m_ref1_weight != 1 ||
-                    m_ref2_weight != 1);
-        }
-        // ... and Sets
-        //! Set how many MBs there are horizontally
-        void SetXNumMB(const int xn){m_x_num_mb=xn;}
-
-        //! Set how many MBs there are vertically
-        void SetYNumMB(const int yn){m_y_num_mb=yn;}
+        //! Set how many SBs there are vertically
+        void SetYNumSB(const int yn){m_y_num_sb=yn;}
 
         //! Set how many blocks there are horizontally
         void SetXNumBlocks(const int xn){m_x_num_blocks=xn;}
@@ -1157,33 +1023,9 @@ namespace dirac
         //! Set how many blocks there are vertically
         void SetYNumBlocks(const int yn){m_y_num_blocks=yn;}
 
-        //! Sets whether input is coded as fields
-        void SetFieldCoding(bool field_coding){m_field_coding=field_coding;}
-
-        //! Sets whether the topmost field comes first in time [NB: TBD since this duplicates metadata in the sequence header]
-        void SetTopFieldFirst(bool topf){m_topfieldfirst=topf;}
-
-        //! Set the original frame/field luma width
-        void SetOrigXl(const int x){m_orig_xl=x;}
-
-        //! Set the original frame/field luma height
-        void SetOrigYl(const int y){m_orig_yl=y;}
-
-
-        //! Set the original frame/field chroma width
-        void SetOrigChromaXl(const int x){m_orig_cxl=x;}
-
-        //! Set the original frame/field chroma height
-        void SetOrigChromaYl(const int y){m_orig_cyl=y;}
-
-        //! Set Luma Depth
-        void SetLumaDepth(unsigned int luma_depth) { m_luma_depth = luma_depth; }
-
-        //! Set Chroma Depth
-        void SetChromaDepth(unsigned int chroma_depth) { m_chroma_depth = chroma_depth; }
-
-        //! Set the block sizes for all MB splitting levels given these prototype block sizes for level=2
+        //! Set the block sizes for all SB splitting levels given these prototype block sizes for level=2
         void SetBlockSizes(const OLBParams& olbparams , const ChromaFormat cformat);
+
         //! Set block level luma params
         void SetLumaBlockParams(const OLBParams& olbparams) {m_lbparams[2] = olbparams;}
 
@@ -1202,76 +1044,25 @@ namespace dirac
             m_mv_precision = p;
         }
 
-        //! Set the zero transform flag being used for frame (de)coding
-        void SetZeroTransform(bool zero_transform)  { m_zero_transform = zero_transform; }
-
-        //! Set the wavelet filter used for frame (de)coding
-        void SetTransformFilter(const WltFilter wf) { m_wlt_filter=wf; }
-
-        //! Set the wavelet filter used for frame (de)coding
-        void SetTransformFilter(unsigned int wf_idx);
-
-        //! Set the transform depth used for frame (de)coding and allocate for the code blocks array
-        void SetTransformDepth(unsigned int wd);
-
-        //! Set the multiple quantisers flag usedto frame (de)coding
-        void SetCodeBlockMode(unsigned int cb_mode);
-
-        //! Set the spatial partition flag usedto frame (de)coding
-        void SetSpatialPartition(bool spatial_partition) { m_spatial_partition=spatial_partition; }
-
-        //! Set the number of code blocks for a particular level
-        void  SetCodeBlocks(unsigned int level, unsigned int hblocks, unsigned int vblocks);
-
-        //! Set the video format used for frame (de)coding
-        void SetVideoFormat(const VideoFormat vd) { m_video_format=vd; }
-
-        //! Set the wavelet filter used for frame (de)coding
+        //! Set the wavelet filter used for picture (de)coding
         void SetUsingGlobalMotion(bool gm) { m_use_global_motion=gm; }
 
-        //! Set the frame weight precision bits used for (de)coding
-        void SetFrameWeightsPrecision(unsigned int wt_prec) { m_frame_weights_bits=wt_prec; }
+        //! Set the picture weight precision bits used for (de)coding
+        void SetPictureWeightsPrecision(unsigned int wt_prec) { m_picture_weights_bits=wt_prec; }
 
-        //! Set the ref 1 frame weight
+        //! Set the ref 1 picture weight
         void SetRef1Weight(int wt) { m_ref1_weight=wt; }
 
-        //! Set the ref 2 frame weight
+        //! Set the ref 2 picture weight
         void SetRef2Weight(int wt) { m_ref2_weight=wt; }
 
-    protected:
-        //! Return the Wavelet filter associated with the wavelet index
-        WltFilter TransformFilter (unsigned int wf_idx);
     private:
 
-        //! True if input is coded as fields, false if coded as frames
-        bool m_field_coding;
+        //! The number of superblocks horizontally
+        int m_x_num_sb;
 
-        //! True if interlaced and top field is first in temporal order
-        bool m_topfieldfirst;
-
-        //! The original frame/field luma width
-        int m_orig_xl;
-
-        //! The original frame/field luma height
-        int m_orig_yl;
-
-        //! The original frame/field chroma width
-        int m_orig_cxl;
-
-        //! The original frame/field chroma height
-        int m_orig_cyl;
-
-        //! Luma depth - number of bits required for lumz
-        unsigned int m_luma_depth;
-
-        //! chroma depth - number of bits required for luma
-        unsigned int m_chroma_depth;
-
-        //! The number of macroblocks horizontally
-        int m_x_num_mb;
-
-        //! The number of macroblocks verticaly
-        int m_y_num_mb;
+        //! The number of superblocks verticaly
+        int m_y_num_sb;
 
         //! The number of blocks horizontally
         int m_x_num_blocks;
@@ -1286,22 +1077,183 @@ namespace dirac
         //! The precision of motion vectors (number of accuracy bits eg 1=half-pel accuracy)
         mutable MVPrecisionType m_mv_precision;
 
-        //! The video format being used
-        VideoFormat m_video_format;
+        //! picture predicion parameters - precision
+        unsigned int m_picture_weights_bits;
+
+        //! picture predicion parameters - reference picture 1 weight
+        int m_ref1_weight;
+
+        //! picture predicion parameters - reference picture 2 weight
+        int m_ref2_weight;
 
         //! Global motion fields
         bool m_use_global_motion;
 
-        //! frame predicion parameters - precision
-        unsigned int m_frame_weights_bits;
+    };
 
-        //! frame predicion parameters - reference frame 1 weight
-        int m_ref1_weight;
+    //! Parameters common to coder and decoder operation
+    /*!
+        Parameters used throughout both the encoder and the decoder
+    */
+    class CodecParams
+    {
+    public:
 
-        //! frame predicion parameters - reference frame 1 weight
-        int m_ref2_weight;
+        //! Default constructor
+        CodecParams (const VideoFormat& video_format = VIDEO_FORMAT_CUSTOM,
+                      PictureType ftype = INTRA_PICTURE,
+                      unsigned int num_refs = 0,
+                      bool set_defaults=true);
 
-        //! Zero transform flag
+        ////////////////////////////////////////////////////////////////////
+        //NB: Assume default copy constructor, assignment = and destructor//
+        ////////////////////////////////////////////////////////////////////
+
+        // Gets ...
+
+        //! Returns the picture coding mode (independent of source format)
+        /*! Returns the picture coding mode (independent of source format)
+         *  0 = Frame coding (no quincunx)
+         *  1 = Field coding (no quincunx)
+         */
+        int PictureCodingMode() const {return m_pic_coding_mode;}
+
+        //! Returns true if the pictures are being coded as fields (mode 1 or 3)
+        bool FieldCoding() const { return  (m_pic_coding_mode==1); }
+
+        //! Returns true if the topmost field comes first in time when coding
+        bool TopFieldFirst() const {return m_topfieldfirst;}
+
+        //! Return the picture/field luma width
+        int Xl() const {return m_xl;}
+
+        //! Return the picture/field luma height
+        int Yl() const {return m_yl;}
+
+        //! Return the picture/field chroma width
+        int ChromaXl() const {return m_cxl;}
+
+        //! Return the picture/field chroma height
+        int ChromaYl() const {return m_cyl;}
+
+        //! Returns the luma depth
+        unsigned int LumaDepth() const { return m_luma_depth; }
+
+        //! Returns the chroma depth
+        unsigned int ChromaDepth() const { return m_chroma_depth; }
+
+        //! Return zero transform flag being used for picture (de)coding
+        bool ZeroTransform() const { return m_zero_transform; }
+
+        //! Return the wavelet filter currently being used for picture (de)coding
+        WltFilter TransformFilter() const { return m_wlt_filter; }
+
+        //! Return the transform depth being used for picture (de)coding
+        unsigned int TransformDepth() const { return m_wlt_depth; }
+
+        //! Return multiple quantisers flag being used for picture (de)coding
+        CodeBlockMode GetCodeBlockMode() const { return m_cb_mode; }
+
+        //! Return the spatial partitioning flag being used for picture (de)coding
+        bool SpatialPartition() const { return m_spatial_partition; }
+
+        //! Return the code blocks for a particular level
+        const CodeBlocks &GetCodeBlocks(unsigned int level) const;
+
+        //! Return the video format currently being used for picture (de)coding
+        VideoFormat GetVideoFormat() const { return m_video_format; }
+
+	//! Return the picture prediction params
+	PicturePredParams& GetPicPredParams(){return m_picpredparams;}
+
+        //! Return the picture prediction params
+	const PicturePredParams& GetPicPredParams() const {return m_picpredparams;}
+
+       // ... and Sets
+        //! Sets whether input is coded as fields or quincunxially
+        void SetPictureCodingMode(int pic_coding){m_pic_coding_mode=pic_coding;}
+
+        //! Sets whether the topmost field comes first in time [NB: TBD since this duplicates metadata in the sequence header]
+        void SetTopFieldFirst(bool topf){m_topfieldfirst=topf;}
+
+        //! Set the picture/field luma width
+        void SetXl(const int x){m_xl=x;}
+
+        //! Set the picture/field luma height
+        void SetYl(const int y){m_yl=y;}
+
+        //! Set the frame/field chroma width
+        void SetChromaXl(const int x){m_cxl=x;}
+
+        //! Set the frame/field chroma height
+        void SetChromaYl(const int y){m_cyl=y;}
+
+        //! Set Luma Depth
+        void SetLumaDepth(unsigned int luma_depth) { m_luma_depth = luma_depth; }
+
+        //! Set Chroma Depth
+        void SetChromaDepth(unsigned int chroma_depth) { m_chroma_depth = chroma_depth; }
+
+        //! Set the zero transform flag being used for picture (de)coding
+        void SetZeroTransform(bool zero_transform)  { m_zero_transform = zero_transform; }
+
+        //! Set the wavelet filter used for picture (de)coding
+        void SetTransformFilter(const WltFilter wf) { m_wlt_filter=wf; }
+
+        //! Set the wavelet filter used for picture (de)coding
+        void SetTransformFilter(unsigned int wf_idx);
+
+        //! Set the transform depth used for picture (de)coding and allocate for the code blocks array
+        void SetTransformDepth(unsigned int wd);
+
+        //! Set the multiple quantisers flag usedto picture (de)coding
+        void SetCodeBlockMode(unsigned int cb_mode);
+
+        //! Set the spatial partition flag usedto picture (de)coding
+        void SetSpatialPartition(bool spatial_partition) { m_spatial_partition=spatial_partition; }
+
+        //! Set the number of code blocks for a particular level
+        void  SetCodeBlocks(unsigned int level, unsigned int hblocks, unsigned int vblocks);
+
+        //! Set the video format used for picture (de)coding
+        void SetVideoFormat(const VideoFormat vd) { m_video_format=vd; }
+
+   protected:
+        //! Return the Wavelet filter associated with the wavelet index
+        WltFilter TransformFilter (unsigned int wf_idx);
+    private:
+
+        //! The picture prediction parameters
+	PicturePredParams m_picpredparams;
+
+        //! The picture coding mode
+        int m_pic_coding_mode;
+
+        //! True if interlaced and top field is first in temporal order
+        bool m_topfieldfirst;
+
+        //! The frame/field luma width
+        int m_xl;
+
+        //! The frame/field luma height
+        int m_yl;
+
+        //! The frame/field chroma width
+        int m_cxl;
+
+        //! The frame/field chroma height
+        int m_cyl;
+
+        //! Luma depth - number of bits required for lumz
+        unsigned int m_luma_depth;
+
+        //! chroma depth - number of bits required for luma
+        unsigned int m_chroma_depth;
+
+        //! The video format being used
+        VideoFormat m_video_format;
+
+       //! Zero transform flag
         bool m_zero_transform;
 
         //! The wavelet filter being used
@@ -1331,7 +1283,7 @@ namespace dirac
     public:
         //! Default constructor
         EncoderParams(const VideoFormat& video_format,
-                      FrameType ftype = INTER_FRAME,
+                      PictureType ftype = INTER_PICTURE,
                       unsigned int num_refs = 2,
                       bool set_defaults=true);
 
@@ -1361,18 +1313,21 @@ namespace dirac
         //! Get the vertical search range for full-search motion estimation
         int YRangeME() const {return m_y_range_me;}
 
+        //! Get whether we're doing combined component motion estimation
+        bool CombinedME() const {return m_combined_me; }
+
         //! Get the quality factor
         float Qf() const {return m_qf;}
 
-        //! Return the nominal number of L1 frames before the next I frame
+        //! Return the nominal number of L1 pictures before the next I picture
         /*!
-            Return the nominal number of L1 frames before the next I frame. Can be
-            overridden by I-frame insertion
+            Return the nominal number of L1 pictures before the next I picture. Can be
+            overridden by I-picture insertion
 
         */
         int NumL1() const {return m_num_L1;}
 
-        //! Return the separation between L1 frames (and between L1 and I frames)
+        //! Return the separation between L1 pictures (and between L1 and I pictures)
         int L1Sep() const {return m_L1_sep;}
 
         //! Return the amount we're weighting noise in the U component
@@ -1384,22 +1339,25 @@ namespace dirac
         //! Return the number of cycles per degree at the nominal viewing distance for the raster
         float CPD() const {return m_cpd;}
 
-        //! Return whether input denoising is on or off
-        bool Denoise() const {return m_denoise;}
+        //! Return what prefiltering is in place
+        PrefilterType Prefilter() const {return m_prefilter;}
 
-        //! Return the Lagrangian parameter to be used for I frames
+        //! Return the prefiltering strength
+        int PrefilterStrength() const {return m_prefilter_strength;}
+
+        //! Return the Lagrangian parameter to be used for I pictures
         float ILambda() const {return m_I_lambda;}
 
-        //! Return the Lagrangian parameter to be used for L1 frames
+        //! Return the Lagrangian parameter to be used for L1 pictures
         float L1Lambda() const {return m_L1_lambda;}
 
-        //! Return the Lagrangian parameter to be used for L2 frames
+        //! Return the Lagrangian parameter to be used for L2 pictures
         float L2Lambda() const {return m_L2_lambda;}
 
-        //! Return the Lagrangian ME parameter to be used for L1 frames
+        //! Return the Lagrangian ME parameter to be used for L1 pictures
         float L1MELambda() const {return m_L1_me_lambda;}
 
-        //! Return the Lagrangian ME parameter to be used for L2 frames
+        //! Return the Lagrangian ME parameter to be used for L2 pictures
         float L2MELambda() const {return m_L2_me_lambda;}
 
         //! Return the size of the GOP
@@ -1414,10 +1372,10 @@ namespace dirac
         //! Return a reference to the entropy factors - we need to be able to change the values of the entropy factors in situ
         EntropyCorrector& EntropyFactors() {return *m_ent_correct;}
 
-        //! Return the Wavelet filter to be used for intra frames
+        //! Return the Wavelet filter to be used for intra pictures
         WltFilter IntraTransformFilter() { return m_intra_wltfilter; }
 
-        //! Return the Wavelet filter to be used for Inter frames
+        //! Return the Wavelet filter to be used for Inter pictures
         WltFilter InterTransformFilter() { return m_inter_wltfilter; }
 
         //! Return the Target Bit Rate in kbps
@@ -1440,6 +1398,9 @@ namespace dirac
         //! Set whether we're doing full-search motion estimation
         void SetFullSearch(const bool fs){m_full_search = fs;}
 
+        //! Set whether we're doing combined component motion estimation
+        void SetCombinedME(const bool cme){m_combined_me = cme;}
+
         //! Set the horizontal search range for full-search motion estimation
         void SetXRangeME(const int xr){m_x_range_me = xr;}
 
@@ -1449,10 +1410,10 @@ namespace dirac
         //! Set the quality factor
         void SetQf(const float qfac){ m_qf=qfac; CalcLambdas(m_qf); }
 
-        //! Set the nominal number of L1 frames between I frames
+        //! Set the nominal number of L1 pictures between I pictures
         void SetNumL1(const int nl){m_num_L1=nl;}
 
-        //! Set the separation between L1 frames
+        //! Set the separation between L1 pictures
         void SetL1Sep(const int lsep){m_L1_sep=lsep;}
 
         //! Set the amount to weight noise in the U component
@@ -1464,28 +1425,28 @@ namespace dirac
         //! Set the number of cycles per degree at the nominal viewing distance
         void SetCPD(const float cpd){m_cpd=cpd;}
 
-
         //! Set denoising value - true or false
-        void SetDenoise(const bool denoise){m_denoise=denoise;}
+        void SetPrefilter(const PrefilterType pf, const int str){m_prefilter=pf;
+                                                                 m_prefilter_strength=str;}
 
         //! Set the output path to be used for diagnostic data
         void SetOutputPath(const char * op){ m_output_path = op; }
 
         //! Sets the entropy factors - TBD: set this up in a constructor and pass encoder params around entirely by reference
         void SetEntropyFactors(EntropyCorrector* entcorrect){m_ent_correct=entcorrect;}
-        //! Set the Wavelet filter to be used for intra frames
+        //! Set the Wavelet filter to be used for intra pictures
         void SetIntraTransformFilter(unsigned int wf_idx);
 
-        //! Set the Wavelet filter to be used for inter frames
+        //! Set the Wavelet filter to be used for inter pictures
         void SetInterTransformFilter(unsigned int wf_idx);
 
-        //! Set the Wavelet filter to be used for intra frames
+        //! Set the Wavelet filter to be used for intra pictures
         void SetIntraTransformFilter(WltFilter wf) { m_intra_wltfilter = wf; }
         
          //! Set the number of code blocks for all levels
-        void  SetUsualCodeBlocks(const FrameType& ftype);
+        void  SetUsualCodeBlocks(const PictureType& ftype);
 
-        //! Set the Wavelet filter to be used for inter frames
+        //! Set the Wavelet filter to be used for inter pictures
         void SetInterTransformFilter(WltFilter wf) { m_inter_wltfilter = wf; }
 
         //! Set the target bit rate
@@ -1512,6 +1473,9 @@ namespace dirac
         //! A flag indicating whether we're doing full-search block matching
         bool m_full_search;
 
+        //! A flag indicating whether we're doing combined component motion estimation
+        bool m_combined_me;
+
         //! The horizontal range for full-search block matching
         int m_x_range_me;
 
@@ -1521,10 +1485,10 @@ namespace dirac
         //! Quality factor
         float m_qf;
 
-        //! Number of L1 frames before next I frame
+        //! Number of L1 pictures before next I picture
         int m_num_L1;
 
-        //! Separation between L1 frames
+        //! Separation between L1 pictures
         int m_L1_sep;
 
         //! factor for weighting U component quantisation errors
@@ -1536,16 +1500,19 @@ namespace dirac
         //! Cycles per degree assumed for viewing the video
         float m_cpd;
 
-        //! Flag indicating input denoising
-        bool m_denoise;
+        //! Indicator for prefiltering
+        PrefilterType m_prefilter;
 
-        //! Lagrangian parameter for Intra frame coding
+        //! Prefiltering strength
+        int m_prefilter_strength;
+
+        //! Lagrangian parameter for Intra picture coding
         float m_I_lambda;
 
-        //! Lagrangian parameter for L1 frame coding
+        //! Lagrangian parameter for L1 picture coding
         float m_L1_lambda;
 
-        //! Lagrangian parameter for L2 frame coding
+        //! Lagrangian parameter for L2 picture coding
         float m_L2_lambda;
 
         //! Lagrangian param for L1 motion estimation
@@ -1560,10 +1527,10 @@ namespace dirac
         //! Output file path
         std::string m_output_path;
 
-        //! Wavelet filter for Intra frames
+        //! Wavelet filter for Intra pictures
         WltFilter m_intra_wltfilter;
 
-        //! Wavelet filter for Inter frames
+        //! Wavelet filter for Inter pictures
         WltFilter m_inter_wltfilter;
 
         //! Target bit rate
@@ -1582,7 +1549,7 @@ namespace dirac
     {
     public:
             //! Default constructor
-        DecoderParams(const VideoFormat& video_format = VIDEO_FORMAT_CIF, FrameType ftype=INTRA_FRAME, unsigned int num_refs = 0, bool set_defaults = false);
+        DecoderParams(const VideoFormat& video_format = VIDEO_FORMAT_CIF, PictureType ftype=INTRA_PICTURE, unsigned int num_refs = 0, bool set_defaults = false);
 
         //! Returns true if we're operating verbosely, false otherwise
         bool Verbose() const {return m_verbose;}
@@ -1621,13 +1588,13 @@ namespace dirac
         //! Returns 4 times the quantisation factor
         inline int QuantFactor4( const int index ) const {return m_qflist4[index]; }
 
-        //! Returns the intra frame quantisation offset for non-zero values
+        //! Returns the intra Picture quantisation offset for non-zero values
         inline int IntraQuantOffset4( const int index ) const {return m_intra_offset4[index]; }
-        //! Returns the inter frame quantisation offset for non-zero values
+        //! Returns the inter Picture quantisation offset for non-zero values
         inline int InterQuantOffset4( const int index ) const {return m_inter_offset4[index]; }
 
         //! Returns the maximum quantiser index supported
-        inline int MaxQIndex() const {return m_max_qindex; }
+        inline int MaxQuantIndex() const {return m_max_qindex; }
 
 
     private:

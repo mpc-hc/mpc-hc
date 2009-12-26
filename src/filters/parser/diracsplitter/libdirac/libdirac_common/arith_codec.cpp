@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arith_codec.cpp,v 1.17 2007/11/16 04:48:44 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: arith_codec.cpp,v 1.17 2007/11/16 04:48:44 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *

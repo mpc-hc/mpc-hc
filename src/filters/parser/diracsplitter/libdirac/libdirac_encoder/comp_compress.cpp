@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: comp_compress.cpp,v 1.45 2007/12/12 14:01:51 tjdwave Exp $ $Name: Dirac_0_9_1 $
+* $Id: comp_compress.cpp,v 1.49 2009/01/21 05:18:09 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -55,24 +55,25 @@ using namespace dirac;
 #include <vector>
 #include <iostream>
 
-CompCompressor::CompCompressor( EncoderParams& encp,const FrameParams& fp)
+CompCompressor::CompCompressor( EncoderParams& encp,const PictureParams& pp)
 : m_encparams(encp),
-  m_fparams(fp),
-  m_fsort( m_fparams.FSort() ),
-  m_cformat( m_fparams.CFormat() )
+  m_pparams(pp),
+  m_psort( m_pparams.PicSort() ),
+  m_cformat( m_pparams.CFormat() )
 {}
 
 ComponentByteIO* CompCompressor::Compress( CoeffArray& coeff_data ,
                                            SubbandList& bands,
-                                           const OneDArray<unsigned int>& estimated_bits )
+                                           CompSort csort,
+                                           const OneDArray<unsigned int>& estimated_bits)
 {
-    //need to transform, select quantisers for each band, and then compress each component in turn
-    m_csort=coeff_data.CSort();
+    // Need to transform, select quantisers for each band,
+    // and then compress each component in turn
 
     unsigned int num_band_bytes( 0 );
 
     // create byte output
-    ComponentByteIO *p_component_byteio = new ComponentByteIO(m_csort);
+    ComponentByteIO *p_component_byteio = new ComponentByteIO(csort);
 
     // Loop over all the bands (from DC to HF) quantising and coding them
     for (int b=bands.Length() ; b>=1 ; --b )
@@ -83,25 +84,25 @@ ComponentByteIO* CompCompressor::Compress( CoeffArray& coeff_data ,
 
         if ( !bands(b).Skipped() )
         {   // If not skipped ...
-            if (m_fparams.UsingAC())
+            if (m_pparams.UsingAC())
             {
                 // A pointer to an object  for coding the subband data
                 BandCodec* bcoder;
 
 
-                 // Pick the right codec according to the frame type and subband
+                 // Pick the right codec according to the picture type and subband
                 if (b >= bands.Length()-3)
                 {
-                    if ( m_fsort.IsIntra() && b == bands.Length() )
+                    if ( m_psort.IsIntra() && b == bands.Length() )
                         bcoder=new IntraDCBandCodec(&subband_byteio,
                                                 TOTAL_COEFF_CTXS , bands );
                     else
                         bcoder=new LFBandCodec(&subband_byteio ,TOTAL_COEFF_CTXS,
-                                           bands , b, m_fsort.IsIntra());
+                                           bands , b, m_psort.IsIntra());
                 }
                 else
                     bcoder=new BandCodec(&subband_byteio , TOTAL_COEFF_CTXS ,
-                                         bands , b, m_fsort.IsIntra() );
+                                         bands , b, m_psort.IsIntra() );
 
                 num_band_bytes = bcoder->Compress(coeff_data);
 
@@ -113,18 +114,19 @@ ComponentByteIO* CompCompressor::Compress( CoeffArray& coeff_data ,
                 // A pointer to an object  for coding the subband data
                 BandVLC* bcoder;
 
-                   if ( m_fsort.IsIntra() && b == bands.Length() )
+                   if ( m_psort.IsIntra() && b == bands.Length() )
                        bcoder=new IntraDCBandVLC(&subband_byteio, bands );
                 else
-                    bcoder=new BandVLC(&subband_byteio , bands , b,
-                                       m_fsort.IsIntra() );
+                    bcoder=new BandVLC(&subband_byteio , 0, bands , b,
+                                       m_psort.IsIntra() );
 
                 num_band_bytes = bcoder->Compress(coeff_data);
 
                 delete bcoder;
             }
              // Update the entropy correction factors
-            m_encparams.EntropyFactors().Update(b , m_fsort , m_csort , estimated_bits[b] , 8*num_band_bytes);
+             m_encparams.EntropyFactors().Update(b , m_pparams , csort ,
+                                            estimated_bits[b] , 8*num_band_bytes);
         }
         else
         {   // ... skipped

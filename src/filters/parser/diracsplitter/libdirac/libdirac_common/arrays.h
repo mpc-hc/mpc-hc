@@ -1,6 +1,6 @@
 /* ***** BEGIN LICENSE BLOCK *****
 *
-* $Id: arrays.h,v 1.20 2007/09/03 11:30:29 asuraparaju Exp $ $Name: Dirac_0_9_1 $
+* $Id: arrays.h,v 1.21 2008/03/14 08:17:36 asuraparaju Exp $ $Name:  $
 *
 * Version: MPL 1.1/GPL 2.0/LGPL 2.1
 *
@@ -48,6 +48,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 
 namespace dirac
 {
@@ -66,10 +67,10 @@ namespace dirac
         Range(int s, int e): m_fst(s), m_lst(e){}
 
         //! Returns the start of the range.
-        const int First() const {return m_fst;}
+        int First() const {return m_fst;}
 
         //! Returns the end point of the range.
-        const int Last() const {return m_lst;}
+        int Last() const {return m_lst;}
 
     private:
         int m_fst ,m_lst;
@@ -358,22 +359,22 @@ namespace dirac
         inline const element_type& operator[](const int pos) const {return m_array_of_rows[pos];}
 
         //! Returns the width
-        const int LengthX() const { return m_length_x; }
+        int LengthX() const { return m_length_x; }
 
         //! Returns the height
-        const int LengthY() const { return m_length_y; }
+        int LengthY() const { return m_length_y; }
 
         //! Returns the index of the first element of a row
-        const int FirstX() const { return m_first_x; } 
+        int FirstX() const { return m_first_x; } 
 
         //! Returns the index of the first element of a column
-        const int FirstY() const { return m_first_y; } 
+        int FirstY() const { return m_first_y; } 
 
         //! Returns the index of the last element of a row
-        const int LastX() const { return m_last_x; } 
+        int LastX() const { return m_last_x; } 
 
         //! Returns the index of the first element of a column
-        const int LastY() const { return m_last_y; }
+        int LastY() const { return m_last_y; }
 
     private:
         //! Initialise the array
