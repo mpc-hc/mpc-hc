@@ -26,6 +26,8 @@
 #include "MainFrm.h"
 #include "PPagePlayback.h"
 
+#include "Monitors.h"
+
 
 // CPPagePlayback dialog
 
@@ -104,24 +106,46 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_iZoomLevel = s.iZoomLevel;
 	m_iRememberZoomLevel = s.fRememberZoomLevel;
 
+	CMonitors monitors;
 	m_fSetFullscreenRes = s.dmFullscreenRes.fValid;
 	int iSel = -1;
 	dispmode dm, dmtoset = s.dmFullscreenRes;
-	if(!dmtoset.fValid) GetCurDispMode(dmtoset);
-	for(int i = 0, j = 0; GetDispMode(i, dm); i++)
+	if(!dmtoset.fValid) GetCurDispMode(dmtoset, s.f_hmonitor);
+	CString str;
+	dispmode dm1;
+	for(int i = 0, j = 0, ModeExist = true;  ; i++)
 	{
+		ModeExist = GetDispMode(i, dm, s.f_hmonitor); 
+		if (!ModeExist) break;   
 		if(dm.bpp <= 8) continue;
-
-		m_dms.Add(dm);
-
-		CString str;
+		if(dm.size.cx == 1920 && dm.size.cy == 1080 && dm.freq==24) //HDMI MODE EXIST,
+		//ADD Modes 1920x1080 16bpp AUTO, 1920x1080 24bpp AUTO, 1920x1080 32bpp AUTO.
+		{
+			dm1=dm;
+			dm1.freq=-1; //AUTO1 Mode Marker
+			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
+			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@25, 29.97@30"), dm.size.cx, dm.size.cy, dm.bpp);
+			m_dispmodecombo.AddString(str);
+			j++;
+			dm1.freq=-2; //AUTO2 Mode Marker
+			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
+			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@50, 29.97@60"), dm.size.cx, dm.size.cy, dm.bpp);
+			m_dispmodecombo.AddString(str);
+			j++;
+		}
+		m_dms.Add(dm); // 1920x1080 16bpp 24Hz, 1920x1080 24bpp 25Hz, 1920x1080 32bpp 30Hz also exist
 		str.Format(_T("%dx%d %dbpp %dHz"), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
 		m_dispmodecombo.AddString(str);
 
 		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
-		&& dm.bpp == dmtoset.bpp && dm.freq == dmtoset.freq)
-			iSel = j;
-
+			&& dm.bpp == dmtoset.bpp && dm.freq == dmtoset.freq)
+				iSel = j;
+		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
+			&& dm.bpp == dmtoset.bpp && dmtoset.freq== -1 && dm.freq==24)
+				iSel = j-2;
+		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
+			&& dm.bpp == dmtoset.bpp && dmtoset.freq== -2 && dm.freq==24)
+				iSel = j-1;
 		j++;
 	}
 	m_dispmodecombo.SetCurSel(iSel);

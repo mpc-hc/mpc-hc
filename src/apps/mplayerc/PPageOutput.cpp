@@ -308,6 +308,10 @@ BOOL CPPageOutput::OnApply()
 	else
 		s.iEvrBuffers = 5;
 
+	if(!(s.f_hmonitor == m_MonitorDisplayNames[m_iMonitorType]))
+	{
+		memset(&s.dmFullscreenRes, 0, sizeof(s.dmFullscreenRes));
+	}
 	s.f_hmonitor = m_MonitorDisplayNames[m_iMonitorType];
 
 	return __super::OnApply();

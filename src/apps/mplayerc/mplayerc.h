@@ -395,9 +395,9 @@ public:
 	CUIceClient();
 };
 
-extern void GetCurDispMode(dispmode& dm);
-extern bool GetDispMode(int i, dispmode& dm);
-extern void SetDispMode(dispmode& dm);
+extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
+extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
+extern void SetDispMode(dispmode& dm, CString& DisplayName);
 
 class CMPlayerCApp : public CWinApp
 {
