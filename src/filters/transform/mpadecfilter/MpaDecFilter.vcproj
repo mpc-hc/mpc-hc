@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="MpaDecFilter"
 	ProjectGUID="{4421516D-10A6-41C1-ADF3-099573BBB0C6}"
 	RootNamespace="MpaDecFilter"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
+				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdcaD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib libavcodecD.lib zlibD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib64"
 				ModuleDefinitionFile="MpaDecFilter.def"

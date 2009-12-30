@@ -47,9 +47,9 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="{MINGW32}\bin\make"
-				ReBuildCommandLine="{MINGW32}\bin\make rebuild"
-				CleanCommandLine="{MINGW32}\bin\make clean"
+				BuildCommandLine="gccbuild64.bat"
+				ReBuildCommandLine="gccbuild64.bat rebuild"
+				CleanCommandLine="gccbuild64.bat clean"
 				Output="libavcodec_gcc.lib"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				IncludeSearchPath=""

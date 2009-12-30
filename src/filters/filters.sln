@@ -316,6 +316,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpcAudioRendererFilter", "r
 	EndProjectSection
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Unicode lib|Win32 = Debug Unicode lib|Win32
 		Debug Unicode lib|x64 = Debug Unicode lib|x64
@@ -382,7 +386,6 @@ Global
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode lib|Win32.ActiveCfg = Release Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode lib|Win32.Build.0 = Release Unicode lib|Win32
 		{83CC6B88-A112-4192-BD5A-F2A249AF2277}.Release Unicode lib|x64.ActiveCfg = Release Unicode lib|x64
@@ -826,7 +829,6 @@ Global
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Release Unicode lib|Win32.ActiveCfg = Release Unicode lib|Win32
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Release Unicode lib|Win32.Build.0 = Release Unicode lib|Win32
 		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Release Unicode lib|x64.ActiveCfg = Release Unicode lib|x64
@@ -1108,7 +1110,6 @@ Global
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode lib|x64.Build.0 = Debug|x64
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|Win32.ActiveCfg = Debug|Win32
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|x64.ActiveCfg = Debug|x64
-		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Debug Unicode|x64.Build.0 = Debug|x64
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|Win32.ActiveCfg = Release|Win32
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|Win32.Build.0 = Release|Win32
 		{438286B7-A9F4-411D-BCC5-948C40E37D8F}.Release Unicode lib|x64.ActiveCfg = Release|x64
@@ -1137,7 +1138,6 @@ Global
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Release Unicode lib|Win32.ActiveCfg = Release Unicode|Win32
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Release Unicode lib|x64.ActiveCfg = Release Unicode|x64
 		{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
@@ -1226,9 +1226,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
