@@ -655,7 +655,6 @@ Global
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode lib|Win32.ActiveCfg = Release Unicode lib|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode lib|Win32.Build.0 = Release Unicode lib|Win32
 		{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}.Release Unicode lib|x64.ActiveCfg = Release Unicode lib|x64
