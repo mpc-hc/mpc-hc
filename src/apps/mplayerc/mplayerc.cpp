@@ -2702,15 +2702,16 @@ void GetCurDispMode(dispmode& dm, CString& DisplayName)
 bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 {
 	DEVMODE devmode;
+	CString DisplayName1 = DisplayName;
 	devmode.dmSize = sizeof(DEVMODE);
 	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
 	{ 
         CMonitor monitor;
         CMonitors monitors;
         monitor = monitors.GetPrimaryMonitor();
-        monitor.GetName(DisplayName);
+        monitor.GetName(DisplayName1);
 	}
-	if(!EnumDisplaySettings(DisplayName, i, &devmode))
+	if(!EnumDisplaySettings(DisplayName1, i, &devmode))
 	return(false);
 	dm.fValid = true;
 	dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);

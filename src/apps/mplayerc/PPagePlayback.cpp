@@ -27,6 +27,7 @@
 #include "PPagePlayback.h"
 
 #include "Monitors.h"
+#include "MultiMonitor.h"
 
 
 // CPPagePlayback dialog
@@ -72,9 +73,9 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK3, m_fAutoloadSubtitles);
 	DDX_Check(pDX, IDC_CHECK7, m_fEnableWorkerThreadForOpening);
 	DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
+	DDX_CBIndex(pDX, IDC_COMBO3, m_iMonitorType);
+	DDX_Control(pDX, IDC_COMBO3, m_iMonitorTypeCtrl);
 }
-
-
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_WM_HSCROLL()
@@ -83,6 +84,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO2, OnUpdateDispModeCombo)
+	ON_CBN_SELCHANGE(IDC_COMBO3, OnUpdateFullScrCombo)
 END_MESSAGE_MAP()
 
 
@@ -105,50 +107,58 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_fRewind = s.fRewind;
 	m_iZoomLevel = s.iZoomLevel;
 	m_iRememberZoomLevel = s.fRememberZoomLevel;
+	m_dmFullscreenRes = s.dmFullscreenRes;
+	m_f_hmonitor = s.f_hmonitor;
 
-	CMonitors monitors;
-	m_fSetFullscreenRes = s.dmFullscreenRes.fValid;
-	int iSel = -1;
-	dispmode dm, dmtoset = s.dmFullscreenRes;
-	if(!dmtoset.fValid) GetCurDispMode(dmtoset, s.f_hmonitor);
+   //-> Multi-Monitor code
 	CString str;
-	dispmode dm1;
-	for(int i = 0, j = 0, ModeExist = true;  ; i++)
-	{
-		ModeExist = GetDispMode(i, dm, s.f_hmonitor); 
-		if (!ModeExist) break;   
-		if(dm.bpp <= 8) continue;
-		if(dm.size.cx == 1920 && dm.size.cy == 1080 && dm.freq==24) //HDMI MODE EXIST,
-		//ADD Modes 1920x1080 16bpp AUTO, 1920x1080 24bpp AUTO, 1920x1080 32bpp AUTO.
-		{
-			dm1=dm;
-			dm1.freq=-1; //AUTO1 Mode Marker
-			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
-			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@25, 29.97@30"), dm.size.cx, dm.size.cy, dm.bpp);
-			m_dispmodecombo.AddString(str);
-			j++;
-			dm1.freq=-2; //AUTO2 Mode Marker
-			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
-			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@50, 29.97@60"), dm.size.cx, dm.size.cy, dm.bpp);
-			m_dispmodecombo.AddString(str);
-			j++;
-		}
-		m_dms.Add(dm); // 1920x1080 16bpp 24Hz, 1920x1080 24bpp 25Hz, 1920x1080 32bpp 30Hz also exist
-		str.Format(_T("%dx%d %dbpp %dHz"), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
-		m_dispmodecombo.AddString(str);
+	m_iMonitorType = 0;
 
-		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
-			&& dm.bpp == dmtoset.bpp && dm.freq == dmtoset.freq)
-				iSel = j;
-		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
-			&& dm.bpp == dmtoset.bpp && dmtoset.freq== -1 && dm.freq==24)
-				iSel = j-2;
-		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
-			&& dm.bpp == dmtoset.bpp && dmtoset.freq== -2 && dm.freq==24)
-				iSel = j-1;
-		j++;
+	CMonitor monitor;
+	CMonitors monitors;
+
+	m_iMonitorTypeCtrl.AddString(ResStr(IDS_FULLSCREENMONITOR_CURRENT));
+	m_MonitorDisplayNames.Add(_T("Current"));
+	if(m_f_hmonitor == _T("Current"))
+	{
+		m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
 	}
-	m_dispmodecombo.SetCurSel(iSel);
+
+	for ( int i = 0; i < monitors.GetCount(); i++ )
+	{
+		monitor = monitors.GetMonitor( i );
+		monitor.GetName(str);
+		
+		if(monitor.IsMonitor())
+		{
+			DISPLAY_DEVICE displayDevice;
+			ZeroMemory(&displayDevice, sizeof(displayDevice));
+			displayDevice.cb = sizeof(displayDevice);
+			VERIFY(EnumDisplayDevices(str, 0,  &displayDevice, 0));
+						
+			m_iMonitorTypeCtrl.AddString(str+_T(" - ")+displayDevice.DeviceString);
+			m_MonitorDisplayNames.Add(str);
+			
+			if(m_f_hmonitor == str && m_iMonitorType == 0)
+			{
+				m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
+			}
+		}
+	}
+
+	//(m_iMonitorTypeCtrl.GetCount() > 2)	? {GetDlgItem(IDC_COMBO2)->EnableWindow(TRUE)} : GetDlgItem(IDC_COMBO2)->EnableWindow(FALSE);
+	if(m_iMonitorTypeCtrl.GetCount() > 2)
+	  {
+		GetDlgItem(IDC_COMBO3)->EnableWindow(TRUE);
+	  }
+	else
+	  { 
+		m_iMonitorType = 0;
+		GetDlgItem(IDC_COMBO3)->EnableWindow(FALSE);
+	  }
+   //<- Multi-Monitor code
+
+    CPPagePlayback::ModesUpdate();
 
 	m_fAutoloadAudio = s.fAutoloadAudio;
 	m_fAutoloadSubtitles = s.fAutoloadSubtitles;
@@ -181,6 +191,8 @@ BOOL CPPagePlayback::OnApply()
 	s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
 	s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
 	s.fReportFailedPins = !!m_fReportFailedPins;
+	s.dmFullscreenRes =	m_dmFullscreenRes;
+	s.f_hmonitor =	m_f_hmonitor;
 
 	return __super::OnApply();
 }
@@ -231,4 +243,60 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateDispModeCombo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK4));
+}
+
+void CPPagePlayback::OnUpdateFullScrCombo()
+{
+	CMonitors monitors;
+	m_f_hmonitor = m_MonitorDisplayNames[m_iMonitorTypeCtrl.GetCurSel()];
+	ModesUpdate();
+}
+void CPPagePlayback::ModesUpdate()
+{
+	CMonitors monitors;
+	m_fSetFullscreenRes = m_dmFullscreenRes.fValid;
+	int iSel = -1;
+	dispmode dm, dmtoset = m_dmFullscreenRes;
+	if(!dmtoset.fValid) GetCurDispMode(dmtoset, m_f_hmonitor);
+	CString str;
+	dispmode dm1;
+
+	ComboBox_ResetContent(m_dispmodecombo);
+	m_dms.IsEmpty();
+	for(int i = 0, j = 0, ModeExist = true;  ; i++)
+	{
+		ModeExist = GetDispMode(i, dm, m_f_hmonitor);
+		if (!ModeExist) break;   
+		if(dm.bpp <= 8) continue;
+		if(dm.size.cx == 1920 && dm.size.cy == 1080 && dm.freq==24) //HDMI MODE EXIST,
+		//ADD Modes 1920x1080 16bpp AUTO, 1920x1080 24bpp AUTO, 1920x1080 32bpp AUTO.
+		{
+			dm1=dm;
+			dm1.freq=-1; //AUTO1 Mode Marker
+			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
+			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@25, 29.97@30"), dm.size.cx, dm.size.cy, dm.bpp);
+			m_dispmodecombo.AddString(str);
+			j++;
+			dm1.freq=-2; //AUTO2 Mode Marker
+			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
+			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@50, 29.97@60"), dm.size.cx, dm.size.cy, dm.bpp);
+			m_dispmodecombo.AddString(str);
+			j++;
+		}
+		m_dms.Add(dm); // 1920x1080 16bpp 24Hz, 1920x1080 24bpp 25Hz, 1920x1080 32bpp 30Hz also exist
+		str.Format(_T("%dx%d %dbpp %dHz"), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+		m_dispmodecombo.AddString(str);
+
+		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
+		&& dm.bpp == dmtoset.bpp && dm.freq == dmtoset.freq)
+			iSel = j;
+		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
+		&& dm.bpp == dmtoset.bpp && dmtoset.freq== -1 && dm.freq==24)
+			iSel = j-2;
+		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size
+		&& dm.bpp == dmtoset.bpp && dmtoset.freq== -2 && dm.freq==24)
+			iSel = j-1;
+		j++;
+	}
+	m_dispmodecombo.SetCurSel(iSel);
 }

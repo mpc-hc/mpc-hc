@@ -34,7 +34,7 @@ class CPPagePlayback : public CPPageBase
 
 private:
 	CAtlArray<dispmode> m_dms;
-
+	CStringArray m_MonitorDisplayNames;
 public:
 	CPPagePlayback();
 	virtual ~CPPagePlayback();
@@ -55,6 +55,11 @@ public:
 	BOOL m_fAutoloadSubtitles;
 	BOOL m_fEnableWorkerThreadForOpening;
 	BOOL m_fReportFailedPins;
+	
+	dispmode m_dmFullscreenRes;
+	CStringW m_f_hmonitor;
+	int m_iMonitorType;
+	CComboBox m_iMonitorTypeCtrl;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYBACK };
@@ -73,4 +78,6 @@ public:
 	afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateDispModeCombo(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateFullScrCombo();
+	void ModesUpdate();
 };

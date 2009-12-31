@@ -35,8 +35,6 @@ class CPPageOutput : public CPPageBase
 private:
 	CStringArray m_AudioRendererDisplayNames;
 
-	CStringArray m_MonitorDisplayNames;
-
 	void DisableRadioButton(UINT nID, UINT nDefID);
 
 public:
@@ -59,9 +57,6 @@ public:
 	BOOL m_fVMR9AlterativeVSync;
 	BOOL m_fResetDevice;
 	CString m_iEvrBuffers;
-
-	int m_iMonitorType;
-	CComboBox m_iMonitorTypeCtrl;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

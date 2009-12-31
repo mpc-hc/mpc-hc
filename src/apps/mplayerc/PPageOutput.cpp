@@ -28,7 +28,6 @@
 #include <moreuuids.h>
 
 #include "Monitors.h"
-#include "MultiMonitor.h"
 
 // CPPageOutput dialog
 
@@ -73,9 +72,6 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
 	
 	DDX_CBString(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
-
-	DDX_CBIndex(pDX, IDC_COMBO2, m_iMonitorType);
-	DDX_Control(pDX, IDC_COMBO2, m_iMonitorTypeCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
@@ -117,56 +113,6 @@ BOOL CPPageOutput::OnInitDialog()
 	m_iEvrBuffers.Format(L"%d", s.iEvrBuffers);
 
 	m_fResetDevice = s.fResetDevice;
-
-	// Multi-Monitor code
-	CString str;
-	m_iMonitorType = 0;
-
-	CMonitor monitor;
-	CMonitors monitors;
-
-	m_iMonitorTypeCtrl.AddString(ResStr(IDS_FULLSCREENMONITOR_CURRENT));
-	m_MonitorDisplayNames.Add(_T("Current"));
-	if(s.f_hmonitor == _T("Current"))
-	{
-		m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
-	}
-
-	for ( int i = 0; i < monitors.GetCount(); i++ )
-	{
-		monitor = monitors.GetMonitor( i );
-		monitor.GetName(str);
-		
-		if(monitor.IsMonitor())
-		{
-			DISPLAY_DEVICE displayDevice;
-			ZeroMemory(&displayDevice, sizeof(displayDevice));
-			displayDevice.cb = sizeof(displayDevice);
-			VERIFY(EnumDisplayDevices(str, 0,  &displayDevice, 0));
-						
-			m_iMonitorTypeCtrl.AddString(str+_T(" - ")+displayDevice.DeviceString);
-			m_MonitorDisplayNames.Add(str);
-			
-			if(s.f_hmonitor == str && m_iMonitorType == 0)
-			{
-				m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
-			}
-		}
-	}
-
-	//(m_iMonitorTypeCtrl.GetCount() > 2)	? {GetDlgItem(IDC_COMBO2)->EnableWindow(TRUE)} : GetDlgItem(IDC_COMBO2)->EnableWindow(FALSE);
-	if(m_iMonitorTypeCtrl.GetCount() > 2)
-	{
-		GetDlgItem(IDC_COMBO2)->EnableWindow(TRUE);
-		GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
-	}
-	else
-	{
-		m_iMonitorType = 0;
-		GetDlgItem(IDC_COMBO2)->EnableWindow(FALSE);
-		GetDlgItem(IDC_RESETDEVICE)->EnableWindow(FALSE);
-	}
-
 	m_AudioRendererDisplayNames.Add(_T(""));
 	m_iAudioRendererTypeCtrl.AddString(_T("System Default"));
 	m_iAudioRendererType = 0;
@@ -307,12 +253,6 @@ BOOL CPPageOutput::OnApply()
 	}
 	else
 		s.iEvrBuffers = 5;
-
-	if(!(s.f_hmonitor == m_MonitorDisplayNames[m_iMonitorType]))
-	{
-		memset(&s.dmFullscreenRes, 0, sizeof(s.dmFullscreenRes));
-	}
-	s.f_hmonitor = m_MonitorDisplayNames[m_iMonitorType];
 
 	return __super::OnApply();
 }
