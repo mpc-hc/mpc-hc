@@ -3,7 +3,7 @@
 /* 
  * $Id$
  *
- * (C) 2006-2007 see AUTHORS
+ * (C) 2006-2010 see AUTHORS
  *
  * This file is part of mplayerc.
  *

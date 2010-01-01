@@ -1,7 +1,7 @@
 /* 
  * $Id: Mpeg2Def.h 1288 2009-09-27 15:50:30Z casimir666 $
  *
- * (C) 2006-2007 see AUTHORS
+ * (C) 2006-2010 see AUTHORS
  *
  * This file is part of mplayerc.
  *

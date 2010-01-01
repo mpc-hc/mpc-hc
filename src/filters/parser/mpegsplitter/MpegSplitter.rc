@@ -45,11 +45,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "Gabest"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "Mpeg Splitter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "Mpeg Splitter"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MpegSplitter.ax"
             VALUE "ProductName", "Mpeg Splitter"
             VALUE "ProductVersion", "1, 1, 0, 0"

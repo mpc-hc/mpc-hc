@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
+#include "..\..\..\..\include\Version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -53,8 +54,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,1197,0
- PRODUCTVERSION 1,2,1197,0
+ FILEVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
+ PRODUCTVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,11 +71,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "Gabest"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "Audio Renderer, based on SoundTouch"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MpcAudioRenderer Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MpcAudioRendererFilter.ax"
             VALUE "ProductName", "MpcAudioRenderer Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

@@ -45,11 +45,11 @@ BEGIN
         BLOCK "040e04b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "Gabest"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "DTS/AC3 Source Filter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "DTS/AC3 Source Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "DTSAC3Source.ax"
             VALUE "ProductName", "DTS/AC3 Sorce Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

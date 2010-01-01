@@ -45,10 +45,11 @@ BEGIN
         BLOCK "040e04b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "Gabest"
+            VALUE "CompanyName", "MPC-HC Team"
+			VALUE "FileDescription", "StreamDriverThru Filter"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "StreamDriverThru Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "StreamDriverThru.ax"
             VALUE "ProductName", "StreamDriverThru Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"

@@ -78,11 +78,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "MPC Home Cinema"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "H.264/VC-1 DXVA video decoder"
             VALUE "FileVersion", "1, 1, 0, 0"
             VALUE "InternalName", "MPCVideoDec Filter"
-            VALUE "LegalCopyright", "Copyright (C) 2002-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MPCVideoDecFilter.ax"
             VALUE "ProductName", "MPCVideoDec Filter"
             VALUE "ProductVersion", "1, 1, 0, 0"
