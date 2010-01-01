@@ -2,7 +2,7 @@
 |
 |    AP4 - co64 Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,31 +30,41 @@
 #define _AP4_CO64_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_Co64Atom
+|   AP4_Co64Atom
 +---------------------------------------------------------------------*/
 class AP4_Co64Atom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_Co64Atom, AP4_Atom)
+
+    // class methods
+    static AP4_Co64Atom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_Co64Atom(AP4_UI64* offsets, AP4_UI32 offset_count);
-    AP4_Co64Atom(AP4_Size size, AP4_ByteStream& stream);
     ~AP4_Co64Atom();
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_Cardinal GetChunkCount() { return m_EntryCount;  }
-    AP4_Result GetChunkOffset(AP4_Ordinal chunk, AP4_Offset& chunk_offset);
-    AP4_Result SetChunkOffset(AP4_Ordinal chunk, AP4_Offset chunk_offset);
-    AP4_Result AdjustChunkOffsets(AP4_Offset offset);
+    AP4_Cardinal GetChunkCount()   { return m_EntryCount; }
+    AP4_UI64*    GetChunkOffsets() { return m_Entries;    }
+    AP4_Result   GetChunkOffset(AP4_Ordinal chunk, AP4_UI64& chunk_offset);
+    AP4_Result   SetChunkOffset(AP4_Ordinal chunk, AP4_UI64  chunk_offset);
+    AP4_Result   AdjustChunkOffsets(AP4_SI64 delta);
 
- private:
+private:
+    // methods
+    AP4_Co64Atom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
+    // members
     AP4_UI64* m_Entries;
     AP4_UI32  m_EntryCount;
 };

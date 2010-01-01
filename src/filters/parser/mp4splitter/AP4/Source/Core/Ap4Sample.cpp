@@ -2,7 +2,7 @@
 |
 |    AP4 - Sample Objects
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,59 +27,71 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Sample.h"
 #include "Ap4Utils.h"
+#include "Ap4DataBuffer.h"
+#include "Ap4Interfaces.h"
+#include "Ap4ByteStream.h"
+#include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::AP4_Sample
+|   AP4_Sample::AP4_Sample
 +---------------------------------------------------------------------*/
 AP4_Sample::AP4_Sample() :
     m_DataStream(NULL),
     m_Offset(0),
     m_Size(0),
+    m_Duration(0),
     m_DescriptionIndex(0),
     m_Dts(0),
-    m_Cts(0)
+    m_CtsDelta(0),
+    m_IsSync(true)
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::AP4_Sample
+|   AP4_Sample::AP4_Sample
 +---------------------------------------------------------------------*/
 AP4_Sample::AP4_Sample(AP4_ByteStream& data_stream,
-                       AP4_Offset      offset,
+                       AP4_Position    offset,
                        AP4_Size        size,
+                       AP4_UI32        duration,
                        AP4_Ordinal     description_index,
-                       AP4_TimeStamp   dts,
-                       AP4_TimeStamp   cts_offset /* = 0 */ ) :
+                       AP4_UI64        dts,
+                       AP4_UI32        cts_delta,
+                       bool            is_sync) :
     m_Offset(offset),
     m_Size(size),
+    m_Duration(duration),
     m_DescriptionIndex(description_index),
     m_Dts(dts),
-    m_Cts(dts + cts_offset)
+    m_CtsDelta(cts_delta),
+    m_IsSync(is_sync)
 {
     m_DataStream = &data_stream;
     AP4_ADD_REFERENCE(m_DataStream);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::AP4_Sample
+|   AP4_Sample::AP4_Sample
 +---------------------------------------------------------------------*/
 AP4_Sample::AP4_Sample(const AP4_Sample& other) :
     m_DataStream(other.m_DataStream),
     m_Offset(other.m_Offset),
     m_Size(other.m_Size),
+    m_Duration(other.m_Duration),
     m_DescriptionIndex(other.m_DescriptionIndex),
     m_Dts(other.m_Dts),
-    m_Cts(other.m_Cts)
+    m_CtsDelta(other.m_CtsDelta),
+    m_IsSync(other.m_IsSync)
 {
     AP4_ADD_REFERENCE(m_DataStream);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::~AP4_Sample
+|   AP4_Sample::~AP4_Sample
 +---------------------------------------------------------------------*/
 AP4_Sample::~AP4_Sample()
 {
@@ -87,25 +99,27 @@ AP4_Sample::~AP4_Sample()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::operator=
+|   AP4_Sample::operator=
 +---------------------------------------------------------------------*/
 AP4_Sample&
 AP4_Sample::operator=(const AP4_Sample& other)
 {
+    AP4_ADD_REFERENCE(other.m_DataStream);
     AP4_RELEASE(m_DataStream);
     m_DataStream = other.m_DataStream;
-    AP4_ADD_REFERENCE(m_DataStream);
 
     m_Offset           = other.m_Offset;
     m_Size             = other.m_Size;
+    m_Duration         = other.m_Duration;
     m_DescriptionIndex = other.m_DescriptionIndex;
     m_Dts              = other.m_Dts;
-    m_Cts              = other.m_Cts;
+    m_CtsDelta         = other.m_CtsDelta;
+    m_IsSync           = other.m_IsSync;
 
     return *this;
 }
 /*----------------------------------------------------------------------
-|       AP4_Sample::ReadData
+|   AP4_Sample::ReadData
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_Sample::ReadData(AP4_DataBuffer& data)
@@ -115,10 +129,10 @@ AP4_Sample::ReadData(AP4_DataBuffer& data)
 
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::ReadData
+|   AP4_Sample::ReadData
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_Sample::ReadData(AP4_DataBuffer& data, AP4_Size size, AP4_Offset offset)
+AP4_Sample::ReadData(AP4_DataBuffer& data, AP4_Size size, AP4_Size offset)
 {
     // check that we have a stream
     if (m_DataStream == NULL) return AP4_FAILURE;
@@ -134,12 +148,13 @@ AP4_Sample::ReadData(AP4_DataBuffer& data, AP4_Size size, AP4_Offset offset)
     if (AP4_FAILED(result)) return result;
 
     // get the data from the stream
-    m_DataStream->Seek(m_Offset+offset);
-	return m_DataStream->Read(data.UseData(), size);
+    result = m_DataStream->Seek(m_Offset+offset);
+    if (AP4_FAILED(result)) return result;
+    return m_DataStream->Read(data.UseData(), size);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::GetDataStream
+|   AP4_Sample::GetDataStream
 +---------------------------------------------------------------------*/
 AP4_ByteStream*
 AP4_Sample::GetDataStream()
@@ -149,7 +164,7 @@ AP4_Sample::GetDataStream()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Sample::SetDataStream
+|   AP4_Sample::SetDataStream
 +---------------------------------------------------------------------*/
 void
 AP4_Sample::SetDataStream(AP4_ByteStream& stream)

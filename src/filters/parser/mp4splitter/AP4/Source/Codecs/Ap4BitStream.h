@@ -1,41 +1,57 @@
 /*****************************************************************
 |
-|      File: Ap4BitStream.h
+|    AP4 - Bitstream Utility
 |
-|      AP4 - Bit Streams
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
-|      (c) 2005 Gilles Boccon-Gibod
-|      Author: Gilles Boccon-Gibod (bok@bok.net)
 |
- ****************************************************************/
+|    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
+|
+|    Unless you have obtained Bento4 under a difference license,
+|    this version of Bento4 is Bento4|GPL.
+|    Bento4|GPL is free software; you can redistribute it and/or modify
+|    it under the terms of the GNU General Public License as published by
+|    the Free Software Foundation; either version 2, or (at your option)
+|    any later version.
+|
+|    Bento4|GPL is distributed in the hope that it will be useful,
+|    but WITHOUT ANY WARRANTY; without even the implied warranty of
+|    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+|    GNU General Public License for more details.
+|
+|    You should have received a copy of the GNU General Public License
+|    along with Bento4|GPL; see the file COPYING.  If not, write to the
+|    Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+|    02111-1307, USA.
+|
+****************************************************************/
 
 #ifndef _AP4_BIT_STREAM_H_
 #define _AP4_BIT_STREAM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
 #include "Ap4Results.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
-#define AP4_ERROR_BASE_BITSTREAM -10000
+const int AP4_ERROR_BASE_BITSTREAM   = -10000;
 
-/* the max frame size we can handle */
-#define AP4_BITSTREAM_BUFFER_SIZE  8192
+// the max frame size we can handle 
+const unsigned int AP4_BITSTREAM_BUFFER_SIZE  = 8192;
 
-/* flags */
+// flags
 #define AP4_BITSTREAM_FLAG_EOS 0x01
 
-/* error codes */
-#define AP4_ERROR_NOT_ENOUGH_DATA        (AP4_ERROR_BASE_BITSTREAM - 0)
-#define AP4_ERROR_CORRUPTED_BITSTREAM    (AP4_ERROR_BASE_BITSTREAM - 1)
-#define AP4_ERROR_NOT_ENOUGH_FREE_BUFFER (AP4_ERROR_BASE_BITSTREAM - 2)
+// error codes
+const int AP4_ERROR_CORRUPTED_BITSTREAM    = (AP4_ERROR_BASE_BITSTREAM - 0);
+const int AP4_ERROR_NOT_ENOUGH_FREE_BUFFER = (AP4_ERROR_BASE_BITSTREAM - 1);
 
 /*----------------------------------------------------------------------
-|       types helpers
+|   types helpers
 +---------------------------------------------------------------------*/
 /* use long by default */
 typedef unsigned int AP4_BitsWord;
@@ -43,7 +59,7 @@ typedef unsigned int AP4_BitsWord;
 #define AP4_WORD_BYTES 4
 
 /*----------------------------------------------------------------------
-|       types
+|   types
 +---------------------------------------------------------------------*/
 class AP4_BitStream
 {
@@ -86,7 +102,7 @@ private:
 };
     
 /*----------------------------------------------------------------------
-|       macros
+|   macros
 +---------------------------------------------------------------------*/
 #define AP4_BIT_MASK(_n) ((1<<(_n))-1)
 
@@ -100,7 +116,7 @@ private:
     ((pointer) = AP4_BITSTREAM_POINTER_OFFSET(pointer, offset))
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::ReadCache
+|   AP4_BitStream::ReadCache
 +---------------------------------------------------------------------*/
 inline AP4_BitsWord
 AP4_BitStream::ReadCache() const
@@ -130,7 +146,7 @@ AP4_BitStream::ReadCache() const
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::ReadBits
+|   AP4_BitStream::ReadBits
 +---------------------------------------------------------------------*/
 inline AP4_UI32
 AP4_BitStream::ReadBits(unsigned int n)
@@ -164,7 +180,7 @@ AP4_BitStream::ReadBits(unsigned int n)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::ReadBit
+|   AP4_BitStream::ReadBit
 +---------------------------------------------------------------------*/
 inline int
 AP4_BitStream::ReadBit()
@@ -188,7 +204,7 @@ AP4_BitStream::ReadBit()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::PeekBits
+|   AP4_BitStream::PeekBits
 +---------------------------------------------------------------------*/
 inline AP4_UI32
 AP4_BitStream::PeekBits(unsigned int n)
@@ -208,7 +224,7 @@ AP4_BitStream::PeekBits(unsigned int n)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::PeekBit
+|   AP4_BitStream::PeekBit
 +---------------------------------------------------------------------*/
 inline int
 AP4_BitStream::PeekBit()
@@ -227,7 +243,7 @@ AP4_BitStream::PeekBit()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::SkipBits
+|   AP4_BitStream::SkipBits
 +---------------------------------------------------------------------*/
 inline void
 AP4_BitStream::SkipBits(unsigned int n)
@@ -252,7 +268,7 @@ AP4_BitStream::SkipBits(unsigned int n)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::SkipBit
+|   AP4_BitStream::SkipBit
 +---------------------------------------------------------------------*/
 inline void
 AP4_BitStream::SkipBit()
@@ -267,7 +283,7 @@ AP4_BitStream::SkipBit()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::ReadByte
+|   AP4_BitStream::ReadByte
 +---------------------------------------------------------------------*/
 inline AP4_UI08
 AP4_BitStream::ReadByte()
@@ -277,7 +293,7 @@ AP4_BitStream::ReadByte()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::PeekByte
+|   AP4_BitStream::PeekByte
 +---------------------------------------------------------------------*/
 inline AP4_UI08
 AP4_BitStream::PeekByte()

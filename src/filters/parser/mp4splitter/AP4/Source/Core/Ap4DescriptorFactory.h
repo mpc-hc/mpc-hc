@@ -2,7 +2,7 @@
 |
 |    AP4 - Descriptor Factory
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,14 +30,18 @@
 #define _AP4_DESCRIPTOR_FACTORY_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4Descriptor.h"
-#include "Ap4ByteStream.h"
+#include "Ap4Types.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DescriptorFactory
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+class AP4_Descriptor;
+
+/*----------------------------------------------------------------------
+|   AP4_DescriptorFactory
 +---------------------------------------------------------------------*/
 class AP4_DescriptorFactory 
 {

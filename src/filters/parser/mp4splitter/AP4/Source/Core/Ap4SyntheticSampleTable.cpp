@@ -2,7 +2,7 @@
 |
 |    AP4 - Synthetic Sample Table
 |
-|    Copyright 2003-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,21 +27,23 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
 #include "Ap4SyntheticSampleTable.h"
+#include "Ap4Sample.h"
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::AP4_SyntheticSampleTable()
+|   AP4_SyntheticSampleTable::AP4_SyntheticSampleTable()
 +---------------------------------------------------------------------*/
-AP4_SyntheticSampleTable::AP4_SyntheticSampleTable()
+AP4_SyntheticSampleTable::AP4_SyntheticSampleTable(AP4_Cardinal chunk_size) :
+    m_ChunkSize(chunk_size?chunk_size:AP4_SYNTHETIC_SAMPLE_TABLE_DEFAULT_CHUNK_SIZE)
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::~AP4_SyntheticSampleTable()
+|   AP4_SyntheticSampleTable::~AP4_SyntheticSampleTable()
 +---------------------------------------------------------------------*/
 AP4_SyntheticSampleTable::~AP4_SyntheticSampleTable()
 {
@@ -49,21 +51,19 @@ AP4_SyntheticSampleTable::~AP4_SyntheticSampleTable()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::GetSample
+|   AP4_SyntheticSampleTable::GetSample
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_SyntheticSampleTable::GetSample(AP4_Ordinal index, AP4_Sample& sample)
+AP4_SyntheticSampleTable::GetSample(AP4_Ordinal sample_index, AP4_Sample& sample)
 {
-    if (index < m_Samples.ItemCount()) {
-        sample = m_Samples[index];
-        return AP4_SUCCESS;
-    } else {
-        return AP4_ERROR_OUT_OF_RANGE;
-    }
+    if (sample_index >= m_Samples.ItemCount()) return AP4_ERROR_OUT_OF_RANGE;
+
+    sample = m_Samples[sample_index];
+    return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::GetSampleCount
+|   AP4_SyntheticSampleTable::GetSampleCount
 +---------------------------------------------------------------------*/
 AP4_Cardinal 
 AP4_SyntheticSampleTable::GetSampleCount()
@@ -72,7 +72,31 @@ AP4_SyntheticSampleTable::GetSampleCount()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::GetSampleDescriptionCount
+|   AP4_SyntheticSampleTable::GetSampleChunkPosition
++---------------------------------------------------------------------*/
+AP4_Result   
+AP4_SyntheticSampleTable::GetSampleChunkPosition(
+    AP4_Ordinal  sample_index, 
+    AP4_Ordinal& chunk_index,
+    AP4_Ordinal& position_in_chunk)
+{
+    // default values
+    chunk_index       = 0;
+    position_in_chunk = 0;
+    
+    // check parameters
+    if (sample_index >= m_Samples.ItemCount()) return AP4_ERROR_OUT_OF_RANGE;
+    if (m_ChunkSize == 0) return AP4_ERROR_INVALID_STATE;
+    
+    // compute in which chunk this sample falls
+    chunk_index       = sample_index/m_ChunkSize;
+    position_in_chunk = sample_index%m_ChunkSize;
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_SyntheticSampleTable::GetSampleDescriptionCount
 +---------------------------------------------------------------------*/
 AP4_Cardinal 
 AP4_SyntheticSampleTable::GetSampleDescriptionCount()
@@ -81,50 +105,95 @@ AP4_SyntheticSampleTable::GetSampleDescriptionCount()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::GetSampleDescription
+|   AP4_SyntheticSampleTable::GetSampleDescription
 +---------------------------------------------------------------------*/
 AP4_SampleDescription* 
 AP4_SyntheticSampleTable::GetSampleDescription(AP4_Ordinal index)
 {
-    AP4_SampleDescription* description;
-    if (AP4_SUCCEEDED(m_SampleDescriptions.Get(index, description))) {
-        return description;
+    SampleDescriptionHolder* holder;
+    if (AP4_SUCCEEDED(m_SampleDescriptions.Get(index, holder))) {
+        return holder->m_SampleDescription;
     } else {
         return NULL;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::AddSampleDescription
+|   AP4_SyntheticSampleTable::AddSampleDescription
 +---------------------------------------------------------------------*/
 AP4_Result 
-AP4_SyntheticSampleTable::AddSampleDescription(AP4_SampleDescription* description)
+AP4_SyntheticSampleTable::AddSampleDescription(AP4_SampleDescription* description,
+                                               bool                   transfer_ownership)
 {
-    return m_SampleDescriptions.Add(description);
+    return m_SampleDescriptions.Add(new SampleDescriptionHolder(description, transfer_ownership));
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::AddSample
+|   AP4_SyntheticSampleTable::AddSample
 +---------------------------------------------------------------------*/
 AP4_Result 
 AP4_SyntheticSampleTable::AddSample(AP4_ByteStream& data_stream,
-                                    AP4_Offset      offset,
+                                    AP4_Position    offset,
                                     AP4_Size        size,
+                                    AP4_UI32        duration,
                                     AP4_Ordinal     description_index,
-                                    AP4_TimeStamp   cts,
-                                    AP4_TimeStamp   dts,
+                                    AP4_UI64        dts,
+                                    AP4_UI32        cts_delta,
                                     bool            sync)
 {
-    AP4_Sample sample(data_stream, offset, size, description_index, dts, cts-dts);
+    if (m_Samples.ItemCount() > 0) {
+        AP4_Sample* prev_sample = &m_Samples[m_Samples.ItemCount()-1];
+        if (dts == 0) {
+            if (prev_sample->GetDuration() == 0) {
+                // can't compute the DTS for this sample
+                return AP4_ERROR_INVALID_PARAMETERS;
+            }
+            dts = prev_sample->GetDts()+prev_sample->GetDuration();
+        } else {
+            if (prev_sample->GetDuration() == 0) {
+                // update the previous sample
+                if (dts <= prev_sample->GetDts()) return AP4_ERROR_INVALID_PARAMETERS;
+                prev_sample->SetDuration((AP4_UI32)(dts-prev_sample->GetDts()));
+            } else {
+                if (dts != prev_sample->GetDts()+prev_sample->GetDuration()) {
+                    // mismatch
+                    return AP4_ERROR_INVALID_PARAMETERS;
+                }
+            }
+        }
+    }
+    AP4_Sample sample(data_stream, offset, size, duration, description_index, dts, cts_delta, sync);
     return m_Samples.Append(sample);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_SyntheticSampleTable::GetSample
+|   AP4_SyntheticSampleTable::GetSampleIndexForTimeStamp
 +---------------------------------------------------------------------*/
 AP4_Result 
-AP4_SyntheticSampleTable::GetSampleIndexForTimeStamp(AP4_TimeStamp ts, 
-                                                     AP4_Ordinal& index)
+AP4_SyntheticSampleTable::GetSampleIndexForTimeStamp(AP4_UI64     /* ts */, 
+                                                     AP4_Ordinal& /* index */)
 {
-    return AP4_ERROR_NOT_SUPPORTED_YET;
+    return AP4_ERROR_NOT_SUPPORTED;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_SyntheticSampleTable::GetNearestSyncSampleIndex
++---------------------------------------------------------------------*/
+AP4_Ordinal  
+AP4_SyntheticSampleTable::GetNearestSyncSampleIndex(AP4_Ordinal sample_index, bool before)
+{
+    if (before) {
+        for (int i=sample_index; i>=0; i--) {
+            if (m_Samples[i].IsSync()) return i;
+        }
+        // not found?
+        return 0;
+    } else {
+        AP4_Cardinal entry_count = m_Samples.ItemCount();
+        for (unsigned int i=sample_index; i<entry_count; i++) {
+            if (m_Samples[i].IsSync()) return i;
+        }
+        // not found?
+        return m_Samples.ItemCount();
+    }
 }

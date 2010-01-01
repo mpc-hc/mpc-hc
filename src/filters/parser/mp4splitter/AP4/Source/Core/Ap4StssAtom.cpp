@@ -2,7 +2,7 @@
 |
 |    AP4 - stss Atoms 
 |
-|    Copyright 2003 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,18 +27,47 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4StssAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StssAtom::AP4_StssAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_StssAtom::AP4_StssAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_STSS, size, true, stream)
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_StssAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_StssAtom::Create
++---------------------------------------------------------------------*/
+AP4_StssAtom*
+AP4_StssAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_StssAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StssAtom::AP4_StssAtom
++---------------------------------------------------------------------*/
+AP4_StssAtom::AP4_StssAtom() :
+    AP4_Atom(AP4_ATOM_TYPE_STSS, AP4_FULL_ATOM_HEADER_SIZE+4, 0, 0)
+{
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StssAtom::AP4_StssAtom
++---------------------------------------------------------------------*/
+AP4_StssAtom::AP4_StssAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_STSS, size, version, flags),
+    m_LookupCache(0)
 {
     AP4_UI32 entry_count;
     stream.ReadUI32(entry_count);
@@ -51,7 +80,7 @@ AP4_StssAtom::AP4_StssAtom(AP4_Size size, AP4_ByteStream& stream) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StssAtom::WriteFields
+|   AP4_StssAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StssAtom::WriteFields(AP4_ByteStream& stream)
@@ -73,26 +102,48 @@ AP4_StssAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StssAtom::IsSampleSync
+|   AP4_StssAtom::AddEntry
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_StssAtom::AddEntry(AP4_UI32 sample)
+{
+    m_Entries.Append(sample);
+    m_Size32 += 4;
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StssAtom::IsSampleSync
 +---------------------------------------------------------------------*/
 bool
 AP4_StssAtom::IsSampleSync(AP4_Ordinal sample)
 {
     unsigned int entry_index = 0;
 
+    // check bounds
+    if (sample == 0 || m_Entries.ItemCount() == 0) return false;
+
+    // see if we can start from the cached index
+    if (m_Entries[m_LookupCache] <= sample) {
+        entry_index = m_LookupCache;
+    }
+
+    // do a linear search
     while (entry_index < m_Entries.ItemCount() &&
-           m_Entries[entry_index] >= sample) {
+           m_Entries[entry_index] <= sample) {
         if (m_Entries[entry_index] == sample) {
+            m_LookupCache = entry_index;
             return true;
         }
-	entry_index++;
+	    entry_index++;
     }
 
     return false;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StssAtom::InspectFields
+|   AP4_StssAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StssAtom::InspectFields(AP4_AtomInspector& inspector)

@@ -2,7 +2,7 @@
 |
 |    AP4 - Movie
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,7 +27,7 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4File.h"
 #include "Ap4Atom.h"
@@ -36,9 +36,10 @@
 #include "Ap4MvhdAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Movie.h"
+#include "Ap4MetaData.h"
 
 /*----------------------------------------------------------------------
-|       AP4_TrackFinderById
+|   AP4_TrackFinderById
 +---------------------------------------------------------------------*/
 class AP4_TrackFinderById : public AP4_List<AP4_Track>::Item::Finder
 {
@@ -52,7 +53,7 @@ private:
 };
 
 /*----------------------------------------------------------------------
-|       AP4_TrackFinderByType
+|   AP4_TrackFinderByType
 +---------------------------------------------------------------------*/
 class AP4_TrackFinderByType : public AP4_List<AP4_Track>::Item::Finder
 {
@@ -72,12 +73,12 @@ private:
 };
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::AP4_Movie
+|   AP4_Movie::AP4_Movie
 +---------------------------------------------------------------------*/
 AP4_Movie::AP4_Movie(AP4_UI32 time_scale)
 {
-    m_MoovAtom = DNew AP4_MoovAtom();
-    m_MvhdAtom = DNew AP4_MvhdAtom(0, 0, 
+    m_MoovAtom = new AP4_MoovAtom();
+    m_MvhdAtom = new AP4_MvhdAtom(0, 0, 
                                   time_scale, 
                                   0, 
                                   0x00010000,
@@ -86,17 +87,18 @@ AP4_Movie::AP4_Movie(AP4_UI32 time_scale)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::AP4_Moovie
+|   AP4_Movie::AP4_Moovie
 +---------------------------------------------------------------------*/
-AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& mdat) :
-    m_MoovAtom(moov)
+AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& sample_stream, bool transfer_moov_ownership) :
+    m_MoovAtom(moov),
+    m_MoovAtomIsOwned(transfer_moov_ownership)
 {
     // ignore null atoms
     if (moov == NULL) return;
 
     // get the time scale
     AP4_UI32 time_scale;
-    m_MvhdAtom = dynamic_cast<AP4_MvhdAtom*>(moov->GetChild(AP4_ATOM_TYPE_MVHD));
+    m_MvhdAtom = AP4_DYNAMIC_CAST(AP4_MvhdAtom, moov->GetChild(AP4_ATOM_TYPE_MVHD));
     if (m_MvhdAtom) {
         time_scale = m_MvhdAtom->GetTimeScale();
     } else {
@@ -108,8 +110,8 @@ AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& mdat) :
     trak_atoms = &moov->GetTrakAtoms();
     AP4_List<AP4_TrakAtom>::Item* item = trak_atoms->FirstItem();
     while (item) {
-        AP4_Track* track = DNew AP4_Track(*item->GetData(), 
-                                         mdat,
+        AP4_Track* track = new AP4_Track(*item->GetData(), 
+                                         sample_stream,
                                          time_scale);
         m_Tracks.Add(track);
         item = item->GetNext();
@@ -117,16 +119,16 @@ AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& mdat) :
 }
     
 /*----------------------------------------------------------------------
-|       AP4_Movie::~AP4_Movie
+|   AP4_Movie::~AP4_Movie
 +---------------------------------------------------------------------*/
 AP4_Movie::~AP4_Movie()
 {
     m_Tracks.DeleteReferences();
-    delete m_MoovAtom;
+    if (m_MoovAtomIsOwned) delete m_MoovAtom;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::Inspect
+|   AP4_Movie::Inspect
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_Movie::Inspect(AP4_AtomInspector& inspector)
@@ -136,7 +138,7 @@ AP4_Movie::Inspect(AP4_AtomInspector& inspector)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::GetTrack
+|   AP4_Movie::GetTrack
 +---------------------------------------------------------------------*/
 AP4_Track*
 AP4_Movie::GetTrack(AP4_UI32 track_id)
@@ -150,7 +152,7 @@ AP4_Movie::GetTrack(AP4_UI32 track_id)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::GetTrack
+|   AP4_Movie::GetTrack
 +---------------------------------------------------------------------*/
 AP4_Track*
 AP4_Movie::GetTrack(AP4_Track::Type track_type, AP4_Ordinal index)
@@ -164,7 +166,7 @@ AP4_Movie::GetTrack(AP4_Track::Type track_type, AP4_Ordinal index)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::AddTrack
+|   AP4_Movie::AddTrack
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_Movie::AddTrack(AP4_Track* track)
@@ -188,14 +190,14 @@ AP4_Movie::AddTrack(AP4_Track* track)
     }
     
     // attach the track as a child
-    m_MoovAtom->AddChild(track->GetTrakAtom());
+    track->Attach(m_MoovAtom);
     m_Tracks.Add(track);
 
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::GetTimeScale
+|   AP4_Movie::GetTimeScale
 +---------------------------------------------------------------------*/
 AP4_UI32
 AP4_Movie::GetTimeScale()
@@ -208,7 +210,7 @@ AP4_Movie::GetTimeScale()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::GetDuration
+|   AP4_Movie::GetDuration
 +---------------------------------------------------------------------*/
 AP4_UI64
 AP4_Movie::GetDuration()
@@ -221,9 +223,9 @@ AP4_Movie::GetDuration()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Movie::GetDurationMs
+|   AP4_Movie::GetDurationMs
 +---------------------------------------------------------------------*/
-AP4_Duration
+AP4_UI32
 AP4_Movie::GetDurationMs()
 {
     if (m_MvhdAtom) {

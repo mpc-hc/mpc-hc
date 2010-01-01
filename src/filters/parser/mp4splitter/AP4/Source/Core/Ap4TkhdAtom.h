@@ -2,7 +2,7 @@
 |
 |    AP4 - tkhd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,15 +30,12 @@
 #define _AP4_TKHD_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
 const int AP4_TKHD_FLAG_TRACK_ENABLED    = 1;
 const int AP4_TKHD_FLAG_TRACK_IN_MOVIE   = 2;
@@ -47,51 +44,55 @@ const int AP4_TKHD_FLAG_TRACK_IN_PREVIEW = 4;
 const int AP4_TKHD_FLAG_DEFAULTS         = 7;
 
 /*----------------------------------------------------------------------
-|       AP4_TkhdAtom
+|   AP4_TkhdAtom
 +---------------------------------------------------------------------*/
 class AP4_TkhdAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_TkhdAtom, AP4_Atom)
+
+    // class methods
+    static AP4_TkhdAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
-    AP4_TkhdAtom(AP4_UI64 creation_time,
-                 AP4_UI64 modification_time,
+    AP4_TkhdAtom(AP4_UI32 creation_time,
+                 AP4_UI32 modification_time,
                  AP4_UI32 track_id,
                  AP4_UI64 duration,
                  AP4_UI16 volume,
                  AP4_UI32 width,
                  AP4_UI32 height);    
-    AP4_TkhdAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI64   GetDuration() { return m_Duration; }
-    AP4_Result SetDuration(AP4_UI64 duration) {
-        m_Duration = duration;
-        return AP4_SUCCESS;
-    }
-    AP4_UI32   GetTrackId()  { return m_TrackId;  }
-    AP4_Result SetTrackId(AP4_UI32 track_id)  { 
-        m_TrackId = track_id;
-        return AP4_SUCCESS;  
+    AP4_UI64   GetDuration()                  { return m_Duration;     }
+    void       SetDuration(AP4_UI64 duration) { m_Duration = duration; }
+    AP4_UI32   GetTrackId()                   { return m_TrackId;      }
+    void       SetTrackId(AP4_UI32 track_id)  { m_TrackId = track_id;  }
+
+    void GetTranslation(float& x, float& y) {
+        x = (float)(*(int*)&m_Matrix[6]) / 65536;
+        y = (float)(*(int*)&m_Matrix[7]) / 65536;
     }
 
-	void GetTranslation(AP4_Float& x, AP4_Float& y)
-	{
-		x = (AP4_Float)(*(int*)&m_Matrix[6]) / 65536;
-		y = (AP4_Float)(*(int*)&m_Matrix[7]) / 65536;
-	}
-
-	AP4_UI32 GetWidth() const {return m_Width;}
-	AP4_UI32 GetHeight() const {return m_Height;}
+    AP4_UI32 GetWidth()                 { return m_Width;    }
+    void     SetWidth(AP4_UI32 width)   { m_Width = width;   }
+    AP4_UI32 GetHeight()                { return m_Height;   }
+    void     SetHeight(AP4_UI32 height) { m_Height = height; }
 
  private:
+    // methods
+    AP4_TkhdAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
     // members
     AP4_UI64 m_CreationTime;
     AP4_UI64 m_ModificationTime;
     AP4_UI32 m_TrackId;
     AP4_UI32 m_Reserved1;
     AP4_UI64 m_Duration;
-    AP4_UI08 m_DataVersion1[32];
     AP4_UI32 m_Reserved2[2];
     AP4_UI16 m_Layer;
     AP4_UI16 m_AlternateGroup;

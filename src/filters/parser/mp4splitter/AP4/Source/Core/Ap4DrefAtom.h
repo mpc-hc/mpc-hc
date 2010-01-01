@@ -2,7 +2,7 @@
 |
 |    AP4 - dref Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,27 +30,39 @@
 #define _AP4_DREF_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
-#include "Ap4Atom.h"
-#include "Ap4AtomFactory.h"
+#include "Ap4Types.h"
 #include "Ap4ContainerAtom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DrefAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+class AP4_AtomFactory;
+
+/*----------------------------------------------------------------------
+|   AP4_DrefAtom
 +---------------------------------------------------------------------*/
 class AP4_DrefAtom : public AP4_ContainerAtom
 {
 public:
+    // class methods
+    static AP4_DrefAtom* Create(AP4_UI32         size,
+                                AP4_ByteStream&  stream,
+                                AP4_AtomFactory& atom_factory);
+
     // methods
     AP4_DrefAtom(AP4_Atom** refs, AP4_Cardinal refs_count);
-    AP4_DrefAtom(AP4_Size         size,
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+
+private:
+    // methods
+    AP4_DrefAtom(AP4_UI32         size,
+                 AP4_UI32         version,
+                 AP4_UI32         flags,
                  AP4_ByteStream&  stream,
                  AP4_AtomFactory& atom_factory);
-    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 };
 
 #endif // _AP4_DREF_ATOM_H_

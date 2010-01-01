@@ -2,7 +2,7 @@
 |
 |    AP4 - ES Descriptors
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,15 +27,23 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4EsDescriptor.h"
 #include "Ap4DescriptorFactory.h"
 #include "Ap4Utils.h"
+#include "Ap4ByteStream.h"
+#include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::AP4_EsDescriptor
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_EsDescriptor)
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_EsIdIncDescriptor)
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_EsIdRefDescriptor)
+
+/*----------------------------------------------------------------------
+|   AP4_EsDescriptor::AP4_EsDescriptor
 +---------------------------------------------------------------------*/
 AP4_EsDescriptor::AP4_EsDescriptor(AP4_UI16 es_id) :
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES, 2, 2+1),
@@ -48,14 +56,14 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_UI16 es_id) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::AP4_EsDescriptor
+|   AP4_EsDescriptor::AP4_EsDescriptor
 +---------------------------------------------------------------------*/
 AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream, 
                                    AP4_Size        header_size,
                                    AP4_Size        payload_size) :
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES, header_size, payload_size)
 {
-    AP4_Offset start;
+    AP4_Position start;
     stream.Tell(start);
 
     // read descriptor fields
@@ -73,9 +81,9 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream,
         unsigned char url_length;
         stream.ReadUI08(url_length);
         if (url_length) {
-            char* url = DNew char[url_length+1];
+            char* url = new char[url_length+1];
             if (url) {
-                stream.Read(url, url_length, NULL);
+                stream.Read(url, url_length);
                 url[url_length] = '\0';
                 m_Url = url;
                 delete[] url;
@@ -89,10 +97,10 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream,
     }
 
     // read other descriptors
-    AP4_Offset offset;
+    AP4_Position offset;
     stream.Tell(offset);
-    AP4_SubStream* substream = DNew AP4_SubStream(stream, offset, 
-                                                 payload_size-(offset-start));
+    AP4_SubStream* substream = new AP4_SubStream(stream, offset, 
+                                                 payload_size-AP4_Size(offset-start));
     AP4_Descriptor* descriptor = NULL;
     while (AP4_DescriptorFactory::CreateDescriptorFromStream(*substream, 
                                                              descriptor) 
@@ -103,7 +111,7 @@ AP4_EsDescriptor::AP4_EsDescriptor(AP4_ByteStream& stream,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::~AP4_EsDescriptor
+|   AP4_EsDescriptor::~AP4_EsDescriptor
 +---------------------------------------------------------------------*/
 AP4_EsDescriptor::~AP4_EsDescriptor()
 {
@@ -111,7 +119,7 @@ AP4_EsDescriptor::~AP4_EsDescriptor()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::WriteFields
+|   AP4_EsDescriptor::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_EsDescriptor::WriteFields(AP4_ByteStream& stream)
@@ -133,9 +141,9 @@ AP4_EsDescriptor::WriteFields(AP4_ByteStream& stream)
         if (AP4_FAILED(result)) return result;
     }
     if (m_Flags & AP4_ES_DESCRIPTOR_FLAG_URL) {
-        result = stream.WriteUI08(m_Url.length());
+        result = stream.WriteUI08((AP4_UI08)m_Url.GetLength());
         if (AP4_FAILED(result)) return result;
-        result = stream.WriteString(m_Url.c_str());
+        result = stream.WriteString(m_Url.GetChars());
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI08(0);
         if (AP4_FAILED(result)) return result;
@@ -152,15 +160,15 @@ AP4_EsDescriptor::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::Inspect
+|   AP4_EsDescriptor::Inspect
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_EsDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_StringFormat(info, sizeof(info), "size=%ld+%ld", 
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
                      GetHeaderSize(),m_PayloadSize);
-    inspector.StartElement("#[ES]", info);
+    inspector.StartElement("[ESDescriptor]", info);
     inspector.AddField("es_id", m_EsId);
     inspector.AddField("stream_priority", m_StreamPriority);
 
@@ -173,7 +181,7 @@ AP4_EsDescriptor::Inspect(AP4_AtomInspector& inspector)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::AddSubDescriptor
+|   AP4_EsDescriptor::AddSubDescriptor
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_EsDescriptor::AddSubDescriptor(AP4_Descriptor* descriptor)
@@ -185,7 +193,7 @@ AP4_EsDescriptor::AddSubDescriptor(AP4_Descriptor* descriptor)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor::GetDecoderConfigDescriptor
+|   AP4_EsDescriptor::GetDecoderConfigDescriptor
 +---------------------------------------------------------------------*/
 const AP4_DecoderConfigDescriptor*
 AP4_EsDescriptor::GetDecoderConfigDescriptor() const
@@ -198,8 +206,102 @@ AP4_EsDescriptor::GetDecoderConfigDescriptor() const
     
     // return it
     if (AP4_SUCCEEDED(result)) {
-        return dynamic_cast<AP4_DecoderConfigDescriptor*>(descriptor);
+        return AP4_DYNAMIC_CAST(AP4_DecoderConfigDescriptor, descriptor);
     } else {
         return NULL;
     }
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdIncDescriptor::AP4_EsIdIncDescriptor
++---------------------------------------------------------------------*/
+AP4_EsIdIncDescriptor::AP4_EsIdIncDescriptor(AP4_UI32 track_id) :
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES_ID_INC, 2, 4),
+    m_TrackId(track_id)
+{
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdIncDescriptor::AP4_EsIdIncDescriptor
++---------------------------------------------------------------------*/
+AP4_EsIdIncDescriptor::AP4_EsIdIncDescriptor(AP4_ByteStream& stream, 
+                                             AP4_Size        header_size,
+                                             AP4_Size        payload_size) :
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES_ID_INC, header_size, payload_size)
+{
+    // read the track id
+    stream.ReadUI32(m_TrackId);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdIncescriptor::WriteFields
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_EsIdIncDescriptor::WriteFields(AP4_ByteStream& stream)
+{
+    // track id
+    return stream.WriteUI32(m_TrackId);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdIncDescriptor::Inspect
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_EsIdIncDescriptor::Inspect(AP4_AtomInspector& inspector)
+{
+    char info[64];
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
+                     GetHeaderSize(),m_PayloadSize);
+    inspector.StartElement("[ES_ID_Inc]", info);
+    inspector.AddField("track_id", m_TrackId);
+    inspector.EndElement();
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdRefDescriptor::AP4_EsIdRefDescriptor
++---------------------------------------------------------------------*/
+AP4_EsIdRefDescriptor::AP4_EsIdRefDescriptor(AP4_UI16 ref_index) :
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES_ID_REF, 2, 2),
+    m_RefIndex(ref_index)
+{
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdRefDescriptor::AP4_EsIdRefDescriptor
++---------------------------------------------------------------------*/
+AP4_EsIdRefDescriptor::AP4_EsIdRefDescriptor(AP4_ByteStream& stream, 
+                                             AP4_Size        header_size,
+                                             AP4_Size        payload_size) :
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_ES_ID_REF, header_size, payload_size)
+{
+    // read the ref index
+    stream.ReadUI16(m_RefIndex);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdRefDescriptor::WriteFields
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_EsIdRefDescriptor::WriteFields(AP4_ByteStream& stream)
+{
+    // ref index
+    return stream.WriteUI16(m_RefIndex);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdRefDescriptor::Inspect
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_EsIdRefDescriptor::Inspect(AP4_AtomInspector& inspector)
+{
+    char info[64];
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
+                     GetHeaderSize(),m_PayloadSize);
+    inspector.StartElement("[ES_ID_Ref]", info);
+    inspector.AddField("ref_index", m_RefIndex);
+    inspector.EndElement();
+    
+    return AP4_SUCCESS;
 }

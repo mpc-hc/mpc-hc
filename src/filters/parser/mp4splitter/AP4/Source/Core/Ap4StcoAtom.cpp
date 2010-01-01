@@ -2,7 +2,7 @@
 |
 |    AP4 - stco Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,45 +27,71 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4StcoAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::AP4_StcoAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_StcoAtom::AP4_StcoAtom(AP4_UI32* entries, AP4_UI32 entry_count) :
-AP4_Atom(AP4_ATOM_TYPE_STCO,  
-         AP4_FULL_ATOM_HEADER_SIZE+4+entry_count*4, 
-         true),
-         m_Entries(DNew AP4_UI32[entry_count]),
-         m_EntryCount(entry_count)
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_StcoAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_StcoAtom::Create
++---------------------------------------------------------------------*/
+AP4_StcoAtom*
+AP4_StcoAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
-    memcpy(m_Entries, entries, m_EntryCount*4);
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_StcoAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::AP4_StcoAtom
+|   AP4_StcoAtom::AP4_StcoAtom
 +---------------------------------------------------------------------*/
-AP4_StcoAtom::AP4_StcoAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_STCO, size, true, stream)
+AP4_StcoAtom::AP4_StcoAtom(AP4_UI32* entries, AP4_UI32 entry_count) :
+AP4_Atom(AP4_ATOM_TYPE_STCO,  
+         AP4_FULL_ATOM_HEADER_SIZE+4+entry_count*4,
+         0, 0),
+         m_Entries(new AP4_UI32[entry_count]),
+         m_EntryCount(entry_count)
+{
+    AP4_CopyMemory(m_Entries, entries, m_EntryCount*4);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StcoAtom::AP4_StcoAtom
++---------------------------------------------------------------------*/
+AP4_StcoAtom::AP4_StcoAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_STCO, size, version, flags)
 {
     stream.ReadUI32(m_EntryCount);
     if (m_EntryCount > (size-AP4_FULL_ATOM_HEADER_SIZE-4)/4) {
         m_EntryCount = (size-AP4_FULL_ATOM_HEADER_SIZE-4)/4;
     }
-    m_Entries = DNew AP4_UI32[m_EntryCount];
-    for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
-        stream.ReadUI32(m_Entries[i]);
-		i = i;
+    m_Entries = new AP4_UI32[m_EntryCount];
+    unsigned char* buffer = new unsigned char[m_EntryCount*4];
+    AP4_Result result = stream.Read(buffer, m_EntryCount*4);
+    if (AP4_FAILED(result)) {
+        delete[] buffer;
+        return;
     }
+    for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
+        m_Entries[i] = AP4_BytesToUInt32BE(&buffer[i*4]);
+    }
+    delete[] buffer;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::~AP4_StcoAtom
+|   AP4_StcoAtom::~AP4_StcoAtom
 +---------------------------------------------------------------------*/
 AP4_StcoAtom::~AP4_StcoAtom()
 {
@@ -73,10 +99,10 @@ AP4_StcoAtom::~AP4_StcoAtom()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::GetChunkOffset
+|   AP4_StcoAtom::GetChunkOffset
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_StcoAtom::GetChunkOffset(AP4_Ordinal chunk, AP4_Offset& chunk_offset)
+AP4_StcoAtom::GetChunkOffset(AP4_Ordinal chunk, AP4_UI32& chunk_offset)
 {
     // check the bounds
     if (chunk > m_EntryCount || chunk == 0) {
@@ -90,10 +116,10 @@ AP4_StcoAtom::GetChunkOffset(AP4_Ordinal chunk, AP4_Offset& chunk_offset)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::SetChunkOffset
+|   AP4_StcoAtom::SetChunkOffset
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_StcoAtom::SetChunkOffset(AP4_Ordinal chunk, AP4_Offset chunk_offset)
+AP4_StcoAtom::SetChunkOffset(AP4_Ordinal chunk, AP4_UI32 chunk_offset)
 {
     // check the bounds
     if (chunk > m_EntryCount || chunk == 0) {
@@ -107,20 +133,20 @@ AP4_StcoAtom::SetChunkOffset(AP4_Ordinal chunk, AP4_Offset chunk_offset)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::AdjustChunkOffsets
+|   AP4_StcoAtom::AdjustChunkOffsets
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_StcoAtom::AdjustChunkOffsets(AP4_Offset offset)
+AP4_StcoAtom::AdjustChunkOffsets(int delta)
 {
     for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
-        m_Entries[i] += offset;
+        m_Entries[i] += delta;
     }
 
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::WriteFields
+|   AP4_StcoAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StcoAtom::WriteFields(AP4_ByteStream& stream)
@@ -141,12 +167,19 @@ AP4_StcoAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom::InspectFields
+|   AP4_StcoAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StcoAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("entry_count", m_EntryCount);
-
+    if (inspector.GetVerbosity() >= 1) {
+        char header[32];
+        for (AP4_Ordinal i=0; i<m_EntryCount; i++) {
+            AP4_FormatString(header, sizeof(header), "entry %8d", i);
+            inspector.AddField(header, m_Entries[i]);
+        }
+    }
+    
     return AP4_SUCCESS;
 }

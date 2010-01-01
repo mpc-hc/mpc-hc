@@ -1,6 +1,6 @@
 /*
  * AES Block cipher
- * (c) 2005 Gilles Boccon-Gibod
+ * (c) 2005-2008 Axiomatic Systems, LLC
  * Portions (c) 2001, Dr Brian Gladman (see below)
  */
 
@@ -37,46 +37,42 @@
 #define _AP4_AES_BLOCK_CIPHER_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
 #include "Ap4Config.h"
+#include "Ap4Protection.h"
 
 /*----------------------------------------------------------------------
-|       AES constants
+|   class references
++---------------------------------------------------------------------*/
+struct aes_ctx;
+
+/*----------------------------------------------------------------------
+|   AES constants
 +---------------------------------------------------------------------*/
 #define AP4_AES_BLOCK_SIZE  16
 #define AP4_AES_KEY_LENGTH  16
 
 /*----------------------------------------------------------------------
-|       AES types
+|   AP4_AesBlockCipher class
 +---------------------------------------------------------------------*/
-typedef AP4_UI32     aes_32t;
-typedef AP4_UI08     aes_08t;
-typedef unsigned int aes_rval;
-typedef struct                     // the AES context for encryption
-{   aes_32t    k_sch[4*AP4_AES_BLOCK_SIZE];   // the encryption key schedule
-    aes_32t    n_rnd;              // the number of cipher rounds
-    aes_32t    n_blk;              // the number of bytes in the state
-} aes_ctx;
-#define aes_bad      0             // bad function return value
-#define aes_good     1             // good function return value
-
-/*----------------------------------------------------------------------
-|       AP4_AesBlockCipher class
-+---------------------------------------------------------------------*/
-class AP4_AesBlockCipher
+class AP4_AesBlockCipher : public AP4_BlockCipher
 {
- public:
+public:
     // constructor and destructor
-    AP4_AesBlockCipher(const AP4_UI08* key);
+    AP4_AesBlockCipher(const AP4_UI08*                  key, 
+                       AP4_BlockCipher::CipherDirection direction);
    ~AP4_AesBlockCipher();
     
-    // methods
-    AP4_Result EncryptBlock(const AP4_UI08* block_in, AP4_UI08* block_out);
+   // AP4_AesBlockCipher methods
+   virtual AP4_Result ProcessBlock(const AP4_UI08* input,
+                                   AP4_UI08*       output);
 
- private:
-    aes_ctx m_Context;
+private:
+    // members
+    CipherDirection m_Direction;
+    aes_ctx*        m_Context;
 };
 
 #endif // _AP4_AES_BLOCK_CIPHER_H_ 

@@ -2,7 +2,7 @@
 |
 |    AP4 - DecoderConfig Descriptors
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,15 +27,21 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4DecoderConfigDescriptor.h"
 #include "Ap4DescriptorFactory.h"
 #include "Ap4Utils.h"
+#include "Ap4ByteStream.h"
+#include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_DecoderConfigDescriptor)
+
+/*----------------------------------------------------------------------
+|   AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     AP4_UI08 stream_type,
@@ -47,6 +53,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_CONFIG, 2, 13),
     m_StreamType(stream_type),
     m_ObjectTypeIndication(oti),
+    m_UpStream(false),
     m_BufferSize(buffer_size),
     m_MaxBitrate(max_bitrate),
     m_AverageBitrate(avg_bitrate)
@@ -59,7 +66,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor
+|   AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     AP4_ByteStream& stream, AP4_Size header_size, AP4_Size payload_size) :
@@ -68,7 +75,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
                    payload_size)
 {
     // record the start position
-    AP4_Offset start;
+    AP4_Position start;
     stream.Tell(start);
 
     // read descriptor fields
@@ -82,7 +89,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     stream.ReadUI32(m_AverageBitrate);
 
     // read other descriptors
-    AP4_SubStream* substream = DNew AP4_SubStream(stream, start+13, payload_size-13);
+    AP4_SubStream* substream = new AP4_SubStream(stream, start+13, payload_size-13);
     AP4_Descriptor* descriptor = NULL;
     while (AP4_DescriptorFactory::CreateDescriptorFromStream(*substream, 
                                                              descriptor) 
@@ -93,7 +100,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::~AP4_DecoderConfigDescriptor
+|   AP4_DecoderConfigDescriptor::~AP4_DecoderConfigDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderConfigDescriptor::~AP4_DecoderConfigDescriptor()
 {
@@ -101,7 +108,7 @@ AP4_DecoderConfigDescriptor::~AP4_DecoderConfigDescriptor()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::WriteFields
+|   AP4_DecoderConfigDescriptor::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DecoderConfigDescriptor::WriteFields(AP4_ByteStream& stream)
@@ -119,16 +126,16 @@ AP4_DecoderConfigDescriptor::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::Inspect
+|   AP4_DecoderConfigDescriptor::Inspect
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DecoderConfigDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_StringFormat(info, sizeof(info), "size=%ld+%ld", 
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
         GetHeaderSize(),
         m_PayloadSize);
-    inspector.StartElement("#[DecoderConfig]", info);
+    inspector.StartElement("[DecoderConfig]", info);
     inspector.AddField("stream_type", m_StreamType);
     inspector.AddField("object_type", m_ObjectTypeIndication);
     inspector.AddField("up_stream", m_UpStream);
@@ -145,7 +152,7 @@ AP4_DecoderConfigDescriptor::Inspect(AP4_AtomInspector& inspector)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor::GetDecoderSpecificInfoDescriptor
+|   AP4_DecoderConfigDescriptor::GetDecoderSpecificInfoDescriptor
 +---------------------------------------------------------------------*/
 const AP4_DecoderSpecificInfoDescriptor*
 AP4_DecoderConfigDescriptor::GetDecoderSpecificInfoDescriptor() const
@@ -158,7 +165,7 @@ AP4_DecoderConfigDescriptor::GetDecoderSpecificInfoDescriptor() const
     
     // return it
     if (AP4_SUCCEEDED(result)) {
-        return dynamic_cast<AP4_DecoderSpecificInfoDescriptor*>(descriptor);
+        return AP4_DYNAMIC_CAST(AP4_DecoderSpecificInfoDescriptor, descriptor);
     } else {
         return NULL;
     }

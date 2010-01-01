@@ -2,7 +2,7 @@
 |
 |    AP4 - stss Atoms 
 |
-|    Copyright 2003 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,27 +30,43 @@
 #define _AP4_STSS_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4Array.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StssAtom
+|   AP4_StssAtom
 +---------------------------------------------------------------------*/
 class AP4_StssAtom : public AP4_Atom
 {
- public:
-    // methods
-    AP4_StssAtom(AP4_Size size, AP4_ByteStream& stream);
-    virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
-    virtual bool       IsSampleSync(AP4_Ordinal sample);
-    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StssAtom, AP4_Atom)
 
-    AP4_Array<AP4_UI32> m_Entries; // FIXME
- private:
+    // class methods
+    static AP4_StssAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
+    // constructor
+    AP4_StssAtom();
+    
+    // methods
+    // methods
+    const AP4_Array<AP4_UI32>& GetEntries() { return m_Entries; }
+    AP4_Result                 AddEntry(AP4_UI32 sample);
+    virtual AP4_Result         InspectFields(AP4_AtomInspector& inspector);
+    virtual bool               IsSampleSync(AP4_Ordinal sample);
+    virtual AP4_Result         WriteFields(AP4_ByteStream& stream);
+
+private:
+    // methods
+    AP4_StssAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+    
+    // members
+    AP4_Array<AP4_UI32> m_Entries;
+    AP4_Ordinal         m_LookupCache;
 };
 
 #endif // _AP4_STSS_ATOM_H_

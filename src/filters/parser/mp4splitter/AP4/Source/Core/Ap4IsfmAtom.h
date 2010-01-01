@@ -2,7 +2,7 @@
 |
 |    AP4 - iSFM Atom
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,23 +30,26 @@
 #define _AP4_ISFM_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
-#include "Ap4ByteStream.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom
+|   AP4_IsfmAtom
 +---------------------------------------------------------------------*/
 class AP4_IsfmAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_IsfmAtom, AP4_Atom)
+
+    // class methods
+    static AP4_IsfmAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_IsfmAtom(bool     m_SelectiveEncryption,
                  AP4_UI08 m_KeyIndicatorLength,
                  AP4_UI08 m_IvLength);
-    AP4_IsfmAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Atom*  Clone();
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -57,6 +60,12 @@ public:
     AP4_UI08 GetIvLength()           { return m_IvLength;            }
 
 private:
+    // methods
+    AP4_IsfmAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
     // members
     bool     m_SelectiveEncryption;
     AP4_UI08 m_KeyIndicatorLength;

@@ -2,7 +2,7 @@
 |
 |    AP4 - Data Buffer Objects
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,12 +30,12 @@
 #define _AP4_DATA_BUFFER_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
+#include "Ap4Types.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer
+|   AP4_DataBuffer
 +---------------------------------------------------------------------*/
 class AP4_DataBuffer 
 {
@@ -43,20 +43,24 @@ class AP4_DataBuffer
     // constructors & destructor
     AP4_DataBuffer();              
     AP4_DataBuffer(AP4_Size size);
+    AP4_DataBuffer(const void* data, AP4_Size data_size);
     AP4_DataBuffer(const AP4_DataBuffer& other);
     virtual ~AP4_DataBuffer();
 
     // data buffer handling methods
-    virtual AP4_Result SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size);
-    virtual AP4_Result SetBufferSize(AP4_Size buffer_size);
-    virtual AP4_Size   GetBufferSize() const { return m_BufferSize; }
+    AP4_Result SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size);
+    AP4_Result SetBufferSize(AP4_Size buffer_size);
+    AP4_Size   GetBufferSize() const { return m_BufferSize; }
 
     // data handling methods
-    virtual const AP4_Byte* GetData() const { return m_Buffer; }
-    virtual AP4_Byte*       UseData() { return m_Buffer; };
-    virtual AP4_Size        GetDataSize() const { return m_DataSize; }
-    virtual AP4_Result      SetDataSize(AP4_Size size);
-    virtual AP4_Result      SetData(AP4_Byte* data, AP4_Size data_size);
+    const AP4_Byte* GetData() const { return m_Buffer; }
+    AP4_Byte*       UseData() { return m_Buffer; };
+    AP4_Size        GetDataSize() const { return m_DataSize; }
+    AP4_Result      SetDataSize(AP4_Size size);
+    AP4_Result      SetData(const AP4_Byte* data, AP4_Size data_size);
+
+    // memory management
+    AP4_Result      Reserve(AP4_Size size);
 
  protected:
     // members
@@ -67,6 +71,10 @@ class AP4_DataBuffer
 
     // methods
     AP4_Result ReallocateBuffer(AP4_Size size);
+
+private:
+    // forbid this
+    AP4_DataBuffer& operator=(const AP4_DataBuffer& other);
 };
    
 #endif // _AP4_DATA_BUFFER_H_

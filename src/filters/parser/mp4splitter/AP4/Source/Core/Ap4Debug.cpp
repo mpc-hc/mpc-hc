@@ -2,7 +2,7 @@
 |
 |    AP4 - Debug Support
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,30 +27,32 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "Ap4.h"
+#include "Ap4Config.h"
+#include "Ap4Types.h"
+#include "Ap4Utils.h"
 #include "Ap4Debug.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
 const int AP4_DEBUG_MAX_BUFFER = 1024;
 
 /*----------------------------------------------------------------------
-|       AP4_Print
+|   AP4_Print
 +---------------------------------------------------------------------*/
 static void
 AP4_Print(const char* message)
 {
-    printf(message);
+    printf("%s", message);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_Debug
+|   AP4_Debug
 +---------------------------------------------------------------------*/
 void
 AP4_Debug(const char* format, ...)
@@ -60,7 +62,7 @@ AP4_Debug(const char* format, ...)
     va_start(args, format);
 
     char buffer[AP4_DEBUG_MAX_BUFFER];
-    vsnprintf(buffer, sizeof(buffer), format, args);
+    AP4_FormatStringVN(buffer, sizeof(buffer), format, args);
     AP4_Print(buffer);
 
     va_end(args);

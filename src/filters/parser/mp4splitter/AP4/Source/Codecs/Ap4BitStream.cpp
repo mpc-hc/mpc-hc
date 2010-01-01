@@ -1,26 +1,44 @@
 /*****************************************************************
 |
-|      File: Ap4BitStream.c
+|    AP4 - Bitstream Utility
 |
-|      AP4 - Bit Streams
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
-|      (c) 2004 Gilles Boccon-Gibod
-|      Author: Gilles Boccon-Gibod (bok@bok.net)
 |
- ****************************************************************/
+|    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
+|
+|    Unless you have obtained Bento4 under a difference license,
+|    this version of Bento4 is Bento4|GPL.
+|    Bento4|GPL is free software; you can redistribute it and/or modify
+|    it under the terms of the GNU General Public License as published by
+|    the Free Software Foundation; either version 2, or (at your option)
+|    any later version.
+|
+|    Bento4|GPL is distributed in the hope that it will be useful,
+|    but WITHOUT ANY WARRANTY; without even the implied warranty of
+|    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+|    GNU General Public License for more details.
+|
+|    You should have received a copy of the GNU General Public License
+|    along with Bento4|GPL; see the file COPYING.  If not, write to the
+|    Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+|    02111-1307, USA.
+|
+****************************************************************/
 
 /*----------------------------------------------------------------------
-|       For efficiency reasons, this bitstream library only handles
-|       data buffers that are a power of 2 in size
+|   For efficiency reasons, this bitstream library only handles
+|   data buffers that are a power of 2 in size
 +---------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4BitStream.h"
+#include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::AP4_BitStream
+|   AP4_BitStream::AP4_BitStream
 +---------------------------------------------------------------------*/
 AP4_BitStream::AP4_BitStream()
 {
@@ -29,7 +47,7 @@ AP4_BitStream::AP4_BitStream()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::~AP4_BitStream
+|   AP4_BitStream::~AP4_BitStream
 +---------------------------------------------------------------------*/
 AP4_BitStream::~AP4_BitStream()
 {
@@ -37,7 +55,7 @@ AP4_BitStream::~AP4_BitStream()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::Reset
+|   AP4_BitStream::Reset
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_BitStream::Reset()
@@ -52,7 +70,7 @@ AP4_BitStream::Reset()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::ByteAlign
+|   AP4_BitStream::ByteAlign
 +---------------------------------------------------------------------*/
 AP4_Result   
 AP4_BitStream::ByteAlign()
@@ -64,7 +82,7 @@ AP4_BitStream::ByteAlign()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::GetContiguousBytesFree
+|   AP4_BitStream::GetContiguousBytesFree
 +---------------------------------------------------------------------*/
 AP4_Size
 AP4_BitStream::GetContiguousBytesFree()
@@ -77,7 +95,7 @@ AP4_BitStream::GetContiguousBytesFree()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream_GetBytesFree
+|   AP4_BitStream_GetBytesFree
 +---------------------------------------------------------------------*/
 AP4_Size
 AP4_BitStream::GetBytesFree()
@@ -89,7 +107,7 @@ AP4_BitStream::GetBytesFree()
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_BitStream::WriteBytes
+|    AP4_BitStream::WriteBytes
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_BitStream::WriteBytes(const AP4_UI08* bytes, 
@@ -106,18 +124,18 @@ AP4_BitStream::WriteBytes(const AP4_UI08* bytes,
 
     /* write the bytes */
     if (m_In < m_Out) {
-        memcpy(m_Buffer+m_In, bytes, byte_count);
+        AP4_CopyMemory(m_Buffer+m_In, bytes, byte_count);
         AP4_BITSTREAM_POINTER_ADD(m_In, byte_count);
     } else {
         unsigned int chunk = AP4_BITSTREAM_BUFFER_SIZE - m_In;
         if (chunk > byte_count) chunk = byte_count;
 
-        memcpy(m_Buffer+m_In, bytes, chunk);
+        AP4_CopyMemory(m_Buffer+m_In, bytes, chunk);
         AP4_BITSTREAM_POINTER_ADD(m_In, chunk);
 
         if (chunk != byte_count) {
-            memcpy(m_Buffer+m_In, 
-                   bytes+chunk, byte_count-chunk);
+            AP4_CopyMemory(m_Buffer+m_In, 
+                           bytes+chunk, byte_count-chunk);
             AP4_BITSTREAM_POINTER_ADD(m_In, byte_count-chunk);
         }
     }
@@ -126,7 +144,7 @@ AP4_BitStream::WriteBytes(const AP4_UI08* bytes,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream_GetContiguousBytesAvailable
+|   AP4_BitStream_GetContiguousBytesAvailable
 +---------------------------------------------------------------------*/
 AP4_Size
 AP4_BitStream::GetContiguousBytesAvailable()
@@ -138,7 +156,7 @@ AP4_BitStream::GetContiguousBytesAvailable()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_BitStream::GetBytesAvailable
+|   AP4_BitStream::GetBytesAvailable
 +---------------------------------------------------------------------*/
 AP4_Size
 AP4_BitStream::GetBytesAvailable()
@@ -150,7 +168,7 @@ AP4_BitStream::GetBytesAvailable()
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_BitStream::ReadBytes
+|    AP4_BitStream::ReadBytes
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_BitStream::ReadBytes(AP4_UI08* bytes, 
@@ -171,19 +189,19 @@ AP4_BitStream::ReadBytes(AP4_UI08* bytes,
    /* Get other bytes */
    if (byte_count > 0) {
       if (m_Out < m_In) {
-         memcpy(bytes, m_Buffer + m_Out, byte_count);
+         AP4_CopyMemory(bytes, m_Buffer + m_Out, byte_count);
          AP4_BITSTREAM_POINTER_ADD(m_Out, byte_count);
       } else {
          unsigned int chunk = AP4_BITSTREAM_BUFFER_SIZE - m_Out;
          if (chunk >= byte_count) chunk = byte_count;
 
-         memcpy(bytes, m_Buffer+m_Out, chunk);
+         AP4_CopyMemory(bytes, m_Buffer+m_Out, chunk);
          AP4_BITSTREAM_POINTER_ADD(m_Out, chunk);
 
          if (chunk != byte_count) {
-            memcpy(bytes+chunk, 
-                   m_Buffer+m_Out, 
-                   byte_count-chunk);
+            AP4_CopyMemory(bytes+chunk, 
+                           m_Buffer+m_Out, 
+                           byte_count-chunk);
             AP4_BITSTREAM_POINTER_ADD(m_Out, byte_count-chunk);
          }
       }
@@ -193,7 +211,7 @@ AP4_BitStream::ReadBytes(AP4_UI08* bytes,
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_BitStream::PeekBytes
+|    AP4_BitStream::PeekBytes
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_BitStream::PeekBytes(AP4_UI08* bytes, 
@@ -217,7 +235,7 @@ AP4_BitStream::PeekBytes(AP4_UI08* bytes,
    /* Get other bytes */
    if (byte_count > 0) {
       if (m_In > m_Out) {
-         memcpy(bytes, m_Buffer + m_Out, byte_count);
+         AP4_CopyMemory(bytes, m_Buffer + m_Out, byte_count);
       } else {
          unsigned int out = m_Out;
          unsigned int chunk = AP4_BITSTREAM_BUFFER_SIZE - out;
@@ -225,13 +243,13 @@ AP4_BitStream::PeekBytes(AP4_UI08* bytes,
             chunk = byte_count;
          }
 
-         memcpy(bytes, m_Buffer+out, chunk);
+         AP4_CopyMemory(bytes, m_Buffer+out, chunk);
          AP4_BITSTREAM_POINTER_ADD(out, chunk);
 
          if (chunk != byte_count) {
-            memcpy(bytes+chunk, 
-                   m_Buffer+out, 
-                   byte_count-chunk);
+            AP4_CopyMemory(bytes+chunk, 
+                           m_Buffer+out, 
+                           byte_count-chunk);
          }
       }
    }
@@ -240,7 +258,7 @@ AP4_BitStream::PeekBytes(AP4_UI08* bytes,
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_BitStream::SkipBytes
+|    AP4_BitStream::SkipBytes
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_BitStream::SkipBytes(AP4_Size byte_count)

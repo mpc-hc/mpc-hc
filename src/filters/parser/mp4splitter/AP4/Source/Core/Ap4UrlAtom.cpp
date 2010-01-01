@@ -2,7 +2,7 @@
 |
 |    AP4 - url Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,33 +27,47 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4UrlAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_UrlAtom::AP4_UrlAtom
+|   AP4_UrlAtom::Create
 +---------------------------------------------------------------------*/
-AP4_UrlAtom::AP4_UrlAtom() :
-    AP4_Atom(AP4_ATOM_TYPE_URL, AP4_FULL_ATOM_HEADER_SIZE, true)
+AP4_UrlAtom*
+AP4_UrlAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
-    m_Flags = 1; // local ref
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_UrlAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_UrlAtom::AP4_UrlAtom
+|   AP4_UrlAtom::AP4_UrlAtom
 +---------------------------------------------------------------------*/
-AP4_UrlAtom::AP4_UrlAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_URL, size, true, stream)
+AP4_UrlAtom::AP4_UrlAtom() :
+    AP4_Atom(AP4_ATOM_TYPE_URL, AP4_FULL_ATOM_HEADER_SIZE, 0, 1)
+{
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UrlAtom::AP4_UrlAtom
++---------------------------------------------------------------------*/
+AP4_UrlAtom::AP4_UrlAtom(AP4_UI32        size, 
+                         AP4_UI32        version,
+                         AP4_UI32        flags,
+                         AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_URL, size, version, flags)
 {
     if ((m_Flags & 1) == 0) {
         // not self contained
         AP4_Size str_size = size-AP4_FULL_ATOM_HEADER_SIZE;
         if (str_size > 0) {
-            char* str = DNew char[str_size];
+            char* str = new char[str_size];
             stream.Read(str, str_size);
             str[str_size-1] = '\0'; // force null-termination
             m_Url = str;
@@ -63,7 +77,7 @@ AP4_UrlAtom::AP4_UrlAtom(AP4_Size size, AP4_ByteStream& stream) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_UrlAtom::WriteFields
+|   AP4_UrlAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_UrlAtom::WriteFields(AP4_ByteStream& stream)
@@ -73,18 +87,20 @@ AP4_UrlAtom::WriteFields(AP4_ByteStream& stream)
         return AP4_SUCCESS;
     } else {
         // url (not self contained)
-        AP4_Result result = stream.Write(m_Url.c_str(), m_Url.length()+1);
-        if (AP4_FAILED(result)) return result;
+        if (m_Size32 > AP4_FULL_ATOM_HEADER_SIZE) {
+            AP4_Result result = stream.Write(m_Url.GetChars(), m_Url.GetLength()+1);
+            if (AP4_FAILED(result)) return result;
 
-        // pad with zeros if necessary
-        AP4_Size padding = m_Size-(AP4_FULL_ATOM_HEADER_SIZE+m_Url.length()+1);
-        while (padding--) stream.WriteUI08(0);
+            // pad with zeros if necessary
+            AP4_Size padding = m_Size32-(AP4_FULL_ATOM_HEADER_SIZE+m_Url.GetLength()+1);
+            while (padding--) stream.WriteUI08(0);
+        }
         return AP4_SUCCESS;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_UrlAtom::InspectFields
+|   AP4_UrlAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_UrlAtom::InspectFields(AP4_AtomInspector& inspector)
@@ -92,7 +108,7 @@ AP4_UrlAtom::InspectFields(AP4_AtomInspector& inspector)
     if (m_Flags & 1) {
         inspector.AddField("location", "[local to file]");
     } else {
-        inspector.AddField("location", m_Url.c_str());
+        inspector.AddField("location", m_Url.GetChars());
     }
 
     return AP4_SUCCESS;

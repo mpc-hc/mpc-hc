@@ -2,7 +2,7 @@
 |
 |    AP4 - hmhd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,18 +27,33 @@
 ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4HmhdAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_HmhdAtom::AP4_HmhdAtom
+|   AP4_HmhdAtom::Create
 +---------------------------------------------------------------------*/
-AP4_HmhdAtom::AP4_HmhdAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_HMHD, size, true, stream)
+AP4_HmhdAtom*
+AP4_HmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_HmhdAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_HmhdAtom::AP4_HmhdAtom
++---------------------------------------------------------------------*/
+AP4_HmhdAtom::AP4_HmhdAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_HMHD, size, version, flags)
 {
     stream.ReadUI16(m_MaxPduSize);
     stream.ReadUI16(m_AvgPduSize);
@@ -48,7 +63,7 @@ AP4_HmhdAtom::AP4_HmhdAtom(AP4_Size size, AP4_ByteStream& stream) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HmhdAtom::WriteFields
+|   AP4_HmhdAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HmhdAtom::WriteFields(AP4_ByteStream& stream)
@@ -79,7 +94,7 @@ AP4_HmhdAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HmhdAtom::InspectFields
+|   AP4_HmhdAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HmhdAtom::InspectFields(AP4_AtomInspector& inspector)

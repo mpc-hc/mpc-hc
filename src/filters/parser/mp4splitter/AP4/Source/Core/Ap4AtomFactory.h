@@ -2,7 +2,7 @@
 |
 |    AP4 - Atom Factory
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,18 +30,19 @@
 #define _AP4_ATOM_FACTORY_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
 #include "Ap4Atom.h"
+#include "Ap4Array.h"
 
 /*----------------------------------------------------------------------
-|       class references
+|   class references
 +---------------------------------------------------------------------*/
 class AP4_ByteStream;
 
 /*----------------------------------------------------------------------
-|       AP4_AtomFactory
+|   AP4_AtomFactory
 +---------------------------------------------------------------------*/
 class AP4_AtomFactory {
  public:
@@ -49,36 +50,54 @@ class AP4_AtomFactory {
      class TypeHandler {
      public:
          virtual ~TypeHandler() {};
-         virtual AP4_Result CreateAtom(AP4_Atom::Type   type,
-                                       AP4_Size         size,
-                                       AP4_ByteStream&  stream,
-                                       AP4_Atom*&       atom) = 0;
+         virtual AP4_Result CreateAtom(AP4_Atom::Type  type,
+                                       AP4_UI32        size,
+                                       AP4_ByteStream& stream,
+                                       AP4_Atom::Type  context,
+                                       AP4_Atom*&      atom) = 0;
     };
 
-    // class members
-    static AP4_AtomFactory DefaultFactory;
-
     // constructor
-    AP4_AtomFactory() : m_Context(0) {}
+    AP4_AtomFactory() {}
+
+    // destructor
+    ~AP4_AtomFactory();
 
     // methods
     AP4_Result AddTypeHandler(TypeHandler* handler);
     AP4_Result RemoveTypeHandler(TypeHandler* handler);
     AP4_Result CreateAtomFromStream(AP4_ByteStream&  stream,
-                                    AP4_Size&        bytes_available,
-                                    AP4_Atom*&       atom,
-									AP4_Atom*        parent);
+                                    AP4_LargeSize&   bytes_available,
+                                    AP4_Atom*&       atom);
     AP4_Result CreateAtomFromStream(AP4_ByteStream&  stream,
                                     AP4_Atom*&       atom);
+    AP4_Result CreateAtomsFromStream(AP4_ByteStream& stream,
+                                     AP4_AtomParent& atoms);
+    AP4_Result CreateAtomsFromStream(AP4_ByteStream& stream,
+                                     AP4_LargeSize   bytes_available,
+                                     AP4_AtomParent& atoms);
 
     // context
-    void SetContext(AP4_Atom::Type context) { m_Context = context; }
-    AP4_Atom::Type GetContext() const { return m_Context; }
+    void PushContext(AP4_Atom::Type context);
+    void PopContext();
+    AP4_Atom::Type GetContext(AP4_Ordinal depth=0);
 
 private:
     // members
-    AP4_Atom::Type        m_Context;
-    AP4_List<TypeHandler> m_TypeHandlers;
+    AP4_Array<AP4_Atom::Type> m_ContextStack;
+    AP4_List<TypeHandler>     m_TypeHandlers;
+};
+
+/*----------------------------------------------------------------------
+|   AP4_DefaultAtomFactory
++---------------------------------------------------------------------*/
+class AP4_DefaultAtomFactory : public AP4_AtomFactory {
+public:
+    // class members
+    static AP4_DefaultAtomFactory Instance;
+
+    // constructor
+    AP4_DefaultAtomFactory();
 };
 
 #endif // _AP4_ATOM_FACTORY_H_

@@ -2,7 +2,7 @@
 |
 |    AP4 - tref type Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,22 +27,35 @@
 ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4TrefTypeAtom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_TrefTypeAtom::AP4_TrefTypeAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type type, 
-                                   AP4_Size size, 
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_TrefTypeAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_TrefTypeAtom::AP4_TrefTypeAtom
++---------------------------------------------------------------------*/
+AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type  type) :
+    AP4_Atom(type, AP4_ATOM_HEADER_SIZE)
+{
+}
+
+/*----------------------------------------------------------------------
+|   AP4_TrefTypeAtom::AP4_TrefTypeAtom
++---------------------------------------------------------------------*/
+AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type  type, 
+                                   AP4_UI32        size, 
                                    AP4_ByteStream& stream) :
-    AP4_Atom(type, size, false, stream)
+    AP4_Atom(type, size)
 {
     AP4_Size data_size = size - 8; // size and atom type
     
     // read the track ids
-    while (data_size != 0) {
+    while (data_size >= 4) {
         AP4_UI32 track_id;
         stream.ReadUI32(track_id);
         m_TrackIds.Append(track_id);
@@ -51,7 +64,20 @@ AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type type,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_TrefTypeAtom::WriteFields
+|   AP4_TrefTypeAtom::AddTrackId
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_TrefTypeAtom::AddTrackId(AP4_UI32 track_id)
+{
+    AP4_Result result = m_TrackIds.Append(track_id);
+    if (AP4_SUCCEEDED(result)) {
+        m_Size32 += 4;
+    }
+    return result;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_TrefTypeAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_TrefTypeAtom::WriteFields(AP4_ByteStream& stream)
@@ -68,7 +94,7 @@ AP4_TrefTypeAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_TrefTypeAtom::InspectFields
+|   AP4_TrefTypeAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_TrefTypeAtom::InspectFields(AP4_AtomInspector& inspector)

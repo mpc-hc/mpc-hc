@@ -2,7 +2,7 @@
 |
 |    AP4 - Sample Table Interface
 |
-|    Copyright 2003-2004 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,15 +30,19 @@
 #define _AP4_SAMPLE_TABLE_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4Sample.h"
-#include "Ap4Atom.h"
-#include "Ap4ContainerAtom.h"
-#include "Ap4SampleDescription.h"
+#include "Ap4Types.h"
 
 /*----------------------------------------------------------------------
-|       AP4_SampleTable
+|   class references
++---------------------------------------------------------------------*/
+class AP4_Sample;
+class AP4_ContainerAtom;
+class AP4_SampleDescription;
+
+/*----------------------------------------------------------------------
+|   AP4_SampleTable
 +---------------------------------------------------------------------*/
 class AP4_SampleTable {
 public:
@@ -46,13 +50,17 @@ public:
     virtual ~AP4_SampleTable() {};
 
     // methods
-    virtual AP4_Result GenerateStblAtom(AP4_ContainerAtom*& stbl);
-    virtual AP4_Result GetSample(AP4_Ordinal index, AP4_Sample& sample) = 0;
+    virtual AP4_Result   GenerateStblAtom(AP4_ContainerAtom*& stbl);
+    virtual AP4_Result   GetSample(AP4_Ordinal sample_index, AP4_Sample& sample) = 0;
     virtual AP4_Cardinal GetSampleCount() = 0;
+    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index, 
+                                                AP4_Ordinal& chunk_index,
+                                                AP4_Ordinal& position_in_chunk) = 0;
     virtual AP4_Cardinal GetSampleDescriptionCount() = 0;
     virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal index) = 0;
-    virtual AP4_Result GetSampleIndexForTimeStamp(AP4_TimeStamp ts,
-                                                  AP4_Ordinal& index) = 0;
+    virtual AP4_Result   GetSampleIndexForTimeStamp(AP4_UI64     ts,
+                                                    AP4_Ordinal& index) = 0;
+    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true) = 0;
 };
 
 #endif // _AP4_SAMPLE_TABLE_H_

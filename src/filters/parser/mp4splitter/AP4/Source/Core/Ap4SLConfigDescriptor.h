@@ -2,7 +2,7 @@
 |
 |    AP4 - SLConfig Descriptor 
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,27 +30,24 @@
 #define _AP4_SLCONFIG_DESCRIPTOR_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
-#include "Ap4DataBuffer.h"
+#include "Ap4Types.h"
 #include "Ap4Descriptor.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
-const AP4_Descriptor::Tag AP4_DESCRIPTOR_TAG_SL_CONFIG = 0x06;
+const AP4_UI08 AP4_DESCRIPTOR_TAG_SL_CONFIG = 0x06;
 
 /*----------------------------------------------------------------------
-|       AP4_SLConfigDescriptor
+|   AP4_SLConfigDescriptor
 +---------------------------------------------------------------------*/
 class AP4_SLConfigDescriptor : public AP4_Descriptor 
 {
 public:
     // methods
-    AP4_SLConfigDescriptor(AP4_Size header_size);
+    AP4_SLConfigDescriptor(AP4_Size header_size = 2);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
 private:

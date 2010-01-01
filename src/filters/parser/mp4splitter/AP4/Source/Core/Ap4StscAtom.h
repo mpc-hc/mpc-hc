@@ -2,7 +2,7 @@
 |
 |    AP4 - stsc Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,15 +30,14 @@
 #define _AP4_STSC_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
+#include "Ap4Array.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StscTableEntry
+|   AP4_StscTableEntry
 +---------------------------------------------------------------------*/
 class AP4_StscTableEntry {
  public:
@@ -75,29 +74,36 @@ class AP4_StscTableEntry {
 };
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom
+|   AP4_StscAtom
 +---------------------------------------------------------------------*/
 class AP4_StscAtom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StscAtom, AP4_Atom)
+    
+    // class methods
+    static AP4_StscAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_StscAtom();
-    AP4_StscAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result GetChunkForSample(AP4_Ordinal   sample,
                                          AP4_Ordinal&  chunk,
                                          AP4_Ordinal&  skip,
-                                         AP4_Ordinal&  sample_description);
+                                         AP4_Ordinal&  sample_description_index);
     virtual AP4_Result AddEntry(AP4_Cardinal chunk_count,
                                 AP4_Cardinal samples_per_chunk,
                                 AP4_Ordinal  sample_description_index);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-	// FIXME
-	friend class AP4_AtomSampleTable;
+private:
+    // methods
+    AP4_StscAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
 
- private:
-    // data
+    // members
     AP4_Array<AP4_StscTableEntry> m_Entries;
     AP4_Ordinal                   m_CachedChunkGroup;
 };

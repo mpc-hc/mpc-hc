@@ -1,23 +1,39 @@
-
 /*****************************************************************
 |
-|      File: Ap4AdtsParser.c
+|    AP4 - AAC ADTS Parser
 |
-|      AP4 - ADTS Parser
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
-|      (c) 2005 Gilles Boccon-Gibod
-|      Author: Gilles Boccon-Gibod (bok@bok.net)
 |
- ****************************************************************/
+|    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
+|
+|    Unless you have obtained Bento4 under a difference license,
+|    this version of Bento4 is Bento4|GPL.
+|    Bento4|GPL is free software; you can redistribute it and/or modify
+|    it under the terms of the GNU General Public License as published by
+|    the Free Software Foundation; either version 2, or (at your option)
+|    any later version.
+|
+|    Bento4|GPL is distributed in the hope that it will be useful,
+|    but WITHOUT ANY WARRANTY; without even the implied warranty of
+|    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+|    GNU General Public License for more details.
+|
+|    You should have received a copy of the GNU General Public License
+|    along with Bento4|GPL; see the file COPYING.  If not, write to the
+|    Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
+|    02111-1307, USA.
+|
+****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4BitStream.h"
 #include "Ap4AdtsParser.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
 #define AP4_ADTS_HEADER_SIZE 7
 
@@ -46,7 +62,7 @@ AP4_AdtsSamplingFrequencyTable[16] =
 };
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsHeader::AP4_AdtsHeader
+|    AP4_AdtsHeader::AP4_AdtsHeader
 +----------------------------------------------------------------------*/
 AP4_AdtsHeader::AP4_AdtsHeader(const AP4_UI08* bytes)
 {
@@ -65,7 +81,7 @@ AP4_AdtsHeader::AP4_AdtsHeader(const AP4_UI08* bytes)
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsHeader::MatchFixed
+|    AP4_AdtsHeader::MatchFixed
 |
 |    Check that two fixed headers are the same
 |
@@ -84,7 +100,7 @@ AP4_AdtsHeader::MatchFixed(unsigned char* a, unsigned char* b)
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsHeader::Check
+|    AP4_AdtsHeader::Check
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_AdtsHeader::Check()
@@ -103,21 +119,21 @@ AP4_AdtsHeader::Check()
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::AP4_AdtsParser
+|    AP4_AdtsParser::AP4_AdtsParser
 +----------------------------------------------------------------------*/
 AP4_AdtsParser::AP4_AdtsParser()
 {
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::~AP4_AdtsParser
+|    AP4_AdtsParser::~AP4_AdtsParser
 +----------------------------------------------------------------------*/
 AP4_AdtsParser::~AP4_AdtsParser()
 {
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::Reset
+|    AP4_AdtsParser::Reset
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_AdtsParser::Reset()
@@ -128,7 +144,7 @@ AP4_AdtsParser::Reset()
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::Feed
+|    AP4_AdtsParser::Feed
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_AdtsParser::Feed(const AP4_UI08* buffer, 
@@ -156,7 +172,7 @@ AP4_AdtsParser::Feed(const AP4_UI08* buffer,
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::FindHeader
+|    AP4_AdtsParser::FindHeader
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_AdtsParser::FindHeader(AP4_UI08* header)
@@ -184,7 +200,7 @@ AP4_AdtsParser::FindHeader(AP4_UI08* header)
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::FindFrame
+|    AP4_AdtsParser::FindFrame
 +----------------------------------------------------------------------*/
 AP4_Result
 AP4_AdtsParser::FindFrame(AP4_AacFrame& frame)
@@ -280,7 +296,7 @@ fail:
 }
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::GetBytesFree
+|    AP4_AdtsParser::GetBytesFree
 +----------------------------------------------------------------------*/
 AP4_Size
 AP4_AdtsParser::GetBytesFree()
@@ -291,7 +307,7 @@ AP4_AdtsParser::GetBytesFree()
 
 
 /*----------------------------------------------------------------------+
-|        AP4_AdtsParser::GetBytesAvailable
+|    AP4_AdtsParser::GetBytesAvailable
 +----------------------------------------------------------------------*/
 AP4_Size	
 AP4_AdtsParser::GetBytesAvailable()

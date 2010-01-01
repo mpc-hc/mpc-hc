@@ -2,7 +2,7 @@
 |
 |    AP4 - dref Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,53 +27,69 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4DrefAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 #include "Ap4ContainerAtom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DrefAtom::AP4_DrefAtom
+|   AP4_DrefAtom::Create
++---------------------------------------------------------------------*/
+AP4_DrefAtom* 
+AP4_DrefAtom::Create(AP4_UI32         size,
+                     AP4_ByteStream&  stream,
+                     AP4_AtomFactory& atom_factory)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_DrefAtom(size, version, flags, stream, atom_factory);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_DrefAtom::AP4_DrefAtom
 +---------------------------------------------------------------------*/
 AP4_DrefAtom::AP4_DrefAtom(AP4_Atom** refs, AP4_Cardinal refs_count) :
-    AP4_ContainerAtom(AP4_ATOM_TYPE_DREF, AP4_FULL_ATOM_HEADER_SIZE+4, true)
+    AP4_ContainerAtom(AP4_ATOM_TYPE_DREF, (AP4_UI32)0, (AP4_UI32)0)
 {
+    m_Size32 += 4;
     for (unsigned i=0; i<refs_count; i++) {
         m_Children.Add(refs[i]);
-        m_Size += refs[i]->GetSize();
+        m_Size32 += (AP4_UI32)refs[i]->GetSize();
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DrefAtom::AP4_DrefAtom
+|   AP4_DrefAtom::AP4_DrefAtom
 +---------------------------------------------------------------------*/
-AP4_DrefAtom::AP4_DrefAtom(AP4_Size         size,
+AP4_DrefAtom::AP4_DrefAtom(AP4_UI32         size,
+                           AP4_UI32         version,
+                           AP4_UI32         flags,
                            AP4_ByteStream&  stream,
                            AP4_AtomFactory& atom_factory) :
-    AP4_ContainerAtom(AP4_ATOM_TYPE_DREF, size, true, stream)
+    AP4_ContainerAtom(AP4_ATOM_TYPE_DREF, size, false, version, flags)
 {
     // read the number of entries
     AP4_UI32 entry_count;
     stream.ReadUI32(entry_count);
 
     // read children
-    AP4_Size bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-4;
+    AP4_LargeSize bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-4;
     while (entry_count--) {
         AP4_Atom* atom; 
         while (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, 
                                                                bytes_available,
-                                                               atom,
-															   this))) {
+                                                               atom))) {
             m_Children.Add(atom);
         }
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DrefAtom::WriteFields
+|   AP4_DrefAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DrefAtom::WriteFields(AP4_ByteStream& stream)

@@ -2,7 +2,7 @@
 |
 |    AP4 - mvhd Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,32 +30,34 @@
 #define _AP4_MVHD_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4List.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom
+|   AP4_MvhdAtom
 +---------------------------------------------------------------------*/
 class AP4_MvhdAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_MvhdAtom, AP4_Atom)
+
+    // class methods
+    static AP4_MvhdAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
-    AP4_MvhdAtom(AP4_UI64 creation_time,
-                 AP4_UI64 modification_time,
+    AP4_MvhdAtom(AP4_UI32 creation_time,
+                 AP4_UI32 modification_time,
                  AP4_UI32 time_scale,
-                 AP4_UI64 duration,
+                 AP4_UI32 duration,
                  AP4_UI32 rate,
                  AP4_UI16 volume);
-    AP4_MvhdAtom(AP4_Size size, AP4_ByteStream& stream); 
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     AP4_UI64           GetDuration() { return m_Duration; }
     void               SetDuration(AP4_UI64 duration) { m_Duration = duration;}
-    AP4_Duration       GetDurationMs();
+    AP4_UI32           GetDurationMs();
     AP4_UI32           GetTimeScale() { return m_TimeScale; }
     AP4_Result         SetTimeScale(AP4_UI32 time_scale) {
         m_TimeScale = time_scale;
@@ -63,6 +65,12 @@ public:
     }
 
 private:
+    // methods
+    AP4_MvhdAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream); 
+
     // members
     AP4_UI64 m_CreationTime;
     AP4_UI64 m_ModificationTime;

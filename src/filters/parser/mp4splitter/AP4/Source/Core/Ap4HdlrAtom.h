@@ -2,7 +2,7 @@
 |
 |    AP4 - hdlr Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,41 +30,61 @@
 #define _AP4_HDLR_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
 #include "Ap4Atom.h"
+#include "Ap4String.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   constants
 +---------------------------------------------------------------------*/
 const AP4_UI32 AP4_HANDLER_TYPE_SOUN = AP4_ATOM_TYPE('s','o','u','n');
 const AP4_UI32 AP4_HANDLER_TYPE_VIDE = AP4_ATOM_TYPE('v','i','d','e');
+const AP4_UI32 AP4_HANDLER_TYPE_HINT = AP4_ATOM_TYPE('h','i','n','t');
+const AP4_UI32 AP4_HANDLER_TYPE_MDIR = AP4_ATOM_TYPE('m','d','i','r');
 const AP4_UI32 AP4_HANDLER_TYPE_TEXT = AP4_ATOM_TYPE('t','e','x','t');
 const AP4_UI32 AP4_HANDLER_TYPE_TX3G = AP4_ATOM_TYPE('t','x','3','g');
+const AP4_UI32 AP4_HANDLER_TYPE_JPEG = AP4_ATOM_TYPE('j','p','e','g');
+const AP4_UI32 AP4_HANDLER_TYPE_ODSM = AP4_ATOM_TYPE('o','d','s','m');
+const AP4_UI32 AP4_HANDLER_TYPE_SDSM = AP4_ATOM_TYPE('s','d','s','m');
+// ==> Start patch MPC
 const AP4_UI32 AP4_HANDLER_TYPE_SUBP = AP4_ATOM_TYPE('s','u','b','p');
-const AP4_UI32 AP4_HANDLER_TYPE_HINT = AP4_ATOM_TYPE('h','i','n','t');
+// <== End patch MPC
 
 /*----------------------------------------------------------------------
-|       AP4_HdlrAtom
+|   AP4_HdlrAtom
 +---------------------------------------------------------------------*/
 class AP4_HdlrAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_HdlrAtom, AP4_Atom)
+
+    // class methods
+    static AP4_HdlrAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_HdlrAtom(AP4_UI32 hdlr_type, const char* hdlr_name);
-    AP4_HdlrAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI32 GetHandlerType() { return m_HandlerType; }
+    AP4_UI32   GetHandlerType() { return m_HandlerType; }
     AP4_String GetHandlerName() { return m_HandlerName; }
 
 private:
+    // methods
+    AP4_HdlrAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
     // members
     AP4_UI32   m_HandlerType;
+    AP4_UI32   m_Reserved[3];
     AP4_String m_HandlerName;
 };
 

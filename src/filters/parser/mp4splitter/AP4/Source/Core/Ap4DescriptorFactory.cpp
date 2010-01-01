@@ -2,7 +2,7 @@
 |
 |    AP4 - Descriptor Factory
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,18 +27,19 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4DescriptorFactory.h"
 #include "Ap4EsDescriptor.h"
+#include "Ap4ObjectDescriptor.h"
 #include "Ap4DecoderConfigDescriptor.h"
 #include "Ap4DecoderSpecificInfoDescriptor.h"
 #include "Ap4SLConfigDescriptor.h"
-#include "Ap4UnknownDescriptor.h"
+#include "Ap4Ipmp.h"
+#include "Ap4ByteStream.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DescriptorFactory::CreateDescriptorFromStream
+|   AP4_DescriptorFactory::CreateDescriptorFromStream
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DescriptorFactory::CreateDescriptorFromStream(AP4_ByteStream&  stream, 
@@ -50,7 +51,7 @@ AP4_DescriptorFactory::CreateDescriptorFromStream(AP4_ByteStream&  stream,
     descriptor = NULL;
 
     // remember current stream offset
-    AP4_Offset offset;
+    AP4_Position offset;
     stream.Tell(offset);
 
     // read descriptor tag
@@ -78,25 +79,51 @@ AP4_DescriptorFactory::CreateDescriptorFromStream(AP4_ByteStream&  stream,
 
     // create the descriptor
     switch (tag) {
+      case AP4_DESCRIPTOR_TAG_OD:
+      case AP4_DESCRIPTOR_TAG_MP4_OD:
+        descriptor = new AP4_ObjectDescriptor(stream, tag, header_size, payload_size);
+        break;
+
+      case AP4_DESCRIPTOR_TAG_IOD:
+      case AP4_DESCRIPTOR_TAG_MP4_IOD:
+        descriptor = new AP4_InitialObjectDescriptor(stream, tag, header_size, payload_size);
+        break;
+
+      case AP4_DESCRIPTOR_TAG_ES_ID_INC:
+        descriptor = new AP4_EsIdIncDescriptor(stream, header_size, payload_size);
+        break;
+
+      case AP4_DESCRIPTOR_TAG_ES_ID_REF:
+        descriptor = new AP4_EsIdRefDescriptor(stream, header_size, payload_size);
+        break;
+        
       case AP4_DESCRIPTOR_TAG_ES:
-        descriptor = DNew AP4_EsDescriptor(stream, header_size, payload_size);
+        descriptor = new AP4_EsDescriptor(stream, header_size, payload_size);
         break;
 
       case AP4_DESCRIPTOR_TAG_DECODER_CONFIG:
-        descriptor = DNew AP4_DecoderConfigDescriptor(stream, header_size, payload_size);
+        descriptor = new AP4_DecoderConfigDescriptor(stream, header_size, payload_size);
         break;
 
 	  case AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO:
-	    descriptor = DNew AP4_DecoderSpecificInfoDescriptor(stream, header_size, payload_size);
+	    descriptor = new AP4_DecoderSpecificInfoDescriptor(stream, header_size, payload_size);
 		break;
           
       case AP4_DESCRIPTOR_TAG_SL_CONFIG:
         if (payload_size != 1) return AP4_ERROR_INVALID_FORMAT;
-        descriptor = DNew AP4_SLConfigDescriptor(header_size);
+        descriptor = new AP4_SLConfigDescriptor(header_size);
+        break;
+
+      case AP4_DESCRIPTOR_TAG_IPMP_DESCRIPTOR_POINTER:
+        descriptor = new AP4_IpmpDescriptorPointer(stream, header_size, payload_size);
+        break;
+        
+      case AP4_DESCRIPTOR_TAG_IPMP_DESCRIPTOR:
+        descriptor = new AP4_IpmpDescriptor(stream, header_size, payload_size);
         break;
 
       default:
-        descriptor = DNew AP4_UnknownDescriptor(stream, tag, header_size, payload_size);
+        descriptor = new AP4_UnknownDescriptor(stream, tag, header_size, payload_size);
         break;
     }
 

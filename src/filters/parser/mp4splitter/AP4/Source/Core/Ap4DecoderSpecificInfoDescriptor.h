@@ -2,7 +2,7 @@
 |
 |    AP4 - DecoderSpecificInfo Descriptor 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,25 +30,31 @@
 #define _AP4_DECODER_SPECIFIC_INFO_DESCRIPTOR_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
+#include "Ap4Types.h"
 #include "Ap4List.h"
 #include "Ap4Descriptor.h"
 #include "Ap4DataBuffer.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   class references
 +---------------------------------------------------------------------*/
-const AP4_Descriptor::Tag AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO = 0x05;
+class AP4_ByteStream;
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor
+|   constants
++---------------------------------------------------------------------*/
+const AP4_UI08 AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO = 0x05;
+
+/*----------------------------------------------------------------------
+|   AP4_DecoderSpecificInfoDescriptor
 +---------------------------------------------------------------------*/
 class AP4_DecoderSpecificInfoDescriptor : public AP4_Descriptor
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_DecoderSpecificInfoDescriptor, AP4_Descriptor)
+
     // methods
     AP4_DecoderSpecificInfoDescriptor(const AP4_DataBuffer& data);
     AP4_DecoderSpecificInfoDescriptor(AP4_ByteStream& stream, 

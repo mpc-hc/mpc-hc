@@ -2,7 +2,7 @@
 |
 |    AP4 - Result Codes
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,7 +30,7 @@
 #define _AP4_RESULTS_H_
 
 /*----------------------------------------------------------------------
-|       constants
+|   constants
 +---------------------------------------------------------------------*/
 const int AP4_SUCCESS                               =  0;
 const int AP4_FAILURE                               = -1;
@@ -50,14 +50,26 @@ const int AP4_ERROR_INVALID_STATE                   = -14;
 const int AP4_ERROR_LIST_EMPTY                      = -15;
 const int AP4_ERROR_LIST_OPERATION_ABORTED          = -16;
 const int AP4_ERROR_INVALID_RTP_CONSTRUCTOR_TYPE    = -17;
-const int AP4_ERROR_NOT_SUPPORTED_YET               = -18;
+const int AP4_ERROR_NOT_SUPPORTED                   = -18;
 const int AP4_ERROR_INVALID_TRACK_TYPE              = -19;
 const int AP4_ERROR_INVALID_RTP_PACKET_EXTRA_DATA   = -20;
+const int AP4_ERROR_BUFFER_TOO_SMALL                = -21;
+const int AP4_ERROR_NOT_ENOUGH_DATA                 = -22;
 
 /*----------------------------------------------------------------------
-|       macros
+|   utility functions
++---------------------------------------------------------------------*/
+const char* AP4_ResultText(int result);
+
+/*----------------------------------------------------------------------
+|   macros
 +---------------------------------------------------------------------*/
 #define AP4_FAILED(result) ((result) != AP4_SUCCESS)
 #define AP4_SUCCEEDED(result) ((result) == AP4_SUCCESS)
+
+#define AP4_CHECK(_x) do {                      \
+    AP4_Result _result = (_x);                  \
+    if (AP4_FAILED(_result)) return _result;    \
+} while(0)
 
 #endif // _AP4_RESULTS_H_

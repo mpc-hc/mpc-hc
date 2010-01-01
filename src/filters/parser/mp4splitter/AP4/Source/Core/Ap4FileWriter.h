@@ -2,7 +2,7 @@
 |
 |    AP4 - File Writer
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,29 +30,34 @@
 #define _AP4_FILE_WRITER_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4Atom.h"
-#include "Ap4Track.h"
-#include "Ap4List.h"
-#include "Ap4ByteStream.h"
-#include "Ap4File.h"
+#include "Ap4Types.h"
 
 /*----------------------------------------------------------------------
-|       AP4_FileWriter
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+class AP4_File;
+
+/*----------------------------------------------------------------------
+|   AP4_FileWriter
 +---------------------------------------------------------------------*/
 class AP4_FileWriter {
- public:
-    // constructors and destructor
-    AP4_FileWriter(AP4_File& file);
-    virtual ~AP4_FileWriter();
-
-    // methods
-    AP4_Result Write(AP4_ByteStream& stream);
-
- private:
-    AP4_File& m_File;
+public:
+    // types
+    typedef enum {
+        INTERLEAVING_SEQUENTIAL
+    } Interleaving;
+    
+    // class methods
+    static AP4_Result Write(AP4_File&       file, 
+                            AP4_ByteStream& stream, 
+                            Interleaving    interleaving = INTERLEAVING_SEQUENTIAL);
+                            
+private:
+    // don't instantiate this class
+    AP4_FileWriter() {}
 };
 
 #endif // _AP4_FILE_WRITER_H_

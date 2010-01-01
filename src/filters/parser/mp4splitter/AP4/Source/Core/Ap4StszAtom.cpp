@@ -2,7 +2,7 @@
 |
 |    AP4 - stsz Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,44 +27,69 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4StszAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::AP4_StszAtom
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_StszAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_StszAtom::Create
++---------------------------------------------------------------------*/
+AP4_StszAtom*
+AP4_StszAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_StszAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StszAtom::AP4_StszAtom
 +---------------------------------------------------------------------*/
 AP4_StszAtom::AP4_StszAtom() :
-    AP4_Atom(AP4_ATOM_TYPE_STSZ, AP4_FULL_ATOM_HEADER_SIZE+8, true),
+    AP4_Atom(AP4_ATOM_TYPE_STSZ, AP4_FULL_ATOM_HEADER_SIZE+8, 0, 0),
     m_SampleSize(0),
     m_SampleCount(0)
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::AP4_StszAtom
+|   AP4_StszAtom::AP4_StszAtom
 +---------------------------------------------------------------------*/
-AP4_StszAtom::AP4_StszAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_STSZ, size, true, stream)
+AP4_StszAtom::AP4_StszAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_STSZ, size, version, flags)
 {
     stream.ReadUI32(m_SampleSize);
     stream.ReadUI32(m_SampleCount);
-    unsigned long sample_count = m_SampleCount;
     if (m_SampleSize == 0) { // means that the samples have different sizes
-        while (sample_count--) {
-            AP4_UI32 entry_size;
-            if (stream.ReadUI32(entry_size) == AP4_SUCCESS) {
-                m_Entries.Append(entry_size);
-            }
+        unsigned long sample_count = m_SampleCount;
+        m_Entries.SetItemCount(sample_count);
+        unsigned char* buffer = new unsigned char[sample_count*4];
+        AP4_Result result = stream.Read(buffer, sample_count*4);
+        if (AP4_FAILED(result)) {
+            delete[] buffer;
+            return;
         }
+        for (unsigned int i=0; i<sample_count; i++) {
+            m_Entries[i] = AP4_BytesToUInt32BE(&buffer[i*4]);
+        }
+        delete[] buffer;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::WriteFields
+|   AP4_StszAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StszAtom::WriteFields(AP4_ByteStream& stream)
@@ -91,7 +116,7 @@ AP4_StszAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::GetSampleCount
+|   AP4_StszAtom::GetSampleCount
 +---------------------------------------------------------------------*/
 AP4_UI32
 AP4_StszAtom::GetSampleCount()
@@ -100,46 +125,13 @@ AP4_StszAtom::GetSampleCount()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::GetSampleSize
-+---------------------------------------------------------------------*/
-AP4_Result
-AP4_StszAtom::GetSampleSize(AP4_Ordinal sample_start, 
-							AP4_Ordinal sample_end,
-							AP4_Size&   sample_size)
-{
-	sample_size = 0;
-
-    if(sample_start > m_SampleCount || sample_end > m_SampleCount)
-	{
-		return AP4_ERROR_OUT_OF_RANGE;
-	}
-
-	if(m_SampleSize != 0)
-	{
-		sample_size = m_SampleSize * (sample_end - sample_start);
-	}
-	else
-	{
-		// compute the additional offset inside the chunk
-		for (unsigned int i = sample_start; i < sample_end; i++) {
-			AP4_Size size;
-			AP4_Result result = GetSampleSize(i, size); 
-			if (AP4_FAILED(result)) return result;
-			sample_size += size;
-		}
-	}
-
-    return AP4_SUCCESS;
-}
-
-/*----------------------------------------------------------------------
-|       AP4_StszAtom::GetSampleSize
+|   AP4_StszAtom::GetSampleSize
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StszAtom::GetSampleSize(AP4_Ordinal sample, AP4_Size& sample_size)
 {
     // check the sample index
-    if (sample > m_SampleCount) {
+    if (sample > m_SampleCount || sample == 0) {
         sample_size = 0;
         return AP4_ERROR_OUT_OF_RANGE;
     } else {
@@ -154,41 +146,66 @@ AP4_StszAtom::GetSampleSize(AP4_Ordinal sample, AP4_Size& sample_size)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::SetSampleSize
+|   AP4_StszAtom::SetSampleSize
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StszAtom::SetSampleSize(AP4_Ordinal sample, AP4_Size sample_size)
 {
     // check the sample index
-    if (sample > m_SampleCount) {
+    if (sample > m_SampleCount || sample == 0) {
         return AP4_ERROR_OUT_OF_RANGE;
     } else {
-        m_Entries[sample - 1] = sample_size;
+        if (m_Entries.ItemCount() == 0) {
+            // all samples must have the same size
+            if (sample_size != m_SampleSize) {
+                // not the same
+                if (sample == 1) {
+                    // if this is the first sample, update the global size
+                    m_SampleSize = sample_size;
+                    return AP4_SUCCESS;
+                } else {
+                    // can't have different sizes
+                    return AP4_ERROR_INVALID_PARAMETERS;
+                }
+            }
+        } else {
+            // each sample has a different size
+            m_Entries[sample - 1] = sample_size;
+        }
+
         return AP4_SUCCESS;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::AddEntry
+|   AP4_StszAtom::AddEntry
 +---------------------------------------------------------------------*/
 AP4_Result 
 AP4_StszAtom::AddEntry(AP4_UI32 size)
 {
     m_Entries.Append(size);
     m_SampleCount++;
-    m_Size += 4;
+    m_Size32 += 4;
 
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom::InspectFields
+|   AP4_StszAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StszAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("sample_size", m_SampleSize);
     inspector.AddField("sample_count", m_Entries.ItemCount());
+
+    if (inspector.GetVerbosity() >= 2) {
+        char header[32];
+        for (AP4_Ordinal i=0; i<m_Entries.ItemCount(); i++) {
+            AP4_FormatString(header, sizeof(header), "entry %8d", i);
+            inspector.AddField(header, m_Entries[i]);
+        }
+    }
 
     return AP4_SUCCESS;
 }

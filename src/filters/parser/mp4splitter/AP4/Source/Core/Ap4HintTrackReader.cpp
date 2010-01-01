@@ -2,7 +2,7 @@
 |
 |    AP4 - Hint Track Reader
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,7 +27,7 @@
 ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include <stdlib.h>
 #include <time.h>
@@ -43,11 +43,11 @@
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::AP4_HintTrackReader
+|   AP4_HintTrackReader::AP4_HintTrackReader
 +---------------------------------------------------------------------*/
 AP4_HintTrackReader::AP4_HintTrackReader(AP4_Track& hint_track, 
-                                         AP4_Movie& movie, 
-                                         AP4_UI32 ssrc /* = 0 */) :
+                                         AP4_Movie& movie,
+                                         AP4_UI32   ssrc) :
     m_HintTrack(hint_track),
     m_MediaTrack(NULL),
     m_MediaTimeScale(0),
@@ -59,15 +59,11 @@ AP4_HintTrackReader::AP4_HintTrackReader(AP4_Track& hint_track,
     m_RtpTimeStampStart(0),
     m_RtpTimeScale(0)
 {
-    // check the type
-    if (m_HintTrack.GetType() != AP4_Track::TYPE_HINT) 
-        throw AP4_Exception(AP4_ERROR_INVALID_TRACK_TYPE);
-
     // get the media track
     AP4_TrakAtom* hint_trak_atom = hint_track.GetTrakAtom();
     AP4_Atom* atom = hint_trak_atom->FindChild("tref/hint");
     if (atom != NULL) {
-        AP4_UI32 media_track_id = ((AP4_TrefTypeAtom*) atom)->m_TrackIds[0];
+        AP4_UI32 media_track_id = ((AP4_TrefTypeAtom*) atom)->GetTrackIds()[0];
         m_MediaTrack = movie.GetTrack(media_track_id);
 
         // get the media time scale
@@ -75,7 +71,7 @@ AP4_HintTrackReader::AP4_HintTrackReader(AP4_Track& hint_track,
     }
 
     // initiate random generator
-    srand(time(NULL));
+    srand((int)time(NULL));
 
     // rtp sequence start init TODO!!
     m_RtpSequenceStart = rand();
@@ -100,7 +96,30 @@ AP4_HintTrackReader::AP4_HintTrackReader(AP4_Track& hint_track,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::~AP4_HintTrackReader
+|   AP4_HintTrackReader::Create
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_HintTrackReader::Create(AP4_Track&            hint_track, 
+                            AP4_Movie&            movie, 
+                            AP4_UI32              ssrc,
+                            AP4_HintTrackReader*& reader)
+{
+    // default value
+    reader = NULL;
+    
+    // check the type
+    if (hint_track.GetType() != AP4_Track::TYPE_HINT) {
+        return AP4_ERROR_INVALID_TRACK_TYPE;
+    }
+    
+    // create a new object
+    reader = new AP4_HintTrackReader(hint_track, movie, ssrc);
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_HintTrackReader::~AP4_HintTrackReader
 +---------------------------------------------------------------------*/
 AP4_HintTrackReader::~AP4_HintTrackReader()
 {
@@ -108,7 +127,7 @@ AP4_HintTrackReader::~AP4_HintTrackReader()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::GetRtpSample
+|   AP4_HintTrackReader::GetRtpSample
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::GetRtpSample(AP4_Ordinal index)
@@ -121,7 +140,7 @@ AP4_HintTrackReader::GetRtpSample(AP4_Ordinal index)
     delete m_RtpSampleData;
     AP4_ByteStream& rtp_data_stream = *m_CurrentHintSample.GetDataStream();
     rtp_data_stream.Seek(m_CurrentHintSample.GetOffset());
-    m_RtpSampleData = DNew AP4_RtpSampleData(rtp_data_stream,
+    m_RtpSampleData = new AP4_RtpSampleData(rtp_data_stream,
                                             m_CurrentHintSample.GetSize());
 
     // reinit the packet index
@@ -134,18 +153,18 @@ AP4_HintTrackReader::GetRtpSample(AP4_Ordinal index)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::GetCurrentTimeStampMs
+|   AP4_HintTrackReader::GetCurrentTimeStampMs
 +---------------------------------------------------------------------*/
-AP4_TimeStamp
+AP4_UI32
 AP4_HintTrackReader::GetCurrentTimeStampMs()
 {
-    return AP4_ConvertTime(m_CurrentHintSample.GetCts(), 
-                           m_HintTrack.GetMediaTimeScale(),
-                           1000);
+    return (AP4_UI32)AP4_ConvertTime(m_CurrentHintSample.GetCts(), 
+                                     m_HintTrack.GetMediaTimeScale(),
+                                     1000);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::Rewind
+|   AP4_HintTrackReader::Rewind
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::Rewind()
@@ -155,7 +174,7 @@ AP4_HintTrackReader::Rewind()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::GetSdpText
+|   AP4_HintTrackReader::GetSdpText
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::GetSdpText(AP4_String& sdp_text)
@@ -169,15 +188,15 @@ AP4_HintTrackReader::GetSdpText(AP4_String& sdp_text)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::SeekToTimeStampMs
+|   AP4_HintTrackReader::SeekToTimeStampMs
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_HintTrackReader::SeekToTimeStampMs(AP4_TimeStamp desired_ts, 
-                                       AP4_TimeStamp& actual_ts)
+AP4_HintTrackReader::SeekToTimeStampMs(AP4_UI32  desired_ts_ms, 
+                                       AP4_UI32& actual_ts_ms)
 {
     // get the sample index
     AP4_Cardinal index;
-    AP4_Result result = m_HintTrack.GetSampleIndexForTimeStampMs(desired_ts, index);
+    AP4_Result result = m_HintTrack.GetSampleIndexForTimeStampMs(desired_ts_ms, index);
     if (AP4_FAILED(result)) return result;
 
     // get the current sample based on the index and renew the sample data
@@ -185,16 +204,16 @@ AP4_HintTrackReader::SeekToTimeStampMs(AP4_TimeStamp desired_ts,
     if (AP4_FAILED(result)) return result;
 
     // set the actual ts
-    actual_ts = GetCurrentTimeStampMs();
+    actual_ts_ms = GetCurrentTimeStampMs();
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::GetNextPacket
+|   AP4_HintTrackReader::GetNextPacket
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::GetNextPacket(AP4_DataBuffer& packet_data, 
-                                   AP4_TimeStamp& ts_ms)
+                                   AP4_UI32&       ts_ms)
 {
     AP4_Result result = AP4_SUCCESS;
 
@@ -222,10 +241,10 @@ AP4_HintTrackReader::GetNextPacket(AP4_DataBuffer& packet_data,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::BuildRtpPacket
+|   AP4_HintTrackReader::BuildRtpPacket
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket* packet, 
+AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket*  packet, 
                                     AP4_DataBuffer& packet_data)
 {
     // set the data size
@@ -233,14 +252,13 @@ AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket* packet,
     if (AP4_FAILED(result)) return result;
 
     // now write
-    AP4_ByteStream* stream = 
-        DNew AP4_MemoryByteStream(packet_data.UseData(), packet_data.GetDataSize()); 
+    AP4_ByteStream* stream = new AP4_MemoryByteStream(packet_data); 
 
     // header + ssrc
     stream->WriteUI08(0x80 | (packet->GetPBit() << 5) | (packet->GetXBit() << 4));
     stream->WriteUI08((packet->GetMBit() << 7) | packet->GetPayloadType());
     stream->WriteUI16(m_RtpSequenceStart + packet->GetSequenceSeed());
-    stream->WriteUI32(m_RtpTimeStampStart + m_CurrentHintSample.GetCts() + packet->GetTimeStampOffset());
+    stream->WriteUI32(m_RtpTimeStampStart + (AP4_UI32)m_CurrentHintSample.GetCts() + packet->GetTimeStampOffset());
     stream->WriteUI32(m_Ssrc);
 
     AP4_List<AP4_RtpConstructor>::Item* constructors_it 
@@ -264,7 +282,7 @@ AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket* packet,
                 if (AP4_FAILED(result)) return result;
                 break;
             case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE_DESC:
-                return AP4_ERROR_NOT_SUPPORTED_YET;
+                return AP4_ERROR_NOT_SUPPORTED;
             default:
                 // unknown constructor type
                 return AP4_FAILURE;
@@ -281,22 +299,22 @@ AP4_HintTrackReader::BuildRtpPacket(AP4_RtpPacket* packet,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::WriteImmediateRtpData
+|   AP4_HintTrackReader::WriteImmediateRtpData
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::WriteImmediateRtpData(AP4_ImmediateRtpConstructor* constructor, 
-                                           AP4_ByteStream* data_stream)
+                                           AP4_ByteStream*              data_stream)
 {
     const AP4_DataBuffer& data_buffer = constructor->GetData();
     return data_stream->Write(data_buffer.GetData(), data_buffer.GetDataSize());
 }
 
 /*----------------------------------------------------------------------
-|       AP4_HintTrackReader::WriteSampleRtpData
+|   AP4_HintTrackReader::WriteSampleRtpData
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_HintTrackReader::WriteSampleRtpData(AP4_SampleRtpConstructor* constructor, 
-                                        AP4_ByteStream* data_stream)
+                                        AP4_ByteStream*           data_stream)
 {
     AP4_Track* referenced_track = NULL;
     if (constructor->GetTrackRefIndex() == 0xFF) {

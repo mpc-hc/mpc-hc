@@ -2,7 +2,7 @@
 |
 |    AP4 - nmhd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,22 +30,29 @@
 #define _AP4_NMHD_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_NmhdAtom
+|   AP4_NmhdAtom
 +---------------------------------------------------------------------*/
 class AP4_NmhdAtom : public AP4_Atom
 {
 public:
+    // class methods
+    static AP4_NmhdAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_NmhdAtom();
-    AP4_NmhdAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+
+private:
+    // methods
+    AP4_NmhdAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
 };
 
 #endif // _AP4_NMHD_ATOM_H_

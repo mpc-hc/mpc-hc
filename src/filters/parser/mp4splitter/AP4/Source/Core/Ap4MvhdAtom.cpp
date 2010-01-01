@@ -2,7 +2,7 @@
 |
 |    AP4 - mvhd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,23 +27,40 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4MvhdAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom::AP4_MvhdAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI64 creation_time,
-                           AP4_UI64 modification_time,
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_MvhdAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_MvhdAtom::Create
++---------------------------------------------------------------------*/
+AP4_MvhdAtom*
+AP4_MvhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version > 1) return NULL;
+    return new AP4_MvhdAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_MvhdAtom::AP4_MvhdAtom
++---------------------------------------------------------------------*/
+AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32 creation_time,
+                           AP4_UI32 modification_time,
                            AP4_UI32 time_scale,
-                           AP4_UI64 duration,
+                           AP4_UI32 duration,
                            AP4_UI32 rate,
                            AP4_UI16 volume) :
-    AP4_Atom(AP4_ATOM_TYPE_MVHD, 96+AP4_FULL_ATOM_HEADER_SIZE, true),
+    AP4_Atom(AP4_ATOM_TYPE_MVHD, AP4_FULL_ATOM_HEADER_SIZE+96, 0, 0),
     m_CreationTime(creation_time),
     m_ModificationTime(modification_time),
     m_TimeScale(time_scale),
@@ -62,30 +79,36 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI64 creation_time,
     m_Matrix[7] = 0;
     m_Matrix[8] = 0x40000000;
 
-    memset(m_Reserved1, 0, sizeof(m_Reserved1));
-    memset(m_Reserved2, 0, sizeof(m_Reserved2));
-    memset(m_Predefined, 0, sizeof(m_Predefined));
+    AP4_SetMemory(m_Reserved1, 0, sizeof(m_Reserved1));
+    AP4_SetMemory(m_Reserved2, 0, sizeof(m_Reserved2));
+    AP4_SetMemory(m_Predefined, 0, sizeof(m_Predefined));
 }
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom::AP4_MvhdAtom
+|   AP4_MvhdAtom::AP4_MvhdAtom
 +---------------------------------------------------------------------*/
-AP4_MvhdAtom::AP4_MvhdAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_MVHD, size, true, stream)
+AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_MVHD, size, version, flags)
 {
     if (m_Version == 0) {
-        AP4_UI32 tmp = 0;
-        stream.ReadUI32(tmp); m_CreationTime = tmp;
-        stream.ReadUI32(tmp); m_ModificationTime = tmp;
+        AP4_UI32 creation_time;
+        stream.ReadUI32(creation_time);
+        m_CreationTime = creation_time;
+        AP4_UI32 modification_time;
+        stream.ReadUI32(modification_time);
+        m_ModificationTime = modification_time;
         stream.ReadUI32(m_TimeScale);
-        stream.ReadUI32(tmp); m_Duration = tmp;
-	} else if (m_Version == 1) {
+        AP4_UI32 duration;
+        stream.ReadUI32(duration);
+        m_Duration = duration;
+    } else {
         stream.ReadUI64(m_CreationTime);
         stream.ReadUI64(m_ModificationTime);
         stream.ReadUI32(m_TimeScale);
         stream.ReadUI64(m_Duration);
-	} else {
-		// TODO
     }
 
     stream.ReadUI32(m_Rate);
@@ -100,7 +123,7 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_Size size, AP4_ByteStream& stream) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom::WriteFields
+|   AP4_MvhdAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
@@ -115,8 +138,7 @@ AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
         result = stream.WriteUI32(m_TimeScale);
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32((AP4_UI32)m_Duration);
-        if (AP4_FAILED(result)) return result;
-	} else if (m_Version == 1) {
+    } else {
         result = stream.WriteUI64(m_CreationTime);
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_ModificationTime);
@@ -125,8 +147,6 @@ AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_Duration);
         if (AP4_FAILED(result)) return result;
-    } else {
-		// TODO
     }
 
     // rate & volume
@@ -156,27 +176,27 @@ AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom::GetDurationMs
+|   AP4_MvhdAtom::GetDurationMs
 +---------------------------------------------------------------------*/
-AP4_Duration
+AP4_UI32
 AP4_MvhdAtom::GetDurationMs()
 {
     if (m_TimeScale) {
-        return AP4_ConvertTime(m_Duration, m_TimeScale, 1000);
+        return (AP4_UI32)AP4_ConvertTime(m_Duration, m_TimeScale, 1000);
     } else {
         return 0;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_MvhdAtom::InspectFields
+|   AP4_MvhdAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_MvhdAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("timescale", m_TimeScale);
-    inspector.AddField("duration", (AP4_UI32)m_Duration);
-    inspector.AddField("duration(ms)", (AP4_UI32)GetDurationMs());
+    inspector.AddField("duration", m_Duration);
+    inspector.AddField("duration(ms)", GetDurationMs());
 
     return AP4_SUCCESS;
 }

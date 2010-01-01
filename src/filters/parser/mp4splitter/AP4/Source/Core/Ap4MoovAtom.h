@@ -2,7 +2,7 @@
 |
 |    AP4 - moov Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,39 +30,52 @@
 #define _AP4_MOOV_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4List.h"
-#include "Ap4Atom.h"
-#include "Ap4TrakAtom.h"
 #include "Ap4ContainerAtom.h"
-#include "Ap4AtomFactory.h"
 
 /*----------------------------------------------------------------------
-|       AP4_MoovAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_AtomFactory;
+class AP4_TrakAtom;
+
+/*----------------------------------------------------------------------
+|   AP4_MoovAtom
 +---------------------------------------------------------------------*/
 class AP4_MoovAtom : public AP4_ContainerAtom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_MoovAtom, AP4_ContainerAtom)
+
+    // class methods
+    static AP4_MoovAtom* Create(AP4_Size         size,
+                                AP4_ByteStream&  stream,
+                                AP4_AtomFactory& atom_factory) {
+        return new AP4_MoovAtom(size, stream, atom_factory);
+    }
+
     // methods
     AP4_MoovAtom();
-    AP4_MoovAtom(AP4_Size         size,
-                 AP4_ByteStream&  stream,
-                 AP4_AtomFactory& atom_factory);
     AP4_List<AP4_TrakAtom>& GetTrakAtoms() {
         return m_TrakAtoms;
     }
     AP4_UI32 GetTimeScale() {
         return m_TimeScale;
     }
+    AP4_Result AdjustChunkOffsets(AP4_SI64 offset);
     
     // AP4_AtomParent methods
     void OnChildAdded(AP4_Atom* atom);
     void OnChildRemoved(AP4_Atom* atom);
 
 private:
+    // methods
+    AP4_MoovAtom(AP4_UI32         size,
+                 AP4_ByteStream&  stream,
+                 AP4_AtomFactory& atom_factory);
+
     // members
     AP4_List<AP4_TrakAtom> m_TrakAtoms;
     AP4_UI32               m_TimeScale;

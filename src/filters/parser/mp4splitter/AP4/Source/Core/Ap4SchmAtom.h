@@ -2,7 +2,7 @@
 |
 |    AP4 - schm Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,24 +30,36 @@
 #define _AP4_SCHM_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
+#include "Ap4Types.h"
+#include "Ap4String.h"
 #include "Ap4Atom.h"
+#include "Ap4Array.h"
 
 /*----------------------------------------------------------------------
-|       AP4_SchmAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_SchmAtom
 +---------------------------------------------------------------------*/
 class AP4_SchmAtom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_SchmAtom, AP4_Atom)
+
+    // class methods
+    static AP4_SchmAtom* Create(AP4_Size                   size, 
+                                AP4_Array<AP4_Atom::Type>* context,
+                                AP4_ByteStream&            stream);
+
     // constructors
     AP4_SchmAtom(AP4_UI32    scheme_type,
                  AP4_UI32    scheme_version,
-                 const char* scheme_uri = NULL);
-    AP4_SchmAtom(AP4_Size size, AP4_ByteStream& stream);
+                 const char* scheme_uri = NULL,
+                 bool        short_form = false);
 
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
@@ -58,8 +70,17 @@ class AP4_SchmAtom : public AP4_Atom
     AP4_UI32    GetSchemeVersion() { return m_SchemeVersion; }
     AP4_String& GetSchemeUri()     { return m_SchemeUri;     }
 
- private:
+private:
+    // methods
+    AP4_SchmAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 bool            short_form,
+                 AP4_ByteStream& stream);
+
     // members
+    bool       m_AtomHasShortForm; // for versions of this where the version
+                                   // field is only 16 bits
     AP4_UI32   m_SchemeType;
     AP4_UI32   m_SchemeVersion;
     AP4_String m_SchemeUri;

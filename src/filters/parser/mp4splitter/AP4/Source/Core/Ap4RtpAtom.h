@@ -2,7 +2,7 @@
 |
 |    AP4 - rtp Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,27 +30,38 @@
 #define _AP4_RTP_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
+#include "Ap4Types.h"
 #include "Ap4List.h"
+#include "Ap4String.h"
 #include "Ap4Atom.h"
-#include "Ap4DataBuffer.h"
 
 /*----------------------------------------------------------------------
-|       AP4_RtpAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_RtpAtom
 +---------------------------------------------------------------------*/
 class AP4_RtpAtom : public AP4_Atom
 {
 public:
+    // class methods
+    static AP4_RtpAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+        return new AP4_RtpAtom(size, stream);
+    }
+
     // methods
-    AP4_RtpAtom(AP4_Size size, AP4_ByteStream& stream);
     const AP4_String& GetSdpText() { return m_SdpText; }
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
 private:
+    // methods
+    AP4_RtpAtom(AP4_UI32 size, AP4_ByteStream& stream);
+
     // members
     AP4_UI32   m_DescriptionFormat;
     AP4_String m_SdpText;

@@ -2,7 +2,7 @@
 |
 |    AP4 - iSFM Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,18 +27,36 @@
 ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Utils.h"
 #include "Ap4IsfmAtom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom::AP4_IsfmAtom
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_IsfmAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_IsfmAtom::Create
++---------------------------------------------------------------------*/
+AP4_IsfmAtom*
+AP4_IsfmAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_IsfmAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_IsfmAtom::AP4_IsfmAtom
 +---------------------------------------------------------------------*/
 AP4_IsfmAtom::AP4_IsfmAtom(bool     selective_encryption,
                            AP4_UI08 key_length_indicator,
                            AP4_UI08 iv_length) :
-    AP4_Atom(AP4_ATOM_TYPE_ISFM, AP4_FULL_ATOM_HEADER_SIZE+3, true),
+    AP4_Atom(AP4_ATOM_TYPE_ISFM, AP4_FULL_ATOM_HEADER_SIZE+3, 0, 0),
     m_SelectiveEncryption(selective_encryption),
     m_KeyIndicatorLength(key_length_indicator),
     m_IvLength(iv_length)
@@ -46,31 +64,34 @@ AP4_IsfmAtom::AP4_IsfmAtom(bool     selective_encryption,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom::AP4_IsfmAtom
+|   AP4_IsfmAtom::AP4_IsfmAtom
 +---------------------------------------------------------------------*/
-AP4_IsfmAtom::AP4_IsfmAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_ISFM, size, true, stream)
+AP4_IsfmAtom::AP4_IsfmAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_ISFM, size, version, flags)
 {
     AP4_UI08 s;
     stream.ReadUI08(s);
-    m_SelectiveEncryption = ((s&1) != 0);
+    m_SelectiveEncryption = ((s&0x80) != 0);
     stream.ReadUI08(m_KeyIndicatorLength);
     stream.ReadUI08(m_IvLength);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom::Clone
+|   AP4_IsfmAtom::Clone
 +---------------------------------------------------------------------*/
 AP4_Atom* 
 AP4_IsfmAtom::Clone()
 {
-    return DNew AP4_IsfmAtom(m_SelectiveEncryption, 
+    return new AP4_IsfmAtom(m_SelectiveEncryption, 
                             m_KeyIndicatorLength, 
                             m_IvLength);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom::WriteFields
+|   AP4_IsfmAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_IsfmAtom::WriteFields(AP4_ByteStream& stream)
@@ -78,7 +99,7 @@ AP4_IsfmAtom::WriteFields(AP4_ByteStream& stream)
     AP4_Result result;
 
     // selective encryption
-    result = stream.WriteUI08(m_SelectiveEncryption ? 1 : 0);
+    result = stream.WriteUI08(m_SelectiveEncryption ? 0x80 : 0);
     if (AP4_FAILED(result)) return result;
 
     // key indicator length
@@ -93,7 +114,7 @@ AP4_IsfmAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_IsfmAtom::InspectFields
+|   AP4_IsfmAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_IsfmAtom::InspectFields(AP4_AtomInspector& inspector)

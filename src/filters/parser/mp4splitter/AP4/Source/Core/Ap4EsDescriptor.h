@@ -2,7 +2,7 @@
 |
 |    AP4 - ES Descriptor 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,29 +30,37 @@
 #define _AP4_ES_DESCRIPTOR_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4List.h"
+#include "Ap4String.h"
 #include "Ap4Descriptor.h"
 #include "Ap4DecoderConfigDescriptor.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   class references
 +---------------------------------------------------------------------*/
-const AP4_Descriptor::Tag AP4_DESCRIPTOR_TAG_ES = 0x03;
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   constants
++---------------------------------------------------------------------*/
+const AP4_UI08 AP4_DESCRIPTOR_TAG_ES        = 0x03;
+const AP4_UI08 AP4_DESCRIPTOR_TAG_ES_ID_INC = 0x0E;
+const AP4_UI08 AP4_DESCRIPTOR_TAG_ES_ID_REF = 0x0F;
 
 const int AP4_ES_DESCRIPTOR_FLAG_STREAM_DEPENDENCY = 1;
 const int AP4_ES_DESCRIPTOR_FLAG_URL               = 2;
 const int AP4_ES_DESCRIPTOR_FLAG_OCR_STREAM        = 4;
 
 /*----------------------------------------------------------------------
-|       AP4_EsDescriptor
+|   AP4_EsDescriptor
 +---------------------------------------------------------------------*/
 class AP4_EsDescriptor : public AP4_Descriptor
 {
  public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsDescriptor, AP4_Descriptor)
+
     // methods
     AP4_EsDescriptor(AP4_UI16 es_id);
     AP4_EsDescriptor(AP4_ByteStream& stream, 
@@ -73,6 +81,54 @@ class AP4_EsDescriptor : public AP4_Descriptor
     unsigned short                   m_DependsOn;
     AP4_String                       m_Url;
     mutable AP4_List<AP4_Descriptor> m_SubDescriptors;
+};
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdIncDescriptor
++---------------------------------------------------------------------*/
+class AP4_EsIdIncDescriptor : public AP4_Descriptor
+{
+ public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsIdIncDescriptor, AP4_Descriptor)
+
+    // methods
+    AP4_EsIdIncDescriptor(AP4_UI32 track_id);
+    AP4_EsIdIncDescriptor(AP4_ByteStream& stream, 
+                          AP4_Size        header_size, 
+                          AP4_Size        payload_size);
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+    virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
+
+    // accessors
+    AP4_UI32 GetTrackId() const { return m_TrackId; }
+    
+ private:
+    // members
+    AP4_UI32 m_TrackId;
+};
+
+/*----------------------------------------------------------------------
+|   AP4_EsIdRefDescriptor
++---------------------------------------------------------------------*/
+class AP4_EsIdRefDescriptor : public AP4_Descriptor
+{
+ public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsIdRefDescriptor, AP4_Descriptor)
+
+    // methods
+    AP4_EsIdRefDescriptor(AP4_UI16 ref_index);
+    AP4_EsIdRefDescriptor(AP4_ByteStream& stream, 
+                          AP4_Size        header_size, 
+                          AP4_Size        payload_size);
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+    virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
+
+    // accessors
+    AP4_UI16 GetRefIndex() const { return m_RefIndex; }
+    
+ private:
+    // members
+    AP4_UI16 m_RefIndex;
 };
 
 #endif // _AP4_ES_DESCRIPTOR_H_

@@ -2,7 +2,7 @@
 |
 |    AP4 - DecoderSpecificInfo Descriptors
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,15 +27,21 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4DecoderSpecificInfoDescriptor.h"
 #include "Ap4DescriptorFactory.h"
 #include "Ap4Utils.h"
+#include "Ap4ByteStream.h"
+#include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_DecoderSpecificInfoDescriptor)
+
+/*----------------------------------------------------------------------
+|   AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
     const AP4_DataBuffer& data) :
@@ -47,7 +53,7 @@ AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor
+|   AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
     AP4_ByteStream& stream, AP4_Size header_size, AP4_Size payload_size) :
@@ -59,14 +65,14 @@ AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor::~AP4_DecoderSpecificInfoDescriptor
+|   AP4_DecoderSpecificInfoDescriptor::~AP4_DecoderSpecificInfoDescriptor
 +---------------------------------------------------------------------*/
 AP4_DecoderSpecificInfoDescriptor::~AP4_DecoderSpecificInfoDescriptor()
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor::WriteFields
+|   AP4_DecoderSpecificInfoDescriptor::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DecoderSpecificInfoDescriptor::WriteFields(AP4_ByteStream& stream)
@@ -80,17 +86,17 @@ AP4_DecoderSpecificInfoDescriptor::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderSpecificInfoDescriptor::Inspect
+|   AP4_DecoderSpecificInfoDescriptor::Inspect
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DecoderSpecificInfoDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
-    char* info = DNew char[m_Info.GetDataSize()*3+1];
+    char* info = new char[m_Info.GetDataSize()*3+1];
     for (unsigned int i=0; i<m_Info.GetDataSize(); i++) {
-		AP4_StringFormat(&info[i*3], 3, "%02x ", m_Info.UseData()[i]);
+		AP4_FormatString(&info[i*3], 4, "%02x ", m_Info.UseData()[i]);
 	}
     info[m_Info.GetDataSize()*3] = '\0';
-    inspector.AddField("#[DecoderSpecificInfo]", info);
+    inspector.AddField("[DecoderSpecificInfo]", info);
     delete[] info;
 
     return AP4_SUCCESS;

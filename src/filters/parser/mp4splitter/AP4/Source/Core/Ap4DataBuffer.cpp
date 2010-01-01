@@ -2,7 +2,7 @@
 |
 |    AP4 - Data Buffer
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,12 +27,13 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4DataBuffer.h"
+#include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::AP4_DataBuffer
+|   AP4_DataBuffer::AP4_DataBuffer
 +---------------------------------------------------------------------*/
 AP4_DataBuffer::AP4_DataBuffer() :
     m_BufferIsLocal(true),
@@ -43,7 +44,7 @@ AP4_DataBuffer::AP4_DataBuffer() :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::AP4_DataBuffer
+|   AP4_DataBuffer::AP4_DataBuffer
 +---------------------------------------------------------------------*/
 AP4_DataBuffer::AP4_DataBuffer(AP4_Size buffer_size) :
     m_BufferIsLocal(true),
@@ -51,11 +52,26 @@ AP4_DataBuffer::AP4_DataBuffer(AP4_Size buffer_size) :
     m_BufferSize(buffer_size),
     m_DataSize(0)
 {
-    m_Buffer = DNew AP4_Byte[buffer_size];
+    m_Buffer = new AP4_Byte[buffer_size];
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::AP4_DataBuffer
+|   AP4_DataBuffer::AP4_DataBuffer
++---------------------------------------------------------------------*/
+AP4_DataBuffer::AP4_DataBuffer(const void* data, AP4_Size data_size) :
+    m_BufferIsLocal(true),
+    m_Buffer(NULL),
+    m_BufferSize(data_size),
+    m_DataSize(data_size)
+{
+    if (data && data_size) {
+        m_Buffer = new AP4_Byte[data_size];
+        AP4_CopyMemory(m_Buffer, data, data_size);
+    }
+}
+
+/*----------------------------------------------------------------------
+|   AP4_DataBuffer::AP4_DataBuffer
 +---------------------------------------------------------------------*/
 AP4_DataBuffer::AP4_DataBuffer(const AP4_DataBuffer& other) :
     m_BufferIsLocal(true),
@@ -63,12 +79,12 @@ AP4_DataBuffer::AP4_DataBuffer(const AP4_DataBuffer& other) :
     m_BufferSize(other.m_DataSize),
     m_DataSize(other.m_DataSize)
 {
-    m_Buffer = DNew AP4_Byte[m_BufferSize];
-    memcpy(m_Buffer, other.m_Buffer, m_BufferSize);
+    m_Buffer = new AP4_Byte[m_BufferSize];
+    AP4_CopyMemory(m_Buffer, other.m_Buffer, m_BufferSize);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::~AP4_DataBuffer
+|   AP4_DataBuffer::~AP4_DataBuffer
 +---------------------------------------------------------------------*/
 AP4_DataBuffer::~AP4_DataBuffer()
 {
@@ -78,7 +94,21 @@ AP4_DataBuffer::~AP4_DataBuffer()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::SetBuffer
+|   AP4_DataBuffer::Reserve
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_DataBuffer::Reserve(AP4_Size size)
+{
+    if (size <= m_BufferSize) return AP4_SUCCESS;
+
+    // try doubling the buffer to accomodate for the new size
+    AP4_Size new_size = m_BufferSize*2+1024;
+    if (new_size < size) new_size = size;
+    return SetBufferSize(new_size);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_DataBuffer::SetBuffer
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DataBuffer::SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size)
@@ -97,7 +127,7 @@ AP4_DataBuffer::SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::SetBufferSize
+|   AP4_DataBuffer::SetBufferSize
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DataBuffer::SetBufferSize(AP4_Size buffer_size)
@@ -111,7 +141,7 @@ AP4_DataBuffer::SetBufferSize(AP4_Size buffer_size)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::SetDataSize
+|   AP4_DataBuffer::SetDataSize
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DataBuffer::SetDataSize(AP4_Size size)
@@ -129,10 +159,10 @@ AP4_DataBuffer::SetDataSize(AP4_Size size)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::SetData
+|   AP4_DataBuffer::SetData
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_DataBuffer::SetData(AP4_Byte* data, AP4_Size size)
+AP4_DataBuffer::SetData(const AP4_Byte* data, AP4_Size size)
 {
     if (size > m_BufferSize) {
         if (m_BufferIsLocal) {
@@ -150,7 +180,7 @@ AP4_DataBuffer::SetData(AP4_Byte* data, AP4_Size size)
 
 
 /*----------------------------------------------------------------------
-|       AP4_DataBuffer::ReallocateBuffer
+|   AP4_DataBuffer::ReallocateBuffer
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_DataBuffer::ReallocateBuffer(AP4_Size size)
@@ -159,7 +189,7 @@ AP4_DataBuffer::ReallocateBuffer(AP4_Size size)
     if (m_DataSize > size) return AP4_FAILURE;
 
     // allocate a new buffer
-    AP4_Byte* new_buffer = DNew AP4_Byte[size];
+    AP4_Byte* new_buffer = new AP4_Byte[size];
 
     // copy the contents of the previous buffer ,is any
 	if (m_Buffer && m_DataSize) {

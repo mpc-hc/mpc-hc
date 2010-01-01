@@ -1,8 +1,8 @@
 /*****************************************************************
 |
-|    AP4 - avcC Atom
+|    AP4 - avcC Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -24,34 +24,81 @@
 |    Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 |    02111-1307, USA.
 |
- ****************************************************************/
+****************************************************************/
 
 #ifndef _AP4_AVCC_ATOM_H_
 #define _AP4_AVCC_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Atom.h"
-#include "Ap4Types.h"
 #include "Ap4Array.h"
-#include "Ap4DataBuffer.h"
 
 /*----------------------------------------------------------------------
-|       AP4_AvcCAtom
+|   constants
 +---------------------------------------------------------------------*/
-class AP4_AvcCAtom : public AP4_Atom
+const AP4_UI08 AP4_AVC_PROFILE_BASELINE = 66;
+const AP4_UI08 AP4_AVC_PROFILE_MAIN     = 77;
+const AP4_UI08 AP4_AVC_PROFILE_EXTENDED = 88;
+const AP4_UI08 AP4_AVC_PROFILE_HIGH     = 100;
+const AP4_UI08 AP4_AVC_PROFILE_HIGH_10  = 110;
+const AP4_UI08 AP4_AVC_PROFILE_HIGH_422 = 122;
+const AP4_UI08 AP4_AVC_PROFILE_HIGH_444 = 144;
+
+
+/*----------------------------------------------------------------------
+|   AP4_AvccAtom
++---------------------------------------------------------------------*/
+class AP4_AvccAtom : public AP4_Atom
 {
 public:
-	AP4_AvcCAtom(AP4_Size         size,
-                 AP4_ByteStream&  stream);
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_AvccAtom, AP4_Atom)
 
-    AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
+    // class methods
+    static AP4_AvccAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+        return new AP4_AvccAtom(size, stream);
+    }
+    static const char* GetProfileName(AP4_UI08 profile);
 
-    const AP4_DataBuffer* GetDecoderInfo() const { return &m_DecoderInfo; }
+    // constructors
+    AP4_AvccAtom();
+    AP4_AvccAtom(AP4_UI08 config_version,
+                 AP4_UI08 profile,
+                 AP4_UI08 level,
+                 AP4_UI08 profile_compatibility,
+                 AP4_UI08 length_size,
+                 const AP4_Array<AP4_DataBuffer>& sequence_parameters,
+                 const AP4_Array<AP4_DataBuffer>& picture_parameters);
+    AP4_AvccAtom(const AP4_AvccAtom& other); // copy construtor
+    
+    // methods
+    virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+
+    // accessors
+    AP4_UI08 GetConfigurationVersion() const { return m_ConfigurationVersion; }
+    AP4_UI08 GetProfile() const              { return m_Profile; }
+    AP4_UI08 GetLevel() const                { return m_Level; }
+    AP4_UI08 GetProfileCompatibility() const { return m_ProfileCompatibility; }
+    AP4_UI08 GetNaluLengthSize() const       { return m_NaluLengthSize; }
+    AP4_Array<AP4_DataBuffer>& GetSequenceParameters() { return m_SequenceParameters; }
+    AP4_Array<AP4_DataBuffer>& GetPictureParameters()  { return m_PictureParameters; }
+    const AP4_DataBuffer& GetRawBytes() const { return m_RawBytes; }
 
 private:
-    AP4_DataBuffer m_DecoderInfo;
+    // methods
+    AP4_AvccAtom(AP4_UI32 size, AP4_ByteStream& stream);
+
+    // members
+    AP4_UI08                  m_ConfigurationVersion;
+    AP4_UI08                  m_Profile;
+    AP4_UI08                  m_Level;
+    AP4_UI08                  m_ProfileCompatibility;
+    AP4_UI08                  m_NaluLengthSize;
+    AP4_Array<AP4_DataBuffer> m_SequenceParameters;
+    AP4_Array<AP4_DataBuffer> m_PictureParameters;
+    AP4_DataBuffer            m_RawBytes;
 };
 
 #endif // _AP4_AVCC_ATOM_H_

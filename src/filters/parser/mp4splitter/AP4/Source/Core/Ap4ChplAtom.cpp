@@ -36,9 +36,9 @@
 |       AP4_ChplAtom::AP4_ChplAtom
 +---------------------------------------------------------------------*/
 
-AP4_ChplAtom::AP4_ChplAtom(AP4_Size         size,
+AP4_ChplAtom::AP4_ChplAtom(AP4_UI32         size,
                            AP4_ByteStream&  stream)
-	: AP4_Atom(AP4_ATOM_TYPE_CHPL, size, true, stream)
+	: AP4_Atom(AP4_ATOM_TYPE_CHPL, size)
 {
 	size -= AP4_FULL_ATOM_HEADER_SIZE;
 

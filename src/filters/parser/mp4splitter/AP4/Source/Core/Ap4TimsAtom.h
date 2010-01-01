@@ -2,7 +2,7 @@
 |
 |    AP4 - tims Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,22 +30,23 @@
 #define _AP4_TIMS_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_TimsAtom
+|   AP4_TimsAtom
 +---------------------------------------------------------------------*/
 class AP4_TimsAtom : public AP4_Atom
 {
 public:
+    // class methods
+    static AP4_TimsAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+        return new AP4_TimsAtom(size, stream);
+    }
+
     // methods
     AP4_TimsAtom(AP4_UI32 timescale);
-    AP4_TimsAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
@@ -53,6 +54,9 @@ public:
     virtual AP4_UI32 GetTimeScale() { return m_TimeScale; }
 
 private:
+    // methods
+    AP4_TimsAtom(AP4_UI32 size, AP4_ByteStream& stream);
+
     // members
     AP4_UI32 m_TimeScale;
 };

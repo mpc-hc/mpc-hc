@@ -1,8 +1,8 @@
 /*****************************************************************
 |
-|    AP4 - Unknown Descriptor 
+|    AP4 - odaf Atom
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -26,35 +26,49 @@
 |
 ****************************************************************/
 
-#ifndef _AP4_UNKNOWN_DESCRIPTOR_H_
-#define _AP4_UNKNOWN_DESCRIPTOR_H_
+#ifndef _AP4_ODAF_ATOM_H_
+#define _AP4_ODAF_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
-#include "Ap4DataBuffer.h"
-#include "Ap4Descriptor.h"
+#include "Ap4Types.h"
+#include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_UnknownDescriptor
+|   AP4_OdafAtom
 +---------------------------------------------------------------------*/
-class AP4_UnknownDescriptor : public AP4_Descriptor 
+class AP4_OdafAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_OdafAtom, AP4_Atom)
+
+    // class methods
+    static AP4_OdafAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
-    AP4_UnknownDescriptor(AP4_ByteStream& stream, 
-                          unsigned char   tag,
-                          AP4_Size        header_size,
-                          AP4_Size        payload_size);
+    AP4_OdafAtom(bool     m_SelectiveEncryption,
+                 AP4_UI08 m_KeyIndicatorLength,
+                 AP4_UI08 m_IvLength);
+    virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    
+
+    // accessors
+    bool GetSelectiveEncryption()    { return m_SelectiveEncryption; }
+    AP4_UI08 GetKeyIndicatorLength() { return m_KeyIndicatorLength;  }
+    AP4_UI08 GetIvLength()           { return m_IvLength;            }
+
 private:
+    // methods
+    AP4_OdafAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
     // members
-    AP4_DataBuffer m_Data;
+    bool     m_SelectiveEncryption;
+    AP4_UI08 m_KeyIndicatorLength;
+    AP4_UI08 m_IvLength;
 };
 
-
-#endif // _AP4_UNKNOWN_DESCRIPTOR_H_
+#endif // _AP4_ODAF_ATOM_H_

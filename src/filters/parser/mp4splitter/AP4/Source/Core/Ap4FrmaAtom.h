@@ -2,7 +2,7 @@
 |
 |    AP4 - frma Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,21 +30,28 @@
 #define _AP4_FRMA_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_FrmaAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_FrmaAtom
 +---------------------------------------------------------------------*/
 class AP4_FrmaAtom : public AP4_Atom
 {
- public:
+public:
+    // class methods
+    static AP4_FrmaAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+        return new AP4_FrmaAtom(size, stream);
+    }
+
     // constructors 
-    AP4_FrmaAtom(AP4_Size size, AP4_ByteStream& stream);
     AP4_FrmaAtom(AP4_UI32 original_format);
 
     // methods
@@ -52,7 +59,10 @@ class AP4_FrmaAtom : public AP4_Atom
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     AP4_UI32 GetOriginalFormat() { return m_OriginalFormat; }
 
- private:
+private:
+    // methods
+    AP4_FrmaAtom(AP4_UI32 size, AP4_ByteStream& stream);
+
     // members
     AP4_UI32 m_OriginalFormat;
 };

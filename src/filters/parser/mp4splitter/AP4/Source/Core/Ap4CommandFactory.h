@@ -1,8 +1,8 @@
 /*****************************************************************
 |
-|    AP4 - Unknown Descriptors
+|    AP4 - Command Factory
 |
-|    Copyright 2002 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -24,35 +24,31 @@
 |    Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 |    02111-1307, USA.
 |
-****************************************************************/
+ ****************************************************************/
+
+#ifndef _AP4_COMMAND_FACTORY_H_
+#define _AP4_COMMAND_FACTORY_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4UnknownDescriptor.h"
+#include "Ap4Types.h"
+#include "Ap4Command.h"
 
 /*----------------------------------------------------------------------
-|       AP4_UnknownDescriptor::AP4_UnknownDescriptor
+|   class references
 +---------------------------------------------------------------------*/
-AP4_UnknownDescriptor::AP4_UnknownDescriptor(AP4_ByteStream& stream,
-                                             unsigned char   tag,
-                                             AP4_Size        header_size,
-                                             AP4_Size        payload_size) :
-    AP4_Descriptor(tag, header_size, payload_size)
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_CommandFactory
++---------------------------------------------------------------------*/
+class AP4_CommandFactory 
 {
-    m_Data.SetDataSize(payload_size);
-    stream.Read(m_Data.UseData(), payload_size);    
-}
+ public:
+    // class methods
+    static AP4_Result CreateCommandFromStream(AP4_ByteStream& stream,
+                                              AP4_Command*&   command);
+};
 
-/*----------------------------------------------------------------------
-|       AP4_UnknownDescriptor::WriteFields
-+---------------------------------------------------------------------*/
-AP4_Result
-AP4_UnknownDescriptor::WriteFields(AP4_ByteStream& stream)
-{
-    // write the payload
-    stream.Write(m_Data.GetData(), m_Data.GetDataSize());
-
-    return AP4_SUCCESS;
-}
+#endif // _AP4_COMMAND_FACTORY_H_

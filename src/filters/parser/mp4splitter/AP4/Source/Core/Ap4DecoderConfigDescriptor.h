@@ -2,7 +2,7 @@
 |
 |    AP4 - DecoderConfig Descriptor 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,25 +30,31 @@
 #define _AP4_DECODER_CONFIG_DESCRIPTOR_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
+#include "Ap4Types.h"
 #include "Ap4List.h"
 #include "Ap4Descriptor.h"
 #include "Ap4DecoderSpecificInfoDescriptor.h"
 
 /*----------------------------------------------------------------------
-|       constants
+|   class references
 +---------------------------------------------------------------------*/
-const AP4_Descriptor::Tag AP4_DESCRIPTOR_TAG_DECODER_CONFIG = 0x04;
+class AP4_ByteStream;
 
 /*----------------------------------------------------------------------
-|       AP4_DecoderConfigDescriptor
+|   constants
++---------------------------------------------------------------------*/
+const AP4_UI08 AP4_DESCRIPTOR_TAG_DECODER_CONFIG = 0x04;
+
+/*----------------------------------------------------------------------
+|   AP4_DecoderConfigDescriptor
 +---------------------------------------------------------------------*/
 class AP4_DecoderConfigDescriptor : public AP4_Descriptor
 {
  public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_DecoderConfigDescriptor, AP4_Descriptor)
+
     // methods
     AP4_DecoderConfigDescriptor(AP4_UI08 stream_type,
                                 AP4_UI08 oti,

@@ -2,7 +2,7 @@
 |
 |    AP4 - Container Atoms
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,52 +30,69 @@
 #define _AP4_CONTAINER_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
 #include "Ap4List.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       class references
+|   class references
 +---------------------------------------------------------------------*/
 class AP4_ByteStream;
 class AP4_AtomFactory;
 
 /*----------------------------------------------------------------------
-|       AP4_ContainerAtom
+|   AP4_ContainerAtom
 +---------------------------------------------------------------------*/
-class AP4_ContainerAtom : public AP4_Atom, public AP4_AtomParent {
+class AP4_ContainerAtom : public AP4_Atom, public AP4_AtomParent 
+{
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_ContainerAtom, AP4_Atom, AP4_AtomParent)
+
+    // class methods
+    static AP4_ContainerAtom* Create(Type             type, 
+                                     AP4_UI64         size, 
+                                     bool             is_full,
+                                     bool             force_64,
+                                     AP4_ByteStream&  stream,
+                                     AP4_AtomFactory& atom_factory);
+
     // methods
-    AP4_ContainerAtom(Type type, bool is_full = false);
-    AP4_ContainerAtom(Type             type, 
-                      AP4_Size         size, 
-                      bool             is_full,
-                      AP4_ByteStream&  stream,
-                      AP4_AtomFactory& atom_factory);
-    AP4_ContainerAtom(Type             type, 
-                      AP4_Size         size, 
-                      bool             is_full,
-                      AP4_ByteStream&  stream);
+    explicit AP4_ContainerAtom(Type type);
+    explicit AP4_ContainerAtom(Type type, AP4_UI32 version, AP4_UI32 flags); 
+    explicit AP4_ContainerAtom(Type type, AP4_UI64 size, bool force_64);
+    explicit AP4_ContainerAtom(Type type, AP4_UI64 size, bool force_64, AP4_UI32 version, AP4_UI32 flags);
     AP4_List<AP4_Atom>& GetChildren() { return m_Children; }
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result InspectChildren(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    
+    virtual AP4_Atom*  Clone();
+
     // AP4_AtomParent methods
-    void OnChildChanged(AP4_Atom* child);
-    void OnChildAdded(AP4_Atom* child);
-    void OnChildRemoved(AP4_Atom* child);
+    virtual void OnChildChanged(AP4_Atom* child);
+    virtual void OnChildAdded(AP4_Atom* child);
+    virtual void OnChildRemoved(AP4_Atom* child);
 
 protected:
-    // constructor
-    AP4_ContainerAtom(Type type, AP4_Size size, bool is_full = false);
+    // constructors
+    AP4_ContainerAtom(Type             type, 
+                      AP4_UI64         size, 
+                      bool             force_64,
+                      AP4_UI32         version,
+                      AP4_UI32         flags,
+                      AP4_ByteStream&  stream,
+                      AP4_AtomFactory& atom_factory);
+    AP4_ContainerAtom(Type             type, 
+                      AP4_UI64         size, 
+                      bool             force_64,
+                      AP4_ByteStream&  stream,
+                      AP4_AtomFactory& atom_factory);
 
     // methods
     void ReadChildren(AP4_AtomFactory& atom_factory,
                       AP4_ByteStream&  stream, 
-                      AP4_Size         size);
+                      AP4_UI64         size);
 };
 
 #endif // _AP4_CONTAINER_ATOM_H_

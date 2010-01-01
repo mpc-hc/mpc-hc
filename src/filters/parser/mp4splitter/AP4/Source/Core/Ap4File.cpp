@@ -2,7 +2,7 @@
 |
 |    AP4 - File
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,7 +27,7 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4File.h"
 #include "Ap4Atom.h"
@@ -35,47 +35,69 @@
 #include "Ap4MoovAtom.h"
 #include "Ap4MvhdAtom.h"
 #include "Ap4AtomFactory.h"
+#include "Ap4Movie.h"
+#include "Ap4FtypAtom.h"
+#include "Ap4MetaData.h"
 
 /*----------------------------------------------------------------------
-|       AP4_File::AP4_File
+|   AP4_File::AP4_File
 +---------------------------------------------------------------------*/
 AP4_File::AP4_File(AP4_Movie* movie) :
-    m_Movie(movie)
+    m_Movie(movie),
+    m_FileType(NULL),
+    m_MetaData(NULL),
+    m_MoovIsBeforeMdat(true)
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_File::AP4_File
+|   AP4_File::AP4_File
 +---------------------------------------------------------------------*/
-AP4_File::AP4_File(AP4_ByteStream& stream, AP4_AtomFactory& atom_factory) :
-    m_Movie(NULL)
+AP4_File::AP4_File(AP4_ByteStream&  stream, 
+                   AP4_AtomFactory& atom_factory,
+                   bool             moov_only) :
+    m_Movie(NULL),
+    m_FileType(NULL),
+    m_MetaData(NULL),
+    m_MoovIsBeforeMdat(true)
 {
-    // get all atoms
-    AP4_Atom* atom;
-    while (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, atom))) {
+    // parse top-level atoms
+    AP4_Atom*    atom;
+    AP4_Position stream_position;
+    bool         keep_parsing = true;
+    while (keep_parsing &&
+           AP4_SUCCEEDED(stream.Tell(stream_position)) && 
+           AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, atom))) {
+        AddChild(atom);
         switch (atom->GetType()) {
             case AP4_ATOM_TYPE_MOOV:
-                m_Movie = DNew AP4_Movie(dynamic_cast<AP4_MoovAtom*>(atom),
-                                        stream);
+                m_Movie = new AP4_Movie(AP4_DYNAMIC_CAST(AP4_MoovAtom, atom), stream, false);
+                if (moov_only) keep_parsing = false;
                 break;
 
-            default:
-                m_OtherAtoms.Add(atom);
+            case AP4_ATOM_TYPE_FTYP:
+                m_FileType = AP4_DYNAMIC_CAST(AP4_FtypAtom, atom);
+                break;
+
+            case AP4_ATOM_TYPE_MDAT:
+                // see if we are before the moov atom
+                if (m_Movie == NULL) m_MoovIsBeforeMdat = false;
+                break;
         }
     }
 }
     
 /*----------------------------------------------------------------------
-|       AP4_File::~AP4_File
+|   AP4_File::~AP4_File
 +---------------------------------------------------------------------*/
 AP4_File::~AP4_File()
 {
     delete m_Movie;
-    m_OtherAtoms.DeleteReferences();
+    delete m_MetaData;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_File::Inspect
+|   AP4_File::Inspect
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_File::Inspect(AP4_AtomInspector& inspector)
@@ -84,7 +106,39 @@ AP4_File::Inspect(AP4_AtomInspector& inspector)
     if (m_Movie) m_Movie->Inspect(inspector);
 
     // dump the other atoms
-    m_OtherAtoms.Apply(AP4_AtomListInspector(inspector));
+    m_Children.Apply(AP4_AtomListInspector(inspector));
 
     return AP4_SUCCESS;
 }
+
+/*----------------------------------------------------------------------
+|   AP4_File::SetFileType
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_File::SetFileType(AP4_UI32     major_brand,
+                      AP4_UI32     minor_version,
+                      AP4_UI32*    compatible_brands,
+                      AP4_Cardinal compatible_brand_count)
+{
+    delete m_FileType;
+    m_FileType = new AP4_FtypAtom(major_brand, 
+                                  minor_version,
+                                  compatible_brands,
+                                  compatible_brand_count);
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_File::GetMetaData
++---------------------------------------------------------------------*/
+const AP4_MetaData*
+AP4_File::GetMetaData()
+{
+    if (m_MetaData == NULL) {
+        m_MetaData = new AP4_MetaData(this);
+    }
+
+    return m_MetaData;
+}
+

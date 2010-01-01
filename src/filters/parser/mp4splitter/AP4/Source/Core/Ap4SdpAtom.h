@@ -2,7 +2,7 @@
 |
 |    AP4 - sdp Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,22 +30,29 @@
 #define _AP4_SDP_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4List.h"
 #include "Ap4Atom.h"
-#include "Ap4DataBuffer.h"
+#include "Ap4String.h"
 
 /*----------------------------------------------------------------------
-|       AP4_SdpAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_SdpAtom
 +---------------------------------------------------------------------*/
 class AP4_SdpAtom : public AP4_Atom
 {
 public:
+    // class methods
+    static AP4_SdpAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+        return new AP4_SdpAtom(size, stream);
+    }
+
     // methods
-    AP4_SdpAtom(AP4_Size size, AP4_ByteStream& stream);
     AP4_SdpAtom(const char* sdp_text);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -54,6 +61,9 @@ public:
     const AP4_String& GetSdpText() const;
 
 private:
+    // methods
+    AP4_SdpAtom(AP4_UI32 size, AP4_ByteStream& stream);
+
     // members
     AP4_String m_SdpText;
 };

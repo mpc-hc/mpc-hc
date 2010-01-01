@@ -43,7 +43,7 @@
 class AP4_ChplAtom : public AP4_Atom
 {
 public:
-	AP4_ChplAtom(AP4_Size         size,
+	AP4_ChplAtom(AP4_UI32         size,
                  AP4_ByteStream&  stream);
 
     AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }

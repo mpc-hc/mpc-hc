@@ -1,6 +1,6 @@
 /*
 * AES Block cipher
-* (c) 2005 Gilles Boccon-Gibod
+* (c) 2005-2008 Axiomatic Systems,LLC
 * Portions (c) 2001, Dr Brian Gladman (see below)
 */
 
@@ -34,20 +34,36 @@ Issue Date: 29/07/2002
 */
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4AesBlockCipher.h"
 #include "Ap4Results.h"
 
 /*----------------------------------------------------------------------
-|       build options
+|   AES types
++---------------------------------------------------------------------*/
+typedef AP4_UI32     aes_32t;
+typedef AP4_UI08     aes_08t;
+typedef unsigned int aes_rval;
+struct aes_ctx                     // the AES context for encryption
+{   aes_32t    k_sch[4*AP4_AES_BLOCK_SIZE];   // the encryption key schedule
+    aes_32t    n_rnd;              // the number of cipher rounds
+    aes_32t    n_blk;              // the number of bytes in the state
+};
+#define aes_bad      0             // bad function return value
+#define aes_good     1             // good function return value
+
+/*----------------------------------------------------------------------
+|   build options
 +---------------------------------------------------------------------*/
 #define ENCRYPTION_KEY_SCHEDULE
 #define ENCRYPTION
+#define DECRYPTION_KEY_SCHEDULE
+#define DECRYPTION
 #define BLOCK_SIZE AP4_AES_BLOCK_SIZE
 
 /*----------------------------------------------------------------------
-|       options
+|   options
 +---------------------------------------------------------------------*/
 /*  START OF CONFIGURATION OPTIONS
 
@@ -76,17 +92,14 @@ Issue Date: 29/07/2002
 #  error AP4_PLATFORM_BYTE_ORDER is not set
 #endif
 
-#if 0
-#if AP4_PLATFORM_BYTE_ORDER == AP4_PLATFORM_BIG_ENDIAN
+#if AP4_PLATFORM_BYTE_ORDER == AP4_PLATFORM_BYTE_ORDER_BIG_ENDIAN
 #define PLATFORM_BYTE_ORDER AES_BIG_ENDIAN
-#elif AP4_PLATFORM_BYTE_ORDER == AP4_PLATFORM_LITTLE_ENDIAN
+#elif AP4_PLATFORM_BYTE_ORDER == AP4_PLATFORM_BYTE_ORDER_LITTLE_ENDIAN
 #define PLATFORM_BYTE_ORDER AES_LITTLE_ENDIAN
 #else
 #error unsupported value for AP4_PLATFORM_BYTE_ORDER
 #endif
-#endif
 
-#define PLATFORM_BYTE_ORDER AES_LITTLE_ENDIAN
 
 
 /*  2. BYTE ORDER WITHIN 32 BIT WORDS
@@ -155,7 +168,7 @@ Issue Date: 29/07/2002
     unrolling.  The following options allow partial or full loop unrolling 
     to be set independently for encryption and decryption
 */
-#if 1
+#if 0
 #define ENC_UNROLL  FULL
 #elif 0
 #define ENC_UNROLL  PARTIAL
@@ -163,7 +176,7 @@ Issue Date: 29/07/2002
 #define ENC_UNROLL  NONE
 #endif
 
-#if 1
+#if 0
 #define DEC_UNROLL  FULL
 #elif 0
 #define DEC_UNROLL  PARTIAL
@@ -224,7 +237,7 @@ Issue Date: 29/07/2002
     length feature of the code.  Include this section if you place more
     emphasis on speed rather than code size.
 */
-#if 1
+#if 0
 #define FAST_VARIABLE
 #endif
 
@@ -635,7 +648,7 @@ void gen_tabs(void);
 #endif
 
 /*----------------------------------------------------------------------
-|       tables
+|   tables
 +---------------------------------------------------------------------*/
 #if defined(FIXED_TABLES) || !defined(FF_TABLES) 
 
@@ -1102,7 +1115,7 @@ void gen_tabs(void)
 #endif
 
 /*----------------------------------------------------------------------
-|       key schedule
+|   key schedule
 +---------------------------------------------------------------------*/
 #if !defined(BLOCK_SIZE)
 
@@ -1427,7 +1440,7 @@ static aes_rval aes_dec_key(const unsigned char in_key[], unsigned int klen, aes
 #endif
 
 /*----------------------------------------------------------------------
-|       cipher
+|   cipher
 +---------------------------------------------------------------------*/
 #define unused  77  /* Sunset Strip */
 
@@ -1813,28 +1826,41 @@ static aes_rval aes_dec_blk(const unsigned char in_blk[], unsigned char out_blk[
 #endif
 
 /*----------------------------------------------------------------------
-|       AP4_AesBlockCipher::AP4_AesBlockCipher
+|   AP4_AesBlockCipher::AP4_AesBlockCipher
 +---------------------------------------------------------------------*/
-AP4_AesBlockCipher::AP4_AesBlockCipher(const AP4_UI08* key)
+AP4_AesBlockCipher::AP4_AesBlockCipher(const AP4_UI08* key,
+                                       CipherDirection direction) :
+    m_Direction(direction)
 {
-    aes_enc_key(key, AP4_AES_KEY_LENGTH, &m_Context);
+    m_Context = new aes_ctx;
+    if (direction == AP4_BlockCipher::ENCRYPT) {
+        aes_enc_key(key, AP4_AES_KEY_LENGTH, m_Context);
+    } else {
+        aes_dec_key(key, AP4_AES_KEY_LENGTH, m_Context);
+    }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_AesBlockCipher::~AP4_AesBlockCipher
+|   AP4_AesBlockCipher::~AP4_AesBlockCipher
 +---------------------------------------------------------------------*/
 AP4_AesBlockCipher::~AP4_AesBlockCipher()
 {
+    delete m_Context;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_AesCipher::EncryptBlock
+|   AP4_AesBlockCipher::EncryptBlock
 +---------------------------------------------------------------------*/
 AP4_Result 
-AP4_AesBlockCipher::EncryptBlock(const AP4_UI08* block_in, AP4_UI08* block_out)
+AP4_AesBlockCipher::ProcessBlock(const AP4_UI08* block_in,
+                                 AP4_UI08*       block_out)
 {
     aes_rval result;
-    result = aes_enc_blk(block_in, block_out, &m_Context);
+    if (m_Direction == AP4_BlockCipher::ENCRYPT) {
+        result = aes_enc_blk(block_in, block_out, m_Context);
+    } else {
+        result = aes_dec_blk(block_in, block_out, m_Context);
+    }
     return result == aes_good ? AP4_SUCCESS : AP4_FAILURE;
 }
 

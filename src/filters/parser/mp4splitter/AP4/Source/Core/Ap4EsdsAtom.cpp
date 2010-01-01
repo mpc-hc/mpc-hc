@@ -2,7 +2,7 @@
 |
 |    AP4 - esds Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,41 +27,61 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4EsdsAtom.h"
 #include "Ap4DescriptorFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom::AP4_EsdsAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_EsdsAtom::AP4_EsdsAtom(AP4_EsDescriptor* descriptor) :
-    AP4_Atom(AP4_ATOM_TYPE_ESDS, AP4_FULL_ATOM_HEADER_SIZE, true),
-    m_EsDescriptor(descriptor)
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_EsdsAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_EsdsAtom::Create
++---------------------------------------------------------------------*/
+AP4_EsdsAtom*
+AP4_EsdsAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
-    if (m_EsDescriptor) m_Size += m_EsDescriptor->GetSize();
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_EsdsAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom::AP4_EsdsAtom
+|   AP4_EsdsAtom::AP4_EsdsAtom
 +---------------------------------------------------------------------*/
-AP4_EsdsAtom::AP4_EsdsAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_ESDS, size, true, stream)
+AP4_EsdsAtom::AP4_EsdsAtom(AP4_EsDescriptor* descriptor) :
+    AP4_Atom(AP4_ATOM_TYPE_ESDS, AP4_FULL_ATOM_HEADER_SIZE, 0, 0),
+    m_EsDescriptor(descriptor)
+{
+    if (m_EsDescriptor) m_Size32 += m_EsDescriptor->GetSize();
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EsdsAtom::AP4_EsdsAtom
++---------------------------------------------------------------------*/
+AP4_EsdsAtom::AP4_EsdsAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_ESDS, size, version, flags)
 {
     // read descriptor
     AP4_Descriptor* descriptor = NULL;
     if (AP4_DescriptorFactory::CreateDescriptorFromStream(stream, descriptor) 
         == AP4_SUCCESS) {
-        m_EsDescriptor = dynamic_cast<AP4_EsDescriptor*>(descriptor);
+        m_EsDescriptor = AP4_DYNAMIC_CAST(AP4_EsDescriptor, descriptor);
     } else {
         m_EsDescriptor = NULL;
     }
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom::~AP4_EsdsAtom
+|   AP4_EsdsAtom::~AP4_EsdsAtom
 +---------------------------------------------------------------------*/
 AP4_EsdsAtom::~AP4_EsdsAtom()
 {
@@ -69,7 +89,7 @@ AP4_EsdsAtom::~AP4_EsdsAtom()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom::WriteFields
+|   AP4_EsdsAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_EsdsAtom::WriteFields(AP4_ByteStream& stream)
@@ -81,7 +101,7 @@ AP4_EsdsAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom::InspectFields
+|   AP4_EsdsAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_EsdsAtom::InspectFields(AP4_AtomInspector& inspector)

@@ -2,7 +2,7 @@
 |
 |    AP4 - Debug Support
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,17 +30,17 @@
 #define _AP4_DEBUG_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Config.h"
 
 /*----------------------------------------------------------------------
-|       AP4_Debug
+|   AP4_Debug
 +---------------------------------------------------------------------*/
 extern void AP4_Debug(const char* format, ...);
 
 /*----------------------------------------------------------------------
-|       AP4_ASSERT
+|   AP4_ASSERT
 +---------------------------------------------------------------------*/
 #if defined (AP4_CONFIG_HAVE_ASSERT_H)
 #include <assert.h>

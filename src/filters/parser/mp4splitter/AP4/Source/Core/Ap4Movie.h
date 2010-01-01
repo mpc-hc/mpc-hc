@@ -2,7 +2,7 @@
 |
 |    AP4 - Movie 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,39 +30,46 @@
 #define _AP4_MOVIE_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
+#include "Ap4Types.h"
 #include "Ap4MoovAtom.h"
 #include "Ap4MvhdAtom.h"
 #include "Ap4Track.h"
 #include "Ap4List.h"
-#include "Ap4ByteStream.h"
 
 /*----------------------------------------------------------------------
-|       AP4_Movie
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+class AP4_AtomInspector;
+class AP4_MetaData;
+
+/*----------------------------------------------------------------------
+|   AP4_Movie
 +---------------------------------------------------------------------*/
 class AP4_Movie {
 public:
     // methods
     AP4_Movie(AP4_UI32 time_scale = 0);
-    AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& mdat);
+    AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& sample_stream, bool transfer_moov_ownership = true);
     virtual ~AP4_Movie();
     AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     AP4_MoovAtom* GetMoovAtom() { return m_MoovAtom;}
     AP4_MvhdAtom* GetMvhdAtom() { return m_MvhdAtom;}
     AP4_List<AP4_Track>& GetTracks() { return m_Tracks; }
-    AP4_Track* GetTrack(AP4_UI32 track_id);
-    AP4_Track* GetTrack(AP4_Track::Type type, AP4_Ordinal index = 0);
-    AP4_Result AddTrack(AP4_Track* track);
-    AP4_UI32   GetTimeScale();
-    AP4_Duration GetDuration();
-    AP4_Duration GetDurationMs();
-
+    AP4_Track*   GetTrack(AP4_UI32 track_id);
+    AP4_Track*   GetTrack(AP4_Track::Type type, AP4_Ordinal index = 0);
+    AP4_Result   AddTrack(AP4_Track* track);
+    AP4_UI32     GetTimeScale();
+    AP4_UI64     GetDuration();
+    AP4_UI32     GetDurationMs();
+    
 private:
     // members
     AP4_MoovAtom*       m_MoovAtom;
+    bool                m_MoovAtomIsOwned;
     AP4_MvhdAtom*       m_MvhdAtom;
     AP4_List<AP4_Track> m_Tracks;
 };

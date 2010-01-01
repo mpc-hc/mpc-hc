@@ -2,7 +2,7 @@
 |
 |    AP4 - tkhd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,24 +27,41 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4TkhdAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_TkhdAtom::AP4_TkhdAtom
+|   dynamic cast support
 +---------------------------------------------------------------------*/
-AP4_TkhdAtom::AP4_TkhdAtom(AP4_UI64 creation_time,
-                           AP4_UI64 modification_time,
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_TkhdAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_TkhdAtom::Create
++---------------------------------------------------------------------*/
+AP4_TkhdAtom*
+AP4_TkhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version > 1) return NULL;
+    return new AP4_TkhdAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_TkhdAtom::AP4_TkhdAtom
++---------------------------------------------------------------------*/
+AP4_TkhdAtom::AP4_TkhdAtom(AP4_UI32 creation_time,
+                           AP4_UI32 modification_time,
                            AP4_UI32 track_id,
                            AP4_UI64 duration,
                            AP4_UI16 volume,
                            AP4_UI32 width,
                            AP4_UI32 height) :
-    AP4_Atom(AP4_ATOM_TYPE_TKHD, 80+AP4_FULL_ATOM_HEADER_SIZE, true),
+    AP4_Atom(AP4_ATOM_TYPE_TKHD, AP4_FULL_ATOM_HEADER_SIZE+80, 0, 0),
     m_CreationTime(creation_time),
     m_ModificationTime(modification_time),
     m_TrackId(track_id),
@@ -74,29 +91,36 @@ AP4_TkhdAtom::AP4_TkhdAtom(AP4_UI64 creation_time,
 }
 
 /*----------------------------------------------------------------------
-|       AP4_TkhdAtom::AP4_TkhdAtom
+|   AP4_TkhdAtom::AP4_TkhdAtom
 +---------------------------------------------------------------------*/
-AP4_TkhdAtom::AP4_TkhdAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_TKHD, size, true, stream)
+AP4_TkhdAtom::AP4_TkhdAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_TKHD, size, version, flags)
 {
     if (m_Version == 0) {
-		AP4_UI32 tmp = 0;
-        stream.ReadUI32(tmp); m_CreationTime = tmp;
-        stream.ReadUI32(tmp); m_ModificationTime = tmp;
+        // we only deal with version 0 for now
+        AP4_UI32 creation_time;
+        stream.ReadUI32(creation_time);
+        m_CreationTime = creation_time;
+        AP4_UI32 modification_time;
+        stream.ReadUI32(modification_time);
+        m_ModificationTime = modification_time;
         stream.ReadUI32(m_TrackId);
         stream.ReadUI32(m_Reserved1);
-        stream.ReadUI32(tmp); m_Duration = tmp;
-	} else if (m_Version == 1) {
+        AP4_UI32 duration;
+        stream.ReadUI32(duration);
+        m_Duration = duration;
+    } else {
         stream.ReadUI64(m_CreationTime);
         stream.ReadUI64(m_ModificationTime);
         stream.ReadUI32(m_TrackId);
         stream.ReadUI32(m_Reserved1);
         stream.ReadUI64(m_Duration);
-    } else {
-        // TODO
     }
 
-    stream.Read((void*)m_Reserved2, 8, NULL);
+    stream.Read((void*)m_Reserved2, 8);
     stream.ReadUI16(m_Layer);
     stream.ReadUI16(m_AlternateGroup);
     stream.ReadUI16(m_Volume);
@@ -109,7 +133,7 @@ AP4_TkhdAtom::AP4_TkhdAtom(AP4_Size size, AP4_ByteStream& stream) :
 }
 
 /*----------------------------------------------------------------------
-|       AP4_TkhdAtom::WriteFields
+|   AP4_TkhdAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_TkhdAtom::WriteFields(AP4_ByteStream& stream)
@@ -128,7 +152,7 @@ AP4_TkhdAtom::WriteFields(AP4_ByteStream& stream)
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32((AP4_UI32)m_Duration);
         if (AP4_FAILED(result)) return result;
-    } else if (m_Version == 1) {
+    } else {
         result = stream.WriteUI64(m_CreationTime);
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_ModificationTime);
@@ -139,8 +163,6 @@ AP4_TkhdAtom::WriteFields(AP4_ByteStream& stream)
         if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_Duration);
         if (AP4_FAILED(result)) return result;
-    } else {
-		// TODO
     }
 
     // reserved2
@@ -174,14 +196,16 @@ AP4_TkhdAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_TkhdAtom::InspectFields
+|   AP4_TkhdAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_TkhdAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("enabled", ((m_Flags & AP4_TKHD_FLAG_TRACK_ENABLED) ? 1 : 0), AP4_AtomInspector::HINT_BOOLEAN);
     inspector.AddField("id", m_TrackId);
-    inspector.AddField("duration", (AP4_UI32)m_Duration);
-
+    inspector.AddField("duration", m_Duration);
+    inspector.AddFieldF("width", (float)m_Width/65536.0f);
+    inspector.AddFieldF("height", (float)m_Height/65536.0f);
+    
     return AP4_SUCCESS;
 }

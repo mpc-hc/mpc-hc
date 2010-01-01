@@ -1,8 +1,8 @@
-/*****************************************************************
+ /*****************************************************************
 |
 |    AP4 - stsc Atoms 
 |
-|    Copyright 2002-2005 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -27,57 +27,79 @@
  ****************************************************************/
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4StscAtom.h"
 #include "Ap4AtomFactory.h"
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::AP4_StscAtom
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_StscAtom)
+
+/*----------------------------------------------------------------------
+|   AP4_StscAtom::Create
++---------------------------------------------------------------------*/
+AP4_StscAtom*
+AP4_StscAtom::Create(AP4_Size size, AP4_ByteStream& stream)
+{
+    AP4_UI32 version;
+    AP4_UI32 flags;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
+    return new AP4_StscAtom(size, version, flags, stream);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_StscAtom::AP4_StscAtom
 +---------------------------------------------------------------------*/
 AP4_StscAtom::AP4_StscAtom() :
-    AP4_Atom(AP4_ATOM_TYPE_STSC, 4+AP4_FULL_ATOM_HEADER_SIZE, true),   
+    AP4_Atom(AP4_ATOM_TYPE_STSC, AP4_FULL_ATOM_HEADER_SIZE+4, 0, 0),   
     m_CachedChunkGroup(0)
 {
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::AP4_StscAtom
+|   AP4_StscAtom::AP4_StscAtom
 +---------------------------------------------------------------------*/
-AP4_StscAtom::AP4_StscAtom(AP4_Size size, AP4_ByteStream& stream) :
-    AP4_Atom(AP4_ATOM_TYPE_STSC, size, true, stream),
+AP4_StscAtom::AP4_StscAtom(AP4_UI32        size, 
+                           AP4_UI32        version,
+                           AP4_UI32        flags,
+                           AP4_ByteStream& stream) :
+    AP4_Atom(AP4_ATOM_TYPE_STSC, size, version, flags),
     m_CachedChunkGroup(0)
 {
     AP4_UI32 first_sample = 1;
     AP4_UI32 entry_count;
     stream.ReadUI32(entry_count);
-    while (entry_count--) {
-        AP4_UI32 first_chunk;
-        AP4_UI32 samples_per_chunk;
-        AP4_UI32 sample_description_index;
-        if (stream.ReadUI32(first_chunk)              == AP4_SUCCESS &&
-            stream.ReadUI32(samples_per_chunk)        == AP4_SUCCESS &&
-            stream.ReadUI32(sample_description_index) == AP4_SUCCESS) {
-            if (m_Entries.ItemCount() != 0) {
-                AP4_Ordinal prev = m_Entries.ItemCount()-1;
-                m_Entries[prev].m_ChunkCount = 
-                    first_chunk-m_Entries[prev].m_FirstChunk;
-                first_sample += 
-                    m_Entries[prev].m_ChunkCount *
-                    m_Entries[prev].m_SamplesPerChunk;
-            }
-            m_Entries.Append(AP4_StscTableEntry(first_chunk, 
-                                                first_sample,
-                                                samples_per_chunk, 
-                                                sample_description_index));
-        }
+    m_Entries.SetItemCount(entry_count);
+    unsigned char* buffer = new unsigned char[entry_count*12];
+    AP4_Result result = stream.Read(buffer, entry_count*12);
+    if (AP4_FAILED(result)) {
+        delete[] buffer;
+        return;
     }
+    for (unsigned int i=0; i<entry_count; i++) {
+        AP4_UI32 first_chunk              = AP4_BytesToUInt32BE(&buffer[i*12  ]);
+        AP4_UI32 samples_per_chunk        = AP4_BytesToUInt32BE(&buffer[i*12+4]);
+        AP4_UI32 sample_description_index = AP4_BytesToUInt32BE(&buffer[i*12+8]);
+        if (i) {
+            AP4_Ordinal prev = i-1;
+            m_Entries[prev].m_ChunkCount = first_chunk-m_Entries[prev].m_FirstChunk;
+            first_sample += m_Entries[prev].m_ChunkCount * m_Entries[prev].m_SamplesPerChunk;
+        }
+        m_Entries[i].m_ChunkCount             = 0; // not known yet
+        m_Entries[i].m_FirstChunk             = first_chunk;
+        m_Entries[i].m_FirstSample            = first_sample;
+        m_Entries[i].m_SamplesPerChunk        = samples_per_chunk;
+        m_Entries[i].m_SampleDescriptionIndex = sample_description_index;
+    }
+    delete[] buffer;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::WriteFields
+|   AP4_StscAtom::WriteFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StscAtom::WriteFields(AP4_ByteStream& stream)
@@ -102,7 +124,7 @@ AP4_StscAtom::WriteFields(AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::AddEntry
+|   AP4_StscAtom::AddEntry
 +---------------------------------------------------------------------*/
 AP4_Result 
 AP4_StscAtom::AddEntry(AP4_Cardinal chunk_count,
@@ -126,19 +148,19 @@ AP4_StscAtom::AddEntry(AP4_Cardinal chunk_count,
     m_Entries.Append(AP4_StscTableEntry(first_chunk, first_sample, chunk_count, samples_per_chunk, sample_description_index));
 
     // update the atom size
-    m_Size += 12;
+    m_Size32 += 12;
 
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::GetChunkForSample
+|   AP4_StscAtom::GetChunkForSample
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StscAtom::GetChunkForSample(AP4_Ordinal  sample,
                                 AP4_Ordinal& chunk,
                                 AP4_Ordinal& skip,
-                                AP4_Ordinal& sample_description)
+                                AP4_Ordinal& sample_description_index)
 {
     // preconditions
     AP4_ASSERT(sample > 0);
@@ -184,10 +206,10 @@ AP4_StscAtom::GetChunkForSample(AP4_Ordinal  sample,
         skip = sample -
             (m_Entries[group].m_FirstSample +
              m_Entries[group].m_SamplesPerChunk*chunk_offset);
-        sample_description = m_Entries[group].m_SampleDescriptionIndex;
+        sample_description_index = m_Entries[group].m_SampleDescriptionIndex;
 
         // cache the result (to accelerate finding the right group
-        // next time around
+        // next time around)
         m_CachedChunkGroup = group;
 
         return AP4_SUCCESS;
@@ -196,12 +218,12 @@ AP4_StscAtom::GetChunkForSample(AP4_Ordinal  sample,
     // chunk not found
     chunk = 0;
     skip = 0;
-    sample_description = 0;
+    sample_description_index = 0;
     return AP4_ERROR_OUT_OF_RANGE;
 }
 
 /*----------------------------------------------------------------------
-|       AP4_StscAtom::InspectFields
+|   AP4_StscAtom::InspectFields
 +---------------------------------------------------------------------*/
 AP4_Result
 AP4_StscAtom::InspectFields(AP4_AtomInspector& inspector)
@@ -209,16 +231,22 @@ AP4_StscAtom::InspectFields(AP4_AtomInspector& inspector)
     inspector.AddField("entry_count", m_Entries.ItemCount());
 
     // dump table entries
-    //for (unsigned int i=0; i<m_Entries.GetItemCount(); i++) {
-    //    char dump[256];
-    //    sprintf(dump, "  f=%ld, spc=%ld, sdi=%ld\n", 
-    //            m_Entries[i].m_FirstChunk,
-    //            m_Entries[i].m_SamplesPerChunk,
-    //            m_Entries[i].m_SampleDescriptionIndex);
-    //    stream.WriteString(prefix);
-    //    stream.WriteString(dump);
-    //}
-
+    if (inspector.GetVerbosity() >= 1) {
+        char header[32];
+        char value[256];
+        for (unsigned int i=0; i<m_Entries.ItemCount(); i++) {
+            AP4_FormatString(header, sizeof(header), "entry %8d", i);  
+            AP4_FormatString(value, sizeof(value), 
+                    "first_chunk=%d, first_sample*=%d, chunk_count*=%d, samples_per_chunk=%d, sample_desc_index=%d", 
+                    m_Entries[i].m_FirstChunk,
+                    m_Entries[i].m_FirstSample,
+                    m_Entries[i].m_ChunkCount,
+                    m_Entries[i].m_SamplesPerChunk,
+                    m_Entries[i].m_SampleDescriptionIndex);
+            inspector.AddField(header, value);
+        }
+    }
+    
     return AP4_SUCCESS;
 }
 

@@ -2,7 +2,7 @@
 |
 |    AP4 - stsd Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,34 +30,34 @@
 #define _AP4_STSD_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
 #include "Ap4Types.h"
 #include "Ap4Array.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
-#include "Ap4Atom.h"
-#include "Ap4SampleDescription.h"
-#include "Ap4AtomFactory.h"
 #include "Ap4ContainerAtom.h"
 
 /*----------------------------------------------------------------------
-|       class references
+|   class references
 +---------------------------------------------------------------------*/
 class AP4_SampleTable;
+class AP4_SampleDescription;
+class AP4_SampleEntry;
 
 /*----------------------------------------------------------------------
-|       AP4_StsdAtom
+|   AP4_StsdAtom
 +---------------------------------------------------------------------*/
 class AP4_StsdAtom : public AP4_ContainerAtom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StsdAtom, AP4_ContainerAtom)
+
+    // class methods
+    static AP4_StsdAtom* Create(AP4_Size         size,
+                                AP4_ByteStream&  stream,
+                                AP4_AtomFactory& atom_factory);
+
     // methods
     AP4_StsdAtom(AP4_SampleTable* sample_table);
-    AP4_StsdAtom(AP4_Size         size,
-                 AP4_ByteStream&  stream,
-                 AP4_AtomFactory& atom_factory);
     ~AP4_StsdAtom();
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -68,11 +68,15 @@ class AP4_StsdAtom : public AP4_ContainerAtom
     // AP4_AtomParent methods
     void OnChildChanged(AP4_Atom* child);
 
-    const AP4_DataBuffer& GetDataBuffer() { return m_Data; }
-
 private:
+    // methods
+    AP4_StsdAtom(AP4_UI32         size,
+                 AP4_UI32         version,
+                 AP4_UI32         flags,
+                 AP4_ByteStream&  stream,
+                 AP4_AtomFactory& atom_factory);
+
     // members
-	AP4_DataBuffer m_Data;
     AP4_Array<AP4_SampleDescription*> m_SampleDescriptions;
 };
 

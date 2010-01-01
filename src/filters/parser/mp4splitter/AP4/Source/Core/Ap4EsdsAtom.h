@@ -2,7 +2,7 @@
 |
 |    AP4 - esds Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,30 +30,42 @@
 #define _AP4_ESDS_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4List.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
 #include "Ap4EsDescriptor.h"
-#include "Ap4AtomFactory.h"
 
 /*----------------------------------------------------------------------
-|       AP4_EsdsAtom
+|   class references
++---------------------------------------------------------------------*/
+class AP4_ByteStream;
+
+/*----------------------------------------------------------------------
+|   AP4_EsdsAtom
 +---------------------------------------------------------------------*/
 class AP4_EsdsAtom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsdsAtom, AP4_Atom)
+
+    // class methods
+    static AP4_EsdsAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_EsdsAtom(AP4_EsDescriptor* descriptor);
-    AP4_EsdsAtom(AP4_Size size, AP4_ByteStream& stream);
    ~AP4_EsdsAtom();
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     const AP4_EsDescriptor* GetEsDescriptor() const { return m_EsDescriptor; }
 
- private:
+private:
+    // methods
+    AP4_EsdsAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
+
     // members
     AP4_EsDescriptor* m_EsDescriptor;
 };

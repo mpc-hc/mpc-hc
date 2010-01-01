@@ -2,7 +2,7 @@
 |
 |    AP4 - stco Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,31 +30,41 @@
 #define _AP4_STCO_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
-#include "Ap4Array.h"
+#include "Ap4Types.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StcoAtom
+|   AP4_StcoAtom
 +---------------------------------------------------------------------*/
 class AP4_StcoAtom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StcoAtom, AP4_Atom)
+
+    // class methods
+    static AP4_StcoAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_StcoAtom(AP4_UI32* offsets, AP4_UI32 offset_count);
-    AP4_StcoAtom(AP4_Size size, AP4_ByteStream& stream);
     ~AP4_StcoAtom();
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_Cardinal GetChunkCount() { return m_EntryCount;  }
-    AP4_Result GetChunkOffset(AP4_Ordinal chunk, AP4_Offset& chunk_offset);
-    AP4_Result SetChunkOffset(AP4_Ordinal chunk, AP4_Offset chunk_offset);
-    AP4_Result AdjustChunkOffsets(AP4_Offset offset);
+    AP4_Cardinal GetChunkCount()   { return m_EntryCount;  }
+    AP4_UI32*    GetChunkOffsets() { return m_Entries;     }
+    AP4_Result   GetChunkOffset(AP4_Ordinal chunk, AP4_UI32& chunk_offset);
+    AP4_Result   SetChunkOffset(AP4_Ordinal chunk, AP4_UI32  chunk_offset);
+    AP4_Result   AdjustChunkOffsets(int delta);
+    
+private:
+    // methods
+    AP4_StcoAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
 
- private:
+    // members
     AP4_UI32* m_Entries;
     AP4_UI32  m_EntryCount;
 };

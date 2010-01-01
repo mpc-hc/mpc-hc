@@ -2,7 +2,7 @@
 |
 |    AP4 - stsz Atoms 
 |
-|    Copyright 2002 Gilles Boccon-Gibod
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This file is part of Bento4/AP4 (MP4 Atom Processing Library).
@@ -30,38 +30,51 @@
 #define _AP4_STSZ_ATOM_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
-#include "Ap4.h"
-#include "Ap4ByteStream.h"
 #include "Ap4Array.h"
 #include "Ap4Atom.h"
 
 /*----------------------------------------------------------------------
-|       AP4_StszAtom
+|   AP4_StszAtom
 +---------------------------------------------------------------------*/
 class AP4_StszAtom : public AP4_Atom
 {
- public:
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StszAtom, AP4_Atom)
+
+    // class methods
+    static AP4_StszAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+
     // methods
     AP4_StszAtom();
-    AP4_StszAtom(AP4_Size size, AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_UI32   GetSampleCount();
-    virtual AP4_Result GetSampleSize(AP4_Ordinal sample_start, 
-		                             AP4_Ordinal sample_end,
-									 AP4_Size&   sample_size);
     virtual AP4_Result GetSampleSize(AP4_Ordinal sample, 
                                      AP4_Size&   sample_size);
+    /**
+     * Set the sample size.
+     * @param sample 1-based index of a sample.
+     * @param sample_size Size of the sample.
+     * If this table represents a global-size table (one where there are
+     * no individual entries for each sample, but all sample have the same
+     * size = m_SampleSize), then calling this method with sample=1 will update
+     * the global size, and calling with sample>1 will check that
+     * the value of sample_size is the same as the global size m_SampleSize.
+     */
     virtual AP4_Result SetSampleSize(AP4_Ordinal sample, 
                                      AP4_Size    sample_size);
     virtual AP4_Result AddEntry(AP4_UI32 size);
 
-	// FIXME
-	friend class AP4_AtomSampleTable;
+private:
+    // methods
+    AP4_StszAtom(AP4_UI32        size, 
+                 AP4_UI32        version,
+                 AP4_UI32        flags,
+                 AP4_ByteStream& stream);
 
- private:
+    // members
     AP4_UI32            m_SampleSize;
     AP4_UI32            m_SampleCount;
     AP4_Array<AP4_UI32> m_Entries;

@@ -2,7 +2,7 @@
 |
 |    AP4 - Atom Based Sample Table
 |
-|    Copyright 2003 Gilles Boccon-Gibod & Julien Boeuf
+|    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
 |    This atom is part of AP4 (MP4 Audio Proatom Library).
@@ -30,27 +30,27 @@
 #define _AP4_ATOM_SAMPLE_TABLE_H_
 
 /*----------------------------------------------------------------------
-|       includes
+|   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
 #include "Ap4SampleTable.h"
 
 /*----------------------------------------------------------------------
-|       forward declarations
+|   forward declarations
 +---------------------------------------------------------------------*/
 class AP4_Atom;
 class AP4_ByteStream;
 class AP4_StscAtom;
 class AP4_StcoAtom;
-class AP4_Co64Atom;
 class AP4_StszAtom;
 class AP4_SttsAtom;
 class AP4_CttsAtom;
 class AP4_StssAtom;
 class AP4_StsdAtom;
+class AP4_Co64Atom;
 
 /*----------------------------------------------------------------------
-|       AP4_AtomSampleTable
+|   AP4_AtomSampleTable
 +---------------------------------------------------------------------*/
 class AP4_AtomSampleTable : public AP4_SampleTable
 {
@@ -61,31 +61,36 @@ class AP4_AtomSampleTable : public AP4_SampleTable
     virtual ~AP4_AtomSampleTable();
 
     // AP4_SampleTable methods
-    virtual AP4_Result GetSample(AP4_Ordinal index, AP4_Sample& sample);
+    virtual AP4_Result   GetSample(AP4_Ordinal sample_index, AP4_Sample& sample);
     virtual AP4_Cardinal GetSampleCount();
-    virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal index);
+    virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal sd_index);
     virtual AP4_Cardinal GetSampleDescriptionCount();
-    virtual AP4_Result GetChunkForSample(AP4_Ordinal   sample,
-                                         AP4_Ordinal&  chunk,
-                                         AP4_Ordinal&  skip,
-                                         AP4_Ordinal&  sample_description);
-    virtual AP4_Result GetChunkOffset(AP4_Ordinal chunk, AP4_Offset& offset);
-    virtual AP4_Result SetChunkOffset(AP4_Ordinal chunk, AP4_Offset offset);
-    virtual AP4_Result SetSampleSize(AP4_Ordinal sample, AP4_Size size);
-    virtual AP4_Result GetSampleIndexForTimeStamp(AP4_TimeStamp ts,
-                                                  AP4_Ordinal& index);
+    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index, 
+                                                AP4_Ordinal& chunk_index,
+                                                AP4_Ordinal& position_in_chunk);
+    virtual AP4_Result   GetSampleIndexForTimeStamp(AP4_UI64 ts, AP4_Ordinal& sample_index);
+    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true);
+
+    // local methods
+    virtual AP4_Result GetChunkForSample(AP4_Ordinal   sample_index,
+                                         AP4_Ordinal&  chunk_index,
+                                         AP4_Ordinal&  position_in_chunk,
+                                         AP4_Ordinal&  sample_description_index);
+    virtual AP4_Result GetChunkOffset(AP4_Ordinal chunk_index, AP4_Position& offset);
+    virtual AP4_Result SetChunkOffset(AP4_Ordinal chunk_index, AP4_Position offset);
+    virtual AP4_Result SetSampleSize(AP4_Ordinal sample_index, AP4_Size size);
 
 private:
     // members
     AP4_ByteStream& m_SampleStream;
     AP4_StscAtom*   m_StscAtom;
     AP4_StcoAtom*   m_StcoAtom;
-    AP4_Co64Atom*   m_Co64Atom;
     AP4_StszAtom*   m_StszAtom;
     AP4_SttsAtom*   m_SttsAtom;
     AP4_CttsAtom*   m_CttsAtom;
     AP4_StsdAtom*   m_StsdAtom;
     AP4_StssAtom*   m_StssAtom;
+    AP4_Co64Atom*   m_Co64Atom;
 };
 
 #endif // _AP4_ATOM_SAMPLE_TABLE_H_
