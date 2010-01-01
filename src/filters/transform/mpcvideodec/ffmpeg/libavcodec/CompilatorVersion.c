@@ -19,27 +19,19 @@
 #ifdef _MSC_VER
 	#if (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
-			char	FfmpegCompiler[] = "MSVS 2008 SP1";	
-		#else	
-			char	FfmpegCompiler[] = "MSVS 2008";
-		#endif
-	#elif (_MSC_VER == 1400)
-		#if (_MSC_FULL_VER >= 140050727)
-			char	FfmpegCompiler[] = "MSVS 2005 SP1";
+			char	FfmpegCompiler[] = "MSVC 2008 SP1";	
 		#else
-			char	FfmpegCompiler[] = "MSVS 2005";
+			char	FfmpegCompiler[] = "MSVC 2008";
 		#endif
-	#elif (_MSC_VER == 1310)
-		char	FfmpegCompiler[] = "MSVS 2003";
-	#elif (_MSC_VER == 1300)
-		char	FfmpegCompiler[] = "MSVS 2002";
+	#elif (_MSC_VER < 1500)
+		#error Compiler is not supported!
 	#endif
 
 	char* GetFfmpegCompiler()
 	{
 		return FfmpegCompiler;
 	}
-#else
+#else // _MSC_VER
 	#include <stdio.h>
 	static char	g_Gcc_Compiler[20];
 	char* GetFfmpegCompiler()
@@ -47,4 +39,4 @@
 		sprintf (g_Gcc_Compiler, "GCC %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 		return g_Gcc_Compiler;
 	}
-#endif
+#endif //_MSC_VER
