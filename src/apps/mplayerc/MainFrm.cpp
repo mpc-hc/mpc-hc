@@ -2572,63 +2572,74 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
 			}
 		}
-		else if(m_fFullScreen && (abs(diff.cx)+abs(diff.cy)) >= 1)
+		else if((abs(diff.cx)+abs(diff.cy)) >= 1)
 		{
-			int nTimeOut = AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut;
-
-			if(nTimeOut < 0)
+			if(m_fFullScreen)
 			{
-				m_fHideCursor = false;
-				if(AfxGetAppSettings().fShowBarsWhenFullScreen)
-					ShowControls(AfxGetAppSettings().nCS);
+				int nTimeOut = AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut;
 
-				KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
-				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
-			}
-			else if(nTimeOut == 0)
-			{
-				CRect r;
-				GetClientRect(r);
-				r.top = r.bottom;
-
-				POSITION pos = m_bars.GetHeadPosition();
-				for(int i = 1; pos; i <<= 1)
+				if(nTimeOut < 0)
 				{
-					CControlBar* pNext = m_bars.GetNext(pos);
-					CSize s = pNext->CalcFixedLayout(FALSE, TRUE);
-					if(AfxGetAppSettings().nCS&i) r.top -= s.cy;
-				}
-
-
-				// HACK: the controls would cover the menu too early hiding some buttons
-				if(m_iPlaybackMode == PM_DVD
-				&& (m_iDVDDomain == DVD_DOMAIN_VideoManagerMenu
-				|| m_iDVDDomain == DVD_DOMAIN_VideoTitleSetMenu))
-					r.top = r.bottom - 10;
-
-				m_fHideCursor = false;
-
-				if(r.PtInRect(point))
-				{
+					m_fHideCursor = false;
 					if(AfxGetAppSettings().fShowBarsWhenFullScreen)
 						ShowControls(AfxGetAppSettings().nCS);
+
+					KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
+					SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
+				}
+				else if(nTimeOut == 0)
+				{
+					CRect r;
+					GetClientRect(r);
+					r.top = r.bottom;
+
+					POSITION pos = m_bars.GetHeadPosition();
+					for(int i = 1; pos; i <<= 1)
+					{
+						CControlBar* pNext = m_bars.GetNext(pos);
+						CSize s = pNext->CalcFixedLayout(FALSE, TRUE);
+						if(AfxGetAppSettings().nCS&i) r.top -= s.cy;
+					}
+
+
+					// HACK: the controls would cover the menu too early hiding some buttons
+					if(m_iPlaybackMode == PM_DVD
+					&& (m_iDVDDomain == DVD_DOMAIN_VideoManagerMenu
+					|| m_iDVDDomain == DVD_DOMAIN_VideoTitleSetMenu))
+						r.top = r.bottom - 10;
+
+					m_fHideCursor = false;
+
+					if(r.PtInRect(point))
+					{
+						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+							ShowControls(AfxGetAppSettings().nCS);
+					}
+					else
+					{
+						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+							ShowControls(CS_NONE, false);
+					}
+
+					SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
 				}
 				else
 				{
+					m_fHideCursor = false;
 					if(AfxGetAppSettings().fShowBarsWhenFullScreen)
-						ShowControls(CS_NONE, false);
-				}
+						ShowControls(AfxGetAppSettings().nCS);
 
-				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
+					SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
+					SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut*1000, 2000), NULL);
+				}
 			}
 			else
 			{
 				m_fHideCursor = false;
-				if(AfxGetAppSettings().fShowBarsWhenFullScreen)
-					ShowControls(AfxGetAppSettings().nCS);
+				SetCursor(::LoadCursor(NULL, IDC_HAND));
 
-				SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
-				SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut*1000, 2000), NULL);
+				KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
+				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
 			}
 		}
 
