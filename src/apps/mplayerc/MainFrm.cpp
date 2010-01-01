@@ -324,6 +324,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAYSTATS, OnUpdateViewDisplayStats)
 	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStats)
+	ON_COMMAND(ID_VIEW_RESETSTATS, OnViewResetStats)
 	ON_COMMAND(ID_VIEW_DISPLAYSTATS_SC, OnViewDisplayStatsSC)	
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREENGUISUPPORT, OnUpdateViewFullscreenGUISupport)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_HIGHCOLORRESOLUTION, OnUpdateViewHighColorResolution)
@@ -331,6 +332,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNC, OnUpdateViewVSync)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET, OnUpdateViewVSyncOffset)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCACCURATE, OnUpdateViewVSyncAccurate)
+
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZEVIDEO, OnUpdateViewSynchronizeVideo)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZEDISPLAY, OnUpdateViewSynchronizeDisplay)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZENEAREST, OnUpdateViewSynchronizeNearest)
+
 	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_0_255, OnUpdateViewEVROutputRange)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_16_235, OnUpdateViewEVROutputRange)
 
@@ -350,6 +356,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnViewEnableFrameTimeCorrection)
 	ON_COMMAND(ID_VIEW_VSYNC, OnViewVSync)
 	ON_COMMAND(ID_VIEW_VSYNCACCURATE, OnViewVSyncAccurate)
+
+	ON_COMMAND(ID_VIEW_SYNCHRONIZEVIDEO, OnViewSynchronizeVideo)
+	ON_COMMAND(ID_VIEW_SYNCHRONIZEDISPLAY, OnViewSynchronizeDisplay)
+	ON_COMMAND(ID_VIEW_SYNCHRONIZENEAREST, OnViewSynchronizeNearest)
 
 	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_0_255, OnViewEVROutputRange_0_255)
 	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_16_235, OnViewEVROutputRange_16_235)
@@ -5009,7 +5019,7 @@ void CMainFrame::OnViewTearingTest()
 void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
+	bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck (supported && (AfxGetMyApp()->m_fDisplayStats));
@@ -5018,6 +5028,11 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 void CMainFrame::OnViewDisplayStats()
 {
 	AfxGetMyApp()->m_fDisplayStats = ! AfxGetMyApp()->m_fDisplayStats;
+}
+
+void CMainFrame::OnViewResetStats()
+{
+	AfxGetMyApp()->m_bResetStats = true; // Reset by "consumer"
 }
 
 void CMainFrame::OnViewDisplayStatsSC()
@@ -5039,9 +5054,9 @@ void CMainFrame::OnUpdateViewVSync(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewVSyncOffset(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+	bool supported =  ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
 
-	pCmdUI->Enable (false);
+	pCmdUI->Enable(supported);
 	CString Temp;
 	Temp.Format(L"%d", s.m_RenderSettings.iVMR9VSyncOffset);
 	pCmdUI->SetText(Temp);
@@ -5056,10 +5071,37 @@ void CMainFrame::OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(s.m_RenderSettings.iVMR9VSyncAccurate);
 }
 
+void CMainFrame::OnUpdateViewSynchronizeVideo(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && m_iPlaybackMode == PM_NONE);
+
+	pCmdUI->Enable(supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.bSynchronizeVideo);
+}
+
+void CMainFrame::OnUpdateViewSynchronizeDisplay(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && m_iPlaybackMode == PM_NONE);
+
+	pCmdUI->Enable(supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.bSynchronizeDisplay);
+}
+
+void CMainFrame::OnUpdateViewSynchronizeNearest(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	bool supported = (s.iDSVideoRendererType == VIDRNDT_DS_SYNC);
+
+	pCmdUI->Enable(supported);
+	pCmdUI->SetCheck(s.m_RenderSettings.bSynchronizeNearest);
+}
+
 void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 
@@ -5073,7 +5115,7 @@ void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 
@@ -5089,7 +5131,7 @@ void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(s.fD3DFullscreen);
@@ -5098,7 +5140,7 @@ void CMainFrame::OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(s.m_RenderSettings.iVMRDisableDesktopComposition);
@@ -5117,7 +5159,7 @@ void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(s.m_RenderSettings.iVMR9FullscreenGUISupport);
@@ -5126,7 +5168,7 @@ void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(s.m_RenderSettings.iEVRHighColorResolution);
@@ -5144,7 +5186,7 @@ void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+	bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC || (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync);
 
 	pCmdUI->Enable (supported);
 }
@@ -5152,7 +5194,7 @@ void CMainFrame::OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync;
+	bool supported = s.iDSVideoRendererType == VIDRNDT_DS_SYNC || (((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) && s.m_RenderSettings.fVMR9AlterativeVSync);
 
 	pCmdUI->Enable (supported);
 }
@@ -5174,6 +5216,63 @@ void CMainFrame::OnViewVSyncAccurate()
 	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Accurate VSync: %s", s.m_RenderSettings.iVMR9VSyncAccurate? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewSynchronizeVideo()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.bSynchronizeVideo = !s.m_RenderSettings.bSynchronizeVideo;
+	if (s.m_RenderSettings.bSynchronizeVideo)
+	{
+		s.m_RenderSettings.bSynchronizeDisplay = false;
+		s.m_RenderSettings.bSynchronizeNearest = false;
+		s.m_RenderSettings.iVMR9VSync = false;
+		s.m_RenderSettings.iVMR9VSyncAccurate = false;
+		s.m_RenderSettings.fVMR9AlterativeVSync = false;
+	}
+
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Synchronize Video to Display: %s", s.m_RenderSettings.bSynchronizeVideo? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewSynchronizeDisplay()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.bSynchronizeDisplay = !s.m_RenderSettings.bSynchronizeDisplay;
+	if (s.m_RenderSettings.bSynchronizeDisplay)
+	{
+		s.m_RenderSettings.bSynchronizeVideo = false;
+		s.m_RenderSettings.bSynchronizeNearest = false;
+		s.m_RenderSettings.iVMR9VSync = false;
+		s.m_RenderSettings.iVMR9VSyncAccurate = false;
+		s.m_RenderSettings.fVMR9AlterativeVSync = false;
+	}
+
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Synchronize Display to Video: %s", s.m_RenderSettings.bSynchronizeDisplay? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewSynchronizeNearest()
+{
+	AppSettings& s = AfxGetAppSettings();
+	s.m_RenderSettings.bSynchronizeNearest = !s.m_RenderSettings.bSynchronizeNearest;
+	if (s.m_RenderSettings.bSynchronizeNearest)
+	{
+		s.m_RenderSettings.bSynchronizeVideo = false;
+		s.m_RenderSettings.bSynchronizeDisplay = false;
+		s.m_RenderSettings.iVMR9VSync = false;
+		s.m_RenderSettings.iVMR9VSyncAccurate = false;
+		s.m_RenderSettings.fVMR9AlterativeVSync = false;
+	}
+
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Present at Nearest VSync: %s", s.m_RenderSettings.bSynchronizeNearest? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
@@ -5310,21 +5409,39 @@ void CMainFrame::OnViewEnableFrameTimeCorrection()
 void CMainFrame::OnViewVSyncOffsetIncrease()
 {
 	AppSettings& s = AfxGetAppSettings();
-	++s.m_RenderSettings.iVMR9VSyncOffset;
-	s.UpdateData(true);
 	CString Format;
-	Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
-	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+	if (s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
+	{
+		s.m_RenderSettings.fTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset - 0.5; // Yeah, it should be a "-"
+		s.UpdateData(true);
+		Format.Format(L"Target VSync Offset: %.1f", s.m_RenderSettings.fTargetSyncOffset);
+	}
+	else
+	{
+		++s.m_RenderSettings.iVMR9VSyncOffset;
+		s.UpdateData(true);
+		Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
+	}
+	m_OSD.DisplayMessage(OSD_TOPRIGHT, Format);
 }
 
 void CMainFrame::OnViewVSyncOffsetDecrease()
 {
 	AppSettings& s = AfxGetAppSettings();
-	--s.m_RenderSettings.iVMR9VSyncOffset;
-	s.UpdateData(true);
 	CString Format;
-	Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
-	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+	if (s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
+	{
+		s.m_RenderSettings.fTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset + 0.5;
+		s.UpdateData(true);
+		Format.Format(L"Target VSync Offset: %.1f", s.m_RenderSettings.fTargetSyncOffset);
+	}
+	else
+	{
+		--s.m_RenderSettings.iVMR9VSyncOffset;
+		s.UpdateData(true);
+		Format.Format(L"VSync Offset: %d", s.m_RenderSettings.iVMR9VSyncOffset);
+	}
+	m_OSD.DisplayMessage(OSD_TOPRIGHT, Format);
 }
 
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
@@ -8444,7 +8561,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	// CASIMIR666 todo
-	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM)))
+	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || s.iDSVideoRendererType == VIDRNDT_DS_SYNC))
 	{
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;
@@ -9059,6 +9176,26 @@ void CMainFrame::OpenCustomizeGraph()
 	{
 		if(m_pCAP && AfxGetAppSettings().fAutoloadSubtitles)
 			AddTextPassThruFilter();
+	}
+
+	AppSettings& s = AfxGetAppSettings();
+	if (s.m_RenderSettings.bSynchronizeVideo)
+	{
+		HRESULT hr;
+		m_pRefClock = DNew CSyncClockFilter(NULL, &hr);
+		CStringW name;
+		name.Format(L"SyncClock Filter");
+		pGB->AddFilter(m_pRefClock, name);
+
+		CComPtr<IReferenceClock> refClock;
+		m_pRefClock->QueryInterface(IID_IReferenceClock, reinterpret_cast<void**>(&refClock));
+		CComPtr<IMediaFilter> mediaFilter;
+		pGB->QueryInterface(IID_IMediaFilter, reinterpret_cast<void**>(&mediaFilter));
+		mediaFilter->SetSyncSource(refClock);
+		mediaFilter = NULL;
+		refClock = NULL;
+
+		m_pRefClock->QueryInterface(IID_ISyncClock, reinterpret_cast<void**>(&m_pSyncClock));
 	}
 
 	if(m_iPlaybackMode == PM_DVD)

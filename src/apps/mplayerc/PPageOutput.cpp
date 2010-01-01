@@ -77,7 +77,7 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_DSVMR9YUVMIXER, OnUpdateMixerYUV)	
 	ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
-	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_DSMADVR, &CPPageOutput::OnDSRendererChange)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_DSSYNC, &CPPageOutput::OnDSRendererChange)
 	ON_BN_CLICKED(IDC_FULLSCREEN_MONITOR_CHECK, OnFullscreenCheck)
 END_MESSAGE_MAP()
 
@@ -302,7 +302,15 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 		else
 			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 		break;
-
+	case 13 :	// Sync Renderer
+		GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(TRUE);
+		GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow(TRUE);
+		GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
+		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
+		GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
+		GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
+		((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
+		break;
 	case 5 :	// VMR7 renderless
 		GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 		break;

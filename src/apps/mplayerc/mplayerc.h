@@ -161,7 +161,8 @@ enum
 	VIDRNDT_DS_NULL_UNCOMP,
 	VIDRNDT_DS_EVR,
 	VIDRNDT_DS_EVR_CUSTOM,
-	VIDRNDT_DS_MADVR
+	VIDRNDT_DS_MADVR,
+	VIDRNDT_DS_SYNC
 };
 
 enum
@@ -427,6 +428,7 @@ public:
 	// === CASIMIR666 : Ajout CMPlayerCApp
 	bool		m_fTearingTest;
 	int			m_fDisplayStats;
+	bool		m_bResetStats; // Set to reset the presentation statistics
 	CString		m_strVersion;
 	CString		m_strD3DX9Version;
 
@@ -525,6 +527,16 @@ public:
 			int iVMRFlushGPUAfterPresent;
 			int iVMRFlushGPUWait;
 
+			// SyncRenderer settings
+			int bSynchronizeVideo;
+			int bSynchronizeDisplay;
+			int bSynchronizeNearest;
+			int iLineDelta;
+			int iColumnDelta;
+			double fCycleDelta;
+			double fTargetSyncOffset;
+			double fControlLimit;
+
 			void SetDefault()
 			{
 				fVMR9AlterativeVSync = 0;
@@ -536,6 +548,14 @@ public:
 				iVMRFlushGPUBeforeVSync = 1;
 				iVMRFlushGPUAfterPresent = 1;
 				iVMRFlushGPUWait = 0;
+				bSynchronizeVideo = 0;
+				bSynchronizeDisplay = 0;
+				bSynchronizeNearest = 1;
+				iLineDelta = 0;
+				iColumnDelta = 0;
+				fCycleDelta = 0.0012;
+				fTargetSyncOffset = 10.0;
+				fControlLimit = 2.0;
 			}
 			void SetOptimal()
 			{
@@ -546,6 +566,14 @@ public:
 				iVMRFlushGPUBeforeVSync = 1;
 				iVMRFlushGPUAfterPresent = 1;
 				iVMRFlushGPUWait = 0;
+				bSynchronizeVideo = 0;
+				bSynchronizeDisplay = 0;
+				bSynchronizeNearest = 1;
+				iLineDelta = 0;
+				iColumnDelta = 0;
+				fCycleDelta = 0.0012;
+				fTargetSyncOffset = 10.0;
+				fControlLimit = 2.0;
 			}
 		};
 		class CRendererSettingsEVR : public CRendererSettingsShared

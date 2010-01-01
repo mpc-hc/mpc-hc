@@ -68,7 +68,7 @@
 #include "VMROSD.h"
 #include "LcdSupport.h"
 #include "MpcApi.h"
-
+#include "..\..\filters\misc\SyncClock\SyncClock.h"
 
 class CFullscreenWnd;
 
@@ -341,6 +341,9 @@ public:
 
 	bool m_fFullScreen;
 	bool m_fHideCursor;
+
+	CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
+	CComPtr<ISyncClock> m_pSyncClock;
 
 	bool IsFrameLessWindow() {return(m_fFullScreen || AfxGetAppSettings().fHideCaptionMenu);}
 	bool IsCaptionMenuHidden() {return(!m_fFullScreen && AfxGetAppSettings().fHideCaptionMenu);}
@@ -661,11 +664,16 @@ public:
 	afx_msg void OnViewTearingTest();
 	afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
 	afx_msg void OnViewDisplayStats();
+	afx_msg void OnViewResetStats();
 	afx_msg void OnViewDisplayStatsSC();
 	afx_msg void OnUpdateViewVSync(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewVSyncOffset(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewVSyncAccurate(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewFlushGPU(CCmdUI* pCmdUI);
+
+	afx_msg void OnUpdateViewSynchronizeVideo(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewSynchronizeDisplay(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewSynchronizeNearest(CCmdUI* pCmdUI);
 
 	afx_msg void OnUpdateViewD3DFullscreen(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI);
@@ -679,6 +687,11 @@ public:
 	afx_msg void OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI);
 	afx_msg void OnViewVSync();
 	afx_msg void OnViewVSyncAccurate();
+
+	afx_msg void OnViewSynchronizeVideo();
+	afx_msg void OnViewSynchronizeDisplay();
+	afx_msg void OnViewSynchronizeNearest();
+
 	afx_msg void OnViewEVROutputRange_0_255();
 	afx_msg void OnViewEVROutputRange_16_235();
 

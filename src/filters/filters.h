@@ -52,3 +52,5 @@
 #include ".\parser\FLVSplitter\FLVSplitter.h"
 #include ".\parser\SSFSplitter\SSFSplitter.h"
 #include ".\renderer\MpcAudioRenderer\MpcAudioRenderer.h"
+#include ".\misc\SyncClock\SyncClock.h"
+

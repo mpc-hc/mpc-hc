@@ -297,6 +297,7 @@ CMPlayerCApp::CMPlayerCApp()
 
 	m_fTearingTest  = false;
 	m_fDisplayStats = false;
+	m_bResetStats	= false;
 	m_hD3DX9Dll		= NULL;
 	m_nDXSdkRelease = 0;
 	memset (&m_ColorControl, 0, sizeof(m_ColorControl));
@@ -1371,6 +1372,7 @@ void CMPlayerCApp::Settings::CreateCommands()
 	ADDCMD((ID_SHIFT_SUB_DOWN,				VK_NEXT, FVIRTKEY|FALT|FNOINVERT,			IDS_MPLAYERC_102));
 	ADDCMD((ID_SHIFT_SUB_UP,			   VK_PRIOR, FVIRTKEY|FALT|FNOINVERT,			IDS_MPLAYERC_103));
 	ADDCMD((ID_VIEW_DISPLAYSTATS_SC,				'J', FVIRTKEY|FCONTROL|FNOINVERT,		IDS_AG_DISPLAY_STATS));
+	ADDCMD((ID_VIEW_RESETSTATS,					'R', FVIRTKEY|FCONTROL|FALT|FNOINVERT,	IDS_AG_RESET_STATS));
 	ADDCMD((ID_VIEW_VSYNC,						'V', FVIRTKEY|FNOINVERT,				IDS_AG_VSYNC));
 	ADDCMD((ID_VIEW_ENABLEFRAMETIMECORRECTION,  'C', FVIRTKEY|FNOINVERT,				IDS_AG_ENABLEFRAMETIMECORRECTION));
 	ADDCMD((ID_VIEW_VSYNCACCURATE,				'V', FVIRTKEY|FCONTROL|FALT|FNOINVERT,			IDS_AG_VSYNCACCURATE));
@@ -1565,6 +1567,16 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUBeforeVSync"), m_RenderSettings.iVMRFlushGPUBeforeVSync);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUAfterPresent"), m_RenderSettings.iVMRFlushGPUAfterPresent);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUWait"), m_RenderSettings.iVMRFlushGPUWait);
+
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeClock"), m_RenderSettings.bSynchronizeVideo);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeDisplay"), m_RenderSettings.bSynchronizeDisplay);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("SynchronizeNearest"), m_RenderSettings.bSynchronizeNearest);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("LineDelta"), m_RenderSettings.iLineDelta);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ColumnDelta"), m_RenderSettings.iColumnDelta);
+
+		pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("CycleDelta"), (LPBYTE)&(m_RenderSettings.fCycleDelta), sizeof(m_RenderSettings.fCycleDelta));
+		pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE)&(m_RenderSettings.fTargetSyncOffset), sizeof(m_RenderSettings.fTargetSyncOffset));
+		pApp->WriteProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE)&(m_RenderSettings.fControlLimit), sizeof(m_RenderSettings.fControlLimit));
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), fResetDevice);
 		
@@ -1921,6 +1933,32 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		m_RenderSettings.iVMRFlushGPUBeforeVSync = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUBeforeVSync"), DefaultSettings.iVMRFlushGPUBeforeVSync);
 		m_RenderSettings.iVMRFlushGPUAfterPresent = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUAfterPresent"), DefaultSettings.iVMRFlushGPUAfterPresent);
 		m_RenderSettings.iVMRFlushGPUWait = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUWait"), DefaultSettings.iVMRFlushGPUWait);
+
+		m_RenderSettings.bSynchronizeVideo = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeClock"), DefaultSettings.bSynchronizeVideo);
+		m_RenderSettings.bSynchronizeDisplay = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeDisplay"), DefaultSettings.bSynchronizeDisplay);
+		m_RenderSettings.bSynchronizeNearest = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SynchronizeNearest"), DefaultSettings.bSynchronizeNearest);
+		m_RenderSettings.iLineDelta = pApp->GetProfileInt(IDS_R_SETTINGS, _T("LineDelta"), DefaultSettings.iLineDelta);
+		m_RenderSettings.iColumnDelta = pApp->GetProfileInt(IDS_R_SETTINGS, _T("ColumnDelta"), DefaultSettings.iColumnDelta);
+
+		double *dPtr;
+		UINT dSize;
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("CycleDelta"), (LPBYTE*)&dPtr, &dSize))
+		{
+			m_RenderSettings.fCycleDelta = *dPtr;
+			delete [] dPtr;
+		}
+
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE*)&dPtr, &dSize))
+		{
+			m_RenderSettings.fTargetSyncOffset = *dPtr;
+			delete [] dPtr;
+		}
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE*)&dPtr, &dSize))
+		{
+			m_RenderSettings.fControlLimit = *dPtr;
+			delete [] dPtr;
+		}
+
 		fResetDevice = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ResetDevice"), TRUE);
 
 		AudioRendererDisplayName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIORENDERERTYPE, _T(""));

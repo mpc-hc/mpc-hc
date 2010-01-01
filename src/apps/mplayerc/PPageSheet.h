@@ -30,6 +30,7 @@
 #include "PPagePlayback.h"
 #include "PPageDVD.h"
 #include "PPageOutput.h"
+#include "PPageSync.h"
 #include "PPageWebServer.h"
 #include "PPageInternalFilters.h"
 #include "PPageAudioSwitcher.h"
@@ -74,6 +75,7 @@ private:
 	CPPagePlayback m_playback;
 	CPPageDVD m_dvd;
 	CPPageOutput m_output;
+	CPPageSync m_sync;
 	CPPageWebServer m_webserver;
 	CPPageSubtitles m_subtitles;
 	CPPageSubStyle m_substyle;

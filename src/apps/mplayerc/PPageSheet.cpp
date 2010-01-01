@@ -43,6 +43,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	AddPage(&m_playback);
 	AddPage(&m_dvd);
 	AddPage(&m_output);
+	AddPage(&m_sync);
 	AddPage(&m_tuner);
 	AddPage(&m_webserver);
 	AddPage(&m_internalfilters);

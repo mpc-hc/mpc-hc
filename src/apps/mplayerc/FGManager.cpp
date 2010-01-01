@@ -29,6 +29,7 @@
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
 #include "EVRAllocatorPresenter.h"
+#include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "internal_filter_config.h"
 #include <initguid.h>
@@ -2271,7 +2272,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 	// Block VSFilter when internal subtitle renderer will get used
 	if(s.fAutoloadSubtitles && s.fBlockVSFilter) {
-		if(s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_DXR) {
+		if(s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_DXR || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
 			m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}")), MERIT64_DO_NOT_USE));
 		}
 	}
@@ -2470,6 +2471,8 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_MADVR)
 		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, L"madVR Renderer", m_vrmerit));
 //		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVR, L"Madshi Video Renderer", m_vrmerit));
+	else if(s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
+		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, L"Sync Renderer", m_vrmerit));
 	else if(s.iDSVideoRendererType == VIDRNDT_DS_NULL_COMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullVideoRenderer>(L"Null Video Renderer (Any)", MERIT64_ABOVE_DSHOW+2);
