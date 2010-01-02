@@ -104,6 +104,18 @@ CFilterApp theApp;
 
 #endif
 
+AP4_Result GetDataBuffer (AP4_Atom* atom, AP4_DataBuffer& db)
+{
+	AP4_MemoryByteStream*	mbs = new AP4_MemoryByteStream(db);
+	AP4_Result				res;
+
+	res = atom->Write (*mbs);
+	mbs->Release();		// Release delete the object!
+
+	return res;
+}
+
+
 //
 // CMP4SplitterFilter
 //
@@ -420,13 +432,15 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 				track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd")))
 			{
-				const AP4_DataBuffer& db = AP4_DataBuffer();//stsd->GetDataBuffer();
 
 				for(AP4_List<AP4_Atom>::Item* item = stsd->GetChildren().FirstItem(); 
 					item; 
 					item = item->GetNext())
 				{
 					AP4_Atom* atom = item->GetData();
+					AP4_DataBuffer db;
+
+					GetDataBuffer (atom, db);
 
 					AP4_Atom::Type type = atom->GetType();
 
