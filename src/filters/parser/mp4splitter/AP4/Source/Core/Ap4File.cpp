@@ -120,11 +120,15 @@ AP4_File::SetFileType(AP4_UI32     major_brand,
                       AP4_UI32*    compatible_brands,
                       AP4_Cardinal compatible_brand_count)
 {
-    delete m_FileType;
+    if (m_FileType) {
+        RemoveChild(m_FileType);
+        delete m_FileType;
+    }
     m_FileType = new AP4_FtypAtom(major_brand, 
                                   minor_version,
                                   compatible_brands,
                                   compatible_brand_count);
+    AddChild(m_FileType, 0);
     
     return AP4_SUCCESS;
 }

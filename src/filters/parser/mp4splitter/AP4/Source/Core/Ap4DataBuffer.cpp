@@ -172,7 +172,7 @@ AP4_DataBuffer::SetData(const AP4_Byte* data, AP4_Size size)
             return AP4_FAILURE;
         }
     }
-    memcpy(m_Buffer, data, size);
+    AP4_CopyMemory(m_Buffer, data, size);
     m_DataSize = size;
 
     return AP4_SUCCESS;
@@ -193,7 +193,7 @@ AP4_DataBuffer::ReallocateBuffer(AP4_Size size)
 
     // copy the contents of the previous buffer ,is any
 	if (m_Buffer && m_DataSize) {
-		memcpy(new_buffer, m_Buffer, m_DataSize);
+		AP4_CopyMemory(new_buffer, m_Buffer, m_DataSize);
 	}
 
     // destroy the previous buffer

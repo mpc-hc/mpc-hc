@@ -68,9 +68,14 @@ const char*
 AP4_AvcParser::PrimaryPicTypeName(unsigned int primary_pic_type)
 {
 	switch (primary_pic_type) {
-        case 0: return "I Frame";
-        case 1: return "P Frame";
-        case 2: return "B Frame";
+        case 0: return "I";
+        case 1: return "I, P";
+        case 2: return "I, P, B";
+        case 3: return "SI";
+        case 4: return "SI, SP";
+        case 5: return "I, SI";
+        case 6: return "I, SI, P, SP";
+        case 7: return "I, SI, P, SP, B";
         default: return NULL;
     }
 }
@@ -144,42 +149,35 @@ AP4_AvcParser::Feed(const void*            data,
             case STATE_START_CODE_2:
                 if (byte == 0) break;
                 if (byte == 1) {
-                    m_State = STATE_IN_NALU;
-                    m_Buffer.SetDataSize(0);
-                    m_ZeroTrail = 0;
-                    payload_start = payload_end = data_offset+1;
-                    m_Buffer.SetDataSize(0);
+                    m_State = STATE_START_NALU;
                 } else {
                     m_State = STATE_RESET;
                 }
                 break;
+
+            case STATE_START_NALU:
+                m_Buffer.SetDataSize(0);
+                m_ZeroTrail = 0;
+                payload_start = payload_end = data_offset;
+                m_State = STATE_IN_NALU;
+                // FALLTHROUGH
                 
             case STATE_IN_NALU:
-                if (byte == 0) m_ZeroTrail++;
-                if (m_ZeroTrail == 2) {
-                    // maybe end of NALU
-                    m_ZeroTrail = 0;
-                    if (byte == 0) {
+                if (byte == 0) {
+                    m_ZeroTrail++;
+                    break;
+                } 
+                if (m_ZeroTrail >= 2) {
+                    if (byte == 1) {
                         found_nalu = true;
-                        m_State = STATE_START_CODE_2;
-                        break;
-                    } else if (byte == 1) {
-                        found_nalu = true;
-                        m_State = STATE_RESET;
-                        break;
+                        m_State = STATE_START_NALU;
                     } else {
-                        // not the end
-                        payload_end += 3;
-                    }
-                } else if (m_ZeroTrail == 1) {
-                    if (byte != 0) {
-                        payload_end += 2;
-                        m_ZeroTrail = 0;
+                        payload_end += m_ZeroTrail+1;
                     }
                 } else {
-                    // continuation of NALU
-                    ++payload_end;
+                    payload_end += m_ZeroTrail+1;
                 }
+                m_ZeroTrail = 0; 
                 break;
         }
     }

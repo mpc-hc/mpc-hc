@@ -88,6 +88,7 @@ public:
     // methods
                  AP4_List<T>(): m_ItemCount(0), m_Head(0), m_Tail(0) {}
     virtual     ~AP4_List<T>();
+    AP4_Result   Clear();
     AP4_Result   Add(T* data);
     AP4_Result   Add(Item* item);
     AP4_Result   Remove(T* data);
@@ -123,6 +124,17 @@ private:
 template <typename T>
 AP4_List<T>::~AP4_List()
 {
+    Clear();
+}
+
+/*----------------------------------------------------------------------
+|   AP4_List<T>::Clear
++---------------------------------------------------------------------*/
+template <typename T>
+inline
+AP4_Result
+AP4_List<T>::Clear()
+{
     Item* item = m_Head;
  
     while (item) {
@@ -130,6 +142,10 @@ AP4_List<T>::~AP4_List()
         delete item;
         item = next;
     }
+    m_ItemCount = 0;
+    m_Head = m_Tail = NULL;
+    
+    return AP4_SUCCESS;
 }
  
 /*----------------------------------------------------------------------

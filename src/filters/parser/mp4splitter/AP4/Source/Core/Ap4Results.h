@@ -55,6 +55,7 @@ const int AP4_ERROR_INVALID_TRACK_TYPE              = -19;
 const int AP4_ERROR_INVALID_RTP_PACKET_EXTRA_DATA   = -20;
 const int AP4_ERROR_BUFFER_TOO_SMALL                = -21;
 const int AP4_ERROR_NOT_ENOUGH_DATA                 = -22;
+const int AP4_ERROR_NOT_ENOUGH_SPACE                = -23;
 
 /*----------------------------------------------------------------------
 |   utility functions

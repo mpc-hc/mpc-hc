@@ -40,6 +40,8 @@
 AP4_SyntheticSampleTable::AP4_SyntheticSampleTable(AP4_Cardinal chunk_size) :
     m_ChunkSize(chunk_size?chunk_size:AP4_SYNTHETIC_SAMPLE_TABLE_DEFAULT_CHUNK_SIZE)
 {
+    m_LookupCache.m_Sample = 0;
+    m_LookupCache.m_Chunk  = 0;
 }
 
 /*----------------------------------------------------------------------
@@ -86,13 +88,27 @@ AP4_SyntheticSampleTable::GetSampleChunkPosition(
     
     // check parameters
     if (sample_index >= m_Samples.ItemCount()) return AP4_ERROR_OUT_OF_RANGE;
-    if (m_ChunkSize == 0) return AP4_ERROR_INVALID_STATE;
     
-    // compute in which chunk this sample falls
-    chunk_index       = sample_index/m_ChunkSize;
-    position_in_chunk = sample_index%m_ChunkSize;
+    // look for the chunk 
+    AP4_Ordinal sample_cursor = 0;
+    AP4_Ordinal chunk_cursor  = 0;
+    if (sample_index >= m_LookupCache.m_Sample) {
+        sample_cursor = m_LookupCache.m_Sample;
+        chunk_cursor  = m_LookupCache.m_Chunk;
+    }
+    for (; 
+         chunk_cursor < m_SamplesInChunk.ItemCount(); 
+         sample_cursor += m_SamplesInChunk[chunk_cursor++]) {
+        if (sample_cursor+m_SamplesInChunk[chunk_cursor] > sample_index) {
+            chunk_index = chunk_cursor;
+            position_in_chunk = sample_index-sample_cursor;
+            m_LookupCache.m_Sample = sample_cursor;
+            m_LookupCache.m_Chunk  = chunk_cursor;
+            return AP4_SUCCESS;
+        }
+    }
     
-    return AP4_SUCCESS;
+    return AP4_ERROR_OUT_OF_RANGE;
 }
 
 /*----------------------------------------------------------------------
@@ -141,6 +157,17 @@ AP4_SyntheticSampleTable::AddSample(AP4_ByteStream& data_stream,
                                     AP4_UI32        cts_delta,
                                     bool            sync)
 {
+    // decide if we need to start a new chunk or increment the last one
+    if (m_SamplesInChunk.ItemCount() == 0 ||
+        m_SamplesInChunk[m_SamplesInChunk.ItemCount()-1] >= m_ChunkSize ||
+        m_Samples.ItemCount() == 0 ||
+        m_Samples[m_Samples.ItemCount()-1].GetDescriptionIndex() != description_index) {
+        m_SamplesInChunk.Append(1);
+    } else {
+        ++m_SamplesInChunk[m_SamplesInChunk.ItemCount()-1];
+    }
+    
+    // compute the timestamps
     if (m_Samples.ItemCount() > 0) {
         AP4_Sample* prev_sample = &m_Samples[m_Samples.ItemCount()-1];
         if (dts == 0) {
@@ -162,6 +189,8 @@ AP4_SyntheticSampleTable::AddSample(AP4_ByteStream& data_stream,
             }
         }
     }
+    
+    // add the sample to the table
     AP4_Sample sample(data_stream, offset, size, duration, description_index, dts, cts_delta, sync);
     return m_Samples.Append(sample);
 }

@@ -5,7 +5,7 @@
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
 |
-|    This atom is part of AP4 (MP4 Audio Proatom Library).
+|    This atom is part of AP4 (MP4 Audio Processing Library).
 |
 |    Unless you have obtained Bento4 under a difference license,
 |    this version of Bento4 is Bento4|GPL.
@@ -130,7 +130,7 @@ AP4_AtomSampleTable::GetSample(AP4_Ordinal index,
     } else {
         result = m_CttsAtom->GetCtsOffset(index, cts_offset); 
 	    if (AP4_FAILED(result)) return result;
-        sample.SetCts(dts + cts_offset);
+        sample.SetCtsDelta(cts_offset);
     }     
 
     // set the size

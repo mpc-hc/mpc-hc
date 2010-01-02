@@ -42,6 +42,7 @@
 #include "Ap4TrefTypeAtom.h"
 #include "Ap4ObjectDescriptor.h"
 #include "Ap4Command.h"
+#include "Ap4UuidAtom.h"
 
 /*----------------------------------------------------------------------
 |   constants
@@ -53,6 +54,8 @@ const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_MARLIN_ACGK = AP4_ATOM_TYPE('A','C','G
 
 const AP4_Atom::Type AP4_ATOM_TYPE_SATR = AP4_ATOM_TYPE('s','a','t','r');
 const AP4_Atom::Type AP4_ATOM_TYPE_STYP = AP4_ATOM_TYPE('s','t','y','p');
+const AP4_Atom::Type AP4_ATOM_TYPE_HMAC = AP4_ATOM_TYPE('h','m','a','c');
+const AP4_Atom::Type AP4_ATOM_TYPE_GKEY = AP4_ATOM_TYPE('g','k','e','y');
 
 const char* const AP4_MARLIN_IPMP_STYP_VIDEO = "urn:marlin:organization:sne:content-type:video";
 const char* const AP4_MARLIN_IPMP_STYP_AUDIO = "urn:marlin:organization:sne:content-type:audio";
@@ -145,7 +148,8 @@ class AP4_MarlinIpmpEncryptingProcessor : public AP4_Processor
 {
 public:
     // constructor
-    AP4_MarlinIpmpEncryptingProcessor(const AP4_ProtectionKeyMap* key_map = NULL,
+    AP4_MarlinIpmpEncryptingProcessor(bool                        use_group_key = false,
+                                      const AP4_ProtectionKeyMap* key_map = NULL,
                                       AP4_BlockCipherFactory*     block_cipher_factory = NULL);
 
     // accessors
@@ -161,6 +165,7 @@ public:
 private:
     // members
     AP4_BlockCipherFactory* m_BlockCipherFactory;
+    bool                    m_UseGroupKey;
     AP4_ProtectionKeyMap    m_KeyMap;
     AP4_TrackPropertyMap    m_PropertyMap;
 };

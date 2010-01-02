@@ -674,3 +674,169 @@ AP4_MemoryByteStream::Release()
         delete this;
     }
 }
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::AP4_BufferedInputStream
++---------------------------------------------------------------------*/
+AP4_BufferedInputStream::AP4_BufferedInputStream(AP4_ByteStream& source, 
+                                                 AP4_Size        buffer_size,
+                                                 AP4_Size        seek_as_read_threshold) :
+    m_Buffer(buffer_size),
+    m_BufferPosition(0),
+    m_Source(source),
+    m_SourcePosition(0),
+    m_SeekAsReadThreshold(seek_as_read_threshold),
+    m_ReferenceCount(1)
+{
+    source.AddReference();
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::Refill
++---------------------------------------------------------------------*/
+AP4_Result 
+AP4_BufferedInputStream::Refill()
+{
+    m_BufferPosition = 0;
+    AP4_Size bytes_read = 0;
+    AP4_Result result = m_Source.ReadPartial(m_Buffer.UseData(), 
+                                             m_Buffer.GetBufferSize(), 
+                                             bytes_read);
+    if (AP4_FAILED(result)) {
+        m_Buffer.SetDataSize(0);
+        return result;
+    }
+    assert(bytes_read);
+    m_Buffer.SetDataSize(bytes_read);
+    m_SourcePosition += bytes_read;
+    
+    return AP4_SUCCESS;
+} 
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::ReadPartial
++---------------------------------------------------------------------*/
+AP4_Result 
+AP4_BufferedInputStream::ReadPartial(void*     buffer, 
+                                     AP4_Size  bytes_to_read, 
+                                     AP4_Size& bytes_read)
+{
+    // check for shortcut
+    if (bytes_to_read == 0) {
+        bytes_read = 0;
+        return AP4_SUCCESS;
+    }
+    
+    // compute how much data is available in the buffer
+    assert(m_BufferPosition <= m_Buffer.GetDataSize());
+    AP4_Size available = m_Buffer.GetDataSize()-m_BufferPosition;
+    
+    // refill the buffer if it is empty
+    if (available == 0) {
+        AP4_Result result = Refill();
+        if (AP4_FAILED(result)) {
+            bytes_read = 0;
+            return result;
+        }
+        assert(m_BufferPosition == 0);
+        assert(m_Buffer.GetDataSize() != 0);
+        available = m_Buffer.GetDataSize()-m_BufferPosition;
+    }
+    
+    // clamp the number of bytes to read to what's available
+    if (bytes_to_read > available) bytes_to_read = available;
+    bytes_read = bytes_to_read;
+    
+    // copy the buffered data
+    AP4_CopyMemory(buffer, m_Buffer.GetData()+m_BufferPosition, bytes_to_read);
+    m_BufferPosition += bytes_to_read;
+    assert(m_BufferPosition <= m_Buffer.GetDataSize());
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::WritePartial
++---------------------------------------------------------------------*/
+AP4_Result 
+AP4_BufferedInputStream::WritePartial(const void* /*buffer*/, 
+                                      AP4_Size    /*bytes_to_write*/, 
+                                      AP4_Size&   /*bytes_written*/)
+{
+    return AP4_ERROR_NOT_SUPPORTED;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::Seek
++---------------------------------------------------------------------*/
+AP4_Result 
+AP4_BufferedInputStream::Seek(AP4_Position position)
+{
+    assert(m_SourcePosition >= m_Buffer.GetDataSize());
+    assert(m_BufferPosition <= m_Buffer.GetDataSize());
+    if (position < m_SourcePosition-m_Buffer.GetDataSize() || 
+        position > m_SourcePosition) {
+        // out of buffer
+        m_BufferPosition = 0;
+        m_Buffer.SetDataSize(0);
+        
+        // seek in the source
+        if (position > m_SourcePosition && (position-m_SourcePosition <= m_SeekAsReadThreshold)) {
+            char*    discard = new char[4096];
+            AP4_Size to_skip = (AP4_Size)(position-m_SourcePosition);
+            while (to_skip) {
+                AP4_Size chunk = 4096;
+                if (chunk > to_skip) chunk = to_skip;
+                AP4_Result result = m_Source.Read(discard, chunk);
+                if (AP4_FAILED(result)) {
+                    delete[] discard;
+                    return result;
+                }
+                m_SourcePosition += chunk;
+                to_skip -= chunk;
+            }
+            delete[] discard;
+            return AP4_SUCCESS;
+        } else {
+            m_SourcePosition = position;
+            return m_Source.Seek(position);
+        }
+    }
+    
+    // compute the buffer position
+    m_BufferPosition = (AP4_Size)(position-(m_SourcePosition-m_Buffer.GetDataSize()));
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::Tell
++---------------------------------------------------------------------*/
+AP4_Result 
+AP4_BufferedInputStream::Tell(AP4_Position& position)
+{
+    assert(m_SourcePosition >= m_Buffer.GetDataSize());
+    assert(m_BufferPosition <= m_Buffer.GetDataSize());
+    position = m_SourcePosition-m_Buffer.GetDataSize()+m_BufferPosition;
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream::AddReference
++---------------------------------------------------------------------*/
+void
+AP4_BufferedInputStream::AddReference()
+{
+    m_ReferenceCount++;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_MemoryByteStream::Release
++---------------------------------------------------------------------*/
+void
+AP4_BufferedInputStream::Release()
+{
+    if (--m_ReferenceCount == 0) {
+        delete this;
+    }
+}

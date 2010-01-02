@@ -197,14 +197,17 @@
 * @subsection encryption Encryption and Decryption
 *
 * The SDK has support for encrypting and decrypting tracks as specified by the
-* ISMA Encryption and Authentication specification as well as OMA 2.0 PDCF. 
+* ISMA Encryption and Authentication specification as well as OMA 2.0 and 2.1 DCF and PDCF. 
 * The supporting classes found in Ap4IsmaCryp.h and AP4_OmaDcf.h provide a subclass
 * of #AP4_Processor for encrypting or decrypting entire files. 
 * The class #AP4_IsmaCipher and #AP4_OmaDcfSampleDecrypter implement the generic
 * #AP4_SampleDecrypter interface that provides support for decrypting individual samples.
 * The parameters necessary to instantiate an #AP4_IsmaCipher or an #AP4_OmaDcfSampleDecrypter 
 * can be retrieved from an encrypted track by accessing the track's sample descriptions, 
-* which are instances of the #AP4_ProtectedSampleDescription class.
+* which are instances of the #AP4_ProtectedSampleDescription class. A more general factory
+* method, #AP4_SampleDecrypter::Create can be called, passing an instance of
+* #AP4_ProtectedSampleDescription and the cipher key, and the correct concrete class will
+* automatically be instanciated based on the type of encryption that was used for the track.
 *
 * @subsection RTP Packets
 *
@@ -244,10 +247,13 @@
 #include "Ap4SampleTable.h"
 #include "Ap4SyntheticSampleTable.h"
 #include "Ap4AtomSampleTable.h"
+#include "Ap4FragmentSampleTable.h"
 #include "Ap4UrlAtom.h"
 #include "Ap4MoovAtom.h"
 #include "Ap4MvhdAtom.h"
+#include "Ap4MehdAtom.h"
 #include "Ap4TrakAtom.h"
+#include "Ap4TrexAtom.h"
 #include "Ap4HdlrAtom.h"
 #include "Ap4DrefAtom.h"
 #include "Ap4TkhdAtom.h"
@@ -284,5 +290,11 @@
 #include "Ap4Marlin.h"
 #include "Ap4GrpiAtom.h"
 #include "Ap48bdlAtom.h"
+#include "Ap4MovieFragment.h"
+#include "Ap4LinearReader.h"
+#include "Ap4TfhdAtom.h"
+#include "Ap4SampleSource.h"
+#include "Ap4Mpeg2Ts.h"
+#include "Ap4Piff.h"
 
 #endif // _AP4_H_

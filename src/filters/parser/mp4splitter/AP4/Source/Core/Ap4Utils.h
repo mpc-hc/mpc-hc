@@ -163,18 +163,50 @@ extern int AP4_FormatStringVN(char *buffer, size_t count, const char *format, va
 #include <string.h>
 #define AP4_StringLength(x) strlen(x)
 #define AP4_CopyMemory(x,y,z) memcpy(x,y,z)
+#define AP4_CompareMemory(x, y, z) memcmp(x, y, z)
 #define AP4_SetMemory(x,y,z) memset(x,y,z)
 #define AP4_CompareStrings(x,y) strcmp(x,y)
 #endif
 
+unsigned char AP4_HexNibble(char c);
+char AP4_NibbleHex(unsigned int nibble);
 void AP4_FormatFourChars(char* str, AP4_UI32 value);
 void AP4_FormatFourCharsPrintable(char* str, AP4_UI32 value);
 AP4_Result
 AP4_ParseHex(const char* hex, unsigned char* bytes, unsigned int count);
 AP4_Result
+AP4_FormatHex(const AP4_UI08* data, unsigned int data_size, char* hex);
+AP4_Result
 AP4_SplitArgs(char* arg, char*& arg0, char*& arg1, char*& arg2);
 AP4_Result
 AP4_SplitArgs(char* arg, char*& arg0, char*& arg1);
+
+/*----------------------------------------------------------------------
+|   AP4_BitWriter
++---------------------------------------------------------------------*/
+class AP4_BitWriter
+{
+public:
+    AP4_BitWriter(AP4_Size size) : m_DataSize(size), m_BitCount(0) {
+        if (size) {
+            m_Data = new unsigned char[size];
+            AP4_SetMemory(m_Data, 0, size);
+        } else {
+            m_Data = NULL;
+        }
+    }
+    ~AP4_BitWriter() { delete m_Data; }
+    
+    void Write(AP4_UI32 bits, unsigned int bit_count);
+    
+    unsigned int GetBitCount()     { return m_BitCount; }
+    const unsigned char* GetData() { return m_Data;     }
+    
+private:
+    unsigned char* m_Data;
+    unsigned int   m_DataSize;
+    unsigned int   m_BitCount;
+};
 
 
 #endif // _AP4_UTILS_H_

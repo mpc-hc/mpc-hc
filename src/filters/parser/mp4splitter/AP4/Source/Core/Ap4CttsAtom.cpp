@@ -82,27 +82,27 @@ AP4_CttsAtom::AP4_CttsAtom(AP4_UI32        size,
         delete[] buffer;
         return;
     }
-    bool use_quicktime_format = false;
-    AP4_SI32 quicktime_min_offset = 0;
+    //bool use_quicktime_format = false;
+    //AP4_SI32 quicktime_min_offset = 0;
     for (unsigned i=0; i<entry_count; i++) {
         m_Entries[i].m_SampleCount  = AP4_BytesToUInt32BE(&buffer[i*8  ]);
         AP4_UI32 offset             = AP4_BytesToUInt32BE(&buffer[i*8+4]);
-        if (offset & 0x80000000) {
-            use_quicktime_format = true;
-            AP4_SI32 noffset = (AP4_SI32)offset;
-            if (noffset < quicktime_min_offset) quicktime_min_offset = noffset;
-        }
+        //if (offset & 0x80000000) {
+        //    use_quicktime_format = true;
+        //    AP4_SI32 noffset = (AP4_SI32)offset;
+        //    if (noffset < quicktime_min_offset) quicktime_min_offset = noffset;
+        //}
         m_Entries[i].m_SampleOffset = offset;
     }
     delete[] buffer;
     
     // in the quicktime format, the offsets can be positive or negative, so
     // we need to adjust for them here
-    if (use_quicktime_format) {
-        for (unsigned i=0; i<entry_count; i++) {
-            m_Entries[i].m_SampleOffset -= quicktime_min_offset;
-        }
-    }
+    //if (use_quicktime_format) {
+    //    for (unsigned i=0; i<entry_count; i++) {
+    //        m_Entries[i].m_SampleOffset -= quicktime_min_offset;
+    //    }
+    //}
 }
 
 /*----------------------------------------------------------------------

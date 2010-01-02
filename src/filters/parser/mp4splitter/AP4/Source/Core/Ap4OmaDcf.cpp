@@ -47,6 +47,7 @@
 #include "Ap4OdheAtom.h"
 #include "Ap4FtypAtom.h"
 #include "Ap4GrpiAtom.h"
+#include "Ap4HdlrAtom.h"
 
 /*----------------------------------------------------------------------
 |   AP4_OmaDcfAtomDecrypter::DecryptAtoms
@@ -396,14 +397,15 @@ AP4_OmaDcfCtrSampleDecrypter::~AP4_OmaDcfCtrSampleDecrypter()
 +---------------------------------------------------------------------*/
 AP4_Result 
 AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
-                                                AP4_DataBuffer& data_out)
+                                                AP4_DataBuffer& data_out,
+                                                const AP4_UI08* /*iv*/)
 {   
     bool                 is_encrypted = true;
     const unsigned char* in = data_in.GetData();
     AP4_Size             in_size = data_in.GetDataSize();
 
     // default to 0 output 
-    data_out.SetDataSize(0);
+    AP4_CHECK(data_out.SetDataSize(0));
 
     // check the selective encryption flag
     if (m_SelectiveEncryption) {
@@ -418,7 +420,7 @@ AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
 
     // process the sample data
     AP4_Size payload_size = in_size-header_size;
-    data_out.Reserve(payload_size);
+    AP4_CHECK(data_out.Reserve(payload_size));
     unsigned char* out = data_out.UseData();
     if (is_encrypted) {
         // set the IV
@@ -429,8 +431,8 @@ AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
     } else {
         AP4_CopyMemory(out, in, payload_size);
     }
-    data_out.SetDataSize(payload_size);
-
+    AP4_CHECK(data_out.SetDataSize(payload_size));
+    
     return AP4_SUCCESS;
 }
 
@@ -483,7 +485,8 @@ AP4_OmaDcfCbcSampleDecrypter::~AP4_OmaDcfCbcSampleDecrypter()
 +---------------------------------------------------------------------*/
 AP4_Result 
 AP4_OmaDcfCbcSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
-                                                AP4_DataBuffer& data_out)
+                                                AP4_DataBuffer& data_out,
+                                                const AP4_UI08* /*iv*/)
 {   
     bool                 is_encrypted = true;
     const unsigned char* in = data_in.GetData();
@@ -491,7 +494,7 @@ AP4_OmaDcfCbcSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
     AP4_Size             out_size;
 
     // default to 0 output 
-    data_out.SetDataSize(0);
+    AP4_CHECK(data_out.SetDataSize(0));
 
     // check the selective encryption flag
     if (m_SelectiveEncryption) {
@@ -521,7 +524,7 @@ AP4_OmaDcfCbcSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
         out_size = payload_size;
     }
 
-    data_out.SetDataSize(out_size);
+    AP4_CHECK(data_out.SetDataSize(out_size));
 
     return AP4_SUCCESS;
 }
@@ -623,7 +626,7 @@ AP4_OmaDcfCtrSampleEncrypter::EncryptSampleData(AP4_DataBuffer& data_in,
 {
     // setup the buffers
     const unsigned char* in = data_in.GetData();
-    data_out.SetDataSize(data_in.GetDataSize()+AP4_CIPHER_BLOCK_SIZE+1);
+    AP4_CHECK(data_out.SetDataSize(data_in.GetDataSize()+AP4_CIPHER_BLOCK_SIZE+1));
     unsigned char* out = data_out.UseData();
 
     // selective encryption flag
@@ -702,7 +705,7 @@ AP4_OmaDcfCbcSampleEncrypter::EncryptSampleData(AP4_DataBuffer& data_in,
                             out+AP4_CIPHER_BLOCK_SIZE, 
                             &out_size,
                             true);
-    data_out.SetDataSize(out_size+AP4_CIPHER_BLOCK_SIZE+1);
+    AP4_CHECK(data_out.SetDataSize(out_size+AP4_CIPHER_BLOCK_SIZE+1));
 
     return AP4_SUCCESS;
 }
@@ -1040,8 +1043,8 @@ AP4_OmaDcfEncryptingProcessor::Initialize(AP4_AtomParent&                  top_l
         delete ftyp;
         ftyp = new_ftyp;
     } else {
-        AP4_UI32 isom = AP4_FTYP_BRAND_ISOM;
-        ftyp = new AP4_FtypAtom(AP4_OMA_DCF_BRAND_OPF2, 0, &isom, 1);
+        AP4_UI32 opf2 = AP4_OMA_DCF_BRAND_OPF2;
+        ftyp = new AP4_FtypAtom(AP4_FTYP_BRAND_ISOM, 0, &opf2, 1);
     }
     
     // insert the ftyp atom as the first child
@@ -1079,6 +1082,23 @@ AP4_OmaDcfEncryptingProcessor::CreateTrackHandler(AP4_TrakAtom* trak)
             case AP4_ATOM_TYPE_AVC1:
                 format = AP4_ATOM_TYPE_ENCV;
                 break;
+                
+            default: {
+                // try to find if this is audio or video
+                AP4_HdlrAtom* hdlr = AP4_DYNAMIC_CAST(AP4_HdlrAtom, trak->FindChild("mdia/hdlr"));
+                if (hdlr) {
+                    switch (hdlr->GetHandlerType()) {
+                        case AP4_HANDLER_TYPE_SOUN:
+                            format = AP4_ATOM_TYPE_ENCA;
+                            break;
+
+                        case AP4_HANDLER_TYPE_VIDE:
+                            format = AP4_ATOM_TYPE_ENCV;
+                            break;
+                    }
+                }
+                break;
+            }
         }
         if (format) {
             const char*    content_id = m_PropertyMap.GetProperty(trak->GetId(), "ContentId");

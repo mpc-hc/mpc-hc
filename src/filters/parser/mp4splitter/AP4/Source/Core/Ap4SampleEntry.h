@@ -59,6 +59,8 @@ class AP4_SampleEntry : public AP4_ContainerAtom
                     AP4_Size         size,
                     AP4_ByteStream&  stream,
                     AP4_AtomFactory& atom_factory);
+    virtual ~AP4_SampleEntry() {}
+    
     AP4_UI16           GetDataReferenceIndex() { return m_DataReferenceIndex; }
     virtual AP4_Result Write(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
@@ -72,6 +74,7 @@ class AP4_SampleEntry : public AP4_ContainerAtom
     AP4_SampleEntry(AP4_Atom::Type format, AP4_Size size);
 
     // methods
+    virtual void       Read(AP4_ByteStream& stream, AP4_AtomFactory& atom_factory);
     virtual AP4_Size   GetFieldsSize();
     virtual AP4_Result ReadFields(AP4_ByteStream& stream);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -80,6 +83,31 @@ class AP4_SampleEntry : public AP4_ContainerAtom
     // members
     AP4_UI08 m_Reserved1[6];         // = 0
     AP4_UI16 m_DataReferenceIndex;
+};
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry
++---------------------------------------------------------------------*/
+class AP4_UnknownSampleEntry : public AP4_SampleEntry
+{
+ public: 
+    // this constructor takes ownership of the atom passed to it
+    AP4_UnknownSampleEntry(AP4_Atom::Type type, AP4_Size size, AP4_ByteStream& stream);
+    
+    // AP4_SampleEntry methods
+    virtual AP4_SampleDescription* ToSampleDescription();
+
+    // accessors
+    const AP4_DataBuffer& GetPayload() { return m_Payload; }
+    
+ protected:
+    // methods
+    virtual AP4_Size   GetFieldsSize();
+    virtual AP4_Result ReadFields(AP4_ByteStream& stream);
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream);
+
+    // members
+    AP4_DataBuffer m_Payload;
 };
 
 /*----------------------------------------------------------------------
@@ -100,7 +128,7 @@ public:
 
     // accessors
     AP4_UI32 GetSampleRate();
-    AP4_UI16 GetSampleSize() { return m_SampleSize;     }
+    AP4_UI16 GetSampleSize() { return m_SampleSize; }
     AP4_UI16 GetChannelCount();
 	// ==> Start patch MPC
 	AP4_UI32 GetBytesPerFrame() { return m_QtV1BytesPerFrame; };
@@ -108,12 +136,6 @@ public:
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
-
-    // this method is used as a factory by the ISMACryp classes
-    // NOTE: this should be named ToSampleDescription, but C++ has a 
-    // problem with that because the base class does not have this
-    // overloaded method, but has another other one by that name
-    virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
 
 protected:
     // methods
@@ -175,12 +197,6 @@ public:
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
-
-    // this method is used as a factory by the ISMACryp classes
-    // NOTE: this should be named ToSampleDescription, but C++ has a 
-    // problem with that because the base class does not have this
-    // overloaded method, but has another other one by that name
-    virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
 
 protected:
     // methods
@@ -348,7 +364,6 @@ public:
     AP4_RtpHintSampleEntry(AP4_Size         size,
                            AP4_ByteStream&  stream,
                            AP4_AtomFactory& atom_factory);
-    virtual ~AP4_RtpHintSampleEntry();
     
 protected:
     // methods
@@ -444,11 +459,13 @@ class AP4_AC3SampleEntry : public AP4_AudioSampleEntry
 {
  public:
     // constructors
-    AP4_AC3SampleEntry(AP4_UI32         sample_rate,
+    AP4_AC3SampleEntry(AP4_Atom::Type   format,
+					   AP4_UI32         sample_rate,
                        AP4_UI16         sample_size,
                        AP4_UI16         channel_count);
 
-    AP4_AC3SampleEntry(AP4_Size         size,
+    AP4_AC3SampleEntry(AP4_Atom::Type   format,
+					   AP4_Size         size,
                        AP4_ByteStream&  stream,
                        AP4_AtomFactory& atom_factory);
 

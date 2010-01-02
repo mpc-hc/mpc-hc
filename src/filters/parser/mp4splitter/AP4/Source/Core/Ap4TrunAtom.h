@@ -51,8 +51,11 @@ const AP4_UI32 AP4_TRUN_FLAG_SAMPLE_COMPOSITION_TIME_OFFSET_PRESENT = 0x0800;
 class AP4_TrunAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_TrunAtom)
+
     // types
     struct Entry {
+        Entry() : sample_duration(0), sample_size(0), sample_flags(0), sample_composition_time_offset(0) {}
         AP4_UI32 sample_duration;
         AP4_UI32 sample_size;
         AP4_UI32 sample_flags;
@@ -61,7 +64,8 @@ public:
     
     // class methods
     static AP4_TrunAtom* Create(AP4_Size size, AP4_ByteStream& stream);
-    static AP4_UI32      ComputeEntrySize(AP4_UI32 flags);
+    static unsigned int  ComputeOptionalFieldsCount(AP4_UI32 flags);
+    static unsigned int  ComputeRecordFieldsCount(AP4_UI32 flags);
 
     // methods
     AP4_TrunAtom(AP4_UI32 flags, 
@@ -70,6 +74,11 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
+    // accessors
+    AP4_SI32                GetDataOffset()       { return m_DataOffset;       }
+    AP4_UI32                GetFirstSampleFlags() { return m_FirstSampleFlags; }
+    const AP4_Array<Entry>& GetEntries()          { return m_Entries;          }
+    
 private:
     // methods
     AP4_TrunAtom(AP4_UI32        size, 

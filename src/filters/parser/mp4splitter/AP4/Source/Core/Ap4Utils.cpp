@@ -171,7 +171,7 @@ AP4_SplitArgs(char* arg, char*& arg0, char*& arg1, char*& arg2)
 /*----------------------------------------------------------------------
 |   AP4_HexNibble
 +---------------------------------------------------------------------*/
-static unsigned char
+unsigned char
 AP4_HexNibble(char c)
 {
     switch (c) {
@@ -196,6 +196,21 @@ AP4_HexNibble(char c)
 }
 
 /*----------------------------------------------------------------------
+|   AP4_NibbleHex
++---------------------------------------------------------------------*/
+char
+AP4_NibbleHex(unsigned int nibble) 
+{
+    if (nibble < 10) {
+        return '0'+nibble;
+    } else if (nibble < 16) {
+        return 'A'+(nibble-10);
+    } else {
+        return ' ';
+    }
+}
+
+/*----------------------------------------------------------------------
 |   AP4_ParseHex
 +---------------------------------------------------------------------*/
 AP4_Result
@@ -207,4 +222,45 @@ AP4_ParseHex(const char* hex, unsigned char* bytes, unsigned int count)
     }
     return AP4_SUCCESS;
 }
+
+/*----------------------------------------------------------------------
+|   AP4_FormatHex
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_FormatHex(const AP4_UI08* data, unsigned int data_size, char* hex)
+{
+    for (unsigned int i=0; i<data_size; i++) {
+        *hex++ = AP4_NibbleHex(data[i]>>4);
+        *hex++ = AP4_NibbleHex(data[i]&0x0F);
+    }
+    
+    return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_BitWriter::Write
++---------------------------------------------------------------------*/
+void 
+AP4_BitWriter::Write(AP4_UI32 bits, unsigned int bit_count)
+{
+    unsigned char* data = m_Data;
+    if (m_BitCount+bit_count > m_DataSize*8) return;
+    data += m_BitCount/8;
+    unsigned int space = 8-(m_BitCount%8);
+    while (bit_count) {
+        unsigned int mask = bit_count==32 ? 0xFFFFFFFF : ((1<<bit_count)-1);
+        if (bit_count <= space) {
+            *data |= ((bits&mask) << (space-bit_count));
+            m_BitCount += bit_count;
+            return;
+        } else {
+            *data |= ((bits&mask) >> (bit_count-space));
+            ++data;
+            m_BitCount += space;
+            bit_count  -= space;
+            space       = 8;
+        }
+    }
+}
+
 

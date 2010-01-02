@@ -55,7 +55,7 @@ public:
      * data pointer.
      * @param bytes_consumed: Number of bytes from the data buffer that were
      * consumed and stored by the parser.
-     * @param nal: Reference to a pointer to a buffer object that contains
+     * @param nalu: Reference to a pointer to a buffer object that contains
      * a NAL unit found in the previously fed data, or a NULL pointer if no 
      * NAL unit can be found so far.
      * @param eos: Boolean flag that indicates if this buffer is the last
@@ -86,6 +86,7 @@ private:
         STATE_RESET,
         STATE_START_CODE_1,
         STATE_START_CODE_2,
+        STATE_START_NALU,
         STATE_IN_NALU
     }              m_State;
     AP4_Cardinal   m_ZeroTrail;

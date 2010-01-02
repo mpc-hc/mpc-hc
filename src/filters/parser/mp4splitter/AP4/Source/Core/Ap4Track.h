@@ -35,6 +35,10 @@
 #include "Ap4Types.h"
 #include "Ap4Array.h"
 
+// ==> Start patch MPC
+#include "Ap4String.h"
+// <== End patch MPC
+
 /*----------------------------------------------------------------------
 |   forward declarations
 +---------------------------------------------------------------------*/

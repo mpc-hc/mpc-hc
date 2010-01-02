@@ -132,7 +132,7 @@ public:
      * Set the CTS Delta (difference between the CTS (Composition Time Stamp) and DTS (Decoding Time Stamp)
      * of the sample in the timescale of the media.
      */
-    void            SetCtsDelta(AP4_UI32 delta) { m_CtsDelta = delta;  }
+    void            SetCtsDelta(AP4_UI32 delta) { m_CtsDelta = (AP4_SI32)delta;  }
 
     /**
      * Get the duration of the sample in the timescale of the media
@@ -161,7 +161,7 @@ protected:
     AP4_UI32        m_Duration;
     AP4_Ordinal     m_DescriptionIndex;
     AP4_UI64        m_Dts;
-    AP4_UI32        m_CtsDelta;
+    AP4_SI32        m_CtsDelta; // make this a signed value, because quicktime can use negative offsets
     bool            m_IsSync;
 };
 

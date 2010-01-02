@@ -56,15 +56,12 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_AvccAtom, AP4_Atom)
 
     // class methods
-    static AP4_AvccAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
-        return new AP4_AvccAtom(size, stream);
-    }
-    static const char* GetProfileName(AP4_UI08 profile);
+    static AP4_AvccAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+    static const char*   GetProfileName(AP4_UI08 profile);
 
     // constructors
     AP4_AvccAtom();
-    AP4_AvccAtom(AP4_UI08 config_version,
-                 AP4_UI08 profile,
+    AP4_AvccAtom(AP4_UI08 profile,
                  AP4_UI08 level,
                  AP4_UI08 profile_compatibility,
                  AP4_UI08 length_size,
@@ -88,8 +85,9 @@ public:
 
 private:
     // methods
-    AP4_AvccAtom(AP4_UI32 size, AP4_ByteStream& stream);
-
+    AP4_AvccAtom(AP4_UI32 size, const AP4_UI08* payload);
+    void UpdateRawBytes();
+    
     // members
     AP4_UI08                  m_ConfigurationVersion;
     AP4_UI08                  m_Profile;

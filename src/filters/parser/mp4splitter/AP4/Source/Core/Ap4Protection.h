@@ -69,6 +69,12 @@ public:
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
+
+    // this method is used as a factory by the ISMACryp classes
+    // NOTE: this should be named ToSampleDescription, but C++ has a 
+    // problem with that because the base class does not have this
+    // overloaded method, but has another other one by that name
+    virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
 };
 
 /*----------------------------------------------------------------------
@@ -88,6 +94,12 @@ public:
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
+
+    // this method is used as a factory by the ISMACryp classes
+    // NOTE: this should be named ToSampleDescription, but C++ has a 
+    // problem with that because the base class does not have this
+    // overloaded method, but has another other one by that name
+    virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
 };
 
 /*----------------------------------------------------------------------
@@ -302,8 +314,19 @@ public:
 class AP4_SampleDecrypter
 {
 public:
-    // factory
+    /**
+     * Create a sample decrypter given a protected sample description
+     */
     static AP4_SampleDecrypter* Create(AP4_ProtectedSampleDescription* sample_description,
+                                       const AP4_UI08*                 key,
+                                       AP4_Size                        key_size,
+                                       AP4_BlockCipherFactory*         block_cipher_factory = NULL);
+
+    /**
+     * Create a fragment sample decrypter given a protected sample description and a track fragment
+     */
+    static AP4_SampleDecrypter* Create(AP4_ProtectedSampleDescription* sample_description,
+                                       AP4_ContainerAtom*              traf,
                                        const AP4_UI08*                 key,
                                        AP4_Size                        key_size,
                                        AP4_BlockCipherFactory*         block_cipher_factory = NULL);
@@ -312,9 +335,11 @@ public:
     virtual ~AP4_SampleDecrypter() {}
 
     // methods
-    virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample) = 0;
-    virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
-                                         AP4_DataBuffer& data_out) = 0;
+    virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
+    virtual AP4_Result SetSampleIndex(AP4_Ordinal /*index*/)      { return AP4_SUCCESS;      }
+    virtual AP4_Result DecryptSampleData(AP4_DataBuffer&    data_in,
+                                         AP4_DataBuffer&    data_out,
+                                         const AP4_UI08*    iv = NULL) = 0;
 };
 
 /*----------------------------------------------------------------------
@@ -331,6 +356,9 @@ public:
     AP4_ProtectionKeyMap& GetKeyMap() { return m_KeyMap; }
     
     // methods
+    virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
+                                  AP4_ByteStream&   stream,
+                                  ProgressListener* listener);
     virtual AP4_Processor::TrackHandler* CreateTrackHandler(AP4_TrakAtom* trak);
 
 private:

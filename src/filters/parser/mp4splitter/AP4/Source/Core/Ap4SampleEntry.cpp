@@ -79,12 +79,25 @@ AP4_SampleEntry::AP4_SampleEntry(AP4_Atom::Type   format,
                                  AP4_AtomFactory& atom_factory) :
     AP4_ContainerAtom(format, size, false)
 {
+    Read(stream, atom_factory);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_SampleEntry::Read
++---------------------------------------------------------------------*/
+void
+AP4_SampleEntry::Read(AP4_ByteStream& stream, AP4_AtomFactory& atom_factory)
+{
     // read the fields before the children atoms
-    AP4_Size fields_size = GetFieldsSize();
     ReadFields(stream);
 
     // read children atoms (ex: esds and maybe others)
-    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
+    // NOTE: not all sample entries have children atoms
+    AP4_Size payload_size = (AP4_Size)(GetSize()-GetHeaderSize());
+    AP4_Size fields_size = GetFieldsSize();
+    if (payload_size > fields_size) {
+        ReadChildren(atom_factory, stream, payload_size-fields_size);
+    }
 }
 
 /*----------------------------------------------------------------------
@@ -185,7 +198,7 @@ AP4_SampleEntry::Inspect(AP4_AtomInspector& inspector)
 void
 AP4_SampleEntry::OnChildChanged(AP4_Atom*)
 {
-    // remcompute our size
+    // recompute our size
     AP4_UI64 size = GetHeaderSize()+GetFieldsSize();
     m_Children.Apply(AP4_AtomSizeAdder(size));
     m_Size32 = (AP4_UI32)size;
@@ -201,6 +214,68 @@ AP4_SampleDescription*
 AP4_SampleEntry::ToSampleDescription()
 {
     return new AP4_SampleDescription(AP4_SampleDescription::TYPE_UNKNOWN, m_Type, this);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry::AP4_UnknownSampleEntry
++---------------------------------------------------------------------*/
+AP4_UnknownSampleEntry::AP4_UnknownSampleEntry(AP4_Atom::Type  type, 
+                                               AP4_Size        size, 
+                                               AP4_ByteStream& stream) :
+    AP4_SampleEntry(type, size)
+{
+    if (size > AP4_ATOM_HEADER_SIZE+AP4_SampleEntry::GetFieldsSize()) {
+        m_Payload.SetDataSize(size-(AP4_ATOM_HEADER_SIZE+AP4_SampleEntry::GetFieldsSize()));
+        ReadFields(stream);
+    }
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry::ToSampleDescription
++---------------------------------------------------------------------*/
+AP4_SampleDescription* 
+AP4_UnknownSampleEntry::ToSampleDescription()
+{
+    return new AP4_UnknownSampleDescription(this);
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry::GetFieldsSize
++---------------------------------------------------------------------*/
+AP4_Size   
+AP4_UnknownSampleEntry::GetFieldsSize()
+{
+    return AP4_SampleEntry::GetFieldsSize()+m_Payload.GetDataSize();
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry::ReadFields
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_UnknownSampleEntry::ReadFields(AP4_ByteStream& stream)
+{
+    // sample entry
+    AP4_Result result = AP4_SampleEntry::ReadFields(stream);
+    if (AP4_FAILED(result)) return result;
+    
+    // read the payload
+    return stream.Read(m_Payload.UseData(), m_Payload.GetDataSize());
+}
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleEntry::WriteFields
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_UnknownSampleEntry::WriteFields(AP4_ByteStream& stream)
+{
+    AP4_Result result;
+    
+    // write the fields of the base class
+    result = AP4_SampleEntry::WriteFields(stream);
+    if (AP4_FAILED(result)) return result;
+    
+    // write the payload
+    return stream.Write(m_Payload.GetData(), m_Payload.GetDataSize());
 }
 
 /*----------------------------------------------------------------------
@@ -306,12 +381,7 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
                                            AP4_AtomFactory& atom_factory) :
     AP4_SampleEntry(format, size)
 {
-    // read fields
-    ReadFields(stream);
-    AP4_Size fields_size = GetFieldsSize();
-
-    // read children atoms (ex: esds and maybe others)
-    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
+    Read(stream, atom_factory);
 }
     
 /*----------------------------------------------------------------------
@@ -524,30 +594,6 @@ AP4_AudioSampleEntry::ToSampleDescription()
 }
 
 /*----------------------------------------------------------------------
-|   AP4_AudioSampleEntry::ToTargetSampleDescription
-+---------------------------------------------------------------------*/
-AP4_SampleDescription*
-AP4_AudioSampleEntry::ToTargetSampleDescription(AP4_UI32 format)
-{
-    switch (format) {
-        case AP4_ATOM_TYPE_MP4A:
-            return new AP4_MpegAudioSampleDescription(
-                GetSampleRate(),
-                GetSampleSize(),
-                GetChannelCount(),
-                AP4_DYNAMIC_CAST(AP4_EsdsAtom, GetChild(AP4_ATOM_TYPE_ESDS)));
-
-        default:
-            return new AP4_GenericAudioSampleDescription(
-                format,
-                GetSampleRate(),
-                GetSampleSize(),
-                GetChannelCount(),
-                this);
-    }
-}
-
-/*----------------------------------------------------------------------
 |   AP4_MpegAudioSampleEntry::AP4_MpegAudioSampleEntry
 +---------------------------------------------------------------------*/
 AP4_MpegAudioSampleEntry::AP4_MpegAudioSampleEntry(
@@ -655,12 +701,7 @@ AP4_VisualSampleEntry::AP4_VisualSampleEntry(AP4_Atom::Type   format,
                                              AP4_AtomFactory& atom_factory) :
     AP4_SampleEntry(format, size)
 {
-    // read fields
-    AP4_Size fields_size = GetFieldsSize();
-    ReadFields(stream);
-
-    // read children atoms (ex: esds and maybe others)
-    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
+    Read(stream, atom_factory);
 }
 
 /*----------------------------------------------------------------------
@@ -814,40 +855,6 @@ AP4_VisualSampleEntry::ToSampleDescription()
 }
 
 /*----------------------------------------------------------------------
-|   AP4_VisualSampleEntry::ToTargetSampleDescription
-+---------------------------------------------------------------------*/
-AP4_SampleDescription*
-AP4_VisualSampleEntry::ToTargetSampleDescription(AP4_UI32 format)
-{
-    switch (format) {
-        case AP4_ATOM_TYPE_AVC1:
-            return new AP4_AvcSampleDescription(
-                m_Width,
-                m_Height,
-                m_Depth,
-                m_CompressorName.GetChars(),
-                this);
-                
-        case AP4_ATOM_TYPE_MP4V:
-            return new AP4_MpegVideoSampleDescription(
-                m_Width,
-                m_Height,
-                m_Depth,
-                m_CompressorName.GetChars(),
-                AP4_DYNAMIC_CAST(AP4_EsdsAtom, GetChild(AP4_ATOM_TYPE_ESDS)));
-
-        default:
-            return new AP4_GenericVideoSampleDescription(
-                format,
-                m_Width,
-                m_Height,
-                m_Depth,
-                m_CompressorName.GetChars(),
-                this);
-    }
-}
-
-/*----------------------------------------------------------------------
 |   AP4_MpegVideoSampleEntry::AP4_MpegVideoSampleEntry
 +---------------------------------------------------------------------*/
 AP4_MpegVideoSampleEntry::AP4_MpegVideoSampleEntry(
@@ -985,19 +992,7 @@ AP4_RtpHintSampleEntry::AP4_RtpHintSampleEntry(AP4_Size         size,
                                                AP4_AtomFactory& atom_factory): 
     AP4_SampleEntry(AP4_ATOM_TYPE_RTP_, size)
 {
-    // read fields
-    AP4_Size fields_size = GetFieldsSize();
-    ReadFields(stream);
-
-    // read children atoms (ex: esds and maybe others)
-    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
-}
-
-/*----------------------------------------------------------------------
-|   AP4_RtpHintSampleEntry::~AP4_RtpHintSampleEntry
-+---------------------------------------------------------------------*/
-AP4_RtpHintSampleEntry::~AP4_RtpHintSampleEntry() 
-{
+    Read(stream, atom_factory);
 }
 
 /*----------------------------------------------------------------------
@@ -1296,17 +1291,19 @@ AP4_Tx3gSampleEntry::GetFontNameById(AP4_Ordinal Id, AP4_String& Name)
 /*----------------------------------------------------------------------
 |       AP4_AC3SampleEntry::AP4_AC3SampleEntry
 +---------------------------------------------------------------------*/
-AP4_AC3SampleEntry::AP4_AC3SampleEntry(AP4_UI32         sample_rate,
+AP4_AC3SampleEntry::AP4_AC3SampleEntry(AP4_Atom::Type   format,
+									   AP4_UI32         sample_rate,
 									   AP4_UI16         sample_size,
 									   AP4_UI16         channel_count) :
-    AP4_AudioSampleEntry(AP4_ATOM_TYPE__AC3, sample_rate, sample_size, channel_count)
+    AP4_AudioSampleEntry(format, sample_rate, sample_size, channel_count)
 {
 }
 
-AP4_AC3SampleEntry::AP4_AC3SampleEntry(AP4_Size         size,
+AP4_AC3SampleEntry::AP4_AC3SampleEntry(AP4_Atom::Type   format,
+									   AP4_Size         size,
 									   AP4_ByteStream&  stream,
 									   AP4_AtomFactory& atom_factory) :
-	AP4_AudioSampleEntry(AP4_ATOM_TYPE__AC3, size, stream, atom_factory)
+	AP4_AudioSampleEntry(format, size, stream, atom_factory)
 {
 }
 

@@ -75,7 +75,8 @@ public:
                                  AP4_DataBuffer& data_out,
                                  AP4_UI32        offset);
     AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
-                                 AP4_DataBuffer& data_out);
+                                 AP4_DataBuffer& data_out,
+                                 const AP4_UI08* iv = NULL);
     AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
     AP4_CtrStreamCipher* GetCipher()   { return m_Cipher;   }
     AP4_UI08             GetIvLength() { return m_IvLength; }

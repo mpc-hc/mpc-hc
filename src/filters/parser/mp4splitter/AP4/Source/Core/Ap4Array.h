@@ -151,10 +151,28 @@ template <typename T>
 AP4_Result 
 AP4_Array<T>::SetItemCount(AP4_Cardinal item_count)
 {
+    // shortcut
+    if (item_count == m_ItemCount) return AP4_SUCCESS;
+    
+    // check for a reduction in the number of items
+    if (item_count < m_ItemCount) {
+        // destruct the items that are no longer needed
+        for (unsigned int i=item_count; i<m_ItemCount; i++) {
+            m_Items[i].~T();
+        }
+        m_ItemCount = item_count;
+        return AP4_SUCCESS;
+    }
+    
+    // grow the list
     AP4_Result result = EnsureCapacity(item_count);
     if (AP4_FAILED(result)) return result;
-    m_ItemCount = item_count;
     
+    // construct the new items
+    for (unsigned int i=m_ItemCount; i<item_count; i++) {
+        new ((void*)&m_Items[i]) T();
+    }
+    m_ItemCount = item_count;
     return AP4_SUCCESS;
 }
 

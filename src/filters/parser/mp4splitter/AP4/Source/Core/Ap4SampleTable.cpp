@@ -114,9 +114,6 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
         ++current_cts_delta_run;
         current_cts_delta = new_cts_delta;
         
-        // store the sample description index
-        current_sample_description_index = sample.GetDescriptionIndex();
-        
         // add an entry into the stsz atom
         stsz->AddEntry(sample.GetSize());
         
@@ -148,6 +145,9 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
             current_chunk_index = chunk_index;
         }
 
+        // store the sample description index
+        current_sample_description_index = sample.GetDescriptionIndex();
+                
         // adjust the current chunk info
         current_chunk_size += sample.GetSize();
         ++current_samples_in_chunk;        

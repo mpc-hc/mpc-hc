@@ -46,6 +46,7 @@
 #include "Ap4AesBlockCipher.h"
 #include "Ap4OmaDcf.h"
 #include "Ap4Marlin.h"
+#include "Ap4Piff.h"
 
 /*----------------------------------------------------------------------
 |   dynamic cast support
@@ -120,6 +121,38 @@ AP4_EncaSampleEntry::ToSampleDescription()
 }
 
 /*----------------------------------------------------------------------
+|   AP4_EncaSampleEntry::ToTargetSampleDescription
++---------------------------------------------------------------------*/
+AP4_SampleDescription*
+AP4_EncaSampleEntry::ToTargetSampleDescription(AP4_UI32 format)
+{
+    switch (format) {
+        case AP4_ATOM_TYPE_MP4A: {
+            AP4_EsdsAtom* esds = AP4_DYNAMIC_CAST(AP4_EsdsAtom, GetChild(AP4_ATOM_TYPE_ESDS));
+            if (esds == NULL) {
+                // check if this is a quicktime style sample description
+                if (m_QtVersion > 0) {
+                    esds = AP4_DYNAMIC_CAST(AP4_EsdsAtom, FindChild("wave/esds"));
+                }
+            }
+            return new AP4_MpegAudioSampleDescription(
+                GetSampleRate(),
+                GetSampleSize(),
+                GetChannelCount(),
+                esds);
+        }
+        
+        default:
+            return new AP4_GenericAudioSampleDescription(
+                format,
+                GetSampleRate(),
+                GetSampleSize(),
+                GetChannelCount(),
+                this);
+    }
+}
+
+/*----------------------------------------------------------------------
 |   AP4_EncvSampleEntry::AP4_EncvSampleEntry
 +---------------------------------------------------------------------*/
 AP4_EncvSampleEntry::AP4_EncvSampleEntry(AP4_UI32         type,
@@ -185,6 +218,40 @@ AP4_EncvSampleEntry::ToSampleDescription()
     // unknown scheme
     return NULL;
 
+}
+
+/*----------------------------------------------------------------------
+|   AP4_EncvSampleEntry::ToTargetSampleDescription
++---------------------------------------------------------------------*/
+AP4_SampleDescription*
+AP4_EncvSampleEntry::ToTargetSampleDescription(AP4_UI32 format)
+{
+    switch (format) {
+        case AP4_ATOM_TYPE_AVC1:
+            return new AP4_AvcSampleDescription(
+                m_Width,
+                m_Height,
+                m_Depth,
+                m_CompressorName.GetChars(),
+                this);
+                
+        case AP4_ATOM_TYPE_MP4V:
+            return new AP4_MpegVideoSampleDescription(
+                m_Width,
+                m_Height,
+                m_Depth,
+                m_CompressorName.GetChars(),
+                AP4_DYNAMIC_CAST(AP4_EsdsAtom, GetChild(AP4_ATOM_TYPE_ESDS)));
+
+        default:
+            return new AP4_GenericVideoSampleDescription(
+                format,
+                m_Width,
+                m_Height,
+                m_Depth,
+                m_CompressorName.GetChars(),
+                this);
+    }
 }
 
 /*----------------------------------------------------------------------
@@ -421,7 +488,8 @@ AP4_TrackPropertyMap::GetTextualHeaders(AP4_UI32 track_id, AP4_DataBuffer& textu
         if (entry->m_TrackId == track_id) {
             const char* name = entry->m_Name.GetChars();
             if (AP4_CompareStrings(name, "ContentId")       != 0 &&
-                AP4_CompareStrings(name, "RightsIssuerUrl") != 0) {   
+                AP4_CompareStrings(name, "RightsIssuerUrl") != 0 &&   
+                AP4_CompareStrings(name, "KID")             != 0) {   
                 buffer_size += (entry->m_Name.GetLength()  + 
                                 entry->m_Value.GetLength() +
                                 2); // colon + nul 
@@ -447,7 +515,8 @@ AP4_TrackPropertyMap::GetTextualHeaders(AP4_UI32 track_id, AP4_DataBuffer& textu
             AP4_Size    value_len  = 0;
             
             if (AP4_CompareStrings(name, "ContentId")       != 0 &&
-                AP4_CompareStrings(name, "RightsIssuerUrl") != 0) {   
+                AP4_CompareStrings(name, "RightsIssuerUrl") != 0 &&
+                AP4_CompareStrings(name, "KID")             != 0) {   
                 name_len  = entry->m_Name.GetLength();
                 value     = entry->m_Value.GetChars();
                 value_len = entry->m_Value.GetLength();                
@@ -578,7 +647,56 @@ AP4_SampleDecrypter::Create(AP4_ProtectedSampleDescription* sample_description,
                                                                       decrypter);
             if (AP4_FAILED(result)) return NULL;
             return decrypter;
-       }
+        }
+
+        case AP4_PROTECTION_SCHEME_TYPE_PIFF: {
+            AP4_PiffSampleDecrypter* decrypter = NULL;
+            AP4_Result result = AP4_PiffSampleDecrypter::Create(sample_description, 
+                                                                NULL,
+                                                                key, 
+                                                                key_size, 
+                                                                block_cipher_factory, 
+                                                                decrypter);
+            if (AP4_FAILED(result)) return NULL;
+            return decrypter;
+        }
+        
+        default:
+            return NULL;
+    }
+
+    return NULL;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_SampleDecrypter:Create
++---------------------------------------------------------------------*/
+AP4_SampleDecrypter* 
+AP4_SampleDecrypter::Create(AP4_ProtectedSampleDescription* sample_description,
+                            AP4_ContainerAtom*              traf,
+                            const AP4_UI08*                 key,
+                            AP4_Size                        key_size,
+                            AP4_BlockCipherFactory*         block_cipher_factory)
+{
+    if (sample_description == NULL || traf == NULL || key == NULL) return NULL;
+
+    // select the block cipher factory
+    if (block_cipher_factory == NULL) {
+        block_cipher_factory = &AP4_DefaultBlockCipherFactory::Instance;
+    }
+
+    switch(sample_description->GetSchemeType()) {
+        case AP4_PROTECTION_SCHEME_TYPE_PIFF: {
+            AP4_PiffSampleDecrypter* decrypter = NULL;
+            AP4_Result result = AP4_PiffSampleDecrypter::Create(sample_description, 
+                                                                traf,
+                                                                key, 
+                                                                key_size, 
+                                                                block_cipher_factory, 
+                                                                decrypter);
+            if (AP4_FAILED(result)) return NULL;
+            return decrypter;
+        }
 
         default:
             return NULL;
@@ -604,6 +722,39 @@ AP4_StandardDecryptingProcessor::AP4_StandardDecryptingProcessor(
     } else {
         m_BlockCipherFactory = block_cipher_factory;
     }
+}
+
+/*----------------------------------------------------------------------
+ |   AP4_StandardDecryptingProcessor:Initialize
+ +---------------------------------------------------------------------*/
+AP4_Result 
+AP4_StandardDecryptingProcessor::Initialize(AP4_AtomParent&   top_level,
+                                            AP4_ByteStream&   /*stream*/,
+                                            ProgressListener* /*listener*/)
+{
+    AP4_FtypAtom* ftyp = AP4_DYNAMIC_CAST(AP4_FtypAtom, top_level.GetChild(AP4_ATOM_TYPE_FTYP));
+    if (ftyp) {
+        // remove the atom, it will be replaced with a new one
+        top_level.RemoveChild(ftyp);
+        
+        // keep the existing brand and compatible brands except for the ones we want to remove
+        AP4_Array<AP4_UI32> compatible_brands;
+        compatible_brands.EnsureCapacity(ftyp->GetCompatibleBrands().ItemCount());
+        for (unsigned int i=0; i<ftyp->GetCompatibleBrands().ItemCount(); i++) {
+            if (ftyp->GetCompatibleBrands()[i] != AP4_OMA_DCF_BRAND_OPF2) {
+                compatible_brands.Append(ftyp->GetCompatibleBrands()[i]);
+            }
+        }
+        
+        // create a replacement for the major brand
+        top_level.AddChild(new AP4_FtypAtom(ftyp->GetMajorBrand(),
+                                            ftyp->GetMinorVersion(),
+                                            &compatible_brands[0],
+                                            compatible_brands.ItemCount()), 0);
+        delete ftyp;
+    }
+    
+    return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------

@@ -129,11 +129,16 @@ private:
         AP4_SampleDescription* m_SampleDescription;
         bool                   m_IsOwned;
     };
-    
+        
     // members
     AP4_Array<AP4_Sample>             m_Samples;
     AP4_List<SampleDescriptionHolder> m_SampleDescriptions;
     AP4_Cardinal                      m_ChunkSize;
+    AP4_Array<AP4_UI32>               m_SamplesInChunk;
+    struct {
+        AP4_Ordinal m_Sample;
+        AP4_Ordinal m_Chunk;
+    } m_LookupCache;
 };
 
 #endif // _AP4_SYNTHETIC_SAMPLE_TABLE_H_

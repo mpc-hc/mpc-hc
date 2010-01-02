@@ -161,4 +161,42 @@ private:
     AP4_Cardinal    m_ReferenceCount;
 };
 
+/*----------------------------------------------------------------------
+|   AP4_BufferedInputStream
++---------------------------------------------------------------------*/
+class AP4_BufferedInputStream : public AP4_ByteStream
+{
+public:
+    AP4_BufferedInputStream(AP4_ByteStream& source, 
+                            AP4_Size        buffer_size=4096,
+                            AP4_Size        seek_as_read_threshold=1024*128);
+
+    // AP4_ByteStream methods
+    AP4_Result ReadPartial(void*     buffer, 
+                           AP4_Size  bytes_to_read, 
+                           AP4_Size& bytes_read);
+    AP4_Result WritePartial(const void* buffer, 
+                            AP4_Size    bytes_to_write, 
+                            AP4_Size&   bytes_written);
+    AP4_Result Seek(AP4_Position position);
+    AP4_Result Tell(AP4_Position& position);
+    AP4_Result GetSize(AP4_LargeSize& size) { return m_Source.GetSize(size); }
+
+    // AP4_Referenceable methods
+    void AddReference();
+    void Release();
+
+protected:
+   ~AP4_BufferedInputStream() { m_Source.Release(); }
+    AP4_Result Refill();
+    
+private:
+    AP4_DataBuffer  m_Buffer;
+    AP4_Size        m_BufferPosition;
+    AP4_ByteStream& m_Source;
+    AP4_Position    m_SourcePosition;
+    AP4_Size        m_SeekAsReadThreshold;
+    AP4_Cardinal    m_ReferenceCount;
+};
+
 #endif // _AP4_BYTE_STREAM_H_

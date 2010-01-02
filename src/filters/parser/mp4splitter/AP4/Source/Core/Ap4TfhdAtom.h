@@ -50,6 +50,8 @@ const AP4_UI32 AP4_TFHD_FLAG_DURATION_IS_EMPTY                = 0x10000;
 class AP4_TfhdAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_TfhdAtom)
+
     // class methods
     static AP4_TfhdAtom* Create(AP4_Size size, AP4_ByteStream& stream);
     static AP4_UI32      ComputeSize(AP4_UI32 flags);

@@ -40,6 +40,8 @@
 class AP4_MfhdAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_MfhdAtom)
+
     // class methods
     static AP4_MfhdAtom* Create(AP4_Size size, AP4_ByteStream& stream);
 

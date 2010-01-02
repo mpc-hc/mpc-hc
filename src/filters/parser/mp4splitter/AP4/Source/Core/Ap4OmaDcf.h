@@ -43,7 +43,6 @@
 /*----------------------------------------------------------------------
 |   class references
 +---------------------------------------------------------------------*/
-class AP4_CtrStreamCipher;
 class AP4_OdafAtom;
 class AP4_StreamCipher;
 class AP4_CbcStreamCipher;
@@ -133,7 +132,8 @@ public:
 
     // methods
     virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
-                                         AP4_DataBuffer& data_out);
+                                         AP4_DataBuffer& data_out,
+                                         const AP4_UI08* iv = NULL);
     virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
 
 private:
@@ -154,7 +154,8 @@ public:
 
     // methods
     virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
-                                         AP4_DataBuffer& data_out);
+                                         AP4_DataBuffer& data_out,
+                                         const AP4_UI08* iv = NULL);
     virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
 
 private:

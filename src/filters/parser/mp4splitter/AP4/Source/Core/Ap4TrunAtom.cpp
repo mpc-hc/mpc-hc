@@ -33,6 +33,11 @@
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
+|   dynamic cast support
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_TrunAtom)
+
+/*----------------------------------------------------------------------
 |   AP4_TrunAtom::Create
 +---------------------------------------------------------------------*/
 AP4_TrunAtom*
@@ -46,17 +51,31 @@ AP4_TrunAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 }
 
 /*----------------------------------------------------------------------
-|   AP4_TrunAtom::ComputeSize
+|   AP4_TrunAtom::ComputeRecordFieldsCount
 +---------------------------------------------------------------------*/
-AP4_UI32 
-AP4_TrunAtom::ComputeEntrySize(AP4_UI32 flags)
+unsigned int 
+AP4_TrunAtom::ComputeRecordFieldsCount(AP4_UI32 flags)
 {
-    AP4_UI32 size = 0;
-    if (flags & AP4_TRUN_FLAG_SAMPLE_DURATION_PRESENT)                size += 4;
-    if (flags & AP4_TRUN_FLAG_SAMPLE_SIZE_PRESENT)                    size += 4;
-    if (flags & AP4_TRUN_FLAG_SAMPLE_FLAGS_PRESENT)                   size += 4;
-    if (flags & AP4_TRUN_FLAG_SAMPLE_COMPOSITION_TIME_OFFSET_PRESENT) size += 4;
-    return size;
+    // count the number of bits set to 1 in the second byte of the flags
+    unsigned int count = 0;
+    for (unsigned int i=0; i<8; i++) {
+        if (flags & (1<<(i+8))) ++count;
+    }
+    return count;
+}
+
+/*----------------------------------------------------------------------
+|   AP4_TrunAtom::ComputeOptionalFieldsCount
++---------------------------------------------------------------------*/
+unsigned int 
+AP4_TrunAtom::ComputeOptionalFieldsCount(AP4_UI32 flags)
+{
+    // count the number of bits set to 1 in the LSB of the flags
+    unsigned int count = 0;
+    for (unsigned int i=0; i<8; i++) {
+        if (flags & (1<<i)) ++count;
+    }
+    return count;
 }
 
 /*----------------------------------------------------------------------
@@ -69,8 +88,7 @@ AP4_TrunAtom::AP4_TrunAtom(AP4_UI32 flags,
     m_DataOffset(data_offset),
     m_FirstSampleFlags(first_sample_flags)
 {
-    if (flags & AP4_TRUN_FLAG_DATA_OFFSET_PRESENT)        m_Size32 += 4;
-    if (flags & AP4_TRUN_FLAG_FIRST_SAMPLE_FLAGS_PRESENT) m_Size32 += 4;
+    m_Size32 += 4*ComputeOptionalFieldsCount(flags);
 }
 
 /*----------------------------------------------------------------------
@@ -84,27 +102,50 @@ AP4_TrunAtom::AP4_TrunAtom(AP4_UI32        size,
 {
     AP4_UI32 sample_count = 0;
     stream.ReadUI32(sample_count);
+
+    // read optional fields
+    int optional_fields_count = (int)ComputeOptionalFieldsCount(flags);
     if (flags & AP4_TRUN_FLAG_DATA_OFFSET_PRESENT) {
         AP4_UI32 offset = 0;
         stream.ReadUI32(offset);
         m_DataOffset = (AP4_SI32)offset;
+        --optional_fields_count;
     }
     if (flags & AP4_TRUN_FLAG_FIRST_SAMPLE_FLAGS_PRESENT) {
         stream.ReadUI32(m_FirstSampleFlags);
+        --optional_fields_count;
     }
+    
+    // discard unknown optional fields 
+    for (int i=0; i<optional_fields_count; i++) {
+        AP4_UI32 discard;
+        stream.ReadUI32(discard);
+    }
+    
+    int record_fields_count = (int)ComputeRecordFieldsCount(flags);
     m_Entries.SetItemCount(sample_count);
     for (unsigned int i=0; i<sample_count; i++) {
         if (flags & AP4_TRUN_FLAG_SAMPLE_DURATION_PRESENT) {
             stream.ReadUI32(m_Entries[i].sample_duration);
+            --record_fields_count;
         }
         if (flags & AP4_TRUN_FLAG_SAMPLE_SIZE_PRESENT) {
             stream.ReadUI32(m_Entries[i].sample_size);
+            --record_fields_count;
         }
         if (flags & AP4_TRUN_FLAG_SAMPLE_FLAGS_PRESENT) {
             stream.ReadUI32(m_Entries[i].sample_flags);
+            --record_fields_count;
         }
         if (flags & AP4_TRUN_FLAG_SAMPLE_COMPOSITION_TIME_OFFSET_PRESENT) {
             stream.ReadUI32(m_Entries[i].sample_composition_time_offset);
+            --record_fields_count;
+        }
+    
+        // skip unknown fields 
+        for (int j=0;j<record_fields_count; j++) {
+            AP4_UI32 discard;
+            stream.ReadUI32(discard);
         }
     }
 }

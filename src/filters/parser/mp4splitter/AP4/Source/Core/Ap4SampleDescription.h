@@ -49,10 +49,39 @@ class AP4_DataBuffer;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-#define AP4_SAMPLE_FORMAT_MP4A AP4_ATOM_TYPE_MP4A
-#define AP4_SAMPLE_FORMAT_MP4V AP4_ATOM_TYPE_MP4V
-#define AP4_SAMPLE_FORMAT_AVC1 AP4_ATOM_TYPE_AVC1
-#define AP4_SAMPLE_FORMAT_ALAC AP4_ATOM_TYPE_ALAC
+#define AP4_SAMPLE_FORMAT_MP4A AP4_ATOM_TYPE('m','p','4','a')
+#define AP4_SAMPLE_FORMAT_MP4V AP4_ATOM_TYPE('m','p','4','v')
+#define AP4_SAMPLE_FORMAT_MP4S AP4_ATOM_TYPE('m','p','4','s')
+#define AP4_SAMPLE_FORMAT_AVC1 AP4_ATOM_TYPE('a','v','c','1')
+#define AP4_SAMPLE_FORMAT_ALAC AP4_ATOM_TYPE('a','l','a','c')
+#define AP4_SAMPLE_FORMAT_OWMA AP4_ATOM_TYPE('o','w','m','a')
+#define AP4_SAMPLE_FORMAT_OVC1 AP4_ATOM_TYPE('o','v','c','1')
+#define AP4_SAMPLE_FORMAT_AVCP AP4_ATOM_TYPE('a','v','c','p')
+#define AP4_SAMPLE_FORMAT_DRAC AP4_ATOM_TYPE('d','r','a','c')
+#define AP4_SAMPLE_FORMAT_DRA1 AP4_ATOM_TYPE('d','r','a','1')
+#define AP4_SAMPLE_FORMAT_AC_3 AP4_ATOM_TYPE('a','c','-','3')
+#define AP4_SAMPLE_FORMAT_EC_3 AP4_ATOM_TYPE('e','c','-','3')
+#define AP4_SAMPLE_FORMAT_G726 AP4_ATOM_TYPE('g','7','2','6')
+#define AP4_SAMPLE_FORMAT_MJP2 AP4_ATOM_TYPE('m','j','p','2')
+#define AP4_SAMPLE_FORMAT_OKSD AP4_ATOM_TYPE('o','k','s','d')
+#define AP4_SAMPLE_FORMAT_RAW_ AP4_ATOM_TYPE('r','a','w',' ')
+#define AP4_SAMPLE_FORMAT_RTP_ AP4_ATOM_TYPE('r','t','p',' ')
+#define AP4_SAMPLE_FORMAT_S263 AP4_ATOM_TYPE('s','2','6','3')
+#define AP4_SAMPLE_FORMAT_SAMR AP4_ATOM_TYPE('s','a','m','r')
+#define AP4_SAMPLE_FORMAT_SAWB AP4_ATOM_TYPE('s','a','w','b')
+#define AP4_SAMPLE_FORMAT_SAWP AP4_ATOM_TYPE('s','a','w','p')
+#define AP4_SAMPLE_FORMAT_SEVC AP4_ATOM_TYPE('s','e','v','c')
+#define AP4_SAMPLE_FORMAT_SQCP AP4_ATOM_TYPE('s','q','c','p')
+#define AP4_SAMPLE_FORMAT_SRTP AP4_ATOM_TYPE('s','r','t','p')
+#define AP4_SAMPLE_FORMAT_SSMV AP4_ATOM_TYPE('s','s','m','v')
+#define AP4_SAMPLE_FORMAT_TEXT AP4_ATOM_TYPE('t','e','t','x')
+#define AP4_SAMPLE_FORMAT_TWOS AP4_ATOM_TYPE('t','w','o','s')
+#define AP4_SAMPLE_FORMAT_TX3G AP4_ATOM_TYPE('t','x','3','g')
+#define AP4_SAMPLE_FORMAT_VC_1 AP4_ATOM_TYPE('v','c','-','1')
+#define AP4_SAMPLE_FORMAT_XML_ AP4_ATOM_TYPE('x','m','l',' ')
+
+const char*
+AP4_GetFormatName(AP4_UI32 format);
 
 /*----------------------------------------------------------------------
 |   AP4_SampleDescription
@@ -89,6 +118,28 @@ class AP4_SampleDescription
     Type           m_Type;
     AP4_UI32       m_Format;
     AP4_AtomParent m_Details;
+};
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownSampleDescription
++---------------------------------------------------------------------*/
+class AP4_UnknownSampleDescription : public AP4_SampleDescription
+{
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_UnknownSampleDescription, AP4_SampleDescription)
+
+    // this constructor takes makes a copy of the atom passed as an argument
+    AP4_UnknownSampleDescription(AP4_Atom* atom);
+    ~AP4_UnknownSampleDescription();
+
+    virtual AP4_SampleDescription* Clone(AP4_Result* result);
+    virtual AP4_Atom* ToAtom() const;    
+    
+    // accessor
+    const AP4_Atom* GetAtom() { return m_Atom; }
+    
+private:
+    AP4_Atom* m_Atom;
 };
 
 /*----------------------------------------------------------------------
@@ -216,7 +267,6 @@ public:
                              AP4_UI16                         height,
                              AP4_UI16                         depth,
                              const char*                      compressor_name,
-                             AP4_UI08                         config_version,
                              AP4_UI08                         profile,
                              AP4_UI08                         level,
                              AP4_UI08                         profile_compatibility,
@@ -274,13 +324,12 @@ class AP4_MpegSampleDescription : public AP4_SampleDescription
                               AP4_UI32              avg_bitrate);
     
     // accessors
-    AP4_Byte GetStreamType() const { return m_StreamType; }
+    AP4_Byte GetStreamType()   const { return m_StreamType; }
     AP4_Byte GetObjectTypeId() const { return m_ObjectTypeId; }
-    AP4_UI32 GetBufferSize() const { return m_BufferSize; }
-    AP4_UI32 GetMaxBitrate() const { return m_MaxBitrate; }
-    AP4_UI32 GetAvgBitrate() const { return m_AvgBitrate; }
+    AP4_UI32 GetBufferSize()   const { return m_BufferSize; }
+    AP4_UI32 GetMaxBitrate()   const { return m_MaxBitrate; }
+    AP4_UI32 GetAvgBitrate()   const { return m_AvgBitrate; }
     const AP4_DataBuffer& GetDecoderInfo() const { return m_DecoderInfo; }
-    
 
     // methods
     AP4_EsDescriptor* CreateEsDescriptor() const;
@@ -421,26 +470,48 @@ const AP4_MpegSampleDescription::OTI AP4_OTI_MPEG2_PART3_AUDIO    = 0x69;
 const AP4_MpegSampleDescription::OTI AP4_OTI_MPEG1_VISUAL         = 0x6A;
 const AP4_MpegSampleDescription::OTI AP4_OTI_MPEG1_AUDIO          = 0x6B;
 const AP4_MpegSampleDescription::OTI AP4_OTI_JPEG                 = 0x6C;
+
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_MAIN              = 1;  /**< AAC Main Profile                             */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_LC                = 2;  /**< AAC Low Complexity                           */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_SSR               = 3;  /**< AAC Scalable Sample Rate                     */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_LTP               = 4;  /**< AAC Long Term Predictor                      */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SBR                   = 5;  /**< Spectral Band Replication                    */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_SCALABLE          = 6;  /**< AAC Scalable                                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_TWINVQ                = 7;  /**< Twin VQ                                      */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_CELP                  = 8;  /**< CELP                                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_HVXC                  = 9;  /**< HVXC                                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_TTSI                  = 12; /**< TTSI                                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_MAIN_SYNTHETIC        = 13; /**< Main Synthetic                               */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_WAVETABLE_SYNTHESIS   = 14; /**< WavetableSynthesis                           */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_GENERAL_MIDI          = 15; /**< General MIDI                                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ALGORITHMIC_SYNTHESIS = 16; /**< Algorithmic Synthesis                        */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LC             = 17; /**< Error Resilient AAC Low Complexity           */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LTP            = 19; /**< Error Resilient AAC Long Term Prediction     */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_SCALABLE       = 20; /**< Error Resilient AAC Scalable                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_TWINVQ             = 21; /**< Error Resilient Twin VQ                      */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC               = 22; /**< Error Resilient Bit Sliced Arithmetic Coding */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LD             = 23; /**< Error Resilient AAC Low Delay                */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_CELP               = 24; /**< Error Resilient CELP                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_HVXC               = 25; /**< Error Resilient HVXC                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_HILN               = 26; /**< Error Resilient HILN                         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_PARAMETRIC         = 27; /**< Error Resilient Parametric                   */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SSC                   = 28; /**< SSC                                          */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_PS                    = 29; /**< Parametric Stereo                            */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_MPEG_SURROUND         = 30; /**< MPEG Surround                                */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_1               = 32; /**< MPEG Layer 1                                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_2               = 33; /**< MPEG Layer 2                                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_3               = 34; /**< MPEG Layer 3                                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_DST                   = 35; /**< DST Direct Stream Transfer                   */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ALS                   = 36; /**< ALS Lossless Coding                          */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SLS                   = 37; /**< SLS Scalable Lossless Coding                 */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SLS_NON_CORE          = 38; /**< SLS Sclable Lossless Coding Non-Core         */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_ELD            = 39; /**< Error Resilient AAC ELD                      */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SMR_SIMPLE            = 40; /**< SMR Simple                                   */
+const AP4_UI08 AP4_MPEG4_AUDIO_OBJECT_TYPE_SMR_MAIN              = 41; /**< SMR Main                                     */
+
 // ==> Start patch MPC
 const AP4_MpegSampleDescription::OTI AP4_NERO_VOBSUB              = 0xE0;
 // <== End patch MPC
-
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_MAIN        = 1;  /**< AAC Main Profile              */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_LC          = 2;  /**< AAC Low Complexity            */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_SSR         = 3;  /**< AAC Scalable Sample Rate      */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_LTP         = 4;  /**< AAC Long Term Predictor       */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_SBR             = 5;  /**< Spectral Band Replication          */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_SCALABLE    = 6;  /**< AAC Scalable                       */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_TWINVQ          = 7;  /**< Twin VQ                            */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LC       = 17; /**< Error Resilient AAC Low Complexity */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LTP      = 19; /**< Error Resilient AAC Long Term Prediction */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_SCALABLE = 20; /**< Error Resilient AAC Scalable */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_TWINVQ       = 21; /**< Error Resilient Twin VQ */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC         = 22; /**< Error Resilient Bit Sliced Arithmetic Coding */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LD       = 23; /**< Error Resilient AAC Low Delay */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_1         = 32; /**< MPEG Layer 1 */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_2         = 33; /**< MPEG Layer 2 */
-const AP4_MpegAudioSampleDescription::Mpeg4AudioObjectType AP4_MPEG4_AUDIO_OBJECT_TYPE_LAYER_3         = 34; /**< MPEG Layer 3 */
 
 #endif // _AP4_SAMPLE_DESCRIPTION_H_
 

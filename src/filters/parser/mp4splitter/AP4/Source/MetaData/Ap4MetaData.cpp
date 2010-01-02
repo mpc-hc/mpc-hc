@@ -916,8 +916,8 @@ AP4_MetaData::Entry::AddToFile(AP4_File& file, AP4_Ordinal index)
     } else if (m_Key.GetNamespace() == "dcf") {
         return AddToFileDcf(file, index);
     } else {
-        // unsupported namespace
-        return AP4_ERROR_NOT_SUPPORTED;
+        // custom namespace
+        return AddToFileIlst(file, index);
     }
 }
 

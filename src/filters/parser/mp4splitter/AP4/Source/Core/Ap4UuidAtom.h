@@ -40,6 +40,12 @@
 #include "Ap4ByteStream.h"
 
 /*----------------------------------------------------------------------
+|   constants
++---------------------------------------------------------------------*/
+const AP4_UI32 AP4_UUID_ATOM_HEADER_SIZE      = AP4_ATOM_HEADER_SIZE+16;
+const AP4_UI32 AP4_FULL_UUID_ATOM_HEADER_SIZE = AP4_FULL_ATOM_HEADER_SIZE+16;
+
+/*----------------------------------------------------------------------
 |   AP4_UuidAtom
 +---------------------------------------------------------------------*/
 /**
@@ -48,19 +54,42 @@
 class AP4_UuidAtom : public AP4_Atom {
 public:
     // constructor and destructor
-    AP4_UuidAtom(AP4_UI64         size, 
-                 AP4_ByteStream&  stream);
-    ~AP4_UuidAtom();
+    virtual ~AP4_UuidAtom() {};
 
     // methods
-    virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
+    virtual AP4_Size   GetHeaderSize() const;
+    virtual AP4_Result WriteHeader(AP4_ByteStream& stream);
+    virtual AP4_Result InspectHeader(AP4_AtomInspector& inspector);
+
+    // accessors
+    const AP4_UI08* GetUuid() { return m_Uuid; }
+    
+protected:
+    // members
+    AP4_UuidAtom(AP4_UI64 size, const AP4_UI08* uuid);
+    AP4_UuidAtom(AP4_UI64 size, const AP4_UI08* uuid, AP4_UI32 version, AP4_UI32 flags);
+    AP4_UuidAtom(AP4_UI64 size, bool is_full, AP4_ByteStream& stream);
+    AP4_UI08 m_Uuid[16];
+};
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownUuidAtom
++---------------------------------------------------------------------*/
+/**
+ * Unknown uuid atoms.
+ */
+class AP4_UnknownUuidAtom : public AP4_UuidAtom {
+public:
+    // constructors
+    AP4_UnknownUuidAtom(AP4_UI64 size, AP4_ByteStream& stream);
+    AP4_UnknownUuidAtom(AP4_UI64 size, const AP4_UI08* uuid, AP4_ByteStream& stream);
+
+    // methods
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
 protected:
     // members
-    AP4_UI08        m_Uuid[16];
-    AP4_ByteStream* m_SourceStream;
-    AP4_Position    m_SourcePosition;
+    AP4_DataBuffer m_Data;
 };
 
 #endif // _AP4_UUID_ATOM_H_

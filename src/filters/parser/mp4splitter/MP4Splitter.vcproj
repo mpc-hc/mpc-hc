@@ -818,14 +818,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ByteStream.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\AP4\Source\Core\Ap4ByteStream.h"
-					>
-				</File>
-				<File
 					RelativePath=".\AP4\Source\Core\Ap4ChplAtom.cpp"
 					>
 				</File>
@@ -875,10 +867,6 @@
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4CttsAtom.h"
-					>
-				</File>
-				<File
-					RelativePath=".\AP4\Source\Core\Ap4DataAtom.h"
 					>
 				</File>
 				<File
@@ -1002,6 +990,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4FragmentSampleTable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4FragmentSampleTable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4FrmaAtom.cpp"
 					>
 				</File>
@@ -1118,6 +1114,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4LinearReader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4LinearReader.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4List.h"
 					>
 				</File>
@@ -1138,11 +1142,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4MehdAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4MehdAtom.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4MfhdAtom.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4MfhdAtom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4MfroAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4MfroAtom.h"
 					>
 				</File>
 				<File
@@ -1159,6 +1179,22 @@
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4Movie.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4MovieFragment.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4MovieFragment.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4Mpeg2Ts.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4Mpeg2Ts.h"
 					>
 				</File>
 				<File
@@ -1226,6 +1262,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4Piff.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4Piff.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4Processor.cpp"
 					>
 				</File>
@@ -1287,6 +1331,14 @@
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4SampleEntry.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4SampleSource.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4SampleSource.h"
 					>
 				</File>
 				<File
@@ -1402,6 +1454,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4TfraAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4TfraAtom.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4TimsAtom.cpp"
 					>
 				</File>
@@ -1439,6 +1499,14 @@
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4TrefTypeAtom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4TrexAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4TrexAtom.h"
 					>
 				</File>
 				<File
@@ -1527,6 +1595,50 @@
 				</File>
 				<File
 					RelativePath=".\AP4\Source\MetaData\Ap4MetaData.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Codec"
+				>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4AdtsParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4AdtsParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4AvcParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4AvcParser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4BitStream.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4BitStream.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4ByteStream.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4ByteStream.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4Mp4AudioInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Codecs\Ap4Mp4AudioInfo.h"
 					>
 				</File>
 			</Filter>

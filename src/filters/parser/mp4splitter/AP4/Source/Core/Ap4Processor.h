@@ -36,15 +36,16 @@
 #include "Ap4AtomFactory.h"
 #include "Ap4File.h"
 #include "Ap4Track.h"
+#include "Ap4Sample.h"
 
 /*----------------------------------------------------------------------
 |   class references
 +---------------------------------------------------------------------*/
 class AP4_ContainerAtom;
-class AP4_Sample;
 class AP4_ByteStream;
 class AP4_DataBuffer;
 class AP4_TrakAtom;
+struct AP4_MoofLocator;
 
 /*----------------------------------------------------------------------
 |   AP4_Processor
@@ -87,17 +88,59 @@ public:
         virtual ~TrackHandler() {}
 
         /**
-         * Returns the size of a sample after processing.
-         * @param sample Sample of which the processed size is requested.
-         * @return Size of the sample data after processing.
-         */
-        virtual AP4_Size   GetProcessedSampleSize(AP4_Sample& sample);
-
-        /**
          * A track handler may override this method if it needs to modify
          * the track atoms before processing the track samples.
          */
         virtual AP4_Result ProcessTrack() { return AP4_SUCCESS; }
+
+        /**
+         * Returns the size of a sample after processing.
+         * @param sample Sample of which the processed size is requested.
+         * @return Size of the sample data after processing.
+         */
+        virtual AP4_Size GetProcessedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
+
+        /**
+         * Process the data of one sample.
+         * @param data_in Data buffer with the data of the sample to process.
+         * @param data_out Data buffer in which the processed sample data is
+         * returned.
+         */
+        virtual AP4_Result ProcessSample(AP4_DataBuffer& data_in,
+                                         AP4_DataBuffer& data_out) = 0;
+    };
+
+    /**
+     * Abstract class that defines the interface implemented by concrete
+     * fragment handlers. A fragment handler is responsible for processing a 
+     * fragment and its media samples.
+     */
+    class FragmentHandler {
+    public:
+        /**
+         * Default destructor.
+         */
+        virtual ~FragmentHandler() {}
+
+        /**
+         * A fragment handler may override this method if it needs to modify
+         * the fragment atoms before processing the fragment samples.
+         */
+        virtual AP4_Result ProcessFragment() { return AP4_SUCCESS; }
+
+        /**
+         * A fragment handler may override this method if it needs to modify
+         * the fragment atoms after processing the fragment samples.
+         * NOTE: this method MUST NOT change the size of any of the atoms.
+         */
+        virtual AP4_Result FinishFragment() { return AP4_ERROR_NOT_SUPPORTED; }
+
+        /**
+         * Returns the size of a sample after processing.
+         * @param sample Sample of which the processed size is requested.
+         * @return Size of the sample data after processing.
+         */
+        virtual AP4_Size   GetProcessedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
 
         /**
          * Process the data of one sample.
@@ -154,10 +197,20 @@ public:
      * It is called once for each track in the input file.
      * @param track Pointer to the track for which a handler should be
      * created. 
-     * @return A pointer to a track handler, or NULL if not handler 
+     * @return A pointer to a track handler, or NULL if no handler 
      * needs to be created for that track.
      */
-    virtual TrackHandler* CreateTrackHandler(AP4_TrakAtom* trak);
+    virtual TrackHandler* CreateTrackHandler(AP4_TrakAtom* /*trak*/) { return NULL; }
+
+    /**
+     * This method can be overridden by concrete subclasses.
+     * It is called once for each fragment in the input file.
+     * @param track Pointer to the fragment for which a handler should be
+     * created. 
+     * @return A pointer to a fragment handler, or NULL if no handler 
+     * needs to be created for that fragment.
+     */
+    virtual FragmentHandler* CreateFragmentHandler(AP4_ContainerAtom* /*traf*/) { return NULL; }
     
 protected:
     class ExternalTrackData {
@@ -170,6 +223,13 @@ protected:
         unsigned int    m_TrackId;
         AP4_ByteStream* m_MediaData;
     };
+
+    AP4_Result ProcessFragments(AP4_MoovAtom*              moov, 
+                                AP4_List<AP4_MoofLocator>& moofs, 
+                                AP4_ContainerAtom*         mfra,
+                                AP4_ByteStream&            input, 
+                                AP4_ByteStream&            output);
+    
     
     AP4_List<ExternalTrackData> m_ExternalTrackData;
 };

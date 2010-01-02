@@ -150,7 +150,7 @@ private:
  * Abstract base class for all atom types.
  */
 class AP4_Atom {
- public:
+public:
      AP4_IMPLEMENT_DYNAMIC_CAST(AP4_Atom)
 
    // types
@@ -198,7 +198,7 @@ class AP4_Atom {
     void               SetFlags(AP4_UI32 flags) { m_Flags = flags; }
     Type               GetType() const { return m_Type; }
     void               SetType(Type type) { m_Type = type; }
-    AP4_Size           GetHeaderSize() const;
+    virtual AP4_Size   GetHeaderSize() const;
     AP4_UI64           GetSize() const { return m_Size32 == 1?m_Size64:m_Size32; }
     void               SetSize(AP4_UI64 size, bool force_64 = false);
     AP4_UI32           GetSize32() const { return m_Size32; }
@@ -261,6 +261,7 @@ public:
     virtual AP4_Result  RemoveChild(AP4_Atom* child);
     virtual AP4_Result  DeleteChild(AP4_Atom::Type type, AP4_Ordinal index = 0);
     virtual AP4_Atom*   GetChild(AP4_Atom::Type type, AP4_Ordinal index = 0) const;
+    virtual AP4_Atom*   GetChild(const AP4_UI08* uuid, AP4_Ordinal index = 0) const;
     virtual AP4_Atom*   FindChild(const char* path, 
                                   bool        auto_create = false,
                                   bool        auto_create_full = false);
@@ -283,6 +284,8 @@ protected:
  * Instances of this class keep a reference to the stream from which 
  * the atom is parsed, so that it can read the atom's payload when it
  * is serialized.
+ * If the atom is small, its payload is actually read and stored in 
+ * a data buffer, so no reference to the source stream is kept
  */
 class AP4_UnknownAtom : public AP4_Atom {
 public:
@@ -290,6 +293,8 @@ public:
     AP4_UnknownAtom(AP4_Atom::Type   type, 
                     AP4_UI64         size, 
                     AP4_ByteStream&  stream);
+    AP4_UnknownAtom(AP4_Atom::Type type, const AP4_UI08* payload, AP4_Size payload_size);
+    AP4_UnknownAtom(const AP4_UnknownAtom& other);
     ~AP4_UnknownAtom();
 
     // methods
@@ -300,6 +305,7 @@ private:
     // members
     AP4_ByteStream* m_SourceStream;
     AP4_Position    m_SourcePosition;
+    AP4_DataBuffer  m_Payload;
 };
 
 /*----------------------------------------------------------------------
@@ -352,6 +358,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_SINF = AP4_ATOM_TYPE('s','i','n','f');
 const AP4_Atom::Type AP4_ATOM_TYPE_SCHM = AP4_ATOM_TYPE('s','c','h','m');
 const AP4_Atom::Type AP4_ATOM_TYPE_SCHI = AP4_ATOM_TYPE('s','c','h','i');
 const AP4_Atom::Type AP4_ATOM_TYPE_MVHD = AP4_ATOM_TYPE('m','v','h','d');
+const AP4_Atom::Type AP4_ATOM_TYPE_MEHD = AP4_ATOM_TYPE('m','e','h','d');
 const AP4_Atom::Type AP4_ATOM_TYPE_MP4S = AP4_ATOM_TYPE('m','p','4','s');
 const AP4_Atom::Type AP4_ATOM_TYPE_MP4A = AP4_ATOM_TYPE('m','p','4','a');
 const AP4_Atom::Type AP4_ATOM_TYPE_MP4V = AP4_ATOM_TYPE('m','p','4','v');
@@ -362,6 +369,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_ENCV = AP4_ATOM_TYPE('e','n','c','v');
 const AP4_Atom::Type AP4_ATOM_TYPE_MOOV = AP4_ATOM_TYPE('m','o','o','v');
 const AP4_Atom::Type AP4_ATOM_TYPE_MOOF = AP4_ATOM_TYPE('m','o','o','f');
 const AP4_Atom::Type AP4_ATOM_TYPE_MVEX = AP4_ATOM_TYPE('m','v','e','x');
+const AP4_Atom::Type AP4_ATOM_TYPE_TREX = AP4_ATOM_TYPE('t','r','e','x');
 const AP4_Atom::Type AP4_ATOM_TYPE_MINF = AP4_ATOM_TYPE('m','i','n','f');
 const AP4_Atom::Type AP4_ATOM_TYPE_META = AP4_ATOM_TYPE('m','e','t','a');
 const AP4_Atom::Type AP4_ATOM_TYPE_MDHD = AP4_ATOM_TYPE('m','d','h','d');
@@ -417,18 +425,19 @@ const AP4_Atom::Type AP4_ATOM_TYPE_WIDE = AP4_ATOM_TYPE('w','i','d','e');
 const AP4_Atom::Type AP4_ATOM_TYPE_UUID = AP4_ATOM_TYPE('u','u','i','d');
 const AP4_Atom::Type AP4_ATOM_TYPE_8ID_ = AP4_ATOM_TYPE('8','i','d',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_8BDL = AP4_ATOM_TYPE('8','b','d','l');
+const AP4_Atom::Type AP4_ATOM_TYPE_AC_3 = AP4_ATOM_TYPE('a','c','-','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_EC_3 = AP4_ATOM_TYPE('e','c','-','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_MFRA = AP4_ATOM_TYPE('m','f','r','a');
+const AP4_Atom::Type AP4_ATOM_TYPE_TFRA = AP4_ATOM_TYPE('t','f','r','a');
+const AP4_Atom::Type AP4_ATOM_TYPE_MFRO = AP4_ATOM_TYPE('m','f','r','o');
 
 // ==> Start patch MPC
 const AP4_Atom::Type AP4_ATOM_TYPE_FTAB = AP4_ATOM_TYPE('f','t','a','b');
 const AP4_Atom::Type AP4_ATOM_TYPE_CHPL = AP4_ATOM_TYPE('c','h','p','l');
-const AP4_Atom::Type AP4_ATOM_TYPE__AC3 = AP4_ATOM_TYPE('a','c','-','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_SAC3 = AP4_ATOM_TYPE('s','a','c','3');
-const AP4_Atom::Type AP4_ATOM_TYPE_EAC3 = AP4_ATOM_TYPE('e','c','-','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_DTSC = AP4_ATOM_TYPE('d','t','s','c');
-const AP4_Atom::Type AP4_ATOM_TYPE_DTSH = AP4_ATOM_TYPE('d','t','s','h');
-const AP4_Atom::Type AP4_ATOM_TYPE_DTSL = AP4_ATOM_TYPE('d','t','s','l');
-const AP4_Atom::Type AP4_ATOM_TYPE__MP3 = AP4_ATOM_TYPE('.','m','p','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_NAM  = AP4_ATOM_TYPE(169,'n','a','m');
+
 const AP4_Atom::Type AP4_ATOM_TYPE_ART  = AP4_ATOM_TYPE(169,'A','R','T');
 const AP4_Atom::Type AP4_ATOM_TYPE_WRT  = AP4_ATOM_TYPE(169,'w','r','t');
 const AP4_Atom::Type AP4_ATOM_TYPE_ALB  = AP4_ATOM_TYPE(169,'a','l','b');
@@ -436,6 +445,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_DAY  = AP4_ATOM_TYPE(169,'d','a','y');
 const AP4_Atom::Type AP4_ATOM_TYPE_TOO  = AP4_ATOM_TYPE(169,'t','o','o');
 const AP4_Atom::Type AP4_ATOM_TYPE_CMT  = AP4_ATOM_TYPE(169,'c','m','t');
 const AP4_Atom::Type AP4_ATOM_TYPE_GEN  = AP4_ATOM_TYPE(169,'g','e','n');
+
 const AP4_Atom::Type AP4_ATOM_TYPE_TEXT = AP4_ATOM_TYPE('t','e','x','t');
 const AP4_Atom::Type AP4_ATOM_TYPE_TX3G = AP4_ATOM_TYPE('t','x','3','g');
 const AP4_Atom::Type AP4_ATOM_TYPE_CVID = AP4_ATOM_TYPE('c','v','i','d');
@@ -444,7 +454,9 @@ const AP4_Atom::Type AP4_ATOM_TYPE_SVQ2 = AP4_ATOM_TYPE('S','V','Q','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_SVQ3 = AP4_ATOM_TYPE('S','V','Q','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_H263 = AP4_ATOM_TYPE('h','2','6','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_S263 = AP4_ATOM_TYPE('s','2','6','3');
+
 const AP4_Atom::Type AP4_ATOM_TYPE_SAMR = AP4_ATOM_TYPE('s','a','m','r');
+const AP4_Atom::Type AP4_ATOM_TYPE__MP3 = AP4_ATOM_TYPE('.','m','p','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_IMA4 = AP4_ATOM_TYPE('i','m','a','4');
 const AP4_Atom::Type AP4_ATOM_TYPE_QDMC = AP4_ATOM_TYPE('Q','D','M','C');
 const AP4_Atom::Type AP4_ATOM_TYPE_QDM2 = AP4_ATOM_TYPE('Q','D','M','2');

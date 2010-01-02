@@ -175,8 +175,11 @@ AP4_StsdAtom::GetSampleDescription(AP4_Ordinal index)
     AP4_Atom* entry;
     m_Children.Get(index, entry);
     AP4_SampleEntry* sample_entry = AP4_DYNAMIC_CAST(AP4_SampleEntry, entry);
-    if (sample_entry == NULL) return NULL;
-    m_SampleDescriptions[index] = sample_entry->ToSampleDescription();
+    if (sample_entry == NULL) {
+        m_SampleDescriptions[index] = new AP4_UnknownSampleDescription(entry);
+    } else {
+        m_SampleDescriptions[index] = sample_entry->ToSampleDescription();
+    }
     return m_SampleDescriptions[index];
 }
 
