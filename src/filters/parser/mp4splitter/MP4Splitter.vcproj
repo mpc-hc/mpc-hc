@@ -1578,6 +1578,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Crypto\Ap4Hmac.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Crypto\Ap4Hmac.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Crypto\Ap4KeyWrap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Crypto\Ap4KeyWrap.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Crypto\Ap4StreamCipher.cpp"
 					>
 				</File>
