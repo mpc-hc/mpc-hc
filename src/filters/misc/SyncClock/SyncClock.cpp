@@ -10,7 +10,7 @@
 
 const AMOVIESETUP_FILTER sudFilter[] =
 {
-	{&__uuidof(CSyncClockFilter), L"SyncClock", MERIT_NORMAL, 0, NULL}
+	{&__uuidof(CSyncClockFilter), L"SyncClock", MERIT_NORMAL, 0, NULL, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] =

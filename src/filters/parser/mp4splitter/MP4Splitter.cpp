@@ -1084,7 +1084,8 @@ bool CMP4SplitterFilter::DemuxLoop()
 					pPairNext->m_value.index -= pPairNext->m_value.index % wfe->nBlockAlign;
 				}
 
-				p->rtStop = p->rtStart;
+//				p->rtStop = p->rtStart;
+				AP4_UI32	nAP4SampleDuration = 0;
 
 				int fFirst = true;
 
@@ -1094,14 +1095,20 @@ bool CMP4SplitterFilter::DemuxLoop()
 					const AP4_Byte* ptr = data.GetData();
 					for(int i = 0; i < size; i++) p->Add(ptr[i]);
 
+//int x = p->GetCount();
+//if (x>4 && p->GetAt(x-4)==0x91  && p->GetAt(x-3)==0x11  && p->GetAt(x-2)==0x19  && p->GetAt(x-1)==0x90)
+//	printf("gotcha");
+
 					if(fFirst) {p->rtStart = p->rtStop = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts()); fFirst = false;}
-					p->rtStop += (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());
+					nAP4SampleDuration += sample.GetDuration();
 
 					if(pPairNext->m_value.index+1 >= track->GetSampleCount() || p->GetCount() >= nBlockAlign)
 						break;
 
 					pPairNext->m_value.index++;
 				}
+
+				p->rtStop = p->rtStart + (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * nAP4SampleDuration);
 			}
 			else if(track->GetType() == AP4_Track::TYPE_TEXT)
 			{
@@ -1180,6 +1187,11 @@ bool CMP4SplitterFilter::DemuxLoop()
 			{
 				p->SetData(data.GetData(), data.GetDataSize());
 			}
+
+			if (track->GetType() == AP4_Track::TYPE_AUDIO)
+				TRACE ("MP4 Deliver : A %10I64d - %10I64d\n", p->rtStart, p->rtStop);
+			else if (track->GetType() == AP4_Track::TYPE_VIDEO)
+				TRACE ("MP4 Deliver : V %10I64d - %10I64d\n", p->rtStart, p->rtStop);
 
 			hr = DeliverPacket(p);
 		}
