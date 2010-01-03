@@ -110,7 +110,7 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_dmFullscreenRes = s.dmFullscreenRes;
 	m_f_hmonitor = s.f_hmonitor;
 
-   //-> Multi-Monitor code
+	//-> Multi-Monitor code
 	CString str;
 	m_iMonitorType = 0;
 
@@ -146,19 +146,17 @@ BOOL CPPagePlayback::OnInitDialog()
 		}
 	}
 
-	//(m_iMonitorTypeCtrl.GetCount() > 2)	? {GetDlgItem(IDC_COMBO2)->EnableWindow(TRUE)} : GetDlgItem(IDC_COMBO2)->EnableWindow(FALSE);
 	if(m_iMonitorTypeCtrl.GetCount() > 2)
-	  {
+	{
 		GetDlgItem(IDC_COMBO3)->EnableWindow(TRUE);
-	  }
+	}
 	else
-	  { 
+	{ 
 		m_iMonitorType = 0;
 		GetDlgItem(IDC_COMBO3)->EnableWindow(FALSE);
-	  }
-   //<- Multi-Monitor code
-
-    CPPagePlayback::ModesUpdate();
+	}
+	//<- Multi-Monitor code
+	ModesUpdate();
 
 	m_fAutoloadAudio = s.fAutoloadAudio;
 	m_fAutoloadSubtitles = s.fAutoloadSubtitles;
@@ -191,7 +189,6 @@ BOOL CPPagePlayback::OnApply()
 	s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
 	s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
 	s.fReportFailedPins = !!m_fReportFailedPins;
-	s.dmFullscreenRes =	m_dmFullscreenRes;
 	s.f_hmonitor =	m_f_hmonitor;
 
 	return __super::OnApply();
@@ -249,8 +246,11 @@ void CPPagePlayback::OnUpdateFullScrCombo()
 {
 	CMonitors monitors;
 	m_f_hmonitor = m_MonitorDisplayNames[m_iMonitorTypeCtrl.GetCurSel()];
+	if(AfxGetAppSettings().f_hmonitor !=	m_f_hmonitor) m_dmFullscreenRes.fValid = false;
 	ModesUpdate();
+	SetModified();
 }
+
 void CPPagePlayback::ModesUpdate()
 {
 	CMonitors monitors;
@@ -262,7 +262,7 @@ void CPPagePlayback::ModesUpdate()
 	dispmode dm1;
 
 	ComboBox_ResetContent(m_dispmodecombo);
-	m_dms.IsEmpty();
+	m_dms.RemoveAll();
 	for(int i = 0, j = 0, ModeExist = true;  ; i++)
 	{
 		ModeExist = GetDispMode(i, dm, m_f_hmonitor);

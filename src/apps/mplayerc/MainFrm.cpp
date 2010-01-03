@@ -7971,16 +7971,16 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		dispmode& dm = AfxGetAppSettings().dmFullscreenRes;
 		m_dmBeforeFullscreen.fValid = false;
 
-        if(dm.fValid && fSwitchScreenResWhenHasTo)
+		if(dm.fValid && fSwitchScreenResWhenHasTo)
 		{
 			GetCurDispMode(m_dmBeforeFullscreen, s.f_hmonitor);
 			// If not AUTO-HDMI mode
-            if (dm.freq > 0)
+			if (dm.freq > 0)
 			{
 				SetDispMode(dm, s.f_hmonitor);
 			}
 			// If AUTO-HDMI mode
-            else
+			else
 			{
 				LONGLONG m_rtTimePerFrame = 1;
                 // if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0, 

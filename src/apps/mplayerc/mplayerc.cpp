@@ -2705,27 +2705,21 @@ void CMPlayerCApp::OnHelpShowcommandlineswitches()
 void GetCurDispMode(dispmode& dm, CString& DisplayName)
 {  
 	HDC hDC;
+	CString DisplayName1 = DisplayName;
 	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
 	{
-		if(hDC = CreateDC(TEXT("DISPLAY"), NULL, NULL, NULL))
-		{
-			dm.fValid = true;
-            dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
-            dm.bpp = GetDeviceCaps(hDC, BITSPIXEL);
-            dm.freq = GetDeviceCaps(hDC, VREFRESH);
-            DeleteDC(hDC);
-		}
+		CMonitor monitor;
+		CMonitors monitors;
+		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
+		monitor.GetName(DisplayName1);
 	}
-	else
+	if(hDC = CreateDC(DisplayName1, NULL, NULL, NULL))
 	{
-		if(hDC = CreateDC(DisplayName, NULL, NULL, NULL))
-		{
-			dm.fValid = true;
-            dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
-            dm.bpp = GetDeviceCaps(hDC, BITSPIXEL);
-            dm.freq = GetDeviceCaps(hDC, VREFRESH);
-            DeleteDC(hDC);
-		}
+		dm.fValid = true;
+		dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
+		dm.bpp = GetDeviceCaps(hDC, BITSPIXEL);
+		dm.freq = GetDeviceCaps(hDC, VREFRESH);
+		DeleteDC(hDC);
 	}
 }    
 
@@ -2736,10 +2730,10 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 	devmode.dmSize = sizeof(DEVMODE);
 	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
 	{ 
-        CMonitor monitor;
-        CMonitors monitors;
-        monitor = monitors.GetPrimaryMonitor();
-        monitor.GetName(DisplayName1);
+		CMonitor monitor;
+		CMonitors monitors;
+		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
+		monitor.GetName(DisplayName1);
 	}
 	if(!EnumDisplaySettings(DisplayName1, i, &devmode))
 	return(false);
@@ -2752,24 +2746,26 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 
 void SetDispMode(dispmode& dm, CString& DisplayName)
 {
-    if(!dm.fValid) return;
+	if(!dm.fValid) return;
  
-    DEVMODE dmScreenSettings;
-    memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
-    dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-    dmScreenSettings.dmPelsWidth = dm.size.cx;
-    dmScreenSettings.dmPelsHeight = dm.size.cy;
-    dmScreenSettings.dmBitsPerPel = dm.bpp;
-    dmScreenSettings.dmDisplayFrequency = dm.freq;
-    dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
-    if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
-	{
-		ChangeDisplaySettingsEx (NULL, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
+	DEVMODE dmScreenSettings;
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+	dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+	dmScreenSettings.dmPelsWidth = dm.size.cx;
+	dmScreenSettings.dmPelsHeight = dm.size.cy;
+	dmScreenSettings.dmBitsPerPel = dm.bpp;
+	dmScreenSettings.dmDisplayFrequency = dm.freq;
+	dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
+
+	CString DisplayName1 = DisplayName;
+	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
+	{ 
+		CMonitor monitor;
+		CMonitors monitors;
+		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
+		monitor.GetName(DisplayName1);
 	}
-	else
-	{
-		ChangeDisplaySettingsEx (DisplayName, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
-	}
+	ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
 }
 
 #include <afxsock.h>
