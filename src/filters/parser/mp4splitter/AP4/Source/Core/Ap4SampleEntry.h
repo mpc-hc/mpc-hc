@@ -132,6 +132,7 @@ public:
     AP4_UI16 GetChannelCount();
 	// ==> Start patch MPC
 	AP4_UI32 GetBytesPerFrame() { return m_QtV1BytesPerFrame; };
+	AP4_UI32 GetSamplesPerPacket(){ return m_QtV1SamplesPerPacket; }
 	// <== End patch MPC
 
     // methods

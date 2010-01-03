@@ -67,6 +67,11 @@ public:
                                      AP4_Size    sample_size);
     virtual AP4_Result AddEntry(AP4_UI32 size);
 
+	// ==> Start patch MPC
+	// FIXME
+	friend class AP4_AtomSampleTable;
+	// <== End patch MPC
+
 private:
     // methods
     AP4_StszAtom(AP4_UI32        size, 

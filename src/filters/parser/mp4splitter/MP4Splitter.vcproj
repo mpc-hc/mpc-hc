@@ -573,6 +573,14 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath=".\Ap4AsyncReaderStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Ap4AsyncReaderStream.h"
+				>
+			</File>
+			<File
 				RelativePath="MP4Splitter.cpp"
 				>
 				<FileConfiguration

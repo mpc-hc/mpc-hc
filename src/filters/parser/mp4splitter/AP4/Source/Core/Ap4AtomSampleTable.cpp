@@ -42,6 +42,10 @@
 #include "Ap4Sample.h"
 #include "Ap4Atom.h"
 
+// ==> Start patch MPC
+#include "Ap4SampleEntry.h"
+// <== End patch MPC
+
 /*----------------------------------------------------------------------
 |   AP4_AtomSampleTable::AP4_AtomSampleTable
 +---------------------------------------------------------------------*/
@@ -60,6 +64,46 @@ AP4_AtomSampleTable::AP4_AtomSampleTable(AP4_ContainerAtom* stbl,
 
     // keep a reference to the sample stream
     m_SampleStream.AddReference();
+
+	// ==> Start patch MPC
+	if(m_StsdAtom && m_StszAtom && m_StscAtom && m_SttsAtom 
+	&& m_StszAtom->m_SampleSize == 1)
+	{
+		// fix mov files
+		for(AP4_List<AP4_Atom>::Item* item = m_StsdAtom->GetChildren().FirstItem(); 
+			item; 
+			item = item->GetNext())
+		{
+			AP4_Atom* atom = item->GetData();
+
+			if(AP4_AudioSampleEntry* ase = dynamic_cast<AP4_AudioSampleEntry*>(atom))
+			{
+				AP4_UI32 SamplesPerPacket = ase->GetSamplesPerPacket();
+				AP4_UI32 BytesPerFrame = ase->GetBytesPerFrame();
+
+				if(SamplesPerPacket > 0 && BytesPerFrame > 0)
+				{
+					for(int i = 0, j = m_StscAtom->m_Entries.ItemCount(); i < j; i++)
+					{
+						AP4_StscTableEntry& e = m_StscAtom->m_Entries[i];
+						AP4_ASSERT(e.m_SamplesPerChunk % SamplesPerPacket == 0);
+						e.m_SamplesPerChunk = e.m_SamplesPerChunk / SamplesPerPacket;
+						e.m_FirstSample = (e.m_FirstSample-1) / SamplesPerPacket + 1;
+					}
+
+					AP4_ASSERT(m_StszAtom->m_SampleCount % SamplesPerPacket == 0);
+					m_StszAtom->m_SampleCount = m_StszAtom->m_SampleCount / SamplesPerPacket;
+					m_StszAtom->m_SampleSize = BytesPerFrame;
+
+					AP4_ASSERT(m_SttsAtom->m_Entries.ItemCount() == 1);
+					m_SttsAtom->m_Entries[0].m_SampleCount = m_StszAtom->m_SampleCount;
+					m_SttsAtom->m_Entries[0].m_SampleDuration = SamplesPerPacket;
+				}
+			}
+		}
+	}
+	// <== End patch MPC
+
 }
 
 /*----------------------------------------------------------------------

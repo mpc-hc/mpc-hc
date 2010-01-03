@@ -1188,11 +1188,6 @@ bool CMP4SplitterFilter::DemuxLoop()
 				p->SetData(data.GetData(), data.GetDataSize());
 			}
 
-			if (track->GetType() == AP4_Track::TYPE_AUDIO)
-				TRACE ("MP4 Deliver : A %10I64d - %10I64d\n", p->rtStart, p->rtStop);
-			else if (track->GetType() == AP4_Track::TYPE_VIDEO)
-				TRACE ("MP4 Deliver : V %10I64d - %10I64d\n", p->rtStart, p->rtStop);
-
 			hr = DeliverPacket(p);
 		}
 

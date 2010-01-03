@@ -72,6 +72,11 @@ public:
                                                   AP4_Ordinal&  sample_index);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
+	// ==> Start patch MPC
+	// FIXME
+	friend class AP4_AtomSampleTable;
+	// <== End patch MPC
+
 private:
     // methods
     AP4_SttsAtom(AP4_UI32        size, 
