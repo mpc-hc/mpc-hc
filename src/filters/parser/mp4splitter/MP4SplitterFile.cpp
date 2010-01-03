@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "MP4SplitterFile.h"
-#include "Ap4AsyncReaderStream.cpp" // FIXME
+#include "Ap4AsyncReaderStream.h"
 
 CMP4SplitterFile::CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr) 
 	: CBaseSplitterFileEx(pReader, hr, DEFAULT_CACHE_LENGTH, false)

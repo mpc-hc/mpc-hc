@@ -251,19 +251,19 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 
 		  // ==> Start patch MPC
 		  case AP4_ATOM_TYPE_TEXT:
-			atom = new AP4_TextSampleEntry(size, stream, *this);
+			atom = new AP4_TextSampleEntry((unsigned long)size, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_TX3G:
-			atom = new AP4_Tx3gSampleEntry(size, stream, *this);
+			atom = new AP4_Tx3gSampleEntry((unsigned long)size, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_FTAB:
-			atom = new AP4_FtabAtom(size, stream);
+			atom = new AP4_FtabAtom((unsigned long)size, stream);
 			break;
 
 		  case AP4_ATOM_TYPE_CHPL:
-			atom = new AP4_ChplAtom(size, stream);
+			atom = new AP4_ChplAtom((unsigned long)size, stream);
 			break;
 
 		  case AP4_ATOM_TYPE_CVID:
@@ -272,7 +272,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		  case AP4_ATOM_TYPE_SVQ3:
 		  case AP4_ATOM_TYPE_H263:
 		  case AP4_ATOM_TYPE_S263:
-			atom = new AP4_VisualSampleEntry(type, size, stream, *this);
+			atom = new AP4_VisualSampleEntry(type, (unsigned long)size, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_SAMR:
@@ -282,12 +282,12 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		  case AP4_ATOM_TYPE_QDM2:
 		  case AP4_ATOM_TYPE_TWOS:
 		  case AP4_ATOM_TYPE_SOWT:
-			atom = new AP4_AudioSampleEntry(type, size, stream, *this);
+			atom = new AP4_AudioSampleEntry(type, (unsigned long)size, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_AC_3: // AC3-in-MP4 from ISO Standard
 		  case AP4_ATOM_TYPE_SAC3: // AC3-in-MP4 from Nero Stuff >.<
-			atom = new AP4_AC3SampleEntry(type, size, stream, *this);
+			atom = new AP4_AC3SampleEntry(type, (unsigned long)size, stream, *this);
 			break;
 		  // <== End patch MPC
 
