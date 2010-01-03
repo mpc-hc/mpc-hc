@@ -287,10 +287,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pnggccrd.c"
-				>
-			</File>
-			<File
 				RelativePath=".\pngget.c"
 				>
 			</File>

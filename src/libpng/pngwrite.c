@@ -1,8 +1,8 @@
 
 /* pngwrite.c - general routines to write a PNG file
  *
- * Last changed in libpng 1.2.41 [December 3, 2009]
- * Copyright (c) 1998-2009 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.0 [January 3, 2010]
+ * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -12,10 +12,10 @@
  */
 
 /* Get internal access to png.h */
-#define PNG_INTERNAL
 #define PNG_NO_PEDANTIC_WARNINGS
 #include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
+#include "pngpriv.h"
 
 /* Writes all the PNG information.  This is the suggested way to use the
  * library.  If you have a new chunk to add, make a function to write it,
@@ -160,10 +160,10 @@ png_write_info(png_structp png_ptr, png_infop info_ptr)
       {
          int j;
          for (j = 0; j<(int)info_ptr->num_trans; j++)
-            info_ptr->trans[j] = (png_byte)(255 - info_ptr->trans[j]);
+            info_ptr->trans_alpha[j] = (png_byte)(255 - info_ptr->trans_alpha[j]);
       }
 #endif
-      png_write_tRNS(png_ptr, info_ptr->trans, &(info_ptr->trans_values),
+      png_write_tRNS(png_ptr, info_ptr->trans_alpha, &(info_ptr->trans_color),
          info_ptr->num_trans, info_ptr->color_type);
    }
 #endif
@@ -201,7 +201,7 @@ png_write_info(png_structp png_ptr, png_infop info_ptr)
 #endif /* FLOATING_POINT */
 #else  /* !WRITE_sCAL */
       png_warning(png_ptr,
-          "png_write_sCAL not supported; sCAL chunk not written.");
+          "png_write_sCAL not supported; sCAL chunk not written");
 #endif /* WRITE_sCAL */
 #endif /* sCAL */
 
@@ -415,12 +415,12 @@ png_write_end(png_structp png_ptr, png_infop info_ptr)
     * do not set png_ptr->output_flush_fn to crash.  If your application
     * experiences a problem, please try building libpng with
     * PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED defined, and report the event to
-    * png-mng-implement at lists.sf.net .  This kludge will be removed
-    * from libpng-1.4.0.
+    * png-mng-implement at lists.sf.net .
     */
-#if defined(PNG_WRITE_FLUSH_SUPPORTED) && \
-    defined(PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED)
+#ifdef PNG_WRITE_FLUSH_SUPPORTED
+#  ifdef PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED
    png_flush(png_ptr);
+#  endif
 #endif
 }
 
@@ -458,7 +458,7 @@ png_create_write_struct(png_const_charp user_png_ver, png_voidp error_ptr,
 {
 #ifdef PNG_USER_MEM_SUPPORTED
    return (png_create_write_struct_2(user_png_ver, error_ptr, error_fn,
-      warn_fn, png_voidp_NULL, png_malloc_ptr_NULL, png_free_ptr_NULL));
+      warn_fn, NULL, NULL, NULL));
 }
 
 /* Alternate initialize png_ptr structure, and allocate any memory needed */
@@ -468,6 +468,7 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
    png_malloc_ptr malloc_fn, png_free_ptr free_fn)
 {
 #endif /* PNG_USER_MEM_SUPPORTED */
+   volatile int png_cleanup_needed = 0;
 #ifdef PNG_SETJMP_SUPPORTED
    volatile
 #endif
@@ -497,25 +498,18 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
 #endif
 
 #ifdef PNG_SETJMP_SUPPORTED
+/* Applications that neglect to set up their own setjmp() and then
+   encounter a png_error() will longjmp here.  Since the jmpbuf is
+   then meaningless we abort instead of returning. */
 #ifdef USE_FAR_KEYWORD
    if (setjmp(jmpbuf))
 #else
-   if (setjmp(png_ptr->jmpbuf))
+   if (setjmp(png_jmpbuf(png_ptr))) /* sets longjmp to match setjmp */
 #endif
-   {
-      png_free(png_ptr, png_ptr->zbuf);
-      png_ptr->zbuf = NULL;
-#ifdef PNG_USER_MEM_SUPPORTED
-      png_destroy_struct_2((png_voidp)png_ptr,
-         (png_free_ptr)free_fn, (png_voidp)mem_ptr);
-#else
-      png_destroy_struct((png_voidp)png_ptr);
-#endif
-      return (NULL);
-   }
 #ifdef USE_FAR_KEYWORD
-   png_memcpy(png_ptr->jmpbuf, jmpbuf, png_sizeof(jmp_buf));
+   png_memcpy(png_jmpbuf(png_ptr), jmpbuf, png_sizeof(jmp_buf));
 #endif
+      PNG_ABORT();
 #endif
 
 #ifdef PNG_USER_MEM_SUPPORTED
@@ -544,7 +538,7 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
          (user_png_ver[0] == '1' && user_png_ver[2] != png_libpng_ver[2]) ||
          (user_png_ver[0] == '0' && user_png_ver[2] < '9'))
      {
-#if defined(PNG_STDIO_SUPPORTED) && !defined(_WIN32_WCE)
+#ifdef PNG_STDIO_SUPPORTED
         char msg[80];
         if (user_png_ver)
         {
@@ -561,168 +555,45 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
 #ifdef PNG_ERROR_NUMBERS_SUPPORTED
         png_ptr->flags = 0;
 #endif
-        png_error(png_ptr,
+        png_warning(png_ptr,
            "Incompatible libpng version in application and library");
+        png_cleanup_needed = 1;
      }
    }
 
    /* Initialize zbuf - compression buffer */
    png_ptr->zbuf_size = PNG_ZBUF_SIZE;
-   png_ptr->zbuf = (png_bytep)png_malloc(png_ptr,
-     (png_uint_32)png_ptr->zbuf_size);
+   if (!png_cleanup_needed)
+   {
+      png_ptr->zbuf = (png_bytep)png_malloc_warn(png_ptr,
+         png_ptr->zbuf_size);
+      if (png_ptr->zbuf == NULL)
+         png_cleanup_needed = 1;
+   }
+   if (png_cleanup_needed)
+   {
+       /* Clean up PNG structure and deallocate any memory. */
+       png_free(png_ptr, png_ptr->zbuf);
+       png_ptr->zbuf = NULL;
+#ifdef PNG_USER_MEM_SUPPORTED
+       png_destroy_struct_2((png_voidp)png_ptr,
+          (png_free_ptr)free_fn, (png_voidp)mem_ptr);
+#else
+       png_destroy_struct((png_voidp)png_ptr);
+#endif
+       return (NULL);
+   }
 
-   png_set_write_fn(png_ptr, png_voidp_NULL, png_rw_ptr_NULL,
-      png_flush_ptr_NULL);
+   png_set_write_fn(png_ptr, NULL, NULL, NULL);
 
 #ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
    png_set_filter_heuristics(png_ptr, PNG_FILTER_HEURISTIC_DEFAULT,
-      1, png_doublep_NULL, png_doublep_NULL);
+      1, NULL, NULL);
 #endif
 
-#ifdef PNG_SETJMP_SUPPORTED
-   /* Applications that neglect to set up their own setjmp() and then
-    * encounter a png_error() will longjmp here.  Since the jmpbuf is
-    * then meaningless we abort instead of returning.
-    */
-#ifdef USE_FAR_KEYWORD
-   if (setjmp(jmpbuf))
-      PNG_ABORT();
-   png_memcpy(png_ptr->jmpbuf, jmpbuf, png_sizeof(jmp_buf));
-#else
-   if (setjmp(png_ptr->jmpbuf))
-      PNG_ABORT();
-#endif
-#endif
    return (png_ptr);
 }
 
-/* Initialize png_ptr structure, and allocate any memory needed */
-#if defined(PNG_1_0_X) || defined(PNG_1_2_X)
-/* Deprecated. */
-#undef png_write_init
-void PNGAPI
-png_write_init(png_structp png_ptr)
-{
-   /* We only come here via pre-1.0.7-compiled applications */
-   png_write_init_2(png_ptr, "1.0.6 or earlier", 0, 0);
-}
-
-void PNGAPI
-png_write_init_2(png_structp png_ptr, png_const_charp user_png_ver,
-   png_size_t png_struct_size, png_size_t png_info_size)
-{
-   /* We only come here via pre-1.0.12-compiled applications */
-   if (png_ptr == NULL) return;
-#if defined(PNG_STDIO_SUPPORTED) && !defined(_WIN32_WCE)
-   if (png_sizeof(png_struct) > png_struct_size ||
-      png_sizeof(png_info) > png_info_size)
-   {
-      char msg[80];
-      png_ptr->warning_fn = NULL;
-      if (user_png_ver)
-      {
-         png_snprintf(msg, 80,
-            "Application was compiled with png.h from libpng-%.20s",
-            user_png_ver);
-         png_warning(png_ptr, msg);
-      }
-      png_snprintf(msg, 80,
-         "Application  is  running with png.c from libpng-%.20s",
-         png_libpng_ver);
-      png_warning(png_ptr, msg);
-   }
-#endif
-   if (png_sizeof(png_struct) > png_struct_size)
-   {
-      png_ptr->error_fn = NULL;
-#ifdef PNG_ERROR_NUMBERS_SUPPORTED
-      png_ptr->flags = 0;
-#endif
-      png_error(png_ptr,
-      "The png struct allocated by the application for writing is too small.");
-   }
-   if (png_sizeof(png_info) > png_info_size)
-   {
-      png_ptr->error_fn = NULL;
-#ifdef PNG_ERROR_NUMBERS_SUPPORTED
-      png_ptr->flags = 0;
-#endif
-      png_error(png_ptr,
-      "The info struct allocated by the application for writing is too small.");
-   }
-   png_write_init_3(&png_ptr, user_png_ver, png_struct_size);
-}
-#endif /* PNG_1_0_X || PNG_1_2_X */
-
-
-void PNGAPI
-png_write_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
-   png_size_t png_struct_size)
-{
-   png_structp png_ptr = *ptr_ptr;
-#ifdef PNG_SETJMP_SUPPORTED
-   jmp_buf tmp_jmp; /* to save current jump buffer */
-#endif
-
-   int i = 0;
-
-   if (png_ptr == NULL)
-      return;
-
-   do
-   {
-      if (user_png_ver[i] != png_libpng_ver[i])
-      {
-#ifdef PNG_LEGACY_SUPPORTED
-         png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
-#else
-         png_ptr->warning_fn = NULL;
-         png_warning(png_ptr,
- "Application uses deprecated png_write_init() and should be recompiled.");
-#endif
-      }
-   } while (png_libpng_ver[i++]);
-
-   png_debug(1, "in png_write_init_3");
-
-#ifdef PNG_SETJMP_SUPPORTED
-   /* Save jump buffer and error functions */
-   png_memcpy(tmp_jmp, png_ptr->jmpbuf, png_sizeof(jmp_buf));
-#endif
-
-   if (png_sizeof(png_struct) > png_struct_size)
-   {
-      png_destroy_struct(png_ptr);
-      png_ptr = (png_structp)png_create_struct(PNG_STRUCT_PNG);
-      *ptr_ptr = png_ptr;
-   }
-
-   /* Reset all variables to 0 */
-   png_memset(png_ptr, 0, png_sizeof(png_struct));
-
-   /* Added at libpng-1.2.6 */
-#ifdef PNG_SET_USER_LIMITS_SUPPORTED
-   png_ptr->user_width_max = PNG_USER_WIDTH_MAX;
-   png_ptr->user_height_max = PNG_USER_HEIGHT_MAX;
-#endif
-
-#ifdef PNG_SETJMP_SUPPORTED
-   /* Restore jump buffer */
-   png_memcpy(png_ptr->jmpbuf, tmp_jmp, png_sizeof(jmp_buf));
-#endif
-
-   png_set_write_fn(png_ptr, png_voidp_NULL, png_rw_ptr_NULL,
-      png_flush_ptr_NULL);
-
-   /* Initialize zbuf - compression buffer */
-   png_ptr->zbuf_size = PNG_ZBUF_SIZE;
-   png_ptr->zbuf = (png_bytep)png_malloc(png_ptr,
-     (png_uint_32)png_ptr->zbuf_size);
-#ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
-   png_set_filter_heuristics(png_ptr, PNG_FILTER_HEURISTIC_DEFAULT,
-      1, png_doublep_NULL, png_doublep_NULL);
-#endif
-}
 
 /* Write a few rows of image data.  If the image is interlaced,
  * either you will have to write the 7 sub images, or, if you
@@ -798,36 +669,36 @@ png_write_row(png_structp png_ptr, png_bytep row)
       /* Make sure we wrote the header info */
       if (!(png_ptr->mode & PNG_WROTE_INFO_BEFORE_PLTE))
          png_error(png_ptr,
-            "png_write_info was never called before png_write_row.");
+            "png_write_info was never called before png_write_row");
 
       /* Check for transforms that have been set but were defined out */
 #if !defined(PNG_WRITE_INVERT_SUPPORTED) && defined(PNG_READ_INVERT_SUPPORTED)
       if (png_ptr->transformations & PNG_INVERT_MONO)
-         png_warning(png_ptr, "PNG_WRITE_INVERT_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_INVERT_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_FILLER_SUPPORTED) && defined(PNG_READ_FILLER_SUPPORTED)
       if (png_ptr->transformations & PNG_FILLER)
-         png_warning(png_ptr, "PNG_WRITE_FILLER_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_FILLER_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_PACKSWAP_SUPPORTED) && defined(PNG_READ_PACKSWAP_SUPPORTED)
       if (png_ptr->transformations & PNG_PACKSWAP)
-         png_warning(png_ptr, "PNG_WRITE_PACKSWAP_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_PACKSWAP_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_PACK_SUPPORTED) && defined(PNG_READ_PACK_SUPPORTED)
       if (png_ptr->transformations & PNG_PACK)
-         png_warning(png_ptr, "PNG_WRITE_PACK_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_PACK_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_SHIFT_SUPPORTED) && defined(PNG_READ_SHIFT_SUPPORTED)
       if (png_ptr->transformations & PNG_SHIFT)
-         png_warning(png_ptr, "PNG_WRITE_SHIFT_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_SHIFT_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_BGR_SUPPORTED) && defined(PNG_READ_BGR_SUPPORTED)
       if (png_ptr->transformations & PNG_BGR)
-         png_warning(png_ptr, "PNG_WRITE_BGR_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_BGR_SUPPORTED is not defined");
 #endif
 #if !defined(PNG_WRITE_SWAP_SUPPORTED) && defined(PNG_READ_SWAP_SUPPORTED)
       if (png_ptr->transformations & PNG_SWAP_BYTES)
-         png_warning(png_ptr, "PNG_WRITE_SWAP_SUPPORTED is not defined.");
+         png_warning(png_ptr, "PNG_WRITE_SWAP_SUPPORTED is not defined");
 #endif
 
       png_write_start_row(png_ptr);
@@ -911,8 +782,7 @@ png_write_row(png_structp png_ptr, png_bytep row)
    png_debug1(3, "row_info->rowbytes = %lu", png_ptr->row_info.rowbytes);
 
    /* Copy user's row into buffer, leaving room for filter byte. */
-   png_memcpy_check(png_ptr, png_ptr->row_buf + 1, row,
-      png_ptr->row_info.rowbytes);
+   png_memcpy(png_ptr->row_buf + 1, row, png_ptr->row_info.rowbytes);
 
 #ifdef PNG_WRITE_INTERLACING_SUPPORTED
    /* Handle interlacing */
@@ -1070,7 +940,6 @@ png_destroy_write_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr)
         if (png_ptr->num_chunk_list)
         {
            png_free(png_ptr, png_ptr->chunk_list);
-           png_ptr->chunk_list = NULL;
            png_ptr->num_chunk_list = 0;
         }
 #endif

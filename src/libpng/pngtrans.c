@@ -1,8 +1,8 @@
 
 /* pngtrans.c - transforms the data in a row (used by both readers and writers)
  *
- * Last changed in libpng 1.2.41 [December 3, 2009]
- * Copyright (c) 1998-2009 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.0 [January 3, 2010]
+ * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -11,10 +11,10 @@
  * and license in png.h
  */
 
-#define PNG_INTERNAL
 #define PNG_NO_PEDANTIC_WARNINGS
 #include "png.h"
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
+#include "pngpriv.h"
 
 #if defined(PNG_READ_BGR_SUPPORTED) || defined(PNG_WRITE_BGR_SUPPORTED)
 /* Turn on BGR-to-RGB mapping */
@@ -118,11 +118,7 @@ png_set_filler(png_structp png_ptr, png_uint_32 filler, int filler_loc)
    if (png_ptr == NULL)
       return;
    png_ptr->transformations |= PNG_FILLER;
-#ifdef PNG_LEGACY_SUPPORTED
-   png_ptr->filler = (png_byte)filler;
-#else
    png_ptr->filler = (png_uint_16)filler;
-#endif
    if (filler_loc == PNG_FILLER_AFTER)
       png_ptr->flags |= PNG_FLAG_FILLER_AFTER;
    else
@@ -147,7 +143,6 @@ png_set_filler(png_structp png_ptr, png_uint_32 filler, int filler_loc)
    }
 }
 
-#ifndef PNG_1_0_X
 /* Added to libpng-1.2.7 */
 void PNGAPI
 png_set_add_alpha(png_structp png_ptr, png_uint_32 filler, int filler_loc)
@@ -159,7 +154,6 @@ png_set_add_alpha(png_structp png_ptr, png_uint_32 filler, int filler_loc)
    png_set_filler(png_ptr, filler, filler_loc);
    png_ptr->transformations |= PNG_ADD_ALPHA;
 }
-#endif
 
 #endif
 
@@ -209,10 +203,6 @@ png_do_invert(png_row_infop row_info, png_bytep row)
   /* This test removed from libpng version 1.0.13 and 1.2.0:
    *   if (row_info->bit_depth == 1 &&
    */
-#ifdef PNG_USELESS_TESTS_SUPPORTED
-   if (row == NULL || row_info == NULL)
-     return;
-#endif
    if (row_info->color_type == PNG_COLOR_TYPE_GRAY)
    {
       png_bytep rp = row;
@@ -263,9 +253,6 @@ png_do_swap(png_row_infop row_info, png_bytep row)
    png_debug(1, "in png_do_swap");
 
    if (
-#ifdef PNG_USELESS_TESTS_SUPPORTED
-       row != NULL && row_info != NULL &&
-#endif
        row_info->bit_depth == 16)
    {
       png_bytep rp = row;
@@ -395,9 +382,6 @@ png_do_packswap(png_row_infop row_info, png_bytep row)
    png_debug(1, "in png_do_packswap");
 
    if (
-#ifdef PNG_USELESS_TESTS_SUPPORTED
-       row != NULL && row_info != NULL &&
-#endif
        row_info->bit_depth < 8)
    {
       png_bytep rp, end, table;
@@ -427,9 +411,6 @@ png_do_strip_filler(png_row_infop row_info, png_bytep row, png_uint_32 flags)
 {
    png_debug(1, "in png_do_strip_filler");
 
-#ifdef PNG_USELESS_TESTS_SUPPORTED
-   if (row != NULL && row_info != NULL)
-#endif
    {
       png_bytep sp=row;
       png_bytep dp=row;
@@ -587,9 +568,6 @@ png_do_bgr(png_row_infop row_info, png_bytep row)
    png_debug(1, "in png_do_bgr");
 
    if (
-#ifdef PNG_USELESS_TESTS_SUPPORTED
-       row != NULL && row_info != NULL &&
-#endif
        (row_info->color_type & PNG_COLOR_MASK_COLOR))
    {
       png_uint_32 row_width = row_info->width;
@@ -658,7 +636,6 @@ png_do_bgr(png_row_infop row_info, png_bytep row)
 #endif /* PNG_READ_BGR_SUPPORTED or PNG_WRITE_BGR_SUPPORTED */
 
 #if defined(PNG_READ_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_LEGACY_SUPPORTED) || \
     defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED)
 void PNGAPI
 png_set_user_transform_info(png_structp png_ptr, png_voidp

@@ -1,8 +1,8 @@
 
 /* pngwio.c - functions for data output
  *
- * Last changed in libpng 1.2.41 [December 3, 2009]
- * Copyright (c) 1998-2009 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.0 [January 3, 2010]
+ * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -18,10 +18,10 @@
  * them at run time with png_set_write_fn(...).
  */
 
-#define PNG_INTERNAL
 #define PNG_NO_PEDANTIC_WARNINGS
 #include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
+#include "pngpriv.h"
 
 /* Write the data to whatever output you are using.  The default routine
  * writes to a file pointer.  Note that this routine sometimes gets called
@@ -53,12 +53,7 @@ png_default_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
 
    if (png_ptr == NULL)
       return;
-#ifdef _WIN32_WCE
-   if ( !WriteFile((HANDLE)(png_ptr->io_ptr), data, length, &check, NULL) )
-      check = 0;
-#else
    check = fwrite(data, 1, length, (png_FILE_p)(png_ptr->io_ptr));
-#endif
    if (check != length)
       png_error(png_ptr, "Write Error");
 }
@@ -85,12 +80,7 @@ png_default_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
    io_ptr = (png_FILE_p)CVT_PTR(png_ptr->io_ptr);
    if ((png_bytep)near_data == data)
    {
-#ifdef _WIN32_WCE
-      if ( !WriteFile(io_ptr, near_data, length, &check, NULL) )
-         check = 0;
-#else
       check = fwrite(near_data, 1, length, io_ptr);
-#endif
    }
    else
    {
@@ -102,12 +92,7 @@ png_default_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
       {
          written = MIN(NEAR_BUF_SIZE, remaining);
          png_memcpy(buf, data, written); /* Copy far buffer to near buffer */
-#ifdef _WIN32_WCE
-         if ( !WriteFile(io_ptr, buf, written, &err, NULL) )
-            err = 0;
-#else
          err = fwrite(buf, 1, written, io_ptr);
-#endif
          if (err != written)
             break;
 
@@ -142,15 +127,11 @@ png_flush(png_structp png_ptr)
 void PNGAPI
 png_default_flush(png_structp png_ptr)
 {
-#ifndef _WIN32_WCE
    png_FILE_p io_ptr;
-#endif
    if (png_ptr == NULL)
       return;
-#ifndef _WIN32_WCE
    io_ptr = (png_FILE_p)CVT_PTR((png_ptr->io_ptr));
    fflush(io_ptr);
-#endif
 }
 #endif
 #endif
@@ -222,7 +203,7 @@ png_set_write_fn(png_structp png_ptr, png_voidp io_ptr,
       png_warning(png_ptr,
          "Attempted to set both read_data_fn and write_data_fn in");
       png_warning(png_ptr,
-         "the same structure.  Resetting read_data_fn to NULL.");
+         "the same structure.  Resetting read_data_fn to NULL");
    }
 }
 

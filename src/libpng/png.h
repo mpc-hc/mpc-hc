@@ -1,7 +1,8 @@
+
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.2.41 - December 3, 2009
- * Copyright (c) 1998-2009 Glenn Randers-Pehrson
+ * libpng version 1.4.0 - January 3, 2010
+ * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -10,7 +11,7 @@
  * Authors and maintainers:
  *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.2.41 - December 3, 2009: Glenn
+ *  libpng versions 0.97, January 1998, through 1.4.0 - January 3, 2010: Glenn
  *  See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -104,152 +105,35 @@
  *    1.0.16                  10    10016  10.so.0.1.0.16
  *    1.2.6                   13    10206  12.so.0.1.2.6
  *    1.2.7beta1-2            13    10207  12.so.0.1.2.7beta1-2
- *    1.0.17rc1               10    10017  10.so.0.1.0.17rc1
+ *    1.0.17rc1               10    10017  12.so.0.1.0.17rc1
  *    1.2.7rc1                13    10207  12.so.0.1.2.7rc1
- *    1.0.17                  10    10017  10.so.0.1.0.17
+ *    1.0.17                  10    10017  12.so.0.1.0.17
  *    1.2.7                   13    10207  12.so.0.1.2.7
  *    1.2.8beta1-5            13    10208  12.so.0.1.2.8beta1-5
- *    1.0.18rc1-5             10    10018  10.so.0.1.0.18rc1-5
+ *    1.0.18rc1-5             10    10018  12.so.0.1.0.18rc1-5
  *    1.2.8rc1-5              13    10208  12.so.0.1.2.8rc1-5
- *    1.0.18                  10    10018  10.so.0.1.0.18
+ *    1.0.18                  10    10018  12.so.0.1.0.18
  *    1.2.8                   13    10208  12.so.0.1.2.8
  *    1.2.9beta1-3            13    10209  12.so.0.1.2.9beta1-3
  *    1.2.9beta4-11           13    10209  12.so.0.9[.0]
  *    1.2.9rc1                13    10209  12.so.0.9[.0]
  *    1.2.9                   13    10209  12.so.0.9[.0]
- *    1.2.10beta1-8           13    10210  12.so.0.10[.0]
- *    1.2.10rc1-3             13    10210  12.so.0.10[.0]
+ *    1.2.10beta1-7           13    10210  12.so.0.10[.0]
+ *    1.2.10rc1-2             13    10210  12.so.0.10[.0]
  *    1.2.10                  13    10210  12.so.0.10[.0]
+ *    1.4.0beta1-5            14    10400  14.so.0.0[.0]
  *    1.2.11beta1-4           13    10211  12.so.0.11[.0]
- *    1.0.19rc1-5             10    10019  10.so.0.19[.0]
- *    1.2.11rc1-5             13    10211  12.so.0.11[.0]
- *    1.0.19                  10    10019  10.so.0.19[.0]
+ *    1.4.0beta7-8            14    10400  14.so.0.0[.0]
  *    1.2.11                  13    10211  12.so.0.11[.0]
- *    1.0.20                  10    10020  10.so.0.20[.0]
  *    1.2.12                  13    10212  12.so.0.12[.0]
- *    1.2.13beta1             13    10213  12.so.0.13[.0]
- *    1.0.21                  10    10021  10.so.0.21[.0]
+ *    1.4.0beta9-14           14    10400  14.so.0.0[.0]
  *    1.2.13                  13    10213  12.so.0.13[.0]
- *    1.2.14beta1-2           13    10214  12.so.0.14[.0]
- *    1.0.22rc1               10    10022  10.so.0.22[.0]
- *    1.2.14rc1               13    10214  12.so.0.14[.0]
- *    1.0.22                  10    10022  10.so.0.22[.0]
- *    1.2.14                  13    10214  12.so.0.14[.0]
- *    1.2.15beta1-6           13    10215  12.so.0.15[.0]
- *    1.0.23rc1-5             10    10023  10.so.0.23[.0]
- *    1.2.15rc1-5             13    10215  12.so.0.15[.0]
- *    1.0.23                  10    10023  10.so.0.23[.0]
- *    1.2.15                  13    10215  12.so.0.15[.0]
- *    1.2.16beta1-2           13    10216  12.so.0.16[.0]
- *    1.2.16rc1               13    10216  12.so.0.16[.0]
- *    1.0.24                  10    10024  10.so.0.24[.0]
- *    1.2.16                  13    10216  12.so.0.16[.0]
- *    1.2.17beta1-2           13    10217  12.so.0.17[.0]
- *    1.0.25rc1               10    10025  10.so.0.25[.0]
- *    1.2.17rc1-3             13    10217  12.so.0.17[.0]
- *    1.0.25                  10    10025  10.so.0.25[.0]
- *    1.2.17                  13    10217  12.so.0.17[.0]
- *    1.0.26                  10    10026  10.so.0.26[.0]
- *    1.2.18                  13    10218  12.so.0.18[.0]
- *    1.2.19beta1-31          13    10219  12.so.0.19[.0]
- *    1.0.27rc1-6             10    10027  10.so.0.27[.0]
- *    1.2.19rc1-6             13    10219  12.so.0.19[.0]
- *    1.0.27                  10    10027  10.so.0.27[.0]
- *    1.2.19                  13    10219  12.so.0.19[.0]
- *    1.2.20beta01-04         13    10220  12.so.0.20[.0]
- *    1.0.28rc1-6             10    10028  10.so.0.28[.0]
- *    1.2.20rc1-6             13    10220  12.so.0.20[.0]
- *    1.0.28                  10    10028  10.so.0.28[.0]
- *    1.2.20                  13    10220  12.so.0.20[.0]
- *    1.2.21beta1-2           13    10221  12.so.0.21[.0]
- *    1.2.21rc1-3             13    10221  12.so.0.21[.0]
- *    1.0.29                  10    10029  10.so.0.29[.0]
- *    1.2.21                  13    10221  12.so.0.21[.0]
- *    1.2.22beta1-4           13    10222  12.so.0.22[.0]
- *    1.0.30rc1               10    10030  10.so.0.30[.0]
- *    1.2.22rc1               13    10222  12.so.0.22[.0]
- *    1.0.30                  10    10030  10.so.0.30[.0]
- *    1.2.22                  13    10222  12.so.0.22[.0]
- *    1.2.23beta01-05         13    10223  12.so.0.23[.0]
- *    1.2.23rc01              13    10223  12.so.0.23[.0]
- *    1.2.23                  13    10223  12.so.0.23[.0]
- *    1.2.24beta01-02         13    10224  12.so.0.24[.0]
- *    1.2.24rc01              13    10224  12.so.0.24[.0]
- *    1.2.24                  13    10224  12.so.0.24[.0]
- *    1.2.25beta01-06         13    10225  12.so.0.25[.0]
- *    1.2.25rc01-02           13    10225  12.so.0.25[.0]
- *    1.0.31                  10    10031  10.so.0.31[.0]
- *    1.2.25                  13    10225  12.so.0.25[.0]
- *    1.2.26beta01-06         13    10226  12.so.0.26[.0]
- *    1.2.26rc01              13    10226  12.so.0.26[.0]
- *    1.2.26                  13    10226  12.so.0.26[.0]
- *    1.0.32                  10    10032  10.so.0.32[.0]
- *    1.2.27beta01-06         13    10227  12.so.0.27[.0]
- *    1.2.27rc01              13    10227  12.so.0.27[.0]
- *    1.0.33                  10    10033  10.so.0.33[.0]
- *    1.2.27                  13    10227  12.so.0.27[.0]
- *    1.0.34                  10    10034  10.so.0.34[.0]
- *    1.2.28                  13    10228  12.so.0.28[.0]
- *    1.2.29beta01-03         13    10229  12.so.0.29[.0]
- *    1.2.29rc01              13    10229  12.so.0.29[.0]
- *    1.0.35                  10    10035  10.so.0.35[.0]
- *    1.2.29                  13    10229  12.so.0.29[.0]
- *    1.0.37                  10    10037  10.so.0.37[.0]
- *    1.2.30beta01-04         13    10230  12.so.0.30[.0]
- *    1.0.38rc01-08           10    10038  10.so.0.38[.0]
- *    1.2.30rc01-08           13    10230  12.so.0.30[.0]
- *    1.0.38                  10    10038  10.so.0.38[.0]
- *    1.2.30                  13    10230  12.so.0.30[.0]
- *    1.0.39rc01-03           10    10039  10.so.0.39[.0]
- *    1.2.31rc01-03           13    10231  12.so.0.31[.0]
- *    1.0.39                  10    10039  10.so.0.39[.0]
- *    1.2.31                  13    10231  12.so.0.31[.0]
- *    1.2.32beta01-02         13    10232  12.so.0.32[.0]
- *    1.0.40rc01              10    10040  10.so.0.40[.0]
- *    1.2.32rc01              13    10232  12.so.0.32[.0]
- *    1.0.40                  10    10040  10.so.0.40[.0]
- *    1.2.32                  13    10232  12.so.0.32[.0]
- *    1.2.33beta01-02         13    10233  12.so.0.33[.0]
- *    1.2.33rc01-02           13    10233  12.so.0.33[.0]
- *    1.0.41rc01              10    10041  10.so.0.41[.0]
- *    1.2.33                  13    10233  12.so.0.33[.0]
- *    1.0.41                  10    10041  10.so.0.41[.0]
- *    1.2.34beta01-07         13    10234  12.so.0.34[.0]
- *    1.0.42rc01              10    10042  10.so.0.42[.0]
- *    1.2.34rc01              13    10234  12.so.0.34[.0]
- *    1.0.42                  10    10042  10.so.0.42[.0]
- *    1.2.34                  13    10234  12.so.0.34[.0]
- *    1.2.35beta01-03         13    10235  12.so.0.35[.0]
- *    1.0.43rc01-02           10    10043  10.so.0.43[.0]
- *    1.2.35rc01-02           13    10235  12.so.0.35[.0]
- *    1.0.43                  10    10043  10.so.0.43[.0]
- *    1.2.35                  13    10235  12.so.0.35[.0]
- *    1.2.36beta01-05         13    10236  12.so.0.36[.0]
- *    1.2.36rc01              13    10236  12.so.0.36[.0]
- *    1.0.44                  10    10044  10.so.0.44[.0]
- *    1.2.36                  13    10236  12.so.0.36[.0]
- *    1.2.37beta01-03         13    10237  12.so.0.37[.0]
- *    1.2.37rc01              13    10237  12.so.0.37[.0]
- *    1.2.37                  13    10237  12.so.0.37[.0]
- *    1.2.45                  10    10045  12.so.0.45[.0]
- *    1.0.46                  10    10046  10.so.0.46[.0]
- *    1.2.38beta01            13    10238  12.so.0.38[.0]
- *    1.2.38rc01-03           13    10238  12.so.0.38[.0]
- *    1.0.47                  10    10047  10.so.0.47[.0]
- *    1.2.38                  13    10238  12.so.0.38[.0]
- *    1.2.39beta01-05         13    10239  12.so.0.39[.0]
- *    1.2.39rc01              13    10239  12.so.0.39[.0]
- *    1.0.48                  10    10048  10.so.0.48[.0]
- *    1.2.39                  13    10239  12.so.0.39[.0]
- *    1.2.40beta01            13    10240  12.so.0.40[.0]
- *    1.2.40rc01              13    10240  12.so.0.40[.0]
- *    1.0.49                  10    10049  10.so.0.49[.0]
- *    1.2.40                  13    10240  12.so.0.40[.0]
- *    1.2.41beta01-18         13    10241  12.so.0.41[.0]
- *    1.0.51rc01              10    10051  10.so.0.51[.0]
- *    1.2.41rc01-03           13    10241  12.so.0.41[.0]
- *    1.0.51                  10    10051  10.so.0.51[.0]
- *    1.2.41                  13    10241  12.so.0.41[.0]
+ *    1.4.0beta15-36          14    10400  14.so.0.0[.0]
+ *    1.4.0beta37-87          14    10400  14.so.14.0[.0]
+ *    1.4.0rc01               14    10400  14.so.14.0[.0]
+ *    1.4.0beta88-109         14    10400  14.so.14.0[.0]
+ *    1.4.0rc02-08            14    10400  14.so.14.0[.0]
+ *    1.4.0                   14    10400  14.so.14.0[.0]
  *
  *    Henceforth the source version will match the shared-library major
  *    and minor numbers; the shared-library major version number will be
@@ -259,7 +143,7 @@
  *    to the source version x.y.z (leading zeros in y and z).  Beta versions
  *    were given the previous public release number plus a letter, until
  *    version 1.0.6j; from then on they were given the upcoming public
- *    release number plus "betaNN" or "rcNN".
+ *    release number plus "betaNN" or "rcN".
  *
  *    Binary incompatibility exists only when applications make direct access
  *    to the info_ptr or png_ptr members through png.h, and the compiled
@@ -281,8 +165,8 @@
  *
  * This code is released under the libpng license.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.2.41, December 3, 2009, are
- * Copyright (c) 2004, 2006-2009 Glenn Randers-Pehrson, and are
+ * libpng versions 1.2.6, August 15, 2004, through 1.4.0, January 3, 2010, are
+ * Copyright (c) 2004, 2006-2010 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
  *
@@ -370,7 +254,7 @@
  * A "png_get_copyright" function is available, for convenient use in "about"
  * boxes and the like:
  *
- * printf("%s",png_get_copyright(NULL));
+ *     printf("%s",png_get_copyright(NULL));
  *
  * Also, the PNG logo (in PNG format, of course) is supplied in the
  * files "pngbar.png" and "pngbar.jpg (88x31) and "pngnow.png" (98x31).
@@ -393,13 +277,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    December 3, 2009
+ *    January 3, 2010
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.2.41 are Y2K compliant.  It is my belief that earlier
+ *    upward through 1.4.0 are Y2K compliant.  It is my belief that earlier
  *    versions were also Y2K compliant.
  *
  *    Libpng only has three year fields.  One is a 2-byte unsigned integer
@@ -455,17 +339,17 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.41"
+#define PNG_LIBPNG_VER_STRING "1.4.0"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.41 - December 3, 2009\n"
+   " libpng version 1.4.0 - January 3, 2010\n"
 
-#define PNG_LIBPNG_VER_SONUM   0
-#define PNG_LIBPNG_VER_DLLNUM  13
+#define PNG_LIBPNG_VER_SONUM   14
+#define PNG_LIBPNG_VER_DLLNUM  14
 
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
-#define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 41
+#define PNG_LIBPNG_VER_MINOR   4
+#define PNG_LIBPNG_VER_RELEASE 0
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero:
  */
@@ -487,7 +371,7 @@
 #define PNG_LIBPNG_BUILD_SPECIAL 32 /* Cannot be OR'ed with
                                        PNG_LIBPNG_BUILD_PRIVATE */
 
-#define PNG_LIBPNG_BUILD_BASE_TYPE PNG_LIBPNG_BUILD_STABLE
+#define PNG_LIBPNG_BUILD_BASE_TYPE PNG_LIBPNG_BUILD_BETA
 
 /* Careful here.  At one time, Guy wanted to use 082, but that would be octal.
  * We must not include leading zeros.
@@ -495,19 +379,24 @@
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release
  */
-#define PNG_LIBPNG_VER 10241 /* 1.2.41 */
+#define PNG_LIBPNG_VER 10400 /* 1.4.0 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* Include the compression library's header */
 #include "zlib.h"
 #endif
 
+#ifdef AIX
+#define jmpbuf __jmpbuf
+#endif
+
 /* Include all user configurable info, including optional assembler routines */
 #include "pngconf.h"
 
 /*
- * Added at libpng-1.2.8 */
-/* Ref MSDN: Private as priority over Special
+ * Added at libpng-1.2.8
+ *
+ * Ref MSDN: Private as priority over Special
  * VS_FF_PRIVATEBUILD File *was not* built using standard release
  * procedures. If this value is given, the StringFileInfo block must
  * contain a PrivateBuild string.
@@ -543,65 +432,12 @@ extern "C" {
  * which applications aren't expected to use directly.
  */
 
-#ifndef PNG_NO_TYPECAST_NULL
-#define int_p_NULL                (int *)NULL
-#define png_bytep_NULL            (png_bytep)NULL
-#define png_bytepp_NULL           (png_bytepp)NULL
-#define png_doublep_NULL          (png_doublep)NULL
-#define png_error_ptr_NULL        (png_error_ptr)NULL
-#define png_flush_ptr_NULL        (png_flush_ptr)NULL
-#define png_free_ptr_NULL         (png_free_ptr)NULL
-#define png_infopp_NULL           (png_infopp)NULL
-#define png_malloc_ptr_NULL       (png_malloc_ptr)NULL
-#define png_read_status_ptr_NULL  (png_read_status_ptr)NULL
-#define png_rw_ptr_NULL           (png_rw_ptr)NULL
-#define png_structp_NULL          (png_structp)NULL
-#define png_uint_16p_NULL         (png_uint_16p)NULL
-#define png_voidp_NULL            (png_voidp)NULL
-#define png_write_status_ptr_NULL (png_write_status_ptr)NULL
-#else
-#define int_p_NULL                NULL
-#define png_bytep_NULL            NULL
-#define png_bytepp_NULL           NULL
-#define png_doublep_NULL          NULL
-#define png_error_ptr_NULL        NULL
-#define png_flush_ptr_NULL        NULL
-#define png_free_ptr_NULL         NULL
-#define png_infopp_NULL           NULL
-#define png_malloc_ptr_NULL       NULL
-#define png_read_status_ptr_NULL  NULL
-#define png_rw_ptr_NULL           NULL
-#define png_structp_NULL          NULL
-#define png_uint_16p_NULL         NULL
-#define png_voidp_NULL            NULL
-#define png_write_status_ptr_NULL NULL
-#endif
-
 /* Variables declared in png.c - only it needs to define PNG_NO_EXTERN */
 #if !defined(PNG_NO_EXTERN) || defined(PNG_ALWAYS_EXTERN)
 /* Version information for C files, stored in png.c.  This had better match
  * the version above.
  */
-#ifdef PNG_USE_GLOBAL_ARRAYS
-PNG_EXPORT_VAR (PNG_CONST char) png_libpng_ver[18];
-  /* Need room for 99.99.99beta99z */
-#else
 #define png_libpng_ver png_get_header_ver(NULL)
-#endif
-
-#ifdef PNG_USE_GLOBAL_ARRAYS
-/* This was removed in version 1.0.5c */
-/* Structures to facilitate easy interlacing.  See png.c for more details */
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_start[7];
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_inc[7];
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_ystart[7];
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_yinc[7];
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_mask[7];
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_dsp_mask[7];
-/* This isn't currently used.  If you need it, see png.c for more details.
-PNG_EXPORT_VAR (PNG_CONST int FARDATA) png_pass_height[7];
-*/
-#endif
 
 #endif /* PNG_NO_EXTERN */
 
@@ -703,8 +539,7 @@ typedef png_text FAR * FAR * png_textpp;
 #endif
 
 /* Supported compression types for text in PNG files (tEXt, and zTXt).
- * The values of the PNG_TEXT_COMPRESSION_ defines should NOT be changed.
- */
+ * The values of the PNG_TEXT_COMPRESSION_ defines should NOT be changed. */
 #define PNG_TEXT_COMPRESSION_NONE_WR -3
 #define PNG_TEXT_COMPRESSION_zTXt_WR -2
 #define PNG_TEXT_COMPRESSION_NONE    -1
@@ -738,10 +573,9 @@ typedef png_time FAR * FAR * png_timepp;
  * up private chunks for output even though the library doesn't actually
  * know about their semantics.
  */
-#define PNG_CHUNK_NAME_LENGTH 5
 typedef struct png_unknown_chunk_t
 {
-    png_byte name[PNG_CHUNK_NAME_LENGTH];
+    png_byte name[5];
     png_byte *data;
     png_size_t size;
 
@@ -794,11 +628,11 @@ typedef png_unknown_chunk FAR * FAR * png_unknown_chunkpp;
  */
 typedef struct png_info_struct
 {
-   /* The following are necessary for every PNG file */
+   /* the following are necessary for every PNG file */
    png_uint_32 width PNG_DEPSTRUCT;       /* width of image in pixels (from IHDR) */
    png_uint_32 height PNG_DEPSTRUCT;      /* height of image in pixels (from IHDR) */
    png_uint_32 valid PNG_DEPSTRUCT;       /* valid chunk data (see PNG_INFO_ below) */
-   png_uint_32 rowbytes PNG_DEPSTRUCT;    /* bytes needed to hold an untransformed row */
+   png_size_t rowbytes PNG_DEPSTRUCT;     /* bytes needed to hold an untransformed row */
    png_colorp palette PNG_DEPSTRUCT;      /* array of color values (valid & PNG_INFO_PLTE) */
    png_uint_16 num_palette PNG_DEPSTRUCT; /* number of color entries in "palette" (PLTE) */
    png_uint_16 num_trans PNG_DEPSTRUCT;   /* number of transparent palette color (tRNS) */
@@ -877,8 +711,8 @@ defined(PNG_READ_BACKGROUND_SUPPORTED)
     * single color specified that should be treated as fully transparent.
     * Data is valid if (valid & PNG_INFO_tRNS) is non-zero.
     */
-   png_bytep trans PNG_DEPSTRUCT; /* transparent values for paletted image */
-   png_color_16 trans_values PNG_DEPSTRUCT; /* transparent color for non-palette image */
+   png_bytep trans_alpha PNG_DEPSTRUCT;    /* alpha values for paletted image */
+   png_color_16 trans_color PNG_DEPSTRUCT; /* transparent color for non-palette image */
 #endif
 
 #if defined(PNG_bKGD_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
@@ -963,9 +797,7 @@ defined(PNG_READ_BACKGROUND_SUPPORTED)
 #endif
 
 /* New members added in libpng-1.0.6 */
-#ifdef PNG_FREE_ME_SUPPORTED
    png_uint_32 free_me PNG_DEPSTRUCT;     /* flags items libpng is responsible for freeing */
-#endif
 
 #if defined(PNG_UNKNOWN_CHUNKS_SUPPORTED) || \
  defined(PNG_HANDLE_AS_UNKNOWN_SUPPORTED)
@@ -1038,10 +870,6 @@ typedef png_info FAR * FAR * png_infopp;
 #define PNG_UINT_31_MAX ((png_uint_32)0x7fffffffL)
 #define PNG_UINT_32_MAX ((png_uint_32)(-1))
 #define PNG_SIZE_MAX ((png_size_t)(-1))
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-/* PNG_MAX_UINT is deprecated; use PNG_UINT_31_MAX instead. */
-#define PNG_MAX_UINT PNG_UINT_31_MAX
-#endif
 
 /* These describe the color_type field in png_info. */
 /* color type masks */
@@ -1138,7 +966,7 @@ typedef png_info FAR * FAR * png_infopp;
 typedef struct png_row_info_struct
 {
    png_uint_32 width; /* width of row */
-   png_uint_32 rowbytes; /* number of bytes in row */
+   png_size_t rowbytes; /* number of bytes in row */
    png_byte color_type; /* color type of row */
    png_byte bit_depth; /* bit depth of row */
    png_byte channels; /* number of channels (1, 2, 3, or 4) */
@@ -1173,8 +1001,7 @@ typedef void (PNGAPI *png_progressive_row_ptr) PNGARG((png_structp, png_bytep,
 #endif
 
 #if defined(PNG_READ_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_LEGACY_SUPPORTED)
+    defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED)
 typedef void (PNGAPI *png_user_transform_ptr) PNGARG((png_structp,
     png_row_infop, png_bytep));
 #endif
@@ -1184,6 +1011,13 @@ typedef int (PNGAPI *png_user_chunk_ptr) PNGARG((png_structp, png_unknown_chunkp
 #endif
 #ifdef PNG_UNKNOWN_CHUNKS_SUPPORTED
 typedef void (PNGAPI *png_unknown_chunk_ptr) PNGARG((png_structp));
+#endif
+#ifdef PNG_SETJMP_SUPPORTED
+/* This must match the function definition in <setjmp.h>, and the
+ * application must include this before png.h to obtain the definition
+ * of jmp_buf.
+ */
+typedef void (PNGAPI *png_longjmp_ptr) PNGARG((jmp_buf, int));
 #endif
 
 /* Transform masks for the high-level interface */
@@ -1199,11 +1033,11 @@ typedef void (PNGAPI *png_unknown_chunk_ptr) PNGARG((png_structp));
 #define PNG_TRANSFORM_SWAP_ALPHA     0x0100    /* read and write */
 #define PNG_TRANSFORM_SWAP_ENDIAN    0x0200    /* read and write */
 #define PNG_TRANSFORM_INVERT_ALPHA   0x0400    /* read and write */
-#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* write only, deprecated */
+#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* write only */
 /* Added to libpng-1.2.34 */
-#define PNG_TRANSFORM_STRIP_FILLER_BEFORE 0x0800  /* write only */
-#define PNG_TRANSFORM_STRIP_FILLER_AFTER  0x1000  /* write only */
-/* Added to libpng-1.2.41 */
+#define PNG_TRANSFORM_STRIP_FILLER_BEFORE PNG_TRANSFORM_STRIP_FILLER
+#define PNG_TRANSFORM_STRIP_FILLER_AFTER 0x1000 /* write only */
+/* Added to libpng-1.4.0 */
 #define PNG_TRANSFORM_GRAY_TO_RGB   0x2000      /* read only */
 
 /* Flags for MNG supported features */
@@ -1211,7 +1045,7 @@ typedef void (PNGAPI *png_unknown_chunk_ptr) PNGARG((png_structp));
 #define PNG_FLAG_MNG_FILTER_64      0x04
 #define PNG_ALL_MNG_FEATURES        0x05
 
-typedef png_voidp (*png_malloc_ptr) PNGARG((png_structp, png_size_t));
+typedef png_voidp (*png_malloc_ptr) PNGARG((png_structp, png_alloc_size_t));
 typedef void (*png_free_ptr) PNGARG((png_structp, png_voidp));
 
 /* The structure that holds the information to read and write PNG files.
@@ -1224,7 +1058,8 @@ typedef void (*png_free_ptr) PNGARG((png_structp, png_voidp));
 struct png_struct_def
 {
 #ifdef PNG_SETJMP_SUPPORTED
-   jmp_buf jmpbuf;            /* used in png_error */
+   jmp_buf jmpbuf PNG_DEPSTRUCT;            /* used in png_error */
+   png_longjmp_ptr longjmp_fn PNG_DEPSTRUCT;/* setjmp non-local goto function. */
 #endif
    png_error_ptr error_fn PNG_DEPSTRUCT;    /* function for printing errors and aborting */
    png_error_ptr warning_fn PNG_DEPSTRUCT;  /* function for printing warnings */
@@ -1268,18 +1103,16 @@ struct png_struct_def
    png_uint_32 height PNG_DEPSTRUCT;        /* height of image in pixels */
    png_uint_32 num_rows PNG_DEPSTRUCT;      /* number of rows in current pass */
    png_uint_32 usr_width PNG_DEPSTRUCT;     /* width of row at start of write */
-   png_uint_32 rowbytes PNG_DEPSTRUCT;      /* size of row in bytes */
-   png_uint_32 irowbytes PNG_DEPSTRUCT;     /* size of current interlaced row in bytes */
+   png_size_t rowbytes PNG_DEPSTRUCT;       /* size of row in bytes */
+   png_size_t irowbytes PNG_DEPSTRUCT;      /* size of current interlaced row in bytes */
    png_uint_32 iwidth PNG_DEPSTRUCT;        /* width of current interlaced row in pixels */
    png_uint_32 row_number PNG_DEPSTRUCT;    /* current row in interlace pass */
    png_bytep prev_row PNG_DEPSTRUCT;        /* buffer to save previous (unfiltered) row */
    png_bytep row_buf PNG_DEPSTRUCT;         /* buffer to save current (unfiltered) row */
-#ifndef PNG_NO_WRITE_FILTER
    png_bytep sub_row PNG_DEPSTRUCT;         /* buffer to save "sub" row when filtering */
    png_bytep up_row PNG_DEPSTRUCT;          /* buffer to save "up" row when filtering */
    png_bytep avg_row PNG_DEPSTRUCT;         /* buffer to save "avg" row when filtering */
    png_bytep paeth_row PNG_DEPSTRUCT;       /* buffer to save "Paeth" row when filtering */
-#endif
    png_row_info row_info PNG_DEPSTRUCT;     /* used for transformation routines */
 
    png_uint_32 idat_size PNG_DEPSTRUCT;     /* current IDAT size for read */
@@ -1302,11 +1135,7 @@ struct png_struct_def
    png_byte sig_bytes PNG_DEPSTRUCT;        /* magic bytes read/written from start of file */
 
 #if defined(PNG_READ_FILLER_SUPPORTED) || defined(PNG_WRITE_FILLER_SUPPORTED)
-#ifdef PNG_LEGACY_SUPPORTED
-   png_byte filler PNG_DEPSTRUCT;           /* filler byte for pixel expansion */
-#else
    png_uint_16 filler PNG_DEPSTRUCT;           /* filler bytes for pixel expansion */
-#endif
 #endif
 
 #ifdef PNG_bKGD_SUPPORTED
@@ -1353,8 +1182,8 @@ struct png_struct_def
 
 #if defined(PNG_tRNS_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED) \
  || defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
-   png_bytep trans PNG_DEPSTRUCT;           /* transparency values for paletted files */
-   png_color_16 trans_values PNG_DEPSTRUCT; /* transparency values for non-paletted files */
+   png_bytep trans_alpha PNG_DEPSTRUCT;           /* alpha values for paletted files */
+   png_color_16 trans_color PNG_DEPSTRUCT;  /* transparent color for non-paletted files */
 #endif
 
    png_read_status_ptr read_row_fn PNG_DEPSTRUCT;   /* called after each row is decoded */
@@ -1381,11 +1210,12 @@ struct png_struct_def
      png_size_t current_text_left PNG_DEPSTRUCT;   /* how much text left to read in input */
      png_charp current_text PNG_DEPSTRUCT;         /* current text chunk buffer */
      png_charp current_text_ptr PNG_DEPSTRUCT;     /* current location in current_text */
-#  endif /* PNG_TEXT_SUPPORTED */
+#  endif /* PNG_PROGRESSIVE_READ_SUPPORTED && PNG_TEXT_SUPPORTED */
+
 #endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
 
 #if defined(__TURBOC__) && !defined(_Windows) && !defined(__FLAT__)
-/* for the Borland special 64K segment handler */
+/* For the Borland special 64K segment handler */
    png_bytepp offset_table_ptr PNG_DEPSTRUCT;
    png_bytep offset_table PNG_DEPSTRUCT;
    png_uint_16 offset_table_number PNG_DEPSTRUCT;
@@ -1418,9 +1248,7 @@ struct png_struct_def
 
 /* New members added in libpng-1.0.6 */
 
-#ifdef PNG_FREE_ME_SUPPORTED
-   png_uint_32 free_me PNG_DEPSTRUCT;   /* flags items libpng is responsible for freeing */
-#endif
+   png_uint_32 free_me PNG_DEPSTRUCT;     /* flags items libpng is responsible for freeing */
 
 #ifdef PNG_USER_CHUNKS_SUPPORTED
    png_voidp user_chunk_ptr PNG_DEPSTRUCT;
@@ -1446,11 +1274,7 @@ struct png_struct_def
     defined(PNG_READ_EMPTY_PLTE_SUPPORTED) || \
     defined(PNG_WRITE_EMPTY_PLTE_SUPPORTED)
 /* Changed from png_byte to png_uint_32 at version 1.2.0 */
-#ifdef PNG_1_0_X
-   png_byte mng_features_permitted PNG_DEPSTRUCT;
-#else
    png_uint_32 mng_features_permitted PNG_DEPSTRUCT;
-#endif /* PNG_1_0_X */
 #endif
 
 /* New member added in libpng-1.0.7 */
@@ -1463,39 +1287,25 @@ struct png_struct_def
    png_byte filter_type PNG_DEPSTRUCT;
 #endif
 
-#ifdef PNG_1_0_X
-/* New member added in libpng-1.0.10, ifdef'ed out in 1.2.0 */
-   png_uint_32 row_buf_size PNG_DEPSTRUCT;
-#endif
-
 /* New members added in libpng-1.2.0 */
-#ifdef PNG_ASSEMBLER_CODE_SUPPORTED
-#  ifndef PNG_1_0_X
-#    ifdef PNG_MMX_CODE_SUPPORTED
-   png_byte     mmx_bitdepth_threshold PNG_DEPSTRUCT;
-   png_uint_32  mmx_rowbytes_threshold PNG_DEPSTRUCT;
-#    endif
-   png_uint_32  asm_flags PNG_DEPSTRUCT;
-#  endif
-#endif
 
 /* New members added in libpng-1.0.2 but first enabled by default in 1.2.0 */
 #ifdef PNG_USER_MEM_SUPPORTED
-   png_voidp mem_ptr PNG_DEPSTRUCT;            /* user supplied struct for mem functions */
-   png_malloc_ptr malloc_fn PNG_DEPSTRUCT;     /* function for allocating memory */
-   png_free_ptr free_fn PNG_DEPSTRUCT;         /* function for freeing memory */
+   png_voidp mem_ptr PNG_DEPSTRUCT;                /* user supplied struct for mem functions */
+   png_malloc_ptr malloc_fn PNG_DEPSTRUCT;         /* function for allocating memory */
+   png_free_ptr free_fn PNG_DEPSTRUCT;             /* function for freeing memory */
 #endif
 
 /* New member added in libpng-1.0.13 and 1.2.0 */
-   png_bytep big_row_buf PNG_DEPSTRUCT;        /* buffer to save current (unfiltered) row */
+   png_bytep big_row_buf PNG_DEPSTRUCT;         /* buffer to save current (unfiltered) row */
 
 #ifdef PNG_READ_DITHER_SUPPORTED
 /* The following three members were added at version 1.0.14 and 1.2.4 */
-   png_bytep dither_sort PNG_DEPSTRUCT;        /* working sort array */
-   png_bytep index_to_palette PNG_DEPSTRUCT;   /* where the original index currently is */
-                                 /* in the palette */
-   png_bytep palette_to_index PNG_DEPSTRUCT;   /* which original index points to this */
-                                 /* palette color */
+   png_bytep dither_sort PNG_DEPSTRUCT;            /* working sort array */
+   png_bytep index_to_palette PNG_DEPSTRUCT;       /* where the original index currently is */
+                                     /* in the palette */
+   png_bytep palette_to_index PNG_DEPSTRUCT;       /* which original index points to this */
+                                     /* palette color */
 #endif
 
 /* New members added in libpng-1.0.16 and 1.2.6 */
@@ -1504,6 +1314,10 @@ struct png_struct_def
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
    png_uint_32 user_width_max PNG_DEPSTRUCT;
    png_uint_32 user_height_max PNG_DEPSTRUCT;
+   /* Added in libpng-1.4.0: Total number of sPLT, text, and unknown
+    * chunks that can be stored (0x7fffffff means unlimited).
+    */
+   png_uint_32 user_chunk_cache_max PNG_DEPSTRUCT;
 #endif
 
 /* New member added in libpng-1.0.25 and 1.2.17 */
@@ -1519,14 +1333,17 @@ struct png_struct_def
 /* New member added in libpng-1.2.30 */
   png_charp chunkdata PNG_DEPSTRUCT;  /* buffer for reading chunk data */
 
-
+/* New member added in libpng-1.4.0 */
+#ifdef PNG_IO_STATE_SUPPORTED
+   png_uint_32 io_state PNG_DEPSTRUCT;
+#endif
 };
 
 
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_41;
+typedef png_structp version_1_4_0;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -1553,11 +1370,6 @@ extern PNG_EXPORT(void,png_set_sig_bytes) PNGARG((png_structp png_ptr,
 extern PNG_EXPORT(int,png_sig_cmp) PNGARG((png_bytep sig, png_size_t start,
    png_size_t num_to_check));
 
-/* Simple signature checking function.  This is the same as calling
- * png_check_sig(sig, n) := !png_sig_cmp(sig, 0, n).
- */
-extern PNG_EXPORT(int,png_check_sig) PNGARG((png_bytep sig, int num)) PNG_DEPRECATED;
-
 /* Allocate and initialize png_ptr struct for reading, and any other memory. */
 extern PNG_EXPORT(png_structp,png_create_read_struct)
    PNGARG((png_const_charp user_png_ver, png_voidp error_ptr,
@@ -1569,13 +1381,33 @@ extern PNG_EXPORT(png_structp,png_create_write_struct)
    png_error_ptr error_fn, png_error_ptr warn_fn)) PNG_ALLOCATED;
 
 #ifdef PNG_WRITE_SUPPORTED
-extern PNG_EXPORT(png_uint_32,png_get_compression_buffer_size)
+extern PNG_EXPORT(png_size_t,png_get_compression_buffer_size)
    PNGARG((png_structp png_ptr));
 #endif
 
 #ifdef PNG_WRITE_SUPPORTED
 extern PNG_EXPORT(void,png_set_compression_buffer_size)
-   PNGARG((png_structp png_ptr, png_uint_32 size));
+   PNGARG((png_structp png_ptr, png_size_t size));
+#endif
+
+/* Moved from pngconf.h in 1.4.0 and modified to ensure setjmp/longjmp
+ * match up.
+ */
+#ifdef PNG_SETJMP_SUPPORTED
+/* This function returns the jmp_buf built in to *png_ptr.  It must be
+ * supplied with an appropriate 'longjmp' function to use on that jmp_buf
+ * unless the default error function is overridden in which case NULL is
+ * acceptable.  The size of the jmp_buf is checked against the actual size
+ * allocated by the library - the call will return NULL on a mismatch
+ * indicating an ABI mismatch.
+ */
+extern PNG_EXPORT(jmp_buf*, png_set_longjmp_fn)
+   PNGARG((png_structp png_ptr, png_longjmp_ptr longjmp_fn, size_t jmp_buf_size));
+#  define png_jmpbuf(png_ptr) \
+   (*png_set_longjmp_fn((png_ptr), longjmp, sizeof (jmp_buf)))
+#else
+#  define png_jmpbuf(png_ptr) \
+   (LIBPNG_WAS_COMPILED_WITH__PNG_NO_SETJMP)
 #endif
 
 /* Reset the compression stream */
@@ -1592,6 +1424,9 @@ extern PNG_EXPORT(png_structp,png_create_write_struct_2)
    png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr,
    png_malloc_ptr malloc_fn, png_free_ptr free_fn)) PNG_ALLOCATED;
 #endif
+
+/* Write the PNG file signature. */
+extern PNG_EXPORT(void,png_write_sig) PNGARG((png_structp png_ptr));
 
 /* Write a PNG chunk - size, type, (optional) data, CRC. */
 extern PNG_EXPORT(void,png_write_chunk) PNGARG((png_structp png_ptr,
@@ -1611,15 +1446,6 @@ extern PNG_EXPORT(void,png_write_chunk_end) PNGARG((png_structp png_ptr));
 /* Allocate and initialize the info structure */
 extern PNG_EXPORT(png_infop,png_create_info_struct)
    PNGARG((png_structp png_ptr)) PNG_ALLOCATED;
-
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-/* Initialize the info structure (old interface - DEPRECATED) */
-extern PNG_EXPORT(void,png_info_init) PNGARG((png_infop info_ptr))
-    PNG_DEPRECATED;
-#undef png_info_init
-#define png_info_init(info_ptr) png_info_init_3(&info_ptr,\
-    png_sizeof(png_info));
-#endif
 
 extern PNG_EXPORT(void,png_info_init_3) PNGARG((png_infopp info_ptr,
     png_size_t png_info_struct_size));
@@ -1654,17 +1480,10 @@ extern PNG_EXPORT(void,png_convert_from_time_t) PNGARG((png_timep ptime,
 #ifdef PNG_READ_EXPAND_SUPPORTED
 /* Expand data to 24-bit RGB, or 8-bit grayscale, with alpha if available. */
 extern PNG_EXPORT(void,png_set_expand) PNGARG((png_structp png_ptr));
-#ifndef PNG_1_0_X
 extern PNG_EXPORT(void,png_set_expand_gray_1_2_4_to_8) PNGARG((png_structp
   png_ptr));
-#endif
 extern PNG_EXPORT(void,png_set_palette_to_rgb) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(void,png_set_tRNS_to_alpha) PNGARG((png_structp png_ptr));
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-/* Deprecated */
-extern PNG_EXPORT(void,png_set_gray_1_2_4_to_8) PNGARG((png_structp
-    png_ptr)) PNG_DEPRECATED;
-#endif
 #endif
 
 #if defined(PNG_READ_BGR_SUPPORTED) || defined(PNG_WRITE_BGR_SUPPORTED)
@@ -1714,10 +1533,8 @@ extern PNG_EXPORT(void,png_set_filler) PNGARG((png_structp png_ptr,
 #define PNG_FILLER_BEFORE 0
 #define PNG_FILLER_AFTER 1
 /* Add an alpha byte to 8-bit Gray or 24-bit RGB images. */
-#ifndef PNG_1_0_X
 extern PNG_EXPORT(void,png_set_add_alpha) PNGARG((png_structp png_ptr,
    png_uint_32 filler, int flags));
-#endif
 #endif /* PNG_READ_FILLER_SUPPORTED || PNG_WRITE_FILLER_SUPPORTED */
 
 #if defined(PNG_READ_SWAP_SUPPORTED) || defined(PNG_WRITE_SWAP_SUPPORTED)
@@ -1785,15 +1602,6 @@ extern PNG_EXPORT(void,png_set_gamma) PNGARG((png_structp png_ptr,
 #endif
 #endif
 
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-#if defined(PNG_READ_EMPTY_PLTE_SUPPORTED) || \
-    defined(PNG_WRITE_EMPTY_PLTE_SUPPORTED)
-/* Permit or disallow empty PLTE (0: not permitted, 1: permitted) */
-/* Deprecated and will be removed.  Use png_permit_mng_features() instead. */
-extern PNG_EXPORT(void,png_permit_empty_plte) PNGARG((png_structp png_ptr,
-   int empty_plte_permitted)) PNG_DEPRECATED;
-#endif
-#endif
 
 #ifdef PNG_WRITE_FLUSH_SUPPORTED
 /* Set how many lines between output flushes - 0 for no flushing */
@@ -1809,20 +1617,20 @@ extern PNG_EXPORT(void,png_start_read_image) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(void,png_read_update_info) PNGARG((png_structp png_ptr,
    png_infop info_ptr));
 
-#ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
+#ifdef PNG_SEQUENTIAL_READ_SUPPORTED
 /* Read one or more rows of image data. */
 extern PNG_EXPORT(void,png_read_rows) PNGARG((png_structp png_ptr,
    png_bytepp row, png_bytepp display_row, png_uint_32 num_rows));
 #endif
 
-#ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
+#ifdef PNG_SEQUENTIAL_READ_SUPPORTED
 /* Read a row of data. */
 extern PNG_EXPORT(void,png_read_row) PNGARG((png_structp png_ptr,
    png_bytep row,
    png_bytep display_row));
 #endif
 
-#ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
+#ifdef PNG_SEQUENTIAL_READ_SUPPORTED
 /* Read the whole image into memory at once. */
 extern PNG_EXPORT(void,png_read_image) PNGARG((png_structp png_ptr,
    png_bytepp image));
@@ -1840,11 +1648,11 @@ extern PNG_EXPORT(void,png_write_rows) PNGARG((png_structp png_ptr,
 extern PNG_EXPORT(void,png_write_image) PNGARG((png_structp png_ptr,
    png_bytepp image));
 
-/* Writes the end of the PNG file. */
+/* Write the end of the PNG file. */
 extern PNG_EXPORT(void,png_write_end) PNGARG((png_structp png_ptr,
    png_infop info_ptr));
 
-#ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
+#ifdef PNG_SEQUENTIAL_READ_SUPPORTED
 /* Read the end of the PNG file. */
 extern PNG_EXPORT(void,png_read_end) PNGARG((png_structp png_ptr,
    png_infop info_ptr));
@@ -1858,16 +1666,9 @@ extern PNG_EXPORT(void,png_destroy_info_struct) PNGARG((png_structp png_ptr,
 extern PNG_EXPORT(void,png_destroy_read_struct) PNGARG((png_structpp
    png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr));
 
-/* Free all memory used by the read (old method - NOT DLL EXPORTED) */
-extern void png_read_destroy PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_infop end_info_ptr)) PNG_DEPRECATED;
-
 /* Free any memory associated with the png_struct and the png_info_structs */
 extern PNG_EXPORT(void,png_destroy_write_struct)
    PNGARG((png_structpp png_ptr_ptr, png_infopp info_ptr_ptr));
-
-/* Free any memory used in png_ptr struct (old method - NOT DLL EXPORTED) */
-extern void png_write_destroy PNGARG((png_structp png_ptr)) PNG_DEPRECATED;
 
 /* Set the libpng method of handling chunk CRC errors */
 extern PNG_EXPORT(void,png_set_crc_action) PNGARG((png_structp png_ptr,
@@ -1927,7 +1728,7 @@ extern PNG_EXPORT(void,png_set_filter) PNGARG((png_structp png_ptr, int method,
 #define PNG_FILTER_VALUE_PAETH 4
 #define PNG_FILTER_VALUE_LAST  5
 
-#if defined(PNG_WRITE_WEIGHTED_FILTER_SUPPORTED) /* EXPERIMENTAL */
+#ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED /* EXPERIMENTAL */
 /* The "heuristic_method" is given by one of the PNG_FILTER_HEURISTIC_
  * defines, either the default (minimum-sum-of-absolute-differences), or
  * the experimental method (weighted-minimum-sum-of-absolute-differences).
@@ -2055,21 +1856,18 @@ extern PNG_EXPORT(void,png_set_mem_fn) PNGARG((png_structp png_ptr,
 extern PNG_EXPORT(png_voidp,png_get_mem_ptr) PNGARG((png_structp png_ptr));
 #endif
 
-#if defined(PNG_READ_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_LEGACY_SUPPORTED)
+#ifdef PNG_READ_USER_TRANSFORM_SUPPORTED
 extern PNG_EXPORT(void,png_set_read_user_transform_fn) PNGARG((png_structp
    png_ptr, png_user_transform_ptr read_user_transform_fn));
 #endif
 
-#if defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_LEGACY_SUPPORTED)
+#ifdef PNG_WRITE_USER_TRANSFORM_SUPPORTED
 extern PNG_EXPORT(void,png_set_write_user_transform_fn) PNGARG((png_structp
    png_ptr, png_user_transform_ptr write_user_transform_fn));
 #endif
 
 #if defined(PNG_READ_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED) || \
-    defined(PNG_LEGACY_SUPPORTED)
+    defined(PNG_WRITE_USER_TRANSFORM_SUPPORTED)
 extern PNG_EXPORT(void,png_set_user_transform_info) PNGARG((png_structp
    png_ptr, png_voidp user_transform_ptr, int user_transform_depth,
    int user_transform_channels));
@@ -2110,38 +1908,25 @@ extern PNG_EXPORT(void,png_progressive_combine_row) PNGARG((png_structp png_ptr,
 #endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
 
 extern PNG_EXPORT(png_voidp,png_malloc) PNGARG((png_structp png_ptr,
-   png_uint_32 size)) PNG_ALLOCATED;
+   png_alloc_size_t size)) PNG_ALLOCATED;
+/* Added at libpng version 1.4.0 */
+extern PNG_EXPORT(png_voidp,png_calloc) PNGARG((png_structp png_ptr,
+   png_alloc_size_t size)) PNG_ALLOCATED;
 
-#ifdef PNG_1_0_X
-#  define png_malloc_warn png_malloc
-#else
 /* Added at libpng version 1.2.4 */
 extern PNG_EXPORT(png_voidp,png_malloc_warn) PNGARG((png_structp png_ptr,
-   png_uint_32 size)) PNG_ALLOCATED;
-#endif
+   png_alloc_size_t size)) PNG_ALLOCATED;
 
 /* Frees a pointer allocated by png_malloc() */
 extern PNG_EXPORT(void,png_free) PNGARG((png_structp png_ptr, png_voidp ptr));
 
-#ifdef PNG_1_0_X
-/* Function to allocate memory for zlib. */
-extern PNG_EXPORT(voidpf,png_zalloc) PNGARG((voidpf png_ptr, uInt items,
-   uInt size));
-
-/* Function to free memory for zlib */
-extern PNG_EXPORT(void,png_zfree) PNGARG((voidpf png_ptr, voidpf ptr));
-#endif
-
 /* Free data that was allocated internally */
 extern PNG_EXPORT(void,png_free_data) PNGARG((png_structp png_ptr,
    png_infop info_ptr, png_uint_32 free_me, int num));
-#ifdef PNG_FREE_ME_SUPPORTED
 /* Reassign responsibility for freeing existing data, whether allocated
- * by libpng or by the application
- */
+ * by libpng or by the application */
 extern PNG_EXPORT(void,png_data_freer) PNGARG((png_structp png_ptr,
    png_infop info_ptr, int freer, png_uint_32 mask));
-#endif
 /* Assignments for png_data_freer */
 #define PNG_DESTROY_WILL_FREE_DATA 1
 #define PNG_SET_WILL_FREE_DATA 1
@@ -2163,21 +1948,10 @@ extern PNG_EXPORT(void,png_data_freer) PNGARG((png_structp png_ptr,
 
 #ifdef PNG_USER_MEM_SUPPORTED
 extern PNG_EXPORT(png_voidp,png_malloc_default) PNGARG((png_structp png_ptr,
-   png_uint_32 size)) PNG_ALLOCATED;
+   png_alloc_size_t size)) PNG_ALLOCATED;
 extern PNG_EXPORT(void,png_free_default) PNGARG((png_structp png_ptr,
    png_voidp ptr));
 #endif
-
-extern PNG_EXPORT(png_voidp,png_memcpy_check) PNGARG((png_structp png_ptr,
-   png_voidp s1, png_voidp s2, png_uint_32 size));
-
-extern PNG_EXPORT(png_voidp,png_memset_check) PNGARG((png_structp png_ptr,
-   png_voidp s1, int value, png_uint_32 size));
-
-#if defined(USE_FAR_KEYWORD)  /* memory model conversion function */
-extern void *png_far_to_near PNGARG((png_structp png_ptr,png_voidp ptr,
-   int check));
-#endif /* USE_FAR_KEYWORD */
 
 #ifndef PNG_NO_ERROR_TEXT
 /* Fatal error in PNG image of libpng - can't continue */
@@ -2187,22 +1961,33 @@ extern PNG_EXPORT(void,png_error) PNGARG((png_structp png_ptr,
 /* The same, but the chunk name is prepended to the error string. */
 extern PNG_EXPORT(void,png_chunk_error) PNGARG((png_structp png_ptr,
    png_const_charp error_message)) PNG_NORETURN;
+
 #else
 /* Fatal error in PNG image of libpng - can't continue */
 extern PNG_EXPORT(void,png_err) PNGARG((png_structp png_ptr)) PNG_NORETURN;
 #endif
 
-#ifndef PNG_NO_WARNINGS
 /* Non-fatal error in libpng.  Can continue, but may have a problem. */
 extern PNG_EXPORT(void,png_warning) PNGARG((png_structp png_ptr,
    png_const_charp warning_message));
 
-#ifdef PNG_READ_SUPPORTED
 /* Non-fatal error in libpng, chunk name is prepended to message. */
 extern PNG_EXPORT(void,png_chunk_warning) PNGARG((png_structp png_ptr,
    png_const_charp warning_message));
-#endif /* PNG_READ_SUPPORTED */
-#endif /* PNG_NO_WARNINGS */
+
+#ifdef PNG_BENIGN_ERRORS_SUPPORTED
+/* Benign error in libpng.  Can continue, but may have a problem.
+ * User can choose whether to handle as a fatal error or as a warning. */
+extern PNG_EXPORT(void,png_benign_error) PNGARG((png_structp png_ptr,
+   png_const_charp warning_message));
+
+/* Same, chunk name is prepended to message. */
+extern PNG_EXPORT(void,png_chunk_benign_error) PNGARG((png_structp png_ptr,
+   png_const_charp warning_message));
+
+extern PNG_EXPORT(void,png_set_benign_errors) PNGARG((png_structp
+   png_ptr, int allowed));
+#endif
 
 /* The png_set_<chunk> functions are for storing values in the png_info_struct.
  * Similarly, the png_get_<chunk> calls are used to read values from the
@@ -2221,7 +2006,7 @@ extern PNG_EXPORT(png_uint_32,png_get_valid) PNGARG((png_structp png_ptr,
 png_infop info_ptr, png_uint_32 flag));
 
 /* Returns number of bytes needed to hold a transformed row. */
-extern PNG_EXPORT(png_uint_32,png_get_rowbytes) PNGARG((png_structp png_ptr,
+extern PNG_EXPORT(png_size_t,png_get_rowbytes) PNGARG((png_structp png_ptr,
 png_infop info_ptr));
 
 #ifdef PNG_INFO_IMAGE_SUPPORTED
@@ -2471,12 +2256,11 @@ extern PNG_EXPORT(png_uint_32,png_get_text) PNGARG((png_structp png_ptr,
    png_infop info_ptr, png_textp *text_ptr, int *num_text));
 #endif
 
-/*
- *  Note while png_set_text() will accept a structure whose text,
- *  language, and  translated keywords are NULL pointers, the structure
- *  returned by png_get_text will always contain regular
- *  zero-terminated C strings.  They might be empty strings but
- *  they will never be NULL pointers.
+/* Note while png_set_text() will accept a structure whose text,
+ * language, and  translated keywords are NULL pointers, the structure
+ * returned by png_get_text will always contain regular
+ * zero-terminated C strings.  They might be empty strings but
+ * they will never be NULL pointers.
  */
 
 #ifdef PNG_TEXT_SUPPORTED
@@ -2496,14 +2280,14 @@ extern PNG_EXPORT(void,png_set_tIME) PNGARG((png_structp png_ptr,
 
 #ifdef PNG_tRNS_SUPPORTED
 extern PNG_EXPORT(png_uint_32,png_get_tRNS) PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_bytep *trans, int *num_trans,
-   png_color_16p *trans_values));
+   png_infop info_ptr, png_bytep *trans_alpha, int *num_trans,
+   png_color_16p *trans_color));
 #endif
 
 #ifdef PNG_tRNS_SUPPORTED
 extern PNG_EXPORT(void,png_set_tRNS) PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_bytep trans, int num_trans,
-   png_color_16p trans_values));
+   png_infop info_ptr, png_bytep trans_alpha, int num_trans,
+   png_color_16p trans_color));
 #endif
 
 #ifdef PNG_tRNS_SUPPORTED
@@ -2576,113 +2360,6 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
                         png_voidp params));
 #endif
 
-/* Define PNG_DEBUG at compile time for debugging information.  Higher
- * numbers for PNG_DEBUG mean more debugging information.  This has
- * only been added since version 0.95 so it is not implemented throughout
- * libpng yet, but more support will be added as needed.
- */
-#ifdef PNG_DEBUG
-#if (PNG_DEBUG > 0)
-#if !defined(PNG_DEBUG_FILE) && defined(_MSC_VER)
-#include <crtdbg.h>
-#if (PNG_DEBUG > 1)
-#ifndef _DEBUG
-#  define _DEBUG
-#endif
-#ifndef png_debug
-#define png_debug(l,m)  _RPT0(_CRT_WARN,m PNG_STRING_NEWLINE)
-#endif
-#ifndef png_debug1
-#define png_debug1(l,m,p1)  _RPT1(_CRT_WARN,m PNG_STRING_NEWLINE,p1)
-#endif
-#ifndef png_debug2
-#define png_debug2(l,m,p1,p2) _RPT2(_CRT_WARN,m PNG_STRING_NEWLINE,p1,p2)
-#endif
-#endif
-#else /* PNG_DEBUG_FILE || !_MSC_VER */
-#ifndef PNG_DEBUG_FILE
-#define PNG_DEBUG_FILE stderr
-#endif /* PNG_DEBUG_FILE */
-
-#if (PNG_DEBUG > 1)
-/* Note: ["%s"m PNG_STRING_NEWLINE] probably does not work on non-ISO
- * compilers.
- */
-#  ifdef __STDC__
-#    ifndef png_debug
-#      define png_debug(l,m) \
-       { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":"")))); \
-       }
-#    endif
-#    ifndef png_debug1
-#      define png_debug1(l,m,p1) \
-       { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1); \
-       }
-#    endif
-#    ifndef png_debug2
-#      define png_debug2(l,m,p1,p2) \
-       { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1,p2); \
-       }
-#    endif
-#  else /* __STDC __ */
-#    ifndef png_debug
-#      define png_debug(l,m) \
-       { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
-         m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format); \
-       }
-#    endif
-#    ifndef png_debug1
-#      define png_debug1(l,m,p1) \
-       { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
-         m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1); \
-       }
-#    endif
-#    ifndef png_debug2
-#      define png_debug2(l,m,p1,p2) \
-       { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
-         m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1,p2); \
-       }
-#    endif
-#  endif /* __STDC __ */
-#endif /* (PNG_DEBUG > 1) */
-
-#endif /* _MSC_VER */
-#endif /* (PNG_DEBUG > 0) */
-#endif /* PNG_DEBUG */
-#ifndef png_debug
-#define png_debug(l, m)
-#endif
-#ifndef png_debug1
-#define png_debug1(l, m, p1)
-#endif
-#ifndef png_debug2
-#define png_debug2(l, m, p1, p2)
-#endif
-
 extern PNG_EXPORT(png_charp,png_get_copyright) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_charp,png_get_header_ver) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_charp,png_get_header_version) PNGARG((png_structp png_ptr));
@@ -2699,74 +2376,6 @@ extern PNG_EXPORT(png_uint_32,png_permit_mng_features) PNGARG((png_structp
 #define PNG_HANDLE_CHUNK_IF_SAFE      2
 #define PNG_HANDLE_CHUNK_ALWAYS       3
 
-/* Added to version 1.2.0 */
-#ifdef PNG_ASSEMBLER_CODE_SUPPORTED
-#ifdef PNG_MMX_CODE_SUPPORTED
-#define PNG_ASM_FLAG_MMX_SUPPORT_COMPILED  0x01  /* not user-settable */
-#define PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU    0x02  /* not user-settable */
-#define PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  0x04
-#define PNG_ASM_FLAG_MMX_READ_INTERLACE    0x08
-#define PNG_ASM_FLAG_MMX_READ_FILTER_SUB   0x10
-#define PNG_ASM_FLAG_MMX_READ_FILTER_UP    0x20
-#define PNG_ASM_FLAG_MMX_READ_FILTER_AVG   0x40
-#define PNG_ASM_FLAG_MMX_READ_FILTER_PAETH 0x80
-#define PNG_ASM_FLAGS_INITIALIZED          0x80000000  /* not user-settable */
-
-#define PNG_MMX_READ_FLAGS ( PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  \
-                           | PNG_ASM_FLAG_MMX_READ_INTERLACE    \
-                           | PNG_ASM_FLAG_MMX_READ_FILTER_SUB   \
-                           | PNG_ASM_FLAG_MMX_READ_FILTER_UP    \
-                           | PNG_ASM_FLAG_MMX_READ_FILTER_AVG   \
-                           | PNG_ASM_FLAG_MMX_READ_FILTER_PAETH )
-#define PNG_MMX_WRITE_FLAGS ( 0 )
-
-#define PNG_MMX_FLAGS ( PNG_ASM_FLAG_MMX_SUPPORT_COMPILED \
-                      | PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU   \
-                      | PNG_MMX_READ_FLAGS                \
-                      | PNG_MMX_WRITE_FLAGS )
-
-#define PNG_SELECT_READ   1
-#define PNG_SELECT_WRITE  2
-#endif /* PNG_MMX_CODE_SUPPORTED */
-
-#ifndef PNG_1_0_X
-/* pngget.c */
-extern PNG_EXPORT(png_uint_32,png_get_mmx_flagmask)
-   PNGARG((int flag_select, int *compilerID));
-
-/* pngget.c */
-extern PNG_EXPORT(png_uint_32,png_get_asm_flagmask)
-   PNGARG((int flag_select));
-
-/* pngget.c */
-extern PNG_EXPORT(png_uint_32,png_get_asm_flags)
-   PNGARG((png_structp png_ptr));
-
-/* pngget.c */
-extern PNG_EXPORT(png_byte,png_get_mmx_bitdepth_threshold)
-   PNGARG((png_structp png_ptr));
-
-/* pngget.c */
-extern PNG_EXPORT(png_uint_32,png_get_mmx_rowbytes_threshold)
-   PNGARG((png_structp png_ptr));
-
-/* pngset.c */
-extern PNG_EXPORT(void,png_set_asm_flags)
-   PNGARG((png_structp png_ptr, png_uint_32 asm_flags));
-
-/* pngset.c */
-extern PNG_EXPORT(void,png_set_mmx_thresholds)
-   PNGARG((png_structp png_ptr, png_byte mmx_bitdepth_threshold,
-   png_uint_32 mmx_rowbytes_threshold));
-
-#endif /* PNG_1_0_X */
-
-#ifndef PNG_1_0_X
-/* png.c, pnggccrd.c, or pngvcrd.c */
-extern PNG_EXPORT(int,png_mmx_support) PNGARG((void));
-#endif /* PNG_1_0_X */
-#endif /* PNG_ASSEMBLER_CODE_SUPPORTED */
-
 /* Strip the prepended error numbers ("#nnn ") from error and warning
  * messages before passing them to the error or warning handler.
  */
@@ -2775,7 +2384,7 @@ extern PNG_EXPORT(void,png_set_strip_error_numbers) PNGARG((png_structp
    png_ptr, png_uint_32 strip_mode));
 #endif
 
-/* Added at libpng-1.2.6 */
+/* Added in libpng-1.2.6 */
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
 extern PNG_EXPORT(void,png_set_user_limits) PNGARG((png_structp
    png_ptr, png_uint_32 user_width_max, png_uint_32 user_height_max));
@@ -2783,9 +2392,56 @@ extern PNG_EXPORT(png_uint_32,png_get_user_width_max) PNGARG((png_structp
    png_ptr));
 extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
    png_ptr));
+/* Added in libpng-1.4.0 */
+extern PNG_EXPORT(void,png_set_chunk_cache_max) PNGARG((png_structp
+   png_ptr, png_uint_32 user_chunk_cache_max));
+extern PNG_EXPORT(png_uint_32,png_get_chunk_cache_max)
+   PNGARG((png_structp png_ptr));
 #endif
-/* Maintainer: Put new public prototypes here ^, in libpng.3, and in
- * project defs
+
+#if defined(PNG_INCH_CONVERSIONS) && defined(PNG_FLOATING_POINT_SUPPORTED)
+PNG_EXPORT(png_uint_32,png_get_pixels_per_inch) PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXPORT(png_uint_32,png_get_x_pixels_per_inch) PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXPORT(png_uint_32,png_get_y_pixels_per_inch) PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXPORT(float,png_get_x_offset_inches) PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXPORT(float,png_get_y_offset_inches) PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+#ifdef PNG_pHYs_SUPPORTED
+PNG_EXPORT(png_uint_32,png_get_pHYs_dpi) PNGARG((png_structp png_ptr,
+png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
+#endif /* PNG_pHYs_SUPPORTED */
+#endif  /* PNG_INCH_CONVERSIONS && PNG_FLOATING_POINT_SUPPORTED */
+
+/* Added in libpng-1.4.0 */
+#ifdef PNG_IO_STATE_SUPPORTED
+extern PNG_EXPORT(png_uint_32,png_get_io_state) PNGARG((png_structp png_ptr));
+
+extern PNG_EXPORT(png_bytep,png_get_io_chunk_name)
+   PNGARG((png_structp png_ptr));
+
+/* The flags returned by png_get_io_state() are the following: */
+#define PNG_IO_NONE        0x0000   /* no I/O at this moment */
+#define PNG_IO_READING     0x0001   /* currently reading */
+#define PNG_IO_WRITING     0x0002   /* currently writing */
+#define PNG_IO_SIGNATURE   0x0010   /* currently at the file signature */
+#define PNG_IO_CHUNK_HDR   0x0020   /* currently at the chunk header */
+#define PNG_IO_CHUNK_DATA  0x0040   /* currently at the chunk data */
+#define PNG_IO_CHUNK_CRC   0x0080   /* currently at the chunk crc */
+#define PNG_IO_MASK_OP     0x000f   /* current operation: reading/writing */
+#define PNG_IO_MASK_LOC    0x00f0   /* current location: sig/hdr/data/crc */
+#endif /* ?PNG_IO_STATE_SUPPORTED */
+
+/* Maintainer: Put new public prototypes here ^, in libpng.3, and project
+ * defs
  */
 
 #ifdef PNG_READ_COMPOSITE_NODIV_SUPPORTED
@@ -2826,32 +2482,41 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
      (composite) = (png_uint_16)(((png_uint_32)(fg) * (png_uint_32)(alpha) + \
        (png_uint_32)(bg)*(png_uint_32)(65535L - (png_uint_32)(alpha)) +      \
        (png_uint_32)32767) / (png_uint_32)65535L)
-
 #endif /* PNG_READ_COMPOSITE_NODIV_SUPPORTED */
 
-/* Inline macros to do direct reads of bytes from the input buffer.  These
- * require that you are using an architecture that uses PNG byte ordering
- * (MSB first) and supports unaligned data storage.  I think that PowerPC
- * in big-endian mode and 680x0 are the only ones that will support this.
- * The x86 line of processors definitely do not.  The png_get_int_32()
- * routine also assumes we are using two's complement format for negative
- * values, which is almost certainly true.
+#ifdef PNG_USE_READ_MACROS
+/* Inline macros to do direct reads of bytes from the input buffer.
+ * The png_get_int_32() routine assumes we are using two's complement
+ * format for negative values, which is almost certainly true.
  */
-#ifdef PNG_READ_BIG_ENDIAN_SUPPORTED
-#  define png_get_uint_32(buf) ( *((png_uint_32p) (buf)))
-#  define png_get_uint_16(buf) ( *((png_uint_16p) (buf)))
-#  define png_get_int_32(buf)  ( *((png_int_32p)  (buf)))
+/* We could make special-case BIG_ENDIAN macros that do direct reads here */
+#  define png_get_uint_32(buf) \
+     (((png_uint_32)(*(buf)) << 24) + \
+      ((png_uint_32)(*((buf) + 1)) << 16) + \
+      ((png_uint_32)(*((buf) + 2)) << 8) + \
+      ((png_uint_32)(*((buf) + 3))))
+#  define png_get_uint_16(buf) \
+     (((png_uint_32)(*(buf)) << 8) + \
+      ((png_uint_32)(*((buf) + 1))))
+#ifdef PNG_GET_INT_32_SUPPORTED
+#  define png_get_int_32(buf) \
+     (((png_int_32)(*(buf)) << 24) + \
+      ((png_int_32)(*((buf) + 1)) << 16) + \
+      ((png_int_32)(*((buf) + 2)) << 8) + \
+      ((png_int_32)(*((buf) + 3))))
+#endif
 #else
 extern PNG_EXPORT(png_uint_32,png_get_uint_32) PNGARG((png_bytep buf));
 extern PNG_EXPORT(png_uint_16,png_get_uint_16) PNGARG((png_bytep buf));
+#ifdef PNG_GET_INT_32_SUPPORTED
 extern PNG_EXPORT(png_int_32,png_get_int_32) PNGARG((png_bytep buf));
-#endif /* !PNG_READ_BIG_ENDIAN_SUPPORTED */
+#endif
+#endif
 extern PNG_EXPORT(png_uint_32,png_get_uint_31)
   PNGARG((png_structp png_ptr, png_bytep buf));
 /* No png_get_int_16 -- may be added if there's a real need for it. */
 
-/* Place a 32-bit number into a buffer in PNG byte order (big-endian).
- */
+/* Place a 32-bit number into a buffer in PNG byte order (big-endian). */
 extern PNG_EXPORT(void,png_save_uint_32)
    PNGARG((png_bytep buf, png_uint_32 i));
 extern PNG_EXPORT(void,png_save_int_32)
@@ -2867,896 +2532,16 @@ extern PNG_EXPORT(void,png_save_uint_16)
 
 /* ************************************************************************* */
 
-/* These next functions are used internally in the code.  They generally
- * shouldn't be used unless you are writing code to add or replace some
- * functionality in libpng.  More information about most functions can
- * be found in the files where the functions are located.
- */
-
-
-/* Various modes of operation, that are visible to applications because
- * they are used for unknown chunk location.
+/* Various modes of operation.  Note that after an init, mode is set to
+ * zero automatically when the structure is created.
  */
 #define PNG_HAVE_IHDR               0x01
 #define PNG_HAVE_PLTE               0x02
 #define PNG_HAVE_IDAT               0x04
 #define PNG_AFTER_IDAT              0x08 /* Have complete zlib datastream */
 #define PNG_HAVE_IEND               0x10
-
-#ifdef PNG_INTERNAL
-
-/* More modes of operation.  Note that after an init, mode is set to
- * zero automatically when the structure is created.
- */
 #define PNG_HAVE_gAMA               0x20
 #define PNG_HAVE_cHRM               0x40
-#define PNG_HAVE_sRGB               0x80
-#define PNG_HAVE_CHUNK_HEADER      0x100
-#define PNG_WROTE_tIME             0x200
-#define PNG_WROTE_INFO_BEFORE_PLTE 0x400
-#define PNG_BACKGROUND_IS_GRAY     0x800
-#define PNG_HAVE_PNG_SIGNATURE    0x1000
-#define PNG_HAVE_CHUNK_AFTER_IDAT 0x2000 /* Have another chunk after IDAT */
-
-/* Flags for the transformations the PNG library does on the image data */
-#define PNG_BGR                0x0001
-#define PNG_INTERLACE          0x0002
-#define PNG_PACK               0x0004
-#define PNG_SHIFT              0x0008
-#define PNG_SWAP_BYTES         0x0010
-#define PNG_INVERT_MONO        0x0020
-#define PNG_DITHER             0x0040
-#define PNG_BACKGROUND         0x0080
-#define PNG_BACKGROUND_EXPAND  0x0100
-                          /*   0x0200 unused */
-#define PNG_16_TO_8            0x0400
-#define PNG_RGBA               0x0800
-#define PNG_EXPAND             0x1000
-#define PNG_GAMMA              0x2000
-#define PNG_GRAY_TO_RGB        0x4000
-#define PNG_FILLER             0x8000L
-#define PNG_PACKSWAP          0x10000L
-#define PNG_SWAP_ALPHA        0x20000L
-#define PNG_STRIP_ALPHA       0x40000L
-#define PNG_INVERT_ALPHA      0x80000L
-#define PNG_USER_TRANSFORM   0x100000L
-#define PNG_RGB_TO_GRAY_ERR  0x200000L
-#define PNG_RGB_TO_GRAY_WARN 0x400000L
-#define PNG_RGB_TO_GRAY      0x600000L  /* two bits, RGB_TO_GRAY_ERR|WARN */
-                       /*    0x800000L     Unused */
-#define PNG_ADD_ALPHA       0x1000000L  /* Added to libpng-1.2.7 */
-#define PNG_EXPAND_tRNS     0x2000000L  /* Added to libpng-1.2.9 */
-#define PNG_PREMULTIPLY_ALPHA 0x4000000L  /* Added to libpng-1.2.41 */
-                                          /* by volker */
-                       /*   0x8000000L  unused */
-                       /*  0x10000000L  unused */
-                       /*  0x20000000L  unused */
-                       /*  0x40000000L  unused */
-
-/* Flags for png_create_struct */
-#define PNG_STRUCT_PNG   0x0001
-#define PNG_STRUCT_INFO  0x0002
-
-/* Scaling factor for filter heuristic weighting calculations */
-#define PNG_WEIGHT_SHIFT 8
-#define PNG_WEIGHT_FACTOR (1<<(PNG_WEIGHT_SHIFT))
-#define PNG_COST_SHIFT 3
-#define PNG_COST_FACTOR (1<<(PNG_COST_SHIFT))
-
-/* Flags for the png_ptr->flags rather than declaring a byte for each one */
-#define PNG_FLAG_ZLIB_CUSTOM_STRATEGY     0x0001
-#define PNG_FLAG_ZLIB_CUSTOM_LEVEL        0x0002
-#define PNG_FLAG_ZLIB_CUSTOM_MEM_LEVEL    0x0004
-#define PNG_FLAG_ZLIB_CUSTOM_WINDOW_BITS  0x0008
-#define PNG_FLAG_ZLIB_CUSTOM_METHOD       0x0010
-#define PNG_FLAG_ZLIB_FINISHED            0x0020
-#define PNG_FLAG_ROW_INIT                 0x0040
-#define PNG_FLAG_FILLER_AFTER             0x0080
-#define PNG_FLAG_CRC_ANCILLARY_USE        0x0100
-#define PNG_FLAG_CRC_ANCILLARY_NOWARN     0x0200
-#define PNG_FLAG_CRC_CRITICAL_USE         0x0400
-#define PNG_FLAG_CRC_CRITICAL_IGNORE      0x0800
-#define PNG_FLAG_FREE_PLTE                0x1000
-#define PNG_FLAG_FREE_TRNS                0x2000
-#define PNG_FLAG_FREE_HIST                0x4000
-#define PNG_FLAG_KEEP_UNKNOWN_CHUNKS      0x8000L
-#define PNG_FLAG_KEEP_UNSAFE_CHUNKS       0x10000L
-#define PNG_FLAG_LIBRARY_MISMATCH         0x20000L
-#define PNG_FLAG_STRIP_ERROR_NUMBERS      0x40000L
-#define PNG_FLAG_STRIP_ERROR_TEXT         0x80000L
-#define PNG_FLAG_MALLOC_NULL_MEM_OK       0x100000L
-#define PNG_FLAG_ADD_ALPHA                0x200000L  /* Added to libpng-1.2.8 */
-#define PNG_FLAG_STRIP_ALPHA              0x400000L  /* Added to libpng-1.2.8 */
-                                  /*      0x800000L  unused */
-                                  /*     0x1000000L  unused */
-                                  /*     0x2000000L  unused */
-                                  /*     0x4000000L  unused */
-                                  /*     0x8000000L  unused */
-                                  /*    0x10000000L  unused */
-                                  /*    0x20000000L  unused */
-                                  /*    0x40000000L  unused */
-
-#define PNG_FLAG_CRC_ANCILLARY_MASK (PNG_FLAG_CRC_ANCILLARY_USE | \
-                                     PNG_FLAG_CRC_ANCILLARY_NOWARN)
-
-#define PNG_FLAG_CRC_CRITICAL_MASK  (PNG_FLAG_CRC_CRITICAL_USE | \
-                                     PNG_FLAG_CRC_CRITICAL_IGNORE)
-
-#define PNG_FLAG_CRC_MASK           (PNG_FLAG_CRC_ANCILLARY_MASK | \
-                                     PNG_FLAG_CRC_CRITICAL_MASK)
-
-/* Save typing and make code easier to understand */
-
-#define PNG_COLOR_DIST(c1, c2) (abs((int)((c1).red) - (int)((c2).red)) + \
-   abs((int)((c1).green) - (int)((c2).green)) + \
-   abs((int)((c1).blue) - (int)((c2).blue)))
-
-/* Added to libpng-1.2.6 JB */
-#define PNG_ROWBYTES(pixel_bits, width) \
-    ((pixel_bits) >= 8 ? \
-    ((width) * (((png_uint_32)(pixel_bits)) >> 3)) : \
-    (( ((width) * ((png_uint_32)(pixel_bits))) + 7) >> 3) )
-
-/* PNG_OUT_OF_RANGE returns true if value is outside the range
- * ideal-delta..ideal+delta.  Each argument is evaluated twice.
- * "ideal" and "delta" should be constants, normally simple
- * integers, "value" a variable. Added to libpng-1.2.6 JB
- */
-#define PNG_OUT_OF_RANGE(value, ideal, delta) \
-        ( (value) < (ideal)-(delta) || (value) > (ideal)+(delta) )
-
-/* Variables declared in png.c - only it needs to define PNG_NO_EXTERN */
-#if !defined(PNG_NO_EXTERN) || defined(PNG_ALWAYS_EXTERN)
-/* Place to hold the signature string for a PNG file. */
-#ifdef PNG_USE_GLOBAL_ARRAYS
-   PNG_EXPORT_VAR (PNG_CONST png_byte FARDATA) png_sig[8];
-#else
-#endif
-#endif /* PNG_NO_EXTERN */
-
-/* Constant strings for known chunk types.  If you need to add a chunk,
- * define the name here, and add an invocation of the macro in png.c and
- * wherever it's needed.
- */
-#define PNG_IHDR png_byte png_IHDR[5] = { 73,  72,  68,  82, '\0'}
-#define PNG_IDAT png_byte png_IDAT[5] = { 73,  68,  65,  84, '\0'}
-#define PNG_IEND png_byte png_IEND[5] = { 73,  69,  78,  68, '\0'}
-#define PNG_PLTE png_byte png_PLTE[5] = { 80,  76,  84,  69, '\0'}
-#define PNG_bKGD png_byte png_bKGD[5] = { 98,  75,  71,  68, '\0'}
-#define PNG_cHRM png_byte png_cHRM[5] = { 99,  72,  82,  77, '\0'}
-#define PNG_gAMA png_byte png_gAMA[5] = {103,  65,  77,  65, '\0'}
-#define PNG_hIST png_byte png_hIST[5] = {104,  73,  83,  84, '\0'}
-#define PNG_iCCP png_byte png_iCCP[5] = {105,  67,  67,  80, '\0'}
-#define PNG_iTXt png_byte png_iTXt[5] = {105,  84,  88, 116, '\0'}
-#define PNG_oFFs png_byte png_oFFs[5] = {111,  70,  70, 115, '\0'}
-#define PNG_pCAL png_byte png_pCAL[5] = {112,  67,  65,  76, '\0'}
-#define PNG_sCAL png_byte png_sCAL[5] = {115,  67,  65,  76, '\0'}
-#define PNG_pHYs png_byte png_pHYs[5] = {112,  72,  89, 115, '\0'}
-#define PNG_sBIT png_byte png_sBIT[5] = {115,  66,  73,  84, '\0'}
-#define PNG_sPLT png_byte png_sPLT[5] = {115,  80,  76,  84, '\0'}
-#define PNG_sRGB png_byte png_sRGB[5] = {115,  82,  71,  66, '\0'}
-#define PNG_tEXt png_byte png_tEXt[5] = {116,  69,  88, 116, '\0'}
-#define PNG_tIME png_byte png_tIME[5] = {116,  73,  77,  69, '\0'}
-#define PNG_tRNS png_byte png_tRNS[5] = {116,  82,  78,  83, '\0'}
-#define PNG_zTXt png_byte png_zTXt[5] = {122,  84,  88, 116, '\0'}
-
-#ifdef PNG_USE_GLOBAL_ARRAYS
-PNG_EXPORT_VAR (png_byte FARDATA) png_IHDR[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_IDAT[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_IEND[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_PLTE[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_bKGD[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_cHRM[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_gAMA[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_hIST[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_iCCP[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_iTXt[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_oFFs[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_pCAL[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_sCAL[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_pHYs[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_sBIT[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_sPLT[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_sRGB[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_tEXt[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_tIME[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_tRNS[5];
-PNG_EXPORT_VAR (png_byte FARDATA) png_zTXt[5];
-#endif /* PNG_USE_GLOBAL_ARRAYS */
-
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-/* Initialize png_ptr struct for reading, and allocate any other memory.
- * (old interface - DEPRECATED - use png_create_read_struct instead).
- */
-extern PNG_EXPORT(void,png_read_init) PNGARG((png_structp png_ptr))
-    PNG_DEPRECATED;
-#undef png_read_init
-#define png_read_init(png_ptr) png_read_init_3(&png_ptr, \
-    PNG_LIBPNG_VER_STRING,  png_sizeof(png_struct));
-#endif
-
-extern PNG_EXPORT(void,png_read_init_3) PNGARG((png_structpp ptr_ptr,
-    png_const_charp user_png_ver, png_size_t png_struct_size));
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-extern PNG_EXPORT(void,png_read_init_2) PNGARG((png_structp png_ptr,
-    png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t
-    png_info_size));
-#endif
-
-#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
-/* Initialize png_ptr struct for writing, and allocate any other memory.
- * (old interface - DEPRECATED - use png_create_write_struct instead).
- */
-extern PNG_EXPORT(void,png_write_init) PNGARG((png_structp png_ptr))
-    PNG_DEPRECATED;
-#undef png_write_init
-#define png_write_init(png_ptr) png_write_init_3(&png_ptr, \
-    PNG_LIBPNG_VER_STRING, png_sizeof(png_struct));
-#endif
-
-extern PNG_EXPORT(void,png_write_init_3) PNGARG((png_structpp ptr_ptr,
-    png_const_charp user_png_ver, png_size_t png_struct_size));
-extern PNG_EXPORT(void,png_write_init_2) PNGARG((png_structp png_ptr,
-    png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t
-    png_info_size));
-
-/* Allocate memory for an internal libpng struct */
-PNG_EXTERN png_voidp png_create_struct PNGARG((int type)) PNG_PRIVATE;
-
-/* Free memory from internal libpng struct */
-PNG_EXTERN void png_destroy_struct PNGARG((png_voidp struct_ptr)) PNG_PRIVATE;
-
-PNG_EXTERN png_voidp png_create_struct_2 PNGARG((int type, png_malloc_ptr
-  malloc_fn, png_voidp mem_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_destroy_struct_2 PNGARG((png_voidp struct_ptr,
-   png_free_ptr free_fn, png_voidp mem_ptr)) PNG_PRIVATE;
-
-/* Free any memory that info_ptr points to and reset struct. */
-PNG_EXTERN void png_info_destroy PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-
-#ifndef PNG_1_0_X
-/* Function to allocate memory for zlib. */
-PNG_EXTERN voidpf png_zalloc PNGARG((voidpf png_ptr, uInt items,
-   uInt size)) PNG_PRIVATE;
-
-/* Function to free memory for zlib */
-PNG_EXTERN void png_zfree PNGARG((voidpf png_ptr, voidpf ptr)) PNG_PRIVATE;
-
-#ifdef PNG_SIZE_T
-/* Function to convert a sizeof an item to png_sizeof item */
-   PNG_EXTERN png_size_t PNGAPI png_convert_size PNGARG((size_t size))
-      PNG_PRIVATE;
-#endif
-
-/* Next four functions are used internally as callbacks.  PNGAPI is required
- * but not PNG_EXPORT.  PNGAPI added at libpng version 1.2.3.
- */
-
-PNG_EXTERN void PNGAPI png_default_read_data PNGARG((png_structp png_ptr,
-   png_bytep data, png_size_t length)) PNG_PRIVATE;
-
-#ifdef PNG_PROGRESSIVE_READ_SUPPORTED
-PNG_EXTERN void PNGAPI png_push_fill_buffer PNGARG((png_structp png_ptr,
-   png_bytep buffer, png_size_t length)) PNG_PRIVATE;
-#endif
-
-PNG_EXTERN void PNGAPI png_default_write_data PNGARG((png_structp png_ptr,
-   png_bytep data, png_size_t length)) PNG_PRIVATE;
-
-#ifdef PNG_WRITE_FLUSH_SUPPORTED
-#ifdef PNG_STDIO_SUPPORTED
-PNG_EXTERN void PNGAPI png_default_flush PNGARG((png_structp png_ptr))
-   PNG_PRIVATE;
-#endif
-#endif
-#else /* PNG_1_0_X */
-#ifdef PNG_PROGRESSIVE_READ_SUPPORTED
-PNG_EXTERN void png_push_fill_buffer PNGARG((png_structp png_ptr,
-   png_bytep buffer, png_size_t length)) PNG_PRIVATE;
-#endif
-#endif /* PNG_1_0_X */
-
-/* Reset the CRC variable */
-PNG_EXTERN void png_reset_crc PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-/* Write the "data" buffer to whatever output you are using. */
-PNG_EXTERN void png_write_data PNGARG((png_structp png_ptr, png_bytep data,
-   png_size_t length)) PNG_PRIVATE;
-
-/* Read data from whatever input you are using into the "data" buffer */
-PNG_EXTERN void png_read_data PNGARG((png_structp png_ptr, png_bytep data,
-   png_size_t length)) PNG_PRIVATE;
-
-/* Read bytes into buf, and update png_ptr->crc */
-PNG_EXTERN void png_crc_read PNGARG((png_structp png_ptr, png_bytep buf,
-   png_size_t length)) PNG_PRIVATE;
-
-/* Decompress data in a chunk that uses compression */
-#if defined(PNG_zTXt_SUPPORTED) || defined(PNG_iTXt_SUPPORTED) || \
-    defined(PNG_iCCP_SUPPORTED) || defined(PNG_sPLT_SUPPORTED)
-PNG_EXTERN void png_decompress_chunk PNGARG((png_structp png_ptr,
-   int comp_type, png_size_t chunklength,
-   png_size_t prefix_length, png_size_t *data_length)) PNG_PRIVATE;
-#endif
-
-/* Read "skip" bytes, read the file crc, and (optionally) verify png_ptr->crc */
-PNG_EXTERN int png_crc_finish PNGARG((png_structp png_ptr, png_uint_32 skip)
-   PNG_PRIVATE);
-
-/* Read the CRC from the file and compare it to the libpng calculated CRC */
-PNG_EXTERN int png_crc_error PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-/* Calculate the CRC over a section of data.  Note that we are only
- * passing a maximum of 64K on systems that have this as a memory limit,
- * since this is the maximum buffer size we can specify.
- */
-PNG_EXTERN void png_calculate_crc PNGARG((png_structp png_ptr, png_bytep ptr,
-   png_size_t length)) PNG_PRIVATE;
-
-#ifdef PNG_WRITE_FLUSH_SUPPORTED
-PNG_EXTERN void png_flush PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-#endif
-
-/* Simple function to write the signature */
-PNG_EXTERN void png_write_sig PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-/* Write various chunks */
-
-/* Write the IHDR chunk, and update the png_struct with the necessary
- * information.
- */
-PNG_EXTERN void png_write_IHDR PNGARG((png_structp png_ptr, png_uint_32 width,
-   png_uint_32 height,
-   int bit_depth, int color_type, int compression_method, int filter_method,
-   int interlace_method)) PNG_PRIVATE;
-
-PNG_EXTERN void png_write_PLTE PNGARG((png_structp png_ptr, png_colorp palette,
-   png_uint_32 num_pal)) PNG_PRIVATE;
-
-PNG_EXTERN void png_write_IDAT PNGARG((png_structp png_ptr, png_bytep data,
-   png_size_t length)) PNG_PRIVATE;
-
-PNG_EXTERN void png_write_IEND PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-#ifdef PNG_WRITE_gAMA_SUPPORTED
-#ifdef PNG_FLOATING_POINT_SUPPORTED
-PNG_EXTERN void png_write_gAMA PNGARG((png_structp png_ptr, double file_gamma))
-    PNG_PRIVATE;
-#endif
-#ifdef PNG_FIXED_POINT_SUPPORTED
-PNG_EXTERN void png_write_gAMA_fixed PNGARG((png_structp png_ptr,
-    png_fixed_point file_gamma)) PNG_PRIVATE;
-#endif
-#endif
-
-#ifdef PNG_WRITE_sBIT_SUPPORTED
-PNG_EXTERN void png_write_sBIT PNGARG((png_structp png_ptr, png_color_8p sbit,
-   int color_type)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_cHRM_SUPPORTED
-#ifdef PNG_FLOATING_POINT_SUPPORTED
-PNG_EXTERN void png_write_cHRM PNGARG((png_structp png_ptr,
-   double white_x, double white_y,
-   double red_x, double red_y, double green_x, double green_y,
-   double blue_x, double blue_y)) PNG_PRIVATE;
-#endif
-#ifdef PNG_FIXED_POINT_SUPPORTED
-PNG_EXTERN void png_write_cHRM_fixed PNGARG((png_structp png_ptr,
-   png_fixed_point int_white_x, png_fixed_point int_white_y,
-   png_fixed_point int_red_x, png_fixed_point int_red_y, png_fixed_point
-   int_green_x, png_fixed_point int_green_y, png_fixed_point int_blue_x,
-   png_fixed_point int_blue_y)) PNG_PRIVATE;
-#endif
-#endif
-
-#ifdef PNG_WRITE_sRGB_SUPPORTED
-PNG_EXTERN void png_write_sRGB PNGARG((png_structp png_ptr,
-   int intent)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_iCCP_SUPPORTED
-PNG_EXTERN void png_write_iCCP PNGARG((png_structp png_ptr,
-   png_charp name, int compression_type,
-   png_charp profile, int proflen)) PNG_PRIVATE;
-   /* Note to maintainer: profile should be png_bytep */
-#endif
-
-#ifdef PNG_WRITE_sPLT_SUPPORTED
-PNG_EXTERN void png_write_sPLT PNGARG((png_structp png_ptr,
-   png_sPLT_tp palette)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_tRNS_SUPPORTED
-PNG_EXTERN void png_write_tRNS PNGARG((png_structp png_ptr, png_bytep trans,
-   png_color_16p values, int number, int color_type)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_bKGD_SUPPORTED
-PNG_EXTERN void png_write_bKGD PNGARG((png_structp png_ptr,
-   png_color_16p values, int color_type)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_hIST_SUPPORTED
-PNG_EXTERN void png_write_hIST PNGARG((png_structp png_ptr, png_uint_16p hist,
-   int num_hist)) PNG_PRIVATE;
-#endif
-
-#if defined(PNG_WRITE_TEXT_SUPPORTED) || defined(PNG_WRITE_pCAL_SUPPORTED) || \
-    defined(PNG_WRITE_iCCP_SUPPORTED) || defined(PNG_WRITE_sPLT_SUPPORTED)
-PNG_EXTERN png_size_t png_check_keyword PNGARG((png_structp png_ptr,
-   png_charp key, png_charpp new_key)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_tEXt_SUPPORTED
-PNG_EXTERN void png_write_tEXt PNGARG((png_structp png_ptr, png_charp key,
-   png_charp text, png_size_t text_len)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_zTXt_SUPPORTED
-PNG_EXTERN void png_write_zTXt PNGARG((png_structp png_ptr, png_charp key,
-   png_charp text, png_size_t text_len, int compression)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_iTXt_SUPPORTED
-PNG_EXTERN void png_write_iTXt PNGARG((png_structp png_ptr,
-   int compression, png_charp key, png_charp lang, png_charp lang_key,
-   png_charp text)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_TEXT_SUPPORTED  /* Added at version 1.0.14 and 1.2.4 */
-PNG_EXTERN int png_set_text_2 PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_textp text_ptr, int num_text)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_oFFs_SUPPORTED
-PNG_EXTERN void png_write_oFFs PNGARG((png_structp png_ptr,
-   png_int_32 x_offset, png_int_32 y_offset, int unit_type)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_pCAL_SUPPORTED
-PNG_EXTERN void png_write_pCAL PNGARG((png_structp png_ptr, png_charp purpose,
-   png_int_32 X0, png_int_32 X1, int type, int nparams,
-   png_charp units, png_charpp params)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_pHYs_SUPPORTED
-PNG_EXTERN void png_write_pHYs PNGARG((png_structp png_ptr,
-   png_uint_32 x_pixels_per_unit, png_uint_32 y_pixels_per_unit,
-   int unit_type)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_tIME_SUPPORTED
-PNG_EXTERN void png_write_tIME PNGARG((png_structp png_ptr,
-   png_timep mod_time)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_sCAL_SUPPORTED
-#if defined(PNG_FLOATING_POINT_SUPPORTED) && !defined(PNG_NO_STDIO)
-PNG_EXTERN void png_write_sCAL PNGARG((png_structp png_ptr,
-   int unit, double width, double height)) PNG_PRIVATE;
-#else
-#ifdef PNG_FIXED_POINT_SUPPORTED
-PNG_EXTERN void png_write_sCAL_s PNGARG((png_structp png_ptr,
-   int unit, png_charp width, png_charp height)) PNG_PRIVATE;
-#endif
-#endif
-#endif
-
-/* Called when finished processing a row of data */
-PNG_EXTERN void png_write_finish_row PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-/* Internal use only.   Called before first row of data */
-PNG_EXTERN void png_write_start_row PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-#ifdef PNG_READ_GAMMA_SUPPORTED
-PNG_EXTERN void png_build_gamma_table PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-#endif
-
-/* Combine a row of data, dealing with alpha, etc. if requested */
-PNG_EXTERN void png_combine_row PNGARG((png_structp png_ptr, png_bytep row,
-   int mask)) PNG_PRIVATE;
-
-#ifdef PNG_READ_INTERLACING_SUPPORTED
-/* Expand an interlaced row */
-/* OLD pre-1.0.9 interface:
-PNG_EXTERN void png_do_read_interlace PNGARG((png_row_infop row_info,
-   png_bytep row, int pass, png_uint_32 transformations)) PNG_PRIVATE;
- */
-PNG_EXTERN void png_do_read_interlace PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-#endif
-
-/* GRR TO DO (2.0 or whenever):  simplify other internal calling interfaces */
-
-#ifdef PNG_WRITE_INTERLACING_SUPPORTED
-/* Grab pixels out of a row for an interlaced pass */
-PNG_EXTERN void png_do_write_interlace PNGARG((png_row_infop row_info,
-   png_bytep row, int pass)) PNG_PRIVATE;
-#endif
-
-/* Unfilter a row */
-PNG_EXTERN void png_read_filter_row PNGARG((png_structp png_ptr,
-   png_row_infop row_info, png_bytep row, png_bytep prev_row,
-   int filter)) PNG_PRIVATE;
-
-/* Choose the best filter to use and filter the row data */
-PNG_EXTERN void png_write_find_filter PNGARG((png_structp png_ptr,
-   png_row_infop row_info)) PNG_PRIVATE;
-
-/* Write out the filtered row. */
-PNG_EXTERN void png_write_filtered_row PNGARG((png_structp png_ptr,
-   png_bytep filtered_row)) PNG_PRIVATE;
-/* Finish a row while reading, dealing with interlacing passes, etc. */
-PNG_EXTERN void png_read_finish_row PNGARG((png_structp png_ptr));
-
-/* Initialize the row buffers, etc. */
-PNG_EXTERN void png_read_start_row PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-/* Optional call to update the users info structure */
-PNG_EXTERN void png_read_transform_info PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-
-/* These are the functions that do the transformations */
-#ifdef PNG_READ_FILLER_SUPPORTED
-PNG_EXTERN void png_do_read_filler PNGARG((png_row_infop row_info,
-   png_bytep row, png_uint_32 filler, png_uint_32 flags)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_SWAP_ALPHA_SUPPORTED
-PNG_EXTERN void png_do_read_swap_alpha PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_SWAP_ALPHA_SUPPORTED
-PNG_EXTERN void png_do_write_swap_alpha PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_INVERT_ALPHA_SUPPORTED
-PNG_EXTERN void png_do_read_invert_alpha PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_INVERT_ALPHA_SUPPORTED
-PNG_EXTERN void png_do_write_invert_alpha PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#if defined(PNG_WRITE_FILLER_SUPPORTED) || \
-    defined(PNG_READ_STRIP_ALPHA_SUPPORTED)
-PNG_EXTERN void png_do_strip_filler PNGARG((png_row_infop row_info,
-   png_bytep row, png_uint_32 flags)) PNG_PRIVATE;
-#endif
-
-#if defined(PNG_READ_SWAP_SUPPORTED) || defined(PNG_WRITE_SWAP_SUPPORTED)
-PNG_EXTERN void png_do_swap PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#if defined(PNG_READ_PACKSWAP_SUPPORTED) || defined(PNG_WRITE_PACKSWAP_SUPPORTED)
-PNG_EXTERN void png_do_packswap PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_RGB_TO_GRAY_SUPPORTED
-PNG_EXTERN int png_do_rgb_to_gray PNGARG((png_structp png_ptr, png_row_infop
-   row_info, png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_GRAY_TO_RGB_SUPPORTED
-PNG_EXTERN void png_do_gray_to_rgb PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_PACK_SUPPORTED
-PNG_EXTERN void png_do_unpack PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_SHIFT_SUPPORTED
-PNG_EXTERN void png_do_unshift PNGARG((png_row_infop row_info, png_bytep row,
-   png_color_8p sig_bits)) PNG_PRIVATE;
-#endif
-
-#if defined(PNG_READ_INVERT_SUPPORTED) || defined(PNG_WRITE_INVERT_SUPPORTED)
-PNG_EXTERN void png_do_invert PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_16_TO_8_SUPPORTED
-PNG_EXTERN void png_do_chop PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_DITHER_SUPPORTED
-PNG_EXTERN void png_do_dither PNGARG((png_row_infop row_info,
-   png_bytep row, png_bytep palette_lookup,
-    png_bytep dither_lookup)) PNG_PRIVATE;
-
-#  ifdef PNG_CORRECT_PALETTE_SUPPORTED
-PNG_EXTERN void png_correct_palette PNGARG((png_structp png_ptr,
-   png_colorp palette, int num_palette)) PNG_PRIVATE;
-#  endif
-#endif
-
-#if defined(PNG_READ_BGR_SUPPORTED) || defined(PNG_WRITE_BGR_SUPPORTED)
-PNG_EXTERN void png_do_bgr PNGARG((png_row_infop row_info,
-    png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_PACK_SUPPORTED
-PNG_EXTERN void png_do_pack PNGARG((png_row_infop row_info,
-   png_bytep row, png_uint_32 bit_depth)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_WRITE_SHIFT_SUPPORTED
-PNG_EXTERN void png_do_shift PNGARG((png_row_infop row_info, png_bytep row,
-   png_color_8p bit_depth)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_BACKGROUND_SUPPORTED
-#ifdef PNG_READ_GAMMA_SUPPORTED
-PNG_EXTERN void png_do_background PNGARG((png_row_infop row_info, png_bytep row,
-   png_color_16p trans_values, png_color_16p background,
-   png_color_16p background_1,
-   png_bytep gamma_table, png_bytep gamma_from_1, png_bytep gamma_to_1,
-   png_uint_16pp gamma_16, png_uint_16pp gamma_16_from_1,
-   png_uint_16pp gamma_16_to_1, int gamma_shift)) PNG_PRIVATE;
-#else
-PNG_EXTERN void png_do_background PNGARG((png_row_infop row_info, png_bytep row,
-   png_color_16p trans_values, png_color_16p background)) PNG_PRIVATE;
-#endif
-#endif
-
-#ifdef PNG_READ_GAMMA_SUPPORTED
-PNG_EXTERN void png_do_gamma PNGARG((png_row_infop row_info, png_bytep row,
-   png_bytep gamma_table, png_uint_16pp gamma_16_table,
-   int gamma_shift)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_EXPAND_SUPPORTED
-PNG_EXTERN void png_do_expand_palette PNGARG((png_row_infop row_info,
-   png_bytep row, png_colorp palette, png_bytep trans,
-   int num_trans)) PNG_PRIVATE;
-PNG_EXTERN void png_do_expand PNGARG((png_row_infop row_info,
-   png_bytep row, png_color_16p trans_value)) PNG_PRIVATE;
-#endif
-
-/* The following decodes the appropriate chunks, and does error correction,
- * then calls the appropriate callback for the chunk if it is valid.
- */
-
-/* Decode the IHDR chunk */
-PNG_EXTERN void png_handle_IHDR PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_handle_PLTE PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length));
-PNG_EXTERN void png_handle_IEND PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length));
-
-#ifdef PNG_READ_bKGD_SUPPORTED
-PNG_EXTERN void png_handle_bKGD PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_cHRM_SUPPORTED
-PNG_EXTERN void png_handle_cHRM PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_gAMA_SUPPORTED
-PNG_EXTERN void png_handle_gAMA PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_hIST_SUPPORTED
-PNG_EXTERN void png_handle_hIST PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_iCCP_SUPPORTED
-extern void png_handle_iCCP PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length));
-#endif /* PNG_READ_iCCP_SUPPORTED */
-
-#ifdef PNG_READ_iTXt_SUPPORTED
-PNG_EXTERN void png_handle_iTXt PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_oFFs_SUPPORTED
-PNG_EXTERN void png_handle_oFFs PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_pCAL_SUPPORTED
-PNG_EXTERN void png_handle_pCAL PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_pHYs_SUPPORTED
-PNG_EXTERN void png_handle_pHYs PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_sBIT_SUPPORTED
-PNG_EXTERN void png_handle_sBIT PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_sCAL_SUPPORTED
-PNG_EXTERN void png_handle_sCAL PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_sPLT_SUPPORTED
-extern void png_handle_sPLT PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif /* PNG_READ_sPLT_SUPPORTED */
-
-#ifdef PNG_READ_sRGB_SUPPORTED
-PNG_EXTERN void png_handle_sRGB PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_tEXt_SUPPORTED
-PNG_EXTERN void png_handle_tEXt PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_tIME_SUPPORTED
-PNG_EXTERN void png_handle_tIME PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_tRNS_SUPPORTED
-PNG_EXTERN void png_handle_tRNS PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_READ_zTXt_SUPPORTED
-PNG_EXTERN void png_handle_zTXt PNGARG((png_structp png_ptr, png_infop info_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-#endif
-
-PNG_EXTERN void png_handle_unknown PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_uint_32 length)) PNG_PRIVATE;
-
-PNG_EXTERN void png_check_chunk_name PNGARG((png_structp png_ptr,
-   png_bytep chunk_name)) PNG_PRIVATE;
-
-/* Handle the transformations for reading and writing */
-PNG_EXTERN void png_do_read_transformations
-   PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_do_write_transformations
-   PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-PNG_EXTERN void png_init_read_transformations
-   PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-#ifdef PNG_PROGRESSIVE_READ_SUPPORTED
-PNG_EXTERN void png_push_read_chunk PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_sig PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_check_crc PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_crc_skip PNGARG((png_structp png_ptr,
-   png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_crc_finish PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_save_buffer PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_restore_buffer PNGARG((png_structp png_ptr,
-   png_bytep buffer, png_size_t buffer_length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_IDAT PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_process_IDAT_data PNGARG((png_structp png_ptr,
-   png_bytep buffer, png_size_t buffer_length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_process_row PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_handle_unknown PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_have_info PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_have_end PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_push_have_row PNGARG((png_structp png_ptr,
-   png_bytep row)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_end PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_process_some_data PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-PNG_EXTERN void png_read_push_finish_row
-   PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-#ifdef PNG_READ_tEXt_SUPPORTED
-PNG_EXTERN void png_push_handle_tEXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_tEXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-#endif
-#ifdef PNG_READ_zTXt_SUPPORTED
-PNG_EXTERN void png_push_handle_zTXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_zTXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-#endif
-#ifdef PNG_READ_iTXt_SUPPORTED
-PNG_EXTERN void png_push_handle_iTXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr, png_uint_32 length)) PNG_PRIVATE;
-PNG_EXTERN void png_push_read_iTXt PNGARG((png_structp png_ptr,
-   png_infop info_ptr)) PNG_PRIVATE;
-#endif
-
-#endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
-
-#ifdef PNG_MNG_FEATURES_SUPPORTED
-PNG_EXTERN void png_do_read_intrapixel PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-PNG_EXTERN void png_do_write_intrapixel PNGARG((png_row_infop row_info,
-   png_bytep row)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_ASSEMBLER_CODE_SUPPORTED
-#ifdef PNG_MMX_CODE_SUPPORTED
-/* png.c */ /* PRIVATE */
-PNG_EXTERN void png_init_mmx_flags PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-#endif
-#endif
-
-
-/* The following six functions will be exported in libpng-1.4.0. */
-#if defined(PNG_INCH_CONVERSIONS) && defined(PNG_FLOATING_POINT_SUPPORTED)
-PNG_EXTERN png_uint_32 png_get_pixels_per_inch PNGARG((png_structp png_ptr,
-png_infop info_ptr));
-
-PNG_EXTERN png_uint_32 png_get_x_pixels_per_inch PNGARG((png_structp png_ptr,
-png_infop info_ptr));
-
-PNG_EXTERN png_uint_32 png_get_y_pixels_per_inch PNGARG((png_structp png_ptr,
-png_infop info_ptr));
-
-PNG_EXTERN float png_get_x_offset_inches PNGARG((png_structp png_ptr,
-png_infop info_ptr));
-
-PNG_EXTERN float png_get_y_offset_inches PNGARG((png_structp png_ptr,
-png_infop info_ptr));
-
-#ifdef PNG_pHYs_SUPPORTED
-PNG_EXTERN png_uint_32 png_get_pHYs_dpi PNGARG((png_structp png_ptr,
-png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
-#endif /* PNG_pHYs_SUPPORTED */
-#endif  /* PNG_INCH_CONVERSIONS && PNG_FLOATING_POINT_SUPPORTED */
-
-/* Read the chunk header (length + type name) */
-PNG_EXTERN png_uint_32 png_read_chunk_header
-   PNGARG((png_structp png_ptr)) PNG_PRIVATE;
-
-/* Added at libpng version 1.2.34 */
-#ifdef PNG_cHRM_SUPPORTED
-PNG_EXTERN int png_check_cHRM_fixed PNGARG((png_structp png_ptr,
-   png_fixed_point int_white_x, png_fixed_point int_white_y,
-   png_fixed_point int_red_x, png_fixed_point int_red_y, png_fixed_point
-   int_green_x, png_fixed_point int_green_y, png_fixed_point int_blue_x,
-   png_fixed_point int_blue_y)) PNG_PRIVATE;
-#endif
-
-#ifdef PNG_cHRM_SUPPORTED
-#ifdef PNG_CHECK_cHRM_SUPPORTED
-/* Added at libpng version 1.2.34 */
-PNG_EXTERN void png_64bit_product PNGARG((long v1, long v2,
-   unsigned long *hi_product, unsigned long *lo_product)) PNG_PRIVATE;
-#endif
-#endif
-
-/* Added at libpng version 1.2.41 */
-PNG_EXTERN void png_check_IHDR PNGARG((png_structp png_ptr,
-   png_uint_32 width, png_uint_32 height, int bit_depth,
-   int color_type, int interlace_type, int compression_type,
-   int filter_type)) PNG_PRIVATE;
-
-/* Added at libpng version 1.2.41 */
-PNG_EXTERN png_voidp png_calloc PNGARG((png_structp png_ptr,
-   png_uint_32 size));
-
-/* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
-
-#endif /* PNG_INTERNAL */
 
 #ifdef __cplusplus
 }
