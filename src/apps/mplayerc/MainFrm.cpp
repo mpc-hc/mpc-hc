@@ -3650,6 +3650,13 @@ void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_iMediaLoadState != MLS_LOADING);
 }
 
+bool is_dir(CString dirname)
+{
+	WIN32_FIND_DATA w32fd;
+	HANDLE h = FindFirstFile(dirname, &w32fd);
+	return (h!=INVALID_HANDLE_VALUE)&&((w32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)!=0);
+}
+
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -3788,6 +3795,19 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		sl.AddTailList(&s.slFiles);
 		if(!fMulti) sl.AddTailList(&s.slDubs);
 
+		CString dvd_path = s.slFiles.GetHead() + _T("\\VIDEO_TS");
+		if((!fMulti) && (is_dir(dvd_path)))
+		{
+			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+			fSetForegroundWindow = true;
+
+			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+			if(p) {p->path = s.slFiles.GetHead(); p->subs.AddTailList(&s.slSubs);}
+			OpenMedia(p);
+		}
+		else
+		{
+
 		if(last_run && ((GetTickCount()-last_run)<500)) s.nCLSwitches |= CLSW_ADD;
 		last_run = GetTickCount();
 
@@ -3811,6 +3831,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
 			s.nCLSwitches &= ~CLSW_STARTVALID;
 			s.rtStart = 0;
+		}
 		}
 	}
 	else
