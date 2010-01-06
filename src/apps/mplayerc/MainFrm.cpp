@@ -5125,7 +5125,7 @@ void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 

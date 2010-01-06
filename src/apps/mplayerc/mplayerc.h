@@ -554,7 +554,7 @@ public:
 				iLineDelta = 0;
 				iColumnDelta = 0;
 				fCycleDelta = 0.0012;
-				fTargetSyncOffset = 10.0;
+				fTargetSyncOffset = 12.0;
 				fControlLimit = 2.0;
 			}
 			void SetOptimal()
@@ -572,7 +572,7 @@ public:
 				iLineDelta = 0;
 				iColumnDelta = 0;
 				fCycleDelta = 0.0012;
-				fTargetSyncOffset = 10.0;
+				fTargetSyncOffset = 12.0;
 				fControlLimit = 2.0;
 			}
 		};

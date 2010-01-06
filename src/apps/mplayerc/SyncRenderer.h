@@ -66,13 +66,39 @@ extern bool g_bExternalSubtitleTime;
 
 #define MAX_FIFO_SIZE 1024
 
-// Manages synchronization of video and display.
+#define CheckHR(exp) {if(FAILED(hr = exp)) return hr;}
+
+// Guid to tag IMFSample with DirectX surface index
+static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
+
 namespace GothSync
 {
+	typedef enum 
+	{
+		MSG_MIXERIN,
+		MSG_MIXEROUT
+	} EVR_STATS_MSG;
+
+	#pragma pack(push, 1)
+
+	template<int texcoords>
+	struct MYD3DVERTEX {float x, y, z, rhw; struct {float u, v;} t[texcoords];};
+
+	template<>
+	struct MYD3DVERTEX<0> 
+	{
+		float x, y, z, rhw; 
+		DWORD Diffuse;
+	};
+
+	#pragma pack(pop)
+
 	class CGenlock;
+	class CSyncRenderer;
 
 	// Base allocator-presenter
-	class CBaseAP: public ISubPicAllocatorPresenterImpl
+	class CBaseAP:
+		public ISubPicAllocatorPresenterImpl
 	{
 	protected:
 		CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
@@ -141,6 +167,14 @@ namespace GothSync
 		void DrawText(const RECT &rc, const CString &strText, int _Priority);
 		void DrawStats();
 
+		template<int texcoords>
+		void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy);
+		template<int texcoords>
+		HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter);
+		MFOffset GetOffset(float v);
+		MFVideoArea GetArea(float x, float y, DWORD width, DWORD height);
+
+		HRESULT DrawRectBase(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4]);
 		HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
 		HRESULT TextureCopy(CComPtr<IDirect3DTexture9> pTexture);
 		HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
@@ -277,6 +311,8 @@ namespace GothSync
 		void EstimateRefreshTimings(); // Estimate the times for one scan line and one frame respectively from the actual refresh data
 		bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
+
+
 	public:
 		CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error);
 		~CBaseAP();
@@ -291,6 +327,252 @@ namespace GothSync
 		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
 		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
 		STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+	};
+
+	class CSyncAP: 
+		public CBaseAP,
+		public IMFGetService,
+		public IMFTopologyServiceLookupClient,
+		public IMFVideoDeviceID,
+		public IMFVideoPresenter,
+		public IDirect3DDeviceManager9,
+		public IMFAsyncCallback,
+		public IQualProp,
+		public IMFRateSupport,				
+		public IMFVideoDisplayControl,
+		public IEVRTrustedVideoPlugin
+
+	{
+	public:
+		CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error);
+		~CSyncAP(void);
+
+		DECLARE_IUNKNOWN;
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(bool) Paint(bool fAll);
+		STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
+		STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+
+		// IMFClockStateSink
+		STDMETHODIMP OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset);        
+		STDMETHODIMP STDMETHODCALLTYPE OnClockStop(MFTIME hnsSystemTime);
+		STDMETHODIMP STDMETHODCALLTYPE OnClockPause(MFTIME hnsSystemTime);
+		STDMETHODIMP STDMETHODCALLTYPE OnClockRestart(MFTIME hnsSystemTime);
+		STDMETHODIMP STDMETHODCALLTYPE OnClockSetRate(MFTIME hnsSystemTime, float flRate);
+
+		// IBaseFilter delegate
+		bool GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue);
+
+		// IQualProp (EVR statistics window). These are incompletely implemented currently
+		STDMETHODIMP get_FramesDroppedInRenderer(int *pcFrames);
+		STDMETHODIMP get_FramesDrawn(int *pcFramesDrawn);
+		STDMETHODIMP get_AvgFrameRate(int *piAvgFrameRate);
+		STDMETHODIMP get_Jitter(int *iJitter);
+		STDMETHODIMP get_AvgSyncOffset(int *piAvg);
+		STDMETHODIMP get_DevSyncOffset(int *piDev);
+
+		// IMFRateSupport
+		STDMETHODIMP GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float *pflRate);
+		STDMETHODIMP GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float *pflRate);
+		STDMETHODIMP IsRateSupported(BOOL fThin, float flRate, float *pflNearestSupportedRate);
+		float GetMaxRate(BOOL bThin);
+
+		// IMFVideoPresenter
+		STDMETHODIMP ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam);
+		STDMETHODIMP GetCurrentMediaType(__deref_out  IMFVideoMediaType **ppMediaType);
+
+		// IMFTopologyServiceLookupClient        
+		STDMETHODIMP InitServicePointers(__in  IMFTopologyServiceLookup *pLookup);
+		STDMETHODIMP ReleaseServicePointers();
+
+		// IMFVideoDeviceID
+		STDMETHODIMP GetDeviceID(__out  IID *pDeviceID);
+
+		// IMFGetService
+		STDMETHODIMP GetService (__RPC__in REFGUID guidService, __RPC__in REFIID riid, __RPC__deref_out_opt LPVOID *ppvObject);
+
+		// IMFAsyncCallback
+		STDMETHODIMP GetParameters(__RPC__out DWORD *pdwFlags, /* [out] */ __RPC__out DWORD *pdwQueue);
+		STDMETHODIMP Invoke(__RPC__in_opt IMFAsyncResult *pAsyncResult);
+
+		// IMFVideoDisplayControl
+		STDMETHODIMP GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo);    
+		STDMETHODIMP GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax);
+		STDMETHODIMP SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest);
+		STDMETHODIMP GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest);
+		STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode);
+		STDMETHODIMP GetAspectRatioMode(DWORD *pdwAspectRatioMode);
+		STDMETHODIMP SetVideoWindow(HWND hwndVideo);
+		STDMETHODIMP GetVideoWindow(HWND *phwndVideo);
+		STDMETHODIMP RepaintVideo( void);
+		STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp);
+		STDMETHODIMP SetBorderColor(COLORREF Clr);
+		STDMETHODIMP GetBorderColor(COLORREF *pClr);
+		STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags);
+		STDMETHODIMP GetRenderingPrefs(DWORD *pdwRenderFlags);
+		STDMETHODIMP SetFullscreen(BOOL fFullscreen);
+		STDMETHODIMP GetFullscreen(BOOL *pfFullscreen);
+
+		// IEVRTrustedVideoPlugin
+		STDMETHODIMP IsInTrustedVideoMode(BOOL *pYes);
+		STDMETHODIMP CanConstrict(BOOL *pYes);
+		STDMETHODIMP SetConstriction(DWORD dwKPix);
+		STDMETHODIMP DisableImageExport(BOOL bDisable);
+
+		// IDirect3DDeviceManager9
+		STDMETHODIMP ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);        
+		STDMETHODIMP OpenDeviceHandle(HANDLE *phDevice);
+		STDMETHODIMP CloseDeviceHandle(HANDLE hDevice);        
+		STDMETHODIMP TestDevice(HANDLE hDevice);
+		STDMETHODIMP LockDevice(HANDLE hDevice, IDirect3DDevice9 **ppDevice, BOOL fBlock);
+		STDMETHODIMP UnlockDevice(HANDLE hDevice, BOOL fSaveState);
+		STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void **ppService);
+
+	protected:
+		void OnResetDevice();
+		MFCLOCK_STATE m_LastClockState;
+
+	private:
+
+		// dxva.dll
+		typedef HRESULT (__stdcall *PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
+
+		// mf.dll
+		typedef HRESULT (__stdcall *PTR_MFCreatePresentationClock)(IMFPresentationClock** ppPresentationClock);
+
+		// evr.dll
+		typedef HRESULT (__stdcall *PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* punkSurface, BOOL fBottomUpWhenLinear, IMFMediaBuffer** ppBuffer);
+		typedef HRESULT (__stdcall *PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
+		typedef HRESULT (__stdcall *PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
+
+		// avrt.dll
+		typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
+		typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
+		typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
+
+		typedef enum
+		{
+			Started = State_Running,
+			Stopped = State_Stopped,
+			Paused = State_Paused,
+			Shutdown = State_Running + 1
+		} RENDER_STATE;
+
+		CSyncRenderer *m_pOuterEVR;
+		CComPtr<IMFClock> m_pClock;
+		CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
+		CComPtr<IMFTransform> m_pMixer;
+		CComPtr<IMediaEventSink> m_pSink;
+		CComPtr<IMFVideoMediaType> m_pMediaType;
+		MFVideoAspectRatioMode m_dwVideoAspectRatioMode;
+		MFVideoRenderPrefs m_dwVideoRenderPrefs;
+		COLORREF m_BorderColor;
+
+		HANDLE m_hEvtQuit; // Stop rendering thread event
+		bool m_bEvtQuit;
+		HANDLE m_hEvtFlush; // Discard all buffers
+		bool m_bEvtFlush;
+		HANDLE m_hEvtSkip; // Skip frame
+		bool m_bEvtSkip;
+
+		bool m_bUseInternalTimer;
+		int32 m_LastSetOutputRange;
+		bool m_bPendingRenegotiate;
+		bool m_bPendingMediaFinished;
+		bool m_bPrerolled; // true if first sample has been displayed.
+
+		HANDLE m_hRenderThread;
+		HANDLE m_hMixerThread;
+		RENDER_STATE m_nRenderState;
+		bool m_bStepping;
+
+		CCritSec m_SampleQueueLock;
+		CCritSec m_ImageProcessingLock;
+
+		CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
+		CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
+		IMFSample *m_pCurrentDisplaydSample;
+		UINT m_nResetToken;
+		int m_nStepCount;
+
+		bool GetSampleFromMixer();
+		void MixerThread();
+		static DWORD WINAPI MixerThreadStatic(LPVOID lpParam);
+		void RenderThread();
+		static DWORD WINAPI RenderThreadStatic(LPVOID lpParam);
+
+		void StartWorkerThreads();
+		void StopWorkerThreads();
+		HRESULT CheckShutdown() const;
+		void CompleteFrameStep(bool bCancel);
+
+		void RemoveAllSamples();
+		HRESULT BeginStreaming();
+		HRESULT GetFreeSample(IMFSample** ppSample);
+		HRESULT GetScheduledSample(IMFSample** ppSample, int &_Count);
+		void MoveToFreeList(IMFSample* pSample, bool bTail);
+		void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
+		void FlushSamples();
+		void FlushSamplesInternal();
+
+		LONGLONG GetMediaTypeMerit(IMFMediaType *pMediaType);
+		HRESULT RenegotiateMediaType();
+		HRESULT IsMediaTypeSupported(IMFMediaType* pMixerType);
+		HRESULT CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
+		HRESULT SetMediaType(IMFMediaType* pType);
+
+		// Functions pointers for Vista/.NET3 specific library
+		PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
+		PTR_MFCreateDXSurfaceBuffer pfMFCreateDXSurfaceBuffer;
+		PTR_MFCreateVideoSampleFromSurface pfMFCreateVideoSampleFromSurface;
+		PTR_MFCreateVideoMediaType pfMFCreateVideoMediaType;
+
+		PTR_AvSetMmThreadCharacteristicsW pfAvSetMmThreadCharacteristicsW;
+		PTR_AvSetMmThreadPriority pfAvSetMmThreadPriority;
+		PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
+	};
+
+	class CSyncRenderer:
+		public CUnknown,
+		public IVMRffdshow9,
+		public IVMRMixerBitmap9,
+		public IBaseFilter
+	{
+
+		CComPtr<IUnknown> m_pEVR;
+		VMR9AlphaBitmap *m_pVMR9AlphaBitmap;
+		CSyncAP *m_pAllocatorPresenter;
+
+	public:
+		CSyncRenderer(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CSyncAP *pAllocatorPresenter);
+		~CSyncRenderer();
+
+		// IBaseFilter
+		virtual HRESULT STDMETHODCALLTYPE EnumPins(__out IEnumPins **ppEnum);
+		virtual HRESULT STDMETHODCALLTYPE FindPin(LPCWSTR Id, __out IPin **ppPin);
+		virtual HRESULT STDMETHODCALLTYPE QueryFilterInfo(__out FILTER_INFO *pInfo);
+		virtual HRESULT STDMETHODCALLTYPE JoinFilterGraph(__in_opt IFilterGraph *pGraph, __in_opt LPCWSTR pName);
+		virtual HRESULT STDMETHODCALLTYPE QueryVendorInfo(__out LPWSTR *pVendorInfo);
+		virtual HRESULT STDMETHODCALLTYPE Stop(void);
+		virtual HRESULT STDMETHODCALLTYPE Pause(void);
+		virtual HRESULT STDMETHODCALLTYPE Run(REFERENCE_TIME tStart);
+		virtual HRESULT STDMETHODCALLTYPE GetState(DWORD dwMilliSecsTimeout, __out FILTER_STATE *State);
+		virtual HRESULT STDMETHODCALLTYPE SetSyncSource(__in_opt  IReferenceClock *pClock);
+		virtual HRESULT STDMETHODCALLTYPE GetSyncSource(__deref_out_opt  IReferenceClock **pClock);
+		virtual HRESULT STDMETHODCALLTYPE GetClassID(__RPC__out CLSID *pClassID);
+
+		// IVMRffdshow9
+		virtual HRESULT STDMETHODCALLTYPE support_ffdshow();
+
+		// IVMRMixerBitmap9
+		STDMETHODIMP GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms);
+		STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms);
+		STDMETHODIMP UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms);
+
+		DECLARE_IUNKNOWN;
+	    virtual HRESULT STDMETHODCALLTYPE NonDelegatingQueryInterface(REFIID riid, void** ppvObject);
 	};
 
 	class CGenlock

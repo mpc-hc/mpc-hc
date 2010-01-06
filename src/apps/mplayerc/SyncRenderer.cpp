@@ -46,7 +46,7 @@
 
 using namespace GothSync;
 
-CString SyncErrorMessage(HRESULT _Error, HMODULE _Module)
+CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
 {
 
 	switch (_Error)
@@ -93,127 +93,6 @@ CString SyncErrorMessage(HRESULT _Error, HMODULE _Module)
 	CString Temp;
 	Temp.Format(L"0x%08x ", _Error);
 	return Temp + errmsg;
-}
-
-#pragma pack(push, 1)
-template<int texcoords>
-struct MYD3DVERTEX {float x, y, z, rhw; struct {float u, v;} t[texcoords];};
-template<>
-struct MYD3DVERTEX<0> 
-{
-	float x, y, z, rhw; 
-	DWORD Diffuse;
-};
-#pragma pack(pop)
-
-template<int texcoords>
-static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
-{
-	double offset = 0.5;
-
-	for(int i = 0; i < 4; i++)
-	{
-		v[i].x -= offset;
-		v[i].y -= offset;
-
-		for(int j = 0; j < max(texcoords-1, 1); j++)
-		{
-			v[i].t[j].u -= offset*dx;
-			v[i].t[j].v -= offset*dy;
-		}
-
-		if(texcoords > 1)
-		{
-			v[i].t[texcoords-1].u -= offset;
-			v[i].t[texcoords-1].v -= offset;
-		}
-	}
-}
-
-template<int texcoords>
-static HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
-{
-	if(!pD3DDev) return E_POINTER;
-
-	DWORD FVF = 0;
-	switch(texcoords)
-	{
-	case 1: FVF = D3DFVF_TEX1; break;
-	case 2: FVF = D3DFVF_TEX2; break;
-	case 3: FVF = D3DFVF_TEX3; break;
-	case 4: FVF = D3DFVF_TEX4; break;
-	case 5: FVF = D3DFVF_TEX5; break;
-	case 6: FVF = D3DFVF_TEX6; break;
-	case 7: FVF = D3DFVF_TEX7; break;
-	case 8: FVF = D3DFVF_TEX8; break;
-	default: return E_FAIL;
-	}
-
-	HRESULT hr;
-	do
-	{
-		hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE); 
-		hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE); 
-		hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED); 
-
-		for(int i = 0; i < texcoords; i++)
-		{
-			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
-			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
-			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
-
-			hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-			hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-		}
-
-		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
-
-		MYD3DVERTEX<texcoords> tmp = v[2]; v[2] = v[3]; v[3] = tmp;
-		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));	
-
-		for(int i = 0; i < texcoords; i++)
-		{
-			pD3DDev->SetTexture(i, NULL);
-		}
-
-		return S_OK;
-	}
-	while(0);
-	return E_FAIL;
-}
-
-static HRESULT DrawRect(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4])
-{
-	if(!pD3DDev) return E_POINTER;
-
-	do
-	{
-		HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-		hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); 
-		hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA); 
-		hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE); 
-		hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE); 
-
-		hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED); 
-
-		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
-
-		MYD3DVERTEX<0> tmp = v[2]; v[2] = v[3]; v[3] = tmp;
-		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));	
-
-		return S_OK;
-	}
-	while(0);
-	return E_FAIL;
 }
 
 CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
@@ -347,6 +226,134 @@ CBaseAP::~CBaseAP()
 		delete m_pGenlock;
 		m_pGenlock = NULL;
 	}
+}
+
+template<int texcoords>
+void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
+{
+	double offset = 0.5;
+
+	for(int i = 0; i < 4; i++)
+	{
+		v[i].x -= offset;
+		v[i].y -= offset;
+
+		for(int j = 0; j < max(texcoords-1, 1); j++)
+		{
+			v[i].t[j].u -= offset*dx;
+			v[i].t[j].v -= offset*dy;
+		}
+
+		if(texcoords > 1)
+		{
+			v[i].t[texcoords-1].u -= offset;
+			v[i].t[texcoords-1].v -= offset;
+		}
+	}
+}
+
+template<int texcoords>
+HRESULT CBaseAP::TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
+{
+	if(!pD3DDev) return E_POINTER;
+
+	DWORD FVF = 0;
+	switch(texcoords)
+	{
+	case 1: FVF = D3DFVF_TEX1; break;
+	case 2: FVF = D3DFVF_TEX2; break;
+	case 3: FVF = D3DFVF_TEX3; break;
+	case 4: FVF = D3DFVF_TEX4; break;
+	case 5: FVF = D3DFVF_TEX5; break;
+	case 6: FVF = D3DFVF_TEX6; break;
+	case 7: FVF = D3DFVF_TEX7; break;
+	case 8: FVF = D3DFVF_TEX8; break;
+	default: return E_FAIL;
+	}
+
+	HRESULT hr;
+	do
+	{
+		hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE); 
+		hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE); 
+		hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED); 
+
+		for(int i = 0; i < texcoords; i++)
+		{
+			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
+			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
+			hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
+
+			hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+			hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		}
+
+		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
+
+		MYD3DVERTEX<texcoords> tmp = v[2]; v[2] = v[3]; v[3] = tmp;
+		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));	
+
+		for(int i = 0; i < texcoords; i++)
+		{
+			pD3DDev->SetTexture(i, NULL);
+		}
+
+		return S_OK;
+	}
+	while(0);
+	return E_FAIL;
+}
+
+HRESULT CBaseAP::DrawRectBase(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4])
+{
+	if(!pD3DDev) return E_POINTER;
+
+	do
+	{
+		HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); 
+		hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA); 
+		hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE); 
+		hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE); 
+
+		hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED); 
+
+		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
+
+		MYD3DVERTEX<0> tmp = v[2]; v[2] = v[3]; v[3] = tmp;
+		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));	
+
+		return S_OK;
+	}
+	while(0);
+	return E_FAIL;
+}
+
+MFOffset CBaseAP::GetOffset(float v)
+{
+	MFOffset offset;
+	offset.value = short(v);
+	offset.fract = WORD(65536 * (v-offset.value));
+	return offset;
+}
+
+MFVideoArea CBaseAP::GetArea(float x, float y, DWORD width, DWORD height)
+{
+	MFVideoArea area;
+	area.OffsetX = GetOffset(x);
+	area.OffsetY = GetOffset(y);
+	area.Area.cx = width;
+	area.Area.cy = height;
+	return area;
 }
 
 void CBaseAP::ResetStats()
@@ -511,7 +518,7 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 				D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED,
 				&pp, &DisplayMode, &m_pD3DDevEx);
 
-			m_D3DDevExError = SyncErrorMessage(hr, m_hD3D9);
+			m_D3DDevExError = GothSyncErrorMessage(hr, m_hD3D9);
 			if (m_pD3DDevEx)
 			{
 				m_pD3DDev = m_pD3DDevEx;
@@ -911,7 +918,7 @@ HRESULT CBaseAP::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect)
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
-	return ::DrawRect(m_pD3DDev, v);
+	return DrawRectBase(m_pD3DDev, v);
 }
 
 HRESULT CBaseAP::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
@@ -1513,25 +1520,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 	m_pD3DDev->EndScene();
 
-	CComPtr<IDirect3DQuery9> pEventQuery;
-	m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
-	if (pEventQuery)
-		pEventQuery->Issue(D3DISSUE_END);
-
-	if (s.m_RenderSettings.iVMRFlushGPUBeforeVSync && pEventQuery)
-	{
-		LONGLONG llPerf = pApp->GetPerfCounter();
-		BOOL Data;
-		LONGLONG FlushStartTime = pApp->GetPerfCounter();
-		while(S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH ))
-		{
-			if (!s.m_RenderSettings.iVMRFlushGPUWait)
-				break;
-			Sleep(1);
-			if (pApp->GetPerfCounter() - FlushStartTime > 500000)
-				break; // timeout after 50 ms
-		}
-	}
+	//Sleep(20);
 
 	if (m_pD3DDevEx)
 	{
@@ -1546,23 +1535,6 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 			hr = m_pD3DDev->Present(NULL, NULL, NULL, NULL);
 		else
 			hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
-	}
-
-	if (pEventQuery)
-		pEventQuery->Issue(D3DISSUE_END);
-
-	BOOL Data;
-
-	if (s.m_RenderSettings.iVMRFlushGPUAfterPresent && pEventQuery)
-	{
-		LONGLONG FlushStartTime = pApp->GetPerfCounter();
-		while (S_FALSE == pEventQuery->GetData( &Data, sizeof(Data), D3DGETDATA_FLUSH ))
-		{
-			if (!s.m_RenderSettings.iVMRFlushGPUWait)
-				break;
-			if (pApp->GetPerfCounter() - FlushStartTime > 500000)
-				break; // timeout after 50 ms
-		}
 	}
 
 	// Calculate timing statistics
@@ -1782,7 +1754,7 @@ void CBaseAP::DrawStats()
 			}
 		}
 
-		strText.Format(L"Average sync offset: %3.1f ms [%.1f ms, %.1f ms]", m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset, m_pGenlock->maxSyncOffset);
+		strText.Format(L"Average sync offset: %3.1f ms [%.1f ms, %.1f ms] | Target sync offset: %3.1f ms", m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset, m_pGenlock->maxSyncOffset, s.m_RenderSettings.fTargetSyncOffset);
 		DrawText(rc, strText, 1);
 		OffsetRect(&rc, 0, TextHeight);
 
@@ -1816,37 +1788,24 @@ void CBaseAP::DrawStats()
 				OffsetRect(&rc, 0, TextHeight);
 			}
 
+			strText.Format(L"Buffered: %3d | Free: %3d | Current surface: %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface, m_nVMR9Surfaces, m_iVMR9Surface);
+			DrawText(rc, strText, 1);
+			OffsetRect(&rc, 0, TextHeight);
+
 			strText.Format(L"Settings: ");
 
 			if (m_bIsFullscreen)
 				strText += "D3DFS ";
-
 			if (s.m_RenderSettings.iVMR9FullscreenGUISupport)
 				strText += "FSGui ";
-
 			if (s.m_RenderSettings.iVMRDisableDesktopComposition)
 				strText += "DisDC ";
-
-			if (s.m_RenderSettings.iVMRFlushGPUBeforeVSync)
-				strText += "GPUFlushBV ";
-
-			if (s.m_RenderSettings.iVMRFlushGPUAfterPresent)
-				strText += "GPUFlushAP ";
-
-			if (s.m_RenderSettings.iVMRFlushGPUWait)
-				strText += "GPUFlushWt ";
-
 			if (s.m_RenderSettings.bSynchronizeVideo)
 				strText += "SyncVideo ";
-
 			if (s.m_RenderSettings.bSynchronizeDisplay)
 				strText += "SyncDisplay ";
-
 			if (s.m_RenderSettings.bSynchronizeNearest)
 				strText += "SyncNearest ";
-
-			strText.AppendFormat(L"VSOffs(%3.1f) ", s.m_RenderSettings.fTargetSyncOffset);
-
 			if (s.m_RenderSettings.iEVRHighColorResolution)
 				strText += "10bit ";
 			if (s.m_RenderSettings.iEVROutputRange == 0)
@@ -1900,7 +1859,7 @@ void CBaseAP::DrawStats()
 			Points[0].y = (FLOAT)(StartY + i);
 			Points[1].x = (FLOAT)(StartX + ((i + 25) % 25 ? 50 : 625));
 			Points[1].y = (FLOAT)(StartY + i);
-			m_pLine->Draw (Points, 2, D3DCOLOR_XRGB(100, 100, 255));
+			m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
 		}
 
 		for (int i = 0; i < DrawWidth; i += 125) // Every 25:th sample
@@ -1909,7 +1868,7 @@ void CBaseAP::DrawStats()
 			Points[0].y = (FLOAT)(StartY + DrawHeight / 2);
 			Points[1].x = (FLOAT)(StartX + i);
 			Points[1].y = (FLOAT)(StartY + DrawHeight / 2 + 10);
-			m_pLine->Draw (Points, 2, D3DCOLOR_XRGB(100, 100, 255));
+			m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
 		}
 
 		for (int i = 0; i < NB_JITTER; i++)
@@ -2123,467 +2082,6 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 	return S_OK;
 }
 
-// CSyncAP
-
-typedef enum 
-{
-	MSG_MIXERIN,
-	MSG_MIXEROUT
-} EVR_STATS_MSG;
-
-// dxva.dll
-typedef HRESULT (__stdcall *PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
-
-// mf.dll
-typedef HRESULT (__stdcall *PTR_MFCreatePresentationClock)(IMFPresentationClock** ppPresentationClock);
-
-// evr.dll
-typedef HRESULT (__stdcall *PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* punkSurface, BOOL fBottomUpWhenLinear, IMFMediaBuffer** ppBuffer);
-typedef HRESULT (__stdcall *PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
-typedef HRESULT (__stdcall *PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
-
-// avrt.dll
-typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
-
-// Guid to tag IMFSample with DirectX surface index
-static const GUID GUID_SURFACE_INDEX = { 0x30c8e9f6, 0x415, 0x4b81, { 0xa3, 0x15, 0x1, 0xa, 0xc6, 0xa9, 0xda, 0x19 } };
-
-#define CheckHR(exp) {if(FAILED(hr = exp)) return hr;}
-
-MFOffset GetOffset(float v)
-{
-	MFOffset offset;
-	offset.value = short(v);
-	offset.fract = WORD(65536 * (v-offset.value));
-	return offset;
-}
-
-MFVideoArea GetArea(float x, float y, DWORD width, DWORD height)
-{
-	MFVideoArea area;
-	area.OffsetX = GetOffset(x);
-	area.OffsetY = GetOffset(y);
-	area.Area.cx = width;
-	area.Area.cy = height;
-	return area;
-}
-
-class CSyncAP;
-
-class CSyncRenderer:
-	public CUnknown,
-	public IVMRffdshow9,
-	public IVMRMixerBitmap9,
-	public IBaseFilter
-{
-	CComPtr<IUnknown> m_pEVR;
-	VMR9AlphaBitmap *m_pVMR9AlphaBitmap;
-	CSyncAP *m_pAllocatorPresenter;
-
-public:
-	// IBaseFilter
-	virtual HRESULT STDMETHODCALLTYPE EnumPins(__out  IEnumPins **ppEnum)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->EnumPins(ppEnum);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE FindPin(LPCWSTR Id, __out  IPin **ppPin)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->FindPin(Id, ppPin);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE QueryFilterInfo(__out  FILTER_INFO *pInfo)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->QueryFilterInfo(pInfo);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE JoinFilterGraph(__in_opt  IFilterGraph *pGraph, __in_opt  LPCWSTR pName)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->JoinFilterGraph(pGraph, pName);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE QueryVendorInfo(__out  LPWSTR *pVendorInfo)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->QueryVendorInfo(pVendorInfo);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE Stop( void)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->Stop();
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE Pause( void)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->Pause();
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE Run( REFERENCE_TIME tStart)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->Run(tStart);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE GetState(DWORD dwMilliSecsTimeout, __out FILTER_STATE *State);
-
-	virtual HRESULT STDMETHODCALLTYPE SetSyncSource(__in_opt  IReferenceClock *pClock)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->SetSyncSource(pClock);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE GetSyncSource(__deref_out_opt  IReferenceClock **pClock)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->GetSyncSource(pClock);
-		return E_NOTIMPL;
-	}
-
-	virtual HRESULT STDMETHODCALLTYPE GetClassID(__RPC__out CLSID *pClassID)
-	{
-		CComPtr<IBaseFilter> pEVRBase;
-		if (m_pEVR)
-			m_pEVR->QueryInterface(&pEVRBase);
-		if (pEVRBase)
-			return pEVRBase->GetClassID(pClassID);
-		return E_NOTIMPL;
-	}
-
-	CSyncRenderer(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CSyncAP *pAllocatorPresenter) : CUnknown(pName, pUnk)
-	{
-		hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
-		m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
-		m_pAllocatorPresenter = pAllocatorPresenter;
-	}
-
-	~CSyncRenderer();
-
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
-	{
-		HRESULT hr;
-
-		if(riid == __uuidof(IVMRMixerBitmap9))
-			return GetInterface((IVMRMixerBitmap9*)this, ppv);
-
-		if (riid == __uuidof(IBaseFilter))
-		{
-			return GetInterface((IBaseFilter*)this, ppv);
-		}
-
-		if (riid == __uuidof(IMediaFilter))
-		{
-			return GetInterface((IMediaFilter*)this, ppv);
-		}
-		if (riid == __uuidof(IPersist))
-		{
-			return GetInterface((IPersist*)this, ppv);
-		}
-		if (riid == __uuidof(IBaseFilter))
-		{
-			return GetInterface((IBaseFilter*)this, ppv);
-		}
-
-		hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-		if(m_pEVR && FAILED(hr))
-		{
-			if(riid == __uuidof(IVMRffdshow9)) // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
-				return GetInterface((IVMRffdshow9*)this, ppv);
-		}
-
-		return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
-	}
-
-	// IVMRffdshow9
-	STDMETHODIMP support_ffdshow()
-	{
-		queueu_ffdshow_support = true;
-		return S_OK;
-	}
-
-	// IVMRMixerBitmap9
-	STDMETHODIMP GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms);
-	STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms);
-	STDMETHODIMP UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms);
-};
-
-class CSyncAP: 
-	public CBaseAP,
-	public IMFGetService,
-	public IMFTopologyServiceLookupClient,
-	public IMFVideoDeviceID,
-	public IMFVideoPresenter,
-	public IDirect3DDeviceManager9,
-	public IMFAsyncCallback,
-	public IQualProp,
-	public IMFRateSupport,				
-	public IMFVideoDisplayControl,
-	public IEVRTrustedVideoPlugin
-
-{
-public:
-	CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error);
-	~CSyncAP(void);
-
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-	STDMETHODIMP_(bool) Paint(bool fAll);
-	STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-	STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
-
-	// IMFClockStateSink
-	STDMETHODIMP OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset);        
-	STDMETHODIMP STDMETHODCALLTYPE OnClockStop(MFTIME hnsSystemTime);
-	STDMETHODIMP STDMETHODCALLTYPE OnClockPause(MFTIME hnsSystemTime);
-	STDMETHODIMP STDMETHODCALLTYPE OnClockRestart(MFTIME hnsSystemTime);
-	STDMETHODIMP STDMETHODCALLTYPE OnClockSetRate(MFTIME hnsSystemTime, float flRate);
-
-	// IBaseFilter delegate
-	bool GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue);
-
-	// IQualProp (EVR statistics window). These are incompletely implemented currently
-	STDMETHODIMP get_FramesDroppedInRenderer(int *pcFrames);
-	STDMETHODIMP get_FramesDrawn(int *pcFramesDrawn);
-	STDMETHODIMP get_AvgFrameRate(int *piAvgFrameRate);
-	STDMETHODIMP get_Jitter(int *iJitter);
-	STDMETHODIMP get_AvgSyncOffset(int *piAvg);
-	STDMETHODIMP get_DevSyncOffset(int *piDev);
-
-	// IMFRateSupport
-	STDMETHODIMP GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float *pflRate);
-	STDMETHODIMP GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float *pflRate);
-	STDMETHODIMP IsRateSupported(BOOL fThin, float flRate, float *pflNearestSupportedRate);
-	float GetMaxRate(BOOL bThin);
-
-	// IMFVideoPresenter
-	STDMETHODIMP ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam);
-	STDMETHODIMP GetCurrentMediaType(__deref_out  IMFVideoMediaType **ppMediaType);
-
-	// IMFTopologyServiceLookupClient        
-	STDMETHODIMP InitServicePointers(__in  IMFTopologyServiceLookup *pLookup);
-	STDMETHODIMP ReleaseServicePointers();
-
-	// IMFVideoDeviceID
-	STDMETHODIMP GetDeviceID(__out  IID *pDeviceID);
-
-	// IMFGetService
-	STDMETHODIMP GetService (__RPC__in REFGUID guidService, __RPC__in REFIID riid, __RPC__deref_out_opt LPVOID *ppvObject);
-
-	// IMFAsyncCallback
-	STDMETHODIMP GetParameters(__RPC__out DWORD *pdwFlags, /* [out] */ __RPC__out DWORD *pdwQueue);
-	STDMETHODIMP Invoke(__RPC__in_opt IMFAsyncResult *pAsyncResult);
-
-	// IMFVideoDisplayControl
-	STDMETHODIMP GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo);    
-	STDMETHODIMP GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax);
-	STDMETHODIMP SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest);
-	STDMETHODIMP GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest);
-	STDMETHODIMP SetAspectRatioMode(DWORD dwAspectRatioMode);
-	STDMETHODIMP GetAspectRatioMode(DWORD *pdwAspectRatioMode);
-	STDMETHODIMP SetVideoWindow(HWND hwndVideo);
-	STDMETHODIMP GetVideoWindow(HWND *phwndVideo);
-	STDMETHODIMP RepaintVideo( void);
-	STDMETHODIMP GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp);
-	STDMETHODIMP SetBorderColor(COLORREF Clr);
-	STDMETHODIMP GetBorderColor(COLORREF *pClr);
-	STDMETHODIMP SetRenderingPrefs(DWORD dwRenderFlags);
-	STDMETHODIMP GetRenderingPrefs(DWORD *pdwRenderFlags);
-	STDMETHODIMP SetFullscreen(BOOL fFullscreen);
-	STDMETHODIMP GetFullscreen(BOOL *pfFullscreen);
-
-	// IEVRTrustedVideoPlugin
-	STDMETHODIMP IsInTrustedVideoMode(BOOL *pYes);
-	STDMETHODIMP CanConstrict(BOOL *pYes);
-	STDMETHODIMP SetConstriction(DWORD dwKPix);
-	STDMETHODIMP DisableImageExport(BOOL bDisable);
-
-	// IDirect3DDeviceManager9
-	STDMETHODIMP ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);        
-	STDMETHODIMP OpenDeviceHandle(HANDLE *phDevice);
-	STDMETHODIMP CloseDeviceHandle(HANDLE hDevice);        
-	STDMETHODIMP TestDevice(HANDLE hDevice);
-	STDMETHODIMP LockDevice(HANDLE hDevice, IDirect3DDevice9 **ppDevice, BOOL fBlock);
-	STDMETHODIMP UnlockDevice(HANDLE hDevice, BOOL fSaveState);
-	STDMETHODIMP GetVideoService(HANDLE hDevice, REFIID riid, void **ppService);
-
-protected:
-	void OnResetDevice();
-	MFCLOCK_STATE m_LastClockState;
-
-private:
-	typedef enum
-	{
-		Started = State_Running,
-		Stopped = State_Stopped,
-		Paused = State_Paused,
-		Shutdown = State_Running + 1
-	} RENDER_STATE;
-
-	CSyncRenderer *m_pOuterEVR;
-	CComPtr<IMFClock> m_pClock;
-	CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
-	CComPtr<IMFTransform> m_pMixer;
-	CComPtr<IMediaEventSink> m_pSink;
-	CComPtr<IMFVideoMediaType> m_pMediaType;
-	MFVideoAspectRatioMode m_dwVideoAspectRatioMode;
-	MFVideoRenderPrefs m_dwVideoRenderPrefs;
-	COLORREF m_BorderColor;
-
-	HANDLE m_hEvtQuit; // Stop rendering thread event
-	bool m_bEvtQuit;
-	HANDLE m_hEvtFlush; // Discard all buffers
-	bool m_bEvtFlush;
-	HANDLE m_hEvtSkip; // Skip frame
-	bool m_bEvtSkip;
-
-	bool m_bUseInternalTimer;
-	int32 m_LastSetOutputRange;
-	bool m_bPendingRenegotiate;
-	bool m_bPendingMediaFinished;
-	bool m_bPrerolled; // true if first sample has been displayed.
-
-	HANDLE m_hRenderThread;
-	HANDLE m_hMixerThread;
-	RENDER_STATE m_nRenderState;
-	bool m_bStepping;
-
-	CCritSec m_SampleQueueLock;
-	CCritSec m_ImageProcessingLock;
-
-	CInterfaceList<IMFSample, &IID_IMFSample> m_FreeSamples;
-	CInterfaceList<IMFSample, &IID_IMFSample> m_ScheduledSamples;
-	IMFSample *m_pCurrentDisplaydSample;
-	UINT m_nResetToken;
-	int m_nStepCount;
-
-	bool GetSampleFromMixer();
-	void MixerThread();
-	static DWORD WINAPI MixerThreadStatic(LPVOID lpParam);
-	void RenderThread();
-	static DWORD WINAPI RenderThreadStatic(LPVOID lpParam);
-
-	void StartWorkerThreads();
-	void StopWorkerThreads();
-	HRESULT CheckShutdown() const;
-	void CompleteFrameStep(bool bCancel);
-
-	void RemoveAllSamples();
-	HRESULT BeginStreaming();
-	HRESULT GetFreeSample(IMFSample** ppSample);
-	HRESULT GetScheduledSample(IMFSample** ppSample, int &_Count);
-	void MoveToFreeList(IMFSample* pSample, bool bTail);
-	void MoveToScheduledList(IMFSample* pSample, bool _bSorted);
-	void FlushSamples();
-	void FlushSamplesInternal();
-
-	LONGLONG GetMediaTypeMerit(IMFMediaType *pMediaType);
-	HRESULT RenegotiateMediaType();
-	HRESULT IsMediaTypeSupported(IMFMediaType* pMixerType);
-	HRESULT CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
-	HRESULT SetMediaType(IMFMediaType* pType);
-
-	// Functions pointers for Vista/.NET3 specific library
-	PTR_DXVA2CreateDirect3DDeviceManager9 pfDXVA2CreateDirect3DDeviceManager9;
-	PTR_MFCreateDXSurfaceBuffer pfMFCreateDXSurfaceBuffer;
-	PTR_MFCreateVideoSampleFromSurface pfMFCreateVideoSampleFromSurface;
-	PTR_MFCreateVideoMediaType pfMFCreateVideoMediaType;
-
-	PTR_AvSetMmThreadCharacteristicsW pfAvSetMmThreadCharacteristicsW;
-	PTR_AvSetMmThreadPriority pfAvSetMmThreadPriority;
-	PTR_AvRevertMmThreadCharacteristics pfAvRevertMmThreadCharacteristics;
-};
-
-HRESULT STDMETHODCALLTYPE CSyncRenderer::GetState(DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
-{
-	HRESULT ReturnValue;
-	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
-		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
-		return pEVRBase->GetState(dwMilliSecsTimeout, State);
-	return E_NOTIMPL;
-}
-
-STDMETHODIMP CSyncRenderer::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
-	return S_OK;
-}
-
-STDMETHODIMP CSyncRenderer::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-STDMETHODIMP CSyncRenderer::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-CSyncRenderer::~CSyncRenderer()
-{
-}
 
 CSyncAP::CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error): CBaseAP(hWnd, hr, _Error)
 {
@@ -2931,9 +2429,7 @@ STDMETHODIMP CSyncAP::IsRateSupported(BOOL fThin, float flRate, float *pflNeares
 {
 	// fRate can be negative for reverse playback.
 	// pfNearestSupportedRate can be NULL.
-
 	CAutoLock lock(this);
-
 	HRESULT hr = S_OK;
 	float   fMaxRate = 0.0f;
 	float   fNearestRate = flRate;   // Default.
@@ -3011,7 +2507,6 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 	switch (eMessage)
 	{
 	case MFVP_MESSAGE_BEGINSTREAMING:
-		//_tprintf(_T("MFVP_MESSAGE_BEGINSTREAMING\n"));
 		hr = BeginStreaming();
 		m_llHysteresis = 0;
 		m_lShiftToNearest = 0;
@@ -3019,7 +2514,6 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 		break;
 
 	case MFVP_MESSAGE_CANCELSTEP:
-		//_tprintf(_T("MFVP_MESSAGE_CANCELSTEP\n"));
 		m_bStepping = false;
 		CompleteFrameStep(true);
 		break;
@@ -3036,14 +2530,12 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 		break;
 
 	case MFVP_MESSAGE_FLUSH:
-		//_tprintf(_T("MFVP_MESSAGE_FLUSH\n"));
 		SetEvent(m_hEvtFlush);
 		m_bEvtFlush = true;
 		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
 		break;
 
 	case MFVP_MESSAGE_INVALIDATEMEDIATYPE:
-		//_tprintf(_T("MFVP_MESSAGE_INVALIDATEMEDIATYPE\n"));
 		m_bPendingRenegotiate = true;
 		while (*((volatile bool *)&m_bPendingRenegotiate)) Sleep(1);
 		break;
@@ -3053,18 +2545,15 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 
 	case MFVP_MESSAGE_STEP:
 		m_nStepCount = ulParam;
-		//_tprintf(_T("MFVP_MESSAGE_STEP: %d\n"), m_nStepCount);
 		m_bStepping = true;
 		break;
 
 	default :
-		//_tprintf(_T("Illegal message\n"));
 		ASSERT(FALSE);
 		break;
 	}
 	return hr;
 }
-
 
 HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
 {
@@ -3168,14 +2657,11 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 	return hr;
 }
 
-
 typedef struct
 {
 	const int Format;
 	const LPCTSTR Description;
 } D3DFORMAT_TYPE;
-
-//extern const D3DFORMAT_TYPE	D3DFormatType[];
 
 LONGLONG CSyncAP::GetMediaTypeMerit(IMFMediaType *pMediaType)
 {
@@ -3230,18 +2716,14 @@ HRESULT CSyncAP::RenegotiateMediaType()
 		{
 			break;
 		}
-
 		// Step 2. Check if we support this media type.
 		if (SUCCEEDED(hr))
 			hr = IsMediaTypeSupported(pMixerType);
-
 		if (SUCCEEDED(hr))
 			hr = CreateProposedOutputType(pMixerType, &pType);
-
 		// Step 4. Check if the mixer will accept this media type.
 		if (SUCCEEDED(hr))
 			hr = m_pMixer->SetOutputType(0, pType, MFT_SET_TYPE_TEST_ONLY);
-
 		if (SUCCEEDED(hr))
 		{
 			LONGLONG Merit = GetMediaTypeMerit(pType);
@@ -3262,7 +2744,6 @@ HRESULT CSyncAP::RenegotiateMediaType()
 			ValidMixerTypes.InsertAt(iInsertPos, pType);
 		}
 	}
-
 
 	int nValidTypes = ValidMixerTypes.GetCount();
 	for (int i = 0; i < nValidTypes; ++i)
@@ -3359,23 +2840,21 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType **ppMed
 {
 	HRESULT hr = S_OK;
 	CAutoLock lock(this);
-
-	CheckPointer (ppMediaType, E_POINTER);
-	CheckHR (CheckShutdown());
+	CheckPointer(ppMediaType, E_POINTER);
+	CheckHR(CheckShutdown());
 
 	if (m_pMediaType == NULL)
 		CheckHR(MF_E_NOT_INITIALIZED);
 
-	CheckHR(m_pMediaType->QueryInterface( __uuidof(IMFVideoMediaType), (void**)&ppMediaType));
-
+	CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
 	return hr;
 }
 
 // IMFTopologyServiceLookupClient        
-STDMETHODIMP CSyncAP::InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup *pLookup)
+STDMETHODIMP CSyncAP::InitServicePointers(__in IMFTopologyServiceLookup *pLookup)
 {
-	HRESULT						hr;
-	DWORD						dwObjects = 1;
+	HRESULT hr;
+	DWORD dwObjects = 1;
 	hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_MIXER_SERVICE, __uuidof (IMFTransform), (void**)&m_pMixer, &dwObjects);
 	hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, __uuidof (IMediaEventSink ), (void**)&m_pSink, &dwObjects);
 	hr = pLookup->LookupService(MF_SERVICE_LOOKUP_GLOBAL, 0, MR_VIDEO_RENDER_SERVICE, __uuidof (IMFClock ), (void**)&m_pClock, &dwObjects);
@@ -3458,7 +2937,6 @@ STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
 			pszMax->cy	= d3ddm.Height;
 		}
 	}
-
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
@@ -3467,7 +2945,6 @@ STDMETHODIMP CSyncAP::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, 
 }
 STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
 {
-	// Always all source rectangle ?
 	if (pnrcSource)
 	{
 		pnrcSource->left	= 0.0;
@@ -3475,10 +2952,8 @@ STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT
 		pnrcSource->right	= 1.0;
 		pnrcSource->bottom	= 1.0;
 	}
-
 	if (prcDest)
 		memcpy (prcDest, &m_VideoRect, sizeof(m_VideoRect));//GetClientRect (m_hWnd, prcDest);
-
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::SetAspectRatioMode(DWORD dwAspectRatioMode)
@@ -3494,19 +2969,18 @@ STDMETHODIMP CSyncAP::GetAspectRatioMode(DWORD *pdwAspectRatioMode)
 }
 STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
 {
-	ASSERT (m_hWnd == hwndVideo);	// What if not ??
-	//	m_hWnd = hwndVideo;
+	ASSERT (m_hWnd == hwndVideo);
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::GetVideoWindow(HWND *phwndVideo)
 {
-	CheckPointer (phwndVideo, E_POINTER);
+	CheckPointer(phwndVideo, E_POINTER);
 	*phwndVideo = m_hWnd;
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::RepaintVideo()
 {
-	Paint (true);
+	Paint(true);
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp)
@@ -3654,6 +3128,8 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
 	int w = vih2->bmiHeader.biWidth;
 	int h = abs(vih2->bmiHeader.biHeight);
 
+	TRACE2("Width, height: %d, %d´\n", w, h);
+
 	m_NativeVideoSize = CSize(w, h);
 	if (m_bHighColorResolution)
 		hr = AllocSurfaces(D3DFMT_A2R10G10B10);
@@ -3671,8 +3147,6 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
 		}
 		ASSERT (SUCCEEDED (hr));
 	}
-
-
 	return hr;
 }
 
@@ -3840,6 +3314,7 @@ void CSyncAP::RenderThread()
 								m_llHysteresis = 0; // Reset when between 1/4 and 3/4 of the way either way
 
 							if ((m_lShiftToNearest < lDisplayCycle2) && (m_llHysteresis > 0)) m_llHysteresis = 0; // Should never really be in this territory.
+							if (m_lShiftToNearest < 0) m_llHysteresis = 0; // A glitch might get us to a sticky state where both these numbers are negative.
 							if ((m_lShiftToNearest > lDisplayCycle2) && (m_llHysteresis < 0)) m_llHysteresis = 0;
 						}
 					}
@@ -4038,7 +3513,6 @@ void CSyncAP::FlushSamples()
 {
 	CAutoLock lock(this);
 	CAutoLock lock2(&m_SampleQueueLock);
-
 	FlushSamplesInternal();
 }
 
@@ -4053,7 +3527,6 @@ void CSyncAP::FlushSamplesInternal()
 	}
 }
 
-// Called when streaming begins.
 HRESULT CSyncAP::BeginStreaming()
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -4075,7 +3548,7 @@ HRESULT CSyncAP::BeginStreaming()
 		};
 	EndEnumFilters
 
-		pEVR->GetSyncSource(&m_pRefClock);
+	pEVR->GetSyncSource(&m_pRefClock);
 	if (filterInfo.pGraph) filterInfo.pGraph->Release();
 	m_pGenlock->SetMonitor(GetAdapter(m_pD3D));
 	m_pGenlock->GetTiming();
@@ -4083,7 +3556,6 @@ HRESULT CSyncAP::BeginStreaming()
 	ResetStats();
 	EstimateRefreshTimings();
 	if (m_dFrameCycle > 0.0) m_dCycleDifference = GetCycleDifference(); // Might have moved to another display
-
 	return S_OK;
 }
 
@@ -4099,17 +3571,217 @@ HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresen
 		if(FAILED(hr))
 		{
 			Error += L"\n";
-			Error += SyncErrorMessage(hr, NULL);
-			MessageBox(hWnd, Error, L"Error creating SyncEVR renderer", MB_OK | MB_ICONERROR);
+			Error += GothSyncErrorMessage(hr, NULL);
+			MessageBox(hWnd, Error, L"Error creating Sync Renderer", MB_OK | MB_ICONERROR);
 			(*ppAP)->Release();
 			*ppAP = NULL;
 		}
 		else if (!Error.IsEmpty())
 		{
-			MessageBox(hWnd, Error, L"Warning creating SyncEVR renderer", MB_OK|MB_ICONWARNING);
+			MessageBox(hWnd, Error, L"Warning creating Sync Renderer", MB_OK|MB_ICONWARNING);
 		}
 	}
 	return hr;
+}
+
+CSyncRenderer::CSyncRenderer(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CSyncAP *pAllocatorPresenter): CUnknown(pName, pUnk)
+{
+	hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
+	m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
+	m_pAllocatorPresenter = pAllocatorPresenter;
+}
+
+CSyncRenderer::~CSyncRenderer()
+{
+}
+
+HRESULT STDMETHODCALLTYPE CSyncRenderer::GetState(DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
+{
+	HRESULT ReturnValue;
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->GetState(dwMilliSecsTimeout, State);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::EnumPins(__out IEnumPins **ppEnum)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->EnumPins(ppEnum);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::FindPin(LPCWSTR Id, __out  IPin **ppPin)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->FindPin(Id, ppPin);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::QueryFilterInfo(__out  FILTER_INFO *pInfo)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->QueryFilterInfo(pInfo);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::JoinFilterGraph(__in_opt  IFilterGraph *pGraph, __in_opt  LPCWSTR pName)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->JoinFilterGraph(pGraph, pName);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::QueryVendorInfo(__out  LPWSTR *pVendorInfo)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->QueryVendorInfo(pVendorInfo);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::Stop( void)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->Stop();
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::Pause(void)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->Pause();
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::Run(REFERENCE_TIME tStart)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->Run(tStart);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::SetSyncSource(__in_opt IReferenceClock *pClock)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->SetSyncSource(pClock);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::GetSyncSource(__deref_out_opt IReferenceClock **pClock)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->GetSyncSource(pClock);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::GetClassID(__RPC__out CLSID *pClassID)
+{
+	CComPtr<IBaseFilter> pEVRBase;
+	if (m_pEVR)
+		m_pEVR->QueryInterface(&pEVRBase);
+	if (pEVRBase)
+		return pEVRBase->GetClassID(pClassID);
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CSyncRenderer::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
+{
+	CheckPointer(pBmpParms, E_POINTER);
+	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+	memcpy (pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
+	return S_OK;
+}
+
+STDMETHODIMP CSyncRenderer::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms)
+{
+	CheckPointer(pBmpParms, E_POINTER);
+	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
+	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
+	m_pAllocatorPresenter->UpdateAlphaBitmap();
+	return S_OK;
+}
+
+STDMETHODIMP CSyncRenderer::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms)
+{
+	CheckPointer(pBmpParms, E_POINTER);
+	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
+	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
+	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
+	m_pAllocatorPresenter->UpdateAlphaBitmap();
+	return S_OK;
+}
+
+STDMETHODIMP CSyncRenderer::support_ffdshow()
+{
+	queueu_ffdshow_support = true;
+	return S_OK;
+}
+
+STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
+{
+	HRESULT hr;
+
+	if(riid == __uuidof(IVMRMixerBitmap9))
+		return GetInterface((IVMRMixerBitmap9*)this, ppv);
+
+	if (riid == __uuidof(IBaseFilter))
+	{
+		return GetInterface((IBaseFilter*)this, ppv);
+	}
+
+	if (riid == __uuidof(IMediaFilter))
+	{
+		return GetInterface((IMediaFilter*)this, ppv);
+	}
+	if (riid == __uuidof(IPersist))
+	{
+		return GetInterface((IPersist*)this, ppv);
+	}
+	if (riid == __uuidof(IBaseFilter))
+	{
+		return GetInterface((IBaseFilter*)this, ppv);
+	}
+
+	hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
+	if(m_pEVR && FAILED(hr))
+	{
+		if(riid == __uuidof(IVMRffdshow9)) // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+			return GetInterface((IVMRffdshow9*)this, ppv);
+	}
+	return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 CGenlock::CGenlock(DOUBLE target, DOUBLE limit, INT lineD, INT colD, DOUBLE clockD, UINT mon):
