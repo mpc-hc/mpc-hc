@@ -103,11 +103,11 @@ namespace GothSync
 	protected:
 		CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
 
+		HMODULE m_hDWMAPI;
 		HRESULT (__stdcall * m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
 		HRESULT (__stdcall * m_pDwmEnableComposition)(UINT uCompositionAction);
-		HMODULE m_hDWMAPI;
-		HRESULT (__stdcall * m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
 		HMODULE m_hD3D9;
+		HRESULT (__stdcall * m_pDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex**);
 
 		CCritSec m_allocatorLock;
 		CComPtr<IDirect3D9Ex> m_pD3DEx;
@@ -173,6 +173,7 @@ namespace GothSync
 		HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter);
 		MFOffset GetOffset(float v);
 		MFVideoArea GetArea(float x, float y, DWORD width, DWORD height);
+		bool ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d);  
 
 		HRESULT DrawRectBase(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4]);
 		HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
@@ -311,8 +312,6 @@ namespace GothSync
 		void EstimateRefreshTimings(); // Estimate the times for one scan line and one frame respectively from the actual refresh data
 		bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
-
-
 	public:
 		CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error);
 		~CBaseAP();
@@ -435,22 +434,18 @@ namespace GothSync
 		MFCLOCK_STATE m_LastClockState;
 
 	private:
-
 		// dxva.dll
 		typedef HRESULT (__stdcall *PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetToken, IDirect3DDeviceManager9** ppDeviceManager);
-
 		// mf.dll
 		typedef HRESULT (__stdcall *PTR_MFCreatePresentationClock)(IMFPresentationClock** ppPresentationClock);
-
 		// evr.dll
 		typedef HRESULT (__stdcall *PTR_MFCreateDXSurfaceBuffer)(REFIID riid, IUnknown* punkSurface, BOOL fBottomUpWhenLinear, IMFMediaBuffer** ppBuffer);
 		typedef HRESULT (__stdcall *PTR_MFCreateVideoSampleFromSurface)(IUnknown* pUnkSurface, IMFSample** ppSample);
 		typedef HRESULT (__stdcall *PTR_MFCreateVideoMediaType)(const MFVIDEOFORMAT* pVideoFormat, IMFVideoMediaType** ppIVideoMediaType);
-
 		// avrt.dll
-		typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
-		typedef BOOL	(__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
-		typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
+		typedef HANDLE (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
+		typedef BOOL (__stdcall *PTR_AvSetMmThreadPriority)(HANDLE AvrtHandle, AVRT_PRIORITY Priority);
+		typedef BOOL (__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
 		typedef enum
 		{
@@ -540,7 +535,6 @@ namespace GothSync
 		public IVMRMixerBitmap9,
 		public IBaseFilter
 	{
-
 		CComPtr<IUnknown> m_pEVR;
 		VMR9AlphaBitmap *m_pVMR9AlphaBitmap;
 		CSyncAP *m_pAllocatorPresenter;

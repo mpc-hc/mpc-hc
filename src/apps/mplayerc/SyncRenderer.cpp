@@ -113,10 +113,6 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
 	m_bNeedCheckSample(true),
 	m_hEvtQuit(INVALID_HANDLE_VALUE),
 	m_bIsFullscreen((AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode())),
-	m_pD3DXLoadSurfaceFromMemory(NULL),
-	m_pD3DXCreateLine(NULL),
-	m_pD3DXCreateFont(NULL),
-	m_pD3DXCreateSprite(NULL),
 	m_uSyncGlitches(0),
 	m_pGenlock(NULL),
 	m_lAudioLag(0),
@@ -147,13 +143,17 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
 	}
 
 	HINSTANCE hDll;
+	m_pD3DXLoadSurfaceFromMemory = NULL;
+	m_pD3DXCreateLine = NULL;
+	m_pD3DXCreateFont = NULL;
+	m_pD3DXCreateSprite = NULL;		
 	hDll = AfxGetMyApp()->GetD3X9Dll();
 	if(hDll)
 	{
-		(FARPROC&)m_pD3DXLoadSurfaceFromMemory = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
-		(FARPROC&)m_pD3DXCreateLine = GetProcAddress(hDll, "D3DXCreateLine");
-		(FARPROC&)m_pD3DXCreateFont = GetProcAddress(hDll, "D3DXCreateFontW");
-		(FARPROC&)m_pD3DXCreateSprite = GetProcAddress(hDll, "D3DXCreateSprite");		
+		(FARPROC &)m_pD3DXLoadSurfaceFromMemory = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
+		(FARPROC &)m_pD3DXCreateLine = GetProcAddress(hDll, "D3DXCreateLine");
+		(FARPROC &)m_pD3DXCreateFont = GetProcAddress(hDll, "D3DXCreateFontW");
+		(FARPROC &)m_pD3DXCreateSprite = GetProcAddress(hDll, "D3DXCreateSprite");		
 	}
 	else
 	{
@@ -169,11 +169,10 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
 		(FARPROC &)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
 	}
 
+	m_pDirect3DCreate9Ex = NULL;
 	m_hD3D9 = LoadLibrary(L"d3d9.dll");
 	if (m_hD3D9)
 		(FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
-	else
-		m_pDirect3DCreate9Ex = NULL;
 
 	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -485,7 +484,7 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 	m_bCompositionEnabled = bCompositionEnabled != 0;
 	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
 
-	if (m_bIsFullscreen)
+	if (m_bIsFullscreen) // Exclusive mode fullscreen
 	{
 		pp.Windowed = false; 
 		pp.BackBufferWidth = d3ddm.Width; 
@@ -529,9 +528,7 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 		if (!m_pD3DDev)
 		{
 			hr = m_pD3D->CreateDevice(
-				GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
-				D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
-				&pp, &m_pD3DDev);
+				GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev);
 			if (m_pD3DDev)
 			{
 				m_BackbufferType = pp.BackBufferFormat;
@@ -562,7 +559,7 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 		}
 		if (bCompositionEnabled)
 		{
-			// Desktop composition takes care of the VSYNC
+			// Desktop composition presents the whole desktop
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 		}
 		else
@@ -571,19 +568,14 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 		}
 		if (m_pD3DEx)
 		{
-			hr = m_pD3DEx->CreateDeviceEx(
-				GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
-				D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED,
-				&pp, NULL, &m_pD3DDevEx);
+			hr = m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx);
 			if (m_pD3DDevEx)
 				m_pD3DDev = m_pD3DDevEx;
 		}
 		else
 		{
 			hr = m_pD3D->CreateDevice(
-				GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
-				D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED,
-				&pp, &m_pD3DDev);
+				GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev);
 		}
 	}
 
@@ -666,7 +658,7 @@ HRESULT CBaseAP::CreateDevice(CString &_Error)
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
 	}
 	m_pSprite = NULL;
-	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite( m_pD3DDev, &m_pSprite);
+	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
 	m_pLine = NULL;
 	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
 	return S_OK;
@@ -755,7 +747,7 @@ STDMETHODIMP CBaseAP::CreateRenderer(IUnknown** ppRenderer)
 	return E_NOTIMPL;
 }
 
-static bool ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)   
+bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)   
 {   
 	D3DSURFACE_DESC d3dsd;   
 	ZeroMemory(&d3dsd, sizeof(d3dsd));   
@@ -1299,8 +1291,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	m_pD3DDev->GetRasterStatus(0, &rasterStatus);	
 	m_uScanLineEnteringPaint = rasterStatus.ScanLine;
 	if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime);
-	dSyncOffset = (m_ScreenSize.cy - m_uScanLineEnteringPaint) * m_dDetectedScanlineTime;
-	llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset);
+	dSyncOffset = (m_ScreenSize.cy - m_uScanLineEnteringPaint) * m_dDetectedScanlineTime; // ms
+	llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
 	m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
 
 	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
@@ -1519,9 +1511,6 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	if (pApp->m_fDisplayStats) DrawStats();
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 	m_pD3DDev->EndScene();
-
-	//Sleep(20);
-
 	if (m_pD3DDevEx)
 	{
 		if (m_bIsFullscreen)
@@ -4001,7 +3990,6 @@ HRESULT CGenlock::AdviseSyncClock(CComPtr<ISyncClock> sC)
 HRESULT CGenlock::SetMonitor(UINT mon)
 {
 	monitor = mon;
-	_tprintf(_T("Monitor: %d\n"), monitor);
 	return S_OK;
 }
 

@@ -8571,7 +8571,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	// CASIMIR666 todo
-	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || s.iDSVideoRendererType == VIDRNDT_DS_SYNC))
+	if (s.IsD3DFullscreen() && ((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || (s.iDSVideoRendererType == VIDRNDT_DS_SYNC)))
 	{
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;
@@ -9189,7 +9189,7 @@ void CMainFrame::OpenCustomizeGraph()
 	}
 
 	AppSettings& s = AfxGetAppSettings();
-	if (s.m_RenderSettings.bSynchronizeVideo)
+	if (s.m_RenderSettings.bSynchronizeVideo && s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
 	{
 		HRESULT hr;
 		m_pRefClock = DNew CSyncClockFilter(NULL, &hr);
@@ -12087,6 +12087,8 @@ bool CMainFrame::CreateFullScreenWindow()
 	CString str;
 	CMonitor monitor;
 	AppSettings& s = AfxGetAppSettings();
+	hMonitor = NULL;
+
 	if(!s.iMonitor)
 	{
 		if(s.f_hmonitor == _T("Current"))
@@ -12099,6 +12101,7 @@ bool CMainFrame::CreateFullScreenWindow()
 			{
 				monitor = monitors.GetMonitor( i );
 				monitor.GetName(str);
+
 				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
 				{
 					hMonitor = monitor.operator HMONITOR();
