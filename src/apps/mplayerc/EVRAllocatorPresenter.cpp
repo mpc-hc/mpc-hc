@@ -1295,24 +1295,26 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
 	bool bDoneSomething = true;
 
-	while (bDoneSomething)
-	{
-		bDoneSomething = false;
-		INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
-		INT i;
-		for (i = 2; i < MinNum+1; ++i)
+	if(m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1){ //if any of these is 0, it will stuck into a infinite loop
+		while (bDoneSomething)
 		{
-			if (m_AspectRatio.cx%i == 0 && m_AspectRatio.cy%i ==0)
-				break;
-		}
-		if (i != MinNum + 1)
-		{
-			m_AspectRatio.cx = m_AspectRatio.cx / i;
-			m_AspectRatio.cy = m_AspectRatio.cy / i;
-			bDoneSomething = true;
+			bDoneSomething = false;
+			INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
+			INT i;
+			for (i = 2; i < MinNum+1; ++i)
+			{
+				if (m_AspectRatio.cx%i == 0 && m_AspectRatio.cy%i ==0)
+					break;
+			}
+			if (i != MinNum + 1)
+			{
+				m_AspectRatio.cx = m_AspectRatio.cx / i;
+				m_AspectRatio.cy = m_AspectRatio.cy / i;
+				bDoneSomething = true;
+			}
 		}
 	}
-
+	
 	pMixerType->FreeRepresentation (FORMAT_MFVideoFormat, (void*)pAMMedia);
 	m_pMediaType->QueryInterface (__uuidof(IMFMediaType), (void**) pType);
 
