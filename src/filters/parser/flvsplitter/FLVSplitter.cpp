@@ -413,6 +413,8 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						vih2->dwPictAspectRatioX = arx;
 						vih2->dwPictAspectRatioY = ary;
 						bih = &vih2->bmiHeader;						
+						mt.formattype = FORMAT_VideoInfo2;
+						vih = (VIDEOINFOHEADER *)vih2;
 					}
 
 					bih->biWidth = w;
@@ -715,6 +717,7 @@ bool CFLVSplitterFilter::DemuxLoop()
 				if (m_pFile->BitRead(8) != 1) goto NextTag;
 				// Tag timestamps specify decode time, this is the display time offset
 				tsOffset = m_pFile->BitRead(24);
+				tsOffset = (tsOffset + 0xff800000) ^ 0xff800000; // sign extension
 			}
 			if(t.TagType == 8 && at.SoundFormat == 10) {
 				if (m_pFile->BitRead(8) != 1) goto NextTag;
