@@ -274,17 +274,18 @@ void CPPagePlayback::ModesUpdate()
 			dm1=dm;
 			dm1.freq=-1; //AUTO1 Mode Marker
 			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
-			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@25, 29.97@30"), dm.size.cx, dm.size.cy, dm.bpp);
+			str.Format(_T("%dx%dP %dbpp AUTO 23.97@24, 25.00@25, 29.97@30"), dm.size.cx, dm.size.cy, dm.bpp);
 			m_dispmodecombo.AddString(str);
 			j++;
 			dm1.freq=-2; //AUTO2 Mode Marker
 			m_dms.Add(dm1); // Add AUTO-HDMI Mode To Modes Array.
-			str.Format(_T("%dx%d %dbpp AUTO 23.97@24, 25.00@50, 29.97@60"), dm.size.cx, dm.size.cy, dm.bpp);
+			str.Format(_T("%dx%dP %dbpp AUTO 23.97@24, 25.00@50, 29.97@60"), dm.size.cx, dm.size.cy, dm.bpp);
 			m_dispmodecombo.AddString(str);
 			j++;
 		}
 		m_dms.Add(dm); // 1920x1080 16bpp 24Hz, 1920x1080 24bpp 25Hz, 1920x1080 32bpp 30Hz also exist
 		str.Format(_T("%dx%d %dbpp %dHz"), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+		if (dm.dmDisplayFlags == DM_INTERLACED) str+=_T(" interlaced"); 
 		m_dispmodecombo.AddString(str);
 
 		if(iSel < 0 && dmtoset.fValid && dm.size == dmtoset.size

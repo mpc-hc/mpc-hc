@@ -2755,6 +2755,7 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 	dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
 	dm.bpp = devmode.dmBitsPerPel;
 	dm.freq = devmode.dmDisplayFrequency;
+	dm.dmDisplayFlags = devmode.dmDisplayFlags;
 	return(true);
 }
 
@@ -2769,8 +2770,8 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 	dmScreenSettings.dmPelsHeight = dm.size.cy;
 	dmScreenSettings.dmBitsPerPel = dm.bpp;
 	dmScreenSettings.dmDisplayFrequency = dm.freq;
-	dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
-
+	dmScreenSettings.dmDisplayFlags = dm.dmDisplayFlags;
+	dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY  | DM_DISPLAYFLAGS;
 	CString DisplayName1 = DisplayName;
 	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
 	{ 

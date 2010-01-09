@@ -310,8 +310,9 @@ typedef enum
 typedef struct
 {
 	bool fValid;
-	CSize size; 
+	CSize size;
 	int bpp, freq;
+	DWORD dmDisplayFlags;
 } dispmode;
 
 class wmcmd : public ACCEL
