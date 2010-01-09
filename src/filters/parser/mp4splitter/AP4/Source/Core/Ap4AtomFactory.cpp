@@ -91,6 +91,8 @@
 // ==> Start patch MPC
 #include "Ap4ChplAtom.h"
 #include "Ap4FtabAtom.h"
+#include "Ap4DcomAtom.h"
+#include "AP4CmvdAtom.h"
 // <== End patch MPC
 
 /*----------------------------------------------------------------------
@@ -613,6 +615,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		  case AP4_ATOM_TYPE_TOO:
 	      case AP4_ATOM_TYPE_CMT:
 		  case AP4_ATOM_TYPE_GEN:
+		  case AP4_ATOM_TYPE_CMOV:
 		  // <== End patch MPC
 
             if (atom_is_large) return AP4_ERROR_INVALID_FORMAT;
@@ -632,6 +635,15 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
             // generic atoms
             break;
             
+		  // ==> Start patch MPC
+		  case AP4_ATOM_TYPE_DCOM:
+			atom = AP4_DcomAtom::Create(size, stream);
+			break;
+		  case AP4_ATOM_TYPE_CMVD:
+			  atom = AP4_CmvdAtom::Create(size, stream, *this);
+			  break;
+		  // <== End patch MPC
+
           default:
             // try all the external type handlers
             {

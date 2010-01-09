@@ -33,6 +33,12 @@
 #include "Ap4TrakAtom.h"
 #include "Ap4AtomFactory.h"
 
+// ==> Start patch MPC
+#include "AP4DcomAtom.h"
+#include "AP4CmvdAtom.h"
+#include "..\..\..\..\..\..\zlib\zlib.h"
+// <== End patch MPC
+
 /*----------------------------------------------------------------------
 |   dynamic cast support
 +---------------------------------------------------------------------*/
@@ -79,7 +85,85 @@ AP4_MoovAtom::AP4_MoovAtom(AP4_UI32         size,
     AP4_ContainerAtom(AP4_ATOM_TYPE_MOOV, size, false, stream, atom_factory),
     m_TimeScale(0)
 {
-    // collect all trak atoms
+	// ==> Start patch MPC
+	if(AP4_ContainerAtom* cmov = dynamic_cast<AP4_ContainerAtom*>(GetChild(AP4_ATOM_TYPE_CMOV)))
+	{
+		AP4_DcomAtom* dcom = dynamic_cast<AP4_DcomAtom*>(cmov->GetChild(AP4_ATOM_TYPE_DCOM));
+		AP4_CmvdAtom* cmvd = dynamic_cast<AP4_CmvdAtom*>(cmov->GetChild(AP4_ATOM_TYPE_CMVD));
+		if(dcom && dcom->GetCompressorSubType() == AP4_ATOM_TYPE('z','l','i','b') && cmvd)
+		{
+			const AP4_DataBuffer& data = cmvd->GetDataBuffer();
+
+			z_stream d_stream;
+			d_stream.zalloc = (alloc_func)0;
+			d_stream.zfree = (free_func)0;
+			d_stream.opaque = (voidpf)0;
+
+			int res;
+
+			if(Z_OK == (res = inflateInit(&d_stream)))
+			{
+				d_stream.next_in = (Bytef*)data.GetData();
+				d_stream.avail_in = data.GetDataSize();
+
+				unsigned char* dst = NULL;
+				int n = 0;
+				
+				do
+				{
+					dst = (unsigned char*)realloc(dst, ++n*1000);
+					d_stream.next_out = &dst[(n-1)*1000];
+					d_stream.avail_out = 1000;
+
+					if(Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res)
+					{
+						free(dst);
+						dst = NULL;
+						break;
+					}
+				}
+				while(0 == d_stream.avail_out && 0 != d_stream.avail_in && Z_STREAM_END != res);
+
+				inflateEnd(&d_stream);
+
+				if(dst)
+				{
+					AP4_ByteStream* s = new AP4_MemoryByteStream(dst, d_stream.total_out);
+					ReadChildren(atom_factory, *s, d_stream.total_out);
+					s->Release();
+					free(dst);
+				}
+
+				if(AP4_MoovAtom* moov = dynamic_cast<AP4_MoovAtom*>(GetChild(AP4_ATOM_TYPE_MOOV)))
+				{
+					AP4_List<AP4_Atom> Children;
+
+					for(AP4_List<AP4_Atom>::Item* item = moov->GetChildren().FirstItem(); 
+						item; 
+						item = item->GetNext())
+					{
+						Children.Add(item->GetData());
+					}
+
+					for(AP4_List<AP4_Atom>::Item* item = Children.FirstItem(); 
+						item; 
+						item = item->GetNext())
+					{
+						AP4_Atom* atom = item->GetData();
+						atom->Detach();
+						atom->SetParent(this);
+						m_Children.Add(atom);
+					}
+
+					moov->Detach();
+					delete moov;
+				}
+			}
+		}
+	}
+	// <== End patch MPC
+
+	// collect all trak atoms
     m_Children.Apply(AP4_TrakAtomCollector(&m_TrakAtoms));    
 }
 

@@ -834,6 +834,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AP4\Source\Core\Ap4CmvdAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4CmvdAtom.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AP4\Source\Core\Ap4Co64Atom.cpp"
 					>
 				</File>
@@ -884,6 +892,28 @@
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4DataBuffer.h"
 					>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4DcomAtom.cpp"
+					>
+					<FileConfiguration
+						Name="Debug Unicode lib|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\AP4\Source\Core\Ap4DcomAtom.h"
+					>
+					<FileConfiguration
+						Name="Debug Unicode lib|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\AP4\Source\Core\Ap4Debug.cpp"
