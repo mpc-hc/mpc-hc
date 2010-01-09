@@ -1887,6 +1887,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
 	}
 #endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
@@ -2069,6 +2070,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
 	}
 #endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
@@ -2263,10 +2265,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 			m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(clsid), MERIT64_DO_NOT_USE));
 		}
 	}
+
 /*
 	// NVIDIA Transport Demux crashed for someone, I could not reproduce it
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{735823C1-ACC4-11D3-85AC-006008376FB8}")), MERIT64_DO_NOT_USE));	
 */
+
 	// mainconcept color space converter
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{272D77A0-A852-4851-ADA4-9091FEAD4C86}")), MERIT64_DO_NOT_USE));
 
@@ -2317,7 +2321,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		}
 	}
 
-	// Use Broadcom decoder if installed for VC1, H264 and Mpeg2
+	/* Use Broadcom decoder (if installed) for VC-1, H.264 and MPEG-2 */
 	if (!bOverrideBroadcom)
 	{
 		pFGF = DNew CFGFilterRegistry(GUIDFromCString(_T("{2DE1D17E-46B1-42A8-9AEC-E20E80D9B1A9}")), MERIT64_ABOVE_DSHOW);
@@ -2334,6 +2338,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_avc1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264_bis);
+		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_CCV1);
 
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
