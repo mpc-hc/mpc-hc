@@ -86,6 +86,10 @@ DEFINE_GUID(MEDIASUBTYPE_AMR,
 DEFINE_GUID(MEDIASUBTYPE_SAMR,
 0x726D6173, 0x000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
 
+DEFINE_GUID(MEDIASUBTYPE_IMA4,
+0x34616D69, 0x000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
+// {34616D69-0000-0010-8000-00AA00389B71}
+
 DEFINE_GUID(MEDIASUBTYPE_SAWB,
 0x62776173, 0x000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
 
@@ -1009,3 +1013,47 @@ DEFINE_GUID(DXVA_Intel_VC1_ClearVideo, 0xBCC5DB6D, 0xA2B6,0x4AF0,0xAC,0xE4,0xAD,
 
 // Intel ClearVideo H264 bitstream decoder
 DEFINE_GUID(DXVA_Intel_H264_ClearVideo, 0x604F8E68, 0x4951,0x4C54,0x88,0xFE,0xAB,0xD2,0x5C,0x15,0xB3,0xD6);
+
+
+// uncompressed
+#define DEFINE_GUID_FOURCC(FOURCC) \
+ DEFINE_GUID(MEDIASUBTYPE_##FOURCC,FOURCC_##FOURCC, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
+
+//uncompressed
+#define FOURCC_YUY2 mmioFOURCC('Y','U','Y','2')
+#define FOURCC_V422 mmioFOURCC('V','4','2','2')
+#define FOURCC_YV12 mmioFOURCC('Y','V','1','2')
+#define FOURCC_YVYU mmioFOURCC('Y','V','Y','U')
+#define FOURCC_UYVY mmioFOURCC('U','Y','V','Y')
+#define FOURCC_YUYV mmioFOURCC('Y','U','Y','V')
+#define FOURCC_VYUY mmioFOURCC('V','Y','U','Y')
+#define FOURCC_I420 mmioFOURCC('I','4','2','0')
+#define FOURCC_IYUV mmioFOURCC('I','Y','U','V')
+#define FOURCC_444P mmioFOURCC('4','4','4','P')
+#define FOURCC_YV24 mmioFOURCC('Y','V','2','4') // YUV 4:4:4
+#define FOURCC_422P mmioFOURCC('4','2','2','P')
+#define FOURCC_YV16 mmioFOURCC('Y','V','1','6') // YUV 4:2:2
+#define FOURCC_411P mmioFOURCC('4','1','1','P')
+#define FOURCC_Y41B mmioFOURCC('Y','4','1','B') // YUV 4:1:1
+#define FOURCC_410P mmioFOURCC('4','1','0','P')
+#define FOURCC_PAL1 mmioFOURCC('P','A','L','1')
+#define FOURCC_PAL4 mmioFOURCC('P','A','L','4')
+#define FOURCC_PAL8 mmioFOURCC('P','A','L','8')
+#define FOURCC_RGB2 mmioFOURCC('R','G','B','2')
+#define FOURCC_RGB3 mmioFOURCC('R','G','B','3')
+#define FOURCC_RGB5 mmioFOURCC('R','G','B','5')
+#define FOURCC_RGB6 mmioFOURCC('R','G','B','6')
+#define FOURCC_CLJR mmioFOURCC('C','L','J','R')
+#define FOURCC_Y800 mmioFOURCC('Y','8','0','0')
+#define FOURCC_NV12 mmioFOURCC('N','V','1','2')
+#define FOURCC_NV21 mmioFOURCC('N','V','2','1')
+
+DEFINE_GUID_FOURCC(422P)
+DEFINE_GUID_FOURCC(444P)
+DEFINE_GUID_FOURCC(411P)
+DEFINE_GUID_FOURCC(410P)
+DEFINE_GUID_FOURCC(VYUY)
+DEFINE_GUID_FOURCC(Y800)
+DEFINE_GUID_FOURCC(NV21)
+DEFINE_GUID_FOURCC(YV16)
+

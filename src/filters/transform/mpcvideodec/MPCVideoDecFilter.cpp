@@ -36,6 +36,9 @@
 extern "C"
 {
 	#include "FfmpegContext.h"
+	#include "libswscale\swscale.h"
+
+	extern void init_libvo();
 }
 
 #include "..\..\..\DSUtil\DSUtil.h"
@@ -80,6 +83,65 @@ typedef struct
 	  return MAX_SUPPORTED_MODE;
   }
 } FFMPEG_CODECS;
+
+
+typedef enum
+{
+ ffYCbCr_RGB_coeff_ITUR_BT601    = 0,
+ ffYCbCr_RGB_coeff_ITUR_BT709    = 1,
+ ffYCbCr_RGB_coeff_SMPTE240M     = 2,
+} ffYCbCr_RGB_MatrixCoefficientsType;
+
+struct TYCbCr2RGB_coeffs {
+    double Kr;
+    double Kg;
+    double Kb;
+    double chr_range;
+    double y_mul;
+    double vr_mul;
+    double ug_mul;
+    double vg_mul;
+    double ub_mul;
+    int Ysub;
+    int RGB_add1;
+    int RGB_add3;
+
+    TYCbCr2RGB_coeffs(ffYCbCr_RGB_MatrixCoefficientsType cspOptionsIturBt,
+                      int cspOptionsWhiteCutoff,
+                      int cspOptionsBlackCutoff,
+                      int cspOptionsChromaCutoff,
+                      double cspOptionsRGB_WhiteLevel,
+                      double cspOptionsRGB_BlackLevel)
+    {
+        if (cspOptionsIturBt == ffYCbCr_RGB_coeff_ITUR_BT601) {
+             Kr = 0.299;
+             Kg = 0.587;
+             Kb = 0.114;
+        } else if (cspOptionsIturBt == ffYCbCr_RGB_coeff_SMPTE240M) {
+             Kr = 0.2122;
+             Kg = 0.7013;
+             Kb = 0.0865;
+        } else {
+             Kr = 0.2125;
+             Kg = 0.7154;
+             Kb = 0.0721;
+        }
+
+        double in_y_range   = cspOptionsWhiteCutoff - cspOptionsBlackCutoff;
+        chr_range = 128 - cspOptionsChromaCutoff;
+
+        double cspOptionsRGBrange = cspOptionsRGB_WhiteLevel - cspOptionsRGB_BlackLevel;
+        y_mul =cspOptionsRGBrange / in_y_range;
+        vr_mul=(cspOptionsRGBrange / chr_range) * (1.0 - Kr);
+        ug_mul=(cspOptionsRGBrange / chr_range) * (1.0 - Kb) * Kb / Kg;
+        vg_mul=(cspOptionsRGBrange / chr_range) * (1.0 - Kr) * Kr / Kg;   
+        ub_mul=(cspOptionsRGBrange / chr_range) * (1.0 - Kb);
+        int sub = min((int)cspOptionsRGB_BlackLevel, cspOptionsBlackCutoff);
+        Ysub = cspOptionsBlackCutoff - sub;
+        RGB_add1 = (int)cspOptionsRGB_BlackLevel - sub;
+        RGB_add3 = (RGB_add1 << 8) + (RGB_add1 << 16) + RGB_add1;
+    }
+};
 
 
 // DXVA modes supported for Mpeg2	TODO
@@ -221,6 +283,12 @@ FFMPEG_CODECS		ffCodecs[] =
 
 	{ &MEDIASUBTYPE_S263, CODEC_ID_H263, MAKEFOURCC('S','2','6','3'),	NULL },
 	{ &MEDIASUBTYPE_s263, CODEC_ID_H263, MAKEFOURCC('s','2','6','3'),	NULL },	
+
+	// Real video
+	{ &MEDIASUBTYPE_RV10, CODEC_ID_RV10, MAKEFOURCC('R','V','1','0'),	NULL },	
+	{ &MEDIASUBTYPE_RV20, CODEC_ID_RV20, MAKEFOURCC('R','V','2','0'),	NULL },	
+	{ &MEDIASUBTYPE_RV30, CODEC_ID_RV30, MAKEFOURCC('R','V','3','0'),	NULL },	
+	{ &MEDIASUBTYPE_RV40, CODEC_ID_RV40, MAKEFOURCC('R','V','4','0'),	NULL },	
 
 	// Theora
 	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'),	NULL },
@@ -380,6 +448,12 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_S263   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_s263   },
 	
+	// Real video
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_RV10   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_RV20   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_RV30   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_RV40   },
+
 	// Theora
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_THEORA },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_theora },
@@ -508,6 +582,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nFFBufferSize			= 0;
 	m_nWidth				= 0;
 	m_nHeight				= 0;
+	m_pSwsContext			= NULL;
 	
 	m_bUseDXVA = true;
 	m_bUseFFmpeg = true;
@@ -542,6 +617,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	avcodec_init();
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);
+	init_libvo();
 
 	EnumWindows(EnumFindProcessWnd, (LPARAM)&hWnd);
 	DetectVideoCard(hWnd);
@@ -799,6 +875,13 @@ void CMPCVideoDecFilter::Cleanup()
 		av_free(m_pAVCtx);
 	}
 	if (m_pFrame)	av_free(m_pFrame);
+
+	if (m_pSwsContext)
+	{
+		sws_freeContext(m_pSwsContext);
+		m_pSwsContext = NULL;
+	}
+
 
 	m_pAVCodec		= NULL;
 	m_pAVCtx		= NULL;
@@ -1266,6 +1349,69 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 	}
 }
 
+
+int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
+{
+	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12)
+		return FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
+	else if (subtype == MEDIASUBTYPE_YUY2)
+		return FF_CSP_YUY2;
+//	else if (subtype == MEDIASUBTYPE_ARGB32 || subtype == MEDIASUBTYPE_RGB32 || subtype == MEDIASUBTYPE_RGB24 || subtype == MEDIASUBTYPE_RGB565)
+
+	ASSERT (FALSE);
+	return FF_CSP_NULL;
+}
+
+
+void CMPCVideoDecFilter::InitSwscale()
+{
+	if (m_pSwsContext == NULL)
+	{
+		TYCbCr2RGB_coeffs	coeffs(ffYCbCr_RGB_coeff_ITUR_BT601,0, 235, 16, 255.0, 0.0);
+		int32_t				swscaleTable[7];
+		SwsParams			params;
+
+		memset(&params,0,sizeof(params));
+		if (m_pAVCtx->dsp_mask & CCpuId::MPC_MM_MMX)	params.cpu |= SWS_CPU_CAPS_MMX|SWS_CPU_CAPS_MMX2;
+		if (m_pAVCtx->dsp_mask & CCpuId::MPC_MM_3DNOW)	params.cpu |= SWS_CPU_CAPS_3DNOW;
+
+		params.methodLuma.method=params.methodChroma.method=SWS_POINT;
+
+		swscaleTable[0] = int32_t(coeffs.vr_mul * 65536 + 0.5);
+		swscaleTable[1] = int32_t(coeffs.ub_mul * 65536 + 0.5);
+		swscaleTable[2] = int32_t(coeffs.ug_mul * 65536 + 0.5);
+		swscaleTable[3] = int32_t(coeffs.vg_mul * 65536 + 0.5);
+		swscaleTable[4] = int32_t(coeffs.y_mul  * 65536 + 0.5);
+		swscaleTable[5] = int32_t(coeffs.Ysub * 65536);
+		swscaleTable[6] = coeffs.RGB_add1;
+
+		BITMAPINFOHEADER bihOut;
+		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
+
+		m_nOutCsp	  = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
+		m_pSwsContext = sws_getContext(m_pAVCtx->width, 
+									   m_pAVCtx->height,
+									   csp_ffdshow2mplayer(csp_lavc2ffdshow(m_pAVCtx->pix_fmt)),
+									   m_pAVCtx->width,
+									   m_pAVCtx->height,
+									   csp_ffdshow2mplayer(m_nOutCsp),
+									   &params,
+									   NULL,
+									   NULL,
+									   swscaleTable);
+
+		m_pOutSize.cx	= bihOut.biWidth;
+		m_pOutSize.cy	= abs(bihOut.biHeight);
+	}
+}
+
+template<class T> inline T odd2even(T x)
+{
+    return x&1 ?
+        x + 1 :
+        x;
+}
+
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr;
@@ -1306,7 +1452,32 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
-		CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
+		if (m_pSwsContext == NULL) InitSwscale();
+
+		if (m_pSwsContext != NULL)
+		{
+			uint8_t*	dst[4];
+			stride_t	dstStride[4];
+
+			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
+			for (int i=0;i<4;i++)
+			{
+				dstStride[i]=m_pOutSize.cx>>outcspInfo->shiftX[i];
+				if (i==0)
+					dst[i]=pDataOut;
+				else
+					dst[i]=dst[i-1]+dstStride[i-1]*(m_pOutSize.cy>>outcspInfo->shiftY[i-1]);
+			}
+
+			int nTempCsp = m_nOutCsp;
+			if(outcspInfo->id==FF_CSP_420P)
+				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,dstStride);
+			else
+				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,dstStride);
+
+			sws_scale_ordered (m_pSwsContext, m_pFrame->data, m_pFrame->linesize, 0, m_pAVCtx->height, dst, dstStride);
+//			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
+		}
 
 #if defined(_DEBUG) && 0
 		static REFERENCE_TIME	rtLast = 0;

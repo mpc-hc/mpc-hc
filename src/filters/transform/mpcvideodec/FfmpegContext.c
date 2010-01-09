@@ -264,6 +264,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->weighted_bipred_idc				= cur_pps->weighted_bipred_idc;
 		pDXVAPicParams->frame_mbs_only_flag				= cur_sps->frame_mbs_only_flag;
 		pDXVAPicParams->transform_8x8_mode_flag			= cur_pps->transform_8x8_mode;
+		pDXVAPicParams->MinLumaBipredSize8x8Flag		= h->sps.level_idc >= 31;
 		pDXVAPicParams->IntraPicFlag					= (h->slice_type == FF_I_TYPE );
 
 		pDXVAPicParams->bit_depth_luma_minus8			= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
@@ -357,7 +358,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		{
 			// Short list reference frames
             pic				= h->short_ref[h->short_ref_count - i - 1];
-			AssociatedFlag	= 0;
+			AssociatedFlag	= pic->long_ref != 0;
 		}
         else if (i >= h->short_ref_count && i < h->long_ref_count)
 		{
@@ -371,7 +372,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 
 		if (pic != NULL)
 		{
-			pDXVAPicParams->FrameNumList[i]					= pic->frame_num;
+			pDXVAPicParams->FrameNumList[i]	= pic->long_ref ? pic->pic_id : pic->frame_num;
 
 			if (pic->field_poc[0] != INT_MAX)
 			{

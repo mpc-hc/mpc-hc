@@ -28,9 +28,7 @@
 #ifndef AVCODEC_COOKDATA_H
 #define AVCODEC_COOKDATA_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 
 /* various data tables */
 

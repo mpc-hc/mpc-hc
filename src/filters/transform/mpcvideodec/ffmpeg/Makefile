@@ -1,5 +1,7 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
+LSWS_DIR=libswscale
+LIBV_DIR=libvo
 PNG_DIR =../../../../libpng
 ifeq ($(64BIT),yes)
 	ZLIB_DIR=../../../../zlib
@@ -7,7 +9,7 @@ else
 	ZLIB_DIR=../../../../zlib
 endif
 
-CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
+CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
 		-DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
 
 SRCS_C=\
@@ -17,6 +19,7 @@ SRCS_C=\
 		$(LAVC_DIR)/ac3dec.c \
 		$(LAVC_DIR)/ac3dec_data.c \
 		$(LAVC_DIR)/ac3tab.c \
+		$(LAVC_DIR)/adpcm.c \
 		$(LAVC_DIR)/allcodecs.c \
 		$(LAVC_DIR)/bitstream.c \
 		$(LAVC_DIR)/cabac.c \
@@ -73,6 +76,12 @@ SRCS_C=\
 		$(LAVC_DIR)/nellymoserdec.c \
 		$(LAVC_DIR)/options.c \
 		$(LAVC_DIR)/parser.c \
+		$(LAVC_DIR)/rv10.c \
+		$(LAVC_DIR)/rv30.c \
+		$(LAVC_DIR)/rv30dsp.c \
+		$(LAVC_DIR)/rv34.c \
+		$(LAVC_DIR)/rv40.c \
+		$(LAVC_DIR)/rv40dsp.c \
 		$(LAVC_DIR)/simple_idct.c \
 		$(LAVC_DIR)/sp5xdec.c \
 		$(LAVC_DIR)/svq1.c \
@@ -124,6 +133,14 @@ SRCS_C+=\
 		$(LAVC_DIR)/x86/vp6dsp_mmx.c \
 		$(LAVC_DIR)/x86/vp6dsp_sse2.c
 
+SRCS_C+=\
+		$(LIBV_DIR)/aclib.c \
+		$(LIBV_DIR)/libvoinit.c \
+		$(LSWS_DIR)/rgb2rgb.c \
+		$(LSWS_DIR)/yuv2rgb.c \
+		$(LSWS_DIR)/swscale.c \
+		$(LSWS_DIR)/libswscalew32thread.c
+		
 ifneq ($(64BIT),yes)
 SRCS_C+=\
       $(LAVC_DIR)/x86/fft.c \
@@ -161,7 +178,7 @@ OPTFLAGS+= -fno-math-errno
 .all: $(SLIB)
 
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amrnb/*.o $(LAVC_DIR)/amrwb/*.o $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amrnb/*.d $(LAVC_DIR)/amrwb/*.d $(ZLIB_DIR)/*.d
+	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amrnb/*.o $(LAVC_DIR)/amrwb/*.o $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(LIBV_DIR)/*.o $(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amrnb/*.d $(LAVC_DIR)/amrwb/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

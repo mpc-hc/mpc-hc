@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -581,6 +581,10 @@
 			</File>
 			<File
 				RelativePath=".\DXVADecoderVC1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ffImgfmt.cpp"
 				>
 			</File>
 			<File

@@ -37,6 +37,7 @@
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
+struct SwsContext;
 
 class CCpuId;
 
@@ -108,6 +109,9 @@ protected:
 	bool									m_bUseDXVA;
 	bool									m_bUseFFmpeg;				
 	CSize 									m_sar;
+	SwsContext*								m_pSwsContext;
+	int										m_nOutCsp;
+	CSize									m_pOutSize;				// Picture size on output pin
 
 	// === DXVA common variables
 	VIDEO_OUTPUT_FORMATS*					m_pVideoOutputFormat;
@@ -141,6 +145,8 @@ protected:
 	void				CalcAvgTimePerFrame();
 	void				DetectVideoCard(HWND hWnd);
 	UINT				GetAdapter(IDirect3D9* pD3D, HWND hWnd);
+	int					GetCspFromMediaType(GUID& subtype);
+	void				InitSwscale();
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
