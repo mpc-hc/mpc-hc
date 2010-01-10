@@ -397,7 +397,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
 					vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
 					if (item->GetData()->GetSampleCount() > 1)
-						vih->hdr.AvgTimePerFrame = item->GetData()->GetDurationMs()*10000 / (item->GetData()->GetSampleCount()-1);
+						vih->hdr.AvgTimePerFrame = MulDiv(item->GetData()->GetDurationMs(), 10000, item->GetData()->GetSampleCount()-1);
 					vih->dwProfile = data[1];
 					vih->dwLevel = data[3];
 					vih->dwFlags = (data[4] & 3) + 1;
