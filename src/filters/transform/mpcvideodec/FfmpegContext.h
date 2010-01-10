@@ -48,9 +48,11 @@ void			FFH264SetDxvaSliceLong (struct AVCodecContext* pAVCtx, void* pSliceLong);
 HRESULT			FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 int				FFIsSkipped(struct AVCodecContext* pAVCtx);
 
+
 // === Common functions
 int				IsVista();
 char*			GetFFMpegPictureType(int nType);
 int				FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);
 void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount);
+BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);

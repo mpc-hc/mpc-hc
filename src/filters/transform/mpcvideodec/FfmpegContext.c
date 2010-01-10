@@ -633,6 +633,18 @@ void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount)
 		avcodec_thread_init(pAVCtx, nThreadCount);
 }
 
+BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
+{
+	if (pAVCtx->codec_id == CODEC_ID_VC1)
+	{
+		VC1Context*		vc1 = (VC1Context*) pAVCtx->priv_data;
+		return !vc1->interlace;
+	}
+	else
+		return TRUE;
+}
+
+
 #ifdef _WIN64
 
 // Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
