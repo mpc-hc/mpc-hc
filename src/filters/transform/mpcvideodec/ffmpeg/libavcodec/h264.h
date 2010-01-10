@@ -594,16 +594,15 @@ typedef struct H264Context{
     /* ffdshow custom stuff */
     int has_to_drop_first_non_ref;    // Workaround Haali's media splitter (http://forum.doom9.org/showthread.php?p=1226434#post1226434)
 
-	// ==> Start patch MPC
+    	// ==> Start patch MPC
     int sp_for_switch_flag;
     int slice_qs_delta;
     int slice_qp_delta;
-	unsigned int first_mb_in_slice;
-	int bit_offset_to_slice_data;
-	int raw_slice_type;
-	int64_t outputed_rtstart;
-	void*	dxva_slice_long;
-	int ref_pic_flag;
+	   unsigned int first_mb_in_slice;
+	   int bit_offset_to_slice_data;
+	   int raw_slice_type;
+	   void*	dxva_slice_long;
+	   int ref_pic_flag;
     // <== End patch MPC
 }H264Context;
 

@@ -31,6 +31,7 @@ SRCS_C=\
 		$(LAVC_DIR)/faandct.c \
 		$(LAVC_DIR)/faanidct.c \
 		$(LAVC_DIR)/fft.c \
+		$(LAVC_DIR)/flvdec.c \
 		$(LAVC_DIR)/golomb.c \
 		$(LAVC_DIR)/h263.c \
 		$(LAVC_DIR)/h263_parser.c \
@@ -41,25 +42,13 @@ SRCS_C=\
 		$(LAVC_DIR)/h264pred.c \
 		$(LAVC_DIR)/huffman.c \
 		$(LAVC_DIR)/imgconvert.c \
+		$(LAVC_DIR)/intelh263dec.c \
 		$(LAVC_DIR)/intrax8.c \
 		$(LAVC_DIR)/intrax8dsp.c \
 		$(LAVC_DIR)/jpegls.c \
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
 		$(LAVC_DIR)/libamr.c \
-		$(LAVC_DIR)/amrnb/interf_dec.c \
-		$(LAVC_DIR)/amrnb/sp_dec.c \
-		$(LAVC_DIR)/amrnb/interf_enc.c\
-		$(LAVC_DIR)/amrnb/sp_enc.c \
-		$(LAVC_DIR)/amrwb/dec_if.c\
-		$(LAVC_DIR)/amrwb/if_rom.c\
-		$(LAVC_DIR)/amrwb/dec_rom.c\
-		$(LAVC_DIR)/amrwb/dec_gain.c\
-		$(LAVC_DIR)/amrwb/dec_main.c\
-		$(LAVC_DIR)/amrwb/dec_dtx.c\
-		$(LAVC_DIR)/amrwb/dec_lpc.c\
-		$(LAVC_DIR)/amrwb/dec_util.c\
-		$(LAVC_DIR)/amrwb/dec_acelp.c\
 		$(LAVC_DIR)/mdct.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
@@ -89,7 +78,6 @@ SRCS_C=\
 		$(LAVC_DIR)/utils.c \
 		$(LAVC_DIR)/vc1.c \
 		$(LAVC_DIR)/vc1dec.c \
-		$(LAVC_DIR)/vc1_parser.c \
 		$(LAVC_DIR)/vc1data.c \
 		$(LAVC_DIR)/vc1dsp.c \
 		$(LAVC_DIR)/vp3.c \
@@ -102,23 +90,20 @@ SRCS_C=\
 		$(LAVC_DIR)/w32thread.c \
 		$(LAVC_DIR)/wmv2.c \
 		$(LAVC_DIR)/wmv2dec.c \
-		$(LAVC_DIR)/xiph.c
-
-SRCS_C+=\
+		$(LAVC_DIR)/xiph.c\
+		$(LAVC_DIR)/amr_float/interf_dec.c \
+		$(LAVC_DIR)/amr_float/sp_dec.c \
+	\
 		$(LAVU_DIR)/crc.c \
-		$(LAVU_DIR)/integer.c \
-		$(LAVU_DIR)/intfloat_readwrite.c \
 		$(LAVU_DIR)/log.c \
 		$(LAVU_DIR)/mathematics.c \
 		$(LAVU_DIR)/mem.c \
 		$(LAVU_DIR)/random_seed.c \
 		$(LAVU_DIR)/rational.c \
-		$(LAVU_DIR)/random.c \
 		$(LAVU_DIR)/lfg.c \
-		$(LAVU_DIR)/md5.c
-
-SRCS_C+=\
-    $(LAVC_DIR)/x86/cpuid.c \
+		$(LAVU_DIR)/md5.c \
+	\
+		$(LAVC_DIR)/x86/cpuid.c \
 		$(LAVC_DIR)/x86/dsputil_mmx.c \
 		$(LAVC_DIR)/x86/fdct_mmx.c \
 		$(LAVC_DIR)/x86/idct_mmx.c \
@@ -178,7 +163,7 @@ OPTFLAGS+= -fno-math-errno
 .all: $(SLIB)
 
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amrnb/*.o $(LAVC_DIR)/amrwb/*.o $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(LIBV_DIR)/*.o $(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amrnb/*.d $(LAVC_DIR)/amrwb/*.d $(ZLIB_DIR)/*.d
+	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(LIBV_DIR)/*.o $(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

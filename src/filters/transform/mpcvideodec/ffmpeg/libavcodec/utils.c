@@ -732,6 +732,9 @@ int av_get_bits_per_sample(enum CodecID codec_id){
         return 3;
     case CODEC_ID_ADPCM_SBPRO_4:
     case CODEC_ID_ADPCM_CT:
+    case CODEC_ID_ADPCM_IMA_WAV:
+    case CODEC_ID_ADPCM_MS:
+    case CODEC_ID_ADPCM_YAMAHA:
         return 4;
     case CODEC_ID_PCM_ALAW:
     case CODEC_ID_PCM_MULAW:
@@ -797,4 +800,20 @@ void av_log_ask_for_sample(void *avc, const char *msg)
     av_log(avc, AV_LOG_WARNING, "If you want to help, upload a sample "
             "of this file to ftp://upload.ffmpeg.org/MPlayer/incoming/ "
             "and contact the ffmpeg-devel mailing list.\n");
+}
+
+int av_lockmgr_register(int (*cb)(void **mutex, enum AVLockOp op))
+{
+    if (ff_lockmgr_cb) {
+        if (ff_lockmgr_cb(&codec_mutex, AV_LOCK_DESTROY))
+            return -1;
+    }
+
+    ff_lockmgr_cb = cb;
+
+    if (ff_lockmgr_cb) {
+        if (ff_lockmgr_cb(&codec_mutex, AV_LOCK_CREATE))
+            return -1;
+    }
+    return 0;
 }

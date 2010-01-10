@@ -301,7 +301,7 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
     switch(pix_fmt_id){
     case 0x11111100:
         if(s->rgb){
-            s->avctx->pix_fmt = PIX_FMT_RGB32;
+            s->avctx->pix_fmt = PIX_FMT_BGRA;
         }else
             s->avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV444P : PIX_FMT_YUVJ444P;
         assert(s->nb_components==3);
@@ -674,9 +674,9 @@ static int ljpeg_decode_rgb_scan(MJpegDecodeContext *s, int predictor, int point
             }
         }else{
             for(mb_x = 0; mb_x < s->mb_width; mb_x++) {
-                ptr[4*mb_x+0] = buffer[mb_x][0];
+                ptr[4*mb_x+0] = buffer[mb_x][2];
                 ptr[4*mb_x+1] = buffer[mb_x][1];
-                ptr[4*mb_x+2] = buffer[mb_x][2];
+                ptr[4*mb_x+2] = buffer[mb_x][0];
             }
         }
     }
@@ -1152,7 +1152,8 @@ static int mjpeg_decode_com(MJpegDecodeContext *s)
             else if(!strcmp(cbuf, "CS=ITU601")){
                 s->cs_itu601= 1;
             }
-            else if(len > 20 && !strncmp(cbuf, "Intel(R) JPEG Library", 21)){
+            else if((len > 20 && !strncmp(cbuf, "Intel(R) JPEG Library", 21)) ||
+                    (len > 19 && !strncmp(cbuf, "Metasoft MJPEG Codec", 20))){
                 s->flipped = 1;
             }
 

@@ -155,15 +155,17 @@ static VLC huff_vlc[3];
 
 static av_cold void init_static(void)
 {
-    INIT_VLC_STATIC(&huff_vlc[0], VLC_BITS, 18,
-                &ff_mlp_huffman_tables[0][0][1], 2, 1,
-                &ff_mlp_huffman_tables[0][0][0], 2, 1, 512);
-    INIT_VLC_STATIC(&huff_vlc[1], VLC_BITS, 16,
-                &ff_mlp_huffman_tables[1][0][1], 2, 1,
-                &ff_mlp_huffman_tables[1][0][0], 2, 1, 512);
-    INIT_VLC_STATIC(&huff_vlc[2], VLC_BITS, 15,
-                &ff_mlp_huffman_tables[2][0][1], 2, 1,
-                &ff_mlp_huffman_tables[2][0][0], 2, 1, 512);
+    if (!huff_vlc[0].bits) {
+        INIT_VLC_STATIC(&huff_vlc[0], VLC_BITS, 18,
+                    &ff_mlp_huffman_tables[0][0][1], 2, 1,
+                    &ff_mlp_huffman_tables[0][0][0], 2, 1, 512);
+        INIT_VLC_STATIC(&huff_vlc[1], VLC_BITS, 16,
+                    &ff_mlp_huffman_tables[1][0][1], 2, 1,
+                    &ff_mlp_huffman_tables[1][0][0], 2, 1, 512);
+        INIT_VLC_STATIC(&huff_vlc[2], VLC_BITS, 15,
+                    &ff_mlp_huffman_tables[2][0][1], 2, 1,
+                    &ff_mlp_huffman_tables[2][0][0], 2, 1, 512);
+    }
 
     ff_mlp_init_crc();
 }
@@ -1132,7 +1134,6 @@ error:
     return -1;
 }
 
-#if CONFIG_MLP_DECODER
 AVCodec mlp_decoder = {
     "mlp",
     CODEC_TYPE_AUDIO,
@@ -1149,7 +1150,6 @@ AVCodec mlp_decoder = {
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
 };
-#endif /* CONFIG_MLP_DECODER */
 
 #if CONFIG_TRUEHD_DECODER
 AVCodec truehd_decoder = {

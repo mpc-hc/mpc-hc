@@ -1457,11 +1457,13 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (m_pSwsContext != NULL)
 		{
 			uint8_t*	dst[4];
+			stride_t	srcStride[4];
 			stride_t	dstStride[4];
 
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 			for (int i=0;i<4;i++)
 			{
+				srcStride[i]=(stride_t)m_pFrame->linesize[i];
 				dstStride[i]=m_pOutSize.cx>>outcspInfo->shiftX[i];
 				if (i==0)
 					dst[i]=pDataOut;
@@ -1475,7 +1477,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			else
 				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,dstStride);
 
-			sws_scale_ordered (m_pSwsContext, m_pFrame->data, m_pFrame->linesize, 0, m_pAVCtx->height, dst, dstStride);
+			sws_scale_ordered (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 //			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
 		}
 

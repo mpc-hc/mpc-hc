@@ -442,78 +442,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrwb\dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_acelp.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_acelp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_dtx.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_dtx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_gain.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_gain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_if.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_if.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_lpc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_lpc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_main.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_main.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_rom.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_util.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\dec_util.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\decoder.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\decoder.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\dsputil.c"
 				>
 			</File>
@@ -531,78 +459,6 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\eac3dec_data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_acelp.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_acelp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_dtx.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_dtx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_gain.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_gain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_if.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_if.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_lpc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_lpc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_main.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_main.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_rom.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_util.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\enc_util.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\encoder.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\encoder.c"
 				>
 			</File>
 			<File
@@ -631,6 +487,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\fft.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\flv.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\flvdec.c"
 				>
 			</File>
 			<File
@@ -762,35 +626,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrwb\if_rom.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\if_rom.h"
-				>
-			</File>
-			<File
 				RelativePath="libavcodec\imgconvert.c"
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrnb\interf_dec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\interf_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\interf_enc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\interf_enc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\interf_rom.h"
+				RelativePath=".\libavcodec\intelh263dec.c"
 				>
 			</File>
 			<File
@@ -970,14 +810,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrnb\rom_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\rom_enc.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\rv10.c"
 				>
 			</File>
@@ -1042,22 +874,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrnb\sp_dec.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\sp_dec.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\sp_enc.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrnb\sp_enc.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\..\..\include\stdint.h"
 				>
 			</File>
@@ -1118,14 +934,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\libavcodec\amrnb\typedef.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\amrwb\typedef.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\unary.h"
 				>
 			</File>
@@ -1180,10 +988,6 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\vc1_parser.c"
-				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\vc1acdata.h"
@@ -1277,6 +1081,46 @@
 				RelativePath=".\libavcodec\xiph.h"
 				>
 			</File>
+			<Filter
+				Name="amr_float"
+				>
+				<File
+					RelativePath=".\libavcodec\amr_float\interf_dec.c"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\interf_dec.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\interf_enc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\interf_rom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\rom_dec.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\sp_dec.c"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\sp_dec.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\sp_enc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\libavcodec\amr_float\typedef.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="libavutil"
@@ -1310,23 +1154,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavutil\integer.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavutil\integer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavutil\internal.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavutil\intfloat_readwrite.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavutil\intfloat_readwrite.h"
 				>
 			</File>
 			<File
@@ -1382,14 +1210,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavutil\random.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavutil\random.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavutil\random_seed.c"
 				>
 			</File>
@@ -1403,10 +1223,6 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\rational.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavutil\string.c"
 				>
 			</File>
 			<File

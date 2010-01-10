@@ -32,6 +32,7 @@
 #include "h263_parser.h"
 #include "mpeg4video_parser.h"
 #include "msmpeg4.h"
+#include "flv.h"
 
 //#define DEBUG
 //#define PRINT_FRAME_TIME
@@ -393,7 +394,7 @@ retry:
         ret= ff_wmv2_decode_picture_header(s);
     } else if (CONFIG_MSMPEG4_DECODER && s->msmpeg4_version) {
         ret = msmpeg4_decode_picture_header(s);
-    } else if (s->h263_pred) {
+    } else if (CONFIG_MPEG4_DECODER && s->h263_pred) {
         if(s->avctx->extradata_size && s->picture_number==0){
             GetBitContext gb;
 
@@ -401,10 +402,10 @@ retry:
             ret = ff_mpeg4_decode_picture_header(s, &gb);
         }
         ret = ff_mpeg4_decode_picture_header(s, &s->gb);
-    } else if (s->codec_id == CODEC_ID_H263I) {
-        ret = intel_h263_decode_picture_header(s);
-    } else if (s->h263_flv) {
-        ret = flv_h263_decode_picture_header(s);
+    } else if (CONFIG_H263I_DECODER && s->codec_id == CODEC_ID_H263I) {
+        ret = ff_intel_h263_decode_picture_header(s);
+    } else if (CONFIG_FLV_DECODER && s->h263_flv) {
+        ret = ff_flv_decode_picture_header(s);
     } else {
         ret = h263_decode_picture_header(s);
     }
@@ -646,8 +647,9 @@ retry:
             s->error_status_table[s->mb_num-1]= AC_ERROR|DC_ERROR|MV_ERROR;
         }
 
+    assert(s->bitstream_buffer_size==0);
     /* divx 5.01+ bistream reorder stuff */
-    if(s->codec_id==CODEC_ID_MPEG4 && s->bitstream_buffer_size==0 && s->divx_packed){
+    if(s->codec_id==CODEC_ID_MPEG4 && s->divx_packed){
         int current_pos= get_bits_count(&s->gb)>>3;
         int startcode_found=0;
 
@@ -660,7 +662,7 @@ retry:
                 }
             }
         }
-        if(s->gb.buffer == s->bitstream_buffer && buf_size>20){ //xvid style
+        if(s->gb.buffer == s->bitstream_buffer && buf_size>7 && s->xvid_build){ //xvid style
             startcode_found=1;
             current_pos=0;
         }
@@ -803,38 +805,4 @@ AVCodec wmv1_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
-};
-
-AVCodec h263i_decoder = {
-    "h263i",
-    CODEC_TYPE_VIDEO,
-    CODEC_ID_H263I,
-    sizeof(MpegEncContext),
-    ff_h263_decode_init,
-    NULL,
-    ff_h263_decode_end,
-    ff_h263_decode_frame,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    /*.next = */NULL,
-    /*.flush = */NULL,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("Intel H.263"),
-};
-
-AVCodec flv_decoder = {
-    "flv",
-    CODEC_TYPE_VIDEO,
-    CODEC_ID_FLV1,
-    sizeof(MpegEncContext),
-    ff_h263_decode_init,
-    NULL,
-    ff_h263_decode_end,
-    ff_h263_decode_frame,
-    /*.capabilities = */CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    /*.next = */NULL,
-    /*.flush = */NULL,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("Flash Video (FLV) / Sorenson Spark / Sorenson H.263"),
 };

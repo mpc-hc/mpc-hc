@@ -170,7 +170,6 @@ void avcodec_register_all(void)
     
     /* external libraries */
     REGISTER_DECODER (LIBAMR_NB, libamr_nb);
-		REGISTER_DECODER (LIBAMR_WB, libamr_wb);
 
     /* parsers */
     //REGISTER_PARSER  (AAC, aac);

@@ -24,7 +24,6 @@
 
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/dsputil.h"
-#include "libavcodec/h263.h"
 #include "libavcodec/mpegvideo.h"
 #include "libavcodec/simple_idct.h"
 #include "dsputil_mmx.h"
@@ -703,7 +702,7 @@ static void add_hfyu_median_prediction_cmov(uint8_t *dst, const uint8_t *top, co
         "paddb %%mm1, %%mm6             \n\t"
 
 static void h263_v_loop_filter_mmx(uint8_t *src, int stride, int qscale){
-    if(CONFIG_ANY_H263) {
+    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
     const int strength= ff_h263_loop_filter_strength[qscale];
 
     __asm__ volatile(
@@ -753,7 +752,7 @@ static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int 
 }
 
 static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale){
-    if(CONFIG_ANY_H263) {
+    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
     const int strength= ff_h263_loop_filter_strength[qscale];
     DECLARE_ALIGNED(8, uint64_t, temp[4]);
     uint8_t *btemp= (uint8_t*)temp;
@@ -2346,27 +2345,31 @@ static void float_to_int16_sse2(int16_t *dst, const float *src, long len){
     );
 }
 
-#if HAVE_YASM
 void ff_float_to_int16_interleave6_sse(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dnow(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dn2(int16_t *dst, const float **src, int len);
+int32_t ff_scalarproduct_int16_mmx2(int16_t *v1, int16_t *v2, int order, int shift);
+int32_t ff_scalarproduct_int16_sse2(int16_t *v1, int16_t *v2, int order, int shift);
+int32_t ff_scalarproduct_and_madd_int16_mmx2(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
+int32_t ff_scalarproduct_and_madd_int16_sse2(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
+int32_t ff_scalarproduct_and_madd_int16_ssse3(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
 void ff_add_hfyu_median_prediction_mmx2(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
 int  ff_add_hfyu_left_prediction_ssse3(uint8_t *dst, const uint8_t *src, int w, int left);
 int  ff_add_hfyu_left_prediction_sse4(uint8_t *dst, const uint8_t *src, int w, int left);
 void ff_x264_deblock_v_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
 void ff_x264_deblock_h_luma_sse2(uint8_t *pix, int stride, int alpha, int beta, int8_t *tc0);
-void ff_x264_deblock_v8_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
 void ff_x264_deblock_h_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
-#if ARCH_X86_32
+void ff_x264_deblock_v_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
+void ff_x264_deblock_h_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
+
+#if HAVE_YASM && ARCH_X86_32
+void ff_x264_deblock_v8_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
 static void ff_x264_deblock_v_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta)
 {
     ff_x264_deblock_v8_luma_intra_mmxext(pix+0, stride, alpha, beta);
     ff_x264_deblock_v8_luma_intra_mmxext(pix+8, stride, alpha, beta);
 }
-#endif
-void ff_x264_deblock_v_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
-void ff_x264_deblock_h_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int beta);
-#else
+#elif !HAVE_YASM
 #define ff_float_to_int16_interleave6_sse(a,b,c)   float_to_int16_interleave_misc_sse(a,b,c,6)
 #define ff_float_to_int16_interleave6_3dnow(a,b,c) float_to_int16_interleave_misc_3dnow(a,b,c,6)
 #define ff_float_to_int16_interleave6_3dn2(a,b,c)  float_to_int16_interleave_misc_3dnow(a,b,c,6)
@@ -2576,7 +2579,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
         c->draw_edges = draw_edges_mmx;
 
-        if (CONFIG_ANY_H263) {
+        if (CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
             c->h263_v_loop_filter= h263_v_loop_filter_mmx;
             c->h263_h_loop_filter= h263_h_loop_filter_mmx;
         }
@@ -2584,10 +2587,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_mmx;
         c->put_no_rnd_vc1_chroma_pixels_tab[0]= put_vc1_chroma_mc8_mmx_nornd;
 
-#if CONFIG_RV40_DECODER
         c->put_rv40_chroma_pixels_tab[0]= put_rv40_chroma_mc8_mmx;
         c->put_rv40_chroma_pixels_tab[1]= put_rv40_chroma_mc4_mmx;
-#endif
 
         c->h264_idct_dc_add=
         c->h264_idct_add= ff_h264_idct_add_mmx;
@@ -2678,10 +2679,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             SET_QPEL_FUNCS(avg_2tap_qpel, 0, 16, mmx2);
             SET_QPEL_FUNCS(avg_2tap_qpel, 1, 8, mmx2);
 
-#if CONFIG_RV40_DECODER
             c->avg_rv40_chroma_pixels_tab[0]= avg_rv40_chroma_mc8_mmx2;
             c->avg_rv40_chroma_pixels_tab[1]= avg_rv40_chroma_mc4_mmx2;
-#endif
 
             c->avg_no_rnd_vc1_chroma_pixels_tab[0]= avg_vc1_chroma_mc8_mmx2_nornd;
 
@@ -2715,14 +2714,12 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->biweight_h264_pixels_tab[6]= ff_h264_biweight_4x4_mmx2;
             c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
 
-#if CONFIG_HUFFYUV_DECODER
 #if HAVE_YASM && ARCH_X86_32
             c->add_hfyu_median_prediction = ff_add_hfyu_median_prediction_mmx2;
 #endif
 #if HAVE_7REGS && HAVE_TEN_OPERANDS
             if( mm_flags&FF_MM_3DNOW )
                 c->add_hfyu_median_prediction = add_hfyu_median_prediction_cmov;
-#endif
 #endif
 
             if (CONFIG_CAVS_DECODER)
@@ -2731,9 +2728,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             if (CONFIG_VC1_DECODER)
                 ff_vc1dsp_init_mmx(c, avctx);
 
-#if CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_mmx2;
-#endif
         } else if (mm_flags & FF_MM_3DNOW) {
             c->prefetch = prefetch_3dnow;
 
@@ -2782,10 +2777,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_3dnow_rnd;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_3dnow;
 
-#if CONFIG_RV40_DECODER
             c->avg_rv40_chroma_pixels_tab[0]= avg_rv40_chroma_mc8_3dnow;
             c->avg_rv40_chroma_pixels_tab[1]= avg_rv40_chroma_mc4_3dnow;
-#endif
 
             if (CONFIG_CAVS_DECODER)
                 ff_cavsdsp_init_3dnow(c, avctx);
@@ -2846,10 +2839,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_ssse3_rnd;
             c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
-#if CONFIG_PNG_DECODER
             c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
-#endif
-#if HAVE_YASM && ARCH_X86_32 && CONFIG_HUFFYUV_DECODER
+#if HAVE_YASM && ARCH_X86_32
             c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_ssse3;
             if (mm_flags & FF_MM_SSE4) // not really sse4, just slow on Conroe
                 c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_sse4;
@@ -2880,77 +2871,62 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 /* disable audio related ASM for 64-bit builds */
 #if ARCH_X86_32
         if(mm_flags & FF_MM_3DNOW){
-#if CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
-#endif
-#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul = vector_fmul_3dnow;
-#endif
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16 = float_to_int16_3dnow;
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
-#endif
             }
         }
         if(mm_flags & FF_MM_3DNOWEXT){
-#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul_window = vector_fmul_window_3dnow2;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->float_to_int16_interleave = float_to_int16_interleave_3dn2;
             }
-#endif
         }
         if(mm_flags & FF_MM_SSE){
-#if CONFIG_VORBIS_DECODER
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
-#endif
-#if CONFIG_AC3_DECODER
             c->ac3_downmix = ac3_downmix_sse;
-#endif
-#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul = vector_fmul_sse;
-#endif
-#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
             c->vector_fmul_reverse = vector_fmul_reverse_sse;
             c->vector_fmul_add = vector_fmul_add_sse;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
             c->vector_fmul_window = vector_fmul_window_sse;
-#endif
-#if CONFIG_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse;
-#endif
-#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
             c->float_to_int16 = float_to_int16_sse;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
-#endif
         }
-#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
-        if(mm_flags & FF_MM_3DNOW)        	
+        if(mm_flags & FF_MM_3DNOW)
             c->vector_fmul_add = vector_fmul_add_3dnow; // faster than sse
-#endif
         if(mm_flags & FF_MM_SSE2){
-#if CONFIG_AC3_DECODER
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse2;
-#endif
-#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
             c->float_to_int16 = float_to_int16_sse2;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
-#endif
         }
 #endif /* ARCH_X86_32 */
     }
 
     if (CONFIG_ENCODERS)
         dsputilenc_init_mmx(c, avctx);
+}
+
+const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
+{
+    if (c->idct_put==ff_idct_xvid_mmx_put)
+        return "Xvid (ff_idct_xvid_mmx)";
+    if (c->idct_put==ff_idct_xvid_mmx2_put)
+        return "Xvid (ff_idct_xvid_mmx2)";
+    if (c->idct_put==ff_idct_xvid_sse2_put)
+        return "Xvid (ff_idct_xvid_sse2)";
+    if (c->idct_put==ff_simple_idct_put_mmx)
+        return "Simple MMX (ff_simple_idct_mmx)";
+    if (c->idct_put==ff_libmpeg2mmx2_idct_put)
+        return "libmpeg2 (ff_libmpeg2mmx2_idct)";
+    if (c->idct_put==ff_libmpeg2mmx_idct_put)
+        return "libmpeg2 (ff_libmpeg2mmx_idct)";
+    if (c->idct_put==ff_vp3_idct_put_sse2)
+        return "VP3 (ff_vp3_idct_sse2)";
+    if (c->idct_put==ff_vp3_idct_put_mmx)
+        return "VP3 (ff_vp3_idct_mmx)";
+    return NULL;
 }

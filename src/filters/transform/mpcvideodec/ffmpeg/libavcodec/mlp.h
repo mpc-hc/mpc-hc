@@ -23,6 +23,7 @@
 #define AVCODEC_MLP_H
 
 #include <stdint.h>
+
 #include "avcodec.h"
 
 /** Last possible matrix channel for each codec */

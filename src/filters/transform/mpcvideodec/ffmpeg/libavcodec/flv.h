@@ -1,9 +1,5 @@
 /*
- * Misc image conversion routines
- * most functionality is exported to the public API, see avcodec.h
- *
- * Copyright (c) 2008 Vitor Sessak
- *
+ * FLV specific private header.
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -21,18 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_IMGCONVERT_H
-#define AVCODEC_IMGCONVERT_H
+#ifndef AVCODEC_FLV_H
+#define AVCODEC_FLV_H
 
-#include <stdint.h>
-#include "avcodec.h"
+void ff_flv_encode_picture_header(MpegEncContext * s, int picture_number);
+void ff_flv2_encode_ac_esc(PutBitContext *pb, int slevel, int level, int run, int last);
 
-int ff_fill_linesize(AVPicture *picture, enum PixelFormat pix_fmt, int width);
+int ff_flv_decode_picture_header(MpegEncContext *s);
+void ff_flv2_decode_ac_esc(GetBitContext *gb, int *level, int *run, int *last);
 
-int ff_fill_pointer(AVPicture *picture, uint8_t *ptr, enum PixelFormat pix_fmt, int height);
+#endif
 
-int ff_get_plane_bytewidth(enum PixelFormat pix_fmt, int width, int plane);
-
-int ff_set_systematic_pal(uint32_t pal[256], enum PixelFormat pix_fmt);
-
-#endif /* AVCODEC_IMGCONVERT_H */

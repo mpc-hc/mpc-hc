@@ -7756,7 +7756,7 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
             next_avc= buf_index + nalsize;
         } else {
             // start code prefix search
-            for(; buf_index + 3 < next_avc; buf_index++){
+            for(; buf_index + 3 < buf_size; buf_index++){
                 // This should always succeed in the first iteration.
                 if(buf[buf_index] == 0 && buf[buf_index+1] == 0 && buf[buf_index+2] == 1)
                     break;
@@ -8149,10 +8149,10 @@ static int decode_frame(AVCodecContext *avctx,
     ff_print_debug_info(s, pict);
 
     /* ffdshow custom code (begin) */
-    //pict->h264_poc_decoded = h->poc_lsb + h->poc_msb;
-    //pict->h264_poc_outputed = h->outputed_poc;
-    //pict->h264_frame_num_decoded = h-> frame_num;
-    //pict->h264_max_frame_num = 1 << h->sps.log2_max_frame_num;
+    pict->h264_poc_decoded = h->poc_lsb + h->poc_msb;
+    pict->h264_poc_outputed = h->outputed_poc;
+    pict->h264_frame_num_decoded = h-> frame_num;
+    pict->h264_max_frame_num = 1 << h->sps.log2_max_frame_num;
     /* ffdshow custom code (end) */
 
     return get_consumed_bytes(s, buf_index, buf_size);
@@ -8351,10 +8351,5 @@ AVCodec h264_decoder = {
 
 #if CONFIG_SVQ3_DECODER
 #include "svq3.c"
-#else
-// to suppress warnings
-static void svq3_luma_dc_dequant_idct_c(DCTELEM *block, int qp) {};
-static void svq3_add_idct_c(uint8_t *dst, DCTELEM *block, int stride, int qp, int dc) {};
 #endif
-
 #include "h264_dxva.c"

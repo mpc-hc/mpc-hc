@@ -806,7 +806,6 @@ void mpeg4_encode_mb(MpegEncContext *s,
                     DCTELEM block[6][64],
                     int motion_x, int motion_y);
 void h263_encode_picture_header(MpegEncContext *s, int picture_number);
-void ff_flv_encode_picture_header(MpegEncContext *s, int picture_number);
 void h263_encode_gob_header(MpegEncContext * s, int mb_line);
 int16_t *h263_pred_motion(MpegEncContext * s, int block, int dir,
                         int *px, int *py);
@@ -824,14 +823,21 @@ void ff_h263_loop_filter(MpegEncContext * s);
 void ff_set_qscale(MpegEncContext * s, int qscale);
 int ff_h263_decode_mba(MpegEncContext *s);
 void ff_h263_encode_mba(MpegEncContext *s);
+void ff_h263_show_pict_info(MpegEncContext *s);
 
-int intel_h263_decode_picture_header(MpegEncContext *s);
-int flv_h263_decode_picture_header(MpegEncContext *s);
+int ff_intel_h263_decode_picture_header(MpegEncContext *s);
 int ff_h263_decode_mb(MpegEncContext *s,
                       DCTELEM block[6][64]);
 int ff_mpeg4_decode_mb(MpegEncContext *s,
                       DCTELEM block[6][64]);
-int h263_get_picture_format(int width, int height);
+
+/**
+ * Returns the value of the 3bit "source format" syntax element.
+ * that represents some standard picture dimensions or indicates that
+ * width&height are explicitly stored later.
+ */
+int av_const h263_get_picture_format(int width, int height);
+
 void ff_mpeg4_encode_video_packet_header(MpegEncContext *s);
 void ff_mpeg4_clean_buffers(MpegEncContext *s);
 void ff_mpeg4_stuffing(PutBitContext * pbc);
