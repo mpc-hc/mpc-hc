@@ -1,5 +1,5 @@
 #include "cpudetect.h"
-#include "config.h"
+#include "../libswscale/config.h"
 #include <string.h>
 #include "fastmemcpy.h"
 #include "../compiler.h"

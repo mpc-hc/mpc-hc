@@ -2,7 +2,7 @@
 #define __MPLAYER_MEMCPY
 
 #include <stddef.h>
-#include "../config.h"
+#include "../libswscale/config.h"
 #include "../libavutil/internal.h"
 
 #if defined(USE_FASTMEMCPY) && (HAVE_MMX || HAVE_MMX2 || HAVE_AMD3DNOW || HAVE_SSE || HAVE_SSE2)
