@@ -1238,6 +1238,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libswscale\config.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libswscale\isP4HT.c"
 				>
 				<FileConfiguration

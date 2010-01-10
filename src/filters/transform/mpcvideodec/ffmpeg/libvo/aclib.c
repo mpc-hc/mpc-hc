@@ -1,4 +1,4 @@
-#include "config.h"
+#include "../libswscale/config.h"
 #ifdef USE_FASTMEMCPY
 
 /*
@@ -9,7 +9,6 @@
 */
 #include <string.h>
 #include <stddef.h>
-#include "../libswscale/config.h"
 #include "../libavutil/x86_cpu.h"
 #include "../cpudetect.h"
 #include "fastmemcpy.h"
