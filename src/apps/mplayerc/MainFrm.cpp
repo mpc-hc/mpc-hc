@@ -7477,16 +7477,26 @@ void CMainFrame::OnFavoritesAdd()
 		CFavoriteAddDlg dlg(desc, fn);
 		if(dlg.DoModal() != IDOK) return;
 
+		// Name
 		CString str = dlg.m_name;
 		str.Remove(';');
 
+		// RememberPos
 		CString pos(_T("0"));
-		if(dlg.m_fRememberPos)
+		if(dlg.m_bRememberPos)
 			pos.Format(_T("%I64d"), GetPos());
 
 		str += ';';
 		str += pos;
 
+		// RelativeDrive
+		CString relativeDrive;
+		relativeDrive.Format( _T("%d"), dlg.m_bRelativeDrive );
+
+		str += ';';
+		str += relativeDrive;
+
+		// Paths
 		CPlaylistItem pli;
 		if(m_wndPlaylistBar.GetCur(pli))
 		{
@@ -7513,11 +7523,13 @@ void CMainFrame::OnFavoritesAdd()
 		CFavoriteAddDlg dlg(fn, desc);
 		if(dlg.DoModal() != IDOK) return;
 
+		// Name
 		CString str = dlg.m_name;
 		str.Remove(';');
 
+		// RememberPos
 		CString pos(_T("0"));
-		if(dlg.m_fRememberPos)
+		if(dlg.m_bRememberPos)
 		{
 			CDVDStateStream stream;
 			stream.AddRef();
@@ -7535,6 +7547,7 @@ void CMainFrame::OnFavoritesAdd()
 		str += ';';
 		str += pos;
 
+		// Paths
 		str += ';';
 		str += fn;
 
@@ -7591,15 +7604,55 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 	{
 		CAtlList<CString> fns;
 		REFERENCE_TIME rtStart = 0;
+		BOOL bRelativeDrive = FALSE;
 
 		int i = 0, j = 0;
 		for(CString s1 = sl.GetAt(pos), s2 = s1.Tokenize(_T(";"), i); 
 			!s2.IsEmpty(); 
 			s2 = s1.Tokenize(_T(";"), i), j++)
 		{
-			if(j == 0) ; // desc
+			if(j == 0) ; // desc / name
 			else if(j == 1) _stscanf_s(s2, _T("%I64d"), &rtStart); // pos
-			else fns.AddTail(s2); // subs
+			else if(j == 2) _stscanf_s(s2, _T("%d"), &bRelativeDrive); // relative drive
+			else fns.AddTail(s2); // paths
+		}
+
+		// NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
+		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start mpc-hc (from the 500 gb drive) with a preloaded playlist and press play.
+		if ( bRelativeDrive )
+		{
+			// Get the drive mpc-hc is on and apply it to the path list
+			CString exePath;
+			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(MAX_PATH), MAX_PATH );
+			exePath.ReleaseBuffer( dwLength );
+			
+			CPath exeDrive( exePath );
+			
+			if ( exeDrive.StripToRoot() )
+			{
+				POSITION pos = fns.GetHeadPosition();
+
+				while ( pos != NULL )
+				{
+					CString &stringPath = fns.GetNext( pos );
+					CPath path( stringPath );
+
+					int rootLength = path.SkipRoot();
+
+					if ( path.StripToRoot() )
+					{
+						if ( _tcsicmp(exeDrive, path) != 0 ) // Do we need to replace the drive letter ?
+						{
+							// Replace drive letter
+							CString newPath( exeDrive );
+							
+							newPath += stringPath.Mid( rootLength );//newPath += stringPath.Mid( 3 );
+
+							stringPath = newPath;
+						}
+					}
+				}
+			}
 		}
 
 		m_wndPlaylistBar.Open(fns, false);
@@ -10865,17 +10918,30 @@ void CMainFrame::SetupFavoritesSubMenu()
 		str.Replace(_T("\t"), _T(" "));
 
 		CAtlList<CString> sl;
-		Explode(str, sl, ';', 2);
+		Explode(str, sl, ';', 3);
 
 		str = sl.RemoveHead();
 
 		if(!sl.IsEmpty())
 		{
+			// pos
 			REFERENCE_TIME rt = 0;
 			if(1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0)
 			{
 				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
 				str.Format(_T("%s\t[%02d:%02d:%02d]"), CString(str), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+			}
+			
+			// relative drive
+			if ( sl.GetCount() > 1 ) // Here to prevent crash if old favorites settings are present
+			{
+				sl.RemoveHead();
+
+				BOOL bRelativeDrive = FALSE;
+				if ( _stscanf_s(sl.GetHead(), _T("%d"), &bRelativeDrive) == 1 )
+				{
+					str.Format(_T("%s [RD: %s]"), CString(str), bRelativeDrive ? _T("On") : _T("Off"));
+				}
 			}
 		}
 

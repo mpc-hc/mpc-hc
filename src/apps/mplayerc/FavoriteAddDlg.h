@@ -41,7 +41,8 @@ public:
 
 	CComboBox m_namectrl;
 	CString m_name;
-	BOOL m_fRememberPos;
+	BOOL m_bRememberPos;
+	BOOL m_bRelativeDrive;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -51,4 +52,6 @@ protected:
 
 public:
 	afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
+protected:
+	virtual void OnOK();
 };

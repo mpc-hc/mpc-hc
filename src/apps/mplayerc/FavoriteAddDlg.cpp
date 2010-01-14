@@ -33,7 +33,8 @@ CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pPar
 	: CCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
 	, m_shortname(shortname)
 	, m_fullname(fullname)
-	, m_fRememberPos(TRUE)
+	, m_bRememberPos(TRUE)
+	, m_bRelativeDrive(FALSE)
 {
 }
 
@@ -46,18 +47,28 @@ void CFavoriteAddDlg::DoDataExchange(CDataExchange* pDX)
 	__super::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_COMBO1, m_namectrl);
 	DDX_CBString(pDX, IDC_COMBO1, m_name);	
-	DDX_Check(pDX, IDC_CHECK1, m_fRememberPos);
+	DDX_Check(pDX, IDC_CHECK1, m_bRememberPos);
+	DDX_Check(pDX, IDC_CHECK2, m_bRelativeDrive);
 }
 
 BOOL CFavoriteAddDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if(!m_shortname.IsEmpty()) m_namectrl.AddString(m_shortname);
-	if(!m_fullname.IsEmpty()) m_namectrl.AddString(m_fullname);
-	m_namectrl.SetCurSel(0);
+	if ( !m_shortname.IsEmpty() )
+		m_namectrl.AddString( m_shortname );
 
-	::CorrectComboListWidth(m_namectrl, GetFont());
+	if ( !m_fullname.IsEmpty() )
+		m_namectrl.AddString( m_fullname );
+
+	m_namectrl.SetCurSel( 0 );
+
+	::CorrectComboListWidth( m_namectrl, GetFont() );
+
+	m_bRememberPos = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RememberPosition"), TRUE);
+	m_bRelativeDrive = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RelativeDrive"), FALSE);
+
+	UpdateData(FALSE); // Update UI
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -71,8 +82,20 @@ END_MESSAGE_MAP()
 
 // CFavoriteAddDlg message handlers
 
-void CFavoriteAddDlg::OnUpdateOk(CCmdUI* pCmdUI)
+void CFavoriteAddDlg::OnUpdateOk(CCmdUI *pCmdUI)
 {
-	UpdateData();
-	pCmdUI->Enable(!m_name.IsEmpty());
+	UpdateData(); // Retrieve UI values
+
+	pCmdUI->Enable( !m_name.IsEmpty() );
+}
+
+void CFavoriteAddDlg::OnOK()
+{
+	UpdateData(); // Retrieve UI values
+
+	// Remember settings
+	AfxGetApp()->WriteProfileInt(_T("Favorite"), _T("RememberPosition"), m_bRememberPos);
+	AfxGetApp()->WriteProfileInt(_T("Favorite"), _T("RelativeDrive"), m_bRelativeDrive);
+
+	CCmdUIDialog::OnOK();
 }
