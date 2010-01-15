@@ -137,7 +137,11 @@
     #define MEDIAINFODLL_NAME  "libmediainfo.so.0"
     #define __stdcall
 #endif //!defined(_WIN32) || defined (WIN32)
-#include <new> //For size_t in MacOS
+#ifdef __cplusplus
+    #include <new> //For size_t in MacOS
+#else //__cplusplus
+    typedef long size_t
+#endif //__cplusplus
 
 /*-------------------------------------------------------------------------*/
 /*Char types                                                               */

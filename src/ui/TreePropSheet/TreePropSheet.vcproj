@@ -162,6 +162,7 @@
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
 				BufferSecurityCheck="true"
+				UsePrecompiledHeader="0"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool

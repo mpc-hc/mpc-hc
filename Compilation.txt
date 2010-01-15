@@ -28,7 +28,8 @@ An easy to use custom installer for MinGW32 can be downloaded here:
 http://sourceforge.net/projects/ffdshow-tryout/files/Tools/
 
 This installer includes a full MinGW32 environment, including MSYS and YASM.
-It also automatically adds the required CC/MING32/MSYS environment variables, so there is no need to create them manually.
+It also automatically adds the required CC/MING32/MSYS environment variables,
+so there is no need to create them manually.
 
 
 ### Additional requirements for 64-bit build ###
@@ -39,7 +40,8 @@ http://sourceforge.net/projects/mingw-w64/files/
 
 ### Lib files ###
 
-* x86: Copy the following two files from the MinGW32 lib directory to the lib directory of the source code:
+* x86: Copy the following two files from the MinGW32 lib directory to the lib
+directory of the source code:
 libgcc.a
 libmingwex.a
 
@@ -68,7 +70,8 @@ This assumes you have TortoiseSVN installed.
 
 ### Configuring Visual Studio ###
 
-You need to add the locations of the DirectX SDK directories to the settings in Visual Studio. This is usually already done automatically by the DirectX SDK installer.
+You need to add the locations of the DirectX SDK directories to the settings in Visual Studio.
+This is usually already done automatically by the DirectX SDK installer.
 
 1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
 2) Add the location of the Include directory of the latest DirectX SDK.
@@ -79,7 +82,7 @@ You need to add the locations of the DirectX SDK directories to the settings in 
  
 ### Integration of Windows 7 SDK (Optional) ###
 
-To build Mpc-hc with Windows 7 SDK follow thoses steps :
+To build MPC-HC with Windows 7 SDK follow these steps:
 
 1) Download and install Windows 7 SDK from Microsoft website (http://www.microsoft.com/downloads/details.aspx?FamilyID=71deb800-c591-4f97-a900-bea146e4fae1&displaylang=en)
 2) Open regional settings, and set it to English (see this link for explanations : http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx)
