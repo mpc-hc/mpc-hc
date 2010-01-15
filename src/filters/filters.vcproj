@@ -58,7 +58,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
+				OutputFile="..\..\lib\$(ProjectName)DU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
