@@ -637,10 +637,10 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
             
 		  // ==> Start patch MPC
 		  case AP4_ATOM_TYPE_DCOM:
-			atom = AP4_DcomAtom::Create(size, stream);
+			atom = AP4_DcomAtom::Create((unsigned long)size, stream);
 			break;
 		  case AP4_ATOM_TYPE_CMVD:
-			  atom = AP4_CmvdAtom::Create(size, stream, *this);
+			  atom = AP4_CmvdAtom::Create((unsigned long)size, stream, *this);
 			  break;
 		  // <== End patch MPC
 
