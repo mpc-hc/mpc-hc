@@ -961,7 +961,11 @@ BOOL CMPlayerCApp::InitInstance()
 
 	CMainFrame* pFrame = DNew CMainFrame;
 	m_pMainWnd = pFrame;
-	pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW|FWS_ADDTOTITLE, NULL, NULL);
+	if ( !pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW|FWS_ADDTOTITLE, NULL, NULL) )
+	{
+		AfxMessageBox(_T("CMainFrame::LoadFrame failed!"));
+		return FALSE;
+	}
 	pFrame->SetDefaultWindowRect((m_s.nCLSwitches&CLSW_MONITOR)?m_s.iMonitor:0);
 	pFrame->RestoreFloatingControlBars();
 	pFrame->SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);
@@ -3221,34 +3225,38 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	AppSettings&	s = AfxGetAppSettings();
 	HMODULE		hMod = NULL;
 	LPCTSTR		strSatellite;
-	bool		bNoChange = false;
 
-	s.iLanguage  = nLanguage;
-	strSatellite = GetSatelliteDll(nLanguage);
-	if (strSatellite)
+	strSatellite = GetSatelliteDll( nLanguage );
+	if ( strSatellite )
 	{
 		CFileVersionInfo	Version;
 		CString				strSatVersion;
-		Version.Create (strSatellite);
-		strSatVersion = Version.GetFileVersionEx();
 
-		if (strSatVersion == _T("1.3.0.0"))
-			hMod = LoadLibrary (strSatellite);
-		else
+		if ( Version.Create(strSatellite) )
 		{
-			bNoChange = true;
-			// This message should stay in english!
-			MessageBox (NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."), 
-							  _T("Media Player Classic - Home Cinema"), MB_OK);
+			strSatVersion = Version.GetFileVersionEx();
+
+			if ( strSatVersion == _T("1.3.0.0") )
+			{
+				hMod = LoadLibrary( strSatellite );
+				s.iLanguage = nLanguage;
+			}
+			else
+			{
+				// This message should stay in english!
+				MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."), 
+								 _T("Media Player Classic - Home Cinema"), MB_OK);
+			}
 		}
 	}
 
-	if (!hMod) 
+	if ( hMod == NULL )
 	{
 		hMod = AfxGetApp()->m_hInstance;
-		if (!bNoChange) s.iLanguage = 0;
+		s.iLanguage = 0;
 	}
-	AfxSetResourceHandle(hMod);
+
+	AfxSetResourceHandle( hMod );
 }
 
 

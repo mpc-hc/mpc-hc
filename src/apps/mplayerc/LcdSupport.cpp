@@ -220,7 +220,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	hBmp[PS_STOP]  = CreateBitmap( 8, 7, 1, 1, bStop);
 
 	InitializeCriticalSection(&cs);
-	hLCD_UpdateThread = 0;
+	hLCD_UpdateThread = NULL;
 
 	// lcd init
 	ZeroMemory(&m_ConnCtx, sizeof(m_ConnCtx));
@@ -259,8 +259,14 @@ CMPC_Lcd::CMPC_Lcd(void)
 /* detach from lcd */
 CMPC_Lcd::~CMPC_Lcd(void)
 {
-	Thread_Loop = false;
-	WaitForSingleObject(hLCD_UpdateThread, LCD_UPD_TIMER * 2 /* timeout */);
+	if ( m_Output.IsOpened() )
+	{
+		Thread_Loop = false;
+		WaitForSingleObject( hLCD_UpdateThread, LCD_UPD_TIMER * 2 /* timeout */ );
+		hLCD_UpdateThread = NULL;
+	}
+
+	DeleteCriticalSection( &cs );
 
 	m_Output.Shutdown();
 }

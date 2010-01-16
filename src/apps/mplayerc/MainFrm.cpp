@@ -506,7 +506,8 @@ CMainFrame::CMainFrame() :
 	m_rtStepForwardStart(0),
 	m_bToggleShaderScreenSpace(false),
 	m_bInOptions(false),
-	m_pTaskbarList(NULL)
+	m_pTaskbarList(NULL),
+	m_pGraphThread(NULL)
 {
 	m_Lcd.SetVolumeRange(1, 100);
 }
@@ -514,7 +515,7 @@ CMainFrame::CMainFrame() :
 CMainFrame::~CMainFrame()
 {
 //	m_owner.DestroyWindow();
-	delete m_pFullscreenWnd;
+	//delete m_pFullscreenWnd; // double delete see CMainFrame::OnDestroy
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -654,23 +655,25 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CMainFrame::OnDestroy()
 {
-	ShowTrayIcon(false);
+	ShowTrayIcon( false );
 
 	m_fileDropTarget.Revoke();
 
-	if(m_pGraphThread)
+	if ( m_pGraphThread )
 	{
 		CAMEvent e;
-		m_pGraphThread->PostThreadMessage(CGraphThread::TM_EXIT, 0, (LPARAM)&e);
-		if(!e.Wait(5000))
+		m_pGraphThread->PostThreadMessage( CGraphThread::TM_EXIT, 0, (LPARAM)&e );
+		if( !e.Wait(5000) )
 		{
 			TRACE(_T("ERROR: Must call TerminateThread() on CMainFrame::m_pGraphThread->m_hThread\n")); 
-			TerminateThread(m_pGraphThread->m_hThread, -1);
+			TerminateThread( m_pGraphThread->m_hThread, -1 );
 		}
 	}
-	if (m_pFullscreenWnd->IsWindow())
+
+	if ( m_pFullscreenWnd )
 	{
-		m_pFullscreenWnd->DestroyWindow();
+		if ( m_pFullscreenWnd->IsWindow() )
+			m_pFullscreenWnd->DestroyWindow();
 		delete m_pFullscreenWnd;
 	}
 
