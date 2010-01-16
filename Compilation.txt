@@ -9,9 +9,8 @@ http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 
-* Microsoft Windows SDK 2008
-http://www.microsoft.com/downloads/details.aspx?FamilyID=e6e1c3df-a74f-4207-8586-711ebe331cdc&displaylang=en
-* You need to apply moreuuids.patch from svn.
+* Microsoft Windows SDK for Windows 7
+http://www.microsoft.com/downloads/details.aspx?familyid=C17BA869-9671-4330-A63E-1FD44E0E2505&displaylang=en
 
 * Visual Studio 2008 Service Pack 1 ATL Security Update
 http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb

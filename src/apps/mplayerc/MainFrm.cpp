@@ -8065,13 +8065,13 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                 double MediaFPS = 10000000.0 / m_rtTimePerFrame;
                 dispmode dm1=dm;
                 dm1.freq = (int)(MediaFPS + 0.5);
-                m_dmBeforeFullscreen.fValid=false; // пока не ясно будет смена параметров или нет
+                m_dmBeforeFullscreen.fValid=false;
                 if (dm.freq == -1)      
 				{
                     if (dm1.freq == 24 || dm1.freq == 25 || dm1.freq == 30) 
 					{ 
                         SetDispMode(dm1, s.f_hmonitor);
-                        m_dmBeforeFullscreen.fValid=true; //смена параметров была 
+                        m_dmBeforeFullscreen.fValid=true;
 					}
 				}
                 if (dm.freq == -2)      
@@ -8081,7 +8081,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
                         if (dm1.freq == 25) dm1.freq = 50;
                         if (dm1.freq == 30) dm1.freq = 60;
                         SetDispMode(dm1, s.f_hmonitor);
-                        m_dmBeforeFullscreen.fValid=true; //смена параметров была 
+                        m_dmBeforeFullscreen.fValid=true;
 					}
 				}
 			}
