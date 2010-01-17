@@ -1736,6 +1736,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\tb_pause_16.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\tb_play_16.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\tb_stop_16.ico"
+				>
+			</File>
+			<File
 				RelativePath="res\toolbar1.bmp"
 				>
 			</File>

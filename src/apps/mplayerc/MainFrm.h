@@ -50,7 +50,7 @@
 #include "RealMediaGraph.h"
 #ifdef _WIN64
 // TODOX64 : add QuickTime support when available!
-#pragma message ("No support for Quick Time for X64 yet!")
+#pragma message ("No support for QuickTime for X64 yet!")
 #else /* _WIN64 */
 #include "QuicktimeGraph.h"
 #endif /* _WIN64 */
