@@ -1553,7 +1553,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOZOOM, fRememberZoomLevel);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLS, fShowBarsWhenFullScreen);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLSTIMEOUT, nShowBarsWhenFullScreenTimeOut);
-		pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&dmFullscreenRes, sizeof(dmFullscreenRes));
+		pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, fRememberWindowPos);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, fRememberWindowSize);
@@ -2007,12 +2007,12 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		if(pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len))
 		{
-			memcpy(&dmFullscreenRes, ptr, sizeof(dmFullscreenRes));
+			memcpy(&AutoChangeFullscrRes, ptr, sizeof(AutoChangeFullscrRes));
 			delete [] ptr;
 		}
 		else
 		{
-			dmFullscreenRes.fValid = false;
+			AutoChangeFullscrRes.bEnabled = false;
 		}
 
 		fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, 1);
@@ -2766,7 +2766,9 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 void SetDispMode(dispmode& dm, CString& DisplayName)
 {
 	if(!dm.fValid) return;
- 
+	dispmode dm1;
+	GetCurDispMode(dm1, DisplayName);
+	if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) return; 
 	DEVMODE dmScreenSettings;
 	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 	dmScreenSettings.dmSize = sizeof(dmScreenSettings);

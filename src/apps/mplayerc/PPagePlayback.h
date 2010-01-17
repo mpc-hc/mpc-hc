@@ -49,17 +49,11 @@ public:
 	BOOL m_fRewind;
 	int m_iZoomLevel;
 	BOOL m_iRememberZoomLevel;
-	BOOL m_fSetFullscreenRes;
-	CComboBox m_dispmodecombo;
 	BOOL m_fAutoloadAudio;
 	BOOL m_fAutoloadSubtitles;
 	BOOL m_fEnableWorkerThreadForOpening;
 	BOOL m_fReportFailedPins;
 	
-	dispmode m_dmFullscreenRes;
-	CStringW m_f_hmonitor;
-	int m_iMonitorType;
-	CComboBox m_iMonitorTypeCtrl;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYBACK };
@@ -77,7 +71,4 @@ public:
 	afx_msg void OnBnClickedRadio12(UINT nID);
 	afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateDispModeCombo(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateFullScrCombo();
-	void ModesUpdate();
 };

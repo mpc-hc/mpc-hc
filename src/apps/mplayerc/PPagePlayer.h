@@ -40,19 +40,14 @@ public:
 	int m_iTitleBarTextStyle;
 	BOOL m_bTitleBarTextTitle;
 	BOOL m_iAlwaysOnTop;
-	BOOL m_iShowBarsWhenFullScreen;
-	int m_nShowBarsWhenFullScreenTimeOut;
-	BOOL m_fExitFullScreenAtTheEnd;
 	BOOL m_fRememberWindowPos;
 	BOOL m_fRememberWindowSize;
 	BOOL m_fSnapToDesktopEdges;
 	BOOL m_fUseIni;
-	CSpinButtonCtrl m_nTimeOutCtrl;
 	BOOL m_fTrayIcon;
 	BOOL m_fKeepHistory;
 	BOOL m_fHideCDROMsSubMenu;
 	BOOL m_priority;
-	BOOL m_launchfullscreen;
 	BOOL m_fShowOSD;
 
 // Dialog Data

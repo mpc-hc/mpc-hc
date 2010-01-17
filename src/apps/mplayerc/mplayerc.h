@@ -314,6 +314,14 @@ typedef struct
 	int bpp, freq;
 	DWORD dmDisplayFlags;
 } dispmode;
+typedef struct
+{
+	bool bEnabled;
+	dispmode dmFullscreenRes24Hz;
+	dispmode dmFullscreenRes25Hz;
+	dispmode dmFullscreenRes30Hz;
+	dispmode dmFullscreenResOther;
+}	AChFR; //AutoChangeFullscrRes
 
 class wmcmd : public ACCEL
 {
@@ -640,7 +648,7 @@ public:
 		bool fRememberZoomLevel;
 		bool fShowBarsWhenFullScreen;
 		int nShowBarsWhenFullScreenTimeOut;
-		dispmode dmFullscreenRes;
+		AChFR AutoChangeFullscrRes;
 		bool fExitFullScreenAtTheEnd;
 		bool fRememberWindowPos;
 		bool fRememberWindowSize;

@@ -817,6 +817,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PPageFullscreen.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PPageInternalFilters.cpp"
 				>
 			</File>
@@ -1363,6 +1367,10 @@
 			</File>
 			<File
 				RelativePath="PPageFormats.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PPageFullscreen.h"
 				>
 			</File>
 			<File

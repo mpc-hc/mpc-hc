@@ -8033,67 +8033,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		if((AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		
 		GetWindowRect(&m_lastWindowRect);
-
-		dispmode& dm = AfxGetAppSettings().dmFullscreenRes;
-		m_dmBeforeFullscreen.fValid = false;
-
-		if(dm.fValid && fSwitchScreenResWhenHasTo)
-		{
-			GetCurDispMode(m_dmBeforeFullscreen, s.f_hmonitor);
-			// If not AUTO-HDMI mode
-			if (dm.freq > 0)
-			{
-				SetDispMode(dm, s.f_hmonitor);
-			}
-			// If AUTO-HDMI mode
-			else
-			{
-				LONGLONG m_rtTimePerFrame = 1;
-                // if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0, 
-                // dm1.freq=10000000 and SetDispMode isn't executed too.
-                BeginEnumFilters(pGB, pEF, pBF)
-				{
-					BeginEnumPins(pBF, pEP, pPin)
-					{
-                        CMediaTypeEx mt;
-                        PIN_DIRECTION dir;
-                        if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
-                           || FAILED(pPin->ConnectionMediaType(&mt))) continue;
-                        ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
-                        if (m_rtTimePerFrame == 0) m_rtTimePerFrame=1;
-					}
-					EndEnumPins
-				}
-                EndEnumFilters
-                double MediaFPS = 10000000.0 / m_rtTimePerFrame;
-                dispmode dm1=dm;
-                dm1.freq = (int)(MediaFPS + 0.5);
-                m_dmBeforeFullscreen.fValid=false;
-                if (dm.freq == -1)      
-				{
-                    if (dm1.freq == 24 || dm1.freq == 25 || dm1.freq == 30) 
-					{ 
-                        SetDispMode(dm1, s.f_hmonitor);
-                        m_dmBeforeFullscreen.fValid=true;
-					}
-				}
-                if (dm.freq == -2)      
-				{
-                    if (dm1.freq == 24 || dm1.freq == 25 || dm1.freq == 30) 
-					{ 
-                        if (dm1.freq == 25) dm1.freq = 50;
-                        if (dm1.freq == 30) dm1.freq = 60;
-                        SetDispMode(dm1, s.f_hmonitor);
-                        m_dmBeforeFullscreen.fValid=true;
-					}
-				}
-			}
-		}
-
-
+		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) AutoChangeMonitorMode();
+		
 		CString str;
 		CMonitor monitor;
-		
 		if(s.f_hmonitor == _T("Current"))
 		{
 			hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
@@ -8124,8 +8067,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	}
 	else
 	{
-		if(m_dmBeforeFullscreen.fValid)
-			SetDispMode(m_dmBeforeFullscreen, s.f_hmonitor);
+		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled)
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
 
 		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION) | WS_THICKFRAME;
 		r = m_lastWindowRect;
@@ -8204,6 +8147,45 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		SetShaders();
 	}
 }
+		
+void CMainFrame::AutoChangeMonitorMode()
+{
+	CStringW mf_hmonitor = AfxGetAppSettings().f_hmonitor;
+
+	LONGLONG m_rtTimePerFrame = 1;
+	// if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
+	// (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
+	BeginEnumFilters(pGB, pEF, pBF)
+	{
+		BeginEnumPins(pBF, pEP, pPin)
+		{
+			CMediaTypeEx mt;
+			PIN_DIRECTION dir;
+			if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
+				|| FAILED(pPin->ConnectionMediaType(&mt))) continue;
+			ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
+			if (m_rtTimePerFrame == 0) m_rtTimePerFrame=1;
+		}
+		EndEnumPins
+	}
+	EndEnumFilters
+	double MediaFPS = 10000000.0 / m_rtTimePerFrame;
+	switch ((int)(MediaFPS + 0.5))
+	{
+		case 24 :
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor);
+			break;
+		case 25 :
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor);
+			break;
+		case 30 :
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor);	
+			break;
+		default:
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor);
+	}
+}
+
 
 void CMainFrame::MoveVideoWindow(bool fShowStats)
 {
@@ -9896,7 +9878,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			s.rtShift = 0;
 		}
 	}
-
+	
+	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode(); 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
 	return(err.IsEmpty());

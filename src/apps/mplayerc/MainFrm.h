@@ -391,6 +391,7 @@ protected:
 	// void OpenSetupToolBar();
 	void OpenSetupCaptureBar();
 	void OpenSetupWindowTitle(CString fn = _T(""));
+	void AutoChangeMonitorMode(); 
 
 	friend class CGraphThread;
 	CGraphThread* m_pGraphThread;

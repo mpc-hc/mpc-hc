@@ -35,11 +35,8 @@ CPPagePlayer::CPPagePlayer()
 	, m_iAllowMultipleInst(0)
 	, m_iAlwaysOnTop(FALSE)
 	, m_fTrayIcon(FALSE)
-	, m_iShowBarsWhenFullScreen(FALSE)
-	, m_nShowBarsWhenFullScreenTimeOut(0)
 	, m_iTitleBarTextStyle(0)
 	, m_bTitleBarTextTitle(0)
-	, m_fExitFullScreenAtTheEnd(FALSE)
 	, m_fRememberWindowPos(FALSE)
 	, m_fRememberWindowSize(FALSE)
 	, m_fSnapToDesktopEdges(FALSE)
@@ -47,7 +44,6 @@ CPPagePlayer::CPPagePlayer()
 	, m_fKeepHistory(FALSE)
 	, m_fHideCDROMsSubMenu(FALSE)
 	, m_priority(FALSE)
-	, m_launchfullscreen(FALSE)
 	, m_fShowOSD(FALSE)
 {
 }
@@ -64,27 +60,18 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK13, m_bTitleBarTextTitle);
 	DDX_Check(pDX, IDC_CHECK2, m_iAlwaysOnTop);
 	DDX_Check(pDX, IDC_CHECK3, m_fTrayIcon);
-	DDX_Check(pDX, IDC_CHECK4, m_iShowBarsWhenFullScreen);
-	DDX_Text(pDX, IDC_EDIT1, m_nShowBarsWhenFullScreenTimeOut);
-	DDX_Check(pDX, IDC_CHECK5, m_fExitFullScreenAtTheEnd);
 	DDX_Check(pDX, IDC_CHECK6, m_fRememberWindowPos);
 	DDX_Check(pDX, IDC_CHECK7, m_fRememberWindowSize);
 	DDX_Check(pDX, IDC_CHECK12, m_fSnapToDesktopEdges);	
 	DDX_Check(pDX, IDC_CHECK8, m_fUseIni);
-	DDX_Control(pDX, IDC_SPIN1, m_nTimeOutCtrl);
 	DDX_Check(pDX, IDC_CHECK1, m_fKeepHistory);
 	DDX_Check(pDX, IDC_CHECK10, m_fHideCDROMsSubMenu);
 	DDX_Check(pDX, IDC_CHECK9, m_priority);
-	DDX_Check(pDX, IDC_CHECK11, m_launchfullscreen);
 	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
 	ON_BN_CLICKED(IDC_CHECK8, OnBnClickedCheck8)
-	ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateTimeout)
-	ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateTimeout)
-	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateTimeout)
-	ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateTimeout)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK13, OnUpdateCheck13)
 END_MESSAGE_MAP()
 
@@ -101,10 +88,6 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_bTitleBarTextTitle = s.fTitleBarTextTitle;
 	m_iAlwaysOnTop = s.iOnTop;
 	m_fTrayIcon = s.fTrayIcon;
-	m_iShowBarsWhenFullScreen = s.fShowBarsWhenFullScreen;
-	m_nShowBarsWhenFullScreenTimeOut = s.nShowBarsWhenFullScreenTimeOut;
-	m_nTimeOutCtrl.SetRange(-1, 10);
-	m_fExitFullScreenAtTheEnd = s.fExitFullScreenAtTheEnd;
 	m_fRememberWindowPos = s.fRememberWindowPos;
 	m_fRememberWindowSize = s.fRememberWindowSize;
 	m_fSnapToDesktopEdges = s.fSnapToDesktopEdges;
@@ -112,7 +95,6 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fKeepHistory = s.fKeepHistory;
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
 	m_priority = s.priority != NORMAL_PRIORITY_CLASS;
-	m_launchfullscreen = s.launchfullscreen;
 	m_fShowOSD = s.fShowOSD;
 
 	UpdateData(FALSE);
@@ -132,16 +114,12 @@ BOOL CPPagePlayer::OnApply()
 	s.fTitleBarTextTitle = !!m_bTitleBarTextTitle;
 	s.iOnTop = m_iAlwaysOnTop;
 	s.fTrayIcon = !!m_fTrayIcon;
-	s.fShowBarsWhenFullScreen = !!m_iShowBarsWhenFullScreen;
-	s.nShowBarsWhenFullScreenTimeOut = m_nShowBarsWhenFullScreenTimeOut;
-	s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;
 	s.fRememberWindowPos = !!m_fRememberWindowPos;
 	s.fRememberWindowSize = !!m_fRememberWindowSize;
 	s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
 	s.fKeepHistory = !!m_fKeepHistory;
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
 	s.priority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
-	s.launchfullscreen = !!m_launchfullscreen;
 	s.fShowOSD = !!m_fShowOSD;
 
 	if(!m_fKeepHistory)
@@ -167,13 +145,6 @@ void CPPagePlayer::OnBnClickedCheck8()
 	else ((CMPlayerCApp*)AfxGetApp())->StoreSettingsToRegistry();
 
 	SetModified();
-}
-
-void CPPagePlayer::OnUpdateTimeout(CCmdUI* pCmdUI)
-{
-	UpdateData();
-
-	pCmdUI->Enable(m_iShowBarsWhenFullScreen);
 }
 
 void CPPagePlayer::OnUpdateCheck13(CCmdUI* pCmdUI)
