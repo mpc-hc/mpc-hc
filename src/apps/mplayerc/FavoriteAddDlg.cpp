@@ -61,14 +61,14 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 	if ( !m_fullname.IsEmpty() )
 		m_namectrl.AddString( m_fullname );
 
-	m_namectrl.SetCurSel( 0 );
-
 	::CorrectComboListWidth( m_namectrl, GetFont() );
 
 	m_bRememberPos = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RememberPosition"), TRUE);
 	m_bRelativeDrive = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RelativeDrive"), FALSE);
 
 	UpdateData(FALSE); // Update UI
+
+	m_namectrl.SetCurSel( 0 );
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

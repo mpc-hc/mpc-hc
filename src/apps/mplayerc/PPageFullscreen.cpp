@@ -1,5 +1,5 @@
 /*
- * $Id: PPageFullScreen.cpp 1457 2010-01-11 03:13:59Z X-Dron $
+ * $Id$
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
