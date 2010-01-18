@@ -36,6 +36,7 @@ CPPageFullscreen::CPPageFullscreen()
 		: CPPageBase(CPPageFullscreen::IDD, CPPageFullscreen::IDD)
 		, m_launchfullscreen(FALSE)
 		, m_fSetFullscreenRes(FALSE)
+		, m_fSetDefault(FALSE)
 		, m_iShowBarsWhenFullScreen(FALSE)
 		, m_nShowBarsWhenFullScreenTimeOut(0)
 		, m_fExitFullScreenAtTheEnd(FALSE)
@@ -51,6 +52,7 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
 		__super::DoDataExchange(pDX);
 		DDX_Check(pDX, IDC_CHECK1, m_launchfullscreen);
 		DDX_Check(pDX, IDC_CHECK2, m_fSetFullscreenRes);
+		DDX_Check(pDX, IDC_CHECK3, m_fSetDefault);
 		DDX_CBIndex(pDX, IDC_COMBO1, m_iMonitorType);
 		DDX_Control(pDX, IDC_COMBO1, m_iMonitorTypeCtrl);
 		DDX_Control(pDX, IDC_COMBO2, m_dispmode24combo);
@@ -70,6 +72,7 @@ BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
 		ON_UPDATE_COMMAND_UI(IDC_COMBO3, OnUpdateDispMode25Combo)
 		ON_UPDATE_COMMAND_UI(IDC_COMBO4, OnUpdateDispMode30Combo)
 		ON_UPDATE_COMMAND_UI(IDC_COMBO5, OnUpdateDispModeOtherCombo)
+		ON_UPDATE_COMMAND_UI(IDC_CHECK3 ,OnUpdateApplyDefault)
 		ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateTimeout)
 		ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateTimeout)
 END_MESSAGE_MAP()
@@ -84,6 +87,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 
 		m_launchfullscreen = s.launchfullscreen;
 		m_AutoChangeFullscrRes = s.AutoChangeFullscrRes;
+		m_fSetDefault = s.AutoChangeFullscrRes.bApplyDefault;
 		m_f_hmonitor = s.f_hmonitor;
 		m_iShowBarsWhenFullScreen = s.fShowBarsWhenFullScreen;
 		m_nShowBarsWhenFullScreenTimeOut = s.nShowBarsWhenFullScreenTimeOut;
@@ -167,6 +171,7 @@ BOOL CPPageFullscreen::OnApply()
 			if(iSel_Other >= 0 && iSel_Other < m_dms.GetCount())
 				m_AutoChangeFullscrRes.dmFullscreenResOther = m_dms[m_dispmodeOthercombo.GetCurSel()];
 		}
+		m_AutoChangeFullscrRes.bApplyDefault = m_fSetDefault;
 		s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;			
 		s.launchfullscreen = !!m_launchfullscreen;
 		s.f_hmonitor =  m_f_hmonitor;
@@ -198,6 +203,10 @@ void CPPageFullscreen::OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI)
 		pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
 }
 
+void CPPageFullscreen::OnUpdateApplyDefault(CCmdUI* pCmdUI)
+{
+		pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
+}
 void CPPageFullscreen::OnUpdateFullScrCombo()
 {
 		CMonitors monitors;

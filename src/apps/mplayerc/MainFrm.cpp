@@ -8067,7 +8067,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	}
 	else
 	{
-		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled)
+		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && AfxGetAppSettings().AutoChangeFullscrRes.bApplyDefault)
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
 
 		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION) | WS_THICKFRAME;
