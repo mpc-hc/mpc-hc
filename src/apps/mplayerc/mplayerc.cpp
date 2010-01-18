@@ -2005,9 +2005,12 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		// Last Open Dir
 		f_lastOpenDir = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, _T("C:\\"));
 
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len))
+		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len) )
 		{
-			memcpy(&AutoChangeFullscrRes, ptr, sizeof(AutoChangeFullscrRes));
+			if ( len == sizeof(AChFR) )
+				memcpy( &AutoChangeFullscrRes, ptr, sizeof(AChFR) );
+			else
+				AutoChangeFullscrRes.bEnabled = false;
 			delete [] ptr;
 		}
 		else
@@ -2022,9 +2025,12 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		AspectRatio.cx = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_X, 0);
 		AspectRatio.cy = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, 0);
 		fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, 1);
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len))
+		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len) )
 		{
-			memcpy(&rcLastWindowPos, ptr, sizeof(rcLastWindowPos));
+			if ( len == sizeof(CRect) )
+				memcpy( &rcLastWindowPos, ptr, sizeof(CRect) );
+			else
+				fRememberWindowPos = false;
 			delete [] ptr;
 		}
 		else
@@ -2062,10 +2068,11 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		tAudioTimeShift = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOTIMESHIFT, 0);
 		fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, 0);
 		fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, 0);
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, &ptr, &len))
+		
+		BOOL bResult = pApp->GetProfileBinary( IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, &ptr, &len );
+		if ( bResult && len == sizeof(pSpeakerToChannelMap) )
 		{
-			memcpy(pSpeakerToChannelMap, ptr, sizeof(pSpeakerToChannelMap));
-			delete [] ptr;
+			memcpy( pSpeakerToChannelMap, ptr, sizeof(pSpeakerToChannelMap) );
 		}
 		else
 		{
@@ -2091,6 +2098,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 			pSpeakerToChannelMap[4][4] = 1<<3;
 			pSpeakerToChannelMap[4][5] = 1<<4;
 		}
+		if ( bResult )
+			delete [] ptr;
 
 		fAudioNormalize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, FALSE);
 		fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
