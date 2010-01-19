@@ -4901,7 +4901,7 @@ void CMainFrame::OnUpdateFileISDBUpload(CCmdUI *pCmdUI)
 void CMainFrame::OnFileISDBDownload()
 {
 	filehash fh;
-	if(!hash(m_wndPlaylistBar.GetCur(), fh))
+	if(!::hash((CString)m_wndPlaylistBar.GetCur(), fh));
 	{
 		MessageBeep(-1);
 		return;
