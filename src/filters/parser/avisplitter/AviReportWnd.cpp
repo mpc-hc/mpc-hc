@@ -297,7 +297,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 			{
 				if(p.x >= 0 && p.x < w)
 				{
-					int dist = abs((int)cs2min.n - (int)cs2last.n);;
+					int dist = abs((int)cs2min.n - (int)cs2last.n);
 				}
 			}
 
