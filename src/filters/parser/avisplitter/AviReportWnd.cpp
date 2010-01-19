@@ -291,13 +291,13 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 				pp[n] = p;
 			}
 
-			int dist = abs(cs2min.n - cs2last.n);
+			int dist = abs((int)cs2min.n - (int)cs2last.n);
 
 			if(cs2last.t >= 0 /*&& dist >= 1000*/)
 			{
 				if(p.x >= 0 && p.x < w)
 				{
-					int dist = abs((int)cs2min.n - (int)cs2last.n);
+					m_chunkdist[p.x] = max(m_chunkdist[p.x], dist);
 				}
 			}
 
