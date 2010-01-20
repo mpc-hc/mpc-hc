@@ -82,9 +82,10 @@ protected:
 	int										m_nErrorRecognition;
 	int										m_nIDCTAlgo;
 	bool									m_bDXVACompatible;
-	int										m_nCompatibilityMode;
+	//int										m_nCompatibilityMode;
 	int										m_nActiveCodecs;
 	int										m_nARMode;
+	int										m_nDXVACheckCompatibility;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -208,6 +209,8 @@ public:
 	STDMETHOD(SetARMode(int nValue));
 	STDMETHOD_(int, GetARMode());
 
+	STDMETHOD(SetDXVACheckCompatibility(int nValue));
+	STDMETHOD_(int, GetDXVACheckCompatibility());
 
 
 	// === DXVA common functions

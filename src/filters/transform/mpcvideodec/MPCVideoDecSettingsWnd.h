@@ -49,6 +49,9 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 
 	CButton		m_cbARMode;
 
+	CStatic		m_txtDXVACompatibilityCheck;
+	CComboBox	m_cbDXVACompatibilityCheck;
+
 	enum 
 	{
 		IDC_PP_THREAD_NUMBER = 10000,
@@ -56,6 +59,7 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 		IDC_PP_DISCARD_MODE,
 		IDC_PP_ERROR_RECOGNITION,
 		IDC_PP_AR,
+		IDC_PP_DXVA_CHECK
 	};
 
 public:

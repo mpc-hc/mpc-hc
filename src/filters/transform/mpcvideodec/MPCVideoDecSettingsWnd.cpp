@@ -144,6 +144,15 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
 
+	// DXVA Compatibility check
+	nPosY += VERTICAL_SPACING;
+	m_txtDXVACompatibilityCheck.Create (ResStr (IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
+	m_cbDXVACompatibilityCheck.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DXVA_CHECK);
+	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_FULLCHECK));
+	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_REFONLY));
+	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_SARONLY));
+	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_NOCHECK));
+
 	// DXVA mode
 	nPosY += VERTICAL_SPACING;
 	m_txtDXVAMode.Create (ResStr (IDS_VDF_DXVA_MODE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 120, nPosY+15), this, IDC_STATIC);
@@ -182,6 +191,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 
 		m_cbARMode.SetCheck(m_pMDF->GetARMode());
+
+		m_cbDXVACompatibilityCheck.SetCurSel(m_pMDF->GetDXVACheckCompatibility());
 	}
 	#endif
 
@@ -207,6 +218,8 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
 		
 		m_pMDF->SetARMode(m_cbARMode.GetCheck());
+
+		m_pMDF->SetDXVACheckCompatibility(m_cbDXVACompatibilityCheck.GetCurSel());
 
 		m_pMDF->Apply();
 	}

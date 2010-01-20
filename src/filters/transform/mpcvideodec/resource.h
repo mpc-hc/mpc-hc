@@ -27,6 +27,11 @@
 #define IDS_VDF_VIDEOCARD				33194
 #define IDS_VDF_AR_MODE					33211
 
+#define	IDS_VDF_DXVACOMPATIBILITY	41100
+#define	IDS_VDF_DXVA_FULLCHECK		41101
+#define	IDS_VDF_DXVA_REFONLY			41102
+#define	IDS_VDF_DXVA_SARONLY			41103
+#define	IDS_VDF_DXVA_NOCHECK			41104
 
 // Next default values for new objects
 // 
