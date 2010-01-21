@@ -169,7 +169,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	if (DxvaGui != NULL)
 	{
 		CString DXVAMode = GetDXVAMode (DxvaGui);
-		m_edtDXVAMode.SetWindowText (/*GetDXVAMode (DxvaGui)*/DXVAMode);
+		m_edtDXVAMode.SetWindowText (DXVAMode);
 	}
 	else
 	{

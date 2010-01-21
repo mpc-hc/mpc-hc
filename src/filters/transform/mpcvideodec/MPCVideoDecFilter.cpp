@@ -577,7 +577,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nErrorRecognition		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
 	m_bDXVACompatible		= true;
-	//m_nCompatibilityMode	= 0;
 	m_pFFBuffer				= NULL;
 	m_nFFBufferSize			= 0;
 	m_nWidth				= 0;
@@ -606,11 +605,12 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DiscardMode"), dw)) m_nDiscardMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ErrorRecognition"), dw)) m_nErrorRecognition = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("IDCTAlgo"), dw)) m_nIDCTAlgo = dw;
-		//if(ERROR_SUCCESS == key.QueryDWORDValue(_T("CompatibilityMode"), dw)) m_nCompatibilityMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ARMode"), dw)) m_nARMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DXVACheckCompatibility"), dw)) m_nDXVACheckCompatibility = dw;
 	}
+
+	if(m_nDXVACheckCompatibility>3) m_nDXVACheckCompatibility = 0;
 
 	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
 	ff_avcodec_default_release_buffer	= avcodec_default_release_buffer;

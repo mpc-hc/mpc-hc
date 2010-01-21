@@ -94,10 +94,8 @@ BOOL CPPageFullscreen::OnInitDialog()
 		m_nTimeOutCtrl.SetRange(-1, 10);
 		m_fExitFullScreenAtTheEnd = s.fExitFullScreenAtTheEnd;
 			
-		//-> Multi-Monitor code
 		CString str;
 		m_iMonitorType = 0;
-
 		CMonitor monitor;
 		CMonitors monitors;
 
@@ -139,10 +137,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 			m_iMonitorType = 0;
 			GetDlgItem(IDC_COMBO1)->EnableWindow(FALSE);
 		}
-		//<- Multi-Monitor code
-			
 		ModesUpdate();
-
 		UpdateData(FALSE);
 
 		return TRUE;  // return TRUE unless you set the focus to a control
@@ -218,21 +213,20 @@ void CPPageFullscreen::OnUpdateFullScrCombo()
 
 void CPPageFullscreen::OnUpdateTimeout(CCmdUI* pCmdUI)
 {
-	UpdateData();
-
-	pCmdUI->Enable(m_iShowBarsWhenFullScreen);
+		UpdateData();
+		pCmdUI->Enable(m_iShowBarsWhenFullScreen);
 }
 void CPPageFullscreen::ModesUpdate()
 {
 		CMonitors monitors;
-        m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
-        int iSel_24, iSel_25, iSel_30, iSel_Other;
+		m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
+		int iSel_24, iSel_25, iSel_30, iSel_Other;
 		iSel_24 = iSel_25 = iSel_30 = iSel_Other = -1;
-        dispmode dm, 
-        		 dmtoset24	  = m_AutoChangeFullscrRes.dmFullscreenRes24Hz,
-        		 dmtoset25	  = m_AutoChangeFullscrRes.dmFullscreenRes25Hz,
-        		 dmtoset30	  = m_AutoChangeFullscrRes.dmFullscreenRes30Hz,
-        		 dmtosetOther = m_AutoChangeFullscrRes.dmFullscreenResOther;        		         		 
+		dispmode dm, 
+		dmtoset24		= m_AutoChangeFullscrRes.dmFullscreenRes24Hz,
+		dmtoset25		= m_AutoChangeFullscrRes.dmFullscreenRes25Hz,
+		dmtoset30		= m_AutoChangeFullscrRes.dmFullscreenRes30Hz,
+		dmtosetOther	= m_AutoChangeFullscrRes.dmFullscreenResOther;
 		if(!m_AutoChangeFullscrRes.bEnabled) 
 		{	
 			GetCurDispMode(dmtoset24, m_f_hmonitor);
@@ -245,20 +239,20 @@ void CPPageFullscreen::ModesUpdate()
 		ComboBox_ResetContent(m_dispmode30combo);
 		ComboBox_ResetContent(m_dispmodeOthercombo);
 		m_dms.RemoveAll();
-	
+		
 		for(int i = 0, j = 0, ModeExist = true;  ; i++)
 		{
 			ModeExist = GetDispMode(i, dm, m_f_hmonitor);
 			if (!ModeExist) break;   
 			if(dm.bpp <= 8) continue;
 			m_dms.Add(dm);
-			str.Format(_T("%dx%d %dbpp %dHz"), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
-			if (dm.dmDisplayFlags == DM_INTERLACED) str+=_T(" interlaced");
+			str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+			if (dm.dmDisplayFlags == DM_INTERLACED) str+=_T(" ")+ ResStr(IDS_INTERLACED);
 
 			m_dispmode24combo.AddString(str);
 			m_dispmode25combo.AddString(str);
 			m_dispmode30combo.AddString(str);
-			m_dispmodeOthercombo.AddString(str);			
+			m_dispmodeOthercombo.AddString(str);
 
 			if(iSel_24 < 0 && dmtoset24.fValid && dm.size == dmtoset24.size
 				&& dm.bpp == dmtoset24.bpp && dm.freq == dmtoset24.freq) iSel_24 = j;
@@ -274,5 +268,5 @@ void CPPageFullscreen::ModesUpdate()
 		m_dispmode24combo.SetCurSel(iSel_24);
 		m_dispmode25combo.SetCurSel(iSel_25);
 		m_dispmode30combo.SetCurSel(iSel_30);
-		m_dispmodeOthercombo.SetCurSel(iSel_Other);		
+		m_dispmodeOthercombo.SetCurSel(iSel_Other);
 }

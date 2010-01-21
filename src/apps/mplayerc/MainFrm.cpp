@@ -479,6 +479,7 @@ CMainFrame::CMainFrame() :
 	m_iSpeedLevel(0),
 	m_rtDurationOverride(-1),
 	m_fFullScreen(false),
+	m_fFirstFSAfterLaunchOnFS(false),
 	m_fHideCursor(false),
 	m_lastMouseMove(-1, -1),
 	m_pLastBar(NULL),
@@ -7851,6 +7852,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 			ToggleFullscreen(true, true);
 			SetCursor(NULL);
 			AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+			m_fFirstFSAfterLaunchOnFS = true;
 		}
 
 		if(s.fRememberWindowSize && s.fRememberWindowPos)
@@ -8115,8 +8117,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		}
 	}
 
-	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
-
 	if(m_fFullScreen)
 	{
 		m_fHideCursor = true;
@@ -8139,6 +8139,16 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	m_wndView.SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 
 	m_fAudioOnly = fAudioOnly;
+
+	if (m_fFirstFSAfterLaunchOnFS) //App started in Fullscreen
+	{
+		ZoomVideoWindow();
+	    m_fFirstFSAfterLaunchOnFS = false;
+	}
+	else
+	{
+		SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
+	}
 
 	MoveVideoWindow();
 

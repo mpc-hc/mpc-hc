@@ -340,6 +340,7 @@ public:
 	int m_iPlaybackMode;
 
 	bool m_fFullScreen;
+	bool m_fFirstFSAfterLaunchOnFS;
 	bool m_fHideCursor;
 
 	CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
