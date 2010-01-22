@@ -395,8 +395,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 	m_MainThreadId = 0;
 	m_bNeedCheckSample = true;
 	m_pDirectDraw = NULL;
-	m_hVSyncThread = INVALID_HANDLE_VALUE;
-	m_hEvtQuit = INVALID_HANDLE_VALUE;
+	m_hVSyncThread = NULL;
+	m_hEvtQuit = NULL;
 
 	m_bIsFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
 
@@ -918,30 +918,44 @@ DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 
 void CDX9AllocatorPresenter::StartWorkerThreads()
 {
-	DWORD		dwThreadId;
+	DWORD dwThreadId;
 
-	m_hEvtQuit		= CreateEvent (NULL, TRUE, FALSE, NULL);
-	if (m_bIsEVR)
+	if ( m_bIsEVR )
 	{
-		m_hVSyncThread = ::CreateThread(NULL, 0, VSyncThreadStatic, (LPVOID)this, 0, &dwThreadId);
-		SetThreadPriority(m_hVSyncThread, THREAD_PRIORITY_HIGHEST);
+		m_hEvtQuit = CreateEvent( NULL, TRUE, FALSE, NULL );
+		if ( m_hEvtQuit != NULL ) // Don't create a thread with no stop switch
+		{
+			m_hVSyncThread = ::CreateThread( NULL, 0, VSyncThreadStatic, (LPVOID)this, 0, &dwThreadId );
+			if ( m_hVSyncThread != NULL )
+				SetThreadPriority( m_hVSyncThread, THREAD_PRIORITY_HIGHEST );
+		}
 	}
 }
 
 void CDX9AllocatorPresenter::StopWorkerThreads()
 {
-	SetEvent (m_hEvtQuit);
-	if ((m_hVSyncThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hVSyncThread, 10000) == WAIT_TIMEOUT))
+	if ( m_bIsEVR )
 	{
-		ASSERT (FALSE);
-		TerminateThread (m_hVSyncThread, 0xDEAD);
+		if ( m_hEvtQuit != NULL )
+		{
+			SetEvent( m_hEvtQuit );
+			
+			if ( m_hVSyncThread != NULL )
+			{
+				if ( WaitForSingleObject(m_hVSyncThread, 10000) == WAIT_TIMEOUT )
+				{
+					ASSERT(FALSE);
+					TerminateThread( m_hVSyncThread, 0xDEAD );
+				}
+
+				CloseHandle( m_hVSyncThread );
+				m_hVSyncThread = NULL;
+			}
+
+			CloseHandle( m_hEvtQuit );
+			m_hEvtQuit = NULL;
+		}
 	}
-
-	if (m_hVSyncThread		 != INVALID_HANDLE_VALUE) CloseHandle (m_hVSyncThread);
-	if (m_hEvtQuit		 != INVALID_HANDLE_VALUE) CloseHandle (m_hEvtQuit);
-	m_hVSyncThread = INVALID_HANDLE_VALUE;
-	m_hEvtQuit = INVALID_HANDLE_VALUE;
-
 }
 
 bool CDX9AllocatorPresenter::SettingsNeedResetDevice()

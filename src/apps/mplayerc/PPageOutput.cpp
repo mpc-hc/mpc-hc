@@ -46,6 +46,7 @@ CPPageOutput::CPPageOutput()
 	, m_fVMR9AlterativeVSync(FALSE)
 	, m_fResetDevice(FALSE)
 	, m_iEvrBuffers(L"5")
+	, m_fD3DFullscreen(FALSE)
 {
 }
 

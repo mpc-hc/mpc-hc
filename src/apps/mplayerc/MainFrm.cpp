@@ -465,6 +465,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	// Open Dir incl. SubDir
 	ON_COMMAND(ID_FILE_OPENDIRECTORY, OnFileOpendirectory)
 	ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
+	ON_WM_POWERBROADCAST()
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -7971,7 +7972,7 @@ CSize CMainFrame::GetVideoSize()
 
 		long arx = 0, ary = 0;
 		CComQIPtr<IBasicVideo2> pBV2 = pBV;
-		if(pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0)
+		if(pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen, due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
 			arxy.SetSize(arx, ary);
 	}
 
@@ -13206,3 +13207,35 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 	return __super::WindowProc(message, wParam, lParam);
 }
+
+UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
+{
+	static BOOL bWasPausedBeforeSuspention;
+	OAFilterState mediaState;
+
+	switch ( nPowerEvent )
+	{
+		case PBT_APMSUSPEND: // System is suspending operation.
+			TRACE("OnPowerBroadcast - suspending\n"); // For user tracking
+
+			bWasPausedBeforeSuspention = FALSE; // Reset value
+
+			mediaState = GetMediaState();
+			if ( mediaState == State_Running )
+			{
+				bWasPausedBeforeSuspention = TRUE;
+				SendMessage( WM_COMMAND, ID_PLAY_PAUSE ); // Pause
+			}
+			break;
+		case PBT_APMRESUMEAUTOMATIC: // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
+			TRACE("OnPowerBroadcast - resuming\n"); // For user tracking
+
+			// Resume if we paused before suspention.
+			if ( bWasPausedBeforeSuspention )
+				SendMessage( WM_COMMAND, ID_PLAY_PLAY ); // Resume
+			break;
+	}
+
+	return __super::OnPowerBroadcast(nPowerEvent, nEventData);
+}
+
