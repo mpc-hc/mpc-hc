@@ -328,4 +328,5 @@ void CPPageOutput::OnFullscreenCheck()
 		m_fD3DFullscreen = false;
 		UpdateData(FALSE);
 	}
+	SetModified();
 }

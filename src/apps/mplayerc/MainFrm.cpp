@@ -8034,7 +8034,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		m_PlayListBarVisible = m_wndPlaylistBar.IsVisible();
 		if((AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		
-		GetWindowRect(&m_lastWindowRect);
+		if(!m_fFirstFSAfterLaunchOnFS) GetWindowRect(&m_lastWindowRect);
 		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) AutoChangeMonitorMode();
 		
 		CString str;
@@ -8143,7 +8143,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	if (m_fFirstFSAfterLaunchOnFS) //App started in Fullscreen
 	{
 		ZoomVideoWindow();
-	    m_fFirstFSAfterLaunchOnFS = false;
+		m_fFirstFSAfterLaunchOnFS = false;
 	}
 	else
 	{
