@@ -57,6 +57,8 @@ SRCS_C=\
 		$(LAVC_DIR)/mlpdec.c \
 		$(LAVC_DIR)/mlpdsp.c \
 		$(LAVC_DIR)/mpc_helper.c \
+		$(LAVC_DIR)/mpeg12.c \
+		$(LAVC_DIR)/mpeg12data.c \
 		$(LAVC_DIR)/mpeg4video_parser.c \
 		$(LAVC_DIR)/mpegvideo.c \
 		$(LAVC_DIR)/msmpeg4.c \
