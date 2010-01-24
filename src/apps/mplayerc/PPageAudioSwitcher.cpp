@@ -126,24 +126,24 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 
 	m_list.InsertColumn(0, _T(""), LVCFMT_LEFT, 100);
 	m_list.InsertItem(0, _T(""));
-	m_list.InsertItem(1, _T("Front Left"));
-	m_list.InsertItem(2, _T("Front Right"));
-	m_list.InsertItem(3, _T("Front Center"));
-	m_list.InsertItem(4, _T("Low Frequency"));
-	m_list.InsertItem(5, _T("Back Left"));
-	m_list.InsertItem(6, _T("Back Right"));
-	m_list.InsertItem(7, _T("Front Left of Center"));
-	m_list.InsertItem(8, _T("Front Right of Center"));
-	m_list.InsertItem(9, _T("Back Center"));
-	m_list.InsertItem(10, _T("Side Left"));
-	m_list.InsertItem(11, _T("Side Right"));
-	m_list.InsertItem(12, _T("Top Center"));
-	m_list.InsertItem(13, _T("Top Front Left"));
-	m_list.InsertItem(14, _T("Top Front Center"));
-	m_list.InsertItem(15, _T("Top Front Right"));
-	m_list.InsertItem(16, _T("Top Back Left"));
-	m_list.InsertItem(17, _T("Top Back Center"));
-	m_list.InsertItem(18, _T("Top Back Right"));
+	m_list.InsertItem(1, ResStr(IDS_FRONT_LEFT));
+	m_list.InsertItem(2, ResStr(IDS_FRONT_RIGHT));
+	m_list.InsertItem(3, ResStr(IDS_FRONT_CENTER));
+	m_list.InsertItem(4, ResStr(IDS_LOW_FREQUENCY));
+	m_list.InsertItem(5, ResStr(IDS_BACK_LEFT));
+	m_list.InsertItem(6, ResStr(IDS_BACK_RIGHT));
+	m_list.InsertItem(7, ResStr(IDS_FRONT_LEFT_OF_CENTER));
+	m_list.InsertItem(8, ResStr(IDS_FRONT_RIGHT_OF_CENTER));
+	m_list.InsertItem(9, ResStr(IDS_BACK_CENTER));
+	m_list.InsertItem(10, ResStr(IDS_SIDE_LEFT));
+	m_list.InsertItem(11, ResStr(IDS_SIDE_RIGHT));
+	m_list.InsertItem(12, ResStr(IDS_TOP_CENTER));
+	m_list.InsertItem(13, ResStr(IDS_TOP_FRONT_LEFT));
+	m_list.InsertItem(14, ResStr(IDS_TOP_FRONT_CENTER));
+	m_list.InsertItem(15, ResStr(IDS_TOP_FRONT_RIGHT));
+	m_list.InsertItem(16, ResStr(IDS_TOP_BACK_LEFT));
+	m_list.InsertItem(17, ResStr(IDS_TOP_BACK_CENTER));
+	m_list.InsertItem(18, ResStr(IDS_TOP_BACK_RIGHT));
 	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
 	for(int i = 1; i <= 18; i++)

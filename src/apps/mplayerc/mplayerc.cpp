@@ -2775,9 +2775,6 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 void SetDispMode(dispmode& dm, CString& DisplayName)
 {
 	if(!dm.fValid) return;
-	dispmode dm1;
-	GetCurDispMode(dm1, DisplayName);
-	if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) return; 
 	DEVMODE dmScreenSettings;
 	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 	dmScreenSettings.dmSize = sizeof(dmScreenSettings);
@@ -2795,7 +2792,7 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
-	ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
+	ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
 }
 
 #include <afxsock.h>
