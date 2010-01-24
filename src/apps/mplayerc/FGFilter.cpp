@@ -443,6 +443,7 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
 
 HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
+	TRACE("--> CFGFilterVideoRenderer::Create on thread: %d\n", GetCurrentThreadId());
 	CheckPointer(ppBF, E_POINTER);
 
 	HRESULT hr = S_OK;

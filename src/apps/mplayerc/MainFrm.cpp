@@ -2035,6 +2035,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	LONG evCode; LONG_PTR evParam1, evParam2;
     while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
     {
+		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: %x\n", GetCurrentThreadId(), evCode);
 		CString str;
 
 		if(m_fCustomGraph)
@@ -2931,7 +2932,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
 {
 	if(!pMenu) return FALSE;
-
+	AppSettings& s = AfxGetAppSettings();
+	// Do not show popup menu in D3D fullscreen for Sync Renderer. It has several adverse effects.
+	if (IsD3DFullScreenMode() && s.iDSVideoRendererType == VIDRNDT_DS_SYNC)
+		return FALSE;
 	KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 	m_fHideCursor = false;
 
@@ -3193,6 +3197,12 @@ void CMainFrame::OnUpdateFilePostOpenmedia(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFilePostClosemedia()
 {
+	if (IsD3DFullScreenMode())
+	{
+		KillTimer(TIMER_FULLSCREENMOUSEHIDER);
+		KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
+		m_fHideCursor = false;
+	}
 	m_wndView.SetVideoRect();
 	m_wndSeekBar.Enable(false);
 	m_wndSeekBar.SetPos(0);
@@ -5174,7 +5184,7 @@ void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) && s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(s.m_RenderSettings.iVMR9FullscreenGUISupport);
@@ -12089,6 +12099,7 @@ void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
 
 void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
 {
+	TRACE("--> CGraphThread::OnOpen on thread: %d\n", GetCurrentThreadId());
 	if(m_pMainFrame)
 	{
 		CAutoPtr<OpenMediaData> pOMD((OpenMediaData*)lParam);

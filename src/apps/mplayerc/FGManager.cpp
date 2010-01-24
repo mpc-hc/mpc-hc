@@ -798,6 +798,7 @@ STDMETHODIMP CFGManager::Render(IPin* pPinOut)
 
 STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList)
 {
+	TRACE("--> CFGManager::RenderFile on thread: %d\n", GetCurrentThreadId());
 	CAutoLock cAutoLock(this);
 
 	m_streampath.RemoveAll();
@@ -2411,6 +2412,7 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	, m_vrmerit(MERIT64(MERIT_PREFERRED))
 	, m_armerit(MERIT64(MERIT_PREFERRED))
 {
+	TRACE("--> CFGManagerPlayer::CFGManagerPlayer on thread: %d\n", GetCurrentThreadId());
 	CFGFilter* pFGF;
 
 	AppSettings& s = AfxGetAppSettings();

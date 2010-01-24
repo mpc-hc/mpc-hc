@@ -114,7 +114,6 @@ namespace GothSync
 		CComPtr<IDirect3D9> m_pD3D;
 		CComPtr<IDirect3DDevice9Ex> m_pD3DDevEx;
 		CComPtr<IDirect3DDevice9> m_pD3DDev;
-		CString m_D3DDevExError;
 
 		CComPtr<IDirect3DTexture9> m_pVideoTexture[MAX_PICTURE_SLOTS];
 		CComPtr<IDirect3DSurface9> m_pVideoSurface[MAX_PICTURE_SLOTS];
@@ -123,6 +122,7 @@ namespace GothSync
 		CComPtr<ID3DXLine> m_pLine;
 		CComPtr<ID3DXFont> m_pFont;
 		CComPtr<ID3DXSprite> m_pSprite;
+		CSyncRenderer *m_pOuterEVR;
 
 		class CExternalPixelShader
 		{
@@ -149,9 +149,11 @@ namespace GothSync
 		D3DFORMAT m_DisplayType;
 		D3DTEXTUREFILTERTYPE m_filter;
 		D3DCAPS9 m_caps;
+		D3DPRESENT_PARAMETERS pp;
 
 		bool SettingsNeedResetDevice();
-		virtual HRESULT CreateDevice(CString &_Error);
+		virtual HRESULT CreateDXDevice(CString &_Error);
+		virtual HRESULT ResetDXDevice(CString &_Error);
 		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
 		virtual void DeleteSurfaces();
 
@@ -455,7 +457,6 @@ namespace GothSync
 			Shutdown = State_Running + 1
 		} RENDER_STATE;
 
-		CSyncRenderer *m_pOuterEVR;
 		CComPtr<IMFClock> m_pClock;
 		CComPtr<IDirect3DDeviceManager9> m_pD3DManager;
 		CComPtr<IMFTransform> m_pMixer;
