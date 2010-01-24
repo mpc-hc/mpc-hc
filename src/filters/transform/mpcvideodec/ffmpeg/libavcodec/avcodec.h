@@ -1346,6 +1346,14 @@ typedef struct AVCodecContext {
      */
     AVRational sample_aspect_ratio;
 
+    /* ffdshow custom code
+     * Regarding MPEG-2, currently there are two ways of encoding SAR.
+     * Of course one is wrong. However, considerable number of videos are encoded in a wrong way.
+     * We set the spec compliant value in sample_aspect_ratio and
+     * wrong spec-value in sample_aspect_ratio2.
+     */
+    AVRational sample_aspect_ratio2;
+
     /**
      * the picture in the bitstream
      * - encoding: Set by libavcodec.
@@ -2145,6 +2153,13 @@ typedef struct AVCodecContext {
     int64_t reordered_opaque2; /* ffdshow custom code */
     int64_t reordered_opaque3; /* ffdshow custom code */
 
+    int is_copy;  /* ffmpeg-mt */
+    int thread_type;  /* ffmpeg-mt */
+#define FF_THREAD_FRAME   1 //< Decode more than one frame at once
+#define FF_THREAD_SLICE   2 //< Decode more than one part of a single frame at once
+#define FF_THREAD_DEFAULT 3 //< Use both if possible.
+
+    int active_thread_type; /* ffmpeg-mt */
     /**
      * Bits per sample/pixel of internal libavcodec pixel/sample format.
      * This field is applicable only when sample_fmt is SAMPLE_FMT_S32.
@@ -2180,6 +2195,13 @@ typedef struct AVCodecContext {
      * - decoding: unused.
      */
     float rc_min_vbv_overflow_use;
+
+    /**
+     * Hardware accelerator in use
+     * - encoding: unused.
+     * - decoding: Set by libavcodec
+     */
+    struct AVHWAccel *hwaccel;
 
     /**
      * For some codecs, the time base is closer to the field rate than the frame rate.
@@ -2282,6 +2304,96 @@ typedef struct AVCodecContext {
 
     /* ffdshow custom stuff (end) */
 } AVCodecContext;
+
+/**
+ * AVHWAccel.
+ */
+typedef struct AVHWAccel {
+    /**
+     * Name of the hardware accelerated codec.
+     * The name is globally unique among encoders and among decoders (but an
+     * encoder and a decoder can share the same name).
+     */
+    const char *name;
+
+    /**
+     * Type of codec implemented by the hardware accelerator.
+     *
+     * See CODEC_TYPE_xxx
+     */
+    enum CodecType type;
+
+    /**
+     * Codec implemented by the hardware accelerator.
+     *
+     * See CODEC_ID_xxx
+     */
+    enum CodecID id;
+
+    /**
+     * Supported pixel format.
+     *
+     * Only hardware accelerated formats are supported here.
+     */
+    enum PixelFormat pix_fmt;
+
+    /**
+     * Hardware accelerated codec capabilities.
+     * see FF_HWACCEL_CODEC_CAP_*
+     */
+    int capabilities;
+
+    struct AVHWAccel *next;
+
+    /**
+     * Called at the beginning of each frame or field picture.
+     *
+     * Meaningful frame information (codec specific) is guaranteed to
+     * be parsed at this point. This function is mandatory.
+     *
+     * Note that buf can be NULL along with buf_size set to 0.
+     * Otherwise, this means the whole frame is available at this point.
+     *
+     * @param avctx the codec context
+     * @param buf the frame data buffer base
+     * @param buf_size the size of the frame in bytes
+     * @return zero if successful, a negative value otherwise
+     */
+    int (*start_frame)(AVCodecContext *avctx, const uint8_t *buf, uint32_t buf_size);
+
+    /**
+     * Callback for each slice.
+     *
+     * Meaningful slice information (codec specific) is guaranteed to
+     * be parsed at this point. This function is mandatory.
+     *
+     * @param avctx the codec context
+     * @param buf the slice data buffer base
+     * @param buf_size the size of the slice in bytes
+     * @return zero if successful, a negative value otherwise
+     */
+    int (*decode_slice)(AVCodecContext *avctx, const uint8_t *buf, uint32_t buf_size);
+
+    /**
+     * Called at the end of each frame or field picture.
+     *
+     * The whole picture is parsed at this point and can now be sent
+     * to the hardware accelerator. This function is mandatory.
+     *
+     * @param avctx the codec context
+     * @return zero if successful, a negative value otherwise
+     */
+    int (*end_frame)(AVCodecContext *avctx);
+
+    /**
+     * Size of HW accelerator private data.
+     *
+     * Private data is allocated with av_mallocz() before
+     * AVCodecContext.get_buffer() and deallocated after
+     * AVCodecContext.release_buffer().
+     */
+    int priv_data_size;
+} AVHWAccel;
 
 /**
  * AVCodec.
@@ -2452,6 +2564,8 @@ FF_EXPORT void avcodec_thread_free(AVCodecContext *s);
 int avcodec_thread_execute(AVCodecContext *s, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
 int avcodec_default_execute(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
 int avcodec_default_execute2(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2, int, int),void *arg, int *ret, int count);
+const char* avcodec_get_current_idct(AVCodecContext *avctx);
+void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_version,int *divx_build,int *lavc_build);
 //FIXME func typedef
 
 /**

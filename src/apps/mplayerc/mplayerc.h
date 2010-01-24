@@ -269,7 +269,8 @@ enum
 {
 	DXVA_H264  = 1,
 	DXVA_VC1   = DXVA_H264<<1,
-	DXVA_LAST  = DXVA_VC1<<1
+	DXVA_MPEG2 = DXVA_VC1<<1,
+	DXVA_LAST  = DXVA_MPEG2<<1
 };
 
 enum

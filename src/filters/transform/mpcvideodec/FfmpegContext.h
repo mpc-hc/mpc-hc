@@ -25,6 +25,7 @@
 #include <dxva.h>
 
 struct AVCodecContext;
+struct AVFrame;
 
 enum PCI_Vendors
 {
@@ -48,6 +49,9 @@ void			FFH264SetDxvaSliceLong (struct AVCodecContext* pAVCtx, void* pSliceLong);
 HRESULT			FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCodecContext* pAVCtx, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 int				FFIsSkipped(struct AVCodecContext* pAVCtx);
 
+// === Mpeg2 functions
+HRESULT			FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* m_QMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount,
+									struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 
 // === Common functions
 int				IsVista();
@@ -56,3 +60,4 @@ int				FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);
 void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount);
 BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);
+int				FFGetCodedPicture(struct AVCodecContext* pAVCtx);

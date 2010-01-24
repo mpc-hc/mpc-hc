@@ -42,7 +42,7 @@ struct SwsContext;
 class CCpuId;
 
 
-
+#define MAX_BUFF_TIME			20
 
 typedef enum
 {
@@ -57,6 +57,13 @@ typedef struct
 	REFERENCE_TIME	rtStart;
 	REFERENCE_TIME	rtStop;
 } B_FRAME;
+
+typedef struct
+{
+	REFERENCE_TIME	rtStart;
+	REFERENCE_TIME	rtStop;
+	int				nBuffPos;
+} BUFFER_TIME;
 
 [uuid("008BAC12-FBAF-497b-9670-BC6F6FBAE2C4")]
 class CMPCVideoDecFilter 
@@ -93,17 +100,21 @@ protected:
 	int										m_nCodecNb;
 	int										m_nWorkaroundBug;
 	int										m_nErrorConcealment;
-//	REFERENCE_TIME							m_rtStart;				// Ref. time for last decoded frame (use for Ffmpeg callback)
 	REFERENCE_TIME							m_rtAvrTimePerFrame;
 	bool									m_bReorderBFrame;
 	B_FRAME									m_BFrames[2];
 	int										m_nPosB;
-	BYTE*									m_pFFBuffer;
-	int										m_nFFBufferSize;
 	int										m_nWidth;				// Frame width give to input pin
 	int										m_nHeight;				// Frame height give to input pin
 
-	REFERENCE_TIME							m_rtLastStart;			// Last rtStart given by parser
+	// Buffer management for truncated stream (store stream chunks & reference time sent by splitter)
+	BYTE*									m_pFFBuffer;
+	int										m_nFFBufferSize;
+	int										m_nFFBufferPos;
+	int										m_nFFPicEnd;
+	BUFFER_TIME								m_FFBufferTime[MAX_BUFF_TIME];
+
+	REFERENCE_TIME							m_rtLastStart;			// rtStart for last delivered frame
 	int										m_nCountEstimated;		// Number of rtStart estimated since last rtStart received
 	
 	bool									m_bUseDXVA;
@@ -152,7 +163,12 @@ protected:
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 	//void				FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
 	//void				FindStartCodeH264 (BYTE** pDataIn, int& nSize);
-	//void				AppendBuffer (BYTE* pDataIn, int nSize);
+	bool				AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+	bool				FindPicture(int nIndex, int nStartCode);
+	void				ShrinkBuffer();
+	void				ResetBuffer();
+	void				PushBufferTime(int nPos, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
+	void				PopBufferTime(int nPos);
 
 public:
 
@@ -174,6 +190,7 @@ public:
 	virtual bool			IsVideoInterlaced();
 	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight);
 	CTransformOutputPin*	GetOutputPin() { return m_pOutput; }
+	void					UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 	// === Overriden DirectShow functions
 	HRESULT			SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
@@ -222,8 +239,9 @@ public:
 	int							PictWidthRounded();
 	int							PictHeightRounded();
 	inline bool					UseDXVA2()	{ return (m_nDXVAMode == MODE_DXVA2); };
-	void						FlushDXVADecoder()	 { if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
-	inline AVCodecContext*		GetAVCtx()		 { return m_pAVCtx; };
+	void						FlushDXVADecoder()	{ if (m_pDXVADecoder) m_pDXVADecoder->Flush(); }
+	inline AVCodecContext*		GetAVCtx()			{ return m_pAVCtx; };
+	inline AVFrame*				GetFrame()			{ return m_pFrame; }
 	bool						IsDXVASupported();
 	inline bool					IsReorderBFrame() { return m_bReorderBFrame; };
 	inline int					GetPCIVendor()  { return m_nPCIVendor; };

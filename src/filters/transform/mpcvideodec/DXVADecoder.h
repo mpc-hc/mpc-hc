@@ -34,7 +34,8 @@ typedef enum
 typedef enum
 {
 	H264_VLD,
-	VC1_VLD
+	VC1_VLD,
+	MPEG2_VLD
 } DXVAMode;
 
 typedef enum
@@ -72,6 +73,7 @@ typedef struct
 
 #define MAX_COM_BUFFER				6		// Max uncompressed buffer for an Execute command (DXVA1)
 #define COMP_BUFFER_COUNT			18
+#define NO_REF_FRAME			0xFFFF
 
 class CMPCVideoDecFilter;
 
@@ -119,6 +121,7 @@ protected :
 	BYTE						GetConfigIntraResidUnsigned();
 	BYTE						GetConfigResidDiffAccelerator();
 	DXVA_ConfigPictureDecode*	GetDXVA1Config() { return &m_DXVA1Config; };
+	DXVA2_ConfigPictureDecode*	GetDXVA2Config() { return &m_DXVA2Config; };
 
 	// === Picture store functions
 	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific);

@@ -26,6 +26,7 @@
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"
 #include "DXVADecoderVC1.h"
+#include "DXVADecoderMpeg2.h"
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"
 
@@ -149,6 +150,23 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 		writeDXVA_QueryOrReplyFunc (&ConfigRequested.dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_PROBE_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
 		hr = m_pAMVideoAccelerator->Execute (ConfigRequested.dwFunction, &ConfigRequested, sizeof(DXVA_ConfigPictureDecode), &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), 0, NULL);
 
+		// Copy to DXVA2 structure (simplify code based on accelerator config)
+		m_DXVA2Config.guidConfigBitstreamEncryption	= m_DXVA1Config.guidConfigBitstreamEncryption;
+		m_DXVA2Config.guidConfigMBcontrolEncryption	= m_DXVA1Config.guidConfigMBcontrolEncryption;
+		m_DXVA2Config.guidConfigResidDiffEncryption	= m_DXVA1Config.guidConfigResidDiffEncryption;
+		m_DXVA2Config.ConfigBitstreamRaw			= m_DXVA1Config.bConfigBitstreamRaw;
+		m_DXVA2Config.ConfigMBcontrolRasterOrder	= m_DXVA1Config.bConfigMBcontrolRasterOrder;
+		m_DXVA2Config.ConfigResidDiffHost			= m_DXVA1Config.bConfigResidDiffHost;
+		m_DXVA2Config.ConfigSpatialResid8			= m_DXVA1Config.bConfigSpatialResid8;
+		m_DXVA2Config.ConfigResid8Subtraction		= m_DXVA1Config.bConfigResid8Subtraction;
+		m_DXVA2Config.ConfigSpatialHost8or9Clipping	= m_DXVA1Config.bConfigSpatialHost8or9Clipping;
+		m_DXVA2Config.ConfigSpatialResidInterleaved	= m_DXVA1Config.bConfigSpatialResidInterleaved;
+		m_DXVA2Config.ConfigIntraResidUnsigned		= m_DXVA1Config.bConfigIntraResidUnsigned;
+		m_DXVA2Config.ConfigResidDiffAccelerator	= m_DXVA1Config.bConfigResidDiffAccelerator;
+		m_DXVA2Config.ConfigHostInverseScan			= m_DXVA1Config.bConfigHostInverseScan;
+		m_DXVA2Config.ConfigSpecificIDCT			= m_DXVA1Config.bConfigSpecificIDCT;
+		m_DXVA2Config.Config4GroupedCoefs			= m_DXVA1Config.bConfig4GroupedCoefs;
+
 		if (SUCCEEDED (hr))
 		{
 			writeDXVA_QueryOrReplyFunc (&m_DXVA1Config.dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_LOCK_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
@@ -176,6 +194,8 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 		pDecoder	= DNew CDXVADecoderH264 (pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
 	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
 		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
+	else if (*guidDecoder == DXVA2_ModeMPEG2_VLD)
+		pDecoder	= DNew CDXVADecoderMpeg2 (pFilter, pAMVideoAccelerator, MPEG2_VLD, nPicEntryNumber);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
 
@@ -191,6 +211,8 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 		pDecoder	= DNew CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
 	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
 		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
+	else if (*guidDecoder == DXVA2_ModeMPEG2_VLD)
+		pDecoder	= DNew CDXVADecoderMpeg2 (pFilter, pDirectXVideoDec, MPEG2_VLD, nPicEntryNumber, pDXVA2Config);
 	else
 		ASSERT (FALSE);	// Unknown decoder !!
 

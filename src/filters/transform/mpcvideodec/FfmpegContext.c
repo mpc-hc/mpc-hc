@@ -55,6 +55,22 @@ const byte ZZ_SCAN8[64] =
    58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
 };
 
+// FIXME : remove duplicate declaration with ffmpeg ??
+typedef struct Mpeg1Context {
+    MpegEncContext mpeg_enc_ctx;
+    int mpeg_enc_ctx_allocated; /* true if decoding context allocated */
+    int repeat_field; /* true if we must repeat the field */
+    AVPanScan pan_scan; /** some temporary storage for the panscan */
+    int slice_count;
+    int swap_uv;//indicate VCR2
+    int save_aspect_info;
+    int save_width, save_height, save_progressive_seq;
+    AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
+    int sync;                        ///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
+	DXVA_SliceInfo* pSliceInfo;
+} Mpeg1Context;
+
+
 int IsVista()
 {
 	OSVERSIONINFO osver;
@@ -446,7 +462,6 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	{
 		if(h->ref_count[0] > 0){
 			for(i=0; i < h->ref_count[0]; i++){
-//				   pSlice->RefPicList[0][i].Index7Bits = h->ref_list[0][i].frame_num; //nSurfaceIndex; TODO : check this !
 			   pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
 			   pSlice->RefPicList[0][i].AssociatedFlag = 0;
 			   if((h->s.picture_structure != PICT_FRAME)){
@@ -576,22 +591,113 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	return S_OK;
 }
 
+HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* pQMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount, 
+							struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize)
+{
+	int					i;
+	int					got_picture;
+    Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+    MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+
+	if (pBuffer)
+	{
+		s1->pSliceInfo = pSliceInfo;
+		avcodec_decode_video (pAVCtx, pFrame, &got_picture, pBuffer, nSize);
+		*nSliceCount = s1->slice_count;
+	}
+
+	// pPicParams->wDecodedPictureIndex;			set in DecodeFrame
+	// pPicParams->wDeblockedPictureIndex;			0 for Mpeg2
+	// pPicParams->wForwardRefPictureIndex;			set in DecodeFrame
+	// pPicParams->wBackwardRefPictureIndex;		set in DecodeFrame
+
+	pPicParams->wPicWidthInMBminus1				= s->mb_width-1;
+	pPicParams->wPicHeightInMBminus1			= s->mb_height-1;
+
+	pPicParams->bMacroblockWidthMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.263, and MPEG-4
+	pPicParams->bMacroblockHeightMinus1			= 15;	// This is equal to “15” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+
+	pPicParams->bBlockWidthMinus1				= 7;	// This is equal to “7” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+	pPicParams->bBlockHeightMinus1				= 7;	// This is equal to “7” for MPEG-1, MPEG-2, H.261, H.263, and MPEG-4
+
+	pPicParams->bBPPminus1						= 7;	// It is equal to “7” for MPEG-1, MPEG-2, H.261, and H.263
+
+	pPicParams->bPicStructure					= s->picture_structure;
+//	pPicParams->bSecondField;
+	pPicParams->bPicIntra						= (s->current_picture.pict_type == FF_I_TYPE);
+	pPicParams->bPicBackwardPrediction			= (s->current_picture.pict_type == FF_B_TYPE);
+
+	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2), 
+	// pPicParams->bMVprecisionAndChromaRelation = 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
+	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 “Main Profile,” H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
+
+	// pPicParams->bPicScanFixed				= 1;	// set in UpdatePicParams
+	// pPicParams->bPicScanMethod				= 1;	// set in UpdatePicParams
+	// pPicParams->bPicReadbackRequests;				// ??
+
+	// pPicParams->bRcontrol					= 0;	// It shall be set to “0” for all MPEG-1, and MPEG-2 bitstreams in order to conform with the rounding operator defined by those standards
+	// pPicParams->bPicSpatialResid8;					// set in UpdatePicParams
+	// pPicParams->bPicOverflowBlocks;					// set in UpdatePicParams
+	// pPicParams->bPicExtrapolation;			= 0;	// by H.263 Annex D and MPEG-4
+
+	// pPicParams->bPicDeblocked;				= 0;	// MPEG2_A Restricted Profile
+	// pPicParams->bPicDeblockConfined;					// ??
+	// pPicParams->bPic4MVallowed;						// See H.263 Annexes F and J
+	// pPicParams->bPicOBMC;							// H.263 Annex F
+	// pPicParams->bPicBinPB;							// Annexes G and M of H.263
+	// pPicParams->bMV_RPS;								// ???
+	// pPicParams->bReservedBits;						// ??
+
+	pPicParams->wBitstreamFcodes				= (s->mpeg_f_code[0][0]<<12)  | (s->mpeg_f_code[0][1]<<8) |
+												  (s->mpeg_f_code[1][0]<<4)   | (s->mpeg_f_code[1][1]);
+	pPicParams->wBitstreamPCEelements			= (s->intra_dc_precision<<14) | (s->picture_structure<<12) |
+												  (s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)| 
+												  (s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)| 
+												  (s->intra_vlc_format<<7)	  | (s->alternate_scan<<6)| 
+												  (s->repeat_first_field<<5)  | (s->chroma_420_type<<4)| 
+												  (s->progressive_frame<<3);
+
+	// TODO : could be interesting to parameter concealment method?
+	// pPicParams->bBitstreamConcealmentNeed;
+	// pPicParams->bBitstreamConcealmentMethod;
+
+	pQMatrixData->bNewQmatrix[0] = 1;
+	pQMatrixData->bNewQmatrix[1] = 1;
+	pQMatrixData->bNewQmatrix[2] = 1;
+	pQMatrixData->bNewQmatrix[3] = 1;
+	for (i=0; i<64; i++)	// intra Y, inter Y, intra chroma, inter chroma 
+	{
+		pQMatrixData->Qmatrix[0][i] = s->intra_matrix[ZZ_SCAN8[i]];
+		pQMatrixData->Qmatrix[1][i] = s->inter_matrix[ZZ_SCAN8[i]];
+		pQMatrixData->Qmatrix[2][i] = s->chroma_intra_matrix[ZZ_SCAN8[i]];
+		pQMatrixData->Qmatrix[3][i] = s->chroma_inter_matrix[ZZ_SCAN8[i]];
+	}
+
+	if (got_picture)
+		*nNextCodecIndex = pFrame->coded_picture_number;
+
+	return S_OK;
+}
+
+
 unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
 {
-	VC1Context*		vc1 = NULL;
-	H264Context*	h	= NULL;
+    Mpeg1Context*		s1;
+    MpegEncContext*		s = NULL;
 
 	switch (pAVCtx->codec_id)
 	{
 	case CODEC_ID_VC1 :
-		vc1 = (VC1Context*) pAVCtx->priv_data;
-		return vc1->s.mb_num;
 	case CODEC_ID_H264 :
-		h	= (H264Context*) pAVCtx->priv_data;
-		return h->s.mb_num;
+		s = (MpegEncContext*) pAVCtx->priv_data;
+		break;
+	case CODEC_ID_MPEG2VIDEO:
+		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+		break;
 	}
 
-	return 0;
+	return (s != NULL) ? s->mb_num : 0;
 }
 
 int FFIsSkipped(struct AVCodecContext* pAVCtx)
@@ -644,6 +750,26 @@ BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
 		return TRUE;
 }
 
+
+int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
+{
+    Mpeg1Context*		s1;
+    MpegEncContext*		s = NULL;
+
+	switch (pAVCtx->codec_id)
+	{
+	case CODEC_ID_VC1 :
+	case CODEC_ID_H264 :
+		s = (MpegEncContext*) pAVCtx->priv_data;
+		break;
+	case CODEC_ID_MPEG2VIDEO:
+		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+		break;
+	}
+
+	return (s != NULL) ? s->current_picture.coded_picture_number : 0;
+}
 
 #ifdef _WIN64
 

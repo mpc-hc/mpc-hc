@@ -35,7 +35,6 @@ extern "C"
 	#define TRACE_VC1(...)
 #endif
 
-#define VC1_NO_REF			0xFFFF
 
 inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 {
@@ -70,8 +69,8 @@ void CDXVADecoderVC1::Init()
 	memset (&m_SliceInfo,     0, sizeof(m_SliceInfo));
 
 	m_nMaxWaiting		  = 5;
-	m_wRefPictureIndex[0] = VC1_NO_REF;
-	m_wRefPictureIndex[1] = VC1_NO_REF;
+	m_wRefPictureIndex[0] = NO_REF_FRAME;
+	m_wRefPictureIndex[1] = NO_REF_FRAME;
 
 	switch (GetMode())
 	{
@@ -117,15 +116,15 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	// Manage reference picture list
 	if (!m_PictureParams.bPicBackwardPrediction)
 	{
-		if (m_wRefPictureIndex[0] != VC1_NO_REF) RemoveRefFrame (m_wRefPictureIndex[0]);
+		if (m_wRefPictureIndex[0] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[0]);
 		m_wRefPictureIndex[0] = m_wRefPictureIndex[1];
 		m_wRefPictureIndex[1] = nSurfaceIndex;
 	}
-	m_PictureParams.wForwardRefPictureIndex		= (m_PictureParams.bPicIntra == 0)				? m_wRefPictureIndex[0] : VC1_NO_REF;
-	m_PictureParams.wBackwardRefPictureIndex	= (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : VC1_NO_REF;
+	m_PictureParams.wForwardRefPictureIndex		= (m_PictureParams.bPicIntra == 0)				? m_wRefPictureIndex[0] : NO_REF_FRAME;
+	m_PictureParams.wBackwardRefPictureIndex	= (m_PictureParams.bPicBackwardPrediction == 1) ? m_wRefPictureIndex[1] : NO_REF_FRAME;
 
-	m_PictureParams.bPic4MVallowed				= (m_PictureParams.wBackwardRefPictureIndex == VC1_NO_REF && m_PictureParams.bPicStructure == 3) ? 1 : 0;
-	m_PictureParams.bPicDeblockConfined		   |= (m_PictureParams.wBackwardRefPictureIndex == VC1_NO_REF) ? 0x04 : 0;
+	m_PictureParams.bPic4MVallowed				= (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME && m_PictureParams.bPicStructure == 3) ? 1 : 0;
+	m_PictureParams.bPicDeblockConfined		   |= (m_PictureParams.wBackwardRefPictureIndex == NO_REF_FRAME) ? 0x04 : 0;
 
 	m_PictureParams.bPicScanMethod++;					// Use for status reporting sections 3.8.1 and 3.8.2
 
@@ -294,11 +293,11 @@ void CDXVADecoderVC1::Flush()
 	m_rtStartDelayed		= _I64_MAX;
 	m_rtStopDelayed			= _I64_MAX;
 
-	if (m_wRefPictureIndex[0] != VC1_NO_REF) RemoveRefFrame (m_wRefPictureIndex[0]);
-	if (m_wRefPictureIndex[1] != VC1_NO_REF) RemoveRefFrame (m_wRefPictureIndex[1]);
+	if (m_wRefPictureIndex[0] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[0]);
+	if (m_wRefPictureIndex[1] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[1]);
 
-	m_wRefPictureIndex[0] = VC1_NO_REF;
-	m_wRefPictureIndex[1] = VC1_NO_REF;
+	m_wRefPictureIndex[0] = NO_REF_FRAME;
+	m_wRefPictureIndex[1] = NO_REF_FRAME;
 
 	__super::Flush();
 }

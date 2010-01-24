@@ -450,6 +450,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\dxva.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\eac3dec.c"
 				>
 			</File>
@@ -726,7 +730,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg12.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg12.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg12data.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg12data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg12decdata.h"
 				>
 			</File>
 			<File
