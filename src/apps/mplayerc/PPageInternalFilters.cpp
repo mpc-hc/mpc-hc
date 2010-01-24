@@ -141,7 +141,7 @@ s_filters[] =
 #if INTERNAL_DECODER_MPEG2
 	{_T("MPEG-2 Video"), 1, TRA_MPEG2, IDS_TRA_MPEG2, CreateInstance<CMpeg2DecFilter>},
 #endif
-#if INTERNAL_DECODER_VC1_DXVA
+#if INTERNAL_DECODER_MPEG2_DXVA
 	{_T("MPEG-2 Video (DXVA)"), 2, DXVA_MPEG2, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
 #if INTERNAL_DECODER_DIRAC
