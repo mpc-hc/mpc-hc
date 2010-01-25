@@ -347,7 +347,7 @@ char *sws_format_name(int format)
 
     res = fmt_name + buffer * 32;
     buffer = 1 - buffer;
-    _snprintf(res, 32, "0x%x (%c%c%c%c)", format,
+    snprintf(res, 32, "0x%x (%c%c%c%c)", format,
 		    format >> 24, (format >> 16) & 0xFF,
 		    (format >> 8) & 0xFF,
 		    format & 0xFF);
