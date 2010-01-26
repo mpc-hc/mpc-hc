@@ -665,7 +665,6 @@ public:
 	afx_msg void OnUpdateViewTearingTest(CCmdUI* pCmdUI);
 	afx_msg void OnViewTearingTest();
 	afx_msg void OnUpdateViewDisplayStats(CCmdUI* pCmdUI);
-	afx_msg void OnViewDisplayStats();
 	afx_msg void OnViewResetStats();
 	afx_msg void OnViewDisplayStatsSC();
 	afx_msg void OnUpdateViewVSync(CCmdUI* pCmdUI);

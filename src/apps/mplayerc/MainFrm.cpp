@@ -323,7 +323,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_TEARING_TEST, OnUpdateViewTearingTest)
 	ON_COMMAND(ID_VIEW_TEARING_TEST, OnViewTearingTest)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_DISPLAYSTATS, OnUpdateViewDisplayStats)
-	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStats)
 	ON_COMMAND(ID_VIEW_RESETSTATS, OnViewResetStats)
 	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStatsSC)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREENGUISUPPORT, OnUpdateViewFullscreenGUISupport)
@@ -5050,10 +5049,6 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck (supported && (AfxGetMyApp()->m_fDisplayStats));
 }
 
-void CMainFrame::OnViewDisplayStats()
-{
-	AfxGetMyApp()->m_fDisplayStats = ! AfxGetMyApp()->m_fDisplayStats;
-}
 
 void CMainFrame::OnViewResetStats()
 {
