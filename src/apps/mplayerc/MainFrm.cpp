@@ -8081,7 +8081,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	else
 	{
 		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && AfxGetAppSettings().AutoChangeFullscrRes.bApplyDefault)
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor, AfxGetAppSettings().fRestoreResAfterExit);
 
 		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION) | WS_THICKFRAME;
 		r = m_lastWindowRect;
@@ -8194,16 +8194,16 @@ void CMainFrame::AutoChangeMonitorMode()
 	switch ((int)(MediaFPS + 0.5))
 	{
 		case 24 :
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor);
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor, AfxGetAppSettings().fRestoreResAfterExit);
 			break;
 		case 25 :
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor);
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor, AfxGetAppSettings().fRestoreResAfterExit);
 			break;
 		case 30 :
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor);	
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor, AfxGetAppSettings().fRestoreResAfterExit);	
 			break;
 		default:
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor);
+			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor, AfxGetAppSettings().fRestoreResAfterExit);
 	}
 }
 

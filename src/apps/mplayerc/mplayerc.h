@@ -409,7 +409,7 @@ public:
 
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
-extern void SetDispMode(dispmode& dm, CString& DisplayName);
+extern void SetDispMode(dispmode& dm, CString& DisplayName, bool RestoreRes);
 
 class CMPlayerCApp : public CWinApp
 {
@@ -652,6 +652,7 @@ public:
 		int nShowBarsWhenFullScreenTimeOut;
 		AChFR AutoChangeFullscrRes;
 		bool fExitFullScreenAtTheEnd;
+		bool fRestoreResAfterExit;
 		bool fRememberWindowPos;
 		bool fRememberWindowSize;
 		bool fSnapToDesktopEdges;

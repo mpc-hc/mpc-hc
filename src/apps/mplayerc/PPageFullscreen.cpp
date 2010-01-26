@@ -40,6 +40,7 @@ CPPageFullscreen::CPPageFullscreen()
 		, m_iShowBarsWhenFullScreen(FALSE)
 		, m_nShowBarsWhenFullScreenTimeOut(0)
 		, m_fExitFullScreenAtTheEnd(FALSE)
+		, m_fRestoreResAfterExit(TRUE)
 {
 }
 	
@@ -63,7 +64,7 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
 		DDX_Text(pDX, IDC_EDIT1, m_nShowBarsWhenFullScreenTimeOut);
 		DDX_Check(pDX, IDC_CHECK5, m_fExitFullScreenAtTheEnd);
 		DDX_Control(pDX, IDC_SPIN1, m_nTimeOutCtrl);
-			
+		DDX_Check(pDX, IDC_RESTORERESCHECK, m_fRestoreResAfterExit);
 }
 
 BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
@@ -75,6 +76,7 @@ BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
 		ON_UPDATE_COMMAND_UI(IDC_CHECK3 ,OnUpdateApplyDefault)
 		ON_UPDATE_COMMAND_UI(IDC_SPIN1, OnUpdateTimeout)
 		ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateTimeout)
+		ON_UPDATE_COMMAND_UI(IDC_RESTORERESCHECK, OnUpdateRestoreRes)
 END_MESSAGE_MAP()
 	
 // CPPagePlayer message handlers
@@ -93,6 +95,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 		m_nShowBarsWhenFullScreenTimeOut = s.nShowBarsWhenFullScreenTimeOut;
 		m_nTimeOutCtrl.SetRange(-1, 10);
 		m_fExitFullScreenAtTheEnd = s.fExitFullScreenAtTheEnd;
+		m_fRestoreResAfterExit = s.fRestoreResAfterExit;
 			
 		CString str;
 		m_iMonitorType = 0;
@@ -173,6 +176,7 @@ BOOL CPPageFullscreen::OnApply()
 		s.fShowBarsWhenFullScreen = !!m_iShowBarsWhenFullScreen;
 		s.nShowBarsWhenFullScreenTimeOut = m_nShowBarsWhenFullScreenTimeOut;
 		s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;
+		s.fRestoreResAfterExit = !!m_fRestoreResAfterExit;
 
 
 		return __super::OnApply();
@@ -202,6 +206,12 @@ void CPPageFullscreen::OnUpdateApplyDefault(CCmdUI* pCmdUI)
 {
 		pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
 }
+
+void CPPageFullscreen::OnUpdateRestoreRes(CCmdUI* pCmdUI)
+{
+		pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
+}
+
 void CPPageFullscreen::OnUpdateFullScrCombo()
 {
 		CMonitors monitors;

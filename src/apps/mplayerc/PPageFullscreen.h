@@ -56,6 +56,7 @@ class CPPageFullscreen : public CPPageBase
 			int m_nShowBarsWhenFullScreenTimeOut;
 			BOOL m_fExitFullScreenAtTheEnd;
 			CSpinButtonCtrl m_nTimeOutCtrl;
+			BOOL m_fRestoreResAfterExit;
 
 // Dialog Data
 			enum { IDD = IDD_PPAGEFULLSCREEN };
@@ -75,5 +76,6 @@ class CPPageFullscreen : public CPPageBase
 			afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
 			afx_msg void OnUpdateFullScrCombo();
 			afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
 			void ModesUpdate();
 	};

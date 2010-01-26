@@ -1555,6 +1555,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLSTIMEOUT, nShowBarsWhenFullScreenTimeOut);
 		pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), fRestoreResAfterExit);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, fRememberWindowPos);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, fRememberWindowSize);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, fSnapToDesktopEdges);		
@@ -2019,6 +2020,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, 1);
+		fRestoreResAfterExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), 1);
 		fRememberWindowPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, 0);
 		fRememberWindowSize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, 0);
 		fSnapToDesktopEdges = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, 0);
@@ -2772,7 +2774,7 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 	return(true);
 }
 
-void SetDispMode(dispmode& dm, CString& DisplayName)
+void SetDispMode(dispmode& dm, CString& DisplayName, bool RestoreRes)
 {
 	if(!dm.fValid) return;
 	DEVMODE dmScreenSettings;
@@ -2792,7 +2794,10 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
-	ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
+	if(RestoreRes)
+		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
+	else	
+		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
 }
 
 #include <afxsock.h>
