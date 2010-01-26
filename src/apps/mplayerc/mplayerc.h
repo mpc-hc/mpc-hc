@@ -409,7 +409,7 @@ public:
 
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
-extern void SetDispMode(dispmode& dm, CString& DisplayName, bool RestoreRes);
+extern void SetDispMode(dispmode& dm, CString& DisplayName);
 
 class CMPlayerCApp : public CWinApp
 {

@@ -2774,7 +2774,7 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 	return(true);
 }
 
-void SetDispMode(dispmode& dm, CString& DisplayName, bool RestoreRes)
+void SetDispMode(dispmode& dm, CString& DisplayName)
 {
 	if(!dm.fValid) return;
 	DEVMODE dmScreenSettings;
@@ -2794,7 +2794,7 @@ void SetDispMode(dispmode& dm, CString& DisplayName, bool RestoreRes)
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
-	if(RestoreRes)
+	if(AfxGetAppSettings().fRestoreResAfterExit)
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
 	else	
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
