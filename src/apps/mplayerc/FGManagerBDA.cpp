@@ -504,6 +504,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
 	DVBStreamInfo*		pStreamInfo		= NULL;
 	CDVBStream*			pStream			= NULL;
+	FILTER_STATE    nState;
 
 	if (pChannel)
 	{
@@ -513,8 +514,11 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 			pStream		= &m_DVBStreams[pStreamInfo->Type];
 			if (pStream && pStreamInfo)
 			{
+				nState = GetState();
 				SwitchStream (m_nCurAudioType, pStreamInfo->Type);
 				pStream->Map (pStreamInfo->PID);
+				ChangeState ((FILTER_STATE)nState);
+
 				hr = S_OK;
 			}
 		}

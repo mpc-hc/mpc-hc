@@ -111,6 +111,7 @@ void CTunerScanDlg::OnBnClickedSave()
 	{
 		CDVBChannel		Channel;
 		Channel.FromString (m_ChannelList.GetItemText (i, TSCC_CHANNEL));
+		Channel.SetPrefNumber(i);   // XPC
 		s.DVBChannels.AddTail (Channel);		
 	}
 
@@ -170,9 +171,12 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	CString			strTemp;
 	int				nItem;
 	Channel.FromString ((LPCTSTR) lParam);
-
+	
 	strTemp.Format(_T("%03d"), Channel.GetOriginNumber());
 	nItem = m_ChannelList.InsertItem (m_ChannelList.GetItemCount(), strTemp);
+
+	strTemp.Format(_T("%d"), m_ChannelList.GetItemCount());  //XPC
+	m_ChannelList.SetItemText (nItem, TSCC_NUMBER, strTemp); //XPC
 
 	m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
 
@@ -180,7 +184,8 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
 
 	m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
-
+    
+	
 	return TRUE;
 }
 
