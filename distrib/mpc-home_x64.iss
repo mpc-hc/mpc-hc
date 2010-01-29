@@ -1,5 +1,3 @@
-;$Id - 2009-12-06 17:59
-
 #include "../include/Version.h"
 
 #define MyAppName "Media Player Classic - Home Cinema x64"
@@ -10,30 +8,38 @@
 #define MyDateTimeString GetDateTimeString('yyyymmddhhnnss', '', '');
 
 [Setup]
-; NOTE: The value of AppId uniquely identifies this application.
-; Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 AppName={#MyAppName}
+AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+AppPublisher=MPC-HC Team
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
+AppContact={#MyAppURL}
+AppCopyright=Copyright © 2002-2010, see AUTHORS file
+VersionInfoCompany=MPC-HC Team
+VersionInfoCopyright=Copyright © 2002-2010, see AUTHORS file
+VersionInfoDescription={#MyAppName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH} Setup
+VersionInfoTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoProductName=Process Hacker
+VersionInfoProductVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoProductTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 DefaultDirName={pf64}\MPC HomeCinema (x64)
 DefaultGroupName={#MyAppName}
 LicenseFile=..\COPYING
 OutputDir=Installer
 OutputBaseFilename=MPC-HomeCinema.{#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}.(x64)
-VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 Compression=lzma/ultra64
 SolidCompression=yes
 AllowNoIcons=yes
+ShowUndisplayableLanguages=true
+DisableDirPage=auto
+DisableProgramGroupPage=auto
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-ShowUndisplayableLanguages=true
-AppPublisher=mpc-hc@Sourceforge
-AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 
 [Files]
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit

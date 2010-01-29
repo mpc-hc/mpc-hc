@@ -1,5 +1,3 @@
-;$Id - 2009-12-06 17:59
-
 #include "../include/Version.h"
 
 #define MyAppName "Media Player Classic - Home Cinema"
@@ -10,28 +8,36 @@
 #define MyDateTimeString GetDateTimeString('yyyymmddhhnnss', '', '');
 
 [Setup]
-; NOTE: The value of AppId uniquely identifies this application.
-; Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 AppName={#MyAppName}
+AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+AppPublisher=MPC-HC Team
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
+AppContact={#MyAppURL}
+AppCopyright=Copyright © 2002-2010, see AUTHORS file
+VersionInfoCompany=MPC-HC Team
+VersionInfoCopyright=Copyright © 2002-2010, see AUTHORS file
+VersionInfoDescription={#MyAppName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH} Setup
+VersionInfoTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoProductName=Process Hacker
+VersionInfoProductVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoProductTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 DefaultDirName={pf}\MPC HomeCinema
 DefaultGroupName={#MyAppName}
 LicenseFile=..\COPYING
 OutputDir=Installer
 OutputBaseFilename=MPC-HomeCinema.{#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}.(x86)
-VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
-AllowNoIcons=yes
 Compression=lzma/ultra64
 SolidCompression=yes
+AllowNoIcons=yes
 ShowUndisplayableLanguages=true
-AppPublisher=mpc-hc@Sourceforge
-AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+DisableDirPage=auto
+DisableProgramGroupPage=auto
 
 [Files]
 Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
