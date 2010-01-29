@@ -843,6 +843,7 @@ public:
 	ITaskbarList3* m_pTaskbarList;
 	HRESULT CreateThumbnailToolbar();
 	HRESULT UpdateThumbarButton();
+	HRESULT UpdateThumbnailClip();
 
 protected:
 	// GDI+

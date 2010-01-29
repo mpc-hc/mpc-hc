@@ -8307,6 +8307,8 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 	{
 		m_wndView.SetVideoRect();
 	}
+
+	UpdateThumbnailClip();
 }
 
 void CMainFrame::ZoomVideoWindow(double scale)
@@ -13167,7 +13169,27 @@ HRESULT CMainFrame::UpdateThumbarButton()
 
 	HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
 
+	UpdateThumbnailClip();
+
 	return hr;
+}
+
+HRESULT CMainFrame::UpdateThumbnailClip()
+{
+	if(!m_pTaskbarList) return false;
+	if((!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen)
+	{
+		return m_pTaskbarList->SetThumbnailClip(m_hWnd, NULL);
+	}	
+
+	RECT vid_rect, result_rect;
+	m_wndView.GetWindowRect(&vid_rect);
+	result_rect.left = 2;
+	result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
+	result_rect.top = 22;
+	result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
+	
+	return m_pTaskbarList->SetThumbnailClip(m_hWnd, &result_rect);
 }
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
