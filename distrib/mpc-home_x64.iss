@@ -1,4 +1,4 @@
-;the revision number - 2009-12-06 17:59
+;$Id - 2009-12-06 17:59
 
 #include "../include/Version.h"
 
@@ -37,29 +37,11 @@ AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 
 [Files]
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\bin\x64\D3DX9_42.dll; DestDir: {app}; Flags: ignoreversion 64bit
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
-;Source: ..\src\apps\mplayerc\Build_x64\d3dx9_41.dll;       DestDir: {app}; Flags: ignoreversion 64bit
 
 [Run]
 Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent unchecked
@@ -177,4 +159,3 @@ begin
     // rename binary from previous installer
     renamefile (ExpandConstant('{app}\' + 'mplayerc64.exe'), ExpandConstant('{app}\' + 'mplayerc64.exe.bak'));
 end;
-

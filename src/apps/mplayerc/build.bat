@@ -63,11 +63,11 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" goto x64
 mkdir Build_x86
-xcopy "Release Unicode\*.dll" ".\Build_x86\" /y 
-xcopy "Release Unicode\*.exe" ".\Build_x86\" /y
+xcopy "Release Unicode\mpcresources.??.dll" ".\Build_x86\" /y 
+xcopy "Release Unicode\mpciconlib.dll" ".\Build_x86\" /y 
+xcopy "Release Unicode\mpc-hc.exe" ".\Build_x86\" /y
 xcopy AUTHORS ".\Build_x86\" /y
 xcopy ChangeLog ".\Build_x86\" /y
-rem xcopy Homepage.url ".\Build_x86\" /y
 xcopy ..\..\..\COPYING ".\Build_x86\" /y
 :x64
 
@@ -113,11 +113,11 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" goto Nox64
 mkdir Build_x64
-xcopy "x64\Release Unicode\*.dll" ".\Build_x64\" /y 
-xcopy "x64\Release Unicode\*.exe" ".\Build_x64\" /y
+xcopy "x64\Release Unicode\mpcresources.??.dll" ".\Build_x64\" /y 
+xcopy "x64\Release Unicode\mpciconlib.dll" ".\Build_x64\" /y 
+xcopy "x64\Release Unicode\mpc-hc64.exe" ".\Build_x64\" /y
 xcopy AUTHORS ".\Build_x64\" /y
 xcopy ChangeLog ".\Build_x64\" /y
-rem xcopy Homepage.url ".\Build_x64\" /y
 xcopy ..\..\..\COPYING ".\Build_x64\" /y
 
 :Nox64

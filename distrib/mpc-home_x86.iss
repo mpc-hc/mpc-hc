@@ -1,4 +1,4 @@
-;the revision number - 2009-12-06 17:59
+;$Id - 2009-12-06 17:59
 
 #include "../include/Version.h"
 
@@ -14,7 +14,6 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
-
 AppName={#MyAppName}
 AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 AppPublisherURL={#MyAppURL}
@@ -36,29 +35,11 @@ AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
 
 [Files]
 Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.br.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.by.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.cz.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.de.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.es.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.fr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.hu.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.kr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.pl.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.ru.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sk.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.tr.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.ua.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.it.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sc.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.sv.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.tc.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\D3DX9_42.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
-;Source: ..\src\apps\mplayerc\Build_x86\d3dx9_41.dll;       DestDir: {app}; Flags: ignoreversion
 
 [Run]
 Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent unchecked
@@ -176,5 +157,3 @@ begin
     // rename binary from previous installer
     renamefile (ExpandConstant('{app}\' + 'mplayerc.exe'), ExpandConstant('{app}\' + 'mplayerc.exe.bak'));
 end;
-
-

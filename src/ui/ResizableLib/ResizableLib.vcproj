@@ -160,7 +160,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 			/>
 			<Tool

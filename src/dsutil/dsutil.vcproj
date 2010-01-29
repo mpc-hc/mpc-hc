@@ -167,7 +167,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 			/>
 			<Tool
@@ -281,7 +281,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -323,7 +323,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>

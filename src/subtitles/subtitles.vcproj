@@ -163,7 +163,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG;"
+				PreprocessorDefinitions="WIN32;NDEBUG"
 				BufferSecurityCheck="true"
 				DisableSpecificWarnings="4244"
 			/>
@@ -226,7 +226,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="_WIN64;NDEBUG;"
+				PreprocessorDefinitions="_WIN64;NDEBUG"
 				BufferSecurityCheck="true"
 			/>
 			<Tool
