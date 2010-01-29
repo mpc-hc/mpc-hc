@@ -81,7 +81,7 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "Based on original Media Player Classic v6.4.9.0 (C) gabest"
+            VALUE "Comments", "Based on the original Media Player Classic v6.4.9.0 (C) Gabest"
             VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "Media Player Classic - Home Cinema"
             VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)

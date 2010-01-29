@@ -91,14 +91,14 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", "Gabest"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "VobSub & TextSub filter for DirectShow/VirtualDub/Avisynth"
-            VALUE "FileVersion", "1, 2, 0, 0"
+            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "VSFilter"
-            VALUE "LegalCopyright", "Copyright (C) 2001-2009 see AUTHORS file"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2010 see AUTHORS file"
             VALUE "OriginalFilename", "VSFilter.dll"
             VALUE "ProductName", "VSFilter"
-            VALUE "ProductVersion", "1, 2, 0, 0"
+            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
         END
     END
     BLOCK "VarFileInfo"
