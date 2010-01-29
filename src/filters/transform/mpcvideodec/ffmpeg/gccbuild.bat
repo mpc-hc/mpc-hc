@@ -32,6 +32,6 @@ rm 64bit.build
 
 :NoArchClean
 touch 32bit.build
-make.exe -j8
+make.exe -j4
 
 :End

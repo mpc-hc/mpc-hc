@@ -36,6 +36,6 @@ rm 32bit.build
 
 :NoArchClean
 touch 64bit.build
-make.exe 64BIT=yes -j8
+make.exe 64BIT=yes -j4
 
 :End
