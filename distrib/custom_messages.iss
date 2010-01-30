@@ -1,12 +1,6 @@
 [CustomMessages]
 ;tsk=Task, msg=Message
 
-en.langid=00000000
-en.tsk_AllUsers=For all users
-en.tsk_CurrentUser=For the current user only
-en.tsk_Other=Other tasks:
-en.tsk_ResetSettings=Reset settings
-
 br.langid=00000017
 br.tsk_AllUsers=For all users
 br.tsk_CurrentUser=For the current user only

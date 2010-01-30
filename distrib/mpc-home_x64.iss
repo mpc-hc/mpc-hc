@@ -11,6 +11,7 @@
 
 
 #define include_license= False
+#define localize= True
 
 
 [Setup]
@@ -65,6 +66,7 @@ ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
+#if localize
 Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarus.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
@@ -84,8 +86,18 @@ Name: tc; MessagesFile: Languages\ChineseTrad.isl
 Name: tr; MessagesFile: Languages\Turkish.isl
 Name: ua; MessagesFile: Languages\Ukrainian.isl
 
-; Include the installer's custom messages and services stuff
 #include "custom_messages.iss"
+#endif
+
+
+[CustomMessages]
+;tsk=Task, msg=Message
+
+en.langid=00000000
+en.tsk_AllUsers=For all users
+en.tsk_CurrentUser=For the current user only
+en.tsk_Other=Other tasks:
+en.tsk_ResetSettings=Reset settings
 
 
 [Messages]
