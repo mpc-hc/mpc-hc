@@ -1641,7 +1641,13 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
     ff_mpeg1_clean_buffers(s);
     s->interlaced_dct = 0;
 
-    s->qscale = get_qscale(s);
+	// ==> Start patch MPC
+	// DXVA need raw syntax element
+	if (s->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
+		s->qscale = get_bits(&s->gb, 5);
+	else
+		s->qscale = get_qscale(s);
+	// <== End patch MPC
 
     if(s->qscale == 0){
         av_log(s->avctx, AV_LOG_ERROR, "qscale == 0\n");
