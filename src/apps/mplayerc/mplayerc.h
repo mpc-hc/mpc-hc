@@ -323,6 +323,8 @@ typedef struct
 	dispmode dmFullscreenRes30Hz;
 	dispmode dmFullscreenResOther;
 	bool bApplyDefault;
+	dispmode dmFullscreenRes23d976Hz;
+	dispmode dmFullscreenRes29d97Hz;
 }	AChFR; //AutoChangeFullscrRes
 
 class wmcmd : public ACCEL

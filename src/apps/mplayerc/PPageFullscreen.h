@@ -46,6 +46,8 @@ class CPPageFullscreen : public CPPageBase
 			CComboBox m_dispmode25combo;
 			CComboBox m_dispmode30combo;
 			CComboBox m_dispmodeOthercombo;
+			CComboBox m_dispmode23d976combo;
+			CComboBox m_dispmode29d97combo;
 			
 			AChFR m_AutoChangeFullscrRes;
 			CStringW m_f_hmonitor;
@@ -73,6 +75,8 @@ class CPPageFullscreen : public CPPageBase
 			afx_msg void OnUpdateDispMode25Combo(CCmdUI* pCmdUI);
 			afx_msg void OnUpdateDispMode30Combo(CCmdUI* pCmdUI);
 			afx_msg void OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode23d976Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode29d97Combo(CCmdUI* pCmdUI);
 			afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
 			afx_msg void OnUpdateFullScrCombo();
 			afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);

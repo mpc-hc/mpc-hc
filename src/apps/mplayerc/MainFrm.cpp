@@ -8042,7 +8042,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		
 		if(!m_fFirstFSAfterLaunchOnFS) GetWindowRect(&m_lastWindowRect);
 		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) AutoChangeMonitorMode();
-		
+
 		CString str;
 		CMonitor monitor;
 		if(s.f_hmonitor == _T("Current"))
@@ -8185,6 +8185,17 @@ void CMainFrame::AutoChangeMonitorMode()
 		EndEnumPins
 	}
 	EndEnumFilters
+	
+	if ((m_rtTimePerFrame > 417030) && (m_rtTimePerFrame < 417130)  && CMPlayerCApp::IsVistaOrAbove())
+	{
+		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
+		return;
+	}
+	if ((m_rtTimePerFrame > 333610) && (m_rtTimePerFrame < 333710)  && CMPlayerCApp::IsVistaOrAbove())
+	{
+		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
+		return;
+	}
 	double MediaFPS = 10000000.0 / m_rtTimePerFrame;
 	switch ((int)(MediaFPS + 0.5))
 	{
