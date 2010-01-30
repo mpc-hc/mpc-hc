@@ -35,6 +35,7 @@ VersionInfoProductVersion={#app_version}
 VersionInfoProductTextVersion={#app_version}
 DefaultDirName={pf}\Media Player Classic - Home Cinema
 DefaultGroupName={#app_name}
+UninstallDisplayIcon={app}\mpc-hc.exe
 
 #if include_license
 LicenseFile=..\COPYING
@@ -118,6 +119,10 @@ Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 
 
+[Registry]
+Root: HKCU; Subkey: Software\Gabest\Media Player Classic; Tasks: reset_settings; Flags: deletekey uninsdeletekeyifempty
+
+
 [Run]
 Filename: {app}\mpc-hc.exe; Description: {cm:LaunchProgram,{#app_name}}; Flags: nowait postinstall skipifsilent unchecked
 
@@ -135,6 +140,7 @@ Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name}; Filena
 [InstallDelete]
 Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user')
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common')
+Type: files; Name: {app}\mpc-hc.ini; Tasks: reset_settings
 Type: files; Name: {app}\*.bak; Tasks: reset_settings
 
 
