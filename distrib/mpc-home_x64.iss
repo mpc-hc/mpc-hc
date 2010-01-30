@@ -1,77 +1,79 @@
+; Requirements:
+; Inno Setup QuickStart Pack 5.3.7+:
+;   http://www.jrsoftware.org/isdl.php#qsp
+
+
 #include "../include/Version.h"
 
-#define MyAppName "Media Player Classic - Home Cinema x64"
-#define MyAppVerName "Media Player Classic - Home Cinema v."
-#define MyAppURL "http://mpc-hc.sourceforge.net/"
-#define MyAppExeName "mpc-hc64.exe"
-#define MyAppININame "\mpc-hc64.ini"
-#define MyDateTimeString GetDateTimeString('yyyymmddhhnnss', '', '');
+#define app_name "Media Player Classic - Home Cinema"
+#define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
+#define app_url "http://mpc-hc.sourceforge.net/"
+
+
+#define include_license= False
+
 
 [Setup]
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
-AppName={#MyAppName}
-AppVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
-AppVerName={#MyAppVerName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+AppName={#app_name}
+AppVersion={#app_version}
+AppVerName={#app_name} v{#app_version}
 AppPublisher=MPC-HC Team
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
-AppContact={#MyAppURL}
+AppPublisherURL={#app_url}
+AppSupportURL={#app_url}
+AppUpdatesURL={#app_url}
+AppContact={#app_url}
 AppCopyright=Copyright � 2002-2010, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright � 2002-2010, see AUTHORS file
-VersionInfoDescription={#MyAppName} {#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH} Setup
-VersionInfoTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
-VersionInfoVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
+VersionInfoDescription={#app_name} {#app_version} Setup
+VersionInfoTextVersion={#app_version}
+VersionInfoVersion={#app_version}
 VersionInfoProductName=Process Hacker
-VersionInfoProductVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
-VersionInfoProductTextVersion={#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}
-DefaultDirName={pf64}\MPC HomeCinema (x64)
-DefaultGroupName={#MyAppName}
+VersionInfoProductVersion={#app_version}
+VersionInfoProductTextVersion={#app_version}
+DefaultDirName={pf64}\Media Player Classic - Home Cinema
+DefaultGroupName={#app_name}
+
+#if include_license
 LicenseFile=..\COPYING
+#endif
+
 OutputDir=Installer
-OutputBaseFilename=MPC-HomeCinema.{#VERSION_MAJOR}.{#VERSION_MINOR}.{#VERSION_REV}.{#VERSION_PATCH}.(x64)
+OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
+WizardImageFile=Images\WizardImageLarge.bmp
+WizardSmallImageFile=Images\WizardImageSmall.bmp
 Compression=lzma/ultra64
 SolidCompression=yes
+InternalCompressLevel=ultra64
+EnableDirDoesntExistWarning=no
 AllowNoIcons=yes
-ShowUndisplayableLanguages=true
+DirExistsWarning=no
+ShowTasksTreeLines=yes
+AlwaysShowDirOnReadyPage=yes
+AlwaysShowGroupOnReadyPage=yes
+WizardImageStretch=no
+ShowUndisplayableLanguages=yes
+ShowLanguageDialog=auto
 DisableDirPage=auto
 DisableProgramGroupPage=auto
+;AppMutex=Global\MediaPlayerClassicW
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 
-[Files]
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
-Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
-
-[Run]
-Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent unchecked
-
-[Icons]
-Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}
-Name: {group}\{cm:ProgramOnTheWeb,{#MyAppName}}; Filename: {#MyAppURL}
-Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
-Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: desktopicon
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: quicklaunchicon
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
-Name: br; MessagesFile: Languages\BrazilianPortuguese.isl
+Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarus.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
-Name: fi; MessagesFile: compiler:Languages\Finnish.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
 Name: hu; MessagesFile: compiler:Languages\Hungarian.isl
 Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: kr; MessagesFile: Languages\Korean.isl
-Name: no; MessagesFile: compiler:Languages\Norwegian.isl
 Name: pl; MessagesFile: compiler:Languages\Polish.isl
 Name: pt; MessagesFile: compiler:Languages\Portuguese.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
@@ -82,86 +84,72 @@ Name: tc; MessagesFile: Languages\ChineseTrad.isl
 Name: tr; MessagesFile: Languages\Turkish.isl
 Name: ua; MessagesFile: Languages\Ukrainian.isl
 
-[CustomMessages]
-en.Save_set_mpc=Keep previous settings
-br.Save_set_mpc=Manter ajustes anteriores
-by.Save_set_mpc=Захаваць папярэднiя налады
-cz.Save_set_mpc=Zachovat původní nastavení
-de.Save_set_mpc=Die vorherigen Einstellungen behalten
-es.Save_set_mpc=Keep previous settings
-fr.Save_set_mpc=Conserver les réglages précédents
-hu.Save_set_mpc=Keep previous settings
-it.Save_set_mpc=Mantieni le impostazioni precedenti
-kr.Save_set_mpc=이전 설정 유지
-pl.Save_set_mpc=Zachowaj bieżące ustawienia programu
-pt.Save_set_mpc=Keep previous settings
-ru.Save_set_mpc=Не удалять предыдущие настройки
-sc.Save_set_mpc=保持当前配置
-se.Save_set_mpc=Behåll tidigare inställningar
-sk.Save_set_mpc=Zachovať predchádzajúce nastavenia
-tc.Save_set_mpc=保留先前的設定
-tr.Save_set_mpc=Önceki ayarları kullan
-ua.Save_set_mpc=Keep previous settings
+; Include the installer's custom messages and services stuff
+#include "custom_messages.iss"
 
-en.langid=00000000
-br.langid=00000017
-by.langid=00000015
-cz.langid=00000005
-de.langid=00000002
-es.langid=00000006
-fr.langid=00000001
-hu.langid=00000007
-it.langid=00000011
-kr.langid=00000008
-pl.langid=00000009
-pt.langid=00000017
-ru.langid=00000003
-sc.langid=00000013
-se.langid=00000016
-sk.langid=00000012
-tc.langid=00000014
-tr.langid=00000004
-ua.langid=00000010
+
+[Messages]
+BeveledLabel={#app_name} {#app_version}
 
 
 [Tasks]
-Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
-Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: checkedonce
-Name: uninstallable_set; Description: {cm:Save_set_mpc}
+Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}
+Name: desktopicon\user; Description: {cm:tsk_CurrentUser}; GroupDescription: {cm:AdditionalIcons}; Flags: exclusive
+Name: desktopicon\common; Description: {cm:tsk_AllUsers}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked exclusive
+Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; OnlyBelowVersion: 0,6.01; Flags: unchecked
+Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm:tsk_Other}; Check: SettingsExistCheck(); Flags: checkedonce unchecked
+
+
+[Files]
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion 64bit
+Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion 64bit
+
+
+[Run]
+Filename: {app}\mpc-hc64.exe; Description: {cm:LaunchProgram,{#app_name}}; Flags: nowait postinstall skipifsilent unchecked
+
+
+[Icons]
+Name: {group}\{#app_name}; Filename: {app}\mpc-hc64.exe; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\mpc-hc64.exe; IconIndex: 0
+Name: {group}\{cm:ProgramOnTheWeb,{#app_name}}; Filename: {#app_url}
+Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe}; Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
+
+Name: {commondesktop}\{#app_name}; Filename: {app}\mpc-hc64.exe; Tasks: desktopicon\common; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\mpc-hc64.exe; IconIndex: 0
+Name: {userdesktop}\{#app_name}; Filename: {app}\mpc-hc64.exe; Tasks: desktopicon\user; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\mpc-hc64.exe; IconIndex: 0
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name}; Filename: {app}\mpc-hc64.exe; Tasks: quicklaunchicon; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\mpc-hc64.exe; IconIndex: 0
+
+
+[InstallDelete]
+Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user')
+Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common')
+Type: files; Name: {app}\*.bak; Tasks: reset_settings
+
 
 [Code]
-procedure BackupRegistry();
-Var
-    res: integer;
-    RegEdit, RegFile : String;
+// Check if MPC-HC's settings exist
+function SettingsExistCheck(): Boolean;
 begin
-    RegEdit := ExpandConstant('{win}\regedit.exe');
-    RegFile := ExpandConstant('{app}\Backup_1_' + '{#MyDateTimeString}' + '.reg');
-	  Exec(RegEdit,' /ea ' + AddQuotes(RegFile)+' HKEY_CURRENT_USER\Software\Gabest',ExpandConstant('{win}'),SW_HIDE,ewWaitUntilTerminated,res);
-    RegFile := ExpandConstant('{app}\Backup_2_' + '{#MyDateTimeString}' + '.reg');
-    Exec(RegEdit,' /ea ' + AddQuotes(RegFile)+' HKEY_LOCAL_MACHINE\Software\Gabest',ExpandConstant('{win}'),SW_HIDE,ewWaitUntilTerminated,res);
+  Result := False;
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR
+  FileExists(ExpandConstant('{app}\mpc-hc64.ini')) then
+  Result := True;
 end;
+
 
 procedure CurStepChanged(CurStep: TSetupStep);
 Var
-    lang : Integer;
+  lang : Integer;
 begin
-    if CurStep = ssDone then
-    begin
-        if IsTaskSelected('uninstallable_set') = False then
-        begin
-
-            BackupRegistry();
-            renamefile (ExpandConstant('{app}\' + '{#MyAppININame}'), ExpandConstant('{app}\' + '{#MyAppININame}' + '{#MyDateTimeString}' + '.bak'));
-            RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\');
-            RegDeleteKeyIncludingSubkeys(HKLM, 'Software\Gabest\');
-        end;
-	end;
-		lang := StrToInt(ExpandConstant('{cm:langid}'));
-		if FileExists(ExpandConstant('{app}\' + '{#MyAppININame}')) then
-		SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\' + '{#MyAppININame}'))
-		else
-		RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
-    // rename binary from previous installer
-    renamefile (ExpandConstant('{app}\' + 'mplayerc64.exe'), ExpandConstant('{app}\' + 'mplayerc64.exe.bak'));
+  if CurStep = ssDone then
+  begin
+    lang := StrToInt(ExpandConstant('{cm:langid}'));
+    if FileExists(ExpandConstant('{app}\' + 'mpc-hc64.ini')) then
+    SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\' + 'mpc-hc64.ini'))
+    else
+    RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+  end;
 end;
