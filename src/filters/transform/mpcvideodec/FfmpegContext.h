@@ -61,3 +61,4 @@ unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);
 void			FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount);
 BOOL			FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx);
 int				FFGetCodedPicture(struct AVCodecContext* pAVCtx);
+BOOL			FFGetAlternateScan(struct AVCodecContext* pAVCtx);

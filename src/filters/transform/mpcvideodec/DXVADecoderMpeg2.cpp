@@ -161,13 +161,17 @@ void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
 		m_PictureParams.bPicOverflowBlocks = 0;
 
 	// Shall be 1 if bConfigHostInverseScan is 1 or if bConfigResidDiffAccelerator is 0.
+
 	if (cpd->ConfigHostInverseScan == 1 || cpd->ConfigResidDiffAccelerator == 0)
 	{
 		m_PictureParams.bPicScanFixed	= 1;
 
-		// If bConfigHostInverseScan is 0, 01 = Alternate-vertical		(MPEG-2 Figure 7-3)
-		// If bConfigHostInverseScan is 1, 11 = Arbitrary scan with absolute coefficient address
-		m_PictureParams.bPicScanMethod	= (cpd->ConfigResidDiffAccelerator == 0) ? 1 : 3;
+		if (cpd->ConfigHostInverseScan != 0)
+			m_PictureParams.bPicScanMethod	= 3;	// 11 = Arbitrary scan with absolute coefficient address.
+		else if (FFGetAlternateScan(m_pFilter->GetAVCtx()))
+			m_PictureParams.bPicScanMethod	= 1;	// 00 = Zig-zag scan (MPEG-2 Figure 7-2)
+		else
+			m_PictureParams.bPicScanMethod	= 0;	// 01 = Alternate-vertical (MPEG-2 Figure 7-3),
 	}
 }
 

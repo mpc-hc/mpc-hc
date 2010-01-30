@@ -93,6 +93,25 @@ char* GetFFMpegPictureType(int nType)
 	return s_FFMpegPictTypes[min(nType, nTypeCount)];
 }
 
+inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
+{
+    Mpeg1Context*		s1;
+    MpegEncContext*		s = NULL;
+
+	switch (pAVCtx->codec_id)
+	{
+	case CODEC_ID_VC1 :
+	case CODEC_ID_H264 :
+		s = (MpegEncContext*) pAVCtx->priv_data;
+		break;
+	case CODEC_ID_MPEG2VIDEO:
+		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+		break;
+	}
+	return s;
+}
+
 
 void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
 {
@@ -682,20 +701,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 
 unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
 {
-    Mpeg1Context*		s1;
-    MpegEncContext*		s = NULL;
-
-	switch (pAVCtx->codec_id)
-	{
-	case CODEC_ID_VC1 :
-	case CODEC_ID_H264 :
-		s = (MpegEncContext*) pAVCtx->priv_data;
-		break;
-	case CODEC_ID_MPEG2VIDEO:
-		s1 = (Mpeg1Context*)pAVCtx->priv_data;
-		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
-		break;
-	}
+    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->mb_num : 0;
 }
@@ -753,22 +759,17 @@ BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
 
 int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 {
-    Mpeg1Context*		s1;
-    MpegEncContext*		s = NULL;
-
-	switch (pAVCtx->codec_id)
-	{
-	case CODEC_ID_VC1 :
-	case CODEC_ID_H264 :
-		s = (MpegEncContext*) pAVCtx->priv_data;
-		break;
-	case CODEC_ID_MPEG2VIDEO:
-		s1 = (Mpeg1Context*)pAVCtx->priv_data;
-		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
-		break;
-	}
+    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->current_picture.coded_picture_number : 0;
+}
+
+
+BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
+{
+    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
+
+	return (s != NULL) ? s->alternate_scan : 0;
 }
 
 #ifdef _WIN64
