@@ -106,8 +106,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\..\..\bin\upx.exe --best &quot;$(TargetPath)&quot;"
-				ExcludedFromBuild="true"
+				CommandLine=""
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -198,8 +198,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\..\..\bin\upx.exe --best &quot;$(TargetPath)&quot;"
-				ExcludedFromBuild="true"
+				CommandLine=""
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
