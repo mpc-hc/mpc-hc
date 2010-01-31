@@ -168,6 +168,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
 				DisableSpecificWarnings="4244;4800;4355"
@@ -231,6 +232,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;HAVE_MMX"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
 			/>

@@ -173,6 +173,7 @@
 				AdditionalIncludeDirectories="..\..\include;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="2"
 				DisableSpecificWarnings="4244"
 			/>
@@ -236,6 +237,7 @@
 				AdditionalIncludeDirectories="..\..\include;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
 			/>
 			<Tool

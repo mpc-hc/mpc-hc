@@ -169,6 +169,7 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
 				WarningLevel="2"
 			/>
@@ -232,6 +233,7 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
 				WarningLevel="2"
 			/>

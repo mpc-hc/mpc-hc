@@ -224,7 +224,7 @@
 				RuntimeLibrary="0"
 				BufferSecurityCheck="true"
 				EnableFunctionLevelLinking="true"
-				EnableEnhancedInstructionSet="0"
+				EnableEnhancedInstructionSet="1"
 				FloatingPointModel="2"
 				FloatingPointExceptions="false"
 				UsePrecompiledHeader="0"

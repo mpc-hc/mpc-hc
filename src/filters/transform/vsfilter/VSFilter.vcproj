@@ -191,6 +191,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

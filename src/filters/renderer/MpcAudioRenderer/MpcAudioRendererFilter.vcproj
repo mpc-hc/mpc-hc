@@ -190,6 +190,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -460,6 +461,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -524,6 +526,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

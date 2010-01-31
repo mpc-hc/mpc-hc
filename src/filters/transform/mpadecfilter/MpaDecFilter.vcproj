@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MpaDecFilter"
 	ProjectGUID="{4421516D-10A6-41C1-ADF3-099573BBB0C6}"
 	RootNamespace="MpaDecFilter"
@@ -189,6 +189,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -459,6 +460,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				DisableSpecificWarnings="4244"
 			/>
@@ -524,6 +526,7 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 			/>
 			<Tool

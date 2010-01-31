@@ -50,6 +50,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;UNICODE"
 				BufferSecurityCheck="true"
 				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"

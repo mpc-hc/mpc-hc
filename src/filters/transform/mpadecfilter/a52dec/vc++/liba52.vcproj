@@ -46,6 +46,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="1"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
 				DisableSpecificWarnings="4244"
@@ -112,6 +113,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
 			/>
