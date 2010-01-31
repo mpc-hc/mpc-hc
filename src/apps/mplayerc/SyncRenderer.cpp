@@ -475,24 +475,6 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		_Error += L"Video card does not have scanline access. Display synchronization is not possible.\n";
 		return E_UNEXPECTED;
 	}
-	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
-	if (m_bHighColorResolution)
-	{
-		if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false)))
-		{
-			MessageBox(NULL, _T("10 bit RGB is not supported by this graphics device in this mode (windowed or fullscreen).\nReverting to 8 bit RGB.\0"),
-				_T("Warning\0"), MB_OK|MB_ICONWARNING);
-			m_bHighColorResolution = false;
-		}
-	}
-	else
-	{
-		if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_X8R8G8B8, false)))
-		{
-			MessageBox(NULL, _T("8 bit RGB is not supported by this graphics device in this mode (windowed or fullscreen).\nReverting to 8 bit RGB.\0"),
-				_T("Warning\0"), MB_OK|MB_ICONWARNING);
-		}
-	}
 
 	m_uD3DRefreshRate = d3ddm.RefreshRate;
 	m_dD3DRefreshCycle = 1000.0 / (double)m_uD3DRefreshRate; // In ms
@@ -514,6 +496,16 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
+		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
+		if (m_bHighColorResolution)
+		{
+			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false)))
+			{
+				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
+				m_bHighColorResolution = false;
+			}
+		}
+
 		if (m_bHighColorResolution)
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
 		else
@@ -566,6 +558,15 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		pp.BackBufferHeight = d3ddm.Height;
 		m_BackbufferType = d3ddm.Format;
 		m_DisplayType = d3ddm.Format;
+		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
+		if (m_bHighColorResolution)
+		{
+			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false)))
+			{
+				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
+				m_bHighColorResolution = false;
+			}
+		}
 
 		if (m_bHighColorResolution)
 		{
@@ -670,7 +671,6 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
 	m_pLine = NULL;
 	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
-	TRACE("<-- CBaseAP::CreateDXDevice\n");
 	return S_OK;
 } 
 
@@ -1850,7 +1850,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	bool fResetDevice = m_bPendingResetDevice;
 	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET || hr == S_PRESENT_MODE_CHANGED)
 		fResetDevice = true;
-	if (SettingsNeedResetDevice()) fResetDevice = true;
+	if (SettingsNeedResetDevice())
+		fResetDevice = true;
 
 	BOOL bCompositionEnabled = false;
 	if (m_pDwmIsCompositionEnabled) m_pDwmIsCompositionEnabled(&bCompositionEnabled);
@@ -2074,8 +2075,8 @@ void CBaseAP::DrawStats()
 				strText += "SyncDisplay ";
 			if (s.m_RenderSettings.bSynchronizeNearest)
 				strText += "SyncNearest ";
-			if (s.m_RenderSettings.iEVRHighColorResolution)
-				strText += "10bit ";
+			if (m_bHighColorResolution)
+				strText += "10 bit ";
 			if (s.m_RenderSettings.iEVROutputRange == 0)
 				strText += "0-255 ";
 			else if (s.m_RenderSettings.iEVROutputRange == 1)

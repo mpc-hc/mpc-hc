@@ -76,7 +76,8 @@ namespace GothSync
 	typedef enum 
 	{
 		MSG_MIXERIN,
-		MSG_MIXEROUT
+		MSG_MIXEROUT,
+		MSG_ERROR
 	} EVR_STATS_MSG;
 
 	#pragma pack(push, 1)
