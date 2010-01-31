@@ -271,6 +271,8 @@ void CPPageFullscreen::ModesUpdate()
 		ComboBox_ResetContent(m_dispmode25combo);
 		ComboBox_ResetContent(m_dispmode30combo);
 		ComboBox_ResetContent(m_dispmodeOthercombo);
+		ComboBox_ResetContent(m_dispmode23d976combo);
+		ComboBox_ResetContent(m_dispmode29d97combo);
 		m_dms.RemoveAll();
 		
 		for(int i = 0, j = 0, ModeExist = true;  ; i++)

@@ -2345,6 +2345,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			m_wndPlaylistBar.SetCurValid(false);
 			break;
 		}
+		else if(EC_DVD_PLAYBACK_RATE_CHANGE == evCode)
+		{
+			if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen
+				&& m_iDVDDomain == DVD_DOMAIN_Title) AutoChangeMonitorMode();
+		}
 	}
 
     return hr;
@@ -8041,7 +8046,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		if((AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		
 		if(!m_fFirstFSAfterLaunchOnFS) GetWindowRect(&m_lastWindowRect);
-		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo) AutoChangeMonitorMode();
+		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo && (m_iPlaybackMode != PM_NONE)) AutoChangeMonitorMode();
 
 		CString str;
 		CMonitor monitor;
@@ -8167,36 +8172,53 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 void CMainFrame::AutoChangeMonitorMode()
 {
 	CStringW mf_hmonitor = AfxGetAppSettings().f_hmonitor;
+	double MediaFPS;
 
-	LONGLONG m_rtTimePerFrame = 1;
-	// if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
-	// (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
-	BeginEnumFilters(pGB, pEF, pBF)
+	if (m_iPlaybackMode == PM_FILE)
 	{
-		BeginEnumPins(pBF, pEP, pPin)
+		LONGLONG m_rtTimePerFrame = 1;
+		// if ExtractAvgTimePerFrame isn't executed then MediaFPS=10000000.0,
+		// (int)(MediaFPS + 0.5)=10000000 and SetDispMode is executed to Default.
+		BeginEnumFilters(pGB, pEF, pBF)
 		{
-			CMediaTypeEx mt;
-			PIN_DIRECTION dir;
-			if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
-				|| FAILED(pPin->ConnectionMediaType(&mt))) continue;
-			ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
-			if (m_rtTimePerFrame == 0) m_rtTimePerFrame=1;
+			BeginEnumPins(pBF, pEP, pPin)
+			{
+				CMediaTypeEx mt;
+				PIN_DIRECTION dir;
+				if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
+					|| FAILED(pPin->ConnectionMediaType(&mt))) continue;
+				ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
+				if (m_rtTimePerFrame == 0) m_rtTimePerFrame=1;
+			}
+			EndEnumPins
 		}
-		EndEnumPins
+		EndEnumFilters
+		MediaFPS = 10000000.0 / m_rtTimePerFrame;
 	}
-	EndEnumFilters
 	
-	if ((m_rtTimePerFrame > 417030) && (m_rtTimePerFrame < 417130)  && CMPlayerCApp::IsVistaOrAbove())
+	if (m_iPlaybackMode == PM_DVD)
+	{
+		DVD_PLAYBACK_LOCATION2 Location;
+		if (pDVDI->GetCurrentLocation(&Location) == S_OK)
+		{
+			MediaFPS  = Location.TimeCodeFlags == DVD_TC_FLAG_25fps ? 25.0
+				: Location.TimeCodeFlags == DVD_TC_FLAG_30fps ? 30.0
+				: Location.TimeCodeFlags == DVD_TC_FLAG_DropFrame ? 29.97
+				: 25.0;
+		}
+	}
+	
+	if ((MediaFPS > 23.971) && (MediaFPS < 23.981)  && CMPlayerCApp::IsVistaOrAbove())
 	{
 		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
 		return;
 	}
-	if ((m_rtTimePerFrame > 333610) && (m_rtTimePerFrame < 333710)  && CMPlayerCApp::IsVistaOrAbove())
+	if ((MediaFPS > 29.965) && (MediaFPS < 29.975)  && CMPlayerCApp::IsVistaOrAbove())
 	{
 		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
 		return;
 	}
-	double MediaFPS = 10000000.0 / m_rtTimePerFrame;
+
 	switch ((int)(MediaFPS + 0.5))
 	{
 		case 24 :
