@@ -1,5 +1,5 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.7(u)+:
+; Inno Setup QuickStart Pack 5.3.7+ Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
 
 
@@ -56,11 +56,11 @@ ShowTasksTreeLines=yes
 AlwaysShowDirOnReadyPage=yes
 AlwaysShowGroupOnReadyPage=yes
 WizardImageStretch=no
-ShowUndisplayableLanguages=yes
-ShowLanguageDialog=auto
+ShowLanguageDialog=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-;AppMutex=Global\MediaPlayerClassicW
+MinVersion=0,5.0.2195
+AppMutex=MediaPlayerClassicW
 
 
 [Languages]
