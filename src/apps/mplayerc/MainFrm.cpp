@@ -4937,7 +4937,7 @@ void CMainFrame::OnFileISDBDownload()
 		CStringA str;
 		if(!OpenUrl(is, CString(url+args), str))
 		{
-			MessageBeep(-1);
+			AfxMessageBox(_T("Cannot connect to subtitle database site"), MB_OK);
 			return;
 		}
 
