@@ -1514,7 +1514,11 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 #if INCLUDE_MPC_VIDEO_DECODER
 		if (m_pSwsContext == NULL) InitSwscale();
 
-		if (m_pSwsContext != NULL)
+		// TODO : quick and dirty patch to fix convertion to YUY2 with swscale
+		if (m_nOutCsp == FF_CSP_YUY2)
+			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
+
+		else if (m_pSwsContext != NULL)
 		{
 			uint8_t*	dst[4];
 			stride_t	srcStride[4];
@@ -1538,7 +1542,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,dstStride);
 
 			sws_scale_ordered (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
-//			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
 		}
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
