@@ -1,5 +1,5 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.7+:
+; Inno Setup QuickStart Pack 5.3.7(u)+:
 ;   http://www.jrsoftware.org/isdl.php#qsp
 
 

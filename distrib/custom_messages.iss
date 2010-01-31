@@ -1,4 +1,5 @@
-[CustomMessages]
+﻿[CustomMessages]
+;utf-8 trigger: 巼ݠ
 ;tsk=Task, msg=Message
 
 br.langid=00000017
@@ -14,10 +15,10 @@ by.tsk_Other=Other tasks:
 by.tsk_ResetSettings=Reset settings
 
 cz.langid=00000005
-cz.tsk_AllUsers=For all users
-cz.tsk_CurrentUser=For the current user only
-cz.tsk_Other=Other tasks:
-cz.tsk_ResetSettings=Reset settings
+cz.tsk_AllUsers=Pro všechny uživatele
+cz.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
+cz.tsk_Other=Ostatní úlohy:
+cz.tsk_ResetSettings=Obnovit výchozí nastavení
 
 de.langid=00000002
 de.tsk_AllUsers=For all users
@@ -108,3 +109,6 @@ ua.tsk_AllUsers=For all users
 ua.tsk_CurrentUser=For the current user only
 ua.tsk_Other=Other tasks:
 ua.tsk_ResetSettings=Reset settings
+
+
+
