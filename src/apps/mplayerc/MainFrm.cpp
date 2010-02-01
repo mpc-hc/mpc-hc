@@ -425,6 +425,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
 	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
+	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_EXIT, OnAfterplayback)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_EXIT, OnUpdateAfterplayback)
 
 	ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -1985,7 +1987,7 @@ bool CMainFrame::DoAfterPlaybackEvent()
 
 	bool fExit = false;
 
-	if(s.nCLSwitches&CLSW_CLOSE)
+	if(s.nCLSwitches&CLSW_CLOSE || s.m_fExitAfterPlayback)
 	{
 		fExit = true;
 	}
@@ -7055,6 +7057,12 @@ void CMainFrame::OnAfterplayback(UINT nID)
 	AppSettings& s = AfxGetAppSettings();
 
 	s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
+	if (nID == ID_AFTERPLAYBACK_EXIT) 
+	{	
+		s.m_fExitAfterPlayback = true;
+		return;
+	}
+	s.m_fExitAfterPlayback = false;
 
 	switch(nID)
 	{
@@ -7074,12 +7082,13 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 
 	switch(pCmdUI->m_nID)
 	{
+	case ID_AFTERPLAYBACK_EXIT: fChecked = !!s.m_fExitAfterPlayback; break;
 	case ID_AFTERPLAYBACK_CLOSE: fChecked = !!(s.nCLSwitches & CLSW_CLOSE); break;
 	case ID_AFTERPLAYBACK_STANDBY: fChecked = !!(s.nCLSwitches & CLSW_STANDBY); break;
 	case ID_AFTERPLAYBACK_HIBERNATE: fChecked = !!(s.nCLSwitches & CLSW_HIBERNATE); break;
 	case ID_AFTERPLAYBACK_SHUTDOWN: fChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN); break;
 	case ID_AFTERPLAYBACK_LOGOFF: fChecked = !!(s.nCLSwitches & CLSW_LOGOFF); break;
-	case ID_AFTERPLAYBACK_DONOTHING: fChecked = !(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK); break;
+	case ID_AFTERPLAYBACK_DONOTHING: fChecked = (!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK) && !s.m_fExitAfterPlayback); break;
 	}
 
 	pCmdUI->SetRadio(fChecked);

@@ -816,8 +816,9 @@ public:
 		CDVBChannel* FindChannelByPref(int nPrefNumber);
 
 
-		bool m_fPreventMinimize;		
+		bool m_fPreventMinimize;
 		bool m_fUseWin7TaskBar;
+		bool m_fExitAfterPlayback;
 	} m_s;
 
 public:

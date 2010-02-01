@@ -186,7 +186,8 @@
 #define IDS_RS_SHADERLISTSCREENSPACE		_T("ShaderListScreenSpace")
 #define IDS_RS_FULLSCREENMONITOR			_T("FullScreenMonitor")
 #define IDS_RS_MPC_PREVENT_MINIMIZE			_T("PreventMinimize")
-#define IDS_RS_MPC_WIN7TASKBAR			_T("UseWin7TaskBar")
+#define IDS_RS_MPC_WIN7TASKBAR				_T("UseWin7TaskBar")
+#define IDS_RS_MPC_EXIT_AFTER_PB			_T("ExitAfterPlayBack")
 #define IDS_RS_LAST_OPEN_DIR				_T("LastOpenDir")
 #define IDS_RS_ASSOCIATED_WITH_ICON			_T("AssociatedWithIcon")
 
