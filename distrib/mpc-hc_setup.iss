@@ -57,7 +57,7 @@ VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_version}
 VersionInfoProductTextVersion={#app_version}
 UninstallDisplayIcon={app}\{#mpchc_exe}
-DefaultDirName={pf}\Media Player Classic - Home Cinema
+DefaultDirName={code:GetInstallFolder}
 
 #if include_license
 LicenseFile=..\COPYING
@@ -186,13 +186,27 @@ begin
   Result := True;
 end;
 
+function GetInstallFolder(Default: String): String;
+var
+  InstallPath: String;
+begin
+  if NOT RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath) then begin
+    Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+  end else begin
+  RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath)
+    Result := ExtractFileDir(InstallPath);
+    if (Result = '') OR NOT DirExists(Result) then begin
+      Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+    end;
+  end;
+end;
+
 
 procedure CurStepChanged(CurStep: TSetupStep);
 Var
   lang : Integer;
 begin
-  if CurStep = ssDone then
-  begin
+  if CurStep = ssDone then begin
     lang := StrToInt(ExpandConstant('{cm:langid}'));
     if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
       SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
@@ -204,7 +218,7 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
-  // When uninstalling ask user to delete settings
+  // When uninstalling, ask the user to delete MPC-HC settings
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
       if MsgBox(ExpandConstant('{cm:msg_DeleteLogSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
