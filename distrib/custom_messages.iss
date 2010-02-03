@@ -27,7 +27,7 @@ cz.tsk_AllUsers=Pro všechny uživatele
 cz.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cz.tsk_Other=Ostatní úlohy:
 cz.tsk_ResetSettings=Obnovit výchozí nastavení
-cz.msg_DeleteLogSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
+cz.msg_DeleteLogSettings=Chcete smazat také nastavení MPC-HC? %nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
 
 ;German
 de.langid=00000002
