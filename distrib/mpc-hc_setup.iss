@@ -79,7 +79,7 @@ WizardImageStretch=no
 ShowLanguageDialog=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-MinVersion=0,5.1.2600
+MinVersion=0,5.01.2600
 AppMutex=MediaPlayerClassicW
 CompressionThreads=2
 
@@ -195,3 +195,4 @@ begin
       RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
   end;
 end;
+
