@@ -5,7 +5,7 @@
 
 ;If you want to compile the 64bit version, change the "is64bit" to "True"
 #define is64bit = False
-#define include_license = False
+#define include_license = True
 #define localize = True
 
 
@@ -27,15 +27,15 @@
 [Setup]
 #if is64bit
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
-DefaultDirName={pf64}\Media Player Classic - Home Cinema
 DefaultGroupName=Media Player Classic - Home Cinema x64
+UninstallDisplayName={#app_name} v{#app_version} x64
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
-DefaultDirName={pf}\Media Player Classic - Home Cinema
 DefaultGroupName=Media Player Classic - Home Cinema
+UninstallDisplayName={#app_name} v{#app_version}
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
 #endif
 
@@ -57,6 +57,7 @@ VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_version}
 VersionInfoProductTextVersion={#app_version}
 UninstallDisplayIcon={app}\{#mpchc_exe}
+DefaultDirName={pf}\Media Player Classic - Home Cinema
 
 #if include_license
 LicenseFile=..\COPYING
@@ -111,16 +112,16 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 
 [CustomMessages]
 ;tsk=Task, msg=Message
-
 en.langid=00000000
 en.tsk_AllUsers=For all users
 en.tsk_CurrentUser=For the current user only
 en.tsk_Other=Other tasks:
 en.tsk_ResetSettings=Reset settings
+en.msg_DeleteLogSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
 
 
 [Messages]
-BeveledLabel={#app_name} {#app_version}
+BeveledLabel={#app_name} v{#app_version}
 
 
 [Tasks]
@@ -134,12 +135,16 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 [Files]
 #if is64bit
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+#if localize
+Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+#endif
 #else
 Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+#if localize
+Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+#endif
 #endif
 
 Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion
@@ -189,10 +194,27 @@ begin
   if CurStep = ssDone then
   begin
     lang := StrToInt(ExpandConstant('{cm:langid}'));
-    if FileExists(ExpandConstant('{app}\' + '{#mpchc_ini}')) then
-      SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\' + '{#mpchc_ini}'))
+    if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+      SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
     else
       RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
   end;
 end;
 
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  // When uninstalling ask user to delete settings
+  if CurUninstallStep = usUninstall then begin
+    if SettingsExistCheck() then begin
+      if MsgBox(ExpandConstant('{cm:msg_DeleteLogSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
+        DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
+        RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
+        RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
+        RegDeleteKeyIncludingSubkeys(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
+        RegDeleteKeyIfEmpty(HKCU, 'SOFTWARE\Gabest');
+        RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
+      end;
+    end;
+  end;
+end;
