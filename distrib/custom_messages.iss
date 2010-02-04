@@ -87,11 +87,11 @@ pl.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan 
 
 ;Russian
 ru.langid=00000003
-ru.tsk_AllUsers=For all users
-ru.tsk_CurrentUser=For the current user only
-ru.tsk_Other=Other tasks:
-ru.tsk_ResetSettings=Reset settings
-ru.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
+ru.tsk_AllUsers=Для всех пользователей этого компьютера
+ru.tsk_CurrentUser=Только для текущего пользователя
+ru.tsk_Other=Другие задачи:
+ru.tsk_ResetSettings=Сбросить настройки
+ru.msg_DeleteSettings=Хотите ли вы удалить настройки MPC-HC? %nЕсли вы планируете переустановить MPC-HC, то вам не нужно их удалять.
 
 ;Chinese Simplified
 sc.langid=00000013
