@@ -2778,6 +2778,10 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 
 void SetDispMode(dispmode& dm, CString& DisplayName)
 {
+	dispmode dm1;
+	GetCurDispMode(dm1, DisplayName);
+	if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) return; 
+
 	if(!dm.fValid) return;
 	DEVMODE dmScreenSettings;
 	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));

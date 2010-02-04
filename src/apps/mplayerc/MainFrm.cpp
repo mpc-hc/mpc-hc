@@ -7057,15 +7057,11 @@ void CMainFrame::OnAfterplayback(UINT nID)
 	AppSettings& s = AfxGetAppSettings();
 
 	s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
-	if (nID == ID_AFTERPLAYBACK_EXIT) 
-	{	
-		s.m_fExitAfterPlayback = true;
-		return;
-	}
-	s.m_fExitAfterPlayback = false;
 
 	switch(nID)
 	{
+	case ID_AFTERPLAYBACK_EXIT : s.m_fExitAfterPlayback = true; break;
+	case ID_AFTERPLAYBACK_DONOTHING: s.m_fExitAfterPlayback = false; break;
 	case ID_AFTERPLAYBACK_CLOSE: s.nCLSwitches |= CLSW_CLOSE; break;
 	case ID_AFTERPLAYBACK_STANDBY: s.nCLSwitches |= CLSW_STANDBY; break;
 	case ID_AFTERPLAYBACK_HIBERNATE: s.nCLSwitches |= CLSW_HIBERNATE; break;
@@ -7088,7 +7084,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 	case ID_AFTERPLAYBACK_HIBERNATE: fChecked = !!(s.nCLSwitches & CLSW_HIBERNATE); break;
 	case ID_AFTERPLAYBACK_SHUTDOWN: fChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN); break;
 	case ID_AFTERPLAYBACK_LOGOFF: fChecked = !!(s.nCLSwitches & CLSW_LOGOFF); break;
-	case ID_AFTERPLAYBACK_DONOTHING: fChecked = (!(s.nCLSwitches & CLSW_AFTERPLAYBACK_MASK) && !s.m_fExitAfterPlayback); break;
+	case ID_AFTERPLAYBACK_DONOTHING: fChecked = !s.m_fExitAfterPlayback; break;
 	}
 
 	pCmdUI->SetRadio(fChecked);
@@ -7872,7 +7868,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 			ToggleFullscreen(true, true);
 			SetCursor(NULL);
 			AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
-			m_fFirstFSAfterLaunchOnFS = true;
 		}
 
 		if(s.fRememberWindowSize && s.fRememberWindowPos)
@@ -9939,7 +9934,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		}
 	}
 	
-	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode(); 
+	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode();
+	if (m_fFullScreen) m_fFirstFSAfterLaunchOnFS = true;
+	
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
 	return(err.IsEmpty());
