@@ -117,7 +117,7 @@ en.tsk_AllUsers=For all users
 en.tsk_CurrentUser=For the current user only
 en.tsk_Other=Other tasks:
 en.tsk_ResetSettings=Reset settings
-en.msg_DeleteLogSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
+en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
 
 
 [Messages]
@@ -221,7 +221,7 @@ begin
   // When uninstalling, ask the user to delete MPC-HC settings
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
-      if MsgBox(ExpandConstant('{cm:msg_DeleteLogSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
+      if MsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
         DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
         RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
         RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
