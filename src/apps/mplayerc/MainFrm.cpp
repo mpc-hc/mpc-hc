@@ -13194,6 +13194,9 @@ HRESULT CMainFrame::UpdateThumbarButton()
 			hIcon = AfxGetApp()->LoadIcon(IDR_TB_PAUSE);
 			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_PAUSED);
 		}
+		if(m_fAudioOnly)
+			buttons[4].dwFlags = THBF_DISABLED;
+
 		m_pTaskbarList->SetOverlayIcon (m_hWnd, hIcon, L"");
 		if (hIcon) DestroyIcon(hIcon);
 	}
