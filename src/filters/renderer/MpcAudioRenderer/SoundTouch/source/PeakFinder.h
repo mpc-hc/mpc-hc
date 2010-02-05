@@ -9,10 +9,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-12-25 19:54:41 +0200 (Thu, 25 Dec 2008) $
+// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: PeakFinder.h 43 2008-12-25 17:54:41Z oparviai $
+// $Id: PeakFinder.h 63 2009-02-21 16:00:14Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -71,7 +71,7 @@ protected:
                      ) const;
 
     /// get exact center of peak near given position by calculating local mass of center
-    double getPeakCenter(const float *data, int peakpos);
+    double getPeakCenter(const float *data, int peakpos) const;
 
 public:
     /// Constructor. 

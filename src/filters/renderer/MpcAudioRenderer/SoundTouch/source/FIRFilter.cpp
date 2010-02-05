@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-05-09 07:48:34 +0300 (Fri, 09 May 2008) $
+// Last changed  : $Date: 2009-02-25 19:13:51 +0200 (Wed, 25 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIRFilter.cpp 26 2008-05-09 04:48:34Z oparviai $
+// $Id: FIRFilter.cpp 67 2009-02-25 17:13:51Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -181,7 +181,7 @@ void FIRFilter::setCoefficients(const SAMPLETYPE *coeffs, uint newLength, uint u
     assert(length == newLength);
 
     resultDivFactor = uResultDivFactor;
-    resultDivider = (SAMPLETYPE)::pow((float)2, (float)resultDivFactor);
+    resultDivider = (SAMPLETYPE)::pow(2.0, (int)resultDivFactor);
 
     delete[] filterCoeffs;
     filterCoeffs = new SAMPLETYPE[length];
@@ -229,6 +229,7 @@ void * FIRFilter::operator new(size_t s)
 
 FIRFilter * FIRFilter::newInstance()
 {
+#ifndef _WIN64
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
@@ -261,6 +262,8 @@ FIRFilter * FIRFilter::newInstance()
     }
     else
 #endif // ALLOW_3DNOW
+
+#endif	// _WIN64
 
     {
         // ISA optimizations not supported, use plain C version

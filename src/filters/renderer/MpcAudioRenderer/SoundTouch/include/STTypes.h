@@ -8,10 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-01-11 13:36:36 +0200 (Sun, 11 Jan 2009) $
+// Last changed  : $Date: 2009-05-17 14:30:57 +0300 (Sun, 17 May 2009) $
 // File revision : $Revision: 3 $
 //
-// $Id: STTypes.h 47 2009-01-11 11:36:36Z oparviai $
+// $Id: STTypes.h 70 2009-05-17 11:30:57Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -87,7 +87,7 @@ namespace soundtouch
  
  #endif
 
-    #if defined(WIN32) || defined(__i386__) || defined(__x86_64__)
+	#ifndef _WIN64
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 
@@ -115,7 +115,7 @@ namespace soundtouch
             #error "conflicting sample types defined"
         #endif // FLOAT_SAMPLES
 
-        #if defined ALLOW_X86_OPTIMIZATIONS && !defined(_WIN64)	// FIXME: Link error when enabled on x64 filters only
+        #ifdef ALLOW_X86_OPTIMIZATIONS
             // Allow MMX optimizations
             #define ALLOW_MMX   1
         #endif
@@ -129,7 +129,7 @@ namespace soundtouch
 
         #ifdef ALLOW_X86_OPTIMIZATIONS
                 // Allow 3DNow! and SSE optimizations
-            #if defined(WIN32)
+            #if WIN32
                 #define ALLOW_3DNOW     1
             #endif
 
@@ -138,5 +138,12 @@ namespace soundtouch
 
     #endif  // INTEGER_SAMPLES
 };
+
+
+// When this #define is active, eliminates a clicking sound when the "rate" or "pitch" 
+// parameter setting crosses from value <1 to >=1 or vice versa during processing. 
+// Default is off as such crossover is untypical case and involves a slight sound 
+// quality compromise.
+//#define PREVENT_CLICK_AT_RATE_CROSSOVER   1
 
 #endif

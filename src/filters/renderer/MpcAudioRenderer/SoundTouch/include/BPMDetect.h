@@ -26,10 +26,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-12-25 14:20:01 +0200 (Thu, 25 Dec 2008) $
+// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: BPMDetect.h 33 2008-12-25 12:20:01Z oparviai $
+// $Id: BPMDetect.h 63 2009-02-21 16:00:14Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -108,9 +108,6 @@ protected:
     /// FIFO-buffer for decimated processing samples.
     soundtouch::FIFOSampleBuffer *buffer;
 
-    /// Initialize the class for processing.
-    void init(int numChannels, int sampleRate);
-
     /// Updates auto-correlation function for given number of decimated samples that 
     /// are read from the internal 'buffer' pipe (samples aren't removed from the pipe 
     /// though).
@@ -146,8 +143,8 @@ public:
     /// function. 
     /// 
     /// Notice that data in 'samples' array can be disrupted in processing.
-    void inputSamples(soundtouch::SAMPLETYPE *samples,  ///< Pointer to input/working data buffer
-                      int numSamples                    ///< Number of samples in buffer
+    void inputSamples(const soundtouch::SAMPLETYPE *samples,    ///< Pointer to input/working data buffer
+                      int numSamples                            ///< Number of samples in buffer
                       );
 
 

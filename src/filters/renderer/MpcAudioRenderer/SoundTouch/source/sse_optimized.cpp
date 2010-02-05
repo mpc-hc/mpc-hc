@@ -23,10 +23,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-01-25 16:13:39 +0200 (Sun, 25 Jan 2009) $
+// Last changed  : $Date: 2009-12-28 22:32:57 +0200 (Mon, 28 Dec 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: sse_optimized.cpp 51 2009-01-25 14:13:39Z oparviai $
+// $Id: sse_optimized.cpp 80 2009-12-28 20:32:57Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -68,13 +68,15 @@ using namespace soundtouch;
 
 #include "TDStretch.h"
 #include <xmmintrin.h>
+#include <math.h>
 
 // Calculates cross correlation of two buffers
 double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) const
 {
     int i;
-    float *pVec1;
-    __m128 vSum, *pVec2;
+    const float *pVec1;
+    const __m128 *pVec2;
+    __m128 vSum, vNorm;
 
     // Note. It means a major slow-down if the routine needs to tolerate 
     // unaligned __m128 memory accesses. It's way faster if we can skip 
@@ -104,39 +106,52 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
     // Note: pV2 _must_ be aligned to 16-bit boundary, pV1 need not.
-    pVec1 = (float*)pV1;
-    pVec2 = (__m128*)pV2;
-    vSum = _mm_setzero_ps();
+    pVec1 = (const float*)pV1;
+    pVec2 = (const __m128*)pV2;
+    vSum = vNorm = _mm_setzero_ps();
 
     // Unroll the loop by factor of 4 * 4 operations
     for (i = 0; i < overlapLength / 8; i ++) 
     {
+        __m128 vTemp;
         // vSum += pV1[0..3] * pV2[0..3]
-        vSum = _mm_add_ps(vSum, _mm_mul_ps(_MM_LOAD(pVec1),pVec2[0]));
+        vTemp = _MM_LOAD(pVec1);
+        vSum  = _mm_add_ps(vSum,  _mm_mul_ps(vTemp ,pVec2[0]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp ,vTemp));
 
         // vSum += pV1[4..7] * pV2[4..7]
-        vSum = _mm_add_ps(vSum, _mm_mul_ps(_MM_LOAD(pVec1 + 4), pVec2[1]));
+        vTemp = _MM_LOAD(pVec1 + 4);
+        vSum  = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[1]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp ,vTemp));
 
         // vSum += pV1[8..11] * pV2[8..11]
-        vSum = _mm_add_ps(vSum, _mm_mul_ps(_MM_LOAD(pVec1 + 8), pVec2[2]));
+        vTemp = _MM_LOAD(pVec1 + 8);
+        vSum  = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[2]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp ,vTemp));
 
         // vSum += pV1[12..15] * pV2[12..15]
-        vSum = _mm_add_ps(vSum, _mm_mul_ps(_MM_LOAD(pVec1 + 12), pVec2[3]));
+        vTemp = _MM_LOAD(pVec1 + 12);
+        vSum  = _mm_add_ps(vSum, _mm_mul_ps(vTemp, pVec2[3]));
+        vNorm = _mm_add_ps(vNorm, _mm_mul_ps(vTemp ,vTemp));
 
         pVec1 += 16;
         pVec2 += 4;
     }
 
     // return value = vSum[0] + vSum[1] + vSum[2] + vSum[3]
-    float *pvSum = (float*)&vSum;
-    return (double)(pvSum[0] + pvSum[1] + pvSum[2] + pvSum[3]);
+    float *pvNorm = (float*)&vNorm;
+    double norm = sqrt(pvNorm[0] + pvNorm[1] + pvNorm[2] + pvNorm[3]);
+    if (norm < 1e-9) norm = 1.0;    // to avoid div by zero
 
-    /* This is approximately corresponding routine in C-language:
-    double corr;
+    float *pvSum = (float*)&vSum;
+    return (double)(pvSum[0] + pvSum[1] + pvSum[2] + pvSum[3]) / norm;
+
+    /* This is approximately corresponding routine in C-language yet without normalization:
+    double corr, norm;
     uint i;
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
-    corr = 0.0;
+    corr = norm = 0.0;
     for (i = 0; i < overlapLength / 8; i ++) 
     {
         corr += pV1[0] * pV2[0] +
@@ -156,13 +171,16 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
                 pV1[14] * pV2[14] +
                 pV1[15] * pV2[15];
 
+	for (j = 0; j < 15; j ++) norm += pV1[j] * pV1[j];
+
         pV1 += 16;
         pV2 += 16;
     }
+    return corr / sqrt(norm);
     */
 
-    /* This is corresponding routine in assembler. This may be teeny-weeny bit faster
-       than intrinsic version, but more difficult to maintain & get compiled on multiple
+    /* This is a bit outdated, corresponding routine in assembler. This may be teeny-weeny bit
+       faster than intrinsic version, but more difficult to maintain & get compiled on multiple
        platforms.
 
     uint overlapLengthLocal = overlapLength;
@@ -300,14 +318,14 @@ uint FIRFilterSSE::evaluateFilterStereo(float *dest, const float *source, uint n
     // filter is evaluated for two stereo samples with each iteration, thus use of 'j += 2'
     for (j = 0; j < count; j += 2)
     {
-        float *pSrc;
+        const float *pSrc;
         const __m128 *pFil;
         __m128 sum1, sum2;
         uint i;
 
-        pSrc = (float*)source;              // source audio data
-        pFil = (__m128*)filterCoeffsAlign;  // filter coefficients. NOTE: Assumes coefficients 
-                                            // are aligned to 16-byte boundary
+        pSrc = (const float*)source;              // source audio data
+        pFil = (const __m128*)filterCoeffsAlign;  // filter coefficients. NOTE: Assumes coefficients 
+                                                  // are aligned to 16-byte boundary
         sum1 = sum2 = _mm_setzero_ps();
 
         for (i = 0; i < length / 8; i ++) 

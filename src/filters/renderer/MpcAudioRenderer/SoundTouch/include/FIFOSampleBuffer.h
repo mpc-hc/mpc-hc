@@ -15,10 +15,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-02-10 18:26:55 +0200 (Sun, 10 Feb 2008) $
+// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIFOSampleBuffer.h 11 2008-02-10 16:26:55Z oparviai $
+// $Id: FIFOSampleBuffer.h 63 2009-02-21 16:00:14Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -107,7 +107,7 @@ public:
     /// When using this function to output samples, also remember to 'remove' the
     /// output samples from the buffer by calling the 
     /// 'receiveSamples(numSamples)' function
-    virtual SAMPLETYPE *ptrBegin() const;
+    virtual SAMPLETYPE *ptrBegin();
 
     /// Returns a pointer to the end of the used part of the sample buffer (i.e. 
     /// where the new samples are to be inserted). This function may be used for 

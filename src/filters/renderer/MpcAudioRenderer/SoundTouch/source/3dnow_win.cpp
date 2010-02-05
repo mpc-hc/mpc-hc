@@ -35,10 +35,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-01-25 16:13:39 +0200 (Sun, 25 Jan 2009) $
+// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: 3dnow_win.cpp 51 2009-01-25 14:13:39Z oparviai $
+// $Id: 3dnow_win.cpp 63 2009-02-21 16:00:14Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -66,15 +66,13 @@
 #include "cpu_detect.h"
 #include "STTypes.h"
 
-
-using namespace soundtouch;
-
-#ifdef ALLOW_3DNOW
-
 #ifndef WIN32
 #error "wrong platform - this source code file is exclusively for Win32 platform"
 #endif
 
+using namespace soundtouch;
+
+#ifdef ALLOW_3DNOW
 // 3DNow! routines available only with float sample type    
 
 //////////////////////////////////////////////////////////////////////////////
@@ -84,17 +82,13 @@ using namespace soundtouch;
 //////////////////////////////////////////////////////////////////////////////
 
 #include "TDStretch.h"
-//#include <limits.h>
-
-// these are declared in 'TDStretch.cpp'
-// extern int scanOffsets[4][24];
 
 
 // Calculates cross correlation of two buffers
 double TDStretch3DNow::calcCrossCorrStereo(const float *pV1, const float *pV2) const
 {
-    uint overlapLengthLocal = overlapLength;
-    float corr;
+    int overlapLengthLocal = overlapLength;
+    float corr = 0;
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
     /*

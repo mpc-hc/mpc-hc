@@ -41,10 +41,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-02-10 18:26:55 +0200 (Sun, 10 Feb 2008) $
+// Last changed  : $Date: 2009-05-19 07:57:30 +0300 (Tue, 19 May 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: SoundTouch.cpp 11 2008-02-10 16:26:55Z oparviai $
+// $Id: SoundTouch.cpp 73 2009-05-19 04:57:30Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -87,7 +87,7 @@ using namespace soundtouch;
 #define TEST_FLOAT_EQUAL(a, b)  (fabs(a - b) < 1e-10)
 
 
-/// Print library version string
+/// Print library version string for autoconf
 extern "C" void soundtouch_ac_test()
 {
     printf("SoundTouch Version: %s\n",SOUNDTOUCH_VERSION);
@@ -149,8 +149,8 @@ void SoundTouch::setChannels(uint numChannels)
         throw std::runtime_error("Illegal number of channels");
     }
     channels = numChannels;
-    pRateTransposer->setChannels(numChannels);
-    pTDStretch->setChannels(numChannels);
+    pRateTransposer->setChannels((int)numChannels);
+    pTDStretch->setChannels((int)numChannels);
 }
 
 
@@ -243,7 +243,25 @@ void SoundTouch::calcEffectiveRateAndTempo()
     if (!TEST_FLOAT_EQUAL(rate,oldRate)) pRateTransposer->setRate(rate);
     if (!TEST_FLOAT_EQUAL(tempo, oldTempo)) pTDStretch->setTempo(tempo);
 
-    if (rate > 1.0f) 
+#ifndef PREVENT_CLICK_AT_RATE_CROSSOVER
+    if (rate <= 1.0f) 
+    {
+        if (output != pTDStretch) 
+        {
+            FIFOSamplePipe *tempoOut;
+
+            assert(output == pRateTransposer);
+            // move samples in the current output buffer to the output of pTDStretch
+            tempoOut = pTDStretch->getOutput();
+            tempoOut->moveSamples(*output);
+            // move samples in pitch transposer's store buffer to tempo changer's input
+            pTDStretch->moveSamples(*pRateTransposer->getStore());
+
+            output = pTDStretch;
+        }
+    }
+    else
+#endif
     {
         if (output != pRateTransposer) 
         {
@@ -259,23 +277,6 @@ void SoundTouch::calcEffectiveRateAndTempo()
             output = pRateTransposer;
         }
     } 
-    else 
-    {
-        if (output != pTDStretch) 
-        {
-            FIFOSamplePipe *tempoOut;
-
-            assert(output == pRateTransposer);
-            // move samples in the current output buffer to the output of pTDStretch
-            tempoOut = pTDStretch->getOutput();
-            tempoOut->moveSamples(*output);
-            // move samples in pitch transposer's store buffer to tempo changer's input
-            pTDStretch->moveSamples(*pRateTransposer->getStore());
-
-            output = pTDStretch;
-
-        }
-    }
 }
 
 
@@ -284,7 +285,7 @@ void SoundTouch::setSampleRate(uint srate)
 {
     bSrateSet = TRUE;
     // set sample rate, leave other tempo changer parameters as they are.
-    pTDStretch->setParameters(srate);
+    pTDStretch->setParameters((int)srate);
 }
 
 
@@ -316,6 +317,7 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         pTDStretch->putSamples(samples, nSamples);
     } 
     */
+#ifndef PREVENT_CLICK_AT_RATE_CROSSOVER
     else if (rate <= 1.0f) 
     {
         // transpose the rate down, output the transposed sound to tempo changer buffer
@@ -324,8 +326,8 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         pTDStretch->moveSamples(*pRateTransposer);
     } 
     else 
+#endif
     {
-        assert(rate > 1.0f);
         // evaluate the tempo changer, then transpose the rate up, 
         assert(output == pRateTransposer);
         pTDStretch->putSamples(samples, nSamples);

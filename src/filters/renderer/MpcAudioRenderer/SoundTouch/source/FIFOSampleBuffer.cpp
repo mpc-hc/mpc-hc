@@ -15,10 +15,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-02-10 18:26:55 +0200 (Sun, 10 Feb 2008) $
+// Last changed  : $Date: 2009-02-27 19:24:42 +0200 (Fri, 27 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIFOSampleBuffer.cpp 11 2008-02-10 16:26:55Z oparviai $
+// $Id: FIFOSampleBuffer.cpp 68 2009-02-27 17:24:42Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -63,6 +63,7 @@ FIFOSampleBuffer::FIFOSampleBuffer(int numChannels)
     samplesInBuffer = 0;
     bufferPos = 0;
     channels = (uint)numChannels;
+    ensureCapacity(32);     // allocate initial capacity 
 }
 
 
@@ -151,8 +152,9 @@ SAMPLETYPE *FIFOSampleBuffer::ptrEnd(uint slackCapacity)
 // When using this function to output samples, also remember to 'remove' the
 // outputted samples from the buffer by calling the 
 // 'receiveSamples(numSamples)' function
-SAMPLETYPE *FIFOSampleBuffer::ptrBegin() const
+SAMPLETYPE *FIFOSampleBuffer::ptrBegin()
 {
+    assert(buffer);
     return buffer + bufferPos * channels;
 }
 
@@ -175,8 +177,12 @@ void FIFOSampleBuffer::ensureCapacity(uint capacityRequirement)
         {
             throw std::runtime_error("Couldn't allocate memory!\n");
         }
+        // Align the buffer to begin at 16byte cache line boundary for optimal performance
         temp = (SAMPLETYPE *)(((ulong)tempUnaligned + 15) & (ulong)-16);
-        memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
+        if (samplesInBuffer)
+        {
+            memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
+        }
         delete[] bufferUnaligned;
         buffer = temp;
         bufferUnaligned = tempUnaligned;

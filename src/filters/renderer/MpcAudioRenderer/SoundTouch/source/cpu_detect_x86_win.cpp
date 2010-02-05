@@ -12,10 +12,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-02-10 18:26:55 +0200 (Sun, 10 Feb 2008) $
+// Last changed  : $Date: 2009-02-13 18:22:48 +0200 (Fri, 13 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: cpu_detect_x86_win.cpp 11 2008-02-10 16:26:55Z oparviai $
+// $Id: cpu_detect_x86_win.cpp 62 2009-02-13 16:22:48Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -41,15 +41,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "cpu_detect.h"
-#include "intrin.h"
 
-typedef enum PROCESSOR_TYPE
-{
-	PROCESSOR_AMD,
-	PROCESSOR_INTEL,
-	PROCESSOR_UNKNOWN
-};
-
+#ifndef WIN32
+#error wrong platform - this source code file is exclusively for Win32 platform
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -76,53 +71,59 @@ uint detectCPUextensions(void)
 
     if (_dwDisabledISA == 0xffffffff) return 0;
 
-unsigned		nHighestFeature;
-unsigned		nHighestFeatureEx;
-int				nBuff[4];
-char			szMan[13];
-char			szFeatures[256];
-PROCESSOR_TYPE	nType;
+    _asm 
+    {
+        ; check if 'cpuid' instructions is available by toggling eflags bit 21
+        ;
+        xor     esi, esi            ; clear esi = result register
 
-	// Get CPU manufacturer and highest CPUID
-	__cpuid(nBuff, 0);
-	nHighestFeature = (unsigned)nBuff[0];
-	*(int*)&szMan[0] = nBuff[1];
-	*(int*)&szMan[4] = nBuff[3];
-	*(int*)&szMan[8] = nBuff[2];
-	szMan[12] = 0;
-	if(strcmp(szMan, "AuthenticAMD") == 0)
-		nType = PROCESSOR_AMD;
-	else if(strcmp(szMan, "GenuineIntel") == 0)
-		nType = PROCESSOR_INTEL;
-	else
-		nType = PROCESSOR_UNKNOWN;
+        pushfd                      ; save eflags to stack
+        mov     eax,dword ptr [esp] ; load eax from stack (with eflags)
+        mov     ecx, eax            ; save the original eflags values to ecx
+        xor     eax, 0x00200000     ; toggle bit 21
+        mov     dword ptr [esp],eax ; store toggled eflags to stack
+        popfd                       ; load eflags from stack
 
-	// Get highest extended feature
-	__cpuid(nBuff, 0x80000000);
-	nHighestFeatureEx = (unsigned)nBuff[0];
+        pushfd                      ; save updated eflags to stack
+        mov     eax,dword ptr [esp] ; load eax from stack
+        popfd                       ; pop stack to restore stack pointer
 
-	// Get CPU features
-	szFeatures[0]	= 0;
-	if(nHighestFeature >= 1)
-	{
-		__cpuid(nBuff, 1);
-		if(nBuff[3] & 1<<23)	res|=SUPPORT_MMX;
-		if(nBuff[3] & 1<<25)	res|=SUPPORT_SSE;
-		if(nBuff[3] & 1<<26)	res|=SUPPORT_SSE2;
-	}
+        xor     edx, edx            ; clear edx for defaulting no mmx
+        cmp     eax, ecx            ; compare to original eflags values
+        jz      end                 ; jumps to 'end' if cpuid not present
 
-	// AMD specific:
-	if(nType == PROCESSOR_AMD)
-	{
-		// Get extended features
-		__cpuid(nBuff, 0x80000000);
-		if(nHighestFeatureEx >= 0x80000001)
-		{
-			__cpuid(nBuff, 0x80000001);
-			if(nBuff[3] & 1<<31)	res|=SUPPORT_3DNOW;
-		}
-	}
-	
+        ; cpuid instruction available, test for presence of mmx instructions 
+        mov     eax, 1
+        cpuid
+        test    edx, 0x00800000
+        jz      end                 ; branch if MMX not available
+
+        or      esi, SUPPORT_MMX    ; otherwise add MMX support bit
+
+        test    edx, 0x02000000
+        jz      test3DNow           ; branch if SSE not available
+
+        or      esi, SUPPORT_SSE    ; otherwise add SSE support bit
+
+    test3DNow:
+        ; test for precense of AMD extensions
+        mov     eax, 0x80000000
+        cpuid
+        cmp     eax, 0x80000000
+        jbe     end                ; branch if no AMD extensions detected
+
+        ; test for precense of 3DNow! extension
+        mov     eax, 0x80000001
+        cpuid
+        test    edx, 0x80000000
+        jz      end                 ; branch if 3DNow! not detected
+
+        or      esi, SUPPORT_3DNOW  ; otherwise add 3DNow support bit
+
+    end:
+
+        mov     res, esi
+    }
 
     return res & ~_dwDisabledISA;
 }

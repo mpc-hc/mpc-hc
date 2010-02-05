@@ -26,10 +26,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2008-12-25 19:54:41 +0200 (Thu, 25 Dec 2008) $
+// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: BPMDetect.cpp 43 2008-12-25 17:54:41Z oparviai $
+// $Id: BPMDetect.cpp 63 2009-02-21 16:00:14Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -66,8 +66,6 @@ using namespace soundtouch;
 #define INPUT_BLOCK_SAMPLES       2048
 #define DECIMATED_BLOCK_SAMPLES   256
 
-typedef unsigned short ushort;
-
 /// decay constant for calculating RMS volume sliding average approximation 
 /// (time constant is about 10 sec)
 const float avgdecay = 0.99986f;
@@ -77,18 +75,13 @@ const float avgnorm = (1 - avgdecay);
 
 
 
-BPMDetect::BPMDetect(int numChannels, int sampleRate)
+BPMDetect::BPMDetect(int numChannels, int aSampleRate)
 {
-    xcorr = NULL;
-
-    buffer = new FIFOSampleBuffer();
+    this->sampleRate = aSampleRate;
+    this->channels = numChannels;
 
     decimateSum = 0;
     decimateCount = 0;
-    decimateBy = 0;
-
-    this->sampleRate = sampleRate;
-    this->channels = numChannels;
 
     envelopeAccu = 0;
 
@@ -103,7 +96,26 @@ BPMDetect::BPMDetect(int numChannels, int sampleRate)
     RMSVolumeAccu = (0.092f * 0.092f) / avgnorm;
 #endif
 
-    init(numChannels, sampleRate);
+    // choose decimation factor so that result is approx. 500 Hz
+    decimateBy = sampleRate / 500;
+    assert(decimateBy > 0);
+    assert(INPUT_BLOCK_SAMPLES < decimateBy * DECIMATED_BLOCK_SAMPLES);
+
+    // Calculate window length & starting item according to desired min & max bpms
+    windowLen = (60 * sampleRate) / (decimateBy * MIN_BPM);
+    windowStart = (60 * sampleRate) / (decimateBy * MAX_BPM);
+
+    assert(windowLen > windowStart);
+
+    // allocate new working objects
+    xcorr = new float[windowLen];
+    memset(xcorr, 0, windowLen * sizeof(float));
+
+    // allocate processing buffer
+    buffer = new FIFOSampleBuffer();
+    // we do processing in mono mode
+    buffer->setChannels(1);
+    buffer->clear();
 }
 
 
@@ -115,7 +127,9 @@ BPMDetect::~BPMDetect()
 }
 
 
-/// low-pass filter & decimate to about 500 Hz. return number of outputted samples.
+
+/// convert to mono, low-pass filter & decimate to about 500 Hz. 
+/// return number of outputted samples.
 ///
 /// Decimation is used to remove the unnecessary frequencies and thus to reduce 
 /// the amount of data needed to be processed as calculating autocorrelation 
@@ -130,17 +144,25 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
     int count, outcount;
     LONG_SAMPLETYPE out;
 
-    assert(decimateBy != 0);
+    assert(channels > 0);
+    assert(decimateBy > 0);
     outcount = 0;
     for (count = 0; count < numsamples; count ++) 
     {
-        decimateSum += src[count];
+        int j;
+
+        // convert to mono and accumulate
+        for (j = 0; j < channels; j ++)
+        {
+            decimateSum += src[j];
+        }
+        src += j;
 
         decimateCount ++;
         if (decimateCount >= decimateBy) 
         {
             // Store every Nth sample only
-            out = (LONG_SAMPLETYPE)(decimateSum / decimateBy);
+            out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
             decimateSum = 0;
             decimateCount = 0;
 #ifdef INTEGER_SAMPLES
@@ -231,27 +253,27 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
 
 
 
-void BPMDetect::inputSamples(SAMPLETYPE *samples, int numSamples)
+void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
 {
     SAMPLETYPE decimated[DECIMATED_BLOCK_SAMPLES];
 
-    // convert from stereo to mono if necessary
-    if (channels == 2)
+    // iterate so that max INPUT_BLOCK_SAMPLES processed per iteration
+    while (numSamples > 0)
     {
-        int i;
+        int block;
+        int decSamples;
 
-        for (i = 0; i < numSamples; i ++)
-        {
-            samples[i] = (samples[i * 2] + samples[i * 2 + 1]) / 2;
-        }
+        block = (numSamples > INPUT_BLOCK_SAMPLES) ? INPUT_BLOCK_SAMPLES : numSamples;
+
+        // decimate. note that converts to mono at the same time
+        decSamples = decimate(decimated, samples, block);
+        samples += block * channels;
+        numSamples -= block;
+
+        // envelope new samples and add them to buffer
+        calcEnvelope(decimated, decSamples);
+        buffer->putSamples(decimated, decSamples);
     }
-    
-    // decimate
-    numSamples = decimate(decimated, samples, numSamples);
-
-    // envelope new samples and add them to buffer
-    calcEnvelope(decimated, numSamples);
-    buffer->putSamples(decimated, numSamples);
 
     // when the buffer has enought samples for processing...
     if ((int)buffer->numSamples() > windowLen) 
@@ -259,38 +281,13 @@ void BPMDetect::inputSamples(SAMPLETYPE *samples, int numSamples)
         int processLength;
 
         // how many samples are processed
-        processLength = buffer->numSamples() - windowLen;
+        processLength = (int)buffer->numSamples() - windowLen;
 
         // ... calculate autocorrelations for oldest samples...
         updateXCorr(processLength);
         // ... and remove them from the buffer
         buffer->receiveSamples(processLength);
     }
-}
-
-
-void BPMDetect::init(int numChannels, int sampleRate)
-{
-    this->sampleRate = sampleRate;
-
-    // choose decimation factor so that result is approx. 500 Hz
-    decimateBy = sampleRate / 500;
-    assert(decimateBy > 0);
-    assert(INPUT_BLOCK_SAMPLES < decimateBy * DECIMATED_BLOCK_SAMPLES);
-
-    // Calculate window length & starting item according to desired min & max bpms
-    windowLen = (60 * sampleRate) / (decimateBy * MIN_BPM);
-    windowStart = (60 * sampleRate) / (decimateBy * MAX_BPM);
-
-    assert(windowLen > windowStart);
-
-    // allocate new working objects
-    xcorr = new float[windowLen];
-    memset(xcorr, 0, windowLen * sizeof(float));
-
-    // we do processing in mono mode
-    buffer->setChannels(1);
-    buffer->clear();
 }
 
 

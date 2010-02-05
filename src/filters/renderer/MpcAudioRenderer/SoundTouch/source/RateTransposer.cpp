@@ -10,10 +10,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-01-11 13:34:24 +0200 (Sun, 11 Jan 2009) $
+// Last changed  : $Date: 2009-10-31 16:37:24 +0200 (Sat, 31 Oct 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: RateTransposer.cpp 45 2009-01-11 11:34:24Z oparviai $
+// $Id: RateTransposer.cpp 74 2009-10-31 14:37:24Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -158,7 +158,7 @@ BOOL RateTransposer::isAAFilterEnabled() const
 }
 
 
-AAFilter *RateTransposer::getAAFilter() const
+AAFilter *RateTransposer::getAAFilter()
 {
     return pAAFilter;
 }
@@ -248,9 +248,9 @@ void RateTransposer::downsample(const SAMPLETYPE *src, uint nSamples)
 
     // If the parameter 'uRate' value is larger than 'SCALE', first apply the
     // anti-alias filter to remove high frequencies (prevent them from folding
-    // over the lover frequencies), then transpose. */
+    // over the lover frequencies), then transpose.
 
-    // Add the new samples to the end of the storeBuffer */
+    // Add the new samples to the end of the storeBuffer
     storeBuffer.putSamples(src, nSamples);
 
     // Anti-alias filter the samples to prevent folding and output the filtered 
@@ -261,6 +261,8 @@ void RateTransposer::downsample(const SAMPLETYPE *src, uint nSamples)
 
     count = pAAFilter->evaluate(tempBuffer.ptrEnd(sizeTemp), 
         storeBuffer.ptrBegin(), sizeTemp, (uint)numChannels);
+
+	if (count == 0) return;
 
     // Remove the filtered samples from 'storeBuffer'
     storeBuffer.receiveSamples(count);
@@ -398,7 +400,9 @@ uint RateTransposerInteger::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *sr
     unsigned int i, used;
     LONG_SAMPLETYPE temp, vol1;
 
-    used = 0;    
+    if (nSamples == 0) return 0;  // no samples, no work
+
+	used = 0;    
     i = 0;
 
     // Process the last sample saved from the previous call first...
@@ -548,19 +552,20 @@ uint RateTransposerFloat::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *src,
     }
     fSlopeCount -= 1.0f;
 
-    if (nSamples == 1) goto end;
-
-    while (1)
+    if (nSamples > 1)
     {
-        while (fSlopeCount > 1.0f) 
+        while (1)
         {
-            fSlopeCount -= 1.0f;
-            used ++;
-            if (used >= nSamples - 1) goto end;
+            while (fSlopeCount > 1.0f) 
+            {
+                fSlopeCount -= 1.0f;
+                used ++;
+                if (used >= nSamples - 1) goto end;
+            }
+            dest[i] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[used] + fSlopeCount * src[used + 1]);
+            i++;
+            fSlopeCount += fRate;
         }
-        dest[i] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[used] + fSlopeCount * src[used + 1]);
-        i++;
-        fSlopeCount += fRate;
     }
 end:
     // Store the last sample for the next round
@@ -593,25 +598,26 @@ uint RateTransposerFloat::transposeStereo(SAMPLETYPE *dest, const SAMPLETYPE *sr
     // now always (iSlopeCount > 1.0f)
     fSlopeCount -= 1.0f;
 
-    if (nSamples == 1) goto end;
-
-    while (1)
+    if (nSamples > 1)
     {
-        while (fSlopeCount > 1.0f) 
+        while (1)
         {
-            fSlopeCount -= 1.0f;
-            used ++;
-            if (used >= nSamples - 1) goto end;
+            while (fSlopeCount > 1.0f) 
+            {
+                fSlopeCount -= 1.0f;
+                used ++;
+                if (used >= nSamples - 1) goto end;
+            }
+            srcPos = 2 * used;
+
+            dest[2 * i] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[srcPos] 
+                + fSlopeCount * src[srcPos + 2]);
+            dest[2 * i + 1] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[srcPos + 1] 
+                + fSlopeCount * src[srcPos + 3]);
+
+            i++;
+            fSlopeCount += fRate;
         }
-        srcPos = 2 * used;
-
-        dest[2 * i] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[srcPos] 
-            + fSlopeCount * src[srcPos + 2]);
-        dest[2 * i + 1] = (SAMPLETYPE)((1.0f - fSlopeCount) * src[srcPos + 1] 
-            + fSlopeCount * src[srcPos + 3]);
-
-        i++;
-        fSlopeCount += fRate;
     }
 end:
     // Store the last sample for the next round

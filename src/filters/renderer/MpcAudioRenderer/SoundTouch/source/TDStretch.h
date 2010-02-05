@@ -4,8 +4,8 @@
 /// while maintaining the original pitch by using a time domain WSOLA-like method 
 /// with several performance-increasing tweaks.
 ///
-/// Note : MMX optimized functions reside in a separate, platform-specific file, 
-/// e.g. 'mmx_win.cpp' or 'mmx_gcc.cpp'
+/// Note : MMX/SSE optimized functions reside in separate, platform-specific files 
+/// 'mmx_optimized.cpp' and 'sse_optimized.cpp'
 ///
 /// Author        : Copyright (c) Olli Parviainen
 /// Author e-mail : oparviai 'at' iki.fi
@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-01-25 15:43:54 +0200 (Sun, 25 Jan 2009) $
+// Last changed  : $Date: 2009-05-17 14:35:13 +0300 (Sun, 17 May 2009) $
 // File revision : $Revision: 4 $
 //
-// $Id: TDStretch.h 49 2009-01-25 13:43:54Z oparviai $
+// $Id: TDStretch.h 71 2009-05-17 11:35:13Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -44,6 +44,7 @@
 #ifndef TDStretch_H
 #define TDStretch_H
 
+#include <stddef.h>
 #include "STTypes.h"
 #include "RateTransposer.h"
 #include "FIFOSamplePipe.h"
@@ -51,7 +52,13 @@
 namespace soundtouch
 {
 
-// Default values for sound processing parameters:
+/// Default values for sound processing parameters:
+/// Notice that the default parameters are tuned for contemporary popular music 
+/// processing. For speech processing applications these parameters suit better:
+///     #define DEFAULT_SEQUENCE_MS     40
+///     #define DEFAULT_SEEKWINDOW_MS   15
+///     #define DEFAULT_OVERLAP_MS      8
+///
 
 /// Default length of a single processing sequence, in milliseconds. This determines to how 
 /// long sequences the original sound is chopped in the time-stretch algorithm.
@@ -61,7 +68,7 @@ namespace soundtouch
 /// and vice versa.
 ///
 /// Increasing this value reduces computational burden & vice versa.
-//#define DEFAULT_SEQUENCE_MS         130
+//#define DEFAULT_SEQUENCE_MS         40
 #define DEFAULT_SEQUENCE_MS         USE_AUTO_SEQUENCE_LEN
 
 /// Giving this value for the sequence length sets automatic parameter value
@@ -80,7 +87,7 @@ namespace soundtouch
 /// around, try reducing this setting.
 ///
 /// Increasing this value increases computational burden & vice versa.
-//#define DEFAULT_SEEKWINDOW_MS       25
+//#define DEFAULT_SEEKWINDOW_MS       15
 #define DEFAULT_SEEKWINDOW_MS       USE_AUTO_SEEKWINDOW_LEN
 
 /// Giving this value for the seek window length sets automatic parameter value
@@ -113,7 +120,6 @@ protected:
     int overlapLength;
     int seekLength;
     int seekWindowLength;
-    int maxOffset;
     int overlapDividerBits;
     int slopingDivider;
     float nominalSkip;
@@ -121,7 +127,8 @@ protected:
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
     BOOL bQuickSeek;
-    BOOL bMidBufferDirty;
+//    int outDebt;
+//    BOOL bMidBufferDirty;
 
     int sampleRate;
     int sequenceMs;
