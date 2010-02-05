@@ -9,7 +9,8 @@
 #define localize = True
 
 
-#include "../include/Version.h"
+;workaround since ISPP doesn't work with relative paths
+#include "Installer/../../include/Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
 #define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
