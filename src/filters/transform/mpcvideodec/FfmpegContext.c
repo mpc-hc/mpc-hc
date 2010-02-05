@@ -614,7 +614,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 							struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize)
 {
 	int					i;
-	int					got_picture;
+	int					got_picture = 0;
     Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
     MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
 
