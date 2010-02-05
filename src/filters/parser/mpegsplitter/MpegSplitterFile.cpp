@@ -98,9 +98,7 @@ HRESULT CMpegSplitterFile::Init()
 			{
 				peshdr h;
 				if(Read(h, b) && BitRead(24, true) == 0x000001)
-				{
 					m_type = es;
-				}
 			}
 		}
 	}
@@ -108,9 +106,7 @@ HRESULT CMpegSplitterFile::Init()
 	Seek(0);
 
 	if(m_type == us)
-	{
 		return E_FAIL;
-	}
 
 	// min/max pts & bitrate
 	m_rtMin = m_posMin = _I64_MAX;
@@ -151,8 +147,7 @@ HRESULT CMpegSplitterFile::Init()
 	int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin));
 	// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 	// (update: also allowing +/-50k/s)
-	if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
-	|| abs(detected_rate - indicated_rate) < 50*1024)
+	if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1 || abs(detected_rate - indicated_rate) < 50*1024)
 		m_rate = detected_rate;
 	else ; // TODO: in this case disable seeking, or try doing something less drastical...
 
@@ -190,8 +185,7 @@ void CMpegSplitterFile::OnComplete()
 		int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
 		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
 		// (update: also allowing +/-50k/s)
-		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1
-		|| abs(detected_rate - indicated_rate) < 50*1024)
+		if(indicated_rate == 0 || ((float)detected_rate / indicated_rate) < 1.1 || abs(detected_rate - indicated_rate) < 50*1024)
 			m_rate = detected_rate;
 		else ; // TODO: in this case disable seeking, or try doing something less drastical...
 	}
@@ -211,7 +205,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 		if(m_type == ps || m_type == es)
 		{
 			if(!NextMpegStartCode(b)) // continue;
-				{ASSERT(0); break;}
+				ASSERT(0); break;
 
 			rtpos = GetPos()-4;
 
@@ -316,12 +310,6 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop)
 				{
 					if(m_rtMin == _I64_MAX) {m_rtMin = h.pts; m_posMin = GetPos();}
 					if(m_rtMin < h.pts && m_rtMax < h.pts) {m_rtMax = h.pts; m_posMax = GetPos();}
-/*
-int rate = 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin); 
-if(m_rate == 0) m_rate = rate;
-TRACE(_T("rate = %d (%d), (h.pts = %I64d)\n"), rate, rate - m_rate, h.pts);
-m_rate = rate;
-*/
 				}
 
 				__int64 pos = GetPos();
@@ -334,32 +322,39 @@ m_rate = rate;
 			trhdr h;
 			if(!Read(h)) continue;
 
-			// if(h.scrambling) {ASSERT(0); return E_FAIL;}
-
 			__int64 pos = GetPos();
 
 			if(h.payload && h.payloadstart)
-			{
 				UpdatePrograms(h);
-			}
 				
 			if(h.payload && ISVALIDPID(h.pid))
 			{
 				peshdr h2;
 				if(h.payloadstart && NextMpegStartCode(b, 4) && Read(h2, b)) // pes packet
 				{
-					if(h2.type == mpeg2 && h2.scrambling) {ASSERT(0); return E_FAIL;}
+					if(h2.type == mpeg2 && h2.scrambling)
+					{
+						ASSERT(0);
+						return E_FAIL;
+					}
 
 					if(h2.fpts)
 					{
-						if(m_rtMin == _I64_MAX) {m_rtMin = h2.pts; m_posMin = GetPos();}
-						if(m_rtMin < h2.pts && m_rtMax < h2.pts) {m_rtMax = h2.pts; m_posMax = GetPos();}
+						if(m_rtMin == _I64_MAX)
+						{
+							m_rtMin = h2.pts;
+							m_posMin = GetPos();
+						}
+						
+						if(m_rtMin < h2.pts && m_rtMax < h2.pts)
+						{
+							m_rtMax = h2.pts;
+							m_posMax = GetPos();
+						}
 					}
 				}
 				else
-				{
 					b = 0;
-				}
 
 				AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - pos)));
 			}
@@ -373,14 +368,28 @@ m_rate = rate;
 
 			if(h.fpts)
 			{
-				if(m_rtMin == _I64_MAX) {m_rtMin = h.pts; m_posMin = GetPos();}
-				if(m_rtMin < h.pts && m_rtMax < h.pts) {m_rtMax = h.pts; m_posMax = GetPos();}
+				if(m_rtMin == _I64_MAX)
+				{
+					m_rtMin = h.pts;
+					m_posMin = GetPos();
+				}
+
+				if(m_rtMin < h.pts && m_rtMax < h.pts)
+				{
+					m_rtMax = h.pts;
+					m_posMax = GetPos();
+				}
 			}
 
 			__int64 pos = GetPos();
-			if(h.streamid == 1) AddStream(h.streamid, 0xe0, h.length);
-			else if(h.streamid == 2) AddStream(h.streamid, 0xc0, h.length);
-			if(h.length) Seek(pos + h.length);
+
+			if(h.streamid == 1)
+				AddStream(h.streamid, 0xe0, h.length);
+			else if(h.streamid == 2)
+				AddStream(h.streamid, 0xc0, h.length);
+
+			if(h.length)
+				Seek(pos + h.length);
 		}
 	}
 
@@ -413,6 +422,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		}
 
 		Seek(pos);
+
 		if(type == unknown)
 		{
 //			CMpegSplitterFile::avchdr h;	<= PPS and SPS can be present on differents packets !
@@ -638,7 +648,11 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		{
 			for(int i = 0; i < unknown; i++)
 			{
-				if(m_streams[i].Find(s)) {/*ASSERT(0);*/ return s;}
+				if(m_streams[i].Find(s))
+				{
+					/*ASSERT(0);*/
+					return s;
+				}
 			}
 		}
 
@@ -687,6 +701,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 
 			int len = h2.section_length;
 			len -= 5+4;
+
 			for(int i = len/4; i > 0; i--)
 			{
 				WORD program_number = (WORD)BitRead(16);
@@ -720,12 +735,17 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 
 			int len = h2.section_length;
 			len -= 5+4;
+
 			BYTE reserved1 = (BYTE)BitRead(3);
 			WORD PCR_PID = (WORD)BitRead(13);
 			BYTE reserved2 = (BYTE)BitRead(4);
 			WORD program_info_length = (WORD)BitRead(12);
+
 			len -= 4+program_info_length;
-			while(program_info_length-- > 0) BitRead(8);
+
+			while(program_info_length-- > 0)
+				BitRead(8);
+
 			for(int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++)
 			{
 				BYTE stream_type = (BYTE)BitRead(8);
@@ -733,9 +753,13 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD pid = (WORD)BitRead(13);
 				BYTE reserved2 = (BYTE)BitRead(4);
 				WORD ES_info_length = (WORD)BitRead(12);
+
 				len -= 5+ES_info_length;
-				while(ES_info_length-- > 0) BitRead(8);
-				pPair->m_value.streams[i].pid			= pid;
+
+				while(ES_info_length-- > 0)
+					BitRead(8);
+
+				pPair->m_value.streams[i].pid	= pid;
 				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 			}
 		}
@@ -758,10 +782,13 @@ const CMpegSplitterFile::program* CMpegSplitterFile::FindProgram(WORD pid, int &
 	_pClipInfo = m_ClipInfo.FindStream(pid);
 
 	iStream = -1;
+
 	POSITION pos = m_programs.GetStartPosition();
+
 	while(pos)
 	{
 		program* p = &m_programs.GetNextValue(pos);
+
 		for(int i = 0; i < countof(p->streams); i++)
 		{
 			if(p->streams[i].pid == pid) 
