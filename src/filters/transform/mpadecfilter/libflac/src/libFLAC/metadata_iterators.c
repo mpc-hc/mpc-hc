@@ -1217,6 +1217,7 @@ static FLAC__bool chain_read_cb_(FLAC__Metadata_Chain *chain, FLAC__IOHandle han
 			}
 
 			if(!read_metadata_block_header_cb_(handle, read_cb, &is_last, &type, &length)) {
+				node_delete_(node);
 				chain->status = FLAC__METADATA_CHAIN_STATUS_READ_ERROR;
 				return false;
 			}
