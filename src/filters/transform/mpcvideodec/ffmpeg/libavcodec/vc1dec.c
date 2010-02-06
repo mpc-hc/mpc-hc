@@ -36,6 +36,7 @@
 #include "unary.h"
 #include "simple_idct.h"
 #include "mathops.h"
+#include "h263.h"
 
 #undef NDEBUG
 #include <assert.h>
@@ -2995,7 +2996,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         return -1;
     if (vc1_init_common(v) < 0) return -1;
     // only for ff_msmp4_mb_i_table
-    if (ff_msmpeg4_decode_init(s) < 0) return -1;
+    if (ff_msmpeg4_decode_init(avctx) < 0) return -1;
 
     avctx->coded_width = avctx->width;
     avctx->coded_height = avctx->height;

@@ -24,9 +24,13 @@
 #ifndef AVCODEC_INTERNAL_H
 #define AVCODEC_INTERNAL_H
 
-#ifdef __GNUC__
 #include <stdint.h>
-#endif
 #include "avcodec.h"
+
+/**
+ * Return the index into tab at which {a,b} match elements {[0],[1]} of tab.
+ * If there is no such matching pair then size is returned.
+ */
+int ff_match_2uint16(const uint16_t (*tab)[2], int size, int a, int b);
 
 #endif /* AVCODEC_INTERNAL_H */

@@ -538,6 +538,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\h263.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\h263_parser.c"
 				>
 			</File>
@@ -559,6 +563,18 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\h264.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_cabac.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_cavlc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_direct.c"
 				>
 			</File>
 			<File
@@ -598,11 +614,31 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\libavcodec\h264_loopfilter.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_mvpred.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\h264_parser.c"
 				>
 			</File>
 			<File
 				RelativePath="libavcodec\h264_parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_ps.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_refs.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264_sei.c"
 				>
 			</File>
 			<File
@@ -658,6 +694,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\ituh263dec.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\jpegls.c"
 				>
 			</File>
@@ -679,6 +719,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\mdct.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mdct_tablegen.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mdct_tablegen.h"
 				>
 			</File>
 			<File
@@ -754,11 +802,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg4video.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.c"
 				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\mpeg4videodec.c"
 				>
 			</File>
 			<File
@@ -922,7 +978,6 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -952,6 +1007,14 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavcodec\tableprint.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\tableprint.h"
+				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\unary.h"
@@ -1175,6 +1238,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\internal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\intmath.h"
 				>
 			</File>
 			<File
@@ -1569,6 +1636,42 @@
 		<File
 			RelativePath=".\libavcodec_dec.def"
 			>
+		</File>
+		<File
+			RelativePath=".\Makefile"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|x64"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath=".\PODtypes.h"

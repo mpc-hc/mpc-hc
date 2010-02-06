@@ -1,6 +1,6 @@
 /*
- * Provides registration of all codecs for libavcodec.
- * Copyright (c) 2002 Fabrice Bellard.
+ * Provides registration of all codecs, parsers and bitstream filters for libavcodec.
+ * Copyright (c) 2002 Fabrice Bellard
  *
  * This file is part of FFmpeg.
  *
@@ -20,8 +20,8 @@
  */
 
 /**
- * @file allcodecs.c
- * Provides registration of all codecs for libavcodec.
+ * @file libavcodec/allcodecs.c
+ * Provides registration of all codecs, parsers and bitstream filters for libavcodec.
  */
 
 #include "avcodec.h"

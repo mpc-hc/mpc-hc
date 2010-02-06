@@ -1961,4 +1961,3 @@ DECLARE_INTERFACE_(IDirect3DDXVADevice9, IUnknown)
 #endif
 
 #endif /* __DIRECTX_VA__ */
-

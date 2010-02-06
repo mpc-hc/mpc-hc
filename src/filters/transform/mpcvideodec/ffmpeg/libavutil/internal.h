@@ -144,25 +144,6 @@
 
 /* math */
 
-extern const uint32_t ff_inverse[257];
-
-#if ARCH_X86
-#    define FASTDIV(a,b) \
-    ({\
-        int ret, dmy;\
-        __asm__ volatile(\
-            "mull %3"\
-            :"=d"(ret), "=a"(dmy)\
-            :"1"(a), "g"(ff_inverse[b])\
-            );\
-        ret;\
-    })
-#elif CONFIG_FASTDIV
-#    define FASTDIV(a,b)   ((uint32_t)((((uint64_t)a) * ff_inverse[b]) >> 32))
-#else
-#    define FASTDIV(a,b)   ((a) / (b))
-#endif
-
 extern const uint8_t ff_sqrt_tab[256];
 
 static inline av_const unsigned int ff_sqrt(unsigned int a)
@@ -197,25 +178,6 @@ static inline av_const unsigned int ff_sqrt(unsigned int a)
 #define MASK_ABS(mask, level)\
             mask  = level >> 31;\
             level = (level ^ mask) - mask;
-#endif
-
-#if HAVE_CMOV
-#define COPY3_IF_LT(x, y, a, b, c, d)\
-__asm__ volatile(\
-    "cmpl  %0, %3       \n\t"\
-    "cmovl %3, %0       \n\t"\
-    "cmovl %4, %1       \n\t"\
-    "cmovl %5, %2       \n\t"\
-    : "+&r" (x), "+&r" (a), "+r" (c)\
-    : "r" (y), "r" (b), "r" (d)\
-);
-#else
-#define COPY3_IF_LT(x, y, a, b, c, d)\
-if ((y) < (x)) {\
-    (x) = (y);\
-    (a) = (b);\
-    (c) = (d);\
-}
 #endif
 
 /* avoid usage of dangerous/inappropriate system functions */
@@ -266,7 +228,22 @@ if ((y) < (x)) {\
     }\
 }
 
+/* ffdshow custom code */
 #ifndef __GNUC__
+
+#ifndef exp2
+static av_always_inline av_const double exp2(double x)
+{
+    return exp(x * 0.693147180559945);
+}
+#endif
+
+#ifndef exp2f
+static av_always_inline av_const float exp2f(float x)
+{
+    return exp2(x);
+}
+#endif
 
 #ifndef rint
 #define rint(x) (int)(x+0.5)
@@ -283,6 +260,13 @@ static av_always_inline av_const long long llrint(double x)
 static av_always_inline av_const double log2(double x)
 {
     return log(x) * 1.44269504088896340736;
+}
+#endif
+
+#ifndef log2f
+static av_always_inline av_const float log2f(float x)
+{
+    return log2(x);
 }
 #endif
 

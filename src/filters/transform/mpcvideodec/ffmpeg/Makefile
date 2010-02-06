@@ -37,7 +37,15 @@ SRCS_C=\
 		$(LAVC_DIR)/h263_parser.c \
 		$(LAVC_DIR)/h263dec.c \
 		$(LAVC_DIR)/h264.c \
+		$(LAVC_DIR)/h264_cabac.c \
+		$(LAVC_DIR)/h264_cavlc.c \
+		$(LAVC_DIR)/h264_direct.c \
+		$(LAVC_DIR)/h264_loopfilter.c \
 		$(LAVC_DIR)/h264_parser.c \
+		$(LAVC_DIR)/h264_ps.c \
+		$(LAVC_DIR)/h264_ps.c \
+		$(LAVC_DIR)/h264_refs.c \
+		$(LAVC_DIR)/h264_sei.c \
 		$(LAVC_DIR)/h264idct.c \
 		$(LAVC_DIR)/h264pred.c \
 		$(LAVC_DIR)/huffman.c \
@@ -45,11 +53,13 @@ SRCS_C=\
 		$(LAVC_DIR)/intelh263dec.c \
 		$(LAVC_DIR)/intrax8.c \
 		$(LAVC_DIR)/intrax8dsp.c \
+		$(LAVC_DIR)/ituh263dec.c \
 		$(LAVC_DIR)/jpegls.c \
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
 		$(LAVC_DIR)/libamr.c \
 		$(LAVC_DIR)/mdct.c \
+		$(LAVC_DIR)/mdct_tablegen.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
 		$(LAVC_DIR)/mlp.c \
@@ -59,7 +69,9 @@ SRCS_C=\
 		$(LAVC_DIR)/mpc_helper.c \
 		$(LAVC_DIR)/mpeg12.c \
 		$(LAVC_DIR)/mpeg12data.c \
+		$(LAVC_DIR)/mpeg4video.c \
 		$(LAVC_DIR)/mpeg4video_parser.c \
+		$(LAVC_DIR)/mpeg4videodec.c \
 		$(LAVC_DIR)/mpegvideo.c \
 		$(LAVC_DIR)/msmpeg4.c \
 		$(LAVC_DIR)/msmpeg4data.c \
@@ -77,6 +89,8 @@ SRCS_C=\
 		$(LAVC_DIR)/sp5xdec.c \
 		$(LAVC_DIR)/svq1.c \
 		$(LAVC_DIR)/svq1dec.c \
+		$(LAVC_DIR)/svq3.c \
+		$(LAVC_DIR)/tableprint.c \
 		$(LAVC_DIR)/utils.c \
 		$(LAVC_DIR)/vc1.c \
 		$(LAVC_DIR)/vc1dec.c \

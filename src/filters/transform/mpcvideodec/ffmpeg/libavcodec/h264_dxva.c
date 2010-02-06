@@ -21,60 +21,9 @@
 #include "h264_parser.h"
 #include "golomb.h"
 
+#include <windows.h>
+#include <dxva.h>
 
-typedef unsigned short        USHORT;
-typedef unsigned char         UCHAR;
-typedef int                   INT;
-typedef unsigned int          UINT;
-typedef char                  CHAR;
-typedef unsigned char         BYTE;
-typedef unsigned short        WORD;
-typedef short				  SHORT;
-
-#define S_OK                0x00000000L
-#define E_FAIL              0x80004005L
-
-
-/* H.264/AVC picture entry data structure */
-typedef struct _DXVA_PicEntry_H264 {
-  union {
-    struct {
-      UCHAR  Index7Bits      : 7;
-      UCHAR  AssociatedFlag  : 1;
-    };
-    UCHAR  bPicEntry;
-  };
-} DXVA_PicEntry_H264, *LPDXVA_PicEntry_H264;  /* 1 byte */
-
-typedef struct _DXVA_Slice_H264_Long {
-  UINT   BSNALunitDataLocation; /* type 1..5 */
-  UINT   SliceBytesInBuffer; /* for off-host parse */
-  USHORT wBadSliceChopping;  /* for off-host parse */
-
-  USHORT first_mb_in_slice;
-  USHORT NumMbsForSlice;
-
-  USHORT BitOffsetToSliceData; /* after CABAC alignment */
-
-  UCHAR  slice_type;
-  UCHAR  luma_log2_weight_denom;
-  UCHAR  chroma_log2_weight_denom;
-  UCHAR  num_ref_idx_l0_active_minus1;
-  UCHAR  num_ref_idx_l1_active_minus1;
-  CHAR   slice_alpha_c0_offset_div2;
-  CHAR   slice_beta_offset_div2;
-  UCHAR  Reserved8Bits;
-  DXVA_PicEntry_H264 RefPicList[2][32]; /* L0 & L1 */
-  SHORT  Weights[2][32][3][2]; /* L0 & L1; Y, Cb, Cr */
-  CHAR   slice_qs_delta;
-                               /* rest off-host parse */
-  CHAR   slice_qp_delta;
-  UCHAR  redundant_pic_cnt;
-  UCHAR  direct_spatial_mv_pred_flag;
-  UCHAR  cabac_init_idc;
-  UCHAR  disable_deblocking_filter_idc;
-  USHORT slice_id;
-} DXVA_Slice_H264_Long, *LPDXVA_Slice_H264_Long;
 
 static void fill_dxva_slice_long(H264Context *h){
     MpegEncContext* const	s = &h->s;
@@ -140,29 +89,12 @@ static void field_end_noexecute(H264Context *h){
     s->current_picture_ptr->pict_type= s->pict_type;
 
     if(!s->dropable) {
-        execute_ref_pic_marking(h, h->mmco, h->mmco_index);
+        ff_h264_execute_ref_pic_marking(h, h->mmco, h->mmco_index);
         h->prev_poc_msb= h->poc_msb;
         h->prev_poc_lsb= h->poc_lsb;
     }
     h->prev_frame_num_offset= h->frame_num_offset;
     h->prev_frame_num= h->frame_num;
-
-    /*
-     * FIXME: Error handling code does not seem to support interlaced
-     * when slices span multiple rows
-     * The ff_er_add_slice calls don't work right for bottom
-     * fields; they cause massive erroneous error concealing
-     * Error marking covers both fields (top and bottom).
-     * This causes a mismatched s->error_count
-     * and a bad error table. Further, the error count goes to
-     * INT_MAX when called for bottom field, because mb_y is
-     * past end by one (callers fault) and resync_mb_y != 0
-     * causes problems for the first MB line, too.
-     */
-	// ==> Start patch MPC DXVA
-    //if (!FIELD_PICTURE)
-    //    ff_er_frame_end(s);
-	// <== End patch MPC DXVA
 
     MPV_frame_end(s);
 
@@ -287,6 +219,15 @@ int decode_slice_header_noexecute (H264Context *h){
         if(!s->avctx->sample_aspect_ratio.den)
             s->avctx->sample_aspect_ratio.den = 1;
 
+        if(h->sps.video_signal_type_present_flag){
+            s->avctx->color_range = h->sps.full_range ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
+            if(h->sps.colour_description_present_flag){
+                s->avctx->color_primaries = h->sps.color_primaries;
+                s->avctx->color_trc       = h->sps.color_trc;
+                s->avctx->colorspace      = h->sps.colorspace;
+            }
+        }
+
         if(h->sps.timing_info_present_flag){
             #if __STDC_VERSION__ >= 199901L
             s->avctx->time_base= (AVRational){h->sps.num_units_in_tick * 2, h->sps.time_scale};
@@ -306,7 +247,7 @@ int decode_slice_header_noexecute (H264Context *h){
         h->prev_interlaced_frame = 1;
 
         init_scan_tables(h);
-        alloc_tables(h);
+        ff_h264_alloc_tables(h);
 
         for(i = 1; i < s->avctx->thread_count; i++) {
             H264Context *c;
@@ -369,12 +310,12 @@ int decode_slice_header_noexecute (H264Context *h){
         while(h->frame_num !=  h->prev_frame_num &&
               h->frame_num != (h->prev_frame_num+1)%(1<<h->sps.log2_max_frame_num)){
             av_log(NULL, AV_LOG_DEBUG, "Frame num gap %d %d\n", h->frame_num, h->prev_frame_num);
-            if (frame_start(h) < 0)
+            if (ff_h264_frame_start(h) < 0)
                 return -1;
             h->prev_frame_num++;
             h->prev_frame_num %= 1<<h->sps.log2_max_frame_num;
             s->current_picture_ptr->frame_num= h->prev_frame_num;
-            execute_ref_pic_marking(h, NULL, 0);
+            ff_h264_execute_ref_pic_marking(h, NULL, 0);
         }
 
         /* See if we have a decoded first field looking for a pair... */
@@ -418,13 +359,13 @@ int decode_slice_header_noexecute (H264Context *h){
             s0->first_field = FIELD_PICTURE;
         }
 
-        if((!FIELD_PICTURE || s0->first_field) && frame_start(h) < 0) {
+        if((!FIELD_PICTURE || s0->first_field) && ff_h264_frame_start(h) < 0) {
             s0->first_field = 0;
             return -1;
         }
     }
-    //if(h != h0)
-    //    clone_slice(h, h0, 0); /* ffdshow custom code */
+    if(h != h0)
+        clone_slice(h, h0, 0); /* ffdshow custom code */
 
     s->current_picture_ptr->frame_num= h->frame_num; //FIXME frame_num cleanup
 
@@ -502,10 +443,10 @@ int decode_slice_header_noexecute (H264Context *h){
         h->list_count= 0;
 
     if(!default_ref_list_done){
-        fill_default_ref_list(h);
+        ff_h264_fill_default_ref_list(h);
     }
 
-    if(h->slice_type_nos!=FF_I_TYPE && decode_ref_pic_list_reordering(h) < 0)
+    if(h->slice_type_nos!=FF_I_TYPE && ff_h264_decode_ref_pic_list_reordering(h) < 0)
         return -1;
 
     if(h->slice_type_nos!=FF_I_TYPE){
@@ -531,14 +472,14 @@ int decode_slice_header_noexecute (H264Context *h){
     }
 
     if(h->nal_ref_idc)
-        decode_ref_pic_marking(h0, &s->gb);
+        ff_h264_decode_ref_pic_marking(h0, &s->gb);
 
     if(FRAME_MBAFF)
-        fill_mbaff_ref_list(h);
+        ff_h264_fill_mbaff_ref_list(h);
 
     if(h->slice_type_nos==FF_B_TYPE && !h->direct_spatial_mv_pred)
-        direct_dist_scale_factor(h);
-    direct_ref_list_init(h);
+        ff_h264_direct_dist_scale_factor(h);
+    ff_h264_direct_ref_list_init(h);
 
     if( h->slice_type_nos != FF_I_TYPE && h->pps.cabac ){
         tmp = get_ue_golomb_31(&s->gb);
@@ -572,8 +513,8 @@ int decode_slice_header_noexecute (H264Context *h){
     }
 
     h->deblocking_filter = 1;
-    h->slice_alpha_c0_offset = 0;
-    h->slice_beta_offset = 0;
+    h->slice_alpha_c0_offset = 52;
+    h->slice_beta_offset = 52;
     if( h->pps.deblocking_filter_parameters_present ) {
         tmp= get_ue_golomb_31(&s->gb);
         if(tmp > 2){
@@ -585,8 +526,13 @@ int decode_slice_header_noexecute (H264Context *h){
             h->deblocking_filter^= 1; // 1<->0
 
         if( h->deblocking_filter ) {
-            h->slice_alpha_c0_offset = get_se_golomb(&s->gb) << 1;
-            h->slice_beta_offset = get_se_golomb(&s->gb) << 1;
+            h->slice_alpha_c0_offset += get_se_golomb(&s->gb) << 1;
+            h->slice_beta_offset     += get_se_golomb(&s->gb) << 1;
+            if(   h->slice_alpha_c0_offset > 104U
+               || h->slice_beta_offset     > 104U){
+                av_log(s->avctx, AV_LOG_ERROR, "deblocking filter parameters %d %d out of range\n", h->slice_alpha_c0_offset, h->slice_beta_offset);
+                return -1;
+            }
         }
     }
 
@@ -611,6 +557,7 @@ int decode_slice_header_noexecute (H264Context *h){
                 return 1; // deblocking switched inside frame
         }
     }
+    h->qp_thresh= 15 + 52 - FFMIN(h->slice_alpha_c0_offset, h->slice_beta_offset) - FFMAX3(0, h->pps.chroma_qp_index_offset[0], h->pps.chroma_qp_index_offset[1]);
 
 #if 0 //FMO
     if( h->pps.num_slice_groups > 1  && h->pps.mb_slice_group_map_type >= 3 && h->pps.mb_slice_group_map_type <= 5)
@@ -631,16 +578,35 @@ int decode_slice_header_noexecute (H264Context *h){
     }
 
     for(j=0; j<2; j++){
+        int id_list[16];
         int *ref2frm= h->ref2frm[h->slice_num&(MAX_SLICES-1)][j];
+        for(i=0; i<16; i++){
+            id_list[i]= 60;
+            if(h->ref_list[j][i].data[0]){
+                int k;
+                uint8_t *base= h->ref_list[j][i].base[0];
+                for(k=0; k<h->short_ref_count; k++)
+                    if(h->short_ref[k]->base[0] == base){
+                        id_list[i]= k;
+                        break;
+                    }
+                for(k=0; k<h->long_ref_count; k++)
+                    if(h->long_ref[k] && h->long_ref[k]->base[0] == base){
+                        id_list[i]= h->short_ref_count + k;
+                        break;
+                    }
+            }
+        }
+
         ref2frm[0]=
         ref2frm[1]= -1;
         for(i=0; i<16; i++)
-            ref2frm[i+2]= 4*h->ref_list[j][i].frame_num
+            ref2frm[i+2]= 4*id_list[i]
                           +(h->ref_list[j][i].reference&3);
         ref2frm[18+0]=
         ref2frm[18+1]= -1;
         for(i=16; i<48; i++)
-            ref2frm[i+4]= 4*h->ref_list[j][i].frame_num
+            ref2frm[i+4]= 4*id_list[(i-16)>>1]
                           +(h->ref_list[j][i].reference&3);
     }
 
@@ -691,7 +657,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         h->current_slice = 0;
         if (!s->first_field)
             s->current_picture_ptr= NULL;
-        reset_sei(h);
+        ff_h264_reset_sei(h);
     }
 
     for(;;){
@@ -719,7 +685,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
             next_avc= buf_index + nalsize;
         } else {
             // start code prefix search
-            for(; buf_index + 3 < buf_size; buf_index++){
+            for(; buf_index + 3 < next_avc; buf_index++){
                 // This should always succeed in the first iteration.
                 if(buf[buf_index] == 0 && buf[buf_index+1] == 0 && buf[buf_index+2] == 1)
                     break;
@@ -844,7 +810,7 @@ static int decode_nal_units_noexecute(H264Context *h, uint8_t *buf, int buf_size
         case NAL_AUXILIARY_SLICE:
             break;
         default:
-            av_log(avctx, AV_LOG_DEBUG, "Unknown NAL code: %d (%d bits)\n", h->nal_unit_type, bit_length);
+            av_log(avctx, AV_LOG_DEBUG, "Unknown NAL code: %d (%d bits)\n", hx->nal_unit_type, bit_length);
         }
 
         if(context_count == h->max_contexts) {
@@ -1048,8 +1014,8 @@ int av_h264_decode_frame(AVCodecContext *avctx,
             }
 
             /* ffdshow custom code */
-            cur->video_full_range_flag = h->sps.video_full_range_flag;
-            cur->YCbCr_RGB_matrix_coefficients = h->sps.matrix_coefficients;
+            cur->video_full_range_flag = h->sps.full_range;
+            cur->YCbCr_RGB_matrix_coefficients = h->sps.colorspace;
 
         //FIXME do something with unavailable reference frames
 

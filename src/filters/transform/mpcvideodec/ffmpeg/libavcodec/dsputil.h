@@ -346,7 +346,7 @@ typedef struct DSPContext {
     void (*sub_hfyu_median_prediction)(uint8_t *dst, const uint8_t *src1, const uint8_t *src2, int w, int *left, int *left_top);
     void (*add_hfyu_median_prediction)(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
     int  (*add_hfyu_left_prediction)(uint8_t *dst, const uint8_t *src, int w, int left);
-    void (*add_hfyu_left_prediction_bgr32)(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue);
+    void (*add_hfyu_left_prediction_bgr32)(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue, int *alpha);
     /* this might write to dst[w] */
     void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
     void (*bswap_buf)(uint32_t *dst, const uint32_t *src, int w);
@@ -622,8 +622,8 @@ extern int mm_flags;
 
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
-#define DECLARE_ALIGNED_16(t, v) DECLARE_ALIGNED(16, t, v)
-#define DECLARE_ALIGNED_8(t, v)  DECLARE_ALIGNED(8, t, v)
+#define DECLARE_ALIGNED_16(t, v, ...) DECLARE_ALIGNED(16, t, v)
+#define DECLARE_ALIGNED_8(t, v, ...)  DECLARE_ALIGNED(8, t, v)
 
 #if HAVE_MMX
 
@@ -697,15 +697,19 @@ typedef struct FFTContext {
 #if CONFIG_HARDCODED_TABLES
 #define COSTABLE_CONST const
 #define SINTABLE_CONST const
+#define SINETABLE_CONST const
 #else
 #define COSTABLE_CONST
 #define SINTABLE_CONST
+#define SINETABLE_CONST
 #endif
 
 #define COSTABLE(size) \
-    COSTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_cos_##size[size/2])
+    COSTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_cos_##size)[size/2]
 #define SINTABLE(size) \
-    SINTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_sin_##size[size/2])
+    SINTABLE_CONST DECLARE_ALIGNED_16(FFTSample, ff_sin_##size)[size/2]
+#define SINETABLE(size) \
+    SINETABLE_CONST DECLARE_ALIGNED_16(float, ff_sine_##size)[size]
 extern COSTABLE(16);
 extern COSTABLE(32);
 extern COSTABLE(64);
@@ -800,15 +804,19 @@ void ff_kbd_window_init(float *window, float alpha, int n);
  * @param   n       size of half window
  */
 void ff_sine_window_init(float *window, int n);
-extern float ff_sine_32  [  32];
-extern float ff_sine_64  [  64];
-extern float ff_sine_128 [ 128];
-extern float ff_sine_256 [ 256];
-extern float ff_sine_512 [ 512];
-extern float ff_sine_1024[1024];
-extern float ff_sine_2048[2048];
-extern float ff_sine_4096[4096];
-extern float * const ff_sine_windows[13];
+/**
+ * initialize the specified entry of ff_sine_windows
+ */
+void ff_init_ff_sine_windows(int index);
+extern SINETABLE(  32);
+extern SINETABLE(  64);
+extern SINETABLE( 128);
+extern SINETABLE( 256);
+extern SINETABLE( 512);
+extern SINETABLE(1024);
+extern SINETABLE(2048);
+extern SINETABLE(4096);
+extern SINETABLE_CONST float * const ff_sine_windows[13];
 
 int ff_mdct_init(FFTContext *s, int nbits, int inverse, double scale);
 void ff_imdct_calc_c(FFTContext *s, FFTSample *output, const FFTSample *input);
@@ -844,6 +852,26 @@ typedef struct {
 int ff_rdft_init(RDFTContext *s, int nbits, enum RDFTransformType trans);
 void ff_rdft_calc(RDFTContext *s, FFTSample *data);
 void ff_rdft_end(RDFTContext *s);
+
+/* Discrete Cosine Transform */
+
+typedef struct {
+    int nbits;
+    int inverse;
+    FFTSample *data;
+    RDFTContext rdft;
+    const float *costab;
+    FFTSample *csc2;
+} DCTContext;
+
+/**
+ * Sets up (Inverse)DCT.
+ * @param nbits           log2 of the length of the input array
+ * @param inverse         >0 forward transform, <0 inverse transform
+ */
+int  ff_dct_init(DCTContext *s, int nbits, int inverse);
+void ff_dct_calc(DCTContext *s, FFTSample *data);
+void ff_dct_end (DCTContext *s);
 
 #define WRAPPER8_16(name8, name16)\
 static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int stride, int h){\

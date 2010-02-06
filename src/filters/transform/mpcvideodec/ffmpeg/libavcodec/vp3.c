@@ -202,7 +202,7 @@ typedef struct Vp3DecodeContext {
 
     /* these arrays need to be on 16-byte boundaries since SSE2 operations
      * index into them */
-    DECLARE_ALIGNED_16(int16_t, qmat[3][2][3][64]);     //<qmat[qpi][is_inter][plane]
+    DECLARE_ALIGNED_16(int16_t, qmat)[3][2][3][64];     //<qmat[qpi][is_inter][plane]
 
     /* This table contains superblock_count * 16 entries. Each set of 16
      * numbers corresponds to the fragment indexes 0..15 of the superblock.
@@ -240,7 +240,7 @@ typedef struct Vp3DecodeContext {
     uint16_t huffman_table[80][32][2];
 
     uint8_t filter_limit_values[64];
-    DECLARE_ALIGNED_8(int, bounding_values_array[256+2]);
+    DECLARE_ALIGNED_8(int, bounding_values_array)[256+2];
 
     /* ffdshow custom stuffs (begin) */
     int fps_numerator,fps_denumerator;
@@ -1405,7 +1405,7 @@ static void render_slice(Vp3DecodeContext *s, int slice)
 {
     int x;
     int16_t *dequantizer;
-    DECLARE_ALIGNED_16(DCTELEM, block[64]);
+    DECLARE_ALIGNED_16(DCTELEM, block)[64];
     int motion_x = 0xdeadbeef, motion_y = 0xdeadbeef;
     int motion_halfpel_index;
     uint8_t *motion_source;
@@ -2031,29 +2031,27 @@ static int vp3_decode_frame(AVCodecContext *avctx,
 
     apply_loop_filter(s);
 
-	// ==> Start patch MPC
     /* ffdshow custom code (begin) */
-    //if (s->theora && s->fps_numerator){
-    //    if (avctx->granulepos>-1){
-    //        s->granulepos=avctx->granulepos;
-    //    }else{
-    //        if (s->granulepos==-1)
-    //            s->granulepos=0;
-    //        else
-    //            if (s->keyframe){
-    //                long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
-    //                s->granulepos>>=s->keyframe_granule_shift;
-    //                s->granulepos+=frames+1;
-    //                s->granulepos<<=s->keyframe_granule_shift;
-    //            }else{
-    //                s->granulepos++;
-    //            }
-    //    }
-    //    s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * s->fps_denumerator / s->fps_numerator;
-    //    s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
-    //}
+    if (s->theora && s->fps_numerator){
+        if (avctx->granulepos>-1){
+            s->granulepos=avctx->granulepos;
+        }else{
+            if (s->granulepos==-1)
+                s->granulepos=0;
+            else
+                if (s->keyframe){
+                    long frames= s->granulepos & ((1<<s->keyframe_granule_shift)-1);
+                    s->granulepos>>=s->keyframe_granule_shift;
+                    s->granulepos+=frames+1;
+                    s->granulepos<<=s->keyframe_granule_shift;
+                }else{
+                    s->granulepos++;
+                }
+        }
+        s->current_frame.reordered_opaque = 10000000LL * theora_granule_frame(s,s->granulepos) * s->fps_denumerator / s->fps_numerator;
+        s->current_frame.pict_type=s->keyframe?FF_I_TYPE:FF_P_TYPE;
+    }
     /* ffdshow custom code (end) */
-	// <== End patch MPC
 
     *data_size=sizeof(AVFrame);
     *(AVFrame*)data= s->current_frame;

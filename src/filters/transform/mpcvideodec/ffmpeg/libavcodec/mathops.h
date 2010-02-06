@@ -43,6 +43,12 @@ static av_always_inline int MULH(int a, int b){
 }
 #endif
 
+#ifndef UMULH
+static av_always_inline unsigned UMULH(unsigned a, unsigned b){
+    return ((uint64_t)(a) * (uint64_t)(b))>>32;
+}
+#endif
+
 #ifndef MUL64
 #   define MUL64(a,b) ((int64_t)(a) * (int64_t)(b))
 #endif
@@ -107,6 +113,15 @@ static inline av_const int mid_pred(int a, int b, int c)
 static inline av_const int sign_extend(int val, unsigned bits)
 {
     return (val << (INT_BIT - bits)) >> (INT_BIT - bits);
+}
+#endif
+
+#ifndef COPY3_IF_LT
+#define COPY3_IF_LT(x, y, a, b, c, d)\
+if ((y) < (x)) {\
+    (x) = (y);\
+    (a) = (b);\
+    (c) = (d);\
 }
 #endif
 

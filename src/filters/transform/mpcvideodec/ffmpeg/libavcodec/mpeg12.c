@@ -2058,6 +2058,9 @@ static int vcr2_init_sequence(AVCodecContext *avctx)
     s->chroma_format = 1;
     s->codec_id= s->avctx->codec_id= CODEC_ID_MPEG2VIDEO;
     avctx->sub_id = 2; /* indicates MPEG-2 */
+    s1->save_width           = s->width;
+    s1->save_height          = s->height;
+    s1->save_progressive_seq = s->progressive_sequence;
     return 0;
 }
 
@@ -2086,7 +2089,7 @@ static void mpeg_decode_user_data(AVCodecContext *avctx,
     /* ffdshow custom code */
     else if (avctx->handle_user_data) {
         uint32_t state;
-        uint8_t *user_data_end = (uint8_t*) ff_find_start_code(buf, buf + buf_size, &state);
+        uint8_t *user_data_end = ff_find_start_code(buf, buf + buf_size, &state);
         avctx->handle_user_data(avctx, buf, user_data_end - buf);
     }
 }

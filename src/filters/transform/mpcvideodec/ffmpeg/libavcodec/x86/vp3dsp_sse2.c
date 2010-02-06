@@ -19,14 +19,14 @@
  */
 
 /**
- * @file vp3dsp_sse2.c
+ * @file libavcodec/x86/vp3dsp_sse2.c
  * SSE2-optimized functions cribbed from the original VP3 source code.
  */
 
 #include "libavcodec/dsputil.h"
 #include "dsputil_mmx.h"
 
-DECLARE_ALIGNED_16(const uint16_t, ff_vp3_idct_data[7 * 8]) =
+DECLARE_ALIGNED_16(const uint16_t, ff_vp3_idct_data)[7 * 8] =
 {
     64277,64277,64277,64277,64277,64277,64277,64277,
     60547,60547,60547,60547,60547,60547,60547,60547,

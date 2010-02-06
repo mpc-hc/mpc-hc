@@ -148,7 +148,7 @@ for examples see get_bits, show_bits, skip_bits, get_vlc
 #   define MIN_CACHE_BITS 25
 
 #   define OPEN_READER(name, gb)\
-        int name##_index= (gb)->index;\
+        unsigned int name##_index= (gb)->index;\
         int name##_cache= 0;\
 
 #   define CLOSE_READER(name, gb)\
@@ -198,7 +198,7 @@ for examples see get_bits, show_bits, skip_bits, get_vlc
 #   define GET_CACHE(name, gb)\
         ((uint32_t)name##_cache)
 
-static inline int get_bits_count(GetBitContext *s){
+static inline int get_bits_count(const GetBitContext *s){
     return s->index;
 }
 
@@ -252,7 +252,7 @@ static inline void skip_bits_long(GetBitContext *s, int n){
 #   define GET_CACHE(name, gb)\
         ((uint32_t)name##_cache)
 
-static inline int get_bits_count(GetBitContext *s){
+static inline int get_bits_count(const GetBitContext *s){
     return (s->buffer_ptr - s->buffer)*8 - 16 + s->bit_count;
 }
 
@@ -327,7 +327,7 @@ static inline void skip_bits_long(GetBitContext *s, int n){
 #   define GET_CACHE(name, gb)\
         (name##_cache0)
 
-static inline int get_bits_count(GetBitContext *s){
+static inline int get_bits_count(const GetBitContext *s){
     return ((uint8_t*)s->buffer_ptr - s->buffer)*8 - 32 + s->bit_count;
 }
 
@@ -409,7 +409,7 @@ static inline void skip_bits(GetBitContext *s, int n){
 
 static inline unsigned int get_bits1(GetBitContext *s){
 #ifdef ALT_BITSTREAM_READER
-    int index= s->index;
+    unsigned int index= s->index;
     uint8_t result= s->buffer[ index>>3 ];
 #ifdef ALT_BITSTREAM_READER_LE
     result>>= (index&0x07);
@@ -553,7 +553,8 @@ void free_vlc(VLC *vlc);
  */
 #define GET_VLC(code, name, gb, table, bits, max_depth)\
 {\
-    int n, index, nb_bits;\
+    int n, nb_bits;\
+    unsigned int index;\
 \
     index= SHOW_UBITS(name, gb, bits);\
     code = table[index][0];\
@@ -584,7 +585,8 @@ void free_vlc(VLC *vlc);
 
 #define GET_RL_VLC(level, run, name, gb, table, bits, max_depth, need_update)\
 {\
-    int n, index, nb_bits;\
+    int n, nb_bits;\
+    unsigned int index;\
 \
     index= SHOW_UBITS(name, gb, bits);\
     level = table[index].level;\
