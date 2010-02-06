@@ -204,8 +204,11 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 	{
 		if(m_type == ps || m_type == es)
 		{
-			if(!NextMpegStartCode(b)) // continue;
-				ASSERT(0); break;
+			if(!NextMpegStartCode(b))	// continue;
+			{	
+				ASSERT(0);
+				break;
+			}
 
 			rtpos = GetPos()-4;
 

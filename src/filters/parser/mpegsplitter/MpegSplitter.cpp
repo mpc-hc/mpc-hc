@@ -1291,7 +1291,8 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			m_p->rtStart = p->rtStart;
 			p->rtStart = Packet::INVALID_TIME;
 
-			m_p->rtStop = p->rtStop; p->rtStop = Packet::INVALID_TIME;
+			m_p->rtStop = p->rtStop;
+			p->rtStop = Packet::INVALID_TIME;
 		}
 
 		m_p->Append(*p);
@@ -1419,7 +1420,9 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			m_p->bSyncPoint = p->bSyncPoint;
 			p->bSyncPoint = FALSE;
 
-			m_p->rtStart = p->rtStart; p->rtStart = Packet::INVALID_TIME;
+			m_p->rtStart = p->rtStart;
+			p->rtStart = Packet::INVALID_TIME;
+
 			m_p->rtStop = p->rtStop;
 			p->rtStop = Packet::INVALID_TIME;
 		}
@@ -1496,14 +1499,16 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				m_p->bDiscontinuity = p->bDiscontinuity;
 				p->bDiscontinuity = FALSE;
 			}
-			if(p->bSyncPoint){
+			if(p->bSyncPoint)
+			{
 				m_p->bSyncPoint = p->bSyncPoint;
 				p->bSyncPoint = FALSE;
 			}
 			if(m_p->pmt)
 				DeleteMediaType(m_p->pmt);
 			
-			m_p->pmt = p->pmt; p->pmt = NULL;
+			m_p->pmt = p->pmt;
+			p->pmt = NULL;
 
 			start = next;
 			bSeqFound = (*(DWORD*)start == 0x0D010000);
