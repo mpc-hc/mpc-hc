@@ -784,6 +784,7 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
 	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
+#ifndef _DEBUG	// Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
 	if (hNTDLL)
 	{		
 		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
@@ -791,6 +792,7 @@ BOOL CMPlayerCApp::InitInstance()
 		if (Real_NtQueryInformationProcess)
 			DetourAttach(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
 	}
+#endif
 
 	CFilterMapper2::Init();
 
