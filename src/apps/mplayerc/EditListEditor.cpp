@@ -96,6 +96,9 @@ BEGIN_MESSAGE_MAP(CEditListEditor, CSizingControlBarG)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_TIMER()
+	ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_EDITLIST, OnBeginlabeleditList)
+	ON_NOTIFY(LVN_DOLABELEDIT, IDC_EDITLIST, OnDolabeleditList)
+	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_EDITLIST, OnEndlabeleditList)
 END_MESSAGE_MAP()
 
 
@@ -116,6 +119,7 @@ BOOL CEditListEditor::Create(CWnd* pParentWnd)
 	m_list.InsertColumn(COL_IN,	 _T("Nb."),  LVCFMT_LEFT, 35);
 	m_list.InsertColumn(COL_IN,	 _T("In"),  LVCFMT_LEFT, 100);
 	m_list.InsertColumn(COL_OUT, _T("Out"), LVCFMT_LEFT, 100);
+	m_list.InsertColumn(COL_NAME, _T("Name"), LVCFMT_LEFT, 150);
 
     m_fakeImageList.Create(1, 16, ILC_COLOR4, 10, 10);
 	m_list.SetImageList(&m_fakeImageList, LVSIL_SMALL);
@@ -161,7 +165,7 @@ void CEditListEditor::SaveEditListToFile()
 
 				if (CurClip.HaveIn() && CurClip.HaveOut())
 				{
-					strLine.Format(_T("%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut());
+					strLine.Format(_T("%s\t%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut(), CurClip.GetName());
 					EditListFile.WriteString (strLine);
 				}
 			}
@@ -197,18 +201,34 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
 			int		nPos = 0;
 			CString		strIn	= strLine.Tokenize(_T(" \t"), nPos);
 			CString		strOut	= strLine.Tokenize(_T(" \t"), nPos);
+			CString		strName	= strLine.Tokenize(_T(" \t"), nPos);
 			
 			if (!strIn.IsEmpty() && !strOut.IsEmpty())
 			{
 				CClip	NewClip;
 				NewClip.SetIn  (strIn);
 				NewClip.SetOut (strOut);
+				NewClip.SetName(strName);
 
 				InsertClip (NULL, NewClip);
 			}
 		}
 		
 		EditListFile.Close();
+
+		if (m_NameList.GetCount() == 0)
+		{
+			CStdioFile 	NameFile;
+			CString		str;
+			if (NameFile.Open (_T("EditListNames.txt"), CFile::modeRead))
+			{
+				while(NameFile.ReadString(str))
+				{
+					m_NameList.Add(str);
+				}
+				NameFile.Close();
+			}
+		}
 	}
 	else
 		m_bFileOpen = false;
@@ -331,6 +351,9 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 				break;
 			case COL_OUT :
 				pDC->DrawText (CurClip.GetOut(), rcItem, DT_CENTER | DT_VCENTER);
+				break;
+			case COL_NAME :
+				pDC->DrawText (CurClip.GetName(), rcItem, DT_LEFT | DT_VCENTER);
 				break;
 			}
 		}
@@ -500,4 +523,86 @@ void CEditListEditor::DropItemOnList()
 		m_EditList.RemoveAt (DragPos);
 		m_list.Invalidate();
 	}
+}
+
+void CEditListEditor::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	LV_ITEM* pItem = &pDispInfo->item;
+
+	*pResult = FALSE;
+
+	if(pItem->iItem < 0) 
+		return;
+
+	if(pItem->iSubItem == COL_NAME)
+	{
+		*pResult = TRUE;
+	}
+}
+
+void CEditListEditor::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	LV_ITEM* pItem = &pDispInfo->item;
+
+	*pResult = FALSE;
+
+	if(pItem->iItem < 0) 
+		return;
+
+	if (m_CurPos != NULL && pItem->iSubItem == COL_NAME)
+	{
+		CClip&		CurClip = m_EditList.GetAt (m_CurPos);
+		int nSel = FindNameIndex (CurClip.GetName());
+
+		CAtlList<CString>	sl;
+		for (int i=0; i<m_NameList.GetCount(); i++)
+			sl.AddTail(m_NameList.GetAt(i));
+		m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel, true);
+
+		*pResult = TRUE;
+	}
+}
+
+void CEditListEditor::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	LV_ITEM* pItem = &pDispInfo->item;
+
+	*pResult = FALSE;
+
+	if(!m_list.m_fInPlaceDirty)
+		return;
+
+	if(pItem->iItem < 0) 
+		return;
+
+	CString& CurName = m_NameList.GetAt(pItem->lParam);
+
+	if(m_CurPos != NULL && pItem->iSubItem == COL_NAME)
+	{
+		CClip&		CurClip = m_EditList.GetAt (m_CurPos);
+		CurClip.SetName(CurName);
+
+		*pResult = TRUE;
+	}
+}
+
+int CEditListEditor::FindNameIndex(LPCTSTR strName)
+{
+	int		nResult = -1;
+
+	for(int i = 0; i<m_NameList.GetCount(); i++)
+	{
+		CString&	CurName = m_NameList.GetAt(i);
+
+		if (CurName == strName)
+		{
+			nResult = i;
+			break;
+		}
+	}
+
+	return nResult;
 }

@@ -574,7 +574,7 @@ CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 	return pEdit;
 }
 
-CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel)
+CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown)
 {
 	CRect rect;
 	if(!PrepareInPlaceControl(nItem, nCol, rect))
@@ -590,6 +590,8 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 	int width = GetColumnWidth(nCol);
 	if(pComboBox->GetDroppedWidth() < width)
 		pComboBox->SetDroppedWidth(width);
+
+	if (bShowDropDown) pComboBox->ShowDropDown();
 
 	m_fInPlaceDirty = false;
 

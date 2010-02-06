@@ -123,7 +123,7 @@ public:
 	int GetBottomIndex() const;
 
 	CEdit* ShowInPlaceEdit(int nItem, int nCol);
-	CComboBox* ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel);
+	CComboBox* ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown=false);
 	CListBox* ShowInPlaceListBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel);
 
 	bool m_fInPlaceDirty;

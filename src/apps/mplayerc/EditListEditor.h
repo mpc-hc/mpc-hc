@@ -30,6 +30,7 @@ class CClip
 private :
 	REFERENCE_TIME		m_rtIn;
 	REFERENCE_TIME		m_rtOut;
+	CString				m_strName;
 public :
 
 	CClip();
@@ -41,16 +42,18 @@ public :
 	void		SetIn  (LPCTSTR strVal);
 	void		SetIn  (REFERENCE_TIME rtVal);
 	void		SetOut (REFERENCE_TIME rtVal);
+	void		SetName(LPCTSTR strName) { m_strName = strName; };
 
 	CString		GetIn();
 	CString		GetOut();
+	CString		GetName() { return m_strName; };
 };
 
 class CEditListEditor :	public CSizingControlBarG
 {
 	DECLARE_DYNAMIC(CEditListEditor)
 
-	enum {COL_INDEX, COL_IN, COL_OUT, COL_MAX};
+	enum {COL_INDEX, COL_IN, COL_OUT, COL_NAME, COL_MAX};
 
 	CPlayerListCtrl	m_list;
 	CImageList		m_fakeImageList;
@@ -64,12 +67,14 @@ class CEditListEditor :	public CSizingControlBarG
 	CString			m_strFileName;
 	bool			m_bFileOpen;
 	CList<CClip>	m_EditList;
+	CArray<CString>	m_NameList;
 
 	void			SaveEditListToFile();
 	void			ResizeListColumn();
 	POSITION		InsertClip(POSITION pos, CClip& NewClip);
 	void			DropItemOnList();
 	int				FindIndex(POSITION pos);
+	int				FindNameIndex(LPCTSTR strName);
 
 protected :
 	DECLARE_MESSAGE_MAP()
@@ -94,4 +99,7 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult);
 };
