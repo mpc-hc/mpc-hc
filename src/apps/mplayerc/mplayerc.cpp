@@ -309,6 +309,8 @@ CMPlayerCApp::CMPlayerCApp()
 	m_ColorControl[2].dwProperty	= Hue;
 	m_ColorControl[3].dwSize		= sizeof (COLORPROPERTY_RANGE);
 	m_ColorControl[3].dwProperty	= Saturation;
+
+	GetRemoteControlCode = GetRemoteControlCodeMicrosoft;
 }
 
 void CMPlayerCApp::ShowCmdlnSwitches()
@@ -986,8 +988,75 @@ BOOL CMPlayerCApp::InitInstance()
 	return TRUE;
 }
 
+UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput)
+{
+	UINT		dwSize		= 0;
+	BYTE*		pRawBuffer	= NULL;
+	UINT		nMceCmd		= 0;
+
+	// Support for MCE remote control
+	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+	if (dwSize > 0)
+	{
+		pRawBuffer = DNew BYTE[dwSize];
+		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1)
+		{
+			RAWINPUT*	raw = (RAWINPUT*) pRawBuffer;
+			if(raw->header.dwType == RIM_TYPEHID)
+			{
+				nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
+			}
+		}
+		delete pRawBuffer;
+	}
+
+	return nMceCmd;
+}
+
+UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput)
+{
+	UINT		dwSize		= 0;
+	BYTE*		pRawBuffer	= NULL;
+	UINT		nMceCmd		= 0;
+
+	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+	if (dwSize > 21)
+	{
+		pRawBuffer = DNew BYTE[dwSize];
+		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1)
+		{
+			RAWINPUT*	raw = (RAWINPUT*) pRawBuffer;
+
+			// data.hid.bRawData[21] set to one when key is pressed
+			if(raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1)
+			{
+				// data.hid.bRawData[21] has keycode
+				switch (raw->data.hid.bRawData[20])
+				{
+				case 0x0033 : nMceCmd = MCE_DETAILS; break;
+				case 0x0022 : nMceCmd = MCE_GUIDE; break;
+				case 0x0036 : nMceCmd = MCE_MYTV; break;
+				case 0x0026 : nMceCmd = MCE_RECORDEDTV; break;
+				case 0x0005 : nMceCmd = MCE_RED; break;
+				case 0x0002 : nMceCmd = MCE_GREEN; break;
+				case 0x0045 : nMceCmd = MCE_YELLOW; break;
+				case 0x0046 : nMceCmd = MCE_BLUE; break;
+				case 0x000A : nMceCmd = MCE_MEDIA_PREVIOUSTRACK; break;
+				case 0x004A : nMceCmd = MCE_MEDIA_NEXTTRACK; break;
+				}
+			}
+		}
+		delete pRawBuffer;
+	}
+
+	return nMceCmd;
+}
+
 void CMPlayerCApp::RegisterHotkeys()
 {
+	RAWINPUTDEVICELIST	InputDeviceList[50];
+	UINT				nInputDeviceCount = countof(InputDeviceList);
+	RID_DEVICE_INFO		DevInfo;
 	RAWINPUTDEVICE		MCEInputDevice[] = 
 	{
 		//	usUsagePage		usUsage			dwFlags		hwndTarget
@@ -999,6 +1068,23 @@ void CMPlayerCApp::RegisterHotkeys()
 	// Register MCE Remote Control raw input
 	for (int i=0; i<countof(MCEInputDevice); i++)
 		MCEInputDevice[i].hwndTarget = m_pMainWnd->m_hWnd;
+
+	nInputDeviceCount = GetRawInputDeviceList (InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
+	for (int i=0; i<nInputDeviceCount; i++)
+	{
+		UINT	nTemp = sizeof(DevInfo);
+		if (GetRawInputDeviceInfo (InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp)>0)
+		{
+			if (DevInfo.hid.dwVendorId == 0x00000471 &&		// Philips HID vendor id
+				DevInfo.hid.dwProductId == 0x00000617)		// IEEE802.15.4 RF Dongle (SRM 7500)
+			{
+				MCEInputDevice[0].usUsagePage	= DevInfo.hid.usUsagePage;
+				MCEInputDevice[0].usUsage		= DevInfo.hid.usUsage;
+				GetRemoteControlCode = GetRemoteControlCodeSRM7500;
+			}
+		}
+	}
+
 
 	RegisterRawInputDevices (MCEInputDevice, countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
 

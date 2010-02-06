@@ -426,6 +426,10 @@ class CMPlayerCApp : public CWinApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
 	HINSTANCE				m_hD3DX9Dll;
 	int						m_nDXSdkRelease;
+
+	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
+	static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
+
 public:
 	CMPlayerCApp();
 
@@ -445,6 +449,9 @@ public:
 	CString		m_strVersion;
 	CString		m_strD3DX9Version;
 
+	typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
+
+	PTR_GetRemoteControlCode	GetRemoteControlCode;
 	LONGLONG					GetPerfCounter();
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
 	HINSTANCE					GetD3X9Dll();
