@@ -215,6 +215,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo. &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define DO_MAKE_STR(x) #x &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define MAKE_STR(x) DO_MAKE_STR(x) &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo. &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -301,6 +302,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="if not exist &quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; goto x64&#x0D;&#x0A;&quot;%programfiles%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:x64&#x0D;&#x0A;if not exist &quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; goto NoChrisWillem&#x0D;&#x0A;&quot;%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe&quot; ..\..\.. ..\..\..\include\SubWCRev.conf ..\..\..\include\Version.h&#x0D;&#x0A;goto End&#x0D;&#x0A;&#x0D;&#x0A;:NoChrisWillem&#x0D;&#x0A;echo #pragma once &gt;..\..\..\include\Version.h&#x0D;&#x0A;echo. &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define DO_MAKE_STR(x) #x &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define MAKE_STR(x) DO_MAKE_STR(x) &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo. &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MAJOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_MINOR  1 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_REV  666 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;echo #define VERSION_PATCH  0 &gt;&gt;..\..\..\include\Version.h&#x0D;&#x0A;&#x0D;&#x0A;:End&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -383,6 +385,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\AllocatorCommon.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\AuthDlg.cpp"
 				>
 			</File>
@@ -423,6 +429,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\D3DFont.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DeinterlacerFilter.cpp"
 				>
 			</File>
@@ -445,6 +455,10 @@
 						WholeProgramOptimization="false"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\DXRAllocatorPresenter.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\EditListEditor.cpp"
@@ -600,6 +614,10 @@
 			</File>
 			<File
 				RelativePath=".\MacrovisionKicker.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\madVRAllocatorPresenter.cpp"
 				>
 			</File>
 			<File
@@ -871,6 +889,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QT9AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
 				RelativePath="QuicktimeGraph.cpp"
 				>
 				<FileConfiguration
@@ -900,6 +922,10 @@
 			</File>
 			<File
 				RelativePath="RegFilterChooserDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RM9AllocatorPresenter.cpp"
 				>
 			</File>
 			<File
@@ -995,6 +1021,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VMR9AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VMROSD.cpp"
 				>
 			</File>
@@ -1064,6 +1094,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CGdiPlusBitmap.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ChildView.h"
 				>
 			</File>
@@ -1096,6 +1130,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\D3DFont.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DeinterlacerFilter.h"
 				>
 			</File>
@@ -1109,6 +1147,10 @@
 			</File>
 			<File
 				RelativePath="DX9AllocatorPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DXRAllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1213,6 +1255,10 @@
 			</File>
 			<File
 				RelativePath=".\MacrovisionKicker.h"
+				>
+			</File>
+			<File
+				RelativePath=".\madVRAllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1424,6 +1470,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QT9AllocatorPresenter.h"
+				>
+			</File>
+			<File
 				RelativePath="QuicktimeGraph.h"
 				>
 				<FileConfiguration
@@ -1457,6 +1507,10 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RM9AllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1529,6 +1583,10 @@
 			</File>
 			<File
 				RelativePath=".\TunerScanDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VMR9AllocatorPresenter.h"
 				>
 			</File>
 			<File

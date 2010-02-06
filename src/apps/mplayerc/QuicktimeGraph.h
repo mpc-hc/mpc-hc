@@ -27,7 +27,6 @@
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
 
-
 namespace DSObjects
 {
 

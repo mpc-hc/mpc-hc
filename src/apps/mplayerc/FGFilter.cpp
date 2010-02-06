@@ -25,8 +25,7 @@
 #include "FGFilter.h"
 #include "..\..\DSUtil\DSUtil.h"
 #include "DX7AllocatorPresenter.h"
-#include "DX9AllocatorPresenter.h"
-#include "EVRAllocatorPresenter.h"
+#include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include <moreuuids.h>
 

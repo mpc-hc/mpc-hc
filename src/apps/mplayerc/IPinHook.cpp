@@ -29,7 +29,7 @@
 #include <moreuuids.h>
 
 #include "IPinHook.h"
-#include "DX9AllocatorPresenter.h"
+#include "AllocatorCommon.h"
 
 #define LOG_FILE				_T("dxva.log")
 

@@ -74,8 +74,7 @@
 #include "..\..\filters\PinInfoWnd.h"
 
 #include "DX7AllocatorPresenter.h"
-#include "DX9AllocatorPresenter.h"
-#include "EVRAllocatorPresenter.h"
+#include "AllocatorCommon.h"
 
 #include "..\..\subtitles\SSF.h"
 #include "ComPropertySheet.h"
