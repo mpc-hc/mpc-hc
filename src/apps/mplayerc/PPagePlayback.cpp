@@ -46,6 +46,8 @@ CPPagePlayback::CPPagePlayback()
 	, m_fAutoloadSubtitles(FALSE)
 	, m_fEnableWorkerThreadForOpening(FALSE)
 	, m_fReportFailedPins(FALSE)
+	, m_subtitlesLanguageOrder(_T(""))
+	, m_audiosLanguageOrder(_T(""))
 {
 }
 
@@ -70,6 +72,8 @@ void CPPagePlayback::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK3, m_fAutoloadSubtitles);
 	DDX_Check(pDX, IDC_CHECK7, m_fEnableWorkerThreadForOpening);
 	DDX_Check(pDX, IDC_CHECK6, m_fReportFailedPins);
+	DDX_Text(pDX, IDC_EDIT2, m_subtitlesLanguageOrder);
+	DDX_Text(pDX, IDC_EDIT3, m_audiosLanguageOrder);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
@@ -104,6 +108,8 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_fAutoloadSubtitles = s.fAutoloadSubtitles;
 	m_fEnableWorkerThreadForOpening = s.fEnableWorkerThreadForOpening;
 	m_fReportFailedPins = s.fReportFailedPins;
+	m_subtitlesLanguageOrder = s.m_subtitlesLanguageOrder;
+	m_audiosLanguageOrder = s.m_audiosLanguageOrder;
 
 	UpdateData(FALSE);
 
@@ -128,6 +134,8 @@ BOOL CPPagePlayback::OnApply()
 	s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
 	s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
 	s.fReportFailedPins = !!m_fReportFailedPins;
+	s.m_subtitlesLanguageOrder = m_subtitlesLanguageOrder;
+	s.m_audiosLanguageOrder = m_audiosLanguageOrder;
 
 	return __super::OnApply();
 }

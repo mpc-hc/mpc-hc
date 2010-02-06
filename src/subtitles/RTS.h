@@ -221,6 +221,9 @@ class CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProvider
 	int m_ktype, m_kstart, m_kend;
 	int m_nPolygon;
 	int m_polygonBaselineOffset;
+	STSStyle *m_pStyleOverride; // the app can decide to use this style instead of a built-in one
+	bool m_doOverrideStyle;
+
 
 	void ParseEffect(CSubtitle* sub, CString str);
 	void ParseString(CSubtitle* sub, CStringW str, STSStyle& style);
@@ -236,11 +239,13 @@ protected:
 	virtual void OnChanged();
 
 public:
-	CRenderedTextSubtitle(CCritSec* pLock);
+	CRenderedTextSubtitle(CCritSec* pLock, STSStyle *styleOverride = NULL, bool doOverride = false);
 	virtual ~CRenderedTextSubtitle();
 
 	virtual void Copy(CSimpleTextSubtitle& sts);
 	virtual void Empty();
+	// call to signal this RTS to ignore any of the styles and apply the given override style
+	void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL) { m_doOverrideStyle = doOverride; if(styleOverride != NULL) m_pStyleOverride = styleOverride; }
 
 public:
 	bool Init(CSize size, CRect vidrect); // will call Deinit()

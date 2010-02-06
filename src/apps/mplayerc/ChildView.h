@@ -64,4 +64,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg LRESULT OnNcHitTest(CPoint point);
+	afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
 };

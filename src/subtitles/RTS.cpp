@@ -1186,8 +1186,8 @@ CRect CScreenLayoutAllocator::AllocRect(CSubtitle* s, int segment, int entry, in
 
 // CRenderedTextSubtitle
 
-CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
-	: ISubPicProviderImpl(pLock)
+CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock, STSStyle *styleOverride, bool doOverride)
+	: ISubPicProviderImpl(pLock), m_doOverrideStyle(doOverride), m_pStyleOverride(styleOverride)
 {
 	m_size = CSize(0, 0);
 
@@ -2101,7 +2101,16 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	CStringW str = GetStrW(entry, true);
 
 	STSStyle stss, orgstss;
-	GetStyle(entry, stss);
+	if(m_doOverrideStyle && m_pStyleOverride != NULL)
+	{
+		// this RTS has been signaled to ignore embedded styles, use the built-in one
+		stss = *m_pStyleOverride;
+	}
+	else
+	{
+		// find the appropriate embedded style
+		GetStyle(entry, stss);
+	}
 
 	if (m_ePARCompensationType == EPCTUpscale)
 	{
@@ -2142,6 +2151,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	sub->m_scalex = m_dstScreenSize.cx > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx*8) : 1.0;
 	sub->m_scaley = m_dstScreenSize.cy > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy*8) : 1.0;
 
+
 	m_animStart = m_animEnd = 0;
 	m_animAccel = 1;
 	m_ktype = m_kstart = m_kend = 0;
@@ -2181,6 +2191,7 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 		}
 
 		STSStyle tmp = stss;
+		
 
 		tmp.fontSize = sub->m_scaley*tmp.fontSize*64;
 		tmp.fontSpacing = sub->m_scalex*tmp.fontSpacing*64;
@@ -2228,7 +2239,9 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
 	sub->CreateClippers(m_size);
 
+
 	sub->MakeLines(m_size, marginRect);
+
 
 	m_subtitleCache[entry] = sub;
 

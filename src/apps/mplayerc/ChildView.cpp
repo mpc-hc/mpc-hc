@@ -172,6 +172,9 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_NCCALCSIZE()
 	ON_WM_NCPAINT()
 	//}}AFX_MSG_MAP
+	//	ON_WM_NCHITTEST()
+	ON_WM_NCHITTEST()
+	ON_WM_NCLBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -261,7 +264,6 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		SetCursor(NULL);
 		return TRUE;
 	}
-
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
@@ -288,5 +290,122 @@ void CChildView::OnNcPaint()
 		CWindowDC		dc(this);
 		dc.ExcludeClipRect(c);		// Casimir666 : prevent flashing when resizing
 		dc.Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT)); 
+	}
+}
+
+LRESULT CChildView::OnNcHitTest(CPoint point)
+{
+	UINT nHitTest = CWnd::OnNcHitTest(point);
+
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+	bool fLeftMouseBtnUnassigned = true;
+	AppSettings& s = AfxGetAppSettings();
+	POSITION pos = s.wmcmds.GetHeadPosition();
+	while(pos && fLeftMouseBtnUnassigned)
+		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN)
+			fLeftMouseBtnUnassigned = false;
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned))
+	{
+		CRect rcClient, rcFrame;
+		GetWindowRect(&rcFrame);
+		rcClient = rcFrame;
+
+		CSize sizeBorder(GetSystemMetrics(SM_CXBORDER), GetSystemMetrics(SM_CYBORDER));
+
+		rcClient.InflateRect(-(5 * sizeBorder.cx), -(5 * sizeBorder.cy));
+		rcFrame.InflateRect(sizeBorder.cx, sizeBorder.cy);
+
+		if(rcFrame.PtInRect(point))
+		{
+			if(point.x > rcClient.right)
+			{
+				if(point.y < rcClient.top)
+				{
+					nHitTest = HTTOPRIGHT;
+				}
+				else if(point.y > rcClient.bottom)
+				{
+					nHitTest = HTBOTTOMRIGHT;
+				}
+				else
+				{
+					nHitTest = HTRIGHT;
+				}
+			}
+			else if(point.x < rcClient.left)
+			{
+				if(point.y < rcClient.top)
+				{
+					nHitTest = HTTOPLEFT;
+				}
+				else if(point.y > rcClient.bottom)
+				{
+					nHitTest = HTBOTTOMLEFT;
+				}
+				else
+				{
+					nHitTest = HTLEFT;
+				}
+			}
+			else if(point.y < rcClient.top)
+			{
+				nHitTest = HTTOP;
+			}
+			else if(point.y > rcClient.bottom)
+			{
+				nHitTest = HTBOTTOM;
+			}
+		}
+	}
+	return nHitTest;
+}
+
+void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
+{
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+	bool fLeftMouseBtnUnassigned = true;
+	AppSettings& s = AfxGetAppSettings();
+	POSITION pos = s.wmcmds.GetHeadPosition();
+	while(pos && fLeftMouseBtnUnassigned)
+		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN)
+			fLeftMouseBtnUnassigned = false;
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned))
+	{
+		BYTE bFlag = 0;
+		switch(nHitTest)
+		{
+		case HTTOP:
+			bFlag = WMSZ_TOP;
+			break;
+		case HTTOPLEFT:
+			bFlag = WMSZ_TOPLEFT;
+			break;
+		case HTTOPRIGHT:
+			bFlag = WMSZ_TOPRIGHT;
+			break;
+		case HTLEFT:
+			bFlag = WMSZ_LEFT;
+			break;
+		case HTRIGHT:
+			bFlag = WMSZ_RIGHT;
+			break;
+		case HTBOTTOM:
+			bFlag = WMSZ_BOTTOM;
+			break;
+		case HTBOTTOMLEFT:
+			bFlag = WMSZ_BOTTOMLEFT;
+			break;
+		case HTBOTTOMRIGHT:
+			bFlag = WMSZ_BOTTOMRIGHT;
+			break;
+		}
+		if(bFlag)
+		{
+			pFrame->PostMessage(WM_SYSCOMMAND, (SC_SIZE | bFlag), (LPARAM)POINTTOPOINTS(point));
+		}
+		else
+		{
+			CWnd::OnNcLButtonDown(nHitTest, point); 
+		}
 	}
 }

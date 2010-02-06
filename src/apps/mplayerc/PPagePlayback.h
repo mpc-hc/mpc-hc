@@ -53,7 +53,8 @@ public:
 	BOOL m_fAutoloadSubtitles;
 	BOOL m_fEnableWorkerThreadForOpening;
 	BOOL m_fReportFailedPins;
-	
+	CString m_subtitlesLanguageOrder;
+	CString m_audiosLanguageOrder;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYBACK };

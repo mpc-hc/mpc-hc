@@ -328,7 +328,7 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 		MapWindowPoints(pFrame, &point, 1);
 		pFrame->PostMessage(WM_NCLBUTTONDOWN, 
 //			(p.x+p.y >= r.Width()) ? HTBOTTOMRIGHT : HTCAPTION, 
-			(p.x >= r.Width()-r.Height()) ? HTBOTTOMRIGHT :
+			(p.x >= r.Width()-r.Height() && !pFrame->IsCaptionMenuHidden()) ? HTBOTTOMRIGHT :
 			HTCAPTION,
 			MAKELPARAM(point.x, point.y));
 	}
@@ -350,7 +350,7 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		GetCursorPos(&p);
 		ScreenToClient(&p);
 //		if(p.x+p.y >= r.Width())
-		if(p.x >= r.Width()-r.Height())
+		if(p.x >= r.Width()-r.Height() && !pFrame->IsCaptionMenuHidden())
 		{
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
 			return TRUE;

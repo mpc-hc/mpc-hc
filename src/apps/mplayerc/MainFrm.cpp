@@ -992,6 +992,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 
 	cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
+
 	cs.lpszClass = MPC_WND_CLASS_NAME; //AfxRegisterWndClass(0);
 
 	return TRUE;
@@ -1122,7 +1123,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
 	lpMMI->ptMinTrackSize.y = 0;
 	if(style&WS_CAPTION) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYCAPTION);
-	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.y += GetSystemMetrics((style&WS_CAPTION)?SM_CYSIZEFRAME:SM_CYFIXEDFRAME)*2;
+	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 	lpMMI->ptMinTrackSize.y += (mbi.rcBar.bottom - mbi.rcBar.top);
 	if(!AfxGetAppSettings().fHideCaptionMenu) lpMMI->ptMinTrackSize.y += 3;
 
@@ -1236,10 +1237,10 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		mbi.cbSize = sizeof(mbi);
 		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-		fsize.cx += GetSystemMetrics((style&WS_CAPTION)?SM_CXSIZEFRAME:SM_CXFIXEDFRAME)*2;
+		if (style&WS_THICKFRAME)fsize.cx += GetSystemMetrics(SM_CXSIZEFRAME)*2;
 
 		if(style&WS_CAPTION) fsize.cy += GetSystemMetrics(SM_CYCAPTION);
-		if(style&WS_THICKFRAME) fsize.cy += GetSystemMetrics((style&WS_CAPTION)?SM_CYSIZEFRAME:SM_CYFIXEDFRAME)*2;
+		if(style&WS_THICKFRAME) fsize.cy += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 		fsize.cy += mbi.rcBar.bottom - mbi.rcBar.top;
 		if(!AfxGetAppSettings().fHideCaptionMenu) fsize.cy += 3;
 
@@ -3141,6 +3142,7 @@ void CMainFrame::OnFilePostOpenmedia()
 	m_nCurSubtitle		= -1;
 	m_lSubtitleShift	= 0;
 	if(m_pCAP) m_pCAP->SetSubtitleDelay(0);
+
 	SetLoadState (MLS_LOADED);
 
 	// IMPORTANT: must not call any windowing msgs before
@@ -3173,7 +3175,6 @@ void CMainFrame::OnFilePostOpenmedia()
 		}
 		AfxGetAppSettings().sPnSPreset.Empty();
 	}
-
 	SendNowPlayingToMSN();
 	SendNowPlayingTomIRC();
 	SendNowPlayingToApi();
@@ -3261,6 +3262,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
 	DWORD cStreams = 0;
 	if(pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 1)
 	{
+		nID = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(nID)); // remember that the audio streams are reordered according to user preference, so have to figure out which stream from the original order was clicked
 		for(int i = 0; i < (int)cStreams; i++)
 		{
 			AM_MEDIA_TYPE* pmt = NULL;
@@ -4016,9 +4018,10 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
 	if(sl.GetCount() == 1 && m_iMediaLoadState == MLS_LOADED && m_pCAP)
 	{
-		if(LoadSubtitle(sl.GetHead()))
+		ISubStream *pSubStream = NULL;
+		if(LoadSubtitle(sl.GetHead(), &pSubStream))
 		{
-			SetSubtitle(m_pSubStreams.GetTail());
+			SetSubtitle(pSubStream); // the subtitle at the insert position according to LoadSubtitle()
 			CPath p(sl.GetHead());
 			p.StripPath();
 			SendStatusMessage(CString((LPCTSTR)p) + ResStr(IDS_MAINFRM_47), 3000);
@@ -4796,8 +4799,9 @@ void CMainFrame::OnFileLoadsubtitle()
 
 	if(fd.DoModal() != IDOK) return;
 
-	if(LoadSubtitle(fd.GetPathName()))
-		SetSubtitle(m_pSubStreams.GetTail());
+	ISubStream *pSubStream = NULL;
+	if(LoadSubtitle(fd.GetPathName(), &pSubStream))
+		SetSubtitle(pSubStream); // the subtitle at the insert position according to LoadSubtitle()
 }
 
 void CMainFrame::OnUpdateFileLoadsubtitle(CCmdUI *pCmdUI)
@@ -4977,7 +4981,7 @@ void CMainFrame::OnFileISDBDownload()
 
 				if(OpenUrl(is, CString(url+args), str))
 				{
-					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock));
+					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
 					if(pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(s.name)) && pRTS->GetStreamCount() > 0)
 					{
 						CComPtr<ISubStream> pSubStream = pRTS.Detach();
@@ -5553,12 +5557,12 @@ void CMainFrame::OnViewCaptionmenu()
 
 	if(!fHideCaptionMenu)
 	{
-		dwRemove = WS_CAPTION;
+		dwRemove = WS_CAPTION | WS_THICKFRAME; // leave the window borderless
 		hMenu = NULL;
 	}
 	else
 	{
-		dwAdd = WS_CAPTION;
+		dwAdd = WS_CAPTION | WS_THICKFRAME;
 		hMenu = m_hMenuDefault;
 	}
 
@@ -6800,6 +6804,7 @@ void CMainFrame::OnPlayAudio(UINT nID)
 	}
 	else if(i >= 0 && pSS)
 	{
+		i = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)); // don't forget that the audio streams are reordered, so have to figure which one from the initial order is used here
 		pSS->Enable(i, AMSTREAMSELECTENABLE_ENABLE);
 	}
 }
@@ -6818,6 +6823,7 @@ void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
 	}
 	else*/ if(i >= 0 && pSS)
 	{
+		i = m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)); // audio streams are reordered, so figure out which one from the initial order is used here
 		DWORD flags = 0;
 
 		if(SUCCEEDED(pSS->Info(i, NULL, &flags, NULL, NULL, NULL, NULL, NULL)))
@@ -6835,14 +6841,16 @@ void CMainFrame::OnUpdatePlayAudio(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlaySubtitles(UINT nID)
 {
-	int i = (int)nID - (4 + ID_SUBTITLES_SUBITEM_START);
+	int i = (int)nID - (5 + ID_SUBTITLES_SUBITEM_START); // currently the subtitles submenu contains 5 items, apart from the actual subtitles list
 
-	if(i == -4)
+	if(i == -5)
 	{
+		// options
 		ShowOptions(CPPageSubtitles::IDD);
 	}
-	else if(i == -3)
+	else if(i == -4)
 	{
+		// styles
 		int i = m_iSubtitleSel;
 
 		POSITION pos = m_pSubStreams.GetHeadPosition();
@@ -6894,18 +6902,28 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
 			i -= pSubStream->GetStreamCount();
 		}
 	}
-	else if(i == -2)
+	else if(i == -3)
 	{
+		// reload
 		ReloadSubtitle();
 	}
-	else if(i == -1)
+	else if(i == -2)
 	{
+		// enable
 		if(m_iSubtitleSel == -1) m_iSubtitleSel = 0;
 		else m_iSubtitleSel ^= (1<<31);
 		UpdateSubtitle();
 	}
+	else if(i == -1)
+	{
+		// override default style
+		// TODO: default subtitles style toggle here
+		AfxGetAppSettings().fUseDefaultSubtitlesStyle = !AfxGetAppSettings().fUseDefaultSubtitlesStyle;
+		UpdateSubtitle();
+	}
 	else if(i >= 0)
 	{
+		// this is an actual item from the subtitles list
 		m_iSubtitleSel = i;
 		UpdateSubtitle();
 	}
@@ -6916,12 +6934,13 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
 void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 {
 	UINT nID = pCmdUI->m_nID;
-	int i = (int)nID - (4 + ID_SUBTITLES_SUBITEM_START);
+	int i = (int)nID - (5 + ID_SUBTITLES_SUBITEM_START); // again, 5 pre-set subtitles options before the actual list
 
 	pCmdUI->Enable(m_pCAP && !m_fAudioOnly);
 
-	if(i == -3)
+	if(i == -4)
 	{
+		// styles
 		pCmdUI->Enable(FALSE);
 
 		int i = m_iSubtitleSel;
@@ -6947,9 +6966,17 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
 			i -= pSubStream->GetStreamCount();
 		}
 	}
+	else if(i == -2)
+	{
+		// enabled
+		pCmdUI->SetCheck(AfxGetAppSettings().fEnableSubtitles/*m_iSubtitleSel >= 0*/);
+	}
 	else if(i == -1)
 	{
-		pCmdUI->SetCheck(m_iSubtitleSel >= 0);
+		// override
+		// TODO: foxX - default subtitles style toggle here; still wip
+		pCmdUI->SetCheck(AfxGetAppSettings().fUseDefaultSubtitlesStyle);
+		pCmdUI->Enable(AfxGetAppSettings().fEnableSubtitles);
 	}
 	else if(i >= 0)
 	{
@@ -7790,9 +7817,9 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		mbi.cbSize = sizeof(mbi);
 		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-		int w = _DEFCLIENTW + GetSystemMetrics((style&WS_CAPTION)?SM_CXSIZEFRAME:SM_CXFIXEDFRAME)*2
+		int w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
 			+ r1.Width() - r2.Width();
-		int h = _DEFCLIENTH + GetSystemMetrics((style&WS_CAPTION)?SM_CYSIZEFRAME:SM_CYFIXEDFRAME)*2
+		int h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 			+ (mbi.rcBar.bottom - mbi.rcBar.top)
 			+ r1.Height() - r2.Height()
 			+ 1; // ???
@@ -7870,7 +7897,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 	if(s.fHideCaptionMenu)
 	{
-		ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
+		ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 	}
@@ -7901,9 +7928,9 @@ void CMainFrame::RestoreDefaultWindowRect()
 		mbi.cbSize = sizeof(mbi);
 		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-		int w = _DEFCLIENTW + GetSystemMetrics((style&WS_CAPTION)?SM_CXSIZEFRAME:SM_CXFIXEDFRAME)*2
+		int w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
 			+ r1.Width() - r2.Width();
-		int h = _DEFCLIENTH + GetSystemMetrics((style&WS_CAPTION)?SM_CYSIZEFRAME:SM_CYFIXEDFRAME)*2
+		int h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 			+ (mbi.rcBar.bottom - mbi.rcBar.top)
 			+ r1.Height() - r2.Height()
 			+ 1; // ???
@@ -8070,7 +8097,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && AfxGetAppSettings().AutoChangeFullscrRes.bApplyDefault)
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
 
-		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION) | WS_THICKFRAME;
+		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION | WS_THICKFRAME);
 		r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
 
@@ -8372,7 +8399,7 @@ void CMainFrame::ZoomVideoWindow(double scale)
 		GetClientRect(&r1);
 		m_wndView.GetClientRect(&r2);
 
-		w = GetSystemMetrics((style&WS_CAPTION)?SM_CXSIZEFRAME:SM_CXFIXEDFRAME)*2
+		w = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
 				+ r1.Width() - r2.Width()
 				+ lWidth;
 
@@ -8381,7 +8408,7 @@ void CMainFrame::ZoomVideoWindow(double scale)
 		mbi.cbSize = sizeof(mbi);
 		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-		h = GetSystemMetrics((style&WS_CAPTION)?SM_CYSIZEFRAME:SM_CYFIXEDFRAME)*2
+		h = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 				+ (mbi.rcBar.bottom - mbi.rcBar.top)
 				+ r1.Height() - r2.Height()
 				+ lHeight;
@@ -9679,6 +9706,85 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 	m_Lcd.SetMediaTitle(LPCTSTR(fn));
 }
 
+// foxX: simply global now, figures out if, based on the options selected by the user
+// the language of audio stream a from pSS is more ``important" than that of audio b
+bool DoesAudioPrecede(const CComPtr<IAMStreamSelect> &pSS, int a, int b)
+{
+	WCHAR* pName = NULL;
+	if(FAILED(pSS->Info(a, NULL, NULL, NULL, NULL, &pName, NULL, NULL)))
+		return false;
+	CString nameA(pName);
+	nameA = nameA.Mid(nameA.ReverseFind('/') + 2);
+	CoTaskMemFree(pName);
+
+	if(FAILED(pSS->Info(b, NULL, NULL, NULL, NULL, &pName, NULL, NULL)))
+		return false;
+	CString nameB(pName);
+	nameB = nameB.Mid(nameB.ReverseFind('/') + 2);
+	CoTaskMemFree(pName);
+
+	int ia = -1;
+	int ib = -1;
+	CStringW alo = AfxGetAppSettings().m_audiosLanguageOrder;
+	int tPos = 0;
+	CStringW lang = alo.Tokenize(_T(",; "), tPos);
+	while(tPos != -1 && ia == -1 && ib == -1)
+	{
+		int ll = lang.GetLength();
+		if(nameA.Left(ll).CompareNoCase(lang) == 0)
+			ia = tPos;
+		if(nameB.Left(ll).CompareNoCase(lang) == 0)
+			ib = tPos;
+		lang = alo.Tokenize(_T(",; "), tPos);
+	}
+	if(ia != -1 && ib == -1)
+		return true;
+	return false;
+
+	return false;
+}
+
+// foxX: does the naive insertion, in a separate list of audio streams indexes, of stream number i
+// from the original ordering of audio streams, based on language order preference
+void CMainFrame::InsertAudioStream(const CComQIPtr<IAMStreamSelect> &pSS, int i)
+{
+	POSITION pos = m_iAudioStreams.GetHeadPosition();
+	bool processed = false;
+	while(!processed && pos)
+	{
+		POSITION prevPos = pos;
+		int j = m_iAudioStreams.GetNext(pos);
+		if(DoesAudioPrecede(pSS, i, j))
+		{
+			if(prevPos == m_iAudioStreams.GetHeadPosition())
+				m_iAudioStreams.AddHead(i);
+			else
+				m_iAudioStreams.InsertBefore(prevPos, i);
+			processed = true;
+		}
+	}
+	if(!processed)
+		m_iAudioStreams.AddTail(i);
+}
+
+// foxX: creates a mapping of audio streams, where they're ordered based on their language and the user language order options
+void CMainFrame::SetupAudioStreams()
+{
+	if(m_iMediaLoadState != MLS_LOADED) return;
+
+	CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
+	if(!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
+
+	DWORD cStreams = 0;
+	if(pSS && SUCCEEDED(pSS->Count(&cStreams)) && cStreams > 0)
+	{
+		for(int i = 0; i < (int)cStreams; i++)
+		{
+			InsertAudioStream(pSS, i);
+		}
+	}
+}
+
 bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -9847,12 +9953,21 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			Sleep(50);
 		}
 
+		SetupAudioStreams(); // reorder audio streams so that they're according to user's options
+
 		// PostMessage instead of SendMessage because the user might call CloseMedia and then we would deadlock
 
 		PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
 		if(!(AfxGetAppSettings().nCLSwitches&CLSW_OPEN))
 			PostMessage(WM_COMMAND, ID_PLAY_PLAY);
+
+		// foxX: i haven't figured out how audio starts playing
+		// so i'll leave it do its stuff, and after some time passes i simply switch the audio stream
+		// to the one prefered by the user from options
+		// hack :(
+		if(m_iAudioStreams.GetCount() > 0)
+			PostMessage(WM_COMMAND, ID_AUDIO_SUBITEM_START + 1);
 
 		AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
 
@@ -10383,7 +10498,7 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
 				for(int i = 0; i < (int)cStreams; i++)
 				{
 					WCHAR* pName = NULL;
-					if(FAILED(pSS->Info(i, NULL, NULL, NULL, NULL, &pName, NULL, NULL)))
+					if(FAILED(pSS->Info(m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)), NULL, NULL, NULL, NULL, &pName, NULL, NULL))) // audio streams are reordered, so find the index from the initial order
 						break;
 
 					CString name(pName);
@@ -10420,6 +10535,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
 		pSub->AppendMenu(MF_SEPARATOR);
 
 		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE));
+		pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE));
 		pSub->AppendMenu(MF_SEPARATOR);
 	}
 
@@ -11145,6 +11261,68 @@ void CMainFrame::SetAlwaysOnTop(int i)
 	}
 }
 
+// foxX: as with audio streams, this one will tell if a subtitle comes before the other,
+// in accordance with user options regarding subtitle language order
+bool DoesSubPrecede(const CComPtr<ISubStream> &a, const CComPtr<ISubStream> &b)
+{
+	WCHAR *pName;
+	if(!SUCCEEDED(a->GetStreamInfo(0, &pName, NULL)))
+		return false;
+	CStringW nameA(pName);
+	CoTaskMemFree(pName);
+
+	if(!SUCCEEDED(b->GetStreamInfo(0, &pName, NULL)))
+		return false;
+	CStringW nameB(pName);
+	CoTaskMemFree(pName);
+
+	int ia = -1;
+	int ib = -1;
+	CStringW slo = AfxGetAppSettings().m_subtitlesLanguageOrder;
+	int tPos = 0;
+	CStringW lang = slo.Tokenize(_T(",; "), tPos);
+	while(tPos != -1 && ia == -1 && ib == -1)
+	{
+		int ll = lang.GetLength();
+		if(nameA.Left(ll).CompareNoCase(lang) == 0)
+			ia = tPos;
+		if(nameB.Left(ll).CompareNoCase(lang) == 0)
+			ib = tPos;
+		lang = slo.Tokenize(_T(",; "), tPos);
+	}
+	if(ia != -1 && ib == -1)
+		return true;
+	return false;
+}
+
+// foxX: inserts the subtitle stream exactly where it should be, base on user preference
+ISubStream *InsertSubStream(CInterfaceList<ISubStream> *subStreams, const CComPtr<ISubStream> &theSubStream)
+{
+	POSITION pos = subStreams->GetHeadPosition();
+	POSITION newPos = NULL;
+	bool processed = false;
+	while(!processed && pos)
+	{
+		POSITION prevPos = pos;
+		CComPtr<ISubStream> pSubStream = subStreams->GetNext(pos);
+		if(DoesSubPrecede(theSubStream, pSubStream))
+		{
+			if(prevPos == subStreams->GetHeadPosition())
+				newPos = subStreams->AddHead(theSubStream);
+			else
+				newPos = subStreams->InsertBefore(prevPos, theSubStream);
+			processed = true;
+		}
+	}
+	if(!processed)
+		newPos = subStreams->AddTail(theSubStream);
+	if(newPos == NULL)
+		newPos = subStreams->GetTailPosition();
+	if(newPos == NULL)
+		return NULL;
+	return subStreams->GetAt(newPos);
+}
+
 void CMainFrame::AddTextPassThruFilter()
 {
 	BeginEnumFilters(pGB, pEF, pBF)
@@ -11174,15 +11352,16 @@ void CMainFrame::AddTextPassThruFilter()
 			if(FAILED(hr = pGB->ConnectDirect(pPin, GetFirstPin(pTPTF, PINDIR_INPUT), NULL))
 			|| FAILED(hr = pGB->ConnectDirect(GetFirstPin(pTPTF, PINDIR_OUTPUT), pPinTo, NULL)))
 				hr = pGB->ConnectDirect(pPin, pPinTo, NULL);
-			else
-				m_pSubStreams.AddTail(CComQIPtr<ISubStream>(pTPTF));
+			else {
+				InsertSubStream(&m_pSubStreams, CComQIPtr<ISubStream>(pTPTF));
+			}
 		}
 		EndEnumPins
 	}
 	EndEnumFilters
 }
 
-bool CMainFrame::LoadSubtitle(CString fn)
+bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 {
 	CComPtr<ISubStream> pSubStream;
 
@@ -11198,7 +11377,7 @@ bool CMainFrame::LoadSubtitle(CString fn)
 
 		if(!pSubStream)
 		{
-			CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock));
+			CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
 			if(pRTS && pRTS->Open(fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0)
 				pSubStream = pRTS.Detach();
 		}
@@ -11210,7 +11389,10 @@ bool CMainFrame::LoadSubtitle(CString fn)
 
 	if(pSubStream)
 	{
-		m_pSubStreams.AddTail(pSubStream);
+		//m_pSubStreams.AddTail(pSubStream);
+		ISubStream *r = InsertSubStream(&m_pSubStreams, pSubStream);
+		if(actualStream != NULL)
+			*actualStream = r;
 	}
 
 	return(!!pSubStream);
@@ -11289,7 +11471,7 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 					style.marginRect.right = w - (style.marginRect.left + mw);
 				}
 
-				pRTS->SetDefaultStyle(style);
+				bool res = pRTS->SetDefaultStyle(style);
 			}
 
 			if(pRTS->GetDefaultStyle(style) && style.relativeTo == 2)
@@ -11297,6 +11479,8 @@ void CMainFrame::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle)
 				style.relativeTo = s.subdefstyle.relativeTo;
 				pRTS->SetDefaultStyle(style);
 			}
+
+			pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, &s.subdefstyle);
 
 			pRTS->Deinit();
 		}

@@ -684,6 +684,7 @@ public:
 		bool fSPCPow2Tex;
 		bool fSPCAllowAnimationWhenBuffering;
 		bool fEnableSubtitles;
+		bool fUseDefaultSubtitlesStyle;
 
 		bool fDisableXPToolbars;
 		bool fUseWMASFReader;
@@ -822,10 +823,11 @@ public:
 		void AddFav(favtype ft, CString s);
 		CDVBChannel* FindChannelByPref(int nPrefNumber);
 
-
 		bool m_fPreventMinimize;
 		bool m_fUseWin7TaskBar;
 		bool m_fExitAfterPlayback;
+		CStringW m_subtitlesLanguageOrder;
+		CStringW m_audiosLanguageOrder;
 	} m_s;
 
 public:
