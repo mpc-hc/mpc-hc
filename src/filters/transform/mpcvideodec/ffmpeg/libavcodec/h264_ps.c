@@ -468,13 +468,13 @@ int ff_h264_decode_picture_parameter_set(H264Context *h, int bit_length){
         case 4:
         case 5:
 #if 0
-	// ==> Start patch MPC
-	pps->slice_group_change_direction_flag=get_bits1(&s->gb);        //    |1  |u(1)    |
-	pps->slice_group_change_rate_minus1=get_ue_golomb(&s->gb);        //      |1  |ue(v)   |
-	// <== End patch MPC
 |   slice_group_change_direction_flag               |1  |u(1)    |
 |   slice_group_change_rate_minus1                  |1  |ue(v)   |
 #endif
+			// ==> Start patch MPC
+			pps->slice_group_change_direction_flag=get_bits1(&s->gb);        //    |1  |u(1)    |
+			pps->slice_group_change_rate_minus1=get_ue_golomb(&s->gb);        //      |1  |ue(v)   |
+			// <== End patch MPC
             break;
         case 6:
 #if 0
