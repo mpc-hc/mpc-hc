@@ -409,10 +409,10 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	m_LastRendererSettings = s.m_RenderSettings;
 	HRESULT hr = E_FAIL;
 
-	m_pSubPicQueue = NULL;
 	m_pFont = NULL;
 	m_pSprite = NULL;
 	m_pLine = NULL;
+
 	m_pPSC.Free();
 	m_pD3DDev = NULL;
 	m_pD3DDevEx = NULL;
@@ -439,6 +439,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 
 	if (m_pDirect3DCreate9Ex)
 	{
+		_tprintf(_T("m_pDirect3DCreate9Ex\n"));
 		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
 		if(!m_pD3DEx) 
 		{
@@ -457,6 +458,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 			_Error += L"Failed to create Direct3D device\n";
 			return E_UNEXPECTED;
 		}
+		_tprintf(_T("m_pDirect3DCreate9\n"));
 	}
 	else
 		m_pD3D = m_pD3DEx;
@@ -488,10 +490,11 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	ZeroMemory(&pp, sizeof(pp));
 	if (m_bIsFullscreen) // Exclusive mode fullscreen
 	{
-		pp.Windowed = false; 
+		pp.Windowed = FALSE; 
 		pp.BackBufferWidth = d3ddm.Width; 
 		pp.BackBufferHeight = d3ddm.Height; 
 		pp.hDeviceWindow = m_hWnd;
+		_tprintf(_T("Wnd in CreateDXDevice: %d\n"), m_hWnd);
 		pp.BackBufferCount = 3; 
 		pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
@@ -521,7 +524,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 			DisplayMode.Format = pp.BackBufferFormat;
 			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-			if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
+			if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
 			{
 				_Error += GothSyncErrorMessage(hr, m_hD3D9);
 				return hr;
@@ -535,11 +538,12 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		}
 		else
 		{
-			if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+			if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
 			{
 				_Error += GothSyncErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
+			_tprintf(_T("Created full-screen device\n"));
 			if (m_pD3DDev)
 			{
 				m_BackbufferType = pp.BackBufferFormat;
@@ -584,7 +588,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		}
 		if (m_pD3DEx)
 		{
-			if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
+			if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
 			{
 				_Error += GothSyncErrorMessage(hr, m_hD3D9);
 				return hr;
@@ -593,11 +597,12 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		}
 		else
 		{
-			if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+			if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
 			{
 				_Error += GothSyncErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
+			_tprintf(_T("Created windowed device\n"));
 		}
 	}
 
@@ -614,8 +619,6 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 
 	m_bicubicA = 0;
 
-	CComPtr<ISubPicProvider> pSubPicProvider;
-	if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 	CSize size;
 	switch(AfxGetAppSettings().nSPCMaxRes)
 	{
@@ -646,6 +649,15 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	}
 
 	hr = S_OK;
+
+	CComPtr<ISubPicProvider> pSubPicProvider;
+	if(m_pSubPicQueue)
+	{
+		_tprintf(_T("m_pSubPicQueue != NULL\n"));
+		m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
+	}
+
+	m_pSubPicQueue = NULL;
 	m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0 
 		? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 		: (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
@@ -657,7 +669,6 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 
 	if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
 
-	m_pFont = NULL;
 	if (m_pD3DXCreateFont)
 	{
 		int MinSize = 1600;
@@ -667,9 +678,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		m_pD3DXCreateFont(m_pD3DDev, -24.0*Scale, -11.0*Scale, CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
 	}
-	m_pSprite = NULL;
 	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-	m_pLine = NULL;
 	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
 	return S_OK;
 } 
@@ -1806,7 +1815,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 		else
 			hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
 	}
-
+	if(FAILED(hr)) _tprintf(_T("Device lost or something\n"));
 	// Calculate timing statistics
 	if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime); // To check if we called Present too late to hit the right vsync
 	m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
@@ -1883,6 +1892,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 			if (m_dMainThreadId && m_dMainThreadId == GetCurrentThreadId())
 			{
 				m_bPendingResetDevice = false;
+
 				ResetDevice();
 			}
 			else
