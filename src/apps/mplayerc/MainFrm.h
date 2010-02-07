@@ -808,7 +808,7 @@ public:
 	CMPC_Lcd			m_Lcd;
 
 	// ==== Added by CASIMIR666
-	CWnd*				m_pVideoWnd;			// Vidéo courante (écran principal ou 2ieme écran)
+	CWnd*				m_pVideoWnd;			// Current Video (main display screen or 2nd)
 	SIZE				m_fullWndSize;
 	CFullscreenWnd*			m_pFullscreenWnd;
 	CComPtr<IVMRMixerControl9>	m_pMC;
