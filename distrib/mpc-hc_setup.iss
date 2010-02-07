@@ -118,7 +118,7 @@ en.tsk_AllUsers=For all users
 en.tsk_CurrentUser=For the current user only
 en.tsk_Other=Other tasks:
 en.tsk_ResetSettings=Reset settings
-en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on reinstalling MPC-HC you do not have to delete them.
+en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
 
 
 [Messages]
