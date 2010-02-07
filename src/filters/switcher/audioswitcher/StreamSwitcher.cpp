@@ -1143,7 +1143,11 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 
 			HRESULT hr = S_OK;
 			CStreamSwitcherInputPin* pPin = DNew CStreamSwitcherInputPin(this, &hr, name);
-			if(!pPin || FAILED(hr)) return E_FAIL;
+			if(!pPin || FAILED(hr))
+			{
+				delete pPin;
+				return E_FAIL;
+			}
 			m_pInputs.AddTail(pPin);
 		}
 	}
