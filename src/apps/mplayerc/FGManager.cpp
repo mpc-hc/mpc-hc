@@ -2510,28 +2510,29 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-
-	if(s.AudioRendererDisplayName == AUDRNDT_NULL_COMP)
+	
+	CString SelAudioRender = s.SelectedAudioRender();
+	if(SelAudioRender == AUDRNDT_NULL_COMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullAudioRenderer>(AUDRNDT_NULL_COMP, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(s.AudioRendererDisplayName == AUDRNDT_NULL_UNCOMP)
+	else if(SelAudioRender == AUDRNDT_NULL_UNCOMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullUAudioRenderer>(AUDRNDT_NULL_UNCOMP, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(s.AudioRendererDisplayName == AUDRNDT_MPC)
+	else if(SelAudioRender == AUDRNDT_MPC)
 	{
 		pFGF = DNew CFGFilterInternal<CMpcAudioRenderer>(AUDRNDT_MPC, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(!s.AudioRendererDisplayName.IsEmpty())
+	else if(SelAudioRender!="")
 	{
-		pFGF = DNew CFGFilterRegistry(s.AudioRendererDisplayName, m_armerit);
+		pFGF = DNew CFGFilterRegistry(SelAudioRender, m_armerit);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}

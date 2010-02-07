@@ -1511,6 +1511,15 @@ bool CMPlayerCApp::Settings::IsD3DFullscreen()
 	else
 		return fD3DFullscreen;
 }
+CString CMPlayerCApp::Settings::SelectedAudioRender()
+{
+	CString	strResult;
+	if	(AfxGetAppSettings().nCLSwitches &= CLSW_AUDIORENDER) 
+		strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
+	else
+		strResult = AfxGetAppSettings().AudioRendererDisplayName;
+	return strResult;
+}
 
 void CMPlayerCApp::Settings::ResetPositions()
 {
@@ -2690,6 +2699,10 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			else if(sw == _T("monitor") && pos) {iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10); nCLSwitches |= CLSW_MONITOR;}
 			else if(sw == _T("minidump")) { CMiniDump::Enable(); }
 			else if(sw == _T("pns")) sPnSPreset = cmdln.GetNext(pos);
+			else if(sw == _T("audiorender") && pos) 
+			{	
+				SetAudioRender(_ttoi(cmdln.GetNext(pos)));
+			}
 			else nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 		}
 		else
@@ -2898,6 +2911,35 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
 	else	
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
+}
+
+void SetAudioRender(int AudioDevNo)
+{
+	CStringArray m_AudioRendererDisplayNames;
+	m_AudioRendererDisplayNames.Add(_T(""));
+	int i=2;
+
+	BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker)
+	{
+		LPOLESTR olestr = NULL;
+		if(FAILED(pMoniker->GetDisplayName(0, 0, &olestr)))
+			continue;
+		CStringW str(olestr);
+		CoTaskMemFree(olestr);
+		m_AudioRendererDisplayNames.Add(CString(str));
+		i++;
+	}
+	EndEnumSysDev
+
+	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
+	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
+	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
+	i+=3;
+	if (AudioDevNo>=1 && AudioDevNo<=i) 
+	{	
+		AfxGetMyApp()->m_AudioRendererDisplayName_CL = m_AudioRendererDisplayNames[AudioDevNo-1];
+		AfxGetAppSettings().nCLSwitches |= CLSW_AUDIORENDER;	
+	}
 }
 
 #include <afxsock.h>

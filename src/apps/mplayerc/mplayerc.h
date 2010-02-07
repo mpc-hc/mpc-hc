@@ -144,7 +144,8 @@ enum
 	CLSW_D3DFULLSCREEN=CLSW_MONITOR<<1,
 	CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,
 	CLSW_SLAVE=CLSW_ADMINOPTION<<1,
-	CLSW_UNRECOGNIZEDSWITCH=CLSW_SLAVE<<1
+	CLSW_AUDIORENDER=CLSW_SLAVE<<1,
+	CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDER<<1
 };
 
 enum
@@ -412,6 +413,7 @@ public:
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
 extern void SetDispMode(dispmode& dm, CString& DisplayName);
+extern void SetAudioRender(int AudioDevNo);
 
 class CMPlayerCApp : public CWinApp
 {
@@ -448,6 +450,7 @@ public:
 	bool		m_bResetStats; // Set to reset the presentation statistics
 	CString		m_strVersion;
 	CString		m_strD3DX9Version;
+	CString		m_AudioRendererDisplayName_CL;
 
 	typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
 
@@ -794,6 +797,7 @@ public:
 		HWND			hMasterWnd;
 
 		bool			IsD3DFullscreen();
+		CString			SelectedAudioRender();
 		void			ResetPositions();
 		DVD_POSITION*	CurrentDVDPosition();
 		bool			NewDvd(ULONGLONG llDVDGuid);
