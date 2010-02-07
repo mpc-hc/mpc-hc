@@ -2148,8 +2148,21 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	sub->m_fAnimated = false;
 	sub->m_relativeTo = stss.relativeTo;
 
-	sub->m_scalex = m_dstScreenSize.cx > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx*8) : 1.0;
-	sub->m_scaley = m_dstScreenSize.cy > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy*8) : 1.0;
+	// this whole conditional is a work-around for what happens in STS.cpp:
+	// in CSimpleTextSubtitle::Open, we have m_dstScreenSize = CSize(384, 288)
+	// now, files containing embedded subtitles (and with styles) set m_dstScreenSize to a correct value
+	// but where no style is given, those defaults are taken - 384, 288
+	if(m_doOverrideStyle && m_pStyleOverride != NULL)
+	{
+		// so mind the default values, stated here to increase comprehension
+		sub->m_scalex = (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (384 * 8);
+		sub->m_scaley = (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (288 * 8);
+	}
+	else
+	{
+		sub->m_scalex = m_dstScreenSize.cx > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx*8) : 1.0;
+		sub->m_scaley = m_dstScreenSize.cy > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy*8) : 1.0;
+	}
 
 
 	m_animStart = m_animEnd = 0;
