@@ -5844,6 +5844,7 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->lsfState = ( D_plsfState * ) malloc( sizeof( D_plsfState ) ) ) ==
          NULL ) {
+	  free(s);
       fprintf( stderr, "DPlsf_init: can not malloc state structure\n" );
       return-1;
    }
@@ -5852,6 +5853,8 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->ec_gain_p_st = ( ec_gain_pitchState * ) malloc( sizeof(
          ec_gain_pitchState ) ) ) == NULL ) {
+	  free(s->lsfState);
+	  free(s);
       fprintf( stderr, "ecGainPitchInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5860,6 +5863,9 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->ec_gain_c_st = ( ec_gain_codeState * ) malloc( sizeof(
          ec_gain_codeState ) ) ) == NULL ) {
+      free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "ecGainCodeInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5868,6 +5874,10 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->pred_state = ( gc_predState * ) malloc( sizeof( gc_predState ) ) )
          == NULL ) {
+      free(s->ec_gain_c_st);
+      free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "gcPredInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5876,8 +5886,12 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->Cb_gain_averState = ( Cb_gain_averageState * ) malloc( sizeof(
          Cb_gain_averageState ) ) ) == NULL ) {
-      fprintf( stderr, "Cb_gain_averageInit: can not malloc state structure\n" )
-      ;
+      free(s->pred_state);
+      free(s->ec_gain_c_st);
+	  free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
+      fprintf( stderr, "Cb_gain_averageInit: can not malloc state structure\n" );
       return-1;
    }
    memset( s->Cb_gain_averState->cbGainHistory, 0, L_CBGAINHIST <<2 );
@@ -5890,6 +5904,12 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->lsp_avg_st = ( lsp_avgState * ) malloc( sizeof( lsp_avgState ) ) )
          == NULL ) {
+      free(s->Cb_gain_averState);
+      free(s->pred_state);
+      free(s->ec_gain_c_st);
+	  free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "lsp_avgInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5898,6 +5918,13 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->background_state = ( Bgn_scdState * ) malloc( sizeof( Bgn_scdState
          ) ) ) == NULL ) {
+      free(s->lsp_avg_st);
+      free(s->Cb_gain_averState);
+      free(s->pred_state);
+      free(s->ec_gain_c_st);
+	  free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "Bgn_scdInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5906,6 +5933,14 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->ph_disp_st = ( ph_dispState * ) malloc( sizeof( ph_dispState ) ) )
          == NULL ) {
+      free(s->background_state);
+      free(s->lsp_avg_st);
+      free(s->Cb_gain_averState);
+      free(s->pred_state);
+      free(s->ec_gain_c_st);
+	  free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "phDispInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5914,6 +5949,15 @@ static int Decoder_amr_init( Decoder_amrState **state )
    /* allocate memory */
    if ( ( s->dtxDecoderState = ( dtx_decState * ) malloc( sizeof( dtx_decState )
          ) ) == NULL ) {
+      free(s->ph_disp_st);
+      free(s->background_state);
+      free(s->lsp_avg_st);
+      free(s->Cb_gain_averState);
+      free(s->pred_state);
+      free(s->ec_gain_c_st);
+	  free(s->ec_gain_p_st);
+      free(s->lsfState);
+	  free(s);
       fprintf( stderr, "dtxDecInit: can not malloc state structure\n" );
       return-1;
    }
@@ -5985,6 +6029,7 @@ static int Post_Filter_init( Post_FilterState **state )
    /* allocate memory */
    if ( ( s->agc_state = ( agcState * ) malloc( sizeof( agcState ) ) ) == NULL )
    {
+      free(s);
       fprintf( stderr, "agcInit: can not malloc state structure\n" );
       return-1;
    }
