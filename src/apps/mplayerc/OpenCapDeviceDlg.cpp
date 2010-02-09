@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "OpenCapDeviceDlg.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 static struct cc_t {long code; AnalogVideoStandard standard; const TCHAR* str;} s_countrycodes[] = 

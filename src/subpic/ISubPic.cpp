@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "ISubPic.h"
-#include "..\DSUtil\DSUtil.h"
+#include "../DSUtil/DSUtil.h"
 
 //
 // ISubPicImpl

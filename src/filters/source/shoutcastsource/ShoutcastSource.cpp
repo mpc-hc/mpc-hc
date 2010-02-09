@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <initguid.h>
 #include "shoutcastsource.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
 
 #define MAXFRAMESIZE ((144 * 320000 / 8000) + 1)
@@ -111,7 +111,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 class CShoutcastSourceApp : public CFilterApp
 {

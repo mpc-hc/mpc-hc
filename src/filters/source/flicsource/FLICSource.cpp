@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "flicsource.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER
 
@@ -81,7 +81,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

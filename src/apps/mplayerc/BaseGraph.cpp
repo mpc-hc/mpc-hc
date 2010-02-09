@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "basegraph.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 //

@@ -30,7 +30,7 @@
 #include "resource.h"       // main symbols
 #include <afxadv.h>
 #include <atlsync.h>
-#include "..\..\subtitles\STS.h"
+#include "../../subtitles/STS.h"
 #include "MediaFormats.h"
 #include "fakefiltermapper2.h"
 #include "DVBChannel.h"

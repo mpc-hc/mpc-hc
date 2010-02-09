@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageInternalFilters.h"
 #include "ComPropertySheet.h"
-#include "..\..\filters\filters.h"
+#include "../../filters/filters.h"
 #include "internal_filter_config.h"
 
 

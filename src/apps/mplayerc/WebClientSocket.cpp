@@ -26,9 +26,9 @@
 #include "mplayerc.h"
 #include "resource.h"
 #include "MainFrm.h"
-#include "..\..\subtitles\TextFile.h"
-#include ".\webserver.h"
-#include ".\webclientsocket.h"
+#include "../../subtitles/TextFile.h"
+#include "./webserver.h"
+#include "./webclientsocket.h"
 
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame) 
 	: m_pWebServer(pWebServer)

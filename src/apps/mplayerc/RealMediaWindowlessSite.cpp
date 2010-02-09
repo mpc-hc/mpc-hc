@@ -27,7 +27,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "realmediawindowlesssite.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 void DSObjects::ExtractRects(REGION* pRegion)

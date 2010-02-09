@@ -26,7 +26,7 @@
 #include <ksmedia.h>
 #include "AudioSwitcher.h"
 #include "Audio.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

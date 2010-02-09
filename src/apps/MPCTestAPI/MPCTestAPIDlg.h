@@ -8,7 +8,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "..\mplayerc\MpcApi.h"
+#include "../mplayerc/MpcApi.h"
 
 
 /////////////////////////////////////////////////////////////////////////////

@@ -23,7 +23,7 @@
 #include "resource.h"
 #include "afxwin.h"
 #include "afxcmn.h"
-#include "..\..\..\subtitles\STS.h"
+#include "../../../subtitles/STS.h"
 
 // CColorStatic dialog
 

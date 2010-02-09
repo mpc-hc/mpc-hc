@@ -23,7 +23,7 @@
 #pragma once
 
 #include <afxtempl.h>
-#include "..\..\subtitles\VobSubFileRipper.h"
+#include "../../subtitles/VobSubFileRipper.h"
 
 // CVSRipPage dialog
 

@@ -24,7 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "DSMSplitterFile.h"
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 [uuid("0912B4DD-A30A-4568-B590-7179EBB420EC")]
 class CDSMSplitterFilter : public CBaseSplitterFilter

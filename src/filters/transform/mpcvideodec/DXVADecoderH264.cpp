@@ -21,7 +21,7 @@
  */
 
 #include "stdafx.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include "DXVADecoderH264.h"
 #include "MPCVideoDecFilter.h"
 #include "VideoDecDXVAAllocator.h"

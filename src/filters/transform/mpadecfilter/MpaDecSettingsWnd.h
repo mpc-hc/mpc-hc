@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\..\InternalPropertyPage.h"
+#include "../../InternalPropertyPage.h"
 #include "MpaDecFilter.h"
 #include <afxcmn.h>
 

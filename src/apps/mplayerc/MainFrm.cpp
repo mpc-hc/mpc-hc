@@ -65,18 +65,18 @@
 #include <Qnetwork.h>
 //#include <qedit.h>		// Casimir666 : incompatible avec D3D.h
 
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 #include "FGManager.h"
 #include "FGManagerBDA.h"
 
 #include "textpassthrufilter.h"
-#include "..\..\filters\filters.h"
-#include "..\..\filters\PinInfoWnd.h"
+#include "../../filters/filters.h"
+#include "../../filters/PinInfoWnd.h"
 
 #include "DX7AllocatorPresenter.h"
 #include "AllocatorCommon.h"
 
-#include "..\..\subtitles\SSF.h"
+#include "../../subtitles/SSF.h"
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
@@ -90,7 +90,7 @@ static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 
-#include "..\..\filters\transform\vsfilter\IDirectVobSub.h"
+#include "../../filters/transform/vsfilter/IDirectVobSub.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"

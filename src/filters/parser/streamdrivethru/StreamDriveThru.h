@@ -22,7 +22,7 @@
 #pragma once
 
 #include <atlbase.h>
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 
 class CStreamDriveThruInputPin : public CBasePin

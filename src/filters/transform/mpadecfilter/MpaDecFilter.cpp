@@ -25,7 +25,7 @@
 #include <mmreg.h>
 #include "MpaDecFilter.h"
 
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -34,8 +34,8 @@
 #include "PODtypes.h"
 #include "avcodec.h"
 
-#include "faad2\include\neaacdec.h"
-#include "FLAC\stream_decoder.h"
+#include "faad2/include/neaacdec.h"
+#include "FLAC/stream_decoder.h"
 
 #define INT24_MAX					0x7FFFFF
 #define EAC3_FRAME_TYPE_RESERVED	3
@@ -151,7 +151,7 @@ STDAPI DllUnregisterServer()
 
 //
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

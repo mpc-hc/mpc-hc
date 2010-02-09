@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 #include "NutFile.h"
 
 // {5EB7173E-AA71-4a54-BDD1-1CA57D20405F}

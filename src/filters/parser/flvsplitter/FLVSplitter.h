@@ -22,7 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 [uuid("47E792CF-0BBE-4F7A-859C-194B0768650A")]
 class CFLVSplitterFilter : public CBaseSplitterFilter
@@ -91,4 +91,4 @@ public:
 	CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-#include "..\..\transform\BaseVideoFilter\BaseVideoFilter.h"
+#include "../../transform/BaseVideoFilter/BaseVideoFilter.h"

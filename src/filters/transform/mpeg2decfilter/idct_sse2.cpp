@@ -25,7 +25,7 @@
 #include <inttypes.h>
 #include "libmpeg2.h"
 #include "attributes.h"
-#include "..\..\..\DSUtil\simd.h"
+#include "../../../DSUtil/simd.h"
 
 // Intel's SSE2 implementation of iDCT
 // AP-945

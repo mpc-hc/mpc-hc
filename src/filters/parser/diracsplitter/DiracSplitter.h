@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 #include "DiracSplitterFile.h"
 
 [uuid("5899CFB9-948F-4869-A999-5544ECB38BA5")]

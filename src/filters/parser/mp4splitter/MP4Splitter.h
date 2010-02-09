@@ -24,7 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "MP4SplitterFile.h"
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 [uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD")]
 class CMP4SplitterFilter : public CBaseSplitterFilter

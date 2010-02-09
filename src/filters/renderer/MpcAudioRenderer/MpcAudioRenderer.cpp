@@ -26,7 +26,7 @@
 #include <initguid.h>
 #endif
 #include <moreuuids.h>
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <ks.h>
 #include <ksmedia.h>
 
@@ -98,7 +98,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

@@ -22,7 +22,7 @@
 #pragma once
 
 #include <vector>
-#include "..\SubPic\ISubPic.h"
+#include "../SubPic/ISubPic.h"
 
 #define PT_MOVETONC 0xfe
 #define PT_BSPLINETO 0xfc

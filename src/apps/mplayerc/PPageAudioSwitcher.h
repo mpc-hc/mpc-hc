@@ -25,7 +25,7 @@
 
 #include "PPageBase.h"
 #include "FloatEdit.h"
-#include "..\..\filters\switcher\AudioSwitcher\AudioSwitcher.h"
+#include "../../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 
 
 // CPPageAudioSwitcher dialog

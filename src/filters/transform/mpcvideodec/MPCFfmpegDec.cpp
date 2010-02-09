@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "MPCVideoDecFilter.h"
 
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 
 
@@ -66,7 +66,7 @@ STDAPI DllUnregisterServer()
 
 //
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

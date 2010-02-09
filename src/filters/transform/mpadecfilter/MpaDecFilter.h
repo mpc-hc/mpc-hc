@@ -23,13 +23,13 @@
 
 #include <atlcoll.h>
 #include <stdint.h>
-#include "libmad\msvc++\mad.h"
-#include "a52dec\include\a52.h"
-#include "libdca\include\dts.h"
-//#include "faad2\include\neaacdec.h" // conflicts with dxtrans.h
-//#include "libvorbisidec\ivorbiscodec.h"
-#include "libvorbisidec\vorbis/codec.h"
-#include "..\..\..\decss\DeCSSInputPin.h"
+#include "libmad/msvc++/mad.h"
+#include "a52dec/include/a52.h"
+#include "libdca/include/dts.h"
+//#include "faad2/include/neaacdec.h" // conflicts with dxtrans.h
+//#include "libvorbisidec/ivorbiscodec.h"
+#include "libvorbisidec/vorbis/codec.h"
+#include "../../../decss/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 

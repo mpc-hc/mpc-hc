@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "FullscreenWnd.h"
 #include "MainFrm.h"
-#include ".\fullscreenwnd.h"
+#include "./fullscreenwnd.h"
 
 
 // CFullscreenWnd

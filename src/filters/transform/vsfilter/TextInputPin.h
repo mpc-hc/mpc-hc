@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\..\..\subtitles\SubtitleInputPin.h"
+#include "../../../subtitles/SubtitleInputPin.h"
 
 class CDirectVobSubFilter;
 

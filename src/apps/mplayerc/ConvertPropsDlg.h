@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "..\..\DSUtil\DSMPropertyBag.h"
+#include "../../DSUtil/DSMPropertyBag.h"
 #include "afxwin.h"
 #include "afxcmn.h"
 

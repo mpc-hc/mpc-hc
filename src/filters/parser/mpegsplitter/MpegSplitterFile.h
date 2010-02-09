@@ -23,7 +23,7 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 #define NO_SUBTITLE_PID			1		// Fake PID use for the "No subtitle" entry
 

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "InternalPropertyPage.h"
-#include "..\dsutil\dsutil.h"
+#include "../dsutil/dsutil.h"
 
 //
 // CInternalPropertyPageWnd

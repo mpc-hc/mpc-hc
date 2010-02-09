@@ -3,7 +3,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include <afxtempl.h>
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 class CDiracSplitterFile : public CBaseSplitterFile
 {

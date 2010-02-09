@@ -22,7 +22,7 @@
 #pragma once
 
 #include <atlbase.h>
-#include "..\BaseSource\BaseSource.h"
+#include "../BaseSource/BaseSource.h"
 
 class CFlacStream;
 

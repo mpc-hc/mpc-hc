@@ -22,8 +22,8 @@
 #pragma once
 
 #include <atlbase.h>
-#include "..\asyncreader\asyncio.h"
-#include "..\asyncreader\asyncrdr.h"
+#include "../asyncreader/asyncio.h"
+#include "../asyncreader/asyncrdr.h"
 
 class CUDPStream : public CAsyncStream, public CAMThread
 {

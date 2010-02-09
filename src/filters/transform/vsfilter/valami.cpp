@@ -19,7 +19,7 @@
  *
  */
 
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 static TCHAR str1[][256] = 
 /*

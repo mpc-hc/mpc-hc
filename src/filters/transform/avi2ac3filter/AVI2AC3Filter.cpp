@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <atlbase.h>
 #include "avi2ac3filter.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -68,7 +68,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

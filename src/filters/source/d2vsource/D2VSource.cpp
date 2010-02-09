@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "D2VSource.h"
 #include "mpeg2dec.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER
 
@@ -71,7 +71,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

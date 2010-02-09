@@ -39,7 +39,7 @@
 #undef WINVER
 #define WINVER 0x0501	// <= Force WINVER 0x0501 with Visual Studio 2008 (fix compilation error)
 
-#include "..\..\..\DSUtil\SharedInclude.h"
+#include "../../../DSUtil/SharedInclude.h"
 
 #include <afxwin.h>
 #include <afxdisp.h>
@@ -54,7 +54,7 @@ extern CComModule _Module;
 
 #include <streams.h>
 #include <dvdmedia.h>
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

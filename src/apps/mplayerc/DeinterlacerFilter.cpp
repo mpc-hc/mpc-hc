@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "deinterlacerfilter.h"
-#include "..\..\DSUtil\MediaTypes.h"
+#include "../../DSUtil/MediaTypes.h"
 #include <moreuuids.h>
 
 

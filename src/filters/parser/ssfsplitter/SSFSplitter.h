@@ -21,8 +21,8 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
-#include "..\..\..\subtitles\libssf\SubtitleFile.h"
+#include "../BaseSplitter/BaseSplitter.h"
+#include "../../../subtitles/libssf/SubtitleFile.h"
 
 [uuid("95C3F9F6-1E05-4C34-8122-504476EACB51")]
 class CSSFSplitterFilter : public CBaseSplitterFilter

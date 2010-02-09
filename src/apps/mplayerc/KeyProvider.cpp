@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "keyprovider.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 CKeyProvider::CKeyProvider() 

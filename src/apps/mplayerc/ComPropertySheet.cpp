@@ -24,8 +24,8 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "ComPropertySheet.h"
-#include "..\..\DSUtil\DSUtil.h"
-#include "..\..\filters\InternalPropertyPage.h"
+#include "../../DSUtil/DSUtil.h"
+#include "../../filters/InternalPropertyPage.h"
 
 
 // CComPropertyPageSite

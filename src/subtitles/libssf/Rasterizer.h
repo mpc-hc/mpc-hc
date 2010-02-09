@@ -25,7 +25,7 @@
 #include "SubtitleFile.h"
 #include "Array.h"
 #include "GlyphPath.h"
-#include "..\..\SubPic\ISubPic.h"
+#include "../../SubPic/ISubPic.h"
 
 namespace ssf
 {

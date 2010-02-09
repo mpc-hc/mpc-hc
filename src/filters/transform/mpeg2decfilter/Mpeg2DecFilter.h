@@ -23,8 +23,8 @@
 
 #include <atlcoll.h>
 #include <Videoacc.h>
-#include "..\..\..\decss\DeCSSInputPin.h"
-#include "..\BaseVideoFilter\BaseVideoFilter.h"
+#include "../../../decss/DeCSSInputPin.h"
+#include "../BaseVideoFilter/BaseVideoFilter.h"
 #include "IMpeg2DecFilter.h"
 #include "Mpeg2DecSettingsWnd.h"
 

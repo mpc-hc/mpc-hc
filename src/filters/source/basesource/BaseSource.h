@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 template<class TStream>
 class CBaseSource

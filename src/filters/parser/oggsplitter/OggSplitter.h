@@ -24,7 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "OggFile.h"
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 class OggPacket : public Packet
 {

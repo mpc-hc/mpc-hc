@@ -24,7 +24,7 @@
 #pragma once
 
 #include <videoacc.h>
-#include "..\BaseVideoFilter\BaseVideoFilter.h"
+#include "../BaseVideoFilter/BaseVideoFilter.h"
 
 
 class CMPCVideoDecFilter;

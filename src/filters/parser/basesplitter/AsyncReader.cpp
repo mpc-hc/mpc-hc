@@ -24,7 +24,7 @@
 #include "AsyncReader.h"
 #include <afxsock.h>
 #include <afxinet.h>
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 //
 // CAsyncFileReader

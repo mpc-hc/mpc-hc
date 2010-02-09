@@ -22,7 +22,7 @@
 #include "StdAfx.h"
 #include <mmreg.h>
 #include "DSMMuxer.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include <qnetwork.h>
@@ -63,7 +63,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

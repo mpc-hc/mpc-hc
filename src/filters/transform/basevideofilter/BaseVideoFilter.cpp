@@ -22,8 +22,8 @@
 #include "StdAfx.h"
 #include <mmintrin.h>
 #include "BaseVideoFilter.h"
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

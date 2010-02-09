@@ -23,7 +23,7 @@
 #include "DirectVobSubFilter.h"
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/MediaTypes.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

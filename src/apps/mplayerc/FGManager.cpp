@@ -24,8 +24,8 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "FGManager.h"
-#include "..\..\DSUtil\DSUtil.h"
-#include "..\..\Filters\Filters.h"
+#include "../../DSUtil/DSUtil.h"
+#include "../../Filters/Filters.h"
 #include "DX7AllocatorPresenter.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
@@ -2570,7 +2570,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{F50B3F13-19C4-11CF-AA9A-02608C9BABA2}")), MERIT64_DO_NOT_USE));
 }
 
-#include "..\..\decss\VobFile.h"
+#include "../../decss/VobFile.h"
 
 class CResetDVD : public CDVDSession
 {

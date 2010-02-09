@@ -23,7 +23,7 @@
 
 #include <atlcoll.h>
 #include "VobSubImage.h"
-#include "..\SubPic\ISubPic.h"
+#include "../SubPic/ISubPic.h"
 
 #define VOBSUBIDXVER 7
 

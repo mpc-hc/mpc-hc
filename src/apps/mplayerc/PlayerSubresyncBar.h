@@ -25,8 +25,8 @@
 
 #include <afxcview.h>
 #include "PlayerListCtrl.h"
-#include "..\..\subtitles\RTS.h"
-#include "..\..\subtitles\VobSubFile.h"
+#include "../../subtitles/RTS.h"
+#include "../../subtitles/VobSubFile.h"
 
 
 // CPlayerSubresyncBar

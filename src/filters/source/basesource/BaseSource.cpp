@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "BaseSource.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 //
 // CBaseSource

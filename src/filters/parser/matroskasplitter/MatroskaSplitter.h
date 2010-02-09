@@ -24,7 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "MatroskaFile.h"
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 #include <ITrackInfo.h>
 
 class MatroskaPacket : public Packet

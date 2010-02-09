@@ -22,11 +22,11 @@
 #pragma once
 
 #include <atlbase.h>
-#include <winddk\devioctl.h>
-#include <winddk\ntddcdrm.h>
+#include <winddk/devioctl.h>
+#include <winddk/ntddcdrm.h>
 #include <qnetwork.h>
-#include "..\asyncreader\asyncio.h"
-#include "..\asyncreader\asyncrdr.h"
+#include "../asyncreader/asyncio.h"
+#include "../asyncreader/asyncrdr.h"
 
 typedef struct {UINT chunkID; long chunkSize;} ChunkHeader;
 

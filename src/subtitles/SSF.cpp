@@ -27,7 +27,7 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include "SSF.h"
-#include "..\subpic\MemSubPic.h"
+#include "../subpic/MemSubPic.h"
 
 namespace ssf
 {

@@ -27,8 +27,8 @@
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
 #include "systray.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
-#include "..\..\..\SubPic\MemSubPic.h"
+#include "../../../DSUtil/MediaTypes.h"
+#include "../../../SubPic/MemSubPic.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

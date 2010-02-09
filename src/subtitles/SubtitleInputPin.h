@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\subpic\ISubPic.h"
+#include "../subpic/ISubPic.h"
 
 //
 // CSubtitleInputPin

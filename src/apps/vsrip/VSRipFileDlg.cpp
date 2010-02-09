@@ -23,8 +23,8 @@
 #include "stdafx.h"
 #include "VSRip.h"
 #include <atlcoll.h>
-#include "..\..\..\include\winddk\devioctl.h"
-#include "..\..\..\include\winddk\ntddcdrm.h"
+#include "../../../include/winddk/devioctl.h"
+#include "../../../include/winddk/ntddcdrm.h"
 #include "VSRipFileDlg.h"
 
 

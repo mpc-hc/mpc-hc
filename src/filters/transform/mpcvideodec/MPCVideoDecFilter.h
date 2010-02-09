@@ -26,11 +26,11 @@
 #include <Videoacc.h>		// DXVA1
 #include <dxva.h>
 #include <dxva2api.h>		// DXVA2
-#include "..\BaseVideoFilter\BaseVideoFilter.h"
+#include "../BaseVideoFilter/BaseVideoFilter.h"
 
 #include "IMPCVideoDecFilter.h"
 #include "MPCVideoDecSettingsWnd.h"
-#include "..\..\..\decss\DeCSSInputPin.h"
+#include "../../../decss/DeCSSInputPin.h"
 #include "DXVADecoder.h"
 #include "TlibavcodecExt.h"
 

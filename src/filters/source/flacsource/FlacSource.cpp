@@ -26,8 +26,8 @@
 #include <uuids.h>
 #include <moreuuids.h>
 #include "flacsource.h"
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "FLAC\stream_decoder.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "FLAC/stream_decoder.h"
 
 #define _DECODER_			(FLAC__StreamDecoder*)m_pDecoder
 
@@ -80,7 +80,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

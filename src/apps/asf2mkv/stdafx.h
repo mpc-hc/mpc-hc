@@ -67,8 +67,8 @@
 #include <streams.h>
 #include <dvdmedia.h>
 
-#include "..\..\ui\ui.h"
-#include "..\..\DSUtil\DSUtil.h"
-#include "..\..\filters\filters.h"
+#include "../../ui/ui.h"
+#include "../../DSUtil/DSUtil.h"
+#include "../../filters/filters.h"
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))

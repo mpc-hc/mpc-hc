@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "PinInfoWnd.h"
-#include "..\dsutil\dsutil.h"
+#include "../dsutil/dsutil.h"
 
 //
 // CPinInfoWnd

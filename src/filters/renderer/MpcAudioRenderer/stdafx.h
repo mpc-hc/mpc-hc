@@ -22,7 +22,7 @@
 
 
 #pragma once
-#include "..\..\..\DSUtil\SharedInclude.h"
+#include "../../../DSUtil/SharedInclude.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS

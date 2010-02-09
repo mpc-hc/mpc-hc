@@ -25,10 +25,10 @@
 #include <mmreg.h>
 #include <ks.h>
 #include <ksmedia.h>
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
 #include "RealMediaSplitter.h"
-#include "..\..\..\subtitles\SubtitleInputPin.h"
+#include "../../../subtitles/SubtitleInputPin.h"
 
 //
 
@@ -169,7 +169,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

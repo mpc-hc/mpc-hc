@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "DX9AllocatorPresenter.h"
 #include <initguid.h>
-#include "..\..\SubPic\DX9SubPic.h"
+#include "../../SubPic/DX9SubPic.h"
 #include "IPinHook.h"
 #include "MainFrm.h"
 

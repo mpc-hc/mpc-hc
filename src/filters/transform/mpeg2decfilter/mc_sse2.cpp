@@ -25,7 +25,7 @@
 #include <inttypes.h>
 #include "libmpeg2.h"
 #include "attributes.h"
-#include "..\..\..\DSUtil\simd.h"
+#include "../../../DSUtil/simd.h"
 
 static const __m128i const_1_16_bytes=_mm_set1_epi16(1);
 

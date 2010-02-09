@@ -25,17 +25,17 @@
 #include "mplayerc.h"
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include "DX7AllocatorPresenter.h"
 #include <ddraw.h>
 #include <d3d.h>
-#include "..\..\SubPic\DX7SubPic.h"
-#include <RealMedia\pntypes.h>
-#include <RealMedia\pnwintyp.h>
-#include <RealMedia\pncom.h>
-#include <RealMedia\rmavsurf.h>
+#include "../../SubPic/DX7SubPic.h"
+#include <RealMedia/pntypes.h>
+#include <RealMedia/pnwintyp.h>
+#include <RealMedia/pncom.h>
+#include <RealMedia/rmavsurf.h>
 #include "IQTVideoSurface.h"
 
 #include "IPinHook.h"

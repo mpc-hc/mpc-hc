@@ -24,13 +24,13 @@
 #include "stdafx.h"
 #include "fakefiltermapper2.h"
 #include "MacrovisionKicker.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 #include <initguid.h>
 #include <qedit.h>
 
 
-#include <detours\detours.h>
+#include <detours/detours.h>
 
 HRESULT (__stdcall * Real_CoCreateInstance)(CONST IID& a0,
                                             LPUNKNOWN a1,

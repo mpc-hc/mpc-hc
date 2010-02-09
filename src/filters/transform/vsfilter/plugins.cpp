@@ -23,10 +23,10 @@
 #include <afxdlgs.h>
 #include <atlpath.h>
 #include "resource.h"
-#include "..\..\..\subtitles\VobSubFile.h"
-#include "..\..\..\subtitles\RTS.h"
-#include "..\..\..\subtitles\SSF.h"
-#include "..\..\..\SubPic\MemSubPic.h"
+#include "../../../subtitles/VobSubFile.h"
+#include "../../../subtitles/RTS.h"
+#include "../../../subtitles/SSF.h"
+#include "../../../SubPic/MemSubPic.h"
 
 //
 // Generic interface
@@ -240,7 +240,7 @@ public:
 
 namespace VirtualDub
 {
-	#include <VirtualDub\VirtualDub.h>
+	#include <VirtualDub/VirtualDub.h>
 
 	class CVirtualDubFilter : virtual public CFilter
 	{
@@ -500,7 +500,7 @@ namespace VirtualDub
 
 namespace AviSynth1
 {
-	#include <avisynth\avisynth1.h>
+	#include <avisynth/avisynth1.h>
 
 	class CAvisynthFilter : public GenericVideoFilter, virtual public CFilter
 	{
@@ -614,7 +614,7 @@ namespace AviSynth1
 
 namespace AviSynth25
 {
-	#include <avisynth\avisynth25.h>
+	#include <avisynth/avisynth25.h>
 
 	static bool s_fSwapUV = false;
 

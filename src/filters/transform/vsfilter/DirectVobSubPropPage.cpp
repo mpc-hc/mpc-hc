@@ -27,8 +27,8 @@
 #include "VSFilter.h"
 #include "StyleEditorDialog.h"
 
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
 
 BOOL WINAPI MyGetDialogSize(int iResourceID, DLGPROC pDlgProc, LPARAM lParam, SIZE* pResult)
 {

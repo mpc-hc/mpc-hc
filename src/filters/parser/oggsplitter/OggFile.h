@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 #pragma pack(push, 1)
 

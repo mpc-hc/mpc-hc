@@ -22,7 +22,7 @@
 #pragma once
 
 #include "BaseMuxerRelatedPin.h"
-#include "..\..\..\DSUtil\DSMPropertyBag.h"
+#include "../../../DSUtil/DSMPropertyBag.h"
 
 class CBaseMuxerInputPin;
 

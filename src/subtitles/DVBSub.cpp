@@ -23,7 +23,7 @@
 
 #include "StdAfx.h"
 #include "DVBSub.h"
-#include "..\DSUtil\GolombBuffer.h"
+#include "../DSUtil/GolombBuffer.h"
 
 #if (1)		// Set to 1 to activate DVB subtitles traces
 	#define TRACE_DVB		TRACE

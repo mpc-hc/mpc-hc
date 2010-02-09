@@ -51,7 +51,7 @@
  a brief description of the "C" interface usage.
 
 \verbatim
- #include <libdirac_decoder/dirac_parser.h>\n
+ #include <libdirac_decoder/dirac_parser.h>/n
  Initialise the decoder
 
  dirac_decoder_t *decoder_handle = dirac_decoder_init();

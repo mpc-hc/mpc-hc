@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "shockwavegraph.h"
 #include "resource.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
 	: m_fs(State_Stopped)

@@ -36,14 +36,14 @@
 extern "C"
 {
 	#include "FfmpegContext.h"
-	#include "libswscale\swscale.h"
+	#include "libswscale/swscale.h"
 
 	extern void init_libvo();
 }
 
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
-#include "..\..\parser\mpegsplitter\MpegSplitter.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
+#include "../../parser/mpegsplitter/MpegSplitter.h"
 
 #include <moreuuids.h>
 

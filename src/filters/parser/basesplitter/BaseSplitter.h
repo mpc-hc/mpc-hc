@@ -29,8 +29,8 @@
 #include <IBitRateInfo.h>
 #include "BaseSplitterFileEx.h"
 #include "AsyncReader.h"
-#include "..\..\..\DSUtil\DSMPropertyBag.h"
-#include "..\..\..\DSUtil\FontInstaller.h"
+#include "../../../DSUtil/DSMPropertyBag.h"
+#include "../../../DSUtil/FontInstaller.h"
 
 class Packet : public CAtlArray<BYTE>
 {

@@ -22,7 +22,7 @@
 #include "StdAfx.h"
 #include <mmreg.h>
 #include "BaseMuxer.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <initguid.h>
 #include <moreuuids.h>
 

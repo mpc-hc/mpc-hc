@@ -23,7 +23,7 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 namespace MatroskaReader
 {

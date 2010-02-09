@@ -4,7 +4,7 @@
 //
 
 #pragma once
-#include "..\..\..\DSUtil\SharedInclude.h"
+#include "../../../DSUtil/SharedInclude.h"
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 

@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MpaDecSettingsWnd.h"
-#include "..\..\..\dsutil\dsutil.h"
+#include "../../../dsutil/dsutil.h"
 
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!

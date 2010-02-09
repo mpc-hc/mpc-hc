@@ -25,11 +25,11 @@
 #include "mplayerc.h"
 #include "mainfrm.h"
 #include "PlayerCaptureDialog.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
-#include "..\..\filters\muxer\wavdest\wavdest.h"
-#include "..\..\filters\muxer\MatroskaMuxer\MatroskaMuxer.h"
-#include "..\..\filters\muxer\DSMMuxer\DSMMuxer.h"
+#include "../../filters/muxer/wavdest/wavdest.h"
+#include "../../filters/muxer/MatroskaMuxer/MatroskaMuxer.h"
+#include "../../filters/muxer/DSMMuxer/DSMMuxer.h"
 
 
 static bool LoadMediaType(CStringW DisplayName, AM_MEDIA_TYPE** ppmt)

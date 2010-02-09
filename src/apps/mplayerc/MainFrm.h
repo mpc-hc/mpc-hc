@@ -43,7 +43,7 @@
 
 #include "KeyProvider.h"
 
-#include "..\..\subpic\ISubPic.h"
+#include "../../subpic/ISubPic.h"
 
 #include "IGraphBuilder2.h"
 
@@ -68,7 +68,7 @@
 #include "VMROSD.h"
 #include "LcdSupport.h"
 #include "MpcApi.h"
-#include "..\..\filters\misc\SyncClock\SyncClock.h"
+#include "../../filters/misc/SyncClock/SyncClock.h"
 
 class CFullscreenWnd;
 

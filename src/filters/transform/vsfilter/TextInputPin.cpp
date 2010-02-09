@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "DirectVobSubFilter.h"
 #include "TextInputPin.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 CTextInputPin::CTextInputPin(CDirectVobSubFilter* pFilter, CCritSec* pLock, CCritSec* pSubLock, HRESULT* phr)
 	: CSubtitleInputPin(pFilter, pLock, pSubLock, phr)

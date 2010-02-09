@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "vsconv.h"
 #include "vsconvDlg.h"
-#include "..\..\subtitles\VobSubFile.h"
+#include "../../subtitles/VobSubFile.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

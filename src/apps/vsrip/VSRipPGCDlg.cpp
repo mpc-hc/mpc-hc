@@ -24,7 +24,7 @@
 #include <atlcoll.h>
 #include "VSRip.h"
 #include "VSRipPGCDlg.h"
-#include "..\..\subtitles\VobSubFile.h"
+#include "../../subtitles/VobSubFile.h"
 
 
 // CVSRipPGCDlg dialog

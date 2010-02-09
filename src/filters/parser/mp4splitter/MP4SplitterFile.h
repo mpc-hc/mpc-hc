@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 // #include "Ap4AsyncReaderStream.h" // FIXME
 
 class CMP4SplitterFile : public CBaseSplitterFileEx

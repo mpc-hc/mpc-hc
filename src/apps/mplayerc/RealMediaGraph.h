@@ -28,22 +28,22 @@
 #include "DX7AllocatorPresenter.h"
 #include "DX9AllocatorPresenter.h"
 
-#include <RealMedia\pntypes.h>
-#include <RealMedia\pnwintyp.h>
-#include <RealMedia\pncom.h>
-#include <RealMedia\rmapckts.h>
-#include <RealMedia\rmacomm.h>
-#include <RealMedia\rmamon.h>
-#include <RealMedia\rmafiles.h>
-#include <RealMedia\rmaengin.h>
-#include <RealMedia\rmacore.h>
-#include <RealMedia\rmaclsnk.h>
-#include <RealMedia\rmaerror.h>
-#include <RealMedia\rmaauth.h>
-#include <RealMedia\rmawin.h>
-#include <RealMedia\rmasite2.h>
-#include <RealMedia\rmaausvc.h>
-#include <RealMedia\rmavsurf.h>
+#include <RealMedia/pntypes.h>
+#include <RealMedia/pnwintyp.h>
+#include <RealMedia/pncom.h>
+#include <RealMedia/rmapckts.h>
+#include <RealMedia/rmacomm.h>
+#include <RealMedia/rmamon.h>
+#include <RealMedia/rmafiles.h>
+#include <RealMedia/rmaengin.h>
+#include <RealMedia/rmacore.h>
+#include <RealMedia/rmaclsnk.h>
+#include <RealMedia/rmaerror.h>
+#include <RealMedia/rmaauth.h>
+#include <RealMedia/rmawin.h>
+#include <RealMedia/rmasite2.h>
+#include <RealMedia/rmaausvc.h>
+#include <RealMedia/rmavsurf.h>
 
 
 namespace DSObjects

@@ -21,8 +21,8 @@
 
 #include "StdAfx.h"
 #include "OggSplitter.h"
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\GolombBuffer.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/GolombBuffer.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -81,7 +81,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

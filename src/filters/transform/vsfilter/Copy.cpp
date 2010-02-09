@@ -19,8 +19,8 @@
 #include "stdafx.h"
 #include <math.h>
 #include "DirectVobSubFilter.h"
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

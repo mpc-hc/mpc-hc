@@ -23,7 +23,7 @@
 #include <streams.h>
 #include <aviriff.h>
 #include "wavdest.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER
 
@@ -65,7 +65,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

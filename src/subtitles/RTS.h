@@ -23,7 +23,7 @@
 
 #include "STS.h"
 #include "Rasterizer.h"
-#include "..\SubPic\ISubPic.h"
+#include "../SubPic/ISubPic.h"
 
 class CMyFont : public CFont
 {

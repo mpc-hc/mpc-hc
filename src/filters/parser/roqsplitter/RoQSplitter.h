@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 // {48B93619-A959-45d9-B5FD-E12A67A96CF1}
 DEFINE_GUID(MEDIASUBTYPE_RoQ, 

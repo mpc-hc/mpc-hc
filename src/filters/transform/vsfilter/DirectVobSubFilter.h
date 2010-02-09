@@ -23,10 +23,10 @@
 
 #include <atlsync.h>
 #include "DirectVobSub.h"
-#include "..\BaseVideoFilter\BaseVideoFilter.h"
-#include "..\..\..\subtitles\VobSubFile.h"
-#include "..\..\..\subtitles\RTS.h"
-#include "..\..\..\subtitles\SSF.h"
+#include "../BaseVideoFilter/BaseVideoFilter.h"
+#include "../../../subtitles/VobSubFile.h"
+#include "../../../subtitles/RTS.h"
+#include "../../../subtitles/SSF.h"
 
 typedef struct
 {

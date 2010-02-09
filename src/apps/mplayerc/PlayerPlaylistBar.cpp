@@ -28,9 +28,9 @@
 #include <atlutil.h>
 #include "mplayerc.h"
 #include "mainfrm.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 #include "SaveTextFileDialog.h"
-#include ".\playerplaylistbar.h"
+#include "./playerplaylistbar.h"
 #include "SettingsDefines.h"
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)

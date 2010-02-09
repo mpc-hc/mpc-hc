@@ -20,9 +20,9 @@
  */
 
 #include "StdAfx.h"
-#include "..\..\..\decss\VobFile.h"
+#include "../../../decss/VobFile.h"
 #include "vtsreader.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER
 
@@ -71,7 +71,7 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 CFilterApp theApp;
 

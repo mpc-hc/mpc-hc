@@ -21,9 +21,9 @@
 
 #pragma once
 
-#include "..\SubPic\ISubPic.h"
-#include ".\libssf\SubtitleFile.h"
-#include ".\libssf\Renderer.h"
+#include "../SubPic/ISubPic.h"
+#include "./libssf/SubtitleFile.h"
+#include "./libssf/Renderer.h"
 
 #pragma once
 

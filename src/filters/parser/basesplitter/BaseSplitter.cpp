@@ -20,10 +20,10 @@
  */
 
 #include "StdAfx.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <initguid.h>
 #include <moreuuids.h>
-#include "..\..\switcher\AudioSwitcher\AudioSwitcher.h"
+#include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"
 
 #pragma warning(disable: 4355)

@@ -29,7 +29,7 @@
 #endif
 
 #include <initguid.h>
-#include ".\asf2mkvdlg.h"
+#include "./asf2mkvdlg.h"
 
 //  {6B6D0800-9ADA-11d0-A520-00A0D10129C0}
 DEFINE_GUID(CLSID_NetShowSource, 

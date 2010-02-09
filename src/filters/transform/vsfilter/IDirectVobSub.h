@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\..\..\subtitles\STS.h"
+#include "../../../subtitles/STS.h"
 
 #ifdef __cplusplus
 extern "C" {

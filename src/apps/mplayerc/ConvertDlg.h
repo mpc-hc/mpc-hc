@@ -24,7 +24,7 @@
 #pragma once
 
 #include "IGraphBuilder2.h"
-#include "..\..\DSUtil\DSMPropertyBag.h"
+#include "../../DSUtil/DSMPropertyBag.h"
 
 
 class CFilterTreeCtrl : public CTreeCtrl

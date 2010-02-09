@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
 
 [uuid("DC257063-045F-4BE2-BD5B-E12279C464F0")]

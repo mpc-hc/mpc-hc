@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 class CMpaSplitterFile : public CBaseSplitterFileEx
 {

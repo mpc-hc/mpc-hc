@@ -23,8 +23,8 @@
 
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "..\BaseSplitter\BaseSplitter.h"
-#include "..\..\transform\BaseVideoFilter\BaseVideoFilter.h"
+#include "../BaseSplitter/BaseSplitter.h"
+#include "../../transform/BaseVideoFilter/BaseVideoFilter.h"
 
 #pragma pack(push, 1)
 

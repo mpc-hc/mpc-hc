@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\BaseSplitter\BaseSplitter.h"
+#include "../BaseSplitter/BaseSplitter.h"
 
 #include "Ap4.h"
 #include "Ap4File.h"

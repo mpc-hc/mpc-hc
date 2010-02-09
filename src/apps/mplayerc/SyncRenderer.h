@@ -22,7 +22,7 @@
 */
 
 #pragma once
-#include "..\..\SubPic\ISubPic.h"
+#include "../../SubPic/ISubPic.h"
 #include "SyncAllocatorPresenter.h"
 
 #define VMRBITMAP_UPDATE 0x80000000

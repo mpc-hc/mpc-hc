@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "FGFilter.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 #include "DX7AllocatorPresenter.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"

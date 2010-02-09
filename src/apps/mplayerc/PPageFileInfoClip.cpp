@@ -26,7 +26,7 @@
 #include "PPageFileInfoClip.h"
 #include <atlbase.h>
 #include <qnetwork.h>
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 // CPPageFileInfoClip dialog

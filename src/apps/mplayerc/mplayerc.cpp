@@ -26,7 +26,7 @@
 #include <atlsync.h>
 #include <Tlhelp32.h>
 #include "MainFrm.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 #include "struct.h"
 #include "FileVersionInfo.h"
 #include <psapi.h>
@@ -469,9 +469,9 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp initialization
 
-#include <winddk\ntddcdvd.h>
+#include <winddk/ntddcdvd.h>
 
-#include <detours\detours.h>
+#include <detours/detours.h>
 
 BOOL (__stdcall * Real_IsDebuggerPresent)(void)
     = IsDebuggerPresent;

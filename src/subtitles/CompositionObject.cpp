@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 #include "CompositionObject.h"
-#include "..\DSUtil\GolombBuffer.h"
+#include "../DSUtil/GolombBuffer.h"
 
 
 

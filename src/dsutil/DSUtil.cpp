@@ -21,8 +21,8 @@
 
 #include "stdafx.h"
 #include <Vfw.h>
-#include <winddk\devioctl.h>
-#include <winddk\ntddcdrm.h>
+#include <winddk/devioctl.h>
+#include <winddk/ntddcdrm.h>
 #include "DSUtil.h"
 #include "Mpeg2Def.h"
 #include <moreuuids.h>

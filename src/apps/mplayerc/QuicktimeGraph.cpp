@@ -26,7 +26,7 @@
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"
 #include "mplayerc.h"
-#include "..\..\DSUtil\DSUtil.h"
+#include "../../DSUtil/DSUtil.h"
 
 
 //

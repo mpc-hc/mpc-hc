@@ -29,9 +29,9 @@
 #include <mpeg2data.h>
 #include <tuner.h>
 
-#include "..\..\DSUtil\DSUtil.h"
-#include "..\..\DSUtil\GolombBuffer.h"
-#include "..\..\filters\switcher\AudioSwitcher\AudioSwitcher.h"
+#include "../../DSUtil/DSUtil.h"
+#include "../../DSUtil/GolombBuffer.h"
+#include "../../filters/switcher/AudioSwitcher/AudioSwitcher.h"
 #include <moreuuids.h>
 #include "mplayerc.h"
 #include "FGManagerBDA.h"

@@ -24,7 +24,7 @@
 #include "BitStream.h"
 #include "BaseMuxerInputPin.h"
 #include "BaseMuxerRelatedPin.h"
-#include "..\..\..\subtitles\libssf\SubtitleFile.h"
+#include "../../../subtitles/libssf/SubtitleFile.h"
 
 class CBaseMuxerOutputPin : public CBaseOutputPin
 {

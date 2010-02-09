@@ -25,7 +25,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "libmpeg2.h"
-#include "..\..\..\DSUtil\vd.h"
+#include "../../../DSUtil/vd.h"
 
 // decode
 

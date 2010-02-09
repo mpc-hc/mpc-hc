@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "MatroskaFile.h"
-#include "..\..\..\DSUtil\DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 using namespace MatroskaWriter;
 

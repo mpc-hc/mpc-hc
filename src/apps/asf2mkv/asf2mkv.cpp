@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "asf2mkv.h"
 #include "asf2mkvDlg.h"
-#include ".\asf2mkv.h"
+#include "./asf2mkv.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

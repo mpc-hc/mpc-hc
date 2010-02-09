@@ -30,8 +30,8 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -92,7 +92,7 @@ STDAPI DllUnregisterServer()
 
 //
 
-#include <detours\detours.h>
+#include <detours/detours.h>
 
 BOOL (__stdcall * Real_IsDebuggerPresent)(void)
     = IsDebuggerPresent;
@@ -156,7 +156,7 @@ LONG WINAPI Mine_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpD
 
 //
 
-#include "..\..\FilterApp.h"
+#include "../../FilterApp.h"
 
 class CMpeg2DecFilterApp : public CFilterApp
 {

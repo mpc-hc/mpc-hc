@@ -22,8 +22,8 @@
 #include "StdAfx.h"
 #include "BaseSplitterFileEx.h"
 #include <mmreg.h>
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\GolombBuffer.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/GolombBuffer.h"
 #include <initguid.h>
 #include <moreuuids.h>
 

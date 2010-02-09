@@ -25,7 +25,7 @@
 //
 
 #pragma once
-#include "..\..\..\DSUtil\SharedInclude.h"
+#include "../../../DSUtil/SharedInclude.h"
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
@@ -46,9 +46,9 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 
-#include "..\..\..\DSUtil\DSUtil.h"
-#include "..\..\..\DSUtil\MediaTypes.h"
-#include "..\..\..\DSUtil\vd.h"
+#include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/MediaTypes.h"
+#include "../../../DSUtil/vd.h"
 
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
 
