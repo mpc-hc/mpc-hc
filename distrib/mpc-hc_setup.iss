@@ -70,7 +70,6 @@ WizardImageFile=Images\WizardImageLarge.bmp
 WizardSmallImageFile=Images\WizardImageSmall.bmp
 Compression=lzma/ultra64
 SolidCompression=yes
-InternalCompressLevel=ultra64
 EnableDirDoesntExistWarning=no
 AllowNoIcons=yes
 DirExistsWarning=no
