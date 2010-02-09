@@ -97,6 +97,7 @@
 #define IDS_RS_LASTWINDOWRECT				_T("LastWindowRect")
 #define IDS_RS_AUDIORENDERERTYPE			_T("AudioRendererType")
 #define IDS_RS_SPEAKERTOCHANNELMAPPING		_T("SpeakerToChannelMapping")
+#define IDS_RS_SPEAKERCHANNELS				_T("SpeakerChannels")
 #define IDS_RS_CUSTOMCHANNELMAPPING			_T("CustomChannelMapping")
 #define IDS_RS_DOWNSAMPLETO441				_T("DownSampleTo441")
 #define IDS_RS_ENABLEAUDIOSWITCHER			_T("EnableAudioSwitcher")

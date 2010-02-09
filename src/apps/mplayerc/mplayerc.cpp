@@ -1731,6 +1731,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, fAudioNormalize);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, fAudioNormalizeRecover);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, (int)AudioBoost);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, fnChannels);
 
 		// Multi-monitor code
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_FULLSCREENMONITOR, CString(f_hmonitor));
@@ -2211,6 +2212,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		fAudioNormalize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, FALSE);
 		fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
 		AudioBoost = (float)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 1);
+		fnChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
 		{
 			for(int i = 0; ; i++)

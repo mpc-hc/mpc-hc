@@ -832,6 +832,8 @@ public:
 		bool m_fExitAfterPlayback;
 		CStringW m_subtitlesLanguageOrder;
 		CStringW m_audiosLanguageOrder;
+
+		int fnChannels;
 	} m_s;
 
 public:

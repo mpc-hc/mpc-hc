@@ -118,7 +118,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	if(m_pASF)
 		m_pASF->GetInputSpeakerConfig(&m_dwChannelMask);
 
-	m_nChannels = 1;
+	m_nChannels = s.fnChannels;
 	m_nChannelsSpinCtrl.SetRange(1, 18);
 
 	if(m_pASF)
@@ -186,6 +186,8 @@ BOOL CPPageAudioSwitcher::OnApply()
 		m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.AudioBoost);
 	}
 
+	s.fnChannels = m_nChannels;
+
 	return __super::OnApply();
 }
 
@@ -215,6 +217,7 @@ void CPPageAudioSwitcher::OnEnChangeEdit1()
 	{
 		UpdateData();
 		m_list.Invalidate();
+		SetModified();
 	}
 }
 
