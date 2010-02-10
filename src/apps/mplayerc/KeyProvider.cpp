@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "keyprovider.h"
 #include "../../DSUtil/DSUtil.h"
 

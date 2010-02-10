@@ -23,7 +23,7 @@
 // PPageFileMediaInfo.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "mplayerc.h"
 #include "PPageFileMediaInfo.h"
 

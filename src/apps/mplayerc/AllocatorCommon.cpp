@@ -20,7 +20,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "AllocatorCommon.h"
 #include "VMR9AllocatorPresenter.h"
 #include "RM9AllocatorPresenter.h"

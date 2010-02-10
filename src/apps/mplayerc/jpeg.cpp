@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <math.h>
 #include "jpeg.h"
 #include "jpeg_tables.h"

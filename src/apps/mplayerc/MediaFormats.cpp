@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <atlbase.h>
 #include "MediaFormats.h"
 #include "resource.h"

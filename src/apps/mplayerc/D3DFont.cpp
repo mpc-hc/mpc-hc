@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <stdio.h>
 #include <tchar.h>
 #include <D3DX9.h>

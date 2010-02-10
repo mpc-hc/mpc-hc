@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <shlobj.h>
 #include <dlgs.h>
 #include "OpenFileDlg.h"

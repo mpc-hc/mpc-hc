@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "FGFilter.h"
 #include "../../DSUtil/DSUtil.h"
 #include "DX7AllocatorPresenter.h"

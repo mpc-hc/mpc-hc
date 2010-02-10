@@ -21,7 +21,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <math.h>
 #include "mplayerc.h"
 #include "MainFrm.h"

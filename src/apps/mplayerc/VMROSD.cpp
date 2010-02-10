@@ -20,7 +20,7 @@
  *
  */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "./vmrosd.h"
 #include "mplayerc.h"
 

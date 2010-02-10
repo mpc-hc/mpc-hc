@@ -21,7 +21,7 @@
 *
 */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "../../filters/misc/SyncClock/Interfaces.h"
 #include "mplayerc.h"
 #include <atlbase.h>

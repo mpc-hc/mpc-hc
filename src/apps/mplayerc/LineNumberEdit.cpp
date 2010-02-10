@@ -86,7 +86,7 @@
 	Usage :			See urm_SELECTLINE in the code.
    ========================================================================*/
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "LineNumberEdit.h"
 
 // Registered message to allow selection of complete 

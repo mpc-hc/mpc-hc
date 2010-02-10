@@ -22,7 +22,7 @@
  */
 
 #include "../../zlib/zlib.h"
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "mplayerc.h"
 #include "resource.h"
 #include "MainFrm.h"

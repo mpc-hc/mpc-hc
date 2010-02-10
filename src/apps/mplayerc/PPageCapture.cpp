@@ -23,7 +23,7 @@
 // PPageTuner.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <ks.h>
 #include <ksmedia.h>
 #include <bdatypes.h>
