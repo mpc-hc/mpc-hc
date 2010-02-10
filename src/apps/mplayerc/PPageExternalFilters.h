@@ -24,7 +24,7 @@
 #pragma once
 
 #include "PPageBase.h"
-#include "floatedit.h"
+#include "FloatEdit.h"
 #include "mplayerc.h"
 
 

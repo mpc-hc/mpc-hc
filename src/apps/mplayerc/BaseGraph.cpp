@@ -22,7 +22,7 @@
  */
 
 #include "StdAfx.h"
-#include "basegraph.h"
+#include "BaseGraph.h"
 #include "../../DSUtil/DSUtil.h"
 
 

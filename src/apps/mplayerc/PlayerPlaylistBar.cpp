@@ -27,10 +27,10 @@
 #include <atlrx.h>
 #include <atlutil.h>
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
 #include "SaveTextFileDialog.h"
-#include "./playerplaylistbar.h"
+#include "PlayerPlaylistBar.h"
 #include "SettingsDefines.h"
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)

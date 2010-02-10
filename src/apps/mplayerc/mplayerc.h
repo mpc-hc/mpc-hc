@@ -32,7 +32,7 @@
 #include <atlsync.h>
 #include "../../subtitles/STS.h"
 #include "MediaFormats.h"
-#include "fakefiltermapper2.h"
+#include "FakeFilterMapper2.h"
 #include "DVBChannel.h"
 
 #ifdef UNICODE

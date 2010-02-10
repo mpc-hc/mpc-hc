@@ -22,7 +22,7 @@
  */
 
 #include "StdAfx.h"
-#include "keyprovider.h"
+#include "KeyProvider.h"
 #include "../../DSUtil/DSUtil.h"
 
 

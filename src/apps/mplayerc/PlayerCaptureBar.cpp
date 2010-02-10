@@ -23,7 +23,7 @@
 
 #include "StdAfx.h"
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "PlayerCaptureBar.h"
 
 

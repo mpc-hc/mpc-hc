@@ -25,7 +25,7 @@
 #include <windows.h>
 #include <commdlg.h>
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "TextPassThruFilter.h"
 #include <moreuuids.h>
 #include "../../DSUtil/DSUtil.h"

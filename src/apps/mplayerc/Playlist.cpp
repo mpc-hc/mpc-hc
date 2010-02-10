@@ -23,7 +23,7 @@
 
 #include "StdAfx.h"
 #include "mplayerc.h"
-#include "playlist.h"
+#include "Playlist.h"
 #include "SettingsDefines.h"
 
 //

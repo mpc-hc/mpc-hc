@@ -27,7 +27,7 @@
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
-#include "struct.h"
+#include "Struct.h"
 #include "FileVersionInfo.h"
 #include <psapi.h>
 #include <d3d9.h>
@@ -691,7 +691,7 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 
 #include "../../subtitles/SSF.h"
 #include "../../subtitles/RTS.h"
-#include "../../subpic/MemSubPic.h"
+#include "../../SubPic/MemSubPic.h"
 
 class ssftest
 {

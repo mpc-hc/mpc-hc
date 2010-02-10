@@ -26,7 +26,7 @@
 #include "PPageFileInfoDetails.h"
 #include <atlbase.h>
 #include "../../DSUtil/DSUtil.h"
-#include "d3d9.h"
+#include <d3d9.h>
 #include "Vmr9.h"
 #include <moreuuids.h>
 

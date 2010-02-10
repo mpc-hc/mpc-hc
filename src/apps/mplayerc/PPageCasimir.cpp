@@ -25,7 +25,7 @@
 #include "MainFrm.h"
 #include "PPageOutput.h"
 #include <moreuuids.h>
-#include "ppagecasimir.h"
+#include "PPageCasimir.h"
 #include <psapi.h>
 
 

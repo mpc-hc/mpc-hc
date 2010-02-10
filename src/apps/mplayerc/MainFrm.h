@@ -43,7 +43,7 @@
 
 #include "KeyProvider.h"
 
-#include "../../subpic/ISubPic.h"
+#include "../../SubPic/ISubPic.h"
 
 #include "IGraphBuilder2.h"
 

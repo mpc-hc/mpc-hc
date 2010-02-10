@@ -23,11 +23,11 @@
 
 #include "StdAfx.h"
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "PlayerCaptureDialog.h"
 #include "../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
-#include "../../filters/muxer/wavdest/wavdest.h"
+#include "../../filters/muxer/WavDest/WavDest.h"
 #include "../../filters/muxer/MatroskaMuxer/MatroskaMuxer.h"
 #include "../../filters/muxer/DSMMuxer/DSMMuxer.h"
 

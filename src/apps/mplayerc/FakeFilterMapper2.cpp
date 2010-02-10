@@ -22,7 +22,7 @@
  */
 
 #include "StdAfx.h"
-#include "fakefiltermapper2.h"
+#include "FakeFilterMapper2.h"
 #include "MacrovisionKicker.h"
 #include "../../DSUtil/DSUtil.h"
 

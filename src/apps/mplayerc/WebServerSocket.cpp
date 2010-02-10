@@ -22,8 +22,8 @@
  */
 
 #include "StdAfx.h"
-#include "./webserver.h"
-#include "./webserversocket.h"
+#include "WebServer.h"
+#include "WebServerSocket.h"
 
 CWebServerSocket::CWebServerSocket(CWebServer* pWebServer, int port) 
 	: m_pWebServer(pWebServer)

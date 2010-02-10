@@ -25,7 +25,7 @@
 
 #include "afxwin.h"
 #include "afxcmn.h"
-#include "../../filters/transform/bufferfilter/bufferfilter.h"
+#include "../../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
 
 

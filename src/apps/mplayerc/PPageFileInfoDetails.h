@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../../subpic/ISubPic.h"
+#include "../../SubPic/ISubPic.h"
 #include "afxwin.h"
 
 

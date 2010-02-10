@@ -26,7 +26,7 @@
 #include <math.h>
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "realmediawindowlesssite.h"
+#include "RealMediaWindowlessSite.h"
 #include "../../DSUtil/DSUtil.h"
 
 

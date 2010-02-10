@@ -22,7 +22,7 @@
  */
 
 #include "StdAfx.h"
-#include "floatedit.h"
+#include "FloatEdit.h"
 
 
 // CFloatEdit

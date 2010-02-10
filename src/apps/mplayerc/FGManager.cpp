@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
-#include "../../Filters/Filters.h"
+#include "../../filters/filters.h"
 #include "DX7AllocatorPresenter.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"

@@ -24,7 +24,6 @@
 #include "StdAfx.h"
 #include "mplayerc.h"
 #include "PPageFileInfoRes.h"
-#include "./ppagefileinfores.h"
 
 
 // CPPageFileInfoRes dialog

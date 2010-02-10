@@ -69,7 +69,7 @@
 #include "FGManager.h"
 #include "FGManagerBDA.h"
 
-#include "textpassthrufilter.h"
+#include "TextPassThruFilter.h"
 #include "../../filters/filters.h"
 #include "../../filters/PinInfoWnd.h"
 
