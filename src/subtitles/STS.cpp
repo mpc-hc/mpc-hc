@@ -854,7 +854,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
 	CString style(_T("Default"));
 
-	CStringW buff;;
+	CStringW buff;
 	while(file->ReadString(buff))
 	{
 		buff.Trim();
@@ -1700,7 +1700,7 @@ static CStringW MPL22SSA(CStringW str)
 
 static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-	CStringW buff;;
+	CStringW buff;
 	while(file->ReadString(buff))
 	{
 		buff.Trim();

@@ -325,7 +325,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 
 	for(int i = 0; i < GetCount(); i++) 
 	{
-		strTemp  = GetAt(i).GetFilter() + _T(";");;
+		strTemp  = GetAt(i).GetFilter() + _T(";");
 		mask[0] += strTemp;
 		filter  += strTemp;
 	}

@@ -467,7 +467,7 @@ HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
 	HRESULT					hr		= S_OK;
 	WORD					wEnd	= (WORD)gb.GetPos() + wSegLength;
 	CDVBSub::DVB_REGION*	pRegion;
-	CDVBSub::DVB_REGION		DummyRegion;;
+	CDVBSub::DVB_REGION		DummyRegion;
 
 	pRegion = FindRegion (m_pCurrentPage, gb.ReadByte());
 

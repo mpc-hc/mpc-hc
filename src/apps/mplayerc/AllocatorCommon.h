@@ -54,7 +54,7 @@ DEFINE_GUID(CLSID_EVRAllocatorPresenter,
 			0x7612b889, 0xe070, 0x4bcc, 0xb8, 0x8, 0x91, 0xcb, 0x79, 0x41, 0x74, 0xab);
 
 extern CCritSec g_ffdshowReceive;
-extern bool queueu_ffdshow_support;
+extern bool queue_ffdshow_support;
 
 extern bool IsVMR9InGraph(IFilterGraph* pFG);
 extern CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module);

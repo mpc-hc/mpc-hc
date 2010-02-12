@@ -6080,7 +6080,7 @@ void CMainFrame::OnPlayPause()
 {
 	// Support ffdshow queueing.
 	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with ReceiveMine.
-	if(queueu_ffdshow_support)
+	if(queue_ffdshow_support)
 	{
 		CAutoLock lck(&g_ffdshowReceive);
 		return OnPlayPauseI();
@@ -6224,7 +6224,7 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 	}
 	else if(pFS && nID == ID_PLAY_FRAMESTEP)
 	{
-		if(GetMediaState() != State_Paused && !queueu_ffdshow_support)
+		if(GetMediaState() != State_Paused && !queue_ffdshow_support)
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
 		// To support framestep back, store the initial position when

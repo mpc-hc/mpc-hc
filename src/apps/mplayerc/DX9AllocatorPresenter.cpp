@@ -30,7 +30,7 @@
 #include "MainFrm.h"
 
 CCritSec g_ffdshowReceive;
-bool queueu_ffdshow_support = false;
+bool queue_ffdshow_support = false;
 
 #define FRAMERATE_MAX_DELTA			3000
 //#pragma optimize("", off)
@@ -255,7 +255,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 	m_DetectedFrameTimeStdDev = 0.0;
 	m_DetectedLock = false;
 	ZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
-	ZeroMemory(m_DetectedFrameTimeHistoryHisotry, sizeof(m_DetectedFrameTimeHistoryHisotry));	
+	ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));	
 	m_DetectedFrameTimePos = 0;
 	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -850,8 +850,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_ModeratedTimeSpeed = 1.0;
 	m_ModeratedTimeSpeedDiff = 0.0;
 	m_ModeratedTimeSpeedPrim = 0;
-	ZeroMemory(m_TimeChangeHisotry, sizeof(m_TimeChangeHisotry));
-	ZeroMemory(m_ClockChangeHisotry, sizeof(m_ClockChangeHisotry));
+	ZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
+	ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
 	m_ClockTimeChangeHistoryPos = 0;
 
 	m_pPSC.Free();

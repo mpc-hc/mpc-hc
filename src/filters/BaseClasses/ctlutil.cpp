@@ -743,20 +743,20 @@ CPosPassThru::GetCurrentPosition(__out LONGLONG *pCurrent)
 STDMETHODIMP
 CPosPassThru::GetStopPosition(__out LONGLONG *pStop)
 {
-    return GetSeekingLongLong( &IMediaSeeking::GetStopPosition, pStop );;
+    return GetSeekingLongLong( &IMediaSeeking::GetStopPosition, pStop );
 }
 
 STDMETHODIMP
 CPosPassThru::GetDuration(__out LONGLONG *pDuration)
 {
-    return GetSeekingLongLong( &IMediaSeeking::GetDuration, pDuration );;
+    return GetSeekingLongLong( &IMediaSeeking::GetDuration, pDuration );
 }
 
 
 STDMETHODIMP
 CPosPassThru::GetPreroll(__out LONGLONG *pllPreroll)
 {
-    return GetSeekingLongLong( &IMediaSeeking::GetPreroll, pllPreroll );;
+    return GetSeekingLongLong( &IMediaSeeking::GetPreroll, pllPreroll );
 }
 
 
@@ -1295,7 +1295,7 @@ HRESULT CSourceSeeking::GetPositions( __out_opt LONGLONG * pCurrent, __out_opt L
         *pStop = m_rtStop;
     }
 
-    return S_OK;;
+    return S_OK;
 }
 
 

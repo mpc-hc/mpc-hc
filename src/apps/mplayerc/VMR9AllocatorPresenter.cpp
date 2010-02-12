@@ -274,7 +274,7 @@ namespace DSObjects
 		// IVMRffdshow9
 		STDMETHODIMP support_ffdshow()
 		{
-			queueu_ffdshow_support = true;
+			queue_ffdshow_support = true;
 			return S_OK;
 		}
 

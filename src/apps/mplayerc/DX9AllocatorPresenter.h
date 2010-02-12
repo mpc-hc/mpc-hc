@@ -297,7 +297,7 @@ namespace DSObjects
 		double					m_DetectedFrameTimeStdDev;
 		bool					m_DetectedLock;
 		LONGLONG				m_DetectedFrameTimeHistory[60];
-		double					m_DetectedFrameTimeHistoryHisotry[500];
+		double					m_DetectedFrameTimeHistoryHistory[500];
 		int						m_DetectedFrameTimePos;
 		int						m_bInterlaced;
 
@@ -333,8 +333,8 @@ namespace DSObjects
 		double					m_ClockDiffPrim;
 		double					m_ClockDiff;
 
-		double					m_TimeChangeHisotry[100];
-		double					m_ClockChangeHisotry[100];
+		double					m_TimeChangeHistory[100];
+		double					m_ClockChangeHistory[100];
 		int						m_ClockTimeChangeHistoryPos;
 		double					m_ModeratedTimeSpeed;
 		double					m_ModeratedTimeSpeedPrim;

@@ -286,7 +286,7 @@ HRESULT CWavDestFilter::StopStreaming()
 
         RIFFLIST *pRiffWave = (RIFFLIST *)pb;
         RIFFCHUNK *pRiffFmt = (RIFFCHUNK *)(pRiffWave + 1);
-        RIFFCHUNK *pRiffData = (RIFFCHUNK *)(((BYTE *)(pRiffFmt + 1)) +  m_pInput->CurrentMediaType().FormatLength());;
+        RIFFCHUNK *pRiffData = (RIFFCHUNK *)(((BYTE *)(pRiffFmt + 1)) +  m_pInput->CurrentMediaType().FormatLength());
 
         pRiffData->fcc = FCC('data');
         pRiffData->cb = m_cbWavData;

@@ -1162,8 +1162,8 @@ void CVobSubImage::Scale2x()
 			DWORD B = y > 0 ? src[-w] : E;
 			DWORD C = x < w-1 && y > 0 ? src[-w+1] : E;
 
-			DWORD D = x > 0 ? src[-1] : E;;
-			DWORD F = x < w-1 ? src[+1] : E;;
+			DWORD D = x > 0 ? src[-1] : E;
+			DWORD F = x < w-1 ? src[+1] : E;
 
 			DWORD G = x > 0 && y < h-1 ? src[+w-1] : E;
 			DWORD H = y < h-1 ? src[+w] : E;

@@ -211,13 +211,9 @@ namespace DSObjects
 			HRESULT hr;
 
 			if(riid == __uuidof(IVMRMixerBitmap9))
-				return GetInterface((IVMRMixerBitmap9*)this, ppv);
-
-			if (riid == __uuidof(IBaseFilter))
 			{
-				return GetInterface((IBaseFilter*)this, ppv);
+				return GetInterface((IVMRMixerBitmap9*)this, ppv);
 			}
-
 			if (riid == __uuidof(IMediaFilter))
 			{
 				return GetInterface((IMediaFilter*)this, ppv);
@@ -244,7 +240,7 @@ namespace DSObjects
 		// IVMRffdshow9
 		STDMETHODIMP support_ffdshow()
 		{
-			queueu_ffdshow_support = true;
+			queue_ffdshow_support = true;
 			return S_OK;
 		}
 
@@ -1779,8 +1775,8 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 	{
 		m_ModeratedTimeSpeed = 1.0;
 		m_ModeratedTimeSpeedPrim = 0.0;
-		ZeroMemory(m_TimeChangeHisotry, sizeof(m_TimeChangeHisotry));
-		ZeroMemory(m_ClockChangeHisotry, sizeof(m_ClockChangeHisotry));
+		ZeroMemory(m_TimeChangeHistory, sizeof(m_TimeChangeHistory));
+		ZeroMemory(m_ClockChangeHistory, sizeof(m_ClockChangeHistory));
 		m_ClockTimeChangeHistoryPos = 0;
 	}
 	if (TimeChange)
@@ -1794,8 +1790,8 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 			if (iLastPos < 0)
 				iLastPos += 100;
 
-			double TimeChange = llPerf - m_TimeChangeHisotry[iLastPos];
-			double ClockChange = llClockTime - m_ClockChangeHisotry[iLastPos];
+			double TimeChange = llPerf - m_TimeChangeHistory[iLastPos];
+			double ClockChange = llClockTime - m_ClockChangeHistory[iLastPos];
 
 			double ClockSpeedTarget = ClockChange / TimeChange;
 			double ChangeSpeed = 0.1;
@@ -1816,8 +1812,8 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 			ModerateFloat(m_ModeratedTimeSpeed, ClockSpeedTarget, m_ModeratedTimeSpeedPrim, ChangeSpeed);
 //			m_ModeratedTimeSpeed = TimeChange / ClockChange;
 		}
-		m_TimeChangeHisotry[Pos] = llPerf;
-		m_ClockChangeHisotry[Pos] = llClockTime;
+		m_TimeChangeHistory[Pos] = llPerf;
+		m_ClockChangeHistory[Pos] = llClockTime;
 	}
 
 	return Target;
@@ -2552,7 +2548,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 					}
 				}
 
-				m_DetectedFrameTimeHistoryHisotry[m_DetectedFrameTimePos % 500] = DetectedRate;
+				m_DetectedFrameTimeHistoryHistory[m_DetectedFrameTimePos % 500] = DetectedRate;
 
 				class CAutoInt
 				{
@@ -2586,7 +2582,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
 				for (int i = 0; i < 500; ++i)
 				{
-					++Map[m_DetectedFrameTimeHistoryHisotry[i]];
+					++Map[m_DetectedFrameTimeHistoryHistory[i]];
 				}
 
 				POSITION Pos = Map.GetStartPosition();
@@ -2641,7 +2637,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 					m_bCorrectedFrameTime = true;
 					m_FrameTimeCorrection = 30;
 				}
-				m_LastScheduledSampleTimeFP = CurrentTime;;
+				m_LastScheduledSampleTimeFP = CurrentTime;
 			}
 			else
 				m_LastScheduledSampleTimeFP = Time / 10000000.0;

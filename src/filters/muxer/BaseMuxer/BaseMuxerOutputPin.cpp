@@ -159,7 +159,7 @@ void CBaseMuxerRawOutputPin::MuxHeader(const CMediaType& mt)
 		BYTE* p = (BYTE*)si + si->dwOffset;
 
 		if(memcmp(utf8bom, p, 3) != 0) 
-			pBitStream->ByteWrite(utf8bom, sizeof(utf8bom));;
+			pBitStream->ByteWrite(utf8bom, sizeof(utf8bom));
 
 		CStringA str((char*)p, mt.FormatLength() - (p - mt.Format()));
 		pBitStream->StrWrite(str + '\n', true);

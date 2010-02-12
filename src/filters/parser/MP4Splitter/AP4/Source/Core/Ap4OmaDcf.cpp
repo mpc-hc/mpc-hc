@@ -74,7 +74,7 @@ AP4_OmaDcfAtomDecrypter::DecryptAtoms(AP4_AtomParent&                  atoms,
         if (odrm == NULL) continue; // not enough info
         AP4_OdheAtom* odhe = AP4_DYNAMIC_CAST(AP4_OdheAtom, odrm->GetChild(AP4_ATOM_TYPE_ODHE));
         if (odhe == NULL) continue; // not enough info    
-        AP4_OddaAtom* odda = AP4_DYNAMIC_CAST(AP4_OddaAtom, odrm->GetChild(AP4_ATOM_TYPE_ODDA));;
+        AP4_OddaAtom* odda = AP4_DYNAMIC_CAST(AP4_OddaAtom, odrm->GetChild(AP4_ATOM_TYPE_ODDA));
         if (odda == NULL) continue; // not enough info
         AP4_OhdrAtom* ohdr = AP4_DYNAMIC_CAST(AP4_OhdrAtom, odhe->GetChild(AP4_ATOM_TYPE_OHDR));
         if (ohdr == NULL) continue; // not enough info
@@ -121,7 +121,7 @@ AP4_OmaDcfAtomDecrypter::CreateDecryptingStream(
     
     AP4_OdheAtom* odhe = AP4_DYNAMIC_CAST(AP4_OdheAtom, odrm.GetChild(AP4_ATOM_TYPE_ODHE));
     if (odhe == NULL) return AP4_ERROR_INVALID_FORMAT;
-    AP4_OddaAtom* odda = AP4_DYNAMIC_CAST(AP4_OddaAtom, odrm.GetChild(AP4_ATOM_TYPE_ODDA));;
+    AP4_OddaAtom* odda = AP4_DYNAMIC_CAST(AP4_OddaAtom, odrm.GetChild(AP4_ATOM_TYPE_ODDA));
     if (odda == NULL) return AP4_ERROR_INVALID_FORMAT;
     AP4_OhdrAtom* ohdr = AP4_DYNAMIC_CAST(AP4_OhdrAtom, odhe->GetChild(AP4_ATOM_TYPE_OHDR));
     if (ohdr == NULL) return AP4_ERROR_INVALID_FORMAT;

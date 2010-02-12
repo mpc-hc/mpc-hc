@@ -188,7 +188,7 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample 
 {
 	// Support ffdshow queueing.
 	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with CMainFrame::OnPlayPause.
-	if(queueu_ffdshow_support)
+	if(queue_ffdshow_support)
 	{
 		CAutoLock lck(&g_ffdshowReceive);
 		return ReceiveMineI(This,pSample);

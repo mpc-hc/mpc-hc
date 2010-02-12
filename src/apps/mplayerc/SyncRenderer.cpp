@@ -4037,7 +4037,7 @@ STDMETHODIMP CSyncRenderer::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* p
 
 STDMETHODIMP CSyncRenderer::support_ffdshow()
 {
-	queueu_ffdshow_support = true;
+	queue_ffdshow_support = true;
 	return S_OK;
 }
 

@@ -430,7 +430,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 		accept_encoding.MakeLower();
 		CAtlList<CString> sl;
 		ExplodeMin(accept_encoding, sl, ',');
-		if(!sl.Find(_T("gzip"))) break;;
+		if(!sl.Find(_T("gzip"))) break;
 
 		CHAR path[MAX_PATH], fn[MAX_PATH];
 		if(!GetTempPathA(MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn))

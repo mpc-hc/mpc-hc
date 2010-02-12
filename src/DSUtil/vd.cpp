@@ -545,7 +545,7 @@ bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	if(w<=0 || h<=0 || (w&1) || (h&1))
 		return(false);
 
-	void (*asm_YUVtoRGB_row)(void* ARGB1, void* ARGB2, BYTE* Y1, BYTE* Y2, BYTE* U, BYTE* V, long width) = NULL;;
+	void (*asm_YUVtoRGB_row)(void* ARGB1, void* ARGB2, BYTE* Y1, BYTE* Y2, BYTE* U, BYTE* V, long width) = NULL;
 
 	if((g_cpuid.m_flags & CCpuID::ssefpu) && !(w&7))
 	{

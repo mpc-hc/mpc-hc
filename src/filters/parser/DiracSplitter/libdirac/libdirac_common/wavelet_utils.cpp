@@ -290,7 +290,7 @@ void CoeffArray::SetBandWeights (const EncoderParams& encparams,
 
     switch (wltfilter){
         case DD9_7 :
-            lfac = 1.218660804;;
+            lfac = 1.218660804;
             hfac = 0.780720058;
             filt_shift = 1;
 
