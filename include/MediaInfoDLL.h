@@ -137,11 +137,6 @@
     #define MEDIAINFODLL_NAME  "libmediainfo.so.0"
     #define __stdcall
 #endif //!defined(_WIN32) || defined (WIN32)
-#ifdef __cplusplus
-    #include <new> //For size_t in MacOS
-#else //__cplusplus
-    typedef long size_t
-#endif //__cplusplus
 
 /*-------------------------------------------------------------------------*/
 /*Char types                                                               */
@@ -303,6 +298,8 @@ typedef size_t (__stdcall *MEDIAINFOLIST_Count_Get_Files)(void*); static MEDIAIN
 
 static size_t MediaInfoDLL_Load()
 {
+    size_t Errors=0;
+
     if (Module_Count>0)
     {
         Module_Count++;
@@ -331,7 +328,6 @@ static size_t MediaInfoDLL_Load()
         return (size_t)-1;
 
     /* Load methods */
-    size_t Errors=0;
     MEDIAINFO_ASSIGN    (New,"New")
     MEDIAINFOLIST_ASSIGN(New,"New")
     MEDIAINFO_ASSIGN    (Delete,"Delete")
