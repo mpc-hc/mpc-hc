@@ -16,6 +16,10 @@
 #define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
 #define app_url "http://mpc-hc.sourceforge.net/"
 
+;workaround in order to be able to build the 64bit installer through cmd; we define Buildx64=True for that.
+#ifdef Buildx64
+#define is64bit = True
+#endif
 #if is64bit
 #define mpchc_exe = 'mpc-hc64.exe'
 #define mpchc_ini = 'mpc-hc64.ini'

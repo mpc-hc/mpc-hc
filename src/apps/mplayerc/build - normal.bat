@@ -1,3 +1,2 @@
-
 call build.bat
 pause

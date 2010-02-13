@@ -1,25 +1,40 @@
-@echo off
+@ECHO OFF
 
-IF "%VS90COMNTOOLS%"=="" goto BadPaths
-IF "%MINGW32%"=="" goto BadPaths
-IF "%MINGW64%"=="" goto BadPaths
-goto GoodPaths
+REM Check if the needed files are present
+IF "%VS90COMNTOOLS%"=="" GOTO :BadPaths
+IF "%MINGW32%"=="" GOTO :BadPaths
+IF "%MINGW64%"=="" GOTO :BadPaths
+
+REM Detect if we are running on 64bit WIN and use Wow6432Node, set the path
+REM of Inno Setup accordingly
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+) ELSE (
+SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+)
+
+SET "I_=Inno Setup"
+SET "A_=%I_% 5"
+FOR /f "delims=" %%a IN (
+	'REG QUERY "%U_%\%A_%_is1" /v "%I_%: App Path"2^>Nul^|FIND "REG_"') DO (
+	SET "InnoSetupPath=%%a"&CALL :SubIS %%InnoSetupPath:*Z=%%)
+
+GOTO :GoodPaths
 
 :BadPaths
-echo "Not all build dependencies found. To build you need:"
-echo "* Visual Studio 2008 installed"
-echo "* MinGW 32 bit build environment with coreMSYS pointed to in MINGW32 env var"
-echo "* MinGW 64 bit build environment with coreMSYS pointed to in MINGW64 env var"
-pause
-goto EndGood
+ECHO: "Not all build dependencies found. To build MPC-HC you need:"
+ECHO: "* Visual Studio 2008 installed"
+ECHO: "* MinGW 32 bit build environment with coreMSYS pointed to in MINGW32 env var"
+ECHO: "* MinGW 64 bit build environment with coreMSYS pointed to in MINGW64 env var"
+PAUSE
+GOTO :EndGood
 
 :GoodPaths
 SET BUILDTYPE=/%1
-IF "%1"=="" set BUILDTYPE=/build
+IF "%1"=="" SET BUILDTYPE=/build
 
 SET ORIGPATH="%CD%"
-call "%VS90COMNTOOLS%vsvars32.bat"
-cd %ORIGPATH%
+CALL "%VS90COMNTOOLS%vsvars32.bat"
+CD %ORIGPATH%
 
 devenv ../../../mpc-hc.sln %BUILDTYPE% "Release Unicode|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
@@ -61,17 +76,21 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
-IF "%1"=="clean" goto x64
-mkdir Build_x86
-xcopy "Release Unicode\mpcresources.??.dll" ".\Build_x86\" /y 
-xcopy "Release Unicode\mpciconlib.dll" ".\Build_x86\" /y 
-xcopy "Release Unicode\mpc-hc.exe" ".\Build_x86\" /y
-xcopy AUTHORS ".\Build_x86\" /y
-xcopy ChangeLog ".\Build_x86\" /y
-xcopy ..\..\..\COPYING ".\Build_x86\" /y
+IF "%1"=="clean" GOTO x64
+MD Build_x86
+XCOPY "Release Unicode\mpcresources.??.dll" ".\Build_x86\" /y 
+XCOPY "Release Unicode\mpciconlib.dll" ".\Build_x86\" /y 
+XCOPY "Release Unicode\mpc-hc.exe" ".\Build_x86\" /y
+XCOPY AUTHORS ".\Build_x86\" /y
+XCOPY ChangeLog ".\Build_x86\" /y
+XCOPY ..\..\..\COPYING ".\Build_x86\" /y
+
+IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
+ "..\..\..\distrib\mpc-hc_setup.iss") ELSE (GOTO :x64)
+
 :x64
 
-rem goto Nox64
+REM GOTO :Nox64
 devenv ..\..\..\mpc-hc.sln %BUILDTYPE% "Release Unicode|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpciconlib.sln %BUILDTYPE% "Release Unicode|x64"
@@ -111,22 +130,30 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
-IF "%1"=="clean" goto Nox64
-mkdir Build_x64
-xcopy "x64\Release Unicode\mpcresources.??.dll" ".\Build_x64\" /y 
-xcopy "x64\Release Unicode\mpciconlib.dll" ".\Build_x64\" /y 
-xcopy "x64\Release Unicode\mpc-hc64.exe" ".\Build_x64\" /y
-xcopy AUTHORS ".\Build_x64\" /y
-xcopy ChangeLog ".\Build_x64\" /y
-xcopy ..\..\..\COPYING ".\Build_x64\" /y
+IF "%1"=="clean" GOTO :Nox64
+MD Build_x64
+XCOPY "x64\Release Unicode\mpcresources.??.dll" ".\Build_x64\" /y 
+XCOPY "x64\Release Unicode\mpciconlib.dll" ".\Build_x64\" /y 
+XCOPY "x64\Release Unicode\mpc-hc64.exe" ".\Build_x64\" /y
+XCOPY AUTHORS ".\Build_x64\" /y
+XCOPY ChangeLog ".\Build_x64\" /y
+XCOPY ..\..\..\COPYING ".\Build_x64\" /y
+
+IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
+ "..\..\..\distrib\mpc-hc_setup.iss" /DBuildx64=True) ELSE (GOTO :Nox64)
 
 :Nox64
-
-goto EndGood
+GOTO :EndGood
 
 :EndBad
-echo " "
-echo ERROR: Build failed and aborted
-pause
+ECHO: " "
+ECHO: ERROR: Build failed and aborted
+PAUSE
+GOTO :EOF
 
 :EndGood
+GOTO :EOF
+
+:SubIS
+SET InnoSetupPath=%*
+GOTO :EOF

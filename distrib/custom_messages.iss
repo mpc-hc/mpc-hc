@@ -1,5 +1,5 @@
 ﻿[CustomMessages]
-;utf-8 trigger: 
+;utf-8 trigger: 巼ݠ
 ;
 ;tsk=Task, msg=Message
 ;
