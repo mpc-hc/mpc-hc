@@ -1,5 +1,5 @@
 ﻿[CustomMessages]
-;utf-8 trigger: 巼ݠ
+;utf-8 trigger: 
 ;
 ;tsk=Task, msg=Message
 ;
@@ -7,11 +7,11 @@
 
 ;Portuguese (Brasil)
 br.langid=00000017
-br.tsk_AllUsers=For all users
-br.tsk_CurrentUser=For the current user only
-br.tsk_Other=Other tasks:
-br.tsk_ResetSettings=Reset settings
-br.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+br.tsk_AllUsers=Para todos os usuarios
+br.tsk_CurrentUser=Para o usuario atual somente
+br.tsk_Other=Outras tarefas:
+br.tsk_ResetSettings=Resetar ajustes
+br.msg_DeleteSettings=Gostaria tambem de apagar os ajustes do MPC-HC? %nSe voce quiser instalar o MPC-HC novamente então não precisa apagá-los.
 
 ;Belarusian
 by.langid=00000015
