@@ -27,6 +27,7 @@
 #include "../../../subtitles/RTS.h"
 #include "../../../subtitles/SSF.h"
 #include "../../../SubPic/MemSubPic.h"
+#include "vfr.h"
 
 //
 // Generic interface
@@ -620,8 +621,10 @@ namespace AviSynth25
 
 	class CAvisynthFilter : public GenericVideoFilter, virtual public CFilter
 	{
+		VFRTranslator *vfr;
+
 	public:
-		CAvisynthFilter(PClip c, IScriptEnvironment* env) : GenericVideoFilter(c) {}
+		CAvisynthFilter(PClip c, IScriptEnvironment* env, VFRTranslator *_vfr=0) : GenericVideoFilter(c), vfr(_vfr) {}
 
 		PVideoFrame __stdcall GetFrame(int n, IScriptEnvironment* env)
 		{
@@ -646,9 +649,14 @@ namespace AviSynth25
 				/*vi.IsIYUV()*/ vi.pixel_type == VideoInfo::CS_IYUV ? (s_fSwapUV?MSP_YV12:MSP_IYUV) : 
 				-1;
 
+			REFERENCE_TIME timestamp;
 			float fps = m_fps > 0 ? m_fps : (float)vi.fps_numerator / vi.fps_denominator;
+			if (!vfr)
+				timestamp = (REFERENCE_TIME)(10000000i64 * n / fps);
+			else
+				timestamp = (REFERENCE_TIME)(10000000 * vfr->TimeStampFromFrameNumber(n));
 
-			Render(dst, (REFERENCE_TIME)(10000000i64 * n / fps), fps);
+			Render(dst, timestamp, fps);
 
 			return(frame);
 		}
@@ -674,28 +682,31 @@ namespace AviSynth25
 	class CTextSubAvisynthFilter : public CTextSubFilter, public CAvisynthFilter
 	{
 	public:
-		CTextSubAvisynthFilter(PClip c, IScriptEnvironment* env, const char* fn, int CharSet = DEFAULT_CHARSET, float fps = -1)
+		CTextSubAvisynthFilter(PClip c, IScriptEnvironment* env, const char* fn, int CharSet = DEFAULT_CHARSET, float fps = -1, VFRTranslator *vfr = 0)
 			: CTextSubFilter(CString(fn), CharSet, fps)
-			, CAvisynthFilter(c, env)
+			, CAvisynthFilter(c, env, vfr)
 		{
 			if(!m_pSubPicProvider)
 				env->ThrowError("TextSub: Can't open \"%s\"", fn);
 		}
 	};
 
-	AVSValue __cdecl TextSubCreateS(AVSValue args, void* user_data, IScriptEnvironment* env)
+	AVSValue __cdecl TextSubCreateGeneral(AVSValue args, void* user_data, IScriptEnvironment* env)
 	{
-		return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString()));
-	}
+		if (!args[1].Defined())
+			env->ThrowError("TextSub: You must specify a subtitle file to use");
 
-	AVSValue __cdecl TextSubCreateSI(AVSValue args, void* user_data, IScriptEnvironment* env)
-	{
-		return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt()));
-	}
+		VFRTranslator *vfr = 0;
+		if (args[4].Defined())
+			vfr = GetVFRTranslator(args[4].AsString());
 
-	AVSValue __cdecl TextSubCreateSIF(AVSValue args, void* user_data, IScriptEnvironment* env)
-	{
-		return(new CTextSubAvisynthFilter(args[0].AsClip(), env, args[1].AsString(), args[2].AsInt(), args[3].AsFloat()));
+		return(new CTextSubAvisynthFilter(
+			args[0].AsClip(),
+			env,
+			args[1].AsString(),
+			args[2].AsInt(DEFAULT_CHARSET),
+			args[3].AsFloat(-1),
+			vfr));
 	}
 
 	AVSValue __cdecl TextSubSwapUV(AVSValue args, void* user_data, IScriptEnvironment* env)
@@ -704,13 +715,24 @@ namespace AviSynth25
 		return(AVSValue());
 	}
 
-	AVSValue __cdecl MaskSubCreateSIIFI(AVSValue args, void* user_data, IScriptEnvironment* env)
+	AVSValue __cdecl MaskSubCreate(AVSValue args, void* user_data, IScriptEnvironment* env)
 	{
+		if (!args[0].Defined())
+			env->ThrowError("MaskSub: You must specify a subtitle file to use");
+
+		if (!args[3].Defined() && !args[6].Defined())
+			env->ThrowError("MaskSub: You must specify either FPS or a VFR timecodes file");
+
+		VFRTranslator *vfr = 0;
+		if (args[6].Defined())
+			vfr = GetVFRTranslator(args[6].AsString());
+
 		AVSValue rgb32("RGB32");
-		AVSValue  tab[5] = {
+		AVSValue fps(args[3].AsFloat(25));
+		AVSValue  tab[6] = {
 			args[1],
 			args[2],
-			args[3],
+			fps,
 			args[4],
 			rgb32
 		};
@@ -722,20 +744,25 @@ namespace AviSynth25
 			"length",
 			"pixel_type"
 		};
+
 		AVSValue clip(env->Invoke("Blackness",value,nom));
 		env->SetVar(env->SaveString("RGBA"),true);
-		return(new CTextSubAvisynthFilter(clip.AsClip(), env, args[0].AsString()));
-		
+
+		return(new CTextSubAvisynthFilter(
+			clip.AsClip(),
+			env,
+			args[0].AsString(),
+			args[5].AsInt(DEFAULT_CHARSET),
+			args[3].AsFloat(-1),
+			vfr));
 	}
 
 	extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit2(IScriptEnvironment* env)
 	{
 		env->AddFunction("VobSub", "cs", VobSubCreateS, 0);
-		env->AddFunction("TextSub", "cs", TextSubCreateS, 0);
-		env->AddFunction("TextSub", "csi", TextSubCreateSI, 0);
-		env->AddFunction("TextSub", "csif", TextSubCreateSIF, 0);
+		env->AddFunction("TextSub", "c[file]s[charset]i[fps]f[vfr]s", TextSubCreateGeneral, 0);
 		env->AddFunction("TextSubSwapUV", "b", TextSubSwapUV, 0);
-		env->AddFunction("MaskSub", "siifi", MaskSubCreateSIIFI, 0);
+		env->AddFunction("MaskSub", "[file]s[width]i[height]i[fps]f[length]i[charset]i[vfr]s", MaskSubCreate, 0);
 		env->SetVar(env->SaveString("RGBA"),false);
 		return(NULL);
 	}

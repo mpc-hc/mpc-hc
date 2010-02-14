@@ -193,7 +193,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
 			/>
@@ -275,7 +275,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600"
+				PreprocessorDefinitions="WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				Detect64BitPortabilityProblems="false"
 			/>
@@ -364,10 +364,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StdAfx.h"
-				>
-			</File>
-			<File
 				RelativePath="StyleEditorDialog.cpp"
 				>
 			</File>
@@ -377,6 +373,10 @@
 			</File>
 			<File
 				RelativePath="TextInputPin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\vfr.cpp"
 				>
 			</File>
 			<File
@@ -413,6 +413,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StdAfx.h"
+				>
+			</File>
+			<File
 				RelativePath="StyleEditorDialog.h"
 				>
 			</File>
@@ -422,6 +426,10 @@
 			</File>
 			<File
 				RelativePath="TextInputPin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vfr.h"
 				>
 			</File>
 			<File
