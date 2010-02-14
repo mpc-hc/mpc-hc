@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=""
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
 				BufferSecurityCheck="true"
@@ -112,7 +112,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=""
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
@@ -243,7 +243,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions=""
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG"
 				PrecompiledHeaderFile=".\Debug\libfaad.pch"

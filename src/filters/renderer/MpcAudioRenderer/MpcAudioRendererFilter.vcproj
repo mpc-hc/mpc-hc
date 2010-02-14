@@ -43,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
 			/>
@@ -117,6 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
 				DebugInformationFormat="3"
@@ -187,6 +189,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
 				BufferSecurityCheck="true"
@@ -263,6 +266,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
 				BufferSecurityCheck="true"

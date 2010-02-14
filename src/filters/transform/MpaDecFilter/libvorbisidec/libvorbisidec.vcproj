@@ -111,6 +111,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
@@ -176,6 +177,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG"
 				BufferSecurityCheck="true"
@@ -245,6 +247,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;NDEBUG"
 				BufferSecurityCheck="true"

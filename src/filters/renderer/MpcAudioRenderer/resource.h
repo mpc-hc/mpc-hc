@@ -2,10 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by MpcAudioRenderer.rc
 //
-#define VERSION_PATCH                   0
-#define VERSION_MAJOR                   1
-#define VERSION_MINOR                   2
-#define VERSION_REV                     1197
 #define IDS_MPADECSETTINGSWND_0         33135
 #define IDS_MPADECSETTINGSWND_1         33136
 #define IDS_MPA_CHANNEL_1               33137

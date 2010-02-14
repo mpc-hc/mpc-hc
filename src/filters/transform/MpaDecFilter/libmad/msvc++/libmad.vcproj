@@ -111,6 +111,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="FPM_DEFAULT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;_WIN64;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
@@ -176,6 +177,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="NDEBUG;FPM_INTEL;WIN32;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK"
 				BufferSecurityCheck="true"
@@ -245,6 +247,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;FPM_INTEL;FPM_64BIT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK"
 				BufferSecurityCheck="true"
