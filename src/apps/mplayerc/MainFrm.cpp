@@ -7878,6 +7878,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 			ToggleFullscreen(true, true);
 			SetCursor(NULL);
 			AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+			m_fFirstFSAfterLaunchOnFS = true;
 		}
 
 		if(s.fRememberWindowSize && s.fRememberWindowPos)
@@ -10033,7 +10034,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	}
 	
 	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode();
-	if (m_fFullScreen) m_fFirstFSAfterLaunchOnFS = true;
+	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) m_fFirstFSAfterLaunchOnFS = true;
 	
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
