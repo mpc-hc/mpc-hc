@@ -33,6 +33,7 @@
 #include "PlayerSubresyncBar.h"
 #include "PlayerPlaylistBar.h"
 #include "PlayerCaptureBar.h"
+#include "PlayerNavigationBar.h"
 #include "PlayerShaderEditorBar.h"
 #include "EditListEditor.h"
 #include "PPageSheet.h"
@@ -259,7 +260,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CMenu m_opencds;
 	CMenu m_filters, m_subtitles, m_audios;
 	CAutoPtrArray<CMenu> m_filterpopups;
-	CMenu m_navaudio, m_navsubtitle, m_navangle;
+	CMenu m_navangle;
 	CMenu m_navchapters;
 	CMenu m_favorites;
 	CMenu m_shaders;
@@ -343,6 +344,7 @@ public:
 	bool m_fFullScreen;
 	bool m_fFirstFSAfterLaunchOnFS;
 	bool m_fHideCursor;
+	CMenu m_navaudio, m_navsubtitle;
 
 	CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
 	CComPtr<ISyncClock> m_pSyncClock;
@@ -483,6 +485,7 @@ protected:  // control bar embedded members
 	CPlayerSubresyncBar m_wndSubresyncBar;
 	CPlayerPlaylistBar m_wndPlaylistBar;
 	CPlayerCaptureBar m_wndCaptureBar;
+	CPlayerNavigationBar m_wndNavigationBar;
 	CPlayerShaderEditorBar m_wndShaderEditorBar;
 	CEditListEditor m_wndEditListEditor;
 	CList<CSizingControlBar*> m_dockingbars;
@@ -620,7 +623,9 @@ public:
 	afx_msg void OnUpdateFileClose(CCmdUI* pCmdUI);
 
 	afx_msg void OnViewCaptionmenu();
+	afx_msg void OnViewNavigation();
 	afx_msg void OnUpdateViewCaptionmenu(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewNavigation(CCmdUI* pCmdUI);
 	afx_msg void OnViewControlBar(UINT nID);
 	afx_msg void OnUpdateViewControlBar(CCmdUI* pCmdUI);
 	afx_msg void OnViewSubresync();

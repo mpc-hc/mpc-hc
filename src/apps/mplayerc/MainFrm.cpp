@@ -466,6 +466,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_FILE_OPENDIRECTORY, OnFileOpendirectory)
 	ON_UPDATE_COMMAND_UI(ID_FILE_OPENDIRECTORY, OnUpdateFileOpen)
 	ON_WM_POWERBROADCAST()
+
+	// Navigation pannel
+	ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
 	END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -589,6 +593,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndCaptureBar.SetBarStyle(m_wndCaptureBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 	m_wndCaptureBar.EnableDocking(CBRS_ALIGN_LEFT|CBRS_ALIGN_RIGHT);
 	LoadControlBar(&m_wndCaptureBar, AFX_IDW_DOCKBAR_LEFT);
+
+	m_wndNavigationBar.Create(this);
+	m_wndNavigationBar.SetBarStyle(m_wndNavigationBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	m_wndNavigationBar.EnableDocking(CBRS_ALIGN_LEFT|CBRS_ALIGN_RIGHT);
+	LoadControlBar(&m_wndNavigationBar, AFX_IDW_DOCKBAR_LEFT);
 
 	m_wndShaderEditorBar.Create(this);
 	m_wndShaderEditorBar.SetBarStyle(m_wndShaderEditorBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
@@ -807,6 +816,7 @@ void CMainFrame::LoadControlBar(CControlBar* pBar, UINT defDockBarID)
 		&& pBar != &m_wndSubresyncBar 
 		&& pBar != &m_wndCaptureBar
 		&& pBar != &m_wndShaderEditorBar
+		&& pBar != &m_wndNavigationBar
 		? SW_SHOW
 		: SW_HIDE);
 
@@ -1126,6 +1136,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 	lpMMI->ptMinTrackSize.y += (mbi.rcBar.bottom - mbi.rcBar.top);
 	if(!AfxGetAppSettings().fHideCaptionMenu) lpMMI->ptMinTrackSize.y += 3;
+	else if(!AfxGetAppSettings().fHideNavigation) lpMMI->ptMinTrackSize.y += 3;
 
 	POSITION pos = m_bars.GetHeadPosition();
 	while(pos) 
@@ -1243,6 +1254,7 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		if(style&WS_THICKFRAME) fsize.cy += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 		fsize.cy += mbi.rcBar.bottom - mbi.rcBar.top;
 		if(!AfxGetAppSettings().fHideCaptionMenu) fsize.cy += 3;
+		else if(!AfxGetAppSettings().fHideNavigation) fsize.cy += 3;
 
 		POSITION pos = m_bars.GetHeadPosition();
 		while(pos) 
@@ -5573,10 +5585,12 @@ void CMainFrame::OnViewCaptionmenu()
 	MoveVideoWindow();
 }
 
+
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(!AfxGetAppSettings().fHideCaptionMenu);
 }
+
 
 void CMainFrame::OnViewControlBar(UINT nID)
 {
@@ -5673,6 +5687,19 @@ void CMainFrame::OnUpdateEDLNewClip(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
 }
 
+// Navigation menu
+void CMainFrame::OnViewNavigation()
+{
+	m_wndNavigationBar.m_navdlg.UpdateElementList();
+	ShowControlBar(&m_wndNavigationBar, !m_wndNavigationBar.IsWindowVisible(), TRUE);
+}
+
+void CMainFrame::OnUpdateViewNavigation(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck(m_wndNavigationBar.IsWindowVisible());
+	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && m_iPlaybackMode == PM_CAPTURE);
+}
+
 void CMainFrame::OnViewCapture()
 {
 	ShowControlBar(&m_wndCaptureBar, !m_wndCaptureBar.IsWindowVisible(), TRUE);
@@ -5699,6 +5726,8 @@ void CMainFrame::OnViewMinimal()
 {
 	if(!AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+	else if(!AfxGetAppSettings().fHideNavigation)
+		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(0);
 }
 
@@ -5710,6 +5739,8 @@ void CMainFrame::OnViewCompact()
 {
 	if(AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+	else if(AfxGetAppSettings().fHideNavigation)
+		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(CS_TOOLBAR);
 }
 
@@ -5721,6 +5752,8 @@ void CMainFrame::OnViewNormal()
 {
 	if(AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+	else if(AfxGetAppSettings().fHideNavigation);
+		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
 
@@ -7104,7 +7137,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
-	if(m_iPlaybackMode == PM_FILE || m_iPlaybackMode == PM_CAPTURE)
+	if(m_iPlaybackMode == PM_FILE)
 	{
 		if(m_iPlaybackMode == PM_FILE) SetupChapters();
 
@@ -7193,6 +7226,35 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		else if(nID == ID_NAVIGATE_SKIPFORWARD)
 			pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
 */
+	}
+	else if(m_iPlaybackMode == PM_CAPTURE)
+	{
+		if (AfxGetAppSettings().iDefaultCaptureDevice == 1)
+		{
+			CComQIPtr<IBDATuner>	pTun = pGB;
+			if (pTun)
+			{
+				int nCurrentChannel;
+				AppSettings&	s		 = AfxGetAppSettings();
+
+				nCurrentChannel = s.DVBLastChannel;
+
+				if(nID == ID_NAVIGATE_SKIPBACK)
+				{
+					pTun->SetChannel (nCurrentChannel - 1);
+					if (m_wndNavigationBar.IsVisible())
+						m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
+				}
+				else if(nID == ID_NAVIGATE_SKIPFORWARD)
+				{
+					pTun->SetChannel (nCurrentChannel + 1);
+					if (m_wndNavigationBar.IsVisible())
+						m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
+				}
+
+			}
+		}
+
 	}
 }
 
@@ -7386,7 +7448,11 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		{
 			CComQIPtr<IBDATuner>	pTun = pGB;
 			if (pTun)
+			{
 				pTun->SetChannel (nID);
+				if (m_wndNavigationBar.IsVisible())
+					m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+			}
 		}
 	}
 }
@@ -7896,7 +7962,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		}
 	}
 
-	if(s.fHideCaptionMenu)
+	if(s.fHideCaptionMenu && s.fHideNavigation)
 	{
 		ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
@@ -8102,6 +8168,12 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
 
+		if (!AfxGetAppSettings().fHideNavigation)
+		{
+			dwAdd = (AfxGetAppSettings().fHideNavigation ? 0 : WS_CAPTION | WS_THICKFRAME);
+			hMenu = AfxGetAppSettings().fHideNavigation ? NULL : m_hMenuDefault;
+		}
+
 		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
 
@@ -8261,7 +8333,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 		else if(!m_fFullScreen)
 		{
 			m_wndView.GetClientRect(wr);
-			if(!AfxGetAppSettings().fHideCaptionMenu)
+			if(!AfxGetAppSettings().fHideCaptionMenu || !AfxGetAppSettings().fHideNavigation)
 				wr.DeflateRect(2, 2);
 		}
 		else

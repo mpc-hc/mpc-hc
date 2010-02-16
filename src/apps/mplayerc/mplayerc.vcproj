@@ -713,6 +713,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PlayerNavigationBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerNavigationDialog.cpp"
+				>
+			</File>
+			<File
 				RelativePath="PlayerPlaylistBar.cpp"
 				>
 			</File>
@@ -1327,6 +1335,14 @@
 			</File>
 			<File
 				RelativePath="PlayerListCtrl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerNavigationBar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerNavigationDialog.h"
 				>
 			</File>
 			<File

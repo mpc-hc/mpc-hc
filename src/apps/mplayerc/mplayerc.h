@@ -522,6 +522,7 @@ public:
 
 		int nCS;
 		bool fHideCaptionMenu;
+		bool fHideNavigation;
 		int iDefaultVideoSize;
 		bool fKeepAspectRatio;
 		bool fCompMonDeskARDiff;

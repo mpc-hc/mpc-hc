@@ -102,6 +102,7 @@
 #define IDS_RS_DOWNSAMPLETO441				_T("DownSampleTo441")
 #define IDS_RS_ENABLEAUDIOSWITCHER			_T("EnableAudioSwitcher")
 #define IDS_RS_HIDECAPTIONMENU				_T("HideCaptionMenu")
+#define IDS_RS_HIDENAVIGATION				_T("HideNavigation")
 #define IDS_RS_DEFAULTVIDEOFRAME			_T("DefaultVideoFrame")
 #define IDS_RS_REMEMBERWINDOWSIZE			_T("RememberWindowSize")
 #define IDS_RS_REALMEDIARENDERLESS			_T("RealMediaRenderless")

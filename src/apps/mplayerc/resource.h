@@ -333,6 +333,7 @@
 #define IDD_PPAGECAPTURE                10054
 #define IDD_PPAGESYNC                   10055
 #define IDD_PPAGEFULLSCREEN             10056
+#define IDD_NAVIGATION                  10057
 #define IDC_COMBO1                      11000
 #define IDC_COMBO2                      11001
 #define IDC_COMBO3                      11002
@@ -479,6 +480,7 @@
 #define IDC_DSVMR9LOADMIXER2            12135
 #define IDC_BUTTON_MI                   12136
 #define IDC_MIEDIT                      12137
+#define IDC_LISTCHANNELS                12138
 #define IDS_SRC_RADGT                   14000
 #define IDS_SRC_CDDA                    14001
 #define IDS_SRC_AVI                     14002
@@ -610,6 +612,7 @@
 #define IDF_SHADER_DENOISE              20003
 #define IDF_SHADER_SHARPEN_COMPLEX2     20004
 #define IDS_AG_RESET_STATS              20005
+#define IDD_NAVIGATION_DLG              20005
 #define IDC_FULLSCR_COMBO               22000
 #define IDC_AUTO_REFRESHRATE_CHECK      22001
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
@@ -649,6 +652,10 @@
 #define IDC_CONTROLLIMIT                22038
 #define IDC_SYNCDISPLAY2                22039
 #define IDC_SYNCNEAREST                 22040
+#define IDC_NAVIGATION_AUDIO            22043
+#define IDC_NAVIGATION_SCAN             22044
+#define IDC_LIST_CHANNELS               22045
+#define IDC_NAVIGATION_INFO             22048
 #define ID_SUB_DELAY_DOWN               24000
 #define ID_SUB_DELAY_UP                 24001
 #define IDS_MPLAYERC_104                24002
@@ -1163,6 +1170,10 @@
 #define ID_AFTERPLAYBACK_EXIT           33411
 #define ID_AFTERPLAYBACK_ONCE           33412
 #define ID_AFTERPLAYBACK_EVERYTIME      33413
+#define ID_VIEW_NAVIGATION              33414
+#define ID_NAVIGATE_JUMPTO              33415
+#define ID_NAVIGATE_AUDIOLANGUAGE       33416
+#define ID_NAVIGATE_SUBTITLELANGUAGE    33420
 #define IDTB_BUTTON1                    40001
 #define IDTB_BUTTON2                    40002
 #define IDTB_BUTTON3                    40003
@@ -1171,34 +1182,34 @@
 #define IDR_TB_PLAY                     41001
 #define IDR_TB_PAUSE                    41002
 #define IDR_TB_STOP                     41003
-#define	IDS_INTERLACED					41004
-#define	IDS_HZ							41005
-#define	IDS_FRONT_LEFT					41006
-#define	IDS_FRONT_RIGHT					41007
-#define	IDS_FRONT_CENTER				41008
-#define	IDS_LOW_FREQUENCY				41009
-#define	IDS_BACK_LEFT					41010
-#define	IDS_BACK_RIGHT					41011
-#define	IDS_FRONT_LEFT_OF_CENTER		41012
-#define	IDS_FRONT_RIGHT_OF_CENTER		41013
-#define	IDS_BACK_CENTER					41014
-#define	IDS_SIDE_LEFT					41015
-#define	IDS_SIDE_RIGHT					41016
-#define	IDS_TOP_CENTER					41017
-#define	IDS_TOP_FRONT_LEFT				41018
-#define	IDS_TOP_FRONT_CENTER			41019
-#define	IDS_TOP_FRONT_RIGHT				41020
-#define	IDS_TOP_BACK_LEFT				41021
-#define	IDS_TOP_BACK_CENTER				41022
-#define	IDS_TOP_BACK_RIGHT				41023
-#define	IDS_LOGO_AUTOR					41024
-#define IDC_RESTORERESCHECK				41025
+#define IDS_INTERLACED                  41004
+#define IDS_HZ                          41005
+#define IDS_FRONT_LEFT                  41006
+#define IDS_FRONT_RIGHT                 41007
+#define IDS_FRONT_CENTER                41008
+#define IDS_LOW_FREQUENCY               41009
+#define IDS_BACK_LEFT                   41010
+#define IDS_BACK_RIGHT                  41011
+#define IDS_FRONT_LEFT_OF_CENTER        41012
+#define IDS_FRONT_RIGHT_OF_CENTER       41013
+#define IDS_BACK_CENTER                 41014
+#define IDS_SIDE_LEFT                   41015
+#define IDS_SIDE_RIGHT                  41016
+#define IDS_TOP_CENTER                  41017
+#define IDS_TOP_FRONT_LEFT              41018
+#define IDS_TOP_FRONT_CENTER            41019
+#define IDS_TOP_FRONT_RIGHT             41020
+#define IDS_TOP_BACK_LEFT               41021
+#define IDS_TOP_BACK_CENTER             41022
+#define IDS_TOP_BACK_RIGHT              41023
+#define IDS_LOGO_AUTOR                  41024
+#define IDC_RESTORERESCHECK             41025
 
-#define	IDS_VDF_DXVACOMPATIBILITY		41100
-#define	IDS_VDF_DXVA_FULLCHECK			41101
-#define	IDS_VDF_DXVA_REFONLY			41102
-#define	IDS_VDF_DXVA_SARONLY			41103
-#define	IDS_VDF_DXVA_NOCHECK			41104
+#define IDS_VDF_DXVACOMPATIBILITY       41100
+#define IDS_VDF_DXVA_FULLCHECK          41101
+#define IDS_VDF_DXVA_REFONLY            41102
+#define IDS_VDF_DXVA_SARONLY            41103
+#define IDS_VDF_DXVA_NOCHECK            41104
 
 // Next default values for new objects
 // 
