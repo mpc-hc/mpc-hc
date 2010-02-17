@@ -965,7 +965,8 @@ void CMainFrame::ShowTrayIcon(bool fShow)
 			tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 			tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP; 
 			tnid.uCallbackMessage = WM_NOTIFYICON; 
-			lstrcpyn(tnid.szTip, TEXT("Media Player Classic"), sizeof(tnid.szTip)); 
+			//lstrcpyn(tnid.szTip, TEXT("Media Player Classic"), sizeof(tnid.szTip));
+			StringCchCopy(tnid.szTip, sizeof(tnid.szTip)/sizeof(tnid.szTip[0]), TEXT("Media Player Classic"));
 			Shell_NotifyIcon(NIM_ADD, &tnid);
 
 			m_fTrayIcon = true;
@@ -992,7 +993,8 @@ void CMainFrame::SetTrayTip(CString str)
 	tnid.hWnd = m_hWnd; 
 	tnid.uID = IDR_MAINFRAME; 
 	tnid.uFlags = NIF_TIP; 
-	lstrcpyn(tnid.szTip, str, sizeof(tnid.szTip)); 
+	//lstrcpyn(tnid.szTip, str, sizeof(tnid.szTip));
+	StringCchCopy(tnid.szTip, sizeof(tnid.szTip)/sizeof(tnid.szTip[0]), str);
 	Shell_NotifyIcon(NIM_MODIFY, &tnid);
 }
 
@@ -13292,35 +13294,35 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			buttons[0].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[0].iId = IDTB_BUTTON3;
 			buttons[0].iBitmap = 0;
-			lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[0].szTip)); 
+			StringCchCopy(buttons[0].szTip, sizeof(buttons[0].szTip)/sizeof(buttons[0].szTip[0]), ResStr(IDS_MPLAYERC_26)); 
 
 			// STOP
 			buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[1].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[1].iId = IDTB_BUTTON1;
 			buttons[1].iBitmap = 1;
-			lstrcpyn(buttons[1].szTip, ResStr(IDS_AG_STOP), sizeof(buttons[1].szTip)); 
+			StringCchCopy(buttons[1].szTip, sizeof(buttons[1].szTip)/sizeof(buttons[1].szTip[0]), ResStr(IDS_AG_STOP)); 
 
 			// PLAY/PAUSE
 			buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[2].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[2].iId = IDTB_BUTTON2;
 			buttons[2].iBitmap = 3;
-			lstrcpyn(buttons[2].szTip, ResStr(IDS_AG_PLAYPAUSE), sizeof(buttons[2].szTip)); 
+			StringCchCopy(buttons[2].szTip, sizeof(buttons[2].szTip)/sizeof(buttons[2].szTip[0]), ResStr(IDS_AG_PLAYPAUSE)); 
 
 			// SEEK FORWARD
 			buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[3].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[3].iId = IDTB_BUTTON4;
 			buttons[3].iBitmap = 4;
-			lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[3].szTip)); 
+			StringCchCopy(buttons[3].szTip, sizeof(buttons[3].szTip)/sizeof(buttons[3].szTip[0]), ResStr(IDS_MPLAYERC_25)); 
 
 			// FULLSCREEN
 			buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[4].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[4].iId = IDTB_BUTTON5;
 			buttons[4].iBitmap = 5;
-			lstrcpyn(buttons[4].szTip, ResStr(IDS_AG_FULLSCREEN), sizeof(buttons[4].szTip)); 
+			StringCchCopy(buttons[4].szTip, sizeof(buttons[4].szTip)/sizeof(buttons[4].szTip[0]), ResStr(IDS_AG_FULLSCREEN)); 
 
 			hr = m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
 		}
@@ -13373,29 +13375,29 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	buttons[0].dwFlags = THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
-	lstrcpyn(buttons[0].szTip, ResStr(IDS_MPLAYERC_26), sizeof(buttons[0].szTip)); 
+	StringCchCopy(buttons[0].szTip, sizeof(buttons[0].szTip)/sizeof(buttons[0].szTip[0]), ResStr(IDS_MPLAYERC_26));
 
 	buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[1].iId = IDTB_BUTTON1;
 	buttons[1].iBitmap = 1;
-	lstrcpyn(buttons[1].szTip, ResStr(IDS_AG_STOP), sizeof(buttons[1].szTip)); 
+	StringCchCopy(buttons[1].szTip, sizeof(buttons[1].szTip)/sizeof(buttons[1].szTip[0]), ResStr(IDS_AG_STOP));  
 		
 	buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[2].iId = IDTB_BUTTON2;
 	buttons[2].iBitmap = 3;
-	lstrcpyn(buttons[2].szTip, ResStr(IDS_AG_PLAYPAUSE), sizeof(buttons[2].szTip)); 
+	StringCchCopy(buttons[2].szTip, sizeof(buttons[2].szTip)/sizeof(buttons[2].szTip[0]), ResStr(IDS_AG_PLAYPAUSE));
 
 	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[3].dwFlags = THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
-	lstrcpyn(buttons[3].szTip, ResStr(IDS_MPLAYERC_25), sizeof(buttons[3].szTip)); 
+	StringCchCopy(buttons[3].szTip, sizeof(buttons[3].szTip)/sizeof(buttons[3].szTip[0]), ResStr(IDS_MPLAYERC_25)); 
 
 	buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[4].dwFlags = THBF_ENABLED;
 	buttons[4].iId = IDTB_BUTTON5;
 	buttons[4].iBitmap = 5;
-	lstrcpyn(buttons[4].szTip, ResStr(IDS_AG_FULLSCREEN), sizeof(buttons[4].szTip)); 
+	StringCchCopy(buttons[4].szTip, sizeof(buttons[4].szTip)/sizeof(buttons[4].szTip[0]), ResStr(IDS_AG_FULLSCREEN)); 
 
 	HICON hIcon;
 
