@@ -13292,35 +13292,35 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			buttons[0].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[0].iId = IDTB_BUTTON3;
 			buttons[0].iBitmap = 0;
-			StringCchCopy(buttons[0].szTip, sizeof(buttons[0].szTip)/sizeof(buttons[0].szTip[0]), ResStr(IDS_MPLAYERC_26)); 
+			StringCchCopy(buttons[0].szTip, countof(buttons[0].szTip), ResStr(IDS_MPLAYERC_26)); 
 
 			// STOP
 			buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[1].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[1].iId = IDTB_BUTTON1;
 			buttons[1].iBitmap = 1;
-			StringCchCopy(buttons[1].szTip, sizeof(buttons[1].szTip)/sizeof(buttons[1].szTip[0]), ResStr(IDS_AG_STOP)); 
+			StringCchCopy(buttons[1].szTip, countof(buttons[1].szTip), ResStr(IDS_AG_STOP)); 
 
 			// PLAY/PAUSE
 			buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[2].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[2].iId = IDTB_BUTTON2;
 			buttons[2].iBitmap = 3;
-			StringCchCopy(buttons[2].szTip, sizeof(buttons[2].szTip)/sizeof(buttons[2].szTip[0]), ResStr(IDS_AG_PLAYPAUSE)); 
+			StringCchCopy(buttons[2].szTip, countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE)); 
 
 			// SEEK FORWARD
 			buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[3].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[3].iId = IDTB_BUTTON4;
 			buttons[3].iBitmap = 4;
-			StringCchCopy(buttons[3].szTip, sizeof(buttons[3].szTip)/sizeof(buttons[3].szTip[0]), ResStr(IDS_MPLAYERC_25)); 
+			StringCchCopy(buttons[3].szTip, countof(buttons[3].szTip), ResStr(IDS_MPLAYERC_25)); 
 
 			// FULLSCREEN
 			buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 			buttons[4].dwFlags = THBF_DISABLED;//THBF_ENABLED;
 			buttons[4].iId = IDTB_BUTTON5;
 			buttons[4].iBitmap = 5;
-			StringCchCopy(buttons[4].szTip, sizeof(buttons[4].szTip)/sizeof(buttons[4].szTip[0]), ResStr(IDS_AG_FULLSCREEN)); 
+			StringCchCopy(buttons[4].szTip, countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN)); 
 
 			hr = m_pTaskbarList->ThumbBarAddButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
 		}
