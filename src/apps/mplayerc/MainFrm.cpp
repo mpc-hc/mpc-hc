@@ -965,8 +965,7 @@ void CMainFrame::ShowTrayIcon(bool fShow)
 			tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 			tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP; 
 			tnid.uCallbackMessage = WM_NOTIFYICON; 
-			//lstrcpyn(tnid.szTip, TEXT("Media Player Classic"), sizeof(tnid.szTip));
-			StringCchCopy(tnid.szTip, sizeof(tnid.szTip)/sizeof(tnid.szTip[0]), TEXT("Media Player Classic"));
+			StringCchCopy(tnid.szTip, countof(tnid.szTip), TEXT("Media Player Classic"));
 			Shell_NotifyIcon(NIM_ADD, &tnid);
 
 			m_fTrayIcon = true;
@@ -993,8 +992,7 @@ void CMainFrame::SetTrayTip(CString str)
 	tnid.hWnd = m_hWnd; 
 	tnid.uID = IDR_MAINFRAME; 
 	tnid.uFlags = NIF_TIP; 
-	//lstrcpyn(tnid.szTip, str, sizeof(tnid.szTip));
-	StringCchCopy(tnid.szTip, sizeof(tnid.szTip)/sizeof(tnid.szTip[0]), str);
+	StringCchCopy(tnid.szTip, countof(tnid.szTip), str);
 	Shell_NotifyIcon(NIM_MODIFY, &tnid);
 }
 
