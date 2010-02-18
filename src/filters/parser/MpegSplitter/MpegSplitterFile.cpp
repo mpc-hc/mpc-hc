@@ -752,9 +752,9 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			for(int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++)
 			{
 				BYTE stream_type = (BYTE)BitRead(8);
-				BYTE reserved1 = (BYTE)BitRead(3);
+				BYTE nreserved1 = (BYTE)BitRead(3);
 				WORD pid = (WORD)BitRead(13);
-				BYTE reserved2 = (BYTE)BitRead(4);
+				BYTE nreserved2 = (BYTE)BitRead(4);
 				WORD ES_info_length = (WORD)BitRead(12);
 
 				len -= 5+ES_info_length;

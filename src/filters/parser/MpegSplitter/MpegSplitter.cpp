@@ -355,7 +355,6 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 
-			HRESULT hr;
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, name, this, this, &hr));
 			if (i == CMpegSplitterFile::subpic)
 				((CMpegSplitterOutputPin*)pPinOut.m_p)->SetMaxShift (_I64_MAX);
@@ -430,7 +429,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 					for(int j = 0; j < 10; j++)
 					{
-						REFERENCE_TIME rt = m_pFile->NextPTS(TrackNum);
+						rt = m_pFile->NextPTS(TrackNum);
 
 						if(rt < 0) break;
 
@@ -547,7 +546,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 						pos = m_pFile->m_streams[k].GetHeadPosition();
 						while(pos)
 						{
-							CMpegSplitterFile::stream& from = m_pFile->m_streams[k].GetNext(pos);
+							from = m_pFile->m_streams[k].GetNext(pos);
 							if(!GetOutputPin(from)) continue;
 
 							for(int l = 0; l < countof(p->streams); l++)
@@ -916,7 +915,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			}
 			else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 			{
-				const WAVEFORMATEX_HDMV_LPCM *pInfo = GetFormatHelper(pInfo, _pMediaType);
+				const WAVEFORMATEX_HDMV_LPCM *pInfoHDMV = GetFormatHelper(pInfoHDMV, _pMediaType);
 				Infos.AddTail(L"HDMV LPCM");
 			}
 			else
@@ -961,9 +960,9 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 					break;
 				case WAVE_FORMAT_MPEG:
 					{
-						const MPEG1WAVEFORMAT* pInfo = GetFormatHelper(pInfo, _pMediaType);
+						const MPEG1WAVEFORMAT* pInfoMPEG1 = GetFormatHelper(pInfoMPEG1, _pMediaType);
 
-						int layer = GetHighestBitSet32(pInfo->fwHeadLayer) + 1;
+						int layer = GetHighestBitSet32(pInfoMPEG1->fwHeadLayer) + 1;
 						Infos.AddTail(FormatString(L"MPEG1 - Layer %d", layer));
 					}
 					break;
@@ -1240,26 +1239,26 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				break;
 			}
 
-			CAutoPtr<Packet> p(DNew Packet());
+			CAutoPtr<Packet> p2(DNew Packet());
 
-			p->TrackNumber = m_p->TrackNumber;
-			p->bDiscontinuity |= m_p->bDiscontinuity;
+			p2->TrackNumber = m_p->TrackNumber;
+			p2->bDiscontinuity |= m_p->bDiscontinuity;
 			m_p->bDiscontinuity = false;
 
-			p->bSyncPoint = m_p->rtStart != Packet::INVALID_TIME;
-			p->rtStart = m_p->rtStart;
+			p2->bSyncPoint = m_p->rtStart != Packet::INVALID_TIME;
+			p2->rtStart = m_p->rtStart;
 			m_p->rtStart = Packet::INVALID_TIME;
 
-			p->rtStop = m_p->rtStop;
+			p2->rtStop = m_p->rtStop;
 			m_p->rtStop = Packet::INVALID_TIME;
-			p->pmt = m_p->pmt; m_p->pmt = NULL;
-			p->SetData(s, len);
+			p2->pmt = m_p->pmt; m_p->pmt = NULL;
+			p2->SetData(s, len);
 
 			s += len;
 			memmove(base, s, e - s);
 			m_p->SetCount(e - s);
 
-			HRESULT hr = __super::DeliverPacket(p);
+			HRESULT hr = __super::DeliverPacket(p2);
 			if(hr != S_OK) return hr;
 		}
 
