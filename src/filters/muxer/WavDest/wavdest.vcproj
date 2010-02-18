@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="WavDest"
 	ProjectGUID="{EB202B68-8029-4985-B914-E94B44D2E230}"
-	RootNamespace="wavdest"
+	RootNamespace="WavDest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

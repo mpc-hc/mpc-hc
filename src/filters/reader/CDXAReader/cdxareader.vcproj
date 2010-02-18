@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="cdxareader"
+	Name="CDXAReader"
 	ProjectGUID="{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}"
 	RootNamespace="cdxareader"
 	Keyword="Win32Proj"

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="avi2ac3filter"
+	Name="AVI2AC3Filter"
 	ProjectGUID="{339A4575-E25B-45D6-94A1-D835891740B8}"
-	RootNamespace="avi2ac3filter"
+	RootNamespace="AVI2AC3Filter"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

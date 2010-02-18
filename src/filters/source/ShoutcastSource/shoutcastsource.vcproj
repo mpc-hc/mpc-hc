@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="shoutcastsource"
+	Name="ShoutcastSource"
 	ProjectGUID="{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}"
-	RootNamespace="shoutcastsource"
+	RootNamespace="ShoutcastSource"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

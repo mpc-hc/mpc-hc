@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="dtsac3source"
+	Name="DTSAC3Source"
 	ProjectGUID="{30D48874-899F-41C6-9B26-A40C96C91102}"
-	RootNamespace="dtsac3source"
+	RootNamespace="DTSAC3Source"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

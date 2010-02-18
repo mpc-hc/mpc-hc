@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="d2vsource"
+	Name="D2VSource"
 	ProjectGUID="{83CC6B88-A112-4192-BD5A-F2A249AF2277}"
-	RootNamespace="d2vsource"
+	RootNamespace="D2VSource"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

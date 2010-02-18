@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="basevideofilter"
+	Name="BaseVideoFilter"
 	ProjectGUID="{54DDA60F-E528-4D07-A152-960A1E818680}"
-	RootNamespace="basevideofilter"
+	RootNamespace="BaseVideoFilter"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

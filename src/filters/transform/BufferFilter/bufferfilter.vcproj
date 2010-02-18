@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="bufferfilter"
+	Name="BufferFilter"
 	ProjectGUID="{9DCFD02A-16A0-4766-BC18-66163E21929D}"
-	RootNamespace="bufferfilter"
+	RootNamespace="BufferFilter"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
