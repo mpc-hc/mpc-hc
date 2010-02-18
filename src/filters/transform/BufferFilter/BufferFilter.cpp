@@ -125,13 +125,13 @@ STDMETHODIMP_(int) CBufferFilter::GetBuffers()
 
 STDMETHODIMP_(int) CBufferFilter::GetFreeBuffers()
 {
-	CBufferFilterOutputPin* pPin = (CBufferFilterOutputPin*)m_pOutput;
+	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
 	return(pPin && pPin->m_pOutputQueue ? (m_nSamplesToBuffer - pPin->m_pOutputQueue->GetQueueCount()) : 0);
 }
 
 STDMETHODIMP CBufferFilter::SetPriority(DWORD dwPriority)
 {
-	CBufferFilterOutputPin* pPin = (CBufferFilterOutputPin*)m_pOutput;
+	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
 	return(pPin && pPin->m_pOutputQueue ? (pPin->m_pOutputQueue->SetPriority(dwPriority) ? S_OK : E_FAIL) : E_UNEXPECTED);
 }
 
@@ -272,7 +272,7 @@ HRESULT CBufferFilter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
 HRESULT CBufferFilter::StopStreaming()
 {
-	CBufferFilterOutputPin* pPin = (CBufferFilterOutputPin*)m_pOutput;
+	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
 	if(m_pInput && pPin && pPin->m_pOutputQueue)
 	{
 		while(!m_pInput->IsFlushing() && pPin->m_pOutputQueue->GetQueueCount() > 0) 

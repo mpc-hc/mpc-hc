@@ -747,7 +747,7 @@ HRESULT CBaseVideoOutputPin::CheckMediaType(const CMediaType* mtOut)
 {
 	if(IsConnected())
 	{
-		HRESULT hr = ((CBaseVideoFilter*)m_pFilter)->CheckOutputType(*mtOut);
+		HRESULT hr = (static_cast<CBaseVideoFilter*>(m_pFilter))->CheckOutputType(*mtOut);
 		if(FAILED(hr)) return hr;
 	}
 

@@ -29,7 +29,7 @@
 CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
 				  : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
-	m_pVideoDecFilter		= (CMPCVideoDecFilter*) pFilter;
+	m_pVideoDecFilter		= static_cast<CMPCVideoDecFilter*> (pFilter);
 	m_pDXVA2Allocator		= NULL;
 	m_dwDXVA1SurfaceCount	= 0;
 	m_GuidDecoderDXVA1		= GUID_NULL;

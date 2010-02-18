@@ -77,7 +77,7 @@ BOOL CComPropertyPage::OnSetActive()
 	CWnd* pParent = GetParent();
 	if(pParent->IsKindOf(RUNTIME_CLASS(CComPropertySheet)))
 	{
-		CComPropertySheet* pSheet = (CComPropertySheet*)pParent;
+		CComPropertySheet* pSheet = static_cast<CComPropertySheet*>(pParent);
 		pSheet->OnActivated(this);
 	}
 

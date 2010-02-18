@@ -357,7 +357,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, name, this, this, &hr));
 			if (i == CMpegSplitterFile::subpic)
-				((CMpegSplitterOutputPin*)pPinOut.m_p)->SetMaxShift (_I64_MAX);
+				(static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift (_I64_MAX);
 			if(S_OK == AddOutputPin(s, pPinOut))
 				break;
 		}
@@ -1587,11 +1587,11 @@ STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_T
 	if (SUCCEEDED (pReceivePin->QueryPinInfo (&PinInfo)))
 	{
 		if (SUCCEEDED (PinInfo.pFilter->GetClassID(&FilterClsid)) && (FilterClsid == CLSID_DMOWrapperFilter))
-			((CMpegSplitterFilter*)m_pFilter)->SetPipo(true);
+			(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(true);
 		PinInfo.pFilter->Release();
 	}
 
 	hr = __super::Connect (pReceivePin, pmt);
-	((CMpegSplitterFilter*)m_pFilter)->SetPipo(false);
+	(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(false);
 	return hr;
 }

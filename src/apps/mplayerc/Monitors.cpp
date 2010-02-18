@@ -134,7 +134,7 @@ CMonitor CMonitors::GetMonitor( const int index ) const
 	ASSERT( index >= 0 && index < m_MonitorArray.GetSize() );
 #endif
 
-	CMonitor* pMonitor = (CMonitor*)m_MonitorArray.GetAt( index );
+	CMonitor* pMonitor = static_cast<CMonitor*>(m_MonitorArray.GetAt( index ));
 
 	return *pMonitor;
 }

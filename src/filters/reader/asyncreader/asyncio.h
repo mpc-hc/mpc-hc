@@ -180,7 +180,7 @@ class CAsyncIo
     // initial static thread proc calls ThreadProc with DWORD
     // param as this
     static DWORD WINAPI InitialThreadProc(LPVOID pv) {
-	CAsyncIo * pThis = (CAsyncIo*) pv;
+	CAsyncIo * pThis = static_cast<CAsyncIo*> (pv);
 	return pThis->ThreadProc();
     };
 

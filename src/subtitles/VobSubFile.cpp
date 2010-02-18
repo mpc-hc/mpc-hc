@@ -215,7 +215,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
 {
 	Close();
 
-	*(CVobSubSettings*)this = *(CVobSubSettings*)&vsf;
+	*static_cast<CVobSubSettings*>(this) = *static_cast<CVobSubSettings*>(&vsf);
 	m_title = vsf.m_title;
 	m_iLang = vsf.m_iLang;
 

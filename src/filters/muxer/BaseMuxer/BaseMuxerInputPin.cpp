@@ -175,7 +175,7 @@ HRESULT CBaseMuxerInputPin::CompleteConnect(IPin* pReceivePin)
 		}
 	}
 
-	((CBaseMuxerFilter*)m_pFilter)->AddInput();
+	(static_cast<CBaseMuxerFilter*>(m_pFilter))->AddInput();
 
 	return S_OK;
 }

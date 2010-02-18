@@ -211,7 +211,7 @@ STDMETHODIMP CShoutcastSource::QueryProgress(LONGLONG* pllTotal, LONGLONG* pllCu
 	if(m_iPins == 1)
 	{
         if(pllTotal) *pllTotal = 100;
-		if(pllCurrent) *pllCurrent = ((CShoutcastStream*)m_paStreams[0])->GetBufferFullness();
+		if(pllCurrent) *pllCurrent = (static_cast<CShoutcastStream*>(m_paStreams[0]))->GetBufferFullness();
 		return S_OK;
 	}
 
@@ -231,7 +231,7 @@ STDMETHODIMP CShoutcastSource::get_Title(BSTR* pbstrTitle)
 
 	if(m_iPins == 1)
 	{
-		*pbstrTitle = ((CShoutcastStream*)m_paStreams[0])->GetTitle().AllocSysString();
+		*pbstrTitle = (static_cast<CShoutcastStream*>(m_paStreams[0]))->GetTitle().AllocSysString();
 		return S_OK;
 	}
 
@@ -431,7 +431,7 @@ HRESULT CShoutcastStream::CheckMediaType(const CMediaType* pmt)
 
 static UINT SocketThreadProc(LPVOID pParam)
 {
-	return ((CShoutcastStream*)pParam)->SocketThreadProc();
+	return (static_cast<CShoutcastStream*>(pParam))->SocketThreadProc();
 }
 
 UINT CShoutcastStream::SocketThreadProc()

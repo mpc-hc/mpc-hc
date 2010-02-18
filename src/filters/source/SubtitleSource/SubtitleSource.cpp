@@ -536,7 +536,7 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 
 HRESULT CSubtitleStream::GetMediaType(CMediaType* pmt)
 {
-	return ((CSubtitleSource*)m_pFilter)->GetMediaType(pmt);
+	return (static_cast<CSubtitleSource*>(m_pFilter))->GetMediaType(pmt);
 }
 
 HRESULT CSubtitleStream::CheckMediaType(const CMediaType* pmt)

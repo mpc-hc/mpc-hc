@@ -234,7 +234,7 @@ TRACE(_T("CStreamSwitcherAllocator::GetBuffer m_pPin->m_evBlock.Wait() - %x\n"),
 		if(!m_pPin || !m_pPin->m_pFilter)
 			return hr;
 
-		CStreamSwitcherOutputPin* pOut = ((CStreamSwitcherFilter*)m_pPin->m_pFilter)->GetOutputPin();
+		CStreamSwitcherOutputPin* pOut = (static_cast<CStreamSwitcherFilter*>(m_pPin->m_pFilter))->GetOutputPin();
 		if(!pOut || !pOut->CurrentAllocator())
 			return hr;
 
@@ -332,7 +332,7 @@ STDMETHODIMP CStreamSwitcherInputPin::DynamicDisconnect()
 STDMETHODIMP_(bool) CStreamSwitcherInputPin::IsActive()
 {
 	// TODO: lock onto something here
-	return(this == ((CStreamSwitcherFilter*)m_pFilter)->GetInputPin());
+	return(this == (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin());
 }
 
 // 
@@ -341,7 +341,7 @@ HRESULT CStreamSwitcherInputPin::QueryAcceptDownstream(const AM_MEDIA_TYPE* pmt)
 {
 	HRESULT hr = S_OK;
 
-	CStreamSwitcherOutputPin* pOut = ((CStreamSwitcherFilter*)m_pFilter)->GetOutputPin();
+	CStreamSwitcherOutputPin* pOut = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetOutputPin();
 
 	if(pOut && pOut->IsConnected())
 	{
@@ -368,7 +368,7 @@ HRESULT CStreamSwitcherInputPin::InitializeOutputSample(IMediaSample* pInSample,
 	if(!pInSample || !ppOutSample) 
 		return E_POINTER;
 
-	CStreamSwitcherOutputPin* pOut = ((CStreamSwitcherFilter*)m_pFilter)->GetOutputPin();
+	CStreamSwitcherOutputPin* pOut = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetOutputPin();
 	ASSERT(pOut->GetConnected());
 
     CComPtr<IMediaSample> pOutSample;
@@ -434,14 +434,14 @@ HRESULT CStreamSwitcherInputPin::InitializeOutputSample(IMediaSample* pInSample,
 
 HRESULT CStreamSwitcherInputPin::CheckMediaType(const CMediaType* pmt)
 {
-	return ((CStreamSwitcherFilter*)m_pFilter)->CheckMediaType(pmt);
+	return (static_cast<CStreamSwitcherFilter*>(m_pFilter))->CheckMediaType(pmt);
 }
 
 // virtual 
 
 HRESULT CStreamSwitcherInputPin::CheckConnect(IPin* pPin)
 {
-	return (IPin*)((CStreamSwitcherFilter*)m_pFilter)->GetOutputPin() == pPin 
+	return (IPin*)(static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetOutputPin() == pPin 
 		? E_FAIL
 		: __super::CheckConnect(pPin);
 }
@@ -451,7 +451,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 	HRESULT hr = __super::CompleteConnect(pReceivePin);
 	if(FAILED(hr)) return hr;
 
-    ((CStreamSwitcherFilter*)m_pFilter)->CompleteConnect(PINDIR_INPUT, this, pReceivePin);
+    (static_cast<CStreamSwitcherFilter*>(m_pFilter))->CompleteConnect(PINDIR_INPUT, this, pReceivePin);
 
 	m_fCanBlock = false;
 	bool fForkedSomewhere = false;
@@ -583,11 +583,11 @@ STDMETHODIMP CStreamSwitcherInputPin::NotifyAllocator(IMemAllocator* pAllocator,
 
 STDMETHODIMP CStreamSwitcherInputPin::BeginFlush()
 {
-    CAutoLock cAutoLock(&((CStreamSwitcherFilter*)m_pFilter)->m_csState);
+    CAutoLock cAutoLock(&(static_cast<CStreamSwitcherFilter*>(m_pFilter))->m_csState);
 
 	HRESULT hr;
 
-	CStreamSwitcherFilter* pSSF = (CStreamSwitcherFilter*)m_pFilter;
+	CStreamSwitcherFilter* pSSF = static_cast<CStreamSwitcherFilter*>(m_pFilter);
 
 	CStreamSwitcherOutputPin* pOut = pSSF->GetOutputPin();
     if(!IsConnected() || !pOut || !pOut->IsConnected())
@@ -601,11 +601,11 @@ STDMETHODIMP CStreamSwitcherInputPin::BeginFlush()
 
 STDMETHODIMP CStreamSwitcherInputPin::EndFlush()
 {
-	CAutoLock cAutoLock(&((CStreamSwitcherFilter*)m_pFilter)->m_csState);
+	CAutoLock cAutoLock(&(static_cast<CStreamSwitcherFilter*>(m_pFilter))->m_csState);
 
 	HRESULT hr;
 
-	CStreamSwitcherFilter* pSSF = (CStreamSwitcherFilter*)m_pFilter;
+	CStreamSwitcherFilter* pSSF = static_cast<CStreamSwitcherFilter*>(m_pFilter);
 
 	CStreamSwitcherOutputPin* pOut = pSSF->GetOutputPin();
     if(!IsConnected() || !pOut || !pOut->IsConnected())
@@ -621,7 +621,7 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
 {
     CAutoLock cAutoLock(&m_csReceive);
 
-	CStreamSwitcherFilter* pSSF = (CStreamSwitcherFilter*)m_pFilter;
+	CStreamSwitcherFilter* pSSF = static_cast<CStreamSwitcherFilter*>(m_pFilter);
 
 	CStreamSwitcherOutputPin* pOut = pSSF->GetOutputPin();
 	if(!IsConnected() || !pOut || !pOut->IsConnected())
@@ -672,7 +672,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 
     CAutoLock cAutoLock(&m_csReceive);
 
-	CStreamSwitcherOutputPin* pOut = ((CStreamSwitcherFilter*)m_pFilter)->GetOutputPin();
+	CStreamSwitcherOutputPin* pOut = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetOutputPin();
 	ASSERT(pOut->GetConnected());
 
 	HRESULT hr = __super::Receive(pSample);
@@ -698,7 +698,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 	long cbBuffer = pSample->GetActualDataLength();
 
 	CMediaType mtOut = m_mt;
-	mtOut = ((CStreamSwitcherFilter*)m_pFilter)->CreateNewOutputMediaType(mtOut, cbBuffer);
+	mtOut = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->CreateNewOutputMediaType(mtOut, cbBuffer);
 
 	bool fTypeChanged = false;
 
@@ -755,13 +755,13 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 	if(fTypeChanged)
 	{
 		pOut->SetMediaType(&mtOut);
-		((CStreamSwitcherFilter*)m_pFilter)->OnNewOutputMediaType(m_mt, mtOut);
+		(static_cast<CStreamSwitcherFilter*>(m_pFilter))->OnNewOutputMediaType(m_mt, mtOut);
 		pOutSample->SetMediaType(&mtOut);
 	}
 
 	// Transform
 
-	hr = ((CStreamSwitcherFilter*)m_pFilter)->Transform(pSample, pOutSample);
+	hr = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->Transform(pSample, pOutSample);
 
 	//
 
@@ -799,7 +799,7 @@ STDMETHODIMP CStreamSwitcherInputPin::NewSegment(REFERENCE_TIME tStart, REFERENC
 
 	CAutoLock cAutoLock(&m_csReceive);
 
-	CStreamSwitcherFilter* pSSF = (CStreamSwitcherFilter*)m_pFilter;
+	CStreamSwitcherFilter* pSSF = static_cast<CStreamSwitcherFilter*>(m_pFilter);
 
 	CStreamSwitcherOutputPin* pOut = pSSF->GetOutputPin();
     if(!pOut || !pOut->IsConnected())
@@ -830,7 +830,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::NonDelegatingQueryInterface(REFIID riid, 
 		{
 			HRESULT hr = S_OK;
 			m_pStreamSwitcherPassThru = (IUnknown*)(INonDelegatingUnknown*)
-				DNew CStreamSwitcherPassThru(GetOwner(), &hr, (CStreamSwitcherFilter*)m_pFilter);
+				DNew CStreamSwitcherPassThru(GetOwner(), &hr, static_cast<CStreamSwitcherFilter*>(m_pFilter));
 
 			if(!m_pStreamSwitcherPassThru) return E_OUTOFMEMORY;
             if(FAILED(hr)) return hr;
@@ -851,7 +851,7 @@ HRESULT CStreamSwitcherOutputPin::QueryAcceptUpstream(const AM_MEDIA_TYPE* pmt)
 {
 	HRESULT hr = S_FALSE;
 
-	CStreamSwitcherInputPin* pIn = ((CStreamSwitcherFilter*)m_pFilter)->GetInputPin();
+	CStreamSwitcherInputPin* pIn = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin();
 
 	if(pIn && pIn->IsConnected() && (pIn->IsUsingOwnAllocator() || pIn->CurrentMediaType() == *pmt))
 	{
@@ -873,7 +873,7 @@ HRESULT CStreamSwitcherOutputPin::QueryAcceptUpstream(const AM_MEDIA_TYPE* pmt)
 
 HRESULT CStreamSwitcherOutputPin::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	CStreamSwitcherInputPin* pIn = ((CStreamSwitcherFilter*)m_pFilter)->GetInputPin();
+	CStreamSwitcherInputPin* pIn = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin();
 	if(!pIn || !pIn->IsConnected()) return E_UNEXPECTED;
 
 	CComPtr<IMemAllocator> pAllocatorIn;
@@ -928,12 +928,12 @@ HRESULT CStreamSwitcherOutputPin::CompleteConnect(IPin* pReceivePin)
 
 HRESULT CStreamSwitcherOutputPin::CheckMediaType(const CMediaType* pmt)
 {
-	return ((CStreamSwitcherFilter*)m_pFilter)->CheckMediaType(pmt);
+	return (static_cast<CStreamSwitcherFilter*>(m_pFilter))->CheckMediaType(pmt);
 }
 
 HRESULT CStreamSwitcherOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	CStreamSwitcherInputPin* pIn = ((CStreamSwitcherFilter*)m_pFilter)->GetInputPin();
+	CStreamSwitcherInputPin* pIn = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin();
 	if(!pIn || !pIn->IsConnected()) return E_UNEXPECTED;
 
 	CComPtr<IEnumMediaTypes> pEM;
@@ -972,7 +972,7 @@ STDMETHODIMP CStreamSwitcherOutputPin::QueryAccept(const AM_MEDIA_TYPE* pmt)
 
 STDMETHODIMP CStreamSwitcherOutputPin::Notify(IBaseFilter* pSender, Quality q)
 {
-	CStreamSwitcherInputPin* pIn = ((CStreamSwitcherFilter*)m_pFilter)->GetInputPin();
+	CStreamSwitcherInputPin* pIn = (static_cast<CStreamSwitcherFilter*>(m_pFilter))->GetInputPin();
 	if(!pIn || !pIn->IsConnected()) return VFW_E_NOT_CONNECTED;
     return pIn->PassNotify(q);
 }
@@ -1133,7 +1133,7 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 
 		if(nConnected == 1)
 		{
-			m_pInput = (CStreamSwitcherInputPin*)pPin;
+			m_pInput = static_cast<CStreamSwitcherInputPin*>(pPin);
 		}
 
 		if(nConnected == m_pInputs.GetCount())

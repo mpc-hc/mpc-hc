@@ -405,7 +405,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	long len = pIn->GetActualDataLength();
 
-	((CDeCSSInputPin*)m_pInput)->StripPacket(pDataIn, len);
+	(static_cast<CDeCSSInputPin*>(m_pInput))->StripPacket(pDataIn, len);
 
 	REFERENCE_TIME rtStart = _I64_MIN, rtStop = _I64_MIN;
 	hr = pIn->GetTime(&rtStart, &rtStop);
@@ -2198,7 +2198,7 @@ void CMpaDecFilter::FlacDeliverBuffer  (unsigned blocksize, const __int32 * cons
 
 static FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
 {
-	CMpaDecFilter*	pThis = (CMpaDecFilter*) client_data;
+	CMpaDecFilter*	pThis = static_cast<CMpaDecFilter*> (client_data);
 
 	pThis->FlacFillBuffer (buffer, bytes);
 
@@ -2207,7 +2207,7 @@ static FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder
 
 static FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
-	CMpaDecFilter*	pThis = (CMpaDecFilter*) client_data;
+	CMpaDecFilter*	pThis = static_cast<CMpaDecFilter*> (client_data);
 
 	pThis->FlacDeliverBuffer (frame->header.blocksize, buffer);
 

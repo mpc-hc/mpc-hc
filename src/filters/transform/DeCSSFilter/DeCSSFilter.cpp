@@ -87,19 +87,19 @@ public:
 	// IKsPropertySet
     STDMETHODIMP Set(REFGUID PropSet, ULONG Id, LPVOID InstanceData, ULONG InstanceLength, LPVOID PropertyData, ULONG DataLength)
 	{
-		if(CComQIPtr<IKsPropertySet> pKsPS = ((CDeCSSFilter*)m_pFilter)->m_pOutput->GetConnected())
+		if(CComQIPtr<IKsPropertySet> pKsPS = (static_cast<CDeCSSFilter*>(m_pFilter))->m_pOutput->GetConnected())
 			return pKsPS->Set(PropSet, Id, InstanceData, InstanceLength, PropertyData, DataLength);
 		return E_NOTIMPL;
 	}
     STDMETHODIMP Get(REFGUID PropSet, ULONG Id, LPVOID InstanceData, ULONG InstanceLength, LPVOID PropertyData, ULONG DataLength, ULONG* pBytesReturned)
 	{
-		if(CComQIPtr<IKsPropertySet> pKsPS = ((CDeCSSFilter*)m_pFilter)->m_pOutput->GetConnected())
+		if(CComQIPtr<IKsPropertySet> pKsPS = (static_cast<CDeCSSFilter*>(m_pFilter))->m_pOutput->GetConnected())
 			return pKsPS->Get(PropSet, Id, InstanceData, InstanceLength, PropertyData, DataLength, pBytesReturned);
 		return E_NOTIMPL;
 	}
     STDMETHODIMP QuerySupported(REFGUID PropSet, ULONG Id, ULONG* pTypeSupport)
 	{
-		if(CComQIPtr<IKsPropertySet> pKsPS = ((CDeCSSFilter*)m_pFilter)->m_pOutput->GetConnected())
+		if(CComQIPtr<IKsPropertySet> pKsPS = (static_cast<CDeCSSFilter*>(m_pFilter))->m_pOutput->GetConnected())
 			return pKsPS->QuerySupported(PropSet, Id, pTypeSupport);
 		return E_NOTIMPL;
 	}

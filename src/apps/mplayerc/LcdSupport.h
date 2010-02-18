@@ -40,7 +40,7 @@ class CLCDMyManager : public CLCDManager
 		virtual void OnLCDButtonUp(int nButton);
 
 		CLCDScrollingText	m_Text1;
-		CLCDText		m_Text[2];
+		CLCDText			m_Text[2];
 		CLCDProgressBar		m_ProgBar[2];
 		CLCDAnimatedBitmap	m_PlayState;
 };
@@ -48,21 +48,23 @@ class CLCDMyManager : public CLCDManager
 class CMPC_Lcd
 {
 	public:
-		enum PlayState {PS_PLAY   = 0,
-				PS_PAUSE  = 1,
-				PS_STOP   = 2,
-				PS_UNUSED = 3};
+		enum PlayState {
+			PS_PLAY = 0,
+			PS_PAUSE  = 1,
+			PS_STOP   = 2,
+			PS_UNUSED = 3
+		};
 
 	private:
 		lgLcdConnectContext	m_ConnCtx;
-		HANDLE			hLCD_UpdateThread;
-		HBITMAP			hBmp[PS_UNUSED];
+		HANDLE				hLCD_UpdateThread;
+		HBITMAP				hBmp[PS_UNUSED];
 
 	public:
-		CLCDOutput		m_Output;
+		CLCDOutput			m_Output;
 		CLCDMyManager		m_Manager;
-		bool			Thread_Loop;
-		__time64_t		nThread_tTimeout;
+		bool				Thread_Loop;
+		__time64_t			nThread_tTimeout;
 		CRITICAL_SECTION	cs;
 
 		CMPC_Lcd();

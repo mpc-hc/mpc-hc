@@ -723,7 +723,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 	m_pTE->TrackUID.Set(rand());
 	m_pTE->MinCache.Set(1);
 	m_pTE->MaxCache.Set(1);
-	m_pTE->TrackNumber.Set(((CMatroskaMuxerFilter*)m_pFilter)->GetTrackNumber(this));
+	m_pTE->TrackNumber.Set((static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this));
 
 	hr = E_FAIL;
 
@@ -1112,7 +1112,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 
 	if(S_OK == hr)
 	{
-		((CMatroskaMuxerFilter*)m_pFilter)->AddInput();
+		(static_cast<CMatroskaMuxerFilter*>(m_pFilter))->AddInput();
 	}
 
 	return hr;
@@ -1195,7 +1195,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 
 /**/
 	TRACE(_T("Received (%d): %I64d-%I64d (c=%d, co=%dms), len=%d, d%d p%d s%d\n"), 
-		((CMatroskaMuxerFilter*)m_pFilter)->GetTrackNumber(this), 
+		(static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this), 
 		rtStart, rtStop, (int)((rtStart/10000)/MAXCLUSTERTIME), (int)((rtStart/10000)%MAXCLUSTERTIME),
 		len,
 		pSample->IsDiscontinuity() == S_OK ? 1 : 0,
@@ -1254,7 +1254,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 		b->ReferenceBlock.Set((rtDiff + (rtDiff >= 0 ? 5000 : -5000)) / 10000);
 	}
 
-	b->Block.TrackNumber = ((CMatroskaMuxerFilter*)m_pFilter)->GetTrackNumber(this);
+	b->Block.TrackNumber = (static_cast<CMatroskaMuxerFilter*>(m_pFilter))->GetTrackNumber(this);
 
 	b->Block.TimeCode = (rtStart + 5000) / 10000;
 	b->Block.TimeCodeStop = (rtStop + 5000) / 10000;

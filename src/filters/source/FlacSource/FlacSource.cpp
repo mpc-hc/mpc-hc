@@ -279,7 +279,7 @@ void CFlacStream::UpdateFromMetadata (void* pBuffer)
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	UINT			nRead;
 
 	 nRead				= pThis->GetFile()->Read (buffer, *bytes);
@@ -291,7 +291,7 @@ FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decod
 
 FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	
 	pThis->m_bIsEOF	= false;
 	pThis->GetFile()->Seek (absolute_byte_offset, CFile::begin);
@@ -300,14 +300,14 @@ FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decod
 
 FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	*absolute_byte_offset = pThis->GetFile()->GetPosition();
 	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
 }
 
 FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	CFile*			pFile = pThis->GetFile();
 
 	if (pFile == NULL)
@@ -321,7 +321,7 @@ FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *d
 
 FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 
 	return pThis->m_bIsEOF;
 }
@@ -329,7 +329,7 @@ FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_dat
 
 FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 
 
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
@@ -342,7 +342,7 @@ void StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderE
 
 void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
 {
-	CFlacStream*	pThis = (CFlacStream*) client_data;
+	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 
 	if (pThis)
 		pThis->UpdateFromMetadata ((void*)metadata);

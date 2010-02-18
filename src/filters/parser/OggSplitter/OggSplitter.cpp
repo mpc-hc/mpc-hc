@@ -437,7 +437,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 		POSITION pos = m_pOutputs.GetHeadPosition();
 		while(pos)
 		{
-			COggSplitterOutputPin* pPin = dynamic_cast<COggSplitterOutputPin*>((CBaseSplitterOutputPin*)m_pOutputs.GetNext(pos));
+			COggSplitterOutputPin* pPin = dynamic_cast<COggSplitterOutputPin*>(static_cast<CBaseSplitterOutputPin*>(m_pOutputs.GetNext(pos)));
 
 			if(!dynamic_cast<COggVideoOutputPin*>(pPin) && !dynamic_cast<COggTheoraOutputPin*>(pPin))
 				continue;

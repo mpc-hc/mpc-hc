@@ -450,7 +450,7 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 
 	long len = pIn->GetActualDataLength();
 
-	((CDeCSSInputPin*)m_pInput)->StripPacket(pDataIn, len);
+	(static_cast<CDeCSSInputPin*>(m_pInput))->StripPacket(pDataIn, len);
 
 	if(pIn->IsDiscontinuity() == S_OK)
 	{
@@ -1495,7 +1495,7 @@ void CSubpicInputPin::RenderSubpics(REFERENCE_TIME rt, BYTE** yuv, int w, int h)
 	{
 		spu* sp = m_sps.GetNext(pos);
 		if(sp->m_rtStart <= rt && rt < sp->m_rtStop 
-		&& (m_spon || sp->m_fForced && (((CMpeg2DecFilter*)m_pFilter)->IsForcedSubtitlesEnabled() || sp->m_psphli)))
+		&& (m_spon || sp->m_fForced && ((static_cast<CMpeg2DecFilter*>(m_pFilter))->IsForcedSubtitlesEnabled() || sp->m_psphli)))
 			sp->Render(rt, yuv, w, h, m_sppal, m_fsppal);
 	}
 }
@@ -1683,7 +1683,7 @@ STDMETHODIMP CSubpicInputPin::Set(REFGUID PropSet, ULONG Id, LPVOID pInstanceDat
 
 	if(fRefresh)
 	{
-		((CMpeg2DecFilter*)m_pFilter)->Deliver(true);
+		(static_cast<CMpeg2DecFilter*>(m_pFilter))->Deliver(true);
 	}
 
 	return S_OK;

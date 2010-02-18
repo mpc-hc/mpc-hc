@@ -152,7 +152,7 @@ HRESULT CBaseSplitterInputPin::BreakConnect()
 	if(FAILED(hr = __super::BreakConnect()))
 		return hr;
 
-	if(FAILED(hr = ((CBaseSplitterFilter*)m_pFilter)->BreakConnect(PINDIR_INPUT, this)))
+	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->BreakConnect(PINDIR_INPUT, this)))
 		return hr;
 
 	m_pAsyncReader.Release();
@@ -171,7 +171,7 @@ HRESULT CBaseSplitterInputPin::CompleteConnect(IPin* pPin)
 	m_pAsyncReader = pPin;
 	CheckPointer(m_pAsyncReader, E_NOINTERFACE);
 
-	if(FAILED(hr = ((CBaseSplitterFilter*)m_pFilter)->CompleteConnect(PINDIR_INPUT, this)))
+	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->CompleteConnect(PINDIR_INPUT, this)))
 		return hr;
 
 	return S_OK;
@@ -372,7 +372,7 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 	if(!ThreadExists()) return S_FALSE;
 
 	while(S_OK == m_hrDeliver 
-	&& (!((CBaseSplitterFilter*)m_pFilter)->IsAnyPinDrying()
+	&& (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()
 		|| m_queue.GetSize() > MAXPACKETSIZE*100))
 		Sleep(1);
 
@@ -516,7 +516,7 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		double dRate = 1.0;
-		if(SUCCEEDED(((CBaseSplitterFilter*)m_pFilter)->GetRate(&dRate)))
+		if(SUCCEEDED((static_cast<CBaseSplitterFilter*>(m_pFilter))->GetRate(&dRate)))
 		{
 			p->rtStart = (REFERENCE_TIME)((double)p->rtStart / dRate);
 			p->rtStop = (REFERENCE_TIME)((double)p->rtStop / dRate);
@@ -623,71 +623,71 @@ HRESULT CBaseSplitterOutputPin::Deliver(IMediaSample* pSample)
 
 STDMETHODIMP CBaseSplitterOutputPin::GetCapabilities(DWORD* pCapabilities)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetCapabilities(pCapabilities);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetCapabilities(pCapabilities);
 }
 STDMETHODIMP CBaseSplitterOutputPin::CheckCapabilities(DWORD* pCapabilities)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->CheckCapabilities(pCapabilities);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->CheckCapabilities(pCapabilities);
 }
 STDMETHODIMP CBaseSplitterOutputPin::IsFormatSupported(const GUID* pFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->IsFormatSupported(pFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->IsFormatSupported(pFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::QueryPreferredFormat(GUID* pFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->QueryPreferredFormat(pFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->QueryPreferredFormat(pFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetTimeFormat(GUID* pFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetTimeFormat(pFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetTimeFormat(pFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::IsUsingTimeFormat(const GUID* pFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->IsUsingTimeFormat(pFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->IsUsingTimeFormat(pFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::SetTimeFormat(const GUID* pFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->SetTimeFormat(pFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetTimeFormat(pFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetDuration(LONGLONG* pDuration)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetDuration(pDuration);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetDuration(pDuration);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetStopPosition(LONGLONG* pStop)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetStopPosition(pStop);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetStopPosition(pStop);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetCurrentPosition(LONGLONG* pCurrent)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetCurrentPosition(pCurrent);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetCurrentPosition(pCurrent);
 }
 STDMETHODIMP CBaseSplitterOutputPin::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->ConvertTimeFormat(pTarget, pTargetFormat, Source, pSourceFormat);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->ConvertTimeFormat(pTarget, pTargetFormat, Source, pSourceFormat);
 }
 STDMETHODIMP CBaseSplitterOutputPin::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->SetPositionsInternal(this, pCurrent, dwCurrentFlags, pStop, dwStopFlags);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetPositionsInternal(this, pCurrent, dwCurrentFlags, pStop, dwStopFlags);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetPositions(pCurrent, pStop);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetPositions(pCurrent, pStop);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetAvailable(pEarliest, pLatest);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetAvailable(pEarliest, pLatest);
 }
 STDMETHODIMP CBaseSplitterOutputPin::SetRate(double dRate)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->SetRate(dRate);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetRate(dRate);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetRate(double* pdRate)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetRate(pdRate);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetRate(pdRate);
 }
 STDMETHODIMP CBaseSplitterOutputPin::GetPreroll(LONGLONG* pllPreroll)
 {
-	return ((CBaseSplitterFilter*)m_pFilter)->GetPreroll(pllPreroll);
+	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetPreroll(pllPreroll);
 }
 
 //
@@ -1049,7 +1049,7 @@ HRESULT CBaseSplitterFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin)
 
 	if(dir == PINDIR_INPUT)
 	{
-		CBaseSplitterInputPin* pIn = (CBaseSplitterInputPin*)pPin;
+		CBaseSplitterInputPin* pIn = static_cast<CBaseSplitterInputPin*>(pPin);
 
 		HRESULT hr;
 

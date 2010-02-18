@@ -39,7 +39,7 @@
 
 void LCD_UpdateThread(void * Control) 
 {
-	CMPC_Lcd * ctrl = (CMPC_Lcd *) Control;
+	CMPC_Lcd * ctrl = static_cast<CMPC_Lcd *> (Control);
 	wchar_t str[40];
 	__time64_t ltime;
 	__time64_t otime = 0;
