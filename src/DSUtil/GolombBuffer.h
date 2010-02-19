@@ -20,9 +20,7 @@
  *
  */
 
-
 #pragma once
-
 
 class CGolombBuffer
 {
@@ -34,7 +32,7 @@ public:
 	INT64			SExpGolombRead();
 	void			BitByteAlign();
 
-	inline BYTE		ReadByte()  { return (BYTE) BitRead ( 8); };
+	inline BYTE		ReadByte()	{ return (BYTE) BitRead ( 8); };
 	inline SHORT	ReadShort() { return (SHORT)BitRead (16); };
 	inline DWORD	ReadDword() { return (DWORD)BitRead (32); };
 	void			ReadBuffer(BYTE* pDest, int nSize);
@@ -43,9 +41,9 @@ public:
 	void			Reset(BYTE* pNewBuffer, int nNewSize);
 
 	void			SetSize(int nValue) { m_nSize = nValue; };
-	int				GetSize()		    const { return m_nSize; };
+	int				GetSize()			const { return m_nSize; };
 	int				RemainingSize() 	const { return m_nSize - m_nBitPos; };
-	bool			IsEOF() const		const { return m_nBitPos >= m_nSize; };
+	bool			IsEOF()				const { return m_nBitPos >= m_nSize; };
 	INT64			GetPos();
 	BYTE*			GetBufferPos()		{ return m_pBuffer + m_nBitPos; };
 

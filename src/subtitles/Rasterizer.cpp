@@ -1038,7 +1038,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 			// not (switchpts[1] == 0xffffffff)
 			else
 			{
-				// switchpts plays an important rule here
+				// switchpts plays an important role here
 				const long *sw = switchpts;
 
 				if(fBody)
