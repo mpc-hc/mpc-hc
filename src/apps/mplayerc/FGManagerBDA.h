@@ -46,9 +46,9 @@ public :
 		m_ulMappedPID(0)
 	{}
 
-	LPWSTR					GetName()			{ return m_Name; };
-	const AM_MEDIA_TYPE*	GetMediaType()		{ return m_pmt; };
-	bool					GetFindExisting()	{ return m_bFindExisting; };
+	LPWSTR					GetName()			/*const*/ { return m_Name; };
+	const AM_MEDIA_TYPE*	GetMediaType()		/*const*/ { return m_pmt; };
+	bool					GetFindExisting()	const { return m_bFindExisting; };
 	IBaseFilter*			GetFilter()			{ return m_pFilter; };
 
 	void					SetPin(IPin* pPin)
@@ -80,7 +80,7 @@ public :
 		return m_pMap->UnmapPID (1, &ulPID);
 	}
 
-	ULONG GetMappedPID()
+	ULONG GetMappedPID() const
 	{
 		return m_ulMappedPID;
 	}

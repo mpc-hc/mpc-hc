@@ -35,7 +35,7 @@ namespace ssf
 		virtual ~FontWrapper();
 		operator HFONT() const {return m_hFont;}
 		operator LPCWSTR() const {return m_key;}
-		const TEXTMETRIC& GetTextMetric() {return m_tm;}
+		const TEXTMETRIC& GetTextMetric() const {return m_tm;}
 		int GetKernAmount(WCHAR c1, WCHAR c2);
 	};
 }

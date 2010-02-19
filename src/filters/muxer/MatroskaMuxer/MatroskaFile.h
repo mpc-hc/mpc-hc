@@ -37,7 +37,7 @@ namespace MatroskaWriter
 
 	public:
 		CID(DWORD id);
-		DWORD GetID() {return m_id;}
+		DWORD GetID() const {return m_id;}
 		virtual QWORD Size(bool fWithHeader = true);
 		virtual HRESULT Write(IStream* pStream);
 	};

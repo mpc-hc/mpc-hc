@@ -44,9 +44,9 @@ namespace MatroskaReader
 		CSimpleVar(T val = 0) : m_val(val), m_fValid(false) {}
 		BASE& operator = (const BASE& v) {m_val = v.m_val; m_fValid = true; return(*this);}
 		BASE& operator = (T val) {m_val = val; m_fValid = true; return(*this);}
-		operator T() {return m_val;}
+		operator T() const {return m_val;}
 		BASE& Set(T val) {m_val = val; m_fValid = true; return(*(BASE*)this);}
-		bool IsValid() {return m_fValid;}
+		bool IsValid() const {return m_fValid;}
 		virtual HRESULT Parse(CMatroskaNode* pMN);
 	};
 
@@ -413,7 +413,7 @@ namespace MatroskaReader
 
 		UINT64 GetMasterTrack();
 
-		REFERENCE_TIME GetRefTime(INT64 t) {return t*(REFERENCE_TIME)(SegmentInfo.TimeCodeScale)/100;}
+		REFERENCE_TIME GetRefTime(INT64 t) const {return t*(REFERENCE_TIME)(SegmentInfo.TimeCodeScale)/100;}
 		ChapterAtom* FindChapterAtom(UINT64 id, int nEditionEntry = 0);
 	};
 

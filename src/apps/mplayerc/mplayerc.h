@@ -508,7 +508,7 @@ public:
 		DVD_HMSF_TIMECODE	DVDPosition;
 
 		CSize fixedWindowSize;
-		bool HasFixedWindowSize() {return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;}
+		bool HasFixedWindowSize() const {return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;}
 		// int iFixedWidth, iFixedHeight;
 		int iMonitor;
 

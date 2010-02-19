@@ -44,10 +44,10 @@ public:
 	CFGFilter(const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
 	virtual ~CFGFilter() {}
 
-	CLSID GetCLSID() {return m_clsid;}
-	CStringW GetName() {return m_name;}
-	UINT64 GetMerit() {return m_merit.val;}
-	DWORD GetMeritForDirectShow() {return m_merit.mid;}
+	CLSID GetCLSID() const {return m_clsid;}
+	CStringW GetName() const {return m_name;}
+	UINT64 GetMerit() const {return m_merit.val;}
+	DWORD GetMeritForDirectShow() const {return m_merit.mid;}
 	const CAtlList<GUID>& GetTypes() const;
 	void SetTypes(const CAtlList<GUID>& types);
 	void AddType(const GUID& majortype, const GUID& subtype);

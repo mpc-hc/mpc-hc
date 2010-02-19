@@ -82,8 +82,8 @@ class CDXVADecoder
 public :
 	// === Public functions
 	virtual				   ~CDXVADecoder();
-	DXVAMode				GetMode()		{ return m_nMode; };
-	DXVA_ENGINE				GetEngine()		{ return m_nEngine; };
+	DXVAMode				GetMode()		const { return m_nMode; };
+	DXVA_ENGINE				GetEngine()		const { return m_nEngine; };
 	void					AllocExecuteParams (int nSize);
 	void					SetDirectXVideoDec (IDirectXVideoDecoder* pDirectXVideoDec)  { m_pDirectXVideoDec = pDirectXVideoDec; };
 

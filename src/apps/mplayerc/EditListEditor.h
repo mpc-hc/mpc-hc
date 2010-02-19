@@ -46,7 +46,7 @@ public :
 
 	CString		GetIn();
 	CString		GetOut();
-	CString		GetName() { return m_strName; };
+	CString		GetName() const { return m_strName; };
 };
 
 class CEditListEditor :	public CSizingControlBarG

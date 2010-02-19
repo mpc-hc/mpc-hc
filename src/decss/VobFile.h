@@ -30,8 +30,8 @@ public:
 	bool Open(LPCTSTR path);
 	void Close();
 
-	operator HANDLE() {return m_hDrive;}
-	operator DVD_SESSION_ID() {return m_session;}
+	operator HANDLE() const {return m_hDrive;}
+	operator DVD_SESSION_ID() const {return m_session;}
 
 	bool SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData);
 	bool ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba = 0);

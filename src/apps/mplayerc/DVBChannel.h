@@ -62,22 +62,22 @@ public:
 	void			FromString(CString strValue);
 	CString			ToString();
 
-	LPCTSTR			GetName()					{ return m_strName; };
-	ULONG			GetFrequency()				{ return m_ulFrequency; };
-	int				GetPrefNumber()				{ return m_nPrefNumber; };
-	int				GetOriginNumber()			{ return m_nOriginNumber; };
-	ULONG			GetONID()					{ return m_ulONID; };
-	ULONG			GetTSID()					{ return m_ulTSID; };
-	ULONG			GetSID()					{ return m_ulSID; };
-	ULONG			GetPMT()					{ return m_ulPMT; };
-	ULONG			GetPCR()					{ return m_ulPCR; };
-	ULONG			GetVideoPID()				{ return m_ulVideoPID; };
-	DVB_STREAM_TYPE	GetVideoType()				{ return m_nVideoType; }
-	ULONG			GetDefaultAudioPID()		{ return m_Audios[0].PID; /* TODO : fa*/ };
-	DVB_STREAM_TYPE	GetDefaultAudioType()		{ return m_Audios[0].Type; }
-	ULONG			GetDefaultSubtitlePID()		{ return m_Subtitles[0].PID; /* TODO : fa*/ };
-	int				GetAudioCount()				{ return m_nAudioCount; };
-	int				GetSubtitleCount()			{ return m_nSubtitleCount; };
+	LPCTSTR			GetName()					const { return m_strName; };
+	ULONG			GetFrequency()				const { return m_ulFrequency; };
+	int				GetPrefNumber()				const { return m_nPrefNumber; };
+	int				GetOriginNumber()			const { return m_nOriginNumber; };
+	ULONG			GetONID()					const { return m_ulONID; };
+	ULONG			GetTSID()					const { return m_ulTSID; };
+	ULONG			GetSID()					const { return m_ulSID; };
+	ULONG			GetPMT()					const { return m_ulPMT; };
+	ULONG			GetPCR()					const { return m_ulPCR; };
+	ULONG			GetVideoPID()				const { return m_ulVideoPID; };
+	DVB_STREAM_TYPE	GetVideoType()				const { return m_nVideoType; }
+	ULONG			GetDefaultAudioPID()		const { return m_Audios[0].PID; /* TODO : fa*/ };
+	DVB_STREAM_TYPE	GetDefaultAudioType()		const { return m_Audios[0].Type; }
+	ULONG			GetDefaultSubtitlePID()		const { return m_Subtitles[0].PID; /* TODO : fa*/ };
+	int				GetAudioCount()				const { return m_nAudioCount; };
+	int				GetSubtitleCount()			const { return m_nSubtitleCount; };
 	DVBStreamInfo*	GetAudio(int nIndex)		{ return &m_Audios[nIndex]; };
 	DVBStreamInfo*	GetSubtitle(int nIndex)		{ return &m_Subtitles[nIndex]; };
 	bool			HasName()					{ return !m_strName.IsEmpty(); };

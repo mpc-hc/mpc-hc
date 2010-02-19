@@ -48,8 +48,8 @@ public:
 
 	CCpuId();
 
-	int					GetFeatures()	{ return m_nCPUFeatures; };
-	PROCESSOR_TYPE		GetType()		{ return m_nType; };
+	int					GetFeatures()	const { return m_nCPUFeatures; };
+	PROCESSOR_TYPE		GetType()		const { return m_nType; };
 	int					GetProcessorNumber();
 
 private :

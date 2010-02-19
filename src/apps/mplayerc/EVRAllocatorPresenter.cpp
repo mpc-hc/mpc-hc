@@ -2565,7 +2565,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 						m_Int = _Other;
 					}
 
-					operator int ()
+					operator int () const
 					{
 						return m_Int;
 					}

@@ -78,19 +78,19 @@ public:
 
 // call wrappers
 public:
-	BOOL IsThemeActive() 
+	BOOL IsThemeActive() const
 	{THEMECALL(IsThemeActive)();}
 
-	HTHEME OpenThemeData(HWND hwnd, LPCWSTR pszClassList) 
+	HTHEME OpenThemeData(HWND hwnd, LPCWSTR pszClassList) const
 	{THEMECALL(OpenThemeData)(hwnd, pszClassList);}
 
-	HRESULT CloseThemeData(HTHEME hTheme) 
+	HRESULT CloseThemeData(HTHEME hTheme) const 
 	{THEMECALL(CloseThemeData)(hTheme);}
 
-	HRESULT GetThemeBackgroundContentRect(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId,  const RECT *pBoundingRect, OUT RECT *pContentRect)
+	HRESULT GetThemeBackgroundContentRect(HTHEME hTheme, OPTIONAL HDC hdc, int iPartId, int iStateId,  const RECT *pBoundingRect, OUT RECT *pContentRect) const
 	{THEMECALL(GetThemeBackgroundContentRect)(hTheme, hdc, iPartId, iStateId, pBoundingRect, pContentRect);}
 
-	HRESULT DrawThemeBackground(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, const RECT *pRect, OPTIONAL const RECT *pClipRect)
+	HRESULT DrawThemeBackground(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, const RECT *pRect, OPTIONAL const RECT *pClipRect) const
 	{THEMECALL(DrawThemeBackground)(hTheme, hdc, iPartId, iStateId, pRect, pClipRect);}
 
 // function pointers

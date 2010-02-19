@@ -59,7 +59,7 @@ public:
 		virtual bool ToolTip(CString& str) {return false;}
 		void SetLabel(LPCTSTR label);
 		void SetImage(int nImage, int nSelectedImage);
-		operator HTREEITEM() {return m_hTI;}
+		operator HTREEITEM() const {return m_hTI;}
 	};
 	
 	class CTreeItemFilter : public CTreeItem 

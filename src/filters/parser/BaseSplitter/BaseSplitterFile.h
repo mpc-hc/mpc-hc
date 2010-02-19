@@ -61,8 +61,8 @@ public:
 	void BitByteAlign(), BitFlush();
 	HRESULT ByteRead(BYTE* pData, __int64 len);
 
-	bool IsStreaming() {return m_fStreaming;}
-	bool IsRandomAccess() {return m_fRandomAccess;}
+	bool IsStreaming()		const {return m_fStreaming;}
+	bool IsRandomAccess()	const {return m_fRandomAccess;}
 
 	HRESULT HasMoreData(__int64 len = 1, DWORD ms = 1);
 };
