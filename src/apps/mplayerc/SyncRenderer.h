@@ -2,7 +2,7 @@
 * $Id: SyncRenderer.h 1292 2009-10-03 23:20:26Z ar-jar $
 *
 * (C) 2003-2006 Gabest
-* (C) 2006-2007 see AUTHORS
+* (C) 2006-2010 see AUTHORS
 *
 * This file is part of mplayerc.
 *
