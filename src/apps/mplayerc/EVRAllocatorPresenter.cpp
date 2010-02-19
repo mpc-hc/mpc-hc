@@ -1063,16 +1063,6 @@ LONGLONG GetMediaTypeMerit(IMFMediaType *pMediaType)
 	return Merit;
 }
 
-
-
-typedef struct
-{
-  const int				Format;
-  const LPCTSTR			Description;
-} D3DFORMAT_TYPE;
-
-extern const D3DFORMAT_TYPE	D3DFormatType[];
-
 LPCTSTR FindD3DFormat(const D3DFORMAT Format);
 
 LPCTSTR GetMediaTypeFormatDesc(IMFMediaType *pMediaType)
@@ -2140,7 +2130,6 @@ void CEVRAllocatorPresenter::RenderThread()
 
 							LONGLONG SyncOffset = 0;
 							LONGLONG VSyncTime = 0;
-							LONGLONG RefreshTime = 0;
 							LONGLONG TimeToNextVSync = -1;
 							bool bVSyncCorrection = false;
 							double DetectedRefreshTime;
@@ -2167,7 +2156,6 @@ void CEVRAllocatorPresenter::RenderThread()
 								bVSyncCorrection = true;
 								double TargetVSyncPos = GetVBlackPos();
 								double RefreshLines = DetectedScanlinesPerFrame;
-								double RefreshTime = DetectedRefreshTime;
 								double ScanlinesPerSecond = 1.0/DetectedScanlineTime;
 								double CurrentVSyncPos = fmod(double(m_VBlankStartMeasure) + ScanlinesPerSecond * ((CurrentCounter - m_VBlankStartMeasureTime) / 10000000.0), RefreshLines);
 								double LinesUntilVSync = 0;
@@ -2183,7 +2171,6 @@ void CEVRAllocatorPresenter::RenderThread()
 								double TimeUntilVSync = LinesUntilVSync * DetectedScanlineTime;
 								TimeToNextVSync = TimeUntilVSync * 10000000.0;
 								VSyncTime = DetectedRefreshTime * 10000000.0;
-								RefreshTime = VSyncTime;
 
 								LONGLONG ClockTimeAtNextVSync = llClockTime + (TimeUntilVSync * 10000000.0) * m_ModeratedTimeSpeed;
 	
@@ -2493,7 +2480,6 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 		m_LastScheduledUncorrectedSampleTime = Time;
 
 		m_bCorrectedFrameTime = false;
-		double LastFP = m_LastScheduledSampleTimeFP;
 
 		LONGLONG Diff2 = PrevTime - m_LastScheduledSampleTimeFP*10000000.0;
 		LONGLONG Diff = Time - PrevTime;

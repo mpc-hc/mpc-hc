@@ -1008,7 +1008,7 @@ UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRaw
 				nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
 			}
 		}
-		delete pRawBuffer;
+		delete [] pRawBuffer;
 	}
 
 	return nMceCmd;
@@ -1047,7 +1047,7 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 				}
 			}
 		}
-		delete pRawBuffer;
+		delete [] pRawBuffer;
 	}
 
 	return nMceCmd;

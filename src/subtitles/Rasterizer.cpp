@@ -901,7 +901,8 @@ static __forceinline void pixmix2_sse2(DWORD* dst, DWORD color, DWORD shapealpha
 // Calculate a - b clamping to 0 instead of underflowing
 static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
 {
-#ifndef __WIN64
+	// Microsoft's compiler only supports MMX intrinsics in 32 bit mode
+#ifdef _M_IX86
 	__m64 ap = _mm_cvtsi32_si64(a);
 	__m64 bp = _mm_cvtsi32_si64(b);
 	__m64 rp = _mm_subs_pu16(ap, bp);
@@ -910,11 +911,18 @@ static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
 	_mm_empty();
 
 	return r;
-
 #else
-	// For whatever reason Microsoft's x64 compiler doesn't support MMX intrinsics
 	return (b > a) ? 0 : a - b;
 #endif
+}
+
+static __forceinline DWORD safe_subtract_sse2(DWORD a, DWORD b)
+{
+	__m128i ap = _mm_cvtsi32_si128(a);
+	__m128i bp = _mm_cvtsi32_si128(b);
+	__m128i rp = _mm_subs_epu16(ap, bp);
+
+	return (DWORD)_mm_cvtsi128_si32(rp);
 }
 
 // For CPUID usage in Rasterizer::Draw
@@ -1021,7 +1029,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 							// subtraction must be saturating since the widened region
 							// pixel value can be smaller than the fill value.
 							// This happens when blur edges is used.
-							pixmix_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
+							pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 					else
 						for(int wt=0; wt<w; ++wt)
 							pixmix(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
@@ -1058,7 +1066,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 					for(int wt=0; wt<w; ++wt)
 					{
 						if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];} 
-						pixmix_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
+						pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
@@ -1092,7 +1100,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 				{
 					if(fSSE2)
 						for(int wt=0; wt<w; ++wt)
-							pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
+							pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 					else
 						for(int wt=0; wt<w; ++wt)
 							pixmix2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
@@ -1132,7 +1140,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 							while(wt+xo >= sw[1])
 								sw += 2; color = sw[-2];
 						}
-						pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
+						pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 					}
 					else
 					for(int wt=0; wt<w; ++wt)
