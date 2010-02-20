@@ -4836,11 +4836,20 @@ void CMainFrame::OnFileSavesubtitle()
 			if(FAILED(pSubStream->GetClassID(&clsid)))
 				continue;
 
+			OpenMediaData *pOMD = m_wndPlaylistBar.GetCurOMD();
+			CString suggestedFileName("");
+			if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD))
+			{
+				// hack: get the file name from the current playlist item
+				suggestedFileName = m_wndPlaylistBar.GetCur();
+				suggestedFileName = suggestedFileName.Left(suggestedFileName.ReverseFind('.'));	// exclude the extension
+			}
+
 			if(clsid == __uuidof(CVobSubFile))
 			{
 				CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubStream;
 
-				CFileDialog fd(FALSE, NULL, NULL, 
+				CFileDialog fd(FALSE, NULL, suggestedFileName, 
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
 					_T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
 		
@@ -4865,7 +4874,7 @@ void CMainFrame::OnFileSavesubtitle()
 				filter += _T("SubStation Alpha (*.ssa)|*.ssa|");
 				filter += _T("|");
 
-				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, NULL, filter, GetModalParent());
+				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, suggestedFileName, filter, GetModalParent());
 		
 				if(fd.DoModal() == IDOK)
 				{
