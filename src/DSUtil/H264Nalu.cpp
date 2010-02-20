@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "H264Nalu.h"
 
 void CH264Nalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)

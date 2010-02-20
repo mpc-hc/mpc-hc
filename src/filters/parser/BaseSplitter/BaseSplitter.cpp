@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <initguid.h>
 #include <moreuuids.h>

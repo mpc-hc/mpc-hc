@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageBase.h"
 #include "SettingsDefines.h"

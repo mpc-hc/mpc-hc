@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 
 #include <tchar.h>
 #include <stdio.h>

@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Mmreg.h"
 #include "MP4Splitter.h"
 #include "../../../DSUtil/DSUtil.h"

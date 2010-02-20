@@ -21,7 +21,7 @@
  */
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "GolombBuffer.h"
 
 CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)

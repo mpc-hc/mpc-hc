@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "NutFile.h"
 
 CNutFile::CNutFile(IAsyncReader* pAsyncReader, HRESULT& hr)

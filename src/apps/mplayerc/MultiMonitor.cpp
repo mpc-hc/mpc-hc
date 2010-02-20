@@ -22,7 +22,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "MultiMonitor.h"
 #include "Monitors.h"
 

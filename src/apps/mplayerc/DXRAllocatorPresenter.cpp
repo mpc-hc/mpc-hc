@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "DXRAllocatorPresenter.h"
 #include <moreuuids.h>

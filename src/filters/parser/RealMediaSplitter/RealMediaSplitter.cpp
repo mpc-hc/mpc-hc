@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <Shlwapi.h>
 #include <atlpath.h>
 #include <mmreg.h>

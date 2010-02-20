@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <mmreg.h>
 #include "BaseMuxer.h"
 #include "../../../DSUtil/DSUtil.h"

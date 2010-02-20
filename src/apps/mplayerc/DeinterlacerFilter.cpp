@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DeinterlacerFilter.h"
 #include "../../DSUtil/MediaTypes.h"
 #include <moreuuids.h>

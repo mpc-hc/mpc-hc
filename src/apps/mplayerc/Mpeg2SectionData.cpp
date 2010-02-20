@@ -1,5 +1,5 @@
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <streams.h>
 #include <mpeg2data.h>
 

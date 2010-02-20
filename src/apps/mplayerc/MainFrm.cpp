@@ -24,7 +24,7 @@
 // TODOX64 : put Mpeg2DecFilterRU.lib d2vsourceRU.lib back when internal filter upgraded!
 // TODOX64 : put d2vsourceDU.lib Mpeg2DecFilterDU.lib back when internal filter upgraded!
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 
 #include "MainFrm.h"

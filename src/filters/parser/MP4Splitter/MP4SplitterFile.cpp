@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "MP4SplitterFile.h"
 #include "Ap4AsyncReaderStream.h"
 

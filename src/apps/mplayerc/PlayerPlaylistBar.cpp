@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <math.h>
 #include <afxinet.h>
 #include <atlrx.h>

@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "BaseMuxerOutputPin.h"
 
 #include <mmreg.h>

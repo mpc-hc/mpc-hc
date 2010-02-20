@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DSMSplitterFile.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>

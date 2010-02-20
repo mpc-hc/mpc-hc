@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "MiniDump.h"
 #include "resource.h"
 #include <DbgHelp.h>

@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "PixelShaderCompiler.h"
 #include "ShaderEditorDlg.h"

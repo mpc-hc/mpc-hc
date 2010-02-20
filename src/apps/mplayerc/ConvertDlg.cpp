@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <mmreg.h>
 #include "mplayerc.h"
 #include "../../filters/filters.h"

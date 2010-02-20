@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "FakeFilterMapper2.h"
 #include "MacrovisionKicker.h"
 #include "../../DSUtil/DSUtil.h"

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "vobdec.h"
 
 static BYTE reverse[0x100], table[0x100] =

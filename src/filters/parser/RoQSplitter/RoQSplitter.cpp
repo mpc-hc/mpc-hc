@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <initguid.h>
 #include "RoQSplitter.h"
 #include <moreuuids.h>

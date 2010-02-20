@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "./oggfile.h"
 
 COggFile::COggFile(IAsyncReader* pAsyncReader, HRESULT& hr)

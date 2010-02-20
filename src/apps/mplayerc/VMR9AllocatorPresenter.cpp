@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "VMR9AllocatorPresenter.h"
 #include "IPinHook.h"

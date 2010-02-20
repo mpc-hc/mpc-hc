@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <atlisapi.h>
 #include "mplayerc.h"
 #include "resource.h"

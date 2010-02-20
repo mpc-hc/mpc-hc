@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <io.h>
 #include "VobFile.h"
 #include "CSSauth.h"

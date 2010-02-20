@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "RM9AllocatorPresenter.h"
 #include "MainFrm.h"

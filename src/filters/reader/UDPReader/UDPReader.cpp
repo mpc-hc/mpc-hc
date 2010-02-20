@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "udpreader.h"
 #include "../../../DSUtil/DSUtil.h"
 

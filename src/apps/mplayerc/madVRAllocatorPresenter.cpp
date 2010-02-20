@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "madVRAllocatorPresenter.h"
 #include "mplayerc.h"
 #include <moreuuids.h>

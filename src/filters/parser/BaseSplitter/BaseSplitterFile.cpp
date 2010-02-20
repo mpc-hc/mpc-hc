@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "BaseSplitterFile.h"
 #include "../../../dsutil/dsutil.h"
 

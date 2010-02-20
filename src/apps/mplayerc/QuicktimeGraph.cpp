@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include <math.h>
 #include "QuicktimeGraph.h"
 #include "IQTVideoSurface.h"

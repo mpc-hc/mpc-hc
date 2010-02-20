@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "OpenCapDeviceDlg.h"
 #include "../../DSUtil/DSUtil.h"

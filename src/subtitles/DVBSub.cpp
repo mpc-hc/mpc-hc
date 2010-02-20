@@ -21,7 +21,7 @@
  */
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DVBSub.h"
 #include "../DSUtil/GolombBuffer.h"
 

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "AviReportWnd.h"
 
 #define IDC_DONOTSHOWAGAINCHECK 1000

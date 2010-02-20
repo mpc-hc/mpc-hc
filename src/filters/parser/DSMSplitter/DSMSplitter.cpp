@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DSMSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
 

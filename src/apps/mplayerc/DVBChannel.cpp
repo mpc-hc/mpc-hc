@@ -21,7 +21,7 @@
  */
 
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "DVBChannel.h"
 
 #define FORMAT_VERSION		0

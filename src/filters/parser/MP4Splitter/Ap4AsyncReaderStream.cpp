@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Ap4AsyncReaderStream.h"
 
 AP4_AsyncReaderStream::AP4_AsyncReaderStream(CBaseSplitterFile* pFile) 

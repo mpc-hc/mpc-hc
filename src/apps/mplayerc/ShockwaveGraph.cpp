@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "ShockwaveGraph.h"
 #include "resource.h"
 #include "../../DSUtil/DSUtil.h"

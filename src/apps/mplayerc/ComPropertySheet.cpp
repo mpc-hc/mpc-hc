@@ -21,7 +21,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "mplayerc.h"
 #include "ComPropertySheet.h"
 #include "../../DSUtil/DSUtil.h"

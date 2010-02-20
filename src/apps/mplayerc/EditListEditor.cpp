@@ -20,7 +20,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "resource.h"
 #include "EditListEditor.h"
 #include "../../DSUtil/DSUtil.h"

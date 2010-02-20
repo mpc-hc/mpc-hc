@@ -19,7 +19,7 @@
  *
  */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "../../../decss/VobFile.h"
 #include "vtsreader.h"
 #include "../../../DSUtil/DSUtil.h"
