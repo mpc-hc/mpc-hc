@@ -5752,7 +5752,7 @@ void CMainFrame::OnViewNormal()
 {
 	if(AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	else if(AfxGetAppSettings().fHideNavigation);
+	else if(AfxGetAppSettings().fHideNavigation)
 		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
