@@ -122,7 +122,7 @@ void CTunerScanDlg::OnBnClickedStart()
 {
 	if (!m_bInProgress)
 	{
-		CAutoPtr<TunerScanData>		pTSD (DNew TunerScanData());
+		CAutoPtr<TunerScanData>		pTSD (DNew TunerScanData);
 		pTSD->Hwnd				= m_hWnd;
 		pTSD->FrequencyStart	= m_ulFrequencyStart;
 		pTSD->FrequencyStop		= m_ulFrequencyEnd;
