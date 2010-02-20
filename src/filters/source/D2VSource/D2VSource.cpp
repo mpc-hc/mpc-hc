@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "D2VSource.h"
-#include "mpeg2dec.h"
+#include "MPEG2Dec.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MPCVideoDecSettingsWnd.h"
-#include "../../../dsutil/dsutil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 #include "../../../apps/mplayerc/internal_filter_config.h"
 

@@ -43,7 +43,7 @@ extern "C"
 
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
-#include "../../parser/mpegsplitter/MpegSplitter.h"
+#include "../../parser/MpegSplitter/MpegSplitter.h"
 
 #include <moreuuids.h>
 

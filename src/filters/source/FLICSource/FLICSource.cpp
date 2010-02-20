@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include "flicsource.h"
+#include "FLICSource.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

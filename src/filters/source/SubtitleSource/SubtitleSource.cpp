@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include "subtitlesource.h"
+#include "SubtitleSource.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>

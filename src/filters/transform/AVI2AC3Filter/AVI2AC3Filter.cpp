@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include <atlbase.h>
-#include "avi2ac3filter.h"
+#include "AVI2AC3Filter.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #include <initguid.h>

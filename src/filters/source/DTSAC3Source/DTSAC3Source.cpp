@@ -25,7 +25,7 @@
 #include <initguid.h>
 #include <uuids.h>
 #include <moreuuids.h>
-#include "dtsac3source.h"
+#include "DTSAC3Source.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "Mpeg2DecSettingsWnd.h"
-#include "../../../dsutil/dsutil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))

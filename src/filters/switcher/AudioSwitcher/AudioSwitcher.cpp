@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 
-#include "Shlwapi.h"
+#include <shlwapi.h>
 #include <math.h>
 #include <atlpath.h>
 #include <mmreg.h>

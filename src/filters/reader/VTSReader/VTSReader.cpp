@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "../../../decss/VobFile.h"
-#include "vtsreader.h"
+#include "VTSReader.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

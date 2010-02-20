@@ -25,7 +25,7 @@
 #include <initguid.h>
 #include <uuids.h>
 #include <moreuuids.h>
-#include "flacsource.h"
+#include "FlacSource.h"
 #include "../../../DSUtil/DSUtil.h"
 #include "FLAC/stream_decoder.h"
 

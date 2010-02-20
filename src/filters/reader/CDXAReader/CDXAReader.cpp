@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include "cdxareader.h"
+#include "CDXAReader.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <initguid.h>
 #include <uuids.h>

@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include "udpreader.h"
+#include "UDPReader.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

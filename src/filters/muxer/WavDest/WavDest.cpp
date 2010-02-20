@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <streams.h>
 #include <aviriff.h>
-#include "wavdest.h"
+#include "WavDest.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

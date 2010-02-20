@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include <initguid.h>
-#include "shoutcastsource.h"
+#include "ShoutcastSource.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
 

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "BaseSplitterFile.h"
-#include "../../../dsutil/dsutil.h"
+#include "../../../DSUtil/DSUtil.h"
 
 //
 // CBaseSplitterFile

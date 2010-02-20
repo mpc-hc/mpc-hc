@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include "bufferfilter.h"
+#include "BufferFilter.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #ifdef REGISTER_FILTER

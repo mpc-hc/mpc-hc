@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include <initguid.h>
-#include "cddareader.h"
+#include "CDDAReader.h"
 #include "../../../DSUtil/DSUtil.h"
 
 #define RAW_SECTOR_SIZE 2352

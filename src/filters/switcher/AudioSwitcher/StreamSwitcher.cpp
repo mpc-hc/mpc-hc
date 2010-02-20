@@ -19,7 +19,7 @@
 #include "stdafx.h"
 #include "StreamSwitcher.h"
 
-#include "Shlwapi.h"
+#include <shlwapi.h>
 #include <atlpath.h>
 #include <mmreg.h>
 #include <ks.h>
