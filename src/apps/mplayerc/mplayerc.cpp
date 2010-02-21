@@ -1513,7 +1513,7 @@ bool CMPlayerCApp::Settings::IsD3DFullscreen()
 CString CMPlayerCApp::Settings::SelectedAudioRender()
 {
 	CString	strResult;
-	if	(AfxGetAppSettings().nCLSwitches &= CLSW_AUDIORENDER) 
+	if	(nCLSwitches&CLSW_AUDIORENDER)
 		strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
 	else
 		strResult = AfxGetAppSettings().AudioRendererDisplayName;
