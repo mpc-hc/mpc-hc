@@ -7,11 +7,11 @@
 // extern CString Implode(CAtlList<CString>& sl, TCHAR sep);
 
 template<class T, typename SEP>
-T Explode(T str, CAtlList<T>& sl, SEP sep, int limit = 0)
+T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	sl.RemoveAll();
 
-	for(int i = 0, j = 0; ; i = j+1)
+	for(ptrdiff_t i = 0, j = 0; ; i = j+1)
 	{
 		j = str.Find(sep, i);
 
@@ -30,7 +30,7 @@ T Explode(T str, CAtlList<T>& sl, SEP sep, int limit = 0)
 }
 
 template<class T, typename SEP>
-T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, int limit = 0)
+T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();

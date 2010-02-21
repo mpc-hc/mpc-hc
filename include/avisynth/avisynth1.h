@@ -135,7 +135,7 @@ class VideoFrame {
 
   VideoFrame(VideoFrameBuffer* _vfb, int _offset, int _pitch, int _row_size, int _height);
 
-  void* operator new(unsigned size);
+  void* operator new(size_t size);
 
 public:
   int GetPitch() const { return pitch; }

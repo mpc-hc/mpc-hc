@@ -215,7 +215,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 	{
 		BYTE* b = (BYTE*)&biCompression;
 
-		for(int i = 0; i < 4; i++)
+		for(ptrdiff_t i = 0; i < 4; i++)
 			if(b[i] >= 'a' && b[i] <= 'z') 
 				b[i] = toupper(b[i]);
 
@@ -618,25 +618,25 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 	{
 		sl.AddTail(_T("pbFormat:"));
 
-		for(int i = 0, j = (cbFormat + 15) & ~15; i < j; i += 16)
+		for(ptrdiff_t i = 0, j = (cbFormat + 15) & ~15; i < j; i += 16)
 		{
 			str.Format(_T("%04x:"), i);
 
-			for(int k = i, l = min(i + 16, (int)cbFormat); k < l; k++)
+			for(ptrdiff_t k = i, l = min(i + 16, (int)cbFormat); k < l; k++)
 			{
 				CString byte;
 				byte.Format(_T("%c%02x"), fmtsize > 0 && fmtsize == k ? '|' : ' ', pbFormat[k]);
 				str += byte;
 			}
 
-			for(int k = min(i + 16, (int)cbFormat), l = i + 16; k < l; k++)
+			for(ptrdiff_t k = min(i + 16, (int)cbFormat), l = i + 16; k < l; k++)
 			{
 				str += _T("   ");
 			}
 
 			str += ' ';
 
-			for(int k = i, l = min(i + 16, (int)cbFormat); k < l; k++)
+			for(ptrdiff_t k = i, l = min(i + 16, (int)cbFormat); k < l; k++)
 			{
 				unsigned char c = (unsigned char)pbFormat[k];
 				CStringA ch;

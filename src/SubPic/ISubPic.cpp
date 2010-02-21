@@ -421,7 +421,7 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
 		{if(phr) *phr = E_INVALIDARG; return;}
 
 	m_fBreakBuffering = false;
-	for(int i = 0; i < EVENT_COUNT; i++) 
+	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++) 
 		m_ThreadEvents[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	CAMThread::Create();
 }
@@ -431,7 +431,7 @@ CSubPicQueue::~CSubPicQueue()
 	m_fBreakBuffering = true;
 	SetEvent(m_ThreadEvents[EVENT_EXIT]);
 	CAMThread::Close();
-	for(int i = 0; i < EVENT_COUNT; i++) 
+	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++) 
 		CloseHandle(m_ThreadEvents[i]);
 }
 
@@ -1127,7 +1127,7 @@ void ISubPicAllocatorPresenterImpl::Transform(CRect r, Vector v[4])
 	Vector center(r.CenterPoint().x, r.CenterPoint().y, 0);
 	int l = (int)(Vector(r.Size().cx, r.Size().cy, 0).Length()*1.5f)+1;
 
-	for(int i = 0; i < 4; i++)
+	for(ptrdiff_t i = 0; i < 4; i++)
 	{
 		v[i] = m_xform << (v[i] - center);
 		v[i].z = v[i].z / l + 0.5f;

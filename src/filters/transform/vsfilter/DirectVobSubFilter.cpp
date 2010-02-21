@@ -105,7 +105,7 @@ CDirectVobSubFilter::~CDirectVobSubFilter()
 	if(m_hbm) {DeleteObject(m_hbm); m_hbm = 0;}
 	if(m_hdc) {DeleteObject(m_hdc); m_hdc = 0;}
 
-	for(int i = 0; i < m_pTextInput.GetCount(); i++) 
+	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++) 
 		delete m_pTextInput[i];
 
 	m_frd.EndThreadEvent.Set();
@@ -626,7 +626,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 
 	if(nLangs <= 0) return(0);
 
-	for(int i = 0; i < MAXPREFLANGS; i++)
+	for(ptrdiff_t i = 0; i < MAXPREFLANGS; i++)
 	{
 		CString tmp;
 		tmp.Format(IDS_RL_LANG, i);
@@ -635,7 +635,7 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 		
 		if(!lang.IsEmpty())
 		{
-			for(int ret = 0; ret < nLangs; ret++)
+			for(ptrdiff_t ret = 0; ret < nLangs; ret++)
 			{
 				CString l;
 				WCHAR* pName = NULL;
@@ -1233,7 +1233,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 		_T("GoogleDesktopCrawl."), // Google Desktop
 	};
 
-	for(int i = 0; i < countof(blacklistedapps); i++)
+	for(ptrdiff_t i = 0; i < countof(blacklistedapps); i++)
 	{
 		if(theApp.m_AppName.Find(blacklistedapps[i]) >= 0) 
 			return(false);
@@ -1354,7 +1354,7 @@ bool CDirectVobSubFilter::Open()
 
 	CAtlArray<CString> paths;
 
-	for(int i = 0; i < 10; i++)
+	for(ptrdiff_t i = 0; i < 10; i++)
 	{
 		CString tmp;
 		tmp.Format(IDS_RP_PATH, i);
@@ -1365,7 +1365,7 @@ bool CDirectVobSubFilter::Open()
 	CAtlArray<SubFile> ret;
 	GetSubFileNames(m_FileName, paths, ret);
 
-	for(int i = 0; i < ret.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < ret.GetCount(); i++)
 	{
 		if(m_frd.files.Find(ret[i].fn))
 			continue;
@@ -1408,7 +1408,7 @@ bool CDirectVobSubFilter::Open()
 		}
 	}
 
-	for(int i = 0; i < m_pTextInput.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
 	{
 		if(m_pTextInput[i]->IsConnected())
 			m_pSubStreams.AddTail(m_pTextInput[i]->GetSubStream());
@@ -1569,7 +1569,7 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
 	if(!pos) m_pSubStreams.AddTail(pSubStream);
 
 	int len = m_pTextInput.GetCount();
-	for(int i = 0; i < m_pTextInput.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
 		if(m_pTextInput[i]->IsConnected()) len--;
 
 	if(len == 0)
@@ -1609,7 +1609,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 {
     CAutoLock cAutolock(&m_csSubLock);
 
-	for(int i = 2; i < handles.GetCount(); i++)
+	for(ptrdiff_t i = 2; i < handles.GetCount(); i++)
 	{
 		FindCloseChangeNotification(handles[i]);
 	}
@@ -1623,7 +1623,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 	m_frd.mtime.SetCount(m_frd.files.GetCount());
 
 	POSITION pos = m_frd.files.GetHeadPosition();
-	for(int i = 0; pos; i++)
+	for(ptrdiff_t i = 0; pos; i++)
 	{
 		CString fn = m_frd.files.GetNext(pos);
 
@@ -1636,7 +1636,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 
 		bool fFound = false;
 
-		for(int j = 0; !fFound && j < paths.GetCount(); j++)
+		for(ptrdiff_t j = 0; !fFound && j < paths.GetCount(); j++)
 		{
 			if(paths[j] == fn) fFound = true;
 		}
@@ -1684,7 +1684,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 			int j = 0;
 
 			POSITION pos = m_frd.files.GetHeadPosition();
-			for(int i = 0; pos && j == 0; i++)
+			for(ptrdiff_t i = 0; pos && j == 0; i++)
 			{
 				CString fn = m_frd.files.GetNext(pos);
 
@@ -1717,7 +1717,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 				Sleep(500);
 
 				POSITION pos = m_frd.files.GetHeadPosition();
-				for(int i = 0; pos; i++)
+				for(ptrdiff_t i = 0; pos; i++)
 				{
 					CFileStatus status;
 					if(CFileGetStatus(m_frd.files.GetNext(pos), status) 
@@ -1736,7 +1736,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 		}
 	}
 
-	for(int i = 2; i < handles.GetCount(); i++)
+	for(ptrdiff_t i = 2; i < handles.GetCount(); i++)
 	{
 		FindCloseChangeNotification(handles[i]);
 	}

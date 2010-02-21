@@ -205,7 +205,7 @@ Vector Vector::operator % (Vector& v)
 	return(Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x));
 }
 
-float& Vector::operator [] (int i)
+float& Vector::operator [] (size_t i)
 {
 	return(!i ? x : (i == 1) ? y : z);
 }
@@ -498,9 +498,9 @@ XForm::Matrix XForm::Matrix::operator * (Matrix& m)
 {
 	Matrix ret;
 
-	for(int i = 0; i < 4; i++)
+	for(ptrdiff_t i = 0; i < 4; i++)
 	{
-		for(int j = 0; j < 4; j++)
+		for(ptrdiff_t j = 0; j < 4; j++)
 		{
 			ret.mat[i][j] = mat[i][0] * m.mat[0][j] +
 							mat[i][1] * m.mat[1][j] +

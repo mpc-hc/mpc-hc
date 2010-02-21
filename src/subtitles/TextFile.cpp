@@ -203,7 +203,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 	else if(m_encoding == UTF8)
 	{
 		str.Replace(L"\n", L"\r\n");
-		for(int i = 0; i < str.GetLength(); i++)
+		for(size_t i = 0; i < str.GetLength(); i++)
 		{
 			DWORD c = (WORD)str[i];
 
@@ -239,7 +239,7 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 	else if(m_encoding == BE16)
 	{
 		str.Replace(L"\n", L"\r\n");
-		for(int i = 0; i < str.GetLength(); i++)
+		for(size_t i = 0; i < str.GetLength(); i++)
 			str.SetAt(i, ((str[i]>>8)&0x00ff)|((str[i]<<8)&0xff00));
 		Write((LPCWSTR)str, str.GetLength()*2);
 	}
@@ -483,7 +483,7 @@ void CWebTextFile::Close()
 CStringW AToW(CStringA str)
 {
 	CStringW ret;
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (WCHAR)(BYTE)str[i];
 	return(ret);
 }
@@ -491,7 +491,7 @@ CStringW AToW(CStringA str)
 CStringA WToA(CStringW str)
 {
 	CStringA ret;
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (CHAR)(WORD)str[i];
 	return(ret);
 }
@@ -499,7 +499,7 @@ CStringA WToA(CStringW str)
 CString AToT(CStringA str)
 {
 	CString ret;
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (TCHAR)(BYTE)str[i];
 	return(ret);
 }
@@ -507,7 +507,7 @@ CString AToT(CStringA str)
 CString WToT(CStringW str)
 {
 	CString ret;
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (TCHAR)(WORD)str[i];
 	return(ret);
 }
@@ -516,7 +516,7 @@ CStringA TToA(CString str)
 {
 	CStringA ret;
 #ifdef UNICODE
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (CHAR)(BYTE)str[i];
 #else
 	ret = str;
@@ -530,7 +530,7 @@ CStringW TToW(CString str)
 #ifdef UNICODE
 	ret = str;
 #else
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 		ret += (WCHAR)(BYTE)str[i];
 #endif
 	return(ret);

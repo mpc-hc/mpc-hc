@@ -268,9 +268,9 @@ void CVobSubImage::TrimSubImage()
 
 	RGBQUAD* ptr = lpTemp1;
 
-	for(int j = 0, y = rect.Height(); j < y; j++)
+	for(ptrdiff_t j = 0, y = rect.Height(); j < y; j++)
 	{
-		for(int i = 0, x = rect.Width(); i < x; i++, ptr++)
+		for(ptrdiff_t i = 0, x = rect.Width(); i < x; i++, ptr++)
 		{
 			if(ptr->rgbReserved)
 			{
@@ -299,7 +299,7 @@ void CVobSubImage::TrimSubImage()
 
 	memset(lpTemp2, 0, (1 + w + 1)*sizeof(RGBQUAD));
 
-	for(int height = h; height; height--, src += rect.Width())
+	for(ptrdiff_t height = h; height; height--, src += rect.Width())
 	{
 		*dst++ = 0;
 		memcpy(dst, src, w*sizeof(RGBQUAD)); dst += w; 
@@ -334,7 +334,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 	BYTE* cp = p;
 	RGBQUAD* rgbp = (RGBQUAD*)lpPixels;
 
-	for(int i = 0; i < len; i++, cp++, rgbp++)
+	for(ptrdiff_t i = 0; i < len; i++, cp++, rgbp++)
 		*cp = !!rgbp->rgbReserved;
 
 	enum {UP, RIGHT, DOWN, LEFT};
@@ -544,7 +544,7 @@ static int CalcPossibleCurveDegree(COutline& o)
 
 	CUIntArray la;
 
-	for(int i = 0, j = 0; j < len2; j++)
+	for(ptrdiff_t i = 0, j = 0; j < len2; j++)
 	{
 		if(j == len2-1 || o.da[j])
 		{
@@ -563,10 +563,10 @@ static int CalcPossibleCurveDegree(COutline& o)
 		int penalty = 0;
 
 		int ma[2] = {0, 0};
-		for(int i = 0; i < len; i++) ma[i&1] += la[i];
+		for(ptrdiff_t i = 0; i < len; i++) ma[i&1] += la[i];
 
 		int ca[2] = {ma[0], ma[1]};
-		for(int i = 0; i < len; i++) 
+		for(ptrdiff_t i = 0; i < len; i++) 
 		{
 			ca[i&1] -= la[i];
 
@@ -585,7 +585,7 @@ static int CalcPossibleCurveDegree(COutline& o)
 	la[0] <<= 1;
 	la[len-1] <<= 1;
 
-	for(int i = 0; i < len; i+=2)
+	for(ptrdiff_t i = 0; i < len; i+=2)
 	{
 		if(la[i] > 1) {ret++; i--;} // prependicular to the last chosen section and bigger then 1 -> add a degree and continue with the other dir
 	}
@@ -616,7 +616,7 @@ static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really
 	CPoint p = pa[len-1] - pa[0];
 	double l = vectlen(p);
 
-	for(int i = 2; i < len-2; i++) // skip the endpoints, they aren't accurate
+	for(ptrdiff_t i = 2; i < len-2; i++) // skip the endpoints, they aren't accurate
 	{
 		CPoint p1 = pa[0] - pa[i], p2 = pa[len-1] - pa[i];
 		double l1 = vectlen(p1), l2 = vectlen(p2);
@@ -758,7 +758,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 	int cur = (start)%len, first = -1, last = -1;
 	int curDir = 0, lastDir = 0;
 
-	for(int i = 0; i < len; i++)
+	for(ptrdiff_t i = 0; i < len; i++)
 	{
 		cur = (cur+1)%len;
 
@@ -942,7 +942,7 @@ void CVobSubImage::AddSegment(COutline& o, CAtlArray<BYTE>& pathTypes, CAtlArray
 			pathTypes.Add(PT_BSPLINETO);
 			pathPoints.Add(o.pa[2]);
 
-			for(int i = 3; i <= start; i++)
+			for(ptrdiff_t i = 3; i <= start; i++)
 			{
 				pathTypes.Add(PT_BSPLINEPATCHTO);
 				pathPoints.Add(o.pa[i]);
@@ -1013,7 +1013,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 	while(pos)
 	{
 		CAtlArray<CPoint>& pa = ol->GetNext(pos)->pa;
-		for(int i = 0; i < pa.GetCount(); i++)
+		for(ptrdiff_t i = 0; i < pa.GetCount(); i++)
 		{
 			pa[i].x = (pa[i].x-topleft.x)<<scale;
 			pa[i].y = (pa[i].y-topleft.y)<<scale;
@@ -1048,7 +1048,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 		else
 		{
 /*
-			for(int i = 1, len = o.pa.GetSize(); i < len; i++)
+			for(ptrdiff_t i = 1, len = o.pa.GetSize(); i < len; i++)
 			{
                 if(int dir = o.da[i-1])
 				{
@@ -1069,7 +1069,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 			pathTypes.Add(PT_MOVETO);
 			pathPoints.Add(o.pa[0]);
 
-			for(int i = 1, len = int(o.pa.GetCount()); i < len; i++)
+			for(ptrdiff_t i = 1, len = int(o.pa.GetCount()); i < len; i++)
 			{
 				pathTypes.Add(PT_LINETO);
 				pathPoints.Add(o.pa[i]);
@@ -1095,7 +1095,7 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool fSmooth, int scale)
 
 	int nPoints = int(pathTypes.GetCount());
 
-	for(int i = 0; i < nPoints; i++)
+	for(ptrdiff_t i = 0; i < nPoints; i++)
 	{
 		CStringW s;
 
@@ -1152,9 +1152,9 @@ void CVobSubImage::Scale2x()
 	DWORD* src = (DWORD*)lpPixels;
 	DWORD* dst = DNew DWORD[w*h];
 
-	for(int y = 0; y < h; y++)
+	for(ptrdiff_t y = 0; y < h; y++)
 	{
-		for(int x = 0; x < w; x++, src++, dst++)
+		for(ptrdiff_t x = 0; x < w; x++, src++, dst++)
 		{
 			DWORD E = *src;
 
@@ -1162,8 +1162,8 @@ void CVobSubImage::Scale2x()
 			DWORD B = y > 0 ? src[-w] : E;
 			DWORD C = x < w-1 && y > 0 ? src[-w+1] : E;
 
-			DWORD D = x > 0 ? src[-1] : E;
-			DWORD F = x < w-1 ? src[+1] : E;
+			DWORD D = x > 0 ? src[-1] : E;;
+			DWORD F = x < w-1 ? src[+1] : E;;
 
 			DWORD G = x > 0 && y < h-1 ? src[+w-1] : E;
 			DWORD H = y < h-1 ? src[+w] : E;

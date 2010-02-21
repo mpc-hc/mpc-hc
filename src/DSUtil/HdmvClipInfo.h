@@ -117,7 +117,7 @@ public:
 		REFERENCE_TIME			m_rtIn;
 		REFERENCE_TIME			m_rtOut;
 
-		REFERENCE_TIME Duration() const
+		REFERENCE_TIME Duration()
 		{
 			return m_rtOut - m_rtIn;
 		}
@@ -133,9 +133,9 @@ public:
 
 	HRESULT		ReadInfo(LPCTSTR strFile);
 	Stream*		FindStream(SHORT wPID);
-	bool		IsHdmv()					const { return m_bIsHdmv; };
-	int			GetStreamNumber()			{ return int(m_Streams.GetCount()); };
-	Stream*		GetStreamByIndex(int nIndex){ return (unsigned(nIndex) < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
+	bool		IsHdmv()					{ return m_bIsHdmv; };
+	size_t		GetStreamNumber()		{ return m_Streams.GetCount(); };
+	Stream*		GetStreamByIndex(size_t nIndex){ return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
 
 	HRESULT		FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist);
 	HRESULT		ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
@@ -153,7 +153,7 @@ private :
 	DWORD		ReadDword();
 	SHORT		ReadShort();
 	BYTE		ReadByte();
-	void		ReadBuffer(BYTE* pBuff, int nLen);
+	void		ReadBuffer(BYTE* pBuff, DWORD nLen);
 
 	HRESULT		ReadProgramInfo();
 	HRESULT		CloseFile(HRESULT hr);

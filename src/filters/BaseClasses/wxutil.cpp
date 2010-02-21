@@ -457,7 +457,7 @@ HRESULT AMSafeMemMoveOffset(
 }
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
 /******************************Public*Routine******************************\
 * Debug CCritSec helpers
 *

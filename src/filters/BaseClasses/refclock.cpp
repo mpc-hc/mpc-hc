@@ -263,7 +263,7 @@ REFERENCE_TIME CBaseReferenceClock::GetPrivateTime()
 
 STDMETHODIMP CBaseReferenceClock::SetTimeDelta(const REFERENCE_TIME & TimeDelta)
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 
     // Just break if passed an improper time delta value
     LONGLONG llDelta = TimeDelta > 0 ? TimeDelta : -TimeDelta;

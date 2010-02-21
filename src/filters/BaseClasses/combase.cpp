@@ -24,7 +24,7 @@ CBaseObject::CBaseObject(__in_opt LPCTSTR pName)
     /* Increment the number of active objects */
     InterlockedIncrement(&m_cObjects);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 
 #ifdef UNICODE
     m_dwCookie = DbgRegisterObjectCreation(0, pName);
@@ -41,7 +41,7 @@ CBaseObject::CBaseObject(const char *pName)
     /* Increment the number of active objects */
     InterlockedIncrement(&m_cObjects);
 
-#ifdef DEBUG
+#ifdef _DEBUG
     m_dwCookie = DbgRegisterObjectCreation(pName, 0);
 #endif
 }
@@ -63,7 +63,7 @@ CBaseObject::~CBaseObject()
     };
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
     DbgRegisterObjectDestruction(m_dwCookie);
 #endif
 }

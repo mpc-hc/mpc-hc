@@ -110,7 +110,7 @@ public:
 
     virtual HRESULT SourceThreadCanWait(BOOL bCanWait);
 
-#ifdef DEBUG
+#ifdef _DEBUG
     // Debug only dump of the renderer state
     void DisplayRendererState();
 #endif

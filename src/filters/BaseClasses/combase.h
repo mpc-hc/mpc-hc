@@ -171,7 +171,7 @@ private:
     static LONG m_cObjects;     /* Total number of objects active */
 
 protected:
-#ifdef DEBUG
+#ifdef _DEBUG
     DWORD m_dwCookie;           /* Cookie identifying this object */
 #endif
 

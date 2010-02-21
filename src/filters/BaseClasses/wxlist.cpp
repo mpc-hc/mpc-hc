@@ -79,7 +79,7 @@ for ( cursor = (list).GetTailPositionI()           \
 */
 CBaseList::CBaseList(__in_opt LPCTSTR pName,    // Descriptive list name
                      INT iItems) :    // Node cache size
-#ifdef DEBUG
+#ifdef _DEBUG
     CBaseObject(pName),
 #endif
     m_pFirst(NULL),
@@ -90,7 +90,7 @@ CBaseList::CBaseList(__in_opt LPCTSTR pName,    // Descriptive list name
 } // constructor
 
 CBaseList::CBaseList(__in_opt LPCTSTR pName) :  // Descriptive list name
-#ifdef DEBUG
+#ifdef _DEBUG
     CBaseObject(pName),
 #endif
     m_pFirst(NULL),
@@ -103,7 +103,7 @@ CBaseList::CBaseList(__in_opt LPCTSTR pName) :  // Descriptive list name
 #ifdef UNICODE
 CBaseList::CBaseList(__in_opt LPCSTR pName,    // Descriptive list name
                      INT iItems) :    // Node cache size
-#ifdef DEBUG
+#ifdef _DEBUG
     CBaseObject(pName),
 #endif
     m_pFirst(NULL),
@@ -114,7 +114,7 @@ CBaseList::CBaseList(__in_opt LPCSTR pName,    // Descriptive list name
 } // constructor
 
 CBaseList::CBaseList(__in_opt LPCSTR pName) :  // Descriptive list name
-#ifdef DEBUG
+#ifdef _DEBUG
     CBaseObject(pName),
 #endif
     m_pFirst(NULL),

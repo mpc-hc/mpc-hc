@@ -11,7 +11,7 @@
 #include <streams.h>
 #include <initguid.h>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #ifdef UNICODE
 #ifndef _UNICODE
 #define _UNICODE
@@ -259,7 +259,29 @@ DllCanUnloadNow()
 
 
 // --- standard WIN32 entrypoints --------------------------------------
+BOOL SetHeapOptions() {
+   HMODULE hLib = LoadLibrary(L"kernel32.dll");
+   if (hLib == NULL) return FALSE;
 
+   typedef BOOL (WINAPI *HSI)
+          (HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
+   HSI pHsi = (HSI)GetProcAddress(hLib,"HeapSetInformation");
+   if (!pHsi) {
+      FreeLibrary(hLib);
+      return FALSE;
+   }
+
+#ifndef HeapEnableTerminationOnCorruption
+#   define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
+#endif
+
+   BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0) 
+            ? TRUE 
+            : FALSE;
+   if (hLib) FreeLibrary(hLib);
+
+   return fRet;
+}
 
 extern "C" void __cdecl __security_init_cookie(void);
 extern "C" BOOL WINAPI _DllEntryPoint(HINSTANCE, ULONG, __inout_opt LPVOID);
@@ -292,7 +314,7 @@ _DllEntryPoint(
     __inout_opt LPVOID pv
     )
 {
-#ifdef DEBUG
+#ifdef _DEBUG
     extern bool g_fDbgInDllEntryPoint;
     g_fDbgInDllEntryPoint = true;
 #endif
@@ -305,7 +327,8 @@ _DllEntryPoint(
         DbgInitialise(hInstance);
 
     	{
-    	    // The platform identifier is used to work out whether
+    	    SetHeapOptions();
+			// The platform identifier is used to work out whether
     	    // full unicode support is available or not.  Hence the
     	    // default will be the lowest common denominator - i.e. N/A
                 g_amPlatform = VER_PLATFORM_WIN32_WINDOWS; // win95 assumed in case GetVersionEx fails
@@ -325,7 +348,7 @@ _DllEntryPoint(
     case DLL_PROCESS_DETACH:
         DllInitClasses(FALSE);
 
-#ifdef DEBUG
+#ifdef _DEBUG
         if (CBaseObject::ObjectsActive()) {
             DbgSetModuleLevel(LOG_MEMORY, 2);
             TCHAR szInfo[512];
@@ -358,7 +381,7 @@ _DllEntryPoint(
         break;
     }
 
-#ifdef DEBUG
+#ifdef _DEBUG
     g_fDbgInDllEntryPoint = false;
 #endif
     return TRUE;

@@ -117,7 +117,7 @@ private:
 
 // Attributes and methods for debugging
 public:
-#ifdef DEBUG
+#ifdef _DEBUG
     void DumpLinkedList();
 #else
     void DumpLinkedList() {}

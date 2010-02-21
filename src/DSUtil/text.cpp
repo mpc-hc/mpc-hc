@@ -11,7 +11,7 @@ CString Explode(CString str, CAtlList<CString>& sl, TCHAR sep, int limit)
 	if(!str.IsEmpty() && str[str.GetLength()-1] != sep)
 		str += sep;
 
-	for(int i = 0, j = 0; (j = str.Find(sep, i)) >= 0; i = j+1)
+	for(ptrdiff_t i = 0, j = 0; (j = str.Find(sep, i)) >= 0; i = j+1)
 	{
 		CString tmp = str.Mid(i, j-i);
 		tmp.TrimLeft(sep); tmp.TrimRight(sep);
@@ -108,7 +108,7 @@ CStringA UrlEncode(CStringA str, bool fRaw)
 {
 	CStringA urlstr;
 
-	for(int i = 0; i < str.GetLength(); i++)
+	for(size_t i = 0; i < str.GetLength(); i++)
 	{
 		CHAR c = str[i];
 		if(fRaw && c == '+') urlstr += "%2B";

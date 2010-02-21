@@ -125,7 +125,7 @@ HRESULT CAMSchedule::Unadvise(DWORD_PTR dwAdviseCookie)
             --m_dwAdviseCount;
             hr = S_OK;
 	    // Having found one cookie that matches, there should be no more
-            #ifdef DEBUG
+            #ifdef _DEBUG
 	       while (p_n = p_prev->Next())
                {
                    ASSERT(p_n->m_dwAdviseCookie != dwAdviseCookie);
@@ -150,7 +150,7 @@ REFERENCE_TIME CAMSchedule::Advise( const REFERENCE_TIME & rtTime )
 
     CAutoLock lck(&m_Serialize);
 
-    #ifdef DEBUG
+    #ifdef _DEBUG
         if (DbgCheckModuleLevel(LOG_TIMING, 4)) DumpLinkedList();
     #endif
 
@@ -254,7 +254,7 @@ void CAMSchedule::ShuntHead()
         head.m_next = pPacket->m_next;
         (p_prev->m_next = pPacket)->m_next = p_n;
     }
-    #ifdef DEBUG
+    #ifdef _DEBUG
         DbgLog((LOG_TIMING, 2, TEXT("Periodic advise %lu, shunted to %lu"),
     	    pPacket->m_dwAdviseCookie, (pPacket->m_rtEventTime / (UNITS / MILLISECONDS)) ));
     #endif
@@ -262,7 +262,7 @@ void CAMSchedule::ShuntHead()
 }
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
 void CAMSchedule::DumpLinkedList()
 {
     m_Serialize.Lock();

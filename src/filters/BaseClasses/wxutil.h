@@ -24,7 +24,7 @@ class CCritSec {
 
     CRITICAL_SECTION m_CritSec;
 
-#ifdef DEBUG
+#ifdef _DEBUG
 public:
     DWORD   m_currentOwner;
     DWORD   m_lockCount;
@@ -71,7 +71,7 @@ public:
 // traced.  This is NOT on by default - there are far too many.
 //
 
-#ifdef DEBUG
+#ifdef _DEBUG
     BOOL WINAPI CritCheckIn(CCritSec * pcCrit);
     BOOL WINAPI CritCheckIn(const CCritSec * pcCrit);
     BOOL WINAPI CritCheckOut(CCritSec * pcCrit);

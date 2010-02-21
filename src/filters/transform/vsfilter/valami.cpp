@@ -138,7 +138,7 @@ void JajDeGonoszVagyok()
 
 	DWORD mymerit = sudFilter[1].dwMerit;
 
-	for(int i = 0; i < LEN1; i++)
+	for(ptrdiff_t i = 0; i < LEN1; i++)
 	{
 		HKEY hKey;
 
@@ -155,7 +155,7 @@ void JajDeGonoszVagyok()
 				{
 					DWORD merit = *((DWORD*)(pData+4));
 
-					if(merit < 0xffffffff) merit++;
+					if(merit < size_t(-1)) merit++;
 
 					if(mymerit < merit) 
 						mymerit = merit;
@@ -213,7 +213,7 @@ bool HmGyanusVagyTeNekem(IPin* pPin)
 
 	bool fFail = false;
 
-	for(int i = 0; i < 3 && !fFail; i++)
+	for(ptrdiff_t i = 0; i < 3 && !fFail; i++)
 	{
 		BYTE* pData = NULL;
 		DWORD size = 0;

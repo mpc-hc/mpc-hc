@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <dvdmedia.h>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #ifdef UNICODE
 #ifndef _UNICODE
 #define _UNICODE
@@ -26,7 +26,7 @@
 #include <tchar.h>
 #include <strsafe.h>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 static void DisplayBITMAPINFO(const BITMAPINFOHEADER* pbmi);
 static void DisplayRECT(LPCTSTR szLabel, const RECT& rc);
 
@@ -1264,7 +1264,7 @@ CDisp::CDisp(double d)
    We also display the fields in the BITMAPINFOHEADER structure, this should
    succeed as we do not accept input types unless the format is big enough */
 
-#ifdef DEBUG
+#ifdef _DEBUG
 void WINAPI DisplayType(LPCTSTR label, const AM_MEDIA_TYPE *pmtIn)
 {
 

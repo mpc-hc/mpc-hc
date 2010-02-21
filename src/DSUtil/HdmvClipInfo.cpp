@@ -66,7 +66,7 @@ BYTE CHdmvClipInfo::ReadByte()
 	return bVal;
 }
 
-void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, int nLen)
+void CHdmvClipInfo::ReadBuffer(BYTE* pBuff, DWORD nLen)
 {
 	DWORD	dwRead;
 	ReadFile (m_hFile, pBuff, nLen, &dwRead, NULL);
@@ -85,14 +85,14 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 	ReadByte();		//reserved_for_word_align
 	number_of_program_sequences		= (BYTE)ReadByte();
 	int iStream = 0;
-	for (int i=0; i<number_of_program_sequences; i++)
+	for (size_t i=0; i<number_of_program_sequences; i++)
 	{     
 		ReadDword();	//SPN_program_sequence_start
 		ReadShort();	//program_map_PID
 		number_of_streams_in_ps = (BYTE)ReadByte();		//number_of_streams_in_ps
 		ReadByte();		//reserved_for_future_use
 	
-		for (int stream_index=0; stream_index<number_of_streams_in_ps; stream_index++)
+		for (size_t stream_index=0; stream_index<number_of_streams_in_ps; stream_index++)
 		{ 
 			m_Streams.SetCount(iStream + 1);
 			m_Streams[iStream].m_PID			= ReadShort();	// stream_PID
@@ -199,8 +199,8 @@ HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 
 CHdmvClipInfo::Stream* CHdmvClipInfo::FindStream(SHORT wPID)
 {
-	int nStreams = int(m_Streams.GetCount());
-	for (int i=0; i<nStreams; i++)
+	size_t nStreams = m_Streams.GetCount();
+	for (size_t i=0; i<nStreams; i++)
 	{
 		if (m_Streams[i].m_PID == wPID)
 			return &m_Streams[i];
@@ -289,7 +289,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 		
 		dwPos	  += 10;
 		rtDuration = 0;
-		for (int i=0; i<nPlaylistItems; i++)
+		for (size_t i=0; i<nPlaylistItems; i++)
 		{
 			PlaylistItem	Item;
 			SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);

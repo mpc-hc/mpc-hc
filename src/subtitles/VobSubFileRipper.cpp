@@ -145,7 +145,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 	int len = 0;
 	ReadBEw(len);
 
-	for(int i = 0; i < len; i++)
+	for(ptrdiff_t i = 0; i < len; i++)
 	{
 		f.Seek(2, CFile::current); // 01 00 ?
 		ReadBEw(ids[i]);
@@ -187,7 +187,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 		m_rd.pgcs.RemoveAll();
 		m_rd.pgcs.SetCount(nPGC);
 
-		for(int i = 0; i < nPGC; i++)
+		for(ptrdiff_t i = 0; i < nPGC; i++)
 		{
 			PGC& pgc = m_rd.pgcs[i];
 
@@ -210,7 +210,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			f.Seek(offset + 0x1c, CFile::begin);
 			f.Read(splinfo, 32*4);
 
-			for(int j = 0; j < 32; j++) 
+			for(ptrdiff_t j = 0; j < 32; j++) 
 			{
 				if(splinfo[j].id1 || splinfo[i].id2) 
 				{
@@ -233,7 +233,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 			f.Seek(offset + 0xa4, CFile::begin);
 
-			for(int j = 0; j < 16; j++) 
+			for(ptrdiff_t j = 0; j < 16; j++) 
 			{
 				BYTE y, u, v, tmp;
 
@@ -274,7 +274,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			//
 
 			f.Seek(offset + vobcelloff, CFile::begin);
-			for(int j = 0; j < nCells; j++)
+			for(ptrdiff_t j = 0; j < nCells; j++)
 			{
 				ReadBEw(pgc.angles[0][j].vob);
 				ReadBEw(pgc.angles[0][j].cell);
@@ -289,7 +289,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			pgc.nAngles = 0;
 
 			f.Seek(offset + celladdroff, CFile::begin);
-			for(int j = 0; j < nCells; j++)
+			for(ptrdiff_t j = 0; j < nCells; j++)
 			{
 				BYTE b;
 				ReadBEb(b);
@@ -338,7 +338,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 			{
 				tOffset = tTotal = 0;
 
-				for(int j = 0, k = 0; j < nCells; j++)
+				for(ptrdiff_t j = 0, k = 0; j < nCells; j++)
 				{
 					if(pgc.angles[0][j].iAngle != 0
 					&& pgc.angles[0][j].iAngle != iAngle)
@@ -372,7 +372,7 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 
 	fn = fn.Left(fn.ReverseFind('.')+1);
 	fn.TrimRight(_T(".0123456789"));
-	for(int i = 0; i < 100; i++)
+	for(ptrdiff_t i = 0; i < 100; i++)
 	{
 		CString vob;
 		vob.Format(_T("%s%d.vob"), fn, i);
@@ -555,7 +555,7 @@ bool CVobSubFileRipper::Create()
 
 	if(m_rd.fResetTime)
 	{
-		for(int i = 0; i < angle.GetCount() && ((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
+		for(ptrdiff_t i = 0; i < angle.GetCount() && ((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
 			tStart += angle[i].tTime;
 
 		Log(LOG_INFO, _T("Counting timestamps from %I64dms (v%02dc%02d)"), 
@@ -564,7 +564,7 @@ bool CVobSubFileRipper::Create()
 
 	CAtlMap<DWORD, int> selvcmap;
 	selvcmap.RemoveAll();
-	for(int i = 0; i < m_rd.selvcs.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < m_rd.selvcs.GetCount(); i++)
 		selvcmap[m_rd.selvcs[i]] = 90000;
 
 	CAtlArray<vcchunk> chunks, foundchunks, loadedchunks;
@@ -573,7 +573,7 @@ bool CVobSubFileRipper::Create()
 	{
 		Log(LOG_INFO, _T("Indexing mode: DVD"));
 
-		for(int i = 0; i < angle.GetCount(); i++)
+		for(ptrdiff_t i = 0; i < angle.GetCount(); i++)
 		{
 			DWORD vc = (angle[i].vob<<16)|angle[i].cell;
 			if(!selvcmap.Lookup(vc))
@@ -590,7 +590,7 @@ bool CVobSubFileRipper::Create()
 	{
 		Log(LOG_INFO, _T("Indexing mode: File"));
 
-		for(int i = 0; i < loadedchunks.GetCount(); i++)
+		for(ptrdiff_t i = 0; i < loadedchunks.GetCount(); i++)
 		{
 			DWORD vcid = loadedchunks[i].vc;
 			if(!selvcmap.Lookup(vcid))
@@ -611,10 +611,10 @@ bool CVobSubFileRipper::Create()
 	}
 
 	__int64 sizedone = 0, sizetotal = 0;
-	for(int i = 0; i < chunks.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < chunks.GetCount(); i++)
 		sizetotal += chunks[i].end - chunks[i].start;
 
-	for(int i = 0; !m_fBreakThread && i < chunks.GetCount(); i++)
+	for(ptrdiff_t i = 0; !m_fBreakThread && i < chunks.GetCount(); i++)
 	{
 		__int64 curpos = chunks[i].start, endpos = chunks[i].end;
 
@@ -719,7 +719,7 @@ bool CVobSubFileRipper::Create()
 
 				tOffset = tTotal = 0;
 
-				for(int i = 0; i < angle.GetCount(); i++)
+				for(ptrdiff_t i = 0; i < angle.GetCount(); i++)
 				{
 					if(angle[i].vob == vob && angle[i].cell == cell)
 					{
@@ -830,7 +830,7 @@ bool CVobSubFileRipper::Create()
 	Log(LOG_INFO, _T("Indexing finished"));
 	Progress(1);
 
-	for(int i = 0; i < 32; i++)
+	for(ptrdiff_t i = 0; i < 32; i++)
 	{
 		if(m_iLang == -1 && m_langs[i].subpos.GetCount() > 0) m_iLang = i;
 		m_langs[i].id = pgc.ids[i];
@@ -844,7 +844,7 @@ bool CVobSubFileRipper::Create()
 			Log(LOG_INFO, _T("Searching for forced subs..."));
 			Progress(0);
 
-			for(int j = 0, len = sp.GetCount(); j < len; j++)
+			for(ptrdiff_t j = 0, len = sp.GetCount(); j < len; j++)
 			{
 				Progress(1.0 * j / len);
 
@@ -1033,7 +1033,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 						s++;
 						if(vob != 0 && cell == 0)
 						{
-							for(int i = 0; i < angle.GetCount(); i++)
+							for(ptrdiff_t i = 0; i < angle.GetCount(); i++)
 							{
 								if(angle[i].vob == vob)
 									m_rd.selvcs.Add((angle[i].vob<<16)|angle[i].cell);
@@ -1048,7 +1048,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 						s++;
 						cell = _tcstol(s, &s, 10);
 
-						for(int i = 0; i < angle.GetCount(); i++)
+						for(ptrdiff_t i = 0; i < angle.GetCount(); i++)
 						{
 							if(angle[i].vob == vob && angle[i].cell == cell)
 							{
@@ -1065,7 +1065,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 			}
 			else
 			{
-				for(int i = 0; i < angle.GetCount(); i++)
+				for(ptrdiff_t i = 0; i < angle.GetCount(); i++)
 					m_rd.selvcs.Add((angle[i].vob<<16)|angle[i].cell);
 			}
 
@@ -1075,7 +1075,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 		{
 			if(!line.CompareNoCase(_T("ALL")))
 			{
-				for(int i = 0; i < 32; i++) m_rd.selids[i] = true;
+				for(ptrdiff_t i = 0; i < 32; i++) m_rd.selids[i] = true;
 				m_rd.fClosedCaption = true;
 				phase = P_OPTIONS;
 			}
@@ -1226,12 +1226,12 @@ void VSFRipperData::Copy(VSFRipperData& rd)
 	if(int len = rd.pgcs.GetCount())
 	{
 		pgcs.SetCount(len);
-		for(int i = 0; i < len; i++)
+		for(ptrdiff_t i = 0; i < len; i++)
 		{
 			PGC& src = rd.pgcs[i];
 			PGC& dst = pgcs[i];
 			dst.nAngles = src.nAngles;
-			for(int i = 0; i < countof(dst.angles); i++)
+			for(ptrdiff_t i = 0; i < countof(dst.angles); i++)
 				dst.angles[i].Copy(src.angles[i]);
 			dst.iSelAngle = src.iSelAngle;
 			memcpy(dst.pal, src.pal, sizeof(src.pal));

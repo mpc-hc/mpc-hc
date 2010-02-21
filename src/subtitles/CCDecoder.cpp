@@ -72,11 +72,11 @@ void CCDecoder::SaveDisp(__int64 time)
 {
 	CStringW str;
 
-	for(int row = 0; row < 16; row++)
+	for(ptrdiff_t row = 0; row < 16; row++)
 	{
 		bool fNonEmptyRow = false;
 
-		for(int col = 0; col < 32; col++)
+		for(ptrdiff_t col = 0; col < 32; col++)
 		{
 			if(m_disp[row][col]) 
 			{
@@ -108,7 +108,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 				(int)((time/1000)%60), 
 				(int)(time%1000));
 
-			for(int i = 0; i < len; i++)
+			for(ptrdiff_t i = 0; i < len; i++)
 			{
 				_ftprintf(f, _T("%02x"), buff[i]);
 				if(i < len-1) _ftprintf(f, _T(" "));
@@ -119,7 +119,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 		}
 	}
 
-	for(int i = 0; i < len; i++)
+	for(ptrdiff_t i = 0; i < len; i++)
 	{
 		BYTE c = buff[i]&0x7f;
 		if(c >= 0x20)
@@ -327,7 +327,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 
 void CCDecoder::ExtractCC(BYTE* buff, int len, __int64 time)
 {
-	for(int i = 0; i < len-9; i++)
+	for(ptrdiff_t i = 0; i < len-9; i++)
 	{
 		if(*(DWORD*)&buff[i] == 0xb2010000 && *(DWORD*)&buff[i+4] == 0xf8014343)
 		{
@@ -344,7 +344,7 @@ void CCDecoder::ExtractCC(BYTE* buff, int len, __int64 time)
 				{
 					int nBytes1 = 0, nBytes2 = 0;
 
-					for(int j = 0; j < nBytes && i < 0x800;)
+					for(ptrdiff_t j = 0; j < nBytes && i < 0x800;)
 					{
 						if(buff[i++] == 0xff)
 						{

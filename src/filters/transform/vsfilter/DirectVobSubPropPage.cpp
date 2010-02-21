@@ -117,7 +117,7 @@ CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int Ti
 {
 }
 
-BOOL CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch(uMsg)
     {
@@ -302,7 +302,7 @@ void CDVSMainPPage::FreeLangs()
 {
 	if(m_nLangs > 0 && m_ppLangs) 
 	{
-		for(int i = 0; i < m_nLangs; i++) CoTaskMemFree(m_ppLangs[i]);
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) CoTaskMemFree(m_ppLangs[i]);
 		CoTaskMemFree(m_ppLangs);
 		m_nLangs = 0;
 		m_ppLangs = NULL;
@@ -377,7 +377,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 			int nLangs;
 			m_pDirectVobSub->get_LanguageCount(&nLangs); 
 			AllocLangs(nLangs);
-			for(int i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+			for(ptrdiff_t i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
 			m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
 		}
 
@@ -393,7 +393,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 		int nLangs;
 		m_pDirectVobSub->get_LanguageCount(&nLangs); 
 		AllocLangs(nLangs);
-		for(int i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
 		m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
 		m_pDirectVobSub->get_Placement(&m_fOverridePlacement, &m_PlacementXperc, &m_PlacementYperc);
 		m_pDirectVobSub->get_VobSubSettings(NULL, &m_fOnlyShowForcedVobSubs, NULL);
@@ -437,7 +437,7 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 		m_forcedsubs.SetCheck(m_fOnlyShowForcedVobSubs);
 		m_langs.ResetContent();
 		m_langs.EnableWindow(m_nLangs > 0);
-		for(int i = 0; i < m_nLangs; i++) m_langs.AddString(CString(m_ppLangs[i]));
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) m_langs.AddString(CString(m_ppLangs[i]));
 		m_langs.SetCurSel(m_iSelectedLanguage);
 
 		m_PARCombo.ResetContent();
@@ -984,7 +984,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 		{
 			BYTE* pData = new BYTE[VIHSIZE];
 
-			for(int i = 0; i < m_preflist.GetCount(); i++)
+			for(ptrdiff_t i = 0; i < m_preflist.GetCount(); i++)
 				pData[i] = (BYTE)m_preflist.GetItemData(i);
 
 			theApp.WriteProfileBinary(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_COLORFORMATS), pData, VIHSIZE);
@@ -1010,12 +1010,12 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 
 			nSize = VIHSIZE;
 			pData = new BYTE[VIHSIZE];
-			for(int i = 0; i < VIHSIZE; i++) pData[i] = i;
+			for(ptrdiff_t i = 0; i < VIHSIZE; i++) pData[i] = i;
 		}
 
 		if(pData)
 		{
-			for(int i = 0; i < (int)nSize; i++)
+			for(ptrdiff_t i = 0; i < (int)nSize; i++)
 			{
 				m_dynchglist.AddString(VIH2String(pData[i]));
 				m_dynchglist.SetItemData(i, pData[i]);
@@ -1186,7 +1186,7 @@ void CDVSPathsPPage::UpdateControlData(bool fSave)
 	if(fSave)
 	{
 		m_paths.RemoveAll();
-		for(int i = 0; i < m_pathlist.GetCount(); i++) 
+		for(ptrdiff_t i = 0; i < m_pathlist.GetCount(); i++) 
 		{
 			CString path;
 			m_pathlist.GetText(i, path);
@@ -1196,7 +1196,7 @@ void CDVSPathsPPage::UpdateControlData(bool fSave)
 	else
 	{
 		m_pathlist.ResetContent();
-		for(int i = 0; i < m_paths.GetSize(); i++) 
+		for(ptrdiff_t i = 0; i < m_paths.GetSize(); i++) 
 			m_pathlist.AddString(m_paths[i]);
 
 		m_remove.EnableWindow(FALSE);

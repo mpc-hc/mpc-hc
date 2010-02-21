@@ -49,7 +49,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
 	if(size == sizeof(VIDEO_STREAM_CONFIG_CAPS))
 	{
-		for(int i = 0; i < cnt; i++)
+		for(ptrdiff_t i = 0; i < cnt; i++)
 		{
 			AM_MEDIA_TYPE* pmt = NULL;
 
@@ -590,7 +590,7 @@ void ExtractMediaTypes(IPin* pPin, CAtlArray<GUID>& types)
 	{
 		bool fFound = false;
 
-		for(int i = 0; !fFound && i < (int)types.GetCount(); i += 2)
+		for(ptrdiff_t i = 0; !fFound && i < (int)types.GetCount(); i += 2)
 		{
 			if(types[i] == pmt->majortype && types[i+1] == pmt->subtype)
 				fFound = true;
@@ -745,7 +745,7 @@ void CStringToBin(CString str, CAtlArray<BYTE>& data)
 	BYTE b = 0;
 
 	str.MakeUpper();
-	for(int i = 0, j = str.GetLength(); i < j; i++)
+	for(size_t i = 0, j = str.GetLength(); i < j; i++)
 	{
 		TCHAR c = str[i];
 		if(c >= '0' && c <= '9') 
@@ -840,7 +840,7 @@ cdrom_t GetCDROMType(TCHAR drive, CAtlList<CString>& files)
 				CDROM_TOC TOC;
 				if(DeviceIoControl(hDrive, IOCTL_CDROM_READ_TOC, NULL, 0, &TOC, sizeof(TOC), &BytesReturned, 0))
 				{
-					for(int i = TOC.FirstTrack; i <= TOC.LastTrack; i++)
+					for(ptrdiff_t i = TOC.FirstTrack; i <= TOC.LastTrack; i++)
 					{
 						// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
 						TOC.TrackData[i-1].Control &= 5;
@@ -908,11 +908,11 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 				if(afi.dwCaps&AVIFILECAPS_ALLKEYFRAMES)
 				{
 					kfs.SetSize(si.dwLength);
-					for(int kf = 0; kf < (int)si.dwLength; kf++) kfs[kf] = kf;
+					for(ptrdiff_t kf = 0; kf < (int)si.dwLength; kf++) kfs[kf] = kf;
 				}
 				else
 				{
-					for(int kf = 0; ; kf++)
+					for(ptrdiff_t kf = 0; ; kf++)
 					{
 						kf = pavi->FindSample(kf, FIND_KEY|FIND_NEXT);
 						if(kf < 0 || kfs.GetCount() > 0 && kfs[kfs.GetCount()-1] >= (UINT)kf) break;
@@ -2037,7 +2037,7 @@ CString ISO6391ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6391, tmp))
 		{
 			CString ret = CString(CStringA(s_isolangs[i].name));
@@ -2054,7 +2054,7 @@ CString ISO6392ToLanguage(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
 		{
@@ -2073,7 +2073,7 @@ LCID ISO6391ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		if(!strcmp(s_isolangs[i].iso6391, code))
 		{
@@ -2089,7 +2089,7 @@ LCID ISO6392ToLcid(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
 		{
@@ -2105,7 +2105,7 @@ CString ISO6391To6392(LPCSTR code)
 	strncpy_s(tmp, code, 2);
 	tmp[2] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6391, tmp))
 			return CString(CStringA(s_isolangs[i].iso6392));
 	return _T("");
@@ -2117,7 +2117,7 @@ CString ISO6392To6391(LPCSTR code)
 	strncpy_s(tmp, code, 3);
 	tmp[3] = 0;
 	_strlwr_s(tmp);
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 		if(!strcmp(s_isolangs[i].iso6392, tmp))
 			return CString(CStringA(s_isolangs[i].iso6391));
 	return _T("");
@@ -2127,7 +2127,7 @@ CString LanguageToISO6392(LPCTSTR lang)
 {
 	CString str = lang;
 	str.MakeLower();
-	for(int i = 0, j = countof(s_isolangs); i < j; i++)
+	for(ptrdiff_t i = 0, j = countof(s_isolangs); i < j; i++)
 	{
 		CAtlList<CString> sl;
 		Explode(CString(s_isolangs[i].name), sl, ';');
@@ -2284,7 +2284,7 @@ void RegisterSourceFilter(const CLSID& clsid, const GUID& subtype2, const CAtlLi
 	CString subtype = CStringFromGUID(subtype2);
 
 	POSITION pos = chkbytes.GetHeadPosition();
-	for(int i = 0; pos; i++)
+	for(ptrdiff_t i = 0; pos; i++)
 	{
 		CString idx;
 		idx.Format(_T("%d"), i);

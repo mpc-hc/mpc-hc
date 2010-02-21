@@ -24,6 +24,7 @@
 
 #include "stdafx.h"
 #include "vd.h"
+#include "cpuid_32_64.h"
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
@@ -34,7 +35,27 @@ CCpuID g_cpuid;
 CCpuID::CCpuID()
 {
 	// TODOX64 : ??
-	m_flags = (flag_t)7;
+	CPUID_ARGS ca;
+	ca.eax = 1;
+	_CPUID(&ca);
+
+	int t = ca.edx;
+
+	int mflags = 0;
+	mflags |= ((t&0x00800000)!=0) ? mmx : 0;			// STD MMX
+	mflags |= ((t&0x02000000)!=0) ? ssemmx+ssefpu : 0;// STD SSE
+	mflags |= ((t&0x04000000)!=0) ? sse2 : 0;			// SSE2
+
+	// 3dnow
+	ca.eax = 0x80000001;
+	_CPUID(&ca);
+	t = ca.edx;
+	mflags |= ((t&0x80000000)!=0) ? _3dnow : 0;		// 3D NOW
+	mflags |= ((t&0x00400000)!=0) ? ssemmx : 0;		// SSE MMX
+	
+	// result
+	//m_flags = (flag_t)7;
+	m_flags = (flag_t)mflags;
 }
 
 static void yuvtoyuy2row_c(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
@@ -86,7 +107,7 @@ bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int 
 	{
 		int pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y++, srcy += srcpitch, dsty += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, srcy += srcpitch, dsty += dstpitch)
 			memcpy(dsty, srcy, pitch);
 
 		srcpitch >>= 1;
@@ -94,10 +115,10 @@ bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int 
 
 		pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y+=2, srcu += srcpitch, dstu += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y+=2, srcu += srcpitch, dstu += dstpitch)
 			memcpy(dstu, srcu, pitch);
 
-		for(int y = 0; y < h; y+=2, srcv += srcpitch, dstv += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y+=2, srcv += srcpitch, dstv += dstpitch)
 			memcpy(dstv, srcv, pitch);
 	}
 
@@ -139,7 +160,7 @@ bool BitBltFromYUY2ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* src, int 
 	{
 		int pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 			memcpy(dst, src, pitch);
 	}
 
@@ -164,7 +185,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 		}
 		else
 		{
-			for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+			for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 				memcpy(dst, src, rowbytes);
 		}
 
@@ -177,33 +198,33 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 
 	if(dbpp == 16)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 24)
 			{
 				BYTE* s = (BYTE*)src;
 				WORD* d = (WORD*)dst;
-				for(int x = 0; x < w; x++, s+=3, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s+=3, d++)
 					*d = (WORD)(((*((DWORD*)s)>>8)&0xf800)|((*((DWORD*)s)>>5)&0x07e0)|((*((DWORD*)s)>>3)&0x1f));
 			}
 			else if(sbpp == 32)
 			{
 				DWORD* s = (DWORD*)src;
 				WORD* d = (WORD*)dst;
-				for(int x = 0; x < w; x++, s++, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d++)
 					*d = (WORD)(((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x1f));
 			}
 		}
 	}
 	else if(dbpp == 24)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 16)
 			{
 				WORD* s = (WORD*)src;
 				BYTE* d = (BYTE*)dst;
-				for(int x = 0; x < w; x++, s++, d+=3)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d+=3)
 				{	// not tested, r-g-b might be in reverse
 					d[0] = (*s&0x001f)<<3;
 					d[1] = (*s&0x07e0)<<5;
@@ -214,27 +235,27 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 			{
 				BYTE* s = (BYTE*)src;
 				BYTE* d = (BYTE*)dst;
-				for(int x = 0; x < w; x++, s+=4, d+=3)
+				for(ptrdiff_t x = 0; x < w; x++, s+=4, d+=3)
 					{d[0] = s[0]; d[1] = s[1]; d[2] = s[2];}
 			}
 		}
 	}
 	else if(dbpp == 32)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 16)
 			{
 				WORD* s = (WORD*)src;
 				DWORD* d = (DWORD*)dst;
-				for(int x = 0; x < w; x++, s++, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d++)
 					*d = ((*s&0xf800)<<8)|((*s&0x07e0)<<5)|((*s&0x001f)<<3);
 			}
 			else if(sbpp == 24)
 			{	
 				BYTE* s = (BYTE*)src;
 				DWORD* d = (DWORD*)dst;
-				for(int x = 0; x < w; x++, s+=3, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s+=3, d++)
 					*d = *((DWORD*)s)&0xffffff;
 			}
 		}
@@ -292,7 +313,7 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 		BYTE* tmp = s;
 
 		{
-			for(int i = pitch; i--; tmp++)
+			for(ptrdiff_t i = pitch; i--; tmp++)
 			{
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
@@ -305,6 +326,76 @@ void AvgLines8(BYTE* dst, DWORD h, DWORD pitch)
 		memcpy(dst + pitch, dst, pitch);
 	}
 
+}
+
+void AvgLines555(BYTE* dst, DWORD h, DWORD pitch)
+{
+	if(h <= 1) return;
+
+	BYTE* s = dst;
+	BYTE* d = dst + (h-2)*pitch;
+
+	for(; s < d; s += pitch*2)
+	{
+		WORD* tmp = (WORD*)s;
+		
+		for(ptrdiff_t wd=(pitch>>3);wd--;tmp++)
+		{
+			tmp[0] = 
+				((((*tmp&0x7c00) + (tmp[pitch<<1]&0x7c00)) >> 1)&0x7c00)|
+				((((*tmp&0x03e0) + (tmp[pitch<<1]&0x03e0)) >> 1)&0x03e0)|
+				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
+		}
+
+		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
+		{
+			tmp[pitch] = 
+				((((*tmp&0x7c00) + (tmp[pitch<<1]&0x7c00)) >> 1)&0x7c00)|
+				((((*tmp&0x03e0) + (tmp[pitch<<1]&0x03e0)) >> 1)&0x03e0)|
+				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
+		}
+	}
+
+	if(!(h&1) && h >= 2)
+	{
+		dst += (h-2)*pitch;
+		memcpy(dst + pitch, dst, pitch);
+	}
+}
+
+void AvgLines565(BYTE* dst, DWORD h, DWORD pitch)
+{
+	if(h <= 1) return;
+
+	BYTE* s = dst;
+	BYTE* d = dst + (h-2)*pitch;
+
+	for(; s < d; s += pitch*2)
+	{
+		WORD* tmp = (WORD*)s;
+
+		for(ptrdiff_t wd=(pitch>>3);wd--;tmp++)
+		{
+			tmp[0] = 
+				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
+				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
+				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
+		}
+
+		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
+		{
+			tmp[pitch] = 
+				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
+				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
+				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
+		}
+	}
+
+	if(!(h&1) && h >= 2)
+	{
+		dst += (h-2)*pitch;
+		memcpy(dst + pitch, dst, pitch);
+	}
 }
 
 #else // _WIN64
@@ -495,7 +586,7 @@ bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int 
 	{
 		int pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y++, srcy += srcpitch, dsty += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, srcy += srcpitch, dsty += dstpitch)
 			memcpy_accel(dsty, srcy, pitch);
 
 		srcpitch >>= 1;
@@ -503,10 +594,10 @@ bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int 
 
 		pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y+=2, srcu += srcpitch, dstu += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y+=2, srcu += srcpitch, dstu += dstpitch)
 			memcpy_accel(dstu, srcu, pitch);
 
-		for(int y = 0; y < h; y+=2, srcv += srcpitch, dstv += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y+=2, srcv += srcpitch, dstv += dstpitch)
 			memcpy_accel(dstv, srcv, pitch);
 	}
 
@@ -523,7 +614,7 @@ bool BitBltFromYUY2ToYUY2(int w, int h, BYTE* dst, int dstpitch, BYTE* src, int 
 	{
 		int pitch = min(abs(srcpitch), abs(dstpitch));
 
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 			memcpy_accel(dst, src, pitch);
 	}
 
@@ -545,7 +636,7 @@ bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	if(w<=0 || h<=0 || (w&1) || (h&1))
 		return(false);
 
-	void (*asm_YUVtoRGB_row)(void* ARGB1, void* ARGB2, BYTE* Y1, BYTE* Y2, BYTE* U, BYTE* V, long width) = NULL;
+	void (*asm_YUVtoRGB_row)(void* ARGB1, void* ARGB2, BYTE* Y1, BYTE* Y2, BYTE* U, BYTE* V, long width) = NULL;;
 
 	if((g_cpuid.m_flags & CCpuID::ssefpu) && !(w&7))
 	{
@@ -1070,7 +1161,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 		}
 		else
 		{
-			for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+			for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 				memcpy_accel(dst, src, rowbytes);
 		}
 
@@ -1083,33 +1174,33 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 
 	if(dbpp == 16)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 24)
 			{
 				BYTE* s = (BYTE*)src;
 				WORD* d = (WORD*)dst;
-				for(int x = 0; x < w; x++, s+=3, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s+=3, d++)
 					*d = (WORD)(((*((DWORD*)s)>>8)&0xf800)|((*((DWORD*)s)>>5)&0x07e0)|((*((DWORD*)s)>>3)&0x1f));
 			}
 			else if(sbpp == 32)
 			{
 				DWORD* s = (DWORD*)src;
 				WORD* d = (WORD*)dst;
-				for(int x = 0; x < w; x++, s++, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d++)
 					*d = (WORD)(((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x1f));
 			}
 		}
 	}
 	else if(dbpp == 24)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 16)
 			{
 				WORD* s = (WORD*)src;
 				BYTE* d = (BYTE*)dst;
-				for(int x = 0; x < w; x++, s++, d+=3)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d+=3)
 				{	// not tested, r-g-b might be in reverse
 					d[0] = (*s&0x001f)<<3;
 					d[1] = (*s&0x07e0)<<5;
@@ -1120,27 +1211,27 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 			{
 				BYTE* s = (BYTE*)src;
 				BYTE* d = (BYTE*)dst;
-				for(int x = 0; x < w; x++, s+=4, d+=3)
+				for(ptrdiff_t x = 0; x < w; x++, s+=4, d+=3)
 					{d[0] = s[0]; d[1] = s[1]; d[2] = s[2];}
 			}
 		}
 	}
 	else if(dbpp == 32)
 	{
-		for(int y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
+		for(ptrdiff_t y = 0; y < h; y++, src += srcpitch, dst += dstpitch)
 		{
 			if(sbpp == 16)
 			{
 				WORD* s = (WORD*)src;
 				DWORD* d = (DWORD*)dst;
-				for(int x = 0; x < w; x++, s++, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s++, d++)
 					*d = ((*s&0xf800)<<8)|((*s&0x07e0)<<5)|((*s&0x001f)<<3);
 			}
 			else if(sbpp == 24)
 			{	
 				BYTE* s = (BYTE*)src;
 				DWORD* d = (DWORD*)dst;
-				for(int x = 0; x < w; x++, s+=3, d++)
+				for(ptrdiff_t x = 0; x < w; x++, s+=3, d++)
 					*d = *((DWORD*)s)&0xffffff;
 			}
 		}
@@ -1521,7 +1612,7 @@ AvgLines8_sse2_loop:
 				mov		tmp, esi
 			}
 
-			for(int i = pitch&7; i--; tmp++)
+			for(ptrdiff_t i = pitch&7; i--; tmp++)
 			{
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
@@ -1568,14 +1659,14 @@ AvgLines8_mmx_loop:
 				mov		tmp, esi
 			}
 
-			for(int i = pitch&7; i--; tmp++)
+			for(ptrdiff_t i = pitch&7; i--; tmp++)
 			{
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
 		}
 		else
 		{
-			for(int i = pitch; i--; tmp++)
+			for(ptrdiff_t i = pitch; i--; tmp++)
 			{
 				tmp[pitch] = (tmp[0] + tmp[pitch<<1] + 1) >> 1;
 			}
@@ -1659,7 +1750,7 @@ AvgLines555_loop:
 			mov		tmp, esi
 		}
 
-		for(int i = (pitch&7)>>1; i--; tmp++)
+		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
 		{
 			tmp[pitch] = 
 				((((*tmp&0x7c00) + (tmp[pitch<<1]&0x7c00)) >> 1)&0x7c00)|
@@ -1745,7 +1836,7 @@ AvgLines565_loop:
 			mov		tmp, esi
 		}
 
-		for(int i = (pitch&7)>>1; i--; tmp++)
+		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
 		{
 			tmp[pitch] = 
 				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|

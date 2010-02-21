@@ -237,7 +237,7 @@ STDMETHODIMP IDSMResourceBagImpl::ResRemoveAll(DWORD_PTR tag)
 {
 	if(tag)
 	{
-		for(int i = m_resources.GetCount() - 1; i >= 0; i--)
+		for(ptrdiff_t i = m_resources.GetCount() - 1; i >= 0; i--)
 			if(m_resources[i].tag == tag)
 				m_resources.RemoveAt(i);
 	}

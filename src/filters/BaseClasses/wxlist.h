@@ -62,7 +62,7 @@ const int DEFAULTCACHE = 10;    /* Default node object cache size */
    All of these pointers can be retrieved or set through member functions.
 */
 class CBaseList 
-#ifdef DEBUG
+#ifdef _DEBUG
     : public CBaseObject
 #endif
 {
@@ -73,7 +73,7 @@ class CBaseList
 
 public:
 
-#ifdef DEBUG
+#ifdef _DEBUG
     class CNode : public CBaseObject {
 #else
     class CNode {
@@ -87,7 +87,7 @@ public:
 
         /* Constructor - initialise the object's pointers */
         CNode()
-#ifdef DEBUG
+#ifdef _DEBUG
             : CBaseObject(NAME("List node"))
 #endif
         {

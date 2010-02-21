@@ -828,7 +828,7 @@ CBaseControlWindow::SetWindowPosition(long Left,long Top,long Width,long Height)
                             Height,         // Window height
                             WindowFlags);   // Show window flags
     ASSERT(bSuccess);
-#ifdef DEBUG
+#ifdef _DEBUG
     DbgLog((LOG_TRACE, 1, TEXT("SWP failed error %d"), GetLastError()));
 #endif
     if (bSuccess == FALSE) {

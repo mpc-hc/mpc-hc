@@ -940,7 +940,7 @@ CTransformOutputPin::SetMediaType(const CMediaType* pmtOut)
         return hr;
     }
 
-#ifdef DEBUG
+#ifdef _DEBUG
     if (FAILED(m_pTransformFilter->CheckTransform(&m_pTransformFilter->
 					m_pInput->CurrentMediaType(),pmtOut))) {
 	DbgLog((LOG_ERROR,0,TEXT("*** This filter is accepting an output media type")));

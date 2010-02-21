@@ -39,4 +39,3 @@ extern void DeinterlaceBob(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD 
 extern void AvgLines8(BYTE* dst, DWORD h, DWORD pitch);
 extern void AvgLines555(BYTE* dst, DWORD h, DWORD pitch);
 extern void AvgLines565(BYTE* dst, DWORD h, DWORD pitch);
-

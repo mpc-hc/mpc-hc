@@ -121,13 +121,13 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 		m_stss.scrAlignment = m_screenalignment+1;
 		m_stss.marginRect = m_margin;
 
-		for(int i = 0; i < 4; i++) m_stss.alpha[i] = 255-m_alpha[i];
+		for(ptrdiff_t i = 0; i < 4; i++) m_stss.alpha[i] = 255-m_alpha[i];
 	}
 	else
 	{
 		m_font.SetWindowText(m_stss.fontName);
 		m_iCharset = -1;
-		for(int i = 0; i < CharSetLen; i++)
+		for(ptrdiff_t i = 0; i < CharSetLen; i++)
 		{
 			CString str;
 			str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
@@ -159,7 +159,7 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 		m_margintopspin.SetRange32(-10000, 10000);
 		m_marginbottomspin.SetRange32(-10000, 10000);
 
-		for(int i = 0; i < 4; i++)
+		for(ptrdiff_t i = 0; i < 4; i++)
 		{
 			m_color[i].SetColorPtr(&m_stss.colors[i]);
 			m_alpha[i] = 255-m_stss.alpha[i];
@@ -227,7 +227,7 @@ void CStyleEditorDialog::OnBnClickedButton1()
 		if(str.GetLength() > 16) str = str.Left(14) + _T("...");
 		m_font.SetWindowText(str);
 
-		for(int i = 0, j = m_charset.GetCount(); i < j; i++)
+		for(ptrdiff_t i = 0, j = m_charset.GetCount(); i < j; i++)
 		{
 			if(m_charset.GetItemData(i) == lf.lfCharSet)
 			{
@@ -265,9 +265,9 @@ void CStyleEditorDialog::OnBnClickedCheck1()
 	UpdateData();
 
 	int avg = 0;
-	for(int i = 0; i < 4; i++) avg += m_alphasliders[i].GetPos();
+	for(ptrdiff_t i = 0; i < 4; i++) avg += m_alphasliders[i].GetPos();
 	avg /= 4;
-	for(int i = 0; i < 4; i++) m_alphasliders[i].SetPos(avg);
+	for(ptrdiff_t i = 0; i < 4; i++) m_alphasliders[i].SetPos(avg);
 }
 
 void CStyleEditorDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
@@ -275,7 +275,7 @@ void CStyleEditorDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 	if(m_linkalphasliders && pScrollBar)
 	{
 		int pos = ((CSliderCtrl*)pScrollBar)->GetPos();
-		for(int i = 0; i < 4; i++) m_alphasliders[i].SetPos(pos);
+		for(ptrdiff_t i = 0; i < 4; i++) m_alphasliders[i].SetPos(pos);
 	}
 
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);

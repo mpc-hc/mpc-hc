@@ -42,8 +42,11 @@ extern "C" struct csri_vsfilter_inst {
 };
 typedef struct csri_vsfilter_inst csri_inst;
 #include "csri.h"
+#ifdef _VSMOD
+static csri_rend csri_vsfilter = "vsfiltermod";
+#else
 static csri_rend csri_vsfilter = "vsfilter";
-
+#endif
 
 CSRIAPI csri_inst *csri_open_file(csri_rend *renderer, const char *filename, struct csri_openflag *flags)
 {
@@ -185,10 +188,18 @@ CSRIAPI void *csri_query_ext(csri_rend *rend, csri_ext_id extname)
 // Get info for renderer
 static struct csri_info csri_vsfilter_info = {
 #ifdef _DEBUG
-	"vsfilter_textsub_debug", // name
+	#ifdef _VSMOD
+		"vsfiltermod_textsub_debug", // name
+	#else
+		"vsfilter_textsub_debug", // name
+	#endif
 	"2.39", // version (assumed version number, svn revision, patchlevel)
 #else
-	"vsfilter_textsub", // name
+	#ifdef _VSMOD
+		"vsfiltermod_textsub", // name
+	#else
+		"vsfilter_textsub", // name
+	#endif
 	"2.39", // version (assumed version number, svn revision, patchlevel)
 #endif
 	// 2.38-0611 is base svn 611
@@ -197,7 +208,11 @@ static struct csri_info csri_vsfilter_info = {
 	// 2.38-0611-3 fixes a bug in CSRI and adds fontcrash-fix and float-pos
 	// 2.38-0611-4 fixes be1-dots and ugly-fade bugs and adds xbord/ybord/xshad/yshad/blur tags and extends be
 	// 2.39 merges with guliverkli2 fork
+#ifdef _VSMOD
+	"VSFilterMod/TextSub (guliverkli2)", // longname
+#else
 	"VSFilter/TextSub (guliverkli2)", // longname
+#endif
 	"Gabest", // author
 	"Copyright (c) 2003-2008 by Gabest and others" // copyright
 };

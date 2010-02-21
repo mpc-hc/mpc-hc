@@ -62,7 +62,7 @@ static CStringW GetXML(CComPtr<IXMLDOMNode> pNode)
 	CStringW str(bstr);
 	str.Remove('\r');
 	str.Replace('\n', ' ');
-	for(int i = 0; (i = str.Find(L" ", i)) >= 0; )
+	for(size_t i = 0; (i = str.Find(L" ", i)) >= 0; )
 	{
 		for(++i; i < str.GetLength() && (str[i] == '\n' || str[i] == ' ');)
 			str.Delete(i);
@@ -290,7 +290,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 		if(!s->fontstyle.outline.IsEmpty()) stss->outlineWidthX = stss->outlineWidthY = wcstol(s->fontstyle.outline, NULL, 10);
 		if(!s->fontstyle.shadow.IsEmpty()) stss->shadowDepthX = stss->shadowDepthY = wcstol(s->fontstyle.shadow, NULL, 10);
 
-		for(int i = 0; i < 4; i++)
+		for(ptrdiff_t i = 0; i < 4; i++)
 		{
 			DWORD color = ColorToDWORD(s->fontstyle.color[i]);
 			int alpha = (BYTE)wcstol(s->fontstyle.alpha, NULL, 10);
@@ -342,7 +342,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 			marginRect.top = marginRect.bottom = TranslateMargin(t->pal.vertical_margin, sts.m_dstScreenSize.cy);
 
 		WCHAR rtags[3][8] = {L"{\\rz%d}", L"{\\rx%d}", L"{\\ry%d}"};
-		for(int i = 0; i < 3; i++)
+		for(ptrdiff_t i = 0; i < 3; i++)
 		{
 			if(int angle = wcstol(t->pal.rotate[i], NULL, 10))
 			{
@@ -725,7 +725,7 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
 		if(!fs.outline.IsEmpty()) {prefix += L"{\\bord" + fs.outline + L"}"; postfix += L"{\\bord}";}
 		if(!fs.shadow.IsEmpty()) {prefix += L"{\\shad" + fs.shadow + L"}"; postfix += L"{\\shad}";}
 
-		for(int i = 0; i < 4; i++)
+		for(ptrdiff_t i = 0; i < 4; i++)
 		{
 			if(!fs.color[i].IsEmpty())
 			{
