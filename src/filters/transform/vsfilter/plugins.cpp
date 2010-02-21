@@ -242,9 +242,10 @@ public:
 
 namespace VirtualDub
 {
-	#include <VirtualDub\VirtualDub.h>
-	//#include <vd2\OldFilterSDK\VirtualDub.h>
-	//#include <vd2\extras\FilterSDK\VirtualDub.h>
+	//#include <VirtualDub\VirtualDub.h>
+	//#include <vd2/OldFilterSDK/VirtualDub.h>
+	#include <vd2/extras/FilterSDK/VirtualDub.h>
+
 	class CVirtualDubFilter : virtual public CFilter
 	{
 	public:
