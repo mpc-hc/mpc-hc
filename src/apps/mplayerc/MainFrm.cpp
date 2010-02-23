@@ -1136,8 +1136,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 	lpMMI->ptMinTrackSize.y += (mbi.rcBar.bottom - mbi.rcBar.top);
 	if(!AfxGetAppSettings().fHideCaptionMenu) lpMMI->ptMinTrackSize.y += 3;
-	else if(!AfxGetAppSettings().fHideNavigation) lpMMI->ptMinTrackSize.y += 3;
-
+	
 	POSITION pos = m_bars.GetHeadPosition();
 	while(pos) 
 	{
@@ -1254,7 +1253,6 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		if(style&WS_THICKFRAME) fsize.cy += GetSystemMetrics(SM_CYSIZEFRAME)*2;
 		fsize.cy += mbi.rcBar.bottom - mbi.rcBar.top;
 		if(!AfxGetAppSettings().fHideCaptionMenu) fsize.cy += 3;
-		else if(!AfxGetAppSettings().fHideNavigation) fsize.cy += 3;
 
 		POSITION pos = m_bars.GetHeadPosition();
 		while(pos) 
@@ -5735,8 +5733,6 @@ void CMainFrame::OnViewMinimal()
 {
 	if(!AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	else if(!AfxGetAppSettings().fHideNavigation)
-		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(0);
 }
 
@@ -5748,8 +5744,6 @@ void CMainFrame::OnViewCompact()
 {
 	if(AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	else if(AfxGetAppSettings().fHideNavigation)
-		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(CS_TOOLBAR);
 }
 
@@ -5761,8 +5755,6 @@ void CMainFrame::OnViewNormal()
 {
 	if(AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	else if(AfxGetAppSettings().fHideNavigation)
-		SendMessage(WM_COMMAND, ID_VIEW_NAVIGATION);
 	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
 
@@ -7971,7 +7963,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		}
 	}
 
-	if(s.fHideCaptionMenu && s.fHideNavigation)
+	if(s.fHideCaptionMenu)
 	{
 		ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
@@ -8177,12 +8169,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
 
-		if (!AfxGetAppSettings().fHideNavigation)
-		{
-			dwAdd = (AfxGetAppSettings().fHideNavigation ? 0 : WS_CAPTION | WS_THICKFRAME);
-			hMenu = AfxGetAppSettings().fHideNavigation ? NULL : m_hMenuDefault;
-		}
-
 		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
 
@@ -8342,7 +8328,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 		else if(!m_fFullScreen)
 		{
 			m_wndView.GetClientRect(wr);
-			if(!AfxGetAppSettings().fHideCaptionMenu || !AfxGetAppSettings().fHideNavigation)
+			if(!AfxGetAppSettings().fHideCaptionMenu)
 				wr.DeflateRect(2, 2);
 		}
 		else
