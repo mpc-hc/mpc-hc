@@ -831,6 +831,7 @@ public:
 		bool m_fPreventMinimize;
 		bool m_fUseWin7TaskBar;
 		bool m_fExitAfterPlayback;
+		bool m_fNextInDirAfterPlayback;
 		CStringW m_subtitlesLanguageOrder;
 		CStringW m_audiosLanguageOrder;
 

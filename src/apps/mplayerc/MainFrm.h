@@ -363,6 +363,7 @@ protected:
 
 	bool m_fAudioOnly;
 	dispmode m_dmBeforeFullscreen;
+	CString m_LastOpenFile;
 
 	DVD_DOMAIN m_iDVDDomain;
 	DWORD m_iDVDTitle;
@@ -457,6 +458,7 @@ public:
 	bool DoCapture(), StartCapture(), StopCapture();
 
 	bool DoAfterPlaybackEvent();
+	bool SearchInDir(bool DirForward);
 
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

@@ -1168,12 +1168,13 @@
 #define ID_VIEW_SYNCHRONIZEDISPLAY      33409
 #define ID_VIEW_SYNCHRONIZENEAREST      33410
 #define ID_AFTERPLAYBACK_EXIT           33411
-#define ID_AFTERPLAYBACK_ONCE           33412
-#define ID_AFTERPLAYBACK_EVERYTIME      33413
-#define ID_VIEW_NAVIGATION              33414
-#define ID_NAVIGATE_JUMPTO              33415
-#define ID_NAVIGATE_AUDIOLANGUAGE       33416
-#define ID_NAVIGATE_SUBTITLELANGUAGE    33420
+#define ID_AFTERPLAYBACK_NEXT           33412
+#define ID_AFTERPLAYBACK_ONCE           33413
+#define ID_AFTERPLAYBACK_EVERYTIME      33414
+#define ID_VIEW_NAVIGATION              33415
+#define ID_NAVIGATE_JUMPTO              33416
+#define ID_NAVIGATE_AUDIOLANGUAGE       33417
+#define ID_NAVIGATE_SUBTITLELANGUAGE    33418
 #define IDTB_BUTTON1                    40001
 #define IDTB_BUTTON2                    40002
 #define IDTB_BUTTON3                    40003
@@ -1204,6 +1205,9 @@
 #define IDS_TOP_BACK_RIGHT              41023
 #define IDS_LOGO_AUTOR                  41024
 #define IDC_RESTORERESCHECK             41025
+#define IDS_NO_MORE_MEDIA               41026
+#define IDS_FIRST_IN_FOLDER             41027
+#define IDS_LAST_IN_FOLDER              41028
 
 #define IDS_VDF_DXVACOMPATIBILITY       41100
 #define IDS_VDF_DXVA_FULLCHECK          41101
@@ -1216,8 +1220,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20005
-#define _APS_NEXT_COMMAND_VALUE         33414
+#define _APS_NEXT_COMMAND_VALUE         33419
 #define _APS_NEXT_CONTROL_VALUE         22042
-#define _APS_NEXT_SYMED_VALUE           24025
+#define _APS_NEXT_SYMED_VALUE           24027
 #endif
 #endif

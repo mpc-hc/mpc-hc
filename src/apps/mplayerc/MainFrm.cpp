@@ -424,8 +424,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VOLUME_BOOST_INC, ID_VOLUME_BOOST_MAX, OnUpdatePlayVolumeBoost)
 	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnAfterplayback)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_CLOSE, ID_AFTERPLAYBACK_DONOTHING, OnUpdateAfterplayback)
-	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_EXIT, OnAfterplayback)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_EXIT, OnUpdateAfterplayback)
+	ON_COMMAND_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_NEXT, OnAfterplayback)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_AFTERPLAYBACK_EXIT, ID_AFTERPLAYBACK_NEXT, OnUpdateAfterplayback)
 
 	ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
@@ -2075,12 +2075,22 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				}
 				else 
 				{
-					if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
-					else m_fEndOfStream = true;
-					SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+					bool NextMediaExist = false;
+					if (s.m_fNextInDirAfterPlayback)
+					{	
+						NextMediaExist = SearchInDir(true);
+					}
+					if (!s.m_fNextInDirAfterPlayback || !NextMediaExist)
+					{
+						if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
+						else m_fEndOfStream = true;
+						SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 	
-					if(m_fFullScreen && s.fExitFullScreenAtTheEnd) 
-						OnViewFullscreen();
+						if(m_fFullScreen && s.fExitFullScreenAtTheEnd) 
+							OnViewFullscreen();
+					}
+					if (!NextMediaExist) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+					// Don't move it. Else OSD message "Pause" will rewrite this message.
 				}
 			}
 			else if(m_wndPlaylistBar.GetCount() > 1)
@@ -7104,8 +7114,18 @@ void CMainFrame::OnAfterplayback(UINT nID)
 
 	switch(nID)
 	{
-	case ID_AFTERPLAYBACK_EXIT : s.m_fExitAfterPlayback = true; break;
-	case ID_AFTERPLAYBACK_DONOTHING: s.m_fExitAfterPlayback = false; break;
+	case ID_AFTERPLAYBACK_NEXT :
+		s.m_fNextInDirAfterPlayback = true;
+		s.m_fExitAfterPlayback = false;
+		break;
+	case ID_AFTERPLAYBACK_EXIT :
+		s.m_fExitAfterPlayback = true;
+		s.m_fNextInDirAfterPlayback = false;
+		break;
+	case ID_AFTERPLAYBACK_DONOTHING:
+		s.m_fExitAfterPlayback = false; 
+		s.m_fNextInDirAfterPlayback = false;
+		break;
 	case ID_AFTERPLAYBACK_CLOSE: s.nCLSwitches |= CLSW_CLOSE; break;
 	case ID_AFTERPLAYBACK_STANDBY: s.nCLSwitches |= CLSW_STANDBY; break;
 	case ID_AFTERPLAYBACK_HIBERNATE: s.nCLSwitches |= CLSW_HIBERNATE; break;
@@ -7123,12 +7143,13 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 	switch(pCmdUI->m_nID)
 	{
 	case ID_AFTERPLAYBACK_EXIT: fChecked = !!s.m_fExitAfterPlayback; break;
+	case ID_AFTERPLAYBACK_NEXT: fChecked = !!s.m_fNextInDirAfterPlayback; break;
 	case ID_AFTERPLAYBACK_CLOSE: fChecked = !!(s.nCLSwitches & CLSW_CLOSE); break;
 	case ID_AFTERPLAYBACK_STANDBY: fChecked = !!(s.nCLSwitches & CLSW_STANDBY); break;
 	case ID_AFTERPLAYBACK_HIBERNATE: fChecked = !!(s.nCLSwitches & CLSW_HIBERNATE); break;
 	case ID_AFTERPLAYBACK_SHUTDOWN: fChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN); break;
 	case ID_AFTERPLAYBACK_LOGOFF: fChecked = !!(s.nCLSwitches & CLSW_LOGOFF); break;
-	case ID_AFTERPLAYBACK_DONOTHING: fChecked = !s.m_fExitAfterPlayback; break;
+	case ID_AFTERPLAYBACK_DONOTHING: fChecked = (!s.m_fExitAfterPlayback)&(!s.m_fNextInDirAfterPlayback); break;
 	}
 
 	pCmdUI->SetRadio(fChecked);
@@ -7171,13 +7192,21 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			}
 		}
 
-		if(nID == ID_NAVIGATE_SKIPBACK)
+		if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() != 1))
 		{
 			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKPLITEM);
 		}
-		else if(nID == ID_NAVIGATE_SKIPFORWARD)
+		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() != 1))
 		{
 			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
+		}
+		else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1))
+		{
+			if (!SearchInDir(false)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+		}
+		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1))
+		{
+			if (!SearchInDir(true)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
 		}
 	}
 	else if(m_iPlaybackMode == PM_DVD)
@@ -7268,7 +7297,7 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 		&& ((m_iPlaybackMode == PM_DVD 
 				&& m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu 
 				&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-			|| (m_iPlaybackMode == PM_FILE && (m_wndPlaylistBar.GetCount() > 1/*0*/ || m_pCB->ChapGetCount() > 1))
+			|| (m_iPlaybackMode == PM_FILE /*&& (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1)*/)
 			|| (m_iPlaybackMode == PM_CAPTURE && !m_fCapturing))); // TODO
 }
 
@@ -10102,7 +10131,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	
 	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode();
 	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) m_fFirstFSAfterLaunchOnFS = true;
-	
+
+	m_LastOpenFile = pOMD->title;
+	m_LastOpenFile.Replace('\\', '/');
+
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
 	return(err.IsEmpty());
@@ -10175,6 +10207,60 @@ void CMainFrame::CloseMediaPrivate()
 	AfxGetAppSettings().ResetPositions();
 
 	SetLoadState (MLS_CLOSED);
+}
+
+bool CMainFrame::SearchInDir(bool DirForward)
+{
+	CAtlList<CString> Play_sl;
+	CAtlList<CString> sl;
+	Play_sl.RemoveAll();
+	sl.RemoveAll();
+
+	CMediaFormats& mf = AfxGetAppSettings().Formats;
+
+	CString dir = m_LastOpenFile.Mid(0,m_LastOpenFile.ReverseFind('/')+1);
+	CString mask = dir + _T("*.*");
+	WIN32_FIND_DATA fd;
+	HANDLE h = FindFirstFile(mask, &fd);
+	if(h != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
+
+			CString fn = fd.cFileName;
+			CString ext = fn.Mid(fn.ReverseFind('.')).MakeLower();
+			CString path = dir + fd.cFileName;
+			if(mf.FindExt(ext))
+			{
+				for(int i = 0; i < mf.GetCount(); i++)
+				{
+					sl.AddTail(path);
+					break;
+				}
+			}
+		}
+		while(FindNextFile(h, &fd));
+		FindClose(h);
+	}
+
+	POSITION Pos;
+	Pos = sl.Find(m_LastOpenFile);
+	if (DirForward)
+	{
+		if (Pos == sl.GetTailPosition()) return(false); 
+		sl.GetNext(Pos);
+
+	}
+	else
+	{
+		if (Pos == sl.GetHeadPosition()) return(false); 
+		sl.GetPrev(Pos);
+	}
+	Play_sl.AddHead(sl.GetAt(Pos));
+	m_wndPlaylistBar.Open(Play_sl,false);
+	OpenCurPlaylistItem();
+	return(true);
 }
 
 void CMainFrame::DoTunerScan(TunerScanData* pTSD)
