@@ -2089,8 +2089,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						if(m_fFullScreen && s.fExitFullScreenAtTheEnd) 
 							OnViewFullscreen();
 					}
-					if (!NextMediaExist) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
-					// Don't move it. Else OSD message "Pause" will rewrite this message.
+					if (s.m_fNextInDirAfterPlayback && !NextMediaExist)
+					{ 
+						m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+						// Don't move it. Else OSD message "Pause" will rewrite this message.
+					}
 				}
 			}
 			else if(m_wndPlaylistBar.GetCount() > 1)
@@ -7202,11 +7205,13 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		}
 		else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1))
 		{
-			if (!SearchInDir(false)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+			if (AfxGetAppSettings().m_fNextInDirAfterPlayback && !SearchInDir(false)) 
+				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
 		}
 		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1))
 		{
-			if (!SearchInDir(true)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+			if (AfxGetAppSettings().m_fNextInDirAfterPlayback && !SearchInDir(true)) 
+				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
 		}
 	}
 	else if(m_iPlaybackMode == PM_DVD)
