@@ -458,7 +458,7 @@ public:
 	bool DoCapture(), StartCapture(), StopCapture();
 
 	bool DoAfterPlaybackEvent();
-	bool SearchInDir(bool DirForward);
+	int SearchInDir(bool DirForward);
 
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

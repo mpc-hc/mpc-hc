@@ -2075,12 +2075,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				}
 				else 
 				{
-					bool NextMediaExist = false;
+					int NextMediaExist = false;
 					if (s.m_fNextInDirAfterPlayback)
 					{	
 						NextMediaExist = SearchInDir(true);
 					}
-					if (!s.m_fNextInDirAfterPlayback || !NextMediaExist)
+					if (!s.m_fNextInDirAfterPlayback || !(NextMediaExist>1))
 					{
 						if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
 						else m_fEndOfStream = true;
@@ -7205,13 +7205,11 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		}
 		else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1))
 		{
-			if (AfxGetAppSettings().m_fNextInDirAfterPlayback && !SearchInDir(false)) 
-				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+			if (!SearchInDir(false)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
 		}
 		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1))
 		{
-			if (AfxGetAppSettings().m_fNextInDirAfterPlayback && !SearchInDir(true)) 
-				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+			if (!SearchInDir(true)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
 		}
 	}
 	else if(m_iPlaybackMode == PM_DVD)
@@ -10214,7 +10212,7 @@ void CMainFrame::CloseMediaPrivate()
 	SetLoadState (MLS_CLOSED);
 }
 
-bool CMainFrame::SearchInDir(bool DirForward)
+int CMainFrame::SearchInDir(bool DirForward)
 {
 	CAtlList<CString> Play_sl;
 	CAtlList<CString> sl;
@@ -10249,6 +10247,8 @@ bool CMainFrame::SearchInDir(bool DirForward)
 		FindClose(h);
 	}
 
+	if(sl.GetCount() == 1) return true;
+
 	POSITION Pos;
 	Pos = sl.Find(m_LastOpenFile);
 	if (DirForward)
@@ -10265,7 +10265,7 @@ bool CMainFrame::SearchInDir(bool DirForward)
 	Play_sl.AddHead(sl.GetAt(Pos));
 	m_wndPlaylistBar.Open(Play_sl,false);
 	OpenCurPlaylistItem();
-	return(true);
+	return(sl.GetCount());
 }
 
 void CMainFrame::DoTunerScan(TunerScanData* pTSD)
@@ -13173,11 +13173,8 @@ LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 		{
 			m_incl_subdir = TRUE;
 		}
-	
 	}
-
-     return CallWindowProc(CBProc, hwnd, uMsg, 
-        wParam, lParam); 
+	return CallWindowProc(CBProc, hwnd, uMsg, wParam, lParam); 
 } 
 
 int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
@@ -13276,7 +13273,7 @@ void CMainFrame::OnFileOpendirectory()
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = path;
 	bi.lpszTitle = strTitle;
-	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;//BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_USENEWUI | BIF_NONEWFOLDERBUTTON;
+	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
 	bi.lpfn = BrowseCallbackProcDIR;
 	bi.lParam = 0;
 	bi.iImage = 0; 
