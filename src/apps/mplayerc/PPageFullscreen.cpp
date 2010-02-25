@@ -280,6 +280,10 @@ void CPPageFullscreen::ModesUpdate()
 			ModeExist = GetDispMode(i, dm, m_f_hmonitor);
 			if (!ModeExist) break;   
 			if(dm.bpp <= 8) continue;
+			//skip doubles (check previous only)
+			if (j>0 && (dm.bpp == m_dms[j-1].bpp && dm.dmDisplayFlags == m_dms[j-1].dmDisplayFlags
+				&& dm.freq == m_dms[j-1].freq && dm.fValid == m_dms[j-1].fValid
+				&& dm.size == m_dms[j-1].size)) continue; 
 			m_dms.Add(dm);
 			str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
 			if (dm.dmDisplayFlags == DM_INTERLACED) str+=_T(" ")+ ResStr(IDS_INTERLACED);
