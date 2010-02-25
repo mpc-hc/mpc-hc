@@ -2083,8 +2083,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 					if (!s.m_fNextInDirAfterPlayback || !(NextMediaExist>1))
 					{
 						if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
-						else m_fEndOfStream = true;
-						SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+						else 
+						{
+							m_fEndOfStream = true;
+							SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+						}
+						m_OSD.ClearMessage();
 	
 						if(m_fFullScreen && s.fExitFullScreenAtTheEnd) 
 							OnViewFullscreen();

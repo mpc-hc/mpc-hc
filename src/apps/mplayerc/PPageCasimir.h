@@ -33,8 +33,6 @@ class CPPageCasimir : public CPPageBase
 	DECLARE_DYNAMIC(CPPageCasimir)
 
 private:
-	CStringArray m_AudioRendererDisplayNames;
-
 	float m_dBrightness;
 	float m_dContrast;
 	float m_dHue;
@@ -51,7 +49,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
 	virtual BOOL OnApply();
-	bool IsVistaOrAbove();
 
 	DECLARE_MESSAGE_MAP()
 
