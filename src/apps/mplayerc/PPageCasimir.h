@@ -65,6 +65,5 @@ public:
 	afx_msg void OnBnClickedReset();
 	BOOL m_fRememberDVDPos;
 	BOOL m_fRememberFilePos;
-	BOOL m_fShowOSD;
 	virtual void OnCancel();
 };
