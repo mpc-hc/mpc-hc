@@ -79,7 +79,7 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
 	if(i >= 0 && i < m_fn.GetLength()-1)
 		m_fn = m_fn.Mid(i+1);
-	m_fn = m_fn+_T(".Media Info.txt");
+	m_fn = m_fn+_T(".MediaInfo.txt");
 
 	GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
 	GetDlgItem(ID_APPLY_NOW)->ShowWindow(SW_HIDE);
