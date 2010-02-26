@@ -4855,16 +4855,18 @@ void CMainFrame::OnFileSavesubtitle()
 			CString suggestedFileName("");
 			if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD))
 			{
-				// hack: get the file name from the current playlist item
+				// HACK: get the file name from the current playlist item
 				suggestedFileName = m_wndPlaylistBar.GetCur();
-				suggestedFileName = suggestedFileName.Left(suggestedFileName.ReverseFind('.'));	// exclude the extension
+				suggestedFileName = suggestedFileName.Left(suggestedFileName.ReverseFind('.'));	// exclude the extension, it will be auto completed
 			}
 
 			if(clsid == __uuidof(CVobSubFile))
 			{
 				CVobSubFile* pVSF = (CVobSubFile*)(ISubStream*)pSubStream;
 
-				CFileDialog fd(FALSE, NULL, suggestedFileName, 
+				// remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
+				// and tracks attempts to overwrite in a graceful manner
+				CFileDialog fd(FALSE, _T("idx"), suggestedFileName, 
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
 					_T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
 		
@@ -4881,15 +4883,17 @@ void CMainFrame::OnFileSavesubtitle()
 				CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
 
 				CString filter;
+				// WATCH the order in GFN.h for exttype
 				filter += _T("SubRip (*.srt)|*.srt|");
-				filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
 				filter += _T("MicroDVD (*.sub)|*.sub|");
-				filter += _T("PowerDivX (*.psb)|*.psb|");
 				filter += _T("SAMI (*.smi)|*.smi|");
+				filter += _T("PowerDivX (*.psb)|*.psb|");
 				filter += _T("SubStation Alpha (*.ssa)|*.ssa|");
+				filter += _T("Advanced SubStation Alpha (*.ass)|*.ass|");
 				filter += _T("|");
 
-				CSaveTextFileDialog fd(pRTS->m_encoding, NULL, suggestedFileName, filter, GetModalParent());
+				// same thing as in the case of CVobSubFile above for lpszDefExt
+				CSaveTextFileDialog fd(pRTS->m_encoding, _T("srt"), suggestedFileName, filter, GetModalParent());
 		
 				if(fd.DoModal() == IDOK)
 				{
