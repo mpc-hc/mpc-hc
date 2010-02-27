@@ -163,14 +163,14 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
 	ON_WM_ERASEBKGND()
 	ON_WM_SIZE()
-	ON_WM_WINDOWPOSCHANGED()
+	//ON_WM_WINDOWPOSCHANGED()
 	ON_COMMAND_EX(ID_PLAY_PLAYPAUSE, OnPlayPlayPauseStop)
 	ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlayPauseStop)
 	ON_COMMAND_EX(ID_PLAY_PAUSE, OnPlayPlayPauseStop)
 	ON_COMMAND_EX(ID_PLAY_STOP, OnPlayPlayPauseStop)
 	ON_WM_SETCURSOR()
-	ON_WM_NCCALCSIZE()
-	ON_WM_NCPAINT()
+	//ON_WM_NCCALCSIZE()
+	//ON_WM_NCPAINT()
 	//}}AFX_MSG_MAP
 	//	ON_WM_NCHITTEST()
 	ON_WM_NCHITTEST()
@@ -235,12 +235,12 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 	((CMainFrame*)GetParentFrame())->MoveVideoWindow();
 }
 
-void CChildView::OnWindowPosChanged(WINDOWPOS* lpwndpos)
+/*void CChildView::OnWindowPosChanged(WINDOWPOS* lpwndpos)
 {
 	CWnd::OnWindowPosChanged(lpwndpos);
 
 	((CMainFrame*)GetParentFrame())->MoveVideoWindow();
-}
+}*/
 
 BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 {
@@ -267,7 +267,7 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
-void CChildView::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
+/*void CChildView::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
 	if(!((CMainFrame*)GetParentFrame())->IsFrameLessWindow()) 
 	{
@@ -291,7 +291,7 @@ void CChildView::OnNcPaint()
 		dc.ExcludeClipRect(c);		// Casimir666 : prevent flashing when resizing
 		dc.Draw3dRect(&r, GetSysColor(COLOR_3DSHADOW), GetSysColor(COLOR_3DHILIGHT)); 
 	}
-}
+}*/
 
 LRESULT CChildView::OnNcHitTest(CPoint point)
 {

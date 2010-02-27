@@ -5,6 +5,10 @@ http://tortoisesvn.net/downloads
 
 * Visual Studio 2008 SP1
 http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
+Visual Studio 2008 Service Pack 1 (Installer)
+http://www.microsoft.com/downloads/details.aspx?FamilyId=FBEE1648-7106-44A7-9649-6D9F6D58056E&displaylang=en
+Visual Studio 2008 Service Pack 1 (ISO)
+http://www.microsoft.com/downloads/details.aspx?familyid=27673C47-B3B5-4C67-BD99-84E525B5CE61&displaylang=en
 
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx

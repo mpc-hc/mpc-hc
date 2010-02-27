@@ -1161,7 +1161,7 @@ void CMainFrame::OnMove(int x, int y)
 {
 	__super::OnMove(x, y);
 
-	MoveVideoWindow();
+	//MoveVideoWindow(); // This isn't needed, based on my limited tests. If it is needed then please add a description the scenario(s) where it is needed.
 
 	WINDOWPLACEMENT wp;
 	GetWindowPlacement(&wp);
@@ -5590,29 +5590,39 @@ void CMainFrame::OnViewCaptionmenu()
 
 	AfxGetAppSettings().fHideCaptionMenu = !fHideCaptionMenu;
 
-	if(m_fFullScreen) return;
+	if ( m_fFullScreen )
+		return;
 
 	DWORD dwRemove = 0, dwAdd = 0;
 	HMENU hMenu;
 
-	if(!fHideCaptionMenu)
+	CRect wr;
+	GetWindowRect( &wr );
+
+	if ( !fHideCaptionMenu )
 	{
 		dwRemove = WS_CAPTION | WS_THICKFRAME; // leave the window borderless
 		hMenu = NULL;
+		wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
+		wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
+		wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
 	}
 	else
 	{
 		dwAdd = WS_CAPTION | WS_THICKFRAME;
 		hMenu = m_hMenuDefault;
+		wr.right += (GetSystemMetrics( SM_CXSIZEFRAME ) * 2);
+		wr.bottom += (GetSystemMetrics( SM_CYSIZEFRAME ) * 2);
+		wr.bottom += (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
 	}
 
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
-	SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
+	// NOTE: r.left and r.top are ignored due to SWP_NOMOVE flag
+	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_FRAMECHANGED|/*SWP_NOSIZE|*/SWP_NOMOVE|SWP_NOZORDER);
 
 	MoveVideoWindow();
 }
-
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
@@ -5754,7 +5764,7 @@ void CMainFrame::OnViewMinimal()
 {
 	if(!AfxGetAppSettings().fHideCaptionMenu)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-	ShowControls(0);
+	ShowControls(CS_NONE);
 }
 
 void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
@@ -8269,7 +8279,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         ShowControls(AfxGetAppSettings().nCS);
 	}
 
-	m_wndView.SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
+	//m_wndView.SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 
 	m_fAudioOnly = fAudioOnly;
 
@@ -8364,21 +8374,21 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 	{
 		CRect wr;
 		if (m_pFullscreenWnd->IsWindow())
-			m_pFullscreenWnd->GetClientRect(wr);
+			m_pFullscreenWnd->GetClientRect(&wr);
 		else if(!m_fFullScreen)
 		{
-			m_wndView.GetClientRect(wr);
-			if(!AfxGetAppSettings().fHideCaptionMenu)
-				wr.DeflateRect(2, 2);
+			m_wndView.GetClientRect(&wr);
+			//if ( !AfxGetAppSettings().fHideCaptionMenu )
+			//	wr.DeflateRect(2, 2);
 		}
 		else
 		{
 			GetWindowRect(&wr);
 
-			// HACK
-			CRect r;
-			m_wndView.GetWindowRect(&r);
-			wr -= r.TopLeft();
+			// HACK - it works without this hack now but what was it for ?
+			//CRect r;
+			//m_wndView.GetWindowRect(&r);
+			//wr -= r.TopLeft();
 		}
 
 		CRect vr = CRect(0,0,0,0);
@@ -8431,8 +8441,10 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 			vr = CRect(pos, size);
 		}
 
-		wr |= CRect(0,0,0,0);
-		vr |= CRect(0,0,0,0);
+		// What does this do exactly ?
+		// Add comments when you add this kind of code !
+		//wr |= CRect(0,0,0,0);
+		//vr |= CRect(0,0,0,0);
 
 		if(m_pCAP)
 		{
@@ -8511,21 +8523,25 @@ void CMainFrame::ZoomVideoWindow(double scale)
 				+ r1.Width() - r2.Width()
 				+ lWidth;
 
-		MENUBARINFO mbi;
-		memset(&mbi, 0, sizeof(mbi));
-		mbi.cbSize = sizeof(mbi);
-		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+		// This doesn't give correct menu pixel size
+		//MENUBARINFO mbi;
+		//memset(&mbi, 0, sizeof(mbi));
+		//mbi.cbSize = sizeof(mbi);
+		//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
 		h = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
-				+ (mbi.rcBar.bottom - mbi.rcBar.top)
+				//+ (mbi.rcBar.bottom - mbi.rcBar.top)
 				+ r1.Height() - r2.Height()
 				+ lHeight;
 
-		if(style&WS_CAPTION)
+		if ( style & WS_CAPTION )
 		{
-			h += GetSystemMetrics(SM_CYCAPTION);
-			w += 2; h += 2; // for the 1 pixel wide sunken frame
-			w += 2; h += 3; // for the inner black border
+			h += GetSystemMetrics( SM_CYCAPTION );
+			// If we have a caption then we have a menu bar
+			h += GetSystemMetrics( SM_CYMENU );
+			// Do not use magic values please !
+			//w += 2; h += 2; // for the 1 pixel wide sunken frame
+			//w += 2; h += 3; // for the inner black border
 		}
 
 		GetWindowRect(r);
@@ -9910,6 +9926,23 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		ASSERT(0);
 		return(false);
 	}
+
+#ifdef _DEBUG
+	// Debug trace code - Begin
+	// Check for bad / buggy auto loading file code
+	if ( OpenFileData *pOFD = dynamic_cast<OpenFileData *>(pOMD.m_p) )
+	{
+		POSITION pos = pOFD->fns.GetHeadPosition();
+		UINT index = 0;
+		while ( pos != NULL )
+		{
+			CString path = pOFD->fns.GetNext( pos );
+			TRACE("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]: %ws\n", index, path.GetString()); // %ws - wide character string always
+			index++;
+		}
+	}
+	// Debug trace code - End
+#endif
 
 	if(OpenFileData* pOFD = dynamic_cast<OpenFileData*>(pOMD.m_p))
 	{
