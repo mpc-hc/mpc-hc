@@ -34,13 +34,15 @@ class CPlayerToolBar : public CToolBar
 
 private:
 	bool IsMuted();
-	void SetMute(bool fMute = true); 
+	void SetMute(bool fMute = true);
+	int m_nButtonHeight;
 
 public:
 	CPlayerToolBar();
 	virtual ~CPlayerToolBar();
 
 	int GetVolume();
+	int GetMinWidth();
 	void SetVolume(int volume);
 	__declspec(property(get=GetVolume, put=SetVolume)) int Volume;
 
