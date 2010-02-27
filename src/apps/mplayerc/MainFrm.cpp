@@ -5619,7 +5619,7 @@ void CMainFrame::OnViewCaptionmenu()
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
 	// NOTE: r.left and r.top are ignored due to SWP_NOMOVE flag
-	SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_FRAMECHANGED|/*SWP_NOSIZE|*/SWP_NOMOVE|SWP_NOZORDER);
+	SetWindowPos(NULL, wr.left, wr.top, wr.Width(), wr.Height(), SWP_FRAMECHANGED|/*SWP_NOSIZE|*/SWP_NOMOVE|SWP_NOZORDER);
 
 	MoveVideoWindow();
 }
