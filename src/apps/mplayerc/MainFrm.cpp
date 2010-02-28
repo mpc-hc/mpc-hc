@@ -1162,6 +1162,7 @@ void CMainFrame::OnMove(int x, int y)
 	__super::OnMove(x, y);
 
 	//MoveVideoWindow(); // This isn't needed, based on my limited tests. If it is needed then please add a description the scenario(s) where it is needed.
+	m_wndView.Invalidate();
 
 	WINDOWPLACEMENT wp;
 	GetWindowPlacement(&wp);
