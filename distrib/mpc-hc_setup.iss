@@ -74,20 +74,17 @@ WizardImageFile=Images\WizardImageLarge.bmp
 WizardSmallImageFile=Images\WizardImageSmall.bmp
 Compression=lzma/ultra
 SolidCompression=yes
+DirExistsWarning=no
 EnableDirDoesntExistWarning=no
 AllowNoIcons=yes
-DirExistsWarning=no
 ShowTasksTreeLines=yes
 AlwaysShowDirOnReadyPage=yes
 AlwaysShowGroupOnReadyPage=yes
-WizardImageStretch=no
 ShowLanguageDialog=yes
-UsePreviousLanguage=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 MinVersion=0,5.01.2600
 AppMutex=MediaPlayerClassicW
-CompressionThreads=2
 
 
 [Languages]
