@@ -34,8 +34,6 @@
 IMPLEMENT_DYNAMIC(CPPageCasimir, CPPageBase)
 CPPageCasimir::CPPageCasimir()
 	: CPPageBase(CPPageCasimir::IDD, CPPageCasimir::IDD)
-	, m_fRememberDVDPos(FALSE)
-	, m_fRememberFilePos(FALSE)
 {
 }
 
@@ -50,8 +48,6 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SLI_BRIGHTNESS, m_SliBrightness);
 	DDX_Control(pDX, IDC_SLI_HUE, m_SliHue);
 	DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
-	DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
-	DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
 }
 
 
@@ -69,9 +65,6 @@ BOOL CPPageCasimir::OnInitDialog()
 	__super::OnInitDialog();
 
 	AppSettings& s = AfxGetAppSettings();
-
-	m_fRememberDVDPos			= s.fRememberDVDPos;
-	m_fRememberFilePos			= s.fRememberFilePos;
 
 	UpdateData(FALSE);
 
@@ -117,9 +110,6 @@ BOOL CPPageCasimir::OnInitDialog()
 		m_SliSaturation.SetPos		((int)(m_dSaturation*100));
 	}
 
-	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
-	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
-
 	return TRUE;
 }
 
@@ -129,15 +119,10 @@ BOOL CPPageCasimir::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
-	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
-
 	s.dBrightness				= m_dBrightness;
 	s.dContrast					= m_dContrast;
 	s.dHue						= m_dHue;
 	s.dSaturation				= m_dSaturation;
-	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
-	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
 
 	return __super::OnApply();
 }

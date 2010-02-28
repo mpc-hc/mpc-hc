@@ -45,6 +45,8 @@ CPPagePlayer::CPPagePlayer()
 	, m_fHideCDROMsSubMenu(FALSE)
 	, m_priority(FALSE)
 	, m_fShowOSD(FALSE)
+	, m_fRememberDVDPos(FALSE)
+	, m_fRememberFilePos(FALSE)
 {
 }
 
@@ -68,11 +70,15 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK10, m_fHideCDROMsSubMenu);
 	DDX_Check(pDX, IDC_CHECK9, m_priority);
 	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
+	DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
+	DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
 	ON_BN_CLICKED(IDC_CHECK8, OnBnClickedCheck8)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK13, OnUpdateCheck13)
+	ON_UPDATE_COMMAND_UI(IDC_DVD_POS, OnUpdatePos)
+	ON_UPDATE_COMMAND_UI(IDC_FILE_POS, OnUpdatePos)
 END_MESSAGE_MAP()
 
 // CPPagePlayer message handlers
@@ -96,8 +102,13 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
 	m_priority = s.priority != NORMAL_PRIORITY_CLASS;
 	m_fShowOSD = s.fShowOSD;
+	m_fRememberDVDPos			= s.fRememberDVDPos;
+	m_fRememberFilePos			= s.fRememberFilePos;
 
 	UpdateData(FALSE);
+
+	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
+	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -121,6 +132,8 @@ BOOL CPPagePlayer::OnApply()
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
 	s.priority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
 	s.fShowOSD = !!m_fShowOSD;
+	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
+	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
 
 	if(!m_fKeepHistory)
 	{
@@ -133,6 +146,9 @@ BOOL CPPagePlayer::OnApply()
 	((CMainFrame*)AfxGetMainWnd())->ShowTrayIcon(s.fTrayIcon);
 
 	::SetPriorityClass(::GetCurrentProcess(), s.priority);
+
+	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
+	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);
 
 	return __super::OnApply();
 }
@@ -152,4 +168,11 @@ void CPPagePlayer::OnUpdateCheck13(CCmdUI* pCmdUI)
 	UpdateData();
 
 	pCmdUI->Enable(m_iTitleBarTextStyle == 1);
+}
+
+void CPPagePlayer::OnUpdatePos(CCmdUI* pCmdUI)
+{
+	UpdateData();
+
+	pCmdUI->Enable( !!m_fKeepHistory );
 }

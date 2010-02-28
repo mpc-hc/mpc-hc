@@ -60,7 +60,5 @@ public:
 	CSliderCtrl m_SliHue;
 	CSliderCtrl m_SliSaturation;
 	afx_msg void OnBnClickedReset();
-	BOOL m_fRememberDVDPos;
-	BOOL m_fRememberFilePos;
 	virtual void OnCancel();
 };

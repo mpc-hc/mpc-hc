@@ -49,6 +49,8 @@ public:
 	BOOL m_fHideCDROMsSubMenu;
 	BOOL m_priority;
 	BOOL m_fShowOSD;
+	BOOL m_fRememberDVDPos;
+	BOOL m_fRememberFilePos;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYER };
@@ -64,4 +66,5 @@ public:
 	afx_msg void OnBnClickedCheck8();
 	afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateCheck13(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePos(CCmdUI* pCmdUI);
 };
