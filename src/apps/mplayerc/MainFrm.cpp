@@ -13595,10 +13595,15 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 		return m_pTaskbarList->SetThumbnailClip( m_hWnd, NULL );
 	}
 
-	RECT vid_rect;
+	RECT vid_rect, result_rect;
 	m_wndView.GetClientRect( &vid_rect );
 
-	return m_pTaskbarList->SetThumbnailClip( m_hWnd, &vid_rect );
+	result_rect.left = 2;	 
+	result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;	 
+	result_rect.top = 22;	 
+	result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
+
+	return m_pTaskbarList->SetThumbnailClip( m_hWnd, &result_rect );
 }
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
