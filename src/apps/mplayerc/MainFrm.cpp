@@ -8386,10 +8386,10 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 		{
 			GetWindowRect(&wr);
 
-			// HACK - it works without this hack now but what was it for ?
-			//CRect r;
-			//m_wndView.GetWindowRect(&r);
-			//wr -= r.TopLeft();
+			// it's code need for work in fullscreen on secondary monitor;
+			CRect r;
+			m_wndView.GetWindowRect(&r);
+			wr -= r.TopLeft();
 		}
 
 		CRect vr = CRect(0,0,0,0);
