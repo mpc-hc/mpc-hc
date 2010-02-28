@@ -444,6 +444,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
 	ON_COMMAND(ID_FAVORITES_ADD, OnFavoritesAdd)
 	ON_UPDATE_COMMAND_UI(ID_FAVORITES_ADD, OnUpdateFavoritesAdd)
+	ON_COMMAND(ID_FAVORITES_QUICKADDFAVORITE, OnFavoritesQuickAddFavorite)
 	ON_COMMAND(ID_FAVORITES_ORGANIZE, OnFavoritesOrganize)
 	ON_UPDATE_COMMAND_UI(ID_FAVORITES_ORGANIZE, OnUpdateFavoritesOrganize)
 	ON_COMMAND_RANGE(ID_FAVORITES_FILE_START, ID_FAVORITES_FILE_END, OnFavoritesFile)
@@ -7171,7 +7172,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 	case ID_AFTERPLAYBACK_HIBERNATE: fChecked = !!(s.nCLSwitches & CLSW_HIBERNATE); break;
 	case ID_AFTERPLAYBACK_SHUTDOWN: fChecked = !!(s.nCLSwitches & CLSW_SHUTDOWN); break;
 	case ID_AFTERPLAYBACK_LOGOFF: fChecked = !!(s.nCLSwitches & CLSW_LOGOFF); break;
-	case ID_AFTERPLAYBACK_DONOTHING: fChecked = (!s.m_fExitAfterPlayback)&(!s.m_fNextInDirAfterPlayback); break;
+	case ID_AFTERPLAYBACK_DONOTHING: fChecked = (!s.m_fExitAfterPlayback) && (!s.m_fNextInDirAfterPlayback); break;
 	}
 
 	pCmdUI->SetRadio(fChecked);
@@ -7710,6 +7711,112 @@ void CMainFrame::OnFavoritesAdd()
 void CMainFrame::OnUpdateFavoritesAdd(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_iPlaybackMode == PM_FILE || m_iPlaybackMode == PM_DVD);
+}
+
+// TODO: OnFavoritesAdd and OnFavoritesQuickAddFavorite use nearly the same code, do something about it
+void CMainFrame::OnFavoritesQuickAddFavorite()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	if(m_iPlaybackMode == PM_FILE)
+	{
+		CString fn =  m_wndPlaylistBar.GetCur();
+		if(fn.IsEmpty()) return;
+
+		CString desc = fn;
+		desc.Replace('\\', '/');
+		int i = desc.Find(_T("://")), j = desc.Find(_T("?")), k = desc.ReverseFind('/');
+		if(i >= 0) desc = j >= 0 ? desc.Left(j) : desc;
+		else if(k >= 0) desc = desc.Mid(k+1);
+
+		// TODO: Make this proper code
+		BOOL bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
+		BOOL bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
+
+		CString fn_with_pos(desc);
+		if(bRememberPos)
+			fn_with_pos.Format(_T("%s_%s"), desc, GetVidPos()); // Add file position (time format) so it will be easier to organize later
+
+		// Name
+		CString str = fn_with_pos;
+		str.Remove(';');
+
+		// RememberPos
+		CString pos(_T("0"));
+		if(bRememberPos)
+			pos.Format(_T("%I64d"), GetPos());
+
+		str += ';';
+		str += pos;
+
+		// RelativeDrive
+		CString relativeDrive;
+		relativeDrive.Format( _T("%d"), bRelativeDrive );
+
+		str += ';';
+		str += relativeDrive;
+
+		// Paths
+		CPlaylistItem pli;
+		if(m_wndPlaylistBar.GetCur(pli))
+		{
+			POSITION pos = pli.m_fns.GetHeadPosition();
+			while(pos) str += _T(";") + pli.m_fns.GetNext(pos);
+		}
+
+		s.AddFav(FAV_FILE, str);
+	}
+	else if(m_iPlaybackMode == PM_DVD)
+	{
+		WCHAR path[MAX_PATH];
+		ULONG len = 0;
+		pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
+		CString fn = path;
+		fn.TrimRight(_T("/\\"));
+
+		DVD_PLAYBACK_LOCATION2 Location;
+		pDVDI->GetCurrentLocation(&Location);
+		CString desc;
+		desc.Format(_T("%s - T%02d C%02d - %02d:%02d:%02d"), fn, Location.TitleNum, Location.ChapterNum, 
+			Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
+
+		// TODO: Make this proper code
+		BOOL bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
+
+		// Name
+		CString str = bRememberPos ? desc : fn;
+		str.Remove(';');
+
+		// RememberPos
+		CString pos(_T("0"));
+		if(bRememberPos)
+		{
+			CDVDStateStream stream;
+			stream.AddRef();
+
+			CComPtr<IDvdState> pStateData;
+			CComQIPtr<IPersistStream> pPersistStream;
+			if(SUCCEEDED(pDVDI->GetState(&pStateData))
+			&& (pPersistStream = pStateData)
+			&& SUCCEEDED(OleSaveToStream(pPersistStream, (IStream*)&stream)))
+			{
+				pos = BinToCString(stream.m_data.GetData(), stream.m_data.GetCount());
+			}
+		}
+
+		str += ';';
+		str += pos;
+
+		// Paths
+		str += ';';
+		str += fn;
+
+		s.AddFav(FAV_DVD, str);
+	}
+	else if(m_iPlaybackMode == PM_CAPTURE)
+	{
+		// TODO
+	}
 }
 
 void CMainFrame::OnFavoritesOrganize()
@@ -11267,12 +11374,15 @@ void CMainFrame::SetupFavoritesSubMenu()
 
 		if(!sl.IsEmpty())
 		{
+			bool bPositionDataPresent = false;
+
 			// pos
 			REFERENCE_TIME rt = 0;
 			if(1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0)
 			{
 				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
 				str.Format(_T("%s\t[%02d:%02d:%02d]"), CString(str), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+				bPositionDataPresent = true;
 			}
 			
 			// relative drive
@@ -11283,7 +11393,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 				BOOL bRelativeDrive = FALSE;
 				if ( _stscanf_s(sl.GetHead(), _T("%d"), &bRelativeDrive) == 1 )
 				{
-					str.Format(_T("%s [RD: %s]"), CString(str), bRelativeDrive ? _T("On") : _T("Off"));
+					str.Format(_T("%s%s[RD: %s]"), CString(str), bPositionDataPresent ? _T(" ") : _T("\t"), bRelativeDrive ? _T("On") : _T("Off"));
 				}
 			}
 		}
@@ -13598,6 +13708,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 	RECT vid_rect, result_rect;
 	m_wndView.GetClientRect( &vid_rect );
 
+	// NOTE: For remove menu from thumbnail clip preview
 	result_rect.left = 2;	 
 	result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;	 
 	result_rect.top = 22;	 

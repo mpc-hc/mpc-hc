@@ -32,8 +32,11 @@
 #define IDS_R_FAVDEVICES					_T("Favorites\\Devices")
 #define IDS_R_COMMANDS						_T("Commands2")
 #define IDS_R_LOGINS						_T("Logins")
+#define IDS_R_FAVORITES						_T("Favorites")
 
 
+#define IDS_RS_FAV_REMEMBERPOS				_T("RememberPosition")
+#define IDS_RS_FAV_RELATIVEDRIVE			_T("RelativeDrive")
 #define IDS_RS_DVDPOS						_T("Remember DVD Pos")
 #define IDS_RS_FILEPOS						_T("Remember File Pos")
 #define IDS_RS_LASTFULLSCREEN				_T("LastFullScreen")

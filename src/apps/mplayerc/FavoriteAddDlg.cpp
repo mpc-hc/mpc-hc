@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "FavoriteAddDlg.h"
+#include "SettingsDefines.h"
 
 
 // CFavoriteAddDlg dialog
@@ -63,8 +64,8 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 
 	::CorrectComboListWidth( m_namectrl, GetFont() );
 
-	m_bRememberPos = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RememberPosition"), TRUE);
-	m_bRelativeDrive = AfxGetApp()->GetProfileInt(_T("Favorite"), _T("RelativeDrive"), FALSE);
+	m_bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
+	m_bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
 
 	UpdateData(FALSE); // Update UI
 
@@ -94,8 +95,8 @@ void CFavoriteAddDlg::OnOK()
 	UpdateData(); // Retrieve UI values
 
 	// Remember settings
-	AfxGetApp()->WriteProfileInt(_T("Favorite"), _T("RememberPosition"), m_bRememberPos);
-	AfxGetApp()->WriteProfileInt(_T("Favorite"), _T("RelativeDrive"), m_bRelativeDrive);
+	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, m_bRememberPos);
+	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, m_bRelativeDrive);
 
 	CCmdUIDialog::OnOK();
 }
