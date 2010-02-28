@@ -1,7 +1,7 @@
 
 /* pngread.c - read a PNG file
  *
- * Last changed in libpng 1.4.0 [January 3, 2010]
+ * Last changed in libpng 1.4.1 [February 25, 2010]
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -31,7 +31,9 @@ png_create_read_struct(png_const_charp user_png_ver, png_voidp error_ptr,
       warn_fn, NULL, NULL, NULL));
 }
 
-/* Alternate create PNG structure for reading, and allocate any memory needed. */
+/* Alternate create PNG structure for reading, and allocate any memory
+ * needed.
+ */
 png_structp PNGAPI
 png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
    png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr,
@@ -65,11 +67,17 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
       return (NULL);
 
    /* Added at libpng-1.2.6 */
-#ifdef PNG_SET_USER_LIMITS_SUPPORTED
+#ifdef PNG_USER_LIMITS_SUPPORTED
    png_ptr->user_width_max = PNG_USER_WIDTH_MAX;
    png_ptr->user_height_max = PNG_USER_HEIGHT_MAX;
-   /* Added at libpng-1.4.0 */
+#  ifdef PNG_USER_CHUNK_CACHE_MAX
+   /* Added at libpng-1.2.43 and 1.4.0 */
    png_ptr->user_chunk_cache_max = PNG_USER_CHUNK_CACHE_MAX;
+#  endif
+#  ifdef PNG_SET_USER_CHUNK_MALLOC_MAX
+   /* Added at libpng-1.2.43 and 1.4.1 */
+   png_ptr->user_chunk_malloc_max = PNG_USER_CHUNK_MALLOC_MAX;
+#  endif
 #endif
 
 #ifdef PNG_SETJMP_SUPPORTED
@@ -477,7 +485,8 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
    if (png_ptr->transformations & PNG_FILLER)
       png_warning(png_ptr, "PNG_READ_FILLER_SUPPORTED is not defined");
 #endif
-#if defined(PNG_WRITE_PACKSWAP_SUPPORTED) && !defined(PNG_READ_PACKSWAP_SUPPORTED)
+#if defined(PNG_WRITE_PACKSWAP_SUPPORTED) && \
+    !defined(PNG_READ_PACKSWAP_SUPPORTED)
    if (png_ptr->transformations & PNG_PACKSWAP)
       png_warning(png_ptr, "PNG_READ_PACKSWAP_SUPPORTED is not defined");
 #endif
@@ -580,7 +589,9 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
       png_error(png_ptr, "Invalid attempt to read row data");
 
    png_ptr->zstream.next_out = png_ptr->row_buf;
-   png_ptr->zstream.avail_out = (uInt)png_ptr->irowbytes;
+   png_ptr->zstream.avail_out =
+       (uInt)(PNG_ROWBYTES(png_ptr->pixel_depth,
+       png_ptr->iwidth) + 1);
    do
    {
       if (!(png_ptr->zstream.avail_in))
@@ -1044,7 +1055,8 @@ png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
 
 /* Free all memory used by the read (old method) */
 void /* PRIVATE */
-png_read_destroy(png_structp png_ptr, png_infop info_ptr, png_infop end_info_ptr)
+png_read_destroy(png_structp png_ptr, png_infop info_ptr,
+    png_infop end_info_ptr)
 {
 #ifdef PNG_SETJMP_SUPPORTED
    jmp_buf tmp_jmp;

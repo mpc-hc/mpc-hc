@@ -1,7 +1,7 @@
 
 /* pngtest.c - a simple test program to test libpng
  *
- * Last changed in libpng 1.4.0 [January 3, 2010]
+ * Last changed in libpng 1.4.1 [February 25, 2010]
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -859,8 +859,8 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
    {
       png_fixed_point white_x, white_y, red_x, red_y, green_x, green_y, blue_x,
          blue_y;
-      if (png_get_cHRM_fixed(read_ptr, read_info_ptr, &white_x, &white_y, &red_x,
-         &red_y, &green_x, &green_y, &blue_x, &blue_y))
+      if (png_get_cHRM_fixed(read_ptr, read_info_ptr, &white_x, &white_y,
+         &red_x, &red_y, &green_x, &green_y, &blue_x, &blue_y))
       {
          png_set_cHRM_fixed(write_ptr, write_info_ptr, white_x, white_y, red_x,
             red_y, green_x, green_y, blue_x, blue_y);
@@ -1012,7 +1012,8 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
       if (png_get_sCAL_s(read_ptr, read_info_ptr, &unit, &scal_width,
           &scal_height))
       {
-         png_set_sCAL_s(write_ptr, write_info_ptr, unit, scal_width, scal_height);
+         png_set_sCAL_s(write_ptr, write_info_ptr, unit, scal_width,
+             scal_height);
       }
    }
 #endif
@@ -1465,14 +1466,14 @@ main(int argc, char *argv[])
 #endif
       for (i=2; i<argc; ++i)
       {
-#ifdef PNG_READ_USER_TRANSFORM_SUPPORTED
-         int k;
-#endif
          int kerror;
          fprintf(STDERR, "\n Testing %s:", argv[i]);
          kerror = test_one_file(argv[i], outname);
          if (kerror == 0)
          {
+#ifdef PNG_READ_USER_TRANSFORM_SUPPORTED
+            int k;
+#endif
 #ifdef PNG_WRITE_USER_TRANSFORM_SUPPORTED
             fprintf(STDERR, "\n PASS (%lu zero samples)\n",
                (unsigned long)zero_samples);
@@ -1558,8 +1559,7 @@ main(int argc, char *argv[])
                 for (k = 0; k<256; k++)
                    if (filters_used[k])
                       fprintf(STDERR, " Filter %d was used %lu times\n",
-                         k,
-                         (unsigned long)filters_used[k]);
+                         k, (unsigned long)filters_used[k]);
 #endif
 #ifdef PNG_TIME_RFC1123_SUPPORTED
              if (tIME_chunk_present != 0)
@@ -1627,4 +1627,4 @@ main(int argc, char *argv[])
 }
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_4_0 your_png_h_is_not_version_1_4_0;
+typedef version_1_4_1 your_png_h_is_not_version_1_4_1;
