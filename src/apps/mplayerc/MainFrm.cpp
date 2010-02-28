@@ -13459,12 +13459,13 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 
 HRESULT CMainFrame::UpdateThumbarButton()
 {
-	if(!m_pTaskbarList) return false;
+	if ( !m_pTaskbarList )
+		return false;
 
-	if(!AfxGetAppSettings().m_fUseWin7TaskBar)
+	if ( !AfxGetAppSettings().m_fUseWin7TaskBar )
 	{
-		m_pTaskbarList->SetOverlayIcon (m_hWnd, NULL, L"");
-		m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+		m_pTaskbarList->SetOverlayIcon( m_hWnd, NULL, L"" );
+		m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NOPROGRESS );
 	
 		THUMBBUTTON buttons[5] = {};
 
@@ -13488,7 +13489,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 		buttons[4].dwFlags = THBF_HIDDEN;
 		buttons[4].iId = IDTB_BUTTON5;
 
-		HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+		HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons( m_hWnd, ARRAYSIZE(buttons), buttons );
 		return hr;
 	}
 
@@ -13498,45 +13499,45 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	buttons[0].dwFlags = THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
-	StringCchCopy(buttons[0].szTip, sizeof(buttons[0].szTip)/sizeof(buttons[0].szTip[0]), ResStr(IDS_MPLAYERC_26));
+	StringCchCopy( buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_MPLAYERC_26) );
 
 	buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[1].iId = IDTB_BUTTON1;
 	buttons[1].iBitmap = 1;
-	StringCchCopy(buttons[1].szTip, sizeof(buttons[1].szTip)/sizeof(buttons[1].szTip[0]), ResStr(IDS_AG_STOP));  
-		
+	StringCchCopy( buttons[1].szTip, _countof(buttons[1].szTip), ResStr(IDS_AG_STOP) );
+
 	buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[2].iId = IDTB_BUTTON2;
 	buttons[2].iBitmap = 3;
-	StringCchCopy(buttons[2].szTip, sizeof(buttons[2].szTip)/sizeof(buttons[2].szTip[0]), ResStr(IDS_AG_PLAYPAUSE));
+	StringCchCopy( buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE) );
 
 	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[3].dwFlags = THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
-	StringCchCopy(buttons[3].szTip, sizeof(buttons[3].szTip)/sizeof(buttons[3].szTip[0]), ResStr(IDS_MPLAYERC_25)); 
+	StringCchCopy( buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_MPLAYERC_25) );
 
 	buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[4].dwFlags = THBF_ENABLED;
 	buttons[4].iId = IDTB_BUTTON5;
 	buttons[4].iBitmap = 5;
-	StringCchCopy(buttons[4].szTip, sizeof(buttons[4].szTip)/sizeof(buttons[4].szTip[0]), ResStr(IDS_AG_FULLSCREEN)); 
+	StringCchCopy( buttons[4].szTip, _countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN) );
 
-	HICON hIcon;
+	HICON hIcon = NULL;
 
-	if(m_iMediaLoadState == MLS_LOADED)
+	if ( m_iMediaLoadState == MLS_LOADED )
 	{
 		OAFilterState fs = GetMediaState();
-		if(fs == State_Running)
+		if ( fs == State_Running )
 		{
 			buttons[1].dwFlags = THBF_ENABLED;
 			buttons[2].dwFlags = THBF_ENABLED;
 			buttons[2].iBitmap = 2;
 			
-			hIcon = AfxGetApp()->LoadIcon(IDR_TB_PLAY);
-			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NORMAL);
+			hIcon = AfxGetApp()->LoadIcon( IDR_TB_PLAY );
+			m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NORMAL );
 		}
-		else if(fs == State_Stopped)
+		else if ( fs == State_Stopped )
 		{
 			buttons[0].dwFlags = THBF_DISABLED;
 			buttons[1].dwFlags = THBF_DISABLED;
@@ -13544,23 +13545,26 @@ HRESULT CMainFrame::UpdateThumbarButton()
 			buttons[2].iBitmap = 3;
 			buttons[3].dwFlags = THBF_DISABLED;
 
-			hIcon = AfxGetApp()->LoadIcon(IDR_TB_STOP);
-			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+			hIcon = AfxGetApp()->LoadIcon( IDR_TB_STOP );
+			m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NOPROGRESS );
 		}
-		else if(fs == State_Paused)
+		else if ( fs == State_Paused )
 		{
 			buttons[1].dwFlags = THBF_ENABLED;
 			buttons[2].dwFlags = THBF_ENABLED;
 			buttons[2].iBitmap = 3;
 
-			hIcon = AfxGetApp()->LoadIcon(IDR_TB_PAUSE);
-			m_pTaskbarList->SetProgressState(m_hWnd, TBPF_PAUSED);
+			hIcon = AfxGetApp()->LoadIcon( IDR_TB_PAUSE );
+			m_pTaskbarList->SetProgressState( m_hWnd, TBPF_PAUSED );
 		}
-		if(m_fAudioOnly)
+
+		if ( m_fAudioOnly )
 			buttons[4].dwFlags = THBF_DISABLED;
 
-		m_pTaskbarList->SetOverlayIcon (m_hWnd, hIcon, L"");
-		if (hIcon) DestroyIcon(hIcon);
+		m_pTaskbarList->SetOverlayIcon( m_hWnd, hIcon, L"" );
+
+		if ( hIcon != NULL )
+			DestroyIcon( hIcon );
 	}
 	else
 	{
@@ -13570,11 +13574,11 @@ HRESULT CMainFrame::UpdateThumbarButton()
 		buttons[3].dwFlags = THBF_DISABLED;
 		buttons[4].dwFlags = THBF_DISABLED;
 
-		m_pTaskbarList->SetOverlayIcon (m_hWnd, NULL, L"");
-		m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+		m_pTaskbarList->SetOverlayIcon( m_hWnd, NULL, L"" );
+		m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NOPROGRESS );
 	}
 
-	HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons(m_hWnd, ARRAYSIZE(buttons), buttons);
+	HRESULT hr = m_pTaskbarList->ThumbBarUpdateButtons( m_hWnd, ARRAYSIZE(buttons), buttons );
 
 	UpdateThumbnailClip();
 
@@ -13583,20 +13587,18 @@ HRESULT CMainFrame::UpdateThumbarButton()
 
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
-	if(!m_pTaskbarList) return false;
-	if((!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen)
-	{
-		return m_pTaskbarList->SetThumbnailClip(m_hWnd, NULL);
-	}	
+	if ( !m_pTaskbarList )
+		return false;
 
-	RECT vid_rect, result_rect;
-	m_wndView.GetWindowRect(&vid_rect);
-	result_rect.left = 2;
-	result_rect.right = result_rect.left + (vid_rect.right - vid_rect.left) - 4;
-	result_rect.top = 22;
-	result_rect.bottom = result_rect.top + (vid_rect.bottom - vid_rect.top) - 4;
-	
-	return m_pTaskbarList->SetThumbnailClip(m_hWnd, &result_rect);
+	if ( (!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen )
+	{
+		return m_pTaskbarList->SetThumbnailClip( m_hWnd, NULL );
+	}
+
+	RECT vid_rect;
+	m_wndView.GetClientRect( &vid_rect );
+
+	return m_pTaskbarList->SetThumbnailClip( m_hWnd, &vid_rect );
 }
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
