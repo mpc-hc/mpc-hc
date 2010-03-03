@@ -51,6 +51,7 @@ public:
 	BOOL m_fShowOSD;
 	BOOL m_fRememberDVDPos;
 	BOOL m_fRememberFilePos;
+	BOOL m_fFreeWindowResizing;
 
 // Dialog Data
 	enum { IDD = IDD_PPAGEPLAYER };

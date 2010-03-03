@@ -50,7 +50,6 @@ public:
 	int m_nJumpDistS;
 	int m_nJumpDistM;
 	int m_nJumpDistL;
-	BOOL m_fFreeWindowResizing;
 	BOOL m_fNotifyMSN;
 	BOOL m_fNotifyGTSdll;
 	CStaticLink m_GTSdllLink;

@@ -37,7 +37,6 @@ CPPageTweaks::CPPageTweaks()
 	, m_nJumpDistS(0)
 	, m_nJumpDistM(0)
 	, m_nJumpDistL(0)
-	, m_fFreeWindowResizing(TRUE)
 	, m_fNotifyMSN(TRUE)
 	, m_fNotifyGTSdll(FALSE)
 	, m_GTSdllLink(_T("https://sourceforge.net/project/showfiles.php?group_id=82303&package_id=169521&release_id=371114"))
@@ -62,7 +61,6 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT1, m_nJumpDistS);
 	DDX_Text(pDX, IDC_EDIT2, m_nJumpDistM);
 	DDX_Text(pDX, IDC_EDIT3, m_nJumpDistL);
-	DDX_Check(pDX, IDC_CHECK1, m_fFreeWindowResizing);
 	DDX_Check(pDX, IDC_CHECK4, m_fNotifyMSN);
 	DDX_Check(pDX, IDC_CHECK5, m_fNotifyGTSdll);
 	DDX_Control(pDX, IDC_STATICLINKGTS, m_GTSdllLink);
@@ -81,7 +79,6 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_nJumpDistS = s.nJumpDistS;
 	m_nJumpDistM = s.nJumpDistM;
 	m_nJumpDistL = s.nJumpDistL;
-	m_fFreeWindowResizing = s.fFreeWindowResizing;
 	m_fNotifyMSN = s.fNotifyMSN;
 	m_fNotifyGTSdll = s.fNotifyGTSdll;
 
@@ -105,7 +102,6 @@ BOOL CPPageTweaks::OnApply()
 	s.nJumpDistS = m_nJumpDistS;
 	s.nJumpDistM = m_nJumpDistM;
 	s.nJumpDistL = m_nJumpDistL;
-	s.fFreeWindowResizing = !!m_fFreeWindowResizing;
 	s.fNotifyMSN = !!m_fNotifyMSN;
 	s.fNotifyGTSdll = !!m_fNotifyGTSdll;
 

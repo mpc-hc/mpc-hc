@@ -47,6 +47,7 @@ CPPagePlayer::CPPagePlayer()
 	, m_fShowOSD(FALSE)
 	, m_fRememberDVDPos(FALSE)
 	, m_fRememberFilePos(FALSE)
+	, m_fFreeWindowResizing(TRUE)
 {
 }
 
@@ -72,6 +73,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
 	DDX_Check(pDX, IDC_DVD_POS, m_fRememberDVDPos);
 	DDX_Check(pDX, IDC_FILE_POS, m_fRememberFilePos);
+	DDX_Check(pDX, IDC_CHECK4, m_fFreeWindowResizing);
 }
 
 BEGIN_MESSAGE_MAP(CPPagePlayer, CPPageBase)
@@ -102,8 +104,9 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
 	m_priority = s.priority != NORMAL_PRIORITY_CLASS;
 	m_fShowOSD = s.fShowOSD;
-	m_fRememberDVDPos			= s.fRememberDVDPos;
-	m_fRememberFilePos			= s.fRememberFilePos;
+	m_fRememberDVDPos = s.fRememberDVDPos;
+	m_fRememberFilePos = s.fRememberFilePos;
+	m_fFreeWindowResizing = s.fFreeWindowResizing;
 
 	UpdateData(FALSE);
 
@@ -132,8 +135,9 @@ BOOL CPPagePlayer::OnApply()
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
 	s.priority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
 	s.fShowOSD = !!m_fShowOSD;
-	s.fRememberDVDPos			= m_fRememberDVDPos ? true : false;
-	s.fRememberFilePos			= m_fRememberFilePos ? true : false;
+	s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
+	s.fRememberFilePos = m_fRememberFilePos ? true : false;
+	s.fFreeWindowResizing = !!m_fFreeWindowResizing;
 
 	if(!m_fKeepHistory)
 	{
