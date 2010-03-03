@@ -47,6 +47,8 @@ CPPageOutput::CPPageOutput()
 	, m_fResetDevice(FALSE)
 	, m_iEvrBuffers(L"5")
 	, m_fD3DFullscreen(FALSE)
+	, m_fD3D9RenderDevice(FALSE)
+	, m_iD3D9RenderDevice(-1)
 {
 }
 
@@ -73,6 +75,10 @@ void CPPageOutput::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
 	
 	DDX_CBString(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
+
+	DDX_Check(pDX, IDC_D3D9DEVICE, m_fD3D9RenderDevice);	
+	DDX_CBIndex(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDevice);
+	DDX_Control(pDX, IDC_D3D9DEVICE_COMBO, m_iD3D9RenderDeviceCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
@@ -80,6 +86,7 @@ BEGIN_MESSAGE_MAP(CPPageOutput, CPPageBase)
 	ON_CBN_SELCHANGE(IDC_DX_SURFACE, &CPPageOutput::OnSurfaceChange)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_DSSYSDEF, IDC_DSSYNC, &CPPageOutput::OnDSRendererChange)
 	ON_BN_CLICKED(IDC_FULLSCREEN_MONITOR_CHECK, OnFullscreenCheck)
+	ON_BN_CLICKED(IDC_D3D9DEVICE, OnD3D9DeviceCheck)
 END_MESSAGE_MAP()
 
 void CPPageOutput::DisableRadioButton(UINT nID, UINT nDefID)
@@ -187,6 +194,51 @@ BOOL CPPageOutput::OnInitDialog()
 
 	CorrectComboListWidth(m_iAudioRendererTypeCtrl, GetFont());
 
+	//
+	IDirect3D9* pD3D;
+	if (pD3D = Direct3DCreate9(D3D_SDK_VERSION))
+	{
+		TCHAR		strGUID[50];
+		CString cstrGUID;
+		CString d3ddevice_str = _T("");
+		CStringArray adapterList;
+
+		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+
+		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
+		{
+			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) 
+			{
+				d3ddevice_str = adapterIdentifier.Description;
+				d3ddevice_str += _T(" - ");
+				d3ddevice_str += adapterIdentifier.DeviceName;
+				cstrGUID = _T("");
+				if (::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0)
+				{
+					cstrGUID = strGUID;
+				}
+				if((cstrGUID != _T("")))
+				{
+					boolean m_find = false;
+					for(i = 0; !m_find, i < m_D3D9GUIDNames.GetCount(); i++)
+					{
+						if(m_D3D9GUIDNames.GetAt(i) == cstrGUID) m_find = true; 
+					}
+					if(!m_find)
+					{
+						m_iD3D9RenderDeviceCtrl.AddString(d3ddevice_str);
+						m_D3D9GUIDNames.Add(cstrGUID);
+						if (s.D3D9RenderDevice == cstrGUID)
+							m_iD3D9RenderDevice = m_iD3D9RenderDeviceCtrl.GetCount()-1;
+					}
+				}
+			}
+		}
+		pD3D->Release();
+	}
+
+	CorrectComboListWidth(m_iD3D9RenderDeviceCtrl, GetFont());
+
 	UpdateData(FALSE);
 
 	if(!IsCLSIDRegistered(CLSID_VideoMixingRenderer))
@@ -227,6 +279,30 @@ BOOL CPPageOutput::OnInitDialog()
 
 	OnDSRendererChange (m_iDSVideoRendererType + IDC_DSSYSDEF);
 
+	CheckDlgButton(IDC_D3D9DEVICE, BST_CHECKED);
+	GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
+	GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(TRUE);
+
+	if((m_iDSVideoRendererType == 6 || m_iDSVideoRendererType == 11) && (m_iD3D9RenderDeviceCtrl.GetCount() > 1))
+	{
+		GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
+		GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
+		CheckDlgButton(IDC_D3D9DEVICE, BST_UNCHECKED);
+		if(m_iD3D9RenderDevice != -1)
+		{
+			CheckDlgButton(IDC_D3D9DEVICE, BST_CHECKED);
+			GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(TRUE);
+		}
+	}
+	else
+	{ 
+		GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(FALSE);
+		GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
+		if(m_iD3D9RenderDevice == -1)
+			CheckDlgButton(IDC_D3D9DEVICE, BST_UNCHECKED);
+	}
+	UpdateData(TRUE);
+
 	CreateToolTip();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -262,6 +338,8 @@ BOOL CPPageOutput::OnApply()
 	else
 		s.iEvrBuffers = 5;
 
+	s.D3D9RenderDevice = m_fD3D9RenderDevice ? m_D3D9GUIDNames[m_iD3D9RenderDevice] : _T("");
+
 	return __super::OnApply();
 }
 
@@ -287,14 +365,29 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 	GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 	GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow((nIDbutton - IDC_DSSYSDEF) == 11);
 
+	GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(FALSE);
+	GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
+
 	switch (nIDbutton - IDC_DSSYSDEF)
 	{
 	case 6 :	// VMR9 renderless
+		if(m_iD3D9RenderDeviceCtrl.GetCount()>1)
+		{
+			GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
+			GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(IsDlgButtonChecked(IDC_D3D9DEVICE));
+		}
+
 		GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(TRUE);
 		GetDlgItem(IDC_DSVMR9YUVMIXER)->EnableWindow(TRUE);
 		GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);		
 		GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 	case 11 :	// EVR custom presenter
+		if(m_iD3D9RenderDeviceCtrl.GetCount()>1)
+		{
+			GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
+			GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(IsDlgButtonChecked(IDC_D3D9DEVICE));
+		}
+
 		GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 //		GetDlgItem(IDC_CHECK1)->EnableWindow(TRUE);		// Lock back buffer
@@ -336,5 +429,12 @@ void CPPageOutput::OnFullscreenCheck()
 		m_fD3DFullscreen = false;
 		UpdateData(FALSE);
 	}
+	SetModified();
+}
+
+void CPPageOutput::OnD3D9DeviceCheck()
+{
+	UpdateData();
+	GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(m_fD3D9RenderDevice);
 	SetModified();
 }

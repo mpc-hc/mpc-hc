@@ -215,3 +215,4 @@
 #define	IDS_RS_BDA_RECEIVER					_T("BDAReceiver")
 #define	IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
 
+#define IDS_D3D9RENDERDEVICE				_T("D3D9RenderDevice")

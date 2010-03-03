@@ -836,6 +836,8 @@ public:
 		CStringW m_audiosLanguageOrder;
 
 		int fnChannels;
+
+		CString D3D9RenderDevice;
 	} m_s;
 
 public:

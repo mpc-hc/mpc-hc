@@ -1964,6 +1964,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, ISDb);
 
+		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, D3D9RenderDevice);
+
 		pApp->WriteProfileString(_T("Shaders"), NULL, NULL);
 		pApp->WriteProfileInt(_T("Shaders"), _T("Initialized"), 1);
 		pApp->WriteProfileString(_T("Shaders"), _T("Combine"), m_shadercombine);
@@ -2400,6 +2402,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		ThumbWidth = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_THUMBWIDTH, 1024);
 
 		ISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
+
+		D3D9RenderDevice = pApp->GetProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, _T(""));
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("LastUsedPage"), 0);
 

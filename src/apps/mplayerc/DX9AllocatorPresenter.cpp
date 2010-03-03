@@ -1011,7 +1011,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
 			hr = m_pD3DEx->CreateDeviceEx(
-								GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
+								GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
 								D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
 								&pp, &DisplayMode, &m_pD3DDevEx);
 
@@ -1027,7 +1027,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 		if (!m_pD3DDev)
 		{
 			hr = m_pD3D->CreateDevice(
-								GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
+								GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
 								D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
 								&pp, &m_pD3DDev);
 			if (m_pD3DDev)
@@ -1079,7 +1079,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 		if (m_pD3DEx)
 		{
 			hr = m_pD3DEx->CreateDeviceEx(
-								GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
+								GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
 								D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
 								&pp, NULL, &m_pD3DDevEx);
 			if (m_pD3DDevEx)
@@ -1088,7 +1088,7 @@ if (FAILED(g_pD3D->CreateDevice( AdapterToUse, DeviceType, hWnd,
 		else
 		{
 			hr = m_pD3D->CreateDevice(
-							GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd,
+							GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
 							D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
 							&pp, &m_pD3DDev);
 		}
@@ -1270,7 +1270,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
 
 void CDX9AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 	CAutoLock cRenderLock(&m_RenderLock);
 
 	for(int i = 0; i < m_nNbDXSurface+2; i++)
@@ -1280,10 +1280,26 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 	}
 }
 
-UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D)
+UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
 {
 	if(m_hWnd == NULL || pD3D == NULL)
 		return D3DADAPTER_DEFAULT;
+
+	AppSettings& s = AfxGetAppSettings();
+	if(CreateDevice && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T("")))
+	{
+		TCHAR		strGUID[50];
+		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+
+		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
+		{
+			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) 
+			{
+				if ((::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) && (s.D3D9RenderDevice == strGUID))
+					return	adp;
+			}
+		}
+	}
 
 	HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 	if(hMonitor == NULL) return D3DADAPTER_DEFAULT;

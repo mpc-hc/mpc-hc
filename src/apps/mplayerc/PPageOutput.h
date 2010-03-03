@@ -25,6 +25,8 @@
 
 #include "PPageBase.h"
 
+#include <d3dx9.h>
+
 
 // CPPageOutput dialog
 
@@ -34,6 +36,7 @@ class CPPageOutput : public CPPageBase
 
 private:
 	CStringArray m_AudioRendererDisplayNames;
+	CStringArray m_D3D9GUIDNames;
 
 	void DisableRadioButton(UINT nID, UINT nDefID);
 
@@ -57,6 +60,10 @@ public:
 	BOOL m_fVMR9AlterativeVSync;
 	BOOL m_fResetDevice;
 	CString m_iEvrBuffers;
+	//
+	BOOL m_fD3D9RenderDevice;
+	int m_iD3D9RenderDevice;
+	CComboBox m_iD3D9RenderDeviceCtrl;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -70,4 +77,5 @@ public:
 	afx_msg void OnSurfaceChange();
 	afx_msg void OnDSRendererChange(UINT nIDbutton);
 	afx_msg void OnFullscreenCheck();
+	afx_msg void OnD3D9DeviceCheck();
 };
