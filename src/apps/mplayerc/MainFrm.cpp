@@ -1118,45 +1118,55 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
 	lpMMI->ptMinTrackSize.x = 0;
-	if(!IsCaptionMenuHidden())
+	if ( !IsCaptionMenuHidden() )
 	{
+		// Calculate menu's horizontal length in pixels
 		lpMMI->ptMinTrackSize.x = 10;
 		CRect r;
-		for(int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++)
+		for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++)
 			lpMMI->ptMinTrackSize.x += r.Width();
-		lpMMI->ptMinTrackSize.x = max(m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x);
+		lpMMI->ptMinTrackSize.x = max( m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x );
 	}
-	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.x += GetSystemMetrics((style&WS_CAPTION)?SM_CXSIZEFRAME:SM_CXFIXEDFRAME)*2;
+	if ( style & WS_THICKFRAME )
+		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
 
-	memset(&mbi, 0, sizeof(mbi));
-	mbi.cbSize = sizeof(mbi);
-	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+	// This doesn't give correct menu pixel size
+	//memset(&mbi, 0, sizeof(mbi));
+	//mbi.cbSize = sizeof(mbi);
+	//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
 	lpMMI->ptMinTrackSize.y = 0;
-	if(style&WS_CAPTION) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYCAPTION);
-	if(style&WS_THICKFRAME) lpMMI->ptMinTrackSize.y += GetSystemMetrics(SM_CYSIZEFRAME)*2;
-	lpMMI->ptMinTrackSize.y += (mbi.rcBar.bottom - mbi.rcBar.top);
+	if ( style & WS_CAPTION )
+	{
+		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYCAPTION );
+		// If we have a caption then we have a menu bar
+		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
+	}
+	if ( style & WS_THICKFRAME )
+		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
 	// foxx1337: believe the below line isn't needed anymore since we're using system metrics numbers above
-	//if(!AfxGetAppSettings().fHideCaptionMenu) lpMMI->ptMinTrackSize.y += 3;
+	// JonasNo: Correct
+	//if ( !AfxGetAppSettings().fHideCaptionMenu ) lpMMI->ptMinTrackSize.y += 3;
 	
 	POSITION pos = m_bars.GetHeadPosition();
-	while(pos) 
+	while ( pos ) 
 	{
-		CControlBar* pCB = m_bars.GetNext(pos);
-		if(!IsWindow(pCB->m_hWnd) || !pCB->IsVisible()) continue;
+		CControlBar *pCB = m_bars.GetNext( pos );
+		if ( !IsWindow(pCB->m_hWnd) || !pCB->IsVisible() )
+			continue;
 
 		lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
 	}
 
 	pos = m_dockingbars.GetHeadPosition();
-	while(pos)
+	while ( pos )
 	{
-		CSizingControlBar* pCB = m_dockingbars.GetNext(pos);
-		if(IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() && !pCB->IsFloating())
-			lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy-2;
+		CSizingControlBar *pCB = m_dockingbars.GetNext( pos );
+		if ( IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() && !pCB->IsFloating() )
+			lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2; // 2 is a magic value from CSizingControlBar class, i guess this should be GetSystemMetrics( SM_CXBORDER ) or similar
 	}
 
-	__super::OnGetMinMaxInfo(lpMMI);
+	__super::OnGetMinMaxInfo( lpMMI );
 }
 
 void CMainFrame::OnMove(int x, int y)
@@ -1245,35 +1255,44 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 	{
 		DWORD style = GetStyle();
 
-		MENUBARINFO mbi;
-		memset(&mbi, 0, sizeof(mbi));
-		mbi.cbSize = sizeof(mbi);
-		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+		// This doesn't give correct menu pixel size
+		//MENUBARINFO mbi;
+		//memset(&mbi, 0, sizeof(mbi));
+		//mbi.cbSize = sizeof(mbi);
+		//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-		if (style&WS_THICKFRAME)fsize.cx += GetSystemMetrics(SM_CXSIZEFRAME)*2;
+		if ( style & WS_THICKFRAME )
+			fsize.cx += GetSystemMetrics( SM_CXSIZEFRAME ) * 2;
 
-		if(style&WS_CAPTION) fsize.cy += GetSystemMetrics(SM_CYCAPTION);
-		if(style&WS_THICKFRAME) fsize.cy += GetSystemMetrics(SM_CYSIZEFRAME)*2;
-		fsize.cy += mbi.rcBar.bottom - mbi.rcBar.top;
-		if(!AfxGetAppSettings().fHideCaptionMenu) fsize.cy += 3;
+		if ( style & WS_CAPTION )
+		{
+			fsize.cy += GetSystemMetrics( SM_CYCAPTION );
+			// If we have a caption then we have a menu bar
+			fsize.cy += GetSystemMetrics( SM_CYMENU ); //mbi.rcBar.bottom - mbi.rcBar.top;
+		}
+		if ( style & WS_THICKFRAME )
+			fsize.cy += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
+		//if ( !AfxGetAppSettings().fHideCaptionMenu ) fsize.cy += 3; // Now using correct window calculation
 
 		POSITION pos = m_bars.GetHeadPosition();
-		while(pos) 
+		while ( pos )
 		{
-			CControlBar* pCB = m_bars.GetNext(pos);
-			if(IsWindow(pCB->m_hWnd) && pCB->IsVisible())
+			CControlBar * pCB = m_bars.GetNext( pos );
+			if ( IsWindow(pCB->m_hWnd) && pCB->IsVisible() )
 				fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy;
 		}
 
 		pos = m_dockingbars.GetHeadPosition();
-		while(pos)
+		while ( pos )
 		{
-			CSizingControlBar* pCB = m_dockingbars.GetNext(pos);
+			CSizingControlBar *pCB = m_dockingbars.GetNext( pos );
 			
-			if(IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible())
+			if ( IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() )
 			{
-				if(pCB->IsHorzDocked()) fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy-2;
-				else if(pCB->IsVertDocked()) fsize.cx += pCB->CalcFixedLayout(TRUE, FALSE).cx;
+				if ( pCB->IsHorzDocked() )
+					fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;
+				else if ( pCB->IsVertDocked() )
+					fsize.cx += pCB->CalcFixedLayout(TRUE, FALSE).cx;
 			}
 		}
 	}
