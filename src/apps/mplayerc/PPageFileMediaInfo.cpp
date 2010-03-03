@@ -94,3 +94,9 @@ void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
 	else
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_HIDE);
 }
+
+bool CPPageFileMediaInfo::HasMediaInfo()
+{
+	MediaInfo MI;
+	return MI.IsReady();
+}

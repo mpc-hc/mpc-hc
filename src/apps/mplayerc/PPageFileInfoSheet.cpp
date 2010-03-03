@@ -26,9 +26,6 @@
 #include "MainFrm.h"
 #include "PPageFileInfoSheet.h"
 
-#include <MediaInfoDLL.h>
-using namespace MediaInfoDLL;
-
 // CPPageFileInfoSheet
 
 IMPLEMENT_DYNAMIC(CPPageFileInfoSheet, CPropertySheet)
@@ -54,10 +51,8 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	}
 	EndEnumFilters
 
-	MediaInfo MI;
-	CString mi_text = MI.Option(_T("Info_Version"), _T("")).c_str();
-	MI.Close();
-	if(mi_text.Find(_T("Unable to load"))<0) AddPage(&m_mi);
+	if (CPPageFileMediaInfo::HasMediaInfo())
+		AddPage(&m_mi);
 }
 
 CPPageFileInfoSheet::~CPPageFileInfoSheet()

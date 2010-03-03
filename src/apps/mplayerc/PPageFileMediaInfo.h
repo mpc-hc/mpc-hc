@@ -42,6 +42,7 @@ public:
 
 	CString MI_Text;
 
+	static bool HasMediaInfo();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
