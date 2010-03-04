@@ -60,7 +60,7 @@ int g_cTemplates = countof(g_Templates);
 STDAPI DllRegisterServer()
 {
 	RegisterSourceFilter(
-		CLSID_AsyncReader, 
+		__uuidof(CMatroskaSourceFilter), 
 		MEDIASUBTYPE_Matroska, 
 		_T("0,4,,1A45DFA3"), 
 		_T(".mkv"), _T(".mka"), _T(".mks"), NULL);
