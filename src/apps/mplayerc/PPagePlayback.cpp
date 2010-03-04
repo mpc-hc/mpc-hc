@@ -91,6 +91,8 @@ BOOL CPPagePlayback::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	SetHandCursor(m_hWnd, IDC_COMBO1);
+
 	AppSettings& s = AfxGetAppSettings();
 
 	m_volumectrl.SetRange(1, 100);

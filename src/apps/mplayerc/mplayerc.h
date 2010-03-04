@@ -415,6 +415,8 @@ extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
 extern void SetDispMode(dispmode& dm, CString& DisplayName);
 extern void SetAudioRender(int AudioDevNo);
 
+extern void SetHandCursor(HWND m_hWnd, UINT nID);
+
 class CMPlayerCApp : public CWinApp
 {
 	ATL::CMutex m_mutexOneInstance;

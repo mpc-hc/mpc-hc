@@ -2953,6 +2953,11 @@ void SetAudioRender(int AudioDevNo)
 	}
 }
 
+void SetHandCursor(HWND m_hWnd, UINT nID)
+{
+	SetClassLongPtr(GetDlgItem(m_hWnd, nID), GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
+}
+
 #include <afxsock.h>
 #include <atlsync.h>
 #include <atlutil.h> // put this before the first detours macro above to see an ICE with vc71 :)

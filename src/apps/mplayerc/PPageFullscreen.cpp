@@ -89,6 +89,8 @@ BOOL CPPageFullscreen::OnInitDialog()
 {
 		__super::OnInitDialog();
 
+		SetHandCursor(m_hWnd, IDC_COMBO1);
+
 		AppSettings& s = AfxGetAppSettings();
 
 		m_launchfullscreen = s.launchfullscreen;
