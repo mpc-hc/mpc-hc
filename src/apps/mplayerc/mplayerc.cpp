@@ -288,7 +288,7 @@ CMPlayerCApp::CMPlayerCApp()
 //	: m_hMutexOneInstance(NULL)
 {
 	CFileVersionInfo	Version;
-	TCHAR				strApp [MAX_PATH];
+	TCHAR				strApp [_MAX_PATH];
 
 	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
 	Version.Create (strApp);
@@ -624,9 +624,9 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
 	BOOL		bRet = FALSE;
-    WCHAR		szTempPath[MAX_PATH];
-	WCHAR		strFileName[MAX_PATH];
-	WCHAR		strExt[10];
+    WCHAR		szTempPath[_MAX_PATH];
+	WCHAR		strFileName[_MAX_PATH];
+	WCHAR		strExt[_MAX_EXT];
 	CIfo		Ifo;
 
 	if (!GetTempPathW(MAX_PATH, szTempPath)) return FALSE;
@@ -647,7 +647,7 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
 HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBUTES p4, DWORD p5, DWORD p6, HANDLE p7)
 {
 	HANDLE	hFile = INVALID_HANDLE_VALUE;
-	WCHAR	strFakeFile[MAX_PATH];
+	WCHAR	strFakeFile[_MAX_PATH];
 	int		nLen  = wcslen(p1);
 
 	p3 |= FILE_SHARE_WRITE;

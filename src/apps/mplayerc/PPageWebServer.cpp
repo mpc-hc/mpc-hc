@@ -181,7 +181,7 @@ static int __stdcall BrowseCtrlCallback(HWND hwnd, UINT uMsg, LPARAM lParam, LPA
 
 bool CPPageWebServer::PickDir(CString& dir)
 {
-	TCHAR buff[MAX_PATH];
+	TCHAR buff[_MAX_PATH];
 
 	BROWSEINFO bi;
 	bi.hwndOwner = m_hWnd;

@@ -446,7 +446,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 		if(!(fn.GetLength() > 0 && fn.GetLength() < 255))
 			return(false);
 
-		CHAR buff[MAX_PATH] = {0, 0};
+		CHAR buff[_MAX_PATH] = {0, 0};
 #ifdef UNICODE
 		WideCharToMultiByte(GetACP(), 0, fn, -1, buff+1, MAX_PATH-1, 0, 0);
 #else

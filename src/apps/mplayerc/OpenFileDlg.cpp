@@ -119,7 +119,7 @@ BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 
 BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 {
-	TCHAR buff[MAX_PATH];
+	TCHAR buff[_MAX_PATH];
 	if(!SHGetPathFromIDList((LPCITEMIDLIST)pOFNEx->pidl, buff)) 
 	{
 		STRRET s;

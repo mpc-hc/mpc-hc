@@ -714,7 +714,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	memset(&ArchiveDataEx, 0, sizeof(ArchiveDataEx));
 #ifdef UNICODE
 	ArchiveDataEx.ArcNameW = (LPTSTR)(LPCTSTR)fn;
-	char fnA[MAX_PATH];
+	char fnA[_MAX_PATH];
 	if(wcstombs(fnA, fn, fn.GetLength()+1) == -1) fnA[0] = 0;
 	ArchiveDataEx.ArcName = fnA;
 #else
@@ -1683,7 +1683,7 @@ bool CVobSubFile::SaveScenarist(CString fn)
 	fn.Replace('\\', '/');
 	CString title = fn.Mid(fn.ReverseFind('/')+1);
 
-	TCHAR buff[MAX_PATH], * pFilePart = buff;
+	TCHAR buff[_MAX_PATH], * pFilePart = buff;
 	if(GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0)
 		return(false);
 
@@ -1918,7 +1918,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 	fn.Replace('\\', '/');
 	CString title = fn.Mid(fn.ReverseFind('/')+1);
 
-	TCHAR buff[MAX_PATH], * pFilePart = buff;
+	TCHAR buff[_MAX_PATH], * pFilePart = buff;
 	if(GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0)
 		return(false);
 

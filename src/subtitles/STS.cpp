@@ -1261,7 +1261,7 @@ static bool LoadFont(CString& font)
 
 	if(hFont == INVALID_HANDLE_VALUE)
 	{
-		TCHAR path[MAX_PATH];
+		TCHAR path[_MAX_PATH];
 		GetTempPath(MAX_PATH, path);
 
 		DWORD chksum = 0;
@@ -2714,10 +2714,10 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
 bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 {
-	TCHAR path[MAX_PATH];
+	TCHAR path[_MAX_PATH];
 	if(!GetTempPath(MAX_PATH, path)) return(false);
 
-	TCHAR fn[MAX_PATH];
+	TCHAR fn[_MAX_PATH];
 	if(!GetTempFileName(path, _T("vs"), 0, fn)) return(false);
 
 	FILE* tmp = _tfopen(fn, _T("wb"));

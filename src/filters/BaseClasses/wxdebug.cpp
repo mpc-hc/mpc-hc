@@ -248,7 +248,7 @@ HRESULT  DbgUniqueProcessName(LPCTSTR inName, LPTSTR outName)
     }
     else
     {
-        TCHAR pathAndBasename[MAX_PATH] = {0};
+        TCHAR pathAndBasename[_MAX_PATH] = {0};
         
         //there's an extension  - zero-terminate the path and basename first by copying
         hr = StringCchCopyN(pathAndBasename, MAX_PATH, inName, (size_t)dotPos);
@@ -271,7 +271,7 @@ void WINAPI DbgInitLogTo (
     LONG  lReturn;
     DWORD dwKeyType;
     DWORD dwKeySize;
-    TCHAR szFile[MAX_PATH] = {0};
+    TCHAR szFile[_MAX_PATH] = {0};
     static const TCHAR cszKey[] = TEXT("LogToFile");
 
     dwKeySize = MAX_PATH;
@@ -326,7 +326,7 @@ void WINAPI DbgInitLogTo (
             if (INVALID_HANDLE_VALUE == m_hOutput &&
                 GetLastError() == ERROR_SHARING_VIOLATION)
             {
-               TCHAR uniqueName[MAX_PATH] = {0};
+               TCHAR uniqueName[_MAX_PATH] = {0};
                if (SUCCEEDED(DbgUniqueProcessName(szFile, uniqueName)))
                {
                     m_hOutput = CreateFile(uniqueName, GENERIC_WRITE,

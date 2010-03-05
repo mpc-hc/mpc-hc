@@ -281,7 +281,7 @@ BOOL CPPageDVD::OnApply()
 
 void CPPageDVD::OnBnClickedButton1()
 {
-	TCHAR path[MAX_PATH];
+	TCHAR path[_MAX_PATH];
 
 	BROWSEINFO bi;
 	bi.hwndOwner = m_hWnd;

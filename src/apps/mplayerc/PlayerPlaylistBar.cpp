@@ -281,7 +281,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 	while(pSL && pPF && pos)
 	{
 		CString& fn = fns.GetNext(pos);
-		TCHAR buff[MAX_PATH];
+		TCHAR buff[_MAX_PATH];
 		if(CPath(fn).GetExtension().MakeLower() != _T(".lnk")
 		|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
 		|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
@@ -1095,7 +1095,7 @@ void CPlayerPlaylistBar::DropItemOnList()
 	m_ptDropPoint.y += 10; //
 	m_nDropIndex = m_list.HitTest(CPoint(10, m_ptDropPoint.y));
 
-	TCHAR szLabel[MAX_PATH];
+	TCHAR szLabel[_MAX_PATH];
 	LV_ITEM lvi;
 	ZeroMemory(&lvi, sizeof(LV_ITEM));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_STATE | LVIF_PARAM;

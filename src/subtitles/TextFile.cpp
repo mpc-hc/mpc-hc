@@ -428,7 +428,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 		CAutoPtr<CStdioFile> f(is.OpenURL(fn, 1, INTERNET_FLAG_TRANSFER_BINARY|INTERNET_FLAG_EXISTING_CONNECT));
 		if(!f) return(false);
 
-		TCHAR path[MAX_PATH];
+		TCHAR path[_MAX_PATH];
 		GetTempPath(MAX_PATH, path);
 
 		fn = path + fn.Mid(fn.ReverseFind('/')+1);

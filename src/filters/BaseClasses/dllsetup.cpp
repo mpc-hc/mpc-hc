@@ -116,7 +116,7 @@ AMovieSetupRegisterServer( CLSID   clsServer
 {
   // temp buffer
   //
-  TCHAR achTemp[MAX_PATH];
+  TCHAR achTemp[_MAX_PATH];
 
   // convert CLSID uuid to string and write
   // out subkey as string - CLSID\{}
@@ -376,12 +376,12 @@ AMovieDllRegisterServer2( BOOL bRegister )
   // get file name (where g_hInst is the
   // instance handle of the filter dll)
   //
-  WCHAR achFileName[MAX_PATH];
+  WCHAR achFileName[_MAX_PATH];
 
   // WIN95 doesn't support GetModuleFileNameW
   //
   {
-    char achTemp[MAX_PATH];
+    char achTemp[_MAX_PATH];
 
     DbgLog((LOG_TRACE, 2, TEXT("- get module file name")));
 
@@ -538,12 +538,12 @@ AMovieDllRegisterServer( void )
   // get file name (where g_hInst is the
   // instance handle of the filter dll)
   //
-  WCHAR achFileName[MAX_PATH];
+  WCHAR achFileName[_MAX_PATH];
 
   {
     // WIN95 doesn't support GetModuleFileNameW
     //
-    char achTemp[MAX_PATH];
+    char achTemp[_MAX_PATH];
 
     if( 0 == GetModuleFileNameA( g_hInst
                               , achTemp

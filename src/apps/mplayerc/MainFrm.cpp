@@ -3942,7 +3942,7 @@ void CMainFrame::OnFileOpendvd()
 	OpenMedia(p);*/
 
 	AppSettings& s = AfxGetAppSettings();
-	TCHAR path[MAX_PATH];
+	TCHAR path[_MAX_PATH];
 
 	CString		strTitle = ResStr(IDS_MAINFRM_46);
 	BROWSEINFO bi;
@@ -7677,7 +7677,7 @@ void CMainFrame::OnFavoritesAdd()
 	}
 	else if(m_iPlaybackMode == PM_DVD)
 	{
-		WCHAR path[MAX_PATH];
+		WCHAR path[_MAX_PATH];
 		ULONG len = 0;
 		pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
 		CString fn = path;
@@ -7788,7 +7788,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 	}
 	else if(m_iPlaybackMode == PM_DVD)
 	{
-		WCHAR path[MAX_PATH];
+		WCHAR path[_MAX_PATH];
 		ULONG len = 0;
 		pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
 		CString fn = path;
@@ -9344,7 +9344,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 	else if(FAILED(hr))
 		throw ResStr(IDS_AG_FAILED);
 
-	WCHAR buff[MAX_PATH];
+	WCHAR buff[_MAX_PATH];
 	ULONG len = 0;
 	if(SUCCEEDED(hr = pDVDI->GetDVDDirectory(buff, countof(buff), &len)))
 		pODD->title = CString(CStringW(buff));
@@ -13436,7 +13436,7 @@ void CMainFrame::OnFileOpendirectory()
 
 	f_lastOpenDir = s.f_lastOpenDir;
 
-	TCHAR path[MAX_PATH];
+	TCHAR path[_MAX_PATH];
 	m_incl_subdir = TRUE;
 
 	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
