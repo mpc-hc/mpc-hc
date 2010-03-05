@@ -1,5 +1,6 @@
 /* 
- *	Copyright (C) 2003-2006 Gabest
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *	http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
