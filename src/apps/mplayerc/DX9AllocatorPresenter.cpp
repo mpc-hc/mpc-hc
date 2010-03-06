@@ -1290,13 +1290,17 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
 	{
 		TCHAR		strGUID[50];
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-
+		m_D3D9Device = _T("");
+		
 		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
 		{
 			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) 
 			{
 				if ((::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) && (s.D3D9RenderDevice == strGUID))
+				{
+					m_D3D9Device = adapterIdentifier.Description;
 					return	adp;
+				}
 			}
 		}
 	}
@@ -1307,7 +1311,16 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
 	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
 	{
 		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-		if(hAdpMon == hMonitor) return adp;
+		if(hAdpMon == hMonitor) 
+		{
+			if(CreateDevice)
+			{
+				D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+				if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) 
+					m_D3D9Device = adapterIdentifier.Description;
+			}
+			return adp;
+		}
 	}
 
 	return D3DADAPTER_DEFAULT;
@@ -3062,11 +3075,18 @@ void CDX9AllocatorPresenter::DrawStats()
 			strText.Format(L"%-13s: %s", GetDXVAVersion(), GetDXVADecoderDescription());
 			DrawText(rc, strText, 1);
 			OffsetRect (&rc, 0, TextHeight);
+			
+			if(m_D3D9Device != _T(""))
+			{
+				strText = "Render device: " + m_D3D9Device;
+				DrawText(rc, strText, 1);
+				OffsetRect (&rc, 0, TextHeight);
+			}
 
 			strText.Format(L"DirectX SDK  : %d", AfxGetMyApp()->GetDXSdkRelease());
 			DrawText(rc, strText, 1);
 			OffsetRect (&rc, 0, TextHeight);
-
+			
 			for (int i=0; i<6; i++)
 			{
 				if (m_strStatsMsg[i][0])

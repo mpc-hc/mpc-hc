@@ -346,6 +346,8 @@ namespace DSObjects
 		LONGLONG				m_LastSampleTime;
 
 		CString					m_strStatsMsg[10];
+		
+		CString					m_D3D9Device;
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsEVR, CString &_Error);
