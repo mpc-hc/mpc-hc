@@ -295,7 +295,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Gzio.c"
+				RelativePath=".\gzclose.c"
+				>
+			</File>
+			<File
+				RelativePath=".\gzlib.c"
+				>
+			</File>
+			<File
+				RelativePath=".\gzread.c"
+				>
+			</File>
+			<File
+				RelativePath=".\gzwrite.c"
 				>
 			</File>
 			<File
@@ -312,6 +324,10 @@
 			</File>
 			<File
 				RelativePath=".\Inftrees.c"
+				>
+			</File>
+			<File
+				RelativePath=".\minigzip.c"
 				>
 			</File>
 			<File
@@ -340,7 +356,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\gzguts.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inffast.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inffixed.h"
 				>
 			</File>
 			<File
@@ -349,6 +373,10 @@
 			</File>
 			<File
 				RelativePath=".\inftrees.h"
+				>
+			</File>
+			<File
+				RelativePath=".\trees.h"
 				>
 			</File>
 			<File
@@ -368,6 +396,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe"
 			>
+			<File
+				RelativePath=".\ZLIB.RC"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
