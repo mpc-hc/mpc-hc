@@ -10305,7 +10305,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) m_fFirstFSAfterLaunchOnFS = true;
 
 	m_LastOpenFile = pOMD->title;
-	m_LastOpenFile.Replace('\\', '/');
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
@@ -10390,7 +10389,7 @@ int CMainFrame::SearchInDir(bool DirForward)
 
 	CMediaFormats& mf = AfxGetAppSettings().Formats;
 
-	CString dir = m_LastOpenFile.Mid(0,m_LastOpenFile.ReverseFind('/')+1);
+	CString dir = m_LastOpenFile.Mid(0,m_LastOpenFile.ReverseFind('\\')+1);
 	CString mask = dir + _T("*.*");
 	WIN32_FIND_DATA fd;
 	HANDLE h = FindFirstFile(mask, &fd);
