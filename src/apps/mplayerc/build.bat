@@ -47,6 +47,8 @@ devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese traditional|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Czech|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|Win32"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode French|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode German|Win32"
@@ -100,6 +102,8 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese traditional|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode Czech|x64"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpcresources.sln %BUILDTYPE% "Release Unicode French|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad

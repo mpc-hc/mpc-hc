@@ -13,6 +13,8 @@ Global
 		Release Unicode Chinese traditional|x64 = Release Unicode Chinese traditional|x64
 		Release Unicode Czech|Win32 = Release Unicode Czech|Win32
 		Release Unicode Czech|x64 = Release Unicode Czech|x64
+		Release Unicode Dutch|Win32 = Release Unicode Dutch|Win32
+		Release Unicode Dutch|x64 = Release Unicode Dutch|x64
 		Release Unicode French|Win32 = Release Unicode French|Win32
 		Release Unicode French|x64 = Release Unicode French|x64
 		Release Unicode German|Win32 = Release Unicode German|Win32
@@ -57,6 +59,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|Win32.Build.0 = Release Unicode Czech|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|x64.ActiveCfg = Release Unicode Czech|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Czech|x64.Build.0 = Release Unicode Czech|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Dutch|Win32.ActiveCfg = Release Unicode Dutch|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Dutch|Win32.Build.0 = Release Unicode Dutch|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Dutch|x64.ActiveCfg = Release Unicode Dutch|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode Dutch|x64.Build.0 = Release Unicode Dutch|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode French|Win32.ActiveCfg = Release Unicode French|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode French|Win32.Build.0 = Release Unicode French|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Unicode French|x64.ActiveCfg = Release Unicode French|x64

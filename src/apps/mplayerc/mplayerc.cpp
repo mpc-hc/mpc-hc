@@ -3390,6 +3390,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.sv.dll");
 	case 17 :	// Portuguese (brasil)
 		return _T("mpcresources.br.dll");
+	case 18 :	// Dutch
+		return _T("mpcresources.nl.dll");
 	}
 	return NULL;
 }

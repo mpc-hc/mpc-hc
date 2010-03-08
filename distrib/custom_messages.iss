@@ -77,6 +77,14 @@ kr.tsk_Other=Other tasks:
 kr.tsk_ResetSettings=Reset settings
 kr.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
 
+;Dutch
+nl.langid=00000018
+nl.tsk_AllUsers=For all users
+nl.tsk_CurrentUser=For the current user only
+nl.tsk_Other=Other tasks:
+nl.tsk_ResetSettings=Reset settings
+nl.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+
 ;Polish
 pl.langid=00000009
 pl.tsk_AllUsers=For all users
