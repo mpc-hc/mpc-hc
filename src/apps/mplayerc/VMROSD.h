@@ -57,7 +57,7 @@ public:
 	void Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pVMB);
 	void Stop();
 
-	void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000);
+	void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
 	void ClearMessage();
 
 	__int64 GetPos();
@@ -86,6 +86,8 @@ private :
 	CPen	m_penCursor;
 	CBrush	m_brushBack;
 	CBrush	m_brushBar;
+	int		m_FontSize;
+	CString m_OSD_Font;
 
 	CRect		m_rectWnd;
 	COLORREF	m_Color[OSD_LAST];

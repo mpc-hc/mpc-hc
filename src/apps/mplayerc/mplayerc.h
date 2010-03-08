@@ -834,6 +834,8 @@ public:
 		bool m_fUseWin7TaskBar;
 		bool m_fExitAfterPlayback;
 		bool m_fNextInDirAfterPlayback;
+		int  nOSD_Size;
+		CString m_OSD_Font;
 		CStringW m_subtitlesLanguageOrder;
 		CStringW m_audiosLanguageOrder;
 

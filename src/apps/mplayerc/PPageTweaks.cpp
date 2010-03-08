@@ -37,6 +37,7 @@ CPPageTweaks::CPPageTweaks()
 	, m_nJumpDistS(0)
 	, m_nJumpDistM(0)
 	, m_nJumpDistL(0)
+	, m_OSD_Size(0)
 	, m_fNotifyMSN(TRUE)
 	, m_fNotifyGTSdll(FALSE)
 	, m_GTSdllLink(_T("https://sourceforge.net/project/showfiles.php?group_id=82303&package_id=169521&release_id=371114"))
@@ -66,6 +67,15 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATICLINKGTS, m_GTSdllLink);
 	DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
 	DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
+	DDX_Control(pDX, IDC_COMBO1, m_FontType);
+	DDX_Control(pDX, IDC_COMBO2, m_FontSize);
+}
+ 
+int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontType, LPARAM dwData)
+{
+	CAtlArray<CString>* fntl = (CAtlArray<CString>*)dwData;
+	if(FontType == TRUETYPE_FONTTYPE) fntl->Add(lf->elfFullName);
+	return true;
 }
 
 BOOL CPPageTweaks::OnInitDialog()
@@ -84,6 +94,37 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	m_fPreventMinimize = s.m_fPreventMinimize;
 	m_fUseWin7TaskBar = s.m_fUseWin7TaskBar;
+
+	m_OSD_Size = s.nOSD_Size;
+	m_OSD_Font = s.m_OSD_Font;
+
+	CString str;
+	int iSel = 0;
+	m_FontType.Clear();
+	m_FontSize.Clear();
+	HDC dc = CreateDC(_T("DISPLAY"), NULL, NULL, NULL);
+	CAtlArray<CString> fntl;
+	EnumFontFamilies(dc, NULL,(FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
+	DeleteDC(dc);
+	for (int i=0; i< fntl.GetCount(); i++)
+	{
+		if (i>0 && fntl[i-1] == fntl[i]) continue;
+		m_FontType.AddString(fntl[i]);
+	}
+	for (int i=0; i< m_FontType.GetCount(); i++)
+	{
+		m_FontType.GetLBText(i,str);
+		if (m_OSD_Font == str) iSel=i;
+	}
+	m_FontType.SetCurSel(iSel);
+
+	for (int i=10; i<26; i++) 
+	{
+		str.Format(_T("%d"), i);
+		m_FontSize.AddString(str);
+		if (m_OSD_Size == i) iSel=i;
+	}
+	m_FontSize.SetCurSel(iSel-10);
 
 	UpdateData(FALSE);
 
@@ -107,6 +148,8 @@ BOOL CPPageTweaks::OnApply()
 
 	s.m_fPreventMinimize = m_fPreventMinimize;
 	s.m_fUseWin7TaskBar = m_fUseWin7TaskBar;
+	s.nOSD_Size = m_OSD_Size;
+	m_FontType.GetLBText(m_FontType.GetCurSel(),s.m_OSD_Font);
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 	if(m_fUseWin7TaskBar) pFrame->CreateThumbnailToolbar();
@@ -119,6 +162,8 @@ BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateCheck3)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK2, OnUpdateCheck2)
 	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
+	ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
+	ON_CBN_SELCHANGE(IDC_COMBO2, OnChngOSDCombo)
 END_MESSAGE_MAP()
 
 
@@ -145,4 +190,13 @@ void CPPageTweaks::OnBnClickedButton1()
 	m_nJumpDistL = 20000;
 
 	UpdateData(FALSE);
+}
+
+void CPPageTweaks::OnChngOSDCombo()
+{	
+	CString str;
+	m_OSD_Size = m_FontSize.GetCurSel()+10;
+	m_FontType.GetLBText(m_FontType.GetCurSel(),str);
+	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_OSD_Size, str);
+	SetModified();
 }

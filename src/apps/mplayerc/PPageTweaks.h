@@ -26,7 +26,6 @@
 #include "PPageBase.h"
 #include "StaticLink.h"
 
-
 // CPPageTweaks dialog
 
 class CPPageTweaks : public CPPageBase
@@ -56,6 +55,10 @@ public:
 
 	BOOL m_fPreventMinimize;
 	BOOL m_fUseWin7TaskBar;
+	CComboBox m_FontSize;
+	CComboBox m_FontType;
+	int m_OSD_Size;
+	CString	m_OSD_Font;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -68,4 +71,5 @@ public:
 	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateCheck2(CCmdUI* pCmdUI);
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnChngOSDCombo();
 };

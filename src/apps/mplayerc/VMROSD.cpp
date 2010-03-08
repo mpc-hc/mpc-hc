@@ -43,7 +43,7 @@ CVMROSD::CVMROSD(void)
 	m_penCursor.CreatePen(PS_SOLID, 4, m_Color[OSD_CURSOR]);
 	m_brushBack.CreateSolidBrush(m_Color[OSD_BACKGROUND]);
 	m_brushBar.CreateSolidBrush (m_Color[OSD_BAR]);
-	m_MainFont.CreatePointFont (200, _T("Arial"));
+	m_MainFont.CreatePointFont (AfxGetAppSettings().nOSD_Size*10, AfxGetAppSettings().m_OSD_Font);
 
 	m_nMessagePos		= OSD_NOMESSAGE;
 	m_bSeekBarVisible	= false;
@@ -128,8 +128,6 @@ void CVMROSD::UpdateBitmap()
 				m_MFVideoAlphaBitmap.GetBitmapFromDC		= TRUE;
 				m_MFVideoAlphaBitmap.bitmap.hdc			= m_MemDC;
 			}
-
-			m_MemDC.SelectObject(m_MainFont);
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
@@ -392,18 +390,27 @@ void CVMROSD::ClearMessage()
 	}
 }
 
-void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration)
+void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int FontSize, CString OSD_Font)
 {
 	if (m_pVMB || m_pMFVMB)
 	{
 		m_nMessagePos	= nPos;
 		m_strMessage	= strMsg;
 
+		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSD_Size;
+		else m_FontSize = FontSize;
+		if (m_FontSize<10 || m_FontSize>26) m_FontSize=20;
+		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().m_OSD_Font;
+		else m_OSD_Font = OSD_Font;
+		m_MainFont.CreatePointFont(m_FontSize*10, m_OSD_Font);
+		m_MemDC.SelectObject(m_MainFont);
+		
 		if (m_pWnd)
 		{
 			KillTimer(m_pWnd->m_hWnd, (long)this);
 			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
 		}
 		Invalidate();
+		m_MainFont.DeleteObject();
 	}
 }
