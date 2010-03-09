@@ -286,10 +286,8 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
 #ifdef _VSMOD // patch m007. symbol rotating
 	double t = (double)m_style.mod_fontOrient * 3.1415926 / 1800;
-	if(m_style.fontSpacing || (long)GetVersion() < 0)
-#else
-	if(m_style.fontSpacing || (long)GetVersion() < 0)
 #endif
+	if(m_style.fontSpacing || (long)GetVersion() < 0)
 	{
 		bool bFirstPath = true;
 
@@ -1739,7 +1737,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		{
 			int i = cmd[0] - '1';
 
-			if(params.GetCount() >= 1)// file[,xoffset,yoffset]
+			if(params.GetCount() >= 1)// file[,xoffset,yoffset[,angle]]
 			{
 				if (!fAnimate)
 				{
@@ -1788,10 +1786,10 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				if(params.GetCount() >= 3)
 				{
 					style.mod_grad.b_images[i].xoffset = !p.IsEmpty()
-						? (BYTE)CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
+						? CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
 						: org.mod_grad.b_images[i].xoffset;
 					style.mod_grad.b_images[i].yoffset = !p.IsEmpty()
-						? (BYTE)CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
+						? CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
 						: org.mod_grad.b_images[i].yoffset;
 				}
 			}
@@ -1821,7 +1819,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_grad.alpha[i][j] = style.alpha[i];
 					}
 				}
-				if (!fAnimate) style.mod_grad.mode[i] = 1;
+				//if (!fAnimate) 
+				style.mod_grad.mode[i] = 1;
 			}
 		}
 		else if(cmd == L"1va" || cmd == L"2va" || cmd == L"3va" || cmd == L"4va")
@@ -1844,7 +1843,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_grad.color[i][j] = style.colors[i];
 					}
 				}
-				if (!fAnimate) style.mod_grad.mode[i] = 1;
+				//if (!fAnimate) 
+				style.mod_grad.mode[i] = 1;
 			}
 		}
 #endif
@@ -2034,9 +2034,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 	                
 					sub->m_effects[EF_FADE] = e;
 				}
-//#ifdef _VSMOD // patch f005. don't cache animated
+#ifdef _VSMOD // patch f005. don't cache animated
 				sub->m_fAnimated = true;
-//#endif
+#endif
 			}
 			else if(params.GetCount() == 2 && !sub->m_effects[EF_FADE]) // {\fad(t1=t[1], t2=t[2])
 			{
@@ -2223,9 +2223,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			m_kend += !p.IsEmpty() 
 				? wcstol(p, NULL, 10)*10
 				: 1000;
-//#ifdef _VSMOD // patch f005. don't cache animated
+#ifdef _VSMOD // patch f005. don't cache animated
 			sub->m_fAnimated = true;
-//#endif
+#endif
 		}
 		else if(cmd == L"ko")
 		{
@@ -2234,9 +2234,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			m_kend += !p.IsEmpty() 
 				? wcstol(p, NULL, 10)*10
 				: 1000;
-//#ifdef _VSMOD // patch f005. don't cache animated
+#ifdef _VSMOD // patch f005. don't cache animated
 			sub->m_fAnimated = true;
-//#endif
+#endif
 		}
 		else if(cmd == L"k")
 		{
@@ -2387,9 +2387,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
 					sub->m_effects[EF_MOVE] = e;
 				}
-//#ifdef _VSMOD // patch f005. don't cache animated
+#ifdef _VSMOD // patch f005. don't cache animated
 //				sub->m_fAnimated = true;
-//#endif
+#endif
 			}
 		}
 		else if(cmd == L"org") // {\org(x=param[0], y=param[1])}
@@ -2836,7 +2836,15 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	m_ktype = m_kstart = m_kend = 0;
 	m_nPolygon = 0;
 	m_polygonBaselineOffset = 0;
-
+#ifdef _VSMOD // patch m004. gradient colors
+	// allow init gradient without \$vc \$va
+	for (int i=0;i<4;i++)
+		for (int j=0;j<4;j++)
+		{
+			stss.mod_grad.alpha[i][j] = stss.alpha[i];
+			stss.mod_grad.color[i][j] = stss.colors[i];
+		}
+#endif
 	ParseEffect(sub, GetAt(entry).effect);
 
 	while(!str.IsEmpty())

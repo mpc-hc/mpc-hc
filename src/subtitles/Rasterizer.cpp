@@ -749,7 +749,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 		for(; it!=itEnd; ++it)
 		{
-			size_t y = ((((*it).first >> 32) - 0x40000000) + ysub);
+			size_t y = (((*it).first >> 32) - 0x40000000 + ysub);
 			size_t x1 = (((*it).first & 0xffffffff) - 0x40000000 + xsub);
 			size_t x2 = (((*it).second & 0xffffffff) - 0x40000000 + xsub);
 
@@ -1803,7 +1803,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	rnfo.mod_vc = mod_vc;
 	rnfo.mod_grad = mod_grad;
 	rnfo.mod_grad.width = mOverlayWidth;
-	rnfo.mod_grad.height = h;
+	rnfo.mod_grad.height = mOverlayHeight;
 	rnfo.mod_grad.xoffset = xo;
 	rnfo.mod_grad.yoffset = yo;
 	rnfo.typ = typ;

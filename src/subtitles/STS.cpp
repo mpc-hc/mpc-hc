@@ -1262,7 +1262,7 @@ static bool LoadFont(CString& font)
 	if(hFont == INVALID_HANDLE_VALUE)
 	{
 		TCHAR path[_MAX_PATH];
-		GetTempPath(MAX_PATH, path);
+		GetTempPath(_MAX_PATH, path);
 
 		DWORD chksum = 0;
 		for(ptrdiff_t i = 0, j = datalen>>2; i < j; i++)
@@ -2715,7 +2715,7 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 {
 	TCHAR path[_MAX_PATH];
-	if(!GetTempPath(MAX_PATH, path)) return(false);
+	if(!GetTempPath(_MAX_PATH, path)) return(false);
 
 	TCHAR fn[_MAX_PATH];
 	if(!GetTempFileName(path, _T("vs"), 0, fn)) return(false);
@@ -3329,6 +3329,7 @@ MOD_PNGIMAGE::MOD_PNGIMAGE()
 	alpha = 0xFF;
 }
 
+// read embedded graphics
 void png_default_read_edata(png_structp png_ptr, png_bytep data, png_size_t length)
 {
 	png_size_t check;
@@ -3532,16 +3533,16 @@ void MOD_GRADIENT::clear()
 	subpixy = 0;
 }
 
+#include <math.h>
 DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 {
 	DWORD colorb = 0;
 	tx += xoffset;
-	ty += yoffset;
-	double x = (double)tx/(double)width;
-	double y = (double)ty/(double)height;
 	// gradient
 	if(mode[i]==1)
 	{
+		double x = (double)tx/(double)width;
+		double y = (double)ty/(double)height;
 		for(int j=0;j<3;j++)
 		{
 			colorb |= ((DWORD)(((color[i][0]>>(8*j))&0xff)*(1-x)*y +
@@ -3558,11 +3559,13 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 	// png background
 	if(mode[i]==2)
 	{
-
+		// unwarp
 		tx += b_images[i].xoffset;
 		ty += b_images[i].yoffset;
 		while(tx>b_images[i].width-1) tx-=b_images[i].width;
 		while(ty>b_images[i].height-1) ty-=b_images[i].height;
+		while(tx<0) tx+=b_images[i].width;
+		while(ty<0) ty+=b_images[i].height;
 		// now tx and ty are valid array indexes
 		// rows are inverted last,...,n,...,1,0
 		bool nlastpixx = (tx>0);

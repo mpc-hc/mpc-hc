@@ -14,6 +14,8 @@
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
 %BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Czech|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|%Platform%"
+@if %ERRORLEVEL% NEQ 0 goto EndWithError
 %BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode French|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
 %BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode German|%Platform%"
