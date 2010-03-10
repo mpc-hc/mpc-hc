@@ -7243,11 +7243,11 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		{
 			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
 		}
-		else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1))
+		else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
 		{
 			if (!SearchInDir(false)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
 		}
-		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1))
+		else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
 		{
 			if (!SearchInDir(true)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
 		}
@@ -7340,8 +7340,9 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 		&& ((m_iPlaybackMode == PM_DVD 
 				&& m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu 
 				&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-			|| (m_iPlaybackMode == PM_FILE /*&& (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1)*/)
-			|| (m_iPlaybackMode == PM_CAPTURE && !m_fCapturing))); // TODO
+			|| (m_iPlaybackMode == PM_FILE  && !AfxGetAppSettings().m_fDontUseSearchInFolder) 
+			|| (m_iPlaybackMode == PM_FILE  && AfxGetAppSettings().m_fDontUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
+			|| (m_iPlaybackMode == PM_CAPTURE && !m_fCapturing)));
 }
 
 void CMainFrame::OnNavigateSkipPlaylistItem(UINT nID)

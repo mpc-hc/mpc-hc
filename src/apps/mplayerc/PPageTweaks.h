@@ -55,6 +55,7 @@ public:
 
 	BOOL m_fPreventMinimize;
 	BOOL m_fUseWin7TaskBar;
+	BOOL m_fDontUseSearchInFolder;
 	CComboBox m_FontSize;
 	CComboBox m_FontType;
 	int m_OSD_Size;

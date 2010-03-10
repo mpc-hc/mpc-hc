@@ -43,6 +43,7 @@ CPPageTweaks::CPPageTweaks()
 	, m_GTSdllLink(_T("https://sourceforge.net/project/showfiles.php?group_id=82303&package_id=169521&release_id=371114"))
 	, m_fPreventMinimize(FALSE)
 	, m_fUseWin7TaskBar(TRUE)
+	, m_fDontUseSearchInFolder(FALSE)
 {
 	m_fWMASFReader = SUCCEEDED(CComPtr<IBaseFilter>().CoCreateInstance(
 		GUIDFromCString(_T("{187463A0-5BB7-11D3-ACBE-0080C75E246E}")))); // WM ASF Reader
@@ -67,6 +68,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATICLINKGTS, m_GTSdllLink);
 	DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
 	DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
+	DDX_Check(pDX, IDC_CHECK7, m_fDontUseSearchInFolder);
 	DDX_Control(pDX, IDC_COMBO1, m_FontType);
 	DDX_Control(pDX, IDC_COMBO2, m_FontSize);
 }
@@ -82,6 +84,8 @@ BOOL CPPageTweaks::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	SetHandCursor(m_hWnd, IDC_COMBO1);
+
 	AppSettings& s = AfxGetAppSettings();
 
 	m_fDisableXPToolbars = s.fDisableXPToolbars;
@@ -94,6 +98,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
 	m_fPreventMinimize = s.m_fPreventMinimize;
 	m_fUseWin7TaskBar = s.m_fUseWin7TaskBar;
+	m_fDontUseSearchInFolder =s.m_fDontUseSearchInFolder;
 
 	m_OSD_Size = s.nOSD_Size;
 	m_OSD_Font = s.m_OSD_Font;
@@ -148,6 +153,7 @@ BOOL CPPageTweaks::OnApply()
 
 	s.m_fPreventMinimize = m_fPreventMinimize;
 	s.m_fUseWin7TaskBar = m_fUseWin7TaskBar;
+	s.m_fDontUseSearchInFolder = m_fDontUseSearchInFolder;
 	s.nOSD_Size = m_OSD_Size;
 	m_FontType.GetLBText(m_FontType.GetCurSel(),s.m_OSD_Font);
 
