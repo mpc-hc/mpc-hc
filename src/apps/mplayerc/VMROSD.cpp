@@ -402,6 +402,10 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 		if (m_FontSize<10 || m_FontSize>26) m_FontSize=20;
 		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().m_OSD_Font;
 		else m_OSD_Font = OSD_Font;
+		
+		if(m_MainFont.GetSafeHandle())
+			m_MainFont.DeleteObject();
+
 		m_MainFont.CreatePointFont(m_FontSize*10, m_OSD_Font);
 		m_MemDC.SelectObject(m_MainFont);
 		
@@ -411,6 +415,5 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
 		}
 		Invalidate();
-		m_MainFont.DeleteObject();
 	}
 }
