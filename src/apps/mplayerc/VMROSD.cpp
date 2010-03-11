@@ -133,6 +133,10 @@ void CVMROSD::UpdateBitmap()
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
+
+		if(m_MainFont.GetSafeHandle())
+			m_MemDC.SelectObject(m_MainFont);
+
 		DeleteObject(hbmpRender);
 	}
 
