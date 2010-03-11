@@ -50,6 +50,9 @@ CVMROSD::CVMROSD(void)
 	m_pMFVMB		= NULL;
 	m_pVMB			= NULL;
 	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
+
+	m_FontSize = 0;
+	m_OSD_Font = _T("");
 }
 
 CVMROSD::~CVMROSD(void)
@@ -396,14 +399,23 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 		m_nMessagePos	= nPos;
 		m_strMessage	= strMsg;
 
+		int temp_m_FontSize = m_FontSize;
+		CString temp_m_OSD_Font = m_OSD_Font;
+
 		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSD_Size;
 		else m_FontSize = FontSize;
 		if (m_FontSize<10 || m_FontSize>26) m_FontSize=20;
 		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().m_OSD_Font;
 		else m_OSD_Font = OSD_Font;
 
-		m_MainFont.CreatePointFont(m_FontSize*10, m_OSD_Font);
-		m_MemDC.SelectObject(m_MainFont);
+		if((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font))
+		{
+			if(m_MainFont.GetSafeHandle())
+				m_MainFont.DeleteObject();
+	
+			m_MainFont.CreatePointFont(m_FontSize*10, m_OSD_Font);
+			m_MemDC.SelectObject(m_MainFont);
+		}
 		
 		if (m_pWnd)
 		{
@@ -411,7 +423,5 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
 		}
 		Invalidate();
-		if(m_MainFont.GetSafeHandle())
-			m_MainFont.DeleteObject();
 	}
 }
