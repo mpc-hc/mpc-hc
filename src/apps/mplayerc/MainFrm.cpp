@@ -655,6 +655,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_bToggleShader = AfxGetAppSettings().m_bToggleShader;
 	m_bToggleShaderScreenSpace = AfxGetAppSettings().m_bToggleShaderScreenSpace;
+
+	m_lastWindowRect.SetRect(0,0,0,0);
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
@@ -10303,7 +10305,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	}
 	
 	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode();
-	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) m_fFirstFSAfterLaunchOnFS = true;
+	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel && (
+			(m_lastWindowRect.left == 0) && (m_lastWindowRect.top == 0) && 
+		  (m_lastWindowRect.Width() == 0) && (m_lastWindowRect.Height() == 0))) m_fFirstFSAfterLaunchOnFS = true;
 
 	m_LastOpenFile = pOMD->title;
 
