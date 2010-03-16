@@ -1243,7 +1243,7 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 
 	if(m_iMediaLoadState != MLS_LOADED || m_fFullScreen
 	|| s.iDefaultVideoSize == DVS_STRETCH
-	|| (fCtrl ^ s.fFreeWindowResizing))
+	|| (fCtrl == s.fLimitWindowProportions))	// remember that fCtrl is initialized with !!whatever(), same with fLimitWindowProportions
 		return;
 
 	CSize wsize(pRect->right - pRect->left, pRect->bottom - pRect->top);
@@ -5525,7 +5525,7 @@ void CMainFrame::OnViewVSyncOffsetDecrease()
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	pCmdUI->Enable (s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
+	pCmdUI->Enable ((!s.fDisableOSD) && (m_iMediaLoadState != MLS_CLOSED));
 	pCmdUI->SetCheck (m_bRemainingTime);
 }
 
@@ -10156,9 +10156,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
-		if (pVMB && s.fShowOSD)
+		if (pVMB && (!s.fDisableOSD))
 			m_OSD.Start (m_pVideoWnd, pVMB);
-		else if (pMFVMB && s.fShowOSD)
+		else if (pMFVMB && (!s.fDisableOSD))
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
 		if (m_pMC)
 		{

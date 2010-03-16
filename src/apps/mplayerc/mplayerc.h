@@ -697,7 +697,7 @@ public:
 		int nJumpDistS;
 		int nJumpDistM;
 		int nJumpDistL;
-		bool fFreeWindowResizing;
+		bool fLimitWindowProportions;
 		bool fNotifyMSN;
 		bool fNotifyGTSdll;
 
@@ -781,7 +781,7 @@ public:
 
 		bool			fRememberDVDPos;
 		bool			fRememberFilePos;
-		bool			fShowOSD;
+		bool			fDisableOSD;
 		int				iEvrBuffers;
 		int				iLanguage;
 
