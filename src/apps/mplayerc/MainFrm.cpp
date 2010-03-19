@@ -655,8 +655,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_bToggleShader = AfxGetAppSettings().m_bToggleShader;
 	m_bToggleShaderScreenSpace = AfxGetAppSettings().m_bToggleShaderScreenSpace;
-
-	m_lastWindowRect.SetRect(0,0,0,0);
 	
 	m_strTitle.Format (L"%s - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
 	SetWindowText(m_strTitle);
@@ -8293,10 +8291,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRect r;
-//	const CWnd* pWndInsertAfter;
 	DWORD dwRemove = 0, dwAdd = 0;
 	DWORD dwRemoveEx = 0, dwAddEx = 0;
 	HMENU hMenu;
+	MONITORINFO mi;
+	mi.cbSize = sizeof(MONITORINFO);
 
 	HMONITOR hm		= MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
@@ -8310,6 +8309,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		
 		if(!m_fFirstFSAfterLaunchOnFS) GetWindowRect(&m_lastWindowRect);
 		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo && (m_iPlaybackMode != PM_NONE)) AutoChangeMonitorMode();
+		m_LastWindow_HM = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 		CString str;
 		CMonitor monitor;
@@ -8331,12 +8331,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			}
 			if(!hm) hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 		}
-		
-		MONITORINFO mi;
-		mi.cbSize = sizeof(MONITORINFO);
-		GetMonitorInfo(hm, &mi);
 
 		dwRemove = WS_CAPTION|WS_THICKFRAME;
+		GetMonitorInfo(hm, &mi);
 		if(fToNearest) r = mi.rcMonitor;
 		else GetDesktopWindow()->GetWindowRect(&r);
 		hMenu = NULL;
@@ -8347,7 +8344,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
 
 		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION | WS_THICKFRAME);
-		r = m_lastWindowRect;
+		if (!m_fFirstFSAfterLaunchOnFS) r = m_lastWindowRect;
 		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
 
 		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
@@ -8410,18 +8407,24 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         ShowControls(AfxGetAppSettings().nCS);
 	}
 
-	//m_wndView.SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
-
 	m_fAudioOnly = fAudioOnly;
 
-	if (m_fFirstFSAfterLaunchOnFS) //App started in Fullscreen
+	if (m_fFirstFSAfterLaunchOnFS) //Play started in Fullscreen
 	{
+		if(m_LastWindow_HM != hm_cur)
+		{
+			GetMonitorInfo(m_LastWindow_HM, &mi);
+			r = mi.rcMonitor;
+			ShowWindow(SW_HIDE);
+			SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
+		}
 		ZoomVideoWindow();
+		if(m_LastWindow_HM != hm_cur) ShowWindow(SW_SHOW);
 		m_fFirstFSAfterLaunchOnFS = false;
 	}
 	else
 	{
-		SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING /*SWP_FRAMECHANGED*/);
+		SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
 	}
 
 	MoveVideoWindow();
@@ -10305,9 +10308,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	}
 	
 	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) AutoChangeMonitorMode();
-	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel && (
-			(m_lastWindowRect.left == 0) && (m_lastWindowRect.top == 0) && 
-		  (m_lastWindowRect.Width() == 0) && (m_lastWindowRect.Height() == 0))) m_fFirstFSAfterLaunchOnFS = true;
+	if (m_fFullScreen && AfxGetAppSettings().fRememberZoomLevel) m_fFirstFSAfterLaunchOnFS = true;
 
 	m_LastOpenFile = pOMD->title;
 

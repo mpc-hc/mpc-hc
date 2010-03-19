@@ -364,6 +364,7 @@ protected:
 	bool m_fAudioOnly;
 	dispmode m_dmBeforeFullscreen;
 	CString m_LastOpenFile;
+	HMONITOR m_LastWindow_HM;
 
 	DVD_DOMAIN m_iDVDDomain;
 	DWORD m_iDVDTitle;
