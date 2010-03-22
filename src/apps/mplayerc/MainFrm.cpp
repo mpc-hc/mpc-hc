@@ -5523,7 +5523,7 @@ void CMainFrame::OnViewVSyncOffsetDecrease()
 void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
-	pCmdUI->Enable ((!s.fDisableOSD) && (m_iMediaLoadState != MLS_CLOSED));
+	pCmdUI->Enable (s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
 	pCmdUI->SetCheck (m_bRemainingTime);
 }
 
@@ -10159,9 +10159,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
-		if (pVMB && (!s.fDisableOSD))
+		if (pVMB && s.fShowOSD)
 			m_OSD.Start (m_pVideoWnd, pVMB);
-		else if (pMFVMB && (!s.fDisableOSD))
+		else if (pMFVMB && s.fShowOSD)
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
 		if (m_pMC)
 		{

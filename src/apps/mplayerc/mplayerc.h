@@ -781,7 +781,7 @@ public:
 
 		bool			fRememberDVDPos;
 		bool			fRememberFilePos;
-		bool			fDisableOSD;
+		bool			fShowOSD;
 		int				iEvrBuffers;
 		int				iLanguage;
 
