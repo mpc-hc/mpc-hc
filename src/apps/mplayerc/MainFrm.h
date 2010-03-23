@@ -466,6 +466,9 @@ public:
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	virtual void RecalcLayout(BOOL bNotify = TRUE);
 
+	// Dvb capture
+	void DisplayCurrentChannelOSD();
+
 // Implementation
 public:
 	virtual ~CMainFrame();

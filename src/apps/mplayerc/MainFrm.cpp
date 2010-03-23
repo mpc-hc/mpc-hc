@@ -6110,7 +6110,10 @@ void CMainFrame::OnPlayPlay()
 			{
 				CComQIPtr<IBDATuner>	pTun = pGB;
 				if (pTun)
+				{
 					pTun->SetChannel (AfxGetAppSettings().DVBLastChannel);
+					DisplayCurrentChannelOSD();
+				}
 			}
 		}
 
@@ -7315,12 +7318,14 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				if(nID == ID_NAVIGATE_SKIPBACK)
 				{
 					pTun->SetChannel (nCurrentChannel - 1);
+					DisplayCurrentChannelOSD();
 					if (m_wndNavigationBar.IsVisible())
 						m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel - 1);
 				}
 				else if(nID == ID_NAVIGATE_SKIPFORWARD)
 				{
 					pTun->SetChannel (nCurrentChannel + 1);
+					DisplayCurrentChannelOSD();
 					if (m_wndNavigationBar.IsVisible())
 						m_wndNavigationBar.m_navdlg.UpdatePos(nCurrentChannel + 1);
 				}
@@ -7524,6 +7529,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			if (pTun)
 			{
 				pTun->SetChannel (nID);
+				DisplayCurrentChannelOSD();
 				if (m_wndNavigationBar.IsVisible())
 					m_wndNavigationBar.m_navdlg.UpdatePos(nID);
 			}
@@ -10455,7 +10461,7 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
 			LONG				lQuality;
 			int					nProgress;
 			m_bStopTunerScan = false;
-			for(ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency<pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth)
+			for(ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth)
 			{
 				pTun->SetFrequency (ulFrequency);
 				Sleep (200);
@@ -12603,6 +12609,22 @@ void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
 void CMainFrame::StopTunerScan()
 {
 	m_bStopTunerScan = true;
+}
+
+void CMainFrame::DisplayCurrentChannelOSD()
+{
+	AppSettings&	s		 = AfxGetAppSettings();
+	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CString			osd;
+	CString			strDescription;
+	int				i		 = osd.Find(_T("\n"));
+
+	if (pChannel != NULL)
+	{
+		osd = pChannel->GetName();
+		if(i > 0) osd.Delete(i, osd.GetLength()-i);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, osd ,2000);
+	}
 }
 
 //

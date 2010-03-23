@@ -154,6 +154,7 @@ private :
 
 	DVB_STREAM_TYPE							m_nCurVideoType;
 	DVB_STREAM_TYPE							m_nCurAudioType;
+	CString									m_BDANetworkProvider;
 
 	HRESULT			CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName);
 	HRESULT			ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);

@@ -76,6 +76,7 @@ static const AM_MEDIA_TYPE mt_Mpv = {
 };
 
 #define FCC_h264 MAKEFOURCC('h', '2', '6', '4')
+#define MS_NETWORK_PROVIDER "Microsoft Network Provider"
 
 /// Format, Vidéo H264
 static const VIDEOINFOHEADER2 vih2_H264 = {
@@ -402,6 +403,8 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 
 	// Create Mpeg2 demux
 	CheckAndLog (CreateMicrosoftDemux (pReceiver, pMpeg2Demux), "BDA : Microsoft demux creation");
+	if (s.BDANetworkProvider.Find(_T(MS_NETWORK_PROVIDER), 0) != -1)
+		m_BDANetworkProvider = _T(MS_NETWORK_PROVIDER);
 
 	return S_OK;
 }
@@ -515,7 +518,8 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 			if (pStream && pStreamInfo)
 			{
 				nState = GetState();
-				SwitchStream (m_nCurAudioType, pStreamInfo->Type);
+				if (m_nCurAudioType != pStreamInfo->Type)
+					SwitchStream (m_nCurAudioType, pStreamInfo->Type);
 				pStream->Map (pStreamInfo->PID);
 				ChangeState ((FILTER_STATE)nState);
 
@@ -627,18 +631,21 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 		DVB_STREAM_TYPE		nType  = m_DVBStreams.GetNextKey(pos);
 		CDVBStream&			Stream = m_DVBStreams[nType];
 
-		if (!Stream.GetFindExisting() ||
-			(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
-		{
-			CheckNoLog (pDemux->CreateOutputPin ((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
-		}
-		CheckNoLog (Connect (pPin, NULL, false));
-		Stream.SetPin (pPin);
+		if (nType != DVB_EPG)  // Hack: DVB_EPG stream is identical to DVB_TIF and cannot be connected !!!
+ 		{		
+			if (!Stream.GetFindExisting() ||
+				(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
+			{
+				CheckNoLog (pDemux->CreateOutputPin ((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
+			}
+			CheckNoLog (Connect (pPin, NULL, false));
+			Stream.SetPin (pPin);
 
-		// Complete graph for one audio stream and one video stream (using standard graph builder rules)
-		if (nType == m_nCurVideoType || nType == m_nCurAudioType)
-		{
-			Connect (GetFirstDisconnectedPin (Stream.GetFilter(), PINDIR_OUTPUT), NULL);
+			// Complete graph for one audio stream and one video stream (using standard graph builder rules)
+			if (nType == m_nCurVideoType || nType == m_nCurAudioType)
+			{
+				Connect (GetFirstDisconnectedPin (Stream.GetFilter(), PINDIR_OUTPUT), NULL);
+			}
 		}
 	}
 
@@ -648,19 +655,20 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 
 HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 {
-	HRESULT					hr;
-	ULONG					ulCurFreq;
-	FILTER_STATE			nState;
+	HRESULT		hr;
+	ULONG		ulCurFreq;
 
-	nState = GetState();
-
+	int nState = GetState();
+	if (m_BDANetworkProvider == MS_NETWORK_PROVIDER)
+		ChangeState (State_Stopped);  // Only stops when using Microsoft Network Provider
 	SwitchStream (m_nCurVideoType, pChannel->GetVideoType());
 	SwitchStream (m_nCurAudioType, pChannel->GetDefaultAudioType());
-	ChangeState ((FILTER_STATE)nState);
 
 	CheckNoLog (SetFrequency (pChannel->GetFrequency()));
 	CheckNoLog (m_DVBStreams[m_nCurVideoType].Map (pChannel->GetVideoPID()));
 	CheckNoLog (m_DVBStreams[m_nCurAudioType].Map (pChannel->GetDefaultAudioPID()));
+	if (GetState() == State_Stopped)
+		ChangeState ((FILTER_STATE)nState);
 
 	// TODO : remove sub later!
 //	CheckNoLog (m_DVBStreams[DVB_SUB].Map (pChannel->GetDefaultSubtitlePID()));
@@ -679,7 +687,8 @@ HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE 
 		CComPtr<IPin>				pInPin;
 		CComPtr<IPin>				pNewOut  = GetFirstPin (pFGNew,  PINDIR_OUTPUT);
 		
-		ChangeState (State_Stopped);
+		if (GetState() != State_Stopped)
+			ChangeState (State_Stopped);
 		pOldOut->ConnectedTo(&pInPin);
 		Disconnect (pOldOut);
 		Disconnect (pInPin);
