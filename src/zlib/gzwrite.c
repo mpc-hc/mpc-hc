@@ -318,7 +318,7 @@ int ZEXPORTVA gzprintf (gzFile file, const char *format, ...)
 #  ifdef HAS_vsprintf_void
     (void)vsprintf(state->in, format, va);
     va_end(va);
-    for (len = 0; len < state->in; len++)
+    for (len = 0; len < size; len++)
         if (state->in[len] == 0) break;
 #  else
     len = vsprintf(state->in, format, va);
@@ -523,8 +523,9 @@ int ZEXPORT gzclose_w(file)
     (void)deflateEnd(&(state->strm));
     free(state->out);
     free(state->in);
-    ret += close(state->fd);
     gz_error(state, Z_OK, NULL);
+    free(state->path);
+    ret += close(state->fd);
     free(state);
     return ret ? Z_ERRNO : Z_OK;
 }
