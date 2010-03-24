@@ -327,10 +327,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\minigzip.c"
-				>
-			</File>
-			<File
 				RelativePath=".\Trees.c"
 				>
 			</File>

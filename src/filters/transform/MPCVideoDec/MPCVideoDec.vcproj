@@ -466,6 +466,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
+				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -532,6 +533,7 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
+				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
