@@ -430,7 +430,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 					for(int j = 0; j < 10; j++)
 					{
-						rt = m_pFile->NextPTS(TrackNum);
+						REFERENCE_TIME rt = m_pFile->NextPTS(TrackNum);
 
 						if(rt < 0) break;
 
@@ -547,7 +547,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 						pos = m_pFile->m_streams[k].GetHeadPosition();
 						while(pos)
 						{
-							from = m_pFile->m_streams[k].GetNext(pos);
+							CMpegSplitterFile::stream& from = m_pFile->m_streams[k].GetNext(pos);
 							if(!GetOutputPin(from)) continue;
 
 							for(int l = 0; l < countof(p->streams); l++)
