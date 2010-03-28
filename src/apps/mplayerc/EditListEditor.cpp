@@ -215,23 +215,23 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
 		}
 		
 		EditListFile.Close();
-
-		if (m_NameList.GetCount() == 0)
-		{
-			CStdioFile 	NameFile;
-			CString		str;
-			if (NameFile.Open (_T("EditListNames.txt"), CFile::modeRead))
-			{
-				while(NameFile.ReadString(str))
-				{
-					m_NameList.Add(str);
-				}
-				NameFile.Close();
-			}
-		}
 	}
 	else
 		m_bFileOpen = false;
+
+	if (m_NameList.GetCount() == 0)
+	{
+		CStdioFile 	NameFile;
+		CString		str;
+		if (NameFile.Open (_T("EditListNames.txt"), CFile::modeRead))
+		{
+			while(NameFile.ReadString(str))
+			{
+				m_NameList.Add(str);
+			}
+			NameFile.Close();
+		}
+	}
 }
 
 void CEditListEditor::SetIn (REFERENCE_TIME rtIn)
