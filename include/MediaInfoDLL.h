@@ -287,6 +287,8 @@ typedef const MediaInfo_Char* (__stdcall *MEDIAINFO_GetI)(void*, MediaInfo_strea
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFOLIST_GetI)(void*, size_t, MediaInfo_stream_C StreamKind, size_t StreamNumber, size_t Parameter, MediaInfo_info_C KindOfInfo); static MEDIAINFOLIST_GetI MediaInfoList_GetI;
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFO_Get)(void*, MediaInfo_stream_C StreamKind, size_t StreamNumber, const MediaInfo_Char* Parameter, MediaInfo_info_C KindOfInfo, MediaInfo_info_C KindOfSearch); static MEDIAINFO_Get MediaInfo_Get;
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFOLIST_Get)(void*, size_t, MediaInfo_stream_C StreamKind, size_t StreamNumber, const MediaInfo_Char* Parameter, MediaInfo_info_C KindOfInfo, MediaInfo_info_C KindOfSearch); static MEDIAINFOLIST_Get MediaInfoList_Get;
+typedef size_t (__stdcall *MEDIAINFO_Output_Buffer_Get)(void*, const MediaInfo_Char* Parameter); static MEDIAINFO_Output_Buffer_Get MediaInfo_Output_Buffer_Get;
+typedef size_t (__stdcall *MEDIAINFO_Output_Buffer_GetI)(void*, size_t Pos); static MEDIAINFO_Output_Buffer_GetI MediaInfo_Output_Buffer_GetI;
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFO_Option)(void*, const MediaInfo_Char* Parameter, const MediaInfo_Char* Value); static MEDIAINFO_Option MediaInfo_Option;
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFOLIST_Option)(void*, const MediaInfo_Char* Parameter, const MediaInfo_Char* Value); static MEDIAINFOLIST_Option MediaInfoList_Option;
 typedef size_t (__stdcall *MEDIAINFO_State_Get)(void*); static MEDIAINFO_State_Get MediaInfo_State_Get;
@@ -346,6 +348,8 @@ static size_t MediaInfoDLL_Load()
     MEDIAINFOLIST_ASSIGN(GetI,"GetI")
     MEDIAINFO_ASSIGN    (Get,"Get")
     MEDIAINFOLIST_ASSIGN(Get,"Get")
+    MEDIAINFO_ASSIGN    (Output_Buffer_Get,"Output_Buffer_Get")
+    MEDIAINFO_ASSIGN    (Output_Buffer_GetI,"Output_Buffer_GetI")
     MEDIAINFO_ASSIGN    (Option,"Option")
     MEDIAINFOLIST_ASSIGN(Option,"Option")
     MEDIAINFO_ASSIGN    (State_Get,"State_Get")
@@ -492,7 +496,7 @@ public :
 
     //File
     size_t Open (const String &File) {MEDIAINFO_TEST_INT; return MediaInfo_Open(Handle, File.c_str());};
-    size_t Open_Buffer_Init (MediaInfo_int64u File_Size, MediaInfo_int64u File_Offset) {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Init(Handle, File_Size, File_Offset);};
+    size_t Open_Buffer_Init (MediaInfo_int64u File_Size=(MediaInfo_int64u)-1, MediaInfo_int64u File_Offset=0) {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Init(Handle, File_Size, File_Offset);};
     size_t Open_Buffer_Continue (MediaInfo_int8u* Buffer, size_t Buffer_Size) {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Continue(Handle, Buffer, Buffer_Size);};
     MediaInfo_int64u Open_Buffer_Continue_GoTo_Get () {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Continue_GoTo_Get(Handle);};
     size_t Open_Buffer_Finalize () {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Finalize(Handle);};
@@ -505,6 +509,8 @@ public :
     String Get (stream_t StreamKind, size_t StreamNumber, const String &Parameter, info_t InfoKind=Info_Text, info_t SearchKind=Info_Name)  {MEDIAINFO_TEST_STRING; return MediaInfo_Get (Handle, (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), (MediaInfo_info_C)InfoKind, (MediaInfo_info_C)SearchKind);};
     //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, size_t Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_SetI (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter, OldValue.c_str());};
     //size_t Set (const String &ToSet, stream_t StreamKind, size_t StreamNumber, const String &Parameter, const String &OldValue=_T(""))  {MEDIAINFO_TEST_INT; return MediaInfo_Set (Handle, ToSet.c_str(), (MediaInfo_stream_C)StreamKind, StreamNumber, Parameter.c_str(), OldValue.c_str());};
+    size_t Output_Buffer_Get (const String &Value) {return MediaInfo_Output_Buffer_Get(Handle, Value.c_str());}
+    size_t Output_Buffer_Get (size_t Pos) {return MediaInfo_Output_Buffer_GetI(Handle, Pos);}
     String        Option (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING; return MediaInfo_Option (Handle, Option.c_str(), Value.c_str());};
     static String Option_Static (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING_STATIC; return MediaInfo_Option (NULL, Option.c_str(), Value.c_str());};
     size_t                  State_Get ()  {MEDIAINFO_TEST_INT; return MediaInfo_State_Get(Handle);};
