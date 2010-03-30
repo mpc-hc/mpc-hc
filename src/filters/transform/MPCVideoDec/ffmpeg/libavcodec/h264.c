@@ -2889,7 +2889,7 @@ static int decode_frame(AVCodecContext *avctx,
 
         for (i = 0; i < cnt; i++) {
             nalsize = AV_RB16(p) + 2;
-            if(decode_nal_units(h, p, nalsize)  != nalsize) {
+            if(decode_nal_units(h, p, nalsize)  < 0) {
                 av_log(avctx, AV_LOG_ERROR, "Decoding sps %d from avcC failed\n", i);
                 return -1;
             }
