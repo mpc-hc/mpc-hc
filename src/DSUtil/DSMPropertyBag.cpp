@@ -160,13 +160,16 @@ CDSMResource::~CDSMResource()
 	m_resources.RemoveKey((DWORD)this);
 }
 
-void CDSMResource::operator = (const CDSMResource& r)
+CDSMResource& CDSMResource::operator = (const CDSMResource& r)
 {
-	tag = r.tag;
-	name = r.name;
-	desc = r.desc;
-	mime = r.mime;
-	data.Copy(r.data);
+  if( this != &r ) {
+    tag = r.tag;
+    name = r.name;
+    desc = r.desc;
+    mime = r.mime;
+    data.Copy(r.data);
+   }
+   return *this;
 }
 
 //
@@ -266,19 +269,22 @@ CDSMChapter::CDSMChapter(REFERENCE_TIME rt, LPCWSTR name)
 	this->name = name;
 }
 
-void CDSMChapter::operator = (const CDSMChapter& c)
+CDSMChapter& CDSMChapter::operator = (const CDSMChapter& c)
 {
-	order = c.counter;
-	rt = c.rt;
-	name = c.name;
+  if( this != &c ) {
+    order = c.counter;
+    rt = c.rt;
+    name = c.name;
+   }
+   return *this;
 }
 
 int CDSMChapter::counter = 0;
 
 int CDSMChapter::Compare(const void* a, const void* b)
 {
-	const CDSMChapter* ca = (const CDSMChapter*)a;
-	const CDSMChapter* cb = (const CDSMChapter*)b;
+	const CDSMChapter* ca = static_cast<const CDSMChapter*>(a);
+	const CDSMChapter* cb = static_cast<const CDSMChapter*>(b);
 
 	if(ca->rt > cb->rt) return 1;
 	else if(ca->rt < cb->rt) return -1;

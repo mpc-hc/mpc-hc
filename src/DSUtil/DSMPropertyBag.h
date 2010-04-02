@@ -68,7 +68,7 @@ public:
 	CDSMResource(const CDSMResource& r);
 	CDSMResource(LPCWSTR name, LPCWSTR desc, LPCWSTR mime, BYTE* pData, int len, DWORD_PTR tag = 0);
 	virtual ~CDSMResource();
-	void operator = (const CDSMResource& r);
+	CDSMResource& operator = (const CDSMResource& r);
 
 	// global access to all resources
 	static CCritSec m_csResources;
@@ -120,7 +120,7 @@ public:
 	CStringW name;
 	CDSMChapter();
 	CDSMChapter(REFERENCE_TIME rt, LPCWSTR name);
-	void operator = (const CDSMChapter& c);
+	CDSMChapter& operator = (const CDSMChapter& c);
 	static int Compare(const void* a, const void* b);
 };
 

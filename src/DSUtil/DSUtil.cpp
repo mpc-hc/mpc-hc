@@ -34,7 +34,7 @@
 
 void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
-	CString s, ss;
+	CString s;
 	CStdioFile f;
 	if(!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeText))
 		return;
@@ -49,6 +49,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
 	if(size == sizeof(VIDEO_STREAM_CONFIG_CAPS))
 	{
+    CString ss;
 		for(ptrdiff_t i = 0; i < cnt; i++)
 		{
 			AM_MEDIA_TYPE* pmt = NULL;

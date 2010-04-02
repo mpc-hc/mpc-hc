@@ -120,7 +120,7 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer,
 	pfDXVA2CreateDirect3DDeviceManager9	= hLib ? (PTR_DXVA2CreateDirect3DDeviceManager9) GetProcAddress (hLib, "DXVA2CreateDirect3DDeviceManager9") : NULL;
 	pfDXVA2CreateVideoService			= hLib ? (PTR_DXVA2CreateVideoService)           GetProcAddress (hLib, "DXVA2CreateVideoService") : NULL;
 
-	HRESULT hr;
+
 	if (hLib != NULL)
 	{
 		pfDXVA2CreateDirect3DDeviceManager9 (&m_nResetTocken, &m_pD3DDeviceManager);
@@ -129,6 +129,7 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer,
 	// Initialize Device Manager with DX surface
 	if (m_pD3DDev)
 	{
+		HRESULT hr;
 		hr = m_pD3DDeviceManager->ResetDevice (m_pD3DDev, m_nResetTocken);
 		hr = m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
 	}

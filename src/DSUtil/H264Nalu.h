@@ -65,7 +65,7 @@ public :
 
 	int			GetDataLength()	const { return m_nCurPos - m_nNALDataPos; };
 	BYTE*		GetDataBuffer() { return m_pBuffer + m_nNALDataPos; };
-	int			GetRoundedDataLength()
+	int			GetRoundedDataLength() const
 	{
 		int		nSize = m_nCurPos - m_nNALDataPos;
 		return nSize + 128 - (nSize %128);

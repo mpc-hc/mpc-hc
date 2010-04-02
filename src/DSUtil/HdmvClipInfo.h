@@ -117,7 +117,7 @@ public:
 		REFERENCE_TIME			m_rtIn;
 		REFERENCE_TIME			m_rtOut;
 
-		REFERENCE_TIME Duration()
+		REFERENCE_TIME Duration() const
 		{
 			return m_rtOut - m_rtIn;
 		}
@@ -133,7 +133,7 @@ public:
 
 	HRESULT		ReadInfo(LPCTSTR strFile);
 	Stream*		FindStream(SHORT wPID);
-	bool		IsHdmv()					{ return m_bIsHdmv; };
+	bool		IsHdmv()				const	{ return m_bIsHdmv; };
 	size_t		GetStreamNumber()		{ return m_Streams.GetCount(); };
 	Stream*		GetStreamByIndex(size_t nIndex){ return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL; };
 

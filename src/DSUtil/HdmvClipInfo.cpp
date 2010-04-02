@@ -257,9 +257,7 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
 
 HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist)
 {
-	DWORD				dwPos;
-	DWORD				dwTemp;
-	SHORT				nPlaylistItems;
+
 	BYTE				Buff[100];
 	CPath				Path (strPlaylistFile);
 	bool				bDuplicate = false;
@@ -279,6 +277,10 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 		ReadBuffer(Buff, 4);
 		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
 
+    DWORD				dwPos;
+		DWORD				dwTemp;
+		SHORT				nPlaylistItems;
+		
 		dwPos = ReadDword();
 		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
 
@@ -326,11 +328,10 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist)
 {
 	HRESULT				hr		= E_FAIL;
-	REFERENCE_TIME		rtMax	= 0;
-	REFERENCE_TIME		rtCurrent;
+
 	CString				strPath (strFolder);
 	CString				strFilter;
-	CString				strCurrentPlaylist;
+	
 	CAtlList<PlaylistItem>	Playlist;
 	WIN32_FIND_DATA		fd = {0};
 
@@ -345,6 +346,9 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 	{
 		do
 		{
+			REFERENCE_TIME		rtMax	= 0;
+      REFERENCE_TIME		rtCurrent;
+      CString				strCurrentPlaylist;
 			strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath, fd.cFileName);
 			Playlist.RemoveAll();
 			
