@@ -582,7 +582,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndPlaylistBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndPlaylistBar.SetHeight(100);
 	LoadControlBar(&m_wndPlaylistBar, AFX_IDW_DOCKBAR_BOTTOM);
-	m_wndPlaylistBar.LoadPlaylist();
+	m_wndPlaylistBar.LoadPlaylist(GetRecentFile());
 
 	m_wndEditListEditor.Create(this);
 	m_wndEditListEditor.SetBarStyle(m_wndEditListEditor.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
@@ -792,6 +792,18 @@ void CMainFrame::OnDragLeave()
 DROPEFFECT CMainFrame::OnDragScroll(DWORD dwKeyState, CPoint point)
 {
 	return DROPEFFECT_NONE;
+}
+
+LPCTSTR CMainFrame::GetRecentFile()
+{
+	CRecentFileList& MRU = AfxGetAppSettings().MRU;
+	MRU.ReadList();
+	for(int i = 0; i < MRU.GetSize();i++)
+	{
+		if(!MRU[i].IsEmpty()) 
+			return MRU[i].GetString();
+	}
+	return NULL;
 }
 
 void CMainFrame::LoadControlBar(CControlBar* pBar, UINT defDockBarID)
@@ -6082,6 +6094,9 @@ void CMainFrame::OnViewOptions()
 
 void CMainFrame::OnPlayPlay()
 {
+	if(m_iMediaLoadState == MLS_CLOSED) 
+		OpenCurPlaylistItem();
+
 	if(m_iMediaLoadState == MLS_LOADED)
 	{
 		if(GetMediaState() == State_Stopped) m_iSpeedLevel = 0;
@@ -6296,6 +6311,8 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 			if(fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_PAUSE) fEnable = false;
 		}
 	}
+	else if (pCmdUI->m_nID == ID_PLAY_PLAY && m_wndPlaylistBar.GetCount() > 0) 
+		fEnable = true;
 
 	pCmdUI->Enable(fEnable);
 }
@@ -12467,7 +12484,7 @@ void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
 		return;
 
 	CPlaylistItem pli;
-	if(!m_wndPlaylistBar.GetCur(pli)) m_wndPlaylistBar.SetFirst();
+	if(!m_wndPlaylistBar.GetCur(pli)) m_wndPlaylistBar.SetFirstSelected();
 	if(!m_wndPlaylistBar.GetCur(pli)) return;
 
 	CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD(rtStart));
@@ -13838,4 +13855,3 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
 
 	return __super::OnPowerBroadcast(nPowerEvent, nEventData);
 }
-

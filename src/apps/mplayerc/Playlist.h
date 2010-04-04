@@ -50,7 +50,7 @@ public:
 	CPlaylistItem(const CPlaylistItem& pli);
 	CPlaylistItem& operator = (const CPlaylistItem& pli);
 
-	POSITION FindFile(CString path);
+	POSITION FindFile(LPCTSTR path);
 
 	CString GetLabel(int i = 0);
 };

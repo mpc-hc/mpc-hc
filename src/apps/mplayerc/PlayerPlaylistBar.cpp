@@ -267,10 +267,8 @@ void CPlayerPlaylistBar::ParsePlayList(CString fn, CAtlList<CString>* subs)
 	ParsePlayList(sl, subs);
 }
 
-void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs)
+void CPlayerPlaylistBar::ResolveLinkFiles( CAtlList<CString> &fns )
 {
-	if(fns.IsEmpty()) return;
-
 	// resolve .lnk files
 
 	CComPtr<IShellLink> pSL;
@@ -283,15 +281,20 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 		CString& fn = fns.GetNext(pos);
 		TCHAR buff[_MAX_PATH];
 		if(CPath(fn).GetExtension().MakeLower() != _T(".lnk")
-		|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
-		|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
-		|| FAILED(pSL->GetPath(buff, countof(buff), NULL, 0)))
+			|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
+			|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
+			|| FAILED(pSL->GetPath(buff, countof(buff), NULL, 0)))
 			continue;
 
 		fn = buff;
 	}
+}
 
-	//	
+void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs)
+{
+	if(fns.IsEmpty()) return;
+
+	ResolveLinkFiles(fns);
 
 	CAtlList<CString> sl;
 	if(SearchFiles(fns.GetHead(), sl))
@@ -478,6 +481,14 @@ void CPlayerPlaylistBar::Empty()
 
 void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs)
 {
+	if (!fMulti)
+	{
+		ASSERT(fns.GetCount() == 1);
+		ResolveLinkFiles(fns);
+		if (SelectFileInPlaylist(fns.GetHead().GetString()))
+			return;
+	}
+
 	Empty();
 	Append(fns, fMulti, subs);
 }
@@ -616,7 +627,7 @@ void CPlayerPlaylistBar::SetNext()
 {
 	POSITION pos = m_pl.GetPos(), org = pos;
 	while(m_pl.GetNextWrap(pos).m_fInvalid && pos != org);
-UpdateList();
+	UpdateList();
 	m_pl.SetPos(pos);
 	EnsureVisible(pos);
 }
@@ -629,11 +640,27 @@ void CPlayerPlaylistBar::SetPrev()
 	EnsureVisible(pos);
 }
 
+void CPlayerPlaylistBar::SetFirstSelected()
+{
+	POSITION pos = m_list.GetFirstSelectedItemPosition();
+	if(pos) 
+		pos = FindPos(m_list.GetNextSelectedItem(pos));
+	else
+	{
+		pos = m_pl.GetTailPosition();
+		POSITION org = pos;
+		while(m_pl.GetNextWrap(pos).m_fInvalid && pos != org);
+	}
+	UpdateList();
+	m_pl.SetPos(pos);
+	EnsureVisible(pos);
+}
+
 void CPlayerPlaylistBar::SetFirst()
 {
 	POSITION pos = m_pl.GetTailPosition(), org = pos;
 	while(m_pl.GetNextWrap(pos).m_fInvalid && pos != org);
-UpdateList();
+	UpdateList();
 	m_pl.SetPos(pos);
 	EnsureVisible(pos);
 }
@@ -713,7 +740,26 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 	return NULL;
 }
 
-void CPlayerPlaylistBar::LoadPlaylist()
+bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
+{
+	if (!filename)
+		return false;
+	POSITION pos = m_pl.GetHeadPosition();
+	while(pos)
+	{
+		CPlaylistItem& pli = m_pl.GetAt(pos);
+		if (pli.FindFile(filename))
+		{
+			m_pl.SetPos(pos);
+			EnsureVisible(pos);
+			return true;
+		}
+		m_pl.GetNext(pos);
+	}
+	return false;
+}
+
+void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
 	CString base;
 	if(AfxGetMyApp()->GetAppSavePath(base))
@@ -729,6 +775,7 @@ void CPlayerPlaylistBar::LoadPlaylist()
 		{
 			ParseMPCPlayList(p);
 			Refresh();
+			SelectFileInPlaylist(filename);
 		}
 	}
 }

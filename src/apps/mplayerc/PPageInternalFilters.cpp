@@ -193,6 +193,7 @@ s_filters[] =
 #if INTERNAL_DECODER_THEORA
 	{_T("Theora"), 3, FFM_THEORA, IDS_TRA_FFMPEG, CreateInstance<CMPCVideoDecFilter>},
 #endif
+	{NULL, 0, 0, 0, NULL}
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)

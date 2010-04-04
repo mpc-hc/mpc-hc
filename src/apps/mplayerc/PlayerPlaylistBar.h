@@ -47,6 +47,7 @@ private:
 	void AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs);
 	void ParsePlayList(CString fn, CAtlList<CString>* subs);
 	void ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs);
+	void ResolveLinkFiles( CAtlList<CString> &fns );
 
 	bool ParseBDMVPlayList(CString fn);
 
@@ -80,7 +81,11 @@ public:
 	bool IsAtEnd();
 	bool GetCur(CPlaylistItem& pli);
 	CString GetCur();
-	void SetNext(), SetPrev(), SetFirst(), SetLast();
+	void SetNext();
+	void SetPrev();
+	void SetFirstSelected();
+	void SetFirst();
+	void SetLast();
 	void SetCurValid(bool fValid);
 	void SetCurTime(REFERENCE_TIME rt);
 
@@ -95,8 +100,10 @@ public:
 
 	OpenMediaData* GetCurOMD(REFERENCE_TIME rtStart = 0);
 
-	void LoadPlaylist();
+	void LoadPlaylist(LPCTSTR filename);
 	void SavePlaylist();
+
+	bool SelectFileInPlaylist(LPCTSTR filename);
 
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

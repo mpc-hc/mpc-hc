@@ -69,10 +69,15 @@ CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 	return(*this);
 }
 
-POSITION CPlaylistItem::FindFile(CString path)
+POSITION CPlaylistItem::FindFile(LPCTSTR path)
 {
 	POSITION pos = m_fns.GetHeadPosition();
-	while(pos && !m_fns.GetAt(pos).CompareNoCase(path)) m_fns.GetNext(pos);
+	while(pos) 
+	{
+		if (m_fns.GetAt(pos).CompareNoCase(path) == 0)
+			return pos;
+		m_fns.GetNext(pos);
+	}
 	return(NULL);
 }
 

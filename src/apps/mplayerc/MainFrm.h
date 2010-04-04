@@ -505,6 +505,8 @@ protected:  // control bar embedded members
 	void OnDragLeave();
 	DROPEFFECT OnDragScroll(DWORD dwKeyState, CPoint point);
 
+	LPCTSTR GetRecentFile();
+
 	friend class CPPagePlayback; // TODO
 	friend class CMPlayerCApp; // TODO
 

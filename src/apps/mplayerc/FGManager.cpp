@@ -2235,6 +2235,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 	*/
 
+#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
 	CMPCVideoDecFilter::FFmpegFilters = s.FFmpegFilters;
 	CMPCVideoDecFilter::DXVAFilters = s.DXVAFilters;
 
@@ -2243,6 +2244,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	{
 		CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
 	}
+#endif
 
 	// Blocked filters
 

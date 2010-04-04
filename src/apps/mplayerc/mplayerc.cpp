@@ -232,7 +232,9 @@ public:
 			#error Compiler is not supported!
 		#endif
 
+#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
 		m_FfmpegCompiler.Format (A2W(GetFfmpegCompiler()));
+#endif
 
 		UpdateData(FALSE);
 		return TRUE;
