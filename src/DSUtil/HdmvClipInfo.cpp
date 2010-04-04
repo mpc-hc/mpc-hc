@@ -344,11 +344,11 @@ HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile
 	HANDLE hFind = FindFirstFile(strFilter, &fd);
 	if(hFind != INVALID_HANDLE_VALUE)
 	{
+    REFERENCE_TIME		rtMax	= 0;
+    REFERENCE_TIME		rtCurrent;
+    CString				strCurrentPlaylist;
 		do
 		{
-			REFERENCE_TIME		rtMax	= 0;
-      REFERENCE_TIME		rtCurrent;
-      CString				strCurrentPlaylist;
 			strCurrentPlaylist.Format(_T("%sPLAYLIST\\%s"), strPath, fd.cFileName);
 			Playlist.RemoveAll();
 			
