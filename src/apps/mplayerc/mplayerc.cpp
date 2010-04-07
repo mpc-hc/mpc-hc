@@ -35,6 +35,7 @@
 #include "Ifo.h"
 #include "MiniDump.h"
 #include "SettingsDefines.h"
+#include "internal_filter_config.h"
 
 #include "Monitors.h"
 
