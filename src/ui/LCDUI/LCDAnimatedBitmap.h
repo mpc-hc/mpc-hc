@@ -5,14 +5,14 @@
 // The CLCDAnimatedBitmap class draws animated bitmaps onto the LCD.
 // An animated bitmap consists of a tiled bitmap representing the
 // animation. The tile size is set with the SetSubpicWidth.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDANIMATEDBITMAP_H_INCLUDED_ 
-#define _LCDANIMATEDBITMAP_H_INCLUDED_ 
+#ifndef _LCDANIMATEDBITMAP_H_INCLUDED_
+#define _LCDANIMATEDBITMAP_H_INCLUDED_
 
 #include "LCDBase.h"
 #include "LCDBitmap.h"

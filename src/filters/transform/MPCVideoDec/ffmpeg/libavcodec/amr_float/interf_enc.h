@@ -35,24 +35,24 @@
  * Encodes one frame of speech
  * Returns packed octets
  */
-int Encoder_Interface_Encode( void *st, enum Mode mode, short *speech,
+int Encoder_Interface_Encode(void *st, enum Mode mode, short *speech,
 
 #ifndef ETSI
-      unsigned char *serial,  /* max size 31 bytes */
+                             unsigned char *serial,  /* max size 31 bytes */
 
 #else
-      short *serial, /* size 500 bytes */
+                             short *serial, /* size 500 bytes */
 #endif
 
-      int forceSpeech );   /* use speech mode */
+                             int forceSpeech);    /* use speech mode */
 
 /*
  * Reserve and init. memory
  */
-void *Encoder_Interface_init( int dtx );
+void *Encoder_Interface_init(int dtx);
 
 /*
  * Exit and free memory
  */
-void Encoder_Interface_exit( void *state );
+void Encoder_Interface_exit(void *state);
 #endif

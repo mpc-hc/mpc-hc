@@ -50,65 +50,65 @@
 
 namespace dirac
 {
+/**
+* Subband Dirac-bytestream input/output
+*/
+class SubbandByteIO : public ByteIO
+{
+public:
+
     /**
-    * Subband Dirac-bytestream input/output
+    * Constructor
+    *@param sub_band Corresponding Subband
+    *@param byteio Source/Destination of data
     */
-    class SubbandByteIO : public ByteIO
-    {
-    public:
-
-        /**
-        * Constructor
-        *@param sub_band Corresponding Subband
-        *@param byteio Source/Destination of data
-        */
-        SubbandByteIO(Subband& sub_band,
-                      const ByteIO& byteio);
+    SubbandByteIO(Subband& sub_band,
+                  const ByteIO& byteio);
 
 
-        /* Constructor
-        *@param sub_band Corresponding Subband
-        *@param byteio Source/Destination of data
-        */
-        SubbandByteIO(Subband& sub_band);
+    /* Constructor
+    *@param sub_band Corresponding Subband
+    *@param byteio Source/Destination of data
+    */
+    SubbandByteIO(Subband& sub_band);
 
-       /**
-       * Destructor
-       */
-        ~SubbandByteIO();
+    /**
+    * Destructor
+    */
+    ~SubbandByteIO();
 
-        /**
-        * Inputs data from Dirac stream-format
-        */
-        bool Input();
-
-
-        /**
-        * Gets number of bytes in Arith-coded data block
-        */
-        int GetBandDataLength() const;
-
-        /**
-        * Gets subband bytes in Dirac-bytestream format
-        */
-        const std::string GetBytes();
+    /**
+    * Inputs data from Dirac stream-format
+    */
+    bool Input();
 
 
-  protected:
-        
+    /**
+    * Gets number of bytes in Arith-coded data block
+    */
+    int GetBandDataLength() const;
 
-   private:
-      
-        /**
-        * Sub-band that is inputed/outputed
-        */
-        Subband&        m_subband; 
+    /**
+    * Gets subband bytes in Dirac-bytestream format
+    */
+    const std::string GetBytes();
 
-        /**
-        * Number of bytes in arith-coded data block
-        */
-        int             m_band_data_length;
-   };
+
+protected:
+
+
+private:
+
+    /**
+    * Sub-band that is inputed/outputed
+    */
+    Subband&        m_subband;
+
+    /**
+    * Number of bytes in arith-coded data block
+    */
+    int             m_band_data_length;
+};
 
 } // namespace dirac
 

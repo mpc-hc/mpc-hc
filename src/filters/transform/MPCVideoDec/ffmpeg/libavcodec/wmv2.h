@@ -32,7 +32,8 @@
 #define SKIP_TYPE_COL  3
 
 
-typedef struct Wmv2Context{
+typedef struct Wmv2Context
+{
     MpegEncContext s;
     IntraX8Context x8;
     int j_type_bit;
@@ -51,7 +52,7 @@ typedef struct Wmv2Context{
 
     ScanTable abt_scantable[2];
     DECLARE_ALIGNED_16(DCTELEM, abt_block2)[6][64];
-}Wmv2Context;
+} Wmv2Context;
 
 void ff_wmv2_common_init(Wmv2Context * w);
 

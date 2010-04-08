@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -32,7 +32,7 @@
  * Fast (I)MDCT Implementation using (I)FFT ((Inverse) Fast Fourier Transform)
  * and consists of three steps: pre-(I)FFT complex multiplication, complex
  * (I)FFT, post-(I)FFT complex multiplication,
- * 
+ *
  * As described in:
  *  P. Duhamel, Y. Mahieux, and J.P. Petit, "A Fast Algorithm for the
  *  Implementation of Filter Banks Based on 'Time Domain Aliasing
@@ -73,28 +73,44 @@ mdct_info *faad_mdct_init(uint16_t N)
     /* RE(mdct->sincos[k]) = scale*(real_t)(cos(2.0*M_PI*(k+1./8.) / (real_t)N));
      * IM(mdct->sincos[k]) = scale*(real_t)(sin(2.0*M_PI*(k+1./8.) / (real_t)N)); */
     /* scale is 1 for fixed point, sqrt(N) for floating point */
-    switch (N)
+    switch(N)
     {
-    case 2048: mdct->sincos = (complex_t*)mdct_tab_2048; break;
-    case 256:  mdct->sincos = (complex_t*)mdct_tab_256;  break;
+    case 2048:
+        mdct->sincos = (complex_t*)mdct_tab_2048;
+        break;
+    case 256:
+        mdct->sincos = (complex_t*)mdct_tab_256;
+        break;
 #ifdef LD_DEC
-    case 1024: mdct->sincos = (complex_t*)mdct_tab_1024; break;
+    case 1024:
+        mdct->sincos = (complex_t*)mdct_tab_1024;
+        break;
 #endif
 #ifdef ALLOW_SMALL_FRAMELENGTH
-    case 1920: mdct->sincos = (complex_t*)mdct_tab_1920; break;
-    case 240:  mdct->sincos = (complex_t*)mdct_tab_240;  break;
+    case 1920:
+        mdct->sincos = (complex_t*)mdct_tab_1920;
+        break;
+    case 240:
+        mdct->sincos = (complex_t*)mdct_tab_240;
+        break;
 #ifdef LD_DEC
-    case 960:  mdct->sincos = (complex_t*)mdct_tab_960;  break;
+    case 960:
+        mdct->sincos = (complex_t*)mdct_tab_960;
+        break;
 #endif
 #endif
 #ifdef SSR_DEC
-    case 512:  mdct->sincos = (complex_t*)mdct_tab_512;  break;
-    case 64:   mdct->sincos = (complex_t*)mdct_tab_64;   break;
+    case 512:
+        mdct->sincos = (complex_t*)mdct_tab_512;
+        break;
+    case 64:
+        mdct->sincos = (complex_t*)mdct_tab_64;
+        break;
 #endif
     }
 
     /* initialise fft */
-    mdct->cfft = cffti(N/4);
+    mdct->cfft = cffti(N / 4);
 
 #ifdef PROFILE
     mdct->cycles = 0;
@@ -106,11 +122,11 @@ mdct_info *faad_mdct_init(uint16_t N)
 
 void faad_mdct_end(mdct_info *mdct)
 {
-    if (mdct != NULL)
+    if(mdct != NULL)
     {
 #ifdef PROFILE
         printf("MDCT[%.4d]:         %I64d cycles\n", mdct->N, mdct->cycles);
-        printf("CFFT[%.4d]:         %I64d cycles\n", mdct->N/4, mdct->fft_cycles);
+        printf("CFFT[%.4d]:         %I64d cycles\n", mdct->N / 4, mdct->fft_cycles);
 #endif
 
         cfftu(mdct->cfft);
@@ -144,7 +160,7 @@ void faad_imdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
 #ifdef ALLOW_SMALL_FRAMELENGTH
 #ifdef FIXED_POINT
     /* detect non-power of 2 */
-    if (N & (N-1))
+    if(N & (N - 1))
     {
         /* adjust scale for non-power of 2 MDCT */
         /* 2048/1920 */
@@ -155,10 +171,10 @@ void faad_imdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
 #endif
 
     /* pre-IFFT complex multiplication */
-    for (k = 0; k < N4; k++)
+    for(k = 0; k < N4; k++)
     {
         ComplexMult(&IM(Z1[k]), &RE(Z1[k]),
-            X_in[2*k], X_in[N2 - 1 - 2*k], RE(sincos[k]), IM(sincos[k]));
+                    X_in[2*k], X_in[N2 - 1 - 2*k], RE(sincos[k]), IM(sincos[k]));
     }
 
 #ifdef PROFILE
@@ -173,17 +189,17 @@ void faad_imdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
 #endif
 
     /* post-IFFT complex multiplication */
-    for (k = 0; k < N4; k++)
+    for(k = 0; k < N4; k++)
     {
         RE(x) = RE(Z1[k]);
         IM(x) = IM(Z1[k]);
         ComplexMult(&IM(Z1[k]), &RE(Z1[k]),
-            IM(x), RE(x), RE(sincos[k]), IM(sincos[k]));
+                    IM(x), RE(x), RE(sincos[k]), IM(sincos[k]));
 
 #ifdef ALLOW_SMALL_FRAMELENGTH
 #ifdef FIXED_POINT
         /* non-power of 2 MDCT scaling */
-        if (b_scale)
+        if(b_scale)
         {
             RE(Z1[k]) = MUL_C(RE(Z1[k]), scale);
             IM(Z1[k]) = MUL_C(IM(Z1[k]), scale);
@@ -193,7 +209,7 @@ void faad_imdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
     }
 
     /* reordering */
-    for (k = 0; k < N8; k+=2)
+    for(k = 0; k < N8; k += 2)
     {
         X_out[              2*k] =  IM(Z1[N8 +     k]);
         X_out[          2 + 2*k] =  IM(Z1[N8 + 1 + k]);
@@ -242,15 +258,15 @@ void faad_mdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
     uint16_t N8 = N >> 3;
 
 #ifndef FIXED_POINT
-	real_t scale = REAL_CONST(N);
+    real_t scale = REAL_CONST(N);
 #else
-	real_t scale = REAL_CONST(4.0/N);
+    real_t scale = REAL_CONST(4.0 / N);
 #endif
 
 #ifdef ALLOW_SMALL_FRAMELENGTH
 #ifdef FIXED_POINT
     /* detect non-power of 2 */
-    if (N & (N-1))
+    if(N & (N - 1))
     {
         /* adjust scale for non-power of 2 MDCT */
         /* *= sqrt(2048/1920) */
@@ -260,14 +276,14 @@ void faad_mdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
 #endif
 
     /* pre-FFT complex multiplication */
-    for (k = 0; k < N8; k++)
+    for(k = 0; k < N8; k++)
     {
         uint16_t n = k << 1;
         RE(x) = X_in[N - N4 - 1 - n] + X_in[N - N4 +     n];
         IM(x) = X_in[    N4 +     n] - X_in[    N4 - 1 - n];
 
         ComplexMult(&RE(Z1[k]), &IM(Z1[k]),
-            RE(x), IM(x), RE(sincos[k]), IM(sincos[k]));
+                    RE(x), IM(x), RE(sincos[k]), IM(sincos[k]));
 
         RE(Z1[k]) = MUL_R(RE(Z1[k]), scale);
         IM(Z1[k]) = MUL_R(IM(Z1[k]), scale);
@@ -276,7 +292,7 @@ void faad_mdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
         IM(x) =  X_in[N2 +     n] + X_in[N - 1 - n];
 
         ComplexMult(&RE(Z1[k + N8]), &IM(Z1[k + N8]),
-            RE(x), IM(x), RE(sincos[k + N8]), IM(sincos[k + N8]));
+                    RE(x), IM(x), RE(sincos[k + N8]), IM(sincos[k + N8]));
 
         RE(Z1[k + N8]) = MUL_R(RE(Z1[k + N8]), scale);
         IM(Z1[k + N8]) = MUL_R(IM(Z1[k + N8]), scale);
@@ -286,11 +302,11 @@ void faad_mdct(mdct_info *mdct, real_t *X_in, real_t *X_out)
     cfftf(mdct->cfft, Z1);
 
     /* post-FFT complex multiplication */
-    for (k = 0; k < N4; k++)
+    for(k = 0; k < N4; k++)
     {
         uint16_t n = k << 1;
         ComplexMult(&RE(x), &IM(x),
-            RE(Z1[k]), IM(Z1[k]), RE(sincos[k]), IM(sincos[k]));
+                    RE(Z1[k]), IM(Z1[k]), RE(sincos[k]), IM(sincos[k]));
 
         X_out[         n] = -RE(x);
         X_out[N2 - 1 - n] =  IM(x);

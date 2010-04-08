@@ -51,7 +51,7 @@ static void DEF(put_pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -59,7 +59,7 @@ static void DEF(put_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movd   (%1), %%mm0             \n\t"
         "movd   (%2), %%mm1             \n\t"
         "add    %4, %1                  \n\t"
@@ -110,7 +110,7 @@ static void DEF(put_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   (%2), %%mm1             \n\t"
         "add    %4, %1                  \n\t"
@@ -151,9 +151,9 @@ static void DEF(put_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 static void DEF(put_no_rnd_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
@@ -161,7 +161,7 @@ static void DEF(put_no_rnd_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src
     __asm__ volatile(
         "pcmpeqb %%mm6, %%mm6           \n\t"
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   (%2), %%mm1             \n\t"
         "add    %4, %1                  \n\t"
@@ -221,16 +221,16 @@ static void DEF(put_no_rnd_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 static void DEF(avg_pixels4_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movd   (%1), %%mm0             \n\t"
         "movd   (%2), %%mm1             \n\t"
         "add    %4, %1                  \n\t"
@@ -282,7 +282,7 @@ static void DEF(avg_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   (%2), %%mm1             \n\t"
         "add    %4, %1                  \n\t"
@@ -328,9 +328,9 @@ static void DEF(avg_pixels8_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int 
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 static void DEF(put_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
@@ -369,7 +369,7 @@ static void DEF(put_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -377,7 +377,7 @@ static void DEF(put_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   8(%1), %%mm1            \n\t"
         PAVGB" (%2), %%mm0              \n\t"
@@ -416,16 +416,16 @@ static void DEF(put_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 static void DEF(avg_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
 {
     __asm__ volatile(
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   8(%1), %%mm1            \n\t"
         PAVGB" (%2), %%mm0              \n\t"
@@ -470,9 +470,9 @@ static void DEF(avg_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 static void DEF(put_no_rnd_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *src2, int dstStride, int src1Stride, int h)
@@ -480,7 +480,7 @@ static void DEF(put_no_rnd_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *sr
     __asm__ volatile(
         "pcmpeqb %%mm6, %%mm6           \n\t"
         "testl $1, %0                   \n\t"
-            " jz 1f                     \n\t"
+        " jz 1f                     \n\t"
         "movq   (%1), %%mm0             \n\t"
         "movq   8(%1), %%mm1            \n\t"
         "movq   (%2), %%mm2             \n\t"
@@ -543,9 +543,9 @@ static void DEF(put_no_rnd_pixels16_l2)(uint8_t *dst, uint8_t *src1, uint8_t *sr
         :"S"((x86_reg)src1Stride), "D"((x86_reg)dstStride)
         :"memory");
 //the following should be used, though better not with gcc ...
-/*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
-        :"r"(src1Stride), "r"(dstStride)
-        :"memory");*/
+    /*        :"+g"(h), "+r"(src1), "+r"(src2), "+r"(dst)
+            :"r"(src1Stride), "r"(dstStride)
+            :"memory");*/
 }
 
 /* GL: this function does incorrect rounding if overflow */
@@ -582,7 +582,7 @@ static void DEF(put_no_rnd_pixels8_x2)(uint8_t *block, const uint8_t *pixels, in
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -611,8 +611,8 @@ static void DEF(put_pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_
         "add %%"REG_a", %2              \n\t"
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
-        :"+g"(h), "+S"(pixels), "+D" (block)
-        :"r" ((x86_reg)line_size)
+        :"+g"(h), "+S"(pixels), "+D"(block)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -645,8 +645,8 @@ static void DEF(put_no_rnd_pixels8_y2)(uint8_t *block, const uint8_t *pixels, in
         "add %%"REG_a", %2              \n\t"
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
-        :"+g"(h), "+S"(pixels), "+D" (block)
-        :"r" ((x86_reg)line_size)
+        :"+g"(h), "+S"(pixels), "+D"(block)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -674,7 +674,7 @@ static void DEF(avg_pixels8)(uint8_t *block, const uint8_t *pixels, int line_siz
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -706,7 +706,7 @@ static void DEF(avg_pixels8_x2)(uint8_t *block, const uint8_t *pixels, int line_
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -744,7 +744,7 @@ static void DEF(avg_pixels8_y2)(uint8_t *block, const uint8_t *pixels, int line_
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a, "memory");
 }
 
@@ -757,7 +757,7 @@ static void DEF(avg_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line
         "lea (%3, %3), %%"REG_a"        \n\t"
         "movq (%1), %%mm0               \n\t"
         PAVGB" 1(%1), %%mm0             \n\t"
-         ASMALIGN(3)
+        ASMALIGN(3)
         "1:                             \n\t"
         "movq (%1, %%"REG_a"), %%mm2    \n\t"
         "movq (%1, %3), %%mm1           \n\t"
@@ -787,13 +787,14 @@ static void DEF(avg_pixels8_xy2)(uint8_t *block, const uint8_t *pixels, int line
         "subl $4, %0                    \n\t"
         "jnz 1b                         \n\t"
         :"+g"(h), "+S"(pixels), "+D"(block)
-        :"r" ((x86_reg)line_size)
+        :"r"((x86_reg)line_size)
         :"%"REG_a,  "memory");
 }
 
 static void DEF(avg_pixels4)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
-    do {
+    do
+    {
         __asm__ volatile(
             "movd (%1), %%mm0               \n\t"
             "movd (%1, %2), %%mm1           \n\t"
@@ -808,42 +809,50 @@ static void DEF(avg_pixels4)(uint8_t *block, const uint8_t *pixels, int line_siz
             "movd %%mm2, (%1, %2, 2)        \n\t"
             "movd %%mm3, (%1, %3)           \n\t"
             ::"S"(pixels), "D"(block),
-             "r" ((x86_reg)line_size), "r"((x86_reg)3L*line_size)
+            "r"((x86_reg)line_size), "r"((x86_reg)3L*line_size)
             :"memory");
-        block += 4*line_size;
-        pixels += 4*line_size;
+        block += 4 * line_size;
+        pixels += 4 * line_size;
         h -= 4;
-    } while(h > 0);
+    }
+    while(h > 0);
 }
 
 //FIXME the following could be optimized too ...
-static void DEF(put_no_rnd_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(put_no_rnd_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(put_no_rnd_pixels8_x2)(block  , pixels  , line_size, h);
-    DEF(put_no_rnd_pixels8_x2)(block+8, pixels+8, line_size, h);
+    DEF(put_no_rnd_pixels8_x2)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(put_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(put_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(put_pixels8_y2)(block  , pixels  , line_size, h);
-    DEF(put_pixels8_y2)(block+8, pixels+8, line_size, h);
+    DEF(put_pixels8_y2)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(put_no_rnd_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(put_no_rnd_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(put_no_rnd_pixels8_y2)(block  , pixels  , line_size, h);
-    DEF(put_no_rnd_pixels8_y2)(block+8, pixels+8, line_size, h);
+    DEF(put_no_rnd_pixels8_y2)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(avg_pixels16)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(avg_pixels16)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(avg_pixels8)(block  , pixels  , line_size, h);
-    DEF(avg_pixels8)(block+8, pixels+8, line_size, h);
+    DEF(avg_pixels8)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(avg_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(avg_pixels16_x2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(avg_pixels8_x2)(block  , pixels  , line_size, h);
-    DEF(avg_pixels8_x2)(block+8, pixels+8, line_size, h);
+    DEF(avg_pixels8_x2)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(avg_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(avg_pixels16_y2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(avg_pixels8_y2)(block  , pixels  , line_size, h);
-    DEF(avg_pixels8_y2)(block+8, pixels+8, line_size, h);
+    DEF(avg_pixels8_y2)(block + 8, pixels + 8, line_size, h);
 }
-static void DEF(avg_pixels16_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h){
+static void DEF(avg_pixels16_xy2)(uint8_t *block, const uint8_t *pixels, int line_size, int h)
+{
     DEF(avg_pixels8_xy2)(block  , pixels  , line_size, h);
-    DEF(avg_pixels8_xy2)(block+8, pixels+8, line_size, h);
+    DEF(avg_pixels8_xy2)(block + 8, pixels + 8, line_size, h);
 }
 
 #define QPEL_2TAP_L3(OPNAME) \

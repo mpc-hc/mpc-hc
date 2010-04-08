@@ -19,7 +19,7 @@
 CTransformFilter::CTransformFilter(__in_opt LPCTSTR pName,
                                    __inout_opt LPUNKNOWN pUnk,
                                    REFCLSID  clsid) :
-    CBaseFilter(pName,pUnk,&m_csFilter, clsid),
+    CBaseFilter(pName, pUnk, &m_csFilter, clsid),
     m_pInput(NULL),
     m_pOutput(NULL),
     m_bEOSDelivered(FALSE),
@@ -35,7 +35,7 @@ CTransformFilter::CTransformFilter(__in_opt LPCTSTR pName,
 CTransformFilter::CTransformFilter(__in_opt LPCSTR pName,
                                    __inout_opt LPUNKNOWN pUnk,
                                    REFCLSID  clsid) :
-    CBaseFilter(pName,pUnk,&m_csFilter, clsid),
+    CBaseFilter(pName, pUnk, &m_csFilter, clsid),
     m_pInput(NULL),
     m_pOutput(NULL),
     m_bEOSDelivered(FALSE),
@@ -93,7 +93,8 @@ CTransformFilter::GetPin(int n)
 
     // Create an input pin if necessary
 
-    if (m_pInput == NULL) {
+    if(m_pInput == NULL)
+    {
 
         m_pInput = new CTransformInputPin(NAME("Transform input pin"),
                                           this,              // Owner filter
@@ -103,11 +104,12 @@ CTransformFilter::GetPin(int n)
 
         //  Can't fail
         ASSERT(SUCCEEDED(hr));
-        if (m_pInput == NULL) {
+        if(m_pInput == NULL)
+        {
             return NULL;
         }
         m_pOutput = (CTransformOutputPin *)
-		   new CTransformOutputPin(NAME("Transform output pin"),
+                    new CTransformOutputPin(NAME("Transform output pin"),
                                             this,            // Owner filter
                                             &hr,             // Result code
                                             L"XForm Out");   // Pin name
@@ -115,7 +117,8 @@ CTransformFilter::GetPin(int n)
 
         // Can't fail
         ASSERT(SUCCEEDED(hr));
-        if (m_pOutput == NULL) {
+        if(m_pOutput == NULL)
+        {
             delete m_pInput;
             m_pInput = NULL;
         }
@@ -123,12 +126,16 @@ CTransformFilter::GetPin(int n)
 
     // Return the appropriate pin
 
-    if (n == 0) {
+    if(n == 0)
+    {
         return m_pInput;
-    } else
-    if (n == 1) {
+    }
+    else if(n == 1)
+    {
         return m_pOutput;
-    } else {
+    }
+    else
+    {
         return NULL;
     }
 }
@@ -142,23 +149,31 @@ CTransformFilter::GetPin(int n)
 
 STDMETHODIMP CTransformFilter::FindPin(LPCWSTR Id, __deref_out IPin **ppPin)
 {
-    CheckPointer(ppPin,E_POINTER);
-    ValidateReadWritePtr(ppPin,sizeof(IPin *));
+    CheckPointer(ppPin, E_POINTER);
+    ValidateReadWritePtr(ppPin, sizeof(IPin *));
 
-    if (0==lstrcmpW(Id,L"In")) {
+    if(0 == lstrcmpW(Id, L"In"))
+    {
         *ppPin = GetPin(0);
-    } else if (0==lstrcmpW(Id,L"Out")) {
+    }
+    else if(0 == lstrcmpW(Id, L"Out"))
+    {
         *ppPin = GetPin(1);
-    } else {
+    }
+    else
+    {
         *ppPin = NULL;
         return VFW_E_NOT_FOUND;
     }
 
     HRESULT hr = NOERROR;
     //  AddRef() returned pointer - but GetPin could fail if memory is low.
-    if (*ppPin) {
+    if(*ppPin)
+    {
         (*ppPin)->AddRef();
-    } else {
+    }
+    else
+    {
         hr = E_OUTOFMEMORY;  // probably.  There's no pin anyway.
     }
     return hr;
@@ -206,7 +221,7 @@ CTransformFilter::BreakConnect(PIN_DIRECTION dir)
 // Let derived classes know about connection completion
 
 HRESULT
-CTransformFilter::CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin)
+CTransformFilter::CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin)
 {
     UNREFERENCED_PARAMETER(direction);
     UNREFERENCED_PARAMETER(pReceivePin);
@@ -217,7 +232,7 @@ CTransformFilter::CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin)
 // override this to know when the media type is really set
 
 HRESULT
-CTransformFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
+CTransformFilter::SetMediaType(PIN_DIRECTION direction, const CMediaType *pmt)
 {
     UNREFERENCED_PARAMETER(direction);
     UNREFERENCED_PARAMETER(pmt);
@@ -240,33 +255,36 @@ CTransformFilter::InitializeOutputSample(IMediaSample *pSample, __deref_out IMed
     // when we can't do it without skipping frames because we're not on a
     // keyframe.  If it really has to switch us, it still will, but then we
     // will have to wait for the next keyframe
-    if (!(pProps->dwSampleFlags & AM_SAMPLE_SPLICEPOINT)) {
-	dwFlags |= AM_GBF_NOTASYNCPOINT;
+    if(!(pProps->dwSampleFlags & AM_SAMPLE_SPLICEPOINT))
+    {
+        dwFlags |= AM_GBF_NOTASYNCPOINT;
     }
 
     ASSERT(m_pOutput->m_pAllocator != NULL);
     HRESULT hr = m_pOutput->m_pAllocator->GetBuffer(
-             &pOutSample
-             , pProps->dwSampleFlags & AM_SAMPLE_TIMEVALID ?
-                   &pProps->tStart : NULL
-             , pProps->dwSampleFlags & AM_SAMPLE_STOPVALID ?
-                   &pProps->tStop : NULL
-             , dwFlags
-         );
+                     &pOutSample
+                     , pProps->dwSampleFlags & AM_SAMPLE_TIMEVALID ?
+                     &pProps->tStart : NULL
+                     , pProps->dwSampleFlags & AM_SAMPLE_STOPVALID ?
+                     &pProps->tStop : NULL
+                     , dwFlags
+                 );
     *ppOutSample = pOutSample;
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
     ASSERT(pOutSample);
     IMediaSample2 *pOutSample2;
-    if (SUCCEEDED(pOutSample->QueryInterface(IID_IMediaSample2,
-                                             (void **)&pOutSample2))) {
+    if(SUCCEEDED(pOutSample->QueryInterface(IID_IMediaSample2,
+                                            (void **)&pOutSample2)))
+    {
         /*  Modify it */
         AM_SAMPLE2_PROPERTIES OutProps;
         EXECUTE_ASSERT(SUCCEEDED(pOutSample2->GetProperties(
-            FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, tStart), (PBYTE)&OutProps)
-        ));
+                                     FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, tStart), (PBYTE)&OutProps)
+                                ));
         OutProps.dwTypeSpecificFlags = pProps->dwTypeSpecificFlags;
         OutProps.dwSampleFlags =
             (OutProps.dwSampleFlags & AM_SAMPLE_TYPECHANGED) |
@@ -275,30 +293,37 @@ CTransformFilter::InitializeOutputSample(IMediaSample *pSample, __deref_out IMed
         OutProps.tStop  = pProps->tStop;
         OutProps.cbData = FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId);
         hr = pOutSample2->SetProperties(
-            FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId),
-            (PBYTE)&OutProps
-        );
-        if (pProps->dwSampleFlags & AM_SAMPLE_DATADISCONTINUITY) {
+                 FIELD_OFFSET(AM_SAMPLE2_PROPERTIES, dwStreamId),
+                 (PBYTE)&OutProps
+             );
+        if(pProps->dwSampleFlags & AM_SAMPLE_DATADISCONTINUITY)
+        {
             m_bSampleSkipped = FALSE;
         }
         pOutSample2->Release();
-    } else {
-        if (pProps->dwSampleFlags & AM_SAMPLE_TIMEVALID) {
+    }
+    else
+    {
+        if(pProps->dwSampleFlags & AM_SAMPLE_TIMEVALID)
+        {
             pOutSample->SetTime(&pProps->tStart,
                                 &pProps->tStop);
         }
-        if (pProps->dwSampleFlags & AM_SAMPLE_SPLICEPOINT) {
+        if(pProps->dwSampleFlags & AM_SAMPLE_SPLICEPOINT)
+        {
             pOutSample->SetSyncPoint(TRUE);
         }
-        if (pProps->dwSampleFlags & AM_SAMPLE_DATADISCONTINUITY) {
+        if(pProps->dwSampleFlags & AM_SAMPLE_DATADISCONTINUITY)
+        {
             pOutSample->SetDiscontinuity(TRUE);
             m_bSampleSkipped = FALSE;
         }
         // Copy the media times
 
         LONGLONG MediaStart, MediaEnd;
-        if (pSample->GetMediaTime(&MediaStart,&MediaEnd) == NOERROR) {
-            pOutSample->SetMediaTime(&MediaStart,&MediaEnd);
+        if(pSample->GetMediaTime(&MediaStart, &MediaEnd) == NOERROR)
+        {
+            pOutSample->SetMediaTime(&MediaStart, &MediaEnd);
         }
     }
     return S_OK;
@@ -311,7 +336,8 @@ CTransformFilter::Receive(IMediaSample *pSample)
 {
     /*  Check for other streams and pass them on */
     AM_SAMPLE2_PROPERTIES * const pProps = m_pInput->SampleProps();
-    if (pProps->dwStreamId != AM_STREAM_MEDIA) {
+    if(pProps->dwStreamId != AM_STREAM_MEDIA)
+    {
         return m_pOutput->m_pInputPin->Receive(pSample);
     }
     HRESULT hr;
@@ -320,12 +346,13 @@ CTransformFilter::Receive(IMediaSample *pSample)
 
     // If no output to deliver to then no point sending us data
 
-    ASSERT (m_pOutput != NULL) ;
+    ASSERT(m_pOutput != NULL) ;
 
     // Set up the output sample
     hr = InitializeOutputSample(pSample, &pOutSample);
 
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
@@ -339,29 +366,37 @@ CTransformFilter::Receive(IMediaSample *pSample)
     // Stop the clock and log it (if PERF is defined)
     MSR_STOP(m_idTransform);
 
-    if (FAILED(hr)) {
-	DbgLog((LOG_TRACE,1,TEXT("Error from transform")));
-    } else {
+    if(FAILED(hr))
+    {
+        DbgLog((LOG_TRACE, 1, TEXT("Error from transform")));
+    }
+    else
+    {
         // the Transform() function can return S_FALSE to indicate that the
         // sample should not be delivered; we only deliver the sample if it's
         // really S_OK (same as NOERROR, of course.)
-        if (hr == NOERROR) {
-    	    hr = m_pOutput->m_pInputPin->Receive(pOutSample);
+        if(hr == NOERROR)
+        {
+            hr = m_pOutput->m_pInputPin->Receive(pOutSample);
             m_bSampleSkipped = FALSE;	// last thing no longer dropped
-        } else {
+        }
+        else
+        {
             // S_FALSE returned from Transform is a PRIVATE agreement
             // We should return NOERROR from Receive() in this cause because returning S_FALSE
             // from Receive() means that this is the end of the stream and no more data should
             // be sent.
-            if (S_FALSE == hr) {
+            if(S_FALSE == hr)
+            {
 
                 //  Release the sample before calling notify to avoid
                 //  deadlocks if the sample holds a lock on the system
                 //  such as DirectDraw buffers do
                 pOutSample->Release();
                 m_bSampleSkipped = TRUE;
-                if (!m_bQualityChanged) {
-                    NotifyEvent(EC_QUALITY_CHANGE,0,0);
+                if(!m_bQualityChanged)
+                {
+                    NotifyEvent(EC_QUALITY_CHANGE, 0, 0);
                     m_bQualityChanged = TRUE;
                 }
                 return NOERROR;
@@ -395,7 +430,8 @@ HRESULT
 CTransformFilter::EndOfStream(void)
 {
     HRESULT hr = NOERROR;
-    if (m_pOutput != NULL) {
+    if(m_pOutput != NULL)
+    {
         hr = m_pOutput->DeliverEndOfStream();
     }
 
@@ -409,15 +445,16 @@ HRESULT
 CTransformFilter::BeginFlush(void)
 {
     HRESULT hr = NOERROR;
-    if (m_pOutput != NULL) {
-	// block receives -- done by caller (CBaseInputPin::BeginFlush)
+    if(m_pOutput != NULL)
+    {
+        // block receives -- done by caller (CBaseInputPin::BeginFlush)
 
-	// discard queued data -- we have no queued data
+        // discard queued data -- we have no queued data
 
-	// free anyone blocked on receive - not possible in this filter
+        // free anyone blocked on receive - not possible in this filter
 
-	// call downstream
-	hr = m_pOutput->DeliverBeginFlush();
+        // call downstream
+        hr = m_pOutput->DeliverBeginFlush();
     }
     return hr;
 }
@@ -433,7 +470,7 @@ CTransformFilter::EndFlush(void)
     // ensure no more data to go downstream -- we have no queued data
 
     // call EndFlush on downstream pins
-    ASSERT (m_pOutput != NULL);
+    ASSERT(m_pOutput != NULL);
     return m_pOutput->DeliverEndFlush();
 
     // caller (the input pin's method) will unblock Receives
@@ -446,18 +483,20 @@ STDMETHODIMP
 CTransformFilter::Stop()
 {
     CAutoLock lck1(&m_csFilter);
-    if (m_State == State_Stopped) {
+    if(m_State == State_Stopped)
+    {
         return NOERROR;
     }
 
     // Succeed the Stop if we are not completely connected
 
     ASSERT(m_pInput == NULL || m_pOutput != NULL);
-    if (m_pInput == NULL || m_pInput->IsConnected() == FALSE ||
-        m_pOutput->IsConnected() == FALSE) {
-                m_State = State_Stopped;
-                m_bEOSDelivered = FALSE;
-                return NOERROR;
+    if(m_pInput == NULL || m_pInput->IsConnected() == FALSE ||
+       m_pOutput->IsConnected() == FALSE)
+    {
+        m_State = State_Stopped;
+        m_bEOSDelivered = FALSE;
+        return NOERROR;
     }
 
     ASSERT(m_pInput);
@@ -475,10 +514,11 @@ CTransformFilter::Stop()
     // to know about starting and stopping streaming
 
     HRESULT hr = StopStreaming();
-    if (SUCCEEDED(hr)) {
-	// complete the state transition
-	m_State = State_Stopped;
-	m_bEOSDelivered = FALSE;
+    if(SUCCEEDED(hr))
+    {
+        // complete the state transition
+        m_State = State_Stopped;
+        m_bEOSDelivered = FALSE;
     }
     return hr;
 }
@@ -490,7 +530,8 @@ CTransformFilter::Pause()
     CAutoLock lck(&m_csFilter);
     HRESULT hr = NOERROR;
 
-    if (m_State == State_Paused) {
+    if(m_State == State_Paused)
+    {
         // (This space left deliberately blank)
     }
 
@@ -499,8 +540,10 @@ CTransformFilter::Pause()
     // This makes sure that it doesn't sit there forever waiting for
     // samples which we cannot ever deliver without an input connection.
 
-    else if (m_pInput == NULL || m_pInput->IsConnected() == FALSE) {
-        if (m_pOutput && m_bEOSDelivered == FALSE) {
+    else if(m_pInput == NULL || m_pInput->IsConnected() == FALSE)
+    {
+        if(m_pOutput && m_bEOSDelivered == FALSE)
+        {
             m_pOutput->DeliverEndOfStream();
             m_bEOSDelivered = TRUE;
         }
@@ -510,20 +553,24 @@ CTransformFilter::Pause()
     // We may have an input connection but no output connection
     // However, if we have an input pin we do have an output pin
 
-    else if (m_pOutput->IsConnected() == FALSE) {
+    else if(m_pOutput->IsConnected() == FALSE)
+    {
         m_State = State_Paused;
     }
 
-    else {
-	if (m_State == State_Stopped) {
-	    // allow a class derived from CTransformFilter
-	    // to know about starting and stopping streaming
+    else
+    {
+        if(m_State == State_Stopped)
+        {
+            // allow a class derived from CTransformFilter
+            // to know about starting and stopping streaming
             CAutoLock lck2(&m_csReceive);
-	    hr = StartStreaming();
-	}
-	if (SUCCEEDED(hr)) {
-	    hr = CBaseFilter::Pause();
-	}
+            hr = StartStreaming();
+        }
+        if(SUCCEEDED(hr))
+        {
+            hr = CBaseFilter::Pause();
+        }
     }
 
     m_bSampleSkipped = FALSE;
@@ -537,7 +584,8 @@ CTransformFilter::NewSegment(
     REFERENCE_TIME tStop,
     double dRate)
 {
-    if (m_pOutput != NULL) {
+    if(m_pOutput != NULL)
+    {
         return m_pOutput->DeliverNewSegment(tStart, tStop, dRate);
     }
     return S_OK;
@@ -548,22 +596,28 @@ HRESULT
 CTransformInputPin::CheckStreaming()
 {
     ASSERT(m_pTransformFilter->m_pOutput != NULL);
-    if (!m_pTransformFilter->m_pOutput->IsConnected()) {
+    if(!m_pTransformFilter->m_pOutput->IsConnected())
+    {
         return VFW_E_NOT_CONNECTED;
-    } else {
+    }
+    else
+    {
         //  Shouldn't be able to get any data if we're not connected!
         ASSERT(IsConnected());
 
         //  we're flushing
-        if (m_bFlushing) {
+        if(m_bFlushing)
+        {
             return S_FALSE;
         }
         //  Don't process stuff in Stopped state
-        if (IsStopped()) {
+        if(IsStopped())
+        {
             return VFW_E_WRONG_STATE;
         }
-        if (m_bRunTimeError) {
-    	    return VFW_E_RUNTIME_ERROR;
+        if(m_bRunTimeError)
+        {
+            return VFW_E_RUNTIME_ERROR;
         }
         return S_OK;
     }
@@ -584,7 +638,7 @@ CTransformInputPin::CTransformInputPin(
     __in_opt LPCWSTR pName)
     : CBaseInputPin(pObjectName, pTransformFilter, &pTransformFilter->m_csFilter, phr, pName)
 {
-    DbgLog((LOG_TRACE,2,TEXT("CTransformInputPin::CTransformInputPin")));
+    DbgLog((LOG_TRACE, 2, TEXT("CTransformInputPin::CTransformInputPin")));
     m_pTransformFilter = pTransformFilter;
 }
 
@@ -596,7 +650,7 @@ CTransformInputPin::CTransformInputPin(
     __in_opt LPCWSTR pName)
     : CBaseInputPin(pObjectName, pTransformFilter, &pTransformFilter->m_csFilter, phr, pName)
 {
-    DbgLog((LOG_TRACE,2,TEXT("CTransformInputPin::CTransformInputPin")));
+    DbgLog((LOG_TRACE, 2, TEXT("CTransformInputPin::CTransformInputPin")));
     m_pTransformFilter = pTransformFilter;
 }
 #endif
@@ -606,9 +660,10 @@ CTransformInputPin::CTransformInputPin(
 HRESULT
 CTransformInputPin::CheckConnect(IPin *pPin)
 {
-    HRESULT hr = m_pTransformFilter->CheckConnect(PINDIR_INPUT,pPin);
-    if (FAILED(hr)) {
-    	return hr;
+    HRESULT hr = m_pTransformFilter->CheckConnect(PINDIR_INPUT, pPin);
+    if(FAILED(hr))
+    {
+        return hr;
     }
     return CBaseInputPin::CheckConnect(pPin);
 }
@@ -631,8 +686,9 @@ CTransformInputPin::BreakConnect()
 HRESULT
 CTransformInputPin::CompleteConnect(IPin *pReceivePin)
 {
-    HRESULT hr = m_pTransformFilter->CompleteConnect(PINDIR_INPUT,pReceivePin);
-    if (FAILED(hr)) {
+    HRESULT hr = m_pTransformFilter->CompleteConnect(PINDIR_INPUT, pReceivePin);
+    if(FAILED(hr))
+    {
         return hr;
     }
     return CBaseInputPin::CompleteConnect(pReceivePin);
@@ -647,19 +703,23 @@ CTransformInputPin::CheckMediaType(const CMediaType* pmt)
     // Check the input type
 
     HRESULT hr = m_pTransformFilter->CheckInputType(pmt);
-    if (S_OK != hr) {
+    if(S_OK != hr)
+    {
         return hr;
     }
 
     // if the output pin is still connected, then we have
     // to check the transform not just the input format
 
-    if ((m_pTransformFilter->m_pOutput != NULL) &&
-        (m_pTransformFilter->m_pOutput->IsConnected())) {
-            return m_pTransformFilter->CheckTransform(
-                      pmt,
-		      &m_pTransformFilter->m_pOutput->CurrentMediaType());
-    } else {
+    if((m_pTransformFilter->m_pOutput != NULL) &&
+       (m_pTransformFilter->m_pOutput->IsConnected()))
+    {
+        return m_pTransformFilter->CheckTransform(
+                   pmt,
+                   &m_pTransformFilter->m_pOutput->CurrentMediaType());
+    }
+    else
+    {
         return hr;
     }
 }
@@ -672,14 +732,15 @@ CTransformInputPin::SetMediaType(const CMediaType* mtIn)
 {
     // Set the base class media type (should always succeed)
     HRESULT hr = CBasePin::SetMediaType(mtIn);
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
     // check the transform can be done (should always succeed)
     ASSERT(SUCCEEDED(m_pTransformFilter->CheckInputType(mtIn)));
 
-    return m_pTransformFilter->SetMediaType(PINDIR_INPUT,mtIn);
+    return m_pTransformFilter->SetMediaType(PINDIR_INPUT, mtIn);
 }
 
 
@@ -695,8 +756,9 @@ CTransformInputPin::EndOfStream(void)
 {
     CAutoLock lck(&m_pTransformFilter->m_csReceive);
     HRESULT hr = CheckStreaming();
-    if (S_OK == hr) {
-       hr = m_pTransformFilter->EndOfStream();
+    if(S_OK == hr)
+    {
+        hr = m_pTransformFilter->EndOfStream();
     }
     return hr;
 }
@@ -710,13 +772,15 @@ CTransformInputPin::BeginFlush(void)
     CAutoLock lck(&m_pTransformFilter->m_csFilter);
     //  Are we actually doing anything?
     ASSERT(m_pTransformFilter->m_pOutput != NULL);
-    if (!IsConnected() ||
-        !m_pTransformFilter->m_pOutput->IsConnected()) {
+    if(!IsConnected() ||
+       !m_pTransformFilter->m_pOutput->IsConnected())
+    {
         return VFW_E_NOT_CONNECTED;
     }
     HRESULT hr = CBaseInputPin::BeginFlush();
-    if (FAILED(hr)) {
-    	return hr;
+    if(FAILED(hr))
+    {
+        return hr;
     }
 
     return m_pTransformFilter->BeginFlush();
@@ -732,13 +796,15 @@ CTransformInputPin::EndFlush(void)
     CAutoLock lck(&m_pTransformFilter->m_csFilter);
     //  Are we actually doing anything?
     ASSERT(m_pTransformFilter->m_pOutput != NULL);
-    if (!IsConnected() ||
-        !m_pTransformFilter->m_pOutput->IsConnected()) {
+    if(!IsConnected() ||
+       !m_pTransformFilter->m_pOutput->IsConnected())
+    {
         return VFW_E_NOT_CONNECTED;
     }
 
     HRESULT hr = m_pTransformFilter->EndFlush();
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
@@ -759,7 +825,8 @@ CTransformInputPin::Receive(IMediaSample * pSample)
 
     // check all is well with the base class
     hr = CBaseInputPin::Receive(pSample);
-    if (S_OK == hr) {
+    if(S_OK == hr)
+    {
         hr = m_pTransformFilter->Receive(pSample);
     }
     return hr;
@@ -798,7 +865,7 @@ CTransformOutputPin::CTransformOutputPin(
     : CBaseOutputPin(pObjectName, pTransformFilter, &pTransformFilter->m_csFilter, phr, pPinName),
       m_pPosition(NULL)
 {
-    DbgLog((LOG_TRACE,2,TEXT("CTransformOutputPin::CTransformOutputPin")));
+    DbgLog((LOG_TRACE, 2, TEXT("CTransformOutputPin::CTransformOutputPin")));
     m_pTransformFilter = pTransformFilter;
 
 }
@@ -812,7 +879,7 @@ CTransformOutputPin::CTransformOutputPin(
     : CBaseOutputPin(pObjectName, pTransformFilter, &pTransformFilter->m_csFilter, phr, pPinName),
       m_pPosition(NULL)
 {
-    DbgLog((LOG_TRACE,2,TEXT("CTransformOutputPin::CTransformOutputPin")));
+    DbgLog((LOG_TRACE, 2, TEXT("CTransformOutputPin::CTransformOutputPin")));
     m_pTransformFilter = pTransformFilter;
 
 }
@@ -822,9 +889,9 @@ CTransformOutputPin::CTransformOutputPin(
 
 CTransformOutputPin::~CTransformOutputPin()
 {
-    DbgLog((LOG_TRACE,2,TEXT("CTransformOutputPin::~CTransformOutputPin")));
+    DbgLog((LOG_TRACE, 2, TEXT("CTransformOutputPin::~CTransformOutputPin")));
 
-    if (m_pPosition) m_pPosition->Release();
+    if(m_pPosition) m_pPosition->Release();
 }
 
 
@@ -833,29 +900,34 @@ CTransformOutputPin::~CTransformOutputPin()
 STDMETHODIMP
 CTransformOutputPin::NonDelegatingQueryInterface(REFIID riid, __deref_out void **ppv)
 {
-    CheckPointer(ppv,E_POINTER);
-    ValidateReadWritePtr(ppv,sizeof(PVOID));
+    CheckPointer(ppv, E_POINTER);
+    ValidateReadWritePtr(ppv, sizeof(PVOID));
     *ppv = NULL;
 
-    if (riid == IID_IMediaPosition || riid == IID_IMediaSeeking) {
+    if(riid == IID_IMediaPosition || riid == IID_IMediaSeeking)
+    {
 
         // we should have an input pin by now
 
         ASSERT(m_pTransformFilter->m_pInput != NULL);
 
-        if (m_pPosition == NULL) {
+        if(m_pPosition == NULL)
+        {
 
             HRESULT hr = CreatePosPassThru(
                              GetOwner(),
                              FALSE,
                              (IPin *)m_pTransformFilter->m_pInput,
                              &m_pPosition);
-            if (FAILED(hr)) {
+            if(FAILED(hr))
+            {
                 return hr;
             }
         }
         return m_pPosition->QueryInterface(riid, ppv);
-    } else {
+    }
+    else
+    {
         return CBaseOutputPin::NonDelegatingQueryInterface(riid, ppv);
     }
 }
@@ -869,13 +941,15 @@ CTransformOutputPin::CheckConnect(IPin *pPin)
     // we should have an input connection first
 
     ASSERT(m_pTransformFilter->m_pInput != NULL);
-    if ((m_pTransformFilter->m_pInput->IsConnected() == FALSE)) {
-	    return E_UNEXPECTED;
+    if((m_pTransformFilter->m_pInput->IsConnected() == FALSE))
+    {
+        return E_UNEXPECTED;
     }
 
-    HRESULT hr = m_pTransformFilter->CheckConnect(PINDIR_OUTPUT,pPin);
-    if (FAILED(hr)) {
-	    return hr;
+    HRESULT hr = m_pTransformFilter->CheckConnect(PINDIR_OUTPUT, pPin);
+    if(FAILED(hr))
+    {
+        return hr;
     }
     return CBaseOutputPin::CheckConnect(pPin);
 }
@@ -898,8 +972,9 @@ CTransformOutputPin::BreakConnect()
 HRESULT
 CTransformOutputPin::CompleteConnect(IPin *pReceivePin)
 {
-    HRESULT hr = m_pTransformFilter->CompleteConnect(PINDIR_OUTPUT,pReceivePin);
-    if (FAILED(hr)) {
+    HRESULT hr = m_pTransformFilter->CompleteConnect(PINDIR_OUTPUT, pReceivePin);
+    if(FAILED(hr))
+    {
         return hr;
     }
     return CBaseOutputPin::CompleteConnect(pReceivePin);
@@ -913,13 +988,14 @@ CTransformOutputPin::CheckMediaType(const CMediaType* pmtOut)
 {
     // must have selected input first
     ASSERT(m_pTransformFilter->m_pInput != NULL);
-    if ((m_pTransformFilter->m_pInput->IsConnected() == FALSE)) {
-	        return E_INVALIDARG;
+    if((m_pTransformFilter->m_pInput->IsConnected() == FALSE))
+    {
+        return E_INVALIDARG;
     }
 
     return m_pTransformFilter->CheckTransform(
-				    &m_pTransformFilter->m_pInput->CurrentMediaType(),
-				    pmtOut);
+               &m_pTransformFilter->m_pInput->CurrentMediaType(),
+               pmtOut);
 }
 
 
@@ -936,20 +1012,22 @@ CTransformOutputPin::SetMediaType(const CMediaType* pmtOut)
 
     // Set the base class media type (should always succeed)
     hr = CBasePin::SetMediaType(pmtOut);
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
 #ifdef _DEBUG
-    if (FAILED(m_pTransformFilter->CheckTransform(&m_pTransformFilter->
-					m_pInput->CurrentMediaType(),pmtOut))) {
-	DbgLog((LOG_ERROR,0,TEXT("*** This filter is accepting an output media type")));
-	DbgLog((LOG_ERROR,0,TEXT("    that it can't currently transform to.  I hope")));
-	DbgLog((LOG_ERROR,0,TEXT("    it's smart enough to reconnect its input.")));
+    if(FAILED(m_pTransformFilter->CheckTransform(&m_pTransformFilter->
+              m_pInput->CurrentMediaType(), pmtOut)))
+    {
+        DbgLog((LOG_ERROR, 0, TEXT("*** This filter is accepting an output media type")));
+        DbgLog((LOG_ERROR, 0, TEXT("    that it can't currently transform to.  I hope")));
+        DbgLog((LOG_ERROR, 0, TEXT("    it's smart enough to reconnect its input.")));
     }
 #endif
 
-    return m_pTransformFilter->SetMediaType(PINDIR_OUTPUT,pmtOut);
+    return m_pTransformFilter->SetMediaType(PINDIR_OUTPUT, pmtOut);
 }
 
 
@@ -976,9 +1054,12 @@ CTransformOutputPin::GetMediaType(
 
     //  We don't have any media types if our input is not connected
 
-    if (m_pTransformFilter->m_pInput->IsConnected()) {
-        return m_pTransformFilter->GetMediaType(iPosition,pMediaType);
-    } else {
+    if(m_pTransformFilter->m_pInput->IsConnected())
+    {
+        return m_pTransformFilter->GetMediaType(iPosition, pMediaType);
+    }
+    else
+    {
         return VFW_S_NO_MORE_ITEMS;
     }
 }
@@ -993,11 +1074,12 @@ STDMETHODIMP
 CTransformOutputPin::Notify(IBaseFilter * pSender, Quality q)
 {
     UNREFERENCED_PARAMETER(pSender);
-    ValidateReadPtr(pSender,sizeof(IBaseFilter));
+    ValidateReadPtr(pSender, sizeof(IBaseFilter));
 
     // First see if we want to handle this ourselves
     HRESULT hr = m_pTransformFilter->AlterQuality(q);
-    if (hr!=S_FALSE) {
+    if(hr != S_FALSE)
+    {
         return hr;        // either S_OK or a failure
     }
 

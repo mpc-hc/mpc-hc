@@ -6,7 +6,7 @@
  *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -53,7 +53,7 @@ PixInitInfo;
  * PixImageInfo
  *
  * This struct contains all the information for images which
- * should be sent down the stream. This struct is used in the 
+ * should be sent down the stream. This struct is used in the
  * IRMALiveRealPix::InitImage() method.
  */
 typedef struct PNEXPORT_CLASS _PixImageInfo
@@ -88,7 +88,7 @@ PixImageInfo;
 /*
  * PixEffectInfo
  *
- * This struct contains all the information about the effect which 
+ * This struct contains all the information about the effect which
  * the RealPix renderer should perform. This struct is used in the
  * IRMALiveRealPix::SendEffect() method.
  */
@@ -121,7 +121,7 @@ typedef struct PNEXPORT_CLASS _PixEffectInfo
     char   *m_pExtFile;            /* Input:  File contents of external effect data */
     BOOL    m_bDiscardImage;       /* Input:  TRUE: discard image after doing effect; FALSE: don't discard */
     BOOL    m_bDisplayImmediately; /* Input:  FALSE: obey start time; TRUE: do effect immediately */
-	UINT32  m_ulHandle;            /* Output: Handle by which effect will be referred to */
+    UINT32  m_ulHandle;            /* Output: Handle by which effect will be referred to */
 }
 PixEffectInfo;
 
@@ -142,20 +142,20 @@ typedef _INTERFACE IRMAValues              IRMAValues;
  */
 STDAPI CreateLiveRealPix(IRMALiveRealPix **);
 
-typedef PN_RESULT (PNEXPORT_PTR FPRMCREATELIVEREALPIX)(IRMALiveRealPix **ppLiveRealPix);
+typedef PN_RESULT(PNEXPORT_PTR FPRMCREATELIVEREALPIX)(IRMALiveRealPix **ppLiveRealPix);
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *  IRMALivePix
- * 
+ *
  *  Purpose:
- * 
+ *
  *  Asynchronous interface that allows an application to encode live RealPix
- * 
+ *
  *  IID_IRMALiveRealPix:
- * 
+ *
  *  {E7ADF466-477D-11d2-AA0C-0060972D23A7}
  *
  */
@@ -170,11 +170,11 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
     /*
      *  IUnknown methods
      */
-    STDMETHOD(QueryInterface)      (THIS_ REFIID riid, void **ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void **ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)     (THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)    (THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *  IRMALiveRealPix methods
@@ -185,8 +185,8 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
      * an IRMALiveRealPixResponse interface must be passed in. The encoder will
      * respond to this call asynchronously with IRMALiveRealPixResponse::EncoderStarted().
      */
-    STDMETHOD(StartEncoder)        (THIS_ PixInitInfo             *pInitInfo,
-                                          IRMALiveRealPixResponse *pResponse) PURE;
+    STDMETHOD(StartEncoder)(THIS_ PixInitInfo             * pInitInfo,
+                            IRMALiveRealPixResponse * pResponse) PURE;
 
     /*
      * InitImage() is called to prep an image for being sent. It returns several useful
@@ -197,7 +197,7 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
      * This is not an asynchronous call - all processing has finished by the time this
      * call returns.
      */
-    STDMETHOD(InitImage)           (THIS_ PixImageInfo *pImageInfo) PURE;
+    STDMETHOD(InitImage)(THIS_ PixImageInfo * pImageInfo) PURE;
 
     /*
      * SendImage() tranfers the all the packets for the image referred to by ulImageHandle
@@ -205,18 +205,18 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
      * packets being sent to the RealServer. When all the packets for this image have
      * been sent, the encoder will respond with IRMALiveRealPixResponse::ImageSent().
      */
-    STDMETHOD(SendImage)           (THIS_ UINT32 ulImageHandle) PURE;
+    STDMETHOD(SendImage)(THIS_ UINT32 ulImageHandle) PURE;
 
     /*
      * SendEffect() creates an effect packet with the information contained in
      * the PixEffectInfo struct and immediately adds this packet to the packet
-     * send queue. Further calls to Process() will result in this packet being 
+     * send queue. Further calls to Process() will result in this packet being
      * sent to the server. A handle is returned in the PixEffectInfo struct by
      * which this effect can later be identified. When the effect has been
      * sent to the server, the encoder will respond with
      * IRMALiveRealPixResponse::EffectSent().
      */
-    STDMETHOD(SendEffect)          (THIS_ PixEffectInfo *pEffectInfo) PURE;
+    STDMETHOD(SendEffect)(THIS_ PixEffectInfo * pEffectInfo) PURE;
 
     /*
      * StopEncoder() may be called at any time after calling StartEncoder().
@@ -224,12 +224,12 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
      * be sent to the encoder. The encoder shuts down the connection to
      * the server and responds with IRMALiveRealPixResponse::EncoderStopped().
      */
-    STDMETHOD(StopEncoder)         (THIS) PURE;
+    STDMETHOD(StopEncoder)(THIS) PURE;
 
     /*
      * GetTime() returns the time in milliseconds since the encoder library was initialized.
      */
-    STDMETHOD_(UINT32, GetTime)    (THIS) PURE;
+    STDMETHOD_(UINT32, GetTime)(THIS) PURE;
 
     /*
      * Process() must be called in order to give the library time to send
@@ -237,22 +237,22 @@ DECLARE_INTERFACE_(IRMALiveRealPix, IUnknown)
      * and ImageSent(), as well as between SendEffect() and EffectSent(). Other
      * that these times, it should be called every 3-5 seconds.
      */
-    STDMETHOD(Process)             (THIS) PURE;
+    STDMETHOD(Process)(THIS) PURE;
 };
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *  IRMALiveRealPixResponse
- * 
+ *
  *  Purpose:
- * 
+ *
  *  Asynchronous response interface that allows an application to
  *  encode live RealPix
- * 
+ *
  *  IID_IRMALiveRealPixResponse:
- * 
+ *
  *  {E7ADF46C-477D-11d2-AA0C-0060972D23A7}
  *
  */
@@ -268,11 +268,11 @@ DECLARE_INTERFACE_(IRMALiveRealPixResponse, IUnknown)
     /*
      *  IUnknown methods
      */
-    STDMETHOD(QueryInterface)      (THIS_ REFIID riid, void **ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void **ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)     (THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)    (THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *  IRMALiveRealPixResponse methods
@@ -283,21 +283,21 @@ DECLARE_INTERFACE_(IRMALiveRealPixResponse, IUnknown)
      * argument tells whether initializing the server was successful or not, and the pszHeaderString
      * argument returns the text string returned by the RealServer.
      */
-    STDMETHOD(EncoderStarted)      (THIS_ PN_RESULT status, const char *pszHeaderString) PURE;
+    STDMETHOD(EncoderStarted)(THIS_ PN_RESULT status, const char * pszHeaderString) PURE;
 
     /*
      * ImageSent() is the asynchronous response to SendImage(). The ulImageHandle argument
-     * identifies which image has just completed sending to the server, and the status 
+     * identifies which image has just completed sending to the server, and the status
      * argument tells whether or not the send was successful or not.
      */
-    STDMETHOD(ImageSent)           (THIS_ PN_RESULT status, UINT32 ulImageHandle) PURE;
+    STDMETHOD(ImageSent)(THIS_ PN_RESULT status, UINT32 ulImageHandle) PURE;
 
     /*
      * EffectSent() is the asynchronous response to SendEffect(). The ulEffectHandle argument
-     * identifies which effect has just completed sending to the server, and the status 
+     * identifies which effect has just completed sending to the server, and the status
      * argument tells whether or not the send was successful or not.
      */
-    STDMETHOD(EffectSent)          (THIS_ PN_RESULT status, UINT32 ulEffectHandle) PURE;
+    STDMETHOD(EffectSent)(THIS_ PN_RESULT status, UINT32 ulEffectHandle) PURE;
 
     /*
      * EncoderStopped() is the asynchronous response to StopEncoder(). The status
@@ -305,7 +305,7 @@ DECLARE_INTERFACE_(IRMALiveRealPixResponse, IUnknown)
      * If the status is PNR_OK, then the application can then shut down or turn
      * around and call StartEncoder() again.
      */
-    STDMETHOD(EncoderStopped)      (THIS_ PN_RESULT status) PURE;
+    STDMETHOD(EncoderStopped)(THIS_ PN_RESULT status) PURE;
 
     /*
      * ErrorOccurred() is called when the encoder receives an error from the RealServer.
@@ -315,25 +315,25 @@ DECLARE_INTERFACE_(IRMALiveRealPixResponse, IUnknown)
      * If an error occurs, it's probably a good idea to call StopEncoder() and shut
      * down the encoder from the application side anyway.
      */
-    STDMETHOD(ErrorOccurred)       (THIS_ const UINT8   unSeverity,
-                                          const ULONG32 ulRMACode,
-                                          const ULONG32 ulUserCode,
-                                          const char   *pszUserString,
-                                          const char   *pszMoreInfoURL) PURE;
+    STDMETHOD(ErrorOccurred)(THIS_ const UINT8   unSeverity,
+                             const ULONG32 ulRMACode,
+                             const ULONG32 ulUserCode,
+                             const char   * pszUserString,
+                             const char   * pszMoreInfoURL) PURE;
 };
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *  IRMALiveRealPixResend
- * 
+ *
  *  Purpose:
- * 
+ *
  *  Allows re-sending and releasing of images with IRMALiveRealPix
- * 
+ *
  *  IID_IRMALiveRealPixResend:
- * 
+ *
  *  {D814DA11-8B02-11D3-8AF3-00C0F030B4E5}
  */
 DEFINE_GUID(IID_IRMALiveRealPixResend, 0xd814da11, 0x8b02, 0x11d3, 0x8a, 0xfe, 0x0,
@@ -348,11 +348,11 @@ DECLARE_INTERFACE_(IRMALiveRealPixResend, IUnknown)
     /*
      *  IUnknown methods
      */
-    STDMETHOD(QueryInterface)      (THIS_ REFIID riid, void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)     (THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)    (THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *  IRMALiveRealPixResend methods
@@ -360,10 +360,10 @@ DECLARE_INTERFACE_(IRMALiveRealPixResend, IUnknown)
 
     /*
      * InitResend() informs the encoder that from now on, after an
-     * image is sent with SendImage() it should not be discarded 
+     * image is sent with SendImage() it should not be discarded
      * but held in the encoder until ReleaseImage() is called().
      */
-    STDMETHOD(InitResend)   (THIS_ IRMAValues* pOptions) PURE;
+    STDMETHOD(InitResend)(THIS_ IRMAValues * pOptions) PURE;
 
     /*
      * ReleaseImage() informs the encoder that the application no longer
@@ -372,14 +372,14 @@ DECLARE_INTERFACE_(IRMALiveRealPixResend, IUnknown)
      * return PNR_UNKNOWN_IMAGE after ReleaseImage(x) has been called.
      * ReleaseImage(x) will return PNR_UNKNOWN_IMAGE if x is an unknown handle.
      */
-    STDMETHOD(ReleaseImage) (THIS_ UINT32 ulImageHandle) PURE;
+    STDMETHOD(ReleaseImage)(THIS_ UINT32 ulImageHandle) PURE;
 
     /*
      * DumpAllQueuedPackets() clears any packets currently waiting to be
      * sent to the server. These packets were put on the send queue by
      * either IRMALiveRealPix::SendImage() or IRMALiveRealPix::SendEffect().
      */
-    STDMETHOD(DumpAllQueuedPackets) (THIS) PURE;
+    STDMETHOD(DumpAllQueuedPackets)(THIS) PURE;
 };
 
 #endif

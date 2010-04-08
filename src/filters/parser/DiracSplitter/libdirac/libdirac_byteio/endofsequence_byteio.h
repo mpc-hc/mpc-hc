@@ -50,54 +50,60 @@
 
 namespace dirac
 {
+/**
+* Signals the end of a sequence in a Dirac-formatted bitstream. Current Accessunit parameters
+* are no longer valid for subsequent frames
+*/
+class EndOfSequenceByteIO : public ParseUnitByteIO
+{
+public:
+
     /**
-    * Signals the end of a sequence in a Dirac-formatted bitstream. Current Accessunit parameters
-    * are no longer valid for subsequent frames
+    * Constructor
+    *@param stream_data Stream parameters
     */
-    class EndOfSequenceByteIO : public ParseUnitByteIO
+    EndOfSequenceByteIO(const ByteIO& stream_data);
+
+    /**
+    * Destructor
+    */
+    ~EndOfSequenceByteIO();
+
+
+    /**
+    * Gets parse-unit type
+    */
+    ParseUnitType GetType() const
     {
-    public:
+        return PU_END_OF_SEQUENCE;
+    }
 
-        /**
-        * Constructor
-        *@param stream_data Stream parameters
-        */
-        EndOfSequenceByteIO(const ByteIO& stream_data);
+    /**
+    * Gathers byte stats on the end of sequence data
+    *@param dirac_byte_stats Stat container
+    */
+    void CollateByteStats(DiracByteStats& dirac_byte_stats);
+protected:
 
-       /**
-       * Destructor
-       */
-        ~EndOfSequenceByteIO();
+    /**
+    * Calculates number of bytes to start of next unit
+    *@return Zero(0) End of sequence does not specify a 'next'unit
+    */
+    int CalcNextUnitOffset()
+    {
+        return 0;
+    }
+
+private:
+
+    /**
+    * Calculates parse-code based on picture parameters
+    *@return Char bit-set
+    */
+    unsigned char CalcParseCode() const;
 
 
-        /**
-        * Gets parse-unit type
-        */
-        ParseUnitType GetType() const { return PU_END_OF_SEQUENCE;}
-
-        /**
-        * Gathers byte stats on the end of sequence data
-        *@param dirac_byte_stats Stat container
-        */
-        void CollateByteStats(DiracByteStats& dirac_byte_stats);
-  protected:
-        
-        /**
-        * Calculates number of bytes to start of next unit
-        *@return Zero(0) End of sequence does not specify a 'next'unit
-        */
-        int CalcNextUnitOffset() { return 0;}
-
-   private:
-      
-        /**
-        * Calculates parse-code based on picture parameters
-        *@return Char bit-set 
-        */
-        unsigned char CalcParseCode() const;
-
-       
-   };
+};
 
 } // namespace dirac
 

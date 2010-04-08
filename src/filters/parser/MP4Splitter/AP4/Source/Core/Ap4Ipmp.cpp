@@ -52,13 +52,14 @@ AP4_IpmpDescriptorPointer::AP4_IpmpDescriptorPointer(AP4_UI08 descriptor_id) :
 /*----------------------------------------------------------------------
 |   AP4_IpmpDescriptorPointer::AP4_IpmpDescriptorPointer
 +---------------------------------------------------------------------*/
-AP4_IpmpDescriptorPointer::AP4_IpmpDescriptorPointer(AP4_ByteStream& stream, 
-                                                     AP4_Size        header_size,
-                                                     AP4_Size        payload_size) :
+AP4_IpmpDescriptorPointer::AP4_IpmpDescriptorPointer(AP4_ByteStream& stream,
+        AP4_Size        header_size,
+        AP4_Size        payload_size) :
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_IPMP_DESCRIPTOR_POINTER, header_size, payload_size)
 {
     stream.ReadUI08(m_DescriptorId);
-    if (m_DescriptorId == 0xFF && payload_size >= 5) {
+    if(m_DescriptorId == 0xFF && payload_size >= 5)
+    {
         stream.ReadUI16(m_DescriptorIdEx);
         stream.ReadUI16(m_EsId);
     }
@@ -71,7 +72,8 @@ AP4_Result
 AP4_IpmpDescriptorPointer::WriteFields(AP4_ByteStream& stream)
 {
     stream.WriteUI08(m_DescriptorId);
-    if (m_DescriptorId == 0xFF) {
+    if(m_DescriptorId == 0xFF)
+    {
         stream.WriteUI16(m_DescriptorIdEx);
         stream.WriteUI16(m_EsId);
     }
@@ -85,11 +87,12 @@ AP4_Result
 AP4_IpmpDescriptorPointer::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld",
+                     GetHeaderSize(), m_PayloadSize);
     inspector.StartElement("[IPMP_DescriptorPointer]", info);
     inspector.AddField("IPMP_DescriptorID", m_DescriptorId);
-    if (m_DescriptorId == 0xFF) {
+    if(m_DescriptorId == 0xFF)
+    {
         inspector.AddField("IPMP_DescriptorIDEx", m_DescriptorIdEx);
         inspector.AddField("IPMP_ES_ID",          m_EsId);
     }
@@ -116,7 +119,7 @@ AP4_IpmpDescriptor::AP4_IpmpDescriptor(AP4_UI08 descriptor_id, AP4_UI16 ipmps_ty
 /*----------------------------------------------------------------------
 |   AP4_IpmpDescriptor::AP4_IpmpDescriptor
 +---------------------------------------------------------------------*/
-AP4_IpmpDescriptor::AP4_IpmpDescriptor(AP4_ByteStream& stream, 
+AP4_IpmpDescriptor::AP4_IpmpDescriptor(AP4_ByteStream& stream,
                                        AP4_Size        header_size,
                                        AP4_Size        payload_size) :
     AP4_Descriptor(AP4_DESCRIPTOR_TAG_IPMP_DESCRIPTOR, header_size, payload_size),
@@ -127,31 +130,40 @@ AP4_IpmpDescriptor::AP4_IpmpDescriptor(AP4_ByteStream& stream,
     stream.ReadUI08(m_DescriptorId);
     stream.ReadUI16(m_IpmpsType);
     AP4_SetMemory(m_ToolId, 0, sizeof(m_ToolId));
-    if (m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF) {
-        AP4_Size fields_size = 3+3;
+    if(m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF)
+    {
+        AP4_Size fields_size = 3 + 3;
         stream.ReadUI16(m_DescriptorIdEx);
         stream.Read(m_ToolId, 16);
         stream.ReadUI08(m_ControlPointCode);
-        if (m_ControlPointCode > 0) {
+        if(m_ControlPointCode > 0)
+        {
             stream.ReadUI08(m_SequenceCode);
             ++fields_size;
         }
-        if (fields_size < payload_size) {
-            m_Data.SetDataSize(payload_size-fields_size);
-            stream.Read(m_Data.UseData(), payload_size-fields_size);
+        if(fields_size < payload_size)
+        {
+            m_Data.SetDataSize(payload_size - fields_size);
+            stream.Read(m_Data.UseData(), payload_size - fields_size);
         }
-    } else if (m_IpmpsType == 0) {
-        if (payload_size > 3) {
+    }
+    else if(m_IpmpsType == 0)
+    {
+        if(payload_size > 3)
+        {
             char* buffer = new char[1+payload_size-3];
             buffer[payload_size-3] = '\0';
-            stream.Read(buffer, payload_size-3);
-            m_Url.Assign(buffer, payload_size-3);
+            stream.Read(buffer, payload_size - 3);
+            m_Url.Assign(buffer, payload_size - 3);
             delete[] buffer;
         }
-    } else {
-        if (payload_size > 3) {
-            m_Data.SetDataSize(payload_size-3);
-            stream.Read(m_Data.UseData(), payload_size-3);
+    }
+    else
+    {
+        if(payload_size > 3)
+        {
+            m_Data.SetDataSize(payload_size - 3);
+            stream.Read(m_Data.UseData(), payload_size - 3);
         }
     }
 }
@@ -175,22 +187,29 @@ AP4_IpmpDescriptor::WriteFields(AP4_ByteStream& stream)
 {
     stream.WriteUI08(m_DescriptorId);
     stream.WriteUI16(m_IpmpsType);
-    if (m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF) {
+    if(m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF)
+    {
         stream.WriteUI16(m_DescriptorIdEx);
         stream.Write(m_ToolId, 16);
         stream.WriteUI08(m_ControlPointCode);
-        if (m_ControlPointCode > 0) {
+        if(m_ControlPointCode > 0)
+        {
             stream.WriteUI08(m_SequenceCode);
         }
-        if (m_Data.GetDataSize()) {
+        if(m_Data.GetDataSize())
+        {
             stream.Write(m_Data.GetData(), m_Data.GetDataSize());
         }
-    } else if (m_IpmpsType == 0) {
-        stream.Write(m_Url.GetChars(), m_Url.GetLength()+1);
-    } else {
+    }
+    else if(m_IpmpsType == 0)
+    {
+        stream.Write(m_Url.GetChars(), m_Url.GetLength() + 1);
+    }
+    else
+    {
         stream.Write(m_Data.GetData(), m_Data.GetDataSize());
     }
-    
+
     return AP4_SUCCESS;
 }
 
@@ -201,21 +220,27 @@ AP4_Result
 AP4_IpmpDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld",
+                     GetHeaderSize(), m_PayloadSize);
     inspector.StartElement("[IPMP_Descriptor]", info);
     inspector.AddField("IPMP_DescriptorID", m_DescriptorId);
     inspector.AddField("IPMPS_Type", m_IpmpsType, AP4_AtomInspector::HINT_HEX);
-    if (m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF) {
+    if(m_DescriptorId == 0xFF && m_IpmpsType == 0xFFFF)
+    {
         inspector.AddField("IPMP_DescriptorIDEx", m_DescriptorIdEx);
         inspector.AddField("IPMP_ToolID", (const unsigned char*)(&m_ToolId[0]), 16, AP4_AtomInspector::HINT_HEX);
         inspector.AddField("controlPointCode", m_ControlPointCode);
-        if (m_ControlPointCode > 0) {
+        if(m_ControlPointCode > 0)
+        {
             inspector.AddField("sequenceCode", m_SequenceCode);
         }
-    } else if (m_IpmpsType == 0) {
+    }
+    else if(m_IpmpsType == 0)
+    {
         inspector.AddField("URL", m_Url.GetChars());
-    } else {
+    }
+    else
+    {
         inspector.AddField("data size", m_Data.GetDataSize());
     }
 

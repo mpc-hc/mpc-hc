@@ -47,15 +47,15 @@
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_MARLIN_BRAND_MGSV       = AP4_ATOM_TYPE('M','G','S','V');
+const AP4_UI32 AP4_MARLIN_BRAND_MGSV       = AP4_ATOM_TYPE('M', 'G', 'S', 'V');
 const AP4_UI16 AP4_MARLIN_IPMPS_TYPE_MGSV  = 0xA551;
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_MARLIN_ACBC = AP4_ATOM_TYPE('A','C','B','C');
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_MARLIN_ACGK = AP4_ATOM_TYPE('A','C','G','K');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_MARLIN_ACBC = AP4_ATOM_TYPE('A', 'C', 'B', 'C');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_MARLIN_ACGK = AP4_ATOM_TYPE('A', 'C', 'G', 'K');
 
-const AP4_Atom::Type AP4_ATOM_TYPE_SATR = AP4_ATOM_TYPE('s','a','t','r');
-const AP4_Atom::Type AP4_ATOM_TYPE_STYP = AP4_ATOM_TYPE('s','t','y','p');
-const AP4_Atom::Type AP4_ATOM_TYPE_HMAC = AP4_ATOM_TYPE('h','m','a','c');
-const AP4_Atom::Type AP4_ATOM_TYPE_GKEY = AP4_ATOM_TYPE('g','k','e','y');
+const AP4_Atom::Type AP4_ATOM_TYPE_SATR = AP4_ATOM_TYPE('s', 'a', 't', 'r');
+const AP4_Atom::Type AP4_ATOM_TYPE_STYP = AP4_ATOM_TYPE('s', 't', 'y', 'p');
+const AP4_Atom::Type AP4_ATOM_TYPE_HMAC = AP4_ATOM_TYPE('h', 'm', 'a', 'c');
+const AP4_Atom::Type AP4_ATOM_TYPE_GKEY = AP4_ATOM_TYPE('g', 'k', 'e', 'y');
 
 const char* const AP4_MARLIN_IPMP_STYP_VIDEO = "urn:marlin:organization:sne:content-type:video";
 const char* const AP4_MARLIN_IPMP_STYP_AUDIO = "urn:marlin:organization:sne:content-type:audio";
@@ -67,20 +67,24 @@ class AP4_MarlinIpmpParser
 {
 public:
     // types
-    struct SinfEntry {
-         SinfEntry(AP4_UI32 track_id, AP4_ContainerAtom* sinf) :
-             m_TrackId(track_id), m_Sinf(sinf) {}
-        ~SinfEntry() { delete m_Sinf; }
+    struct SinfEntry
+    {
+        SinfEntry(AP4_UI32 track_id, AP4_ContainerAtom* sinf) :
+            m_TrackId(track_id), m_Sinf(sinf) {}
+        ~SinfEntry()
+        {
+            delete m_Sinf;
+        }
         AP4_UI32           m_TrackId;
         AP4_ContainerAtom* m_Sinf;
     };
-    
+
     // methods
-    static AP4_Result Parse(AP4_AtomParent&      top_level, 
+    static AP4_Result Parse(AP4_AtomParent&      top_level,
                             AP4_ByteStream&      stream,
                             AP4_List<SinfEntry>& sinf_entries,
-                            bool                 remove_od_data=false);
-    
+                            bool                 remove_od_data = false);
+
 private:
     AP4_MarlinIpmpParser() {} // this class can't be instantiated
 };
@@ -95,9 +99,12 @@ public:
     AP4_MarlinIpmpDecryptingProcessor(const AP4_ProtectionKeyMap* key_map = NULL,
                                       AP4_BlockCipherFactory*     block_cipher_factory = NULL);
     ~AP4_MarlinIpmpDecryptingProcessor();
-    
+
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap() { return m_KeyMap; }
+    AP4_ProtectionKeyMap& GetKeyMap()
+    {
+        return m_KeyMap;
+    }
 
     // methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
@@ -106,7 +113,7 @@ public:
     virtual AP4_Processor::TrackHandler* CreateTrackHandler(AP4_TrakAtom* trak);
 
 private:
-    
+
     // members
     AP4_BlockCipherFactory*                   m_BlockCipherFactory;
     AP4_ProtectionKeyMap                      m_KeyMap;
@@ -123,10 +130,10 @@ public:
     static AP4_Result Create(AP4_BlockCipherFactory&        cipher_factory,
                              const AP4_UI08*                key,
                              AP4_MarlinIpmpTrackDecrypter*& decrypter);
-                             
+
     // destructor
     ~AP4_MarlinIpmpTrackDecrypter();
-    
+
     // AP4_Processor::TrackHandler methods
     virtual AP4_Size GetProcessedSampleSize(AP4_Sample& sample);
     virtual AP4_Result ProcessSample(AP4_DataBuffer& data_in,
@@ -153,8 +160,14 @@ public:
                                       AP4_BlockCipherFactory*     block_cipher_factory = NULL);
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()      { return m_KeyMap;      }
-    AP4_TrackPropertyMap& GetPropertyMap() { return m_PropertyMap; }
+    AP4_ProtectionKeyMap& GetKeyMap()
+    {
+        return m_KeyMap;
+    }
+    AP4_TrackPropertyMap& GetPropertyMap()
+    {
+        return m_PropertyMap;
+    }
 
     // AP4_Processor methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
@@ -181,10 +194,10 @@ public:
                              const AP4_UI08*                key,
                              const AP4_UI08*                iv,
                              AP4_MarlinIpmpTrackEncrypter*& encrypter);
-                             
+
     // destructor
     ~AP4_MarlinIpmpTrackEncrypter();
-    
+
     // AP4_Processor::TrackHandler methods
     virtual AP4_Size GetProcessedSampleSize(AP4_Sample& sample);
     virtual AP4_Result ProcessSample(AP4_DataBuffer& data_in,

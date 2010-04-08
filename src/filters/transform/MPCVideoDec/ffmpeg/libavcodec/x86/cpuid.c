@@ -41,11 +41,11 @@ int mm_support(void)
 {
     int rval = 0;
     int eax, ebx, ecx, edx;
-    int max_std_level, max_ext_level, std_caps=0, ext_caps=0;
+    int max_std_level, max_ext_level, std_caps = 0, ext_caps = 0;
 
 #if ARCH_X86_32
     x86_reg a, c;
-    __asm__ volatile (
+    __asm__ volatile(
         /* See if CPUID instruction is supported ... */
         /* ... Get copies of EFLAGS into eax and ecx */
         "pushfl\n\t"
@@ -61,65 +61,67 @@ int mm_support(void)
         /* ... Get the (hopefully modified) EFLAGS */
         "pushfl\n\t"
         "pop %0\n\t"
-        : "=a" (a), "=c" (c)
+        : "=a"(a), "=c"(c)
         :
         : "cc"
-        );
+    );
 
-    if (a == c)
+    if(a == c)
         return 0; /* CPUID not supported */
 #endif
 
     cpuid(0, max_std_level, ebx, ecx, edx);
 
-    if(max_std_level >= 1){
+    if(max_std_level >= 1)
+    {
         cpuid(1, eax, ebx, ecx, std_caps);
-        if (std_caps & (1<<23))
+        if(std_caps & (1 << 23))
             rval |= FF_MM_MMX;
-        if (std_caps & (1<<25))
+        if(std_caps & (1 << 25))
             rval |= FF_MM_MMX2
 #if HAVE_SSE
-                  | FF_MM_SSE;
-        if (std_caps & (1<<26))
+                    | FF_MM_SSE;
+        if(std_caps & (1 << 26))
             rval |= FF_MM_SSE2;
-        if (ecx & 1)
+        if(ecx & 1)
             rval |= FF_MM_SSE3;
-        if (ecx & 0x00000200 )
+        if(ecx & 0x00000200)
             rval |= FF_MM_SSSE3;
-        if (ecx & 0x00080000 )
+        if(ecx & 0x00080000)
             rval |= FF_MM_SSE4;
-        if (ecx & 0x00100000 )
+        if(ecx & 0x00100000)
             rval |= FF_MM_SSE42;
 #endif
-                  ;
+        ;
     }
 
     cpuid(0x80000000, max_ext_level, ebx, ecx, edx);
 
-    if(max_ext_level >= 0x80000001){
+    if(max_ext_level >= 0x80000001)
+    {
         cpuid(0x80000001, eax, ebx, ecx, ext_caps);
-        if (ext_caps & (1<<31))
+        if(ext_caps & (1 << 31))
             rval |= FF_MM_3DNOW;
-        if (ext_caps & (1<<30))
+        if(ext_caps & (1 << 30))
             rval |= FF_MM_3DNOWEXT;
-        if (ext_caps & (1<<23))
+        if(ext_caps & (1 << 23))
             rval |= FF_MM_MMX;
-        if (ext_caps & (1<<22))
+        if(ext_caps & (1 << 22))
             rval |= FF_MM_MMX2;
     }
 
 #if 0
     av_log(NULL, AV_LOG_DEBUG, "%s%s%s%s%s%s%s%s%s%s\n",
-        (rval&FF_MM_MMX) ? "MMX ":"",
-        (rval&FF_MM_MMX2) ? "MMX2 ":"",
-        (rval&FF_MM_SSE) ? "SSE ":"",
-        (rval&FF_MM_SSE2) ? "SSE2 ":"",
-        (rval&FF_MM_SSE3) ? "SSE3 ":"",
-        (rval&FF_MM_SSSE3) ? "SSSE3 ":"",
-        (rval&FF_MM_SSE4) ? "SSE4.1 ":"",
-        (rval&FF_MM_SSE42) ? "SSE4.2 ":"",
-        (rval&FF_MM_3DNOW) ? "3DNow ":"",
-        (rval&FF_MM_3DNOWEXT) ? "3DNowExt ":"");
+           (rval & FF_MM_MMX) ? "MMX " : "",
+           (rval & FF_MM_MMX2) ? "MMX2 " : "",
+           (rval & FF_MM_SSE) ? "SSE " : "",
+           (rval & FF_MM_SSE2) ? "SSE2 " : "",
+           (rval & FF_MM_SSE3) ? "SSE3 " : "",
+           (rval & FF_MM_SSSE3) ? "SSSE3 " : "",
+           (rval & FF_MM_SSE4) ? "SSE4.1 " : "",
+           (rval & FF_MM_SSE42) ? "SSE4.2 " : "",
+           (rval & FF_MM_3DNOW) ? "3DNow " : "",
+           (rval & FF_MM_3DNOWEXT) ? "3DNowExt " : "");
 #endif
     return rval;
 }

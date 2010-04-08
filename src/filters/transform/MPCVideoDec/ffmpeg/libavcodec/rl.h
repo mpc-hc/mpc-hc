@@ -35,7 +35,8 @@
 #define MAX_LEVEL  64
 
 /** RLTable. */
-typedef struct RLTable {
+typedef struct RLTable
+{
     int n;                         ///< number of entries of table_vlc minus 1
     int last;                      ///< number of values for last = 0
     const uint16_t (*table_vlc)[2];
@@ -76,9 +77,9 @@ static inline int get_rl_index(const RLTable *rl, int last, int run, int level)
 {
     int index;
     index = rl->index_run[last][run];
-    if (index >= rl->n)
+    if(index >= rl->n)
         return rl->n;
-    if (level > rl->max_level[last][run])
+    if(level > rl->max_level[last][run])
         return rl->n;
     return index + level - 1;
 }

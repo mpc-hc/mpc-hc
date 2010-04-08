@@ -44,8 +44,9 @@
 
 // This is really dumb, but necessary to support VTbls in C++.
 
-struct FilterVTbls {
-	void *pvtblVBitmap;
+struct FilterVTbls
+{
+    void *pvtblVBitmap;
 };
 
 #ifdef VDEXT_MAIN
@@ -64,9 +65,10 @@ struct CScriptObject;
 
 //////////////////
 
-enum {
-	FILTERPARAM_SWAP_BUFFERS	= 0x00000001L,
-	FILTERPARAM_NEEDS_LAST		= 0x00000002L,
+enum
+{
+    FILTERPARAM_SWAP_BUFFERS	= 0x00000001L,
+    FILTERPARAM_NEEDS_LAST		= 0x00000002L,
 };
 
 #define FILTERPARAM_HAS_LAG(frames) ((int)(frames) << 16)
@@ -77,19 +79,19 @@ class VFBitmap;
 class FilterActivation;
 struct FilterFunctions;
 
-typedef int  (*FilterInitProc     )(FilterActivation *fa, const FilterFunctions *ff);
-typedef void (*FilterDeinitProc   )(FilterActivation *fa, const FilterFunctions *ff);
-typedef int  (*FilterRunProc      )(const FilterActivation *fa, const FilterFunctions *ff);
-typedef long (*FilterParamProc    )(FilterActivation *fa, const FilterFunctions *ff);
-typedef int  (*FilterConfigProc   )(FilterActivation *fa, const FilterFunctions *ff, HWND hWnd);
-typedef void (*FilterStringProc   )(const FilterActivation *fa, const FilterFunctions *ff, char *buf);
-typedef int  (*FilterStartProc    )(FilterActivation *fa, const FilterFunctions *ff);
-typedef int  (*FilterEndProc      )(FilterActivation *fa, const FilterFunctions *ff);
+typedef int (*FilterInitProc)(FilterActivation *fa, const FilterFunctions *ff);
+typedef void (*FilterDeinitProc)(FilterActivation *fa, const FilterFunctions *ff);
+typedef int (*FilterRunProc)(const FilterActivation *fa, const FilterFunctions *ff);
+typedef long(*FilterParamProc)(FilterActivation *fa, const FilterFunctions *ff);
+typedef int (*FilterConfigProc)(FilterActivation *fa, const FilterFunctions *ff, HWND hWnd);
+typedef void (*FilterStringProc)(const FilterActivation *fa, const FilterFunctions *ff, char *buf);
+typedef int (*FilterStartProc)(FilterActivation *fa, const FilterFunctions *ff);
+typedef int (*FilterEndProc)(FilterActivation *fa, const FilterFunctions *ff);
 typedef bool (*FilterScriptStrProc)(FilterActivation *fa, const FilterFunctions *, char *, int);
-typedef void (*FilterStringProc2  )(const FilterActivation *fa, const FilterFunctions *ff, char *buf, int maxlen);
-typedef int  (*FilterSerialize    )(FilterActivation *fa, const FilterFunctions *ff, char *buf, int maxbuf);
-typedef void (*FilterDeserialize  )(FilterActivation *fa, const FilterFunctions *ff, const char *buf, int maxbuf);
-typedef void (*FilterCopy         )(FilterActivation *fa, const FilterFunctions *ff, void *dst);
+typedef void (*FilterStringProc2)(const FilterActivation *fa, const FilterFunctions *ff, char *buf, int maxlen);
+typedef int (*FilterSerialize)(FilterActivation *fa, const FilterFunctions *ff, char *buf, int maxbuf);
+typedef void (*FilterDeserialize)(FilterActivation *fa, const FilterFunctions *ff, const char *buf, int maxbuf);
+typedef void (*FilterCopy)(FilterActivation *fa, const FilterFunctions *ff, void *dst);
 
 typedef int (__cdecl *FilterModuleInitProc)(struct FilterModule *fm, const FilterFunctions *ff, int& vdfd_ver, int& vdfd_compat);
 typedef void (__cdecl *FilterModuleDeinitProc)(struct FilterModule *fm, const FilterFunctions *ff);
@@ -99,21 +101,22 @@ typedef void (__cdecl *FilterModuleDeinitProc)(struct FilterModule *fm, const Fi
 typedef void (__cdecl *FilterPreviewButtonCallback)(bool fNewState, void *pData);
 typedef void (__cdecl *FilterPreviewSampleCallback)(VFBitmap *, long lFrame, long lCount, void *pData);
 
-class IFilterPreview {
+class IFilterPreview
+{
 public:
-	virtual void SetButtonCallback(FilterPreviewButtonCallback, void *)=0;
-	virtual void SetSampleCallback(FilterPreviewSampleCallback, void *)=0;
+    virtual void SetButtonCallback(FilterPreviewButtonCallback, void *) = 0;
+    virtual void SetSampleCallback(FilterPreviewSampleCallback, void *) = 0;
 
-	virtual bool isPreviewEnabled()=0;
-	virtual void Toggle(HWND)=0;
-	virtual void Display(HWND, bool)=0;
-	virtual void RedoFrame()=0;
-	virtual void RedoSystem()=0;
-	virtual void UndoSystem()=0;
-	virtual void InitButton(HWND)=0;
-	virtual void Close()=0;
-	virtual bool SampleCurrentFrame()=0;
-	virtual long SampleFrames()=0;
+    virtual bool isPreviewEnabled() = 0;
+    virtual void Toggle(HWND) = 0;
+    virtual void Display(HWND, bool) = 0;
+    virtual void RedoFrame() = 0;
+    virtual void RedoSystem() = 0;
+    virtual void UndoSystem() = 0;
+    virtual void InitButton(HWND) = 0;
+    virtual void Close() = 0;
+    virtual bool SampleCurrentFrame() = 0;
+    virtual long SampleFrames() = 0;
 };
 
 //////////
@@ -128,85 +131,91 @@ public:
 // v7 (1.4d): added frame lag, exception handling
 // v8 (1.4.11):
 
-typedef struct FilterModule {
-	struct FilterModule *next, *prev;
-	HINSTANCE				hInstModule;
-	FilterModuleInitProc	initProc;
-	FilterModuleDeinitProc	deinitProc;
+typedef struct FilterModule
+{
+    struct FilterModule *next, *prev;
+    HINSTANCE				hInstModule;
+    FilterModuleInitProc	initProc;
+    FilterModuleDeinitProc	deinitProc;
 } FilterModule;
 
-typedef struct FilterDefinition {
+typedef struct FilterDefinition
+{
 
-	struct FilterDefinition *next, *prev;
-	FilterModule *module;
+    struct FilterDefinition *next, *prev;
+    FilterModule *module;
 
-	const char *		name;
-	const char *		desc;
-	const char *		maker;
-	void *				private_data;
-	int					inst_data_size;
+    const char *		name;
+    const char *		desc;
+    const char *		maker;
+    void *				private_data;
+    int					inst_data_size;
 
-	FilterInitProc		initProc;
-	FilterDeinitProc	deinitProc;
-	FilterRunProc		runProc;
-	FilterParamProc		paramProc;
-	FilterConfigProc	configProc;
-	FilterStringProc	stringProc;
-	FilterStartProc		startProc;
-	FilterEndProc		endProc;
+    FilterInitProc		initProc;
+    FilterDeinitProc	deinitProc;
+    FilterRunProc		runProc;
+    FilterParamProc		paramProc;
+    FilterConfigProc	configProc;
+    FilterStringProc	stringProc;
+    FilterStartProc		startProc;
+    FilterEndProc		endProc;
 
-	CScriptObject	*script_obj;
+    CScriptObject	*script_obj;
 
-	FilterScriptStrProc	fssProc;
+    FilterScriptStrProc	fssProc;
 
-	// NEW - 1.4.11
-	FilterStringProc2	stringProc2;
-	FilterSerialize		serializeProc;
-	FilterDeserialize	deserializeProc;
-	FilterCopy			copyProc;
+    // NEW - 1.4.11
+    FilterStringProc2	stringProc2;
+    FilterSerialize		serializeProc;
+    FilterDeserialize	deserializeProc;
+    FilterCopy			copyProc;
 } FilterDefinition;
 
 //////////
 
 // FilterStateInfo: contains dynamic info about file being processed
 
-class FilterStateInfo {
+class FilterStateInfo
+{
 public:
-	long	lCurrentFrame;				// current output frame
-	long	lMicrosecsPerFrame;			// microseconds per output frame
-	long	lCurrentSourceFrame;		// current source frame
-	long	lMicrosecsPerSrcFrame;		// microseconds per source frame
-	long	lSourceFrameMS;				// source frame timestamp
-	long	lDestFrameMS;				// output frame timestamp
+    long	lCurrentFrame;				// current output frame
+    long	lMicrosecsPerFrame;			// microseconds per output frame
+    long	lCurrentSourceFrame;		// current source frame
+    long	lMicrosecsPerSrcFrame;		// microseconds per source frame
+    long	lSourceFrameMS;				// source frame timestamp
+    long	lDestFrameMS;				// output frame timestamp
 };
 
 // VFBitmap: VBitmap extended to hold filter-specific information
 
-class VFBitmap : public VBitmap {
+class VFBitmap : public VBitmap
+{
 public:
-	enum {
-		NEEDS_HDC		= 0x00000001L,
-	};
+    enum
+    {
+        NEEDS_HDC		= 0x00000001L,
+    };
 
-	DWORD	dwFlags;
-	HDC		hdc;
+    DWORD	dwFlags;
+    HDC		hdc;
 };
 
 // FilterActivation: This is what is actually passed to filters at runtime.
 
-class FilterActivation {
+class FilterActivation
+{
 public:
-	FilterDefinition *filter;
-	void *filter_data;
-	VFBitmap &dst, &src;
-	VFBitmap *__reserved0, *const last;
-	unsigned long x1, y1, x2, y2;
+    FilterDefinition *filter;
+    void *filter_data;
+    VFBitmap &dst, &src;
+    VFBitmap *__reserved0, *const last;
+    unsigned long x1, y1, x2, y2;
 
-	FilterStateInfo *pfsi;
-	IFilterPreview *ifp;
+    FilterStateInfo *pfsi;
+    IFilterPreview *ifp;
 
-	FilterActivation(VFBitmap& _dst, VFBitmap& _src, VFBitmap *_last) : dst(_dst), src(_src), last(_last) {}
-	FilterActivation(const FilterActivation& fa, VFBitmap& _dst, VFBitmap& _src, VFBitmap *_last);
+    FilterActivation(VFBitmap& _dst, VFBitmap& _src, VFBitmap *_last) : dst(_dst), src(_src), last(_last) {}
+    FilterActivation(const FilterActivation& fa, VFBitmap& _dst, VFBitmap& _src, VFBitmap *_last);
 };
 
 // These flags must match those in cpuaccel.h!
@@ -222,23 +231,24 @@ public:
 #define CPUF_SUPPORTS_3DNOW_EXT		(0x00000080L)
 #endif
 
-struct FilterFunctions {
-	FilterDefinition *(*addFilter)(FilterModule *, FilterDefinition *, int fd_len);
-	void (*removeFilter)(FilterDefinition *);
-	bool (*isFPUEnabled)();
-	bool (*isMMXEnabled)();
-	void (*InitVTables)(struct FilterVTbls *);
+struct FilterFunctions
+{
+    FilterDefinition *(*addFilter)(FilterModule *, FilterDefinition *, int fd_len);
+    void (*removeFilter)(FilterDefinition *);
+    bool (*isFPUEnabled)();
+    bool (*isMMXEnabled)();
+    void (*InitVTables)(struct FilterVTbls *);
 
-	// These functions permit you to throw MyError exceptions from a filter.
-	// YOU MUST ONLY CALL THESE IN runProc, initProc, and startProc.
+    // These functions permit you to throw MyError exceptions from a filter.
+    // YOU MUST ONLY CALL THESE IN runProc, initProc, and startProc.
 
-	void (*ExceptOutOfMemory)();						// ADDED: V6 (VirtualDub 1.4)
-	void (*Except)(const char *format, ...);			// ADDED: V6 (VirtualDub 1.4)
+    void (*ExceptOutOfMemory)();						// ADDED: V6 (VirtualDub 1.4)
+    void (*Except)(const char *format, ...);			// ADDED: V6 (VirtualDub 1.4)
 
-	// These functions are callable at any time.
+    // These functions are callable at any time.
 
-	long (*getCPUFlags)();								// ADDED: V6 (VirtualDub 1.4)
-	long (*getHostVersionInfo)(char *buffer, int len);	// ADDED: V7 (VirtualDub 1.4d)
+    long(*getCPUFlags)();								// ADDED: V6 (VirtualDub 1.4)
+    long(*getHostVersionInfo)(char *buffer, int len);	// ADDED: V7 (VirtualDub 1.4d)
 };
 
 #endif

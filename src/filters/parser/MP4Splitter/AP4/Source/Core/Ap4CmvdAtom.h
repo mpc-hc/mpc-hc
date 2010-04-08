@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - cmvd Atoms 
+|    AP4 - cmvd Atoms
 |
 |    Copyright 2002 Gilles Boccon-Gibod
 |
@@ -47,21 +47,30 @@ class AP4_CmvdAtom : public AP4_ContainerAtom
 {
 public:
     // class methods
-	static AP4_CmvdAtom* Create(AP4_Size size, AP4_ByteStream& stream, AP4_AtomFactory& atom_factory);
+    static AP4_CmvdAtom* Create(AP4_Size size, AP4_ByteStream& stream, AP4_AtomFactory& atom_factory);
 
-	// methods
+    // methods
     AP4_CmvdAtom(AP4_Size         size,
                  AP4_ByteStream&  stream,
                  AP4_AtomFactory& atom_factory);
 
-    virtual AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
+    virtual AP4_Result WriteFields(AP4_ByteStream& stream)
+    {
+        return AP4_FAILURE;
+    }
 
-	AP4_UI32 GetMovieResourceSize() const { return m_MovieResourceSize; }
-    const AP4_DataBuffer& GetDataBuffer() { return m_Data; }
+    AP4_UI32 GetMovieResourceSize() const
+    {
+        return m_MovieResourceSize;
+    }
+    const AP4_DataBuffer& GetDataBuffer()
+    {
+        return m_Data;
+    }
 
 private:
-	AP4_UI32 m_MovieResourceSize;
-	AP4_DataBuffer m_Data;
+    AP4_UI32 m_MovieResourceSize;
+    AP4_DataBuffer m_Data;
 };
 
 #endif // _AP4_CMVD_ATOM_H_

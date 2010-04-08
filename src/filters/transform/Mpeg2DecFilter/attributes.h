@@ -26,11 +26,11 @@
 
 /* use gcc attribs to align critical data structures */
 #ifdef __GNUC__
-  #define __align8(t,v) t v __attribute__ ((aligned (8)))
-  #define __align16(t,v) t v __attribute__ ((aligned (16)))
+#define __align8(t,v) t v __attribute__ ((aligned (8)))
+#define __align16(t,v) t v __attribute__ ((aligned (16)))
 #else
-  #define __align8(t,v) __declspec(align(8)) t v
-  #define __align16(t,v) __declspec(align(16)) t v
+#define __align8(t,v) __declspec(align(8)) t v
+#define __align16(t,v) __declspec(align(16)) t v
 #endif
 
 #ifdef HAVE_BUILTIN_EXPECT

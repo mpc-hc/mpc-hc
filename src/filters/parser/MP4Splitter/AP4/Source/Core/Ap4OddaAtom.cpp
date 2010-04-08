@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - odda Atoms 
+|    AP4 - odda Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,20 +41,20 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_OddaAtom)
 |   AP4_OddaAtom::Create
 +---------------------------------------------------------------------*/
 AP4_OddaAtom*
-AP4_OddaAtom::Create(AP4_UI64         size, 
+AP4_OddaAtom::Create(AP4_UI64         size,
                      AP4_ByteStream&  stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_OddaAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
 |   AP4_OddaAtom::AP4_OddaAtom
 +---------------------------------------------------------------------*/
-AP4_OddaAtom::AP4_OddaAtom(AP4_UI64        size, 
+AP4_OddaAtom::AP4_OddaAtom(AP4_UI64        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -64,14 +64,14 @@ AP4_OddaAtom::AP4_OddaAtom(AP4_UI64        size,
     stream.ReadUI64(m_EncryptedDataLength);
 
     // get the source stream position
-    AP4_Position position; 
+    AP4_Position position;
     stream.Tell(position);
 
     // create a substream to represent the payload
     m_EncryptedPayload = new AP4_SubStream(stream, position, m_EncryptedDataLength);
-    
+
     // seek to the end
-    stream.Seek(position+m_EncryptedDataLength);
+    stream.Seek(position + m_EncryptedDataLength);
 }
 
 /*----------------------------------------------------------------------
@@ -82,10 +82,10 @@ AP4_OddaAtom::AP4_OddaAtom(AP4_ByteStream& encrypted_payload) :
 {
     // encrypted data length
     encrypted_payload.GetSize(m_EncryptedDataLength);
-    
-    // update our size 
-    SetSize(AP4_FULL_ATOM_HEADER_SIZE_64+8+m_EncryptedDataLength, true);
-    
+
+    // update our size
+    SetSize(AP4_FULL_ATOM_HEADER_SIZE_64 + 8 + m_EncryptedDataLength, true);
+
     // keep a reference to the encrypted payload
     m_EncryptedPayload = &encrypted_payload;
     m_EncryptedPayload->AddReference();
@@ -96,7 +96,7 @@ AP4_OddaAtom::AP4_OddaAtom(AP4_ByteStream& encrypted_payload) :
 +---------------------------------------------------------------------*/
 AP4_OddaAtom::~AP4_OddaAtom()
 {
-    if (m_EncryptedPayload) m_EncryptedPayload->Release();
+    if(m_EncryptedPayload) m_EncryptedPayload->Release();
 }
 
 
@@ -107,17 +107,18 @@ AP4_Result
 AP4_OddaAtom::SetEncryptedPayload(AP4_ByteStream& stream, AP4_LargeSize length)
 {
     // keep a reference to the stream
-    if (m_EncryptedPayload) {
+    if(m_EncryptedPayload)
+    {
         m_EncryptedPayload->Release();
     }
     m_EncryptedPayload = &stream;
     m_EncryptedPayload->AddReference();
-    
+
     // update the size
     m_EncryptedDataLength = length;
     SetSize(AP4_FULL_ATOM_HEADER_SIZE_64 + 8 + length, true);
-    if (m_Parent) m_Parent->OnChildChanged(this);
-    
+    if(m_Parent) m_Parent->OnChildChanged(this);
+
     return AP4_SUCCESS;
 }
 
@@ -130,8 +131,8 @@ AP4_OddaAtom::SetEncryptedPayload(AP4_ByteStream& stream)
     // the new encrypted data length is the size of the stream
     AP4_LargeSize length;
     AP4_Result result = stream.GetSize(length);
-    if (AP4_FAILED(result)) return result;
-    
+    if(AP4_FAILED(result)) return result;
+
     return SetEncryptedPayload(stream, length);
 }
 
@@ -146,7 +147,8 @@ AP4_OddaAtom::WriteFields(AP4_ByteStream& stream)
 
     // check that we have a source stream
     // and a normal size
-    if (m_EncryptedPayload == NULL || GetSize() < 8) {
+    if(m_EncryptedPayload == NULL || GetSize() < 8)
+    {
         return AP4_FAILURE;
     }
 

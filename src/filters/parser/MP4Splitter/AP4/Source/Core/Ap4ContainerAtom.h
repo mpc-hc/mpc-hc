@@ -45,14 +45,14 @@ class AP4_AtomFactory;
 /*----------------------------------------------------------------------
 |   AP4_ContainerAtom
 +---------------------------------------------------------------------*/
-class AP4_ContainerAtom : public AP4_Atom, public AP4_AtomParent 
+class AP4_ContainerAtom : public AP4_Atom, public AP4_AtomParent
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_ContainerAtom, AP4_Atom, AP4_AtomParent)
 
     // class methods
-    static AP4_ContainerAtom* Create(Type             type, 
-                                     AP4_UI64         size, 
+    static AP4_ContainerAtom* Create(Type             type,
+                                     AP4_UI64         size,
                                      bool             is_full,
                                      bool             force_64,
                                      AP4_ByteStream&  stream,
@@ -60,10 +60,13 @@ public:
 
     // methods
     explicit AP4_ContainerAtom(Type type);
-    explicit AP4_ContainerAtom(Type type, AP4_UI32 version, AP4_UI32 flags); 
+    explicit AP4_ContainerAtom(Type type, AP4_UI32 version, AP4_UI32 flags);
     explicit AP4_ContainerAtom(Type type, AP4_UI64 size, bool force_64);
     explicit AP4_ContainerAtom(Type type, AP4_UI64 size, bool force_64, AP4_UI32 version, AP4_UI32 flags);
-    AP4_List<AP4_Atom>& GetChildren() { return m_Children; }
+    AP4_List<AP4_Atom>& GetChildren()
+    {
+        return m_Children;
+    }
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result InspectChildren(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -76,22 +79,22 @@ public:
 
 protected:
     // constructors
-    AP4_ContainerAtom(Type             type, 
-                      AP4_UI64         size, 
+    AP4_ContainerAtom(Type             type,
+                      AP4_UI64         size,
                       bool             force_64,
                       AP4_UI32         version,
                       AP4_UI32         flags,
                       AP4_ByteStream&  stream,
                       AP4_AtomFactory& atom_factory);
-    AP4_ContainerAtom(Type             type, 
-                      AP4_UI64         size, 
+    AP4_ContainerAtom(Type             type,
+                      AP4_UI64         size,
                       bool             force_64,
                       AP4_ByteStream&  stream,
                       AP4_AtomFactory& atom_factory);
 
     // methods
     void ReadChildren(AP4_AtomFactory& atom_factory,
-                      AP4_ByteStream&  stream, 
+                      AP4_ByteStream&  stream,
                       AP4_UI64         size);
 };
 

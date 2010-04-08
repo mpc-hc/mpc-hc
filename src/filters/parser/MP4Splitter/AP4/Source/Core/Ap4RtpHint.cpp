@@ -38,7 +38,8 @@
 AP4_RtpSampleData::~AP4_RtpSampleData()
 {
     AP4_List<AP4_RtpPacket>::Item* it = m_Packets.FirstItem();
-    while (it != NULL) {
+    while(it != NULL)
+    {
         it->GetData()->Release();
         it = it->GetNext();
     }
@@ -55,20 +56,22 @@ AP4_RtpSampleData::AP4_RtpSampleData(AP4_ByteStream& stream, AP4_UI32 size)
 
     AP4_UI16 packet_count;
     stream.ReadUI16(packet_count);
-    
+
     AP4_UI16 reserved;
     stream.ReadUI16(reserved); // later, check that reserved is 0
 
     // packets
-    for (AP4_UI16 i=0; i<packet_count; i++) {
+    for(AP4_UI16 i = 0; i < packet_count; i++)
+    {
         AP4_RtpPacket* packet = new AP4_RtpPacket(stream);
         m_Packets.Add(packet);
     }
 
     // extra data
     stream.Tell(extra_data_start);
-    AP4_Size extra_data_size = size - (AP4_UI32)(extra_data_start-start);
-    if (extra_data_size != 0) {
+    AP4_Size extra_data_size = size - (AP4_UI32)(extra_data_start - start);
+    if(extra_data_size != 0)
+    {
         m_ExtraData.SetDataSize(extra_data_size);
         stream.Read(m_ExtraData.UseData(), extra_data_size);
     }
@@ -85,7 +88,8 @@ AP4_RtpSampleData::GetSize()
 
     // packets
     AP4_List<AP4_RtpPacket>::Item* it = m_Packets.FirstItem();
-    while (it != NULL) {
+    while(it != NULL)
+    {
         result = it->GetData()->GetSize();
         it = it->GetNext();
     }
@@ -110,22 +114,23 @@ AP4_RtpSampleData::ToByteStream()
 
     // write in it
     AP4_Result result = stream->WriteUI16(static_cast<AP4_UI16>(m_Packets.ItemCount()));
-    if (AP4_FAILED(result)) goto bail;
+    if(AP4_FAILED(result)) goto bail;
 
     result = stream->WriteUI16(0); // reserved
-    if (AP4_FAILED(result)) goto bail;
+    if(AP4_FAILED(result)) goto bail;
 
     {
         AP4_List<AP4_RtpPacket>::Item* it = m_Packets.FirstItem();
-        while (it != NULL) {
+        while(it != NULL)
+        {
             result = it->GetData()->Write(*stream);
-            if (AP4_FAILED(result)) goto bail;
+            if(AP4_FAILED(result)) goto bail;
             it = it->GetNext();
         }
     }
 
     result = stream->Write(m_ExtraData.GetData(), m_ExtraData.GetDataSize());
-    if (AP4_FAILED(result)) goto bail;
+    if(AP4_FAILED(result)) goto bail;
 
     // return
     return stream;
@@ -149,14 +154,14 @@ AP4_RtpSampleData::AddPacket(AP4_RtpPacket* packet)
 /*----------------------------------------------------------------------
 |   AP4_RtpPacket::AP4_RtpPacket
 +---------------------------------------------------------------------*/
-AP4_RtpPacket::AP4_RtpPacket(int      relative_time, 
-                             bool     p_bit, 
-                             bool     x_bit, 
-                             bool     m_bit, 
-                             AP4_UI08 payload_type, 
-                             AP4_UI16 sequence_seed, 
+AP4_RtpPacket::AP4_RtpPacket(int      relative_time,
+                             bool     p_bit,
+                             bool     x_bit,
+                             bool     m_bit,
+                             AP4_UI08 payload_type,
+                             AP4_UI16 sequence_seed,
                              int      time_stamp_offset /* = 0 */,
-                             bool     bframe_flag /* = false */, 
+                             bool     bframe_flag /* = false */,
                              bool     repeat_flag /* = false */) :
     m_ReferenceCount(1),
     m_RelativeTime(relative_time),
@@ -211,31 +216,36 @@ AP4_RtpPacket::AP4_RtpPacket(AP4_ByteStream& stream) :
     stream.ReadUI16(constructor_count);
 
     // parse the packet extra data
-    if (extra_flag) {
+    if(extra_flag)
+    {
         // read the length
         AP4_UI32 extra_length;
         stream.ReadUI32(extra_length);
 
-        // check it 
-        if (extra_length < 4) return;
+        // check it
+        if(extra_length < 4) return;
 
         // now read the entries
         extra_length -= 4;
-        while (extra_length > 0) {
+        while(extra_length > 0)
+        {
             AP4_UI32 entry_length;
             AP4_UI32 entry_tag;
             stream.ReadUI32(entry_length);
             stream.ReadUI32(entry_tag);
 
             // check the entry
-            if (entry_length < 8) return;
+            if(entry_length < 8) return;
 
             // parse the single entry that's currently defined in the spec
-            if (entry_tag == AP4_ATOM_TYPE('r','t','p','o') && entry_length == 12) {
+            if(entry_tag == AP4_ATOM_TYPE('r', 't', 'p', 'o') && entry_length == 12)
+            {
                 AP4_UI32 time_stamp_offset;
                 stream.ReadUI32(time_stamp_offset);
                 m_TimeStampOffset = time_stamp_offset;
-            } else {
+            }
+            else
+            {
                 // ignore it
                 AP4_Position cur_pos;
                 stream.Tell(cur_pos);
@@ -247,7 +257,8 @@ AP4_RtpPacket::AP4_RtpPacket(AP4_ByteStream& stream) :
     }
 
     // constructors
-    for (AP4_UI16 i=0; i<constructor_count; i++) {
+    for(AP4_UI16 i = 0; i < constructor_count; i++)
+    {
         AP4_RtpConstructor* constructor = NULL;
         AP4_RtpConstructorFactory::CreateConstructorFromStream(stream, constructor);
         m_Constructors.Add(constructor);
@@ -260,7 +271,8 @@ AP4_RtpPacket::AP4_RtpPacket(AP4_ByteStream& stream) :
 AP4_RtpPacket::~AP4_RtpPacket()
 {
     AP4_List<AP4_RtpConstructor>::Item* it = m_Constructors.FirstItem();
-    while (it != NULL) {
+    while(it != NULL)
+    {
         it->GetData()->Release();
         it = it->GetNext();
     }
@@ -281,7 +293,8 @@ AP4_RtpPacket::AddReference()
 void
 AP4_RtpPacket::Release()
 {
-    if (--m_ReferenceCount == 0) {
+    if(--m_ReferenceCount == 0)
+    {
         delete this;
     }
 }
@@ -292,7 +305,7 @@ AP4_RtpPacket::Release()
 AP4_Size
 AP4_RtpPacket::GetSize()
 {
-    AP4_Size result = 12 + (m_TimeStampOffset != 0)?16:0; 
+    AP4_Size result = 12 + (m_TimeStampOffset != 0) ? 16 : 0;
     result += m_Constructors.ItemCount() * AP4_RTP_CONSTRUCTOR_SIZE;
     return result;
 }
@@ -301,58 +314,60 @@ AP4_RtpPacket::GetSize()
 |   AP4_RtpPacket::Write
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_RtpPacket::Write(AP4_ByteStream& stream) 
+AP4_RtpPacket::Write(AP4_ByteStream& stream)
 {
     // check the payload type
-    if (m_PayloadType > 128) return AP4_FAILURE;
+    if(m_PayloadType > 128) return AP4_FAILURE;
 
     // now write
     AP4_Result result = stream.WriteUI32(m_RelativeTime);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI08(0x80 | m_PBit << 5 | m_XBit << 4);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI08(m_MBit << 7 | m_PayloadType);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI16(m_SequenceSeed);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI08(0);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     // deal with extra flag
     bool extra_flag = m_TimeStampOffset != 0;
-    result = stream.WriteUI08(0x00 | extra_flag << 2 
-                                   | m_BFrameFlag << 1 
-                                   | m_RepeatFlag << 0);
-    if (AP4_FAILED(result)) return result;
+    result = stream.WriteUI08(0x00 | extra_flag << 2
+                              | m_BFrameFlag << 1
+                              | m_RepeatFlag << 0);
+    if(AP4_FAILED(result)) return result;
 
 
     // constructor count
     result = stream.WriteUI16(static_cast<AP4_UI16>(m_Constructors.ItemCount()));
 
     // write extra data
-    if (extra_flag) {
+    if(extra_flag)
+    {
         // extra_length
         result = stream.WriteUI32(16); // 4 (extra_length) + 12 (rtpo atom)
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
 
         // rtpo atom
         result = stream.WriteUI32(12); // size
-        if (AP4_FAILED(result)) return result;
-        result = stream.WriteUI32(AP4_ATOM_TYPE('r','t','p','o'));
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
+        result = stream.WriteUI32(AP4_ATOM_TYPE('r', 't', 'p', 'o'));
+        if(AP4_FAILED(result)) return result;
         result = stream.WriteUI32(m_TimeStampOffset);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
 
     // constructors
     AP4_List<AP4_RtpConstructor>::Item* it = m_Constructors.FirstItem();
-    while (it != NULL) {
+    while(it != NULL)
+    {
         result = it->GetData()->Write(stream);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
         it = it->GetNext();
     }
     return result;
@@ -362,7 +377,7 @@ AP4_RtpPacket::Write(AP4_ByteStream& stream)
 |   AP4_RtpPacket::AddConstructor
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_RtpPacket::AddConstructor(AP4_RtpConstructor* constructor) 
+AP4_RtpPacket::AddConstructor(AP4_RtpConstructor* constructor)
 {
     constructor->AddReference();
     return m_Constructors.Add(constructor);
@@ -378,9 +393,10 @@ AP4_RtpPacket::GetConstructedDataSize()
     AP4_Size size = 12;
 
     // constructed data from constructors
-    AP4_List<AP4_RtpConstructor>::Item* constructors_it 
-        = m_Constructors.FirstItem();
-    while (constructors_it != NULL) {
+    AP4_List<AP4_RtpConstructor>::Item* constructors_it
+    = m_Constructors.FirstItem();
+    while(constructors_it != NULL)
+    {
         size += constructors_it->GetData()->GetConstructedDataSize();
         constructors_it = constructors_it->GetNext();
     }
@@ -404,7 +420,8 @@ AP4_RtpConstructor::AddReference()
 void
 AP4_RtpConstructor::Release()
 {
-    if (--m_ReferenceCount == 0) {
+    if(--m_ReferenceCount == 0)
+    {
         delete this;
     }
 }
@@ -415,7 +432,7 @@ AP4_Result
 AP4_RtpConstructor::Write(AP4_ByteStream& stream)
 {
     AP4_Result result = stream.WriteUI08(m_Type);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     return DoWrite(stream);
 }
@@ -428,7 +445,7 @@ AP4_NoopRtpConstructor::AP4_NoopRtpConstructor(AP4_ByteStream& stream) :
 {
     AP4_Position cur_offset;
     stream.Tell(cur_offset);
-    stream.Seek(cur_offset+15);
+    stream.Seek(cur_offset + 15);
 }
 
 /*----------------------------------------------------------------------
@@ -466,7 +483,7 @@ AP4_ImmediateRtpConstructor::AP4_ImmediateRtpConstructor(AP4_ByteStream& stream)
     stream.Read(m_Data.UseData(), data_size);
 
     // reposition the stream
-    stream.Seek(cur_offset+15);
+    stream.Seek(cur_offset + 15);
 }
 
 
@@ -477,26 +494,26 @@ AP4_Result
 AP4_ImmediateRtpConstructor::DoWrite(AP4_ByteStream& stream)
 {
     // first check that the data is not too large
-    if (m_Data.GetDataSize() > 14) return AP4_FAILURE;
+    if(m_Data.GetDataSize() > 14) return AP4_FAILURE;
 
     // now write
     AP4_Result result = stream.WriteUI08(static_cast<AP4_UI08>(m_Data.GetDataSize()));
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.Write(m_Data.GetData(), m_Data.GetDataSize());
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     // pad
     AP4_Byte pad[14];
-    return stream.Write(pad, sizeof(pad)-m_Data.GetDataSize());
+    return stream.Write(pad, sizeof(pad) - m_Data.GetDataSize());
 }
 /*----------------------------------------------------------------------
 |   AP4_SampleRtpConstructor::AP4_SampleRtpConstructor
 +---------------------------------------------------------------------*/
-AP4_SampleRtpConstructor::AP4_SampleRtpConstructor(AP4_UI08 track_ref_index, 
-                                                   AP4_UI16 length, 
-                                                   AP4_UI32 sample_num, 
-                                                   AP4_UI32 sample_offset) :
+AP4_SampleRtpConstructor::AP4_SampleRtpConstructor(AP4_UI08 track_ref_index,
+        AP4_UI16 length,
+        AP4_UI32 sample_num,
+        AP4_UI32 sample_offset) :
     AP4_RtpConstructor(AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE),
     m_TrackRefIndex(track_ref_index),
     m_Length(length),
@@ -521,7 +538,7 @@ AP4_SampleRtpConstructor::AP4_SampleRtpConstructor(AP4_ByteStream& stream) :
     stream.ReadUI32(m_SampleOffset);
 
     // reposition the stream
-    stream.Seek(cur_offset+15);
+    stream.Seek(cur_offset + 15);
 }
 /*----------------------------------------------------------------------
 |   AP4_SampleRtpConstructor::DoWrite
@@ -530,19 +547,19 @@ AP4_Result
 AP4_SampleRtpConstructor::DoWrite(AP4_ByteStream& stream)
 {
     AP4_Result result = stream.WriteUI08(m_TrackRefIndex);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI16(m_Length);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI32(m_SampleNum);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI32(m_SampleOffset);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI16(1); // bytes per block
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     return stream.WriteUI16(1); // samples per block
 }
@@ -550,10 +567,10 @@ AP4_SampleRtpConstructor::DoWrite(AP4_ByteStream& stream)
 /*----------------------------------------------------------------------
 |   AP4_SampleDescRtpConstructor::AP4_SampleDescRtpConstructor
 +---------------------------------------------------------------------*/
-AP4_SampleDescRtpConstructor::AP4_SampleDescRtpConstructor(AP4_UI08 track_ref_index, 
-                                                           AP4_UI16 length, 
-                                                           AP4_UI32 sample_desc_index, 
-                                                           AP4_UI32 sample_desc_offset) :
+AP4_SampleDescRtpConstructor::AP4_SampleDescRtpConstructor(AP4_UI08 track_ref_index,
+        AP4_UI16 length,
+        AP4_UI32 sample_desc_index,
+        AP4_UI32 sample_desc_offset) :
     AP4_RtpConstructor(AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE_DESC),
     m_TrackRefIndex(track_ref_index),
     m_Length(length),
@@ -578,7 +595,7 @@ AP4_SampleDescRtpConstructor::AP4_SampleDescRtpConstructor(AP4_ByteStream& strea
     stream.ReadUI32(m_SampleDescOffset);
 
     // reposition the stream
-    stream.Seek(cur_offset+15);
+    stream.Seek(cur_offset + 15);
 }
 
 /*----------------------------------------------------------------------
@@ -588,16 +605,16 @@ AP4_Result
 AP4_SampleDescRtpConstructor::DoWrite(AP4_ByteStream& stream)
 {
     AP4_Result result = stream.WriteUI08(m_TrackRefIndex);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI16(m_Length);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI32(m_SampleDescIndex);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     result = stream.WriteUI32(m_SampleDescOffset);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     return stream.WriteUI32(0); // reserved
 }
@@ -606,30 +623,31 @@ AP4_SampleDescRtpConstructor::DoWrite(AP4_ByteStream& stream)
 |   AP4_RtpConstructorFactory::CreateConstructorFromStream
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_RtpConstructorFactory::CreateConstructorFromStream(AP4_ByteStream& stream, 
-                                                       AP4_RtpConstructor*& constructor)
+AP4_RtpConstructorFactory::CreateConstructorFromStream(AP4_ByteStream& stream,
+        AP4_RtpConstructor*& constructor)
 {
     // read the first byte (type)
     AP4_RtpConstructor::Type type;
     AP4_Result result = stream.ReadUI08(type);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     // now create the right constructor
-    switch(type) {
-        case AP4_RTP_CONSTRUCTOR_TYPE_NOOP:
-            constructor = new AP4_NoopRtpConstructor(stream);
-            break;
-        case AP4_RTP_CONSTRUCTOR_TYPE_IMMEDIATE:
-            constructor = new AP4_ImmediateRtpConstructor(stream);
-            break;
-        case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE:
-            constructor = new AP4_SampleRtpConstructor(stream);
-            break;
-        case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE_DESC:
-            constructor = new AP4_SampleDescRtpConstructor(stream);
-            break;
-        default:
-            return AP4_ERROR_INVALID_RTP_CONSTRUCTOR_TYPE;
+    switch(type)
+    {
+    case AP4_RTP_CONSTRUCTOR_TYPE_NOOP:
+        constructor = new AP4_NoopRtpConstructor(stream);
+        break;
+    case AP4_RTP_CONSTRUCTOR_TYPE_IMMEDIATE:
+        constructor = new AP4_ImmediateRtpConstructor(stream);
+        break;
+    case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE:
+        constructor = new AP4_SampleRtpConstructor(stream);
+        break;
+    case AP4_RTP_CONSTRUCTOR_TYPE_SAMPLE_DESC:
+        constructor = new AP4_SampleDescRtpConstructor(stream);
+        break;
+    default:
+        return AP4_ERROR_INVALID_RTP_CONSTRUCTOR_TYPE;
     }
 
     return AP4_SUCCESS;

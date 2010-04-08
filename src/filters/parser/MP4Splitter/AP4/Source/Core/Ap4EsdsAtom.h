@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - esds Atoms 
+|    AP4 - esds Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -54,14 +54,17 @@ public:
 
     // methods
     AP4_EsdsAtom(AP4_EsDescriptor* descriptor);
-   ~AP4_EsdsAtom();
+    ~AP4_EsdsAtom();
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
-    const AP4_EsDescriptor* GetEsDescriptor() const { return m_EsDescriptor; }
+    const AP4_EsDescriptor* GetEsDescriptor() const
+    {
+        return m_EsDescriptor;
+    }
 
 private:
     // methods
-    AP4_EsdsAtom(AP4_UI32        size, 
+    AP4_EsdsAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

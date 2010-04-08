@@ -121,14 +121,15 @@ extern "C" {
 //
 // READ_TOC_EX structure
 //
-typedef struct _CDROM_READ_TOC_EX {
-    UCHAR Format    : 4;
-    UCHAR Reserved1 : 3; // future expansion
-    UCHAR Msf       : 1;
-    UCHAR SessionTrack;
-    UCHAR Reserved2;     // future expansion
-    UCHAR Reserved3;     // future expansion
-} CDROM_READ_TOC_EX, *PCDROM_READ_TOC_EX;
+    typedef struct _CDROM_READ_TOC_EX
+    {
+        UCHAR Format    : 4;
+        UCHAR Reserved1 : 3; // future expansion
+        UCHAR Msf       : 1;
+        UCHAR SessionTrack;
+        UCHAR Reserved2;     // future expansion
+        UCHAR Reserved3;     // future expansion
+    } CDROM_READ_TOC_EX, *PCDROM_READ_TOC_EX;
 
 #define CDROM_READ_TOC_EX_FORMAT_TOC      0x00
 #define CDROM_READ_TOC_EX_FORMAT_SESSION  0x01
@@ -142,31 +143,33 @@ typedef struct _CDROM_READ_TOC_EX {
 // Format 0 - Get table of contents
 //
 
-typedef struct _TRACK_DATA {
-    UCHAR Reserved;
-    UCHAR Control : 4;
-    UCHAR Adr : 4;
-    UCHAR TrackNumber;
-    UCHAR Reserved1;
-    UCHAR Address[4];
-} TRACK_DATA, *PTRACK_DATA;
+    typedef struct _TRACK_DATA
+    {
+        UCHAR Reserved;
+        UCHAR Control : 4;
+        UCHAR Adr : 4;
+        UCHAR TrackNumber;
+        UCHAR Reserved1;
+        UCHAR Address[4];
+    } TRACK_DATA, *PTRACK_DATA;
 
-typedef struct _CDROM_TOC {
+    typedef struct _CDROM_TOC
+    {
 
-    //
-    // Header
-    //
+        //
+        // Header
+        //
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR FirstTrack;
-    UCHAR LastTrack;
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR FirstTrack;
+        UCHAR LastTrack;
 
-    //
-    // Track data
-    //
+        //
+        // Track data
+        //
 
-    TRACK_DATA TrackData[MAXIMUM_NUMBER_TRACKS];
-} CDROM_TOC, *PCDROM_TOC;
+        TRACK_DATA TrackData[MAXIMUM_NUMBER_TRACKS];
+    } CDROM_TOC, *PCDROM_TOC;
 
 #define CDROM_TOC_SIZE sizeof(CDROM_TOC)
 
@@ -175,24 +178,25 @@ typedef struct _CDROM_TOC {
 // Format 1 - Session Information
 //
 
-typedef struct _CDROM_TOC_SESSION_DATA {
-    
-    //
-    // Header
-    //
+    typedef struct _CDROM_TOC_SESSION_DATA
+    {
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR FirstCompleteSession;
-    UCHAR LastCompleteSession;
+        //
+        // Header
+        //
 
-    //
-    // One track, representing the first track
-    // of the last finished session
-    //
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR FirstCompleteSession;
+        UCHAR LastCompleteSession;
 
-    TRACK_DATA TrackData[1];
+        //
+        // One track, representing the first track
+        // of the last finished session
+        //
 
-} CDROM_TOC_SESSION_DATA, *PCDROM_TOC_SESSION_DATA;
+        TRACK_DATA TrackData[1];
+
+    } CDROM_TOC_SESSION_DATA, *PCDROM_TOC_SESSION_DATA;
 
 
 //
@@ -200,151 +204,159 @@ typedef struct _CDROM_TOC_SESSION_DATA {
 // Format 2 - Full TOC
 //
 
-typedef struct _CDROM_TOC_FULL_TOC_DATA_BLOCK {
-    UCHAR SessionNumber;
-    UCHAR Control      : 4;
-    UCHAR Adr          : 4;
-    UCHAR Reserved1;
-    UCHAR Point;
-    UCHAR MsfExtra[3];
-    UCHAR Zero;
-    UCHAR Msf[3];
-} CDROM_TOC_FULL_TOC_DATA_BLOCK, *PCDROM_TOC_FULL_TOC_DATA_BLOCK;
+    typedef struct _CDROM_TOC_FULL_TOC_DATA_BLOCK
+    {
+        UCHAR SessionNumber;
+        UCHAR Control      : 4;
+        UCHAR Adr          : 4;
+        UCHAR Reserved1;
+        UCHAR Point;
+        UCHAR MsfExtra[3];
+        UCHAR Zero;
+        UCHAR Msf[3];
+    } CDROM_TOC_FULL_TOC_DATA_BLOCK, *PCDROM_TOC_FULL_TOC_DATA_BLOCK;
 
-typedef struct _CDROM_TOC_FULL_TOC_DATA {
-    
-    //
-    // Header
-    //
+    typedef struct _CDROM_TOC_FULL_TOC_DATA
+    {
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR FirstCompleteSession;
-    UCHAR LastCompleteSession;
+        //
+        // Header
+        //
 
-    //
-    // one to N descriptors included
-    //
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR FirstCompleteSession;
+        UCHAR LastCompleteSession;
 
-    CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+        //
+        // one to N descriptors included
+        //
 
-} CDROM_TOC_FULL_TOC_DATA, *PCDROM_TOC_FULL_TOC_DATA;
+        CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+
+    } CDROM_TOC_FULL_TOC_DATA, *PCDROM_TOC_FULL_TOC_DATA;
 
 //
 // CD ROM Table OF Contents
 // Format 3 - Program Memory Area
 //
-typedef struct _CDROM_TOC_PMA_DATA {
-    
-    //
-    // Header
-    //
+    typedef struct _CDROM_TOC_PMA_DATA
+    {
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR Reserved1;
-    UCHAR Reserved2;
+        //
+        // Header
+        //
 
-    //
-    // one to N descriptors included
-    //
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR Reserved1;
+        UCHAR Reserved2;
 
-    CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+        //
+        // one to N descriptors included
+        //
 
-} CDROM_TOC_PMA_DATA, *PCDROM_TOC_PMA_DATA;
+        CDROM_TOC_FULL_TOC_DATA_BLOCK Descriptors[0];
+
+    } CDROM_TOC_PMA_DATA, *PCDROM_TOC_PMA_DATA;
 
 //
 // CD ROM Table OF Contents
 // Format 4 - Absolute Time In Pregroove
 //
 
-typedef struct _CDROM_TOC_ATIP_DATA_BLOCK {
+    typedef struct _CDROM_TOC_ATIP_DATA_BLOCK
+    {
 
-    UCHAR CdrwReferenceSpeed : 3;
-    UCHAR Reserved3          : 1;
-    UCHAR WritePower         : 3;
-    UCHAR True1              : 1;
-    UCHAR Reserved4       : 6;
-    UCHAR UnrestrictedUse : 1;
-    UCHAR Reserved5       : 1;
-    UCHAR A3Valid     : 1;
-    UCHAR A2Valid     : 1;
-    UCHAR A1Valid     : 1;
-    UCHAR DiscSubType : 3;
-    UCHAR IsCdrw      : 1;
-    UCHAR True2       : 1;
-    UCHAR Reserved7;
-    
-    UCHAR LeadInMsf[3];
-    UCHAR Reserved8;
-    
-    UCHAR LeadOutMsf[3];
-    UCHAR Reserved9;
-    
-    UCHAR A1Values[3];
-    UCHAR Reserved10;
-    
-    UCHAR A2Values[3];
-    UCHAR Reserved11;
+        UCHAR CdrwReferenceSpeed : 3;
+        UCHAR Reserved3          : 1;
+        UCHAR WritePower         : 3;
+        UCHAR True1              : 1;
+        UCHAR Reserved4       : 6;
+        UCHAR UnrestrictedUse : 1;
+        UCHAR Reserved5       : 1;
+        UCHAR A3Valid     : 1;
+        UCHAR A2Valid     : 1;
+        UCHAR A1Valid     : 1;
+        UCHAR DiscSubType : 3;
+        UCHAR IsCdrw      : 1;
+        UCHAR True2       : 1;
+        UCHAR Reserved7;
 
-    UCHAR A3Values[3];
-    UCHAR Reserved12;
+        UCHAR LeadInMsf[3];
+        UCHAR Reserved8;
 
-} CDROM_TOC_ATIP_DATA_BLOCK, *PCDROM_TOC_ATIP_DATA_BLOCK;
+        UCHAR LeadOutMsf[3];
+        UCHAR Reserved9;
 
-typedef struct _CDROM_TOC_ATIP_DATA {
-    
-    //
-    // Header
-    //
+        UCHAR A1Values[3];
+        UCHAR Reserved10;
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR Reserved1;
-    UCHAR Reserved2;
+        UCHAR A2Values[3];
+        UCHAR Reserved11;
 
-    //
-    // zero? to N descriptors included.
-    //
+        UCHAR A3Values[3];
+        UCHAR Reserved12;
 
-    CDROM_TOC_ATIP_DATA_BLOCK Descriptors[0];
+    } CDROM_TOC_ATIP_DATA_BLOCK, *PCDROM_TOC_ATIP_DATA_BLOCK;
 
-} CDROM_TOC_ATIP_DATA, *PCDROM_TOC_ATIP_DATA;
+    typedef struct _CDROM_TOC_ATIP_DATA
+    {
+
+        //
+        // Header
+        //
+
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR Reserved1;
+        UCHAR Reserved2;
+
+        //
+        // zero? to N descriptors included.
+        //
+
+        CDROM_TOC_ATIP_DATA_BLOCK Descriptors[0];
+
+    } CDROM_TOC_ATIP_DATA, *PCDROM_TOC_ATIP_DATA;
 
 //
 // CD ROM Table OF Contents
 // Format 5 - CD Text Info
 //
-typedef struct _CDROM_TOC_CD_TEXT_DATA_BLOCK {
-    UCHAR PackType;
-    UCHAR TrackNumber       : 7;
-    UCHAR ExtensionFlag     : 1;  // should be zero!
-    UCHAR SequenceNumber;
-    UCHAR CharacterPosition : 4;
-    UCHAR BlockNumber       : 3;
-    UCHAR Unicode           : 1;
-    union {
-        UCHAR Text[12];
-        WCHAR WText[6];
-    };
-    UCHAR CRC[2];
-} CDROM_TOC_CD_TEXT_DATA_BLOCK, *PCDROM_TOC_CD_TEXT_DATA_BLOCK;
+    typedef struct _CDROM_TOC_CD_TEXT_DATA_BLOCK
+    {
+        UCHAR PackType;
+        UCHAR TrackNumber       : 7;
+        UCHAR ExtensionFlag     : 1;  // should be zero!
+        UCHAR SequenceNumber;
+        UCHAR CharacterPosition : 4;
+        UCHAR BlockNumber       : 3;
+        UCHAR Unicode           : 1;
+        union
+        {
+            UCHAR Text[12];
+            WCHAR WText[6];
+        };
+        UCHAR CRC[2];
+    } CDROM_TOC_CD_TEXT_DATA_BLOCK, *PCDROM_TOC_CD_TEXT_DATA_BLOCK;
 
-typedef struct _CDROM_TOC_CD_TEXT_DATA {
-    
-    //
-    // Header
-    //
+    typedef struct _CDROM_TOC_CD_TEXT_DATA
+    {
 
-    UCHAR Length[2];  // add two bytes for this field
-    UCHAR Reserved1;
-    UCHAR Reserved2;
-    
-    //
-    // the text info comes in discrete blocks of
-    // a heavily-overloaded structure
-    //
-    
-    CDROM_TOC_CD_TEXT_DATA_BLOCK Descriptors[0];
+        //
+        // Header
+        //
 
-} CDROM_TOC_CD_TEXT_DATA, *PCDROM_TOC_CD_TEXT_DATA;
+        UCHAR Length[2];  // add two bytes for this field
+        UCHAR Reserved1;
+        UCHAR Reserved2;
+
+        //
+        // the text info comes in discrete blocks of
+        // a heavily-overloaded structure
+        //
+
+        CDROM_TOC_CD_TEXT_DATA_BLOCK Descriptors[0];
+
+    } CDROM_TOC_CD_TEXT_DATA, *PCDROM_TOC_CD_TEXT_DATA;
 
 //
 // These are the types used for PackType field in CDROM_TOC_CD_TEXT_DATA_BLOCK
@@ -368,35 +380,38 @@ typedef struct _CDROM_TOC_CD_TEXT_DATA {
 // Play audio starting at MSF and ending at MSF
 //
 
-typedef struct _CDROM_PLAY_AUDIO_MSF {
-    UCHAR StartingM;
-    UCHAR StartingS;
-    UCHAR StartingF;
-    UCHAR EndingM;
-    UCHAR EndingS;
-    UCHAR EndingF;
-} CDROM_PLAY_AUDIO_MSF, *PCDROM_PLAY_AUDIO_MSF;
+    typedef struct _CDROM_PLAY_AUDIO_MSF
+    {
+        UCHAR StartingM;
+        UCHAR StartingS;
+        UCHAR StartingF;
+        UCHAR EndingM;
+        UCHAR EndingS;
+        UCHAR EndingF;
+    } CDROM_PLAY_AUDIO_MSF, *PCDROM_PLAY_AUDIO_MSF;
 
 //
 // Seek to MSF
 //
 
-typedef struct _CDROM_SEEK_AUDIO_MSF {
-    UCHAR M;
-    UCHAR S;
-    UCHAR F;
-} CDROM_SEEK_AUDIO_MSF, *PCDROM_SEEK_AUDIO_MSF;
+    typedef struct _CDROM_SEEK_AUDIO_MSF
+    {
+        UCHAR M;
+        UCHAR S;
+        UCHAR F;
+    } CDROM_SEEK_AUDIO_MSF, *PCDROM_SEEK_AUDIO_MSF;
 
 
 //
 //  Flags for the disk type
 //
 
-typedef struct _CDROM_DISK_DATA {
+    typedef struct _CDROM_DISK_DATA
+    {
 
-    ULONG DiskData;
+        ULONG DiskData;
 
-} CDROM_DISK_DATA, *PCDROM_DISK_DATA;
+    } CDROM_DISK_DATA, *PCDROM_DISK_DATA;
 
 #define CDROM_DISK_AUDIO_TRACK      (0x00000001)
 #define CDROM_DISK_DATA_TRACK       (0x00000002)
@@ -410,58 +425,64 @@ typedef struct _CDROM_DISK_DATA {
 #define IOCTL_CDROM_MEDIA_CATALOG    0x02
 #define IOCTL_CDROM_TRACK_ISRC       0x03
 
-typedef struct _CDROM_SUB_Q_DATA_FORMAT {
-    UCHAR Format;
-    UCHAR Track;
-} CDROM_SUB_Q_DATA_FORMAT, *PCDROM_SUB_Q_DATA_FORMAT;
+    typedef struct _CDROM_SUB_Q_DATA_FORMAT
+    {
+        UCHAR Format;
+        UCHAR Track;
+    } CDROM_SUB_Q_DATA_FORMAT, *PCDROM_SUB_Q_DATA_FORMAT;
 
 
 //
 // CD ROM Sub-Q Channel Data Format
 //
 
-typedef struct _SUB_Q_HEADER {
-    UCHAR Reserved;
-    UCHAR AudioStatus;
-    UCHAR DataLength[2];
-} SUB_Q_HEADER, *PSUB_Q_HEADER;
+    typedef struct _SUB_Q_HEADER
+    {
+        UCHAR Reserved;
+        UCHAR AudioStatus;
+        UCHAR DataLength[2];
+    } SUB_Q_HEADER, *PSUB_Q_HEADER;
 
-typedef struct _SUB_Q_CURRENT_POSITION {
-    SUB_Q_HEADER Header;
-    UCHAR FormatCode;
-    UCHAR Control : 4;
-    UCHAR ADR : 4;
-    UCHAR TrackNumber;
-    UCHAR IndexNumber;
-    UCHAR AbsoluteAddress[4];
-    UCHAR TrackRelativeAddress[4];
-} SUB_Q_CURRENT_POSITION, *PSUB_Q_CURRENT_POSITION;
+    typedef struct _SUB_Q_CURRENT_POSITION
+    {
+        SUB_Q_HEADER Header;
+        UCHAR FormatCode;
+        UCHAR Control : 4;
+        UCHAR ADR : 4;
+        UCHAR TrackNumber;
+        UCHAR IndexNumber;
+        UCHAR AbsoluteAddress[4];
+        UCHAR TrackRelativeAddress[4];
+    } SUB_Q_CURRENT_POSITION, *PSUB_Q_CURRENT_POSITION;
 
-typedef struct _SUB_Q_MEDIA_CATALOG_NUMBER {
-    SUB_Q_HEADER Header;
-    UCHAR FormatCode;
-    UCHAR Reserved[3];
-    UCHAR Reserved1 : 7;
-    UCHAR Mcval : 1;
-    UCHAR MediaCatalog[15];
-} SUB_Q_MEDIA_CATALOG_NUMBER, *PSUB_Q_MEDIA_CATALOG_NUMBER;
+    typedef struct _SUB_Q_MEDIA_CATALOG_NUMBER
+    {
+        SUB_Q_HEADER Header;
+        UCHAR FormatCode;
+        UCHAR Reserved[3];
+        UCHAR Reserved1 : 7;
+        UCHAR Mcval : 1;
+        UCHAR MediaCatalog[15];
+    } SUB_Q_MEDIA_CATALOG_NUMBER, *PSUB_Q_MEDIA_CATALOG_NUMBER;
 
-typedef struct _SUB_Q_TRACK_ISRC {
-    SUB_Q_HEADER Header;
-    UCHAR FormatCode;
-    UCHAR Reserved0;
-    UCHAR Track;
-    UCHAR Reserved1;
-    UCHAR Reserved2 : 7;
-    UCHAR Tcval : 1;
-    UCHAR TrackIsrc[15];
-} SUB_Q_TRACK_ISRC, *PSUB_Q_TRACK_ISRC;
+    typedef struct _SUB_Q_TRACK_ISRC
+    {
+        SUB_Q_HEADER Header;
+        UCHAR FormatCode;
+        UCHAR Reserved0;
+        UCHAR Track;
+        UCHAR Reserved1;
+        UCHAR Reserved2 : 7;
+        UCHAR Tcval : 1;
+        UCHAR TrackIsrc[15];
+    } SUB_Q_TRACK_ISRC, *PSUB_Q_TRACK_ISRC;
 
-typedef union _SUB_Q_CHANNEL_DATA {
-    SUB_Q_CURRENT_POSITION CurrentPosition;
-    SUB_Q_MEDIA_CATALOG_NUMBER MediaCatalog;
-    SUB_Q_TRACK_ISRC TrackIsrc;
-} SUB_Q_CHANNEL_DATA, *PSUB_Q_CHANNEL_DATA;
+    typedef union _SUB_Q_CHANNEL_DATA
+    {
+        SUB_Q_CURRENT_POSITION CurrentPosition;
+        SUB_Q_MEDIA_CATALOG_NUMBER MediaCatalog;
+        SUB_Q_TRACK_ISRC TrackIsrc;
+    } SUB_Q_CHANNEL_DATA, *PSUB_Q_CHANNEL_DATA;
 
 //
 // Audio Status Codes
@@ -496,10 +517,11 @@ typedef union _SUB_Q_CHANNEL_DATA {
 // Get Audio control parameters
 //
 
-typedef struct _CDROM_AUDIO_CONTROL {
-    UCHAR LbaFormat;
-    USHORT LogicalBlocksPerSecond;
-} CDROM_AUDIO_CONTROL, *PCDROM_AUDIO_CONTROL;
+    typedef struct _CDROM_AUDIO_CONTROL
+    {
+        UCHAR LbaFormat;
+        USHORT LogicalBlocksPerSecond;
+    } CDROM_AUDIO_CONTROL, *PCDROM_AUDIO_CONTROL;
 
 //
 // Volume control - Volume takes a value between 1 and 0xFF.
@@ -507,25 +529,28 @@ typedef struct _CDROM_AUDIO_CONTROL {
 // Independent volume control.
 //
 
-typedef struct _VOLUME_CONTROL {
-    UCHAR PortVolume[4];
-} VOLUME_CONTROL, *PVOLUME_CONTROL;
+    typedef struct _VOLUME_CONTROL
+    {
+        UCHAR PortVolume[4];
+    } VOLUME_CONTROL, *PVOLUME_CONTROL;
 
-typedef enum _TRACK_MODE_TYPE {
-    YellowMode2,
-    XAForm2,
-    CDDA
-} TRACK_MODE_TYPE, *PTRACK_MODE_TYPE;
+    typedef enum _TRACK_MODE_TYPE
+    {
+        YellowMode2,
+        XAForm2,
+        CDDA
+    } TRACK_MODE_TYPE, *PTRACK_MODE_TYPE;
 
 //
 // Passed to cdrom to describe the raw read, ie. Mode 2, Form 2, CDDA...
 //
 
-typedef struct __RAW_READ_INFO {
-    LARGE_INTEGER DiskOffset;
-    ULONG    SectorCount;
-    TRACK_MODE_TYPE TrackMode;
-} RAW_READ_INFO, *PRAW_READ_INFO;
+    typedef struct __RAW_READ_INFO
+    {
+        LARGE_INTEGER DiskOffset;
+        ULONG    SectorCount;
+        TRACK_MODE_TYPE TrackMode;
+    } RAW_READ_INFO, *PRAW_READ_INFO;
 
 #ifdef __cplusplus
 }

@@ -44,19 +44,19 @@ using namespace dirac;
 
 namespace dirac
 {
-void dirac_assert( const char *p_fname, int line_number, const char *p_mess )
+void dirac_assert(const char *p_fname, int line_number, const char *p_mess)
 {
-    dirac_report( p_fname, line_number, p_mess );
+    dirac_report(p_fname, line_number, p_mess);
     // dump core
-    abort ();
+    abort();
 }
 
-void dirac_report( const char *p_fname, int line_number, const char *p_mess )
+void dirac_report(const char *p_fname, int line_number, const char *p_mess)
 {
     std::string errMess("Assertion ");
-    
-    if ( p_mess )
-        errMess = errMess +  "^ " + std::string(p_mess) + " ^" +" failed";
+
+    if(p_mess)
+        errMess = errMess +  "^ " + std::string(p_mess) + " ^" + " failed";
     else
         errMess += " failure";
 

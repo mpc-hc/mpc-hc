@@ -14,7 +14,7 @@
 #pragma once
 
 #ifndef __cplusplus
-	#error ATL requires C++ compilation (use a .cpp suffix)
+#error ATL requires C++ compilation (use a .cpp suffix)
 #endif
 
 #include <atlbase.h>
@@ -86,359 +86,359 @@ const DWORD ATLPERF_TEXT_MASK = 0x00010000;
 // base class for user-defined perf objects
 struct CPerfObject
 {
-	// implementation
+    // implementation
 
-	ULONG m_nAllocSize;
-	DWORD m_dwCategoryId;
-	DWORD m_dwInstance;
-	ULONG m_nRefCount;
-	ULONG m_nInstanceNameOffset; // byte offset from beginning of PerfObject to LPWSTR szInstanceName
+    ULONG m_nAllocSize;
+    DWORD m_dwCategoryId;
+    DWORD m_dwInstance;
+    ULONG m_nRefCount;
+    ULONG m_nInstanceNameOffset; // byte offset from beginning of PerfObject to LPWSTR szInstanceName
 };
 
 class CPerfMon
 {
 public:
-	virtual ~CPerfMon() throw();
+    virtual ~CPerfMon() throw();
 
 #ifdef _ATL_PERF_REGISTER
-	// registration
-	HRESULT Register(
-		LPCTSTR szOpenFunc,
-		LPCTSTR szCollectFunc,
-		LPCTSTR szCloseFunc,
-		HINSTANCE hDllInstance = _AtlBaseModule.GetModuleInstance()) throw();
-	HRESULT RegisterStrings(
-		LANGID wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
-		HINSTANCE hResInstance = _AtlBaseModule.GetResourceInstance()) throw();
-	HRESULT RegisterAllStrings(HINSTANCE hResInstance = NULL) throw();
-	HRESULT Unregister() throw();
+    // registration
+    HRESULT Register(
+        LPCTSTR szOpenFunc,
+        LPCTSTR szCollectFunc,
+        LPCTSTR szCloseFunc,
+        HINSTANCE hDllInstance = _AtlBaseModule.GetModuleInstance()) throw();
+    HRESULT RegisterStrings(
+        LANGID wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+        HINSTANCE hResInstance = _AtlBaseModule.GetResourceInstance()) throw();
+    HRESULT RegisterAllStrings(HINSTANCE hResInstance = NULL) throw();
+    HRESULT Unregister() throw();
 #endif
 
-	HRESULT Initialize() throw();
-	void UnInitialize() throw();
-	HRESULT CreateInstance(
-		DWORD dwCategoryId,
-		DWORD dwInstance,
-		LPCWSTR szInstanceName,
-		CPerfObject** ppInstance) throw();
-	HRESULT CreateInstanceByName(
-		DWORD dwCategoryId,
-		LPCWSTR szInstanceName,
-		CPerfObject** ppInstance) throw();
+    HRESULT Initialize() throw();
+    void UnInitialize() throw();
+    HRESULT CreateInstance(
+        DWORD dwCategoryId,
+        DWORD dwInstance,
+        LPCWSTR szInstanceName,
+        CPerfObject** ppInstance) throw();
+    HRESULT CreateInstanceByName(
+        DWORD dwCategoryId,
+        LPCWSTR szInstanceName,
+        CPerfObject** ppInstance) throw();
 
-	template <class T>
-	HRESULT CreateInstance(
-		DWORD dwInstance,
-		LPCWSTR szInstanceName,
-		T** ppInstance) throw()
-	{
-		// Ensure T derives from CPerfObject
-		static_cast<CPerfObject*>(*ppInstance);
-		
-		return CreateInstance(
-			T::kCategoryId,
-			dwInstance,
-			szInstanceName,
-			reinterpret_cast<CPerfObject**>(ppInstance)
-			);
-	}
+    template <class T>
+    HRESULT CreateInstance(
+        DWORD dwInstance,
+        LPCWSTR szInstanceName,
+        T** ppInstance) throw()
+    {
+        // Ensure T derives from CPerfObject
+        static_cast<CPerfObject*>(*ppInstance);
 
-	template <class T>
-	HRESULT CreateInstanceByName(
-		LPCWSTR szInstanceName,
-		T** ppInstance) throw()
-	{
-		// Ensure T derives from CPerfObject
-		static_cast<CPerfObject*>(*ppInstance);
-		
-		return CreateInstanceByName(
-			T::kCategoryId,
-			szInstanceName,
-			reinterpret_cast<CPerfObject**>(ppInstance)
-			);
-	}
+        return CreateInstance(
+                   T::kCategoryId,
+                   dwInstance,
+                   szInstanceName,
+                   reinterpret_cast<CPerfObject**>(ppInstance)
+               );
+    }
 
-	HRESULT ReleaseInstance(CPerfObject* pInstance) throw();
-	HRESULT LockPerf(DWORD dwTimeout = INFINITE) throw();
-	void UnlockPerf() throw();
+    template <class T>
+    HRESULT CreateInstanceByName(
+        LPCWSTR szInstanceName,
+        T** ppInstance) throw()
+    {
+        // Ensure T derives from CPerfObject
+        static_cast<CPerfObject*>(*ppInstance);
+
+        return CreateInstanceByName(
+                   T::kCategoryId,
+                   szInstanceName,
+                   reinterpret_cast<CPerfObject**>(ppInstance)
+               );
+    }
+
+    HRESULT ReleaseInstance(CPerfObject* pInstance) throw();
+    HRESULT LockPerf(DWORD dwTimeout = INFINITE) throw();
+    void UnlockPerf() throw();
 
 #ifndef _ATL_PERF_NOXML
-	HRESULT PersistToXML(IStream *pStream, BOOL bFirst=TRUE, BOOL bLast=TRUE) throw(...);
-	HRESULT LoadFromXML(IStream *pStream) throw(...);
+    HRESULT PersistToXML(IStream *pStream, BOOL bFirst = TRUE, BOOL bLast = TRUE) throw(...);
+    HRESULT LoadFromXML(IStream *pStream) throw(...);
 #endif
 
-	// implementation
+    // implementation
 
 public:
-	// PerfMon entry point helpers
-	DWORD Open(LPWSTR lpDeviceNames) throw();
-	DWORD Collect(__in_z LPWSTR lpwszValue, __deref_inout_bcount(*pcbBytes) LPVOID* lppData, __inout LPDWORD lpcbBytes, __inout LPDWORD lpcObjectTypes) throw();
-	DWORD Close() throw();
+    // PerfMon entry point helpers
+    DWORD Open(LPWSTR lpDeviceNames) throw();
+    DWORD Collect(__in_z LPWSTR lpwszValue, __deref_inout_bcount(*pcbBytes) LPVOID* lppData, __inout LPDWORD lpcbBytes, __inout LPDWORD lpcObjectTypes) throw();
+    DWORD Close() throw();
 
-	// map building routines
-	HRESULT AddCategoryDefinition(
-		DWORD dwCategoryId,
-		LPCTSTR szCategoryName,
-		LPCTSTR szHelpString,
-		DWORD dwDetailLevel,
-		INT nDefaultCounter,
-		BOOL bInstanceLess,
-		UINT nStructSize,
-		UINT nMaxInstanceNameLen = ATLPERF_DEFAULT_MAXINSTNAMELENGTH) throw();
-	HRESULT AddCounterDefinition(	
-		DWORD dwCounterId,
-		LPCTSTR szCounterName,
-		LPCTSTR szHelpString,
-		DWORD dwDetailLevel,
-		DWORD dwCounterType,
-		ULONG nMaxCounterSize,
-		UINT nOffset,
-		INT nDefaultScale) throw();
+    // map building routines
+    HRESULT AddCategoryDefinition(
+        DWORD dwCategoryId,
+        LPCTSTR szCategoryName,
+        LPCTSTR szHelpString,
+        DWORD dwDetailLevel,
+        INT nDefaultCounter,
+        BOOL bInstanceLess,
+        UINT nStructSize,
+        UINT nMaxInstanceNameLen = ATLPERF_DEFAULT_MAXINSTNAMELENGTH) throw();
+    HRESULT AddCounterDefinition(
+        DWORD dwCounterId,
+        LPCTSTR szCounterName,
+        LPCTSTR szHelpString,
+        DWORD dwDetailLevel,
+        DWORD dwCounterType,
+        ULONG nMaxCounterSize,
+        UINT nOffset,
+        INT nDefaultScale) throw();
 
-	// macro helpers
-	HRESULT RegisterCategory(
-		WORD wLanguage,
-		HINSTANCE hResInstance,
-		UINT* pSampleRes,
-		DWORD dwCategoryId,
-		UINT nNameString,
-		UINT nHelpString,
-		DWORD dwDetail,
-		BOOL bInstanceless,
-		UINT nStructSize,
-		UINT nMaxInstanceNameLen,
-		INT nDefaultCounter) throw();
-	HRESULT RegisterCategory(
-		WORD wLanguage,
-		HINSTANCE hResInstance,
-		UINT* pSampleRes,
-		DWORD dwCategoryId,
-		LPCTSTR szNameString,
-		LPCTSTR szHelpString,
-		DWORD dwDetail,
-		BOOL bInstanceless,
-		UINT nStructSize,
-		UINT nMaxInstanceNameLen,
-		INT nDefaultCounter) throw();
-	HRESULT RegisterCounter(
-		WORD wLanguage,
-		HINSTANCE hResInstance,
-		DWORD dwCounterId,
-		UINT nNameString,
-		UINT nHelpString,
-		DWORD dwDetail,
-		DWORD dwCounterType,
-		ULONG nMaxCounterSize,
-		UINT nOffset,
-		INT nDefaultScale) throw();
-	HRESULT RegisterCounter(
-		WORD wLanguage,
-		HINSTANCE hResInstance,
-		DWORD dwCounterId,
-		LPCTSTR szNameString,
-		LPCTSTR szHelpString,
-		DWORD dwDetail,
-		DWORD dwCounterType,
-		ULONG nMaxCounterSize,
-		UINT nOffset,
-		INT nDefaultScale) throw();
+    // macro helpers
+    HRESULT RegisterCategory(
+        WORD wLanguage,
+        HINSTANCE hResInstance,
+        UINT* pSampleRes,
+        DWORD dwCategoryId,
+        UINT nNameString,
+        UINT nHelpString,
+        DWORD dwDetail,
+        BOOL bInstanceless,
+        UINT nStructSize,
+        UINT nMaxInstanceNameLen,
+        INT nDefaultCounter) throw();
+    HRESULT RegisterCategory(
+        WORD wLanguage,
+        HINSTANCE hResInstance,
+        UINT* pSampleRes,
+        DWORD dwCategoryId,
+        LPCTSTR szNameString,
+        LPCTSTR szHelpString,
+        DWORD dwDetail,
+        BOOL bInstanceless,
+        UINT nStructSize,
+        UINT nMaxInstanceNameLen,
+        INT nDefaultCounter) throw();
+    HRESULT RegisterCounter(
+        WORD wLanguage,
+        HINSTANCE hResInstance,
+        DWORD dwCounterId,
+        UINT nNameString,
+        UINT nHelpString,
+        DWORD dwDetail,
+        DWORD dwCounterType,
+        ULONG nMaxCounterSize,
+        UINT nOffset,
+        INT nDefaultScale) throw();
+    HRESULT RegisterCounter(
+        WORD wLanguage,
+        HINSTANCE hResInstance,
+        DWORD dwCounterId,
+        LPCTSTR szNameString,
+        LPCTSTR szHelpString,
+        DWORD dwDetail,
+        DWORD dwCounterType,
+        ULONG nMaxCounterSize,
+        UINT nOffset,
+        INT nDefaultScale) throw();
 
 protected:
-	void ClearMap() throw();
+    void ClearMap() throw();
 
-	virtual LPCTSTR GetAppName() const throw() = 0;
-	virtual HRESULT CreateMap(WORD wLanguage, HINSTANCE hResInstance, UINT* pSampleRes = NULL) throw();
-	virtual void OnBlockAlloc(CAtlFileMappingBase* /*pNewBlock*/) { }
+    virtual LPCTSTR GetAppName() const throw() = 0;
+    virtual HRESULT CreateMap(WORD wLanguage, HINSTANCE hResInstance, UINT* pSampleRes = NULL) throw();
+    virtual void OnBlockAlloc(CAtlFileMappingBase* /*pNewBlock*/) { }
 #ifdef _ATL_PERF_REGISTER
-	static BOOL CALLBACK EnumResLangProc(HINSTANCE hModule, LPCTSTR szType, LPCTSTR szName, LANGID wIDLanguage, LPARAM lParam);
+    static BOOL CALLBACK EnumResLangProc(HINSTANCE hModule, LPCTSTR szType, LPCTSTR szName, LANGID wIDLanguage, LPARAM lParam);
 #endif
 
-	// implementation helpers
-	struct CounterInfo
-	{
-		CounterInfo() : m_dwCounterId(0), m_dwDetailLevel(0), m_nNameId(0),
-				m_nHelpId(0), m_dwCounterType(0), m_nDefaultScale(0),
-				m_nMaxCounterSize(0), m_nDataOffset(0)
-		{
-			ZeroMemory (&m_cache, sizeof(m_cache));
-		}
-		// implementation
+    // implementation helpers
+    struct CounterInfo
+    {
+        CounterInfo() : m_dwCounterId(0), m_dwDetailLevel(0), m_nNameId(0),
+            m_nHelpId(0), m_dwCounterType(0), m_nDefaultScale(0),
+            m_nMaxCounterSize(0), m_nDataOffset(0)
+        {
+            ZeroMemory(&m_cache, sizeof(m_cache));
+        }
+        // implementation
 
-		DWORD m_dwCounterId;
-		CString m_strName;
-		CString m_strHelp;
-		DWORD m_dwDetailLevel;
+        DWORD m_dwCounterId;
+        CString m_strName;
+        CString m_strHelp;
+        DWORD m_dwDetailLevel;
 
-		// the ids that correspond to the name and help strings stored in the registry
-		UINT m_nNameId;
-		UINT m_nHelpId;
+        // the ids that correspond to the name and help strings stored in the registry
+        UINT m_nNameId;
+        UINT m_nHelpId;
 
-		// counter data
+        // counter data
 
-		DWORD m_dwCounterType;
-		LONG m_nDefaultScale;
+        DWORD m_dwCounterType;
+        LONG m_nDefaultScale;
 
-		// the maximum size of the string counter data in characters, including the null terminator
-		// ignored if not a string counter
-		ULONG m_nMaxCounterSize;
+        // the maximum size of the string counter data in characters, including the null terminator
+        // ignored if not a string counter
+        ULONG m_nMaxCounterSize;
 
-		ULONG m_nDataOffset;
+        ULONG m_nDataOffset;
 
-		// cached data to be copied into request
-		PERF_COUNTER_DEFINITION m_cache;
-	};
+        // cached data to be copied into request
+        PERF_COUNTER_DEFINITION m_cache;
+    };
 
-	struct CategoryInfo
-	{
-		// implementation
+    struct CategoryInfo
+    {
+        // implementation
 
-		DWORD m_dwCategoryId;
-		CString m_strName;
-		CString m_strHelp;
-		DWORD m_dwDetailLevel;
+        DWORD m_dwCategoryId;
+        CString m_strName;
+        CString m_strHelp;
+        DWORD m_dwDetailLevel;
 
-		// the ids that correspond to the name and help strings stored in the registry
-		UINT m_nNameId;
-		UINT m_nHelpId;
+        // the ids that correspond to the name and help strings stored in the registry
+        UINT m_nNameId;
+        UINT m_nHelpId;
 
-		// category data
+        // category data
 
-		LONG m_nDefaultCounter;
-		LONG m_nInstanceLess; // PERF_NO_INSTANCES if instanceless
+        LONG m_nDefaultCounter;
+        LONG m_nInstanceLess; // PERF_NO_INSTANCES if instanceless
 
-		// the size of the struct not counting the name and string counters
-		ULONG m_nStructSize;
+        // the size of the struct not counting the name and string counters
+        ULONG m_nStructSize;
 
-		// in characters including the null terminator
-		ULONG m_nMaxInstanceNameLen;
+        // in characters including the null terminator
+        ULONG m_nMaxInstanceNameLen;
 
-		ULONG m_nAllocSize;
+        ULONG m_nAllocSize;
 
-		// cached data to be copied into request
-		PERF_OBJECT_TYPE m_cache;
-		ULONG m_nCounterBlockSize;
+        // cached data to be copied into request
+        PERF_OBJECT_TYPE m_cache;
+        ULONG m_nCounterBlockSize;
 
-		// counters
-		UINT _GetNumCounters() throw();
-		CounterInfo* _GetCounterInfo(UINT nIndex) throw();
+        // counters
+        UINT _GetNumCounters() throw();
+        CounterInfo* _GetCounterInfo(UINT nIndex) throw();
 
-		CAtlArray<CounterInfo> m_counters;
-	};
+        CAtlArray<CounterInfo> m_counters;
+    };
 
-	LPBYTE _AllocData(LPBYTE& pData, ULONG nBytesAvail, ULONG* pnBytesUsed, size_t nBytesNeeded) throw();
-	template<typename T> T* _AllocStruct(LPBYTE& pData, ULONG nBytesAvail, ULONG* pnBytesUsed, T*) throw()
-	{
-		return reinterpret_cast<T*>(_AllocData(pData, nBytesAvail, pnBytesUsed, sizeof(T)));
-	}
+    LPBYTE _AllocData(LPBYTE& pData, ULONG nBytesAvail, ULONG* pnBytesUsed, size_t nBytesNeeded) throw();
+    template<typename T> T* _AllocStruct(LPBYTE& pData, ULONG nBytesAvail, ULONG* pnBytesUsed, T*) throw()
+    {
+        return reinterpret_cast<T*>(_AllocData(pData, nBytesAvail, pnBytesUsed, sizeof(T)));
+    }
 
-	UINT _GetNumCategoriesAndCounters() throw();
-	CategoryInfo* _GetCategoryInfo(UINT nIndex) throw();
-	UINT _GetNumCategories() throw();
-	CPerfObject* _GetFirstInstance(CAtlFileMappingBase* pBlock) throw();
-	CPerfObject* _GetNextInstance(CPerfObject* pInstance) throw();
-	CAtlFileMappingBase* _GetNextBlock(CAtlFileMappingBase* pBlock) throw();
-	CAtlFileMappingBase* _OpenNextBlock(CAtlFileMappingBase* pPrev) throw();
-	CAtlFileMappingBase* _AllocNewBlock(CAtlFileMappingBase* pPrev, BOOL* pbExisted = NULL) throw();
-	HRESULT _OpenAllBlocks() throw();
-	DWORD& _GetBlockId(CAtlFileMappingBase* pBlock) throw(...);
-	DWORD* _GetBlockId_NoThrow(CAtlFileMappingBase* pBlock) throw();
-	CategoryInfo* _FindCategoryInfo(DWORD dwCategoryId) throw();
-	CounterInfo* _FindCounterInfo(CategoryInfo* pCategoryInfo, DWORD dwCounterId) throw();
-	CounterInfo* _FindCounterInfo(DWORD dwCategoryId, DWORD dwCounterId) throw();
-	BOOL _WantCategoryType(__in_z LPWSTR lpwszValue, __in DWORD dwPerfId) throw(...);
-	void _FillCategoryType(CategoryInfo* pCategoryInfo) throw();
-	void _FillCounterDef(CounterInfo* pCounterInfo, ULONG* pnCounterBlockSize) throw();
-	HRESULT CPerfMon::_CollectInstance(
-		CategoryInfo* pCategoryInfo,
-		LPBYTE& pData,
-		ULONG nBytesAvail,
-		ULONG* pnBytesUsed,
-		CPerfObject* pInstance,
-		PERF_OBJECT_TYPE* pObjectType,
-		PERF_COUNTER_DEFINITION* pCounterDefs
-		) throw();
-	HRESULT _CollectInstance(
-		CategoryInfo* pCategoryInfo,
-		LPBYTE& pData,
-		ULONG nBytesAvail,
-		ULONG* pnBytesUsed,
-		PERF_OBJECT_TYPE* pObjectType,
-		PERF_COUNTER_DEFINITION* pCounterDefs
-		) throw();
-	HRESULT _CollectCategoryType(
-		CategoryInfo* pCategoryInfo,
-		LPBYTE pData,
-		ULONG nBytesAvail,
-		ULONG* pnBytesUsed) throw();
-	HRESULT _LoadMap(DWORD* pData) throw();
-	HRESULT _SaveMap() throw();
-	HRESULT _GetAttribute(
-		IXMLDOMNode *pNode, 
-		LPCWSTR szAttrName, 
-		BSTR *pbstrVal) throw();
-	HRESULT CPerfMon::_CreateInstance(
-		DWORD dwCategoryId,
-		DWORD dwInstance,
-		LPCWSTR szInstanceName,
-		CPerfObject** ppInstance,
-		bool bByName) throw();
+    UINT _GetNumCategoriesAndCounters() throw();
+    CategoryInfo* _GetCategoryInfo(UINT nIndex) throw();
+    UINT _GetNumCategories() throw();
+    CPerfObject* _GetFirstInstance(CAtlFileMappingBase* pBlock) throw();
+    CPerfObject* _GetNextInstance(CPerfObject* pInstance) throw();
+    CAtlFileMappingBase* _GetNextBlock(CAtlFileMappingBase* pBlock) throw();
+    CAtlFileMappingBase* _OpenNextBlock(CAtlFileMappingBase* pPrev) throw();
+    CAtlFileMappingBase* _AllocNewBlock(CAtlFileMappingBase* pPrev, BOOL* pbExisted = NULL) throw();
+    HRESULT _OpenAllBlocks() throw();
+    DWORD& _GetBlockId(CAtlFileMappingBase* pBlock) throw(...);
+    DWORD* _GetBlockId_NoThrow(CAtlFileMappingBase* pBlock) throw();
+    CategoryInfo* _FindCategoryInfo(DWORD dwCategoryId) throw();
+    CounterInfo* _FindCounterInfo(CategoryInfo* pCategoryInfo, DWORD dwCounterId) throw();
+    CounterInfo* _FindCounterInfo(DWORD dwCategoryId, DWORD dwCounterId) throw();
+    BOOL _WantCategoryType(__in_z LPWSTR lpwszValue, __in DWORD dwPerfId) throw(...);
+    void _FillCategoryType(CategoryInfo* pCategoryInfo) throw();
+    void _FillCounterDef(CounterInfo* pCounterInfo, ULONG* pnCounterBlockSize) throw();
+    HRESULT CPerfMon::_CollectInstance(
+        CategoryInfo* pCategoryInfo,
+        LPBYTE& pData,
+        ULONG nBytesAvail,
+        ULONG* pnBytesUsed,
+        CPerfObject* pInstance,
+        PERF_OBJECT_TYPE* pObjectType,
+        PERF_COUNTER_DEFINITION* pCounterDefs
+    ) throw();
+    HRESULT _CollectInstance(
+        CategoryInfo* pCategoryInfo,
+        LPBYTE& pData,
+        ULONG nBytesAvail,
+        ULONG* pnBytesUsed,
+        PERF_OBJECT_TYPE* pObjectType,
+        PERF_COUNTER_DEFINITION* pCounterDefs
+    ) throw();
+    HRESULT _CollectCategoryType(
+        CategoryInfo* pCategoryInfo,
+        LPBYTE pData,
+        ULONG nBytesAvail,
+        ULONG* pnBytesUsed) throw();
+    HRESULT _LoadMap(DWORD* pData) throw();
+    HRESULT _SaveMap() throw();
+    HRESULT _GetAttribute(
+        IXMLDOMNode *pNode,
+        LPCWSTR szAttrName,
+        BSTR *pbstrVal) throw();
+    HRESULT CPerfMon::_CreateInstance(
+        DWORD dwCategoryId,
+        DWORD dwInstance,
+        LPCWSTR szInstanceName,
+        CPerfObject** ppInstance,
+        bool bByName) throw();
 
 #ifdef _ATL_PERF_REGISTER
-	void _AppendStrings(
-		LPTSTR& pszNew,
-		CAtlArray<CString>& astrStrings,
-		ULONG iFirstIndex
-		) throw();
-	HRESULT _AppendRegStrings(
-		CRegKey& rkLang,
-		LPCTSTR szValue,
-		CAtlArray<CString>& astrStrings,
-		ULONG nNewStringSize,
-		ULONG iFirstIndex,
-		ULONG iLastIndex) throw();
-	HRESULT _RemoveRegStrings(
-		CRegKey& rkLang,
-		LPCTSTR szValue,
-		ULONG iFirstIndex,
-		ULONG iLastIndex) throw();
-	HRESULT _ReserveStringRange(DWORD& dwFirstCounter, DWORD& dwFirstHelp) throw();
-	HRESULT _UnregisterStrings() throw();
-	HRESULT _RegisterAllStrings(UINT nRes, HINSTANCE hResInstance) throw();
+    void _AppendStrings(
+        LPTSTR& pszNew,
+        CAtlArray<CString>& astrStrings,
+        ULONG iFirstIndex
+    ) throw();
+    HRESULT _AppendRegStrings(
+        CRegKey& rkLang,
+        LPCTSTR szValue,
+        CAtlArray<CString>& astrStrings,
+        ULONG nNewStringSize,
+        ULONG iFirstIndex,
+        ULONG iLastIndex) throw();
+    HRESULT _RemoveRegStrings(
+        CRegKey& rkLang,
+        LPCTSTR szValue,
+        ULONG iFirstIndex,
+        ULONG iLastIndex) throw();
+    HRESULT _ReserveStringRange(DWORD& dwFirstCounter, DWORD& dwFirstHelp) throw();
+    HRESULT _UnregisterStrings() throw();
+    HRESULT _RegisterAllStrings(UINT nRes, HINSTANCE hResInstance) throw();
 #endif
 private:
-	CAtlArray<CategoryInfo> m_categories;
-	CAutoPtrArray<CAtlFileMappingBase> m_aMem;
-	CMutex m_lock;
-	ULONG m_nAllocSize;
-	ULONG m_nHeaderSize;
-	ULONG m_nSchemaSize;
-	CSecurityDesc m_sd;
+    CAtlArray<CategoryInfo> m_categories;
+    CAutoPtrArray<CAtlFileMappingBase> m_aMem;
+    CMutex m_lock;
+    ULONG m_nAllocSize;
+    ULONG m_nHeaderSize;
+    ULONG m_nSchemaSize;
+    CSecurityDesc m_sd;
 };
 
 class CPerfLock
 {
 public:
-	CPerfLock(CPerfMon* pPerfMon, DWORD dwTimeout = INFINITE)
-	{
-		ATLENSURE(pPerfMon != NULL);
-		m_pPerfMon = pPerfMon;
-		m_hrStatus = m_pPerfMon->LockPerf(dwTimeout);
-	}
+    CPerfLock(CPerfMon* pPerfMon, DWORD dwTimeout = INFINITE)
+    {
+        ATLENSURE(pPerfMon != NULL);
+        m_pPerfMon = pPerfMon;
+        m_hrStatus = m_pPerfMon->LockPerf(dwTimeout);
+    }
 
-	~CPerfLock() throw()
-	{
-		if (SUCCEEDED(m_hrStatus))
-			m_pPerfMon->UnlockPerf();
-	}
+    ~CPerfLock() throw()
+    {
+        if(SUCCEEDED(m_hrStatus))
+            m_pPerfMon->UnlockPerf();
+    }
 
-	HRESULT GetStatus() const throw()
-	{
-		return m_hrStatus;
-	}
+    HRESULT GetStatus() const throw()
+    {
+        return m_hrStatus;
+    }
 
 private:
-	CPerfMon* m_pPerfMon;
-	HRESULT m_hrStatus;
+    CPerfMon* m_pPerfMon;
+    HRESULT m_hrStatus;
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -498,16 +498,16 @@ template<>
 class CAssertValidField< PERF_SIZE_DWORD >
 {
 public:
-	template< class C > static void AssertValidFieldType( ULONG C::* ) throw() { }
-	template< class C > static void AssertValidFieldType( LONG C::* ) throw() { }
+    template< class C > static void AssertValidFieldType(ULONG C::*) throw() { }
+    template< class C > static void AssertValidFieldType(LONG C::*) throw() { }
 };
 
 template<>
 class CAssertValidField< PERF_SIZE_LARGE >
 {
 public:
-	template< class C > static void AssertValidFieldType( ULONGLONG C::* ) throw() { }
-	template< class C > static void AssertValidFieldType( LONGLONG C::* ) throw() { }
+    template< class C > static void AssertValidFieldType(ULONGLONG C::*) throw() { }
+    template< class C > static void AssertValidFieldType(LONGLONG C::*) throw() { }
 };
 
 #define DEFINE_COUNTER_EX(member, dwCounterId, namestring, helpstring, detail, countertype, maxcountersize, defscale) \
@@ -571,7 +571,7 @@ public:
 // functions exported from your DLL
 
 // Perf register map stuff
-// this is for ease of integration with the module attribute and for the 
+// this is for ease of integration with the module attribute and for the
 // perfmon wizard
 
 #pragma section("ATLP$A", read, shared)
@@ -579,8 +579,8 @@ public:
 #pragma section("ATLP$C", read, shared)
 extern "C"
 {
-__declspec(selectany) __declspec(allocate("ATLP$A")) CPerfMon * __pperfA = NULL;
-__declspec(selectany) __declspec(allocate("ATLP$Z")) CPerfMon * __pperfZ = NULL;
+    __declspec(selectany) __declspec(allocate("ATLP$A")) CPerfMon * __pperfA = NULL;
+    __declspec(selectany) __declspec(allocate("ATLP$Z")) CPerfMon * __pperfZ = NULL;
 }
 
 #if !defined(_M_IA64)
@@ -588,13 +588,13 @@ __declspec(selectany) __declspec(allocate("ATLP$Z")) CPerfMon * __pperfZ = NULL;
 #endif
 
 #if defined(_M_IA64) || defined(_M_AMD64)
-	#define ATLPERF_FUNCID_OPEN    "OpenPerfMon"
-	#define ATLPERF_FUNCID_COLLECT "CollectPerfMon"
-	#define ATLPERF_FUNCID_CLOSE   "ClosePerfMon"
+#define ATLPERF_FUNCID_OPEN    "OpenPerfMon"
+#define ATLPERF_FUNCID_COLLECT "CollectPerfMon"
+#define ATLPERF_FUNCID_CLOSE   "ClosePerfMon"
 #elif defined(_M_IX86)
-	#define ATLPERF_FUNCID_OPEN    "_OpenPerfMon@4"
-	#define ATLPERF_FUNCID_COLLECT "_CollectPerfMon@16"
-	#define ATLPERF_FUNCID_CLOSE   "_ClosePerfMon@0"
+#define ATLPERF_FUNCID_OPEN    "_OpenPerfMon@4"
+#define ATLPERF_FUNCID_COLLECT "_CollectPerfMon@16"
+#define ATLPERF_FUNCID_CLOSE   "_ClosePerfMon@0"
 #else
 #if !defined(ATLPERF_FUNCID_OPEN) || !defined(ATLPERF_FUNCID_COLLECT) || !defined (ATLPERF_FUNCID_CLOSE)
 #error "Unknown platform. Define ATLPERF_FUNCID_OPEN, ATLPERF_FUNCID_COLLECT, ATLPERF_FUNCID_CLOSE"
@@ -606,21 +606,23 @@ HRESULT UnregisterPerfMon() throw();
 
 extern "C" DWORD __declspec(dllexport) WINAPI OpenPerfMon(LPWSTR lpDeviceNames) throw();
 extern "C" DWORD __declspec(dllexport) WINAPI CollectPerfMon(LPWSTR lpwszValue, LPVOID* lppData,
-	LPDWORD lpcbBytes, LPDWORD lpcObjectTypes) throw();
+        LPDWORD lpcbBytes, LPDWORD lpcObjectTypes) throw();
 extern "C" DWORD __declspec(dllexport) WINAPI ClosePerfMon() throw();
 
 // this class handles integrating the registration with CComModule
 class _CAtlPerfSetFuncPtr
 {
 public:
-	_CAtlPerfSetFuncPtr()
-	{
-		_pPerfRegFunc = RegisterPerfMon;
-		_pPerfUnRegFunc = UnregisterPerfMon;
-	}
+    _CAtlPerfSetFuncPtr()
+    {
+        _pPerfRegFunc = RegisterPerfMon;
+        _pPerfUnRegFunc = UnregisterPerfMon;
+    }
 };
 
-extern "C" { __declspec(selectany) _CAtlPerfSetFuncPtr g_atlperfinit; }
+extern "C" {
+    __declspec(selectany) _CAtlPerfSetFuncPtr g_atlperfinit;
+}
 
 #if defined(_M_IX86)
 #pragma comment(linker, "/INCLUDE:_g_atlperfinit")
@@ -653,7 +655,7 @@ extern "C" { __declspec(selectany) _CAtlPerfSetFuncPtr g_atlperfinit; }
 #endif // _ATL_PERF_NOEXPORT
 
 } // namespace ATL
- 
+
 
 #include <atlperf.inl>
 

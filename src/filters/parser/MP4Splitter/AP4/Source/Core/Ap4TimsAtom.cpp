@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tims Atoms 
+|    AP4 - tims Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -38,7 +38,7 @@
 |   AP4_TimsAtom::AP4_TimsAtom
 +---------------------------------------------------------------------*/
 AP4_TimsAtom::AP4_TimsAtom(AP4_UI32 timescale) :
-    AP4_Atom(AP4_ATOM_TYPE_TIMS, AP4_ATOM_HEADER_SIZE+4),
+    AP4_Atom(AP4_ATOM_TYPE_TIMS, AP4_ATOM_HEADER_SIZE + 4),
     m_TimeScale(timescale)
 {
 }

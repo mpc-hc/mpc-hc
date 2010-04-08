@@ -45,9 +45,9 @@ AP4_DcomAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 
 AP4_DcomAtom::AP4_DcomAtom(AP4_Size         size,
                            AP4_ByteStream&  stream)
-	: AP4_Atom(AP4_ATOM_TYPE_DCOM)
+    : AP4_Atom(AP4_ATOM_TYPE_DCOM)
 {
-	size -= AP4_ATOM_HEADER_SIZE;
+    size -= AP4_ATOM_HEADER_SIZE;
 
     stream.ReadUI32(m_CompressorSubType);
 }

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ipro Atoms 
+|    AP4 - ipro Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -40,14 +40,14 @@
 |   AP4_IproAtom::Create
 +---------------------------------------------------------------------*/
 AP4_IproAtom*
-AP4_IproAtom::Create(AP4_Size         size, 
-                     AP4_ByteStream&  stream, 
+AP4_IproAtom::Create(AP4_Size         size,
+                     AP4_ByteStream&  stream,
                      AP4_AtomFactory& atom_factory)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_IproAtom(size, version, flags, stream, atom_factory);
 }
 
@@ -66,12 +66,14 @@ AP4_IproAtom::AP4_IproAtom(AP4_UI32         size,
     stream.ReadUI16(entry_count);
 
     // read all entries
-    AP4_LargeSize bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-2;
-    for (unsigned int i=0; i<entry_count; i++) {
+    AP4_LargeSize bytes_available = size - AP4_FULL_ATOM_HEADER_SIZE - 2;
+    for(unsigned int i = 0; i < entry_count; i++)
+    {
         AP4_Atom* atom;
-        if (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, 
-                                                            bytes_available,
-                                                            atom))) {
+        if(AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream,
+                         bytes_available,
+                         atom)))
+        {
             atom->SetParent(this);
             m_Children.Add(atom);
         }
@@ -88,7 +90,7 @@ AP4_IproAtom::WriteFields(AP4_ByteStream& stream)
 
     // entry count
     result = stream.WriteUI16(m_Children.ItemCount());
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     // entries
     return m_Children.Apply(AP4_AtomListWriter(stream));
@@ -101,7 +103,7 @@ AP4_Result
 AP4_IproAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("entry-count", m_Children.ItemCount());
-    
+
     // inspect children
     m_Children.Apply(AP4_AtomListInspector(inspector));
 

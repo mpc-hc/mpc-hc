@@ -71,7 +71,8 @@
 #define IIR 1
 
 /** filter data */
-typedef struct {
+typedef struct
+{
     uint8_t     order; ///< number of taps in filter
     uint8_t     shift; ///< Right shift to apply to output of filter.
 
@@ -79,7 +80,8 @@ typedef struct {
 } FilterParams;
 
 /** sample data coding information */
-typedef struct {
+typedef struct
+{
     FilterParams filter_params[NUM_FILTERS];
     int32_t     coeff[NUM_FILTERS][MAX_FIR_ORDER];
 
@@ -101,7 +103,7 @@ extern const uint8_t ff_mlp_huffman_tables[3][18][2];
  *  We can implement this behavior using a standard av_crc on all but the
  *  last element, then XOR that with the last element.
  */
-uint8_t  ff_mlp_checksum8 (const uint8_t *buf, unsigned int buf_size);
+uint8_t  ff_mlp_checksum8(const uint8_t *buf, unsigned int buf_size);
 uint16_t ff_mlp_checksum16(const uint8_t *buf, unsigned int buf_size);
 
 /** Calculate an 8-bit checksum over a restart header -- a non-multiple-of-8

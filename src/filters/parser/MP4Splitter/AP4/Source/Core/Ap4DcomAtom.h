@@ -41,18 +41,24 @@ class AP4_DcomAtom : public AP4_Atom
 {
 public:
     // class methods
-	static AP4_DcomAtom* Create(AP4_Size size, AP4_ByteStream& stream);
+    static AP4_DcomAtom* Create(AP4_Size size, AP4_ByteStream& stream);
 
-	// methods
-	AP4_DcomAtom(AP4_Size         size,
+    // methods
+    AP4_DcomAtom(AP4_Size         size,
                  AP4_ByteStream&  stream);
 
-    AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
+    AP4_Result WriteFields(AP4_ByteStream& stream)
+    {
+        return AP4_FAILURE;
+    }
 
-    AP4_Atom::Type GetCompressorSubType() const { return m_CompressorSubType; }
+    AP4_Atom::Type GetCompressorSubType() const
+    {
+        return m_CompressorSubType;
+    }
 
 private:
-	AP4_Atom::Type m_CompressorSubType;
+    AP4_Atom::Type m_CompressorSubType;
 };
 
 #endif // _AP4_DCOM_ATOM_H_

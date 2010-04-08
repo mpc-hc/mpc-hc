@@ -54,246 +54,246 @@
 
 namespace dirac
 {
-    //! Codes and decodes the split mode
+//! Codes and decodes the split mode
+/*!
+    Derived from the ArithCodec class, this codes and decodes the split mode
+ */
+class SplitModeCodec: public ArithCodec<MvData>
+{
+public:
+    //! Constructor
     /*!
-        Derived from the ArithCodec class, this codes and decodes the split mode
-     */
-    class SplitModeCodec: public ArithCodec<MvData>
-    {
-    public:
-        //! Constructor
-            /*!
-            Creates a MvDataCodec object to encode MV data, based on parameters
-            \param    p_byteio   Input/output for the encoded bits
-            \param    number_of_contexts the number of contexts used
-         */    
-        SplitModeCodec(ByteIO* p_byteio, size_t number_of_contexts);
+    Creates a MvDataCodec object to encode MV data, based on parameters
+    \param    p_byteio   Input/output for the encoded bits
+    \param    number_of_contexts the number of contexts used
+             */
+    SplitModeCodec(ByteIO* p_byteio, size_t number_of_contexts);
 
-       
 
-        //! Initialises the contexts    
-        void InitContexts();
-    
-    private:
 
-        // Position of current SB
-        int m_sb_xp, m_sb_yp;
+    //! Initialises the contexts
+    void InitContexts();
 
-    private:
+private:
 
-        // functions   
-        //! Private, bodyless copy constructor: class should not be copied
-        SplitModeCodec(const SplitModeCodec& cpy);
-        //! Private, bodyless copy operator=: class should not be assigned
-        SplitModeCodec& operator=(const SplitModeCodec& rhs);
+    // Position of current SB
+    int m_sb_xp, m_sb_yp;
 
-        // coding functions   
-        // Code the SB splitting mode
-        void CodeVal(const MvData& in_data);
+private:
 
-        // decoding functions
-        // Decode the SB splitting mode
-        void DecodeVal( MvData& out_data);
+    // functions
+    //! Private, bodyless copy constructor: class should not be copied
+    SplitModeCodec(const SplitModeCodec& cpy);
+    //! Private, bodyless copy operator=: class should not be assigned
+    SplitModeCodec& operator=(const SplitModeCodec& rhs);
 
-        void DoWorkCode( MvData& in_data );
-        void DoWorkDecode(MvData& out_data);
+    // coding functions
+    // Code the SB splitting mode
+    void CodeVal(const MvData& in_data);
 
-        // Context stuff   
-        void ResetAll();
+    // decoding functions
+    // Decode the SB splitting mode
+    void DecodeVal(MvData& out_data);
 
-        //prediction stuff
-        unsigned int Prediction(const TwoDArray<int>& mbdata) const;
+    void DoWorkCode(MvData& in_data);
+    void DoWorkDecode(MvData& out_data);
 
-    };
+    // Context stuff
+    void ResetAll();
+
+    //prediction stuff
+    unsigned int Prediction(const TwoDArray<int>& mbdata) const;
+
+};
 
 /******************************************************************************/
 
-    //! Codes and decodes the prediction modes
+//! Codes and decodes the prediction modes
+/*!
+    Derived from the ArithCodec class, this codes and decodes the prediction mode.
+ */
+class PredModeCodec: public ArithCodec<MvData>
+{
+public:
+    //! Constructor
     /*!
-        Derived from the ArithCodec class, this codes and decodes the prediction mode.
-     */
-    class PredModeCodec: public ArithCodec<MvData>
-    {
-    public:
-        //! Constructor
-            /*!
-            Creates a MvDataCodec object to encode MV data, based on parameters
-            \param    p_byteio   Input/output for the encoded bits
-            \param    number_of_contexts the number of contexts used
-            \param    num_refs   Number of references
-         */
-        PredModeCodec(ByteIO* p_byteio, size_t number_of_contexts, const int num_refs);
+    Creates a MvDataCodec object to encode MV data, based on parameters
+    \param    p_byteio   Input/output for the encoded bits
+    \param    number_of_contexts the number of contexts used
+    \param    num_refs   Number of references
+             */
+    PredModeCodec(ByteIO* p_byteio, size_t number_of_contexts, const int num_refs);
 
-        //! Initialises the contexts
-        void InitContexts();
+    //! Initialises the contexts
+    void InitContexts();
 
-    private:
+private:
 
-        // Position of current block
-        int m_b_xp, m_b_yp;
-        // Position of current SB
-        int m_sb_xp, m_sb_yp;
-        // Position of top-left block of current SB
-        int m_sb_tlb_x, m_sb_tlb_y;
-        // Number of reference pictures
-	int m_num_refs;
+    // Position of current block
+    int m_b_xp, m_b_yp;
+    // Position of current SB
+    int m_sb_xp, m_sb_yp;
+    // Position of top-left block of current SB
+    int m_sb_tlb_x, m_sb_tlb_y;
+    // Number of reference pictures
+    int m_num_refs;
 
-    private:
+private:
 
-        // functions
-        //! Private, bodyless copy constructor: class should not be copied
-        PredModeCodec(const PredModeCodec& cpy);
-        //! Private, bodyless copy operator=: class should not be assigned
-        PredModeCodec& operator=(const PredModeCodec& rhs);
+    // functions
+    //! Private, bodyless copy constructor: class should not be copied
+    PredModeCodec(const PredModeCodec& cpy);
+    //! Private, bodyless copy operator=: class should not be assigned
+    PredModeCodec& operator=(const PredModeCodec& rhs);
 
-        // coding functions
-        // Code the block prediction mode
-        void CodeVal(const MvData& in_data);
+    // coding functions
+    // Code the block prediction mode
+    void CodeVal(const MvData& in_data);
 
-        // decoding functions
-        // Decode the block prediction mode
-        void DecodeVal(MvData& out_data);
+    // decoding functions
+    // Decode the block prediction mode
+    void DecodeVal(MvData& out_data);
 
-        void DoWorkCode( MvData& in_data );
-        void DoWorkDecode(MvData& out_data);
+    void DoWorkCode(MvData& in_data);
+    void DoWorkDecode(MvData& out_data);
 
-        // Context stuff
-        void ResetAll();
+    // Context stuff
+    void ResetAll();
 
-        //prediction stuff
-        unsigned int Prediction(const TwoDArray<PredMode>& preddata) const;
+    //prediction stuff
+    unsigned int Prediction(const TwoDArray<PredMode>& preddata) const;
 
-    };
+};
 
 /******************************************************************************/
 
-    //! Codes and decodes an array of motion vectors
+//! Codes and decodes an array of motion vectors
+/*!
+    Derived from the ArithCodec class, this codes and decodes a motion vector
+    element (vertical or horizontal)
+ */
+class VectorElementCodec: public ArithCodec<MvData>
+{
+public:
+    //! Constructor
     /*!
-        Derived from the ArithCodec class, this codes and decodes a motion vector
-        element (vertical or horizontal)
-     */
-    class VectorElementCodec: public ArithCodec<MvData>
-    {
-    public:
-        //! Constructor
-            /*!
-            Creates a MvDataCodec object to encode MV data, based on parameters
-            \param    p_byteio   Input/output for the encoded bits
-            \param    ref_id    The identity of the reference (1 or 2)
-            \param    horvert    The identity of the vector element (horizontal or vertical)
-            \param    number_of_contexts the number of contexts used
-         */    
-        VectorElementCodec(ByteIO* p_byteio, int ref_id, MvElement horvert, 
-                         size_t number_of_contexts);
+    Creates a MvDataCodec object to encode MV data, based on parameters
+    \param    p_byteio   Input/output for the encoded bits
+    \param    ref_id    The identity of the reference (1 or 2)
+    \param    horvert    The identity of the vector element (horizontal or vertical)
+    \param    number_of_contexts the number of contexts used
+             */
+    VectorElementCodec(ByteIO* p_byteio, int ref_id, MvElement horvert,
+                       size_t number_of_contexts);
 
 
-        //! Initialises the contexts    
-        void InitContexts();
-    
-    private:
+    //! Initialises the contexts
+    void InitContexts();
 
-        // Position of current block
-        int m_b_xp, m_b_yp;
+private:
 
-        // Position of current SB
-        int m_sb_xp, m_sb_yp;
+    // Position of current block
+    int m_b_xp, m_b_yp;
 
-        // Position of top-left block of current SB
-        int m_sb_tlb_x, m_sb_tlb_y;
-        
-        // The identity of the reference (1 or 2)
-        const int m_ref;
-        
-        // Whether it's the vertical or horizontal MV element
-        const MvElement m_hv;
+    // Position of current SB
+    int m_sb_xp, m_sb_yp;
 
-    private:
+    // Position of top-left block of current SB
+    int m_sb_tlb_x, m_sb_tlb_y;
 
-        // functions   
-        //! Private, bodyless copy constructor: class should not be copied
-        VectorElementCodec(const VectorElementCodec& cpy);
-        //! Private, bodyless copy operator=: class should not be assigned
-        VectorElementCodec& operator=(const VectorElementCodec& rhs);
+    // The identity of the reference (1 or 2)
+    const int m_ref;
 
-        // coding functions   
-        // Code the motion vector element
-        void CodeVal(const MvData& in_data);
+    // Whether it's the vertical or horizontal MV element
+    const MvElement m_hv;
 
-        // decoding functions
-        // Decode the motion vector element
-        void DecodeVal( MvData& out_data);
+private:
 
-        void DoWorkCode( MvData& in_data );
-        void DoWorkDecode(MvData& out_data);
+    // functions
+    //! Private, bodyless copy constructor: class should not be copied
+    VectorElementCodec(const VectorElementCodec& cpy);
+    //! Private, bodyless copy operator=: class should not be assigned
+    VectorElementCodec& operator=(const VectorElementCodec& rhs);
 
-        // Context stuff   
-        void ResetAll();
+    // coding functions
+    // Code the motion vector element
+    void CodeVal(const MvData& in_data);
 
-        //prediction stuff
-        int Prediction( const MvArray& mvarray,
-                        const TwoDArray<PredMode>& preddata) const;
+    // decoding functions
+    // Decode the motion vector element
+    void DecodeVal(MvData& out_data);
 
-    };
+    void DoWorkCode(MvData& in_data);
+    void DoWorkDecode(MvData& out_data);
+
+    // Context stuff
+    void ResetAll();
+
+    //prediction stuff
+    int Prediction(const MvArray& mvarray,
+                   const TwoDArray<PredMode>& preddata) const;
+
+};
 
 /******************************************************************************/
-    //! Codes and decodes a set of DC values
+//! Codes and decodes a set of DC values
+/*!
+    Derived from the ArithCodec class, this codes and decodes all the DC
+    values for a component
+ */
+class DCCodec: public ArithCodec<MvData>
+{
+public:
+    //! Constructor
     /*!
-        Derived from the ArithCodec class, this codes and decodes all the DC
-        values for a component
-     */
-    class DCCodec: public ArithCodec<MvData>
-    {
-    public:
-        //! Constructor
-            /*!
-            Creates a MvDataCodec object to encode MV data, based on parameters
-            \param    p_byteio   Input/output for the encoded bits
-            \param    csort    The identity of the component (Y, U or V)
-            \param    number_of_contexts the number of contexts used
-         */    
-        DCCodec(ByteIO* p_byteio, const CompSort csort, size_t number_of_contexts);
+    Creates a MvDataCodec object to encode MV data, based on parameters
+    \param    p_byteio   Input/output for the encoded bits
+    \param    csort    The identity of the component (Y, U or V)
+    \param    number_of_contexts the number of contexts used
+             */
+    DCCodec(ByteIO* p_byteio, const CompSort csort, size_t number_of_contexts);
 
-        //! Initialises the contexts    
-        void InitContexts();
-    
-    private:
+    //! Initialises the contexts
+    void InitContexts();
 
-        // The component being coded
-        const CompSort m_csort;
-        // Position of current block
-        int m_b_xp, m_b_yp;
-        // Position of current SB
-        int m_sb_xp, m_sb_yp;
-        // Position of top-left block of current SB
-        int m_sb_tlb_x, m_sb_tlb_y;
+private:
 
-    private:
+    // The component being coded
+    const CompSort m_csort;
+    // Position of current block
+    int m_b_xp, m_b_yp;
+    // Position of current SB
+    int m_sb_xp, m_sb_yp;
+    // Position of top-left block of current SB
+    int m_sb_tlb_x, m_sb_tlb_y;
 
-        // functions   
-        //! Private, bodyless copy constructor: class should not be copied
-        DCCodec(const DCCodec& cpy);
-        //! Private, bodyless copy operator=: class should not be assigned
-        DCCodec& operator=(const DCCodec& rhs);
+private:
 
-        // coding functions   
-        // Code the dc value of intra blocks
-        void CodeVal(const MvData& in_data);
+    // functions
+    //! Private, bodyless copy constructor: class should not be copied
+    DCCodec(const DCCodec& cpy);
+    //! Private, bodyless copy operator=: class should not be assigned
+    DCCodec& operator=(const DCCodec& rhs);
 
-        // decoding functions
-        // Decode the dc value of intra blocks  
-        void DecodeVal( MvData& out_data);
+    // coding functions
+    // Code the dc value of intra blocks
+    void CodeVal(const MvData& in_data);
 
-        void DoWorkCode( MvData& in_data );
-        void DoWorkDecode(MvData& out_data);
+    // decoding functions
+    // Decode the dc value of intra blocks
+    void DecodeVal(MvData& out_data);
 
-        // Context stuff   
-        void ResetAll();
+    void DoWorkCode(MvData& in_data);
+    void DoWorkDecode(MvData& out_data);
 
-        //prediction stuff
-        ValueType Prediction( const TwoDArray<ValueType>& dcdata,
-                              const TwoDArray<PredMode>& preddata) const;
-    };
-    
+    // Context stuff
+    void ResetAll();
+
+    //prediction stuff
+    ValueType Prediction(const TwoDArray<ValueType>& dcdata,
+                         const TwoDArray<PredMode>& preddata) const;
+};
+
 
 }// end namepace dirac
 

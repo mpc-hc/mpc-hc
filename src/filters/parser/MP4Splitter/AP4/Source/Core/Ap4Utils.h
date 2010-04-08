@@ -51,11 +51,11 @@ void AP4_BytesFromUInt64BE(unsigned char* bytes, AP4_UI64 value);
 inline AP4_UI32
 AP4_BytesToUInt32BE(const unsigned char* bytes)
 {
-    return 
-        ( ((AP4_UI32)bytes[0])<<24 ) |
-        ( ((AP4_UI32)bytes[1])<<16 ) |
-        ( ((AP4_UI32)bytes[2])<<8  ) |
-        ( ((AP4_UI32)bytes[3])     );    
+    return
+        (((AP4_UI32)bytes[0]) << 24) |
+        (((AP4_UI32)bytes[1]) << 16) |
+        (((AP4_UI32)bytes[2]) << 8) |
+        (((AP4_UI32)bytes[3]));
 }
 
 /*----------------------------------------------------------------------
@@ -73,10 +73,10 @@ AP4_BytesToInt32BE(const unsigned char* bytes)
 inline AP4_UI32
 AP4_BytesToUInt24BE(const unsigned char* bytes)
 {
-    return 
-        ( ((AP4_UI32)bytes[0])<<16 ) |
-        ( ((AP4_UI32)bytes[1])<<8  ) |
-        ( ((AP4_UI32)bytes[2])     );    
+    return
+        (((AP4_UI32)bytes[0]) << 16) |
+        (((AP4_UI32)bytes[1]) << 8) |
+        (((AP4_UI32)bytes[2]));
 }
 
 /*----------------------------------------------------------------------
@@ -85,9 +85,9 @@ AP4_BytesToUInt24BE(const unsigned char* bytes)
 inline AP4_UI16
 AP4_BytesToUInt16BE(const unsigned char* bytes)
 {
-    return 
-        ( ((AP4_UI16)bytes[0])<<8  ) |
-        ( ((AP4_UI16)bytes[1])     );    
+    return
+        (((AP4_UI16)bytes[0]) << 8) |
+        (((AP4_UI16)bytes[1]));
 }
 
 /*----------------------------------------------------------------------
@@ -108,7 +108,7 @@ AP4_BytesFromUInt32BE(unsigned char* bytes, AP4_UI32 value)
     bytes[0] = (unsigned char)(value >> 24);
     bytes[1] = (unsigned char)(value >> 16);
     bytes[2] = (unsigned char)(value >>  8);
-    bytes[3] = (unsigned char)(value      );
+    bytes[3] = (unsigned char)(value);
 }
 
 /*----------------------------------------------------------------------
@@ -119,7 +119,7 @@ AP4_BytesFromUInt24BE(unsigned char* bytes, AP4_UI32 value)
 {
     bytes[0] = (unsigned char)(value >> 16);
     bytes[1] = (unsigned char)(value >>  8);
-    bytes[2] = (unsigned char)(value      );
+    bytes[2] = (unsigned char)(value);
 }
 
 /*----------------------------------------------------------------------
@@ -129,7 +129,7 @@ inline void
 AP4_BytesFromUInt16BE(unsigned char* bytes, AP4_UI16 value)
 {
     bytes[0] = (unsigned char)(value >> 8);
-    bytes[1] = (unsigned char)(value     );
+    bytes[1] = (unsigned char)(value);
 }
 
 /*----------------------------------------------------------------------
@@ -187,21 +187,34 @@ AP4_SplitArgs(char* arg, char*& arg0, char*& arg1);
 class AP4_BitWriter
 {
 public:
-    AP4_BitWriter(AP4_Size size) : m_DataSize(size), m_BitCount(0) {
-        if (size) {
+    AP4_BitWriter(AP4_Size size) : m_DataSize(size), m_BitCount(0)
+    {
+        if(size)
+        {
             m_Data = new unsigned char[size];
             AP4_SetMemory(m_Data, 0, size);
-        } else {
+        }
+        else
+        {
             m_Data = NULL;
         }
     }
-    ~AP4_BitWriter() { delete m_Data; }
-    
+    ~AP4_BitWriter()
+    {
+        delete m_Data;
+    }
+
     void Write(AP4_UI32 bits, unsigned int bit_count);
-    
-    unsigned int GetBitCount()     { return m_BitCount; }
-    const unsigned char* GetData() { return m_Data;     }
-    
+
+    unsigned int GetBitCount()
+    {
+        return m_BitCount;
+    }
+    const unsigned char* GetData()
+    {
+        return m_Data;
+    }
+
 private:
     unsigned char* m_Data;
     unsigned int   m_DataSize;

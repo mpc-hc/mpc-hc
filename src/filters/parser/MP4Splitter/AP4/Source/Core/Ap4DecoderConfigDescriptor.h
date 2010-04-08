@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - DecoderConfig Descriptor 
+|    AP4 - DecoderConfig Descriptor
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -52,7 +52,7 @@ const AP4_UI08 AP4_DESCRIPTOR_TAG_DECODER_CONFIG = 0x04;
 +---------------------------------------------------------------------*/
 class AP4_DecoderConfigDescriptor : public AP4_Descriptor
 {
- public:
+public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_DecoderConfigDescriptor, AP4_Descriptor)
 
     // methods
@@ -62,25 +62,38 @@ class AP4_DecoderConfigDescriptor : public AP4_Descriptor
                                 AP4_UI32 max_bitrate,
                                 AP4_UI32 avg_bitrate,
                                 AP4_DecoderSpecificInfoDescriptor* dsi);
-    AP4_DecoderConfigDescriptor(AP4_ByteStream& stream, 
+    AP4_DecoderConfigDescriptor(AP4_ByteStream& stream,
                                 AP4_Size        header_size,
                                 AP4_Size        payload_size);
     virtual ~AP4_DecoderConfigDescriptor();
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
- 
+
     // accessors
     virtual const AP4_DecoderSpecificInfoDescriptor*
-        GetDecoderSpecificInfoDescriptor() const;
-    virtual AP4_UI08 GetObjectTypeIndication() const { 
-        return m_ObjectTypeIndication; 
+    GetDecoderSpecificInfoDescriptor() const;
+    virtual AP4_UI08 GetObjectTypeIndication() const
+    {
+        return m_ObjectTypeIndication;
     }
-    virtual AP4_UI08 GetStreamType() const { return m_StreamType; } 
-    virtual AP4_UI32 GetBufferSize() const { return m_BufferSize; }
-    virtual AP4_UI32 GetMaxBitrate() const { return m_MaxBitrate; }
-    virtual AP4_UI32 GetAvgBitrate() const { return m_AverageBitrate; }
-    
- private:
+    virtual AP4_UI08 GetStreamType() const
+    {
+        return m_StreamType;
+    }
+    virtual AP4_UI32 GetBufferSize() const
+    {
+        return m_BufferSize;
+    }
+    virtual AP4_UI32 GetMaxBitrate() const
+    {
+        return m_MaxBitrate;
+    }
+    virtual AP4_UI32 GetAvgBitrate() const
+    {
+        return m_AverageBitrate;
+    }
+
+private:
     // members
     AP4_UI08                         m_StreamType;
     AP4_UI08                         m_ObjectTypeIndication;

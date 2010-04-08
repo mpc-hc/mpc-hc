@@ -33,15 +33,16 @@ static void ff_mlp_filter_channel(int32_t *state, const int32_t *coeff,
     const int32_t *iircoeff = coeff + MAX_FIR_ORDER;
     int i;
 
-    for (i = 0; i < blocksize; i++) {
+    for(i = 0; i < blocksize; i++)
+    {
         int32_t residual = *sample_buffer;
         unsigned int order;
         int64_t accum = 0;
         int32_t result;
 
-        for (order = 0; order < firorder; order++)
+        for(order = 0; order < firorder; order++)
             accum += (int64_t) firbuf[order] * fircoeff[order];
-        for (order = 0; order < iirorder; order++)
+        for(order = 0; order < iirorder; order++)
             accum += (int64_t) iirbuf[order] * iircoeff[order];
 
         accum  = accum >> filter_shift;
@@ -61,7 +62,7 @@ void ff_mlp_init(DSPContext* c, AVCodecContext *avctx)
 {
     c->mlp_filter_channel = ff_mlp_filter_channel;
 #if HAVE_MMX
-    if (ARCH_X86)
+    if(ARCH_X86)
         ff_mlp_init_x86(c, avctx);
 #endif
 }

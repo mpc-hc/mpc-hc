@@ -40,71 +40,71 @@ styled systems and older windows versions (without themes).
 @author Sven Wiegand
 */
 class /*AFX_EXT_CLASS*/ CPropPageFrameDefault : public CWnd,
-                                            public CPropPageFrame
+    public CPropPageFrame
 {
 // construction/destruction
 public:
-	CPropPageFrameDefault();
-	virtual ~CPropPageFrameDefault();
+    CPropPageFrameDefault();
+    virtual ~CPropPageFrameDefault();
 
 // operations
 public:
 
 // overridings
 public:
-	virtual BOOL Create(DWORD dwWindowStyle, const RECT &rect, CWnd *pwndParent, UINT nID);
-	virtual CWnd* GetWnd();
-	virtual void SetCaption(LPCTSTR lpszCaption, HICON hIcon = NULL);
+    virtual BOOL Create(DWORD dwWindowStyle, const RECT &rect, CWnd *pwndParent, UINT nID);
+    virtual CWnd* GetWnd();
+    virtual void SetCaption(LPCTSTR lpszCaption, HICON hIcon = NULL);
 
-	
+
 protected:
-	virtual CRect CalcMsgArea();
-	virtual CRect CalcCaptionArea();
-	virtual void DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaption, HICON hIcon);
+    virtual CRect CalcMsgArea();
+    virtual CRect CalcCaptionArea();
+    virtual void DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaption, HICON hIcon);
 
 // Implementation helpers
 protected:
-	/**
-	Fills a rectangular area with a gradient color starting at the left
-	side with the color clrLeft and ending at the right sight with the
-	color clrRight.
+    /**
+    Fills a rectangular area with a gradient color starting at the left
+    side with the color clrLeft and ending at the right sight with the
+    color clrRight.
 
-	@param pDc
-		Device context to draw the rectangle in.
-	@param rect
-		Rectangular area to fill.
-	@param clrLeft
-		Color on the left side.
-	@param clrRight
-		Color on the right side.
-	*/
-	void FillGradientRectH(CDC *pDc, const RECT &rect, COLORREF clrLeft, COLORREF clrRight);
+    @param pDc
+    	Device context to draw the rectangle in.
+    @param rect
+    	Rectangular area to fill.
+    @param clrLeft
+    	Color on the left side.
+    @param clrRight
+    	Color on the right side.
+    */
+    void FillGradientRectH(CDC *pDc, const RECT &rect, COLORREF clrLeft, COLORREF clrRight);
 
-	/**
-	Returns TRUE if Windows XP theme support is available, FALSE 
-	otherwise.
-	*/
-	BOOL ThemeSupport() const;
+    /**
+    Returns TRUE if Windows XP theme support is available, FALSE
+    otherwise.
+    */
+    BOOL ThemeSupport() const;
 
 protected:
-	//{{AFX_VIRTUAL(CPropPageFrameDefault)
-	//}}AFX_VIRTUAL
+    //{{AFX_VIRTUAL(CPropPageFrameDefault)
+    //}}AFX_VIRTUAL
 
 // message handlers
 protected:
-	//{{AFX_MSG(CPropPageFrameDefault)
-	afx_msg void OnPaint();
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CPropPageFrameDefault)
+    afx_msg void OnPaint();
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 // attributes
 protected:
-	/** 
-	Image list that contains only the current icon or nothing if there
-	is no icon.
-	*/
-	CImageList m_Images;
+    /**
+    Image list that contains only the current icon or nothing if there
+    is no icon.
+    */
+    CImageList m_Images;
 };
 
 

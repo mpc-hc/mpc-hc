@@ -56,13 +56,22 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    const AP4_String& GetKmsUri()     { return m_KmsUri;     }
-    AP4_UI32          GetKmsId()      { return m_KmsId;      }
-    AP4_UI32          GetKmsVersion() { return m_KmsVersion; }
+    const AP4_String& GetKmsUri()
+    {
+        return m_KmsUri;
+    }
+    AP4_UI32          GetKmsId()
+    {
+        return m_KmsId;
+    }
+    AP4_UI32          GetKmsVersion()
+    {
+        return m_KmsVersion;
+    }
 
 private:
     // methods
-    AP4_IkmsAtom(AP4_UI32        size, 
+    AP4_IkmsAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

@@ -24,23 +24,25 @@
 
 #define FLAC_SHARE__MAX_SUPPORTED_CHANNELS 2
 
-typedef enum {
-	NOISE_SHAPING_NONE = 0,
-	NOISE_SHAPING_LOW = 1,
-	NOISE_SHAPING_MEDIUM = 2,
-	NOISE_SHAPING_HIGH = 3
+typedef enum
+{
+    NOISE_SHAPING_NONE = 0,
+    NOISE_SHAPING_LOW = 1,
+    NOISE_SHAPING_MEDIUM = 2,
+    NOISE_SHAPING_HIGH = 3
 } NoiseShaping;
 
-typedef struct {
-	const float*  FilterCoeff;
-	FLAC__uint64  Mask;
-	double        Add;
-	float         Dither;
-	float         ErrorHistory     [FLAC_SHARE__MAX_SUPPORTED_CHANNELS] [16];  /* 16th order Noise shaping */
-	float         DitherHistory    [FLAC_SHARE__MAX_SUPPORTED_CHANNELS] [16];
-	int           LastRandomNumber [FLAC_SHARE__MAX_SUPPORTED_CHANNELS];
-	unsigned      LastHistoryIndex;
-	NoiseShaping  ShapingType;
+typedef struct
+{
+    const float*  FilterCoeff;
+    FLAC__uint64  Mask;
+    double        Add;
+    float         Dither;
+    float         ErrorHistory     [FLAC_SHARE__MAX_SUPPORTED_CHANNELS] [16];  /* 16th order Noise shaping */
+    float         DitherHistory    [FLAC_SHARE__MAX_SUPPORTED_CHANNELS] [16];
+    int           LastRandomNumber [FLAC_SHARE__MAX_SUPPORTED_CHANNELS];
+    unsigned      LastHistoryIndex;
+    NoiseShaping  ShapingType;
 } DitherContext;
 
 void FLAC__replaygain_synthesis__init_dither_context(DitherContext *dither, int bits, int shapingtype);

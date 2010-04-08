@@ -64,25 +64,34 @@ static const unsigned int NO_ENC = 0;
 class EncPicture : public Picture
 {
 public:
-    EncPicture( const PictureParams& pp );
+    EncPicture(const PictureParams& pp);
 
     virtual ~EncPicture();
 
     //! Initialise the motion estimation data arrays
-    void InitMEData( const PicturePredParams& predparams, const int num_refs);
+    void InitMEData(const PicturePredParams& predparams, const int num_refs);
 
     //! Returns the motion data
-    MEData& GetMEData(){ return *m_me_data;}
+    MEData& GetMEData()
+    {
+        return *m_me_data;
+    }
 
     //! Returns the motion data
-    const MEData& GetMEData() const { return *m_me_data;}
+    const MEData& GetMEData() const
+    {
+        return *m_me_data;
+    }
 
     //! Drops a reference from the motion vector data
-    void DropRef( int rindex );
+    void DropRef(int rindex);
 
 
     //! Returns a given component of the original data
-    const PicArray& OrigData(CompSort c) const { return *m_orig_data[(int) c];}
+    const PicArray& OrigData(CompSort c) const
+    {
+        return *m_orig_data[(int) c];
+    }
 
     //! Returns a given upconverted component of the original data
     const PicArray& UpOrigData(CompSort cs) const;
@@ -97,26 +106,56 @@ public:
     const PicArray& UpDataForME(bool combined_me) const;
 
 
-    void UpdateStatus( const unsigned int mask ){ m_status |= mask; }
+    void UpdateStatus(const unsigned int mask)
+    {
+        m_status |= mask;
+    }
 
-    void FlipStatus( const unsigned int mask){ m_status ^= mask; }
+    void FlipStatus(const unsigned int mask)
+    {
+        m_status ^= mask;
+    }
 
-    void SetStatus( const int status ){ m_status = status; }
+    void SetStatus(const int status)
+    {
+        m_status = status;
+    }
 
-    unsigned int GetStatus() const{ return m_status; }
+    unsigned int GetStatus() const
+    {
+        return m_status;
+    }
 
 
-    double GetComplexity() const {return m_complexity; }
+    double GetComplexity() const
+    {
+        return m_complexity;
+    }
 
-    void SetComplexity(double c){ m_complexity = c; }
+    void SetComplexity(double c)
+    {
+        m_complexity = c;
+    }
 
-    double GetNormComplexity() const { return m_norm_complexity; }
+    double GetNormComplexity() const
+    {
+        return m_norm_complexity;
+    }
 
-    void SetNormComplexity( double c ){ m_norm_complexity = c; }
+    void SetNormComplexity(double c)
+    {
+        m_norm_complexity = c;
+    }
 
-    double GetPredBias() const { return m_pred_bias; }
+    double GetPredBias() const
+    {
+        return m_pred_bias;
+    }
 
-    void SetPredBias( double b ){ m_pred_bias = b; }
+    void SetPredBias(double b)
+    {
+        m_pred_bias = b;
+    }
 
 
 private:
@@ -124,15 +163,15 @@ private:
     virtual void ClearData();
 
     //! Filters a (field) picture vertically to reduce aliasing for motion estimation purposes
-    void AntiAliasFilter( PicArray& out_data, const PicArray& in_data ) const;
+    void AntiAliasFilter(PicArray& out_data, const PicArray& in_data) const;
 
     //! Returns an anti-aliased version of the original data
     const PicArray& FiltData(CompSort c) const;
 
     const PicArray& CombinedData() const;
     const PicArray& UpCombinedData() const;
-    void Combine( PicArray& comb_data, const PicArray& y_data,
-                          const PicArray& u_data, const PicArray& v_data ) const;
+    void Combine(PicArray& comb_data, const PicArray& y_data,
+                 const PicArray& u_data, const PicArray& v_data) const;
 
     //! Returns an upconverted anti-aliased version of the original data
     const PicArray& UpFiltData(CompSort c) const;

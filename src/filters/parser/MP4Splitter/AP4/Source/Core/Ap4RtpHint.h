@@ -59,12 +59,14 @@ public:
     virtual AP4_Result          AddPacket(AP4_RtpPacket* packet);
     virtual AP4_Size            GetSize();
     virtual AP4_ByteStream*     ToByteStream();
-    
+
     // accessors
-    AP4_List<AP4_RtpPacket>& GetPackets() {
+    AP4_List<AP4_RtpPacket>& GetPackets()
+    {
         return m_Packets;
     }
-    const AP4_DataBuffer& GetExtraData() const {
+    const AP4_DataBuffer& GetExtraData() const
+    {
         return m_ExtraData;
     }
 
@@ -102,24 +104,52 @@ public:
     // Referenceable methods
     void AddReference();
     void Release();
-    
+
     // Accessors
-    int GetRelativeTime() const { return m_RelativeTime; }
-    bool GetPBit() const { return m_PBit; }
-    bool GetXBit() const { return m_XBit; }
-    bool GetMBit() const { return m_MBit; }
-    AP4_UI08 GetPayloadType() const { return m_PayloadType; }
-    AP4_UI16 GetSequenceSeed() const { return m_SequenceSeed; }
-    int  GetTimeStampOffset() const { return m_TimeStampOffset; }
-    bool GetBFrameFlag() const { return m_BFrameFlag; }
-    bool GetRepeatFlag() const { return m_RepeatFlag; }
-    AP4_List<AP4_RtpConstructor>& GetConstructors() {
+    int GetRelativeTime() const
+    {
+        return m_RelativeTime;
+    }
+    bool GetPBit() const
+    {
+        return m_PBit;
+    }
+    bool GetXBit() const
+    {
+        return m_XBit;
+    }
+    bool GetMBit() const
+    {
+        return m_MBit;
+    }
+    AP4_UI08 GetPayloadType() const
+    {
+        return m_PayloadType;
+    }
+    AP4_UI16 GetSequenceSeed() const
+    {
+        return m_SequenceSeed;
+    }
+    int  GetTimeStampOffset() const
+    {
+        return m_TimeStampOffset;
+    }
+    bool GetBFrameFlag() const
+    {
+        return m_BFrameFlag;
+    }
+    bool GetRepeatFlag() const
+    {
+        return m_RepeatFlag;
+    }
+    AP4_List<AP4_RtpConstructor>& GetConstructors()
+    {
         return m_Constructors;
     }
 
 private:
     // members
-    AP4_Cardinal                    m_ReferenceCount;                        
+    AP4_Cardinal                    m_ReferenceCount;
     int                             m_RelativeTime;
     bool                            m_PBit;
     bool                            m_XBit;
@@ -145,7 +175,10 @@ public:
     AP4_RtpConstructor(Type type) : m_ReferenceCount(1), m_Type(type) {}
 
     // methods
-    Type GetType() const { return m_Type; }
+    Type GetType() const
+    {
+        return m_Type;
+    }
     AP4_Result Write(AP4_ByteStream& stream);
     virtual AP4_Size GetConstructedDataSize() = 0;
 
@@ -187,7 +220,10 @@ public:
     AP4_NoopRtpConstructor() : AP4_RtpConstructor(AP4_RTP_CONSTRUCTOR_TYPE_NOOP) {}
 
     // methods
-    virtual AP4_Size GetConstructedDataSize() { return 0; }
+    virtual AP4_Size GetConstructedDataSize()
+    {
+        return 0;
+    }
 
 protected:
     // methods
@@ -203,12 +239,18 @@ public:
     // constructor
     AP4_ImmediateRtpConstructor(AP4_ByteStream& stream);
     AP4_ImmediateRtpConstructor(const AP4_DataBuffer& data);
-    
+
     // accessors
-    const AP4_DataBuffer& GetData() const { return m_Data; }
+    const AP4_DataBuffer& GetData() const
+    {
+        return m_Data;
+    }
 
     // methods
-    virtual AP4_Size GetConstructedDataSize() { return m_Data.GetDataSize(); }
+    virtual AP4_Size GetConstructedDataSize()
+    {
+        return m_Data.GetDataSize();
+    }
 
 protected:
     // methods
@@ -230,15 +272,30 @@ public:
                              AP4_UI16 length,
                              AP4_UI32 sample_num,
                              AP4_UI32 sample_offset);
-    
+
     // accessors
-    AP4_UI08 GetTrackRefIndex() const { return m_TrackRefIndex; }
-    AP4_UI16 GetLength() const { return m_Length; }
-    AP4_UI32 GetSampleNum() const { return m_SampleNum; }
-    AP4_UI32 GetSampleOffset() const { return m_SampleOffset; }
+    AP4_UI08 GetTrackRefIndex() const
+    {
+        return m_TrackRefIndex;
+    }
+    AP4_UI16 GetLength() const
+    {
+        return m_Length;
+    }
+    AP4_UI32 GetSampleNum() const
+    {
+        return m_SampleNum;
+    }
+    AP4_UI32 GetSampleOffset() const
+    {
+        return m_SampleOffset;
+    }
 
     // methods
-    virtual AP4_Size GetConstructedDataSize() { return m_Length; }
+    virtual AP4_Size GetConstructedDataSize()
+    {
+        return m_Length;
+    }
 
 protected:
     // methods
@@ -265,14 +322,29 @@ public:
                                  AP4_UI32 sample_desc_offset);
 
     // accessors
-    AP4_UI08 GetTrackRefIndex() const { return m_TrackRefIndex; }
-    AP4_UI16 GetLength() const { return m_Length; }
-    AP4_UI32 GetSampleDescIndex() const { return m_SampleDescIndex; }
-    AP4_UI32 GetSampleDescOffset() const { return m_SampleDescOffset; }
+    AP4_UI08 GetTrackRefIndex() const
+    {
+        return m_TrackRefIndex;
+    }
+    AP4_UI16 GetLength() const
+    {
+        return m_Length;
+    }
+    AP4_UI32 GetSampleDescIndex() const
+    {
+        return m_SampleDescIndex;
+    }
+    AP4_UI32 GetSampleDescOffset() const
+    {
+        return m_SampleDescOffset;
+    }
 
     // methods
-    virtual AP4_Size GetConstructedDataSize() { return m_Length; }
-        
+    virtual AP4_Size GetConstructedDataSize()
+    {
+        return m_Length;
+    }
+
 protected:
     // methods
     virtual AP4_Result DoWrite(AP4_ByteStream& stream);
@@ -287,11 +359,11 @@ protected:
 /*----------------------------------------------------------------------
 |   AP4_RtpConstructorFactory
 +---------------------------------------------------------------------*/
-class AP4_RtpConstructorFactory 
+class AP4_RtpConstructorFactory
 {
 public:
     static AP4_Result CreateConstructorFromStream(AP4_ByteStream&      stream,
-                                                  AP4_RtpConstructor*& constructor);
+            AP4_RtpConstructor*& constructor);
 };
 
 #endif // _AP4_RTP_HINT_H_

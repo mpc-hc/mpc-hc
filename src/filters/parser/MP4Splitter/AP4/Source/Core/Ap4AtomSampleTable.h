@@ -54,10 +54,10 @@ class AP4_Co64Atom;
 +---------------------------------------------------------------------*/
 class AP4_AtomSampleTable : public AP4_SampleTable
 {
- public:
+public:
     // methods
-             AP4_AtomSampleTable(AP4_ContainerAtom* stbl_atom, 
-                                 AP4_ByteStream&    sample_stream);
+    AP4_AtomSampleTable(AP4_ContainerAtom* stbl_atom,
+                        AP4_ByteStream&    sample_stream);
     virtual ~AP4_AtomSampleTable();
 
     // AP4_SampleTable methods
@@ -65,11 +65,11 @@ class AP4_AtomSampleTable : public AP4_SampleTable
     virtual AP4_Cardinal GetSampleCount();
     virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal sd_index);
     virtual AP4_Cardinal GetSampleDescriptionCount();
-    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index, 
-                                                AP4_Ordinal& chunk_index,
-                                                AP4_Ordinal& position_in_chunk);
+    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index,
+            AP4_Ordinal& chunk_index,
+            AP4_Ordinal& position_in_chunk);
     virtual AP4_Result   GetSampleIndexForTimeStamp(AP4_UI64 ts, AP4_Ordinal& sample_index);
-    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true);
+    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before = true);
 
     // local methods
     virtual AP4_Result GetChunkForSample(AP4_Ordinal   sample_index,

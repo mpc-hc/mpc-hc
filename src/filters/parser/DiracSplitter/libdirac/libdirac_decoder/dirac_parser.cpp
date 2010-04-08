@@ -52,357 +52,357 @@ using namespace dirac;
 extern "C" {
 #endif
 
-extern DllExport dirac_decoder_t *dirac_decoder_init(int verbose)
-{
-    dirac_decoder_t* decoder = new dirac_decoder_t;
-    memset (decoder, 0, sizeof(dirac_decoder_t));
-
-    bool verbosity = verbose > 0 ? true : false;
-    DiracParser *parser = new DiracParser(verbosity);
-    decoder->parser = static_cast<void *>(parser);
-
-    decoder->fbuf = new dirac_framebuf_t;
-    decoder->fbuf->id = NULL;
-    decoder->fbuf->buf[0] = decoder->fbuf->buf[1] = decoder->fbuf->buf[2] = NULL;
-    return decoder;
-}
-
-extern DllExport void dirac_decoder_close(dirac_decoder_t *decoder)
-{
-    TEST (decoder != NULL);
-    TEST (decoder->parser != NULL);
-    DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
-
-    delete parser;
-
-    delete decoder->fbuf;
-
-    delete decoder;
-
-    decoder = NULL;
-}
-
-extern DllExport void dirac_buffer (dirac_decoder_t *decoder, unsigned char *start, unsigned char *end)
-{
-    TEST (decoder != NULL);
-    TEST (decoder->parser != NULL);
-    DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
-
-    parser->SetBuffer((char *)start, (char *)end);
-}
-
-static void set_sequence_params (const  DiracParser * const parser, dirac_decoder_t *decoder)
-{
-    TEST (parser != NULL);
-    TEST (decoder != NULL);
-
-    dirac_sourceparams_t *src_params = &decoder->src_params;
-    dirac_parseparams_t *parse_params = &decoder->parse_params;
-    const SourceParams& srcparams = parser->GetSourceParams();
-    const ParseParams& pparams = parser->GetParseParams();
-
-    parse_params->major_ver = pparams.MajorVersion();
-    parse_params->minor_ver = pparams.MinorVersion();
-    parse_params->profile = pparams.Profile();
-    parse_params->level = pparams.Level();
-
-    src_params->width = srcparams.Xl();
-    src_params->height = srcparams.Yl();
-
-    src_params->chroma = (dirac_chroma_t)srcparams.CFormat();
-    src_params->chroma_width = srcparams.ChromaWidth();
-    src_params->chroma_height = srcparams.ChromaHeight();
-
-   // set the source parmeters
-    src_params->source_sampling = srcparams.SourceSampling();
-    src_params->topfieldfirst = srcparams.TopFieldFirst() ? 1 : 0;
-
-    src_params->frame_rate.numerator = srcparams.FrameRate().m_num;
-    src_params->frame_rate.denominator = srcparams.FrameRate().m_denom;
-
-    src_params->pix_asr.numerator = srcparams.PixelAspectRatio().m_num;
-    src_params->pix_asr.denominator = srcparams.PixelAspectRatio().m_denom;
-
-    // clean area
-    src_params->clean_area.width = srcparams.CleanWidth();
-    src_params->clean_area.height = srcparams.CleanHeight();
-    src_params->clean_area.left_offset = srcparams.LeftOffset();
-    src_params->clean_area.top_offset = srcparams.TopOffset();
-
-    // signal range
-    src_params->signal_range.luma_offset = srcparams.LumaOffset();
-    src_params->signal_range.luma_excursion = srcparams.LumaExcursion();
-    src_params->signal_range.chroma_offset = srcparams.ChromaOffset();
-    src_params->signal_range.chroma_excursion = srcparams.ChromaExcursion();
-
-    // Colour specfication
-    src_params->colour_spec.col_primary = srcparams.ColourPrimariesIndex();
-    src_params->colour_spec.trans_func = srcparams.TransferFunctionIndex();
-    switch(srcparams.ColourMatrixIndex())
+    extern DllExport dirac_decoder_t *dirac_decoder_init(int verbose)
     {
-    case CM_SDTV:
-        src_params->colour_spec.col_matrix.kr =  0.299f;
-        src_params->colour_spec.col_matrix.kb =  0.114f;
-        break;
-    case CM_REVERSIBLE:
-        src_params->colour_spec.col_matrix.kr =  0.25f;
-        src_params->colour_spec.col_matrix.kb =  0.25f;
-        break;
-    case CM_HDTV_COMP_INTERNET:
-    default:
-        src_params->colour_spec.col_matrix.kr = 0.2126f;
-        src_params->colour_spec.col_matrix.kb = 0.0722f;
-        break;
-    }
-}
+        dirac_decoder_t* decoder = new dirac_decoder_t;
+        memset(decoder, 0, sizeof(dirac_decoder_t));
 
-static void set_frame_component (const PicArray& pic_data,  const CompSort cs, dirac_decoder_t *decoder)
-{
-    TEST (decoder->fbuf != NULL);
-    int xl, yl;
+        bool verbosity = verbose > 0 ? true : false;
+        DiracParser *parser = new DiracParser(verbosity);
+        decoder->parser = static_cast<void *>(parser);
 
-    unsigned char *buf;
-
-    switch (cs)
-    {
-    case U_COMP:
-        xl = decoder->src_params.chroma_width;
-        yl = decoder->src_params.chroma_height;
-        buf = decoder->fbuf->buf[1];
-        break;
-    case V_COMP:
-        xl = decoder->src_params.chroma_width;
-        yl = decoder->src_params.chroma_height;
-        buf = decoder->fbuf->buf[2];
-        break;
-
-    case Y_COMP:
-    default:
-        xl = decoder->src_params.width;
-        yl = decoder->src_params.height;
-        buf = decoder->fbuf->buf[0];
-        break;
+        decoder->fbuf = new dirac_framebuf_t;
+        decoder->fbuf->id = NULL;
+        decoder->fbuf->buf[0] = decoder->fbuf->buf[1] = decoder->fbuf->buf[2] = NULL;
+        return decoder;
     }
 
-    TEST (buf != NULL);
+    extern DllExport void dirac_decoder_close(dirac_decoder_t *decoder)
+    {
+        TEST(decoder != NULL);
+        TEST(decoder->parser != NULL);
+        DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
+
+        delete parser;
+
+        delete decoder->fbuf;
+
+        delete decoder;
+
+        decoder = NULL;
+    }
+
+    extern DllExport void dirac_buffer(dirac_decoder_t *decoder, unsigned char *start, unsigned char *end)
+    {
+        TEST(decoder != NULL);
+        TEST(decoder->parser != NULL);
+        DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
+
+        parser->SetBuffer((char *)start, (char *)end);
+    }
+
+    static void set_sequence_params(const  DiracParser * const parser, dirac_decoder_t *decoder)
+    {
+        TEST(parser != NULL);
+        TEST(decoder != NULL);
+
+        dirac_sourceparams_t *src_params = &decoder->src_params;
+        dirac_parseparams_t *parse_params = &decoder->parse_params;
+        const SourceParams& srcparams = parser->GetSourceParams();
+        const ParseParams& pparams = parser->GetParseParams();
+
+        parse_params->major_ver = pparams.MajorVersion();
+        parse_params->minor_ver = pparams.MinorVersion();
+        parse_params->profile = pparams.Profile();
+        parse_params->level = pparams.Level();
+
+        src_params->width = srcparams.Xl();
+        src_params->height = srcparams.Yl();
+
+        src_params->chroma = (dirac_chroma_t)srcparams.CFormat();
+        src_params->chroma_width = srcparams.ChromaWidth();
+        src_params->chroma_height = srcparams.ChromaHeight();
+
+        // set the source parmeters
+        src_params->source_sampling = srcparams.SourceSampling();
+        src_params->topfieldfirst = srcparams.TopFieldFirst() ? 1 : 0;
+
+        src_params->frame_rate.numerator = srcparams.FrameRate().m_num;
+        src_params->frame_rate.denominator = srcparams.FrameRate().m_denom;
+
+        src_params->pix_asr.numerator = srcparams.PixelAspectRatio().m_num;
+        src_params->pix_asr.denominator = srcparams.PixelAspectRatio().m_denom;
+
+        // clean area
+        src_params->clean_area.width = srcparams.CleanWidth();
+        src_params->clean_area.height = srcparams.CleanHeight();
+        src_params->clean_area.left_offset = srcparams.LeftOffset();
+        src_params->clean_area.top_offset = srcparams.TopOffset();
+
+        // signal range
+        src_params->signal_range.luma_offset = srcparams.LumaOffset();
+        src_params->signal_range.luma_excursion = srcparams.LumaExcursion();
+        src_params->signal_range.chroma_offset = srcparams.ChromaOffset();
+        src_params->signal_range.chroma_excursion = srcparams.ChromaExcursion();
+
+        // Colour specfication
+        src_params->colour_spec.col_primary = srcparams.ColourPrimariesIndex();
+        src_params->colour_spec.trans_func = srcparams.TransferFunctionIndex();
+        switch(srcparams.ColourMatrixIndex())
+        {
+        case CM_SDTV:
+            src_params->colour_spec.col_matrix.kr =  0.299f;
+            src_params->colour_spec.col_matrix.kb =  0.114f;
+            break;
+        case CM_REVERSIBLE:
+            src_params->colour_spec.col_matrix.kr =  0.25f;
+            src_params->colour_spec.col_matrix.kb =  0.25f;
+            break;
+        case CM_HDTV_COMP_INTERNET:
+        default:
+            src_params->colour_spec.col_matrix.kr = 0.2126f;
+            src_params->colour_spec.col_matrix.kb = 0.0722f;
+            break;
+        }
+    }
+
+    static void set_frame_component(const PicArray& pic_data,  const CompSort cs, dirac_decoder_t *decoder)
+    {
+        TEST(decoder->fbuf != NULL);
+        int xl, yl;
+
+        unsigned char *buf;
+
+        switch(cs)
+        {
+        case U_COMP:
+            xl = decoder->src_params.chroma_width;
+            yl = decoder->src_params.chroma_height;
+            buf = decoder->fbuf->buf[1];
+            break;
+        case V_COMP:
+            xl = decoder->src_params.chroma_width;
+            yl = decoder->src_params.chroma_height;
+            buf = decoder->fbuf->buf[2];
+            break;
+
+        case Y_COMP:
+        default:
+            xl = decoder->src_params.width;
+            yl = decoder->src_params.height;
+            buf = decoder->fbuf->buf[0];
+            break;
+        }
+
+        TEST(buf != NULL);
 
 #if defined HAVE_MMX
-    int last_idx = (xl>>3)<<3;
-    __m64 tmp = _mm_set_pi16(128, 128, 128, 128);
-    for (int j=0 ; j<yl ;++j)
-    {
-        for (int i=0 ; i<last_idx ; i+=8 )
+        int last_idx = (xl >> 3) << 3;
+        __m64 tmp = _mm_set_pi16(128, 128, 128, 128);
+        for(int j = 0 ; j < yl ; ++j)
         {
-            __m64 pic1 = *(__m64 *)&pic_data[j][i];
-            pic1 = _mm_add_pi16 (pic1, tmp);
-            __m64 pic2 = *(__m64 *)(&pic_data[j][i+4]);
-            pic2 = _mm_add_pi16 (pic2, tmp);
-            __m64 *tmp = (__m64 *)&buf[j*xl+i];
-            *tmp = _mm_packs_pu16 (pic1, pic2);
-        }//i
-    }//j
-    _mm_empty();
+            for(int i = 0 ; i < last_idx ; i += 8)
+            {
+                __m64 pic1 = *(__m64 *)&pic_data[j][i];
+                pic1 = _mm_add_pi16(pic1, tmp);
+                __m64 pic2 = *(__m64 *)(&pic_data[j][i+4]);
+                pic2 = _mm_add_pi16(pic2, tmp);
+                __m64 *tmp = (__m64 *)&buf[j*xl+i];
+                *tmp = _mm_packs_pu16(pic1, pic2);
+            }//i
+        }//j
+        _mm_empty();
 
-    // mop up remaining pixels
-    for (int j=0 ; j<yl ;++j)
-    {
-        for (int i=last_idx ; i<xl ; i++ )
+        // mop up remaining pixels
+        for(int j = 0 ; j < yl ; ++j)
         {
-            buf[j*xl+i]=(unsigned char) (pic_data[j][i]+128);
-        }//i
-    }//j
-    return;
+            for(int i = last_idx ; i < xl ; i++)
+            {
+                buf[j*xl+i] = (unsigned char)(pic_data[j][i] + 128);
+            }//i
+        }//j
+        return;
 #else
 
-    for (int j=0 ; j<yl ;++j)
-    {
-        for (int i=0 ; i<xl ; ++i)
+        for(int j = 0 ; j < yl ; ++j)
         {
-            buf[j*xl+i]=(unsigned char) (pic_data[j][i]+128);
-        }//i
-    }//j
+            for(int i = 0 ; i < xl ; ++i)
+            {
+                buf[j*xl+i] = (unsigned char)(pic_data[j][i] + 128);
+            }//i
+        }//j
 
 #endif
-}
-
-static void set_field_component (const PicArray& pic_data,  const CompSort cs, dirac_decoder_t *decoder, unsigned int pic_num)
-{
-    TEST (decoder->fbuf != NULL);
-    int xl, yl;
-
-    unsigned char *buf;
-
-    switch (cs)
-    {
-    case U_COMP:
-        xl = decoder->src_params.chroma_width;
-        yl = decoder->src_params.chroma_height;
-        buf = decoder->fbuf->buf[1];
-        break;
-    case V_COMP:
-        xl = decoder->src_params.chroma_width;
-        yl = decoder->src_params.chroma_height;
-        buf = decoder->fbuf->buf[2];
-        break;
-
-    case Y_COMP:
-    default:
-        xl = decoder->src_params.width;
-        yl = decoder->src_params.height;
-        buf = decoder->fbuf->buf[0];
-        break;
     }
 
-    TEST (buf != NULL);
-
-    // Seek offset before writing field to store
-    int start = 0;
-    // Seek offset between writing fields to store
-    int skip = 0;
-
-
-    bool top_field = decoder->src_params.topfieldfirst ? (!(pic_num%2)) :
-                    (pic_num%2);
-
-    if (top_field) // i.e. top field
+    static void set_field_component(const PicArray& pic_data,  const CompSort cs, dirac_decoder_t *decoder, unsigned int pic_num)
     {
-        start = 0;
-        skip = 2 * xl * sizeof(char);
-    }
-    else // else bottom field
-    {
-        start = xl;
-        skip = 2 * xl * sizeof(char);
-    }
+        TEST(decoder->fbuf != NULL);
+        int xl, yl;
 
-    unsigned char *tempc = buf + start;
+        unsigned char *buf;
 
-    int field_yl = yl>>1;
-    int field_xl = xl;
-
-    for (int j=0 ; j<field_yl ;++j)
-    {
-        for (int i=0 ; i<field_xl ; ++i)
+        switch(cs)
         {
-            tempc[i] = (unsigned char) (pic_data[j][i]+128);
-        }//I
-        tempc += skip;
-    }
-}
+        case U_COMP:
+            xl = decoder->src_params.chroma_width;
+            yl = decoder->src_params.chroma_height;
+            buf = decoder->fbuf->buf[1];
+            break;
+        case V_COMP:
+            xl = decoder->src_params.chroma_width;
+            yl = decoder->src_params.chroma_height;
+            buf = decoder->fbuf->buf[2];
+            break;
 
-static void set_frame_data (const  DiracParser * const parser, dirac_decoder_t *decoder)
-{
-    TEST (parser != NULL);
-    TEST (decoder != NULL);
-    TEST (decoder->fbuf != NULL);
-    TEST (decoder->state == STATE_PICTURE_AVAIL);
-
-    const Picture* my_picture = parser->GetNextPicture();
-
-    if (my_picture)
-    {
-        int pic_num = my_picture->GetPparams().PictureNum();
-
-        if (!parser->GetDecoderParams().FieldCoding())
-        {
-            set_frame_component (my_picture->Data(Y_COMP), Y_COMP, decoder);
-            set_frame_component (my_picture->Data(U_COMP), U_COMP, decoder);
-            set_frame_component (my_picture->Data(V_COMP), V_COMP, decoder);
+        case Y_COMP:
+        default:
+            xl = decoder->src_params.width;
+            yl = decoder->src_params.height;
+            buf = decoder->fbuf->buf[0];
+            break;
         }
-        else
+
+        TEST(buf != NULL);
+
+        // Seek offset before writing field to store
+        int start = 0;
+        // Seek offset between writing fields to store
+        int skip = 0;
+
+
+        bool top_field = decoder->src_params.topfieldfirst ? (!(pic_num % 2)) :
+                         (pic_num % 2);
+
+        if(top_field)  // i.e. top field
         {
-            set_field_component (my_picture->Data(Y_COMP), Y_COMP, decoder, pic_num);
-            set_field_component (my_picture->Data(U_COMP), U_COMP, decoder, pic_num);
-            set_field_component (my_picture->Data(V_COMP), V_COMP, decoder, pic_num);
+            start = 0;
+            skip = 2 * xl * sizeof(char);
+        }
+        else // else bottom field
+        {
+            start = xl;
+            skip = 2 * xl * sizeof(char);
+        }
+
+        unsigned char *tempc = buf + start;
+
+        int field_yl = yl >> 1;
+        int field_xl = xl;
+
+        for(int j = 0 ; j < field_yl ; ++j)
+        {
+            for(int i = 0 ; i < field_xl ; ++i)
+            {
+                tempc[i] = (unsigned char)(pic_data[j][i] + 128);
+            }//I
+            tempc += skip;
         }
     }
-    return;
-}
 
-extern DllExport dirac_decoder_state_t dirac_parse (dirac_decoder_t *decoder)
-{
-    TEST (decoder != NULL);
-    TEST (decoder->parser != NULL);
-    DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
-
-    unsigned int pic_num;
-
-    while(true)
+    static void set_frame_data(const  DiracParser * const parser, dirac_decoder_t *decoder)
     {
-        try
+        TEST(parser != NULL);
+        TEST(decoder != NULL);
+        TEST(decoder->fbuf != NULL);
+        TEST(decoder->state == STATE_PICTURE_AVAIL);
+
+        const Picture* my_picture = parser->GetNextPicture();
+
+        if(my_picture)
         {
-            decoder->state = parser->Parse();
+            int pic_num = my_picture->GetPparams().PictureNum();
 
-            switch (decoder->state)
+            if(!parser->GetDecoderParams().FieldCoding())
             {
-            case STATE_BUFFER:
-                return decoder->state;
-                break;
-
-            case STATE_SEQUENCE:
-                set_sequence_params(parser, decoder);
-                decoder->frame_avail = 0;
-                return decoder->state;
-                break;
-
-            case STATE_PICTURE_AVAIL:
+                set_frame_component(my_picture->Data(Y_COMP), Y_COMP, decoder);
+                set_frame_component(my_picture->Data(U_COMP), U_COMP, decoder);
+                set_frame_component(my_picture->Data(V_COMP), V_COMP, decoder);
+            }
+            else
             {
-                const Picture *my_picture = parser->GetNextPicture();
-                if (my_picture)
+                set_field_component(my_picture->Data(Y_COMP), Y_COMP, decoder, pic_num);
+                set_field_component(my_picture->Data(U_COMP), U_COMP, decoder, pic_num);
+                set_field_component(my_picture->Data(V_COMP), V_COMP, decoder, pic_num);
+            }
+        }
+        return;
+    }
+
+    extern DllExport dirac_decoder_state_t dirac_parse(dirac_decoder_t *decoder)
+    {
+        TEST(decoder != NULL);
+        TEST(decoder->parser != NULL);
+        DiracParser *parser = static_cast<DiracParser *>(decoder->parser);
+
+        unsigned int pic_num;
+
+        while(true)
+        {
+            try
+            {
+                decoder->state = parser->Parse();
+
+                switch(decoder->state)
                 {
-                    pic_num = parser->GetNextPicture()->GetPparams().PictureNum();
-                    decoder->frame_num = pic_num;
-                    set_frame_data (parser, decoder);
+                case STATE_BUFFER:
+                    return decoder->state;
+                    break;
 
-                    /* A full frame is only available if we're doing
-                    * progressive coding or have decoded the second field.
-                    * Will only return when a full frame is available
-                    */
-                    if (!parser->GetDecoderParams().FieldCoding() ||
-                        pic_num%2)
+                case STATE_SEQUENCE:
+                    set_sequence_params(parser, decoder);
+                    decoder->frame_avail = 0;
+                    return decoder->state;
+                    break;
+
+                case STATE_PICTURE_AVAIL:
+                {
+                    const Picture *my_picture = parser->GetNextPicture();
+                    if(my_picture)
                     {
-                        /* Frame number currently available for display */
+                        pic_num = parser->GetNextPicture()->GetPparams().PictureNum();
                         decoder->frame_num = pic_num;
-                        if (parser->GetDecoderParams().FieldCoding())
-                            decoder->frame_num = pic_num>>1;
-                        decoder->frame_avail = 1;
-                        return decoder->state;
+                        set_frame_data(parser, decoder);
+
+                        /* A full frame is only available if we're doing
+                        * progressive coding or have decoded the second field.
+                        * Will only return when a full frame is available
+                        */
+                        if(!parser->GetDecoderParams().FieldCoding() ||
+                           pic_num % 2)
+                        {
+                            /* Frame number currently available for display */
+                            decoder->frame_num = pic_num;
+                            if(parser->GetDecoderParams().FieldCoding())
+                                decoder->frame_num = pic_num >> 1;
+                            decoder->frame_avail = 1;
+                            return decoder->state;
+                        }
                     }
+                    break;
                 }
-                break;
+
+                case STATE_INVALID:
+                    return decoder->state;
+                    break;
+
+                case STATE_SEQUENCE_END:
+                    return decoder->state;
+                    break;
+
+                default:
+                    break;
+                }
+            }//try
+            catch(const DiracException& e)
+            {
+                return STATE_INVALID;
             }
-
-            case STATE_INVALID:
-                return decoder->state;
-                break;
-
-            case STATE_SEQUENCE_END:
-                return decoder->state;
-                break;
-
-            default:
-                break;
-            }
-        }//try
-        catch (const DiracException& e)
-        {
-             return STATE_INVALID;
         }
+
+        return decoder->state;
     }
 
-    return decoder->state;
-}
+    extern DllExport void dirac_set_buf(dirac_decoder_t *decoder, unsigned char *buf[3], void *id)
+    {
+        TEST(decoder != NULL);
+        TEST(decoder->fbuf != NULL);
 
-extern DllExport void dirac_set_buf (dirac_decoder_t *decoder, unsigned char *buf[3], void *id)
-{
-    TEST (decoder != NULL);
-    TEST (decoder->fbuf != NULL);
-
-    decoder->fbuf->buf[0] = buf[0];
-    decoder->fbuf->buf[1] = buf[1];
-    decoder->fbuf->buf[2] = buf[2];
-    decoder->fbuf->id  = id;
-}
+        decoder->fbuf->buf[0] = buf[0];
+        decoder->fbuf->buf[1] = buf[1];
+        decoder->fbuf->buf[2] = buf[2];
+        decoder->fbuf->id  = id;
+    }
 
 #ifdef __cplusplus
 }

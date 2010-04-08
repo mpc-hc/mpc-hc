@@ -53,73 +53,79 @@
 
 namespace dirac
 {
-             
+
+/**
+* Represents compressed sequence-parameter data used in an AccessUnit
+*/
+class MvDataElementByteIO : public ByteIO
+{
+public:
+
     /**
-    * Represents compressed sequence-parameter data used in an AccessUnit
+    * Constructor
     */
-    class MvDataElementByteIO : public ByteIO
+    MvDataElementByteIO();
+
+    /**
+    * Constructor
+    *@param byte_io    Input/Output Byte stream
+    */
+    MvDataElementByteIO(ByteIO &byte_io);
+
+    /**
+    * Destructor
+    */
+    virtual ~MvDataElementByteIO();
+
+    /**
+    * Outputs motion vector data Dirac byte-format
+    */
+    void Output();
+
+    /**
+    * Inputs motion vector information
+    */
+    void Input();
+
+
+    /**
+    * Get string containing coded bytes
+    */
+    virtual const std::string GetBytes();
+
+    /**
+    * Return pointer to the block data ByteIO stream
+    */
+    ByteIO*  DataBlock()
     {
-    public:
-
-        /**
-        * Constructor
-        */
-        MvDataElementByteIO();
-
-        /**
-        * Constructor
-        *@param byte_io    Input/Output Byte stream
-        */
-        MvDataElementByteIO(ByteIO &byte_io);
-
-        /**
-        * Destructor
-        */
-        virtual ~MvDataElementByteIO();
-
-        /**
-        * Outputs motion vector data Dirac byte-format
-        */
-        void Output();
-
-        /**
-        * Inputs motion vector information
-        */
-        void Input();
-
-
-        /**
-        * Get string containing coded bytes
-        */
-        virtual const std::string GetBytes();
-
-        /**
-        * Return pointer to the block data ByteIO stream
-        */
-        ByteIO*  DataBlock() { return &m_block_data; };
-
-        /**
-        * Return the input block data size
-        */
-        unsigned int DataBlockSize() { return m_block_size; }
-
-        /**
-        * Return the size 
-        */
-        int GetSize() const;
-
-    protected:
-    
-        /**
-        * block data
-        */
-        ByteIO m_block_data;
-
-        /**
-        * In block data size
-        */
-        unsigned int m_block_size;
+        return &m_block_data;
     };
+
+    /**
+    * Return the input block data size
+    */
+    unsigned int DataBlockSize()
+    {
+        return m_block_size;
+    }
+
+    /**
+    * Return the size
+    */
+    int GetSize() const;
+
+protected:
+
+    /**
+    * block data
+    */
+    ByteIO m_block_data;
+
+    /**
+    * In block data size
+    */
+    unsigned int m_block_size;
+};
 
 } // namespace dirac
 

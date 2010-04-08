@@ -50,20 +50,20 @@ DiracException::DiracException(
     const DiracErrorCode& errorCode,
     const string& errorMessage,
     const DiracSeverityCode& severityCode)
-: mErrorCode(errorCode),
-  mSeverityCode(severityCode),
-  mErrorMessage(errorMessage)
+    : mErrorCode(errorCode),
+      mSeverityCode(severityCode),
+      mErrorMessage(errorMessage)
 {
 }
 
 
 DiracException::DiracException(
     const DiracException& src)
-: mErrorCode(src.mErrorCode)
-, mSeverityCode(src.mSeverityCode)
-, mErrorMessage(src.mErrorMessage)
+    : mErrorCode(src.mErrorCode)
+    , mSeverityCode(src.mSeverityCode)
+    , mErrorMessage(src.mErrorMessage)
 {
-    
+
 }
 
 DiracException::~DiracException()
@@ -78,7 +78,7 @@ DiracErrorCode DiracException::GetErrorCode() const
     return mErrorCode;
 }
 
- DiracSeverityCode DiracException::GetSeverityCode() const
+DiracSeverityCode DiracException::GetSeverityCode() const
 {
     return mSeverityCode;
 }

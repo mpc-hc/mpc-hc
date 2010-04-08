@@ -55,13 +55,22 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    bool GetSelectiveEncryption()    { return m_SelectiveEncryption; }
-    AP4_UI08 GetKeyIndicatorLength() { return m_KeyIndicatorLength;  }
-    AP4_UI08 GetIvLength()           { return m_IvLength;            }
+    bool GetSelectiveEncryption()
+    {
+        return m_SelectiveEncryption;
+    }
+    AP4_UI08 GetKeyIndicatorLength()
+    {
+        return m_KeyIndicatorLength;
+    }
+    AP4_UI08 GetIvLength()
+    {
+        return m_IvLength;
+    }
 
 private:
     // methods
-    AP4_IsfmAtom(AP4_UI32        size, 
+    AP4_IsfmAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

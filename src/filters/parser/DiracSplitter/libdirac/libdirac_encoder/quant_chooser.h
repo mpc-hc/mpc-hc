@@ -45,83 +45,86 @@
 
 namespace dirac
 {
-    //! Choose a quantiser
-    /*!
-        This class chooses a quantiser or quantisers for a subband 
-    */
-    class QuantChooser
+//! Choose a quantiser
+/*!
+    This class chooses a quantiser or quantisers for a subband
+*/
+class QuantChooser
+{
+public:
+
+    //! Constructor
+    QuantChooser(const CoeffArray& pic_data , const float lambda);
+
+    //! Finds the best quantisers for the subband, returning the predicted number of bits needed
+    int GetBestQuant(Subband& node);
+
+    //! Sets the factor used for correcting the entropy calculation
+    void SetEntropyCorrection(const float ecfac)
     {
-    public:
+        m_entropy_correctionfactor = ecfac;
+    }
+private:
+    //! Copy constructor is private and body-less. This class should not be copied.
+    QuantChooser(const QuantChooser& cpy);
 
-        //! Constructor
-        QuantChooser( const CoeffArray& pic_data , const float lambda  );
+    //! Assignment = is private and body-less. This class should not be assigned.
+    QuantChooser& operator=(const QuantChooser& rhs);
 
-        //! Finds the best quantisers for the subband, returning the predicted number of bits needed
-        int GetBestQuant( Subband& node );
+    //! Calculate errors and entropies for integral-bit quantisers
+    void IntegralErrorCalc(Subband& node , const int xratio , const int yratio);
 
-        //! Sets the factor used for correcting the entropy calculation
-        void SetEntropyCorrection( const float ecfac ){ m_entropy_correctionfactor = ecfac; }
-    private:
-        //! Copy constructor is private and body-less. This class should not be copied.
-        QuantChooser(const QuantChooser& cpy);
+    //! Calculate errors and entropies for non-integral-bit quantisers
+    void NonIntegralErrorCalc(Subband& node, const int xratio, const int yratio);
 
-        //! Assignment = is private and body-less. This class should not be assigned.
-        QuantChooser& operator=(const QuantChooser& rhs);
- 
-        //! Calculate errors and entropies for integral-bit quantisers
-        void IntegralErrorCalc( Subband& node , const int xratio , const int yratio );
+    //! Having got statistics, calculate the Lagrangian costs
+    void LagrangianCalc();
 
-        //! Calculate errors and entropies for non-integral-bit quantisers
-        void NonIntegralErrorCalc( Subband& node, const int xratio, const int yratio );
+    //! Select the best quantisation index on the basis of the Lagrangian calculations
+    void SelectBestQuant();
 
-        //! Having got statistics, calculate the Lagrangian costs
-        void LagrangianCalc();
+    CoeffType BlockAbsMax(const Subband& node);
 
-        //! Select the best quantisation index on the basis of the Lagrangian calculations
-        void SelectBestQuant();
+    //! Set the skip flag for a codeblock
+    void SetSkip(CodeBlock& cblock , const int qidx);
 
-        CoeffType BlockAbsMax( const Subband& node );
+private:
+    //! The perceptual weighting factor of the subband being tested
+    float m_subband_wt;
 
-        //! Set the skip flag for a codeblock
-        void SetSkip( CodeBlock& cblock , const int qidx);
+    //! The smallest quantisation index being tested
+    int m_bottom_idx;
+    //! The largest quantisation index being tested
+    int m_top_idx;
+    //! The step we use in jumping through the list of quantisers
+    int m_index_step;
 
-    private:
-        //! The perceptual weighting factor of the subband being tested
-        float m_subband_wt;
+    //! The index of the quantiser with the lowest cost
+    int m_min_idx;
 
-        //! The smallest quantisation index being tested
-        int m_bottom_idx;
-        //! The largest quantisation index being tested
-        int m_top_idx;
-        //! The step we use in jumping through the list of quantisers
-        int m_index_step;
+    //! A local reference to the data under consideration
+    const CoeffArray& m_coeff_data;
 
-        //! The index of the quantiser with the lowest cost
-        int m_min_idx;
+    //!  The lambda value to be used in the Lagrangian calculation
+    const float m_lambda;
 
-        //! A local reference to the data under consideration
-        const CoeffArray& m_coeff_data;
+    //! A value for correcting the crude calculation of the entropy
+    float m_entropy_correctionfactor;
 
-        //!  The lambda value to be used in the Lagrangian calculation
-        const float m_lambda;
+    //! An array used to count the number of zeroes
+    OneDArray<int> m_count0;
+    //! The number of ones (equal to the number of coefficients)
+    int m_count1;
+    //! An array used to count the number of positive values
+    OneDArray<int> m_countPOS;
+    //! An array used to count the number of negative values
+    OneDArray<int> m_countNEG;
+    //! An array used to collate the sum of the perceptually-weighted errors
+    OneDArray<double> m_error_total;
+    //! An array used to collate the computed costs
+    OneDArray<CostType> m_costs;
 
-        //! A value for correcting the crude calculation of the entropy
-        float m_entropy_correctionfactor;
-
-        //! An array used to count the number of zeroes
-        OneDArray<int> m_count0;
-        //! The number of ones (equal to the number of coefficients)
-        int m_count1;
-        //! An array used to count the number of positive values
-        OneDArray<int> m_countPOS;
-        //! An array used to count the number of negative values
-        OneDArray<int> m_countNEG;    
-        //! An array used to collate the sum of the perceptually-weighted errors
-        OneDArray<double> m_error_total;
-        //! An array used to collate the computed costs
-        OneDArray<CostType> m_costs;
-
-    };
+};
 
 } // namespace dirac
 

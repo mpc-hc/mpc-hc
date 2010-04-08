@@ -24,7 +24,7 @@
 #include "fft.h"
 
 DECLARE_ALIGNED(16, static const int, m1m1m1m1)[4] =
-    { 1 << 31, 1 << 31, 1 << 31, 1 << 31 };
+{ 1 << 31, 1 << 31, 1 << 31, 1 << 31 };
 
 void ff_fft_dispatch_sse(FFTComplex *z, int nbits);
 void ff_fft_dispatch_interleave_sse(FFTComplex *z, int nbits);
@@ -35,8 +35,9 @@ void ff_fft_calc_sse(FFTContext *s, FFTComplex *z)
 
     ff_fft_dispatch_interleave_sse(z, s->nbits);
 
-    if(n <= 16) {
-        x86_reg i = -8*n;
+    if(n <= 16)
+    {
+        x86_reg i = -8 * n;
         __asm__ volatile(
             "1: \n"
             "movaps     (%0,%1), %%xmm0 \n"
@@ -58,17 +59,18 @@ void ff_fft_permute_sse(FFTContext *s, FFTComplex *z)
 {
     int n = 1 << s->nbits;
     int i;
-    for(i=0; i<n; i+=2) {
+    for(i = 0; i < n; i += 2)
+    {
         __asm__ volatile(
             "movaps %2, %%xmm0 \n"
             "movlps %%xmm0, %0 \n"
             "movhps %%xmm0, %1 \n"
             :"=m"(s->tmp_buf[s->revtab[i]]),
-             "=m"(s->tmp_buf[s->revtab[i+1]])
+            "=m"(s->tmp_buf[s->revtab[i+1]])
             :"m"(z[i])
         );
     }
-    memcpy(z, s->tmp_buf, n*sizeof(FFTComplex));
+    memcpy(z, s->tmp_buf, n * sizeof(FFTComplex));
 }
 
 void ff_imdct_half_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
@@ -84,7 +86,8 @@ void ff_imdct_half_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
     FFTComplex *z = (FFTComplex *)output;
 
     /* pre rotation */
-    for(k=n8-2; k>=0; k-=2) {
+    for(k = n8 - 2; k >= 0; k -= 2)
+    {
         __asm__ volatile(
             "movaps     (%2,%1,2), %%xmm0 \n" // { z[k].re,    z[k].im,    z[k+1].re,  z[k+1].im  }
             "movaps  -16(%2,%0,2), %%xmm1 \n" // { z[-k-2].re, z[-k-2].im, z[-k-1].re, z[-k-1].im }
@@ -107,20 +110,20 @@ void ff_imdct_half_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
             "unpcklps      %%xmm2, %%xmm1 \n" // { z[k],    z[k+1]  }
             "unpckhps      %%xmm2, %%xmm0 \n" // { z[-k-2], z[-k-1] }
             ::"r"(-4*k), "r"(4*k),
-              "r"(input+n4), "r"(tcos+n8), "r"(tsin+n8)
+            "r"(input+n4), "r"(tcos+n8), "r"(tsin+n8)
         );
 #if ARCH_X86_64
         // if we have enough regs, don't let gcc make the luts latency-bound
         // but if not, latency is faster than spilling
         __asm__("movlps %%xmm0, %0 \n"
-            "movhps %%xmm0, %1 \n"
-            "movlps %%xmm1, %2 \n"
-            "movhps %%xmm1, %3 \n"
-            :"=m"(z[revtab[-k-2]]),
-             "=m"(z[revtab[-k-1]]),
-             "=m"(z[revtab[ k  ]]),
-             "=m"(z[revtab[ k+1]])
-        );
+        "movhps %%xmm0, %1 \n"
+        "movlps %%xmm1, %2 \n"
+        "movhps %%xmm1, %3 \n"
+        :"=m"(z[revtab[-k-2]]),
+        "=m"(z[revtab[-k-1]]),
+        "=m"(z[revtab[ k  ]]),
+        "=m"(z[revtab[ k+1]])
+               );
 #else
         __asm__("movlps %%xmm0, %0" :"=m"(z[revtab[-k-2]]));
         __asm__("movhps %%xmm0, %0" :"=m"(z[revtab[-k-1]]));
@@ -146,7 +149,7 @@ void ff_imdct_half_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
         "addps         %%xmm7, "#xmm1"\n"
 
     j = -n2;
-    k = n2-16;
+    k = n2 - 16;
     __asm__ volatile(
         "1: \n"
         CMUL(%0, %%xmm0, %%xmm1)
@@ -178,10 +181,10 @@ void ff_imdct_calc_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
     long n = 1 << s->mdct_bits;
     long n4 = n >> 2;
 
-    ff_imdct_half_sse(s, output+n4, input);
+    ff_imdct_half_sse(s, output + n4, input);
 
     j = -n;
-    k = n-16;
+    k = n - 16;
     __asm__ volatile(
         "movaps %4, %%xmm7 \n"
         "1: \n"
@@ -197,7 +200,7 @@ void ff_imdct_calc_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
         "jl 1b \n"
         :"+r"(j), "+r"(k)
         :"r"(output+n4), "r"(output+n4*3),
-         "m"(*m1m1m1m1)
+        "m"(*m1m1m1m1)
     );
 }
 

@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -120,15 +120,27 @@ extern void		TracePinInfo(IPin* pPin);
 class CPinInfo : public PIN_INFO
 {
 public:
-	CPinInfo() {pFilter = NULL;}
-	~CPinInfo() {if(pFilter) pFilter->Release();}
+    CPinInfo()
+    {
+        pFilter = NULL;
+    }
+    ~CPinInfo()
+    {
+        if(pFilter) pFilter->Release();
+    }
 };
 
 class CFilterInfo : public FILTER_INFO
 {
 public:
-	CFilterInfo() {pGraph = NULL;}
-	~CFilterInfo() {if(pGraph) pGraph->Release();}
+    CFilterInfo()
+    {
+        pGraph = NULL;
+    }
+    ~CFilterInfo()
+    {
+        if(pGraph) pGraph->Release();
+    }
 };
 
 #define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter) \
@@ -137,7 +149,7 @@ public:
 	{ \
 		for(CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
 		{ \
-
+ 
 #define EndEnumFilters }}}
 
 #define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter) \
@@ -146,7 +158,7 @@ public:
 	{ \
 		for(CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
 		{ \
-
+ 
 #define EndEnumCachedFilters }}}
 
 #define BeginEnumPins(pBaseFilter, pEnumPins, pPin) \
@@ -155,7 +167,7 @@ public:
 	{ \
 		for(CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = NULL) \
 		{ \
-
+ 
 #define EndEnumPins }}}
 
 #define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType) \
@@ -165,7 +177,7 @@ public:
 		AM_MEDIA_TYPE* pMediaType = NULL; \
 		for(; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) \
 		{ \
-
+ 
 #define EndEnumMediaTypes(pMediaType) } if(pMediaType) DeleteMediaType(pMediaType); }}
 
 #define BeginEnumSysDev(clsid, pMoniker) \
@@ -177,7 +189,7 @@ public:
 	{ \
 		for(CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL) \
 		{ \
-
+ 
 #define EndEnumSysDev }}}
 
 #define QI(i) (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
@@ -194,10 +206,10 @@ template <typename T> __inline void INITDDSTRUCT(T& dd)
 template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
-	*phr = S_OK;
+    *phr = S_OK;
     CUnknown* punk = DNew T(lpunk, phr);
     if(punk == NULL) *phr = E_OUTOFMEMORY;
-	return punk;
+    return punk;
 }
 
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }

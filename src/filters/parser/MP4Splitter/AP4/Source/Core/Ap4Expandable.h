@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - Expandable base class 
+|    AP4 - Expandable base class
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,29 +46,39 @@ class AP4_AtomInspector;
 +---------------------------------------------------------------------*/
 class AP4_Expandable
 {
- public:
+public:
     // types
-    enum ClassIdSize {
+    enum ClassIdSize
+    {
         CLASS_ID_SIZE_08
     };
-     
+
     // class methods
     static AP4_Size MinHeaderSize(AP4_Size payload_size);
 
     // methods
-    AP4_Expandable(AP4_UI32    class_id, 
-                   ClassIdSize class_id_size, 
-                   AP4_Size    header_size, 
+    AP4_Expandable(AP4_UI32    class_id,
+                   ClassIdSize class_id_size,
+                   AP4_Size    header_size,
                    AP4_Size    payload_size);
     virtual ~AP4_Expandable() {}
-    AP4_UI32           GetClassId()    { return m_ClassId;                  }
-    AP4_Size           GetSize()       { return m_PayloadSize+m_HeaderSize; }
-    AP4_Size           GetHeaderSize() { return m_HeaderSize;               }
+    AP4_UI32           GetClassId()
+    {
+        return m_ClassId;
+    }
+    AP4_Size           GetSize()
+    {
+        return m_PayloadSize + m_HeaderSize;
+    }
+    AP4_Size           GetHeaderSize()
+    {
+        return m_HeaderSize;
+    }
     virtual AP4_Result Write(AP4_ByteStream& stream);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream) = 0;
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
- protected:
+protected:
     // members
     AP4_UI32    m_ClassId;
     ClassIdSize m_ClassIdSize;
@@ -79,17 +89,17 @@ class AP4_Expandable
 /*----------------------------------------------------------------------
 |   AP4_UnknownExpandable
 +---------------------------------------------------------------------*/
-class AP4_UnknownExpandable : public AP4_Expandable 
+class AP4_UnknownExpandable : public AP4_Expandable
 {
 public:
     // methods
-    AP4_UnknownExpandable(AP4_ByteStream& stream, 
+    AP4_UnknownExpandable(AP4_ByteStream& stream,
                           AP4_UI32        class_id,
                           ClassIdSize     class_id_size,
                           AP4_Size        header_size,
                           AP4_Size        payload_size);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    
+
 private:
     // members
     AP4_DataBuffer m_Data;

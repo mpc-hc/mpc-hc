@@ -45,21 +45,24 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_OddaAtom, AP4_Atom)
 
     // class methods
-    static AP4_OddaAtom* Create(AP4_UI64        size, 
+    static AP4_OddaAtom* Create(AP4_UI64        size,
                                 AP4_ByteStream& stream);
 
     // constructor
     AP4_OddaAtom(AP4_ByteStream& encrypted_payload);
-     
+
     // destructor
     ~AP4_OddaAtom();
 
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    
+
     // accessors
-    AP4_UI64 GetEncryptedDataLength() { return m_EncryptedDataLength; }
+    AP4_UI64 GetEncryptedDataLength()
+    {
+        return m_EncryptedDataLength;
+    }
 
     /**
      * Sets the encrypted payload stream (and releases any existing stream references)
@@ -70,11 +73,14 @@ public:
     /**
      * Returns a reference to the encrypted payload stream (does not increment the reference counter)
      */
-    AP4_ByteStream& GetEncryptedPayload() { return *m_EncryptedPayload; }
+    AP4_ByteStream& GetEncryptedPayload()
+    {
+        return *m_EncryptedPayload;
+    }
 
 private:
     // methods
-    AP4_OddaAtom(AP4_UI64         size, 
+    AP4_OddaAtom(AP4_UI64         size,
                  AP4_UI32         version,
                  AP4_UI32         flags,
                  AP4_ByteStream&  stream);

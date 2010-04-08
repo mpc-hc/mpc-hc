@@ -18,11 +18,11 @@ HRESULT CDiracSplitterFile::Init()
     HRESULT hr = E_FAIL;
 
     Seek(0);
-    
+
     // Dirac streams are no longer preceded with KW-DIRAC
     //UINT64 hdr;
     //if(FAILED(Read((BYTE*)&hdr, sizeof(hdr))) || hdr != 0x43415249442D574Bui64) // KW-DIRAC
-        //return E_FAIL;
+    //return E_FAIL;
 
     dirac_decoder_t* decoder = dirac_decoder_init(0);
 
@@ -31,12 +31,20 @@ HRESULT CDiracSplitterFile::Init()
     while(GetPos() < limit)
     {
         BYTE b;
-        if(!Next(b)) {ASSERT(0); break;}
+        if(!Next(b))
+        {
+            ASSERT(0);
+            break;
+        }
 
         if(b == AU_START_CODE)
         {
             __int64 pos = GetPos() - 13; //Parse info size = 13
-            if(!Next(b)) {ASSERT(0); break;}
+            if(!Next(b))
+            {
+                ASSERT(0);
+                break;
+            }
             __int64 len = GetPos() - pos;
             Seek(pos);
 
@@ -53,10 +61,14 @@ HRESULT CDiracSplitterFile::Init()
 
             dirac_buffer(decoder, (BYTE*)&dvih->dwSequenceHeader[0], (BYTE*)&dvih->dwSequenceHeader[0] + len);
             DecoderState dec_state = dirac_parse(decoder);
-            if(dec_state != STATE_SEQUENCE) {ASSERT(0); break;}
+            if(dec_state != STATE_SEQUENCE)
+            {
+                ASSERT(0);
+                break;
+            }
 
             if(decoder->src_params.frame_rate.denominator)
-            dvih->hdr.AvgTimePerFrame = 10000000i64 * decoder->src_params.frame_rate.denominator / decoder->src_params.frame_rate.numerator;
+                dvih->hdr.AvgTimePerFrame = 10000000i64 * decoder->src_params.frame_rate.denominator / decoder->src_params.frame_rate.numerator;
             dvih->hdr.bmiHeader.biSize = sizeof(dvih->hdr.bmiHeader);
             dvih->hdr.bmiHeader.biWidth = decoder->src_params.width;
             dvih->hdr.bmiHeader.biHeight = decoder->src_params.height;
@@ -82,7 +94,7 @@ HRESULT CDiracSplitterFile::Init()
 }
 
 UINT64 CDiracSplitterFile::UnsignedGolombDecode()
-{    
+{
     int M = 0;
     while(M < 64 && !BitRead(1))
         M++;
@@ -91,7 +103,7 @@ UINT64 CDiracSplitterFile::UnsignedGolombDecode()
     for(int i = 0; i < M; i++)
         info |= BitRead(1) << i;
 
-    return (1ui64<<M)-1 + info;
+    return (1ui64 << M) - 1 + info;
 }
 
 bool CDiracSplitterFile::Next(BYTE& code, __int64 len)
@@ -103,10 +115,10 @@ bool CDiracSplitterFile::Next(BYTE& code, __int64 len)
         if(len-- == 0 || GetPos() >= GetLength()) return(false);
         qw = (qw << 8) | (BYTE)BitRead(8);
     }
-    while((qw&0xffffffff00) != ((UINT64)START_CODE_PREFIX<<8));
+    while((qw & 0xffffffff00) != ((UINT64)START_CODE_PREFIX << 8));
     int size_bytes = 0;
     // Read in the 6 bytes of next and previous parse unit offsets.
-    while (size_bytes < 6)
+    while(size_bytes < 6)
     {
         if(len-- == 0 || GetPos() >= GetLength()) return(false);
         BitRead(8);
@@ -131,7 +143,7 @@ const BYTE* CDiracSplitterFile::NextBlock(BYTE& code, int& size, int& fnum)
 
             if(size == 0)
             {
-                if((qw & 0xffffffff00) == ((UINT64)START_CODE_PREFIX<<8) )
+                if((qw & 0xffffffff00) == ((UINT64)START_CODE_PREFIX << 8))
                     code = (BYTE)(qw & 0xff);
 
                 if(isFrameStartCode(code))
@@ -145,14 +157,14 @@ const BYTE* CDiracSplitterFile::NextBlock(BYTE& code, int& size, int& fnum)
             }
             else
             {
-                if((qw & 0xffffffff00) == ((UINT64)START_CODE_PREFIX<<8))
+                if((qw & 0xffffffff00) == ((UINT64)START_CODE_PREFIX << 8))
                     break;
             }
         }
 
         if(size >= m_pBuff.GetSize())
         {
-            int newsize = max(1024, size*2);
+            int newsize = max(1024, size * 2);
             m_pBuff.SetSize(newsize, newsize);
             pBuff = m_pBuff.GetData();
         }

@@ -44,41 +44,47 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_ContainerAtom)
 |   AP4_ContainerAtom::AP4_ContainerAtom
 +---------------------------------------------------------------------*/
 AP4_ContainerAtom*
-AP4_ContainerAtom::Create(Type             type, 
+AP4_ContainerAtom::Create(Type             type,
                           AP4_UI64         size,
                           bool             is_full,
                           bool             force_64,
                           AP4_ByteStream&  stream,
                           AP4_AtomFactory& atom_factory)
 {
-    if (is_full) {
+    if(is_full)
+    {
         AP4_UI32 version;
         AP4_UI32 flags;
-        if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-        
+        if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+
         // special case for 'meta' atoms, because Apple sometimes creates them as
         // regular (non-full) atoms. This is bogus, but we can try to detect it
-        if (type == AP4_ATOM_TYPE_META) {
-            AP4_UI32 phantom_size = (version<<24)|flags;
-            if (phantom_size >= 8 && size >= 16) {
+        if(type == AP4_ATOM_TYPE_META)
+        {
+            AP4_UI32 phantom_size = (version << 24) | flags;
+            if(phantom_size >= 8 && size >= 16)
+            {
                 // version+flags looks like a size. read the next 4 bytes just
                 // to be sure it is a hdlr atom
                 AP4_UI32 peek;
-                if (AP4_FAILED(stream.ReadUI32(peek))) return NULL;
-                if (peek == AP4_ATOM_TYPE_HDLR) {
+                if(AP4_FAILED(stream.ReadUI32(peek))) return NULL;
+                if(peek == AP4_ATOM_TYPE_HDLR)
+                {
                     // rewind the stream by 8 bytes
                     AP4_Position position;
                     stream.Tell(position);
-                    stream.Seek(position-8);
-                    
+                    stream.Seek(position - 8);
+
                     // create a non-full container
                     return new AP4_ContainerAtom(type, size, force_64, stream, atom_factory);
                 }
             }
         }
-        
+
         return new AP4_ContainerAtom(type, size, force_64, version, flags, stream, atom_factory);
-    } else {
+    }
+    else
+    {
         return new AP4_ContainerAtom(type, size, force_64, stream, atom_factory);
     }
 }
@@ -110,10 +116,10 @@ AP4_ContainerAtom::AP4_ContainerAtom(Type type, AP4_UI64 size, bool force_64) :
 /*----------------------------------------------------------------------
 |   AP4_ContainerAtom::AP4_ContainerAtom
 +---------------------------------------------------------------------*/
-AP4_ContainerAtom::AP4_ContainerAtom(Type     type, 
+AP4_ContainerAtom::AP4_ContainerAtom(Type     type,
                                      AP4_UI64 size,
                                      bool     force_64,
-                                     AP4_UI32 version, 
+                                     AP4_UI32 version,
                                      AP4_UI32 flags) :
     AP4_Atom(type, size, force_64, version, flags)
 {
@@ -123,20 +129,20 @@ AP4_ContainerAtom::AP4_ContainerAtom(Type     type,
 /*----------------------------------------------------------------------
 |   AP4_ContainerAtom::AP4_ContainerAtom
 +---------------------------------------------------------------------*/
-AP4_ContainerAtom::AP4_ContainerAtom(Type             type, 
+AP4_ContainerAtom::AP4_ContainerAtom(Type             type,
                                      AP4_UI64         size,
                                      bool             force_64,
                                      AP4_ByteStream&  stream,
                                      AP4_AtomFactory& atom_factory) :
     AP4_Atom(type, size, force_64)
 {
-    ReadChildren(atom_factory, stream, size-GetHeaderSize());
+    ReadChildren(atom_factory, stream, size - GetHeaderSize());
 }
 
 /*----------------------------------------------------------------------
 |   AP4_ContainerAtom::AP4_ContainerAtom
 +---------------------------------------------------------------------*/
-AP4_ContainerAtom::AP4_ContainerAtom(Type             type, 
+AP4_ContainerAtom::AP4_ContainerAtom(Type             type,
                                      AP4_UI64         size,
                                      bool             force_64,
                                      AP4_UI32         version,
@@ -145,26 +151,30 @@ AP4_ContainerAtom::AP4_ContainerAtom(Type             type,
                                      AP4_AtomFactory& atom_factory) :
     AP4_Atom(type, size, force_64, version, flags)
 {
-    ReadChildren(atom_factory, stream, size-GetHeaderSize());
+    ReadChildren(atom_factory, stream, size - GetHeaderSize());
 }
 
 /*----------------------------------------------------------------------
 |   AP4_ContainerAtom::Clone
 +---------------------------------------------------------------------*/
-AP4_Atom* 
+AP4_Atom*
 AP4_ContainerAtom::Clone()
 {
     AP4_ContainerAtom* clone;
-    if (m_IsFull) {
+    if(m_IsFull)
+    {
         clone = new AP4_ContainerAtom(m_Type, m_Version, m_Flags);
-    } else {
+    }
+    else
+    {
         clone = new AP4_ContainerAtom(m_Type);
     }
 
     AP4_List<AP4_Atom>::Item* child_item = m_Children.FirstItem();
-    while (child_item) {
+    while(child_item)
+    {
         AP4_Atom* child_clone = child_item->GetData()->Clone();
-        if (child_clone) clone->AddChild(child_clone);
+        if(child_clone) clone->AddChild(child_clone);
         child_item = child_item->GetNext();
     }
 
@@ -176,7 +186,7 @@ AP4_ContainerAtom::Clone()
 +---------------------------------------------------------------------*/
 void
 AP4_ContainerAtom::ReadChildren(AP4_AtomFactory& atom_factory,
-                                AP4_ByteStream&  stream, 
+                                AP4_ByteStream&  stream,
                                 AP4_UI64         size)
 {
     AP4_Atom*     atom;
@@ -185,8 +195,9 @@ AP4_ContainerAtom::ReadChildren(AP4_AtomFactory& atom_factory,
     // save and switch the factory's context
     atom_factory.PushContext(m_Type);
 
-    while (AP4_SUCCEEDED(
-        atom_factory.CreateAtomFromStream(stream, bytes_available, atom))) {
+    while(AP4_SUCCEEDED(
+              atom_factory.CreateAtomFromStream(stream, bytes_available, atom)))
+    {
         atom->SetParent(this);
         m_Children.Add(atom);
     }
@@ -238,7 +249,7 @@ AP4_ContainerAtom::OnChildChanged(AP4_Atom*)
     SetSize(size);
 
     // update our parent
-    if (m_Parent) m_Parent->OnChildChanged(this);
+    if(m_Parent) m_Parent->OnChildChanged(this);
 }
 
 /*----------------------------------------------------------------------
@@ -248,10 +259,10 @@ void
 AP4_ContainerAtom::OnChildAdded(AP4_Atom* child)
 {
     // update our size
-    SetSize(GetSize()+child->GetSize());
+    SetSize(GetSize() + child->GetSize());
 
     // update our parent
-    if (m_Parent) m_Parent->OnChildChanged(this);
+    if(m_Parent) m_Parent->OnChildChanged(this);
 }
 
 /*----------------------------------------------------------------------
@@ -261,8 +272,8 @@ void
 AP4_ContainerAtom::OnChildRemoved(AP4_Atom* child)
 {
     // update our size
-    SetSize(GetSize()-child->GetSize());
+    SetSize(GetSize() - child->GetSize());
 
     // update our parent
-    if (m_Parent) m_Parent->OnChildChanged(this);
+    if(m_Parent) m_Parent->OnChildChanged(this);
 }

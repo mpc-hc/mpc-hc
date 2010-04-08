@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ftyp Atoms 
+|    AP4 - ftyp Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -44,7 +44,7 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_FTYP_BRAND_ISOM = AP4_ATOM_TYPE('i','s','o','m');
+const AP4_UI32 AP4_FTYP_BRAND_ISOM = AP4_ATOM_TYPE('i', 's', 'o', 'm');
 
 /*----------------------------------------------------------------------
 |   AP4_FtypAtom
@@ -55,7 +55,8 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_FtypAtom, AP4_Atom)
 
     // class methods
-    static AP4_FtypAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+    static AP4_FtypAtom* Create(AP4_Size size, AP4_ByteStream& stream)
+    {
         return new AP4_FtypAtom(size, stream);
     }
 
@@ -66,12 +67,19 @@ public:
                  AP4_Cardinal compatible_brand_count = 0);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    
+
     // accessors
-    AP4_UI32 GetMajorBrand()         { return m_MajorBrand;       }
-    AP4_UI32 GetMinorVersion()       { return m_MinorVersion;     }
-    AP4_Array<AP4_UI32>& GetCompatibleBrands() { 
-        return m_CompatibleBrands; 
+    AP4_UI32 GetMajorBrand()
+    {
+        return m_MajorBrand;
+    }
+    AP4_UI32 GetMinorVersion()
+    {
+        return m_MinorVersion;
+    }
+    AP4_Array<AP4_UI32>& GetCompatibleBrands()
+    {
+        return m_CompatibleBrands;
     }
     bool HasCompatibleBrand(AP4_UI32 brand);
 

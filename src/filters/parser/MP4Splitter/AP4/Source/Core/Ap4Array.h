@@ -26,7 +26,7 @@
 |
  ****************************************************************/
 /**
- * @file 
+ * @file
  * @brief Arrays
  */
 
@@ -51,19 +51,28 @@ const int AP4_ARRAY_INITIAL_COUNT = 64;
 /*----------------------------------------------------------------------
 |   AP4_Array
 +---------------------------------------------------------------------*/
-template <typename T> 
-class AP4_Array 
+template <typename T>
+class AP4_Array
 {
 public:
     // methods
-             AP4_Array(): m_AllocatedCount(0), m_ItemCount(0), m_Items(0) {}
-             AP4_Array(const T* items, AP4_Size count);
+    AP4_Array(): m_AllocatedCount(0), m_ItemCount(0), m_Items(0) {}
+    AP4_Array(const T* items, AP4_Size count);
     virtual ~AP4_Array();
-    AP4_Cardinal ItemCount() const { return m_ItemCount; }
+    AP4_Cardinal ItemCount() const
+    {
+        return m_ItemCount;
+    }
     AP4_Result   Append(const T& item);
     AP4_Result   RemoveLast();
-    T& operator[](unsigned long idx) { return m_Items[idx]; }
-    const T& operator[](unsigned long idx) const { return m_Items[idx]; }
+    T& operator[](unsigned long idx)
+    {
+        return m_Items[idx];
+    }
+    const T& operator[](unsigned long idx) const
+    {
+        return m_Items[idx];
+    }
     AP4_Result Clear();
     AP4_Result EnsureCapacity(AP4_Cardinal count);
     AP4_Result SetItemCount(AP4_Cardinal item_count);
@@ -84,8 +93,9 @@ AP4_Array<T>::AP4_Array(const T* items, AP4_Size count) :
     m_ItemCount(count),
     m_Items((T*)::operator new(count*sizeof(T)))
 {
-    for (unsigned int i=0; i<count; i++) {
-        new ((void*)&m_Items[i]) T(items[i]);
+    for(unsigned int i = 0; i < count; i++)
+    {
+        new((void*)&m_Items[i]) T(items[i]);
     }
 }
 
@@ -107,7 +117,8 @@ AP4_Result
 AP4_Array<T>::Clear()
 {
     // destroy all items
-    for (AP4_Ordinal i=0; i<m_ItemCount; i++) {
+    for(AP4_Ordinal i = 0; i < m_ItemCount; i++)
+    {
         m_Items[i].~T();
     }
 
@@ -124,16 +135,19 @@ AP4_Result
 AP4_Array<T>::EnsureCapacity(AP4_Cardinal count)
 {
     // check if we already have enough
-    if (count <= m_AllocatedCount) return AP4_SUCCESS;
+    if(count <= m_AllocatedCount) return AP4_SUCCESS;
 
     // (re)allocate the items
-    T* new_items = (T*) ::operator new (count*sizeof(T));
-    if (new_items == NULL) {
+    T* new_items = (T*) ::operator new(count * sizeof(T));
+    if(new_items == NULL)
+    {
         return AP4_ERROR_OUT_OF_MEMORY;
     }
-    if (m_ItemCount && m_Items) {
-        for (unsigned int i=0; i<m_ItemCount; i++) {
-            new ((void*)&new_items[i]) T(m_Items[i]);
+    if(m_ItemCount && m_Items)
+    {
+        for(unsigned int i = 0; i < m_ItemCount; i++)
+        {
+            new((void*)&new_items[i]) T(m_Items[i]);
             m_Items[i].~T();
         }
         ::operator delete((void*)m_Items);
@@ -148,29 +162,32 @@ AP4_Array<T>::EnsureCapacity(AP4_Cardinal count)
 |   AP4_Array<T>::SetItemCount
 +---------------------------------------------------------------------*/
 template <typename T>
-AP4_Result 
+AP4_Result
 AP4_Array<T>::SetItemCount(AP4_Cardinal item_count)
 {
     // shortcut
-    if (item_count == m_ItemCount) return AP4_SUCCESS;
-    
+    if(item_count == m_ItemCount) return AP4_SUCCESS;
+
     // check for a reduction in the number of items
-    if (item_count < m_ItemCount) {
+    if(item_count < m_ItemCount)
+    {
         // destruct the items that are no longer needed
-        for (unsigned int i=item_count; i<m_ItemCount; i++) {
+        for(unsigned int i = item_count; i < m_ItemCount; i++)
+        {
             m_Items[i].~T();
         }
         m_ItemCount = item_count;
         return AP4_SUCCESS;
     }
-    
+
     // grow the list
     AP4_Result result = EnsureCapacity(item_count);
-    if (AP4_FAILED(result)) return result;
-    
+    if(AP4_FAILED(result)) return result;
+
     // construct the new items
-    for (unsigned int i=m_ItemCount; i<item_count; i++) {
-        new ((void*)&m_Items[i]) T();
+    for(unsigned int i = m_ItemCount; i < item_count; i++)
+    {
+        new((void*)&m_Items[i]) T();
     }
     m_ItemCount = item_count;
     return AP4_SUCCESS;
@@ -183,10 +200,13 @@ template <typename T>
 AP4_Result
 AP4_Array<T>::RemoveLast()
 {
-    if (m_ItemCount) {
+    if(m_ItemCount)
+    {
         m_Items[--m_ItemCount].~T();
         return AP4_SUCCESS;
-    } else {
+    }
+    else
+    {
         return AP4_ERROR_OUT_OF_RANGE;
     }
 }
@@ -199,20 +219,21 @@ AP4_Result
 AP4_Array<T>::Append(const T& item)
 {
     // ensure that we have enough space
-    if (m_AllocatedCount < m_ItemCount+1) {
+    if(m_AllocatedCount < m_ItemCount + 1)
+    {
         // try double the size, with a minimum
-        unsigned long new_count = m_AllocatedCount?2*m_AllocatedCount:AP4_ARRAY_INITIAL_COUNT;
+        unsigned long new_count = m_AllocatedCount ? 2 * m_AllocatedCount : AP4_ARRAY_INITIAL_COUNT;
 
         // if that's still not enough, just ask for what we need
-        if (new_count < m_ItemCount+1) new_count = m_ItemCount+1;
-    
+        if(new_count < m_ItemCount + 1) new_count = m_ItemCount + 1;
+
         // reserve the space
         AP4_Result result = EnsureCapacity(new_count);
-        if (result != AP4_SUCCESS) return result;
+        if(result != AP4_SUCCESS) return result;
     }
-    
+
     // store the item
-    new ((void*)&m_Items[m_ItemCount++]) T(item);
+    new((void*)&m_Items[m_ItemCount++]) T(item);
 
     return AP4_SUCCESS;
 }

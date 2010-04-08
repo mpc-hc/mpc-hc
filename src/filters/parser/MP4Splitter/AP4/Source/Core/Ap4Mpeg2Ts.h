@@ -57,7 +57,7 @@ const AP4_UI08 AP4_MPEG2_STREAM_TYPE_AVC             = 0x1B;
 |   AP4_Mpeg2TsWriter
 +---------------------------------------------------------------------*/
 /**
- * This class is a simple implementation of a converter that can 
+ * This class is a simple implementation of a converter that can
  * convert MP4 audio and video access units into an MPEG2 transport
  * stream.
  * It currently only supports one audio tracks with MPEG4 AAC LC, and one
@@ -67,59 +67,70 @@ class AP4_Mpeg2TsWriter
 {
 public:
     // classes
-    class Stream {
+    class Stream
+    {
     public:
         Stream(AP4_UI16 pid) : m_PID(pid), m_ContinuityCounter(0) {}
         virtual ~Stream() {}
-        
-        AP4_UI16 GetPID() { return m_PID; }
-        void WritePacketHeader(bool            payload_start, 
+
+        AP4_UI16 GetPID()
+        {
+            return m_PID;
+        }
+        void WritePacketHeader(bool            payload_start,
                                unsigned int&   payload_size,
                                bool            with_pcr,
                                AP4_UI64        pcr,
                                AP4_ByteStream& output);
-        
+
     private:
         unsigned int m_PID;
         unsigned int m_ContinuityCounter;
     };
-    
-    class SampleStream : public Stream {
+
+    class SampleStream : public Stream
+    {
     public:
         SampleStream(AP4_UI16 pid, AP4_UI16 stream_id, AP4_UI08 stream_type, AP4_UI32 timescale) :
-            Stream(pid), 
+            Stream(pid),
             m_StreamId(stream_id),
             m_StreamType(stream_type),
             m_TimeScale(timescale) {}
-        
-        virtual AP4_Result WritePES(const unsigned char* data, 
-                                    unsigned int         data_size, 
-                                    AP4_UI64             dts, 
-                                    bool                 with_dts, 
-                                    AP4_UI64             pts, 
-                                    bool                 with_pcr, 
+
+        virtual AP4_Result WritePES(const unsigned char* data,
+                                    unsigned int         data_size,
+                                    AP4_UI64             dts,
+                                    bool                 with_dts,
+                                    AP4_UI64             pts,
+                                    bool                 with_pcr,
                                     AP4_ByteStream&      output);
-        virtual AP4_Result WriteSample(AP4_Sample&            sample, 
+        virtual AP4_Result WriteSample(AP4_Sample&            sample,
                                        AP4_SampleDescription* sample_description,
-                                       bool                   with_pcr, 
+                                       bool                   with_pcr,
                                        AP4_ByteStream&        output) = 0;
-        
+
         unsigned int m_StreamId;
         AP4_UI08     m_StreamType;
         AP4_UI32     m_TimeScale;
     };
-    
+
     // constructor
     AP4_Mpeg2TsWriter();
     ~AP4_Mpeg2TsWriter();
-    
-    Stream* GetPAT() { return m_PAT; }
-    Stream* GetPMT() { return m_PMT; }
+
+    Stream* GetPAT()
+    {
+        return m_PAT;
+    }
+    Stream* GetPMT()
+    {
+        return m_PMT;
+    }
     AP4_Result WritePAT(AP4_ByteStream& output);
     AP4_Result WritePMT(AP4_ByteStream& output);
     AP4_Result SetAudioStream(AP4_UI32 timescale, SampleStream*& stream);
     AP4_Result SetVideoStream(AP4_UI32 timescale, SampleStream*& stream);
-    
+
 private:
     Stream*       m_PAT;
     Stream*       m_PMT;

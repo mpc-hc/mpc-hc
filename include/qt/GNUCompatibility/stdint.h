@@ -40,9 +40,9 @@ typedef unsigned   uint_least32_t;
 typedef __int64  int_least64_t;
 typedef unsigned __int64   uint_least64_t;
 
-/*  7.18.1.3  Fastest minimum-width integer types 
+/*  7.18.1.3  Fastest minimum-width integer types
  *  Not actually guaranteed to be fastest for all purposes
- *  Here we use the exact-width types for 8 and 16-bit ints. 
+ *  Here we use the exact-width types for 8 and 16-bit ints.
  */
 typedef char int_fast8_t;
 typedef unsigned char uint_fast8_t;
@@ -65,7 +65,7 @@ typedef unsigned __int64   uintmax_t;
 #if !defined ( __cplusplus) || defined (__STDC_LIMIT_MACROS)
 
 /* 7.18.2.1  Limits of exact-width integer types */
-#define INT8_MIN (-128) 
+#define INT8_MIN (-128)
 #define INT16_MIN (-32768)
 #define INT32_MIN (-2147483647 - 1)
 #define INT64_MIN  (-9223372036854775807LL - 1)
@@ -113,7 +113,7 @@ typedef unsigned __int64   uintmax_t;
 #define UINT_FAST64_MAX UINT64_MAX
 
 /* 7.18.2.4  Limits of integer types capable of holding
-    object pointers */ 
+    object pointers */
 #define INTPTR_MIN INT32_MIN
 #define INTPTR_MAX INT32_MAX
 #define UINTPTR_MAX UINT32_MAX
@@ -132,7 +132,7 @@ typedef unsigned __int64   uintmax_t;
 
 #define SIZE_MAX UINT32_MAX
 
-#ifndef WCHAR_MIN  /* also in wchar.h */ 
+#ifndef WCHAR_MIN  /* also in wchar.h */
 #define WCHAR_MIN 0
 #define WCHAR_MAX ((wchar_t)-1) /* UINT16_MAX */
 #endif

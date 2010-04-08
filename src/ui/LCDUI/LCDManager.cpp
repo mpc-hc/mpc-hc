@@ -4,7 +4,7 @@
 //
 // The CLCDManager class is the representation of a "Screen". LCD UI class
 // objects are added here.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -129,10 +129,10 @@ HRESULT CLCDManager::Draw(void)
 
     // invoke LCD UI Elements
     OnDraw(m_Gfx);
-    
+
     // select it back out of it
     m_Gfx.EndDraw();
-    
+
     return S_OK;
 }
 

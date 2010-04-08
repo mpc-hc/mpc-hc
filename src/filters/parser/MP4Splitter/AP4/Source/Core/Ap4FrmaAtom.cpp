@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - frma Atoms 
+|    AP4 - frma Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -37,7 +37,7 @@
 |   AP4_FrmaAtom::AP4_FrmaAtom
 +---------------------------------------------------------------------*/
 AP4_FrmaAtom::AP4_FrmaAtom(AP4_UI32 original_format) :
-    AP4_Atom(AP4_ATOM_TYPE_FRMA, AP4_ATOM_HEADER_SIZE+4),
+    AP4_Atom(AP4_ATOM_TYPE_FRMA, AP4_ATOM_HEADER_SIZE + 4),
     m_OriginalFormat(original_format)
 {
 }

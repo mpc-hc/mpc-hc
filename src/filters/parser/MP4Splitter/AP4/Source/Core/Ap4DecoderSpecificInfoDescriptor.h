@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - DecoderSpecificInfo Descriptor 
+|    AP4 - DecoderSpecificInfo Descriptor
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -57,13 +57,16 @@ public:
 
     // methods
     AP4_DecoderSpecificInfoDescriptor(const AP4_DataBuffer& data);
-    AP4_DecoderSpecificInfoDescriptor(AP4_ByteStream& stream, 
+    AP4_DecoderSpecificInfoDescriptor(AP4_ByteStream& stream,
                                       AP4_Size        header_size,
                                       AP4_Size        payload_size);
     virtual ~AP4_DecoderSpecificInfoDescriptor();
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
-    virtual const AP4_DataBuffer& GetDecoderSpecificInfo() const { return m_Info; }
+    virtual const AP4_DataBuffer& GetDecoderSpecificInfo() const
+    {
+        return m_Info;
+    }
 
 private:
     // members

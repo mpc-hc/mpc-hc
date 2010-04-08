@@ -44,17 +44,19 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   AP4_AtomFactory
 +---------------------------------------------------------------------*/
-class AP4_AtomFactory {
- public:
+class AP4_AtomFactory
+{
+public:
     // types
-     class TypeHandler {
-     public:
-         virtual ~TypeHandler() {};
-         virtual AP4_Result CreateAtom(AP4_Atom::Type  type,
-                                       AP4_UI32        size,
-                                       AP4_ByteStream& stream,
-                                       AP4_Atom::Type  context,
-                                       AP4_Atom*&      atom) = 0;
+    class TypeHandler
+    {
+    public:
+        virtual ~TypeHandler() {};
+        virtual AP4_Result CreateAtom(AP4_Atom::Type  type,
+                                      AP4_UI32        size,
+                                      AP4_ByteStream& stream,
+                                      AP4_Atom::Type  context,
+                                      AP4_Atom*&      atom) = 0;
     };
 
     // constructor
@@ -80,7 +82,7 @@ class AP4_AtomFactory {
     // context
     void PushContext(AP4_Atom::Type context);
     void PopContext();
-    AP4_Atom::Type GetContext(AP4_Ordinal depth=0);
+    AP4_Atom::Type GetContext(AP4_Ordinal depth = 0);
 
 private:
     // members
@@ -91,7 +93,8 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_DefaultAtomFactory
 +---------------------------------------------------------------------*/
-class AP4_DefaultAtomFactory : public AP4_AtomFactory {
+class AP4_DefaultAtomFactory : public AP4_AtomFactory
+{
 public:
     // class members
     static AP4_DefaultAtomFactory Instance;

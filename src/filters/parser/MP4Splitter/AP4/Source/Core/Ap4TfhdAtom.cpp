@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tfhd Atoms 
+|    AP4 - tfhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -45,31 +45,31 @@ AP4_TfhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version > 0) return NULL;
-    if (size != ComputeSize(flags)) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version > 0) return NULL;
+    if(size != ComputeSize(flags)) return NULL;
     return new AP4_TfhdAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
 |   AP4_TfhdAtom::ComputeSize
 +---------------------------------------------------------------------*/
-AP4_UI32 
+AP4_UI32
 AP4_TfhdAtom::ComputeSize(AP4_UI32 flags)
 {
-    AP4_UI32 size = AP4_FULL_ATOM_HEADER_SIZE+4;
-    if (flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT)         size += 8;
-    if (flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT) size += 4;
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT)  size += 4;
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT)      size += 4;
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT)     size += 4;
+    AP4_UI32 size = AP4_FULL_ATOM_HEADER_SIZE + 4;
+    if(flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT)         size += 8;
+    if(flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT) size += 4;
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT)  size += 4;
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT)      size += 4;
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT)     size += 4;
     return size;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_TfhdAtom::AP4_TfhdAtom
 +---------------------------------------------------------------------*/
-AP4_TfhdAtom::AP4_TfhdAtom(AP4_UI32 flags, 
+AP4_TfhdAtom::AP4_TfhdAtom(AP4_UI32 flags,
                            AP4_UI32 track_id,
                            AP4_UI64 base_data_offset,
                            AP4_UI32 sample_description_index,
@@ -89,26 +89,31 @@ AP4_TfhdAtom::AP4_TfhdAtom(AP4_UI32 flags,
 /*----------------------------------------------------------------------
 |   AP4_TfhdAtom::AP4_TfhdAtom
 +---------------------------------------------------------------------*/
-AP4_TfhdAtom::AP4_TfhdAtom(AP4_UI32        size, 
+AP4_TfhdAtom::AP4_TfhdAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
     AP4_Atom(AP4_ATOM_TYPE_TFHD, size, version, flags)
 {
     stream.ReadUI32(m_TrackId);
-    if (flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT) {
+    if(flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT)
+    {
         stream.ReadUI64(m_BaseDataOffset);
     }
-    if (flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT) {
+    if(flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT)
+    {
         stream.ReadUI32(m_SampleDescriptionIndex);
     }
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT) {
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT)
+    {
         stream.ReadUI32(m_DefaultSampleDuration);
     }
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT) {
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT)
+    {
         stream.ReadUI32(m_DefaultSampleSize);
     }
-    if (flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT) {
+    if(flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT)
+    {
         stream.ReadUI32(m_DefaultSampleFlags);
     }
 }
@@ -120,30 +125,35 @@ AP4_Result
 AP4_TfhdAtom::WriteFields(AP4_ByteStream& stream)
 {
     AP4_Result result;
-    
+
     result = stream.WriteUI32(m_TrackId);
-    if (AP4_FAILED(result)) return result;
-    if (m_Flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT) {
+    if(AP4_FAILED(result)) return result;
+    if(m_Flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT)
+    {
         result = stream.WriteUI64(m_BaseDataOffset);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
-    if (m_Flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT)
+    {
         result = stream.WriteUI32(m_SampleDescriptionIndex);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT)
+    {
         stream.WriteUI32(m_DefaultSampleDuration);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT)
+    {
         stream.WriteUI32(m_DefaultSampleSize);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT)
+    {
         stream.WriteUI32(m_DefaultSampleFlags);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
-    
+
     return AP4_SUCCESS;
 }
 
@@ -154,20 +164,25 @@ AP4_Result
 AP4_TfhdAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("track ID", m_TrackId);
-    if (m_Flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_BASE_DATA_OFFSET_PRESENT)
+    {
         inspector.AddField("base data offset", m_BaseDataOffset);
     }
-    if (m_Flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_SAMPLE_DESCRIPTION_INDEX_PRESENT)
+    {
         inspector.AddField("sample description index", m_SampleDescriptionIndex);
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_DURATION_PRESENT)
+    {
         inspector.AddField("default sample duration", m_DefaultSampleDuration);
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT) {
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_SIZE_PRESENT)
+    {
         inspector.AddField("default sample size", m_DefaultSampleSize);
     }
-    if (m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT) {
-        inspector.AddField("default sample flags", m_DefaultSampleFlags, AP4_AtomInspector::HINT_HEX );
+    if(m_Flags & AP4_TFHD_FLAG_DEFAULT_SAMPLE_FLAGS_PRESENT)
+    {
+        inspector.AddField("default sample flags", m_DefaultSampleFlags, AP4_AtomInspector::HINT_HEX);
     }
 
     return AP4_SUCCESS;

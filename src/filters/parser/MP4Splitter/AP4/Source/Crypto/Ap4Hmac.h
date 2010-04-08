@@ -43,16 +43,17 @@ class AP4_Hmac
 {
 public:
     // types
-    typedef enum {
+    typedef enum
+    {
         SHA256
     } Algorithm;
-    
+
     // class methods
-    static AP4_Result Create(Algorithm       algorithm, 
+    static AP4_Result Create(Algorithm       algorithm,
                              const AP4_UI08* key,
                              AP4_Size        key_size,
                              AP4_Hmac*&      hmac);
-    
+
     // methods
     virtual ~AP4_Hmac() {}
     virtual AP4_Result Update(const AP4_UI08* data, AP4_Size data_size) = 0;

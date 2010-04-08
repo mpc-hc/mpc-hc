@@ -39,22 +39,27 @@
 typedef const int8_t (*ps_huff_tab)[2];
 
 /* static data tables */
-static const uint8_t nr_iid_par_tab[] = {
+static const uint8_t nr_iid_par_tab[] =
+{
     10, 20, 34, 10, 20, 34, 0, 0
 };
-static const uint8_t nr_ipdopd_par_tab[] = {
+static const uint8_t nr_ipdopd_par_tab[] =
+{
     5, 11, 17, 5, 11, 17, 0, 0
 };
-static const uint8_t nr_icc_par_tab[] = {
+static const uint8_t nr_icc_par_tab[] =
+{
     10, 20, 34, 10, 20, 34, 0, 0
 };
-static const uint8_t num_env_tab[][4] = {
+static const uint8_t num_env_tab[][4] =
+{
     { 0, 1, 2, 4 },
     { 1, 2, 3, 4 }
 };
 
 /* binary lookup huffman tables */
-static const int8_t f_huff_iid_def[][2] = {
+static const int8_t f_huff_iid_def[][2] =
+{
     { /*0*/ -31, 1 },             /* index 0: 1 bits: x */
     { 2, 3 },                     /* index 1: 2 bits: 1x */
     { /*1*/ -30, /*-1*/ -32 },    /* index 2: 3 bits: 10x */
@@ -85,7 +90,8 @@ static const int8_t f_huff_iid_def[][2] = {
     { /*13*/ -18, /*14*/ -17 }    /* index 27: 18 bits: 11111111111111111x */
 };
 
-static const int8_t t_huff_iid_def[][2] = {
+static const int8_t t_huff_iid_def[][2] =
+{
     { /*0*/ -31, 1 },             /* index 0: 1 bits: x */
     { /*-1*/ -32, 2 },            /* index 1: 2 bits: 1x */
     { /*1*/ -30, 3 },             /* index 2: 3 bits: 11x */
@@ -116,7 +122,8 @@ static const int8_t t_huff_iid_def[][2] = {
     { /*13*/ -18, /*14*/ -17 }    /* index 27: 20 bits: 1111111111111111111x */
 };
 
-static const int8_t f_huff_iid_fine[][2] = {
+static const int8_t f_huff_iid_fine[][2] =
+{
     { 1, /*0*/ -31 },             /* index 0: 1 bits: x */
     { 2, 3 },                     /* index 1: 2 bits: 0x */
     { 4, /*-1*/ -32 },            /* index 2: 3 bits: 00x */
@@ -179,7 +186,8 @@ static const int8_t f_huff_iid_fine[][2] = {
     { /*-20*/ -51, /*20*/ -11 }   /* index 59: 18 bits: 01111111101011011x */
 };
 
-static const int8_t t_huff_iid_fine[][2] = {
+static const int8_t t_huff_iid_fine[][2] =
+{
     { 1, /*0*/ -31 },             /* index 0: 1 bits: x */
     { /*1*/ -30, 2 },             /* index 1: 2 bits: 0x */
     { 3, /*-1*/ -32 },            /* index 2: 3 bits: 01x */
@@ -242,7 +250,8 @@ static const int8_t t_huff_iid_fine[][2] = {
     { /*20*/ -11, /*21*/ -10 }    /* index 59: 16 bits: 010011110110011x */
 };
 
-static const int8_t f_huff_icc[][2] = {
+static const int8_t f_huff_icc[][2] =
+{
     { /*0*/ -31, 1 },            /* index 0: 1 bits: x */
     { /*1*/ -30, 2 },            /* index 1: 2 bits: 1x */
     { /*-1*/ -32, 3 },           /* index 2: 3 bits: 11x */
@@ -259,7 +268,8 @@ static const int8_t f_huff_icc[][2] = {
     { /*-6*/ -37, /*-7*/ -38 }   /* index 13: 14 bits: 1111111111111x */
 };
 
-static const int8_t t_huff_icc[][2] = {
+static const int8_t t_huff_icc[][2] =
+{
     { /*0*/ -31, 1 },            /* index 0: 1 bits: x */
     { /*1*/ -30, 2 },            /* index 1: 2 bits: 1x */
     { /*-1*/ -32, 3 },           /* index 2: 3 bits: 11x */
@@ -276,7 +286,8 @@ static const int8_t t_huff_icc[][2] = {
     { /*-7*/ -38, /*7*/ -24 }    /* index 13: 14 bits: 1111111111111x */
 };
 
-static const int8_t f_huff_ipd[][2] = {
+static const int8_t f_huff_ipd[][2] =
+{
     { 1, /*0*/ -31 },         /* index 0: 1 bits: x */
     { 2, 3 },                 /* index 1: 2 bits: 0x */
     { /*1*/ -30, 4 },         /* index 2: 3 bits: 00x */
@@ -286,7 +297,8 @@ static const int8_t f_huff_ipd[][2] = {
     { /*2*/ -29, /*7*/ -24 }  /* index 6: 4 bits: 011x */
 };
 
-static const int8_t t_huff_ipd[][2] = {
+static const int8_t t_huff_ipd[][2] =
+{
     { 1, /*0*/ -31 },         /* index 0: 1 bits: x */
     { 2, 3 },                 /* index 1: 2 bits: 0x */
     { 4, 5 },                 /* index 2: 3 bits: 00x */
@@ -296,7 +308,8 @@ static const int8_t t_huff_ipd[][2] = {
     { /*4*/ -27, /*3*/ -28 }  /* index 6: 5 bits: 0001x */
 };
 
-static const int8_t f_huff_opd[][2] = {
+static const int8_t f_huff_opd[][2] =
+{
     { 1, /*0*/ -31 },         /* index 0: 1 bits: x */
     { 2, 3 },                 /* index 1: 2 bits: 0x */
     { /*7*/ -24, /*1*/ -30 }, /* index 2: 3 bits: 00x */
@@ -306,7 +319,8 @@ static const int8_t f_huff_opd[][2] = {
     { /*5*/ -26, /*4*/ -27 }  /* index 6: 5 bits: 0111x */
 };
 
-static const int8_t t_huff_opd[][2] = {
+static const int8_t t_huff_opd[][2] =
+{
     { 1, /*0*/ -31 },         /* index 0: 1 bits: x */
     { 2, 3 },                 /* index 1: 2 bits: 0x */
     { 4, 5 },                 /* index 2: 3 bits: 00x */
@@ -333,8 +347,8 @@ uint16_t ps_data(ps_info *ps, bitfile *ld, uint8_t *header)
     *header = 0;
 
     /* check for new PS header */
-    if (faad_get1bit(ld
-        DEBUGVAR(1,1000,"ps_data(): enable_ps_header")))
+    if(faad_get1bit(ld
+                    DEBUGVAR(1, 1000, "ps_data(): enable_ps_header")))
     {
         *header = 1;
 
@@ -344,17 +358,17 @@ uint16_t ps_data(ps_info *ps, bitfile *ld, uint8_t *header)
 
         /* Inter-channel Intensity Difference (IID) parameters enabled */
         ps->enable_iid = (uint8_t)faad_get1bit(ld
-            DEBUGVAR(1,1001,"ps_data(): enable_iid"));
+                                               DEBUGVAR(1, 1001, "ps_data(): enable_iid"));
 
-        if (ps->enable_iid)
+        if(ps->enable_iid)
         {
             ps->iid_mode = (uint8_t)faad_getbits(ld, 3
-                DEBUGVAR(1,1002,"ps_data(): iid_mode"));
+                                                 DEBUGVAR(1, 1002, "ps_data(): iid_mode"));
 
             ps->nr_iid_par = nr_iid_par_tab[ps->iid_mode];
             ps->nr_ipdopd_par = nr_ipdopd_par_tab[ps->iid_mode];
 
-            if (ps->iid_mode == 2 || ps->iid_mode == 5)
+            if(ps->iid_mode == 2 || ps->iid_mode == 5)
                 ps->use34hybrid_bands = 1;
 
             /* IPD freq res equal to IID freq res */
@@ -363,102 +377,104 @@ uint16_t ps_data(ps_info *ps, bitfile *ld, uint8_t *header)
 
         /* Inter-channel Coherence (ICC) parameters enabled */
         ps->enable_icc = (uint8_t)faad_get1bit(ld
-            DEBUGVAR(1,1003,"ps_data(): enable_icc"));
+                                               DEBUGVAR(1, 1003, "ps_data(): enable_icc"));
 
-        if (ps->enable_icc)
+        if(ps->enable_icc)
         {
             ps->icc_mode = (uint8_t)faad_getbits(ld, 3
-                DEBUGVAR(1,1004,"ps_data(): icc_mode"));
+                                                 DEBUGVAR(1, 1004, "ps_data(): icc_mode"));
 
             ps->nr_icc_par = nr_icc_par_tab[ps->icc_mode];
 
-            if (ps->icc_mode == 2 || ps->icc_mode == 5)
+            if(ps->icc_mode == 2 || ps->icc_mode == 5)
                 ps->use34hybrid_bands = 1;
         }
 
         /* PS extension layer enabled */
         ps->enable_ext = (uint8_t)faad_get1bit(ld
-            DEBUGVAR(1,1005,"ps_data(): enable_ext"));
+                                               DEBUGVAR(1, 1005, "ps_data(): enable_ext"));
     }
 
     /* we are here, but no header has been read yet */
-    if (ps->header_read == 0)
+    if(ps->header_read == 0)
     {
         ps->ps_data_available = 0;
         return 1;
     }
 
     ps->frame_class = (uint8_t)faad_get1bit(ld
-        DEBUGVAR(1,1006,"ps_data(): frame_class"));
+                                            DEBUGVAR(1, 1006, "ps_data(): frame_class"));
     tmp = (uint8_t)faad_getbits(ld, 2
-        DEBUGVAR(1,1007,"ps_data(): num_env_idx"));
+                                DEBUGVAR(1, 1007, "ps_data(): num_env_idx"));
 
     ps->num_env = num_env_tab[ps->frame_class][tmp];
 
-    if (ps->frame_class)
+    if(ps->frame_class)
     {
-        for (n = 1; n < ps->num_env+1; n++)
+        for(n = 1; n < ps->num_env + 1; n++)
         {
             ps->border_position[n] = (uint8_t)faad_getbits(ld, 5
-                DEBUGVAR(1,1008,"ps_data(): border_position")) + 1;
+                                     DEBUGVAR(1, 1008, "ps_data(): border_position")) + 1;
         }
     }
 
-    if (ps->enable_iid)
+    if(ps->enable_iid)
     {
-        for (n = 0; n < ps->num_env; n++)
+        for(n = 0; n < ps->num_env; n++)
         {
             ps->iid_dt[n] = (uint8_t)faad_get1bit(ld
-                DEBUGVAR(1,1009,"ps_data(): iid_dt"));
+                                                  DEBUGVAR(1, 1009, "ps_data(): iid_dt"));
 
             /* iid_data */
-            if (ps->iid_mode < 3)
+            if(ps->iid_mode < 3)
             {
                 huff_data(ld, ps->iid_dt[n], ps->nr_iid_par, t_huff_iid_def,
-                    f_huff_iid_def, ps->iid_index[n]);
-            } else {
+                          f_huff_iid_def, ps->iid_index[n]);
+            }
+            else
+            {
                 huff_data(ld, ps->iid_dt[n], ps->nr_iid_par, t_huff_iid_fine,
-                    f_huff_iid_fine, ps->iid_index[n]);
+                          f_huff_iid_fine, ps->iid_index[n]);
             }
         }
     }
 
-    if (ps->enable_icc)
+    if(ps->enable_icc)
     {
-        for (n = 0; n < ps->num_env; n++)
+        for(n = 0; n < ps->num_env; n++)
         {
             ps->icc_dt[n] = (uint8_t)faad_get1bit(ld
-                DEBUGVAR(1,1010,"ps_data(): icc_dt"));
+                                                  DEBUGVAR(1, 1010, "ps_data(): icc_dt"));
 
             /* icc_data */
             huff_data(ld, ps->icc_dt[n], ps->nr_icc_par, t_huff_icc,
-                f_huff_icc, ps->icc_index[n]);
+                      f_huff_icc, ps->icc_index[n]);
         }
     }
 
-    if (ps->enable_ext)
+    if(ps->enable_ext)
     {
         uint16_t num_bits_left;
         uint16_t cnt = (uint16_t)faad_getbits(ld, 4
-            DEBUGVAR(1,1011,"ps_data(): ps_extension_size"));
-        if (cnt == 15)
+                                              DEBUGVAR(1, 1011, "ps_data(): ps_extension_size"));
+        if(cnt == 15)
         {
             cnt += (uint16_t)faad_getbits(ld, 8
-                DEBUGVAR(1,1012,"ps_data(): esc_count"));
+                                          DEBUGVAR(1, 1012, "ps_data(): esc_count"));
         }
 
         num_bits_left = 8 * cnt;
-        while (num_bits_left > 7)
+        while(num_bits_left > 7)
         {
             uint8_t ps_extension_id = (uint8_t)faad_getbits(ld, 2
-                DEBUGVAR(1,1013,"ps_data(): ps_extension_size"));
+                                      DEBUGVAR(1, 1013, "ps_data(): ps_extension_size"));
 
             num_bits_left -= 2;
             num_bits_left -= ps_extension(ps, ld, ps_extension_id, num_bits_left);
         }
 
         faad_getbits(ld, num_bits_left
-            DEBUGVAR(1,1014,"ps_data(): fill_bits"));
+                     DEBUGVAR(1, 1014, "ps_data(): fill_bits"));
     }
 
     bits = (uint16_t)faad_get_processed_bits(ld) - bits;
@@ -475,32 +491,32 @@ static uint16_t ps_extension(ps_info *ps, bitfile *ld,
     uint8_t n;
     uint16_t bits = (uint16_t)faad_get_processed_bits(ld);
 
-    if (ps_extension_id == 0)
+    if(ps_extension_id == 0)
     {
         ps->enable_ipdopd = (uint8_t)faad_get1bit(ld
-            DEBUGVAR(1,1015,"ps_extension(): enable_ipdopd"));
+                            DEBUGVAR(1, 1015, "ps_extension(): enable_ipdopd"));
 
-        if (ps->enable_ipdopd)
+        if(ps->enable_ipdopd)
         {
-            for (n = 0; n < ps->num_env; n++)
+            for(n = 0; n < ps->num_env; n++)
             {
                 ps->ipd_dt[n] = (uint8_t)faad_get1bit(ld
-                    DEBUGVAR(1,1016,"ps_extension(): ipd_dt"));
+                                                      DEBUGVAR(1, 1016, "ps_extension(): ipd_dt"));
 
                 /* ipd_data */
                 huff_data(ld, ps->ipd_dt[n], ps->nr_ipdopd_par, t_huff_ipd,
-                    f_huff_ipd, ps->ipd_index[n]);
+                          f_huff_ipd, ps->ipd_index[n]);
 
                 ps->opd_dt[n] = (uint8_t)faad_get1bit(ld
-                    DEBUGVAR(1,1017,"ps_extension(): opd_dt"));
+                                                      DEBUGVAR(1, 1017, "ps_extension(): opd_dt"));
 
                 /* opd_data */
                 huff_data(ld, ps->opd_dt[n], ps->nr_ipdopd_par, t_huff_opd,
-                    f_huff_opd, ps->opd_index[n]);
+                          f_huff_opd, ps->opd_index[n]);
             }
         }
         faad_get1bit(ld
-            DEBUGVAR(1,1018,"ps_extension(): reserved_ps"));
+                     DEBUGVAR(1, 1018, "ps_extension(): reserved_ps"));
     }
 
     /* return number of bits read */
@@ -515,18 +531,20 @@ static void huff_data(bitfile *ld, const uint8_t dt, const uint8_t nr_par,
 {
     uint8_t n;
 
-    if (dt)
+    if(dt)
     {
         /* coded in time direction */
-        for (n = 0; n < nr_par; n++)
+        for(n = 0; n < nr_par; n++)
         {
             par[n] = ps_huff_dec(ld, t_huff);
         }
-    } else {
+    }
+    else
+    {
         /* coded in frequency direction */
         par[0] = ps_huff_dec(ld, f_huff);
 
-        for (n = 1; n < nr_par; n++)
+        for(n = 1; n < nr_par; n++)
         {
             par[n] = ps_huff_dec(ld, f_huff);
         }
@@ -539,7 +557,7 @@ static INLINE int8_t ps_huff_dec(bitfile *ld, ps_huff_tab t_huff)
     uint8_t bit;
     int16_t index = 0;
 
-    while (index >= 0)
+    while(index >= 0)
     {
         bit = (uint8_t)faad_get1bit(ld);
         index = t_huff[index][bit];

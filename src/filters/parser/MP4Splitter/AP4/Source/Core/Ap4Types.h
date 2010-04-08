@@ -52,21 +52,22 @@ typedef unsigned long  AP4_Size;
 
 // the rest depends on whether the platform supports 64-bit integers
 #if defined(AP4_CONFIG_HAVE_INT64)
-    // we have 64-bit integers
-    typedef AP4_CONFIG_INT64_TYPE          AP4_SI64;
-    typedef unsigned AP4_CONFIG_INT64_TYPE AP4_UI64;
-    typedef unsigned AP4_CONFIG_INT64_TYPE AP4_LargeSize;
-    typedef AP4_CONFIG_INT64_TYPE          AP4_Offset;
-    typedef unsigned AP4_CONFIG_INT64_TYPE AP4_Position;
+// we have 64-bit integers
+typedef AP4_CONFIG_INT64_TYPE          AP4_SI64;
+typedef unsigned AP4_CONFIG_INT64_TYPE AP4_UI64;
+typedef unsigned AP4_CONFIG_INT64_TYPE AP4_LargeSize;
+typedef AP4_CONFIG_INT64_TYPE          AP4_Offset;
+typedef unsigned AP4_CONFIG_INT64_TYPE AP4_Position;
 #else
-    // use only 32-bit integers
-    typedef struct {
-        AP4_UI32 hi;
-        AP4_UI32 lo;
-    } AP4_UI64, AP4_SI64;
-    typedef unsigned long  AP4_LargeSize;
-    typedef long           AP4_Offset;
-    typedef unsigned long  AP4_Position;
+// use only 32-bit integers
+typedef struct
+{
+    AP4_UI32 hi;
+    AP4_UI32 lo;
+} AP4_UI64, AP4_SI64;
+typedef unsigned long  AP4_LargeSize;
+typedef long           AP4_Offset;
+typedef unsigned long  AP4_Position;
 #endif
 
 #ifndef NULL

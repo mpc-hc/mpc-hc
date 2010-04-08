@@ -50,9 +50,9 @@ DECLARE_ASM_CONST(8, uint64_t, mmx_00ffw)   = 0x00ff00ff00ff00ffULL;
 DECLARE_ASM_CONST(8, uint64_t, mmx_redmask) = 0xf8f8f8f8f8f8f8f8ULL;
 DECLARE_ASM_CONST(8, uint64_t, mmx_grnmask) = 0xfcfcfcfcfcfcfcfcULL;
 
-uint64_t attribute_used __attribute__((aligned(8))) M24A=   0x00FF0000FF0000FFULL;
-uint64_t attribute_used __attribute__((aligned(8))) M24B=   0xFF0000FF0000FF00ULL;
-uint64_t attribute_used __attribute__((aligned(8))) M24C=   0x0000FF0000FF0000ULL;
+uint64_t attribute_used __attribute__((aligned(8))) M24A =   0x00FF0000FF0000FFULL;
+uint64_t attribute_used __attribute__((aligned(8))) M24B =   0xFF0000FF0000FF00ULL;
+uint64_t attribute_used __attribute__((aligned(8))) M24C =   0x0000FF0000FF0000ULL;
 
 // the volatile is required because gcc otherwise optimizes some writes away not knowing that these
 // are read in the asm block
@@ -84,8 +84,9 @@ extern const uint64_t dither8[2];
 
 #endif /* ARCH_X86_32 || ARCH_X86_64 */
 
-const int32_t Inverse_Table_6_9[8][7] = {
- // {   crv,    cbu,   cgu,   cgv,    cy,      oy, RGB_add}  /* dived by 65536 to get familiar values */
+const int32_t Inverse_Table_6_9[8][7] =
+{
+// {   crv,    cbu,   cgu,   cgv,    cy,      oy, RGB_add}  /* dived by 65536 to get familiar values */
     {117504, 138453, 13954, 34903, 76309, 1048576, 0}, /* no sequence_display_extension */
     {117504, 138453, 13954, 34903, 76309, 1048576, 0}, /* ITU-R Rec. 709 (1990) */
     {104597, 132201, 25675, 53279, 76309, 1048576, 0}, /* unspecified */
@@ -159,7 +160,7 @@ static int func_name(SwsContext *c, uint8_t* src[], stride_t srcStride[], int sr
 	unsigned int h_size= c->dstW>>3;\
 	while (h_size--) {\
 	    int U, V, Y;\
-
+ 
 #define EPILOG(dst_delta)\
 	    pu += 4;\
 	    pv += 4;\
@@ -173,104 +174,104 @@ static int func_name(SwsContext *c, uint8_t* src[], stride_t srcStride[], int sr
 }
 
 PROLOG(yuv2rgb_c_32, uint32_t)
-        RGB(0);
-        DST1(0);
-        DST2(0);
+RGB(0);
+DST1(0);
+DST2(0);
 
-        RGB(1);
-        DST2(1);
-        DST1(1);
+RGB(1);
+DST2(1);
+DST1(1);
 
-        RGB(2);
-        DST1(2);
-        DST2(2);
+RGB(2);
+DST1(2);
+DST2(2);
 
-        RGB(3);
-        DST2(3);
-        DST1(3);
+RGB(3);
+DST2(3);
+DST1(3);
 EPILOG(8)
 
 PROLOG(yuv2rgb_c_24_rgb, uint8_t)
-        RGB(0);
-        DST1RGB(0);
-        DST2RGB(0);
+RGB(0);
+DST1RGB(0);
+DST2RGB(0);
 
-        RGB(1);
-        DST2RGB(1);
-        DST1RGB(1);
+RGB(1);
+DST2RGB(1);
+DST1RGB(1);
 
-        RGB(2);
-        DST1RGB(2);
-        DST2RGB(2);
+RGB(2);
+DST1RGB(2);
+DST2RGB(2);
 
-        RGB(3);
-        DST2RGB(3);
-        DST1RGB(3);
+RGB(3);
+DST2RGB(3);
+DST1RGB(3);
 EPILOG(24)
 
 // only trivial mods from yuv2rgb_c_24_rgb
 PROLOG(yuv2rgb_c_24_bgr, uint8_t)
-        RGB(0);
-        DST1BGR(0);
-        DST2BGR(0);
+RGB(0);
+DST1BGR(0);
+DST2BGR(0);
 
-        RGB(1);
-        DST2BGR(1);
-        DST1BGR(1);
+RGB(1);
+DST2BGR(1);
+DST1BGR(1);
 
-        RGB(2);
-        DST1BGR(2);
-        DST2BGR(2);
+RGB(2);
+DST1BGR(2);
+DST2BGR(2);
 
-        RGB(3);
-        DST2BGR(3);
-        DST1BGR(3);
+RGB(3);
+DST2BGR(3);
+DST1BGR(3);
 EPILOG(24)
 
 // This is exactly the same code as yuv2rgb_c_32 except for the types of
 // r, g, b, dst_1, dst_2
 PROLOG(yuv2rgb_c_16, uint16_t)
-        RGB(0);
-        DST1(0);
-        DST2(0);
+RGB(0);
+DST1(0);
+DST2(0);
 
-        RGB(1);
-        DST2(1);
-        DST1(1);
+RGB(1);
+DST2(1);
+DST1(1);
 
-        RGB(2);
-        DST1(2);
-        DST2(2);
+RGB(2);
+DST1(2);
+DST2(2);
 
-        RGB(3);
-        DST2(3);
-        DST1(3);
+RGB(3);
+DST2(3);
+DST1(3);
 EPILOG(8)
 
 // This is exactly the same code as yuv2rgb_c_32 except for the types of
 // r, g, b, dst_1, dst_2
 PROLOG(yuv2rgb_c_8, uint8_t)
-	RGB(0);
-	DST1(0);
-	DST2(0);
+RGB(0);
+DST1(0);
+DST2(0);
 
-	RGB(1);
-	DST2(1);
-	DST1(1);
+RGB(1);
+DST2(1);
+DST1(1);
 
-	RGB(2);
-	DST1(2);
-	DST2(2);
+RGB(2);
+DST1(2);
+DST2(2);
 
-	RGB(3);
-	DST2(3);
-	DST1(3);
+RGB(3);
+DST2(3);
+DST1(3);
 EPILOG(8)
 
 // r, g, b, dst_1, dst_2
 PROLOG(yuv2rgb_c_8_ordered_dither, uint8_t)
-	const uint8_t *d32= dither_8x8_32[y&7];
-	const uint8_t *d64= dither_8x8_73[y&7];
+const uint8_t *d32 = dither_8x8_32[y&7];
+const uint8_t *d64 = dither_8x8_73[y&7];
 #define DST1bpp8(i,o)					\
 	Y = py_1[2*i];				\
 	dst_1[2*i] = r[Y+d32[0+o]] + g[Y+d32[0+o]] + b[Y+d64[0+o]];	\
@@ -284,28 +285,28 @@ PROLOG(yuv2rgb_c_8_ordered_dither, uint8_t)
 	dst_2[2*i+1] =  r[Y+d32[9+o]] + g[Y+d32[9+o]] + b[Y+d64[9+o]];
 
 
-	RGB(0);
-	DST1bpp8(0,0);
-	DST2bpp8(0,0);
+RGB(0);
+DST1bpp8(0, 0);
+DST2bpp8(0, 0);
 
-	RGB(1);
-	DST2bpp8(1,2);
-	DST1bpp8(1,2);
+RGB(1);
+DST2bpp8(1, 2);
+DST1bpp8(1, 2);
 
-	RGB(2);
-	DST1bpp8(2,4);
-	DST2bpp8(2,4);
+RGB(2);
+DST1bpp8(2, 4);
+DST2bpp8(2, 4);
 
-	RGB(3);
-	DST2bpp8(3,6);
-	DST1bpp8(3,6);
+RGB(3);
+DST2bpp8(3, 6);
+DST1bpp8(3, 6);
 EPILOG(8)
 
 
 // This is exactly the same code as yuv2rgb_c_32 except for the types of
 // r, g, b, dst_1, dst_2
 PROLOG(yuv2rgb_c_4, uint8_t)
-        int acc;
+int acc;
 #define DST1_4(i)					\
 	Y = py_1[2*i];				\
 	acc = r[Y] + g[Y] + b[Y];	\
@@ -320,27 +321,27 @@ PROLOG(yuv2rgb_c_4, uint8_t)
 	acc |= (r[Y] + g[Y] + b[Y])<<4;\
 	dst_2[i] = acc;
 
-        RGB(0);
-	DST1_4(0);
-	DST2_4(0);
+RGB(0);
+DST1_4(0);
+DST2_4(0);
 
-	RGB(1);
-	DST2_4(1);
-	DST1_4(1);
+RGB(1);
+DST2_4(1);
+DST1_4(1);
 
-	RGB(2);
-	DST1_4(2);
-	DST2_4(2);
+RGB(2);
+DST1_4(2);
+DST2_4(2);
 
-	RGB(3);
-	DST2_4(3);
-	DST1_4(3);
+RGB(3);
+DST2_4(3);
+DST1_4(3);
 EPILOG(4)
 
 PROLOG(yuv2rgb_c_4_ordered_dither, uint8_t)
-	const uint8_t *d64= dither_8x8_73[y&7];
-	const uint8_t *d128=dither_8x8_220[y&7];
-        int acc;
+const uint8_t *d64 = dither_8x8_73[y&7];
+const uint8_t *d128 = dither_8x8_220[y&7];
+int acc;
 
 #define DST1bpp4(i,o)					\
 	Y = py_1[2*i];				\
@@ -357,46 +358,46 @@ PROLOG(yuv2rgb_c_4_ordered_dither, uint8_t)
         dst_2[i]= acc;
 
 
-	RGB(0);
-	DST1bpp4(0,0);
-	DST2bpp4(0,0);
+RGB(0);
+DST1bpp4(0, 0);
+DST2bpp4(0, 0);
 
-	RGB(1);
-	DST2bpp4(1,2);
-	DST1bpp4(1,2);
+RGB(1);
+DST2bpp4(1, 2);
+DST1bpp4(1, 2);
 
-	RGB(2);
-	DST1bpp4(2,4);
-	DST2bpp4(2,4);
+RGB(2);
+DST1bpp4(2, 4);
+DST2bpp4(2, 4);
 
-	RGB(3);
-	DST2bpp4(3,6);
-	DST1bpp4(3,6);
+RGB(3);
+DST2bpp4(3, 6);
+DST1bpp4(3, 6);
 EPILOG(4)
 
 // This is exactly the same code as yuv2rgb_c_32 except for the types of
 // r, g, b, dst_1, dst_2
 PROLOG(yuv2rgb_c_4b, uint8_t)
-	RGB(0);
-	DST1(0);
-	DST2(0);
+RGB(0);
+DST1(0);
+DST2(0);
 
-	RGB(1);
-	DST2(1);
-	DST1(1);
+RGB(1);
+DST2(1);
+DST1(1);
 
-	RGB(2);
-	DST1(2);
-	DST2(2);
+RGB(2);
+DST1(2);
+DST2(2);
 
-	RGB(3);
-	DST2(3);
-	DST1(3);
+RGB(3);
+DST2(3);
+DST1(3);
 EPILOG(8)
 
 PROLOG(yuv2rgb_c_4b_ordered_dither, uint8_t)
-	const uint8_t *d64= dither_8x8_73[y&7];
-	const uint8_t *d128=dither_8x8_220[y&7];
+const uint8_t *d64 = dither_8x8_73[y&7];
+const uint8_t *d128 = dither_8x8_220[y&7];
 
 #define DST1bpp4b(i,o)					\
 	Y = py_1[2*i];				\
@@ -411,27 +412,27 @@ PROLOG(yuv2rgb_c_4b_ordered_dither, uint8_t)
 	dst_2[2*i+1] =  r[Y+d128[9+o]] + g[Y+d64[9+o]] + b[Y+d128[9+o]];
 
 
-	RGB(0);
-	DST1bpp4b(0,0);
-	DST2bpp4b(0,0);
+RGB(0);
+DST1bpp4b(0, 0);
+DST2bpp4b(0, 0);
 
-	RGB(1);
-	DST2bpp4b(1,2);
-	DST1bpp4b(1,2);
+RGB(1);
+DST2bpp4b(1, 2);
+DST1bpp4b(1, 2);
 
-	RGB(2);
-	DST1bpp4b(2,4);
-	DST2bpp4b(2,4);
+RGB(2);
+DST1bpp4b(2, 4);
+DST2bpp4b(2, 4);
 
-	RGB(3);
-	DST2bpp4b(3,6);
-	DST1bpp4b(3,6);
+RGB(3);
+DST2bpp4b(3, 6);
+DST1bpp4b(3, 6);
 EPILOG(8)
 
 PROLOG(yuv2rgb_c_1_ordered_dither, uint8_t)
-	const uint8_t *d128=dither_8x8_220[y&7];
-	char out_1=0, out_2=0;
-	g= c->table_gU[128] + c->table_gV[128];
+const uint8_t *d128 = dither_8x8_220[y&7];
+char out_1 = 0, out_2 = 0;
+g = c->table_gU[128] + c->table_gV[128];
 
 #define DST1bpp1(i,o)					\
 	Y = py_1[2*i];				\
@@ -445,93 +446,114 @@ PROLOG(yuv2rgb_c_1_ordered_dither, uint8_t)
 	Y = py_2[2*i+1];			\
 	out_2+= out_2 + g[Y+d128[9+o]];
 
-	DST1bpp1(0,0);
-	DST2bpp1(0,0);
+DST1bpp1(0, 0);
+DST2bpp1(0, 0);
 
-	DST2bpp1(1,2);
-	DST1bpp1(1,2);
+DST2bpp1(1, 2);
+DST1bpp1(1, 2);
 
-	DST1bpp1(2,4);
-	DST2bpp1(2,4);
+DST1bpp1(2, 4);
+DST2bpp1(2, 4);
 
-	DST2bpp1(3,6);
-	DST1bpp1(3,6);
+DST2bpp1(3, 6);
+DST1bpp1(3, 6);
 
-	dst_1[0]= out_1;
-	dst_2[0]= out_2;
+dst_1[0] = out_1;
+dst_2[0] = out_2;
 EPILOG(1)
 
-SwsFunc yuv2rgb_get_func_ptr (SwsContext *c)
+SwsFunc yuv2rgb_get_func_ptr(SwsContext *c)
 {
 #if ARCH_X86 || ARCH_X86_64
-    if(c->params.cpu & SWS_CPU_CAPS_MMX2){
-	switch(c->dstFormat){
-	case IMGFMT_BGR32: return yuv420_rgb32_MMX2;
-	case IMGFMT_BGR24: return yuv420_rgb24_MMX2;
-	case IMGFMT_BGR16: return yuv420_rgb16_MMX2;
-	case IMGFMT_BGR15: return yuv420_rgb15_MMX2;
-	}
+    if(c->params.cpu & SWS_CPU_CAPS_MMX2)
+    {
+        switch(c->dstFormat)
+        {
+        case IMGFMT_BGR32:
+            return yuv420_rgb32_MMX2;
+        case IMGFMT_BGR24:
+            return yuv420_rgb24_MMX2;
+        case IMGFMT_BGR16:
+            return yuv420_rgb16_MMX2;
+        case IMGFMT_BGR15:
+            return yuv420_rgb15_MMX2;
+        }
     }
-    if(c->params.cpu & SWS_CPU_CAPS_MMX){
-	switch(c->dstFormat){
-	case IMGFMT_BGR32: return yuv420_rgb32_MMX;
-	case IMGFMT_BGR24: return yuv420_rgb24_MMX;
-	case IMGFMT_BGR16: return yuv420_rgb16_MMX;
-	case IMGFMT_BGR15: return yuv420_rgb15_MMX;
-	}
+    if(c->params.cpu & SWS_CPU_CAPS_MMX)
+    {
+        switch(c->dstFormat)
+        {
+        case IMGFMT_BGR32:
+            return yuv420_rgb32_MMX;
+        case IMGFMT_BGR24:
+            return yuv420_rgb24_MMX;
+        case IMGFMT_BGR16:
+            return yuv420_rgb16_MMX;
+        case IMGFMT_BGR15:
+            return yuv420_rgb15_MMX;
+        }
     }
 #endif
 #ifdef HAVE_MLIB
     {
-	SwsFunc t= yuv2rgb_init_mlib(c);
-	if(t) return t;
-}
+        SwsFunc t = yuv2rgb_init_mlib(c);
+        if(t) return t;
+    }
 #endif
 #ifdef HAVE_ALTIVEC
-    if (c->params.cpu & SWS_CPU_CAPS_ALTIVEC)
+    if(c->params.cpu & SWS_CPU_CAPS_ALTIVEC)
     {
-	SwsFunc t = yuv2rgb_init_altivec(c);
-	if(t) return t;
+        SwsFunc t = yuv2rgb_init_altivec(c);
+        if(t) return t;
     }
 #endif
 
     MSG_WARN("No accelerated colorspace conversion found\n");
 
-    switch(c->dstFormat){
+    switch(c->dstFormat)
+    {
     case IMGFMT_RGB32:
-    case IMGFMT_BGR32: return yuv2rgb_c_32;
-    case IMGFMT_RGB24: return yuv2rgb_c_24_rgb;
-    case IMGFMT_BGR24: return yuv2rgb_c_24_bgr;
+    case IMGFMT_BGR32:
+        return yuv2rgb_c_32;
+    case IMGFMT_RGB24:
+        return yuv2rgb_c_24_rgb;
+    case IMGFMT_BGR24:
+        return yuv2rgb_c_24_bgr;
     case IMGFMT_RGB16:
     case IMGFMT_BGR16:
     case IMGFMT_RGB15:
-    case IMGFMT_BGR15: return yuv2rgb_c_16;
+    case IMGFMT_BGR15:
+        return yuv2rgb_c_16;
     case IMGFMT_RGB8:
-    case IMGFMT_BGR8:  return yuv2rgb_c_8_ordered_dither;
+    case IMGFMT_BGR8:
+        return yuv2rgb_c_8_ordered_dither;
     case IMGFMT_RGB4:
-    case IMGFMT_BGR4:  return yuv2rgb_c_4_ordered_dither;
+    case IMGFMT_BGR4:
+        return yuv2rgb_c_4_ordered_dither;
     case IMGFMT_RG4B:
-    case IMGFMT_BG4B:  return yuv2rgb_c_4b_ordered_dither;
+    case IMGFMT_BG4B:
+        return yuv2rgb_c_4b_ordered_dither;
     case IMGFMT_RGB1:
-    case IMGFMT_BGR1:  return yuv2rgb_c_1_ordered_dither;
+    case IMGFMT_BGR1:
+        return yuv2rgb_c_1_ordered_dither;
     default:
-    	assert(0);
+        assert(0);
     }
     return NULL;
 }
 
-static int div_round (int dividend, int divisor)
+static int div_round(int dividend, int divisor)
 {
-    if (dividend > 0)
-        return (dividend + (divisor>>1)) / divisor;
+    if(dividend > 0)
+        return (dividend + (divisor >> 1)) / divisor;
     else
-        return -((-dividend + (divisor>>1)) / divisor);
+        return -((-dividend + (divisor >> 1)) / divisor);
 }
 
-int yuv2rgb_c_init_tables (SwsContext *c, const int inv_table[7], int fullRange, int brightness, int contrast, int saturation)
+int yuv2rgb_c_init_tables(SwsContext *c, const int inv_table[7], int fullRange, int brightness, int contrast, int saturation)
 {
     const int isRgb = IMGFMT_IS_BGR(c->dstFormat);
-    const int bpp = isRgb?IMGFMT_RGB_DEPTH(c->dstFormat):IMGFMT_BGR_DEPTH(c->dstFormat);
+    const int bpp = isRgb ? IMGFMT_RGB_DEPTH(c->dstFormat) : IMGFMT_BGR_DEPTH(c->dstFormat);
     int i;
     uint8_t table_Y[1024];
     uint32_t *table_32 = 0;
@@ -554,175 +576,188 @@ int yuv2rgb_c_init_tables (SwsContext *c, const int inv_table[7], int fullRange,
 
 //printf("%lld %lld %lld %lld %lld\n", cy, crv, cbu, cgu, cgv);
 
-    cy = (cy *contrast             )>>16;
-    crv= (crv*contrast * saturation)>>32;
-    cbu= (cbu*contrast * saturation)>>32;
-    cgu= (cgu*contrast * saturation)>>32;
-    cgv= (cgv*contrast * saturation)>>32;
+    cy = (cy * contrast) >> 16;
+    crv = (crv * contrast * saturation) >> 32;
+    cbu = (cbu * contrast * saturation) >> 32;
+    cgu = (cgu * contrast * saturation) >> 32;
+    cgv = (cgv * contrast * saturation) >> 32;
 //printf("%lld %lld %lld %lld %lld\n", cy, crv, cbu, cgu, cgv);
-    oy -= 256*brightness;
+    oy -= 256 * brightness;
 
-    for (i = 0; i < 1024; i++) {
+    for(i = 0; i < 1024; i++)
+    {
         int j;
 
-	j= ((cy*(((i - 384)<<16) - oy) + (1<<31))>>32) + rgb_add;
+        j = ((cy * (((i - 384) << 16) - oy) + (1 << 31))>>32) + rgb_add;
         j = (j < 0) ? 0 : ((j > 255) ? 255 : j);
         table_Y[i] = j;
     }
 
-    switch (bpp) {
+    switch(bpp)
+    {
     case 32:
-        table_start= table_32 = av_malloc ((197 + 2*682 + 256 + 132) * sizeof (uint32_t));
+        table_start = table_32 = av_malloc((197 + 2 * 682 + 256 + 132) * sizeof(uint32_t));
 
-        entry_size = sizeof (uint32_t);
+        entry_size = sizeof(uint32_t);
         table_r = table_32 + 197;
         table_b = table_32 + 197 + 685;
-        table_g = table_32 + 197 + 2*682;
+        table_g = table_32 + 197 + 2 * 682;
 
-        for (i = -197; i < 256+197; i++)
-	    ((uint32_t *)table_r)[i] = table_Y[i+384] << (isRgb ? 16 : 0);
-        for (i = -132; i < 256+132; i++)
+        for(i = -197; i < 256 + 197; i++)
+            ((uint32_t *)table_r)[i] = table_Y[i+384] << (isRgb ? 16 : 0);
+        for(i = -132; i < 256 + 132; i++)
             ((uint32_t *)table_g)[i] = table_Y[i+384] << 8;
-        for (i = -232; i < 256+232; i++)
-	    ((uint32_t *)table_b)[i] = table_Y[i+384] << (isRgb ? 0 : 16);
+        for(i = -232; i < 256 + 232; i++)
+            ((uint32_t *)table_b)[i] = table_Y[i+384] << (isRgb ? 0 : 16);
         break;
 
     case 24:
-       	table_start= table_8 = av_malloc ((256 + 2*232) * sizeof (uint8_t));
+        table_start = table_8 = av_malloc((256 + 2 * 232) * sizeof(uint8_t));
 
-        entry_size = sizeof (uint8_t);
+        entry_size = sizeof(uint8_t);
         table_r = table_g = table_b = table_8 + 232;
 
-        for (i = -232; i < 256+232; i++)
-            ((uint8_t * )table_b)[i] = table_Y[i+384];
+        for(i = -232; i < 256 + 232; i++)
+            ((uint8_t *)table_b)[i] = table_Y[i+384];
         break;
 
     case 15:
     case 16:
-	       table_start= table_16 = av_malloc ((197 + 2*682 + 256 + 132) * sizeof (uint16_t));
+        table_start = table_16 = av_malloc((197 + 2 * 682 + 256 + 132) * sizeof(uint16_t));
 
-        entry_size = sizeof (uint16_t);
+        entry_size = sizeof(uint16_t);
         table_r = table_16 + 197;
         table_b = table_16 + 197 + 685;
-        table_g = table_16 + 197 + 2*682;
+        table_g = table_16 + 197 + 2 * 682;
 
-        for (i = -197; i < 256+197; i++) {
+        for(i = -197; i < 256 + 197; i++)
+        {
             int j = table_Y[i+384] >> 3;
 
-	    if (isRgb)
-                j <<= ((bpp==16) ? 11 : 10);
+            if(isRgb)
+                j <<= ((bpp == 16) ? 11 : 10);
 
             ((uint16_t *)table_r)[i] = j;
         }
-        for (i = -132; i < 256+132; i++) {
-            int j = table_Y[i+384] >> ((bpp==16) ? 2 : 3);
+        for(i = -132; i < 256 + 132; i++)
+        {
+            int j = table_Y[i+384] >> ((bpp == 16) ? 2 : 3);
 
             ((uint16_t *)table_g)[i] = j << 5;
         }
-        for (i = -232; i < 256+232; i++) {
+        for(i = -232; i < 256 + 232; i++)
+        {
             int j = table_Y[i+384] >> 3;
 
-	    if (!isRgb)
-                j <<= ((bpp==16) ? 11 : 10);
+            if(!isRgb)
+                j <<= ((bpp == 16) ? 11 : 10);
 
             ((uint16_t *)table_b)[i] = j;
         }
         break;
 
     case 8:
-	table_start= table_332 = av_malloc ((197 + 2*682 + 256 + 132) * sizeof (uint8_t));
+        table_start = table_332 = av_malloc((197 + 2 * 682 + 256 + 132) * sizeof(uint8_t));
 
-	entry_size = sizeof (uint8_t);
-	table_r = table_332 + 197;
-	table_b = table_332 + 197 + 685;
-	table_g = table_332 + 197 + 2*682;
+        entry_size = sizeof(uint8_t);
+        table_r = table_332 + 197;
+        table_b = table_332 + 197 + 685;
+        table_g = table_332 + 197 + 2 * 682;
 
-	for (i = -197; i < 256+197; i++) {
-	    int j = (table_Y[i+384 - 16] + 18)/36;
+        for(i = -197; i < 256 + 197; i++)
+        {
+            int j = (table_Y[i+384 - 16] + 18) / 36;
 
-	    if (isRgb)
-		j <<= 5;
+            if(isRgb)
+                j <<= 5;
 
-	    ((uint8_t *)table_r)[i] = j;
-	}
-	for (i = -132; i < 256+132; i++) {
-	    int j = (table_Y[i+384 - 16] + 18)/36;
+            ((uint8_t *)table_r)[i] = j;
+        }
+        for(i = -132; i < 256 + 132; i++)
+        {
+            int j = (table_Y[i+384 - 16] + 18) / 36;
 
-	    if (!isRgb)
-		j <<= 1;
+            if(!isRgb)
+                j <<= 1;
 
-	    ((uint8_t *)table_g)[i] = j << 2;
-	}
-	for (i = -232; i < 256+232; i++) {
-	    int j = (table_Y[i+384 - 37] + 43)/85;
+            ((uint8_t *)table_g)[i] = j << 2;
+        }
+        for(i = -232; i < 256 + 232; i++)
+        {
+            int j = (table_Y[i+384 - 37] + 43) / 85;
 
-	    if (!isRgb)
-		j <<= 6;
+            if(!isRgb)
+                j <<= 6;
 
-	    ((uint8_t *)table_b)[i] = j;
-	}
-	break;
+            ((uint8_t *)table_b)[i] = j;
+        }
+        break;
     case 4:
     case 4|128:
-	table_start= table_121 = av_malloc ((197 + 2*682 + 256 + 132) * sizeof (uint8_t));
+        table_start = table_121 = av_malloc((197 + 2 * 682 + 256 + 132) * sizeof(uint8_t));
 
-	entry_size = sizeof (uint8_t);
-	table_r = table_121 + 197;
-	table_b = table_121 + 197 + 685;
-	table_g = table_121 + 197 + 2*682;
+        entry_size = sizeof(uint8_t);
+        table_r = table_121 + 197;
+        table_b = table_121 + 197 + 685;
+        table_g = table_121 + 197 + 2 * 682;
 
-	for (i = -197; i < 256+197; i++) {
-	    int j = table_Y[i+384 - 110] >> 7;
+        for(i = -197; i < 256 + 197; i++)
+        {
+            int j = table_Y[i+384 - 110] >> 7;
 
-	    if (isRgb)
-		j <<= 3;
+            if(isRgb)
+                j <<= 3;
 
-	    ((uint8_t *)table_r)[i] = j;
-	}
-	for (i = -132; i < 256+132; i++) {
-	    int j = (table_Y[i+384 - 37]+ 43)/85;
+            ((uint8_t *)table_r)[i] = j;
+        }
+        for(i = -132; i < 256 + 132; i++)
+        {
+            int j = (table_Y[i+384 - 37] + 43) / 85;
 
-	    ((uint8_t *)table_g)[i] = j << 1;
-	}
-	for (i = -232; i < 256+232; i++) {
-	    int j =table_Y[i+384 - 110] >> 7;
+            ((uint8_t *)table_g)[i] = j << 1;
+        }
+        for(i = -232; i < 256 + 232; i++)
+        {
+            int j = table_Y[i+384 - 110] >> 7;
 
-	    if (!isRgb)
-		j <<= 3;
+            if(!isRgb)
+                j <<= 3;
 
-	    ((uint8_t *)table_b)[i] = j;
-	}
-	break;
+            ((uint8_t *)table_b)[i] = j;
+        }
+        break;
 
     case 1:
-	table_start= table_1 = av_malloc (256*2 * sizeof (uint8_t));
+        table_start = table_1 = av_malloc(256 * 2 * sizeof(uint8_t));
 
-	entry_size = sizeof (uint8_t);
-	table_g = table_1;
-	table_r = table_b = NULL;
+        entry_size = sizeof(uint8_t);
+        table_g = table_1;
+        table_r = table_b = NULL;
 
-	for (i = 0; i < 256+256; i++) {
-	    int j = table_Y[i + 384 - 110]>>7;
+        for(i = 0; i < 256 + 256; i++)
+        {
+            int j = table_Y[i + 384 - 110] >> 7;
 
-	    ((uint8_t *)table_g)[i] = j;
-	}
-	break;
+            ((uint8_t *)table_g)[i] = j;
+        }
+        break;
 
     default:
-	table_start= NULL;
-	MSG_ERR("%ibpp not supported by yuv2rgb\n", bpp);
-	//free mem?
-	return -1;
+        table_start = NULL;
+        MSG_ERR("%ibpp not supported by yuv2rgb\n", bpp);
+        //free mem?
+        return -1;
     }
 
-    for (i = 0; i < 256; i++) {
-	c->table_rV[i] = table_r + entry_size * div_round (crv * (i-128), 76309);
-	c->table_gU[i] = table_g + entry_size * div_round (cgu * (i-128), 76309);
-	c->table_gV[i] = entry_size * div_round (cgv * (i-128), 76309);
-	c->table_bU[i] = table_b + entry_size * div_round (cbu * (i-128), 76309);
+    for(i = 0; i < 256; i++)
+    {
+        c->table_rV[i] = table_r + entry_size * div_round(crv * (i - 128), 76309);
+        c->table_gU[i] = table_g + entry_size * div_round(cgu * (i - 128), 76309);
+        c->table_gV[i] = entry_size * div_round(cgv * (i - 128), 76309);
+        c->table_bU[i] = table_b + entry_size * div_round(cbu * (i - 128), 76309);
     }
 
     if(c->yuvTable) av_free(c->yuvTable);
-    c->yuvTable= table_start;
+    c->yuvTable = table_start;
     return 0;
 }

@@ -27,20 +27,21 @@
 
 #include <windows.h>
 
-class VDXVideoFilterDialog {
+class VDXVideoFilterDialog
+{
 public:
-	VDXVideoFilterDialog();
+    VDXVideoFilterDialog();
 
 protected:
-	HWND	mhdlg;
+    HWND	mhdlg;
 
-	LRESULT Show(HINSTANCE hInst, LPCSTR templName, HWND parent);
-	LRESULT Show(HINSTANCE hInst, LPCWSTR templName, HWND parent);
-	HWND ShowModeless(HINSTANCE hInst, LPCSTR templName, HWND parent);
-	HWND ShowModeless(HINSTANCE hInst, LPCWSTR templName, HWND parent);
+    LRESULT Show(HINSTANCE hInst, LPCSTR templName, HWND parent);
+    LRESULT Show(HINSTANCE hInst, LPCWSTR templName, HWND parent);
+    HWND ShowModeless(HINSTANCE hInst, LPCSTR templName, HWND parent);
+    HWND ShowModeless(HINSTANCE hInst, LPCWSTR templName, HWND parent);
 
-	static INT_PTR CALLBACK StaticDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+    static INT_PTR CALLBACK StaticDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
+    virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif

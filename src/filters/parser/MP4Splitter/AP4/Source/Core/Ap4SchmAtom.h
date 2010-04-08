@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - schm Atoms 
+|    AP4 - schm Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -51,7 +51,7 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_SchmAtom, AP4_Atom)
 
     // class methods
-    static AP4_SchmAtom* Create(AP4_Size                   size, 
+    static AP4_SchmAtom* Create(AP4_Size                   size,
                                 AP4_Array<AP4_Atom::Type>* context,
                                 AP4_ByteStream&            stream);
 
@@ -66,13 +66,22 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32    GetSchemeType()    { return m_SchemeType;    }
-    AP4_UI32    GetSchemeVersion() { return m_SchemeVersion; }
-    AP4_String& GetSchemeUri()     { return m_SchemeUri;     }
+    AP4_UI32    GetSchemeType()
+    {
+        return m_SchemeType;
+    }
+    AP4_UI32    GetSchemeVersion()
+    {
+        return m_SchemeVersion;
+    }
+    AP4_String& GetSchemeUri()
+    {
+        return m_SchemeUri;
+    }
 
 private:
     // methods
-    AP4_SchmAtom(AP4_UI32        size, 
+    AP4_SchmAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  bool            short_form,
@@ -80,7 +89,7 @@ private:
 
     // members
     bool       m_AtomHasShortForm; // for versions of this where the version
-                                   // field is only 16 bits
+    // field is only 16 bits
     AP4_UI32   m_SchemeType;
     AP4_UI32   m_SchemeVersion;
     AP4_String m_SchemeUri;

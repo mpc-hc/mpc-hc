@@ -57,100 +57,100 @@
 #include <libdirac_motionest/block_match.h>
 namespace dirac
 {
-    class EncQueue;
-    class MvData;
-    class EncoderParams;
-    class PicArray;
+class EncQueue;
+class MvData;
+class EncoderParams;
+class PicArray;
 
 
-    class PixelMatcher
-    {
-    public:
+class PixelMatcher
+{
+public:
 
-        //! Constructor
-        PixelMatcher( const EncoderParams& encp);
+    //! Constructor
+    PixelMatcher(const EncoderParams& encp);
 
-        //! Do the actual search
-        /* Do the searching.
+    //! Do the actual search
+    /* Do the searching.
 
-        \param  my_buffer  the buffer of pictures from which pictures are taken
-        \param  pic_num  the number of the picture for which motion is to be estimated
-        \param  mv_data    class in which the measured motion vectors are stored, together with costs
-        
-        */
-        void DoSearch( EncQueue& my_buffer, int pic_num ); 
+    \param  my_buffer  the buffer of pictures from which pictures are taken
+    \param  pic_num  the number of the picture for which motion is to be estimated
+    \param  mv_data    class in which the measured motion vectors are stored, together with costs
 
-    private:
+    */
+    void DoSearch(EncQueue& my_buffer, int pic_num);
 
-        // Member variables
+private:
 
-        //! Local reference to the encoder params 
-        const EncoderParams& m_encparams;
+    // Member variables
 
-        //! Local reference to the picture pred params 
-        const PicturePredParams* m_predparams;
+    //! Local reference to the encoder params
+    const EncoderParams& m_encparams;
 
-        // the depth of the hierarchical match 
-        int m_depth;
+    //! Local reference to the picture pred params
+    const PicturePredParams* m_predparams;
 
-        // the level we're at (from 0 to depth)
-        int m_level;
+    // the depth of the hierarchical match
+    int m_depth;
 
-        // the search-range sizes for the hierarchical match
-        int m_xr, m_yr;
-        
-        // the search-range sizes for when hierarchical match fails
-        int m_big_xr, m_big_yr;
-        
-        // the temporal distances to the reference pictures
-        int m_tdiff[2];
+    // the level we're at (from 0 to depth)
+    int m_level;
 
-        // the picture sort - I, L1 or L2
-        PictureSort m_psort;
+    // the search-range sizes for the hierarchical match
+    int m_xr, m_yr;
 
-        // list of candidate vectors for checking
-        CandidateList m_cand_list;
+    // the search-range sizes for when hierarchical match fails
+    int m_big_xr, m_big_yr;
 
-        // Prediction used for each block. This is derived from neighbouring blocks
-        // and is used to control the variation in the motion vector field.
-        MVector m_mv_prediction;
-        
-        // The value used in computing block cost means with a simple recursive filter
-        double m_rho;
-        
-        // The mean of the block cost
-        double m_cost_mean;
-        
-        // The mean of the square of the block cost
-        double m_cost_mean_sq;
-        
-    private:
+    // the temporal distances to the reference pictures
+    int m_tdiff[2];
 
-        // Functions
+    // the picture sort - I, L1 or L2
+    PictureSort m_psort;
 
-        //! Make down-converted pictures
-        void MakePicHierarchy(const PicArray& data, OneDArray< PicArray* >& down_data);
+    // list of candidate vectors for checking
+    CandidateList m_cand_list;
 
-        //! Make a hierarchy of MvData structures
-        void MakeMEDataHierarchy(const OneDArray< PicArray*>& down_data,
-                                           OneDArray< MEData* >& me_data_set );
+    // Prediction used for each block. This is derived from neighbouring blocks
+    // and is used to control the variation in the motion vector field.
+    MVector m_mv_prediction;
 
-        //! Tidy up the allocations made in building the picture hirearchy
-        void TidyPics( OneDArray< PicArray*>& down_data );
+    // The value used in computing block cost means with a simple recursive filter
+    double m_rho;
 
-        //! Tidy up the allocations made in building the MV data hirearchy
-        void TidyMEData( OneDArray< MEData*>& me_data_set );
+    // The mean of the block cost
+    double m_cost_mean;
 
-        //! Match the picture data 
-        void MatchPic(const PicArray& ref_data , const PicArray& pic_data , MEData& me_data ,
-                      const MvData& guide_data, const int ref_id);
+    // The mean of the square of the block cost
+    double m_cost_mean_sq;
 
-        //! Do a given block
-        void DoBlock(const int xpos, const int ypos , 
-                     const MvArray& guide_array,
-                     BlockMatcher& block_match);
+private:
 
-    };
+    // Functions
+
+    //! Make down-converted pictures
+    void MakePicHierarchy(const PicArray& data, OneDArray< PicArray* >& down_data);
+
+    //! Make a hierarchy of MvData structures
+    void MakeMEDataHierarchy(const OneDArray< PicArray*>& down_data,
+                             OneDArray< MEData* >& me_data_set);
+
+    //! Tidy up the allocations made in building the picture hirearchy
+    void TidyPics(OneDArray< PicArray*>& down_data);
+
+    //! Tidy up the allocations made in building the MV data hirearchy
+    void TidyMEData(OneDArray< MEData*>& me_data_set);
+
+    //! Match the picture data
+    void MatchPic(const PicArray& ref_data , const PicArray& pic_data , MEData& me_data ,
+                  const MvData& guide_data, const int ref_id);
+
+    //! Do a given block
+    void DoBlock(const int xpos, const int ypos ,
+                 const MvArray& guide_array,
+                 BlockMatcher& block_match);
+
+};
 
 } // namespace dirac
 

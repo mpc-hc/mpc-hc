@@ -19,8 +19,8 @@ class CAsyncReader;
 
 // the output pin class
 class CAsyncOutputPin
-  : public IAsyncReader,
-    public CBasePin
+    : public IAsyncReader,
+  public CBasePin
 {
 protected:
     CAsyncReader* m_pReader;
@@ -39,8 +39,8 @@ public:
     // constructor and destructor
     CAsyncOutputPin(
         HRESULT * phr,
-	CAsyncReader *pReader,
-	CAsyncIo *pIo,
+        CAsyncReader *pReader,
+        CAsyncIo *pIo,
         CCritSec * pLock);
 
     ~CAsyncOutputPin();
@@ -76,9 +76,12 @@ public:
     // See if it was asked for
     HRESULT CompleteConnect(IPin *pReceivePin)
     {
-        if (m_bQueriedForAsyncReader) {
+        if(m_bQueriedForAsyncReader)
+        {
             return CBasePin::CompleteConnect(pReceivePin);
-        } else {
+        }
+        else
+        {
 #ifdef VFW_E_NO_TRANSPORT
             return VFW_E_NO_TRANSPORT;
 #else
@@ -101,9 +104,9 @@ public:
     // this allocator will be not be committed and decommitted by
     // the async reader, only by the consumer.
     STDMETHODIMP RequestAllocator(
-                      IMemAllocator* pPreferred,
-                      ALLOCATOR_PROPERTIES* pProps,
-                      IMemAllocator ** ppActual);
+        IMemAllocator* pPreferred,
+        ALLOCATOR_PROPERTIES* pProps,
+        IMemAllocator ** ppActual);
 
     // queue a request for data.
     // media sample start and stop times contain the requested absolute
@@ -113,8 +116,8 @@ public:
     // samples allocated from source pin's allocator may fail
     // GetPointer until after returning from WaitForNext.
     STDMETHODIMP Request(
-                     IMediaSample* pSample,
-                     DWORD_PTR dwUser);	        // user context
+        IMediaSample* pSample,
+        DWORD_PTR dwUser);	        // user context
 
     // block until the next sample is completed or the timeout occurs.
     // timeout (millisecs) may be 0 or INFINITE. Samples may not
@@ -122,32 +125,32 @@ public:
     // notification will already have been sent by the source filter,
     // and STDMETHODIMP will be an error.
     STDMETHODIMP WaitForNext(
-                      DWORD dwTimeout,
-                      IMediaSample** ppSample,  // completed sample
-                      DWORD_PTR* pdwUser);		// user context
+        DWORD dwTimeout,
+        IMediaSample** ppSample,  // completed sample
+        DWORD_PTR* pdwUser);		// user context
 
     // sync read of data. Sample passed in must have been acquired from
     // the agreed allocator. Start and stop position must be aligned.
     // equivalent to a Request/WaitForNext pair, but may avoid the
     // need for a thread on the source filter.
     STDMETHODIMP SyncReadAligned(
-                      IMediaSample* pSample);
+        IMediaSample* pSample);
 
 
     // sync read. works in stopped state as well as run state.
     // need not be aligned. Will fail if read is beyond actual total
     // length.
     STDMETHODIMP SyncRead(
-                      LONGLONG llPosition,	// absolute file position
-                      LONG lLength,		// nr bytes required
-                      BYTE* pBuffer);		// write data here
+        LONGLONG llPosition,	// absolute file position
+        LONG lLength,		// nr bytes required
+        BYTE* pBuffer);		// write data here
 
     // return total length of stream, and currently available length.
     // reads for beyond the available length but within the total length will
     // normally succeed but may block for a long period.
     STDMETHODIMP Length(
-                      LONGLONG* pTotal,
-                      LONGLONG* pAvailable);
+        LONGLONG* pTotal,
+        LONGLONG* pAvailable);
 
     // cause all outstanding reads to return, possibly with a failure code
     // (VFW_E_TIMEOUT) indicating they were cancelled.
@@ -179,7 +182,7 @@ protected:
     CMediaType            m_mt;
 
 public:
-		
+
     // construction / destruction
 
     CAsyncReader(
@@ -187,14 +190,14 @@ public:
         LPUNKNOWN pUnk,
         CAsyncStream *pStream,
         HRESULT *phr,
-		const CLSID& clsid);
+        const CLSID& clsid);
     ~CAsyncReader();
 
-	DECLARE_IUNKNOWN;
+    DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IAMFilterMiscFlags
-	STDMETHODIMP_(ULONG) GetMiscFlags();
+    // IAMFilterMiscFlags
+    STDMETHODIMP_(ULONG) GetMiscFlags();
 
     // --- CBaseFilter methods ---
     int GetPinCount();

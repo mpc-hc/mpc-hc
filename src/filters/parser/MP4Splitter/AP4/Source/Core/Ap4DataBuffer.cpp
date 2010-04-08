@@ -64,7 +64,8 @@ AP4_DataBuffer::AP4_DataBuffer(const void* data, AP4_Size data_size) :
     m_BufferSize(data_size),
     m_DataSize(data_size)
 {
-    if (data && data_size) {
+    if(data && data_size)
+    {
         m_Buffer = new AP4_Byte[data_size];
         AP4_CopyMemory(m_Buffer, data, data_size);
     }
@@ -88,7 +89,8 @@ AP4_DataBuffer::AP4_DataBuffer(const AP4_DataBuffer& other) :
 +---------------------------------------------------------------------*/
 AP4_DataBuffer::~AP4_DataBuffer()
 {
-    if (m_BufferIsLocal) {
+    if(m_BufferIsLocal)
+    {
         delete[] m_Buffer;
     }
 }
@@ -99,11 +101,11 @@ AP4_DataBuffer::~AP4_DataBuffer()
 AP4_Result
 AP4_DataBuffer::Reserve(AP4_Size size)
 {
-    if (size <= m_BufferSize) return AP4_SUCCESS;
+    if(size <= m_BufferSize) return AP4_SUCCESS;
 
     // try doubling the buffer to accomodate for the new size
-    AP4_Size new_size = m_BufferSize*2+1024;
-    if (new_size < size) new_size = size;
+    AP4_Size new_size = m_BufferSize * 2 + 1024;
+    if(new_size < size) new_size = size;
     return SetBufferSize(new_size);
 }
 
@@ -113,7 +115,8 @@ AP4_DataBuffer::Reserve(AP4_Size size)
 AP4_Result
 AP4_DataBuffer::SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size)
 {
-    if (m_BufferIsLocal) {
+    if(m_BufferIsLocal)
+    {
         // destroy the local buffer
         delete[] m_Buffer;
     }
@@ -132,11 +135,14 @@ AP4_DataBuffer::SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size)
 AP4_Result
 AP4_DataBuffer::SetBufferSize(AP4_Size buffer_size)
 {
-    if (m_BufferIsLocal) {
+    if(m_BufferIsLocal)
+    {
         return ReallocateBuffer(buffer_size);
-    } else {
+    }
+    else
+    {
         return AP4_FAILURE; // you cannot change the
-                            // buffer management mode
+        // buffer management mode
     }
 }
 
@@ -146,11 +152,15 @@ AP4_DataBuffer::SetBufferSize(AP4_Size buffer_size)
 AP4_Result
 AP4_DataBuffer::SetDataSize(AP4_Size size)
 {
-    if (size > m_BufferSize) {
-        if (m_BufferIsLocal) {
+    if(size > m_BufferSize)
+    {
+        if(m_BufferIsLocal)
+        {
             AP4_Result result = ReallocateBuffer(size);
-            if (AP4_FAILED(result)) return result;
-        } else { 
+            if(AP4_FAILED(result)) return result;
+        }
+        else
+        {
             return AP4_FAILURE;
         }
     }
@@ -164,11 +174,15 @@ AP4_DataBuffer::SetDataSize(AP4_Size size)
 AP4_Result
 AP4_DataBuffer::SetData(const AP4_Byte* data, AP4_Size size)
 {
-    if (size > m_BufferSize) {
-        if (m_BufferIsLocal) {
+    if(size > m_BufferSize)
+    {
+        if(m_BufferIsLocal)
+        {
             AP4_Result result = ReallocateBuffer(size);
-            if (AP4_FAILED(result)) return result;
-        } else {
+            if(AP4_FAILED(result)) return result;
+        }
+        else
+        {
             return AP4_FAILURE;
         }
     }
@@ -186,15 +200,16 @@ AP4_Result
 AP4_DataBuffer::ReallocateBuffer(AP4_Size size)
 {
     // check that the existing data fits
-    if (m_DataSize > size) return AP4_FAILURE;
+    if(m_DataSize > size) return AP4_FAILURE;
 
     // allocate a new buffer
     AP4_Byte* new_buffer = new AP4_Byte[size];
 
     // copy the contents of the previous buffer ,is any
-	if (m_Buffer && m_DataSize) {
-		AP4_CopyMemory(new_buffer, m_Buffer, m_DataSize);
-	}
+    if(m_Buffer && m_DataSize)
+    {
+        AP4_CopyMemory(new_buffer, m_Buffer, m_DataSize);
+    }
 
     // destroy the previous buffer
     delete[] m_Buffer;

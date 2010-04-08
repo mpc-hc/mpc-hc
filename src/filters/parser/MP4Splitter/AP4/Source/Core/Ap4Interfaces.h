@@ -60,7 +60,7 @@ public:
 +---------------------------------------------------------------------*/
 class AP4_Referenceable
 {
- public:
+public:
     // methods
     virtual ~AP4_Referenceable() {}
     virtual void AddReference() = 0;

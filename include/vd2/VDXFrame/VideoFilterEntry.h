@@ -28,7 +28,7 @@
 #include <vd2/plugin/vdvideofilt.h>
 
 #ifdef _MSC_VER
-	#pragma once
+#pragma once
 #endif
 
 struct VDXFilterModule;

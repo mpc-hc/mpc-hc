@@ -46,8 +46,8 @@ AP4_IodsAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_IodsAtom(size, version, flags, stream);
 }
 
@@ -58,13 +58,13 @@ AP4_IodsAtom::AP4_IodsAtom(AP4_ObjectDescriptor* descriptor) :
     AP4_Atom(AP4_ATOM_TYPE_IODS, AP4_FULL_ATOM_HEADER_SIZE, 0, 0),
     m_ObjectDescriptor(descriptor)
 {
-    if (m_ObjectDescriptor) m_Size32 += m_ObjectDescriptor->GetSize();
+    if(m_ObjectDescriptor) m_Size32 += m_ObjectDescriptor->GetSize();
 }
 
 /*----------------------------------------------------------------------
 |   AP4_IodsAtom::AP4_IodsAtom
 +---------------------------------------------------------------------*/
-AP4_IodsAtom::AP4_IodsAtom(AP4_UI32        size, 
+AP4_IodsAtom::AP4_IodsAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -72,10 +72,13 @@ AP4_IodsAtom::AP4_IodsAtom(AP4_UI32        size,
 {
     // read the descriptor
     AP4_Descriptor* descriptor = NULL;
-    if (AP4_DescriptorFactory::CreateDescriptorFromStream(stream, descriptor) == AP4_SUCCESS) {
+    if(AP4_DescriptorFactory::CreateDescriptorFromStream(stream, descriptor) == AP4_SUCCESS)
+    {
         m_ObjectDescriptor = AP4_DYNAMIC_CAST(AP4_ObjectDescriptor, descriptor);
-        if (m_ObjectDescriptor == NULL) delete descriptor;
-    } else {
+        if(m_ObjectDescriptor == NULL) delete descriptor;
+    }
+    else
+    {
         m_ObjectDescriptor = NULL;
     }
 }
@@ -95,7 +98,7 @@ AP4_Result
 AP4_IodsAtom::WriteFields(AP4_ByteStream& stream)
 {
     // write the es descriptor
-    if (m_ObjectDescriptor) return m_ObjectDescriptor->Write(stream);
+    if(m_ObjectDescriptor) return m_ObjectDescriptor->Write(stream);
 
     return AP4_SUCCESS;
 }
@@ -107,7 +110,8 @@ AP4_Result
 AP4_IodsAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     // inspect descriptor
-    if (m_ObjectDescriptor) {
+    if(m_ObjectDescriptor)
+    {
         m_ObjectDescriptor->Inspect(inspector);
     }
 

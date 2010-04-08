@@ -32,139 +32,142 @@ extern uint16_t inv_zigzag_direct16[64];
 
 
 static void dct_unquantize_h263_intra_mmx(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg level, qmul, qadd, nCoeffs;
 
     qmul = qscale << 1;
 
-    assert(s->block_last_index[n]>=0 || s->h263_aic);
+    assert(s->block_last_index[n] >= 0 || s->h263_aic);
 
-    if (!s->h263_aic) {
-        if (n < 4)
+    if(!s->h263_aic)
+    {
+        if(n < 4)
             level = block[0] * s->y_dc_scale;
         else
             level = block[0] * s->c_dc_scale;
         qadd = (qscale - 1) | 1;
-    }else{
+    }
+    else
+    {
         qadd = 0;
-        level= block[0];
+        level = block[0];
     }
     if(s->ac_pred)
-        nCoeffs=63;
+        nCoeffs = 63;
     else
-        nCoeffs= s->inter_scantable.raster_end[ s->block_last_index[n] ];
+        nCoeffs = s->inter_scantable.raster_end[ s->block_last_index[n] ];
 //printf("%d %d  ", qmul, qadd);
-__asm__ volatile(
-                "movd %1, %%mm6                 \n\t" //qmul
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "movd %2, %%mm5                 \n\t" //qadd
-                "pxor %%mm7, %%mm7              \n\t"
-                "packssdw %%mm5, %%mm5          \n\t"
-                "packssdw %%mm5, %%mm5          \n\t"
-                "psubw %%mm5, %%mm7             \n\t"
-                "pxor %%mm4, %%mm4              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %3), %%mm0           \n\t"
-                "movq 8(%0, %3), %%mm1          \n\t"
+    __asm__ volatile(
+        "movd %1, %%mm6                 \n\t" //qmul
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "movd %2, %%mm5                 \n\t" //qadd
+        "pxor %%mm7, %%mm7              \n\t"
+        "packssdw %%mm5, %%mm5          \n\t"
+        "packssdw %%mm5, %%mm5          \n\t"
+        "psubw %%mm5, %%mm7             \n\t"
+        "pxor %%mm4, %%mm4              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %3), %%mm0           \n\t"
+        "movq 8(%0, %3), %%mm1          \n\t"
 
-                "pmullw %%mm6, %%mm0            \n\t"
-                "pmullw %%mm6, %%mm1            \n\t"
+        "pmullw %%mm6, %%mm0            \n\t"
+        "pmullw %%mm6, %%mm1            \n\t"
 
-                "movq (%0, %3), %%mm2           \n\t"
-                "movq 8(%0, %3), %%mm3          \n\t"
+        "movq (%0, %3), %%mm2           \n\t"
+        "movq 8(%0, %3), %%mm3          \n\t"
 
-                "pcmpgtw %%mm4, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm4, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm4, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm4, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
 
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
 
-                "paddw %%mm7, %%mm0             \n\t"
-                "paddw %%mm7, %%mm1             \n\t"
+        "paddw %%mm7, %%mm0             \n\t"
+        "paddw %%mm7, %%mm1             \n\t"
 
-                "pxor %%mm0, %%mm2              \n\t"
-                "pxor %%mm1, %%mm3              \n\t"
+        "pxor %%mm0, %%mm2              \n\t"
+        "pxor %%mm1, %%mm3              \n\t"
 
-                "pcmpeqw %%mm7, %%mm0           \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw %%mm7, %%mm1           \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw %%mm7, %%mm0           \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw %%mm7, %%mm1           \n\t" // block[i] == 0 ? -1 : 0
 
-                "pandn %%mm2, %%mm0             \n\t"
-                "pandn %%mm3, %%mm1             \n\t"
+        "pandn %%mm2, %%mm0             \n\t"
+        "pandn %%mm3, %%mm1             \n\t"
 
-                "movq %%mm0, (%0, %3)           \n\t"
-                "movq %%mm1, 8(%0, %3)          \n\t"
+        "movq %%mm0, (%0, %3)           \n\t"
+        "movq %%mm1, 8(%0, %3)          \n\t"
 
-                "add $16, %3                    \n\t"
-                "jng 1b                         \n\t"
-                ::"r" (block+nCoeffs), "rm"(qmul), "rm" (qadd), "r" (2*(-nCoeffs))
-                : "memory"
-        );
-        block[0]= level;
+        "add $16, %3                    \n\t"
+        "jng 1b                         \n\t"
+        ::"r"(block+nCoeffs), "rm"(qmul), "rm"(qadd), "r"(2*(-nCoeffs))
+        : "memory"
+    );
+    block[0] = level;
 }
 
 
 static void dct_unquantize_h263_inter_mmx(MpegEncContext *s,
-                                  DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg qmul, qadd, nCoeffs;
 
     qmul = qscale << 1;
     qadd = (qscale - 1) | 1;
 
-    assert(s->block_last_index[n]>=0 || s->h263_aic);
+    assert(s->block_last_index[n] >= 0 || s->h263_aic);
 
-    nCoeffs= s->inter_scantable.raster_end[ s->block_last_index[n] ];
+    nCoeffs = s->inter_scantable.raster_end[ s->block_last_index[n] ];
 //printf("%d %d  ", qmul, qadd);
-__asm__ volatile(
-                "movd %1, %%mm6                 \n\t" //qmul
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "movd %2, %%mm5                 \n\t" //qadd
-                "pxor %%mm7, %%mm7              \n\t"
-                "packssdw %%mm5, %%mm5          \n\t"
-                "packssdw %%mm5, %%mm5          \n\t"
-                "psubw %%mm5, %%mm7             \n\t"
-                "pxor %%mm4, %%mm4              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %3), %%mm0           \n\t"
-                "movq 8(%0, %3), %%mm1          \n\t"
+    __asm__ volatile(
+        "movd %1, %%mm6                 \n\t" //qmul
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "movd %2, %%mm5                 \n\t" //qadd
+        "pxor %%mm7, %%mm7              \n\t"
+        "packssdw %%mm5, %%mm5          \n\t"
+        "packssdw %%mm5, %%mm5          \n\t"
+        "psubw %%mm5, %%mm7             \n\t"
+        "pxor %%mm4, %%mm4              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %3), %%mm0           \n\t"
+        "movq 8(%0, %3), %%mm1          \n\t"
 
-                "pmullw %%mm6, %%mm0            \n\t"
-                "pmullw %%mm6, %%mm1            \n\t"
+        "pmullw %%mm6, %%mm0            \n\t"
+        "pmullw %%mm6, %%mm1            \n\t"
 
-                "movq (%0, %3), %%mm2           \n\t"
-                "movq 8(%0, %3), %%mm3          \n\t"
+        "movq (%0, %3), %%mm2           \n\t"
+        "movq 8(%0, %3), %%mm3          \n\t"
 
-                "pcmpgtw %%mm4, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm4, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm4, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm4, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
 
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
 
-                "paddw %%mm7, %%mm0             \n\t"
-                "paddw %%mm7, %%mm1             \n\t"
+        "paddw %%mm7, %%mm0             \n\t"
+        "paddw %%mm7, %%mm1             \n\t"
 
-                "pxor %%mm0, %%mm2              \n\t"
-                "pxor %%mm1, %%mm3              \n\t"
+        "pxor %%mm0, %%mm2              \n\t"
+        "pxor %%mm1, %%mm3              \n\t"
 
-                "pcmpeqw %%mm7, %%mm0           \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw %%mm7, %%mm1           \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw %%mm7, %%mm0           \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw %%mm7, %%mm1           \n\t" // block[i] == 0 ? -1 : 0
 
-                "pandn %%mm2, %%mm0             \n\t"
-                "pandn %%mm3, %%mm1             \n\t"
+        "pandn %%mm2, %%mm0             \n\t"
+        "pandn %%mm3, %%mm1             \n\t"
 
-                "movq %%mm0, (%0, %3)           \n\t"
-                "movq %%mm1, 8(%0, %3)          \n\t"
+        "movq %%mm0, (%0, %3)           \n\t"
+        "movq %%mm1, 8(%0, %3)          \n\t"
 
-                "add $16, %3                    \n\t"
-                "jng 1b                         \n\t"
-                ::"r" (block+nCoeffs), "rm"(qmul), "rm" (qadd), "r" (2*(-nCoeffs))
-                : "memory"
-        );
+        "add $16, %3                    \n\t"
+        "jng 1b                         \n\t"
+        ::"r"(block+nCoeffs), "rm"(qmul), "rm"(qadd), "r"(2*(-nCoeffs))
+        : "memory"
+    );
 }
 
 
@@ -198,287 +201,288 @@ __asm__ volatile(
  high3 += tlow1
 */
 static void dct_unquantize_mpeg1_intra_mmx(MpegEncContext *s,
-                                     DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg nCoeffs;
     const uint16_t *quant_matrix;
     int block0;
 
-    assert(s->block_last_index[n]>=0);
+    assert(s->block_last_index[n] >= 0);
 
-    nCoeffs= s->intra_scantable.raster_end[ s->block_last_index[n] ]+1;
+    nCoeffs = s->intra_scantable.raster_end[ s->block_last_index[n] ] + 1;
 
-    if (n < 4)
+    if(n < 4)
         block0 = block[0] * s->y_dc_scale;
     else
         block0 = block[0] * s->c_dc_scale;
     /* XXX: only mpeg1 */
     quant_matrix = s->intra_matrix;
-__asm__ volatile(
-                "pcmpeqw %%mm7, %%mm7           \n\t"
-                "psrlw $15, %%mm7               \n\t"
-                "movd %2, %%mm6                 \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "mov %3, %%"REG_a"              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %%"REG_a"), %%mm0    \n\t"
-                "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
-                "movq (%1, %%"REG_a"), %%mm4    \n\t"
-                "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
-                "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
-                "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
-                "pxor %%mm2, %%mm2              \n\t"
-                "pxor %%mm3, %%mm3              \n\t"
-                "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
-                "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
-                "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*q
-                "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*q
-                "pxor %%mm4, %%mm4              \n\t"
-                "pxor %%mm5, %%mm5              \n\t" // FIXME slow
-                "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
-                "psraw $3, %%mm0                \n\t"
-                "psraw $3, %%mm1                \n\t"
-                "psubw %%mm7, %%mm0             \n\t"
-                "psubw %%mm7, %%mm1             \n\t"
-                "por %%mm7, %%mm0               \n\t"
-                "por %%mm7, %%mm1               \n\t"
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t"
-                "psubw %%mm3, %%mm1             \n\t"
-                "pandn %%mm0, %%mm4             \n\t"
-                "pandn %%mm1, %%mm5             \n\t"
-                "movq %%mm4, (%0, %%"REG_a")    \n\t"
-                "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
+    __asm__ volatile(
+        "pcmpeqw %%mm7, %%mm7           \n\t"
+        "psrlw $15, %%mm7               \n\t"
+        "movd %2, %%mm6                 \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "mov %3, %%"REG_a"              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %%"REG_a"), %%mm0    \n\t"
+        "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
+        "movq (%1, %%"REG_a"), %%mm4    \n\t"
+        "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
+        "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
+        "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
+        "pxor %%mm2, %%mm2              \n\t"
+        "pxor %%mm3, %%mm3              \n\t"
+        "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
+        "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
+        "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*q
+        "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*q
+        "pxor %%mm4, %%mm4              \n\t"
+        "pxor %%mm5, %%mm5              \n\t" // FIXME slow
+        "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
+        "psraw $3, %%mm0                \n\t"
+        "psraw $3, %%mm1                \n\t"
+        "psubw %%mm7, %%mm0             \n\t"
+        "psubw %%mm7, %%mm1             \n\t"
+        "por %%mm7, %%mm0               \n\t"
+        "por %%mm7, %%mm1               \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t"
+        "psubw %%mm3, %%mm1             \n\t"
+        "pandn %%mm0, %%mm4             \n\t"
+        "pandn %%mm1, %%mm5             \n\t"
+        "movq %%mm4, (%0, %%"REG_a")    \n\t"
+        "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
 
-                "add $16, %%"REG_a"             \n\t"
-                "js 1b                          \n\t"
-                ::"r" (block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm" (qscale), "g" (-2*nCoeffs)
-                : "%"REG_a, "memory"
-        );
-    block[0]= block0;
+        "add $16, %%"REG_a"             \n\t"
+        "js 1b                          \n\t"
+        ::"r"(block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm"(qscale), "g"(-2*nCoeffs)
+        : "%"REG_a, "memory"
+    );
+    block[0] = block0;
 }
 
 static void dct_unquantize_mpeg1_inter_mmx(MpegEncContext *s,
-                                     DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg nCoeffs;
     const uint16_t *quant_matrix;
 
-    assert(s->block_last_index[n]>=0);
+    assert(s->block_last_index[n] >= 0);
 
-    nCoeffs= s->intra_scantable.raster_end[ s->block_last_index[n] ]+1;
+    nCoeffs = s->intra_scantable.raster_end[ s->block_last_index[n] ] + 1;
 
-        quant_matrix = s->inter_matrix;
-__asm__ volatile(
-                "pcmpeqw %%mm7, %%mm7           \n\t"
-                "psrlw $15, %%mm7               \n\t"
-                "movd %2, %%mm6                 \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "mov %3, %%"REG_a"              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %%"REG_a"), %%mm0    \n\t"
-                "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
-                "movq (%1, %%"REG_a"), %%mm4    \n\t"
-                "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
-                "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
-                "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
-                "pxor %%mm2, %%mm2              \n\t"
-                "pxor %%mm3, %%mm3              \n\t"
-                "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
-                "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
-                "paddw %%mm0, %%mm0             \n\t" // abs(block[i])*2
-                "paddw %%mm1, %%mm1             \n\t" // abs(block[i])*2
-                "paddw %%mm7, %%mm0             \n\t" // abs(block[i])*2 + 1
-                "paddw %%mm7, %%mm1             \n\t" // abs(block[i])*2 + 1
-                "pmullw %%mm4, %%mm0            \n\t" // (abs(block[i])*2 + 1)*q
-                "pmullw %%mm5, %%mm1            \n\t" // (abs(block[i])*2 + 1)*q
-                "pxor %%mm4, %%mm4              \n\t"
-                "pxor %%mm5, %%mm5              \n\t" // FIXME slow
-                "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
-                "psraw $4, %%mm0                \n\t"
-                "psraw $4, %%mm1                \n\t"
-                "psubw %%mm7, %%mm0             \n\t"
-                "psubw %%mm7, %%mm1             \n\t"
-                "por %%mm7, %%mm0               \n\t"
-                "por %%mm7, %%mm1               \n\t"
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t"
-                "psubw %%mm3, %%mm1             \n\t"
-                "pandn %%mm0, %%mm4             \n\t"
-                "pandn %%mm1, %%mm5             \n\t"
-                "movq %%mm4, (%0, %%"REG_a")    \n\t"
-                "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
+    quant_matrix = s->inter_matrix;
+    __asm__ volatile(
+        "pcmpeqw %%mm7, %%mm7           \n\t"
+        "psrlw $15, %%mm7               \n\t"
+        "movd %2, %%mm6                 \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "mov %3, %%"REG_a"              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %%"REG_a"), %%mm0    \n\t"
+        "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
+        "movq (%1, %%"REG_a"), %%mm4    \n\t"
+        "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
+        "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
+        "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
+        "pxor %%mm2, %%mm2              \n\t"
+        "pxor %%mm3, %%mm3              \n\t"
+        "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
+        "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
+        "paddw %%mm0, %%mm0             \n\t" // abs(block[i])*2
+        "paddw %%mm1, %%mm1             \n\t" // abs(block[i])*2
+        "paddw %%mm7, %%mm0             \n\t" // abs(block[i])*2 + 1
+        "paddw %%mm7, %%mm1             \n\t" // abs(block[i])*2 + 1
+        "pmullw %%mm4, %%mm0            \n\t" // (abs(block[i])*2 + 1)*q
+        "pmullw %%mm5, %%mm1            \n\t" // (abs(block[i])*2 + 1)*q
+        "pxor %%mm4, %%mm4              \n\t"
+        "pxor %%mm5, %%mm5              \n\t" // FIXME slow
+        "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
+        "psraw $4, %%mm0                \n\t"
+        "psraw $4, %%mm1                \n\t"
+        "psubw %%mm7, %%mm0             \n\t"
+        "psubw %%mm7, %%mm1             \n\t"
+        "por %%mm7, %%mm0               \n\t"
+        "por %%mm7, %%mm1               \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t"
+        "psubw %%mm3, %%mm1             \n\t"
+        "pandn %%mm0, %%mm4             \n\t"
+        "pandn %%mm1, %%mm5             \n\t"
+        "movq %%mm4, (%0, %%"REG_a")    \n\t"
+        "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
 
-                "add $16, %%"REG_a"             \n\t"
-                "js 1b                          \n\t"
-                ::"r" (block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm" (qscale), "g" (-2*nCoeffs)
-                : "%"REG_a, "memory"
-        );
+        "add $16, %%"REG_a"             \n\t"
+        "js 1b                          \n\t"
+        ::"r"(block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm"(qscale), "g"(-2*nCoeffs)
+        : "%"REG_a, "memory"
+    );
 }
 
 static void dct_unquantize_mpeg2_intra_mmx(MpegEncContext *s,
-                                     DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg nCoeffs;
     const uint16_t *quant_matrix;
     int block0;
 
-    assert(s->block_last_index[n]>=0);
+    assert(s->block_last_index[n] >= 0);
 
-    if(s->alternate_scan) nCoeffs= 63; //FIXME
-    else nCoeffs= s->intra_scantable.raster_end[ s->block_last_index[n] ];
+    if(s->alternate_scan) nCoeffs = 63; //FIXME
+    else nCoeffs = s->intra_scantable.raster_end[ s->block_last_index[n] ];
 
-    if (n < 4)
+    if(n < 4)
         block0 = block[0] * s->y_dc_scale;
     else
         block0 = block[0] * s->c_dc_scale;
     quant_matrix = s->intra_matrix;
-__asm__ volatile(
-                "pcmpeqw %%mm7, %%mm7           \n\t"
-                "psrlw $15, %%mm7               \n\t"
-                "movd %2, %%mm6                 \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "mov %3, %%"REG_a"              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %%"REG_a"), %%mm0    \n\t"
-                "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
-                "movq (%1, %%"REG_a"), %%mm4    \n\t"
-                "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
-                "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
-                "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
-                "pxor %%mm2, %%mm2              \n\t"
-                "pxor %%mm3, %%mm3              \n\t"
-                "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
-                "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
-                "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*q
-                "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*q
-                "pxor %%mm4, %%mm4              \n\t"
-                "pxor %%mm5, %%mm5              \n\t" // FIXME slow
-                "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
-                "psraw $3, %%mm0                \n\t"
-                "psraw $3, %%mm1                \n\t"
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t"
-                "psubw %%mm3, %%mm1             \n\t"
-                "pandn %%mm0, %%mm4             \n\t"
-                "pandn %%mm1, %%mm5             \n\t"
-                "movq %%mm4, (%0, %%"REG_a")    \n\t"
-                "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
+    __asm__ volatile(
+        "pcmpeqw %%mm7, %%mm7           \n\t"
+        "psrlw $15, %%mm7               \n\t"
+        "movd %2, %%mm6                 \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "mov %3, %%"REG_a"              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %%"REG_a"), %%mm0    \n\t"
+        "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
+        "movq (%1, %%"REG_a"), %%mm4    \n\t"
+        "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
+        "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
+        "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
+        "pxor %%mm2, %%mm2              \n\t"
+        "pxor %%mm3, %%mm3              \n\t"
+        "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
+        "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
+        "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*q
+        "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*q
+        "pxor %%mm4, %%mm4              \n\t"
+        "pxor %%mm5, %%mm5              \n\t" // FIXME slow
+        "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
+        "psraw $3, %%mm0                \n\t"
+        "psraw $3, %%mm1                \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t"
+        "psubw %%mm3, %%mm1             \n\t"
+        "pandn %%mm0, %%mm4             \n\t"
+        "pandn %%mm1, %%mm5             \n\t"
+        "movq %%mm4, (%0, %%"REG_a")    \n\t"
+        "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
 
-                "add $16, %%"REG_a"             \n\t"
-                "jng 1b                         \n\t"
-                ::"r" (block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm" (qscale), "g" (-2*nCoeffs)
-                : "%"REG_a, "memory"
-        );
-    block[0]= block0;
-        //Note, we do not do mismatch control for intra as errors cannot accumulate
+        "add $16, %%"REG_a"             \n\t"
+        "jng 1b                         \n\t"
+        ::"r"(block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm"(qscale), "g"(-2*nCoeffs)
+        : "%"REG_a, "memory"
+    );
+    block[0] = block0;
+    //Note, we do not do mismatch control for intra as errors cannot accumulate
 }
 
 static void dct_unquantize_mpeg2_inter_mmx(MpegEncContext *s,
-                                     DCTELEM *block, int n, int qscale)
+        DCTELEM *block, int n, int qscale)
 {
     x86_reg nCoeffs;
     const uint16_t *quant_matrix;
 
-    assert(s->block_last_index[n]>=0);
+    assert(s->block_last_index[n] >= 0);
 
-    if(s->alternate_scan) nCoeffs= 63; //FIXME
-    else nCoeffs= s->intra_scantable.raster_end[ s->block_last_index[n] ];
+    if(s->alternate_scan) nCoeffs = 63; //FIXME
+    else nCoeffs = s->intra_scantable.raster_end[ s->block_last_index[n] ];
 
-        quant_matrix = s->inter_matrix;
-__asm__ volatile(
-                "pcmpeqw %%mm7, %%mm7           \n\t"
-                "psrlq $48, %%mm7               \n\t"
-                "movd %2, %%mm6                 \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "packssdw %%mm6, %%mm6          \n\t"
-                "mov %3, %%"REG_a"              \n\t"
-                ASMALIGN(4)
-                "1:                             \n\t"
-                "movq (%0, %%"REG_a"), %%mm0    \n\t"
-                "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
-                "movq (%1, %%"REG_a"), %%mm4    \n\t"
-                "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
-                "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
-                "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
-                "pxor %%mm2, %%mm2              \n\t"
-                "pxor %%mm3, %%mm3              \n\t"
-                "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
-                "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
-                "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
-                "paddw %%mm0, %%mm0             \n\t" // abs(block[i])*2
-                "paddw %%mm1, %%mm1             \n\t" // abs(block[i])*2
-                "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*2*q
-                "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*2*q
-                "paddw %%mm4, %%mm0             \n\t" // (abs(block[i])*2 + 1)*q
-                "paddw %%mm5, %%mm1             \n\t" // (abs(block[i])*2 + 1)*q
-                "pxor %%mm4, %%mm4              \n\t"
-                "pxor %%mm5, %%mm5              \n\t" // FIXME slow
-                "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
-                "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
-                "psrlw $4, %%mm0                \n\t"
-                "psrlw $4, %%mm1                \n\t"
-                "pxor %%mm2, %%mm0              \n\t"
-                "pxor %%mm3, %%mm1              \n\t"
-                "psubw %%mm2, %%mm0             \n\t"
-                "psubw %%mm3, %%mm1             \n\t"
-                "pandn %%mm0, %%mm4             \n\t"
-                "pandn %%mm1, %%mm5             \n\t"
-                "pxor %%mm4, %%mm7              \n\t"
-                "pxor %%mm5, %%mm7              \n\t"
-                "movq %%mm4, (%0, %%"REG_a")    \n\t"
-                "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
+    quant_matrix = s->inter_matrix;
+    __asm__ volatile(
+        "pcmpeqw %%mm7, %%mm7           \n\t"
+        "psrlq $48, %%mm7               \n\t"
+        "movd %2, %%mm6                 \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "packssdw %%mm6, %%mm6          \n\t"
+        "mov %3, %%"REG_a"              \n\t"
+        ASMALIGN(4)
+        "1:                             \n\t"
+        "movq (%0, %%"REG_a"), %%mm0    \n\t"
+        "movq 8(%0, %%"REG_a"), %%mm1   \n\t"
+        "movq (%1, %%"REG_a"), %%mm4    \n\t"
+        "movq 8(%1, %%"REG_a"), %%mm5   \n\t"
+        "pmullw %%mm6, %%mm4            \n\t" // q=qscale*quant_matrix[i]
+        "pmullw %%mm6, %%mm5            \n\t" // q=qscale*quant_matrix[i]
+        "pxor %%mm2, %%mm2              \n\t"
+        "pxor %%mm3, %%mm3              \n\t"
+        "pcmpgtw %%mm0, %%mm2           \n\t" // block[i] < 0 ? -1 : 0
+        "pcmpgtw %%mm1, %%mm3           \n\t" // block[i] < 0 ? -1 : 0
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t" // abs(block[i])
+        "psubw %%mm3, %%mm1             \n\t" // abs(block[i])
+        "paddw %%mm0, %%mm0             \n\t" // abs(block[i])*2
+        "paddw %%mm1, %%mm1             \n\t" // abs(block[i])*2
+        "pmullw %%mm4, %%mm0            \n\t" // abs(block[i])*2*q
+        "pmullw %%mm5, %%mm1            \n\t" // abs(block[i])*2*q
+        "paddw %%mm4, %%mm0             \n\t" // (abs(block[i])*2 + 1)*q
+        "paddw %%mm5, %%mm1             \n\t" // (abs(block[i])*2 + 1)*q
+        "pxor %%mm4, %%mm4              \n\t"
+        "pxor %%mm5, %%mm5              \n\t" // FIXME slow
+        "pcmpeqw (%0, %%"REG_a"), %%mm4 \n\t" // block[i] == 0 ? -1 : 0
+        "pcmpeqw 8(%0, %%"REG_a"), %%mm5\n\t" // block[i] == 0 ? -1 : 0
+        "psrlw $4, %%mm0                \n\t"
+        "psrlw $4, %%mm1                \n\t"
+        "pxor %%mm2, %%mm0              \n\t"
+        "pxor %%mm3, %%mm1              \n\t"
+        "psubw %%mm2, %%mm0             \n\t"
+        "psubw %%mm3, %%mm1             \n\t"
+        "pandn %%mm0, %%mm4             \n\t"
+        "pandn %%mm1, %%mm5             \n\t"
+        "pxor %%mm4, %%mm7              \n\t"
+        "pxor %%mm5, %%mm7              \n\t"
+        "movq %%mm4, (%0, %%"REG_a")    \n\t"
+        "movq %%mm5, 8(%0, %%"REG_a")   \n\t"
 
-                "add $16, %%"REG_a"             \n\t"
-                "jng 1b                         \n\t"
-                "movd 124(%0, %3), %%mm0        \n\t"
-                "movq %%mm7, %%mm6              \n\t"
-                "psrlq $32, %%mm7               \n\t"
-                "pxor %%mm6, %%mm7              \n\t"
-                "movq %%mm7, %%mm6              \n\t"
-                "psrlq $16, %%mm7               \n\t"
-                "pxor %%mm6, %%mm7              \n\t"
-                "pslld $31, %%mm7               \n\t"
-                "psrlq $15, %%mm7               \n\t"
-                "pxor %%mm7, %%mm0              \n\t"
-                "movd %%mm0, 124(%0, %3)        \n\t"
+        "add $16, %%"REG_a"             \n\t"
+        "jng 1b                         \n\t"
+        "movd 124(%0, %3), %%mm0        \n\t"
+        "movq %%mm7, %%mm6              \n\t"
+        "psrlq $32, %%mm7               \n\t"
+        "pxor %%mm6, %%mm7              \n\t"
+        "movq %%mm7, %%mm6              \n\t"
+        "psrlq $16, %%mm7               \n\t"
+        "pxor %%mm6, %%mm7              \n\t"
+        "pslld $31, %%mm7               \n\t"
+        "psrlq $15, %%mm7               \n\t"
+        "pxor %%mm7, %%mm0              \n\t"
+        "movd %%mm0, 124(%0, %3)        \n\t"
 
-                ::"r" (block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm" (qscale), "r" (-2*nCoeffs)
-                : "%"REG_a, "memory"
-        );
+        ::"r"(block+nCoeffs), "r"(quant_matrix+nCoeffs), "rm"(qscale), "r"(-2*nCoeffs)
+        : "%"REG_a, "memory"
+    );
 }
 
-static void  denoise_dct_mmx(MpegEncContext *s, DCTELEM *block){
-    const int intra= s->mb_intra;
-    int *sum= s->dct_error_sum[intra];
-    uint16_t *offset= s->dct_offset[intra];
+static void  denoise_dct_mmx(MpegEncContext *s, DCTELEM *block)
+{
+    const int intra = s->mb_intra;
+    int *sum = s->dct_error_sum[intra];
+    uint16_t *offset = s->dct_offset[intra];
 
     s->dct_count[intra]++;
 
@@ -523,16 +527,17 @@ static void  denoise_dct_mmx(MpegEncContext *s, DCTELEM *block){
         "add $32, %1                            \n\t"
         "add $16, %2                            \n\t"
         "cmp %3, %0                             \n\t"
-            " jb 1b                             \n\t"
-        : "+r" (block), "+r" (sum), "+r" (offset)
+        " jb 1b                             \n\t"
+        : "+r"(block), "+r"(sum), "+r"(offset)
         : "r"(block+64)
     );
 }
 
-static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
-    const int intra= s->mb_intra;
-    int *sum= s->dct_error_sum[intra];
-    uint16_t *offset= s->dct_offset[intra];
+static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block)
+{
+    const int intra = s->mb_intra;
+    int *sum = s->dct_error_sum[intra];
+    uint16_t *offset = s->dct_offset[intra];
 
     s->dct_count[intra]++;
 
@@ -577,8 +582,8 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
         "add $64, %1                            \n\t"
         "add $32, %2                            \n\t"
         "cmp %3, %0                             \n\t"
-            " jb 1b                             \n\t"
-        : "+r" (block), "+r" (sum), "+r" (offset)
+        " jb 1b                             \n\t"
+        : "+r"(block), "+r"(sum), "+r"(offset)
         : "r"(block+64)
     );
 }
@@ -625,7 +630,8 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
 
 void MPV_common_init_mmx(MpegEncContext *s)
 {
-    if (mm_flags & FF_MM_MMX) {
+    if(mm_flags & FF_MM_MMX)
+    {
         const int dct_algo = s->avctx->dct_algo;
 
         s->dct_unquantize_h263_intra = dct_unquantize_h263_intra_mmx;
@@ -636,25 +642,36 @@ void MPV_common_init_mmx(MpegEncContext *s)
             s->dct_unquantize_mpeg2_intra = dct_unquantize_mpeg2_intra_mmx;
         s->dct_unquantize_mpeg2_inter = dct_unquantize_mpeg2_inter_mmx;
 
-        if (mm_flags & FF_MM_SSE2) {
-            s->denoise_dct= denoise_dct_sse2;
-        } else {
-                s->denoise_dct= denoise_dct_mmx;
+        if(mm_flags & FF_MM_SSE2)
+        {
+            s->denoise_dct = denoise_dct_sse2;
+        }
+        else
+        {
+            s->denoise_dct = denoise_dct_mmx;
         }
 
-        if(dct_algo==FF_DCT_AUTO || dct_algo==FF_DCT_MMX){
+        if(dct_algo == FF_DCT_AUTO || dct_algo == FF_DCT_MMX)
+        {
 #if HAVE_SSSE3
-            if(mm_flags & FF_MM_SSSE3){
-                s->dct_quantize= dct_quantize_SSSE3;
-            } else
-#endif
-            if(mm_flags & FF_MM_SSE2){
-                s->dct_quantize= dct_quantize_SSE2;
-            } else if(mm_flags & FF_MM_MMX2){
-                s->dct_quantize= dct_quantize_MMX2;
-            } else {
-                s->dct_quantize= dct_quantize_MMX;
+            if(mm_flags & FF_MM_SSSE3)
+            {
+                s->dct_quantize = dct_quantize_SSSE3;
             }
+            else
+#endif
+                if(mm_flags & FF_MM_SSE2)
+                {
+                    s->dct_quantize = dct_quantize_SSE2;
+                }
+                else if(mm_flags & FF_MM_MMX2)
+                {
+                    s->dct_quantize = dct_quantize_MMX2;
+                }
+                else
+                {
+                    s->dct_quantize = dct_quantize_MMX;
+                }
         }
     }
 }

@@ -3,14 +3,14 @@
 // LCDBitmap.h
 //
 // The CLCDBitmap class draws bitmaps onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDBITMAP_H_INCLUDED_ 
-#define _LCDBITMAP_H_INCLUDED_ 
+#ifndef _LCDBITMAP_H_INCLUDED_
+#define _LCDBITMAP_H_INCLUDED_
 
 #include "LCDBase.h"
 

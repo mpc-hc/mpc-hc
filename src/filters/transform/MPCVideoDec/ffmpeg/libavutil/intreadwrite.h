@@ -147,9 +147,18 @@
 
 #if   HAVE_ATTRIBUTE_PACKED
 
-struct unaligned_64 { uint64_t l; } __attribute__((packed));
-struct unaligned_32 { uint32_t l; } __attribute__((packed));
-struct unaligned_16 { uint16_t l; } __attribute__((packed));
+struct unaligned_64
+{
+    uint64_t l;
+} __attribute__((packed));
+struct unaligned_32
+{
+    uint32_t l;
+} __attribute__((packed));
+struct unaligned_16
+{
+    uint16_t l;
+} __attribute__((packed));
 
 #   define AV_RN(s, p) (((const struct unaligned_##s *) (p))->l)
 #   define AV_WN(s, p, v) ((((struct unaligned_##s *) (p))->l) = (v))

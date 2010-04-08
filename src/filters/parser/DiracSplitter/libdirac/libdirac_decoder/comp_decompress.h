@@ -48,81 +48,81 @@
 
 namespace dirac
 {
+//! Decompress a picture component
+/*!
+    This class decompresses one of the three components (Y, U, or V) of a
+    picture according to a given set or parameters. CompDecompressor is used
+    by PictureCompressor..
+*/
+class CompDecompressor
+{
+public:
+    //! Constructor
+    /*!
+        Create and initialize a component decompressor with the given
+        characteristics.
+        \param  decp    decoding parameters
+        \param  fp      picture parameters
+    */
+    CompDecompressor(DecoderParams& decp, const PictureParams& fp);
+
     //! Decompress a picture component
     /*!
-        This class decompresses one of the three components (Y, U, or V) of a
-        picture according to a given set or parameters. CompDecompressor is used
-        by PictureCompressor..
+        Decompress a PicArray containing a picture component (Y, U, or V).
+
+        \param p_component_byteio Bytestream of component data
+        \param coeff_data          contains the component data to be decompressed
+        \param bands               the subband metadata
     */
-    class CompDecompressor
-    {
-    public:
-        //! Constructor
-        /*!
-            Create and initialize a component decompressor with the given
-            characteristics.
-            \param  decp    decoding parameters
-            \param  fp      picture parameters
-        */
-        CompDecompressor( DecoderParams& decp, const PictureParams& fp);
+    void Decompress(ComponentByteIO *p_component_byteio,
+                    CoeffArray& coeff_data,
+                    SubbandList& bands);
 
-        //! Decompress a picture component
-        /*!
-            Decompress a PicArray containing a picture component (Y, U, or V).
+private:
+    //! Copy constructor is private and body-less
+    /*!
+        Copy constructor is private and body-less. This class should not
+        be copied.
 
-            \param p_component_byteio Bytestream of component data
-            \param coeff_data          contains the component data to be decompressed
-            \param bands               the subband metadata 
-        */
-        void Decompress(ComponentByteIO *p_component_byteio,
-                        CoeffArray& coeff_data,
-                        SubbandList& bands);
+    */
+    CompDecompressor(const CompDecompressor& cpy);
 
-    private:
-        //! Copy constructor is private and body-less
-        /*!
-            Copy constructor is private and body-less. This class should not
-            be copied.
+    //! Assignment = is private and body-less
+    /*!
+        Assignment = is private and body-less. This class should not be
+        assigned.
 
-        */
-        CompDecompressor(const CompDecompressor& cpy);
+    */
+    CompDecompressor& operator=(const CompDecompressor& rhs);
 
-        //! Assignment = is private and body-less
-        /*!
-            Assignment = is private and body-less. This class should not be
-            assigned.
+    //! Sets the data of a specific subband node to a given value
+    /*!
+        Sets the data of a specific subband node to a given value
 
-        */
-        CompDecompressor& operator=(const CompDecompressor& rhs);
+        \param  pic_data    contains the component data
+        \param  node        subband node
+        \param    val            the value to set
+    */
+    void SetToVal(CoeffArray& pic_data, const Subband& node, CoeffType val);
 
-        //! Sets the data of a specific subband node to a given value
-        /*!
-            Sets the data of a specific subband node to a given value
+    //! Set up the code block structures for each subband
+    /*!
+         Set up the code block structures for each subband
+        \param bands    the set of all the subbands
+    */
+    void SetupCodeBlocks(SubbandList& bands);
 
-            \param  pic_data    contains the component data
-            \param  node        subband node
-            \param    val            the value to set
-        */
-        void SetToVal(CoeffArray& pic_data,const Subband& node,CoeffType val);
+    //! Copy of the decompression parameters provided to the constructor
+    DecoderParams& m_decparams;
 
-        //! Set up the code block structures for each subband
-        /*!
-             Set up the code block structures for each subband
-            \param bands    the set of all the subbands
-        */
-        void SetupCodeBlocks( SubbandList& bands );
+    //! Reference to the picture parameters provided to the constructor
+    const PictureParams& m_pparams;
 
-        //! Copy of the decompression parameters provided to the constructor
-        DecoderParams& m_decparams;
-
-        //! Reference to the picture parameters provided to the constructor
-        const PictureParams& m_pparams;
-
-        //! Reference to the picture sort
-        const PictureSort& m_psort;
+    //! Reference to the picture sort
+    const PictureSort& m_psort;
 
 
-    };
+};
 
 } // namespace dirac
 

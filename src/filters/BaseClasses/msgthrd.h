@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // File: MsgThrd.h
 //
-// Desc: DirectShow base classes - provides support for a worker thread 
+// Desc: DirectShow base classes - provides support for a worker thread
 //       class to which one can asynchronously post messages.
 //
 // Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
@@ -10,7 +10,8 @@
 
 // Message class - really just a structure.
 //
-class CMsg {
+class CMsg
+{
 public:
     UINT uMsg;
     DWORD dwFlags;
@@ -29,7 +30,8 @@ public:
 // that it is prompted to perform particaular tasks by responding to messages
 // posted to its message queue.
 //
-class AM_NOVTABLE CMsgThread {
+class AM_NOVTABLE CMsgThread
+{
 private:
     static DWORD WINAPI DefaultThreadProc(__inout LPVOID lpParam);
     DWORD               m_ThreadId;
@@ -47,13 +49,13 @@ protected:
 public:
     CMsgThread()
         : m_ThreadId(0),
-        m_hThread(NULL),
-        m_lWaiting(0),
-        m_hSem(NULL),
-        // make a list with a cache of 5 items
-        m_ThreadQueue(NAME("MsgThread list"), 5)
-        {
-        }
+          m_hThread(NULL),
+          m_lWaiting(0),
+          m_hSem(NULL),
+          // make a list with a cache of 5 items
+          m_ThreadQueue(NAME("MsgThread list"), 5)
+    {
+    }
 
     ~CMsgThread();
     // override this if you want to block on other things as well
@@ -61,50 +63,61 @@ public:
     void virtual GetThreadMsg(__out CMsg *msg);
 
     // override this if you want to do something on thread startup
-    virtual void OnThreadInit() {
+    virtual void OnThreadInit()
+    {
     };
 
     BOOL CreateThread();
 
-    BOOL WaitForThreadExit(__out LPDWORD lpdwExitCode) {
-        if (m_hThread != NULL) {
+    BOOL WaitForThreadExit(__out LPDWORD lpdwExitCode)
+    {
+        if(m_hThread != NULL)
+        {
             WaitForSingleObject(m_hThread, INFINITE);
             return GetExitCodeThread(m_hThread, lpdwExitCode);
         }
         return FALSE;
     }
 
-    DWORD ResumeThread() {
+    DWORD ResumeThread()
+    {
         return ::ResumeThread(m_hThread);
     }
 
-    DWORD SuspendThread() {
+    DWORD SuspendThread()
+    {
         return ::SuspendThread(m_hThread);
     }
 
-    int GetThreadPriority() {
+    int GetThreadPriority()
+    {
         return ::GetThreadPriority(m_hThread);
     }
 
-    BOOL SetThreadPriority(int nPriority) {
+    BOOL SetThreadPriority(int nPriority)
+    {
         return ::SetThreadPriority(m_hThread, nPriority);
     }
 
-    HANDLE GetThreadHandle() {
+    HANDLE GetThreadHandle()
+    {
         return m_hThread;
     }
 
-    DWORD GetThreadId() {
+    DWORD GetThreadId()
+    {
         return m_ThreadId;
     }
 
 
     void PutThreadMsg(UINT uMsg, DWORD dwMsgFlags,
-                      __in_opt LPVOID lpMsgParam, __in_opt CAMEvent *pEvent = NULL) {
+                      __in_opt LPVOID lpMsgParam, __in_opt CAMEvent *pEvent = NULL)
+    {
         CAutoLock lck(&m_Lock);
         CMsg* pMsg = new CMsg(uMsg, dwMsgFlags, lpMsgParam, pEvent);
         m_ThreadQueue.AddTail(pMsg);
-        if (m_lWaiting != 0) {
+        if(m_lWaiting != 0)
+        {
             ReleaseSemaphore(m_hSem, m_lWaiting, 0);
             m_lWaiting = 0;
         }

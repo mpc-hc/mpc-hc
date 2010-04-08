@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: rmaupgrd.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -31,15 +31,15 @@ typedef enum _RMAUpgradeType
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *  	IRMAUpgradeCollection
  *
  *  Purpose:
  *
- *	Interface provided by the Context. This interface allows collection 
- *	of upgrade components by the client core and it's delegates 
+ *	Interface provided by the Context. This interface allows collection
+ *	of upgrade components by the client core and it's delegates
  *	(i.e. renderer plugins etc.)
  *
  *  IID_IRMAUpgradeCollection
@@ -47,9 +47,9 @@ typedef enum _RMAUpgradeType
  *	{00002500-0901-11d1-8B06-00A024406D59}
  *
  */
- 
-DEFINE_GUID(IID_IRMAUpgradeCollection, 
-	    0x00002500, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
+
+DEFINE_GUID(IID_IRMAUpgradeCollection,
+            0x00002500, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAUpgradeCollection
@@ -67,11 +67,11 @@ DECLARE_INTERFACE_(IRMAUpgradeCollection, IUnknown)
      *		Adds the specified upgrade information to the collection
      *
      */
-    STDMETHOD_(UINT32, Add)	(THIS_ 
-    				RMAUpgradeType upgradeType,
-				IRMABuffer* pPluginId,
-				UINT32 majorVersion,
-				UINT32 minorVersion) PURE;
+    STDMETHOD_(UINT32, Add)(THIS_
+                            RMAUpgradeType upgradeType,
+                            IRMABuffer * pPluginId,
+                            UINT32 majorVersion,
+                            UINT32 minorVersion) PURE;
 
     /************************************************************************
      *	Method:
@@ -80,8 +80,8 @@ DECLARE_INTERFACE_(IRMAUpgradeCollection, IUnknown)
      *		Remove the specified item from the collection
      *
      */
-    STDMETHOD(Remove)		(THIS_ 
-    				UINT32 index) PURE;
+    STDMETHOD(Remove)(THIS_
+                      UINT32 index) PURE;
 
     /************************************************************************
      *	Method:
@@ -90,7 +90,7 @@ DECLARE_INTERFACE_(IRMAUpgradeCollection, IUnknown)
      *		Remove all items from the collection
      *
      */
-    STDMETHOD(RemoveAll)    	(THIS) PURE;
+    STDMETHOD(RemoveAll)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -108,17 +108,17 @@ DECLARE_INTERFACE_(IRMAUpgradeCollection, IUnknown)
      *		get the specified items upgrade information
      *
      */
-    STDMETHOD(GetAt)		(THIS_ 
-    				UINT32 index,
-				REF(RMAUpgradeType) upgradeType,
-				IRMABuffer* pPluginId,
-				REF(UINT32) majorVersion, 
-				REF(UINT32) minorVersion) PURE;
+    STDMETHOD(GetAt)(THIS_
+                     UINT32 index,
+                     REF(RMAUpgradeType) upgradeType,
+                     IRMABuffer * pPluginId,
+                     REF(UINT32) majorVersion,
+                     REF(UINT32) minorVersion) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *  	IRMAUpgradeHandler
@@ -133,9 +133,9 @@ DECLARE_INTERFACE_(IRMAUpgradeCollection, IUnknown)
  *	{00002501-0901-11d1-8B06-00A024406D59}
  *
  */
- 
-DEFINE_GUID(IID_IRMAUpgradeHandler, 
-                        0x00002501, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
+
+DEFINE_GUID(IID_IRMAUpgradeHandler,
+            0x00002501, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAUpgradeHandler
@@ -153,8 +153,8 @@ DECLARE_INTERFACE_(IRMAUpgradeHandler, IUnknown)
      *		Ask if user wants to do an upgrade and start an upgrade
      *
      */
-    STDMETHOD(RequestUpgrade) (THIS_ IRMAUpgradeCollection* pComponents,
-				     BOOL bBlocking) PURE;
+    STDMETHOD(RequestUpgrade)(THIS_ IRMAUpgradeCollection * pComponents,
+                              BOOL bBlocking) PURE;
 
     /************************************************************************
      *	Method:
@@ -165,14 +165,14 @@ DECLARE_INTERFACE_(IRMAUpgradeHandler, IUnknown)
      *		PNR_OK - components are here, no upgrade required;
      *			 all components are removed from pComponents.
      *          PNR_FAIL - some components are missing;
-     *                   pComponents contains only those components 
+     *                   pComponents contains only those components
      *			 that need upgrade.
      *
-     */			      
-    STDMETHOD(HasComponents)  (THIS_ IRMAUpgradeCollection* pComponents) PURE;
+     */
+    STDMETHOD(HasComponents)(THIS_ IRMAUpgradeCollection * pComponents) PURE;
 };
 
 
 
 #endif /* _RMAUPGRD_H */
- 
+

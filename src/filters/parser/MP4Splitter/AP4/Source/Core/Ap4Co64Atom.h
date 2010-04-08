@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - co64 Atoms 
+|    AP4 - co64 Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -51,15 +51,21 @@ public:
     ~AP4_Co64Atom();
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_Cardinal GetChunkCount()   { return m_EntryCount; }
-    AP4_UI64*    GetChunkOffsets() { return m_Entries;    }
+    AP4_Cardinal GetChunkCount()
+    {
+        return m_EntryCount;
+    }
+    AP4_UI64*    GetChunkOffsets()
+    {
+        return m_Entries;
+    }
     AP4_Result   GetChunkOffset(AP4_Ordinal chunk, AP4_UI64& chunk_offset);
     AP4_Result   SetChunkOffset(AP4_Ordinal chunk, AP4_UI64  chunk_offset);
     AP4_Result   AdjustChunkOffsets(AP4_SI64 delta);
 
 private:
     // methods
-    AP4_Co64Atom(AP4_UI32        size, 
+    AP4_Co64Atom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

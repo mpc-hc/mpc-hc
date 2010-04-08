@@ -66,13 +66,13 @@ void *av_malloc(unsigned int size)
     void *ptr;
 
     /* let's disallow possible ambiguous cases */
-    if(size > (INT_MAX-16) )
+    if(size > (INT_MAX - 16))
         return NULL;
 
 #ifndef __GNUC__
-    ptr = _aligned_malloc(size,16);
+    ptr = _aligned_malloc(size, 16);
 #else
-    ptr = __mingw_aligned_malloc(size,16);
+    ptr = __mingw_aligned_malloc(size, 16);
 #endif
     /* Why 64?
        Indeed, we should align it:
@@ -83,43 +83,43 @@ void *av_malloc(unsigned int size)
        Because L1 and L2 caches are aligned on those values.
        But I don't want to code such logic here!
      */
-     /* Why 16?
-        Because some CPUs need alignment, for example SSE2 on P4, & most RISC CPUs
-        it will just trigger an exception and the unaligned load will be done in the
-        exception handler or it will just segfault (SSE2 on P4).
-        Why not larger? Because I did not see a difference in benchmarks ...
-     */
-     /* benchmarks with P3
-        memalign(64)+1          3071,3051,3032
-        memalign(64)+2          3051,3032,3041
-        memalign(64)+4          2911,2896,2915
-        memalign(64)+8          2545,2554,2550
-        memalign(64)+16         2543,2572,2563
-        memalign(64)+32         2546,2545,2571
-        memalign(64)+64         2570,2533,2558
+    /* Why 16?
+       Because some CPUs need alignment, for example SSE2 on P4, & most RISC CPUs
+       it will just trigger an exception and the unaligned load will be done in the
+       exception handler or it will just segfault (SSE2 on P4).
+       Why not larger? Because I did not see a difference in benchmarks ...
+    */
+    /* benchmarks with P3
+       memalign(64)+1          3071,3051,3032
+       memalign(64)+2          3051,3032,3041
+       memalign(64)+4          2911,2896,2915
+       memalign(64)+8          2545,2554,2550
+       memalign(64)+16         2543,2572,2563
+       memalign(64)+32         2546,2545,2571
+       memalign(64)+64         2570,2533,2558
 
-        BTW, malloc seems to do 8-byte alignment by default here.
-     */
+       BTW, malloc seems to do 8-byte alignment by default here.
+    */
     return ptr;
 }
 
 void *av_realloc(void *ptr, unsigned int size)
 {
     /* let's disallow possible ambiguous cases */
-    if(size > (INT_MAX-16) )
+    if(size > (INT_MAX - 16))
         return NULL;
 
 #ifndef __GNUC__
-    return _aligned_realloc(ptr, size,16);
+    return _aligned_realloc(ptr, size, 16);
 #else
-    return __mingw_aligned_realloc(ptr, size,16);
+    return __mingw_aligned_realloc(ptr, size, 16);
 #endif
 }
 
 void av_free(void *ptr)
 {
     /* XXX: this test should not be needed on most libcs */
-    if (ptr)
+    if(ptr)
 #ifndef __GNUC__
         _aligned_free(ptr);
 #else
@@ -129,7 +129,7 @@ void av_free(void *ptr)
 
 void av_freep(void *arg)
 {
-    void **ptr= (void**)arg;
+    void **ptr = (void**)arg;
     av_free(*ptr);
     *ptr = NULL;
 }
@@ -137,18 +137,19 @@ void av_freep(void *arg)
 void *av_mallocz(unsigned int size)
 {
     void *ptr = av_malloc(size);
-    if (ptr)
+    if(ptr)
         memset(ptr, 0, size);
     return ptr;
 }
 
 char *av_strdup(const char *s)
 {
-    char *ptr= NULL;
-    if(s){
+    char *ptr = NULL;
+    if(s)
+    {
         int len = strlen(s) + 1;
         ptr = av_malloc(len);
-        if (ptr)
+        if(ptr)
             memcpy(ptr, s, len);
     }
     return ptr;

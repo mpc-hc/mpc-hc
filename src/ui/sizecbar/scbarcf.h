@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////
 //
 // CSizingControlBarCF          Version 2.43
-// 
+//
 // Created: Dec 21, 1998        Last Modified: August 03, 2000
 //
 // See the official site at www.datamekanix.com for documentation and
@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////
 // Copyright (C) 1998-2000 by Cristi Posea. All rights reserved.
 //
-// This code is free for personal and commercial use, providing this 
+// This code is free for personal and commercial use, providing this
 // notice remains intact in the source files and all eventual changes are
 // clearly marked with comments.
 //

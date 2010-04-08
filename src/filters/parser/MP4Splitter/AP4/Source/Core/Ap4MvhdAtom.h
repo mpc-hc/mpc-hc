@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mvhd Atoms 
+|    AP4 - mvhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -55,21 +55,31 @@ public:
                  AP4_UI16 volume);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_UI64           GetDuration() { return m_Duration; }
-    void               SetDuration(AP4_UI64 duration) { m_Duration = duration;}
+    AP4_UI64           GetDuration()
+    {
+        return m_Duration;
+    }
+    void               SetDuration(AP4_UI64 duration)
+    {
+        m_Duration = duration;
+    }
     AP4_UI32           GetDurationMs();
-    AP4_UI32           GetTimeScale() { return m_TimeScale; }
-    AP4_Result         SetTimeScale(AP4_UI32 time_scale) {
+    AP4_UI32           GetTimeScale()
+    {
+        return m_TimeScale;
+    }
+    AP4_Result         SetTimeScale(AP4_UI32 time_scale)
+    {
         m_TimeScale = time_scale;
         return AP4_SUCCESS;
     }
 
 private:
     // methods
-    AP4_MvhdAtom(AP4_UI32        size, 
+    AP4_MvhdAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
-                 AP4_ByteStream& stream); 
+                 AP4_ByteStream& stream);
 
     // members
     AP4_UI64 m_CreationTime;

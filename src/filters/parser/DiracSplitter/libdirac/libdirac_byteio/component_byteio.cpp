@@ -42,13 +42,13 @@ using namespace std;
 
 ComponentByteIO::ComponentByteIO(CompSort cs,
                                  const ByteIO& byteio):
-ByteIO(byteio),
-m_compsort(cs)
+    ByteIO(byteio),
+    m_compsort(cs)
 {}
 
 ComponentByteIO::ComponentByteIO(CompSort cs):
-ByteIO(),
-m_compsort(cs)
+    ByteIO(),
+    m_compsort(cs)
 {}
 
 ComponentByteIO::~ComponentByteIO()
@@ -83,16 +83,16 @@ void ComponentByteIO::CollateByteStats(DiracByteStats& dirac_byte_stats)
 
 bool ComponentByteIO::Input()
 {
-    
-  return true;
+
+    return true;
 }
 
 void ComponentByteIO::Output()
 {
-   
+
 
 }
 
 
 //-------------private-------------------------------------------------------
- 
+

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stts Atoms 
+|    AP4 - stts Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -38,10 +38,11 @@
 /*----------------------------------------------------------------------
 |   AP4_SttsTableEntry
 +---------------------------------------------------------------------*/
-class AP4_SttsTableEntry {
- public:
-    AP4_SttsTableEntry() : 
-        m_SampleCount(0), 
+class AP4_SttsTableEntry
+{
+public:
+    AP4_SttsTableEntry() :
+        m_SampleCount(0),
         m_SampleDuration(0) {}
     AP4_SttsTableEntry(AP4_UI32 sample_count,
                        AP4_UI32 sample_duration) :
@@ -68,25 +69,26 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result GetDts(AP4_Ordinal sample, AP4_UI64& dts, AP4_UI32* duration = NULL);
     virtual AP4_Result AddEntry(AP4_UI32 sample_count, AP4_UI32 sample_duration);
-    virtual AP4_Result GetSampleIndexForTimeStamp(AP4_UI64      ts, 
-                                                  AP4_Ordinal&  sample_index);
+    virtual AP4_Result GetSampleIndexForTimeStamp(AP4_UI64      ts,
+            AP4_Ordinal&  sample_index);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-	// ==> Start patch MPC
-	// FIXME
-	friend class AP4_AtomSampleTable;
-	// <== End patch MPC
+    // ==> Start patch MPC
+    // FIXME
+    friend class AP4_AtomSampleTable;
+    // <== End patch MPC
 
 private:
     // methods
-    AP4_SttsAtom(AP4_UI32        size, 
+    AP4_SttsAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);
 
     // members
     AP4_Array<AP4_SttsTableEntry> m_Entries;
-    struct {
+    struct
+    {
         AP4_Ordinal entry_index;
         AP4_Ordinal sample;
         AP4_UI64    dts;

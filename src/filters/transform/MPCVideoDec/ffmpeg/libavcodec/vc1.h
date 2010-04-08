@@ -29,7 +29,8 @@
 
 /** Markers used in VC-1 AP frame data */
 //@{
-enum VC1Code{
+enum VC1Code
+{
     VC1_CODE_RES0       = 0x00000100,
     VC1_CODE_ENDOFSEQ   = 0x0000010A,
     VC1_CODE_SLICE,
@@ -44,7 +45,8 @@ enum VC1Code{
 
 /** Available Profiles */
 //@{
-enum Profile {
+enum Profile
+{
     PROFILE_SIMPLE,
     PROFILE_MAIN,
     PROFILE_COMPLEX, ///< TODO: WMV9 specific
@@ -54,7 +56,8 @@ enum Profile {
 
 /** Sequence quantizer mode */
 //@{
-enum QuantMode {
+enum QuantMode
+{
     QUANT_FRAME_IMPLICIT,    ///< Implicitly specified at frame level
     QUANT_FRAME_EXPLICIT,    ///< Explicitly specified at frame level
     QUANT_NON_UNIFORM,       ///< Non-uniform quant used for all frames
@@ -64,7 +67,8 @@ enum QuantMode {
 
 /** Where quant can be changed */
 //@{
-enum DQProfile {
+enum DQProfile
+{
     DQPROFILE_FOUR_EDGES,
     DQPROFILE_DOUBLE_EDGES,
     DQPROFILE_SINGLE_EDGE,
@@ -75,7 +79,8 @@ enum DQProfile {
 /** @name Where quant can be changed
  */
 //@{
-enum DQSingleEdge {
+enum DQSingleEdge
+{
     DQSINGLE_BEDGE_LEFT,
     DQSINGLE_BEDGE_TOP,
     DQSINGLE_BEDGE_RIGHT,
@@ -85,7 +90,8 @@ enum DQSingleEdge {
 
 /** Which pair of edges is quantized with ALTPQUANT */
 //@{
-enum DQDoubleEdge {
+enum DQDoubleEdge
+{
     DQDOUBLE_BEDGE_TOPLEFT,
     DQDOUBLE_BEDGE_TOPRIGHT,
     DQDOUBLE_BEDGE_BOTTOMRIGHT,
@@ -95,7 +101,8 @@ enum DQDoubleEdge {
 
 /** MV modes for P frames */
 //@{
-enum MVModes {
+enum MVModes
+{
     MV_PMODE_1MV_HPEL_BILIN,
     MV_PMODE_1MV,
     MV_PMODE_1MV_HPEL,
@@ -106,7 +113,8 @@ enum MVModes {
 
 /** @name MV types for B frames */
 //@{
-enum BMVTypes {
+enum BMVTypes
+{
     BMV_TYPE_BACKWARD,
     BMV_TYPE_FORWARD,
     BMV_TYPE_INTERPOLATED
@@ -115,7 +123,8 @@ enum BMVTypes {
 
 /** @name Block types for P/B frames */
 //@{
-enum TransformTypes {
+enum TransformTypes
+{
     TT_8X8,
     TT_8X4_BOTTOM,
     TT_8X4_TOP,
@@ -127,7 +136,8 @@ enum TransformTypes {
 };
 //@}
 
-enum CodingSet {
+enum CodingSet
+{
     CS_HIGH_MOT_INTRA = 0,
     CS_HIGH_MOT_INTER,
     CS_LOW_MOT_INTRA,
@@ -140,7 +150,8 @@ enum CodingSet {
 
 /** @name Overlap conditions for Advanced Profile */
 //@{
-enum COTypes {
+enum COTypes
+{
     CONDOVER_NONE = 0,
     CONDOVER_ALL,
     CONDOVER_SELECT
@@ -152,7 +163,8 @@ enum COTypes {
  * @todo Change size wherever another size is more efficient
  * Many members are only used for Advanced Profile
  */
-typedef struct VC1Context{
+typedef struct VC1Context
+{
     MpegEncContext s;
     IntraX8Context x8;
 
@@ -166,7 +178,7 @@ typedef struct VC1Context{
     int res_fasttx;       ///< reserved, always 1
     int res_transtab;     ///< reserved, always 0
     int rangered;         ///< RANGEREDFRM (range reduction) syntax element present
-                          ///< at frame level
+    ///< at frame level
     int res_rtm_flag;     ///< reserved, set to 1
     int reserved;         ///< reserved
     //@}
@@ -186,7 +198,7 @@ typedef struct VC1Context{
     int transfer_char;    ///< 8bits, Opto-electronic transfer characteristics
     int matrix_coef;      ///< 8bits, Color primaries->YCbCr transform matrix
     int hrd_param_flag;   ///< Presence of Hypothetical Reference
-                          ///< Decoder parameters
+    ///< Decoder parameters
     int psf;              ///< Progressive Segmented Frame
     //@}
 
@@ -327,11 +339,12 @@ static av_always_inline const uint8_t* find_next_marker(const uint8_t *src, cons
 {
     uint32_t mrk = 0xFFFFFFFF;
 
-    if(end-src < 4) return end;
-    while(src < end){
+    if(end - src < 4) return end;
+    while(src < end)
+    {
         mrk = (mrk << 8) | *src++;
         if(IS_MARKER(mrk))
-            return src-4;
+            return src - 4;
     }
     return end;
 }
@@ -340,16 +353,20 @@ static av_always_inline int vc1_unescape_buffer(const uint8_t *src, int size, ui
 {
     int dsize = 0, i;
 
-    if(size < 4){
+    if(size < 4)
+    {
         for(dsize = 0; dsize < size; dsize++) *dst++ = *src++;
         return size;
     }
-    for(i = 0; i < size; i++, src++) {
-        if(src[0] == 3 && i >= 2 && !src[-1] && !src[-2] && i < size-1 && src[1] < 4) {
+    for(i = 0; i < size; i++, src++)
+    {
+        if(src[0] == 3 && i >= 2 && !src[-1] && !src[-2] && i < size - 1 && src[1] < 4)
+        {
             dst[dsize++] = src[1];
             src++;
             i++;
-        } else
+        }
+        else
             dst[dsize++] = *src;
     }
     return dsize;
@@ -366,7 +383,7 @@ int vc1_decode_sequence_header(AVCodecContext *avctx, VC1Context *v, GetBitConte
 
 int vc1_decode_entry_point(AVCodecContext *avctx, VC1Context *v, GetBitContext *gb);
 
-int vc1_parse_frame_header    (VC1Context *v, GetBitContext *gb);
+int vc1_parse_frame_header(VC1Context *v, GetBitContext *gb);
 int vc1_parse_frame_header_adv(VC1Context *v, GetBitContext *gb);
 
 #endif /* AVCODEC_VC1_H */

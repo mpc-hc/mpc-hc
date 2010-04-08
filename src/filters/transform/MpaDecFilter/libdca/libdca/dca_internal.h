@@ -30,7 +30,8 @@
 #define DCA_SUBSUBFAMES_MAX (4)
 #define DCA_LFE_MAX (3)
 
-struct dca_state_s {
+struct dca_state_s
+{
 
     /* Frame header */
     int frame_type;             /* type of the current frame */
@@ -129,7 +130,7 @@ struct dca_state_s {
     int dynrnge;             /* apply dynamic range */
     level_t dynrng;          /* dynamic range */
     void * dynrngdata;       /* dynamic range callback funtion and data */
-    level_t (* dynrngcall) (level_t range, void * dynrngdata);
+    level_t (* dynrngcall)(level_t range, void * dynrngdata);
 
     /* Bitstream handling */
     uint32_t * buffer_start;
@@ -155,13 +156,13 @@ struct dca_state_s {
 #define LEVEL_45DB 0.5946035575013605
 #define LEVEL_6DB 0.5
 
-int dca_downmix_init (int input, int flags, level_t * level,
+int dca_downmix_init(int input, int flags, level_t * level,
+                     level_t clev, level_t slev);
+int dca_downmix_coeff(level_t * coeff, int acmod, int output, level_t level,
                       level_t clev, level_t slev);
-int dca_downmix_coeff (level_t * coeff, int acmod, int output, level_t level,
-                       level_t clev, level_t slev);
-void dca_downmix (sample_t * samples, int acmod, int output, sample_t bias,
-                  level_t clev, level_t slev);
-void dca_upmix (sample_t * samples, int acmod, int output);
+void dca_downmix(sample_t * samples, int acmod, int output, sample_t bias,
+                 level_t clev, level_t slev);
+void dca_upmix(sample_t * samples, int acmod, int output);
 
 #define ROUND(x) ((int)((x) + ((x) > 0 ? 0.5 : -0.5)))
 

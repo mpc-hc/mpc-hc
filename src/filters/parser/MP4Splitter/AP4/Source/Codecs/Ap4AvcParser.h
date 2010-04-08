@@ -39,14 +39,15 @@
 /*----------------------------------------------------------------------
 |   AP4_AvcParser
 +---------------------------------------------------------------------*/
-class AP4_AvcParser {
+class AP4_AvcParser
+{
 public:
     static const char* NaluTypeName(unsigned int nalu_type);
     static const char* PrimaryPicTypeName(unsigned int primary_pic_type);
     static const char* SliceTypeName(unsigned int slice_type);
-    
+
     AP4_AvcParser();
-    
+
     /**
      * Feed some data to the parser and look for the next NAL Unit.
      *
@@ -56,33 +57,34 @@ public:
      * @param bytes_consumed: Number of bytes from the data buffer that were
      * consumed and stored by the parser.
      * @param nalu: Reference to a pointer to a buffer object that contains
-     * a NAL unit found in the previously fed data, or a NULL pointer if no 
+     * a NAL unit found in the previously fed data, or a NULL pointer if no
      * NAL unit can be found so far.
      * @param eos: Boolean flag that indicates if this buffer is the last
      * buffer in the stream/file (End Of Stream).
      *
      * @result: AP4_SUCCESS is the call succeeds, or an error code if it
      * fails.
-     * 
+     *
      * The caller must not feed the same data twice. When this method
      * returns, the caller should inspect the value of bytes_consumed and
      * advance the input stream source accordingly, such that the next
      * buffer passed to this method will be exactly bytes_consumed bytes
      * after what was passed in this call.
      */
-    AP4_Result Feed(const void*            data, 
-                    AP4_Size               data_size, 
+    AP4_Result Feed(const void*            data,
+                    AP4_Size               data_size,
                     AP4_Size&              bytes_consumed,
                     const AP4_DataBuffer*& nalu,
-                    bool                   eos=false);
-    
+                    bool                   eos = false);
+
     /**
      * Reset the state of the parser (for example, to parse a new stream).
      */
     AP4_Result Reset();
-    
+
 private:
-    enum {
+    enum
+    {
         STATE_RESET,
         STATE_START_CODE_1,
         STATE_START_CODE_2,

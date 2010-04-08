@@ -42,13 +42,13 @@
 using namespace dirac;
 
 CodingParamsByteIO::CodingParamsByteIO(const SourceParams& src_params,
-                                    CodecParams& codec_params,
-                                    const SourceParams& default_source_params,
-                                    const ByteIO& stream_data):
-ByteIO(stream_data),
-m_src_params(src_params),
-m_codec_params(codec_params),
-m_default_source_params(default_source_params)
+                                       CodecParams& codec_params,
+                                       const SourceParams& default_source_params,
+                                       const ByteIO& stream_data):
+    ByteIO(stream_data),
+    m_src_params(src_params),
+    m_codec_params(codec_params),
+    m_default_source_params(default_source_params)
 {
 
 }
@@ -75,22 +75,22 @@ void CodingParamsByteIO::Input()
 
     // If source was coded as fields, halve the vertical dimensions
     // to set them to field dimensions
-    if (m_codec_params.FieldCoding())
+    if(m_codec_params.FieldCoding())
     {
-        m_codec_params.SetYl(m_codec_params.Yl()>>1);
-        m_codec_params.SetChromaYl(m_codec_params.ChromaYl()>>1);
+        m_codec_params.SetYl(m_codec_params.Yl() >> 1);
+        m_codec_params.SetChromaYl(m_codec_params.ChromaYl() >> 1);
     }
 
     unsigned int luma_depth = static_cast<unsigned int>
-            (
-                std::log((double)m_src_params.LumaExcursion())/std::log(2.0) + 1
-            );
+                              (
+                                  std::log((double)m_src_params.LumaExcursion()) / std::log(2.0) + 1
+                              );
     m_codec_params.SetLumaDepth(luma_depth);
 
     unsigned int chroma_depth = static_cast<unsigned int>
-            (
-                std::log((double)m_src_params.ChromaExcursion())/std::log(2.0) + 1
-            );
+                                (
+                                    std::log((double)m_src_params.ChromaExcursion()) / std::log(2.0) + 1
+                                );
     m_codec_params.SetChromaDepth(chroma_depth);
 
     // byte align
@@ -112,7 +112,7 @@ void CodingParamsByteIO::Output()
 void CodingParamsByteIO::InputPictureCodingMode()
 {
     unsigned int coding_mode = ReadUint();
-    if (coding_mode > 1)
+    if(coding_mode > 1)
     {
         std::ostringstream errstr;
         errstr << "Picture coding mode " << coding_mode

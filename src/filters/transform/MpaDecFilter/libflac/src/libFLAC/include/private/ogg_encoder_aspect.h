@@ -37,17 +37,18 @@
 #include "FLAC/ordinals.h"
 #include "FLAC/stream_encoder.h" /* for FLAC__StreamEncoderWriteStatus */
 
-typedef struct FLAC__OggEncoderAspect {
-	/* these are storage for values that can be set through the API */
-	long serial_number;
-	unsigned num_metadata;
+typedef struct FLAC__OggEncoderAspect
+{
+    /* these are storage for values that can be set through the API */
+    long serial_number;
+    unsigned num_metadata;
 
-	/* these are for internal state related to Ogg encoding */
-	ogg_stream_state stream_state;
-	ogg_page page;
-	FLAC__bool seen_magic; /* true if we've seen the fLaC magic in the write callback yet */
-	FLAC__bool is_first_packet;
-	FLAC__uint64 samples_written;
+    /* these are for internal state related to Ogg encoding */
+    ogg_stream_state stream_state;
+    ogg_page page;
+    FLAC__bool seen_magic; /* true if we've seen the fLaC magic in the write callback yet */
+    FLAC__bool is_first_packet;
+    FLAC__uint64 samples_written;
 } FLAC__OggEncoderAspect;
 
 void FLAC__ogg_encoder_aspect_set_serial_number(FLAC__OggEncoderAspect *aspect, long value);
@@ -56,7 +57,7 @@ void FLAC__ogg_encoder_aspect_set_defaults(FLAC__OggEncoderAspect *aspect);
 FLAC__bool FLAC__ogg_encoder_aspect_init(FLAC__OggEncoderAspect *aspect);
 void FLAC__ogg_encoder_aspect_finish(FLAC__OggEncoderAspect *aspect);
 
-typedef FLAC__StreamEncoderWriteStatus (*FLAC__OggEncoderAspectWriteCallbackProxy)(const void *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data);
+typedef FLAC__StreamEncoderWriteStatus(*FLAC__OggEncoderAspectWriteCallbackProxy)(const void *encoder, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, void *client_data);
 
 FLAC__StreamEncoderWriteStatus FLAC__ogg_encoder_aspect_write_callback_wrapper(FLAC__OggEncoderAspect *aspect, const FLAC__byte buffer[], size_t bytes, unsigned samples, unsigned current_frame, FLAC__bool is_last_block, FLAC__OggEncoderAspectWriteCallbackProxy write_callback, void *encoder, void *client_data);
 #endif

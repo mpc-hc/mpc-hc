@@ -98,7 +98,7 @@ typedef mad_fixed_t mad_sample_t;
 
 # define mad_f_intpart(x)	((x) >> MAD_F_FRACBITS)
 # define mad_f_fracpart(x)	((x) & ((1L << MAD_F_FRACBITS) - 1))
-				/* (x should be positive) */
+/* (x should be positive) */
 
 # define mad_f_fromint(x)	((x) << MAD_F_FRACBITS)
 
@@ -142,32 +142,35 @@ typedef mad_fixed_t mad_sample_t;
 #   pragma warning(push)
 #   pragma warning(disable: 4035)  /* no return value */
 #   if defined(_WIN64)
-     static __forceinline
-     mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
-     {
-       enum {
-         fracbits = MAD_F_FRACBITS
-       };
-       return ((__int64)x*(__int64)y)>>fracbits; //TODO: unsigned?
+static __forceinline
+mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
+{
+    enum
+    {
+        fracbits = MAD_F_FRACBITS
+    };
+    return ((__int64)x * (__int64)y) >> fracbits; //TODO: unsigned?
 
-       /* implicit return of eax */
-     }
+    /* implicit return of eax */
+}
 #   else
-     static __forceinline
-     mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
-     {
-       enum {
-         fracbits = MAD_F_FRACBITS
-       };
+static __forceinline
+mad_fixed_t mad_f_mul_inline(mad_fixed_t x, mad_fixed_t y)
+{
+    enum
+    {
+        fracbits = MAD_F_FRACBITS
+    };
 
-       __asm {
-         mov eax, x
-         imul y
-         shrd eax, edx, fracbits
-       }
+    __asm
+    {
+        mov eax, x
+        imul y
+        shrd eax, edx, fracbits
+    }
 
-       /* implicit return of eax */
-     }
+    /* implicit return of eax */
+}
 #   endif
 #   pragma warning(pop)
 

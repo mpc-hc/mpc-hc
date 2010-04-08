@@ -3,14 +3,14 @@
 // LCDScrollingText.h
 //
 // The CLCDScrollingText class draws scrolling text onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDSCROLLINGTEXT_H_INCLUDED_ 
-#define _LCDSCROLLINGTEXT_H_INCLUDED_ 
+#ifndef _LCDSCROLLINGTEXT_H_INCLUDED_
+#define _LCDSCROLLINGTEXT_H_INCLUDED_
 
 #include "LCDBase.h"
 #include "LCDText.h"
@@ -24,7 +24,7 @@ public:
     // CLCDBase
     virtual HRESULT Initialize(void);
     virtual void ResetUpdate(void);
-    
+
     // CLCDText
     virtual void SetText(LPCTSTR szText);
 

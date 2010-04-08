@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ohdr Atoms 
+|    AP4 - ohdr Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,21 +41,21 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_OhdrAtom)
 |   AP4_OhdrAtom::Create
 +---------------------------------------------------------------------*/
 AP4_OhdrAtom*
-AP4_OhdrAtom::Create(AP4_Size         size, 
+AP4_OhdrAtom::Create(AP4_Size         size,
                      AP4_ByteStream&  stream,
                      AP4_AtomFactory& atom_factory)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_OhdrAtom(size, version, flags, stream, atom_factory);
 }
 
 /*----------------------------------------------------------------------
 |   AP4_OhdrAtom::AP4_OhdrAtom
 +---------------------------------------------------------------------*/
-AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI08        encryption_method, 
+AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI08        encryption_method,
                            AP4_UI08        padding_scheme,
                            AP4_UI64        plaintext_length,
                            const char*     content_id,
@@ -70,13 +70,13 @@ AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI08        encryption_method,
     m_RightsIssuerUrl(rights_issuer_url),
     m_TextualHeaders(textual_headers, textual_headers_size)
 {
-    m_Size32 += 1+1+8+2+2+2+m_ContentId.GetLength()+m_RightsIssuerUrl.GetLength()+textual_headers_size;
+    m_Size32 += 1 + 1 + 8 + 2 + 2 + 2 + m_ContentId.GetLength() + m_RightsIssuerUrl.GetLength() + textual_headers_size;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_OhdrAtom::AP4_OhdrAtom
 +---------------------------------------------------------------------*/
-AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI32         size, 
+AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI32         size,
                            AP4_UI32         version,
                            AP4_UI32         flags,
                            AP4_ByteStream&  stream,
@@ -85,7 +85,7 @@ AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI32         size,
 {
     // encryption method
     stream.ReadUI08(m_EncryptionMethod);
-    
+
     // padding scheme
     stream.ReadUI08(m_PaddingScheme);
 
@@ -119,9 +119,10 @@ AP4_OhdrAtom::AP4_OhdrAtom(AP4_UI32         size,
     delete[] buffer;
 
     // read the children
-    AP4_Size bytes_used = AP4_FULL_ATOM_HEADER_SIZE+1+1+8+2+2+2+content_id_length+rights_issuer_url_length+textual_headers_length;
-    if (bytes_used <= size) {
-        ReadChildren(atom_factory, stream, size-bytes_used);
+    AP4_Size bytes_used = AP4_FULL_ATOM_HEADER_SIZE + 1 + 1 + 8 + 2 + 2 + 2 + content_id_length + rights_issuer_url_length + textual_headers_length;
+    if(bytes_used <= size)
+    {
+        ReadChildren(atom_factory, stream, size - bytes_used);
     }
 }
 
@@ -153,21 +154,24 @@ AP4_OhdrAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("encryption_method", m_EncryptionMethod);
     inspector.AddField("padding_scheme",    m_PaddingScheme);
-    inspector.AddField("plaintext_length",  (AP4_UI32)m_PlaintextLength);
+    inspector.AddField("plaintext_length", (AP4_UI32)m_PlaintextLength);
     inspector.AddField("content_id",        m_ContentId.GetChars());
     inspector.AddField("rights_issuer_url", m_RightsIssuerUrl.GetChars());
 
     {
-        AP4_DataBuffer output_buffer;               
+        AP4_DataBuffer output_buffer;
         AP4_Result     result;
 
-        result = output_buffer.Reserve(1+m_TextualHeaders.GetDataSize());
-        if (AP4_FAILED(result)) {
-            inspector.AddField("textual_headers",   
-                m_TextualHeaders.UseData(), 
-                m_TextualHeaders.GetDataSize(),
-                AP4_AtomInspector::HINT_HEX);                
-        } else {
+        result = output_buffer.Reserve(1 + m_TextualHeaders.GetDataSize());
+        if(AP4_FAILED(result))
+        {
+            inspector.AddField("textual_headers",
+                               m_TextualHeaders.UseData(),
+                               m_TextualHeaders.GetDataSize(),
+                               AP4_AtomInspector::HINT_HEX);
+        }
+        else
+        {
             AP4_Size       data_len    = m_TextualHeaders.GetDataSize();
             AP4_Byte*      textual_headers_string;
             AP4_Byte*      curr;
@@ -175,14 +179,16 @@ AP4_OhdrAtom::InspectFields(AP4_AtomInspector& inspector)
             output_buffer.SetData((const AP4_Byte*)m_TextualHeaders.GetData(), m_TextualHeaders.GetDataSize());
             curr = textual_headers_string = output_buffer.UseData();
             textual_headers_string[m_TextualHeaders.GetDataSize()] = '\0';
-            while(curr < textual_headers_string+data_len) {
-                if ('\0' == *curr) {
+            while(curr < textual_headers_string + data_len)
+            {
+                if('\0' == *curr)
+                {
                     *curr = '\n';
                 }
                 curr++;
             }
             inspector.AddField("textual_headers", (const char*) textual_headers_string);
-        }                                          
+        }
     }
 
     return InspectChildren(inspector);
@@ -191,7 +197,7 @@ AP4_OhdrAtom::InspectFields(AP4_AtomInspector& inspector)
 /*----------------------------------------------------------------------
 |   AP4_OhdrAtom::Clone
 +---------------------------------------------------------------------*/
-AP4_Atom* 
+AP4_Atom*
 AP4_OhdrAtom::Clone()
 {
     AP4_OhdrAtom* clone;
@@ -204,9 +210,10 @@ AP4_OhdrAtom::Clone()
                              m_TextualHeaders.GetDataSize());
 
     AP4_List<AP4_Atom>::Item* child_item = m_Children.FirstItem();
-    while (child_item) {
+    while(child_item)
+    {
         AP4_Atom* child_clone = child_item->GetData()->Clone();
-        if (child_clone) clone->AddChild(child_clone);
+        if(child_clone) clone->AddChild(child_clone);
         child_item = child_item->GetNext();
     }
 

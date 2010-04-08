@@ -48,38 +48,41 @@
 #include <iostream>                          // has an ostringstream
 
 
-namespace dirac {
+namespace dirac
+{
 
-    /**
-     * Enumeration of Dirac-defined error codes.
-     *
-     * 
-     */
-    enum DiracErrorCode {
-        ERR_UNSUPPORTED_STREAM_DATA=0,
-        ERR_END_OF_STREAM,
-        ERR_INVALID_VIDEO_FORMAT,
-        ERR_INVALID_CHROMA_FORMAT,
-        ERR_INVALID_PICTURE_RATE,
-        ERR_INVALID_SIGNAL_RANGE,
-        ERR_INVALID_PIXEL_ASPECT_RATIO,
-        ERR_INVALID_VIDEO_DEPTH,
-        ERR_INVALID_MOTION_VECTOR_PRECISION,
-        ERR_INVALID_INIT_DATA
+/**
+ * Enumeration of Dirac-defined error codes.
+ *
+ *
+ */
+enum DiracErrorCode
+{
+    ERR_UNSUPPORTED_STREAM_DATA = 0,
+    ERR_END_OF_STREAM,
+    ERR_INVALID_VIDEO_FORMAT,
+    ERR_INVALID_CHROMA_FORMAT,
+    ERR_INVALID_PICTURE_RATE,
+    ERR_INVALID_SIGNAL_RANGE,
+    ERR_INVALID_PIXEL_ASPECT_RATIO,
+    ERR_INVALID_VIDEO_DEPTH,
+    ERR_INVALID_MOTION_VECTOR_PRECISION,
+    ERR_INVALID_INIT_DATA
 
-    };
+};
 
-    /**
-    * Error-severity states
-    */
-    enum DiracSeverityCode {
-        SEVERITY_NO_ERROR=0,
-        SEVERITY_WARNING,
-        SEVERITY_PICTURE_ERROR,
-        SEVERITY_ACCESSUNIT_ERROR,
-        SEVERITY_SEQUENCE_ERROR,
-        SEVERITY_TERMINATE
-    };
+/**
+* Error-severity states
+*/
+enum DiracSeverityCode
+{
+    SEVERITY_NO_ERROR = 0,
+    SEVERITY_WARNING,
+    SEVERITY_PICTURE_ERROR,
+    SEVERITY_ACCESSUNIT_ERROR,
+    SEVERITY_SEQUENCE_ERROR,
+    SEVERITY_TERMINATE
+};
 
 /**
  * DiracException is the class which should be used for all exceptions
@@ -161,7 +164,7 @@ private:
      */
     std::string mErrorMessage;
 
-    
+
 
 // UNIMPLEMENTED METHODS
     DiracException& operator=(const DiracException&);

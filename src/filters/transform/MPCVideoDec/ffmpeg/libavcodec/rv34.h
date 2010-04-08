@@ -39,7 +39,8 @@
 /**
  * RV30 and RV40 Macroblock types
  */
-enum RV40BlockTypes{
+enum RV40BlockTypes
+{
     RV34_MB_TYPE_INTRA,      ///< Intra macroblock
     RV34_MB_TYPE_INTRA16x16, ///< Intra macroblock with DCs in a separate 4x4 block
     RV34_MB_P_16x16,         ///< P-frame macroblock, one motion frame
@@ -60,17 +61,19 @@ enum RV40BlockTypes{
  *
  * Intra frame VLC sets do not contain some of those tables.
  */
-typedef struct RV34VLC{
+typedef struct RV34VLC
+{
     VLC cbppattern[2];     ///< VLCs used for pattern of coded block patterns decoding
     VLC cbp[2][4];         ///< VLCs used for coded block patterns decoding
     VLC first_pattern[4];  ///< VLCs used for decoding coefficients in the first subblock
     VLC second_pattern[2]; ///< VLCs used for decoding coefficients in the subblocks 2 and 3
     VLC third_pattern[2];  ///< VLCs used for decoding coefficients in the last subblock
     VLC coefficient;       ///< VLCs used for decoding big coefficients
-}RV34VLC;
+} RV34VLC;
 
 /** essential slice information */
-typedef struct SliceInfo{
+typedef struct SliceInfo
+{
     int type;              ///< slice type (intra, inter)
     int quant;             ///< quantizer used for this slice
     int vlc_set;           ///< VLCs used for this slice
@@ -78,10 +81,11 @@ typedef struct SliceInfo{
     int width;             ///< coded width
     int height;            ///< coded height
     int pts;               ///< frame timestamp
-}SliceInfo;
+} SliceInfo;
 
 /** decoder context */
-typedef struct RV34DecContext{
+typedef struct RV34DecContext
+{
     MpegEncContext s;
     int8_t *intra_types_hist;///< old block types, used for prediction
     int8_t *intra_types;     ///< block types
@@ -117,7 +121,7 @@ typedef struct RV34DecContext{
     int (*decode_mb_info)(struct RV34DecContext *r);
     int (*decode_intra_types)(struct RV34DecContext *r, GetBitContext *gb, int8_t *dst);
     void (*loop_filter)(struct RV34DecContext *r, int row);
-}RV34DecContext;
+} RV34DecContext;
 
 /**
  * common decoding functions

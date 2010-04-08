@@ -89,7 +89,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
     unsigned dmask;             /* mask for first level of distance codes */
     code here;                  /* retrieved table entry */
     unsigned op;                /* code bits, operation, extra bits, or */
-                                /*  window position, window bytes to copy */
+    /*  window position, window bytes to copy */
     unsigned len;               /* match length, unused bytes */
     unsigned dist;              /* match distance */
     unsigned char FAR *from;    /* where to copy match from */
@@ -117,30 +117,36 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 
     /* decode literals and length/distances until end-of-block or not enough
        input data or output space */
-    do {
-        if (bits < 15) {
+    do
+    {
+        if(bits < 15)
+        {
             hold += (unsigned long)(PUP(in)) << bits;
             bits += 8;
             hold += (unsigned long)(PUP(in)) << bits;
             bits += 8;
         }
         here = lcode[hold & lmask];
-      dolen:
+dolen:
         op = (unsigned)(here.bits);
         hold >>= op;
         bits -= op;
         op = (unsigned)(here.op);
-        if (op == 0) {                          /* literal */
+        if(op == 0)                             /* literal */
+        {
             Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-                    "inflate:         literal '%c'\n" :
-                    "inflate:         literal 0x%02x\n", here.val));
+                     "inflate:         literal '%c'\n" :
+                     "inflate:         literal 0x%02x\n", here.val));
             PUP(out) = (unsigned char)(here.val);
         }
-        else if (op & 16) {                     /* length base */
+        else if(op & 16)                        /* length base */
+        {
             len = (unsigned)(here.val);
             op &= 15;                           /* number of extra bits */
-            if (op) {
-                if (bits < op) {
+            if(op)
+            {
+                if(bits < op)
+                {
                     hold += (unsigned long)(PUP(in)) << bits;
                     bits += 8;
                 }
@@ -149,32 +155,37 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 bits -= op;
             }
             Tracevv((stderr, "inflate:         length %u\n", len));
-            if (bits < 15) {
+            if(bits < 15)
+            {
                 hold += (unsigned long)(PUP(in)) << bits;
                 bits += 8;
                 hold += (unsigned long)(PUP(in)) << bits;
                 bits += 8;
             }
             here = dcode[hold & dmask];
-          dodist:
+dodist:
             op = (unsigned)(here.bits);
             hold >>= op;
             bits -= op;
             op = (unsigned)(here.op);
-            if (op & 16) {                      /* distance base */
+            if(op & 16)                         /* distance base */
+            {
                 dist = (unsigned)(here.val);
                 op &= 15;                       /* number of extra bits */
-                if (bits < op) {
+                if(bits < op)
+                {
                     hold += (unsigned long)(PUP(in)) << bits;
                     bits += 8;
-                    if (bits < op) {
+                    if(bits < op)
+                    {
                         hold += (unsigned long)(PUP(in)) << bits;
                         bits += 8;
                     }
                 }
                 dist += (unsigned)hold & ((1U << op) - 1);
 #ifdef INFLATE_STRICT
-                if (dist > dmax) {
+                if(dist > dmax)
+                {
                     strm->msg = (char *)"invalid distance too far back";
                     state->mode = BAD;
                     break;
@@ -184,127 +195,165 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 bits -= op;
                 Tracevv((stderr, "inflate:         distance %u\n", dist));
                 op = (unsigned)(out - beg);     /* max distance in output */
-                if (dist > op) {                /* see if copy from window */
+                if(dist > op)                   /* see if copy from window */
+                {
                     op = dist - op;             /* distance back in window */
-                    if (op > whave) {
-                        if (state->sane) {
+                    if(op > whave)
+                    {
+                        if(state->sane)
+                        {
                             strm->msg =
                                 (char *)"invalid distance too far back";
                             state->mode = BAD;
                             break;
                         }
 #ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
-                        if (len <= op - whave) {
-                            do {
+                        if(len <= op - whave)
+                        {
+                            do
+                            {
                                 PUP(out) = 0;
-                            } while (--len);
+                            }
+                            while(--len);
                             continue;
                         }
                         len -= op - whave;
-                        do {
+                        do
+                        {
                             PUP(out) = 0;
-                        } while (--op > whave);
-                        if (op == 0) {
+                        }
+                        while(--op > whave);
+                        if(op == 0)
+                        {
                             from = out - dist;
-                            do {
+                            do
+                            {
                                 PUP(out) = PUP(from);
-                            } while (--len);
+                            }
+                            while(--len);
                             continue;
                         }
 #endif
                     }
                     from = window - OFF;
-                    if (wnext == 0) {           /* very common case */
+                    if(wnext == 0)              /* very common case */
+                    {
                         from += wsize - op;
-                        if (op < len) {         /* some from window */
+                        if(op < len)            /* some from window */
+                        {
                             len -= op;
-                            do {
+                            do
+                            {
                                 PUP(out) = PUP(from);
-                            } while (--op);
+                            }
+                            while(--op);
                             from = out - dist;  /* rest from output */
                         }
                     }
-                    else if (wnext < op) {      /* wrap around window */
+                    else if(wnext < op)         /* wrap around window */
+                    {
                         from += wsize + wnext - op;
                         op -= wnext;
-                        if (op < len) {         /* some from end of window */
+                        if(op < len)            /* some from end of window */
+                        {
                             len -= op;
-                            do {
+                            do
+                            {
                                 PUP(out) = PUP(from);
-                            } while (--op);
+                            }
+                            while(--op);
                             from = window - OFF;
-                            if (wnext < len) {  /* some from start of window */
+                            if(wnext < len)     /* some from start of window */
+                            {
                                 op = wnext;
                                 len -= op;
-                                do {
+                                do
+                                {
                                     PUP(out) = PUP(from);
-                                } while (--op);
+                                }
+                                while(--op);
                                 from = out - dist;      /* rest from output */
                             }
                         }
                     }
-                    else {                      /* contiguous in window */
+                    else                        /* contiguous in window */
+                    {
                         from += wnext - op;
-                        if (op < len) {         /* some from window */
+                        if(op < len)            /* some from window */
+                        {
                             len -= op;
-                            do {
+                            do
+                            {
                                 PUP(out) = PUP(from);
-                            } while (--op);
+                            }
+                            while(--op);
                             from = out - dist;  /* rest from output */
                         }
                     }
-                    while (len > 2) {
+                    while(len > 2)
+                    {
                         PUP(out) = PUP(from);
                         PUP(out) = PUP(from);
                         PUP(out) = PUP(from);
                         len -= 3;
                     }
-                    if (len) {
+                    if(len)
+                    {
                         PUP(out) = PUP(from);
-                        if (len > 1)
+                        if(len > 1)
                             PUP(out) = PUP(from);
                     }
                 }
-                else {
+                else
+                {
                     from = out - dist;          /* copy direct from output */
-                    do {                        /* minimum length is three */
+                    do                          /* minimum length is three */
+                    {
                         PUP(out) = PUP(from);
                         PUP(out) = PUP(from);
                         PUP(out) = PUP(from);
                         len -= 3;
-                    } while (len > 2);
-                    if (len) {
+                    }
+                    while(len > 2);
+                    if(len)
+                    {
                         PUP(out) = PUP(from);
-                        if (len > 1)
+                        if(len > 1)
                             PUP(out) = PUP(from);
                     }
                 }
             }
-            else if ((op & 64) == 0) {          /* 2nd level distance code */
+            else if((op & 64) == 0)             /* 2nd level distance code */
+            {
                 here = dcode[here.val + (hold & ((1U << op) - 1))];
                 goto dodist;
             }
-            else {
+            else
+            {
                 strm->msg = (char *)"invalid distance code";
                 state->mode = BAD;
                 break;
             }
         }
-        else if ((op & 64) == 0) {              /* 2nd level length code */
+        else if((op & 64) == 0)                 /* 2nd level length code */
+        {
             here = lcode[here.val + (hold & ((1U << op) - 1))];
             goto dolen;
         }
-        else if (op & 32) {                     /* end-of-block */
+        else if(op & 32)                        /* end-of-block */
+        {
             Tracevv((stderr, "inflate:         end of block\n"));
             state->mode = TYPE;
             break;
         }
-        else {
+        else
+        {
             strm->msg = (char *)"invalid literal/length code";
             state->mode = BAD;
             break;
         }
-    } while (in < last && out < end);
+    }
+    while(in < last && out < end);
 
     /* return unused bytes (on entry, bits < 8, so in won't go too far back) */
     len = bits >> 3;

@@ -32,57 +32,57 @@
 
 class CPPageExternalFilters : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageExternalFilters)
+    DECLARE_DYNAMIC(CPPageExternalFilters)
 
 private:
-	void StepUp(CCheckListBox& list);
-	void StepDown(CCheckListBox& list);
+    void StepUp(CCheckListBox& list);
+    void StepDown(CCheckListBox& list);
 
-	CAutoPtrList<FilterOverride> m_pFilters;
-	FilterOverride* m_pLastSelFilter;
-	FilterOverride* GetCurFilter();
+    CAutoPtrList<FilterOverride> m_pFilters;
+    FilterOverride* m_pLastSelFilter;
+    FilterOverride* GetCurFilter();
 
-	void SetupMajorTypes(CAtlArray<GUID>& guids);
-	void SetupSubTypes(CAtlArray<GUID>& guids);
+    void SetupMajorTypes(CAtlArray<GUID>& guids);
+    void SetupSubTypes(CAtlArray<GUID>& guids);
 
 public:
-	CPPageExternalFilters();
-	virtual ~CPPageExternalFilters();
+    CPPageExternalFilters();
+    virtual ~CPPageExternalFilters();
 
 // Dialog Data
-	enum { IDD = IDD_PPAGEEXTERNALFILTERS };
+    enum { IDD = IDD_PPAGEEXTERNALFILTERS };
 
-	CCheckListBox m_filters;
-	int m_iLoadType;
-	CHexEdit m_dwMerit;
-	CTreeCtrl m_tree;
+    CCheckListBox m_filters;
+    int m_iLoadType;
+    CHexEdit m_dwMerit;
+    CTreeCtrl m_tree;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnUpdateFilter(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateFilterUp(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateFilterDown(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateFilterMerit(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateSubType(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateDeleteType(CCmdUI* pCmdUI);
-	afx_msg void OnAddRegistered();
-	afx_msg void OnRemoveFilter();
-	afx_msg void OnMoveFilterUp();
-	afx_msg void OnMoveFilterDown();
-	afx_msg void OnLbnDblclkFilter();
-	afx_msg void OnAddMajorType();
-	afx_msg void OnAddSubType();
-	afx_msg void OnDeleteType();
-	afx_msg void OnResetTypes();
-	afx_msg void OnLbnSelchangeList1();
-	afx_msg void OnBnClickedRadio();
-	afx_msg void OnEnChangeEdit1();
-	afx_msg void OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnDropFiles(HDROP hDropInfo);
+    afx_msg void OnUpdateFilter(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFilterUp(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFilterDown(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateFilterMerit(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateSubType(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateDeleteType(CCmdUI* pCmdUI);
+    afx_msg void OnAddRegistered();
+    afx_msg void OnRemoveFilter();
+    afx_msg void OnMoveFilterUp();
+    afx_msg void OnMoveFilterDown();
+    afx_msg void OnLbnDblclkFilter();
+    afx_msg void OnAddMajorType();
+    afx_msg void OnAddSubType();
+    afx_msg void OnDeleteType();
+    afx_msg void OnResetTypes();
+    afx_msg void OnLbnSelchangeList1();
+    afx_msg void OnBnClickedRadio();
+    afx_msg void OnEnChangeEdit1();
+    afx_msg void OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnDropFiles(HDROP hDropInfo);
 };

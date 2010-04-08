@@ -14,19 +14,21 @@
 #include "perflog.h"
 
 #ifdef _IA64_
-extern "C" unsigned __int64 __getReg( int whichReg );
+extern "C" unsigned __int64 __getReg(int whichReg);
 #pragma intrinsic(__getReg)
 #endif // _IA64_
 
 
-inline ULONGLONG _RDTSC( void ) {
+inline ULONGLONG _RDTSC(void)
+{
 #ifdef _X86_
     LARGE_INTEGER   li;
-    __asm {
+    __asm
+    {
         _emit   0x0F
         _emit   0x31
-        mov li.LowPart,eax
-        mov li.HighPart,edx
+        mov li.LowPart, eax
+        mov li.HighPart, edx
     }
     return li.QuadPart;
 
@@ -35,7 +37,7 @@ inline ULONGLONG _RDTSC( void ) {
 #elif defined (_IA64_)
 
 #define INL_REGID_APITC 3116
-    return __getReg( INL_REGID_APITC );
+    return __getReg(INL_REGID_APITC);
 
 #endif // 0
 
@@ -216,7 +218,7 @@ inline ULONGLONG _RDTSC( void ) {
         perfData.data.sampleDuration = (msecs); \
         PerflogTraceEvent ((PEVENT_TRACE_HEADER) &perfData); \
     } \
-
+ 
 
 inline
 VOID PERFLOG_STREAMTRACE(
@@ -227,13 +229,13 @@ VOID PERFLOG_STREAMTRACE(
     ULONGLONG Data2,
     ULONGLONG Data3,
     ULONGLONG Data4
-    )
+)
 {
-    if (Level <= PerflogModuleLevel)
+    if(Level <= PerflogModuleLevel)
     {
         PERFINFO_WMI_STREAMTRACE perfData;
-        memset( &perfData, 0, sizeof( perfData ) );
-        perfData.header.Size = sizeof( perfData );
+        memset(&perfData, 0, sizeof(perfData));
+        perfData.header.Size = sizeof(perfData);
         perfData.header.Flags = WNODE_FLAG_TRACED_GUID;
         perfData.header.Guid = GUID_STREAMTRACE;
         perfData.data.dshowClock = DShowClock;

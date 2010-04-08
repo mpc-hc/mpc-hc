@@ -6,14 +6,15 @@
 
 // This is really dumb, but necessary to support VTbls in C++.
 
-typedef struct VDXFilterVTbls {
-	void *pvtblVBitmap;
+typedef struct VDXFilterVTbls
+{
+    void *pvtblVBitmap;
 } FilterVTbls;
 
 #ifdef VDEXT_MAIN
-	VDXFilterVTbls g_vtbls;
+VDXFilterVTbls g_vtbls;
 #elif defined(VDEXT_NOTMAIN)
-	extern VDXFilterVTbls g_vtbls;
+extern VDXFilterVTbls g_vtbls;
 #endif
 
 #define INITIALIZE_VTBLS		ff->InitVTables(&g_vtbls)

@@ -1,17 +1,17 @@
 /*
      File:       MacLocales.h
- 
+
      Contains:   Types & prototypes for locale functions
- 
+
      Version:    QuickTime 7.3
- 
+
      Copyright:  (c) 2007 (c) 1998-2001 by Apple Computer, Inc., all rights reserved.
- 
+
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
- 
+
                      http://developer.apple.com/bugreporter/
- 
+
 */
 #ifndef __MACLOCALES__
 #define __MACLOCALES__
@@ -40,277 +40,280 @@ extern "C" {
 #endif
 
 #if PRAGMA_STRUCT_ALIGN
-    #pragma options align=mac68k
+#pragma options align=mac68k
 #elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
+#pragma pack(push, 2)
 #elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
+#pragma pack(2)
 #endif
 
 
-/*
-   -------------------------------------------------------------------------------------------------
-   TYPES & CONSTANTS
-   -------------------------------------------------------------------------------------------------
-*/
+    /*
+       -------------------------------------------------------------------------------------------------
+       TYPES & CONSTANTS
+       -------------------------------------------------------------------------------------------------
+    */
 
-typedef struct OpaqueLocaleRef*         LocaleRef;
-typedef UInt32                          LocalePartMask;
-enum {
-                                        /* bit set requests the following:*/
-  kLocaleLanguageMask           = 1L << 0, /* ISO 639-1 or -2 language code (2 or 3 letters)*/
-  kLocaleLanguageVariantMask    = 1L << 1, /* custom string for language variant*/
-  kLocaleScriptMask             = 1L << 2, /* ISO 15924 script code (2 letters)*/
-  kLocaleScriptVariantMask      = 1L << 3, /* custom string for script variant*/
-  kLocaleRegionMask             = 1L << 4, /* ISO 3166 country/region code (2 letters)*/
-  kLocaleRegionVariantMask      = 1L << 5, /* custom string for region variant*/
-  kLocaleAllPartsMask           = 0x0000003F /* all of the above*/
-};
+    typedef struct OpaqueLocaleRef*         LocaleRef;
+    typedef UInt32                          LocalePartMask;
+    enum
+    {
+        /* bit set requests the following:*/
+        kLocaleLanguageMask           = 1L << 0, /* ISO 639-1 or -2 language code (2 or 3 letters)*/
+        kLocaleLanguageVariantMask    = 1L << 1, /* custom string for language variant*/
+        kLocaleScriptMask             = 1L << 2, /* ISO 15924 script code (2 letters)*/
+        kLocaleScriptVariantMask      = 1L << 3, /* custom string for script variant*/
+        kLocaleRegionMask             = 1L << 4, /* ISO 3166 country/region code (2 letters)*/
+        kLocaleRegionVariantMask      = 1L << 5, /* custom string for region variant*/
+        kLocaleAllPartsMask           = 0x0000003F /* all of the above*/
+    };
 
-typedef FourCharCode                    LocaleOperationClass;
-/* constants for LocaleOperationClass are in UnicodeUtilities interfaces*/
-typedef FourCharCode                    LocaleOperationVariant;
-struct LocaleAndVariant {
-  LocaleRef           locale;
-  LocaleOperationVariant  opVariant;
-};
-typedef struct LocaleAndVariant         LocaleAndVariant;
+    typedef FourCharCode                    LocaleOperationClass;
+    /* constants for LocaleOperationClass are in UnicodeUtilities interfaces*/
+    typedef FourCharCode                    LocaleOperationVariant;
+    struct LocaleAndVariant
+    {
+        LocaleRef           locale;
+        LocaleOperationVariant  opVariant;
+    };
+    typedef struct LocaleAndVariant         LocaleAndVariant;
 
-typedef UInt32                          LocaleNameMask;
-enum {
-                                        /* bit set requests the following:*/
-  kLocaleNameMask               = 1L << 0, /* name of locale*/
-  kLocaleOperationVariantNameMask = 1L << 1, /* name of LocaleOperationVariant*/
-  kLocaleAndVariantNameMask     = 0x00000003 /* all of the above*/
-};
+    typedef UInt32                          LocaleNameMask;
+    enum
+    {
+        /* bit set requests the following:*/
+        kLocaleNameMask               = 1L << 0, /* name of locale*/
+        kLocaleOperationVariantNameMask = 1L << 1, /* name of LocaleOperationVariant*/
+        kLocaleAndVariantNameMask     = 0x00000003 /* all of the above*/
+    };
 
-/*
-   -------------------------------------------------------------------------------------------------
-   FUNCTION PROTOTYPES
-   -------------------------------------------------------------------------------------------------
-*/
+    /*
+       -------------------------------------------------------------------------------------------------
+       FUNCTION PROTOTYPES
+       -------------------------------------------------------------------------------------------------
+    */
 
-/* Convert to or from LocaleRefs (and related utilities)*/
+    /* Convert to or from LocaleRefs (and related utilities)*/
 
-/*
- *  LocaleRefFromLangOrRegionCode()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleRefFromLangOrRegionCode(
-  LangCode     lang,
-  RegionCode   region,
-  LocaleRef *  locale);
-
-
-/*
- *  LocaleRefFromLocaleString()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleRefFromLocaleString(
-  const char   localeString[],
-  LocaleRef *  locale);
+    /*
+     *  LocaleRefFromLangOrRegionCode()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleRefFromLangOrRegionCode(
+        LangCode     lang,
+        RegionCode   region,
+        LocaleRef *  locale);
 
 
-/*
- *  LocaleRefGetPartString()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleRefGetPartString(
-  LocaleRef        locale,
-  LocalePartMask   partMask,
-  ByteCount        maxStringLen,
-  char             partString[]);
+    /*
+     *  LocaleRefFromLocaleString()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleRefFromLocaleString(
+        const char   localeString[],
+        LocaleRef *  locale);
 
 
-/*
- *  LocaleStringToLangAndRegionCodes()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 9.0 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleStringToLangAndRegionCodes(
-  const char    localeString[],
-  LangCode *    lang,
-  RegionCode *  region);
+    /*
+     *  LocaleRefGetPartString()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleRefGetPartString(
+        LocaleRef        locale,
+        LocalePartMask   partMask,
+        ByteCount        maxStringLen,
+        char             partString[]);
 
 
-/* Enumerate locales for a LocaleOperationClass */
-/*
- *  LocaleOperationCountLocales()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleOperationCountLocales(
-  LocaleOperationClass   opClass,
-  ItemCount *            localeCount);
+    /*
+     *  LocaleStringToLangAndRegionCodes()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 9.0 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleStringToLangAndRegionCodes(
+        const char    localeString[],
+        LangCode *    lang,
+        RegionCode *  region);
 
 
-/*
- *  LocaleOperationGetLocales()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleOperationGetLocales(
-  LocaleOperationClass   opClass,
-  ItemCount              maxLocaleCount,
-  ItemCount *            actualLocaleCount,
-  LocaleAndVariant       localeVariantList[]);
+    /* Enumerate locales for a LocaleOperationClass */
+    /*
+     *  LocaleOperationCountLocales()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleOperationCountLocales(
+        LocaleOperationClass   opClass,
+        ItemCount *            localeCount);
 
 
-/* Get names for a locale (or a region's language)*/
-
-/*
- *  LocaleGetName()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleGetName(
-  LocaleRef                locale,
-  LocaleOperationVariant   opVariant,
-  LocaleNameMask           nameMask,
-  LocaleRef                displayLocale,
-  UniCharCount             maxNameLen,
-  UniCharCount *           actualNameLen,
-  UniChar                  displayName[]);
+    /*
+     *  LocaleOperationGetLocales()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleOperationGetLocales(
+        LocaleOperationClass   opClass,
+        ItemCount              maxLocaleCount,
+        ItemCount *            actualLocaleCount,
+        LocaleAndVariant       localeVariantList[]);
 
 
-/*
- *  LocaleCountNames()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleCountNames(
-  LocaleRef                locale,
-  LocaleOperationVariant   opVariant,
-  LocaleNameMask           nameMask,
-  ItemCount *              nameCount);
+    /* Get names for a locale (or a region's language)*/
+
+    /*
+     *  LocaleGetName()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleGetName(
+        LocaleRef                locale,
+        LocaleOperationVariant   opVariant,
+        LocaleNameMask           nameMask,
+        LocaleRef                displayLocale,
+        UniCharCount             maxNameLen,
+        UniCharCount *           actualNameLen,
+        UniChar                  displayName[]);
 
 
-/*
- *  LocaleGetIndName()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleGetIndName(
-  LocaleRef                locale,
-  LocaleOperationVariant   opVariant,
-  LocaleNameMask           nameMask,
-  ItemCount                nameIndex,
-  UniCharCount             maxNameLen,
-  UniCharCount *           actualNameLen,
-  UniChar                  displayName[],
-  LocaleRef *              displayLocale);
+    /*
+     *  LocaleCountNames()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleCountNames(
+        LocaleRef                locale,
+        LocaleOperationVariant   opVariant,
+        LocaleNameMask           nameMask,
+        ItemCount *              nameCount);
 
 
-/*
- *  LocaleGetRegionLanguageName()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 9.0 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleGetRegionLanguageName(
-  RegionCode   region,
-  Str255       languageName);
+    /*
+     *  LocaleGetIndName()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleGetIndName(
+        LocaleRef                locale,
+        LocaleOperationVariant   opVariant,
+        LocaleNameMask           nameMask,
+        ItemCount                nameIndex,
+        UniCharCount             maxNameLen,
+        UniCharCount *           actualNameLen,
+        UniChar                  displayName[],
+        LocaleRef *              displayLocale);
 
 
-/* Get names for a LocaleOperationClass*/
-/*
- *  LocaleOperationGetName()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleOperationGetName(
-  LocaleOperationClass   opClass,
-  LocaleRef              displayLocale,
-  UniCharCount           maxNameLen,
-  UniCharCount *         actualNameLen,
-  UniChar                displayName[]);
+    /*
+     *  LocaleGetRegionLanguageName()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 9.0 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleGetRegionLanguageName(
+        RegionCode   region,
+        Str255       languageName);
 
 
-/*
- *  LocaleOperationCountNames()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleOperationCountNames(
-  LocaleOperationClass   opClass,
-  ItemCount *            nameCount);
+    /* Get names for a LocaleOperationClass*/
+    /*
+     *  LocaleOperationGetName()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleOperationGetName(
+        LocaleOperationClass   opClass,
+        LocaleRef              displayLocale,
+        UniCharCount           maxNameLen,
+        UniCharCount *         actualNameLen,
+        UniChar                displayName[]);
 
 
-/*
- *  LocaleOperationGetIndName()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in LocalesLib 8.6 and later
- *    CarbonLib:        in CarbonLib 1.0 and later
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( OSStatus )
-LocaleOperationGetIndName(
-  LocaleOperationClass   opClass,
-  ItemCount              nameIndex,
-  UniCharCount           maxNameLen,
-  UniCharCount *         actualNameLen,
-  UniChar                displayName[],
-  LocaleRef *            displayLocale);
+    /*
+     *  LocaleOperationCountNames()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleOperationCountNames(
+        LocaleOperationClass   opClass,
+        ItemCount *            nameCount);
+
+
+    /*
+     *  LocaleOperationGetIndName()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in LocalesLib 8.6 and later
+     *    CarbonLib:        in CarbonLib 1.0 and later
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(OSStatus)
+    LocaleOperationGetIndName(
+        LocaleOperationClass   opClass,
+        ItemCount              nameIndex,
+        UniCharCount           maxNameLen,
+        UniCharCount *         actualNameLen,
+        UniChar                displayName[],
+        LocaleRef *            displayLocale);
 
 
 
 #if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
+#pragma options align=reset
 #elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
+#pragma pack(pop)
 #elif PRAGMA_STRUCT_PACK
-    #pragma pack()
+#pragma pack()
 #endif
 
 #ifdef PRAGMA_IMPORT_OFF

@@ -40,7 +40,7 @@
 #define AP4_ADTS_SYNC_MASK     0xFFF6 /* 12 sync bits plus 2 layer bits */
 #define AP4_ADTS_SYNC_PATTERN  0xFFF0 /* 12 sync bits=1 layer=0         */
 
-const unsigned long  
+const unsigned long
 AP4_AdtsSamplingFrequencyTable[16] =
 {
     96000,
@@ -67,15 +67,15 @@ AP4_AdtsSamplingFrequencyTable[16] =
 AP4_AdtsHeader::AP4_AdtsHeader(const AP4_UI08* bytes)
 {
     // fixed part
-    m_Id                     = ( bytes[1] & 0x08) >> 3;
+    m_Id                     = (bytes[1] & 0x08) >> 3;
     m_ProtectionAbsent       =   bytes[1] & 0x01;
-    m_ProfileObjectType      = ( bytes[2] & 0xC0) >> 6;
-    m_SamplingFrequencyIndex = ( bytes[2] & 0x3C) >> 2;
-    m_ChannelConfiguration   = ((bytes[2] & 0x01) << 2) | 
+    m_ProfileObjectType      = (bytes[2] & 0xC0) >> 6;
+    m_SamplingFrequencyIndex = (bytes[2] & 0x3C) >> 2;
+    m_ChannelConfiguration   = ((bytes[2] & 0x01) << 2) |
                                ((bytes[3] & 0xC0) >> 6);
     // variable part
     m_FrameLength = ((unsigned int)(bytes[3] & 0x03) << 11) |
-                    ((unsigned int)(bytes[4]       ) <<  3) |
+                    ((unsigned int)(bytes[4]) <<  3) |
                     ((unsigned int)(bytes[5] & 0xE0) >>  5);
     m_RawDataBlocks =               bytes[6] & 0x03;
 }
@@ -89,12 +89,15 @@ AP4_AdtsHeader::AP4_AdtsHeader(const AP4_UI08* bytes)
 bool
 AP4_AdtsHeader::MatchFixed(unsigned char* a, unsigned char* b)
 {
-    if (a[0]         ==  b[0] &&
-        a[1]         ==  b[1] &&
-        a[2]         ==  b[2] &&
-       (a[3] & 0xF0) == (b[3] & 0xF0)) {
+    if(a[0]         ==  b[0] &&
+       a[1]         ==  b[1] &&
+       a[2]         ==  b[2] &&
+       (a[3] & 0xF0) == (b[3] & 0xF0))
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -106,12 +109,14 @@ AP4_Result
 AP4_AdtsHeader::Check()
 {
     // check that the sampling frequency index is valid
-    if (m_SamplingFrequencyIndex >= 0xD) {
+    if(m_SamplingFrequencyIndex >= 0xD)
+    {
         return AP4_FAILURE;
     }
 
     /* MPEG2 does not use all profiles */
-    if (m_Id == 1 && m_ProfileObjectType == 3) {
+    if(m_Id == 1 && m_ProfileObjectType == 3)
+    {
         return AP4_FAILURE;
     }
 
@@ -147,7 +152,7 @@ AP4_AdtsParser::Reset()
 |    AP4_AdtsParser::Feed
 +----------------------------------------------------------------------*/
 AP4_Result
-AP4_AdtsParser::Feed(const AP4_UI08* buffer, 
+AP4_AdtsParser::Feed(const AP4_UI08* buffer,
                      AP4_Size*       buffer_size,
                      AP4_Flags       flags)
 {
@@ -157,18 +162,19 @@ AP4_AdtsParser::Feed(const AP4_UI08* buffer,
     m_Bits.m_Flags = flags;
 
     /* possible shortcut */
-    if (buffer == NULL ||
-        buffer_size == NULL || 
-        *buffer_size == 0) {
+    if(buffer == NULL ||
+       buffer_size == NULL ||
+       *buffer_size == 0)
+    {
         return AP4_SUCCESS;
     }
 
     /* see how much data we can write */
     free_space = m_Bits.GetBytesFree();
-    if (*buffer_size > free_space) *buffer_size = free_space;
+    if(*buffer_size > free_space) *buffer_size = free_space;
 
     /* write the data */
-    return m_Bits.WriteBytes(buffer, *buffer_size); 
+    return m_Bits.WriteBytes(buffer, *buffer_size);
 }
 
 /*----------------------------------------------------------------------+
@@ -177,26 +183,30 @@ AP4_AdtsParser::Feed(const AP4_UI08* buffer,
 AP4_Result
 AP4_AdtsParser::FindHeader(AP4_UI08* header)
 {
-   int          available = m_Bits.GetBytesAvailable();
-   unsigned int sync = 0;
-   long         nbr_skipped_bytes = 0;
+    int          available = m_Bits.GetBytesAvailable();
+    unsigned int sync = 0;
+    long         nbr_skipped_bytes = 0;
 
-   /* look for the sync pattern */
-   while (available-- >= AP4_ADTS_HEADER_SIZE) {
-      sync = (m_Bits.ReadByte() << 8) | m_Bits.PeekByte();
+    /* look for the sync pattern */
+    while(available-- >= AP4_ADTS_HEADER_SIZE)
+    {
+        sync = (m_Bits.ReadByte() << 8) | m_Bits.PeekByte();
 
-      if ((sync & AP4_ADTS_SYNC_MASK) == AP4_ADTS_SYNC_PATTERN) {
-         /* found a sync pattern, read the rest of the header */
-         header[0] = (sync >> 8) & 0xFF;
-         m_Bits.ReadBytes(&header[1], AP4_ADTS_HEADER_SIZE-1);
+        if((sync & AP4_ADTS_SYNC_MASK) == AP4_ADTS_SYNC_PATTERN)
+        {
+            /* found a sync pattern, read the rest of the header */
+            header[0] = (sync >> 8) & 0xFF;
+            m_Bits.ReadBytes(&header[1], AP4_ADTS_HEADER_SIZE - 1);
 
-         return AP4_SUCCESS;
-      } else {
-         ++ nbr_skipped_bytes;
-      }
-   }
+            return AP4_SUCCESS;
+        }
+        else
+        {
+            ++ nbr_skipped_bytes;
+        }
+    }
 
-   return AP4_ERROR_NOT_ENOUGH_DATA;
+    return AP4_ERROR_NOT_ENOUGH_DATA;
 }
 
 /*----------------------------------------------------------------------+
@@ -211,77 +221,85 @@ AP4_AdtsParser::FindFrame(AP4_AacFrame& frame)
 
     /* align to the start of the next byte */
     m_Bits.ByteAlign();
-    
+
     /* find a frame header */
     result = FindHeader(raw_header);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     /* parse the header */
     AP4_AdtsHeader adts_header(raw_header);
 
     /* check the header */
     result = adts_header.Check();
-    if (AP4_FAILED(result)) goto fail;
-    
+    if(AP4_FAILED(result)) goto fail;
+
     /* check that we have enough data to peek at the next header */
     available = AP4_ADTS_HEADER_SIZE + m_Bits.GetBytesAvailable();
-    if (m_Bits.m_Flags & AP4_BITSTREAM_FLAG_EOS) {
+    if(m_Bits.m_Flags & AP4_BITSTREAM_FLAG_EOS)
+    {
         /* we're at the end of the stream, we only need the entire frame */
-        if (available < adts_header.m_FrameLength) {
+        if(available < adts_header.m_FrameLength)
+        {
             return AP4_ERROR_NOT_ENOUGH_DATA;
-        } 
-    } else {
+        }
+    }
+    else
+    {
         /* peek at the header of the next frame */
         unsigned char peek_raw_header[AP4_ADTS_HEADER_SIZE];
 
-        if (available < adts_header.m_FrameLength+AP4_ADTS_HEADER_SIZE) {
+        if(available < adts_header.m_FrameLength + AP4_ADTS_HEADER_SIZE)
+        {
             return AP4_ERROR_NOT_ENOUGH_DATA;
-        } 
-        m_Bits.SkipBytes(adts_header.m_FrameLength-AP4_ADTS_HEADER_SIZE);
+        }
+        m_Bits.SkipBytes(adts_header.m_FrameLength - AP4_ADTS_HEADER_SIZE);
         m_Bits.PeekBytes(peek_raw_header, AP4_ADTS_HEADER_SIZE);
-        m_Bits.SkipBytes(-((int)adts_header.m_FrameLength-AP4_ADTS_HEADER_SIZE));
+        m_Bits.SkipBytes(-((int)adts_header.m_FrameLength - AP4_ADTS_HEADER_SIZE));
 
         /* check the header */
         AP4_AdtsHeader peek_adts_header(peek_raw_header);
         result = peek_adts_header.Check();
-        if (AP4_FAILED(result)) goto fail;
+        if(AP4_FAILED(result)) goto fail;
 
         /* check that the fixed part of this header is the same as the */
         /* fixed part of the previous header                           */
-        if (!AP4_AdtsHeader::MatchFixed(peek_raw_header, raw_header)) {
+        if(!AP4_AdtsHeader::MatchFixed(peek_raw_header, raw_header))
+        {
             goto fail;
         }
     }
 
     /* fill in the frame info */
-    frame.m_Info.m_Standard = (adts_header.m_Id == 1 ? 
-                            AP4_AAC_STANDARD_MPEG2 :
-                            AP4_AAC_STANDARD_MPEG4);
-    switch (adts_header.m_ProfileObjectType) {
-        case 0:
-            frame.m_Info.m_Profile = AP4_AAC_PROFILE_MAIN;
-            break;
+    frame.m_Info.m_Standard = (adts_header.m_Id == 1 ?
+                               AP4_AAC_STANDARD_MPEG2 :
+                               AP4_AAC_STANDARD_MPEG4);
+    switch(adts_header.m_ProfileObjectType)
+    {
+    case 0:
+        frame.m_Info.m_Profile = AP4_AAC_PROFILE_MAIN;
+        break;
 
-        case 1:
-            frame.m_Info.m_Profile = AP4_AAC_PROFILE_LC;
-            break;
+    case 1:
+        frame.m_Info.m_Profile = AP4_AAC_PROFILE_LC;
+        break;
 
-        case 2: 
-            frame.m_Info.m_Profile = AP4_AAC_PROFILE_SSR;
-            break;
+    case 2:
+        frame.m_Info.m_Profile = AP4_AAC_PROFILE_SSR;
+        break;
 
-        case 3:
-            frame.m_Info.m_Profile = AP4_AAC_PROFILE_LTP;
+    case 3:
+        frame.m_Info.m_Profile = AP4_AAC_PROFILE_LTP;
     }
-    frame.m_Info.m_FrameLength = adts_header.m_FrameLength-AP4_ADTS_HEADER_SIZE;
+    frame.m_Info.m_FrameLength = adts_header.m_FrameLength - AP4_ADTS_HEADER_SIZE;
     frame.m_Info.m_ChannelConfiguration = adts_header.m_ChannelConfiguration;
     frame.m_Info.m_SamplingFrequencyIndex = adts_header.m_SamplingFrequencyIndex;
     frame.m_Info.m_SamplingFrequency = AP4_AdtsSamplingFrequencyTable[adts_header.m_SamplingFrequencyIndex];
 
     /* skip crc if present */
-    if (adts_header.m_ProtectionAbsent == 0) {
+    if(adts_header.m_ProtectionAbsent == 0)
+    {
         m_Bits.SkipBits(16);
-    } 
+    }
 
     /* set the frame source */
     frame.m_Source = &m_Bits;
@@ -301,7 +319,7 @@ fail:
 AP4_Size
 AP4_AdtsParser::GetBytesFree()
 {
-	return (m_Bits.GetBytesFree());
+    return (m_Bits.GetBytesFree());
 }
 
 
@@ -309,10 +327,10 @@ AP4_AdtsParser::GetBytesFree()
 /*----------------------------------------------------------------------+
 |    AP4_AdtsParser::GetBytesAvailable
 +----------------------------------------------------------------------*/
-AP4_Size	
+AP4_Size
 AP4_AdtsParser::GetBytesAvailable()
 {
-	return (m_Bits.GetBytesAvailable());
+    return (m_Bits.GetBytesAvailable());
 }
 
 

@@ -23,34 +23,36 @@
 #include "os.h"
 
 /* encode side bitrate tracking */
-typedef struct bitrate_manager_state {
-  int            managed;
+typedef struct bitrate_manager_state
+{
+    int            managed;
 
-  long           avg_reservoir;
-  long           minmax_reservoir;
-  long           avg_bitsper;
-  long           min_bitsper;
-  long           max_bitsper;
+    long           avg_reservoir;
+    long           minmax_reservoir;
+    long           avg_bitsper;
+    long           min_bitsper;
+    long           max_bitsper;
 
-  long           short_per_long;
-  double         avgfloat;
+    long           short_per_long;
+    double         avgfloat;
 
-  vorbis_block  *vb;
-  int            choice;
+    vorbis_block  *vb;
+    int            choice;
 } bitrate_manager_state;
 
-typedef struct bitrate_manager_info{
-  long           avg_rate;
-  long           min_rate;
-  long           max_rate;
-  long           reservoir_bits;
-  double         reservoir_bias;
+typedef struct bitrate_manager_info
+{
+    long           avg_rate;
+    long           min_rate;
+    long           max_rate;
+    long           reservoir_bits;
+    double         reservoir_bias;
 
-  double         slew_damp;
+    double         slew_damp;
 
 } bitrate_manager_info;
 
-extern void vorbis_bitrate_init(vorbis_info *vi,bitrate_manager_state *bs);
+extern void vorbis_bitrate_init(vorbis_info *vi, bitrate_manager_state *bs);
 extern void vorbis_bitrate_clear(bitrate_manager_state *bs);
 extern int vorbis_bitrate_managed(vorbis_block *vb);
 extern int vorbis_bitrate_addblock(vorbis_block *vb);

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - UUID Atoms 
+|    AP4 - UUID Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -26,7 +26,7 @@
 |
  ****************************************************************/
 /**
-* @file 
+* @file
 * @brief UUID Atoms
 */
 
@@ -42,8 +42,8 @@
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_UUID_ATOM_HEADER_SIZE      = AP4_ATOM_HEADER_SIZE+16;
-const AP4_UI32 AP4_FULL_UUID_ATOM_HEADER_SIZE = AP4_FULL_ATOM_HEADER_SIZE+16;
+const AP4_UI32 AP4_UUID_ATOM_HEADER_SIZE      = AP4_ATOM_HEADER_SIZE + 16;
+const AP4_UI32 AP4_FULL_UUID_ATOM_HEADER_SIZE = AP4_FULL_ATOM_HEADER_SIZE + 16;
 
 /*----------------------------------------------------------------------
 |   AP4_UuidAtom
@@ -51,7 +51,8 @@ const AP4_UI32 AP4_FULL_UUID_ATOM_HEADER_SIZE = AP4_FULL_ATOM_HEADER_SIZE+16;
 /**
  * Base class for uuid atoms.
  */
-class AP4_UuidAtom : public AP4_Atom {
+class AP4_UuidAtom : public AP4_Atom
+{
 public:
     // constructor and destructor
     virtual ~AP4_UuidAtom() {};
@@ -62,8 +63,11 @@ public:
     virtual AP4_Result InspectHeader(AP4_AtomInspector& inspector);
 
     // accessors
-    const AP4_UI08* GetUuid() { return m_Uuid; }
-    
+    const AP4_UI08* GetUuid()
+    {
+        return m_Uuid;
+    }
+
 protected:
     // members
     AP4_UuidAtom(AP4_UI64 size, const AP4_UI08* uuid);
@@ -78,7 +82,8 @@ protected:
 /**
  * Unknown uuid atoms.
  */
-class AP4_UnknownUuidAtom : public AP4_UuidAtom {
+class AP4_UnknownUuidAtom : public AP4_UuidAtom
+{
 public:
     // constructors
     AP4_UnknownUuidAtom(AP4_UI64 size, AP4_ByteStream& stream);

@@ -3,7 +3,7 @@
 // LCDScrollingText.cpp
 //
 // The CLCDScrollingText class draws scrolling text onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -76,7 +76,7 @@ void CLCDScrollingText::ResetUpdate(void)
     m_fTotalDistance = 0;
     SetLeftMargin(0);
     SetLogicalOrigin(0, 0);
-    
+
     CLCDText::ResetUpdate();
 }
 
@@ -151,7 +151,7 @@ CLCDScrollingText::eSCROLL_DIR CLCDScrollingText::GetScrollDirection()
 
 void CLCDScrollingText::SetText(LPCTSTR szText)
 {
-    if (_tcscmp(szText, m_sText.c_str()))
+    if(_tcscmp(szText, m_sText.c_str()))
     {
         ResetUpdate();
     }
@@ -204,26 +204,26 @@ void CLCDScrollingText::OnUpdate(DWORD dwTimestamp)
 
 void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
 {
-    if (!m_nTextLength)
+    if(!m_nTextLength)
         return;
 
     // calculate the scrolling distance
-    if (-1 == m_nScrollingDistance)
+    if(-1 == m_nScrollingDistance)
     {
         CLCDText::OnDraw(rGfx);
 
-        if (SCROLL_VERT == m_eScrollDir)
-        { 
+        if(SCROLL_VERT == m_eScrollDir)
+        {
             // determine how far we have to travel until scrolling stops
             m_nScrollingDistance = ((GetHeight()) >= GetVExtent().cy) ?
-                0 : (GetVExtent().cy - GetHeight());
+                                   0 : (GetVExtent().cy - GetHeight());
             SetLogicalSize(GetVExtent().cx, GetVExtent().cy);
         }
         else
         {
             // determine how far we have to travel until scrolling stops
             m_nScrollingDistance = ((GetWidth()) >= GetHExtent().cx) ?
-                0 : (GetHExtent().cx - GetWidth());
+                                   0 : (GetHExtent().cx - GetWidth());
             SetLogicalSize(max(GetSize().cx, GetHExtent().cx), GetHExtent().cy);
         }
     }
@@ -231,7 +231,7 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
     switch(m_eState)
     {
     case STATE_START_DELAY:
-        if (m_dwEllapsedTime > m_dwStartDelay)
+        if(m_dwEllapsedTime > m_dwStartDelay)
         {
             m_eState = STATE_SCROLL;
             m_dwEllapsedTime = 0;
@@ -239,9 +239,9 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
         }
         break;
     case STATE_END_DELAY:
-        if (m_dwEllapsedTime > m_dwEndDelay)
+        if(m_dwEllapsedTime > m_dwEndDelay)
         {
-            if (m_bRepeat)
+            if(m_bRepeat)
             {
                 ResetUpdate();
                 break;
@@ -252,34 +252,34 @@ void CLCDScrollingText::OnDraw(CLCDGfx &rGfx)
         }
         break;
     case STATE_SCROLL:
+    {
+        // TODO: add some anti-aliasing on the movement
+
+        // how much time has ellapsed?
+        // given the speed, what is the total displacement?
+        float fDistance = (float)(m_dwSpeed * m_dwEllapsedTime) / 1000.0f;
+        m_fTotalDistance += fDistance;
+
+        // we dont want the total distnace exceed our scrolling distance
+        int nTotalOffset = min((int)m_fTotalDistance, m_nScrollingDistance);
+
+        if(SCROLL_VERT == m_eScrollDir)
         {
-            // TODO: add some anti-aliasing on the movement
-
-            // how much time has ellapsed?
-            // given the speed, what is the total displacement?
-            float fDistance = (float)(m_dwSpeed * m_dwEllapsedTime) / 1000.0f;
-            m_fTotalDistance += fDistance;
-
-            // we dont want the total distnace exceed our scrolling distance
-            int nTotalOffset = min((int)m_fTotalDistance, m_nScrollingDistance);
-            
-            if (SCROLL_VERT == m_eScrollDir)
-            {
-                SetLogicalOrigin(GetLogicalOrigin().x, -1 * nTotalOffset);
-            }
-            else
-            {
-                SetLogicalOrigin(-1 * nTotalOffset, GetLogicalOrigin().y);
-            }
-            
-            m_dwLastUpdate = GetTickCount();
-
-            if (nTotalOffset == m_nScrollingDistance)
-            {
-                m_eState = STATE_END_DELAY;
-            }
+            SetLogicalOrigin(GetLogicalOrigin().x, -1 * nTotalOffset);
         }
-        break;
+        else
+        {
+            SetLogicalOrigin(-1 * nTotalOffset, GetLogicalOrigin().y);
+        }
+
+        m_dwLastUpdate = GetTickCount();
+
+        if(nTotalOffset == m_nScrollingDistance)
+        {
+            m_eState = STATE_END_DELAY;
+        }
+    }
+    break;
     case STATE_DONE:
         break;
 

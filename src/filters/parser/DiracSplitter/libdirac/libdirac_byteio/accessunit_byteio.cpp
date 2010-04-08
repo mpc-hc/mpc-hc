@@ -42,40 +42,40 @@
 using namespace dirac;
 
 // Constructor for encoding
-SequenceHeaderByteIO::SequenceHeaderByteIO( SourceParams& src_params, 
-                                    EncoderParams& enc_params):                  
-ParseUnitByteIO(),
-m_parseparams_byteio(*this, m_parse_params, enc_params),
+SequenceHeaderByteIO::SequenceHeaderByteIO(SourceParams& src_params,
+        EncoderParams& enc_params):
+    ParseUnitByteIO(),
+    m_parseparams_byteio(*this, m_parse_params, enc_params),
 // create default source parameters for comparisions
-m_default_src_params(src_params.GetVideoFormat()),
-m_src_params(src_params),
-m_sourceparams_byteio( m_src_params,
-                        m_default_src_params,
-                       *this),
-m_codec_params(enc_params),
-m_codingparams_byteio(m_src_params,
-                      m_codec_params,
-                      m_default_src_params,
-                      *this)
+    m_default_src_params(src_params.GetVideoFormat()),
+    m_src_params(src_params),
+    m_sourceparams_byteio(m_src_params,
+                          m_default_src_params,
+                          *this),
+    m_codec_params(enc_params),
+    m_codingparams_byteio(m_src_params,
+                          m_codec_params,
+                          m_default_src_params,
+                          *this)
 {
 }
 
 // Constructor for decoding
 SequenceHeaderByteIO::SequenceHeaderByteIO(const ParseUnitByteIO& parseunit_byteio,
-                                   ParseParams& parse_params,
-                                   SourceParams& src_params,
-                                   CodecParams& codec_params) :
-ParseUnitByteIO(parseunit_byteio),
-m_parseparams_byteio( parseunit_byteio, parse_params),
-m_src_params(src_params),
-m_sourceparams_byteio( m_src_params,
-                        m_default_src_params,
-                        parseunit_byteio),
-m_codec_params(codec_params),
-m_codingparams_byteio( m_src_params,
-                        m_codec_params,
-                        m_default_src_params,
-                        parseunit_byteio)
+        ParseParams& parse_params,
+        SourceParams& src_params,
+        CodecParams& codec_params) :
+    ParseUnitByteIO(parseunit_byteio),
+    m_parseparams_byteio(parseunit_byteio, parse_params),
+    m_src_params(src_params),
+    m_sourceparams_byteio(m_src_params,
+                          m_default_src_params,
+                          parseunit_byteio),
+    m_codec_params(codec_params),
+    m_codingparams_byteio(m_src_params,
+                          m_codec_params,
+                          m_default_src_params,
+                          parseunit_byteio)
 {
 }
 
@@ -84,7 +84,7 @@ SequenceHeaderByteIO::~SequenceHeaderByteIO()
 }
 
 //-----public------------------------------------------------------
-bool SequenceHeaderByteIO::Input() 
+bool SequenceHeaderByteIO::Input()
 {
     //int o=mp_stream->tellg();
     InputParseParams();
@@ -92,22 +92,22 @@ bool SequenceHeaderByteIO::Input()
     // Inout Video format
     SetByteParams(m_parseparams_byteio);
     VideoFormat vf = IntToVideoFormat(ReadUint());
-    if(vf==VIDEO_FORMAT_UNDEFINED)
-         DIRAC_THROW_EXCEPTION(
-                    ERR_INVALID_VIDEO_FORMAT,
-                    "Dirac does not recognise the specified video-format",
-                    SEVERITY_ACCESSUNIT_ERROR);
+    if(vf == VIDEO_FORMAT_UNDEFINED)
+        DIRAC_THROW_EXCEPTION(
+            ERR_INVALID_VIDEO_FORMAT,
+            "Dirac does not recognise the specified video-format",
+            SEVERITY_ACCESSUNIT_ERROR);
 
     SourceParams src_params(vf, true);
     m_src_params = src_params;
-    
+
     InputSourceParams();
-    
+
     CodecParams codec_params(vf);
     m_codec_params = codec_params;
-    
+
     InputCodingParams();
-    
+
     return true;
 }
 
@@ -122,15 +122,15 @@ void SequenceHeaderByteIO::Output()
     OutputSourceParams();
 
     OutputCodingParams();
-  
+
 }
 
 int SequenceHeaderByteIO::GetSize() const
 {
-    return ParseUnitByteIO::GetSize()+
-           m_parseparams_byteio.GetSize()+
-           ByteIO::GetSize() + 
-           m_sourceparams_byteio.GetSize()+
+    return ParseUnitByteIO::GetSize() +
+           m_parseparams_byteio.GetSize() +
+           ByteIO::GetSize() +
+           m_sourceparams_byteio.GetSize() +
            m_codingparams_byteio.GetSize();
 }
 
@@ -150,7 +150,7 @@ unsigned char SequenceHeaderByteIO::CalcParseCode() const
 
 void SequenceHeaderByteIO::InputSourceParams()
 {
-     // copy current input params
+    // copy current input params
     m_sourceparams_byteio.SetByteParams(*this);
 
     m_sourceparams_byteio.Input();

@@ -360,16 +360,16 @@
 #        undef _BSD_SOURCE
 #      endif
 #      ifdef _SETJMP_H
-       /* If you encounter a compiler error here, see the explanation
-        * near the end of INSTALL.
-        */
-           __pngconf.h__ in libpng already includes setjmp.h;
-           __dont__ include it again.;
+/* If you encounter a compiler error here, see the explanation
+ * near the end of INSTALL.
+ */
+__pngconf.h__ in libpng already includes setjmp.h;
+__dont__ include it again.;
 #      endif
 #    endif /* __linux__ */
 #  endif /* PNG_SKIP_SETJMP_CHECK */
 
-   /* Include setjmp.h for error handling */
+/* Include setjmp.h for error handling */
 #  include <setjmp.h>
 
 #  ifdef __linux__
@@ -541,7 +541,7 @@
  !defined(PNG_PROGRESSIVE_READ_NOT_SUPPORTED)  /* if you don't do progressive */
 #  define PNG_PROGRESSIVE_READ_SUPPORTED     /* reading.  This is not talking */
 #endif                               /* about interlacing capability!  You'll */
-            /* still have interlacing unless you change the following define: */
+/* still have interlacing unless you change the following define: */
 
 #define PNG_READ_INTERLACING_SUPPORTED /* required for PNG-compliant decoders */
 
@@ -610,9 +610,9 @@
 
 #if !defined(PNG_NO_WRITE_INTERLACING_SUPPORTED) && \
     !defined(PNG_WRITE_INTERLACING_SUPPORTED)
-    /* This is not required for PNG-compliant encoders, but can cause
-     * trouble if left undefined
-    */
+/* This is not required for PNG-compliant encoders, but can cause
+ * trouble if left undefined
+*/
 #  define PNG_WRITE_INTERLACING_SUPPORTED
 #endif
 
@@ -678,11 +678,11 @@
 #  ifndef PNG_SET_USER_LIMITS_SUPPORTED
 #    define PNG_SET_USER_LIMITS_SUPPORTED
 #  endif
-  /* Feature added at libpng-1.4.0, this flag added at 1.4.1 */
+/* Feature added at libpng-1.4.0, this flag added at 1.4.1 */
 #  ifndef PNG_SET_CHUNK_CACHE_LIMIT_SUPPORTED
 #    define PNG_SET_CHUNK_CACHE_LIMIT_SUPPORTED
 #  endif
-  /* Feature added at libpng-1.4.1, this flag added at 1.4.1 */
+/* Feature added at libpng-1.4.1, this flag added at 1.4.1 */
 #  ifndef PNG_SET_CHUNK_MALLOC_LIMIT_SUPPORTED
 #    define PNG_SET_CHUNK_MALLOC_LIMIT_SUPPORTED
 #  endif
@@ -1071,7 +1071,7 @@
 
 /* Need the time information for converting tIME chunks */
 #ifdef PNG_CONVERT_tIME_SUPPORTED
-     /* "time.h" functions are not supported on WindowsCE */
+/* "time.h" functions are not supported on WindowsCE */
 #    include <time.h>
 #endif
 
@@ -1095,9 +1095,9 @@ typedef short png_int_16;
 typedef unsigned char png_byte;
 
 #ifdef PNG_NO_SIZE_T
-   typedef unsigned int png_size_t;
+typedef unsigned int png_size_t;
 #else
-   typedef size_t png_size_t;
+typedef size_t png_size_t;
 #endif
 #define png_sizeof(x) sizeof(x)
 
@@ -1119,7 +1119,7 @@ typedef unsigned char png_byte;
 #  else
 #    define LDATA 0
 #  endif
-   /* GRR:  why is Cygwin in here?  Cygwin is not Borland C... */
+/* GRR:  why is Cygwin in here?  Cygwin is not Borland C... */
 #  if !defined(__WIN32__) && !defined(__FLAT__) && !defined(__CYGWIN__)
 #    define PNG_MAX_MALLOC_64K
 #    if (LDATA != 1)
@@ -1128,11 +1128,11 @@ typedef unsigned char png_byte;
 #      endif
 #      define USE_FAR_KEYWORD
 #    endif   /* LDATA != 1 */
-     /* Possibly useful for moving data out of default segment.
-      * Uncomment it if you want. Could also define FARDATA as
-      * const if your compiler supports it. (SJT)
+/* Possibly useful for moving data out of default segment.
+ * Uncomment it if you want. Could also define FARDATA as
+ * const if your compiler supports it. (SJT)
 #    define FARDATA FAR
-      */
+ */
 #  endif  /* __WIN32__, __FLAT__, __CYGWIN__ */
 #endif   /* __BORLANDC__ */
 
@@ -1269,7 +1269,7 @@ typedef char            FAR * FAR * FAR * png_charppp;
 #    define PNG_EXPORT_TYPE1(type,symbol)  PNG_IMPEXP type PNGAPI symbol
 #    define PNG_EXPORT_TYPE2(type,symbol)  type PNG_IMPEXP PNGAPI symbol
 
-     /* Borland/Microsoft */
+/* Borland/Microsoft */
 #    if defined(_MSC_VER) || defined(__BORLANDC__)
 #      if (_MSC_VER >= 800) || (__BORLANDC__ >= 0x500)
 #         define PNG_EXPORT PNG_EXPORT_TYPE1
@@ -1280,7 +1280,7 @@ typedef char            FAR * FAR * FAR * png_charppp;
 #         else
 #            define PNG_IMPEXP /*__import */ /* doesn't exist AFAIK in VC++ */
 #         endif                              /* Exists in Borland C++ for
-                                                C++ classes (== huge) */
+C++ classes (== huge) */
 #      endif
 #    endif
 
@@ -1350,10 +1350,10 @@ typedef char            FAR * FAR * FAR * png_charppp;
 #      define PNG_ALLOCATED  __attribute__((__malloc__))
 #    endif
 
-    /* This specifically protects structure members that should only be
-     * accessed from within the library, therefore should be empty during
-     * a library build.
-     */
+/* This specifically protects structure members that should only be
+ * accessed from within the library, therefore should be empty during
+ * a library build.
+ */
 #    ifndef PNG_DEPRECATED
 #      define PNG_DEPRECATED __attribute__((__deprecated__))
 #    endif
@@ -1449,12 +1449,12 @@ typedef char            FAR * FAR * FAR * png_charppp;
 #        define png_snprintf6 snprintf
 #      endif
 #    else
-       /* You don't have or don't want to use snprintf().  Caution: Using
-        * sprintf instead of snprintf exposes your application to accidental
-        * or malevolent buffer overflows.  If you don't have snprintf()
-        * as a general rule you should provide one (you can get one from
-        * Portable OpenSSH).
-        */
+/* You don't have or don't want to use snprintf().  Caution: Using
+ * sprintf instead of snprintf exposes your application to accidental
+ * or malevolent buffer overflows.  If you don't have snprintf()
+ * as a general rule you should provide one (you can get one from
+ * Portable OpenSSH).
+ */
 #      define png_snprintf(s1,n,fmt,x1) sprintf(s1,fmt,x1)
 #      define png_snprintf2(s1,n,fmt,x1,x2) sprintf(s1,fmt,x1,x2)
 #      define png_snprintf6(s1,n,fmt,x1,x2,x3,x4,x5,x6) \
@@ -1475,21 +1475,21 @@ typedef char            FAR * FAR * FAR * png_charppp;
 #if defined(__TURBOC__) && !defined(__FLAT__)
 #  define  png_mem_alloc farmalloc
 #  define  png_mem_free  farfree
-   typedef unsigned long png_alloc_size_t;
+typedef unsigned long png_alloc_size_t;
 #else
 #  if defined(_MSC_VER) && defined(MAXSEG_64K)
 #    define  png_mem_alloc(s) halloc(s, 1)
 #    define  png_mem_free     hfree
-     typedef unsigned long    png_alloc_size_t;
+typedef unsigned long    png_alloc_size_t;
 #  else
 #    if defined(_WINDOWS_) && (!defined(INT_MAX) || INT_MAX <= 0x7ffffffeL)
 #      define  png_mem_alloc(s) HeapAlloc(GetProcessHeap(), 0, s)
 #      define  png_mem_free(p)  HeapFree(GetProcessHeap(), 0, p)
-       typedef DWORD            png_alloc_size_t;
+typedef DWORD            png_alloc_size_t;
 #    else
 #      define  png_mem_alloc malloc
 #      define  png_mem_free  free
-       typedef png_size_t    png_alloc_size_t;
+typedef png_size_t    png_alloc_size_t;
 #    endif
 #  endif
 #endif

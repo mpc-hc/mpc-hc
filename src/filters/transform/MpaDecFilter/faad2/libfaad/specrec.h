@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -37,11 +37,11 @@ extern "C" {
 
 #include "syntax.h"
 
-uint8_t window_grouping_info(NeAACDecStruct *hDecoder, ic_stream *ics);
-uint8_t reconstruct_channel_pair(NeAACDecStruct *hDecoder, ic_stream *ics1, ic_stream *ics2,
-                                 element *cpe, int16_t *spec_data1, int16_t *spec_data2);
-uint8_t reconstruct_single_channel(NeAACDecStruct *hDecoder, ic_stream *ics, element *sce,
-                                int16_t *spec_data);
+    uint8_t window_grouping_info(NeAACDecStruct *hDecoder, ic_stream *ics);
+    uint8_t reconstruct_channel_pair(NeAACDecStruct *hDecoder, ic_stream *ics1, ic_stream *ics2,
+                                     element *cpe, int16_t *spec_data1, int16_t *spec_data2);
+    uint8_t reconstruct_single_channel(NeAACDecStruct *hDecoder, ic_stream *ics, element *sce,
+                                       int16_t *spec_data);
 
 #ifdef __cplusplus
 }

@@ -5,13 +5,13 @@
 
 class CMP4SplitterFile : public CBaseSplitterFileEx
 {
-	void* /* AP4_File* */ m_pAp4File;
+    void* /* AP4_File* */ m_pAp4File;
 
-	HRESULT Init();
+    HRESULT Init();
 
 public:
-	CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr);
-	virtual ~CMP4SplitterFile();
+    CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr);
+    virtual ~CMP4SplitterFile();
 
-	void* /* AP4_Movie* */ GetMovie();
+    void* /* AP4_Movie* */ GetMovie();
 };

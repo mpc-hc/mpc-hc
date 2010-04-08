@@ -57,7 +57,7 @@ QualityMonitor::~QualityMonitor()
 void QualityMonitor::ResetAll()
 {
 
-    for (int i=0; i<3 ; ++i )
+    for(int i = 0; i < 3 ; ++i)
     {
         m_mse_averageY[i] = 0.0;
         m_mse_averageU[i] = 0.0;
@@ -72,90 +72,102 @@ void QualityMonitor::ResetAll()
 
 void QualityMonitor::WriteLog()
 {
-    const double Ymax = double( (1<<m_encparams.LumaDepth())-1 );
-    const double UVmax = double( (1<<m_encparams.ChromaDepth())-1 );
+    const double Ymax = double((1 << m_encparams.LumaDepth()) - 1);
+    const double UVmax = double((1 << m_encparams.ChromaDepth()) - 1);
 
-    std::cout<<std::endl<<"Overall mean PSNR values";
-    std::cout<<std::endl<<"------------------------";
-    std::cout<<std::endl<<"Y: ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(Ymax*Ymax/(m_totalmse_averageY/m_allpicture_total))<<std::endl;
-    std::cout<<std::endl<<"U: ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_totalmse_averageU/m_allpicture_total))<<std::endl;
-    std::cout<<std::endl<<"V: ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_totalmse_averageV/m_allpicture_total))<<std::endl;
+    std::cout << std::endl << "Overall mean PSNR values";
+    std::cout << std::endl << "------------------------";
+    std::cout << std::endl << "Y: ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(Ymax * Ymax / (m_totalmse_averageY / m_allpicture_total)) << std::endl;
+    std::cout << std::endl << "U: ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_totalmse_averageU / m_allpicture_total)) << std::endl;
+    std::cout << std::endl << "V: ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_totalmse_averageV / m_allpicture_total)) << std::endl;
 
 
-    std::cout<<std::endl<<"Mean PSNR values by picture type and component";
-    std::cout<<std::endl<<"--------------------------------------------";
-    std::cout<<std::endl;
+    std::cout << std::endl << "Mean PSNR values by picture type and component";
+    std::cout << std::endl << "--------------------------------------------";
+    std::cout << std::endl;
 
-    std::cout<<std::endl<<"                 ||       Y       ||       U       ||       V       ||";
-    std::cout<<std::endl<<"=================||===================================================";
-    std::cout<<std::endl<<"           Intra ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[0]/m_picture_total[0]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[0]/m_picture_total[0]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[0]/m_picture_total[0]))<<"     ||    ";
-    std::cout<<std::endl<<"-----------------||---------------------------------------------------";
-    std::cout<<std::endl<<"       Inter Ref ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[1]/m_picture_total[1]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[1]/m_picture_total[1]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[1]/m_picture_total[1]))<<"     ||    ";
-    std::cout<<std::endl<<"-----------------||---------------------------------------------------";
-    std::cout<<std::endl<<"   Inter Non Ref ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(Ymax*Ymax/(m_mse_averageY[2]/m_picture_total[2]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageU[2]/m_picture_total[2]))<<"     ||     ";
-    std::cout.width(5);std::cout.precision(4);
-    std::cout<<10*std::log10(UVmax*UVmax/(m_mse_averageV[2]/m_picture_total[2]))<<"     ||     ";
-    std::cout<<std::endl<<"-----------------||---------------------------------------------------";
+    std::cout << std::endl << "                 ||       Y       ||       U       ||       V       ||";
+    std::cout << std::endl << "=================||===================================================";
+    std::cout << std::endl << "           Intra ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(Ymax * Ymax / (m_mse_averageY[0] / m_picture_total[0])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageU[0] / m_picture_total[0])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageV[0] / m_picture_total[0])) << "     ||    ";
+    std::cout << std::endl << "-----------------||---------------------------------------------------";
+    std::cout << std::endl << "       Inter Ref ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(Ymax * Ymax / (m_mse_averageY[1] / m_picture_total[1])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageU[1] / m_picture_total[1])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageV[1] / m_picture_total[1])) << "     ||    ";
+    std::cout << std::endl << "-----------------||---------------------------------------------------";
+    std::cout << std::endl << "   Inter Non Ref ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(Ymax * Ymax / (m_mse_averageY[2] / m_picture_total[2])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageU[2] / m_picture_total[2])) << "     ||     ";
+    std::cout.width(5);
+    std::cout.precision(4);
+    std::cout << 10 * std::log10(UVmax * UVmax / (m_mse_averageV[2] / m_picture_total[2])) << "     ||     ";
+    std::cout << std::endl << "-----------------||---------------------------------------------------";
 }
 
-void QualityMonitor::UpdateModel(const EncPicture& enc_picture )
+void QualityMonitor::UpdateModel(const EncPicture& enc_picture)
 {
-    const double Ymax = double( (1<<m_encparams.LumaDepth())-1 );
-    const double UVmax = double( (1<<m_encparams.ChromaDepth())-1 );
+    const double Ymax = double((1 << m_encparams.LumaDepth()) - 1);
+    const double UVmax = double((1 << m_encparams.ChromaDepth()) - 1);
 
     const PictureSort& psort = enc_picture.GetPparams().PicSort();
     int idx = psort.IsIntra() ? 0 : (psort.IsRef() ? 1 : 2);
 
     double fmseY, fmseU, fmseV;
 
-    fmseY = QualityVal( enc_picture.Data(Y_COMP) , enc_picture.OrigData(Y_COMP),
-                            m_encparams.Xl(), m_encparams.Yl());
+    fmseY = QualityVal(enc_picture.Data(Y_COMP) , enc_picture.OrigData(Y_COMP),
+                       m_encparams.Xl(), m_encparams.Yl());
     m_mse_averageY[idx] += fmseY;
     m_totalmse_averageY += fmseY;
 
-    fmseU = QualityVal( enc_picture.Data(U_COMP) , enc_picture.OrigData(U_COMP),
-                            m_encparams.ChromaXl(),
-                            m_encparams.ChromaYl());
+    fmseU = QualityVal(enc_picture.Data(U_COMP) , enc_picture.OrigData(U_COMP),
+                       m_encparams.ChromaXl(),
+                       m_encparams.ChromaYl());
     m_mse_averageU[idx] += fmseU;
     m_totalmse_averageU += fmseU;
 
-    fmseV = QualityVal( enc_picture.Data(V_COMP) , enc_picture.OrigData(V_COMP),
-                            m_encparams.ChromaXl(),
-                            m_encparams.ChromaYl());
+    fmseV = QualityVal(enc_picture.Data(V_COMP) , enc_picture.OrigData(V_COMP),
+                       m_encparams.ChromaXl(),
+                       m_encparams.ChromaYl());
     m_mse_averageV[idx] += fmseV;
     m_totalmse_averageV += fmseV;
 
     m_picture_total[idx]++;
     m_allpicture_total++;
 
-    if (m_encparams.Verbose() )
+    if(m_encparams.Verbose())
     {
-        std::cout<<std::endl<< (!m_encparams.FieldCoding() ? "Frame" : "Field");
-        std::cout << " PSNR: Y="<<10.0 * std::log10( Ymax*Ymax / fmseY );
-        std::cout<<", U="<<10.0 * std::log10( UVmax*UVmax / fmseU );
-        std::cout<<", V="<<10.0 * std::log10( UVmax*UVmax / fmseV );
+        std::cout << std::endl << (!m_encparams.FieldCoding() ? "Frame" : "Field");
+        std::cout << " PSNR: Y=" << 10.0 * std::log10(Ymax * Ymax / fmseY);
+        std::cout << ", U=" << 10.0 * std::log10(UVmax * UVmax / fmseU);
+        std::cout << ", V=" << 10.0 * std::log10(UVmax * UVmax / fmseV);
     }
 
 }
@@ -167,18 +179,18 @@ double QualityMonitor::QualityVal(const PicArray& coded_data,
 {
     long double sum_sq_diff = 0.0;
     double diff;
-    for ( int j=0;j<ylen; ++j )
+    for(int j = 0; j < ylen; ++j)
     {
-        for ( int i=0;i<xlen; ++i )
+        for(int i = 0; i < xlen; ++i)
         {
             diff = orig_data[j][i] - coded_data[j][i];
-            sum_sq_diff += diff*diff;
+            sum_sq_diff += diff * diff;
 
         }// i
     }// j
 
 
-    sum_sq_diff /= xlen*ylen;
+    sum_sq_diff /= xlen * ylen;
 
     return (double) sum_sq_diff;
 }

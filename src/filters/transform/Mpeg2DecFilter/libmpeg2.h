@@ -41,7 +41,8 @@
 #define SEQ_VIDEO_FORMAT_MAC 0x80
 #define SEQ_VIDEO_FORMAT_UNSPECIFIED 0xa0
 
-typedef struct {
+typedef struct
+{
     unsigned int width, height;
     unsigned int chroma_width, chroma_height;
     unsigned int byte_rate;
@@ -58,14 +59,15 @@ typedef struct {
     uint8_t transfer_characteristics;
     uint8_t matrix_coefficients;
 
-	void finalize();
+    void finalize();
 } mpeg2_sequence_t;
 
 #define GOP_FLAG_DROP_FRAME 1
 #define GOP_FLAG_BROKEN_LINK 2
 #define GOP_FLAG_CLOSED_GOP 4
 
-typedef struct {
+typedef struct
+{
     uint8_t hours;
     uint8_t minutes;
     uint8_t seconds;
@@ -87,24 +89,28 @@ typedef struct {
 #define PIC_FLAG_REPEAT_FIRST_FIELD 256
 #define PIC_MASK_COMPOSITE_DISPLAY 0xfffff000
 
-typedef struct {
+typedef struct
+{
     unsigned int temporal_reference;
     unsigned int nb_fields;
     uint32_t pts;
     uint32_t flags;
-    struct {
-	int x, y;
+    struct
+    {
+        int x, y;
     } display_offset[3];
-	__int64 rtStart, rtStop;
-	bool fDiscontinuity, fDelivered;
+    __int64 rtStart, rtStop;
+    bool fDiscontinuity, fDelivered;
 } mpeg2_picture_t;
 
-typedef struct {
+typedef struct
+{
     uint8_t* buf[3];
     void* id;
 } mpeg2_fbuf_t;
 
-typedef enum {
+typedef enum
+{
     STATE_BUFFER = 0,
     STATE_SEQUENCE = 1,
     STATE_SEQUENCE_REPEATED = 2,
@@ -151,7 +157,11 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef void mpeg2_mc_fct(uint8_t*, const uint8_t*, int, int);
-typedef struct {mpeg2_mc_fct* put[8]; mpeg2_mc_fct* avg[8];} mpeg2_mc_t;
+typedef struct
+{
+    mpeg2_mc_fct* put[8];
+    mpeg2_mc_fct* avg[8];
+} mpeg2_mc_t;
 
 class CMpeg2Decoder
 {
@@ -160,62 +170,63 @@ public:
     /* The f_ and b_ correspond to the forward and backward motion */
     /* predictors */
 
-	struct motion_t {
-		uint8_t* ref[2][3];
-		uint8_t** ref2[2];
-		int pmv[2][2];
-		int f_code[2];
-	} m_b_motion, m_f_motion;
+    struct motion_t
+    {
+        uint8_t* ref[2][3];
+        uint8_t** ref2[2];
+        int pmv[2][2];
+        int f_code[2];
+    } m_b_motion, m_f_motion;
 
 private:
-	int get_macroblock_modes();
-	int get_quantizer_scale();
-	int get_motion_delta(const int f_code);
-	int bound_motion_vector(const int vector, const int f_code);
-	int get_dmv();
-	int get_coded_block_pattern();
-	int get_luma_dc_dct_diff();
-	int get_chroma_dc_dct_diff();
-	
-	void get_intra_block_B14();
-	void get_intra_block_B15();
-	int get_non_intra_block();
-	void get_mpeg1_intra_block();
-	int get_mpeg1_non_intra_block();
-	void slice_intra_DCT(const int cc, uint8_t* dest, int stride);
-	void slice_non_intra_DCT(uint8_t* dest, int stride);
+    int get_macroblock_modes();
+    int get_quantizer_scale();
+    int get_motion_delta(const int f_code);
+    int bound_motion_vector(const int vector, const int f_code);
+    int get_dmv();
+    int get_coded_block_pattern();
+    int get_luma_dc_dct_diff();
+    int get_chroma_dc_dct_diff();
 
-	void MOTION(mpeg2_mc_fct * const * const table, uint8_t** ref, int motion_x, int motion_y, unsigned int size, unsigned int y, unsigned int limit_y);
-	void MOTION_FIELD(mpeg2_mc_fct * const * const table, uint8_t** ref, int motion_x, int motion_y, int dest_field, int src_field, unsigned int op);
+    void get_intra_block_B14();
+    void get_intra_block_B15();
+    int get_non_intra_block();
+    void get_mpeg1_intra_block();
+    int get_mpeg1_non_intra_block();
+    void slice_intra_DCT(const int cc, uint8_t* dest, int stride);
+    void slice_non_intra_DCT(uint8_t* dest, int stride);
 
-	void motion_mp1(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fr_frame(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fr_field(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fr_dmv(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_reuse(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_zero(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fr_conceal();
-	void motion_fi_field(motion_t * motion, mpeg2_mc_fct * const * const table);
-	void motion_fi_16x8(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fi_dmv(motion_t* motion, mpeg2_mc_fct * const * const table);
-	void motion_fi_conceal();
+    void MOTION(mpeg2_mc_fct * const * const table, uint8_t** ref, int motion_x, int motion_y, unsigned int size, unsigned int y, unsigned int limit_y);
+    void MOTION_FIELD(mpeg2_mc_fct * const * const table, uint8_t** ref, int motion_x, int motion_y, int dest_field, int src_field, unsigned int op);
 
-	int slice_init(int code);
+    void motion_mp1(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fr_frame(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fr_field(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fr_dmv(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_reuse(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_zero(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fr_conceal();
+    void motion_fi_field(motion_t * motion, mpeg2_mc_fct * const * const table);
+    void motion_fi_16x8(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fi_dmv(motion_t* motion, mpeg2_mc_fct * const * const table);
+    void motion_fi_conceal();
 
-	static bool m_idct_initialized;
-	void (*m_idct_init)();
-	void (*m_idct_copy)(int16_t* block, uint8_t* dest, const int stride);
-	void (*m_idct_add)(const int last, int16_t* block, uint8_t* dest, const int stride);
-	mpeg2_mc_t* m_mc;
+    int slice_init(int code);
+
+    static bool m_idct_initialized;
+    void (*m_idct_init)();
+    void (*m_idct_copy)(int16_t* block, uint8_t* dest, const int stride);
+    void (*m_idct_add)(const int last, int16_t* block, uint8_t* dest, const int stride);
+    mpeg2_mc_t* m_mc;
 
 public:
-	CMpeg2Decoder();
-	virtual ~CMpeg2Decoder();
+    CMpeg2Decoder();
+    virtual ~CMpeg2Decoder();
 
-	void mpeg2_init_fbuf(uint8_t* current_fbuf[3], uint8_t* forward_fbuf[3], uint8_t* backward_fbuf[3]);
-	void mpeg2_slice(int code, const uint8_t* buffer);
+    void mpeg2_init_fbuf(uint8_t* current_fbuf[3], uint8_t* forward_fbuf[3], uint8_t* backward_fbuf[3]);
+    void mpeg2_slice(int code, const uint8_t* buffer);
 
-	int16_t* m_DCTblock;
+    int16_t* m_DCTblock;
 
     /* bit parsing stuff */
     uint32_t m_bitstream_buf;		/* current 32 bit working set */
@@ -281,12 +292,12 @@ public:
 class CMpeg2Info
 {
 public:
-	CMpeg2Info();
-	virtual ~CMpeg2Info();
+    CMpeg2Info();
+    virtual ~CMpeg2Info();
 
-	void Reset();
+    void Reset();
 
-	mpeg2_sequence_t* m_sequence;
+    mpeg2_sequence_t* m_sequence;
     mpeg2_gop_t* m_gop;
     mpeg2_picture_t* m_current_picture;
     mpeg2_picture_t* m_current_picture_2nd;
@@ -301,60 +312,60 @@ public:
 
 class CMpeg2Dec
 {
-	int skip_chunk(int bytes);
-	int copy_chunk(int bytes);
-	mpeg2_state_t seek_chunk(), seek_header(), seek_sequence();
+    int skip_chunk(int bytes);
+    int copy_chunk(int bytes);
+    mpeg2_state_t seek_chunk(), seek_header(), seek_sequence();
 
-	int sequence_ext();
-	int sequence_display_ext();
-	int quant_matrix_ext();
-	int copyright_ext();
-	int picture_display_ext();
-	int picture_coding_ext();
+    int sequence_ext();
+    int sequence_display_ext();
+    int quant_matrix_ext();
+    int copyright_ext();
+    int picture_display_ext();
+    int picture_coding_ext();
 
 public:
-	CMpeg2Dec();
-	virtual ~CMpeg2Dec();
+    CMpeg2Dec();
+    virtual ~CMpeg2Dec();
 
-	void mpeg2_init();
-	void mpeg2_close();
+    void mpeg2_init();
+    void mpeg2_close();
 
-	void mpeg2_buffer(uint8_t* start, uint8_t* end);
-	int mpeg2_getpos();
-	mpeg2_state_t mpeg2_parse();
+    void mpeg2_buffer(uint8_t* start, uint8_t* end);
+    int mpeg2_getpos();
+    mpeg2_state_t mpeg2_parse();
 
-	void mpeg2_skip(int skip);
-	void mpeg2_slice_region(int start, int end);
+    void mpeg2_skip(int skip);
+    void mpeg2_slice_region(int start, int end);
 
-	void mpeg2_pts(uint32_t pts);
+    void mpeg2_pts(uint32_t pts);
 
-	/* decode.c */
-	mpeg2_state_t mpeg2_seek_sequence();
-	mpeg2_state_t mpeg2_parse_header();
+    /* decode.c */
+    mpeg2_state_t mpeg2_seek_sequence();
+    mpeg2_state_t mpeg2_parse_header();
 
-	/* header.c */
-	void mpeg2_header_state_init();
-	int mpeg2_header_sequence();
-	int mpeg2_header_gop();
-	mpeg2_state_t mpeg2_header_picture_start();
-	int mpeg2_header_picture();
-	int mpeg2_header_extension();
-	int mpeg2_header_user_data();
-	void mpeg2_header_matrix_finalize();
-	void mpeg2_header_sequence_finalize();
-	mpeg2_state_t mpeg2_header_slice_start();
-	mpeg2_state_t mpeg2_header_end();
-	void mpeg2_set_fbuf(int coding_type);
+    /* header.c */
+    void mpeg2_header_state_init();
+    int mpeg2_header_sequence();
+    int mpeg2_header_gop();
+    mpeg2_state_t mpeg2_header_picture_start();
+    int mpeg2_header_picture();
+    int mpeg2_header_extension();
+    int mpeg2_header_user_data();
+    void mpeg2_header_matrix_finalize();
+    void mpeg2_header_sequence_finalize();
+    mpeg2_state_t mpeg2_header_slice_start();
+    mpeg2_state_t mpeg2_header_end();
+    void mpeg2_set_fbuf(int coding_type);
 
-	enum {BUFFER_SIZE = 1194 * 1024};
+    enum {BUFFER_SIZE = 1194 * 1024};
 
 
-	CMpeg2Decoder m_decoder;
+    CMpeg2Decoder m_decoder;
     CMpeg2Info m_info;
 
     uint32_t m_shift;
     int m_is_display_initialized;
-	mpeg2_state_t (CMpeg2Dec::* m_action)();
+    mpeg2_state_t (CMpeg2Dec::* m_action)();
     mpeg2_state_t m_state;
     uint32_t m_ext_state;
 
@@ -382,9 +393,10 @@ public:
     mpeg2_gop_t m_gop;
     mpeg2_picture_t m_pictures[4];
     mpeg2_picture_t* m_picture;
-    /*const*/ mpeg2_fbuf_t* m_fbuf[3];	/* 0: current fbuf, 1-2: prediction fbufs */
+    /*const*/
+    mpeg2_fbuf_t* m_fbuf[3];	/* 0: current fbuf, 1-2: prediction fbufs */
 
-	mpeg2_fbuf_t m_fbuf_alloc[3];
+    mpeg2_fbuf_t m_fbuf_alloc[3];
 
     uint8_t* m_buf_start;
     uint8_t* m_buf_end;

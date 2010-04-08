@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - odhe Atoms 
+|    AP4 - odhe Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -42,21 +42,21 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_OdheAtom)
 |   AP4_OdheAtom::Create
 +---------------------------------------------------------------------*/
 AP4_OdheAtom*
-AP4_OdheAtom::Create(AP4_Size         size, 
+AP4_OdheAtom::Create(AP4_Size         size,
                      AP4_ByteStream&  stream,
                      AP4_AtomFactory& atom_factory)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_OdheAtom(size, version, flags, stream, atom_factory);
 }
 
 /*----------------------------------------------------------------------
 |   AP4_OdheAtom::AP4_OdheAtom
 +---------------------------------------------------------------------*/
-AP4_OdheAtom::AP4_OdheAtom(AP4_UI32         size, 
+AP4_OdheAtom::AP4_OdheAtom(AP4_UI32         size,
                            AP4_UI32         version,
                            AP4_UI32         flags,
                            AP4_ByteStream&  stream,
@@ -71,7 +71,7 @@ AP4_OdheAtom::AP4_OdheAtom(AP4_UI32         size,
     m_ContentType.Assign(content_type, content_type_length);
 
     // read the children
-    AP4_Size bytes_available = size-(AP4_FULL_ATOM_HEADER_SIZE+1+content_type_length);
+    AP4_Size bytes_available = size - (AP4_FULL_ATOM_HEADER_SIZE + 1 + content_type_length);
     ReadChildren(atom_factory, stream, bytes_available);
 }
 
@@ -83,7 +83,7 @@ AP4_OdheAtom::AP4_OdheAtom(const char*   content_type,
     AP4_ContainerAtom(AP4_ATOM_TYPE_ODHE, (AP4_UI32)0, (AP4_UI32)0),
     m_ContentType(content_type)
 {
-    m_Size32 += 1+m_ContentType.GetLength();
+    m_Size32 += 1 + m_ContentType.GetLength();
     AddChild(ohdr);
 }
 
@@ -95,7 +95,8 @@ AP4_OdheAtom::WriteFields(AP4_ByteStream& stream)
 {
     // write the content type
     AP4_CHECK(stream.WriteUI08((AP4_UI08)m_ContentType.GetLength()));
-    if (m_ContentType.GetLength()) {
+    if(m_ContentType.GetLength())
+    {
         AP4_CHECK(stream.Write(m_ContentType.GetChars(), m_ContentType.GetLength()));
     }
 
@@ -120,11 +121,11 @@ void
 AP4_OdheAtom::OnChildChanged(AP4_Atom*)
 {
     // remcompute our size
-    AP4_UI64 size = GetHeaderSize()+1+m_ContentType.GetLength();
+    AP4_UI64 size = GetHeaderSize() + 1 + m_ContentType.GetLength();
     m_Children.Apply(AP4_AtomSizeAdder(size));
     SetSize(size);
 
     // update our parent
-    if (m_Parent) m_Parent->OnChildChanged(this);
+    if(m_Parent) m_Parent->OnChildChanged(this);
 }
 

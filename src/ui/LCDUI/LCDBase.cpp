@@ -3,7 +3,7 @@
 // LCDBase.cpp
 //
 // The CLCDBase class is the generic base class for all lcd ui objects
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.

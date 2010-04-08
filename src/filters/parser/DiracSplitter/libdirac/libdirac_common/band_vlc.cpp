@@ -47,8 +47,8 @@
 using namespace dirac;
 
 ArithCodecToVLCAdapter::ArithCodecToVLCAdapter(
-        SubbandByteIO* subband_byteio,
-        size_t /*number_of_contexts*/):
+    SubbandByteIO* subband_byteio,
+    size_t /*number_of_contexts*/):
     m_byteio(subband_byteio)
 {}
 
@@ -82,19 +82,19 @@ GenericIntraDCBandCodec<ArithCodecToVLCAdapter>::GenericIntraDCBandCodec(
     const SubbandList & band_list);
 
 IntraDCBandVLC::IntraDCBandVLC(SubbandByteIO* subband_byteio,
-                 const SubbandList& band_list):
+                               const SubbandList& band_list):
     GenericIntraDCBandCodec<ArithCodecToVLCAdapter>(subband_byteio, 0, band_list)
 {}
 
-void IntraDCBandVLC::CodeCoeff( CoeffArray& in_data ,
-                                const int xpos ,
-                                const int ypos )
+void IntraDCBandVLC::CodeCoeff(CoeffArray& in_data ,
+                               const int xpos ,
+                               const int ypos)
 {
     CoeffType val, prediction;
 
-    prediction = GetPrediction( in_data, xpos, ypos );
+    prediction = GetPrediction(in_data, xpos, ypos);
     val = in_data[ypos][xpos] - prediction;
-    CodeVal( in_data , xpos , ypos , val );
+    CodeVal(in_data , xpos , ypos , val);
     in_data[ypos][xpos] += prediction;
 }
 

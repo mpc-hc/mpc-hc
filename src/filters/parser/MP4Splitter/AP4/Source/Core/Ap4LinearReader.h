@@ -48,69 +48,81 @@ class AP4_Track;
 const unsigned int AP4_LINEAR_READER_INITIALIZED = 1;
 const unsigned int AP4_LINEAR_READER_FLAG_EOS    = 2;
 
-const unsigned int AP4_LINEAR_READER_DEFAULT_BUFFER_SIZE = 4096*1024;
+const unsigned int AP4_LINEAR_READER_DEFAULT_BUFFER_SIZE = 4096 * 1024;
 
 /*----------------------------------------------------------------------
 |   AP4_LinearReader
 +---------------------------------------------------------------------*/
-class AP4_LinearReader {
+class AP4_LinearReader
+{
 public:
-    AP4_LinearReader(AP4_Movie& movie, AP4_Size max_buffer=AP4_LINEAR_READER_DEFAULT_BUFFER_SIZE);
-   ~AP4_LinearReader();
-    
+    AP4_LinearReader(AP4_Movie& movie, AP4_Size max_buffer = AP4_LINEAR_READER_DEFAULT_BUFFER_SIZE);
+    ~AP4_LinearReader();
+
     AP4_Result EnableTrack(AP4_UI32 track_id);
     /**
      * Read the next sample in storage order, from any track.
      * track_id is updated to reflect the track from which the sample was read.
      */
-    AP4_Result ReadNextSample(AP4_Sample&     sample, 
+    AP4_Result ReadNextSample(AP4_Sample&     sample,
                               AP4_DataBuffer& sample_data,
                               AP4_UI32&       track_id);
     /**
      * Read the next sample in storage order from a specific track.
      */
     AP4_Result ReadNextSample(AP4_UI32        track_id,
-                              AP4_Sample&     sample, 
+                              AP4_Sample&     sample,
                               AP4_DataBuffer& sample_data);
-                            
+
     AP4_Result SetSampleIndex(AP4_UI32 track_id, AP4_UI32 sample_index);
-    
+
     // accessors
-    AP4_Size GetBufferFullness() { return m_BufferFullness; }
-    
+    AP4_Size GetBufferFullness()
+    {
+        return m_BufferFullness;
+    }
+
 private:
-    class SampleBuffer {
+    class SampleBuffer
+    {
     public:
         SampleBuffer(AP4_Sample* sample) : m_Sample(sample) {}
-       ~SampleBuffer() { delete m_Sample; } 
+        ~SampleBuffer()
+        {
+            delete m_Sample;
+        }
         AP4_Sample*    m_Sample;
         AP4_DataBuffer m_Data;
     };
-    class Tracker {
+    class Tracker
+    {
     public:
         Tracker(AP4_Track* track) :
             m_Eos(false),
-            m_Track(track), 
+            m_Track(track),
             m_NextSample(NULL),
             m_NextSampleIndex(0) {}
-        Tracker(const Tracker& other) : 
+        Tracker(const Tracker& other) :
             m_Eos(other.m_Eos),
             m_Track(other.m_Track),
             m_NextSample(NULL),
             m_NextSampleIndex(other.m_NextSampleIndex) {} // don't copy samples
-       ~Tracker() { m_Samples.DeleteReferences(); }
+        ~Tracker()
+        {
+            m_Samples.DeleteReferences();
+        }
         bool                   m_Eos;
         AP4_Track*             m_Track;
         AP4_Sample*            m_NextSample;
         AP4_Ordinal            m_NextSampleIndex;
         AP4_List<SampleBuffer> m_Samples;
     };
-    
+
     // methods
     Tracker*   FindTracker(AP4_UI32 track_id);
     AP4_Result Advance();
     bool       PopSample(Tracker* tracker, AP4_Sample& sample, AP4_DataBuffer& sample_data);
-    
+
     // members
     AP4_Movie&          m_Movie;
     AP4_Array<Tracker*> m_Trackers;

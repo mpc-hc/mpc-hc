@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - vmhd Atoms 
+|    AP4 - vmhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -42,8 +42,8 @@ AP4_VmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_VmhdAtom(size, version, flags, stream);
 }
 
@@ -51,7 +51,7 @@ AP4_VmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 |   AP4_VmhdAtom::AP4_VmhdAtom
 +---------------------------------------------------------------------*/
 AP4_VmhdAtom::AP4_VmhdAtom(AP4_UI16 graphics_mode, AP4_UI16 r, AP4_UI16 g, AP4_UI16 b) :
-    AP4_Atom(AP4_ATOM_TYPE_VMHD, AP4_FULL_ATOM_HEADER_SIZE+8, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_VMHD, AP4_FULL_ATOM_HEADER_SIZE + 8, 0, 0),
     m_GraphicsMode(graphics_mode)
 {
     m_OpColor[0] = r;
@@ -62,7 +62,7 @@ AP4_VmhdAtom::AP4_VmhdAtom(AP4_UI16 graphics_mode, AP4_UI16 r, AP4_UI16 g, AP4_U
 /*----------------------------------------------------------------------
 |   AP4_VmhdAtom::AP4_VmhdAtom
 +---------------------------------------------------------------------*/
-AP4_VmhdAtom::AP4_VmhdAtom(AP4_UI32        size, 
+AP4_VmhdAtom::AP4_VmhdAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -82,11 +82,11 @@ AP4_VmhdAtom::WriteFields(AP4_ByteStream& stream)
 
     // graphics mode
     result = stream.WriteUI16(m_GraphicsMode);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     // op color
     result = stream.Write(m_OpColor, sizeof(m_OpColor));
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
 
     return AP4_SUCCESS;
 }
@@ -100,7 +100,7 @@ AP4_VmhdAtom::InspectFields(AP4_AtomInspector& inspector)
     inspector.AddField("graphics_mode", m_GraphicsMode);
     char formatted[16];
     AP4_FormatString(formatted, sizeof(formatted), "%04x,%04x,%04x",
-        m_OpColor[0], m_OpColor[1], m_OpColor[2]);
+                     m_OpColor[0], m_OpColor[1], m_OpColor[2]);
     inspector.AddField("op_color", formatted);
 
     return AP4_SUCCESS;

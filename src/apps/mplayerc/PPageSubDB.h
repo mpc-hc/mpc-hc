@@ -30,25 +30,25 @@
 
 class CPPageSubDB : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageSubDB)
+    DECLARE_DYNAMIC(CPPageSubDB)
 
 public:
-	CPPageSubDB();
-	virtual ~CPPageSubDB();
+    CPPageSubDB();
+    virtual ~CPPageSubDB();
 
 // Dialog Data
-	enum { IDD = IDD_PPAGESUBDB };
-	CComboBox m_ISDbCombo;
-	CString m_ISDb;
+    enum { IDD = IDD_PPAGESUBDB };
+    CComboBox m_ISDbCombo;
+    CString m_ISDb;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnUpdateButton1(CCmdUI* pCmdUI);
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnUpdateButton1(CCmdUI* pCmdUI);
 };

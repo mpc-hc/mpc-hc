@@ -53,7 +53,7 @@ AP4_File::AP4_File(AP4_Movie* movie) :
 /*----------------------------------------------------------------------
 |   AP4_File::AP4_File
 +---------------------------------------------------------------------*/
-AP4_File::AP4_File(AP4_ByteStream&  stream, 
+AP4_File::AP4_File(AP4_ByteStream&  stream,
                    AP4_AtomFactory& atom_factory,
                    bool             moov_only) :
     m_Movie(NULL),
@@ -65,28 +65,30 @@ AP4_File::AP4_File(AP4_ByteStream&  stream,
     AP4_Atom*    atom;
     AP4_Position stream_position;
     bool         keep_parsing = true;
-    while (keep_parsing &&
-           AP4_SUCCEEDED(stream.Tell(stream_position)) && 
-           AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, atom))) {
+    while(keep_parsing &&
+          AP4_SUCCEEDED(stream.Tell(stream_position)) &&
+          AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, atom)))
+    {
         AddChild(atom);
-        switch (atom->GetType()) {
-            case AP4_ATOM_TYPE_MOOV:
-                m_Movie = new AP4_Movie(AP4_DYNAMIC_CAST(AP4_MoovAtom, atom), stream, false);
-                if (moov_only) keep_parsing = false;
-                break;
+        switch(atom->GetType())
+        {
+        case AP4_ATOM_TYPE_MOOV:
+            m_Movie = new AP4_Movie(AP4_DYNAMIC_CAST(AP4_MoovAtom, atom), stream, false);
+            if(moov_only) keep_parsing = false;
+            break;
 
-            case AP4_ATOM_TYPE_FTYP:
-                m_FileType = AP4_DYNAMIC_CAST(AP4_FtypAtom, atom);
-                break;
+        case AP4_ATOM_TYPE_FTYP:
+            m_FileType = AP4_DYNAMIC_CAST(AP4_FtypAtom, atom);
+            break;
 
-            case AP4_ATOM_TYPE_MDAT:
-                // see if we are before the moov atom
-                if (m_Movie == NULL) m_MoovIsBeforeMdat = false;
-                break;
+        case AP4_ATOM_TYPE_MDAT:
+            // see if we are before the moov atom
+            if(m_Movie == NULL) m_MoovIsBeforeMdat = false;
+            break;
         }
     }
 }
-    
+
 /*----------------------------------------------------------------------
 |   AP4_File::~AP4_File
 +---------------------------------------------------------------------*/
@@ -103,7 +105,7 @@ AP4_Result
 AP4_File::Inspect(AP4_AtomInspector& inspector)
 {
     // dump the moov atom first
-    if (m_Movie) m_Movie->Inspect(inspector);
+    if(m_Movie) m_Movie->Inspect(inspector);
 
     // dump the other atoms
     m_Children.Apply(AP4_AtomListInspector(inspector));
@@ -120,16 +122,17 @@ AP4_File::SetFileType(AP4_UI32     major_brand,
                       AP4_UI32*    compatible_brands,
                       AP4_Cardinal compatible_brand_count)
 {
-    if (m_FileType) {
+    if(m_FileType)
+    {
         RemoveChild(m_FileType);
         delete m_FileType;
     }
-    m_FileType = new AP4_FtypAtom(major_brand, 
+    m_FileType = new AP4_FtypAtom(major_brand,
                                   minor_version,
                                   compatible_brands,
                                   compatible_brand_count);
     AddChild(m_FileType, 0);
-    
+
     return AP4_SUCCESS;
 }
 
@@ -139,7 +142,8 @@ AP4_File::SetFileType(AP4_UI32     major_brand,
 const AP4_MetaData*
 AP4_File::GetMetaData()
 {
-    if (m_MetaData == NULL) {
+    if(m_MetaData == NULL)
+    {
         m_MetaData = new AP4_MetaData(this);
     }
 

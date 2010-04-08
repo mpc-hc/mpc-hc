@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tims Atoms 
+|    AP4 - tims Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,7 +41,8 @@ class AP4_TimsAtom : public AP4_Atom
 {
 public:
     // class methods
-    static AP4_TimsAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+    static AP4_TimsAtom* Create(AP4_Size size, AP4_ByteStream& stream)
+    {
         return new AP4_TimsAtom(size, stream);
     }
 
@@ -51,7 +52,10 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    virtual AP4_UI32 GetTimeScale() { return m_TimeScale; }
+    virtual AP4_UI32 GetTimeScale()
+    {
+        return m_TimeScale;
+    }
 
 private:
     // methods

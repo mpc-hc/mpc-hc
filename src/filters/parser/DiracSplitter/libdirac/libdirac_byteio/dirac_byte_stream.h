@@ -53,105 +53,105 @@
 namespace dirac
 {
 
+/**
+* Represents a series of bytes in the Dirac bytestream specfication format.
+* These bytes are grouped into more managable parse units by this class.
+*/
+class DiracByteStream : public ByteIO
+{
+public:
+
     /**
-    * Represents a series of bytes in the Dirac bytestream specfication format.
-    * These bytes are grouped into more managable parse units by this class.
+    * Constructor
     */
-    class DiracByteStream : public ByteIO
-    {
-        public:
+    DiracByteStream();
 
-        /**
-        * Constructor
-        */
-        DiracByteStream();
+    /**
+    * Destructor
+    */
+    ~DiracByteStream();
 
-        /**
-        * Destructor
-        */
-        ~DiracByteStream();
+    /**
+    * Adds Dirac-formatted bytes to internal-byte-stream for processing
+    *@param start Start of char list
+    *@param count Number of chars
+    */
+    void AddBytes(char* start, int count);
 
-        /**
-        * Adds Dirac-formatted bytes to internal-byte-stream for processing
-        *@param start Start of char list
-        *@param count Number of chars
-        */
-        void AddBytes(char* start, int count);
+    /**
+    * Gets the statistics of the most recent parse-unit to be processed
+    *@return Byte-statistics
+    */
+    DiracByteStats GetLastUnitStats();
 
-        /**
-        * Gets the statistics of the most recent parse-unit to be processed
-        *@return Byte-statistics
-        */
-        DiracByteStats GetLastUnitStats();
-
-        /**
-        * Gets the next parse-unit in the current byte-stream
-        */
-        ParseUnitByteIO* GetNextParseUnit();
+    /**
+    * Gets the next parse-unit in the current byte-stream
+    */
+    ParseUnitByteIO* GetNextParseUnit();
 
 
-        /**
-        * Gets stats for current sequence
-        */
-        DiracByteStats GetSequenceStats() const;
+    /**
+    * Gets stats for current sequence
+    */
+    DiracByteStats GetSequenceStats() const;
 
-        /**
-        * Adds a random access point to the current Dirac byte stream
-        *@param p_seqheader_byteio Sequence header data. 
-        */
-        void AddSequenceHeader(SequenceHeaderByteIO *p_seqheader_byteio);
+    /**
+    * Adds a random access point to the current Dirac byte stream
+    *@param p_seqheader_byteio Sequence header data.
+    */
+    void AddSequenceHeader(SequenceHeaderByteIO *p_seqheader_byteio);
 
-        /**
-        * Adds a picture to the current Dirac byte stream
-        *@param p_frame_byteio Picture stream. This class is now responsible for deleting.
-        */
-        void AddPicture(PictureByteIO *p_frame_byteio);
+    /**
+    * Adds a picture to the current Dirac byte stream
+    *@param p_frame_byteio Picture stream. This class is now responsible for deleting.
+    */
+    void AddPicture(PictureByteIO *p_frame_byteio);
 
-        /**
-        * Clear parse-units
-        */
-        void Clear();
+    /**
+    * Clear parse-units
+    */
+    void Clear();
 
-        /**
-        * Insert end-of-sequence data
-        *@return Sequence stats
-        */
-        DiracByteStats EndSequence();
+    /**
+    * Insert end-of-sequence data
+    *@return Sequence stats
+    */
+    DiracByteStats EndSequence();
 
-        /**
-        * Gets a pointer to all current output bytes
-        */
-        const std::string GetBytes();
+    /**
+    * Gets a pointer to all current output bytes
+    */
+    const std::string GetBytes();
 
-        /**
-        * Any info pending?
-        */
-        bool IsUnitAvailable() const;
+    /**
+    * Any info pending?
+    */
+    bool IsUnitAvailable() const;
 
-        private:
+private:
 
-        void Reset(ParseUnitByteIO* p_curr_unit, int pos);
+    void Reset(ParseUnitByteIO* p_curr_unit, int pos);
 
-        private:
+private:
 
-        /**
-        * Parse-units in Dirac stream
-        */
-        typedef std::queue< std::pair <ParseUnitType, ParseUnitByteIO*> > ParseUnitList;
-        ParseUnitList       m_parse_unit_list;
+    /**
+    * Parse-units in Dirac stream
+    */
+    typedef std::queue< std::pair <ParseUnitType, ParseUnitByteIO*> > ParseUnitList;
+    ParseUnitList       m_parse_unit_list;
 
-        /**
-        * Last unit to be processed
-        * Required for specifying the previous parse-unit
-        */
-        ParseUnitByteIO* mp_prev_parse_unit;
+    /**
+    * Last unit to be processed
+    * Required for specifying the previous parse-unit
+    */
+    ParseUnitByteIO* mp_prev_parse_unit;
 
-        /**
-        * Stats for current sequence
-        */
-        DiracByteStats      m_sequence_stats;
+    /**
+    * Stats for current sequence
+    */
+    DiracByteStats      m_sequence_stats;
 
-    };
+};
 
 } // namespace dirac
 

@@ -50,58 +50,62 @@ using namespace dirac;
 //---Picture---//
 ///////////////
 
-Picture::Picture(const PictureParams& pp): 
+Picture::Picture(const PictureParams& pp):
     m_pparams(pp)
 {
-    for (int c=0;c<3;++c){
+    for(int c = 0; c < 3; ++c)
+    {
         m_pic_data[c] = NULL;
-	m_up_pic_data[c] = NULL;
+        m_up_pic_data[c] = NULL;
     }
 
     Init();
 }
 
-Picture::Picture( const Picture& cpy ): 
+Picture::Picture(const Picture& cpy):
     m_pparams(cpy.m_pparams)
 {
 
     //delete data to be overwritten
-    for (int c=0;c<3;++c){
+    for(int c = 0; c < 3; ++c)
+    {
         m_pic_data[c] = NULL;
-	m_up_pic_data[c] = NULL;
+        m_up_pic_data[c] = NULL;
     }
 
     //now copy the data across
-    for (int c=0; c<3; ++c ){
-        m_pic_data[c] = new PicArray( *(cpy.m_pic_data[c]) );
-        if (cpy.m_up_pic_data[c] != NULL)
-            m_up_pic_data[c] = new PicArray( *(cpy.m_up_pic_data[c]) );
+    for(int c = 0; c < 3; ++c)
+    {
+        m_pic_data[c] = new PicArray(*(cpy.m_pic_data[c]));
+        if(cpy.m_up_pic_data[c] != NULL)
+            m_up_pic_data[c] = new PicArray(*(cpy.m_up_pic_data[c]));
     }
-    
+
 }
 
 
 Picture::~Picture()
 {
-    ClearData();    
+    ClearData();
 }
 
 Picture& Picture::operator=(const Picture& rhs)
 {
-    if ( &rhs != this)
+    if(&rhs != this)
     {
-        m_pparams=rhs.m_pparams;
+        m_pparams = rhs.m_pparams;
 
         // Delete current data
         ClearData();
 
         // Copy the data across
-	for (int c=0; c<3; ++c ){
-	    m_pic_data[c] = new PicArray( *(rhs.m_pic_data[c]) );
-        
-            if (rhs.m_up_pic_data[c] != NULL)
-                m_up_pic_data[c] = new PicArray( *(rhs.m_up_pic_data[c]) );
-	}
+        for(int c = 0; c < 3; ++c)
+        {
+            m_pic_data[c] = new PicArray(*(rhs.m_pic_data[c]));
+
+            if(rhs.m_up_pic_data[c] != NULL)
+                m_up_pic_data[c] = new PicArray(*(rhs.m_up_pic_data[c]));
+        }
     }
 
     return *this;
@@ -110,10 +114,11 @@ Picture& Picture::operator=(const Picture& rhs)
 
 void Picture::Fill(ValueType val)
 {
-    for (int c=0; c<3; ++c ){
+    for(int c = 0; c < 3; ++c)
+    {
         m_pic_data[c]->Fill(val);
-	if (m_up_pic_data[c] != NULL )
-	    delete m_up_pic_data[c];
+        if(m_up_pic_data[c] != NULL)
+            delete m_up_pic_data[c];
     }
 }
 
@@ -126,42 +131,43 @@ void Picture::Init()
     //first delete data if we need to
     ClearData();
 
-    m_pic_data[0]=new PicArray( m_pparams.Yl() , m_pparams.Xl());
-    m_pic_data[0]->SetCSort( Y_COMP );
+    m_pic_data[0] = new PicArray(m_pparams.Yl() , m_pparams.Xl());
+    m_pic_data[0]->SetCSort(Y_COMP);
 
-    m_pic_data[1] = new PicArray( m_pparams.ChromaYl() ,
-                              m_pparams.ChromaXl() ); 
-    m_pic_data[1]->SetCSort( U_COMP );
+    m_pic_data[1] = new PicArray(m_pparams.ChromaYl() ,
+                                 m_pparams.ChromaXl());
+    m_pic_data[1]->SetCSort(U_COMP);
 
-    m_pic_data[2] = new PicArray( m_pparams.ChromaYl() ,
-                              m_pparams.ChromaXl() );
-    m_pic_data[2]->SetCSort( V_COMP );
+    m_pic_data[2] = new PicArray(m_pparams.ChromaYl() ,
+                                 m_pparams.ChromaXl());
+    m_pic_data[2]->SetCSort(V_COMP);
 }
 
 PicArray& Picture::UpData(CompSort cs)
 {
     const int c = (int) cs;
 
-    if (m_up_pic_data[c] != NULL )
+    if(m_up_pic_data[c] != NULL)
         return *(m_up_pic_data[c]);
     else
-    {//we have to do the upconversion
-   
-        m_up_pic_data[c] = new PicArray( 2*m_pic_data[c]->LengthY(),
-                                         2*m_pic_data[c]->LengthX() );
+    {
+        //we have to do the upconversion
+
+        m_up_pic_data[c] = new PicArray(2 * m_pic_data[c]->LengthY(),
+                                        2 * m_pic_data[c]->LengthX());
         UpConverter* myupconv;
-	if (c>0)
-            myupconv = new UpConverter(-(1 << (m_pparams.ChromaDepth()-1)), 
-                                      (1 << (m_pparams.ChromaDepth()-1))-1,
-                                      m_pparams.ChromaXl(), m_pparams.ChromaYl());
+        if(c > 0)
+            myupconv = new UpConverter(-(1 << (m_pparams.ChromaDepth() - 1)),
+                                       (1 << (m_pparams.ChromaDepth() - 1)) - 1,
+                                       m_pparams.ChromaXl(), m_pparams.ChromaYl());
         else
-            myupconv = new UpConverter(-(1 << (m_pparams.LumaDepth()-1)), 
-                                      (1 << (m_pparams.LumaDepth()-1))-1,
-                                      m_pparams.Xl(), m_pparams.Yl());
+            myupconv = new UpConverter(-(1 << (m_pparams.LumaDepth() - 1)),
+                                       (1 << (m_pparams.LumaDepth() - 1)) - 1,
+                                       m_pparams.Xl(), m_pparams.Yl());
 
-        myupconv->DoUpConverter( *(m_pic_data[c]) , *(m_up_pic_data[c]) );
+        myupconv->DoUpConverter(*(m_pic_data[c]) , *(m_up_pic_data[c]));
 
-	delete myupconv;
+        delete myupconv;
 
         return *(m_up_pic_data[c]);
 
@@ -172,48 +178,50 @@ const PicArray& Picture::UpData(CompSort cs) const
 {
     const int c = (int) cs;
 
-    if (m_up_pic_data[c] != NULL)
+    if(m_up_pic_data[c] != NULL)
         return *(m_up_pic_data[c]);
     else
-    {//we have to do the upconversion
-   
-        m_up_pic_data[c] = new PicArray( 2*m_pic_data[c]->LengthY(),
-                                         2*m_pic_data[c]->LengthX() );
+    {
+        //we have to do the upconversion
+
+        m_up_pic_data[c] = new PicArray(2 * m_pic_data[c]->LengthY(),
+                                        2 * m_pic_data[c]->LengthX());
         UpConverter* myupconv;
-	if (c>0)
-            myupconv = new UpConverter(-(1 << (m_pparams.ChromaDepth()-1)), 
-                                      (1 << (m_pparams.ChromaDepth()-1))-1,
-                                      m_pparams.ChromaXl(), m_pparams.ChromaYl());
+        if(c > 0)
+            myupconv = new UpConverter(-(1 << (m_pparams.ChromaDepth() - 1)),
+                                       (1 << (m_pparams.ChromaDepth() - 1)) - 1,
+                                       m_pparams.ChromaXl(), m_pparams.ChromaYl());
         else
-            myupconv = new UpConverter(-(1 << (m_pparams.LumaDepth()-1)), 
-                                      (1 << (m_pparams.LumaDepth()-1))-1,
-                                      m_pparams.Xl(), m_pparams.Yl());
+            myupconv = new UpConverter(-(1 << (m_pparams.LumaDepth() - 1)),
+                                       (1 << (m_pparams.LumaDepth() - 1)) - 1,
+                                       m_pparams.Xl(), m_pparams.Yl());
 
-        myupconv->DoUpConverter( *(m_pic_data[c]) , *(m_up_pic_data[c]) );
+        myupconv->DoUpConverter(*(m_pic_data[c]) , *(m_up_pic_data[c]));
 
-	delete myupconv;
+        delete myupconv;
 
         return *(m_up_pic_data[c]);
 
     }
 }
 
-void Picture::InitWltData( const int transform_depth )
+void Picture::InitWltData(const int transform_depth)
 {
 
     int xpad_len, ypad_len;
-    int tx_mul = 1<<transform_depth;
+    int tx_mul = 1 << transform_depth;
 
-    for (int c=0; c<3; ++c){
+    for(int c = 0; c < 3; ++c)
+    {
         xpad_len = m_pic_data[c]->LengthX();
         ypad_len = m_pic_data[c]->LengthY();
 
-        if ( xpad_len%tx_mul != 0 )
-            xpad_len = ( (xpad_len/tx_mul)+1 ) *tx_mul;
-        if ( ypad_len%tx_mul != 0 )
-             ypad_len = ( (ypad_len/tx_mul)+1 ) * tx_mul;
+        if(xpad_len % tx_mul != 0)
+            xpad_len = ((xpad_len / tx_mul) + 1) * tx_mul;
+        if(ypad_len % tx_mul != 0)
+            ypad_len = ((ypad_len / tx_mul) + 1) * tx_mul;
 
-        m_wlt_data[c].Resize( ypad_len, xpad_len );
+        m_wlt_data[c].Resize(ypad_len, xpad_len);
     }
 
 }
@@ -225,47 +233,47 @@ void Picture::ClipComponent(PicArray& pic_data, CompSort cs) const
 
     ValueType min_val;
     ValueType max_val;
-    
+
     min_val = (cs == Y_COMP) ?
-              -(1 << (m_pparams.LumaDepth()-1) ) :
-              -(1 << (m_pparams.ChromaDepth()-1) );
+              -(1 << (m_pparams.LumaDepth() - 1)) :
+              -(1 << (m_pparams.ChromaDepth() - 1));
 
     max_val = (cs == Y_COMP) ?
-              (1 << (m_pparams.LumaDepth()-1) )-1 :
-              (1 << (m_pparams.ChromaDepth()-1) )-1;
+              (1 << (m_pparams.LumaDepth() - 1)) - 1 :
+              (1 << (m_pparams.ChromaDepth() - 1)) - 1;
 
 #if defined (HAVE_MMX)
     {
         int qcount = count >> 2;
         count = count & 3;
-    
+
         //__m64 pack_usmax = _mm_set_pi16 (0xffff, 0xffff, 0xffff, 0xffff);
         //__m64 pack_smin = _mm_set_pi16 (0x8000, 0x8000, 0x8000, 0x8000);
-        __m64 pack_usmax = _mm_set_pi16 (-1, -1, -1, -1);
-        __m64 pack_smin = _mm_set_pi16 (-32768, -32768, -32768, -32768);
-        __m64 high_val = _mm_set_pi16 (max_val, max_val, max_val, max_val);
-        __m64 lo_val = _mm_set_pi16 (min_val, min_val, min_val, min_val);
-    
-        __m64 clip_max = _mm_add_pi16 (pack_smin, high_val);
-        __m64 clip_min = _mm_add_pi16 (pack_smin, lo_val);
-    
-        __m64 tmp1 =  _mm_subs_pu16 ( pack_usmax, clip_max);
-        __m64 tmp2 =  _mm_adds_pu16 ( clip_min, tmp1 );
-    
-        while (qcount--)
+        __m64 pack_usmax = _mm_set_pi16(-1, -1, -1, -1);
+        __m64 pack_smin = _mm_set_pi16(-32768, -32768, -32768, -32768);
+        __m64 high_val = _mm_set_pi16(max_val, max_val, max_val, max_val);
+        __m64 lo_val = _mm_set_pi16(min_val, min_val, min_val, min_val);
+
+        __m64 clip_max = _mm_add_pi16(pack_smin, high_val);
+        __m64 clip_min = _mm_add_pi16(pack_smin, lo_val);
+
+        __m64 tmp1 =  _mm_subs_pu16(pack_usmax, clip_max);
+        __m64 tmp2 =  _mm_adds_pu16(clip_min, tmp1);
+
+        while(qcount--)
         {
             ValueType *p1 = pic;
-            *(__m64 *)p1 = _mm_add_pi16 (pack_smin, *(__m64 *)p1);
-            *(__m64 *)p1 = _mm_adds_pu16 (*(__m64 *)p1,  tmp1);
-            *(__m64 *)p1 = _mm_subs_pu16 (*(__m64 *)p1,  tmp2);
-            *(__m64 *)p1 = _mm_add_pi16 (lo_val, *(__m64 *)p1);
+            *(__m64 *)p1 = _mm_add_pi16(pack_smin, *(__m64 *)p1);
+            *(__m64 *)p1 = _mm_adds_pu16(*(__m64 *)p1,  tmp1);
+            *(__m64 *)p1 = _mm_subs_pu16(*(__m64 *)p1,  tmp2);
+            *(__m64 *)p1 = _mm_add_pi16(lo_val, *(__m64 *)p1);
             pic += 4;
         }
         //Mop up remaining pixels
-            while( count-- )
+        while(count--)
         {
-            *pic = std::max( min_val, std::min( max_val , *pic ) 
-                    );
+            *pic = std::max(min_val, std::min(max_val , *pic)
+                           );
             pic++;
         }
 
@@ -275,9 +283,9 @@ void Picture::ClipComponent(PicArray& pic_data, CompSort cs) const
 #endif
 
     // NOTE: depending on a contigous chunk of memory being allocated
-    while (count--)
+    while(count--)
     {
-        *pic = std::max( min_val, std::min( max_val, *pic ));
+        *pic = std::max(min_val, std::min(max_val, *pic));
         pic++;
     }
 }
@@ -285,31 +293,35 @@ void Picture::ClipComponent(PicArray& pic_data, CompSort cs) const
 void Picture::Clip()
 {
     //just clips the straight picture data, not the upconverted data
-    
-    for (int c=0; c<3; ++c)
-        ClipComponent( *(m_pic_data[c]), (CompSort) c);
+
+    for(int c = 0; c < 3; ++c)
+        ClipComponent(*(m_pic_data[c]), (CompSort) c);
 }
 
 void Picture::ClipUpData()
 {
     //just clips the upconverted data
 
-    for (int c=0; c<3; ++c){
-        if (m_up_pic_data[c])
-            ClipComponent( *(m_up_pic_data[c]), (CompSort) c );
+    for(int c = 0; c < 3; ++c)
+    {
+        if(m_up_pic_data[c])
+            ClipComponent(*(m_up_pic_data[c]), (CompSort) c);
     }
 
 }
 
 void Picture::ClearData()
 {
-    for (int c=0;c<3;++c){
-        if (m_pic_data[c] != NULL){
+    for(int c = 0; c < 3; ++c)
+    {
+        if(m_pic_data[c] != NULL)
+        {
             delete m_pic_data[c];
             m_pic_data[c] = NULL;
         }
 
-        if (m_up_pic_data[c] != NULL){
+        if(m_up_pic_data[c] != NULL)
+        {
             delete m_up_pic_data[c];
             m_up_pic_data[c] = NULL;
         }
@@ -317,16 +329,16 @@ void Picture::ClearData()
 
 }
 
-void Picture::ReconfigPicture(const PictureParams &pp )
+void Picture::ReconfigPicture(const PictureParams &pp)
 {
 
     PictureParams old_pp = m_pparams;
     m_pparams = pp;
 
     // HAve picture dimensions  or Chroma format changed ?
-    if (m_pparams.Xl() == old_pp.Xl() && 
-        m_pparams.Yl() == old_pp.Yl() &&
-        m_pparams.CFormat() == old_pp.CFormat())
+    if(m_pparams.Xl() == old_pp.Xl() &&
+       m_pparams.Yl() == old_pp.Yl() &&
+       m_pparams.CFormat() == old_pp.CFormat())
         return;
 
     // Picture dimensions have changed. Re-initialise

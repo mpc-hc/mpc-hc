@@ -48,20 +48,20 @@ namespace dirac
 /*************************************************************/
 
 //! Denoises an input frame
-void CWMFilter( Picture& picture,  const int strength );
+void CWMFilter(Picture& picture,  const int strength);
 
-void CWMFilterComponent( PicArray& pic_data, const int strength );
+void CWMFilterComponent(PicArray& pic_data, const int strength);
 
-ValueType Median( const ValueType* val_list, const int length);
+ValueType Median(const ValueType* val_list, const int length);
 
 
 /*************************************************************/
 
 //! Denoises a component
-void LPFilter( PicArray& pic_data, const float qf, const int strength );
+void LPFilter(PicArray& pic_data, const float qf, const int strength);
 
 //! Diagonally filters an input component
-void DiagFilter( PicArray& pic_data, const float qf , const int strength );
+void DiagFilter(PicArray& pic_data, const float qf , const int strength);
 
 } // namespace dirac
 

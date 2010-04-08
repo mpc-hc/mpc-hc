@@ -29,10 +29,11 @@ class CPullPin : public CAMThread
     REFERENCE_TIME      m_tDuration;
     BOOL                m_bSync;
 
-    enum ThreadMsg {
-	TM_Pause,       // stop pulling and wait for next message
-	TM_Start,       // start pulling
-	TM_Exit,        // stop and exit
+    enum ThreadMsg
+    {
+        TM_Pause,       // stop pulling and wait for next message
+        TM_Start,       // start pulling
+        TM_Exit,        // stop and exit
     };
 
     ThreadMsg m_State;
@@ -57,18 +58,18 @@ class CPullPin : public CAMThread
 
     // called from ProcessAsync to queue and collect requests
     HRESULT QueueSample(
-		__inout REFERENCE_TIME& tCurrent,
-		REFERENCE_TIME tAlignStop,
-		BOOL bDiscontinuity);
+        __inout REFERENCE_TIME& tCurrent,
+        REFERENCE_TIME tAlignStop,
+        BOOL bDiscontinuity);
 
     HRESULT CollectAndDeliver(
-		REFERENCE_TIME tStart,
-		REFERENCE_TIME tStop);
+        REFERENCE_TIME tStart,
+        REFERENCE_TIME tStop);
 
     HRESULT DeliverSample(
-		IMediaSample* pSample,
-		REFERENCE_TIME tStart,
-		REFERENCE_TIME tStop);
+        IMediaSample* pSample,
+        REFERENCE_TIME tStart,
+        REFERENCE_TIME tStop);
 
 protected:
     IMemAllocator *     m_pAlloc;
@@ -94,8 +95,8 @@ public:
     // optional IMemAllocator interface is offered as a preferred allocator
     // but no error occurs if it can't be met.
     virtual HRESULT DecideAllocator(
-		IMemAllocator* pAlloc,
-		__inout_opt ALLOCATOR_PROPERTIES * pProps);
+        IMemAllocator* pAlloc,
+        __inout_opt ALLOCATOR_PROPERTIES * pProps);
 
     // set start and stop position. if active, will start immediately at
     // the new position. Default is 0 to duration
@@ -111,21 +112,24 @@ public:
     HRESULT Inactive(void);
 
     // helper functions
-    LONGLONG AlignDown(LONGLONG ll, LONG lAlign) {
-	// aligning downwards is just truncation
-	return ll & ~(lAlign-1);
+    LONGLONG AlignDown(LONGLONG ll, LONG lAlign)
+    {
+        // aligning downwards is just truncation
+        return ll & ~(lAlign - 1);
     };
 
-    LONGLONG AlignUp(LONGLONG ll, LONG lAlign) {
-	// align up: round up to next boundary
-	return (ll + (lAlign -1)) & ~(lAlign -1);
+    LONGLONG AlignUp(LONGLONG ll, LONG lAlign)
+    {
+        // align up: round up to next boundary
+        return (ll + (lAlign - 1)) & ~(lAlign - 1);
     };
 
     // GetReader returns the (addrefed) IAsyncReader interface
     // for SyncRead etc
-    IAsyncReader* GetReader() {
-	m_pReader->AddRef();
-	return m_pReader;
+    IAsyncReader* GetReader()
+    {
+        m_pReader->AddRef();
+        return m_pReader;
     };
 
     // -- pure --

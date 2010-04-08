@@ -36,17 +36,17 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      REFIID riid,
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        REFIID riid,
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 };
 
 
@@ -69,26 +69,26 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 };
 
 
@@ -111,26 +111,26 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 };
 
 
@@ -155,26 +155,26 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 
 };
 
@@ -183,10 +183,12 @@ public:
 // and REFERENCE_TIME (essentially a LONGLONG) within filters.
 // this class converts between the two
 
-class COARefTime : public CRefTime {
+class COARefTime : public CRefTime
+{
 public:
 
-    COARefTime() {
+    COARefTime()
+    {
     };
 
     COARefTime(CRefTime t)
@@ -199,24 +201,29 @@ public:
     {
     };
 
-    COARefTime(double d) {
-        m_time = (LONGLONG) (d * 10000000);
+    COARefTime(double d)
+    {
+        m_time = (LONGLONG)(d * 10000000);
     };
 
-    operator double() {
+    operator double()
+    {
         return double(m_time) / 10000000;
     };
 
-    operator REFERENCE_TIME() {
+    operator REFERENCE_TIME()
+    {
         return m_time;
     };
 
-    COARefTime& operator=(const double& rd)  {
-        m_time = (LONGLONG) (rd * 10000000);
+    COARefTime& operator=(const double& rd)
+    {
+        m_time = (LONGLONG)(rd * 10000000);
         return *this;
     }
 
-    COARefTime& operator=(const REFERENCE_TIME& rt)  {
+    COARefTime& operator=(const REFERENCE_TIME& rt)
+    {
         m_time = rt;
         return *this;
     }
@@ -308,40 +315,42 @@ public:
     CPosPassThru(__in_opt LPCTSTR, __in_opt LPUNKNOWN, __inout HRESULT*, IPin *);
     DECLARE_IUNKNOWN
 
-    HRESULT ForceRefresh() {
+    HRESULT ForceRefresh()
+    {
         return S_OK;
     };
 
     // override to return an accurate current position
-    virtual HRESULT GetMediaTime(__out LONGLONG *pStartTime, __out_opt LONGLONG *pEndTime) {
+    virtual HRESULT GetMediaTime(__out LONGLONG *pStartTime, __out_opt LONGLONG *pEndTime)
+    {
         return E_FAIL;
     }
 
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid,__deref_out void **ppv);
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, __deref_out void **ppv);
 
     // IMediaSeeking methods
-    STDMETHODIMP GetCapabilities( __out DWORD * pCapabilities );
-    STDMETHODIMP CheckCapabilities( __inout DWORD * pCapabilities );
+    STDMETHODIMP GetCapabilities(__out DWORD * pCapabilities);
+    STDMETHODIMP CheckCapabilities(__inout DWORD * pCapabilities);
     STDMETHODIMP SetTimeFormat(const GUID * pFormat);
     STDMETHODIMP GetTimeFormat(__out GUID *pFormat);
     STDMETHODIMP IsUsingTimeFormat(const GUID * pFormat);
-    STDMETHODIMP IsFormatSupported( const GUID * pFormat);
-    STDMETHODIMP QueryPreferredFormat( __out GUID *pFormat);
-    STDMETHODIMP ConvertTimeFormat(__out LONGLONG * pTarget, 
+    STDMETHODIMP IsFormatSupported(const GUID * pFormat);
+    STDMETHODIMP QueryPreferredFormat(__out GUID *pFormat);
+    STDMETHODIMP ConvertTimeFormat(__out LONGLONG * pTarget,
                                    __in_opt const GUID * pTargetFormat,
-                                   LONGLONG Source, 
-                                   __in_opt const GUID * pSourceFormat );
-    STDMETHODIMP SetPositions( __inout_opt LONGLONG * pCurrent, DWORD CurrentFlags
-                             , __inout_opt LONGLONG * pStop, DWORD StopFlags );
+                                   LONGLONG Source,
+                                   __in_opt const GUID * pSourceFormat);
+    STDMETHODIMP SetPositions(__inout_opt LONGLONG * pCurrent, DWORD CurrentFlags
+                              , __inout_opt LONGLONG * pStop, DWORD StopFlags);
 
-    STDMETHODIMP GetPositions( __out_opt LONGLONG * pCurrent, __out_opt LONGLONG * pStop );
-    STDMETHODIMP GetCurrentPosition( __out LONGLONG * pCurrent );
-    STDMETHODIMP GetStopPosition( __out LONGLONG * pStop );
-    STDMETHODIMP SetRate( double dRate);
-    STDMETHODIMP GetRate( __out double * pdRate);
-    STDMETHODIMP GetDuration( __out LONGLONG *pDuration);
-    STDMETHODIMP GetAvailable( __out_opt LONGLONG *pEarliest, __out_opt LONGLONG *pLatest );
-    STDMETHODIMP GetPreroll( __out LONGLONG *pllPreroll );
+    STDMETHODIMP GetPositions(__out_opt LONGLONG * pCurrent, __out_opt LONGLONG * pStop);
+    STDMETHODIMP GetCurrentPosition(__out LONGLONG * pCurrent);
+    STDMETHODIMP GetStopPosition(__out LONGLONG * pStop);
+    STDMETHODIMP SetRate(double dRate);
+    STDMETHODIMP GetRate(__out double * pdRate);
+    STDMETHODIMP GetDuration(__out LONGLONG *pDuration);
+    STDMETHODIMP GetAvailable(__out_opt LONGLONG *pEarliest, __out_opt LONGLONG *pLatest);
+    STDMETHODIMP GetPreroll(__out LONGLONG *pllPreroll);
 
     // IMediaPosition properties
     STDMETHODIMP get_Duration(__out REFTIME * plength);
@@ -357,8 +366,8 @@ public:
     STDMETHODIMP CanSeekBackward(__out LONG *pCanSeekBackward);
 
 private:
-    HRESULT GetSeekingLongLong( HRESULT (__stdcall IMediaSeeking::*pMethod)( LONGLONG * ),
-                                __out LONGLONG * pll );
+    HRESULT GetSeekingLongLong(HRESULT(__stdcall IMediaSeeking::*pMethod)(LONGLONG *),
+                               __out LONGLONG * pll);
 };
 
 
@@ -377,8 +386,8 @@ public:
 
     CRendererPosPassThru(__in_opt LPCTSTR, __in_opt LPUNKNOWN, __inout HRESULT*, IPin *);
     HRESULT RegisterMediaTime(IMediaSample *pMediaSample);
-    HRESULT RegisterMediaTime(LONGLONG StartTime,LONGLONG EndTime);
-    HRESULT GetMediaTime(__out LONGLONG *pStartTime,__out_opt LONGLONG *pEndTime);
+    HRESULT RegisterMediaTime(LONGLONG StartTime, LONGLONG EndTime);
+    HRESULT GetMediaTime(__out LONGLONG *pStartTime, __out_opt LONGLONG *pEndTime);
     HRESULT ResetMediaTime();
     HRESULT EOS();
 };
@@ -410,26 +419,26 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 };
 
 
@@ -453,30 +462,30 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 
     STDMETHODIMP GetPreferredAspectRatio(
-      __out long *plAspectX,
-      __out long *plAspectY)
+        __out long *plAspectX,
+        __out long *plAspectY)
     {
         return E_NOTIMPL;
     }
@@ -503,26 +512,26 @@ public:
     STDMETHODIMP GetTypeInfoCount(__out UINT * pctinfo);
 
     STDMETHODIMP GetTypeInfo(
-      UINT itinfo,
-      LCID lcid,
-      __deref_out ITypeInfo ** pptinfo);
+        UINT itinfo,
+        LCID lcid,
+        __deref_out ITypeInfo ** pptinfo);
 
     STDMETHODIMP GetIDsOfNames(
-      REFIID riid,
-      __in_ecount(cNames) LPOLESTR * rgszNames,
-      UINT cNames,
-      LCID lcid,
-      __out_ecount(cNames) DISPID * rgdispid);
+        REFIID riid,
+        __in_ecount(cNames) LPOLESTR * rgszNames,
+        UINT cNames,
+        LCID lcid,
+        __out_ecount(cNames) DISPID * rgdispid);
 
     STDMETHODIMP Invoke(
-      DISPID dispidMember,
-      REFIID riid,
-      LCID lcid,
-      WORD wFlags,
-      __in DISPPARAMS * pdispparams,
-      __out_opt VARIANT * pvarResult,
-      __out_opt EXCEPINFO * pexcepinfo,
-      __out_opt UINT * puArgErr);
+        DISPID dispidMember,
+        REFIID riid,
+        LCID lcid,
+        WORD wFlags,
+        __in DISPPARAMS * pdispparams,
+        __out_opt VARIANT * pvarResult,
+        __out_opt EXCEPINFO * pexcepinfo,
+        __out_opt UINT * puArgErr);
 };
 
 
@@ -550,7 +559,8 @@ public:
     STDMETHODIMP CanSeekBackward(__out LONG *pCanSeekBackward);
 
     // override if you can return the data you are actually working on
-    STDMETHODIMP get_CurrentPosition(__out REFTIME * pllTime) {
+    STDMETHODIMP get_CurrentPosition(__out REFTIME * pllTime)
+    {
         return E_NOTIMPL;
     };
 
@@ -589,21 +599,21 @@ public:
     STDMETHODIMP GetDuration(__out LONGLONG *pDuration);
     STDMETHODIMP GetStopPosition(__out LONGLONG *pStop);
     STDMETHODIMP GetCurrentPosition(__out LONGLONG *pCurrent);
-    STDMETHODIMP GetCapabilities( __out DWORD * pCapabilities );
-    STDMETHODIMP CheckCapabilities( __inout DWORD * pCapabilities );
-    STDMETHODIMP ConvertTimeFormat( __out LONGLONG * pTarget, 
-                                    __in_opt const GUID * pTargetFormat,
-                                    LONGLONG Source, 
-                                    __in_opt const GUID * pSourceFormat );
+    STDMETHODIMP GetCapabilities(__out DWORD * pCapabilities);
+    STDMETHODIMP CheckCapabilities(__inout DWORD * pCapabilities);
+    STDMETHODIMP ConvertTimeFormat(__out LONGLONG * pTarget,
+                                   __in_opt const GUID * pTargetFormat,
+                                   LONGLONG Source,
+                                   __in_opt const GUID * pSourceFormat);
 
-    STDMETHODIMP SetPositions( __inout_opt LONGLONG * pCurrent,  DWORD CurrentFlags
-			     , __inout_opt LONGLONG * pStop,  DWORD StopFlags );
+    STDMETHODIMP SetPositions(__inout_opt LONGLONG * pCurrent,  DWORD CurrentFlags
+                              , __inout_opt LONGLONG * pStop,  DWORD StopFlags);
 
-    STDMETHODIMP GetPositions( __out_opt LONGLONG * pCurrent, __out_opt LONGLONG * pStop );
+    STDMETHODIMP GetPositions(__out_opt LONGLONG * pCurrent, __out_opt LONGLONG * pStop);
 
-    STDMETHODIMP GetAvailable( __out_opt LONGLONG * pEarliest, __out_opt LONGLONG * pLatest );
-    STDMETHODIMP SetRate( double dRate);
-    STDMETHODIMP GetRate( __out double * pdRate);
+    STDMETHODIMP GetAvailable(__out_opt LONGLONG * pEarliest, __out_opt LONGLONG * pLatest);
+    STDMETHODIMP SetRate(double dRate);
+    STDMETHODIMP GetRate(__out double * pdRate);
     STDMETHODIMP GetPreroll(__out LONGLONG *pPreroll);
 
 
@@ -667,7 +677,7 @@ public:
 
 class CDeferredCommand
     : public CUnknown,
-      public IDeferredCommand
+  public IDeferredCommand
 {
 public:
 
@@ -685,7 +695,7 @@ public:
         __out VARIANT*    pvarResult,
         __out short*      puArgErr,
         BOOL        bStream
-        );
+    );
 
     DECLARE_IUNKNOWN
 
@@ -695,11 +705,11 @@ public:
     // IDeferredCommand methods
     STDMETHODIMP Cancel();
     STDMETHODIMP Confidence(
-                    __out LONG* pConfidence);
+        __out LONG* pConfidence);
     STDMETHODIMP Postpone(
-                    REFTIME newtime);
+        REFTIME newtime);
     STDMETHODIMP GetHResult(
-                    __out HRESULT* phrResult);
+        __out HRESULT* phrResult);
 
     // other public methods
 
@@ -708,31 +718,38 @@ public:
     // access methods
 
     // returns TRUE if streamtime, FALSE if presentation time
-    BOOL IsStreamTime() {
-       return m_bStream;
+    BOOL IsStreamTime()
+    {
+        return m_bStream;
     };
 
-    CRefTime GetTime() {
+    CRefTime GetTime()
+    {
         return m_time;
     };
 
-    REFIID GetIID() {
+    REFIID GetIID()
+    {
         return *m_iid;
     };
 
-    long GetMethod() {
+    long GetMethod()
+    {
         return m_dispidMethod;
     };
 
-    short GetFlags() {
+    short GetFlags()
+    {
         return m_wFlags;
     };
 
-    DISPPARAMS* GetParams() {
+    DISPPARAMS* GetParams()
+    {
         return &m_DispParams;
     };
 
-    VARIANT* GetResult() {
+    VARIANT* GetResult()
+    {
         return m_pvarResult;
     };
 
@@ -850,7 +867,8 @@ public:
     // return the event handle that will be signalled whenever
     // there are deferred commands due for execution (when GetDueCommand
     // will not block).
-    HANDLE GetDueHandle() {
+    HANDLE GetDueHandle()
+    {
         return HANDLE(m_evDue);
     };
 
@@ -864,18 +882,22 @@ public:
     virtual HRESULT GetCommandDueFor(REFERENCE_TIME tStream, __out CDeferredCommand**ppCmd);
 
     // check if a given time is due (TRUE if it is due yet)
-    BOOL CheckTime(CRefTime time, BOOL bStream) {
+    BOOL CheckTime(CRefTime time, BOOL bStream)
+    {
 
         // if no clock, nothing is due!
-        if (!m_pClock) {
+        if(!m_pClock)
+        {
             return FALSE;
         }
 
         // stream time
-        if (bStream) {
+        if(bStream)
+        {
 
             // not valid if not running
-            if (!m_bRunning) {
+            if(!m_bRunning)
+            {
                 return FALSE;
             }
             // add on known stream time offset to get presentation time

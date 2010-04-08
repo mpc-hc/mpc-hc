@@ -3,7 +3,7 @@
 // LCDCollection.cpp
 //
 // The CLCDCollection class is a generic collection of CLCDBase objects.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -59,7 +59,7 @@ BOOL CLCDCollection::RemoveObject(CLCDBase* pObject)
     LCD_OBJECT_LIST::iterator it = m_Objects.begin();
     while(it != m_Objects.end())
     {
-        if (*it == pObject)
+        if(*it == pObject)
         {
             m_Objects.erase(it);
             break;
@@ -84,7 +84,7 @@ void CLCDCollection::OnDraw(CLCDGfx &rGfx)
         CLCDBase *pObject = *it;
         LCDUIASSERT(NULL != pObject);
 
-        if (!pObject->IsVisible())
+        if(!pObject->IsVisible())
         {
             ++it;
             continue;
@@ -94,7 +94,7 @@ void CLCDCollection::OnDraw(CLCDGfx &rGfx)
         HRGN hRgn = CreateRectRgn(pObject->GetOrigin().x, pObject->GetOrigin().y,
                                   pObject->GetOrigin().x + pObject->GetWidth(),
                                   pObject->GetOrigin().y + pObject->GetHeight());
-        
+
         // ensure that controls only draw within their specified region
         SelectClipRgn(rGfx.GetHDC(), hRgn);
 
@@ -122,9 +122,9 @@ void CLCDCollection::OnDraw(CLCDGfx &rGfx)
 
         // restore the viewport origin
         SetViewportOrgEx(rGfx.GetHDC(),
-            ptPrevViewportOrg.x,
-            ptPrevViewportOrg.y,
-            NULL);
+                         ptPrevViewportOrg.x,
+                         ptPrevViewportOrg.y,
+                         NULL);
 
         // restore the viewport origin offset
         OffsetViewportOrgEx(rGfx.GetHDC(), 0, 0, NULL);

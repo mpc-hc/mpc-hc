@@ -54,154 +54,178 @@
 
 namespace dirac
 {
+/**
+* A compressed picture in Dirac bytestream format
+*/
+class PictureByteIO : public ParseUnitByteIO
+{
+public:
+
     /**
-    * A compressed picture in Dirac bytestream format
+    * Constructor
+    *@param frame_params Picture parameters
+    *@param frame_num Picture number
     */
-    class PictureByteIO : public ParseUnitByteIO
+    PictureByteIO(PictureParams& frame_params,
+                  int frame_num);
+
+
+    /**
+    * Constructor
+    *@param frame_params Destination of data
+    *@param parseunit_byteio Source of data
+    */
+    PictureByteIO(PictureParams& frame_params,
+                  const ParseUnitByteIO& parseunit_byteio);
+
+    /**
+    * Destructor
+    */
+    virtual ~PictureByteIO();
+
+    /**
+            * Gathers byte stats on the picture data
+            *@param dirac_byte_stats Stat container
+            */
+    void CollateByteStats(DiracByteStats& dirac_byte_stats);
+
+    /**
+    * Inputs data from Dirac stream-format
+    */
+    bool Input();
+
+    /**
+    * Outputs picture values to Dirac stream-format
+    */
+    void Output();
+
+
+
+    const std::string GetBytes();
+
+    int GetSize() const;
+
+    /**
+    * Gets parse-unit type
+    */
+    ParseUnitType GetType() const
     {
-    public:
+        return PU_PICTURE;
+    }
 
-        /**
-        * Constructor
-        *@param frame_params Picture parameters
-        *@param frame_num Picture number
-        */
-        PictureByteIO(PictureParams& frame_params,
-                    int frame_num);
+    /**
+    * Returns true is picture in Reference picture
+    */
+    int IsRef() const
+    {
+        return (GetParseCode() & 0x0C) == 0x0C;
+    }
+
+    /**
+    * Returns true is picture in Non-Reference picture
+    */
+    int IsNonRef() const
+    {
+        return (GetParseCode() & 0x0C) == 0x08;
+    }
+
+    /**
+    * Gets parse-unit type
+    */
+    int NumRefs() const
+    {
+        return (GetParseCode() & 0x03);
+    }
+
+    /**
+    * Returns true is picture is Intra picture
+    */
+    bool IsIntra() const
+    {
+        return IsPicture() && (NumRefs() == 0) ;
+    }
+
+    /**
+    * Returns true is picture is Inter picture
+    */
+    bool IsInter() const
+    {
+        return IsPicture() && (NumRefs() > 0) ;
+    }
+
+    /***
+    * Sets the MVDataIO
+    */
+    void SetMvData(MvDataByteIO *mv_data)
+    {
+        m_mv_data = mv_data;
+    }
+
+    /***
+    * Sets the TransformByteIo
+    */
+    void SetTransformData(TransformByteIO *transform_data)
+    {
+        m_transform_data = transform_data;
+    }
+
+protected:
 
 
-        /**
-        * Constructor
-        *@param frame_params Destination of data
-        *@param parseunit_byteio Source of data
-        */
-        PictureByteIO(PictureParams& frame_params,
-                    const ParseUnitByteIO& parseunit_byteio);
+private:
 
-       /**
-       * Destructor
-       */
-        virtual ~PictureByteIO();
+    /**
+    * Calculates parse-code based on picture parameters
+    *@return Char bit-set
+    */
+    unsigned char CalcParseCode() const;
 
-         /**
-        * Gathers byte stats on the picture data
-        *@param dirac_byte_stats Stat container
-        */
-        void CollateByteStats(DiracByteStats& dirac_byte_stats);
+    /**
+    * Reads reference-picture data
+    */
+    void InputReferencePictures();
 
-        /**
-        * Inputs data from Dirac stream-format
-        */
-        bool Input();
+    /**
+    * Reads retired picture number
+    */
+    void InputRetiredPicture();
 
-        /**
-        * Outputs picture values to Dirac stream-format
-        */
-        void Output();
+    /**
+    * Calculates picture-type (eg INTRA/INTER) of picture
+    */
+    void SetPictureType();
 
-        
+    /**
+    * Calculates reference-type of picture
+    */
+    void SetReferenceType();
 
-        const std::string GetBytes();
+    /**
+    * Sets the entropy coding flag in the picture parameters
+    */
+    void SetEntropyCodingFlag();
 
-        int GetSize() const;
+    /**
+    * Picture parameters
+    */
+    PictureParams&        m_frame_params;
 
-        /**
-        * Gets parse-unit type
-        */
-        ParseUnitType GetType() const { return PU_PICTURE;}
+    /**
+    * Picture number
+    */
+    int     m_frame_num;
 
-        /**
-        * Returns true is picture in Reference picture
-        */
-        int IsRef() const { return (GetParseCode()&0x0C)==0x0C;}
+    /**
+    * MV data
+    */
+    MvDataByteIO * m_mv_data;
 
-        /**
-        * Returns true is picture in Non-Reference picture
-        */
-        int IsNonRef() const { return (GetParseCode()&0x0C)==0x08;}
+    /**
+    * Transform data
+    */
+    TransformByteIO * m_transform_data;
 
-        /**
-        * Gets parse-unit type
-        */
-        int NumRefs() const { return (GetParseCode()&0x03);}
-
-        /**
-        * Returns true is picture is Intra picture
-        */
-        bool IsIntra() const { return IsPicture() && (NumRefs()==0) ; }
-
-        /**
-        * Returns true is picture is Inter picture
-        */
-        bool IsInter() const { return IsPicture() && (NumRefs()>0) ; }
-
-        /***
-        * Sets the MVDataIO
-        */
-        void SetMvData(MvDataByteIO *mv_data) {m_mv_data = mv_data; }
-
-        /***
-        * Sets the TransformByteIo
-        */
-        void SetTransformData(TransformByteIO *transform_data) {m_transform_data = transform_data; }
-
-  protected:
-        
-
-   private:
-      
-        /**
-        * Calculates parse-code based on picture parameters
-        *@return Char bit-set 
-        */
-        unsigned char CalcParseCode() const;
-
-        /**
-        * Reads reference-picture data
-        */
-        void InputReferencePictures();
-
-        /**
-        * Reads retired picture number
-        */
-        void InputRetiredPicture();
-
-        /**
-        * Calculates picture-type (eg INTRA/INTER) of picture
-        */
-        void SetPictureType();
-
-        /**
-        * Calculates reference-type of picture
-        */
-        void SetReferenceType();
-
-        /**
-        * Sets the entropy coding flag in the picture parameters
-        */
-        void SetEntropyCodingFlag();
-
-        /**
-        * Picture parameters
-        */
-        PictureParams&        m_frame_params;
-
-        /**
-        * Picture number
-        */
-        int     m_frame_num;
-
-        /**
-        * MV data
-        */
-        MvDataByteIO * m_mv_data;
-       
-        /**
-        * Transform data
-        */
-        TransformByteIO * m_transform_data;
-       
-   };
+};
 
 } // namespace dirac
 

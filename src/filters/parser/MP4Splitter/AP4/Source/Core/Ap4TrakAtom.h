@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - trak Atoms 
+|    AP4 - trak Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -48,13 +48,14 @@ class AP4_SampleTable;
 +---------------------------------------------------------------------*/
 class AP4_TrakAtom : public AP4_ContainerAtom
 {
- public:
+public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_TrakAtom, AP4_ContainerAtom)
 
     // class methods
-     static AP4_TrakAtom* Create(AP4_Size         size,
-                                 AP4_ByteStream&  stream,
-                                 AP4_AtomFactory& atom_factory) {
+    static AP4_TrakAtom* Create(AP4_Size         size,
+                                AP4_ByteStream&  stream,
+                                AP4_AtomFactory& atom_factory)
+    {
         return new AP4_TrakAtom(size, stream, atom_factory);
     }
 
@@ -62,7 +63,7 @@ class AP4_TrakAtom : public AP4_ContainerAtom
     AP4_TrakAtom(AP4_SampleTable* sample_table,
                  AP4_Atom::Type   hdlr_type,
                  const char*      hdlr_name,
-                 AP4_UI32         track_id, 
+                 AP4_UI32         track_id,
                  AP4_UI32         creation_time,
                  AP4_UI32         modification_time,
                  AP4_UI64         track_duration,
@@ -72,7 +73,10 @@ class AP4_TrakAtom : public AP4_ContainerAtom
                  const char*      language,
                  AP4_UI32         width,
                  AP4_UI32         heigh);
-    AP4_TkhdAtom* GetTkhdAtom() { return m_TkhdAtom; }
+    AP4_TkhdAtom* GetTkhdAtom()
+    {
+        return m_TkhdAtom;
+    }
     AP4_Result AdjustChunkOffsets(AP4_SI64 delta);
     AP4_Result GetChunkOffsets(AP4_Array<AP4_UI64>& chunk_offsets);
     AP4_Result SetChunkOffsets(const AP4_Array<AP4_UI64>& chunk_offsets);
@@ -88,8 +92,8 @@ class AP4_TrakAtom : public AP4_ContainerAtom
     AP4_Result SetWidth(AP4_UI32 width);
     AP4_UI32   GetHeight();
     AP4_Result SetHeight(AP4_UI32 height);
-    
- private:
+
+private:
     // methods
     AP4_TrakAtom(AP4_UI32         size,
                  AP4_ByteStream&  stream,

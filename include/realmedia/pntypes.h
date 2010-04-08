@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: pntypes.h 7 2003-05-30 02:18:02Z gabest $
- * 
+ *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *  
+ *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -28,7 +28,7 @@
 #define RN_LITTLE_ENDIAN 1
 #endif
 
-#ifndef RN_BIG_ENDIAN 
+#ifndef RN_BIG_ENDIAN
 #define RN_BIG_ENDIAN    0
 #endif
 
@@ -38,7 +38,7 @@
 #define RN_LITTLE_ENDIAN 0
 #endif
 
-#ifndef RN_BIG_ENDIAN 
+#ifndef RN_BIG_ENDIAN
 #define RN_BIG_ENDIAN    1
 #endif
 
@@ -76,7 +76,7 @@ typedef unsigned char PN_BITFIELD;
 
 #if defined __alpha__
 typedef long int                INT64;
-#elif defined _WINDOWS 
+#elif defined _WINDOWS
 typedef __int64			INT64;
 #else
 typedef long long		INT64;
@@ -87,18 +87,18 @@ typedef long long		INT64;
  * Instead of using __MWERKS__ you can  now use _MACINTOSH
  */
 #ifdef __MWERKS__
-    #if __dest_os==__macos
-	#ifndef _MACINTOSH
-	#define _MACINTOSH  1
+#if __dest_os==__macos
+#ifndef _MACINTOSH
+#define _MACINTOSH  1
 
-	#ifdef powerc 
-	#define _MACPPC
-	#else
-	#define _MAC68K
-	#endif
+#ifdef powerc
+#define _MACPPC
+#else
+#define _MAC68K
+#endif
 
-	#endif
-    #endif
+#endif
+#endif
 #endif
 
 #if defined (_SCO_SV) && !defined (MAXPATHLEN)
@@ -139,40 +139,40 @@ extern "C" {            /* Assume C declarations for C++ */
 #define RM_FILE_MAGIC_NUMBER    0x2E524D46L /* RealMedia File Identifier */
 #define RIFF_FILE_MAGIC_NUMBER  0x52494646L /* RIFF (AVI etc.) File Identifier */
 
-typedef INT32   LONG32;                 /* signed 32 bit value */
-typedef UINT32  ULONG32;                /* unsigned 32 bit value */
+    typedef INT32   LONG32;                 /* signed 32 bit value */
+    typedef UINT32  ULONG32;                /* unsigned 32 bit value */
 #ifndef _VXWORKS
-typedef UINT8   UCHAR;                  /* unsigned 8 bit value */
+    typedef UINT8   UCHAR;                  /* unsigned 8 bit value */
 #endif
 //typedef INT8    CHAR;                   /* signed 8 bit value */
 
-typedef UINT8   BYTE;
-typedef INT32   long32;
-typedef UINT32  u_long32;
+    typedef UINT8   BYTE;
+    typedef INT32   long32;
+    typedef UINT32  u_long32;
 
-typedef INT8    Int8;
-typedef UINT8   u_Int8;
-typedef INT16   Int16;
-typedef UINT16  u_Int16;
-typedef INT32   Int32;
-typedef UINT32  u_Int32;
+    typedef INT8    Int8;
+    typedef UINT8   u_Int8;
+    typedef INT16   Int16;
+    typedef UINT16  u_Int16;
+    typedef INT32   Int32;
+    typedef UINT32  u_Int32;
 
-typedef ULONG32                 UFIXED32;           /* FIXED point value  */
+    typedef ULONG32                 UFIXED32;           /* FIXED point value  */
 #define FLOAT_TO_FIXED(x)   ((UFIXED32) ((x) * (1L << 16) + 0.5))
 #define FIXED_TO_FLOAT(x)   ((float) ((((float)x)/ (float)(1L <<16))))
 
-/* 
- * UFIXED32 is a 32 value where the upper 16 bits are the unsigned integer 
- * portion of value, and the lower 16 bits are the fractional part of the 
- * value 
- */
+    /*
+     * UFIXED32 is a 32 value where the upper 16 bits are the unsigned integer
+     * portion of value, and the lower 16 bits are the fractional part of the
+     * value
+     */
 
-typedef const char*             PCSTR;
+    typedef const char*             PCSTR;
 
-/*
- *  FOURCC's are 32bit codes used in Tagged File formats like
- *  the RealMedia file format.
- */
+    /*
+     *  FOURCC's are 32bit codes used in Tagged File formats like
+     *  the RealMedia file format.
+     */
 
 #ifndef PN_FOURCC
 #define PN_FOURCC( ch0, ch1, ch2, ch3 )                                    \
@@ -180,7 +180,7 @@ typedef const char*             PCSTR;
                 ( (UINT32)(UINT8)(ch2) << 16 ) | ( (UINT32)(UINT8)(ch3) << 24 ) )
 #endif
 
-typedef UINT16 PrefKey;
+    typedef UINT16 PrefKey;
 
 #ifdef __cplusplus
 }
@@ -190,7 +190,7 @@ typedef UINT16 PrefKey;
 /*--------------------------------------------------------------------------
 |   ZeroInit - initializes a block of memory with zeros
 --------------------------------------------------------------------------*/
-#define ZeroInit(pb)    memset((void *)pb,0,sizeof(*(pb))) 
+#define ZeroInit(pb)    memset((void *)pb,0,sizeof(*(pb)))
 
 #ifndef __MACTYPES__
 typedef unsigned char   Byte;
@@ -205,9 +205,9 @@ typedef unsigned char   Byte;
 #define PNEXPORT            __declspec(dllexport) __stdcall
 #define PNEXPORT_PTR        __stdcall *
 
-typedef void (*RANOTIFYPROC)( void* );
+typedef void (*RANOTIFYPROC)(void*);
 
-#if defined(EXPORT_CLASSES) && defined(_WINDOWS)     
+#if defined(EXPORT_CLASSES) && defined(_WINDOWS)
 #ifdef _WIN32
 #define PNEXPORT_CLASS __declspec(dllexport)
 #else
@@ -229,7 +229,7 @@ typedef void (*RANOTIFYPROC)( void* );
 #define STDMETHODCALLTYPE       __stdcall
 #endif
 #elif defined(_WIN16)
-// XXXTW I made the change below on 5/18/98.  The __export was causing 
+// XXXTW I made the change below on 5/18/98.  The __export was causing
 //       conflicts with duplicate CPNBuffer methods in being linked into
 //       rpupgrd and rpdestpn.  Also, the warning was "export imported".
 //       This was fixed by removing the __export.  The __export is also
@@ -285,14 +285,14 @@ typedef void (*RANOTIFYPROC)( void* );
 //
 //  Purpose:
 //
-//      Returns the Major version portion of the encoded product version 
+//      Returns the Major version portion of the encoded product version
 //      of the RealAudio application interface DLL previously returned from
 //      a call to RaGetProductVersion().
 //
 //  Parameters:
 //
 //      prodVer
-//      The encoded product version of the RealAudio application interface 
+//      The encoded product version of the RealAudio application interface
 //      DLL previously returned from a call to RaGetProductVersion().
 //
 //  Return:
@@ -312,14 +312,14 @@ typedef void (*RANOTIFYPROC)( void* );
 //
 //  Purpose:
 //
-//      Returns the minor version portion of the encoded product version 
+//      Returns the minor version portion of the encoded product version
 //      of the RealAudio application interface DLL previously returned from
 //      a call to RaGetProductVersion().
 //
 //  Parameters:
 //
 //      prodVer
-//      The encoded product version of the RealAudio application interface 
+//      The encoded product version of the RealAudio application interface
 //      DLL previously returned from a call to RaGetProductVersion().
 //
 //  Return:
@@ -339,14 +339,14 @@ typedef void (*RANOTIFYPROC)( void* );
 //
 //  Purpose:
 //
-//      Returns the release number portion of the encoded product version 
+//      Returns the release number portion of the encoded product version
 //      of the RealAudio application interface DLL previously returned from
 //      a call to RaGetProductVersion().
 //
 //  Parameters:
 //
 //      prodVer
-//      The encoded product version of the RealAudio application interface 
+//      The encoded product version of the RealAudio application interface
 //      DLL previously returned from a call to RaGetProductVersion().
 //
 //  Return:
@@ -366,14 +366,14 @@ typedef void (*RANOTIFYPROC)( void* );
 //
 //  Purpose:
 //
-//      Returns the build number portion of the encoded product version 
+//      Returns the build number portion of the encoded product version
 //      of the RealAudio application interface DLL previously returned from
 //      a call to RaGetProductVersion().
 //
 //  Parameters:
 //
 //      prodVer
-//      The encoded product version of the RealAudio application interface 
+//      The encoded product version of the RealAudio application interface
 //      DLL previously returned from a call to RaGetProductVersion().
 //
 //  Return:
@@ -395,7 +395,7 @@ typedef void (*RANOTIFYPROC)( void* );
 //
 //      Encodes a major version, minor version, release number, and build
 //      number into a product version for testing against the product version
-//      of the RealAudio application interface DLL returned from a call to 
+//      of the RealAudio application interface DLL returned from a call to
 //      RaGetProductVersion().
 //
 //  Parameters:
@@ -417,11 +417,11 @@ typedef void (*RANOTIFYPROC)( void* );
 //      The encoded product version.
 //
 //  NOTES:
-//      
+//
 //      Macintosh DEVELOPERS especially, make sure when using the PN_ENCODE_PROD_VERSION
-//      that you are passing a ULONG32 or equivalent for each of the parameters. 
+//      that you are passing a ULONG32 or equivalent for each of the parameters.
 //      By default a number passed in as a constant is a short unless it requires more room,
-//      so designate the constant as a long by appending a L to the end of it.  
+//      so designate the constant as a long by appending a L to the end of it.
 //      Example:
 //          WORKS:
 //              PN_ENCODE_VERSION(2L,1L,1L,0L);
@@ -442,16 +442,16 @@ typedef void (*RANOTIFYPROC)( void* );
 
 #define PN_EXTRACT_MAJOR_VERSION(ulversion) ((ulversion)>>28)
 #define PN_EXTRACT_MINOR_VERSION(ulversion) (((ulversion)>>20) & (UINT32)0xFF)
-	
+
 #ifdef _AIX
-    typedef int                 tv_sec_t;
-    typedef int                 tv_usec_t;
+typedef int                 tv_sec_t;
+typedef int                 tv_usec_t;
 #elif (defined _HPUX)
-    typedef UINT32              tv_sec_t;
-    typedef INT32               tv_usec_t;
+typedef UINT32              tv_sec_t;
+typedef INT32               tv_usec_t;
 #else
-    typedef INT32               tv_sec_t;
-    typedef INT32               tv_usec_t;
+typedef INT32               tv_sec_t;
+typedef INT32               tv_usec_t;
 #endif /* _AIX */
 
 #ifndef VOLATILE
@@ -474,7 +474,7 @@ typedef ULONG32 PNXIMAGE;
 
 /*
  * For VC++ 6.0 and higher we need to include this substitute header file
- * in place of the standard header file basetsd.h, since this standard 
+ * in place of the standard header file basetsd.h, since this standard
  * header file conflicts with our definitions.
  */
 #if defined(_MSC_VER) && (_MSC_VER > 1100)

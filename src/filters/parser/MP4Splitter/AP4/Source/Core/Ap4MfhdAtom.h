@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mfhd Atoms 
+|    AP4 - mfhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -50,12 +50,18 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI32 GetSequenceNumber()                         { return m_SequenceNumber;            }
-    void     SetSequenceNumber(AP4_UI32 sequence_number) { m_SequenceNumber = sequence_number; }
+    AP4_UI32 GetSequenceNumber()
+    {
+        return m_SequenceNumber;
+    }
+    void     SetSequenceNumber(AP4_UI32 sequence_number)
+    {
+        m_SequenceNumber = sequence_number;
+    }
 
 private:
     // methods
-    AP4_MfhdAtom(AP4_UI32        size, 
+    AP4_MfhdAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

@@ -30,7 +30,8 @@
  * AVClass struct (e.g. AVCodecContext, AVFormatContext etc.).
  */
 typedef struct AVCLASS AVClass;
-struct AVCLASS {
+struct AVCLASS
+{
     /**
      * The name of the class; usually it is the same name as the
      * context structure type to which the AVClass is associated.
@@ -41,7 +42,7 @@ struct AVCLASS {
      * A pointer to a function which returns the name of a context
      * instance ctx associated with the class.
      */
-    const char* (*item_name)(void* ctx);
+    const char*(*item_name)(void* ctx);
 
     /**
      * a pointer to the first option specified in the class if any or NULL
@@ -102,7 +103,7 @@ struct AVCLASS {
  * @see av_vlog
  */
 #ifdef __GNUC__
-void av_log(void*, int level, const char *fmt, ...) __attribute__ ((__format__ (__printf__, 3, 4)));
+void av_log(void*, int level, const char *fmt, ...) __attribute__((__format__(__printf__, 3, 4)));
 #else
 void av_log(void*, int level, const char *fmt, ...);
 #endif
@@ -113,11 +114,11 @@ extern "C" {
 #endif
 // <== End patch MPC
 
-void av_vlog(void*, int level, const char *fmt, va_list);
-int av_log_get_level(void);
-void av_log_set_level(int);
-void av_log_set_callback(void (*)(void*, int, const char*, va_list));
-void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
+    void av_vlog(void*, int level, const char *fmt, va_list);
+    int av_log_get_level(void);
+    void av_log_set_level(int);
+    void av_log_set_callback(void (*)(void*, int, const char*, va_list));
+    void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
 
 // ==> Start patch MPC
 #ifdef __cplusplus

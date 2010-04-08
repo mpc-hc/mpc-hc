@@ -3,14 +3,14 @@
 // LCDText.h
 //
 // The CLCDText class draws simple text onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDTEXT_H_INCLUDED_ 
-#define _LCDTEXT_H_INCLUDED_ 
+#ifndef _LCDTEXT_H_INCLUDED_
+#define _LCDTEXT_H_INCLUDED_
 
 #include "LCDBase.h"
 
@@ -25,7 +25,7 @@ public:
     virtual ~CLCDText();
 
     virtual HRESULT Initialize(void);
-    
+
     virtual void SetFont(LOGFONT& lf);
     virtual void SetFontFaceName(LPCTSTR szFontName);
     virtual void SetFontPointSize(int nPointSize);

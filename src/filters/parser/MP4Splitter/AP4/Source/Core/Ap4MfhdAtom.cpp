@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mfhd Atoms 
+|    AP4 - mfhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,8 +46,8 @@ AP4_MfhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version > 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version > 0) return NULL;
     return new AP4_MfhdAtom(size, version, flags, stream);
 }
 
@@ -55,7 +55,7 @@ AP4_MfhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 |   AP4_MfhdAtom::AP4_MfhdAtom
 +---------------------------------------------------------------------*/
 AP4_MfhdAtom::AP4_MfhdAtom(AP4_UI32 sequence_number) :
-    AP4_Atom(AP4_ATOM_TYPE_MFHD, AP4_FULL_ATOM_HEADER_SIZE+4, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_MFHD, AP4_FULL_ATOM_HEADER_SIZE + 4, 0, 0),
     m_SequenceNumber(sequence_number)
 {
 }
@@ -63,7 +63,7 @@ AP4_MfhdAtom::AP4_MfhdAtom(AP4_UI32 sequence_number) :
 /*----------------------------------------------------------------------
 |   AP4_MfhdAtom::AP4_MfhdAtom
 +---------------------------------------------------------------------*/
-AP4_MfhdAtom::AP4_MfhdAtom(AP4_UI32        size, 
+AP4_MfhdAtom::AP4_MfhdAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :

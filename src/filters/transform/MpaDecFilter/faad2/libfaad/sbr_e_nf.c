@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -42,27 +42,29 @@ void extract_envelope_data(sbr_info *sbr, uint8_t ch)
 {
     uint8_t l, k;
 
-    for (l = 0; l < sbr->L_E[ch]; l++)
+    for(l = 0; l < sbr->L_E[ch]; l++)
     {
-        if (sbr->bs_df_env[ch][l] == 0)
+        if(sbr->bs_df_env[ch][l] == 0)
         {
-            for (k = 1; k < sbr->n[sbr->f[ch][l]]; k++)
+            for(k = 1; k < sbr->n[sbr->f[ch][l]]; k++)
             {
                 sbr->E[ch][k][l] = sbr->E[ch][k - 1][l] + sbr->E[ch][k][l];
-                if (sbr->E[ch][k][l] < 0)
+                if(sbr->E[ch][k][l] < 0)
                     sbr->E[ch][k][l] = 0;
             }
 
-        } else { /* bs_df_env == 1 */
+        }
+        else     /* bs_df_env == 1 */
+        {
 
             uint8_t g = (l == 0) ? sbr->f_prev[ch] : sbr->f[ch][l-1];
             int16_t E_prev;
 
-            if (sbr->f[ch][l] == g)
+            if(sbr->f[ch][l] == g)
             {
-                for (k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
+                for(k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
                 {
-                    if (l == 0)
+                    if(l == 0)
                         E_prev = sbr->E_prev[ch][k];
                     else
                         E_prev = sbr->E[ch][k][l - 1];
@@ -70,16 +72,18 @@ void extract_envelope_data(sbr_info *sbr, uint8_t ch)
                     sbr->E[ch][k][l] = E_prev + sbr->E[ch][k][l];
                 }
 
-            } else if ((g == 1) && (sbr->f[ch][l] == 0)) {
+            }
+            else if((g == 1) && (sbr->f[ch][l] == 0))
+            {
                 uint8_t i;
 
-                for (k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
+                for(k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
                 {
-                    for (i = 0; i < sbr->N_high; i++)
+                    for(i = 0; i < sbr->N_high; i++)
                     {
-                        if (sbr->f_table_res[HI_RES][i] == sbr->f_table_res[LO_RES][k])
+                        if(sbr->f_table_res[HI_RES][i] == sbr->f_table_res[LO_RES][k])
                         {
-                            if (l == 0)
+                            if(l == 0)
                                 E_prev = sbr->E_prev[ch][i];
                             else
                                 E_prev = sbr->E[ch][i][l - 1];
@@ -89,17 +93,19 @@ void extract_envelope_data(sbr_info *sbr, uint8_t ch)
                     }
                 }
 
-            } else if ((g == 0) && (sbr->f[ch][l] == 1)) {
+            }
+            else if((g == 0) && (sbr->f[ch][l] == 1))
+            {
                 uint8_t i;
 
-                for (k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
+                for(k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
                 {
-                    for (i = 0; i < sbr->N_low; i++)
+                    for(i = 0; i < sbr->N_low; i++)
                     {
-                        if ((sbr->f_table_res[LO_RES][i] <= sbr->f_table_res[HI_RES][k]) &&
-                            (sbr->f_table_res[HI_RES][k] < sbr->f_table_res[LO_RES][i + 1]))
+                        if((sbr->f_table_res[LO_RES][i] <= sbr->f_table_res[HI_RES][k]) &&
+                           (sbr->f_table_res[HI_RES][k] < sbr->f_table_res[LO_RES][i + 1]))
                         {
-                            if (l == 0)
+                            if(l == 0)
                                 E_prev = sbr->E_prev[ch][i];
                             else
                                 E_prev = sbr->E[ch][i][l - 1];
@@ -117,23 +123,27 @@ void extract_noise_floor_data(sbr_info *sbr, uint8_t ch)
 {
     uint8_t l, k;
 
-    for (l = 0; l < sbr->L_Q[ch]; l++)
+    for(l = 0; l < sbr->L_Q[ch]; l++)
     {
-        if (sbr->bs_df_noise[ch][l] == 0)
+        if(sbr->bs_df_noise[ch][l] == 0)
         {
-            for (k = 1; k < sbr->N_Q; k++)
+            for(k = 1; k < sbr->N_Q; k++)
             {
                 sbr->Q[ch][k][l] = sbr->Q[ch][k][l] + sbr->Q[ch][k-1][l];
             }
-        } else {
-            if (l == 0)
+        }
+        else
+        {
+            if(l == 0)
             {
-                for (k = 0; k < sbr->N_Q; k++)
+                for(k = 0; k < sbr->N_Q; k++)
                 {
                     sbr->Q[ch][k][l] = sbr->Q_prev[ch][k] + sbr->Q[ch][k][0];
                 }
-            } else {
-                for (k = 0; k < sbr->N_Q; k++)
+            }
+            else
+            {
+                for(k = 0; k < sbr->N_Q; k++)
                 {
                     sbr->Q[ch][k][l] = sbr->Q[ch][k][l - 1] + sbr->Q[ch][k][l];
                 }
@@ -145,7 +155,8 @@ void extract_noise_floor_data(sbr_info *sbr, uint8_t ch)
 #ifndef FIXED_POINT
 
 /* table for Q_div values when no coupling */
-static const real_t Q_div_tab[31] = {
+static const real_t Q_div_tab[31] =
+{
     FRAC_CONST(0.0153846), FRAC_CONST(0.030303),
     FRAC_CONST(0.0588235), FRAC_CONST(0.111111),
     FRAC_CONST(0.2),       FRAC_CONST(0.333333),
@@ -164,7 +175,8 @@ static const real_t Q_div_tab[31] = {
     FRAC_CONST(1)
 };
 
-static const real_t Q_div_tab_left[31][13] = {
+static const real_t Q_div_tab_left[31][13] =
+{
     { FRAC_CONST(0.969704), FRAC_CONST(0.888985), FRAC_CONST(0.667532), FRAC_CONST(0.336788), FRAC_CONST(0.117241), FRAC_CONST(0.037594), FRAC_CONST(0.0153846), FRAC_CONST(0.00967118), FRAC_CONST(0.00823245), FRAC_CONST(0.00787211), FRAC_CONST(0.00778198), FRAC_CONST(0.00775945), FRAC_CONST(0.00775382) },
     { FRAC_CONST(0.984619), FRAC_CONST(0.94123), FRAC_CONST(0.800623), FRAC_CONST(0.503876), FRAC_CONST(0.209877), FRAC_CONST(0.0724638), FRAC_CONST(0.030303), FRAC_CONST(0.0191571), FRAC_CONST(0.0163305), FRAC_CONST(0.0156212), FRAC_CONST(0.0154438), FRAC_CONST(0.0153994), FRAC_CONST(0.0153883) },
     { FRAC_CONST(0.99225), FRAC_CONST(0.969726), FRAC_CONST(0.889273), FRAC_CONST(0.670103), FRAC_CONST(0.346939), FRAC_CONST(0.135135), FRAC_CONST(0.0588235), FRAC_CONST(0.037594), FRAC_CONST(0.0321361), FRAC_CONST(0.0307619), FRAC_CONST(0.0304178), FRAC_CONST(0.0303317), FRAC_CONST(0.0303102) },
@@ -198,7 +210,8 @@ static const real_t Q_div_tab_left[31][13] = {
     { FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1), FRAC_CONST(1) }
 };
 
-static const real_t Q_div_tab_right[31][13] = {
+static const real_t Q_div_tab_right[31][13] =
+{
     { FRAC_CONST(0.00775382), FRAC_CONST(0.00775945), FRAC_CONST(0.00778198), FRAC_CONST(0.00787211), FRAC_CONST(0.00823245), FRAC_CONST(0.00967118), FRAC_CONST(0.0153846), FRAC_CONST(0.037594), FRAC_CONST(0.117241), FRAC_CONST(0.336788), FRAC_CONST(0.667532), FRAC_CONST(0.888985), FRAC_CONST(0.969704) },
     { FRAC_CONST(0.0153883), FRAC_CONST(0.0153994), FRAC_CONST(0.0154438), FRAC_CONST(0.0156212), FRAC_CONST(0.0163305), FRAC_CONST(0.0191571), FRAC_CONST(0.030303), FRAC_CONST(0.0724638), FRAC_CONST(0.209877), FRAC_CONST(0.503876), FRAC_CONST(0.800623), FRAC_CONST(0.94123), FRAC_CONST(0.984619) },
     { FRAC_CONST(0.0303102), FRAC_CONST(0.0303317), FRAC_CONST(0.0304178), FRAC_CONST(0.0307619), FRAC_CONST(0.0321361), FRAC_CONST(0.037594), FRAC_CONST(0.0588235), FRAC_CONST(0.135135), FRAC_CONST(0.346939), FRAC_CONST(0.670103), FRAC_CONST(0.889273), FRAC_CONST(0.969726), FRAC_CONST(0.99225) },
@@ -236,35 +249,44 @@ static const real_t Q_div_tab_right[31][13] = {
 /* [0..1] */
 static real_t calc_Q_div(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
 {
-    if (sbr->bs_coupling)
+    if(sbr->bs_coupling)
     {
         /* left channel */
-        if ((sbr->Q[0][m][l] < 0 || sbr->Q[0][m][l] > 30) ||
-            (sbr->Q[1][m][l] < 0 || sbr->Q[1][m][l] > 24 /* 2*panOffset(1) */))
+        if((sbr->Q[0][m][l] < 0 || sbr->Q[0][m][l] > 30) ||
+           (sbr->Q[1][m][l] < 0 || sbr->Q[1][m][l] > 24 /* 2*panOffset(1) */))
         {
             return 0;
-        } else {
+        }
+        else
+        {
             /* the pan parameter is always even */
-            if (ch == 0)
+            if(ch == 0)
             {
                 return Q_div_tab_left[sbr->Q[0][m][l]][sbr->Q[1][m][l] >> 1];
-            } else {
+            }
+            else
+            {
                 return Q_div_tab_right[sbr->Q[0][m][l]][sbr->Q[1][m][l] >> 1];
             }
         }
-    } else {
+    }
+    else
+    {
         /* no coupling */
-        if (sbr->Q[ch][m][l] < 0 || sbr->Q[ch][m][l] > 30)
+        if(sbr->Q[ch][m][l] < 0 || sbr->Q[ch][m][l] > 30)
         {
             return 0;
-        } else {
+        }
+        else
+        {
             return Q_div_tab[sbr->Q[ch][m][l]];
         }
     }
 }
 
 /* table for Q_div2 values when no coupling */
-static const real_t Q_div2_tab[31] = {
+static const real_t Q_div2_tab[31] =
+{
     FRAC_CONST(0.984615),     FRAC_CONST(0.969697),
     FRAC_CONST(0.941176),     FRAC_CONST(0.888889),
     FRAC_CONST(0.8),          FRAC_CONST(0.666667),
@@ -283,7 +305,8 @@ static const real_t Q_div2_tab[31] = {
     FRAC_CONST(5.96046E-008)
 };
 
-static const real_t Q_div2_tab_left[31][13] = {
+static const real_t Q_div2_tab_left[31][13] =
+{
     { FRAC_CONST(0.0302959), FRAC_CONST(0.111015), FRAC_CONST(0.332468), FRAC_CONST(0.663212), FRAC_CONST(0.882759), FRAC_CONST(0.962406), FRAC_CONST(0.984615), FRAC_CONST(0.990329), FRAC_CONST(0.991768), FRAC_CONST(0.992128), FRAC_CONST(0.992218), FRAC_CONST(0.992241), FRAC_CONST(0.992246) },
     { FRAC_CONST(0.0153809), FRAC_CONST(0.0587695), FRAC_CONST(0.199377), FRAC_CONST(0.496124), FRAC_CONST(0.790123), FRAC_CONST(0.927536), FRAC_CONST(0.969697), FRAC_CONST(0.980843), FRAC_CONST(0.98367), FRAC_CONST(0.984379), FRAC_CONST(0.984556), FRAC_CONST(0.984601), FRAC_CONST(0.984612) },
     { FRAC_CONST(0.00775006), FRAC_CONST(0.0302744), FRAC_CONST(0.110727), FRAC_CONST(0.329897), FRAC_CONST(0.653061), FRAC_CONST(0.864865), FRAC_CONST(0.941176), FRAC_CONST(0.962406), FRAC_CONST(0.967864), FRAC_CONST(0.969238), FRAC_CONST(0.969582), FRAC_CONST(0.969668), FRAC_CONST(0.96969) },
@@ -317,7 +340,8 @@ static const real_t Q_div2_tab_left[31][13] = {
     { FRAC_CONST(2.90967E-011), FRAC_CONST(1.16302E-010), FRAC_CONST(4.63849E-010), FRAC_CONST(1.83399E-009), FRAC_CONST(7.01231E-009), FRAC_CONST(2.38419E-008), FRAC_CONST(5.96046E-008), FRAC_CONST(9.53674E-008), FRAC_CONST(1.12197E-007), FRAC_CONST(1.17375E-007), FRAC_CONST(1.18745E-007), FRAC_CONST(1.19093E-007), FRAC_CONST(1.1918E-007) }
 };
 
-static const real_t Q_div2_tab_right[31][13] = {
+static const real_t Q_div2_tab_right[31][13] =
+{
     { FRAC_CONST(0.992246), FRAC_CONST(0.992241), FRAC_CONST(0.992218), FRAC_CONST(0.992128), FRAC_CONST(0.991768), FRAC_CONST(0.990329), FRAC_CONST(0.984615), FRAC_CONST(0.962406), FRAC_CONST(0.882759), FRAC_CONST(0.663212), FRAC_CONST(0.332468), FRAC_CONST(0.111015), FRAC_CONST(0.0302959) },
     { FRAC_CONST(0.984612), FRAC_CONST(0.984601), FRAC_CONST(0.984556), FRAC_CONST(0.984379), FRAC_CONST(0.98367), FRAC_CONST(0.980843), FRAC_CONST(0.969697), FRAC_CONST(0.927536), FRAC_CONST(0.790123), FRAC_CONST(0.496124), FRAC_CONST(0.199377), FRAC_CONST(0.0587695), FRAC_CONST(0.0153809) },
     { FRAC_CONST(0.96969), FRAC_CONST(0.969668), FRAC_CONST(0.969582), FRAC_CONST(0.969238), FRAC_CONST(0.967864), FRAC_CONST(0.962406), FRAC_CONST(0.941176), FRAC_CONST(0.864865), FRAC_CONST(0.653061), FRAC_CONST(0.329897), FRAC_CONST(0.110727), FRAC_CONST(0.0302744), FRAC_CONST(0.00775006) },
@@ -355,33 +379,42 @@ static const real_t Q_div2_tab_right[31][13] = {
 /* [0..1] */
 static real_t calc_Q_div2(sbr_info *sbr, uint8_t ch, uint8_t m, uint8_t l)
 {
-    if (sbr->bs_coupling)
+    if(sbr->bs_coupling)
     {
-        if ((sbr->Q[0][m][l] < 0 || sbr->Q[0][m][l] > 30) ||
-            (sbr->Q[1][m][l] < 0 || sbr->Q[1][m][l] > 24 /* 2*panOffset(1) */))
+        if((sbr->Q[0][m][l] < 0 || sbr->Q[0][m][l] > 30) ||
+           (sbr->Q[1][m][l] < 0 || sbr->Q[1][m][l] > 24 /* 2*panOffset(1) */))
         {
             return 0;
-        } else {
+        }
+        else
+        {
             /* the pan parameter is always even */
-            if (ch == 0)
+            if(ch == 0)
             {
                 return Q_div2_tab_left[sbr->Q[0][m][l]][sbr->Q[1][m][l] >> 1];
-            } else {
+            }
+            else
+            {
                 return Q_div2_tab_right[sbr->Q[0][m][l]][sbr->Q[1][m][l] >> 1];
             }
         }
-    } else {
+    }
+    else
+    {
         /* no coupling */
-        if (sbr->Q[ch][m][l] < 0 || sbr->Q[ch][m][l] > 30)
+        if(sbr->Q[ch][m][l] < 0 || sbr->Q[ch][m][l] > 30)
         {
             return 0;
-        } else {
+        }
+        else
+        {
             return Q_div2_tab[sbr->Q[ch][m][l]];
         }
     }
 }
 
-static const real_t E_deq_tab[64] = {
+static const real_t E_deq_tab[64] =
+{
     64.0f, 128.0f, 256.0f, 512.0f, 1024.0f, 2048.0f, 4096.0f, 8192.0f,
     16384.0f, 32768.0f, 65536.0f, 131072.0f, 262144.0f, 524288.0f, 1.04858E+006f, 2.09715E+006f,
     4.1943E+006f, 8.38861E+006f, 1.67772E+007f, 3.35544E+007f, 6.71089E+007f, 1.34218E+008f, 2.68435E+008f, 5.36871E+008f,
@@ -394,15 +427,15 @@ static const real_t E_deq_tab[64] = {
 
 void envelope_noise_dequantisation(sbr_info *sbr, uint8_t ch)
 {
-    if (sbr->bs_coupling == 0)
+    if(sbr->bs_coupling == 0)
     {
         int16_t exp;
         uint8_t l, k;
         uint8_t amp = (sbr->amp_res[ch]) ? 0 : 1;
 
-        for (l = 0; l < sbr->L_E[ch]; l++)
+        for(l = 0; l < sbr->L_E[ch]; l++)
         {
-            for (k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
+            for(k = 0; k < sbr->n[sbr->f[ch][l]]; k++)
             {
                 /* +6 for the *64 and -10 for the /32 in the synthesis QMF (fixed)
                  * since this is a energy value: (x/32)^2 = (x^2)/1024
@@ -410,14 +443,16 @@ void envelope_noise_dequantisation(sbr_info *sbr, uint8_t ch)
                 /* exp = (sbr->E[ch][k][l] >> amp) + 6; */
                 exp = (sbr->E[ch][k][l] >> amp);
 
-                if ((exp < 0) || (exp >= 64))
+                if((exp < 0) || (exp >= 64))
                 {
                     sbr->E_orig[ch][k][l] = 0;
-                } else {
+                }
+                else
+                {
                     sbr->E_orig[ch][k][l] = E_deq_tab[exp];
 
                     /* save half the table size at the cost of 1 multiply */
-                    if (amp && (sbr->E[ch][k][l] & 1))
+                    if(amp && (sbr->E[ch][k][l] & 1))
                     {
                         sbr->E_orig[ch][k][l] = MUL_C(sbr->E_orig[ch][k][l], COEF_CONST(1.414213562));
                     }
@@ -425,9 +460,9 @@ void envelope_noise_dequantisation(sbr_info *sbr, uint8_t ch)
             }
         }
 
-        for (l = 0; l < sbr->L_Q[ch]; l++)
+        for(l = 0; l < sbr->L_Q[ch]; l++)
         {
-            for (k = 0; k < sbr->N_Q; k++)
+            for(k = 0; k < sbr->N_Q; k++)
             {
                 sbr->Q_div[ch][k][l] = calc_Q_div(sbr, ch, k, l);
                 sbr->Q_div2[ch][k][l] = calc_Q_div2(sbr, ch, k, l);
@@ -436,7 +471,8 @@ void envelope_noise_dequantisation(sbr_info *sbr, uint8_t ch)
     }
 }
 
-static const real_t E_pan_tab[25] = {
+static const real_t E_pan_tab[25] =
+{
     FRAC_CONST(0.000244081), FRAC_CONST(0.000488043),
     FRAC_CONST(0.00097561),  FRAC_CONST(0.00194932),
     FRAC_CONST(0.00389105),  FRAC_CONST(0.00775194),
@@ -460,9 +496,9 @@ void unmap_envelope_noise(sbr_info *sbr)
     uint8_t amp0 = (sbr->amp_res[0]) ? 0 : 1;
     uint8_t amp1 = (sbr->amp_res[1]) ? 0 : 1;
 
-    for (l = 0; l < sbr->L_E[0]; l++)
+    for(l = 0; l < sbr->L_E[0]; l++)
     {
-        for (k = 0; k < sbr->n[sbr->f[0][l]]; k++)
+        for(k = 0; k < sbr->n[sbr->f[0][l]]; k++)
         {
             /* +6: * 64 ; +1: * 2 ; */
             exp0 = (sbr->E[0][k][l] >> amp0) + 1;
@@ -474,14 +510,16 @@ void unmap_envelope_noise(sbr_info *sbr)
             /* exp1 = (sbr->E[1][k][l] >> amp1) - 12; */
             exp1 = (sbr->E[1][k][l] >> amp1);
 
-            if ((exp0 < 0) || (exp0 >= 64) ||
-                (exp1 < 0) || (exp1 > 24))
+            if((exp0 < 0) || (exp0 >= 64) ||
+               (exp1 < 0) || (exp1 > 24))
             {
                 sbr->E_orig[1][k][l] = 0;
                 sbr->E_orig[0][k][l] = 0;
-            } else {
+            }
+            else
+            {
                 tmp = E_deq_tab[exp0];
-                if (amp0 && (sbr->E[0][k][l] & 1))
+                if(amp0 && (sbr->E[0][k][l] & 1))
                 {
                     tmp = MUL_C(tmp, COEF_CONST(1.414213562));
                 }
@@ -493,9 +531,9 @@ void unmap_envelope_noise(sbr_info *sbr)
         }
     }
 
-    for (l = 0; l < sbr->L_Q[0]; l++)
+    for(l = 0; l < sbr->L_Q[0]; l++)
     {
-        for (k = 0; k < sbr->N_Q; k++)
+        for(k = 0; k < sbr->N_Q; k++)
         {
             sbr->Q_div[0][k][l] = calc_Q_div(sbr, 0, k, l);
             sbr->Q_div[1][k][l] = calc_Q_div(sbr, 1, k, l);

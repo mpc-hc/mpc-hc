@@ -28,7 +28,7 @@
 
 class CPixelShaderCompiler
 {
-	typedef HRESULT (WINAPI * D3DXCompileShaderPtr) (
+    typedef HRESULT(WINAPI * D3DXCompileShaderPtr)(
         LPCSTR		pSrcData,
         UINT		SrcDataLen,
         CONST D3DXMACRO* pDefines,
@@ -40,27 +40,27 @@ class CPixelShaderCompiler
         LPD3DXBUFFER*	ppErrorMsgs,
         LPD3DXCONSTANTTABLE* ppConstantTable);
 
-	typedef HRESULT (WINAPI * D3DXDisassembleShaderPtr) (
-        CONST DWORD*	pShader, 
-        bool		EnableColorCode, 
-        LPCSTR		pComments, 
+    typedef HRESULT(WINAPI * D3DXDisassembleShaderPtr)(
+        CONST DWORD*	pShader,
+        bool		EnableColorCode,
+        LPCSTR		pComments,
         LPD3DXBUFFER*	ppDisassembly);
-	
-	D3DXCompileShaderPtr m_pD3DXCompileShader;
-	D3DXDisassembleShaderPtr m_pD3DXDisassembleShader;
 
-	CComPtr<IDirect3DDevice9> m_pD3DDev;
+    D3DXCompileShaderPtr m_pD3DXCompileShader;
+    D3DXDisassembleShaderPtr m_pD3DXDisassembleShader;
+
+    CComPtr<IDirect3DDevice9> m_pD3DDev;
 
 public:
-	CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent = false);
-	virtual ~CPixelShaderCompiler();
+    CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent = false);
+    virtual ~CPixelShaderCompiler();
 
-	HRESULT CompileShader(
+    HRESULT CompileShader(
         LPCSTR pSrcData,
         LPCSTR pFunctionName,
         LPCSTR pProfile,
         DWORD Flags,
         IDirect3DPixelShader9** ppPixelShader,
-		CString* disasm = NULL,
-		CString* errmsg = NULL);
+        CString* disasm = NULL,
+        CString* errmsg = NULL);
 };

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tkhd Atoms 
+|    AP4 - tkhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -61,28 +61,53 @@ public:
                  AP4_UI64 duration,
                  AP4_UI16 volume,
                  AP4_UI32 width,
-                 AP4_UI32 height);    
+                 AP4_UI32 height);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI64   GetDuration()                  { return m_Duration;     }
-    void       SetDuration(AP4_UI64 duration) { m_Duration = duration; }
-    AP4_UI32   GetTrackId()                   { return m_TrackId;      }
-    void       SetTrackId(AP4_UI32 track_id)  { m_TrackId = track_id;  }
+    AP4_UI64   GetDuration()
+    {
+        return m_Duration;
+    }
+    void       SetDuration(AP4_UI64 duration)
+    {
+        m_Duration = duration;
+    }
+    AP4_UI32   GetTrackId()
+    {
+        return m_TrackId;
+    }
+    void       SetTrackId(AP4_UI32 track_id)
+    {
+        m_TrackId = track_id;
+    }
 
-    void GetTranslation(float& x, float& y) {
+    void GetTranslation(float& x, float& y)
+    {
         x = (float)(*(int*)&m_Matrix[6]) / 65536;
         y = (float)(*(int*)&m_Matrix[7]) / 65536;
     }
 
-    AP4_UI32 GetWidth()                 { return m_Width;    }
-    void     SetWidth(AP4_UI32 width)   { m_Width = width;   }
-    AP4_UI32 GetHeight()                { return m_Height;   }
-    void     SetHeight(AP4_UI32 height) { m_Height = height; }
+    AP4_UI32 GetWidth()
+    {
+        return m_Width;
+    }
+    void     SetWidth(AP4_UI32 width)
+    {
+        m_Width = width;
+    }
+    AP4_UI32 GetHeight()
+    {
+        return m_Height;
+    }
+    void     SetHeight(AP4_UI32 height)
+    {
+        m_Height = height;
+    }
 
- private:
+private:
     // methods
-    AP4_TkhdAtom(AP4_UI32        size, 
+    AP4_TkhdAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

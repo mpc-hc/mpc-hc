@@ -1,17 +1,17 @@
 /*
      File:       vBLAS.h
- 
+
      Contains:   Header for the Basic Linear Algebra Subprograms, with Apple extensions.
- 
+
      Version:    QuickTime 7.3
- 
+
      Copyright:  (c) 2007 (c) 2000-2001 by Apple Computer, Inc., all rights reserved.
- 
+
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
- 
+
                      http://developer.apple.com/bugreporter/
- 
+
 */
 /* ==========================================================================================================================*/
 
@@ -98,647 +98,651 @@ extern "C" {
 #endif
 
 #if PRAGMA_STRUCT_ALIGN
-    #pragma options align=power
+#pragma options align=power
 #elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(push, 2)
+#pragma pack(push, 2)
 #elif PRAGMA_STRUCT_PACK
-    #pragma pack(2)
+#pragma pack(2)
 #endif
 
 #if PRAGMA_ENUM_ALWAYSINT
-    #if defined(__fourbyteints__) && !__fourbyteints__ 
-        #define __VBLAS__RESTORE_TWOBYTEINTS
-        #pragma fourbyteints on
-    #endif
-    #pragma enumsalwaysint on
+#if defined(__fourbyteints__) && !__fourbyteints__
+#define __VBLAS__RESTORE_TWOBYTEINTS
+#pragma fourbyteints on
+#endif
+#pragma enumsalwaysint on
 #elif PRAGMA_ENUM_OPTIONS
-    #pragma option enum=int
+#pragma option enum=int
 #elif PRAGMA_ENUM_PACK
-    #if __option(pack_enums)
-        #define __VBLAS__RESTORE_PACKED_ENUMS
-        #pragma options(!pack_enums)
-    #endif
+#if __option(pack_enums)
+#define __VBLAS__RESTORE_PACKED_ENUMS
+#pragma options(!pack_enums)
+#endif
 #endif
 
 
-/*
-   ==========================================================================================================================
-   Types and constants
-   ===================
-*/
+    /*
+       ==========================================================================================================================
+       Types and constants
+       ===================
+    */
 
 
-enum CBLAS_ORDER {
-  CblasRowMajor                 = 101,
-  CblasColMajor                 = 102
-};
-typedef enum CBLAS_ORDER CBLAS_ORDER;
+    enum CBLAS_ORDER {
+        CblasRowMajor                 = 101,
+        CblasColMajor                 = 102
+                                    };
+    typedef enum CBLAS_ORDER CBLAS_ORDER;
 
-enum CBLAS_TRANSPOSE {
-  CblasNoTrans                  = 111,
-  CblasTrans                    = 112,
-  CblasConjTrans                = 113
-};
-typedef enum CBLAS_TRANSPOSE CBLAS_TRANSPOSE;
+    enum CBLAS_TRANSPOSE
+    {
+        CblasNoTrans                  = 111,
+        CblasTrans                    = 112,
+        CblasConjTrans                = 113
+    };
+    typedef enum CBLAS_TRANSPOSE CBLAS_TRANSPOSE;
 
-enum CBLAS_UPLO {
-  CblasUpper                    = 121,
-  CblasLower                    = 122
-};
-typedef enum CBLAS_UPLO CBLAS_UPLO;
+    enum CBLAS_UPLO
+    {
+        CblasUpper                    = 121,
+        CblasLower                    = 122
+    };
+    typedef enum CBLAS_UPLO CBLAS_UPLO;
 
-enum CBLAS_DIAG {
-  CblasNonUnit                  = 131,
-  CblasUnit                     = 132
-};
-typedef enum CBLAS_DIAG CBLAS_DIAG;
+    enum CBLAS_DIAG
+    {
+        CblasNonUnit                  = 131,
+        CblasUnit                     = 132
+    };
+    typedef enum CBLAS_DIAG CBLAS_DIAG;
 
-enum CBLAS_SIDE {
-  CblasLeft                     = 141,
-  CblasRight                    = 142
-};
-typedef enum CBLAS_SIDE CBLAS_SIDE;
+    enum CBLAS_SIDE
+    {
+        CblasLeft                     = 141,
+        CblasRight                    = 142
+    };
+    typedef enum CBLAS_SIDE CBLAS_SIDE;
 
 
-/*
-   ------------------------------------------------------------------------------------------------------------------
-   IsAlignedCount   - True if an integer is positive and a multiple of 4.  Negative strides are considered unaligned.
-   IsAlignedAddr    - True if an address is a multiple of 16.
-*/
+    /*
+       ------------------------------------------------------------------------------------------------------------------
+       IsAlignedCount   - True if an integer is positive and a multiple of 4.  Negative strides are considered unaligned.
+       IsAlignedAddr    - True if an address is a multiple of 16.
+    */
 
 #define IsAlignedCount(n)   ( (n > 0) && ((n & 3L) == 0) )
 #define IsAlignedAddr(a)    ( ((long)a & 15L) == 0 )
 
-/*
-   ==========================================================================================================================
-   ==========================================================================================================================
-   Legacy BLAS Functions
-   ==========================================================================================================================
-   ==========================================================================================================================
-*/
+    /*
+       ==========================================================================================================================
+       ==========================================================================================================================
+       Legacy BLAS Functions
+       ==========================================================================================================================
+       ==========================================================================================================================
+    */
 
 
-/*
-   ==========================================================================================================================
-   Level 1 Single Precision Functions
-   ==================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 1 Single Precision Functions
+       ==================================
+    */
 
 
-/*
- *  cblas_sdot()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( float )
-cblas_sdot(
-  int            N,
-  const float *  X,
-  int            incX,
-  const float *  Y,
-  int            incY);
+    /*
+     *  cblas_sdot()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(float)
+    cblas_sdot(
+        int            N,
+        const float *  X,
+        int            incX,
+        const float *  Y,
+        int            incY);
 
 
-/*
- *  cblas_snrm2()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( float )
-cblas_snrm2(
-  int            N,
-  const float *  X,
-  int            incX);
+    /*
+     *  cblas_snrm2()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(float)
+    cblas_snrm2(
+        int            N,
+        const float *  X,
+        int            incX);
 
 
-/*
- *  cblas_sasum()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( float )
-cblas_sasum(
-  int            N,
-  const float *  X,
-  int            incX);
+    /*
+     *  cblas_sasum()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(float)
+    cblas_sasum(
+        int            N,
+        const float *  X,
+        int            incX);
 
 
-/*
- *  cblas_isamax()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( int )
-cblas_isamax(
-  int            N,
-  const float *  X,
-  int            incX);
+    /*
+     *  cblas_isamax()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(int)
+    cblas_isamax(
+        int            N,
+        const float *  X,
+        int            incX);
 
 
-/*
- *  cblas_sswap()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_sswap(
-  int      N,
-  float *  X,
-  int      incX,
-  float *  Y,
-  int      incY);
+    /*
+     *  cblas_sswap()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_sswap(
+        int      N,
+        float *  X,
+        int      incX,
+        float *  Y,
+        int      incY);
 
 
-/*
- *  cblas_scopy()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_scopy(
-  int            N,
-  const float *  X,
-  int            incX,
-  float *        Y,
-  int            incY);
+    /*
+     *  cblas_scopy()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_scopy(
+        int            N,
+        const float *  X,
+        int            incX,
+        float *        Y,
+        int            incY);
 
 
-/*
- *  cblas_saxpy()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_saxpy(
-  int            N,
-  float          alpha,
-  const float *  X,
-  int            incX,
-  float *        Y,
-  int            incY);
+    /*
+     *  cblas_saxpy()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_saxpy(
+        int            N,
+        float          alpha,
+        const float *  X,
+        int            incX,
+        float *        Y,
+        int            incY);
 
 
-/*
- *  cblas_srot()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_srot(
-  int      N,
-  float *  X,
-  int      incX,
-  float *  Y,
-  int      incY,
-  float    c,
-  float    s);
+    /*
+     *  cblas_srot()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_srot(
+        int      N,
+        float *  X,
+        int      incX,
+        float *  Y,
+        int      incY,
+        float    c,
+        float    s);
 
 
-/*
- *  cblas_sscal()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_sscal(
-  int      N,
-  float    alpha,
-  float *  X,
-  int      incX);
-
-
-
-/*
-   ==========================================================================================================================
-   Level 1 Double Precision Functions
-   ==================================
-*/
-
-
-/* *** TBD ****/
-
-
-/*
-   ==========================================================================================================================
-   Level 1 Complex Single Precision Functions
-   ==========================================
-*/
-
-
-/* *** TBD ****/
-
-
-/*
-   ==========================================================================================================================
-   Level 2 Single Precision Functions
-   ==================================
-*/
-
-
-/*
- *  cblas_sgemv()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_sgemv(
-  CBLAS_ORDER       order,
-  CBLAS_TRANSPOSE   transA,
-  int               M,
-  int               N,
-  float             alpha,
-  const float *     A,
-  int               lda,
-  const float *     X,
-  int               incX,
-  float             beta,
-  float *           Y,
-  int               incY);
+    /*
+     *  cblas_sscal()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_sscal(
+        int      N,
+        float    alpha,
+        float *  X,
+        int      incX);
 
 
 
-/*
-   ==========================================================================================================================
-   Level 2 Double Precision Functions
-   ==================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 1 Double Precision Functions
+       ==================================
+    */
 
 
-/* *** TBD ****/
+    /* *** TBD ****/
 
 
-/*
-   ==========================================================================================================================
-   Level 2 Complex Single Precision Functions
-   ==========================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 1 Complex Single Precision Functions
+       ==========================================
+    */
 
 
-/* *** TBD ****/
+    /* *** TBD ****/
 
 
-/*
-   ==========================================================================================================================
-   Level 3 Single Precision Functions
-   ==================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 2 Single Precision Functions
+       ==================================
+    */
 
 
-/*
- *  cblas_sgemm()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-cblas_sgemm(
-  CBLAS_ORDER       order,
-  CBLAS_TRANSPOSE   transA,
-  CBLAS_TRANSPOSE   transB,
-  int               M,
-  int               N,
-  int               K,
-  float             alpha,
-  const float *     A,
-  int               lda,
-  const float *     B,
-  int               ldb,
-  float             beta,
-  float *           C,
-  int               ldc);
+    /*
+     *  cblas_sgemv()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_sgemv(
+        CBLAS_ORDER       order,
+        CBLAS_TRANSPOSE   transA,
+        int               M,
+        int               N,
+        float             alpha,
+        const float *     A,
+        int               lda,
+        const float *     X,
+        int               incX,
+        float             beta,
+        float *           Y,
+        int               incY);
 
 
 
-/*
-   ==========================================================================================================================
-   Level 3 Double Precision Functions
-   ==================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 2 Double Precision Functions
+       ==================================
+    */
 
 
-/* *** TBD ****/
+    /* *** TBD ****/
 
 
-/*
-   ==========================================================================================================================
-   Level 3 Complex Single Precision Functions
-   ==========================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 2 Complex Single Precision Functions
+       ==========================================
+    */
 
 
-/* *** TBD ****/
+    /* *** TBD ****/
 
 
-/*
-   ==========================================================================================================================
-   ==========================================================================================================================
-   Latest Standard BLAS Functions
-   ==========================================================================================================================
-   ==========================================================================================================================
-*/
+    /*
+       ==========================================================================================================================
+       Level 3 Single Precision Functions
+       ==================================
+    */
 
 
-/* *** TBD ****/
+    /*
+     *  cblas_sgemm()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    cblas_sgemm(
+        CBLAS_ORDER       order,
+        CBLAS_TRANSPOSE   transA,
+        CBLAS_TRANSPOSE   transB,
+        int               M,
+        int               N,
+        int               K,
+        float             alpha,
+        const float *     A,
+        int               lda,
+        const float *     B,
+        int               ldb,
+        float             beta,
+        float *           C,
+        int               ldc);
 
 
-/*
-   ==========================================================================================================================
-   ==========================================================================================================================
-   Additional Functions from Apple
-   ==========================================================================================================================
-   ==========================================================================================================================
-*/
+
+    /*
+       ==========================================================================================================================
+       Level 3 Double Precision Functions
+       ==================================
+    */
 
 
-/*
-   -------------------------------------------------------------------------------------------------
-   These routines provide optimized, AltiVec-only support for common small matrix multiplications.
-   They do not check for the availability of AltiVec instructions or parameter errors.  They just do
-   the multiplication as fast as possible.  Matrices are presumed to use row major storage.  Because
-   these are all square, column major matrices can be multiplied by simply reversing the parameters.
-*/
+    /* *** TBD ****/
+
+
+    /*
+       ==========================================================================================================================
+       Level 3 Complex Single Precision Functions
+       ==========================================
+    */
+
+
+    /* *** TBD ****/
+
+
+    /*
+       ==========================================================================================================================
+       ==========================================================================================================================
+       Latest Standard BLAS Functions
+       ==========================================================================================================================
+       ==========================================================================================================================
+    */
+
+
+    /* *** TBD ****/
+
+
+    /*
+       ==========================================================================================================================
+       ==========================================================================================================================
+       Additional Functions from Apple
+       ==========================================================================================================================
+       ==========================================================================================================================
+    */
+
+
+    /*
+       -------------------------------------------------------------------------------------------------
+       These routines provide optimized, AltiVec-only support for common small matrix multiplications.
+       They do not check for the availability of AltiVec instructions or parameter errors.  They just do
+       the multiplication as fast as possible.  Matrices are presumed to use row major storage.  Because
+       these are all square, column major matrices can be multiplied by simply reversing the parameters.
+    */
 
 
 #ifdef __VEC__
-typedef vector float                    ConstVectorFloat;
-/*
- *  vMultVecMat_4x4()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultVecMat_4x4(
-  ConstVectorFloat   X[1],
-  ConstVectorFloat   A[4][1],
-  vector float       Y[1]);
+    typedef vector float                    ConstVectorFloat;
+    /*
+     *  vMultVecMat_4x4()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultVecMat_4x4(
+        ConstVectorFloat   X[1],
+        ConstVectorFloat   A[4][1],
+        vector float       Y[1]);
 
 
-/*
- *  vMultMatVec_4x4()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatVec_4x4(
-  ConstVectorFloat   A[4][1],
-  ConstVectorFloat   X[1],
-  vector float       Y[1]);
+    /*
+     *  vMultMatVec_4x4()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatVec_4x4(
+        ConstVectorFloat   A[4][1],
+        ConstVectorFloat   X[1],
+        vector float       Y[1]);
 
 
-/*
- *  vMultMatMat_4x4()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatMat_4x4(
-  ConstVectorFloat   A[4][1],
-  ConstVectorFloat   B[4][1],
-  vector float       C[4][1]);
-
-
-
-/*
- *  vMultVecMat_8x8()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultVecMat_8x8(
-  ConstVectorFloat   X[2],
-  ConstVectorFloat   A[8][2],
-  vector float       Y[2]);
-
-
-/*
- *  vMultMatVec_8x8()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatVec_8x8(
-  ConstVectorFloat   A[8][2],
-  ConstVectorFloat   X[2],
-  vector float       Y[2]);
-
-
-/*
- *  vMultMatMat_8x8()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatMat_8x8(
-  ConstVectorFloat   A[8][2],
-  ConstVectorFloat   B[8][2],
-  vector float       C[8][2]);
+    /*
+     *  vMultMatMat_4x4()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatMat_4x4(
+        ConstVectorFloat   A[4][1],
+        ConstVectorFloat   B[4][1],
+        vector float       C[4][1]);
 
 
 
-/*
- *  vMultVecMat_16x16()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultVecMat_16x16(
-  ConstVectorFloat   X[4],
-  ConstVectorFloat   A[16][4],
-  vector float       Y[4]);
+    /*
+     *  vMultVecMat_8x8()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultVecMat_8x8(
+        ConstVectorFloat   X[2],
+        ConstVectorFloat   A[8][2],
+        vector float       Y[2]);
 
 
-/*
- *  vMultMatVec_16x16()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatVec_16x16(
-  ConstVectorFloat   A[16][4],
-  ConstVectorFloat   X[4],
-  vector float       Y[4]);
+    /*
+     *  vMultMatVec_8x8()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatVec_8x8(
+        ConstVectorFloat   A[8][2],
+        ConstVectorFloat   X[2],
+        vector float       Y[2]);
 
 
-/*
- *  vMultMatMat_16x16()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatMat_16x16(
-  ConstVectorFloat   A[16][4],
-  ConstVectorFloat   B[16][4],
-  vector float       C[16][4]);
+    /*
+     *  vMultMatMat_8x8()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatMat_8x8(
+        ConstVectorFloat   A[8][2],
+        ConstVectorFloat   B[8][2],
+        vector float       C[8][2]);
 
 
 
-/*
- *  vMultVecMat_32x32()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultVecMat_32x32(
-  ConstVectorFloat   X[8],
-  ConstVectorFloat   A[32][8],
-  vector float       Y[8]);
+    /*
+     *  vMultVecMat_16x16()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultVecMat_16x16(
+        ConstVectorFloat   X[4],
+        ConstVectorFloat   A[16][4],
+        vector float       Y[4]);
 
 
-/*
- *  vMultMatVec_32x32()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatVec_32x32(
-  ConstVectorFloat   A[32][8],
-  ConstVectorFloat   X[8],
-  vector float       Y[8]);
+    /*
+     *  vMultMatVec_16x16()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatVec_16x16(
+        ConstVectorFloat   A[16][4],
+        ConstVectorFloat   X[4],
+        vector float       Y[4]);
 
 
-/*
- *  vMultMatMat_32x32()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-vMultMatMat_32x32(
-  ConstVectorFloat   A[32][8],
-  ConstVectorFloat   B[32][8],
-  vector float       C[32][8]);
+    /*
+     *  vMultMatMat_16x16()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatMat_16x16(
+        ConstVectorFloat   A[16][4],
+        ConstVectorFloat   B[16][4],
+        vector float       C[16][4]);
+
+
+
+    /*
+     *  vMultVecMat_32x32()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultVecMat_32x32(
+        ConstVectorFloat   X[8],
+        ConstVectorFloat   A[32][8],
+        vector float       Y[8]);
+
+
+    /*
+     *  vMultMatVec_32x32()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatVec_32x32(
+        ConstVectorFloat   A[32][8],
+        ConstVectorFloat   X[8],
+        vector float       Y[8]);
+
+
+    /*
+     *  vMultMatMat_32x32()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    vMultMatMat_32x32(
+        ConstVectorFloat   A[32][8],
+        ConstVectorFloat   B[32][8],
+        vector float       C[32][8]);
 
 
 #endif  /* defined(__VEC__) */
 
-/*
-   ==========================================================================================================================
-   Error handling
-   ==============
-*/
+    /*
+       ==========================================================================================================================
+       Error handling
+       ==============
+    */
 
 
-/*
-   -------------------------------------------------------------------------------------------------
-   The BLAS standard requires that parameter errors be reported and cause the program to terminate.
-   The default behavior for the Mac OS implementation of the BLAS is to print a message in English
-   to stdout using printf and call exit with EXIT_FAILURE as the status.  If this is adequate, then
-   you need do nothing more or worry about error handling.
-   The BLAS standard also mentions a function, cblas_xerbla, suggesting that a program provide its
-   own implementation to override the default error handling.  This will not work in the shared
-   library environment of Mac OS 9.  Instead the Mac OS implementation provides a means to install
-   an error handler.  There can only be one active error handler, installing a new one causes any
-   previous handler to be forgotten.  Passing a null function pointer installs the default handler.
-   The default handler is automatically installed at startup and implements the default behavior
-   defined above.
-   An error handler may return, it need not abort the program.  If the error handler returns, the
-   BLAS routine also returns immediately without performing any processing.  Level 1 functions that
-   return a numeric value return zero if the error handler returns.
-*/
+    /*
+       -------------------------------------------------------------------------------------------------
+       The BLAS standard requires that parameter errors be reported and cause the program to terminate.
+       The default behavior for the Mac OS implementation of the BLAS is to print a message in English
+       to stdout using printf and call exit with EXIT_FAILURE as the status.  If this is adequate, then
+       you need do nothing more or worry about error handling.
+       The BLAS standard also mentions a function, cblas_xerbla, suggesting that a program provide its
+       own implementation to override the default error handling.  This will not work in the shared
+       library environment of Mac OS 9.  Instead the Mac OS implementation provides a means to install
+       an error handler.  There can only be one active error handler, installing a new one causes any
+       previous handler to be forgotten.  Passing a null function pointer installs the default handler.
+       The default handler is automatically installed at startup and implements the default behavior
+       defined above.
+       An error handler may return, it need not abort the program.  If the error handler returns, the
+       BLAS routine also returns immediately without performing any processing.  Level 1 functions that
+       return a numeric value return zero if the error handler returns.
+    */
 
-typedef CALLBACK_API_C( void , BLASParamErrorProc )(const char *funcName, const char *paramName, const int *paramPos, const int *paramValue);
-/*
- *  SetBLASParamErrorProc()
- *  
- *  Availability:
- *    Non-Carbon CFM:   in vecLib 1.0.2 and later
- *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
- *    Mac OS X:         in version 10.0 and later
- */
-EXTERN_API_C( void )
-SetBLASParamErrorProc(BLASParamErrorProc ErrorProc);
+    typedef CALLBACK_API_C(void , BLASParamErrorProc)(const char *funcName, const char *paramName, const int *paramPos, const int *paramValue);
+    /*
+     *  SetBLASParamErrorProc()
+     *
+     *  Availability:
+     *    Non-Carbon CFM:   in vecLib 1.0.2 and later
+     *    CarbonLib:        not in Carbon, but vecLib is compatible with CarbonLib
+     *    Mac OS X:         in version 10.0 and later
+     */
+    EXTERN_API_C(void)
+    SetBLASParamErrorProc(BLASParamErrorProc ErrorProc);
 
 
 
-/* ==========================================================================================================================*/
+    /* ==========================================================================================================================*/
 
 
 
 
 #if PRAGMA_ENUM_ALWAYSINT
-    #pragma enumsalwaysint reset
-    #ifdef __VBLAS__RESTORE_TWOBYTEINTS
-        #pragma fourbyteints off
-    #endif
+#pragma enumsalwaysint reset
+#ifdef __VBLAS__RESTORE_TWOBYTEINTS
+#pragma fourbyteints off
+#endif
 #elif PRAGMA_ENUM_OPTIONS
-    #pragma option enum=reset
+#pragma option enum=reset
 #elif defined(__VBLAS__RESTORE_PACKED_ENUMS)
-    #pragma options(pack_enums)
+#pragma options(pack_enums)
 #endif
 
 #if PRAGMA_STRUCT_ALIGN
-    #pragma options align=reset
+#pragma options align=reset
 #elif PRAGMA_STRUCT_PACKPUSH
-    #pragma pack(pop)
+#pragma pack(pop)
 #elif PRAGMA_STRUCT_PACK
-    #pragma pack()
+#pragma pack()
 #endif
 
 #ifdef PRAGMA_IMPORT_OFF

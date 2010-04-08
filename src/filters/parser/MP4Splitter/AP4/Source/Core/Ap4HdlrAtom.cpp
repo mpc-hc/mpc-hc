@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - hdlr Atoms 
+|    AP4 - hdlr Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,8 +46,8 @@ AP4_HdlrAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_HdlrAtom(size, version, flags, stream);
 }
 
@@ -59,14 +59,14 @@ AP4_HdlrAtom::AP4_HdlrAtom(AP4_Atom::Type hdlr_type, const char* hdlr_name) :
     m_HandlerType(hdlr_type),
     m_HandlerName(hdlr_name)
 {
-    m_Size32 += 20+m_HandlerName.GetLength()+1;
+    m_Size32 += 20 + m_HandlerName.GetLength() + 1;
     m_Reserved[0] = m_Reserved[1] = m_Reserved[2] = 0;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_HdlrAtom::AP4_HdlrAtom
 +---------------------------------------------------------------------*/
-AP4_HdlrAtom::AP4_HdlrAtom(AP4_UI32        size, 
+AP4_HdlrAtom::AP4_HdlrAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -78,19 +78,22 @@ AP4_HdlrAtom::AP4_HdlrAtom(AP4_UI32        size,
     stream.ReadUI32(m_Reserved[0]);
     stream.ReadUI32(m_Reserved[1]);
     stream.ReadUI32(m_Reserved[2]);
-    
+
     // read the name unless it is empty
-    int name_size = size-(AP4_FULL_ATOM_HEADER_SIZE+20);
-    if (name_size == 0) return;
+    int name_size = size - (AP4_FULL_ATOM_HEADER_SIZE + 20);
+    if(name_size == 0) return;
     char* name = new char[name_size+1];
     stream.Read(name, name_size);
     name[name_size] = '\0'; // force a null termination
     // handle a special case: the Quicktime files have a pascal
     // string here, but ISO MP4 files have a C string.
     // we try to detect a pascal encoding and correct it.
-    if (name[0] == name_size-1) {
-        m_HandlerName = name+1;
-    } else {
+    if(name[0] == name_size - 1)
+    {
+        m_HandlerName = name + 1;
+    }
+    else
+    {
         m_HandlerName = name;
     }
     delete[] name;
@@ -106,27 +109,29 @@ AP4_HdlrAtom::WriteFields(AP4_ByteStream& stream)
 
     // write the data
     result = stream.WriteUI32(0); // predefined
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
     result = stream.WriteUI32(m_HandlerType);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
     result = stream.WriteUI32(m_Reserved[0]);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
     result = stream.WriteUI32(m_Reserved[1]);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
     result = stream.WriteUI32(m_Reserved[2]);
-    if (AP4_FAILED(result)) return result;
+    if(AP4_FAILED(result)) return result;
     AP4_UI08 name_size = (AP4_UI08)m_HandlerName.GetLength();
-    if (AP4_FULL_ATOM_HEADER_SIZE+20+name_size > m_Size32) {
-        name_size = m_Size32-AP4_FULL_ATOM_HEADER_SIZE+20;
+    if(AP4_FULL_ATOM_HEADER_SIZE + 20 + name_size > m_Size32)
+    {
+        name_size = m_Size32 - AP4_FULL_ATOM_HEADER_SIZE + 20;
     }
-    if (name_size) {
+    if(name_size)
+    {
         result = stream.Write(m_HandlerName.GetChars(), name_size);
-        if (AP4_FAILED(result)) return result;
+        if(AP4_FAILED(result)) return result;
     }
 
     // pad with zeros if necessary
-    AP4_Size padding = m_Size32-(AP4_FULL_ATOM_HEADER_SIZE+20+name_size);
-    while (padding--) stream.WriteUI08(0);
+    AP4_Size padding = m_Size32 - (AP4_FULL_ATOM_HEADER_SIZE + 20 + name_size);
+    while(padding--) stream.WriteUI08(0);
 
     return AP4_SUCCESS;
 }

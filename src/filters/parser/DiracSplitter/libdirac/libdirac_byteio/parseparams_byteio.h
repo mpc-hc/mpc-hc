@@ -51,65 +51,65 @@
 
 namespace dirac
 {
-             
+
+/**
+* Represents compressed parse-parameter data used in an AccessUnit
+*/
+class ParseParamsByteIO : public ByteIO
+{
+public:
+
     /**
-    * Represents compressed parse-parameter data used in an AccessUnit
+    * Constructor
+    *@param stream_data   Destination of data
+    *@param parse_params  Parse parameters
+    *@param enc_params    Encoder parameters
     */
-    class ParseParamsByteIO : public ByteIO
-    {
-    public:
+    ParseParamsByteIO(const ByteIO& stream_data,
+                      ParseParams &parse_params,
+                      EncoderParams &enc_params);
 
-        /**
-        * Constructor
-        *@param stream_data   Destination of data
-        *@param parse_params  Parse parameters
-        *@param enc_params    Encoder parameters
-        */
-        ParseParamsByteIO(const ByteIO& stream_data,
-                          ParseParams &parse_params,
-                          EncoderParams &enc_params);
+    /**
+    * Constructor
+    *@param stream_data Source of data
+    *@param parse_params Destination of parse params
+    */
+    ParseParamsByteIO(const ByteIO& stream_data,
+                      ParseParams &parse_params);
 
-        /**
-        * Constructor
-        *@param stream_data Source of data
-        *@param parse_params Destination of parse params
-        */
-        ParseParamsByteIO(const ByteIO& stream_data,
-                          ParseParams &parse_params);
+    /**
+    * Destructor
+    */
+    ~ParseParamsByteIO();
 
-        /**
-        * Destructor
-        */
-        ~ParseParamsByteIO();
+    /**
+            * Reads parse information from Dirac byte-format
+            */
+    void Input();
 
-         /**
-        * Reads parse information from Dirac byte-format
-        */
-        void Input();
+    /**
+    * Outputs parse information to Dirac byte-format
+    */
+    void Output();
 
-        /**
-        * Outputs parse information to Dirac byte-format
-        */
-        void Output();
+    /**
+    * Get access-unit number
+    */
+    int GetIdNumber() const;
 
-        /**
-        * Get access-unit number
-        */
-        int GetIdNumber() const;
+protected:
 
-    protected:
-    
-    private:
-        void CheckVersion();
-        void CheckProfile();
-        void CheckLevel();
+private:
+    void CheckVersion();
+    void CheckProfile();
+    void CheckLevel();
 
-    private:
-        /**
-        * Reference to parse parameters
-        */
-        ParseParams& m_parse_params;
-    };
+private:
+    /**
+    * Reference to parse parameters
+    */
+    ParseParams& m_parse_params;
+};
 
 
 } // namespace dirac

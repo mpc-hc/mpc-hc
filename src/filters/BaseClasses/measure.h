@@ -148,23 +148,23 @@ extern "C" {
 
 // This must be called first - (called by the DllEntry)
 
-void WINAPI Msr_Init(void);
+    void WINAPI Msr_Init(void);
 
 
 // Call this last to clean up (or just let it fall off the end - who cares?)
 
-void WINAPI Msr_Terminate(void);
+    void WINAPI Msr_Terminate(void);
 
 
 // Call this to get an Id for an "incident" that you can pass to Start, Stop or Note
 // everything that's logged is called an "incident".
 
-int  WINAPI Msr_Register(__in LPTSTR Incident);
+    int  WINAPI Msr_Register(__in LPTSTR Incident);
 
 
 // Reset the statistical counts for an incident
 
-void WINAPI Msr_Reset(int Id);
+    void WINAPI Msr_Reset(int Id);
 
 
 // Reset all the counts for all incidents
@@ -172,26 +172,26 @@ void WINAPI Msr_Reset(int Id);
 #define MSR_PAUSE 1
 #define MSR_RUN 2
 
-void WINAPI Msr_Control(int iAction);
+    void WINAPI Msr_Control(int iAction);
 
 
 // log the start of an operation
 
-void WINAPI Msr_Start(int Id);
+    void WINAPI Msr_Start(int Id);
 
 
 // log the end of an operation
 
-void WINAPI Msr_Stop(int Id);
+    void WINAPI Msr_Stop(int Id);
 
 
 // log a one-off or repetitive operation
 
-void WINAPI Msr_Note(int Id);
+    void WINAPI Msr_Note(int Id);
 
 
 // log an integer (on which we can see statistics later)
-void WINAPI Msr_Integer(int Id, int n);
+    void WINAPI Msr_Integer(int Id, int n);
 
 
 // print out all the vaialable log (it may have wrapped) and then the statistics.
@@ -199,20 +199,20 @@ void WINAPI Msr_Integer(int Id, int n);
 // hFIle==NULL => use DbgLog
 // otherwise hFile must have come from CreateFile or OpenFile.
 
-void WINAPI Msr_Dump(HANDLE hFile);
+    void WINAPI Msr_Dump(HANDLE hFile);
 
 
 // just dump the statistics - never mind the log
 
-void WINAPI Msr_DumpStats(HANDLE hFile);
+    void WINAPI Msr_DumpStats(HANDLE hFile);
 
 // Type definitions in case you want to declare a pointer to the dump functions
 // (makes it a trifle easier to do dynamic linking
 // i.e. LoadModule, GetProcAddress and call that)
 
 // Typedefs so can declare MSR_DUMPPROC *MsrDumpStats; or whatever
-typedef void WINAPI MSR_DUMPPROC(HANDLE hFile);
-typedef void WINAPI MSR_CONTROLPROC(int iAction);
+    typedef void WINAPI MSR_DUMPPROC(HANDLE hFile);
+    typedef void WINAPI MSR_CONTROLPROC(int iAction);
 
 
 #ifdef __cplusplus

@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: pnwintyp.h 7 2003-05-30 02:18:02Z gabest $
- * 
+ *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *  
+ *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -26,7 +26,7 @@
 #endif
 
 /****************************************************************************
- * 
+ *
  *  Structure:
  *
  *	PNxSize
@@ -43,7 +43,7 @@ typedef struct PNEXPORT_CLASS _PNxSize
 } PNxSize;
 
 /****************************************************************************
- * 
+ *
  *  Structure:
  *
  *	PNxPoint
@@ -60,7 +60,7 @@ typedef struct PNEXPORT_CLASS _PNxPoint
 } PNxPoint;
 
 /****************************************************************************
- * 
+ *
  *  Structure:
  *
  *	PNxRect
@@ -82,7 +82,7 @@ typedef struct PNEXPORT_CLASS _PNxRect
 #define PNxRECT_HEIGHT(r)	((r).bottom - (r).top)
 
 /****************************************************************************
- * 
+ *
  *  Structure:
  *
  *	PNxWindow
@@ -97,36 +97,36 @@ typedef struct PNEXPORT_CLASS _PNxRect
  *
  *	void*	window
  *	platform specific window handle
- *	
+ *
  *	ULONG32	x, y
  *	position of top left corner relative to a client page
- *	
+ *
  *	ULONG32	width, height
  *	maximum window size
- *	
- *	PNxRect clipRect;            
+ *
+ *	PNxRect clipRect;
  *	clipping rectangle in port coordinates
  *
  */
 typedef struct PNEXPORT_CLASS _PNxWindow
 {
-	/* NOTE: The window parameter is NOT guaranteed to be unique for every
-			 corresponding CPNWindow. Use PNxWindowID if this is desired. */
+    /* NOTE: The window parameter is NOT guaranteed to be unique for every
+    		 corresponding CPNWindow. Use PNxWindowID if this is desired. */
     void*	window;
     ULONG32	x;
-    ULONG32	y;                   
+    ULONG32	y;
     ULONG32	width;
     ULONG32	height;
     PNxRect	clipRect;
-    #ifdef _UNIX
+#ifdef _UNIX
     void * display;
-    #endif
+#endif
 } PNxWindow;
 
 typedef void* PNxWindowID;
 
 /****************************************************************************
- * 
+ *
  *  Structure:
  *
  *	PNxEvent
@@ -134,7 +134,7 @@ typedef void* PNxWindowID;
  *  Purpose:
  *
  *	Cross Platform definition of a event. This struct is sufficiently
- *	wide to describe an event in Windows, MacOS, and various flavours of 
+ *	wide to describe an event in Windows, MacOS, and various flavours of
  *	X-Windows.
  *
  *  Data Members:
@@ -143,20 +143,20 @@ typedef void* PNxWindowID;
  *	platform specific event ID, can also be one of the several PNxMSG_*
  *	event IDs which map onto existing platform specific event IDs
  *      UNIX: X Event Type
- *	
+ *
  *	void*	window
  *	platform specific window handle
  *      UNIX: X Window ID
- *	
+ *
  *	void*	param1
  *	message specific parameter
  *      UNIX: Display*
- *	
+ *
  *	void*	param2
  *      Mac:  for UpdateEvt, either NULL or RgnHandle to be filled with updated area
  *      UNIX: Native              XEvent*
  *            RMA_SURFACE_UPDATE  PNxWindow*
- *	
+ *
  */
 typedef struct PNEXPORT_CLASS _PNxEvent
 {
@@ -171,7 +171,7 @@ typedef struct PNEXPORT_CLASS _PNxEvent
 
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxRegion
@@ -179,14 +179,14 @@ typedef struct PNEXPORT_CLASS _PNxEvent
  *  Purpose:
  *
  *	Cross Platform definition of a region. This typedef is redefined as
- *	appropriate to describe a region in Windows, MacOS, and various 
+ *	appropriate to describe a region in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef void* PNxRegion;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxDC
@@ -194,14 +194,14 @@ typedef void* PNxRegion;
  *  Purpose:
  *
  *	Cross Platform definition of a device context. This typedef is redefined as
- *	appropriate to describe a device context in Windows, MacOS, and various 
+ *	appropriate to describe a device context in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef void* PNxDC;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxFont
@@ -209,14 +209,14 @@ typedef void* PNxDC;
  *  Purpose:
  *
  *	Cross Platform definition of a font. This typedef is redefined as
- *	appropriate to describe a font in Windows, MacOS, and various 
+ *	appropriate to describe a font in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef void* PNxFont;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxColor
@@ -224,14 +224,14 @@ typedef void* PNxFont;
  *  Purpose:
  *
  *	Cross Platform definition of a color. This typedef is redefined as
- *	appropriate to describe a font in Windows, MacOS, and various 
+ *	appropriate to describe a font in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef ULONG32 PNxColor;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxIcon
@@ -239,14 +239,14 @@ typedef ULONG32 PNxColor;
  *  Purpose:
  *
  *	Cross Platform definition of a icon. This typedef is redefined as
- *	appropriate to describe a font in Windows, MacOS, and various 
+ *	appropriate to describe a font in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef void* PNxIcon;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxMenu
@@ -254,14 +254,14 @@ typedef void* PNxIcon;
  *  Purpose:
  *
  *	Cross Platform definition of a menu. This typedef is redefined as
- *	appropriate to describe a font in Windows, MacOS, and various 
+ *	appropriate to describe a font in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */
 typedef void* PNxMenu;
 
 /****************************************************************************
- * 
+ *
  *  typedef:
  *
  *	PNxCursor
@@ -269,7 +269,7 @@ typedef void* PNxMenu;
  *  Purpose:
  *
  *	Cross Platform definition of a cursor. This typedef is redefined as
- *	appropriate to describe a cursor in Windows, MacOS, and various 
+ *	appropriate to describe a cursor in Windows, MacOS, and various
  *	flavours of X-Windows.
  *
  */

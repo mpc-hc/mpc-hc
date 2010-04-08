@@ -42,9 +42,10 @@ AP4_Result
 AP4_FileCopier::Write(AP4_File& file, AP4_ByteStream& stream)
 {
     // write the top-level atoms
-    for (AP4_List<AP4_Atom>::Item* item = file.GetTopLevelAtoms().FirstItem();
-         item;
-         item = item->GetNext()) {
+    for(AP4_List<AP4_Atom>::Item* item = file.GetTopLevelAtoms().FirstItem();
+        item;
+        item = item->GetNext())
+    {
         AP4_Atom* atom = item->GetData();
         atom->Write(stream);
     }

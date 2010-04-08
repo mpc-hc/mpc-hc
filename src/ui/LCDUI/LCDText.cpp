@@ -3,7 +3,7 @@
 // LCDText.cpp
 //
 // The CLCDText class draws simple text onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -43,7 +43,7 @@ CLCDText::CLCDText()
 CLCDText::~CLCDText()
 {
 
-    if (m_hFont)
+    if(m_hFont)
     {
         DeleteObject(m_hFont);
         m_hFont = NULL;
@@ -78,7 +78,7 @@ HRESULT CLCDText::Initialize()
 
 void CLCDText::SetFont(LOGFONT& lf)
 {
-    if (m_hFont)
+    if(m_hFont)
     {
         DeleteObject(m_hFont);
         m_hFont = NULL;
@@ -110,7 +110,7 @@ HFONT CLCDText::GetFont()
 void CLCDText::SetFontFaceName(LPCTSTR szFontName)
 {
     // if NULL, uses the default gui font
-    if (NULL == szFontName)
+    if(NULL == szFontName)
         return;
 
     LOGFONT lf;
@@ -201,7 +201,7 @@ LPCTSTR CLCDText::GetText()
 
 void CLCDText::SetWordWrap(BOOL bEnable)
 {
-    if (bEnable)
+    if(bEnable)
     {
         m_nTextFormat |= DT_WORDBREAK;
     }
@@ -308,14 +308,14 @@ void CLCDText::SetAlignment(int nAlignment)
 void CLCDText::DrawText(CLCDGfx &rGfx)
 {
     // draw the text
-    RECT rBoundary = { 0, 0,0 + GetLogicalSize().cx, 0 + GetLogicalSize().cy }; 
+    RECT rBoundary = { 0, 0, 0 + GetLogicalSize().cx, 0 + GetLogicalSize().cy };
     DrawTextEx(rGfx.GetHDC(), (LPTSTR)m_sText.c_str(), static_cast<int>(m_nTextLength), &rBoundary, m_nTextFormat, &m_dtp);
-    
+
 //    LCDUITRACE(_T("Drawing %s at (%d,%d)-(%d-%d) lmargin=%d, rmargin=%d\n"),
 //         m_sText.c_str(), m_Origin.x, m_Origin.y, GetWidth(), GetHeight(),
 //         m_dtp.iLeftMargin, m_dtp.iRightMargin);
 
-    if (m_bInverted)
+    if(m_bInverted)
     {
         InvertRect(rGfx.GetHDC(), &rBoundary);
     }
@@ -331,31 +331,31 @@ void CLCDText::DrawText(CLCDGfx &rGfx)
 void CLCDText::OnDraw(CLCDGfx &rGfx)
 {
 
-    if (GetBackgroundMode() == OPAQUE)
+    if(GetBackgroundMode() == OPAQUE)
     {
         // clear the clipped area
         RECT rcClp = { 0, 0, m_Size.cx, m_Size.cy };
         FillRect(rGfx.GetHDC(), &rcClp, (HBRUSH) GetStockObject(BLACK_BRUSH));
-    
+
         // clear the logical area
         RECT rcLog = { 0, 0, m_sizeLogical.cx, m_sizeLogical.cy };
         FillRect(rGfx.GetHDC(), &rcLog, (HBRUSH) GetStockObject(BLACK_BRUSH));
     }
-    
-    if (m_nTextLength)
+
+    if(m_nTextLength)
     {
 
         // map mode text, with transparency
         int nOldMapMode = SetMapMode(rGfx.GetHDC(), MM_TEXT);
-        int nOldBkMode = SetBkMode(rGfx.GetHDC(), GetBackgroundMode()); 
+        int nOldBkMode = SetBkMode(rGfx.GetHDC(), GetBackgroundMode());
 
         // select current font
-        HFONT hOldFont = (HFONT)SelectObject(rGfx.GetHDC(), m_hFont);   
+        HFONT hOldFont = (HFONT)SelectObject(rGfx.GetHDC(), m_hFont);
 
         // select color
         COLORREF crOldTextColor = SetTextColor(rGfx.GetHDC(), m_crColor);
-        
-        if (m_bRecalcExtent)
+
+        if(m_bRecalcExtent)
         {
             int nTextFormat;
 
@@ -381,7 +381,7 @@ void CLCDText::OnDraw(CLCDGfx &rGfx)
             m_bRecalcExtent = FALSE;
         }
 
-        if (IsVisible())
+        if(IsVisible())
         {
             DrawText(rGfx);
         }

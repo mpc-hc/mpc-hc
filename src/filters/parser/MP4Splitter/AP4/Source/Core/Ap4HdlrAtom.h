@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - hdlr Atoms 
+|    AP4 - hdlr Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -43,17 +43,17 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_HANDLER_TYPE_SOUN = AP4_ATOM_TYPE('s','o','u','n');
-const AP4_UI32 AP4_HANDLER_TYPE_VIDE = AP4_ATOM_TYPE('v','i','d','e');
-const AP4_UI32 AP4_HANDLER_TYPE_HINT = AP4_ATOM_TYPE('h','i','n','t');
-const AP4_UI32 AP4_HANDLER_TYPE_MDIR = AP4_ATOM_TYPE('m','d','i','r');
-const AP4_UI32 AP4_HANDLER_TYPE_TEXT = AP4_ATOM_TYPE('t','e','x','t');
-const AP4_UI32 AP4_HANDLER_TYPE_TX3G = AP4_ATOM_TYPE('t','x','3','g');
-const AP4_UI32 AP4_HANDLER_TYPE_JPEG = AP4_ATOM_TYPE('j','p','e','g');
-const AP4_UI32 AP4_HANDLER_TYPE_ODSM = AP4_ATOM_TYPE('o','d','s','m');
-const AP4_UI32 AP4_HANDLER_TYPE_SDSM = AP4_ATOM_TYPE('s','d','s','m');
+const AP4_UI32 AP4_HANDLER_TYPE_SOUN = AP4_ATOM_TYPE('s', 'o', 'u', 'n');
+const AP4_UI32 AP4_HANDLER_TYPE_VIDE = AP4_ATOM_TYPE('v', 'i', 'd', 'e');
+const AP4_UI32 AP4_HANDLER_TYPE_HINT = AP4_ATOM_TYPE('h', 'i', 'n', 't');
+const AP4_UI32 AP4_HANDLER_TYPE_MDIR = AP4_ATOM_TYPE('m', 'd', 'i', 'r');
+const AP4_UI32 AP4_HANDLER_TYPE_TEXT = AP4_ATOM_TYPE('t', 'e', 'x', 't');
+const AP4_UI32 AP4_HANDLER_TYPE_TX3G = AP4_ATOM_TYPE('t', 'x', '3', 'g');
+const AP4_UI32 AP4_HANDLER_TYPE_JPEG = AP4_ATOM_TYPE('j', 'p', 'e', 'g');
+const AP4_UI32 AP4_HANDLER_TYPE_ODSM = AP4_ATOM_TYPE('o', 'd', 's', 'm');
+const AP4_UI32 AP4_HANDLER_TYPE_SDSM = AP4_ATOM_TYPE('s', 'd', 's', 'm');
 // ==> Start patch MPC
-const AP4_UI32 AP4_HANDLER_TYPE_SUBP = AP4_ATOM_TYPE('s','u','b','p');
+const AP4_UI32 AP4_HANDLER_TYPE_SUBP = AP4_ATOM_TYPE('s', 'u', 'b', 'p');
 // <== End patch MPC
 
 /*----------------------------------------------------------------------
@@ -72,12 +72,18 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI32   GetHandlerType() { return m_HandlerType; }
-    AP4_String GetHandlerName() { return m_HandlerName; }
+    AP4_UI32   GetHandlerType()
+    {
+        return m_HandlerType;
+    }
+    AP4_String GetHandlerName()
+    {
+        return m_HandlerName;
+    }
 
 private:
     // methods
-    AP4_HdlrAtom(AP4_UI32        size, 
+    AP4_HdlrAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

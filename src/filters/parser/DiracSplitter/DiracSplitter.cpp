@@ -1,4 +1,4 @@
-/* 
+/*
  *    Copyright (C) 2003-2004 Gabest
  *    http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -28,7 +28,7 @@
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
-{    
+{
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_Dirac},
     {&MEDIATYPE_Stream, &MEDIASUBTYPE_NULL}
 };
@@ -74,8 +74,8 @@ int g_cTemplates = countof(g_Templates);
 STDAPI DllRegisterServer()
 {
     RegisterSourceFilter(
-        CLSID_AsyncReader, 
-        MEDIASUBTYPE_Dirac, 
+        CLSID_AsyncReader,
+        MEDIASUBTYPE_Dirac,
         _T("0,8,,4B572D4449524143"), // KW-DIRAC
         _T(".drc"), NULL);
 
@@ -107,7 +107,7 @@ STDMETHODIMP CDiracSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void
 {
     CheckPointer(ppv, E_POINTER);
 
-    return 
+    return
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -121,7 +121,11 @@ HRESULT CDiracSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     m_pFile.Attach(DNew CDiracSplitterFile(pAsyncReader, hr));
     if(!m_pFile) return E_OUTOFMEMORY;
-    if(FAILED(hr)) {m_pFile.Free(); return hr;}
+    if(FAILED(hr))
+    {
+        m_pFile.Free();
+        return hr;
+    }
 
     CAtlArray<CMediaType> mts;
     mts.Add(m_pFile->GetMediaType());
@@ -158,7 +162,7 @@ void CDiracSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
         // TODO
 
         __int64 len = m_pFile->GetLength();
-        __int64 seekpos = (__int64)(1.0*rt/m_rtDuration*len);
+        __int64 seekpos = (__int64)(1.0 * rt / m_rtDuration * len);
 
         m_pFile->Seek(seekpos);
         seekpos = 0;
@@ -172,7 +176,11 @@ void CDiracSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
         for(int j = 0; j < 10; j++)
         {
             while(m_pFile->Next(code) && code != AU_START_CODE);
-            if(code != AU_START_CODE) {m_pFile->Seek(seekpos >>= 1); continue;}
+            if(code != AU_START_CODE)
+            {
+                m_pFile->Seek(seekpos >>= 1);
+                continue;
+            }
 
             __int64 pos = m_pFile->GetPos() - 5;
 
@@ -186,7 +194,7 @@ void CDiracSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
                 break;
             }
 
-            m_pFile->Seek(pos - (__int64)(1.0*dt/m_rtDuration*len));
+            m_pFile->Seek(pos - (__int64)(1.0 * dt / m_rtDuration * len));
 
             pdt = dt;
         }
@@ -214,7 +222,7 @@ bool CDiracSplitterFilter::DemuxLoop()
             memcpy(p->GetData(), pBuff, size);
 
             p->TrackNumber = 0;
-            p->rtStart = rtAvgTimePerFrame*fnum;
+            p->rtStart = rtAvgTimePerFrame * fnum;
             p->rtStop = p->rtStart + rtAvgTimePerFrame;
             p->bSyncPoint = code == AU_START_CODE;
 
@@ -275,7 +283,8 @@ void CDiracVideoDecoder::FreeDecoder()
     {
         dirac_decoder_close((dirac_decoder_t*)m_decoder);
         m_decoder = NULL;
-        delete [] m_pYUV[0]; m_pYUV[0] = NULL;
+        delete [] m_pYUV[0];
+        m_pYUV[0] = NULL;
     }
 }
 
@@ -295,7 +304,7 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
     long len = pIn->GetActualDataLength();
     if(len <= 0) return S_OK; // nothing to do
 
-    if(pIn->IsDiscontinuity() == S_OK) 
+    if(pIn->IsDiscontinuity() == S_OK)
         InitDecoder();
 
     dirac_decoder_t* decoder = (dirac_decoder_t*)m_decoder;
@@ -317,7 +326,7 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
             {
                 DIRACINFOHEADER* dvih = (DIRACINFOHEADER*)m_pInput->CurrentMediaType().Format();
                 if(dvih->hdr.bmiHeader.biWidth != decoder->src_params.width
-                || dvih->hdr.bmiHeader.biHeight != decoder->src_params.height)
+                   || dvih->hdr.bmiHeader.biHeight != decoder->src_params.height)
                     return E_FAIL; // hmm
             }
 
@@ -326,13 +335,14 @@ HRESULT CDiracVideoDecoder::Receive(IMediaSample* pIn)
                 int w = decoder->src_params.width;
                 int h = decoder->src_params.height;
                 int wc = decoder->src_params.chroma_width;
-                int hc = decoder->src_params.chroma_height; 
-                delete [] m_pYUV[0]; m_pYUV[0] = NULL;
+                int hc = decoder->src_params.chroma_height;
+                delete [] m_pYUV[0];
+                m_pYUV[0] = NULL;
                 m_pYUV[0] = DNew BYTE[w*h + wc*hc*2 + w/2*h/2];
-                m_pYUV[1] = m_pYUV[0] + w*h;
-                m_pYUV[2] = m_pYUV[1] + wc*hc;
-                m_pYUV[3] = m_pYUV[2] + wc*hc;
-                memset(m_pYUV[3], 0x80, w/2*h/2);
+                m_pYUV[1] = m_pYUV[0] + w * h;
+                m_pYUV[2] = m_pYUV[1] + wc * hc;
+                m_pYUV[3] = m_pYUV[2] + wc * hc;
+                memset(m_pYUV[3], 0x80, w / 2 * h / 2);
                 m_rtAvgTimePerFrame = 10000000i64 * decoder->src_params.frame_rate.denominator / decoder->src_params.frame_rate.numerator;
                 dirac_set_buf(decoder, m_pYUV, NULL);
             }
@@ -369,7 +379,7 @@ HRESULT CDiracVideoDecoder::Deliver(IMediaSample* pIn, REFERENCE_TIME rtStart, R
     CComPtr<IMediaSample> pOut;
     BYTE* pDataOut = NULL;
     if(FAILED(hr = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0))
-    || FAILED(hr = pOut->GetPointer(&pDataOut)))
+       || FAILED(hr = pOut->GetPointer(&pDataOut)))
         return hr;
 
     AM_MEDIA_TYPE* pmt;
@@ -413,28 +423,28 @@ void CDiracVideoDecoder::Copy(BYTE* pOut)
     int pitchIn = w;
 
     BYTE* pY = m_pYUV[0];
-    BYTE* pU = w/2 == wc && h/2 == hc ? m_pYUV[1] : m_pYUV[3]; // FIXME
-    BYTE* pV = w/2 == wc && h/2 == hc ? m_pYUV[2] : m_pYUV[3]; // FIXME
+    BYTE* pU = w / 2 == wc && h / 2 == hc ? m_pYUV[1] : m_pYUV[3]; // FIXME
+    BYTE* pV = w / 2 == wc && h / 2 == hc ? m_pYUV[2] : m_pYUV[3]; // FIXME
 
     if(bihOut.biCompression == '2YUY')
     {
-        BitBltFromI420ToYUY2(w, h, pOut, bihOut.biWidth*2, pY, pU, pV, pitchIn);
+        BitBltFromI420ToYUY2(w, h, pOut, bihOut.biWidth * 2, pY, pU, pV, pitchIn);
     }
     else if(bihOut.biCompression == 'I420' || bihOut.biCompression == 'VUYI')
     {
-        BitBltFromI420ToI420(w, h, pOut, pOut + bihOut.biWidth*h, pOut + bihOut.biWidth*h*5/4, bihOut.biWidth, pY, pU, pV, pitchIn);
+        BitBltFromI420ToI420(w, h, pOut, pOut + bihOut.biWidth * h, pOut + bihOut.biWidth * h * 5 / 4, bihOut.biWidth, pY, pU, pV, pitchIn);
     }
     else if(bihOut.biCompression == '21VY')
     {
-        BitBltFromI420ToI420(w, h, pOut, pOut + bihOut.biWidth*h*5/4, pOut + bihOut.biWidth*h, bihOut.biWidth, pY, pU, pV, pitchIn);
+        BitBltFromI420ToI420(w, h, pOut, pOut + bihOut.biWidth * h * 5 / 4, pOut + bihOut.biWidth * h, bihOut.biWidth, pY, pU, pV, pitchIn);
     }
     else if(bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS)
     {
-        int pitchOut = bihOut.biWidth*bihOut.biBitCount>>3;
+        int pitchOut = bihOut.biWidth * bihOut.biBitCount >> 3;
 
         if(bihOut.biHeight > 0)
         {
-            pOut += pitchOut*(h-1);
+            pOut += pitchOut * (h - 1);
             pitchOut = -pitchOut;
         }
 
@@ -450,10 +460,10 @@ HRESULT CDiracVideoDecoder::CheckInputType(const CMediaType* mtIn)
 {
     DIRACINFOHEADER* dvih = (DIRACINFOHEADER*)mtIn->Format();
 
-    if(mtIn->majortype != MEDIATYPE_Video 
-    || mtIn->subtype != MEDIASUBTYPE_DiracVideo
-    || mtIn->formattype != FORMAT_DiracVideoInfo
-    || (dvih->hdr.bmiHeader.biWidth&1) || (dvih->hdr.bmiHeader.biHeight&1))
+    if(mtIn->majortype != MEDIATYPE_Video
+       || mtIn->subtype != MEDIASUBTYPE_DiracVideo
+       || mtIn->formattype != FORMAT_DiracVideoInfo
+       || (dvih->hdr.bmiHeader.biWidth & 1) || (dvih->hdr.bmiHeader.biHeight & 1))
         return VFW_E_TYPE_NOT_ACCEPTED;
 
     return S_OK;
@@ -465,22 +475,22 @@ HRESULT CDiracVideoDecoder::CheckTransform(const CMediaType* mtIn, const CMediaT
     {
         BITMAPINFOHEADER bih1, bih2;
         if(ExtractBIH(mtOut, &bih1) && ExtractBIH(&m_pOutput->CurrentMediaType(), &bih2)
-        && abs(bih1.biHeight) != abs(bih2.biHeight))
+           && abs(bih1.biHeight) != abs(bih2.biHeight))
             return VFW_E_TYPE_NOT_ACCEPTED;
     }
 
     return mtIn->majortype == MEDIATYPE_Video && mtIn->subtype == MEDIASUBTYPE_DiracVideo
-        && mtOut->majortype == MEDIATYPE_Video && (mtOut->subtype == MEDIASUBTYPE_YUY2
-                                                || mtOut->subtype == MEDIASUBTYPE_YV12
-                                                || mtOut->subtype == MEDIASUBTYPE_I420
-                                                || mtOut->subtype == MEDIASUBTYPE_IYUV
-                                                || mtOut->subtype == MEDIASUBTYPE_ARGB32
-                                                || mtOut->subtype == MEDIASUBTYPE_RGB32
-                                                || mtOut->subtype == MEDIASUBTYPE_RGB24
-                                                || mtOut->subtype == MEDIASUBTYPE_RGB565
-                                                || mtOut->subtype == MEDIASUBTYPE_RGB555)
-        ? S_OK
-        : VFW_E_TYPE_NOT_ACCEPTED;
+           && mtOut->majortype == MEDIATYPE_Video && (mtOut->subtype == MEDIASUBTYPE_YUY2
+                   || mtOut->subtype == MEDIASUBTYPE_YV12
+                   || mtOut->subtype == MEDIASUBTYPE_I420
+                   || mtOut->subtype == MEDIASUBTYPE_IYUV
+                   || mtOut->subtype == MEDIASUBTYPE_ARGB32
+                   || mtOut->subtype == MEDIASUBTYPE_RGB32
+                   || mtOut->subtype == MEDIASUBTYPE_RGB24
+                   || mtOut->subtype == MEDIASUBTYPE_RGB565
+                   || mtOut->subtype == MEDIASUBTYPE_RGB555)
+           ? S_OK
+           : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
 HRESULT CDiracVideoDecoder::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
@@ -497,19 +507,24 @@ HRESULT CDiracVideoDecoder::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
     HRESULT hr;
     ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
+    if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual)))
         return hr;
 
     return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-        ? E_FAIL
-        : NOERROR);
+           ? E_FAIL
+           : NOERROR);
 }
 
 HRESULT CDiracVideoDecoder::GetMediaType(int iPosition, CMediaType* pmt)
 {
     if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
-    struct {const GUID* subtype; WORD biPlanes, biBitCount; DWORD biCompression;} fmts[] =
+    struct
+    {
+        const GUID* subtype;
+        WORD biPlanes, biBitCount;
+        DWORD biCompression;
+    } fmts[] =
     {
         {&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
         {&MEDIASUBTYPE_I420, 3, 12, '024I'},
@@ -528,10 +543,10 @@ HRESULT CDiracVideoDecoder::GetMediaType(int iPosition, CMediaType* pmt)
     };
 
     if(m_pInput->CurrentMediaType().formattype == FORMAT_VideoInfo)
-        iPosition = iPosition*2 + 1;
+        iPosition = iPosition * 2 + 1;
 
     if(iPosition < 0) return E_INVALIDARG;
-    if(iPosition >= 2*countof(fmts)) return VFW_S_NO_MORE_ITEMS;
+    if(iPosition >= 2 * countof(fmts)) return VFW_S_NO_MORE_ITEMS;
 
     BITMAPINFOHEADER bih;
     ExtractBIH(&m_pInput->CurrentMediaType(), &bih);
@@ -547,9 +562,9 @@ HRESULT CDiracVideoDecoder::GetMediaType(int iPosition, CMediaType* pmt)
     bihOut.biPlanes = fmts[iPosition/2].biPlanes;
     bihOut.biBitCount = fmts[iPosition/2].biBitCount;
     bihOut.biCompression = fmts[iPosition/2].biCompression;
-    bihOut.biSizeImage = bih.biWidth*bih.biHeight*bihOut.biBitCount>>3;
+    bihOut.biSizeImage = bih.biWidth * bih.biHeight * bihOut.biBitCount >> 3;
 
-    if(iPosition&1)
+    if(iPosition & 1)
     {
         pmt->formattype = FORMAT_VideoInfo;
         VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->AllocFormatBuffer(sizeof(VIDEOINFOHEADER));
@@ -560,7 +575,7 @@ HRESULT CDiracVideoDecoder::GetMediaType(int iPosition, CMediaType* pmt)
         {
             vih->bmiHeader.biWidth = ((VIDEOINFOHEADER2*)m_pInput->CurrentMediaType().Format())->dwPictAspectRatioX;
             vih->bmiHeader.biHeight = ((VIDEOINFOHEADER2*)m_pInput->CurrentMediaType().Format())->dwPictAspectRatioY;
-            vih->bmiHeader.biSizeImage = vih->bmiHeader.biWidth*vih->bmiHeader.biHeight*vih->bmiHeader.biBitCount>>3;
+            vih->bmiHeader.biSizeImage = vih->bmiHeader.biWidth * vih->bmiHeader.biHeight * vih->bmiHeader.biBitCount >> 3;
         }
     }
     else
@@ -602,7 +617,7 @@ HRESULT CDiracVideoDecoder::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tSt
 
 HRESULT CDiracVideoDecoder::AlterQuality(Quality q)
 {
-    if(q.Late > 500*10000i64) m_fDropFrames = true;
+    if(q.Late > 500 * 10000i64) m_fDropFrames = true;
     if(q.Late <= 0) m_fDropFrames = false;
     return E_NOTIMPL;
 }

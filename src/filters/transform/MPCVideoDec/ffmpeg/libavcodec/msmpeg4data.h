@@ -35,7 +35,8 @@
 #include "rl.h"
 
 /* motion vector table */
-typedef struct MVTable {
+typedef struct MVTable
+{
     int n;
     const uint16_t *table_mv_code;
     const uint8_t *table_mv_bits;

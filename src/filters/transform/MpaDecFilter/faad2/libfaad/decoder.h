@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -38,18 +38,18 @@ extern "C" {
 #endif
 
 #ifdef _WIN32
-  #pragma pack(push, 8)
-  #ifndef NEAACDECAPI
-    #define NEAACDECAPI __cdecl
-  #endif
+#pragma pack(push, 8)
+#ifndef NEAACDECAPI
+#define NEAACDECAPI __cdecl
+#endif
 #else
-  #ifndef NEAACDECAPI
-    #define NEAACDECAPI
-  #endif
+#ifndef NEAACDECAPI
+#define NEAACDECAPI
+#endif
 #endif
 
 
-/* library output formats */
+    /* library output formats */
 #define FAAD_FMT_16BIT  1
 #define FAAD_FMT_24BIT  2
 #define FAAD_FMT_32BIT  3
@@ -75,49 +75,49 @@ extern "C" {
 #define LFE_CHANNEL          (9)
 #define UNKNOWN_CHANNEL      (0)
 
-char* NEAACDECAPI NeAACDecGetErrorMessage(uint8_t errcode);
+    char* NEAACDECAPI NeAACDecGetErrorMessage(uint8_t errcode);
 
-uint32_t NEAACDECAPI NeAACDecGetCapabilities(void);
+    uint32_t NEAACDECAPI NeAACDecGetCapabilities(void);
 
-NeAACDecHandle NEAACDECAPI NeAACDecOpen(void);
+    NeAACDecHandle NEAACDECAPI NeAACDecOpen(void);
 
-NeAACDecConfigurationPtr NEAACDECAPI NeAACDecGetCurrentConfiguration(NeAACDecHandle hDecoder);
+    NeAACDecConfigurationPtr NEAACDECAPI NeAACDecGetCurrentConfiguration(NeAACDecHandle hDecoder);
 
-uint8_t NEAACDECAPI NeAACDecSetConfiguration(NeAACDecHandle hDecoder,
-                                             NeAACDecConfigurationPtr config);
+    uint8_t NEAACDECAPI NeAACDecSetConfiguration(NeAACDecHandle hDecoder,
+            NeAACDecConfigurationPtr config);
 
-/* Init the library based on info from the AAC file (ADTS/ADIF) */
-int32_t NEAACDECAPI NeAACDecInit(NeAACDecHandle hDecoder,
-                                 uint8_t *buffer,
-                                 uint32_t buffer_size,
-                                 uint32_t *samplerate,
-                                 uint8_t *channels);
+    /* Init the library based on info from the AAC file (ADTS/ADIF) */
+    int32_t NEAACDECAPI NeAACDecInit(NeAACDecHandle hDecoder,
+                                     uint8_t *buffer,
+                                     uint32_t buffer_size,
+                                     uint32_t *samplerate,
+                                     uint8_t *channels);
 
-/* Init the library using a DecoderSpecificInfo */
-int8_t NEAACDECAPI NeAACDecInit2(NeAACDecHandle hDecoder, uint8_t *pBuffer,
-                                 uint32_t SizeOfDecoderSpecificInfo,
-                                 uint32_t *samplerate, uint8_t *channels);
+    /* Init the library using a DecoderSpecificInfo */
+    int8_t NEAACDECAPI NeAACDecInit2(NeAACDecHandle hDecoder, uint8_t *pBuffer,
+                                     uint32_t SizeOfDecoderSpecificInfo,
+                                     uint32_t *samplerate, uint8_t *channels);
 
-/* Init the library for DRM */
-int8_t NEAACDECAPI NeAACDecInitDRM(NeAACDecHandle *hDecoder, uint32_t samplerate,
-                                   uint8_t channels);
+    /* Init the library for DRM */
+    int8_t NEAACDECAPI NeAACDecInitDRM(NeAACDecHandle *hDecoder, uint32_t samplerate,
+                                       uint8_t channels);
 
-void NEAACDECAPI NeAACDecClose(NeAACDecHandle hDecoder);
+    void NEAACDECAPI NeAACDecClose(NeAACDecHandle hDecoder);
 
-void NEAACDECAPI NeAACDecPostSeekReset(NeAACDecHandle hDecoder, int32_t frame);
+    void NEAACDECAPI NeAACDecPostSeekReset(NeAACDecHandle hDecoder, int32_t frame);
 
-void* NEAACDECAPI NeAACDecDecode(NeAACDecHandle hDecoder,
-                                 NeAACDecFrameInfo *hInfo,
-                                 uint8_t *buffer,
-                                 uint32_t buffer_size);
+    void* NEAACDECAPI NeAACDecDecode(NeAACDecHandle hDecoder,
+                                     NeAACDecFrameInfo *hInfo,
+                                     uint8_t *buffer,
+                                     uint32_t buffer_size);
 
-void* NEAACDECAPI NeAACDecDecode2(NeAACDecHandle hDecoder,
-                                  NeAACDecFrameInfo *hInfo,
-                                  uint8_t *buffer, uint32_t buffer_size,
-                                  void **sample_buffer, uint32_t sample_buffer_size);
+    void* NEAACDECAPI NeAACDecDecode2(NeAACDecHandle hDecoder,
+                                      NeAACDecFrameInfo *hInfo,
+                                      uint8_t *buffer, uint32_t buffer_size,
+                                      void **sample_buffer, uint32_t sample_buffer_size);
 
 #ifdef _WIN32
-  #pragma pack(pop)
+#pragma pack(pop)
 #endif
 
 #ifdef __cplusplus

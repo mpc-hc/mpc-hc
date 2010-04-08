@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - rtp Atoms 
+|    AP4 - rtp Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -49,12 +49,16 @@ class AP4_RtpAtom : public AP4_Atom
 {
 public:
     // class methods
-    static AP4_RtpAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
+    static AP4_RtpAtom* Create(AP4_Size size, AP4_ByteStream& stream)
+    {
         return new AP4_RtpAtom(size, stream);
     }
 
     // methods
-    const AP4_String& GetSdpText() { return m_SdpText; }
+    const AP4_String& GetSdpText()
+    {
+        return m_SdpText;
+    }
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 

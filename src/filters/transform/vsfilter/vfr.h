@@ -24,9 +24,10 @@
 #ifndef VFR_H
 #define VFR_H
 
-class VFRTranslator {
+class VFRTranslator
+{
 public:
-	virtual double TimeStampFromFrameNumber(int n) = 0;
+    virtual double TimeStampFromFrameNumber(int n) = 0;
 };
 
 VFRTranslator *GetVFRTranslator(const char *vfrfile);

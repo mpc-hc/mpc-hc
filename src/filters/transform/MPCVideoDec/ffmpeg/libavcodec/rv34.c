@@ -40,11 +40,12 @@
 static inline void ZERO8x2(void* dst, int stride)
 {
     fill_rectangle(dst,                 1, 2, stride, 0, 4);
-    fill_rectangle(((uint8_t*)(dst))+4, 1, 2, stride, 0, 4);
+    fill_rectangle(((uint8_t*)(dst)) + 4, 1, 2, stride, 0, 4);
 }
 
 /** translation of RV30/40 macroblock types to lavc ones */
-static const int rv34_mb_type_to_lavc[12] = {
+static const int rv34_mb_type_to_lavc[12] =
+{
     MB_TYPE_INTRA,
     MB_TYPE_INTRA16x16              | MB_TYPE_SEPARATE_DC,
     MB_TYPE_16x16   | MB_TYPE_L0,
@@ -67,25 +68,26 @@ static RV34VLC intra_vlcs[NUM_INTRA_TABLES], inter_vlcs[NUM_INTER_TABLES];
  * @{
  */
 
-static const int table_offs[] = {
-      0,   1818,   3622,   4144,   4698,   5234,   5804,   5868,   5900,   5932,
-   5996,   6252,   6316,   6348,   6380,   7674,   8944,  10274,  11668,  12250,
-  14060,  15846,  16372,  16962,  17512,  18148,  18180,  18212,  18244,  18308,
-  18564,  18628,  18660,  18692,  20036,  21314,  22648,  23968,  24614,  26384,
-  28190,  28736,  29366,  29938,  30608,  30640,  30672,  30704,  30768,  31024,
-  31088,  31120,  31184,  32570,  33898,  35236,  36644,  37286,  39020,  40802,
-  41368,  42052,  42692,  43348,  43380,  43412,  43444,  43476,  43604,  43668,
-  43700,  43732,  45100,  46430,  47778,  49160,  49802,  51550,  53340,  53972,
-  54648,  55348,  55994,  56122,  56154,  56186,  56218,  56346,  56410,  56442,
-  56474,  57878,  59290,  60636,  62036,  62682,  64460,  64524,  64588,  64716,
-  64844,  66076,  67466,  67978,  68542,  69064,  69648,  70296,  72010,  72074,
-  72138,  72202,  72330,  73572,  74936,  75454,  76030,  76566,  77176,  77822,
-  79582,  79646,  79678,  79742,  79870,  81180,  82536,  83064,  83672,  84242,
-  84934,  85576,  87384,  87448,  87480,  87544,  87672,  88982,  90340,  90902,
-  91598,  92182,  92846,  93488,  95246,  95278,  95310,  95374,  95502,  96878,
-  98266,  98848,  99542, 100234, 100884, 101524, 103320, 103352, 103384, 103416,
- 103480, 104874, 106222, 106910, 107584, 108258, 108902, 109544, 111366, 111398,
- 111430, 111462, 111494, 112878, 114320, 114988, 115660, 116310, 116950, 117592
+static const int table_offs[] =
+{
+    0,   1818,   3622,   4144,   4698,   5234,   5804,   5868,   5900,   5932,
+    5996,   6252,   6316,   6348,   6380,   7674,   8944,  10274,  11668,  12250,
+    14060,  15846,  16372,  16962,  17512,  18148,  18180,  18212,  18244,  18308,
+    18564,  18628,  18660,  18692,  20036,  21314,  22648,  23968,  24614,  26384,
+    28190,  28736,  29366,  29938,  30608,  30640,  30672,  30704,  30768,  31024,
+    31088,  31120,  31184,  32570,  33898,  35236,  36644,  37286,  39020,  40802,
+    41368,  42052,  42692,  43348,  43380,  43412,  43444,  43476,  43604,  43668,
+    43700,  43732,  45100,  46430,  47778,  49160,  49802,  51550,  53340,  53972,
+    54648,  55348,  55994,  56122,  56154,  56186,  56218,  56346,  56410,  56442,
+    56474,  57878,  59290,  60636,  62036,  62682,  64460,  64524,  64588,  64716,
+    64844,  66076,  67466,  67978,  68542,  69064,  69648,  70296,  72010,  72074,
+    72138,  72202,  72330,  73572,  74936,  75454,  76030,  76566,  77176,  77822,
+    79582,  79646,  79678,  79742,  79870,  81180,  82536,  83064,  83672,  84242,
+    84934,  85576,  87384,  87448,  87480,  87544,  87672,  88982,  90340,  90902,
+    91598,  92182,  92846,  93488,  95246,  95278,  95310,  95374,  95502,  96878,
+    98266,  98848,  99542, 100234, 100884, 101524, 103320, 103352, 103384, 103416,
+    103480, 104874, 106222, 106910, 107584, 108258, 108902, 109544, 111366, 111398,
+    111430, 111462, 111494, 112878, 114320, 114988, 115660, 116310, 116950, 117592
 };
 
 static VLC_TYPE table_data[117592][2];
@@ -103,18 +105,20 @@ static void rv34_gen_vlc(const uint8_t *bits, int size, VLC *vlc, const uint8_t 
 {
     int i;
     int counts[17] = {0}, codes[17];
-    #if __STDC_VERSION__ >= 199901L
+#if __STDC_VERSION__ >= 199901L
     uint16_t cw[size], syms[size];
     uint8_t bits2[size];
-    #else
+#else
     uint16_t *cw = _alloca(sizeof(uint16_t) * size);
     uint16_t *syms = _alloca(sizeof(uint16_t) * size);
     uint8_t *bits2 = _alloca(sizeof(uint8_t) * size);
-    #endif
+#endif
     int maxbits = 0, realsize = 0;
 
-    for(i = 0; i < size; i++){
-        if(bits[i]){
+    for(i = 0; i < size; i++)
+    {
+        if(bits[i])
+        {
             bits2[realsize] = bits[i];
             syms[realsize] = insyms ? insyms[i] : i;
             realsize++;
@@ -144,32 +148,39 @@ static av_cold void rv34_init_tables(void)
 {
     int i, j, k;
 
-    for(i = 0; i < NUM_INTRA_TABLES; i++){
-        for(j = 0; j < 2; j++){
-            rv34_gen_vlc(rv34_table_intra_cbppat   [i][j], CBPPAT_VLC_SIZE,   &intra_vlcs[i].cbppattern[j],     NULL, 19*i + 0 + j);
-            rv34_gen_vlc(rv34_table_intra_secondpat[i][j], OTHERBLK_VLC_SIZE, &intra_vlcs[i].second_pattern[j], NULL, 19*i + 2 + j);
-            rv34_gen_vlc(rv34_table_intra_thirdpat [i][j], OTHERBLK_VLC_SIZE, &intra_vlcs[i].third_pattern[j],  NULL, 19*i + 4 + j);
-            for(k = 0; k < 4; k++){
-                rv34_gen_vlc(rv34_table_intra_cbp[i][j+k*2],  CBP_VLC_SIZE,   &intra_vlcs[i].cbp[j][k],         rv34_cbp_code, 19*i + 6 + j*4 + k);
+    for(i = 0; i < NUM_INTRA_TABLES; i++)
+    {
+        for(j = 0; j < 2; j++)
+        {
+            rv34_gen_vlc(rv34_table_intra_cbppat   [i][j], CBPPAT_VLC_SIZE,   &intra_vlcs[i].cbppattern[j],     NULL, 19 * i + 0 + j);
+            rv34_gen_vlc(rv34_table_intra_secondpat[i][j], OTHERBLK_VLC_SIZE, &intra_vlcs[i].second_pattern[j], NULL, 19 * i + 2 + j);
+            rv34_gen_vlc(rv34_table_intra_thirdpat [i][j], OTHERBLK_VLC_SIZE, &intra_vlcs[i].third_pattern[j],  NULL, 19 * i + 4 + j);
+            for(k = 0; k < 4; k++)
+            {
+                rv34_gen_vlc(rv34_table_intra_cbp[i][j+k*2],  CBP_VLC_SIZE,   &intra_vlcs[i].cbp[j][k],         rv34_cbp_code, 19 * i + 6 + j * 4 + k);
             }
         }
-        for(j = 0; j < 4; j++){
-            rv34_gen_vlc(rv34_table_intra_firstpat[i][j], FIRSTBLK_VLC_SIZE, &intra_vlcs[i].first_pattern[j], NULL, 19*i + 14 + j);
+        for(j = 0; j < 4; j++)
+        {
+            rv34_gen_vlc(rv34_table_intra_firstpat[i][j], FIRSTBLK_VLC_SIZE, &intra_vlcs[i].first_pattern[j], NULL, 19 * i + 14 + j);
         }
-        rv34_gen_vlc(rv34_intra_coeff[i], COEFF_VLC_SIZE, &intra_vlcs[i].coefficient, NULL, 19*i + 18);
+        rv34_gen_vlc(rv34_intra_coeff[i], COEFF_VLC_SIZE, &intra_vlcs[i].coefficient, NULL, 19 * i + 18);
     }
 
-    for(i = 0; i < NUM_INTER_TABLES; i++){
-        rv34_gen_vlc(rv34_inter_cbppat[i], CBPPAT_VLC_SIZE, &inter_vlcs[i].cbppattern[0], NULL, i*12 + 95);
-        for(j = 0; j < 4; j++){
-            rv34_gen_vlc(rv34_inter_cbp[i][j], CBP_VLC_SIZE, &inter_vlcs[i].cbp[0][j], rv34_cbp_code, i*12 + 96 + j);
+    for(i = 0; i < NUM_INTER_TABLES; i++)
+    {
+        rv34_gen_vlc(rv34_inter_cbppat[i], CBPPAT_VLC_SIZE, &inter_vlcs[i].cbppattern[0], NULL, i * 12 + 95);
+        for(j = 0; j < 4; j++)
+        {
+            rv34_gen_vlc(rv34_inter_cbp[i][j], CBP_VLC_SIZE, &inter_vlcs[i].cbp[0][j], rv34_cbp_code, i * 12 + 96 + j);
         }
-        for(j = 0; j < 2; j++){
-            rv34_gen_vlc(rv34_table_inter_firstpat [i][j], FIRSTBLK_VLC_SIZE, &inter_vlcs[i].first_pattern[j],  NULL, i*12 + 100 + j);
-            rv34_gen_vlc(rv34_table_inter_secondpat[i][j], OTHERBLK_VLC_SIZE, &inter_vlcs[i].second_pattern[j], NULL, i*12 + 102 + j);
-            rv34_gen_vlc(rv34_table_inter_thirdpat [i][j], OTHERBLK_VLC_SIZE, &inter_vlcs[i].third_pattern[j],  NULL, i*12 + 104 + j);
+        for(j = 0; j < 2; j++)
+        {
+            rv34_gen_vlc(rv34_table_inter_firstpat [i][j], FIRSTBLK_VLC_SIZE, &inter_vlcs[i].first_pattern[j],  NULL, i * 12 + 100 + j);
+            rv34_gen_vlc(rv34_table_inter_secondpat[i][j], OTHERBLK_VLC_SIZE, &inter_vlcs[i].second_pattern[j], NULL, i * 12 + 102 + j);
+            rv34_gen_vlc(rv34_table_inter_thirdpat [i][j], OTHERBLK_VLC_SIZE, &inter_vlcs[i].third_pattern[j],  NULL, i * 12 + 104 + j);
         }
-        rv34_gen_vlc(rv34_inter_coeff[i], COEFF_VLC_SIZE, &inter_vlcs[i].coefficient, NULL, i*12 + 106);
+        rv34_gen_vlc(rv34_inter_coeff[i], COEFF_VLC_SIZE, &inter_vlcs[i].coefficient, NULL, i * 12 + 106);
     }
 }
 
@@ -185,16 +196,17 @@ static av_always_inline void rv34_row_transform(int temp[16], DCTELEM *block)
 {
     int i;
 
-    for(i=0; i<4; i++){
-        const int z0= 13*(block[i+8*0] +    block[i+8*2]);
-        const int z1= 13*(block[i+8*0] -    block[i+8*2]);
-        const int z2=  7* block[i+8*1] - 17*block[i+8*3];
-        const int z3= 17* block[i+8*1] +  7*block[i+8*3];
+    for(i = 0; i < 4; i++)
+    {
+        const int z0 = 13 * (block[i+8*0] +    block[i+8*2]);
+        const int z1 = 13 * (block[i+8*0] -    block[i+8*2]);
+        const int z2 =  7 * block[i+8*1] - 17 * block[i+8*3];
+        const int z3 = 17 * block[i+8*1] +  7 * block[i+8*3];
 
-        temp[4*i+0]= z0+z3;
-        temp[4*i+1]= z1+z2;
-        temp[4*i+2]= z1-z2;
-        temp[4*i+3]= z0-z3;
+        temp[4*i+0] = z0 + z3;
+        temp[4*i+1] = z1 + z2;
+        temp[4*i+2] = z1 - z2;
+        temp[4*i+3] = z0 - z3;
     }
 }
 
@@ -202,22 +214,24 @@ static av_always_inline void rv34_row_transform(int temp[16], DCTELEM *block)
  * Real Video 3.0/4.0 inverse transform
  * Code is almost the same as in SVQ3, only scaling is different.
  */
-static void rv34_inv_transform(DCTELEM *block){
+static void rv34_inv_transform(DCTELEM *block)
+{
     int temp[16];
     int i;
 
     rv34_row_transform(temp, block);
 
-    for(i=0; i<4; i++){
-        const int z0= 13*(temp[4*0+i] +    temp[4*2+i]) + 0x200;
-        const int z1= 13*(temp[4*0+i] -    temp[4*2+i]) + 0x200;
-        const int z2=  7* temp[4*1+i] - 17*temp[4*3+i];
-        const int z3= 17* temp[4*1+i] +  7*temp[4*3+i];
+    for(i = 0; i < 4; i++)
+    {
+        const int z0 = 13 * (temp[4*0+i] +    temp[4*2+i]) + 0x200;
+        const int z1 = 13 * (temp[4*0+i] -    temp[4*2+i]) + 0x200;
+        const int z2 =  7 * temp[4*1+i] - 17 * temp[4*3+i];
+        const int z3 = 17 * temp[4*1+i] +  7 * temp[4*3+i];
 
-        block[i*8+0]= (z0 + z3)>>10;
-        block[i*8+1]= (z1 + z2)>>10;
-        block[i*8+2]= (z1 - z2)>>10;
-        block[i*8+3]= (z0 - z3)>>10;
+        block[i*8+0] = (z0 + z3) >> 10;
+        block[i*8+1] = (z1 + z2) >> 10;
+        block[i*8+2] = (z1 - z2) >> 10;
+        block[i*8+3] = (z0 - z3) >> 10;
     }
 
 }
@@ -228,22 +242,24 @@ static void rv34_inv_transform(DCTELEM *block){
  * Code is almost the same as rv34_inv_transform()
  * but final coefficients are multiplied by 1.5 and have no rounding.
  */
-static void rv34_inv_transform_noround(DCTELEM *block){
+static void rv34_inv_transform_noround(DCTELEM *block)
+{
     int temp[16];
     int i;
 
     rv34_row_transform(temp, block);
 
-    for(i=0; i<4; i++){
-        const int z0= 13*(temp[4*0+i] +    temp[4*2+i]);
-        const int z1= 13*(temp[4*0+i] -    temp[4*2+i]);
-        const int z2=  7* temp[4*1+i] - 17*temp[4*3+i];
-        const int z3= 17* temp[4*1+i] +  7*temp[4*3+i];
+    for(i = 0; i < 4; i++)
+    {
+        const int z0 = 13 * (temp[4*0+i] +    temp[4*2+i]);
+        const int z1 = 13 * (temp[4*0+i] -    temp[4*2+i]);
+        const int z2 =  7 * temp[4*1+i] - 17 * temp[4*3+i];
+        const int z3 = 17 * temp[4*1+i] +  7 * temp[4*3+i];
 
-        block[i*8+0]= ((z0 + z3)*3)>>11;
-        block[i*8+1]= ((z1 + z2)*3)>>11;
-        block[i*8+2]= ((z1 - z2)*3)>>11;
-        block[i*8+3]= ((z0 - z3)*3)>>11;
+        block[i*8+0] = ((z0 + z3) * 3) >> 11;
+        block[i*8+1] = ((z1 + z2) * 3) >> 11;
+        block[i*8+2] = ((z1 - z2) * 3) >> 11;
+        block[i*8+3] = ((z0 - z3) * 3) >> 11;
     }
 
 }
@@ -261,7 +277,7 @@ static void rv34_inv_transform_noround(DCTELEM *block){
  */
 static int rv34_decode_cbp(GetBitContext *gb, RV34VLC *vlc, int table)
 {
-    int pattern, code, cbp=0;
+    int pattern, code, cbp = 0;
     int ones;
     static const int cbp_masks[3] = {0x100000, 0x010000, 0x110000};
     static const int shifts[4] = { 0, 2, 8, 10 };
@@ -274,12 +290,14 @@ static int rv34_decode_cbp(GetBitContext *gb, RV34VLC *vlc, int table)
 
     ones = rv34_count_ones[pattern];
 
-    for(mask = 8; mask; mask >>= 1, curshift++){
+    for(mask = 8; mask; mask >>= 1, curshift++)
+    {
         if(pattern & mask)
             cbp |= get_vlc2(gb, vlc->cbp[table][ones].table, vlc->cbp[table][ones].bits, 1) << curshift[0];
     }
 
-    for(i = 0; i < 4; i++){
+    for(i = 0; i < 4; i++)
+    {
         t = modulo_three_table[code][i];
         if(t == 1)
             cbp |= cbp_masks[get_bits1(gb)] << i;
@@ -294,10 +312,13 @@ static int rv34_decode_cbp(GetBitContext *gb, RV34VLC *vlc, int table)
  */
 static inline void decode_coeff(DCTELEM *dst, int coef, int esc, GetBitContext *gb, VLC* vlc)
 {
-    if(coef){
-        if(coef == esc){
+    if(coef)
+    {
+        if(coef == esc)
+        {
             coef = get_vlc2(gb, vlc->table, 9, 2);
-            if(coef > 23){
+            if(coef > 23)
+            {
                 coef -= 23;
                 coef = 22 + ((1 << coef) | get_bits(gb, coef));
             }
@@ -321,14 +342,17 @@ static inline void decode_subblock(DCTELEM *dst, int code, const int is_block2, 
     coeffs[2] = modulo_three_table[code][2];
     coeffs[3] = modulo_three_table[code][3];
     decode_coeff(dst  , coeffs[0], 3, gb, vlc);
-    if(is_block2){
-        decode_coeff(dst+8, coeffs[1], 2, gb, vlc);
-        decode_coeff(dst+1, coeffs[2], 2, gb, vlc);
-    }else{
-        decode_coeff(dst+1, coeffs[1], 2, gb, vlc);
-        decode_coeff(dst+8, coeffs[2], 2, gb, vlc);
+    if(is_block2)
+    {
+        decode_coeff(dst + 8, coeffs[1], 2, gb, vlc);
+        decode_coeff(dst + 1, coeffs[2], 2, gb, vlc);
     }
-    decode_coeff(dst+9, coeffs[3], 2, gb, vlc);
+    else
+    {
+        decode_coeff(dst + 1, coeffs[1], 2, gb, vlc);
+        decode_coeff(dst + 8, coeffs[2], 2, gb, vlc);
+    }
+    decode_coeff(dst + 9, coeffs[3], 2, gb, vlc);
 }
 
 /**
@@ -353,17 +377,20 @@ static inline void rv34_decode_block(DCTELEM *dst, GetBitContext *gb, RV34VLC *r
     code >>= 3;
     decode_subblock(dst, code, 0, gb, &rvlc->coefficient);
 
-    if(pattern & 4){
+    if(pattern & 4)
+    {
         code = get_vlc2(gb, rvlc->second_pattern[sc].table, 9, 2);
         decode_subblock(dst + 2, code, 0, gb, &rvlc->coefficient);
     }
-    if(pattern & 2){ // Looks like coefficients 1 and 2 are swapped for this block
+    if(pattern & 2)  // Looks like coefficients 1 and 2 are swapped for this block
+    {
         code = get_vlc2(gb, rvlc->second_pattern[sc].table, 9, 2);
-        decode_subblock(dst + 8*2, code, 1, gb, &rvlc->coefficient);
+        decode_subblock(dst + 8 * 2, code, 1, gb, &rvlc->coefficient);
     }
-    if(pattern & 1){
+    if(pattern & 1)
+    {
         code = get_vlc2(gb, rvlc->third_pattern[sc].table, 9, 2);
-        decode_subblock(dst + 8*2+2, code, 0, gb, &rvlc->coefficient);
+        decode_subblock(dst + 8 * 2 + 2, code, 0, gb, &rvlc->coefficient);
     }
 
 }
@@ -391,9 +418,9 @@ static inline void rv34_dequant4x4_16x16(DCTELEM *block, int Qdc, int Q)
     int i;
 
     for(i = 0; i < 3; i++)
-         block[rv34_dezigzag[i]] = (block[rv34_dezigzag[i]] * Qdc + 8) >> 4;
+        block[rv34_dezigzag[i]] = (block[rv34_dezigzag[i]] * Qdc + 8) >> 4;
     for(; i < 16; i++)
-         block[rv34_dezigzag[i]] = (block[rv34_dezigzag[i]] * Q + 8) >> 4;
+        block[rv34_dezigzag[i]] = (block[rv34_dezigzag[i]] * Q + 8) >> 4;
 }
 /** @} */ //block functions
 
@@ -424,7 +451,7 @@ static inline RV34VLC* choose_vlc_set(int quant, int mod, int type)
     if(mod == 2 && quant < 19) quant += 10;
     else if(mod && quant < 26) quant += 5;
     return type ? &inter_vlcs[rv34_quant_to_vlc_set[1][av_clip(quant, 0, 30)]]
-                : &intra_vlcs[rv34_quant_to_vlc_set[0][av_clip(quant, 0, 30)]];
+           : &intra_vlcs[rv34_quant_to_vlc_set[0][av_clip(quant, 0, 30)]];
 }
 
 /**
@@ -471,30 +498,40 @@ static void rv34_pred_mv(RV34DecContext *r, int block_type, int subblock_no, int
     int avail_index = avail_indexes[subblock_no];
     int c_off = part_sizes_w[block_type];
 
-    mv_pos += (subblock_no & 1) + (subblock_no >> 1)*s->b8_stride;
+    mv_pos += (subblock_no & 1) + (subblock_no >> 1) * s->b8_stride;
     if(subblock_no == 3)
         c_off = -1;
 
-    if(r->avail_cache[avail_index - 1]){
+    if(r->avail_cache[avail_index - 1])
+    {
         A[0] = s->current_picture_ptr->motion_val[0][mv_pos-1][0];
         A[1] = s->current_picture_ptr->motion_val[0][mv_pos-1][1];
     }
-    if(r->avail_cache[avail_index - 4]){
+    if(r->avail_cache[avail_index - 4])
+    {
         B[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride][0];
         B[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride][1];
-    }else{
+    }
+    else
+    {
         B[0] = A[0];
         B[1] = A[1];
     }
-    if(!r->avail_cache[avail_index - 4 + c_off]){
-        if(r->avail_cache[avail_index - 4] && (r->avail_cache[avail_index - 1] || r->rv30)){
+    if(!r->avail_cache[avail_index - 4 + c_off])
+    {
+        if(r->avail_cache[avail_index - 4] && (r->avail_cache[avail_index - 1] || r->rv30))
+        {
             C[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride-1][0];
             C[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride-1][1];
-        }else{
+        }
+        else
+        {
             C[0] = A[0];
             C[1] = A[1];
         }
-    }else{
+    }
+    else
+    {
         C[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride+c_off][0];
         C[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride+c_off][1];
     }
@@ -502,8 +539,10 @@ static void rv34_pred_mv(RV34DecContext *r, int block_type, int subblock_no, int
     my = mid_pred(A[1], B[1], C[1]);
     mx += r->dmv[dmv_no][0];
     my += r->dmv[dmv_no][1];
-    for(j = 0; j < part_sizes_h[block_type]; j++){
-        for(i = 0; i < part_sizes_w[block_type]; i++){
+    for(j = 0; j < part_sizes_h[block_type]; j++)
+    {
+        for(i = 0; i < part_sizes_w[block_type]; i++)
+        {
             s->current_picture_ptr->motion_val[0][mv_pos + i + j*s->b8_stride][0] = mx;
             s->current_picture_ptr->motion_val[0][mv_pos + i + j*s->b8_stride][1] = my;
         }
@@ -533,14 +572,18 @@ static inline void rv34_pred_b_vector(int A[2], int B[2], int C[2],
                                       int A_avail, int B_avail, int C_avail,
                                       int *mx, int *my)
 {
-    if(A_avail + B_avail + C_avail != 3){
+    if(A_avail + B_avail + C_avail != 3)
+    {
         *mx = A[0] + B[0] + C[0];
         *my = A[1] + B[1] + C[1];
-        if(A_avail + B_avail + C_avail == 2){
+        if(A_avail + B_avail + C_avail == 2)
+        {
             *mx /= 2;
             *my /= 2;
         }
-    }else{
+    }
+    else
+    {
         *mx = mid_pred(A[0], B[0], C[0]);
         *my = mid_pred(A[1], B[1], C[1]);
     }
@@ -565,21 +608,26 @@ static void rv34_pred_mv_b(RV34DecContext *r, int block_type, int dir)
     memset(A, 0, sizeof(A));
     memset(B, 0, sizeof(B));
     memset(C, 0, sizeof(C));
-    if((r->avail_cache[6-1] & type) & mask){
+    if((r->avail_cache[6-1] & type) & mask)
+    {
         A[0] = cur_pic->motion_val[dir][mv_pos - 1][0];
         A[1] = cur_pic->motion_val[dir][mv_pos - 1][1];
         has_A = 1;
     }
-    if((r->avail_cache[6-4] & type) & mask){
+    if((r->avail_cache[6-4] & type) & mask)
+    {
         B[0] = cur_pic->motion_val[dir][mv_pos - s->b8_stride][0];
         B[1] = cur_pic->motion_val[dir][mv_pos - s->b8_stride][1];
         has_B = 1;
     }
-    if(r->avail_cache[6-4] && (r->avail_cache[6-2] & type) & mask){
+    if(r->avail_cache[6-4] && (r->avail_cache[6-2] & type) & mask)
+    {
         C[0] = cur_pic->motion_val[dir][mv_pos - s->b8_stride + 2][0];
         C[1] = cur_pic->motion_val[dir][mv_pos - s->b8_stride + 2][1];
         has_C = 1;
-    }else if((s->mb_x+1) == s->mb_width && (r->avail_cache[6-5] & type) & mask){
+    }
+    else if((s->mb_x + 1) == s->mb_width && (r->avail_cache[6-5] & type) & mask)
+    {
         C[0] = cur_pic->motion_val[dir][mv_pos - s->b8_stride - 1][0];
         C[1] = cur_pic->motion_val[dir][mv_pos - s->b8_stride - 1][1];
         has_C = 1;
@@ -590,13 +638,16 @@ static void rv34_pred_mv_b(RV34DecContext *r, int block_type, int dir)
     mx += r->dmv[dir][0];
     my += r->dmv[dir][1];
 
-    for(j = 0; j < 2; j++){
-        for(i = 0; i < 2; i++){
+    for(j = 0; j < 2; j++)
+    {
+        for(i = 0; i < 2; i++)
+        {
             cur_pic->motion_val[dir][mv_pos + i + j*s->b8_stride][0] = mx;
             cur_pic->motion_val[dir][mv_pos + i + j*s->b8_stride][1] = my;
         }
     }
-    if(block_type == RV34_MB_B_BACKWARD || block_type == RV34_MB_B_FORWARD){
+    if(block_type == RV34_MB_B_BACKWARD || block_type == RV34_MB_B_FORWARD)
+    {
         ZERO8x2(cur_pic->motion_val[!dir][mv_pos], s->b8_stride);
     }
 }
@@ -613,26 +664,36 @@ static void rv34_pred_mv_rv3(RV34DecContext *r, int block_type, int dir)
     int mx, my;
     int avail_index = avail_indexes[0];
 
-    if(r->avail_cache[avail_index - 1]){
+    if(r->avail_cache[avail_index - 1])
+    {
         A[0] = s->current_picture_ptr->motion_val[0][mv_pos-1][0];
         A[1] = s->current_picture_ptr->motion_val[0][mv_pos-1][1];
     }
-    if(r->avail_cache[avail_index - 4]){
+    if(r->avail_cache[avail_index - 4])
+    {
         B[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride][0];
         B[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride][1];
-    }else{
+    }
+    else
+    {
         B[0] = A[0];
         B[1] = A[1];
     }
-    if(!r->avail_cache[avail_index - 4 + 2]){
-        if(r->avail_cache[avail_index - 4] && (r->avail_cache[avail_index - 1])){
+    if(!r->avail_cache[avail_index - 4 + 2])
+    {
+        if(r->avail_cache[avail_index - 4] && (r->avail_cache[avail_index - 1]))
+        {
             C[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride-1][0];
             C[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride-1][1];
-        }else{
+        }
+        else
+        {
             C[0] = A[0];
             C[1] = A[1];
         }
-    }else{
+    }
+    else
+    {
         C[0] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride+2][0];
         C[1] = s->current_picture_ptr->motion_val[0][mv_pos-s->b8_stride+2][1];
     }
@@ -640,9 +701,12 @@ static void rv34_pred_mv_rv3(RV34DecContext *r, int block_type, int dir)
     my = mid_pred(A[1], B[1], C[1]);
     mx += r->dmv[0][0];
     my += r->dmv[0][1];
-    for(j = 0; j < 2; j++){
-        for(i = 0; i < 2; i++){
-            for(k = 0; k < 2; k++){
+    for(j = 0; j < 2; j++)
+    {
+        for(i = 0; i < 2; i++)
+        {
+            for(k = 0; k < 2; k++)
+            {
                 s->current_picture_ptr->motion_val[k][mv_pos + i + j*s->b8_stride][0] = mx;
                 s->current_picture_ptr->motion_val[k][mv_pos + i + j*s->b8_stride][1] = my;
             }
@@ -668,11 +732,11 @@ static const int chroma_coeffs[3] = { 0, 3, 5 };
  * @param chroma_mc a set of functions used to perform chroma motion compensation
  */
 static inline void rv34_mc(RV34DecContext *r, const int block_type,
-                          const int xoff, const int yoff, int mv_off,
-                          const int width, const int height, int dir,
-                          const int thirdpel,
-                          qpel_mc_func (*qpel_mc)[16],
-                          h264_chroma_mc_func (*chroma_mc))
+                           const int xoff, const int yoff, int mv_off,
+                           const int width, const int height, int dir,
+                           const int thirdpel,
+                           qpel_mc_func(*qpel_mc)[16],
+                           h264_chroma_mc_func(*chroma_mc))
 {
     MpegEncContext *s = &r->s;
     uint8_t *Y, *U, *V, *srcY, *srcU, *srcV;
@@ -680,7 +744,8 @@ static inline void rv34_mc(RV34DecContext *r, const int block_type,
     int mv_pos = s->mb_x * 2 + s->mb_y * 2 * s->b8_stride + mv_off;
     int is16x16 = 1;
 
-    if(thirdpel){
+    if(thirdpel)
+    {
         int chroma_mx, chroma_my;
         mx = (s->current_picture_ptr->motion_val[dir][mv_pos][0] + (3 << 24)) / 3 - (1 << 24);
         my = (s->current_picture_ptr->motion_val[dir][mv_pos][1] + (3 << 24)) / 3 - (1 << 24);
@@ -692,7 +757,9 @@ static inline void rv34_mc(RV34DecContext *r, const int block_type,
         umy = (chroma_my + (3 << 24)) / 3 - (1 << 24);
         uvmx = chroma_coeffs[(chroma_mx + (3 << 24)) % 3];
         uvmy = chroma_coeffs[(chroma_my + (3 << 24)) % 3];
-    }else{
+    }
+    else
+    {
         int cx, cy;
         mx = s->current_picture_ptr->motion_val[dir][mv_pos][0] >> 2;
         my = s->current_picture_ptr->motion_val[dir][mv_pos][1] >> 2;
@@ -708,7 +775,7 @@ static inline void rv34_mc(RV34DecContext *r, const int block_type,
         if(uvmx == 6 && uvmy == 6)
             uvmx = uvmy = 4;
     }
-    dxy = ly*4 + lx;
+    dxy = ly * 4 + lx;
     srcY = dir ? s->next_picture_ptr->data[0] : s->last_picture_ptr->data[0];
     srcU = dir ? s->next_picture_ptr->data[1] : s->last_picture_ptr->data[1];
     srcV = dir ? s->next_picture_ptr->data[2] : s->last_picture_ptr->data[2];
@@ -719,38 +786,42 @@ static inline void rv34_mc(RV34DecContext *r, const int block_type,
     srcY += src_y * s->linesize + src_x;
     srcU += uvsrc_y * s->uvlinesize + uvsrc_x;
     srcV += uvsrc_y * s->uvlinesize + uvsrc_x;
-    if(   (unsigned)(src_x - !!lx*2) > s->h_edge_pos - !!lx*2 - (width <<3) - 4
-       || (unsigned)(src_y - !!ly*2) > s->v_edge_pos - !!ly*2 - (height<<3) - 4){
-        uint8_t *uvbuf= s->edge_emu_buffer + 22 * s->linesize;
+    if((unsigned)(src_x - !!lx * 2) > s->h_edge_pos - !!lx * 2 - (width << 3) - 4
+       || (unsigned)(src_y - !!ly * 2) > s->v_edge_pos - !!ly * 2 - (height << 3) - 4)
+    {
+        uint8_t *uvbuf = s->edge_emu_buffer + 22 * s->linesize;
 
-        srcY -= 2 + 2*s->linesize;
-        ff_emulated_edge_mc(s->edge_emu_buffer, srcY, s->linesize, (width<<3)+6, (height<<3)+6,
+        srcY -= 2 + 2 * s->linesize;
+        ff_emulated_edge_mc(s->edge_emu_buffer, srcY, s->linesize, (width << 3) + 6, (height << 3) + 6,
                             src_x - 2, src_y - 2, s->h_edge_pos, s->v_edge_pos);
-        srcY = s->edge_emu_buffer + 2 + 2*s->linesize;
-        ff_emulated_edge_mc(uvbuf     , srcU, s->uvlinesize, (width<<2)+1, (height<<2)+1,
+        srcY = s->edge_emu_buffer + 2 + 2 * s->linesize;
+        ff_emulated_edge_mc(uvbuf     , srcU, s->uvlinesize, (width << 2) + 1, (height << 2) + 1,
                             uvsrc_x, uvsrc_y, s->h_edge_pos >> 1, s->v_edge_pos >> 1);
-        ff_emulated_edge_mc(uvbuf + 16, srcV, s->uvlinesize, (width<<2)+1, (height<<2)+1,
+        ff_emulated_edge_mc(uvbuf + 16, srcV, s->uvlinesize, (width << 2) + 1, (height << 2) + 1,
                             uvsrc_x, uvsrc_y, s->h_edge_pos >> 1, s->v_edge_pos >> 1);
         srcU = uvbuf;
         srcV = uvbuf + 16;
     }
-    Y = s->dest[0] + xoff      + yoff     *s->linesize;
-    U = s->dest[1] + (xoff>>1) + (yoff>>1)*s->uvlinesize;
-    V = s->dest[2] + (xoff>>1) + (yoff>>1)*s->uvlinesize;
+    Y = s->dest[0] + xoff      + yoff     * s->linesize;
+    U = s->dest[1] + (xoff >> 1) + (yoff >> 1) * s->uvlinesize;
+    V = s->dest[2] + (xoff >> 1) + (yoff >> 1) * s->uvlinesize;
 
-    if(block_type == RV34_MB_P_16x8){
+    if(block_type == RV34_MB_P_16x8)
+    {
         qpel_mc[1][dxy](Y, srcY, s->linesize);
         Y    += 8;
         srcY += 8;
-    }else if(block_type == RV34_MB_P_8x16){
+    }
+    else if(block_type == RV34_MB_P_8x16)
+    {
         qpel_mc[1][dxy](Y, srcY, s->linesize);
         Y    += 8 * s->linesize;
         srcY += 8 * s->linesize;
     }
     is16x16 = (block_type != RV34_MB_P_8x8) && (block_type != RV34_MB_P_16x8) && (block_type != RV34_MB_P_8x16);
     qpel_mc[!is16x16][dxy](Y, srcY, s->linesize);
-    chroma_mc[2-width]   (U, srcU, s->uvlinesize, height*4, uvmx, uvmy);
-    chroma_mc[2-width]   (V, srcV, s->uvlinesize, height*4, uvmx, uvmy);
+    chroma_mc[2-width](U, srcU, s->uvlinesize, height * 4, uvmx, uvmy);
+    chroma_mc[2-width](V, srcV, s->uvlinesize, height * 4, uvmx, uvmy);
 }
 
 static void rv34_mc_1mv(RV34DecContext *r, const int block_type,
@@ -759,40 +830,41 @@ static void rv34_mc_1mv(RV34DecContext *r, const int block_type,
 {
     rv34_mc(r, block_type, xoff, yoff, mv_off, width, height, dir, r->rv30,
             r->rv30 ? r->s.dsp.put_rv30_tpel_pixels_tab
-                    : r->s.dsp.put_rv40_qpel_pixels_tab,
+            : r->s.dsp.put_rv40_qpel_pixels_tab,
             r->rv30 ? r->s.dsp.put_h264_chroma_pixels_tab
-                    : r->s.dsp.put_rv40_chroma_pixels_tab);
+            : r->s.dsp.put_rv40_chroma_pixels_tab);
 }
 
 static void rv34_mc_2mv(RV34DecContext *r, const int block_type)
 {
     rv34_mc(r, block_type, 0, 0, 0, 2, 2, 0, r->rv30,
             r->rv30 ? r->s.dsp.put_rv30_tpel_pixels_tab
-                    : r->s.dsp.put_rv40_qpel_pixels_tab,
+            : r->s.dsp.put_rv40_qpel_pixels_tab,
             r->rv30 ? r->s.dsp.put_h264_chroma_pixels_tab
-                    : r->s.dsp.put_rv40_chroma_pixels_tab);
+            : r->s.dsp.put_rv40_chroma_pixels_tab);
     rv34_mc(r, block_type, 0, 0, 0, 2, 2, 1, r->rv30,
             r->rv30 ? r->s.dsp.avg_rv30_tpel_pixels_tab
-                    : r->s.dsp.avg_rv40_qpel_pixels_tab,
+            : r->s.dsp.avg_rv40_qpel_pixels_tab,
             r->rv30 ? r->s.dsp.avg_h264_chroma_pixels_tab
-                    : r->s.dsp.avg_rv40_chroma_pixels_tab);
+            : r->s.dsp.avg_rv40_chroma_pixels_tab);
 }
 
 static void rv34_mc_2mv_skip(RV34DecContext *r)
 {
     int i, j;
     for(j = 0; j < 2; j++)
-        for(i = 0; i < 2; i++){
-             rv34_mc(r, RV34_MB_P_8x8, i*8, j*8, i+j*r->s.b8_stride, 1, 1, 0, r->rv30,
+        for(i = 0; i < 2; i++)
+        {
+            rv34_mc(r, RV34_MB_P_8x8, i * 8, j * 8, i + j * r->s.b8_stride, 1, 1, 0, r->rv30,
                     r->rv30 ? r->s.dsp.put_rv30_tpel_pixels_tab
-                            : r->s.dsp.put_rv40_qpel_pixels_tab,
+                    : r->s.dsp.put_rv40_qpel_pixels_tab,
                     r->rv30 ? r->s.dsp.put_h264_chroma_pixels_tab
-                            : r->s.dsp.put_rv40_chroma_pixels_tab);
-             rv34_mc(r, RV34_MB_P_8x8, i*8, j*8, i+j*r->s.b8_stride, 1, 1, 1, r->rv30,
+                    : r->s.dsp.put_rv40_chroma_pixels_tab);
+            rv34_mc(r, RV34_MB_P_8x8, i * 8, j * 8, i + j * r->s.b8_stride, 1, 1, 1, r->rv30,
                     r->rv30 ? r->s.dsp.avg_rv30_tpel_pixels_tab
-                            : r->s.dsp.avg_rv40_qpel_pixels_tab,
+                    : r->s.dsp.avg_rv40_qpel_pixels_tab,
                     r->rv30 ? r->s.dsp.avg_h264_chroma_pixels_tab
-                            : r->s.dsp.avg_rv40_chroma_pixels_tab);
+                    : r->s.dsp.avg_rv40_chroma_pixels_tab);
         }
 }
 
@@ -812,28 +884,33 @@ static int rv34_decode_mv(RV34DecContext *r, int block_type)
     int next_bt;
 
     memset(r->dmv, 0, sizeof(r->dmv));
-    for(i = 0; i < num_mvs[block_type]; i++){
+    for(i = 0; i < num_mvs[block_type]; i++)
+    {
         r->dmv[i][0] = svq3_get_se_golomb(gb);
         r->dmv[i][1] = svq3_get_se_golomb(gb);
     }
-    switch(block_type){
+    switch(block_type)
+    {
     case RV34_MB_TYPE_INTRA:
     case RV34_MB_TYPE_INTRA16x16:
         ZERO8x2(s->current_picture_ptr->motion_val[0][s->mb_x * 2 + s->mb_y * 2 * s->b8_stride], s->b8_stride);
         return 0;
     case RV34_MB_SKIP:
-        if(s->pict_type == FF_P_TYPE){
+        if(s->pict_type == FF_P_TYPE)
+        {
             ZERO8x2(s->current_picture_ptr->motion_val[0][s->mb_x * 2 + s->mb_y * 2 * s->b8_stride], s->b8_stride);
-            rv34_mc_1mv (r, block_type, 0, 0, 0, 2, 2, 0);
+            rv34_mc_1mv(r, block_type, 0, 0, 0, 2, 2, 0);
             break;
         }
     case RV34_MB_B_DIRECT:
         //surprisingly, it uses motion scheme from next reference frame
         next_bt = s->next_picture_ptr->mb_type[s->mb_x + s->mb_y * s->mb_stride];
-        if(IS_INTRA(next_bt) || IS_SKIP(next_bt)){
+        if(IS_INTRA(next_bt) || IS_SKIP(next_bt))
+        {
             ZERO8x2(s->current_picture_ptr->motion_val[0][s->mb_x * 2 + s->mb_y * 2 * s->b8_stride], s->b8_stride);
             ZERO8x2(s->current_picture_ptr->motion_val[1][s->mb_x * 2 + s->mb_y * 2 * s->b8_stride], s->b8_stride);
-        }else
+        }
+        else
             for(j = 0; j < 2; j++)
                 for(i = 0; i < 2; i++)
                     for(k = 0; k < 2; k++)
@@ -848,7 +925,7 @@ static int rv34_decode_mv(RV34DecContext *r, int block_type)
     case RV34_MB_P_16x16:
     case RV34_MB_P_MIX16x16:
         rv34_pred_mv(r, block_type, 0, 0);
-        rv34_mc_1mv (r, block_type, 0, 0, 0, 2, 2, 0);
+        rv34_mc_1mv(r, block_type, 0, 0, 0, 2, 2, 0);
         break;
     case RV34_MB_B_FORWARD:
     case RV34_MB_B_BACKWARD:
@@ -857,31 +934,34 @@ static int rv34_decode_mv(RV34DecContext *r, int block_type)
         if(r->rv30)
             rv34_pred_mv_rv3(r, block_type, block_type == RV34_MB_B_BACKWARD);
         else
-            rv34_pred_mv_b  (r, block_type, block_type == RV34_MB_B_BACKWARD);
-        rv34_mc_1mv     (r, block_type, 0, 0, 0, 2, 2, block_type == RV34_MB_B_BACKWARD);
+            rv34_pred_mv_b(r, block_type, block_type == RV34_MB_B_BACKWARD);
+        rv34_mc_1mv(r, block_type, 0, 0, 0, 2, 2, block_type == RV34_MB_B_BACKWARD);
         break;
     case RV34_MB_P_16x8:
     case RV34_MB_P_8x16:
         rv34_pred_mv(r, block_type, 0, 0);
         rv34_pred_mv(r, block_type, 1 + (block_type == RV34_MB_P_16x8), 1);
-        if(block_type == RV34_MB_P_16x8){
+        if(block_type == RV34_MB_P_16x8)
+        {
             rv34_mc_1mv(r, block_type, 0, 0, 0,            2, 1, 0);
             rv34_mc_1mv(r, block_type, 0, 8, s->b8_stride, 2, 1, 0);
         }
-        if(block_type == RV34_MB_P_8x16){
+        if(block_type == RV34_MB_P_8x16)
+        {
             rv34_mc_1mv(r, block_type, 0, 0, 0, 1, 2, 0);
             rv34_mc_1mv(r, block_type, 8, 0, 1, 1, 2, 0);
         }
         break;
     case RV34_MB_B_BIDIR:
-        rv34_pred_mv_b  (r, block_type, 0);
-        rv34_pred_mv_b  (r, block_type, 1);
-        rv34_mc_2mv     (r, block_type);
+        rv34_pred_mv_b(r, block_type, 0);
+        rv34_pred_mv_b(r, block_type, 1);
+        rv34_mc_2mv(r, block_type);
         break;
     case RV34_MB_P_8x8:
-        for(i=0;i< 4;i++){
+        for(i = 0; i < 4; i++)
+        {
             rv34_pred_mv(r, block_type, i, i);
-            rv34_mc_1mv (r, block_type, (i&1)<<3, (i&2)<<2, (i&1)+(i>>1)*s->b8_stride, 1, 1, 0);
+            rv34_mc_1mv(r, block_type, (i & 1) << 3, (i & 2) << 2, (i & 1) + (i >> 1)*s->b8_stride, 1, 1, 0);
         }
         break;
     }
@@ -895,14 +975,16 @@ static int rv34_decode_mv(RV34DecContext *r, int block_type)
  * @{
  */
 /** mapping of RV30/40 intra prediction types to standard H.264 types */
-static const int ittrans[9] = {
- DC_PRED, VERT_PRED, HOR_PRED, DIAG_DOWN_RIGHT_PRED, DIAG_DOWN_LEFT_PRED,
- VERT_RIGHT_PRED, VERT_LEFT_PRED, HOR_UP_PRED, HOR_DOWN_PRED,
+static const int ittrans[9] =
+{
+    DC_PRED, VERT_PRED, HOR_PRED, DIAG_DOWN_RIGHT_PRED, DIAG_DOWN_LEFT_PRED,
+    VERT_RIGHT_PRED, VERT_LEFT_PRED, HOR_UP_PRED, HOR_DOWN_PRED,
 };
 
 /** mapping of RV30/40 intra 16x16 prediction types to standard H.264 types */
-static const int ittrans16[4] = {
- DC_PRED8x8, VERT_PRED8x8, HOR_PRED8x8, PLANE_PRED8x8,
+static const int ittrans16[4] =
+{
+    DC_PRED8x8, VERT_PRED8x8, HOR_PRED8x8, PLANE_PRED8x8,
 };
 
 /**
@@ -915,20 +997,25 @@ static void rv34_pred_4x4_block(RV34DecContext *r, uint8_t *dst, int stride, int
 
     if(!up && !left)
         itype = DC_128_PRED;
-    else if(!up){
+    else if(!up)
+    {
         if(itype == VERT_PRED) itype = HOR_PRED;
         if(itype == DC_PRED)   itype = LEFT_DC_PRED;
-    }else if(!left){
+    }
+    else if(!left)
+    {
         if(itype == HOR_PRED)  itype = VERT_PRED;
         if(itype == DC_PRED)   itype = TOP_DC_PRED;
         if(itype == DIAG_DOWN_LEFT_PRED) itype = DIAG_DOWN_LEFT_PRED_RV40_NODOWN;
     }
-    if(!down){
+    if(!down)
+    {
         if(itype == DIAG_DOWN_LEFT_PRED) itype = DIAG_DOWN_LEFT_PRED_RV40_NODOWN;
         if(itype == HOR_UP_PRED) itype = HOR_UP_PRED_RV40_NODOWN;
         if(itype == VERT_LEFT_PRED) itype = VERT_LEFT_PRED_RV40_NODOWN;
     }
-    if(!right && up){
+    if(!right && up)
+    {
         topleft = dst[-stride + 3] * 0x01010101;
         prev = (uint8_t*)&topleft;
     }
@@ -948,11 +1035,14 @@ static inline int adjust_pred16(int itype, int up, int left)
 {
     if(!up && !left)
         itype = DC_128_PRED8x8;
-    else if(!up){
+    else if(!up)
+    {
         if(itype == PLANE_PRED8x8)itype = HOR_PRED8x8;
         if(itype == VERT_PRED8x8) itype = HOR_PRED8x8;
         if(itype == DC_PRED8x8)   itype = LEFT_DC_PRED8x8;
-    }else if(!left){
+    }
+    else if(!left)
+    {
         if(itype == PLANE_PRED8x8)itype = VERT_PRED8x8;
         if(itype == HOR_PRED8x8)  itype = VERT_PRED8x8;
         if(itype == DC_PRED8x8)   itype = TOP_DC_PRED8x8;
@@ -987,33 +1077,40 @@ static void rv34_output_macroblock(RV34DecContext *r, int8_t *intra_types, int c
     Y = s->dest[0];
     U = s->dest[1];
     V = s->dest[2];
-    if(!is16){
-        for(j = 0; j < 4; j++){
-            idx = 9 + j*8;
-            for(i = 0; i < 4; i++, cbp >>= 1, Y += 4, idx++){
+    if(!is16)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            idx = 9 + j * 8;
+            for(i = 0; i < 4; i++, cbp >>= 1, Y += 4, idx++)
+            {
                 rv34_pred_4x4_block(r, Y, s->linesize, ittrans[intra_types[i]], avail[idx-8], avail[idx-1], avail[idx+7], avail[idx-7]);
                 avail[idx] = 1;
                 if(cbp & 1)
-                    rv34_add_4x4_block(Y, s->linesize, s->block[(i>>1)+(j&2)], (i&1)*4+(j&1)*32);
+                    rv34_add_4x4_block(Y, s->linesize, s->block[(i>>1)+(j&2)], (i & 1) * 4 + (j & 1) * 32);
             }
-            Y += s->linesize * 4 - 4*4;
+            Y += s->linesize * 4 - 4 * 4;
             intra_types += r->intra_types_stride;
         }
         intra_types -= r->intra_types_stride * 4;
         fill_rectangle(r->avail_cache + 6, 2, 2, 4, 0, 4);
-        for(j = 0; j < 2; j++){
-            idx = 6 + j*4;
-            for(i = 0; i < 2; i++, cbp >>= 1, idx++){
-                rv34_pred_4x4_block(r, U + i*4 + j*4*s->uvlinesize, s->uvlinesize, ittrans[intra_types[i*2+j*2*r->intra_types_stride]], r->avail_cache[idx-4], r->avail_cache[idx-1], !i && !j, r->avail_cache[idx-3]);
-                rv34_pred_4x4_block(r, V + i*4 + j*4*s->uvlinesize, s->uvlinesize, ittrans[intra_types[i*2+j*2*r->intra_types_stride]], r->avail_cache[idx-4], r->avail_cache[idx-1], !i && !j, r->avail_cache[idx-3]);
+        for(j = 0; j < 2; j++)
+        {
+            idx = 6 + j * 4;
+            for(i = 0; i < 2; i++, cbp >>= 1, idx++)
+            {
+                rv34_pred_4x4_block(r, U + i * 4 + j * 4 * s->uvlinesize, s->uvlinesize, ittrans[intra_types[i*2+j*2*r->intra_types_stride]], r->avail_cache[idx-4], r->avail_cache[idx-1], !i && !j, r->avail_cache[idx-3]);
+                rv34_pred_4x4_block(r, V + i * 4 + j * 4 * s->uvlinesize, s->uvlinesize, ittrans[intra_types[i*2+j*2*r->intra_types_stride]], r->avail_cache[idx-4], r->avail_cache[idx-1], !i && !j, r->avail_cache[idx-3]);
                 r->avail_cache[idx] = 1;
                 if(cbp & 0x01)
-                    rv34_add_4x4_block(U + i*4 + j*4*s->uvlinesize, s->uvlinesize, s->block[4], i*4+j*32);
+                    rv34_add_4x4_block(U + i * 4 + j * 4 * s->uvlinesize, s->uvlinesize, s->block[4], i * 4 + j * 32);
                 if(cbp & 0x10)
-                    rv34_add_4x4_block(V + i*4 + j*4*s->uvlinesize, s->uvlinesize, s->block[5], i*4+j*32);
+                    rv34_add_4x4_block(V + i * 4 + j * 4 * s->uvlinesize, s->uvlinesize, s->block[5], i * 4 + j * 32);
             }
         }
-    }else{
+    }
+    else
+    {
         itype = ittrans16[intra_types[0]];
         itype = adjust_pred16(itype, r->avail_cache[6-4], r->avail_cache[6-1]);
         r->h.pred16x16[itype](Y, s->linesize);
@@ -1046,21 +1143,26 @@ static int rv34_decode_mb_header(RV34DecContext *r, int8_t *intra_types)
     int mb_pos = s->mb_x + s->mb_y * s->mb_stride;
     int i, t;
 
-    if(!r->si.type){
+    if(!r->si.type)
+    {
         r->is16 = get_bits1(gb);
-        if(!r->is16 && !r->rv30){
+        if(!r->is16 && !r->rv30)
+        {
             if(!get_bits1(gb))
                 av_log(s->avctx, AV_LOG_ERROR, "Need DQUANT\n");
         }
         s->current_picture_ptr->mb_type[mb_pos] = r->is16 ? MB_TYPE_INTRA16x16 : MB_TYPE_INTRA;
         r->block_type = r->is16 ? RV34_MB_TYPE_INTRA16x16 : RV34_MB_TYPE_INTRA;
-    }else{
+    }
+    else
+    {
         r->block_type = r->decode_mb_info(r);
         if(r->block_type == -1)
             return -1;
         s->current_picture_ptr->mb_type[mb_pos] = rv34_mb_type_to_lavc[r->block_type];
         r->mb_type[mb_pos] = r->block_type;
-        if(r->block_type == RV34_MB_SKIP){
+        if(r->block_type == RV34_MB_SKIP)
+        {
             if(s->pict_type == FF_P_TYPE)
                 r->mb_type[mb_pos] = RV34_MB_P_16x16;
             if(s->pict_type == FF_B_TYPE)
@@ -1068,30 +1170,38 @@ static int rv34_decode_mb_header(RV34DecContext *r, int8_t *intra_types)
         }
         r->is16 = !!IS_INTRA16x16(s->current_picture_ptr->mb_type[mb_pos]);
         rv34_decode_mv(r, r->block_type);
-        if(r->block_type == RV34_MB_SKIP){
+        if(r->block_type == RV34_MB_SKIP)
+        {
             fill_rectangle(intra_types, 4, 4, r->intra_types_stride, 0, sizeof(intra_types[0]));
             return 0;
         }
         r->chroma_vlc = 1;
         r->luma_vlc   = 0;
     }
-    if(IS_INTRA(s->current_picture_ptr->mb_type[mb_pos])){
-        if(r->is16){
+    if(IS_INTRA(s->current_picture_ptr->mb_type[mb_pos]))
+    {
+        if(r->is16)
+        {
             t = get_bits(gb, 2);
             fill_rectangle(intra_types, 4, 4, r->intra_types_stride, t, sizeof(intra_types[0]));
             r->luma_vlc   = 2;
-        }else{
+        }
+        else
+        {
             if(r->decode_intra_types(r, gb, intra_types) < 0)
                 return -1;
             r->luma_vlc   = 1;
         }
         r->chroma_vlc = 0;
         r->cur_vlcs = choose_vlc_set(r->si.quant, r->si.vlc_set, 0);
-    }else{
+    }
+    else
+    {
         for(i = 0; i < 16; i++)
             intra_types[(i & 3) + (i>>2) * r->intra_types_stride] = 0;
         r->cur_vlcs = choose_vlc_set(r->si.quant, r->si.vlc_set, 1);
-        if(r->mb_type[mb_pos] == RV34_MB_P_MIX16x16){
+        if(r->mb_type[mb_pos] == RV34_MB_P_MIX16x16)
+        {
             r->is16 = 1;
             r->chroma_vlc = 1;
             r->luma_vlc   = 2;
@@ -1124,7 +1234,7 @@ static void rv34_apply_differences(RV34DecContext *r, int cbp)
 
     for(i = 0; i < 4; i++)
         if((cbp & (LUMA_CBP_BLOCK_MASK << shifts[i])) || r->block_type == RV34_MB_P_MIX16x16)
-            s->dsp.add_pixels_clamped(s->block[i], s->dest[0] + (i & 1)*8 + (i&2)*4*s->linesize, s->linesize);
+            s->dsp.add_pixels_clamped(s->block[i], s->dest[0] + (i & 1) * 8 + (i & 2) * 4 * s->linesize, s->linesize);
     if(cbp & U_CBP_MASK)
         s->dsp.add_pixels_clamped(s->block[4], s->dest[1], s->uvlinesize);
     if(cbp & V_CBP_MASK)
@@ -1149,12 +1259,14 @@ static int rv34_set_deblock_coef(RV34DecContext *r)
     int hmvmask = 0, vmvmask = 0, i, j;
     int midx = s->mb_x * 2 + s->mb_y * 2 * s->b8_stride;
     int16_t (*motion_val)[2] = s->current_picture_ptr->motion_val[0][midx];
-    for(j = 0; j < 16; j += 8){
-        for(i = 0; i < 2; i++){
+    for(j = 0; j < 16; j += 8)
+    {
+        for(i = 0; i < 2; i++)
+        {
             if(is_mv_diff_gt_3(motion_val + i, 1))
-                vmvmask |= 0x11 << (j + i*2);
+                vmvmask |= 0x11 << (j + i * 2);
             if((j || s->mb_y) && is_mv_diff_gt_3(motion_val + i, s->b8_stride))
-                hmvmask |= 0x03 << (j + i*2);
+                hmvmask |= 0x03 << (j + i * 2);
         }
         motion_val += s->b8_stride;
     }
@@ -1162,7 +1274,8 @@ static int rv34_set_deblock_coef(RV34DecContext *r)
         hmvmask &= ~0x000F;
     if(!s->mb_x)
         vmvmask &= ~0x1111;
-    if(r->rv30){ //RV30 marks both subblocks on the edge for filtering
+    if(r->rv30)  //RV30 marks both subblocks on the edge for filtering
+    {
         vmvmask |= (vmvmask & 0x4444) >> 1;
         hmvmask |= (hmvmask & 0x0F00) >> 4;
         if(s->mb_x)
@@ -1190,11 +1303,11 @@ static int rv34_decode_macroblock(RV34DecContext *r, int8_t *intra_types)
     dist = (s->mb_x - s->resync_mb_x) + (s->mb_y - s->resync_mb_y) * s->mb_width;
     if(s->mb_x && dist)
         r->avail_cache[5] =
-        r->avail_cache[9] = s->current_picture_ptr->mb_type[mb_pos - 1];
+            r->avail_cache[9] = s->current_picture_ptr->mb_type[mb_pos - 1];
     if(dist >= s->mb_width)
         r->avail_cache[2] =
-        r->avail_cache[3] = s->current_picture_ptr->mb_type[mb_pos - s->mb_stride];
-    if(((s->mb_x+1) < s->mb_width) && dist >= s->mb_width - 1)
+            r->avail_cache[3] = s->current_picture_ptr->mb_type[mb_pos - s->mb_stride];
+    if(((s->mb_x + 1) < s->mb_width) && dist >= s->mb_width - 1)
         r->avail_cache[4] = s->current_picture_ptr->mb_type[mb_pos - s->mb_stride + 1];
     if(s->mb_x && dist > s->mb_width)
         r->avail_cache[1] = s->current_picture_ptr->mb_type[mb_pos - s->mb_stride - 1];
@@ -1213,32 +1326,35 @@ static int rv34_decode_macroblock(RV34DecContext *r, int8_t *intra_types)
         return -1;
 
     luma_dc_quant = r->block_type == RV34_MB_P_MIX16x16 ? r->luma_dc_quant_p[s->qscale] : r->luma_dc_quant_i[s->qscale];
-    if(r->is16){
+    if(r->is16)
+    {
         memset(block16, 0, sizeof(block16));
         rv34_decode_block(block16, gb, r->cur_vlcs, 3, 0);
-        rv34_dequant4x4_16x16(block16, rv34_qscale_tab[luma_dc_quant],rv34_qscale_tab[s->qscale]);
+        rv34_dequant4x4_16x16(block16, rv34_qscale_tab[luma_dc_quant], rv34_qscale_tab[s->qscale]);
         rv34_inv_transform_noround(block16);
     }
 
-    for(i = 0; i < 16; i++, cbp >>= 1){
+    for(i = 0; i < 16; i++, cbp >>= 1)
+    {
         if(!r->is16 && !(cbp & 1)) continue;
         blknum = ((i & 2) >> 1) + ((i & 8) >> 2);
         blkoff = ((i & 1) << 2) + ((i & 4) << 3);
         if(cbp & 1)
             rv34_decode_block(s->block[blknum] + blkoff, gb, r->cur_vlcs, r->luma_vlc, 0);
-        rv34_dequant4x4(s->block[blknum] + blkoff, rv34_qscale_tab[s->qscale],rv34_qscale_tab[s->qscale]);
+        rv34_dequant4x4(s->block[blknum] + blkoff, rv34_qscale_tab[s->qscale], rv34_qscale_tab[s->qscale]);
         if(r->is16) //FIXME: optimize
             s->block[blknum][blkoff] = block16[(i & 3) | ((i & 0xC) << 1)];
         rv34_inv_transform(s->block[blknum] + blkoff);
     }
     if(r->block_type == RV34_MB_P_MIX16x16)
         r->cur_vlcs = choose_vlc_set(r->si.quant, r->si.vlc_set, 1);
-    for(; i < 24; i++, cbp >>= 1){
+    for(; i < 24; i++, cbp >>= 1)
+    {
         if(!(cbp & 1)) continue;
         blknum = ((i & 4) >> 2) + 4;
         blkoff = ((i & 1) << 2) + ((i & 2) << 4);
         rv34_decode_block(s->block[blknum] + blkoff, gb, r->cur_vlcs, r->chroma_vlc, 1);
-        rv34_dequant4x4(s->block[blknum] + blkoff, rv34_qscale_tab[rv34_chroma_quant[1][s->qscale]],rv34_qscale_tab[rv34_chroma_quant[0][s->qscale]]);
+        rv34_dequant4x4(s->block[blknum] + blkoff, rv34_qscale_tab[rv34_chroma_quant[1][s->qscale]], rv34_qscale_tab[rv34_chroma_quant[0][s->qscale]]);
         rv34_inv_transform(s->block[blknum] + blkoff);
     }
     if(IS_INTRA(s->current_picture_ptr->mb_type[mb_pos]))
@@ -1269,7 +1385,7 @@ static inline int slice_compare(SliceInfo *si1, SliceInfo *si2)
     return si1->type   != si2->type  ||
            si1->start  >= si2->start ||
            si1->width  != si2->width ||
-           si1->height != si2->height||
+           si1->height != si2->height ||
            si1->pts    != si2->pts;
 }
 
@@ -1280,23 +1396,26 @@ static int rv34_decode_slice(RV34DecContext *r, int end, const uint8_t* buf, int
     int mb_pos;
     int res;
 
-    init_get_bits(&r->s.gb, buf, buf_size*8);
+    init_get_bits(&r->s.gb, buf, buf_size * 8);
     res = r->parse_slice_header(r, gb, &r->si);
-    if(res < 0){
+    if(res < 0)
+    {
         av_log(s->avctx, AV_LOG_ERROR, "Incorrect or unknown slice header\n");
         return -1;
     }
 
-    if ((s->mb_x == 0 && s->mb_y == 0) || s->current_picture_ptr==NULL) {
-        if(s->width != r->si.width || s->height != r->si.height){
-            av_log(s->avctx, AV_LOG_DEBUG, "Changing dimensions to %dx%d\n", r->si.width,r->si.height);
+    if((s->mb_x == 0 && s->mb_y == 0) || s->current_picture_ptr == NULL)
+    {
+        if(s->width != r->si.width || s->height != r->si.height)
+        {
+            av_log(s->avctx, AV_LOG_DEBUG, "Changing dimensions to %dx%d\n", r->si.width, r->si.height);
             MPV_common_end(s);
             s->width  = r->si.width;
             s->height = r->si.height;
             avcodec_set_dimensions(s->avctx, s->width, s->height);
             if(MPV_common_init(s) < 0)
                 return -1;
-            r->intra_types_stride = s->mb_width*4 + 4;
+            r->intra_types_stride = s->mb_width * 4 + 4;
             r->intra_types_hist = av_realloc(r->intra_types_hist, r->intra_types_stride * 4 * 2 * sizeof(*r->intra_types_hist));
             r->intra_types = r->intra_types_hist + r->intra_types_stride * 4;
             r->mb_type = av_realloc(r->mb_type, r->s.mb_stride * r->s.mb_height * sizeof(*r->mb_type));
@@ -1309,7 +1428,8 @@ static int rv34_decode_slice(RV34DecContext *r, int end, const uint8_t* buf, int
             return -1;
         ff_er_frame_start(s);
         r->cur_pts = r->si.pts;
-        if(s->pict_type != FF_B_TYPE){
+        if(s->pict_type != FF_B_TYPE)
+        {
             r->last_pts = r->next_pts;
             r->next_pts = r->cur_pts;
         }
@@ -1318,31 +1438,35 @@ static int rv34_decode_slice(RV34DecContext *r, int end, const uint8_t* buf, int
 
     r->si.end = end;
     s->qscale = r->si.quant;
-    r->bits = buf_size*8;
+    r->bits = buf_size * 8;
     s->mb_num_left = r->si.end - r->si.start;
     r->s.mb_skip_run = 0;
 
     mb_pos = s->mb_x + s->mb_y * s->mb_width;
-    if(r->si.start != mb_pos){
+    if(r->si.start != mb_pos)
+    {
         av_log(s->avctx, AV_LOG_ERROR, "Slice indicates MB offset %d, got %d\n", r->si.start, mb_pos);
         s->mb_x = r->si.start % s->mb_width;
         s->mb_y = r->si.start / s->mb_width;
     }
     memset(r->intra_types_hist, -1, r->intra_types_stride * 4 * 2 * sizeof(*r->intra_types_hist));
     s->first_slice_line = 1;
-    s->resync_mb_x= s->mb_x;
-    s->resync_mb_y= s->mb_y;
+    s->resync_mb_x = s->mb_x;
+    s->resync_mb_y = s->mb_y;
 
     ff_init_block_index(s);
-    while(!check_slice_end(r, s)) {
+    while(!check_slice_end(r, s))
+    {
         ff_update_block_index(s);
         s->dsp.clear_blocks(s->block[0]);
 
-        if(rv34_decode_macroblock(r, r->intra_types + s->mb_x * 4 + 4) < 0){
-            ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, AC_ERROR|DC_ERROR|MV_ERROR);
+        if(rv34_decode_macroblock(r, r->intra_types + s->mb_x * 4 + 4) < 0)
+        {
+            ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x - 1, s->mb_y, AC_ERROR | DC_ERROR | MV_ERROR);
             return -1;
         }
-        if (++s->mb_x == s->mb_width) {
+        if(++s->mb_x == s->mb_width)
+        {
             s->mb_x = 0;
             s->mb_y++;
             ff_init_block_index(s);
@@ -1354,10 +1478,10 @@ static int rv34_decode_slice(RV34DecContext *r, int end, const uint8_t* buf, int
                 r->loop_filter(r, s->mb_y - 2);
         }
         if(s->mb_x == s->resync_mb_x)
-            s->first_slice_line=0;
+            s->first_slice_line = 0;
         s->mb_num_left--;
     }
-    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x-1, s->mb_y, AC_END|DC_END|MV_END);
+    ff_er_add_slice(s, s->resync_mb_x, s->resync_mb_y, s->mb_x - 1, s->mb_y, AC_END | DC_END | MV_END);
 
     return s->mb_y == s->mb_height;
 }
@@ -1373,9 +1497,9 @@ av_cold int ff_rv34_decode_init(AVCodecContext *avctx)
     MpegEncContext *s = &r->s;
 
     MPV_decode_defaults(s);
-    s->avctx= avctx;
+    s->avctx = avctx;
     s->out_format = FMT_H263;
-    s->codec_id= avctx->codec_id;
+    s->codec_id = avctx->codec_id;
 
     s->width = avctx->width;
     s->height = avctx->height;
@@ -1387,12 +1511,12 @@ av_cold int ff_rv34_decode_init(AVCodecContext *avctx)
     avctx->has_b_frames = 1;
     s->low_delay = 0;
 
-    if (MPV_common_init(s) < 0)
+    if(MPV_common_init(s) < 0)
         return -1;
 
     ff_h264_pred_init(&r->h, CODEC_ID_RV40);
 
-    r->intra_types_stride = 4*s->mb_stride + 4;
+    r->intra_types_stride = 4 * s->mb_stride + 4;
     r->intra_types_hist = av_malloc(r->intra_types_stride * 4 * 2 * sizeof(*r->intra_types_hist));
     r->intra_types = r->intra_types_hist + r->intra_types_stride * 4;
 
@@ -1411,12 +1535,12 @@ av_cold int ff_rv34_decode_init(AVCodecContext *avctx)
 static int get_slice_offset(AVCodecContext *avctx, const uint8_t *buf, int n)
 {
     if(avctx->slice_count) return avctx->slice_offset[n];
-    else                   return AV_RL32(buf + n*8 - 4) == 1 ? AV_RL32(buf + n*8) :  AV_RB32(buf + n*8);
+    else                   return AV_RL32(buf + n * 8 - 4) == 1 ? AV_RL32(buf + n * 8) :  AV_RB32(buf + n * 8);
 }
 
 int ff_rv34_decode_frame(AVCodecContext *avctx,
-                            void *data, int *data_size,
-                            const uint8_t *buf, int buf_size)
+                         void *data, int *data_size,
+                         const uint8_t *buf, int buf_size)
 {
     RV34DecContext *r = avctx->priv_data;
     MpegEncContext *s = &r->s;
@@ -1428,92 +1552,108 @@ int ff_rv34_decode_frame(AVCodecContext *avctx,
     int last = 0;
 
     /* no supplementary picture */
-    if (buf_size == 0) {
+    if(buf_size == 0)
+    {
         /* special case for last picture */
-        if (s->low_delay==0 && s->next_picture_ptr) {
-            *pict= *(AVFrame*)s->next_picture_ptr;
-            s->next_picture_ptr= NULL;
+        if(s->low_delay == 0 && s->next_picture_ptr)
+        {
+            *pict = *(AVFrame*)s->next_picture_ptr;
+            s->next_picture_ptr = NULL;
 
             *data_size = sizeof(AVFrame);
         }
         return 0;
     }
 
-    if(!avctx->slice_count){
+    if(!avctx->slice_count)
+    {
         slice_count = (*buf++) + 1;
         slices_hdr = buf + 4;
         buf += 8 * slice_count;
-    }else
+    }
+    else
         slice_count = avctx->slice_count;
 
     //parse first slice header to check whether this frame can be decoded
-    if(get_slice_offset(avctx, slices_hdr, 0) > buf_size){
+    if(get_slice_offset(avctx, slices_hdr, 0) > buf_size)
+    {
         av_log(avctx, AV_LOG_ERROR, "Slice offset is greater than frame size\n");
         return -1;
     }
-    init_get_bits(&s->gb, buf+get_slice_offset(avctx, slices_hdr, 0), buf_size-get_slice_offset(avctx, slices_hdr, 0));
-    if(r->parse_slice_header(r, &r->s.gb, &si) < 0 || si.start){
+    init_get_bits(&s->gb, buf + get_slice_offset(avctx, slices_hdr, 0), buf_size - get_slice_offset(avctx, slices_hdr, 0));
+    if(r->parse_slice_header(r, &r->s.gb, &si) < 0 || si.start)
+    {
         av_log(avctx, AV_LOG_ERROR, "First slice header is incorrect\n");
         return -1;
     }
     if((!s->last_picture_ptr || !s->last_picture_ptr->data[0]) && si.type == FF_B_TYPE)
         return -1;
     /* skip b frames if we are in a hurry */
-    if(avctx->hurry_up && si.type==FF_B_TYPE) return buf_size;
-    if(   (avctx->skip_frame >= AVDISCARD_NONREF && si.type==FF_B_TYPE)
-       || (avctx->skip_frame >= AVDISCARD_NONKEY && si.type!=FF_I_TYPE)
+    if(avctx->hurry_up && si.type == FF_B_TYPE) return buf_size;
+    if((avctx->skip_frame >= AVDISCARD_NONREF && si.type == FF_B_TYPE)
+       || (avctx->skip_frame >= AVDISCARD_NONKEY && si.type != FF_I_TYPE)
        ||  avctx->skip_frame >= AVDISCARD_ALL)
         return buf_size;
     /* skip everything if we are in a hurry>=5 */
-    if(avctx->hurry_up>=5)
+    if(avctx->hurry_up >= 5)
         return buf_size;
 
-    for(i=0; i<slice_count; i++){
-        int offset= get_slice_offset(avctx, slices_hdr, i);
+    for(i = 0; i < slice_count; i++)
+    {
+        int offset = get_slice_offset(avctx, slices_hdr, i);
         int size;
-        if(i+1 == slice_count)
-            size= buf_size - offset;
+        if(i + 1 == slice_count)
+            size = buf_size - offset;
         else
-            size= get_slice_offset(avctx, slices_hdr, i+1) - offset;
+            size = get_slice_offset(avctx, slices_hdr, i + 1) - offset;
 
-        if(offset > buf_size){
+        if(offset > buf_size)
+        {
             av_log(avctx, AV_LOG_ERROR, "Slice offset is greater than frame size\n");
             break;
         }
 
         r->si.end = s->mb_width * s->mb_height;
-        if(i+1 < slice_count){
-            init_get_bits(&s->gb, buf+get_slice_offset(avctx, slices_hdr, i+1), (buf_size-get_slice_offset(avctx, slices_hdr, i+1))*8);
-            if(r->parse_slice_header(r, &r->s.gb, &si) < 0){
-                if(i+2 < slice_count)
-                    size = get_slice_offset(avctx, slices_hdr, i+2) - offset;
+        if(i + 1 < slice_count)
+        {
+            init_get_bits(&s->gb, buf + get_slice_offset(avctx, slices_hdr, i + 1), (buf_size - get_slice_offset(avctx, slices_hdr, i + 1)) * 8);
+            if(r->parse_slice_header(r, &r->s.gb, &si) < 0)
+            {
+                if(i + 2 < slice_count)
+                    size = get_slice_offset(avctx, slices_hdr, i + 2) - offset;
                 else
                     size = buf_size - offset;
-            }else
+            }
+            else
                 r->si.end = si.start;
         }
         last = rv34_decode_slice(r, r->si.end, buf + offset, size);
-        s->mb_num_left = r->s.mb_x + r->s.mb_y*r->s.mb_width - r->si.start;
+        s->mb_num_left = r->s.mb_x + r->s.mb_y * r->s.mb_width - r->si.start;
         if(last)
             break;
     }
 
-    if(last){
+    if(last)
+    {
         if(r->loop_filter)
             r->loop_filter(r, s->mb_height - 1);
         ff_er_frame_end(s);
         MPV_frame_end(s);
-        if (s->pict_type == FF_B_TYPE || s->low_delay) {
-            *pict= *(AVFrame*)s->current_picture_ptr;
-        } else if (s->last_picture_ptr != NULL) {
-            *pict= *(AVFrame*)s->last_picture_ptr;
+        if(s->pict_type == FF_B_TYPE || s->low_delay)
+        {
+            *pict = *(AVFrame*)s->current_picture_ptr;
+        }
+        else if(s->last_picture_ptr != NULL)
+        {
+            *pict = *(AVFrame*)s->last_picture_ptr;
         }
 
-        if(s->last_picture_ptr || s->low_delay){
+        if(s->last_picture_ptr || s->low_delay)
+        {
             *data_size = sizeof(AVFrame);
             ff_print_debug_info(s, pict);
         }
-        s->current_picture_ptr= NULL; //so we can detect if frame_end wasnt called (find some nicer solution...)
+        s->current_picture_ptr = NULL; //so we can detect if frame_end wasnt called (find some nicer solution...)
     }
     return buf_size;
 }

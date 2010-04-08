@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - Commands 
+|    AP4 - Commands
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -52,8 +52,8 @@ const AP4_UI08 AP4_COMMAND_TAG_OBJECT_DESCRIPTOR_EXECUTE = 0x08;
 +---------------------------------------------------------------------*/
 class AP4_Command : public AP4_Expandable
 {
- public:
-     AP4_IMPLEMENT_DYNAMIC_CAST(AP4_Command)
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_Command)
 
     // constructor
     AP4_Command(AP4_UI08 tag, AP4_Size header_size, AP4_Size payload_size) :
@@ -63,7 +63,10 @@ class AP4_Command : public AP4_Expandable
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // methods
-    AP4_UI08 GetTag() { return (AP4_UI08)m_ClassId; }
+    AP4_UI08 GetTag()
+    {
+        return (AP4_UI08)m_ClassId;
+    }
 };
 
 /*----------------------------------------------------------------------
@@ -73,11 +76,11 @@ class AP4_UnknownCommand : public AP4_Command
 {
 public:
     // contrusctor
-    AP4_UnknownCommand(AP4_ByteStream& stream, 
+    AP4_UnknownCommand(AP4_ByteStream& stream,
                        AP4_UI08        tag,
                        AP4_Size        header_size,
                        AP4_Size        payload_size);
-                          
+
     // AP4_Expandable methods
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 

@@ -39,69 +39,69 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, 0))
-		return FALSE;
+    if(!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, 0))
+        return FALSE;
 
-	m_pParent = pParentWnd;
-	m_navdlg.Create(this);
-	m_navdlg.ShowWindow(SW_SHOWNORMAL);
+    m_pParent = pParentWnd;
+    m_navdlg.Create(this);
+    m_navdlg.ShowWindow(SW_SHOWNORMAL);
 
-	CRect r;
-	m_navdlg.GetWindowRect(r);
-	m_szMinVert = m_szVert = r.Size();
-	m_szMinHorz = m_szHorz = r.Size();
-	m_szMinFloat = m_szFloat = r.Size();
-	m_bFixedFloat = true;
-	m_szFixedFloat = r.Size();
+    CRect r;
+    m_navdlg.GetWindowRect(r);
+    m_szMinVert = m_szVert = r.Size();
+    m_szMinHorz = m_szHorz = r.Size();
+    m_szMinFloat = m_szFloat = r.Size();
+    m_bFixedFloat = true;
+    m_szFixedFloat = r.Size();
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
-	{
-		if(IsDialogMessage(pMsg))
-			return TRUE;
-	}
+    if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
+    {
+        if(IsDialogMessage(pMsg))
+            return TRUE;
+    }
 
-	return __super::PreTranslateMessage(pMsg);
+    return __super::PreTranslateMessage(pMsg);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerNavigationBar, baseCPlayerNavigationBar)
-	ON_WM_SIZE()
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CPlayerShaderEditorBar message handlers
 
 void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 {
-	__super::OnSize(nType, cx, cy);
+    __super::OnSize(nType, cx, cy);
 
-	if(::IsWindow(m_navdlg.m_hWnd))
-	{
-		CRect r;
-		GetClientRect(r);
-		m_navdlg.MoveWindow(r);
-		r.DeflateRect(8,8,8,40);
-		m_navdlg.m_ChannelList.MoveWindow(r);
+    if(::IsWindow(m_navdlg.m_hWnd))
+    {
+        CRect r;
+        GetClientRect(r);
+        m_navdlg.MoveWindow(r);
+        r.DeflateRect(8, 8, 8, 40);
+        m_navdlg.m_ChannelList.MoveWindow(r);
 
-		m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left+90,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left+145,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-	}
-
-
-/*
-	if (cy > 300) 
-		m_navdlg.m_ChannelList.Size = System::Drawing::Size( cx - 20, cy - 85 );
+        m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left, r.bottom + 5, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+        m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left + 90, r.bottom + 5, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+        m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left + 145, r.bottom + 5, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    }
 
 
-	if(::IsWindow(m_dlg.m_hWnd))
-	{
-		CRect r;
-		GetClientRect(r);
-		m_dlg.MoveWindow(r);
-	}
-*/
+    /*
+    	if (cy > 300)
+    		m_navdlg.m_ChannelList.Size = System::Drawing::Size( cx - 20, cy - 85 );
+
+
+    	if(::IsWindow(m_dlg.m_hWnd))
+    	{
+    		CRect r;
+    		GetClientRect(r);
+    		m_dlg.MoveWindow(r);
+    	}
+    */
 }

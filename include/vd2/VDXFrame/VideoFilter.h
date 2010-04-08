@@ -37,54 +37,55 @@
 ///	This class handles most of the grimy work of creating the interface
 ///	between your filter and VirtualDub.
 ///
-class VDXVideoFilter {
+class VDXVideoFilter
+{
 public:
-	VDXVideoFilter();
-	virtual ~VDXVideoFilter();
+    VDXVideoFilter();
+    virtual ~VDXVideoFilter();
 
-	void SetHooks(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    void SetHooks(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
 
-	// linkage routines
+    // linkage routines
 
-	virtual bool Init();
-	virtual uint32 GetParams()=0;
-	virtual void Start();
-	virtual void Run() = 0;
-	virtual void End();
-	virtual bool Configure(VDXHWND hwnd);
-	virtual void GetSettingString(char *buf, int maxlen);
-	virtual void GetScriptString(char *buf, int maxlen);
-	virtual int Serialize(char *buf, int maxbuf);
-	virtual int Deserialize(const char *buf, int maxbuf);
-	virtual sint64 Prefetch(sint64 frame);
-	virtual bool Prefetch2(sint64 frame, IVDXVideoPrefetcher *prefetcher);
+    virtual bool Init();
+    virtual uint32 GetParams() = 0;
+    virtual void Start();
+    virtual void Run() = 0;
+    virtual void End();
+    virtual bool Configure(VDXHWND hwnd);
+    virtual void GetSettingString(char *buf, int maxlen);
+    virtual void GetScriptString(char *buf, int maxlen);
+    virtual int Serialize(char *buf, int maxbuf);
+    virtual int Deserialize(const char *buf, int maxbuf);
+    virtual sint64 Prefetch(sint64 frame);
+    virtual bool Prefetch2(sint64 frame, IVDXVideoPrefetcher *prefetcher);
 
-	virtual bool OnEvent(uint32 event, const void *eventData);
-	virtual bool OnInvalidateCaches();
+    virtual bool OnEvent(uint32 event, const void *eventData);
+    virtual bool OnInvalidateCaches();
 
-	static void __cdecl FilterDeinit   (VDXFilterActivation *fa, const VDXFilterFunctions *ff);
-	static int  __cdecl FilterRun      (const VDXFilterActivation *fa, const VDXFilterFunctions *ff);
-	static long __cdecl FilterParam    (VDXFilterActivation *fa, const VDXFilterFunctions *ff);
-	static int  __cdecl FilterConfig   (VDXFilterActivation *fa, const VDXFilterFunctions *ff, VDXHWND hWnd);
-	static int  __cdecl FilterStart    (VDXFilterActivation *fa, const VDXFilterFunctions *ff);
-	static int  __cdecl FilterEnd      (VDXFilterActivation *fa, const VDXFilterFunctions *ff);
-	static void __cdecl FilterString   (const VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf);
-	static bool __cdecl FilterScriptStr(VDXFilterActivation *fa, const VDXFilterFunctions *, char *, int);
-	static void __cdecl FilterString2  (const VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf, int maxlen);
-	static int  __cdecl FilterSerialize    (VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf, int maxbuf);
-	static void __cdecl FilterDeserialize  (VDXFilterActivation *fa, const VDXFilterFunctions *ff, const char *buf, int maxbuf);
-	static sint64 __cdecl FilterPrefetch(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, sint64 frame);
-	static bool __cdecl FilterPrefetch2(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, sint64 frame, IVDXVideoPrefetcher *prefetcher);
-	static bool __cdecl FilterEvent(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, uint32 event, const void *eventData);
+    static void __cdecl FilterDeinit(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    static int  __cdecl FilterRun(const VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    static long __cdecl FilterParam(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    static int  __cdecl FilterConfig(VDXFilterActivation *fa, const VDXFilterFunctions *ff, VDXHWND hWnd);
+    static int  __cdecl FilterStart(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    static int  __cdecl FilterEnd(VDXFilterActivation *fa, const VDXFilterFunctions *ff);
+    static void __cdecl FilterString(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf);
+    static bool __cdecl FilterScriptStr(VDXFilterActivation *fa, const VDXFilterFunctions *, char *, int);
+    static void __cdecl FilterString2(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf, int maxlen);
+    static int  __cdecl FilterSerialize(VDXFilterActivation *fa, const VDXFilterFunctions *ff, char *buf, int maxbuf);
+    static void __cdecl FilterDeserialize(VDXFilterActivation *fa, const VDXFilterFunctions *ff, const char *buf, int maxbuf);
+    static sint64 __cdecl FilterPrefetch(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, sint64 frame);
+    static bool __cdecl FilterPrefetch2(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, sint64 frame, IVDXVideoPrefetcher *prefetcher);
+    static bool __cdecl FilterEvent(const VDXFilterActivation *fa, const VDXFilterFunctions *ff, uint32 event, const void *eventData);
 
-	// member variables
-	VDXFilterActivation *fa;
-	const VDXFilterFunctions *ff;
+    // member variables
+    VDXFilterActivation *fa;
+    const VDXFilterFunctions *ff;
 
-	static const VDXScriptFunctionDef sScriptMethods[];
+    static const VDXScriptFunctionDef sScriptMethods[];
 
 protected:
-	void SafePrintf(char *buf, int maxbuf, const char *format, ...);
+    void SafePrintf(char *buf, int maxbuf, const char *format, ...);
 };
 
 ///////////////////////////////////////////////////////////////////////////
@@ -113,7 +114,7 @@ protected:
 
 extern char VDXVideoFilterConfigureOverloadTest(bool (VDXVideoFilter::*)(VDXHWND));
 extern double VDXVideoFilterConfigureOverloadTest(...);
-extern char VDXVideoFilterPrefetchOverloadTest(sint64 (VDXVideoFilter::*)(sint64));
+extern char VDXVideoFilterPrefetchOverloadTest(sint64(VDXVideoFilter::*)(sint64));
 extern double VDXVideoFilterPrefetchOverloadTest(...);
 extern char VDXVideoFilterPrefetch2OverloadTest(bool (VDXVideoFilter::*)(sint64, IVDXVideoPrefetcher *));
 extern double VDXVideoFilterPrefetch2OverloadTest(...);
@@ -122,22 +123,25 @@ template<class T, void (T::*T_Method)(IVDXScriptInterpreter *, const VDXScriptVa
 class VDXVideoFilterScriptAdapter
 {
 public:
-	static void AdaptFn(IVDXScriptInterpreter *isi, void *fa0, const VDXScriptValue *argv, int argc) {
-		VDXFilterActivation *fa = (VDXFilterActivation *)fa0;
-		VDXVideoFilter *base = *(VDXVideoFilter **)fa->filter_data;
-		(static_cast<T *>(base)->*T_Method)(isi, argv, argc);
-	}
+    static void AdaptFn(IVDXScriptInterpreter *isi, void *fa0, const VDXScriptValue *argv, int argc)
+    {
+        VDXFilterActivation *fa = (VDXFilterActivation *)fa0;
+        VDXVideoFilter *base = *(VDXVideoFilter **)fa->filter_data;
+        (static_cast<T *>(base)->*T_Method)(isi, argv, argc);
+    }
 };
 
 template<class T>
-class VDXVideoFilterScriptObjectAdapter {
+class VDXVideoFilterScriptObjectAdapter
+{
 public:
-	static const VDXScriptObject sScriptObject;
+    static const VDXScriptObject sScriptObject;
 };
 
 template<class T>
-const VDXScriptObject VDXVideoFilterScriptObjectAdapter<T>::sScriptObject = {
-	NULL, (T::sScriptMethods == VDXVideoFilter::sScriptMethods) ? NULL : (VDXScriptFunctionDef *)static_cast<const VDXScriptFunctionDef *>(T::sScriptMethods), NULL
+const VDXScriptObject VDXVideoFilterScriptObjectAdapter<T>::sScriptObject =
+{
+    NULL, (T::sScriptMethods == VDXVideoFilter::sScriptMethods) ? NULL : (VDXScriptFunctionDef *)static_cast<const VDXScriptFunctionDef *>(T::sScriptMethods), NULL
 };
 
 ///////////////////////////////////////////////////////////////////////////
@@ -147,75 +151,84 @@ const VDXScriptObject VDXVideoFilterScriptObjectAdapter<T>::sScriptObject = {
 ///	your filter class.
 ///
 template<class T>
-class VDXVideoFilterDefinition : public VDXFilterDefinition {
+class VDXVideoFilterDefinition : public VDXFilterDefinition
+{
 public:
-	VDXVideoFilterDefinition(const char *pszAuthor, const char *pszName, const char *pszDescription) {
-		_next			= NULL;
-		_prev			= NULL;
-		_module			= NULL;
+    VDXVideoFilterDefinition(const char *pszAuthor, const char *pszName, const char *pszDescription)
+    {
+        _next			= NULL;
+        _prev			= NULL;
+        _module			= NULL;
 
-		name			= pszName;
-		desc			= pszDescription;
-		maker			= pszAuthor;
-		private_data	= NULL;
-		inst_data_size	= sizeof(T) + sizeof(VDXVideoFilter *);
+        name			= pszName;
+        desc			= pszDescription;
+        maker			= pszAuthor;
+        private_data	= NULL;
+        inst_data_size	= sizeof(T) + sizeof(VDXVideoFilter *);
 
-		initProc		= FilterInit;
-		deinitProc		= T::FilterDeinit;
-		runProc			= T::FilterRun;
-		paramProc		= T::FilterParam;
-		configProc		= sizeof(VDXVideoFilterConfigureOverloadTest(&T::Configure)) > 1 ? T::FilterConfig : NULL;
-		stringProc		= T::FilterString;
-		startProc		= T::FilterStart;
-		endProc			= T::FilterEnd;
+        initProc		= FilterInit;
+        deinitProc		= T::FilterDeinit;
+        runProc			= T::FilterRun;
+        paramProc		= T::FilterParam;
+        configProc		= sizeof(VDXVideoFilterConfigureOverloadTest(&T::Configure)) > 1 ? T::FilterConfig : NULL;
+        stringProc		= T::FilterString;
+        startProc		= T::FilterStart;
+        endProc			= T::FilterEnd;
 
-		script_obj		= T::sScriptMethods ? const_cast<VDXScriptObject *>(&VDXVideoFilterScriptObjectAdapter<T>::sScriptObject) : 0;
-		fssProc			= T::FilterScriptStr;
+        script_obj		= T::sScriptMethods ? const_cast<VDXScriptObject *>(&VDXVideoFilterScriptObjectAdapter<T>::sScriptObject) : 0;
+        fssProc			= T::FilterScriptStr;
 
-		stringProc2		= T::FilterString2;
-		serializeProc	= T::FilterSerialize;
-		deserializeProc	= T::FilterDeserialize;
-		copyProc		= FilterCopy;
-		copyProc2		= FilterCopy2;
+        stringProc2		= T::FilterString2;
+        serializeProc	= T::FilterSerialize;
+        deserializeProc	= T::FilterDeserialize;
+        copyProc		= FilterCopy;
+        copyProc2		= FilterCopy2;
 
-		prefetchProc	= sizeof(VDXVideoFilterPrefetchOverloadTest(&T::Prefetch)) > 1 ? T::FilterPrefetch : NULL;
-		prefetchProc2	= sizeof(VDXVideoFilterPrefetch2OverloadTest(&T::Prefetch2)) > 1 || sizeof(VDXVideoFilterPrefetchOverloadTest(&T::Prefetch)) > 1 ? T::FilterPrefetch2 : NULL;
+        prefetchProc	= sizeof(VDXVideoFilterPrefetchOverloadTest(&T::Prefetch)) > 1 ? T::FilterPrefetch : NULL;
+        prefetchProc2	= sizeof(VDXVideoFilterPrefetch2OverloadTest(&T::Prefetch2)) > 1 || sizeof(VDXVideoFilterPrefetchOverloadTest(&T::Prefetch)) > 1 ? T::FilterPrefetch2 : NULL;
 
-		eventProc		= T::FilterEvent;
-	}
+        eventProc		= T::FilterEvent;
+    }
 
 private:
-	static int  __cdecl FilterInit     (VDXFilterActivation *fa, const VDXFilterFunctions *ff) {
-		T *pThis = new((char *)fa->filter_data + sizeof(VDXVideoFilter *)) T;
-		*(VDXVideoFilter **)fa->filter_data = static_cast<VDXVideoFilter *>(pThis);
+    static int  __cdecl FilterInit(VDXFilterActivation *fa, const VDXFilterFunctions *ff)
+    {
+        T *pThis = new((char *)fa->filter_data + sizeof(VDXVideoFilter *)) T;
+        *(VDXVideoFilter **)fa->filter_data = static_cast<VDXVideoFilter *>(pThis);
 
-		pThis->SetHooks(fa, ff);
+        pThis->SetHooks(fa, ff);
 
-		try {
-			if (!pThis->Init()) {
-				pThis->~T();
-				return 1;
-			}
+        try
+        {
+            if(!pThis->Init())
+            {
+                pThis->~T();
+                return 1;
+            }
 
-			return 0;
-		} catch(...) {
-			pThis->~T();
-			throw;
-		}
-	}
+            return 0;
+        }
+        catch(...)
+        {
+            pThis->~T();
+            throw;
+        }
+    }
 
-	static void __cdecl FilterCopy         (VDXFilterActivation *fa, const VDXFilterFunctions *ff, void *dst) {
-		T *p = new((char *)dst + sizeof(VDXVideoFilter *)) T(*static_cast<T *>(*reinterpret_cast<VDXVideoFilter **>(fa->filter_data)));
-		p->ff = ff;
-		*(VDXVideoFilter **)dst = p;
-	}
+    static void __cdecl FilterCopy(VDXFilterActivation *fa, const VDXFilterFunctions *ff, void *dst)
+    {
+        T *p = new((char *)dst + sizeof(VDXVideoFilter *)) T(*static_cast<T *>(*reinterpret_cast<VDXVideoFilter **>(fa->filter_data)));
+        p->ff = ff;
+        *(VDXVideoFilter **)dst = p;
+    }
 
-	static void __cdecl FilterCopy2        (VDXFilterActivation *fa, const VDXFilterFunctions *ff, void *dst, VDXFilterActivation *fanew, const VDXFilterFunctions *ffnew) {
-		T *p = new((char *)dst + sizeof(VDXVideoFilter *)) T(*static_cast<T *>(*reinterpret_cast<VDXVideoFilter **>(fa->filter_data)));
-		p->ff = ffnew;
-		p->fa = fanew;
-		*(VDXVideoFilter **)dst = p;
-	}
+    static void __cdecl FilterCopy2(VDXFilterActivation *fa, const VDXFilterFunctions *ff, void *dst, VDXFilterActivation *fanew, const VDXFilterFunctions *ffnew)
+    {
+        T *p = new((char *)dst + sizeof(VDXVideoFilter *)) T(*static_cast<T *>(*reinterpret_cast<VDXVideoFilter **>(fa->filter_data)));
+        p->ff = ffnew;
+        p->fa = fanew;
+        *(VDXVideoFilter **)dst = p;
+    }
 };
 
 #endif

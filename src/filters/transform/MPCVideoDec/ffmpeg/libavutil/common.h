@@ -152,11 +152,13 @@ extern const uint8_t av_reverse[256];
 static inline av_const int av_log2(unsigned int v)
 {
     int n = 0;
-    if (v & 0xffff0000) {
+    if(v & 0xffff0000)
+    {
         v >>= 16;
         n += 16;
     }
-    if (v & 0xff00) {
+    if(v & 0xff00)
+    {
         v >>= 8;
         n += 8;
     }
@@ -170,7 +172,8 @@ static inline av_const int av_log2(unsigned int v)
 static inline av_const int av_log2_16bit(unsigned int v)
 {
     int n = 0;
-    if (v & 0xff00) {
+    if(v & 0xff00)
+    {
         v >>= 8;
         n += 8;
     }
@@ -189,8 +192,8 @@ static inline av_const int av_log2_16bit(unsigned int v)
  */
 static inline av_const int av_clip(int a, int amin, int amax)
 {
-    if      (a < amin) return amin;
-    else if (a > amax) return amax;
+    if(a < amin) return amin;
+    else if(a > amax) return amax;
     else               return a;
 }
 
@@ -201,7 +204,7 @@ static inline av_const int av_clip(int a, int amin, int amax)
  */
 static inline av_const uint8_t av_clip_uint8(int a)
 {
-    if (a&(~255)) return (-a)>>31;
+    if(a&(~255)) return (-a) >> 31;
     else          return a;
 }
 
@@ -212,7 +215,7 @@ static inline av_const uint8_t av_clip_uint8(int a)
  */
 static inline av_const uint16_t av_clip_uint16(int a)
 {
-    if (a&(~65535)) return (-a)>>31;
+    if(a&(~65535)) return (-a) >> 31;
     else            return a;
 }
 
@@ -223,7 +226,7 @@ static inline av_const uint16_t av_clip_uint16(int a)
  */
 static inline av_const int16_t av_clip_int16(int a)
 {
-    if ((a+32768) & ~65535) return (a>>31) ^ 32767;
+    if((a + 32768) & ~65535) return (a >> 31) ^ 32767;
     else                    return a;
 }
 
@@ -236,8 +239,8 @@ static inline av_const int16_t av_clip_int16(int a)
  */
 static inline av_const float av_clipf(float a, float amin, float amax)
 {
-    if      (a < amin) return amin;
-    else if (a > amax) return amax;
+    if(a < amin) return amin;
+    else if(a > amax) return amax;
     else               return a;
 }
 
@@ -304,7 +307,7 @@ static inline av_const int av_ceil_log2(int x)
             val += (hi<<10) + 0x10000;\
         }\
     }\
-
+ 
 /*!
  * \def PUT_UTF8(val, tmp, PUT_BYTE)
  * Converts a 32-bit Unicode character to its UTF-8 encoded form (up to 4 bytes long).

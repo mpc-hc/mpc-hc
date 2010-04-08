@@ -61,13 +61,13 @@ AP4_Descriptor::Inspect(AP4_AtomInspector& inspector)
 |   AP4_UnknownDescriptor::AP4_UnknownDescriptor
 +---------------------------------------------------------------------*/
 AP4_UnknownDescriptor::AP4_UnknownDescriptor(AP4_ByteStream& stream,
-                                             AP4_UI08        tag,
-                                             AP4_Size        header_size,
-                                             AP4_Size        payload_size) :
+        AP4_UI08        tag,
+        AP4_Size        header_size,
+        AP4_Size        payload_size) :
     AP4_Descriptor(tag, header_size, payload_size)
 {
     m_Data.SetDataSize(payload_size);
-    stream.Read(m_Data.UseData(), payload_size);    
+    stream.Read(m_Data.UseData(), payload_size);
 }
 
 /*----------------------------------------------------------------------

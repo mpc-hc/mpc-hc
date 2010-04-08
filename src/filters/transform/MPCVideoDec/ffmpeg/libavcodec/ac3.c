@@ -33,20 +33,22 @@
 /**
  * Starting frequency coefficient bin for each critical band.
  */
-static const uint8_t band_start_tab[51] = {
-      0,  1,   2,   3,   4,   5,   6,   7,   8,   9,
-     10,  11, 12,  13,  14,  15,  16,  17,  18,  19,
-     20,  21, 22,  23,  24,  25,  26,  27,  28,  31,
-     34,  37, 40,  43,  46,  49,  55,  61,  67,  73,
-     79,  85, 97, 109, 121, 133, 157, 181, 205, 229, 253
+static const uint8_t band_start_tab[51] =
+{
+    0,  1,   2,   3,   4,   5,   6,   7,   8,   9,
+    10,  11, 12,  13,  14,  15,  16,  17,  18,  19,
+    20,  21, 22,  23,  24,  25,  26,  27,  28,  31,
+    34,  37, 40,  43,  46,  49,  55,  61,  67,  73,
+    79,  85, 97, 109, 121, 133, 157, 181, 205, 229, 253
 };
 
 /**
  * Maps each frequency coefficient bin to the critical band that contains it.
  */
-static const uint8_t bin_to_band_tab[253] = {
-     0,
-     1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,
+static const uint8_t bin_to_band_tab[253] =
+{
+    0,
+    1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,
     13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
     25, 26, 27, 28, 28, 28, 29, 29, 29, 30, 30, 30,
     31, 31, 31, 32, 32, 32, 33, 33, 33, 34, 34, 34,
@@ -76,9 +78,12 @@ static uint8_t bin_to_band_tab[253];
 
 static inline int calc_lowcomp1(int a, int b0, int b1, int c)
 {
-    if ((b0 + 256) == b1) {
+    if((b0 + 256) == b1)
+    {
         a = c;
-    } else if (b0 > b1) {
+    }
+    else if(b0 > b1)
+    {
         a = FFMAX(a - 64, 0);
     }
     return a;
@@ -86,11 +91,16 @@ static inline int calc_lowcomp1(int a, int b0, int b1, int c)
 
 static inline int calc_lowcomp(int a, int b0, int b1, int bin)
 {
-    if (bin < 7) {
+    if(bin < 7)
+    {
         return calc_lowcomp1(a, b0, b1, 384);
-    } else if (bin < 20) {
+    }
+    else if(bin < 20)
+    {
         return calc_lowcomp1(a, b0, b1, 320);
-    } else {
+    }
+    else
+    {
         return FFMAX(a - 128, 0);
     }
 }
@@ -101,24 +111,28 @@ void ff_ac3_bit_alloc_calc_psd(int8_t *exp, int start, int end, int16_t *psd,
     int bin, band;
 
     /* exponent mapping to PSD */
-    for (bin = start; bin < end; bin++) {
-        psd[bin]=(3072 - (exp[bin] << 7));
+    for(bin = start; bin < end; bin++)
+    {
+        psd[bin] = (3072 - (exp[bin] << 7));
     }
 
     /* PSD integration */
     bin  = start;
     band = bin_to_band_tab[start];
-    do {
+    do
+    {
         int v = psd[bin++];
         int band_end = FFMIN(band_start_tab[band+1], end);
-        for (; bin < band_end; bin++) {
+        for(; bin < band_end; bin++)
+        {
             int max = FFMAX(v, psd[bin]);
             /* logadd */
             int adr = FFMIN(max - ((v + psd[bin] + 1) >> 1), 255);
             v = max + ff_ac3_log_add_tab[adr];
         }
         band_psd[band++] = v;
-    } while (end > band_start_tab[band]);
+    }
+    while(end > band_start_tab[band]);
 }
 
 int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
@@ -136,21 +150,25 @@ int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
     band_start = bin_to_band_tab[start];
     band_end   = bin_to_band_tab[end-1] + 1;
 
-    if (band_start == 0) {
+    if(band_start == 0)
+    {
         lowcomp = 0;
         lowcomp = calc_lowcomp1(lowcomp, band_psd[0], band_psd[1], 384);
         excite[0] = band_psd[0] - fast_gain - lowcomp;
         lowcomp = calc_lowcomp1(lowcomp, band_psd[1], band_psd[2], 384);
         excite[1] = band_psd[1] - fast_gain - lowcomp;
         begin = 7;
-        for (band = 2; band < 7; band++) {
-            if (!(is_lfe && band == 6))
+        for(band = 2; band < 7; band++)
+        {
+            if(!(is_lfe && band == 6))
                 lowcomp = calc_lowcomp1(lowcomp, band_psd[band], band_psd[band+1], 384);
             fastleak = band_psd[band] - fast_gain;
             slowleak = band_psd[band] - s->slow_gain;
             excite[band] = fastleak - lowcomp;
-            if (!(is_lfe && band == 6)) {
-                if (band_psd[band] <= band_psd[band+1]) {
+            if(!(is_lfe && band == 6))
+            {
+                if(band_psd[band] <= band_psd[band+1])
+                {
                     begin = band + 1;
                     break;
                 }
@@ -158,22 +176,26 @@ int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
         }
 
         end1 = FFMIN(band_end, 22);
-        for (band = begin; band < end1; band++) {
-            if (!(is_lfe && band == 6))
+        for(band = begin; band < end1; band++)
+        {
+            if(!(is_lfe && band == 6))
                 lowcomp = calc_lowcomp(lowcomp, band_psd[band], band_psd[band+1], band);
             fastleak = FFMAX(fastleak - s->fast_decay, band_psd[band] - fast_gain);
             slowleak = FFMAX(slowleak - s->slow_decay, band_psd[band] - s->slow_gain);
             excite[band] = FFMAX(fastleak - lowcomp, slowleak);
         }
         begin = 22;
-    } else {
+    }
+    else
+    {
         /* coupling channel */
         begin = band_start;
         fastleak = (s->cpl_fast_leak << 8) + 768;
         slowleak = (s->cpl_slow_leak << 8) + 768;
     }
 
-    for (band = begin; band < band_end; band++) {
+    for(band = begin; band < band_end; band++)
+    {
         fastleak = FFMAX(fastleak - s->fast_decay, band_psd[band] - fast_gain);
         slowleak = FFMAX(slowleak - s->slow_decay, band_psd[band] - s->slow_gain);
         excite[band] = FFMAX(fastleak, slowleak);
@@ -181,9 +203,11 @@ int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
 
     /* compute masking curve */
 
-    for (band = band_start; band < band_end; band++) {
+    for(band = band_start; band < band_end; band++)
+    {
         int tmp = s->db_per_bit - band_psd[band];
-        if (tmp > 0) {
+        if(tmp > 0)
+        {
             excite[band] += tmp >> 2;
         }
         mask[band] = FFMAX(ff_ac3_hearing_threshold_tab[band >> s->sr_shift][s->sr_code], excite[band]);
@@ -191,21 +215,27 @@ int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
 
     /* delta bit allocation */
 
-    if (dba_mode == DBA_REUSE || dba_mode == DBA_NEW) {
+    if(dba_mode == DBA_REUSE || dba_mode == DBA_NEW)
+    {
         int i, seg, delta;
-        if (dba_nsegs >= 8)
+        if(dba_nsegs >= 8)
             return -1;
         band = 0;
-        for (seg = 0; seg < dba_nsegs; seg++) {
+        for(seg = 0; seg < dba_nsegs; seg++)
+        {
             band += dba_offsets[seg];
-            if (band >= 50 || dba_lengths[seg] > 50-band)
+            if(band >= 50 || dba_lengths[seg] > 50 - band)
                 return -1;
-            if (dba_values[seg] >= 4) {
+            if(dba_values[seg] >= 4)
+            {
                 delta = (dba_values[seg] - 3) << 7;
-            } else {
+            }
+            else
+            {
                 delta = (dba_values[seg] - 4) << 7;
             }
-            for (i = 0; i < dba_lengths[seg]; i++) {
+            for(i = 0; i < dba_lengths[seg]; i++)
+            {
                 mask[band++] += delta;
             }
         }
@@ -220,21 +250,25 @@ void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
     int bin, band;
 
     /* special case, if snr offset is -960, set all bap's to zero */
-    if (snr_offset == -960) {
+    if(snr_offset == -960)
+    {
         memset(bap, 0, 256);
         return;
     }
 
     bin  = start;
     band = bin_to_band_tab[start];
-    do {
+    do
+    {
         int m = (FFMAX(mask[band] - snr_offset - floor, 0) & 0x1FE0) + floor;
         int band_end = FFMIN(band_start_tab[band+1], end);
-        for (; bin < band_end; bin++) {
+        for(; bin < band_end; bin++)
+        {
             int address = av_clip((psd[bin] - m) >> 5, 0, 63);
             bap[bin] = bap_tab[address];
         }
-    } while (end > band_start_tab[band++]);
+    }
+    while(end > band_start_tab[band++]);
 }
 
 /* AC-3 bit allocation. The algorithm is the one described in the AC-3
@@ -270,10 +304,11 @@ av_cold void ac3_common_init(void)
 #if !CONFIG_HARDCODED_TABLES
     /* compute bndtab and masktab from bandsz */
     int bin = 0, band;
-    for (band = 0; band < 50; band++) {
+    for(band = 0; band < 50; band++)
+    {
         int band_end = bin + ff_ac3_critical_band_size_tab[band];
         band_start_tab[band] = bin;
-        while (bin < band_end)
+        while(bin < band_end)
             bin_to_band_tab[bin++] = band;
     }
     band_start_tab[50] = bin;

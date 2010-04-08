@@ -31,15 +31,16 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
     DECLARE_ALIGNED_8(uint64_t, DD);
     int i;
 
-    if(y==0 && x==0) {
+    if(y == 0 && x == 0)
+    {
         /* no filter needed */
         H264_CHROMA_MC8_MV0(dst, src, stride, h);
         return;
     }
 
-    assert(x<8 && y<8 && x>=0 && y>=0);
+    assert(x < 8 && y < 8 && x >= 0 && y >= 0);
 
-    if(y==0 || x==0)
+    if(y == 0 || x == 0)
     {
         /* 1 dimensional filter only */
         const int dxy = x ? 1 : stride;
@@ -54,7 +55,8 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             "psubw %%mm5, %%mm4\n\t"     /* mm4 = A = 8-x */
             :: "rm"(x+y), "m"(ff_pw_8), "m"(*(rnd_reg+1)));
 
-        for(i=0; i<h; i++) {
+        for(i = 0; i < h; i++)
+        {
             __asm__ volatile(
                 /* mm0 = src[0..7], mm1 = src[1..8] */
                 "movq %0, %%mm0\n\t"
@@ -85,7 +87,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
                 "packuswb %%mm1, %%mm0\n\t"
                 H264_CHROMA_OP(%0, %%mm0)
                 "movq %%mm0, %0\n\t"
-                : "=m" (dst[0]));
+                : "=m"(dst[0]));
 
             src += stride;
             dst += stride;
@@ -95,33 +97,34 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
 
     /* general case, bilinear */
     __asm__ volatile("movd %2, %%mm4\n\t"
-                 "movd %3, %%mm6\n\t"
-                 "punpcklwd %%mm4, %%mm4\n\t"
-                 "punpcklwd %%mm6, %%mm6\n\t"
-                 "punpckldq %%mm4, %%mm4\n\t" /* mm4 = x words */
-                 "punpckldq %%mm6, %%mm6\n\t" /* mm6 = y words */
-                 "movq %%mm4, %%mm5\n\t"
-                 "pmullw %%mm6, %%mm4\n\t"    /* mm4 = x * y */
-                 "psllw $3, %%mm5\n\t"
-                 "psllw $3, %%mm6\n\t"
-                 "movq %%mm5, %%mm7\n\t"
-                 "paddw %%mm6, %%mm7\n\t"
-                 "movq %%mm4, %1\n\t"         /* DD = x * y */
-                 "psubw %%mm4, %%mm5\n\t"     /* mm5 = B = 8x - xy */
-                 "psubw %%mm4, %%mm6\n\t"     /* mm6 = C = 8y - xy */
-                 "paddw %4, %%mm4\n\t"
-                 "psubw %%mm7, %%mm4\n\t"     /* mm4 = A = xy - (8x+8y) + 64 */
-                 "pxor %%mm7, %%mm7\n\t"
-                 "movq %%mm4, %0\n\t"
-                 : "=m" (AA), "=m" (DD) : "rm" (x), "rm" (y), "m" (ff_pw_64));
+                     "movd %3, %%mm6\n\t"
+                     "punpcklwd %%mm4, %%mm4\n\t"
+                     "punpcklwd %%mm6, %%mm6\n\t"
+                     "punpckldq %%mm4, %%mm4\n\t" /* mm4 = x words */
+                     "punpckldq %%mm6, %%mm6\n\t" /* mm6 = y words */
+                     "movq %%mm4, %%mm5\n\t"
+                     "pmullw %%mm6, %%mm4\n\t"    /* mm4 = x * y */
+                     "psllw $3, %%mm5\n\t"
+                     "psllw $3, %%mm6\n\t"
+                     "movq %%mm5, %%mm7\n\t"
+                     "paddw %%mm6, %%mm7\n\t"
+                     "movq %%mm4, %1\n\t"         /* DD = x * y */
+                     "psubw %%mm4, %%mm5\n\t"     /* mm5 = B = 8x - xy */
+                     "psubw %%mm4, %%mm6\n\t"     /* mm6 = C = 8y - xy */
+                     "paddw %4, %%mm4\n\t"
+                     "psubw %%mm7, %%mm4\n\t"     /* mm4 = A = xy - (8x+8y) + 64 */
+                     "pxor %%mm7, %%mm7\n\t"
+                     "movq %%mm4, %0\n\t"
+                     : "=m"(AA), "=m"(DD) : "rm"(x), "rm"(y), "m"(ff_pw_64));
 
     __asm__ volatile(
         /* mm0 = src[0..7], mm1 = src[1..8] */
         "movq %0, %%mm0\n\t"
         "movq %1, %%mm1\n\t"
-        : : "m" (src[0]), "m" (src[1]));
+        : : "m"(src[0]), "m"(src[1]));
 
-    for(i=0; i<h; i++) {
+    for(i = 0; i < h; i++)
+    {
         src += stride;
 
         __asm__ volatile(
@@ -139,7 +142,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             "pmullw %%mm5, %%mm3\n\t"
             "paddw %%mm1, %%mm2\n\t"
             "paddw %%mm0, %%mm3\n\t"
-            : : "m" (AA));
+            : : "m"(AA));
 
         __asm__ volatile(
             /* [mm2,mm3] += C * src[0..7] */
@@ -151,7 +154,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             "pmullw %%mm6, %%mm1\n\t"
             "paddw %%mm0, %%mm2\n\t"
             "paddw %%mm1, %%mm3\n\t"
-            : : "m" (src[0]));
+            : : "m"(src[0]));
 
         __asm__ volatile(
             /* [mm2,mm3] += D * src[1..8] */
@@ -165,7 +168,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             "paddw %%mm0, %%mm2\n\t"
             "paddw %%mm4, %%mm3\n\t"
             "movq %0, %%mm0\n\t"
-            : : "m" (src[0]), "m" (src[1]), "m" (DD));
+            : : "m"(src[0]), "m"(src[1]), "m"(DD));
 
         __asm__ volatile(
             /* dst[0..7] = ([mm2,mm3] + rnd) >> 6 */
@@ -176,8 +179,8 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             "packuswb %%mm3, %%mm2\n\t"
             H264_CHROMA_OP(%0, %%mm2)
             "movq %%mm2, %0\n\t"
-            : "=m" (dst[0]) : "m" (*rnd_reg));
-        dst+= stride;
+            : "=m"(dst[0]) : "m"(*rnd_reg));
+        dst += stride;
     }
 }
 
@@ -252,9 +255,9 @@ static void H264_CHROMA_MC4_TMPL(uint8_t *dst/*align 4*/, uint8_t *src/*align 1*
 #ifdef H264_CHROMA_MC2_TMPL
 static void H264_CHROMA_MC2_TMPL(uint8_t *dst/*align 2*/, uint8_t *src/*align 1*/, int stride, int h, int x, int y)
 {
-    int tmp = ((1<<16)-1)*x + 8;
-    int CD= tmp*y;
-    int AB= (tmp<<3) - CD;
+    int tmp = ((1 << 16) - 1) * x + 8;
+    int CD = tmp * y;
+    int AB = (tmp << 3) - CD;
     __asm__ volatile(
         /* mm5 = {A,B,A,B} */
         /* mm6 = {C,D,C,D} */
@@ -295,8 +298,8 @@ static void H264_CHROMA_MC2_TMPL(uint8_t *dst/*align 2*/, uint8_t *src/*align 1*
         "add %4, %0\n\t"
         "sub $1, %2\n\t"
         "jnz 1b\n\t"
-        : "+r" (dst), "+r"(src), "+r"(h)
-        : "m" (ff_pw_32), "r"((x86_reg)stride)
+        : "+r"(dst), "+r"(src), "+r"(h)
+        : "m"(ff_pw_32), "r"((x86_reg)stride)
         : "%esi");
 
 }

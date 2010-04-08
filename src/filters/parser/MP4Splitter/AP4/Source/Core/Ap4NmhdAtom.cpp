@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - nmhd Atoms 
+|    AP4 - nmhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,8 +41,8 @@ AP4_NmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if (version != 0) return NULL;
+    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if(version != 0) return NULL;
     return new AP4_NmhdAtom(size, version, flags, stream);
 }
 
@@ -57,7 +57,7 @@ AP4_NmhdAtom::AP4_NmhdAtom() :
 /*----------------------------------------------------------------------
 |   AP4_NmhdAtom::AP4_NmhdAtom
 +---------------------------------------------------------------------*/
-AP4_NmhdAtom::AP4_NmhdAtom(AP4_UI32        size, 
+AP4_NmhdAtom::AP4_NmhdAtom(AP4_UI32        size,
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& /* stream */) :

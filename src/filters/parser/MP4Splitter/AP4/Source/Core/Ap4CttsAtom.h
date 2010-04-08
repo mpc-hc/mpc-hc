@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ctts Atoms 
+|    AP4 - ctts Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -44,10 +44,11 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   AP4_CttsTableEntry
 +---------------------------------------------------------------------*/
-class AP4_CttsTableEntry {
- public:
-    AP4_CttsTableEntry() : 
-        m_SampleCount(0), 
+class AP4_CttsTableEntry
+{
+public:
+    AP4_CttsTableEntry() :
+        m_SampleCount(0),
         m_SampleOffset(0) {}
     AP4_CttsTableEntry(AP4_UI32 sample_count,
                        AP4_UI32 sample_offset) :
@@ -71,7 +72,7 @@ public:
 
     // constructor
     AP4_CttsAtom();
-    
+
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
@@ -80,14 +81,15 @@ public:
 
 private:
     // methods
-    AP4_CttsAtom(AP4_UI32        size, 
+    AP4_CttsAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);
 
     // members
     AP4_Array<AP4_CttsTableEntry> m_Entries;
-    struct {
+    struct
+    {
         AP4_Ordinal sample;
         AP4_Ordinal entry_index;
     } m_LookupCache;

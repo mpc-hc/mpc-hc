@@ -42,37 +42,37 @@ using namespace dirac;
 using namespace std;
 
 ByteIO::ByteIO(bool new_stream):
-m_current_byte(0),
-m_current_pos(0),
-m_num_bytes(0),
-m_new_stream(true),
-m_bits_left(0)
+    m_current_byte(0),
+    m_current_pos(0),
+    m_num_bytes(0),
+    m_new_stream(true),
+    m_bits_left(0)
 {
     if(new_stream)
         mp_stream = new stringstream(stringstream::in | stringstream::out |
                                      stringstream::binary);
 
-                                    
+
 }
 
 ByteIO::ByteIO(const ByteIO& stream_data):
-m_current_byte(0),
-m_current_pos(0),
-m_num_bytes(0),
-m_new_stream(false),
-m_bits_left(0)
+    m_current_byte(0),
+    m_current_pos(0),
+    m_num_bytes(0),
+    m_new_stream(false),
+    m_bits_left(0)
 {
-     mp_stream=stream_data.mp_stream;
+    mp_stream = stream_data.mp_stream;
 }
 
 
 ByteIO::~ByteIO()
 {
-    if (m_new_stream)
+    if(m_new_stream)
         delete mp_stream;
 }
 
-const string ByteIO::GetBytes() 
+const string ByteIO::GetBytes()
 {
     return mp_stream->str();
 }
@@ -84,35 +84,35 @@ int ByteIO::GetSize() const
 
 void ByteIO::SetByteParams(const ByteIO& byte_io)
 {
-    mp_stream=byte_io.mp_stream;
-    m_current_byte=byte_io.m_current_byte;
-    m_current_pos=byte_io.m_current_pos;
+    mp_stream = byte_io.mp_stream;
+    m_current_byte = byte_io.m_current_byte;
+    m_current_pos = byte_io.m_current_pos;
 }
 
 //----------protected---------------------------------------------------------------
 
 void ByteIO::ByteAlignInput()
 {
-    m_current_pos=0;
-    m_current_byte=0;
+    m_current_pos = 0;
+    m_current_byte = 0;
 }
 
 void ByteIO::ByteAlignOutput()
 {
-    if(m_current_pos!=0)
+    if(m_current_pos != 0)
         OutputCurrentByte();
 }
 
 int ByteIO::ReadBit()
 {
     if(m_current_pos == CHAR_BIT)
-        m_current_pos=0;
+        m_current_pos = 0;
 
-    if (m_current_pos == 0)
+    if(m_current_pos == 0)
         m_current_byte = InputUnByte();
 #if 1
     // MSB to LSB
-    return GetBit(m_current_byte, (CHAR_BIT-1-m_current_pos++));
+    return GetBit(m_current_byte, (CHAR_BIT - 1 - m_current_pos++));
 #else
     // LSB to MSB
     return GetBit(m_current_byte, m_current_pos++);
@@ -121,7 +121,7 @@ int ByteIO::ReadBit()
 
 int ByteIO::ReadBitB()
 {
-    if (m_bits_left)
+    if(m_bits_left)
     {
         --m_bits_left;
         return ReadBit();
@@ -143,7 +143,7 @@ bool ByteIO::ReadBoolB()
 unsigned int ByteIO::ReadNBits(int count)
 {
     unsigned int val = 0;
-    for (int i = 0; i < count; ++i)
+    for(int i = 0; i < count; ++i)
     {
         val <<= 1;
         val += ReadBit();
@@ -166,14 +166,14 @@ int ByteIO::ReadSint()
     int val = ReadUint();
     bool bit;
 
-     //get the sign
-    if (val != 0)
+    //get the sign
+    if(val != 0)
     {
         bit = ReadBit();
-        if (bit )
+        if(bit)
             val = -val;
     }
-    return val;        
+    return val;
 }
 
 int ByteIO::ReadSintB()
@@ -182,24 +182,24 @@ int ByteIO::ReadSintB()
     int val = ReadUintB();
     bool bit;
 
-     //get the sign
-    if (val != 0)
+    //get the sign
+    if(val != 0)
     {
         bit = ReadBitB();
-        if (bit )
+        if(bit)
             val = -val;
     }
-    return val;        
+    return val;
 }
 
 unsigned int ByteIO::ReadUint()
 {
     unsigned int value = 1;
-    while (!ReadBit())
+    while(!ReadBit())
     {
         value <<= 1;
-        if (ReadBit())
-            value +=1; 
+        if(ReadBit())
+            value += 1;
     }
     --value;
     return value;
@@ -208,11 +208,11 @@ unsigned int ByteIO::ReadUint()
 unsigned int ByteIO::ReadUintB()
 {
     unsigned int value = 1;
-    while (!ReadBitB())
+    while(!ReadBitB())
     {
         value <<= 1;
-        if (ReadBitB())
-            value +=1; 
+        if(ReadBitB())
+            value += 1;
     }
     --value;
     return value;
@@ -223,21 +223,21 @@ void ByteIO::WriteBit(const bool& bit)
     if(bit)
 #if 1
         // MSB to LSB
-        SetBit(m_current_byte, CHAR_BIT-1-m_current_pos);
+        SetBit(m_current_byte, CHAR_BIT - 1 - m_current_pos);
 #else
         // LSB to MSB
         SetBit(m_current_byte, m_current_pos);
 #endif
 
-    if ( m_current_pos == CHAR_BIT-1)
-    { 
+    if(m_current_pos == CHAR_BIT - 1)
+    {
         // If a whole byte has been written, output to stream
         OutputCurrentByte();
         m_current_byte = 0;
         m_current_pos = 0;
-    }    
+    }
     else
-      // Shift mask to next bit in the output byte
+        // Shift mask to next bit in the output byte
         ++m_current_pos;
 }
 
@@ -245,7 +245,7 @@ void ByteIO::WriteNBits(unsigned int val, int count)
 {
     do
     {
-        WriteBit(val & ( 1 << (count-1)));
+        WriteBit(val & (1 << (count - 1)));
         count--;
     }
     while(count > 0);
@@ -253,7 +253,7 @@ void ByteIO::WriteNBits(unsigned int val, int count)
 
 int ByteIO::WriteNBits(unsigned int val)
 {
-    int nbits = static_cast<int>(log(static_cast<double>(val))/log(2.0)) + 1;
+    int nbits = static_cast<int>(log(static_cast<double>(val)) / log(2.0)) + 1;
     WriteNBits(val, nbits);
     return nbits;
 }
@@ -265,24 +265,24 @@ void ByteIO::WriteSint(int val)
     WriteUint(value);
 
     //do sign
-    if (val<0) WriteBit(1);
-    else if (val>0) WriteBit(0);
+    if(val < 0) WriteBit(1);
+    else if(val > 0) WriteBit(0);
 }
 
 void ByteIO::WriteUint(unsigned int value)
 {
-    unsigned int val = value+1;
+    unsigned int val = value + 1;
 
     int num_follow_zeroes = 0;
 
-    while (val >= (1U <<num_follow_zeroes))
+    while(val >= (1U << num_follow_zeroes))
         ++num_follow_zeroes;
     --num_follow_zeroes;
 
-    for (int i=num_follow_zeroes-1; i>=0; --i)
+    for(int i = num_follow_zeroes - 1; i >= 0; --i)
     {
         WriteBit(BIT_ZERO);
-        WriteBit(val&(1<<i));
+        WriteBit(val&(1 << i));
     }
     WriteBit(BIT_ONE);
 }
@@ -290,10 +290,10 @@ void ByteIO::WriteUint(unsigned int value)
 void ByteIO::RemoveRedundantBytes(const int size)
 {
     int prev_pos = mp_stream->tellg();
-    string data=mp_stream->str();
+    string data = mp_stream->str();
     data.erase(0, size);
     mp_stream->str(data);
-    m_num_bytes=data.size();
+    m_num_bytes = data.size();
     if(data.size())
-        SeekGet(max(prev_pos-size, 0), ios_base::beg);
+        SeekGet(max(prev_pos - size, 0), ios_base::beg);
 }

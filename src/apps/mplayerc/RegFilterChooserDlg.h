@@ -32,29 +32,29 @@ class CRegFilterChooserDlg : public CResizableDialog
 {
 //	DECLARE_DYNAMIC(CRegFilterChooserDlg)
 
-	CInterfaceList<IMoniker> m_monikers;
-	void AddToList(IMoniker* pMoniker);
+    CInterfaceList<IMoniker> m_monikers;
+    void AddToList(IMoniker* pMoniker);
 
 public:
-	CRegFilterChooserDlg(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CRegFilterChooserDlg();
+    CRegFilterChooserDlg(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CRegFilterChooserDlg();
 
-	CList<FilterOverride*> m_filters;
+    CList<FilterOverride*> m_filters;
 
 // Dialog Data
-	enum { IDD = IDD_ADDREGFILTER };
-	CListCtrl m_list;
+    enum { IDD = IDD_ADDREGFILTER };
+    CListCtrl m_list;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnLbnDblclkList1();
-	afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnNMDblclkList2(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnLbnDblclkList1();
+    afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
+    afx_msg void OnBnClickedOk();
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnNMDblclkList2(NMHDR *pNMHDR, LRESULT *pResult);
 };

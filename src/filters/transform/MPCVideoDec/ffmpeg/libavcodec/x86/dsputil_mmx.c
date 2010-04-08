@@ -39,35 +39,35 @@
 int mm_flags; /* multimedia extension flags */
 
 /* pixel operations */
-DECLARE_ALIGNED_8 (const uint64_t, ff_bone) = 0x0101010101010101ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_bone) = 0x0101010101010101ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
 
 DECLARE_ALIGNED_16(const uint64_t, ff_pdw_80000000)[2] =
 {0x8000000080000000ULL, 0x8000000080000000ULL};
 
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_3  ) = 0x0003000300030003ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_4  ) = 0x0004000400040004ULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_5  ) = {0x0005000500050005ULL, 0x0005000500050005ULL};
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_8  ) = {0x0008000800080008ULL, 0x0008000800080008ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_16 ) = {0x0010001000100010ULL, 0x0010001000100010ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_28 ) = {0x001C001C001C001CULL, 0x001C001C001C001CULL};
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_32 ) = {0x0020002000200020ULL, 0x0020002000200020ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_42 ) = 0x002A002A002A002AULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_64 ) = {0x0040004000400040ULL, 0x0040004000400040ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_96 ) = 0x0060006000600060ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_255) = 0x00ff00ff00ff00ffULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_3) = 0x0003000300030003ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_4) = 0x0004000400040004ULL;
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_5) = {0x0005000500050005ULL, 0x0005000500050005ULL};
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_8) = {0x0008000800080008ULL, 0x0008000800080008ULL};
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_15) = 0x000F000F000F000FULL;
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_16) = {0x0010001000100010ULL, 0x0010001000100010ULL};
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_20) = 0x0014001400140014ULL;
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_28) = {0x001C001C001C001CULL, 0x001C001C001C001CULL};
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_32) = {0x0020002000200020ULL, 0x0020002000200020ULL};
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_42) = 0x002A002A002A002AULL;
+DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_64) = {0x0040004000400040ULL, 0x0040004000400040ULL};
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_96) = 0x0060006000600060ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pw_255) = 0x00ff00ff00ff00ffULL;
 
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_1  ) = 0x0101010101010101ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3  ) = 0x0303030303030303ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_7  ) = 0x0707070707070707ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_1F ) = 0x1F1F1F1F1F1F1F1FULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3F ) = 0x3F3F3F3F3F3F3F3FULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_81 ) = 0x8181818181818181ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_A1 ) = 0xA1A1A1A1A1A1A1A1ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_FC ) = 0xFCFCFCFCFCFCFCFCULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_1) = 0x0101010101010101ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_3) = 0x0303030303030303ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_7) = 0x0707070707070707ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_1F) = 0x1F1F1F1F1F1F1F1FULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_3F) = 0x3F3F3F3F3F3F3F3FULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_81) = 0x8181818181818181ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_A1) = 0xA1A1A1A1A1A1A1A1ULL;
+DECLARE_ALIGNED_8(const uint64_t, ff_pb_FC) = 0xFCFCFCFCFCFCFCFCULL;
 
 DECLARE_ALIGNED_16(const double, ff_pd_1)[2] = { 1.0, 1.0 };
 DECLARE_ALIGNED_16(const double, ff_pd_2)[2] = { 2.0, 2.0 };
@@ -231,54 +231,54 @@ void put_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size
     p = block;
     pix = pixels;
     /* unrolled loop */
-        __asm__ volatile(
-                "movq   %3, %%mm0               \n\t"
-                "movq   8%3, %%mm1              \n\t"
-                "movq   16%3, %%mm2             \n\t"
-                "movq   24%3, %%mm3             \n\t"
-                "movq   32%3, %%mm4             \n\t"
-                "movq   40%3, %%mm5             \n\t"
-                "movq   48%3, %%mm6             \n\t"
-                "movq   56%3, %%mm7             \n\t"
-                "packuswb %%mm1, %%mm0          \n\t"
-                "packuswb %%mm3, %%mm2          \n\t"
-                "packuswb %%mm5, %%mm4          \n\t"
-                "packuswb %%mm7, %%mm6          \n\t"
-                "movq   %%mm0, (%0)             \n\t"
-                "movq   %%mm2, (%0, %1)         \n\t"
-                "movq   %%mm4, (%0, %1, 2)      \n\t"
-                "movq   %%mm6, (%0, %2)         \n\t"
-                ::"r" (pix), "r" ((x86_reg)line_size), "r" ((x86_reg)line_size*3), "m"(*p)
-                :"memory");
-        pix += line_size*4;
-        p += 32;
+    __asm__ volatile(
+        "movq   %3, %%mm0               \n\t"
+        "movq   8%3, %%mm1              \n\t"
+        "movq   16%3, %%mm2             \n\t"
+        "movq   24%3, %%mm3             \n\t"
+        "movq   32%3, %%mm4             \n\t"
+        "movq   40%3, %%mm5             \n\t"
+        "movq   48%3, %%mm6             \n\t"
+        "movq   56%3, %%mm7             \n\t"
+        "packuswb %%mm1, %%mm0          \n\t"
+        "packuswb %%mm3, %%mm2          \n\t"
+        "packuswb %%mm5, %%mm4          \n\t"
+        "packuswb %%mm7, %%mm6          \n\t"
+        "movq   %%mm0, (%0)             \n\t"
+        "movq   %%mm2, (%0, %1)         \n\t"
+        "movq   %%mm4, (%0, %1, 2)      \n\t"
+        "movq   %%mm6, (%0, %2)         \n\t"
+        ::"r"(pix), "r"((x86_reg)line_size), "r"((x86_reg)line_size*3), "m"(*p)
+        :"memory");
+    pix += line_size * 4;
+    p += 32;
 
     // if here would be an exact copy of the code above
     // compiler would generate some very strange code
     // thus using "r"
     __asm__ volatile(
-            "movq       (%3), %%mm0             \n\t"
-            "movq       8(%3), %%mm1            \n\t"
-            "movq       16(%3), %%mm2           \n\t"
-            "movq       24(%3), %%mm3           \n\t"
-            "movq       32(%3), %%mm4           \n\t"
-            "movq       40(%3), %%mm5           \n\t"
-            "movq       48(%3), %%mm6           \n\t"
-            "movq       56(%3), %%mm7           \n\t"
-            "packuswb %%mm1, %%mm0              \n\t"
-            "packuswb %%mm3, %%mm2              \n\t"
-            "packuswb %%mm5, %%mm4              \n\t"
-            "packuswb %%mm7, %%mm6              \n\t"
-            "movq       %%mm0, (%0)             \n\t"
-            "movq       %%mm2, (%0, %1)         \n\t"
-            "movq       %%mm4, (%0, %1, 2)      \n\t"
-            "movq       %%mm6, (%0, %2)         \n\t"
-            ::"r" (pix), "r" ((x86_reg)line_size), "r" ((x86_reg)line_size*3), "r"(p)
-            :"memory");
+        "movq       (%3), %%mm0             \n\t"
+        "movq       8(%3), %%mm1            \n\t"
+        "movq       16(%3), %%mm2           \n\t"
+        "movq       24(%3), %%mm3           \n\t"
+        "movq       32(%3), %%mm4           \n\t"
+        "movq       40(%3), %%mm5           \n\t"
+        "movq       48(%3), %%mm6           \n\t"
+        "movq       56(%3), %%mm7           \n\t"
+        "packuswb %%mm1, %%mm0              \n\t"
+        "packuswb %%mm3, %%mm2              \n\t"
+        "packuswb %%mm5, %%mm4              \n\t"
+        "packuswb %%mm7, %%mm6              \n\t"
+        "movq       %%mm0, (%0)             \n\t"
+        "movq       %%mm2, (%0, %1)         \n\t"
+        "movq       %%mm4, (%0, %1, 2)      \n\t"
+        "movq       %%mm6, (%0, %2)         \n\t"
+        ::"r"(pix), "r"((x86_reg)line_size), "r"((x86_reg)line_size*3), "r"(p)
+        :"memory");
 }
 
 DECLARE_ASM_CONST(8, uint8_t, ff_vector128)[8] =
-  { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
+{ 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
 
 #define put_signed_pixels_clamped_mmx_half(off) \
             "movq    "#off"(%2), %%mm1          \n\t"\
@@ -303,15 +303,15 @@ void put_signed_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int li
     x86_reg line_skip = line_size;
     x86_reg line_skip3;
 
-    __asm__ volatile (
-            "movq "MANGLE(ff_vector128)", %%mm0 \n\t"
-            "lea (%3, %3, 2), %1                \n\t"
-            put_signed_pixels_clamped_mmx_half(0)
-            "lea (%0, %3, 4), %0                \n\t"
-            put_signed_pixels_clamped_mmx_half(64)
-            :"+&r" (pixels), "=&r" (line_skip3)
-            :"r" (block), "r"(line_skip)
-            :"memory");
+    __asm__ volatile(
+        "movq "MANGLE(ff_vector128)", %%mm0 \n\t"
+        "lea (%3, %3, 2), %1                \n\t"
+        put_signed_pixels_clamped_mmx_half(0)
+        "lea (%0, %3, 4), %0                \n\t"
+        put_signed_pixels_clamped_mmx_half(64)
+        :"+&r"(pixels), "=&r"(line_skip3)
+        :"r"(block), "r"(line_skip)
+        :"memory");
 }
 
 void add_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size)
@@ -325,168 +325,170 @@ void add_pixels_clamped_mmx(const DCTELEM *block, uint8_t *pixels, int line_size
     pix = pixels;
     MOVQ_ZERO(mm7);
     i = 4;
-    do {
+    do
+    {
         __asm__ volatile(
-                "movq   (%2), %%mm0     \n\t"
-                "movq   8(%2), %%mm1    \n\t"
-                "movq   16(%2), %%mm2   \n\t"
-                "movq   24(%2), %%mm3   \n\t"
-                "movq   %0, %%mm4       \n\t"
-                "movq   %1, %%mm6       \n\t"
-                "movq   %%mm4, %%mm5    \n\t"
-                "punpcklbw %%mm7, %%mm4 \n\t"
-                "punpckhbw %%mm7, %%mm5 \n\t"
-                "paddsw %%mm4, %%mm0    \n\t"
-                "paddsw %%mm5, %%mm1    \n\t"
-                "movq   %%mm6, %%mm5    \n\t"
-                "punpcklbw %%mm7, %%mm6 \n\t"
-                "punpckhbw %%mm7, %%mm5 \n\t"
-                "paddsw %%mm6, %%mm2    \n\t"
-                "paddsw %%mm5, %%mm3    \n\t"
-                "packuswb %%mm1, %%mm0  \n\t"
-                "packuswb %%mm3, %%mm2  \n\t"
-                "movq   %%mm0, %0       \n\t"
-                "movq   %%mm2, %1       \n\t"
-                :"+m"(*pix), "+m"(*(pix+line_size))
-                :"r"(p)
-                :"memory");
-        pix += line_size*2;
+            "movq   (%2), %%mm0     \n\t"
+            "movq   8(%2), %%mm1    \n\t"
+            "movq   16(%2), %%mm2   \n\t"
+            "movq   24(%2), %%mm3   \n\t"
+            "movq   %0, %%mm4       \n\t"
+            "movq   %1, %%mm6       \n\t"
+            "movq   %%mm4, %%mm5    \n\t"
+            "punpcklbw %%mm7, %%mm4 \n\t"
+            "punpckhbw %%mm7, %%mm5 \n\t"
+            "paddsw %%mm4, %%mm0    \n\t"
+            "paddsw %%mm5, %%mm1    \n\t"
+            "movq   %%mm6, %%mm5    \n\t"
+            "punpcklbw %%mm7, %%mm6 \n\t"
+            "punpckhbw %%mm7, %%mm5 \n\t"
+            "paddsw %%mm6, %%mm2    \n\t"
+            "paddsw %%mm5, %%mm3    \n\t"
+            "packuswb %%mm1, %%mm0  \n\t"
+            "packuswb %%mm3, %%mm2  \n\t"
+            "movq   %%mm0, %0       \n\t"
+            "movq   %%mm2, %1       \n\t"
+            :"+m"(*pix), "+m"(*(pix+line_size))
+            :"r"(p)
+            :"memory");
+        pix += line_size * 2;
         p += 16;
-    } while (--i);
+    }
+    while(--i);
 }
 
 static void put_pixels4_mmx(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     __asm__ volatile(
-         "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
-         "1:                            \n\t"
-         "movd (%1), %%mm0              \n\t"
-         "movd (%1, %3), %%mm1          \n\t"
-         "movd %%mm0, (%2)              \n\t"
-         "movd %%mm1, (%2, %3)          \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "movd (%1), %%mm0              \n\t"
-         "movd (%1, %3), %%mm1          \n\t"
-         "movd %%mm0, (%2)              \n\t"
-         "movd %%mm1, (%2, %3)          \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "subl $4, %0                   \n\t"
-         "jnz 1b                        \n\t"
-         : "+g"(h), "+r" (pixels),  "+r" (block)
-         : "r"((x86_reg)line_size)
-         : "%"REG_a, "memory"
-        );
+        "lea (%3, %3), %%"REG_a"       \n\t"
+        ASMALIGN(3)
+        "1:                            \n\t"
+        "movd (%1), %%mm0              \n\t"
+        "movd (%1, %3), %%mm1          \n\t"
+        "movd %%mm0, (%2)              \n\t"
+        "movd %%mm1, (%2, %3)          \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "movd (%1), %%mm0              \n\t"
+        "movd (%1, %3), %%mm1          \n\t"
+        "movd %%mm0, (%2)              \n\t"
+        "movd %%mm1, (%2, %3)          \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "subl $4, %0                   \n\t"
+        "jnz 1b                        \n\t"
+        : "+g"(h), "+r"(pixels),  "+r"(block)
+        : "r"((x86_reg)line_size)
+        : "%"REG_a, "memory"
+    );
 }
 
 static void put_pixels8_mmx(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     __asm__ volatile(
-         "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
-         "1:                            \n\t"
-         "movq (%1), %%mm0              \n\t"
-         "movq (%1, %3), %%mm1          \n\t"
-         "movq %%mm0, (%2)              \n\t"
-         "movq %%mm1, (%2, %3)          \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "movq (%1), %%mm0              \n\t"
-         "movq (%1, %3), %%mm1          \n\t"
-         "movq %%mm0, (%2)              \n\t"
-         "movq %%mm1, (%2, %3)          \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "subl $4, %0                   \n\t"
-         "jnz 1b                        \n\t"
-         : "+g"(h), "+r" (pixels),  "+r" (block)
-         : "r"((x86_reg)line_size)
-         : "%"REG_a, "memory"
-        );
+        "lea (%3, %3), %%"REG_a"       \n\t"
+        ASMALIGN(3)
+        "1:                            \n\t"
+        "movq (%1), %%mm0              \n\t"
+        "movq (%1, %3), %%mm1          \n\t"
+        "movq %%mm0, (%2)              \n\t"
+        "movq %%mm1, (%2, %3)          \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "movq (%1), %%mm0              \n\t"
+        "movq (%1, %3), %%mm1          \n\t"
+        "movq %%mm0, (%2)              \n\t"
+        "movq %%mm1, (%2, %3)          \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "subl $4, %0                   \n\t"
+        "jnz 1b                        \n\t"
+        : "+g"(h), "+r"(pixels),  "+r"(block)
+        : "r"((x86_reg)line_size)
+        : "%"REG_a, "memory"
+    );
 }
 
 static void put_pixels16_mmx(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     __asm__ volatile(
-         "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
-         "1:                            \n\t"
-         "movq (%1), %%mm0              \n\t"
-         "movq 8(%1), %%mm4             \n\t"
-         "movq (%1, %3), %%mm1          \n\t"
-         "movq 8(%1, %3), %%mm5         \n\t"
-         "movq %%mm0, (%2)              \n\t"
-         "movq %%mm4, 8(%2)             \n\t"
-         "movq %%mm1, (%2, %3)          \n\t"
-         "movq %%mm5, 8(%2, %3)         \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "movq (%1), %%mm0              \n\t"
-         "movq 8(%1), %%mm4             \n\t"
-         "movq (%1, %3), %%mm1          \n\t"
-         "movq 8(%1, %3), %%mm5         \n\t"
-         "movq %%mm0, (%2)              \n\t"
-         "movq %%mm4, 8(%2)             \n\t"
-         "movq %%mm1, (%2, %3)          \n\t"
-         "movq %%mm5, 8(%2, %3)         \n\t"
-         "add %%"REG_a", %1             \n\t"
-         "add %%"REG_a", %2             \n\t"
-         "subl $4, %0                   \n\t"
-         "jnz 1b                        \n\t"
-         : "+g"(h), "+r" (pixels),  "+r" (block)
-         : "r"((x86_reg)line_size)
-         : "%"REG_a, "memory"
-        );
+        "lea (%3, %3), %%"REG_a"       \n\t"
+        ASMALIGN(3)
+        "1:                            \n\t"
+        "movq (%1), %%mm0              \n\t"
+        "movq 8(%1), %%mm4             \n\t"
+        "movq (%1, %3), %%mm1          \n\t"
+        "movq 8(%1, %3), %%mm5         \n\t"
+        "movq %%mm0, (%2)              \n\t"
+        "movq %%mm4, 8(%2)             \n\t"
+        "movq %%mm1, (%2, %3)          \n\t"
+        "movq %%mm5, 8(%2, %3)         \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "movq (%1), %%mm0              \n\t"
+        "movq 8(%1), %%mm4             \n\t"
+        "movq (%1, %3), %%mm1          \n\t"
+        "movq 8(%1, %3), %%mm5         \n\t"
+        "movq %%mm0, (%2)              \n\t"
+        "movq %%mm4, 8(%2)             \n\t"
+        "movq %%mm1, (%2, %3)          \n\t"
+        "movq %%mm5, 8(%2, %3)         \n\t"
+        "add %%"REG_a", %1             \n\t"
+        "add %%"REG_a", %2             \n\t"
+        "subl $4, %0                   \n\t"
+        "jnz 1b                        \n\t"
+        : "+g"(h), "+r"(pixels),  "+r"(block)
+        : "r"((x86_reg)line_size)
+        : "%"REG_a, "memory"
+    );
 }
 
 static void put_pixels16_sse2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     __asm__ volatile(
-         "1:                            \n\t"
-         "movdqu (%1), %%xmm0           \n\t"
-         "movdqu (%1,%3), %%xmm1        \n\t"
-         "movdqu (%1,%3,2), %%xmm2      \n\t"
-         "movdqu (%1,%4), %%xmm3        \n\t"
-         "movdqa %%xmm0, (%2)           \n\t"
-         "movdqa %%xmm1, (%2,%3)        \n\t"
-         "movdqa %%xmm2, (%2,%3,2)      \n\t"
-         "movdqa %%xmm3, (%2,%4)        \n\t"
-         "subl $4, %0                   \n\t"
-         "lea (%1,%3,4), %1             \n\t"
-         "lea (%2,%3,4), %2             \n\t"
-         "jnz 1b                        \n\t"
-         : "+g"(h), "+r" (pixels),  "+r" (block)
-         : "r"((x86_reg)line_size), "r"((x86_reg)3L*line_size)
-         : "memory"
-        );
+        "1:                            \n\t"
+        "movdqu (%1), %%xmm0           \n\t"
+        "movdqu (%1,%3), %%xmm1        \n\t"
+        "movdqu (%1,%3,2), %%xmm2      \n\t"
+        "movdqu (%1,%4), %%xmm3        \n\t"
+        "movdqa %%xmm0, (%2)           \n\t"
+        "movdqa %%xmm1, (%2,%3)        \n\t"
+        "movdqa %%xmm2, (%2,%3,2)      \n\t"
+        "movdqa %%xmm3, (%2,%4)        \n\t"
+        "subl $4, %0                   \n\t"
+        "lea (%1,%3,4), %1             \n\t"
+        "lea (%2,%3,4), %2             \n\t"
+        "jnz 1b                        \n\t"
+        : "+g"(h), "+r"(pixels),  "+r"(block)
+        : "r"((x86_reg)line_size), "r"((x86_reg)3L*line_size)
+        : "memory"
+    );
 }
 
 static void avg_pixels16_sse2(uint8_t *block, const uint8_t *pixels, int line_size, int h)
 {
     __asm__ volatile(
-         "1:                            \n\t"
-         "movdqu (%1), %%xmm0           \n\t"
-         "movdqu (%1,%3), %%xmm1        \n\t"
-         "movdqu (%1,%3,2), %%xmm2      \n\t"
-         "movdqu (%1,%4), %%xmm3        \n\t"
-         "pavgb  (%2), %%xmm0           \n\t"
-         "pavgb  (%2,%3), %%xmm1        \n\t"
-         "pavgb  (%2,%3,2), %%xmm2      \n\t"
-         "pavgb  (%2,%4), %%xmm3        \n\t"
-         "movdqa %%xmm0, (%2)           \n\t"
-         "movdqa %%xmm1, (%2,%3)        \n\t"
-         "movdqa %%xmm2, (%2,%3,2)      \n\t"
-         "movdqa %%xmm3, (%2,%4)        \n\t"
-         "subl $4, %0                   \n\t"
-         "lea (%1,%3,4), %1             \n\t"
-         "lea (%2,%3,4), %2             \n\t"
-         "jnz 1b                        \n\t"
-         : "+g"(h), "+r" (pixels),  "+r" (block)
-         : "r"((x86_reg)line_size), "r"((x86_reg)3L*line_size)
-         : "memory"
-        );
+        "1:                            \n\t"
+        "movdqu (%1), %%xmm0           \n\t"
+        "movdqu (%1,%3), %%xmm1        \n\t"
+        "movdqu (%1,%3,2), %%xmm2      \n\t"
+        "movdqu (%1,%4), %%xmm3        \n\t"
+        "pavgb  (%2), %%xmm0           \n\t"
+        "pavgb  (%2,%3), %%xmm1        \n\t"
+        "pavgb  (%2,%3,2), %%xmm2      \n\t"
+        "pavgb  (%2,%4), %%xmm3        \n\t"
+        "movdqa %%xmm0, (%2)           \n\t"
+        "movdqa %%xmm1, (%2,%3)        \n\t"
+        "movdqa %%xmm2, (%2,%3,2)      \n\t"
+        "movdqa %%xmm3, (%2,%4)        \n\t"
+        "subl $4, %0                   \n\t"
+        "lea (%1,%3,4), %1             \n\t"
+        "lea (%2,%3,4), %2             \n\t"
+        "jnz 1b                        \n\t"
+        : "+g"(h), "+r"(pixels),  "+r"(block)
+        : "r"((x86_reg)line_size), "r"((x86_reg)3L*line_size)
+        : "memory"
+    );
 }
 
 #define CLEAR_BLOCKS(name,n) \
@@ -528,7 +530,8 @@ static void clear_block_sse(DCTELEM *block)
 }
 
 static void clear_blocks_sse(DCTELEM *blocks)
-{\
+{
+    \
     __asm__ volatile(
         "xorps  %%xmm0, %%xmm0  \n"
         "mov     %1, %%"REG_a"  \n"
@@ -543,14 +546,15 @@ static void clear_blocks_sse(DCTELEM *blocks)
         "movaps %%xmm0, 112(%0, %%"REG_a") \n"
         "add $128, %%"REG_a"    \n"
         " js 1b                 \n"
-        : : "r" (((uint8_t *)blocks)+128*6),
-            "i" (-128*6)
+        : : "r"(((uint8_t *)blocks)+128*6),
+        "i"(-128*6)
         : "%"REG_a
     );
 }
 
-static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w){
-    x86_reg i=0;
+static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w)
+{
+    x86_reg i = 0;
     __asm__ volatile(
         "jmp 2f                         \n\t"
         "1:                             \n\t"
@@ -566,15 +570,16 @@ static void add_bytes_mmx(uint8_t *dst, uint8_t *src, int w){
         "2:                             \n\t"
         "cmp %3, %0                     \n\t"
         " js 1b                         \n\t"
-        : "+r" (i)
+        : "+r"(i)
         : "r"(src), "r"(dst), "r"((x86_reg)w-15)
     );
-    for(; i<w; i++)
+    for(; i < w; i++)
         dst[i+0] += src[i+0];
 }
 
-static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
-    x86_reg i=0;
+static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w)
+{
+    x86_reg i = 0;
     __asm__ volatile(
         "jmp 2f                         \n\t"
         "1:                             \n\t"
@@ -588,15 +593,16 @@ static void add_bytes_l2_mmx(uint8_t *dst, uint8_t *src1, uint8_t *src2, int w){
         "2:                             \n\t"
         "cmp %4, %0                     \n\t"
         " js 1b                         \n\t"
-        : "+r" (i)
+        : "+r"(i)
         : "r"(dst), "r"(src1), "r"(src2), "r"((x86_reg)w-15)
     );
-    for(; i<w; i++)
+    for(; i < w; i++)
         dst[i] = src1[i] + src2[i];
 }
 
 #if HAVE_7REGS && HAVE_TEN_OPERANDS
-static void add_hfyu_median_prediction_cmov(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top) {
+static void add_hfyu_median_prediction_cmov(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top)
+{
     x86_reg w2 = -w;
     x86_reg x;
     int l = *left & 0xff;
@@ -701,28 +707,31 @@ static void add_hfyu_median_prediction_cmov(uint8_t *dst, const uint8_t *top, co
         "psubb %%mm1, %%mm5             \n\t"\
         "paddb %%mm1, %%mm6             \n\t"
 
-static void h263_v_loop_filter_mmx(uint8_t *src, int stride, int qscale){
-    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
-    const int strength= ff_h263_loop_filter_strength[qscale];
+static void h263_v_loop_filter_mmx(uint8_t *src, int stride, int qscale)
+{
+    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER)
+    {
+        const int strength = ff_h263_loop_filter_strength[qscale];
 
-    __asm__ volatile(
+        __asm__ volatile(
 
-        H263_LOOP_FILTER
+            H263_LOOP_FILTER
 
-        "movq %%mm3, %1                 \n\t"
-        "movq %%mm4, %2                 \n\t"
-        "movq %%mm5, %0                 \n\t"
-        "movq %%mm6, %3                 \n\t"
-        : "+m" (*(uint64_t*)(src - 2*stride)),
-          "+m" (*(uint64_t*)(src - 1*stride)),
-          "+m" (*(uint64_t*)(src + 0*stride)),
-          "+m" (*(uint64_t*)(src + 1*stride))
-        : "g" (2*strength), "m"(ff_pb_FC)
-    );
+            "movq %%mm3, %1                 \n\t"
+            "movq %%mm4, %2                 \n\t"
+            "movq %%mm5, %0                 \n\t"
+            "movq %%mm6, %3                 \n\t"
+            : "+m"(*(uint64_t*)(src - 2*stride)),
+            "+m"(*(uint64_t*)(src - 1*stride)),
+            "+m"(*(uint64_t*)(src + 0*stride)),
+            "+m"(*(uint64_t*)(src + 1*stride))
+            : "g"(2*strength), "m"(ff_pb_FC)
+        );
     }
 }
 
-static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int src_stride){
+static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int src_stride)
+{
     __asm__ volatile( //FIXME could save 1 instruction if done as 8x4 ...
         "movd  %4, %%mm0                \n\t"
         "movd  %5, %%mm1                \n\t"
@@ -740,67 +749,69 @@ static inline void transpose4x4(uint8_t *dst, uint8_t *src, int dst_stride, int 
         "punpckhdq %%mm1, %%mm1         \n\t"
         "movd  %%mm1, %3                \n\t"
 
-        : "=m" (*(uint32_t*)(dst + 0*dst_stride)),
-          "=m" (*(uint32_t*)(dst + 1*dst_stride)),
-          "=m" (*(uint32_t*)(dst + 2*dst_stride)),
-          "=m" (*(uint32_t*)(dst + 3*dst_stride))
-        :  "m" (*(uint32_t*)(src + 0*src_stride)),
-           "m" (*(uint32_t*)(src + 1*src_stride)),
-           "m" (*(uint32_t*)(src + 2*src_stride)),
-           "m" (*(uint32_t*)(src + 3*src_stride))
+        : "=m"(*(uint32_t*)(dst + 0*dst_stride)),
+        "=m"(*(uint32_t*)(dst + 1*dst_stride)),
+        "=m"(*(uint32_t*)(dst + 2*dst_stride)),
+        "=m"(*(uint32_t*)(dst + 3*dst_stride))
+        :  "m"(*(uint32_t*)(src + 0*src_stride)),
+        "m"(*(uint32_t*)(src + 1*src_stride)),
+        "m"(*(uint32_t*)(src + 2*src_stride)),
+        "m"(*(uint32_t*)(src + 3*src_stride))
     );
 }
 
-static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale){
-    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
-    const int strength= ff_h263_loop_filter_strength[qscale];
-    DECLARE_ALIGNED(8, uint64_t, temp)[4];
-    uint8_t *btemp= (uint8_t*)temp;
+static void h263_h_loop_filter_mmx(uint8_t *src, int stride, int qscale)
+{
+    if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER)
+    {
+        const int strength = ff_h263_loop_filter_strength[qscale];
+        DECLARE_ALIGNED(8, uint64_t, temp)[4];
+        uint8_t *btemp = (uint8_t*)temp;
 
-    src -= 2;
+        src -= 2;
 
-    transpose4x4(btemp  , src           , 8, stride);
-    transpose4x4(btemp+4, src + 4*stride, 8, stride);
-    __asm__ volatile(
-        H263_LOOP_FILTER // 5 3 4 6
+        transpose4x4(btemp  , src           , 8, stride);
+        transpose4x4(btemp + 4, src + 4 * stride, 8, stride);
+        __asm__ volatile(
+            H263_LOOP_FILTER // 5 3 4 6
 
-        : "+m" (temp[0]),
-          "+m" (temp[1]),
-          "+m" (temp[2]),
-          "+m" (temp[3])
-        : "g" (2*strength), "m"(ff_pb_FC)
-    );
+            : "+m"(temp[0]),
+            "+m"(temp[1]),
+            "+m"(temp[2]),
+            "+m"(temp[3])
+            : "g"(2*strength), "m"(ff_pb_FC)
+        );
 
-    __asm__ volatile(
-        "movq %%mm5, %%mm1              \n\t"
-        "movq %%mm4, %%mm0              \n\t"
-        "punpcklbw %%mm3, %%mm5         \n\t"
-        "punpcklbw %%mm6, %%mm4         \n\t"
-        "punpckhbw %%mm3, %%mm1         \n\t"
-        "punpckhbw %%mm6, %%mm0         \n\t"
-        "movq %%mm5, %%mm3              \n\t"
-        "movq %%mm1, %%mm6              \n\t"
-        "punpcklwd %%mm4, %%mm5         \n\t"
-        "punpcklwd %%mm0, %%mm1         \n\t"
-        "punpckhwd %%mm4, %%mm3         \n\t"
-        "punpckhwd %%mm0, %%mm6         \n\t"
-        "movd %%mm5, (%0)               \n\t"
-        "punpckhdq %%mm5, %%mm5         \n\t"
-        "movd %%mm5, (%0,%2)            \n\t"
-        "movd %%mm3, (%0,%2,2)          \n\t"
-        "punpckhdq %%mm3, %%mm3         \n\t"
-        "movd %%mm3, (%0,%3)            \n\t"
-        "movd %%mm1, (%1)               \n\t"
-        "punpckhdq %%mm1, %%mm1         \n\t"
-        "movd %%mm1, (%1,%2)            \n\t"
-        "movd %%mm6, (%1,%2,2)          \n\t"
-        "punpckhdq %%mm6, %%mm6         \n\t"
-        "movd %%mm6, (%1,%3)            \n\t"
-        :: "r" (src),
-           "r" (src + 4*stride),
-           "r" ((x86_reg)   stride ),
-           "r" ((x86_reg)(3*stride))
-    );
+        __asm__ volatile(
+            "movq %%mm5, %%mm1              \n\t"
+            "movq %%mm4, %%mm0              \n\t"
+            "punpcklbw %%mm3, %%mm5         \n\t"
+            "punpcklbw %%mm6, %%mm4         \n\t"
+            "punpckhbw %%mm3, %%mm1         \n\t"
+            "punpckhbw %%mm6, %%mm0         \n\t"
+            "movq %%mm5, %%mm3              \n\t"
+            "movq %%mm1, %%mm6              \n\t"
+            "punpcklwd %%mm4, %%mm5         \n\t"
+            "punpcklwd %%mm0, %%mm1         \n\t"
+            "punpckhwd %%mm4, %%mm3         \n\t"
+            "punpckhwd %%mm0, %%mm6         \n\t"
+            "movd %%mm5, (%0)               \n\t"
+            "punpckhdq %%mm5, %%mm5         \n\t"
+            "movd %%mm5, (%0,%2)            \n\t"
+            "movd %%mm3, (%0,%2,2)          \n\t"
+            "punpckhdq %%mm3, %%mm3         \n\t"
+            "movd %%mm3, (%0,%3)            \n\t"
+            "movd %%mm1, (%1)               \n\t"
+            "punpckhdq %%mm1, %%mm1         \n\t"
+            "movd %%mm1, (%1,%2)            \n\t"
+            "movd %%mm6, (%1,%2,2)          \n\t"
+            "punpckhdq %%mm6, %%mm6         \n\t"
+            "movd %%mm6, (%1,%3)            \n\t"
+            :: "r"(src),
+            "r"(src + 4*stride),
+            "r"((x86_reg)   stride),
+            "r"((x86_reg)(3*stride))
+        );
     }
 }
 
@@ -814,80 +825,81 @@ static void draw_edges_mmx(uint8_t *buf, int wrap, int width, int height, int w)
     last_line = buf + (height - 1) * wrap;
     /* left and right */
     ptr = buf;
-    if(w==8)
+    if(w == 8)
     {
         __asm__ volatile(
-                "1:                             \n\t"
-                "movd (%0), %%mm0               \n\t"
-                "punpcklbw %%mm0, %%mm0         \n\t"
-                "punpcklwd %%mm0, %%mm0         \n\t"
-                "punpckldq %%mm0, %%mm0         \n\t"
-                "movq %%mm0, -8(%0)             \n\t"
-                "movq -8(%0, %2), %%mm1         \n\t"
-                "punpckhbw %%mm1, %%mm1         \n\t"
-                "punpckhwd %%mm1, %%mm1         \n\t"
-                "punpckhdq %%mm1, %%mm1         \n\t"
-                "movq %%mm1, (%0, %2)           \n\t"
-                "add %1, %0                     \n\t"
-                "cmp %3, %0                     \n\t"
-                " jb 1b                         \n\t"
-                : "+r" (ptr)
-                : "r" ((x86_reg)wrap), "r" ((x86_reg)width), "r" (ptr + wrap*height)
+            "1:                             \n\t"
+            "movd (%0), %%mm0               \n\t"
+            "punpcklbw %%mm0, %%mm0         \n\t"
+            "punpcklwd %%mm0, %%mm0         \n\t"
+            "punpckldq %%mm0, %%mm0         \n\t"
+            "movq %%mm0, -8(%0)             \n\t"
+            "movq -8(%0, %2), %%mm1         \n\t"
+            "punpckhbw %%mm1, %%mm1         \n\t"
+            "punpckhwd %%mm1, %%mm1         \n\t"
+            "punpckhdq %%mm1, %%mm1         \n\t"
+            "movq %%mm1, (%0, %2)           \n\t"
+            "add %1, %0                     \n\t"
+            "cmp %3, %0                     \n\t"
+            " jb 1b                         \n\t"
+            : "+r"(ptr)
+            : "r"((x86_reg)wrap), "r"((x86_reg)width), "r"(ptr + wrap*height)
         );
     }
     else
     {
         __asm__ volatile(
-                "1:                             \n\t"
-                "movd (%0), %%mm0               \n\t"
-                "punpcklbw %%mm0, %%mm0         \n\t"
-                "punpcklwd %%mm0, %%mm0         \n\t"
-                "punpckldq %%mm0, %%mm0         \n\t"
-                "movq %%mm0, -8(%0)             \n\t"
-                "movq %%mm0, -16(%0)            \n\t"
-                "movq -8(%0, %2), %%mm1         \n\t"
-                "punpckhbw %%mm1, %%mm1         \n\t"
-                "punpckhwd %%mm1, %%mm1         \n\t"
-                "punpckhdq %%mm1, %%mm1         \n\t"
-                "movq %%mm1, (%0, %2)           \n\t"
-                "movq %%mm1, 8(%0, %2)          \n\t"
-                "add %1, %0                     \n\t"
-                "cmp %3, %0                     \n\t"
-                " jb 1b                         \n\t"
-                : "+r" (ptr)
-                : "r" ((x86_reg)wrap), "r" ((x86_reg)width), "r" (ptr + wrap*height)
+            "1:                             \n\t"
+            "movd (%0), %%mm0               \n\t"
+            "punpcklbw %%mm0, %%mm0         \n\t"
+            "punpcklwd %%mm0, %%mm0         \n\t"
+            "punpckldq %%mm0, %%mm0         \n\t"
+            "movq %%mm0, -8(%0)             \n\t"
+            "movq %%mm0, -16(%0)            \n\t"
+            "movq -8(%0, %2), %%mm1         \n\t"
+            "punpckhbw %%mm1, %%mm1         \n\t"
+            "punpckhwd %%mm1, %%mm1         \n\t"
+            "punpckhdq %%mm1, %%mm1         \n\t"
+            "movq %%mm1, (%0, %2)           \n\t"
+            "movq %%mm1, 8(%0, %2)          \n\t"
+            "add %1, %0                     \n\t"
+            "cmp %3, %0                     \n\t"
+            " jb 1b                         \n\t"
+            : "+r"(ptr)
+            : "r"((x86_reg)wrap), "r"((x86_reg)width), "r"(ptr + wrap*height)
         );
     }
 
-    for(i=0;i<w;i+=4) {
+    for(i = 0; i < w; i += 4)
+    {
         /* top and bottom (and hopefully also the corners) */
-        ptr= buf - (i + 1) * wrap - w;
+        ptr = buf - (i + 1) * wrap - w;
         __asm__ volatile(
-                "1:                             \n\t"
-                "movq (%1, %0), %%mm0           \n\t"
-                "movq %%mm0, (%0)               \n\t"
-                "movq %%mm0, (%0, %2)           \n\t"
-                "movq %%mm0, (%0, %2, 2)        \n\t"
-                "movq %%mm0, (%0, %3)           \n\t"
-                "add $8, %0                     \n\t"
-                "cmp %4, %0                     \n\t"
-                " jb 1b                         \n\t"
-                : "+r" (ptr)
-                : "r" ((x86_reg)buf - (x86_reg)ptr - w), "r" ((x86_reg)-wrap), "r" ((x86_reg)-wrap*3), "r" (ptr+width+2*w)
+            "1:                             \n\t"
+            "movq (%1, %0), %%mm0           \n\t"
+            "movq %%mm0, (%0)               \n\t"
+            "movq %%mm0, (%0, %2)           \n\t"
+            "movq %%mm0, (%0, %2, 2)        \n\t"
+            "movq %%mm0, (%0, %3)           \n\t"
+            "add $8, %0                     \n\t"
+            "cmp %4, %0                     \n\t"
+            " jb 1b                         \n\t"
+            : "+r"(ptr)
+            : "r"((x86_reg)buf - (x86_reg)ptr - w), "r"((x86_reg)-wrap), "r"((x86_reg)-wrap*3), "r"(ptr+width+2*w)
         );
-        ptr= last_line + (i + 1) * wrap - w;
+        ptr = last_line + (i + 1) * wrap - w;
         __asm__ volatile(
-                "1:                             \n\t"
-                "movq (%1, %0), %%mm0           \n\t"
-                "movq %%mm0, (%0)               \n\t"
-                "movq %%mm0, (%0, %2)           \n\t"
-                "movq %%mm0, (%0, %2, 2)        \n\t"
-                "movq %%mm0, (%0, %3)           \n\t"
-                "add $8, %0                     \n\t"
-                "cmp %4, %0                     \n\t"
-                " jb 1b                         \n\t"
-                : "+r" (ptr)
-                : "r" ((x86_reg)last_line - (x86_reg)ptr - w), "r" ((x86_reg)wrap), "r" ((x86_reg)wrap*3), "r" (ptr+width+2*w)
+            "1:                             \n\t"
+            "movq (%1, %0), %%mm0           \n\t"
+            "movq %%mm0, (%0)               \n\t"
+            "movq %%mm0, (%0, %2)           \n\t"
+            "movq %%mm0, (%0, %2, 2)        \n\t"
+            "movq %%mm0, (%0, %3)           \n\t"
+            "add $8, %0                     \n\t"
+            "cmp %4, %0                     \n\t"
+            " jb 1b                         \n\t"
+            : "+r"(ptr)
+            : "r"((x86_reg)last_line - (x86_reg)ptr - w), "r"((x86_reg)wrap), "r"((x86_reg)wrap*3), "r"(ptr+width+2*w)
         );
     }
 }
@@ -1669,7 +1681,7 @@ QPEL_2TAP_L3(OPNAME, SIZE, MMX, 11, 0,         stride,  1)\
 QPEL_2TAP_L3(OPNAME, SIZE, MMX, 31, 1,         stride, -1)\
 QPEL_2TAP_L3(OPNAME, SIZE, MMX, 13, stride,   -stride,  1)\
 QPEL_2TAP_L3(OPNAME, SIZE, MMX, 33, stride+1, -stride, -1)\
-
+ 
 QPEL_2TAP(put_, 16, mmx2)
 QPEL_2TAP(avg_, 16, mmx2)
 QPEL_2TAP(put_,  8, mmx2)
@@ -1681,47 +1693,51 @@ QPEL_2TAP(avg_,  8, 3dnow)
 
 
 #if 0
-static void just_return(void) { return; }
+static void just_return(void)
+{
+    return;
+}
 #endif
 
 static void gmc_mmx(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int oy,
-                    int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height){
+int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height)
+{
     const int w = 8;
-    const int ix = ox>>(16+shift);
-    const int iy = oy>>(16+shift);
-    const int oxs = ox>>4;
-    const int oys = oy>>4;
-    const int dxxs = dxx>>4;
-    const int dxys = dxy>>4;
-    const int dyxs = dyx>>4;
-    const int dyys = dyy>>4;
-    const uint16_t r4[4] = {r,r,r,r};
-    const uint16_t dxy4[4] = {dxys,dxys,dxys,dxys};
-    const uint16_t dyy4[4] = {dyys,dyys,dyys,dyys};
-    const uint64_t shift2 = 2*shift;
+    const int ix = ox >> (16 + shift);
+    const int iy = oy >> (16 + shift);
+    const int oxs = ox >> 4;
+    const int oys = oy >> 4;
+    const int dxxs = dxx >> 4;
+    const int dxys = dxy >> 4;
+    const int dyxs = dyx >> 4;
+    const int dyys = dyy >> 4;
+    const uint16_t r4[4] = {r, r, r, r};
+    const uint16_t dxy4[4] = {dxys, dxys, dxys, dxys};
+    const uint16_t dyy4[4] = {dyys, dyys, dyys, dyys};
+    const uint64_t shift2 = 2 * shift;
     uint8_t edge_buf[(h+1)*stride];
     int x, y;
 
-    const int dxw = (dxx-(1<<(16+shift)))*(w-1);
-    const int dyh = (dyy-(1<<(16+shift)))*(h-1);
-    const int dxh = dxy*(h-1);
-    const int dyw = dyx*(w-1);
+    const int dxw = (dxx - (1 << (16 + shift))) * (w - 1);
+    const int dyh = (dyy - (1 << (16 + shift))) * (h - 1);
+    const int dxh = dxy * (h - 1);
+    const int dyw = dyx * (w - 1);
     if( // non-constant fullpel offset (3% of blocks)
-        ((ox^(ox+dxw)) | (ox^(ox+dxh)) | (ox^(ox+dxw+dxh)) |
-         (oy^(oy+dyw)) | (oy^(oy+dyh)) | (oy^(oy+dyw+dyh))) >> (16+shift)
+        ((ox ^(ox + dxw)) | (ox ^(ox + dxh)) | (ox ^(ox + dxw + dxh)) |
+    (oy ^(oy + dyw)) | (oy ^(oy + dyh)) | (oy ^(oy + dyw + dyh))) >> (16 + shift)
         // uses more than 16 bits of subpel mv (only at huge resolution)
-        || (dxx|dxy|dyx|dyy)&15 )
+        || (dxx | dxy | dyx | dyy) & 15)
     {
         //FIXME could still use mmx for some of the rows
         ff_gmc_c(dst, src, stride, h, ox, oy, dxx, dxy, dyx, dyy, shift, r, width, height);
         return;
     }
 
-    src += ix + iy*stride;
-    if( (unsigned)ix >= width-w ||
-        (unsigned)iy >= height-h )
+    src += ix + iy * stride;
+    if((unsigned)ix >= width - w ||
+    (unsigned)iy >= height - h)
     {
-        ff_emulated_edge_mc(edge_buf, src, stride, w+1, h+1, ix, iy, width, height);
+        ff_emulated_edge_mc(edge_buf, src, stride, w + 1, h + 1, ix, iy, width, height);
         src = edge_buf;
     }
 
@@ -1733,17 +1749,23 @@ static void gmc_mmx(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int o
         :: "r"(1<<shift)
     );
 
-    for(x=0; x<w; x+=4){
-        uint16_t dx4[4] = { oxs - dxys + dxxs*(x+0),
-                            oxs - dxys + dxxs*(x+1),
-                            oxs - dxys + dxxs*(x+2),
-                            oxs - dxys + dxxs*(x+3) };
-        uint16_t dy4[4] = { oys - dyys + dyxs*(x+0),
-                            oys - dyys + dyxs*(x+1),
-                            oys - dyys + dyxs*(x+2),
-                            oys - dyys + dyxs*(x+3) };
+    for(x = 0; x < w; x += 4)
+    {
+        uint16_t dx4[4] = {
+            oxs - dxys + dxxs*(x + 0),
+            oxs - dxys + dxxs*(x + 1),
+            oxs - dxys + dxxs*(x + 2),
+            oxs - dxys + dxxs*(x + 3)
+        };
+        uint16_t dy4[4] = {
+            oys - dyys + dyxs*(x + 0),
+            oys - dyys + dyxs*(x + 1),
+            oys - dyys + dyxs*(x + 2),
+            oys - dyys + dyxs*(x + 3)
+        };
 
-        for(y=0; y<h; y++){
+        for(y = 0; y < h; y++)
+        {
             __asm__ volatile(
                 "movq   %0,  %%mm4 \n\t"
                 "movq   %1,  %%mm5 \n\t"
@@ -1793,12 +1815,12 @@ static void gmc_mmx(uint8_t *dst, uint8_t *src, int stride, int h, int ox, int o
 
                 : "=m"(dst[x+y*stride])
                 : "m"(src[0]), "m"(src[1]),
-                  "m"(src[stride]), "m"(src[stride+1]),
-                  "m"(*r4), "m"(shift2)
+                "m"(src[stride]), "m"(src[stride+1]),
+                "m"(*r4), "m"(shift2)
             );
             src += stride;
         }
-        src += 4-h*stride;
+        src += 4 - h * stride;
     }
 }
 
@@ -1821,26 +1843,32 @@ PREFETCH(prefetch_3dnow, prefetch)
 void ff_cavsdsp_init_mmx2(DSPContext* c, AVCodecContext *avctx);
 void ff_cavsdsp_init_3dnow(DSPContext* c, AVCodecContext *avctx);
 
-void ff_put_cavs_qpel8_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
+void ff_put_cavs_qpel8_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride)
+{
     put_pixels8_mmx(dst, src, stride, 8);
 }
-void ff_avg_cavs_qpel8_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
+void ff_avg_cavs_qpel8_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride)
+{
     avg_pixels8_mmx(dst, src, stride, 8);
 }
-void ff_put_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
+void ff_put_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride)
+{
     put_pixels16_mmx(dst, src, stride, 16);
 }
-void ff_avg_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
+void ff_avg_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride)
+{
     avg_pixels16_mmx(dst, src, stride, 16);
 }
 
 /* VC1 specific */
 void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx);
 
-void ff_put_vc1_mspel_mc00_mmx(uint8_t *dst, const uint8_t *src, int stride, int rnd) {
+void ff_put_vc1_mspel_mc00_mmx(uint8_t *dst, const uint8_t *src, int stride, int rnd)
+{
     put_pixels8_mmx(dst, src, stride, 8);
 }
-void ff_avg_vc1_mspel_mc00_mmx2(uint8_t *dst, const uint8_t *src, int stride, int rnd) {
+void ff_avg_vc1_mspel_mc00_mmx2(uint8_t *dst, const uint8_t *src, int stride, int rnd)
+{
     avg_pixels8_mmx2(dst, src, stride, 8);
 }
 
@@ -1853,43 +1881,43 @@ void ff_mmxext_idct(DCTELEM *block);
 #if CONFIG_GPL
 static void ff_libmpeg2mmx_idct_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_mmx_idct (block);
+    ff_mmx_idct(block);
     put_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_libmpeg2mmx_idct_add(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_mmx_idct (block);
+    ff_mmx_idct(block);
     add_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_libmpeg2mmx2_idct_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_mmxext_idct (block);
+    ff_mmxext_idct(block);
     put_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_libmpeg2mmx2_idct_add(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_mmxext_idct (block);
+    ff_mmxext_idct(block);
     add_pixels_clamped_mmx(block, dest, line_size);
 }
 #endif
 static void ff_idct_xvid_mmx_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_idct_xvid_mmx (block);
+    ff_idct_xvid_mmx(block);
     put_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_idct_xvid_mmx_add(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_idct_xvid_mmx (block);
+    ff_idct_xvid_mmx(block);
     add_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_idct_xvid_mmx2_put(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_idct_xvid_mmx2 (block);
+    ff_idct_xvid_mmx2(block);
     put_pixels_clamped_mmx(block, dest, line_size);
 }
 static void ff_idct_xvid_mmx2_add(uint8_t *dest, int line_size, DCTELEM *block)
 {
-    ff_idct_xvid_mmx2 (block);
+    ff_idct_xvid_mmx2(block);
     add_pixels_clamped_mmx(block, dest, line_size);
 }
 
@@ -1897,7 +1925,8 @@ static void vorbis_inverse_coupling_3dnow(float *mag, float *ang, int blocksize)
 {
     int i;
     __asm__ volatile("pxor %%mm7, %%mm7":);
-    for(i=0; i<blocksize; i+=2) {
+    for(i = 0; i < blocksize; i += 2)
+    {
         __asm__ volatile(
             "movq    %0,    %%mm0 \n\t"
             "movq    %1,    %%mm1 \n\t"
@@ -1925,10 +1954,11 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
     int i;
 
     __asm__ volatile(
-            "movaps  %0,     %%xmm5 \n\t"
+        "movaps  %0,     %%xmm5 \n\t"
         ::"m"(ff_pdw_80000000[0])
     );
-    for(i=0; i<blocksize; i+=4) {
+    for(i = 0; i < blocksize; i += 4)
+    {
         __asm__ volatile(
             "movaps  %0,     %%xmm0 \n\t"
             "movaps  %1,     %%xmm1 \n\t"
@@ -2015,19 +2045,24 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
         :"memory"\
     );
 
-static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len)
+static void ac3_downmix_sse(float(*samples)[256], float(*matrix)[2], int out_ch, int in_ch, int len)
 {
     int (*matrix_cmp)[2] = (int(*)[2])matrix;
-    intptr_t i,j,k;
+    intptr_t i, j, k;
 
-    i = -len*sizeof(float);
-    if(in_ch == 5 && out_ch == 2 && !(matrix_cmp[0][1]|matrix_cmp[2][0]|matrix_cmp[3][1]|matrix_cmp[4][0]|(matrix_cmp[1][0]^matrix_cmp[1][1])|(matrix_cmp[0][0]^matrix_cmp[2][1]))) {
-        MIX5(IF0,IF1);
-    } else if(in_ch == 5 && out_ch == 1 && matrix_cmp[0][0]==matrix_cmp[2][0] && matrix_cmp[3][0]==matrix_cmp[4][0]) {
-        MIX5(IF1,IF0);
-    } else {
+    i = -len * sizeof(float);
+    if(in_ch == 5 && out_ch == 2 && !(matrix_cmp[0][1] | matrix_cmp[2][0] | matrix_cmp[3][1] | matrix_cmp[4][0] | (matrix_cmp[1][0] ^ matrix_cmp[1][1]) | (matrix_cmp[0][0] ^ matrix_cmp[2][1])))
+    {
+        MIX5(IF0, IF1);
+    }
+    else if(in_ch == 5 && out_ch == 1 && matrix_cmp[0][0] == matrix_cmp[2][0] && matrix_cmp[3][0] == matrix_cmp[4][0])
+    {
+        MIX5(IF1, IF0);
+    }
+    else
+    {
         DECLARE_ALIGNED_16(float, matrix_simd)[in_ch][2][4];
-        j = 2*in_ch*sizeof(float);
+        j = 2 * in_ch * sizeof(float);
         __asm__ volatile(
             "1: \n"
             "sub $8, %0 \n"
@@ -2042,16 +2077,20 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
             :"r"(matrix_simd), "r"(matrix)
             :"memory"
         );
-        if(out_ch == 2) {
+        if(out_ch == 2)
+        {
             MIX_MISC(IF1);
-        } else {
+        }
+        else
+        {
             MIX_MISC(IF0);
         }
     }
 }
 
-static void vector_fmul_3dnow(float *dst, const float *src, int len){
-    x86_reg i = (len-4)*4;
+static void vector_fmul_3dnow(float *dst, const float *src, int len)
+{
+    x86_reg i = (len - 4) * 4;
     __asm__ volatile(
         "1: \n\t"
         "movq    (%1,%0), %%mm0 \n\t"
@@ -2068,8 +2107,9 @@ static void vector_fmul_3dnow(float *dst, const float *src, int len){
         :"memory"
     );
 }
-static void vector_fmul_sse(float *dst, const float *src, int len){
-    x86_reg i = (len-8)*4;
+static void vector_fmul_sse(float *dst, const float *src, int len)
+{
+    x86_reg i = (len - 8) * 4;
     __asm__ volatile(
         "1: \n\t"
         "movaps    (%1,%0), %%xmm0 \n\t"
@@ -2086,8 +2126,9 @@ static void vector_fmul_sse(float *dst, const float *src, int len){
     );
 }
 
-static void vector_fmul_reverse_3dnow2(float *dst, const float *src0, const float *src1, int len){
-    x86_reg i = len*4-16;
+static void vector_fmul_reverse_3dnow2(float *dst, const float *src0, const float *src1, int len)
+{
+    x86_reg i = len * 4 - 16;
     __asm__ volatile(
         "1: \n\t"
         "pswapd   8(%1), %%mm0 \n\t"
@@ -2104,8 +2145,9 @@ static void vector_fmul_reverse_3dnow2(float *dst, const float *src0, const floa
     );
     __asm__ volatile("femms");
 }
-static void vector_fmul_reverse_sse(float *dst, const float *src0, const float *src1, int len){
-    x86_reg i = len*4-32;
+static void vector_fmul_reverse_sse(float *dst, const float *src0, const float *src1, int len)
+{
+    x86_reg i = len * 4 - 32;
     __asm__ volatile(
         "1: \n\t"
         "movaps        16(%1), %%xmm0 \n\t"
@@ -2125,8 +2167,9 @@ static void vector_fmul_reverse_sse(float *dst, const float *src0, const float *
 }
 
 static void vector_fmul_add_3dnow(float *dst, const float *src0, const float *src1,
-                                  const float *src2, int len){
-    x86_reg i = (len-4)*4;
+const float *src2, int len)
+{
+    x86_reg i = (len - 4) * 4;
     __asm__ volatile(
         "1: \n\t"
         "movq    (%2,%0), %%mm0 \n\t"
@@ -2146,8 +2189,9 @@ static void vector_fmul_add_3dnow(float *dst, const float *src0, const float *sr
     __asm__ volatile("femms");
 }
 static void vector_fmul_add_sse(float *dst, const float *src0, const float *src1,
-                                const float *src2, int len){
-    x86_reg i = (len-8)*4;
+const float *src2, int len)
+{
+    x86_reg i = (len - 8) * 4;
     __asm__ volatile(
         "1: \n\t"
         "movaps   (%2,%0), %%xmm0 \n\t"
@@ -2167,11 +2211,13 @@ static void vector_fmul_add_sse(float *dst, const float *src0, const float *src1
 }
 
 static void vector_fmul_window_3dnow2(float *dst, const float *src0, const float *src1,
-                                      const float *win, float add_bias, int len){
+const float *win, float add_bias, int len)
+{
 #if HAVE_6REGS
-    if(add_bias == 0){
-        x86_reg i = -len*4;
-        x86_reg j = len*4-8;
+    if(add_bias == 0)
+    {
+        x86_reg i = -len * 4;
+        x86_reg j = len * 4 - 8;
         __asm__ volatile(
             "1: \n"
             "pswapd  (%5,%1), %%mm1 \n"
@@ -2196,17 +2242,20 @@ static void vector_fmul_window_3dnow2(float *dst, const float *src0, const float
             :"+r"(i), "+r"(j)
             :"r"(dst+len), "r"(src0+len), "r"(src1), "r"(win+len)
         );
-    }else
+    }
+    else
 #endif
         ff_vector_fmul_window_c(dst, src0, src1, win, add_bias, len);
 }
 
 static void vector_fmul_window_sse(float *dst, const float *src0, const float *src1,
-                                   const float *win, float add_bias, int len){
+const float *win, float add_bias, int len)
+{
 #if HAVE_6REGS
-    if(add_bias == 0){
-        x86_reg i = -len*4;
-        x86_reg j = len*4-16;
+    if(add_bias == 0)
+    {
+        x86_reg i = -len * 4;
+        x86_reg j = len * 4 - 16;
         __asm__ volatile(
             "1: \n"
             "movaps       (%5,%1), %%xmm1 \n"
@@ -2232,14 +2281,15 @@ static void vector_fmul_window_sse(float *dst, const float *src0, const float *s
             :"+r"(i), "+r"(j)
             :"r"(dst+len), "r"(src0+len), "r"(src1), "r"(win+len)
         );
-    }else
+    }
+    else
 #endif
         ff_vector_fmul_window_c(dst, src0, src1, win, add_bias, len);
 }
 
 static void int32_to_float_fmul_scalar_sse(float *dst, const int *src, float mul, int len)
 {
-    x86_reg i = -4*len;
+    x86_reg i = -4 * len;
     __asm__ volatile(
         "movss  %3, %%xmm4 \n"
         "shufps $0, %%xmm4, %%xmm4 \n"
@@ -2263,7 +2313,7 @@ static void int32_to_float_fmul_scalar_sse(float *dst, const int *src, float mul
 
 static void int32_to_float_fmul_scalar_sse2(float *dst, const int *src, float mul, int len)
 {
-    x86_reg i = -4*len;
+    x86_reg i = -4 * len;
     __asm__ volatile(
         "movss  %3, %%xmm4 \n"
         "shufps $0, %%xmm4, %%xmm4 \n"
@@ -2281,7 +2331,8 @@ static void int32_to_float_fmul_scalar_sse2(float *dst, const int *src, float mu
     );
 }
 
-static void float_to_int16_3dnow(int16_t *dst, const float *src, long len){
+static void float_to_int16_3dnow(int16_t *dst, const float *src, long len)
+{
     x86_reg reglen = len;
     // not bit-exact: pf2id uses different rounding than C and SSE
     __asm__ volatile(
@@ -2304,7 +2355,8 @@ static void float_to_int16_3dnow(int16_t *dst, const float *src, long len){
         :"+r"(reglen), "+r"(dst), "+r"(src)
     );
 }
-static void float_to_int16_sse(int16_t *dst, const float *src, long len){
+static void float_to_int16_sse(int16_t *dst, const float *src, long len)
+{
     x86_reg reglen = len;
     __asm__ volatile(
         "add        %0          , %0        \n\t"
@@ -2327,7 +2379,8 @@ static void float_to_int16_sse(int16_t *dst, const float *src, long len){
     );
 }
 
-static void float_to_int16_sse2(int16_t *dst, const float *src, long len){
+static void float_to_int16_sse2(int16_t *dst, const float *src, long len)
+{
     x86_reg reglen = len;
     __asm__ volatile(
         "add        %0          , %0        \n\t"
@@ -2366,8 +2419,8 @@ void ff_x264_deblock_h_luma_intra_sse2(uint8_t *pix, int stride, int alpha, int 
 void ff_x264_deblock_v8_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta);
 static void ff_x264_deblock_v_luma_intra_mmxext(uint8_t *pix, int stride, int alpha, int beta)
 {
-    ff_x264_deblock_v8_luma_intra_mmxext(pix+0, stride, alpha, beta);
-    ff_x264_deblock_v8_luma_intra_mmxext(pix+8, stride, alpha, beta);
+    ff_x264_deblock_v8_luma_intra_mmxext(pix + 0, stride, alpha, beta);
+    ff_x264_deblock_v8_luma_intra_mmxext(pix + 8, stride, alpha, beta);
 }
 #elif !HAVE_YASM
 #define ff_float_to_int16_interleave6_sse(a,b,c)   float_to_int16_interleave_misc_sse(a,b,c,6)
@@ -2411,55 +2464,56 @@ static void float_to_int16_interleave_##cpu(int16_t *dst, const float **src, lon
 }
 
 FLOAT_TO_INT16_INTERLEAVE(3dnow,
-    "1:                         \n"
-    "pf2id     (%2,%0), %%mm0   \n"
-    "pf2id    8(%2,%0), %%mm1   \n"
-    "pf2id     (%3,%0), %%mm2   \n"
-    "pf2id    8(%3,%0), %%mm3   \n"
-    "packssdw    %%mm1, %%mm0   \n"
-    "packssdw    %%mm3, %%mm2   \n"
-    "movq        %%mm0, %%mm1   \n"
-    "punpcklwd   %%mm2, %%mm0   \n"
-    "punpckhwd   %%mm2, %%mm1   \n"
-    "movq        %%mm0,  (%1,%0)\n"
-    "movq        %%mm1, 8(%1,%0)\n"
-    "add $16, %0                \n"
-    "js 1b                      \n"
-    "femms                      \n"
-)
+"1:                         \n"
+"pf2id     (%2,%0), %%mm0   \n"
+"pf2id    8(%2,%0), %%mm1   \n"
+"pf2id     (%3,%0), %%mm2   \n"
+"pf2id    8(%3,%0), %%mm3   \n"
+"packssdw    %%mm1, %%mm0   \n"
+"packssdw    %%mm3, %%mm2   \n"
+"movq        %%mm0, %%mm1   \n"
+"punpcklwd   %%mm2, %%mm0   \n"
+"punpckhwd   %%mm2, %%mm1   \n"
+"movq        %%mm0,  (%1,%0)\n"
+"movq        %%mm1, 8(%1,%0)\n"
+"add $16, %0                \n"
+"js 1b                      \n"
+"femms                      \n"
+                         )
 
 FLOAT_TO_INT16_INTERLEAVE(sse,
-    "1:                         \n"
-    "cvtps2pi  (%2,%0), %%mm0   \n"
-    "cvtps2pi 8(%2,%0), %%mm1   \n"
-    "cvtps2pi  (%3,%0), %%mm2   \n"
-    "cvtps2pi 8(%3,%0), %%mm3   \n"
-    "packssdw    %%mm1, %%mm0   \n"
-    "packssdw    %%mm3, %%mm2   \n"
-    "movq        %%mm0, %%mm1   \n"
-    "punpcklwd   %%mm2, %%mm0   \n"
-    "punpckhwd   %%mm2, %%mm1   \n"
-    "movq        %%mm0,  (%1,%0)\n"
-    "movq        %%mm1, 8(%1,%0)\n"
-    "add $16, %0                \n"
-    "js 1b                      \n"
-    "emms                       \n"
-)
+"1:                         \n"
+"cvtps2pi  (%2,%0), %%mm0   \n"
+"cvtps2pi 8(%2,%0), %%mm1   \n"
+"cvtps2pi  (%3,%0), %%mm2   \n"
+"cvtps2pi 8(%3,%0), %%mm3   \n"
+"packssdw    %%mm1, %%mm0   \n"
+"packssdw    %%mm3, %%mm2   \n"
+"movq        %%mm0, %%mm1   \n"
+"punpcklwd   %%mm2, %%mm0   \n"
+"punpckhwd   %%mm2, %%mm1   \n"
+"movq        %%mm0,  (%1,%0)\n"
+"movq        %%mm1, 8(%1,%0)\n"
+"add $16, %0                \n"
+"js 1b                      \n"
+"emms                       \n"
+                         )
 
 FLOAT_TO_INT16_INTERLEAVE(sse2,
-    "1:                         \n"
-    "cvtps2dq  (%2,%0), %%xmm0  \n"
-    "cvtps2dq  (%3,%0), %%xmm1  \n"
-    "packssdw   %%xmm1, %%xmm0  \n"
-    "movhlps    %%xmm0, %%xmm1  \n"
-    "punpcklwd  %%xmm1, %%xmm0  \n"
-    "movdqa     %%xmm0, (%1,%0) \n"
-    "add $16, %0                \n"
-    "js 1b                      \n"
-)
+"1:                         \n"
+"cvtps2dq  (%2,%0), %%xmm0  \n"
+"cvtps2dq  (%3,%0), %%xmm1  \n"
+"packssdw   %%xmm1, %%xmm0  \n"
+"movhlps    %%xmm0, %%xmm1  \n"
+"punpcklwd  %%xmm1, %%xmm0  \n"
+"movdqa     %%xmm0, (%1,%0) \n"
+"add $16, %0                \n"
+"js 1b                      \n"
+                         )
 
-static void float_to_int16_interleave_3dn2(int16_t *dst, const float **src, long len, int channels){
-    if(channels==6)
+static void float_to_int16_interleave_3dn2(int16_t *dst, const float **src, long len, int channels)
+{
+    if(channels == 6)
         ff_float_to_int16_interleave6_3dn2(dst, src, len);
     else
         float_to_int16_interleave_3dnow(dst, src, len, channels);
@@ -2471,8 +2525,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 {
     mm_flags = mm_support();
 
-    if (avctx->dsp_mask) {
-        if (avctx->dsp_mask & FF_MM_FORCE)
+    if(avctx->dsp_mask)
+    {
+        if(avctx->dsp_mask & FF_MM_FORCE)
             mm_flags |= (avctx->dsp_mask & 0xffff);
         else
             mm_flags &= ~(avctx->dsp_mask & 0xffff);
@@ -2480,69 +2535,91 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
 #if 0
     av_log(avctx, AV_LOG_INFO, "libavcodec: CPU flags:");
-    if (mm_flags & FF_MM_MMX)
+    if(mm_flags & FF_MM_MMX)
         av_log(avctx, AV_LOG_INFO, " mmx");
-    if (mm_flags & FF_MM_MMX2)
+    if(mm_flags & FF_MM_MMX2)
         av_log(avctx, AV_LOG_INFO, " mmx2");
-    if (mm_flags & FF_MM_3DNOW)
+    if(mm_flags & FF_MM_3DNOW)
         av_log(avctx, AV_LOG_INFO, " 3dnow");
-    if (mm_flags & FF_MM_SSE)
+    if(mm_flags & FF_MM_SSE)
         av_log(avctx, AV_LOG_INFO, " sse");
-    if (mm_flags & FF_MM_SSE2)
+    if(mm_flags & FF_MM_SSE2)
         av_log(avctx, AV_LOG_INFO, " sse2");
     av_log(avctx, AV_LOG_INFO, "\n");
 #endif
 
-    if (mm_flags & FF_MM_MMX) {
-        const int idct_algo= avctx->idct_algo;
+    if(mm_flags & FF_MM_MMX)
+    {
+        const int idct_algo = avctx->idct_algo;
 
-        if(avctx->lowres==0){
-            if(idct_algo==FF_IDCT_AUTO || idct_algo==FF_IDCT_SIMPLEMMX){
-                c->idct_put= ff_simple_idct_put_mmx;
-                c->idct_add= ff_simple_idct_add_mmx;
+        if(avctx->lowres == 0)
+        {
+            if(idct_algo == FF_IDCT_AUTO || idct_algo == FF_IDCT_SIMPLEMMX)
+            {
+                c->idct_put = ff_simple_idct_put_mmx;
+                c->idct_add = ff_simple_idct_add_mmx;
                 c->idct    = ff_simple_idct_mmx;
-                c->idct_permutation_type= FF_SIMPLE_IDCT_PERM;
+                c->idct_permutation_type = FF_SIMPLE_IDCT_PERM;
 #if CONFIG_GPL
-            }else if(idct_algo==FF_IDCT_LIBMPEG2MMX){
-                if(mm_flags & FF_MM_MMX2){
-                    c->idct_put= ff_libmpeg2mmx2_idct_put;
-                    c->idct_add= ff_libmpeg2mmx2_idct_add;
+            }
+            else if(idct_algo == FF_IDCT_LIBMPEG2MMX)
+            {
+                if(mm_flags & FF_MM_MMX2)
+                {
+                    c->idct_put = ff_libmpeg2mmx2_idct_put;
+                    c->idct_add = ff_libmpeg2mmx2_idct_add;
                     c->idct    = ff_mmxext_idct;
-                }else{
-                    c->idct_put= ff_libmpeg2mmx_idct_put;
-                    c->idct_add= ff_libmpeg2mmx_idct_add;
+                }
+                else
+                {
+                    c->idct_put = ff_libmpeg2mmx_idct_put;
+                    c->idct_add = ff_libmpeg2mmx_idct_add;
                     c->idct    = ff_mmx_idct;
                 }
-                c->idct_permutation_type= FF_LIBMPEG2_IDCT_PERM;
+                c->idct_permutation_type = FF_LIBMPEG2_IDCT_PERM;
 #endif
-            }else if((CONFIG_VP3_DECODER || CONFIG_VP5_DECODER || CONFIG_VP6_DECODER) &&
-                     idct_algo==FF_IDCT_VP3){
-                if(mm_flags & FF_MM_SSE2){
-                    c->idct_put= ff_vp3_idct_put_sse2;
-                    c->idct_add= ff_vp3_idct_add_sse2;
+            }
+            else if((CONFIG_VP3_DECODER || CONFIG_VP5_DECODER || CONFIG_VP6_DECODER) &&
+            idct_algo == FF_IDCT_VP3)
+            {
+                if(mm_flags & FF_MM_SSE2)
+                {
+                    c->idct_put = ff_vp3_idct_put_sse2;
+                    c->idct_add = ff_vp3_idct_add_sse2;
                     c->idct    = ff_vp3_idct_sse2;
-                    c->idct_permutation_type= FF_TRANSPOSE_IDCT_PERM;
-                }else{
-                    c->idct_put= ff_vp3_idct_put_mmx;
-                    c->idct_add= ff_vp3_idct_add_mmx;
-                    c->idct    = ff_vp3_idct_mmx;
-                    c->idct_permutation_type= FF_PARTTRANS_IDCT_PERM;
+                    c->idct_permutation_type = FF_TRANSPOSE_IDCT_PERM;
                 }
-            }else if(idct_algo==FF_IDCT_CAVS){
-                    c->idct_permutation_type= FF_TRANSPOSE_IDCT_PERM;
-            }else if(idct_algo==FF_IDCT_XVIDMMX){
-                if(mm_flags & FF_MM_SSE2){
-                    c->idct_put= ff_idct_xvid_sse2_put;
-                    c->idct_add= ff_idct_xvid_sse2_add;
+                else
+                {
+                    c->idct_put = ff_vp3_idct_put_mmx;
+                    c->idct_add = ff_vp3_idct_add_mmx;
+                    c->idct    = ff_vp3_idct_mmx;
+                    c->idct_permutation_type = FF_PARTTRANS_IDCT_PERM;
+                }
+            }
+            else if(idct_algo == FF_IDCT_CAVS)
+            {
+                c->idct_permutation_type = FF_TRANSPOSE_IDCT_PERM;
+            }
+            else if(idct_algo == FF_IDCT_XVIDMMX)
+            {
+                if(mm_flags & FF_MM_SSE2)
+                {
+                    c->idct_put = ff_idct_xvid_sse2_put;
+                    c->idct_add = ff_idct_xvid_sse2_add;
                     c->idct    = ff_idct_xvid_sse2;
-                    c->idct_permutation_type= FF_SSE2_IDCT_PERM;
-                }else if(mm_flags & FF_MM_MMX2){
-                    c->idct_put= ff_idct_xvid_mmx2_put;
-                    c->idct_add= ff_idct_xvid_mmx2_add;
+                    c->idct_permutation_type = FF_SSE2_IDCT_PERM;
+                }
+                else if(mm_flags & FF_MM_MMX2)
+                {
+                    c->idct_put = ff_idct_xvid_mmx2_put;
+                    c->idct_add = ff_idct_xvid_mmx2_add;
                     c->idct    = ff_idct_xvid_mmx2;
-                }else{
-                    c->idct_put= ff_idct_xvid_mmx_put;
-                    c->idct_add= ff_idct_xvid_mmx_add;
+                }
+                else
+                {
+                    c->idct_put = ff_idct_xvid_mmx_put;
+                    c->idct_add = ff_idct_xvid_mmx_add;
                     c->idct    = ff_idct_xvid_mmx;
                 }
             }
@@ -2553,7 +2630,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         c->add_pixels_clamped = add_pixels_clamped_mmx;
         c->clear_block  = clear_block_mmx;
         c->clear_blocks = clear_blocks_mmx;
-        if (mm_flags & FF_MM_SSE){
+        if(mm_flags & FF_MM_SSE)
+        {
             c->clear_block  = clear_block_sse;
             c->clear_blocks = clear_blocks_sse;
         }
@@ -2573,39 +2651,42 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         SET_HPEL_FUNCS(avg, 1, 8, mmx);
         SET_HPEL_FUNCS(avg_no_rnd, 1, 8, mmx);
 
-        c->gmc= gmc_mmx;
+        c->gmc = gmc_mmx;
 
-        c->add_bytes= add_bytes_mmx;
-        c->add_bytes_l2= add_bytes_l2_mmx;
+        c->add_bytes = add_bytes_mmx;
+        c->add_bytes_l2 = add_bytes_l2_mmx;
 
         c->draw_edges = draw_edges_mmx;
 
-        if (CONFIG_H263_DECODER || CONFIG_H263_ENCODER) {
-            c->h263_v_loop_filter= h263_v_loop_filter_mmx;
-            c->h263_h_loop_filter= h263_h_loop_filter_mmx;
+        if(CONFIG_H263_DECODER || CONFIG_H263_ENCODER)
+        {
+            c->h263_v_loop_filter = h263_v_loop_filter_mmx;
+            c->h263_h_loop_filter = h263_h_loop_filter_mmx;
         }
-        c->put_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_mmx_rnd;
-        c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_mmx;
-        c->put_no_rnd_vc1_chroma_pixels_tab[0]= put_vc1_chroma_mc8_mmx_nornd;
+        c->put_h264_chroma_pixels_tab[0] = put_h264_chroma_mc8_mmx_rnd;
+        c->put_h264_chroma_pixels_tab[1] = put_h264_chroma_mc4_mmx;
+        c->put_no_rnd_vc1_chroma_pixels_tab[0] = put_vc1_chroma_mc8_mmx_nornd;
 
-        c->put_rv40_chroma_pixels_tab[0]= put_rv40_chroma_mc8_mmx;
-        c->put_rv40_chroma_pixels_tab[1]= put_rv40_chroma_mc4_mmx;
+        c->put_rv40_chroma_pixels_tab[0] = put_rv40_chroma_mc8_mmx;
+        c->put_rv40_chroma_pixels_tab[1] = put_rv40_chroma_mc4_mmx;
 
-        c->h264_idct_dc_add=
-        c->h264_idct_add= ff_h264_idct_add_mmx;
-        c->h264_idct8_dc_add=
-        c->h264_idct8_add= ff_h264_idct8_add_mmx;
+        c->h264_idct_dc_add =
+        c->h264_idct_add = ff_h264_idct_add_mmx;
+        c->h264_idct8_dc_add =
+        c->h264_idct8_add = ff_h264_idct8_add_mmx;
 
         c->h264_idct_add16     = ff_h264_idct_add16_mmx;
         c->h264_idct8_add4     = ff_h264_idct8_add4_mmx;
         c->h264_idct_add8      = ff_h264_idct_add8_mmx;
-        c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx;
+        c->h264_idct_add16intra = ff_h264_idct_add16intra_mmx;
 
-        if (CONFIG_VP6_DECODER) {
+        if(CONFIG_VP6_DECODER)
+        {
             c->vp6_filter_diag4 = ff_vp6_filter_diag4_mmx;
         }
 
-        if (mm_flags & FF_MM_MMX2) {
+        if(mm_flags & FF_MM_MMX2)
+        {
             c->prefetch = prefetch_mmx2;
 
             c->put_pixels_tab[0][1] = put_pixels16_x2_mmx2;
@@ -2622,14 +2703,15 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_pixels_tab[1][1] = avg_pixels8_x2_mmx2;
             c->avg_pixels_tab[1][2] = avg_pixels8_y2_mmx2;
 
-            c->h264_idct_dc_add= ff_h264_idct_dc_add_mmx2;
-            c->h264_idct8_dc_add= ff_h264_idct8_dc_add_mmx2;
+            c->h264_idct_dc_add = ff_h264_idct_dc_add_mmx2;
+            c->h264_idct8_dc_add = ff_h264_idct8_dc_add_mmx2;
             c->h264_idct_add16     = ff_h264_idct_add16_mmx2;
             c->h264_idct8_add4     = ff_h264_idct8_add4_mmx2;
             c->h264_idct_add8      = ff_h264_idct_add8_mmx2;
-            c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx2;
+            c->h264_idct_add16intra = ff_h264_idct_add16intra_mmx2;
 
-            if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+            if(!(avctx->flags & CODEC_FLAG_BITEXACT))
+            {
                 c->put_no_rnd_pixels_tab[0][1] = put_no_rnd_pixels16_x2_mmx2;
                 c->put_no_rnd_pixels_tab[0][2] = put_no_rnd_pixels16_y2_mmx2;
                 c->put_no_rnd_pixels_tab[1][1] = put_no_rnd_pixels8_x2_mmx2;
@@ -2637,9 +2719,10 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                 c->avg_pixels_tab[0][3] = avg_pixels16_xy2_mmx2;
                 c->avg_pixels_tab[1][3] = avg_pixels8_xy2_mmx2;
 
-                if (CONFIG_VP3_DECODER) {
-                    c->vp3_v_loop_filter= ff_vp3_v_loop_filter_mmx2;
-                    c->vp3_h_loop_filter= ff_vp3_h_loop_filter_mmx2;
+                if(CONFIG_VP3_DECODER)
+                {
+                    c->vp3_v_loop_filter = ff_vp3_v_loop_filter_mmx2;
+                    c->vp3_h_loop_filter = ff_vp3_h_loop_filter_mmx2;
                 }
             }
 
@@ -2680,57 +2763,59 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             SET_QPEL_FUNCS(avg_2tap_qpel, 0, 16, mmx2);
             SET_QPEL_FUNCS(avg_2tap_qpel, 1, 8, mmx2);
 
-            c->avg_rv40_chroma_pixels_tab[0]= avg_rv40_chroma_mc8_mmx2;
-            c->avg_rv40_chroma_pixels_tab[1]= avg_rv40_chroma_mc4_mmx2;
+            c->avg_rv40_chroma_pixels_tab[0] = avg_rv40_chroma_mc8_mmx2;
+            c->avg_rv40_chroma_pixels_tab[1] = avg_rv40_chroma_mc4_mmx2;
 
-            c->avg_no_rnd_vc1_chroma_pixels_tab[0]= avg_vc1_chroma_mc8_mmx2_nornd;
+            c->avg_no_rnd_vc1_chroma_pixels_tab[0] = avg_vc1_chroma_mc8_mmx2_nornd;
 
-            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_mmx2_rnd;
-            c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_mmx2;
-            c->avg_h264_chroma_pixels_tab[2]= avg_h264_chroma_mc2_mmx2;
-            c->put_h264_chroma_pixels_tab[2]= put_h264_chroma_mc2_mmx2;
-            c->h264_v_loop_filter_luma= h264_v_loop_filter_luma_mmx2;
-            c->h264_h_loop_filter_luma= h264_h_loop_filter_luma_mmx2;
-            c->h264_v_loop_filter_chroma= h264_v_loop_filter_chroma_mmx2;
-            c->h264_h_loop_filter_chroma= h264_h_loop_filter_chroma_mmx2;
-            c->h264_v_loop_filter_chroma_intra= h264_v_loop_filter_chroma_intra_mmx2;
-            c->h264_h_loop_filter_chroma_intra= h264_h_loop_filter_chroma_intra_mmx2;
-            c->h264_loop_filter_strength= h264_loop_filter_strength_mmx2;
+            c->avg_h264_chroma_pixels_tab[0] = avg_h264_chroma_mc8_mmx2_rnd;
+            c->avg_h264_chroma_pixels_tab[1] = avg_h264_chroma_mc4_mmx2;
+            c->avg_h264_chroma_pixels_tab[2] = avg_h264_chroma_mc2_mmx2;
+            c->put_h264_chroma_pixels_tab[2] = put_h264_chroma_mc2_mmx2;
+            c->h264_v_loop_filter_luma = h264_v_loop_filter_luma_mmx2;
+            c->h264_h_loop_filter_luma = h264_h_loop_filter_luma_mmx2;
+            c->h264_v_loop_filter_chroma = h264_v_loop_filter_chroma_mmx2;
+            c->h264_h_loop_filter_chroma = h264_h_loop_filter_chroma_mmx2;
+            c->h264_v_loop_filter_chroma_intra = h264_v_loop_filter_chroma_intra_mmx2;
+            c->h264_h_loop_filter_chroma_intra = h264_h_loop_filter_chroma_intra_mmx2;
+            c->h264_loop_filter_strength = h264_loop_filter_strength_mmx2;
 
-            c->weight_h264_pixels_tab[0]= ff_h264_weight_16x16_mmx2;
-            c->weight_h264_pixels_tab[1]= ff_h264_weight_16x8_mmx2;
-            c->weight_h264_pixels_tab[2]= ff_h264_weight_8x16_mmx2;
-            c->weight_h264_pixels_tab[3]= ff_h264_weight_8x8_mmx2;
-            c->weight_h264_pixels_tab[4]= ff_h264_weight_8x4_mmx2;
-            c->weight_h264_pixels_tab[5]= ff_h264_weight_4x8_mmx2;
-            c->weight_h264_pixels_tab[6]= ff_h264_weight_4x4_mmx2;
-            c->weight_h264_pixels_tab[7]= ff_h264_weight_4x2_mmx2;
+            c->weight_h264_pixels_tab[0] = ff_h264_weight_16x16_mmx2;
+            c->weight_h264_pixels_tab[1] = ff_h264_weight_16x8_mmx2;
+            c->weight_h264_pixels_tab[2] = ff_h264_weight_8x16_mmx2;
+            c->weight_h264_pixels_tab[3] = ff_h264_weight_8x8_mmx2;
+            c->weight_h264_pixels_tab[4] = ff_h264_weight_8x4_mmx2;
+            c->weight_h264_pixels_tab[5] = ff_h264_weight_4x8_mmx2;
+            c->weight_h264_pixels_tab[6] = ff_h264_weight_4x4_mmx2;
+            c->weight_h264_pixels_tab[7] = ff_h264_weight_4x2_mmx2;
 
-            c->biweight_h264_pixels_tab[0]= ff_h264_biweight_16x16_mmx2;
-            c->biweight_h264_pixels_tab[1]= ff_h264_biweight_16x8_mmx2;
-            c->biweight_h264_pixels_tab[2]= ff_h264_biweight_8x16_mmx2;
-            c->biweight_h264_pixels_tab[3]= ff_h264_biweight_8x8_mmx2;
-            c->biweight_h264_pixels_tab[4]= ff_h264_biweight_8x4_mmx2;
-            c->biweight_h264_pixels_tab[5]= ff_h264_biweight_4x8_mmx2;
-            c->biweight_h264_pixels_tab[6]= ff_h264_biweight_4x4_mmx2;
-            c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
+            c->biweight_h264_pixels_tab[0] = ff_h264_biweight_16x16_mmx2;
+            c->biweight_h264_pixels_tab[1] = ff_h264_biweight_16x8_mmx2;
+            c->biweight_h264_pixels_tab[2] = ff_h264_biweight_8x16_mmx2;
+            c->biweight_h264_pixels_tab[3] = ff_h264_biweight_8x8_mmx2;
+            c->biweight_h264_pixels_tab[4] = ff_h264_biweight_8x4_mmx2;
+            c->biweight_h264_pixels_tab[5] = ff_h264_biweight_4x8_mmx2;
+            c->biweight_h264_pixels_tab[6] = ff_h264_biweight_4x4_mmx2;
+            c->biweight_h264_pixels_tab[7] = ff_h264_biweight_4x2_mmx2;
 
 #if HAVE_YASM && ARCH_X86_32
             c->add_hfyu_median_prediction = ff_add_hfyu_median_prediction_mmx2;
 #endif
 #if HAVE_7REGS && HAVE_TEN_OPERANDS
-            if( mm_flags&FF_MM_3DNOW )
+            if(mm_flags & FF_MM_3DNOW)
                 c->add_hfyu_median_prediction = add_hfyu_median_prediction_cmov;
 #endif
 
-            if (CONFIG_CAVS_DECODER)
+            if(CONFIG_CAVS_DECODER)
                 ff_cavsdsp_init_mmx2(c, avctx);
 
-            if (CONFIG_VC1_DECODER)
+            if(CONFIG_VC1_DECODER)
                 ff_vc1dsp_init_mmx(c, avctx);
 
-            c->add_png_paeth_prediction= add_png_paeth_prediction_mmx2;
-        } else if (mm_flags & FF_MM_3DNOW) {
+            c->add_png_paeth_prediction = add_png_paeth_prediction_mmx2;
+        }
+        else if(mm_flags & FF_MM_3DNOW)
+        {
             c->prefetch = prefetch_3dnow;
 
             c->put_pixels_tab[0][1] = put_pixels16_x2_3dnow;
@@ -2747,7 +2832,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_pixels_tab[1][1] = avg_pixels8_x2_3dnow;
             c->avg_pixels_tab[1][2] = avg_pixels8_y2_3dnow;
 
-            if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+            if(!(avctx->flags & CODEC_FLAG_BITEXACT))
+            {
                 c->put_no_rnd_pixels_tab[0][1] = put_no_rnd_pixels16_x2_3dnow;
                 c->put_no_rnd_pixels_tab[0][2] = put_no_rnd_pixels16_y2_3dnow;
                 c->put_no_rnd_pixels_tab[1][1] = put_no_rnd_pixels8_x2_3dnow;
@@ -2775,13 +2861,13 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             SET_QPEL_FUNCS(avg_2tap_qpel, 0, 16, 3dnow);
             SET_QPEL_FUNCS(avg_2tap_qpel, 1, 8, 3dnow);
 
-            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_3dnow_rnd;
-            c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_3dnow;
+            c->avg_h264_chroma_pixels_tab[0] = avg_h264_chroma_mc8_3dnow_rnd;
+            c->avg_h264_chroma_pixels_tab[1] = avg_h264_chroma_mc4_3dnow;
 
-            c->avg_rv40_chroma_pixels_tab[0]= avg_rv40_chroma_mc8_3dnow;
-            c->avg_rv40_chroma_pixels_tab[1]= avg_rv40_chroma_mc4_3dnow;
+            c->avg_rv40_chroma_pixels_tab[0] = avg_rv40_chroma_mc8_3dnow;
+            c->avg_rv40_chroma_pixels_tab[1] = avg_rv40_chroma_mc4_3dnow;
 
-            if (CONFIG_CAVS_DECODER)
+            if(CONFIG_CAVS_DECODER)
                 ff_cavsdsp_init_3dnow(c, avctx);
         }
 
@@ -2791,17 +2877,19 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->put_h264_qpel_pixels_tab[1][x+y*4] = put_h264_qpel8_mc##x##y##_##CPU;\
             c->avg_h264_qpel_pixels_tab[0][x+y*4] = avg_h264_qpel16_mc##x##y##_##CPU;\
             c->avg_h264_qpel_pixels_tab[1][x+y*4] = avg_h264_qpel8_mc##x##y##_##CPU;
-        if((mm_flags & FF_MM_SSE2) && !(mm_flags & FF_MM_3DNOW)){
+        if((mm_flags & FF_MM_SSE2) && !(mm_flags & FF_MM_3DNOW))
+        {
             // these functions are slower than mmx on AMD, but faster on Intel
-/* FIXME works in most codecs, but crashes svq1 due to unaligned chroma
-            c->put_pixels_tab[0][0] = put_pixels16_sse2;
-            c->avg_pixels_tab[0][0] = avg_pixels16_sse2;
-*/
+            /* FIXME works in most codecs, but crashes svq1 due to unaligned chroma
+                        c->put_pixels_tab[0][0] = put_pixels16_sse2;
+                        c->avg_pixels_tab[0][0] = avg_pixels16_sse2;
+            */
             H264_QPEL_FUNCS(0, 0, sse2);
         }
-        if(mm_flags & FF_MM_SSE2){
+        if(mm_flags & FF_MM_SSE2)
+        {
             c->h264_idct8_add = ff_h264_idct8_add_sse2;
-            c->h264_idct8_add4= ff_h264_idct8_add4_sse2;
+            c->h264_idct8_add4 = ff_h264_idct8_add4_sse2;
 
             H264_QPEL_FUNCS(0, 1, sse2);
             H264_QPEL_FUNCS(0, 2, sse2);
@@ -2816,12 +2904,14 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             H264_QPEL_FUNCS(3, 2, sse2);
             H264_QPEL_FUNCS(3, 3, sse2);
 
-            if (CONFIG_VP6_DECODER) {
+            if(CONFIG_VP6_DECODER)
+            {
                 c->vp6_filter_diag4 = ff_vp6_filter_diag4_sse2;
             }
         }
 #if HAVE_SSSE3
-        if(mm_flags & FF_MM_SSSE3){
+        if(mm_flags & FF_MM_SSSE3)
+        {
             H264_QPEL_FUNCS(1, 0, ssse3);
             H264_QPEL_FUNCS(1, 1, ssse3);
             H264_QPEL_FUNCS(1, 2, ssse3);
@@ -2834,28 +2924,30 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             H264_QPEL_FUNCS(3, 1, ssse3);
             H264_QPEL_FUNCS(3, 2, ssse3);
             H264_QPEL_FUNCS(3, 3, ssse3);
-            c->put_no_rnd_vc1_chroma_pixels_tab[0]= put_vc1_chroma_mc8_ssse3_nornd;
-            c->avg_no_rnd_vc1_chroma_pixels_tab[0]= avg_vc1_chroma_mc8_ssse3_nornd;
-            c->put_h264_chroma_pixels_tab[0]= put_h264_chroma_mc8_ssse3_rnd;
-            c->avg_h264_chroma_pixels_tab[0]= avg_h264_chroma_mc8_ssse3_rnd;
-            c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
-            c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
-            c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
+            c->put_no_rnd_vc1_chroma_pixels_tab[0] = put_vc1_chroma_mc8_ssse3_nornd;
+            c->avg_no_rnd_vc1_chroma_pixels_tab[0] = avg_vc1_chroma_mc8_ssse3_nornd;
+            c->put_h264_chroma_pixels_tab[0] = put_h264_chroma_mc8_ssse3_rnd;
+            c->avg_h264_chroma_pixels_tab[0] = avg_h264_chroma_mc8_ssse3_rnd;
+            c->put_h264_chroma_pixels_tab[1] = put_h264_chroma_mc4_ssse3;
+            c->avg_h264_chroma_pixels_tab[1] = avg_h264_chroma_mc4_ssse3;
+            c->add_png_paeth_prediction = add_png_paeth_prediction_ssse3;
 #if HAVE_YASM && ARCH_X86_32
             c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_ssse3;
-            if (mm_flags & FF_MM_SSE4) // not really sse4, just slow on Conroe
+            if(mm_flags & FF_MM_SSE4)  // not really sse4, just slow on Conroe
                 c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_sse4;
 #endif
         }
 #endif
 
 #if CONFIG_GPL && HAVE_YASM && ARCH_X86_32
-        if (mm_flags & FF_MM_MMX2){
+        if(mm_flags & FF_MM_MMX2)
+        {
 #if ARCH_X86_32
             c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;
             c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_mmxext;
 #endif
-            if( mm_flags&FF_MM_SSE2 ){
+            if(mm_flags & FF_MM_SSE2)
+            {
 #if ARCH_X86_64 || !defined(__ICC) || __ICC > 1110
                 c->h264_v_loop_filter_luma = ff_x264_deblock_v_luma_sse2;
                 c->h264_h_loop_filter_luma = ff_x264_deblock_h_luma_sse2;
@@ -2869,24 +2961,29 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
 #endif
 
-/* disable audio related ASM for 64-bit builds */
+        /* disable audio related ASM for 64-bit builds */
 #if ARCH_X86_32
-        if(mm_flags & FF_MM_3DNOW){
+        if(mm_flags & FF_MM_3DNOW)
+        {
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
             c->vector_fmul = vector_fmul_3dnow;
-            if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+            if(!(avctx->flags & CODEC_FLAG_BITEXACT))
+            {
                 c->float_to_int16 = float_to_int16_3dnow;
                 c->float_to_int16_interleave = float_to_int16_interleave_3dnow;
             }
         }
-        if(mm_flags & FF_MM_3DNOWEXT){
+        if(mm_flags & FF_MM_3DNOWEXT)
+        {
             c->vector_fmul_reverse = vector_fmul_reverse_3dnow2;
             c->vector_fmul_window = vector_fmul_window_3dnow2;
-            if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
+            if(!(avctx->flags & CODEC_FLAG_BITEXACT))
+            {
                 c->float_to_int16_interleave = float_to_int16_interleave_3dn2;
             }
         }
-        if(mm_flags & FF_MM_SSE){
+        if(mm_flags & FF_MM_SSE)
+        {
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_sse;
             c->ac3_downmix = ac3_downmix_sse;
             c->vector_fmul = vector_fmul_sse;
@@ -2904,7 +3001,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
         if(mm_flags & FF_MM_3DNOW)
             c->vector_fmul_add = vector_fmul_add_3dnow; // faster than sse
-        if(mm_flags & FF_MM_SSE2){
+        if(mm_flags & FF_MM_SSE2)
+        {
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse2;
             c->float_to_int16 = float_to_int16_sse2;
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
@@ -2912,27 +3010,27 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #endif /* ARCH_X86_32 */
     }
 
-    if (CONFIG_ENCODERS)
+    if(CONFIG_ENCODERS)
         dsputilenc_init_mmx(c, avctx);
 }
 
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
+const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx, DSPContext *c)
 {
-    if (c->idct_put==ff_idct_xvid_mmx_put)
+    if(c->idct_put == ff_idct_xvid_mmx_put)
         return "Xvid (ff_idct_xvid_mmx)";
-    if (c->idct_put==ff_idct_xvid_mmx2_put)
+    if(c->idct_put == ff_idct_xvid_mmx2_put)
         return "Xvid (ff_idct_xvid_mmx2)";
-    if (c->idct_put==ff_idct_xvid_sse2_put)
+    if(c->idct_put == ff_idct_xvid_sse2_put)
         return "Xvid (ff_idct_xvid_sse2)";
-    if (c->idct_put==ff_simple_idct_put_mmx)
+    if(c->idct_put == ff_simple_idct_put_mmx)
         return "Simple MMX (ff_simple_idct_mmx)";
-    if (c->idct_put==ff_libmpeg2mmx2_idct_put)
+    if(c->idct_put == ff_libmpeg2mmx2_idct_put)
         return "libmpeg2 (ff_libmpeg2mmx2_idct)";
-    if (c->idct_put==ff_libmpeg2mmx_idct_put)
+    if(c->idct_put == ff_libmpeg2mmx_idct_put)
         return "libmpeg2 (ff_libmpeg2mmx_idct)";
-    if (c->idct_put==ff_vp3_idct_put_sse2)
+    if(c->idct_put == ff_vp3_idct_put_sse2)
         return "VP3 (ff_vp3_idct_sse2)";
-    if (c->idct_put==ff_vp3_idct_put_mmx)
+    if(c->idct_put == ff_vp3_idct_put_mmx)
         return "VP3 (ff_vp3_idct_mmx)";
     return NULL;
 }

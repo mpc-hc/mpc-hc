@@ -44,8 +44,9 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_IsltAtom, AP4_Atom)
 
     // class methods
-    static AP4_IsltAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
-        if (size != AP4_ATOM_HEADER_SIZE+8) return NULL;
+    static AP4_IsltAtom* Create(AP4_Size size, AP4_ByteStream& stream)
+    {
+        if(size != AP4_ATOM_HEADER_SIZE + 8) return NULL;
         return new AP4_IsltAtom(size, stream);
     }
 
@@ -55,7 +56,10 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    const AP4_UI08* GetSalt() { return m_Salt; }
+    const AP4_UI08* GetSalt()
+    {
+        return m_Salt;
+    }
 
 private:
     // methods

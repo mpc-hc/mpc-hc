@@ -37,11 +37,11 @@
 /*----------------------------------------------------------------------
 |   AP4_DataBuffer
 +---------------------------------------------------------------------*/
-class AP4_DataBuffer 
+class AP4_DataBuffer
 {
- public:
+public:
     // constructors & destructor
-    AP4_DataBuffer();              
+    AP4_DataBuffer();
     AP4_DataBuffer(AP4_Size size);
     AP4_DataBuffer(const void* data, AP4_Size data_size);
     AP4_DataBuffer(const AP4_DataBuffer& other);
@@ -50,19 +50,31 @@ class AP4_DataBuffer
     // data buffer handling methods
     AP4_Result SetBuffer(AP4_Byte* buffer, AP4_Size buffer_size);
     AP4_Result SetBufferSize(AP4_Size buffer_size);
-    AP4_Size   GetBufferSize() const { return m_BufferSize; }
+    AP4_Size   GetBufferSize() const
+    {
+        return m_BufferSize;
+    }
 
     // data handling methods
-    const AP4_Byte* GetData() const { return m_Buffer; }
-    AP4_Byte*       UseData() { return m_Buffer; };
-    AP4_Size        GetDataSize() const { return m_DataSize; }
+    const AP4_Byte* GetData() const
+    {
+        return m_Buffer;
+    }
+    AP4_Byte*       UseData()
+    {
+        return m_Buffer;
+    };
+    AP4_Size        GetDataSize() const
+    {
+        return m_DataSize;
+    }
     AP4_Result      SetDataSize(AP4_Size size);
     AP4_Result      SetData(const AP4_Byte* data, AP4_Size data_size);
 
     // memory management
     AP4_Result      Reserve(AP4_Size size);
 
- protected:
+protected:
     // members
     bool      m_BufferIsLocal;
     AP4_Byte* m_Buffer;
@@ -76,6 +88,6 @@ private:
     // forbid this
     AP4_DataBuffer& operator=(const AP4_DataBuffer& other);
 };
-   
+
 #endif // _AP4_DATA_BUFFER_H_
 

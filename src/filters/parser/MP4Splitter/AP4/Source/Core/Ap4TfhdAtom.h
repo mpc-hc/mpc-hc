@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tfhd Atoms 
+|    AP4 - tfhd Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -57,7 +57,7 @@ public:
     static AP4_UI32      ComputeSize(AP4_UI32 flags);
 
     // methods
-    AP4_TfhdAtom(AP4_UI32 flags, 
+    AP4_TfhdAtom(AP4_UI32 flags,
                  AP4_UI32 track_id,
                  AP4_UI64 base_data_offset,
                  AP4_UI32 sample_description_index,
@@ -67,22 +67,58 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    AP4_UI32 GetTrackId()                                { return m_TrackId;                   }
-    void     SetTrackId(AP4_UI32 track_id)               { m_TrackId = track_id;               }
-    AP4_UI64 GetBaseDataOffset()                         { return m_BaseDataOffset;            }
-    void     SetBaseDataOffset(AP4_UI64 offset)          { m_BaseDataOffset = offset;          }
-    AP4_UI32 GetSampleDescriptionIndex()                 { return m_SampleDescriptionIndex;    }
-    void     SetSampleDescriptionIndex(AP4_UI32 indx)    { m_SampleDescriptionIndex = indx;    }
-    AP4_UI32 GetDefaultSampleDuration()                  { return m_DefaultSampleDuration;     }
-    void     SetDefaultSampleDuration(AP4_UI32 duration) { m_DefaultSampleDuration = duration; }
-    AP4_UI32 GetDefaultSampleSize()                      { return m_DefaultSampleSize;         }
-    void     SetDefaultSampleSize(AP4_UI32 size)         { m_DefaultSampleSize = size;         }
-    AP4_UI32 GetDefaultSampleFlags()                     { return m_DefaultSampleFlags;        }
-    void     SetDefaultSampleFlags(AP4_UI32 flags)       { m_DefaultSampleFlags = flags;       }
+    AP4_UI32 GetTrackId()
+    {
+        return m_TrackId;
+    }
+    void     SetTrackId(AP4_UI32 track_id)
+    {
+        m_TrackId = track_id;
+    }
+    AP4_UI64 GetBaseDataOffset()
+    {
+        return m_BaseDataOffset;
+    }
+    void     SetBaseDataOffset(AP4_UI64 offset)
+    {
+        m_BaseDataOffset = offset;
+    }
+    AP4_UI32 GetSampleDescriptionIndex()
+    {
+        return m_SampleDescriptionIndex;
+    }
+    void     SetSampleDescriptionIndex(AP4_UI32 indx)
+    {
+        m_SampleDescriptionIndex = indx;
+    }
+    AP4_UI32 GetDefaultSampleDuration()
+    {
+        return m_DefaultSampleDuration;
+    }
+    void     SetDefaultSampleDuration(AP4_UI32 duration)
+    {
+        m_DefaultSampleDuration = duration;
+    }
+    AP4_UI32 GetDefaultSampleSize()
+    {
+        return m_DefaultSampleSize;
+    }
+    void     SetDefaultSampleSize(AP4_UI32 size)
+    {
+        m_DefaultSampleSize = size;
+    }
+    AP4_UI32 GetDefaultSampleFlags()
+    {
+        return m_DefaultSampleFlags;
+    }
+    void     SetDefaultSampleFlags(AP4_UI32 flags)
+    {
+        m_DefaultSampleFlags = flags;
+    }
 
 private:
     // methods
-    AP4_TfhdAtom(AP4_UI32        size, 
+    AP4_TfhdAtom(AP4_UI32        size,
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

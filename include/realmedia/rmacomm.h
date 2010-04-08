@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: rmacomm.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *  
+ *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -32,28 +32,28 @@ typedef _INTERFACE	IRMAServerControl		IRMAServerControl;
 typedef _INTERFACE	IRMAReconfigServerResponse	IRMAReconfigServerResponse;
 typedef _INTERFACE	IRMABuffer			IRMABuffer;
 typedef _INTERFACE	IRMAWantServerReconfigNotification
-						IRMAWantServerReconfigNotification;  
+IRMAWantServerReconfigNotification;
 typedef _INTERFACE	IRMAFastAlloc			IRMAFastAlloc;
 
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMACommonClassFactory
- * 
+ *
  *  Purpose:
- * 
+ *
  *	RMA interface that manages the creation of common RMA classes.
- * 
+ *
  *  IID_IRMACommonClassFactory:
- * 
+ *
  *	{00000000-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
-DEFINE_GUID(IID_IRMACommonClassFactory, 0x00000000, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMACommonClassFactory, 0x00000000, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMACommonClassFactory
@@ -63,13 +63,13 @@ DECLARE_INTERFACE_(IRMACommonClassFactory, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMACommonClassFactory methods
@@ -82,7 +82,7 @@ DECLARE_INTERFACE_(IRMACommonClassFactory, IUnknown)
      *	    Creates instances of common objects supported by the system,
      *	    like IRMABuffer, IRMAPacket, IRMAValues, etc.
      *
-     *	    This method is similar to Window's CoCreateInstance() in its 
+     *	    This method is similar to Window's CoCreateInstance() in its
      *	    purpose, except that it only creates objects of a well known
      *	    types.
      *
@@ -90,9 +90,9 @@ DECLARE_INTERFACE_(IRMACommonClassFactory, IUnknown)
      *	    not passed to this function, and you do not need to code for this
      *	    situation.
      */
-    STDMETHOD(CreateInstance)		(THIS_
-					REFCLSID    /*IN*/  rclsid,
-					void**	    /*OUT*/ ppUnknown) PURE;
+    STDMETHOD(CreateInstance)(THIS_
+                              REFCLSID    /*IN*/  rclsid,
+                              void**	    /*OUT*/ ppUnknown) PURE;
 
     /************************************************************************
      *  Method:
@@ -101,41 +101,41 @@ DECLARE_INTERFACE_(IRMACommonClassFactory, IUnknown)
      *	    Creates instances of common objects that can be aggregated
      *	    supported by the system, like IRMASiteWindowed
      *
-     *	    This method is similar to Window's CoCreateInstance() in its 
+     *	    This method is similar to Window's CoCreateInstance() in its
      *	    purpose, except that it only creates objects of a well known
      *	    types.
      *
      *	    NOTE 1: Unlike CreateInstance, this method will create internal
      *		    objects that support Aggregation.
      *
-     *	    NOTE 2: The output interface is always the non-delegating 
+     *	    NOTE 2: The output interface is always the non-delegating
      *		    IUnknown.
      */
     STDMETHOD(CreateInstanceAggregatable)
-				    (THIS_
-				    REFCLSID	    /*IN*/  rclsid,
-				    REF(IUnknown*)  /*OUT*/ ppUnknown,
-				    IUnknown*	    /*IN*/  pUnkOuter) PURE;
+    (THIS_
+     REFCLSID	    /*IN*/  rclsid,
+     REF(IUnknown*)  /*OUT*/ ppUnknown,
+     IUnknown*	    /*IN*/  pUnkOuter) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAStatistics
- * 
+ *
  *  Purpose:
- * 
+ *
  *	This interface allows update of the client statistics.
- * 
+ *
  *  IID_IRMAStatistics:
- * 
+ *
  *	{00000001-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
-DEFINE_GUID(IID_IRMAStatistics, 0x00000001, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-	    0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAStatistics, 0x00000001, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAStatistics
@@ -145,13 +145,13 @@ DECLARE_INTERFACE_(IRMAStatistics, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAStatistics methods
@@ -164,8 +164,8 @@ DECLARE_INTERFACE_(IRMAStatistics, IUnknown)
      *	    Pass registry ID to the caller
      *
      */
-    STDMETHOD(InitializeStatistics)	(THIS_
-					UINT32	/*IN*/  ulRegistryID) PURE;
+    STDMETHOD(InitializeStatistics)(THIS_
+                                    UINT32	/*IN*/  ulRegistryID) PURE;
 
     /************************************************************************
      *	Method:
@@ -174,29 +174,29 @@ DECLARE_INTERFACE_(IRMAStatistics, IUnknown)
      *	    Notify the client to update its statistics stored in the registry
      *
      */
-    STDMETHOD(UpdateStatistics)		(THIS) PURE;
+    STDMETHOD(UpdateStatistics)(THIS) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMARegistryID
- * 
+ *
  *  Purpose:
- * 
+ *
  *	This interface is implemented by IRMAPlayer, IRMAStreamSource,
  *	and IRMAStream.  It allows the user to get the registry Base ID,
  *	for an object that you have a pointer to.
- * 
+ *
  *  IID_IRMARegistryID:
- * 
+ *
  *	{00000002-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
-DEFINE_GUID(IID_IRMARegistryID, 0x00000002, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-	    0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMARegistryID, 0x00000002, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMARegistryID
@@ -206,13 +206,13 @@ DECLARE_INTERFACE_(IRMARegistryID, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMARegistryID methods
@@ -225,18 +225,18 @@ DECLARE_INTERFACE_(IRMARegistryID, IUnknown)
      *	    Get the registry ID of the object.
      *
      */
-    STDMETHOD(GetID)	(THIS_
-			REF(UINT32)	/*OUT*/  ulRegistryID) PURE;
+    STDMETHOD(GetID)(THIS_
+                     REF(UINT32)	/*OUT*/  ulRegistryID) PURE;
 };
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAServerFork
- * 
+ *
  *  Purpose:
- * 
+ *
  *	This interface is implemented by the server context on Unix
  *	platforms.  This interface allows your plugin to fork off a
  *	process.  Note that the process that is forked off cannot use
@@ -244,12 +244,12 @@ DECLARE_INTERFACE_(IRMARegistryID, IUnknown)
  *	a RMA plugin.
  *
  *  IID_IRMAServerFork:
- * 
+ *
  *	{00000003-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
-DEFINE_GUID(IID_IRMAServerFork, 0x00000003, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-	    0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAServerFork, 0x00000003, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAServerFork
@@ -259,13 +259,13 @@ DECLARE_INTERFACE_(IRMAServerFork, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAServerFork methods
@@ -285,11 +285,11 @@ DECLARE_INTERFACE_(IRMAServerFork, IUnknown)
      *		RMA interfaces is done by the parent.
      *
      */
-    STDMETHOD_(INT32, Fork)	(THIS) PURE;
+    STDMETHOD_(INT32, Fork)(THIS) PURE;
 };
 
 /*
- * 
+ *
  *  Interface:
  *
  *	IRMAServerControl
@@ -306,7 +306,7 @@ DECLARE_INTERFACE_(IRMAServerFork, IUnknown)
  *	{00000004-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAServerControl, 0x00000004, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+DEFINE_GUID(IID_IRMAServerControl, 0x00000004, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
             0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #define CLSID_IRMAServerControl	IID_IRMAServerControl
@@ -319,13 +319,13 @@ DECLARE_INTERFACE_(IRMAServerControl, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAServerControl methods
@@ -337,12 +337,12 @@ DECLARE_INTERFACE_(IRMAServerControl, IUnknown)
      *  Purpose:
      *      Shutdown the server.
      */
-    STDMETHOD(ShutdownServer)		(THIS_
-					UINT32 status) PURE;
+    STDMETHOD(ShutdownServer)(THIS_
+                              UINT32 status) PURE;
 };
 
 /*
- * 
+ *
  *  Interface:
  *
  *	IRMAServerControl2
@@ -357,7 +357,7 @@ DECLARE_INTERFACE_(IRMAServerControl, IUnknown)
  *	{00000005-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAServerControl2, 0x00000005, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+DEFINE_GUID(IID_IRMAServerControl2, 0x00000005, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
             0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 
@@ -369,13 +369,13 @@ DECLARE_INTERFACE_(IRMAServerControl2, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAServerControl2 methods
@@ -389,7 +389,7 @@ DECLARE_INTERFACE_(IRMAServerControl2, IUnknown)
      *	    Completely shutdown the server, then restart.  Mainly used to
      * cause not hot setting config var changes to take effect.
      */
-    STDMETHOD(RestartServer) (THIS) PURE;
+    STDMETHOD(RestartServer)(THIS) PURE;
 
     /************************************************************************
      * IRMAServerControl2::ReconfigServer
@@ -399,12 +399,12 @@ DECLARE_INTERFACE_(IRMAServerControl2, IUnknown)
      *	    Used to cause the server to re-read in config from file or registry
      * (however it was started) and attempt to use the values.
      */
-    STDMETHOD(ReconfigServer)	(THIS_ IRMAReconfigServerResponse* pResp) PURE;
+    STDMETHOD(ReconfigServer)(THIS_ IRMAReconfigServerResponse * pResp) PURE;
 
 };
 
 /*
- * 
+ *
  *  Interface:
  *
  *	IRMAReconfigServerResponse
@@ -419,7 +419,7 @@ DECLARE_INTERFACE_(IRMAServerControl2, IUnknown)
  *	{00000006-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAReconfigServerResponse, 0x00000006, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+DEFINE_GUID(IID_IRMAReconfigServerResponse, 0x00000006, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
             0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 
@@ -431,13 +431,13 @@ DECLARE_INTERFACE_(IRMAReconfigServerResponse, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /************************************************************************
      * IRMAReconfigServerResponse::ReconfigServerDone
@@ -446,14 +446,14 @@ DECLARE_INTERFACE_(IRMAReconfigServerResponse, IUnknown)
      *
      *	    Notification that reconfiguring the server is done.
      */
-    STDMETHOD(ReconfigServerDone)   (THIS_
-				    PN_RESULT res,
-				    IRMABuffer** pInfo,
-				    UINT32 ulNumInfo) PURE;
+    STDMETHOD(ReconfigServerDone)(THIS_
+                                  PN_RESULT res,
+                                  IRMABuffer** pInfo,
+                                  UINT32 ulNumInfo) PURE;
 };
 
 /*
- * 
+ *
  *  Interface:
  *
  *	IRMAServerReconfigNotification
@@ -471,7 +471,7 @@ DECLARE_INTERFACE_(IRMAReconfigServerResponse, IUnknown)
  *	{00000007-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAServerReconfigNotification, 0x00000007, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+DEFINE_GUID(IID_IRMAServerReconfigNotification, 0x00000007, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
             0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 
@@ -483,13 +483,13 @@ DECLARE_INTERFACE_(IRMAServerReconfigNotification, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /************************************************************************
      * IRMAServerReconfigNotification::WantReconfigNotification
@@ -498,9 +498,9 @@ DECLARE_INTERFACE_(IRMAServerReconfigNotification, IUnknown)
      *
      *	    Tell the server that you want reconfig notification.
      */
-    STDMETHOD(WantReconfigNotification)	(THIS_
-		IRMAWantServerReconfigNotification* pResponse) PURE;
-    
+    STDMETHOD(WantReconfigNotification)(THIS_
+                                        IRMAWantServerReconfigNotification * pResponse) PURE;
+
     /************************************************************************
      * IRMAServerReconfigNotification::CancelReconfigNotification
      *
@@ -508,13 +508,13 @@ DECLARE_INTERFACE_(IRMAServerReconfigNotification, IUnknown)
      *
      *	    Tell the server that you no longer want reconfig notification.
      */
-    STDMETHOD(CancelReconfigNotification)   (THIS_
-		IRMAWantServerReconfigNotification* pResponse) PURE;
+    STDMETHOD(CancelReconfigNotification)(THIS_
+                                          IRMAWantServerReconfigNotification * pResponse) PURE;
 
 };
 
 /*
- * 
+ *
  *  Interface:
  *
  *	IRMAWantServerReconfigNotification
@@ -531,7 +531,7 @@ DECLARE_INTERFACE_(IRMAServerReconfigNotification, IUnknown)
  *	{00000008-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAWantServerReconfigNotification, 0x00000008, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+DEFINE_GUID(IID_IRMAWantServerReconfigNotification, 0x00000008, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
             0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 
@@ -543,13 +543,13 @@ DECLARE_INTERFACE_(IRMAWantServerReconfigNotification, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /************************************************************************
      * IRMAWantServerReconfigNotification::ServerReconfig
@@ -559,8 +559,8 @@ DECLARE_INTERFACE_(IRMAWantServerReconfigNotification, IUnknown)
      *	    Notify user that a server reconfig request had come in and it
      * is now your turn to do external (not server config) reconfiguration.*
      */
-    STDMETHOD(ServerReconfig)	(THIS_
-	IRMAReconfigServerResponse* pResponse) PURE;
+    STDMETHOD(ServerReconfig)(THIS_
+                              IRMAReconfigServerResponse * pResponse) PURE;
 
 };
 

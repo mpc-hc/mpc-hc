@@ -37,16 +37,17 @@
 #include "private/ogg_decoder_aspect.h"
 #endif
 
-typedef struct FLAC__StreamDecoderProtected {
-	FLAC__StreamDecoderState state;
-	unsigned channels;
-	FLAC__ChannelAssignment channel_assignment;
-	unsigned bits_per_sample;
-	unsigned sample_rate; /* in Hz */
-	unsigned blocksize; /* in samples (per channel) */
-	FLAC__bool md5_checking; /* if true, generate MD5 signature of decoded data and compare against signature in the STREAMINFO metadata block */
+typedef struct FLAC__StreamDecoderProtected
+{
+    FLAC__StreamDecoderState state;
+    unsigned channels;
+    FLAC__ChannelAssignment channel_assignment;
+    unsigned bits_per_sample;
+    unsigned sample_rate; /* in Hz */
+    unsigned blocksize; /* in samples (per channel) */
+    FLAC__bool md5_checking; /* if true, generate MD5 signature of decoded data and compare against signature in the STREAMINFO metadata block */
 #if FLAC__HAS_OGG
-	FLAC__OggDecoderAspect ogg_decoder_aspect;
+    FLAC__OggDecoderAspect ogg_decoder_aspect;
 #endif
 } FLAC__StreamDecoderProtected;
 

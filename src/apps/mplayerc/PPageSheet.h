@@ -49,56 +49,59 @@ using namespace TreePropSheet;
 
 class CTreePropSheetTreeCtrl : public CTreeCtrl
 {
-	DECLARE_DYNAMIC(CTreePropSheetTreeCtrl)
+    DECLARE_DYNAMIC(CTreePropSheetTreeCtrl)
 
 public:
-	CTreePropSheetTreeCtrl();
-	virtual ~CTreePropSheetTreeCtrl();
+    CTreePropSheetTreeCtrl();
+    virtual ~CTreePropSheetTreeCtrl();
 
 protected:
-	DECLARE_MESSAGE_MAP()
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    DECLARE_MESSAGE_MAP()
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 };
 
 // CPPageSheet
 
 class CPPageSheet : public CTreePropSheet
 {
-	DECLARE_DYNAMIC(CPPageSheet)
+    DECLARE_DYNAMIC(CPPageSheet)
 
 private:
-	bool m_bLockPage;
+    bool m_bLockPage;
 
-	CPPagePlayer m_player;
-	CPPageFormats m_formats;
-	CPPageAccelTbl m_acceltbl;
-	CPPageLogo m_logo;
-	CPPagePlayback m_playback;
-	CPPageDVD m_dvd;
-	CPPageOutput m_output;
-	CPPageFullscreen m_fullscreen;
-	CPPageSync m_sync;
-	CPPageWebServer m_webserver;
-	CPPageSubtitles m_subtitles;
-	CPPageSubStyle m_substyle;
-	CPPageSubDB m_subdb;
-	CPPageInternalFilters m_internalfilters;
-	CPPageAudioSwitcher m_audioswitcher;
-	CPPageExternalFilters m_externalfilters;
-	CPPageTweaks m_tweaks;
-	CPPageCasimir m_casimir;
-	CPPageCapture m_tuner;
+    CPPagePlayer m_player;
+    CPPageFormats m_formats;
+    CPPageAccelTbl m_acceltbl;
+    CPPageLogo m_logo;
+    CPPagePlayback m_playback;
+    CPPageDVD m_dvd;
+    CPPageOutput m_output;
+    CPPageFullscreen m_fullscreen;
+    CPPageSync m_sync;
+    CPPageWebServer m_webserver;
+    CPPageSubtitles m_subtitles;
+    CPPageSubStyle m_substyle;
+    CPPageSubDB m_subdb;
+    CPPageInternalFilters m_internalfilters;
+    CPPageAudioSwitcher m_audioswitcher;
+    CPPageExternalFilters m_externalfilters;
+    CPPageTweaks m_tweaks;
+    CPPageCasimir m_casimir;
+    CPPageCapture m_tuner;
 
-	CTreeCtrl* CreatePageTreeObject();
+    CTreeCtrl* CreatePageTreeObject();
 
 public:
-	CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
-	virtual ~CPPageSheet();
-	afx_msg void OnContextMenu(CWnd *pWnd, CPoint point);
+    CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd, UINT idPage = 0);
+    virtual ~CPPageSheet();
+    afx_msg void OnContextMenu(CWnd *pWnd, CPoint point);
 
-	void LockPage() { m_bLockPage = true; };
+    void LockPage()
+    {
+        m_bLockPage = true;
+    };
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 };

@@ -50,7 +50,7 @@
 #define mid_pred mid_pred
 static inline av_const int mid_pred(int a, int b, int c)
 {
-    int i=b;
+    int i = b;
     __asm__ volatile(
         "cmp    %2, %1 \n\t"
         "cmovg  %1, %0 \n\t"

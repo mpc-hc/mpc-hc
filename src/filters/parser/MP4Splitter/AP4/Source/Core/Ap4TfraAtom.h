@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tfra Atoms 
+|    AP4 - tfra Atoms
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -48,7 +48,8 @@ class AP4_TfraAtom : public AP4_Atom
 {
 public:
     // types
-    struct Entry {
+    struct Entry
+    {
         Entry() : m_Time(0), m_MoofOffset(0), m_TrafNumber(0), m_TrunNumber(0), m_SampleNumber(0) {}
         AP4_UI64 m_Time;
         AP4_UI64 m_MoofOffset;
@@ -56,11 +57,11 @@ public:
         AP4_UI32 m_TrunNumber;
         AP4_UI32 m_SampleNumber;
     };
-    
+
     // class methods
     static AP4_TfraAtom* Create(AP4_Size size, AP4_ByteStream& stream);
-    
-    // constructors 
+
+    // constructors
     AP4_TfraAtom();
 
     // methods
@@ -68,7 +69,10 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_Array<Entry>& GetEntries() { return m_Entries; }
+    AP4_Array<Entry>& GetEntries()
+    {
+        return m_Entries;
+    }
 
 private:
     // methods

@@ -27,36 +27,44 @@ int ff_split_xiph_headers(uint8_t *extradata, int extradata_size,
 {
     int i;
 
-    if (extradata_size >= 6 && AV_RB16(extradata) == first_header_size) {
+    if(extradata_size >= 6 && AV_RB16(extradata) == first_header_size)
+    {
         int overall_len = 6;
-        for (i=0; i<3; i++) {
+        for(i = 0; i < 3; i++)
+        {
             header_len[i] = AV_RB16(extradata);
             extradata += 2;
             header_start[i] = extradata;
             extradata += header_len[i];
-            if (overall_len > extradata_size - header_len[i])
+            if(overall_len > extradata_size - header_len[i])
                 return -1;
             overall_len += header_len[i];
         }
-    } else if (extradata_size >= 3 && extradata_size < INT_MAX - 0x1ff && extradata[0] == 2) {
+    }
+    else if(extradata_size >= 3 && extradata_size < INT_MAX - 0x1ff && extradata[0] == 2)
+    {
         int overall_len = 3;
         extradata++;
-        for (i=0; i<2; i++, extradata++) {
+        for(i = 0; i < 2; i++, extradata++)
+        {
             header_len[i] = 0;
-            for (; overall_len < extradata_size && *extradata==0xff; extradata++) {
+            for(; overall_len < extradata_size && *extradata == 0xff; extradata++)
+            {
                 header_len[i] += 0xff;
                 overall_len   += 0xff + 1;
             }
             header_len[i] += *extradata;
             overall_len   += *extradata;
-            if (overall_len > extradata_size)
+            if(overall_len > extradata_size)
                 return -1;
         }
         header_len[2] = extradata_size - overall_len;
         header_start[0] = extradata;
         header_start[1] = header_start[0] + header_len[0];
         header_start[2] = header_start[1] + header_len[1];
-    } else {
+    }
+    else
+    {
         return -1;
     }
     return 0;

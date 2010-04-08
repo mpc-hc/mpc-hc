@@ -46,9 +46,9 @@ using namespace std;
 
 
 EndOfSequenceByteIO::EndOfSequenceByteIO(const ByteIO& byte_io):
-ParseUnitByteIO(byte_io)
+    ParseUnitByteIO(byte_io)
 {
-   
+
 }
 
 
@@ -65,14 +65,14 @@ void EndOfSequenceByteIO::CollateByteStats(DiracByteStats& dirac_byte_stats)
 
 
 //-------------private-------------------------------------------------------
- 
+
 unsigned char EndOfSequenceByteIO::CalcParseCode() const
 {
     unsigned char code = 0;
 
-   // set end-of-sequence parse-code
-   SetBits(code, PARSE_CODE_END_OF_SEQUENCE);
+    // set end-of-sequence parse-code
+    SetBits(code, PARSE_CODE_END_OF_SEQUENCE);
 
-   return code;
+    return code;
 }
 

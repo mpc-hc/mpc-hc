@@ -31,7 +31,8 @@
 #define __CACHE__
 
 
-class CCache : CBaseObject {
+class CCache : CBaseObject
+{
 
     /* Make copy constructor and assignment operator inaccessible */
 
@@ -54,7 +55,7 @@ private:
 
 public:
 
-    CCache(__in_opt LPCTSTR pName,INT iItems);
+    CCache(__in_opt LPCTSTR pName, INT iItems);
     virtual ~CCache();
 
     /* Add an item to the cache */
@@ -67,7 +68,10 @@ public:
     void RemoveAll(void);
 
     /* Return the cache size which is set during construction */
-    INT GetCacheSize(void) const {return m_iCacheSize;};
+    INT GetCacheSize(void) const
+    {
+        return m_iCacheSize;
+    };
 };
 
 #endif /* __CACHE__ */

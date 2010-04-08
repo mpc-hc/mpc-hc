@@ -38,27 +38,27 @@
 
 AP4_FtabAtom::AP4_FtabAtom(AP4_Size         size,
                            AP4_ByteStream&  stream)
-	: AP4_Atom(AP4_ATOM_TYPE_FTAB)
+    : AP4_Atom(AP4_ATOM_TYPE_FTAB)
 {
-	AP4_UI16 entryCount;
+    AP4_UI16 entryCount;
     stream.ReadUI16(entryCount);
 
-	m_FontRecords.EnsureCapacity(entryCount);
+    m_FontRecords.EnsureCapacity(entryCount);
 
-	while(entryCount--)
-	{
-		AP4_Tx3gFontRecord fontRecord;
+    while(entryCount--)
+    {
+        AP4_Tx3gFontRecord fontRecord;
 
-		stream.ReadUI16(fontRecord.Id);
+        stream.ReadUI16(fontRecord.Id);
 
-		AP4_UI08 len;
-		stream.ReadUI08(len);
+        AP4_UI08 len;
+        stream.ReadUI08(len);
 
-		char buff[256];
-		stream.ReadString(buff, len+1);
+        char buff[256];
+        stream.ReadString(buff, len + 1);
 
-		fontRecord.Name = buff;
+        fontRecord.Name = buff;
 
-		m_FontRecords.Append(fontRecord);
-	}
+        m_FontRecords.Append(fontRecord);
+    }
 }

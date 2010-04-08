@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: rmaplugn.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -29,46 +29,46 @@ typedef _INTERFACE  IRMABuffer			    IRMABuffer;
 typedef _INTERFACE  IRMAValues			    IRMAValues;
 
 /****************************************************************************
- * 
+ *
  *  Function:
- * 
+ *
  *	RMACreateInstance()
- * 
+ *
  *  Purpose:
- * 
- *	Function implemented by all plugin DLL's to create an instance of 
- *	any of the objects supported by the DLL. This method is similar to 
- *	Window's CoCreateInstance() in its purpose, except that it only 
+ *
+ *	Function implemented by all plugin DLL's to create an instance of
+ *	any of the objects supported by the DLL. This method is similar to
+ *	Window's CoCreateInstance() in its purpose, except that it only
  *	creates objects from this plugin DLL.
  *
  *	NOTE: Aggregation is never used. Therefore an outer unknown is
  *	not passed to this function, and you do not need to code for this
  *	situation.
- * 
+ *
  */
 #ifdef _MACINTOSH
 #pragma export on
 #endif
 
 STDAPI RMACreateInstance
-		(
-		    IUnknown**  /*OUT*/	ppIUnknown
-		);
-		
+(
+    IUnknown**  /*OUT*/	ppIUnknown
+);
+
 #ifdef _MACINTOSH
 #pragma export off
 #endif
 
 
 /****************************************************************************
- * 
+ *
  *  Function:
- * 
+ *
  *	RMAShutdown()
- * 
+ *
  *  Purpose:
- * 
- *	Function implemented by all plugin DLL's to free any *global* 
+ *
+ *	Function implemented by all plugin DLL's to free any *global*
  *	resources. This method is called just before the DLL is unloaded.
  *
  */
@@ -77,31 +77,31 @@ STDAPI RMACreateInstance
 #endif
 
 STDAPI RMAShutdown(void);
-		
+
 #ifdef _MACINTOSH
 #pragma export off
 #endif
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPlugin
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Interface exposed by a plugin DLL to allow inspection of objects
  *	supported by the plugin DLL.
- * 
+ *
  *  IID_IRMAPlugin:
- * 
+ *
  *	{00000C00-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPlugin, 0x00000C00, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPlugin, 0x00000C00, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPlugin
@@ -111,13 +111,13 @@ DECLARE_INTERFACE_(IRMAPlugin, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPlugin methods
@@ -145,55 +145,55 @@ DECLARE_INTERFACE_(IRMAPlugin, IUnknown)
      *				performance reasons).
      *
      *				An example of a plugin, that must set this
-     *				flag to FALSE is a filesystem plugin that 
+     *				flag to FALSE is a filesystem plugin that
      *				uses a single TCP connection to communicate
      *				with a database.
-     *				
+     *
      *	    pDescription	which is used in about UIs (can be NULL)
      *	    pCopyright		which is used in about UIs (can be NULL)
      *	    pMoreInfoURL	which is used in about UIs (can be NULL)
      *	    ulVersionNumber	The version of this plugin.
      */
-    STDMETHOD(GetPluginInfo)	(THIS_
-				REF(BOOL)	 /*OUT*/ bMultipleLoad,
-				REF(const char*) /*OUT*/ pDescription,
-				REF(const char*) /*OUT*/ pCopyright,
-				REF(const char*) /*OUT*/ pMoreInfoURL,
-				REF(ULONG32)	 /*OUT*/ ulVersionNumber) PURE;
+    STDMETHOD(GetPluginInfo)(THIS_
+                             REF(BOOL)	 /*OUT*/ bMultipleLoad,
+                             REF(const char*) /*OUT*/ pDescription,
+                             REF(const char*) /*OUT*/ pCopyright,
+                             REF(const char*) /*OUT*/ pMoreInfoURL,
+                             REF(ULONG32)	 /*OUT*/ ulVersionNumber) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin::InitPlugin
      *	Purpose:
      *	    Initializes the plugin for use. This interface must always be
-     *	    called before any other method is called. This is primarily needed 
+     *	    called before any other method is called. This is primarily needed
      *	    so that the plugin can have access to the context for creation of
      *	    IRMABuffers and IMalloc.
      */
-    STDMETHOD(InitPlugin)   (THIS_
-			    IUnknown*   /*IN*/  pContext) PURE;
+    STDMETHOD(InitPlugin)(THIS_
+                          IUnknown*   /*IN*/  pContext) PURE;
 
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPluginEnumerator
- * 
+ *
  *  Purpose:
- * 
+ *
  *	provide methods to enumerate through all the plugins installed
- * 
+ *
  *  IID_IRMAPluginEnumerator:
- * 
+ *
  *	{00000C01-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPluginEnumerator, 0x00000C01, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-		0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPluginEnumerator, 0x00000C01, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPluginEnumerator
@@ -203,13 +203,13 @@ DECLARE_INTERFACE_(IRMAPluginEnumerator, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPluginEnumerator methods
@@ -219,11 +219,11 @@ DECLARE_INTERFACE_(IRMAPluginEnumerator, IUnknown)
      *	Method:
      *	    IRMAPluginEnumerator::GetNumOfPlugins
      *
-     *	Purpose:    
+     *	Purpose:
      *	    return the number of plugins available
      *
      */
-    STDMETHOD_(ULONG32,GetNumOfPlugins)	(THIS) PURE;
+    STDMETHOD_(ULONG32, GetNumOfPlugins)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -232,31 +232,31 @@ DECLARE_INTERFACE_(IRMAPluginEnumerator, IUnknown)
      *	    Return an instance (IUnknown) of the plugin
      *
      */
-    STDMETHOD(GetPlugin)   (THIS_
-			   ULONG32	   /*IN*/  ulIndex,
-			   REF(IUnknown*)  /*OUT*/ pPlugin) PURE;
+    STDMETHOD(GetPlugin)(THIS_
+                         ULONG32	   /*IN*/  ulIndex,
+                         REF(IUnknown*)  /*OUT*/ pPlugin) PURE;
 
 };
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPluginGroupEnumerator
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Provide a way to enumerate through all of the plugins which
  *	implement a specific interface.
- * 
+ *
  *  IID_IRMAPluginGroupEnumerator:
- * 
+ *
  *	{00000C02-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPluginGroupEnumerator, 0x00000C02, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-		0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPluginGroupEnumerator, 0x00000C02, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPluginGroupEnumerator
@@ -272,13 +272,13 @@ DECLARE_INTERFACE_(IRMAPluginGroupEnumerator, IUnknown)
     /*
      * IRMAPluginGroupEnumerator methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /******************************************************************
      * Method:
@@ -290,8 +290,8 @@ DECLARE_INTERFACE_(IRMAPluginGroupEnumerator, IUnknown)
      *     be called.
      *
      */
-    STDMETHOD(Init)         (THIS_
-                            REFIID    iid) PURE;
+    STDMETHOD(Init)(THIS_
+                    REFIID    iid) PURE;
 
 
     /******************************************************************
@@ -300,11 +300,11 @@ DECLARE_INTERFACE_(IRMAPluginGroupEnumerator, IUnknown)
      *
      * Purpose:
      *     return the number of plugins available that support a
-particular
+    particular
      *     interface.
      *
      */
-    STDMETHOD_(ULONG32,GetNumOfPlugins) (THIS) PURE;
+    STDMETHOD_(ULONG32, GetNumOfPlugins)(THIS) PURE;
 
 
     /******************************************************************
@@ -314,31 +314,31 @@ particular
      *     Return an instance (IUnknown) of the plugin
      *
      */
-    STDMETHOD(GetPlugin)   (THIS_
-      UINT32    /*IN*/  ulIndex,
-      REF(IUnknown*)  /*OUT*/ pPlugin) PURE;
+    STDMETHOD(GetPlugin)(THIS_
+                         UINT32    /*IN*/  ulIndex,
+                         REF(IUnknown*)  /*OUT*/ pPlugin) PURE;
 
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPluginReloader
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Tells the client core to reload all plugins.
- * 
+ *
  *  IID_IRMAPluginReloader:
- * 
+ *
  *	{00000C03-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPluginReloader, 0x00000C03, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-		0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPluginReloader, 0x00000C03, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPluginReloader
@@ -348,13 +348,13 @@ DECLARE_INTERFACE_(IRMAPluginReloader, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPluginReloader methods
@@ -363,36 +363,36 @@ DECLARE_INTERFACE_(IRMAPluginReloader, IUnknown)
     /************************************************************************
      *	Method:
      *	    IRMAPluginReloader::ReloadPlugins
-     *	Purpose:    
+     *	Purpose:
      *	    Causes the client core to reload all plugins.
      *
      */
-    STDMETHOD(ReloadPlugins)	(THIS) PURE;
+    STDMETHOD(ReloadPlugins)(THIS) PURE;
 };
 
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPluginFactory
- * 
+ *
  *  Purpose:
- * 
+ *
  *	This interface is implemented by a plugin in order to have more then
  *	    one "RMA plugin" in a single DLL.  I.e., a plugin author could
  *	    use this interface to have 3 different file format plugins in
  *	    a single DLL.
- * 
+ *
  *  IID_IRMAPluginFactory:
- * 
+ *
  *	{00000C04-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPluginFactory, 0x00000C04, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-		0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPluginFactory, 0x00000C04, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPluginFactory
@@ -402,18 +402,18 @@ DECLARE_INTERFACE_(IRMAPluginFactory, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					 REFIID riid,
-					 void** ppvObj) PURE;
-    
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
-    
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
-    
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
+
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
+
     /*
      *	IRMAPluginFactory methods
      */
-    
+
     /*****************************************************************
      *	Method:
      *	    IRMAPluginFactory::GetNumPlugins
@@ -422,43 +422,43 @@ DECLARE_INTERFACE_(IRMAPluginFactory, IUnknown)
      *
      *	Parameters:
      */
-    STDMETHOD_(UINT16, GetNumPlugins) (THIS)  PURE;
+    STDMETHOD_(UINT16, GetNumPlugins)(THIS)  PURE;
 
     /*****************************************************************
      *	Method:
      *	    IRMAPluginFactory::GetPlugin
      *	Purpose:
-     *	    Returns an IUnknown interface to the requested plugin. 
-     *	
+     *	    Returns an IUnknown interface to the requested plugin.
+     *
      *	Parameters:
      */
 
-    STDMETHOD(GetPlugin) (THIS_
-			 UINT16 	uIndex, 
-			 IUnknown**  	pPlugin) PURE;
+    STDMETHOD(GetPlugin)(THIS_
+                         UINT16 	uIndex,
+                         IUnknown**  	pPlugin) PURE;
 };
 
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAGenericPlugin
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Interface exposed by a plugin DLL to inform the client / server core
  *	that your plugin wishes to have InitPlugin called immediately.
  *
  *  IID_IRMAGenericPlugin:
- * 
+ *
  *	{00000C09-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAGenericPlugin, 0x00000C09, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAGenericPlugin, 0x00000C09, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAGenericPlugin
@@ -468,20 +468,20 @@ DECLARE_INTERFACE_(IRMAGenericPlugin, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAGenericPlugin methods
      */
 
-    STDMETHOD(IsGeneric)	(THIS_
-				REF(BOOL)	 /*OUT*/ bIsGeneric) PURE;
+    STDMETHOD(IsGeneric)(THIS_
+                         REF(BOOL)	 /*OUT*/ bIsGeneric) PURE;
 };
 
 
@@ -497,190 +497,190 @@ DECLARE_INTERFACE_(IRMAPlugin2Handler, IUnknown)
     /*
      *  IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPlugin2Handler Methods
      */
 
-     /************************************************************************
-     *	Method:
-     *	    IRMAPlugin2Handler::Init
-     *
-     *	Purpose:    
-     *	    Specifies the context and sets the pluginhandler in motion.
-     *
-     */
-    STDMETHOD(Init)    (THIS_ IUnknown* pContext) PURE;
-     
-     /************************************************************************
-     *	Method:
-     *	    IRMAPlugin2Handler::GetNumPlugins2
-     *
-     *	Purpose:    
-     *	    Gets the info of a particular plugin.
-     *
-     */
-    STDMETHOD_(ULONG32,GetNumOfPlugins2)    (THIS) PURE;
-    
+    /************************************************************************
+    *	Method:
+    *	    IRMAPlugin2Handler::Init
+    *
+    *	Purpose:
+    *	    Specifies the context and sets the pluginhandler in motion.
+    *
+    */
+    STDMETHOD(Init)(THIS_ IUnknown * pContext) PURE;
+
+    /************************************************************************
+    *	Method:
+    *	    IRMAPlugin2Handler::GetNumPlugins2
+    *
+    *	Purpose:
+    *	    Gets the info of a particular plugin.
+    *
+    */
+    STDMETHOD_(ULONG32, GetNumOfPlugins2)(THIS) PURE;
+
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::GetPluginInfo
      *
-     *	Purpose:    
+     *	Purpose:
      *	    Gets the info of a particular plugin.
      *
      */
-    STDMETHOD(GetPluginInfo)	(THIS_ 
-				UINT32 unIndex, 
-				REF(IRMAValues*) /*OUT*/ Values) PURE;
+    STDMETHOD(GetPluginInfo)(THIS_
+                             UINT32 unIndex,
+                             REF(IRMAValues*) /*OUT*/ Values) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FlushCache()
      *
-     *	Purpose:    
-     *	    Flushes the LRU cache -- Unloads all DLLs from memory 
+     *	Purpose:
+     *	    Flushes the LRU cache -- Unloads all DLLs from memory
      *	    which currenltly have a refcount of 0.
      */
 
-    STDMETHOD(FlushCache)	(THIS) PURE;
+    STDMETHOD(FlushCache)(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::SetCacheSize
      *
-     *	Purpose:    
-     *	    This function sets the size of the Cache. The cache is 
+     *	Purpose:
+     *	    This function sets the size of the Cache. The cache is
      *	    initally set to 1000KB. To disable the cache simply set
-     *	    the size to 0.If the cache is disabled a DLL will be 
+     *	    the size to 0.If the cache is disabled a DLL will be
      *	    unloaded whenever it's refcount becomes zero. Which MAY
      *	    cause performance problems.
      */
 
-    STDMETHOD(SetCacheSize)	(THIS_ ULONG32 nSizeKB) PURE;
+    STDMETHOD(SetCacheSize)(THIS_ ULONG32 nSizeKB) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::GetInstance
      *
-     *	Purpose:    
-     *	    
+     *	Purpose:
+     *
      *	    This function will return a plugin instance given a plugin index.
-     *		
+     *
      */
 
-    STDMETHOD(GetInstance) (THIS_ UINT32 index, REF(IUnknown*) pUnknown) PURE; 
+    STDMETHOD(GetInstance)(THIS_ UINT32 index, REF(IUnknown*) pUnknown) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FindIndexUsingValues
      *
-     *	Purpose:    
+     *	Purpose:
      *	    Finds a plugin  which matches the set of values given. An index
-     *	    is returned which can be used to either get the values (using 
-     *	    GetPluginInfo) or an instance can be created using GetPluing(). 	
-     * 
+     *	    is returned which can be used to either get the values (using
+     *	    GetPluginInfo) or an instance can be created using GetPluing().
+     *
      */
 
-    STDMETHOD(FindIndexUsingValues)	    (THIS_ IRMAValues*, 
-						    REF(UINT32) unIndex) PURE;
+    STDMETHOD(FindIndexUsingValues)(THIS_ IRMAValues*,
+                                    REF(UINT32) unIndex) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FindPluginUsingValues
      *
-     *	Purpose:    
+     *	Purpose:
      *	    Finds a plugin  which matches the set of values given. A Plugin
-     *	    instance is returned. 
-     *	    
+     *	    instance is returned.
+     *
      */
 
-    STDMETHOD(FindPluginUsingValues)	    (THIS_ IRMAValues*, 
-						    REF(IUnknown*) pUnk) PURE;
-    
+    STDMETHOD(FindPluginUsingValues)(THIS_ IRMAValues*,
+                                     REF(IUnknown*) pUnk) PURE;
+
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FindIndexUsingStrings
      *
-     *	Purpose:    
+     *	Purpose:
      *	    Finds a plugin  which matches the set of values given. An index
-     *	    is returned which can be used to either get the values (using 
-     *	    GetPluginInfo) or an instance can be created using GetPluing(). 	
+     *	    is returned which can be used to either get the values (using
+     *	    GetPluginInfo) or an instance can be created using GetPluing().
      *	    NOTE: that a max of two values may be given.
      */
 
-    STDMETHOD(FindIndexUsingStrings)	    (THIS_ char* PropName1, 
-						    char* PropVal1, 
-						    char* PropName2, 
-						    char* PropVal2, 
-						    char* PropName3, 
-						    char* PropVal3, 
-						    REF(UINT32) unIndex) PURE;
+    STDMETHOD(FindIndexUsingStrings)(THIS_ char * PropName1,
+                                     char * PropVal1,
+                                     char * PropName2,
+                                     char * PropVal2,
+                                     char * PropName3,
+                                     char * PropVal3,
+                                     REF(UINT32) unIndex) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FindPluginUsingStrings
      *
-     *	Purpose:    
+     *	Purpose:
      *	    Finds a plugin  which matches the set of values given. A Plugin
-     *	    instance is returned. 
+     *	    instance is returned.
      *	    NOTE: that a max of two values may be given.
      */
 
-    STDMETHOD(FindPluginUsingStrings)	    (THIS_ char* PropName1, 
-						    char* PropVal1, 
-						    char* PropName2, 
-						    char* PropVal2, 
-						    char* PropName3, 
-						    char* PropVal3, 
-						    REF(IUnknown*) pUnk) PURE;
+    STDMETHOD(FindPluginUsingStrings)(THIS_ char * PropName1,
+                                      char * PropVal1,
+                                      char * PropName2,
+                                      char * PropVal2,
+                                      char * PropName3,
+                                      char * PropVal3,
+                                      REF(IUnknown*) pUnk) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::FindImplementationFromClassID
      *
-     *	Purpose:    
-     *	    Finds a CommonClassFactory plugin which supports the 
-     *	    ClassID given. An instance of the Class is returned. 
+     *	Purpose:
+     *	    Finds a CommonClassFactory plugin which supports the
+     *	    ClassID given. An instance of the Class is returned.
      */
 
     STDMETHOD(FindImplementationFromClassID)
     (
-	THIS_ 
-	REFGUID GUIDClassID, 
-	REF(IUnknown*) pIUnknownInstance
+        THIS_
+        REFGUID GUIDClassID,
+        REF(IUnknown*) pIUnknownInstance
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::Close
      *
-     *	Purpose:    
+     *	Purpose:
      *	    A function which performs all of the functions of delete.
-     *	    
+     *
      *
      */
-    
-    STDMETHOD(Close)		(THIS) PURE; 
+
+    STDMETHOD(Close)(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlugin2Handler::SetRequiredPlugins
      *
-     *	Purpose:    
+     *	Purpose:
      *	    This function sets the required plugin list
-     *	    
+     *
      *
      */
 
-    STDMETHOD(SetRequiredPlugins) (THIS_ const char** ppszRequiredPlugins) PURE;
+    STDMETHOD(SetRequiredPlugins)(THIS_ const char** ppszRequiredPlugins) PURE;
 
 
 };

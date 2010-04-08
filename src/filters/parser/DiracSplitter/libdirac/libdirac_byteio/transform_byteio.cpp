@@ -43,57 +43,57 @@ using namespace dirac;
 
 TransformByteIO::TransformByteIO(PictureParams& fparams,
                                  CodecParams& cparams):
-ByteIO(),
-m_fparams(fparams),
-m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
+    ByteIO(),
+    m_fparams(fparams),
+    m_cparams(cparams),
+    m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
 {
 }
 
 TransformByteIO::TransformByteIO(ByteIO &byte_io,
                                  PictureParams& fparams,
                                  CodecParams& cparams):
-ByteIO(byte_io),
-m_fparams(fparams),
-m_cparams(cparams),
-m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
+    ByteIO(byte_io),
+    m_fparams(fparams),
+    m_cparams(cparams),
+    m_default_cparams(cparams.GetVideoFormat(), fparams.GetPictureType(), fparams.Refs().size(), true)
 {
 }
 
 TransformByteIO::~TransformByteIO()
 {
-    for(size_t index=0; index < m_component_list.size(); ++index)
-       delete m_component_list[index];
+    for(size_t index = 0; index < m_component_list.size(); ++index)
+        delete m_component_list[index];
 }
 
 void TransformByteIO::CollateByteStats(DiracByteStats& dirac_byte_stats)
 {
     // set number of component bytes
-    for(size_t index=0; index < m_component_list.size(); ++index)
+    for(size_t index = 0; index < m_component_list.size(); ++index)
         m_component_list[index]->CollateByteStats(dirac_byte_stats);
 }
 
 int TransformByteIO::GetSize() const
 {
     //std::cerr << "Transform Size=" << ByteIO::GetSize() << std::endl;
-    int size=0;
-    for(size_t index=0; index < m_component_list.size(); ++index)
+    int size = 0;
+    for(size_t index = 0; index < m_component_list.size(); ++index)
         size += m_component_list[index]->GetSize();
-    return ByteIO::GetSize()+size;
+    return ByteIO::GetSize() + size;
 }
 
 const std::string TransformByteIO::GetBytes()
 {
     std::string bytes;
-    for(size_t index=0; index < m_component_list.size(); ++index)
+    for(size_t index = 0; index < m_component_list.size(); ++index)
         bytes += m_component_list[index]->GetBytes();
-    return ByteIO::GetBytes()+bytes;
+    return ByteIO::GetBytes() + bytes;
 }
 
 void TransformByteIO::Output()
 {
     // Zero Transform flag - applies only to inter frames
-    if (m_fparams.PicSort().IsInter())
+    if(m_fparams.PicSort().IsInter())
         WriteBit(false);
     // Wavelet index
     WriteUint(m_cparams.TransformFilter());
@@ -103,9 +103,9 @@ void TransformByteIO::Output()
 
     // Spatial Partition flag
     WriteBit(m_cparams.SpatialPartition());
-    if (m_cparams.SpatialPartition())
+    if(m_cparams.SpatialPartition())
     {
-        for (unsigned int i = 0; i <= m_cparams.TransformDepth(); ++i)
+        for(unsigned int i = 0; i <= m_cparams.TransformDepth(); ++i)
         {
             const CodeBlocks &cb = m_cparams.GetCodeBlocks(i);
             // Number of Horizontal code blocks for level i
@@ -127,25 +127,25 @@ void TransformByteIO::Input()
 
     m_cparams.SetZeroTransform(false);
     // Zero transform flag - applies only for inter frames
-    if (m_fparams.PicSort().IsInter())
+    if(m_fparams.PicSort().IsInter())
         m_cparams.SetZeroTransform(ReadBool());
 
-    if (m_cparams.ZeroTransform())
+    if(m_cparams.ZeroTransform())
         return;
 
     // Transform filter
     m_cparams.SetTransformFilter(ReadUint());
 
     // transform depth
-     m_cparams.SetTransformDepth(ReadUint());
+    m_cparams.SetTransformDepth(ReadUint());
 
     // Spatial partition flag
     m_cparams.SetSpatialPartition(ReadBool());
 
-    if (m_cparams.SpatialPartition())
+    if(m_cparams.SpatialPartition())
     {
         // Input number of code blocks for each level
-        for (unsigned int i = 0; i <= m_cparams.TransformDepth(); ++i)
+        for(unsigned int i = 0; i <= m_cparams.TransformDepth(); ++i)
         {
             // number of horizontal code blocks for level i
             unsigned int hblocks = ReadUint();
@@ -162,7 +162,7 @@ void TransformByteIO::Input()
 
 void TransformByteIO::AddComponent(ComponentByteIO* component_byteio)
 {
-   m_component_list.push_back(component_byteio);
+    m_component_list.push_back(component_byteio);
 }
 
 

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - iSLT Atom 
+|    AP4 - iSLT Atom
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,9 +41,10 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_IsltAtom)
 |   AP4_IsltAtom::AP4_IsltAtom
 +---------------------------------------------------------------------*/
 AP4_IsltAtom::AP4_IsltAtom(const AP4_UI08* salt) :
-    AP4_Atom(AP4_ATOM_TYPE_ISLT, AP4_ATOM_HEADER_SIZE+8)
+    AP4_Atom(AP4_ATOM_TYPE_ISLT, AP4_ATOM_HEADER_SIZE + 8)
 {
-    for (unsigned int i=0; i<8; i++) {
+    for(unsigned int i = 0; i < 8; i++)
+    {
         m_Salt[i] = salt[i];
     }
 }

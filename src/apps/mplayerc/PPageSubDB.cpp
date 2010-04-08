@@ -32,8 +32,8 @@
 
 IMPLEMENT_DYNAMIC(CPPageSubDB, CPPageBase)
 CPPageSubDB::CPPageSubDB()
-	: CPPageBase(CPPageSubDB::IDD, CPPageSubDB::IDD)
-	, m_ISDb(_T(""))
+    : CPPageBase(CPPageSubDB::IDD, CPPageSubDB::IDD)
+    , m_ISDb(_T(""))
 {
 }
 
@@ -43,14 +43,14 @@ CPPageSubDB::~CPPageSubDB()
 
 void CPPageSubDB::DoDataExchange(CDataExchange* pDX)
 {
-	__super::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_COMBO1, m_ISDbCombo);
-	DDX_CBString(pDX, IDC_COMBO1, m_ISDb);
+    __super::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_COMBO1, m_ISDbCombo);
+    DDX_CBString(pDX, IDC_COMBO1, m_ISDb);
 }
 
 BEGIN_MESSAGE_MAP(CPPageSubDB, CPPageBase)
-	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-	ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateButton1)
+    ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
+    ON_UPDATE_COMMAND_UI(IDC_BUTTON1, OnUpdateButton1)
 END_MESSAGE_MAP()
 
 
@@ -58,60 +58,60 @@ END_MESSAGE_MAP()
 
 BOOL CPPageSubDB::OnInitDialog()
 {
-	__super::OnInitDialog();
+    __super::OnInitDialog();
 
-	AppSettings& s = AfxGetAppSettings();
+    AppSettings& s = AfxGetAppSettings();
 
-	m_ISDb = s.ISDb;
-	m_ISDbCombo.AddString(m_ISDb);
-	if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb")))
-		m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
+    m_ISDb = s.ISDb;
+    m_ISDbCombo.AddString(m_ISDb);
+    if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb")))
+        m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
 
-	UpdateData(FALSE);
+    UpdateData(FALSE);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	// EXCEPTION: OCX Property Pages should return FALSE
+    return TRUE;  // return TRUE unless you set the focus to a control
+    // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 BOOL CPPageSubDB::OnApply()
 {
-	UpdateData();
+    UpdateData();
 
-	AppSettings& s = AfxGetAppSettings();
+    AppSettings& s = AfxGetAppSettings();
 
-	s.ISDb = m_ISDb;
-	s.ISDb.TrimRight('/');
+    s.ISDb = m_ISDb;
+    s.ISDb.TrimRight('/');
 
-	return __super::OnApply();
+    return __super::OnApply();
 }
 
 void CPPageSubDB::OnBnClickedButton1()
 {
-	CString ISDb, ver, msg, str;
+    CString ISDb, ver, msg, str;
 
-	m_ISDbCombo.GetWindowText(ISDb);
-	ISDb.TrimRight('/');
+    m_ISDbCombo.GetWindowText(ISDb);
+    ISDb.TrimRight('/');
 
-	ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
+    ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
 
-	CWebTextFile wtf;
-	if(wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver)
-	{
-		msg = ResStr(IDS_PPSDB_URLCORRECT);
-	}
-	else if(str.Find(_T("ISDb v")) == 0)
-	{
-		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
-	}
-	else
-	{
-		msg = ResStr(IDS_PPSDB_BADURL);
-	}
+    CWebTextFile wtf;
+    if(wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver)
+    {
+        msg = ResStr(IDS_PPSDB_URLCORRECT);
+    }
+    else if(str.Find(_T("ISDb v")) == 0)
+    {
+        msg = ResStr(IDS_PPSDB_PROTOCOLERR);
+    }
+    else
+    {
+        msg = ResStr(IDS_PPSDB_BADURL);
+    }
 
-	AfxMessageBox(msg, MB_OK);
+    AfxMessageBox(msg, MB_OK);
 }
 
 void CPPageSubDB::OnUpdateButton1(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_ISDbCombo.GetWindowTextLength() > 0);
+    pCmdUI->Enable(m_ISDbCombo.GetWindowTextLength() > 0);
 }

@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**  
+**
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-** 
+**
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software 
+** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -59,10 +59,10 @@ void gc_set_protopqf(real_t *p_proto)
         -2.1939551286300665E-02, -2.4533179947088161E-02, -2.2591663337768787E-02,
         -1.5122066420044672E-02, -1.7971713448186293E-03,  1.6903413428575379E-02,
         3.9672315874127042E-02,  6.4487527248102796E-02,  8.8850025474701726E-02,
-        0.1101132906105560    ,  0.1258540205143761    ,  0.1342239368467012    
+        0.1101132906105560    ,  0.1258540205143761    ,  0.1342239368467012
     };
 
-    for (j = 0; j < 48; ++j)
+    for(j = 0; j < 48; ++j)
     {
         p_proto[j] = p_proto[95-j] = a_half[j];
     }
@@ -80,18 +80,18 @@ void gc_setcoef_eff_pqfsyn(int mm,
 
     /* Set 1st Mul&Acc Coef's */
     *ppp_q0 = (real_t **) calloc(mm, sizeof(real_t *));
-    for (n = 0; n < mm; ++n)
+    for(n = 0; n < mm; ++n)
     {
         (*ppp_q0)[n] = (real_t *) calloc(mm, sizeof(real_t));
     }
-    for (n = 0; n < mm/2; ++n)
+    for(n = 0; n < mm / 2; ++n)
     {
-        for (i = 0; i < mm; ++i)
+        for(i = 0; i < mm; ++i)
         {
-            w = (2*i+1)*(2*n+1-mm)*M_PI/(4*mm);
+            w = (2 * i + 1) * (2 * n + 1 - mm) * M_PI / (4 * mm);
             (*ppp_q0)[n][i] = 2.0 * cos((real_t) w);
 
-            w = (2*i+1)*(2*(mm+n)+1-mm)*M_PI/(4*mm);
+            w = (2 * i + 1) * (2 * (mm + n) + 1 - mm) * M_PI / (4 * mm);
             (*ppp_q0)[n + mm/2][i] = 2.0 * cos((real_t) w);
         }
     }
@@ -99,19 +99,19 @@ void gc_setcoef_eff_pqfsyn(int mm,
     /* Set 2nd Mul&Acc Coef's */
     *ppp_t0 = (real_t **) calloc(mm, sizeof(real_t *));
     *ppp_t1 = (real_t **) calloc(mm, sizeof(real_t *));
-    for (n = 0; n < mm; ++n)
+    for(n = 0; n < mm; ++n)
     {
         (*ppp_t0)[n] = (real_t *) calloc(kk, sizeof(real_t));
         (*ppp_t1)[n] = (real_t *) calloc(kk, sizeof(real_t));
     }
-    for (n = 0; n < mm; ++n)
+    for(n = 0; n < mm; ++n)
     {
-        for (k = 0; k < kk; ++k)
+        for(k = 0; k < kk; ++k)
         {
             (*ppp_t0)[n][k] = mm * p_proto[2*k    *mm + n];
             (*ppp_t1)[n][k] = mm * p_proto[(2*k+1)*mm + n];
 
-            if (k%2 != 0)
+            if(k % 2 != 0)
             {
                 (*ppp_t0)[n][k] = -(*ppp_t0)[n][k];
                 (*ppp_t1)[n][k] = -(*ppp_t1)[n][k];
@@ -129,57 +129,57 @@ void ssr_ipqf(ssr_info *ssr, real_t *in_data, real_t *out_data,
 
     int	i;
 
-    if (initFlag == 0)
+    if(initFlag == 0)
     {
         gc_set_protopqf(a_pqfproto);
-        gc_setcoef_eff_pqfsyn(SSR_BANDS, PQFTAPS/(2*SSR_BANDS), a_pqfproto,
-            &pp_q0, &pp_t0, &pp_t1);
+        gc_setcoef_eff_pqfsyn(SSR_BANDS, PQFTAPS / (2 * SSR_BANDS), a_pqfproto,
+                              &pp_q0, &pp_t0, &pp_t1);
         initFlag = 1;
     }
 
-    for (i = 0; i < frame_len / SSR_BANDS; i++)
+    for(i = 0; i < frame_len / SSR_BANDS; i++)
     {
         int l, n, k;
         int mm = SSR_BANDS;
-        int kk = PQFTAPS/(2*SSR_BANDS);
+        int kk = PQFTAPS / (2 * SSR_BANDS);
 
-        for (n = 0; n < mm; n++)
+        for(n = 0; n < mm; n++)
         {
-            for (k = 0; k < 2*kk-1; k++)
+            for(k = 0; k < 2 * kk - 1; k++)
             {
                 buffer[n][k] = buffer[n][k+1];
             }
         }
 
-        for (n = 0; n < mm; n++)
+        for(n = 0; n < mm; n++)
         {
             real_t acc = 0.0;
-            for (l = 0; l < mm; l++)
+            for(l = 0; l < mm; l++)
             {
                 acc += pp_q0[n][l] * in_data[l*frame_len/SSR_BANDS + i];
             }
             buffer[n][2*kk-1] = acc;
         }
 
-        for (n = 0; n < mm/2; n++)
+        for(n = 0; n < mm / 2; n++)
         {
             real_t acc = 0.0;
-            for (k = 0; k < kk; k++)
+            for(k = 0; k < kk; k++)
             {
                 acc += pp_t0[n][k] * buffer[n][2*kk-1-2*k];
             }
-            for (k = 0; k < kk; ++k)
+            for(k = 0; k < kk; ++k)
             {
                 acc += pp_t1[n][k] * buffer[n + mm/2][2*kk-2-2*k];
             }
             out_data[i*SSR_BANDS + n] = acc;
 
             acc = 0.0;
-            for (k = 0; k < kk; k++)
+            for(k = 0; k < kk; k++)
             {
                 acc += pp_t0[mm-1-n][k] * buffer[n][2*kk-1-2*k];
             }
-            for (k = 0; k < kk; k++)
+            for(k = 0; k < kk; k++)
             {
                 acc -= pp_t1[mm-1-n][k] * buffer[n + mm/2][2*kk-2-2*k];
             }

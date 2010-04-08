@@ -3,7 +3,7 @@
 // LCDBitmap.cpp
 //
 // The CLCDBitmap class draws bitmaps onto the LCD.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -74,9 +74,9 @@ void CLCDBitmap::OnDraw(CLCDGfx &rGfx)
     {
         HDC hCompatibleDC = CreateCompatibleDC(rGfx.GetHDC());
         HBITMAP hOldBitmap = (HBITMAP)SelectObject(hCompatibleDC, m_hBitmap);
-        
+
         BitBlt(rGfx.GetHDC(), 0, 0, m_Size.cx, m_Size.cy, hCompatibleDC, m_ptLogical.x, m_ptLogical.y, m_dwROP);
-        
+
         // restores
         SelectObject(hCompatibleDC, hOldBitmap);
         DeleteDC(hCompatibleDC);

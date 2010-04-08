@@ -39,11 +39,11 @@
 /*----------------------------------------------------------------------
 |   functions
 +---------------------------------------------------------------------*/
-AP4_Result AP4_AesKeyWrap(const AP4_UI08* kek, 
-                          const AP4_UI08* cleartext_key, 
+AP4_Result AP4_AesKeyWrap(const AP4_UI08* kek,
+                          const AP4_UI08* cleartext_key,
                           AP4_Size        cleartext_key_size,
                           AP4_DataBuffer& wrapped_key);
-                          
+
 AP4_Result AP4_AesKeyUnwrap(const AP4_UI08* kek,
                             const AP4_UI08* wrapped_key,
                             AP4_Size        wrapped_key_size,

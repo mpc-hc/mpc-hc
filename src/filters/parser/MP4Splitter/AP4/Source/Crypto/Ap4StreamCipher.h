@@ -39,7 +39,7 @@
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-// we only support this for now 
+// we only support this for now
 const unsigned int AP4_CIPHER_BLOCK_SIZE = 16;
 
 /*----------------------------------------------------------------------
@@ -49,28 +49,29 @@ class AP4_StreamCipher
 {
 public:
     // types
-    typedef enum {
+    typedef enum
+    {
         ENCRYPT,
         DECRYPT
     } CipherDirection;
-    
+
     // methods
     virtual            ~AP4_StreamCipher() {}
-    
+
     virtual AP4_UI64    GetStreamOffset() = 0;
-    
+
     virtual AP4_Result  ProcessBuffer(const AP4_UI08* in,
                                       AP4_Size        in_size,
                                       AP4_UI08*       out,
                                       AP4_Size*       out_size,
                                       bool            is_last_buffer = false) = 0;
-    
+
     // preroll gives the number of bytes you have to preroll your input and feed
-    // it through ProcessBuffer (in one shot) in order to be able to spit out 
+    // it through ProcessBuffer (in one shot) in order to be able to spit out
     // the output at the given offset
     virtual AP4_Result  SetStreamOffset(AP4_UI64      offset,
                                         AP4_Cardinal* preroll) = 0;
-    
+
     virtual AP4_Result SetIV(const AP4_UI08* iv) = 0;
     virtual const AP4_UI08* GetIV() = 0;
 };
@@ -82,29 +83,35 @@ public:
 class AP4_CtrStreamCipher : public AP4_StreamCipher
 {
 public:
-   // methods
+    // methods
 
     /**
      * The block cipher is passed with transfer of ownership (it will
      * be destroyed when this object is destroyed).
      */
-    AP4_CtrStreamCipher(AP4_BlockCipher* block_cipher, 
+    AP4_CtrStreamCipher(AP4_BlockCipher* block_cipher,
                         const AP4_UI08*  salt,
                         AP4_Size         counter_size);
     ~AP4_CtrStreamCipher();
-    
+
     // AP4_StreamCipher implementation
     virtual AP4_Result      SetStreamOffset(AP4_UI64      offset,
-                                       AP4_Cardinal* preroll = NULL);
-    virtual AP4_UI64        GetStreamOffset() { return m_StreamOffset; }
+                                            AP4_Cardinal* preroll = NULL);
+    virtual AP4_UI64        GetStreamOffset()
+    {
+        return m_StreamOffset;
+    }
     virtual AP4_Result      ProcessBuffer(const AP4_UI08* in,
                                           AP4_Size        in_size,
                                           AP4_UI08*       out,
                                           AP4_Size*       out_size       = NULL,
                                           bool            is_last_buffer = false);
-    
+
     virtual AP4_Result      SetIV(const AP4_UI08* iv);
-    virtual const AP4_UI08* GetIV()  { return m_BaseCounter;  }
+    virtual const AP4_UI08* GetIV()
+    {
+        return m_BaseCounter;
+    }
 
 private:
     // methods
@@ -133,18 +140,24 @@ public:
      */
     AP4_CbcStreamCipher(AP4_BlockCipher* block_cipher, CipherDirection direction);
     ~AP4_CbcStreamCipher();
-    
+
     // AP4_StreamCipher implementation
     virtual AP4_Result      SetStreamOffset(AP4_UI64      offset,
                                             AP4_Cardinal* preroll);
-    virtual AP4_UI64        GetStreamOffset() { return m_StreamOffset; }
+    virtual AP4_UI64        GetStreamOffset()
+    {
+        return m_StreamOffset;
+    }
     virtual AP4_Result      ProcessBuffer(const AP4_UI08* in,
                                           AP4_Size        in_size,
                                           AP4_UI08*       out,
                                           AP4_Size*       out_size,
                                           bool            is_last_buffer = false);
     virtual AP4_Result      SetIV(const AP4_UI08* iv);
-    virtual const AP4_UI08* GetIV() { return m_Iv; };
+    virtual const AP4_UI08* GetIV()
+    {
+        return m_Iv;
+    };
 
 private:
     // members

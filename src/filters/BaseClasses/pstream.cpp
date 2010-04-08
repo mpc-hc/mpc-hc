@@ -28,7 +28,8 @@ CPersistStream::CPersistStream(IUnknown *punk, __inout HRESULT *phr)
 //
 // Destructor
 //
-CPersistStream::~CPersistStream() {
+CPersistStream::~CPersistStream()
+{
     // Nothing to do
 }
 
@@ -41,13 +42,16 @@ SAMPLE CODE TO COPY - not active at the moment
 // This object supports IPersist & IPersistStream
 STDMETHODIMP CPersistStream::NonDelegatingQueryInterface(REFIID riid, __deref_out void **ppv)
 {
-    if (riid == IID_IPersist) {
+    if(riid == IID_IPersist)
+    {
         return GetInterface((IPersist *) this, ppv);      // ???
     }
-    else if (riid == IID_IPersistStream) {
+    else if(riid == IID_IPersistStream)
+    {
         return GetInterface((IPersistStream *) this, ppv);
     }
-    else {
+    else
+    {
         return CUnknown::NonDelegatingQueryInterface(riid, ppv);
     }
 }
@@ -86,7 +90,8 @@ STDMETHODIMP CPersistStream::Load(LPSTREAM pStm)
     HRESULT hr;
     // Load the version number then the data
     mPS_dwFileVersion = ReadInt(pStm, hr);
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
@@ -103,12 +108,14 @@ STDMETHODIMP CPersistStream::Save(LPSTREAM pStm, BOOL fClearDirty)
 {
 
     HRESULT hr = WriteInt(pStm, GetSoftwareVersion());
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
     hr = WriteToStream(pStm);
-    if (FAILED(hr)) {
+    if(FAILED(hr))
+    {
         return hr;
     }
 
@@ -129,8 +136,8 @@ STDMETHODIMP CPersistStream::Save(LPSTREAM pStm, BOOL fClearDirty)
 STDAPI WriteInt(IStream *pIStream, int n)
 {
     WCHAR Buff[13];  // Allows for trailing null that we don't write
-    (void)StringCchPrintfW(Buff, NUMELMS(Buff),L"%011d ",n);
-    return pIStream->Write(&(Buff[0]), 12*sizeof(WCHAR), NULL);
+    (void)StringCchPrintfW(Buff, NUMELMS(Buff), L"%011d ", n);
+    return pIStream->Write(&(Buff[0]), 12 * sizeof(WCHAR), NULL);
 } // WriteInt
 
 
@@ -148,41 +155,52 @@ STDAPI_(int) ReadInt(IStream *pIStream, __out HRESULT &hr)
     unsigned int n = 0;    // result wil be n*Sign
     WCHAR wch;
 
-    hr = pIStream->Read( &wch, sizeof(wch), NULL);
-    if (FAILED(hr)) {
+    hr = pIStream->Read(&wch, sizeof(wch), NULL);
+    if(FAILED(hr))
+    {
         return 0;
     }
 
-    if (wch==L'-'){
+    if(wch == L'-')
+    {
         Sign = -1;
-        hr = pIStream->Read( &wch, sizeof(wch), NULL);
-        if (FAILED(hr)) {
+        hr = pIStream->Read(&wch, sizeof(wch), NULL);
+        if(FAILED(hr))
+        {
             return 0;
         }
     }
 
-    for( ; ; ) {
-        if (wch>=L'0' && wch<=L'9') {
-            n = 10*n+(int)(wch-L'0');
-        } else if (  wch == L' '
-                  || wch == L'\t'
-                  || wch == L'\r'
-                  || wch == L'\n'
-                  || wch == L'\0'
-                  ) {
+    for(; ;)
+    {
+        if(wch >= L'0' && wch <= L'9')
+        {
+            n = 10 * n + (int)(wch - L'0');
+        }
+        else if(wch == L' '
+                || wch == L'\t'
+                || wch == L'\r'
+                || wch == L'\n'
+                || wch == L'\0'
+               )
+        {
             break;
-        } else {
+        }
+        else
+        {
             hr = VFW_E_INVALID_FILE_FORMAT;
             return 0;
         }
 
-        hr = pIStream->Read( &wch, sizeof(wch), NULL);
-        if (FAILED(hr)) {
+        hr = pIStream->Read(&wch, sizeof(wch), NULL);
+        if(FAILED(hr))
+        {
             return 0;
         }
     }
 
-    if (n==0x80000000 && Sign==-1) {
+    if(n == 0x80000000 && Sign == -1)
+    {
         // This is the negative number that has no positive version!
         return (int)n;
     }

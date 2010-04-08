@@ -113,35 +113,35 @@
 
 #endif // CAN_COMPILE_X86_ASM
 
-void* (*fast_memcpy)(void * to, const void * from, size_t len)=NULL;
+void*(*fast_memcpy)(void * to, const void * from, size_t len) = NULL;
 
 void init_fast_memcpy(void)
 {
 #ifdef RUNTIME_CPUDETECT
 #ifdef CAN_COMPILE_X86_ASM
-	// ordered per speed fasterst first
-	if(gCpuCaps.hasSSE2)
-		fast_memcpy=fast_memcpy_SSE;
-	else if(gCpuCaps.hasMMX2)
-		fast_memcpy=fast_memcpy_MMX2;
-	else if(gCpuCaps.has3DNow)
-		fast_memcpy=fast_memcpy_3DNow;
-	else if(gCpuCaps.hasMMX)
-		fast_memcpy=fast_memcpy_MMX;
-	else
+    // ordered per speed fasterst first
+    if(gCpuCaps.hasSSE2)
+        fast_memcpy = fast_memcpy_SSE;
+    else if(gCpuCaps.hasMMX2)
+        fast_memcpy = fast_memcpy_MMX2;
+    else if(gCpuCaps.has3DNow)
+        fast_memcpy = fast_memcpy_3DNow;
+    else if(gCpuCaps.hasMMX)
+        fast_memcpy = fast_memcpy_MMX;
+    else
 #endif //CAN_COMPILE_X86_ASM
-		fast_memcpy=memcpy; // prior to mmx we use the standart memcpy
+        fast_memcpy = memcpy; // prior to mmx we use the standart memcpy
 #else
 #if HAVE_SSE2
-		fast_memcpy=fast_memcpy_SSE;
+    fast_memcpy = fast_memcpy_SSE;
 #elif HAVE_MMX2
-		fast_memcpy=fast_memcpy_MMX2;
+    fast_memcpy = fast_memcpy_MMX2;
 #elif HAVE_AMD3DNOW
-		fast_memcpy=fast_memcpy_3DNow;
+    fast_memcpy = fast_memcpy_3DNow;
 #elif HAVE_MMX
-		fast_memcpy=fast_memcpy_MMX;
+    fast_memcpy = fast_memcpy_MMX;
 #else
-		fast_memcpy=memcpy; // prior to mmx we use the standart memcpy
+    fast_memcpy = memcpy; // prior to mmx we use the standart memcpy
 #endif
 
 #endif //!RUNTIME_CPUDETECT

@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: rmaprefs.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *  
+ *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -26,7 +26,7 @@
  *	BroadcastPluginInfo		    {dllpath;description;copyright;moreinfo;loadmultiple;type}{ ... }
  *	ClientLicenseKey		    7FF7FF00
  *	EndScan				    10000
- *	FactoryPluginInfo		    
+ *	FactoryPluginInfo
  *	FileFormatPluginInfo		    {dllpath;description;copyright;moreinfo;loadmultiple;mimetype1|mimetype2;extension1|extension2}{ ... }
  *	FileSystemPluginInfo		    {dllpath;description;copyright;moreinfo;loadmultiple;protocol;shortname}{ ... }
  *	GeneralPluginInfo		    {dllpath;description;copyright;moreinfo;loadmultiple}{ ... }
@@ -38,12 +38,12 @@
  *	HTTPProxyPort			    1092
  *	HurledURL			    0
  *	InfoandVolume			    1
- *	LastURL				    
+ *	LastURL
  *	MaxClipCount			    4
  *	MetaFormatPluginInfo		    {dllpath;description;copyright;moreinfo;loadmultiple;mimetype1|mimetype2;extension1|extension2}{ ... }
  *	MiscPluginInfo			    {dllpath;description;copyright;moreinfo;loadmultiple}{ ... }
  *	MulticastTimeout		    2000
- *	NotProxy	    
+ *	NotProxy
  *	OnTop				    0
  *	PerfectPlayMode			    0
  *	PerfectPlayTime			    60
@@ -79,24 +79,24 @@
 typedef _INTERFACE	IRMABuffer			IRMABuffer;
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPreferences
- * 
+ *
  *  Purpose:
- * 
+ *
  *	This interface allows you to store persistant preferences in the
  *	server or player's config / registry.
- * 
+ *
  *  IID_IRMAPreferences:
- * 
+ *
  *	{00000500-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPreferences, 0x00000500, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPreferences, 0x00000500, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPreferences
@@ -106,13 +106,13 @@ DECLARE_INTERFACE_(IRMAPreferences, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPreferences methods
@@ -124,8 +124,8 @@ DECLARE_INTERFACE_(IRMAPreferences, IUnknown)
      *	Purpose:
      *		Read a preference from the registry or configuration.
      */
-    STDMETHOD(ReadPref)			(THIS_
-					const char* pPrekKey, REF(IRMABuffer*) pBuffer) PURE;
+    STDMETHOD(ReadPref)(THIS_
+                        const char * pPrekKey, REF(IRMABuffer*) pBuffer) PURE;
 
     /************************************************************************
      *	Method:
@@ -133,30 +133,30 @@ DECLARE_INTERFACE_(IRMAPreferences, IUnknown)
      *	Purpose:
      *		TBD
      */
-    STDMETHOD(WritePref)		(THIS_
-					const char* pPrekKey, IRMABuffer* pBuffer) PURE;
+    STDMETHOD(WritePref)(THIS_
+                         const char * pPrekKey, IRMABuffer * pBuffer) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPreferenceEnumerator
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Allows preference Enumeration
- *	
- * 
+ *
+ *
  *  IRMAPreferenceEnumerator:
- * 
+ *
  *	{00000504-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPreferenceEnumerator, 0x00000504, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPreferenceEnumerator, 0x00000504, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPreferenceEnumerator
@@ -166,13 +166,13 @@ DECLARE_INTERFACE_(IRMAPreferenceEnumerator, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPreferenceEnumerator methods
@@ -185,7 +185,7 @@ DECLARE_INTERFACE_(IRMAPreferenceEnumerator, IUnknown)
      *		TBD
      */
 
-    STDMETHOD(BeginSubPref) (THIS_ const char* szSubPref) PURE;
+    STDMETHOD(BeginSubPref)(THIS_ const char * szSubPref) PURE;
 
 
     /************************************************************************
@@ -195,7 +195,7 @@ DECLARE_INTERFACE_(IRMAPreferenceEnumerator, IUnknown)
      *		TBD
      */
 
-   STDMETHOD(EndSubPref) (THIS) PURE;
+    STDMETHOD(EndSubPref)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -204,7 +204,7 @@ DECLARE_INTERFACE_(IRMAPreferenceEnumerator, IUnknown)
      *		TBD
      */
 
-   STDMETHOD(GetPrefKey) (THIS_ UINT32 nIndex, REF(IRMABuffer*) pBuffer) PURE;
+    STDMETHOD(GetPrefKey)(THIS_ UINT32 nIndex, REF(IRMABuffer*) pBuffer) PURE;
 
     /************************************************************************
      *	Method:
@@ -212,32 +212,32 @@ DECLARE_INTERFACE_(IRMAPreferenceEnumerator, IUnknown)
      *	Purpose:
      *		TBD
      */
-    STDMETHOD(ReadPref)			(THIS_
-					    const char* pPrefKey, IRMABuffer*& pBuffer) PURE;
+    STDMETHOD(ReadPref)(THIS_
+                        const char * pPrefKey, IRMABuffer*& pBuffer) PURE;
 
 };
 
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
- * 
+ *
  *	IRMAPreferences2
- * 
+ *
  *  Purpose:
- * 
+ *
  *	New interface which gives sub-preference options abilities.
- *	
- * 
+ *
+ *
  *  IID_IRMAPreferences2:
- * 
+ *
  *	{00000503-0901-11d1-8B06-00A024406D59}
- * 
+ *
  */
 
-DEFINE_GUID(IID_IRMAPreferences2, 0x00000503, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPreferences2, 0x00000503, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPreferences2
@@ -247,13 +247,13 @@ DECLARE_INTERFACE_(IRMAPreferences2, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAPreferences2 methods
@@ -275,8 +275,8 @@ DECLARE_INTERFACE_(IRMAPreferences2, IUnknown)
      *		Reset the root of the preferences
      */
 
-    STDMETHOD(ResetRoot)(THIS_ const char* pCompanyName, const char* pProductName, 
-	int nProdMajorVer, int nProdMinorVer) PURE;
+    STDMETHOD(ResetRoot)(THIS_ const char * pCompanyName, const char * pProductName,
+                         int nProdMajorVer, int nProdMinorVer) PURE;
 };
 
 

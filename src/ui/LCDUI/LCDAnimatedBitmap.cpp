@@ -5,7 +5,7 @@
 // The CLCDAnimatedBitmap class draws animated bitmaps onto the LCD.
 // An animated bitmap consists of a tiled bitmap representing the
 // animation. The tile size is set with the SetSubpicWidth.
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -142,16 +142,16 @@ void CLCDAnimatedBitmap::OnDraw(CLCDGfx &rGfx)
             m_dwElapsedTime %= m_dwRate;
             m_dwLastUpdate = GetTickCount();
         }
-        
+
         // stolen from: CLCDBitmap::OnDraw(rGfx);
         if(m_hBitmap)
         {
             HDC hCompatibleDC = CreateCompatibleDC(rGfx.GetHDC());
             HBITMAP hOldBitmap = (HBITMAP)SelectObject(hCompatibleDC, m_hBitmap);
-            
+
             // get
             BitBlt(rGfx.GetHDC(), 0, 0, m_Size.cx, m_Size.cy, hCompatibleDC, xoffs, 0, m_dwROP);
-            
+
             // restores
             SelectObject(hCompatibleDC, hOldBitmap);
             DeleteDC(hCompatibleDC);

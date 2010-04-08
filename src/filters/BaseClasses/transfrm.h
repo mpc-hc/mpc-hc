@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // File: Transfrm.h
 //
-// Desc: DirectShow base classes - defines classes from which simple 
+// Desc: DirectShow base classes - defines classes from which simple
 //       transform codecs may be derived.
 //
 // Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
@@ -88,16 +88,19 @@ public:
     STDMETHODIMP EndFlush(void);
 
     STDMETHODIMP NewSegment(
-                        REFERENCE_TIME tStart,
-                        REFERENCE_TIME tStop,
-                        double dRate);
+        REFERENCE_TIME tStart,
+        REFERENCE_TIME tStop,
+        double dRate);
 
     // Check if it's OK to process samples
     virtual HRESULT CheckStreaming();
 
     // Media type
 public:
-    CMediaType& CurrentMediaType() { return m_mt; };
+    CMediaType& CurrentMediaType()
+    {
+        return m_mt;
+    };
 
 };
 
@@ -156,8 +159,8 @@ public:
     // called from CBaseOutputPin during connection to ask for
     // the count and size of buffers we need.
     HRESULT DecideBufferSize(
-                IMemAllocator * pAlloc,
-                __inout ALLOCATOR_PROPERTIES *pProp);
+        IMemAllocator * pAlloc,
+        __inout ALLOCATOR_PROPERTIES *pProp);
 
     // returns the preferred formats for a pin
     HRESULT GetMediaType(int iPosition, __inout CMediaType *pMediaType);
@@ -167,7 +170,10 @@ public:
 
     // Media type
 public:
-    CMediaType& CurrentMediaType() { return m_mt; };
+    CMediaType& CurrentMediaType()
+    {
+        return m_mt;
+    };
 };
 
 
@@ -215,8 +221,8 @@ public:
 
     // call the SetProperties function with appropriate arguments
     virtual HRESULT DecideBufferSize(
-                        IMemAllocator * pAllocator,
-                        __inout ALLOCATOR_PROPERTIES *pprop) PURE;
+        IMemAllocator * pAllocator,
+        __inout ALLOCATOR_PROPERTIES *pprop) PURE;
 
     // override to suggest OUTPUT pin media types
     virtual HRESULT GetMediaType(int iPosition, __inout CMediaType *pMediaType) PURE;
@@ -235,12 +241,12 @@ public:
     virtual HRESULT AlterQuality(Quality q);
 
     // override this to know when the media type is actually set
-    virtual HRESULT SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
+    virtual HRESULT SetMediaType(PIN_DIRECTION direction, const CMediaType *pmt);
 
     // chance to grab extra interfaces on connection
-    virtual HRESULT CheckConnect(PIN_DIRECTION dir,IPin *pPin);
+    virtual HRESULT CheckConnect(PIN_DIRECTION dir, IPin *pPin);
     virtual HRESULT BreakConnect(PIN_DIRECTION dir);
-    virtual HRESULT CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
+    virtual HRESULT CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin);
 
     // chance to customize the transform process
     virtual HRESULT Receive(IMediaSample *pSample);
@@ -253,15 +259,17 @@ public:
     virtual HRESULT BeginFlush(void);
     virtual HRESULT EndFlush(void);
     virtual HRESULT NewSegment(
-                        REFERENCE_TIME tStart,
-                        REFERENCE_TIME tStop,
-                        double dRate);
+        REFERENCE_TIME tStart,
+        REFERENCE_TIME tStop,
+        double dRate);
 
 #ifdef PERF
     // Override to register performance measurement with a less generic string
     // You should do this to avoid confusion with other filters
     virtual void RegisterPerfId()
-         {m_idTransform = MSR_REGISTER(TEXT("Transform"));}
+    {
+        m_idTransform = MSR_REGISTER(TEXT("Transform"));
+    }
 #endif // PERF
 
 

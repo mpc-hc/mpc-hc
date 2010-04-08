@@ -42,19 +42,19 @@ using namespace std;
 
 SubbandByteIO::SubbandByteIO(Subband& sub_band,
                              const ByteIO& byteio):
-ByteIO(byteio),
-m_subband(sub_band),
-m_band_data_length(0)
+    ByteIO(byteio),
+    m_subband(sub_band),
+    m_band_data_length(0)
 {
-   
+
 }
 
 SubbandByteIO::SubbandByteIO(Subband& sub_band):
-ByteIO(),
-m_subband(sub_band),
-m_band_data_length(0)
+    ByteIO(),
+    m_subband(sub_band),
+    m_band_data_length(0)
 {
-   
+
 }
 
 SubbandByteIO::~SubbandByteIO()
@@ -70,7 +70,7 @@ bool SubbandByteIO::Input()
     m_band_data_length = ReadUint();
 
     // set skip flag if no data
-    m_subband.SetSkip(m_band_data_length==0 ? true : false);
+    m_subband.SetSkip(m_band_data_length == 0 ? true : false);
 
     // check for zero-length sub-band
     if(m_subband.Skipped())
@@ -79,16 +79,16 @@ bool SubbandByteIO::Input()
         return true;
     }
 
-     // If we're not skipped, we need a quantisation index for the subband
-    m_subband.SetQuantIndex(ReadUint() );
+    // If we're not skipped, we need a quantisation index for the subband
+    m_subband.SetQuantIndex(ReadUint());
 
-    if ( !m_subband.UsingMultiQuants() )
+    if(!m_subband.UsingMultiQuants())
     {
-        // Propogate the quantiser index to all the code blocks if we 
+        // Propogate the quantiser index to all the code blocks if we
         // don't have multiquants
-        for ( int j=0 ; j<m_subband.GetCodeBlocks().LengthY() ; ++j )
-            for ( int i=0 ; i<m_subband.GetCodeBlocks().LengthX() ; ++i )
-           m_subband.GetCodeBlocks()[j][i].SetQuantIndex( m_subband.QuantIndex() );
+        for(int j = 0 ; j < m_subband.GetCodeBlocks().LengthY() ; ++j)
+            for(int i = 0 ; i < m_subband.GetCodeBlocks().LengthX() ; ++i)
+                m_subband.GetCodeBlocks()[j][i].SetQuantIndex(m_subband.QuantIndex());
     }
 
     // byte align
@@ -98,12 +98,12 @@ bool SubbandByteIO::Input()
     return true;
 }
 
-int SubbandByteIO::GetBandDataLength() const 
+int SubbandByteIO::GetBandDataLength() const
 {
     return m_band_data_length;
 }
 
-const string SubbandByteIO::GetBytes() 
+const string SubbandByteIO::GetBytes()
 {
     ByteIO byte_io;
 
@@ -113,7 +113,7 @@ const string SubbandByteIO::GetBytes()
     byte_io.WriteUint(GetSize());
 
     // check for zero-length sub-band
-    if(GetSize()==0)
+    if(GetSize() == 0)
     {
         byte_io.ByteAlignOutput();
         return byte_io.GetBytes();
@@ -128,10 +128,10 @@ const string SubbandByteIO::GetBytes()
     //std::cerr << "Subband hdr size=" << byte_io.GetSize();
     //std::cerr << " Arithdata size=" << this->GetSize()<< std::endl;
 
-    return byte_io.GetBytes()+ByteIO::GetBytes();
+    return byte_io.GetBytes() + ByteIO::GetBytes();
 }
 
 
 
 //-------------private-------------------------------------------------------
- 
+

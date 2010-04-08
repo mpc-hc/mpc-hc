@@ -37,38 +37,39 @@ extern "C" {
 #define FF_CSP_ONLY
 #include "ffImgfmt.h"
 
-/**
- * Postprocessng mode.
- */
-typedef struct PPMode{
-	int lumMode; 			///< acivates filters for luminance
-	int chromMode; 			///< acivates filters for chrominance
-	int error; 			///< non zero on error
+    /**
+     * Postprocessng mode.
+     */
+    typedef struct PPMode
+    {
+        int lumMode; 			///< acivates filters for luminance
+        int chromMode; 			///< acivates filters for chrominance
+        int error; 			///< non zero on error
 
-	int minAllowedY; 		///< for brigtness correction
-	int maxAllowedY; 		///< for brihtness correction
+        int minAllowedY; 		///< for brigtness correction
+        int maxAllowedY; 		///< for brihtness correction
         float maxClippedThreshold;      ///< amount of "black" u r willing to loose to get a brightness corrected picture
 
-	int maxTmpNoise[3]; 		///< for Temporal Noise Reducing filter (Maximal sum of abs differences)
+        int maxTmpNoise[3]; 		///< for Temporal Noise Reducing filter (Maximal sum of abs differences)
 
- int baseDcDiff;
- int flatnessThreshold;
+        int baseDcDiff;
+        int flatnessThreshold;
 
-	int forcedQuant; 		///< quantizer if FORCE_QUANT is used
-} PPMode;
+        int forcedQuant; 		///< quantizer if FORCE_QUANT is used
+    } PPMode;
 
-typedef void pp_context_t;
-typedef PPMode pp_mode_t;
+    typedef void pp_context_t;
+    typedef PPMode pp_mode_t;
 
-void  pp_postprocess(uint8_t * src[3], stride_t srcStride[3],
-                     uint8_t * dst[3], stride_t dstStride[3],
-                     int horizontalSize, int verticalSize,
-                     QP_STORE_T *QP_store,  int QP_stride,
-                     pp_mode_t *mode, pp_context_t *ppContext, int pict_type);
+    void  pp_postprocess(uint8_t * src[3], stride_t srcStride[3],
+                         uint8_t * dst[3], stride_t dstStride[3],
+                         int horizontalSize, int verticalSize,
+                         QP_STORE_T *QP_store,  int QP_stride,
+                         pp_mode_t *mode, pp_context_t *ppContext, int pict_type);
 
 
-pp_context_t *pp_get_context(int width, int height, int flags);
-void pp_free_context(pp_context_t *ppContext);
+    pp_context_t *pp_get_context(int width, int height, int flags);
+    void pp_free_context(pp_context_t *ppContext);
 
 #define PP_CPU_CAPS_MMX   0x80000000
 #define PP_CPU_CAPS_MMX2  0x20000000

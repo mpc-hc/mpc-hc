@@ -44,80 +44,80 @@
 namespace dirac
 {
 
-    //! Class to monitor the quality of pictures and adjust coding parameters appropriately
-    class QualityMonitor
-    {
-    public:
+//! Class to monitor the quality of pictures and adjust coding parameters appropriately
+class QualityMonitor
+{
+public:
 
-        //! Constructor. Sets up initial Lagrangian values
-        /*
-           Constructor sets up initial Lagrangian values.
-        */
-        QualityMonitor(EncoderParams& ep);
-
-
-        //! Destructor
-        ~QualityMonitor();
-
-        ////////////////////////////////////////////////////////////
-        //                                                        //
-        //    Assumes default copy constructor,  assignment =     //
-        //                 and destructor                         //
-        ////////////////////////////////////////////////////////////
-
-        //! Update the mse factors, returning true if we need to recode
-        /*!
-            Update the mse factors, returning true if we need to recode
-            \param enc_picture the picture being encoded
-        */
-        void UpdateModel(const EncPicture& enc_picture );
-
-        //! Reset the quality factors (say if there's been a cut)
-        void ResetAll();
-
-        //! Write a log of the quality to date
-        void WriteLog();
-
-    private:
-        //functions
+    //! Constructor. Sets up initial Lagrangian values
+    /*
+       Constructor sets up initial Lagrangian values.
+    */
+    QualityMonitor(EncoderParams& ep);
 
 
-        //! Calculate the quality of coded wrt original picture
-        double QualityVal( const PicArray& coded_data , 
-                           const PicArray& orig_data,
-                           const int xlen,
-                           const int ylen);
+    //! Destructor
+    ~QualityMonitor();
 
-        //member variables//
-        ////////////////////
+    ////////////////////////////////////////////////////////////
+    //                                                        //
+    //    Assumes default copy constructor,  assignment =     //
+    //                 and destructor                         //
+    ////////////////////////////////////////////////////////////
 
-        //! A reference to the encoder parameters
-        EncoderParams& m_encparams;
+    //! Update the mse factors, returning true if we need to recode
+    /*!
+        Update the mse factors, returning true if we need to recode
+        \param enc_picture the picture being encoded
+    */
+    void UpdateModel(const EncPicture& enc_picture);
 
-        //! The overall average Y mse
-        long double m_totalmse_averageY;
+    //! Reset the quality factors (say if there's been a cut)
+    void ResetAll();
 
-        //! The overall average U mse
-        long double m_totalmse_averageU;
+    //! Write a log of the quality to date
+    void WriteLog();
 
-        //! The overall average V mse
-        long double m_totalmse_averageV;
+private:
+    //functions
 
-        //! The total number of pictures coded
-        int m_allpicture_total;        
 
-        //! The average Y mse for the picture types
-        OneDArray<long double> m_mse_averageY;
+    //! Calculate the quality of coded wrt original picture
+    double QualityVal(const PicArray& coded_data ,
+                      const PicArray& orig_data,
+                      const int xlen,
+                      const int ylen);
 
-        //! The average U mse for the picture types
-        OneDArray<long double> m_mse_averageU;
+    //member variables//
+    ////////////////////
 
-        //! The average V mse for the picture types
-        OneDArray<long double> m_mse_averageV;
+    //! A reference to the encoder parameters
+    EncoderParams& m_encparams;
 
-        //! The number of pictures of each type  
-        OneDArray<int> m_picture_total;
-    };
+    //! The overall average Y mse
+    long double m_totalmse_averageY;
+
+    //! The overall average U mse
+    long double m_totalmse_averageU;
+
+    //! The overall average V mse
+    long double m_totalmse_averageV;
+
+    //! The total number of pictures coded
+    int m_allpicture_total;
+
+    //! The average Y mse for the picture types
+    OneDArray<long double> m_mse_averageY;
+
+    //! The average U mse for the picture types
+    OneDArray<long double> m_mse_averageU;
+
+    //! The average V mse for the picture types
+    OneDArray<long double> m_mse_averageV;
+
+    //! The number of pictures of each type
+    OneDArray<int> m_picture_total;
+};
 
 } // namespace dirac
 

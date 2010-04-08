@@ -28,35 +28,38 @@
 
 interface IComPropertyPageDirty
 {
-	virtual void OnSetDirty(bool fDirty) = 0;
+    virtual void OnSetDirty(bool fDirty) = 0;
 };
 
 // CComPropertySheet
 
 class CComPropertySheet : public CPropertySheet, public IComPropertyPageDirty
 {
-	DECLARE_DYNAMIC(CComPropertySheet)
+    DECLARE_DYNAMIC(CComPropertySheet)
 
-	CComPtr<IPropertyPageSite> m_pSite;
-	CInterfaceList<ISpecifyPropertyPages> m_spp;
-	CAutoPtrList<CComPropertyPage> m_pages;
-	CSize m_size;
+    CComPtr<IPropertyPageSite> m_pSite;
+    CInterfaceList<ISpecifyPropertyPages> m_spp;
+    CAutoPtrList<CComPropertyPage> m_pages;
+    CSize m_size;
 
 public:
-	CComPropertySheet(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
-	CComPropertySheet(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
-	virtual ~CComPropertySheet();
+    CComPropertySheet(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+    CComPropertySheet(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+    virtual ~CComPropertySheet();
 
-	int AddPages(CComPtr<ISpecifyPropertyPages> pSPP);
-	bool AddPage(IPropertyPage* pPage, IUnknown* pUnk);
+    int AddPages(CComPtr<ISpecifyPropertyPages> pSPP);
+    bool AddPage(IPropertyPage* pPage, IUnknown* pUnk);
 
-	void OnActivated(CPropertyPage* pPage);
+    void OnActivated(CPropertyPage* pPage);
 
-	// IComPropertyPageDirty
-	void OnSetDirty(bool fDirty) {if(CPropertyPage* p = GetActivePage()) p->SetModified(fDirty);}
+    // IComPropertyPageDirty
+    void OnSetDirty(bool fDirty)
+    {
+        if(CPropertyPage* p = GetActivePage()) p->SetModified(fDirty);
+    }
 
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

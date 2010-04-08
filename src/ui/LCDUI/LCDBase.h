@@ -3,7 +3,7 @@
 // LCDBase.h
 //
 // The CLCDBase class is the generic base class for all lcd ui objects
-// 
+//
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -37,9 +37,15 @@ public:
     virtual void SetSize(SIZE& size);
     virtual void SetSize(int nCX, int nCY);
     virtual SIZE& GetSize(void);
-    
-    virtual int GetWidth(void) { return GetSize().cx; }
-    virtual int GetHeight(void) { return GetSize().cy; };
+
+    virtual int GetWidth(void)
+    {
+        return GetSize().cx;
+    }
+    virtual int GetHeight(void)
+    {
+        return GetSize().cy;
+    };
 
     virtual void Show(BOOL bShow);
     virtual BOOL IsVisible();
@@ -60,12 +66,12 @@ public:
 
     virtual const LGObjectType GetObjectType();
     virtual void SetObjectType(const LGObjectType type);
-    
+
 public:
     virtual void OnDraw(CLCDGfx &rGfx) = 0;
     virtual void OnUpdate(DWORD dwTimestamp);
 
-protected:    
+protected:
     SIZE m_Size;
     POINT m_Origin;
     BOOL m_bVisible;

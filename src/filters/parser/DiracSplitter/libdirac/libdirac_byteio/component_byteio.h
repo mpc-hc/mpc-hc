@@ -52,73 +52,73 @@
 
 namespace dirac
 {
+/**
+* Picture component in Dirac bytestream format
+*/
+class ComponentByteIO : public ByteIO
+{
+public:
+
     /**
-    * Picture component in Dirac bytestream format
+    * Constructor
+    *@param cs Picture-component type
+    *@param byteIO Input/output Byte stream
     */
-    class ComponentByteIO : public ByteIO
-    {
-    public:
+    ComponentByteIO(CompSort cs,
+                    const ByteIO& byteIO);
 
-        /**
-        * Constructor
-        *@param cs Picture-component type
-        *@param byteIO Input/output Byte stream
-        */
-        ComponentByteIO(CompSort cs,
-                        const ByteIO& byteIO);
+    /**
+    * Constructor
+    *@param cs Picture-component type
+    */
+    ComponentByteIO(CompSort cs);
 
-        /**
-        * Constructor
-        *@param cs Picture-component type
-        */
-        ComponentByteIO(CompSort cs);
+    /**
+    * Destructor
+    */
+    ~ComponentByteIO();
 
-       /**
-       * Destructor
-       */
-        ~ComponentByteIO();
+    /**
+    * Gathers byte stats on the component data
+    *@param dirac_byte_stats Stat container
+    */
+    void CollateByteStats(DiracByteStats& dirac_byte_stats);
 
-        /**
-        * Gathers byte stats on the component data
-        *@param dirac_byte_stats Stat container
-        */
-        void CollateByteStats(DiracByteStats& dirac_byte_stats);
+    /**
+    * Add a subband byte-stream to this component
+    *@param p_subband_byteio Subband to be added
+    */
+    void AddSubband(SubbandByteIO *p_subband_byteio);
 
-        /**
-        * Add a subband byte-stream to this component
-        *@param p_subband_byteio Subband to be added
-        */
-        void AddSubband(SubbandByteIO *p_subband_byteio);
+    /**
+    * Inputs data from Dirac stream-format
+    */
+    bool Input();
 
-        /**
-        * Inputs data from Dirac stream-format
-        */
-        bool Input();
+    /**
+    * Outputs picture values to Dirac stream-format
+    */
+    void Output();
 
-        /**
-        * Outputs picture values to Dirac stream-format
-        */
-        void Output();
 
-       
 
-  protected:
-        
+protected:
 
-   private:
-      
-       /**
-       * Picture component type
-       */
-       CompSort m_compsort;
 
-       /**
-       * List of subbands in output/input order
-       */
-       std::vector<ByteIO*> m_subband_list;
-       
-       
-   };
+private:
+
+    /**
+    * Picture component type
+    */
+    CompSort m_compsort;
+
+    /**
+    * List of subbands in output/input order
+    */
+    std::vector<ByteIO*> m_subband_list;
+
+
+};
 
 } // namespace dirac
 

@@ -40,15 +40,15 @@ typedef short DCTELEM;
 typedef int DWTELEM;
 typedef short IDWTELEM;
 
-void fdct_ifast (DCTELEM *data);
-void fdct_ifast248 (DCTELEM *data);
-void ff_jpeg_fdct_islow (DCTELEM *data);
-void ff_fdct248_islow (DCTELEM *data);
+void fdct_ifast(DCTELEM *data);
+void fdct_ifast248(DCTELEM *data);
+void ff_jpeg_fdct_islow(DCTELEM *data);
+void ff_fdct248_islow(DCTELEM *data);
 
-void j_rev_dct (DCTELEM *data);
-void j_rev_dct4 (DCTELEM *data);
-void j_rev_dct2 (DCTELEM *data);
-void j_rev_dct1 (DCTELEM *data);
+void j_rev_dct(DCTELEM *data);
+void j_rev_dct4(DCTELEM *data);
+void j_rev_dct2(DCTELEM *data);
+void j_rev_dct1(DCTELEM *data);
 void ff_wmv2_idct_c(DCTELEM *data);
 
 void ff_fdct_mmx(DCTELEM *block);
@@ -172,7 +172,8 @@ typedef struct slice_buffer_s slice_buffer;
 /**
  * Scantable.
  */
-typedef struct ScanTable{
+typedef struct ScanTable
+{
     const uint8_t *scantable;
     uint8_t permutated[64];
     uint8_t raster_end[64];
@@ -187,7 +188,8 @@ void ff_emulated_edge_mc(uint8_t *buf, uint8_t *src, int linesize,
 /**
  * DSPContext.
  */
-typedef struct DSPContext {
+typedef struct DSPContext
+{
     /* pixel ops : interface with DCT */
     void (*get_pixels)(DCTELEM *block/*align 16*/, const uint8_t *pixels/*align 8*/, int line_size);
     void (*diff_pixels)(DCTELEM *block/*align 16*/, const uint8_t *s1/*align 8*/, const uint8_t *s2/*align 8*/, int stride);
@@ -204,8 +206,8 @@ typedef struct DSPContext {
     /**
      * global motion compensation.
      */
-    void (*gmc )(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*/, int stride, int h, int ox, int oy,
-                    int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height);
+    void (*gmc)(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*/, int stride, int h, int ox, int oy,
+                int dxx, int dxy, int dyx, int dyy, int shift, int r, int width, int height);
     void (*clear_block)(DCTELEM *block/*align 16*/);
     void (*clear_blocks)(DCTELEM *blocks/*align 16*/);
     int (*pix_sum)(uint8_t * pix, int line_size);
@@ -338,14 +340,14 @@ typedef struct DSPContext {
     /* huffyuv specific */
     void (*add_bytes)(uint8_t *dst/*align 16*/, uint8_t *src/*align 16*/, int w);
     void (*add_bytes_l2)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 16*/, int w);
-    void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/,int w);
+    void (*diff_bytes)(uint8_t *dst/*align 16*/, uint8_t *src1/*align 16*/, uint8_t *src2/*align 1*/, int w);
     /**
      * subtract huffyuv's variant of median prediction
      * note, this might read from src1[-1], src2[-1]
      */
     void (*sub_hfyu_median_prediction)(uint8_t *dst, const uint8_t *src1, const uint8_t *src2, int w, int *left, int *left_top);
     void (*add_hfyu_median_prediction)(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
-    int  (*add_hfyu_left_prediction)(uint8_t *dst, const uint8_t *src, int w, int left);
+    int (*add_hfyu_left_prediction)(uint8_t *dst, const uint8_t *src, int w, int left);
     void (*add_hfyu_left_prediction_bgr32)(uint8_t *dst, const uint8_t *src, int w, int *red, int *green, int *blue, int *alpha);
     /* this might write to dst[w] */
     void (*add_png_paeth_prediction)(uint8_t *dst, uint8_t *src, uint8_t *top, int w, int bpp);
@@ -376,11 +378,11 @@ typedef struct DSPContext {
     void (*vp3_h_loop_filter)(uint8_t *src, int stride, int *bounding_values);
 
     void (*vp6_filter_diag4)(uint8_t *dst, uint8_t *src, int stride,
-                             const int16_t *h_weights,const int16_t *v_weights);
+                             const int16_t *h_weights, const int16_t *v_weights);
 
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
-    void (*ac3_downmix)(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len);
+    void (*ac3_downmix)(float(*samples)[256], float(*matrix)[2], int out_ch, int in_ch, int len);
     /* assume len is a multiple of 8, and arrays are 16-byte aligned */
     void (*vector_fmul)(float *dst, const float *src, int len);
     void (*vector_fmul_reverse)(float *dst, const float *src0, const float *src1, int len);
@@ -432,7 +434,7 @@ typedef struct DSPContext {
      * @param v2  second vector, 16-byte aligned
      * @param len length of vectors, multiple of 4
      */
-    float (*scalarproduct_float)(const float *v1, const float *v2, int len);
+    float(*scalarproduct_float)(const float *v1, const float *v2, int len);
     /**
      * Calculate the sum and difference of two vectors of floats.
      * @param v1  first input vector, sum output, 16-byte aligned
@@ -546,7 +548,7 @@ typedef struct DSPContext {
     /* intrax8 functions */
     void (*x8_spatial_compensation[12])(uint8_t *src , uint8_t *dst, int linesize);
     void (*x8_setup_spatial_compensation)(uint8_t *src, uint8_t *dst, int linesize,
-           int * range, int * sum,  int edges);
+                                          int * range, int * sum,  int edges);
 
     /* rv30 functions */
     qpel_mc_func put_rv30_tpel_pixels_tab[4][16];
@@ -584,25 +586,27 @@ static inline uint32_t no_rnd_avg32(uint32_t a, uint32_t b)
     return (a & b) + (((a ^ b) & ~BYTE_VEC32(0x01)) >> 1);
 }
 
-static inline int get_penalty_factor(int lambda, int lambda2, int type){
-    switch(type&0xFF){
+static inline int get_penalty_factor(int lambda, int lambda2, int type)
+{
+    switch(type & 0xFF)
+    {
     default:
     case FF_CMP_SAD:
-        return lambda>>FF_LAMBDA_SHIFT;
+        return lambda >> FF_LAMBDA_SHIFT;
     case FF_CMP_DCT:
-        return (3*lambda)>>(FF_LAMBDA_SHIFT+1);
+        return (3 * lambda) >> (FF_LAMBDA_SHIFT + 1);
     case FF_CMP_W53:
-        return (4*lambda)>>(FF_LAMBDA_SHIFT);
+        return (4 * lambda) >> (FF_LAMBDA_SHIFT);
     case FF_CMP_W97:
-        return (2*lambda)>>(FF_LAMBDA_SHIFT);
+        return (2 * lambda) >> (FF_LAMBDA_SHIFT);
     case FF_CMP_SATD:
     case FF_CMP_DCT264:
-        return (2*lambda)>>FF_LAMBDA_SHIFT;
+        return (2 * lambda) >> FF_LAMBDA_SHIFT;
     case FF_CMP_RD:
     case FF_CMP_PSNR:
     case FF_CMP_SSE:
     case FF_CMP_NSSE:
-        return lambda2>>FF_LAMBDA_SHIFT;
+        return lambda2 >> FF_LAMBDA_SHIFT;
     case FF_CMP_BIT:
         return 1;
     }
@@ -631,11 +635,11 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
 static inline void emms(void)
 {
- #if defined(__INTEL_COMPILER) || defined(_MSC_VER)
+#if defined(__INTEL_COMPILER) || defined(_MSC_VER)
     __asm emms;
- #else
-    __asm__ volatile ("emms;":::"memory");
- #endif
+#else
+    __asm__ volatile("emms;":::"memory");
+#endif
 }
 
 
@@ -667,11 +671,13 @@ void get_psnr(uint8_t *orig_image[3], uint8_t *coded_image[3],
    FFTSample type */
 typedef float FFTSample;
 
-typedef struct FFTComplex {
+typedef struct FFTComplex
+{
     FFTSample re, im;
 } FFTComplex;
 
-typedef struct FFTContext {
+typedef struct FFTContext
+{
     int nbits;
     int inverse;
     uint16_t *revtab;
@@ -808,11 +814,11 @@ void ff_sine_window_init(float *window, int n);
  * initialize the specified entry of ff_sine_windows
  */
 void ff_init_ff_sine_windows(int index);
-extern SINETABLE(  32);
-extern SINETABLE(  64);
-extern SINETABLE( 128);
-extern SINETABLE( 256);
-extern SINETABLE( 512);
+extern SINETABLE(32);
+extern SINETABLE(64);
+extern SINETABLE(128);
+extern SINETABLE(256);
+extern SINETABLE(512);
 extern SINETABLE(1024);
 extern SINETABLE(2048);
 extern SINETABLE(4096);
@@ -826,14 +832,16 @@ void ff_mdct_end(FFTContext *s);
 
 /* Real Discrete Fourier Transform */
 
-enum RDFTransformType {
+enum RDFTransformType
+{
     RDFT,
     IRDFT,
     RIDFT,
     IRIDFT,
 };
 
-typedef struct {
+typedef struct
+{
     int nbits;
     int inverse;
     int sign_convention;
@@ -855,7 +863,8 @@ void ff_rdft_end(RDFTContext *s);
 
 /* Discrete Cosine Transform */
 
-typedef struct {
+typedef struct
+{
     int nbits;
     int inverse;
     FFTSample *data;
@@ -871,7 +880,7 @@ typedef struct {
  */
 int  ff_dct_init(DCTContext *s, int nbits, int inverse);
 void ff_dct_calc(DCTContext *s, FFTSample *data);
-void ff_dct_end (DCTContext *s);
+void ff_dct_end(DCTContext *s);
 
 #define WRAPPER8_16(name8, name16)\
 static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int stride, int h){\
@@ -897,79 +906,79 @@ static int name16(void /*MpegEncContext*/ *s, uint8_t *dst, uint8_t *src, int st
 static inline void copy_block2(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN16(dst   , AV_RN16(src   ));
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN16(dst   , AV_RN16(src));
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
 static inline void copy_block4(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN32(dst   , AV_RN32(src   ));
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN32(dst   , AV_RN32(src));
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
 static inline void copy_block8(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN32(dst   , AV_RN32(src   ));
-        AV_WN32(dst+4 , AV_RN32(src+4 ));
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN32(dst   , AV_RN32(src));
+        AV_WN32(dst + 4 , AV_RN32(src + 4));
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
 static inline void copy_block9(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN32(dst   , AV_RN32(src   ));
-        AV_WN32(dst+4 , AV_RN32(src+4 ));
-        dst[8]= src[8];
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN32(dst   , AV_RN32(src));
+        AV_WN32(dst + 4 , AV_RN32(src + 4));
+        dst[8] = src[8];
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
 static inline void copy_block16(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN32(dst   , AV_RN32(src   ));
-        AV_WN32(dst+4 , AV_RN32(src+4 ));
-        AV_WN32(dst+8 , AV_RN32(src+8 ));
-        AV_WN32(dst+12, AV_RN32(src+12));
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN32(dst   , AV_RN32(src));
+        AV_WN32(dst + 4 , AV_RN32(src + 4));
+        AV_WN32(dst + 8 , AV_RN32(src + 8));
+        AV_WN32(dst + 12, AV_RN32(src + 12));
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
 static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride, int srcStride, int h)
 {
     int i;
-    for(i=0; i<h; i++)
+    for(i = 0; i < h; i++)
     {
-        AV_WN32(dst   , AV_RN32(src   ));
-        AV_WN32(dst+4 , AV_RN32(src+4 ));
-        AV_WN32(dst+8 , AV_RN32(src+8 ));
-        AV_WN32(dst+12, AV_RN32(src+12));
-        dst[16]= src[16];
-        dst+=dstStride;
-        src+=srcStride;
+        AV_WN32(dst   , AV_RN32(src));
+        AV_WN32(dst + 4 , AV_RN32(src + 4));
+        AV_WN32(dst + 8 , AV_RN32(src + 8));
+        AV_WN32(dst + 12, AV_RN32(src + 12));
+        dst[16] = src[16];
+        dst += dstStride;
+        src += srcStride;
     }
 }
 
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
+const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx, DSPContext *c);
 
 #endif /* AVCODEC_DSPUTIL_H */

@@ -1,12 +1,12 @@
 /****************************************************************************
- * 
+ *
  *  $Id: rmacore.h 74 2003-07-02 02:42:47Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
  *
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary 
+ *  This program contains proprietary
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -64,36 +64,36 @@ enum BUFFERING_REASON
 };
 
 /****************************************************************************
- * 
+ *
  *  Function:
- * 
+ *
  *	CreateEngine()
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Function implemented by the RMA core to return a pointer to the
  *	client engine.  This function would be run by top level clients.
  */
 STDAPI CreateEngine
-		(
-		    IRMAClientEngine**  /*OUT*/ ppEngine
-		);
+(
+    IRMAClientEngine**  /*OUT*/ ppEngine
+);
 
 /****************************************************************************
- * 
+ *
  *  Function:
- * 
+ *
  *	CloseEngine()
- * 
+ *
  *  Purpose:
- * 
+ *
  *	Function implemented by the RMA core to close the engine which
  *	was returned in CreateEngine().
  */
 STDAPI CloseEngine
-		(
-		    IRMAClientEngine*  /*IN*/ pEngine
-		);
+(
+    IRMAClientEngine*  /*IN*/ pEngine
+);
 
 #ifdef _MACINTOSH
 #pragma export off
@@ -103,12 +103,12 @@ STDAPI CloseEngine
  * Definitions of Function Pointers to CreateEngine() and Close Engine().
  * These types are provided as a convenince to authors of top level clients.
  */
-typedef PN_RESULT (PNEXPORT_PTR FPRMCREATEENGINE)(IRMAClientEngine** ppEngine);
-typedef PN_RESULT (PNEXPORT_PTR FPRMCLOSEENGINE) (IRMAClientEngine*  pEngine);
-typedef PN_RESULT (PNEXPORT_PTR FPRMSETDLLACCESSPATH) (const char*);
+typedef PN_RESULT(PNEXPORT_PTR FPRMCREATEENGINE)(IRMAClientEngine** ppEngine);
+typedef PN_RESULT(PNEXPORT_PTR FPRMCLOSEENGINE)(IRMAClientEngine*  pEngine);
+typedef PN_RESULT(PNEXPORT_PTR FPRMSETDLLACCESSPATH)(const char*);
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAStream
@@ -123,8 +123,8 @@ typedef PN_RESULT (PNEXPORT_PTR FPRMSETDLLACCESSPATH) (const char*);
  *	{00000400-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAStream, 0x00000400, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAStream, 0x00000400, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAStream
@@ -134,13 +134,13 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      * IRMAStream methods
@@ -154,18 +154,18 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *	    a part of.
      *
      */
-    STDMETHOD(GetSource)		(THIS_
-					REF(IRMAStreamSource*)	pSource) PURE;
+    STDMETHOD(GetSource)(THIS_
+                         REF(IRMAStreamSource*)	pSource) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAStream::GetStreamNumber
      *	Purpose:
-     *	    Get the stream number for this stream relative to the source 
+     *	    Get the stream number for this stream relative to the source
      *	    object of which the stream is a part of.
      *
      */
-    STDMETHOD_(UINT16,GetStreamNumber)	    (THIS) PURE;
+    STDMETHOD_(UINT16, GetStreamNumber)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -176,7 +176,7 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *	    was returned.
      *
      */
-    STDMETHOD_(const char*,GetStreamType)   (THIS) PURE;
+    STDMETHOD_(const char*, GetStreamType)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -185,18 +185,18 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *      Get the header for this stream.
      *
      */
-    STDMETHOD_(IRMAValues*,GetHeader)   (THIS) PURE;
+    STDMETHOD_(IRMAValues*, GetHeader)(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAStream::ReportQualityOfService
      *	Purpose:
-     *	    Call this method to report to the playback context that the 
+     *	    Call this method to report to the playback context that the
      *	    quality of service for this stream has changed. The unQuality
      *	    should be on a scale of 0 to 100, where 100 is the best possible
-     *	    quality for this stream. Although the transport engine can 
+     *	    quality for this stream. Although the transport engine can
      *	    determine lost packets and report these through the user
-     *	    interface, only the renderer of this stream can determine the 
+     *	    interface, only the renderer of this stream can determine the
      *	    "real" perceived damage associated with this loss.
      *
      *	    NOTE: The playback context may use this value to indicate loss
@@ -205,8 +205,8 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *	    a unQuality of 100.
      *
      */
-    STDMETHOD(ReportQualityOfService)	    (THIS_
-					    UINT8   unQuality) PURE;
+    STDMETHOD(ReportQualityOfService)(THIS_
+                                      UINT8   unQuality) PURE;
 
     /************************************************************************
      *	Method:
@@ -226,21 +226,21 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *	    5,5.
      *
      */
-    STDMETHOD(ReportRebufferStatus)	    (THIS_
-					    UINT8   unNeeded,
-					    UINT8   unAvailable) PURE;
+    STDMETHOD(ReportRebufferStatus)(THIS_
+                                    UINT8   unNeeded,
+                                    UINT8   unAvailable) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAStream::SetGranularity
      *	Purpose:
-     *	    Sets the desired Granularity for this stream. The actual 
+     *	    Sets the desired Granularity for this stream. The actual
      *	    granularity will be the lowest granularity of all streams.
      *	    Valid to call before stream actually begins. Best to call during
      *	    IRMARenderer::OnHeader().
      */
-    STDMETHOD(SetGranularity)		    (THIS_
-					    ULONG32 ulGranularity) PURE;
+    STDMETHOD(SetGranularity)(THIS_
+                              ULONG32 ulGranularity) PURE;
 
     /************************************************************************
      *	Method:
@@ -257,14 +257,14 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
      *	Purpose:
      *	    Returns the Nth renderer instance supported by this stream.
      */
-    STDMETHOD(GetRenderer)	(THIS_
-				UINT16		nIndex,
-				REF(IUnknown*)	pUnknown) PURE;
+    STDMETHOD(GetRenderer)(THIS_
+                           UINT16		nIndex,
+                           REF(IUnknown*)	pUnknown) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAStreamSource
@@ -279,8 +279,8 @@ DECLARE_INTERFACE_(IRMAStream, IUnknown)
  *	{00000401-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAStreamSource, 0x00000401, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAStreamSource, 0x00000401, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAStreamSource
@@ -290,13 +290,13 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      * IRMAStreamSource methods
@@ -309,7 +309,7 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
      *		Ask the source whether it is live
      *
      */
-    STDMETHOD_ (BOOL,IsLive)	(THIS) PURE;
+    STDMETHOD_(BOOL, IsLive)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -319,8 +319,8 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
      *	    a part of.
      *
      */
-    STDMETHOD(GetPlayer)	    (THIS_
-				    REF(IRMAPlayer*)	pPlayer) PURE;
+    STDMETHOD(GetPlayer)(THIS_
+                         REF(IRMAPlayer*)	pPlayer) PURE;
 
     /************************************************************************
      *	Method:
@@ -331,7 +331,7 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
      *	    it was returned.
      *
      */
-    STDMETHOD_(const char*,GetURL)  (THIS) PURE;
+    STDMETHOD_(const char*, GetURL)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -348,14 +348,14 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
      *	Purpose:
      *	    Returns the Nth stream instance supported by this source.
      */
-    STDMETHOD(GetStream)	(THIS_
-				UINT16		nIndex,
-				REF(IUnknown*)	pUnknown) PURE;
+    STDMETHOD(GetStream)(THIS_
+                         UINT16		nIndex,
+                         REF(IUnknown*)	pUnknown) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *  	IRMAPlayer
@@ -371,8 +371,8 @@ DECLARE_INTERFACE_(IRMAStreamSource, IUnknown)
  *	{00000402-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAPlayer, 0x00000402, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPlayer, 0x00000402, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPlayer
@@ -382,13 +382,13 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      * IRMAPlayer methods
@@ -402,8 +402,8 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		player is a part of.
      *
      */
-    STDMETHOD(GetClientEngine)	(THIS_
-				REF(IRMAClientEngine*)	pEngine) PURE;
+    STDMETHOD(GetClientEngine)(THIS_
+                               REF(IRMAClientEngine*)	pEngine) PURE;
 
     /************************************************************************
      *	Method:
@@ -412,7 +412,7 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Ask the player if it is done with the current presentation
      *
      */
-    STDMETHOD_(BOOL,IsDone)	(THIS) PURE;
+    STDMETHOD_(BOOL, IsDone)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -421,7 +421,7 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Ask the player whether it contains the live source
      *
      */
-    STDMETHOD_(BOOL,IsLive)	(THIS) PURE;
+    STDMETHOD_(BOOL, IsLive)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -430,7 +430,7 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Get the current time on the Player timeline
      *
      */
-    STDMETHOD_(ULONG32,GetCurrentPlayTime)	(THIS) PURE;
+    STDMETHOD_(ULONG32, GetCurrentPlayTime)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -439,8 +439,8 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Tell the player to begin playback of all its sources.
      *
      */
-    STDMETHOD(OpenURL)		(THIS_
-				    const char*	pURL) PURE;
+    STDMETHOD(OpenURL)(THIS_
+                       const char *	pURL) PURE;
 
     /************************************************************************
      *	Method:
@@ -449,7 +449,7 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Tell the player to begin playback of all its sources.
      *
      */
-    STDMETHOD(Begin)		(THIS) PURE;
+    STDMETHOD(Begin)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -458,7 +458,7 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Tell the player to stop playback of all its sources.
      *
      */
-    STDMETHOD(Stop)		(THIS) PURE;
+    STDMETHOD(Stop)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -467,18 +467,18 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *		Tell the player to pause playback of all its sources.
      *
      */
-    STDMETHOD(Pause)		(THIS) PURE;
+    STDMETHOD(Pause)(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *		IRMAPlayer::Seek
      *	Purpose:
-     *		Tell the player to seek in the playback timeline of all its 
+     *		Tell the player to seek in the playback timeline of all its
      *		sources.
      *
      */
-    STDMETHOD(Seek)		(THIS_
-				ULONG32			ulTime) PURE;
+    STDMETHOD(Seek)(THIS_
+                    ULONG32			ulTime) PURE;
 
     /************************************************************************
      *	Method:
@@ -495,20 +495,20 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *	Purpose:
      *	    Returns the Nth source instance supported by this player.
      */
-    STDMETHOD(GetSource)	(THIS_
-				UINT16		nIndex,
-				REF(IUnknown*)	pUnknown) PURE;
+    STDMETHOD(GetSource)(THIS_
+                         UINT16		nIndex,
+                         REF(IUnknown*)	pUnknown) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPlayer::SetClientContext
      *	Purpose:
      *	    Called by the client to install itself as the provider of client
-     *	    services to the core. This is traditionally called by the top 
+     *	    services to the core. This is traditionally called by the top
      *	    level client application.
      */
-    STDMETHOD(SetClientContext)	(THIS_
-				IUnknown* pUnknown) PURE;
+    STDMETHOD(SetClientContext)(THIS_
+                                IUnknown * pUnknown) PURE;
 
     /************************************************************************
      *	Method:
@@ -517,8 +517,8 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *	    Called to get the client context for this player. This is
      *	    set by the top level client application.
      */
-    STDMETHOD(GetClientContext)	(THIS_
-				REF(IUnknown*) pUnknown) PURE;
+    STDMETHOD(GetClientContext)(THIS_
+                                REF(IUnknown*) pUnknown) PURE;
 
     /************************************************************************
      *	Method:
@@ -527,8 +527,8 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *	    Call this method to add a client advise sink.
      *
      */
-    STDMETHOD(AddAdviseSink)	(THIS_
-				IRMAClientAdviseSink*	pAdviseSink) PURE;
+    STDMETHOD(AddAdviseSink)(THIS_
+                             IRMAClientAdviseSink *	pAdviseSink) PURE;
 
     /************************************************************************
      *	Method:
@@ -536,13 +536,13 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
      *	Purpose:
      *	    Call this method to remove a client advise sink.
      */
-    STDMETHOD(RemoveAdviseSink)	(THIS_
-				IRMAClientAdviseSink*	pAdviseSink) PURE;
+    STDMETHOD(RemoveAdviseSink)(THIS_
+                                IRMAClientAdviseSink *	pAdviseSink) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAClientEngine
@@ -556,8 +556,8 @@ DECLARE_INTERFACE_(IRMAPlayer, IUnknown)
  *
  *	{00000403-0901-11d1-8B06-00A024406D59}
  */
-DEFINE_GUID(IID_IRMAClientEngine, 0x00000403, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAClientEngine, 0x00000403, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAClientEngine
@@ -567,13 +567,13 @@ DECLARE_INTERFACE_(IRMAClientEngine, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      * IRMAClientEngine methods
@@ -586,8 +586,8 @@ DECLARE_INTERFACE_(IRMAClientEngine, IUnknown)
      *	    Creates a new IRMAPlayer instance.
      *
      */
-    STDMETHOD(CreatePlayer)	(THIS_
-				REF(IRMAPlayer*)    pPlayer) PURE;
+    STDMETHOD(CreatePlayer)(THIS_
+                            REF(IRMAPlayer*)    pPlayer) PURE;
 
     /************************************************************************
      *	Method:
@@ -596,8 +596,8 @@ DECLARE_INTERFACE_(IRMAClientEngine, IUnknown)
      *	    Called by the client when it is done using the player...
      *
      */
-    STDMETHOD(ClosePlayer)	(THIS_
-				IRMAPlayer*    pPlayer) PURE;
+    STDMETHOD(ClosePlayer)(THIS_
+                           IRMAPlayer *    pPlayer) PURE;
 
     /************************************************************************
      *	Method:
@@ -612,12 +612,12 @@ DECLARE_INTERFACE_(IRMAClientEngine, IUnknown)
      *	Method:
      *	    IRMAClientEngine::GetPlayer
      *	Purpose:
-     *	    Returns the Nth IRMAPlayer instances supported by this client 
+     *	    Returns the Nth IRMAPlayer instances supported by this client
      *	    engine instance.
      */
-    STDMETHOD(GetPlayer)	(THIS_
-				UINT16		nPlayerNumber,
-				REF(IUnknown*)	pUnknown) PURE;
+    STDMETHOD(GetPlayer)(THIS_
+                         UINT16		nPlayerNumber,
+                         REF(IUnknown*)	pUnknown) PURE;
 
     /************************************************************************
      *	Method:
@@ -626,13 +626,13 @@ DECLARE_INTERFACE_(IRMAClientEngine, IUnknown)
      *	    Clients call this to pass OS events to all players. PNxEvent
      *	    defines a cross-platform event.
      */
-    STDMETHOD(EventOccurred)	(THIS_
-				PNxEvent* /*IN*/ pEvent) PURE;
+    STDMETHOD(EventOccurred)(THIS_
+                             PNxEvent* /*IN*/ pEvent) PURE;
 };
 
 #if defined _UNIX && !defined (_VXWORKS)
-DEFINE_GUID(IID_IRMAClientEngineSelector, 0x00000404, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAClientEngineSelector, 0x00000404, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAClientEngineSelector
@@ -642,13 +642,13 @@ DECLARE_INTERFACE_(IRMAClientEngineSelector, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -657,17 +657,17 @@ DECLARE_INTERFACE_(IRMAClientEngineSelector, IUnknown)
      *      Top level clients under Unix should use this instead of
      *      select() to select for events.
      */
-    STDMETHOD_(INT32, Select) (THIS_
-			       INT32 n,
-			       fd_set *readfds,
-			       fd_set *writefds,
-			       fd_set *exceptfds,
-			       struct timeval* timeout) PURE;
+    STDMETHOD_(INT32, Select)(THIS_
+                              INT32 n,
+                              fd_set * readfds,
+                              fd_set * writefds,
+                              fd_set * exceptfds,
+                              struct timeval * timeout) PURE;
 };
 #endif /* _UNIX */
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAClientEngineSetup
@@ -681,8 +681,8 @@ DECLARE_INTERFACE_(IRMAClientEngineSelector, IUnknown)
  *
  *	{00000405-0901-11d1-8B06-00A024406D59}
  */
-DEFINE_GUID(IID_IRMAClientEngineSetup, 0x00000405, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAClientEngineSetup, 0x00000405, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAClientEngineSetup
@@ -692,13 +692,13 @@ DECLARE_INTERFACE_(IRMAClientEngineSetup, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      * IRMAClientEngineSetup methods
@@ -708,17 +708,17 @@ DECLARE_INTERFACE_(IRMAClientEngineSetup, IUnknown)
      *	Method:
      *	    IRMAClientEngineSetup::Setup
      *	Purpose:
-     *      Top level clients use this interface to over-ride certain basic 
-     *	    interfaces implemented by the core. Current over-ridable 
+     *      Top level clients use this interface to over-ride certain basic
+     *	    interfaces implemented by the core. Current over-ridable
      *	    interfaces are: IRMAPreferences, IRMAHyperNavigate
      */
-    STDMETHOD(Setup)		(THIS_
-				IUnknown* pContext) PURE;
+    STDMETHOD(Setup)(THIS_
+                     IUnknown * pContext) PURE;
 };
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAInfoLogger
@@ -732,8 +732,8 @@ DECLARE_INTERFACE_(IRMAClientEngineSetup, IUnknown)
  *
  *	{00000409-0901-11d1-8B06-00A024406D59}
  */
-DEFINE_GUID(IID_IRMAInfoLogger, 0x00000409, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAInfoLogger, 0x00000409, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAInfoLogger
@@ -743,13 +743,13 @@ DECLARE_INTERFACE_(IRMAInfoLogger, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)		(THIS_
-					REFIID riid,
-					void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)		(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)		(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /*
      *	IRMAInfoLogger methods
@@ -759,18 +759,18 @@ DECLARE_INTERFACE_(IRMAInfoLogger, IUnknown)
      *	Method:
      *	    IRMAInfoLogger::LogInformation
      *	Purpose:
-     *	    Logs any user defined information in form of action and 
+     *	    Logs any user defined information in form of action and
      *	    associated data.
      */
-    STDMETHOD(LogInformation)		(THIS_				
-					const char* /*IN*/ pAction,
-					const char* /*IN*/ pData) PURE;
+    STDMETHOD(LogInformation)(THIS_
+                              const char* /*IN*/ pAction,
+                              const char* /*IN*/ pData) PURE;
 };
 
 
 
 /****************************************************************************
- * 
+ *
  *  Interface:
  *
  *	IRMAPlayer2
@@ -784,8 +784,8 @@ DECLARE_INTERFACE_(IRMAInfoLogger, IUnknown)
  *	{00000411-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAPlayer2, 0x00000411, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
-			0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPlayer2, 0x00000411, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
+            0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPlayer2
@@ -795,13 +795,13 @@ DECLARE_INTERFACE_(IRMAPlayer2, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)	(THIS_
-				REFIID riid,
-				void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)(THIS_
+                              REFIID riid,
+                              void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
 
-    STDMETHOD_(ULONG,Release)	(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
 
     /************************************************************************
      *	Method:
@@ -809,8 +809,8 @@ DECLARE_INTERFACE_(IRMAPlayer2, IUnknown)
      *	Purpose:
      *	    Call this method to set the minimum preroll of this clip
      */
-    STDMETHOD(SetMinimumPreroll) (THIS_
-				UINT32	ulMinPreroll) PURE;
+    STDMETHOD(SetMinimumPreroll)(THIS_
+                                 UINT32	ulMinPreroll) PURE;
 
     /************************************************************************
      *	Method:
@@ -818,8 +818,8 @@ DECLARE_INTERFACE_(IRMAPlayer2, IUnknown)
      *	Purpose:
      *	    Call this method to get the minimum preroll of this clip
      */
-    STDMETHOD(GetMinimumPreroll) (THIS_
-				REF(UINT32) ulMinPreroll) PURE;
+    STDMETHOD(GetMinimumPreroll)(THIS_
+                                 REF(UINT32) ulMinPreroll) PURE;
 
     /************************************************************************
      *	Method:
@@ -827,8 +827,8 @@ DECLARE_INTERFACE_(IRMAPlayer2, IUnknown)
      *	Purpose:
      *	    Call this method to open the IRMARequest
      */
-    STDMETHOD(OpenRequest) (THIS_
-			    IRMARequest* pRequest) PURE;
+    STDMETHOD(OpenRequest)(THIS_
+                           IRMARequest * pRequest) PURE;
 
     /************************************************************************
      *	Method:
@@ -836,8 +836,8 @@ DECLARE_INTERFACE_(IRMAPlayer2, IUnknown)
      *	Purpose:
      *	    Call this method to get the IRMARequest
      */
-    STDMETHOD(GetRequest) (THIS_
-			   REF(IRMARequest*) pRequest) PURE;
+    STDMETHOD(GetRequest)(THIS_
+                          REF(IRMARequest*) pRequest) PURE;
 };
 
 #endif /* _RMACORE_H_ */

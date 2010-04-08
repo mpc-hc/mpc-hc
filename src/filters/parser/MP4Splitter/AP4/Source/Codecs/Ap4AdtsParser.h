@@ -43,11 +43,12 @@ extern const unsigned long AP4_AdtsSamplingFrequencyTable[16];
 /*----------------------------------------------------------------------
 |   types
 +---------------------------------------------------------------------*/
-class AP4_AdtsHeader {
+class AP4_AdtsHeader
+{
 public:
     // constructor
     AP4_AdtsHeader(const AP4_UI08* bytes);
-    
+
     // methods
     AP4_Result Check();
 
@@ -68,33 +69,38 @@ public:
     static bool MatchFixed(unsigned char* a, unsigned char* b);
 };
 
-typedef enum {
+typedef enum
+{
     AP4_AAC_STANDARD_MPEG2,
     AP4_AAC_STANDARD_MPEG4
 } AP4_AacStandard;
 
-typedef enum {
+typedef enum
+{
     AP4_AAC_PROFILE_MAIN,
     AP4_AAC_PROFILE_LC,
     AP4_AAC_PROFILE_SSR,
     AP4_AAC_PROFILE_LTP
 } AP4_AacProfile;
 
-typedef struct {
+typedef struct
+{
     AP4_AacStandard m_Standard;
     AP4_AacProfile  m_Profile;
     unsigned int    m_SamplingFrequencyIndex;
     unsigned long   m_SamplingFrequency;
     unsigned int    m_ChannelConfiguration;
-    unsigned int    m_FrameLength;     
+    unsigned int    m_FrameLength;
 } AP4_AacFrameInfo;
 
-typedef struct {
+typedef struct
+{
     AP4_BitStream*   m_Source;
     AP4_AacFrameInfo m_Info;
 } AP4_AacFrame;
 
-class AP4_AdtsParser {
+class AP4_AdtsParser
+{
 public:
     // constructor and destructor
     AP4_AdtsParser();
@@ -102,7 +108,7 @@ public:
 
     // methods
     AP4_Result Reset();
-    AP4_Result Feed(const AP4_UI08* buffer, 
+    AP4_Result Feed(const AP4_UI08* buffer,
                     AP4_Size*       buffer_size,
                     AP4_Flags       flags = 0);
     AP4_Result FindFrame(AP4_AacFrame& frame);

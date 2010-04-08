@@ -25,6 +25,6 @@
 #include <stdint.h>
 
 void ff_vp6_filter_diag4_sse2(uint8_t *dst, uint8_t *src, int stride,
-                             const int16_t *h_weights,const int16_t *v_weights);
+                              const int16_t *h_weights, const int16_t *v_weights);
 
 #endif /* AVCODEC_X86_VP6DSP_SSE2_H */

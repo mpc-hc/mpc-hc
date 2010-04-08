@@ -35,13 +35,15 @@
 //#undef NDEBUG
 #include <assert.h>
 
-static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, int list, int part_width){
-    const int topright_ref= h->ref_cache[list][ i - 8 + part_width ];
+static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, int list, int part_width)
+{
+    const int topright_ref = h->ref_cache[list][ i - 8 + part_width ];
     MpegEncContext *s = &h->s;
 
     /* there is no consistent mapping of mvs to neighboring locations that will
      * make mbaff happy, so we can't move all this logic to fill_caches */
-    if(FRAME_MBAFF){
+    if(FRAME_MBAFF)
+    {
 
 #define SET_DIAG_MV(MV_OP, REF_OP, X4, Y4)\
                 const int x4 = X4, y4 = Y4;\
@@ -54,33 +56,39 @@ static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, in
                 return s->current_picture_ptr->ref_index[list][(x4>>1) + (y4>>1)*h->b8_stride] REF_OP;
 
         if(topright_ref == PART_NOT_AVAILABLE
-           && i >= scan8[0]+8 && (i&7)==4
-           && h->ref_cache[list][scan8[0]-1] != PART_NOT_AVAILABLE){
+           && i >= scan8[0] + 8 && (i & 7) == 4
+           && h->ref_cache[list][scan8[0] - 1] != PART_NOT_AVAILABLE)
+        {
             const uint32_t *mb_types = s->current_picture_ptr->mb_type;
             const int16_t *mv;
-            *(uint32_t*)h->mv_cache[list][scan8[0]-2] = 0;
-            *C = h->mv_cache[list][scan8[0]-2];
+            *(uint32_t*)h->mv_cache[list][scan8[0] - 2] = 0;
+            *C = h->mv_cache[list][scan8[0] - 2];
 
             if(!MB_FIELD
-               && IS_INTERLACED(mb_types[h->left_mb_xy[0]])){
-                SET_DIAG_MV(*2, >>1, s->mb_x*4-1, (s->mb_y|1)*4+(s->mb_y&1)*2+(i>>4)-1);
+               && IS_INTERLACED(mb_types[h->left_mb_xy[0]]))
+            {
+                SET_DIAG_MV( * 2, >> 1, s->mb_x * 4 - 1, (s->mb_y | 1) * 4 + (s->mb_y & 1) * 2 + (i >> 4) - 1);
             }
             if(MB_FIELD
-               && !IS_INTERLACED(mb_types[h->left_mb_xy[0]])){
+               && !IS_INTERLACED(mb_types[h->left_mb_xy[0]]))
+            {
                 // left shift will turn LIST_NOT_USED into PART_NOT_AVAILABLE, but that's OK.
-                SET_DIAG_MV(/2, <<1, s->mb_x*4-1, (s->mb_y&~1)*4 - 1 + ((i-scan8[0])>>3)*2);
+                SET_DIAG_MV( / 2, << 1, s->mb_x * 4 - 1, (s->mb_y&~1) * 4 - 1 + ((i - scan8[0]) >> 3) * 2);
             }
         }
 #undef SET_DIAG_MV
     }
 
-    if(topright_ref != PART_NOT_AVAILABLE){
-        *C= h->mv_cache[list][ i - 8 + part_width ];
+    if(topright_ref != PART_NOT_AVAILABLE)
+    {
+        *C = h->mv_cache[list][ i - 8 + part_width ];
         return topright_ref;
-    }else{
+    }
+    else
+    {
         tprintf(s->avctx, "topright MV not available\n");
 
-        *C= h->mv_cache[list][ i - 8 - 1 ];
+        *C = h->mv_cache[list][ i - 8 - 1 ];
         return h->ref_cache[list][ i - 8 - 1 ];
     }
 }
@@ -92,49 +100,63 @@ static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, in
  * @param mx the x component of the predicted motion vector
  * @param my the y component of the predicted motion vector
  */
-static inline void pred_motion(H264Context * const h, int n, int part_width, int list, int ref, int * const mx, int * const my){
-    const int index8= scan8[n];
-    const int top_ref=      h->ref_cache[list][ index8 - 8 ];
-    const int left_ref=     h->ref_cache[list][ index8 - 1 ];
-    const int16_t * const A= h->mv_cache[list][ index8 - 1 ];
-    const int16_t * const B= h->mv_cache[list][ index8 - 8 ];
+static inline void pred_motion(H264Context * const h, int n, int part_width, int list, int ref, int * const mx, int * const my)
+{
+    const int index8 = scan8[n];
+    const int top_ref =      h->ref_cache[list][ index8 - 8 ];
+    const int left_ref =     h->ref_cache[list][ index8 - 1 ];
+    const int16_t * const A = h->mv_cache[list][ index8 - 1 ];
+    const int16_t * const B = h->mv_cache[list][ index8 - 8 ];
     const int16_t * C;
     int diagonal_ref, match_count;
 
-    assert(part_width==1 || part_width==2 || part_width==4);
+    assert(part_width == 1 || part_width == 2 || part_width == 4);
 
-/* mv_cache
-  B . . A T T T T
-  U . . L . . , .
-  U . . L . . . .
-  U . . L . . , .
-  . . . L . . . .
-*/
+    /* mv_cache
+      B . . A T T T T
+      U . . L . . , .
+      U . . L . . . .
+      U . . L . . , .
+      . . . L . . . .
+    */
 
-    diagonal_ref= fetch_diagonal_mv(h, &C, index8, list, part_width);
-    match_count= (diagonal_ref==ref) + (top_ref==ref) + (left_ref==ref);
+    diagonal_ref = fetch_diagonal_mv(h, &C, index8, list, part_width);
+    match_count = (diagonal_ref == ref) + (top_ref == ref) + (left_ref == ref);
     tprintf(h->s.avctx, "pred_motion match_count=%d\n", match_count);
-    if(match_count > 1){ //most common
-        *mx= mid_pred(A[0], B[0], C[0]);
-        *my= mid_pred(A[1], B[1], C[1]);
-    }else if(match_count==1){
-        if(left_ref==ref){
-            *mx= A[0];
-            *my= A[1];
-        }else if(top_ref==ref){
-            *mx= B[0];
-            *my= B[1];
-        }else{
-            *mx= C[0];
-            *my= C[1];
+    if(match_count > 1)  //most common
+    {
+        *mx = mid_pred(A[0], B[0], C[0]);
+        *my = mid_pred(A[1], B[1], C[1]);
+    }
+    else if(match_count == 1)
+    {
+        if(left_ref == ref)
+        {
+            *mx = A[0];
+            *my = A[1];
         }
-    }else{
-        if(top_ref == PART_NOT_AVAILABLE && diagonal_ref == PART_NOT_AVAILABLE && left_ref != PART_NOT_AVAILABLE){
-            *mx= A[0];
-            *my= A[1];
-        }else{
-            *mx= mid_pred(A[0], B[0], C[0]);
-            *my= mid_pred(A[1], B[1], C[1]);
+        else if(top_ref == ref)
+        {
+            *mx = B[0];
+            *my = B[1];
+        }
+        else
+        {
+            *mx = C[0];
+            *my = C[1];
+        }
+    }
+    else
+    {
+        if(top_ref == PART_NOT_AVAILABLE && diagonal_ref == PART_NOT_AVAILABLE && left_ref != PART_NOT_AVAILABLE)
+        {
+            *mx = A[0];
+            *my = A[1];
+        }
+        else
+        {
+            *mx = mid_pred(A[0], B[0], C[0]);
+            *my = mid_pred(A[1], B[1], C[1]);
         }
     }
 
@@ -147,27 +169,33 @@ static inline void pred_motion(H264Context * const h, int n, int part_width, int
  * @param mx the x component of the predicted motion vector
  * @param my the y component of the predicted motion vector
  */
-static inline void pred_16x8_motion(H264Context * const h, int n, int list, int ref, int * const mx, int * const my){
-    if(n==0){
-        const int top_ref=      h->ref_cache[list][ scan8[0] - 8 ];
-        const int16_t * const B= h->mv_cache[list][ scan8[0] - 8 ];
+static inline void pred_16x8_motion(H264Context * const h, int n, int list, int ref, int * const mx, int * const my)
+{
+    if(n == 0)
+    {
+        const int top_ref =      h->ref_cache[list][ scan8[0] - 8 ];
+        const int16_t * const B = h->mv_cache[list][ scan8[0] - 8 ];
 
         tprintf(h->s.avctx, "pred_16x8: (%2d %2d %2d) at %2d %2d %d list %d\n", top_ref, B[0], B[1], h->s.mb_x, h->s.mb_y, n, list);
 
-        if(top_ref == ref){
-            *mx= B[0];
-            *my= B[1];
+        if(top_ref == ref)
+        {
+            *mx = B[0];
+            *my = B[1];
             return;
         }
-    }else{
-        const int left_ref=     h->ref_cache[list][ scan8[8] - 1 ];
-        const int16_t * const A= h->mv_cache[list][ scan8[8] - 1 ];
+    }
+    else
+    {
+        const int left_ref =     h->ref_cache[list][ scan8[8] - 1 ];
+        const int16_t * const A = h->mv_cache[list][ scan8[8] - 1 ];
 
         tprintf(h->s.avctx, "pred_16x8: (%2d %2d %2d) at %2d %2d %d list %d\n", left_ref, A[0], A[1], h->s.mb_x, h->s.mb_y, n, list);
 
-        if(left_ref == ref){
-            *mx= A[0];
-            *my= A[1];
+        if(left_ref == ref)
+        {
+            *mx = A[0];
+            *my = A[1];
             return;
         }
     }
@@ -182,29 +210,35 @@ static inline void pred_16x8_motion(H264Context * const h, int n, int list, int 
  * @param mx the x component of the predicted motion vector
  * @param my the y component of the predicted motion vector
  */
-static inline void pred_8x16_motion(H264Context * const h, int n, int list, int ref, int * const mx, int * const my){
-    if(n==0){
-        const int left_ref=      h->ref_cache[list][ scan8[0] - 1 ];
-        const int16_t * const A=  h->mv_cache[list][ scan8[0] - 1 ];
+static inline void pred_8x16_motion(H264Context * const h, int n, int list, int ref, int * const mx, int * const my)
+{
+    if(n == 0)
+    {
+        const int left_ref =      h->ref_cache[list][ scan8[0] - 1 ];
+        const int16_t * const A =  h->mv_cache[list][ scan8[0] - 1 ];
 
         tprintf(h->s.avctx, "pred_8x16: (%2d %2d %2d) at %2d %2d %d list %d\n", left_ref, A[0], A[1], h->s.mb_x, h->s.mb_y, n, list);
 
-        if(left_ref == ref){
-            *mx= A[0];
-            *my= A[1];
+        if(left_ref == ref)
+        {
+            *mx = A[0];
+            *my = A[1];
             return;
         }
-    }else{
+    }
+    else
+    {
         const int16_t * C;
         int diagonal_ref;
 
-        diagonal_ref= fetch_diagonal_mv(h, &C, scan8[4], list, 2);
+        diagonal_ref = fetch_diagonal_mv(h, &C, scan8[4], list, 2);
 
         tprintf(h->s.avctx, "pred_8x16: (%2d %2d %2d) at %2d %2d %d list %d\n", diagonal_ref, C[0], C[1], h->s.mb_x, h->s.mb_y, n, list);
 
-        if(diagonal_ref == ref){
-            *mx= C[0];
-            *my= C[1];
+        if(diagonal_ref == ref)
+        {
+            *mx = C[0];
+            *my = C[1];
             return;
         }
     }
@@ -213,15 +247,17 @@ static inline void pred_8x16_motion(H264Context * const h, int n, int list, int 
     pred_motion(h, n, 2, list, ref, mx, my);
 }
 
-static inline void pred_pskip_motion(H264Context * const h, int * const mx, int * const my){
+static inline void pred_pskip_motion(H264Context * const h, int * const mx, int * const my)
+{
     const int top_ref = h->ref_cache[0][ scan8[0] - 8 ];
-    const int left_ref= h->ref_cache[0][ scan8[0] - 1 ];
+    const int left_ref = h->ref_cache[0][ scan8[0] - 1 ];
 
     tprintf(h->s.avctx, "pred_pskip: (%d) (%d) at %2d %2d\n", top_ref, left_ref, h->s.mb_x, h->s.mb_y);
 
     if(top_ref == PART_NOT_AVAILABLE || left_ref == PART_NOT_AVAILABLE
-       || !( top_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 8 ])
-       || !(left_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 1 ])){
+       || !(top_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 8 ])
+       || !(left_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 1 ]))
+    {
 
         *mx = *my = 0;
         return;

@@ -31,12 +31,12 @@ extern "C" {
 # endif
 
 #ifndef LIBA52_DOUBLE
-typedef float sample_t;
+    typedef float sample_t;
 #else
-typedef double sample_t;
+    typedef double sample_t;
 #endif
 
-typedef struct a52_state_s a52_state_t;
+    typedef struct a52_state_s a52_state_t;
 
 #define A52_CHANNEL 0
 #define A52_MONO 1
@@ -54,16 +54,16 @@ typedef struct a52_state_s a52_state_t;
 #define A52_LFE 16
 #define A52_ADJUST_LEVEL 32
 
-a52_state_t * a52_init (uint32_t mm_accel);
-sample_t * a52_samples (a52_state_t * state);
-int a52_syncinfo (uint8_t * buf, int * flags,
-		  int * sample_rate, int * bit_rate);
-int a52_frame (a52_state_t * state, uint8_t * buf, int * flags,
-	       sample_t * level, sample_t bias);
-void a52_dynrng (a52_state_t * state,
-		 sample_t (* call) (sample_t, void *), void * data);
-int a52_block (a52_state_t * state);
-void a52_free (a52_state_t * state);
+    a52_state_t * a52_init(uint32_t mm_accel);
+    sample_t * a52_samples(a52_state_t * state);
+    int a52_syncinfo(uint8_t * buf, int * flags,
+                     int * sample_rate, int * bit_rate);
+    int a52_frame(a52_state_t * state, uint8_t * buf, int * flags,
+                  sample_t * level, sample_t bias);
+    void a52_dynrng(a52_state_t * state,
+                    sample_t (* call)(sample_t, void *), void * data);
+    int a52_block(a52_state_t * state);
+    void a52_free(a52_state_t * state);
 
 # ifdef __cplusplus
 }

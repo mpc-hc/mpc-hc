@@ -52,23 +52,24 @@ class AP4_PiffSampleEncryptionAtom;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_PIFF = AP4_ATOM_TYPE('p','i','f','f');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_PIFF = AP4_ATOM_TYPE('p', 'i', 'f', 'f');
 const AP4_UI32 AP4_PROTECTION_SCHEME_VERSION_PIFF_10 =  0x00010000;
-const AP4_UI32 AP4_PIFF_BRAND = AP4_ATOM_TYPE('p','i','f','f');
-const AP4_UI32 AP4_PIFF_ALGORITHM_ID_NONE = 0; 
-const AP4_UI32 AP4_PIFF_ALGORITHM_ID_CTR  = 1; 
-const AP4_UI32 AP4_PIFF_ALGORITHM_ID_CBC  = 2; 
+const AP4_UI32 AP4_PIFF_BRAND = AP4_ATOM_TYPE('p', 'i', 'f', 'f');
+const AP4_UI32 AP4_PIFF_ALGORITHM_ID_NONE = 0;
+const AP4_UI32 AP4_PIFF_ALGORITHM_ID_CTR  = 1;
+const AP4_UI32 AP4_PIFF_ALGORITHM_ID_CBC  = 2;
 
 extern AP4_UI08 const AP4_UUID_PIFF_TRACK_ENCRYPTION_ATOM[16];
 extern AP4_UI08 const AP4_UUID_PIFF_SAMPLE_ENCRYPTION_ATOM[16];
 
 const unsigned int AP4_PIFF_SAMPLE_ENCRYPTION_FLAG_OVERRIDE_TRACK_ENCRYPTION_DEFAULTS = 1;
 
-typedef enum {
+typedef enum
+{
     AP4_PIFF_CIPHER_MODE_CTR,
     AP4_PIFF_CIPHER_MODE_CBC
 } AP4_PiffCipherMode;
-                  
+
 /*----------------------------------------------------------------------
 |   AP4_PiffSampleEncrypter
 +---------------------------------------------------------------------*/
@@ -76,16 +77,25 @@ class AP4_PiffSampleEncrypter
 {
 public:
     // constructor and destructor
-    AP4_PiffSampleEncrypter() { AP4_SetMemory(m_Iv, 0, 16); };
+    AP4_PiffSampleEncrypter()
+    {
+        AP4_SetMemory(m_Iv, 0, 16);
+    };
     virtual ~AP4_PiffSampleEncrypter() {}
 
     // methods
     virtual AP4_Result EncryptSampleData(AP4_DataBuffer& data_in,
-                                         AP4_DataBuffer& data_out) = 0;    
+                                         AP4_DataBuffer& data_out) = 0;
 
-    void            SetIv(const AP4_UI08* iv) { AP4_CopyMemory(m_Iv, iv, 16); }
-    const AP4_UI08* GetIv()                   { return m_Iv;                  }
-    
+    void            SetIv(const AP4_UI08* iv)
+    {
+        AP4_CopyMemory(m_Iv, iv, 16);
+    }
+    const AP4_UI08* GetIv()
+    {
+        return m_Iv;
+    }
+
 protected:
     AP4_UI08 m_Iv[16];
 };
@@ -103,7 +113,7 @@ public:
     // methods
     virtual AP4_Result EncryptSampleData(AP4_DataBuffer& data_in,
                                          AP4_DataBuffer& data_out);
-    
+
 protected:
     // members
     AP4_CtrStreamCipher* m_Cipher;
@@ -124,7 +134,7 @@ public:
     // methods
     virtual AP4_Result EncryptSampleData(AP4_DataBuffer& data_in,
                                          AP4_DataBuffer& data_out);
-    
+
 private:
     // members
     AP4_Size m_NaluLengthSize;
@@ -177,11 +187,15 @@ class AP4_PiffEncryptingProcessor : public AP4_Processor
 {
 public:
     // types
-    struct Encrypter {
+    struct Encrypter
+    {
         Encrypter(AP4_UI32 track_id, AP4_PiffSampleEncrypter* sample_encrypter) :
             m_TrackId(track_id),
             m_SampleEncrypter(sample_encrypter) {}
-        Encrypter() { delete m_SampleEncrypter; }
+        Encrypter()
+        {
+            delete m_SampleEncrypter;
+        }
         AP4_UI32                 m_TrackId;
         AP4_PiffSampleEncrypter* m_SampleEncrypter;
     };
@@ -192,8 +206,14 @@ public:
     ~AP4_PiffEncryptingProcessor();
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()      { return m_KeyMap;      }
-    AP4_TrackPropertyMap& GetPropertyMap() { return m_PropertyMap; }
+    AP4_ProtectionKeyMap& GetKeyMap()
+    {
+        return m_KeyMap;
+    }
+    AP4_TrackPropertyMap& GetPropertyMap()
+    {
+        return m_PropertyMap;
+    }
 
     // AP4_Processor methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
@@ -201,8 +221,8 @@ public:
                                   AP4_Processor::ProgressListener* listener = NULL);
     virtual AP4_Processor::TrackHandler*    CreateTrackHandler(AP4_TrakAtom* trak);
     virtual AP4_Processor::FragmentHandler* CreateFragmentHandler(AP4_ContainerAtom* traf);
-    
-protected:    
+
+protected:
     // members
     AP4_PiffCipherMode      m_CipherMode;
     AP4_BlockCipherFactory* m_BlockCipherFactory;
@@ -218,9 +238,9 @@ class AP4_PiffSampleDecrypter : public AP4_SampleDecrypter
 {
 public:
     // factory
-    static AP4_Result Create(AP4_ProtectedSampleDescription* sample_description, 
+    static AP4_Result Create(AP4_ProtectedSampleDescription* sample_description,
                              AP4_ContainerAtom*              traf,
-                             const AP4_UI08*                 key, 
+                             const AP4_UI08*                 key,
                              AP4_Size                        key_size,
                              AP4_BlockCipherFactory*         block_cipher_factory,
                              AP4_PiffSampleDecrypter*&       decrypter);
@@ -244,11 +264,12 @@ class AP4_PiffNullSampleDecrypter : public AP4_PiffSampleDecrypter
 public:
     // constructor
     AP4_PiffNullSampleDecrypter() : AP4_PiffSampleDecrypter(NULL) {}
-    
+
     // methods
     virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
                                          AP4_DataBuffer& data_out,
-                                         const AP4_UI08* /*iv = NULL*/) {
+                                         const AP4_UI08* /*iv = NULL*/)
+    {
         data_out.SetData(data_in.GetData(), data_in.GetDataSize());
         return AP4_SUCCESS;
     }
@@ -352,8 +373,8 @@ class AP4_PiffTrackEncryptionAtom : public AP4_UuidAtom
 {
 public:
     // class methods
-    static AP4_PiffTrackEncryptionAtom* Create(AP4_Size        size, 
-                                               AP4_ByteStream& stream);
+    static AP4_PiffTrackEncryptionAtom* Create(AP4_Size        size,
+            AP4_ByteStream& stream);
 
     // constructors
     AP4_PiffTrackEncryptionAtom(AP4_UI32        default_algorithm_id,
@@ -365,13 +386,22 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32        GetDefaultAlgorithmId() { return m_DefaultAlgorithmId; }
-    AP4_UI08        GetDefaultIvSize()      { return m_DefaultIvSize;      }
-    const AP4_UI08* GetDefaultKid()         { return m_DefaultKid;         }
+    AP4_UI32        GetDefaultAlgorithmId()
+    {
+        return m_DefaultAlgorithmId;
+    }
+    AP4_UI08        GetDefaultIvSize()
+    {
+        return m_DefaultIvSize;
+    }
+    const AP4_UI08* GetDefaultKid()
+    {
+        return m_DefaultKid;
+    }
 
 private:
     // methods
-    AP4_PiffTrackEncryptionAtom(AP4_UI32        size, 
+    AP4_PiffTrackEncryptionAtom(AP4_UI32        size,
                                 AP4_UI32        version,
                                 AP4_UI32        flags,
                                 AP4_ByteStream& stream);
@@ -389,8 +419,8 @@ class AP4_PiffSampleEncryptionAtom : public AP4_UuidAtom
 {
 public:
     // class methods
-    static AP4_PiffSampleEncryptionAtom* Create(AP4_Size        size, 
-                                                AP4_ByteStream& stream);
+    static AP4_PiffSampleEncryptionAtom* Create(AP4_Size        size,
+            AP4_ByteStream& stream);
 
     // constructors
     AP4_PiffSampleEncryptionAtom(AP4_Cardinal sample_count);
@@ -404,17 +434,29 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32        GetAlgorithmId()        { return m_AlgorithmId; }
-    AP4_UI08        GetIvSize()             { return m_IvSize;      }
+    AP4_UI32        GetAlgorithmId()
+    {
+        return m_AlgorithmId;
+    }
+    AP4_UI08        GetIvSize()
+    {
+        return m_IvSize;
+    }
     AP4_Result      SetIvSize(AP4_UI08 iv_size);
-    const AP4_UI08* GetKid()                { return m_Kid;         }
-    AP4_Cardinal    GetIvCount()            { return m_IvCount;     }
+    const AP4_UI08* GetKid()
+    {
+        return m_Kid;
+    }
+    AP4_Cardinal    GetIvCount()
+    {
+        return m_IvCount;
+    }
     const AP4_UI08* GetIv(AP4_Ordinal indx);
     AP4_Result      SetIv(AP4_Ordinal indx, const AP4_UI08* iv);
 
 private:
     // methods
-    AP4_PiffSampleEncryptionAtom(AP4_UI32        size, 
+    AP4_PiffSampleEncryptionAtom(AP4_UI32        size,
                                  AP4_UI32        version,
                                  AP4_UI32        flags,
                                  AP4_ByteStream& stream);
